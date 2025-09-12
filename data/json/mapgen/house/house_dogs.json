@@ -15,10 +15,8 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "house_dogs" ],
     "//": "uses house_08_basement",
-    "weight": 100,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -65,7 +63,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_dogs_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",

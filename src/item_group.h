@@ -2,7 +2,8 @@
 #ifndef CATA_SRC_ITEM_GROUP_H
 #define CATA_SRC_ITEM_GROUP_H
 
-#include <iosfwd>
+#include <cstddef>
+#include <map>
 #include <memory>
 #include <optional>
 #include <set>
@@ -11,11 +12,13 @@
 #include <utility>
 #include <vector>
 
+#include "enums.h"
 #include "item.h"
 #include "relic.h"
 #include "type_id.h"
 #include "value_ptr.h"
 
+class Item_spawn_data;
 class JsonObject;
 class JsonValue;
 class time_point;
@@ -274,6 +277,11 @@ class Item_modifier
          * gun variant id, for guns with variants
          */
         std::string variant;
+
+        /**
+        * add this faults to item, if possible
+        */
+        std::vector<std::pair<fault_id, int>> faults;
 
         /**
          * Custom sub set of snippets to be randomly chosen from and then applied to the item.

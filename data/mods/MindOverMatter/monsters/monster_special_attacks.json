@@ -45,7 +45,8 @@
   },
   {
     "id": "feral_clair_thrown_rock",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "symbol": "%",
     "color": "red",
     "name": { "str": "hurled rubble" },
@@ -88,7 +89,8 @@
   },
   {
     "id": "pattern_screamer_thrown_rock",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "symbol": "%",
     "color": "red",
     "name": { "str": "hurled rubble" },

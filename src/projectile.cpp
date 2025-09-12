@@ -1,38 +1,40 @@
 #include "projectile.h"
 
 #include <algorithm>
+#include <limits>
 #include <memory>
 #include <string>
-#include <type_traits>
 #include <vector>
 
 #include "ammo_effect.h"
 #include "character.h"
 #include "condition.h"
+#include "creature.h"
 #include "creature_tracker.h"
 #include "debug.h"
+#include "dialogue.h"
+#include "dialogue_helpers.h"
 #include "effect_on_condition.h"
 #include "enums.h"
 #include "explosion.h"
 #include "field.h"
+#include "field_type.h"
 #include "item.h"
+#include "magic.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "messages.h"
 #include "rng.h"
+#include "string_formatter.h"
+#include "talker.h"
 #include "translations.h"
 #include "type_id.h"
 
 static const field_type_str_id field_fd_foamcrete( "fd_foamcrete" );
 
-static const morale_type morale_pyromania_nofire( "morale_pyromania_nofire" );
-static const morale_type morale_pyromania_startfire( "morale_pyromania_startfire" );
-
 static const ter_str_id ter_t_foamcrete_floor( "t_foamcrete_floor" );
 static const ter_str_id ter_t_foamcrete_wall( "t_foamcrete_wall" );
-
-static const trait_id trait_PYROMANIA( "PYROMANIA" );
 
 projectile::projectile() :
     critical_multiplier( 2.0 ), drop( nullptr ), custom_explosion( nullptr )
@@ -53,7 +55,7 @@ projectile &projectile::operator=( const projectile &other )
     speed = other.speed;
     range = other.range;
     count = other.count;
-    multi_projectile_effects = other.multi_projectile_effects;
+    multishot = other.multishot;
     shot_spread = other.shot_spread;
     shot_impact = other.shot_impact;
     proj_effects = other.proj_effects;
@@ -163,15 +165,12 @@ void apply_ammo_effects( Creature *source, const tripoint_bub_ms &p,
                     if( check_sees && check_passable ) {
                         here.add_field( pt, ae.aoe_field_type, rng( ae.aoe_intensity_min, ae.aoe_intensity_max ) );
 
-                        if( player_character.has_trait( trait_PYROMANIA ) &&
-                            !player_character.has_morale( morale_pyromania_startfire ) ) {
+                        if( player_character.has_unfulfilled_pyromania() ) {
                             for( const auto &fd : here.field_at( pt ) ) {
                                 if( fd.first->has_fire ) {
-                                    player_character.add_msg_if_player( m_good,
-                                                                        _( "You feel a surge of euphoria as flames burst out!" ) );
-                                    player_character.add_morale( morale_pyromania_startfire, 15, 15, 8_hours, 6_hours );
-                                    player_character.rem_morale( morale_pyromania_nofire );
-                                    break;
+                                    if( player_character.fulfill_pyromania_sees( here, pt, "" ) ) {
+                                        break;
+                                    }
                                 }
                             }
                         }
@@ -227,7 +226,9 @@ int max_aoe_size( const std::set<ammo_effect_str_id> &tags )
 void multi_projectile_hit_message( Creature *critter, int hit_count, int damage_taken,
                                    const std::string &projectile_name )
 {
-    if( hit_count > 0 && get_player_character().sees( *critter ) ) {
+    const map &here = get_map();
+
+    if( hit_count > 0 && get_player_character().sees( here, *critter ) ) {
         // Building a phrase to summarize the fragment effects.
         // Target, Number of impacts, total amount of damage, proportion of deflected fragments.
         std::map<int, std::string> impact_count_descriptions = {

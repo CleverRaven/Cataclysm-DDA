@@ -1,27 +1,30 @@
 #include "npc_class.h"
 
 #include <algorithm>
-#include <array>
-#include <cstddef>
 #include <iterator>
-#include <list>
 #include <set>
 #include <string>
 #include <utility>
 
 #include "avatar.h"
 #include "condition.h"
+#include "creature.h"
 #include "debug.h"
 #include "dialogue.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "item_group.h"
-#include "itype.h"
-#include "json.h"
 #include "mutation.h"
 #include "npc.h"
 #include "rng.h"
+#include "shop_cons_rate.h"
 #include "skill.h"
+#include "string_formatter.h"
 #include "trait_group.h"
+#include "translations.h"
+#include "weighted_list.h"
+
+class item;
 
 static generic_factory<npc_class> npc_class_factory( "npc_class" );
 
@@ -75,17 +78,19 @@ void apply_all_to_unassigned( T &skills )
 
 void npc_class::finalize_all()
 {
-    for( const npc_class &cl_const : npc_class_factory.get_all() ) {
-        npc_class &cl = const_cast<npc_class &>( cl_const );
-        apply_all_to_unassigned( cl.skills );
-        apply_all_to_unassigned( cl.bonus_skills );
+    npc_class_factory.finalize();
+}
 
-        for( const auto &pr : cl.bonus_skills ) {
-            if( cl.skills.count( pr.first ) == 0 ) {
-                cl.skills[ pr.first ] = pr.second;
-            } else {
-                cl.skills[ pr.first ] = cl.skills[ pr.first ] + pr.second;
-            }
+void npc_class::finalize()
+{
+    apply_all_to_unassigned( skills );
+    apply_all_to_unassigned( bonus_skills );
+
+    for( const auto &pr : bonus_skills ) {
+        if( skills.count( pr.first ) == 0 ) {
+            skills[ pr.first ] = pr.second;
+        } else {
+            skills[ pr.first ] = skills[ pr.first ] + pr.second;
         }
     }
 }
@@ -171,7 +176,7 @@ static distribution load_distribution( const JsonObject &jo )
     jo.throw_error( "Invalid distribution" );
 }
 
-static distribution load_distribution( const JsonObject &jo, const std::string_view name )
+static distribution load_distribution( const JsonObject &jo, std::string_view name )
 {
     if( !jo.has_member( name ) ) {
         return distribution();
@@ -206,7 +211,7 @@ bool shopkeeper_item_group::can_restock( npc const &guy ) const
 std::string shopkeeper_item_group::get_refusal() const
 {
     if( refusal.empty() ) {
-        return _( "<npcname> does not trust you enough" );
+        return _( "<npc_faction> faction does not trust you enough." );
     }
 
     return refusal.translated();
@@ -224,7 +229,7 @@ void shopkeeper_item_group::deserialize( const JsonObject &jo )
     }
 }
 
-void npc_class::load( const JsonObject &jo, const std::string_view )
+void npc_class::load( const JsonObject &jo, std::string_view )
 {
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "job_description", job_description );

@@ -1,9 +1,7 @@
 [
   {
-    "method": "json",
     "om_terrain": "house_duplex4",
     "type": "mapgen",
-    "weight": 100,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -55,7 +53,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_duplex4_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",

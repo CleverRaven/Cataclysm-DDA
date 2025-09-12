@@ -2,32 +2,39 @@
 
 #include <algorithm>
 #include <climits>
+#include <functional>
+#include <optional>
 
 #include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
+#include "cata_variant.h"
+#include "character.h"
 #include "city.h"
 #include "clzones.h"
-#include "colony.h"
 #include "coordinates.h"
 #include "creature.h"
+#include "current_map.h"
 #include "debug.h"
-#include "effect_source.h"
-#include "enum_conversions.h"
+#include "enums.h"
 #include "field_type.h"
-#include "game_constants.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "json.h"
 #include "map.h"
 #include "map_extras.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
 #include "mapdata.h"
-#include "options.h"
+#include "mapgen_parameter.h"
+#include "mapgendata.h"
+#include "mdarray.h"
+#include "omdata.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "point.h"
 #include "rng.h"
+#include "translations.h"
 
 class item;
 
@@ -110,39 +117,27 @@ const std::set<std::string> &start_location::flags() const
     return _flags;
 }
 
-void start_location::load( const JsonObject &jo, const std::string &src )
+void omt_types_parameters::deserialize( const JsonValue &jv )
 {
-    const bool strict = src == "dda";
+    if( jv.test_string() ) {
+        jv.read( omt, true );
+        omt_type = ot_match_type::type;
+        return;
+    }
+    JsonObject jo = jv.get_object();
+    mandatory( jo, false, "om_terrain", omt );
+    optional( jo, false, "om_terrain_match_type", omt_type, ot_match_type::type );
+    optional( jo, false, "parameters", parameters );
+}
 
+void start_location::load( const JsonObject &jo, const std::string_view )
+{
     mandatory( jo, was_loaded, "name", _name );
-    std::string ter;
-    for( const JsonValue entry : jo.get_array( "terrain" ) ) {
-        ot_match_type ter_match_type = ot_match_type::type;
-        std::unordered_map<std::string, std::string> parameter_map;
-        if( entry.test_string() ) {
-            ter = entry.get_string();
-        } else {
-            JsonObject jot = entry.get_object();
-            ter = jot.get_string( "om_terrain" );
-            if( jot.has_string( "om_terrain_match_type" ) ) {
-                ter_match_type = jot.get_enum_value<ot_match_type>( "om_terrain_match_type", ter_match_type );
-            }
-            if( jot.has_object( "parameters" ) ) {
-                std::unordered_map<std::string, std::string> parameter_map;
-                jot.read( "parameters", parameter_map );
-            }
-        }
-        _locations.emplace_back( omt_types_parameters{ ter, ter_match_type, parameter_map } );
-    }
-    if( jo.has_array( "city_sizes" ) ) {
-        assign( jo, "city_sizes", constraints_.city_size, strict );
-    }
-    if( jo.has_array( "city_distance" ) ) {
-        assign( jo, "city_distance", constraints_.city_distance, strict );
-    }
-    if( jo.has_array( "allowed_z_levels" ) ) {
-        assign( jo, "allowed_z_levels", constraints_.allowed_z_levels, strict );
-    }
+    optional( jo, was_loaded, "terrain", _locations );
+    optional( jo, was_loaded, "city_sizes", constraints_.city_size, { 0, INT_MAX } );
+    optional( jo, was_loaded, "city_distance", constraints_.city_distance, { 0, INT_MAX } );
+    optional( jo, was_loaded, "allowed_z_levels", constraints_.allowed_z_levels,
+    { -OVERMAP_DEPTH, OVERMAP_HEIGHT} );
     optional( jo, was_loaded, "flags", _flags, auto_flags_reader<> {} );
 }
 
@@ -302,7 +297,7 @@ std::pair<tripoint_abs_omt, std::unordered_map<std::string, std::string>>
     const std::pair<tripoint_om_omt, omt_types_parameters> random_valid = random_entry( valid,
             std::make_pair( tripoint_om_omt::invalid, omt_types_parameters() ) );
     const tripoint_om_omt omtstart = random_valid.first;
-    if( omtstart.raw() != tripoint::min ) {
+    if( omtstart != tripoint_om_omt::min ) {
         return std::make_pair( project_combine( origin.pos_om, omtstart ), random_valid.second.parameters );
     }
     // Should never happen, if it does we messed up.
@@ -367,6 +362,8 @@ void start_location::prepare_map( const tripoint_abs_omt &omtstart ) const
     // Now prepare the initial map (change terrain etc.)
     tinymap player_start;
     player_start.load( omtstart, false );
+    // Redundant as long as map operations aren't using get_map() in a transitive call chain. Added for future proofing.
+    swap_map swap( *player_start.cast_to_map() );
     prepare_map( player_start );
     player_start.save();
 }
@@ -408,7 +405,7 @@ static int rate_location( map &m, const tripoint_bub_ms &p,
         }
 
         const tripoint_bub_ms pt( add_p, p.z() );
-        if( m.passable( pt ) ||
+        if( m.passable_through( pt ) ||
             m.bash_resistance( pt ) <= bash_str ||
             m.open_door( get_avatar(), pt, !m.is_outside( from ), true ) ) {
             st.push_back( pt );
@@ -446,7 +443,7 @@ void start_location::place_player( avatar &you, const tripoint_abs_omt &omtstart
     // Need the "real" map with it's inside/outside cache and the like.
     map &here = get_map();
     // Start us off somewhere in the center of the map
-    you.set_location( midpoint( project_bounds<coords::ms>( omtstart ) ) );
+    you.set_pos_abs_only( midpoint( project_bounds<coords::ms>( omtstart ) ) );
     here.invalidate_map_cache( here.get_abs_sub().z() );
     here.build_map_cache( here.get_abs_sub().z() );
     const bool must_be_inside = flags().count( "ALLOW_OUTSIDE" ) == 0;
@@ -473,7 +470,7 @@ void start_location::place_player( avatar &you, const tripoint_abs_omt &omtstart
         if( zone.get_type() == zone_type_ZONE_START_POINT ) {
             if( here.inbounds( zone.get_center_point() ) ) {
                 found_good_spot = true;
-                best_spot = here.bub_from_abs( zone.get_center_point() );
+                best_spot = here.get_bub( zone.get_center_point() );
                 break;
             }
         }
@@ -515,7 +512,7 @@ void start_location::place_player( avatar &you, const tripoint_abs_omt &omtstart
         }
     }
 
-    you.setpos( best_spot );
+    you.setpos( here, best_spot );
 
     if( !found_good_spot ) {
         debugmsg( "Could not find a good starting place for character" );
@@ -527,6 +524,8 @@ void start_location::burn( const tripoint_abs_omt &omtstart, const size_t count,
 {
     tinymap m;
     m.load( omtstart, false );
+    // Redundant as long as map operations aren't using get_map() in a transitive call chain. Added for future proofing.
+    swap_map swap( *m.cast_to_map() );
     m.build_outside_cache( m.get_abs_sub().z() );
     point_bub_ms player_pos = get_player_character().pos_bub().xy();
     const point_bub_ms u( player_pos.x() % HALF_MAPSIZE_X, player_pos.y() % HALF_MAPSIZE_Y );
@@ -622,9 +621,6 @@ void start_locations::load( const JsonObject &jo, const std::string &src )
 void start_locations::finalize_all()
 {
     all_start_locations.finalize();
-    for( const start_location &start_loc : all_start_locations.get_all() ) {
-        const_cast<start_location &>( start_loc ).finalize();
-    }
 }
 
 void start_locations::check_consistency()

@@ -1,16 +1,16 @@
 #include <algorithm>
 #include <functional>
-#include <iosfwd>
+#include <map>
 #include <memory>
-#include <new>
 #include <optional>
 #include <string>
-#include <vector>
+#include <utility>
 
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_catch.h"
-#include "colony.h"
+#include "character.h"
+#include "coordinates.h"
 #include "creature_tracker.h"
 #include "game.h"
 #include "item.h"
@@ -131,7 +131,7 @@ TEST_CASE( "tool_transform_when_activated", "[iuse][tool][transform]" )
         // Charge the battery
         const int bat_charges = bat_cell.ammo_capacity( ammo_battery );
         bat_cell.ammo_set( bat_cell.ammo_default(), bat_charges );
-        REQUIRE( bat_cell.ammo_remaining() == bat_charges );
+        REQUIRE( bat_cell.ammo_remaining( ) == bat_charges );
 
         // Put battery in flashlight
         REQUIRE( flashlight.has_pocket_type( pocket_type::MAGAZINE_WELL ) );
@@ -176,18 +176,18 @@ static void cut_up_yields( const itype_id &target )
     const std::map<material_id, int> &target_materials = cut_up_target.made_of();
     const float mat_total = cut_up_target.type->mat_portion_total == 0 ? 1 :
                             cut_up_target.type->mat_portion_total;
-    units::mass smallest_yield_mass = units::mass_max;
+    units::mass smallest_yield_mass = units::mass::max();
     for( const auto &mater : target_materials ) {
         if( const std::optional<itype_id> item_id = mater.first->salvaged_into() ) {
             units::mass portioned_weight = item_id->obj().weight * ( mater.second / mat_total );
             smallest_yield_mass = std::min( smallest_yield_mass, portioned_weight );
         }
     }
-    REQUIRE( smallest_yield_mass != units::mass_max );
+    REQUIRE( smallest_yield_mass != units::mass::max() );
 
     units::mass cut_up_target_mass = cut_up_target.weight();
     item &spawned_item = here.add_item_or_charges( guy.pos_bub(), cut_up_target );
-    item_location item_loc( map_cursor( guy.get_location() ), &spawned_item );
+    item_location item_loc( map_cursor( guy.pos_abs() ), &spawned_item );
 
     REQUIRE( smallest_yield_mass <= cut_up_target_mass );
 

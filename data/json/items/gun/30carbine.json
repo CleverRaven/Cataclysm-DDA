@@ -1,9 +1,10 @@
 [
   {
     "id": "m1carbine",
-    "copy-from": "rifle_semi",
+    "copy-from": "gun_base_rifle_semi",
     "looks_like": "garand",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "M1 carbine" },
     "description": "A light rifle developed during the Second World War to provide a less cumbersome weapon for soldiers that didn't need the firepower of the M1 Garand.  Firing the .30 Carbine cartridge, it provides more firepower than a pistol and is easier to carry than most other rifles.",
     "weight": "2400 g",
@@ -12,44 +13,30 @@
     "barrel_length": "451 mm",
     "price": "800 USD",
     "price_postapoc": "35 USD",
-    "to_hit": -1,
     "material": [ "steel", "wood" ],
-    "symbol": "(",
-    "color": "brown",
     "ammo": [ "30carbine" ],
     "dispersion": 200,
-    "durability": 8,
     "min_cycle_recoil": 900,
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "bayonet lug", 1 ],
       [ "brass catcher", 1 ],
       [ "mechanism", 2 ],
-      [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
       [ "sights mount", 1 ],
       [ "sling", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
+      [ "stock accessory", 1 ],
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "faults": [
-      "fault_gun_blackpowder",
-      "fault_gun_dirt",
-      "fault_gun_chamber_spent",
-      "fault_fail_to_feed",
-      "fault_stovepipe",
-      "fault_double_feed"
-    ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m1carbinemag", "m1carbinebigmag" ] } ],
-    "melee_damage": { "bash": 9 }
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m1carbinemag", "m1carbinebigmag" ] } ]
   },
   {
     "id": "m2carbine",
     "copy-from": "m1carbine",
     "//": "The M2's cyclic rate is 750 rpm, while the M4A1's is listed as 700-950 rpm so eh, close enough.",
     "looks_like": "garand",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "M2 carbine" },
     "description": "An improved version of the M1 carbine offering full-auto capability, the M2 carbine was rare and coveted among collectors even before the world ended.  Takes M1 carbine magazines.",
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ]

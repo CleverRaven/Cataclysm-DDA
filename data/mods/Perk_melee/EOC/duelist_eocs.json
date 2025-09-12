@@ -1,0 +1,61 @@
+[
+  {
+    "id": "EOC_PERK_duelist_insert_reach",
+    "type": "effect_on_condition",
+    "condition": {
+      "and": [
+        { "math": [ "u_effect_intensity('mabuff:buff_perk_momentum') <= 1" ] },
+        { "u_has_flag": "MELEE_PERK_DUELIST_LUNGE" },
+        {
+          "or": [
+            { "u_has_wielded_with_weapon_category": "LONG_THRUSTING_SWORDS" },
+            { "u_has_wielded_with_weapon_category": "FENCING_WEAPONRY" }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      { "turn_cost": 0.05 },
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [ { "wielded_only": true } ],
+        "true_eocs": [
+          {
+            "id": "_melee_perk_insert_reach",
+            "effect": [
+              {
+                "if": { "not": { "npc_has_flag": "REACH_ATTACK" } },
+                "then": [ { "npc_set_flag": "REACH_ATTACK" }, { "math": [ "n_duelist_reach_modified = 1" ] } ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_PERK_duelist_remove_reach" } ]
+  },
+  {
+    "id": "EOC_PERK_duelist_remove_reach",
+    "type": "effect_on_condition",
+    "effect": [
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [ { "wielded_only": true }, { "condition": { "math": [ "n_duelist_reach_modified == 1" ] } } ],
+        "true_eocs": [
+          {
+            "id": "_melee_perk_remove_reach",
+            "effect": [ { "npc_unset_flag": "REACH_ATTACK" }, { "math": [ "n_duelist_reach_modified = 0" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PERK_duelist_remove_reach_effect",
+    "eoc_type": "EVENT",
+    "required_event": "character_loses_effect",
+    "condition": { "and": [ { "compare_string": [ "mabuff:buff_perk_momentum", { "context_val": "effect" } ] } ] },
+    "effect": [ { "run_eocs": [ "EOC_PERK_duelist_remove_reach" ] } ]
+  }
+]

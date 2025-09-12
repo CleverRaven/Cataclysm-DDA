@@ -1,15 +1,23 @@
+#include <cmath>
+#include <memory>
+#include <string>
+
 #include "avatar.h"
+#include "bodypart.h"
+#include "calendar.h"
 #include "cata_catch.h"
+#include "character.h"
+#include "coordinates.h"
+#include "creature.h"
 #include "creature_tracker.h"
 #include "field.h"
-#include "item.h"
-#include "item_group.h"
-#include "item_location.h"
 #include "game.h"
+#include "item.h"
+#include "item_location.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "messages.h"
 #include "monster.h"
-#include "npc.h"
 #include "player_helpers.h"
 #include "point.h"
 #include "talker.h"
@@ -85,7 +93,7 @@ static void test_generic_ench( avatar &p, enchant_test enc_test )
     clear_map();
     monster &zombie = spawn_test_monster( "mon_zombie", spot );
 
-    p.on_hit( &zombie, bodypart_id( "torso" ), 0.0, nullptr );
+    p.on_hit( &get_map(),  & zombie, bodypart_id( "torso" ), 0.0, nullptr );
 
     CHECK( zombie.has_effect( effect_blind ) );
 }
@@ -252,9 +260,9 @@ TEST_CASE( "Enchantment_ATTACK_SPEED_test", "[magic][enchantments]" )
     clear_map();
     Character &guy = get_player_character();
     clear_avatar();
-    g->place_critter_at( pseudo_debug_mon, tripoint_bub_ms( tripoint::south ) );
+    g->place_critter_at( pseudo_debug_mon, tripoint_bub_ms::zero + tripoint::south );
     creature_tracker &creatures = get_creature_tracker();
-    Creature &mon = *creatures.creature_at<Creature>( tripoint::south );
+    Creature &mon = *creatures.creature_at<Creature>( tripoint_bub_ms::zero + tripoint::south );
     int moves_spent_on_attacks = 0;
 
 
@@ -311,9 +319,9 @@ TEST_CASE( "Enchantment_MELEE_STAMINA_CONSUMPTION_test", "[magic][enchantments]"
     clear_map();
     Character &guy = get_player_character();
     clear_avatar();
-    g->place_critter_at( pseudo_debug_mon, tripoint_bub_ms( tripoint::south ) );
+    g->place_critter_at( pseudo_debug_mon, tripoint_bub_ms::zero + tripoint::south );
     creature_tracker &creatures = get_creature_tracker();
-    Creature &mon = *creatures.creature_at<Creature>( tripoint::south );
+    Creature &mon = *creatures.creature_at<Creature>( tripoint_bub_ms::zero + tripoint::south );
     int stamina_init = 0;
     int stamina_current = 0;
     int stamina_spent = 0;
@@ -380,9 +388,9 @@ TEST_CASE( "Enchantment_MELEE_TO_HIT_test", "[magic][enchantments]" )
     clear_map();
     Character &guy = get_player_character();
     clear_avatar();
-    g->place_critter_at( pseudo_debug_mon, tripoint_bub_ms( tripoint::south ) );
+    g->place_critter_at( pseudo_debug_mon, tripoint_bub_ms::zero + tripoint::south );
     creature_tracker &creatures = get_creature_tracker();
-    Creature &mon = *creatures.creature_at<Creature>( tripoint::south );
+    Creature &mon = *creatures.creature_at<Creature>( tripoint_bub_ms::zero + tripoint::south );
     double hit_rate = 0;
 
     INFO( "Character attacks with +100 to hit enchantment" );

@@ -1,7 +1,8 @@
 [
   {
     "id": "match_trigger",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "match trigger" },
     "description": "A precision weighted trigger assembly that slightly improves a firearm's accuracy.",
     "weight": "120 g",
@@ -21,7 +22,8 @@
   },
   {
     "id": "dias",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "drop-in auto sear" },
     "description": "A vaguely 'U'-shaped piece of metal with a vaguely 'T'-shaped flapper on a pin.  Once tucked into an AR-15's lower receiver, the rifle will become selective fire-capable.  The handcrafted-sear surface isn't as good as actual full-auto parts, so precision and reliability suffer slightly.",
     "weight": "113 g",
@@ -44,7 +46,8 @@
   },
   {
     "id": "llink",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "lightning link" },
     "description": "Originally designed for the Colt SP-1, this 'reproduction' is intended to convert an AR-15 into a full-auto only rifle.  Once the necessary modifications are made and the link is in place, semi-auto is disabled and full-auto is enabled.  Reliability and precision suffer greatly due to questionable craftsmanship and lack of unobtainium SP-1 parts.",
     "weight": "60 g",
@@ -69,7 +72,8 @@
   },
   {
     "id": "glocksear",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "Glock auto sear plate" },
     "description": "A relatively simple switch or button mechanism that replaces the back plate of a Glock slide, allowing it to function as a select-fire machine pistol.  A highly illegal modification, but the feds are zombie food anyway.  This will fit any standard Glock pistol in 9mm, .40, .45, 10mm, or .357 caliber.",
     "weight": "55 g",
@@ -89,7 +93,8 @@
   },
   {
     "id": "tec9_auto_parts",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "TEC-9 full auto sear" },
     "description": "A relatively simple modification of some of a TEC-9's internal fire-control components, converting it to a fully-automatic-only machine pistol.  Calling this hilariously illegal would be an understatement, but anyone who'd care is probably long gone by now.",
     "weight": "55 g",
@@ -109,7 +114,8 @@
   },
   {
     "id": "bars",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "balanced recoil system" },
     "description": "A complex set of parts designed to minimize recoil using a reciprocating counterweight.",
     "weight": "60 g",
@@ -128,27 +134,9 @@
     "flags": [ "IRREMOVABLE" ]
   },
   {
-    "id": "waterproof_gunmod",
-    "type": "GUNMOD",
-    "name": { "str": "firearm waterproofing" },
-    "description": "A set of seals and gaskets that will allow a firearm to operate reliably while submerged in water.",
-    "weight": "220 g",
-    "volume": "250 ml",
-    "integral_volume": "0 ml",
-    "price": "500 USD",
-    "price_postapoc": "7 USD 50 cent",
-    "material": [ "plastic" ],
-    "symbol": ":",
-    "color": "dark_gray",
-    "location": "mechanism",
-    "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "launcher" ],
-    "install_time": "10 m",
-    "min_skills": [ [ "weapon", 2 ] ],
-    "flags": [ "WATERPROOF_GUN" ]
-  },
-  {
     "id": "m249semi",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "M249 select fire trigger" },
     "description": "A trigger modification that allows the M249 to switch between semi and full automatic modes.",
     "weight": "60 g",
@@ -172,7 +160,8 @@
   },
   {
     "id": "condenser_pristine",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "pristine condenser" },
     "description": "A condenser unit for the Caotel Sr2.2, seemingly in perfect condition.",
     "weight": "380 g",
@@ -193,7 +182,8 @@
   },
   {
     "id": "m240semi",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "M240 select fire trigger" },
     "description": "A trigger modification that allows the M240 to switch between semi and full automatic modes.",
     "weight": "60 g",

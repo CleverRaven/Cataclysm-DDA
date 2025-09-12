@@ -2,7 +2,8 @@
   {
     "id": "rune_druid_weapon",
     "copy-from": "compositebow",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "GUN" ],
     "color": "yellow",
     "name": { "str": "Druid composite bow" },
     "//": "Equivalent to composite bow for dispersion/reload/weight/range/encumb/bash, with two mod slots added equivalent to other weapons getting techniques",
@@ -22,28 +23,27 @@
       "SHEATH_BOW"
     ],
     "min_strength": 9,
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "wood", "covered_by_mat": 100, "thickness": 1.0 },
-            { "type": "bone", "covered_by_mat": 100, "thickness": 1.0 }
-          ],
-          "encumbrance": 13,
-          "coverage": 5,
-          "covers": [ "torso" ]
-        }
-      ]
-    },
     "valid_mod_locations": [ [ "sights", 1 ], [ "dampening", 1 ] ],
     "ranged_damage": { "damage_type": "stab", "amount": 9 },
     "range": 13,
-    "dispersion": 855
+    "dispersion": 855,
+    "armor": [
+      {
+        "material": [
+          { "type": "wood", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "bone", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "encumbrance": 13,
+        "coverage": 5,
+        "covers": [ "torso" ]
+      }
+    ]
   },
   {
     "id": "m47a1",
     "copy-from": "pistol_revolver",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "M47A1 Techno-Medusa", "str_pl": "M47A1 Techno-Medusae" },
     "description": "A magically-enhanced update to the Phillips & Rodgers' M47 Medusa, a  multi-caliber revolver aimed at survivalists.  While Technomancy improves the reliability with smaller cartridges, it is not as accurate as dedicated caliber revolvers due to freebore.",
     "weight": "1333 g",
@@ -77,7 +77,8 @@
   {
     "id": "enchanted_blackpowder_pistol",
     "copy-from": "pistol_flintlock",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "Pistolet modèle Gardes de la Marine", "str_pl": "several Pistolet modèle Gardes de la Marine" },
     "description": "These beautifully-made enchanted flintlock pistols were specially made for young noble scions in the Gardes de la Marine.  They still exist today as unspeakably-rare heirlooms that remain combat-worthy due to their magical nature.",
     "price": "740 USD",
@@ -101,7 +102,8 @@
   },
   {
     "id": "gunblade",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": "gunblade",
     "description": "Constructed similarly to a falcata, this forward-sloping blade has a short-barrel pump shotgun attached to the blade's spine for finishing blows or a first strike.",
     "weight": "1539 g",
@@ -128,14 +130,15 @@
     "reload_noise": "chuk chuk.",
     "weapon_category": [ "MEDIUM_SWORDS" ],
     "flags": [ "RELOAD_ONE", "PUMP_ACTION", "DURABLE_MELEE", "SHEATH_SWORD" ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
+    "faults": [ { "fault": "fault_gun_blackpowder" }, { "fault": "fault_gun_dirt" } ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 3 } } ],
     "melee_damage": { "bash": 10, "cut": 32 }
   },
   {
     "id": "boreal_mosin",
     "copy-from": "mosin91_30",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str_sp": "Mosin-Nagant 1891/30 Boreal" },
     "description": "A modernized version of the Mosin-Nagant 1891/30 by Cannith Industries, chambered in 7.62x51 NATO.  The barrel is enchanted to give bullets a minor freezing property.",
     "ammo": [ "308" ],
@@ -161,7 +164,8 @@
   },
   {
     "id": "rune_biomancer_gun_adept_trans",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "symbol": "%",
     "color": "red",
     "name": { "str": "Bone Launcher" },
@@ -204,7 +208,8 @@
     "melee_damage": { "bash": 5 }
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "sharped_bone",
     "category": "spare_parts",
     "price": "10 USD",
@@ -226,7 +231,8 @@
   {
     "id": "bow_of_elvenkind",
     "looks_like": "longbow",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "ARTIFACT", "GUN" ],
     "symbol": "(",
     "color": "yellow",
     "name": { "str": "bow of elvenkind", "str_pl": "bows of elvenkind" },
@@ -253,17 +259,6 @@
     "volume": "1500 ml",
     "longest_side": "183 cm",
     "price_postapoc": "300 USD",
-    "armor_data": {
-      "armor": [
-        {
-          "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 1 } ],
-          "encumbrance": 14,
-          "coverage": 10,
-          "covers": [ "torso" ],
-          "specifically_covers": [ "torso_hanging_back" ]
-        }
-      ]
-    },
     "reload_noise_volume": 3,
     "loudness": 6,
     "ranged_damage": { "damage_type": "stab", "amount": 8 },
@@ -276,6 +271,15 @@
     "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 }, "open_container": true } ],
     "melee_damage": { "bash": 12 },
-    "relic_data": { "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] }
+    "armor": [
+      {
+        "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 1 } ],
+        "encumbrance": 14,
+        "coverage": 10,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_back" ]
+      }
+    ],
+    "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ]
   }
 ]

@@ -3,24 +3,17 @@
 #define CATA_SRC_NPCTALK_RULES_H
 
 #include <algorithm>
-#include <array>
-#include <cmath>
-#include <cstddef>
-#include <iterator>
-#include <list>
 #include <map>
-#include <memory>
-#include <ostream>
 #include <string>
-#include <unordered_map>
-#include <unordered_set>
-#include <vector>
 
 #include "cata_imgui.h"
-#include "dialogue.h"
-#include "npctalk.h"
-#include "ui_manager.h"
+#include "game_constants.h"
 #include "imgui/imgui.h"
+#include "translations.h"
+
+class input_context;
+class npc;
+struct input_event;
 
 class follower_rules_ui
 {
@@ -58,7 +51,7 @@ class follower_rules_ui_impl : public cataimgui::window
         // makes a checkbox for the rule
         template<typename T>
         void checkbox( int rule_number, const T &this_rule, input_event &assigned_hotkey,
-                       const input_event &pressed_key );
+                       const input_event &pressed_key, bool confirm_toggle );
 
         // makes one radio button per option in the map
         template<typename T>

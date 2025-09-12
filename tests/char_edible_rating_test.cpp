@@ -1,4 +1,3 @@
-#include <iosfwd>
 #include <memory>
 #include <string>
 

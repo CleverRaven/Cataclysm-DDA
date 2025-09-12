@@ -1,7 +1,8 @@
 [
   {
     "abstract": "engine_combustion",
-    "type": "ENGINE",
+    "type": "ITEM",
+    "subtypes": [ "ENGINE" ],
     "category": "veh_parts",
     "name": { "str": "internal combustion engine", "//~": "NO_I18N" },
     "material": [ "iron" ],
@@ -11,44 +12,48 @@
   {
     "abstract": "engine_diesel",
     "copy-from": "engine_combustion",
-    "type": "ENGINE",
+    "type": "ITEM",
+    "subtypes": [ "ENGINE" ],
     "name": { "str": "base diesel engine", "//~": "NO_I18N" },
     "faults": [
-      "fault_engine_belt_drive",
-      "fault_engine_filter_air",
-      "fault_engine_filter_fuel",
-      "fault_engine_glow_plug",
-      "fault_engine_immobiliser",
-      "fault_engine_pump_diesel",
-      "fault_engine_starter"
+      { "fault": "fault_engine_belt_drive" },
+      { "fault": "fault_engine_filter_air" },
+      { "fault": "fault_engine_filter_fuel" },
+      { "fault": "fault_engine_glow_plug" },
+      { "fault": "fault_engine_immobiliser" },
+      { "fault": "fault_engine_pump_diesel" },
+      { "fault": "fault_engine_starter" }
     ]
   },
   {
     "abstract": "engine_gasoline",
     "copy-from": "engine_combustion",
-    "type": "ENGINE",
+    "type": "ITEM",
+    "subtypes": [ "ENGINE" ],
     "name": { "str": "base gasoline engine", "//~": "NO_I18N" },
     "faults": [
-      "fault_engine_belt_drive",
-      "fault_engine_filter_air",
-      "fault_engine_filter_fuel",
-      "fault_engine_immobiliser",
-      "fault_engine_pump_fuel",
-      "fault_engine_starter"
+      { "fault": "fault_engine_belt_drive" },
+      { "fault": "fault_engine_filter_air" },
+      { "fault": "fault_engine_filter_fuel" },
+      { "fault": "fault_engine_immobiliser" },
+      { "fault": "fault_engine_pump_fuel" },
+      { "fault": "fault_engine_starter" }
     ]
   },
   {
     "abstract": "engine_steam",
     "copy-from": "engine_combustion",
-    "type": "ENGINE",
+    "type": "ITEM",
+    "subtypes": [ "ENGINE" ],
     "name": { "str": "base steam engine", "//~": "NO_I18N" },
     "looks_like": "v12_diesel",
-    "faults": [ "fault_engine_belt_drive", "fault_engine_filter_air", "fault_engine_starter" ]
+    "faults": [ { "fault": "fault_engine_belt_drive" }, { "fault": "fault_engine_filter_air" }, { "fault": "fault_engine_starter" } ]
   },
   {
     "id": "1cyl_combustion",
     "copy-from": "engine_gasoline",
-    "type": "ENGINE",
+    "type": "ITEM",
+    "subtypes": [ "ENGINE" ],
     "name": { "str": "0.05 L 1-cylinder engine" },
     "//": "50 cc moped engine, lawnmower engine, golf cart engine",
     "description": "A 50 cc single-cylinder 4-stroke combustion engine.",
@@ -56,12 +61,13 @@
     "volume": "12 L",
     "price": "100 USD",
     "price_postapoc": "10 USD",
-    "faults": [ "fault_engine_starter" ]
+    "faults": [ { "fault": "fault_engine_starter" } ]
   },
   {
     "id": "1cyl_combustion_large",
     "copy-from": "engine_gasoline",
-    "type": "ENGINE",
+    "type": "ITEM",
+    "subtypes": [ "ENGINE" ],
     "name": { "str": "0.2 L large 1-cylinder engine" },
     "//": "200 cc scooter, dirt bike engine",
     "description": "A high-compression, 200 cc single-cylinder 4-stroke combustion engine.",
@@ -69,25 +75,26 @@
     "volume": "42 L",
     "price": "100 USD",
     "price_postapoc": "12 USD 50 cent",
-    "faults": [ "fault_engine_starter" ]
+    "faults": [ { "fault": "fault_engine_starter" } ]
   },
   {
     "id": "1cyl_combustion_med",
     "copy-from": "engine_gasoline",
-    "type": "ENGINE",
+    "type": "ITEM",
+    "subtypes": [ "ENGINE" ],
     "name": { "str": "0.2 L medium 1-cylinder engine" },
     "//": "150 cc generator engine",
     "description": "A high-compression, 150 cc single-cylinder 4-stroke combustion engine.",
     "weight": "15 kg",
     "volume": "43793 ml",
     "price": "130 USD",
-    "price_postapoc": "12 USD 50 cent",
-    "faults": [ "fault_engine_starter" ]
+    "price_postapoc": "12 USD 50 cent"
   },
   {
     "id": "engine_1cyl_diesel_large",
     "copy-from": "engine_diesel",
-    "type": "ENGINE",
+    "type": "ITEM",
+    "subtypes": [ "ENGINE" ],
     "name": { "str": "0.2 L large 1-cylinder diesel engine" },
     "//": "200 cc scooter, dirtbike, or diesel generator",
     "description": "A high-compression, 200 cc single-cylinder 4-stroke diesel combustion engine.",
@@ -95,12 +102,13 @@
     "volume": "42 L",
     "price": "100 USD",
     "price_postapoc": "12 USD 50 cent",
-    "faults": [ "fault_engine_starter" ]
+    "faults": [ { "fault": "fault_engine_starter" } ]
   },
   {
     "id": "1cyl_combustion_small",
     "copy-from": "engine_gasoline",
-    "type": "ENGINE",
+    "type": "ITEM",
+    "subtypes": [ "ENGINE" ],
     "name": { "str": "0.02 L small 1-cylinder engine" },
     "//": "25 cc hedge trimmer engine, bicycle motor",
     "description": "A small, 25 cc single-cylinder 2-stroke combustion engine.",
@@ -113,7 +121,8 @@
   {
     "id": "aero_engine_light",
     "copy-from": "engine_gasoline",
-    "type": "ENGINE",
+    "type": "ITEM",
+    "subtypes": [ "ENGINE" ],
     "name": { "str": "5.24 L light aero-engine" },
     "description": "An air-cooled, 4-cylinder, horizontally opposed internal combustion engine, rated for 150 horsepower.  Commonly used on light aircraft.",
     "weight": "126 kg",
@@ -124,7 +133,8 @@
   {
     "id": "i4_combustion",
     "copy-from": "engine_gasoline",
-    "type": "ENGINE",
+    "type": "ITEM",
+    "subtypes": [ "ENGINE" ],
     "name": { "str": "1.6 L I4 engine" },
     "//": "1600 cc normal car engine motor",
     "description": "A small, 1600 cc 4-cylinder combustion engine, commonly called a straight-four.",
@@ -136,7 +146,8 @@
   {
     "id": "i4_diesel",
     "copy-from": "engine_diesel",
-    "type": "ENGINE",
+    "type": "ITEM",
+    "subtypes": [ "ENGINE" ],
     "name": { "str": "1.6 L I4 diesel engine" },
     "description": "A small, yet powerful 4-cylinder diesel engine, commonly called a straight-four.",
     "weight": "120 kg",
@@ -146,16 +157,22 @@
   },
   {
     "id": "i1_diesel",
-    "copy-from": "i4_diesel",
+    "copy-from": "engine_diesel",
     "//": "KS 520HD-V",
-    "type": "ENGINE",
-    "name": { "str": "1.6 L I1 diesel engine" },
-    "description": "A small, diesel powered one-cylinder, four-stroke air-cooled engine."
+    "type": "ITEM",
+    "subtypes": [ "ENGINE" ],
+    "name": { "str": "0.5 L I1 diesel engine" },
+    "description": "A small, diesel powered one-cylinder, four-stroke air-cooled engine.",
+    "weight": "57 kg",
+    "volume": "66 L",
+    "price": "160 USD",
+    "price_postapoc": "12 USD 50 cent"
   },
   {
     "id": "i6_diesel",
     "copy-from": "engine_diesel",
-    "type": "ENGINE",
+    "type": "ITEM",
+    "subtypes": [ "ENGINE" ],
     "name": { "str": "6 L I6 diesel engine" },
     "description": "An industrial-sized 6-cylinder diesel engine, commonly called a straight-six.  About as powerful as a V6 engine but significantly larger for use in heavy equipment.",
     "weight": "580 kg",
@@ -166,7 +183,8 @@
   {
     "id": "v2_combustion",
     "copy-from": "engine_gasoline",
-    "type": "ENGINE",
+    "type": "ITEM",
+    "subtypes": [ "ENGINE" ],
     "name": { "str": "0.6 L V2 engine" },
     "//": "600 cc fast motorbike or small car motor",
     "description": "A 600 cc, 2-cylinder 4-stroke combustion engine, commonly called a V-twin.",
@@ -178,7 +196,8 @@
   {
     "id": "v6_combustion",
     "copy-from": "engine_gasoline",
-    "type": "ENGINE",
+    "type": "ITEM",
+    "subtypes": [ "ENGINE" ],
     "name": { "str": "2.8 L V6 engine" },
     "description": "A powerful 6-cylinder combustion engine.",
     "weight": "203 kg",
@@ -189,7 +208,8 @@
   {
     "id": "v6_diesel",
     "copy-from": "engine_diesel",
-    "type": "ENGINE",
+    "type": "ITEM",
+    "subtypes": [ "ENGINE" ],
     "name": { "str": "2.8 L V6 diesel engine" },
     "description": "A powerful 6-cylinder diesel engine.",
     "weight": "207 kg",
@@ -200,7 +220,8 @@
   {
     "id": "v8_combustion",
     "copy-from": "engine_gasoline",
-    "type": "ENGINE",
+    "type": "ITEM",
+    "subtypes": [ "ENGINE" ],
     "name": { "str": "4.5 L V8 engine" },
     "description": "A large and very powerful 8-cylinder combustion engine.",
     "weight": "238 kg",
@@ -211,7 +232,8 @@
   {
     "id": "v8_diesel",
     "copy-from": "engine_diesel",
-    "type": "ENGINE",
+    "type": "ITEM",
+    "subtypes": [ "ENGINE" ],
     "name": { "str": "4.5 L V8 diesel engine" },
     "description": "A large and very powerful 8-cylinder diesel engine.",
     "weight": "242 kg",
@@ -222,7 +244,8 @@
   {
     "id": "v12_combustion",
     "copy-from": "engine_gasoline",
-    "type": "ENGINE",
+    "type": "ITEM",
+    "subtypes": [ "ENGINE" ],
     "name": { "str": "7 L V12 engine" },
     "description": "A massive and extremely powerful 12-cylinder combustion engine, usually built into high-end sports cars.",
     "weight": "240 kg",
@@ -233,7 +256,8 @@
   {
     "id": "v12_diesel",
     "copy-from": "engine_diesel",
-    "type": "ENGINE",
+    "type": "ITEM",
+    "subtypes": [ "ENGINE" ],
     "name": { "str": "7 L V12 diesel engine" },
     "description": "A massive and extremely powerful 12-cylinder diesel engine, usually built into heavy trucks.",
     "weight": "244 kg",
@@ -244,7 +268,8 @@
   {
     "id": "steam_watts_small",
     "copy-from": "engine_steam",
-    "type": "ENGINE",
+    "type": "ITEM",
+    "subtypes": [ "ENGINE" ],
     "name": { "str": "makeshift steam engine" },
     "description": "A small, primitive steam engine.  An integrated boiler burns coal to heat water into steam, driving a reciprocating shaft.  A condenser recaptures the water, making this a closed-cycle system.",
     "weight": "225000 g",
@@ -255,7 +280,8 @@
   {
     "id": "steam_triple_small",
     "copy-from": "engine_steam",
-    "type": "ENGINE",
+    "type": "ITEM",
+    "subtypes": [ "ENGINE" ],
     "name": { "str": "small steam engine" },
     "description": "A small steam engine.  An integrated boiler burns coal to heat water into steam, driving a reciprocating shaft.  A condenser recaptures the water, making this a closed-cycle system.",
     "weight": "180000 g",
@@ -266,7 +292,8 @@
   {
     "id": "steam_triple_medium",
     "copy-from": "engine_steam",
-    "type": "ENGINE",
+    "type": "ITEM",
+    "subtypes": [ "ENGINE" ],
     "name": { "str": "medium steam engine" },
     "description": "A medium-sized steam engine.  An integrated boiler burns coal to heat water into steam, driving a reciprocating shaft.  A condenser recaptures the water, making this a closed-cycle system.",
     "weight": "280000 g",
@@ -277,7 +304,7 @@
   {
     "id": "engine_block_massive",
     "copy-from": "spare_part",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "massive engine block" },
     "description": "The beginnings of a massive gas or diesel engine.  It's not good for much of anything on its own.",
     "material": [ "iron" ],
@@ -289,7 +316,7 @@
   {
     "id": "engine_block_large",
     "copy-from": "spare_part",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "large engine block" },
     "description": "The beginnings of a large gas or diesel engine.  It's not good for much of anything on its own.",
     "material": [ "iron" ],
@@ -301,7 +328,7 @@
   {
     "id": "engine_block_medium",
     "copy-from": "spare_part",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "medium engine block" },
     "description": "The beginnings of a medium gas or diesel engine.  It's not good for much of anything on its own.",
     "material": [ "iron" ],
@@ -313,7 +340,7 @@
   {
     "id": "engine_block_small",
     "copy-from": "spare_part",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "small engine block" },
     "description": "The beginnings of a small gas or diesel engine.  It's not good for much of anything on its own.",
     "material": [ "iron" ],
@@ -325,7 +352,7 @@
   {
     "id": "engine_block_tiny",
     "copy-from": "spare_part",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "tiny engine block" },
     "description": "The beginnings of a tiny gas or diesel engine.  It's not good for much of anything on its own.",
     "material": [ "iron" ],
@@ -337,22 +364,28 @@
   {
     "id": "small_turbine_engine",
     "copy-from": "engine_gasoline",
-    "type": "ENGINE",
-    "name": { "str": "27 L 1,350 HP gas turbine engine" },
-    "description": "A gas turbine engine, usually used for military vehicles.  Known for its high rate of fuel consumption.",
-    "//": "Based on AGT1500 engine.",
-    "weight": "1134 kg",
-    "volume": "900 L",
+    "type": "ITEM",
+    "subtypes": [ "ENGINE" ],
+    "name": { "str": "25 L 650 HP gas turbine engine" },
+    "description": "A gas turbine engine.  Used primarily for small helicopters.",
+    "//": "Based on Allison 250-C30R.  Doubled the published weight to account for a transmission.",
+    "//2": "The real materials used to make gas turbines are real-life superalloys and high-end stainless steels, but superalloy is reserved for sci-fi things.",
+    "//3": "I chose a tempered steel as it's a highest-end mundane steel in game. New material (aerospace_steel?) can be added later.",
+    "material": [ "qt_steel" ],
+    "weight": "250 kg",
+    "volume": "260 L",
     "price": "960 USD",
     "price_postapoc": "25 USD"
   },
   {
     "id": "medium_turbine_engine",
     "copy-from": "engine_gasoline",
-    "type": "ENGINE",
+    "type": "ITEM",
+    "subtypes": [ "ENGINE" ],
     "name": { "str": "38 L 1,900 HP gas turbine engine" },
     "description": "A large gas turbine engine, usually used for military helicopters.  Known for its high rate of fuel consumption.",
-    "//": "Based on T700 turboshaft engine. Much lighter weight than the 1,350 HP small gas turbine.  Doubled the published weight to account for a transmission.",
+    "//": "Based on T700 turboshaft engine.  Doubled the published weight to account for a transmission.",
+    "material": [ "qt_steel" ],
     "weight": "400 kg",
     "volume": "400 L",
     "price": "1 kUSD 920 USD",
@@ -361,10 +394,12 @@
   {
     "id": "large_turbine_engine",
     "copy-from": "engine_gasoline",
-    "type": "ENGINE",
+    "type": "ITEM",
+    "subtypes": [ "ENGINE" ],
     "name": { "str": "119.5 L 6,000 HP gas turbine engine" },
     "description": "A massive gas turbine engine, used to power the V-22 Osprey.  Known for its high rate of fuel consumption.",
-    "//": "Based on Rolls-Royce T406.",
+    "//": "Based on Rolls-Royce T406.  Doubled the published weight to account for a transmission.",
+    "material": [ "qt_steel" ],
     "weight": "900 kg",
     "volume": "900 L",
     "price": "9 kUSD 600 USD",

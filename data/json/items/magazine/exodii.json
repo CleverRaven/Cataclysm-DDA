@@ -2,8 +2,9 @@
   {
     "id": "exodiiminimag",
     "looks_like": "garandclip",
-    "type": "MAGAZINE",
-    "name": { "str": "PA md. 71 Exodii 10-round magazine" },
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
+    "name": { "str": "Exodii zombie hunting rifle magazine" },
     "description": "A small, sleek magazine based on a classic PA md. 71 clip, with some redesigns by the Exodii for better use in lighter-than-air drones.  Its small size is less appropriate for ground-fighting of hordes of zombies, as it is a bit inconvenient to reload.",
     "weight": "30 g",
     "volume": "250 ml",
@@ -11,37 +12,112 @@
     "longest_side": "120 mm",
     "price": "6 USD",
     "price_postapoc": "50 cent",
-    "material": [ "steel" ],
+    "material": [ "qt_steel" ],
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "123ln" ],
     "reload_time": 220,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "123ln": 10 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "123ln": 10 } } ],
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "exodiiminimag",
+        "name": { "str": "PA md. 71 Exodii 10-round magazine" },
+        "description": "A small, sleek magazine based on a classic PA md. 71 clip, with some redesigns by the Exodii for better use in lighter-than-air drones.  Its small size is less appropriate for ground-fighting of hordes of zombies, as it is a bit inconvenient to reload."
+      }
+    ]
   },
   {
     "id": "exodiiBRmag",
     "looks_like": "stanag30",
-    "type": "MAGAZINE",
-    "name": { "str": "PA md. 68 Exodii 60-round magazine" },
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
+    "name": { "str": "Exodii battle rifle pan magazine" },
     "description": "An unreasonably large pan magazine for the already heavy PA md. 68 battle rifle.  While the original magazines were double stack box magazines, the PA md. 68 started being pushed into aircraft and vehicle support roles, necessitating a larger pan magazine.",
     "weight": "600 g",
     "volume": "1250 ml",
     "longest_side": "255 mm",
     "price": "105 USD",
     "price_postapoc": "4 USD 50 cent",
-    "material": [ "steel" ],
+    "material": [ "qt_steel" ],
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "123ln" ],
     "reload_time": 180,
     "flags": [ "MAG_BULKY" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "123ln": 60 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "123ln": 60 } } ],
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "exodiiBRmag",
+        "name": { "str": "PA md. 68 Exodii 60-round magazine" },
+        "description": "An unreasonably large pan magazine for the already heavy PA md. 68 battle rifle.  While the original magazines were double stack box magazines, the PA md. 68 started being pushed into aircraft and vehicle support roles, necessitating a larger pan magazine."
+      }
+    ]
+  },
+  {
+    "id": "exodiiBRmag_153",
+    "looks_like": "stanag30",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
+    "name": { "str": "Exodii battle rifle large pan magazine" },
+    "description": "An even more enormous magazine than the 60-round magazine, this beast of a pan magazine boasts a capacity of 153 rounds.  While impressive in capacity, it's reliability is questionable and its portability is non-existant.  It saw some vehicle use near the end of the 3rd Carpathian war and was a bit further refined after that, but never saw much widescale adoption.  The Exodii however care little about portability, and scraped up every last one they could find.",
+    "weight": "1700 g",
+    "volume": "3500 ml",
+    "longest_side": "270 mm",
+    "price": "205 USD",
+    "price_postapoc": "40 USD",
+    "material": [ "qt_steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "123ln" ],
+    "reload_time": 240,
+    "mag_jam_mult": 1.2,
+    "flags": [ "MAG_BULKY" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "123ln": 153 } } ],
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "exodiiBRmag_153",
+        "name": { "str": "PA md. 68 Exodii 153-round magazine" },
+        "description": "An even more enormous magazine than the 60-round magazine, this beast of a pan magazine boasts a capacity of 153 rounds.  While impressive in capacity, it's reliability is questionable and its portability is non-existant.  It saw some vehicle use near the end of the 3rd Carpathian war and was a bit further refined after that, but never saw much widescale adoption.  The Exodii however care little about portability, and scraped up every last one they could find."
+      }
+    ]
+  },
+  {
+    "id": "exodiiBRmag_26",
+    "looks_like": "stanag30",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
+    "name": { "str": "Exodii battle rifle box magazine" },
+    "description": "The original PA md. 68 magazine, a simple straight box magazine.  While usable, the weight of the rifle made it quite unpopular for ground troops, and the low capacity made it not very useful for mounted use.  Large stockpiles of surplus magazines sat around in warehouses before the Exodii scooped them up.  Still not commonly used by the Exodii, but still plentiful and low cost.",
+    "weight": "190 g",
+    "volume": "350 ml",
+    "longest_side": "255 mm",
+    "price": "105 USD",
+    "price_postapoc": "1 USD 50 cent",
+    "material": [ "qt_steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "123ln" ],
+    "reload_time": 120,
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "123ln": 26 } } ],
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "exodiiBRmag_26",
+        "name": { "str": "PA md. 68 Exodii 26-round magazine" },
+        "description": "The original PA md. 68 magazine, a simple straight box magazine.  While usable, the weight of the rifle made it quite unpopular for ground troops, and the low capacity made it not very useful for mounted use.  Large stockpiles of surplus magazines sat around in warehouses before the Exodii scooped them up.  Still not commonly used by the Exodii, but still plentiful and low cost."
+      }
+    ]
   },
   {
     "id": "exodiisapramag5",
     "looks_like": "exodiiminimag",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "Sapra '36 magazine" },
     "description": "A large, five round single stack magazine for the Sapra '36.",
     "weight": "710 g",
@@ -49,7 +125,7 @@
     "longest_side": "132 mm",
     "price": "135 USD",
     "price_postapoc": "4 USD 70 cent",
-    "material": [ "steel" ],
+    "material": [ "qt_steel" ],
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "273x44" ],
@@ -58,9 +134,135 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "273x44": 5 } } ]
   },
   {
+    "id": "exodii_khuunaofaai_mag_firework",
+    "looks_like": "metal_tank_little",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
+    "name": { "str": "ordnance cannon celebration canister" },
+    "description": "A pressurized tank containing the original firework payload of the Exodii's own ordnance cannon.  This chemical payload contains two different compounds of copper, so that the projectiles burn a sharp blue and green to represent the united Earth it came from.  It isn't intended for combat, but getting hit by a massive firework is dangerous enough that it was brought along.  The tank capacity is larger than the other loads the Exodii created for it.",
+    "weight": "1268 g",
+    "volume": "1250 ml",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "exodii_khuunaofaai_mag_firework",
+        "name": { "str": "Khuunäöfaai celebration canister" },
+        "description": "A pressurized tank containing the original firework payload of the Khuunäöfaai.  This chemical payload contains two different compounds of copper, so that the projectiles burn a sharp blue and green to represent the united Earth it came from.  It isn't intended for combat, but getting hit by a massive firework is dangerous enough that it was brought along.  The tank capacity is larger than the other loads the Exodii created for it.",
+        "weight": 1
+      }
+    ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "khuunaofaai_payload" ],
+    "capacity": 10,
+    "count": 10,
+    "longest_side": "160 mm",
+    "price_postapoc": "10 USD",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "airtight": true,
+        "ammo_restriction": { "khuunaofaai_payload": 10 },
+        "watertight": true
+      }
+    ],
+    "flags": [ "MAG_BULKY", "NO_UNLOAD", "NO_RELOAD" ],
+    "material": "qt_steel"
+  },
+  {
+    "id": "exodii_khuunaofaai_mag_incendiary",
+    "copy-from": "exodii_khuunaofaai_mag_firework",
+    "ammo_type": [ "khuunaofaai_payload_fire" ],
+    "capacity": 4,
+    "count": 4,
+    "name": { "str": "ordnance cannon incendiary canister" },
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
+    "description": "A pressurized tank containing one of the special payloads the Exodii made for their ordnance cannon, something akin to white phosphorous on your Earth.  Its simplicity and effectiveness against targets big and small makes it the cannon's most popular ammunition by far.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "exodii_khuunaofaai_mag_incendiary",
+        "name": { "str": "Khuunäöfaai incendiary canister" },
+        "description": "A pressurized tank containing one of the special payloads the Exodii made for the Khuunäöfaai, something akin to white phosphorous on your Earth.  Its simplicity and effectiveness against targets big and small makes it the cannon's most popular ammunition by far.",
+        "weight": 1
+      }
+    ],
+    "price_postapoc": "10 USD",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "airtight": true,
+        "ammo_restriction": { "khuunaofaai_payload_fire": 4 },
+        "watertight": true
+      }
+    ]
+  },
+  {
+    "id": "exodii_khuunaofaai_mag_corrosive",
+    "copy-from": "exodii_khuunaofaai_mag_firework",
+    "ammo_type": [ "khuunaofaai_payload_acid" ],
+    "capacity": 4,
+    "count": 4,
+    "name": { "str": "ordnance cannon corrosive canister" },
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
+    "description": "A pressurized tank containing one of the special payloads the Exodii made for their ordnance cannon, a mixture of several acids and peroxides capable of rapidly breaking down the organic tissues of zombies and mutants alike.  Apparently developed for cases where the incendiary payload would fail, like low to zero oxygen environments and targets capable of self-extinguishing - It's somewhat alarming the Exodii run into those scenarios frequently enough to justify producing this.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "exodii_khuunaofaai_mag_corrosive",
+        "name": { "str": "Khuunäöfaai corrosive canister" },
+        "description": "A pressurized tank containing one of the special payloads the Exodii made for the Khuunäöfaai, a mixture of several acids and peroxides capable of rapidly breaking down the organic tissues of zombies and mutants alike.  Apparently developed for cases where the incendiary payload would fail, like low to zero oxygen environments and targets capable of self-extinguishing - It's somewhat alarming the Exodii run into those scenarios frequently enough to justify producing this.",
+        "weight": 1
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "airtight": true,
+        "ammo_restriction": { "khuunaofaai_payload_acid": 4 },
+        "watertight": true
+      }
+    ]
+  },
+  {
+    "id": "exodii_khuunaofaai_mag_adhesive",
+    "copy-from": "exodii_khuunaofaai_mag_firework",
+    "ammo_type": [ "khuunaofaai_payload_glue" ],
+    "capacity": 4,
+    "count": 4,
+    "name": { "str": "ordnance cannon adhesive canister" },
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
+    "description": "A pressurized tank containing one of the special payloads the Exodii made for their ordnance cannon, an industrial grade chemical that adheres to anything it touches and hardens into a concrete-like resin.  Invented on some alternate Earth for quickly fixing holes in zeppelin and high-altitude craft, the Exodii found the substance useful for area denial, cover creation, or encasing nasty things in when they couldn't be bothered to waste bullets on them.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "exodii_khuunaofaai_mag_adhesive",
+        "name": { "str": "Khuunäöfaai adhesive canister" },
+        "description": "A pressurized tank containing one of the special payloads the Exodii made for the Khuunäöfaai, an industrial grade chemical that adheres to anything it touches and hardens into a concrete-like resin.  Invented on some alternate Earth for quickly fixing holes in zeppelin and high-altitude craft, the Exodii found the substance useful for area denial, cover creation, or encasing nasty things in when they couldn't be bothered to waste bullets on them.",
+        "weight": 1
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "airtight": true,
+        "ammo_restriction": { "khuunaofaai_payload_glue": 4 },
+        "watertight": true
+      }
+    ]
+  },
+  {
     "id": "ree_33_4_mag",
     "looks_like": "stanag30",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "3.3 naval 4-round magazine" },
     "description": "A bulky 4-round magazine for the Exodii naval rifle.  Grants some amount of portability, if the gun itself can be named portable.",
     "variant_type": "gun",
@@ -75,7 +277,7 @@
     "volume": "1200 ml",
     "longest_side": "245 mm",
     "price_postapoc": "2 USD 50 cent",
-    "material": [ "steel" ],
+    "material": [ "qt_steel" ],
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "33naval" ],
@@ -85,7 +287,8 @@
   {
     "id": "ree_33_53_mag",
     "looks_like": "stanag30",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "3.3 naval 53-round box magazine" },
     "description": "Giant metal box with a belt, which allows it to be used as a high-capacity magazine for the Exodii naval rifle.",
     "variant_type": "gun",
@@ -100,7 +303,7 @@
     "volume": "14000 ml",
     "longest_side": "245 mm",
     "price_postapoc": "2 USD 50 cent",
-    "material": [ "steel" ],
+    "material": [ "qt_steel" ],
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "33naval" ],
@@ -110,7 +313,8 @@
   {
     "id": "caotel_plasma_ring",
     "looks_like": "stanag30",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "Caotel plasma condenser" },
     "description": "A strange annular device analogous to a magazine, automatically ejected whenever the last of its mounted power cells are depleted.  In fact, you are not sure whether its meant to be reusable or not.",
     "weight": "1020 g",

@@ -1,20 +1,54 @@
 #include <algorithm>
+#include <list>
+#include <map>
+#include <memory>
+#include <optional>
+#include <set>
+#include <string>
+#include <utility>
 #include <vector>
 
 #include "activity_handlers.h"
 #include "avatar.h"
-#include "avatar_action.h"
+#include "build_reqs.h"
+#include "calendar.h"
 #include "cata_catch.h"
-#include "activity_type.h"
+#include "character.h"
 #include "clzones.h"
 #include "construction.h"
+#include "coordinates.h"
+#include "faction.h"
 #include "game.h"
+#include "game_constants.h"
+#include "item.h"
+#include "map.h"
 #include "map_helpers.h"
+#include "map_iterator.h"
+#include "map_scale_constants.h"
+#include "memory_fast.h"
+#include "npc.h"
 #include "options_helpers.h"
 #include "pathfinding.h"
+#include "pimpl.h"
+#include "player_activity.h"
 #include "player_helpers.h"
+#include "point.h"
+#include "requirements.h"
+#include "type_id.h"
+#include "weather_type.h"
 
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
+
+static const construction_str_id construction_constr_floor( "constr_floor" );
+static const construction_str_id
+construction_constr_ov_smreb_cage_thconc_floor( "constr_ov_smreb_cage_thconc_floor" );
+static const construction_str_id construction_constr_pit_shallow( "constr_pit_shallow" );
+static const construction_str_id construction_constr_thconc_floor( "constr_thconc_floor" );
+static const construction_str_id construction_constr_wall_half( "constr_wall_half" );
+static const construction_str_id construction_constr_wall_wood( "constr_wall_wood" );
+static const construction_str_id construction_constr_window_empty( "constr_window_empty" );
+static const construction_str_id
+construction_constr_window_no_curtains( "constr_window_no_curtains" );
 
 static const faction_id faction_free_merchants( "free_merchants" );
 
@@ -26,10 +60,14 @@ static const itype_id itype_test_multitool( "test_multitool" );
 static const itype_id itype_wearable_atomic_light( "wearable_atomic_light" );
 
 static const ter_str_id ter_t_dirt( "t_dirt" );
+static const ter_str_id ter_t_floor( "t_floor" );
 static const ter_str_id ter_t_metal_grate_window( "t_metal_grate_window" );
 static const ter_str_id ter_t_railroad_rubble( "t_railroad_rubble" );
+static const ter_str_id ter_t_thconc_floor( "t_thconc_floor" );
+static const ter_str_id ter_t_wall_wood( "t_wall_wood" );
 static const ter_str_id ter_t_window_boarded_noglass( "t_window_boarded_noglass" );
 static const ter_str_id ter_t_window_empty( "t_window_empty" );
+static const ter_str_id ter_t_window_no_curtains( "t_window_no_curtains" );
 
 static const zone_type_id zone_type_CONSTRUCTION_BLUEPRINT( "CONSTRUCTION_BLUEPRINT" );
 static const zone_type_id zone_type_LOOT_UNSORTED( "LOOT_UNSORTED" );
@@ -38,13 +76,15 @@ namespace
 {
 void run_activities( Character &u, int max_moves )
 {
+    map &here = get_map();
+
     u.assign_activity( ACT_MULTIPLE_CONSTRUCTION );
     int turns = 0;
     while( ( !u.activity.is_null() || u.is_auto_moving() ) && turns < max_moves ) {
         u.set_moves( u.get_speed() );
         if( u.is_auto_moving() ) {
-            u.setpos( get_map().bub_from_abs( *u.destination_point ) );
-            get_map().build_map_cache( u.posz() );
+            u.setpos( here, here.get_bub( *u.destination_point ) );
+            here.build_map_cache( u.posz() );
             u.start_destination_activity();
         }
         u.activity.do_turn( u );
@@ -89,8 +129,8 @@ construction setup_testcase( Character &u, std::string const &constr,
                 build.pre_terrain.begin(), build.group, build.id );
 
     map &here = get_map();
-    tripoint_abs_ms const loot_abs = here.getglobal( loot_loc );
-    tripoint_abs_ms const build_abs = here.getglobal( build_loc );
+    tripoint_abs_ms const loot_abs = here.get_abs( loot_loc );
+    tripoint_abs_ms const build_abs = here.get_abs( build_loc );
     faction_id const fac = u.get_faction()->id;
 
     zmgr.add( constr + " loot zone", zone_type_LOOT_UNSORTED, fac, false, true, loot_abs,
@@ -130,12 +170,12 @@ void run_test_case( Character &u )
     u.i_add( item( itype_e_tool ) );
 
     SECTION( "1-step construction activity with pre_terrain" ) {
-        u.setpos( tripoint_bub_ms::zero );
+        u.setpos( here, tripoint_bub_ms::zero );
         here.build_map_cache( u.posz() );
         tripoint_bub_ms const tri_door( tripoint::south );
         construction const build =
             setup_testcase( u, "test_constr_door", tri_door, tripoint_bub_ms() );
-        REQUIRE( u.sees( tri_door ) );
+        REQUIRE( u.sees( here,  tri_door ) );
         here.ter_set( tri_door, ter_id( build.pre_terrain.empty() ? "" : *
                                         build.pre_terrain.begin() ) );
         run_activities( u, build.time * 10 );
@@ -143,7 +183,7 @@ void run_test_case( Character &u )
     }
 
     SECTION( "1-step construction activity with pre_terrain and starting far away" ) {
-        u.setpos( tripoint_bub_ms{ MAX_VIEW_DISTANCE - 1, 0, 0} );
+        u.setpos( here, tripoint_bub_ms{ MAX_VIEW_DISTANCE - 1, 0, 0} );
         here.build_map_cache( u.posz() );
         tripoint_bub_ms const tri_window( tripoint::south );
         construction const build =
@@ -155,7 +195,7 @@ void run_test_case( Character &u )
     }
 
     SECTION( "1-step construction activity with pre_flags" ) {
-        u.setpos( tripoint_bub_ms::zero );
+        u.setpos( here, tripoint_bub_ms::zero );
         here.build_map_cache( u.posz() );
         tripoint_bub_ms const tri_window( tripoint::south );
         construction const build =
@@ -166,7 +206,7 @@ void run_test_case( Character &u )
     }
 
     SECTION( "1-step construction activity with prereq with only pre_special" ) {
-        u.setpos( tripoint_bub_ms::zero );
+        u.setpos( here, tripoint_bub_ms::zero );
         here.build_map_cache( u.posz() );
         tripoint_bub_ms const tri_gravel( tripoint::south );
         construction const pre_build =
@@ -185,7 +225,7 @@ void run_test_case( Character &u )
     }
 
     SECTION( "1-step construction activity - alternative build from same group" ) {
-        u.setpos( tripoint_bub_ms::zero );
+        u.setpos( here, tripoint_bub_ms::zero );
         here.build_map_cache( u.posz() );
         tripoint_bub_ms const tri_window( tripoint::south );
         construction const build =
@@ -197,7 +237,7 @@ void run_test_case( Character &u )
     }
 
     SECTION( "1-step construction activity with existing partial" ) {
-        u.setpos( tripoint_bub_ms::zero );
+        u.setpos( here, tripoint_bub_ms::zero );
         here.build_map_cache( u.posz() );
         tripoint_bub_ms const tri_window( tripoint::south );
         construction const build =
@@ -210,7 +250,7 @@ void run_test_case( Character &u )
     }
 
     SECTION( "1-step construction activity with alternative partial" ) {
-        u.setpos( tripoint_bub_ms::zero );
+        u.setpos( here, tripoint_bub_ms::zero );
         here.build_map_cache( u.posz() );
         tripoint_bub_ms const tri_window( tripoint::south );
         construction const build =
@@ -223,7 +263,7 @@ void run_test_case( Character &u )
     }
 
     SECTION( "1-step construction activity with mismatched partial" ) {
-        u.setpos( tripoint_bub_ms::zero );
+        u.setpos( here, tripoint_bub_ms::zero );
         here.build_map_cache( u.posz() );
         tripoint_bub_ms const tri_window( tripoint::south );
         construction const build =
@@ -237,7 +277,7 @@ void run_test_case( Character &u )
     }
 
     SECTION( "visible but unreachable construction" ) {
-        u.setpos( tripoint_bub_ms::zero );
+        u.setpos( here, tripoint_bub_ms::zero );
         u.path_settings->bash_strength = 0;
         here.build_map_cache( u.posz() );
         tripoint_bub_ms const tri_window = { 0, 5, 0 };
@@ -248,7 +288,7 @@ void run_test_case( Character &u )
             setup_testcase( u, "test_constr_door", tri_window, tripoint_bub_ms() );
         here.ter_set( tri_window, ter_id( build.pre_terrain.empty() ? "" : *
                                           build.pre_terrain.begin() ) );
-        REQUIRE( u.sees( tri_window ) );
+        REQUIRE( u.sees( here, tri_window ) );
         REQUIRE( route_adjacent( u, tri_window ).empty() );
         run_activities( u, build.time * 10 );
         REQUIRE( here.ter( tri_window ) == ter_id( build.pre_terrain.empty() ? "" : *
@@ -256,7 +296,7 @@ void run_test_case( Character &u )
     }
 
     SECTION( "multiple-step construction activity with fetch required" ) {
-        u.setpos( tripoint_bub_ms::zero );
+        u.setpos( here, tripoint_bub_ms::zero );
         here.build_map_cache( u.posz() );
         tripoint_bub_ms const tri_door( tripoint::south );
         construction const build =
@@ -266,7 +306,7 @@ void run_test_case( Character &u )
     }
 
     SECTION( "multiple-step construction activity with prereq from a different group" ) {
-        u.setpos( tripoint_bub_ms::zero );
+        u.setpos( here, tripoint_bub_ms::zero );
         here.build_map_cache( u.posz() );
         tripoint_bub_ms const tri_door( tripoint::south );
         construction const build =
@@ -276,7 +316,7 @@ void run_test_case( Character &u )
     }
 
     SECTION( "multiple-step construction activity with partial of a recursive prerequisite" ) {
-        u.setpos( tripoint_bub_ms::zero );
+        u.setpos( here, tripoint_bub_ms::zero );
         here.build_map_cache( u.posz() );
         tripoint_bub_ms const tri_door( tripoint::south );
         partial_con pc;
@@ -302,4 +342,73 @@ TEST_CASE( "npc_act_multiple_construction", "[npc][zones][activities][constructi
     u.set_body();
     u.set_fac( faction_free_merchants );
     run_test_case( u );
+}
+
+TEST_CASE( "camp_blueprint_autocalc", "[camp][construction]" )
+{
+
+
+    build_reqs total_reqs;
+    const auto add_build = [&total_reqs]( const construction_str_id & con_id ) {
+        const construction &build = con_id.obj();
+        total_reqs.time += build.time;
+        total_reqs.raw_reqs[build.requirements] += 1;
+    };
+
+    WHEN( "ter_t_thconc_floor" ) {
+        std::pair<std::map<ter_id, int>, std::map<furn_id, int>> changed_ids = { {{ter_t_thconc_floor.id(), 1}}, {} };
+        build_reqs auto_build_reqs = get_build_reqs_for_furn_ter_ids( changed_ids );
+        total_reqs.time = 0;
+        total_reqs.raw_reqs.clear();
+
+        add_build( construction_constr_thconc_floor );
+        add_build( construction_constr_ov_smreb_cage_thconc_floor );
+        add_build( construction_constr_pit_shallow );
+
+        CHECK( total_reqs.time == auto_build_reqs.time );
+        for( const auto &req : total_reqs.raw_reqs ) {
+            CHECK( req.second == auto_build_reqs.raw_reqs[req.first] );
+        }
+    }
+    WHEN( "ter_t_floor" ) {
+        std::pair<std::map<ter_id, int>, std::map<furn_id, int>> changed_ids = { { {ter_t_floor.id(), 1}}, {} };
+        build_reqs auto_build_reqs = get_build_reqs_for_furn_ter_ids( changed_ids );
+        total_reqs.time = 0;
+        total_reqs.raw_reqs.clear();
+
+        add_build( construction_constr_floor );
+
+        CHECK( total_reqs.time == auto_build_reqs.time );
+        for( const auto &req : total_reqs.raw_reqs ) {
+            CHECK( req.second == auto_build_reqs.raw_reqs[req.first] );
+        }
+    }
+    WHEN( "ter_t_window_no_curtains" ) {
+        std::pair<std::map<ter_id, int>, std::map<furn_id, int>> changed_ids = { {{ter_t_window_no_curtains.id(), 1}}, {} };
+        build_reqs auto_build_reqs = get_build_reqs_for_furn_ter_ids( changed_ids );
+        total_reqs.time = 0;
+        total_reqs.raw_reqs.clear();
+
+        add_build( construction_constr_window_no_curtains );
+        add_build( construction_constr_window_empty );
+
+        CHECK( total_reqs.time == auto_build_reqs.time );
+        for( const auto &req : total_reqs.raw_reqs ) {
+            CHECK( req.second == auto_build_reqs.raw_reqs[req.first] );
+        }
+    }
+    WHEN( "ter_t_wall_wood" ) {
+        std::pair<std::map<ter_id, int>, std::map<furn_id, int>> changed_ids = { { {ter_t_wall_wood.id(), 1}}, {} };
+        build_reqs auto_build_reqs = get_build_reqs_for_furn_ter_ids( changed_ids );
+        total_reqs.time = 0;
+        total_reqs.raw_reqs.clear();
+
+        add_build( construction_constr_wall_wood );
+        add_build( construction_constr_wall_half );
+        CHECK( total_reqs.time == auto_build_reqs.time );
+        for( const auto &req : total_reqs.raw_reqs ) {
+            CHECK( req.second == auto_build_reqs.raw_reqs[req.first] );
+        }
+    }
+
 }

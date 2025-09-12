@@ -16,7 +16,6 @@
 #include "enum_conversions.h"
 #include "enum_traits.h"
 #include "flag.h"
-#include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
 #include "game_constants.h"
 #include "inventory.h"
@@ -289,7 +288,7 @@ bool craft_command::continue_prompt_liquids( const std::function<bool( const ite
                 crafter->i_add_or_drop( iit );
             }
             for( auto &vit : veh_items ) {
-                vit.first.vehicle().add_item( vit.first.part(), vit.second );
+                vit.first.vehicle().add_item( m, vit.first.part(), vit.second );
             }
         };
 
@@ -491,6 +490,7 @@ item craft_command::create_in_progress_craft()
     // Pass true to indicate that we are starting the craft and the remainder should be consumed as well
     crafter->craft_consume_tools( new_craft, 1, true );
     new_craft.set_next_failure_point( *crafter );
+    new_craft.set_owner( *crafter );
 
     return new_craft;
 }

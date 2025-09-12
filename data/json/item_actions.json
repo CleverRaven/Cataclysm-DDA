@@ -376,18 +376,8 @@
   },
   {
     "type": "item_action",
-    "id": "EINKTABLETPC",
-    "name": { "str": "Use SD-Card apps" }
-  },
-  {
-    "type": "item_action",
     "id": "EBOOKSAVE",
     "name": { "str": "Store books" }
-  },
-  {
-    "type": "item_action",
-    "id": "EBOOKREAD",
-    "name": { "str": "Read stored books" }
   },
   {
     "type": "item_action",
@@ -701,8 +691,18 @@
   },
   {
     "type": "item_action",
-    "id": "ELECTRICSTORAGE",
-    "name": { "str": "Manage external storage" }
+    "id": "E_FILE_DEVICE",
+    "name": { "str": "Manage files" }
+  },
+  {
+    "type": "item_action",
+    "id": "VIEW_RECIPES",
+    "name": { "str": "View recipes" }
+  },
+  {
+    "type": "item_action",
+    "id": "VIEW_PHOTOS",
+    "name": { "str": "View photos" }
   },
   {
     "type": "item_action",

@@ -160,8 +160,7 @@
       [ "crackpipe", 10 ],
       { "item": "weed", "prob": 10, "count": [ 1, 5 ] },
       [ "joint", 10 ],
-      { "item": "cell_phone", "prob": 3, "charges": [ 0, 150 ] },
-      { "item": "smart_phone", "prob": 17, "charges": [ 0, -1 ] },
+      { "group": "civilian_phones", "prob": 20 },
       { "item": "camera", "prob": 15, "charges": [ 0, 150 ] },
       { "item": "camera", "container-item": "camera_bag", "prob": 5, "charges": [ 0, 150 ] },
       [ "camera_bag", 10 ],
@@ -213,8 +212,7 @@
       { "prob": 20, "group": "cig_box_cigarette_1_20" },
       { "item": "weed", "prob": 10, "count": [ 1, 5 ] },
       [ "joint", 10 ],
-      { "item": "cell_phone", "prob": 6, "charges": [ 0, 150 ] },
-      { "item": "smart_phone", "prob": 44, "charges": [ 0, -1 ] }
+      { "group": "civilian_phones", "prob": 50 }
     ]
   },
   {
@@ -235,7 +233,6 @@
       [ "diving_watch", 10 ],
       [ "sunglasses", 60 ],
       [ "fitover_sunglasses", 20 ],
-      [ "fancy_sunglasses", 10 ],
       [ "flip_flops", 50 ],
       [ "flip_flops_exp", 5 ],
       [ "wetsuit_spring", 10 ],
@@ -256,8 +253,7 @@
       { "prob": 20, "group": "cig_box_cigarette_1_20" },
       { "item": "weed", "prob": 10, "count": [ 1, 5 ] },
       [ "joint", 10 ],
-      { "item": "cell_phone", "prob": 6, "charges": [ 0, 150 ] },
-      { "item": "smart_phone", "prob": 44, "charges": [ 0, -1 ] }
+      { "group": "civilian_phones", "prob": 50 }
     ]
   }
 ]

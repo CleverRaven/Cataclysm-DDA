@@ -1,6 +1,5 @@
 [
   {
-    "method": "json",
     "om_terrain": [ [ "urban_12_1", "urban_12_2" ] ],
     "type": "mapgen",
     "object": {
@@ -20,7 +19,7 @@
         "......#N'''''''''|U'U|  ||||||||  |     RR  #...",
         "......o''''''''''+'''+     ciic   ###oo######...",
         "......#''''''''''|W'Z|            #'''GKG''$....",
-        "......#'''''''qqq##*##|+||,,,,,,,,1''''''''$....",
+        "......#''''''éqqq##*##|+||,,,,,,,,1''''''''$....",
         "......####o##o####```#~~~|6,,,,,,Y#''''''''ƃ....",
         "...[..............```#t~S|6,,,JJ,no''₸''₸'y$....",
         "................%%```#||||,,,,JJ,5o''''''''$....",
@@ -42,6 +41,7 @@
         ",": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
         "h": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
         "f": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "é": "t_thconc_floor",
         "'": "t_thconc_floor",
         "K": "t_thconc_floor",
         "Z": "t_thconc_floor",
@@ -59,12 +59,11 @@
         "Y": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" }
       },
       "place_loot": [ { "item": "television", "x": 40, "y": 5, "chance": 100 }, { "item": "stereo", "x": 41, "y": 5, "chance": 50 } ],
-      "place_vehicles": [ { "vehicle": "suburban_home", "x": 11, "y": 9, "chance": 100, "rotation": 270 } ],
+      "place_vehicles": [ { "vehicle": "suburban_home", "x": 11, "y": 9, "rotation": 270 } ],
       "place_nested": [ { "chunks": [ "rolling_trash_can_1x1" ], "x": 7, "y": 1 } ]
     }
   },
   {
-    "method": "json",
     "om_terrain": [ [ "urban_12_3", "urban_12_4" ] ],
     "type": "mapgen",
     "object": {
@@ -104,7 +103,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": [ [ "urban_12_5", "urban_12_6" ] ],
     "type": "mapgen",
     "object": {

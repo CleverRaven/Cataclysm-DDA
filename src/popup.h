@@ -6,12 +6,15 @@
 #include <functional>
 #include <memory>
 #include <string>
+#include <string_view>
+#include <utility>
 #include <vector>
 
 #include "color.h"
 #include "input_enums.h"
+#include "point.h"
+#include "string_formatter.h"
 
-class ui_adaptor;
 class query_popup_impl;
 
 /**

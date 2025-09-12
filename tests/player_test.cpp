@@ -1,14 +1,18 @@
 #include <array>
 #include <functional>
-#include <iosfwd>
+#include <memory>
+#include <string>
 
 #include "avatar.h"
+#include "bodypart.h"
 #include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"
 #include "item.h"
+#include "pimpl.h"
 #include "player_helpers.h"
 #include "type_id.h"
+#include "units.h"
 #include "weather.h"
 
 static const itype_id itype_balclava( "balclava" );

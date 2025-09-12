@@ -1,6 +1,7 @@
 [
   {
-    "result": "rubber_cement",
+    "result": "glue_weak",
+    "id_suffix": "as_rubber_cement",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_CHEM",
@@ -8,6 +9,7 @@
     "skill_used": "chemistry",
     "difficulty": 3,
     "time": "20 m",
+    "charges": 250,
     "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 1 } ],
     "tools": [ [ [ "food_processor", 20 ] ] ],
@@ -28,8 +30,8 @@
     ]
   },
   {
-    "result": "rubber_cement",
-    "id_suffix": "by_hand",
+    "result": "glue_weak",
+    "id_suffix": "as_rubber_cement_by_hand",
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_CHEM",
@@ -37,6 +39,7 @@
     "skill_used": "chemistry",
     "difficulty": 3,
     "time": "6 h",
+    "charges": 250,
     "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 1 } ],
     "components": [
@@ -56,7 +59,7 @@
     ]
   },
   {
-    "result": "super_glue",
+    "result": "glue_strong",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_CHEM",

@@ -1,15 +1,16 @@
 #include "path_info.h"
 
 #include <cstdlib>
+#include <filesystem>
 #include <string>
 
 #include "debug.h"
 #include "enums.h"
 #include "filesystem.h" // IWYU pragma: keep
-#include "make_static.h"
 #include "options.h"
 #include "rng.h"
 #include "system_locale.h"
+#include "translations.h"
 
 #if defined(_WIN32)
 #include <windows.h>
@@ -30,6 +31,7 @@ static std::string find_translated_file( const std::string &path, const std::str
 static cata_path find_translated_file( const cata_path &base_path, const std::string &extension,
                                        const cata_path &fallback );
 
+static const std::string empty_path;
 static std::string motd_value;
 static std::string gfxdir_value;
 static std::string config_dir_value;
@@ -263,9 +265,9 @@ cata_path PATH_INFO::datadir_path()
 {
     return datadir_path_value;
 }
-std::string PATH_INFO::debug()
+cata_path PATH_INFO::debug()
 {
-    return config_dir_value + "debug.log";
+    return config_dir_path_value / "debug.log";
 }
 cata_path PATH_INFO::defaultsounddir()
 {
@@ -338,6 +340,10 @@ cata_path PATH_INFO::achievementdir_path()
 cata_path PATH_INFO::jsondir()
 {
     return datadir_path_value / "core";
+}
+cata_path PATH_INFO::compression_folder_path()
+{
+    return datadir_path_value / "raw" / "compression";
 }
 cata_path PATH_INFO::moddir()
 {
@@ -422,10 +428,6 @@ std::string PATH_INFO::crash()
 std::string PATH_INFO::tileset_conf()
 {
     return "tileset.txt";
-}
-cata_path PATH_INFO::mods_replacements()
-{
-    return datadir_path_value / "mods" / "replacements.json";
 }
 cata_path PATH_INFO::mods_dev_default()
 {
@@ -606,9 +608,8 @@ std::filesystem::path cata_path::get_logical_root_path() const
             case cata_path::root_path::user:
                 return user_dir_value;
             case cata_path::root_path::unknown:
-            default: {
-                return STATIC( std::string() );
-            }
+            default:
+                return empty_path;
         }
     } )( logical_root_ );
     return std::filesystem::u8path( path_value );

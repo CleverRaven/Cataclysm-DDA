@@ -2688,5 +2688,13 @@
       "│\\ │",
       "└──┘"
     ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "nic_pouch_can",
+    "picture": [
+      "<color_white>╒═══╕</color>",
+      "<color_white>└───┘</color>"
+    ]
   }
 ]

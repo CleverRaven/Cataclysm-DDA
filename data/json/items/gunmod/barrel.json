@@ -1,7 +1,8 @@
 [
   {
     "id": "barrel_ported",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "ported barrel" },
     "description": "A ported barrel redirects exhaust gases to compensate for muzzle climb, improving recoil but increasing noise and reducing accuracy slightly.",
     "weight": "225 g",
@@ -33,7 +34,8 @@
   },
   {
     "id": "barrel_small",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "shortened barrel" },
     "description": "A shortened barrel results in markedly reduced accuracy and a minor increase in noise, but also greatly improves the ease with which the weapon can be carried and wielded.",
     "volume": "0 ml",
@@ -51,7 +53,8 @@
   },
   {
     "id": "upstest",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str_sp": "UPS test", "//~": "NO_I18N" },
     "description": {
       "str": "Test mod for UPS drain on mods, this should never spawn, if you see this, it's a bug.  50x more UPS drain.",

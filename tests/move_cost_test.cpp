@@ -1,10 +1,17 @@
+#include <string>
+
 #include "avatar.h"
 #include "avatar_action.h"
+#include "bodypart.h"
+#include "calendar.h"
 #include "cata_catch.h"
+#include "coordinates.h"
 #include "flag.h"
+#include "item.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "player_helpers.h"
+#include "type_id.h"
 
 // Test cases related to movement cost
 //
@@ -45,6 +52,7 @@ static const move_mode_id move_mode_walk( "walk" );
 static const ter_str_id ter_t_grass( "t_grass" );
 static const ter_str_id ter_t_pavement( "t_pavement" );
 
+static const trait_id trait_200_MOVE_COST_REDUCTION( "200_MOVE_COST_REDUCTION" );
 static const trait_id trait_HOOVES( "HOOVES" );
 static const trait_id trait_LEG_TENTACLES( "LEG_TENTACLES" );
 static const trait_id trait_TOUGH_FEET( "TOUGH_FEET" );
@@ -181,6 +189,14 @@ TEST_CASE( "mutations_may_affect_movement_cost", "[move_cost][mutation]" )
         THEN( "being barefoot gives a +16 movement cost penalty" ) {
             ava.clear_worn();
             CHECK( ava.run_cost( 100 ) == Approx( base_cost + 16 ) );
+        }
+    }
+
+    GIVEN( "infinite movecost reduction from enchantments" ) {
+        ava.toggle_trait( trait_200_MOVE_COST_REDUCTION );
+        THEN( "there is still a minimum cost" ) {
+            ava.clear_worn();
+            CHECK( ava.run_cost( 100 ) > 0 );
         }
     }
 

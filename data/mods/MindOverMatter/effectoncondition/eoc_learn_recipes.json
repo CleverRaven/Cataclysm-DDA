@@ -143,12 +143,15 @@
     "effect": [
       {
         "run_eocs": [
+          "EOC_CHECK_GAMEBEGIN_CLAIR_RECIPE_BETTER_SENSES",
           "EOC_CHECK_GAMEBEGIN_CLAIR_RECIPE_NIGHT_VISION",
           "EOC_CHECK_GAMEBEGIN_CLAIR_RECIPE_SPEED_READING",
           "EOC_CHECK_GAMEBEGIN_CLAIR_RECIPE_DANGER_SENSE",
           "EOC_CHECK_GAMEBEGIN_CLAIR_RECIPE_SPOT_WEAKNESS",
           "EOC_CHECK_GAMEBEGIN_CLAIR_RECIPE_AURA_SIGHT",
           "EOC_CHECK_GAMEBEGIN_CLAIR_RECIPE_RANGED_ENHANCE",
+          "EOC_CHECK_GAMEBEGIN_CLAIR_RECIPE_EXAMINE_ITEMS",
+          "EOC_CHECK_GAMEBEGIN_CLAIR_RECIPE_SENSE_HOSTILE_CREATURES",
           "EOC_CHECK_GAMEBEGIN_CLAIR_RECIPE_VOYANCE",
           "EOC_CHECK_GAMEBEGIN_CLAIR_RECIPE_DODGE_POWER",
           "EOC_CHECK_GAMEBEGIN_CLAIR_RECIPE_CRAFT_BONUS",
@@ -160,6 +163,12 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_CLAIR_RECIPE_BETTER_SENSES",
+    "condition": { "and": [ { "u_has_trait": "CLAIRSENTIENT" }, { "math": [ "u_spell_level('clair_better_senses') >= 0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_clair_better_senses" } ]
   },
   {
     "type": "effect_on_condition",
@@ -196,6 +205,18 @@
     "id": "EOC_CHECK_GAMEBEGIN_CLAIR_RECIPE_RANGED_ENHANCE",
     "condition": { "and": [ { "u_has_trait": "CLAIRSENTIENT" }, { "math": [ "u_spell_level('clair_ranged_enhance') >= 0" ] } ] },
     "effect": [ { "u_learn_recipe": "practice_clair_ranged_enhance" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_CLAIR_RECIPE_EXAMINE_ITEMS",
+    "condition": { "and": [ { "u_has_trait": "CLAIRSENTIENT" }, { "math": [ "u_spell_level('clair_examine_item') >= 0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_clair_examine_item" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_CLAIR_RECIPE_SENSE_HOSTILE_CREATURES",
+    "condition": { "and": [ { "u_has_trait": "CLAIRSENTIENT" }, { "math": [ "u_spell_level('clair_sense_hostile_creatures') >= 0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_clair_sense_hostile_creatures" } ]
   },
   {
     "type": "effect_on_condition",
@@ -419,6 +440,7 @@
           "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_RAD_IMMUNITY",
           "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_LIGHT_ARMS",
           "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_HIDE_UGLY",
+          "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_FLASH_BANG",
           "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_LIGHT_IMAGE",
           "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_RADIO",
           "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_STERILIZE_FOOD",
@@ -426,7 +448,8 @@
           "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_INVISIBILITY",
           "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_LIGHT_FLASH",
           "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_BLINDING_GLARE",
-          "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_LIGHT_DISINTEGRATE"
+          "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_LIGHT_DISINTEGRATE",
+          "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_LIGHT_ARMY"
         ]
       }
     ]
@@ -487,6 +510,12 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_FLASH_BANG",
+    "condition": { "and": [ { "u_has_trait": "PHOTOKINETIC" }, { "math": [ "u_spell_level('photokinetic_flash_bang') >= 0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_photokinetic_flash_bang" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_LIGHT_IMAGE",
     "condition": { "and": [ { "u_has_trait": "PHOTOKINETIC" }, { "math": [ "u_spell_level('photokinetic_light_image') >= 0" ] } ] },
     "effect": [ { "u_learn_recipe": "practice_photokinetic_light_image" } ]
@@ -536,6 +565,12 @@
       "and": [ { "u_has_trait": "PHOTOKINETIC" }, { "math": [ "u_spell_level('photokinetic_light_disintegrate') >= 0" ] } ]
     },
     "effect": [ { "u_learn_recipe": "practice_photokinetic_light_disintegrate" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_LIGHT_ARMY",
+    "condition": { "and": [ { "u_has_trait": "PHOTOKINETIC" }, { "math": [ "u_spell_level('photokinetic_light_army') >= 0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_photokinetic_light_army" } ]
   },
   {
     "type": "effect_on_condition",
@@ -792,6 +827,7 @@
         "run_eocs": [
           "EOC_CHECK_GAMEBEGIN_TELEPATH_RECIPE_CONCENTRATION",
           "EOC_CHECK_GAMEBEGIN_TELEPATH_RECIPE_SHIELD",
+          "EOC_CHECK_GAMEBEGIN_TELEPATH_RECIPE_MESMERIZE",
           "EOC_CHECK_GAMEBEGIN_TELEPATH_RECIPE_MORALE",
           "EOC_CHECK_GAMEBEGIN_TELEPATH_RECIPE_MIND_SENSE",
           "EOC_CHECK_GAMEBEGIN_TELEPATH_RECIPE_BLAST",
@@ -812,6 +848,12 @@
     "id": "EOC_CHECK_GAMEBEGIN_TELEPATH_RECIPE_CONCENTRATION",
     "condition": { "and": [ { "u_has_trait": "TELEPATH" }, { "math": [ "u_spell_level('telepathic_concentration') >= 0" ] } ] },
     "effect": [ { "u_learn_recipe": "practice_telepathic_concentration" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEPATH_RECIPE_MESMERIZE",
+    "condition": { "and": [ { "u_has_trait": "TELEPATH" }, { "math": [ "u_spell_level('telepathic_mesmerize') >= 0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_telepathic_mesmerize" } ]
   },
   {
     "type": "effect_on_condition",
@@ -902,13 +944,18 @@
           "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_BLINK",
           "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_SLOW",
           "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_PHASE",
+          "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_ITEM_TELEPORT",
           "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_STRIDE",
           "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_TRANSPOSE",
           "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_DISPLACEMENT",
+          "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_REACTIVE_DISPLACEMENT",
           "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_COLLAPSE",
+          "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_LOCI_ESTABLISHMENT",
+          "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_LOCI_TECHNIQUE",
           "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_FARSTEP",
           "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_BANISH",
           "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_GATEWAY",
+          "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_RELOCATION",
           "EOC_CHECK_GAMEBEGIN_TELEPORTER_EPHEMERAL_WALK",
           "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_BREACH"
         ]
@@ -932,6 +979,12 @@
     "id": "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_PHASE",
     "condition": { "and": [ { "u_has_trait": "TELEPORTER" }, { "math": [ "u_spell_level('teleport_phase') >= 0" ] } ] },
     "effect": [ { "u_learn_recipe": "practice_teleport_phase" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_ITEM_TELEPORT",
+    "condition": { "and": [ { "u_has_trait": "TELEPORTER" }, { "math": [ "u_spell_level('teleport_item_apport') >= 0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_teleport_item_apport" } ]
   },
   {
     "type": "effect_on_condition",
@@ -992,6 +1045,12 @@
     "id": "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_GATEWAY",
     "condition": { "and": [ { "u_has_trait": "TELEPORTER" }, { "math": [ "u_spell_level('teleport_gateway') >= 0" ] } ] },
     "effect": [ { "u_learn_recipe": "practice_teleport_gateway" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_RELOCATION",
+    "condition": { "and": [ { "u_has_trait": "TELEPORTER" }, { "math": [ "u_spell_level('teleport_relocation') >= 0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_teleport_relocation" } ]
   },
   {
     "type": "effect_on_condition",
@@ -1184,7 +1243,7 @@
         ]
       }
     },
-    "effect": [ { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "+=", "1" ] } ]
+    "effect": [ { "math": [ "u_vitamin('vitamin_psi_learning_counter') += 1" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -1253,7 +1312,14 @@
         { "not": { "u_know_recipe": "psi_research_torrential_channeling" } },
         { "math": [ "u_vitamin('vitamin_psionic_drain') >= 135" ] },
         {
-          "x_in_y_chance": { "x": 1, "y": { "math": [ "max( (1000 - (u_skill('metaphysics') * 50) - (u_val('intelligence') * 25) ),1)" ] } }
+          "x_in_y_chance": {
+            "x": 1,
+            "y": {
+              "math": [
+                "max( ( (1000 - (u_skill('metaphysics') * 50) - (u_val('intelligence') * 25) ) * (1 - (clamp( ( (u_vitamin('vitamin_psionic_drain') - 155) / 200 ),0, 0.5 ) ) ) ),1)"
+              ]
+            }
+          }
         },
         { "math": [ "_success != false" ] }
       ]

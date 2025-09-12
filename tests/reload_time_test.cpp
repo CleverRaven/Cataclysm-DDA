@@ -1,22 +1,25 @@
-#include "cata_catch.h"
+#include <game.h>
+#include <memory>
+#include <string>
 
 #include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "calendar.h"
-#include "creature_tracker.h"
-#include <game.h>
+#include "cata_catch.h"
+#include "character_attire.h"
+#include "coordinates.h"
 #include "item.h"
+#include "item_location.h"
 #include "map.h"
+#include "map_helpers.h"
 #include "player_helpers.h"
 #include "point.h"
-
-#include <string>
-#include "map_helpers.h"
+#include "type_id.h"
 
 static const itype_id itype_ammo_pouch( "ammo_pouch" );
 static const itype_id itype_arrow_wood( "arrow_wood" );
 static const itype_id itype_backpack( "backpack" );
-static const itype_id itype_long_duffelbag( "long_duffelbag" );
+static const itype_id itype_backpack_giant( "backpack_giant" );
 static const itype_id itype_longbow( "longbow" );
 static const itype_id itype_pants( "pants" );
 static const itype_id itype_pebble( "pebble" );
@@ -32,12 +35,14 @@ static const mtype_id pseudo_debug_mon( "pseudo_debug_mon" );
 static void check_reload_time( const itype_id &weapon, const itype_id &ammo,
                                const itype_id &container, int expected_moves )
 {
+    map &here = get_map();
+
     const tripoint_bub_ms test_origin( 60, 60, 0 );
     const tripoint_bub_ms spot( 61, 60, 0 );
     clear_map();
     avatar &shooter = get_avatar();
     g->place_critter_at( pseudo_debug_mon, spot );
-    shooter.setpos( test_origin );
+    shooter.setpos( here, test_origin );
     shooter.set_wielded_item( item( weapon, calendar::turn_zero, 0 ) );
     if( container.is_null() ) {
         get_map().add_item( test_origin, item( ammo ) );
@@ -59,7 +64,7 @@ static void check_reload_time( const itype_id &weapon, const itype_id &ammo,
     CAPTURE( shooter.used_weapon()->get_reload_time() );
     aim_activity_actor act = aim_activity_actor::use_wielded();
     int moves_before = shooter.get_moves();
-    REQUIRE( shooter.fire_gun( spot, 1, *shooter.used_weapon(), shooter.ammo_location ) );
+    REQUIRE( shooter.fire_gun( here, spot, 1, *shooter.used_weapon(), shooter.ammo_location ) );
     int moves_after = shooter.get_moves();
     int spent_moves = moves_before - moves_after;
     int expected_upper = expected_moves * 1.05;
@@ -107,8 +112,8 @@ TEST_CASE( "reload_from_inventory_times", "[reload],[inventory],[balance]" )
         }
     }
     SECTION( "reloading a bow" ) {
-        SECTION( "from a duffel bag" ) {
-            check_reload_time( itype_longbow, itype_arrow_wood, itype_long_duffelbag, 410 );
+        SECTION( "from a giant novelty backpack" ) {
+            check_reload_time( itype_longbow, itype_arrow_wood, itype_backpack_giant, 410 );
         }
         SECTION( "from a quiver" ) {
             check_reload_time( itype_longbow, itype_arrow_wood, itype_quiver, 130 );

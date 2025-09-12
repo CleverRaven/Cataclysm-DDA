@@ -89,7 +89,7 @@ inline bool isInHeader( const SourceLocation &loc, const SourceManager &SM )
     StringRef Filename = SM.getFilename( loc );
     // The .h.tmp.cpp catches the test case; that's the style of filename used
     // by lit.
-    return !SM.isInMainFile( loc ) || Filename.endswith( ".h.tmp.cpp" );
+    return !SM.isInMainFile( loc ) || Filename.ends_with( ".h.tmp.cpp" );
 }
 
 inline bool isPointType( const CXXRecordDecl *R )

@@ -3,16 +3,17 @@
 #define CATA_SRC_SCENT_MAP_H
 
 #include <array>
-#include <iosfwd>
 #include <optional>
 #include <set>
+#include <string>
+#include <string_view>
+#include <utility>
 #include <vector>
 
 #include "calendar.h"
 #include "coordinates.h"
 #include "enums.h" // IWYU pragma: keep
 #include "map_scale_constants.h"
-#include "point.h"
 #include "type_id.h"
 
 class JsonObject;
@@ -32,6 +33,7 @@ class scent_type
     public:
         static void load_scent_type( const JsonObject &jo, const std::string &src );
         void load( const JsonObject &jo, std::string_view );
+        static void finalize_all();
         static const std::vector<scent_type> &get_all();
         static void check_scent_consistency();
         bool was_loaded = false;

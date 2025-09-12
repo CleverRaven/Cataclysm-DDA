@@ -1,9 +1,7 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "city_block2_1", "city_block2_2", "city_block2_3", "city_block2_4" ] ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -74,9 +72,7 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "city_block2_flr2_1", "city_block2_flr2_2", "city_block2_flr2_3", "city_block2_flr2_4" ] ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -181,7 +177,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "city_block2_roof_1", "city_block2_roof_2", "city_block2_roof_3", "city_block2_roof_4" ] ],
     "object": {
       "fill_ter": "t_flat_roof",
@@ -250,7 +245,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "combines candy shop front & back 9x9 front, 3x3 back crates.",
     "nested_mapgen_id": "city_block_2_candy_shop",
     "object": {
@@ -263,7 +257,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "combines beauty shop front & back 9x9 front, 3x3 back crates.",
     "nested_mapgen_id": "city_block_2_beauty_shop",
     "object": {
@@ -276,7 +269,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "combines beauty shop front & back 9x9 front, 3x3 back crates.",
     "nested_mapgen_id": "city_block_2_vitamin_shop",
     "object": {
@@ -289,7 +281,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "combines cellphone shop front & back 9x9 front, 3x3 back crates.",
     "nested_mapgen_id": "city_block_2_cellphone_shop",
     "object": {
@@ -302,7 +293,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "combines music shop front & back 9x9 front, 3x3 back crates.",
     "nested_mapgen_id": "city_block_2_music_shop",
     "object": {
@@ -315,7 +305,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "combines gift shop front & back 9x9 front, 3x3 back crates.",
     "nested_mapgen_id": "city_block_2_gift_shop",
     "object": {
@@ -328,7 +317,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "combines electronics shop front & back 9x9 front, 3x3 back crates.",
     "nested_mapgen_id": "city_block_2_electronics_shop",
     "object": {
@@ -341,7 +329,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "combines pizza shop front & back 9x9 front, 3x3 back crates.",
     "nested_mapgen_id": "city_block_2_pizza_shop",
     "object": {
@@ -354,7 +341,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "combines general shop front & back 8x8 front, 4x4 back room.",
     "nested_mapgen_id": "city_block_2_clothing_shop",
     "object": {
@@ -367,7 +353,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "combines formal clothing shop front & back 8x8 front, 4x4 back room.",
     "nested_mapgen_id": "city_block_2_formal_clothing_shop",
     "object": {
@@ -380,7 +365,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "combines leather clothing shop front & back 8x8 front, 4x4 back room.",
     "nested_mapgen_id": "city_block_2_leather_clothing_shop",
     "object": {
@@ -393,7 +377,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "combines fur clothing shop front & back 8x8 front, 4x4 back room.",
     "nested_mapgen_id": "city_block_2_fur_clothing_shop",
     "object": {

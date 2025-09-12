@@ -1,9 +1,7 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "stripclub",
-    "weight": 100,
     "object": {
       "fill_ter": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
       "rows": [
@@ -110,7 +108,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "stripclub_roof",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -157,10 +154,8 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "stripclub_1",
     "type": "mapgen",
-    "weight": 100,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -244,10 +239,11 @@
           { "item": "dresser_female", "chance": 50, "repeat": [ 1, 2 ] },
           { "item": "sex_lair", "chance": 40, "repeat": [ 1, 2 ] },
           { "item": "softdrugs", "chance": 10, "repeat": [ 1, 2 ] },
-          { "item": "harddrugs", "chance": 10, "repeat": [ 1, 2 ] }
+          { "item": "harddrugs", "chance": 10, "repeat": [ 1, 2 ] },
+          { "item": "contraband", "chance": 5, "repeat": [ 1, 2 ] }
         ],
         "-": [ { "item": "female_underwear_bottom", "chance": 15 }, { "item": "female_underwear_top", "chance": 15 } ],
-        "n": [ { "item": "trash", "chance": 30 }, { "item": "stripclub_dirty", "chance": 5 } ],
+        "n": [ { "item": "SUS_trash_trashcan", "chance": 30 }, { "item": "stripclub_dirty", "chance": 5 } ],
         "3": { "item": "office_breakroom", "chance": 50, "repeat": [ 1, 2 ] },
         "Q": [
           { "item": "office_breakroom", "chance": 30 },
@@ -259,7 +255,8 @@
           { "item": "alcohol", "chance": 15 },
           { "item": "softdrugs", "chance": 10 },
           { "item": "harddrugs", "chance": 10 },
-          { "item": "stripclub_dirty", "chance": 40 }
+          { "item": "stripclub_dirty", "chance": 40 },
+          { "item": "contraband", "chance": 10 }
         ],
         "_": { "item": "sex_lair", "chance": 10 },
         "g": { "item": "alcohol", "chance": 60, "repeat": [ 1, 3 ] },
@@ -284,7 +281,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "stripclub_roof_1",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -332,9 +328,7 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "stripclub_2",
-    "weight": 100,
     "object": {
       "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
       "rows": [
@@ -401,8 +395,8 @@
         "{": "f_locker"
       },
       "items": {
-        "á": [ { "item": "trash", "chance": 30 }, { "item": "stripclub_dirty", "chance": 5 } ],
-        "Á": [ { "item": "trash", "chance": 75, "repeat": [ 1, 3 ] }, { "item": "stripclub_dirty", "chance": 5 } ],
+        "á": [ { "item": "SUS_trash_trashcan", "chance": 30 }, { "item": "stripclub_dirty", "chance": 5 } ],
+        "Á": [ { "item": "SUS_trash_dumpster", "chance": 75 }, { "item": "stripclub_dirty", "chance": 5 } ],
         "{": [
           { "item": "dresser_female", "chance": 60, "repeat": [ 1, 2 ] },
           { "item": "beauty", "chance": 20, "repeat": [ 1, 2 ] },
@@ -435,7 +429,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "stripclub_roof_2",
     "object": {
       "fill_ter": "t_flat_roof",

@@ -13,7 +13,7 @@
     "effect_str": "xe_oneiric_hammer",
     "shape": "blast",
     "spell_class": "DREAMSMITH",
-    "magic_type": "xedra_magic_generic",
+    "magic_type": "xedra_dream_magic",
     "base_energy_cost": 1000,
     "base_casting_time": 500
   }

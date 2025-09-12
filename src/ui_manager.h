@@ -3,6 +3,7 @@
 #define CATA_SRC_UI_MANAGER_H
 
 #include <functional>
+#include <memory>
 
 #include "cuboid_rectangle.h"
 #include "point.h"

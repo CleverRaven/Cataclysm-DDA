@@ -3,13 +3,13 @@
 #define CATA_SRC_WEATHER_H
 
 #include <optional>
+#include <string>
 
 #include "calendar.h"
 #include "catacharset.h"
 #include "color.h"
-#include "coords_fwd.h"
+#include "coordinates.h"
 #include "pimpl.h"
-#include "point.h"
 #include "type_id.h"
 #include "units.h"
 #include "weather_gen.h"
@@ -75,8 +75,6 @@ constexpr float extreme = 906;
 } // namespace irradiance
 
 #include <cstdint>
-#include <iosfwd>
-#include <map>
 #include <unordered_map>
 #include <utility>
 #include <vector>
@@ -168,13 +166,12 @@ std::string get_wind_desc( double );
 nc_color get_wind_color( double );
 
 /**
- * Is it warm enough to plant seeds?
+ * Is it warm enough to plant seeds? Will it be warm enough during the type's grow periods?
  *
- * The first overload is in map-square coords, the second for larger scale
- * queries.
+ * The first overload is simply a forwarding helper.
  */
-bool warm_enough_to_plant( const tripoint_bub_ms &pos );
-bool warm_enough_to_plant( const tripoint_abs_omt &pos );
+bool warm_enough_to_plant( const tripoint_bub_ms &pos, const itype_id &it );
+bool warm_enough_to_plant( const tripoint_abs_omt &pos, const itype_id &it );
 
 bool is_wind_blocker( const tripoint_bub_ms &location );
 

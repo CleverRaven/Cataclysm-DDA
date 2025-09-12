@@ -1,13 +1,19 @@
 #include <algorithm>
 #include <cmath>
-#include <iosfwd>
+#include <memory>
+#include <ostream>
 #include <string>
+#include <string_view>
 #include <utility>
 
 #include "cata_utility.h"
 #include "character.h"
+#include "debug.h"
+#include "flexbuffer_json.h"
 #include "itype.h"
 #include "json.h"
+#include "magic_enchantment.h"
+#include "pimpl.h"
 #include "stomach.h"
 #include "units.h"
 #include "vitamin.h"
@@ -139,6 +145,17 @@ void nutrients::finalize_vitamins()
     finalized = true;
 }
 
+void nutrients::ensure_positive()
+{
+    calories = std::max<int64_t>( calories, 0 );
+    for( const std::pair<const vitamin_id, int> &vit : vitamins() ) {
+        // clear all consumed vitamins
+        if( vit.second <= 0 ) {
+            remove_vitamin( vit.first );
+        }
+    }
+}
+
 bool nutrients::operator==( const nutrients &r ) const
 {
     if( kcal() != r.kcal() ) {
@@ -159,12 +176,27 @@ nutrients nutrients::operator-()
 {
     nutrients negative_copy = *this;
     negative_copy.calories *= -1;
-    for( const std::pair<const vitamin_id, std::variant<int, vitamin_units::mass>> &vit :
+    for( std::pair<const vitamin_id, std::variant<int, vitamin_units::mass>> &vit :
          negative_copy.vitamins_ ) {
-        std::variant<int, vitamin_units::mass> &here = vitamins_[vit.first];
-        here = std::get<int>( here ) * -1;
+        std::variant<int, vitamin_units::mass> &here = vit.second;
+        here = std::get<int>( here ) *= -1;
     }
     return negative_copy;
+}
+
+nutrients nutrients::operator-( const nutrients &r )
+{
+    if( !finalized || !r.finalized ) {
+        debugmsg( "Nutrients not finalized when -= called!" );
+    }
+    nutrients ret = *this;
+    ret.calories -= r.calories;
+    for( const std::pair<const vitamin_id, std::variant<int, vitamin_units::mass>> &vit :
+         r.vitamins_ ) {
+        std::variant<int, vitamin_units::mass> &here = ret.vitamins_[vit.first];
+        here = std::get<int>( here ) - std::get<int>( vit.second );
+    }
+    return ret;
 }
 
 nutrients &nutrients::operator+=( const nutrients &r )
@@ -216,12 +248,16 @@ nutrients &nutrients::operator*=( double r )
     calories *= r;
     for( const std::pair<const vitamin_id, std::variant<int, vitamin_units::mass>> &vit : vitamins_ ) {
         std::variant<int, vitamin_units::mass> &here = vitamins_[vit.first];
-        cata_assert( std::get<int>( here ) >= 0 );
         if( std::get<int>( here ) == 0 ) {
             continue;
         }
+        bool negative = std::get<int>( here ) < 0;
         // truncates, but always keep at least 1 (for e.g. allergies)
-        here = std::max( static_cast<int>( std::get<int>( here ) * r ), 1 );
+        int val = static_cast<int>( std::get<int>( here ) * r );
+        if( val == 0 ) {
+            val = negative ? -1 : 1;
+        }
+        here = val;
     }
     return *this;
 }
@@ -284,7 +320,7 @@ void stomach_contents::serialize( JsonOut &json ) const
     json.end_object();
 }
 
-static units::volume string_to_ml( const std::string_view str )
+static units::volume string_to_ml( std::string_view str )
 {
     return units::from_milliliter( svto<int>( str.substr( 0, str.size() - 3 ) ) );
 }

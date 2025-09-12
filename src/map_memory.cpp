@@ -1,15 +1,31 @@
-#include "cata_assert.h"
+#include <algorithm>
+#include <cstddef>
+#include <exception>
+#include <filesystem>
+#include <functional>
+#include <limits>
+#include <memory>
+#include <ostream>
+#include <tuple>
+#include <utility>
+
 #include "cached_options.h"
+#include "cata_assert.h"
+#include "cata_path.h"
 #include "cata_utility.h"
 #include "coordinate_conversions.h"
 #include "cuboid_rectangle.h"
 #include "debug.h"
 #include "filesystem.h"
-#include "line.h"
+#include "flexbuffer_json.h"
+#include "game_constants.h"
+#include "json_loader.h"
 #include "map_memory.h"
 #include "path_info.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "worldfactory.h"
+#include "zzip_stack.h"
 
 const memorized_tile mm_submap::default_tile = {};
 
@@ -28,9 +44,9 @@ static cata_path find_mm_dir()
     return PATH_INFO::player_base_save_path() + ".mm1";
 }
 
-static cata_path find_region_path( const cata_path &dirname, const tripoint &p )
+static std::string find_region_filename( const tripoint &p )
 {
-    return dirname / string_format( "%d.%d.%d.mmr", p.x, p.y, p.z );
+    return string_format( "%d.%d.%d.mmr", p.x, p.y, p.z );
 }
 
 /**
@@ -101,12 +117,12 @@ const std::string &memorized_tile::get_dec_id() const
     return dec_id;
 }
 
-void memorized_tile::set_ter_id( const std::string_view id )
+void memorized_tile::set_ter_id( std::string_view id )
 {
     ter_id = ter_str_id( id );
 }
 
-void memorized_tile::set_dec_id( const std::string_view id )
+void memorized_tile::set_dec_id( std::string_view id )
 {
     dec_id = id;
 }
@@ -199,7 +215,7 @@ const memorized_tile &map_memory::get_tile( const tripoint_abs_ms &pos ) const
     return sm.get_tile( p.loc );
 }
 
-void map_memory::set_tile_terrain( const tripoint_abs_ms &pos, const std::string_view id,
+void map_memory::set_tile_terrain( const tripoint_abs_ms &pos, std::string_view id,
                                    int subtile, int rotation )
 {
     const coord_pair p( pos );
@@ -214,7 +230,7 @@ void map_memory::set_tile_terrain( const tripoint_abs_ms &pos, const std::string
     sm.set_tile( p.loc, mt );
 }
 
-void map_memory::set_tile_decoration( const tripoint_abs_ms &pos, const std::string_view id,
+void map_memory::set_tile_decoration( const tripoint_abs_ms &pos, std::string_view id,
                                       int subtile, int rotation )
 {
     const coord_pair p( pos );
@@ -351,7 +367,8 @@ shared_ptr_fast<mm_submap> map_memory::load_submap( const tripoint_abs_sm &sm_po
     }
 
     const reg_coord_pair p( sm_pos );
-    const cata_path path = find_region_path( find_mm_dir(), p.reg );
+    const cata_path mm_dir = find_mm_dir();
+    std::filesystem::path mm_filename = std::filesystem::u8path( find_region_filename( p.reg ) );
 
     mm_region mmr;
     const auto loader = [&mmr]( const JsonValue & jsin ) {
@@ -359,10 +376,27 @@ shared_ptr_fast<mm_submap> map_memory::load_submap( const tripoint_abs_sm &sm_po
     };
 
     try {
-        if( !read_from_file_optional_json( path, loader ) ) {
-            // Region not found
-            return nullptr;
+
+        if( world_generator->active_world->has_compression_enabled() ) {
+            std::shared_ptr<zzip_stack> z = zzip_stack::load( mm_dir.get_unrelative_path(),
+                                            ( PATH_INFO::world_base_save_path() / "mmr.dict" ).get_unrelative_path() );
+            if( !z ) {
+                return nullptr;
+            }
+            if( !read_from_zzip_optional( z, mm_filename, [&]( std::string_view sv ) {
+            JsonValue jsin = json_loader::from_string( std::string( sv ) );
+                loader( jsin );
+            } ) ) {
+                return nullptr;
+            }
+        } else {
+
+            if( !read_from_file_optional_json( mm_dir / mm_filename, loader ) ) {
+                // Region not found
+                return nullptr;
+            }
         }
+
     } catch( const std::exception &err ) {
         debugmsg( "Failed to load memory map region (%d,%d,%d): %s",
                   p.reg.x, p.reg.y, p.reg.z, err.what() );
@@ -457,25 +491,40 @@ bool map_memory::save( const tripoint_abs_ms &pos )
 
     bool result = true;
 
+    std::shared_ptr<zzip_stack> z;
+    if( world_generator->active_world->has_compression_enabled() ) {
+        z = zzip_stack::load( dirname.get_unrelative_path(),
+                              ( PATH_INFO::world_base_save_path() / "mmr.dict" ).get_unrelative_path() );
+    }
     for( auto &it : regions ) {
         const tripoint &regp = it.first;
         mm_region &reg = it.second;
         if( !reg.is_empty() ) {
-            const cata_path path = find_region_path( dirname, regp );
+            const std::filesystem::path mm_filename = std::filesystem::u8path( find_region_filename( regp ) );
             const std::string descr = string_format(
                                           _( "memory map region for (%d,%d,%d)" ),
                                           regp.x, regp.y, regp.z
                                       );
+            std::string mm_str = serialize_wrapper( [&]( JsonOut & jsout ) {
+                reg.serialize( jsout );
+            } );
 
-            const auto writer = [&]( std::ostream & fout ) -> void {
-                fout << serialize_wrapper( [&]( JsonOut & jsout )
-                {
-                    reg.serialize( jsout );
-                } );
-            };
+            if( world_generator->active_world->has_compression_enabled() ) {
+                if( z ) {
+                    result = z->add_file( mm_filename, mm_str ) && result;
+                } else {
+                    result = false;
+                }
 
-            const bool res = write_to_file( path, writer, descr.c_str() );
-            result = result & res;
+            } else {
+                const cata_path path = dirname / mm_filename;
+                const auto writer = [&]( std::ostream & fout ) -> void {
+                    fout << mm_str;
+                };
+
+                const bool res = write_to_file( path, writer, descr.c_str() );
+                result = result && res;
+            }
         }
         const tripoint_abs_sm regp_sm( mmr_to_sm_copy( regp ) );
         const half_open_rectangle<point_abs_sm> rect_reg(
@@ -495,6 +544,9 @@ bool map_memory::save( const tripoint_abs_ms &pos )
         } else {
             dbg( D_INFO ) << "Dropping mm_region " << regp << " [" << regp_sm << "]";
         }
+    }
+    if( z ) {
+        z->compact( 3.0 );
     }
 
     dbg( D_INFO ) << "[SAVE] Done.";

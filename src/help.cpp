@@ -3,28 +3,32 @@
 #include <algorithm>
 #include <array>
 #include <cstddef>
+#include <functional>
 #include <iterator>
 #include <numeric>
 #include <optional>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 #include "action.h"
+#include "cata_path.h"
+#include "cata_utility.h"
 #include "catacharset.h"
 #include "color.h"
 #include "cursesdef.h"
 #include "debug.h"
+#include "flexbuffer_json.h"
 #include "input_context.h"
-#include "json_error.h"
+#include "input_enums.h"
 #include "output.h"
 #include "path_info.h"
 #include "point.h"
 #include "string_formatter.h"
 #include "text_snippets.h"
 #include "translations.h"
+#include "ui_helpers.h"
 #include "ui_manager.h"
-
-class JsonObject;
 
 help &get_help()
 {
@@ -164,13 +168,7 @@ void help::display_help() const
 
     ui_adaptor ui;
     const auto init_windows = [&]( ui_adaptor & ui ) {
-        w_help_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                            point( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
-                                                    TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ) );
-        w_help = catacurses::newwin( FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 2,
-                                     point( 1 + static_cast<int>( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 ),
-                                            1 + static_cast<int>( TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ) ) );
-        ui.position_from_window( w_help_border );
+        ui_helpers::full_screen_window( ui, &w_help, &w_help_border, nullptr, nullptr, nullptr, 1 );
     };
     init_windows( ui );
     ui.on_screen_resize( init_windows );

@@ -2,11 +2,11 @@
 #ifndef CATA_SRC_IEXAMINE_H
 #define CATA_SRC_IEXAMINE_H
 
-#include <iosfwd>
+#include <algorithm>
 #include <list>
 #include <memory>
 #include <optional>
-#include <set>
+#include <string>
 #include <tuple>
 #include <vector>
 
@@ -14,13 +14,12 @@
 #include "ret_val.h"
 #include "type_id.h"
 
-class item;
-class JsonObject;
 class Character;
+class JsonObject;
+class item;
 class time_point;
 class vpart_reference;
 struct itype;
-struct tripoint;
 
 using seed_tuple = std::tuple<itype_id, std::string, int>;
 
@@ -71,6 +70,7 @@ void cardreader( Character &you, const tripoint_bub_ms &examp );
 void cardreader_robofac( Character &you, const tripoint_bub_ms &examp );
 void cardreader_foodplace( Character &you, const tripoint_bub_ms &examp );
 void intercom( Character &you, const tripoint_bub_ms &examp );
+void intercom_balthazar( Character &you, const tripoint_bub_ms &examp );
 void cvdmachine( Character &you, const tripoint_bub_ms &examp );
 void change_appearance( Character &you, const tripoint_bub_ms &examp );
 void rubble( Character &you, const tripoint_bub_ms &examp );
@@ -114,6 +114,8 @@ void part_con( Character &you, const tripoint_bub_ms &examp );
 void water_source( Character &, const tripoint_bub_ms &examp );
 void finite_water_source( Character &, const tripoint_bub_ms &examp );
 void kiln_empty( Character &you, const tripoint_bub_ms &examp );
+bool kiln_prep( Character &you, const tripoint_bub_ms &examp );
+bool kiln_fire( Character &you, const tripoint_bub_ms &examp );
 void kiln_full( Character &you, const tripoint_bub_ms &examp );
 void stook_empty( Character &, const tripoint_bub_ms &examp );
 void stook_full( Character &, const tripoint_bub_ms &examp );
@@ -140,6 +142,8 @@ void on_smoke_out( const tripoint_bub_ms &examp,
 void mill_finalize( Character &, const tripoint_bub_ms &examp );
 void quern_examine( Character &you, const tripoint_bub_ms &examp );
 void smoker_options( Character &you, const tripoint_bub_ms &examp );
+bool smoker_prep( Character &you, const tripoint_bub_ms &examp );
+bool smoker_fire( Character &you, const tripoint_bub_ms &examp );
 void open_safe( Character &you, const tripoint_bub_ms &examp );
 void workbench( Character &you, const tripoint_bub_ms &examp );
 void workbench_internal( Character &you, const tripoint_bub_ms &examp,
@@ -147,7 +151,7 @@ void workbench_internal( Character &you, const tripoint_bub_ms &examp,
 void workout( Character &you, const tripoint_bub_ms &examp );
 void invalid( Character &you, const tripoint_bub_ms &examp );
 
-bool pour_into_keg( const tripoint_bub_ms &pos, item &liquid );
+bool pour_into_keg( const tripoint_bub_ms &pos, item &liquid, bool silent );
 std::optional<tripoint_bub_ms> getGasPumpByNumber( const tripoint_bub_ms &p, int number );
 bool toPumpFuel( const tripoint_bub_ms &src, const tripoint_bub_ms &dst, int units );
 std::optional<tripoint_bub_ms> getNearFilledGasTank( const tripoint_bub_ms &center, int &fuel_units,

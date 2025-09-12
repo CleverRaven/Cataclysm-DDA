@@ -2,7 +2,6 @@
   {
     "type": "mapgen",
     "om_terrain": "bungalow23",
-    "method": "json",
     "object": {
       "palettes": [
         "standard_domestic_palette",
@@ -28,8 +27,8 @@
         "..#H]]l]]  a|88tB|+|||#.",
         "..os]]]]]   |||||| bdd#.",
         "..o$sE      1O523|   ¤#.",
-        "..#y            4|  @@o.",
-        "..#?A  yyy  JJJ F|  @@o.",
+        "..#y        ****4|  @@o.",
+        "..#?A  yyy  JJJ*F|  @@o.",
         "..###o*o##      6|D  ¤#.",
         "..`,,,,,i#y h h 6||+||#.",
         ".-,,,,,,io  fff  |___8#.",
@@ -41,15 +40,8 @@
       "terrain": {
         "_": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         ",": "t_floor_noroof",
-        "6": "t_null",
-        "F": "t_null",
-        "4": "t_null",
-        "3": "t_null",
-        "2": "t_null",
-        "5": "t_null",
-        "O": "t_null",
-        "1": "t_null",
-        "J": "t_null",
+        "6": "t_floor",
+        "*": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
         "0": "t_shrub_lilac",
         "`": "t_railing",
         "]": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
@@ -68,7 +60,6 @@
   {
     "type": "mapgen",
     "om_terrain": "bungalow23_roof",
-    "method": "json",
     "object": {
       "palettes": [ "roof_palette" ],
       "fill_ter": "t_shingle_flat_roof",

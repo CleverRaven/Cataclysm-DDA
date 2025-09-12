@@ -1,0 +1,381 @@
+[
+  {
+    "id": "fd_migo_atmosphere",
+    "type": "field_type",
+    "intensity_levels": [
+      {
+        "name": "foul-smelling air",
+        "sym": "8",
+        "dangerous": true,
+        "effects": [
+          {
+            "effect_id": "migo_atmosphere",
+            "body_part": "mouth",
+            "intensity": 1,
+            "min_duration": "5 seconds",
+            "max_duration": "10 seconds",
+            "immune_inside_vehicle": true
+          }
+        ]
+      },
+      {
+        "name": "foul-smelling air",
+        "translucency": 1,
+        "effects": [
+          {
+            "effect_id": "migo_atmosphere",
+            "body_part": "mouth",
+            "intensity": 2,
+            "min_duration": "10 seconds",
+            "max_duration": "25 seconds"
+          }
+        ]
+      },
+      {
+        "name": "foul-smelling air",
+        "effects": [
+          {
+            "effect_id": "migo_atmosphere",
+            "body_part": "mouth",
+            "intensity": 4,
+            "min_duration": "15 seconds",
+            "max_duration": "25 seconds"
+          }
+        ]
+      }
+    ],
+    "decay_amount_factor": 5,
+    "gas_absorption_factor": 15,
+    "percent_spread": 30,
+    "outdoor_age_speedup": "3 minutes",
+    "dirty_transparency_cache": true,
+    "has_fume": true,
+    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ], "flags": [ "MIGO_IMMUNE" ] },
+    "priority": 8,
+    "half_life": "10 minutes",
+    "phase": "gas"
+  },
+  {
+    "type": "effect_type",
+    "id": "migo_rad_away",
+    "base_mods": { "rad_chance": [ 600 ], "rad_min": [ -1 ] },
+    "max_duration": 10800,
+    "dur_add_perc": 35,
+    "blood_analysis_description": "Strange proteins are ingesting radioactive particles and flushing themselves from the host.",
+    "rating": "good"
+  },
+  {
+    "type": "effect_type",
+    "id": "migo_rad_flush",
+    "base_mods": { "rad_chance": [ 600 ], "rad_min": [ -5 ] },
+    "max_duration": 10800,
+    "dur_add_perc": 35,
+    "blood_analysis_description": "Strange proteins are ingesting radioactive particles and containing all emmissions.",
+    "rating": "good"
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_mastodon",
+    "name": [ "Mastodon Mutation", "Mastodon Transformation", "Mastodon Metamorphosis" ],
+    "desc": [
+      "You consumed mastodon mutagen.",
+      "You consumed a large amount of mastodon mutagen.",
+      "You consumed a life-changing amount of mastodon mutagen."
+    ],
+    "max_intensity": 3,
+    "resist_traits": [ "THRESH_MASTODON" ],
+    "base_mods": {
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 75 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 100 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": { "hurt_chance": [ 21, 0 ], "pain_chance": [ -30 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Mastodon Mutagen Contamination"
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_migo",
+    "name": [ "Mi-go Mutation", "Mi-go Transformation", "Mi-go Metamorphosis" ],
+    "desc": [
+      "You consumed mi-go mutagen.",
+      "You consumed a large amount of mi-go mutagen.",
+      "You consumed a life-changing amount of mi-go mutagen."
+    ],
+    "max_intensity": 3,
+    "resist_traits": [ "THRESH_YUGGOTH" ],
+    "base_mods": {
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 75 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 100 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": { "hurt_chance": [ 21, 0 ], "pain_chance": [ -30 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Mi-go Mutagen Contamination"
+  },
+  {
+    "type": "effect_type",
+    "id": "foamcrete_slow",
+    "name": [
+      "Slowed",
+      "Slowed",
+      "Slowed",
+      "Sluggish",
+      "Sluggish",
+      "Sluggish",
+      "Sluggish",
+      "Sluggish",
+      "Sluggish",
+      "Encased in foamcrete"
+    ],
+    "desc": [ "A partial covering of foamcrete is slowing you down." ],
+    "miss_messages": [ [ "You feel stiff.", 3 ] ],
+    "rating": "bad",
+    "max_intensity": 10,
+    "int_add_val": 1,
+    "int_decay_tick": 600,
+    "base_mods": { "dex_mod": [ -0.34, -0.17 ], "speed_mod": [ -15 ] },
+    "scaling_mods": { "dex_mod": [ -0.34, -0.17 ], "speed_mod": [ -15 ] },
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "afs_badpoison",
+    "name": [ "Fatally Poisoned" ],
+    "desc": [ "The world is spinning around you, and you feel like you're going to die." ],
+    "miss_messages": [ [ "You feel bad inside.", 2 ] ],
+    "rating": "bad",
+    "immune_bp_flags": [ "BIONIC_LIMB" ],
+    "resist_traits": [ "POISRESIST" ],
+    "immune_flags": [ "BIOLOGICALPROOF", "BIO_IMMUNE" ],
+    "resist_effects": [ "prophylactic_antivenom", "synth_blood_perf", "synth_blood_permanent" ],
+    "pain_sizing": true,
+    "hurt_sizing": true,
+    "main_parts_only": true,
+    "base_mods": {
+      "per_mod": [ -2 ],
+      "dex_mod": [ -2 ],
+      "str_mod": [ -3, -1 ],
+      "speed_mod": [ -10 ],
+      "pain_min": [ 2 ],
+      "pain_chance": [ 1, 100 ],
+      "hurt_min": [ 11, 2 ],
+      "hurt_max": [ 20, 5 ],
+      "hurt_chance": [ 1, 200 ]
+    },
+    "show_in_info": true,
+    "blood_analysis_description": "Poison"
+  },
+  {
+    "type": "effect_type",
+    "id": "afs_generic_speed_bonus",
+    "name": [ "Movement Optimization (1)", "Movement Optimization (2)", "Movement Optimization (3)", "Movement Optimization (4)" ],
+    "desc": [ "You move with machine-guided precision." ],
+    "rating": "good",
+    "max_intensity": 4,
+    "int_add_val": 1,
+    "int_decay_tick": 500,
+    "base_mods": { "dex_mod": [ 0.5 ], "speed_mod": [ 10 ] },
+    "scaling_mods": { "dex_mod": [ 0.5 ], "speed_mod": [ 10 ] },
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "synth_blood_perf",
+    "name": [ "Synthblood Comedown", "Synthblood" ],
+    "desc": [
+      "As the synthetic blood decays and is purged throughout your bloodstream, you begin to feel minor symptoms of altitude sickness, making you sluggish and short of breath.",
+      "Your breaths instinctively grows more shallow as the synthetic blood carries oxygen throughout your body, increasing your speed, stamina, and general endurance."
+    ],
+    "rating": "good",
+    "int_dur_factor": "8 h",
+    "max_intensity": 2,
+    "max_duration": "24 h",
+    "base_mods": { "speed_mod": [ -5 ], "stamina_min": [ -10 ], "str_mod": [ -1 ], "dex_mod": [ -1 ] },
+    "scaling_mods": { "speed_mod": [ 15 ], "stamina_min": [ 35 ], "str_mod": [ 1 ], "dex_mod": [ 1 ] },
+    "blood_analysis_description": "Synthetic blood",
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "synth_blood_permanent",
+    "name": [ "Synthblood" ],
+    "desc": [
+      "Your breaths instinctively grow shallow as the synthetic blood carries oxygen throughout your body, increasing your speed, stamina, and general endurance."
+    ],
+    "removes_effects": [ "synth_blood_perf" ],
+    "rating": "good",
+    "base_mods": { "speed_mod": [ 15 ], "str_mod": [ 1 ], "dex_mod": [ 1 ] },
+    "blood_analysis_description": "Synthetic blood",
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "afs_isohypsa_overwatch",
+    "name": [ "Isohypsa Overwatch" ],
+    "desc": [
+      {
+        "//~": "This is just a fragment of machine code, it needs no translation.",
+        "str": "FE09-    A3 65 FF    ATT $#17A\nFE0B-    4E          JMP $5010\nFE0D-    A5 24       DEX $#05\n"
+      }
+    ],
+    "rating": "good",
+    "blocks_effects": [ "sensor_stun", "dazed", "stunned", "blind" ],
+    "base_mods": { "dex_mod": [ 0.5 ], "speed_mod": [ 50 ] },
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "afs_rocket_flight",
+    "name": [ "Rocket Flight" ],
+    "desc": [ "You are flying with a rocket powered device." ],
+    "rating": "good",
+    "flags": [ "LEVITATION" ],
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_robot_immobilized",
+    "name": [ "Immobilized" ],
+    "desc": [ "You are completely immobile" ],
+    "rating": "bad",
+    "show_in_info": true,
+    "remove_message": "You can move again.",
+    "flags": [ "CANNOT_ATTACK", "CANNOT_MOVE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "afs_medigel_eff_trigger"
+  },
+  {
+    "type": "effect_type",
+    "id": "afs_hack_done"
+  },
+  {
+    "type": "effect_type",
+    "id": "smart_targeted",
+    "max_duration": "1 seconds"
+  },
+  {
+    "type": "effect_type",
+    "id": "vahagan_fired_at",
+    "max_duration": "1 seconds"
+  },
+  {
+    "type": "effect_type",
+    "id": "afs_android_crawling",
+    "name": [ "Crawling" ],
+    "desc": [ "Even if its been critically damaged, this android continues to crawl towards its target." ],
+    "rating": "bad",
+    "max_duration": "100 d",
+    "enchantments": [ { "values": [ { "value": "SPEED", "multiply": -0.5 } ] } ],
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "afs_weapon_disabled",
+    "name": [ "Disabled weaponry" ],
+    "desc": [ "The main weaponry of this creature is no longer functional." ],
+    "rating": "bad",
+    "max_duration": "100 d",
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "afs_combat_stims",
+    "name": [ "Combat Stimulants" ],
+    "desc": [ "You are under the effects of powerful military combat stimulants" ],
+    "rating": "good",
+    "blocks_effects": [ "stim_overdose", "shakes" ],
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "afs_medigel_eff",
+    "rating": "good",
+    "name": [ "MediGel" ],
+    "desc": [ "The medical gel applied to your wounds is slowly healing them." ],
+    "main_parts_only": true,
+    "part_descs": true,
+    "max_duration": "4 d",
+    "base_mods": { "healing_rate": [ 4 ], "healing_head": [ 50 ], "healing_torso": [ 150 ] },
+    "scaling_mods": { "healing_rate": [ 2 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "decreased_performance",
+    "name": [ "Decreased Performance" ],
+    "desc": [ "The performance enhancing drugs slowly wear off and leave you in a state of existential grade hangover." ],
+    "rating": "bad",
+    "int_dur_factor": "8 h",
+    "max_duration": "24 h",
+    "base_mods": { "speed_mod": [ -5 ], "stamina_min": [ -10 ], "str_mod": [ -2 ], "dex_mod": [ -2 ] },
+    "blood_analysis_description": "Post overdose quantities of multiple drugs in analyzed blood.",
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "post_speed_injection",
+    "name": [ "Slowed Reactions" ],
+    "desc": [ "The performance enhancing drugs slowly wear off and leave you in a state of existential grade hangover." ],
+    "rating": "bad",
+    "int_dur_factor": "8 h",
+    "max_duration": "24 h",
+    "base_mods": { "speed_mod": [ -45 ], "stamina_min": [ -17 ] },
+    "blood_analysis_description": "Dangerous levels of military grade nervous system medications.",
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "post_healing_injection",
+    "name": [ "Haggard and drawn" ],
+    "desc": [ "The performance enhancing drugs slowly wear off and leave you in a state of existential grade hangover." ],
+    "rating": "bad",
+    "int_dur_factor": "8 h",
+    "max_duration": "24 h",
+    "base_mods": {
+      "stim_min": [ -20 ],
+      "stim_min_val": [ -60 ],
+      "perspiration_min": [ 1 ],
+      "perspiration_chance": [ 60 ],
+      "stamina_min": [ -10 ]
+    },
+    "blood_analysis_description": "Post overdose quantities of multiple drugs in analyzed blood.",
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "post_strength_injection",
+    "name": [ "Weakened and worn down" ],
+    "desc": [ "The performance enhancing drugs slowly wear off and leave you in a state of existential grade hangover." ],
+    "rating": "bad",
+    "int_dur_factor": "8 h",
+    "max_duration": "24 h",
+    "base_mods": { "speed_mod": [ -5 ], "stamina_min": [ -10 ], "str_mod": [ -4 ], "dex_mod": [ -2 ] },
+    "blood_analysis_description": "Dangerous levels of steroids.",
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "afs_cureall",
+    "removes_effects": [ "afs_badpoison" ],
+    "base_mods": { "pkill_min": [ 5 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "afs_ai_defensive",
+    "name": [ "Defensive Stance" ],
+    "show_in_info": true,
+    "desc": [ { "str": "This creature is actively defending itself." } ]
+  }
+]

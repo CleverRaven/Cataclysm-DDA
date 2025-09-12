@@ -7,43 +7,47 @@
 #include <chrono>
 #include <cstdio>
 #include <cstdlib>
-#include <cstring>
-#include <ctime>
 #include <exception>
+#include <functional>
 #include <memory>
 #include <ostream>
 #include <string>
+#include <string_view>
 #include <utility>
 #include <vector>
 
-#include "calendar.h"
-#include "cata_catch.h"
-#include "coordinates.h"
 #if defined(_MSC_VER)
 #include <io.h>
 #else
 #include <unistd.h>
 #endif
 
+#include "cata_catch.h"
+
 #include "avatar.h"
 #include "cached_options.h"
+#include "calendar.h"
 #include "cata_assert.h"
 #include "cata_scope_helpers.h"
 #include "cata_utility.h"
 #include "color.h"
 #include "compatibility.h"
+#include "coordinates.h"
 #include "debug.h"
+#include "enums.h"
 #include "filesystem.h"
+#include "flexbuffer_json.h"
 #include "game.h"
 #include "json.h"
 #include "map.h"
 #include "messages.h"
 #include "options.h"
-#include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "path_info.h"
+#include "point.h"
 #include "rng.h"
+#include "string_formatter.h"
 #include "type_id.h"
 #include "weather.h"
 #include "worldfactory.h"
@@ -59,8 +63,8 @@ static bool dont_save{ false };
 static option_overrides_t option_overrides_for_test_suite;
 static std::string error_fmt = "human-readable";
 
-static std::chrono::system_clock::time_point start;
-static std::chrono::system_clock::time_point end;
+static std::chrono::system_clock::time_point start_time;
+static std::chrono::system_clock::time_point end_time;
 static bool error_during_initialization{ false };
 static bool fail_to_init_game_state{ false };
 
@@ -214,11 +218,11 @@ struct CataListener : Catch::TestEventListenerBase {
         } else {
             DebugLog( D_INFO, DC_ALL ) << "Running Catch2 session:" << std::endl;
         }
-        end = start = std::chrono::system_clock::now();
+        end_time = start_time = std::chrono::system_clock::now();
     }
 
     void testRunEnded( Catch::TestRunStats const & ) override {
-        end = std::chrono::system_clock::now();
+        end_time = std::chrono::system_clock::now();
     }
 
     void sectionStarting( Catch::SectionInfo const &sectionInfo ) override {
@@ -274,6 +278,23 @@ struct CataListener : Catch::TestEventListenerBase {
 
 CATCH_REGISTER_LISTENER( CataListener )
 
+struct CataCIReporter: Catch::ConsoleReporter {
+    explicit CataCIReporter( Catch::ReporterConfig const &config ) : Catch::ConsoleReporter(
+            config ) {};
+
+    void testCaseStarting( Catch::TestCaseInfo const &testInfo ) override {
+        Catch::ConsoleReporter::testCaseStarting( testInfo );
+        std::string tag_string;
+        for( const std::string &tag : testInfo.tags ) {
+            tag_string += string_format( "[%s]", tag );
+        }
+        // NOLINTNEXTLINE(cata-text-style)
+        DebugLog( D_INFO, DC_ALL ) << "  Testing " << testInfo.name << " " << tag_string << "...";
+    }
+};
+
+CATCH_REGISTER_REPORTER( "cata-ci-reporter", CataCIReporter )
+
 int main( int argc, const char *argv[] )
 {
 #if defined(_MSC_VER)
@@ -302,6 +323,7 @@ int main( int argc, const char *argv[] )
     std::string option_overrides;
     std::string mods_string;
     std::string check_plural_str;
+    int limit_debug_level = -1;
     Parser cli = session.cli()
                  | Opt( mods_string, "mod1,mod2,…" )
                  ["--mods"]
@@ -321,6 +343,9 @@ int main( int argc, const char *argv[] )
                  | Opt( check_plural_str, "none|certain|possbile" )
                  ["--check-plural"]
                  ( "[CataclysmDDA] (TBW)" )
+                 | Opt( limit_debug_level, "number" )
+                 ["--set-debug-level-mask"]
+                 ( "[CataclysmDDA] Set debug level bitmask - see `enum DebugLevel` in src/debug.h for individual bits definition" )
                  ;
     session.cli( cli );
 
@@ -378,6 +403,9 @@ int main( int argc, const char *argv[] )
     } );
 
     setupDebug( DebugOutput::std_err );
+    if( limit_debug_level != -1 ) {
+        limitDebugLevel( limit_debug_level );
+    }
 
     // Set the seed for mapgen (the seed will also be reset before each test)
     const unsigned int seed = session.config().rngSeed();
@@ -386,9 +414,9 @@ int main( int argc, const char *argv[] )
 
         // If the run is terminated due to a crash during initialization, we won't
         // see the seed unless it's printed out in advance, so do that here.
-        DebugLog( D_INFO, DC_ALL ) << "Randomness seeded to: " << seed;
+        DebugLog( D_INFO, DC_ALL ) << "Randomness seeded to: " << seed << std::endl;
     } else {
-        DebugLog( D_INFO, DC_ALL ) << "Default randomness seeded to: " << rng_get_first_seed();
+        DebugLog( D_INFO, DC_ALL ) << "Default randomness seeded to: " << rng_get_first_seed() << std::endl;
     }
 
     // Tests not requiring the global game initialized are tagged with [nogame]
@@ -439,7 +467,7 @@ int main( int argc, const char *argv[] )
         }
     }
 
-    std::chrono::duration<double> elapsed_seconds = end - start;
+    std::chrono::duration<double> elapsed_seconds = end_time - start_time;
     DebugLog( D_INFO, DC_ALL ) << "Finished in " << elapsed_seconds.count() << " seconds";
 
     if( seed ) {

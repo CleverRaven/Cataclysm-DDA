@@ -3,20 +3,23 @@
 #define CATA_SRC_SPEED_DESCRIPTION_H
 
 #include <string>
+#include <string_view>
+#include <utility>
 #include <vector>
 
+#include "translation.h"
 #include "type_id.h"
 
 class JsonObject;
-class JsonOut;
+class speed_description_value;
 template<typename T>
 class generic_factory;
-class speed_description_value;
 
 class speed_description
 {
     public:
         static void load_speed_descriptions( const JsonObject &jo, const std::string &src );
+        static void finalize_all();
         static void reset();
 
         void load( const JsonObject &jo, std::string_view src );

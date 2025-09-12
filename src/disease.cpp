@@ -1,11 +1,7 @@
 #include "disease.h"
 
 #include "debug.h"
-#include "flexbuffer_json-inl.h"
-#include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "init.h"
-#include "json_error.h"
 
 namespace
 {
@@ -24,12 +20,17 @@ bool string_id<disease_type>::is_valid() const
     return disease_factory.is_valid( *this );
 }
 
+void disease_type::finalize_all()
+{
+    disease_factory.finalize();
+}
+
 void disease_type::load_disease_type( const JsonObject &jo, const std::string &src )
 {
     disease_factory.load( jo, src );
 }
 
-void disease_type::load( const JsonObject &jo, const std::string_view )
+void disease_type::load( const JsonObject &jo, std::string_view )
 {
     disease_type new_disease;
 

@@ -1,14 +1,40 @@
 #include "widget.h"
 
+#include <algorithm>
+#include <cmath>
+#include <cstddef>
+#include <map>
+#include <memory>
+#include <numeric>
+
+#include "avatar.h"
+#include "cata_utility.h"
+#include "catacharset.h"
+#include "character.h"
+#include "character_attire.h"
 #include "character_martial_arts.h"
 #include "color.h"
 #include "condition.h"
+#include "coordinates.h"
+#include "creature.h"
+#include "cursesdef.h"
+#include "debug.h"
+#include "dialogue.h"
 #include "display.h"
+#include "enum_conversions.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "json.h"
+#include "magic.h"
+#include "magic_enchantment.h"
+#include "npc.h"
 #include "output.h"
-#include "overmapbuffer.h"
-#include "npctalk.h"
+#include "panels.h"
+#include "pimpl.h"
+#include "point.h"
+#include "string_formatter.h"
+#include "talker.h"
+#include "translations.h"
+#include "units.h"
 
 const static flag_id json_flag_W_DISABLED_BY_DEFAULT( "W_DISABLED_BY_DEFAULT" );
 const static flag_id json_flag_W_DISABLED_WHEN_EMPTY( "W_DISABLED_WHEN_EMPTY" );
@@ -251,7 +277,7 @@ std::string enum_to_string<bodypart_status>( bodypart_status stat )
         case bodypart_status::BITTEN:
             return "bitten";
         case bodypart_status::INFECTED:
-            return "infected";
+            return "septic";
         case bodypart_status::BROKEN:
             return "broken";
         case bodypart_status::SPLINTED:
@@ -395,30 +421,27 @@ nc_color widget_clause::get_color_for_id( const std::string &clause_id, const wi
 
 void widget_custom_var::deserialize( const JsonObject &jo )
 {
-    if( jo.has_member( "value" ) ) {
-        value = get_dbl_or_var_part( jo.get_member( "value" ), "value" );
-    } else {
-        jo.throw_error( "missing mandatory member \"value\"" );
-    }
+    mandatory( jo, false, "value", value );
 
     if( jo.has_array( "range" ) ) {
         JsonArray range = jo.get_array( "range" );
         switch( range.size() ) {
             case 2:
-                min = get_dbl_or_var_part( range.next_value(), "range" );
-                norm = std::make_pair( dbl_or_var_part( INT_MIN ), dbl_or_var_part( INT_MAX ) );
-                max = get_dbl_or_var_part( range.next_value(), "range" );
+                min.deserialize( range.next_value() );
+                norm = std::make_pair( dbl_or_var::part_t( INT_MIN ), dbl_or_var::part_t( INT_MAX ) );
+                max.deserialize( range.next_value() );
                 break;
             case 3:
-                min = get_dbl_or_var_part( range.next_value(), "range" );
-                norm.first = norm.second = get_dbl_or_var_part( range.next_value(), "range" );
-                max = get_dbl_or_var_part( range.next_value(), "range" );
+                min.deserialize( range.next_value() );
+                norm.first.deserialize( range.next_value() );
+                norm.second = norm.first;
+                max.deserialize( range.next_value() );
                 break;
             case 4:
-                min = get_dbl_or_var_part( range.next_value(), "range" );
-                norm.first = get_dbl_or_var_part( range.next_value(), "range" );
-                norm.second = get_dbl_or_var_part( range.next_value(), "range" );
-                max = get_dbl_or_var_part( range.next_value(), "range" );
+                min.deserialize( range.next_value() );
+                norm.first.deserialize( range.next_value() );
+                norm.second.deserialize( range.next_value() );
+                max.deserialize( range.next_value() );
                 break;
             default:
                 jo.throw_error( "invalid number of elements in \"range\", must have 2~4" );
@@ -444,7 +467,7 @@ int widget_custom_var::get_var_value( const avatar &ava ) const
     return static_cast<int>( value.evaluate( d ) );
 }
 
-void widget::load( const JsonObject &jo, const std::string_view )
+void widget::load( const JsonObject &jo, std::string_view )
 {
     optional( jo, was_loaded, "width", _width, 0 );
     optional( jo, was_loaded, "height", _height_max, 1 );
@@ -616,15 +639,19 @@ void widget::finalize_inherited_fields_recursive( const widget_id &id,
     }
 }
 
-void widget::finalize()
+void widget::finalize_all()
 {
     widget_factory.finalize();
+}
 
-    for( const widget &wgt : widget::get_all() ) {
-        if( wgt._style == "sidebar" ) {
-            widget::finalize_inherited_fields_recursive( wgt.getId(), wgt._separator, wgt._padding );
-            widget::finalize_label_width_recursive( wgt.getId() );
-        }
+// finalize functions are allowed to mutate data, even if this one doesn't
+// in fact, the functions below just do a const-cast inside, so it shouldn't be const
+// NOLINTNEXTLINE(readability-make-member-function-const)
+void widget::finalize()
+{
+    if( _style == "sidebar" ) {
+        widget::finalize_inherited_fields_recursive( getId(), _separator, _padding );
+        widget::finalize_label_width_recursive( getId() );
     }
 }
 
@@ -916,7 +943,7 @@ int widget::get_var_value( const avatar &ava ) const
             break;
         case widget_var::bp_encumb:
             // Encumbrance for body part
-            value = ava.get_part_encumbrance_data( only_bp() ).encumbrance;
+            value = ava.get_part_encumbrance( only_bp() );
             break;
         case widget_var::cardio_fit:
             value = ava.get_cardiofit();
@@ -1241,14 +1268,14 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
             desc = display::pain_text_color( ava );
             break;
         case widget_var::overmap_loc_text:
-            desc.first = display::overmap_position_text( ava.global_omt_location() );
+            desc.first = display::overmap_position_text( ava.pos_abs_omt() );
             break;
         case widget_var::overmap_text:
             desc.first = display::colorized_overmap_text( ava, _width == 0 ? max_width : _width, _height );
             apply_color = false;
             break;
         case widget_var::place_text:
-            desc.first = display::current_position_text( ava.global_omt_location() );
+            desc.first = display::current_position_text( ava.pos_abs_omt() );
             break;
         case widget_var::power_text:
             desc = display::power_text_color( ava );

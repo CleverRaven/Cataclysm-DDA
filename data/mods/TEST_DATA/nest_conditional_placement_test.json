@@ -41,7 +41,6 @@
     "terrains": [ "ncpt_predecessors" ]
   },
   {
-    "method": "json",
     "om_terrain": "nest_conditional_placement_test",
     "type": "mapgen",
     "object": {
@@ -121,13 +120,11 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": [ "ncpt_predecessors", "ncpt_flags", "ncpt_neighbors" ],
     "type": "mapgen",
     "object": { "fill_ter": "t_linoleum_gray" }
   },
   {
-    "method": "json",
     "nested_mapgen_id": "1x1_ncpt",
     "type": "mapgen",
     "object": { "mapgensize": [ 1, 1 ], "rows": [ "." ], "terrain": { ".": "t_linoleum_white" } }

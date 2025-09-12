@@ -1,20 +1,17 @@
 #include "butchery_requirements.h"
 
 #include <cstddef>
-#include <iterator>
-#include <set>
+#include <functional>
 #include <string>
 
-#include "activity_handlers.h"
 #include "creature.h"
 #include "debug.h"
 #include "enum_conversions.h"
-#include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "init.h"
 #include "item.h"
 #include "requirements.h"
+#include "butchery.h"
 
 namespace
 {
@@ -38,6 +35,11 @@ void butchery_requirements::load_butchery_req( const JsonObject &jo, const std::
     butchery_req_factory.load( jo, src );
 }
 
+void butchery_requirements::finalize_all()
+{
+    butchery_req_factory.finalize();
+}
+
 const std::vector<butchery_requirements> &butchery_requirements::get_all()
 {
     return butchery_req_factory.get_all();
@@ -53,7 +55,7 @@ bool butchery_requirements::is_valid() const
     return butchery_req_factory.is_valid( this->id );
 }
 
-void butchery_requirements::load( const JsonObject &jo, const std::string_view )
+void butchery_requirements::load( const JsonObject &jo, std::string_view )
 {
     for( const JsonMember member : jo.get_object( "requirements" ) ) {
         float modifier = std::stof( member.name() );

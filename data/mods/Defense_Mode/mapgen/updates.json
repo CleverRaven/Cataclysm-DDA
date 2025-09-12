@@ -2,7 +2,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "shaun_of_the_dead_spawns",
-    "method": "json",
     "object": {
       "place_npcs": [
         { "class": "follower_liz", "x": 0, "y": 0 },

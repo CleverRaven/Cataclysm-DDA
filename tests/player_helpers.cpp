@@ -1,21 +1,27 @@
 #include <cstddef>
 #include <functional>
 #include <list>
+#include <map>
 #include <memory>
+#include <set>
 #include <string>
 #include <vector>
 
 #include "avatar.h"
 #include "bionics.h"
+#include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"
+#include "character_attire.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
+#include "coordinates.h"
 #include "game.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_location.h"
 #include "itype.h"
-#include "make_static.h"
+#include "magic.h"
 #include "map.h"
 #include "npc.h"
 #include "pimpl.h"
@@ -28,9 +34,12 @@
 #include "skill.h"
 #include "stomach.h"
 #include "type_id.h"
+#include "value_ptr.h"
 
 static const itype_id itype_debug_backpack( "debug_backpack" );
 static const itype_id itype_debug_nutrition( "debug_nutrition" );
+
+static const json_character_flag json_flag_BIONIC_TOGGLED( "BIONIC_TOGGLED" );
 
 static const move_mode_id move_mode_walk( "walk" );
 
@@ -43,7 +52,7 @@ int get_remaining_charges( const itype_id &tool_id )
     } );
     int remaining_charges = 0;
     for( const item *instance : items ) {
-        remaining_charges += instance->ammo_remaining();
+        remaining_charges += instance->ammo_remaining( );
     }
     return remaining_charges;
 }
@@ -69,6 +78,8 @@ bool character_has_item_with_var_val( const Character &they, const std::string &
 
 void clear_character( Character &dummy, bool skip_nutrition )
 {
+    map &here = get_map();
+
     dummy.set_body();
     dummy.normalize(); // In particular this clears martial arts style
 
@@ -146,7 +157,7 @@ void clear_character( Character &dummy, bool skip_nutrition )
     dummy.cash = 0;
 
     const tripoint_bub_ms spot( 60, 60, 0 );
-    dummy.setpos( spot );
+    dummy.setpos( here, spot );
     dummy.clear_values();
     dummy.magic = pimpl<known_magic>();
     dummy.forget_all_recipes();
@@ -219,12 +230,15 @@ void equip_shooter( npc &shooter, const std::vector<itype_id> &apparel )
     }
 }
 
-void process_activity( Character &dummy )
+void process_activity( Character &dummy, bool pass_time )
 {
     do {
         dummy.mod_moves( dummy.get_speed() );
         while( dummy.get_moves() > 0 && dummy.activity ) {
             dummy.activity.do_turn( dummy );
+            if( pass_time ) {
+                calendar::turn += 1_seconds;
+            }
         }
     } while( dummy.activity );
 }
@@ -272,7 +286,7 @@ void give_and_activate_bionic( Character &you, bionic_id const &bioid )
     REQUIRE( bio.id == bioid );
 
     // turn on if possible
-    if( bio.id->has_flag( STATIC( json_character_flag( "BIONIC_TOGGLED" ) ) ) && !bio.powered ) {
+    if( bio.id->has_flag( json_flag_BIONIC_TOGGLED ) && !bio.powered ) {
         const std::vector<material_id> fuel_opts = bio.info().fuel_opts;
         if( !fuel_opts.empty() ) {
             you.set_value( fuel_opts.front().str(), "2" );

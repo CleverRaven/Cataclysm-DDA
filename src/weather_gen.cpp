@@ -1,25 +1,27 @@
 #include "weather_gen.h"
 
 #include <algorithm>
+#include <array>
 #include <cmath>
 #include <functional>
+#include <memory>
 #include <ostream>
 #include <random>
 #include <string>
-#include <utility>
 
 #include "avatar.h"
 #include "cata_utility.h"
-#include "condition.h"
 #include "dialogue.h"
+#include "flexbuffer_json.h"
 #include "game_constants.h"
 #include "generic_factory.h"
-#include "json.h"
 #include "math_defines.h"
+#include "pimpl.h"
 #include "point.h"
 #include "rng.h"
 #include "simplexnoise.h"
-#include "translations.h"
+#include "talker.h"
+#include "translation.h"
 #include "weather.h"
 #include "weather_type.h"
 
@@ -39,6 +41,34 @@ constexpr double noise_magnitude_K = 8;
 weather_generator::weather_generator() = default;
 int weather_generator::current_winddir = 1000;
 
+namespace
+{
+generic_factory<weather_generator> weather_generator_factory( "weather_generator" );
+} // namespace
+template<>
+const weather_generator &string_id<weather_generator>::obj() const
+{
+    return weather_generator_factory.obj( *this );
+}
+template<>
+bool string_id<weather_generator>::is_valid() const
+{
+    return weather_generator_factory.is_valid( *this );
+}
+void weather_generator::load_weather_generator( const JsonObject &jo,
+        const std::string &src )
+{
+    weather_generator_factory.load( jo, src );
+}
+void weather_generator::reset()
+{
+    weather_generator_factory.reset();
+}
+
+void weather_generator::finalize_all()
+{
+    weather_generator_factory.finalize();
+}
 struct weather_gen_common {
     double x = 0;
     double y = 0;
@@ -65,12 +95,15 @@ static weather_gen_common get_common_data( const tripoint_abs_ms &location,
     result.modSEED = seed % SIMPLEX_NOISE_RANDOM_SEED_LIMIT;
     const double year_fraction( time_past_new_year( t.t ) /
                                 calendar::year_length() ); // [0,1)
-
-    result.cyf = std::cos( tau * ( year_fraction + .125 ) ); // [-1, 1]
-    // We add one-eighth to line up `cyf` so that 1 is at
+    // We add an offset to line up `cyf` so that 1 is at
     // midwinter and -1 at midsummer. (Cataclsym DDA years
-    // start when spring starts. Gregorian years start when
-    // winter starts.)
+    // start season_length - turn_zero_offset days into winter.
+    // Gregorian years start when winter starts.)
+    // LATER: Do gregorian years start on winter? They start ~10 days into winter...
+    const double days_year_start_to_midwinter = to_days<double>( ( calendar::season_length() / 2 ) -
+            ( calendar::season_length() - calendar::turn_zero_offset() ) );
+    const double offset = days_year_start_to_midwinter / to_days<double>( calendar::year_length() );
+    result.cyf = std::cos( tau * ( year_fraction - offset ) ); // [-1, 1]
     result.season = season_of_year( t.t );
 
     return result;
@@ -194,10 +227,10 @@ weather_type_id weather_generator::get_weather_conditions( const w_point &w ) co
     const weather_manager &game_weather = get_weather_const();
     w_point original_weather_precise = *game_weather.weather_precise;
     *game_weather.weather_precise = w;
-    std::unordered_map<std::string, std::string> context;
-    context["weather_location"] = w.location.to_string();
     weather_type_id current_conditions = WEATHER_CLEAR;
-    dialogue d( get_talker_for( get_avatar() ), nullptr, {}, context );
+    dialogue d( get_talker_for( get_avatar() ), nullptr );
+    d.set_value( "weather_location", w.location );
+
     for( const weather_type_id &type : sorted_weather ) {
         bool required_weather = type->required_weathers.empty();
         if( !required_weather ) {
@@ -337,14 +370,14 @@ void weather_generator::sort_weather()
     } );
 }
 
-void weather_generator::load( const JsonObject &jo, const bool was_loaded )
+void weather_generator::load( const JsonObject &jo, std::string_view )
 {
     mandatory( jo, was_loaded, "base_temperature", base_temperature );
     mandatory( jo, was_loaded, "base_humidity", base_humidity );
     mandatory( jo, was_loaded, "base_pressure", base_pressure );
     mandatory( jo, was_loaded, "base_wind", base_wind );
-    mandatory( jo, was_loaded, "base_wind_distrib_peaks", base_wind_distrib_peaks );
-    mandatory( jo, was_loaded, "base_wind_season_variation", base_wind_season_variation );
+    optional( jo, was_loaded, "base_wind_distrib_peaks", base_wind_distrib_peaks );
+    optional( jo, was_loaded, "base_wind_season_variation", base_wind_season_variation );
     optional( jo, was_loaded, "summer_temp_manual_mod", summer_temp_manual_mod, 0 );
     optional( jo, was_loaded, "spring_temp_manual_mod", spring_temp_manual_mod, 0 );
     optional( jo, was_loaded, "autumn_temp_manual_mod", autumn_temp_manual_mod, 0 );

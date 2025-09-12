@@ -88,7 +88,7 @@
   {
     "type": "enchantment",
     "id": "ench_stormglove",
-    "has": "WIELD",
+    "has": "WORN",
     "condition": { "not": "u_has_weapon" },
     "name": { "str": "Stormglove" },
     "description": "A coating of lighting on your hand and lower arm.",

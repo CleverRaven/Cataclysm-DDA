@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "lumbermill_0_0_ocu", "lumbermill_1_0_ocu" ], [ "lumbermill_0_1_ocu", "lumbermill_1_1_ocu" ] ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -28,7 +27,7 @@
         "v  #xx,,,,,,....;_____________  *#....nc###### v",
         "v 7#xx.....x..xx#  __________ *  wbnb.nc#S.+t#*v",
         "#######+#########7 __________   2wbnb...+..### v",
-        "#$.$#ll.ll#b.w    *___________  .#......#S.+t#*v",
+        "#$.$#ll.ll#b.w ϟZ *___________  .#......#S.+t#*v",
         "#$.$#.....#b.#__________________*###ww######## v",
         "#$..+.bbb.+..+___________________________   *  v",
         "#$.$#.....#b.#______________________________  *v",
@@ -45,7 +44,7 @@
         "v        2    _________________________________;",
         "v vvvvv    *___________________________1 1  ___;",
         "v vooov______________________   ____ 121   1  _#",
-        "v voGoX_____________ #.......#. ____ 1 1*1 1 1 v",
+        "v voGo£_____________ #.......#. ____ 1 1*1 1 1 v",
         "v vooov_________     #L.....L#* ____*  1 1 1 2 v",
         "v vvvvv   ______  * *wL.....Lw   ____1 1 1 1  *v",
         "v         1____ 2    #L.....L# * ____1 1*  1   v",
@@ -106,7 +105,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "ocu_lumbermill_opens_a_gate",
-    "method": "json",
     "object": {
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "set": [ { "square": "terrain", "id": "t_thconc_floor", "x": 10, "y": 23, "x2": 13, "y2": 23 } ]
@@ -114,7 +112,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "lumbermill_0_0_roof", "lumbermill_1_0_roof" ], [ "lumbermill_0_1_roof", "lumbermill_1_1_roof" ] ],
     "object": {
       "fill_ter": "t_flat_roof",

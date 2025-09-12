@@ -1,0 +1,20 @@
+[
+  {
+    "type": "start_location",
+    "id": "sloc_robot_dispatch",
+    "name": "Robot Dispatch Center",
+    "terrain": [ "robot_dispatch_second" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_afs_augmentation_clinic_n3",
+    "name": "Augclinic",
+    "terrain": [ "afs_augmentation_clinic_n3" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_afs_glacial_tunnels",
+    "name": "Exploring a tunnel",
+    "terrain": [ "afs_tunnel_sinkhole" ]
+  }
+]

@@ -79,6 +79,8 @@
         "xe_mana_graph_layout",
         "xe_mana_pool_layout",
         "vampire_blood_levels",
+        "vampire_blood_levels_numbers",
+        "vampire_blood_levels_graph",
         "ruach_counter_meter_block",
         "ruach_counter_numbers_block",
         "ruach_counter_graph_block"
@@ -96,6 +98,8 @@
         "xe_mana_graph_layout",
         "xe_mana_pool_layout",
         "vampire_blood_levels",
+        "vampire_blood_levels_numbers",
+        "vampire_blood_levels_graph",
         "ruach_counter_meter_block",
         "ruach_counter_numbers_block",
         "ruach_counter_graph_block"
@@ -113,6 +117,8 @@
         "xe_mana_graph_layout",
         "xe_mana_pool_layout",
         "vampire_blood_levels",
+        "vampire_blood_levels_numbers",
+        "vampire_blood_levels_graph",
         "ruach_counter_meter_block",
         "ruach_counter_numbers_block",
         "ruach_counter_graph_block"
@@ -130,6 +136,8 @@
         "xe_mana_graph_layout",
         "xe_mana_pool_layout",
         "vampire_blood_levels",
+        "vampire_blood_levels_numbers",
+        "vampire_blood_levels_graph",
         "ruach_counter_meter_block",
         "ruach_counter_numbers_block",
         "ruach_counter_graph_block"
@@ -147,6 +155,8 @@
         "xe_mana_graph_layout",
         "xe_mana_pool_layout",
         "vampire_blood_levels",
+        "vampire_blood_levels_numbers",
+        "vampire_blood_levels_graph",
         "ruach_counter_meter_block",
         "ruach_counter_numbers_block",
         "ruach_counter_graph_block"
@@ -174,6 +184,8 @@
       "hunger_desc_label",
       "thirst_desc_label",
       "vampire_blood_levels",
+      "vampire_blood_levels_numbers",
+      "vampire_blood_levels_graph",
       "weight_desc_label",
       "sleepiness_desc_label",
       "pain_desc_label",
@@ -208,7 +220,7 @@
     "style": "layout",
     "arrange": "minimum_columns",
     "width": 56,
-    "widgets": [ "xe_spacebar_mana_num", "xe_spacebar_max_mana_num", "vampire_blood_levels" ]
+    "widgets": [ "xe_spacebar_mana_num", "xe_spacebar_max_mana_num" ]
   },
   {
     "id": "xe_spacebar_mana_bar_block",
@@ -216,7 +228,7 @@
     "style": "layout",
     "label": "xe_mana_bar",
     "arrange": "minimum_columns",
-    "widgets": [ "spacebar_separator_2", "xe_spacebar_mana_graph", "vampire_blood_levels" ]
+    "widgets": [ "spacebar_separator_2", "xe_spacebar_mana_graph" ]
   },
   {
     "id": "xe_spacebar_mana_numbers_block",
@@ -224,7 +236,7 @@
     "style": "layout",
     "label": "xe_mana_number",
     "arrange": "minimum_columns",
-    "widgets": [ "spacebar_separator_2", "xe_spacebar_current_max_mana_nums_layout", "vampire_blood_levels" ]
+    "widgets": [ "spacebar_separator_2", "xe_spacebar_current_max_mana_nums_layout" ]
   },
   {
     "//": "spacebar Extend the custom sidebar with Xedra-specific sections",
@@ -236,6 +248,8 @@
         "xe_spacebar_mana_numbers_block",
         "xe_spacebar_mana_bar_block",
         "vampire_blood_levels",
+        "vampire_blood_levels_numbers",
+        "vampire_blood_levels_graph",
         "spacebar_ruach_counter_block",
         "spacebar_ruach_numbers_block",
         "spacebar_ruach_graph_block"
@@ -248,7 +262,14 @@
     "type": "widget",
     "id": "my_labels_sidebar",
     "extend": {
-      "widgets": [ "xe_current_max_mana_nums_layout", "xe_mana_graph_layout", "xe_mana_pool_layout", "vampire_blood_levels" ]
+      "widgets": [
+        "xe_current_max_mana_nums_layout",
+        "xe_mana_graph_layout",
+        "xe_mana_pool_layout",
+        "vampire_blood_levels",
+        "vampire_blood_levels_numbers",
+        "vampire_blood_levels_graph"
+      ]
     }
   },
   {
@@ -257,7 +278,14 @@
     "type": "widget",
     "id": "legacy_classic_sidebar_one_padding",
     "extend": {
-      "widgets": [ "xe_current_max_mana_nums_layout", "xe_mana_graph_layout", "xe_mana_pool_layout", "vampire_blood_levels" ]
+      "widgets": [
+        "xe_current_max_mana_nums_layout",
+        "xe_mana_graph_layout",
+        "xe_mana_pool_layout",
+        "vampire_blood_levels",
+        "vampire_blood_levels_numbers",
+        "vampire_blood_levels_graph"
+      ]
     }
   },
   {

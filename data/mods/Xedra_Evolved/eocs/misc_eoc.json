@@ -12,6 +12,7 @@
             "DREAMER",
             "DREAMSMITH",
             "INVENTOR",
+            "CHANGELING_MAGIC",
             "ARVORE",
             "IERDE",
             "HOMULLUS",
@@ -27,6 +28,11 @@
             { "compare_string": [ "DREAMER", { "context_val": "school" } ] },
             { "compare_string": [ "DREAMSMITH", { "context_val": "school" } ] },
             { "compare_string": [ "INVENTOR", { "context_val": "school" } ] },
+            { "compare_string": [ "CHANGELING_MAGIC", { "context_val": "school" } ] },
+            { "compare_string": [ "CHANGELING_SEASONAL_MAGIC_SPRING", { "context_val": "school" } ] },
+            { "compare_string": [ "CHANGELING_SEASONAL_MAGIC_SUMMER", { "context_val": "school" } ] },
+            { "compare_string": [ "CHANGELING_SEASONAL_MAGIC_AUTUMN", { "context_val": "school" } ] },
+            { "compare_string": [ "CHANGELING_SEASONAL_MAGIC_WINTER", { "context_val": "school" } ] },
             { "compare_string": [ "ARVORE", { "context_val": "school" } ] },
             { "compare_string": [ "IERDE", { "context_val": "school" } ] },
             { "compare_string": [ "HOMULLUS", { "context_val": "school" } ] },
@@ -38,7 +44,7 @@
         }
       ]
     },
-    "effect": [ { "math": [ "u_skill_exp('deduction', 'format': 'raw')", "+=", "250" ] } ]
+    "effect": [ { "math": [ "u_skill_exp('deduction', 'format': 'raw') += 250" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -54,10 +60,10 @@
     "required_event": "opens_spellbook",
     "condition": { "u_is_wearing": "dream_attuning_necklace" },
     "effect": [
-      { "math": [ "u_school_level_adjustment('DREAMER')", "+=", "5" ] },
-      { "math": [ "u_school_level_adjustment('EATER')", "+=", "5" ] },
-      { "math": [ "u_school_level_adjustment('DREAMSMITH')", "+=", "5" ] },
-      { "math": [ "u_school_level_adjustment('INVENTOR')", "+=", "5" ] }
+      { "math": [ "u_school_level_adjustment('DREAMER') += 5" ] },
+      { "math": [ "u_school_level_adjustment('EATER') += 5" ] },
+      { "math": [ "u_school_level_adjustment('DREAMSMITH') += 5" ] },
+      { "math": [ "u_school_level_adjustment('INVENTOR') += 5" ] }
     ]
   },
   {
@@ -331,5 +337,222 @@
     "required_event": "character_wakes_up",
     "condition": { "u_has_effect": "effect_sleep_shield" },
     "effect": [ { "u_lose_effect": "effect_sleep_shield" }, { "u_teleport": { "u_val": "SLEEP_SHIELD_location" }, "force": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FULL_MORALE_NEUTRALIZATION",
+    "//": "I really wish there were a better way to do this.",
+    "effect": [
+      { "u_lose_morale": "morale_bile" },
+      { "u_lose_morale": "morale_food_good" },
+      { "u_lose_morale": "morale_food_hot" },
+      { "u_lose_morale": "morale_chat" },
+      { "u_lose_morale": "morale_chat_uncaring" },
+      { "u_lose_morale": "morale_ate_with_table" },
+      { "u_lose_morale": "morale_ate_without_table" },
+      { "u_lose_morale": "morale_music" },
+      { "u_lose_morale": "morale_honey" },
+      { "u_lose_morale": "morale_game" },
+      { "u_lose_morale": "morale_marloss" },
+      { "u_lose_morale": "morale_mutagen" },
+      { "u_lose_morale": "morale_feeling_good" },
+      { "u_lose_morale": "morale_support" },
+      { "u_lose_morale": "morale_photos" },
+      { "u_lose_morale": "morale_craving_nicotine" },
+      { "u_lose_morale": "morale_craving_caffeine" },
+      { "u_lose_morale": "morale_craving_alcohol" },
+      { "u_lose_morale": "morale_craving_opiate" },
+      { "u_lose_morale": "morale_craving_speed" },
+      { "u_lose_morale": "morale_craving_cocaine" },
+      { "u_lose_morale": "morale_craving_crack" },
+      { "u_lose_morale": "morale_craving_mutagen" },
+      { "u_lose_morale": "morale_craving_diazepam" },
+      { "u_lose_morale": "morale_craving_marloss" },
+      { "u_lose_morale": "morale_food_bad" },
+      { "u_lose_morale": "morale_cannibal" },
+      { "u_lose_morale": "morale_demicannibal" },
+      { "u_lose_morale": "morale_vegetarian" },
+      { "u_lose_morale": "morale_antiveggy" },
+      { "u_lose_morale": "morale_meatarian" },
+      { "u_lose_morale": "morale_antimeat" },
+      { "u_lose_morale": "morale_antifruit" },
+      { "u_lose_morale": "morale_lactose" },
+      { "u_lose_morale": "morale_antijunk" },
+      { "u_lose_morale": "morale_antiwheat" },
+      { "u_lose_morale": "morale_sweettooth" },
+      { "u_lose_morale": "morale_no_digest" },
+      { "u_lose_morale": "morale_wet" },
+      { "u_lose_morale": "morale_dried_off" },
+      { "u_lose_morale": "morale_cold" },
+      { "u_lose_morale": "morale_hot" },
+      { "u_lose_morale": "morale_feeling_bad" },
+      { "u_lose_morale": "morale_bad_protein_bar" },
+      { "u_lose_morale": "morale_killed_innocent" },
+      { "u_lose_morale": "morale_killed_friend" },
+      { "u_lose_morale": "morale_killed_monster" },
+      { "u_lose_morale": "morale_mutilate_corpse" },
+      { "u_lose_morale": "morale_mutagen_elf" },
+      { "u_lose_morale": "morale_mutagen_chimera" },
+      { "u_lose_morale": "morale_mutagen_mutation" },
+      { "u_lose_morale": "morale_moodswing" },
+      { "u_lose_morale": "morale_book" },
+      { "u_lose_morale": "morale_comfy" },
+      { "u_lose_morale": "morale_scream" },
+      { "u_lose_morale": "morale_perm_masochist" },
+      { "u_lose_morale": "morale_perm_radiophile" },
+      { "u_lose_morale": "morale_perm_noface" },
+      { "u_lose_morale": "morale_perm_fpmode_on" },
+      { "u_lose_morale": "morale_perm_hoarder" },
+      { "u_lose_morale": "morale_perm_fancy" },
+      { "u_lose_morale": "morale_perm_optimist" },
+      { "u_lose_morale": "morale_perm_badtemper" },
+      { "u_lose_morale": "morale_perm_numb" },
+      { "u_lose_morale": "morale_perm_constrained" },
+      { "u_lose_morale": "morale_perm_nomad" },
+      { "u_lose_morale": "morale_game_found_kitten" },
+      { "u_lose_morale": "morale_haircut" },
+      { "u_lose_morale": "morale_shave" },
+      { "u_lose_morale": "morale_vomited" },
+      { "u_lose_morale": "morale_play_with_pet" },
+      { "u_lose_morale": "morale_pyromania_startfire" },
+      { "u_lose_morale": "morale_pyromania_nearfire" },
+      { "u_lose_morale": "morale_pyromania_nofire" },
+      { "u_lose_morale": "morale_perm_filthy" },
+      { "u_lose_morale": "morale_butcher" },
+      { "u_lose_morale": "morale_gravedigger" },
+      { "u_lose_morale": "morale_funeral" },
+      { "u_lose_morale": "morale_tree_communion" },
+      { "u_lose_morale": "morale_accomplishment" },
+      { "u_lose_morale": "morale_failure" },
+      { "u_lose_morale": "morale_nightmare" },
+      { "u_lose_morale": "morale_migo_bio_tech" },
+      { "u_lose_morale": "morale_impossible_shape" },
+      { "u_lose_morale": "morale_afs_drugs" },
+      { "u_lose_morale": "morale_social" },
+      { "u_lose_morale": "morale_asocial" },
+      { "u_lose_morale": "morale_sunrise" },
+      { "u_lose_morale": "morale_sunset" },
+      { "u_lose_morale": "morale_ate_dross" },
+      { "u_lose_morale": "morale_drank_blood" },
+      { "u_lose_morale": "morale_craving_lotus_blossom" },
+      { "u_lose_morale": "morale_forest_unity" },
+      { "u_lose_morale": "morale_broke_fae_ban" },
+      { "u_lose_morale": "morale_homullus_self_deception" },
+      { "u_lose_morale": "morale_ierde_meditation" },
+      { "u_lose_morale": "morale_boring_fruit" },
+      { "u_lose_morale": "morale_vw_no_fun" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_BLEED_CHECK",
+    "eoc_type": "EVENT",
+    "required_event": "character_gains_effect",
+    "condition": { "and": [ { "compare_string": [ "bleed", { "context_val": "effect" } ] } ] },
+    "effect": [ { "run_eocs": [ "EOC_VAMPIRE_BLEED_STOLEN_BLOOD" ] }, { "run_eocs": [ "EOC_DHAMPIR_BLEED_STOLEN_BLOOD" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_BLEED_STOLEN_BLOOD",
+    "//": "Gives regular blood to not cause hypovolemia.  Losing stolen blood is already a sufficient penalty.",
+    "//2": "The idea is that bleeding penalize vampires more on the spot, but they recover near-instantly if they can drink blood.",
+    "//3": "A vampire cannot gain nourishment from its own blood under any circumstances.",
+    "condition": {
+      "and": [
+        { "u_has_trait": "VAMPIRE" },
+        {
+          "or": [
+            { "math": [ "u_effect_intensity('bleed', 'bodypart': 'arm_l') >= 1" ] },
+            { "math": [ "u_effect_intensity('bleed', 'bodypart': 'arm_r') >= 1" ] },
+            { "math": [ "u_effect_intensity('bleed', 'bodypart': 'leg_l') >= 1" ] },
+            { "math": [ "u_effect_intensity('bleed', 'bodypart': 'leg_r') >= 1" ] },
+            { "math": [ "u_effect_intensity('bleed', 'bodypart': 'torso') >= 1" ] },
+            { "math": [ "u_effect_intensity('bleed', 'bodypart': 'head') >= 1" ] }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('blood') += 1000" ] },
+      { "math": [ "u_vitamin('redcells') += 1000" ] },
+      { "math": [ "u_vitamin('human_blood_vitamin') -= u_effect_intensity('bleed', 'bodypart': 'arm_l') * 5" ] },
+      { "math": [ "u_vitamin('human_blood_vitamin') -= u_effect_intensity('bleed', 'bodypart': 'arm_r') * 5" ] },
+      { "math": [ "u_vitamin('human_blood_vitamin') -= u_effect_intensity('bleed', 'bodypart': 'leg_l') * 5" ] },
+      { "math": [ "u_vitamin('human_blood_vitamin') -= u_effect_intensity('bleed', 'bodypart': 'leg_r') * 5" ] },
+      { "math": [ "u_vitamin('human_blood_vitamin') -= u_effect_intensity('bleed', 'bodypart': 'torso') * 5" ] },
+      { "math": [ "u_vitamin('human_blood_vitamin') -= u_effect_intensity('bleed', 'bodypart': 'head') * 5" ] },
+      { "u_message": "You are losing your stolen blood through your bleeding wounds!", "type": "bad" },
+      { "run_eocs": "EOC_VAMPIRE_BLEED_STOLEN_BLOOD", "time_in_future": [ "10 s", "10 s" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "HYDRATING_GOUT_SYMPTOMS_INCUBATION",
+    "eoc_type": "EVENT",
+    "required_event": "character_gains_effect",
+    "condition": { "compare_string": [ "xe_hydrating_gout_incubation", { "context_val": "effect" } ] },
+    "//": "As incubation is hardcoded, this EOC will apply the real effect in 1 to 2 hours.",
+    "effect": [ { "run_eocs": "HYDRATING_GOUT_SYMPTOMS_START", "time_in_future": [ "1 hour", "2 hours" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "HYDRATING_GOUT_SYMPTOMS_START",
+    "condition": { "u_has_effect": "xe_hydrating_gout_incubation" },
+    "//": "The illness was supposed to last 1-2 days, but until deydration through consumables is possible it will last far less time.",
+    "effect": [
+      { "u_add_effect": "xe_hydrating_gout", "duration": { "math": [ "8400 + rand(8400)" ] } },
+      { "u_lose_effect": "xe_hydrating_gout_incubation" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "HYDRATING_GOUT_SYMPTOMS",
+    "recurrence": [ "45 s", "75 s" ],
+    "global": true,
+    "condition": { "u_has_effect": "xe_hydrating_gout" },
+    "deactivate_condition": { "not": { "u_has_effect": "xe_hydrating_gout" } },
+    "//": "The multiple EOCs are required until multiple If-Then can be part of a single effect.",
+    "effect": [
+      { "math": [ "u_val('thirst')--" ] },
+      {
+        "run_eocs": [
+          {
+            "id": "HYDRATING_GOUT_SYMPTOMS_LOW",
+            "condition": {
+              "and": [
+                { "x_in_y_chance": { "x": 1, "y": { "math": [ "max(1, 35 + u_val('thirst'))" ] } } },
+                { "math": [ "u_val('thirst') <= 0" ] }
+              ]
+            },
+            "effect": [ { "u_add_effect": "shakes", "duration": "1 minute" } ]
+          },
+          {
+            "id": "HYDRATING_GOUT_SYMPTOMS_MEDIUM",
+            "condition": {
+              "and": [
+                { "x_in_y_chance": { "x": 1, "y": { "math": [ "max(1, 50 + u_val('thirst'))" ] } } },
+                { "math": [ "u_val('thirst') < -20" ] }
+              ]
+            },
+            "effect": [ { "math": [ "u_pain()++" ] } ]
+          },
+          {
+            "id": "HYDRATING_GOUT_SYMPTOMS_HIGH",
+            "condition": {
+              "and": [
+                { "x_in_y_chance": { "x": 1, "y": { "math": [ "max(1, 110 + u_val('thirst'))" ] } } },
+                { "math": [ "u_val('thirst') < -60" ] }
+              ]
+            },
+            "effect": [ { "u_add_effect": "stunned", "duration": 1 } ]
+          },
+          {
+            "id": "HYDRATING_GOUT_SYMPTOMS_LETHAL",
+            "condition": { "math": [ "u_val('thirst') <= -100" ] },
+            "effect": [ { "math": [ "u_hp('torso')--" ] } ]
+          }
+        ]
+      }
+    ]
   }
 ]

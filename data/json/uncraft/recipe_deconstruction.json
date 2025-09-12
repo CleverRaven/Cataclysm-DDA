@@ -962,7 +962,7 @@
       [ [ "motor_small", 2 ] ],
       [ [ "tazer", 1 ] ],
       [ [ "e_scrap", 3 ] ],
-      [ [ "steel_chunk", 12 ] ]
+      [ [ "ch_steel_chunk", 12 ] ]
     ]
   },
   {
@@ -1106,7 +1106,7 @@
       [ [ "pathfinding_module", 1 ] ],
       [ [ "medium_storage_battery", 1 ] ],
       [ [ "robot_controls", 1 ] ],
-      [ [ "steel_chunk", 20 ] ]
+      [ [ "ch_steel_chunk", 20 ] ]
     ]
   },
   {
@@ -1364,6 +1364,27 @@
     ]
   },
   {
+    "result": "broken_turret_searchlight",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "electronics",
+    "difficulty": 3,
+    "time": "1 h",
+    "using": [ [ "soldering_standard", 50 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "directed_floodlight", 3 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "frame", 5 ] ],
+      [ [ "motor_tiny", 3 ] ],
+      [ [ "long_extension_cable", 1 ] ],
+      [ [ "solar_cell", 1 ] ]
+    ]
+  },
+  {
     "result": "broken_science_bot",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
@@ -1386,7 +1407,7 @@
       [ [ "scrap", 6 ] ],
       [ [ "e_scrap", 3 ] ],
       [ [ "plut_cell", 1 ] ],
-      [ [ "steel_chunk", 6 ] ]
+      [ [ "ch_steel_chunk", 6 ] ]
     ]
   },
   {
@@ -1617,7 +1638,7 @@
       [ [ "amplifier", 1 ] ],
       [ [ "e_scrap", 10 ] ],
       [ [ "clockworks", 1 ] ],
-      [ [ "steel_chunk", 2 ] ],
+      [ [ "ch_steel_chunk", 2 ] ],
       [ [ "scrap", 2 ] ],
       [ [ "cyborg_matrix", 1 ] ],
       [ [ "storage_battery", 1 ] ],
@@ -1662,7 +1683,7 @@
       [ [ "amplifier", 5 ] ],
       [ [ "e_scrap", 50 ] ],
       [ [ "clockworks", 4 ] ],
-      [ [ "steel_chunk", 10 ] ],
+      [ [ "ch_steel_chunk", 10 ] ],
       [ [ "scrap", 10 ] ],
       [ [ "cyborg_matrix", 1 ] ],
       [ [ "storage_battery", 2 ] ],
@@ -1711,7 +1732,7 @@
       [ [ "amplifier", 3 ] ],
       [ [ "e_scrap", 30 ] ],
       [ [ "clockworks", 6 ] ],
-      [ [ "steel_chunk", 10 ] ],
+      [ [ "ch_steel_chunk", 10 ] ],
       [ [ "scrap", 15 ] ],
       [ [ "mil_plate", 2 ] ],
       [ [ "hard_steel_armor", 6 ] ],
@@ -1899,7 +1920,7 @@
       [ [ "power_supply", 2 ] ],
       [ [ "cable", 2 ] ],
       [ [ "scrap", 6 ] ],
-      [ [ "steel_chunk", 1 ] ]
+      [ [ "hc_steel_chunk", 1 ] ]
     ]
   },
   {
@@ -1916,7 +1937,7 @@
       [ [ "power_supply", 8 ] ],
       [ [ "cable", 16 ] ],
       [ [ "scrap", 6 ] ],
-      [ [ "steel_chunk", 8 ] ]
+      [ [ "hc_steel_chunk", 8 ] ]
     ]
   },
   {
@@ -1944,7 +1965,7 @@
       [ [ "power_supply", 3 ] ],
       [ [ "cable", 6 ] ],
       [ [ "plastic_chunk", 6 ] ],
-      [ [ "steel_chunk", 2 ] ]
+      [ [ "ch_steel_chunk", 2 ] ]
     ]
   },
   {
@@ -1978,7 +1999,7 @@
       [ [ "motor_micro", 12 ] ],
       [ [ "power_supply", 6 ] ],
       [ [ "cable", 12 ] ],
-      [ [ "steel_chunk", 4 ] ],
+      [ [ "ch_steel_chunk", 4 ] ],
       [ [ "plastic_chunk", 4 ] ],
       [ [ "scrap", 5 ] ]
     ]
@@ -1997,7 +2018,7 @@
       [ [ "motor_micro", 12 ] ],
       [ [ "power_supply", 6 ] ],
       [ [ "cable", 12 ] ],
-      [ [ "steel_chunk", 2 ] ],
+      [ [ "ch_steel_chunk", 2 ] ],
       [ [ "plastic_chunk", 2 ] ],
       [ [ "scrap", 5 ] ]
     ]
@@ -2011,7 +2032,13 @@
     "time": "6 h 40 m",
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "motor", 2 ] ], [ [ "power_supply", 6 ] ], [ [ "cable", 4 ] ], [ [ "steel_lump", 6 ] ], [ [ "steel_chunk", 6 ] ] ]
+    "components": [
+      [ [ "motor", 2 ] ],
+      [ [ "power_supply", 6 ] ],
+      [ [ "cable", 4 ] ],
+      [ [ "ch_steel_lump", 6 ] ],
+      [ [ "ch_steel_chunk", 6 ] ]
+    ]
   },
   {
     "result": "cable",
@@ -2071,6 +2098,22 @@
   },
   {
     "result": "smart_phone",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "electronics",
+    "difficulty": 1,
+    "time": "3 m 30 s",
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "scrap_aluminum", 1 ] ],
+      [ [ "medium_battery_cell", 1 ] ],
+      [ [ "small_lcd_screen", 1 ] ],
+      [ [ "memory_card", 1 ] ],
+      [ [ "processor", 1 ] ]
+    ]
+  },
+  {
+    "result": "smart_phone_locked",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "skill_used": "electronics",
@@ -2582,30 +2625,6 @@
     "components": [ [ [ "scrap_aluminum", 10 ] ], [ [ "plastic_chunk", 15 ] ], [ [ "motor_micro", 1 ] ], [ [ "cable", 30 ] ] ]
   },
   {
-    "result": "fancy_sunglasses",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "time": "6 s",
-    "components": [ [ [ "glass_tinted", 1 ] ] ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "fancy_sunglasses_bifocal",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "time": "6 s",
-    "components": [ [ [ "glass_tinted", 1 ] ] ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "fancy_sunglasses_reading",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "time": "6 s",
-    "components": [ [ [ "glass_tinted", 1 ] ] ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
     "result": "file",
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
@@ -3026,7 +3045,7 @@
     "time": "2 h",
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "tools": [ [ [ "welder", 500 ], [ "integrated_welder", 750 ] ] ],
-    "components": [ [ [ "steel_plate", 10 ] ], [ [ "steel_lump", 70 ] ] ]
+    "components": [ [ [ "steel_plate", 10 ] ], [ [ "lc_steel_lump", 70 ] ] ]
   },
   {
     "result": "heavy_flashlight",
@@ -3080,7 +3099,7 @@
     "result": "knife_large",
     "time": "2 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "steel_chunk", 1 ], [ "scrap", 5 ] ] ]
+    "components": [ [ [ "qt_steel_chunk", 1 ], [ "scrap", 5 ] ] ]
   },
   {
     "type": "uncraft",
@@ -3088,7 +3107,7 @@
     "result": "knife_huge",
     "time": "10 m",
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "spike", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ], [ [ "leather", 1 ], [ "fur", 1 ] ] ]
+    "components": [ [ [ "spike", 1 ], [ "qt_steel_chunk", 4 ], [ "scrap", 20 ] ], [ [ "leather", 1 ], [ "fur", 1 ] ] ]
   },
   {
     "type": "uncraft",
@@ -3290,7 +3309,13 @@
     "time": "30 m",
     "using": [ [ "soldering_standard", 40 ], [ "welding_standard", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "amplifier", 2 ] ], [ [ "cable", 1030 ] ], [ [ "bearing", 10 ] ], [ [ "steel_lump", 5 ] ], [ [ "e_scrap", 5 ] ] ]
+    "components": [
+      [ [ "amplifier", 2 ] ],
+      [ [ "cable", 1030 ] ],
+      [ [ "bearing", 10 ] ],
+      [ [ "mc_steel_lump", 5 ] ],
+      [ [ "e_scrap", 5 ] ]
+    ]
   },
   {
     "result": "motor_large",
@@ -3306,7 +3331,7 @@
       [ [ "amplifier", 4 ] ],
       [ [ "cable", 2597 ] ],
       [ [ "bearing", 40 ] ],
-      [ [ "steel_lump", 15 ] ],
+      [ [ "mc_steel_lump", 15 ] ],
       [ [ "e_scrap", 8 ] ]
     ]
   },
@@ -4049,6 +4074,14 @@
     "flags": [ "BLIND_HARD" ]
   },
   {
+    "result": "wicker_basket_large",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "20 m",
+    "components": [ [ [ "withered", 12 ] ] ],
+    "flags": [ "BLIND_HARD" ]
+  },
+  {
     "result": "straw_doll",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
@@ -4144,7 +4177,7 @@
     "components": [
       [ [ "pipe", 1 ] ],
       [ [ "scrap", 6 ] ],
-      [ [ "steel_chunk", 3 ] ],
+      [ [ "lc_steel_chunk", 3 ] ],
       [ [ "sheet_metal", 6 ] ],
       [ [ "cable", 15 ] ],
       [ [ "cu_pipe", 5 ] ],
@@ -4168,7 +4201,7 @@
     "components": [
       [ [ "pipe", 1 ] ],
       [ [ "scrap", 6 ] ],
-      [ [ "steel_chunk", 3 ] ],
+      [ [ "lc_steel_chunk", 3 ] ],
       [ [ "sheet_metal", 6 ] ],
       [ [ "cable", 15 ] ],
       [ [ "cu_pipe", 5 ] ],
@@ -4399,7 +4432,7 @@
     "flags": [ "BLIND_HARD" ]
   },
   {
-    "result": "sheriffshirt",
+    "result": "postman_shirt",
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
     "skill_used": "tailor",
@@ -4540,7 +4573,7 @@
       [ [ "pipe", 1 ] ],
       [ [ "scrap", 6 ] ],
       [ [ "e_scrap", 4 ] ],
-      [ [ "steel_chunk", 3 ] ],
+      [ [ "lc_steel_chunk", 3 ] ],
       [ [ "sheet_metal_small", 4 ] ],
       [ [ "sheet_metal", 6 ] ],
       [ [ "cable", 15 ] ],
@@ -4580,7 +4613,7 @@
       [ [ "pipe", 1 ] ],
       [ [ "scrap", 2 ] ],
       [ [ "e_scrap", 2 ] ],
-      [ [ "steel_chunk", 3 ] ],
+      [ [ "lc_steel_chunk", 3 ] ],
       [ [ "sheet_metal_small", 4 ] ],
       [ [ "sheet_metal", 6 ] ],
       [ [ "cable", 15 ] ],
@@ -4608,7 +4641,7 @@
       [ [ "cable", 20 ] ],
       [ [ "sheet_metal", 1 ] ],
       [ [ "sheet_metal_small", 4 ] ],
-      [ [ "steel_chunk", 4 ] ],
+      [ [ "lc_steel_chunk", 4 ] ],
       [ [ "scrap", 8 ] ],
       [ [ "rope_6", 1 ] ]
     ]
@@ -4631,7 +4664,7 @@
       [ [ "cable", 20 ] ],
       [ [ "sheet_metal", 1 ] ],
       [ [ "sheet_metal_small", 4 ] ],
-      [ [ "steel_chunk", 4 ] ],
+      [ [ "lc_steel_chunk", 4 ] ],
       [ [ "scrap", 8 ] ],
       [ [ "rope_6", 1 ] ]
     ]
@@ -4644,7 +4677,7 @@
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [
       [ [ "scrap", 6 ] ],
-      [ [ "steel_chunk", 3 ] ],
+      [ [ "lc_steel_chunk", 3 ] ],
       [ [ "sheet_metal_small", 4 ] ],
       [ [ "sheet_metal", 2 ] ],
       [ [ "cable", 10 ] ],
@@ -4662,13 +4695,30 @@
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "cable", 6 ] ],
-      [ [ "steel_chunk", 5 ] ],
-      [ [ "steel_lump", 2 ] ],
+      [ [ "ch_steel_chunk", 5 ] ],
+      [ [ "ch_steel_lump", 2 ] ],
       [ [ "scrap", 14 ] ],
       [ [ "steel_plate", 3 ] ],
       [ [ "spike", 1 ] ],
       [ [ "plastic_chunk", 8 ] ],
       [ [ "motor_small", 1 ] ]
+    ]
+  },
+  {
+    "result": "arc_furnace",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "360 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 1 }, { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "fire_brick", 40 ] ],
+      [ [ "cu_pipe", 4 ] ],
+      [ [ "cable", 12 ] ],
+      [ [ "pipe", 4 ] ],
+      [ [ "clamp", 1 ] ],
+      [ [ "motor_tiny", 1 ] ],
+      [ [ "medium_storage_battery", 2 ] ],
+      [ [ "frame", 1 ] ]
     ]
   },
   {
@@ -4679,8 +4729,8 @@
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "cable", 6 ] ],
-      [ [ "steel_chunk", 5 ] ],
-      [ [ "steel_lump", 2 ] ],
+      [ [ "ch_steel_chunk", 5 ] ],
+      [ [ "ch_steel_lump", 2 ] ],
       [ [ "scrap", 14 ] ],
       [ [ "steel_plate", 3 ] ],
       [ [ "circsaw_blade", 2 ] ],
@@ -4696,8 +4746,8 @@
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "cable", 6 ] ],
-      [ [ "steel_chunk", 5 ] ],
-      [ [ "steel_lump", 2 ] ],
+      [ [ "ch_steel_chunk", 5 ] ],
+      [ [ "ch_steel_lump", 2 ] ],
       [ [ "scrap", 14 ] ],
       [ [ "steel_plate", 3 ] ],
       [ [ "circsaw_blade", 2 ] ],
@@ -4713,8 +4763,8 @@
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "cable", 6 ] ],
-      [ [ "steel_chunk", 5 ] ],
-      [ [ "steel_lump", 2 ] ],
+      [ [ "ch_steel_chunk", 5 ] ],
+      [ [ "ch_steel_lump", 2 ] ],
       [ [ "scrap", 14 ] ],
       [ [ "steel_plate", 3 ] ],
       [ [ "lc_wire", 2 ] ],
@@ -4730,8 +4780,8 @@
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "cable", 6 ] ],
-      [ [ "steel_chunk", 5 ] ],
-      [ [ "steel_lump", 2 ] ],
+      [ [ "ch_steel_chunk", 5 ] ],
+      [ [ "ch_steel_lump", 2 ] ],
       [ [ "scrap", 14 ] ],
       [ [ "steel_plate", 3 ] ],
       [ [ "spike", 2 ] ],
@@ -4747,8 +4797,8 @@
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "cable", 6 ] ],
-      [ [ "steel_chunk", 5 ] ],
-      [ [ "steel_lump", 2 ] ],
+      [ [ "ch_steel_chunk", 5 ] ],
+      [ [ "ch_steel_lump", 2 ] ],
       [ [ "scrap", 14 ] ],
       [ [ "steel_plate", 3 ] ],
       [ [ "blade", 2 ] ],
@@ -4764,8 +4814,8 @@
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "cable", 6 ] ],
-      [ [ "steel_chunk", 5 ] ],
-      [ [ "steel_lump", 2 ] ],
+      [ [ "ch_steel_chunk", 5 ] ],
+      [ [ "ch_steel_lump", 2 ] ],
       [ [ "scrap", 14 ] ],
       [ [ "steel_plate", 3 ] ],
       [ [ "blade", 2 ] ],
@@ -4781,7 +4831,7 @@
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "scrap", 6 ] ],
-      [ [ "steel_chunk", 3 ] ],
+      [ [ "mc_steel_chunk", 3 ] ],
       [ [ "sheet_metal_small", 4 ] ],
       [ [ "cable", 10 ] ],
       [ [ "hose", 5 ] ],
@@ -4799,8 +4849,8 @@
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "cable", 6 ] ],
-      [ [ "steel_chunk", 6 ] ],
-      [ [ "steel_lump", 4 ] ],
+      [ [ "ch_steel_chunk", 6 ] ],
+      [ [ "ch_steel_lump", 4 ] ],
       [ [ "scrap", 14 ] ],
       [ [ "steel_plate", 2 ] ],
       [ [ "pipe", 4 ] ],
@@ -4835,7 +4885,7 @@
       [ [ "pipe", 1 ] ],
       [ [ "scrap", 6 ] ],
       [ [ "e_scrap", 6 ] ],
-      [ [ "steel_chunk", 3 ] ],
+      [ [ "mc_steel_chunk", 3 ] ],
       [ [ "sheet_metal_small", 4 ] ],
       [ [ "sheet_metal", 6 ] ],
       [ [ "cable", 15 ] ],
@@ -4918,7 +4968,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "15 m",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "steel_lump", 3 ] ], [ [ "steel_chunk", 3 ] ], [ [ "scrap", 6 ] ] ]
+    "components": [ [ [ "lc_steel_lump", 3 ] ], [ [ "lc_steel_chunk", 3 ] ], [ [ "scrap", 6 ] ] ]
   },
   {
     "result": "fluid_preserved_brain",
@@ -4964,7 +5014,7 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "sheet_metal_small", 2 ] ],
-      [ [ "steel_lump", 1 ] ],
+      [ [ "lc_steel_lump", 1 ] ],
       [ [ "cable", 1 ] ],
       [ [ "hotplate", 1 ] ],
       [ [ "lens_small", 1 ] ]
@@ -4979,7 +5029,7 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "sheet_metal_small", 2 ] ],
-      [ [ "steel_lump", 1 ] ],
+      [ [ "lc_steel_lump", 1 ] ],
       [ [ "cable", 1 ] ],
       [ [ "motor_tiny", 1 ] ],
       [ [ "plastic_chunk", 2 ] ]
@@ -5011,7 +5061,7 @@
     "time": "30 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
-      [ [ "steel_lump", 2 ] ],
+      [ [ "lc_steel_lump", 2 ] ],
       [ [ "amplifier", 1 ] ],
       [ [ "light_bulb", 1 ] ],
       [ [ "cable", 2 ] ],
@@ -5029,7 +5079,7 @@
     "time": "45 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
-      [ [ "steel_lump", 2 ] ],
+      [ [ "lc_steel_lump", 2 ] ],
       [ [ "amplifier", 2 ] ],
       [ [ "light_bulb", 1 ] ],
       [ [ "cable", 2 ] ],
@@ -5049,7 +5099,7 @@
     "using": [ [ "soldering_standard", 15 ] ],
     "components": [
       [ [ "sheet_metal_small", 2 ] ],
-      [ [ "steel_chunk", 4 ] ],
+      [ [ "lc_steel_chunk", 4 ] ],
       [ [ "cable", 2 ] ],
       [ [ "motor_micro", 1 ] ],
       [ [ "plastic_chunk", 6 ] ]
@@ -5967,7 +6017,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "splinter", 1 ] ], [ [ "steel_chunk", 2 ] ] ]
+    "components": [ [ [ "splinter", 1 ] ], [ [ "ch_steel_chunk", 2 ] ] ]
   },
   {
     "result": "tongs",
@@ -6086,7 +6136,7 @@
     "activity_level": "BRISK_EXERCISE",
     "time": "20 m",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "steel_lump", 6 ] ], [ [ "scrap", 4 ] ] ]
+    "components": [ [ [ "ch_steel_chunk", 6 ] ], [ [ "scrap", 4 ] ] ]
   },
   {
     "result": "sheet_kevlar",
@@ -7070,7 +7120,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "30 m",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "steel_chunk", 16 ] ], [ [ "scrap", 6 ] ] ]
+    "components": [ [ [ "lc_steel_chunk", 16 ] ], [ [ "scrap", 6 ] ] ]
   },
   {
     "result": "pliers",
@@ -7197,7 +7247,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "15 m",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "steel_chunk", 5 ] ], [ [ "scrap", 6 ] ] ]
+    "components": [ [ [ "ch_steel_chunk", 5 ] ], [ [ "scrap", 6 ] ] ]
   },
   {
     "result": "metal_tank_little",
@@ -7205,7 +7255,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "15 m",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "steel_chunk", 3 ] ], [ [ "scrap", 4 ] ] ]
+    "components": [ [ [ "lc_steel_chunk", 3 ] ], [ [ "scrap", 4 ] ] ]
   },
   {
     "result": "skull_pig",
@@ -7400,7 +7450,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "45 m",
     "qualities": [ { "id": "CUT_FINE", "level": 1 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "leather", 6 ] ], [ [ "steel_chunk", 29 ] ], [ [ "scrap", 2 ] ] ]
+    "components": [ [ [ "leather", 6 ] ], [ [ "lc_steel_chunk", 29 ] ], [ [ "scrap", 2 ] ] ]
   },
   {
     "result": "chair_folding",
@@ -7583,7 +7633,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "15 m",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "steel_lump", 1 ] ], [ [ "steel_chunk", 3 ] ] ]
+    "components": [ [ [ "ch_steel_chunk", 1 ] ], [ [ "ch_steel_chunk", 3 ] ] ]
   },
   {
     "result": "wheel_rim_bicycle",
@@ -7599,7 +7649,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "20 m",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "steel_lump", 3 ] ] ]
+    "components": [ [ [ "mc_steel_lump", 3 ] ] ]
   },
   {
     "result": "wheel_rim_medium",
@@ -7607,7 +7657,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "45 m",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "steel_lump", 5 ] ], [ [ "steel_chunk", 1 ] ] ]
+    "components": [ [ [ "mc_steel_lump", 5 ] ], [ [ "mc_steel_chunk", 1 ] ] ]
   },
   {
     "result": "wheel_rim_wide",
@@ -7615,7 +7665,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "1 h",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "steel_lump", 7 ], [ "steel_chunk", 2 ] ] ]
+    "components": [ [ [ "mc_steel_lump", 7 ], [ "mc_steel_chunk", 2 ] ] ]
   },
   {
     "result": "fish",
@@ -7849,7 +7899,7 @@
       [ [ "nail", 12 ] ],
       [ [ "qt_wire", 26 ] ],
       [ [ "wheel_caster", 1 ] ],
-      [ [ "steel_chunk", 3 ] ],
+      [ [ "lc_steel_chunk", 3 ] ],
       [ [ "plastic_chunk", 10 ] ]
     ]
   },

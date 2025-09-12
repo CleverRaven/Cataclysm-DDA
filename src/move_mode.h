@@ -3,12 +3,14 @@
 #define CATA_SRC_MOVE_MODE_H
 
 #include <cstdint>
-#include <iosfwd>
 #include <map>
+#include <string>
+#include <string_view>
+#include <utility>
 #include <vector>
 
 #include "color.h"
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
 #include "units.h"
 
@@ -69,7 +71,8 @@ class move_mode
     public:
         static void load_move_mode( const JsonObject &jo, const std::string &src );
         void load( const JsonObject &jo, std::string_view src );
-        static void finalize();
+        void finalize();
+        static void finalize_all();
         static void reset();
 
         move_mode() = default;

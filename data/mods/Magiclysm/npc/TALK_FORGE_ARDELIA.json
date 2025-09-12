@@ -50,7 +50,10 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "NC_FORGE_LORD_STORE_LIBRARY_SHOP",
-    "items": [ { "group": "NC_FORGE_LORD_STORE_LIBRARY", "prob": 100, "count": [ 15, 24 ] } ]
+    "items": [
+      { "group": "NC_FORGE_LORD_STORE_LIBRARY", "prob": 100, "count": [ 15, 24 ] },
+      { "item": "denarius", "count": [ 5, 20 ], "prob": 100 }
+    ]
   },
   {
     "type": "item_group",
@@ -85,7 +88,7 @@
   {
     "id": "TALK_FORGE_LIBRARIAN_ASK_INTERVAL",
     "type": "talk_topic",
-    "dynamic_line": "It shouldn't take Valzain too long to read what he desires from what I have out.  Check back in <interval> and I should have some new books set out.",
+    "dynamic_line": "It shouldn't take Valzain too long to read what he desires from what I have out.  Check back on <restock_time_point> and I should have some new books set out.",
     "responses": [ { "text": "Safe readings.", "topic": "TALK_FORGE_LORD_LIBRARIAN" } ]
   }
 ]

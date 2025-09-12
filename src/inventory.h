@@ -7,11 +7,12 @@
 #include <climits>
 #include <cstddef>
 #include <functional>
-#include <iosfwd>
 #include <limits>
 #include <list>
 #include <map>
 #include <set>
+#include <string>
+#include <tuple>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
@@ -20,7 +21,6 @@
 #include "cata_utility.h"
 #include "coords_fwd.h"
 #include "item.h"
-#include "magic_enchantment.h"
 #include "proficiency.h"
 #include "type_id.h"
 #include "units_fwd.h"
@@ -30,10 +30,10 @@ class Character;
 class JsonArray;
 class JsonOut;
 class JsonValue;
+class item_components;
 class item_stack;
 class map;
 class npc;
-struct tripoint;
 
 using invstack = std::list<std::list<item> >;
 using invslice = std::vector<std::list<item> *>;
@@ -163,6 +163,10 @@ class inventory : public visitable
         void form_from_zone( map &m, std::unordered_set<tripoint_abs_ms> &zone_pts,
                              const Character *pl = nullptr, bool assign_invlet = true );
         void form_from_map( const tripoint_bub_ms &origin, int range, const Character *pl = nullptr,
+                            bool assign_invlet = true,
+                            bool clear_path = true );
+        void form_from_map( map *here, const tripoint_bub_ms &origin, int range,
+                            const Character *pl = nullptr,
                             bool assign_invlet = true,
                             bool clear_path = true );
         void form_from_map( map &m, std::vector<tripoint_bub_ms> pts, const Character *pl,

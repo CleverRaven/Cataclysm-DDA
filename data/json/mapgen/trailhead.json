@@ -36,11 +36,11 @@
       ".": [ [ "f_region_flower", 1 ], [ "f_null", 100 ] ]
     },
     "nested": { "6": { "chunks": [ [ "null", 1 ], [ "1x1_trailmap", 2 ] ] } },
+    "items": { "T": { "item": "SUS_toilet", "chance": 50 } },
     "toilets": { "T": {  } }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "trailhead" ],
     "weight": 5,
     "object": {
@@ -80,7 +80,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "trailhead" ],
     "weight": 5,
     "object": {
@@ -120,7 +119,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "trailhead_outhouse_z0" ],
     "object": {
       "rows": [
@@ -156,7 +154,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "trailhead_outhouse_z1",
     "object": {
       "rows": [
@@ -191,7 +188,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "trailhead_shack_z0" ],
     "object": {
       "rows": [
@@ -233,7 +229,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "trailhead_shack_z1",
     "object": {
       "rows": [
@@ -268,7 +263,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "trailhead_sub_graffiti_snippet",
     "object": { "mapgensize": [ 1, 1 ], "place_graffiti": [ { "snippet": "trailhead_graffiti", "x": 0, "y": 0 } ] }
   },

@@ -1,9 +1,10 @@
 [
   {
     "id": "yrax_delta_laser_gun",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "deterrent laser weapon" },
-    "description": "a very small laser weapon",
+    "description": "a very small laser weapon.",
     "volume": "3 L",
     "price": "0 cent",
     "material": [ "steel", "plastic" ],
@@ -21,7 +22,8 @@
   },
   {
     "id": "yrax_metaljet_cannon",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "ferro-hydraulic cannon" },
     "copy-from": "v29",
     "weight": "19770 g",

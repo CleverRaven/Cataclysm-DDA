@@ -103,7 +103,8 @@
       [ "fridge_van", 300 ],
       [ "security_van", 500 ],
       [ "schoolbus", 100 ],
-      [ "bus", 500 ],
+      [ "bus", 300 ],
+      [ "bus_rack", 200 ],
       [ "bus_tour", 50 ],
       [ "rv", 500 ],
       [ "limousine", 200 ],
@@ -311,7 +312,8 @@
       [ "aapc-mg", 100 ],
       [ "aapc-gl", 50 ],
       [ "schoolbus", 50 ],
-      [ "bus", 350 ],
+      [ "bus", 225 ],
+      [ "bus_rack", 125 ],
       [ "bus_tour", 25 ],
       [ "rv", 800 ],
       [ "limousine", 200 ],
@@ -1298,6 +1300,19 @@
   },
   {
     "type": "vehicle_group",
+    "id": "industrial_transport_no_truck",
+    "//": "Industrial transport vehicles for transporting goods.  No vehicles longer than 8 tiles",
+    "vehicles": [
+      [ "cube_van", 400 ],
+      [ "cube_van_cheap", 500 ],
+      [ "fridge_van", 400 ],
+      [ "van_cargo", 300 ],
+      [ "tatra_truck", 200 ],
+      [ "pickup", 100 ]
+    ]
+  },
+  {
+    "type": "vehicle_group",
     "id": "oa_vg_cd_vehicles",
     "//": "for cs_car_dealership",
     "vehicles": [
@@ -1366,7 +1381,7 @@
   {
     "type": "vehicle_group",
     "id": "buses",
-    "vehicles": [ [ "bus", 1000 ], [ "schoolbus", 100 ], [ "bus_tour", 50 ] ]
+    "vehicles": [ [ "bus", 900 ], [ "bus_rack", 100 ], [ "schoolbus", 100 ], [ "bus_tour", 50 ] ]
   },
   {
     "id": "VETS",

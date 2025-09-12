@@ -10,6 +10,7 @@
     "time": "68 minutes",
     "//": "General rule is gossamer clothing takes 50% longer to make than equivalent cotton clothing.",
     "autolearn": false,
+    "flags": [ "SECRET" ],
     "reversible": { "time": "10 m" },
     "using": [ [ "tailoring_gossamer_patchwork", 8 ] ],
     "proficiencies": [ { "proficiency": "prof_aelfen_tailoring" }, { "proficiency": "prof_gossamer_basic" } ]
@@ -38,6 +39,7 @@
     "time": "540 minutes",
     "reversible": { "time": "45 minutes" },
     "autolearn": false,
+    "flags": [ "SECRET" ],
     "using": [ [ "tailoring_gossamer_patchwork", 38 ] ],
     "proficiencies": [
       { "proficiency": "prof_aelfen_tailoring" },
@@ -56,6 +58,7 @@
     "difficulty": 5,
     "time": "315 minutes",
     "autolearn": false,
+    "flags": [ "SECRET" ],
     "reversible": { "time": "20 minutes" },
     "using": [ [ "tailoring_gossamer_patchwork", 20 ] ],
     "proficiencies": [ { "proficiency": "prof_aelfen_tailoring" }, { "proficiency": "prof_gossamer_basic" } ]
@@ -70,6 +73,7 @@
     "difficulty": 6,
     "time": "540 minutes",
     "autolearn": false,
+    "flags": [ "SECRET" ],
     "reversible": { "time": "45 minutes" },
     "using": [ [ "tailoring_gossamer_patchwork", 30 ] ],
     "proficiencies": [
@@ -89,6 +93,7 @@
     "time": "540 minutes",
     "reversible": { "time": "45 minutes" },
     "autolearn": false,
+    "flags": [ "SECRET" ],
     "using": [ [ "tailoring_gossamer_patchwork", 34 ] ],
     "proficiencies": [
       { "proficiency": "prof_aelfen_tailoring" },
@@ -107,6 +112,7 @@
     "time": "540 minutes",
     "reversible": { "time": "45 minutes" },
     "autolearn": false,
+    "flags": [ "SECRET" ],
     "using": [ [ "tailoring_gossamer_patchwork", 35 ] ],
     "proficiencies": [
       { "proficiency": "prof_aelfen_tailoring" },
@@ -126,6 +132,7 @@
     "time": "480 minutes",
     "reversible": { "time": "45 minutes" },
     "autolearn": false,
+    "flags": [ "SECRET" ],
     "using": [ [ "tailoring_cotton_patchwork", 42 ] ],
     "proficiencies": [
       { "proficiency": "prof_aelfen_tailoring" },
@@ -144,6 +151,7 @@
     "time": "450 minutes",
     "reversible": { "time": "35 minutes" },
     "autolearn": false,
+    "flags": [ "SECRET" ],
     "using": [ [ "tailoring_gossamer_patchwork", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_aelfen_tailoring" }, { "proficiency": "prof_gossamer_basic" } ]
   },
@@ -158,6 +166,7 @@
     "time": "25 m",
     "reversible": { "time": "5 minutes" },
     "autolearn": false,
+    "flags": [ "SECRET" ],
     "using": [ [ "cordage_short", 1 ], [ "tailoring_gossamer_patchwork", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_aelfen_tailoring" }, { "proficiency": "prof_gossamer_basic" } ]
   },
@@ -172,6 +181,7 @@
     "time": "12 h",
     "reversible": { "time": "60 minutes" },
     "autolearn": false,
+    "flags": [ "SECRET" ],
     "using": [ [ "tailoring_gossamer_patchwork", 20 ], [ "fastener_small", 3 ] ],
     "proficiencies": [
       { "proficiency": "prof_aelfen_tailoring" },
@@ -190,6 +200,7 @@
     "time": "7 h",
     "reversible": { "time": "35 minutes" },
     "autolearn": false,
+    "flags": [ "SECRET" ],
     "using": [ [ "tailoring_gossamer_patchwork", 18 ] ],
     "proficiencies": [ { "proficiency": "prof_aelfen_tailoring" }, { "proficiency": "prof_gossamer_basic" } ]
   },
@@ -204,6 +215,7 @@
     "time": "9 h",
     "reversible": { "time": "45 minutes" },
     "autolearn": false,
+    "flags": [ "SECRET" ],
     "using": [ [ "tailoring_gossamer_patchwork", 7 ], [ "fastener_small", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_aelfen_tailoring" },
@@ -222,6 +234,7 @@
     "time": "10 h",
     "reversible": { "time": "50 minutes" },
     "autolearn": false,
+    "flags": [ "SECRET" ],
     "using": [ [ "tailoring_gossamer_patchwork", 10 ], [ "fastener_small", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_aelfen_tailoring" },
@@ -240,6 +253,7 @@
     "time": "90 minutes",
     "reversible": { "time": "15 minutes" },
     "autolearn": false,
+    "flags": [ "SECRET" ],
     "using": [ [ "tailoring_gossamer_patchwork", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_aelfen_tailoring" }, { "proficiency": "prof_gossamer_basic" } ]
   },
@@ -254,7 +268,23 @@
     "time": "3 h",
     "reversible": { "time": "25 minutes" },
     "autolearn": false,
+    "flags": [ "SECRET" ],
     "using": [ [ "tailoring_gossamer_patchwork", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_aelfen_tailoring" }, { "proficiency": "prof_gossamer_basic" } ]
+  },
+  {
+    "result": "slippers_gossamer",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "135 minutes",
+    "autolearn": false,
+    "flags": [ "SECRET" ],
+    "reversible": { "time": "15 m" },
+    "using": [ [ "tailoring_gossamer_patchwork", 8 ], [ "tailoring_leather_patchwork", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_aelfen_tailoring" }, { "proficiency": "prof_gossamer_basic" } ]
   },
   {
@@ -289,6 +319,7 @@
     "difficulty": 7,
     "time": "54 h",
     "autolearn": false,
+    "flags": [ "SECRET" ],
     "proportional": { "weight": 0.6666, "price": 2 },
     "using": [ [ "filament_canvas", 350 ], [ "fastener_large", 2 ], [ "fastener_small", 10 ] ],
     "qualities": [ { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 1 } ],
@@ -316,6 +347,7 @@
     "difficulty": 5,
     "time": "4 h 30m",
     "autolearn": false,
+    "flags": [ "SECRET" ],
     "using": [ [ "filament_canvas", 30 ], [ "fastener_small", 2 ] ],
     "qualities": [ { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 1 } ],
     "components": [ [ [ "sheet", 1 ] ], [ [ "gambeson_batting_gossamer", 2 ] ] ],
@@ -336,6 +368,7 @@
     "difficulty": 6,
     "time": "30 h",
     "autolearn": false,
+    "flags": [ "SECRET" ],
     "using": [ [ "filament_canvas", 100 ], [ "fastener_small", 5 ] ],
     "qualities": [ { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 1 } ],
     "components": [ [ [ "sheet", 4 ] ], [ [ "gambeson_batting_gossamer", 21 ] ] ],
@@ -357,7 +390,8 @@
     "skill_used": "tailor",
     "//": "basically just anything you can fit inside some sheets as stuffing to make a gambeson more cheaply",
     "time": "5 s",
-    "autolearn": true,
+    "autolearn": false,
+    "flags": [ "SECRET" ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "result_mult": 4,
     "components": [ [ [ "scrap_gossamer", 200 ], [ "gossamer_patchwork", 40 ], [ "sheet_gossamer_patchwork", 40 ] ] ]

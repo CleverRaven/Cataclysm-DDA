@@ -1,9 +1,7 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "radio_tower" ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -37,9 +35,7 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "radio_tower_1" ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -73,7 +69,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "radio_tower_roof_1",
     "object": {
       "fill_ter": "t_metal_floor_no_roof",
@@ -108,7 +103,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "radio_tower_even",
     "object": {
       "fill_ter": "t_metal_floor_no_roof",
@@ -143,7 +137,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "radio_tower_even_stair_only",
     "object": {
       "fill_ter": "t_metal_floor_no_roof",
@@ -179,7 +172,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "radio_tower_odd",
     "object": {
       "fill_ter": "t_metal_floor_no_roof",
@@ -215,7 +207,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "radio_tower_top",
     "object": {
       "fill_ter": "t_metal_floor_no_roof",
@@ -263,7 +254,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "radio_tower_2x2_holdout",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -280,7 +270,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "radio_tower_2x2_sniper",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -297,7 +286,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "radio_tower_wasp",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -309,7 +297,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "radio_tower_2x2_map",
     "object": {
       "mapgensize": [ 2, 2 ],

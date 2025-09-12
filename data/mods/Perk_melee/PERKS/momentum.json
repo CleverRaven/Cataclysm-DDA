@@ -24,5 +24,13 @@
     "description": "If you have at least 4 momentum stacks, gain a 5% chance to dodge any ranged attack for every point of dexterity you have.  If you have less than 4 momentum stacks, gain a 1% chance to dodge any ranged attack for every point of dexterity you have.",
     "flags": "MELEE_PERK_MOMENTUM_BULLET_DODGE",
     "enchantments": [ "melee_perk_ench_momentum_bullet_dodge" ]
+  },
+  {
+    "type": "mutation",
+    "id": "MELEE_PERK_MOMENTUM_DUELIST",
+    "copy-from": "MELEE_PERK_BASE",
+    "name": { "str": "Duelist Form" },
+    "description": "If you have more than 1 momentum stack, your momentum will be set to 1 whenever you wait a turn.",
+    "flags": "MELEE_PERK_MOMENTUM_DUELIST"
   }
 ]

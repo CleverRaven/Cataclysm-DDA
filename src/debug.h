@@ -2,8 +2,12 @@
 #ifndef CATA_SRC_DEBUG_H
 #define CATA_SRC_DEBUG_H
 
-#include "string_formatter.h"
+#include <cstdlib>
+#include <string>
 #include <unordered_set>
+#include <utility>
+
+#include "string_formatter.h"
 
 /**
  *      debugmsg(msg, ...)
@@ -257,6 +261,7 @@ enum debug_filter : int {
     DF_EXPLOSION, // explosion generic
     DF_FOOD, // food generic
     DF_GAME, // game generic
+    DF_HIGHWAY, // highway overmap generation
     DF_IEXAMINE, // iexamine generic
     DF_IUSE, // iuse generic
     DF_MAP, // map generic

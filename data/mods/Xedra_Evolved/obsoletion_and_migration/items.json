@@ -1,0 +1,7 @@
+[
+  {
+    "id": [ "integrated_nobreathe" ],
+    "type": "MIGRATION",
+    "replace": "manual_swimming"
+  }
+]

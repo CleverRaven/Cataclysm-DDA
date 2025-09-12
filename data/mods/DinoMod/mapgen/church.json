@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "church" ],
     "//": "Swamper Church",
     "weight": 3000,
@@ -55,7 +54,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "NC_BO_BARONYX_spawn",
     "object": { "mapgensize": [ 1, 1 ], "place_npcs": [ { "class": "SWAMPER_Bo_Baronyx", "x": 0, "y": 0 } ] }
   }

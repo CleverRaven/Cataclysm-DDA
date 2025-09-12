@@ -1,7 +1,17 @@
+#include <string>
+#include <unordered_set>
+
 #include "cata_catch.h"
 #include "clzones.h"
+#include "coordinates.h"
+#include "item.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "map_scale_constants.h"
+#include "pocket_type.h"
+#include "point.h"
+#include "ret_val.h"
+#include "type_id.h"
 
 static const itype_id itype_bag_plastic( "bag_plastic" );
 static const itype_id itype_bow_saw( "bow_saw" );
@@ -20,12 +30,12 @@ TEST_CASE( "zones_custom", "[zones]" )
     WHEN( "overlapping custom zones" ) {
         clear_map();
         map &m = get_map();
-        tripoint_abs_ms const zone_loc = m.getglobal( tripoint_bub_ms{ 5, 5, 0 } );
+        tripoint_abs_ms const zone_loc = m.get_abs( tripoint_bub_ms{ 5, 5, 0 } );
         tripoint_abs_ms const zone_hammer_end = zone_loc + tripoint::north;
         tripoint_abs_ms const zone_bowsaw_end = zone_loc + tripoint::south;
         tripoint_abs_ms const zone_testgroup_end = zone_loc + tripoint::east;
         tripoint_abs_ms const zone_groupbatt_end = zone_loc + tripoint::west;
-        tripoint_abs_ms const where = m.getglobal( tripoint_bub_ms::zero );
+        tripoint_abs_ms const where = m.get_abs( tripoint_bub_ms::zero );
         item hammer( itype_hammer );
         item bow_saw( itype_bow_saw );
         item pants_fur( itype_test_pants_fur );
@@ -48,7 +58,7 @@ TEST_CASE( "zones_custom", "[zones]" )
                            "test_event_item_spawn" );
         mapgen_place_zone( zone_loc, zone_groupbatt_end, zone_type_LOOT_ITEM_GROUP, your_fac, {},
                            "test_group_disp" );
-        tripoint_abs_ms const m_zone_loc = m.getglobal( tripoint_bub_ms{-5, -5, 0 } );
+        tripoint_abs_ms const m_zone_loc = m.get_abs( tripoint_bub_ms{-5, -5, 0 } );
         mapgen_place_zone( m_zone_loc, m_zone_loc, zone_type_LOOT_CUSTOM, your_fac, {},
                            "plastic bag" );
 

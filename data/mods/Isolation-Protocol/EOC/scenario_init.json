@@ -2,7 +2,29 @@
   {
     "type": "effect_on_condition",
     "id": "scenario_fractal_facility",
-    "eoc_type": "SCENARIO_SPECIFIC",
     "effect": [ { "math": [ "SAFEPOINT_INTERVAL = 5" ] }, { "math": [ "ISO_CURRENT_LEVEL = 1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LAST_SCION_VARIABLE_INIT",
+    "eoc_type": "EVENT",
+    "required_event": "game_start",
+    "condition": { "u_has_trait": "iso_eldritch_sorcery" },
+    "effect": [
+      { "set_string_var": "Nothing", "target_var": { "u_val": "last_scion_spell_name_slot_one" } },
+      { "set_string_var": "Nothing", "target_var": { "u_val": "last_scion_spell_name_slot_two" } },
+      { "set_string_var": "Nothing", "target_var": { "u_val": "last_scion_spell_name_slot_three" } },
+      { "set_string_var": "Nothing", "target_var": { "u_val": "last_scion_spell_name_slot_four" } },
+      { "set_string_var": "Nothing", "target_var": { "u_val": "last_scion_spell_name_slot_five" } },
+      { "set_string_var": "Nothing", "target_var": { "u_val": "last_scion_spell_name_slot_six" } },
+      { "set_string_var": "spell_feline_leap", "target_var": { "u_val": "last_scion_spell_id_slot_one" } },
+      { "set_string_var": "spell_feline_leap", "target_var": { "u_val": "last_scion_spell_id_slot_two" } },
+      { "set_string_var": "spell_feline_leap", "target_var": { "u_val": "last_scion_spell_id_slot_three" } },
+      { "set_string_var": "spell_feline_leap", "target_var": { "u_val": "last_scion_spell_id_slot_four" } },
+      { "set_string_var": "spell_feline_leap", "target_var": { "u_val": "last_scion_spell_id_slot_five" } },
+      { "set_string_var": "spell_feline_leap", "target_var": { "u_val": "last_scion_spell_id_slot_six" } },
+      { "math": [ "new_last_scion_spell_level = 0" ] },
+      { "math": [ "last_scion_number_of_spell_slots = 2" ] }
+    ]
   }
 ]

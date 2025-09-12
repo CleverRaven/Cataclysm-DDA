@@ -4,5 +4,29 @@
     "name": "ZOMBIFY_INTO_ENABLED",
     "stype": "bool",
     "value": false
+  },
+  {
+    "id": "anesthetic",
+    "type": "requirement",
+    "//": "Anesthetic cost removed in this mod, as autodocs do all the heavy lifting.",
+    "tools": [ [  ] ]
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "CBM_SLOTS_ENABLED",
+    "stype": "bool",
+    "value": true
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "GAME_EMP",
+    "stype": "bool",
+    "value": true
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "CAPITALISM",
+    "stype": "bool",
+    "value": true
   }
 ]

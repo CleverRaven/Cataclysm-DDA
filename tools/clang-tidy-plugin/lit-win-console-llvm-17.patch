@@ -1,0 +1,24 @@
+index cd803f859..638313405 100644
+--- a/llvm/utils/lit/lit/TestRunner.py
++++ b/llvm/utils/lit/lit/TestRunner.py
+@@ -1085,7 +1085,7 @@ def executeScript(test, litConfig, tmpBase, commands, cwd):
+             if match:
+                 command = match.group(2)
+                 commands[i] = match.expand(
+-                    "echo '\\1' > nul && " if command else "echo '\\1' > nul"
++                    "echo '\\1' > nul && \\2" if command else "echo '\\1' > nul"
+                 )
+         if litConfig.echo_all_commands:
+             f.write("@echo on\n")
+diff --git a/llvm/utils/lit/lit/TestingConfig.py b/llvm/utils/lit/lit/TestingConfig.py
+index 76fd66502..129a5df28 100644
+--- a/llvm/utils/lit/lit/TestingConfig.py
++++ b/llvm/utils/lit/lit/TestingConfig.py
+@@ -71,6 +71,7 @@ class TestingConfig(object):
+                 "INCLUDE",
+                 "LIB",
+                 "PATHEXT",
++                "SystemDrive",
+                 "USERPROFILE",
+             ]
+             environment["PYTHONBUFFERED"] = "1"

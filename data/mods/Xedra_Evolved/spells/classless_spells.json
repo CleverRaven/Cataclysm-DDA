@@ -5,6 +5,17 @@
     "energy_source": "MANA"
   },
   {
+    "id": "xedra_dream_magic",
+    "type": "magic_type",
+    "energy_source": "MANA",
+    "get_level_formula_id": "xedra_dream_formula_get_level",
+    "exp_for_level_formula_id": "xedra_dream_formula_exp_for_level",
+    "casting_xp_formula_id": "xedra_dream_casting_xp_formula",
+    "failure_cost_percent": 0.1,
+    "failure_exp_percent": 1,
+    "max_book_level": 0
+  },
+  {
     "id": "night_sight",
     "type": "SPELL",
     "name": "Night Sight",
@@ -191,5 +202,192 @@
     "flags": [ "NO_LEGS", "SILENT", "NO_EXPLOSION_SFX", "NO_FAIL", "NO_HANDS", "NON_MAGICAL" ],
     "min_duration": { "math": [ "spell_time(time(' 24 h'))" ] },
     "max_duration": { "math": [ "spell_time(time(' 24 h'))" ] }
+  },
+  {
+    "id": "boann_retaliation_mark",
+    "type": "SPELL",
+    "name": { "str": "Boann's retaliation targeting", "//~": "NO_I18N" },
+    "valid_targets": [ "self", "hostile", "ground", "ally" ],
+    "description": { "str": "Intended to be hidden.  This is how Boann teleport away monsters that hit her.", "//~": "NO_I18N" },
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "NO_FAIL" ],
+    "message": "",
+    "effect": "attack",
+    "effect_str": "boann_retaliation_mark",
+    "min_range": 60,
+    "max_range": 60,
+    "min_duration": 500,
+    "max_duration": 500,
+    "shape": "blast"
+  },
+  {
+    "id": "boann_retaliation",
+    "type": "SPELL",
+    "name": { "str": "Boann's retaliation", "//~": "NO_I18N" },
+    "valid_targets": [ "self" ],
+    "description": {
+      "str": "Intended to be hidden.  Makes Boann teleport the player away, spawns some huntsmen and hounds then cure all her ailments and injuries if she survives being hit by the player.",
+      "//~": "NO_I18N"
+    },
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "NO_FAIL" ],
+    "message": "",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_BOANN_RETALIATION",
+    "shape": "blast"
+  },
+  {
+    "id": "EOC_BOANN_RETALIATION",
+    "type": "effect_on_condition",
+    "condition": { "u_has_effect": "hit_by_player" },
+    "effect": [ { "run_eocs": [ "EOC_BOANN_RETALIATION_REAL" ], "alpha_talker": "u", "beta_talker": "avatar" } ],
+    "false_effect": {
+      "run_eocs": [
+        {
+          "id": "EOC_BOANN_RETALIATION_NON_PLAYER",
+          "//": "Needed to properly assign alpha and beta talkers",
+          "effect": [ { "run_eocs": [ "EOC_BOANN_RETALIATION_NON_PLAYER_REAL" ], "alpha_talker": "u", "beta_talker": "avatar" } ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BOANN_RETALIATION_REAL",
+    "condition": { "and": [ "u_is_alive", "npc_is_avatar" ] },
+    "effect": [
+      {
+        "npc_location_variable": { "context_val": "Boann_teleport" },
+        "target_params": {
+          "om_terrain": "forest",
+          "om_terrain_match_type": "CONTAINS",
+          "search_range": 1200,
+          "min_distance": 250,
+          "z": 0,
+          "random": true
+        }
+      },
+      {
+        "npc_message": "Boann waves her hands as you strike her, and you are enveloped by a swirl of multicolored lights.",
+        "popup": true
+      },
+      { "u_cast_spell": { "id": "boann_heal" } },
+      { "u_lose_effect": "hit_by_player" },
+      { "u_add_effect": "effect_goblin_fruit_nobleed", "duration": 2 },
+      { "u_add_effect": "panacea", "duration": 2 },
+      { "u_add_effect": "cureall", "duration": 2 },
+      {
+        "u_spawn_monster": "mon_wild_huntsman",
+        "real_count": { "math": [ "4 + rand(2)" ] },
+        "min_radius": 2,
+        "max_radius": 7
+      },
+      {
+        "u_spawn_monster": "mon_wild_hunt_hound",
+        "real_count": { "math": [ "8 + rand(4)" ] },
+        "min_radius": 4,
+        "max_radius": 10
+      },
+      { "npc_teleport": { "context_val": "Boann_teleport" }, "force": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BOANN_RETALIATION_NON_PLAYER_REAL",
+    "//": "You won't ever see the teleported target again, so might as well kill it.",
+    "//2": "The hunt won't spawn as you you did not strike Boann yourself.",
+    "condition": "u_is_alive",
+    "effect": [
+      { "u_cast_spell": { "id": "boann_banish_monsters_check" } },
+      { "u_cast_spell": { "id": "boann_heal" } },
+      { "u_add_effect": "effect_goblin_fruit_nobleed", "duration": 2 },
+      { "u_add_effect": "panacea", "duration": 2 },
+      { "u_add_effect": "cureall", "duration": 2 },
+      {
+        "npc_message": "Boann waves her hands as her opponent strikes her, and they vanish in a swirl of multicolored lights."
+      }
+    ]
+  },
+  {
+    "type": "SPELL",
+    "id": "boann_heal",
+    "name": { "str": "Boann Heal", "//~": "NO_I18N" },
+    "description": { "str": "Will heal injuries all over Boann's body.", "//~": "NO_I18N" },
+    "valid_targets": [ "self" ],
+    "effect": "attack",
+    "flags": [ "NO_PROJECTILE", "NO_EXPLOSION_SFX", "NO_FAIL", "SILENT" ],
+    "teachable": false,
+    "shape": "blast",
+    "base_casting_time": 0,
+    "min_damage": -300,
+    "max_damage": -300,
+    "message": "",
+    "sound_description": ""
+  },
+  {
+    "id": "boann_banish_monsters_check",
+    "type": "SPELL",
+    "name": { "str": "Boann's retaliation against monsters check", "//~": "NO_I18N" },
+    "description": {
+      "str": "Boann's about to retaliate against monsters, deleting them as they are \"teleported\" away.  You shouldn't see this",
+      "//~": "NO_I18N"
+    },
+    "teachable": false,
+    "valid_targets": [ "self", "ally", "hostile" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_BOANN_RETALIATION_NON_PLAYER_TARGETING",
+    "shape": "blast",
+    "spell_class": "NONE",
+    "damage_type": "pure",
+    "skill": "deduction",
+    "min_range": 60,
+    "max_range": 60,
+    "min_aoe": 60,
+    "max_aoe": 60,
+    "base_casting_time": 0,
+    "flags": [ "SILENT", "NO_FAIL", "NO_EXPLOSION_SFX" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BOANN_RETALIATION_NON_PLAYER_TARGETING",
+    "condition": { "u_has_effect": "boann_retaliation_mark" },
+    "effect": [ { "u_cast_spell": { "id": "boann_banish_monsters" } } ]
+  },
+  {
+    "id": "boann_banish_monsters",
+    "type": "SPELL",
+    "name": { "str": "Boann's retaliation against monsters", "//~": "NO_I18N" },
+    "description": {
+      "str": "Boann's retaliation against monsters, deleting them as they are \"teleported\" away.  You shouldn't see this",
+      "//~": "NO_I18N"
+    },
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "effect": "banishment",
+    "shape": "blast",
+    "spell_class": "NONE",
+    "damage_type": "pure",
+    "skill": "deduction",
+    "min_damage": 9999,
+    "max_damage": 9999,
+    "base_casting_time": 0,
+    "flags": [ "SILENT", "NO_FAIL" ]
+  },
+  {
+    "id": "xedra_self_banish",
+    "type": "SPELL",
+    "name": { "str": "Banish Self", "//~": "NO_I18N" },
+    "description": {
+      "str": "Banish the caster, killing them and destroying their body.  Having this spell is a bug, and casting it would be suicidal.",
+      "//~": "NO_I18N"
+    },
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "effect": "banishment",
+    "shape": "blast",
+    "spell_class": "NONE",
+    "damage_type": "pure",
+    "min_damage": 9999,
+    "max_damage": 9999,
+    "base_casting_time": 0,
+    "flags": [ "SILENT", "NO_FAIL", "PERCENT_DAMAGE" ]
   }
 ]

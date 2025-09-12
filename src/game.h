@@ -21,17 +21,16 @@
 #include "character.h"
 #include "character_id.h"
 #include "color.h"
-#include "coords_fwd.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "cursesdef.h"
 #include "enums.h"
-#include "game_constants.h"
 #include "global_vars.h"
 #include "item_location.h"
+#include "map_scale_constants.h"
 #include "memory_fast.h"
 #include "overmap_ui.h"
 #include "pimpl.h"
-#include "point.h"
 #include "type_id.h"
 #include "units_fwd.h"
 #include "weather.h"
@@ -65,13 +64,13 @@ enum safe_mode_type {
     SAFE_MODE_STOP = 2, // New monsters spotted, no movement allowed
 };
 
-enum action_id : int;
-
+class JsonObject;
 class JsonValue;
 class achievements_tracker;
 class avatar;
 class cata_path;
 class creature_tracker;
+class current_map;
 class eoc_events;
 class event_bus;
 class faction_manager;
@@ -97,7 +96,9 @@ class ui_adaptor;
 class uilist;
 class vehicle;
 class viewer;
+enum action_id : int;
 struct special_game;
+struct mtype;
 struct visibility_variables;
 template <typename Tripoint> class tripoint_range;
 
@@ -107,6 +108,7 @@ using item_location_filter = std::function<bool ( const item_location & )>;
 enum peek_act : int {
     PA_BLIND_THROW,
     PA_BLIND_THROW_WIELDED,
+    PA_MOVE,
     // obvious future additional value is PA_BLIND_FIRE
 };
 
@@ -131,6 +133,33 @@ struct w_map {
     catacurses::window win;
 };
 
+struct pulp_data {
+    // how far the splatter goes
+    int mess_radius = 1;
+    // how much damage you deal to corpse every second, average of multiple values
+    float nominal_pulp_power;
+    // The actual power produced, adjusted based on time adjustments.
+    float pulp_power;
+    // how much stamina is consumed after each punch
+    float pulp_effort;
+    // time to pulp the corpse
+    int time_to_pulp;
+    // potential prof we can learn by pulping
+    std::optional<proficiency_id> unknown_prof;
+    // if monster has PULP_PRYING flag, can you pry armor faster using tool
+    bool can_pry_armor = false;
+    // do we have a good tool to cut specific parts faster
+    bool can_cut_precisely = false;
+    // all used in ending messages
+    bool stomps_only = false;
+    bool weapon_only = false;
+    bool used_pry = false;
+    bool couldnt_use_pry = false;
+    std::string bash_tool;
+    std::string cut_tool;
+    std::string pry_tool;
+};
+
 bool is_valid_in_w_terrain( const point_rel_ms &p );
 namespace turn_handler
 {
@@ -145,9 +174,11 @@ class game
         friend class editmap;
         friend class main_menu;
         friend class exosuit_interact;
+        friend class swap_map;
         friend achievements_tracker &get_achievements();
         friend event_bus &get_event_bus();
         friend map &get_map();
+        friend map &reality_bubble();
         friend creature_tracker &get_creature_tracker();
         friend Character &get_player_character();
         friend avatar &get_avatar();
@@ -207,10 +238,14 @@ class game
     public:
         void setup();
         /** Saving and loading functions. */
-        void serialize( std::ostream &fout ); // for save
+        void serialize_json( std::ostream &fout ); // for save
         void unserialize( std::istream &fin, const cata_path &path ); // for load
+        void unserialize( std::string fin ); // for load
         void unserialize_master( const cata_path &file_name, std::istream &fin ); // for load
         void unserialize_master( const JsonValue &jv ); // for load
+    private:
+        void unserialize_impl( const JsonObject &data );
+    public:
 
         /** Returns false if saving failed. */
         bool save();
@@ -492,6 +527,7 @@ class game
         std::vector<Creature *> get_creatures_if( const std::function<bool( const Creature & )> &pred );
         std::vector<Character *> get_characters_if( const std::function<bool( const Character & )> &pred );
         std::vector<npc *> get_npcs_if( const std::function<bool( const npc & )> &pred );
+        std::vector<vehicle *> get_vehicles_if( const std::function<bool( const vehicle & )> &pred );
         /**
          * Returns a creature matching a predicate. Only living (not dead) creatures
          * are checked. Returns `nullptr` if no creature matches the predicate.
@@ -500,9 +536,8 @@ class game
         Creature *get_creature_if( const std::function<bool( const Creature & )> &pred );
 
         /** Returns true if there is no player, NPC, or monster on the tile and move_cost > 0. */
-        // TODO: fix point types (remove the first overload)
-        bool is_empty( const tripoint &p );
         bool is_empty( const tripoint_bub_ms &p );
+        bool is_empty( map *here, const tripoint_abs_ms &p );
         /** Returns true if p is outdoors and it is sunny. */
         bool is_in_sunlight( const tripoint_bub_ms &p );
         bool is_in_sunlight( map *here, const tripoint_bub_ms &p );
@@ -523,6 +558,8 @@ class game
         bool revive_corpse( const tripoint_bub_ms &p, item &it );
         // same as above, but with relaxed placement radius.
         bool revive_corpse( const tripoint_bub_ms &p, item &it, int radius );
+        // evaluate what monster it should be, if necessary
+        void assing_revive_form( item &it, tripoint_bub_ms p );
         /**Turns Broken Cyborg monster into Cyborg NPC via surgery*/
         void save_cyborg( item *cyborg, const tripoint_bub_ms &couch_pos, Character &installer );
         /** Asks if the player wants to cancel their activity, and if so cancels it. */
@@ -547,6 +584,7 @@ class game
         npc *find_npc_by_unique_id( const std::string &unique_id );
         /** Makes any nearby NPCs on the overmap active. */
         void load_npcs();
+        void load_npcs( map *here );
 
         /** NPCs who saw player interacting with their stuff (disassembling, cutting etc)
         * will notify the player that thievery was witnessed and make angry at the player. */
@@ -750,8 +788,7 @@ class game
          */
         void load_map( const tripoint_abs_sm &pos_sm, bool pump_events = false );
         // Removes legacy npctalk_var_ prefix from older versions of the game. Should be removed after 0.J
-        static void legacy_migrate_npctalk_var_prefix( std::unordered_map<std::string, std::string>
-                &map_of_vars );
+        static void legacy_migrate_npctalk_var_prefix( global_variables::impl_t &map_of_vars );
         /**
          * The overmap which contains the center submap of the reality bubble.
          */
@@ -817,7 +854,6 @@ class game
                                  bool hilite );
         void draw_vpart_override( const tripoint_bub_ms &p, const vpart_id &id, int part_mod,
                                   const units::angle &veh_dir, bool hilite, const point_rel_ms &mount );
-        void draw_below_override( const tripoint_bub_ms &p, bool draw );
         void draw_monster_override( const tripoint_bub_ms &p, const mtype_id &id, int count,
                                     bool more, Creature::Attitude att );
 
@@ -886,7 +922,8 @@ class game
 
         game::vmenu_ret list_items( const std::vector<map_item_stack> &item_list );
         std::vector<map_item_stack> find_nearby_items( int iRadius );
-        void reset_item_list_state( const catacurses::window &window, int height, bool bRadiusSort );
+        void reset_item_list_state( const catacurses::window &window, int height,
+                                    list_item_sort_mode sortMode );
 
         game::vmenu_ret list_monsters( const std::vector<Creature *> &monster_list );
 
@@ -951,8 +988,6 @@ class game
         // Pick up items from the given point
         void pickup( const tripoint_bub_ms &p );
     private:
-        void wield();
-        void wield( item_location loc );
 
         void chat(); // Talk to a nearby NPC  'C'
 
@@ -979,6 +1014,9 @@ class game
                                int last_line );
         void print_graffiti_info( const tripoint_bub_ms &lp, const catacurses::window &w_look, int column,
                                   int &line, int last_line );
+
+        void print_debug_info( const tripoint_bub_ms &lp, const catacurses::window &w_look,
+                               int column, int &line );
 
         input_context get_player_input( std::string &action );
 
@@ -1043,17 +1081,15 @@ class game
         void display_faction_epilogues();
         void disp_NPC_epilogues();  // Display NPC endings
 
+    public:
         /* Debug functions */
         // currently displayed overlay (none is displayed if empty)
         std::optional<action_id> displaying_overlays; // NOLINT(cata-serialize)
         void display_scent();   // Displays the scent map
-        void display_temperature();    // Displays temperature map
-        void display_vehicle_ai(); // Displays vehicle autopilot AI overlay
         void display_visibility(); // Displays visibility map
         void display_lighting(); // Displays lighting conditions heat map
-        void display_radiation(); // Displays radiation map
-        void display_transparency(); // Displays transparency map
 
+    private:
         // prints the IRL time in ms of the last full in-game hour
         class debug_hour_timer
         {
@@ -1080,6 +1116,7 @@ class game
         // ########################## DATA ################################
         // May be a bit hacky, but it's probably better than the header spaghetti
         pimpl<map> map_ptr; // NOLINT(cata-serialize)
+        pimpl<::current_map> current_map_ptr; // NOLINT(cata-serialize)
         pimpl<avatar> u_ptr; // NOLINT(cata-serialize)
         pimpl<live_view> liveview_ptr; // NOLINT(cata-serialize)
         live_view &liveview; // NOLINT(cata-serialize)
@@ -1093,7 +1130,9 @@ class game
         pimpl<spell_events> spell_events_ptr; // NOLINT(cata-serialize)
         pimpl<eoc_events> eoc_events_ptr; // NOLINT(cata-serialize)
 
-        map &m;
+        map &m; // NOLINT(cata-serialize)
+        // 'current_map' will be identical to 'm' as you can save only at the top of the main loop.
+        ::current_map &current_map; // NOLINT(cata-serialize)
         avatar &u;
         scent_map &scent;
         // scenario is saved in avatar::store
@@ -1304,6 +1343,13 @@ class game
             const tripoint_bub_ms &examp,
             climbing_aid_id aid,
             bool deploy_affordance = false );
+
+        pulp_data calculate_character_ability_to_pulp( const Character &you );
+        pulp_data calculate_pulpability( const Character &you, const mtype &corpse_mtype );
+        pulp_data calculate_pulpability( const Character &you, const mtype &corpse_mtype, pulp_data pd );
+        bool can_pulp_corpse( const Character &you, const mtype &corpse_mtype );
+        bool can_pulp_corpse( const pulp_data &pd );
+        bool can_pulp_acid_corpse( const Character &you, const mtype &corpse_mtype );
 };
 
 // Returns temperature modifier from direct heat radiation of nearby sources

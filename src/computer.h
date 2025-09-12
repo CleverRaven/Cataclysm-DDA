@@ -2,20 +2,22 @@
 #ifndef CATA_SRC_COMPUTER_H
 #define CATA_SRC_COMPUTER_H
 
+#include <functional>
 #include <memory>
-#include <optional>
 #include <string>
-#include <unordered_map>
+#include <utility>
 #include <vector>
 
 #include "calendar.h"
 #include "coordinates.h"
-#include "point.h"
+#include "math_parser_diag_value.h"
+#include "global_vars.h"
 #include "type_id.h"
 
 class JsonObject;
 class JsonOut;
 class JsonValue;
+class map;
 class talker;
 
 enum computer_action {
@@ -120,7 +122,8 @@ struct computer_failure {
 class computer
 {
     public:
-        computer( const std::string &new_name, int new_security, tripoint_bub_ms new_loc );
+        computer( const std::string &new_name, int new_security, map &here, tripoint_bub_ms new_loc );
+        computer( const std::string &new_name, int new_security, tripoint_abs_ms new_loc );
 
         // Initialization
         void set_security( int Security );
@@ -138,7 +141,7 @@ class computer
         void deserialize( const JsonValue &jv );
 
         friend class computer_session;
-        tripoint_bub_ms loc;
+        tripoint_abs_ms loc;
         // "Jon's Computer", "Lab 6E77-B Terminal Omega"
         std::string name;
         // Linked to a mission?
@@ -160,11 +163,15 @@ class computer
         std::vector<std::string> chat_topics; // What it has to say.
         std::vector<effect_on_condition_id> eocs; // Effect on conditions to run when accessed.
         // Miscellaneous key/value pairs.
-        std::unordered_map<std::string, std::string> values;
+        global_variables::impl_t values;
         // Methods for setting/getting misc key/value pairs.
-        void set_value( const std::string &key, const std::string &value );
+        void set_value( const std::string &key, diag_value value );
+        template <typename... Args>
+        void set_value( const std::string &key, Args... args ) {
+            set_value( key, diag_value{ std::forward<Args>( args )... } );
+        }
         void remove_value( const std::string &key );
-        std::optional<std::string> maybe_get_value( const std::string &key ) const;
+        diag_value const *maybe_get_value( const std::string &key ) const;
 
         void remove_option( computer_action action );
 };

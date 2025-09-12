@@ -1,7 +1,8 @@
 [
   {
     "id": "ZSG",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Zombie Survival Guide", "str_pl": "copies of Zombie Survival Guide" },
     "description": "While this seems like it would be very useful in this situation, the sheer amount of misinformation present makes it practically useless.",
     "weight": "227 g",
@@ -15,11 +16,12 @@
     "intelligence": 7,
     "time": "18 m",
     "chapters": 28,
-    "fun": 2
+    "read_fun": 2
   },
   {
     "id": "black_box_transcript",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "black box transcript" },
     "//": "ooh, military records, probably Classified!",
     "description": "A full flight log for a military aircraft.  Nothing of interest stands out.",
@@ -33,12 +35,13 @@
     "color": "light_green",
     "intelligence": 8,
     "time": "30 m",
-    "fun": -1,
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 5 },
+    "read_fun": -1
   },
   {
     "id": "commune_prospectus",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str_sp": "Ranch Prospectus" },
     "description": "A short paper of the economic viability of constructing an agricultural outpost.",
     "weight": "1 g",
@@ -55,7 +58,8 @@
   },
   {
     "id": "decoy_elfa",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "standpipe maintenance log" },
     "description": "This binder details the scheduled maintenance for several plumbing systems throughout the facility.",
     "weight": "400 g",
@@ -66,15 +70,16 @@
     "symbol": "?",
     "looks_like": "record_patient",
     "color": "light_green",
-    "skill": "mechanics",
     "required_level": 1,
     "intelligence": 8,
     "time": "45 m",
-    "fun": -2
+    "read_skill": "mechanics",
+    "read_fun": -2
   },
   {
     "id": "essay_book",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "book of essays", "str_pl": "books of essays" },
     "description": "A collection of essays by various authors from around the world, including works by Churchill, Mailer, Eco, and Voltaire.",
     "weight": "700 g",
@@ -88,11 +93,13 @@
     "intelligence": 10,
     "time": "26 m",
     "chapters": 40,
-    "fun": 3
+    "generic": true,
+    "read_fun": 3
   },
   {
     "id": "guidebook",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "The Hitchhiker's Guide to the Cataclysm", "str_pl": "copies of The Hitchhiker's Guide to the Cataclysm" },
     "description": "Inscribed on the cover in large, friendly letters, is the message \"Don't Panic\".",
     "weight": "1178 g",
@@ -109,7 +116,8 @@
   },
   {
     "id": "mag_comic",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "comic book" },
     "description": "A super-hero comic.",
     "weight": "60 g",
@@ -121,11 +129,12 @@
     "looks_like": "mag_glam",
     "color": "light_cyan",
     "time": "7 m",
-    "fun": 2
+    "read_fun": 2
   },
   {
     "id": "mag_gaming",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Computer Gaming", "str_pl": "issues of Computer Gaming" },
     "description": "Reviews of recently released computer games and previews of upcoming titles.",
     "weight": "60 g",
@@ -138,18 +147,20 @@
     "color": "pink",
     "intelligence": 7,
     "time": "8 m",
-    "fun": 2
+    "read_fun": 2
   },
   {
     "id": "mag_news",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "TIME magazine" },
     "description": "Current events concerning a bunch of people who're all (un)dead now.",
     "copy-from": "book_nonf_zine_news_tpl"
   },
   {
     "id": "book_nonf_zine_news_anlyst",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "The Analyst", "str_pl": "issues of The Analyst" },
     "//": "ie The Economist",
     "description": "This news magazine has been described as \"a kind of Reader's Digest for America's corporate elite.\"  These concerns are, of course, behind us now.",
@@ -157,7 +168,8 @@
   },
   {
     "id": "mag_porn",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Playboy", "str_pl": "issues of Playboy" },
     "description": "You can read it for the articles.  Or not.",
     "weight": "60 g",
@@ -170,11 +182,13 @@
     "color": "pink",
     "time": "10 m",
     "chapters": 4,
-    "fun": 1
+    "generic": true,
+    "read_fun": 1
   },
   {
     "id": "news_regional",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Rural Digest-Examiner", "str_pl": "issues of Rural Digest-Examiner" },
     "description": "A newsweekly covering regional events.  There is an article on the winter's snowstorms and several letters to the editor concerning the community response.",
     "weight": "80 g",
@@ -187,25 +201,27 @@
     "color": "pink",
     "intelligence": 5,
     "time": "5 m",
-    "fun": 1
+    "read_fun": 1
   },
   {
     "id": "novel_adventure",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "adventure novel" },
     "description": "The stirring tale of a race against time, in search of a lost city located in the heart of the African continent.",
-    "copy-from": "book_fict_soft_tpl",
+    "copy-from": "book_fict_soft_collection_tpl",
     "price": "8 USD 50 cent",
     "price_postapoc": "50 cent",
     "time": "20 m",
-    "fun": 3
+    "read_fun": 3
   },
   {
     "id": "novel_buddy",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "buddy novel" },
     "description": "A gripping tale of two friends struggling to survive on the streets of New York City.",
-    "copy-from": "book_fict_soft_tpl",
+    "copy-from": "book_fict_soft_collection_tpl",
     "weight": "244 g",
     "volume": "500 ml",
     "price": "6 USD 50 cent",
@@ -213,34 +229,38 @@
   },
   {
     "id": "novel_crime",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "crime novel" },
-    "copy-from": "book_fict_soft_tpl",
+    "copy-from": "book_fict_soft_collection_tpl",
     "description": "After their diamond heist goes wrong, the surviving criminals begin to suspect that one of them is a police informant.",
     "intelligence": 6,
     "time": "20 m",
     "chapters": 24,
-    "fun": 3
+    "read_fun": 3
   },
   {
     "id": "novel_crime2",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "crime novel" },
     "copy-from": "novel_crime",
-    "description": "A story about three people in the fictional city of Los Santos: a gangster, an upper-class man, and a psychopath.  They eventually band together to pull off the biggest heist in the city's history",
+    "description": "A story about three people in the fictional city of Los Santos: a gangster, an upper-class man, and a psychopath.  They eventually band together to pull off the biggest heist in the city's history.",
     "time": "18 m",
     "relative": { "chapters": -3 }
   },
   {
     "id": "novel_crime_murdergrape",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Murdered by the Grapevine", "str_pl": "copies of Murdered by the Grapevine" },
     "description": "This cheap paperback tells the story of a mob boss done in by mere suspicion.  She never breaks a confidence, never rats out an accomplice, and never turns her back on a friend.  Nonetheless her grip on the reigns of the underworld is eroded by rumor and paranoia.",
     "copy-from": "book_fict_soft_tpl"
   },
   {
     "id": "novel_crime_midnight",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Midnight Cop", "str_pl": "copies of Midnight Cop" },
     "description": "In this bare-knuckled potboiler, a ruthless police detective schemes to shut down local crime lords by pitting them against each other.  When long-simmering resentments finally flare the city learns why they call it \"the dead of night.\"",
     "time": "24 m",
@@ -249,21 +269,23 @@
   },
   {
     "id": "novel_drama",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "drama novel" },
     "description": "A real book for real adults.",
-    "copy-from": "book_fict_soft_tpl",
+    "copy-from": "book_fict_soft_collection_tpl",
     "intelligence": 7,
     "time": "25 m",
     "chapters": 28,
-    "fun": 3
+    "read_fun": 3
   },
   {
     "id": "novel_erotic",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "erotic novel" },
     "description": "A hackneyed fictional narrative concealing low-grade literary smut.",
-    "copy-from": "book_fict_soft_tpl",
+    "copy-from": "book_fict_soft_collection_tpl",
     "weight": "200 g",
     "volume": "500 ml",
     "time": "18 m",
@@ -271,10 +293,11 @@
   },
   {
     "id": "novel_experimental",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "experimental novel" },
     "description": "A bizarre play about the philosophy of existential absurdity.  Or maybe it's about two guys waiting for their friend to show up.  It's confusing.",
-    "copy-from": "book_fict_soft_tpl",
+    "copy-from": "book_fict_soft_collection_tpl",
     "weight": "142 g",
     "volume": "500 ml",
     "intelligence": 7,
@@ -283,73 +306,80 @@
   },
   {
     "id": "novel_fantasy",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "fantasy novel" },
     "description": "Basic sword & sorcery.",
-    "copy-from": "book_fict_soft_tpl",
+    "copy-from": "book_fict_soft_collection_tpl",
     "weight": "227 g",
     "volume": "1 L",
     "intelligence": 7,
     "time": "20 m",
     "chapters": 28,
-    "fun": 3,
-    "looks_like": "dnd_handbook"
+    "looks_like": "dnd_handbook",
+    "read_fun": 3
   },
   {
     "id": "novel_horror",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "horror novel" },
     "description": "Maybe not the best reading material considering the situation.",
-    "copy-from": "book_fict_soft_tpl",
+    "copy-from": "book_fict_soft_collection_tpl",
     "weight": "227 g",
     "intelligence": 7,
     "time": "18 m",
     "chapters": 28,
-    "fun": 1
+    "read_fun": 1
   },
   {
     "id": "novel_mystery",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "mystery novel" },
     "description": "A detective investigates an unusual murder in a secluded location.",
-    "copy-from": "book_fict_soft_tpl",
+    "copy-from": "book_fict_soft_collection_tpl",
     "intelligence": 7,
     "time": "18 m",
     "chapters": 28,
-    "fun": 3
+    "read_fun": 3
   },
   {
     "id": "novel_road",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "road novel" },
     "description": "A tale about a group of friends who wander the USA in the 1960s against a backdrop of jazz, poetry and drug use.",
-    "copy-from": "book_fict_soft_tpl",
+    "copy-from": "book_fict_soft_collection_tpl",
     "weight": "244 g",
     "volume": "500 ml",
     "time": "20 m",
-    "fun": 3
+    "read_fun": 3
   },
   {
     "id": "book_fict_soft_west_gore",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Gore Longitude", "str_pl": "copies of Gore Longitude" },
     "description": "Award-winning author Cornac McCaffordy weaves a chilling tale of horror and strife, following the compellingly lucrative, seductively dangerous bounty hunting and scalping trade across the western frontier.",
     "copy-from": "book_fict_soft_tpl",
     "intelligence": 6,
     "time": "25 m",
     "chapters": 24,
-    "fun": 3
+    "read_fun": 3
   },
   {
     "id": "novel_romance",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "romance novel" },
     "description": "Drama and mild smut.",
-    "copy-from": "book_fict_soft_tpl"
+    "copy-from": "book_fict_soft_collection_tpl"
   },
   {
     "id": "paperback_romance_circuses",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Love and Circuses", "str_pl": "copies of Love and Circuses" },
     "description": "The passionate saga of two Boston politicians fiercely battling each other for the mayor's office, and for Lydia's hand in marriage.",
     "copy-from": "paperback_romance_spb",
@@ -357,7 +387,8 @@
   },
   {
     "id": "paperback_romance_cloven",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Cloven Kisses", "str_pl": "copies of Cloven Kisses" },
     "description": "When the devil falls in love with a warlock, his proposal must be infernally wicked.  Will hooves, horns, and the scent of sulfur condemn love's flames to hellfire?",
     "copy-from": "paperback_romance_lnl",
@@ -365,7 +396,8 @@
   },
   {
     "id": "paperback_romance_conq",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Conquer Me Sweetly", "str_pl": "copies of Conquer Me Sweetly" },
     "description": "Sweet Providence Books is delighted to offer you this romantic tale of delicious dalliances and daring delights.",
     "copy-from": "paperback_romance_spb",
@@ -373,14 +405,16 @@
   },
   {
     "id": "paperback_romance_dd",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Dubliner's Debutante", "str_pl": "copies of Dubliner's Debutante" },
     "description": "His love songs were only for me, but I preferred the banjo over bagpipes.  How could I ever love a kilted yankee of foreign breeding?",
     "copy-from": "paperback_romance_spb"
   },
   {
     "id": "paperback_romance_diodes",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Blood Diodes", "str_pl": "copies of Blood Diodes" },
     "description": "He is an automaton, she is a reformed vampire, can love find a way?  In this edgy romance by acclaimed author Kea Dekker, heartbreak is just the beginning.",
     "copy-from": "paperback_romance_lnl",
@@ -388,42 +422,48 @@
   },
   {
     "id": "paperback_romance_envyh",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Envying Heaven", "str_pl": "copies of Envying Heaven" },
     "description": "When her fiancee names a star for her Wanda begins to wonder if an astronomer's wife can ever compete with the allure of the cosmos.",
     "copy-from": "paperback_romance_vanilla"
   },
   {
     "id": "paperback_romance_grue",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Tall, Dark, and Gruesome", "str_pl": "copies of Tall, Dark, and Gruesome" },
     "description": "Fatima's obsession with the dead threatens to consume her when she falls in love with a restless ghost.  In this provocative romp celebrated author Kea Dekker gently lifts the thin veil separating cold bodies from warm.",
     "copy-from": "paperback_romance_lnl"
   },
   {
     "id": "paperback_romance_rider",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Along Came a Rider", "str_pl": "copies of Along Came a Rider" },
     "description": "When Beth's career as a pro steeplechase jockey threatens to divide her from her lover, Beth has to act fast.  Will she ever find a man that can keep up with her racing heart?",
     "copy-from": "paperback_romance_vanilla"
   },
   {
     "id": "paperback_romance_rogue",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Rogue's Virtue", "str_pl": "copies of Rogue's Virtue" },
     "description": "Can Victoria reform the fugitive from justice who wooed her with false pretenses and true passion?",
     "copy-from": "paperback_romance_vanilla"
   },
   {
     "id": "paperback_romance_secret",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "The Death of My Secret Life", "str_pl": "copies of The Death of My Secret Life" },
     "description": "Makeda comes out to her family, but she's still got plenty of skeletons in her closet.  Best selling authoress Kea Dekker breaks all the rules in this macabre story of love and lies.",
     "copy-from": "paperback_romance_lnl"
   },
   {
     "id": "novel_samurai",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "samurai novel" },
     "description": "The classic tale of a wandering swordsman who comes to a small settlement and is hired to help the townsfolk defend themselves from a band of marauding outlaws.  This hardback is quite hefty.",
     "//isbn13": 9781568364278,
@@ -438,7 +478,8 @@
   },
   {
     "id": "novel_satire",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "satire novel" },
     "copy-from": "book_fict_soft_satire_tpl",
     "description": "A political satire of the pre-apocalypse world.  Looking back on it from this side of Armageddon makes it seem all the more ridiculous.",
@@ -447,14 +488,16 @@
   },
   {
     "id": "book_fict_soft_satire_hgod",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "The House of God", "str_pl": "copies of The House of God" },
     "description": "Set in a lightly disguised Boston hospital of high repute, Samuel Shem's novel dives deep into the agony of absurdity.",
     "copy-from": "book_fict_soft_satire_tpl"
   },
   {
     "id": "book_fict_soft_satire_catch",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Catch-22", "str_pl": "copies of Catch-22" },
     "description": "There is a short informational forward in this paperback edition of Catch-22.  Apparently the original title for Joseph Heller's excruciatingly brilliant war satire was \"Catch-11.\"",
     "weight": "480 g",
@@ -463,7 +506,8 @@
   },
   {
     "id": "book_fict_soft_satire_mandm",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "The Master and Margarita", "str_pl": "copies of Master and Margarita" },
     "description": "Featuring a cast that includes Satan, Pontius Pilate, Jesus Christ, vampires, a talking cat, and the literary elite of Moscow, this novel by Mikhail Bulgakov explores philosophical issues on the nature of good and evil.",
     "//isbn13": 9780802130112,
@@ -476,63 +520,70 @@
   },
   {
     "id": "book_fict_soft_satire_dust",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "A Handful of Dust", "str_pl": "copies of A Handful of Dust" },
     "description": "Laced with cynicism, Evelyn Waugh's \"A Handful of Dust\" satirizes a stratum of characters who have wealth, but lack any other credentials.",
     "copy-from": "book_fict_soft_satire_tpl"
   },
   {
     "id": "book_fict_soft_satire_cats",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Cat's Cradle", "str_pl": "copies of Cat's Cradle" },
     "description": "A paperback edition of Kurt Vonnegut's fourth novel, in which the threat of nuclear destruction isn't much of an influence on human nature.",
     "weight": "360 g",
     "time": "1 m",
     "chapters": 127,
-    "fun": 1,
-    "copy-from": "book_fict_soft_satire_tpl"
+    "copy-from": "book_fict_soft_satire_tpl",
+    "read_fun": 1
   },
   {
     "id": "novel_spy",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "spy novel" },
     "description": "A tale of intrigue and espionage among Nazis, no, Commies, no, Iraqis!",
-    "copy-from": "book_fict_soft_tpl",
+    "copy-from": "book_fict_soft_collection_tpl",
     "intelligence": 5,
     "time": "18 m",
     "chapters": 20,
-    "fun": 3
+    "read_fun": 3
   },
   {
     "id": "novel_spy_comefly",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Come Fly the Treacherous Skies", "str_pl": "copies of Come Fly the Treacherous Skies" },
     "description": "This tale of intrigue betrays the story of a debonair mechanic driven by a lust for revenge.  As she uncovers a sophisticated network of amateur pilots turned smugglers, the good guys and the bad guys begin to all look the same.",
     "copy-from": "book_fict_soft_tpl"
   },
   {
     "id": "novel_spy_rocketsci",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Lies, Damn Lies, and Rocket Science", "str_pl": "copies of Lies, Damn Lies, and Rocket Science" },
     "description": "This spy novel tells the story of a jaded rocket scientist looking for redemption in all the wrong places.  As selling state secrets becomes her career, she learns there isn't much of difference between a double-agent and a triple-agent.",
     "copy-from": "book_fict_soft_tpl"
   },
   {
     "id": "novel_swash",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "swashbuckling novel" },
     "description": "An exciting seventeenth century tale of how an enslaved Irish doctor and his comrades-in-chains escape and become heroic pirates of the Robin Hood variety.",
     "weight": "582 g",
     "volume": "750 ml",
-    "copy-from": "book_fict_soft_tpl",
+    "copy-from": "book_fict_soft_collection_tpl",
     "intelligence": 7,
     "time": "20 m",
     "chapters": 28,
-    "fun": 4
+    "read_fun": 4
   },
   {
     "id": "book_fict_soft_swash_blkfreight",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "The Black Freighter", "str_pl": "copies of The Black Freighter" },
     "description": "Who watches the watchmen?  Pirate Jenny, that's who!  This swashbuckling adventure novel will make you feel swell.",
     "copy-from": "book_fict_soft_tpl",
@@ -540,7 +591,8 @@
   },
   {
     "id": "book_fict_soft_swash_searovers",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Captain Gosnold and the Sea Rovers of Buzzards Bay", "str_pl": "copies of The Sea Rovers" },
     "description": "This lengthy paperback novel describes the ocean exploits of Captain Gosnold.  The British consider him an outlaw, but in America he is a patriot.",
     "copy-from": "book_fict_soft_tpl",
@@ -549,25 +601,28 @@
   },
   {
     "id": "book_fict_soft_swash_buccaneer",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "The Code of the Buccaneer", "str_pl": "copies of The Buccaneer" },
     "description": "The cover of this paperback pirate story shows a shirtless man and a near shirtless woman.  Clearly it is not a dress code.",
     "copy-from": "book_fict_soft_tpl"
   },
   {
     "id": "novel_thriller",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "thriller novel" },
     "description": "A suspenseful tale of betrayal and revenge.",
     "copy-from": "book_fict_soft_tpl",
     "intelligence": 5,
     "time": "18 m",
     "chapters": 20,
-    "fun": 3
+    "read_fun": 3
   },
   {
     "id": "novel_tragedy",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "tragedy novel" },
     "description": "The story of two young lovers whose feuding families threaten to keep them apart.",
     "copy-from": "book_fict_soft_tpl",
@@ -579,20 +634,22 @@
   },
   {
     "id": "novel_war",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "war novel" },
     "description": "A thrilling narrative of survival in a prisoner of war camp during the Second World War, filled with riveting subplots about rat farming and dysentery.",
-    "copy-from": "book_fict_soft_tpl",
+    "copy-from": "book_fict_soft_collection_tpl",
     "weight": "686 g",
     "price_postapoc": "50 cent",
     "intelligence": 7,
     "time": "20 m",
     "chapters": 28,
-    "fun": 3
+    "read_fun": 3
   },
   {
     "id": "novel_war2",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "war novel" },
     "copy-from": "novel_war",
     "description": "A story about a Bosnian citizen who goes through many hardships and near death during the breakup of Yugoslavia.",
@@ -601,18 +658,20 @@
   },
   {
     "id": "novel_western",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "western novel" },
     "description": "The classic tale of a gunfighting stranger who comes to a small settlement and is hired to help the townsfolk defend themselves from a band of marauding outlaws.",
-    "copy-from": "book_fict_soft_tpl",
+    "copy-from": "book_fict_soft_collection_tpl",
     "intelligence": 5,
     "time": "20 m",
     "chapters": 28,
-    "fun": 4
+    "read_fun": 4
   },
   {
     "id": "book_fict_soft_west_atwixt",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Atwixt a Brace of Cacti", "str_pl": "copies of Atwixt a Brace of Cacti" },
     "description": "A grizzled clodhopper interviews a mess of rangehands, flummoxing longhorns and tenderfoot alike in a flusteration of jawing.",
     "copy-from": "paperback_western_em",
@@ -620,14 +679,16 @@
   },
   {
     "id": "book_fict_soft_west_bart",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Stinky Bart Puts on Starch", "str_pl": "copies of Stinky Bart Puts on Starch" },
     "description": "A local bandit, driven by sadistic impulses, begins offering unlicensed dentistry to brave frontiersmen with few options and fewer teeth.",
     "copy-from": "paperback_western_em"
   },
   {
     "id": "book_fict_soft_west_beans",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Six Beans in the Wheel", "str_pl": "copies of Six Beans in the Wheel" },
     "description": "The safety is off in this gun slinging tale of revenge and redemption by acclaimed author El Amor.",
     "copy-from": "paperback_western_em",
@@ -635,14 +696,16 @@
   },
   {
     "id": "book_fict_soft_west_calico",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Irons at Calico Queen Annex", "str_pl": "copies of Irons at Calico Queen Annex" },
     "description": "The establishment of a telegraph line into the recently named town of Calico Queen threatens to bring with it the long arm of the law.  A trio of enterprising gunfighters hatches a plan to keep Calico Queen wild by looting the supply wagons.",
     "copy-from": "paperback_western_em"
   },
   {
     "id": "book_fict_soft_west_riot",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Riot on the Range", "str_pl": "copies of Riot on the Range" },
     "description": "Best selling author El Amor paints a visceral study in red with his latest western saga: Riot on the Range.",
     "copy-from": "paperback_western_em",
@@ -650,7 +713,8 @@
   },
   {
     "id": "book_fict_soft_west_vaq",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Vaquero Sun", "str_pl": "copies of Vaquero Sun" },
     "description": "Western author El Amor relates the story of a dispossessed young man inspired by a heat stroke delusion to pursue justice against an evil land baron.",
     "copy-from": "paperback_western_em",
@@ -658,7 +722,8 @@
   },
   {
     "id": "book_fict_soft_west_vride",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "The Vendetta Riders", "str_pl": "copies of The Vendetta Riders" },
     "description": "A wild young man, fast on the draw, who thinks he has nothing to lose, falls in with a group of gun runners.",
     "copy-from": "paperback_western_em",
@@ -666,7 +731,8 @@
   },
   {
     "id": "phonebook",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "phone book" },
     "description": "This hefty volume contains the telephone numbers of individuals, businesses, and utilities.  Pretty useless during the apocalypse and all.",
     "weight": "854 g",
@@ -680,12 +746,14 @@
     "intelligence": 4,
     "time": "1 m",
     "chapters": 200,
-    "fun": -5,
-    "melee_damage": { "bash": 2 }
+    "generic": true,
+    "melee_damage": { "bash": 2 },
+    "read_fun": -5
   },
   {
     "id": "photo_album",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "photo album" },
     "description": "A leather album full of photos of somebody's family.  You don't know any of the people in them, but seeing these pictures still makes you think of happier times.",
     "weight": "180 g",
@@ -698,12 +766,14 @@
     "color": "light_gray",
     "time": "10 m",
     "chapters": 4,
-    "fun": 1,
-    "flags": [ "INSPIRATIONAL" ]
+    "generic": true,
+    "flags": [ "INSPIRATIONAL" ],
+    "read_fun": 1
   },
   {
     "id": "plays_book",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "book of plays", "str_pl": "books of plays" },
     "description": "A collection of plays by various authors from around the world, including scripts by Wilde, Beckett, Checkov, and Shakespeare.",
     "weight": "700 g",
@@ -717,11 +787,13 @@
     "intelligence": 9,
     "time": "18 m",
     "chapters": 36,
-    "fun": 2
+    "generic": true,
+    "read_fun": 2
   },
   {
     "id": "poetry_book",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "book of poetry", "str_pl": "books of poetry" },
     "description": "A collection of poetry by various authors from around the world, including writings by Dickinson, Goethe, Thoreau, and Yeats.",
     "weight": "400 g",
@@ -735,11 +807,13 @@
     "intelligence": 9,
     "time": "18 m",
     "chapters": 36,
-    "fun": 2
+    "generic": true,
+    "read_fun": 2
   },
   {
     "id": "priest_diary",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "priest's diary", "str_pl": "priests' diaries" },
     "description": "A small book filled with journal entries in Latin.  You can read Latin, right?",
     "weight": "340 g",
@@ -752,13 +826,14 @@
     "color": "light_gray",
     "intelligence": 15,
     "time": "30 m",
-    "fun": 1,
     "flags": [ "INSPIRATIONAL" ],
-    "melee_damage": { "bash": 3 }
+    "melee_damage": { "bash": 3 },
+    "read_fun": 1
   },
   {
     "id": "record_accounting",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "corporate accounting ledger" },
     "description": "If you knew what to look for, something might stand out…",
     "weight": "566 g",
@@ -771,12 +846,13 @@
     "color": "light_green",
     "intelligence": 10,
     "time": "30 m",
-    "fun": -1,
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 5 },
+    "read_fun": -1
   },
   {
     "id": "record_patient",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str_sp": "patient treatment records" },
     "description": "A massive stack of medical records that contain every gory detail.",
     "weight": "680 g",
@@ -788,12 +864,13 @@
     "color": "light_green",
     "intelligence": 8,
     "time": "30 m",
-    "fun": -1,
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 6 },
+    "read_fun": -1
   },
   {
     "id": "record_weather",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str_sp": "national weather transcripts" },
     "description": "Old weather records that are about as interesting as a rock.",
     "weight": "454 g",
@@ -806,12 +883,13 @@
     "color": "light_green",
     "intelligence": 4,
     "time": "30 m",
-    "fun": -1,
-    "melee_damage": { "bash": 7 }
+    "melee_damage": { "bash": 7 },
+    "read_fun": -1
   },
   {
     "id": "story_book",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "big book of short stories", "str_pl": "big books of short stories" },
     "description": "This humongous volume contains a vast collection of short stories by different authors, spanning a wide variety of topics and genres.",
     "weight": "1200 g",
@@ -825,11 +903,13 @@
     "intelligence": 7,
     "time": "48 m",
     "chapters": 28,
-    "fun": 5
+    "generic": true,
+    "read_fun": 5
   },
   {
     "id": "tall_tales",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "book of tall tales", "str_pl": "books of tall tales" },
     "description": "An entertaining collection of early American folklore, featuring tales of larger than life individuals and their amazing adventures.",
     "weight": "360 g",
@@ -843,11 +923,13 @@
     "intelligence": 6,
     "time": "18 m",
     "chapters": 24,
-    "fun": 3
+    "generic": true,
+    "read_fun": 3
   },
   {
     "id": "visions_solitude",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Visions in Solitude", "str_pl": "copies of Visions in Solitude" },
     "description": "A small book detailing 'visions' a prisoner had on death row.",
     "weight": "227 g",
@@ -860,12 +942,13 @@
     "color": "light_cyan",
     "intelligence": 6,
     "time": "30 m",
-    "fun": 2,
     "flags": [ "INSPIRATIONAL" ],
-    "melee_damage": { "bash": 3 }
+    "melee_damage": { "bash": 3 },
+    "read_fun": 2
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "id": "classic_literature",
     "name": { "str": "book of classic literature", "str_pl": "books of classic literature" },
     "description": "A book of classic literature, timeless and enjoyable but a bit dense to read.",
@@ -978,10 +1061,12 @@
     "intelligence": 7,
     "time": "28 m",
     "chapters": 40,
-    "fun": 3
+    "generic": true,
+    "read_fun": 3
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "id": "collector_book",
     "name": { "str": "collector's edition book" },
     "description": "A unique, valuable book that has been kept as a collector's item.",
@@ -1073,11 +1158,13 @@
     "intelligence": 7,
     "time": "28 m",
     "chapters": 40,
-    "fun": 4
+    "generic": true,
+    "read_fun": 4
   },
   {
     "id": "occult_economicon",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "The Economicon of Dobbs", "str_pl": "copies of The Economicon" },
     "description": "These are the prescriptures Pile 18 Disk sg30 File 14.  \"Look, small brain of pink earth inside my null-grasping, and she/he receives Logos; and it lay with the Wor.\"",
     "copy-from": "paperback_occult",
@@ -1088,7 +1175,8 @@
   },
   {
     "id": "occult_bobliographon",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "The Bobliographon", "str_pl": "copies of The Bobliographon" },
     "description": "The back cover of this cheaply published paperback reads: \"These newly-released SubGenius revelations will SHOCK those who think they know Bob!  Unpredictables are not alone and possess amazing hidden powers of their own!  In a world without slack, a yeti lust revival saunters about.  WARNING: Do not fail to pay full price for this book; JHVH-1's wrath knows some bounds.\"",
     "copy-from": "paperback_occult",
@@ -1097,7 +1185,8 @@
   },
   {
     "id": "occult_glimpses",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Glimpses of Solomon in Yellow", "str_pl": "copies of Solomon in Yellow" },
     "description": "This paperback is titled \"Glimpses of Solomon in Yellow; The Initiation Rites of the Starry Wisdom Covenant, by Dr. Enoch Craven.\"  It describes not just the investiture of new adherents, but the history and beliefs of the Church of Starry Wisdom.  Someone has defaced the sparse citations section by scrawling \"PUPPETS OF ROME!\" over its few pages.  The book does not provide any biography for Dr. Craven, let alone academic credentials.",
     "copy-from": "paperback_occult",
@@ -1105,7 +1194,8 @@
   },
   {
     "id": "necronomicon",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "grimoire" },
     "description": "A hefty book with a thick leather cover and metal clasps.  Both covers are completely empty, though on the first page there is an author's name written in English: \"Abdul Alhazred\"; below it the book title is written in Arabian: \"العزيف\", and below it in Greek: \"Νεκρονομικόν\".  The book looks very old and sinister.",
     "material": [ "paper", "leather" ],
@@ -1120,23 +1210,24 @@
   },
   {
     "id": "book_judaica_siddur",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Siddur" },
     "description": "A Siddur, or prayerbook, contains the set order of prayers for Jewish religious services.  This one is comprehensive, divided into morning, afternoon, and evening prayers for both weekdays and Shabbat, along with separate sections for minor and major holidays.",
     "copy-from": "book_nonf_hard_phil_tpl",
-    "fun": 1,
     "weight": "750 g",
     "volume": "1 L",
     "longest_side": "20 cm",
-    "time": "45 m"
+    "time": "45 m",
+    "read_fun": 1
   },
   {
     "id": "book_judaica_hardcover",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Judaica hardcover" },
     "description": "This is a book of Judaica.  You're a real mensch if you managed to find this one.",
     "copy-from": "book_nonf_hard_phil_tpl",
-    "fun": 1,
     "weight": "420 g",
     "volume": "773 ml",
     "longest_side": "18 cm",
@@ -1287,17 +1378,18 @@
         "name": { "str": "Shulchan Arukh", "str_pl": "copies of the Shulchan Arukh" },
         "description": "Compiled by Rabbi Yosef Karo in the 16th century, the Shuchan Arukh is the most widely-consulted and authoritative compilation of Jewish law lasting into the present day.  If you need to convene a post-Cataclysmic Beit Din, keep this with you and you'll be set."
       }
-    ]
+    ],
+    "read_fun": 1
   },
   {
     "id": "book_judaica_softcover",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Judaica softcover" },
     "description": "This is a book of Judaica.  You're a real mensch if you managed to find this one.",
     "copy-from": "book_nonf_soft_phil_tpl",
     "weight": "227 g",
     "volume": "421 ml",
-    "fun": 1,
     "time": "45 m",
     "variant_type": "generic",
     "variants": [
@@ -1434,10 +1526,11 @@
         "name": { "str": "From the Maccabees to the Mishnah", "str_pl": "copies of From the Maccabees to the Mishnah" },
         "description": "A history of the development of Rabbinic Judaism, from the Jewish Revolt in the first century to the writing of the Mishnah, and how Judaism and Christianity fully separated."
       }
-    ]
+    ],
+    "read_fun": 1
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "book_ruined",
     "category": "books",
     "symbol": ",",
@@ -1452,7 +1545,7 @@
     "volume": "1500 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "book_pieces",
     "category": "books",
     "symbol": ",",
@@ -1465,5 +1558,23 @@
     "flags": [ "TRADER_AVOID" ],
     "weight": "120 g",
     "volume": "200 ml"
+  },
+  {
+    "id": "gun_manual",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str_sp": "firearm safety and instruction manual" },
+    "description": "A booklet full of a bunch of information about a firearm, including how one is operated, how to take apart and clean the gun, and myriad of safety precautions.",
+    "weight": "72 g",
+    "volume": "60 ml",
+    "price": "0 USD",
+    "price_postapoc": "1 USD",
+    "material": [ "paper" ],
+    "symbol": "?",
+    "looks_like": "mag_guns",
+    "color": "light_gray",
+    "intelligence": 4,
+    "time": "10 m",
+    "melee_damage": { "bash": 1 }
   }
 ]

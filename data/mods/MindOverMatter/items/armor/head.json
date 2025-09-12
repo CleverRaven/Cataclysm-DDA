@@ -1,7 +1,8 @@
 [
   {
     "id": "psionic_anchoring_crown",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": { "str": "anchoring crown" },
     "description": "A thin steel circlet studded with chunks of matrix crystal.  Your skin prickles slightly where the crown touches it.",
     "weight": "80 g",
@@ -14,12 +15,13 @@
     "color": "blue",
     "material_thickness": 1,
     "flags": [ "DIMENSIONAL_ANCHOR", "PADDED" ],
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "ANCHORCROWN_NOSPELL" ] } ] },
-    "armor": [ { "encumbrance": 1, "coverage": 20, "covers": [ "head" ], "specifically_covers": [ "head_crown" ] } ]
+    "armor": [ { "encumbrance": 1, "coverage": 20, "covers": [ "head" ], "specifically_covers": [ "head_crown" ] } ],
+    "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "ANCHORCROWN_NOSPELL" ] } ]
   },
   {
     "id": "psionic_telepathic_dampener",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": { "str": "telepathic dampener" },
     "description": "A steel skullcap with a matrix crystal at its crown.  It looks ridiculous, but the documents you read said it would protect you from telepathic attack.",
     "weight": "767 g",
@@ -31,15 +33,16 @@
     "symbol": "[",
     "color": "white",
     "material_thickness": 0.33,
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "TELEPATHICDAMPENER_SHIELD" ] } ] },
     "armor": [
       { "encumbrance": 4, "coverage": 100, "covers": [ "head" ], "specifically_covers": [ "head_crown", "head_forehead" ] }
     ],
-    "flags": [ "PADDED", "PORTAL_PROOF" ]
+    "flags": [ "PADDED", "PORTAL_PROOF" ],
+    "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "TELEPATHICDAMPENER_SHIELD" ] } ]
   },
   {
     "id": "psionic_mindsight_glasses",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "category": "clothing",
     "looks_like": "ar_glasses_advanced",
     "name": { "str": "QD944-P 'Mindsight' glasses", "str_pl": "sets of QD944-P 'Mindsight' glasses" },
@@ -51,7 +54,6 @@
     "material": [ { "type": "plastic", "portion": 12 }, { "type": "nether_crystal" } ],
     "symbol": "[",
     "color": "white",
-    "ammo": "battery",
     "charges_per_use": 1,
     "use_action": {
       "type": "transform",
@@ -73,25 +75,26 @@
     "material_thickness": 1,
     "environmental_protection": 1,
     "flags": [ "OUTER", "FRAGILE", "SUN_GLASSES", "WATER_BREAK", "PADDED", "ELECTRONIC" ],
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ACTIVE",
-          "special_vision": [
-            {
-              "condition": { "test_eoc": "EOC_CONDITION_HAS_MIND" },
-              "distance": 20,
-              "descriptions": [ { "id": "sense_minds", "symbol": "?", "color": "c_white", "text": "You sense a sapient mind here." } ]
-            }
-          ]
-        }
-      ]
-    }
+    "faults": [ { "fault_group": "electronic_general" } ],
+    "tool_ammo": "battery",
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "condition": "ACTIVE",
+        "special_vision": [
+          {
+            "condition": { "test_eoc": "EOC_CONDITION_HAS_MIND" },
+            "distance": 20,
+            "descriptions": [ { "id": "sense_minds", "symbol": "?", "color": "c_white", "text": "You sense a sapient mind here." } ]
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "psionic_mindsight_glasses_on",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "clothing",
     "copy-from": "psionic_mindsight_glasses",
     "name": { "str": "QD944-P 'Mindsight' glasses (on)", "str_pl": "sets of QD944-P 'Mindsight' glasses (on)" },

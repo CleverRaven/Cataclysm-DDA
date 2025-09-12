@@ -15,8 +15,8 @@ cmake_extra_opts=()
 cmake_extra_opts+=("-DCATA_CLANG_TIDY_PLUGIN=ON")
 # Need to specify the particular LLVM / Clang versions to use, lest it
 # use the older LLVM that comes by default on Ubuntu.
-cmake_extra_opts+=("-DLLVM_DIR=/usr/lib/llvm-17/lib/cmake/llvm")
-cmake_extra_opts+=("-DClang_DIR=/usr/lib/llvm-17/lib/cmake/clang")
+cmake_extra_opts+=("-DLLVM_DIR=/usr/lib/llvm-18/lib/cmake/llvm")
+cmake_extra_opts+=("-DClang_DIR=/usr/lib/llvm-18/lib/cmake/clang")
 
 
 mkdir -p build
@@ -33,7 +33,7 @@ echo "Compiling clang-tidy plugin"
 make -j$num_jobs CataAnalyzerPlugin
 #export PATH=$PWD/tools/clang-tidy-plugin/clang-tidy-plugin-support/bin:$PATH
 # add FileCheck to the search path
-export PATH=/usr/lib/llvm-17/bin:$PATH 
+export PATH=/usr/lib/llvm-18/bin:$PATH 
 if ! which FileCheck
 then
     echo "Missing FileCheck"

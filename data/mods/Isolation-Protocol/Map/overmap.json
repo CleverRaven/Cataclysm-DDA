@@ -37,5 +37,25 @@
     "color": "light_red",
     "see_cost": "high",
     "flags": [ "SOURCE_SAFETY" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "iso_office", "iso_elevator_office" ],
+    "name": "Lab administrative office",
+    "sym": "L",
+    "color": "white",
+    "see_cost": "high",
+    "spawns": { "group": "GROUP_MICROLAB", "population": [ 0, 5 ], "chance": 80 },
+    "flags": [ "NO_ROTATE", "RISK_HIGH", "SOURCE_CHEMISTRY", "SOURCE_MEDICINE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "iso_elevator_office_next",
+    "name": "Administrative elevator",
+    "sym": "L",
+    "color": "light_red",
+    "see_cost": "high",
+    "spawns": { "group": "GROUP_MICROLAB", "population": [ 0, 5 ], "chance": 80 },
+    "flags": [ "NO_ROTATE", "RISK_HIGH", "SOURCE_CHEMISTRY", "SOURCE_MEDICINE" ]
   }
 ]

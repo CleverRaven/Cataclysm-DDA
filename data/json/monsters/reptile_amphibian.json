@@ -15,6 +15,7 @@
     "weight": "150 g",
     "hp": 1,
     "speed": 100,
+    "move_skills": { "climb": 6, "swim": 4 },
     "material": [ "flesh" ],
     "symbol": "s",
     "color": "brown",
@@ -35,18 +36,7 @@
     "placate_triggers": [ "PLAYER_WEAK" ],
     "baby_flags": [ "SUMMER" ],
     "biosignature": { "biosig_item": "shed_snakeskin", "biosig_timer": 180 },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "KEENNOSE",
-      "HARDTOSHOOT",
-      "CLIMBS",
-      "PATH_AVOID_DANGER",
-      "ANIMAL",
-      "SWIMS",
-      "CORNERED_FIGHTER"
-    ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "HARDTOSHOOT", "PATH_AVOID_DANGER", "ANIMAL", "CORNERED_FIGHTER" ]
   },
   {
     "abstract": "mon_snakelet_abstract",
@@ -83,6 +73,7 @@
     "weight": "350 g",
     "hp": 1,
     "speed": 65,
+    "move_skills": { "swim": 10 },
     "material": [ "flesh" ],
     "symbol": "o",
     "color": "brown",
@@ -100,7 +91,7 @@
     "dissect": "dissect_lizard_sample_single",
     "fear_triggers": [ "SOUND", "HURT" ],
     "baby_flags": [ "SUMMER" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER", "ANIMAL", "SWIMS", "CORNERED_FIGHTER" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER", "ANIMAL", "CORNERED_FIGHTER" ]
   },
   {
     "abstract": "mon_turtle_baby_abstract",
@@ -317,7 +308,7 @@
     ],
     "reproduction": { "baby_type": { "baby_monster": "mon_rattlesnake_s" }, "baby_count": 13, "baby_timer": 240 },
     "baby_flags": [ "AUTUMN", "SUMMER" ],
-    "upgrades": { "half_life": 65, "into": "mon_rattlesnake_giant" },
+    "upgrades": { "half_life": 260, "into": "mon_rattlesnake_giant" },
     "biosignature": { "biosig_item": "shed_snakeskin_big", "biosig_timer": 180 },
     "armor": { "bash": 1, "cut": 3, "bullet": 2, "electric": 1 },
     "delete": { "anger_triggers": [ "PLAYER_CLOSE" ] }
@@ -333,6 +324,7 @@
     "weight": "1 kg",
     "hp": 12,
     "speed": 90,
+    "move_skills": { "swim": 6 },
     "material": [ "flesh" ],
     "symbol": "s",
     "color": "brown",
@@ -341,7 +333,7 @@
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "harvest": "mutant_tiny",
     "biosignature": { "biosig_item": "shed_snakeskin", "biosig_timer": 180 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "KEENNOSE", "CLIMBS", "PATH_AVOID_DANGER", "ANIMAL", "SWIMS" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "KEENNOSE", "PATH_AVOID_DANGER", "ANIMAL" ]
   },
   {
     "id": "mon_rattlesnake_giant",
@@ -357,6 +349,7 @@
     "weight": "81500 g",
     "hp": 64,
     "speed": 100,
+    "move_skills": { "climb": 6, "swim": 6 },
     "material": [ "flesh" ],
     "symbol": "s",
     "color": "brown",
@@ -384,10 +377,10 @@
     "placate_triggers": [ "PLAYER_WEAK" ],
     "reproduction": { "baby_type": { "baby_monster": "mon_rattlesnake_big_s" }, "baby_count": 15, "baby_timer": 120 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
-    "upgrades": { "half_life": 80, "into": "mon_rattlesnake_mega" },
+    "upgrades": { "half_life": 320, "into": "mon_rattlesnake_mega" },
     "biosignature": { "biosig_item": "shed_snakeskin_giant", "biosig_timer": 180 },
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "KEENNOSE", "CLIMBS", "PATH_AVOID_DANGER", "ANIMAL", "SWIMS" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "KEENNOSE", "PATH_AVOID_DANGER", "ANIMAL" ],
     "armor": { "bash": 2, "cut": 4, "bullet": 3, "electric": 1 }
   },
   {
@@ -404,6 +397,7 @@
     "weight": "760 kg",
     "hp": 400,
     "speed": 110,
+    "move_skills": { "climb": 6, "swim": 6 },
     "material": [ "flesh" ],
     "symbol": "S",
     "color": "brown",
@@ -440,7 +434,7 @@
     "//babies2": "Deathrattle is heavily mutated, so a short gestation period and all-year large clutch birth are plausible",
     "zombify_into": "mon_meat_cocoon_large",
     "biosignature": { "biosig_item": "shed_snakeskin_scales", "biosig_timer": 180 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "KEENNOSE", "CLIMBS", "PATH_AVOID_DANGER", "ANIMAL", "PUSH_MON", "SWIMS" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "KEENNOSE", "PATH_AVOID_DANGER", "ANIMAL", "PUSH_MON" ],
     "armor": { "bash": 6, "cut": 8, "bullet": 6, "electric": 3, "acid": 6 }
   },
   {
@@ -456,6 +450,7 @@
     "weight": "40750 g",
     "hp": 10,
     "speed": 90,
+    "move_skills": { "swim": 6 },
     "material": [ "flesh" ],
     "symbol": "s",
     "color": "yellow",
@@ -473,7 +468,7 @@
     "dissect": "dissect_lizard_sample_single",
     "path_settings": { "max_dist": 5 },
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SEES", "SMELLS", "WARM", "VENOM", "SWIMS" ]
+    "flags": [ "SEES", "SMELLS", "WARM", "VENOM" ]
   },
   {
     "abstract": "mon_proxy_tadpole",
@@ -488,6 +483,7 @@
     "weight": "3 g",
     "hp": 1,
     "speed": 70,
+    "move_skills": { "swim": 8 },
     "material": [ "flesh" ],
     "symbol": "t",
     "color": "brown",
@@ -500,7 +496,7 @@
     "vision_night": 30,
     "fear_triggers": [ "PLAYER_CLOSE", "HURT", "FRIEND_ATTACKED", "SOUND" ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s is smashed to non-recognizable pieces." },
-    "flags": [ "FISHABLE", "SEES", "SMELLS", "HEARS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE", "SWARMS" ]
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "HEARS", "AQUATIC", "WATER_CAMOUFLAGE", "SWARMS" ]
   },
   {
     "id": "mon_leo_tadpole",
@@ -615,6 +611,7 @@
     "weight": "1500 g",
     "hp": 10,
     "speed": 120,
+    "move_skills": { "swim": 8 },
     "material": [ "flesh" ],
     "symbol": "J",
     "color": "brown",
@@ -630,7 +627,7 @@
     "harvest": "mutant_animal_noskin",
     "vision_night": 30,
     "fear_triggers": [ "PLAYER_CLOSE", "FIRE", "HURT", "FRIEND_ATTACKED", "SOUND" ],
-    "flags": [ "FISHABLE", "SEES", "SMELLS", "HEARS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "HEARS", "AQUATIC", "WATER_CAMOUFLAGE" ]
   },
   {
     "id": "mon_pattern_bigtad",
@@ -700,6 +697,7 @@
     "weight": "30 g",
     "hp": 3,
     "speed": 80,
+    "move_skills": { "swim": 8 },
     "material": [ "flesh" ],
     "symbol": "b",
     "color": "brown",
@@ -713,7 +711,7 @@
     "special_attacks": [ { "type": "leap", "cooldown": 32, "max_range": 4, "allow_no_target": true } ],
     "fear_triggers": [ "PLAYER_CLOSE", "FIRE", "HURT", "FRIEND_ATTACKED", "SOUND" ],
     "baby_flags": [ "SPRING", "SUMMER" ],
-    "flags": [ "FISHABLE", "SEES", "SMELLS", "HEARS", "SWIMS", "WATER_CAMOUFLAGE", "SMALL_HIDER", "SWARMS" ]
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "HEARS", "WATER_CAMOUFLAGE", "SMALL_HIDER", "SWARMS" ]
   },
   {
     "id": "mon_leo_frog",
@@ -973,6 +971,7 @@
     "weight": "50 kg",
     "hp": 50,
     "speed": 100,
+    "move_skills": { "climb": 4, "swim": 8 },
     "material": [ "flesh" ],
     "symbol": "m",
     "color": "brown",
@@ -1018,7 +1017,7 @@
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE", "MATING_SEASON" ],
     "burn_into": "mon_frog_husk",
     "baby_flags": [ "SPRING", "SUMMER" ],
-    "flags": [ "FISHABLE", "SEES", "SMELLS", "HEARS", "SWARMS", "SWIMS", "WATER_CAMOUFLAGE", "CLIMBS" ]
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "HEARS", "SWARMS", "WATER_CAMOUFLAGE" ]
   },
   {
     "id": "mon_strange_bigfrog",
@@ -1214,6 +1213,7 @@
     "weight": "200 kg",
     "hp": 120,
     "speed": 90,
+    "move_skills": { "climb": 4, "swim": 8 },
     "material": [ "flesh" ],
     "symbol": "M",
     "color": "brown",
@@ -1259,7 +1259,7 @@
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE", "MATING_SEASON" ],
     "burn_into": "mon_frog_mummy",
     "baby_flags": [ "SPRING", "SUMMER" ],
-    "flags": [ "FISHABLE", "SEES", "SMELLS", "HEARS", "GRABS", "SWIMS", "WATER_CAMOUFLAGE", "CLIMBS", "BASHES" ]
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "HEARS", "GRABS", "WATER_CAMOUFLAGE", "BASHES" ]
   },
   {
     "id": "mon_strange_giganfrog",
@@ -1387,6 +1387,7 @@
     "hp": 1200,
     "regenerates": 4,
     "speed": 80,
+    "move_skills": { "swim": 8 },
     "material": [ "flesh" ],
     "symbol": "F",
     "color": "brown",
@@ -1431,7 +1432,7 @@
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE", "MATING_SEASON" ],
     "burn_into": "mon_frog_smoker_hulk",
     "baby_flags": [ "SPRING", "SUMMER" ],
-    "flags": [ "SEES", "SMELLS", "GRABS", "HEARS", "SWIMS", "DESTROYS" ]
+    "flags": [ "SEES", "SMELLS", "GRABS", "HEARS", "DESTROYS" ]
   },
   {
     "id": "mon_strange_megafrog",

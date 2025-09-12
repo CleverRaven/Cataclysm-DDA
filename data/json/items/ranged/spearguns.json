@@ -1,6 +1,7 @@
 [
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "fishspear",
     "price": "40 USD",
     "price_postapoc": "5 USD",
@@ -23,7 +24,8 @@
     "melee_damage": { "bash": 1 }
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "c_fishspear",
     "price": "320 USD",
     "price_postapoc": "10 USD",
@@ -46,7 +48,8 @@
     "melee_damage": { "bash": 1 }
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "m_fishspear",
     "price": "160 USD",
     "price_postapoc": "5 USD",
@@ -70,8 +73,9 @@
   },
   {
     "id": "airspeargun",
-    "looks_like": "ar15",
-    "type": "GUN",
+    "looks_like": "modular_ar15",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "reload_noise_volume": 10,
     "symbol": "(",
     "color": "brown",
@@ -101,8 +105,9 @@
   },
   {
     "id": "doublespeargun",
-    "looks_like": "ar15",
-    "type": "GUN",
+    "looks_like": "modular_ar15",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "reload_noise_volume": 10,
     "symbol": "(",
     "color": "brown",
@@ -131,7 +136,8 @@
   {
     "id": "long_speargun",
     "looks_like": "glock_17",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "reload_noise_volume": 10,
     "symbol": "(",
     "color": "yellow",
@@ -158,8 +164,9 @@
   },
   {
     "id": "speargun",
-    "looks_like": "ar15",
-    "type": "GUN",
+    "looks_like": "modular_ar15",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "reload_noise_volume": 10,
     "symbol": "(",
     "color": "brown",

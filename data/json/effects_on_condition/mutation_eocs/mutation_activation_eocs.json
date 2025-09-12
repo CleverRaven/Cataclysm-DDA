@@ -15,7 +15,7 @@
     },
     "effect": [
       { "turn_cost": { "context_val": "prep_time" } },
-      { "math": [ "u_val('stamina')", "-=", "_energy_amount" ] },
+      { "math": [ "u_val('stamina') -= _energy_amount" ] },
       { "run_eocs": [ "EOC_GENERIC_SPELL_MUTATION_ACT" ] }
     ],
     "false_effect": [ { "u_message": { "context_val": "message_fail" }, "type": "bad" } ]
@@ -37,7 +37,7 @@
       {
         "run_eocs": "EOC_GENERIC_SPELL_MUTATION",
         "variables": {
-          "prep_time": "3",
+          "prep_time": 3,
           "spell_to_cast": "spell_spit_flare",
           "message_success": { "i18n": true, "str": "You launch a glob of bioluminescent material!" },
           "message_fail": { "i18n": true, "str": "Your body is too starved to activate your bioluminescent flare." }
@@ -52,7 +52,7 @@
       {
         "run_eocs": "EOC_GENERIC_SPELL_MUTATION",
         "variables": {
-          "prep_time": "1",
+          "prep_time": 1,
           "spell_to_cast": "spell_slime_spray",
           "message_success": { "i18n": true, "str": "You spit out some goo onto your enemies!" },
           "message_fail": { "i18n": true, "str": "Your body is too starved to activate your slime spray." }
@@ -67,8 +67,8 @@
       {
         "run_eocs": "EOC_GENERIC_SPELL_MUTATION",
         "variables": {
-          "energy_amount": "2000",
-          "prep_time": "1",
+          "energy_amount": 2000,
+          "prep_time": 1,
           "spell_to_cast": "spell_feline_leap",
           "message_success": {
             "i18n": true,
@@ -86,8 +86,8 @@
       {
         "run_eocs": "EOC_GENERIC_SPELL_MUTATION",
         "variables": {
-          "energy_amount": "2000",
-          "prep_time": "2",
+          "energy_amount": 2000,
+          "prep_time": 2,
           "spell_to_cast": "spell_short_leap",
           "message_success": {
             "i18n": true,
@@ -105,8 +105,8 @@
       {
         "run_eocs": "EOC_GENERIC_SPELL_MUTATION",
         "variables": {
-          "energy_amount": "6000",
-          "prep_time": "3",
+          "energy_amount": 6000,
+          "prep_time": 3,
           "spell_to_cast": "spell_crushing_leap",
           "message_success": { "i18n": true, "str": "You squat down, build up tension in your legs and release.  Death from above." },
           "message_fail": { "i18n": true, "str": "Your legs are too tired to perform a jump." }
@@ -121,8 +121,8 @@
       {
         "run_eocs": "EOC_GENERIC_SPELL_MUTATION",
         "variables": {
-          "energy_amount": "2500",
-          "prep_time": "1",
+          "energy_amount": 2500,
+          "prep_time": 1,
           "spell_to_cast": "spell_avian_leap",
           "message_success": {
             "i18n": true,

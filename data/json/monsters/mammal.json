@@ -153,6 +153,7 @@
     "weight": "20 kg",
     "hp": 31,
     "speed": 80,
+    "move_skills": { "swim": 8 },
     "material": [ "flesh" ],
     "symbol": "r",
     "color": "brown",
@@ -172,7 +173,7 @@
     "fear_triggers": [ "HURT", "SOUND", "FRIEND_ATTACKED", "FRIEND_DIED" ],
     "zombify_into": "mon_zombeaver",
     "special_attacks": [ { "type": "bite", "cooldown": 15 } ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "SWIMS", "WARM", "WATER_CAMOUFLAGE", "CORNERED_FIGHTER" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "WATER_CAMOUFLAGE", "CORNERED_FIGHTER" ]
   },
   {
     "id": "mon_beaver_kit",
@@ -211,6 +212,7 @@
     "weight": "200 g",
     "hp": 6,
     "speed": 100,
+    "move_skills": { "swim": 4 },
     "material": [ "flesh" ],
     "symbol": "r",
     "color": "dark_gray",
@@ -231,7 +233,7 @@
     "path_settings": { "max_dist": 10 },
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "special_attacks": [ [ "EAT_FOOD", 120 ], [ "BROWSE", 120 ] ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER", "EATS", "SMALL_HIDER", "CORNERED_FIGHTER" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "ANIMAL", "PATH_AVOID_DANGER", "EATS", "SMALL_HIDER", "CORNERED_FIGHTER" ]
   },
   {
     "id": "mon_lab_rat",
@@ -246,6 +248,7 @@
     "weight": "320 g",
     "hp": 6,
     "speed": 100,
+    "move_skills": { "swim": 4 },
     "material": [ "flesh" ],
     "symbol": "r",
     "color": "white",
@@ -278,7 +281,6 @@
       "KEENNOSE",
       "CANPLAY",
       "WARM",
-      "SWIMS",
       "ANIMAL",
       "PATH_AVOID_DANGER",
       "CAN_BE_CULLED",
@@ -418,7 +420,7 @@
     "dodge": 14,
     "special_attacks": [ { "id": "scratch", "attack_upper": false, "cooldown": 10 } ],
     "extend": { "flags": [ "NO_BREED" ] },
-    "delete": { "flags": [ "CLIMBS" ] },
+    "delete": { "move_skills": { "climb": 8 } },
     "upgrades": { "age_grow": 120, "into": "mon_cat" },
     "//": "Kittens do not have their full fur yet and are really sensitive to cold temperature",
     "armor": { "cold": 0 }
@@ -436,6 +438,7 @@
     "weight": "4 kg",
     "hp": 12,
     "speed": 150,
+    "move_skills": { "climb": 8 },
     "material": [ "flesh" ],
     "symbol": "c",
     "color": "light_gray",
@@ -470,7 +473,6 @@
       "SMELLS",
       "ANIMAL",
       "CANPLAY",
-      "CLIMBS",
       "PATH_AVOID_DANGER",
       "WARM",
       "HIT_AND_RUN",
@@ -1570,6 +1572,29 @@
     "upgrades": { "age_grow": 42, "into": "mon_dog_samoyed" }
   },
   {
+    "id": "mon_dog_wad",
+    "type": "MONSTER",
+    "copy-from": "mon_dog",
+    "name": { "str": "Flat-coated Retriever" },
+    "description": "A large, black retriever with a luxurious, glossy coat and almond-shaped brown eyes that glitter with intelligence.  The Flat-coated Retriever has a temperament that can only be described as 'superb', having the energy to accompany humans who love physical activity, and the loyalty to lay around with those that do not.  Flat-coated Retriever will often do little more than bark at potential threats.",
+    "color": "dark_gray",
+    "weight": "28 kg",
+    "aggression": -20,
+    "stomach_size": 650,
+    "reproduction": { "baby_type": { "baby_monster": "mon_dog_wad_pup" }, "baby_count": 6, "baby_timer": 270 },
+    "//": "RIP Elwood Rufus Fluffy P. 9/21/15-3/21/25. Taken from us too soon"
+  },
+  {
+    "id": "mon_dog_wad_pup",
+    "type": "MONSTER",
+    "copy-from": "mon_dog_pup",
+    "name": { "str": "Flat-coated Retriever puppy", "str_pl": "Flat-coated Retriever puppies" },
+    "description": "An adorable, defenseless Flat-coated Retriever puppy.  Much safer to tame than an adult dog.",
+    "aggression": -30,
+    "stomach_size": 200,
+    "upgrades": { "age_grow": 42, "into": "mon_dog_wad" }
+  },
+  {
     "id": "mon_fox_gray",
     "type": "MONSTER",
     "name": { "str": "fox", "str_pl": "foxes" },
@@ -1582,6 +1607,7 @@
     "weight": "4750 g",
     "hp": 20,
     "speed": 130,
+    "move_skills": { "climb": 6 },
     "material": [ "flesh" ],
     "symbol": "d",
     "color": "light_gray",
@@ -1600,7 +1626,7 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_canine" ],
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "HIT_AND_RUN", "KEENNOSE", "CLIMBS", "SMALL_HIDER" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "HIT_AND_RUN", "KEENNOSE", "SMALL_HIDER" ]
   },
   {
     "id": "mon_fox_red",
@@ -1811,6 +1837,7 @@
     "weight": "30 g",
     "hp": 4,
     "speed": 90,
+    "move_skills": { "swim": 4 },
     "material": [ "flesh" ],
     "symbol": ".",
     "color": "light_gray",
@@ -1824,7 +1851,7 @@
     "special_attacks": [ [ "GRAZE", 50 ] ],
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER", "EATS" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "ANIMAL", "PATH_AVOID_DANGER", "EATS" ]
   },
   {
     "id": "mon_mink",
@@ -1839,6 +1866,7 @@
     "weight": "800 g",
     "hp": 30,
     "speed": 130,
+    "move_skills": { "swim": 6 },
     "material": [ "flesh" ],
     "symbol": "m",
     "color": "dark_gray",
@@ -1852,7 +1880,7 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "HIT_AND_RUN", "KEENNOSE", "SWIMS", "SMALL_HIDER" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "HIT_AND_RUN", "KEENNOSE", "SMALL_HIDER" ]
   },
   {
     "id": "mon_moose",
@@ -1921,6 +1949,7 @@
     "stomach_size": 2000,
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "HURT" ],
+    "zombify_into": "mon_zoose",
     "fear_triggers": [ "PLAYER_CLOSE" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
     "harvest": "mammal_large_fur",
@@ -1963,6 +1992,7 @@
     "vision_night": 7,
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "HURT", "MATING_SEASON", "PLAYER_CLOSE" ],
+    "zombify_into": "mon_zoose",
     "baby_flags": [ "SPRING" ],
     "reproduction": { "baby_type": { "baby_monster": "mon_tusked_moose_calf" }, "baby_count": 1, "baby_timer": 180 },
     "//": "Baby mutant moose are born quicker that their natural counterparts since they are mutants and that way they can be seen a little more often.",
@@ -2001,6 +2031,7 @@
     "stomach_size": 2500,
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "HURT" ],
+    "zombify_into": "mon_zoose",
     "fear_triggers": [ "PLAYER_CLOSE" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
     "harvest": "mutant_mammal_large_fur",
@@ -2027,6 +2058,7 @@
     "weight": "1362 g",
     "hp": 10,
     "speed": 100,
+    "move_skills": { "swim": 6 },
     "material": [ "flesh" ],
     "symbol": "r",
     "color": "brown",
@@ -2041,7 +2073,7 @@
     "dissect": "dissect_rat_sample_single",
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER", "SMALL_HIDER" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "ANIMAL", "PATH_AVOID_DANGER", "SMALL_HIDER" ]
   },
   {
     "id": "mon_opossum",
@@ -2056,6 +2088,7 @@
     "weight": "3 kg",
     "hp": 12,
     "speed": 110,
+    "move_skills": { "climb": 8 },
     "material": [ "flesh" ],
     "symbol": "p",
     "color": "white",
@@ -2072,7 +2105,7 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "anger_triggers": [ "FRIEND_ATTACKED", "HURT" ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "CLIMBS", "PATH_AVOID_DANGER", "WARM", "KEENNOSE", "EATS", "SMALL_HIDER" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "KEENNOSE", "EATS", "SMALL_HIDER" ]
   },
   {
     "id": "mon_skunk",
@@ -2087,6 +2120,7 @@
     "weight": "5 kg",
     "hp": 12,
     "speed": 110,
+    "move_skills": { "climb": 6 },
     "material": [ "flesh" ],
     "symbol": "s",
     "color": "black_white",
@@ -2118,7 +2152,6 @@
       "HEARS",
       "SMELLS",
       "ANIMAL",
-      "CLIMBS",
       "PATH_AVOID_DANGER",
       "WARM",
       "KEENNOSE",
@@ -2141,6 +2174,7 @@
     "weight": "9 kg",
     "hp": 12,
     "speed": 110,
+    "move_skills": { "swim": 8 },
     "material": [ "flesh" ],
     "symbol": "m",
     "color": "brown",
@@ -2153,7 +2187,7 @@
     "harvest": "mammal_small_fur",
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "SWIMS", "WARM", "WATER_CAMOUFLAGE", "SMALL_HIDER" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "WATER_CAMOUFLAGE", "SMALL_HIDER" ]
   },
   {
     "id": "mon_pig_piglet",
@@ -2359,6 +2393,7 @@
     "weight": "6 kg",
     "hp": 14,
     "speed": 100,
+    "move_skills": { "climb": 8 },
     "material": [ "flesh" ],
     "symbol": "r",
     "color": "light_gray",
@@ -2373,10 +2408,10 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "vision_night": 5,
     "stomach_size": 200,
-    "upgrades": { "half_life": 30, "into": "mon_raccoon_mutant" },
+    "upgrades": { "half_life": 120, "into": "mon_raccoon_mutant" },
     "special_attacks": [ [ "EAT_FOOD", 60 ], [ "BROWSE", 50 ], [ "EAT_CARRION", 60 ] ],
     "anger_triggers": [ "FRIEND_ATTACKED", "HURT" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "CLIMBS", "PATH_AVOID_DANGER", "WARM", "KEENNOSE", "EATS", "SMALL_HIDER" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "KEENNOSE", "EATS", "SMALL_HIDER" ]
   },
   {
     "id": "mon_sewer_rat",
@@ -2391,6 +2426,7 @@
     "weight": "1 kg",
     "hp": 10,
     "speed": 100,
+    "move_skills": { "swim": 4 },
     "material": [ "flesh" ],
     "symbol": "r",
     "color": "light_gray",
@@ -2412,7 +2448,7 @@
     "path_settings": { "max_dist": 10 },
     "fear_triggers": [ "SOUND" ],
     "anger_triggers": [ "PLAYER_CLOSE", "FRIEND_ATTACKED", "FRIEND_DIED" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER", "EATS", "SMALL_HIDER", "CORNERED_FIGHTER" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "ANIMAL", "PATH_AVOID_DANGER", "EATS", "SMALL_HIDER", "CORNERED_FIGHTER" ]
   },
   {
     "id": "mon_sheep_lamb",
@@ -2523,6 +2559,7 @@
     "weight": "75 kg",
     "hp": 80,
     "speed": 200,
+    "move_skills": { "climb": 8 },
     "symbol": "g",
     "color": "white",
     "dodge": 3,
@@ -2542,7 +2579,6 @@
       "WARM",
       "PET_WONT_FOLLOW",
       "MILKABLE",
-      "CLIMBS",
       "CAN_BE_CULLED",
       "EATS"
     ]
@@ -2621,6 +2657,7 @@
     "weight": "151 g",
     "hp": 20,
     "speed": 110,
+    "move_skills": { "swim": 4 },
     "material": [ "flesh" ],
     "symbol": "m",
     "color": "brown",
@@ -2633,7 +2670,7 @@
     "harvest": "mammal_tiny",
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "SWIMS", "WARM", "SMALL_HIDER" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "SMALL_HIDER" ]
   },
   {
     "id": "mon_wolf",
@@ -2747,7 +2784,7 @@
     "name": { "str": "reindeer fawn" },
     "description": "A juvenile caribou, it is smaller than its adult counterparts, as well as having shorter antlers.",
     "volume": "30000 ml",
-    "weight": "120 g",
+    "weight": "120 kg",
     "hp": 35,
     "speed": 93,
     "symbol": "r",
@@ -2862,6 +2899,7 @@
     "weight": "120 g",
     "hp": 12,
     "speed": 110,
+    "move_skills": { "swim": 4 },
     "material": [ "flesh" ],
     "symbol": "f",
     "color": "light_gray",
@@ -2881,7 +2919,7 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "reproduction": { "baby_type": { "baby_monster": "mon_ferret_kit" }, "baby_count": 5, "baby_timer": 100 },
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "SWIMS", "WARM", "CANPLAY", "CAN_BE_CULLED", "SMALL_HIDER" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "CANPLAY", "CAN_BE_CULLED", "SMALL_HIDER" ]
   },
   {
     "id": "mon_ferret_kit",

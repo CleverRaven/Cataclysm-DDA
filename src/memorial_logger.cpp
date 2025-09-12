@@ -1,5 +1,6 @@
 #include "memorial_logger.h"
 
+#include <cstddef>
 #include <istream>
 #include <list>
 #include <map>
@@ -16,6 +17,7 @@
 #include "calendar.h"
 #include "cata_variant.h"
 #include "character.h"
+#include "character_attire.h"
 #include "character_id.h"
 #include "coordinates.h"
 #include "debug.h"
@@ -25,11 +27,13 @@
 #include "event.h"
 #include "event_statistics.h"
 #include "filesystem.h"
+#include "flexbuffer_json.h"
 #include "game.h"
 #include "get_version.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_factory.h"
+#include "item_location.h"
 #include "itype.h"
 #include "json.h"
 #include "json_loader.h"
@@ -47,12 +51,16 @@
 #include "past_games_info.h"
 #include "pimpl.h"
 #include "profession.h"
+#include "proficiency.h"
 #include "skill.h"
 #include "stats_tracker.h"
+#include "translation.h"
 #include "translations.h"
 #include "trap.h"
 #include "type_id.h"
 #include "units.h"
+
+// IWYU pragma: no_forward_declare debug_menu::debug_menu_index
 
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_datura( "datura" );
@@ -116,8 +124,8 @@ void memorial_logger::clear()
  * the character dies. The message should contain only the informational string,
  * as the timestamp and location will be automatically prepended.
  */
-void memorial_logger::add( const std::string_view male_msg,
-                           const std::string_view female_msg )
+void memorial_logger::add( std::string_view male_msg,
+                           std::string_view female_msg )
 {
     Character &player_character = get_player_character();
     const std::string_view msg = player_character.male ? male_msg : female_msg;
@@ -128,7 +136,7 @@ void memorial_logger::add( const std::string_view male_msg,
 
     const oter_id &cur_ter = overmap_buffer.get_overmap_count() == 0 ?
                              oter_id() :
-                             overmap_buffer.ter( player_character.global_omt_location() );
+                             overmap_buffer.ter( player_character.pos_abs_omt() );
     const oter_type_str_id cur_oter_type = cur_ter->get_type_id();
     const std::string &oter_name = cur_ter->get_name( om_vision_level::full );
 
@@ -219,7 +227,7 @@ void memorial_logger::write_text_memorial( std::ostream &file,
     }
 
     const std::string locdesc =
-        overmap_buffer.get_description_at( u.global_sm_location() );
+        overmap_buffer.get_description_at( u.pos_abs_sm() );
     //~ First parameter is a pronoun ("He"/"She"), second parameter is a description
     //~ that designates the location relative to its surroundings.
     const std::string kill_place = string_format( _( "%1$s was killed in a %2$s." ),
@@ -249,7 +257,7 @@ void memorial_logger::write_text_memorial( std::ostream &file,
     //HP
 
     const auto limb_hp =
-    [&file, &indent, &u]( const std::string_view desc, const bodypart_id & bp ) {
+    [&file, &indent, &u]( std::string_view desc, const bodypart_id & bp ) {
         file << indent <<
              string_format( desc, u.get_part_hp_cur( bp ), u.get_part_hp_max( bp ) ) << eol;
     };
@@ -1136,6 +1144,7 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::character_falls_asleep:
         case event_type::character_radioactively_mutates:
         case event_type::character_wears_item:
+        case event_type::character_takeoff_item:
         case event_type::character_wields_item:
         case event_type::character_armor_destroyed:
         case event_type::character_casts_spell:

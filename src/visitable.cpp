@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <climits>
-#include <iosfwd>
 #include <limits>
 #include <map>
 #include <memory>
@@ -10,36 +9,42 @@
 #include <unordered_map>
 #include <utility>
 
-#include "active_item_cache.h"
 #include "bionics.h"
 #include "character.h"
+#include "character_attire.h"
 #include "colony.h"
+#include "coordinates.h"
 #include "debug.h"
 #include "flag.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_contents.h"
 #include "item_pocket.h"
-#include "make_static.h"
+#include "itype.h"
 #include "map.h"
 #include "map_selector.h"
-#include "memory_fast.h"
-#include "monster.h"
-#include "mtype.h"
+#include "mapdata.h"
 #include "mutation.h"
 #include "pimpl.h"
+#include "pocket_type.h"
 #include "point.h"
+#include "stomach.h"
 #include "submap.h"
 #include "temp_crafting_inventory.h"
 #include "units.h"
-#include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
 
 static const bionic_id bio_ups( "bio_ups" );
 
+static const flag_id json_flag_ITEM_BROKEN( "ITEM_BROKEN" );
+static const flag_id json_flag_PSEUDO( "PSEUDO" );
+static const flag_id json_flag_USES_BIONIC_POWER( "USES_BIONIC_POWER" );
+static const flag_id json_flag_USE_UPS( "USE_UPS" );
+
 static const itype_id itype_UPS( "UPS" );
+static const itype_id itype_any( "any" );
 static const itype_id itype_apparatus( "apparatus" );
 
 static const quality_id qual_BUTCHER( "BUTCHER" );
@@ -499,16 +504,16 @@ static VisitResponse visit_items_internal( map *here,
 VisitResponse map_cursor::visit_items(
     const std::function<VisitResponse( item *, item * )> &func ) const
 {
-    if( get_map().inbounds( pos() ) ) {
-        return visit_items_internal( &get_map(), pos(), func );
+    if( get_map().inbounds( pos_bub() ) ) {
+        return visit_items_internal( &get_map(), pos_bub(), func );
     } else {
         tinymap here; // Tinymap is sufficient. Only looking at single location, so no Z level need.
         // pos returns the pos_bub location of the target relative to the reality bubble
         // even though the location isn't actually inside of it. Thus, we're loading a map
         // around that location to do our work.
-        tripoint_abs_ms abs_pos = get_map().getglobal( pos() );
+        const tripoint_abs_ms abs_pos = pos_abs();
         here.load( project_to<coords::omt>( abs_pos ), false );
-        tripoint_omt_ms p = here.omt_from_abs( abs_pos );
+        tripoint_omt_ms p = here.get_omt( abs_pos );
         return visit_items_internal( here.cast_to_map(), rebase_bub( p ), func );
     }
 }
@@ -709,14 +714,14 @@ std::list<item> map_cursor::remove_items_with( const
     }
 
     map &here = get_map();
-    if( !here.inbounds( pos() ) ) {
+    if( !here.inbounds( pos_bub() ) ) {
         debugmsg( "cannot remove items from map: cursor out-of-bounds" );
         return res;
     }
 
     // fetch the appropriate item stack
     point_sm_ms offset;
-    submap *sub = here.get_submap_at( pos(), offset );
+    submap *sub = here.get_submap_at( pos_bub(), offset );
     cata::colony<item> &stack = sub->get_items( offset );
 
     for( auto iter = stack.begin(); iter != stack.end(); ) {
@@ -819,6 +824,8 @@ static int charges_of_internal( const T &self, const M &main, const itype_id &id
                                 const std::function<bool( const item & )> &filter,
                                 const std::function<void( int )> &visitor, bool in_tools )
 {
+    map &here = get_map();
+
     int qty = 0;
 
     bool found_tool_with_UPS = false;
@@ -832,15 +839,15 @@ static int charges_of_internal( const T &self, const M &main, const itype_id &id
                 if( e->count_by_charges() ) {
                     qty = sum_no_wrap( qty, e->charges );
                 } else {
-                    qty = sum_no_wrap( qty, e->ammo_remaining( nullptr, true ) );
+                    qty = sum_no_wrap( qty, e->ammo_remaining_linked( here, nullptr ) );
                 }
-                if( e->has_flag( STATIC( flag_id( "USE_UPS" ) ) ) ) {
+                if( e->has_flag( json_flag_USE_UPS ) ) {
                     found_tool_with_UPS = true;
-                } else if( e->has_flag( STATIC( flag_id( "USES_BIONIC_POWER" ) ) ) ) {
+                } else if( e->has_flag( json_flag_USES_BIONIC_POWER ) ) {
                     found_bionic_tool = true;
                 }
             } else if( id == itype_UPS && e->has_flag( flag_IS_UPS ) ) {
-                qty = sum_no_wrap( qty, e->ammo_remaining( nullptr, true ) );
+                qty = sum_no_wrap( qty, e->ammo_remaining_linked( here, nullptr ) );
             }
         }
         if( qty >= limit ) {
@@ -963,9 +970,9 @@ static int amount_of_internal( const T &self, const itype_id &id, bool pseudo, i
 {
     int qty = 0;
     self.visit_items( [&qty, &id, &pseudo, &limit, &filter]( const item * e, item * ) {
-        if( !e->has_flag( STATIC( flag_id( "ITEM_BROKEN" ) ) ) &&
-            ( id == STATIC( itype_id( "any" ) ) || e->typeId() == id ) && filter( *e ) &&
-            ( pseudo || !e->has_flag( STATIC( flag_id( "PSEUDO" ) ) ) ) ) {
+        if( !e->has_flag( json_flag_ITEM_BROKEN ) &&
+            ( id == itype_any || e->typeId() == id ) && filter( *e ) &&
+            ( pseudo || !e->has_flag( json_flag_PSEUDO ) ) ) {
             qty = sum_no_wrap( qty, 1 );
         }
         return qty != limit ? VisitResponse::NEXT : VisitResponse::ABORT;
@@ -986,12 +993,12 @@ int inventory::amount_of( const itype_id &what, bool pseudo, int limit,
 {
     const itype_bin &binned = get_binned_items();
     const auto iter = binned.find( what );
-    if( iter == binned.end() && what != STATIC( itype_id( "any" ) ) ) {
+    if( iter == binned.end() && what != itype_any ) {
         return 0;
     }
 
     int res = 0;
-    if( what.str() == "any" ) {
+    if( what == itype_any ) {
         for( const auto &kv : binned ) {
             for( const item *it : kv.second ) {
                 res = sum_no_wrap( res, it->amount_of( what, pseudo, limit, filter ) );

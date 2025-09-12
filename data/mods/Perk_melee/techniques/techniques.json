@@ -3,7 +3,7 @@
     "type": "technique",
     "id": "tec_perk_feint",
     "name": "Feint",
-    "messages": [ "You fake a strike at %s!", "<npcname> fakes a strike at %s!" ],
+    "messages": [ "You fake a strike at %s", "<npcname> fakes a strike at %s" ],
     "required_char_flags_all": [ "MELEE_PERK_FEINT" ],
     "melee_allowed": true,
     "defensive": true,
@@ -27,7 +27,7 @@
         { "not": { "npc_has_effect": "stunned" } }
       ]
     },
-    "messages": [ "You deliver a stunning strike to %s", "<npcname> delivers a stunning strike to %s!" ],
+    "messages": [ "You deliver a stunning strike to %s", "<npcname> delivers a stunning strike to %s" ],
     "condition_desc": "* Only works on a <info>non-stunned</info> target of <info>similar or smaller</info> size.",
     "description": "Stun for 1 turn",
     "attack_vectors": [ "vector_null" ],
@@ -189,13 +189,34 @@
     "id": "tec_perk_estocada",
     "name": "Estocada",
     "required_char_flags_all": [ "MELEE_PERK_ESTOCADA" ],
-    "messages": [ "You lunge and thrust your weapon into %s", "<npcname> lunges and thrusts their weapon into %s!" ],
+    "messages": [ "You thrust your weapon into %s", "<npcname> thrusts their weapon into %s" ],
     "melee_allowed": true,
     "weighting": 10,
     "weapon_categories_allowed": [ "QUARTERSTAVES", "LONG_SWORDS", "MEDIUM-SWORDS", "LONG_THRUSTING_SWORDS", "FENCING_WEAPONRY" ],
     "condition": { "and": [ { "math": [ "u_effect_intensity('mabuff:buff_perk_momentum') == 1" ] } ] },
     "condition_desc": "* Requires <info>momentum(1)</info> to trigger.",
     "mult_bonuses": [ { "stat": "damage", "type": "stab", "scale": 1.1 }, { "stat": "movecost", "scale": 0.5 } ],
+    "attack_vectors": [ "vector_null" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_perk_duelist_lunge",
+    "name": "Lunge",
+    "weapon_categories_allowed": [ "FENCING_WEAPONRY", "LONG_THRUSTING_SWORDS" ],
+    "melee_allowed": true,
+    "crit_ok": true,
+    "reach_tec": true,
+    "weighting": 100,
+    "required_char_flags_all": [ "MELEE_PERK_DUELIST_LUNGE" ],
+    "mult_bonuses": [
+      { "stat": "movecost", "scale": 0.8 },
+      { "stat": "damage", "type": "bash", "scale": 0.25 },
+      { "stat": "damage", "type": "cut", "scale": 0.66 },
+      { "stat": "damage", "type": "stab", "scale": 1.1 }
+    ],
+    "messages": [ "You step and stab the %s with an elegant motion", "<npcname> steps closer to %s and stabs them with a quick motion" ],
+    "description": "A quick reach attack that scales heavily with perception.",
+    "eocs": [ "EOC_PERK_STEP_CLOSER" ],
     "attack_vectors": [ "vector_null" ]
   },
   {
@@ -230,7 +251,39 @@
     "condition": { "and": [ { "math": [ "u_effect_intensity('mabuff:buff_perk_tempo') > 2" ] } ] },
     "condition_desc": "* Requires <info>tempo(3)</info> to trigger.",
     "flat_bonuses": [ { "stat": "hit", "scale": 5.0 } ],
-    "messages": [ "You viciously wound %s", "<npcname> viciously wounds %s!" ],
+    "messages": [ "You viciously wound %s", "<npcname> viciously wounds %s" ],
+    "attack_vectors": [ "vector_null" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_perk_duelist_combo",
+    "name": "Compound strike",
+    "required_char_flags_all": [ "MELEE_PERK_DUELIST_COMBO" ],
+    "melee_allowed": true,
+    "crit_ok": true,
+    "unarmed_allowed": true,
+    "weighting": 100,
+    "condition": {
+      "and": [
+        { "math": [ "u_effect_intensity('mabuff:buff_perk_tempo') == 2" ] },
+        { "math": [ "n_effect_intensity('perk_hit_marker') >= 2" ] }
+      ]
+    },
+    "condition_desc": "* Can only trigger on the attack that achieves <info>tempo(3)</info>.  The attacked target must be the same as the previous two attacks.",
+    "mult_bonuses": [
+      { "stat": "hit", "scale": 5.0 },
+      { "stat": "movecost", "scale": 0.3 },
+      { "stat": "arpen", "type": "bash", "scaling-stat": "str", "scale": 2.25 },
+      { "stat": "arpen", "type": "cut", "scaling-stat": "str", "scale": 2.25 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "str", "scale": 2.25 },
+      { "stat": "damage", "type": "bash", "scale": 1.55 },
+      { "stat": "damage", "type": "cut", "scale": 1.55 },
+      { "stat": "damage", "type": "stab", "scale": 1.55 }
+    ],
+    "messages": [
+      "You cleanly transition from your last attack into a powerful finishing strike against %s",
+      "<npcname> cleanly transitions their last attack into a powerful finishing strike against %s"
+    ],
     "attack_vectors": [ "vector_null" ]
   }
 ]

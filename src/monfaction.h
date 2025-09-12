@@ -3,11 +3,13 @@
 #define CATA_SRC_MONFACTION_H
 
 #include <cstdint>
-#include <iosfwd>
 #include <limits>
 #include <map>
 #include <optional>
 #include <set>
+#include <string>
+#include <string_view>
+#include <utility>
 #include <vector>
 
 #include "type_id.h"
@@ -92,6 +94,8 @@ class monfaction
 
         /** Load from JSON */
         void load( const JsonObject &jo, std::string_view src );
+
+        void finalize();
 
         friend void monfactions::finalize();
         friend class generic_factory<monfaction>;

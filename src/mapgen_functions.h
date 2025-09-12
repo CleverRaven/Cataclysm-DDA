@@ -2,32 +2,25 @@
 #ifndef CATA_SRC_MAPGEN_FUNCTIONS_H
 #define CATA_SRC_MAPGEN_FUNCTIONS_H
 
+#include <array>
 #include <functional>
-#include <iosfwd>
 #include <map>
+#include <string>
 #include <utility>
 
 #include "coords_fwd.h"
-#include "mapdata.h"
+#include "ret_val.h"
 #include "type_id.h"
 
 class map;
 class mapgendata;
 class mission;
+class tinymap;
 struct mapgen_arguments;
 struct mapgen_parameters;
-struct point;
-class tinymap;
-struct tripoint;
 
 using mapgen_update_func = std::function<void( const tripoint_abs_omt &map_pos3, mission *miss )>;
 class JsonObject;
-
-/**
- * Calculates the coordinates of a rotated point.
- * Should match the `mapgen_*` rotation.
- */
-tripoint_bub_ms rotate_point( const tripoint_bub_ms &p, int rotations );
 
 int terrain_type_to_nesw_array( oter_id terrain_type, std::array<bool, 4> &array );
 

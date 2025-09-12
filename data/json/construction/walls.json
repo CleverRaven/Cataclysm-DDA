@@ -258,7 +258,7 @@
       [ [ "frame_wood", 1 ] ],
       [ [ "chunk_rubber", 16 ] ],
       [ [ "glass_sheet", 2 ] ],
-      [ [ "super_glue", 2 ], [ "duct_tape", 10 ] ]
+      [ [ "glue_strong", 2 ], [ "duct_tape", 10 ] ]
     ],
     "pre_note": "Must be supported on at least two sides.",
     "pre_special": "check_support",

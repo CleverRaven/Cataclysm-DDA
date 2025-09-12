@@ -1,9 +1,7 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "house_fungus_01" ],
-    "weight": 20,
     "object": {
       "fill_ter": "t_fungus",
       "rows": [
@@ -47,7 +45,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_fungus_roof_01",
     "object": {
       "fill_ter": "t_shingle_flat_roof",

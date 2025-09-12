@@ -11,7 +11,7 @@
     "melee_skill": 1,
     "bleed_rate": 25,
     "vision_day": 10,
-    "upgrades": { "half_life": 28, "into_group": "GROUP_CHILD_ZOMBIE_UPGRADE" },
+    "upgrades": { "half_life": 112, "into_group": "GROUP_CHILD_ZOMBIE_UPGRADE" },
     "armor": { "bash": 2, "cut": 3, "acid": 3, "heat": 15, "bullet": 2, "electric": 3 },
     "extend": { "flags": [ "REVIVES_HEALTHY", "NO_NECRO" ] }
   },

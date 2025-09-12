@@ -2,20 +2,23 @@
 #ifndef CATA_SRC_MOOD_FACE_H
 #define CATA_SRC_MOOD_FACE_H
 
+#include <string>
+#include <string_view>
+#include <utility>
 #include <vector>
 
 #include "type_id.h"
 
 class JsonObject;
-class JsonOut;
+class mood_face_value;
 template<typename T>
 class generic_factory;
-class mood_face_value;
 
 class mood_face
 {
     public:
         static void load_mood_faces( const JsonObject &jo, const std::string &src );
+        static void finalize_all();
         static void reset();
 
         void load( const JsonObject &jo, std::string_view src );

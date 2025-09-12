@@ -5,6 +5,7 @@
 #include "coords_fwd.h"
 #include "effect.h"
 #include "item.h"
+#include "math_parser_diag_value.h"
 #include "messages.h"
 #include "type_id.h"
 #include "units.h"
@@ -14,6 +15,7 @@
 class computer;
 class faction;
 class item_location;
+class map;
 class mission;
 class monster;
 class npc;
@@ -69,6 +71,10 @@ class const_talker
         virtual computer const *get_const_computer() const {
             return nullptr;
         }
+        virtual vehicle const *get_const_vehicle() const {
+            return nullptr;
+        }
+
         // identity and location
         virtual std::string disp_name() const {
             return "";
@@ -85,25 +91,22 @@ class const_talker
         virtual std::vector<std::string> get_grammatical_genders() const {
             return {};
         }
-        virtual int posx() const {
+        virtual int posx( const map & ) const {
             return 0;
         }
-        virtual int posy() const {
+        virtual int posy( const map & ) const {
             return 0;
         }
         virtual int posz() const {
             return 0;
         }
-        virtual tripoint pos() const {
+        virtual tripoint_bub_ms pos_bub( const map & ) const {
             return {};
         }
-        virtual tripoint_bub_ms pos_bub() const {
+        virtual tripoint_abs_ms pos_abs() const {
             return {};
         }
-        virtual tripoint_abs_ms global_pos() const {
-            return {};
-        }
-        virtual tripoint_abs_omt global_omt_location() const {
+        virtual tripoint_abs_omt pos_abs_omt() const {
             return {};
         }
         virtual std::string distance_to_goal() const {
@@ -149,6 +152,9 @@ class const_talker
             return false;
         }
         // stats, skills, traits, bionics, and magic
+        virtual int get_artifact_resonance() const {
+            return 0;
+        }
         virtual int str_cur() const {
             return 0;
         }
@@ -195,6 +201,9 @@ class const_talker
             return 0;
         }
         virtual int get_spell_level( const spell_id & ) const {
+            return 0;
+        }
+        virtual int get_spell_difficulty( const spell_id &, bool ) const {
             return 0;
         }
         virtual int get_spell_exp( const spell_id & ) const {
@@ -330,11 +339,14 @@ class const_talker
         virtual bool is_mute() const {
             return false;
         }
-        virtual std::string get_value( const std::string &key ) const {
-            return maybe_get_value( key ).value_or( std::string{} );
+        diag_value const &get_value( const std::string &key ) const {
+            static diag_value const null_val;
+            diag_value const *ret = maybe_get_value( key );
+            return ret ? *ret : null_val;
         }
-        virtual std::optional<std::string> maybe_get_value( const std::string & ) const {
-            return std::nullopt;
+
+        virtual diag_value const *maybe_get_value( const std::string & ) const {
+            return nullptr;
         }
 
         // inventory, buying, and selling
@@ -551,6 +563,9 @@ class const_talker
         virtual int focus_cur() const {
             return 0;
         }
+        virtual int focus_effective_cur() const {
+            return 0;
+        }
         virtual int get_pkill() const {
             return 0;
         }
@@ -645,6 +660,60 @@ class const_talker
         virtual int climate_control_str_chill() const {
             return 0;
         }
+        virtual int get_quality( const std::string &, bool ) const {
+            return 0;
+        }
+        virtual bool is_driven() const {
+            return false;
+        }
+        virtual bool is_remote_controlled() const {
+            return false;
+        }
+        virtual int get_vehicle_facing() const {
+            return 0;
+        }
+        virtual bool can_fly() const {
+            return false;
+        }
+        virtual bool is_flying() const {
+            return false;
+        }
+        virtual bool can_float() const {
+            return false;
+        }
+        virtual bool is_floating() const {
+            return false;
+        }
+        virtual bool is_falling() const {
+            return false;
+        }
+        virtual bool is_skidding() const {
+            return false;
+        }
+        virtual bool is_sinking() const {
+            return false;
+        }
+        virtual bool is_on_rails() const {
+            return false;
+        }
+        virtual int get_current_speed() const {
+            return 0;
+        }
+        virtual int get_unloaded_weight() const {
+            return 0;
+        }
+        virtual int get_friendly_passenger_count() const {
+            return 0;
+        }
+        virtual int get_hostile_passenger_count() const {
+            return 0;
+        }
+        virtual bool has_part_flag( const std::string &, bool ) const {
+            return false;
+        }
+        virtual bool is_passenger( Character & ) const {
+            return false;
+        }
 };
 
 class talker: virtual public const_talker
@@ -679,7 +748,11 @@ class talker: virtual public const_talker
         virtual computer *get_computer() {
             return nullptr;
         }
+        virtual vehicle *get_vehicle() {
+            return nullptr;
+        }
         virtual void set_pos( tripoint_bub_ms ) {}
+        virtual void set_pos( tripoint_abs_ms ) {}
         virtual void update_missions( const std::vector<mission *> & ) {}
         virtual void set_str_max( int ) {}
         virtual void set_dex_max( int ) {}
@@ -689,6 +762,7 @@ class talker: virtual public const_talker
         virtual void set_dex_bonus( int ) {}
         virtual void set_int_bonus( int ) {}
         virtual void set_per_bonus( int ) {}
+        virtual void set_cash( int ) {}
         virtual void set_spell_level( const spell_id &, int ) {}
         virtual void set_spell_exp( const spell_id &, int ) {}
         virtual void set_skill_level( const skill_id &, int ) {}
@@ -696,7 +770,7 @@ class talker: virtual public const_talker
         virtual void learn_recipe( const recipe_id & ) {}
         virtual void forget_recipe( const recipe_id & ) {}
         virtual void mutate( const int &, const bool & ) {}
-        virtual void mutate_category( const mutation_category_id &, const bool & ) {}
+        virtual void mutate_category( const mutation_category_id &, const bool &, const bool & ) {}
         virtual void mutate_towards( const trait_id &, const mutation_category_id &, const bool & ) {};
         virtual void set_mutation( const trait_id &, const mutation_variant * = nullptr ) {}
         virtual void unset_mutation( const trait_id & ) {}
@@ -714,7 +788,11 @@ class talker: virtual public const_talker
         virtual void remove_effect( const efftype_id &, const std::string & ) {}
         virtual void add_bionic( const bionic_id & ) {}
         virtual void remove_bionic( const bionic_id & ) {}
-        virtual void set_value( const std::string &, const std::string & ) {}
+        virtual void set_value( const std::string &, diag_value const & ) {}
+        template <typename... Args>
+        void set_value( const std::string &key, Args... args ) {
+            set_value( key, diag_value{ std::forward<Args>( args )... } );
+        }
         virtual void remove_value( const std::string & ) {}
         virtual std::list<item> use_charges( const itype_id &, int ) {
             return {};
@@ -785,7 +863,9 @@ class talker: virtual public const_talker
         virtual void set_npc_anger( int ) {}
         virtual void set_all_parts_hp_cur( int ) {}
         virtual void set_degradation( int ) {}
-        virtual void die() {}
+        virtual void die( map * ) {}
+        virtual void set_fault( const fault_id &, bool, bool ) {};
+        virtual void set_random_fault_of_type( const std::string &, bool, bool ) {};
         virtual void set_mana_cur( int ) {}
         virtual void mod_daily_health( int, int ) {}
         virtual void mod_livestyle( int ) {}

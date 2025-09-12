@@ -5,11 +5,12 @@
 #include <cmath>
 #include <cstdlib>
 #include <memory>
+#include <optional>
 #include <tuple>
-#include <type_traits>
 #include <vector>
 
 #include "avatar.h"
+#include "basecamp.h"
 #include "bodygraph.h"
 #include "calendar.h"
 #include "cata_utility.h"
@@ -17,9 +18,9 @@
 #include "creature.h"
 #include "debug.h"
 #include "effect.h"
+#include "faction.h"
 #include "game.h"
 #include "game_constants.h"
-#include "make_static.h"
 #include "map.h"
 #include "mood_face.h"
 #include "move_mode.h"
@@ -43,6 +44,7 @@
 #include "vpart_position.h"
 #include "weather.h"
 #include "weather_type.h"
+#include "widget.h"
 
 static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
@@ -139,7 +141,7 @@ std::string display::get_temp( const Character &u )
 {
     std::string temp;
     if( u.cache_has_item_with( json_flag_THERMOMETER ) ||
-        u.has_flag( STATIC( json_character_flag( "THERMOMETER" ) ) ) ) {
+        u.has_flag( json_flag_THERMOMETER ) ) {
         temp = print_temperature( get_weather().get_temperature( u.pos_bub() ) );
     }
     if( temp.empty() ) {
@@ -184,9 +186,16 @@ std::string display::time_approx()
 
 std::string display::date_string()
 {
-    const std::string season = calendar::name_season( season_of_year( calendar::turn ) );
-    const int day_num = day_of_season<int>( calendar::turn ) + 1;
-    return string_format( _( "%s, day %d" ), season, day_num );
+    if( calendar::year_length() != 364_days || !get_option<bool>( "SHOW_MONTHS" ) ) {
+        const std::string season = calendar::name_season( season_of_year( calendar::turn ) );
+        const int day_num = day_of_season<int>( calendar::turn ) + 1;
+        return string_format( _( "%s, day %d" ), season, day_num );
+    }
+    const std::pair<month, int> month_day = month_and_day( calendar::turn );
+    const weekdays day = day_of_week( calendar::turn );
+    //~ 1: day (Monday,Tuesday,etc) 2: Month, 3: day of Month .e.g. Thursday, March 8
+    return string_format( _( "%1$s, %2$s %3$d" ), to_string( day ), to_string( month_day.first ),
+                          month_day.second );
 }
 
 std::string display::time_string( const Character &u )
@@ -817,13 +826,13 @@ std::pair<std::string, nc_color> display::faction_text( const Character &u )
 {
     std::string display_name = _( "None" );
     nc_color display_color = c_white;
-    std::optional<basecamp *> bcp = overmap_buffer.find_camp( u.global_omt_location().xy() );
+    std::optional<basecamp *> bcp = overmap_buffer.find_camp( u.pos_abs_omt().xy() );
     if( !bcp ) {
         return std::pair( display_name, display_color );
     }
     basecamp *actual_camp = *bcp;
     const faction_id &owner = actual_camp->get_owner();
-    if( owner->limited_area_claim && u.global_omt_location() != actual_camp->camp_omt_pos() ) {
+    if( owner->limited_area_claim && u.pos_abs_omt() != actual_camp->camp_omt_pos() ) {
         return std::pair( display_name, display_color );
     }
     display_name = owner->name;
@@ -929,6 +938,8 @@ std::string display::vehicle_azimuth_text( const Character &u )
 
 std::pair<std::string, nc_color> display::vehicle_cruise_text_color( const Character &u )
 {
+    map &here = get_map();
+
     // Defaults in case no vehicle is found
     std::string vel_text;
     nc_color vel_color = c_light_gray;
@@ -941,12 +952,13 @@ std::pair<std::string, nc_color> display::vehicle_cruise_text_color( const Chara
     // Text color indicates how much the engine is straining beyond its safe velocity.
     vehicle *veh = display::vehicle_driven( u );
     if( veh ) {
-        int target = static_cast<int>( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) );
-        int current = static_cast<int>( convert_velocity( veh->velocity, VU_VEHICLE ) );
+        const double target = convert_velocity( veh->cruise_velocity, VU_VEHICLE );
+        const double current = convert_velocity( veh->velocity, VU_VEHICLE );
         const std::string units = get_option<std::string> ( "USE_METRIC_SPEEDS" );
-        vel_text = string_format( "%d < %d %s", target, current, units );
+        vel_text = string_format( "%s < %s %s", three_digit_display( target ),
+                                  three_digit_display( current ), units );
 
-        const float strain = veh->strain();
+        const float strain = veh->strain( here );
         if( strain <= 0 ) {
             vel_color = c_light_blue;
         } else if( strain <= 0.2 ) {
@@ -962,6 +974,8 @@ std::pair<std::string, nc_color> display::vehicle_cruise_text_color( const Chara
 
 std::pair<std::string, nc_color> display::vehicle_fuel_percent_text_color( const Character &u )
 {
+    map &here = get_map();
+
     // Defaults in case no vehicle is found
     std::string fuel_text;
     nc_color fuel_color = c_light_gray;
@@ -979,8 +993,8 @@ std::pair<std::string, nc_color> display::vehicle_fuel_percent_text_color( const
                 fuel_type = vp.fuel_current();
             }
         }
-        int max_fuel = veh->fuel_capacity( fuel_type );
-        int cur_fuel = veh->fuel_left( fuel_type );
+        int max_fuel = veh->fuel_capacity( here, fuel_type );
+        int cur_fuel = veh->fuel_left( here, fuel_type );
         if( max_fuel != 0 ) {
             int percent = cur_fuel * 100 / max_fuel;
             // Simple percent indicator, yellow under 25%, red under 10%
@@ -1066,7 +1080,7 @@ std::pair<std::string, nc_color> display::carry_weight_value_color( const avatar
     return std::make_pair( weight_text, weight_color );
 }
 
-std::pair<std::string, nc_color> display::overmap_note_symbol_color( const std::string_view
+std::pair<std::string, nc_color> display::overmap_note_symbol_color( std::string_view
         note_text )
 {
     std::string ter_sym = "N";
@@ -1164,7 +1178,7 @@ std::string display::colorized_overmap_text( const avatar &u, const int width, c
     map &here = get_map();
 
     // Map is roughly centered around this point
-    const tripoint_abs_omt &center_xyz = u.global_omt_location();
+    const tripoint_abs_omt &center_xyz = u.pos_abs_omt();
     const tripoint_abs_omt &mission_xyz = u.get_active_mission_target();
     // Retrieve cached string instead of constantly rebuilding it
     if( disp_om_cache.is_valid_for( center_xyz, mission_xyz, width ) ) {
@@ -1218,11 +1232,7 @@ std::string display::colorized_overmap_text( const avatar &u, const int width, c
 
 std::string display::overmap_position_text( const tripoint_abs_omt &loc )
 {
-    point_abs_omt abs_omt = loc.xy();
-    point_abs_om om;
-    point_om_omt omt;
-    std::tie( om, omt ) = project_remain<coords::om>( abs_omt );
-    return string_format( _( "LEVEL %i, %d'%d, %d'%d" ), loc.z(), om.x(), omt.x(), om.y(), omt.y() );
+    return loc.to_string();
 }
 
 std::string display::current_position_text( const tripoint_abs_omt &loc )
@@ -1239,7 +1249,7 @@ std::string display::current_position_text( const tripoint_abs_omt &loc )
 point display::mission_arrow_offset( const avatar &you, int width, int height )
 {
     // FIXME: Use tripoint for curs
-    const point_abs_omt curs = you.global_omt_location().xy();
+    const point_abs_omt curs = you.pos_abs_omt().xy();
     const tripoint_abs_omt targ = you.get_active_mission_target();
     const point mid( width / 2, height / 2 );
 
@@ -1418,7 +1428,7 @@ nc_color display::get_bodygraph_bp_color( const Character &u, const bodypart_id 
             return display::bodytemp_color( u, bid );
         }
         case bodygraph_var::encumb: {
-            int level = u.get_part_encumbrance_data( bid ).encumbrance;
+            int level = u.get_part_encumbrance( bid );
             return display::encumb_color( level );
         }
         case bodygraph_var::status: {
@@ -1504,10 +1514,10 @@ std::pair<std::string, nc_color> display::weather_text_color( const Character &u
 
 std::pair<std::string, nc_color> display::wind_text_color( const Character &u )
 {
-    const oter_id &cur_om_ter = overmap_buffer.ter( u.global_omt_location() );
+    const oter_id &cur_om_ter = overmap_buffer.ter( u.pos_abs_omt() );
     weather_manager &weather = get_weather();
     double windpower = get_local_windpower( weather.windspeed, cur_om_ter,
-                                            u.get_location(), weather.winddirection, g->is_sheltered( u.pos_bub() ) );
+                                            u.pos_abs(), weather.winddirection, g->is_sheltered( u.pos_bub() ) );
 
     // Wind descriptor followed by a directional arrow
     const std::string wind_text = get_wind_desc( windpower ) + " " + get_wind_arrow(

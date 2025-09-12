@@ -1,29 +1,36 @@
+#include <algorithm>
+#include <cmath>
 #include <cstddef>
 #include <functional>
+#include <map>
 #include <memory>
+#include <random>
+#include <set>
 #include <sstream>
+#include <string>
 #include <vector>
 
 #include "avatar.h"
 #include "cata_catch.h"
+#include "coordinates.h"
 #include "creature.h"
+#include "damage.h"
 #include "explosion.h"
 #include "fragment_cloud.h"
 #include "game.h"
 #include "item.h"
 #include "itype.h"
+#include "iuse.h"
 #include "iuse_actor.h"
-#include "line.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "monster.h"
-#include "mtype.h"
 #include "point.h"
 #include "projectile.h"
+#include "rng.h"
 #include "test_statistics.h"
 #include "type_id.h"
 #include "units.h"
-#include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
@@ -59,7 +66,7 @@ static float get_damage_vs_target( const std::string &target_id )
         //REQUIRE( target_monster.type->armor_bullet == 0 );
         // This mirrors code in explosion::shrapnel() that scales hit rate with size and avoids crits.
         frag.missed_by = rng_float( 0.05, 1.0 / target_monster.ranged_target_size() );
-        target_monster.deal_projectile_attack( nullptr, frag, false );
+        target_monster.deal_projectile_attack( &get_map(), nullptr, frag, frag.missed_by, false );
         if( frag.dealt_dam.total_damage() > 0 ) {
             damaging_hits++;
             damage_taken += frag.dealt_dam.total_damage();

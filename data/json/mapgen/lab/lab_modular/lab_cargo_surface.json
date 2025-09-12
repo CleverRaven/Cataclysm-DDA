@@ -1,9 +1,7 @@
 [
   {
-    "method": "json",
     "om_terrain": [ [ "lab_res_8_SWD_ground", "lab_res_8_SED_ground" ] ],
     "type": "mapgen",
-    "weight": 200,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -57,10 +55,8 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": [ [ "lab_res_8_SWU_ground", "lab_res_8_SEU_ground" ] ],
     "type": "mapgen",
-    "weight": 200,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -112,14 +108,12 @@
         { "monster": "mon_skitterbot", "x": 43, "y": 1, "chance": 100 },
         { "monster": "mon_manhack", "x": 44, "y": 1, "chance": 100 }
       ],
-      "place_vehicles": [ { "vehicle": "golf_cart", "x": [ 8, 20 ], "y": [ 17, 18 ], "chance": 100, "rotation": 90 } ]
+      "place_vehicles": [ { "vehicle": "golf_cart", "x": [ 8, 20 ], "y": [ 17, 18 ], "rotation": 90 } ]
     }
   },
   {
-    "method": "json",
     "om_terrain": [ [ "lab_CORE_2x1_SED_ground", "lab_CORE_2x1_SWD_ground" ] ],
     "type": "mapgen",
-    "weight": 200,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -165,8 +159,8 @@
         { "monster": "mon_lab_security_drone_GM", "x": [ 2, 22 ], "y": [ 6, 22 ], "chance": 50 }
       ],
       "place_vehicles": [
-        { "vehicle": "golf_cart_4seat", "x": 2, "y": 6, "chance": 100, "rotation": 180 },
-        { "vehicle": "forklift_vehicles", "x": 8, "y": 3, "chance": 100, "rotation": 90 },
+        { "vehicle": "golf_cart_4seat", "x": 2, "y": 6, "rotation": 180 },
+        { "vehicle": "forklift_vehicles", "x": 8, "y": 3, "rotation": 90 },
         { "vehicle": "truck_trailer", "x": 5, "y": 14, "chance": 30, "rotation": 180 },
         { "vehicle": "handjack", "x": 1, "y": [ 2, 8 ], "chance": 30, "rotation": 90 },
         { "vehicle": "forklift_vehicles", "x": [ 31, 35 ], "y": [ 14, 21 ], "chance": 30, "rotation": 90 },
@@ -182,10 +176,8 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": [ [ "lab_CORE_2x1_NED_ground", "lab_CORE_2x1_NWD_ground" ] ],
     "type": "mapgen",
-    "weight": 200,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -244,10 +236,8 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": [ [ "lab_CORE_2x1_WC_ground", "lab_CORE_2x1_EC_ground" ] ],
     "type": "mapgen",
-    "weight": 200,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -341,11 +331,9 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": [ [ "lab_2x1_CORE_-1W", "lab_2x1_CORE_-1E" ] ],
     "//": "level -1 for cargo ramps. TODO: complete this level for maintenance expansion.",
     "type": "mapgen",
-    "weight": 200,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [

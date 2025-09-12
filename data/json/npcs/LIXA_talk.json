@@ -7,13 +7,13 @@
   {
     "type": "talk_topic",
     "id": "LIXA_presentation_computer_main",
-    "dynamic_line": "This computer is somehow still powered; an alarming buzz emanates from its wall plug.  The desktop is cluttered with dozens of unsorted powerpoint files.  After some investigation, you find one labeled \"LAYMAN BRIEFING\".",
+    "dynamic_line": "&This computer is somehow still powered; an alarming buzz emanates from its wall plug.  The desktop is cluttered with dozens of unsorted powerpoint files.  After some investigation, you find one labeled \"LAYMAN BRIEFING\".",
     "responses": [ { "text": "Open LAYMAN BRIEFING.", "topic": "LIXA_LAYMAN_BRIEFING" }, { "text": "Leave.", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
     "id": "LIXA_LAYMAN_BRIEFING",
-    "dynamic_line": "The screen bears the letters LIXA in big bold font.  Underneath it, in smaller letters, are the words \"Laser Interferometer eXospatial resonance Array\".  The slides are neatly tabulated under grouped headers down the side.",
+    "dynamic_line": "&The screen bears the letters LIXA in big bold font.  Underneath it, in smaller letters, are the words \"Laser Interferometer eXospatial resonance Array\".  The slides are neatly tabulated under grouped headers down the side.",
     "responses": [
       { "text": "\"What is LIXA?\"", "topic": "LIXA_briefing_1" },
       { "text": "\"LIGO and spatial compression.\"", "topic": "LIXA_briefing_2" },
@@ -27,7 +27,7 @@
   {
     "type": "talk_topic",
     "id": "LIXA_briefing_1",
-    "dynamic_line": "\"LIXA, or 'Liza' as we like to call her, is the forefront of exospatial research.  It has been confirmed that matter from our local n-space (the 4d coordinates in which we exist) can transit through exodimensions.  But it cannot do it safely!  To understand the behavior of exospace, we must first learn about how it works.\"",
+    "dynamic_line": "LIXA, or 'Liza' as we like to call her, is the forefront of exospatial research.  It has been confirmed that matter from our local n-space (the 4d coordinates in which we exist) can transit through exodimensions.  But it cannot do it safely!  To understand the behavior of exospace, we must first learn about how it works.",
     "responses": [
       { "text": "Title slide.", "topic": "LIXA_LAYMAN_BRIEFING" },
       { "text": "\"LIGO and spatial compression.\"", "topic": "LIXA_briefing_2" },
@@ -41,7 +41,7 @@
   {
     "type": "talk_topic",
     "id": "LIXA_briefing_2",
-    "dynamic_line": "\"LIXA is based off a proposition for a device called LIGO (Laser Interferometer Gravitational wave Observatory).  It was originally designed to confirm the existence of Gravitational Waves, a spreading distortion in spacetime caused by ultramassive events.  The design has been repurposed for the exciting field of exospatial research, where we already know we can find spatial distortions!\"",
+    "dynamic_line": "LIXA is based off a proposition for a device called LIGO (Laser Interferometer Gravitational wave Observatory).  It was originally designed to confirm the existence of Gravitational Waves, a spreading distortion in spacetime caused by ultramassive events.  The design has been repurposed for the exciting field of exospatial research, where we already know we can find spatial distortions!",
     "responses": [
       { "text": "Title slide.", "topic": "LIXA_LAYMAN_BRIEFING" },
       { "text": "\"What is LIXA?\"", "topic": "LIXA_briefing_1" },
@@ -55,7 +55,7 @@
   {
     "type": "talk_topic",
     "id": "LIXA_briefing_3a",
-    "dynamic_line": "\"Laser interferometry is the technique LIXA uses to measure changes in local exospace.  The principle is simple!  A laser is directed down a long, vacuum-sealed chamber for an exact multiple of its wavelength.  It strikes a mirror and returns down another chamber.  If the spacetime through which the laser moved has not changed, the waveforms will be IN PHASE, and the signal will be at full amplitude!\"  Here there is a diagram of two waves, with peaks at the same places, and a third wave beneath them.",
+    "dynamic_line": "&\"Laser interferometry is the technique LIXA uses to measure changes in local exospace.  The principle is simple!  A laser is directed down a long, vacuum-sealed chamber for an exact multiple of its wavelength.  It strikes a mirror and returns down another chamber.  If the spacetime through which the laser moved has not changed, the waveforms will be IN PHASE, and the signal will be at full amplitude!\"  Here there is a diagram of two waves, with peaks at the same places, and a third wave beneath them.",
     "responses": [
       { "text": "The next slide is titled \"But what if?\"", "topic": "LIXA_briefing_3b" },
       { "text": "Title slide.", "topic": "LIXA_LAYMAN_BRIEFING" },
@@ -70,7 +70,7 @@
   {
     "type": "talk_topic",
     "id": "LIXA_briefing_3b",
-    "dynamic_line": "\"BUT, if the spacetime through which the laser has distorted with effects parallel to the beam, the waveforms will be OUT OF PHASE, and the signal amplitude will be lower than normal!\"  There is a diagram of two waves which do not synch up, and a third wave underneath it that is smaller than either of them.",
+    "dynamic_line": "&\"BUT, if the spacetime through which the laser has distorted with effects parallel to the beam, the waveforms will be OUT OF PHASE, and the signal amplitude will be lower than normal!\"  There is a diagram of two waves which do not synch up, and a third wave underneath it that is smaller than either of them.",
     "responses": [
       { "text": "\"What is laser interferometry?\"", "topic": "LIXA_briefing_3a" },
       { "text": "Title slide.", "topic": "LIXA_LAYMAN_BRIEFING" },
@@ -85,7 +85,7 @@
   {
     "type": "talk_topic",
     "id": "LIXA_briefing_4",
-    "dynamic_line": "\"LIXA works using the principle of LOCAL EXODIMENSIONAL FLUX, the phenomenon in which ambient spacetime around exospatial breaches moves through the \"portal\".  LIXA is equipped with several LOCAL DIMENSIONAL COMPRESSORS.  These devices turn 'portals' on and off hundreds of times a second, which results in the FLUX repeatedly drawing tiny segments of our local n-space into exospace.  This creates a compression effect, 'storing' an enormous amount of 4d-space in those segments in the neighboring exospace.\"",
+    "dynamic_line": "LIXA works using the principle of LOCAL EXODIMENSIONAL FLUX, the phenomenon in which ambient spacetime around exospatial breaches moves through the 'portal'.  LIXA is equipped with several LOCAL DIMENSIONAL COMPRESSORS.  These devices turn 'portals' on and off hundreds of times a second, which results in the FLUX repeatedly drawing tiny segments of our local n-space into exospace.  This creates a compression effect, 'storing' an enormous amount of 4d-space in those segments in the neighboring exospace.",
     "responses": [
       { "text": "Title slide.", "topic": "LIXA_LAYMAN_BRIEFING" },
       { "text": "\"What is LIXA?\"", "topic": "LIXA_briefing_1" },
@@ -99,7 +99,7 @@
   {
     "type": "talk_topic",
     "id": "LIXA_briefing_5",
-    "dynamic_line": "\"The compressed n-space 'stored' in local exospace is in segments too small for any exospace flux, but is still IN exospace.  Through repeated frequency alterations, we can 'rotate' the n-space through the infinite n-planes of exospace, and detect the way in which they shift relative to each other.  This is the first step towards countermeasures, and may one day lead to actual safe transit!!!\"",
+    "dynamic_line": "The compressed n-space 'stored' in local exospace is in segments too small for any exospace flux, but is still IN exospace.  Through repeated frequency alterations, we can 'rotate' the n-space through the infinite n-planes of exospace, and detect the way in which they shift relative to each other.  This is the first step towards countermeasures, and may one day lead to actual safe transit!!!",
     "responses": [
       { "text": "Title slide.", "topic": "LIXA_LAYMAN_BRIEFING" },
       { "text": "\"What is LIXA?\"", "topic": "LIXA_briefing_1" },
@@ -113,7 +113,7 @@
   {
     "type": "talk_topic",
     "id": "LIXA_briefing_6",
-    "dynamic_line": "This is a series of several slides.  All of them contain financial data so full of references to other projects and definitions that it is basically incomprehensible.  It all adds up to a very large amount of money.",
+    "dynamic_line": "&This is a series of several slides.  All of them contain financial data so full of references to other projects and definitions that it is basically incomprehensible.  It all adds up to a very large amount of money.",
     "responses": [
       { "text": "Title slide.", "topic": "LIXA_LAYMAN_BRIEFING" },
       { "text": "\"What is LIXA?\"", "topic": "LIXA_briefing_1" },
@@ -132,7 +132,7 @@
   {
     "type": "talk_topic",
     "id": "LIXA_personal_computer_main",
-    "dynamic_line": "This is a personal computer, the frame around the screen decorated with whale stickers.  It has undergone a severe fault, and its file structure is completely scrambled.",
+    "dynamic_line": "&This is a personal computer, the frame around the screen decorated with whale stickers.  It has undergone a severe fault, and its file structure is completely scrambled.",
     "responses": [
       {
         "text": "Attempt to open a file.",
@@ -146,7 +146,7 @@
   {
     "type": "talk_topic",
     "id": "LIXA_personal_success_1",
-    "dynamic_line": "<LIXA_personal_snip_1>",
+    "dynamic_line": { "//~": "NO_I18N", "str": "&<LIXA_personal_snip_1>" },
     "responses": [
       {
         "text": "Attempt to open a file.",
@@ -160,7 +160,7 @@
   {
     "type": "talk_topic",
     "id": "LIXA_personal_success_2",
-    "dynamic_line": "<LIXA_personal_snip_2>",
+    "dynamic_line": { "//~": "NO_I18N", "str": "&<LIXA_personal_snip_2>" },
     "responses": [
       {
         "text": "Attempt to open a file.",
@@ -174,7 +174,7 @@
   {
     "type": "talk_topic",
     "id": "LIXA_personal_success_3",
-    "dynamic_line": "<LIXA_personal_snip_3>",
+    "dynamic_line": { "//~": "NO_I18N", "str": "&<LIXA_personal_snip_3>" },
     "responses": [
       {
         "text": "Attempt to open a file.",
@@ -188,7 +188,7 @@
   {
     "type": "talk_topic",
     "id": "LIXA_personal_success_4",
-    "dynamic_line": "<LIXA_personal_snip_4>",
+    "dynamic_line": { "//~": "NO_I18N", "str": "&<LIXA_personal_snip_4>" },
     "responses": [
       {
         "text": "Attempt to open a file.",
@@ -202,7 +202,7 @@
   {
     "type": "talk_topic",
     "id": "LIXA_personal_failure",
-    "dynamic_line": "\"ERROR: file path corrupted.  Please contact your sysadmin.\"  The computer then freezes, and reboots.",
+    "dynamic_line": "&\"ERROR: file path corrupted.  Please contact your sysadmin.\"  The computer then freezes, and reboots.",
     "responses": [ { "text": "Leave.", "topic": "TALK_DONE" } ]
   },
   {

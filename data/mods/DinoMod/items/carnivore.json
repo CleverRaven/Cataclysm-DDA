@@ -2,13 +2,15 @@
   {
     "id": "stomach_sauropod",
     "copy-from": "stomach_large",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str": "sauropod stomach" },
     "description": "The stomach of an enormous sauropod dinosaur.  It is surprisingly durable and very roomy.",
     "proportional": { "weight": 2.0, "volume": 2.0, "price": 1.5, "calories": 2.0 }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "sauropod_stomach_boiled",
     "copy-from": "stomach_boiled",
     "name": { "str": "boiled sauropod stomach" },
@@ -17,7 +19,7 @@
     "fun": -5
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "skull_dino_small",
     "name": { "str": "smaller dinosaur skull" },
     "description": "The skull of a smaller plant eating dinosaur.",
@@ -32,7 +34,7 @@
     "material": [ "bone" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "skull_dino_med",
     "name": { "str": "dinosaur skull" },
     "description": "The skull of a plant eating dinosaur.",
@@ -47,7 +49,7 @@
     "material": [ "bone" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "skull_dino_large",
     "name": { "str": "larger dinosaur skull" },
     "description": "The skull of a larger plant eating dinosaur.",
@@ -62,7 +64,7 @@
     "material": [ "bone" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "skull_dino_pred_small",
     "name": { "str": "smaller dinosaur predator skull" },
     "description": "A smaller dinosaur skull with sharp teeth.",
@@ -78,7 +80,7 @@
     "qualities": [ [ "CUT_FINE", 1 ] ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "skull_dino_pred_med",
     "name": { "str": "dinosaur predator skull" },
     "description": "The skull of a dinosaur with sharp teeth.",
@@ -94,7 +96,7 @@
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ] ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "skull_dino_pred_large",
     "name": { "str": "larger dinosaur predator skull" },
     "description": "The skull of a larger dinosaur with sharp teeth.",
@@ -110,31 +112,31 @@
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 1 ] ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "skull_tyrannosaurus",
     "name": { "str": "tyrannosaurus skull" },
     "copy-from": "skull_dino_pred_large"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "skull_allosaurus",
     "name": { "str": "allosaurus skull" },
     "copy-from": "skull_dino_pred_large"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "skull_acrocanthosaurus",
     "name": { "str": "acrocanthosaurus skull" },
     "copy-from": "skull_dino_pred_large"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "skull_giganotosaurus",
     "name": { "str": "giganotosaurus skull" },
     "copy-from": "skull_dino_pred_large"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "skull_lokiceratops",
     "name": { "str": "lokiceratops skull" },
     "description": "Large dinosaur skull with two large horns above the eyes and a large crest with two large horns pointing out and down.",
@@ -142,7 +144,7 @@
     "qualities": [ [ "COOK", 1 ] ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "skull_triceratops",
     "name": { "str": "triceratops skull" },
     "description": "Large dinosaur skull with three large horns and a large crest.",
@@ -150,7 +152,7 @@
     "qualities": [ [ "COOK", 1 ] ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "skull_torosaurus",
     "name": { "str": "torosaurus skull" },
     "description": "Large dinosaur skull with three large horns and a large crest.",
@@ -158,7 +160,7 @@
     "qualities": [ [ "COOK", 1 ] ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "skull_styracosaurus",
     "name": { "str": "styracosaurus skull" },
     "description": "Large dinosaur skull with a large horn above the nose and a spiked crest.",
@@ -166,7 +168,7 @@
     "qualities": [ [ "COOK", 1 ] ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "skull_centrosaurus",
     "name": { "str": "centrosaurus skull" },
     "description": "Large dinosaur skull with a large horn above the nose and a bony crest.",

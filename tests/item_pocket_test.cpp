@@ -1,8 +1,10 @@
+#include <algorithm>
+#include <cstddef>
+#include <cstdint>
 #include <functional>
-#include <iosfwd>
+#include <list>
 #include <map>
 #include <memory>
-#include <new>
 #include <optional>
 #include <string>
 #include <utility>
@@ -12,23 +14,37 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_catch.h"
+#include "cata_scope_helpers.h"
 #include "character.h"
+#include "character_attire.h"
+#include "coordinates.h"
 #include "debug.h"
 #include "enums.h"
 #include "flag.h"
+#include "flat_set.h"
+#include "handle_liquid.h"
 #include "item.h"
 #include "item_category.h"
+#include "item_contents.h"
 #include "item_factory.h"
+#include "item_group.h"
 #include "item_location.h"
 #include "item_pocket.h"
 #include "itype.h"
+#include "iuse.h"
 #include "iuse_actor.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "map_selector.h"
 #include "mapgen_helpers.h"
+#include "player_activity.h"
 #include "player_helpers.h"
+#include "pocket_type.h"
+#include "point.h"
 #include "ret_val.h"
+#include "rng.h"
 #include "test_data.h"
+#include "translation.h"
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
@@ -1224,7 +1240,7 @@ TEST_CASE( "best_pocket_in_item_contents", "[pocket][item][best]" )
         // Empty magazine
         item glockmag( itype_test_glockmag, calendar::turn, 0 );
         REQUIRE( glockmag.has_pocket_type( pocket_type::MAGAZINE ) );
-        REQUIRE( glockmag.ammo_remaining() == 0 );
+        REQUIRE( glockmag.ammo_remaining( ) == 0 );
         // A single 9mm bullet
         item glockammo( itype_test_9mm_ammo, calendar::turn, 1 );
         REQUIRE( glockammo.is_ammo() );
@@ -1789,7 +1805,7 @@ TEST_CASE( "usb_drives_and_software", "[pocket][software]" )
     item software( itype_software_math );
     // USB drives aren't containers, and cannot "contain" software, but software can be inserted
     CHECK_FALSE( usb.can_contain( software ).success() );
-    CHECK( usb.put_in( software, pocket_type::SOFTWARE ).success() );
+    CHECK( usb.put_in( software, pocket_type::E_FILE_STORAGE ).success() );
 }
 
 static void test_pickup_autoinsert_results( Character &u, bool wear, const item_location &nested,
@@ -1876,13 +1892,13 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
     Character &u = get_player_character();
     clear_map();
     clear_character( u, true );
-    item_location cont1( map_cursor( u.get_location() ), &m.add_item_or_charges( u.pos_bub(),
+    item_location cont1( map_cursor( u.pos_abs() ), &m.add_item_or_charges( u.pos_bub(),
                          cont_nest_rigid ) );
-    item_location cont2( map_cursor( u.get_location() ), &m.add_item_or_charges( u.pos_bub(),
+    item_location cont2( map_cursor( u.pos_abs() ), &m.add_item_or_charges( u.pos_bub(),
                          cont_nest_soft ) );
-    item_location obj1( map_cursor( u.get_location() ), &m.add_item_or_charges( u.pos_bub(),
+    item_location obj1( map_cursor( u.pos_abs() ), &m.add_item_or_charges( u.pos_bub(),
                         rigid_obj ) );
-    item_location obj2( map_cursor( u.get_location() ), &m.add_item_or_charges( u.pos_bub(),
+    item_location obj2( map_cursor( u.pos_abs() ), &m.add_item_or_charges( u.pos_bub(),
                         soft_obj ) );
     pickup_activity_actor act_actor( { obj1, obj2 }, { 1, 1 }, u.pos_bub(), autopickup );
     u.assign_activity( act_actor );
@@ -2110,7 +2126,7 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
         item_location c = give_item_to_char( u, soft_nested ? cont2 : cont1 );
         WHEN( "item stack too large to fit in top-level container" ) {
             stack.charges = 300;
-            item_location obj3( map_cursor( u.get_location() ), &m.add_item_or_charges( u.pos_bub(), stack ) );
+            item_location obj3( map_cursor( u.pos_abs() ), &m.add_item_or_charges( u.pos_bub(), stack ) );
             REQUIRE( obj3->charges == 300 );
             u.cancel_activity();
             pickup_activity_actor new_actor( { obj3 }, { 300 }, u.pos_bub(), autopickup );
@@ -2141,7 +2157,7 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
         }
         WHEN( "item stack too large to fit in top-level container" ) {
             stack.charges = 300;
-            item_location obj3( map_cursor( u.get_location() ), &m.add_item_or_charges( u.pos_bub(), stack ) );
+            item_location obj3( map_cursor( u.pos_abs() ), &m.add_item_or_charges( u.pos_bub(), stack ) );
             REQUIRE( obj3->charges == 300 );
             u.cancel_activity();
             pickup_activity_actor new_actor( { obj3 }, { 300 }, u.pos_bub(), autopickup );
@@ -2173,7 +2189,7 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
         obj2.remove_item();
         WHEN( "item stack too large to fit in top-level container" ) {
             stack.charges = 300;
-            item_location obj3( map_cursor( u.get_location() ), &m.add_item_or_charges( u.pos_bub(), stack ) );
+            item_location obj3( map_cursor( u.pos_abs() ), &m.add_item_or_charges( u.pos_bub(), stack ) );
             REQUIRE( obj3->charges == 300 );
             u.cancel_activity();
             pickup_activity_actor new_actor( { obj3 }, { 300 }, u.pos_bub(), autopickup );
@@ -2305,7 +2321,7 @@ TEST_CASE( "multipocket_liquid_transfer_test", "[pocket][item][liquid]" )
     item cont_suit( itype_test_robofac_armor_rig );
 
     // Place a container at the character's feet
-    item_location jug_w_water( map_cursor( u.get_location() ), &m.add_item_or_charges( u.pos_bub(),
+    item_location jug_w_water( map_cursor( u.pos_abs() ), &m.add_item_or_charges( u.pos_bub(),
                                cont_jug ) );
 
     GIVEN( "character wearing a multipocket liquid container" ) {
@@ -2318,12 +2334,12 @@ TEST_CASE( "multipocket_liquid_transfer_test", "[pocket][item][liquid]" )
             REQUIRE( jug_w_water->all_items_top().size() == 1 );
             REQUIRE( jug_w_water->all_items_top().front()->charges == 15 );
             struct liquid_dest_opt liquid_target;
-            liquid_target.pos = jug_w_water.pos_bub();
+            liquid_target.pos = jug_w_water.pos_bub( m );
             liquid_target.dest_opt = LD_ITEM;
             liquid_target.item_loc = suit;
             u.set_moves( 100 );
             liquid_handler::perform_liquid_transfer( *jug_w_water->all_items_top().front(), nullptr,
-                    nullptr, -1, nullptr, liquid_target );
+                    nullptr, -1, nullptr, liquid_target, false );
             THEN( "liquid fills the worn container's pockets, some left over" ) {
                 CHECK( u.get_moves() == 0 );
                 CHECK( !jug_w_water->only_item().is_null() );
@@ -2346,12 +2362,12 @@ TEST_CASE( "multipocket_liquid_transfer_test", "[pocket][item][liquid]" )
             REQUIRE( jug_w_water->all_items_top().size() == 1 );
             REQUIRE( jug_w_water->all_items_top().front()->charges == 15 );
             struct liquid_dest_opt liquid_target;
-            liquid_target.pos = jug_w_water.pos_bub();
+            liquid_target.pos = jug_w_water.pos_bub( m );
             liquid_target.dest_opt = LD_ITEM;
             liquid_target.item_loc = suit;
             u.set_moves( 100 );
             liquid_handler::perform_liquid_transfer( *jug_w_water->all_items_top().front(), nullptr,
-                    nullptr, -1, nullptr, liquid_target );
+                    nullptr, -1, nullptr, liquid_target, false );
             THEN( "liquid fills the worn container's pockets, some left over" ) {
                 CHECK( u.get_moves() == 0 );
                 CHECK( !jug_w_water->only_item().is_null() );
@@ -2372,12 +2388,12 @@ TEST_CASE( "multipocket_liquid_transfer_test", "[pocket][item][liquid]" )
             REQUIRE( jug_w_water->all_items_top().size() == 1 );
             REQUIRE( jug_w_water->all_items_top().front()->charges == 2 );
             struct liquid_dest_opt liquid_target;
-            liquid_target.pos = jug_w_water.pos_bub();
+            liquid_target.pos = jug_w_water.pos_bub( m );
             liquid_target.dest_opt = LD_ITEM;
             liquid_target.item_loc = suit;
             u.set_moves( 100 );
             liquid_handler::perform_liquid_transfer( *jug_w_water->all_items_top().front(), nullptr,
-                    nullptr, -1, nullptr, liquid_target );
+                    nullptr, -1, nullptr, liquid_target, false );
             m.make_active( jug_w_water );
             CHECK( jug_w_water->only_item().charges == 0 );
             jug_w_water->remove_item( jug_w_water->only_item() );
@@ -2396,12 +2412,12 @@ TEST_CASE( "multipocket_liquid_transfer_test", "[pocket][item][liquid]" )
             REQUIRE( jug_w_water->all_items_top().size() == 1 );
             REQUIRE( jug_w_water->all_items_top().front()->charges == 2 );
             struct liquid_dest_opt liquid_target;
-            liquid_target.pos = jug_w_water.pos_bub();
+            liquid_target.pos = jug_w_water.pos_bub( m );
             liquid_target.dest_opt = LD_ITEM;
             liquid_target.item_loc = suit;
             u.set_moves( 100 );
             liquid_handler::perform_liquid_transfer( *jug_w_water->all_items_top().front(), nullptr,
-                    nullptr, -1, nullptr, liquid_target );
+                    nullptr, -1, nullptr, liquid_target, false );
             m.make_active( jug_w_water );
             CHECK( jug_w_water->only_item().charges == 0 );
             jug_w_water->remove_item( jug_w_water->only_item() );
@@ -2424,13 +2440,13 @@ TEST_CASE( "multipocket_liquid_transfer_test", "[pocket][item][liquid]" )
             suit->fill_with( water );
             REQUIRE( suit->all_items_top().size() == 2 );
             struct liquid_dest_opt liquid_target;
-            liquid_target.pos = suit.pos_bub();
+            liquid_target.pos = suit.pos_bub( m );
             liquid_target.dest_opt = LD_ITEM;
             liquid_target.item_loc = jug_w_water;
             for( item *&it : suit->all_items_top() ) {
                 u.set_moves( 100 );
                 REQUIRE( it->charges == 6 );
-                liquid_handler::perform_liquid_transfer( *it, nullptr, nullptr, -1, nullptr, liquid_target );
+                liquid_handler::perform_liquid_transfer( *it, nullptr, nullptr, -1, nullptr, liquid_target, false );
                 CHECK( u.get_moves() == 0 );
                 CHECK( it->charges == 0 );
                 suit->remove_item( *it );
@@ -2449,13 +2465,13 @@ TEST_CASE( "multipocket_liquid_transfer_test", "[pocket][item][liquid]" )
             REQUIRE( suit->all_items_top().size() == 2 );
             REQUIRE( jug_w_water->only_item().charges == 8 );
             struct liquid_dest_opt liquid_target;
-            liquid_target.pos = suit.pos_bub();
+            liquid_target.pos = suit.pos_bub( m );
             liquid_target.dest_opt = LD_ITEM;
             liquid_target.item_loc = jug_w_water;
             for( item *&it : suit->all_items_top() ) {
                 u.set_moves( 100 );
                 REQUIRE( it->charges == 6 );
-                liquid_handler::perform_liquid_transfer( *it, nullptr, nullptr, -1, nullptr, liquid_target );
+                liquid_handler::perform_liquid_transfer( *it, nullptr, nullptr, -1, nullptr, liquid_target, false );
                 if( u.get_moves() == 0 && it->charges == 0 ) {
                     suit->remove_item( *it );
                 }
@@ -2811,11 +2827,13 @@ void check_whitelist( item const &it, bool should, itype_id const &id )
 
 TEST_CASE( "auto_whitelist", "[item][pocket][item_spawn]" )
 {
+    map &here = get_map();
+
     clear_avatar();
     clear_map();
     tripoint_abs_omt const this_omt =
-        project_to<coords::omt>( get_avatar().get_location() );
-    tripoint_bub_ms const this_bub = get_map().bub_from_abs( project_to<coords::ms>( this_omt ) );
+        project_to<coords::omt>( get_avatar().pos_abs() );
+    tripoint_bub_ms const this_bub = get_map().get_bub( project_to<coords::ms>( this_omt ) );
     manual_nested_mapgen( this_omt, nested_mapgen_auto_wl_test );
     REQUIRE( !get_map().i_at( this_bub + tripoint::zero ).empty() );
     REQUIRE( !get_map().i_at( this_bub + tripoint::east ).empty() );
@@ -2851,8 +2869,8 @@ TEST_CASE( "auto_whitelist", "[item][pocket][item_spawn]" )
 
     SECTION( "container emptied by processing" ) {
         itype_id const id = spawned_w_modifier->get_contents().first_item().typeId();
-        get_map().i_clear( spawned_w_custom_container.pos_bub() );
-        get_map().i_clear( spawned_in_def_container.pos_bub() );
+        get_map().i_clear( spawned_w_custom_container.pos_bub( here ) );
+        get_map().i_clear( spawned_in_def_container.pos_bub( here ) );
         restore_on_out_of_scope restore_temp(
             get_weather().forced_temperature );
         get_weather().forced_temperature = units::from_celsius( 21 );

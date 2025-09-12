@@ -2,13 +2,14 @@
 #ifndef CATA_SRC_TEXT_H
 #define CATA_SRC_TEXT_H
 
-#include <cmath>
 #include <cstdint>
+#include <memory>
 #include <optional>
 #include <string>
+#include <string_view>
 #include <vector>
 
-#include "color.h"
+class nc_color;
 
 // This is an experimental text API. Where possible, it is better to
 // use TextParagraph or TextColoredParagraph to wrap text rather than

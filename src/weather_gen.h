@@ -2,17 +2,17 @@
 #ifndef CATA_SRC_WEATHER_GEN_H
 #define CATA_SRC_WEATHER_GEN_H
 
-#include <iosfwd>
-#include <map>
+#include <string>
+#include <string_view>
 #include <vector>
 
 #include "calendar.h"
 #include "coordinates.h"
+#include "point.h"
 #include "type_id.h"
 #include "units.h"
 
 class JsonObject;
-struct tripoint;
 
 struct w_point {
     units::temperature temperature = 0_K;
@@ -28,6 +28,8 @@ struct w_point {
 class weather_generator
 {
     public:
+        weather_generator_id id = weather_generator_id::NULL_ID();
+
         // Average temperature
         double base_temperature = 0;
         // Average humidity
@@ -74,7 +76,11 @@ class weather_generator
         units::temperature get_weather_temperature( const tripoint_abs_ms &, const time_point &,
                 unsigned ) const;
 
-        void load( const JsonObject &jo, bool was_loaded );
+        bool was_loaded = false;
+        void load( const JsonObject &jo, std::string_view );
+        static void load_weather_generator( const JsonObject &jo, const std::string &src );
+        static void reset();
+        static void finalize_all();
 };
 
 #endif // CATA_SRC_WEATHER_GEN_H

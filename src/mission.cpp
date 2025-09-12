@@ -6,14 +6,13 @@
 #include <iterator>
 #include <list>
 #include <memory>
-#include <new>
 #include <numeric>
 #include <set>
 #include <unordered_map>
 #include <utility>
 
 #include "avatar.h"
-#include "colony.h"
+#include "character.h"
 #include "creature.h"
 #include "debug.h"
 #include "dialogue.h"
@@ -29,12 +28,12 @@
 #include "map_iterator.h"
 #include "monster.h"
 #include "npc.h"
-#include "overmap.h"
+#include "omdata.h"
 #include "overmapbuffer.h"
+#include "player_activity.h"
 #include "point.h"
 #include "requirements.h"
-#include "string_formatter.h"
-#include "translations.h"
+#include "talker.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 
@@ -353,7 +352,7 @@ void mission::set_target_to_mission_giver()
 {
     const npc *giver = g->find_npc( npc_id );
     if( giver != nullptr ) {
-        target = giver->global_omt_location();
+        target = giver->pos_abs_omt();
     } else {
         target = tripoint_abs_omt::invalid;
     }
@@ -488,12 +487,12 @@ bool mission::is_complete( const character_id &_npc_id ) const
     avatar &player_character = get_avatar();
     switch( type->goal ) {
         case MGOAL_GO_TO: {
-            const tripoint_abs_omt cur_pos = player_character.global_omt_location();
+            const tripoint_abs_omt cur_pos = player_character.pos_abs_omt();
             return rl_dist( cur_pos, target ) <= 1;
         }
 
         case MGOAL_GO_TO_TYPE: {
-            const oter_id cur_ter = overmap_buffer.ter( player_character.global_omt_location() );
+            const oter_id cur_ter = overmap_buffer.ter( player_character.pos_abs_omt() );
             return ( cur_ter->get_type_id() == oter_type_str_id( type->target_id.str() ) );
         }
 
@@ -555,7 +554,7 @@ bool mission::is_complete( const character_id &_npc_id ) const
                 }
             };
             for( const tripoint_bub_ms &p : here.points_in_radius( player_character.pos_bub(), 5 ) ) {
-                if( player_character.sees( p ) ) {
+                if( player_character.sees( here, p ) ) {
                     if( here.has_items( p ) && here.accessible_items( p ) ) {
                         count_items( here.i_at( p ) );
                     }

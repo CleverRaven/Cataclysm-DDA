@@ -6,7 +6,7 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "This \"psychic powers\" stuff is easy, as long as nothing distracts you.  When you are concentrating on 0 powers, or have 0 pain, lower focus has a 33% lower effect on your success chance."
+    "description": "This \"psychic powers\" stuff is easy, as long as nothing distracts you.  When you are concentrating on 0 powers, or have 0 pain, you have an easier time invoking your powers."
   },
   {
     "type": "mutation",
@@ -66,6 +66,17 @@
     "valid": false,
     "description": "Your control of your own body has given you control of your own genetics, albeit a subconscious one.  You will be less likely to suffer from negative mutations when taking mutagen.",
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "MUT_INSTABILITY_MOD", "add": -2 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_wary_sleeper",
+    "name": { "str": "Wary Sleeper" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "Your Premonition ability has developed to such a level that you can sense movement around you even when you sleep.",
+    "active": true,
+    "enchantments": [ { "condition": "ACTIVE", "values": [ { "value": "MOTION_ALARM", "add": 10 } ] } ]
   },
   {
     "//": "Playstyle perks begin here",

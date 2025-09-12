@@ -58,7 +58,13 @@
         "f_region_water_plant": { "f_cattails": 15, "f_lilypad": 1, "f_lotus": 5 }
       }
     },
-    "river_scale": 0.6,
+    "overmap_river_settings": {
+      "river_scale": 1.0,
+      "river_frequency": 4.5,
+      "river_branch_chance": 128.0,
+      "river_branch_remerge_chance": 4.0,
+      "river_branch_scale_decrease": 1.0
+    },
     "overmap_lake_settings": {
       "noise_threshold_lake": 0.4,
       "lake_size_min": 4,
@@ -82,6 +88,33 @@
       "sandy_beach_width": 0
     },
     "overmap_ravine_settings": { "num_ravines": 0, "ravine_width": 3, "ravine_range": 15, "ravine_depth": -2 },
+    "overmap_highway_settings": {
+      "grid_column_seperation": 10,
+      "grid_row_seperation": 8,
+      "width_of_segments": 2,
+      "straightness_chance": 0.6,
+      "intersection_max_radius": 2,
+      "reserved_terrain_id": "hw_reserved",
+      "reserved_terrain_water_id": "hw_reserved_water",
+      "segment_ramp_special": "highway_segment_ramp",
+      "fallback_onramp_special": "Highway Fallback Onramp",
+      "four_way_intersections": { "Highway Clover Leaf": 1 },
+      "fallback_four_way_intersection_special": "Highway Fallback Crossroad",
+      "three_way_intersections": { "Highway Trumpet Interchange": 1 },
+      "fallback_three_way_intersection_special": "Highway Fallback Tee",
+      "bends": { "Highway Bend": 1 },
+      "interchanges": { "Highway Diamond Interchange": 1 },
+      "fallback_bend_special": "Highway Bend",
+      "fallback_supports": "hw_fb_supports",
+      "clockwise_slant_special": "Highway Slant Minor Clockwise",
+      "counterclockwise_slant_special": "Highway Slant Minor Counterclockwise",
+      "road_connections": { "Highway Diamond Interchange": 2, "Highway Rest Area Parking": 1 },
+      "segment_flat_special": "highway_segment_flat",
+      "segment_road_bridge_special": "highway_segment_road_bridge",
+      "segment_bridge_special": "highway_segment_bridge",
+      "segment_bridge_supports_special": "highway_support_mutable",
+      "segment_overpass_special": "highway_segment_overpass"
+    },
     "overmap_forest_settings": {
       "noise_threshold_forest": 0.29,
       "noise_threshold_forest_thick": 0.5,
@@ -177,7 +210,7 @@
             "sequence": 0,
             "chance": 10,
             "clear_types": false,
-            "types": { "f_boulder_small": 8, "f_boulder_medium": 3, "f_rubble_rock": 425, "f_boulder_largee": 2, "t_outcrop": 5 }
+            "types": { "f_boulder_small": 8, "f_boulder_medium": 3, "f_rubble_rock": 425, "f_boulder_large": 2, "t_outcrop": 5 }
           },
           "shrubs_and_flowers": { "sequence": 1, "chance": 400, "clear_types": false, "types": { "t_region_shrub": 80, "f_region_weed": 30 } },
           "trees": { "sequence": 2, "chance": 6500, "clear_types": false, "types": { "t_region_tree": 1 } },
@@ -188,7 +221,7 @@
           "t_region_groundcover_swamp": {
             "chance": 125,
             "clear_furniture": false,
-            "furniture": { "f_boulder_small": 7, "f_boulder_medium": 3, "f_rubble_rock": 50, "f_boulder_largee": 2 }
+            "furniture": { "f_boulder_small": 7, "f_boulder_medium": 3, "f_rubble_rock": 50, "f_boulder_large": 2 }
           }
         }
       }
@@ -316,7 +349,6 @@
           "mx_exocrash_2": 5
         }
       },
-      "bridgehead_ground": { "chance": 5, "extras": { "mx_minefield": 100 } },
       "road_nesw_manhole": { "chance": 20, "extras": { "mx_city_trap": 100 } },
       "build": {
         "chance": 90,
@@ -583,7 +615,7 @@
         "craft_shop_1": 200,
         "craft_shop_2": 200,
         "craft_shop_3": 200,
-        "s_gas": 500,
+        "Gas Station": 500,
         "s_gas_1": 500,
         "s_pharm": 300,
         "s_pharm_1": 300,
@@ -602,16 +634,8 @@
         "gym_fitness": 200,
         "gym_fitness_1": 200,
         "s_liquor": 500,
-        "s_gun": 200,
-        "s_gun_looted": 200,
-        "s_gun_1": 200,
-        "s_gun_2": 200,
-        "s_gun_3": 200,
-        "s_gun_3_looted": 200,
-        "s_gun_4": 200,
-        "s_gun_4_looted": 200,
-        "s_gunstore": 200,
-        "s_gunstore_looted": 200,
+        "s_gun_a": 1600,
+        "s_gun_b": 400,
         "s_clothes": 450,
         "s_clothes_1": 200,
         "s_clothes_2": 200,

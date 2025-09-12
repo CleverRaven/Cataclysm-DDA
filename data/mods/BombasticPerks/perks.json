@@ -767,6 +767,17 @@
   },
   {
     "type": "mutation",
+    "id": "perk_metamagic_efficient",
+    "name": { "str": "Metamagic: Efficient Spell" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "You can cast your spells more efficiently at the cost of a more difficult cast.  *75% casting cost, +5 difficulty.  Can be toggled on or of by activating this trait.",
+    "active": true,
+    "activated_eocs": [ "EOC_metamagic_toggle_efficient" ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_metamagic_intuitive",
     "name": { "str": "Metamagic: Intuitive Spell" },
     "points": 0,
@@ -796,7 +807,7 @@
     "description": "Smoking is bad, but damn it's badass.  You deal more damage and shoot more accurately when you smoke.",
     "enchantments": [
       { "condition": { "u_has_effect": "cig" }, "values": [ { "value": "MELEE_DAMAGE", "multiply": 0.25 } ] },
-      { "condition": { "u_has_effect": "cig" }, "values": [ { "value": "WEAPON_DISPERSION", "multiply": 0.25 } ] }
+      { "condition": { "u_has_effect": "cig" }, "values": [ { "value": "WEAPON_DISPERSION", "multiply": -0.25 } ] }
     ]
   },
   {
@@ -807,6 +818,16 @@
     "purifiable": false,
     "valid": false,
     "description": "The way you take care of the enemies is commendable, so much so that someone or something seems to praise your ways of fighting.  For every kills you have made, a praise may be given in the message log.",
+    "category": [ "perk" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_belowthebelt",
+    "name": { "str": "Below the Belt" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "After some time surviving in the apocalypse, you realized that you don't have to fight fair in melee combat.  Now you can hit below the belt on most humanoid monsters.",
     "category": [ "perk" ]
   },
   {
@@ -894,6 +915,16 @@
     "enchantments": [
       { "condition": { "u_has_wielded_with_flag": "OLD_GUN" }, "values": [ { "value": "RANGED_DAMAGE", "multiply": 0.25 } ] }
     ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_dice_addition_damage",
+    "name": { "str": "Damage dice" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "Before Cataclysm, you always used dice to determine the damage in the game.  Now, the power of fate allows you to use dice to deal additional mysterious damage.  Throwing dice using a sling or similar weapon deals additional damage, which depends on the number of sides of the dice.",
+    "category": [ "perk" ]
   },
   {
     "type": "mutation",
@@ -1131,9 +1162,8 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "You cannot forget anything at all, ever.  This makes your skills rustproof, grant you the ability to memorize books for you to read in your head later and make you able to store mental images so detailled it's almost as if you were taking pictures with your mind.",
+    "description": "You cannot forget anything at all, ever.  This grants you the ability to memorize books for you to read in your head later and makes you able to store mental images so detailled it's almost as if you were taking pictures with your mind.",
     "category": [ "perk" ],
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SKILL_RUST_RESIST", "add": 100 } ] } ],
     "integrated_armor": [ "integrated_memory" ]
   },
   {
@@ -1148,6 +1178,26 @@
     "active": true,
     "activated_is_setup": false,
     "activated_eocs": [ "EOC_forge_blood" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_dexterous_speed",
+    "name": { "str": "Dexterous Speed" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "You've found that you can move just a little bit quicker the more dexterous you are.  Unfortunately, this applies comes at a loss to your max carry weight.  Gain 2 speed for every point of DEX away from 8 and lose 4 kg of carry weight.",
+    "category": [ "perk" ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "SPEED", "add": { "math": [ "max( 0, u_val('dexterity') - 8 ) * 2" ] } } ]
+      },
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "CARRY_WEIGHT", "add": { "math": [ "min( 0, 8 - u_val('dexterity') ) * 4000" ] } } ]
+      }
+    ]
   },
   {
     "type": "mutation",

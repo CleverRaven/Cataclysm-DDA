@@ -35,7 +35,7 @@
       "Ю": "f_sandbag_half",
       "q": "f_locker"
     },
-    "items": {  },
+    "items": { "T": { "item": "SUS_toilet", "chance": 50 } },
     "toilets": { "T": {  } }
   }
 ]

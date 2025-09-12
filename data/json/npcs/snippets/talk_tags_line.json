@@ -514,8 +514,8 @@
     "category": "<weed_smoke>",
     "//": "Complaint when the NPC is near the avatar who is smoking marijuana.",
     "text": [
-      { "text": { "str": "weed_smoke_positive", "//~": "NO_I18N" }, "weight": 77 },
-      { "text": { "str": "weed_smoke_negative", "//~": "NO_I18N" }, "weight": 92 },
+      { "text": { "str": "<weed_smoke_positive>", "//~": "NO_I18N" }, "weight": 77 },
+      { "text": { "str": "<weed_smoke_negative>", "//~": "NO_I18N" }, "weight": 92 },
       "Are you getting stoned right now?",
       "Are you sure it's a good idea to smoke that now?",
       "I can smell that from here.",

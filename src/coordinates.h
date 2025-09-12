@@ -2,7 +2,9 @@
 #ifndef CATA_SRC_COORDINATES_H
 #define CATA_SRC_COORDINATES_H
 
+#include <algorithm>
 #include <cmath>
+#include <cstddef>
 #include <functional>
 #include <iosfwd>
 #include <iterator>
@@ -10,24 +12,22 @@
 #include <tuple>
 #include <type_traits>
 #include <utility>
-#include <variant>
 #include <vector>
 
 #include "cata_inline.h"
-#include "coords_fwd.h"
+#include "coords_fwd.h"  // IWYU pragma: export
 #include "cuboid_rectangle.h"
 #include "debug.h"
-#include "map_scale_constants.h"
 #include "line.h"  // IWYU pragma: keep
+#include "map_scale_constants.h"
 #include "point.h"
 
 class JsonOut;
 class JsonValue;
 
-enum class direction : unsigned;
-
 namespace coords
 {
+template <typename Point, origin Origin, scale Scale> class coord_point_ob;
 
 constexpr int map_squares_per( scale s )
 {
@@ -91,7 +91,7 @@ constexpr scale scale_from_origin( origin o )
  *
  * InBounds define if the point is guaranteed to be inbounds.
  *
- * For more details see doc/POINTS_COORDINATES.md.
+ * For more details see doc/c++/POINTS_COORDINATES.md.
  */
 template<typename Point>
 class coord_point_base
@@ -220,6 +220,10 @@ class coord_point_ob : public
             return *this == invalid;
         }
 
+        static coord_point_ob from_string( const std::string &s ) {
+            return coord_point_ob( Point::from_string( s ) );
+        }
+
         static constexpr bool is_inbounds = false;
         using this_as_tripoint = coord_point_ob<tripoint, Origin, Scale>;
         using this_as_point = coord_point_ob<point, Origin, Scale>;
@@ -259,6 +263,10 @@ class coord_point_ob : public
 
         constexpr auto rotate( int turns, const point &dim = point::south_east ) const {
             return coord_point_ob( this->raw().rotate( turns, dim ) );
+        }
+
+        constexpr auto rotate_in_map( int turns ) const {
+            return coord_point_ob( this->raw().rotate_in_map( turns ) );
         }
 
         friend inline this_as_ob operator+( const coord_point_ob &l, const point &r ) {

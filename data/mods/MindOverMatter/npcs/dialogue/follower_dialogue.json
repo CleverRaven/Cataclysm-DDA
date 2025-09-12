@@ -6,7 +6,7 @@
       {
         "text": "[Telepathy] *Read <npc_name>'s mind*",
         "topic": "TALK_FRIEND_FOLLOWER_scan",
-        "condition": { "u_has_trait": "TELEPATH" }
+        "condition": { "or": [ { "u_has_trait": "TELEPATH" }, { "math": [ "jmath_telepathy_knacks_combined_level() > 10" ] } ] }
       },
       {
         "text": "[Vitakinesis] I noticed that you're really sick.",

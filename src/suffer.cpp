@@ -1,29 +1,33 @@
-#include <cctype>
 #include <algorithm>
 #include <array>
 #include <cmath>
 #include <cstdlib>
-#include <iosfwd>
 #include <list>
 #include <map>
 #include <memory>
 #include <optional>
 #include <string>
-#include <tuple>
+#include <type_traits>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
 #include "activity_handlers.h"
+#include "activity_tracker.h"
 #include "addiction.h"
 #include "bionics.h"
+#include "body_part_set.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "character_attire.h"
+#include "color.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "debug.h"
-#include "display.h"
+#include "dialogue.h"
 #include "effect.h"
 #include "effect_on_condition.h"
 #include "enums.h"
@@ -36,35 +40,33 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
+#include "lightmap.h"
 #include "magic.h"
 #include "magic_enchantment.h"
 #include "map.h"
-#include "memory_fast.h"
+#include "map_iterator.h"
+#include "mapdata.h"
 #include "messages.h"
 #include "monster.h"
-#include "morale_types.h"
 #include "mtype.h"
 #include "mutation.h"
-#include "npc.h"
 #include "options.h"
 #include "output.h"
-#include "overmapbuffer.h"
 #include "pimpl.h"
 #include "player_activity.h"
 #include "point.h"
 #include "rng.h"
-#include "skill.h"
 #include "sounds.h"
 #include "stomach.h"
-#include "string_formatter.h"
+#include "talker.h"
 #include "teleport.h"
 #include "text_snippets.h"
+#include "translation.h"
 #include "translations.h"
 #include "type_id.h"
 #include "uistate.h"
 #include "units.h"
 #include "weather.h"
-#include "weather_type.h"
 
 static const addiction_id addiction_alcohol( "alcohol" );
 static const addiction_id addiction_nicotine( "nicotine" );
@@ -111,6 +113,7 @@ static const efftype_id effect_weary_7( "weary_7" );
 static const efftype_id effect_weary_8( "weary_8" );
 static const efftype_id effect_winded( "winded" );
 
+static const itype_id itype_bone( "bone" );
 static const itype_id itype_e_handcuffs( "e_handcuffs" );
 static const itype_id itype_inhaler( "inhaler" );
 static const itype_id itype_oxygen_tank( "oxygen_tank" );
@@ -127,12 +130,11 @@ static const json_character_flag json_flag_MEND_LIMB( "MEND_LIMB" );
 static const json_character_flag json_flag_NYCTOPHOBIA( "NYCTOPHOBIA" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const json_character_flag json_flag_RAD_DETECT( "RAD_DETECT" );
+static const json_character_flag json_flag_SUFFOCATION_IMMUNE( "SUFFOCATION_IMMUNE" );
 static const json_character_flag json_flag_SUNBURN( "SUNBURN" );
 
 static const morale_type morale_feeling_bad( "morale_feeling_bad" );
 static const morale_type morale_feeling_good( "morale_feeling_good" );
-static const morale_type morale_killer_has_killed( "morale_killer_has_killed" );
-static const morale_type morale_killer_need_to_kill( "morale_killer_need_to_kill" );
 static const morale_type morale_moodswing( "morale_moodswing" );
 static const morale_type morale_pyromania_nearfire( "morale_pyromania_nearfire" );
 static const morale_type morale_pyromania_nofire( "morale_pyromania_nofire" );
@@ -148,7 +150,6 @@ static const trait_id trait_DEBUG_NOTEMP( "DEBUG_NOTEMP" );
 static const trait_id trait_FRESHWATEROSMOSIS( "FRESHWATEROSMOSIS" );
 static const trait_id trait_HAS_NEMESIS( "HAS_NEMESIS" );
 static const trait_id trait_JITTERY( "JITTERY" );
-static const trait_id trait_KILLER( "KILLER" );
 static const trait_id trait_LEAVES( "LEAVES" );
 static const trait_id trait_LEAVES2( "LEAVES2" );
 static const trait_id trait_LEAVES3( "LEAVES3" );
@@ -299,11 +300,7 @@ void suffer::mutation_power( Character &you, const trait_id &mut_id )
         for( const effect_on_condition_id &eoc : mut_id->processed_eocs ) {
             dialogue d( get_talker_for( you ), nullptr );
             d.set_value( "this", mut_id.str() );
-            if( eoc->type == eoc_type::ACTIVATION ) {
-                eoc->activate( d );
-            } else {
-                debugmsg( "Must use an activation eoc for a mutation process.  If you don't want the effect_on_condition to happen on its own (without the mutation being activated), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this mutation with its condition and effects, then have a recurring one queue it." );
-            }
+            eoc->activate_activation_only( d, "a mutation process", "mutation being activated", "mutation" );
         }
     }
 }
@@ -370,6 +367,12 @@ void suffer::while_grabbed( Character &you )
     if( crowd < crush_grabs_req ) {
         return;
     }
+
+    // if you don't need to breathe, you can't suffocate from being crushed
+    if( you.has_flag( json_flag_SUFFOCATION_IMMUNE ) ) {
+        return;
+    }
+
     // Getting crushed against the wall counts as a monster
     if( impassable_ter ) {
         you.add_msg_if_player( m_bad, _( "You're crushed against the walls!" ) );
@@ -436,7 +439,7 @@ void suffer::from_addictions( Character &you )
 
 void suffer::while_awake( Character &you, const int current_stim )
 {
-    if( you.weight_carried() > 4 * you.weight_capacity() ) {
+    if( you.weight_carried() > you.max_pickup_capacity() ) {
         if( you.has_effect( effect_downed ) ) {
             you.add_effect( effect_downed, 1_turns, false, 0, true );
         } else {
@@ -1032,7 +1035,7 @@ void suffer::from_other_mutations( Character &you )
     const tripoint_bub_ms position = you.pos_bub();
     if( you.has_trait( trait_SHARKTEETH ) && one_turn_in( 24_hours ) ) {
         you.add_msg_if_player( m_neutral, _( "You shed a tooth!" ) );
-        here.spawn_item( position, "bone", 1 );
+        here.spawn_item( position, itype_bone, 1 );
     }
 
     if( you.has_trait( trait_WINGS_INSECT_active ) ) {
@@ -1109,15 +1112,6 @@ void suffer::from_other_mutations( Character &you )
             const translation smokin_hot_fiyah =
                 SNIPPET.random_from_category( "pyromania_withdrawal" ).value_or( translation() );
             you.add_msg_if_player( m_bad, "%s", smokin_hot_fiyah );
-        }
-    }
-    if( you.has_trait( trait_KILLER ) && !you.has_morale( morale_killer_has_killed ) &&
-        calendar::once_every( 2_hours ) ) {
-        you.add_morale( morale_killer_need_to_kill, -1, -30, 24_hours, 24_hours );
-        if( calendar::once_every( 4_hours ) ) {
-            const translation snip = SNIPPET.random_from_category( "killer_withdrawal" ).value_or(
-                                         translation() );
-            you.add_msg_if_player( m_bad, "%s", snip );
         }
     }
 }
@@ -1620,7 +1614,7 @@ void suffer::from_artifact_resonance( Character &you, int amt )
             } else if( rng_outcome == 2 ) {
                 you.add_msg_player_or_npc( m_bad, _( "The air folds and distorts around you." ),
                                            _( "The air folds and distorts around <npcname>." ) );
-                teleport::teleport( you );
+                teleport::teleport_creature( you );
             } else if( rng_outcome == 3 ) {
                 you.add_msg_player_or_npc( m_bad, _( "You're bombarded with radioactive energy!" ),
                                            _( "<npcname> is bombarded with radioactive energy!" ) );
@@ -1633,7 +1627,7 @@ void suffer::from_artifact_resonance( Character &you, int amt )
             if( rng_outcome == 1  && !you.in_vehicle ) {
                 you.add_msg_player_or_npc( m_bad, _( "You suddenly shift slightly." ),
                                            _( "<npcname> suddenly shifts slightly." ) );
-                teleport::teleport( you, 1, 1, true, false );
+                teleport::teleport_creature( you, 1, 1, true, false );
             } else if( rng_outcome == 2 ) {
                 you.add_msg_player_or_npc( m_bad,
                                            _( "You hear a painfully loud grinding noise from your location." ),
@@ -1953,7 +1947,7 @@ void Character::drench( int saturation, const body_part_set &flags, bool ignore_
     const int torso_wetness = get_part_wetness( bodypart_id( "torso" ) );
     if( torso_wetness >= get_part_drench_capacity( bodypart_id( "torso" ) ) / 2.0 &&
         has_effect( effect_masked_scent ) &&
-        get_value( "waterproof_scent" ).empty() ) {
+        !maybe_get_value( "waterproof_scent" ) ) {
         add_msg_if_player( m_info, _( "The water washes away the scent." ) );
         restore_scent();
     }

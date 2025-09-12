@@ -9,7 +9,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_STARE1",
-    "condition": { "u_has_worn_with_flag": "MAGICAL_MIND_PROTECTION" },
+    "condition": { "or": [ { "u_has_flag": "MAGICAL_MIND_PROTECTION" }, { "u_has_worn_with_flag": "MAGICAL_MIND_PROTECTION" } ] },
     "effect": { "u_message": "You sense <npc_name> trying to enter your mind, but your magic protects you!", "type": "warning" },
     "false_effect": { "run_eocs": [ "EOC_STARE2" ] }
   },

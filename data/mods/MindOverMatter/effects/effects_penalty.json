@@ -158,6 +158,7 @@
       "effect_biokin_reflex",
       "effect_biokin_armor_skin",
       "effect_biokin_climate_control",
+      "effect_biokin_guided_evolution",
       "effect_biokin_metabolism_enhance",
       "effect_biokin_sealed",
       "effect_biokin_combat_dance",
@@ -215,6 +216,7 @@
       "effect_telepath_network_effect",
       "effect_teleport_ephemeral_walk",
       "effect_teleport_stride",
+      "effect_teleport_warped_strikes",
       "effect_teleport_reactive_displacement",
       "effect_teleport_loci_establishment",
       "effect_vita_health",
@@ -258,16 +260,6 @@
     "apply_message": "You're in so much pain you can't concentrate to use your powers!",
     "rating": "bad",
     "flags": [ "NO_PSIONICS" ]
-  },
-  {
-    "type": "effect_type",
-    "id": "effect_psi_reduced_breathing",
-    "name": [ "Short of Breath" ],
-    "desc": [ "You're having a hard time getting enough air." ],
-    "remove_message": "You finally manage to catch your breath",
-    "base_mods": { "cough_chance": [ 20 ], "cough_tick": [ 120 ] },
-    "limb_score_mods": [ { "limb_score": "breathing", "modifier": 0.5 }, { "limb_score": "lift", "modifier": 0.8 } ],
-    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
@@ -365,7 +357,7 @@
     "show_in_info": true,
     "limb_score_mods": [ { "limb_score": "vision", "modifier": 0.5 }, { "limb_score": "night_vis", "modifier": 0.5 } ],
     "base_mods": { "hit_mod": [ -2 ] },
-    "flags": [ "MYOPIC_IN_LIGHT", "EFFECT_LIMB_SCORE_MOD" ]
+    "flags": [ "MYOPIC_SUPERNATURAL", "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",

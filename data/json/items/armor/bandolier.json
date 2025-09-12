@@ -1,7 +1,8 @@
 [
   {
     "id": "bandolier_pistol",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pistol bandolier" },
     "description": "An embroidered leather bandolier for keeping pistol cartridges close to hand.  If this doesn't make you feel like a cowboy, nothing will.",
     "weight": "140 g",
@@ -28,7 +29,6 @@
           "44": 18,
           "45": 18,
           "45colt": 18,
-          "46": 18,
           "57": 18,
           "9x18": 18,
           "9mm": 18,
@@ -44,7 +44,8 @@
   },
   {
     "id": "bandolier_rifle",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "rifle bandolier" },
     "description": "A leather bandolier for keeping rifle cartridges close to hand.",
     "weight": "140 g",
@@ -89,7 +90,8 @@
   },
   {
     "id": "bandolier_shotgun",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "waist shotgun bandolier" },
     "description": "A leather bandolier worn around the waist for keeping shotgun shells close to hand.",
     "weight": "140 g",
@@ -109,7 +111,8 @@
   },
   {
     "id": "torso_bandolier_grenade",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "bandolier_shotgun",
     "//": "It's very much similar to the torso shotgun bandolier I'm patterning this off of, so I'm keeping the data the same.",
     "name": { "str": "torso grenade bandolier" },
@@ -120,7 +123,8 @@
   },
   {
     "id": "torso_bandolier_shotgun",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "torso shotgun bandolier" },
     "description": "A leather bandolier strapped around the torso for keeping shotgun shells close to hand.",
     "weight": "200 g",
@@ -140,7 +144,8 @@
   },
   {
     "id": "flintlock_pouch",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "paper cartridge pouch", "str_pl": "paper cartridge pouches" },
     "description": "A covered leather pouch, worn at the waist to store and protect prepared blackpowder cartridges.",
     "weight": "160 g",
@@ -164,7 +169,8 @@
   },
   {
     "id": "bandolier_wrist",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "wrist bandolier" },
     "description": "A small fabric bandolier for rifle cartridges, designed to be worn around the wrist.",
     "weight": "30 g",
@@ -209,7 +215,8 @@
   },
   {
     "id": "grenade_pouch",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "grenade pouch", "str_pl": "grenade pouches" },
     "description": "A small pouch for storing cartridge grenades, with straps for attaching it to your belt or other webbing.",
     "weight": "90 g",
@@ -235,7 +242,8 @@
   },
   {
     "id": "stone_pouch",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "stone pouch", "str_pl": "stone pouches" },
     "description": "A medium-sized pouch for storing rocks, with straps for attaching it to your belt or other webbing.",
     "weight": "180 g",
@@ -261,7 +269,8 @@
   },
   {
     "id": "leather_stone_pouch",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "leather stone pouch", "str_pl": "leather stone pouches" },
     "description": "A medium-sized pouch for storing rocks, made of heavy leather, with straps for attaching it to your belt or other webbing.",
     "weight": "380 g",
@@ -287,7 +296,8 @@
   },
   {
     "id": "grenadebandolier",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "large grenade pouch", "str_pl": "large grenade pouches" },
     "description": "A pouch for holding up to four full-sized grenades of various types, with straps for attaching it to your belt or other webbing.",
     "weight": "600 g",
@@ -306,6 +316,7 @@
         "max_contains_weight": "2 kg",
         "moves": 30,
         "flag_restriction": [ "GRENADE" ],
+        "max_item_length": "180 mm",
         "volume_encumber_modifier": 0.3
       },
       {
@@ -314,6 +325,7 @@
         "max_contains_weight": "2 kg",
         "moves": 30,
         "flag_restriction": [ "GRENADE" ],
+        "max_item_length": "180 mm",
         "volume_encumber_modifier": 0.3
       },
       {
@@ -322,6 +334,7 @@
         "max_contains_weight": "2 kg",
         "moves": 30,
         "flag_restriction": [ "GRENADE" ],
+        "max_item_length": "180 mm",
         "volume_encumber_modifier": 0.3
       },
       {
@@ -330,6 +343,7 @@
         "max_contains_weight": "2 kg",
         "moves": 30,
         "flag_restriction": [ "GRENADE" ],
+        "max_item_length": "180 mm",
         "volume_encumber_modifier": 0.3
       }
     ],
@@ -339,10 +353,11 @@
   },
   {
     "id": "cheap_ammo_pouch",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": "military 5.56 bandolier",
     "description": "A simple bag on a strap, partitioned into pouches for four STANAG 30-round magazines or twelve 10-round 5.56x45mm stripper clips.  When full, this bandolier is more encumbering than proper kit and slower to reload from, but it at least offers a quick and cheap means of resupplying ammunition.",
-    "weight": "60 g",
+    "weight": "20 g",
     "volume": "40 ml",
     "price": "6 USD",
     "price_postapoc": "15 cent",
@@ -390,10 +405,11 @@
   },
   {
     "id": "cheap_ammo_pouch_belt223",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "5.56x45 belt pouch", "str_pl": "5.56x45 belt pouches" },
     "description": "A large cotton pouch, designed to store a spare ammo belt for the M249 SAW.",
-    "weight": "60 g",
+    "weight": "20 g",
     "volume": "40 ml",
     "price": "6 USD",
     "price_postapoc": "15 cent",
@@ -415,10 +431,11 @@
   },
   {
     "id": "cheap_ammo_pouch_belt308",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "7.62x51 belt pouch", "str_pl": "7.62x51 belt pouches" },
     "description": "A large cotton pouch, designed to store a spare ammo belt for the M240 or M60 machine guns.",
-    "weight": "60 g",
+    "weight": "20 g",
     "volume": "40 ml",
     "price": "6 USD",
     "price_postapoc": "15 cent",
@@ -438,5 +455,224 @@
     ],
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
     "armor": [ { "encumbrance": 4, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
+  },
+  {
+    "id": "bandolier_pipebomb",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "large grenade bandolier" },
+    "description": "A homemade nylon bandolier covering the upper chest while supported by straps on both shoulders.  While fairly hefty and cumbersome when full, it does allow the wearer to carry larger grenades such as pipebombs or Molotovs.",
+    "weight": "830 g",
+    "volume": "730 ml",
+    "price": "19 USD",
+    "price_postapoc": "10 USD",
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "leather_belt",
+    "color": "dark_gray",
+    "material_thickness": 1,
+    "pocket_data": [
+      {
+        "moves": 140,
+        "flag_restriction": [ "CYLINDER_GRENADE" ],
+        "holster": true,
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "1200 g",
+        "max_item_length": "30 cm"
+      },
+      {
+        "moves": 140,
+        "flag_restriction": [ "CYLINDER_GRENADE" ],
+        "holster": true,
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "1200 g",
+        "max_item_length": "30 cm"
+      },
+      {
+        "moves": 140,
+        "flag_restriction": [ "CYLINDER_GRENADE" ],
+        "holster": true,
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "1200 g",
+        "max_item_length": "30 cm"
+      },
+      {
+        "moves": 140,
+        "flag_restriction": [ "CYLINDER_GRENADE" ],
+        "holster": true,
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "1200 g",
+        "max_item_length": "30 cm"
+      },
+      {
+        "moves": 140,
+        "flag_restriction": [ "CYLINDER_GRENADE" ],
+        "holster": true,
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "1200 g",
+        "max_item_length": "30 cm"
+      }
+    ],
+    "flags": [ "WATER_FRIENDLY", "BELTED" ],
+    "armor": [
+      { "encumbrance": 6, "coverage": 35, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] },
+      {
+        "encumbrance": 3,
+        "volume_encumber_modifier": 0,
+        "coverage": 60,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ]
+      }
+    ]
+  },
+  {
+    "id": "bandolier_pipebomb_xs",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "large grenade bandolier" },
+    "description": "A homemade nylon bandolier covering the upper chest while supported by straps on both shoulders.  While fairly hefty and cumbersome when full, it does allow the wearer to carry larger grenades such as pipebombs or Molotovs.",
+    "weight": "623 g",
+    "volume": "548 ml",
+    "price": "19 USD",
+    "price_postapoc": "4 USD",
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "leather_belt",
+    "color": "dark_gray",
+    "material_thickness": 1,
+    "pocket_data": [
+      {
+        "moves": 140,
+        "flag_restriction": [ "CYLINDER_GRENADE" ],
+        "holster": true,
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "1200 g",
+        "max_item_length": "30 cm"
+      },
+      {
+        "moves": 140,
+        "flag_restriction": [ "CYLINDER_GRENADE" ],
+        "holster": true,
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "1200 g",
+        "max_item_length": "30 cm"
+      },
+      {
+        "moves": 140,
+        "flag_restriction": [ "CYLINDER_GRENADE" ],
+        "holster": true,
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "1200 g",
+        "max_item_length": "30 cm"
+      }
+    ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "UNDERSIZE", "PREFIX_XS" ],
+    "armor": [
+      {
+        "encumbrance": 6,
+        "volume_encumber_modifier": 1.4,
+        "coverage": 35,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper" ]
+      },
+      {
+        "encumbrance": 3,
+        "volume_encumber_modifier": 0,
+        "coverage": 60,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ]
+      }
+    ]
+  },
+  {
+    "id": "bandolier_pipebomb_xl",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "large grenade bandolier" },
+    "description": "A homemade nylon bandolier covering the upper chest while supported by straps on both shoulders.  While fairly hefty and cumbersome when full, it does allow the wearer to carry larger grenades such as pipebombs or Molotovs.",
+    "weight": "934 g",
+    "volume": "825 ml",
+    "price": "19 USD",
+    "price_postapoc": "4 USD",
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "leather_belt",
+    "color": "dark_gray",
+    "material_thickness": 1,
+    "pocket_data": [
+      {
+        "moves": 140,
+        "flag_restriction": [ "CYLINDER_GRENADE" ],
+        "holster": true,
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "1200 g",
+        "max_item_length": "30 cm"
+      },
+      {
+        "moves": 140,
+        "flag_restriction": [ "CYLINDER_GRENADE" ],
+        "holster": true,
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "1200 g",
+        "max_item_length": "30 cm"
+      },
+      {
+        "moves": 140,
+        "flag_restriction": [ "CYLINDER_GRENADE" ],
+        "holster": true,
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "1200 g",
+        "max_item_length": "30 cm"
+      },
+      {
+        "moves": 140,
+        "flag_restriction": [ "CYLINDER_GRENADE" ],
+        "holster": true,
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "1200 g",
+        "max_item_length": "30 cm"
+      },
+      {
+        "moves": 140,
+        "flag_restriction": [ "CYLINDER_GRENADE" ],
+        "holster": true,
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "1200 g",
+        "max_item_length": "30 cm"
+      },
+      {
+        "moves": 140,
+        "flag_restriction": [ "CYLINDER_GRENADE" ],
+        "holster": true,
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "1200 g",
+        "max_item_length": "30 cm"
+      },
+      {
+        "moves": 140,
+        "flag_restriction": [ "CYLINDER_GRENADE" ],
+        "holster": true,
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "1200 g",
+        "max_item_length": "30 cm"
+      }
+    ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE", "PREFIX_XL" ],
+    "armor": [
+      {
+        "encumbrance": 6,
+        "volume_encumber_modifier": 0.8,
+        "coverage": 35,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper" ]
+      },
+      {
+        "encumbrance": 3,
+        "volume_encumber_modifier": 0,
+        "coverage": 60,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ]
+      }
+    ]
   }
 ]

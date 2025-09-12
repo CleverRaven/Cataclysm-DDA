@@ -1,7 +1,8 @@
 [
   {
     "id": "mbracer_steel_pair",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "armor",
     "name": { "str": "pair of steel bracers", "str_pl": "pairs of steel bracers" },
     "description": "A full assembly of medieval arm protection.",
@@ -19,7 +20,8 @@
   },
   {
     "copy-from": "mbracer_steel_pair",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "id": "mbracer_steel_single",
     "name": { "str": "steel bracer" },
     "weight": "770 g",
@@ -28,55 +30,54 @@
   },
   {
     "copy-from": "mbracer_steel_single",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "id": "mbracer_defense_lesser",
     "name": { "str": "bracer of lesser defense", "str_pl": "bracers of lesser defense" },
     "price_postapoc": "950 USD",
     "description": "A light but extremely sturdy steel bracer with an ornate shield engraved on the top, silver accentuates the intricate design.  It protects your body with a light aura to reduce damage you take.",
     "material_thickness": 6,
     "flags": [ "BELTED", "STURDY", "BLOCK_WHILE_WORN" ],
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ALWAYS",
-          "incoming_damage_mod": [
-            { "type": "bash", "add": -2 },
-            { "type": "stab", "add": -2 },
-            { "type": "cut", "add": -2 },
-            { "type": "bullet", "add": -1 }
-          ]
-        }
-      ]
-    }
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "condition": "ALWAYS",
+        "incoming_damage_mod": [
+          { "type": "bash", "add": -2 },
+          { "type": "stab", "add": -2 },
+          { "type": "cut", "add": -2 },
+          { "type": "bullet", "add": -1 }
+        ]
+      }
+    ]
   },
   {
     "copy-from": "mbracer_steel_single",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "id": "mbracer_defense_greater",
     "price_postapoc": "1850 USD",
     "name": { "str": "bracer of greater defense", "str_pl": "bracers of greater defense" },
     "description": "A light but extremely sturdy steel bracer with an ornate shield engraved on the top, gold accentuates the intricate design.  It protects your body with a strong aura to reduce damage you take.",
     "material_thickness": 6,
     "flags": [ "BELTED", "STURDY", "BLOCK_WHILE_WORN" ],
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ALWAYS",
-          "incoming_damage_mod": [
-            { "type": "bash", "add": -4 },
-            { "type": "stab", "add": -4 },
-            { "type": "cut", "add": -4 },
-            { "type": "bullet", "add": -2 }
-          ]
-        }
-      ]
-    }
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "condition": "ALWAYS",
+        "incoming_damage_mod": [
+          { "type": "bash", "add": -4 },
+          { "type": "stab", "add": -4 },
+          { "type": "cut", "add": -4 },
+          { "type": "bullet", "add": -2 }
+        ]
+      }
+    ]
   },
   {
     "copy-from": "mbracer_steel_single",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "id": "mbracer_lightning_lesser",
     "name": { "str": "lesser bracer of lightning", "str_pl": "lesser bracers of lightning" },
     "price_postapoc": "750 USD",
@@ -84,15 +85,14 @@
     "charges_per_use": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "crystallized_mana": 3 } } ],
     "flags": [ "BELTED", "STURDY", "BLOCK_WHILE_WORN", "NO_UNLOAD", "NO_RELOAD" ],
-    "relic_data": {
-      "charge_info": { "recharge_type": "periodic", "time": "24 h", "regenerate_ammo": true },
-      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "incoming_damage_mod": [ { "type": "electric", "add": -5 } ] } ]
-    },
-    "use_action": { "type": "cast_spell", "spell_id": "jolt", "no_fail": true, "level": 15, "need_worn": true }
+    "use_action": { "type": "cast_spell", "spell_id": "jolt", "no_fail": true, "level": 15, "need_worn": true },
+    "charge_info": { "recharge_type": "periodic", "time": "24 h", "regenerate_ammo": true },
+    "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "incoming_damage_mod": [ { "type": "electric", "add": -5 } ] } ]
   },
   {
     "copy-from": "mbracer_steel_single",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "id": "mbracer_lightning_greater",
     "name": { "str": "greater bracer of lightning", "str_pl": "greater bracers of lightning" },
     "price_postapoc": "1750 USD",
@@ -100,43 +100,39 @@
     "charges_per_use": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "crystallized_mana": 3 } } ],
     "flags": [ "BELTED", "STURDY", "BLOCK_WHILE_WORN", "NO_UNLOAD", "NO_RELOAD" ],
-    "relic_data": {
-      "charge_info": { "recharge_type": "periodic", "time": "24 h", "regenerate_ammo": true },
-      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "incoming_damage_mod": [ { "type": "electric", "add": -10 } ] } ]
-    },
-    "use_action": { "type": "cast_spell", "spell_id": "lightning_bolt", "no_fail": true, "level": 15, "need_worn": true }
+    "use_action": { "type": "cast_spell", "spell_id": "lightning_bolt", "no_fail": true, "level": 15, "need_worn": true },
+    "charge_info": { "recharge_type": "periodic", "time": "24 h", "regenerate_ammo": true },
+    "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "incoming_damage_mod": [ { "type": "electric", "add": -10 } ] } ]
   },
   {
     "copy-from": "armguard_larmor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "id": "mbracer_archery",
     "name": { "str": "pair of bracers of archery", "str_pl": "pairs of bracers of archery" },
     "price_postapoc": "750 USD",
     "description": "A set of leather bracers worked with images of arrows in flight and scenes of hunting parties.  Bows you wield will be more accurate and do more damage while you wear these, and you can shoot your arrows farther as well.",
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": { "u_has_wielded_with_flag": "SHEATH_BOW" },
-          "values": [ { "value": "RANGE", "multiply": 0.2 }, { "value": "WEAPON_DISPERSION", "multiply": -0.33 } ],
-          "ench_effects": [ { "effect": "effect_plus_two_to_hit", "intensity": 1 }, { "effect": "archerybracers", "intensity": 1 } ]
-        }
-      ]
-    }
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "condition": { "u_has_wielded_with_flag": "SHEATH_BOW" },
+        "values": [ { "value": "RANGE", "multiply": 0.2 }, { "value": "WEAPON_DISPERSION", "multiply": -0.33 } ],
+        "ench_effects": [ { "effect": "effect_plus_two_to_hit", "intensity": 1 }, { "effect": "archerybracers", "intensity": 1 } ]
+      }
+    ]
   },
   {
     "copy-from": "armguard_larmor",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "id": "mbracer_blinding_strike",
     "price_postapoc": "1850 USD",
     "name": { "str_sp": "bracers of the blinding strike" },
     "description": "A pair of light leather bracers with inlays of mithril looking like vines with tiny, leaf-shaped leaves branching off of the vines.  It slightly increases your attack speed at all times, and you may activate it to greatly increase your attack speed for a short time.",
     "charges_per_use": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "crystallized_mana": 3 } } ],
-    "relic_data": {
-      "charge_info": { "recharge_type": "periodic", "time": "8 h", "regenerate_ammo": true },
-      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ATTACK_SPEED", "multiply": -0.15 } ] } ]
-    },
-    "use_action": { "type": "cast_spell", "spell_id": "mbracer_blinding_strike_spell", "no_fail": true, "level": 0, "need_worn": true }
+    "use_action": { "type": "cast_spell", "spell_id": "mbracer_blinding_strike_spell", "no_fail": true, "level": 0, "need_worn": true },
+    "charge_info": { "recharge_type": "periodic", "time": "8 h", "regenerate_ammo": true },
+    "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ATTACK_SPEED", "multiply": -0.15 } ] } ]
   }
 ]

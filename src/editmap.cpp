@@ -14,6 +14,7 @@
 #include <vector>
 
 #include "avatar.h"
+#include "cached_options.h"
 #include "calendar.h"
 #include "cata_scope_helpers.h"
 #include "cata_utility.h"
@@ -56,7 +57,7 @@
 #include "translation.h"
 #include "translations.h"
 #include "trap.h"
-#include "ui.h"
+#include "uilist.h"
 #include "ui_manager.h"
 #include "uistate.h"
 #include "vehicle.h"
@@ -479,7 +480,7 @@ void editmap::uber_draw_ter( const catacurses::window &w, map *m )
         bool draw_veh=true;
     */
 
-    bool game_map = m == &get_map() || w == g->w_terrain;
+    bool game_map = m == &reality_bubble() || w == g->w_terrain;
     const int msize = MAPSIZE_X;
     if( refresh_mplans ) {
         hilights["mplan"].points.clear();
@@ -499,8 +500,8 @@ void editmap::uber_draw_ter( const catacurses::window &w, map *m )
                 if( refresh_mplans ) {
                     monster *mon = dynamic_cast<monster *>( critter );
                     if( mon != nullptr && mon->has_dest() ) {
-                        for( auto &location : line_to( mon->get_location(), mon->get_dest() ) ) {
-                            hilights["mplan"].points[m->bub_from_abs( location )] = 1;
+                        for( auto &location : line_to( mon->pos_abs(), mon->get_dest() ) ) {
+                            hilights["mplan"].points[m->get_bub( location )] = 1;
                         }
                     }
                 }
@@ -675,8 +676,6 @@ void editmap::draw_main_ui_overlay()
                     } else {
                         g->draw_vpart_override( map_p, vpart_id::NULL_ID(), 0, 0_degrees, false, point_rel_ms::zero );
                     }
-                    g->draw_below_override( tripoint_bub_ms( map_p ),
-                                            tmpmap.ter( tmp_p ).obj().has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) );
                 }
             }
             // int: count, bool: more than 1 spawn data
@@ -742,8 +741,8 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
     draw_border( w_info );
 
     // NOLINTNEXTLINE(cata-use-named-point-constants)
-    mvwprintz( w_info, point( 1, 0 ), c_light_gray, "< %d,%d,%d >", target.x(), target.y(),
-               target.z() );
+    mvwprintz( w_info, point( 1, 0 ), c_light_gray, "< bub_ms=%s abs_ms=%s >", target.to_string(),
+               here.get_abs( target ).to_string() );
 
     mvwputch( w_info, point( 1, off ), terrain_type.color(), terrain_type.symbol() );
     mvwprintw( w_info, point( 2, off++ ), _( "Ter: %s (%d); move cost %d" ), terrain_type.id.str(),
@@ -774,7 +773,7 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
     const level_cache &map_cache = here.get_cache( target.z() );
 
     Character &player_character = get_player_character();
-    const std::string u_see_msg = player_character.sees( target ) ? _( "yes" ) : _( "no" );
+    const std::string u_see_msg = player_character.sees( here, target ) ? _( "yes" ) : _( "no" );
     mvwprintw( w_info, point( 1, off++ ), _( "dist: %d u_see: %s veh: %s scent: %d" ),
                rl_dist( player_character.pos_bub(), target ), u_see_msg, veh_msg, get_scent().get( target ) ); // 6
     mvwprintw( w_info, point( 1, off++ ), _( "sight_range: %d, noon_sight_range: %d," ),
@@ -1153,7 +1152,7 @@ void editmap::edit_feature()
         info_title_curr = info_title<T_t>();
         do_ui_invalidation();
 
-        emenu.query( false, get_option<int>( "BLINK_SPEED" ) );
+        emenu.query( true, get_option<int>( "BLINK_SPEED" ) );
         if( emenu.ret == UILIST_CANCEL ) {
             quit = true;
         } else if( ( emenu.ret >= 0 && static_cast<size_t>( emenu.ret ) < T_t::count() ) ||
@@ -1223,8 +1222,8 @@ void editmap::setup_fmenu( uilist &fmenu )
 void editmap::edit_rads() const
 {
     map &here = get_map();
-    int value = 0;
-    if( query_int( value, _( "Set rads to?  Currently: %d" ), here.get_radiation( target ) ) ) {
+    int value = here.get_radiation( target );
+    if( query_int( value, true, _( "Set rads to?" ) ) ) {
         here.set_radiation( target, value );
     }
 }
@@ -1279,7 +1278,7 @@ void editmap::edit_fld()
         info_title_curr = pgettext( "Map editor: Editing field effects", "Field effects" );
         do_ui_invalidation();
 
-        fmenu.query( false, get_option<int>( "BLINK_SPEED" ) );
+        fmenu.query( true, get_option<int>( "BLINK_SPEED" ) );
         if( ( fmenu.ret > 0 && static_cast<size_t>( fmenu.ret ) < field_type::count() ) ||
             ( fmenu.ret == UILIST_ADDITIONAL && ( fmenu.ret_act == "LEFT" || fmenu.ret_act == "RIGHT" ) ) ) {
 
@@ -1482,12 +1481,10 @@ void editmap::edit_itm()
                     }
                     string_input_popup popup;
                     int retval = 0;
+                    bool confirmed = false;
                     if( imenu.ret < imenu_tags ) {
-                        retval = popup
-                                 .title( "set:" )
-                                 .width( 20 )
-                                 .text( std::to_string( intval ) )
-                                 .query_int();
+                        retval = intval;
+                        confirmed = query_int( retval, true, "set:" );
                     } else if( imenu.ret == imenu_tags ) {
                         strval = popup
                                  .title( _( "Flags:" ) )
@@ -1495,7 +1492,7 @@ void editmap::edit_itm()
                                  .text( strval )
                                  .query_string();
                     }
-                    if( popup.confirmed() ) {
+                    if( popup.confirmed() || confirmed ) {
                         switch( imenu.ret ) {
                             case imenu_bday:
                                 it.set_birthday( time_point::from_turn( retval ) );
@@ -1837,7 +1834,7 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
     const oter_id orig_oters = omt_ref;
     overmap_buffer.ter_set( omt_pos, oter_id( gmenu.ret ) );
     smallmap tmpmap;
-    tmpmap.generate( omt_pos, calendar::turn, false );
+    tmpmap.generate( omt_pos, calendar::turn, false, run_post_process );
 
     gmenu.border_color = c_light_gray;
     gmenu.hilight_color = c_black_white;
@@ -1849,6 +1846,9 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
     gpmenu.addentry( pgettext( "map generator", "Rotate" ) );
     gpmenu.addentry( pgettext( "map generator", "Apply" ) );
     gpmenu.addentry( pgettext( "map generator", "Change Overmap (Doesn't Apply)" ) );
+    std::string on_or_off = run_post_process ? _( "ON" ) : _( "OFF" );
+    gpmenu.addentry( pgettext( "map generator",
+                               string_format( "Toggle post-process generators (Currently %s)", on_or_off ).c_str() ) );
 
     gpmenu.input_category = "MAPGEN_PREVIEW";
     gpmenu.additional_actions = {
@@ -1891,7 +1891,7 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
                                          oter_id( gmenu.selected ).id().str() );
         do_ui_invalidation();
 
-        gpmenu.query( false, get_option<int>( "BLINK_SPEED" ) * 3 );
+        gpmenu.query( true, get_option<int>( "BLINK_SPEED" ) * 3 );
 
         if( gpmenu.ret == 0 ) {
             cleartmpmap( tmpmap );
@@ -1929,7 +1929,7 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
                         std::swap( *destsm, *srcsm );
 
                         for( auto &veh : destsm->vehicles ) {
-                            veh->sm_pos = dest_pos.raw();
+                            veh->sm_pos = here.get_abs_sub().xy() + dest_pos;
                         }
 
                         if( !destsm->spawns.empty() ) {                             // trigger spawnpoints
@@ -1958,12 +1958,14 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
             popup( _( "Changed oter_id from '%s' (%s) to '%s' (%s)" ),
                    orig_oters->get_name( om_vision_level::full ), orig_oters.id().str(),
                    omt_ref->get_name( om_vision_level::full ), omt_ref.id().str() );
+        } else if( gpmenu.ret == 4 ) {
+            run_post_process = !run_post_process;
         }
         showpreview = gpmenu.ret == UILIST_TIMEOUT ? !showpreview : true;
-    } while( gpmenu.ret != 2 && gpmenu.ret != 3 && gpmenu.ret != UILIST_CANCEL );
+    } while( gpmenu.ret != 2 && gpmenu.ret != 3 && gpmenu.ret != 4 && gpmenu.ret != UILIST_CANCEL );
 
-    if( gpmenu.ret != 2 &&  // we didn't apply, so restore the original om_ter
-        gpmenu.ret != 3 ) { // chose to change oter_id but not apply mapgen
+    // we didn't apply, so restore the original om_ter
+    if( gpmenu.ret != 2 && gpmenu.ret != 3  && gpmenu.ret != 4 ) {
         overmap_buffer.ter_set( omt_pos, orig_oters );
     }
     gmenu.border_color = c_magenta;
@@ -2070,11 +2072,13 @@ void editmap::mapgen_retarget()
 
         ui_manager::redraw();
         action = ctxt.handle_input( get_option<int>( "BLINK_SPEED" ) );
-        if( const std::optional<tripoint> vec = ctxt.get_direction( action ) ) {
-            point_rel_ms vec_ms = coords::project_to<coords::ms>( point_rel_omt( vec->xy() ) );
+        if( const std::optional<tripoint_rel_omt> vec = ctxt.get_direction_rel_omt( action ) ) {
+            point_rel_ms vec_ms = coords::project_to<coords::ms>( vec->xy() );
             tripoint_bub_ms ptarget = target + vec_ms;
-            if( get_map().inbounds( ptarget ) &&
-                get_map().inbounds( ptarget + point( SEEX, SEEY ) ) ) {
+            map &here = get_map();
+
+            if( here.inbounds( ptarget ) &&
+                here.inbounds( ptarget + point( SEEX, SEEY ) ) ) {
                 target = ptarget;
 
                 target_list.clear();
@@ -2105,6 +2109,7 @@ void editmap::edit_mapgen()
     gmenu.input_category = "EDIT_MAPGEN";
     gmenu.additional_actions = {
         { "EDITMAP_MOVE", translation() },
+        { "EDITMAP_TOGGLE_POST_PROCESS_GENERATORS", translation() },
         { "HELP_KEYBINDINGS", translation() } // to refresh the view after exiting from keybindings
     };
     gmenu.allow_additional = true;
@@ -2129,13 +2134,13 @@ void editmap::edit_mapgen()
     map &here = get_map();
 
     do {
-        tc.fromabs( here.getglobal( { target.xy(), here.abs_sub.z() } ).xy().raw() );
-        point_bub_ms omt_lpos = here.bub_from_abs( point_abs_ms( tc.begin_om_pos() ) );
+        tc.fromabs( here.get_abs( { target.xy(), here.abs_sub.z() } ).xy().raw() );
+        point_bub_ms omt_lpos = here.get_bub( point_abs_ms( tc.begin_om_pos() ) );
         tripoint_bub_ms om_ltarget = omt_lpos + tripoint( -1 + SEEX, -1 + SEEY, target.z() );
 
         if( target.x() != om_ltarget.x() || target.y() != om_ltarget.y() ) {
             target = om_ltarget;
-            tc.fromabs( here.getglobal( { target.xy(), here.abs_sub.z() } ).xy().raw() );
+            tc.fromabs( here.get_abs( { target.xy(), here.abs_sub.z() } ).xy().raw() );
         }
         target_list.clear();
         for( int x = target.x() - SEEX + 1; x < target.x() + SEEX + 1; x++ ) {
@@ -2150,8 +2155,9 @@ void editmap::edit_mapgen()
         blink = true;
 
         input_context ctxt( gmenu.input_category, keyboard_mode::keycode );
-        info_txt_curr = string_format( pgettext( "keybinding descriptions", "%s, %s" ),
+        info_txt_curr = string_format( pgettext( "keybinding descriptions", "%s, %s, %s" ),
                                        ctxt.describe_key_and_name( "EDITMAP_MOVE" ),
+                                       ctxt.describe_key_and_name( "EDITMAP_TOGGLE_POST_PROCESS_GENERATORS" ),
                                        ctxt.describe_key_and_name( "CONFIRM" ) );
         info_title_curr = pgettext( "map generator", "Mapgen stamp" );
         do_ui_invalidation();
@@ -2166,6 +2172,8 @@ void editmap::edit_mapgen()
         } else if( gmenu.ret == UILIST_ADDITIONAL ) {
             if( gmenu.ret_act == "EDITMAP_MOVE" ) {
                 mapgen_retarget();
+            } else if( gmenu.ret_act == "EDITMAP_TOGGLE_POST_PROCESS_GENERATORS" ) {
+                run_post_process = !run_post_process;
             }
         }
     } while( gmenu.ret != UILIST_CANCEL );

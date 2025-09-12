@@ -1,38 +1,41 @@
 #include <algorithm>
 #include <cstdlib>
 #include <functional>
-#include <list>
+#include <map>
 #include <memory>
+#include <optional>
 #include <ostream>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "anatomy.h"
 #include "ballistics.h"
 #include "bodypart.h"
 #include "calendar.h"
-#include "cata_utility.h"
 #include "cata_catch.h"
+#include "cata_utility.h"
+#include "character_attire.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "dispersion.h"
 #include "game_constants.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_location.h"
-#include "itype.h"
 #include "json.h"
+#include "map.h"
 #include "map_helpers.h"
+#include "math_parser_diag_value.h"
 #include "monster.h"
 #include "npc.h"
-#include "pimpl.h"
 #include "player_helpers.h"
 #include "point.h"
-#include "ret_val.h"
+#include "ranged.h"
+#include "rng.h"
 #include "test_statistics.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
-#include "value_ptr.h"
 
 static const character_modifier_id
 character_modifier_ranged_dispersion_manip_mod( "ranged_dispersion_manip_mod" );
@@ -68,7 +71,7 @@ static const itype_id itype_gloves_wraps_fur( "gloves_wraps_fur" );
 static const itype_id itype_hk_mp5( "hk_mp5" );
 static const itype_id itype_holo_sight( "holo_sight" );
 static const itype_id itype_m14ebr( "m14ebr" );
-static const itype_id itype_mask_guy_fawkes( "mask_guy_fawkes" );
+static const itype_id itype_mask_skull( "mask_skull" );
 static const itype_id itype_mossberg_590( "mossberg_590" );
 static const itype_id itype_mossberg_930( "mossberg_930" );
 static const itype_id itype_mp40semi( "mp40semi" );
@@ -291,7 +294,7 @@ TEST_CASE( "unskilled_shooter_accuracy", "[ranged] [balance] [slow]" )
     standard_npc shooter( "Shooter", shooter_pos, {}, 0, 8, 8, 8, 7 );
     shooter.set_body();
     shooter.worn.wear_item( shooter, item( itype_backpack ), false, false );
-    equip_shooter( shooter, { itype_bastsandals, itype_armguard_hard, itype_armguard_soft, itype_test_armor_chitin, itype_beekeeping_gloves, itype_mask_guy_fawkes, itype_cowboy_hat } );
+    equip_shooter( shooter, { itype_bastsandals, itype_armguard_hard, itype_armguard_soft, itype_test_armor_chitin, itype_beekeeping_gloves, itype_mask_skull, itype_cowboy_hat } );
     assert_encumbrance( shooter, 10 );
 
     SECTION( "an unskilled shooter with a common pistol" ) {
@@ -493,6 +496,7 @@ static void shoot_monster( const itype_id &gun_type, const std::vector<itype_id>
                            int expected_damage, const std::string &monster_type,
                            const std::function<bool ( const standard_npc &, const monster & )> &other_checks = nullptr )
 {
+    map &here = get_map();
     clear_map();
     statistics<int> damage;
     constexpr tripoint_bub_ms shooter_pos{ 60, 60, 0 };
@@ -507,16 +511,16 @@ static void shoot_monster( const itype_id &gun_type, const std::vector<itype_id>
         shooter->recoil = 0;
         monster &mon = spawn_test_monster( monster_type, monster_pos, false );
         const int prev_HP = mon.get_hp();
-        shooter->fire_gun( monster_pos, 1, *shooter->get_wielded_item() );
+        shooter->fire_gun( here, monster_pos, 1, *shooter->get_wielded_item() );
         damage.add( prev_HP - mon.get_hp() );
         if( other_checks ) {
             other_check_success += other_checks( *shooter, mon );
         }
-        if( damage.margin_of_error() < 0.05 && damage.n() > 100 ) {
+        if( damage.margin_of_error() < 0.05 && damage.n() > 500 ) {
             break;
         }
-        mon.die( nullptr );
-    } while( damage.n() < 200 ); // In fact, stable results can only be obtained when n reaches 10000
+        mon.die( &here, nullptr );
+    } while( damage.n() < 1000 ); // In fact, stable results can only be obtained when n reaches 10000
     const double avg = damage.avg();
     CAPTURE( damage.n() );
     CAPTURE( gun_type );
@@ -525,7 +529,7 @@ static void shoot_monster( const itype_id &gun_type, const std::vector<itype_id>
     CAPTURE( range );
     CAPTURE( monster_type );
     CAPTURE( avg );
-    CHECK( avg == Approx( expected_damage ).margin( 20 ) );
+    CHECK( avg == Approx( expected_damage ).margin( 10 ) );
     if( other_checks ) {
         CHECK( other_check_success == Approx( damage.n() ).margin( 10 ) );
     }
@@ -547,7 +551,7 @@ TEST_CASE( "shot_features", "[gun]" "[slow]" )
     // shoot_monster( itype_shot_bird, 10, 0, 5, "mon_zombie_tough" );
     // Can barely hurt at close range.
     // Can seriously injure trivially armored enemy at point blank,
-    shoot_monster( itype_shotgun_s, {}, itype_shot_bird, 1, 66, "mon_test_shotgun_5_bullet" );
+    shoot_monster( itype_shotgun_s, {}, itype_shot_bird, 1, 72, "mon_test_shotgun_1_bullet" );
 
     // Armored target (armor_bullet: 5)
     // Can't hurt at range
@@ -569,23 +573,23 @@ TEST_CASE( "shot_features", "[gun]" "[slow]" )
     // Unarmored target
     shoot_monster( itype_shotgun_s, {}, itype_shot_00, 18, 75, "mon_test_shotgun_0_bullet" );
     // Heavy damage at range.
-    shoot_monster( itype_shotgun_s, {}, itype_shot_00, 12, 111, "mon_test_shotgun_0_bullet" );
+    shoot_monster( itype_shotgun_s, {}, itype_shot_00, 12, 115, "mon_test_shotgun_0_bullet" );
     // More damage at close range.
-    shoot_monster( itype_shotgun_s, {}, itype_shot_00, 5, 180, "mon_test_shotgun_0_bullet" );
+    shoot_monster( itype_shotgun_s, {}, itype_shot_00, 5, 171, "mon_test_shotgun_0_bullet" );
     // Extreme damage at point blank range.
     shoot_monster( itype_shotgun_s, {}, itype_shot_00, 1, 86, "mon_test_shotgun_0_bullet" );
 
     // Lightly armored target (armor_bullet: 5)
     // Outcomes for lightly armored enemies are very similar.
     shoot_monster( itype_shotgun_s, {}, itype_shot_00, 18, 45, "mon_test_shotgun_5_bullet" );
-    shoot_monster( itype_shotgun_s, {}, itype_shot_00, 12, 72, "mon_test_shotgun_5_bullet" );
-    shoot_monster( itype_shotgun_s, {}, itype_shot_00, 5, 117, "mon_test_shotgun_5_bullet" );
+    shoot_monster( itype_shotgun_s, {}, itype_shot_00, 12, 77, "mon_test_shotgun_5_bullet" );
+    shoot_monster( itype_shotgun_s, {}, itype_shot_00, 5, 113, "mon_test_shotgun_5_bullet" );
     shoot_monster( itype_shotgun_s, {}, itype_shot_00, 1, 81, "mon_test_shotgun_5_bullet" );
 
     // Armored target (armor_bullet: 10)
     shoot_monster( itype_shotgun_s, {}, itype_shot_00, 18, 22, "mon_test_shotgun_10_bullet" );
     shoot_monster( itype_shotgun_s, {}, itype_shot_00, 12, 35, "mon_test_shotgun_10_bullet" );
-    shoot_monster( itype_shotgun_s, {}, itype_shot_00, 5, 57, "mon_test_shotgun_10_bullet" );
+    shoot_monster( itype_shotgun_s, {}, itype_shot_00, 5, 55, "mon_test_shotgun_10_bullet" );
     shoot_monster( itype_shotgun_s, {}, itype_shot_00, 1, 75, "mon_test_shotgun_10_bullet" );
 }
 
@@ -615,27 +619,27 @@ TEST_CASE( "shot_features_with_choke", "[gun]" "[slow]" )
     // Unarmored target
     shoot_monster( itype_shotgun_s, { itype_choke }, itype_shot_00, 18, 95,
                    "mon_test_shotgun_0_bullet" );
-    shoot_monster( itype_shotgun_s, { itype_choke }, itype_shot_00, 12, 140,
+    shoot_monster( itype_shotgun_s, { itype_choke }, itype_shot_00, 12, 145,
                    "mon_test_shotgun_0_bullet" );
-    shoot_monster( itype_shotgun_s, { itype_choke }, itype_shot_00, 5, 185,
+    shoot_monster( itype_shotgun_s, { itype_choke }, itype_shot_00, 5, 182,
                    "mon_test_shotgun_0_bullet" );
     shoot_monster( itype_shotgun_s, { itype_choke }, itype_shot_00, 1, 87,
                    "mon_test_shotgun_0_bullet" );
     // Triviallly armored target (armor_bullet: 1)
-    shoot_monster( itype_shotgun_s, { itype_choke }, itype_shot_00, 18, 89,
+    shoot_monster( itype_shotgun_s, { itype_choke }, itype_shot_00, 18, 94,
                    "mon_test_shotgun_1_bullet" );
-    shoot_monster( itype_shotgun_s, { itype_choke }, itype_shot_00, 12, 130,
+    shoot_monster( itype_shotgun_s, { itype_choke }, itype_shot_00, 12, 135,
                    "mon_test_shotgun_1_bullet" );
-    shoot_monster( itype_shotgun_s, { itype_choke }, itype_shot_00, 5, 172,
+    shoot_monster( itype_shotgun_s, { itype_choke }, itype_shot_00, 5, 170,
                    "mon_test_shotgun_1_bullet" );
     shoot_monster( itype_shotgun_s, { itype_choke }, itype_shot_00, 1, 87,
                    "mon_test_shotgun_1_bullet" );
     // Armored target (armor_bullet: 5)
     shoot_monster( itype_shotgun_s, { itype_choke }, itype_shot_00, 18, 62,
                    "mon_test_shotgun_5_bullet" );
-    shoot_monster( itype_shotgun_s, { itype_choke }, itype_shot_00, 12, 90,
+    shoot_monster( itype_shotgun_s, { itype_choke }, itype_shot_00, 12, 95,
                    "mon_test_shotgun_5_bullet" );
-    shoot_monster( itype_shotgun_s, { itype_choke }, itype_shot_00, 5, 122,
+    shoot_monster( itype_shotgun_s, { itype_choke }, itype_shot_00, 5, 121,
                    "mon_test_shotgun_5_bullet" );
     shoot_monster( itype_shotgun_s, { itype_choke }, itype_shot_00, 1, 80,
                    "mon_test_shotgun_5_bullet" );
@@ -644,7 +648,7 @@ TEST_CASE( "shot_features_with_choke", "[gun]" "[slow]" )
                    "mon_test_shotgun_10_bullet" );
     shoot_monster( itype_shotgun_s, { itype_choke }, itype_shot_00, 12, 44,
                    "mon_test_shotgun_10_bullet" );
-    shoot_monster( itype_shotgun_s, { itype_choke }, itype_shot_00, 5, 60,
+    shoot_monster( itype_shotgun_s, { itype_choke }, itype_shot_00, 5, 55,
                    "mon_test_shotgun_10_bullet" );
     shoot_monster( itype_shotgun_s, { itype_choke }, itype_shot_00, 1, 73,
                    "mon_test_shotgun_10_bullet" );

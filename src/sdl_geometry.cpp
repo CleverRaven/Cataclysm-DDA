@@ -1,7 +1,11 @@
 #if defined(TILES)
 #include "sdl_geometry.h"
 
+#include <ostream>
+#include <stdexcept>
+
 #include "debug.h"
+#include "point.h"
 #include "sdl_utils.h"
 
 void GeometryRenderer::horizontal_line( const SDL_Renderer_Ptr &renderer, const point &pos, int x2,

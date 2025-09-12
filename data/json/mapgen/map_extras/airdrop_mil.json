@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_airdrop_mil",
     "//": "extra rare version, also has few mil troops.  Should be a separate map extra, but i still don't know what one should contain, ",
     "object": {
@@ -22,7 +21,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "supply_generatos_mil",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -33,7 +31,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "supply_water_drums_55",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -44,7 +41,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "supply_fuel_gas",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -58,7 +54,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "supply_fuel_diesel",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -72,7 +67,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "supply_fuel_jp8",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -86,7 +80,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "supply_military_kit",
     "object": {
       "mapgensize": [ 2, 2 ],

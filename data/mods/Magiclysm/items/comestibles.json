@@ -1,6 +1,7 @@
 [
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "egg_owlbear_rock",
     "name": "owlbear egg",
     "weight": "2395 g",
@@ -22,7 +23,8 @@
     "//": "Alchemically speaking, I see this egg as having the elements of Growth, Stone, and Egg.  Growth would make things grow faster, the simplest example being a magical liquid fertilizer.  Stone would be a defensive element, used in creating something like a potion of stoneskin.  Egg would be interesting though.  What if instead of being imbibed there were potions that instead functioned similarly to the sourdough items, or the blob vehicle parts, in that they take a gestation period and then you could activate them and have a new item pop out.  Creatures sure but especially biomancers could have temporarily-lived tools, weapons, and armor."
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "egg_giant_heron_ridable",
     "name": { "str": "aenorhi egg" },
     "copy-from": "egg_chicken",
@@ -33,7 +35,8 @@
     "rot_spawn": { "monster": "mon_giant_heron_ridable_chick", "chance": 75 }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "whiskey",
     "name": { "str_sp": "whiskey" },
     "copy-from": "whiskey",
@@ -42,7 +45,8 @@
     "price_postapoc": "1 cent"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "egg_owlbear",
     "name": "owlbear egg yolk",
     "copy-from": "egg_chicken",
@@ -54,7 +58,8 @@
   },
   {
     "id": "hairball",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "healthy": -1,
     "material": [ "fur", "water" ],
@@ -71,7 +76,8 @@
   },
   {
     "id": "meat_dragon",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "meat",
     "name": { "str_sp": "dragon meat" },
     "description": "The meat from a slain dragon.  It does not seem to respond to cooking the same way as other meat, making it obvious that it still retains some magical properties.",
@@ -79,7 +85,8 @@
   },
   {
     "id": "scream_mush",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "mushroom",
     "name": { "str": "scream mushroom" },
     "description": "The mushrooms harvested from a dead shrieker.  Could be used in potions.",
@@ -87,7 +94,8 @@
   },
   {
     "id": "tea_green",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "tea_green",
     "name": { "str_sp": "green tea" },
     "//": "Same reason as whiskey",
@@ -95,7 +103,8 @@
   },
   {
     "id": "purified_meat",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "meat",
     "extend": { "flags": [ "NUTRIENT_OVERRIDE" ] },
     "name": { "str_sp": "purified meat" },
@@ -105,7 +114,8 @@
   },
   {
     "id": "impure_meat",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "mutant_meat",
     "name": { "str_sp": "impure meat" },
     "description": "Not as tainted as previously and tastes like the real thing.  You do not want to cook this for your friends, though if you do they won't know the difference for a while.",

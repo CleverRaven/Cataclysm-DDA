@@ -1,8 +1,9 @@
 [
   {
     "id": "bbgun",
-    "type": "GUN",
-    "looks_like": "ar15",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "looks_like": "modular_ar15",
     "reload_noise_volume": 10,
     "symbol": "(",
     "color": "brown",
@@ -37,8 +38,9 @@
   },
   {
     "id": "varmint_airgun",
-    "type": "GUN",
-    "looks_like": "ar15",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "looks_like": "modular_ar15",
     "reload_noise_volume": 10,
     "symbol": "(",
     "color": "light_gray",

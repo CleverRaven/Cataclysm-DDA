@@ -2,19 +2,18 @@
 #ifndef CATA_SRC_HARVEST_H
 #define CATA_SRC_HARVEST_H
 
-#include <iosfwd>
-#include <list>
-#include <map>
 #include <set>
 #include <string>
+#include <string_view>
 #include <utility>
 #include <vector>
 
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
 
 class JsonObject;
 class butchery_requirements;
+template <typename T> class generic_factory;
 
 using butchery_requirements_id = string_id<butchery_requirements>;
 
@@ -22,6 +21,7 @@ class harvest_drop_type
 {
     public:
         static void load_harvest_drop_types( const JsonObject &jo, const std::string &src );
+        static void finalize_all();
         static void reset();
         void load( const JsonObject &jo, std::string_view src );
         static const std::vector<harvest_drop_type> &get_all();
@@ -140,6 +140,7 @@ class harvest_list
 
         /** Fills out the set of cached names. */
         static void finalize_all();
+        void finalize();
 
         /** Check consistency of all loaded harvest data */
         static void check_consistency();
@@ -157,7 +158,6 @@ class harvest_list
         translation message_;
         butchery_requirements_id butchery_requirements_;
 
-        void finalize();
 };
 
 #endif // CATA_SRC_HARVEST_H

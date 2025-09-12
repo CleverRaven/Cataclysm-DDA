@@ -2,15 +2,21 @@
 #include <array>
 #include <cstdlib>
 #include <functional>
+#include <iterator>
+#include <list>
+#include <map>
 #include <memory>
 #include <string>
+#include <utility>
+#include <vector>
 
 #include "activity_handlers.h"
-#include "activity_type.h"
 #include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
+#include "coordinates.h"
+#include "creature.h"
 #include "creature_tracker.h"
 #include "damage.h"
 #include "effect.h"
@@ -20,30 +26,38 @@
 #include "field_type.h"
 #include "fungal_effects.h"
 #include "game.h"
+#include "game_constants.h"
 #include "input.h"
-#include "make_static.h"
+#include "item.h"
+#include "item_location.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "martialarts.h"
 #include "messages.h"
 #include "mongroup.h"
-#include "monster.h"
 #include "player_activity.h"
+#include "point.h"
+#include "ret_val.h"
 #include "rng.h"
 #include "sounds.h"
 #include "stomach.h"
 #include "string_formatter.h"
 #include "teleport.h"
+#include "translation.h"
 #include "translations.h"
+#include "type_id.h"
 #include "uistate.h"
 #include "units.h"
 #include "vitamin.h"
 #include "weather.h"
+#include "weighted_list.h"
 
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 
 static const bionic_id bio_sleep_shutdown( "bio_sleep_shutdown" );
+
+static const damage_type_id damage_heat( "heat" );
 
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_alarm_clock( "alarm_clock" );
@@ -99,6 +113,8 @@ static const efftype_id effect_visuals( "visuals" );
 static const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
 static const efftype_id effect_winded( "winded" );
 
+static const flag_id json_flag_TOURNIQUET( "TOURNIQUET" );
+
 static const furn_str_id furn_f_rubble_rock( "f_rubble_rock" );
 
 static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
@@ -138,8 +154,7 @@ static const vitamin_id vitamin_redcells( "redcells" );
 static void eff_fun_onfire( Character &u, effect &it )
 {
     const int intense = it.get_intensity();
-    u.deal_damage( nullptr, it.get_bp(), damage_instance( STATIC( damage_type_id( "heat" ) ),
-                   rng( intense, intense * 2 ) ) );
+    u.deal_damage( nullptr, it.get_bp(), damage_instance( damage_heat, rng( intense, intense * 2 ) ) );
 }
 static void eff_fun_spores( Character &u, effect &it )
 {
@@ -311,6 +326,8 @@ static void eff_fun_rat( Character &u, effect &it )
 }
 static void eff_fun_bleed( Character &u, effect &it )
 {
+    map &here = get_map();
+
     if( u.has_flag( json_flag_CANNOT_TAKE_DAMAGE ) ) {
         return;
     }
@@ -321,7 +338,7 @@ static void eff_fun_bleed( Character &u, effect &it )
     const int intense = it.get_intensity();
     // tourniquet reduces effective bleeding by 2/3 but doesn't modify the effect's intensity
     // proficiency improves that factor to 3/4 and 4/5 respectively
-    bool tourniquet = u.worn_with_flag( STATIC( flag_id( "TOURNIQUET" ) ),  it.get_bp() );
+    bool tourniquet = u.worn_with_flag( json_flag_TOURNIQUET, it.get_bp() );
     int prof_bonus = 3;
     prof_bonus = u.has_proficiency( proficiency_prof_wound_care ) ? prof_bonus + 1 : prof_bonus;
     prof_bonus = u.has_proficiency( proficiency_prof_wound_care_expert ) ? prof_bonus + 1 : prof_bonus;
@@ -361,7 +378,7 @@ static void eff_fun_bleed( Character &u, effect &it )
                 }
                 suffer_string = iter->second;
             }
-            u.bleed();
+            u.bleed( here );
             bodypart_id bp = it.get_bp();
             // piece together the final displayed message here instead of inline, for readability's sake
             // format the chosen string with the relevant variables to make it human-readable, then translate everything we have so far
@@ -596,6 +613,9 @@ static void eff_fun_frostbite( Character &u, effect &it )
 
 static void eff_fun_teleglow( Character &u, effect &it )
 {
+    map &here = get_map();
+    const tripoint_bub_ms pos = u.pos_bub( here );
+
     // Default we get around 300 duration points per teleport (possibly more
     // depending on the source).
     // TODO: Include a chance to teleport to the nether realm.
@@ -606,14 +626,13 @@ static void eff_fun_teleglow( Character &u, effect &it )
     }
     const time_duration dur = it.get_duration();
     Character &player_character = get_player_character();
-    map &here = get_map();
     if( dur > 10_hours ) {
         // 20 teleports (no decay; in practice at least 21)
         if( one_in( 6000 - ( ( dur - 600_minutes ) / 1_minutes ) ) ) {
             if( !u.is_npc() ) {
                 add_msg( _( "Glowing lights surround you, and you teleport." ) );
             }
-            teleport::teleport( u );
+            teleport::teleport_creature( u );
             get_event_bus().send<event_type::teleglow_teleports>( u.getID() );
             if( one_in( 10 ) ) {
                 // Set ourselves up for removal
@@ -642,13 +661,13 @@ static void eff_fun_teleglow( Character &u, effect &it )
         // 12 teleports
         if( one_in( 24000 - ( dur - 360_minutes ) / 4_turns ) ) {
             creature_tracker &creatures = get_creature_tracker();
-            tripoint_bub_ms dest( 0, 0, u.posz() );
+            tripoint_bub_ms dest( 0, 0, pos.z() );
             int &x = dest.x();
             int &y = dest.y();
             int tries = 0;
             do {
-                x = u.posx() + rng( -4, 4 );
-                y = u.posy() + rng( -4, 4 );
+                x = pos.x() + rng( -4, 4 );
+                y = pos.y() + rng( -4, 4 );
                 tries++;
                 if( tries >= 10 ) {
                     break;
@@ -661,9 +680,9 @@ static void eff_fun_teleglow( Character &u, effect &it )
                 std::vector<MonsterGroupResult> spawn_details =
                     MonsterGroupManager::GetResultFromGroup( GROUP_NETHER );
                 for( const MonsterGroupResult &mgr : spawn_details ) {
-                    g->place_critter_at( mgr.name, dest );
+                    g->place_critter_at( mgr.id, dest );
                 }
-                if( uistate.distraction_hostile_spotted && player_character.sees( dest ) ) {
+                if( uistate.distraction_hostile_spotted && player_character.sees( here, dest ) ) {
                     g->cancel_activity_or_ignore_query( distraction_type::hostile_spotted_far,
                                                         _( "A monster appears nearby!" ) );
                     add_msg( m_warning, _( "A portal opens nearby, and a monster crawls through!" ) );
@@ -1231,6 +1250,9 @@ static void eff_fun_sleep( Character &u, effect &it )
 
 void Character::hardcoded_effects( effect &it )
 {
+    map &here = get_map();
+    const tripoint_bub_ms pos = pos_bub( here );
+
     if( const ma_buff *buff = ma_buff::from_effect( it ) ) {
         if( buff->is_valid_character( *this ) ) {
             buff->apply_character( *this );
@@ -1271,7 +1293,6 @@ void Character::hardcoded_effects( effect &it )
     int intense = it.get_intensity();
     const bodypart_id &bp = it.get_bp();
     bool sleeping = has_effect( effect_sleep );
-    map &here = get_map();
     Character &player_character = get_player_character();
     creature_tracker &creatures = get_creature_tracker();
     if( id == effect_formication ) {
@@ -1283,7 +1304,7 @@ void Character::hardcoded_effects( effect &it )
                          body_part_name_accusative( bp ) );
             } else {
                 //~ 1$s is NPC name, 2$s is bodypart in accusative.
-                add_msg_if_player_sees( pos_bub(), _( "%1$s starts scratching their %2$s!" ), get_name(),
+                add_msg_if_player_sees( pos, _( "%1$s starts scratching their %2$s!" ), get_name(),
                                         body_part_name_accusative( bp ) );
             }
             mod_moves( -to_moves<int>( 1_seconds ) * 1.5 );
@@ -1301,11 +1322,11 @@ void Character::hardcoded_effects( effect &it )
     } else if( id == effect_attention ) {
         if( to_turns<int>( dur ) != 0 && one_in( 100000 / to_turns<int>( dur ) ) &&
             one_in( 100000 / to_turns<int>( dur ) ) && one_in( 250 ) ) {
-            tripoint_bub_ms dest( 0, 0, posz() );
+            tripoint_bub_ms dest( 0, 0, pos.z() );
             int tries = 0;
             do {
-                dest.x() = posx() + rng( -4, 4 );
-                dest.y() = posy() + rng( -4, 4 );
+                dest.x() = pos.x() + rng( -4, 4 );
+                dest.y() = pos.y() + rng( -4, 4 );
                 tries++;
             } while( creatures.creature_at( dest ) && tries < 10 );
             if( tries < 10 ) {
@@ -1315,9 +1336,9 @@ void Character::hardcoded_effects( effect &it )
                 std::vector<MonsterGroupResult> spawn_details =
                     MonsterGroupManager::GetResultFromGroup( GROUP_NETHER );
                 for( const MonsterGroupResult &mgr : spawn_details ) {
-                    g->place_critter_at( mgr.name, dest );
+                    g->place_critter_at( mgr.id, dest );
                 }
-                if( uistate.distraction_hostile_spotted && player_character.sees( dest ) ) {
+                if( uistate.distraction_hostile_spotted && player_character.sees( here, dest ) ) {
                     g->cancel_activity_or_ignore_query( distraction_type::hostile_spotted_far,
                                                         _( "A monster appears nearby!" ) );
                     add_msg_if_player( m_warning, _( "A portal opens nearby, and a monster crawls through!" ) );
@@ -1350,7 +1371,7 @@ void Character::hardcoded_effects( effect &it )
         }
     } else if( id == effect_tindrift ) {
         add_msg_if_player( m_bad, _( "You are beset with a vision of a prowling beast." ) );
-        for( const tripoint_bub_ms &dest : here.points_in_radius( pos_bub(), 6 ) ) {
+        for( const tripoint_bub_ms &dest : here.points_in_radius( pos, 6 ) ) {
             if( here.is_cornerfloor( dest ) ) {
                 here.add_field( dest, fd_tindalos_rift, 3 );
                 add_msg_if_player( m_info, _( "Your surroundings are permeated with a foul scent." ) );
@@ -1608,14 +1629,14 @@ void Character::hardcoded_effects( effect &it )
                     it.mod_duration( 10_minutes );
                 } else if( dur == 2_turns ) {
                     // let the sound code handle the wake-up part
-                    sounds::sound( pos_bub(), 16, sounds::sound_t::alarm, _( "beep-beep-beep!" ), false, "tool",
+                    sounds::sound( pos, 16, sounds::sound_t::alarm, _( "beep-beep-beep!" ), false, "tool",
                                    "alarm_clock" );
                 }
             }
         } else {
             if( dur == 1_turns ) {
                 if( player_character.has_alarm_clock() ) {
-                    sounds::sound( player_character.pos_bub(), 16, sounds::sound_t::alarm,
+                    sounds::sound( player_character.pos_bub( here ), 16, sounds::sound_t::alarm,
                                    _( "beep-beep-beep!" ), false, "tool", "alarm_clock" );
                     const std::string alarm = _( "Your alarm is going off." );
                     g->cancel_activity_or_ignore_query( distraction_type::noise, alarm );

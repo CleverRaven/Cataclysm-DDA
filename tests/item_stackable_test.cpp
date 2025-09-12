@@ -1,12 +1,11 @@
-#include <iosfwd>
 #include <memory>
 #include <vector>
 
 #include "cata_catch.h"
+#include "enums.h"
 #include "item_factory.h"
 #include "itype.h"
-#include "type_id.h"
-#include "units.h"
+#include "value_ptr.h"
 
 TEST_CASE( "non-solid-comestibles-are-stackable", "[item]" )
 {

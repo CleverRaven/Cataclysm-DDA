@@ -2,10 +2,12 @@
 #ifndef CATA_SRC_MORALE_TYPES_H
 #define CATA_SRC_MORALE_TYPES_H
 
-#include <iosfwd>
+#include <string>
+#include <string_view>
+#include <utility>
 #include <vector>
 
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
 
 class JsonObject;
@@ -32,6 +34,7 @@ class morale_type_data
         void check() const;
 
         static void load_type( const JsonObject &jo, const std::string &src );
+        static void finalize_all();
         static void check_all();
         static void reset();
 };

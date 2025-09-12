@@ -1,9 +1,7 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "publicgarden",
-    "weight": 100,
     "object": {
       "fill_ter": "t_region_groundcover_urban",
       "rows": [
@@ -39,9 +37,7 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "publicgarden_2",
-    "weight": 100,
     "object": {
       "fill_ter": "t_region_groundcover_urban",
       "rows": [

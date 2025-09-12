@@ -7,13 +7,14 @@
 #include <utility>
 
 #include "cata_assert.h"
+#include "coordinates.h"
+#include "debug.h"
 #include "enums.h"
 #include "math_defines.h"
 #include "output.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "units.h"
-#include "units_fwd.h"
 
 bool trigdist;
 
@@ -222,13 +223,13 @@ void bresenham( const tripoint_bub_ms &loc1, const tripoint_bub_ms &loc2, int t,
 //probably slow, so leaving two full functions for now
 std::vector<point> line_to( const point &p1, const point &p2, int t )
 {
-    std::vector<point> line;
     // Preallocate the number of cells we need instead of allocating them piecewise.
-    const int numCells = square_dist( p1, p2 );
-    if( numCells == 0 ) {
+    const int numCells = square_dist( p1, p2 ) + 1;
+    std::vector<point> line;
+    line.reserve( numCells );
+    if( numCells == 1 ) {
         line.push_back( p1 );
     } else {
-        line.reserve( numCells );
         bresenham( point_bub_ms( p1 ), point_bub_ms( p2 ), t, [&line]( const point_bub_ms & new_point ) {
             line.push_back( new_point.raw() );
             return true;
@@ -239,13 +240,13 @@ std::vector<point> line_to( const point &p1, const point &p2, int t )
 
 std::vector <tripoint> line_to( const tripoint &loc1, const tripoint &loc2, int t, int t2 )
 {
-    std::vector<tripoint> line;
     // Preallocate the number of cells we need instead of allocating them piecewise.
-    const int numCells = square_dist( loc1, loc2 );
-    if( numCells == 0 ) {
+    const int numCells = square_dist( loc1, loc2 ) + 1;
+    std::vector<tripoint> line;
+    line.reserve( numCells );
+    if( numCells == 1 ) {
         line.push_back( loc1 );
     } else {
-        line.reserve( numCells );
         bresenham( tripoint_bub_ms( loc1 ), tripoint_bub_ms( loc2 ), t,
         t2, [&line]( const tripoint_bub_ms & new_point ) {
             line.push_back( new_point.raw() );
@@ -253,6 +254,34 @@ std::vector <tripoint> line_to( const tripoint &loc1, const tripoint &loc2, int 
         } );
     }
     return line;
+}
+
+std::vector<point_abs_om> orthogonal_line_to( const point_abs_om &p1, const point_abs_om &p2 )
+{
+    // Preallocate the number of cells we need instead of allocating them piecewise.
+    const int numCells = manhattan_dist( p1, p2 ) + 1;
+    std::vector<point_abs_om> points;
+    points.reserve( numCells );
+    point diff( p2.x() - p1.x(), p2.y() - p1.y() );
+    point diff_abs = diff.abs();
+    point diff_sign( diff.x > 0 ? 1 : -1, diff.y > 0 ? 1 : -1 );
+
+    point_abs_om iter = p1;
+    points.emplace_back( iter );
+    point i;
+    for( i.x = 0, i.y = 0; i.x < diff_abs.x || i.y < diff_abs.y; ) {
+        if( ( 0.5 + i.x ) / diff_abs.x < ( 0.5 + i.y ) / diff_abs.y ) {
+            // next step is horizontal
+            iter.x() += diff_sign.x;
+            i.x++;
+        } else {
+            // next step is vertical
+            iter.y() += diff_sign.y;
+            i.y++;
+        }
+        points.emplace_back( iter );
+    }
+    return points;
 }
 
 float rl_dist_exact( const tripoint &loc1, const tripoint &loc2 )
@@ -674,6 +703,15 @@ std::string direction_arrow( const direction dir )
 }
 
 std::string direction_suffix( const tripoint_bub_ms &p, const tripoint_bub_ms &q )
+{
+    int dist = square_dist( p, q );
+    if( dist <= 0 ) {
+        return std::string();
+    }
+    return string_format( "%d%s", dist, trim( direction_name_short( direction_from( p, q ) ) ) );
+}
+
+std::string direction_suffix( const tripoint_abs_ms &p, const tripoint_abs_ms &q )
 {
     int dist = square_dist( p, q );
     if( dist <= 0 ) {

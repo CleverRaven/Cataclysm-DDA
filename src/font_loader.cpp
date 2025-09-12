@@ -36,7 +36,7 @@ unsigned int font_config::imgui_config() const
     return ret;
 }
 
-static std::optional<ImGuiFreeTypeBuilderFlags> hint_to_fonthint( const std::string_view hinting )
+static std::optional<ImGuiFreeTypeBuilderFlags> hint_to_fonthint( std::string_view hinting )
 {
     if( hinting == "Auto" ) {
         return ImGuiFreeTypeBuilderFlags_ForceAutoHint;
@@ -122,6 +122,11 @@ static void load_font_from_config( const JsonObject &config, const std::string &
                           key );
             }
         }
+    } else if( key == "gui_typeface" &&
+               !config.has_member( key ) ) { // More legacy migration, remove after 0.I
+        typefaces.emplace_back( "data/font/Roboto-Medium.ttf", ImGuiFreeTypeBuilderFlags_LightHinting );
+        typefaces.emplace_back( "data/font/Terminus.ttf", ImGuiFreeTypeBuilderFlags_Bitmap );
+        typefaces.emplace_back( "data/font/unifont.ttf" ); // default hinting
     } else {
         debugmsg( "Font specifiers must be an array, object, or string." );
     }
@@ -194,7 +199,7 @@ void font_loader::save( const cata_path &path ) const
         write_to_file( path, [&]( std::ostream & stream ) {
             JsonOut json( stream, true ); // pretty-print
             json.start_object();
-            json.member( "//", "See docs/FONT_OPTIONS.md for an explanation of this file." );
+            json.member( "//", "See docs/user-guides/FONT_OPTIONS.md for an explanation of this file." );
             json.member( "typeface" );
             write_font_config( json, typeface );
             json.member( "gui_typeface" );

@@ -2,27 +2,27 @@
 #ifndef CATA_SRC_PROFESSION_H
 #define CATA_SRC_PROFESSION_H
 
-#include <iosfwd>
 #include <list>
 #include <map>
+#include <optional>
 #include <set>
 #include <string>
+#include <string_view>
 #include <utility>
 #include <vector>
 
+#include "addiction.h"
+#include "mutation.h"
 #include "ret_val.h"
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
 
+class Character;
 class JsonObject;
-class addiction;
 class avatar;
 class item;
-class Character;
 template<typename T>
 class generic_factory;
-
-struct trait_and_var;
 
 class profession
 {
@@ -54,6 +54,7 @@ class profession
         translation _description_male;
         translation _description_female;
         signed int _point_cost = 0;
+        std::optional<signed int> _starting_cash = std::nullopt;
 
         // TODO: In professions.json, replace lists of itypes (legacy) with item groups
         itypedecvec legacy_starting_items;
@@ -65,7 +66,10 @@ class profession
         itype_id no_bonus; // See profession::items and class json_item_substitution in profession.cpp
 
         // does this profession require a specific achiement to unlock
-        std::optional<achievement_id> _requirement;
+        std::vector<achievement_id> _requirements;
+        // does this profession require the requirement even when metaprogression is disabled?
+        bool hard_requirement = false;
+        bool _chargen_allow_npc = true;
 
         std::vector<addiction> _starting_addictions;
         std::vector<bionic_id> _starting_CBMs;
@@ -82,6 +86,7 @@ class profession
         vproto_id _starting_vehicle = vproto_id::NULL_ID();
         // the int is what level the spell starts at
         std::map<spell_id, int> _starting_spells;
+        std::vector<effect_on_condition_id> effect_on_conditions;
         std::set<std::string> flags; // flags for some special properties of the profession
         StartingSkillList  _starting_skills;
         std::vector<mission_type_id> _missions; // starting missions for profession
@@ -97,6 +102,7 @@ class profession
         profession();
 
         static void load_profession( const JsonObject &jo, const std::string &src );
+        static void finalize_all();
         static void load_item_substitutions( const JsonObject &jo );
 
         // these should be the only ways used to get at professions
@@ -116,6 +122,7 @@ class profession
         std::string gender_appropriate_name( bool male ) const;
         std::string description( bool male ) const;
         signed int point_cost() const;
+        std::optional<signed int> starting_cash() const;
         std::list<item> items( bool male, const std::vector<trait_id> &traits ) const;
         std::vector<addiction> addictions() const;
         vproto_id vehicle() const;
@@ -134,13 +141,14 @@ class profession
 
         std::vector<std::pair<string_id<profession>, mod_id>> src;
 
-        std::optional<achievement_id> get_requirement() const;
+        std::vector<achievement_id> get_requirements() const;
 
         std::map<spell_id, int> spells() const;
         void learn_spells( avatar &you ) const;
-
+        std::vector<effect_on_condition_id> get_eocs() const;
         //returns the profession id
         profession_id get_profession_id() const;
+        bool has_hard_requirement() const;
 
         /**
          * Check if this type of profession has a certain flag set.
@@ -163,6 +171,7 @@ class profession
         ret_val<void> can_pick() const;
         bool is_locked_trait( const trait_id &trait ) const;
         bool is_forbidden_trait( const trait_id &trait ) const;
+        bool chargen_allow_npc() const;
         std::vector<trait_and_var> get_locked_traits() const;
         std::set<trait_id> get_forbidden_traits() const;
         trait_id pick_background() const;

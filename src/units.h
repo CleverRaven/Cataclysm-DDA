@@ -2,21 +2,22 @@
 #ifndef CATA_SRC_UNITS_H
 #define CATA_SRC_UNITS_H
 
-#include <cctype>
 #include <algorithm>
+#include <cctype>
 #include <cmath>
 #include <cstddef>
 #include <limits>
 #include <map>
 #include <sstream>
 #include <string>
+#include <string_view>
 #include <type_traits>
 #include <utility>
 #include <vector>
 
+#include "flexbuffer_json.h"
 #include "json.h"
 #include "math_defines.h"
-#include "translations.h"
 #include "units_fwd.h" // IWYU pragma: export
 
 class time_duration;
@@ -52,6 +53,15 @@ class quantity
         // NOLINTNEXTLINE(google-explicit-constructor)
         constexpr quantity( const quantity<other_value_type, unit_type> &other ) :
             value_( other.value() ) {
+        }
+
+        //returns the smallest possible value for this unit
+        static constexpr this_type min() {
+            return this_type( std::numeric_limits<value_type>::min(), unit_type{} );
+        }
+        //returns the largest possible value for this unit
+        static constexpr this_type max() {
+            return this_type( std::numeric_limits<value_type>::max(), unit_type{} );
         }
 
         /**
@@ -293,12 +303,6 @@ operator%=( quantity<lvt, ut> &lhs, const quantity<rvt, ut> &rhs )
 }
 /**@}*/
 
-const volume volume_min = units::volume( std::numeric_limits<units::volume::value_type>::min(),
-                          units::volume::unit_type{} );
-
-const volume volume_max = units::volume( std::numeric_limits<units::volume::value_type>::max(),
-                          units::volume::unit_type{} );
-
 template<typename value_type>
 inline constexpr quantity<value_type, volume_in_milliliter_tag> from_milliliter(
     const value_type v )
@@ -322,12 +326,6 @@ inline constexpr double to_liter( const volume &v )
 {
     return v.value() / 1000.0;
 }
-
-const mass mass_min = units::mass( std::numeric_limits<units::mass::value_type>::min(),
-                                   units::mass::unit_type{} );
-
-const mass mass_max = units::mass( std::numeric_limits<units::mass::value_type>::max(),
-                                   units::mass::unit_type{} );
 
 template<typename value_type>
 inline constexpr quantity<value_type, mass_in_milligram_tag> from_milligram(
@@ -367,13 +365,6 @@ inline constexpr double to_kilogram( const mass &v )
     return v.value() / 1000000.0;
 }
 
-// Specific energy
-const specific_energy specific_energy_min = units::specific_energy(
-            std::numeric_limits<units::specific_energy::value_type>::min(), units::specific_energy::unit_type{} );
-
-const specific_energy specific_energy_max = units::specific_energy(
-            std::numeric_limits<units::specific_energy::value_type>::max(), units::specific_energy::unit_type{} );
-
 template<typename value_type>
 inline constexpr quantity<value_type, specific_energy_in_joule_per_gram_tag>
 from_joule_per_gram( const value_type v )
@@ -388,13 +379,6 @@ inline constexpr value_type to_joule_per_gram( const
 {
     return v.value();
 }
-
-// Temperature
-// Absolute zero - possibly should just be INT_MIN
-const temperature temperature_min = units::temperature( 0, units::temperature::unit_type{} );
-
-const temperature temperature_max = units::temperature(
-                                        std::numeric_limits<units::temperature::value_type>::max(), units::temperature::unit_type{} );
 
 template<typename value_type>
 inline constexpr quantity<units::temperature::value_type, temperature_in_kelvin_tag> from_kelvin(
@@ -453,15 +437,6 @@ inline constexpr int to_legacy_bodypart_temp( const
     const auto c = units::to_celsius( v );
     return static_cast<int>( ( c - 37.0 ) * 500.0 + 5000.0 );
 }
-
-// Temperature delta
-// Absolute zero - possibly should just be INT_MIN
-const temperature_delta temperature_delta_min = units::temperature_delta( 0,
-        units::temperature_delta::unit_type{} );
-
-const temperature_delta temperature_delta_max = units::temperature_delta(
-            std::numeric_limits<units::temperature_delta::value_type>::max(),
-            units::temperature_delta::unit_type{} );
 
 template<typename value_type>
 inline constexpr quantity<units::temperature_delta::value_type, temperature_delta_in_kelvin_tag>
@@ -523,13 +498,6 @@ inline constexpr int to_legacy_bodypart_temp_delta( const
 }
 
 // Energy
-
-const energy energy_min = units::energy( std::numeric_limits<units::energy::value_type>::min(),
-                          units::energy::unit_type{} );
-
-const energy energy_max = units::energy( std::numeric_limits<units::energy::value_type>::max(),
-                          units::energy::unit_type{} );
-
 template<typename value_type>
 inline constexpr quantity<value_type, energy_in_millijoule_tag> from_millijoule(
     const value_type v )
@@ -577,13 +545,6 @@ inline constexpr value_type to_kilojoule( const quantity<value_type, energy_in_m
 }
 
 // Power (watts)
-
-const power power_min = units::power( std::numeric_limits<units::power::value_type>::min(),
-                                      units::power::unit_type{} );
-
-const power power_max = units::power( std::numeric_limits<units::power::value_type>::max(),
-                                      units::power::unit_type{} );
-
 template<typename value_type>
 inline constexpr quantity<value_type, power_in_milliwatt_tag> from_milliwatt(
     const value_type v )
@@ -631,13 +592,6 @@ inline constexpr value_type to_kilowatt( const quantity<value_type, power_in_mil
 }
 
 // Money(cents)
-
-const money money_min = units::money( std::numeric_limits<units::money::value_type>::min(),
-                                      units::money::unit_type{} );
-
-const money money_max = units::money( std::numeric_limits<units::money::value_type>::max(),
-                                      units::money::unit_type{} );
-
 template<typename value_type>
 inline constexpr quantity<value_type, money_in_cent_tag> from_cent(
     const value_type v )
@@ -674,12 +628,6 @@ inline constexpr value_type to_kusd( const quantity<value_type, money_in_cent_ta
 {
     return to_usd( v ) / 1000.0;
 }
-
-const length length_min = units::length( std::numeric_limits<units::length::value_type>::min(),
-                          units::length::unit_type{} );
-
-const length length_max = units::length( std::numeric_limits<units::length::value_type>::max(),
-                          units::length::unit_type{} );
 
 template<typename value_type>
 inline constexpr quantity<value_type, length_in_millimeter_tag> from_millimeter(
@@ -766,6 +714,27 @@ inline constexpr double to_arcmin( const units::angle v )
     return to_degrees( v ) * 60;
 }
 
+template<typename value_type>
+inline constexpr quantity<value_type, ememory_in_kilobytes_tag> from_kilobytes( const value_type v )
+{
+    return quantity<value_type, ememory_in_kilobytes_tag>( v, ememory_in_kilobytes_tag{} );
+}
+template<typename value_type>
+inline constexpr quantity<value_type, ememory_in_kilobytes_tag> from_megabytes( const value_type v )
+{
+    return from_kilobytes<value_type>( v ) * 1000;
+}
+template<typename value_type>
+inline constexpr quantity<value_type, ememory_in_kilobytes_tag> from_gigabytes( const value_type v )
+{
+    return from_megabytes<value_type>( v ) * 1000;
+}
+template<typename value_type>
+inline constexpr quantity<value_type, ememory_in_kilobytes_tag> from_terabytes( const value_type v )
+{
+    return from_gigabytes<value_type>( v ) * 1000;
+}
+
 // converts a volume as if it were a cube to the length of one side
 template<typename value_type>
 inline constexpr quantity<value_type, length_in_millimeter_tag> default_length_from_volume(
@@ -834,7 +803,7 @@ inline std::ostream &operator<<( std::ostream &o, const quantity<value_type, tag
 }
 
 std::string display( const units::energy &v );
-
+std::string display( const units::ememory &v );
 std::string display( units::power v );
 
 } // namespace units
@@ -1091,6 +1060,22 @@ inline constexpr units::angle operator""_arcmin( const unsigned long long v )
 {
     return units::from_arcmin( v );
 }
+inline constexpr units::ememory operator""_KB( const unsigned long long b )
+{
+    return units::from_kilobytes( b );
+}
+inline constexpr units::ememory operator""_MB( const unsigned long long b )
+{
+    return units::from_megabytes( b );
+}
+inline constexpr units::ememory operator""_GB( const unsigned long long b )
+{
+    return units::from_gigabytes( b );
+}
+inline constexpr units::ememory operator""_TB( const unsigned long long b )
+{
+    return units::from_terabytes( b );
+}
 
 namespace units
 {
@@ -1180,6 +1165,13 @@ const std::vector<std::pair<std::string, angle>> angle_units = { {
 };
 const std::vector<std::pair<std::string, temperature>> temperature_units = { {
         { "K", 1_K }
+    }
+};
+const std::vector<std::pair<std::string, ememory>> ememory_units = { {
+        { "KB", 1_KB },
+        { "MB", 1_MB },
+        { "GB", 1_GB },
+        { "TB", 1_TB }
     }
 };
 

@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "football_field_a1", "football_field_a2", "football_field_a3", "football_field_a4", "football_field_a5" ],
       [ "football_field_b1", "football_field_b2", "football_field_b3", "football_field_b4", "football_field_b5" ],
@@ -98,7 +97,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "football_field_B1", "football_field_B5" ] ],
     "object": {
       "rows": [
@@ -132,7 +130,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "football_field_C5" ],
     "object": {
       "rows": [

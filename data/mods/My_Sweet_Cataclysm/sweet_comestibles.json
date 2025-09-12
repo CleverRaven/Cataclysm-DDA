@@ -1,6 +1,7 @@
 [
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "broken_necco",
     "name": "necco corpse",
     "symbol": "%",
@@ -21,7 +22,8 @@
     "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "marshmallow",
     "name": { "str_sp": "marshmallows" },
     "symbol": "%",
@@ -32,7 +34,8 @@
     "spoils_in": "15 days"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "smores",
     "name": { "str_sp": "s'mores" },
     "symbol": "%",
@@ -43,7 +46,8 @@
     "spoils_in": "15 days"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "candy3",
     "name": { "str_sp": "chewy candy" },
     "description": "A handful of colorful fruit-flavored chewy candy.  They feel warm to the touch and you can almost feel a slow beat coming from them.  How odd…",
@@ -54,7 +58,8 @@
     "spoils_in": "15 days"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "candy3gator",
     "name": { "str_sp": "chewy reptilian candy" },
     "description": "A handful of colorful fruit-flavored chewy candy shaped in a reptilian fashion.  They're warm to the touch and you can feel a slow beat coming from them.  How odd…",
@@ -65,7 +70,8 @@
     "spoils_in": "15 days"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "grahmcrackers",
     "name": "graham cracker",
     "symbol": "%",
@@ -76,7 +82,8 @@
     "spoils_in": "20 days"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "grahmcrackers_roe",
     "name": { "str_sp": "graham cracker roe" },
     "symbol": "%",
@@ -87,7 +94,8 @@
     "spoils_in": "20 days"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "cookies",
     "name": "cookie",
     "symbol": "%",
@@ -98,7 +106,8 @@
     "spoils_in": "10 days"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "cookies_egg",
     "name": "cookie egg",
     "symbol": "%",
@@ -109,7 +118,8 @@
     "spoils_in": "10 days"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "gum",
     "name": "chewing gum",
     "comestible_type": "FOOD",
@@ -120,7 +130,8 @@
     "spoils_in": "5 days"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "caff_gum",
     "name": "caffeinated chewing gum",
     "comestible_type": "FOOD",
@@ -131,7 +142,8 @@
     "spoils_in": "7 days"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "cow_candy",
     "name": { "str_sp": "candy cattle" },
     "description": "A handful of chocolate candies shaped like cows.  They're really warm, enough to make you wonder how they haven't melted.",
@@ -142,7 +154,8 @@
     "spoils_in": "10 days"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "milk_raw_choc",
     "name": { "str_sp": "raw chocolate milk" },
     "copy-from": "milk_raw",
@@ -150,14 +163,16 @@
     "description": "This is raw, unhomogenized and unpasteurized chocolate milk from a chocolate cow.  It couldn't be any fresher unless you drank it straight from the cow, which might upset it.  Depending on your dietary sensibilities, you might want to pasteurize or even boil this before drinking."
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "milk_choc",
     "name": { "str_sp": "chocolate milk" },
     "copy-from": "milk_choc",
     "description": "Baby chocolate cow food, appropriated for adult humans.  Spoils rapidly."
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "liquid_cacao",
     "name": { "str_sp": "liquid cacao" },
     "weight": "258 g",
@@ -180,7 +195,8 @@
     "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "milk_reconstituted_choc",
     "name": { "str_sp": "reconstituted chocolate milk" },
     "//": "Not in base game because people don't seem to do this IRL, with chocolate cows they might.",
@@ -189,7 +205,8 @@
     "description": "Baby chocolate cow food, appropriated for adult humans.  This milk has been reconstituted from a processed milk.  Spoils rapidly."
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "milk_powder_choc",
     "name": { "str_sp": "powdered chocolate milk" },
     "//": "Not in base game because people don't seem to do this IRL, with chocolate cows they might.",
@@ -200,7 +217,8 @@
     "fun": -1
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "licorice",
     "name": { "str_sp": "licorice" },
     "symbol": "%",

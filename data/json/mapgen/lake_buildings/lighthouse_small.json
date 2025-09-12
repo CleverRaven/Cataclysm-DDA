@@ -97,7 +97,7 @@
     },
     "items": {
       "ß": { "item": "tools_workshop", "chance": 50 },
-      "_": { "item": "trash_domestic", "chance": 10 },
+      "_": { "item": "SUS_trash_floor", "chance": 10 },
       "P": { "item": "dishes_utility", "repeat": [ 1, 6 ] },
       "O": { "item": "lighthouse_rainwater" },
       "¤": { "item": "lighthouse_fuel", "chance": 50 },
@@ -111,7 +111,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "lighthouse_small_ground",
     "object": {
       "fill_ter": "t_floor",
@@ -142,12 +141,11 @@
         "≈≈≈≈≈≈≈≈≈≈≈≈¨¨≈≈≈≈≈≈≈≈≈≈"
       ],
       "palettes": [ "lighthouse_small_palette" ],
-      "place_vehicles": [ { "vehicle": "boat_motor_single", "x": 4, "y": 6, "rotation": 180, "chance": 100, "status": 0 } ]
+      "place_vehicles": [ { "vehicle": "boat_motor_single", "x": 4, "y": 6, "rotation": 180, "status": 0 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "lighthouse_small_z1",
     "object": {
       "fill_ter": "t_stone_masonry_floor",
@@ -182,7 +180,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "lighthouse_small_z2",
     "object": {
       "fill_ter": "t_stone_masonry_floor",
@@ -217,7 +214,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "lighthouse_small_z3",
     "object": {
       "fill_ter": "t_stone_masonry_floor",
@@ -252,7 +248,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "lighthouse_small_z4",
     "object": {
       "fill_ter": "t_stone_masonry_floor",
@@ -287,7 +282,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "lighthouse_small_roof",
     "object": {
       "fill_ter": "t_open_air",

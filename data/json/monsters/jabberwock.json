@@ -26,7 +26,7 @@
     "special_attacks": [ [ "FLESH_GOLEM", 10 ], [ "ABSORB_MEAT", 10 ] ],
     "harvest": "zombie_humanoid",
     "dissect": "dissect_beast_sample_small",
-    "upgrades": { "half_life": 42, "into": "mon_flesh_golem" },
+    "upgrades": { "half_life": 168, "into": "mon_flesh_golem" },
     "zombify_into": "mon_meat_cocoon_small",
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "ATTACKMON", "POISON" ],
     "armor": { "bash": 2, "cut": 2, "bullet": 2, "electric": 1 }
@@ -58,7 +58,7 @@
     "special_attacks": [ [ "FLESH_GOLEM", 8 ], [ "ABSORB_MEAT", 1 ] ],
     "harvest": "flesh_golem",
     "dissect": "dissect_beast_sample_small",
-    "upgrades": { "half_life": 60, "into": "mon_jabberwock" },
+    "upgrades": { "half_life": 240, "into": "mon_jabberwock" },
     "zombify_into": "mon_meat_cocoon_med",
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "ATTACKMON", "POISON" ],
     "armor": { "bash": 6, "cut": 4, "bullet": 3, "electric": 1 }

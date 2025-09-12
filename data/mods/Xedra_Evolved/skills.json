@@ -8,6 +8,30 @@
     "tags": [ "combat_skill" ],
     "time_to_attack": { "min_time": 60, "base_time": 200, "time_reduction_per_level": 14 },
     "display_category": "display_interaction",
+    "level_descriptions_theory": [
+      { "level": 0, "description": "You can't even think yourself out of a paper bag." },
+      { "level": 1, "description": "You get the gist of playing a round of chess." },
+      {
+        "level": 3,
+        "description": "You realized that one weird tabloid paper you've read a long time ago might have been correct all this time."
+      },
+      { "level": 5, "description": "You probably know how to deduce an electronic lock's password." },
+      { "level": 7, "description": "You can easily rule out non-magickal causes in a given situation." },
+      { "level": 9, "description": "You're aware of more supernatural happenings than everyone else." },
+      { "level": 10, "description": "You know even what you don't know." }
+    ],
+    "level_descriptions_practice": [
+      { "level": 0, "description": "You can't even solve a simple Sudoku puzzle." },
+      { "level": 1, "description": "You can deduce the whereabouts of your missing item in your house." },
+      { "level": 3, "description": "You solve murder mysteries in the first chapter." },
+      {
+        "level": 5,
+        "description": "You can figure out the workings of the world mundane and supernatural from some observations."
+      },
+      { "level": 7, "description": "You're basically modern day Sherlock Holmes." },
+      { "level": 9, "description": "No secret is safe from you." },
+      { "level": 10, "description": "Even the unknowable unknowns are known to you." }
+    ],
     "sort_rank": 26500,
     "companion_skill_practice": [ { "skill": "speech", "weight": 1 }, { "skill": "devices", "weight": 1 } ]
   }

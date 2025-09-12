@@ -1,7 +1,8 @@
 [
   {
     "id": "lsurvivor_pants",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str_sp": "light survivor cargo pants" },
     "description": "Lightweight, Kevlar armored cargo pants designed to hold as much as possible.  Strong and mostly waterproof.",
@@ -65,7 +66,8 @@
   },
   {
     "id": "xl_lsurvivor_pants",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "lsurvivor_pants",
     "name": { "str_sp": "light survivor cargo pants" },
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
@@ -73,7 +75,8 @@
   },
   {
     "id": "xs_lsurvivor_pants",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "lsurvivor_pants",
     "name": { "str_sp": "light survivor cargo pants" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -81,7 +84,8 @@
   },
   {
     "id": "pants_survivor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str_sp": "survivor cargo pants" },
     "description": "A pair of Kevlar armored pants covered with pouches and pockets.  Custom-built to be durable, comfortable, and easy to wear.",
@@ -160,7 +164,8 @@
   },
   {
     "id": "xl_pants_survivor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "pants_survivor",
     "name": { "str_sp": "survivor cargo pants" },
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
@@ -168,7 +173,8 @@
   },
   {
     "id": "xs_pants_survivor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "pants_survivor",
     "name": { "str_sp": "survivor cargo pants" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -176,7 +182,8 @@
   },
   {
     "id": "armor_mercenary_bottom",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "mercenary pants" },
     "description": "A sturdy pair of pants fit for a soldier of fortune.  Made from work pants padded with Kevlar panels.  It gives good protection and decent storage, but the added thickness makes it uncomfortable to wear any armor over it.",
     "//": "weight is currently an estimation could be better",

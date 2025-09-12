@@ -1,17 +1,17 @@
 [
   {
     "abstract": "vehicle_alternator",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "vehicle alternator", "//~": "NO_I18N" },
     "category": "veh_parts",
-    "material": [ "steel", "copper" ],
+    "material": [ "lc_steel", "copper" ],
     "symbol": ",",
     "color": "light_cyan"
   },
   {
     "id": "alternator_car",
     "copy-from": "vehicle_alternator",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "car alternator" },
     "description": "A standard alternator used to power vehicle electrical systems.",
     "weight": "4000 g",
@@ -22,7 +22,7 @@
   {
     "id": "alternator_motorbike",
     "copy-from": "vehicle_alternator",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "motorbike alternator" },
     "description": "A compact, lightweight alternator used to power small vehicle electrical systems.",
     "weight": "1100 g",
@@ -33,7 +33,7 @@
   {
     "id": "alternator_bicycle",
     "copy-from": "vehicle_alternator",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "bicycle alternator" },
     "description": "A very lightweight alternator used to power a bicycle's headlights.",
     "weight": "1100 g",
@@ -44,7 +44,7 @@
   {
     "id": "alternator_truck",
     "copy-from": "vehicle_alternator",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "truck alternator" },
     "description": "A larger and more powerful alternator used to power vehicle electrical systems.",
     "weight": "5800 g",

@@ -677,6 +677,37 @@
     "components": [ [ [ "buckwheat_stalks", 1 ] ] ]
   },
   {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "dry_canola_stalks",
+    "charges": 1,
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRY",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "18 m",
+    "autolearn": true,
+    "batch_time_factors": [ 67, 2 ],
+    "tools": [ [ [ "dehydrating_heat", 12, "LIST" ] ] ],
+    "components": [ [ [ "canola_stalks", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "dry_canola_stalks",
+    "charges": 1,
+    "category": "CC_FOOD",
+    "id_suffix": "frozen_ingredients",
+    "subcategory": "CSC_FOOD_DRY",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "20 m",
+    "autolearn": true,
+    "batch_time_factors": [ 67, 2 ],
+    "tools": [ [ [ "dehydrating_heat", 12, "LIST" ] ], [ [ "surface_heat", 2, "LIST" ] ] ],
+    "components": [ [ [ "canola_stalks", 1 ] ] ]
+  },
+  {
     "result": "dry_veggy_tainted",
     "charges": 1,
     "type": "recipe",

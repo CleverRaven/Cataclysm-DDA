@@ -2,13 +2,11 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_mansion_+1",
-    "method": "json",
     "object": { "set": [ { "point": "furniture", "id": "f_bulletin", "x": 9, "y": 9 } ] }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_mansion_+1_radio",
-    "method": "json",
     "object": {
       "set": [
         { "point": "terrain", "id": "t_radio_tower", "x": 8, "y": 9 },
@@ -18,7 +16,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmc_mansion_+1_prefarm",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -43,7 +40,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_mansion_+1_farm",
-    "method": "json",
     "object": {
       "place_nested": [
         { "chunks": [ "fbmc_mansion_+1_prefarm" ], "x": 6, "y": 6 },

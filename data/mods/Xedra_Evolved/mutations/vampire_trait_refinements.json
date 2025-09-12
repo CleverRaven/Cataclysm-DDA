@@ -1,0 +1,47 @@
+[
+  {
+    "type": "mutation",
+    "id": "VAMPIRIC_STRENGTH_REFINEMENT_SMASHING_TILES",
+    "points": 3,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "player_display": false,
+    "name": { "str": "Unholy Devastation" },
+    "description": "You gain additional strength when smashing terrain when you have Vigor Mortis active."
+  },
+  {
+    "type": "mutation",
+    "id": "BLOODHASTE_REFINEMENT_WATER_RUN",
+    "points": 3,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "player_display": false,
+    "name": { "str": "Zephyr" },
+    "description": "You can run across water when you have Blood-driven Speed active."
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRIC_RESILIENCE_REFINEMENT_INVINCIBILITY",
+    "points": 3,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "player_display": false,
+    "name": { "str": "Flesh of Marble" },
+    "description": "The first attack after activating Sanguine Resilience does no damage."
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_HEIGHTENED_SENSES_REFINEMENT_SEE_INVISIBLE",
+    "points": 3,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "player_display": false,
+    "name": { "str": "Soulsight" },
+    "description": "You can see invisible creatures.",
+    "flags": [ "TRUE_SEEING" ]
+  }
+]

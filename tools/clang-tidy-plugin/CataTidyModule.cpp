@@ -59,10 +59,10 @@ class CataModule : public ClangTidyModule
             // the same version we linked against
 
             std::string RuntimeVersion = getClangFullVersion();
-            if( !StringRef( RuntimeVersion ).contains( "clang version " CLANG_VERSION_STRING ) ) {
+            if( !llvm::StringRef( RuntimeVersion ).contains( "clang version " CLANG_VERSION_STRING ) ) {
                 llvm::report_fatal_error(
-                    Twine( "clang version mismatch in CataTidyModule.  Compiled against "
-                           CLANG_VERSION_STRING " but loaded by ", RuntimeVersion ) );
+                    llvm::Twine( "clang version mismatch in CataTidyModule.  Compiled against "
+                                 CLANG_VERSION_STRING " but loaded by ", RuntimeVersion ) );
                 abort(); // NOLINT(cata-assert)
             }
             CheckFactories.registerCheck<AlmostNeverAutoCheck>( "cata-almost-never-auto" );

@@ -2,7 +2,7 @@
   {
     "id": "retreat_map",
     "copy-from": "abstractmap",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "maps",
     "name": "vacation brochure",
     "description": "This is a glossy brochure encouraging students to book vacations at a lake retreat or remote cabin.  The brochure includes lush photographs of a tower on an island and a remote looking cabin in the woods.  It includes a map of the areas.",
@@ -17,7 +17,7 @@
   {
     "id": "lair_map",
     "copy-from": "abstractmap",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "maps",
     "name": "lair map",
     "description": "This is a well worn map.  It has pictures of fantastical beasts embellishing the carefully drawn map markers.",
@@ -37,7 +37,7 @@
   },
   {
     "id": "wizard_photo",
-    "type": "GENERIC",
+    "type": "ITEM",
     "//": "Unique item for magic_basement.",
     "category": "other",
     "name": "old photo",
@@ -50,7 +50,8 @@
     "color": "light_gray"
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "id": "book_nonf_magic_origin_of_species",
     "name": {
       "str": "On the Origin of Species by Means of Natural and Supernatural Selection",
@@ -64,7 +65,6 @@
     "time": "15 m",
     "chapters": 18,
     "//": "Extra chapters to account for talking about magic",
-    "fun": 2,
     "weight": "484 g",
     "volume": "654 ml",
     "longest_side": "23 cm",
@@ -72,10 +72,12 @@
     "price_postapoc": "15 USD",
     "material": [ "paper" ],
     "copy-from": "book_nonf_soft_tpl",
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 2 },
+    "read_fun": 2
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "id": "book_nonf_empty_social_history_no_magic",
     "name": {
       "str": "Running on Empty: A Social History of those Born Without Magic",
@@ -88,7 +90,6 @@
     "color": "light_gray",
     "time": "20 m",
     "chapters": 15,
-    "fun": 1,
     "weight": "1000 g",
     "volume": "885 ml",
     "longest_side": "23 cm",
@@ -96,10 +97,12 @@
     "price_postapoc": "10 USD",
     "material": [ "paper" ],
     "copy-from": "book_nonf_soft_tpl",
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 2 },
+    "read_fun": 1
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "id": "book_nonf_history_antimagic_restraints",
     "name": {
       "str": "Prisons and Magic: The History of Past and Present Antimagic Restraints",
@@ -112,7 +115,6 @@
     "color": "light_gray",
     "time": "20 m",
     "chapters": 15,
-    "fun": 1,
     "weight": "1000 g",
     "volume": "885 ml",
     "longest_side": "23 cm",
@@ -120,10 +122,12 @@
     "price_postapoc": "10 USD",
     "material": [ "paper" ],
     "copy-from": "book_nonf_soft_tpl",
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 2 },
+    "read_fun": 1
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "id": "magazine_augmentative_review",
     "copy-from": "mag_news",
     "name": { "str": "Augmentative Technomancy Review", "str_pl": "issues of Augmentative Technomancy Review" },

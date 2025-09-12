@@ -3,5 +3,23 @@
     "id": "EXPLOSIVE_HUGE",
     "type": "ammo_effect",
     "explosion": { "power": 1200 }
+  },
+  {
+    "id": "CLEAN_DUST",
+    "type": "ammo_effect",
+    "always_cast_spell": true,
+    "spell_data": { "id": "spell_clean_dust" }
+  },
+  {
+    "id": "CLEAN_SPLINTERS",
+    "type": "ammo_effect",
+    "always_cast_spell": true,
+    "spell_data": { "id": "spell_clean_splinters" }
+  },
+  {
+    "id": "CLEAN_BLOOD",
+    "type": "ammo_effect",
+    "always_cast_spell": true,
+    "spell_data": { "id": "spell_clean_blood" }
   }
 ]

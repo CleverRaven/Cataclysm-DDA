@@ -6,31 +6,37 @@
 #include <iterator>
 #include <map>
 #include <memory>
+#include <ostream>
 
-#include "game.h"
 #include "achievement.h"
 #include "addiction.h"
 #include "avatar.h"
 #include "calendar.h"
+#include "character.h"
+#include "color.h"
 #include "debug.h"
+#include "effect_on_condition.h"
 #include "flag.h"
+#include "flexbuffer_json.h"
+#include "game.h"
 #include "generic_factory.h"
 #include "item.h"
 #include "item_group.h"
 #include "itype.h"
-#include "json.h"
 #include "magic.h"
 #include "mission.h"
 #include "mutation.h"
 #include "options.h"
-#include "past_games_info.h"
+#include "output.h"
 #include "past_achievements_info.h"
 #include "pimpl.h"
+#include "trait_group.h"
 #include "translations.h"
 #include "type_id.h"
+#include "value_ptr.h"
 #include "visitable.h"
-#include <trait_group.h>
-#include <npc_class.h>
+
+struct bionic_data;
 
 static const achievement_id achievement_achievement_arcade_mode( "achievement_arcade_mode" );
 static const trait_group::Trait_group_tag
@@ -90,12 +96,12 @@ bool string_id<profession>::is_valid() const
 static profession_blacklist prof_blacklist;
 
 void profession_blacklist::load_profession_blacklist( const JsonObject &jo,
-        const std::string_view src )
+        std::string_view src )
 {
     prof_blacklist.load( jo, src );
 }
 
-void profession_blacklist::load( const JsonObject &jo, const std::string_view )
+void profession_blacklist::load( const JsonObject &jo, std::string_view )
 {
     if( !professions.empty() ) {
         DebugLog( D_INFO, DC_ALL ) << "Loading profession black with one already loaded, resetting";
@@ -152,6 +158,11 @@ void profession::load_profession( const JsonObject &jo, const std::string &src )
     all_profs.load( jo, src );
 }
 
+void profession::finalize_all()
+{
+    all_profs.finalize();
+}
+
 class skilllevel_reader : public generic_typed_reader<skilllevel_reader>
 {
     public:
@@ -206,7 +217,7 @@ class item_reader : public generic_typed_reader<item_reader>
         }
 };
 
-void profession::load( const JsonObject &jo, const std::string_view )
+void profession::load( const JsonObject &jo, std::string_view )
 {
     //If the "name" is an object then we have to deal with gender-specific titles,
     if( jo.has_object( "name" ) ) {
@@ -255,8 +266,10 @@ void profession::load( const JsonObject &jo, const std::string_view )
     std::string background_group_id;
     optional( jo, was_loaded, "npc_background", _starting_npc_background,
               Trait_group_BG_survival_story_UNIVERSAL );
+    optional( jo, was_loaded, "chargen_allow_npc", _chargen_allow_npc, true );
     optional( jo, was_loaded, "age_lower", age_lower, 16 );
     optional( jo, was_loaded, "age_upper", age_upper, 55 );
+    optional( jo, was_loaded, "starting_cash", _starting_cash );
 
     if( jo.has_string( "vehicle" ) ) {
         _starting_vehicle = vproto_id( jo.get_string( "vehicle" ) );
@@ -276,6 +289,12 @@ void profession::load( const JsonObject &jo, const std::string_view )
             int level = subobj.get_int( "level" );
             spell_id sp = spell_id( subobj.get_string( "id" ) );
             _starting_spells.emplace( sp, level );
+        }
+    }
+
+    if( jo.has_member( "effect_on_conditions" ) ) {
+        for( JsonValue jv : jo.get_array( "effect_on_conditions" ) ) {
+            effect_on_conditions.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
         }
     }
 
@@ -309,7 +328,23 @@ void profession::load( const JsonObject &jo, const std::string_view )
     }
     optional( jo, was_loaded, "no_bonus", no_bonus );
 
-    optional( jo, was_loaded, "requirement", _requirement );
+    if( jo.has_member( "requirement" ) ) {
+        _requirements.clear();
+        if( jo.has_string( "requirement" ) ) {
+            _requirements.emplace_back( jo.get_string( "requirement" ) );
+        } else if( jo.has_array( "requirement" ) ) {
+            mandatory( jo, was_loaded, "requirement", _requirements );
+        } else {
+            jo.throw_error_at( "requirement", "requirement must be string or array" );
+        }
+    }
+
+    optional( jo, was_loaded, "hard_requirement", hard_requirement, false );
+
+    if( hard_requirement && _requirements.empty() ) {
+        jo.throw_error_at( "hard_requirement",
+                           "Cannot have hard requirement when object has no requirements" );
+    }
 
     optional( jo, was_loaded, "skills", _starting_skills, skilllevel_reader {} );
     optional( jo, was_loaded, "addictions", _starting_addictions, addiction_reader {} );
@@ -513,6 +548,11 @@ signed int profession::point_cost() const
     return _point_cost;
 }
 
+std::optional<int> profession::starting_cash() const
+{
+    return _starting_cash;
+}
+
 static void clear_faults( item &it )
 {
     if( it.get_var( "dirt", 0 ) > 0 ) {
@@ -692,19 +732,31 @@ ret_val<void> profession::can_afford( const Character &you, const int points ) c
 
 ret_val<void> profession::can_pick() const
 {
+    const bool meta_progression = get_option<bool>( "META_PROGRESS" );
     // if meta progression is disabled then skip this
     if( get_past_achievements().is_completed( achievement_achievement_arcade_mode ) ||
-        !get_option<bool>( "META_PROGRESS" ) ) {
+        ( !meta_progression && !has_hard_requirement() ) ) {
         return ret_val<void>::make_success();
     }
 
-    if( _requirement ) {
-        const bool has_req = get_past_achievements().is_completed(
-                                 _requirement.value()->id );
-        if( !has_req ) {
+    if( !_requirements.empty() ) {
+        bool has_all_req = true;
+        std::vector<std::string> req_names;
+        for( const auto req : _requirements ) {
+            bool has_this_req = get_past_achievements().is_completed( req->id );
+            has_all_req &= has_this_req;
+            req_names.emplace_back( colorize( req->name().translated(), has_this_req ? c_green : c_red ) );
+        }
+        std::string fail_msg = n_gettext(
+                                   _( "You must complete the achievement \"%s\" to unlock this profession." ),
+                                   _( "You must complete these achievements to unlock this profession: %s" ), _requirements.size() );
+        if( !meta_progression ) {
+            fail_msg += _( "\nThis profession can only be unlocked through achievements." );
+        }
+        if( !has_all_req ) {
             return ret_val<void>::make_failure(
-                       _( "You must complete the achievement \"%s\" to unlock this profession." ),
-                       _requirement.value()->name() );
+                       fail_msg,
+                       enumerate_as_string( req_names ) );
         }
     }
 
@@ -725,6 +777,11 @@ bool profession::is_forbidden_trait( const trait_id &trait ) const
     return _forbidden_traits.count( trait ) != 0;
 }
 
+bool profession::chargen_allow_npc() const
+{
+    return _chargen_allow_npc;
+}
+
 std::map<spell_id, int> profession::spells() const
 {
     return _starting_spells;
@@ -739,6 +796,11 @@ void profession::learn_spells( avatar &you ) const
             sp.gain_level( you );
         }
     }
+}
+
+std::vector<effect_on_condition_id> profession::get_eocs() const
+{
+    return effect_on_conditions;
 }
 
 // item_substitution stuff:
@@ -934,6 +996,11 @@ profession_id profession::get_profession_id() const
     return id;
 }
 
+bool profession::has_hard_requirement() const
+{
+    return hard_requirement;
+}
+
 bool profession::is_hobby() const
 {
     return _subtype == "hobby";
@@ -944,7 +1011,7 @@ const std::vector<mission_type_id> &profession::missions() const
     return _missions;
 }
 
-std::optional<achievement_id> profession::get_requirement() const
+std::vector<achievement_id> profession::get_requirements() const
 {
-    return _requirement;
+    return _requirements;
 }

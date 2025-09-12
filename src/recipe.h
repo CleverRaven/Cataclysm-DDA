@@ -5,25 +5,26 @@
 #include <cstddef>
 #include <cstdint>
 #include <functional>
-#include <iosfwd>
 #include <map>
-#include <new>
 #include <optional>
 #include <set>
 #include <string>
+#include <string_view>
 #include <utility>
 #include <vector>
 
 #include "build_reqs.h"
 #include "calendar.h"
 #include "requirements.h"
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
 #include "value_ptr.h"
 
 class Character;
 class JsonObject;
+class cata_variant;
 class item;
+class item_components;
 template <typename E> struct enum_traits;
 
 enum class recipe_filter_flags : int {
@@ -98,7 +99,7 @@ class recipe
         float exertion = 0.0f;
 
     public:
-        recipe();
+        recipe() = default;
 
         bool is_null() const {
             return id.is_null();
@@ -127,7 +128,7 @@ class recipe
         std::string subcategory;
 
         translation description;
-        // overrides the result name; used by practice recipes
+        // overrides the result name;
         translation name_;
 
         int difficulty = 0;
@@ -269,7 +270,7 @@ class recipe
             return reversible;
         }
 
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
         void finalize();
 
         /** Returns a non-empty string describing an inconsistency (if any) in the recipe. */

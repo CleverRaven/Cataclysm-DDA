@@ -1,7 +1,6 @@
 #include "string_formatter.h"
 
 #include <stdexcept>
-#include <exception>
 
 #include "cata_assert.h"
 #include "cata_utility.h"
@@ -102,7 +101,7 @@ std::optional<int> cata::string_formatter::read_precision()
     return read_number_or_argument_index();
 }
 
-void cata::string_formatter::throw_error( const std::string_view msg ) const
+void cata::string_formatter::throw_error( std::string_view msg ) const
 {
     throw std::runtime_error(
         str_cat( msg, " at: \"", format.substr( 0, current_index_in_format ), "|",

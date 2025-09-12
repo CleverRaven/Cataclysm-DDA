@@ -34,7 +34,7 @@
   },
   {
     "id": "artificer_toolkit",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "artificer's toolkit" },
     "description": "This is a magical device that can take the shape of many tools.  When not in use it looks like a simple screwdriver.",
     "looks_like": "screwdriver",

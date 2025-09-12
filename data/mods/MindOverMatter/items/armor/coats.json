@@ -1,9 +1,10 @@
-{
-  "id": "jacket_army_phavian",
-  "type": "ARMOR",
-  "name": {
-    "str": "ONYX LIGHTNING combat blouse"
-  },
-  "description": "A sleek blouse in a camouflage pattern with angled breast pockets and lots of loop velcro for affixing patches.  You might call it a jacket but it's really a blouse.  It bears an onyx patch reading \"ONYX LIGHTNING\".",
-  "copy-from": "jacket_army_modern"
-}
+[
+  {
+    "id": "jacket_army_phavian",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "ONYX LIGHTNING combat blouse" },
+    "description": "A sleek blouse in a camouflage pattern with angled breast pockets and lots of loop velcro for affixing patches.  You might call it a jacket but it's really a blouse.  It bears an onyx patch reading \"ONYX LIGHTNING\".",
+    "copy-from": "jacket_army_modern"
+  }
+]

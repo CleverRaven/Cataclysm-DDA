@@ -28,7 +28,7 @@
     "book_learn": [ [ "caster_boosts_info", 6 ] ],
     "time": "8 h",
     "autolearn": false,
-    "using": [ [ "cordage_short", 1 ], [ "steel_tiny", 1 ] ],
+    "using": [ [ "cordage_short", 1 ], [ "steel_chunk_any", 1 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
       { "id": "SCREW_FINE", "level": 1 },
@@ -77,7 +77,7 @@
     "time": "150 m",
     "autolearn": false,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CHISEL", "level": 3 } ],
-    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_chunk_any", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "components": [
       [ [ "scrap", 1 ] ],
@@ -158,7 +158,7 @@
     "book_learn": [ [ "caster_boosts_info", 4 ] ],
     "time": "6 h",
     "autolearn": false,
-    "using": [ [ "welding_standard", 10 ], [ "blacksmithing_standard", 5 ], [ "steel_tiny", 1 ] ],
+    "using": [ [ "welding_standard", 10 ], [ "blacksmithing_standard", 5 ], [ "steel_chunk_any", 1 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 3 },
       { "id": "HAMMER_FINE", "level": 1 },

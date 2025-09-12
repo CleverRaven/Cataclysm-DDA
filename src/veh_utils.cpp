@@ -1,29 +1,36 @@
 #include "veh_utils.h"
 
 #include <algorithm>
+#include <climits>
 #include <cmath>
 #include <functional>
 #include <list>
 #include <map>
+#include <memory>
 #include <utility>
 #include <vector>
 
 #include "avatar.h"
 #include "calendar.h"
+#include "cata_imgui.h"
 #include "character.h"
-#include "craft_command.h"
+#include "coordinates.h"
+#include "debug.h"
 #include "enums.h"
 #include "game.h"
 #include "game_constants.h"
 #include "input_context.h"
+#include "input_enums.h"
 #include "inventory.h"
 #include "item.h"
 #include "map.h"
+#include "memory_fast.h"
 #include "point.h"
 #include "requirements.h"
+#include "translation.h"
 #include "translations.h"
-#include "ui.h"
-#include "units_fwd.h"
+#include "uilist.h"
+#include "units.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
@@ -91,7 +98,7 @@ vehicle_part *most_repairable_part( vehicle &veh, Character &who )
     return vp_most_damaged != nullptr ? vp_most_damaged : vp_broken;
 }
 
-bool repair_part( vehicle &veh, vehicle_part &pt, Character &who )
+bool repair_part( map &here, vehicle &veh, vehicle_part &pt, Character &who )
 {
     const vpart_info &vp = pt.info();
 
@@ -140,15 +147,15 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who )
         const point_rel_ms mount = pt.mount;
         const units::angle direction = pt.direction;
         const std::string variant = pt.variant;
-        get_map().spawn_items( who.pos_bub(), pt.pieces_for_broken_part() );
+        here.spawn_items( who.pos_bub( here ), pt.pieces_for_broken_part() );
         veh.remove_part( pt );
-        const int partnum = veh.install_part( mount, vpid, std::move( base ) );
+        const int partnum = veh.install_part( here, mount, vpid, std::move( base ) );
         if( partnum >= 0 ) {
             vehicle_part &vp = veh.part( partnum );
             vp.direction = direction;
             vp.variant = variant;
         }
-        veh.part_removal_cleanup();
+        veh.part_removal_cleanup( here );
         who.add_msg_if_player( m_good, _( "You replace the %1$s's %2$s. (was %3$s)" ),
                                veh.name, partname, startdurability );
     } else {
@@ -408,14 +415,16 @@ class veh_menu_cb : public uilist_callback
             g->invalidate_main_ui_adaptor();
             if( on_select ) {
                 on_select();
-                map &m = get_map();
-                m.invalidate_map_cache( m.get_abs_sub().z() );
+                map &here = get_map(); // TODO: Handle getting the correct map.
+                here.invalidate_map_cache( here.get_abs_sub().z() );
             }
         }
 };
 
 bool veh_menu::query()
 {
+    map &here = get_map(); // TODO: Handle getting the correct map.
+
     if( items.empty() ) {
         debugmsg( "veh_menu::query() called with empty items" );
         return false;
@@ -483,10 +492,9 @@ bool veh_menu::query()
 
     chosen._on_submit();
 
-    veh.refresh();
-    map &m = get_map();
-    m.invalidate_visibility_cache();
-    m.invalidate_map_cache( m.get_abs_sub().z() );
+    veh.refresh( );
+    here.invalidate_visibility_cache();
+    here.invalidate_map_cache( here.get_abs_sub().z() );
 
     return chosen._keep_menu_open;
 }

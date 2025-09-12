@@ -31,6 +31,18 @@ dynamic_line_string_keys = [
     "u_is_character", "npc_is_character", "u_is_monster", "npc_is_monster",
     "u_is_item", "npc_is_item", "u_is_furniture", "npc_is_furniture",
     "player_see_u", "player_see_npc",
+    "u_is_driven", "npc_is_driven",
+    "u_is_remote_controlled", "npc_is_remote_controlled",
+    "u_can_fly", "npc_can_fly",
+    "u_is_flying", "npc_is_flying",
+    "u_is_in_air", "npc_is_in_air",
+    "u_can_float", "npc_can_float",
+    "u_is_floating", "npc_is_floating",
+    "u_is_falling", "npc_is_falling",
+    "u_is_skidding", "npc_is_skidding",
+    "u_is_sinking", "npc_is_sinking",
+    "u_is_on_rails", "npc_is_on_rails",
+    "u_is_avatar_passenger", "npc_is_avatar_passenger",
     # yes/no strings for complex conditions, 'and' list
     "yes", "no", "concatenate"
 ]
@@ -43,7 +55,7 @@ def parse_dynamic_line(json, origin, comment=[]):
 
     elif type(json) is dict:
         if "str" in json:
-            write_text(json, origin, comment=comment, c_format=False)
+            write_text(json, origin, comment=comment)
 
         if "gendered_line" in json:
             text = json["gendered_line"]
@@ -59,7 +71,7 @@ def parse_dynamic_line(json, origin, comment=[]):
             for context_list in itertools.product(*options):
                 context = " ".join(context_list)
                 write_text(text, origin, context=context,
-                           comment=gendered_comment, c_format=False)
+                           comment=gendered_comment)
 
         for key in dynamic_line_string_keys:
             if key in json:
@@ -67,22 +79,22 @@ def parse_dynamic_line(json, origin, comment=[]):
 
     elif type(json) is str:
         if not is_tag(json):
-            write_text(json, origin, comment=comment, c_format=False)
+            write_text(json, origin, comment=comment)
 
 
 def parse_response(json, origin):
     if "text" in json:
-        write_text(json["text"], origin, c_format=False,
+        write_text(json["text"], origin,
                    comment="Response to NPC dialogue")
 
     if "truefalsetext" in json:
-        write_text(json["truefalsetext"]["true"], origin, c_format=False,
+        write_text(json["truefalsetext"]["true"], origin,
                    comment="Affirmative response to NPC dialogue")
-        write_text(json["truefalsetext"]["false"], origin, c_format=False,
+        write_text(json["truefalsetext"]["false"], origin,
                    comment="Negative response to NPC dialogue")
 
     if "failure_explanation" in json:
-        write_text(json["failure_explanation"], origin, c_format=False,
+        write_text(json["failure_explanation"], origin,
                    comment="Failure explanation for NPC dialogue response")
 
     if "success" in json:

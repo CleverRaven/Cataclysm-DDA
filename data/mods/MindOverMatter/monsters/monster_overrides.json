@@ -309,6 +309,12 @@
     "attack_effs": [ { "id": "effect_teleporting_lock", "duration": [ 5, 60 ], "chance": 50 } ]
   },
   {
+    "id": "mon_hallucinator",
+    "copy-from": "mon_hallucinator",
+    "type": "MONSTER",
+    "species": [ "NETHER_EMANATION", "PSI_NULL" ]
+  },
+  {
     "id": "mon_hunting_horror",
     "copy-from": "mon_hunting_horror",
     "type": "MONSTER",

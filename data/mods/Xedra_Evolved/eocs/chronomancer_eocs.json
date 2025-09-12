@@ -19,7 +19,10 @@
     },
     "effect": [
       { "math": [ "u_vitamin('xedra_chronomancer_insight') += 50" ] },
-      { "u_message": "You gain a large amount of insight into the workings of time!", "type": "info" }
+      {
+        "if": { "math": [ "global_xedra_chronomancy_setting_hide_insight_messages != 1" ] },
+        "then": { "u_message": "You gain a large amount of insight into the workings of time!", "type": "info" }
+      }
     ]
   },
   {
@@ -34,7 +37,13 @@
         {
           "or": [
             {
-              "compare_string": [ { "context_val": "victim_type" }, "mon_hound_tindalos", "mon_zombie_monochrome_2", "mon_skeleton_master" ]
+              "compare_string": [
+                { "context_val": "victim_type" },
+                "mon_hound_tindalos",
+                "mon_zombie_monochrome_2",
+                "mon_skeleton_master",
+                "mon_boomer_monochrome"
+              ]
             }
           ]
         }
@@ -42,7 +51,10 @@
     },
     "effect": [
       { "math": [ "u_vitamin('xedra_chronomancer_insight') += 10" ] },
-      { "u_message": "You gain a medium amount of insight into the workings of time.", "type": "info" }
+      {
+        "if": { "math": [ "global_xedra_chronomancy_setting_hide_insight_messages != 1" ] },
+        "then": { "u_message": "You gain a medium amount of insight into the workings of time.", "type": "info" }
+      }
     ]
   },
   {
@@ -71,8 +83,37 @@
       ]
     },
     "effect": [
+      { "math": [ "u_vitamin('xedra_chronomancer_insight') += 5" ] },
+      {
+        "if": { "math": [ "global_xedra_chronomancy_setting_hide_insight_messages != 1" ] },
+        "then": { "u_message": "You gain a small amount of insight into the workings of time.", "type": "info" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_on_kill_award_chrono_exp",
+    "eoc_type": "EVENT",
+    "required_event": "character_kills_monster",
+    "condition": { "u_has_effect": "effect_chronomancy_field" },
+    "effect": [
       { "math": [ "u_vitamin('xedra_chronomancer_insight') += 1" ] },
-      { "u_message": "You gain a small amount of insight into the workings of time.", "type": "info" }
+      {
+        "if": { "math": [ "global_xedra_chronomancy_setting_hide_insight_messages != 1" ] },
+        "then": { "u_message": "You gain a tiny amount of insight into the workings of time.", "type": "info" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XEDRA_CHRONOMANCER_PARADOX_INSIGHT",
+    "effect": [
+      { "math": [ "_insight_gain = u_hp('ALL') / 6" ] },
+      { "math": [ "n_vitamin('xedra_chronomancer_insight') += _insight_gain" ] },
+      {
+        "if": { "math": [ "global_xedra_chronomancy_setting_hide_insight_messages != 1" ] },
+        "then": { "npc_message": "Observing this paradox gave you <context_val:insight_gain> Insight into time", "type": "info" }
+      }
     ]
   },
   {
@@ -124,11 +165,10 @@
       },
       {
         "u_run_inv_eocs": "all",
-        "search_data": [ { "uses_energy": true, "excluded_flags": [ "PSEUDO", "USES_BIONIC_POWER" ] } ],
+        "search_data": [ { "is_chargeable": true } ],
         "true_eocs": [
           {
             "id": "EOC_XEDRA_CHRONOMANCER_REVERSE_ENTROPY_INV_SCANNER_ENERGY",
-            "condition": { "math": [ "n_val('power') < n_val('power_max')" ] },
             "effect": [
               {
                 "math": [ "n_val('power') += xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_reverse_entropy'), 0.1, 1 )" ]
@@ -257,11 +297,10 @@
       },
       {
         "u_run_inv_eocs": "all",
-        "search_data": [ { "uses_energy": true, "excluded_flags": [ "PSEUDO", "USES_BIONIC_POWER" ] } ],
+        "search_data": [ { "is_chargeable": true } ],
         "true_eocs": [
           {
             "id": "EOC_XEDRA_CHRONOMANCER_REWRITE_EQUIPMENT_CAUSALITY_ONGOING_ENERGY_SCANNER",
-            "condition": { "math": [ "n_val('power') < n_val('power_max')" ] },
             "effect": [
               {
                 "math": [ "n_val('power') += xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_rewrite_equipment_causality'), 10, 0 )" ]
@@ -317,8 +356,7 @@
     "type": "effect_on_condition",
     "id": "EOC_XEDRA_CHRONOMANCER_MEDITATE_EFFFECT_REMOVE",
     "effect": [
-      { "u_lose_effect": "effect_xedra_rewrite_wound_causality" },
-      { "u_lose_effect": "effect_xedra_rewrite_equipment_causality" },
+      { "u_lose_effect": [ "effect_xedra_rewrite_wound_causality", "effect_xedra_rewrite_equipment_causality" ] },
       { "u_message": "You finish your meditations.", "type": "good" }
     ]
   },
@@ -341,10 +379,7 @@
     "effect": [
       { "math": [ "u_xedra_last_damage_taken=_damage" ] },
       { "math": [ "u_xedra_last_pain_taken=_pain" ] },
-      {
-        "set_string_var": { "context_val": "bodypart" },
-        "target_var": { "u_val": "xedra_last_damage_taken_bodypart" }
-      }
+      { "copy_var": { "context_val": "bodypart" }, "target_var": { "u_val": "xedra_last_damage_taken_bodypart" } }
     ]
   },
   {
@@ -461,11 +496,15 @@
         },
         "then": [
           { "u_message": "Your chronomantic powers destabilize and you lose their effects!" },
-          { "u_lose_effect": "effect_xedra_chronomancer_chronal_accel" },
-          { "u_lose_effect": "effect_xedra_chronomancer_destabilizing_strikes" },
-          { "u_lose_effect": "effect_xedra_chronomancer_stabilize_timeline" },
-          { "u_lose_effect": "effect_xedra_chronomancer_reverse_entropy" },
-          { "u_lose_effect": "effect_xedra_chronomancer_stable_timeloop" }
+          {
+            "u_lose_effect": [
+              "effect_xedra_chronomancer_chronal_accel",
+              "effect_xedra_chronomancer_destabilizing_strikes",
+              "effect_xedra_chronomancer_stabilize_timeline",
+              "effect_xedra_chronomancer_reverse_entropy",
+              "effect_xedra_chronomancer_stable_timeloop"
+            ]
+          }
         ]
       },
       { "run_eocs": "EOC_XEDRA_CHRONOMANCER_UNSTABLE_POWERS", "time_in_future": [ "30 minutes", "2 hours" ] }
@@ -929,6 +968,20 @@
         "parse_tags": true
       },
       { "if": { "math": [ "v_temp_var == 0" ] }, "then": { "u_lose_effect": "bleed" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHRONOMANCY_FIELD",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": { "compare_string": [ "XEDRA_CHRONOMANCER", { "context_val": "school" } ] },
+    "effect": [
+      {
+        "u_add_effect": "effect_chronomancy_field",
+        "intensity": { "math": [ "_difficulty * 1.5" ] },
+        "duration": { "math": [ "_difficulty * 8" ] }
+      }
     ]
   }
 ]

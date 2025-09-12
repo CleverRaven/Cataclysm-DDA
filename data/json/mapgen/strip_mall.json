@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Strip malls use 23x by 23y cells for each store. See strip_mall_nested for chunks.",
     "om_terrain": [ [ "strip_mall_1", "strip_mall_2", "strip_mall_3", "strip_mall_4", "strip_mall_5" ] ],
     "object": {
@@ -52,7 +51,7 @@
         "3": { "chunks": [ [ "strip_mall_shop_c", 100 ] ] },
         "4": { "chunks": [ [ "strip_mall_shop_d", 100 ] ] }
       },
-      "items": { "D": { "item": "trash", "chance": 100, "repeat": [ 3, 8 ] } },
+      "items": { "D": { "item": "SUS_trash_dumpster", "chance": 75 } },
       "place_vehicles": [
         { "chance": 15, "rotation": 180, "vehicle": "parking_garage", "x": 102, "y": 6 },
         { "chance": 15, "rotation": 180, "vehicle": "parking_garage", "x": 102, "y": 13 },
@@ -62,7 +61,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "strip_mall_roof_1", "strip_mall_roof_2", "strip_mall_roof_3", "strip_mall_roof_4", "strip_mall_roof_5" ] ],
     "object": {
       "fill_ter": "t_flat_roof",
@@ -101,7 +99,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "strip_mall_sign",
     "object": {
       "mapgensize": [ 1, 1 ],

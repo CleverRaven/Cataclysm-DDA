@@ -1,13 +1,11 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "nest_dermatik_paper_roof",
     "object": { "mapgensize": [ 1, 1 ], "rows": [ "#" ], "terrain": { "#": "t_roof_paper" } }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "nest_dermatik_paper_wall",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -18,13 +16,11 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "nest_dermatik_dirt_roof",
     "object": { "mapgensize": [ 1, 1 ], "rows": [ "#" ], "terrain": { "#": "t_dirt" } }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "nest_dermatik_dirt_wall",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -35,7 +31,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "nest_dermatik",
     "object": {
       "fill_ter": "t_region_groundcover",
@@ -87,7 +82,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "nest_dermatik_roof",
     "object": {
       "fill_ter": "t_open_air",

@@ -1,38 +1,36 @@
-#include <optional>
+#include <sstream>
+#include <string>
+#include <utility>
 #include <vector>
 
 #include "cata_catch.h"
 #include "character.h"
+#include "coordinates.h"
+#include "flexbuffer_json.h"
+#include "json.h"
 #include "json_loader.h"
+#include "map.h"
 #include "map_helpers.h"
-#include "vehicle.h"
+#include "point.h"
+#include "type_id.h"
+#include "units.h"
 #include "veh_type.h"
+#include "vehicle.h"
 
 static const vproto_id vehicle_prototype_veh_export_test( "veh_export_test" );
-
-static bool operator==( const vehicle_prototype::zone_def &l, const vehicle_prototype::zone_def &r )
-{
-    return l.filter == r.filter && l.name == r.name && l.pt == r.pt && l.zone_type == r.zone_type;
-}
-
-static bool operator==( const vehicle_prototype::part_def &l, const vehicle_prototype::part_def &r )
-{
-    return l.ammo_qty == r.ammo_qty && l.part == r.part && l.variant == r.variant &&
-           l.with_ammo == r.with_ammo && l.ammo_types == r.ammo_types && l.ammo_qty == r.ammo_qty &&
-           l.fuel == r.fuel && l.tools == r.tools;
-}
 
 static bool operator==( const vehicle_item_spawn &l, const vehicle_item_spawn &r )
 {
     return l.pos == r.pos && l.chance == r.chance &&
            l.with_ammo == r.with_ammo && l.with_magazine == r.with_magazine && l.item_ids == r.item_ids &&
            // NOLINTNEXTLINE(misc-redundant-expression)
-           l.variant_ids == r.variant_ids && l.item_groups == r.item_groups;
+           l.item_groups == r.item_groups;
 }
 
 TEST_CASE( "export_vehicle_test" )
 {
     clear_map();
+    map &here = get_map();
     // Spawn the vehicle with fuel.
     vehicle *veh_ptr = get_map().add_vehicle( vehicle_prototype_veh_export_test, tripoint_bub_ms::zero,
                        0_degrees, -1, 0 );
@@ -40,8 +38,8 @@ TEST_CASE( "export_vehicle_test" )
 
     // To ensure the zones get placed.
     veh_ptr->set_owner( get_player_character() );
-    veh_ptr->place_zones( get_map() );
-    veh_ptr->refresh();
+    veh_ptr->place_zones( here );
+    veh_ptr->refresh( );
     veh_ptr->refresh_zones();
 
     std::ostringstream os;

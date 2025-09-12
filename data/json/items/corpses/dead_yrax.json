@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_yrax_trifacet",
     "symbol": ",",
     "color": "light_gray",
@@ -14,7 +14,7 @@
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_yrax_triakis",
     "symbol": ",",
     "color": "light_gray",
@@ -29,7 +29,7 @@
   },
   {
     "id": "broken_golden_monolith",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "I",
     "name": { "str": "golden monolith" },
     "description": "A large golden monolith.  Carefully carved asymmetric edges betray its artificial origin.",
@@ -44,7 +44,7 @@
   },
   {
     "id": "broken_yrax_delta",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": ",",
     "name": { "str": "inert delta" },
     "description": "A small piece of inscrutable alloy shaped like an arrow's broadhead.  It doesn't look like much of a robot once dead.",
@@ -64,7 +64,7 @@
   },
   {
     "id": "broken_yrax_quadraphract_leg",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "s",
     "name": { "str": "inert quadraphract leg" },
     "description": "A great sickle-shaped leg, slumped and lifeless.  The metal is cold to the touch, and its near invisible joints are locked in place.",
@@ -80,7 +80,7 @@
   },
   {
     "id": "broken_yrax_quadraphract",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "X",
     "name": { "str": "inert quadraphract" },
     "description": "A great carved piece of gold and crystal, slumped in the form of an unearthly arachnid.",

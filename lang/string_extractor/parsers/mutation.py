@@ -10,7 +10,7 @@ def parse_mutation(json, origin):
         write_text(json["name"], origin, comment="Mutation name")
 
     if "description" in json:
-        write_text(json["description"], origin, c_format=False,
+        write_text(json["description"], origin,
                    comment="Description of mutation \"{}\"".format(name))
 
     if "attacks" in json:

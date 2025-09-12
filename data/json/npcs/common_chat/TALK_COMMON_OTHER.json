@@ -134,7 +134,7 @@
           ],
           "opinion": { "value": -1 }
         },
-        "failure": { "topic": "TALK_DENY_FOLLOW", "effect": "deny_follow", "opinion": { "fear": -1, "value": -1, "anger": 1 } }
+        "failure": { "topic": "TALK_DENY_FOLLOW", "effect": "deny_follow", "opinion": { "value": -1, "anger": 1 } }
       },
       {
         "switch": true,
@@ -151,7 +151,7 @@
           ],
           "opinion": { "trust": 2, "anger": -1 }
         },
-        "failure": { "topic": "TALK_DENY_FOLLOW", "effect": "deny_follow", "opinion": { "trust": 1, "fear": -2, "value": -1, "anger": 1 } }
+        "failure": { "topic": "TALK_DENY_FOLLOW", "effect": "deny_follow", "opinion": { "value": -1, "anger": 1 } }
       },
       {
         "switch": true,

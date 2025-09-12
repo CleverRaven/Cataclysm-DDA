@@ -112,8 +112,8 @@
   },
   {
     "type": "item_group",
-    "id": "trash",
-    "copy-from": "trash",
+    "id": "SUS_trash_trashcan",
+    "copy-from": "SUS_trash_trashcan",
     "extend": { "items": [ [ "candy3", 5 ], [ "gum", 10 ], [ "caff_gum", 10 ], [ "cow_candy", 3 ] ] }
   },
   {
@@ -135,16 +135,17 @@
     "type": "item_group",
     "id": "stash_food",
     "copy-from": "stash_food",
+    "subtype": "collection",
     "extend": {
       "items": [
-        [ "candy3", 1 ],
-        [ "cookies", 3 ],
-        [ "grahmcrackers", 2 ],
-        [ "marshmallow", 1 ],
-        [ "gum", 2 ],
-        [ "smores", 2 ],
-        [ "caff_gum", 2 ],
-        [ "cow_candy", 1 ]
+        { "item": "candy3", "prob": 10 },
+        { "item": "cookies", "prob": 30 },
+        { "item": "grahmcrackers", "prob": 20 },
+        { "item": "marshmallow", "prob": 10 },
+        { "item": "gum", "prob": 20 },
+        { "item": "smores", "prob": 20 },
+        { "item": "caff_gum", "prob": 20 },
+        { "item": "cow_candy", "prob": 10 }
       ]
     }
   }

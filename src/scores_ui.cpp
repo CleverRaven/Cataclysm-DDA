@@ -1,30 +1,37 @@
 #include "scores_ui.h"
 
+#include <imgui/imgui.h>
 #include <algorithm>
+#include <cstddef>
 #include <iterator>
+#include <map>
+#include <memory>
 #include <string>
 #include <tuple>
 #include <utility>
 #include <vector>
 
 #include "achievement.h"
+#include "avatar.h"
+#include "cata_imgui.h"
 #include "color.h"
-#include "cursesdef.h"
+#include "enum_traits.h"
 #include "event_statistics.h"
 #include "game.h"
 #include "input_context.h"
-#include "localized_comparator.h"
 #include "kill_tracker.h"
+#include "localized_comparator.h"
 #include "mtype.h"
 #include "options.h"
-#include "output.h"
 #include "past_games_info.h"
-#include "point.h"
 #include "stats_tracker.h"
 #include "string_formatter.h"
+#include "string_id.h"
+#include "translation.h"
 #include "translations.h"
-#include "ui.h"
 #include "ui_manager.h"
+
+template <typename E> struct enum_traits;
 
 enum class scores_ui_tab : int {
     achievements = 0,
@@ -39,8 +46,6 @@ struct enum_traits<scores_ui_tab> {
     static constexpr scores_ui_tab first = scores_ui_tab::achievements;
     static constexpr scores_ui_tab last = scores_ui_tab::num_tabs;
 };
-
-class scores_ui;
 
 class scores_ui
 {
@@ -186,14 +191,7 @@ void scores_ui_impl::init_data()
 void scores_ui_impl::draw_achievements_text( bool use_conducts ) const
 {
     if( !g->achievements().is_enabled() ) {
-        ImGui::TextWrapped( "%s",
-                            use_conducts
-                            ? _( "Conducts are disabled, probably due to use of the debug menu.  If you only used "
-                                 "the debug menu to work around a game bug, then you can re-enable conducts via the "
-                                 "debug menu (\"Enable achievements\" under the \"Game\" submenu)." )
-                            : _( "Achievements are disabled, probably due to use of the debug menu.  If you only used "
-                                 "the debug menu to work around a game bug, then you can re-enable achievements via the "
-                                 "debug menu (\"Enable achievements\" under the \"Game\" submenu)." ) );
+        ImGui::TextWrapped( "%s", _( "Achievements and conducts are disabled for debug characters." ) );
         return;
     }
     if( use_conducts && conducts_text.empty() ) {

@@ -11,10 +11,11 @@
  *
  * The concept is to bracket these threshods with various bows using standard hunting loadouts.
  */
-#include <iosfwd>
+#include <map>
 #include <memory>
 #include <set>
 #include <string>
+#include <utility>
 
 #include "cata_catch.h"
 #include "coordinates.h"
@@ -29,6 +30,8 @@
 #include "projectile.h"
 #include "type_id.h"
 #include "value_ptr.h"
+
+class Creature;
 
 static const itype_id itype_arrow_metal( "arrow_metal" );
 static const itype_id itype_arrow_wood_heavy( "arrow_wood_heavy" );
@@ -75,7 +78,7 @@ static void test_projectile_attack( const std::string &target_type, bool killabl
         monster target{ mtype_id( target_type ), tripoint_bub_ms::zero };
         //the missed_by field is modified by deal_projectile_attack() and must be reset
         attack.missed_by = headshot ? accuracy_headshot * 0.75 : accuracy_critical;
-        target.deal_projectile_attack( nullptr, attack, false );
+        target.deal_projectile_attack( &get_map(), nullptr, attack, attack.missed_by, false );
         CAPTURE( target_type );
         CAPTURE( target.get_hp() );
         CAPTURE( target.get_hp_max() );

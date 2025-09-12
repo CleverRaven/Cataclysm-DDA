@@ -6,43 +6,42 @@
 #include <climits>
 #include <cstddef>
 #include <cstdint>
-#include <iosfwd>
-#include <list>
-#include <new>
+#include <memory>
 #include <optional>
 #include <set>
 #include <string>
+#include <string_view>
+#include <utility>
 #include <vector>
 
-#include "assign.h"
-#include "catacharset.h"
 #include "color.h"
 #include "common_types.h"
-#include "coords_fwd.h"
+#include "coordinates.h"
 #include "cube_direction.h"
 #include "enum_bitset.h"
+#include "flat_set.h"
+#include "flexbuffer_json.h"
 #include "mapgen_parameter.h"
+#include "memory_fast.h"
 #include "point.h"
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
 
+class mapgendata;
 class overmap_land_use_code;
 struct MonsterGroup;
 struct city;
 template <typename E> struct enum_traits;
+template <typename T> class generic_factory;
 
 using overmap_land_use_code_id = string_id<overmap_land_use_code>;
-class JsonObject;
-class JsonValue;
 class overmap;
 class overmap_connection;
-class overmap_special;
 class overmap_special_batch;
+enum class om_vision_level : int8_t;
 struct mapgen_arguments;
 struct oter_t;
 struct overmap_location;
-
-enum class om_vision_level : int8_t;
 
 inline const overmap_land_use_code_id land_use_code_forest( "forest" );
 inline const overmap_land_use_code_id land_use_code_wetland( "wetland" );
@@ -88,7 +87,7 @@ uint32_t rotate_symbol( uint32_t sym, type dir );
  * @param dir Direction of displacement
  * @param dist Distance of displacement
  */
-point displace( type dir, int dist = 1 );
+point_rel_omt displace( type dir, int dist = 1 );
 
 /** Returns a sum of two numbers
  *  @param dir1 first number
@@ -140,7 +139,7 @@ class overmap_land_use_code
 
         // Used by generic_factory
         bool was_loaded = false;
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
         void finalize();
         void check() const;
 };
@@ -200,6 +199,7 @@ enum class oter_flags : int {
     ocean_shore,
     ravine,
     ravine_edge,
+    pp_generate_riot_damage,
     generic_loot,
     risk_extreme,
     risk_high,
@@ -237,6 +237,7 @@ struct enum_traits<oter_flags> {
 enum class oter_travel_cost_type : int {
     other,
     impassable,
+    highway,
     road,
     field,
     dirt_road,
@@ -246,6 +247,10 @@ enum class oter_travel_cost_type : int {
     swamp,
     water,
     air,
+    structure,
+    roof,
+    basement,
+    tunnel,
     last
 };
 
@@ -276,6 +281,7 @@ class oter_vision
         const level *viewed( om_vision_level ) const;
 
         static void load_oter_vision( const JsonObject &jo, const std::string &src );
+        static void finalize_all();
         static void reset();
         static void check_oter_vision();
         static const std::vector<oter_vision> &get_all();
@@ -362,7 +368,7 @@ struct oter_type_t {
             flags.set( flag, value );
         }
 
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
         void check() const;
         void finalize();
 
@@ -542,6 +548,22 @@ struct oter_t {
             return type->uniform_terrain;
         }
 
+        bool is_road() const {
+            return type->has_flag( oter_flags::road );
+        }
+
+        bool is_highway() const {
+            return type->has_flag( oter_flags::highway );
+        }
+
+        bool is_highway_reserved() const {
+            return type->has_flag( oter_flags::highway_reserved );
+        }
+
+        bool is_highway_special() const {
+            return type->has_flag( oter_flags::highway_special );
+        }
+
     private:
         om_direction::type dir = om_direction::type::none;
         uint32_t symbol;
@@ -579,7 +601,7 @@ struct overmap_special_spawns : public overmap_spawns {
 // This is the information needed to know whether you can place a particular
 // piece of an overmap_special at a particular location
 struct overmap_special_locations {
-    tripoint p;
+    tripoint_rel_omt p;
     cata::flat_set<string_id<overmap_location>> locations;
 
     /**
@@ -592,7 +614,7 @@ struct overmap_special_locations {
 
 struct overmap_special_terrain : overmap_special_locations {
     overmap_special_terrain() = default;
-    overmap_special_terrain( const tripoint &, const oter_str_id &,
+    overmap_special_terrain( const tripoint_rel_omt &, const oter_str_id &,
                              const cata::flat_set<string_id<overmap_location>> &,
                              const std::set<std::string> & );
     oter_str_id terrain;
@@ -604,22 +626,15 @@ struct overmap_special_terrain : overmap_special_locations {
 };
 
 struct overmap_special_connection {
-    tripoint p;
-    std::optional<tripoint> from;
+    tripoint_rel_omt p;
+    std::optional<tripoint_rel_omt> from;
     cube_direction initial_dir = cube_direction::last; // NOLINT(cata-serialize)
     // TODO: Remove it.
     string_id<oter_type_t> terrain;
     string_id<overmap_connection> connection;
     bool existing = false;
 
-    void deserialize( const JsonValue &jsin ) {
-        JsonObject jo = jsin.get_object();
-        jo.read( "point", p );
-        jo.read( "terrain", terrain );
-        jo.read( "existing", existing );
-        jo.read( "connection", connection );
-        assign( jo, "from", from );
-    }
+    void deserialize( const JsonObject &jo );
 };
 
 struct overmap_special_placement_constraints {
@@ -664,7 +679,7 @@ class overmap_special
         }
         bool can_spawn() const;
         /** Returns terrain at the given point. */
-        const overmap_special_terrain &get_terrain_at( const tripoint &p ) const;
+        const overmap_special_terrain &get_terrain_at( const tripoint_rel_omt &p ) const;
         /** @returns true if this special requires a city */
         bool requires_city() const;
         /** @returns whether the special at specified tripoint can belong to the specified city. */
@@ -677,6 +692,8 @@ class overmap_special
             return priority_;
         }
         int longest_side() const;
+        //NOTE: only useful for fixed overmap special
+        std::vector<overmap_special_terrain> get_terrains() const;
         std::vector<overmap_special_terrain> preview_terrains() const;
         std::vector<overmap_special_locations> required_locations() const;
         int score_rotation_at( const overmap &om, const tripoint_om_omt &p,
@@ -704,7 +721,7 @@ class overmap_special
 
         // Used by generic_factory
         bool was_loaded = false;
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
         void finalize();
         void finalize_mapgen_parameters();
         void check() const;
@@ -727,6 +744,7 @@ class overmap_special
 struct overmap_special_migration {
     public:
         static void load_migrations( const JsonObject &jo, const std::string &src );
+        static void finalize_all();
         static void reset();
         void load( const JsonObject &jo, std::string_view src );
         static void check();

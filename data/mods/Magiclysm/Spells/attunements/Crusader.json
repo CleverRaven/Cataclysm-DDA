@@ -1,7 +1,8 @@
 [
   {
     "id": "holy_shield",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "name": { "str": "Holy Shield" },
     "description": "A Crusader's magical shield, enhanced to protect the Crusader from all that stands in their way.",
     "weight": "1905 g",
@@ -25,28 +26,26 @@
       "BELTED",
       "RESTRICT_HANDS",
       "BLOCK_WHILE_WORN",
-      "ONLY_ONE",
       "UNBREAKABLE_MELEE",
       "NONCONDUCTIVE",
       "NO_REPAIR",
       "NO_SALVAGE",
       "TRADER_AVOID"
     ],
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ALWAYS",
-          "incoming_damage_mod": [
-            { "type": "bash", "add": -6 },
-            { "type": "stab", "add": -6 },
-            { "type": "cut", "add": -6 },
-            { "type": "bullet", "add": -3 }
-          ]
-        }
-      ]
-    },
-    "melee_damage": { "bash": 14 }
+    "max_worn": 1,
+    "melee_damage": { "bash": 14 },
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "condition": "ALWAYS",
+        "incoming_damage_mod": [
+          { "type": "bash", "add": -6 },
+          { "type": "stab", "add": -6 },
+          { "type": "cut", "add": -6 },
+          { "type": "bullet", "add": -3 }
+        ]
+      }
+    ]
   },
   {
     "id": "holy_shield",
@@ -101,15 +100,15 @@
     "melee_allowed": true,
     "crit_tec": true,
     "messages": [
-      "Your sword bursts with radiant light, hitting everyone nearby.",
-      "<npcname>'s sword bursts with radiant light, hitting everyone nearby."
+      "Your sword bursts with radiant light, hitting everyone nearby",
+      "<npcname>'s sword bursts with radiant light, hitting everyone nearby"
     ],
     "aoe": "spin",
     "description": "Attack adjacent enemies, crit only"
   },
   {
     "id": "longsword_judgement",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "sword of judgement", "str_pl": "swords of judgement" },
     "looks_like": "longsword",
     "symbol": "/",
@@ -147,7 +146,7 @@
   },
   {
     "id": "dagger_judgement",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "dagger of judgement", "str_pl": "daggers of judgement" },
     "symbol": "/",
     "color": "light_gray",
@@ -183,7 +182,7 @@
   },
   {
     "id": "zwei_judgement",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "great sword of judgement", "str_pl": "great swords of judgement" },
     "symbol": "/",
     "color": "light_gray",
@@ -221,7 +220,7 @@
   },
   {
     "id": "qiang_judgement",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "spear of judgement", "str_pl": "spears of judgement" },
     "symbol": "/",
     "color": "light_gray",
@@ -259,7 +258,7 @@
   },
   {
     "id": "mace_judgement",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "mace of judgement", "str_pl": "maces of judgement" },
     "symbol": "/",
     "color": "light_gray",

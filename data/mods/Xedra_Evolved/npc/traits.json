@@ -7,6 +7,7 @@
     "valid": false,
     "player_display": false,
     "description": "You are a creature of Faerie.",
+    "anger_relations": [ [ "CHANGELING", -150 ] ],
     "//": "So fae NPCs show up on special_vision effects."
   }
 ]

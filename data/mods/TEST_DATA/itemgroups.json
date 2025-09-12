@@ -77,5 +77,62 @@
     "id": "test_NPC_guns",
     "subtype": "distribution",
     "entries": [ { "group": "modular_m4a1", "prob": 100, "charges": 30, "contents-group": "issued_carbine_mods" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "test_edevices_efiles",
+    "subtype": "collection",
+    "items": [ "test_efile_copiable", "test_efile_small", "test_efile_medium" ]
+  },
+  {
+    "type": "item_group",
+    "id": "test_edevices_standard",
+    "subtype": "collection",
+    "entries": [
+      { "item": "test_laptop", "prob": 100, "charges": 200, "contents-group": "test_edevices_efiles" },
+      { "item": "test_eink_tablet_pc", "prob": 100, "charges": 200 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "test_edevices_power",
+    "subtype": "collection",
+    "entries": [
+      { "item": "test_laptop", "prob": 100, "charges": 200, "contents-item": "test_efile_large" },
+      { "item": "test_eink_tablet_pc", "prob": 100, "charges": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "test_edevices_compat",
+    "subtype": "collection",
+    "entries": [
+      { "item": "test_laptop", "prob": 100, "charges": 200, "contents-item": "test_efile_medium" },
+      { "item": "smart_phone", "prob": 100, "charges": 200 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "test_edevices_incompat",
+    "subtype": "collection",
+    "entries": [
+      { "item": "test_laptop", "prob": 100, "charges": 200, "contents-item": "test_efile_medium" },
+      { "item": "test_laptop", "prob": 100, "charges": 200 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "test_edevices_recipes",
+    "subtype": "collection",
+    "entries": [
+      { "item": "test_laptop", "prob": 100, "charges": 200, "contents-item": "efile_recipes" },
+      { "item": "test_laptop", "prob": 100, "charges": 200, "contents-item": "efile_recipes" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "test_bottle_water",
+    "subtype": "collection",
+    "entries": [ { "item": "water_clean", "charges": 1, "container-item": "bottle_plastic", "sealed": false } ]
   }
 ]

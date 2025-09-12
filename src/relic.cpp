@@ -1,23 +1,22 @@
 #include "relic.h"
 
 #include <algorithm>
-#include <cmath>
 #include <cstdlib>
-#include <set>
 #include <string>
 
 #include "calendar.h"
 #include "character.h"
 #include "creature.h"
 #include "debug.h"
+#include "enum_conversions.h"
 #include "enums.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "json.h"
 #include "magic.h"
 #include "magic_enchantment.h"
 #include "map.h"
 #include "rng.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "weather.h"
@@ -106,6 +105,11 @@ void relic_procgen_data::load_relic_procgen_data( const JsonObject &jo, const st
     relic_procgen_data_factory.load( jo, src );
 }
 
+void relic_procgen_data::finalize_all()
+{
+    relic_procgen_data_factory.finalize();
+}
+
 relic::~relic() = default;
 
 void relic::add_active_effect( const fake_spell &sp )
@@ -166,7 +170,7 @@ void relic_procgen_data::enchantment_active::deserialize( const JsonObject &jobj
     load( jobj );
 }
 
-void relic_procgen_data::load( const JsonObject &jo, const std::string_view )
+void relic_procgen_data::load( const JsonObject &jo, std::string_view )
 {
     for( const JsonObject jo_inner : jo.get_array( "passive_add_procgen_values" ) ) {
         int weight = 0;
@@ -333,7 +337,7 @@ void relic_charge_info::accumulate_charge( item &parent )
             if( current_ammo == itype_id::NULL_ID() ) {
                 current_magazine->ammo_set( current_magazine->ammo_default(), 1 );
             } else {
-                current_magazine->ammo_set( current_ammo, current_magazine->ammo_remaining() + 1 );
+                current_magazine->ammo_set( current_ammo, current_magazine->ammo_remaining( ) + 1 );
             }
         } else {
             charges++;
@@ -367,7 +371,7 @@ void relic::load( const JsonObject &jo )
     if( jo.has_member( "charges_per_activation" ) ) {
         charge.charges_per_use = jo.get_int( "charges_per_activation", 1 );
     }
-    jo.read( "name", item_name_override );
+    jo.read( "artifact_name", item_name_override );
     moves = jo.get_int( "moves", 100 );
 }
 
@@ -415,7 +419,7 @@ void relic::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-int relic::activate( Creature &caster, const tripoint &target )
+int relic::activate( Creature &caster, const tripoint_bub_ms &target )
 {
     if( charge.charges_per_use != 0 && charges() - charge.charges_per_use < 0 ) {
         caster.add_msg_if_player( m_bad, _( "This artifact lacks the charges to activate." ) );
@@ -424,7 +428,7 @@ int relic::activate( Creature &caster, const tripoint &target )
     caster.mod_moves( -moves );
     for( const fake_spell &sp : active_effects ) {
         spell casting = sp.get_spell( caster, sp.level );
-        casting.cast_all_effects( caster, tripoint_bub_ms( target ) );
+        casting.cast_all_effects( caster, target );
         caster.add_msg_if_player( casting.message(), casting.name() );
     }
     charge.charges -= charge.charges_per_use;
@@ -605,20 +609,20 @@ int relic_procgen_data::power_level( const enchant_cache &ench ) const
 {
     int power = 0;
 
-    for( const weighted_object<int, relic_procgen_data::enchantment_value_passive<int>>
+    for( const std::pair<relic_procgen_data::enchantment_value_passive<int>, int>
          &add_val_passive : passive_add_procgen_values ) {
-        int val = ench.get_value_add( add_val_passive.obj.type );
+        int val = ench.get_value_add( add_val_passive.first.type );
         if( val != 0 ) {
-            power += static_cast<float>( add_val_passive.obj.power_per_increment ) /
-                     static_cast<float>( add_val_passive.obj.increment ) * val;
+            power += static_cast<float>( add_val_passive.first.power_per_increment ) /
+                     static_cast<float>( add_val_passive.first.increment ) * val;
         }
     }
 
-    for( const weighted_object<int, relic_procgen_data::enchantment_value_passive<float>>
+    for( const std::pair<relic_procgen_data::enchantment_value_passive<float>, int>
          &mult_val_passive : passive_mult_procgen_values ) {
-        float val = ench.get_value_multiply( mult_val_passive.obj.type );
+        float val = ench.get_value_multiply( mult_val_passive.first.type );
         if( val != 0.0f ) {
-            power += mult_val_passive.obj.power_per_increment / mult_val_passive.obj.increment * val;
+            power += mult_val_passive.first.power_per_increment / mult_val_passive.first.increment * val;
         }
     }
 
@@ -627,10 +631,10 @@ int relic_procgen_data::power_level( const enchant_cache &ench ) const
 
 int relic_procgen_data::power_level( const fake_spell &sp ) const
 {
-    for( const weighted_object<int, relic_procgen_data::enchantment_active> &vals :
+    for( const std::pair<relic_procgen_data::enchantment_active, int> &vals :
          active_procgen_values ) {
-        if( vals.obj.activated_spell == sp.id ) {
-            return vals.obj.calc_power( sp.level );
+        if( vals.first.activated_spell == sp.id ) {
+            return vals.first.calc_power( sp.level );
         }
     }
     return 0;

@@ -45,6 +45,7 @@
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
+#include "vpart_position.h"
 
 #if defined(TILES)
 #include "cata_tiles.h"
@@ -66,7 +67,6 @@ class field_entry;
 class item_location;
 class mapgendata;
 class monster;
-class optional_vpart_position;
 class relic_procgen_data;
 class submap;
 class vehicle;
@@ -98,13 +98,12 @@ class map;
 enum class ter_furn_flag : int;
 struct pathfinding_cache;
 struct pathfinding_settings;
+struct pathfinding_target;
 template<typename T>
 struct weighted_int_list;
 struct field_proc_data;
 
 class PathfindingFlags;
-
-using relic_procgen_id = string_id<relic_procgen_data>;
 
 class map_stack : public item_stack
 {
@@ -114,7 +113,8 @@ class map_stack : public item_stack
     public:
         map_stack( cata::colony<item> *newstack, tripoint_bub_ms newloc, map *neworigin ) :
             item_stack( newstack ), location( newloc ), myorigin( neworigin ) {}
-        void insert( const item &newitem ) override;
+        void insert( map &, const item &newitem ) override;
+        void insert( const item &newitem );
         iterator erase( const_iterator it ) override;
         int count_limit() const override {
             return MAX_ITEM_IN_SQUARE;
@@ -366,6 +366,7 @@ struct tile_render_info {
  */
 class map
 {
+        friend class teleport;
         friend class editmap;
         friend std::list<item> map_cursor::remove_items_with( const std::function<bool( const item & )> &,
                 int );
@@ -587,12 +588,18 @@ class map
         bool passable( const point_bub_ms &p ) const {
             return passable( tripoint_bub_ms( p, abs_sub.z() ) );
         }
+        // Doesn't only check if it's possible to move to the tile as "passable" does, but also
+        // that it has a floor or other support, so it's possible to remain there without extra effort,
+        // and thus is a reasonable target for normal movement. Note that effortless levitation,
+        // swimming, etc. by a particular creature is not checked for.
+        bool passable_through( const tripoint_bub_ms &p ) const;
+
         bool passable_skip_fields( const tripoint_bub_ms &p ) const;
         bool is_wall_adjacent( const tripoint_bub_ms &center ) const;
 
         bool is_open_air( const tripoint_bub_ms &p ) const;
 
-        bool try_fall( const tripoint_bub_ms &p, Creature *c ) const;
+        bool try_fall( const tripoint_bub_ms &p, Creature *c );
 
         /**
         * Similar behavior to `move_cost()`, but ignores vehicles.
@@ -709,15 +716,23 @@ class map
          * Calculate the best path using A*
          *
          * @param f The source location from which to path.
-         * @param t The destination to which to path.
+         * @param target The destination to which to path.
          * @param settings Structure describing pathfinding parameters.
          * @param pre_closed Never path through those points. They can still be the source or the destination.
          */
-        std::vector<tripoint_bub_ms> route( const tripoint_bub_ms &f, const tripoint_bub_ms &t,
+        std::vector<tripoint_bub_ms> route( const tripoint_bub_ms &f, const pathfinding_target &target,
                                             const pathfinding_settings &settings,
         const std::function<bool( const tripoint_bub_ms & )> &avoid = []( const tripoint_bub_ms & ) {
             return false;
         } ) const;
+
+        /**
+         * Calculate the best path using A*
+         *
+         * @param who The creature to find a path for.
+         * @param target The destination to which to path.
+         */
+        std::vector<tripoint_bub_ms> route( const Creature &who, const pathfinding_target &target ) const;
 
         // Get a straight route from f to t, only along non-rough terrain. Returns an empty vector
         // if that is not possible.
@@ -796,6 +811,7 @@ class map
         // optionally: include a list of parts to displace instead of the entire vehicle
         bool displace_vehicle( vehicle &veh, const tripoint_rel_ms &dp, bool adjust_pos = true,
                                const std::set<int> &parts_to_move = {} );
+
         // make sure a vehicle that is split across z-levels is properly supported
         // calls displace_vehicle() and shouldn't be called from displace_vehicle
         void level_vehicle( vehicle &veh );
@@ -805,7 +821,7 @@ class map
         // Returns the wheel area of the vehicle multiplied by traction of the surface
         // When ignore_movement_modifiers is set to true, it returns the area of the wheels touching the ground
         // TODO: Remove the ugly sinking vehicle hack
-        float vehicle_wheel_traction( const vehicle &veh, bool ignore_movement_modifiers = false ) const;
+        float vehicle_wheel_traction( const vehicle &veh, bool ignore_movement_modifiers = false );
 
         // Executes vehicle-vehicle collision based on vehicle::collision results
         // Returns impulse of the executed collision
@@ -1128,7 +1144,7 @@ class map
         /** Keeps bashing a square until there is no more vehicle part */
         void destroy_vehicle( const tripoint_bub_ms &, bool silent = false );
         void crush( const tripoint_bub_ms &p );
-        void shoot( const tripoint_bub_ms &p, projectile &proj, bool hit_items );
+        double shoot( const tripoint_bub_ms &p, projectile &proj, bool hit_items );
         /** Checks if a square should collapse, returns the X for the one_in(X) collapse chance */
         int collapse_check( const tripoint_bub_ms &p ) const;
         /** Causes a collapse at p, such as from destroying a wall */
@@ -1148,7 +1164,8 @@ class map
          */
         bash_params bash( const tripoint_bub_ms &p, int str, bool silent = false,
                           bool destroy = false, bool bash_floor = false,
-                          const vehicle *bashing_vehicle = nullptr );
+                          const vehicle *bashing_vehicle = nullptr,
+                          bool repair_missing_ground = true );
 
         // Effects of attacks/items
         bool hit_with_acid( const tripoint_bub_ms &p );
@@ -1242,25 +1259,6 @@ class map
                         variant, faction );
         }
 
-        // FIXME: remove these overloads and require spawn_item to take an
-        // itype_id
-        void spawn_item( const tripoint_bub_ms &p, const std::string &type_id,
-                         unsigned quantity = 1, int charges = 0,
-                         const time_point &birthday = calendar::start_of_cataclysm, int damlevel = 0,
-                         const std::set<flag_id> &flags = {}, const std::string &variant = "",
-                         const std::string &faction = "" ) {
-            spawn_item( p, itype_id( type_id ), quantity, charges, birthday, damlevel, flags, variant,
-                        faction );
-        }
-        void spawn_item( const point_bub_ms &p, const std::string &type_id,
-                         unsigned quantity = 1, int charges = 0,
-                         const time_point &birthday = calendar::start_of_cataclysm, int damlevel = 0,
-                         const std::set<flag_id> &flags = {}, const std::string &variant = "",
-                         const std::string &faction = "" ) {
-            spawn_item( tripoint_bub_ms( p, abs_sub.z() ), type_id, quantity, charges, birthday, damlevel,
-                        flags,
-                        variant, faction );
-        }
         units::volume max_volume( const tripoint_bub_ms &p );
         units::volume free_volume( const tripoint_bub_ms &p );
         units::volume stored_volume( const tripoint_bub_ms &p );
@@ -1274,7 +1272,8 @@ class map
          *  @return reference to dropped (and possibly stacked) item or null item on failure
          *  @warning function is relatively expensive and meant for user initiated actions, not mapgen
          */
-        item_location add_item_ret_loc( const tripoint_bub_ms &pos, item obj, bool overflow = true );
+        item_location add_item_or_charges_ret_loc( const tripoint_bub_ms &pos, item obj,
+                bool overflow = true );
         item &add_item_or_charges( const tripoint_bub_ms &pos, item obj, bool overflow = true );
         item &add_item_or_charges( const tripoint_bub_ms &pos, item obj, int &copies_remaining,
                                    bool overflow = true );
@@ -1610,7 +1609,6 @@ class map
                        bool need_validate = true );
         void remove_submap_camp( const tripoint_bub_ms & );
         basecamp hoist_submap_camp( const tripoint_bub_ms &p );
-        bool point_within_camp( const tripoint_abs_ms &point_check ) const;
         // Graffiti
         bool has_graffiti_at( const tripoint_bub_ms &p ) const;
         const std::string &graffiti_at( const tripoint_bub_ms &p ) const;
@@ -1651,7 +1649,7 @@ class map
         void drop_items( const tripoint_bub_ms &p );
         void drop_vehicle( const tripoint_bub_ms &p );
         void drop_fields( const tripoint_bub_ms &p );
-        void drop_creature( const tripoint_bub_ms &p ) const;
+        void drop_creature( const tripoint_bub_ms &p );
         /*@}*/
     public:
         /**
@@ -1664,7 +1662,8 @@ class map
         // mapgen.cpp functions
         // The code relies on the submap coordinate falling on omt boundaries, so taking a
         // tripoint_abs_omt coordinate guarantees this will be fulfilled.
-        void generate( const tripoint_abs_omt &p, const time_point &when, bool save_results );
+        void generate( const tripoint_abs_omt &p, const time_point &when, bool save_results,
+                       bool run_post_process = true );
         // Used when contents has been generated by 'generate' with save_results = false to dispose of
         // submaps that aren't present in the map buffer. This is done to avoid memory leaks.
         void delete_unmerged_submaps();
@@ -1678,7 +1677,7 @@ class map
         // 6 liters at 250 ml per charge
         void place_toilet( const tripoint_bub_ms &p, int charges = 6 * 4 );
         void place_vending( const tripoint_bub_ms &p, const item_group_id &type, bool reinforced = false,
-                            bool lootable = false, bool powered = false );
+                            bool lootable = false, bool powered = false, bool networked = false );
         // places an NPC, if static NPCs are enabled or if force is true
         character_id place_npc( const point_bub_ms &p, const string_id<npc_template> &type );
         void apply_faction_ownership( const point_bub_ms &p1, const point_bub_ms &p2,
@@ -1750,13 +1749,13 @@ class map
          * Coordinates is in the system that is used by the ter/furn/i_at functions.
          * Output is in the same scale, but in global system.
          */
-        tripoint_abs_ms getglobal( const tripoint_bub_ms &p ) const;
+        tripoint_abs_ms get_abs( const tripoint_bub_ms &p ) const;
         /**
-         * Inverse of @ref getglobal
+         * Inverse of @ref get_abs
          */
-        tripoint_bub_ms bub_from_abs( const tripoint_abs_ms &p ) const;
-        point_bub_ms bub_from_abs( const point_abs_ms &p ) const {
-            return bub_from_abs( tripoint_abs_ms( p, abs_sub.z() ) ).xy();
+        tripoint_bub_ms get_bub( const tripoint_abs_ms &p ) const;
+        point_bub_ms get_bub( const point_abs_ms &p ) const {
+            return get_bub( tripoint_abs_ms( p, abs_sub.z() ) ).xy();
         }
         bool inbounds( const tripoint_bub_ms &p ) const;
         bool inbounds( const tripoint_abs_ms &p ) const;
@@ -2064,7 +2063,8 @@ class map
 
         // Internal methods used to bash just the selected features
         // Information on what to bash/what was bashed is read from/written to the bash_params struct
-        void bash_ter_furn( const tripoint_bub_ms &p, bash_params &params );
+        void bash_ter_furn( const tripoint_bub_ms &p, bash_params &params,
+                            bool repair_missing_ground = true );
         void bash_items( const tripoint_bub_ms &p, bash_params &params );
         void bash_vehicle( const tripoint_bub_ms &p, bash_params &params );
         void bash_field( const tripoint_bub_ms &p, bash_params &params );
@@ -2075,6 +2075,10 @@ class map
         ter_str_id get_roof( const tripoint_bub_ms &p, bool allow_air ) const;
 
     public:
+
+        // handles all the bash results of specific terrain or furniture
+        void drop_bash_results( const map_data_common_t &ter_furn, const tripoint_bub_ms &p );
+
         void process_items();
         // All active items connected to the power_grid with their connection points.
         std::vector<item_reference> item_network_connections( vehicle *power_grid );
@@ -2247,7 +2251,21 @@ class map
 #endif
 };
 
+// The map the code is currently processing. It is currently (incorrectly) fixed at the
+// reality bubble, but will will have to be constantly adjusted to match the map that's
+// actually processed (so reality bubble coordinates on a mapgen map are actually referring
+// to that map rather than the reality bubble).
 map &get_map();
+
+// The reality bubble map, for when you need it to e.g. determine whether the map
+// you're operating on is the reality bubble. This can be to process things differently
+// between mapgen and the reality bubble, determine whether to carry over map cache info,
+// determine whether to produce a sound, etc.
+// Note that if the game will support more than one reality bubble map for a longer period
+// than a single tick, this operation will have to be split into one for the active bubble
+// for sound etc. processing, and another one for accessing all bubbles for cache
+// synchronization purposes.
+map &reality_bubble();
 
 template<int SIZE, int MULTIPLIER>
 void shift_bitset_cache( std::bitset<SIZE *SIZE> &cache, const point_rel_sm &s );
@@ -2383,14 +2401,6 @@ class tinymap : private map
             map::spawn_item( rebase_bub( p ), type_id, quantity, charges, birthday, damlevel, flags, variant,
                              faction );
         }
-        void spawn_item( const tripoint_omt_ms &p, const std::string &type_id, // TODO: Make it typed
-                         unsigned quantity = 1, int charges = 0,
-                         const time_point &birthday = calendar::start_of_cataclysm, int damlevel = 0,
-                         const std::set<flag_id> &flags = {}, const std::string &variant = "",
-                         const std::string &faction = "" ) {
-            map::spawn_item( rebase_bub( p ), type_id, quantity, charges, birthday, damlevel, flags, variant,
-                             faction );
-        }
         std::vector<item *> spawn_items( const tripoint_omt_ms &p, const std::vector<item> &new_items ) {
             return map::spawn_items( rebase_bub( p ), new_items );
         }
@@ -2423,20 +2433,20 @@ class tinymap : private map
             map::i_rem( rebase_bub( p ), it );
         }
         void i_clear( const tripoint_omt_ms &p ) {
-            return map::i_clear( rebase_bub( p ) );
+            map::i_clear( rebase_bub( p ) );
         }
         bool add_field( const tripoint_omt_ms &p, const field_type_id &type_id, int intensity = INT_MAX,
                         const time_duration &age = 0_turns, bool hit_player = true ) {
             return map::add_field( rebase_bub( p ), type_id, intensity, age, hit_player );
         }
         void delete_field( const tripoint_omt_ms &p, const field_type_id &field_to_remove ) {
-            return map::delete_field( rebase_bub( p ), field_to_remove );
+            map::delete_field( rebase_bub( p ), field_to_remove );
         }
         bool has_flag( ter_furn_flag flag, const tripoint_omt_ms &p ) const {
             return map::has_flag( flag, rebase_bub( p ) );
         }
         void destroy( const tripoint_omt_ms &p, bool silent = false ) {
-            return map::destroy( rebase_bub( p ), silent );
+            map::destroy( rebase_bub( p ), silent );
         }
         const trap &tr_at( const tripoint_omt_ms &p ) const {
             return map::tr_at( rebase_bub( p ) );
@@ -2464,7 +2474,7 @@ class tinymap : private map
         }
         void add_splatter_trail( const field_type_id &type, const tripoint_omt_ms &from,
                                  const tripoint_omt_ms &to ) {
-            return map::add_splatter_trail( type, rebase_bub( from ), rebase_bub( to ) );
+            map::add_splatter_trail( type, rebase_bub( from ), rebase_bub( to ) );
         }
         void collapse_at( const tripoint_omt_ms &p, bool silent,
                           bool was_supporting = false,
@@ -2474,11 +2484,11 @@ class tinymap : private map
         tripoint_abs_sm get_abs_sub() const {
             return map::get_abs_sub();
         }
-        tripoint_abs_ms getglobal( const tripoint_omt_ms &p ) const {
-            return map::getglobal( rebase_bub( p ) );
+        tripoint_abs_ms get_abs( const tripoint_omt_ms &p ) const {
+            return map::get_abs( rebase_bub( p ) );
         }
-        tripoint_omt_ms omt_from_abs( const tripoint_abs_ms &p ) const {
-            return rebase_omt( map::bub_from_abs( p ) );
+        tripoint_omt_ms get_omt( const tripoint_abs_ms &p ) const {
+            return rebase_omt( map::get_bub( p ) );
         };
         bool is_outside( const tripoint_omt_ms &p ) const {
             return map::is_outside( rebase_bub( p ) );

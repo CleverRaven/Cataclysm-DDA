@@ -2,16 +2,11 @@
 
 #include <algorithm>
 #include <climits>
-#include <set>
 #include <vector>
 
 #include "coordinates.h"
 #include "debug.h"
-#include "flexbuffer_json-inl.h"
-#include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "init.h"
-#include "json_error.h"
 #include "options.h"
 #include "rng.h"
 #include "text_snippets.h"
@@ -43,17 +38,20 @@ void city::load_city( const JsonObject &jo, const std::string &src )
 
 void city::finalize()
 {
-    for( city &c : const_cast<std::vector<city>&>( city::get_all() ) ) {
-        if( c.name.empty() ) {
-            c.name = SNIPPET.expand( "<city_name>" );
-        }
-        if( c.population == 0 ) {
-            c.population = rng( 1, INT_MAX );
-        }
-        if( c.size == -1 ) {
-            c.size = rng( 1, 16 );
-        }
+    if( name.empty() ) {
+        name = SNIPPET.expand( "<city_name>" );
     }
+    if( population == 0 ) {
+        population = rng( 1, INT_MAX );
+    }
+    if( size == -1 ) {
+        size = rng( 1, 16 );
+    }
+}
+
+void city::finalize_all()
+{
+    get_city_factory().finalize();
 }
 
 void city::check_consistency()
@@ -71,7 +69,7 @@ void city::reset()
     get_city_factory().reset();
 }
 
-void city::load( const JsonObject &jo, const std::string_view )
+void city::load( const JsonObject &jo, std::string_view )
 {
 
     mandatory( jo, was_loaded, "id", id );

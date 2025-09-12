@@ -3,23 +3,24 @@
 #define CATA_SRC_MAP_EXTRAS_H
 
 #include <cstdint>
-#include <iosfwd>
+#include <optional>
 #include <string>
+#include <string_view>
 #include <unordered_map>
+#include <utility>
+#include <vector>
 
 #include "catacharset.h"
 #include "color.h"
 #include "coords_fwd.h"
 #include "flat_set.h"
-#include "string_id.h"
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
 
 class JsonObject;
 class map;
 class mapgendata;
 class tinymap;
-struct tripoint;
 template<typename T> class generic_factory;
 template<typename T> struct enum_traits;
 
@@ -70,6 +71,8 @@ class map_extra
         // Used by generic_factory
         bool was_loaded = false;
         void load( const JsonObject &jo, std::string_view src );
+        static void finalize_all();
+        void finalize() const;
         void check() const;
     private:
         translation name_;

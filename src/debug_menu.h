@@ -8,12 +8,11 @@
 #include <string>
 #include <string_view>
 
-#include "coordinates.h"
+#include "coordinates.h"  // IWYU pragma: keep
 
 class Character;
 class Creature;
 struct mongroup;
-
 template <typename E> struct enum_traits;
 
 namespace debug_menu
@@ -25,6 +24,7 @@ enum class debug_menu_index : int {
     SHORT_TELEPORT,
     LONG_TELEPORT,
     SPAWN_NPC,
+    SPAWN_NPC_FOLLOWER,
     SPAWN_NAMED_NPC,
     SPAWN_OM_NPC,
     SPAWN_MON,
@@ -47,6 +47,7 @@ enum class debug_menu_index : int {
     SPAWN_CLAIRVOYANCE,
     SPAWN_HORDE,
     MAP_EDITOR,
+    PALETTE_VIEWER,
     CHANGE_WEATHER,
     WIND_DIRECTION,
     WIND_SPEED,
@@ -68,6 +69,7 @@ enum class debug_menu_index : int {
     OM_TELEPORT,
     OM_TELEPORT_COORDINATES,
     OM_TELEPORT_CITY,
+    PRINT_OVERMAPS,
     TRAIT_GROUP,
     ENABLE_ACHIEVEMENTS,
     SHOW_MSG,
@@ -115,6 +117,7 @@ enum class debug_menu_index : int {
     WRITE_CITY_LIST,
     TALK_TOPIC,
     IMGUI_DEMO,
+    VEHICLE_EFFECTS,
     last
 };
 
@@ -123,7 +126,7 @@ void wishitem( Character *you = nullptr );
 void wishitem( Character *you, const tripoint_bub_ms & );
 // Shows a menu to debug item groups. Spawns items if test is false, otherwise displays would be spawned items.
 void wishitemgroup( bool test );
-void wishmonster( const std::optional<tripoint> &p );
+void wishmonster( const std::optional<tripoint_bub_ms> &p );
 void wishmonstergroup( tripoint_abs_omt &loc );
 void wishmonstergroup_mon_selection( mongroup &group );
 void wishmutate( Character *you );

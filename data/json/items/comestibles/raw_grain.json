@@ -1,6 +1,7 @@
 [
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "corn",
     "name": { "str": "corn cob" },
     "weight": "140 g",
@@ -20,7 +21,8 @@
     "use_action": { "type": "consume_drug", "used_up_item": "empty_corn_cob", "moves": 500 }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "corn_kernels",
     "name": { "str_sp": "corn kernels" },
     "weight": "60 g",
@@ -38,10 +40,15 @@
     "vitamins": [ [ "vitC", 12 ], [ "iron", 4 ], [ "veggy_allergen", 1 ] ],
     "petfood": [ "CATTLEFOOD" ],
     "flags": [ "EDIBLE_FROZEN", "EATEN_HOT", "SMOKABLE", "RAW", "INEDIBLE", "CATTLE", "PLANTABLE_SEED", "BIRD", "RAT", "MOUSE" ],
-    "seed_data": { "plant_name": "corn", "fruit": "corn", "seeds": false, "byproducts": [ "withered" ], "grow": "80 days" }
+    "plant_name": "corn",
+    "fruit": "corn",
+    "seeds": false,
+    "byproducts": [ "withered" ],
+    "grow": "80 days"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "empty_corn_cob",
     "name": { "str": "empty corn cob" },
     "weight": "80 g",
@@ -59,7 +66,8 @@
     "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "popcorn_cob",
     "name": { "str": "popcorn cob" },
     "comestible_type": "FOOD",
@@ -69,7 +77,8 @@
     "use_action": { "type": "consume_drug", "used_up_item": "empty_corn_cob", "moves": 500 }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "popcorn_raw",
     "name": { "str_sp": "raw popcorn" },
     "copy-from": "corn_kernels",
@@ -82,10 +91,15 @@
     "smoking_result": "kernels",
     "petfood": [ "CATTLEFOOD", "BIRDFOOD" ],
     "flags": [ "NUTRIENT_OVERRIDE", "EATEN_HOT", "SMOKABLE", "RAW", "PLANTABLE_SEED", "CATTLE", "BIRD", "RAT", "MOUSE" ],
-    "seed_data": { "plant_name": "popcorn", "fruit": "popcorn_cob", "seeds": false, "byproducts": [ "withered" ], "grow": "91 days" }
+    "plant_name": "popcorn",
+    "fruit": "popcorn_cob",
+    "seeds": false,
+    "byproducts": [ "withered" ],
+    "grow": "91 days"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "kernels",
     "name": { "str_sp": "popcorn kernels" },
     "weight": "45 g",
@@ -102,11 +116,16 @@
     "fun": -6,
     "petfood": [ "CATTLEFOOD", "BIRDFOOD" ],
     "flags": [ "NUTRIENT_OVERRIDE", "EDIBLE_FROZEN", "PLANTABLE_SEED", "INEDIBLE", "CATTLE", "BIRD", "RAT", "MOUSE" ],
-    "seed_data": { "plant_name": "popcorn", "fruit": "popcorn_cob", "seeds": false, "byproducts": [ "withered" ], "grow": "91 days" },
-    "vitamins": [ [ "junk_allergen", 1 ] ]
+    "vitamins": [ [ "junk_allergen", 1 ] ],
+    "plant_name": "popcorn",
+    "fruit": "popcorn_cob",
+    "seeds": false,
+    "byproducts": [ "withered" ],
+    "grow": "91 days"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "popcorn",
     "name": { "str_sp": "popcorn" },
     "weight": "11 g",
@@ -127,7 +146,8 @@
     "vitamins": [ [ "iron", 2 ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "popcorn2",
     "name": { "str_sp": "salted popcorn" },
     "copy-from": "popcorn",
@@ -139,7 +159,8 @@
     "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "popcorn3",
     "name": { "str_sp": "buttered popcorn" },
     "copy-from": "popcorn",
@@ -151,7 +172,8 @@
     "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "wheat_stalks",
     "name": { "str_sp": "wheat stalks" },
     "comestible_type": "FOOD",
@@ -172,7 +194,8 @@
     "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "dry_wheat_stalks",
     "name": { "str_sp": "dried wheat stalks" },
     "comestible_type": "FOOD",
@@ -192,7 +215,8 @@
     "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "threshed_wheat",
     "name": { "str_sp": "threshed wheat" },
     "comestible_type": "FOOD",
@@ -211,7 +235,8 @@
     "vitamins": [ [ "wheat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "chaff",
     "name": { "str_sp": "chaff" },
     "comestible_type": "FOOD",
@@ -231,7 +256,8 @@
     "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "SEED", "MILLING", "COMESTIBLE" ],
     "id": "wheat",
     "name": { "str_sp": "wheat" },
     "weight": "203 g",
@@ -245,15 +271,20 @@
     "price_postapoc": "1 USD",
     "material": [ "wheat" ],
     "//": "These things are rock-hard and not digestible by humans, but birds and cattle can eat them just fine.",
-    "milling": { "into": "flour", "recipe": "flour_mill_1_15" },
     "volume": "250 ml",
     "vitamins": [ [ "calcium", 4 ], [ "iron", 40 ], [ "wheat_allergen", 1 ] ],
     "petfood": [ "CATTLEFOOD", "BIRDFOOD" ],
     "flags": [ "EDIBLE_FROZEN", "RAW", "INEDIBLE", "CATTLE", "PLANTABLE_SEED", "CUT_HARVEST", "BIRD", "RAT", "MOUSE" ],
-    "seed_data": { "plant_name": "wheat", "fruit": "wheat_stalks", "seeds": false, "grow": "120 days" }
+    "plant_name": "wheat",
+    "fruit": "wheat_stalks",
+    "seeds": false,
+    "grow": "120 days",
+    "into": "flour",
+    "recipe": "flour_mill_1_15"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "barley_stalks",
     "name": { "str_sp": "barley stalks" },
     "copy-from": "wheat_stalks",
@@ -262,7 +293,8 @@
     "smoking_result": "dry_barley_stalks"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "dry_barley_stalks",
     "name": { "str_sp": "dried barley stalks" },
     "copy-from": "dry_wheat_stalks",
@@ -270,7 +302,8 @@
     "description": "A sheaf of dried barley stalks.  These will require threshing before anything can be done with them."
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "threshed_barley",
     "name": { "str_sp": "threshed barley" },
     "copy-from": "threshed_wheat",
@@ -278,7 +311,8 @@
     "description": "Barley with the chaff still mixed in.  It will have to be winnowed before it's usable."
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "SEED", "MILLING", "COMESTIBLE" ],
     "id": "barley",
     "name": { "str_sp": "barley" },
     "weight": "211 g",
@@ -292,14 +326,19 @@
     "price_postapoc": "62 cent",
     "material": [ "veggy" ],
     "volume": "250 ml",
-    "milling": { "into": "flour", "recipe": "flour_mill_1_15" },
     "vitamins": [ [ "calcium", 6 ], [ "iron", 29 ], [ "veggy_allergen", 1 ] ],
     "petfood": [ "CATTLEFOOD", "BIRDFOOD" ],
     "flags": [ "EDIBLE_FROZEN", "RAW", "INEDIBLE", "CATTLE", "PLANTABLE_SEED", "CUT_HARVEST", "BIRD", "RAT", "MOUSE" ],
-    "seed_data": { "plant_name": "barley", "fruit": "barley_stalks", "seeds": false, "grow": "70 days" }
+    "plant_name": "barley",
+    "fruit": "barley_stalks",
+    "seeds": false,
+    "grow": "70 days",
+    "into": "flour",
+    "recipe": "flour_mill_1_15"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "oat_stalks",
     "name": { "str_sp": "oat stalks" },
     "copy-from": "wheat_stalks",
@@ -310,7 +349,8 @@
     "smoking_result": "dry_oat_stalks"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "dry_oat_stalks",
     "name": { "str_sp": "dried oat stalks" },
     "copy-from": "dry_wheat_stalks",
@@ -321,7 +361,8 @@
     "price_postapoc": "10 cent"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "threshed_oats",
     "name": { "str_sp": "threshed oats" },
     "copy-from": "threshed_wheat",
@@ -332,7 +373,8 @@
     "price_postapoc": "10 cent"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "SEED", "MILLING", "COMESTIBLE" ],
     "id": "oats",
     "name": { "str_sp": "oats" },
     "weight": "203 g",
@@ -346,7 +388,6 @@
     "price_postapoc": "1 USD",
     "material": [ "wheat" ],
     "volume": "250 ml",
-    "milling": { "into": "flour_wheat_free", "recipe": "flour_wheat_free_mill_4_15" },
     "vitamins": [ [ "calcium", 3 ], [ "iron", 20 ], [ "wheat_allergen", 1 ] ],
     "petfood": [ "CATTLEFOOD", "BIRDFOOD" ],
     "flags": [
@@ -361,10 +402,16 @@
       "RAT",
       "MOUSE"
     ],
-    "seed_data": { "plant_name": "oats", "fruit": "oat_stalks", "seeds": false, "grow": "65 days" }
+    "plant_name": "oats",
+    "fruit": "oat_stalks",
+    "seeds": false,
+    "grow": "65 days",
+    "into": "flour_wheat_free",
+    "recipe": "flour_wheat_free_mill_4_15"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "wild_rice_stalks",
     "name": { "str_sp": "wild rice stalks" },
     "copy-from": "buckwheat_stalks",
@@ -376,7 +423,8 @@
     "smoking_result": "dry_wild_rice_stalks"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "dry_wild_rice_stalks",
     "name": { "str_sp": "dried wild rice stalks" },
     "copy-from": "dry_buckwheat_stalks",
@@ -387,21 +435,27 @@
     "price_postapoc": "10 cent"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "SEED", "MILLING", "COMESTIBLE" ],
     "id": "wild_rice",
     "name": { "str_sp": "wild rice" },
     "copy-from": "oats",
     "material": [ "veggy" ],
     "calories": 120,
     "description": "Raw wild rice, still in its fibrous shell.  It'll need to be milled before it's edible for humans.",
-    "milling": { "into": "dry_wild_rice", "recipe": "dry_wild_rice_mill_1_5" },
     "fun": -20,
     "petfood": [ "CATTLEFOOD", "BIRDFOOD" ],
     "flags": [ "EDIBLE_FROZEN", "RAW", "INEDIBLE", "CATTLE", "PLANTABLE_SEED", "CUT_HARVEST", "BIRD", "RAT", "MOUSE" ],
-    "seed_data": { "plant_name": "wild rice", "fruit": "wild_rice_stalks", "seeds": false, "grow": "91 days" }
+    "plant_name": "wild rice",
+    "fruit": "wild_rice_stalks",
+    "seeds": false,
+    "grow": "91 days",
+    "into": "dry_wild_rice",
+    "recipe": "dry_wild_rice_mill_1_5"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "SEED", "MILLING", "COMESTIBLE" ],
     "id": "buckwheat",
     "name": { "str_sp": "buckwheat" },
     "weight": "180 g",
@@ -415,14 +469,19 @@
     "price_postapoc": "2 USD",
     "material": [ "veggy" ],
     "volume": "250 ml",
-    "milling": { "into": "flour_wheat_free", "recipe": "flour_wheat_free_mill_1_15" },
     "vitamins": [ [ "calcium", 3 ], [ "iron", 22 ], [ "veggy_allergen", 1 ] ],
     "petfood": [ "CATTLEFOOD", "BIRDFOOD" ],
     "flags": [ "EDIBLE_FROZEN", "RAW", "INEDIBLE", "CATTLE", "PLANTABLE_SEED", "CUT_HARVEST", "BIRD", "RAT", "MOUSE" ],
-    "seed_data": { "plant_name": "buckwheat", "fruit": "buckwheat_stalks", "seeds": false, "grow": "91 days" }
+    "plant_name": "buckwheat",
+    "fruit": "buckwheat_stalks",
+    "seeds": false,
+    "grow": "91 days",
+    "into": "flour_wheat_free",
+    "recipe": "flour_wheat_free_mill_1_15"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "canola_stalks",
     "name": { "str_sp": "canola stalks" },
     "copy-from": "wheat_stalks",
@@ -436,7 +495,8 @@
     "volume": "315 ml"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "dry_canola_stalks",
     "name": { "str_sp": "dried canola stalks" },
     "copy-from": "dry_wheat_stalks",
@@ -449,7 +509,8 @@
     "volume": "315 ml"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "threshed_canola",
     "name": { "str_sp": "threshed canola" },
     "copy-from": "threshed_wheat",
@@ -462,7 +523,8 @@
     "volume": "252 ml"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "SEED", "MILLING", "COMESTIBLE" ],
     "id": "seed_canola",
     "name": { "str_sp": "canola seeds" },
     "weight": "132 g",
@@ -491,11 +553,16 @@
       "RAT",
       "MOUSE"
     ],
-    "seed_data": { "plant_name": "canola", "fruit": "canola_stalks", "seeds": false, "grow": "91 days" },
-    "milling": { "into": "paste_seed", "recipe": "paste_seed_mill_1_1" }
+    "plant_name": "canola",
+    "fruit": "canola_stalks",
+    "seeds": false,
+    "grow": "91 days",
+    "into": "paste_seed",
+    "recipe": "paste_seed_mill_1_1"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "dry_lentil_stalks",
     "name": { "str_sp": "dried lentil stalks" },
     "copy-from": "dry_wheat_stalks",
@@ -508,7 +575,8 @@
     "volume": "315 ml"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "threshed_lentils",
     "name": { "str_sp": "threshed lentils" },
     "copy-from": "threshed_wheat",
@@ -521,7 +589,8 @@
     "volume": "252 ml"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "dry_lentils",
     "name": { "str_sp": "dried lentils" },
     "weight": "132 g",
@@ -539,10 +608,14 @@
     "vitamins": [ [ "calcium", 4 ], [ "iron", 47 ], [ "vitC", 7 ], [ "veggy_allergen", 1 ] ],
     "petfood": [ "CATTLEFOOD", "BIRDFOOD" ],
     "flags": [ "EDIBLE_FROZEN", "RAW", "INEDIBLE", "NUTRIENT_OVERRIDE", "CATTLE", "PLANTABLE_SEED", "BIRD", "RAT", "MOUSE" ],
-    "seed_data": { "plant_name": "lentils", "fruit": "dry_lentil_stalks", "seeds": false, "grow": "91 days" }
+    "plant_name": "lentils",
+    "fruit": "dry_lentil_stalks",
+    "seeds": false,
+    "grow": "91 days"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "buckwheat_stalks",
     "name": { "str_sp": "buckwheat stalks" },
     "comestible_type": "FOOD",
@@ -562,7 +635,8 @@
     "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "dry_buckwheat_stalks",
     "name": { "str_sp": "dried buckwheat stalks" },
     "comestible_type": "FOOD",
@@ -582,7 +656,8 @@
     "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "threshed_buckwheat",
     "name": { "str_sp": "threshed buckwheat" },
     "comestible_type": "FOOD",

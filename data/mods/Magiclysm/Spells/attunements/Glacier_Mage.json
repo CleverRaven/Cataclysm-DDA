@@ -8,7 +8,7 @@
     "shape": "cone",
     "valid_targets": [ "hostile", "ground" ],
     "extra_effects": [ { "id": "ice_clave_blunt" }, { "id": "eoc_evocation_setup", "hit_self": true } ],
-    "flags": [ "EVOCATION_SPELL", "RANDOM_DAMAGE", "LOUD", "NO_HANDS", "MUST_HAVE_CLASS_TO_LEARN", "NO_HANDS", "SPLIT_DAMAGE" ],
+    "flags": [ "EVOCATION_SPELL", "RANDOM_DAMAGE", "LOUD", "MUST_HAVE_CLASS_TO_LEARN", "NO_HANDS", "SPLIT_DAMAGE" ],
     "min_damage": { "math": [ "(u_spell_level('ice_clave') * 0.5) + 12" ] },
     "max_damage": { "math": [ "(u_spell_level('ice_clave') * 1.4) + 20" ] },
     "min_range": 3,

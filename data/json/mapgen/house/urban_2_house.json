@@ -1,9 +1,7 @@
 [
   {
-    "method": "json",
     "om_terrain": [ [ "urban_2_1", "urban_2_2" ] ],
     "type": "mapgen",
-    "weight": 250,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -79,10 +77,8 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": [ [ "urban_2_3", "urban_2_4" ] ],
     "type": "mapgen",
-    "weight": 250,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -126,10 +122,8 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": [ [ "urban_2_5", "urban_2_6" ] ],
     "type": "mapgen",
-    "weight": 250,
     "object": {
       "fill_ter": "t_shingle_flat_roof",
       "rows": [
@@ -163,7 +157,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": [ [ "urban_2_1_basement", "urban_2_2_basement" ] ],
     "type": "mapgen",
     "object": {
@@ -183,7 +176,7 @@
         "       |........................z............|  ",
         "       |.....................................|  ",
         "       |.....................................|  ",
-        "       |............zz...F.g.................|  ",
+        "       |............zz...â.g.................|  ",
         "       |................||||||...............|  ",
         "       |................|    |...............|  ",
         "       ||||||||||||||||||    |||||||||||||||||  ",
@@ -194,7 +187,7 @@
         "                                                ",
         "                                                "
       ],
-      "palettes": [ "basement_empty" ],
+      "palettes": [ "standard_domestic_basement_palette" ],
       "nested": {
         "2": { "chunks": [ [ "null", 80 ], [ "room_9x9_cellar_W", 20 ], [ "room_9x9_weed_W", 5 ], [ "room_9x9_recroom_W", 20 ] ] },
         "1": {

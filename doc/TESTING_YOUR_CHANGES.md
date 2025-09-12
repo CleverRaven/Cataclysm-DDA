@@ -1,3 +1,17 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Testing your changes and making sure they work as expected](#testing-your-changes-and-making-sure-they-work-as-expected)
+  - [Style](#style)
+  - [Applying your changes locally](#applying-your-changes-locally)
+  - [Using the debug menu](#using-the-debug-menu)
+    - [Items](#items)
+    - [Mapgen](#mapgen)
+    - [Monsters](#monsters)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Testing your changes and making sure they work as expected
 
 So you contributed or did something else that warrants testing. Nice work.
@@ -10,8 +24,8 @@ Typo fixes and the like usually do not need to be tested.
 The [Manual of Style](MANUAL_OF_STYLE.md), applies to any proposed change,
 so read this one first.
 
-For JSON changes, read [JSON_STYLE.md](JSON_STYLE.md).
-For C++ changes, read [CODE_STYLE.md](CODE_STYLE.md).
+For JSON changes, read [JSON/JSON_STYLE.md](JSON/JSON_STYLE.md).
+For C++ changes, read [c++/CODE_STYLE.md](c++/CODE_STYLE.md).
 
 All released builds include a pre-compiled `json_formatter.cgi`, which
 is a handy tool to automatically format any JSON file you point it at
@@ -36,8 +50,8 @@ JSON files, so after making changes, make sure to either relaunch
 Cataclysm or reload your save, whatever is more convenient.
 
 For C++ changes, you will need to compile the game yourself.
-See [COMPILING.md](COMPILING/COMPILING.md).
-You may also want to look at [TESTING.md](TESTING.md) for our unit
+See [COMPILING.md](c++/COMPILING.md).
+You may also want to look at [c++/TESTING.md](c++/TESTING.md) for our unit
 tests.
 
 ## Using the debug menu

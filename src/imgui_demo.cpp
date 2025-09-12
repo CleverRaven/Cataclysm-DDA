@@ -1,11 +1,14 @@
 #include "imgui_demo.h"
 
 #include <imgui/imgui.h>
+#include <string>
 
 #include "cata_imgui.h"
-#include "ui_manager.h"
+#include "color.h"
 #include "input_context.h"
+#include "text.h"
 #include "translations.h"
+#include "ui_manager.h"
 
 
 imgui_demo_ui::imgui_demo_ui(): cataimgui::window( _( "ImGui Demo Screen" ) )
@@ -21,6 +24,7 @@ cataimgui::bounds imgui_demo_ui::get_bounds()
     return { -1.f, -1.f, ImGui::GetMainViewport()->Size.x, ImGui::GetMainViewport()->Size.y };
 }
 
+/*
 static void draw_lorem( const std::shared_ptr<cataimgui::Paragraph> &stuff )
 {
 
@@ -99,14 +103,12 @@ static void draw_lorem( const std::shared_ptr<cataimgui::Paragraph> &stuff )
         }
     }
     ImGui::End();
-}
+}*/
 
 void imgui_demo_ui::draw_controls()
 {
-#ifndef TUI
     ImGui::ShowDemoWindow();
-#endif
-    draw_lorem( stuff );
+    //draw_lorem( stuff );
 }
 
 void imgui_demo_ui::init()

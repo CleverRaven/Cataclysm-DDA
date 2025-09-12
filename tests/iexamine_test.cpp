@@ -1,17 +1,16 @@
-#include "cata_catch.h"
-#include "map.h"
-
-#include "action.h"
 #include "calendar.h"
-#include "game.h"
+#include "cata_catch.h"
+#include "coordinates.h"
 #include "iexamine.h"
-#include "mapdata.h"
+#include "map.h"
 #include "map_helpers.h"
+#include "mapdata.h"
 #include "point.h"
+#include "type_id.h"
 
 TEST_CASE( "mapdata_examine" )
 {
-    map_data_common_t data;
+    ter_t data;
     data.set_examine( iexamine_functions{iexamine::always_true, iexamine::water_source} );
 
     CHECK( data.has_examine( iexamine::water_source ) );

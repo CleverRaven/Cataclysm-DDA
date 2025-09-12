@@ -1,14 +1,15 @@
-#include <iosfwd>
-#include <list>
 #include <map>
-#include <string>
+#include <ostream>
 #include <utility>
 #include <vector>
 
 #include "avatar.h"
 #include "cata_catch.h"
+#include "character_attire.h"
+#include "coordinates.h"
 #include "flag.h"
 #include "item.h"
+#include "item_location.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "point.h"
@@ -130,7 +131,7 @@ TEST_CASE( "dining_with_table_and_chair", "[food][modify_morale][table][chair]" 
     avatar dummy;
     dummy.set_body();
     const tripoint_bub_ms avatar_pos( 60, 60, 0 );
-    dummy.setpos( avatar_pos );
+    dummy.setpos( here, avatar_pos );
     dummy.worn.wear_item( dummy, item( itype_backpack ), false, false );
 
     // Morale bonus only applies to unspoiled food that is not junk
@@ -319,6 +320,9 @@ TEST_CASE( "cannibalism", "[food][modify_morale][cannibal]" )
     avatar dummy;
     dummy.set_body();
     dummy.worn.wear_item( dummy, item( itype_backpack ), false, false );
+    const int huge_morale_penalty = -60;
+    const int moderate_morale_penalty = -25;
+    const int minor_morale_penalty = -10;
 
     item_location human = dummy.i_add( item( itype_bone_human ) );
     REQUIRE( human->has_vitamin( vitamin_human_flesh_vitamin ) );
@@ -330,7 +334,7 @@ TEST_CASE( "cannibalism", "[food][modify_morale][cannibal]" )
         THEN( "they get a large morale penalty for eating humans" ) {
             dummy.clear_morale();
             dummy.modify_morale( *human );
-            CHECK( dummy.has_morale( morale_cannibal ) <= -60 );
+            CHECK( dummy.has_morale( morale_cannibal ) <= huge_morale_penalty );
         }
 
         WHEN( "character is a psychopath" ) {
@@ -342,17 +346,6 @@ TEST_CASE( "cannibalism", "[food][modify_morale][cannibal]" )
                 dummy.modify_morale( *human );
                 CHECK( dummy.has_morale( morale_cannibal ) == 0 );
             }
-
-            AND_WHEN( "character is a spiritual psychopath" ) {
-                dummy.toggle_trait( trait_SPIRITUAL );
-                REQUIRE( dummy.has_trait( trait_SPIRITUAL ) );
-
-                THEN( "they get a small morale bonus for eating humans" ) {
-                    dummy.clear_morale();
-                    dummy.modify_morale( *human );
-                    CHECK( dummy.has_morale( morale_cannibal ) >= 5 );
-                }
-            }
         }
     }
 
@@ -360,31 +353,32 @@ TEST_CASE( "cannibalism", "[food][modify_morale][cannibal]" )
         dummy.toggle_trait( trait_CANNIBAL );
         REQUIRE( dummy.has_trait( trait_CANNIBAL ) );
 
-        THEN( "they get a morale bonus for eating humans" ) {
+        THEN( "they receive no morale penalty for eating humans" ) {
             dummy.clear_morale();
             dummy.modify_morale( *human );
-            CHECK( dummy.has_morale( morale_cannibal ) >= 10 );
+            CHECK( dummy.has_morale( morale_cannibal ) == 0 );
         }
 
         AND_WHEN( "they are also a psychopath" ) {
             dummy.toggle_trait( trait_PSYCHOPATH );
             REQUIRE( dummy.has_trait( trait_PSYCHOPATH ) );
 
-            THEN( "they get a substantial morale bonus for eating humans" ) {
+            THEN( "they get a reduced morale penalty for eating humans" ) {
                 dummy.clear_morale();
                 dummy.modify_morale( *human );
-                CHECK( dummy.has_morale( morale_cannibal ) >= 15 );
+                CHECK( dummy.has_morale( morale_cannibal ) <= minor_morale_penalty );
             }
+        }
 
-            AND_WHEN( "they are also spiritual" ) {
-                dummy.toggle_trait( trait_SPIRITUAL );
-                REQUIRE( dummy.has_trait( trait_SPIRITUAL ) );
+        AND_WHEN( "they are also spiritual" ) {
+            dummy.toggle_trait( trait_SPIRITUAL );
+            REQUIRE( dummy.has_trait( trait_SPIRITUAL ) );
+            REQUIRE( !dummy.has_trait( trait_PSYCHOPATH ) );
 
-                THEN( "they get a large morale bonus for eating humans" ) {
-                    dummy.clear_morale();
-                    dummy.modify_morale( *human );
-                    CHECK( dummy.has_morale( morale_cannibal ) >= 25 );
-                }
+            THEN( "they get a moderate morale penalty for eating humans" ) {
+                dummy.clear_morale();
+                dummy.modify_morale( *human );
+                CHECK( dummy.has_morale( morale_cannibal ) <= moderate_morale_penalty );
             }
         }
     }

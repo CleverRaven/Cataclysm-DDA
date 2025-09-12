@@ -111,7 +111,7 @@
     "id": "mon_fry_lungfish",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_lungfish" },
+    "upgrades": { "half_life": 56, "into": "mon_fish_lungfish" },
     "name": { "str_sp": "fry" }
   },
   {
@@ -128,7 +128,7 @@
     "id": "mon_fry_eel_electric",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_eel_electric" },
+    "upgrades": { "half_life": 56, "into": "mon_fish_eel_electric" },
     "name": { "str_sp": "fry" }
   },
   {
@@ -143,7 +143,7 @@
     "id": "mon_fry_pacu",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_pacu" },
+    "upgrades": { "half_life": 56, "into": "mon_fish_pacu" },
     "name": { "str_sp": "fry" }
   },
   {
@@ -158,7 +158,7 @@
     "id": "mon_fry_tambaqui",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_pacu_giant" },
+    "upgrades": { "half_life": 56, "into": "mon_fish_pacu_giant" },
     "name": { "str_sp": "fry" }
   },
   {
@@ -195,7 +195,7 @@
     "id": "mon_fry_piranha",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_piranha" },
+    "upgrades": { "half_life": 56, "into": "mon_fish_piranha" },
     "name": { "str_sp": "fry" }
   },
   {
@@ -210,7 +210,7 @@
     "id": "mon_fry_arowana",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_arowana" },
+    "upgrades": { "half_life": 56, "into": "mon_fish_arowana" },
     "name": { "str_sp": "fry" }
   },
   {
@@ -225,7 +225,7 @@
     "id": "mon_fry_arapaima",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_arapaima" },
+    "upgrades": { "half_life": 56, "into": "mon_fish_arapaima" },
     "name": { "str_sp": "fry" }
   },
   {
@@ -240,7 +240,7 @@
     "id": "mon_fry_piraiba",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_piraiba" },
+    "upgrades": { "half_life": 56, "into": "mon_fish_piraiba" },
     "name": { "str_sp": "fry" }
   },
   {
@@ -255,7 +255,7 @@
     "id": "mon_fry_pleco",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_pleco" },
+    "upgrades": { "half_life": 56, "into": "mon_fish_pleco" },
     "name": { "str_sp": "fry" }
   },
   {
@@ -299,7 +299,7 @@
     "volume": "10 ml",
     "weight": "1 g",
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s is smashed to non-recognizable pieces." },
-    "upgrades": { "half_life": 14, "into": "mon_fish_stingray" }
+    "upgrades": { "half_life": 56, "into": "mon_fish_stingray" }
   },
   {
     "id": "mon_fish_gar",
@@ -313,7 +313,7 @@
     "id": "mon_fry_gar",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_gar" },
+    "upgrades": { "half_life": 56, "into": "mon_fish_gar" },
     "name": { "str_sp": "fry" }
   },
   {
@@ -328,7 +328,7 @@
     "id": "mon_fry_tucunare",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_tucunare" },
+    "upgrades": { "half_life": 56, "into": "mon_fish_tucunare" },
     "name": { "str_sp": "fry" }
   },
   {
@@ -343,7 +343,7 @@
     "id": "mon_fry_discus",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_discus" },
+    "upgrades": { "half_life": 56, "into": "mon_fish_discus" },
     "name": { "str_sp": "fry" }
   },
   {
@@ -358,7 +358,7 @@
     "id": "mon_fry_angelfish",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_angelfish" },
+    "upgrades": { "half_life": 56, "into": "mon_fish_angelfish" },
     "name": { "str_sp": "fry" }
   },
   {
@@ -373,7 +373,7 @@
     "id": "mon_fry_koi",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_koi" },
+    "upgrades": { "half_life": 56, "into": "mon_fish_koi" },
     "name": { "str_sp": "fry" }
   },
   {
@@ -388,7 +388,7 @@
     "id": "mon_fry_tilapia",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_tilapia" },
+    "upgrades": { "half_life": 56, "into": "mon_fish_tilapia" },
     "name": { "str_sp": "fry" }
   },
   {
@@ -403,7 +403,7 @@
     "id": "mon_fry_sabalo",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_sabalo" },
+    "upgrades": { "half_life": 56, "into": "mon_fish_sabalo" },
     "name": { "str_sp": "fry" }
   },
   {
@@ -418,7 +418,7 @@
     "id": "mon_fry_oscar",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_oscar" },
+    "upgrades": { "half_life": 56, "into": "mon_fish_oscar" },
     "name": { "str_sp": "fry" }
   },
   {
@@ -433,7 +433,7 @@
     "id": "mon_fry_guapote",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_guapote" },
+    "upgrades": { "half_life": 56, "into": "mon_fish_guapote" },
     "name": { "str_sp": "fry" }
   },
   {
@@ -448,7 +448,7 @@
     "id": "mon_fry_mayaheros",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_mayaheros" },
+    "upgrades": { "half_life": 56, "into": "mon_fish_mayaheros" },
     "name": { "str_sp": "fry" }
   }
 ]

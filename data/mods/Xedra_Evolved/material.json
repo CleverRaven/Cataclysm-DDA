@@ -45,7 +45,6 @@
     "specific_heat_liquid": 3.7,
     "specific_heat_solid": 2.15,
     "latent_heat": 260,
-    "edible": true,
     "rotting": true,
     "chip_resist": 2,
     "dmg_adj": [ "bruised", "mutilated", "badly mutilated", "thoroughly mutilated" ],
@@ -289,5 +288,39 @@
     "bash_dmg_verb": "shaken",
     "cut_dmg_verb": "rippled",
     "resist": { "bash": 6, "cut": 3, "acid": 20, "heat": 2, "bullet": 3 }
+  },
+  {
+    "type": "material",
+    "id": "fruit_heavy",
+    "name": "Fruit Matter",
+    "copy-from": "fruit",
+    "//": "Identical to regular fruit matter but 10 times as heavy.",
+    "density": 11
+  },
+  {
+    "type": "material",
+    "id": "fruit_light",
+    "name": "Fruit Matter",
+    "copy-from": "fruit",
+    "//": "Identical to regular fruit matter but 10 times as light.",
+    "density": 0.11
+  },
+  {
+    "type": "material",
+    "id": "paper_fireproof",
+    "name": "Fireproof Paper",
+    "//": "Identical to regular paper but cannot be burned.  Using delete hasn't worked, so I wrote the entire paper material here.",
+    "density": 1.2,
+    "specific_heat_liquid": 1.34,
+    "specific_heat_solid": 1.34,
+    "latent_heat": 1,
+    "soft": true,
+    "chip_resist": 0,
+    "repaired_with": "paper",
+    "salvaged_into": "paper",
+    "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
+    "bash_dmg_verb": "ripped",
+    "cut_dmg_verb": "cut",
+    "resist": { "bash": 1, "cut": 1, "acid": 1, "heat": 999, "bullet": 1 }
   }
 ]

@@ -24,8 +24,8 @@
     "damage_modifier": 80,
     "folded_volume": "1250 ml",
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 2, 5 ] },
-      { "item": "steel_chunk", "count": [ 2, 5 ] },
+      { "item": "mc_steel_lump", "count": [ 2, 5 ] },
+      { "item": "mc_steel_chunk", "count": [ 2, 5 ] },
       { "item": "scrap", "count": [ 2, 5 ] }
     ],
     "requirements": {
@@ -48,8 +48,8 @@
     "damage_modifier": 80,
     "folded_volume": "1250 ml",
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 2, 5 ] },
-      { "item": "steel_chunk", "count": [ 2, 5 ] },
+      { "item": "mc_steel_lump", "count": [ 2, 5 ] },
+      { "item": "mc_steel_chunk", "count": [ 2, 5 ] },
       { "item": "scrap", "count": [ 2, 5 ] }
     ],
     "requirements": {
@@ -76,8 +76,8 @@
     "damage_modifier": 80,
     "//1": "20 cm weld to repair per damage quadrant",
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 3, 6 ] },
-      { "item": "steel_chunk", "count": [ 3, 6 ] },
+      { "item": "mc_steel_lump", "count": [ 3, 6 ] },
+      { "item": "mc_steel_chunk", "count": [ 3, 6 ] },
       { "item": "scrap", "count": [ 3, 6 ] }
     ],
     "requirements": {
@@ -104,8 +104,8 @@
     "damage_modifier": 80,
     "//1": "20 cm weld to repair per damage quadrant",
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 4, 7 ] },
-      { "item": "steel_chunk", "count": [ 4, 7 ] },
+      { "item": "mc_steel_lump", "count": [ 4, 7 ] },
+      { "item": "mc_steel_chunk", "count": [ 4, 7 ] },
       { "item": "scrap", "count": [ 4, 7 ] }
     ],
     "requirements": {

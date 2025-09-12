@@ -1,6 +1,7 @@
 [
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "sandwich_cheese_grilled",
     "name": { "str": "grilled cheese sandwich", "str_pl": "grilled cheese sandwiches" },
     "weight": "156 g",
@@ -16,13 +17,14 @@
     "price_postapoc": "2 USD",
     "material": [ "milk", "wheat" ],
     "primary_material": "wheat",
-    "volume": "250 ml",
+    "volume": "500 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 10,
     "vitamins": [ [ "calcium", 50 ], [ "iron", 12 ], [ "wheat_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "sandwich_egg_salad",
     "name": { "str": "egg salad sandwich", "str_pl": "egg salad sandwiches" },
     "weight": "156 g",
@@ -38,12 +40,13 @@
     "price_postapoc": "2 USD",
     "material": [ "egg", "wheat" ],
     "primary_material": "wheat",
-    "volume": "250 ml",
+    "volume": "500 ml",
     "fun": 6,
     "vitamins": [ [ "calcium", 50 ], [ "iron", 12 ], [ "wheat_allergen", 1 ], [ "egg_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "sandwich_deluxe",
     "name": { "str": "deluxe sandwich", "str_pl": "deluxe sandwiches" },
     "conditional_names": [
@@ -84,7 +87,8 @@
     ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "sandwich_reuben",
     "name": { "str": "reuben sandwich", "str_pl": "reuben sandwiches" },
     "conditional_names": [
@@ -120,7 +124,8 @@
     ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "sandwich_cucumber",
     "name": { "str": "cucumber sandwich", "str_pl": "cucumber sandwiches" },
     "weight": "120 g",
@@ -133,14 +138,15 @@
     "calories": 227,
     "description": "A refreshing cucumber sandwich.  Not very filling, but quite tasty.",
     "price": "4 USD",
-    "volume": "250 ml",
+    "volume": "500 ml",
     "material": [ "wheat", "veggy" ],
     "flags": [ "EATEN_COLD" ],
     "fun": 8,
     "vitamins": [ [ "vitC", 9 ], [ "calcium", 16 ], [ "iron", 30 ], [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "sandwich_cheese",
     "name": { "str": "cheese sandwich", "str_pl": "cheese sandwiches" },
     "weight": "106 g",
@@ -155,12 +161,13 @@
     "price_postapoc": "2 USD",
     "material": [ "milk", "wheat" ],
     "primary_material": "wheat",
-    "volume": "250 ml",
+    "volume": "500 ml",
     "fun": 8,
     "vitamins": [ [ "calcium", 50 ], [ "iron", 12 ], [ "wheat_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "sandwich_jam",
     "name": { "str": "jam sandwich", "str_pl": "jam sandwiches" },
     "weight": "140 g",
@@ -176,12 +183,13 @@
     "price_postapoc": "2 USD",
     "material": [ "fruit", "wheat" ],
     "primary_material": "wheat",
-    "volume": "250 ml",
+    "volume": "500 ml",
     "fun": 6,
     "vitamins": [ [ "vitC", 6 ], [ "calcium", 7 ], [ "iron", 12 ], [ "wheat_allergen", 1 ], [ "fruit_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "sandwich_jam_cheese",
     "name": { "str": "jam and cheese sandwich", "str_pl": "jam and cheese sandwiches" },
     "weight": "140 g",
@@ -197,7 +205,7 @@
     "price_postapoc": "2 USD",
     "material": [ "fruit", "wheat", "milk" ],
     "primary_material": "wheat",
-    "volume": "250 ml",
+    "volume": "500 ml",
     "fun": 6,
     "vitamins": [
       [ "vitC", 6 ],
@@ -209,7 +217,8 @@
     ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "sandwich_jam_butter",
     "name": { "str": "jam and butter sandwich", "str_pl": "jam and butter sandwiches" },
     "weight": "154 g",
@@ -225,7 +234,7 @@
     "price_postapoc": "2 USD",
     "material": [ "milk", "fruit", "wheat" ],
     "primary_material": "wheat",
-    "volume": "250 ml",
+    "volume": "500 ml",
     "fun": 15,
     "vitamins": [
       [ "vitC", 6 ],
@@ -237,7 +246,8 @@
     ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "sandwich_fairy",
     "name": { "str_sp": "fairy bread" },
     "weight": "56 g",
@@ -257,7 +267,8 @@
     "vitamins": [ [ "wheat_allergen", 1 ], [ "junk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "sandwich_honey",
     "name": { "str": "honey sandwich", "str_pl": "honey sandwiches" },
     "weight": "142 g",
@@ -272,12 +283,13 @@
     "price": "1 USD 75 cent",
     "material": [ "honey", "wheat" ],
     "primary_material": "wheat",
-    "volume": "250 ml",
+    "volume": "500 ml",
     "fun": 6,
     "vitamins": [ [ "calcium", 10 ], [ "iron", 24 ], [ "wheat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "sandwich_sauce",
     "name": { "str": "boring sandwich", "str_pl": "boring sandwiches" },
     "copy-from": "bread",
@@ -292,7 +304,8 @@
     "fun": 2
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "sandwich_veggy",
     "name": { "str": "vegetable sandwich", "str_pl": "vegetable sandwiches" },
     "weight": "189 g",
@@ -307,13 +320,14 @@
     "price": "8 USD",
     "price_postapoc": "2 USD 50 cent",
     "material": [ "veggy", "wheat" ],
-    "volume": "250 ml",
+    "volume": "500 ml",
     "flags": [ "EATEN_COLD" ],
     "fun": 1,
     "vitamins": [ [ "vitC", 36 ], [ "calcium", 34 ], [ "iron", 28 ], [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "sandwich_veggy_cheese",
     "name": { "str": "vegetable sandwich with cheese", "str_pl": "vegetable sandwiches with cheese" },
     "weight": "189 g",
@@ -328,7 +342,7 @@
     "price": "8 USD",
     "price_postapoc": "2 USD 50 cent",
     "material": [ "veggy", "wheat", "milk" ],
-    "volume": "250 ml",
+    "volume": "500 ml",
     "flags": [ "EATEN_COLD" ],
     "fun": 1,
     "vitamins": [
@@ -341,7 +355,8 @@
     ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "sandwich_t",
     "name": { "str": "meat sandwich", "str_pl": "meat sandwiches" },
     "conditional_names": [
@@ -373,7 +388,8 @@
     "vitamins": [ [ "vitC", 8 ], [ "calcium", 6 ], [ "iron", 47 ], [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "sandwich_pb",
     "name": { "str": "peanut butter sandwich", "str_pl": "peanut butter sandwiches" },
     "weight": "204 g",
@@ -388,12 +404,13 @@
     "price": "2 USD 50 cent",
     "price_postapoc": "3 USD",
     "material": [ "wheat" ],
-    "volume": "250 ml",
+    "volume": "500 ml",
     "fun": 3,
     "vitamins": [ [ "calcium", 10 ], [ "iron", 28 ], [ "wheat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "sandwich_pbj",
     "name": { "str": "PB&J sandwich", "str_pl": "PB&J sandwiches" },
     "weight": "204 g",
@@ -409,12 +426,14 @@
     "price_postapoc": "1 USD 75 cent",
     "material": [ "fruit", "wheat" ],
     "primary_material": "wheat",
-    "volume": "250 ml",
+    "//": "Sandwich is 500ml so it fills up a sealed 500 ml bag_zipper. See issue 45650",
+    "volume": "500 ml",
     "fun": 15,
     "vitamins": [ [ "vitC", 3 ], [ "calcium", 7 ], [ "iron", 14 ], [ "wheat_allergen", 1 ], [ "fruit_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "sandwich_pbh",
     "name": { "str": "PB&H sandwich", "str_pl": "PB&H sandwiches" },
     "weight": "207 g",
@@ -430,12 +449,13 @@
     "price_postapoc": "1 USD 75 cent",
     "material": [ "wheat", "honey" ],
     "primary_material": "wheat",
-    "volume": "250 ml",
+    "volume": "500 ml",
     "fun": 10,
     "vitamins": [ [ "calcium", 8 ], [ "iron", 16 ], [ "wheat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "sandwich_pbm",
     "name": { "str": "PB&M sandwich", "str_pl": "PB&M sandwiches" },
     "weight": "205 g",
@@ -450,12 +470,13 @@
     "price": "1 USD 75 cent",
     "price_postapoc": "1 USD 75 cent",
     "material": [ "wheat" ],
-    "volume": "250 ml",
+    "volume": "500 ml",
     "fun": 6,
     "vitamins": [ [ "calcium", 12 ], [ "iron", 28 ], [ "wheat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "fish_sandwich",
     "name": { "str": "fish sandwich", "str_pl": "fish sandwiches" },
     "weight": "201 g",
@@ -469,12 +490,13 @@
     "price": "8 USD",
     "price_postapoc": "2 USD 50 cent",
     "material": [ "flesh", "wheat" ],
-    "volume": "250 ml",
+    "volume": "500 ml",
     "fun": 14,
     "vitamins": [ [ "vitC", 5 ], [ "calcium", 19 ], [ "iron", 17 ], [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "fish_bagel",
     "name": { "str": "fish and spinach bagel" },
     "weight": "251 g",
@@ -488,12 +510,13 @@
     "price": "8 USD",
     "price_postapoc": "3 USD 50 cent",
     "material": [ "flesh", "wheat" ],
-    "volume": "250 ml",
+    "volume": "500 ml",
     "fun": 14,
     "vitamins": [ [ "vitC", 5 ], [ "calcium", 12 ], [ "iron", 24 ], [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "lobster_roll",
     "name": { "str": "lobster roll" },
     "copy-from": "fish_sandwich",
@@ -503,7 +526,8 @@
     "fun": 30
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "blt",
     "name": { "str": "BLT" },
     "weight": "220 g",
@@ -532,7 +556,8 @@
     ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "chicken_sandwich",
     "name": { "str": "chicken sandwich", "str_pl": "chicken sandwiches" },
     "weight": "187 g",
@@ -546,7 +571,7 @@
     "price": "10 USD",
     "price_postapoc": "2 USD 50 cent",
     "material": [ "flesh", "wheat", "veggy" ],
-    "volume": "250 ml",
+    "volume": "500 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 17,
     "vitamins": [
@@ -555,6 +580,33 @@
       [ "meat_allergen", 1 ],
       [ "veggy_allergen", 1 ],
       [ "wheat_allergen", 1 ]
+    ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "id": "sandwich_pbf",
+    "name": { "str": "Fluffernutter sandwich", "str_pl": "Fluffernutter sandwiches" },
+    "weight": "204 g",
+    "color": "white",
+    "spoils_in": "1 day 12 hours",
+    "container": "wrapper",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "description": "A delicious peanut butter and marshmallow fluff sandwich.  More commonly referred to as a fluffernutter.",
+    "price": "1 USD 75 cent",
+    "price_postapoc": "1 USD 75 cent",
+    "material": [ "nut", "junk", "wheat", "egg" ],
+    "primary_material": "wheat",
+    "volume": "500 ml",
+    "fun": 15,
+    "vitamins": [
+      [ "calcium", 6 ],
+      [ "iron", 18 ],
+      [ "wheat_allergen", 1 ],
+      [ "nut_allergen", 1 ],
+      [ "egg_allergen", 1 ],
+      [ "junk_allergen", 1 ]
     ]
   }
 ]

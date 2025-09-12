@@ -1,7 +1,8 @@
 [
   {
     "id": "axe_ring",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "axe ring holster" },
     "description": "A combination of leather and a metal ring to hold an axe on your waist.",
     "weight": "180 g",
@@ -30,7 +31,8 @@
   },
   {
     "id": "baldric",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "longsword scabbard" },
     "description": "A leather scabbard, big enough for anything up to a longsword, or even a bit larger than that.  Designed to be worn at the waist, secured to the sturdy leather belt.  Activate to sheath/draw a sword.",
     "weight": "1625 g",
@@ -106,12 +108,12 @@
     ],
     "use_action": { "type": "holster", "holster_prompt": "Sheath sword", "holster_msg": "You sheath your %s" },
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "STURDY" ],
-    "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ],
-    "melee_damage": { "bash": 4 }
+    "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
   {
     "id": "leg_sheath6",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "throwing knives leg sheath" },
     "description": "A nylon strap knife sheath worn on the thigh, made to hold 6 very thin knives, such as throwing knives, close at hand.  Activate to sheathe/draw a weapon.",
     "weight": "250 g",
@@ -194,7 +196,8 @@
   },
   {
     "id": "gartersheath1",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "garter sheath" },
     "description": "A small concealed garter knife sheath worn on the thigh.  Commonly used by assassins under a skirt or dress.  Activate to sheathe/draw a weapon.",
     "weight": "160 g",
@@ -232,7 +235,8 @@
   },
   {
     "id": "gartersheath2",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "garter double sheath" },
     "description": "A small concealed garter double knife sheath worn on the thigh.  Commonly used by overly cautious assassins under a skirt or dress.  Activate to sheathe/draw a weapon.",
     "weight": "320 g",
@@ -279,7 +283,8 @@
   },
   {
     "id": "bootsheath",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "ankle sheath" },
     "description": "A small concealed knife sheath worn on the ankle.  It is awkward to use without practice.  Activate to sheathe/draw a weapon.",
     "weight": "160 g",
@@ -318,7 +323,8 @@
   },
   {
     "id": "bootsheath_birchbark",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "birchbark ankle sheath", "str_pl": "birchbark ankle sheathes" },
     "description": "A handcrafted small concealed knife sheath worn on the ankle, made from birch bark.  It is awkward to use without practice.  Activate to sheathe/draw a weapon.",
     "weight": "190 g",
@@ -357,7 +363,8 @@
   },
   {
     "id": "bscabbard",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "back scabbard" },
     "description": "A leather scabbard, big enough for almost any sword.  Designed to be strapped to the back, it's very difficult to draw from without considerable practice.  Activate to sheath/draw a sword.",
     "weight": "1890 g",
@@ -382,12 +389,12 @@
     ],
     "use_action": { "type": "holster", "holster_prompt": "Sheath sword", "holster_msg": "You sheath your %s" },
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": [ 6, 10 ], "coverage": 20, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ],
-    "melee_damage": { "bash": 4 }
+    "armor": [ { "encumbrance": [ 6, 10 ], "coverage": 20, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {
     "id": "scabbard",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "scabbard" },
     "description": "A large, adjustable sheath for holding swords and other large blades.  Activate to sheathe/draw a weapon.",
     "weight": "1360 g",
@@ -420,12 +427,12 @@
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_hip_r", "leg_hip_l" ]
       }
-    ],
-    "melee_damage": { "bash": 4 }
+    ]
   },
   {
     "id": "nylon_scabbard",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "nylon scabbard" },
     "description": "A large, adjustable sheath for holding swords and other large blades, made with nylon.  Activate to sheathe/draw a weapon.",
     "weight": "1360 g",
@@ -462,7 +469,8 @@
   },
   {
     "id": "sheath",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "sheath", "str_pl": "sheathes" },
     "description": "A leather sheath for holding knives and other small blades.  It is easy to use without much practice.  Activate to sheathe/draw a weapon.",
     "weight": "200 g",
@@ -495,12 +503,12 @@
         "encumbrance": [ 0, 1 ],
         "specifically_covers": [ "leg_hip_r", "leg_hip_l" ]
       }
-    ],
-    "melee_damage": { "bash": 4 }
+    ]
   },
   {
     "id": "sheath_birchbark",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "birchbark sheath", "str_pl": "birchbark sheathes" },
     "description": "A handcrafted sheath made from birch bark, for holding knives and other small blades, with a strap attached.  Activate to sheathe/draw a weapon.",
     "weight": "250 g",
@@ -537,7 +545,8 @@
   },
   {
     "id": "spearsling",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "spear strap" },
     "description": "A leather strap tied around the torso for toting spears while keeping your hands free.  You have to duck to get through doors while one's in it, though.  Activate to holster/draw a weapon.",
     "weight": "160 g",

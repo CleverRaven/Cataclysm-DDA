@@ -3,7 +3,8 @@
     "id": "brogyeki",
     "copy-from": "shotgun_base",
     "looks_like": "m79",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "Exodii hand mortar" },
     "description": "Originating from big game express smoothbores and heavy fowling pieces adapted for wallguns, the Brogyeki '23 is an over/under break action 'pistol' that is (unfortunately?) capable of launching its original 27.3 x 110 Diyua express slug and shot loads as well as the wide array of payloads in 27.3 x 44 Diyua.  A simple wire stock collapses neatly along its octagonal barrels, which feature a combination of sighting devices necessary for launching its numerous loads, in addition to the usual Exodii retrofits.  Unless you are a quadrupedal cyborg with this gun in a shock absorbing mount, recoil with the 27.3 x 110 Diyua shells will be *stout*.",
     "//": "Sturmpistole meets express gun, basically.",
@@ -23,7 +24,7 @@
       }
     ],
     "to_hit": -3,
-    "material": [ "steel", "aluminum" ],
+    "material": [ "qt_steel", "aluminum" ],
     "symbol": "(",
     "ammo": [ "273x44", "273x110", "273x44RG" ],
     "dispersion": 350,
@@ -47,7 +48,8 @@
     "id": "brogyaga",
     "copy-from": "rifle_manual",
     "looks_like": "trexgun",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "Exodii express gun" },
     "description": "An over/under fowling piece with a long barrel, Brogyaga were favored for their versatility in taking large game and fowl with their 27.3 x 110 Diyua shells.  They would be pressed into combat during two global conflicts, initially as 'light' wall guns, and later as the downsized and down-loaded Brogyeki '23, before being brought along by the Exodii to dimensions unknown.  Though unwieldy in combat as either a primary or secondary, Brogyaga serve as useful parts donors for Brogyeki counterparts, fantastic pieces for the occasional hunting party, and popular trade goods for the locals.",
     "//": "Expressgun meets puntgun/wall gun.  Based on an H&H 4 bore shotgun.",
@@ -66,7 +68,7 @@
       }
     ],
     "to_hit": 1,
-    "material": [ "steel", "wood" ],
+    "material": [ "qt_steel", "wood" ],
     "color": "dark_gray",
     "ammo": [ "273x44", "273x110", "273x44RG" ],
     "dispersion": 250,
@@ -82,9 +84,92 @@
     "melee_damage": { "bash": 12 }
   },
   {
+    "id": "khuunaofaai",
+    "//": "note for translators, its pronounced \"Ka-hu-na-o-fa-aye\" and doesn't actually mean anything, you can translate the syllables directly.",
+    "copy-from": "m4_carlgustav",
+    "looks_like": "m202_flash",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str": "Exodii ordnance cannon" },
+    "description": "An oddball in the Exodii's oddball selection of armaments - This robust, shoulder mounted weapons platform started life not as a weapon, but as a ceremonial firework cannon, mounted in droves atop of parade tanks the size of buildings by some globe spanning military culture.  Little of its original design remains under the retrofits and wear, with even its engravings worn down to nothing by time.  It finds its niche in disposing incoming hordes from large distances, helped by the variety of chemical payloads its been modified to fire.",
+    "weight": "8180 g",
+    "volume": "10360 ml",
+    "material": [ "qt_steel", "gold" ],
+    "longest_side": "1080 mm",
+    "price_postapoc": "125 USD",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "Khuunaofaai",
+        "name": { "str": "Khuunäöfaai ordnance cannon" },
+        "description": "An oddball in the Exodii's oddball selection of armaments - This robust, shoulder mounted weapons platform started life not as a weapon, but as a ceremonial firework cannon, mounted in droves atop of parade tanks the size of buildings by some globe spanning military culture.  Little of its original design remains under the retrofits and wear, with even its engravings worn down to nothing by time.  The Khuunäöfaai finds its niche in disposing incoming hordes from large distances, helped by the variety of chemical payloads its been modified to fire.",
+        "weight": 1
+      }
+    ],
+    "color": "red",
+    "valid_mod_locations": [ [ "sights_mount", 1 ], [ "sling", 1 ] ],
+    "flags": [ "NEVER_JAMS", "NON_FOULING" ],
+    "melee_damage": { "bash": 12 },
+    "pocket_data": [
+      {
+        "magazine_well": "1250 ml",
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [
+          "exodii_khuunaofaai_mag_firework",
+          "exodii_khuunaofaai_mag_incendiary",
+          "exodii_khuunaofaai_mag_corrosive",
+          "exodii_khuunaofaai_mag_adhesive"
+        ]
+      }
+    ],
+    "reload_noise_volume": 20,
+    "ammo": [ "khuunaofaai_payload", "khuunaofaai_payload_fire", "khuunaofaai_payload_acid", "khuunaofaai_payload_glue" ]
+  },
+  {
+    "id": "spell_corrosive_spray",
+    "type": "SPELL",
+    "name": { "str": "corrosive spray", "//~": "NO_I18N" },
+    "description": { "str": "Your weapon coats its target in highly corrosive chemicals", "//~": "NO_I18N" },
+    "effect": "attack",
+    "shape": "blast",
+    "valid_targets": [ "hostile", "ally", "ground" ],
+    "effect_str": "corroding",
+    "min_duration": 1300,
+    "max_duration": 1300,
+    "min_aoe": 6,
+    "max_aoe": 6,
+    "difficulty": 1,
+    "min_range": 10,
+    "max_range": 10,
+    "field_id": "fd_acid",
+    "min_field_intensity": 3,
+    "max_field_intensity": 3
+  },
+  {
+    "id": "spell_adhesive_spray",
+    "type": "SPELL",
+    "name": { "str": "adhesive spray", "//~": "NO_I18N" },
+    "description": { "str": "Your weapon coats its target in quickly hardening resin", "//~": "NO_I18N" },
+    "effect": "ter_transform",
+    "effect_str": "exodii_foam",
+    "shape": "blast",
+    "valid_targets": [ "ground" ],
+    "min_aoe": 5,
+    "max_aoe": 5,
+    "difficulty": 1,
+    "min_range": 10,
+    "max_range": 10
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "exodii_foam",
+    "terrain": [ { "result": "t_foam_wall", "valid_flags": [ "FLAT" ] } ]
+  },
+  {
     "id": "sapra",
     "looks_like": "smle_mk3",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "Exodii Sapra grenade launcher" },
     "description": "The Sapra '36 is a short smoothbore bolt-action grenade launcher, fitted with a 5-round box magazine and a large, efficient muzzle brake.  Designed in the interwar period following the proliferation of Brogyeki '23, the Sapra was intended to assist in riots, ambushes and assaulting in urban operations, where explosives applied in quick succession could make short work of targets.  To further assist in riot operations, the Sapra can be fitted with a bayonet, a frivolity that the Exodii almost immediately discarded.  Unlike the Brogyeki, the Sapra is incapable of chambering the longer 27.3 x 110 Diyua shells.  The Exodii have replaced the stock with an aluminum alloy chassis, leaving behind the original wood ones as they became damaged.",
     "//": "Based on the Truvelo CMS.  No rifle grenades since it has a magazine.",
@@ -103,7 +188,7 @@
       }
     ],
     "to_hit": -1,
-    "material": [ "steel", "aluminum" ],
+    "material": [ "qt_steel", "aluminum" ],
     "symbol": "(",
     "color": "dark_gray",
     "ammo": [ "273x44" ],
@@ -130,7 +215,8 @@
     "id": "pamd68",
     "copy-from": "rifle_manual",
     "looks_like": "modular_ar15",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "Exodii battle rifle" },
     "description": "The most popular gun to use the 12.3ln cartridge was, of course, the PA md. 71.  Its predecessor, the md. 68, was viewed by many as a sort of failure: although it was reliable and powerful, it was too heavy to be used as a good infantry weapon, and not really heavy enough to be a good support gun.  Enough were made, though, that during the zombie apocalypse, it gained a great deal of resurgent popularity as a light emplacement gun that used readily available ammunition.  It perfectly served the purposes of the Exodii, who had far less concern about its unwieldiness.",
     "weight": "9480 g",
@@ -149,7 +235,7 @@
       }
     ],
     "to_hit": -3,
-    "material": [ "steel", "aluminum" ],
+    "material": [ "qt_steel", "aluminum" ],
     "symbol": "(",
     "color": "dark_gray",
     "ammo": [ "123ln" ],
@@ -171,15 +257,22 @@
       [ "underbarrel", 1 ]
     ],
     "barrel_volume": "1200 ml",
-    "faults": [ "fault_gun_dirt", "fault_gun_chamber_spent", "fault_fail_to_feed", "fault_stovepipe", "fault_double_feed" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "exodiiBRmag" ] } ],
+    "faults": [
+      { "fault": "fault_gun_dirt" },
+      { "fault": "fault_gun_chamber_spent" },
+      { "fault": "fault_fail_to_feed" },
+      { "fault": "fault_stovepipe" },
+      { "fault": "fault_double_feed" }
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "exodiiBRmag", "exodiiBRmag_153", "exodiiBRmag_26" ] } ],
     "melee_damage": { "bash": 12 }
   },
   {
     "id": "pamd71z",
     "copy-from": "rifle_manual",
     "looks_like": "modular_ar15",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "Exodii zombie hunting rifle" },
     "description": "This extremely popular Romanian rifle, made famous in the third Carpathian War, has been redesigned slightly by the Exodii for precision shots against high-priority targets.  In a pinch this modified design can fire a 2-shot burst, with the goal of shredding the target and preventing revivification.  However, the recoil is much greater for a human than it would be for a cyborg or giant quadruped, causing the burst to more often miss than hit.",
     "weight": "3910 g",
@@ -198,21 +291,28 @@
       }
     ],
     "to_hit": -1,
-    "material": [ "steel", "aluminum" ],
+    "material": [ "qt_steel", "aluminum" ],
     "color": "light_gray",
     "ammo": [ "123ln" ],
     "dispersion": 100,
     "durability": 8,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "burst", 2 ] ],
     "barrel_volume": "250 ml",
-    "faults": [ "fault_gun_dirt", "fault_gun_chamber_spent", "fault_fail_to_feed", "fault_stovepipe", "fault_double_feed" ],
+    "faults": [
+      { "fault": "fault_gun_dirt" },
+      { "fault": "fault_gun_chamber_spent" },
+      { "fault": "fault_fail_to_feed" },
+      { "fault": "fault_stovepipe" },
+      { "fault": "fault_double_feed" }
+    ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "exodiiminimag" ] } ],
     "melee_damage": { "bash": 12 }
   },
   {
     "id": "pamd68mountable",
     "copy-from": "pamd68",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "mountable Exodii battle rifle" },
     "description": "The most popular gun to use the 12.3ln cartridge was, of course, the PA md. 71.  Its predecessor, the md. 68, was viewed by many as a sort of failure: although it was reliable and powerful, it was too heavy to be used as a good infantry weapon, and not really heavy enough to be a good support gun.  Enough were made, though, that during the zombie apocalypse, it gained a great deal of resurgent popularity as a light emplacement gun that used readily available ammunition.  It perfectly served the purposes of the Exodii, who had far less concern about its unwieldiness.  This one has been modified for use in vehicle turrets on Earth.",
     "weight": "9630 g",
@@ -228,7 +328,8 @@
   },
   {
     "id": "exodii_plasma_projectile",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str_sp": "Caotel Sr2.2 (Projectile)" },
     "looks_like": "plasma_gun",
     "description": "Nothing but ruins and ash-choked skies remained in the world where this exotic weapon was manufactured, and the Exodii, ever pragmatic, choose not to explore beyond what was necessary to perform a second, emergency escape.  A single discharge from the Caotel easily melts through conventional armor and flash-incinerates anything behind it, but its state of disrepair limits the number of shots it can fire in quick succession.",
@@ -272,15 +373,16 @@
       "ammo_scale": 0
     },
     "valid_mod_locations": [ [ "sling", 1 ], [ "condenser", 1 ] ],
-    "faults": [ "fault_overheat_explosion", "fault_overheat_venting", "fault_overheat_safety" ]
+    "faults": [ { "fault": "fault_overheat_explosion" }, { "fault": "fault_overheat_venting" }, { "fault": "fault_overheat_safety" } ]
   },
   {
     "id": "exodii_plasma_fan",
-    "type": "GUN",
-    "name": { "str_sp": "Caotel Sr3.3 (FAN)" },
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str_sp": "Caotel Sr2.2 (FAN)" },
     "copy-from": "exodii_plasma_projectile",
     "looks_like": "plasma_gun",
-    "description": "Nothing but ruins and ash-choked skies remained in the world where this exotic weapon was manufactured, and the Exodii, ever  pragmatic choose not to explore beyond what was necessary to perform a second, emergency escape.  Even a second of exposure to the Caotel's plasma fan is enough to flash-incinerate anything, but its state of disrepair limits the amount of time its destructive power can be sustained.",
+    "description": "Nothing but ruins and ash-choked skies remained in the world where this exotic weapon was manufactured, and the Exodii, ever pragmatic, choose not to explore beyond what was necessary to perform a second, emergency escape.  Even a second of exposure to the Caotel's plasma fan is enough to flash-incinerate anything, but its state of disrepair limits the amount of time its destructive power can be sustained.",
     "skill": "launcher",
     "range": 12,
     "ranged_damage": [ { "damage_type": "heat", "amount": 50, "armor_penetration": 60 } ],
@@ -322,7 +424,8 @@
     "id": "ree_33",
     "copy-from": "rifle_semi",
     "looks_like": "m2browning",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "exodii naval rifle" },
     "description": "Originally designed for naval defense of a small island country, this gun served Exodii as long as they existed, being one of its reliable tools in later stages of world decay.  Cheap ammunition, a simple mechanism, and immense power output would make it a great weapon for any survivor who is able to carry nearly a hundred kilo of its weight and is in need to penetrate a small bunker.  Unless your body is compatible with Exodii Standard Combat Bodyframe, you can only use it with a heavy-duty tripod, and only while prone.  Due to the size of a top-mounted magazine, the user needs to use a scope mounted on the side of a gun.",
     "//": "effectively a weird single-shot self-loading Oerlikon KBA (but longer, and of course not an autocannon) with a 23x152mm round",
@@ -344,7 +447,7 @@
     "barrel_length": "2890 mm",
     "price_postapoc": "200 USD",
     "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
-    "material": [ "steel" ],
+    "material": [ "qt_steel" ],
     "ammo": [ "33naval" ],
     "range": 100,
     "dispersion": 130,

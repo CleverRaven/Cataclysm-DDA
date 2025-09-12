@@ -945,7 +945,19 @@
     "spells_learned": [ [ "shapeshifter_alkahest", 5 ], [ "biomechanic", 5 ] ],
     "prereqs": [ "BIOMANCER", "MAGUS" ],
     "//": "Purposefully omits torso, head, etc.",
-    "encumbrance_multiplier_always": { "arm_l": 0.4, "arm_r": 0.4, "hand_l": 0.4, "hand_r": 0.4, "leg_l": 0.4, "leg_r": 0.4, "mouth": 0.4 },
+    "enchantments": [
+      {
+        "encumbrance_modifier": [
+          { "part": "mouth", "multiply": -0.6 },
+          { "part": "arm_r", "multiply": -0.6 },
+          { "part": "arm_l", "multiply": -0.6 },
+          { "part": "hand_r", "multiply": -0.6 },
+          { "part": "hand_l", "multiply": -0.6 },
+          { "part": "leg_r", "multiply": -0.6 },
+          { "part": "leg_l", "multiply": -0.6 }
+        ]
+      }
+    ],
     "ugliness": -7,
     "social_modifiers": { "persuade": 10, "lie": 10, "intimidate": 10 },
     "cancels": [

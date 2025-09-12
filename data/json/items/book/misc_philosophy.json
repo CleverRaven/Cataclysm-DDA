@@ -1,7 +1,8 @@
 [
   {
     "id": "philosophy_book",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "book of philosophy", "str_pl": "books of philosophy" },
     "description": "A deep discussion of morality with an emphasis on epistemology and logic.",
     "snippet_category": [
@@ -154,7 +155,8 @@
   },
   {
     "id": "book_nonf_hard_phil_mdlogic",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Modal Logic as Metaphysics", "str_pl": "copies of Modal Logic" },
     "description": "A treatise on applying logical tools to questions about that nature of reality, this book contains detailed discussion of metaphysical issues.",
     "//isbn13": 9780199552078,
@@ -166,7 +168,8 @@
   },
   {
     "id": "book_nonf_hard_phil_aesth",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Aesthetics: A Critical Anthology", "str_pl": "copies of Aesthetics" },
     "description": "This hardbound anthology presents a collection of readings, scholarly works, and critical analyses on the subject of beauty.",
     "//isbn13": 9780312003098,
@@ -179,7 +182,8 @@
   },
   {
     "id": "book_nonf_hard_phil_phinfo",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "The Philosophy of Information", "str_pl": "copies of The Philosophy of Information" },
     "description": "This university text details a critical investigation of the conceptual nature and basic principles of information.  The student will gain a thorough appreciation of the conceptual frameworks commonly used to describe and advance semantic investigations.",
     "//isbn13": 9780199232383,
@@ -192,7 +196,8 @@
   },
   {
     "id": "book_nonf_soft_phil_benoth",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Being and Nothingness", "str_pl": "copies of Being and Nothingness" },
     "description": "This paperback is a copy of Jean-Paul Sartre's \"Being and Nothingness\".  A key work in the existentialist tradition.",
     "//isbn13": 9780415278485,

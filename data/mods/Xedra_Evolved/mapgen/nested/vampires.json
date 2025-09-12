@@ -1,18 +1,16 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "nested_vampire_pack",
     "object": {
       "place_monster": [
         { "monster": "mon_vampire_strigoi", "x": 12, "y": 12, "spawn_data": { "patrol": [ { "x": 12, "y": 12 } ] } },
-        { "monster": "mon_vampire_moroi", "x": 4, "y": 4, "repeat": [ 6, 10 ] }
+        { "group": "GROUP_VAMPIRE_MOROI_TYPES", "x": 4, "y": 4, "repeat": [ 6, 10 ] }
       ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "5x5_vamp_nest_W",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -34,13 +32,12 @@
       ],
       "place_monster": [
         { "monster": "mon_vampire_strigoi", "x": [ 0, 4 ], "y": [ 0, 4 ], "chance": 8 },
-        { "monster": "mon_vampire_moroi", "x": [ 0, 4 ], "y": [ 0, 4 ], "chance": 16 }
+        { "group": "GROUP_VAMPIRE_MOROI_TYPES", "x": [ 0, 4 ], "y": [ 0, 4 ], "chance": 16 }
       ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "5x5_corpse_pile_W",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -52,7 +49,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "5x5_messy_nest_W",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -78,7 +74,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "roof_6x6_bat_house_1",
     "object": {
       "mapgensize": [ 6, 6 ],

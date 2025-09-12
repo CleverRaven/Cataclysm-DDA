@@ -54,6 +54,8 @@
     "min_range": 1,
     "max_range": 15,
     "range_increment": 1,
+    "min_aoe": 2,
+    "max_aoe": 2,
     "damage_increment": 0.15,
     "magic_type": "xe_fey_magick",
     "base_energy_cost": 200,
@@ -128,6 +130,33 @@
     "base_casting_time": 250,
     "final_casting_time": 75,
     "casting_time_increment": -5
+  },
+  {
+    "id": "homullus_sense_vampires",
+    "type": "SPELL",
+    "name": "Sense the Night Hunters",
+    "description": "Weaving this glamour will allow you to sense the presence of nearby vampires.",
+    "message": "You mutter a charm under your breath and feel for those who subsist on stolen blood.",
+    "flags": [ "VERBAL", "NO_HANDS", "NO_LEGS" ],
+    "spell_class": "HOMULLUS",
+    "valid_targets": [ "self" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "shape": "blast",
+    "difficulty": 1,
+    "effect": "attack",
+    "effect_str": "effect_sense_vampire",
+    "min_duration": {
+      "math": [ "( 6000 + (u_spell_level('homullus_sense_vampires_spell') * 3000) ) * scaling_factor(u_val('intelligence') )" ]
+    },
+    "max_duration": {
+      "math": [ "( 6000 + (u_spell_level('homullus_sense_vampires_spell') * 3000) ) * scaling_factor(u_val('intelligence') )" ]
+    },
+    "base_energy_cost": 300,
+    "final_energy_cost": 150,
+    "energy_increment": -8,
+    "base_casting_time": 100
   },
   {
     "id": "homullus_invisible_to_humans_spell_self",
@@ -223,12 +252,10 @@
     "effect_str": "effect_homullus_add_learning_focus",
     "shape": "blast",
     "min_duration": {
-      "math": [ "( 90000 + (u_spell_level('homullus_invisible_to_humans_spell') * 12000) ) * scaling_factor(u_val('intelligence') )" ]
+      "math": [ "( 90000 + (u_spell_level('homullus_add_learning_focus_spell') * 12000) ) * scaling_factor(u_val('intelligence') )" ]
     },
     "max_duration": {
-      "math": [
-        "( 180000 + (u_spell_level('homullus_invisible_to_humans_spell') * 25000) ) * scaling_factor(u_val('intelligence') )"
-      ]
+      "math": [ "( 180000 + (u_spell_level('homullus_add_learning_focus_spell') * 25000) ) * scaling_factor(u_val('intelligence') )" ]
     },
     "magic_type": "xe_fey_magick",
     "base_energy_cost": 850,

@@ -2,8 +2,8 @@
 #ifndef CATA_SRC_SKILL_H
 #define CATA_SRC_SKILL_H
 
+#include <algorithm>
 #include <functional>
-#include <iosfwd>
 #include <map>
 #include <set>
 #include <string>
@@ -12,7 +12,7 @@
 
 #include "calendar.h"
 #include "game_constants.h"
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
 
 class JsonObject;
@@ -36,6 +36,8 @@ class Skill
 
         translation _name;
         translation _description;
+        std::map<int, translation> _level_descriptions_theory;
+        std::map<int, translation> _level_descriptions_practice;
         std::set<std::string> _tags;
         time_info_t _time_to_attack;
         skill_displayType_id _display_type;
@@ -48,6 +50,7 @@ class Skill
         int _companion_industry_rank_factor = 0;
         bool _teachable = true;
         bool _obsolete = false;
+        bool consumes_focus = true;
     public:
         static std::vector<Skill> skills;
         static void load_skill( const JsonObject &jsobj );
@@ -115,8 +118,13 @@ class Skill
             return _obsolete;
         }
 
+        bool training_consumes_focus() const {
+            return consumes_focus;
+        }
+
         bool is_combat_skill() const;
         bool is_contextual_skill() const;
+        std::string get_level_description( int skill_lvl, bool practical ) const;
 };
 
 class SkillLevel
@@ -124,20 +132,23 @@ class SkillLevel
         int _level = 0;
         int _exercise = 0;
         time_point _lastPracticed = calendar::turn;
-        bool _isTraining = true;
         int _knowledgeLevel = 0;
         int _knowledgeExperience = 0;
         int _rustAccumulator = 0;
 
+        // NOLINTNEXTLINE(cata-serialize)
+        bool _skillisTraining = true;
+
     public:
         SkillLevel() = default;
 
+        // Only used for tests!
         bool isTraining() const {
-            return _isTraining;
+            return _skillisTraining;
         }
         bool toggleTraining() {
-            _isTraining = !_isTraining;
-            return _isTraining;
+            _skillisTraining = !_skillisTraining;
+            return _skillisTraining;
         }
 
         int level() const {

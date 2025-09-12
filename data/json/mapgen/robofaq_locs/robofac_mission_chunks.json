@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "robofac_mi2_convoy_ambush_chunk",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -35,9 +34,9 @@
       "furniture": { "#": "f_wreckage" },
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_vehicles": [
-        { "vehicle": "humvee", "x": 18, "y": 15, "fuel": 0, "status": 1, "chance": 100 },
-        { "vehicle": "humvee", "x": 16, "y": 4, "fuel": 0, "status": 1, "chance": 100 },
-        { "vehicle": "aapc-mg", "x": 10, "y": 10, "fuel": 0, "status": 1, "chance": 100 }
+        { "vehicle": "humvee", "x": 18, "y": 15, "fuel": 0, "status": 1 },
+        { "vehicle": "humvee", "x": 16, "y": 4, "fuel": 0, "status": 1 },
+        { "vehicle": "aapc-mg", "x": 10, "y": 10, "fuel": 0, "status": 1 }
       ],
       "items": { "@": { "item": "mon_zombie_scientist_death_drops", "chance": 100 } },
       "item": { "@": [ { "item": "rmi2_corpse" }, { "item": "robofac_hardcase" } ] },
@@ -48,7 +47,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "robofac_mi3_photonics_chunk",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -60,7 +58,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "robofac_radio_leech",
     "object": {
       "mapgensize": [ 24, 24 ],

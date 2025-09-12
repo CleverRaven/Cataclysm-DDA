@@ -1,9 +1,17 @@
 #include "mapgen_helpers.h"
+
+#include <map>
+#include <memory>
+#include <string>
+
+#include "calendar.h"
+#include "coordinates.h"
 #include "map.h"
 #include "mapgen.h"
 #include "mapgen_functions.h"
 #include "mapgendata.h"
 #include "overmapbuffer.h"
+#include "weighted_list.h"
 
 static const oter_str_id oter_field( "field" );
 

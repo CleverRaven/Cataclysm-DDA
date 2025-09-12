@@ -1,0 +1,373 @@
+[
+  {
+    "type": "weakpoint_set",
+    "id": "afs_wps_robot",
+    "//": "Adds up to 39 ranged and 34 melee coverage. ",
+    "weakpoints": [
+      {
+        "id": "power_plant",
+        "name": "the main power plant",
+        "coverage": 1,
+        "difficulty": { "melee": 10, "ranged": 5 },
+        "coverage_mult": { "melee": 0 },
+        "armor_mult": { "all": 1.5 },
+        "effects": [
+          {
+            "effect_on_conditions": [ "EOC_AFS_INSTANT_DEATH" ],
+            "message": "The %s power plants sparks and smokes.",
+            "chance": 100,
+            "damage_required": [ 1, 100 ]
+          }
+        ]
+      },
+      {
+        "id": "cpu",
+        "name": "the AI core",
+        "coverage": 1,
+        "difficulty": { "melee": 10, "ranged": 5 },
+        "coverage_mult": { "melee": 0 },
+        "armor_mult": { "all": 2 },
+        "effects": [
+          {
+            "effect_on_conditions": [ "EOC_AFS_INSTANT_DEATH" ],
+            "message": "The %s processor is completely destroyed!",
+            "chance": 100,
+            "damage_required": [ 1, 100 ]
+          }
+        ]
+      },
+      {
+        "id": "governor",
+        "name": "the motive governor",
+        "coverage": 1,
+        "difficulty": { "melee": 10, "ranged": 5 },
+        "coverage_mult": { "melee": 0 },
+        "armor_mult": { "all": 2 },
+        "effects": [
+          { "effect": "downed", "duration": [ 5, 10 ], "message": "The %s stumbles", "damage_required": [ 1, 2 ] },
+          {
+            "effect": "effect_robot_immobilized",
+            "permanent": true,
+            "duration": 86400,
+            "chance": 100,
+            "message": "The %s collapses to the ground as its limbs fail!",
+            "damage_required": [ 2, 100 ]
+          }
+        ]
+      },
+      {
+        "id": "main_sensor",
+        "name": "the main sensory array",
+        "coverage": 5,
+        "difficulty": { "melee": 4, "ranged": 7 },
+        "coverage_mult": { "melee": 2 },
+        "armor_mult": { "all": 0.1 },
+        "effects": [
+          { "effect": "blind", "duration": [ 1, 2 ], "chance": 40, "message": "The %s is blinded!", "damage_required": [ 1, 1 ] },
+          {
+            "effect": "blind",
+            "permanent": true,
+            "duration": 86400,
+            "chance": 100,
+            "message": "The %s sensor mount is completely destroyed!",
+            "damage_required": [ 1, 100 ]
+          }
+        ]
+      },
+      {
+        "id": "weak_point",
+        "name": "a lightly armored segment",
+        "coverage": 20,
+        "difficulty": { "melee": 3, "ranged": 7 },
+        "coverage_mult": { "ranged": 0.05 },
+        "armor_mult": { "all": 1 }
+      },
+      {
+        "id": "heavy_armor",
+        "name": "a segment of sloped armor",
+        "is_good": false,
+        "armor_mult": { "all": 3 },
+        "coverage_mult": { "melee": 0.15 },
+        "coverage": 30
+      }
+    ]
+  },
+  {
+    "type": "weakpoint_set",
+    "id": "afs_wps_robot_explode",
+    "weakpoints": [
+      {
+        "id": "power_plant",
+        "name": "the exposed reactor",
+        "coverage": 5,
+        "difficulty": { "melee": 4, "ranged": 5 },
+        "condition": { "npc_has_any_effect": [ "maimed_armor" ] },
+        "coverage_mult": { "melee": 0 },
+        "armor_mult": { "all": 2 },
+        "effects": [
+          {
+            "effect_on_conditions": [ "EOC_AFS_REACTOR_MELTDOWN" ],
+            "chance": 100,
+            "message": "The %s sounds a nuclear alarm horn as its power plant detunes!  Run!",
+            "damage_required": [ 2, 100 ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "weakpoint_set",
+    "id": "afs_wps_android",
+    "weakpoints": [
+      {
+        "id": "weak_point",
+        "name": "a lightly armored segment",
+        "coverage": 20,
+        "condition": { "not": { "npc_has_any_effect": [ "maimed_armor" ] } },
+        "difficulty": { "melee": 3, "ranged": 4 },
+        "coverage_mult": { "ranged": 0.5 },
+        "armor_mult": { "all": 0.3 },
+        "effects": [
+          {
+            "effect": "maimed_armor",
+            "permanent": true,
+            "duration": 86400,
+            "chance": 8,
+            "message": "The %s armor plating is shredded!",
+            "damage_required": [ 1, 5 ]
+          },
+          {
+            "effect": "maimed_armor",
+            "permanent": true,
+            "duration": 86400,
+            "chance": 15,
+            "message": "The %s armor plating is shredded!",
+            "damage_required": [ 5, 9 ]
+          },
+          {
+            "effect": "maimed_armor",
+            "permanent": true,
+            "duration": 86400,
+            "chance": 33,
+            "message": "The %s armor plating is shredded!",
+            "damage_required": [ 10, 100 ]
+          }
+        ]
+      },
+      {
+        "id": "heavy_armor",
+        "name": "a dense segment of armor",
+        "is_good": false,
+        "armor_mult": { "all": 1.5 },
+        "coverage_mult": { "melee": 0.15 },
+        "difficulty": { "melee": 5, "ranged": 8 },
+        "condition": { "not": { "npc_has_any_effect": [ "maimed_armor", "afs_android_crawling" ] } },
+        "coverage": 30,
+        "effects": [
+          {
+            "effect": "maimed_armor",
+            "permanent": true,
+            "duration": 86400,
+            "chance": 10,
+            "message": "The %s armor plating is shredded!",
+            "damage_required": [ 1, 5 ]
+          },
+          {
+            "effect": "maimed_armor",
+            "permanent": true,
+            "duration": 86400,
+            "chance": 30,
+            "message": "The %s armor plating is shredded!",
+            "damage_required": [ 5, 100 ]
+          }
+        ]
+      },
+      {
+        "id": "internal_exposed",
+        "name": "an exposed internal component",
+        "armor_mult": { "all": 0.1 },
+        "damage_mult": { "all": 5 },
+        "condition": { "npc_has_any_effect": [ "maimed_armor" ] },
+        "coverage": 45
+      },
+      {
+        "id": "leg",
+        "name": "the leg",
+        "difficulty": { "ranged": 3, "melee": 1 },
+        "coverage_mult": { "melee": 2 },
+        "armor_mult": { "all": 0.5 },
+        "coverage": 10,
+        "condition": { "not": { "npc_has_any_effect": [ "afs_android_crawling" ] } },
+        "effects": [
+          { "effect": "downed", "chance": 30, "message": "The %s is knocked down!", "damage_required": [ 1, 3 ] },
+          {
+            "effect": "afs_android_crawling",
+            "permanent": true,
+            "duration": 86400,
+            "chance": 50,
+            "message": "The %s collapses as its leg fails!",
+            "damage_required": [ 3, 50 ]
+          },
+          {
+            "effect": "afs_android_crawling",
+            "permanent": true,
+            "duration": 86400,
+            "chance": 85,
+            "message": "The %s collapses as its leg fails!",
+            "damage_required": [ 51, 100 ]
+          }
+        ]
+      },
+      {
+        "id": "arm",
+        "name": "the arm",
+        "difficulty": { "ranged": 3, "melee": 1 },
+        "coverage_mult": { "melee": 2 },
+        "armor_mult": { "all": 0.3 },
+        "condition": { "not": { "npc_has_any_effect": [ "afs_android_crawling" ] }, "npc_has_any_effect": [ "afs_weapon_disabled" ] },
+        "coverage": 10,
+        "effects": [
+          {
+            "effect": "afs_weapon_disabled",
+            "chance": 33,
+            "message": "The %s lets its weapon hang limp when its arm fails!",
+            "damage_required": [ 3, 8 ]
+          },
+          {
+            "effect": "afs_weapon_disabled",
+            "chance": 80,
+            "message": "The %s lets its weapon hang limp when its arm fails!",
+            "damage_required": [ 9, 100 ]
+          }
+        ]
+      },
+      {
+        "id": "android_head",
+        "name": "the head",
+        "crit_mult": { "all": 1.15 },
+        "difficulty": { "ranged": 3, "melee": 3 },
+        "coverage_mult": { "melee": 2 },
+        "armor_mult": { "all": 0.3 },
+        "condition": { "not": { "npc_has_any_effect": [ "blind" ] } },
+        "coverage": 10,
+        "effects": [
+          { "effect": "staggered", "chance": 10, "message": "The %s is knocked off-balance!", "damage_required": [ 5, 100 ] },
+          {
+            "effect": "blind",
+            "chance": 33,
+            "permanent": true,
+            "duration": 86400,
+            "message": "The attack cleanly decapitates the %s!",
+            "damage_required": [ 10, 100 ]
+          }
+        ]
+      },
+      {
+        "//": "Replaces the heavy armor weakpoint against crawling androids",
+        "id": "exposed_back",
+        "name": "its weakly armored backside",
+        "coverage": 60,
+        "crit_mult": { "all": 2 },
+        "damage_mult": { "all": 3 },
+        "condition": { "npc_has_any_effect": [ "afs_android_crawling" ] },
+        "armor_mult": { "all": 0.2 }
+      }
+    ]
+  },
+  {
+    "type": "weakpoint_set",
+    "id": "afs_wps_zenit",
+    "weakpoints": [
+      {
+        "id": "joint_servo",
+        "name": "an exposed servo",
+        "condition": { "not": { "npc_has_any_effect": [ "blind", "afs_ai_defensive" ] } },
+        "coverage": 5,
+        "difficulty": { "melee": 6, "ranged": 8 },
+        "coverage_mult": { "melee": 2 },
+        "armor_mult": { "all": 0.1 }
+      },
+      {
+        "id": "heavy_armor",
+        "name": "an armored limb",
+        "armor_mult": { "all": 1 },
+        "is_good": false,
+        "coverage_mult": { "melee": 0.5 },
+        "coverage": 20
+      },
+      {
+        "id": "main_sensor",
+        "name": "the oculus",
+        "coverage": 6,
+        "difficulty": { "melee": 4, "ranged": 7 },
+        "coverage_mult": { "melee": 2 },
+        "condition": { "not": { "npc_has_any_effect": [ "blind", "afs_ai_defensive" ] } },
+        "armor_mult": { "all": 0.1 },
+        "effects": [
+          { "effect": "blind", "duration": [ 1, 2 ], "chance": 40, "message": "The %s is blinded!", "damage_required": [ 1, 1 ] },
+          {
+            "effect": "blind",
+            "permanent": true,
+            "chance": 100,
+            "duration": 86400,
+            "message": "The oculus shatters",
+            "damage_required": [ 1, 100 ]
+          }
+        ]
+      },
+      {
+        "id": "main_sensor_broken",
+        "name": "the oculus fixture",
+        "coverage": 6,
+        "difficulty": { "melee": 4, "ranged": 7 },
+        "coverage_mult": { "melee": 2 },
+        "condition": { "and": [ { "npc_has_any_effect": [ "blind" ] }, { "not": { "npc_has_any_effect": [ "afs_ai_defensive" ] } } ] },
+        "armor_mult": { "all": 0.1 }
+      },
+      {
+        "id": "upper_armor",
+        "name": "the upper armor disk",
+        "coverage": 30,
+        "coverage_mult": { "melee": 0.5 },
+        "armor_mult": { "all": 3 },
+        "condition": { "not": { "npc_has_any_effect": [ "maimed_armor", "afs_ai_defensive" ] } },
+        "effects": [
+          {
+            "effect": "maimed_armor",
+            "duration": 86400,
+            "chance": 100,
+            "message": "The Zenit's armor disk is shredded!",
+            "damage_required": [ 1, 100 ]
+          }
+        ]
+      },
+      {
+        "id": "upper_armor_defensive",
+        "name": "the upper armor disk",
+        "coverage": 60,
+        "is_good": false,
+        "coverage_mult": { "melee": 0.5 },
+        "difficulty": { "melee": 6, "ranged": 10 },
+        "armor_mult": { "all": 3 },
+        "condition": { "and": [ { "npc_has_any_effect": [ "afs_ai_defensive" ] }, { "not": { "npc_has_any_effect": [ "maimed_armor" ] } } ] },
+        "effects": [
+          {
+            "effect": "maimed_armor",
+            "duration": 86400,
+            "chance": 100,
+            "message": "The Zenit's armor disk is shredded!",
+            "damage_required": [ 1, 100 ]
+          }
+        ]
+      },
+      {
+        "id": "upper_armor_weak",
+        "name": "the exposed circuitry",
+        "coverage": 60,
+        "armor_mult": { "all": 0.1 },
+        "condition": { "npc_has_any_effect": [ "maimed_armor" ] },
+        "effects": [ { "effect_on_conditions": [ "EOC_AFS_INSTANT_DEATH" ], "chance": 100, "damage_required": [ 1, 100 ] } ]
+      }
+    ]
+  }
+]

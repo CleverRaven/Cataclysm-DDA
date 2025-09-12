@@ -1,56 +1,21 @@
 [
   {
-    "id": "gun_crossbow",
-    "type": "GUNMOD",
-    "name": { "str": "rail-mounted crossbow" },
-    "description": "A kit to attach a pair of crossbow arms and a firing rail to the barrel of a long firearm.  It allows crossbow bolts to be fired.",
-    "weight": "1450 g",
-    "volume": "500 ml",
-    "price": "500 USD",
-    "price_postapoc": "15 USD",
-    "install_time": "30 m",
-    "material": [ "steel", "wood" ],
-    "symbol": ":",
-    "color": "light_red",
-    "location": "rail",
-    "mod_targets": [ "shotgun", "rifle", "crossbow" ],
-    "gun_data": {
-      "ammo": "bolt",
-      "skill": "rifle",
-      "range": 8,
-      "ranged_damage": { "damage_type": "stab", "amount": 3 },
-      "dispersion": 180,
-      "durability": 10,
-      "clip_size": 1
-    },
-    "dispersion_modifier": 60,
-    "min_skills": [ [ "weapon", 2 ], [ "rifle", 1 ] ],
-    "flags": [ "NON_FOULING" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "bolt": 1 } } ]
-  },
-  {
     "id": "offset_sights",
     "copy-from": "improve_sights",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str_sp": "offset iron sights" },
     "description": "An alternative set of iron sights mounted at 45° for use when a scope or other modification prevents use of the primary sights.",
     "location": "rail",
-    "mod_targets": [ "smg", "rifle", "shotgun" ],
+    "mod_targets": [ "pistol", "smg", "rifle", "shotgun", "launcher" ],
     "min_skills": [ [ "weapon", 3 ], [ "gun", 4 ] ],
     "proportional": { "sight_dispersion": 1.25 },
     "delete": { "flags": [ "DISABLE_SIGHTS" ] }
   },
   {
-    "id": "offset_sights_mod",
-    "copy-from": "offset_sights",
-    "type": "GUNMOD",
-    "name": { "str_sp": "modified offset iron sights" },
-    "description": "An alternative set of iron sights mounted at 45° for use when a scope or other modification prevents use of the primary sights.  This one was modified and customized to mount on pretty much any weapon, if you so want.",
-    "mod_targets": [ "pistol", "smg", "rifle", "shotgun", "launcher", "crossbow" ]
-  },
-  {
     "id": "offset_sight_rail",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "offset sight rail" },
     "description": "An additional rail set at 45° for attaching a secondary optic.",
     "weight": "40 g",
@@ -62,21 +27,14 @@
     "symbol": ":",
     "color": "light_gray",
     "location": "rail",
-    "mod_targets": [ "shotgun", "smg", "rifle" ],
+    "mod_targets": [ "shotgun", "smg", "rifle", "launcher" ],
     "min_skills": [ [ "gun", 1 ] ],
     "add_mod": [ [ "sights", 1 ] ]
   },
   {
-    "id": "offset_sight_rail_mod",
-    "copy-from": "offset_sight_rail",
-    "type": "GUNMOD",
-    "name": { "str": "modified offset sight rail" },
-    "description": "An additional rail set at 45° for attaching a secondary optic.  This one was modified and customized to mount on pretty much any weapon, if you so want.",
-    "mod_targets": [ "pistol", "smg", "rifle", "shotgun", "launcher", "crossbow" ]
-  },
-  {
     "id": "rail_laser_sight",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "rail laser sight" },
     "description": "A small visible-light laser that mounts on a firearm's accessory rail to enhance ease and speed of target acquisition.  Aside from increased weight, there are no drawbacks.",
     "weight": "120 g",
@@ -98,7 +56,8 @@
   },
   {
     "id": "offset_grip",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "offset grip" },
     "description": "An angled grip set at 45° that attaches to a side rail, allowing for a grip while leaving the underbarrel rail free, or on guns that have integral bipods.",
     "weight": "125 g",
@@ -129,7 +88,6 @@
       "rm121aux",
       "rm121aux_mod",
       "u_shotgun",
-      "u_shotgun_mod",
       "robofac_handguard"
     ],
     "min_skills": [ [ "gun", 2 ] ]

@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <climits>
+#include <cmath>
 #include <cstdlib>
 #include <functional>
 #include <initializer_list>
@@ -21,41 +22,47 @@
 #include "addiction.h"
 #include "bionics.h"
 #include "calendar_ui.h"
+#include "cata_path.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
 #include "character_martial_arts.h"
 #include "city.h"
 #include "color.h"
+#include "cuboid_rectangle.h"
 #include "cursesdef.h"
+#include "debug.h"
 #include "enum_conversions.h"
+#include "flexbuffer_json.h"
 #include "game_constants.h"
 #include "input_context.h"
-#include "inventory.h"
+#include "input_enums.h"
 #include "item.h"
 #include "json.h"
 #include "loading_ui.h"
 #include "localized_comparator.h"
 #include "magic.h"
 #include "magic_enchantment.h"
-#include "make_static.h"
 #include "mapsharing.h"
 #include "martialarts.h"
 #include "mission.h"
 #include "mod_manager.h"
 #include "monster.h"
 #include "mutation.h"
+#include "npc.h"
 #include "options.h"
 #include "output.h"
 #include "overmap_ui.h"
 #include "path_info.h"
 #include "pimpl.h"
 #include "player_difficulty.h"
+#include "point.h"
 #include "profession.h"
 #include "profession_group.h"
 #include "proficiency.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
+#include "ret_val.h"
 #include "rng.h"
 #include "scenario.h"
 #include "skill.h"
@@ -64,9 +71,10 @@
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "text_snippets.h"
+#include "translation.h"
 #include "translations.h"
 #include "type_id.h"
-#include "ui.h"
+#include "uilist.h"
 #include "ui_manager.h"
 #include "units_utility.h"
 #include "veh_type.h"
@@ -75,7 +83,9 @@
 static const std::string flag_CHALLENGE( "CHALLENGE" );
 static const std::string flag_CITY_START( "CITY_START" );
 static const std::string flag_SECRET( "SECRET" );
+static const std::string flag_SKIP_DEFAULT_BACKGROUND( "SKIP_DEFAULT_BACKGROUND" );
 
+static const flag_id json_flag_WET( "WET" );
 static const flag_id json_flag_auto_wield( "auto_wield" );
 static const flag_id json_flag_no_auto_equip( "no_auto_equip" );
 
@@ -373,11 +383,6 @@ void Character::pick_name( bool bUseDefault )
     }
 }
 
-static std::string wrap60( const std::string &text )
-{
-    return string_join( foldstring( text, 60 ), "\n" );
-}
-
 static matype_id choose_ma_style( const character_type type, const std::vector<matype_id> &styles,
                                   const avatar &u )
 {
@@ -455,7 +460,7 @@ void Character::randomize( const bool random_scenario, bool play_now )
     }
 
     const scenario *scenario_from = is_avatar() ? get_scenario() : scenario::generic();
-    prof = scenario_from->weighted_random_profession();
+    prof = scenario_from->weighted_random_profession( is_npc() );
     play_name_suffix = prof->gender_appropriate_name( male );
     zero_all_skills();
 
@@ -471,9 +476,11 @@ void Character::randomize( const bool random_scenario, bool play_now )
 
     set_body();
     randomize_hobbies();
-    const trait_id background = prof->pick_background();
-    if( !background.is_empty() ) {
-        set_mutation( background );
+    if( is_npc() ) {
+        const trait_id background = prof->pick_background();
+        if( !background.is_empty() ) {
+            set_mutation( background );
+        }
     }
 
     int num_gtraits = 0;
@@ -624,7 +631,7 @@ void Character::add_profession_items()
 
     auto attempt_add_items = [this]( std::list<item> &prof_items, std::list<item> &failed_to_add ) {
         for( item &it : prof_items ) {
-            if( it.has_flag( STATIC( flag_id( "WET" ) ) ) ) {
+            if( it.has_flag( json_flag_WET ) ) {
                 it.active = true;
                 it.item_counter = 450; // Give it some time to dry off
             }
@@ -690,7 +697,7 @@ void Character::add_profession_items()
 void Character::randomize_hobbies()
 {
     hobbies.clear();
-    std::vector<profession_id> choices = get_scenario()->permitted_hobbies();
+    std::vector<profession_id> choices = get_scenario()->permitted_hobbies( is_npc() );
     choices.erase( std::remove_if( choices.begin(), choices.end(),
     [this]( const string_id<profession> &hobby ) {
         return !prof->allows_hobby( hobby );
@@ -798,9 +805,9 @@ bool avatar::create( character_type type, const std::string &tempname )
             tabs.position.last();
             break;
     }
-
-    // Don't apply the default backgrounds on a template
-    if( type != character_type::TEMPLATE ) {
+    // Don't apply the default backgrounds on a template or scenario with SKIP_DEFAULT_BACKGROUND
+    if( type != character_type::TEMPLATE &&
+        !get_scenario()->has_flag( flag_SKIP_DEFAULT_BACKGROUND ) ) {
         add_default_background();
     }
 
@@ -889,6 +896,16 @@ void Character::set_skills_from_hobbies( bool no_override )
     }
 }
 
+void Character::set_recipes_from_hobbies()
+{
+    for( const profession *profession : hobbies ) {
+        for( const recipe_id &recipeID : profession->recipes() ) {
+            const recipe &r = recipe_dictionary::get_craft( recipeID->result() );
+            learn_recipe( &r );
+        }
+    }
+}
+
 void Character::set_proficiencies_from_hobbies()
 {
     for( const profession *profession : hobbies ) {
@@ -936,7 +953,8 @@ void Character::initialize( bool learn_recipes )
     set_skills_from_hobbies();
 
     // setup staring bank money
-    cash = rng( -200000, 200000 );
+    cash = prof->starting_cash().value_or( rng( -200000, 200000 ) );
+
     randomize_heartrate();
 
     //set stored kcal to a normal amount for your height
@@ -991,6 +1009,9 @@ void Character::initialize( bool learn_recipes )
 
     // Add hobby proficiencies
     set_proficiencies_from_hobbies();
+
+    // Add hobby recipes
+    set_recipes_from_hobbies();
 
     // Activate some mutations right from the start.
     for( const trait_id &mut : get_mutations() ) {
@@ -1107,7 +1128,7 @@ static void draw_points( const catacurses::window &w, pool_type pool, const avat
 
 template <class Compare>
 static void draw_filter_and_sorting_indicators( const catacurses::window &w,
-        const input_context &ctxt, const std::string_view filterstring, const Compare &sorter )
+        const input_context &ctxt, std::string_view filterstring, const Compare &sorter )
 {
     const char *const sort_order = sorter.sort_by_points ? _( "default" ) : _( "name" );
     const std::string sorting_indicator = string_format( "[%1$s] %2$s: %3$s",
@@ -1279,7 +1300,7 @@ void set_points( tab_manager &tabs, avatar &u, pool_type &pool )
     } while( true );
 }
 
-static std::string assemble_stat_details( avatar &u, const unsigned char sel )
+static std::string assemble_stat_details( avatar &u, int sel )
 {
     std::string description_str;
     switch( sel ) {
@@ -1432,6 +1453,42 @@ static std::string assemble_stat_help( const input_context &ctxt )
                ctxt.get_desc( "NEXT_TAB" ), ctxt.get_desc( "PREV_TAB" ) );
 }
 
+static std::string stat_level_description( int stat_value )
+{
+    // Breakpoint values are largely borrowed from GAME_BALANCE.md.
+    std::string description;
+    if( stat_value >= 20 ) {
+        //~Description of a character's main stats. Should not exceed 18 characters of width.
+        description = _( "inhuman" );
+    } else if( stat_value > 14 ) {
+        //~Description of a character's main stats. Should not exceed 18 characters of width.
+        description = _( "extraordinary" );
+    } else if( stat_value > 12 ) {
+        //~Description of a character's main stats. Should not exceed 18 characters of width.
+        description = _( "top 1%" );
+    } else if( stat_value > 10 ) {
+        //~Description of a character's main stats. Should not exceed 18 characters of width.
+        description = _( "top 10%" );
+    } else if( stat_value > 8 ) {
+        //~Description of a character's main stats. Should not exceed 18 characters of width.
+        description = _( "above average" );
+    } else if( stat_value == 8 ) { // special handling
+        //~Description of a character's main stats. Should not exceed 18 characters of width.
+        description = _( "average human" );
+    } else if( stat_value > 6 ) {
+        //~Description of a character's main stats. Should not exceed 18 characters of width.
+        description = _( "below average" );
+    } else if( stat_value > 4 ) {
+        //~Description of a character's main stats. Should not exceed 18 characters of width.
+        description = _( "impaired" );
+    } else if( stat_value >= 0 ) {
+        //~Description of a character's main stats. Should not exceed 18 characters of width.
+        description = _( "incapacitated" );
+    }
+
+    return description;
+}
+
 /** Handle the stats tab of the character generation menu */
 void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
 {
@@ -1440,7 +1497,7 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
     const int max_stat_points = pool == pool_type::FREEFORM ? 20 : MAX_STAT;
     const int min_stat_points = 4;
 
-    unsigned char sel = 0;
+    int sel = 0;
 
     const bool screen_reader_mode = get_option<bool>( "SCREEN_READER_MODE" );
     std::string warning_text; // Used to move warnings from the header to the details pane
@@ -1473,6 +1530,7 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
     tabs.set_up_tab_navigation( ctxt );
     details.set_up_navigation( ctxt, scrolling_key_scheme::angle_bracket_scroll );
     ctxt.register_cardinal();
+    ctxt.register_navigate_ui_list();
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
     u.reset();
@@ -1500,6 +1558,8 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
                 mvwprintz( w, point( 2, i + iHeaderHeight ), i == sel ? COL_SELECT : c_light_gray, "%s:",
                            stat_labels[i].translated() );
                 mvwprintz( w, point( 16, i + iHeaderHeight ), c_light_gray, "%2d", *stats[i] );
+                mvwprintz( w, point( 19, i + iHeaderHeight ), c_light_gray, "(%s)",
+                           stat_level_description( *stats[i] ) );
             }
         }
 
@@ -1525,6 +1585,7 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
         }
 
         u.reset_stats();
+        u.recalc_speed_bonus();
         u.set_stored_kcal( u.get_healthy_kcal() );
         u.reset_bonuses(); // Removes pollution of stats by modifications appearing inside reset_stats(). Is reset_stats() even necessary in this context?
         if( details_recalc ) {
@@ -1555,11 +1616,12 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
     do {
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
-        const unsigned char id_for_curr_description = sel;
+        const int id_for_curr_description = sel;
 
         if( tabs.handle_input( action, ctxt ) ) {
             break; // Tab has changed or user has quit the screen
-        } else if( details.handle_navigation( action, ctxt ) ) {
+        } else if( details.handle_navigation( action, ctxt )
+                   || navigate_ui_list( action, sel, 1, 4, true ) ) {
             // NO FURTHER ACTION REQUIRED
         } else if( action == "LEFT" ) {
             if( *stats[sel] > min_stat_points ) {
@@ -1571,10 +1633,6 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
                 ( *stats[sel] )++;
                 details_recalc = true;
             }
-        } else if( action == "DOWN" ) {
-            sel = ( sel + 1 ) % 4;
-        } else if( action == "UP" ) {
-            sel = ( sel + 3 ) % 4;
         }
         if( sel != id_for_curr_description ) {
             details_recalc = true;
@@ -2218,10 +2276,21 @@ static std::string assemble_profession_details( const avatar &u, const input_con
                                 profession_name ) + "\n";
     assembled += string_format( dress_switch_msg(), ctxt.get_desc( "CHANGE_OUTFIT" ) ) + "\n";
 
-    if( sorted_profs[cur_id]->get_requirement().has_value() ) {
+    if( !sorted_profs[cur_id]->get_requirements().empty() ) {
         assembled += "\n" + colorize( _( "Profession requirements:" ), COL_HEADER ) + "\n";
-        assembled += string_format( _( "Complete \"%s\"\n" ),
-                                    sorted_profs[cur_id]->get_requirement().value()->name() );
+        ret_val<void> can_pick_prof = sorted_profs[cur_id]->can_pick();
+        if( can_pick_prof.success() ) {
+            std::vector<std::string> req_names;
+            for( const auto &req : sorted_profs[cur_id]->get_requirements() ) {
+                req_names.emplace_back( req->name().translated() );
+            }
+            assembled += colorize( string_format( n_gettext( _( "Completed \"%s\"\n" ), _( "Completed: %s\n" ),
+                                                  req_names.size() ),
+                                                  enumerate_as_string( req_names ) ),
+                                   c_green ) + "\n";
+        } else { // fail, can't pick so display ret_val's reason
+            assembled += colorize( can_pick_prof.str(), c_red ) + "\n";
+        }
     }
     //Profession story
     assembled += "\n" + colorize( _( "Profession story:" ), COL_HEADER ) + "\n";
@@ -2391,6 +2460,15 @@ static std::string assemble_profession_details( const avatar &u, const input_con
             assembled += mission_type::get( mission_id )->tname() + "\n";
         }
     }
+
+    // Profession money
+    std::optional<int> cash = sorted_profs[cur_id]->starting_cash();
+
+    if( cash.has_value() ) {
+        assembled += "\n" + colorize( _( "Profession money:" ), COL_HEADER ) + "\n";
+        assembled += format_money( cash.value() ) + "\n";
+    }
+
     return assembled;
 }
 
@@ -3441,12 +3519,13 @@ static std::string assemble_scenario_details( const avatar &u, const input_conte
             assembled += colorize( scenUnavailable, c_red ) + "\n";
         }
         if( scenRequirement.has_value() ) {
-            nc_color requirement_color = c_red;
-            if( current_scenario->can_pick().success() ) {
-                requirement_color = c_green;
+            ret_val<void> can_pick_scenario = current_scenario->can_pick();
+            if( can_pick_scenario.success() ) {
+                assembled += colorize( string_format( _( "Completed \"%s\"" ), scenRequirement.value()->name() ),
+                                       c_green ) + "\n";
+            } else { // fail, can't pick so display ret_val's reason
+                assembled += colorize( can_pick_scenario.str(), c_red ) + "\n";
             }
-            assembled += colorize( string_format( _( "Complete \"%s\"" ), scenRequirement.value()->name() ),
-                                   requirement_color ) + "\n";
         }
     }
 
@@ -4677,23 +4756,16 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
                     break;
                 }
                 case char_creation::AGE: {
-                    popup.title( _( "Enter age in years.  Minimum 16, maximum 55" ) )
-                    .text( string_format( "%d", you.base_age() ) )
-                    .only_digits( true );
-                    const int result = popup.query_int();
-                    if( result != 0 ) {
+                    int result = you.base_age();
+                    if( query_int( result, true, _( "Enter age in years.  Minimum 16, maximum 55" ) ) && result > 0 ) {
                         you.set_base_age( clamp( result, 16, 55 ) );
                     }
                     break;
                 }
                 case char_creation::HEIGHT: {
-                    popup.title( string_format( _( "Enter height in centimeters.  Minimum %d, maximum %d" ),
-                                                min_allowed_height,
-                                                max_allowed_height ) )
-                    .text( string_format( "%d", you.base_height() ) )
-                    .only_digits( true );
-                    const int result = popup.query_int();
-                    if( result != 0 ) {
+                    int result = you.base_height();
+                    if( query_int( result, true, _( "Enter height in centimeters.  Minimum %d, maximum %d" ),
+                                   min_allowed_height, max_allowed_height ) && result > 0 ) {
                         you.set_base_height( clamp( result, min_allowed_height, max_allowed_height ) );
                     }
                     break;
@@ -4871,30 +4943,32 @@ void Character::empty_skills()
 
 void Character::add_traits()
 {
-    // TODO: get rid of using get_avatar() here, use `this` instead
-    for( const trait_and_var &tr : get_avatar().prof->get_locked_traits() ) {
-        if( !has_trait( tr.trait ) ) {
-            toggle_trait_deps( tr.trait );
+    //TODO: NPCs already get profession stuff assigned at least twice elsewhere causing issues and it all wants unifying (if not here this should be made an avatar::add_traits()
+    if( !is_npc() ) {
+        for( const trait_and_var &tr : prof->get_locked_traits() ) {
+            if( !has_trait( tr.trait ) ) {
+                toggle_trait_deps( tr.trait );
+            }
         }
-    }
-    for( const trait_id &tr : get_scenario()->get_locked_traits() ) {
-        if( !has_trait( tr ) ) {
-            toggle_trait_deps( tr );
+        for( const trait_id &tr : get_scenario()->get_locked_traits() ) {
+            if( !has_trait( tr ) ) {
+                toggle_trait_deps( tr );
+            }
         }
     }
 }
 
 trait_id Character::random_good_trait()
 {
-    return get_random_trait( []( const mutation_branch & mb ) {
-        return mb.points > 0 && mb.random_at_chargen;
+    return get_random_trait( [this]( const mutation_branch & mb ) {
+        return mb.points > 0 && ( mb.chargen_allow_npc || is_avatar() );
     } );
 }
 
 trait_id Character::random_bad_trait()
 {
-    return get_random_trait( []( const mutation_branch & mb ) {
-        return mb.points < 0 && mb.random_at_chargen;
+    return get_random_trait( [this]( const mutation_branch & mb ) {
+        return mb.points < 0 && ( mb.chargen_allow_npc || is_avatar() );
     } );
 }
 
@@ -5066,7 +5140,9 @@ void reset_scenario( avatar &u, const scenario *scen )
     u.prof = &default_prof.obj();
 
     u.hobbies.clear();
-    u.add_default_background();
+    if( !scen->has_flag( flag_SKIP_DEFAULT_BACKGROUND ) ) {
+        u.add_default_background();
+    };
     u.clear_mutations();
     u.recalc_hp();
     u.empty_skills();

@@ -7,6 +7,7 @@
 #include <vector>
 
 #include "coordinates.h"
+#include "point.h"
 #include "type_id.h"
 
 class JsonObject;
@@ -15,8 +16,9 @@ template <typename T> class generic_factory;
 struct city {
     void load( const JsonObject &, std::string_view );
     void check() const;
+    void finalize();
     static void load_city( const JsonObject &, const std::string & );
-    static void finalize();
+    static void finalize_all();
     static void check_consistency();
     static const std::vector<city> &get_all();
     static void reset();

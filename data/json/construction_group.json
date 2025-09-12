@@ -11,6 +11,11 @@
   },
   {
     "type": "construction_group",
+    "id": "wooden_shutters",
+    "name": "Built Wooden Window Shutters"
+  },
+  {
+    "type": "construction_group",
     "id": "board_up_wood_door",
     "name": "Board Up Wood Door"
   },
@@ -38,6 +43,11 @@
     "type": "construction_group",
     "id": "build_arc_furnace",
     "name": "Build Arc Furnace"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_arc_furnace",
+    "name": "Place Arc Furnace"
   },
   {
     "type": "construction_group",
@@ -801,6 +811,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_stone_fireplace",
+    "name": "Build Stone Fireplace"
+  },
+  {
+    "type": "construction_group",
     "id": "build_stone_wall",
     "name": "Build Stone Wall"
   },
@@ -1547,6 +1562,16 @@
   },
   {
     "type": "construction_group",
+    "id": "place_anvil_ingot",
+    "name": "Mount Ingot Anvil"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_anvil_scavenged",
+    "name": "Mount Scavenger's Anvil"
+  },
+  {
+    "type": "construction_group",
     "id": "place_forge",
     "name": "Place Forge"
   },
@@ -2084,5 +2109,25 @@
     "type": "construction_group",
     "id": "cover_windowframe_with_sheet",
     "name": "Cover Empty Window With Sheet"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_beanbag",
+    "name": "Place a bean bag"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_lathe",
+    "name": "Place a Lathe/Mill"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_deep_fryer",
+    "name": "Place a deep fryer"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_oil_press_industrial",
+    "name": "Place an industrial oil press"
   }
 ]

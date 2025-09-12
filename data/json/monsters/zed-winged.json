@@ -32,7 +32,7 @@
       { "type": "leap", "cooldown": 10, "max_range": 5 }
     ],
     "burn_into": "mon_zombie_scorched_lasher",
-    "upgrades": { "half_life": 35, "into": "mon_zombie_brute_winged" },
+    "upgrades": { "half_life": 140, "into": "mon_zombie_brute_winged" },
     "extend": { "families": [ "prof_wp_flying" ], "flags": [ "SMELLS" ] },
     "//": "In the future, it would be nice if these guys could be resistant to fall damage."
   },
@@ -108,7 +108,7 @@
     "harvest": "zombie_animal",
     "decay": "zombie_decay_bone",
     "special_attacks": [ { "id": "impale", "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_multiplier": 0.6 } ] } ],
-    "upgrades": { "half_life": 42, "into_group": "GROUP_ZOMBIE_RAPTOR_UPGRADES" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_ZOMBIE_RAPTOR_UPGRADES" },
     "fungalize_into": "mon_spawn_raptor_dusted",
     "flags": [
       "SEES",

@@ -1,16 +1,19 @@
 #include <algorithm>
 #include <memory>
 #include <ostream>
+#include <string>
 #include <vector>
 
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_catch.h"
+#include "character.h"
+#include "coordinates.h"
 #include "damage.h"
 #include "game.h"
 #include "game_constants.h"
 #include "item.h"
-#include "line.h"
+#include "map.h"
 #include "map_helpers.h"
 #include "monster.h"
 #include "npc.h"
@@ -59,9 +62,10 @@ static std::ostream &operator<<( std::ostream &stream, const throw_test_pstats &
 static void reset_player( Character &you, const throw_test_pstats &pstats,
                           const tripoint_bub_ms &pos )
 {
+    map &here = get_map();
     clear_character( you );
     CHECK( !you.in_vehicle );
-    you.setpos( pos );
+    you.setpos( here, pos );
     you.str_max = pstats.str;
     you.dex_max = pstats.dex;
     you.per_max = pstats.per;
@@ -108,7 +112,7 @@ static void test_throwing_player_versus(
         mon.set_moves( 0 );
 
         dealt_projectile_attack atk = you.throw_item( mon.pos_bub(), it );
-        data.hits.add( atk.hit_critter != nullptr );
+        data.hits.add( atk.last_hit_critter != nullptr );
         data.dmg.add( atk.dealt_dam.total_damage() );
 
         if( data.hits.n() >= min_throws ) {
@@ -263,13 +267,13 @@ static void test_player_kills_monster(
 
             ++turns;
             mon.process_turn();
-            mon.set_dest( you.get_location() );
+            mon.set_dest( you.pos_abs() );
             while( mon.get_moves() > 0 ) {
                 mon.move();
             }
 
             // zombie made it to player, we're done with this iteration
-            if( ( last_range = rl_dist( you.get_location(), mon.get_location() ) ) <= dist_thresh ) {
+            if( ( last_range = rl_dist( you.pos_abs(), mon.pos_abs() ) ) <= dist_thresh ) {
                 break;
             }
 

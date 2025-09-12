@@ -2,7 +2,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "test_stove_update",
-    "method": "json",
     "object": { "set": [ { "point": "furniture", "id": "f_woodstove", "x": 19, "y": 6 } ] }
   },
   {

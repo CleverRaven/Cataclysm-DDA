@@ -2,61 +2,66 @@
 #ifndef CATA_SRC_NPC_H
 #define CATA_SRC_NPC_H
 
-#include <algorithm>
 #include <array>
-#include <functional>
+#include <cstdint>
 #include <iosfwd>
-#include <iterator>
 #include <list>
 #include <map>
 #include <memory>
-#include <new>
 #include <optional>
 #include <set>
 #include <string>
-#include <type_traits>
+#include <string_view>
 #include <unordered_map>
 #include <utility>
 #include <vector>
 
-#include "activity_type.h"
 #include "auto_pickup.h"
-#include "basecamp.h"
 #include "calendar.h"
 #include "character.h"
 #include "color.h"
-#include "coords_fwd.h"
-#include "creature.h"
+#include "compatibility.h"
+#include "coordinates.h"
 #include "dialogue_chatbin.h"
-#include "enums.h"
-#include "faction.h"
-#include "game_constants.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
 #include "line.h"
 #include "lru_cache.h"
+#include "map_scale_constants.h"
 #include "memory_fast.h"
 #include "mission_companion.h"
 #include "npc_attack.h"
 #include "npc_opinion.h"
 #include "pimpl.h"
 #include "point.h"
+#include "ret_val.h"
 #include "sounds.h"
 #include "string_formatter.h"
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
-#include "units_fwd.h"
 
+class Creature;
 class JsonObject;
 class JsonOut;
 class JsonValue;
+class cata_path;
+class character_id;
+class const_talker;
+class faction;
+class map;
 class mission;
-class monfaction;
 class monster;
-class npc_class;
 class talker;
 class vehicle;
+
+namespace npc_factions
+{
+enum class relationship : int;
+}  // namespace npc_factions
+struct Target_attributes;
+struct const_dialogue;
+struct faction_price_rule;
 
 constexpr int NPC_PERSONALITY_MIN = -10;
 constexpr int NPC_PERSONALITY_MAX = 10;
@@ -69,21 +74,11 @@ namespace catacurses
 {
 class window;
 }  // namespace catacurses
-struct bionic_data;
-struct mission_type;
+class gun_mode;
 struct overmap_location;
 struct pathfinding_settings;
 
-enum game_message_type : int;
-class gun_mode;
-
-using bionic_id = string_id<bionic_data>;
-using npc_class_id = string_id<npc_class>;
-using mission_type_id = string_id<mission_type>;
-using mfaction_id = int_id<monfaction>;
 using overmap_location_str_id = string_id<overmap_location>;
-using drop_location = std::pair<item_location, int>;
-using drop_locations = std::list<drop_location>;
 
 void parse_tags( std::string &phrase, const Character &u, const Creature &me,
                  const itype_id &item_type = itype_id::NULL_ID() );
@@ -311,6 +306,7 @@ const std::unordered_map<std::string, cbm_reserve_rule> cbm_reserve_strs = { {
     }
 };
 
+// NOLINTBEGIN(optin.core.EnumCastOutOfRange)
 enum class ally_rule : int {
     DEFAULT = 0,
     use_guns = 1,
@@ -332,6 +328,7 @@ enum class ally_rule : int {
     lock_doors = 65536,
     avoid_locks = 131072
 };
+// NOLINTEND(optin.core.EnumCastOutOfRange)
 
 struct ally_rule_data {
     ally_rule rule;
@@ -570,6 +567,7 @@ struct npc_short_term_cache {
 struct npc_combat_memory_cache {
     float assess_ally = 0.0f;
     float assess_enemy = 0.0f;
+    float my_defence_assess = 0.0f;
     int panic = 0;
     int swarm_count = 0; //so you can tell if you're getting away over multiple turns
     int failing_to_reposition = 0; // Inc. when tries to flee/move and doesn't change assess
@@ -577,6 +575,7 @@ struct npc_combat_memory_cache {
     int assessment_before_repos = 0; // assessment of enemy threat level at the start of repos
     float my_health = 1.0f; // saved when we evaluate_self.  Health 1.0 means 100% unhurt.
     bool repositioning = false; // is NPC running away or just moving around / kiting.
+    int turns_next_to_leader = 0;
     int formation_distance = -1; // dist to nearest ally with a gun, or to player
     int engagement_distance = 6; // applies to melee NPCs in formation with ranged ones or the player.
 };
@@ -816,7 +815,7 @@ class npc : public Character
          * If the square on the map where the NPC would go is not empty
          * a spiral search for an empty square around it is performed.
          */
-        void place_on_map();
+        void place_on_map( map *here );
         /**
          * See @ref dialogue_chatbin::add_new_mission
          */
@@ -919,7 +918,6 @@ class npc : public Character
         bool is_guarding() const;
         // Has a guard patrol mission
         bool is_patrolling() const;
-        bool within_boundaries_of_camp() const;
         /** is performing a player_activity */
         bool has_player_activity() const;
         bool is_travelling() const;
@@ -939,6 +937,7 @@ class npc : public Character
 
         // Re-roll the inventory of a shopkeeper
         void shop_restock();
+        time_point restock_time() const;
         std::string get_restock_interval() const;
         bool is_shopkeeper() const;
         // Use and assessment of items
@@ -954,7 +953,8 @@ class npc : public Character
         time_duration time_to_read( const item &book, const Character &reader ) const;
         void do_npc_read( bool ebook = false );
         void stow_item( item &it );
-        bool wield( item &it ) override;
+        bool wield( item &it );
+        bool wield( item_location loc, bool remove_old = true );
         void drop( const drop_locations &what, const tripoint_bub_ms &target,
                    bool stash ) override;
         bool adjust_worn();
@@ -1013,7 +1013,7 @@ class npc : public Character
         int indoor_voice() const;
         void decide_needs();
         void reboot();
-        void die( Creature *killer ) override;
+        void die( map *here, Creature *killer ) override;
         bool is_dead() const;
         void prevent_death() override;
         // How well we smash terrain (not corpses!)
@@ -1131,8 +1131,6 @@ class npc : public Character
         int evaluate_sleep_spot( tripoint_bub_ms p );
         // Returns true if did something and we should end turn
         bool scan_new_items();
-        // Returns score for how well this weapon might kill things
-        double evaluate_weapon( item &maybe_weapon, bool can_use_gun, bool use_silent ) const;
         // Returns best weapon. Can return null (fists)
         item *evaluate_best_weapon() const;
         // Returns true if did wield it
@@ -1278,7 +1276,7 @@ class npc : public Character
 
         // The preceding are in npcmove.cpp
 
-        bool query_yn( const std::string &mes ) const override;
+        bool query_yn( const std::string &msg ) const override;
 
         std::vector<std::string> extended_description() const override;
         std::string get_epilogue() const;
@@ -1348,7 +1346,7 @@ class npc : public Character
         int last_seen_player_turn = 0; // Timeout to forgetting
 
         //Safe reference to an item at a specific location in case it gets deleted before pickup
-        item_location wanted_item = {};
+        item_location wanted_item;
 
         tripoint_bub_ms wanted_item_pos; // The square containing an item we want
         // These are the coordinates that a guard will return to inside of their goal tripoint
@@ -1399,7 +1397,11 @@ class npc : public Character
         npc_follower_rules rules;
         bool marked_for_death = false; // If true, we die as soon as we respawn!
         bool hit_by_player = false;
+        // times their opinion has increased from chatting, upper bounds on 'forgiveness'
+        int opinion_values_raised = 0;
         bool hallucination = false; // If true, NPC is an hallucination
+        bool spawn_corpse = true;
+        bool quiet_death = false; // supress messages about death
         std::vector<npc_need> needs;
         std::optional<int> confident_range_cache;
         // Dummy point that indicates that the goal is invalid.
@@ -1412,7 +1414,7 @@ class npc : public Character
         /**
          * Retroactively update npc.
          */
-        void on_load();
+        void on_load( map *here );
         /**
          * Update body, but throttled.
          */
@@ -1504,6 +1506,8 @@ class npc_template
         static void load( const JsonObject &jsobj, std::string_view src );
         static void reset();
         static void check_consistency();
+
+        static std::map<npc_template_id, npc_template> &get_npc_templates();
 };
 
 std::ostream &operator<< ( std::ostream &os, const npc_need &need );

@@ -10,6 +10,7 @@
 #include "bodypart.h"
 #include "character.h"
 #include "character_attire.h"
+#include "coordinates.h"
 #include "damage.h"
 #include "enums.h"
 #include "flag.h"
@@ -18,15 +19,12 @@
 #include "itype.h"
 #include "line.h"
 #include "magic_enchantment.h"
-#include "make_static.h"
 #include "map.h"
 #include "material.h"
 #include "memorial_logger.h"
 #include "mutation.h"
-#include "npc.h"
 #include "output.h"
 #include "pimpl.h"
-#include "point.h"
 #include "rng.h"
 #include "subbodypart.h"
 #include "translation.h"
@@ -35,18 +33,22 @@
 #include "units.h"
 #include "viewer.h"
 
-struct weakpoint;
-struct weakpoint_attack;
-
 static const bionic_id bio_ads( "bio_ads" );
 
+static const damage_type_id damage_bash( "bash" );
+static const damage_type_id damage_bullet( "bullet" );
+static const damage_type_id damage_cut( "cut" );
+static const damage_type_id damage_stab( "stab" );
+
+static const json_character_flag json_flag_BIONIC_ARMOR_INTERFACE( "BIONIC_ARMOR_INTERFACE" );
+static const json_character_flag json_flag_INTANGIBLE_ARMOR( "INTANGIBLE_ARMOR" );
 static const json_character_flag json_flag_SEESLEEP( "SEESLEEP" );
 
 bool Character::can_interface_armor() const
 {
     bool okay = std::any_of( my_bionics->begin(), my_bionics->end(),
     []( const bionic & b ) {
-        return b.powered && b.info().has_flag( STATIC( json_character_flag( "BIONIC_ARMOR_INTERFACE" ) ) );
+        return b.powered && b.info().has_flag( json_flag_BIONIC_ARMOR_INTERFACE );
     } );
     return okay;
 }
@@ -169,14 +171,13 @@ const weakpoint *Character::absorb_hit( const weakpoint_attack &, const bodypart
         if( has_active_bionic( bio_ads ) ) {
             bool absorbed = false;
             if( elem.amount > 0 && get_power_level() > bio_ads->power_trigger ) {
-                if( elem.type == STATIC( damage_type_id( "bash" ) ) ) {
+                if( elem.type == damage_bash ) {
                     elem.amount -= rng( 1, 4 );
                     absorbed = true;
-                } else if( elem.type == STATIC( damage_type_id( "cut" ) ) ) {
+                } else if( elem.type == damage_cut ) {
                     elem.amount -= rng( 2, 8 );
                     absorbed = true;
-                } else if( elem.type == STATIC( damage_type_id( "stab" ) ) ||
-                           STATIC( damage_type_id( "bullet" ) ) ) {
+                } else if( elem.type == damage_stab || elem.type == damage_bullet ) {
                     elem.amount -= rng( 4, 16 );
                     absorbed = true;
                 }
@@ -210,26 +211,37 @@ const weakpoint *Character::absorb_hit( const weakpoint_attack &, const bodypart
     return nullptr;
 }
 
+void Character::armor_use_power_when_hit( damage_unit &du, item &armor ) const
+{
+    const auto amount = units::from_kilojoule( du.amount );
+    if( amount > armor.energy_remaining( nullptr, true ) ) {
+        armor.deactivate( nullptr, false );
+        add_msg_if_player( _( "Your %s doesn't have enough power to absorb the blow and shuts down!" ),
+                           armor.tname() );
+    } else {
+        armor.energy_consume( amount, pos_bub(), nullptr );
+    }
+}
+
 bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &bp,
                               const sub_bodypart_id &sbp, int roll ) const
 {
     item::cover_type ctype = item::get_cover_type( du.type );
 
+    // If you're shapeshifted and your gear is part of your form, it can't protect you
+    if( armor.has_flag( json_flag_INTANGIBLE_ARMOR ) ) {
+        return false;
+    }
+
     // if the core armor is missed then exit
     if( roll > armor.get_coverage( sbp, ctype ) ) {
         return false;
     }
-    // if this armor has the flag, try to deduct that much energy from it. If that takes it to 0 energy, turn it off before it absorbs damage.
-    if( armor.has_flag( flag_USE_POWER_WHEN_HIT ) &&
-        units::from_kilojoule( du.amount ) > armor.energy_remaining( nullptr, true ) ) {
-        armor.deactivate( nullptr, false );
-        add_msg_if_player( _( "Your %s doesn't have enough power to absorb the blow and shuts down!" ),
-                           armor.tname() );
-    } else if( armor.has_flag( flag_USE_POWER_WHEN_HIT ) &&
-               units::from_kilojoule( du.amount ) < armor.energy_remaining( nullptr, true ) ) {
-        armor.energy_consume( units::from_kilojoule( du.amount ),
-                              pos_bub(), nullptr );
+
+    if( armor.has_flag( flag_USE_POWER_WHEN_HIT ) ) {
+        armor_use_power_when_hit( du, armor );
     }
+
     // We copy the damage unit here since it will be mutated by mitigate_damage()
     damage_unit pre_mitigation = du;
 
@@ -254,20 +266,19 @@ bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &b
 {
     item::cover_type ctype = item::get_cover_type( du.type );
 
+    // If you're shapeshifted and your gear is part of your form, it can't protect you
+    if( armor.has_flag( json_flag_INTANGIBLE_ARMOR ) ) {
+        return false;
+    }
+
     if( roll > armor.get_coverage( bp, ctype ) ) {
         return false;
     }
-    // if this armor has the flag, try to deduct that much energy from it. If that takes it to 0 energy, turn it off before it absorbs damage.
-    if( armor.has_flag( flag_USE_POWER_WHEN_HIT ) &&
-        units::from_kilojoule( du.amount ) > armor.energy_remaining( nullptr, true ) ) {
-        armor.deactivate( nullptr, false );
-        add_msg_if_player( _( "Your %s doesn't have enough power to absorb the blow and shuts down!" ),
-                           armor.tname() );
-    } else if( armor.has_flag( flag_USE_POWER_WHEN_HIT ) &&
-               units::from_kilojoule( du.amount ) < armor.energy_remaining( nullptr, true ) ) {
-        armor.energy_consume( units::from_kilojoule( du.amount ),
-                              pos_bub(), nullptr );
+
+    if( armor.has_flag( flag_USE_POWER_WHEN_HIT ) ) {
+        armor_use_power_when_hit( du, armor );
     }
+
     // We copy the damage unit here since it will be mutated by mitigate_damage()
     damage_unit pre_mitigation = du;
 
@@ -291,6 +302,8 @@ bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &b
 bool Character::ablative_armor_absorb( damage_unit &du, item &armor, const sub_bodypart_id &bp,
                                        int roll )
 {
+    const map &here = get_map();
+
     item::cover_type ctype = item::get_cover_type( du.type );
 
     for( item_pocket *const pocket : armor.get_all_ablative_pockets() ) {
@@ -334,7 +347,8 @@ bool Character::ablative_armor_absorb( damage_unit &du, item &armor, const sub_b
                     add_msg_if_player( m_bad, format_string, pre_damage_name, damage_verb );
 
                     if( is_avatar() ) {
-                        SCT.add( point( posx(), posy() ), direction::NORTH, remove_color_tags( pre_damage_name ), m_neutral,
+                        SCT.add( pos_bub( here ).xy().raw(), direction::NORTH, remove_color_tags( pre_damage_name ),
+                                 m_neutral,
                                  damage_verb,
                                  m_info );
                     }
@@ -359,8 +373,8 @@ bool Character::ablative_armor_absorb( damage_unit &du, item &armor, const sub_b
                 if( damaged == item::armor_status::DESTROYED ) {
                     //the plate is damaged like normal armor but also ends up destroyed
                     describe_damage( du, ablative_armor );
-                    if( get_player_view().sees( *this ) ) {
-                        SCT.add( point( posx(), posy() ), direction::NORTH, remove_color_tags( ablative_armor.tname() ),
+                    if( get_player_view().sees( here, *this ) ) {
+                        SCT.add( pos_bub( here ).xy().raw(), direction::NORTH, remove_color_tags( ablative_armor.tname() ),
                                  m_neutral, _( "destroyed" ), m_info );
                     }
                     destroyed_armor_msg( *this, ablative_armor.tname() );
@@ -383,9 +397,11 @@ bool Character::ablative_armor_absorb( damage_unit &du, item &armor, const sub_b
 
 void Character::describe_damage( damage_unit &du, item &armor ) const
 {
+    const map &here = get_map();
+
     const material_type &material = armor.get_random_material();
     // FIXME: Hardcoded damage types
-    std::string damage_verb = ( du.type == STATIC( damage_type_id( "bash" ) ) ) ?
+    std::string damage_verb = du.type == damage_bash ?
                               material.bash_dmg_verb() : material.cut_dmg_verb();
 
     const std::string pre_damage_name = armor.tname();
@@ -398,7 +414,8 @@ void Character::describe_damage( damage_unit &du, item &armor ) const
     add_msg_if_player( m_bad, format_string, pre_damage_name, damage_verb );
     //item is damaged
     if( is_avatar() ) {
-        SCT.add( point( posx(), posy() ), direction::NORTH, remove_color_tags( pre_damage_name ), m_neutral,
+        SCT.add( pos_bub( here ).xy().raw(), direction::NORTH, remove_color_tags( pre_damage_name ),
+                 m_neutral,
                  damage_verb,
                  m_info );
     }

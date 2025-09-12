@@ -9,15 +9,16 @@
 #include <utility>
 #include <vector>
 
+#include "coords_fwd.h"
 #include "weakpoint.h"
 #include "weighted_list.h"
 
 class Creature;
 class dispersion_sources;
+class map;
 class vehicle;
 struct dealt_projectile_attack;
 struct projectile;
-struct tripoint;
 
 /** Aim result for a single projectile attack */
 struct projectile_attack_aim {
@@ -43,7 +44,12 @@ projectile_attack_aim projectile_attack_roll( const dispersion_sources &dispersi
 void projectile_attack( dealt_projectile_attack &attack, const projectile &proj_arg,
                         const tripoint_bub_ms &source, const tripoint_bub_ms &target_arg,
                         const dispersion_sources &dispersion, Creature *origin = nullptr, const vehicle *in_veh = nullptr,
-                        const weakpoint_attack &wp_attack = weakpoint_attack(), bool first = true );
+                        const weakpoint_attack &wp_attack = weakpoint_attack() );
+
+void projectile_attack( dealt_projectile_attack &attack, const projectile &proj_arg,
+                        map *here, const tripoint_bub_ms &source, const tripoint_bub_ms &target_arg,
+                        const dispersion_sources &dispersion, Creature *origin = nullptr, const vehicle *in_veh = nullptr,
+                        const weakpoint_attack &wp_attack = weakpoint_attack() );
 
 /* Used for selecting which part to target in a projectile attack
  * Primarily a template for ease of testing, but can be reused!

@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "mercenary_contract",
     "name": { "str": "service contract" },
     "description": "A slip of paper signed by the issuer and the recipient, detailing the terms of service of a hiring contract.",

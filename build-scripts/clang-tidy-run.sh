@@ -7,6 +7,12 @@ set -exo pipefail
 
 num_jobs=3
 
+# enable all the switches by default
+BACKTRACE=${BACKTRACE:-1}
+LOCALIZE=${LOCALIZE:-1}
+TILES=${TILES:-1}
+SOUND=${SOUND:-1}
+
 # create compilation database (compile_commands.json)
 mkdir -p build
 cd build
@@ -14,17 +20,20 @@ cmake \
     -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
     ${COMPILER:+-DCMAKE_CXX_COMPILER=$COMPILER} \
     -DCMAKE_BUILD_TYPE="Release" \
-    -DBACKTRACE=ON \
-    -DTILES=${TILES:-0} \
-    -DSOUND=${SOUND:-0} \
-    -DLOCALIZE=${LOCALIZE:-0} \
+    -DBACKTRACE=${BACKTRACE} \
+    -DLOCALIZE=${LOCALIZE} \
+    -DTILES=${TILES} \
+    -DSOUND=${SOUND} \
     ..
 cd ..
-ln -s build/compile_commands.json .
+ln --force --symbolic build/compile_commands.json .
 
 if [ ! -f build/tools/clang-tidy-plugin/libCataAnalyzerPlugin.so ]
 then
     echo "Cata plugin not found. Assuming we're in CI and bailing out."
+    echo "If you are running clang-tidy locally with no plugin, consider"
+    echo "calling it explicitly with the files you care to check."
+    echo 'e.g. `clang-tidy src/item* tests/item*` '
     exit 1
 fi
 
@@ -59,12 +68,14 @@ else
         --silent \
         -j $num_jobs \
         ${COMPILER:+COMPILER=$COMPILER} \
-        TILES=${TILES:-0} \
-        SOUND=${SOUND:-0} \
+        BACKTRACE=${BACKTRACE} \
+        LOCALIZE=${LOCALIZE} \
+        TILES=${TILES} \
+        SOUND=${SOUND} \
         includes
 
     tidyable_cpp_files="$( \
-        ( test -f ./files_changed && ( build-scripts/get_affected_files.py ./files_changed ) ) || \
+        ( test -f ./files_changed && ( build-scripts/get_affected_files.py --changed-files-list ./files_changed ) ) || \
         echo unknown )"
 
     tidyable_cpp_files="$(echo -n "$tidyable_cpp_files" | grep -v third-party || true)"
@@ -83,6 +94,9 @@ fi
 
 printf "Subset to analyze: '%s'\n" "$CATA_CLANG_TIDY_SUBSET"
 
+# (temporary create ./files_changed and then clean up it later. This is a terrible hack, and I'm not proud)
+if [ ! -f ./files_changed ] ; then touch ./files_changed ; CLEANUP_FILES_CHANGED="yes" ; fi
+
 # We might need to analyze only a subset of the files if they have been split
 # into multiple jobs for efficiency. The paths from `compile_commands.json` can
 # be absolute but the paths from `get_affected_files.py` are relative, so both
@@ -99,6 +113,7 @@ case "$CATA_CLANG_TIDY_SUBSET" in
         tidyable_cpp_files=$(printf '%s\n' "$tidyable_cpp_files" | grep -Ev '(^|/)src/' | grep -vf ./files_changed || [[ $? == 1 ]])
         ;;
 esac
+if [ "${CLEANUP_FILES_CHANGED}" == "yes" ] ; then rm -f ./files_changed ; fi
 
 printf "full list of files to analyze (they might get shuffled around in practice):\n%s\n" "$tidyable_cpp_files"
 

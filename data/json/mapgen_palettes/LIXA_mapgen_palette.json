@@ -3,7 +3,7 @@
     "type": "palette",
     "id": "LIXA_ground_palette",
     "terrain": {
-      "_": "t_open_air_rooved",
+      "_": "t_infinite_shaft_rooved",
       "V": "t_pavement",
       "C": "t_pavement",
       "?": "t_pavement",
@@ -69,6 +69,7 @@
       "'": "f_console_broken",
       "c": "f_counter"
     },
+    "items": { "T": { "item": "SUS_toilet", "chance": 50 } },
     "toilets": { "T": {  } }
   },
   {
@@ -158,6 +159,7 @@
       "O": "f_locker",
       "b": "f_bench"
     },
+    "items": { "T": { "item": "SUS_toilet", "chance": 50 } },
     "toilets": { "T": {  } }
   },
   {

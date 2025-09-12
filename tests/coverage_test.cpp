@@ -1,17 +1,31 @@
 #include <memory>
+#include <set>
 #include <string>
+#include <vector>
 
 #include "ballistics.h"
+#include "bodypart.h"
+#include "calendar.h"
 #include "cata_catch.h"
-#include "creature.h"
+#include "character.h"
+#include "coordinates.h"
 #include "damage.h"
 #include "dispersion.h"
+#include "item.h"
+#include "map.h"
 #include "map_helpers.h"
+#include "map_scale_constants.h"
 #include "monster.h"
 #include "npc.h"
 #include "player_helpers.h"
+#include "pocket_type.h"
+#include "point.h"
 #include "projectile.h"
-#include "ranged.h"
+#include "ret_val.h"
+#include "string_formatter.h"
+#include "subbodypart.h"
+#include "type_id.h"
+#include "weakpoint.h"
 
 static const damage_type_id damage_bullet( "bullet" );
 
@@ -66,6 +80,8 @@ static void check_not_near( const std::string &subject, float actual, const floa
 
 static float get_avg_melee_dmg( const itype_id &clothing_id, bool infect_risk = false )
 {
+    map &here = get_map();
+
     monster zed( mon_manhack, mon_pos );
     standard_npc dude( "TestCharacter", dude_pos, {}, 0, 8, 8, 8, 8 );
     item cloth( clothing_id );
@@ -76,7 +92,7 @@ static float get_avg_melee_dmg( const itype_id &clothing_id, bool infect_risk = 
     int num_hits = 0;
     for( int i = 0; i < num_iters; i++ ) {
         clear_character( dude, true );
-        dude.setpos( dude_pos );
+        dude.setpos( here, dude_pos );
         dude.wear_item( cloth, false );
         dude.add_effect( effect_sleep, 1_hours );
         if( zed.melee_attack( dude, 10000.0f ) ) {
@@ -102,6 +118,8 @@ static float get_avg_melee_dmg( const itype_id &clothing_id, bool infect_risk = 
 
 static float get_avg_melee_dmg( item cloth, bool infect_risk = false )
 {
+    map &here = get_map();
+
     monster zed( mon_manhack, mon_pos );
     standard_npc dude( "TestCharacter", dude_pos, {}, 0, 8, 8, 8, 8 );
     if( infect_risk ) {
@@ -111,7 +129,7 @@ static float get_avg_melee_dmg( item cloth, bool infect_risk = false )
     int num_hits = 0;
     for( int i = 0; i < num_iters; i++ ) {
         clear_character( dude, true );
-        dude.setpos( dude_pos );
+        dude.setpos( here, dude_pos );
         dude.wear_item( cloth, false );
         dude.add_effect( effect_sleep, 1_hours );
         if( zed.melee_attack( dude, 10000.0f ) ) {
@@ -137,6 +155,7 @@ static float get_avg_melee_dmg( item cloth, bool infect_risk = false )
 
 static float get_avg_bullet_dmg( const itype_id &clothing_id )
 {
+    map &here = get_map();
     clear_map();
     std::unique_ptr<standard_npc> badguy = std::make_unique<standard_npc>( "TestBaddie",
                                            badguy_pos, std::vector<itype_id>(), 0, 8, 8, 8, 8 );
@@ -154,13 +173,13 @@ static float get_avg_bullet_dmg( const itype_id &clothing_id )
     int num_hits = 0;
     for( int i = 0; i < num_iters; i++ ) {
         clear_character( *dude, true );
-        dude->setpos( dude_pos );
+        dude->setpos( here, dude_pos );
         dude->wear_item( cloth, false );
         dude->add_effect( effect_sleep, 1_hours );
         dealt_projectile_attack atk;
         projectile_attack( atk, proj, badguy_pos, dude_pos, dispersion_sources(),
                            &*badguy );
-        dude->deal_projectile_attack( &*badguy, atk, false );
+        dude->deal_projectile_attack( &here,  & *badguy, atk, atk.missed_by, false );
         if( atk.missed_by < 1.0 ) {
             num_hits++;
         }

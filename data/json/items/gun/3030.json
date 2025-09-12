@@ -1,0 +1,78 @@
+[
+  {
+    "id": "winchester_94_3030",
+    "copy-from": "gun_base_rifle_manual",
+    "looks_like": "modular_ar15",
+    "//": "Based off https://www.winchesterguns.com/products/rifles/model-94/model-94-sporter.html",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str": "lever-action rifle" },
+    "description": "A lever action rifle, chambered for 8 rounds of 30-30 Winchester.  Ideally used with a cowboy hat and six-shooter.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "winchester_94_3030",
+        "name": { "str": "Winchester Model 94" },
+        "description": "A design that's existed for over 100 years, the Model 94 still persists to this day, and in the designs of many other lever-action rifles.  This one is chambered for 30-30."
+      }
+    ],
+    "weight": "3302 g",
+    "volume": "2702 ml",
+    "longest_side": "1089 mm",
+    "barrel_length": "610 mm",
+    "price": "1 kUSD 629 USD 99 cent",
+    "price_postapoc": "15 USD",
+    "material": [ "steel", "wood" ],
+    "ammo": [ "3030" ],
+    "dispersion": 180,
+    "clip_size": 8,
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "mechanism", 2 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "stock accessory", 1 ],
+      [ "stock mount", 1 ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "3030": 8 } } ]
+  },
+  {
+    "id": "marlin_336_3030",
+    "copy-from": "gun_base_rifle_manual",
+    "looks_like": "modular_ar15",
+    "//": "Based off https://www.marlinfirearms.com/s/model_336Classic",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str": "lever-action rifle" },
+    "description": "A lever action rifle, chambered for 6 rounds of 30-30 Winchester.  Ideally used with a cowboy hat and six-shooter.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "marlin_336_3030",
+        "name": { "str": "Marlin Model 336" },
+        "description": "A slightly more modern design of the Marlin 1893, the Marlin Model 336 remains a popular rifle in civilian spaces to this day, even despite the age of its design and its cartridge."
+      }
+    ],
+    "weight": "3402 g",
+    "volume": "2557 ml",
+    "longest_side": "981 mm",
+    "barrel_length": "514 mm",
+    "price": "1 kUSD 239 USD",
+    "price_postapoc": "15 USD",
+    "material": [ "steel", "wood" ],
+    "ammo": [ "3030" ],
+    "dispersion": 240,
+    "clip_size": 6,
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "mechanism", 2 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "stock accessory", 1 ],
+      [ "stock mount", 1 ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "3030": 6 } } ]
+  }
+]

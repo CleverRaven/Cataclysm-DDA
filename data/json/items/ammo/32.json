@@ -1,7 +1,8 @@
 [
   {
     "id": "32_acp",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".32 ACP FMJ" },
     "description": "A jacketed .32 ACP cartridge loaded with a 71 grain bullet.  .32 ACP was once a popular handgun cartridge in the 20th century.  It lacks power compared to .380 Auto and 9x19mm.",
     "ascii_picture": "32_acp",
@@ -45,8 +46,9 @@
   {
     "id": "bp_32_acp",
     "copy-from": "32_acp",
-    "type": "AMMO",
-    "name": { "str_sp": ".32 ACP, black powder" },
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
+    "name": { "str_sp": ".32 ACP FMJ, black powder" },
     "proportional": {
       "price": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
@@ -54,23 +56,25 @@
       "dispersion": 1.2
     },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
     "id": "reloaded_32_acp",
     "copy-from": "32_acp",
-    "type": "AMMO",
-    "name": { "str_sp": ".32 ACP, reloaded" },
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
+    "name": { "str_sp": ".32 ACP FMJ, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
     "id": "matchhead_32_acp",
     "copy-from": "bp_32_acp",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "//": "matchhead bullets assumed to have about 75% of the muzzle energy of black powder",
-    "name": { "str_sp": ".32 ACP, matchhead powder" },
+    "name": { "str_sp": ".32 ACP FMJ, matchhead powder" },
     "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
     "looks_like": "bp_32_acp",
     "extend": { "effects": [ "MATCHHEAD" ] }
@@ -78,7 +82,8 @@
   {
     "id": "32_acp_jhp",
     "copy-from": "32_acp",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".32 ACP JHP" },
     "description": "Jacketed .32 ACP ammunition with a 71gr hollow point bullet, intended for use in self-defense.  This caliber was once a popular handgun cartridge in the 20th century, though it lacks power compared to .380 Auto and 9x19mm.",
     "price": "36 USD 80 cent",
@@ -88,7 +93,8 @@
   {
     "id": "bp_32_acp_jhp",
     "copy-from": "32_acp_jhp",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".32 ACP JHP, black powder" },
     "proportional": {
       "price": 0.3,
@@ -97,21 +103,23 @@
       "dispersion": 1.2
     },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
     "id": "reloaded_32_acp_jhp",
     "copy-from": "32_acp_jhp",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".32 ACP JHP, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
     "id": "matchhead_32_acp_jhp",
     "copy-from": "bp_32_acp_jhp",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "//": "matchhead bullets assumed to have about 75% of the muzzle energy of black powder",
     "name": { "str_sp": ".32 ACP JHP, matchhead powder" },
     "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },

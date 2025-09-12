@@ -7,10 +7,10 @@
 #include <utility>
 
 #include "debug.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "json.h"
 #include "localized_comparator.h"
-#include "enums.h"
 #include "options.h"
 
 const float book_proficiency_bonus::default_time_factor = 0.5f;
@@ -73,10 +73,20 @@ void proficiency::load_proficiencies( const JsonObject &jo, const std::string &s
     proficiency_factory.load( jo, src );
 }
 
+void proficiency::finalize_all()
+{
+    proficiency_factory.finalize();
+}
+
 void proficiency_category::load_proficiency_categories( const JsonObject &jo,
         const std::string &src )
 {
     proficiency_category_factory.load( jo, src );
+}
+
+void proficiency_category::finalize_all()
+{
+    proficiency_category_factory.finalize();
 }
 
 void proficiency_bonus::deserialize( const JsonObject &jo )
@@ -95,7 +105,7 @@ void proficiency_category::reset()
     proficiency_category_factory.reset();
 }
 
-void proficiency::load( const JsonObject &jo, const std::string_view )
+void proficiency::load( const JsonObject &jo, std::string_view )
 {
     mandatory( jo, was_loaded, "name", _name );
     mandatory( jo, was_loaded, "description", _description );
@@ -121,7 +131,7 @@ void proficiency::load( const JsonObject &jo, const std::string_view )
     }
 }
 
-void proficiency_category::load( const JsonObject &jo, const std::string_view )
+void proficiency_category::load( const JsonObject &jo, std::string_view )
 {
     mandatory( jo, was_loaded, "name", _name );
     mandatory( jo, was_loaded, "description", _description );

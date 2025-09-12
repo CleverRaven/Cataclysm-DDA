@@ -1,14 +1,15 @@
 [
   {
     "id": "grenade_inferno",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "inferno grenade" },
     "description": "This is an inferno grenade, designed to channel Netherum energy to increase its incendiary power.  Once you throw it, you will have five seconds to get away before it explodes into a raging firestorm.",
     "weight": "230 g",
     "volume": "270 ml",
-    "price": "20 USD",
-    "price_postapoc": "15 USD",
+    "price": "50 USD",
+    "price_postapoc": "35 USD",
     "to_hit": -1,
     "melee_damage": { "bash": 6 },
     "material": [ "steel", "nether_crystal" ],
@@ -27,7 +28,8 @@
   },
   {
     "id": "grenade_inferno_act",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "active inferno grenade" },
     "description": "This is an active inferno grenade.  Better throw it!",
@@ -52,8 +54,63 @@
     "flags": [ "ACT_IN_FIRE", "BOMB", "TRADER_AVOID", "DANGEROUS" ]
   },
   {
+    "id": "grenade_inferno_makeshift",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "category": "weapons",
+    "name": { "str": "makeshift inferno grenade" },
+    "description": "This is a post-apocalyptic recreation of an inferno grenade, less powerful than a lab-made one but still very dangerous.  Once you throw it, you will have five seconds to get away before it explodes into a raging firestorm.",
+    "weight": "230 g",
+    "volume": "270 ml",
+    "price": "20 USD",
+    "price_postapoc": "15 USD",
+    "to_hit": -1,
+    "melee_damage": { "bash": 6 },
+    "material": [ "steel", "nether_crystal" ],
+    "symbol": "*",
+    "color": "red",
+    "use_action": {
+      "need_wielding": true,
+      "target": "grenade_inferno_makeshift_act",
+      "msg": "You pull the pin on the grenade.",
+      "target_timer": "5 seconds",
+      "active": true,
+      "menu_text": "Pull pin",
+      "type": "transform"
+    },
+    "flags": [ "BOMB", "ACT_IN_FIRE", "GRENADE" ]
+  },
+  {
+    "id": "grenade_inferno_makeshift_act",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "category": "weapons",
+    "name": { "str": "active makeshift inferno grenade" },
+    "description": "This is an active makeshift inferno grenade.  Better throw it!",
+    "weight": "230 g",
+    "volume": "270 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "to_hit": -1,
+    "melee_damage": { "bash": 6 },
+    "material": [ "steel", "nether_crystal" ],
+    "symbol": "*",
+    "color": "red",
+    "countdown_action": {
+      "type": "explosion",
+      "fields_radius": 3,
+      "do_flashbang": true,
+      "fields_type": "fd_fire",
+      "fields_min_intensity": 2,
+      "fields_max_intensity": 3
+    },
+    "revert_to": "canister_empty",
+    "flags": [ "ACT_IN_FIRE", "BOMB", "TRADER_AVOID", "DANGEROUS" ]
+  },
+  {
     "id": "grenade_anti_psi",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "looks_like": "grenade",
     "name": { "str": "null grenade" },
@@ -78,7 +135,8 @@
   },
   {
     "id": "grenade_anti_psi_act",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "active null grenade" },
     "description": "This null grenade is activate and ready to unleash its pulse.  You'd better throw it!",
@@ -99,7 +157,8 @@
   },
   {
     "id": "grenade_anti_psi_expended",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "looks_like": "grenade",
     "name": { "str": "expended null grenade" },
@@ -114,9 +173,51 @@
     "melee_damage": { "bash": 6 }
   },
   {
+    "id": "pyrokinetic_matrix_crystal_bomb",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "category": "weapons",
+    "looks_like": "matrix_crystal_pyrokinesis",
+    "copy-from": "matrix_crystal_pyrokinesis",
+    "name": { "str": "pyrokinetic matrix crystal bomb" },
+    "description": "A matrix crystal attuned to pyrokinesis.  This one has a (currently) stable loop of energy set up within it.  It would take only a thought to destabilize the energy loop and set up a reaction that would lead to a massive explosion.",
+    "use_action": {
+      "need_wielding": true,
+      "target": "pyrokinetic_matrix_crystal_bomb_act",
+      "msg": "With a thought, you destabilize the matrix crystal.",
+      "target_timer": "5 seconds",
+      "menu_text": "Overcharge the crystal",
+      "type": "transform"
+    },
+    "flags": [ "GRENADE" ]
+  },
+  {
+    "id": "pyrokinetic_matrix_crystal_bomb_act",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "category": "weapons",
+    "looks_like": "matrix_crystal_pyrokinesis",
+    "copy-from": "matrix_crystal_pyrokinesis",
+    "name": { "str": "destabilized pyrokinetic matrix crystal bomb" },
+    "description": "A matrix crystal attuned to pyrokinesis.  The faint light in its depths is growing brighter and brighter, and the crystal itself is heating up as you hold it.",
+    "use_action": { "type": "message", "message": "The %s is already destabilized, try throwing it instead.", "name": "Push buttons" },
+    "countdown_action": {
+      "type": "explosion",
+      "explosion": { "power": 120000, "fire": true, "shrapnel": 0, "max_noise": 25 },
+      "fields_type": "fd_fire",
+      "fields_radius": 10,
+      "fields_min_intensity": 2,
+      "fields_max_intensity": 3
+    },
+    "countdown_interval": "5 seconds",
+    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS", "LIGHT_20" ],
+    "melee_damage": { "bash": 6 }
+  },
+  {
     "id": "mom_pulse_rifle",
-    "looks_like": "ar15",
-    "type": "GUN",
+    "looks_like": "laser_rifle",
+    "type": "ITEM",
+    "subtypes": [ "ARTIFACT", "GUN" ],
     "reload_noise_volume": 10,
     "name": { "str": "LV429 Pulse Rifle" },
     "description": "The LV429 fires a series of extremely short high-energy laser pulses, more like bullets than a traditional laser beam, greatly reducing dwell time and increasing weapon effectiveness.  Matrix crystal technology has made the weapon compact enough to be man-portable and provided it with enough power for essentially unlimited combat operations, but heat dissipation is still a problem, preventing it from being fired more than once every few seconds.",
@@ -155,22 +256,23 @@
     "ammo": [ "mom_pulse_rifle_ammo" ],
     "ammo_effects": [ "LASER", "IGNITE" ],
     "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "NO_REPAIR", "OVERHEATS" ],
-    "faults": [ "fault_overheat_explosion", "fault_overheat_melting" ],
+    "faults": [ { "fault": "fault_overheat_explosion" }, { "fault": "fault_overheat_melting" } ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "mom_pulse_rifle_ammo": 1 } } ],
-    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "8 s", "regenerate_ammo": true } },
-    "//": "Recharge time is 8 seconds due to bug #48019, making it actually 4 seconds. Reduce to 4 seconds if that ever gets fixed."
+    "//": "Recharge time is 8 seconds due to bug #48019, making it actually 4 seconds. Reduce to 4 seconds if that ever gets fixed.",
+    "charge_info": { "recharge_type": "periodic", "time": "8 s", "regenerate_ammo": true }
   },
   {
     "id": "mom_pulse_rifle_prototype",
-    "looks_like": "ar15",
-    "type": "GUN",
+    "looks_like": "laser_rifle",
+    "type": "ITEM",
+    "subtypes": [ "ARTIFACT", "GUN" ],
     "copy-from": "mom_pulse_rifle",
     "name": { "str": "LV429-P Pulse Rifle" },
     "description": "The LV429 fires a series of extremely short high-energy laser pulses, more like bullets than a traditional laser beam, greatly reducing dwell time and increasing weapon effectiveness.  Matrix crystal technology has made the weapon compact enough to be man-portable and provided it with enough power for essentially unlimited operation.  This is a prototype, obvious from the bright red coloration of the barrel and grip, as well as the word \"prototype\" written in large letters on the stock and the flammable symbol next to it.",
     "overheat_threshold": 100,
     "cooling_value": 5,
     "heat_per_shot": 21,
-    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "2 s", "regenerate_ammo": true } },
-    "//": "Recharge time is 2 seconds due to bug #48019, making it actually 1 second. Reduce to 1 seconds if that ever gets fixed."
+    "//": "Recharge time is 2 seconds due to bug #48019, making it actually 1 second. Reduce to 1 seconds if that ever gets fixed.",
+    "charge_info": { "recharge_type": "periodic", "time": "2 s", "regenerate_ammo": true }
   }
 ]

@@ -1,27 +1,43 @@
-#include "cata_catch.h"
-#include "item.h"
-
+#include <array>
 #include <cmath>
+#include <functional>
 #include <initializer_list>
 #include <limits>
+#include <list>
+#include <map>
 #include <memory>
+#include <optional>
+#include <set>
+#include <string>
+#include <utility>
 #include <vector>
 
 #include "avatar.h"
 #include "avatar_action.h"
+#include "bodypart.h"
 #include "calendar.h"
+#include "cata_catch.h"
+#include "character_attire.h"
+#include "coordinates.h"
 #include "enums.h"
 #include "flag.h"
 #include "game.h"
+#include "item.h"
 #include "item_category.h"
 #include "item_factory.h"
+#include "item_location.h"
 #include "itype.h"
+#include "material.h"
 #include "math_defines.h"
 #include "monstergenerator.h"
 #include "mtype.h"
 #include "player_helpers.h"
 #include "pocket_type.h"
+#include "point.h"
+#include "requirements.h"
 #include "ret_val.h"
+#include "string_formatter.h"
+#include "subbodypart.h"
 #include "test_data.h"
 #include "type_id.h"
 #include "units.h"
@@ -56,20 +72,17 @@ static const itype_id itype_chem_black_powder( "chem_black_powder" );
 static const itype_id itype_chem_muriatic_acid( "chem_muriatic_acid" );
 static const itype_id itype_detergent( "detergent" );
 static const itype_id itype_duffelbag( "duffelbag" );
-static const itype_id itype_gunpowder( "gunpowder" );
 static const itype_id itype_hammer( "hammer" );
 static const itype_id itype_hat_hard( "hat_hard" );
 static const itype_id itype_jeans( "jeans" );
 static const itype_id itype_legrig( "legrig" );
 static const itype_id itype_money( "money" );
 static const itype_id itype_neccowafers( "neccowafers" );
-static const itype_id itype_nitrox( "nitrox" );
 static const itype_id itype_pale_ale( "pale_ale" );
 static const itype_id itype_rocuronium( "rocuronium" );
 static const itype_id itype_shoulder_strap( "shoulder_strap" );
 static const itype_id itype_single_malt_whiskey( "single_malt_whiskey" );
 static const itype_id itype_software_hacking( "software_hacking" );
-static const itype_id itype_software_useless( "software_useless" );
 static const itype_id itype_test_armguard( "test_armguard" );
 static const itype_id itype_test_backpack( "test_backpack" );
 static const itype_id itype_test_consolidate( "test_consolidate" );
@@ -89,6 +102,8 @@ static const itype_id itype_win70( "win70" );
 static const itype_id itype_wrapper( "wrapper" );
 
 static const json_character_flag json_flag_DEAF( "DEAF" );
+
+static const mod_id MOD_INFORMATION_test_data( "test_data" );
 
 TEST_CASE( "item_volume", "[item]" )
 {
@@ -317,6 +332,7 @@ TEST_CASE( "item_length_sanity_check", "[item]" )
 TEST_CASE( "corpse_length_sanity_check", "[item]" )
 {
     for( const mtype &type : MonsterGenerator::generator().get_all_mtypes() ) {
+        INFO( type.id.str() )
         const item sample = item::make_corpse( type.id );
         assert_minimum_length_to_volume_ratio( sample );
     }
@@ -333,7 +349,7 @@ static void check_spawning_in_container( const itype_id &item_type )
             return it.typeId() == test_item.typeId();
         } ) );
     } else if( test_item.is_software() ) {
-        REQUIRE( container_item.is_software_storage() );
+        REQUIRE( container_item.is_estorage() );
         const std::vector<const item *> softwares = container_item.softwares();
         CHECK( !softwares.empty() );
         for( const item *itm : softwares ) {
@@ -347,8 +363,6 @@ static void check_spawning_in_container( const itype_id &item_type )
 TEST_CASE( "items_spawn_in_their_default_containers", "[item]" )
 {
     check_spawning_in_container( itype_water );
-    check_spawning_in_container( itype_gunpowder );
-    check_spawning_in_container( itype_nitrox );
     check_spawning_in_container( itype_ammonia_hydroxide );
     check_spawning_in_container( itype_detergent );
     check_spawning_in_container( itype_pale_ale );
@@ -356,7 +370,6 @@ TEST_CASE( "items_spawn_in_their_default_containers", "[item]" )
     check_spawning_in_container( itype_rocuronium );
     check_spawning_in_container( itype_chem_muriatic_acid );
     check_spawning_in_container( itype_chem_black_powder );
-    check_spawning_in_container( itype_software_useless );
 }
 
 TEST_CASE( "item_variables_round-trip_accurately", "[item]" )
@@ -366,8 +379,8 @@ TEST_CASE( "item_variables_round-trip_accurately", "[item]" )
     CHECK( i.get_var( "A", 0 ) == 17 );
     i.set_var( "B", 0.125 );
     CHECK( i.get_var( "B", 0.0 ) == 0.125 );
-    i.set_var( "C", tripoint_abs_omt( 2, 3, 4 ) );
-    CHECK( i.get_var( "C", tripoint_abs_omt::zero ) == tripoint_abs_omt( 2, 3, 4 ) );
+    i.set_var( "C", tripoint_abs_ms( 2, 3, 4 ) );
+    CHECK( i.get_var( "C", tripoint_abs_ms::zero ) == tripoint_abs_ms( 2, 3, 4 ) );
 }
 
 TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" )
@@ -788,7 +801,7 @@ TEST_CASE( "item_new_to_hit_enforcement", "[item]" )
     }
     if( !msg_enforce.empty() ) {
         msg_enforce +=
-            "\n]\nThe item(s) above use legacy to_hit, please change them to the newer object method (see /docs/GAME_BALANCE.md#to-hit-value) or remove the to_hit field if the item(s) aren't intended to be used as weapons.";
+            "\n]\nThe item(s) above use legacy to_hit, please change them to the newer object method (see /docs/design-balance-lore/GAME_BALANCE.md#to-hit-value) or remove the to_hit field if the item(s) aren't intended to be used as weapons.";
     }
     if( !msg_prune.empty() ) {
         msg_prune +=
@@ -819,39 +832,26 @@ static float item_density( const item &target )
                 target.volume() ) );
 }
 
-static bool assert_maximum_density_for_material( const item &target )
+static void assert_maximum_density_for_material( const item &target )
 {
     if( to_milliliter( target.volume() ) == 0 ) {
-        return false;
+        return;
     }
     const std::map<material_id, int> &mats = target.made_of();
     if( !mats.empty() && test_data::known_bad.count( target.typeId() ) == 0 ) {
         const float max_density = max_density_for_mats( mats, target.type->mat_portion_total );
         CAPTURE( target.typeId(), target.weight(), target.volume() );
         CHECK( item_density( target ) <= max_density );
-
-        return item_density( target ) > max_density;
     }
-
-    // fallback return
-    return false;
 }
 
 TEST_CASE( "item_material_density_sanity_check", "[item]" )
 {
     std::vector<const itype *> all_items = item_controller->all();
 
-    // only allow so many failures before stopping
-    int number_of_failures = 0;
-
     for( const itype *type : all_items ) {
         const item sample( type, calendar::turn_zero, item::solitary_tag{} );
-        if( assert_maximum_density_for_material( sample ) ) {
-            number_of_failures++;
-            if( number_of_failures > 20 ) {
-                break;
-            }
-        }
+        assert_maximum_density_for_material( sample );
     }
 }
 
@@ -1036,7 +1036,7 @@ TEST_CASE( "item_single_type_contents", "[item]" )
         item usb_drive( itype_usb_drive );
         item software_hacking( itype_software_hacking );
         REQUIRE( usb_drive.get_category_of_contents().id == item_category_tools );
-        REQUIRE( usb_drive.put_in( software_hacking, pocket_type::SOFTWARE ).success() );
+        REQUIRE( usb_drive.put_in( software_hacking, pocket_type::E_FILE_STORAGE ).success() );
         CHECK( usb_drive.get_category_of_contents().id == item_category_tools );
     }
 }
@@ -1088,4 +1088,105 @@ TEST_CASE( "item_rotten_contents", "[item]" )
     //   butter (rotten)
     //   butter
     CHECK( wrapper.get_category_of_contents().id == item_category_food );
+}
+
+
+TEST_CASE( "uncraft_sanity_check", "[item]" )
+{
+    std::vector<const itype *> all_items = item_controller->all();
+
+    // only allow so many failures before stopping
+    int number_of_failures = 0;
+
+    // 10% in either side should be fine
+    const float approximation = 0.1f;
+
+    for( const itype *type : all_items ) {
+
+        // skip if already know it's bad
+        const bool in_list = test_data::known_bad_uncraft.count( type->id ) != 0;
+        if( in_list ) {
+            continue;
+        }
+
+        const item target( type, calendar::turn_zero, item::solitary_tag{} );
+
+        // if comestible, gun or book, skip, but if still has uncraft, do not skip
+        if( ( type->comestible || type->gun || type->book ) && target.get_uncraft_components().empty() ) {
+            continue;
+        }
+
+        if( type->src.back().second == MOD_INFORMATION_test_data ) {
+            continue;
+        }
+
+        const units::mass item_weight = type->weight;
+
+        // ethereal, technical, mutation related item etc
+        if( item_weight == 0_gram ||
+            type->volume == 0_ml ||
+            type->has_flag( flag_INTEGRATED ) ||
+            type->has_flag( flag_NO_TAKEOFF ) ||
+            type->has_flag( flag_AURA ) ||
+            type->has_flag( flag_PERSONAL ) ) {
+            continue;
+        }
+
+        if( target.get_uncraft_components().empty() ) {
+            INFO( string_format( "Item %s do not have uncrafting recipe, and should either get one, or if should not have one, should be added to data/mods/TEST_DATA/known_good_uncrafts.json",
+                                 type->id.str() ) );
+            CHECK( false );
+            number_of_failures++;
+            if( number_of_failures > 100 ) {
+                break;
+            }
+            continue;
+        }
+
+        units::mass sum_of_components_weight;
+        for( const item_comp &c : target.get_uncraft_components() ) {
+            sum_of_components_weight += c.type->weight * c.count;
+        }
+
+        const bool weight_difference = std::abs( to_milligram( sum_of_components_weight - item_weight ) );
+        const bool weight_tolerance = to_milligram( approximation * item_weight );
+
+        if( weight_difference >= weight_tolerance ) {
+            INFO( string_format( "Item %s weight %s gram, but it's uncrafting recipe has components with total weight of %s gram.  It should be within %.0f%%.",
+                                 target.typeId().str(), to_gram( item_weight ),
+                                 to_gram( sum_of_components_weight ), approximation * 100.f ) );
+            CHECK( weight_difference >= weight_tolerance );
+            number_of_failures++;
+            if( number_of_failures > 100 ) {
+                break;
+            }
+        }
+    }
+}
+
+TEST_CASE( "uncraft_blacklist_is_pruned", "[item]" )
+{
+    // 10% in either side should be fine
+    const float approximation = 0.1f;
+
+    for( const itype_id &bad : test_data::known_bad_uncraft ) {
+        if( !bad.is_valid() ) {
+            continue;
+        }
+        const units::mass item_weight = bad->weight;
+        const item target( bad, calendar::turn_zero, item::solitary_tag{} );
+        units::mass sum_of_components_weight;
+        for( const item_comp &c : target.get_uncraft_components() ) {
+            sum_of_components_weight += c.type->weight * c.count;
+        }
+
+        const bool weight_difference = std::abs( to_milligram( sum_of_components_weight - item_weight ) );
+        const bool weight_tolerance = to_milligram( approximation * item_weight );
+
+        if( weight_difference <= weight_tolerance ) {
+            INFO( string_format( "%s had its uncrafting recipe fixed, remove it from the list in data/mods/TEST_DATA/known_bad_uncrafts.json",
+                                 bad.str() ) );
+            CHECK( weight_difference <= weight_tolerance );
+        }
+    }
 }

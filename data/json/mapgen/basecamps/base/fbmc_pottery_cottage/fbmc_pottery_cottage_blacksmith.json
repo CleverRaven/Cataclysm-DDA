@@ -2,7 +2,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "fbmc_pottery_cottage_blacksmith_roof_construction_nested",
-    "method": "json",
     "object": {
       "parameters": {
         "fbmc_construction_palette": {
@@ -37,7 +36,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "fbmc_pottery_cottage_blacksmith_construction_nested",
-    "method": "json",
     "object": {
       "parameters": {
         "fbmc_construction_palette": {
@@ -74,13 +72,11 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_pottery_cottage_blacksmith_construction",
-    "method": "json",
     "object": { "place_nested": [ { "chunks": [ "fbmc_pottery_cottage_blacksmith_construction_nested" ], "x": 8, "y": 16 } ] }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_pottery_cottage_blacksmith_1",
-    "method": "json",
     "object": {
       "set": [
         { "point": "furniture", "id": "f_forge_rock", "x": 9, "y": 20, "z": 0 },
@@ -93,7 +89,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_pottery_cottage_blacksmith_2",
-    "method": "json",
     "object": {
       "set": [
         { "point": "furniture", "id": "f_drophammer", "x": 12, "y": 17 },

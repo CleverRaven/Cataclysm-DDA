@@ -222,6 +222,7 @@
       "construction2_interior_wall_type": { "type": "ter_str_id", "default": { "distribution": [ [ "t_brick_wall", 1 ], [ "t_wall_wood", 6 ] ] } },
       "construction2_house_fence_type": { "type": "ter_str_id", "default": { "distribution": [ [ "t_fence_post", 8 ], [ "t_chainfence_posts", 4 ] ] } }
     },
+    "items": { "t": { "item": "SUS_toilet", "chance": 50 } },
     "toilets": { "t": {  } },
     "terrain": {
       "b": "t_floor",
@@ -329,6 +330,7 @@
         }
       }
     },
+    "items": { "t": { "item": "SUS_toilet", "chance": 50 } },
     "toilets": { "t": {  } },
     "terrain": {
       "c": "t_thconc_floor_no_roof",

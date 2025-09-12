@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "11x11_forest_trail_intersection_south_fire_lookout",
     "object": {
       "mapgensize": [ 11, 11 ],
@@ -26,9 +25,7 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "ws_fire_lookout_tower_base" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -88,6 +85,7 @@
       "item": { "I": { "item": "american_flag" } },
       "items": {
         "R": { "item": "mechanics", "chance": 70, "repeat": [ 1, 5 ] },
+        "T": { "item": "SUS_toilet", "chance": 50 },
         "r": { "item": "fireman_cabinet", "chance": 70, "repeat": [ 1, 5 ] }
       },
       "place_monster": [ { "group": "GROUP_ZOMBIE", "x": 12, "y": 15, "repeat": [ 1, 4 ], "chance": 10 } ],
@@ -97,9 +95,7 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "ws_fire_lookout_tower_f1" ],
-    "weight": 1000,
     "object": {
       "rows": [
         "                        ",
@@ -140,9 +136,7 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "ws_fire_lookout_tower_f2" ],
-    "weight": 1000,
     "object": {
       "rows": [
         "                        ",
@@ -182,9 +176,7 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "ws_fire_lookout_tower_f3" ],
-    "weight": 1000,
     "object": {
       "rows": [
         "                        ",
@@ -224,9 +216,7 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "ws_fire_lookout_tower_f4" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -264,7 +254,7 @@
           { "item": "coffeemaker", "chance": 60 },
           { "item": "char_purifier", "chance": 80 },
           { "item": "two_way_radio", "chance": 50 },
-          { "item": "handflare", "chance": 33, "charges": 300 },
+          { "item": "handflare", "chance": 33 },
           { "item": "signal_flare", "chance": 50 },
           { "item": "flaregun", "chance": 50 }
         ]
@@ -279,9 +269,7 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "ws_fire_lookout_tower_f5" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_shingle_flat_roof",
       "rows": [

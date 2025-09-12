@@ -33,6 +33,45 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_LEARNING_WARPED_STRIKES",
+    "recurrence": [
+      { "math": [ "jmath_teleportation_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_teleportation_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "TELEPORTER" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
+        {
+          "or": [
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
+            {
+              "and": [
+                { "math": [ "u_spell_level('teleport_item_apport') >= 6" ] },
+                { "math": [ "u_spell_level('teleport_stride') >= 10" ] }
+              ]
+            }
+          ]
+        },
+        { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
+        { "math": [ "u_spell_level('teleport_warped_strikes') <= 0" ] },
+        { "not": { "u_know_recipe": "practice_teleport_warped_strikes" } }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [ { "not": { "u_has_trait": "TELEPORTER" } }, { "math": [ "u_spell_level('teleport_warped_strikes') >= 1" ] } ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
+      { "u_learn_recipe": "practice_teleport_warped_strikes" },
+      {
+        "u_message": "Use of your powers has led to an insight.  You can maintain an easily modifiable section of warped space around you, which you can warp to allow your attacks to reach much further than they should.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_TELEPORT_LEARNING_EPHEMERAL_WALK",
     "recurrence": [
       { "math": [ "jmath_teleportation_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
@@ -63,6 +102,40 @@
       { "u_learn_recipe": "practice_teleport_ephemeral_walk" },
       {
         "u_message": "Use of your powers has led to an insight.  You can maintain a slight offset from normal space, allowing yourself to effortlessly phase through obstacles while still being able to interact with reality, if you can figure out the proper technique.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_LEARNING_ITEM_APPORT",
+    "recurrence": [
+      { "math": [ "jmath_teleportation_learning_eocs_modifiers(global_tier_one_power_learning_time_low)" ] },
+      { "math": [ "jmath_teleportation_learning_eocs_modifiers(global_tier_one_power_learning_time_high)" ] }
+    ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "TELEPORTER" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
+        {
+          "or": [
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_ONE_POWER_INSIGHT" },
+            {
+              "and": [ { "math": [ "u_spell_level('teleport_blink') >= 4" ] }, { "math": [ "u_spell_level('teleport_slow') >= 4" ] } ]
+            }
+          ]
+        },
+        { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
+        { "math": [ "u_spell_level('teleport_item_apport') <= 0" ] },
+        { "not": { "u_know_recipe": "practice_teleport_item_apport" } }
+      ]
+    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEPORTER" } }, { "math": [ "u_spell_level('teleport_item_apport') >= 1" ] } ] },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
+      { "u_learn_recipe": "practice_teleport_item_apport" },
+      {
+        "u_message": "Use of your powers has led to an insight.  Rather than traveling to a new location yourself, you could send an item you were holding there, if you can figure out the proper technique.",
         "popup": true
       }
     ]
@@ -153,7 +226,7 @@
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
             {
-              "and": [ { "math": [ "u_spell_level('teleport_phase') >= 5" ] }, { "math": [ "u_spell_level('teleport_slow') >= 10" ] } ]
+              "and": [ { "math": [ "u_spell_level('teleport_item_apport') >= 5" ] }, { "math": [ "u_spell_level('teleport_slow') >= 10" ] } ]
             }
           ]
         },
@@ -432,6 +505,43 @@
       { "u_learn_recipe": "practice_teleport_dilated_gateway" },
       {
         "u_message": "Use of your powers has led to an insight.  Just as you can teleport yourself to memorized locations, you can also teleport other beings to those same locations alongside you.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_LEARNING_RELOCATION",
+    "recurrence": [
+      { "math": [ "jmath_teleportation_learning_eocs_modifiers(global_tier_three_power_learning_time_low)" ] },
+      { "math": [ "jmath_teleportation_learning_eocs_modifiers(global_tier_three_power_learning_time_high)" ] }
+    ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "TELEPORTER" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
+        {
+          "or": [
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT" },
+            {
+              "and": [
+                { "math": [ "u_spell_level('teleport_gateway') >= 8" ] },
+                { "math": [ "u_spell_level('teleport_item_apport') >= 6" ] }
+              ]
+            }
+          ]
+        },
+        { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
+        { "math": [ "u_spell_level('teleport_relocation') <= 0" ] },
+        { "not": { "u_know_recipe": "practice_teleport_relocation" } }
+      ]
+    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEPORTER" } }, { "math": [ "u_spell_level('teleport_relocation') >= 1" ] } ] },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
+      { "u_learn_recipe": "practice_teleport_relocation" },
+      {
+        "u_message": "Use of your powers has led to an insight.  Just as you can teleport yourself to memorized locations, you can also teleport held items to those same locations.",
         "popup": true
       }
     ]

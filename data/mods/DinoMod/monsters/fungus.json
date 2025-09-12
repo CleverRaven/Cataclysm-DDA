@@ -573,6 +573,25 @@
     "flags": [ "SEES", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM", "BASHES" ]
   },
   {
+    "id": "mon_zoabosaurus_fungus",
+    "type": "MONSTER",
+    "name": { "str": "fungal moabosaurus zombie" },
+    "description": "This was once a huge, long-necked, four-legged dinosaur with a long tail.  Now fungal tendrils sprout from the mouth, eyes, and other orifices, holding together an enormous shambling mass of mold-covered flesh.",
+    "copy-from": "mon_zoabosaurus",
+    "default_faction": "fungus",
+    "species": [ "FUNGUS" ],
+    "diff": 2,
+    "proportional": { "hp": 0.75, "speed": 0.65 },
+    "color": "light_gray",
+    "relative": { "melee_skill": -1, "melee_dice": -1, "melee_dice_sides": 3, "armor": { "bash": 3 } },
+    "bleed_rate": 0,
+    "vision_day": 5,
+    "vision_night": 5,
+    "special_attacks": [ [ "FUNGUS", 200 ], [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
+    "upgrades": false,
+    "flags": [ "SEES", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM", "BASHES" ]
+  },
+  {
     "id": "mon_zaplocanthosaurus_fungus",
     "type": "MONSTER",
     "name": { "str": "fungal haplocanthosaurus zombie" },
@@ -1246,7 +1265,7 @@
     "name": { "str": "fungal kosmoceratops zombie" },
     "description": "This was once a massive, four-legged dinosaur herbivore, with a tall bony crest from which fifteen horns and spikes emerged.  Fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh.",
     "copy-from": "mon_zriceratops_fungus",
-    "proportional": { "melee_dice": 2, "melee_damage": 0.65 },
+    "proportional": { "melee_dice": 2, "melee_damage": { "damage_type": "stab", "amount": 0.65 } },
     "special_attacks": [ [ "FUNGUS", 200 ], { "id": "impale" }, [ "stretch_horn_DinoMod", 10 ] ],
     "upgrades": false
   },
@@ -1256,7 +1275,7 @@
     "name": { "str": "fungal torosaurus zombie" },
     "description": "This was once a massive, four-legged dinosaur herbivore, with a tall bony crest from which two wicked-looking horns emerged.  Fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh.",
     "copy-from": "mon_zriceratops_fungus",
-    "proportional": { "melee_dice": 2, "melee_damage": 0.65 },
+    "proportional": { "melee_dice": 2, "melee_damage": { "damage_type": "stab", "amount": 0.65 } },
     "special_attacks": [ [ "FUNGUS", 200 ], { "id": "impale" }, [ "stretch_horn_DinoMod", 5 ] ],
     "upgrades": false
   },

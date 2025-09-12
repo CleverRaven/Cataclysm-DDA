@@ -1,10 +1,9 @@
-#include <algorithm>
 #include <functional>
-#include <iosfwd>
 #include <memory>
-#include <new>
 #include <optional>
 #include <string>
+#include <string_view>
+#include <type_traits>
 #include <utility>
 #include <vector>
 
@@ -13,15 +12,18 @@
 #include "character.h"
 #include "city.h"
 #include "coordinates.h"
-#include "condition.h"
 #include "debug.h"
 #include "dialogue.h"
+#include "dialogue_helpers.h"
 #include "enum_conversions.h"
 #include "enums.h"
+#include "flexbuffer_json.h"
 #include "game.h"
-#include "json.h"
+#include "generic_factory.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
 #include "mapgen_functions.h"
+#include "math_parser_diag_value.h"
 #include "messages.h"
 #include "mission.h"
 #include "npc.h"
@@ -36,7 +38,7 @@
 
 static tripoint_abs_omt reveal_destination( const std::string &type )
 {
-    const tripoint_abs_omt your_pos = get_player_character().global_omt_location();
+    const tripoint_abs_omt your_pos = get_player_character().pos_abs_omt();
     const tripoint_abs_omt center_pos =
         overmap_buffer.find_random( your_pos, type, rng( 40, 80 ), false );
 
@@ -56,7 +58,7 @@ static void reveal_route( mission *miss, const tripoint_abs_omt &destination )
         return;
     }
 
-    const tripoint_abs_omt source = get_player_character().global_omt_location();
+    const tripoint_abs_omt source = get_player_character().pos_abs_omt();
 
     const tripoint_abs_omt source_road = overmap_buffer.find_closest( source, "road", 3, false );
     const tripoint_abs_omt dest_road = overmap_buffer.find_closest( destination, "road", 3, false );
@@ -106,7 +108,7 @@ tripoint_abs_omt mission_util::reveal_om_ter( const std::string &omter, int reve
         bool must_see, int target_z )
 {
     // Missions are normally on z-level 0, but allow an optional argument.
-    tripoint_abs_omt loc = get_player_character().global_omt_location();
+    tripoint_abs_omt loc = get_player_character().pos_abs_omt();
     loc.z() = target_z;
     const tripoint_abs_omt place = overmap_buffer.find_closest( loc, omter, 0, must_see );
     if( !place.is_invalid() && reveal_rad >= 0 ) {
@@ -121,7 +123,6 @@ tripoint_abs_omt mission_util::reveal_om_ter( const std::string &omter, int reve
  */
 static tripoint_abs_omt random_house_in_city( const city_reference &cref )
 {
-    // TODO: fix point types
     const tripoint_abs_omt city_center_omt =
         project_to<coords::omt>( cref.abs_sm_pos );
     std::vector<tripoint_abs_omt> valid;
@@ -136,11 +137,11 @@ static tripoint_abs_omt random_house_in_city( const city_reference &cref )
 tripoint_abs_omt mission_util::random_house_in_closest_city()
 {
     Character &player_character = get_player_character();
-    const tripoint_abs_sm center = player_character.global_sm_location();
+    const tripoint_abs_sm center = player_character.pos_abs_sm();
     const city_reference cref = overmap_buffer.closest_city( center );
     if( !cref ) {
         debugmsg( "could not find closest city" );
-        return player_character.global_omt_location();
+        return player_character.pos_abs_omt();
     }
     return random_house_in_city( cref );
 }
@@ -180,7 +181,7 @@ static std::optional<tripoint_abs_omt> find_or_create_om_terrain(
     tripoint_abs_omt target_pos = tripoint_abs_omt::invalid;
 
     if( params.target_var.has_value() ) {
-        return project_to<coords::omt>( get_tripoint_from_var( params.target_var.value(), d, false ) );
+        return project_to<coords::omt>( read_var_value( *params.target_var, d ).tripoint() );
     }
 
     omt_find_params find_params;
@@ -196,6 +197,15 @@ static std::optional<tripoint_abs_omt> find_or_create_om_terrain(
     find_params.cant_see = params.cant_see;
     find_params.existing_only = true;
 
+    if( params.overmap_special.has_value() ) {
+        const overmap_special_id special_id = static_cast<overmap_special_id>(
+                ( *params.overmap_special ).evaluate( d ) );
+        find_params.om_special = special_id;
+
+        if( overmap_buffer.contains_unique_special( special_id ) ) {
+            return overmap_buffer.find_existing_globally_unique( origin_pos, find_params );
+        }
+    }
     auto get_target_position = [&]() {
         // Either find a random or closest match, based on the criteria.
         if( params.random ) {
@@ -265,7 +275,7 @@ static std::optional<tripoint_abs_omt> find_or_create_om_terrain(
 static tripoint_abs_omt get_mission_om_origin( const mission_target_params &params, dialogue &d )
 {
     // use the player or NPC's current position, adjust for the z value if any
-    tripoint_abs_omt origin_pos = get_player_character().global_omt_location();
+    tripoint_abs_omt origin_pos = get_player_character().pos_abs_omt();
     if( !params.origin_u ) {
         npc *guy = nullptr;
 
@@ -275,7 +285,7 @@ static tripoint_abs_omt get_mission_om_origin( const mission_target_params &para
             guy = g->find_npc( params.mission_pointer->get_npc_id() );
         }
         if( guy ) {
-            origin_pos = guy->global_omt_location();
+            origin_pos = guy->pos_abs_omt();
         }
     }
     if( params.z ) {
@@ -314,9 +324,7 @@ tripoint_abs_omt mission_util::get_om_terrain_pos( const mission_target_params &
     // use the player or NPC's current position, adjust for the z value if any
     tripoint_abs_omt origin_pos = get_mission_om_origin( params, d );
     tripoint_abs_omt target_pos = origin_pos;
-    if( ( params.overmap_terrain.default_val.has_value() ||
-          params.overmap_terrain.str_val.has_value() || params.overmap_terrain.var_val.has_value() ) &&
-        !params.overmap_terrain.evaluate( d ).empty() ) {
+    if( !params.overmap_terrain.evaluate( d ).empty() ) {
         std::optional<tripoint_abs_omt> temp_pos = find_or_create_om_terrain( origin_pos, params, d );
         if( temp_pos ) {
             target_pos = *temp_pos;
@@ -353,12 +361,12 @@ tripoint_abs_omt mission_util::target_om_ter_random( const std::string &omter, i
 {
     Character &player_character = get_player_character();
     if( loc.is_invalid() ) {
-        loc = player_character.global_omt_location();
+        loc = player_character.pos_abs_omt();
     }
 
     auto places = overmap_buffer.find_all( loc, omter, range, must_see );
     if( places.empty() ) {
-        return player_character.global_omt_location();
+        return player_character.pos_abs_omt();
     }
     const overmap *loc_om = overmap_buffer.get_existing_om_global( loc ).om;
     cata_assert( loc_om );
@@ -381,25 +389,16 @@ tripoint_abs_omt mission_util::target_om_ter_random( const std::string &omter, i
 mission_target_params mission_util::parse_mission_om_target( const JsonObject &jo )
 {
     mission_target_params p;
-    if( jo.has_member( "om_terrain" ) ) {
-        p.overmap_terrain = get_str_or_var( jo.get_member( "om_terrain" ), "om_terrain", true );
-    }
+    optional( jo, false, "om_terrain", p.overmap_terrain );
     if( jo.has_member( "om_terrain_match_type" ) ) {
         p.overmap_terrain_match_type = jo.get_enum_value<ot_match_type>( "om_terrain_match_type" );
     }
     if( jo.get_bool( "origin_npc", false ) ) {
         p.origin_u = false;
     }
-    if( jo.has_member( "om_terrain_replace" ) ) {
-        p.replaceable_overmap_terrain = get_str_or_var( jo.get_member( "om_terrain_replace" ),
-                                        "om_terrain_replace", true );
-    }
-    if( jo.has_member( "om_special" ) ) {
-        p.overmap_special = get_str_or_var( jo.get_member( "om_special" ), "om_special", true );
-    }
-    if( jo.has_member( "reveal_radius" ) ) {
-        p.reveal_radius = get_dbl_or_var( jo, "reveal_radius" );
-    }
+    optional( jo, false, "om_terrain_replace", p.replaceable_overmap_terrain );
+    optional( jo, false, "om_special", p.overmap_special );
+    optional( jo, false, "reveal_radius", p.reveal_radius );
     if( jo.has_member( "must_see" ) ) {
         p.must_see = jo.get_bool( "must_see" );
     }
@@ -416,8 +415,8 @@ mission_target_params mission_util::parse_mission_om_target( const JsonObject &j
         jo.throw_error_at( "search_range",
                            "There's no reason to change max search range if your search isn't random." );
     }
-    p.search_range  = get_dbl_or_var( jo, "search_range", false, OMAPX * 14 );
-    p.min_distance  = get_dbl_or_var( jo, "min_distance", false );
+    optional( jo, false, "search_range", p.search_range, OMAPX * 3 );
+    optional( jo, false, "min_distance", p.min_distance );
 
     if( jo.has_member( "offset_x" ) || jo.has_member( "offset_y" ) || jo.has_member( "offset_z" ) ) {
         tripoint_rel_omt offset;
@@ -432,12 +431,8 @@ mission_target_params mission_util::parse_mission_om_target( const JsonObject &j
         }
         p.offset = offset;
     }
-    if( jo.has_member( "z" ) ) {
-        p.z = get_dbl_or_var( jo, "z" );
-    }
-    if( jo.has_member( "var" ) ) {
-        p.target_var = read_var_info( jo.get_object( "var" ) );
-    }
+    optional( jo, false, "z", p.z );
+    optional( jo, false, "var", p.target_var );
     return p;
 }
 
@@ -531,7 +526,7 @@ bool mission_util::load_funcs( const JsonObject &jo,
     return true;
 }
 
-bool mission_type::parse_funcs( const JsonObject &jo, const std::string_view src,
+bool mission_type::parse_funcs( const JsonObject &jo, std::string_view src,
                                 std::function<void( mission * )> &phase_func )
 {
     std::vector<std::function<void( mission *miss )>> funcs;

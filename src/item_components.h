@@ -2,17 +2,17 @@
 #ifndef CATA_SRC_ITEM_COMPONENTS_H
 #define CATA_SRC_ITEM_COMPONENTS_H
 
-#include <iterator>
+#include <cstddef>
 #include <map>
-#include <set>
+#include <utility>
 #include <vector>
 
 #include "type_id.h"
 #include "value_ptr.h"
 
-class item;
 class JsonOut;
 class JsonValue;
+class item;
 template<typename T>
 class ret_val;
 
