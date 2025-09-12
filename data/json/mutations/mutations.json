@@ -965,11 +965,11 @@
     "name": { "str": "Strong Back" },
     "points": 2,
     "vitamin_cost": 160,
-    "description": "You are capable of carrying far more than someone with similar strength could.  Your maximum weight carried is increased by 35%.",
+    "description": "You are capable of carrying far more than someone with similar strength could.  Your maximum weight carried is increased by 15%.",
     "starting_trait": true,
     "valid": false,
     "cancels": [ "BADBACK" ],
-    "enchantments": [ { "values": [ { "value": "CARRY_WEIGHT", "multiply": 0.35 } ] } ]
+    "enchantments": [ { "values": [ { "value": "CARRY_WEIGHT", "multiply": 0.15 } ] } ]
   },
   {
     "type": "mutation",
@@ -1633,11 +1633,11 @@
     "name": { "str": "Bad Back" },
     "points": -3,
     "vitamin_cost": 160,
-    "description": "You simply cannot carry as much as people with a similar strength could.  Your maximum weight carried is reduced by 35%.",
+    "description": "You simply cannot carry as much as people with a similar strength could.  Your maximum weight carried is reduced by 15%.",
     "starting_trait": true,
     "category": [ "BIRD", "ELFA" ],
     "cancels": [ "STRONGBACK" ],
-    "enchantments": [ { "values": [ { "value": "CARRY_WEIGHT", "multiply": -0.35 } ] } ]
+    "enchantments": [ { "values": [ { "value": "CARRY_WEIGHT", "multiply": -0.15 } ] } ]
   },
   {
     "type": "mutation",
@@ -2920,7 +2920,7 @@
         "values": [
           { "value": "MOVE_COST", "multiply": -0.1 },
           { "value": "ATTACK_SPEED", "multiply": -0.1 },
-          { "value": "CARRY_WEIGHT", "multiply": -0.2 }
+          { "value": "CARRY_WEIGHT", "multiply": -0.125 }
         ]
       }
     ]
