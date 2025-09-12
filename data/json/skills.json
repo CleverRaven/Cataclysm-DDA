@@ -160,7 +160,7 @@
     "type": "skill",
     "id": "swimming",
     "name": { "str": "athletics" },
-    "description": "Your athletic ability, including swimming endurance and ability to swim with weight.  Athletic skill also improves your overall cardio fitness and stamina.",
+    "description": "Your athletic ability, including swimming, climbing, rowing, balancing, cycling, and how much you can carry.  Athletic skill also improves your overall cardio fitness and stamina.",
     "display_category": "display_interaction",
     "sort_rank": 21000,
     "level_descriptions_theory": [
