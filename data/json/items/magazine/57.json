@@ -4,13 +4,13 @@
     "looks_like": "glock17_17",
     "type": "ITEM",
     "subtypes": [ "MAGAZINE" ],
-    "name": { "str": "FN 5.7mm pistol 20-round magazine" },
+    "name": { "str": "self-defense sidearm 20-round magazine" },
     "description": "A 20-round box magazine, for use with handguns chambering the proprietary 5.7x28mm cartridge.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "fn57mag",
-        "name": { "str": "Five-seveN 20-round magazine" },
+        "name": { "str": "FN Five-seveN 20-round magazine" },
         "description": "A standard-capacity magazine for use with the FN Five-seveN."
       }
     ],
@@ -54,8 +54,16 @@
     "looks_like": "glock17_17",
     "type": "ITEM",
     "subtypes": [ "MAGAZINE" ],
-    "name": { "str": "Ruger-57 20-round magazine" },
+    "name": { "str": "lightweight handgun 20-round magazine" },
     "description": "A standard capacity 20-round 5.7x28mm magazine for use with the Ruger-57.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "ruger_57mag",
+        "name": { "str": "Ruger-57 20-round magazine" },
+        "description": "A standard capacity 20-round 5.7x28mm magazine for use with the Ruger-57."
+      }
+    ],
     "weight": "30 g",
     "volume": "84 ml",
     "longest_side": "123 mm",
@@ -74,8 +82,16 @@
     "looks_like": "glock17_17",
     "type": "ITEM",
     "subtypes": [ "MAGAZINE" ],
-    "name": { "str": "Ruger-57 10-round magazine" },
+    "name": { "str": "lightweight handgun 10-round magazine" },
     "description": "A small capacity 10-round magazine for use with the Ruger-57, developed for use in states in which standard capacity magazines are prohibited.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "ruger_57_10_round_mag",
+        "name": { "str": "Ruger-57 10-round magazine" },
+        "description": "A small capacity 10-round magazine for use with the Ruger-57, developed for use in states in which standard capacity magazines are prohibited."
+      }
+    ],
     "weight": "24 g",
     "volume": "84 ml",
     "longest_side": "123 mm",

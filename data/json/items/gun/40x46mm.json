@@ -5,8 +5,16 @@
     "looks_like": "m79",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
-    "name": { "str": "M320 standalone launcher" },
+    "name": { "str": "standalone grenade launcher" },
     "description": "Heckler & Koch's M320 grenade launcher offers the functionality of larger launchers in a very small package at the cost of decreased accuracy.  This one is combined with a buttstock for standalone operation.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "m320",
+        "name": { "str": "H&K M320 grenade launcher" },
+        "description": "Heckler & Koch's M320 grenade launcher offers the functionality of larger launchers in a very small package at the cost of decreased accuracy.  This one is combined with a buttstock for standalone operation."
+      }
+    ],
     "weight": "2200 g",
     "volume": "1750 ml",
     "longest_side": "372 mm",
@@ -32,8 +40,16 @@
     "//": "Tileset whitelist for launchers.",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
-    "name": { "str": "M79 launcher" },
+    "name": { "str": "grenade launcher" },
     "description": "A widely-used grenade launcher that first saw use by American forces in the Vietnam War.  Though mostly replaced by more modern launchers, the M79 still sees use with many units worldwide.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "m79",
+        "name": { "str": "M79 grenade launcher" },
+        "description": "A widely-used grenade launcher that first saw use by American forces in the Vietnam War.  Though mostly replaced by more modern launchers, the M79 still sees use with many units worldwide."
+      }
+    ],
     "weight": "2700 g",
     "volume": "2800 ml",
     "longest_side": "736 mm",
@@ -60,8 +76,16 @@
     "looks_like": "m79",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
-    "name": { "str_sp": "Milkor MGL" },
+    "name": { "str": "multi-grenade launcher" },
     "description": "The Milkor Multi-Grenade Launcher is designed to compensate for the drawback of single-shot grenade launchers by allowing sustained heavy firepower.  However, it is still slow to reload and must be used with careful planning.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "mgl",
+        "name": { "str": "Milkor Multi-Grenade Launcher" },
+        "description": "The Milkor Multi-Grenade Launcher is designed to compensate for the drawback of single-shot grenade launchers by allowing sustained heavy firepower.  However, it is still slow to reload and must be used with careful planning."
+      }
+    ],
     "weight": "5300 g",
     "volume": "4230 ml",
     "longest_side": "565 mm",

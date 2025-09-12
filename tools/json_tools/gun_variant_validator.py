@@ -96,45 +96,22 @@ VARIANT_CHECK_PAIR_BLACKLIST = {
 }
 IDENTIFIER_CHECK_BLACKLIST = {
     # FIXME: fix and remove these
-    "ar12_shotgun",
-    "bigun",
-    "fn_fal_semi",
-    "gfy_1",
-    "hpt3895",
-    "m1a",
     "m2carbine",
+    "bigun",
+    "kord",
     "mdrx",
-    "rfb_308",
-    "srm_1216",
+    "ar12_shotgun",
+    "gfy_1",
 }
 NAME_CHECK_BLACKLIST = {
     # FIXME: fix and remove these
-    "AT4",
-    "atgm_launcher",
     "bbgun",
     "brogyaga",
-    "fn_p90",
-    "hi_power_40",
-    "hptjcp",
-    "iwi_tavor_x95_300blk",
-    "m1911a1_38super",
-    "m2010",
     "m203",
     "m320_mod",
-    "mgl",
     "obrez",
-    "p226_357sig",
-    "p320_357sig",
     "pressin",
     "pseudo_m203",
-    "px4_40",
-    "raging_bull",
-    "scar_l",
-    "shotgun_410",
-    "sig_40",
-    "sig_mcx_rattler_sbr",
-    "weatherby_5",
-    "win70",
     "xedra_gun",
 }
 # Stripped from gun/mag names before checking for an identifier
@@ -160,10 +137,10 @@ BAD_IDENTIFIERS = [
     "7.7mm",
     "8x40mm",
     "9x19mm",
-    "magazine-fed",
-    "-round",
+    "magazine-fed", #?
+    "-round", #?
     "clip",
-    "magazine",
+    "magazine", #?
     "stripper",
     "speedloader",
 ]
@@ -222,6 +199,8 @@ TYPE_DESCRIPTORS = [
     "rifle",
     "shotgun",
     "six-shooter",
+    "seven-shooter",
+    "sidearm",
     "SMG",
     "submachine gun",
     "trenchgun",
@@ -630,13 +609,13 @@ def common_token(names):
     common_token = " ".join(longest_common_substring(names).split())
     # It can't be a meaningful identifier if it's 1-2 characters long
     # Some exceptions (e.g. AK, G3)
+    if VERBOSE > 1:
+        print(f" --- Token '{common_token}': {names}")
     if len(common_token) < 3 and common_token not in SHORT_COMMON_TOKENS:
         return None
     # Some common identifiers that don't work
     if common_token in BAD_COMMON_TOKENS:
         return None
-    if VERBOSE > 1:
-        print(f" --- Token '{common_token}': {names}")
     return common_token
 
 

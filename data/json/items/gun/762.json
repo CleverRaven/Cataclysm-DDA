@@ -5,16 +5,8 @@
     "looks_like": "modular_ar15",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
-    "name": { "str": "AKM rifle" },
-    "description": "One of the most recognizable assault rifles ever made, the AKM is renowned for its durability even under the worst conditions.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "ak47",
-        "name": { "str": "AKM" },
-        "description": "Arguably the most mass-produced firearm ever made, the AKM has cemented itself in history, and a few country flags.  Designed after WW2, it was meant to replace the PPSh-41's role, but soon became the main infantry rifle.  While many believe it is a copy of the German StG-44, it more resembles an M1 Garand in operation.  Despite it's age, it still sees plenty of use in conflicts today."
-      }
-    ],
+    "name": { "str": "AKM assault rifle" },
+    "description": "Arguably the most mass-produced firearm ever made, the AKM has cemented itself in history, and a few country flags.  Designed after WW2, it was meant to replace the PPSh-41's role, but soon became the main infantry rifle.  While many believe it is a copy of the German StG-44, it more resembles an M1 Garand in operation.  Despite it's age, it still sees plenty of use in conflicts today.",
     "weight": "3402 g",
     "volume": "2167 ml",
     "longest_side": "87 cm",
@@ -89,7 +81,7 @@
     "looks_like": "modular_ar15",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
-    "name": { "str": "AK-47 rifle" },
+    "name": { "str": "AK-47 civilian rifle" },
     "description": "Civilian-legal clones of the AK-47, with no ability to fire full-auto.  Despite lacking that ability, they're still reliable and useful rifles, even if much rarer ammo and magazine wise than the more common AR-15 platform.",
     "variant_type": "gun",
     "variants": [
@@ -178,18 +170,18 @@
     "looks_like": "modular_ar15",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
-    "name": { "str": "Bren 7.62mm carbine" },
+    "name": { "str": "Bren carbine" },
     "description": "A semi-automatic clone of the Czech Republic's standard infantry carbine, sold for civilian sport shooting and recreational use, this modular rifle makes use of the 7.62x39mm Soviet cartridge and uses proprietary magazines.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "bren2_762",
-        "name": { "str": "CZ Bren 2 carbine" },
+        "name": { "str": "CZ Bren 2" },
         "description": "Hailing from the Czech Republic, this modular carbine supplanted the older CZ 805 rifle within Czech military use, improving upon the former's features and bringing fully ambidextrous controls, a streamlined design, and an easily adjustable gas system to the table.  Chambered for the 7.62x39mm Soviet cartridge, this particular weapon possesses a compact 11-inch barrel and is a civilian MS, 'modular semi-automatic,' model.  Incorporating a number of US-made parts, the weapon features a removable muzzle break rather than the flash hider that comes standard with military rifles."
       },
       {
         "id": "805_bren",
-        "name": { "str": "CZ 805 Bren rifle" },
+        "name": { "str": "CZ 805 Bren" },
         "description": "Strongly resembling the FN SCAR, with features and ergonomics inspired by the AR-18, this semi-automatic rifle is a civilian clone of the Czech Republic's formerly standard infantry carbine and was produced by the same company.  Discontinued in 2018, the rifle features an included muzzle break and adjustable folding buttstock, with this particular version being chambered in 7.62x39mm."
       }
     ],

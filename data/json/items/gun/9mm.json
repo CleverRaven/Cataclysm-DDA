@@ -338,14 +338,6 @@
     "subtypes": [ "ARMOR", "GUN" ],
     "name": { "str": "MP5 operational briefcase" },
     "description": "A hard-sided briefcase with a trigger in the handle and a concealed hole in the side.  To fire the internally mounted MP5K-PDW, one braces the briefcase at the waist, ensures the hole is pointed at the enemy, and squeezes the trigger.  Precision and handling are severely hampered by the shape of the briefcase, but if you need to 'hand over the goods' or look low profile while bodyguarding, this is your gun.  When the briefcase is open, the MP5 may be reloaded or dismounted.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "briefcase_smg",
-        "name": { "str": "H&K operational briefcase" },
-        "description": "A hard-sided briefcase with a trigger in the handle and a concealed hole in the side.  To fire the internally mounted MP5K-PDW, one braces the briefcase at the waist, ensures the hole is pointed at the enemy, and squeezes the trigger.  Precision and handling are severely hampered by the shape of the briefcase, but if you need to 'hand over the goods' or look low profile while bodyguarding, this is your gun.  When the briefcase is open, the MP5 may be reloaded or dismounted."
-      }
-    ],
     "weight": "3800 g",
     "volume": "15232 ml",
     "longest_side": "544 mm",
@@ -437,14 +429,6 @@
     "subtypes": [ "GUN" ],
     "name": { "str": "MP 40 submachine gun" },
     "description": "An antique German-issued submachine gun from the Second World War, likely having entered the United States as a personal holdover by a veteran.  Chambered in 9x19mm and utilizing proprietary box magazines, the firearm has an integrated under folding wire stock.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "mp40",
-        "name": { "str": "Vollmer MP 40 submachine gun" },
-        "description": "A simple and renowned 9x19mm submachine gun developed by Heinrich Vollmer for the German army.  Adopted  in 1940, it saw extensive service on both fronts of the Second World War and was much regarded by soldiers who fielded the weapon in combat, being praised for its reliability and relatively modern design.  Featuring an integral folding wire butt stock, this weapon more than likely entered the United States as a war trophy by a returning veteran.  It was often called \"Schmeisser\" by the Allies, after Hugo Schmeisser, who designed the MP 18, although he was not involved in the design or production of the MP 40."
-      }
-    ],
     "weight": "3969 g",
     "volume": "2320 ml",
     "longest_side": "648 mm",
@@ -475,7 +459,7 @@
     "copy-from": "gun_base_9mm_semi_pistol",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
-    "name": { "str": "Semi Automatic MP 40 submachine gun" },
+    "name": { "str": "MP 40 pistol" },
     "description": "A modern semi-automatic replica of the MP 40 submachine gun, which lacks a butt stock to make it legally be considered a pistol.  It actually bears only a visual resemblance to the original, differing substantially from originally manufactured MP 40 submachine guns in its internal operations.",
     "weight": "3722 g",
     "volume": "2020 ml",
@@ -604,7 +588,7 @@
     "looks_like": "hk_mp5",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
-    "name": { "str": "STEN Luty submachine gun" },
+    "name": { "str": "Luty/STEN submachine gun" },
     "description": "A Luty pattern makeshift smoothbore SMG crudely constructed out of various steel parts using advanced powered hand tools; likely one of the most complex guns that is feasible to make outside of a machine shop, but still very unreliable.  This one is chambered for 9x19mm cartridges and accepts STEN-compatible magazines.",
     "//": "Crafting recipe must make use of angle grinder, bench grinder, set square and vise, which don't yet exist in game.",
     "weight": "3520 g",
@@ -723,7 +707,7 @@
     "looks_like": "hk_mp5",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
-    "name": { "str": "Uzi 9x19mm submachine gun" },
+    "name": { "str": "Uzi submachine gun" },
     "//": "SMGs aren't as commercially traded as rifles/handguns/SGs, so no cite for price points.  Total weight of gun 3500 grams.  Current weight of folding stock 200 grams.",
     "description": "The Uzi 9x19mm has enjoyed immense popularity, selling more units than any other submachine gun.  It is widely used as a personal defense weapon, or as a primary weapon by elite frontline forces.",
     "weight": "3500 g",
@@ -841,7 +825,7 @@
       {
         "id": "m17",
         "name": { "str": "M17 pistol" },
-        "description": "The M17 is an army issued semi-automatic, short recoil operated pistol derived from the SIG Sauer P320."
+        "description": "The general-issue military handgun of the United States army before the Cataclysm, this is a sizable pistol that fires 9x19mm cartridges.  Based off successful civilian designs and capable of taking magazines of various round capacities, the gun features a plastic polymer frame which helps to reduce overall weight."
       }
     ],
     "weight": "840 g",
@@ -908,8 +892,16 @@
     "copy-from": "gun_base_9mm_semi_pistol",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
-    "name": { "str": "SIG Pro SP2022 9mm pistol" },
+    "name": { "str": "SP2022 pistol" },
     "description": "A polymer-frame, semi-automatic, DA/SA operated pistol, featuring a Picatinny rail and a Nitron stainless steel slide.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "sp2022",
+        "name": { "str": "SIG Pro SP2022" },
+        "description": "A polymer-frame, semi-automatic, DA/SA operated pistol, featuring a Picatinny rail and a Nitron stainless steel slide."
+      }
+    ],
     "weight": "822 g",
     "volume": "514 ml",
     "longest_side": "221 mm",
@@ -931,8 +923,16 @@
     "looks_like": "glock_17",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
-    "name": { "str": "Browning Hi-Power 9x19mm handgun" },
+    "name": { "str": "Browning pistol" },
     "description": "The Browning Hi-Power is a semi-automatic handgun developed shortly before the Second World War.  Widely issued since then, it remains in use by India, Canada, and Australia.  This is a commercial variant produced by Browning Arms in 9x19mm Parabellum.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "hi_power_9mm",
+        "name": { "str": "Browning Hi-Power 9mm pistol" },
+        "description": "The Browning Hi-Power is a semi-automatic handgun developed shortly before the Second World War.  Widely issued since then, it remains in use by India, Canada, and Australia.  This is a commercial variant produced by Browning Arms in 9x19mm Parabellum."
+      }
+    ],
     "weight": "900 g",
     "volume": "274 ml",
     "longest_side": "228 mm",
@@ -1060,7 +1060,7 @@
     "looks_like": "modular_ar15",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
-    "name": { "str": "Colt submachine gun (Uzi)", "str_pl": "Colt submachine guns (Uzi)" },
+    "name": { "str": "Colt/Uzi submachine gun" },
     "description": "A 9x19mm submachine gun based on the M16 rifle design, it is a closed bolt, blowback operated firearm.  There is a large plastic brass deflector mounted by the ejection port, and no forward assist.  It looks very similar to an M4 carbine, except for the magazine well that accepts Uzi-style magazines.",
     "variant_type": "gun",
     "variants": [
@@ -1107,8 +1107,16 @@
     "looks_like": "modular_ar15",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
-    "name": { "str": "B&T APC9 PRO K submachine gun" },
+    "name": { "str": "APC9 submachine gun" },
     "description": "The Brügger & Thomet APC9 PRO K is a closed bolt blowback submachine gun in 9x19mm Parabellum.  It has a collapsible shoulder stock and a red dot sight.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "bt_apc9k",
+        "name": { "str": "B&T APC9 PRO K submachine gun" },
+        "description": "The Brügger & Thomet APC9 PRO K is a closed bolt blowback submachine gun in 9x19mm Parabellum.  It has a collapsible shoulder stock and a red dot sight."
+      }
+    ],
     "weight": "2400 g",
     "volume": "1890 ml",
     "longest_side": "525 mm",
@@ -1205,16 +1213,8 @@
     "looks_like": "glock_17",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
-    "name": { "str": "P365 handgun" },
-    "description": "A 9mm conceal carry pistol.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "p365",
-        "name": { "str": "SIG P365" },
-        "description": "The SIG P365 is a modern compact 9mm pistol made by SIG.  Even though SIG promises to offer a lifetime warranty, you suspect that isn't true anymore."
-      }
-    ],
+    "name": { "str": "SIG P365 handgun" },
+    "description": "The SIG P365 is a modern compact 9mm pistol made by SIG.  Even though SIG promises to offer a lifetime warranty, you suspect that isn't true anymore.",
     "weight": "588 g",
     "volume": "293 ml",
     "longest_side": "208 mm",

@@ -44,16 +44,8 @@
     "looks_like": "modular_ar15",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
-    "name": { "str": "Garand battle rifle" },
-    "description": "A semi-automatic .30-06 battle rifle, developed to replace the M1903 Springfield.  It didn't completely supplant the older bolt-action until after World War II.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "garand",
-        "name": { "str": "M1 Garand" },
-        "description": "The M1 Garand is a widely celebrated battle rifle, being one of the most mass-produced battle rifles in the world.  It saw widespread use in the US military, being used extensively in WW2 and the Korean War.  While its military use has dwindled down, being out of US service for more than 50 years, some of its mechanical influence still remains through rifles such as AKs or M14s.  It still sees widespread use in civilian spaces as an accurate competition or hunting rifle."
-      }
-    ],
+    "name": { "str": "M1 Garand battle rifle" },
+    "description": "The M1 Garand is a widely celebrated battle rifle, being one of the most mass-produced battle rifles in the world.  It saw widespread use in the US military, being used extensively in WW2 and the Korean War.  While its military use has dwindled down, being out of US service for more than 50 years, some of its mechanical influence still remains through rifles such as AKs or M14s.  It still sees widespread use in civilian spaces as an accurate competition or hunting rifle.",
     "ascii_picture": "m1_garand",
     "weight": "4280 g",
     "volume": "3160 ml",
@@ -127,14 +119,6 @@
     "name": { "str": "BAR rifle" },
     "description": "This heavy rifle was designed near the end of World War I, and provided fire support for the US Army from World War II all the way to the Vietnam War.  Too much firepower to serve as a battle rifle, but not enough to be an ideal light machine gun, it still found a niche on the battlefield.",
     "ascii_picture": "1918_BAR",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "m1918",
-        "name": { "str": "Browning Automatic Rifle" },
-        "description": "Designed near the end of World War I, the BAR provided fire support for the US Army from World War II all the way to the Vietnam War.  Originally developed to fill a now outdated role as an \"automatic rifle\", it was pushed into service for use as a light machine gun.  Despite being heavy and cumbersome, without filling its designed role, it saw service for over 50 years.  While newer models have a slow and fast fully automatic setting, this one is an older one, with just semi and full auto."
-      }
-    ],
     "weight": "8820 g",
     "volume": "4450 ml",
     "longest_side": "1216 mm",
@@ -162,8 +146,16 @@
     "looks_like": "modular_ar15",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
-    "name": { "str": "Remington 700 .30-06 rifle" },
+    "name": { "str": "sniper rifle" },
     "description": "A very popular and durable hunting or sniping rifle.  Popular among SWAT and US Marine snipers.  Highly damaging, but perhaps not as accurate as the competing Browning BLR.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "remington_700",
+        "name": { "str": "Remington 700 .30-06 rifle" },
+        "description": "A very popular and durable hunting or sniping rifle.  Popular among SWAT and US Marine snipers.  Highly damaging, but perhaps not as accurate as the competing Browning BLR."
+      }
+    ],
     "ascii_picture": "rem700_3006",
     "weight": "3350 g",
     "volume": "3190 ml",
@@ -194,7 +186,7 @@
     "copy-from": "gun_base_rifle_manual",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
-    "name": { "str": "Ruger Guide rifle" },
+    "name": { "str": "bolt-action rifle" },
     "description": "This is a popular and sturdy long-range rifle that has been in production by the Ruger gun company for several decades.  Using a bolt-action feed system, the rifle features a four round capacity of .30-06 cartridges and has the capability to dispatch said rounds with a level of accuracy that would make comparable hunting rifles blush.",
     "variant_type": "gun",
     "variants": [

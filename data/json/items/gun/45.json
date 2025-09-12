@@ -17,7 +17,7 @@
     "variants": [
       {
         "id": "TDI",
-        "name": { "str": ".45 Vector submachine gun" },
+        "name": { "str": "Vector submachine gun" },
         "description": "The Vector SMG is a delayed blowback submachine gun with a unique, in-line design that places both the shooter's hand and shoulder in line with the bore axis, reducing muzzle climb during bursts.  This one is chambered in .45 ACP."
       }
     ],
@@ -55,15 +55,7 @@
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "name": { "str": "UMP submachine gun" },
-    "description": "A modern polymer-body sub-machine gun, once quite popular with police departments until recently.  Can be configured in 9x19mm, .40 S&W, or .45 ACP using conversion kits and the appropriate UMP magazine.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "modular_ump",
-        "name": { "str": "H&K UMP submachine gun" },
-        "description": "Developed as a lower-cost successor to H&K's own MP5, the Universal Machine Pistol is a closed-bolt, simple blowback sub-machine gun constructed of lightweight polymer.  In order to make it more attractive to American police departments, it was offered in .40 S&W and .45 ACP as well as the ubiquitous 9x19mm, all using the same receiver.  This was meant to simplify manufacturing, but it also means the user can change the caliber with the right parts and magazine."
-      }
-    ],
+    "description": "Developed as a lower-cost successor to H&K's own MP5, the Universal Machine Pistol is a closed-bolt, simple blowback sub-machine gun constructed of lightweight polymer.  In order to make it more attractive to American police departments, it was offered in .40 S&W and .45 ACP as well as the ubiquitous 9x19mm, all using the same receiver.  This was meant to simplify manufacturing, but it also means the user can change the caliber with the right parts and magazine.",
     "ascii_picture": "hk_ump",
     "weight": "1100 g",
     "volume": "4401 ml",
@@ -114,8 +106,8 @@
     "looks_like": "glock_17",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
-    "name": { "str": "M1911 pistol" },
-    "description": "A semi-automatic pistol chambered in .45 ACP and accepting M1911 magazines.",
+    "name": { "str": "military handgun" },
+    "description": "The M1911 was the US Military standard-issue sidearm for most of the 20th Century.  It remains one of the most popular .45 pistols today.",
     "variant_type": "gun",
     "variants": [
       {
@@ -148,15 +140,7 @@
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "name": { "str": "MAC-10 submachine gun" },
-    "description": "A submachine gun chambered in .45 ACP and accepting MAC-10 magazines.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "mac_10",
-        "name": { "str": "MAC-10 machine pistol" },
-        "description": "The MAC-10 is a popular machine pistol originally designed for military use.  For many years it was the most inexpensive automatic weapon in the US, and enjoyed great popularity among criminals less concerned with quality firearms."
-      }
-    ],
+    "description": "The MAC-10 is a popular machine pistol originally designed for military use.  For many years it was the most inexpensive automatic weapon in the US, and enjoyed great popularity among criminals less concerned with quality firearms.",
     "weight": "2810 g",
     "volume": "1195 ml",
     "longest_side": "298 mm",
@@ -218,16 +202,8 @@
     "looks_like": "hk_mp5",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
-    "name": { "str": "MAC-10 Luty submachine gun" },
+    "name": { "str": "Luty/MAC-10 submachine gun" },
     "description": "A Luty pattern makeshift smoothbore SMG crudely constructed out of various steel parts using advanced powered hand tools; likely one of the most complex guns that is feasible to make outside of a machine shop, but still very unreliable.  This one is chambered for .45 ACP cartridges and accepts MAC-10 compatible magazines.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "smg_45",
-        "name": { "str": ".45 Luty submachine gun" },
-        "description": "A Luty pattern makeshift smoothbore SMG crudely constructed out of various steel parts using advanced powered hand tools; likely one of the most complex guns that is feasible to make outside of a machine shop, but still very unreliable.  This one is chambered for .45 ACP cartridges and accepts MAC-10 compatible magazines."
-      }
-    ],
     "//": "Crafting recipe must make use of angle grinder, bench grinder, set square and vise, which don't yet exist in game.",
     "weight": "3520 g",
     "volume": "1110 ml",
@@ -256,15 +232,7 @@
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "name": { "str": "Thompson submachine gun" },
-    "description": "A submachine gun chambered in .45 ACP and accepting Thompson magazines.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "tommygun",
-        "name": { "str": "Thompson M1928A1 submachine gun" },
-        "description": "An American-made submachine gun developed during the very end of World War I, too late to see action.  Infamous during the 1920s for its use by gangsters, and used during World War II before being mostly replaced with less-expensive alternatives."
-      }
-    ],
+    "description": "An American-made submachine gun developed during the very end of World War I, too late to see action.  Infamous during the 1920s for its use by gangsters, and used during World War II before being mostly replaced with less-expensive alternatives.",
     "weight": "4899 g",
     "volume": "1230 ml",
     "longest_side": "832 mm",
@@ -333,16 +301,8 @@
     "looks_like": "glock_17",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
-    "name": { "str": "PPQ pistol" },
-    "description": "A semi-automatic pistol chambered in .45 ACP and accepting PPQ magazines.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "walther_ppq_45",
-        "name": { "str": "Walther PPQ 45 pistol" },
-        "description": "The Walther PPQ is a semi-automatic pistol originating from the Walther P99QA, and maintains compatibility with some of its predecessor's accessories.  This model is chambered in .45 ACP."
-      }
-    ],
+    "name": { "str": "Walther PPQ .45 pistol" },
+    "description": "The Walther PPQ is a semi-automatic pistol originating from the Walther P99QA, and maintains compatibility with some of its predecessor's accessories.  This model is chambered in .45 ACP.",
     "weight": "799 g",
     "volume": "472 ml",
     "longest_side": "224 mm",
@@ -360,7 +320,7 @@
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "name": { "str": "Model JHP pistol" },
-    "description": "A semi-automatic pistol chambered in .45 ACP and accepting Hi-Point magazines.",
+    "description": "The Hi-Point Model JHP is a blowback operated semi-automatic pistol designed by Hi-Point Firearms, which is known for making inexpensive firearms, and for making said firearms bulky and uncomfortable.  Hi-Points have slides made with a zinc pot-metal which is relatively fragile compared to steel slides.",
     "variant_type": "gun",
     "variants": [
       {
@@ -387,7 +347,7 @@
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "name": { "str": "Glock pistol" },
-    "description": "A semi-automatic pistol chambered in .45 ACP and accepting Glock magazines.",
+    "description": "A full-sized version of the highly successful Glock.  This model is chambered in .45 ACP.",
     "variant_type": "gun",
     "variants": [
       {
@@ -419,8 +379,16 @@
     "looks_like": "glock_17",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
-    "name": { "str": "Glock 30 pistol" },
+    "name": { "str": "compact Glock pistol" },
     "description": "A Glock compact pistol chambered in .45 ACP.  Accepts the same magazines as its older brothers.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "glock_30",
+        "name": { "str": "Glock 30 pistol" },
+        "description": "A Glock compact pistol chambered in .45 ACP.  Accepts the same magazines as its older brothers."
+      }
+    ],
     "weight": "675 g",
     "volume": "422 ml",
     "longest_side": "177 mm",
@@ -462,8 +430,8 @@
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "reload_noise_volume": 10,
-    "name": { "str": ".45 WWII submachine gun" },
-    "description": "A WWII submachine gun, lacking semi-auto fire selector and chambered in .45 ACP.",
+    "name": { "str": "WWII submachine gun" },
+    "description": "An American-made submachine gun developed during WWII as an alternative to Thompson M1928A1 and used at least till early 1990s.  Simple, cheap, and somewhat crude, the M3 was still quite an effective weapon, mostly made from sheet metal to reduce costs and speed up production.  In times of active use, it was considered as a disposable weapon, which is more expedient to replace than to repair.  Unfortunately, you cannot afford such wastefulness, unlike this submachine gun, which is devoid of even a fire selector for semi-auto fire.",
     "variant_type": "gun",
     "variants": [
       {

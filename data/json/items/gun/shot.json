@@ -5,7 +5,7 @@
     "looks_like": "glock_17",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
-    "name": { "str": "12 gauge pistol" },
+    "name": { "str": "12 gauge pipe pistol" },
     "description": "A single shot pistol that loads 12 gauge shotgun shells, handcrafted from scrap.",
     "ascii_picture": "shotgun_pistol",
     "weight": "828 g",
@@ -28,7 +28,7 @@
     "looks_like": "remington_870",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
-    "name": { "str": "12-gauge Gatling gun" },
+    "name": { "str": "12 gauge Gatling gun" },
     "description": "An electrically driven six barrel Gatling shotgun, fed from handmade cloth belts.  Even properly mounted, this seems like an unwieldy beast, and the six separate barrels make for difficult zeroing.  The externally driven action means this is much less likely to jam.",
     "weight": "4980 g",
     "volume": "4500 ml",
@@ -60,7 +60,7 @@
       {
         "id": "ksg",
         "name": { "str": "Kel-Tec KSG shotgun" },
-        "description": "A bullpup pump-action shotgun, the Kel-Tec KSG uses a pair of magazine tubes to increase its capacity."
+        "description": "This pump-action shotgun uses a system of twin magazines to carry 14 total rounds of 12-gauge shotgun shells.  As the weapon's trigger is situated forwards of the chamber in what is termed as a 'bullpup' design, the firearm's notably more compact than its peers despite having a higher capacity when compared against more classically designed shotguns."
       }
     ],
     "ascii_picture": "ksg",
@@ -1036,7 +1036,7 @@
     "looks_like": "remington_870",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
-    "name": { "str": "rifle shotgun" },
+    "name": { "str": "MKA rifle shotgun" },
     "description": "Despite looking like a military-issued rifle, this is, in fact, a shotgun.  It can accept a variety of magazines.",
     "variant_type": "gun",
     "variants": [
@@ -1123,7 +1123,7 @@
     "looks_like": "remington_870",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
-    "name": { "str": "bullpup shotgun" },
+    "name": { "str": "MKA bullpup shotgun" },
     "description": "A curious magazine-fed shotgun, made using bullpup scheme.",
     "variant_type": "gun",
     "variants": [

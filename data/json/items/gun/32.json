@@ -5,7 +5,7 @@
     "looks_like": "glock_17",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
-    "name": { "str_sp": "Walther PPK pistol" },
+    "name": { "str": "Walther PPK pistol" },
     "description": "One of the most famous handguns of the 20th century.  Your name is not Bond, but you might find this little gun still useful.",
     "ascii_picture": "ppk",
     "weight": "540 g",
