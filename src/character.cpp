@@ -3392,6 +3392,8 @@ units::mass Character::weight_capacity() const
     // transiently reducing carry weight is unlikely to have any play impact besides being very annoying.
     /** @EFFECT_STR increases carrying capacity */
     ret += ( get_str_base() + get_str_bonus() ) * 4_kilogram;
+    /** Athletics skill increases carrying capacity */
+    ret *= 1.0f + 0.025f * get_skill_level( skill_swimming );
 
     ret = enchantment_cache->modify_value( enchant_vals::mod::CARRY_WEIGHT, ret );
 
