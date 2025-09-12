@@ -10645,7 +10645,7 @@ std::vector<Creature *> Character::get_targetable_creatures( const int range, bo
         //via a mutation or cbm we only attack targets with a line of sight
         tripoint_bub_ms you_pos = pos_bub( here );
         tripoint_bub_ms critter_pos = critter.pos_bub( here );
-        bool can_see = ( ( sees( here, critter ) || sees_with_specials( critter ) ) && here.sees( you_pos, critter_pos, 100 ) );
+        bool can_see = ( sees( here, critter ) || sees_with_specials( critter ) ) && here.sees( you_pos, critter_pos, 100 );
         if( can_see && melee )  //handles the case where we can see something with glass in the way for melee attacks
         {
             if( you_pos.z() > critter_pos.z() && ( !here.has_floor( you_pos ) &&
