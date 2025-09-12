@@ -992,7 +992,7 @@
       { "item": "firecracker_pack", "prob": 5 },
       { "item": "firecracker", "prob": 5 },
       { "prob": 30, "group": "fried_seeds_bag_plastic_4" },
-      { "prob": 65, "group": "bag_chips_full" },
+      { "prob": 65, "group": "bag_chips" },
       { "group": "softdrinks_canned", "prob": 380 },
       { "item": "picklocks", "prob": 10 },
       { "item": "fursuit", "prob": 6 },
