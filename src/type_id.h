@@ -351,6 +351,9 @@ using widget_id = string_id<widget>;
 struct weakpoints;
 using weakpoints_id = string_id<weakpoints>;
 
+class wound_type;
+using wound_type_id = string_id<wound_type>;
+
 struct connect_group;
 using connect_group_id = string_id<connect_group>;
 

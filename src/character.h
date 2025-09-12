@@ -952,6 +952,10 @@ class Character : public Creature, public visitable
         void update_stomach( const time_point &from, const time_point &to );
         /** Updates the mutations from enchantments */
         void update_cached_mutations();
+        /** Adds this specific wound to bodypart */
+        void apply_wound( bodypart_id bp, wound_type_id wd );
+        /** Updates the status of wounds character has */
+        void update_wounds( time_duration time_passed );
         /** Returns true if character needs food, false if character is an NPC with NO_NPC_FOOD set */
         bool needs_food() const;
         /** Increases hunger, thirst, sleepiness and stimulants wearing off. `rate_multiplier` is for retroactive updates. */
@@ -1289,6 +1293,7 @@ class Character : public Creature, public visitable
         /** Actually hurt the player, hurts a body_part directly, no armor reduction */
         void apply_damage( Creature *source, bodypart_id hurt, int dam,
                            bool bypass_med = false ) override;
+        void apply_random_wound( bodypart_id bp, const damage_instance &d );
         /** Calls Creature::deal_damage and handles damaged effects (waking up, etc.) */
         dealt_damage_instance deal_damage( Creature *source, bodypart_id bp,
                                            const damage_instance &d,
@@ -2677,6 +2682,8 @@ class Character : public Creature, public visitable
          */
         bool immune_to( const bodypart_id &bp, damage_unit dam ) const;
 
+        /** Modifies a pain value by wounds before passing it to Creature::mod_pain() */
+        int get_pain() const override;
         /** Modifies a pain value by player traits before passing it to Creature::mod_pain() */
         int mod_pain( int npain ) override;
         /** Sets new intensity of pain an reacts to it */
