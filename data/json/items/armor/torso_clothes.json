@@ -675,15 +675,7 @@
       { "encumbrance": 7, "coverage": 85, "covers": [ "torso" ] },
       { "encumbrance": 4, "coverage": 55, "covers": [ "leg_l", "leg_r" ] }
     ],
-    "variant_type": "generic",
     "variants": [
-      {
-        "id": "white",
-        "name": { "str": "white dress", "str_pl": "white dresses" },
-        "append": true,
-        "description": "This one is white.",
-        "color": "white"
-      },
       {
         "id": "black",
         "name": { "str": "black dress", "str_pl": "black dresses" },
@@ -696,7 +688,7 @@
   {
     "copy-from": "dress",
     "proportional": { "weight": 1.25, "volume": 1.25, "warmth": 2 },
-    "id": "dress_long",
+    "id": "long_dress",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str": "long dress", "str_pl": "long dresses" },
@@ -704,14 +696,6 @@
     "armor": [ { "encumbrance": 7, "coverage": 85, "covers": [ "torso", "leg_l", "leg_r" ] } ],
     "variant_type": "generic",
     "variants": [
-      {
-        "id": "white",
-        "name": { "str": "long white dress", "str_pl": "long white dresses" },
-        "append": true,
-        "description": "This one is white.",
-        "color": "white",
-        "weight": 4
-      },
       {
         "id": "black",
         "name": { "str": "long black dress", "str_pl": "long black dresses" },
@@ -725,7 +709,7 @@
   {
     "copy-from": "dress",
     "proportional": { "weight": 0.75, "volume": 0.75, "warmth": 0.5 },
-    "id": "dress_short",
+    "id": "short_dress",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str": "short dress", "str_pl": "short dresses" },
@@ -736,14 +720,6 @@
     ],
     "variant_type": "generic",
     "variants": [
-      {
-        "id": "white",
-        "name": { "str": "short white dress", "str_pl": "short white dresses" },
-        "append": true,
-        "description": "This one is white.",
-        "color": "white",
-        "weight": 50
-      },
       {
         "id": "black",
         "name": { "str": "short black dress", "str_pl": "short black dresses" },
@@ -763,7 +739,7 @@
   {
     "copy-from": "dress",
     "proportional": { "warmth": 1.25 },
-    "id": "dress_sleeves",
+    "id": "dress_sleeved",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "description": "A cotton dress with sleeves.",
@@ -775,14 +751,6 @@
     ],
     "variant_type": "generic",
     "variants": [
-      {
-        "id": "white",
-        "name": { "str": "white dress with sleeves", "str_pl": "white dresses with sleeves" },
-        "append": true,
-        "description": "This one is white.",
-        "color": "white",
-        "weight": 200
-      },
       {
         "id": "black",
         "name": { "str": "black dress with sleeves", "str_pl": "black dresses with sleeves" },
@@ -814,9 +782,9 @@
     ]
   },
   {
-    "copy-from": "dress_sleeves",
+    "copy-from": "dress_sleeved",
     "proportional": { "weight": 1.25, "volume": 1.25, "warmth": 2 },
-    "id": "dress_long_sleeves",
+    "id": "long_dress_sleeved",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "description": "A long cotton dress with sleeves.",
@@ -828,14 +796,6 @@
     ],
     "variant_type": "generic",
     "variants": [
-      {
-        "id": "white",
-        "name": { "str": "long white dress with sleeves", "str_pl": "long white dresses with sleeves" },
-        "append": true,
-        "description": "This one is white.",
-        "color": "white",
-        "weight": 225
-      },
       {
         "id": "black",
         "name": { "str": "long black dress with sleeves", "str_pl": "long black dresses with sleeves" },
@@ -871,9 +831,9 @@
     ]
   },
   {
-    "copy-from": "dress_sleeves",
+    "copy-from": "dress_sleeved",
     "proportional": { "weight": 0.75, "volume": 0.75, "warmth": 0.5 },
-    "id": "dress_short_sleeves",
+    "id": "short_dress_sleeved",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "description": "A short cotton dress with sleeves.",
@@ -885,14 +845,6 @@
     ],
     "variant_type": "generic",
     "variants": [
-      {
-        "id": "white",
-        "name": { "str": "short white dress with sleeves", "str_pl": "short white dresses with sleeves" },
-        "append": true,
-        "description": "This one is white.",
-        "color": "white",
-        "weight": 200
-      },
       {
         "id": "black",
         "name": { "str": "short black dress with sleeves", "str_pl": "short black dresses with sleeves" },
@@ -1094,17 +1046,24 @@
   {
     "copy-from": "gown",
     "proportional": { "warmth": 1.1, "weight": 1.05, "volume": 1.05 },
-    "id": "gown_sleeves",
+    "id": "gown_sleeved",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str": "evening gown with sleeves", "str_pl": "evening gowns with sleeves" },
-    "description": "A luxurious evening gown with sleeves.  It accentuates your curves, or lack thereof.",
+    "description": "A luxurious evening gown with full sleeves.  It accentuates your curves, or lack thereof.",
     "armor": [
       { "encumbrance": 14, "coverage": 75, "covers": [ "torso", "leg_l", "leg_r" ] },
       { "encumbrance": 2, "coverage": 90, "covers": [ "arm_l", "arm_r" ] }
     ],
     "variant_type": "generic",
     "variants": [
+      {
+        "id": "black",
+        "name": { "str": "black gown" },
+        "append": true,
+        "description": "This one is black.",
+        "color": "black"
+      },
       {
         "id": "sinister",
         "name": { "str": "sinister gown" },

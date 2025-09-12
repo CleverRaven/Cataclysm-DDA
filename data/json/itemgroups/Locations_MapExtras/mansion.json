@@ -655,8 +655,8 @@
       [ "robe_wizard", 4 ],
       [ "grim_reaper_robe", 4 ],
       [ "scythe_toy", 4 ],
-      { "item": "dress_long_sleeves", "variant": "witch_black", "prob": 2 },
-      { "item": "gown_sleeves", "variant": "sinister", "prob": 2 },
+      { "item": "long_dress_sleeved", "variant": "witch_black", "prob": 2 },
+      { "item": "gown_sleeved", "variant": "sinister", "prob": 2 },
       [ "sinister_dress", 2 ],
       [ "mask_plague", 2 ],
       [ "trenchcoat_steampunk", 2 ],
@@ -725,8 +725,8 @@
       [ "santa_dress_short", 15 ],
       [ "cheerleader_dress", 5 ],
       [ "ninja_dress_sleeveless", 2 ],
-      { "item": "dress_short", "variant": "sinister", "prob": 5 },
-      { "item": "dress_short_sleeves", "variant": "witch_black", "prob": 5 },
+      { "item": "short_dress", "variant": "sinister", "prob": 5 },
+      { "item": "short_dress_sleeved", "variant": "witch_black", "prob": 5 },
       [ "maid_dress_short", 25 ],
       { "item": "apron_cotton", "variant": "maid_apron", "prob": 25 },
       { "item": "apron_cotton", "variant": "gothic_apron", "prob": 15 },
@@ -1436,8 +1436,8 @@
       [ "halter_top", 50 ],
       [ "santa_dress_long", 1 ],
       [ "sinister_dress", 1 ],
-      { "item": "gown_sleeves", "variant": "sinister", "prob": 1 },
-      { "item": "dress_long_sleeves", "variant": "witch_black", "prob": 1 }
+      { "item": "gown_sleeved", "variant": "sinister", "prob": 1 },
+      { "item": "long_dress_sleeved", "variant": "witch_black", "prob": 1 }
     ]
   },
   {
@@ -1547,8 +1547,8 @@
       [ "boots_fur", 4 ],
       [ "santa_dress_long", 3 ],
       [ "sinister_dress", 3 ],
-      { "item": "gown_sleeves", "variant": "sinister", "prob": 4 },
-      { "item": "dress_long_sleeves", "variant": "witch_black", "prob": 2 },
+      { "item": "gown_sleeved", "variant": "sinister", "prob": 4 },
+      { "item": "long_dress_sleeved", "variant": "witch_black", "prob": 2 },
       { "item": "cheongsam", "prob": 5 }
     ]
   },

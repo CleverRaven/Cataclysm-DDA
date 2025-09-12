@@ -1604,9 +1604,9 @@
       [ "cheerleader_dress", 15 ],
       [ "ninja_dress", 3 ],
       [ "ninja_dress_sleeveless", 5 ],
-      { "item": "dress_short", "variant": "sinister", "prob": 2 },
-      { "item": "dress_sleeves", "variant": "witch_black", "prob": 5 },
-      { "item": "dress_short_sleeves", "variant": "witch_black", "prob": 5 },
+      { "item": "short_dress", "variant": "sinister", "prob": 2 },
+      { "item": "dress_sleeved", "variant": "witch_black", "prob": 5 },
+      { "item": "short_dress_sleeved", "variant": "witch_black", "prob": 5 },
       { "item": "bunny_suit_playboy", "prob": 30 }
     ]
   },
