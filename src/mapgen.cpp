@@ -237,7 +237,7 @@ static const ter_str_id ter_t_thconc_floor( "t_thconc_floor" );
 static const ter_str_id ter_t_thconc_floor_olight( "t_thconc_floor_olight" );
 static const ter_str_id ter_t_vat( "t_vat" );
 static const ter_str_id ter_t_wall_burnt( "t_wall_burnt" );
-static const ter_str_id ter_t_wall_prefab_metal("t_wall_prefab_metal");
+static const ter_str_id ter_t_wall_prefab_metal( "t_wall_prefab_metal" );
 static const ter_str_id ter_t_water_sh( "t_water_sh" );
 
 static const trait_id trait_NPC_STATIC_NPC( "NPC_STATIC_NPC" );
