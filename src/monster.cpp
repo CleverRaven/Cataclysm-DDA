@@ -2190,6 +2190,12 @@ bool monster::melee_attack( Creature &target, float accuracy )
         return false;
     }
 
+    if( target.pos_abs() == pos_abs() + tripoint::above &&
+        here.has_flag_furn( ter_furn_flag::TFLAG_LADDER, pos_bub() ) ) {
+        // any melee attack from the bottom to the top of a deployed ladder can topple the ladder
+        bash_at( pos_bub(), true );
+    }
+
     const int monster_hit_roll = melee::melee_hit_range( accuracy );
     int hitspread = target.deal_melee_attack( this, monster_hit_roll );
     if( type->melee_dice == 0 ) {

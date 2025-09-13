@@ -1160,7 +1160,8 @@ void monster::move()
 
                 // If we're trying to go up but can't fly, check if we can climb. If we can't, then don't
                 // This prevents non-climb/fly enemies running up walls
-                if( candidate.z() > pos_abs().z() && !( via_ramp || flies() ) ) {
+                if( candidate.z() > pos_abs().z() && !( via_ramp || flies() ||
+                                                        here.has_flag( ter_furn_flag::TFLAG_LADDER, pos_bub() ) ) ) {
                     if( !can_climb() || !here.has_floor_or_support( candidate ) ) {
                         if( !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos_bub() ) ||
                             !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, candidate ) ) {
@@ -1741,7 +1742,7 @@ static std::vector<tripoint_bub_ms> get_bashing_zone( const tripoint_bub_ms &bas
     return zone;
 }
 
-bool monster::bash_at( const tripoint_bub_ms &p )
+bool monster::bash_at( const tripoint_bub_ms &p, bool bash_here )
 {
     map &here = get_map();
 
@@ -1756,8 +1757,10 @@ bool monster::bash_at( const tripoint_bub_ms &p )
     }
 
     // Don't bash if a friendly monster is standing there
+    // unless there is here and we're explicitly bashing here
     monster *target = get_creature_tracker().creature_at<monster>( p );
-    if( target != nullptr && attitude_to( *target ) == Attitude::FRIENDLY ) {
+    if( target != nullptr && attitude_to( *target ) == Attitude::FRIENDLY && ( pos_bub() != p ||
+            !bash_here ) ) {
         return false;
     }
 
@@ -1813,7 +1816,15 @@ int monster::group_bash_skill( const tripoint_bub_ms &target )
 
     // pileup = more bash skill, but only help bashing mob directly in front of target
     const int max_helper_depth = 5;
-    const std::vector<tripoint_bub_ms> bzone = get_bashing_zone( target, pos_bub(), max_helper_depth );
+    std::vector<tripoint_bub_ms> bzone;
+    if( target == pos_bub() ) {
+        // bashing your own tile means every direction can help
+        for( const tripoint_bub_ms &p : get_map().points_in_radius( pos_bub(), max_helper_depth ) ) {
+            bzone.emplace_back( p );
+        }
+    } else {
+        bzone = get_bashing_zone( target, pos_bub(), max_helper_depth );
+    }
 
     creature_tracker &creatures = get_creature_tracker();
     for( const tripoint_bub_ms &candidate : bzone ) {
@@ -1841,7 +1852,7 @@ int monster::group_bash_skill( const tripoint_bub_ms &target )
         // If we made it here, the last monster checked was the candidate.
         monster &helpermon = *mon;
         // Contribution falls off rapidly with distance from target.
-        bashskill += helpermon.bash_skill() / rl_dist( candidate, target );
+        bashskill += helpermon.bash_skill() / std::max( 1, rl_dist( candidate, target ) );
     }
 
     return bashskill;
