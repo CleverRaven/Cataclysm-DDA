@@ -98,11 +98,7 @@
     "durability": 80,
     "size": "50 L",
     "flags": [ "CARGO", "OBSTACLE", "FLAT_SURF", "WORKBENCH", "CABLE_PORTS", "VEH_TOOLS" ],
-    "workbench": {
-      "multiplier": 1.1,
-      "mass": "150 kg",
-      "volume": "20 L"
-    },
+    "workbench": { "multiplier": 1.1, "mass": "150 kg", "volume": "20 L" },
     "//": "allow tools common for both kitchen unit and workshop; unpowered or low-power and no fume hood required",
     "allowed_tools": [
       "aluminum_pan",
