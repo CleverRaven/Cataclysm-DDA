@@ -158,7 +158,8 @@ bool mapbuffer::submap_exists_approx( const tripoint_abs_sm &p )
     if( iter == submaps.end() ) {
         try {
             const tripoint_abs_omt om_addr = project_to<coords::omt>( p );
-            const cata_path dirname = find_dirname( om_addr );
+            std::string world_prefix = g->get_dimension_prefix();
+            const cata_path dirname = find_dirname( om_addr, world_prefix );
             std::string file_name = quad_file_name( om_addr );
 
             if( world_generator->active_world->has_compression_enabled() ) {
@@ -173,10 +174,6 @@ bool mapbuffer::submap_exists_approx( const tripoint_abs_sm &p )
             } else {
                 return file_exist( dirname / file_name );
             }
-            /*std::string world_prefix = g->get_dimension_prefix();
-            const cata_path dirname = find_dirname( om_addr, world_prefix );
-            cata_path quad_path = find_quad_path( dirname, om_addr );
-            return file_exist( quad_path );*/
         } catch( const std::exception &err ) {
             debugmsg( "Failed to load submap %s: %s", p.to_string(), err.what() );
         }
