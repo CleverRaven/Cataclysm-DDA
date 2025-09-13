@@ -582,12 +582,19 @@ void activity_handlers::game_do_turn( player_activity *act, Character *you )
 
 void activity_handlers::pickaxe_do_turn( player_activity *act, Character * )
 {
+    map &here = get_map();
     const tripoint_bub_ms &pos = get_map().get_bub( act->placement );
     sfx::play_activity_sound( "tool", "pickaxe", sfx::get_heard_volume( pos ) );
     // each turn is too much
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a Pickaxe at work!
         sounds::sound( pos, 30, sounds::sound_t::destructive_activity, _( "CHNK!  CHNK!  CHNK!" ) );
+    }
+    if( calendar::once_every( 5_minutes ) ) {
+        const int max_damage_to_set = here.bash_resistance( pos, true );
+        const int existing_damage = here.get_map_damage( pos );
+        const int set_damage_to = std::min( existing_damage + 1, max_damage_to_set );
+        here.set_map_damage( pos, set_damage_to );
     }
 }
 
@@ -2232,12 +2239,19 @@ void activity_handlers::eat_menu_finish( player_activity *, Character * )
 void activity_handlers::jackhammer_do_turn( player_activity *act, Character * )
 {
     map &here = get_map();
+    const tripoint_bub_ms &pos = get_map().get_bub( act->placement );
     sfx::play_activity_sound( "tool", "jackhammer",
-                              sfx::get_heard_volume( here.get_bub( act->placement ) ) );
+                              sfx::get_heard_volume( pos ) );
     if( calendar::once_every( 1_minutes ) ) {
-        sounds::sound( here.get_bub( act->placement ), 15, sounds::sound_t::destructive_activity,
+        sounds::sound( pos, 15, sounds::sound_t::destructive_activity,
                        //~ Sound of a jackhammer at work!
                        _( "TATATATATATATAT!" ) );
+    }
+    if( calendar::once_every( 5_minutes ) ) {
+        const int max_damage_to_set = here.bash_resistance( pos, true );
+        const int existing_damage = here.get_map_damage( pos );
+        const int set_damage_to = std::min( existing_damage + 1, max_damage_to_set );
+        here.set_map_damage( pos, set_damage_to );
     }
 }
 
