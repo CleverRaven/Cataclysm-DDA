@@ -36,7 +36,7 @@ unsigned int font_config::imgui_config() const
     return ret;
 }
 
-static std::optional<ImGuiFreeTypeBuilderFlags> hint_to_fonthint( std::string_view hinting )
+std::optional<ImGuiFreeTypeBuilderFlags> hint_to_fonthint( std::string_view hinting )
 {
     if( hinting == "Auto" ) {
         return ImGuiFreeTypeBuilderFlags_ForceAutoHint;
@@ -58,6 +58,35 @@ static std::optional<ImGuiFreeTypeBuilderFlags> hint_to_fonthint( std::string_vi
     }
     debugmsg( "'%s' is an invalid font hinting value.", hinting );
     return std::nullopt;
+}
+
+const char *fonthint_to_hint( std::optional<ImGuiFreeTypeBuilderFlags> hinting )
+{
+    if( hinting == std::nullopt ) {
+        return "Default";
+    } else {
+        switch( *hinting ) {
+            case ImGuiFreeTypeBuilderFlags_ForceAutoHint:
+                return "Auto";
+                break;
+            case ImGuiFreeTypeBuilderFlags_NoAutoHint:
+                return "NoAuto";
+                break;
+            case ImGuiFreeTypeBuilderFlags_Bitmap:
+                return "Bitmap";
+                break;
+            case ImGuiFreeTypeBuilderFlags_LightHinting:
+                return "Light";
+                break;
+            case ImGuiFreeTypeBuilderFlags_NoHinting:
+                return "None";
+                break;
+            default:
+                // This should never be reached.
+                return "Default";
+                break;
+        }
+    }
 }
 
 void font_config::deserialize( const JsonObject &jo )
@@ -160,34 +189,10 @@ static void write_font_config( JsonOut &json, const std::vector<font_config> &ty
     for( const font_config &config : typefaces ) {
         json.start_object();
         json.member( "path", config.path );
-
-        if( config.hinting == std::nullopt ) {
-            json.member( "hinting", "Default" );
-        } else {
-            switch( *config.hinting ) {
-                case ImGuiFreeTypeBuilderFlags_ForceAutoHint:
-                    json.member( "hinting", "Auto" );
-                    break;
-                case ImGuiFreeTypeBuilderFlags_Bitmap:
-                    json.member( "hinting", "Bitmap" );
-                    break;
-                case ImGuiFreeTypeBuilderFlags_LightHinting:
-                    json.member( "hinting", "Light" );
-                    break;
-                case ImGuiFreeTypeBuilderFlags_NoHinting:
-                    json.member( "hinting", "NoAuto" );
-                    break;
-                default:
-                    // This should never be reached.
-                    json.member( "hinting", "Default" );
-                    break;
-            }
-        }
-
+        json.member( "hinting", fonthint_to_hint( config.hinting ) );
         if( !config.antialiasing ) {
             json.member( "antialiasing", false );
         }
-
         json.end_object();
     }
     json.end_array();
