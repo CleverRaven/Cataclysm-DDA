@@ -354,6 +354,7 @@ You can do your makeup
 Allow EOCs to read artifact resonance
 Add lathe functionality and industrial baseball bat production
 Chitin armor overhaul
+Add deep fryers
 
 
 ## Interface:
@@ -477,6 +478,7 @@ Explain that degraded items are degraded
 Message to player when UPS equipment runs out of power.
 Construction interface shows prerequisite furniture/terrain flags
 Default android sidebar changed to sidebar-mobile
+Present dispersion as MOA in item UI
 
 
 ## Mods:
@@ -898,6 +900,11 @@ Aftershock: Vehicle bay City Building a mix between mechanic garage, gas station
 [Mods] Your gear doesn't protect you when you're shapeshifted
 [Mods] If you have a broken limb and are in a shapeshifted form, you can't fly
 [DDotD] Add drag down attack when you're grabbed and surrounded
+[Magiclysm] Add Aerial Assassin monster and `PERMANENT_INVISIBILITY` flag to go with it
+[XEDRA] Replace steel material in items with updated steel types to allow repairing
+[Magiclysm] Add Seeing the Unseen animist spell
+Aftershock: Replace remaining vanilla robots with more setting appropriate ones
+[Magiclysm] Add the rust monster
 
 
 ## Balance:
@@ -1000,6 +1007,7 @@ Adjust Precise Strike melee tech so it also cant stun what other stun-causing te
 Adds cuvettes to analysis kit crafting recipe, increase analysis kit weight.
 Fitness bands and smart watches are more common, while pocket watches and game watches are rarer.
 Tree bashing from being cut down is not a magic wand
+Star vampires have `PERMANENT_INVISIBILITY`, when they drink blood it applies `SUPPRESS_INVISIBILITY`
 
 
 ## Bugfixes:
@@ -1380,6 +1388,7 @@ Fix deserialization error with power level
 Power grid deleted on ship movement
 AIM uilist submenu shaking violently.
 fix zones disabling on save/load
+Fix enchantment cache load issue (If your save didn't load right hopefully it will now)
 
 
 ## Performance:
