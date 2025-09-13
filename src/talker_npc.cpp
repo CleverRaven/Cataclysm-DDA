@@ -130,7 +130,7 @@ std::vector<std::string> talker_npc::get_topics( bool radio_contact ) const
     for( mission *&mission : me_npc->chatbin.missions ) {
         const mission_type &type = mission->get_type();
         if( type.urgent && type.difficulty > most_difficult_mission ) {
-            add_topics.emplace_back( "TALK_MISSION_DESCRIBE_URGENT" );
+            add_topics.emplace_back( me_npc->chatbin.talk_mission_describe_urgent );
             me_npc->chatbin.mission_selected = mission;
             most_difficult_mission = type.difficulty;
         }
@@ -146,7 +146,7 @@ std::vector<std::string> talker_npc::get_topics( bool radio_contact ) const
         if( ( type.urgent && !chosen_urgent ) || ( type.difficulty > most_difficult_mission &&
                 ( type.urgent || !chosen_urgent ) ) ) {
             chosen_urgent = type.urgent;
-            add_topics.emplace_back( "TALK_MISSION_INQUIRE" );
+            add_topics.emplace_back( me_npc->chatbin.talk_mission_inquire );
             me_npc->chatbin.mission_selected = mission;
             most_difficult_mission = type.difficulty;
         }
