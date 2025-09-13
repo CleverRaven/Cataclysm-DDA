@@ -229,7 +229,7 @@
           },
           { "set_string_var": "perk_eagle_eyes", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Requires preception 13",
+            "set_string_var": "Requires perception 13",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
