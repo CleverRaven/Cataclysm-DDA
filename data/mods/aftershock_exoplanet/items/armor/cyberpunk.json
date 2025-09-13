@@ -14,7 +14,7 @@
   },
   {
     "id": "afs_mirror_shades",
-    "repairs_like": "glasses_bal"
+    "repairs_like": "glasses_bal",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "glasses_bal",
