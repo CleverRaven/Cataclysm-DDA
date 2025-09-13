@@ -108,8 +108,7 @@
     "proportional": { "price": 0.5, "range": 0.83 },
     "projectile_count": 24155,
     "shot_spread": 36000,
-    "shot_damage": { "damage_type": "bullet", "amount": 1 },
-    "damage": { "damage_type": "bullet", "amount": 93 },
+    "damage": { "damage_type": "bullet", "amount": 1 },
     "effects": [ "SHOT", "NOGIB", "COOKOFF" ]
   },
   {
@@ -122,7 +121,7 @@
     "projectile_count": 27,
     "shot_spread": 350,
     "proportional": { "range": 0.95 },
-    "shot_damage": { "damage_type": "bullet", "amount": 20 },
+    "damage": { "damage_type": "bullet", "amount": 20 },
     "effects": [ "SHOT", "COOKOFF" ]
   },
   {

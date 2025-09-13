@@ -391,7 +391,6 @@ void projectile_attack( dealt_projectile_attack &attack, const projectile &proj_
     for( int j = 0; j < proj.count; ++j ) {
         tripoint_bub_ms prev_point = source;
         proj = proj_arg;
-        proj.multishot = multishot;
         tripoint_bub_ms target_c = target;
         std::vector<tripoint_bub_ms> t_copy = trajectory;
         double spread = 0;
@@ -453,8 +452,8 @@ void projectile_attack( dealt_projectile_attack &attack, const projectile &proj_
             // no spread at point-blank, skip point-blank calculate
             if( !first && distance <= 1 ) {
                 prev_point = tp;
-                proj.shot_impact.mult_damage( point_blank_rescale );
-                continue;
+                proj.impact.mult_damage( point_blank_rescale );
+                // continue;
             }
 
             if( tp.z() != prev_point.z() ) {
@@ -536,9 +535,8 @@ void projectile_attack( dealt_projectile_attack &attack, const projectile &proj_
             }
             // If the attack is shot, once we're past point-blank,
             // don't print normal hit msg.
-            if( first && proj.count > 1 && distance > 1 ) {
+            if( first && proj.is_multishot() && distance > 1 ) {
                 multishot = true;
-                proj.multishot = true;
                 print_messages = false;
             }
 
@@ -589,8 +587,8 @@ void projectile_attack( dealt_projectile_attack &attack, const projectile &proj_
                 if( it > 0 ) {
                     // even if it's a shot, as we will never use impact after point-blank,
                     // we should always tweak shot_impact instead of impact.
-                    if( proj.count > 1 ) {
-                        proj.shot_impact.mult_damage( it );
+                    if( proj.is_multishot() ) {
+                        proj.impact.mult_damage( it );
                         if( first && distance <= 1 ) {
                             point_blank_rescale = it;
                         }
@@ -600,11 +598,6 @@ void projectile_attack( dealt_projectile_attack &attack, const projectile &proj_
                 } else {
                     has_momentum = false;
                 }
-            }
-            if( ( !has_momentum || traj_len == size_t( 2 ) ) && proj.count > 1 && distance <= 1 ) {
-                // Track that we hit an obstacle while wadded up,
-                // to cancel out of applying the other projectiles.
-                proj.count = 1;
             }
 
             if( ( !has_momentum || !is_bullet ) && here->impassable( tp ) ) {

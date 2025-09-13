@@ -1402,8 +1402,7 @@ void Creature::deal_projectile_attack( map *here, Creature *source, dealt_projec
     wp_attack_copy.is_crit = hit_selection.is_crit;
 
     // copy it, since we're mutating.
-    // use shot_impact after point-blank
-    damage_instance impact = proj.multishot ? proj.shot_impact : proj.impact;
+    damage_instance impact = proj.impact;
     if( hit_selection.damage_mult > 0.0f && proj_effects.count( ammo_effect_NO_DAMAGE_SCALING ) ) {
         hit_selection.damage_mult = 1.0f;
     }
@@ -1432,6 +1431,9 @@ void Creature::deal_projectile_attack( map *here, Creature *source, dealt_projec
     }
 
     dealt_dam = deal_damage( source, hit_selection.bp_hit, impact, wp_attack_copy, *hit_selection.wp );
+    add_msg_debug( debugmode::DF_BALLISTIC,
+                   "proj.impact: %.3f, Projectile dealt damage: %d, missed by: %.3f",
+                   attack.proj.impact.total_damage(), dealt_dam.total_damage(), missed_by );
     // Force damage instance to match the selected body point
     dealt_dam.bp_hit = hit_selection.bp_hit;
     // Retrieve the selected weakpoint from the damage instance.

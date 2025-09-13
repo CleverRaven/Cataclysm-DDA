@@ -4552,8 +4552,8 @@ double map::shoot( const tripoint_bub_ms &p, projectile &proj, const bool hit_it
     }
     // TODO: make bashing better a destroying, worse at penetrating
     std::map<damage_type_id, float> dmg_by_type {};
-    damage_instance &impact = proj.multishot ? proj.shot_impact : proj.impact;
-    for( const damage_unit &dam : impact ) {
+    damage_instance &impact = proj.impact;
+    for( const damage_unit &dam : proj.impact ) {
         dmg_by_type[dam.type] +=
             dam.amount * dam.damage_multiplier * dam.unconditional_damage_mult +
             dam.res_pen * dam.res_mult * dam.unconditional_res_mult;
