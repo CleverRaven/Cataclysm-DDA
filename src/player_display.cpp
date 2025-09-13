@@ -14,7 +14,6 @@
 #include <vector>
 
 #include "addiction.h"
-#include "avatar.h"
 #include "bionics.h"
 #include "bodygraph.h"
 #include "bodypart.h"
@@ -41,7 +40,6 @@
 #include "itype.h"
 #include "magic_enchantment.h"
 #include "mutation.h"
-#include "options.h"
 #include "output.h"
 #include "pimpl.h"
 #include "point.h"
@@ -1396,8 +1394,6 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
             case player_display_tab::stats:
                 if( header_clicked ) {
                     display_bodygraph( you );
-                } else if( line < 4 && get_option<bool>( "STATS_THROUGH_KILLS" ) && you.is_avatar() ) {
-                    you.as_avatar()->upgrade_stat_prompt( static_cast<character_stat>( line ) );
                 }
 
                 invalidate_tab( curtab );
