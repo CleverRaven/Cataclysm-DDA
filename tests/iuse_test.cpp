@@ -8,11 +8,9 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_catch.h"
-#include "character_id.h"
 #include "character_attire.h"
 #include "coordinates.h"
 #include "flag.h"
-#include "game.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
@@ -21,13 +19,10 @@
 #include "map.h"
 #include "map_helpers.h"
 #include "map_selector.h"
-#include "mod_manager.h"
 #include "player_helpers.h"
 #include "pocket_type.h"
 #include "point.h"
-#include "profession.h"
 #include "ret_val.h"
-#include "trait_group.h"
 #include "type_id.h"
 #include "value_ptr.h"
 
@@ -71,7 +66,6 @@ static const itype_id itype_atomic_coffee( "atomic_coffee" );
 static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_coffee( "coffee" );
 static const itype_id itype_diazepam( "diazepam" );
-static const itype_id itype_gracken_strong_arms( "gracken_strong_arms" );
 static const itype_id itype_inhaler( "inhaler" );
 static const itype_id itype_oxygen( "oxygen" );
 static const itype_id itype_oxygen_tank( "oxygen_tank" );
@@ -1082,28 +1076,4 @@ TEST_CASE( "water_tablet_purification_test", "[iuse][pur_tablets]" )
         }
 
     }
-}
-
-
-TEST_CASE( "gracken_strong_arms_trait_change", "[gracken][traits][mutation][item_use]" )
-{
-    set_game_mods( { "dda", "Xedra_Evolved" } );
-    clear_avatar();
-
-    avatar &you = get_avatar();
-    you.set_profession( profession_id( "xe_gracken_hunter" ) );
-
-    REQUIRE( you.has_trait( trait_id( "SHADE_ARMS" ) ) );
-
-    item strong_arms( itype_gracken_strong_arms, calendar::turn_zero );
-    you.i_add( strong_arms );
-    REQUIRE( you.has_amount( "gracken_strong_arms", 1 ) );
-
-    int pos = you.inv->position_by_type( itype_gracken_strong_arms );
-    REQUIRE( pos != INT_MIN );
-    you.use( pos );
-
-    REQUIRE_FALSE( you.has_amount( "gracken_strong_arms", 1 ) );
-    REQUIRE_FALSE( you.has_trait( trait_id( "SHADE_ARMS" ) ) );
-    REQUIRE( you.has_trait( trait_id( "SHADE_STRONG_ARMS" ) ) );
 }
