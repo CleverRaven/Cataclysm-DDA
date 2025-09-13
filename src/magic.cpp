@@ -2765,7 +2765,7 @@ std::string spell::enumerate_spell_data( const Character &guy ) const
         has_flag( spell_flag::PSIONIC ) ) {
         spell_data.emplace_back( _( "can be channeled through walls" ) );
     }
-    return enumerate_as_string( spell_data );
+    return uppercase_first_letter( enumerate_as_string( spell_data ) );
 }
 
 void spellcasting_callback::display_spell_info( size_t index )
