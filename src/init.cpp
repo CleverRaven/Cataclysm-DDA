@@ -405,6 +405,14 @@ void DynamicDataLoader::initialize()
 
     add( "region_settings", &load_region_settings );
     add( "region_overlay", &load_region_overlay );
+    add( "region_settings_river", &region_settings_river::load_region_settings_river );
+    add( "region_settings_lake", &region_settings_lake::load_region_settings_lake );
+    add( "region_settings_ocean", &region_settings_ocean::load_region_settings_ocean );
+    add( "region_settings_ravine", &region_settings_ravine::load_region_settings_ravine );
+    add( "region_settings_forest", &region_settings_forest::load_region_settings_forest );
+    add( "region_settings_highway", &region_settings_highway::load_region_settings_highway );
+    add( "region_settings_forest_trail",
+         &region_settings_forest_trail::load_region_settings_forest_trail );
     add( "ITEM_BLACKLIST", []( const JsonObject & jo ) {
         item_controller->load_item_blacklist( jo );
     } );
@@ -677,6 +685,13 @@ void DynamicDataLoader::unload_data()
     mood_face::reset();
     speed_description::reset();
     quality::reset();
+    region_settings_river::reset();
+    region_settings_lake::reset();
+    region_settings_ocean::reset();
+    region_settings_ravine::reset();
+    region_settings_forest::reset();
+    region_settings_highway::reset();
+    region_settings_forest_trail::reset();
     reset_monster_adjustment();
     recipe_dictionary::reset();
     recipe_group::reset();
