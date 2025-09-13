@@ -182,7 +182,7 @@
     "recurrence": [ "15 minutes", "9 hours" ],
     "global": true,
     "run_for_npcs": false,
-    "//1": "The Anathema can't spawn on the island.  How would it even know the island exist?",
+    "//1": "The Anathema can't spawn on the island to avoid the player banishing it and losing on loot.",
     "condition": {
       "and": [
         { "u_has_trait": "awayfromhome" },
