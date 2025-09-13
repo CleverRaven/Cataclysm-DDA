@@ -182,7 +182,7 @@
     "recurrence": [ "15 minutes", "9 hours" ],
     "global": true,
     "run_for_npcs": false,
-    "//1": "The Anathema can't spawn on the island to avoid the player banishing it and losing on loot.",
+    "//1": "The Anathema can't spawn on the island to avoid the player being forced to choose between having a powerful foe at home or lose unique loot.",
     "condition": {
       "and": [
         { "u_has_trait": "awayfromhome" },
