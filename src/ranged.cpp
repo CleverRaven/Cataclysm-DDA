@@ -1133,7 +1133,7 @@ int Character::fire_gun( map &here, const tripoint_bub_ms &target, int shots, it
                                 c->getID(), c->get_name() );
                 get_event_bus().send_with_talker( this, c, e );
             }
-            if( shot.proj.multishot ) {
+            if( proj.is_multishot() ) {
                 // TODO: Pull projectile name from the ammo entry.
                 multi_projectile_hit_message( hit_entry.first, hit_entry.second.first, hit_entry.second.second,
                                               n_gettext( "projectile", "projectiles", hit_entry.second.first ) );
@@ -2260,8 +2260,6 @@ static projectile make_gun_projectile( const item &gun )
     projectile proj;
     proj.speed  = 1000;
     proj.impact = gun.gun_damage();
-    proj.shot_impact = gun.gun_damage( true, true );
-
     proj.range = gun.gun_range();
     proj.proj_effects = gun.ammo_effects();
 

@@ -130,8 +130,7 @@
     "price": "5 USD",
     "price_postapoc": "8 USD",
     "range": 18,
-    "damage": { "damage_type": "bullet", "amount": 60 },
-    "shot_damage": { "damage_type": "bullet", "amount": 15 },
+    "damage": { "damage_type": "bullet", "amount": 15 },
     "projectile_count": 9,
     "shot_spread": 300,
     "recoil": 2500,
@@ -170,8 +169,7 @@
     "projectile_count": 100,
     "shot_spread": 300,
     "range": 18,
-    "shot_damage": { "damage_type": "bullet", "amount": 0.2 },
-    "damage": { "damage_type": "bullet", "amount": 50 },
+    "damage": { "damage_type": "bullet", "amount": 0.2 },
     "recoil": 1500,
     "loudness": 128,
     "effects": [ "COOKOFF", "SHOT", "NOGIB" ]
@@ -202,8 +200,7 @@
     "projectile_count": 19,
     "shot_spread": 500,
     "range": 18,
-    "shot_damage": { "damage_type": "bullet", "amount": 8 },
-    "damage": { "damage_type": "bullet", "amount": 39 },
+    "damage": { "damage_type": "bullet", "amount": 8 },
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ]
   },
   {

@@ -229,8 +229,9 @@ See [GAME_BALANCE.md](/doc/design-balance-lore/GAME_BALANCE.md#to-hit-value)
   "recovery_chance": 6,   // Percentage of chance to recover the ammo after firing
   "dispersion": 0,        // Inaccuracy of ammo, measured in 100ths of Minutes Of Angle (MOA)
   "shot_counter": 5,      // Increases amount of shots produced by gun by this amount. `"shot_counter": 5` means each shot will be counted as 6 shots (1 you actually perform + 5). Designed for using in suppressor mod breakage and for stuff like replaceable barrels, but not used anywhere at this moment
-  "projectile_count": 5,  // Amount of pellets, that the ammo will shot, like in shotgun-like weapon. If used, `"shot_damage"` should be specified
-  "shot_damage": { "damage_type": "bullet", "amount": 15 },  // (Optional) Specifies the damage caused by a single projectile fired from this round. If present, projectile_count must also be specified. Syntax is the same as `"damage"`
+  "projectile_count": 5,  // Amount of pellets, that the ammo will shot, like in shotgun-like weapon. Each pellet would have a damage as `damage` field specifies
+                          // Sub 1 damage values can be used, like 0.1, in this case the game would trim amount of projectiles and buff the damage to 1
+                          // For example, 100 projectiles with damage 0.2 would resolve into 20 projectiles that deal 1 damage
   "critical_multiplier": 4,  // If the hit is a critical hit, all ranged damage dealt will be multiplied by this
   "shot_spread": 100,     // (Optional) Specifies the additional dispersion of single projectiles. Only meaningful if shot_count is present.
   "recoil": 18,           // Recoil caused when firing. Roughly set to the projectile's muzzle energy in J, the same value the ammo's damage is derived from. See also the gun's min_cycle_recoil value

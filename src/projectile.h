@@ -26,15 +26,15 @@ struct projectile {
         int range = 0;
         // Number of projectiles fired at a time, one except in cases like shotgun rounds.
         int count = 1;
-        // True when count > 1 && distance > 1
-        bool multishot = false;
         // The potential dispersion between different projectiles fired from one round.
         int shot_spread = 0;
-        // Damage dealt by a single shot.
-        damage_instance shot_impact;
         float critical_multiplier = 0.0f;
 
         std::set<ammo_effect_str_id> proj_effects;
+
+        inline bool is_multishot() const {
+            return count > 1;
+        }
 
         /**
          * Returns an item that should be dropped or an item for which is_null() is true

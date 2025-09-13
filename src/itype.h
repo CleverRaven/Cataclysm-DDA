@@ -1081,10 +1081,6 @@ struct islot_ammo : common_ranged_data {
      * Spread/dispersion between projectiles fired from the same round.
      */
     int shot_spread = 0;
-    /**
-     * Damage for a single shot.
-     */
-    damage_instance shot_damage;
 
     /**
      * TODO: document me.

@@ -3196,51 +3196,29 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
 
     if( parts->test( iteminfo_parts::GUN_DAMAGE ) ) {
         insert_separation_line( info );
-        info.emplace_back( "GUN", _( "<bold>Ranged damage</bold>: " ), "", iteminfo::no_newline,
-                           mod->gun_damage( false ).total_damage() );
+        info.emplace_back( "GUN", _( "<bold>Ranged damage</bold>: " ), "", iteminfo::no_newline );
     }
 
     if( mod->ammo_required() ) {
         // ammo_damage, sum_of_damage, and ammo_mult not shown so don't need to translate.
-        float dmg_mult = 1.0f;
-        for( const damage_unit &dmg : curammo->ammo->damage.damage_units ) {
-            dmg_mult *= dmg.unconditional_damage_mult;
-        }
-        if( dmg_mult != 1.0f ) {
-            if( parts->test( iteminfo_parts::GUN_DAMAGE_AMMOPROP ) ) {
-                info.emplace_back( "GUN", "ammo_mult", "*",
-                                   iteminfo::no_newline | iteminfo::no_name | iteminfo::is_decimal, dmg_mult );
-            }
-        } else {
-            if( parts->test( iteminfo_parts::GUN_DAMAGE_LOADEDAMMO ) ) {
-                damage_instance ammo_dam = curammo->ammo->damage;
-                int bullet_damage = ammo_dam.total_damage();
-                if( mod->barrel_length().value() > 0 ) {
-                    bullet_damage = ammo_dam.di_considering_length( mod->barrel_length() ).total_damage();
-                }
-                info.emplace_back( "GUN", "ammo_damage", "",
-                                   iteminfo::no_newline | iteminfo::no_name |
-                                   iteminfo::show_plus, bullet_damage );
-            }
-        }
-
         const int gun_damage = loaded_mod->gun_damage( true ).total_damage();
-        if( damage() > 0 ) {
-            item intact_mod( *loaded_mod );
-            intact_mod.set_degradation( 0 );
-            intact_mod.set_damage( 0 );
-            const int intact_damage = intact_mod.gun_damage( true ).total_damage();
-            if( intact_damage != gun_damage ) {
-                const int dmg_penalty = gun_damage - intact_damage;
-                info.emplace_back( "GUN", "damaged_weapon_penalty", "",
-                                   iteminfo::no_newline | iteminfo::no_name, dmg_penalty );
-            }
+
+        if( parts->test( iteminfo_parts::GUN_DAMAGE_PELLETS ) && curammo->ammo->count > 1 ) {
+            info.emplace_back( "GUN", "damage_per_pellet", _( "<num> per pellet" ),
+                               iteminfo::no_newline | iteminfo::no_name, gun_damage );
+            info.emplace_back( "GUN", "comma", ", ", iteminfo::no_newline | iteminfo::no_name );
+            info.emplace_back( "GUN", "amount_of_pellets", _( "<num> pellets" ),
+                               iteminfo::no_newline | iteminfo::no_name, curammo->ammo->count );
+            info.emplace_back( "GUN", "equals", " = ", iteminfo::no_newline | iteminfo::no_name );
         }
 
         if( parts->test( iteminfo_parts::GUN_DAMAGE_TOTAL ) ) {
-            info.emplace_back( "GUN", "sum_of_damage", _( " = <num>" ),
-                               iteminfo::no_newline | iteminfo::no_name, gun_damage );
+            info.emplace_back( "GUN", "sum_of_damage", "<num>",
+                               iteminfo::no_newline | iteminfo::no_name, gun_damage * curammo->ammo->count );
         }
+    } else {
+        info.emplace_back( "GUN", "final_damage", "", iteminfo::no_newline | iteminfo::no_name,
+                           mod->gun_damage( false ).total_damage() );
     }
     info.back().bNewLine = true;
 
@@ -11193,7 +11171,7 @@ std::pair<int, int> item::sight_dispersion( const Character &character ) const
     return std::make_pair( act_disp, eff_disp );
 }
 
-damage_instance item::gun_damage( bool with_ammo, bool shot ) const
+damage_instance item::gun_damage( bool with_ammo ) const
 {
     if( !is_gun() ) {
         return damage_instance();
@@ -11207,11 +11185,7 @@ damage_instance item::gun_damage( bool with_ammo, bool shot ) const
     }
 
     if( with_ammo && has_ammo() ) {
-        if( shot ) {
-            ret.add( ammo_data()->ammo->shot_damage.di_considering_length( bl ) );
-        } else {
-            ret.add( ammo_data()->ammo->damage.di_considering_length( bl ) );
-        }
+        ret.add( ammo_data()->ammo->damage.di_considering_length( bl ) );
     }
 
     if( damage() > 0 ) {

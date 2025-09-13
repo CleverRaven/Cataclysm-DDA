@@ -2838,7 +2838,7 @@ class item : public visitable
          * Summed ranged damage, armor piercing, and multipliers for both, of a gun, including values from mods.
          * Returns empty instance on non-gun items.
          */
-        damage_instance gun_damage( bool with_ammo = true, bool shot = false ) const;
+        damage_instance gun_damage( bool with_ammo = true ) const;
         damage_instance gun_damage( itype_id ammo ) const;
         /**
          * The base weight of a gun plus mod integral weight.

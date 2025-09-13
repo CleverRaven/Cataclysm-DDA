@@ -92,6 +92,7 @@ enum class iteminfo_parts : size_t {
     GUN_AIMING_STATS,
     GUN_DAMAGE,
     GUN_DAMAGE_LOADEDAMMO,
+    GUN_DAMAGE_PELLETS,
     GUN_DAMAGE_TOTAL,
     GUN_DAMAGE_AMMOPROP,
     GUN_ARMORPIERCE,

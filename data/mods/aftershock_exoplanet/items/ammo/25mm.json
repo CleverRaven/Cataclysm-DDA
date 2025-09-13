@@ -34,8 +34,7 @@
     "ammo_type": "afs_25mm",
     "range": 24,
     "projectile_count": 15,
-    "damage": { "damage_type": "bullet", "amount": 60 },
-    "shot_damage": { "damage_type": "bullet", "amount": 16, "armor_penetration": 15 },
+    "damage": { "damage_type": "bullet", "amount": 16, "armor_penetration": 15 },
     "dispersion": 75
   },
   {

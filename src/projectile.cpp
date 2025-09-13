@@ -55,9 +55,7 @@ projectile &projectile::operator=( const projectile &other )
     speed = other.speed;
     range = other.range;
     count = other.count;
-    multishot = other.multishot;
     shot_spread = other.shot_spread;
-    shot_impact = other.shot_impact;
     proj_effects = other.proj_effects;
     critical_multiplier = other.critical_multiplier;
     set_drop( other.get_drop() );
