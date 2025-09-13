@@ -19,6 +19,12 @@
   },
   {
     "type": "mod_migration",
+    "//": "Removed in 0.J",
+    "id": "stats_through_kills",
+    "removal_reason": "Does not meet repo requirements of offering a different, curated gameplay experience."
+  },
+  {
+    "type": "mod_migration",
     "//": "Removed in 0.I",
     "id": "sees_player_retro",
     "removal_reason": "Superseded by \"Show overlay icons over creatures\" option under Graphics -> Tileset Options."
