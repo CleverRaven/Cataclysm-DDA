@@ -108,6 +108,18 @@
         "topic": "SKYISLAND_SERVICES"
       },
       {
+        "text": "Save me from danger.",
+        "effect": [
+          { "math": [ "u_spell_level('island_hostile_eviction') = 1" ] },
+          { "math": [ "u_spell_level('island_close_tear_and_portal') = 1" ] },
+          {
+            "u_message": "You now have the power to close holes in existence and banish hostiles from the island until your next expedition.",
+            "popup": true
+          }
+        ],
+        "topic": "SKYISLAND_SERVICES"
+      },
+      {
         "text": "View my expedition stats.",
         "effect": [ { "run_eocs": [ "EOC_statcheck" ] } ],
         "topic": "SKYISLAND_SERVICES"
