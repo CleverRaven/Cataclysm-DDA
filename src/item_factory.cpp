@@ -501,8 +501,8 @@ void Item_factory::finalize_pre( itype &obj )
         obj.bionic->id = bionic_id( obj.id.str() );
     }
 
-    // for ammo not specifying loudness derive value from other properties
     if( obj.ammo ) {
+        // for ammo not specifying loudness, derive value from other properties
         if( obj.ammo->loudness < 0 ) {
             obj.ammo->loudness = obj.ammo->range * 2;
             for( const damage_unit &du : obj.ammo->damage ) {
@@ -524,13 +524,13 @@ void Item_factory::finalize_pre( itype &obj )
         // Special casing for shot, since the damage per pellet can be tiny.
         // Instead of handling fractional damage values, we scale the effective number
         // of projectiles based on the damage so that they end up at 1.
-        if( obj.ammo->count > 1 && obj.ammo->shot_damage.total_damage() < 1.0f ) {
+        if( obj.ammo->count > 1 && obj.ammo->damage.total_damage() < 1.0f ) {
             // Patch to fixup shot without shot_damage until I get all the definitions consistent.
-            if( obj.ammo->shot_damage.damage_units.empty() ) {
-                obj.ammo->shot_damage.damage_units.emplace_back( damage_bullet, 0.1f );
+            if( obj.ammo->damage.damage_units.empty() ) {
+                obj.ammo->damage.damage_units.emplace_back( damage_bullet, 0.1f );
             }
-            obj.ammo->count = obj.ammo->count * obj.ammo->shot_damage.total_damage();
-            obj.ammo->shot_damage.damage_units.front().amount = 1.0f;
+            obj.ammo->count = obj.ammo->count * obj.ammo->damage.total_damage();
+            obj.ammo->damage.damage_units.front().amount = 1.0f;
         }
     }
 
@@ -2571,12 +2571,6 @@ void Item_factory::check_definitions() const
             if( !type->ammo->drop.is_null() && !has_template( type->ammo->drop ) ) {
                 msg += string_format( "invalid drop item %s\n", type->ammo->drop.c_str() );
             }
-            if( type->ammo->shot_damage.empty() && type->ammo->count != 1 ) {
-                msg += string_format( "invalid shot definition, shot count with no shot damage." );
-            }
-            if( !type->ammo->shot_damage.empty() && type->ammo->count == 1 ) {
-                msg += string_format( "invalid shot definition, shot damage with no shot count." );
-            }
         }
         if( type->battery ) {
             if( type->battery->max_capacity < 0_mJ ) {
@@ -2966,7 +2960,6 @@ void islot_ammo::deserialize( const JsonObject &jo )
     optional( jo, was_loaded, "drop_active", drop_active, true );
     optional( jo, was_loaded, "projectile_count", count, 1 );
     optional( jo, was_loaded, "shot_spread", shot_spread, not_negative );
-    optional( jo, was_loaded, "shot_damage", shot_damage );
     optional( jo, was_loaded, "damage", damage );
     optional( jo, was_loaded, "range", range, not_negative );
     optional( jo, was_loaded, "range_multiplier", range_multiplier, positive_float,

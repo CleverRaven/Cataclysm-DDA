@@ -1062,8 +1062,7 @@
     "range": 12,
     "projectile_count": 18,
     "shot_spread": 300,
-    "shot_damage": { "damage_type": "bullet", "amount": 16 },
-    "relative": { "damage": { "damage_type": "bullet", "amount": 11, "armor_penetration": -8 } },
+    "damage": { "damage_type": "bullet", "amount": 16 },
     "recoil": 3000,
     "extend": { "effects": [ "SHOT" ], "flags": [ "CASELESS_ROUNDS" ] }
   },
