@@ -566,17 +566,6 @@ int melee_actor::do_grab( monster &z, Creature *target, bodypart_id bp_id ) cons
                 if( foe->in_vehicle ) {
                     here.unboard_vehicle( target_pos );
                 }
-
-                if( foe->is_avatar() && ( pt.x() < HALF_MAPSIZE_X || pt.y() < HALF_MAPSIZE_Y ||
-                                          pt.x() >= HALF_MAPSIZE_X + SEEX || pt.y() >= HALF_MAPSIZE_Y + SEEY ) ) {
-                    const tripoint_abs_ms pt_abs = here.get_abs(
-                                                       pt ); // Could have used the result from update_map to shift the value instead.
-                    g->update_map( pt.x(), pt.y() );
-                    // update_map invalidates bubble positions on a shift. Refetch invalidated positions.
-                    pt = here.get_bub( pt_abs );
-                    monster_pos = z.pos_bub( here );
-                    target_pos = target->pos_bub( here );
-                }
             }
 
             // Don't try to fall mid pull
