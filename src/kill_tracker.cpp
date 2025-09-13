@@ -124,7 +124,7 @@ void kill_tracker::notify( const cata::event &e )
         case event_type::character_kills_character: {
             const character_id killer_id = e.get<character_id>( "killer" );
             // player is credited for NPC kills they or their followers make
-            if( get_avatar_or_follower( killer_id ) ) {
+            if( Character *killer = get_avatar_or_follower( killer_id ) ) {
                 const std::string victim_name = e.get<cata_variant_type::string>( "victim_name" );
                 npc_kills.push_back( victim_name );
                 // Legacy value update, maintained until kill_xp rework/removal from dependent in-repo mods
