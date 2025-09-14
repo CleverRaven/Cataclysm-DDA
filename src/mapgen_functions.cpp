@@ -24,7 +24,6 @@
 #include "mapdata.h"
 #include "map_iterator.h"
 #include "map_scale_constants.h"
-#include "mapdata.h"
 #include "mapgen.h"
 #include "mapgendata.h"
 #include "mapgenformat.h"

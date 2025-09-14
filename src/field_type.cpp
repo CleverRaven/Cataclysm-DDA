@@ -396,17 +396,17 @@ void field_types::load_immunity( const JsonObject &jid, field_immunity_data &fd 
     }
     for( JsonArray jao : jid.get_array( "body_part_env_resistance" ) ) {
         fd.immunity_data_body_part_env_resistance.emplace_back(
-            io::string_to_enum<body_part_type::type>
+            io::string_to_enum<bp_type>
             ( jao.get_string( 0 ) ), jao.get_int( 1 ) );
     }
     for( JsonArray jao : jid.get_array( "immunity_flags_worn" ) ) {
-        fd.immunity_data_part_item_flags.emplace_back( io::string_to_enum<body_part_type::type>
+        fd.immunity_data_part_item_flags.emplace_back( io::string_to_enum<bp_type>
                 ( jao.get_string( 0 ) ), jao.get_string( 1 ) );
     }
 
     for( JsonArray jao : jid.get_array( "immunity_flags_worn_any" ) ) {
         fd.immunity_data_part_item_flags_any.emplace_back(
-            io::string_to_enum<body_part_type::type>
+            io::string_to_enum<bp_type>
             ( jao.get_string( 0 ) ), jao.get_string( 1 ) );
     }
 }

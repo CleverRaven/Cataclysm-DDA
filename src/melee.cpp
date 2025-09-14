@@ -455,7 +455,7 @@ std::string Character::get_miss_reason()
     // in one turn
     add_miss_reason(
         _( "Your torso encumbrance throws you off-balance." ),
-        roll_remainder( avg_encumb_of_limb_type( body_part_type::type::torso ) / 10.0 ) );
+        roll_remainder( avg_encumb_of_limb_type( bp_type::torso ) / 10.0 ) );
     const int farsightedness = 2 * ( has_flag( json_flag_HYPEROPIC ) &&
                                      !worn_with_flag( flag_FIX_FARSIGHT ) &&
                                      !has_effect( effect_contacts ) &&
