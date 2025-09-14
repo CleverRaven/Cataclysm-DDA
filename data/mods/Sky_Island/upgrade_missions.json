@@ -5230,7 +5230,7 @@
     "name": "Upgrade: Island-Side Resilience",
     "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft an Unyielding Sinew from fibers and cables.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: Your speed cannot be below its default while on the island.",
     "goal": "MGOAL_FIND_ITEM",
-    "item": "upgradekey_windblock",
+    "item": "upgradekey_island_steady",
     "count": 1,
     "difficulty": 0,
     "value": 0,
@@ -5281,9 +5281,9 @@
     "reversible": false,
     "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "components": [
-      [ [ "jumper_cable", 7 ], [ "jumper_cable_heavy", 7 ], [ "hd_tow_cable", 7 ] ],
-      [ [ "hc_chain_link", 16 ], [ "qt_chain_link", 16 ], [ "ch_chain_link", 16 ] ],
-      [ [ "plant_fibre", 1000 ], [ "sinew", 1000 ] ]
+      [ [ "jumper_cable", 3 ], [ "jumper_cable_heavy", 3 ], [ "hd_tow_cable", 3 ] ],
+      [ [ "hc_chain_link", 11 ], [ "qt_chain_link", 11 ], [ "ch_chain_link", 11 ] ],
+      [ [ "plant_fibre", 500 ], [ "sinew", 500 ] ]
     ]
   },
   {

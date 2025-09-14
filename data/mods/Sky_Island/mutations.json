@@ -121,22 +121,6 @@
     "enchantments": [
       {
         "condition": { "not": { "u_has_trait": "awayfromhome" } },
-        "ench_effects": [ { "effect": "effect_radblock", "intensity": 1 } ]
-      }
-    ]
-  },
-  {
-    "type": "mutation",
-    "id": "mut_skyisland_radblock",
-    "name": { "str": "Personal Radiation Shield", "//~": "NO_I18N" },
-    "description": { "str": "As long as you are on the island, radiation cannot affect you.", "//~": "NO_I18N" },
-    "points": 0,
-    "valid": false,
-    "player_display": false,
-    "purifiable": false,
-    "enchantments": [
-      {
-        "condition": { "not": { "u_has_trait": "awayfromhome" } },
         "ench_effects": [ { "effect": "effect_island_radblock", "intensity": 1 } ]
       }
     ]
