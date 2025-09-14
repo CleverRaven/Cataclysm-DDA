@@ -389,7 +389,7 @@ void npc_template::load( const JsonObject &jsobj, std::string_view src )
         guy.chatbin.talk_mission_inquire = jsobj.get_string( "talk_mission_inquire" );
     }
     if( jsobj.has_string( "talk_mission_describe_urgent" ) ) {
-        guy.chatbin.talk_mission_describe_urgent= jsobj.get_string( "talk_mission_describe_urgent" );
+        guy.chatbin.talk_mission_describe_urgent = jsobj.get_string( "talk_mission_describe_urgent" );
     }
     jsobj.read( "<acknowledged>", tem.snippets.snip_acknowledged );
     jsobj.read( "<camp_food_thanks>", tem.snippets.snip_camp_food_thanks );
