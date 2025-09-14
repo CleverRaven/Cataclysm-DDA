@@ -20,7 +20,6 @@
     "copy-from": "engine_motor",
     "type": "vehicle_part",
     "name": { "str": "tiny electric motor" },
-	"//": "Rated at 250w, in compliance to what would be found on Class 1 Ebikes/EAPCs"
     "description": "A tiny electric motor just the right size for providing a gentle boost for a bicycle, or similarly light vehicles.",
     "item": "motor_tiny",
     "looks_like": "motor_small",
@@ -45,7 +44,6 @@
     "copy-from": "engine_motor",
     "type": "vehicle_part",
     "name": { "str": "small electric motor" },
-	"//": "Rated at 750w to match what's considred Class 3 Ebikes, or very Low powered E-mopeds"
     "description": "A light-duty electrical motor, strong enough for an electric mopeds, golf carts, and electric mopeds posing as electric bicycles.",
     "item": "motor_small",
     "durability": 120,

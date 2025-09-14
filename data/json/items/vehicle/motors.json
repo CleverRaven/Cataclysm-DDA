@@ -56,7 +56,6 @@
     "type": "GENERIC",
     "id": "motor_small",
     "name": { "str": "small electric motor" },
-	"//" : "Based on 750w Tongsheng/Bafang Motors, averaged out on weight."
     "description": "A light-duty electrical motor, strong enough for an electric mopeds, golf carts, and even hybrid mopeds.",
     "weight": "4 kg",
     "volume": "6 L",
@@ -69,7 +68,6 @@
     "type": "GENERIC",
     "id": "motor_tiny",
     "name": { "str": "tiny electric motor" },
-	"//": "Based on 250w Tongsheng/Bafang Motors, averaged out on terms of weight"
     "description": "A tiny electric motor just the right size for providing a gentle boost for a bicycle, or similarly light vehicles",
     "weight": "2500 g",
     "color": "light_cyan",
