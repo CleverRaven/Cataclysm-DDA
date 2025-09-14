@@ -777,6 +777,9 @@ void Character::load( const JsonObject &data )
     data.read( "stim", stim );
     data.read( "stamina", stamina );
 
+    //legacy value, maintained until kill_xp dependency removed from in-repo mods
+    data.read( "kill_xp", kill_xp );
+
     data.read( "moncams", moncams );
 
     data.read( "magic", magic );
@@ -1410,6 +1413,9 @@ void Character::store( JsonOut &json ) const
     json.member( "stim", stim );
     json.member( "type_of_scent", type_of_scent );
     json.member( "focus_pool", focus_pool );
+
+    //legacy value, maintained until kill_xp dependency removed from in-repo mods
+    json.member( "kill_xp", kill_xp );
 
     // breathing
     json.member( "underwater", underwater );
