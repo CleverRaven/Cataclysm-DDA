@@ -12737,6 +12737,7 @@ bool game::travel_to_dimension( const std::string &new_prefix )
     } else {
         dimension_prefix.clear();
     }
+
     MAPBUFFER.clear();
     // FIXME hack to prevent crashes from temperature checks
     // This returns to false in 'on_turn()' so it should be fine?
@@ -12751,6 +12752,8 @@ bool game::travel_to_dimension( const std::string &new_prefix )
     here.access_cache( here.get_abs_sub().z() ).map_memory_cache_dec.reset();
     here.access_cache( here.get_abs_sub().z() ).map_memory_cache_ter.reset();
     here.invalidate_visibility_cache();
+    //without this vehicles only load in after walking around a bit 
+    here.reset_vehicles_sm_pos();
     load_npcs();
     // Handle static monsters
     here.spawn_monsters( true, true );
