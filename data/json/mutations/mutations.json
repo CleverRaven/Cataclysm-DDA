@@ -789,7 +789,6 @@
     "vitamin_cost": 210,
     "description": "You possess natural night vision, and can see further in the dark than most.  Activate to toggle NV-visible areas on or off.",
     "types": [ "VISION" ],
-    "starting_trait": true,
     "changes_to": [ "NIGHTVISION2" ],
     "category": [
       "BIRD",
@@ -2203,7 +2202,6 @@
     "vitamin_cost": 300,
     "purifiable": false,
     "description": "The events of the Cataclysm have damaged your DNA beyond repair.  You mutate frequently, all mutations you receive (from any source) are negative, and your instability is rapidly growing out of control.",
-    "starting_trait": true,
     "cancels": [ "ROBUST", "RESTRICTED", "RESISTANT_GENETICS" ],
     "valid": false,
     "vitamin_rates": [ [ "instability", -60 ] ],
@@ -7389,7 +7387,6 @@
     "points": -2,
     "vitamin_cost": 160,
     "description": "Your body dries out easily; you need to drink more water.",
-    "starting_trait": true,
     "types": [ "THIRST" ],
     "changes_to": [ "THIRST2" ],
     "category": [ "SLIME", "CEPHALOPOD", "CHIMERA", "ELFA", "GASTROPOD", "FISH", "BATRACHIAN", "CRUSTACEAN" ],
@@ -10057,7 +10054,6 @@
     "vitamin_cost": 60,
     "description": "You're too adventurous for your own good.  The more time you spend somewhere, the unhappier it makes you to be there.",
     "types": [ "WANDERLUST" ],
-    "starting_trait": true,
     "changes_to": [ "NOMAD2" ],
     "category": [ "BIRD", "FISH", "CHIMERA" ]
   },
