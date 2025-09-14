@@ -57,6 +57,7 @@
         ]
       }
     ],
+    "scaling_mods": { "stamina_min": [ 750 ], "stamina_max": [ 1500 ], "stamina_chance": [ 1 ] },
     "flags": [ "PAIN_IMMUNE" ]
   }
 ]

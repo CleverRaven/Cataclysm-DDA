@@ -16,6 +16,6 @@
     "eoc_type": "EVENT",
     "required_event": "character_takes_damage",
     "condition": { "u_has_trait": "perk_twice_shy" },
-    "effect": [ { "u_add_effect": "effect_perk_twice_shy", "duration": " seconds" } ]
+    "effect": [ { "u_add_effect": "effect_perk_twice_shy", "duration": "5 seconds" } ]
   }
 ]
