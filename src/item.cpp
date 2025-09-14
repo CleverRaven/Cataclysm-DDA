@@ -6216,7 +6216,9 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
         print_parts( vparts, _( "You could install it in a vehicle: %s" ),
         []( const vpart_info & vp ) {
-            return !vp.has_flag( vpart_bitflags::VPFLAG_APPLIANCE );
+            return !vp.has_flag( vpart_bitflags::VPFLAG_APPLIANCE ) &&
+                   !vp.has_flag( "NO_INSTALL_HIDDEN" ) &&
+                   !vp.has_flag( "NO_INSTALL_PLAYER" );
         } );
 
         print_parts( vparts, _( "You could install it as an appliance: %s" ),
