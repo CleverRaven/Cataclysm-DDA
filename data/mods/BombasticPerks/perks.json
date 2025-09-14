@@ -996,6 +996,15 @@
   },
   {
     "type": "mutation",
+    "id": "perk_second_chance",
+    "name": { "str": "Second Chance" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "Something is watching over you, though whether for good or ill you cannot tell.  The first time you suffer fatal damage, you will heal slightly, remove all pain, and gain a speed bonus, temperature immunity, and immunity to damage for a very short time.  After that expires, though, you're on your own to resolve whatever problem you're in.  This perk <color_red>only works once</color>."
+  },
+  {
+    "type": "mutation",
     "id": "perk_ascetic_empowerment",
     "name": { "str": "Ascetic Empowerment" },
     "points": 0,
