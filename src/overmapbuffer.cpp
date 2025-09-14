@@ -80,7 +80,7 @@ int camp_reference::get_distance_from_bounds() const
 
 std::string overmapbuffer::terrain_filename( const point_abs_om &p )
 {
-    return PATH_INFO::current_dimension_save_path() / string_format( "o.%d.%d", p.x(), p.y() );
+    return string_format( "o.%d.%d", p.x(), p.y() );
 }
 
 cata_path overmapbuffer::player_filename( const point_abs_om &p )

@@ -7598,19 +7598,10 @@ talk_effect_fun_t::func f_teleport( const JsonObject &jo, std::string_view membe
 
     bool force = jo.get_bool( "force", false );
     bool force_safe = jo.get_bool( "force_safe", false );
-    if( jo.has_member( "success_message" ) ) {
-        success_message = get_translation_or_var( jo.get_member( "success_message" ), "success_message",
-                          false, translation() );
-    } else {
-        success_message.str_val = translation();
-    }
+
     str_or_var dimension_prefix;
-    if( jo.has_member( "dimension_prefix" ) ) {
-        dimension_prefix = get_str_or_var( jo.get_member( "dimension_prefix" ),
-                                           "dimension_prefix", false, "" );
-    } else {
-        dimension_prefix.str_val = "";
-    }
+    optional( jo, false, "dimension_prefix", dimension_prefix, "" );
+
     return [is_npc, target_var, fail_message, success_message, force,
             force_safe, dimension_prefix]( dialogue const & d ) {
         tripoint_abs_ms target_pos = read_var_value( target_var, d ).tripoint();

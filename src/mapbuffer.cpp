@@ -19,6 +19,7 @@
 #include "debug.h"
 #include "filesystem.h"
 #include "flexbuffer_json.h"
+#include "game.h"
 #include "input.h"
 #include "json.h"
 #include "json_loader.h"
@@ -159,7 +160,7 @@ bool mapbuffer::submap_exists_approx( const tripoint_abs_sm &p )
         try {
             const tripoint_abs_omt om_addr = project_to<coords::omt>( p );
             std::string world_prefix = g->get_dimension_prefix();
-            const cata_path dirname = find_dirname( om_addr, world_prefix );
+            const cata_path dirname = find_dirname( om_addr );
             std::string file_name = quad_file_name( om_addr );
 
             if( world_generator->active_world->has_compression_enabled() ) {
@@ -223,8 +224,8 @@ void mapbuffer::save( bool delete_after_save )
         // A segment is a chunk of 32x32 submap quads.
         // We're breaking them into subdirectories so there aren't too many files per directory.
         // Might want to make a set for this one too so it's only checked once per save().
-        const cata_path dirname = find_dirname( om_addr, dimension_prefix );
-        const cata_path quad_path = find_quad_path( dirname, om_addr );
+        const cata_path dirname = find_dirname( om_addr );
+        const cata_path quad_path = dirname / quad_file_name( om_addr );
 
         bool inside_reality_bubble = here.inbounds( om_addr );
         // delete_on_save deletes everything, otherwise delete submaps
