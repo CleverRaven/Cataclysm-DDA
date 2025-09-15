@@ -23,14 +23,12 @@
 #include "calendar.h"
 #include "cata_assert.h"
 #include "cata_variant.h"
-#include "character_id.h"
 #include "debug.h"
 #include "enum_conversions.h"
 #include "input_enums.h"
 #include "mapdata.h"
 #include "mapgen_parameter.h"
 #include "mapgendata.h"
-#include "memory_fast.h"
 #include "monster.h"
 #include "simple_pathfinding.h"
 #include "translation.h"
@@ -700,15 +698,7 @@ static void draw_ascii( const catacurses::window &w, overmap_draw_data_t &data )
             }
         }
         std::vector<npc *> followers;
-        // get friendly followers
-        for( const character_id &elem : g->get_follower_list() ) {
-            shared_ptr_fast<npc> npc_to_get = overmap_buffer.find_npc( elem );
-            if( !npc_to_get ) {
-                continue;
-            }
-            npc *npc_to_add = npc_to_get.get();
-            followers.push_back( npc_to_add );
-        }
+        overmap_buffer.populate_followers_vec( followers );
         if( !display_path.empty() ) {
             for( const tripoint_abs_omt &elem : display_path ) {
                 npc_path_route.insert( elem );

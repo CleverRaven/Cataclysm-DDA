@@ -125,6 +125,7 @@ static const furn_str_id furn_f_vending_c_off( "f_vending_c_off" );
 static const furn_str_id furn_f_vending_reinforced( "f_vending_reinforced" );
 static const furn_str_id furn_f_vending_reinforced_networked( "f_vending_reinforced_networked" );
 static const furn_str_id furn_f_vending_reinforced_off( "f_vending_reinforced_off" );
+static const furn_str_id furn_f_wreckage( "f_wreckage" );
 
 static const item_group_id Item_spawn_data_ammo_rare( "ammo_rare" );
 static const item_group_id Item_spawn_data_bed( "bed" );
@@ -171,6 +172,7 @@ static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
 static const mongroup_id GROUP_ROBOT_SECUBOT( "GROUP_ROBOT_SECUBOT" );
 static const mongroup_id GROUP_TURRET( "GROUP_TURRET" );
 
+static const oter_str_id oter_afs_ruins_dynamic( "afs_ruins_dynamic" );
 static const oter_str_id oter_ants_es( "ants_es" );
 static const oter_str_id oter_ants_esw( "ants_esw" );
 static const oter_str_id oter_ants_ew( "ants_ew" );
@@ -196,6 +198,7 @@ static const oter_str_id oter_lab( "lab" );
 static const oter_str_id oter_lab_core( "lab_core" );
 static const oter_str_id oter_lab_finale( "lab_finale" );
 static const oter_str_id oter_lab_stairs( "lab_stairs" );
+static const oter_str_id oter_open_air( "open_air" );
 static const oter_str_id oter_tower_lab( "tower_lab" );
 static const oter_str_id oter_tower_lab_finale( "tower_lab_finale" );
 static const oter_str_id oter_tower_lab_stairs( "tower_lab_stairs" );
@@ -218,12 +221,15 @@ static const ter_str_id ter_t_fungus_floor_in( "t_fungus_floor_in" );
 static const ter_str_id ter_t_fungus_wall( "t_fungus_wall" );
 static const ter_str_id ter_t_grass( "t_grass" );
 static const ter_str_id ter_t_marloss( "t_marloss" );
+static const ter_str_id ter_t_metal_floor( "t_metal_floor" );
 static const ter_str_id ter_t_radio_tower( "t_radio_tower" );
 static const ter_str_id ter_t_reinforced_door_glass_c( "t_reinforced_door_glass_c" );
 static const ter_str_id ter_t_reinforced_glass( "t_reinforced_glass" );
 static const ter_str_id ter_t_reinforced_glass_lab( "t_reinforced_glass_lab" );
 static const ter_str_id ter_t_rock_floor( "t_rock_floor" );
 static const ter_str_id ter_t_sewage( "t_sewage" );
+static const ter_str_id ter_t_snow( "t_snow" );
+static const ter_str_id ter_t_snow_metal_floor( "t_snow_metal_floor" );
 static const ter_str_id ter_t_stairs_down( "t_stairs_down" );
 static const ter_str_id ter_t_stairs_up( "t_stairs_up" );
 static const ter_str_id ter_t_strconc_floor( "t_strconc_floor" );
@@ -231,6 +237,7 @@ static const ter_str_id ter_t_thconc_floor( "t_thconc_floor" );
 static const ter_str_id ter_t_thconc_floor_olight( "t_thconc_floor_olight" );
 static const ter_str_id ter_t_vat( "t_vat" );
 static const ter_str_id ter_t_wall_burnt( "t_wall_burnt" );
+static const ter_str_id ter_t_wall_prefab_metal( "t_wall_prefab_metal" );
 static const ter_str_id ter_t_water_sh( "t_water_sh" );
 
 static const trait_id trait_NPC_STATIC_NPC( "NPC_STATIC_NPC" );
@@ -689,6 +696,106 @@ static void GENERATOR_riot_damage( map &md, const tripoint_abs_omt &p, bool is_a
     }
 }
 
+static void GENERATOR_aftershock_ruin( map &md, const tripoint_abs_omt &p )
+{
+    std::list<tripoint_bub_ms> all_points_in_map;
+
+    // Placeholder / FIXME
+    // This assumes that we're only dealing with regular 24x24 OMTs. That is likely not the case.
+    for( int i = 0; i < SEEX * 2; i++ ) {
+        for( int n = 0; n < SEEY * 2; n++ ) {
+            tripoint_bub_ms current_tile( i, n, p.z() );
+            all_points_in_map.push_back( current_tile );
+        }
+    }
+    bool above_open_air = overmap_buffer.ter( tripoint_abs_omt( p.x(), p.y(),
+                          p.z() + 1 ) ) == oter_open_air;
+    bool above_ruined = overmap_buffer.ter( tripoint_abs_omt( p.x(), p.y(),
+                                            p.z() + 1 ) ) == oter_afs_ruins_dynamic;
+
+
+    //fully ruined
+    if( ( x_in_y( 1, 2 ) && above_open_air ) || above_ruined ) {
+        overmap_buffer.ter_set( p, oter_afs_ruins_dynamic );
+
+        for( const tripoint_bub_ms &current_tile : all_points_in_map ) {
+            if( md.has_flag_ter( ter_furn_flag::TFLAG_NATURAL_UNDERGROUND, current_tile ) ||
+                md.has_flag_ter( ter_furn_flag::TFLAG_GOES_DOWN, current_tile ) ||
+                md.has_flag_ter( ter_furn_flag::TFLAG_GOES_UP, current_tile ) ) {
+                // skip natural underground walls, or any stairs.
+                continue;
+            }
+            if( !one_in( 8 ) ) {
+                md.furn_set( current_tile.xy(), furn_str_id::NULL_ID() );
+            }
+            if( md.has_flag_ter( ter_furn_flag::TFLAG_WALL, current_tile ) ) {
+                !one_in( 5 ) ? md.ter_set( current_tile.xy(),
+                                           ter_t_wall_prefab_metal ) : md.ter_set( current_tile.xy(), ter_t_metal_floor );
+            }
+            if( md.has_flag_ter( ter_furn_flag::TFLAG_INDOORS, current_tile ) ) {
+                if( !one_in( 4 ) ) {
+                    p.z() == 0 ? md.ter_set( current_tile.xy(),
+                                             ter_t_snow_metal_floor ) : md.ter_set( current_tile.xy(), ter_t_snow );
+
+                }
+            }
+            if( x_in_y( 5, 1000 ) ) {
+                md.bash( current_tile, 9999, true, true );
+                draw_rough_circle( [&md, current_tile]( const point_bub_ms & p ) {
+                    if( !md.inbounds( p ) || !md.has_flag_ter( ter_furn_flag::TFLAG_FLAT, p ) ) {
+                        return;
+                    }
+                    md.bash( tripoint_bub_ms( p.x(), p.y(), current_tile.z() ), 9999, true, true );
+                }, current_tile.xy(), 3 );
+            }
+            if( !md.has_furn( current_tile.xy() ) ) {
+                md.i_clear( current_tile.xy() );
+            }
+        }
+        if( p.z() == 0 ) {
+            for( const tripoint_bub_ms &current_tile : all_points_in_map ) {
+                if( md.is_open_air( current_tile ) ) {
+                    md.ter_set( current_tile, ter_t_snow, false );
+                }
+            }
+        }
+
+        return;
+    }
+
+    //just smashed up
+    for( size_t i = 0; i < all_points_in_map.size(); i++ ) {
+
+        const tripoint_bub_ms current_tile = random_entry( all_points_in_map );
+
+        if( md.has_flag_ter( ter_furn_flag::TFLAG_NATURAL_UNDERGROUND, current_tile ) ||
+            md.is_open_air( current_tile ) ) {
+            continue;
+        }
+
+        if( x_in_y( 5, 1000 ) ) {
+            md.bash( current_tile, 9999, true, true );
+            draw_rough_circle( [&md, current_tile]( const point_bub_ms & p ) {
+                if( !md.inbounds( p ) || !md.has_flag_ter( ter_furn_flag::TFLAG_FLAT, p ) ) {
+                    return;
+                }
+                md.bash( tripoint_bub_ms( p.x(), p.y(), current_tile.z() ), 9999, true, true );
+            }, current_tile.xy(), 3 );
+        }
+
+        if( x_in_y( 5, 1000 ) ) {
+            md.bash( current_tile, 9999, true, true );
+            draw_rough_circle( [&md]( const point_bub_ms & p ) {
+                if( !md.inbounds( p ) || !md.has_flag_ter( ter_furn_flag::TFLAG_FLAT, p ) ) {
+                    return;
+                }
+                md.furn_set( p, furn_str_id::NULL_ID() );
+                md.furn_set( p, furn_f_wreckage );
+            }, current_tile.xy(), 3 );
+        }
+    }
+}
+
 // Assumptions:
 // - The map supplied is empty, i.e. no grid entries are in use
 // - The map supports Z levels.
@@ -868,6 +975,9 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
                 } else if( omt->has_flag( oter_flags::road ) && overmap_buffer.is_in_city( omt_point ) ) {
                     // HACK: Hardcode running only certain sub-generators on roads
                     GENERATOR_riot_damage( *this, omt_point, true );
+                }
+                if( omt->has_flag( oter_flags::pp_generate_ruined ) && !omt->has_flag( oter_flags::road ) ) {
+                    GENERATOR_aftershock_ruin( *this, omt_point );
                 }
             }
         }

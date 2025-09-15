@@ -6216,7 +6216,9 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
         print_parts( vparts, _( "You could install it in a vehicle: %s" ),
         []( const vpart_info & vp ) {
-            return !vp.has_flag( vpart_bitflags::VPFLAG_APPLIANCE );
+            return !vp.has_flag( vpart_bitflags::VPFLAG_APPLIANCE ) &&
+                   !vp.has_flag( "NO_INSTALL_HIDDEN" ) &&
+                   !vp.has_flag( "NO_INSTALL_PLAYER" );
         } );
 
         print_parts( vparts, _( "You could install it as an appliance: %s" ),
@@ -12209,7 +12211,7 @@ ret_val<void> item::is_gunmod_compatible( const item &mod ) const
 
     for( const gunmod_location &slot : mod.type->gunmod->blacklist_slot ) {
         if( get_mod_locations().count( slot ) ) {
-            return ret_val<void>::make_failure( _( "cannot be installed on a weapon with \"%s\"" ),
+            return ret_val<void>::make_failure( _( "cannot be installed on a weapon with a \"%s\"" ),
                                                 slot.name() );
         }
     }

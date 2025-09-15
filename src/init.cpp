@@ -123,6 +123,7 @@
 #include "weather_type.h"
 #include "widget.h"
 #include "worldfactory.h"
+#include "wound.h"
 
 #if defined(TILES)
 #include "sdltiles.h"
@@ -465,6 +466,7 @@ void DynamicDataLoader::initialize()
     add( "weakpoint_set", &weakpoints::load_weakpoint_sets );
     add( "damage_type", &damage_type::load_damage_types );
     add( "damage_info_order", &damage_info_order::load_damage_info_orders );
+    add( "wound", &wound_type::load_wounds );
     add( "mod_migration", &mod_migrations::load );
 #if defined(TILES)
     add( "mod_tileset", &load_mod_tileset );
@@ -850,6 +852,7 @@ void DynamicDataLoader::finalize_loaded_data()
             { _( "Widgets" ), &widget::finalize_all },
             { _( "Weakpoint Families" ), &weakpoints::finalize_all },
             { _( "Weapon Categories" ), &weapon_category::finalize_all },
+            { _( "Wounds" ), &wound_type::finalize_all },
             { _( "Zone Types" ), &zone_type::finalize_all },
 #if defined(TILES)
             { _( "Tileset" ), &load_tileset },
@@ -956,7 +959,8 @@ void DynamicDataLoader::check_consistency()
             { _( "Achievements" ), &achievement::check_consistency },
             { _( "Disease types" ), &disease_type::check_disease_consistency },
             { _( "Factions" ), &faction_template::check_consistency },
-            { _( "Damage types" ), &damage_type::check }
+            { _( "Damage types" ), &damage_type::check },
+            { _( "Wounds" ), &wound_type::check_consistency }
         }
     };
 

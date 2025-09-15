@@ -180,7 +180,7 @@
         "run_eoc_selector": [ "EOC_TELEKINETIC_FORCE_SHOVE_SELECTOR_PUSH", "EOC_TELEKINETIC_FORCE_SHOVE_SELECTOR_PULL" ],
         "names": [ "Shove", "Pull" ],
         "keys": [ "1", "2" ],
-        "descriptions": [ "Shove a target in particular direction.", "Pull something toward you." ]
+        "descriptions": [ "Shove a target in a particular direction.", "Pull something toward you." ]
       }
     ]
   }

@@ -65,7 +65,7 @@
     "coverage": 95,
     "comfort": 4,
     "floor_bedding_warmth": 700,
-    "required_str": 3,
+    "required_str": -1,
     "deconstruct": {
       "items": [
         { "item": "box_large", "count": 1 },
@@ -301,7 +301,7 @@
     "bash": {
       "str_min": 1,
       "str_max": 1,
-      "sound": "clickity clack… clack… clack",
+      "sound": "clickity clack… clack… clack!",
       "sound_fail": "clickity clack… clack",
       "sound_vol": 15,
       "items": [

@@ -113,8 +113,8 @@
 #include "translation.h"
 #include "translations.h"
 #include "trap.h"
-#include "uilist.h"
 #include "ui_manager.h"
+#include "uilist.h"
 #include "uistate.h"
 #include "units.h"
 #include "value_ptr.h"
@@ -127,6 +127,7 @@
 #include "vpart_range.h"
 #include "weather.h"
 #include "weather_type.h"
+#include "wound.h"
 
 class activity_actor;
 
@@ -2546,6 +2547,8 @@ void Character::process_turn()
         }
     }
 
+    update_wounds( 1_turns );
+
     // We can dodge again! Assuming we can actually move...
     if( in_sleep_state() ) {
         blocks_left = 0;
@@ -3499,7 +3502,7 @@ ret_val<void> Character::can_unwield( const item &it ) const
         std::optional<bionic *> bio_opt = find_bionic_by_uid( get_weapon_bionic_uid() );
         if( !is_wielding( it ) || it.ethereal || !bio_opt ||
             !can_deactivate_bionic( **bio_opt ).success() ) {
-            return ret_val<void>::make_failure( _( "You cannot unwield your %s." ), it.tname() );
+            return ret_val<void>::make_failure( _( "You can't unwield your %s." ), it.tname() );
         }
     }
 
@@ -7957,6 +7960,21 @@ void Character::update_cached_mutations()
     trait_flag_cache.clear();
 }
 
+void Character::apply_wound( bodypart_id bp, wound_type_id wd )
+{
+    bodypart &body_bp = body.at( bp.id() );
+    body_bp.add_wound( wd );
+    morale->on_stat_change( "perceived_pain", get_perceived_pain() );
+}
+
+void Character::update_wounds( time_duration time_passed )
+{
+    for( auto &bp : body ) {
+        bp.second.update_wounds( time_passed );
+    }
+    morale->on_stat_change( "perceived_pain", get_perceived_pain() );
+}
+
 void Character::passive_absorb_hit( const bodypart_id &bp, damage_unit &du ) const
 {
     // >0 check because some mutations provide negative armor
@@ -8377,6 +8395,29 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam,
     }
 }
 
+void Character::apply_random_wound( bodypart_id bp, const damage_instance &d )
+{
+    if( x_in_y( 1.0f - get_option<float>( "WOUND_CHANCE" ), 1.0f ) ) {
+        return;
+    }
+
+    weighted_int_list<wound_type_id> possible_wounds;
+    for( const std::pair<bp_wounds, int> &wd : bp->potential_wounds ) {
+        for( const damage_unit &du : d.damage_units ) {
+            const bool damage_within_limits = du.amount >= wd.first.damage_required.first &&
+                                              du.amount <= wd.first.damage_required.second;
+            const bool damage_type_matches = std::find( wd.first.damage_type.begin(),
+                                             wd.first.damage_type.end(), du.type ) != wd.first.damage_type.end();
+            if( damage_within_limits && damage_type_matches ) {
+                possible_wounds.add( wd.first.id, wd.second );
+            }
+        }
+    }
+    if( !possible_wounds.empty() ) {
+        apply_wound( bp, *possible_wounds.pick() );
+    }
+}
+
 dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
         const damage_instance &d, const weakpoint_attack &attack, const weakpoint & )
 {
@@ -8492,6 +8533,8 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
             add_msg_if_player( _( "Filth from your clothing has been embedded deep in the wound." ) );
         }
     }
+
+    apply_random_wound( bp, d );
 
     on_hurt( source );
     return dealt_dams;
@@ -12798,6 +12841,18 @@ bool Character::immune_to( const bodypart_id &bp, damage_unit dam ) const
     return dam.amount <= 0;
 }
 
+int Character::get_pain() const
+{
+    int p = 0;
+    for( const std::pair<const bodypart_str_id, bodypart> &bp : get_body() ) {
+        for( const wound &wd : bp.second.get_wounds() ) {
+            p += wd.get_pain();
+        }
+    }
+
+    return p + Creature::get_pain();
+}
+
 int Character::mod_pain( int npain )
 {
     if( npain > 0 ) {
@@ -13512,7 +13567,7 @@ void Character::use( item_location loc, int pre_obtain_moves, std::string const 
         pre_obtain_moves = get_moves();
     }
     if( !loc ) {
-        add_msg( m_info, _( "You do not have that item." ) );
+        add_msg( m_info, _( "You don't have that item." ) );
         set_moves( pre_obtain_moves );
         return;
     }

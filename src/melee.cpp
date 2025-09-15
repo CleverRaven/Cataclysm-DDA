@@ -2202,7 +2202,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
     if( tec != tec_none && !is_dead_state() ) {
         int twenty_percent = std::round( ( 20 * weapon.type->mat_portion_total ) / 100.0f );
         if( get_stamina() < get_stamina_max() / 3 ) {
-            add_msg( m_bad, _( "You try to counterattack but you are too exhausted!" ) );
+            add_msg( m_bad, _( "You try to counterattack, but you are too exhausted!" ) );
         } else if( weapon.made_of( material_glass ) > twenty_percent ) {
             add_msg( m_bad, _( "The item you are wielding is too fragile to counterattack with!" ) );
         } else {
@@ -2257,9 +2257,9 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
         d.add_damage( damage_electric, rng( 2, 10 ) );
 
         if( is_avatar() ) {
-            dump += string_format( _( "You shock %s." ), target ) + "\n";
+            dump += string_format( _( "You shock %s!" ), target ) + "\n";
         } else {
-            add_msg_if_npc( _( "<npcname> shocks %s." ), target );
+            add_msg_if_npc( _( "<npcname> shocks %s!" ), target );
         }
     }
 

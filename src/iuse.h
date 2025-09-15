@@ -293,7 +293,7 @@ class iuse_actor
         virtual ~iuse_actor() = default;
         virtual void load( const JsonObject &jo, const std::string &src ) = 0;
         // TODO: Replace usage of map unaware overload with map aware.
-        virtual std::optional<int> use( Character *, item &, const tripoint_bub_ms & ) const = 0;
+        virtual std::optional<int> use( Character *, item &, const tripoint_bub_ms & ) const;
         virtual std::optional<int> use( Character *, item &, map *here, const tripoint_bub_ms & ) const = 0;
         // TODO: Replace usage of map unaware overload with map aware.
         virtual ret_val<void> can_use( const Character &, const item &, const tripoint_bub_ms & ) const;
