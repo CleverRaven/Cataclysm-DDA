@@ -8743,7 +8743,9 @@ std::string const &npc::get_specified_talk_topic( std::string const &topic_id )
         {default_chatbin.talk_stranger_wary, chatbin.talk_stranger_wary},
         {default_chatbin.talk_stranger_friendly, chatbin.talk_stranger_friendly},
         {default_chatbin.talk_stranger_neutral, chatbin.talk_stranger_neutral},
-        {default_chatbin.talk_friend_guard, chatbin.talk_friend_guard}
+        {default_chatbin.talk_friend_guard, chatbin.talk_friend_guard},
+        {default_chatbin.talk_mission_inquire, chatbin.talk_mission_inquire},
+        {default_chatbin.talk_mission_describe_urgent, chatbin.talk_mission_describe_urgent}
     };
 
     const auto iter = std::find_if( talk_topics.begin(), talk_topics.end(),

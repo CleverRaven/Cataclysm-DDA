@@ -385,6 +385,12 @@ void npc_template::load( const JsonObject &jsobj, std::string_view src )
     if( jsobj.has_string( "talk_friend_guard" ) ) {
         guy.chatbin.talk_friend_guard = jsobj.get_string( "talk_friend_guard" );
     }
+    if( jsobj.has_string( "talk_mission_inquire" ) ) {
+        guy.chatbin.talk_mission_inquire = jsobj.get_string( "talk_mission_inquire" );
+    }
+    if( jsobj.has_string( "talk_mission_describe_urgent" ) ) {
+        guy.chatbin.talk_mission_describe_urgent = jsobj.get_string( "talk_mission_describe_urgent" );
+    }
     jsobj.read( "<acknowledged>", tem.snippets.snip_acknowledged );
     jsobj.read( "<camp_food_thanks>", tem.snippets.snip_camp_food_thanks );
     jsobj.read( "<camp_larder_empty>", tem.snippets.snip_camp_larder_empty );
@@ -565,6 +571,8 @@ void npc::load_npc_template( const string_id<npc_template> &ident )
     chatbin.talk_stranger_friendly = tguy.chatbin.talk_stranger_friendly;
     chatbin.talk_stranger_neutral = tguy.chatbin.talk_stranger_neutral;
     chatbin.talk_friend_guard = tguy.chatbin.talk_friend_guard;
+    chatbin.talk_mission_inquire = tguy.chatbin.talk_mission_inquire;
+    chatbin.talk_mission_describe_urgent = tguy.chatbin.talk_mission_describe_urgent;
 
     for( const mission_type_id &miss_id : tguy.miss_ids ) {
         add_new_mission( mission::reserve_new( miss_id, getID() ) );
