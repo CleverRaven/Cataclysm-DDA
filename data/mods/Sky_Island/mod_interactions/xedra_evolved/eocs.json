@@ -175,5 +175,11 @@
       { "u_learn_recipe": "xe_vampire_blood_weaknesses_reshuffle" },
       { "u_message": "You can now reshuffle your weaknesses.", "type": "popup" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONDITION_IS_NOT_ON_SKY_ISLAND",
+    "condition": { "u_has_trait": "awayfromhome" },
+    "effect": [  ]
   }
 ]
