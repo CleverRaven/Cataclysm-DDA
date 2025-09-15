@@ -285,7 +285,7 @@
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
-        "id": "EOC_PRACTICE_PHOTOKIN_HIDE_UGLY_KNACK",
+        "id": "EOC_PRACTICE_PHOTOKIN_CAMOUFLAGE_KNACK",
         "condition": { "u_has_trait": "PSYCHIC_KNACK" },
         "effect": [
           { "set_string_var": "photokinetic_camouflage_knack", "target_var": { "u_val": "latest_studied_power_name" } },

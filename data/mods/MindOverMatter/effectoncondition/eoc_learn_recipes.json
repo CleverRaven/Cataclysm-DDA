@@ -1203,15 +1203,15 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EACH_TEACH_KNACK_RECIPES",
+    "id": "EOC_TEACH_KNACK_RECIPES",
     "eoc_type": "EVENT",
     "required_event": "game_begin",
     "condition": { "u_has_trait": "PSYCHIC_KNACK" },
-    "effect": [ { "run_eocs": "EOC_TEACH_VITAKIN_CONTEMPLATE_RECIPES" } ]
+    "effect": [ { "run_eocs": "EOC_TEACH_KNACK_CONTEMPLATION_RECIPES" } ]
   },
   {
     "type": "effect_on_condition",
-    "id": "EACH_TEACH_KNACK_CONTEMPLATION_RECIPES",
+    "id": "EOC_TEACH_KNACK_CONTEMPLATION_RECIPES",
     "effect": [
       {
         "if": { "math": [ "u_spell_level('biokin_flexibility_knack') >= 1" ] },
