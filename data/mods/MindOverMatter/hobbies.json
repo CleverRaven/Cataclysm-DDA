@@ -294,7 +294,7 @@
     "id": "late_pyrokinetic",
     "name": "Ascended Pyrokinetic",
     "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You are one with the flames, and they come at your command and obey your every instruction.  Zombies, mutants, aliens, stranger things--no matter what is out there, you will incinerate it and survive.",
-    "points": 7,
+    "points": 11,
     "traits": [ "PYROKINETIC", "PYROKIN_ADAPTATION" ],
     "skills": [ { "level": 4, "name": "metaphysics" } ],
     "spells": [
