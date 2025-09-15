@@ -356,9 +356,6 @@ Allow EOCs to read artifact resonance
 Add lathe functionality and industrial baseball bat production
 Chitin armor overhaul
 Add deep fryers
-Hub-01 MDS canteens are made for liquids
-Added non-food processor alternative for crafting Soy Milk
-Add vertical milling machines
 
 
 ## Interface:
@@ -483,10 +480,6 @@ Message to player when UPS equipment runs out of power.
 Construction interface shows prerequisite furniture/terrain flags
 Default android sidebar changed to sidebar-mobile
 Present dispersion as MOA in item UI
-Fix loudness multiplier display in gun info window
-Correct the description of large metal boxes so it doesn't say the box is 'small' or 'slim' since neither of these things are true.
-Enemies that trigger 'autopeek' now automatically get ignored on confirmation
-Add missing uppercase letter in spell characteristics display
 
 
 ## Mods:
@@ -913,17 +906,7 @@ Aftershock: Vehicle bay City Building a mix between mechanic garage, gas station
 [Magiclysm] Add Seeing the Unseen animist spell
 Aftershock: Replace remaining vanilla robots with more setting appropriate ones
 [Magiclysm] Add the rust monster
-Manual backport of 82799
-Add CHARM_PET spell flag, apply to MoM/Magiclysm
-[Xedra Evolved] Add trolls
-[MOM] Farhand loots items
-[XE] Fix vampire recipe gotchas and Sky Island death loop.
-[Mods] Allow fast-traveling on air if you have the `LEVITATION` flag
 Aftershock: Properly Ruin cities
-[MoM] Add Far Hand and Fountain of Flames as psychic knacks
-[XE/Sky Island] Vampire progression fixes.
-Aftershock: Properly Ruin cities
-Remove Stats Through Kills and supporting code
 
 
 ## Balance:
@@ -1027,10 +1010,6 @@ Adds cuvettes to analysis kit crafting recipe, increase analysis kit weight.
 Fitness bands and smart watches are more common, while pocket watches and game watches are rarer.
 Tree bashing from being cut down is not a magic wand
 Star vampires have `PERMANENT_INVISIBILITY`, when they drink blood it applies `SUPPRESS_INVISIBILITY`
-Jackhammers cannot tunnel through walls
-Update planting to 'forward look' conditions for each growth stage
-Update the ammunition reserves in the military base's arsenal.
-Numb mutation balances and changes
 
 
 ## Bugfixes:
@@ -1412,15 +1391,6 @@ Power grid deleted on ship movement
 AIM uilist submenu shaking violently.
 fix zones disabling on save/load
 Fix enchantment cache load issue (If your save didn't load right hopefully it will now)
-[MoM] Add missing mesmerism fallback learning EoC
-Autopickup won't trigger if you can't carry any of the items
-Mark infrared goggles as mundane artifacts
-[MoM] Add missing mesmerism fallback learning EoC
-Fix portal storm error
-Fix Inventor's Welder having the migration pocket
-Fix Japanese world name/nickname generation bug.
-kill_xp Update on Kill Reversion
-Audit the post apoc prices of a few misc items
 
 
 ## Performance:
@@ -1597,9 +1567,6 @@ Use optional/mandatory for weather type, trap, start location, scent map, profes
 Check for unused extend/delete/proportional/relative with mandatory
 Begin moving duplicated UI code to new helpers library
 zzip.exe: a tool for manipulating compressed save 'zzip' files.
-weather_generator generic factory support
-Use optional/mandatory in mapdata, recipe, mod manager, and monster groups instead of assign
-Replace assign with optional/mandatory in veh_type
 
 
 ## Build:
