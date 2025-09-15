@@ -405,6 +405,7 @@ void DynamicDataLoader::initialize()
 
     add( "region_settings", &load_region_settings );
     add( "region_overlay", &load_region_overlay );
+
     add( "region_settings_river", &region_settings_river::load_region_settings_river );
     add( "region_settings_lake", &region_settings_lake::load_region_settings_lake );
     add( "region_settings_ocean", &region_settings_ocean::load_region_settings_ocean );
@@ -413,6 +414,12 @@ void DynamicDataLoader::initialize()
     add( "region_settings_highway", &region_settings_highway::load_region_settings_highway );
     add( "region_settings_forest_trail",
          &region_settings_forest_trail::load_region_settings_forest_trail );
+    add( "region_settings_city",
+         &region_settings_city::load_region_settings_city );
+    add( "region_settings_terrain_furniture",
+         &region_settings_terrain_furniture::load_region_settings_terrain_furniture );
+    add( "region_terrain_furniture",
+         &region_terrain_furniture::load_region_terrain_furniture );
     add( "ITEM_BLACKLIST", []( const JsonObject & jo ) {
         item_controller->load_item_blacklist( jo );
     } );
@@ -692,6 +699,9 @@ void DynamicDataLoader::unload_data()
     region_settings_forest::reset();
     region_settings_highway::reset();
     region_settings_forest_trail::reset();
+    region_settings_city::reset();
+    region_settings_terrain_furniture::reset();
+    region_terrain_furniture::reset();
     reset_monster_adjustment();
     recipe_dictionary::reset();
     recipe_group::reset();
