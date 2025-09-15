@@ -383,6 +383,7 @@
     "description": "Your joints are flexible enough that you can twist out of nearly anything when given a mind, though that doesn't make it hurt any less.  At the cost of some pain, you can twist out of enemy grabs.",
     "active": true,
     "activated_is_setup": false,
+    "activation_msg": "You twist out of the grab with a wrench!",
     "activated_eocs": [ "EOC_PERK_SLIPPERY_ESCAPE" ]
   },
   {
