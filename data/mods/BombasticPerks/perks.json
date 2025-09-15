@@ -147,6 +147,15 @@
   },
   {
     "type": "mutation",
+    "id": "perk_percussive_entry",
+    "name": { "str": "Percussive Entry" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "If one kick doesn't open the door, just try another.  Or a few more.  How about another dozen or so?  You can up to double your strength for the purposes of smashing terrain; this bonus gradually increases over the course of multiple smashes."
+  },
+  {
+    "type": "mutation",
     "id": "perk_holdout_pocket",
     "name": { "str": "Holdout Pocket" },
     "points": 0,
@@ -270,6 +279,16 @@
     "valid": false,
     "description": "Practicing with handguns has improved your draw speed with pretty much everything.  Retrieve objects 25% faster from containers.",
     "enchantments": [ { "values": [ { "value": "OBTAIN_COST_MULTIPLIER", "multiply": -0.25 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_animal_friend",
+    "name": { "str": "Animal Friend" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "Even with everything that's happened, you still find solace in nature.  Natural animals are less likely to attack you.",
+    "flags": [ "ANIMALEMPATH" ]
   },
   {
     "type": "mutation",

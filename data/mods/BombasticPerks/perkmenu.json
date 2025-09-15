@@ -241,6 +241,34 @@
         "topic": "TALK_PERK_MENU_SELECT"
       },
       {
+        "condition": { "not": { "u_has_trait": "perk_percussive_entry" } },
+        "text": "Gain [<trait_name:perk_percussive_entry>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_percussive_entry>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_percussive_entry>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_percussive_entry", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires strength 12, the <trait_name:perk_STR_UP_2> perk, or the <trait_name:perk_way_closedfist> perk.",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          {
+            "set_condition": "perk_condition",
+            "condition": {
+              "or": [
+                { "math": [ "u_val('strength_base') + u_val('strength_bonus') >= 12" ] },
+                { "u_has_trait": "perk_STR_UP_2" },
+                { "u_has_trait": "perk_way_closedfist" }
+              ]
+            }
+          }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
         "condition": { "not": { "u_has_trait": "perk_holdout_pocket" } },
         "text": "Gain [<trait_name:perk_holdout_pocket>]",
         "effect": [
@@ -563,6 +591,25 @@
             "target_var": { "context_val": "trait_additional_details" },
             "i18n": true
           }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_animal_friend" } },
+        "text": "Gain [<trait_name:perk_animal_friend>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_animal_friend>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_animal_friend>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_animal_friend", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "No Requirements",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
       },

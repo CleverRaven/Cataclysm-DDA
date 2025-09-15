@@ -46,18 +46,18 @@
     "max_intensity": 5,
     "int_dur_factor": "1 s",
     "rating": "good",
+    "removes_effects": [ "dazed", "downed", "bleed", "blind", "deaf" ],
     "enchantments": [
       {
         "condition": "ALWAYS",
         "values": [
           { "value": "EVASION", "add": 1 },
-          { "value": "DODGE_CHANCE", "add": 2 },
           { "value": "CLIMATE_CONTROL_HEAT", "add": 2000 },
           { "value": "CLIMATE_CONTROL_CHILL", "add": 2000 }
         ]
       }
     ],
-    "scaling_mods": { "stamina_min": [ 750 ], "stamina_max": [ 1500 ], "stamina_chance": [ 1 ] },
+    "scaling_mods": { "stamina_min": [ 2000 ], "stamina_max": [ 4500 ], "stamina_chance": [ 1 ] },
     "flags": [ "PAIN_IMMUNE" ]
   }
 ]
