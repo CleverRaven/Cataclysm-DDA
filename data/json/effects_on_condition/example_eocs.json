@@ -528,8 +528,8 @@
       {
         "set_string_var": "",
         "string_input": {
-          "title": { "i18n": true, "str": "teleport to dimension named:" },
-          "description": { "i18n": true, "str": "'default' returns you to main dimension" },
+          "title": { "str": "teleport to dimension named:" },
+          "description": { "str": "'default' returns you to main dimension" },
           "width": 30
         },
         "target_var": { "u_val": "destination_dimension" }
