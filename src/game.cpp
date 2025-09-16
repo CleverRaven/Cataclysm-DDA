@@ -12776,7 +12776,7 @@ bool game::travel_to_dimension( const std::string &new_prefix )
     here.load( tripoint_abs_sm( here.get_abs_sub() ), false );
 
     here.invalidate_visibility_cache();
-    //without this vehicles only load in after walking around a bit 
+    //without this vehicles only load in after walking around a bit
     here.reset_vehicles_sm_pos();
     load_npcs();
     // Handle static monsters
