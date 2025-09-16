@@ -441,7 +441,6 @@ void mission_ui_impl::draw_selected_description( std::vector<mission *> missions
         // TODO: target does not contain a z-component, targets are assumed to be on z=0
         draw_location( _( "Target:" ), miss->get_target() );
     }
-    
     std::string dimension = miss->get_dimension();
     // If dimension isn't the default one
     if( dimension != "" ) {
