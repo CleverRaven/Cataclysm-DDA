@@ -252,6 +252,15 @@ using region_settings_highway_id = string_id<region_settings_highway>;
 struct region_settings_forest_trail;
 using region_settings_forest_trail_id = string_id<region_settings_forest_trail>;
 
+struct region_settings_city;
+using region_settings_city_id = string_id<region_settings_city>;
+
+struct region_settings_terrain_furniture;
+using region_settings_terrain_furniture_id = string_id<region_settings_terrain_furniture>;
+
+struct region_terrain_furniture;
+using region_terrain_furniture_id = string_id<region_terrain_furniture>;
+
 struct requirement_data;
 using requirement_id = string_id<requirement_data>;
 

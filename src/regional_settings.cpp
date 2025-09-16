@@ -26,6 +26,9 @@
 class mapgendata;
 
 static const weighted_string_id_reader<overmap_special_id, int> building_bin_reader( 1 );
+static const weighted_string_id_reader<furn_id, int> furn_reader( 1 );
+static const weighted_string_id_reader<ter_id, int> ter_reader( 1 );
+
 /** SETTING FACTORY */
 namespace
 {
@@ -38,6 +41,11 @@ generic_factory<region_settings_highway>
 region_settings_highway_factory( "region_settings_highway" );
 generic_factory<region_settings_forest_trail>
 region_settings_forest_trail_factory( "region_settings_forest_trail" );
+generic_factory<region_settings_city> region_settings_city_factory( "region_settings_city" );
+generic_factory<region_settings_terrain_furniture>
+region_settings_terrain_furniture_factory( "region_settings_terrain_furniture" );
+generic_factory<region_terrain_furniture>
+region_terrain_furniture_factory( "region_terrain_furniture" );
 } // namespace
 
 /** OBJ */
@@ -76,6 +84,21 @@ const region_settings_forest_trail &string_id<region_settings_forest_trail>::obj
 {
     return region_settings_forest_trail_factory.obj( *this );
 }
+template<>
+const region_settings_city &string_id<region_settings_city>::obj() const
+{
+    return region_settings_city_factory.obj( *this );
+}
+template<>
+const region_settings_terrain_furniture &string_id<region_settings_terrain_furniture>::obj() const
+{
+    return region_settings_terrain_furniture_factory.obj( *this );
+}
+template<>
+const region_terrain_furniture &string_id<region_terrain_furniture>::obj() const
+{
+    return region_terrain_furniture_factory.obj( *this );
+}
 
 /** IS_VALID */
 template<>
@@ -113,6 +136,21 @@ bool string_id<region_settings_forest_trail>::is_valid() const
 {
     return region_settings_forest_trail_factory.is_valid( *this );
 }
+template<>
+bool string_id<region_settings_city>::is_valid() const
+{
+    return region_settings_city_factory.is_valid( *this );
+}
+template<>
+bool string_id<region_settings_terrain_furniture>::is_valid() const
+{
+    return region_settings_terrain_furniture_factory.is_valid( *this );
+}
+template<>
+bool string_id<region_terrain_furniture>::is_valid() const
+{
+    return region_terrain_furniture_factory.is_valid( *this );
+}
 /** INIT LOAD */
 void region_settings_river::load_region_settings_river( const JsonObject &jo,
         const std::string &src )
@@ -148,6 +186,22 @@ void region_settings_forest_trail::load_region_settings_forest_trail( const Json
 {
     region_settings_forest_trail_factory.load( jo, src );
 }
+void region_settings_city::load_region_settings_city( const JsonObject &jo,
+        const std::string &src )
+{
+    region_settings_city_factory.load( jo, src );
+}
+void region_settings_terrain_furniture::load_region_settings_terrain_furniture(
+    const JsonObject &jo,
+    const std::string &src )
+{
+    region_settings_terrain_furniture_factory.load( jo, src );
+}
+void region_terrain_furniture::load_region_terrain_furniture( const JsonObject &jo,
+        const std::string &src )
+{
+    region_terrain_furniture_factory.load( jo, src );
+}
 
 /** UNLOAD (RESET) */
 void region_settings_river::reset()
@@ -177,6 +231,18 @@ void region_settings_highway::reset()
 void region_settings_forest_trail::reset()
 {
     region_settings_forest_trail_factory.reset();
+}
+void region_settings_city::reset()
+{
+    region_settings_city_factory.reset();
+}
+void region_settings_terrain_furniture::reset()
+{
+    region_settings_terrain_furniture_factory.reset();
+}
+void region_terrain_furniture::reset()
+{
+    region_terrain_furniture_factory.reset();
 }
 
 template<typename T>
@@ -458,6 +524,24 @@ static void load_overmap_feature_flag_settings( const JsonObject &jo,
     }
 }
 
+void region_settings_feature_flag::deserialize( const JsonObject &jo )
+{
+    optional( jo, was_loaded, "blacklist", blacklist );
+    optional( jo, was_loaded, "whitelist", whitelist );
+}
+
+region_settings_feature_flag &region_settings_feature_flag::operator+=
+( const region_settings_feature_flag &rhs )
+{
+    for( const std::string &bl_copy : rhs.blacklist ) {
+        blacklist.emplace( bl_copy );
+    }
+    for( const std::string &wl_copy : rhs.whitelist ) {
+        whitelist.emplace( wl_copy );
+    }
+    return *this;
+}
+
 static void load_overmap_forest_settings(
     const JsonObject &jo, overmap_forest_settings &overmap_forest_settings, const bool strict,
     const bool overlay )
@@ -551,6 +635,16 @@ static void load_overmap_connection_settings(
                 "inter_city_road_connection",
                 overmap_connection_settings.inter_city_road_connection, !overlay );
     }
+}
+
+void region_settings_overmap_connection::deserialize( const JsonObject &jo )
+{
+    optional( jo, was_loaded, "trail_connection", trail_connection );
+    optional( jo, was_loaded, "sewer_connection", sewer_connection );
+    optional( jo, was_loaded, "subway_connection", subway_connection );
+    optional( jo, was_loaded, "rail_connection", rail_connection );
+    optional( jo, was_loaded, "intra_city_road_connection", intra_city_road_connection );
+    optional( jo, was_loaded, "inter_city_road_connection", inter_city_road_connection );
 }
 
 static void load_overmap_lake_settings( const JsonObject &jo,
@@ -866,6 +960,76 @@ static void load_region_terrain_and_furniture_settings( const JsonObject &jo,
             }
         }
     }
+}
+
+void region_settings_terrain_furniture::load( const JsonObject &jo, std::string_view )
+{
+    optional( jo, was_loaded, "ter_furn", ter_furn, auto_flags_reader<region_terrain_furniture_id> {} );
+}
+
+region_settings_terrain_furniture &region_settings_terrain_furniture::operator+=
+( const region_settings_terrain_furniture &rhs )
+{
+    for( const region_terrain_furniture_id &rtf : rhs.ter_furn ) {
+        /**
+        * This is a copy of the templated apply_region_overlay
+        * it is necessary because terrain_furniture objects don't map with an overlay_id
+        */
+        furn_id f_overlay( rtf->replaced_furn_id );
+        ter_id t_overlay( rtf->replaced_ter_id );
+        bool valid_furniture = !f_overlay.id().is_null();
+        bool valid_terrain = !t_overlay.id().is_null();
+        auto predicate = [&valid_terrain, &valid_furniture, &f_overlay,
+                        &t_overlay]( const region_terrain_furniture_id & this_rtf ) {
+            if( valid_furniture ) {
+                return this_rtf->replaced_furn_id == f_overlay;
+            }
+            if( valid_terrain ) {
+                return this_rtf->replaced_ter_id == t_overlay;
+            }
+            return false;
+        };
+        auto find_collection = std::find_if( ter_furn.begin(), ter_furn.end(), predicate );
+        //found existing regional terrain/furniture, combine the objects
+        if( find_collection != ter_furn.end() ) {
+            const_cast<region_terrain_furniture &>( find_collection->obj() ) += *rtf;
+        } else {
+            debugmsg( "region_terrain_furniture replaced ter/furn_id %s/%s does not exist in DDA",
+                      t_overlay.id().str(), f_overlay.id().str() );
+        }
+    }
+    return *this;
+}
+
+void region_terrain_furniture::load( const JsonObject &jo, std::string_view )
+{
+    optional( jo, was_loaded, "ter_id", replaced_ter_id );
+    optional( jo, was_loaded, "furn_id", replaced_furn_id );
+    optional( jo, was_loaded, "replace_with_terrain", terrain, ter_reader );
+    optional( jo, was_loaded, "replace_with_furniture", furniture, furn_reader );
+}
+
+region_terrain_furniture &region_terrain_furniture::operator+=( const region_terrain_furniture
+        &rhs )
+{
+    for( const std::pair<ter_id, int> &pr : rhs.terrain ) {
+        terrain.try_add( pr );
+    }
+    for( const std::pair<furn_id, int> &pr : rhs.furniture ) {
+        furniture.try_add( pr );
+    }
+    return *this;
+}
+
+void region_settings_city::load( const JsonObject &jo, std::string_view )
+{
+    optional( jo, was_loaded, "shop_radius", shop_radius );
+    optional( jo, was_loaded, "shop_sigma", shop_sigma );
+    optional( jo, was_loaded, "park_radius", park_radius );
+    optional( jo, was_loaded, "park_sigma", park_sigma );
+    optional( jo, was_loaded, "houses", houses.buildings, building_bin_reader );
+    optional( jo, was_loaded, "shops", shops.buildings, building_bin_reader );
+    optional( jo, was_loaded, "parks", parks.buildings, building_bin_reader );
 }
 
 void load_region_settings( const JsonObject &jo )
@@ -1341,11 +1505,19 @@ void region_settings_forest_trail::finalize()
     trailheads.finalize();
 }
 
+void region_settings_city::finalize()
+{
+    houses.finalize();
+    shops.finalize();
+    parks.finalize();
+}
 void region_settings_river::finalize() {}
 void region_settings_lake::finalize() {}
 void region_settings_ocean::finalize() {}
 void region_settings_forest::finalize() {}
 void region_settings_ravine::finalize() {}
+void region_settings_terrain_furniture::finalize() {}
+void region_terrain_furniture::finalize() {}
 void overmap_highway_settings::finalize()
 {
     //finds longest special in a building collection
@@ -1475,6 +1647,42 @@ furn_id region_terrain_and_furniture_settings::resolve( const furn_id &fid ) con
     while( region_list != furniture.end() ) {
         result = *region_list->second.pick();
         region_list = furniture.find( result );
+    }
+    return result;
+}
+
+ter_id region_settings_terrain_furniture::resolve( const ter_id &tid ) const
+{
+    if( tid.id().is_null() ) {
+        return tid;
+    }
+    ter_id result = tid;
+    auto predicate = [&result]( const region_terrain_furniture_id & tid_r ) {
+        return tid_r->replaced_ter_id == result;
+    };
+    auto found_tfid = std::find_if( ter_furn.begin(), ter_furn.end(), predicate );
+    while( found_tfid != ter_furn.end() ) {
+        const region_terrain_furniture_id &rtf_id = *found_tfid;
+        result = *rtf_id->terrain.pick();
+        found_tfid = std::find_if( ter_furn.begin(), ter_furn.end(), predicate );
+    }
+    return result;
+}
+
+furn_id region_settings_terrain_furniture::resolve( const furn_id &fid ) const
+{
+    if( fid.id().is_null() ) {
+        return fid;
+    }
+    furn_id result = fid;
+    auto predicate = [&result]( const region_terrain_furniture_id & fid_r ) {
+        return fid_r->replaced_furn_id == result;
+    };
+    auto found_tfid = std::find_if( ter_furn.begin(), ter_furn.end(), predicate );
+    while( found_tfid != ter_furn.end() ) {
+        const region_terrain_furniture_id &rtf_id = *found_tfid;
+        result = *rtf_id->furniture.pick();
+        found_tfid = std::find_if( ter_furn.begin(), ter_furn.end(), predicate );
     }
     return result;
 }

@@ -93,6 +93,59 @@ struct city_settings {
     void finalize();
 };
 
+struct region_settings_city {
+    region_settings_city_id id = region_settings_city_id::NULL_ID();
+
+    // About the average US city non-residential, non-park land usage
+    int shop_radius = 30;
+    int shop_sigma = 20;
+
+    // Set the same as shop radius, let parks bleed through via normal rolls
+    int park_radius = shop_radius;
+    // We'll spread this out to the rest of the town.
+    int park_sigma = 100 - park_radius;
+
+    building_bin houses;
+    building_bin shops;
+    building_bin parks;
+
+    overmap_special_id pick_house() const {
+        return houses.pick()->id;
+    }
+
+    overmap_special_id pick_shop() const {
+        return shops.pick()->id;
+    }
+
+    overmap_special_id pick_park() const {
+        return parks.pick()->id;
+    }
+
+    weighted_int_list<overmap_special_id> get_all_houses() const {
+        return houses.get_all_buildings();
+    }
+
+    weighted_int_list<overmap_special_id> get_all_shops() const {
+        return shops.get_all_buildings();
+    }
+
+    weighted_int_list<overmap_special_id> get_all_parks() const {
+        return parks.get_all_buildings();
+    }
+    region_settings_city &operator+=( const region_settings_city &rhs ) {
+        houses += rhs.houses;
+        shops += rhs.shops;
+        parks += rhs.parks;
+        return *this;
+    }
+
+    bool was_loaded = false;
+    void load( const JsonObject &jo, std::string_view );
+    static void load_region_settings_city( const JsonObject &jo, const std::string &src );
+    static void reset();
+    void finalize();
+};
+
 /*
  * template for random bushes and such.
  * supports occasional boost to a single ter/furn type (clustered blueberry bushes for example)
@@ -213,6 +266,17 @@ struct overmap_feature_flag_settings {
     std::set<std::string> whitelist;
 
     overmap_feature_flag_settings() = default;
+};
+
+struct region_settings_feature_flag {
+    std::set<std::string> blacklist;
+    std::set<std::string> whitelist;
+
+    region_settings_feature_flag &operator+=( const region_settings_feature_flag &rhs );
+
+    bool was_loaded = false;
+    void deserialize( const JsonObject &jo );
+    region_settings_feature_flag() = default;
 };
 
 struct overmap_forest_settings {
@@ -382,6 +446,19 @@ struct overmap_connection_settings {
     overmap_connection_settings() = default;
 };
 
+struct region_settings_overmap_connection {
+    overmap_connection_id trail_connection;
+    overmap_connection_id sewer_connection;
+    overmap_connection_id subway_connection;
+    overmap_connection_id rail_connection;
+    overmap_connection_id intra_city_road_connection;
+    overmap_connection_id inter_city_road_connection;
+
+    bool was_loaded = false;
+    void deserialize( const JsonObject &jo );
+    region_settings_overmap_connection() = default;
+};
+
 struct overmap_highway_settings {
     int grid_column_seperation = 10;
     int grid_row_seperation = 8;
@@ -495,6 +572,49 @@ struct region_terrain_and_furniture_settings {
     ter_id resolve( const ter_id & ) const;
     furn_id resolve( const furn_id & ) const;
     region_terrain_and_furniture_settings() = default;
+};
+
+/** Collection of `region_terrain_furniture` mappings */
+struct region_settings_terrain_furniture {
+    region_settings_terrain_furniture_id id = region_settings_terrain_furniture_id::NULL_ID();
+
+    std::set<region_terrain_furniture_id> ter_furn;
+
+    region_settings_terrain_furniture &operator+=( const region_settings_terrain_furniture &rhs );
+
+    ter_id resolve( const ter_id & ) const;
+    furn_id resolve( const furn_id & ) const;
+
+    void finalize();
+    bool was_loaded = false;
+    void load( const JsonObject &jo, std::string_view );
+    region_settings_terrain_furniture() = default;
+    static void load_region_settings_terrain_furniture( const JsonObject &jo, const std::string &src );
+    static void reset();
+};
+
+/**
+* Maps abstract region terrain/furniture (e.g. `t_region_groundcover`) to
+* actual region terrain/furniture (e.g. `t_grass`) with a weighted list
+*/
+struct region_terrain_furniture {
+    region_terrain_furniture_id id = region_terrain_furniture_id::NULL_ID();
+
+    ter_id replaced_ter_id;
+    furn_id replaced_furn_id;
+    weighted_int_list<ter_id> terrain;
+    weighted_int_list<furn_id> furniture;
+
+    region_terrain_furniture &operator+=( const region_terrain_furniture &rhs );
+
+    bool was_loaded = false;
+    void finalize();
+    void load( const JsonObject &jo, std::string_view );
+    ter_id resolve( const ter_id & ) const;
+    furn_id resolve( const furn_id & ) const;
+    region_terrain_furniture() = default;
+    static void load_region_terrain_furniture( const JsonObject &jo, const std::string &src );
+    static void reset();
 };
 
 /*
