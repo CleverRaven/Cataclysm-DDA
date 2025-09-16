@@ -8354,7 +8354,7 @@
     "description": "Recipes for making wooden swords with various purposes and levels of refinement.",
     "skill_used": "fabrication",
     "nested_category_data": [ "sword_wood", "sword_wood_large", "sword_nail", "bokken" ],
-    "difficulty": 1 
+    "difficulty": 1
   },
   {
     "id": "nested_warhammer",
@@ -8389,7 +8389,7 @@
     "name": "batons",
     "description": "Recipes for making bashing sticks known variously as batons, tonfas or truncheons.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "tonfa", "tonfa_wood", "shocktonfa_off", "blackjack", "cudgel" ],
+    "nested_category_data": ["tonfa", "tonfa_wood", "shocktonfa_off", "blackjack", "cudgel" ],
     "difficulty": 1
   },
   {
@@ -8401,7 +8401,7 @@
     "name": "clubs",
     "description": "Recipes for making wooden clubs of various levels of refinement.",
     "skill_used": "fabrication",
-    "nested_category_data": [ 
+    "nested_category_data": [
       "club_wooden",
       "club_wooden_nails",
       "club_wooden_bolted",
@@ -8411,7 +8411,7 @@
       "2H_club_kanabo_studded",
       "shillelagh"
     ],
-    "difficulty": 1 
+    "difficulty": 1
   },
   {
     "id": "nested_machete",
@@ -8441,7 +8441,7 @@
     "sword_crude_large",
     "sword_sheets_welded",
     "sword_sheets_welded_large"
-  ],
+    ],
     "difficulty": 1
   },
   {
@@ -8453,7 +8453,7 @@
     "name": "speedloader chutes",
     "description": "Recipes for creating tools useful to reload high capacity shotguns faster.",
     "skill_used": "fabrication",
-    "nested_category_data": [ 
+    "nested_category_data": [
       "arredondo_chute_remington_870",
       "arredondo_chute_remington_870_simple",
       "arredondo_chute_remington_870_breacher",
