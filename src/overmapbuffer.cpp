@@ -85,7 +85,8 @@ std::string overmapbuffer::terrain_filename( const point_abs_om &p )
 
 cata_path overmapbuffer::player_filename( const point_abs_om &p )
 {
-    return PATH_INFO::current_dimension_player_save_path() + string_format( ".seen.%d.%d", p.x(), p.y() );
+    return PATH_INFO::current_dimension_player_save_path() + string_format( ".seen.%d.%d", p.x(),
+            p.y() );
 }
 
 overmap &overmapbuffer::get( const point_abs_om &p )
