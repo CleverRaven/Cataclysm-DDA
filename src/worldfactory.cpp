@@ -2388,10 +2388,12 @@ void WORLD::assure_compression_files_present() const
         // Make sure the dimension folder actually exists before doing checks on it
         assure_dir_exist( PATH_INFO::current_dimension_save_path() );
         // Check if we're not overwriting already pre-existing .dict files
-        if ( !std::filesystem::exists( ( PATH_INFO::current_dimension_save_path() / "maps.dict" ).get_unrelative_path() ) ||
-        !std::filesystem::exists( ( PATH_INFO::current_dimension_save_path() / "mmr.dict" ).get_unrelative_path() ) ||
-        !std::filesystem::exists( ( PATH_INFO::current_dimension_save_path() / "overmaps.dict" ).get_unrelative_path() ) ) 
-        {
+        if( !std::filesystem::exists( ( PATH_INFO::current_dimension_save_path() /
+                                        "maps.dict" ).get_unrelative_path() ) ||
+            !std::filesystem::exists( ( PATH_INFO::current_dimension_save_path() /
+                                        "mmr.dict" ).get_unrelative_path() ) ||
+            !std::filesystem::exists( ( PATH_INFO::current_dimension_save_path() /
+                                        "overmaps.dict" ).get_unrelative_path() ) ) {
             cata_path dictionary_folder = PATH_INFO::compression_folder_path();
             cata_path maps_dict = dictionary_folder / "maps.dict";
             cata_path mmr_dict = dictionary_folder / "mmr.dict";

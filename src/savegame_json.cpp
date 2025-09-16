@@ -3703,7 +3703,7 @@ void mission::deserialize( const JsonObject &jo )
     if( jo.has_string( "dimension" ) ) {
         dimension = jo.get_string( "dimension" );
     } else {
-        // dimension is set as the main one 
+        // dimension is set as the main one
         dimension = "";
     }
 
