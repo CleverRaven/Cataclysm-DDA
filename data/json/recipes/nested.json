@@ -7245,7 +7245,7 @@
     "name": "hoodies",
     "description": "Recipes related to the production of hoodies.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "hoodie", "hoodie_cropped", "hoodie_cropped_cutting", "nested_hoodies_animal", "nested_hoodies_cropped_animal" ]
+    "nested_category_data": [ "hoodie", "wool_hoodie", "hoodie_cropped", "hoodie_cropped_cutting", "nested_hoodies_animal", "nested_hoodies_cropped_animal" ]
   },
   {
     "id": "nested_hoodies_animal",
@@ -8496,7 +8496,7 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_HEAD",
     "name": "great helms",
-    "description": "Recipes related to the creation of medieval helms fully enclosing the head.",
+    "description": "Recipes related to constructing medieval helms fully enclosing the head.",
     "skill_used": "fabrication",
     "nested_category_data": [ "helmet_plate", "xl_helmet_plate", "helmet_plate_xs" ]
   },
@@ -8507,7 +8507,7 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_HEAD",
     "name": "galeas",
-    "description": "Recipes related to the creation of imperial Roman helmets.",
+    "description": "Recipes related to constructing imperial Roman helmets.",
     "skill_used": "fabrication",
     "nested_category_data": [ "helmet_galea", "xl_helmet_galea", "helmet_galea_xs" ]
   },
@@ -8521,5 +8521,176 @@
     "description": "Recipes related to the creation of frilly maid hats",
     "skill_used": "tailor",
     "nested_category_data": [ "maid_hat", "maid_hat_xl", "maid_hat_xs" ]
-  }
+  },
+  {
+    "id": "nested_lorica_segmentata",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "name": "lorica segmentata",
+    "description": "Recipes related to constructing Roman laminar armor",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "armor_lorica", "xl_armor_lorica", "xs_armor_lorica" ]
+  },
+  {
+    "id": "nested_binders",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "name": "binders",
+    "description": "Recipes related to tailoring clothing to keep the chest flat",
+    "skill_used": "tailor",
+    "nested_category_data": [ "binder_top", "xl_binder_top", "xs_binder_top" ]
+  },
+  {
+    "id": "nested_all_bras",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "name": "cowls",
+    "description": "Recipes related to the tailoring of various kinds of underwear to cover the chest.",
+    "skill_used": "tailor",
+    "nested_category_data": [ "nested_bras", "nested_sports_bras" ]
+  },
+  {
+    "id": "nested_bras",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "bras",
+    "description": "Recipes related to tailoring underwear to cover the chest",
+    "skill_used": "tailor",
+    "nested_category_data": [ "bra", "xl_bra", "xs_bra" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_sports_bras",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "sports bras",
+    "description": "Recipes related to tailoring sporty underwear to cover the chest",
+    "skill_used": "tailor",
+    "nested_category_data": [ "sports_bra", "xlsports_bra", "xssports_bra" ],
+    "difficulty": 2
+  },
+  {
+    "id": "nested_bellywraps",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "name": "bellywraps",
+    "description": "Recipes related to tailoring wraps out of various materials to provide limited abdomen protection",
+    "skill_used": "tailor",
+    "nested_category_data": [ "bellywrap", "bellywrap_fur", "bellywrap_leather", "bellywrap_wool" ]
+  },
+  {
+    "id": "nested_chestwraps",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "name": "chestwraps",
+    "description": "Recipes related to tailoring wraps out of various materials to cover the chest",
+    "skill_used": "tailor",
+    "nested_category_data": [ "chestwrap", "chestwrap_fur", "chestwrap_leather", "chestwrap_wool" ]
+  },
+  {
+    "id": "nested_all_sheet_metal_chest_guards",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "name": "cowls",
+    "description": "Recipes related to the creation of hoods covering the neck and head with various materials for various purposes.",
+    "skill_used": "tailor",
+    "nested_category_data": [ "nested_sheet_metal_chest_guards", "nested_ch_sheet_metal_chest_guards" ]
+  },
+  {
+    "id": "nested_sheet_metal_chest_guards",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "sheet metal chest guards",
+    "description": "Recipes related to constructing chest armor out of sheet metal.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "chestguard_metal_sheets", "chestguard_metal_sheets_heavy", "chestguard_metal_sheets_heavy" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_ch_sheet_metal_chest_guards",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "hardened sheet metal chest guards",
+    "description": "Recipes related to constructing chest armor out of hardened sheet metal.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "ch_chestguard_metal_sheets", "ch_chestguard_metal_sheets_heavy", "ch_chestguard_metal_sheets_light" ],
+    "difficulty": 2
+  },
+  {
+    "id": "nested_all_coats",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "name": "coats",
+    "description": "Recipes related to the tailoring of clothing usually worn above something else and providing great warmth and protection.",
+    "skill_used": "tailor",
+    "nested_category_data": [ "nested_fur_coats", "nested_faux_fur_coats", "coat_rain", "coat_gut", "peacoat", "greatcoat", "armor_mercenary_top" ]
+  },
+  {
+    "id": "nested_fur_coats",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "fur coats",
+    "description": "Recipes related to the tailoring of coats made out of fur.",
+    "skill_used": "tailor",
+    "nested_category_data": [ "coat_fur", "xl_coat_fur", "xs_coat_fur" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_faux_fur_coats",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "faux fur coats",
+    "description": "Recipes related to the tailoring of coats made out of synthetic fur.",
+    "skill_used": "tailor",
+    "nested_category_data": [ "coat_faux_fur", "xl_coat_faux_fur", "xs_coat_faux_fur" ],
+    "difficulty": 2
+  },
+  {
+    "id": "nested_jackets",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "name": "jackets",
+    "description": "Recipes related to the tailoring of everyday clothing usually worn above something else.",
+    "skill_used": "tailor",
+    "nested_category_data": [ "jacket_leather", "jacket_leather_mod", "jacket_jean", "jacket_jean_mod", "leather_police_jacket", "blazer", "haori" ]
+  },
+  {
+    "id": "nested_vests",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "name": "vests",
+    "description": "Recipes related to the tailoring of light sleeveless garments worn over other clothing.",
+    "skill_used": "tailor",
+    "nested_category_data": [ "vest_leather", "vest_leather_mod", "vest_jean", "vest_jean_mod" ]
+  },
 ]
