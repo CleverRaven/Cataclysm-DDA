@@ -158,7 +158,6 @@ bool mapbuffer::submap_exists_approx( const tripoint_abs_sm &p )
     if( iter == submaps.end() ) {
         try {
             const tripoint_abs_omt om_addr = project_to<coords::omt>( p );
-            std::string world_prefix = g->get_dimension_prefix();
             const cata_path dirname = find_dirname( om_addr );
             std::string file_name = quad_file_name( om_addr );
 
@@ -402,9 +401,6 @@ submap *mapbuffer::unserialize_submaps( const tripoint_abs_sm &p )
             return read_from_file_optional_json( quad_path, [this]( const JsonValue & jsin ) {
                 deserialize( jsin );
             } );
-            /*const cata_path dirname = find_dirname( om_addr, g->get_dimension_prefix() );
-            cata_path quad_path = find_quad_path( dirname, om_addr );*/
-
         }
     }();
 
