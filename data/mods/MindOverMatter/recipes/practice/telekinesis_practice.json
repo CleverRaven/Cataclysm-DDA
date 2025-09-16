@@ -35,7 +35,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: far hand",
     "id": "practice_telekinetic_pull",
-    "description": "Contemplate your powers and improve your manipulation non-living matter.\n\nPower Difficulty: 1",
+    "description": "Contemplate your powers and improve your manipulation of non-living matter.\n\nPower Difficulty: 1",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
