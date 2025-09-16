@@ -4023,7 +4023,7 @@ place_trap_actor::data::data() : trap( trap_str_id::NULL_ID() ) {}
 
 void place_trap_actor::data::load( const JsonObject &obj )
 {
-    optional( obj, false, "trap", trap );
+    optional( obj, false, "trap", trap, trap_str_id::NULL_ID() );
     optional( obj, false, "done_message", done_message );
     optional( obj, false, "practice", practice, 0 );
     optional( obj, false, "moves", moves, 100 );
@@ -4034,13 +4034,13 @@ void place_trap_actor::load( const JsonObject &obj, const std::string & )
     optional( obj, false, "allow_underwater", allow_underwater, false );
     optional( obj, false, "allow_under_player", allow_under_player, false );
     optional( obj, false, "needs_solid_neighbor", needs_solid_neighbor, false );
-    optional( obj, false, "needs_neighbor_terrain", needs_neighbor_terrain );
+    optional( obj, false, "needs_neighbor_terrain", needs_neighbor_terrain, ter_str_id::NULL_ID() );
     optional( obj, false, "bury_question", bury_question );
     if( !bury_question.empty() ) {
         optional( obj, false, "bury", buried_data );
     }
     unburied_data.load( obj );
-    optional( obj, false, "outer_layer_trap", outer_layer_trap );
+    optional( obj, false, "outer_layer_trap", outer_layer_trap, trap_str_id::NULL_ID() );
 }
 
 std::unique_ptr<iuse_actor> place_trap_actor::clone() const
