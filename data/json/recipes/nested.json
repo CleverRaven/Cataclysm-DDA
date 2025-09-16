@@ -8436,5 +8436,30 @@
     "skill_used": "fabrication",
     "nested_category_data": [ "sword_metal", "sword_metal_large", "sword_crude", "sword_crude_large", "sword_sheets_welded", "sword_sheets_welded_large" ],
     "difficulty": 1
+  },
+  {
+    "id": "nested_speedloader_chutes",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "name": "speedloader chutes",
+    "description": "Recipes for creating tools useful to reload high capacity shotguns faster.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ 
+      "arredondo_chute_remington_870",
+      "arredondo_chute_remington_870_simple",
+      "arredondo_chute_remington_870_breacher",
+      "arredondo_chute_remington_870_breacher_simple",
+      "arredondo_chute_benelli_sa",
+      "arredondo_chute_benelli_sa_simple",
+      "arredondo_chute_mossberg_500",
+      "arredondo_chute_mossberg_500_simple",
+      "arredondo_chute_mossberg_930",
+      "arredondo_chute_mossberg_930_simple",
+      "arredondo_chute_mossberg_590",
+      "arredondo_chute_mossberg_590_simple"
+    ],
+    "difficulty": 1
   }
 ]
