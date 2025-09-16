@@ -339,7 +339,7 @@ class mission
         bool has_deadline() const;
         time_point get_deadline() const;
         std::string get_description() const;
-        std::string get_dimension() const; 
+        std::string get_dimension() const;
         bool has_target() const;
         const tripoint_abs_omt &get_target() const;
         const mission_type &get_type() const;
