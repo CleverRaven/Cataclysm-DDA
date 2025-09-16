@@ -53,12 +53,13 @@
     "description": "Recipes related to constructing different types of staffs.",
     "skill_used": "fabrication",
     "nested_category_data": [
-      "shock_staff",
       "q_staff",
-      "bo_from long stick",
-      "bo_from quarterstaff",
       "i_staff",
       "i_staff_with sheet metal",
+      "shock_staff",
+      "bo_from long stick",
+      "bo_from quarterstaff",
+      "staff_pipe",
       "nested_steelshod"
     ],
     "difficulty": 1
@@ -8342,5 +8343,74 @@
       "bp_40x53mm_slug_m169",
       "bp_40x53mm_flechette_m169"
     ]
+  },
+  {
+    "id": "nested_wood_sword",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "name": "clubs",
+    "description": "Recipes for making wooden swords with various purposes and levels of refinement.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "sword_wood", "sword_wood_large", "sword_nail", "bokken" ],
+    "difficulty": 1 
+  },
+  {
+    "id": "nested_warhammer",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "name": "warhammers",
+    "description": "Recipes for making hammers used as weapons instead of tools.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "warhammer", "lucern_hammer", "homemade_polehammer", "homewrecker" ],
+    "difficulty": 1
+  },  
+  {
+    "id": "nested_bat",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "name": "bats",
+    "description": "Recipes for making baseball bats and improving them with various materials.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "bat", "bat_with_lathe", "nailbat", "bwirebat", "nutboltbat" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_baton",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "name": "batons",
+    "description": "Recipes for making bashing sticks known variously as batons, tonfas or truncheons.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "tonfa", "tonfa_wood", "shocktonfa_off", "blackjack", "cudgel" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_club",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "name": "clubs",
+    "description": "Recipes for making wooden clubs of various levels of refinement.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ 
+      "club_wooden",
+      "club_wooden_nails",
+      "club_wooden_bolted",
+      "club_wooden_large_nails",
+      "club_wooden_large_bolted",
+      "2H_club_kanabo_spiked",
+      "2H_club_kanabo_studded",
+      "shillelagh"
+    ],
+    "difficulty": 1 
   }
 ]
