@@ -443,7 +443,7 @@ void mission_ui_impl::draw_selected_description( std::vector<mission *> missions
     }
     std::string dimension = miss->get_dimension();
     // If dimension isn't the default one
-    if( dimension != "" ) {
+    if( !dimension.empty() ) {
         draw_label_with_value( _( "Dimension:" ), dimension );
     }
 }

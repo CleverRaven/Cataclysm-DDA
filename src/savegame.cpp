@@ -98,7 +98,7 @@ void game::serialize_json( std::ostream &fout )
     json.member( "calendar_start", calendar::start_of_cataclysm );
     json.member( "game_start", calendar::start_of_game );
     json.member( "initial_season", static_cast<int>( calendar::initial_season ) );
-    json.member( "dimension_prefix", g->get_dimension_prefix() );
+    json.member( "dimension_prefix", get_dimension_prefix() );
     json.member( "auto_travel_mode", auto_travel_mode );
     json.member( "run_mode", static_cast<int>( safe_mode ) );
     json.member( "mostseen", mostseen );
