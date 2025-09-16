@@ -8389,7 +8389,7 @@
     "name": "batons",
     "description": "Recipes for making bashing sticks known variously as batons, tonfas or truncheons.",
     "skill_used": "fabrication",
-    "nested_category_data": ["tonfa", "tonfa_wood", "shocktonfa_off", "blackjack", "cudgel" ],
+    "nested_category_data": [ "tonfa", "tonfa_wood", "shocktonfa_off", "blackjack", "cudgel" ],
     "difficulty": 1
   },
   {
@@ -8435,12 +8435,12 @@
     "description": "Recipes for creating metal swords of dubious quality out of dubious materials.",
     "skill_used": "fabrication",
     "nested_category_data": [
-    "sword_metal",
-    "sword_metal_large",
-    "sword_crude",
-    "sword_crude_large",
-    "sword_sheets_welded",
-    "sword_sheets_welded_large"
+      "sword_metal",
+      "sword_metal_large",
+      "sword_crude",
+      "sword_crude_large",
+      "sword_sheets_welded",
+      "sword_sheets_welded_large"
     ],
     "difficulty": 1
   },
