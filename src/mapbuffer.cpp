@@ -403,8 +403,8 @@ submap *mapbuffer::unserialize_submaps( const tripoint_abs_sm &p )
             return read_from_file_optional_json( quad_path, [this]( const JsonValue & jsin ) {
                 deserialize( jsin );
             } );
-    /*const cata_path dirname = find_dirname( om_addr, g->get_dimension_prefix() );
-    cata_path quad_path = find_quad_path( dirname, om_addr );*/
+            /*const cata_path dirname = find_dirname( om_addr, g->get_dimension_prefix() );
+            cata_path quad_path = find_quad_path( dirname, om_addr );*/
 
         }
     }();
