@@ -8347,7 +8347,7 @@
   {
     "id": "nested_wood_sword",
     "type": "nested_category",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",
     "name": "clubs",
@@ -8359,7 +8359,7 @@
   {
     "id": "nested_warhammer",
     "type": "nested_category",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",
     "name": "warhammers",
@@ -8371,7 +8371,7 @@
   {
     "id": "nested_bat",
     "type": "nested_category",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",
     "name": "bats",
@@ -8383,7 +8383,7 @@
   {
     "id": "nested_baton",
     "type": "nested_category",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",
     "name": "batons",
@@ -8395,7 +8395,7 @@
   {
     "id": "nested_club",
     "type": "nested_category",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",
     "name": "clubs",
@@ -8416,7 +8416,7 @@
   {
     "id": "nested_machete",
     "type": "nested_category",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_CUTTING",
     "name": "machetes",
@@ -8428,7 +8428,7 @@
   {
     "id": "nested_makeshift_swords",
     "type": "nested_category",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_CUTTING",
     "name": "improvised swords",
@@ -8440,7 +8440,7 @@
   {
     "id": "nested_speedloader_chutes",
     "type": "nested_category",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "name": "speedloader chutes",
