@@ -8434,7 +8434,14 @@
     "name": "improvised swords",
     "description": "Recipes for creating metal swords of dubious quality out of dubious materials.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "sword_metal", "sword_metal_large", "sword_crude", "sword_crude_large", "sword_sheets_welded", "sword_sheets_welded_large" ],
+    "nested_category_data": [
+    "sword_metal",
+    "sword_metal_large",
+    "sword_crude",
+    "sword_crude_large",
+    "sword_sheets_welded",
+    "sword_sheets_welded_large"
+  ],
     "difficulty": 1
   },
   {
