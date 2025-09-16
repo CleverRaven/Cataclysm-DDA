@@ -43,11 +43,6 @@
 // NOLINTNEXTLINE(cata-static-declarations)
 extern const int savegame_version;
 
-// NOLINTNEXTLINE(cata-static-declarations)
-extern std::unique_ptr<game> g;
-// NOLINTNEXTLINE(cata-static-declarations)
-extern const int savegame_version;
-
 static std::string quad_file_name( const tripoint_abs_omt &om_addr )
 {
     return string_format( "%d.%d.%d.map", om_addr.x(), om_addr.y(), om_addr.z() );
