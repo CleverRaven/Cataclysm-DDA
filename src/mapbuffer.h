@@ -6,8 +6,7 @@
 #include <map>
 #include <memory>
 
-#include "coords_fwd.h"
-#include "point.h"
+#include "coordinates.h"
 
 class JsonArray;
 class cata_path;

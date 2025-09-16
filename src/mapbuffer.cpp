@@ -40,7 +40,6 @@
 
 #define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 
-class game;
 // NOLINTNEXTLINE(cata-static-declarations)
 extern const int savegame_version;
 
