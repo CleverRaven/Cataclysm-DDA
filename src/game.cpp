@@ -12763,6 +12763,8 @@ bool game::travel_to_dimension( const std::string &new_prefix )
     }
     // Load in data specific to the dimension (like weather)
     load_dimension_data();
+    // Ensure the new world has compression files
+    world_generator->active_world->assure_compression_files_present();
     MAPBUFFER.clear();
     // FIXME hack to prevent crashes from temperature checks
     // This returns to false in 'on_turn()' so it should be fine?
@@ -12772,8 +12774,7 @@ bool game::travel_to_dimension( const std::string &new_prefix )
     overmap_buffer.get( point_abs_om{} );
     // Loads submaps and invalidate related caches
     here.load( tripoint_abs_sm( here.get_abs_sub() ), false );
-    here.access_cache( here.get_abs_sub().z() ).map_memory_cache_dec.reset();
-    here.access_cache( here.get_abs_sub().z() ).map_memory_cache_ter.reset();
+
     here.invalidate_visibility_cache();
     //without this vehicles only load in after walking around a bit 
     here.reset_vehicles_sm_pos();

@@ -86,6 +86,7 @@ struct WORLD {
 
         bool has_compression_enabled() const;
         bool set_compression_enabled( bool enabled ) const;
+        void assure_compression_files_present() const;
 
 };
 
