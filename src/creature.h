@@ -828,9 +828,9 @@ class Creature : public viewer
         std::vector<bodypart_id> get_all_body_parts(
             get_body_part_flags = get_body_part_flags::none ) const;
         std::vector<bodypart_id> get_all_body_parts_of_type(
-            body_part_type::type part_type,
+            bp_type part_type,
             get_body_part_flags flags = get_body_part_flags::none ) const;
-        bodypart_id get_random_body_part_of_type( body_part_type::type part_type ) const;
+        bodypart_id get_random_body_part_of_type( bp_type part_type ) const;
         bodypart_id get_root_body_part() const;
         /* Returns all body parts with the given flag */
         std::vector<bodypart_id> get_all_body_parts_with_flag( const json_character_flag &flag ) const;
@@ -844,10 +844,10 @@ class Creature : public viewer
         std::string string_for_ground_contact_bodyparts( const std::vector<bodypart_id> &bps ) const;
 
         /* Returns the number of bodyparts of a given type*/
-        int get_num_body_parts_of_type( body_part_type::type part_type ) const;
+        int get_num_body_parts_of_type( bp_type part_type ) const;
 
         /* Returns the number of broken bodyparts of a given type */
-        int get_num_broken_body_parts_of_type( body_part_type::type part_type ) const;
+        int get_num_broken_body_parts_of_type( bp_type part_type ) const;
 
         const std::map<bodypart_str_id, bodypart> &get_body() const;
         void set_body();

@@ -1122,11 +1122,11 @@ veh_collision vehicle::part_collision( map &here, int part, const tripoint_abs_m
                 if( !critter->has_flag( json_flag_CANNOT_TAKE_DAMAGE ) ) {
                     if( vpi.has_flag( "SHARP" ) ) {
                         critter->add_effect( effect_source( driver ), effect_bleed, 1_minutes * rng( 1, dam ),
-                                             critter->get_random_body_part_of_type( body_part_type::type::torso ) );
+                                             critter->get_random_body_part_of_type( bp_type::torso ) );
                     } else if( dam > 18 && rng( 1, 20 ) > 15 ) {
                         //low chance of lighter bleed even with non sharp objects.
                         critter->add_effect( effect_source( driver ), effect_bleed, 1_minutes,
-                                             critter->get_random_body_part_of_type( body_part_type::type::torso ) );
+                                             critter->get_random_body_part_of_type( bp_type::torso ) );
                     }
                 }
                 add_msg_debug( debugmode::DF_VEHICLE_MOVE, "Critter collision damage: %d", dam );
