@@ -6685,7 +6685,8 @@ void overmap::open( overmap_special_batch &enabled_specials )
         assure_dir_exist( PATH_INFO::current_dimension_save_path() / "overmaps" );
         const std::string terfilename = overmapbuffer::terrain_filename( loc );
         const std::filesystem::path terfilename_path = std::filesystem::u8path( terfilename );
-        const cata_path zzip_path = PATH_INFO::current_dimension_save_path() / "overmaps" / terfilename_path +
+        const cata_path zzip_path = PATH_INFO::current_dimension_save_path() / "overmaps" / terfilename_path
+                                    +
                                     ".zzip";
         if( file_exist( zzip_path ) ) {
             std::shared_ptr<zzip> z = zzip::load( zzip_path.get_unrelative_path(),
