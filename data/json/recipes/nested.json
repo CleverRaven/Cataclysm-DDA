@@ -8350,7 +8350,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",
-    "name": "clubs",
+    "name": "wooden swords",
     "description": "Recipes for making wooden swords with various purposes and levels of refinement.",
     "skill_used": "fabrication",
     "nested_category_data": [ "sword_wood", "sword_wood_large", "sword_nail", "bokken" ],
