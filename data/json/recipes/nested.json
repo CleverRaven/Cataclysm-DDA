@@ -4694,7 +4694,7 @@
     "name": "cutlasses",
     "description": "Recipes for making cutlasses.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "lc_cutlass", "mc_cutlass", "hc_cutlass", "ch_cutlass", "qt_cutlass" ],
+    "nested_category_data": [ "cutlass", "lc_cutlass", "mc_cutlass", "hc_cutlass", "ch_cutlass", "qt_cutlass" ],
     "difficulty": 7
   },
   {
@@ -4860,7 +4860,7 @@
     "name": "kukris",
     "description": "Recipes for making kukris.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "lc_kukri", "mc_kukri", "hc_kukri", "ch_kukri", "qt_kukri" ],
+    "nested_category_data": [ "kukri", "lc_kukri", "mc_kukri", "hc_kukri", "ch_kukri", "qt_kukri" ],
     "difficulty": 7
   },
   {
@@ -4896,7 +4896,7 @@
     "name": "battle axes",
     "description": "Recipes for making battle axes.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "lc_battleaxe", "mc_battleaxe", "hc_battleaxe", "ch_battleaxe", "qt_battleaxe" ],
+    "nested_category_data": [ "battleaxe", "lc_battleaxe", "mc_battleaxe", "hc_battleaxe", "ch_battleaxe", "qt_battleaxe", "ax_sheets_welded" ],
     "difficulty": 7
   },
   {
@@ -8367,7 +8367,7 @@
     "skill_used": "fabrication",
     "nested_category_data": [ "warhammer", "lucern_hammer", "homemade_polehammer", "homewrecker" ],
     "difficulty": 1
-  },  
+  },
   {
     "id": "nested_bat",
     "type": "nested_category",
@@ -8412,5 +8412,29 @@
       "shillelagh"
     ],
     "difficulty": 1 
+  },
+  {
+    "id": "nested_machete",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "name": "machetes",
+    "description": "Recipes for making useful tools able to cut through both brush and zombie limbs.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "machete", "makeshift_machete", "survivor_machete", "survivor_machete_qt" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_makeshift_swords",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "name": "improvised swords",
+    "description": "Recipes for creating metal swords of dubious quality out of dubious materials.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "sword_metal", "sword_metal_large", "sword_crude", "sword_crude_large", "sword_sheets_welded", "sword_sheets_welded_large" ],
+    "difficulty": 1
   }
 ]
