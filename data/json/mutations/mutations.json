@@ -1204,7 +1204,7 @@
   {
     "type": "mutation",
     "id": "MASOCHIST",
-    "name": { "str": "Masochist" },
+    "name": { "str": "Pain Driven" },
     "points": 1,
     "vitamin_cost": 60,
     "description": "Although you still suffer the negative effects of pain, it also brings a unique pleasure to you.",
