@@ -2682,6 +2682,38 @@
         { "not": { "is_weather": "blotted_sun" } }
       ]
     },
+    "effect": [ { "run_eocs": "EOC_VAMPIRE_BURN_IN_SUNLIGHT_CONTINUAL" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_BURN_IN_SUNLIGHT_CONTINUAL",
+     "condition": {
+      "and": [
+        { "or": [ { "u_has_trait": "VAMPIRE4" }, { "u_has_trait": "BLOOD_DRINKER" } ] },
+        "is_day",
+        "u_is_outside",
+        { "not": { "is_weather": "blotted_sun" } }
+      ]
+    },
+    "effect": [
+      { "if": { "u_has_effect": "effect_vampire_vampiric_resilience_sun_protection" },
+        "then": { "if": { "x_in_y_chance": { "x": 50, "y": 100 } },
+          "//": "FIXME--other effects that make it less common reduce X there" 
+          "then": { "run_eocs": "EOC_VAMPIRE_BURN_IN_SUNLIGHT_ADD_EFFECTS" } },
+        "else": { "run_eocs": "EOC_VAMPIRE_BURN_IN_SUNLIGHT_ADD_EFFECTS" }
+      { "u_message": "The sun's rays sear your undead flesh!", "type": "bad" }
+      { "run_eocs": "EOC_VAMPIRE_BURN_IN_SUNLIGHT_CONTINUAL", "time_in_future": 1 }
+    ],
+    "false_effect": [
+      { "if": { "is_weather": "blotted_sun" }
+        "then": [ { "run_eocs": "EOC_VAMPIRE_REMOVE_BURN_IN_SUNLIGHT_EFFECTS" } ] 
+      }
+    ]
+    
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_BURN_IN_SUNLIGHT_ADD_EFFECTS",
     "effect": [
       { "u_add_effect": "effect_slain_by_the_sun", "duration": 100, "target_part": "arm_l" },
       { "u_add_effect": "effect_slain_by_the_sun", "duration": 100, "target_part": "arm_r" },
@@ -2689,19 +2721,28 @@
       { "u_add_effect": "effect_slain_by_the_sun", "duration": 100, "target_part": "leg_r" },
       { "u_add_effect": "effect_slain_by_the_sun", "duration": 100, "target_part": "torso" },
       { "u_add_effect": "effect_slain_by_the_sun", "duration": 100, "target_part": "head" },
-      { "u_message": "The sun's rays sear your undead flesh!", "type": "bad" }
-      { "if": { "u_has_trait": "BLOOD_DRINKER" },
+      { 
+        "if": { 
+          "or": [
+            { "math": [ "u_effect_intensity('effect_slain_by_the_sun', 'bodypart': 'arm_l') >= 15" ] },
+            { "math": [ "u_effect_intensity('effect_slain_by_the_sun', 'bodypart': 'arm_r') >= 15" ] },
+            { "math": [ "u_effect_intensity('effect_slain_by_the_sun', 'bodypart': 'leg_l') >= 15" ] },
+            { "math": [ "u_effect_intensity('effect_slain_by_the_sun', 'bodypart': 'leg_r') >= 15" ] },
+            { "math": [ "u_effect_intensity('effect_slain_by_the_sun', 'bodypart': 'torso') >= 15" ] },
+            { "math": [ "u_effect_intensity('effect_slain_by_the_sun', 'bodypart': 'head') >= 15" ] }
+          ]
+        },
         "then": [
-          { "u_add_effect": "effect_slain_by_the_sun", "duration": 100, "target_part": "arm_l" },
-          { "u_add_effect": "effect_slain_by_the_sun", "duration": 100, "target_part": "arm_r" },
-          { "u_add_effect": "effect_slain_by_the_sun", "duration": 100, "target_part": "leg_l" },
-          { "u_add_effect": "effect_slain_by_the_sun", "duration": 100, "target_part": "leg_r" },
-          { "u_add_effect": "effect_slain_by_the_sun", "duration": 100, "target_part": "torso" },
-          { "u_add_effect": "effect_slain_by_the_sun", "duration": 100, "target_part": "head" }
+          {
+            "foreach": "array",
+            "target": [ "arm_l", "arm_r", "leg_l", "leg_r", "torso", "head" ],
+            "var": { "context_val": "id" },
+            "effect": [ { "if": { "x_in_y_chance": { "x": 1, "y": { "math": [ "4 * u_effect_intensity('effect_vampire_vampiric_resilience_sun_protection') > 0 ? 2 : 1" ] } }, "then": { "u_add_effect": "onfire", "target_part": { "context_val": "id" } } } ]
+          }
         ] 
       }
     ]
-  },
+  }
   {
     "type": "effect_on_condition",
     "id": "EOC_VAMPIRE_REMOVE_BURN_IN_SUNLIGHT_INDOORS",
@@ -2713,29 +2754,31 @@
         { "or": [ { "not": "is_day" }, { "not": "u_is_outside" }, { "is_weather": "blotted_sun" } ] }
       ]
     },
+    "effect": [ { "run_eocs": "EOC_VAMPIRE_REMOVE_BURN_IN_SUNLIGHT_EFFECTS" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_REMOVE_BURN_IN_SUNLIGHT_EFFECTS"
+    "condition": { 
+      "or": [
+        { "math": [ "u_effect_intensity('effect_slain_by_the_sun', 'bodypart': 'arm_l') >= 1" ] },
+        { "math": [ "u_effect_intensity('effect_slain_by_the_sun', 'bodypart': 'arm_r') >= 1" ] },
+        { "math": [ "u_effect_intensity('effect_slain_by_the_sun', 'bodypart': 'leg_l') >= 1" ] },
+        { "math": [ "u_effect_intensity('effect_slain_by_the_sun', 'bodypart': 'leg_r') >= 1" ] },
+        { "math": [ "u_effect_intensity('effect_slain_by_the_sun', 'bodypart': 'torso') >= 1" ] },
+        { "math": [ "u_effect_intensity('effect_slain_by_the_sun', 'bodypart': 'head') >= 1" ] }
+      ]
+    },
     "effect": [
+      { "u_lose_effect": "effect_slain_by_the_sun", "target_part": "arm_l" },
+      { "u_lose_effect": "effect_slain_by_the_sun", "target_part": "arm_r" },
+      { "u_lose_effect": "effect_slain_by_the_sun", "target_part": "leg_l" },
+      { "u_lose_effect": "effect_slain_by_the_sun", "target_part": "leg_r" },
+      { "u_lose_effect": "effect_slain_by_the_sun", "target_part": "torso" },
+      { "u_lose_effect": "effect_slain_by_the_sun", "target_part": "head" },
       {
-        "if": { "or": [
-          { "math": [ "u_effect_intensity('effect_slain_by_the_sun', 'bodypart': 'arm_l') >= 1" ] },
-          { "math": [ "u_effect_intensity('effect_slain_by_the_sun', 'bodypart': 'arm_r') >= 1" ] },
-          { "math": [ "u_effect_intensity('effect_slain_by_the_sun', 'bodypart': 'leg_l') >= 1" ] },
-          { "math": [ "u_effect_intensity('effect_slain_by_the_sun', 'bodypart': 'leg_r') >= 1" ] },
-          { "math": [ "u_effect_intensity('effect_slain_by_the_sun', 'bodypart': 'torso') >= 1" ] },
-          { "math": [ "u_effect_intensity('effect_slain_by_the_sun', 'bodypart': 'head') >= 1" ] }
-        ]
-        },
-        "then": [
-          { "u_lose_effect": "effect_slain_by_the_sun", "target_part": "arm_l" },
-          { "u_lose_effect": "effect_slain_by_the_sun", "target_part": "arm_r" },
-          { "u_lose_effect": "effect_slain_by_the_sun", "target_part": "leg_l" },
-          { "u_lose_effect": "effect_slain_by_the_sun", "target_part": "leg_r" },
-          { "u_lose_effect": "effect_slain_by_the_sun", "target_part": "torso" },
-          { "u_lose_effect": "effect_slain_by_the_sun", "target_part": "head" },
-          {
-            "u_message": "The sun's rays cannot reach you anymore.  You no longer feel like you're burning alive.",
-            "type": "good"
-          }
-        ]
+        "u_message": "The sun's rays cannot reach you anymore.  You no longer feel like you're burning alive.",
+        "type": "good"
       }
     ]
   },
