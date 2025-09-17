@@ -1,4 +1,5 @@
 #include "game.h"
+#include "map_memory.h"
 
 #include <algorithm>
 #include <bitset>
@@ -12751,6 +12752,7 @@ bool game::travel_to_dimension( const std::string &new_prefix )
     if( !save_maps() ) {
         return false;
     }
+    player.save_map_memory();
     for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
         here.clear_vehicle_list( z );
     }
@@ -12764,10 +12766,10 @@ bool game::travel_to_dimension( const std::string &new_prefix )
     }
     // Load in data specific to the dimension (like weather)
     //if( !load_dimension_data() ) {
-        // dimension data file not found/created yet
-        /* handle weather instance switching when I have dimensions with different region settings,
-         right now they're all the same and it's hard to tell if it's working or not. */
-        // weather.set_nextweather( calendar::turn );
+    // dimension data file not found/created yet
+    /* handle weather instance switching when I have dimensions with different region settings,
+     right now they're all the same and it's hard to tell if it's working or not. */
+    // weather.set_nextweather( calendar::turn );
     //}
     // Ensure the new world has compression files
     world_generator->active_world->assure_compression_files_present();
@@ -12780,6 +12782,10 @@ bool game::travel_to_dimension( const std::string &new_prefix )
     overmap_buffer.clear();
     // load/create new overmap
     overmap_buffer.get( point_abs_om{} );
+    // clear map memory from the previous dimension
+    player.clear_map_memory();
+    // Load map memory in new dimension, if there is any
+    player.load_map_memory();
     // Loads submaps and invalidate related caches
     here.load( tripoint_abs_sm( here.get_abs_sub() ), false );
 

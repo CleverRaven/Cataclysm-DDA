@@ -554,7 +554,12 @@ bool map_memory::save( const tripoint_abs_ms &pos )
 
     return result;
 }
-
+void map_memory::clear()
+{
+    clear_cache();
+    submaps.clear();
+    dbg( D_INFO ) << "[CLEAR] Done.";
+}
 void map_memory::clear_cache()
 {
     cached.clear();
