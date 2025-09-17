@@ -2930,13 +2930,13 @@ void map::drop_items( const tripoint_bub_ms &p )
             creature_hit_chance /= sqrt( avoid_chance );
             bodypart_id hit_part;
             if( creature_hit_chance < 15 ) {
-                hit_part = creature_below->get_random_body_part_of_type( body_part_type::type::head );
+                hit_part = creature_below->get_random_body_part_of_type( bp_type::head );
             } else if( creature_hit_chance < 30 ) {
-                hit_part = creature_below->get_random_body_part_of_type( body_part_type::type::torso );
+                hit_part = creature_below->get_random_body_part_of_type( bp_type::torso );
             } else if( creature_hit_chance < 90 ) {
-                hit_part = creature_below->get_random_body_part_of_type( body_part_type::type::arm );
+                hit_part = creature_below->get_random_body_part_of_type( bp_type::arm );
             } else if( creature_hit_chance < 100 ) {
-                hit_part = creature_below->get_random_body_part_of_type( body_part_type::type::leg );
+                hit_part = creature_below->get_random_body_part_of_type( bp_type::leg );
             } else {
                 add_msg_if_player_sees( creature_below->pos_bub(), _( "Falling %1$s misses %2$s!" ), i.tname(),
                                         creature_below->disp_name() );

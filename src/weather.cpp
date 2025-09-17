@@ -131,7 +131,7 @@ void glare( const weather_type_id &w )
         }
         // Glare in all your eyes
         for( bodypart_id &bp : player_character.get_all_body_parts_of_type(
-                 body_part_type::type::sensor ) ) {
+                 bp_type::sensor ) ) {
             player_character.add_effect( *effect, dur, bp );
         }
     }

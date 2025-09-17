@@ -1203,6 +1203,76 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_TEACH_KNACK_RECIPES",
+    "eoc_type": "EVENT",
+    "required_event": "game_begin",
+    "condition": { "u_has_trait": "PSYCHIC_KNACK" },
+    "effect": [ { "run_eocs": "EOC_TEACH_KNACK_CONTEMPLATION_RECIPES" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TEACH_KNACK_CONTEMPLATION_RECIPES",
+    "effect": [
+      {
+        "if": { "math": [ "u_spell_level('biokin_flexibility_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_biokin_flexibility_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('biokin_adrenaline_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_biokin_adrenaline_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('clair_better_senses_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_clair_better_senses_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('clair_danger_sense_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_clair_danger_sense_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('clair_examine_item_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_clair_examine_item_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('clair_astral_projection_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_clair_astral_projection_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('electrokinetic_see_electric_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_electrokinetic_see_electric_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('electrokinetic_pain_immune_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_electrokinetic_pain_immune_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('electrokinetic_hacking_interface_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_electrokinetic_hacking_interface_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('photokinetic_camouflage_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_photokinetic_camouflage_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('photokinetic_hide_ugly_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_photokinetic_hide_ugly_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('photokinetic_radio_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_photokinetic_radio_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('telekinetic_pull_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_telekinetic_pull_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('telekinetic_push_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_telekinetic_push_knack" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_PSI_LEARNING_VITAMIN_COUNTER",
     "recurrence": [
       { "math": [ "jmath_psi_learning_counter_time_low(global_insight_power_learning_time_low)" ] },

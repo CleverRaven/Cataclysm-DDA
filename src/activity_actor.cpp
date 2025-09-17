@@ -8909,7 +8909,7 @@ void pulp_activity_actor::send_final_message( Character &you ) const
         } else if( pd.stomps_only ) {
             tools = string_format(
                         _( "It took you some time, stomping corpses with nothing but your %1$s, and occasionally cutting it with a %2$s." ),
-                        you.get_random_body_part_of_type( body_part_type::type::leg )->accusative_multiple, pd.cut_tool );
+                        you.get_random_body_part_of_type( bp_type::leg )->accusative_multiple, pd.cut_tool );
         } else if( pd.weapon_only ) {
             tools = string_format(
                         _( "It took you some time, bashing corpses with your %1$s, with occasional cuts with a %2$s." ),
@@ -8922,7 +8922,7 @@ void pulp_activity_actor::send_final_message( Character &you ) const
     } else {
         if( pd.stomps_only ) {
             tools = string_format( _( "It took you some time, stomping corpses with nothing but your %1$s." ),
-                                   you.get_random_body_part_of_type( body_part_type::type::leg )->accusative_multiple );
+                                   you.get_random_body_part_of_type( bp_type::leg )->accusative_multiple );
         } else if( pd.weapon_only ) {
             tools = string_format( _( "It took you some time, bashing corpses with just your %1$s." ),
                                    pd.bash_tool );

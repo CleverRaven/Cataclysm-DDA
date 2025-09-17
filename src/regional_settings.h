@@ -7,7 +7,9 @@
 #include <memory>
 #include <set>
 #include <string>
+#include <string_view>
 #include <unordered_map>
+#include <utility>
 #include <vector>
 
 #include "enums.h"
@@ -20,23 +22,33 @@
 #include "weighted_list.h"
 
 class JsonObject;
+class JsonValue;
 class mapgendata;
 
 class building_bin
 {
     private:
-        bool finalized = false;
-        weighted_int_list<overmap_special_id> buildings;
-        std::map<overmap_special_id, int> unfinalized_buildings;
+        bool finalized = false; // NOLINT(cata-serialize)
+        std::map<overmap_special_id, int> unfinalized_buildings; // NOLINT(cata-serialize)
     public:
         building_bin() = default;
         void add( const overmap_special_id &building, int weight );
         overmap_special_id pick() const;
-        std::vector<std::string> all;
+        std::vector<std::string> all; // NOLINT(cata-serialize)
         void clear();
         void finalize();
         weighted_int_list<overmap_special_id> get_all_buildings() const {
             return buildings;
+        }
+        void deserialize( const JsonValue &jv ) {
+            buildings.deserialize( jv );
+        }
+        weighted_int_list<overmap_special_id> buildings;
+        building_bin &operator+=( const building_bin &rhs ) {
+            for( const std::pair< overmap_special_id, int> &pr : rhs.buildings ) {
+                buildings.try_add( pr );
+            }
+            return *this;
         }
 };
 
@@ -78,6 +90,59 @@ struct city_settings {
         return parks.get_all_buildings();
     }
 
+    void finalize();
+};
+
+struct region_settings_city {
+    region_settings_city_id id = region_settings_city_id::NULL_ID();
+
+    // About the average US city non-residential, non-park land usage
+    int shop_radius = 30;
+    int shop_sigma = 20;
+
+    // Set the same as shop radius, let parks bleed through via normal rolls
+    int park_radius = shop_radius;
+    // We'll spread this out to the rest of the town.
+    int park_sigma = 100 - park_radius;
+
+    building_bin houses;
+    building_bin shops;
+    building_bin parks;
+
+    overmap_special_id pick_house() const {
+        return houses.pick()->id;
+    }
+
+    overmap_special_id pick_shop() const {
+        return shops.pick()->id;
+    }
+
+    overmap_special_id pick_park() const {
+        return parks.pick()->id;
+    }
+
+    weighted_int_list<overmap_special_id> get_all_houses() const {
+        return houses.get_all_buildings();
+    }
+
+    weighted_int_list<overmap_special_id> get_all_shops() const {
+        return shops.get_all_buildings();
+    }
+
+    weighted_int_list<overmap_special_id> get_all_parks() const {
+        return parks.get_all_buildings();
+    }
+    region_settings_city &operator+=( const region_settings_city &rhs ) {
+        houses += rhs.houses;
+        shops += rhs.shops;
+        parks += rhs.parks;
+        return *this;
+    }
+
+    bool was_loaded = false;
+    void load( const JsonObject &jo, std::string_view );
+    static void load_region_settings_city( const JsonObject &jo, const std::string &src );
+    static void reset();
     void finalize();
 };
 
@@ -169,6 +234,31 @@ struct forest_trail_settings {
     forest_trail_settings() = default;
 };
 
+struct region_settings_forest_trail {
+    region_settings_forest_trail_id id = region_settings_forest_trail_id::NULL_ID();
+    int chance = 1;
+    int border_point_chance = 2;
+    int minimum_forest_size = 50;
+    int random_point_min = 4;
+    int random_point_max = 50;
+    int random_point_size_scalar = 100;
+    int trailhead_chance = 1;
+    int trailhead_road_distance = 6;
+    building_bin trailheads;
+
+    region_settings_forest_trail &operator+=( const region_settings_forest_trail &rhs ) {
+        trailheads += rhs.trailheads;
+        return *this;
+    }
+
+    bool was_loaded = false;
+    void load( const JsonObject &jo, std::string_view );
+    void finalize();
+    static void load_region_settings_forest_trail( const JsonObject &jo, const std::string &src );
+    static void reset();
+    region_settings_forest_trail() = default;
+};
+
 struct overmap_feature_flag_settings {
     bool clear_blacklist = false;
     bool clear_whitelist = false;
@@ -176,6 +266,17 @@ struct overmap_feature_flag_settings {
     std::set<std::string> whitelist;
 
     overmap_feature_flag_settings() = default;
+};
+
+struct region_settings_feature_flag {
+    std::set<std::string> blacklist;
+    std::set<std::string> whitelist;
+
+    region_settings_feature_flag &operator+=( const region_settings_feature_flag &rhs );
+
+    bool was_loaded = false;
+    void deserialize( const JsonObject &jo );
+    region_settings_feature_flag() = default;
 };
 
 struct overmap_forest_settings {
@@ -189,10 +290,30 @@ struct overmap_forest_settings {
     overmap_forest_settings() = default;
 };
 
+struct region_settings_forest {
+    region_settings_forest_id id = region_settings_forest_id::NULL_ID();
+
+    double noise_threshold_forest = 0.25;
+    double noise_threshold_forest_thick = 0.3;
+    double noise_threshold_swamp_adjacent_water = 0.3;
+    double noise_threshold_swamp_isolated = 0.6;
+    int river_floodplain_buffer_distance_min = 3;
+    int river_floodplain_buffer_distance_max = 15;
+
+    bool was_loaded = false;
+    void load( const JsonObject &jo, std::string_view );
+    void finalize();
+
+    static void load_region_settings_forest( const JsonObject &jo, const std::string &src );
+    static void reset();
+    region_settings_forest() = default;
+};
+
 struct shore_extendable_overmap_terrain_alias {
     std::string overmap_terrain;
     ot_match_type match_type = ot_match_type::exact;
     oter_str_id alias;
+    void deserialize( const JsonObject &jo );
 };
 
 struct overmap_river_settings {
@@ -203,6 +324,24 @@ struct overmap_river_settings {
     double river_branch_scale_decrease = 1;
 
     overmap_river_settings() = default;
+};
+
+struct region_settings_river {
+    region_settings_river_id id = region_settings_river_id::NULL_ID();
+
+    int river_scale = 1;
+    double river_frequency = 1.5;
+    double river_branch_chance = 64;
+    double river_branch_remerge_chance = 4;
+    double river_branch_scale_decrease = 1;
+
+    bool was_loaded = false;
+    void load( const JsonObject &jo, std::string_view );
+    void finalize();
+
+    static void load_region_settings_river( const JsonObject &jo, const std::string &src );
+    static void reset();
+    region_settings_river() = default;
 };
 
 struct overmap_lake_settings {
@@ -217,6 +356,24 @@ struct overmap_lake_settings {
     overmap_lake_settings() = default;
 };
 
+struct region_settings_lake {
+    region_settings_lake_id id = region_settings_lake_id::NULL_ID();
+
+    double noise_threshold_lake = 0.25;
+    int lake_size_min = 20;
+    int lake_depth = -5;
+    std::vector<oter_str_id> shore_extendable_overmap_terrain;
+    std::vector<shore_extendable_overmap_terrain_alias> shore_extendable_overmap_terrain_aliases;
+
+    bool was_loaded = false;
+    void load( const JsonObject &jo, std::string_view );
+    void finalize();
+
+    static void load_region_settings_lake( const JsonObject &jo, const std::string &src );
+    static void reset();
+    region_settings_lake() = default;
+};
+
 struct overmap_ocean_settings {
     double noise_threshold_ocean = 0.25;
     int ocean_size_min = 100;
@@ -229,6 +386,27 @@ struct overmap_ocean_settings {
     overmap_ocean_settings() = default;
 };
 
+struct region_settings_ocean {
+    region_settings_ocean_id id = region_settings_ocean_id::NULL_ID();
+
+    double noise_threshold_ocean = 0.25;
+    int ocean_size_min = 100;
+    int ocean_depth = -9;
+    int ocean_start_north = 0;
+    int ocean_start_east = 10;
+    int ocean_start_west = 0;
+    int ocean_start_south = 0;
+    int sandy_beach_width = 2;
+
+    bool was_loaded = false;
+    void load( const JsonObject &jo, std::string_view );
+    void finalize();
+
+    static void load_region_settings_ocean( const JsonObject &jo, const std::string &src );
+    static void reset();
+    region_settings_ocean() = default;
+};
+
 struct overmap_ravine_settings {
     int num_ravines = 0;
     int ravine_range = 45;
@@ -237,6 +415,23 @@ struct overmap_ravine_settings {
 
     void finalize();
     overmap_ravine_settings() = default;
+};
+
+struct region_settings_ravine {
+    region_settings_ravine_id id = region_settings_ravine_id::NULL_ID();
+
+    int num_ravines = 0;
+    int ravine_range = 45;
+    int ravine_width = 1;
+    int ravine_depth = -3;
+
+    bool was_loaded = false;
+    void load( const JsonObject &jo, std::string_view );
+    void finalize();
+
+    static void load_region_settings_ravine( const JsonObject &jo, const std::string &src );
+    static void reset();
+    region_settings_ravine() = default;
 };
 
 struct overmap_connection_settings {
@@ -249,6 +444,19 @@ struct overmap_connection_settings {
 
     void finalize();
     overmap_connection_settings() = default;
+};
+
+struct region_settings_overmap_connection {
+    overmap_connection_id trail_connection;
+    overmap_connection_id sewer_connection;
+    overmap_connection_id subway_connection;
+    overmap_connection_id rail_connection;
+    overmap_connection_id intra_city_road_connection;
+    overmap_connection_id inter_city_road_connection;
+
+    bool was_loaded = false;
+    void deserialize( const JsonObject &jo );
+    region_settings_overmap_connection() = default;
 };
 
 struct overmap_highway_settings {
@@ -290,6 +498,60 @@ struct overmap_highway_settings {
     overmap_highway_settings() = default;
 };
 
+struct region_settings_highway {
+    region_settings_highway_id id = region_settings_highway_id::NULL_ID();
+
+    int grid_column_seperation = 10;
+    int grid_row_seperation = 8;
+    int width_of_segments = 2;
+    int intersection_max_radius = 3;
+    double straightness_chance = 0.6;
+    oter_type_str_id reserved_terrain_id;
+    oter_type_str_id reserved_terrain_water_id;
+    oter_type_str_id symbolic_ramp_up_id;
+    oter_type_str_id symbolic_ramp_down_id;
+    oter_type_str_id symbolic_overpass_road_id;
+    overmap_special_id segment_flat;
+    overmap_special_id segment_ramp;
+    overmap_special_id segment_road_bridge;
+    overmap_special_id segment_bridge;
+    overmap_special_id segment_bridge_supports;
+    overmap_special_id segment_overpass;
+    overmap_special_id clockwise_slant;
+    overmap_special_id counterclockwise_slant;
+    overmap_special_id fallback_onramp;
+    overmap_special_id fallback_bend;
+    overmap_special_id fallback_three_way_intersection;
+    overmap_special_id fallback_four_way_intersection;
+    oter_type_str_id fallback_supports;
+    building_bin four_way_intersections;
+    building_bin three_way_intersections;
+    building_bin bends;
+    building_bin interchanges;
+    building_bin road_connections;
+
+    int longest_slant_length = 0;
+    int longest_bend_length = 0;
+    int HIGHWAY_MAX_DEVIANCE = 0;
+
+    region_settings_highway &operator+=( const region_settings_highway &rhs ) {
+        four_way_intersections += rhs.four_way_intersections;
+        three_way_intersections += rhs.three_way_intersections;
+        bends += rhs.bends;
+        interchanges += rhs.interchanges;
+        road_connections += rhs.road_connections;
+        return *this;
+    }
+
+    bool was_loaded = false;
+    void load( const JsonObject &jo, std::string_view );
+    void finalize();
+
+    static void load_region_settings_highway( const JsonObject &jo, const std::string &src );
+    static void reset();
+    region_settings_highway() = default;
+};
+
 struct map_extras {
     unsigned int chance;
     weighted_int_list<map_extra_id> values;
@@ -310,6 +572,49 @@ struct region_terrain_and_furniture_settings {
     ter_id resolve( const ter_id & ) const;
     furn_id resolve( const furn_id & ) const;
     region_terrain_and_furniture_settings() = default;
+};
+
+/** Collection of `region_terrain_furniture` mappings */
+struct region_settings_terrain_furniture {
+    region_settings_terrain_furniture_id id = region_settings_terrain_furniture_id::NULL_ID();
+
+    std::set<region_terrain_furniture_id> ter_furn;
+
+    region_settings_terrain_furniture &operator+=( const region_settings_terrain_furniture &rhs );
+
+    ter_id resolve( const ter_id & ) const;
+    furn_id resolve( const furn_id & ) const;
+
+    void finalize();
+    bool was_loaded = false;
+    void load( const JsonObject &jo, std::string_view );
+    region_settings_terrain_furniture() = default;
+    static void load_region_settings_terrain_furniture( const JsonObject &jo, const std::string &src );
+    static void reset();
+};
+
+/**
+* Maps abstract region terrain/furniture (e.g. `t_region_groundcover`) to
+* actual region terrain/furniture (e.g. `t_grass`) with a weighted list
+*/
+struct region_terrain_furniture {
+    region_terrain_furniture_id id = region_terrain_furniture_id::NULL_ID();
+
+    ter_id replaced_ter_id;
+    furn_id replaced_furn_id;
+    weighted_int_list<ter_id> terrain;
+    weighted_int_list<furn_id> furniture;
+
+    region_terrain_furniture &operator+=( const region_terrain_furniture &rhs );
+
+    bool was_loaded = false;
+    void finalize();
+    void load( const JsonObject &jo, std::string_view );
+    ter_id resolve( const ter_id & ) const;
+    furn_id resolve( const furn_id & ) const;
+    region_terrain_furniture() = default;
+    static void load_region_terrain_furniture( const JsonObject &jo, const std::string &src );
+    static void reset();
 };
 
 /*

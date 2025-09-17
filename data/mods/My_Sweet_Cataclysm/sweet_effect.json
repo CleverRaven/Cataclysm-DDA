@@ -3,7 +3,7 @@
     "type": "effect_type",
     "id": "gummed",
     "name": [ "Gummed" ],
-    "desc": [ "You have some gum on you.", "You are covered in gum!", "You're trapped in gum!" ],
+    "desc": [ "You have some gum on you.", "You're covered in gum!", "You're trapped in gum!" ],
     "apply_message": "You're covered in gum!",
     "rating": "bad",
     "miss_messages": [ [ "The gum webs constrict your movement.", 4 ] ],

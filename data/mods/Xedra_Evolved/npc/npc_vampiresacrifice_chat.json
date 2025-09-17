@@ -95,8 +95,8 @@
     "id": "TALK_FRIEND_FOLLOWER_NOT_SACRIFICE",
     "dynamic_line": "You're a good friend.  I had better friends but I also had way worse.",
     "responses": [
-      { "text": "Thanks for telling me. Can we talk about something else?", "topic": "TALK_FRIEND" },
-      { "text": "Thanks for telling me. See you later.", "topic": "TALK_DONE" }
+      { "text": "Thanks for telling me.  Can we talk about something else?", "topic": "TALK_FRIEND" },
+      { "text": "Thanks for telling me.  See you later.", "topic": "TALK_DONE" }
     ]
   },
   {
