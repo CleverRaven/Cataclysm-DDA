@@ -323,7 +323,7 @@
     "type": "requirement",
     "//": "tools that can grip harder than just your bare hands.",
     "tools": [
-    [ [ "pliers", -1 ], [ "big_pliers", -1 ], [ "pliers_locking", -1 ], [ "multitool", -1 ], [ "camping_multitool", -1 ] ]
+      [ [ "pliers", -1 ], [ "big_pliers", -1 ], [ "pliers_locking", -1 ], [ "multitool", -1 ], [ "camping_multitool", -1 ] ]
     ]
   },
   {
