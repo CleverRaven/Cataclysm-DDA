@@ -346,25 +346,6 @@
     "components": [ [ [ "qt_wire", 1 ] ] ]
   },
   {
-  "id": "spring_standard",
-  "type": "requirement",
-  "//": "for winding medium to small springs.",
-  "qualities": [
-    { "id": "DRILL", "level": 2 }
-  ],
-  "tools": [
-    [ [ "corded_powerdrill", 5 ], [ "cordless_drill", 5 ], [ "fake_lathe", 5 ] ],
-    [
-      [ "stick", -1 ],
-      [ "small_lc_steel_bar_round", -1 ],
-      [ "small_mc_steel_bar_round", -1 ],
-      [ "small_hc_steel_bar_round", -1 ],
-      [ "small_aluminum_bar_round", -1 ]
-    ]
-    ],
-    "components": [ [ [ "qt_wire", 1 ] ] ]
-  },
-  {
     "id": "mining_standard",
     "type": "requirement",
     "//": "mining",
