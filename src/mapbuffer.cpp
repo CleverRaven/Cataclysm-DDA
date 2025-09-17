@@ -310,7 +310,7 @@ void mapbuffer::save_quad(
 
         jsout.start_object();
 
-        jsout.member( "version", savegame_version );
+        jsout.member( "version", game_info::game_version );
         jsout.member( "coordinates" );
 
         jsout.start_array();
