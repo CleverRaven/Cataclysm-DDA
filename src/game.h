@@ -914,7 +914,7 @@ class game
         // returns false if saving failed for whatever reason
         bool save_factions_missions_npcs();
         bool save_dimension_data();
-        void load_dimension_data();
+        bool load_dimension_data();
         void reset_npc_dispositions();
         void serialize_dimension_data( std::ostream &fout );
         void serialize_master( std::ostream &fout );
