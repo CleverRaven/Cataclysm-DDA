@@ -666,9 +666,10 @@ Can also be used as `pre_flags` for `construction`.
 - ```FRESH_WATER``` Source of fresh water.  Will spawn fresh water (once) on terrains with `SPAWN_WITH_LIQUID` flag.
 - ```GOES_DOWN``` Can use <kbd>></kbd> to go down a level.
 - ```GOES_UP``` Can use <kbd><</kbd> to go up a level.
-- ```GROWTH_HARVEST``` This plant is ready for harvest.
-- ```GROWTH_MATURE``` This plant is in a mature stage of a growth.
-- ```GROWTH_SEEDLING``` This plant is in its seedling stage of growth.
+- ```GROWTH_HARVEST``` This plant is ready for harvest. Generic json flag, not all plants may use this!
+- ```GROWTH_MATURE``` This plant is in a mature stage of a growth. Generic json flag, not all plants may use this!
+- ```GROWTH_SEEDLING``` This plant is in its seedling stage of growth. Generic json flag, not all plants may use this!
+- ```GROWTH_SEED``` This plant was just planted, not grown yet. Generic json flag, not all plants may use this!
 - ```HARVESTED``` Marks the harvested version of a terrain type (e.g. harvesting an apple tree turns it into a harvested tree, which later becomes an apple tree again).
 - ```HIDE_PLACE``` Creatures on this tile can't be seen by creatures not standing on adjacent tiles.
 - ```INDOORS``` Has a roof over it; blocks rain, sunlight, etc.
