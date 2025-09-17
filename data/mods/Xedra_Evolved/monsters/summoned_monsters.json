@@ -156,5 +156,12 @@
     "death_function": { "message": "The %s rots into nothingness in moments.", "corpse_type": "NO_CORPSE" },
     "flags": [ "HEARS", "GOODHEARING", "IMMOBILE", "NOHEAD", "HARDTOSHOOT", "GRABS", "PLASTIC" ],
     "armor": { "bash": 18, "stab": 10, "electric": 3, "bullet": 22 }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_solar_spirit_triffid_summon",
+    "copy-from": "mon_solar_spirit",
+    "looks_like": "mon_solar_spirit",
+    "default_faction": "triffid"
   }
 ]
