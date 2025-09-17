@@ -355,12 +355,7 @@
       [ "small_hc_steel_bar_round", -1 ],
       [ "small_aluminum_bar_round", -1 ]
     ],
-    [ [ "pliers_standard", 1, "LIST" ] ],
-    [ [ "cutting_wire_standard", 1, "LIST" ] ]
-  ],
-  "components": [
-    [ [ "qt_wire", 1 ] ]
-  ]
+    "components": [ [ [ "qt_wire", 1 ] ] ]
   },
   {
     "id": "mining_standard",
