@@ -1036,7 +1036,7 @@ std::optional<int> place_monster_iuse::use( Character *p, item &it, map *here,
         }
         // place_critter_at returns the same pointer as its parameter (or null)
         if( !g->place_critter_at( newmon_ptr, *pnt_ ) ) {
-            p->add_msg_if_player( m_info, _( "You cannot place a %s there." ), newmon.name() );
+            p->add_msg_if_player( m_info, _( "You can't place a %s there." ), newmon.name() );
             return std::nullopt;
         }
     }
@@ -3165,7 +3165,7 @@ bool repair_item_actor::can_repair_target( Character &pl, const item &fix, bool 
     //  our `fix` can be a different item.
     if( fix.is_null() ) {
         if( print_msg ) {
-            pl.add_msg_if_player( m_info, _( "You do not have that item!" ) );
+            pl.add_msg_if_player( m_info, _( "You don't have that item!" ) );
         }
         return false;
     }
@@ -3213,7 +3213,7 @@ bool repair_item_actor::can_repair_target( Character &pl, const item &fix, bool 
     }
 
     if( print_msg ) {
-        pl.add_msg_if_player( m_info, _( "You cannot improve your %s any more this way." ), fix.tname() );
+        pl.add_msg_if_player( m_info, _( "You can't improve your %s any more this way." ), fix.tname() );
     }
     return false;
 }
@@ -3474,7 +3474,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( Character &pl, item &
         return AS_RETRY;
     }
 
-    pl.add_msg_if_player( m_info, _( "You cannot improve your %s any more this way." ), fix->tname() );
+    pl.add_msg_if_player( m_info, _( "You can't improve your %s any more this way." ), fix->tname() );
     return AS_CANT;
 }
 
@@ -4023,7 +4023,7 @@ place_trap_actor::data::data() : trap( trap_str_id::NULL_ID() ) {}
 
 void place_trap_actor::data::load( const JsonObject &obj )
 {
-    optional( obj, false, "trap", trap );
+    optional( obj, false, "trap", trap, trap_str_id::NULL_ID() );
     optional( obj, false, "done_message", done_message );
     optional( obj, false, "practice", practice, 0 );
     optional( obj, false, "moves", moves, 100 );
@@ -4034,13 +4034,13 @@ void place_trap_actor::load( const JsonObject &obj, const std::string & )
     optional( obj, false, "allow_underwater", allow_underwater, false );
     optional( obj, false, "allow_under_player", allow_under_player, false );
     optional( obj, false, "needs_solid_neighbor", needs_solid_neighbor, false );
-    optional( obj, false, "needs_neighbor_terrain", needs_neighbor_terrain );
+    optional( obj, false, "needs_neighbor_terrain", needs_neighbor_terrain, ter_str_id::NULL_ID() );
     optional( obj, false, "bury_question", bury_question );
     if( !bury_question.empty() ) {
         optional( obj, false, "bury", buried_data );
     }
     unburied_data.load( obj );
-    optional( obj, false, "outer_layer_trap", outer_layer_trap );
+    optional( obj, false, "outer_layer_trap", outer_layer_trap, trap_str_id::NULL_ID() );
 }
 
 std::unique_ptr<iuse_actor> place_trap_actor::clone() const
@@ -5605,7 +5605,7 @@ std::optional<int> sew_advanced_actor::use( Character *p, item &it, map *here,
     item_location loc = game_menus::inv::titled_filter_menu(
                             filter, *p->as_avatar(), _( "Enhance which clothing?" ) );
     if( !loc ) {
-        p->add_msg_if_player( m_info, _( "You do not have that item!" ) );
+        p->add_msg_if_player( m_info, _( "You don't have that item!" ) );
         return std::nullopt;
     }
     item &mod = *loc;

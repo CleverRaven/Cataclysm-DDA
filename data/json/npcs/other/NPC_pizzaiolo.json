@@ -117,7 +117,7 @@
       "offer": "I'm so angry!  I have an enemy that ruined my life, and I want revenge for it!  I don't care about <the_cataclysm>, I just want to burn his <freaking> restaurant!  Will you help me?",
       "accepted": "Good.  Let's go to his restaurant and fucking burn it!  Oh, by the way, could you bring gasoline with you, <name_g>?  I was so angry I forgot to bring it with me…",
       "rejected": "What?!  Why do you… ah, forget it.",
-      "advice": "Maybe we can find some gasoline at gas station.",
+      "advice": "Maybe we can find some gasoline at a gas station.",
       "inquire": "Are you ready, <name_g>?",
       "success": "Sweet, sweet revenge!  It smells so nice!  His restaurant burns, his legacy is now ruined!  Even if he became a <zombie>, it still good.",
       "success_lie": "-",

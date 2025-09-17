@@ -4,6 +4,7 @@
 #include <cstddef>
 #include <map>
 #include <memory>
+#include <optional>
 #include <sstream>
 #include <string>
 #include <string_view>
@@ -24,6 +25,225 @@
 
 class mapgendata;
 
+static const weighted_string_id_reader<overmap_special_id, int> building_bin_reader( 1 );
+static const weighted_string_id_reader<furn_id, int> furn_reader( 1 );
+static const weighted_string_id_reader<ter_id, int> ter_reader( 1 );
+
+/** SETTING FACTORY */
+namespace
+{
+generic_factory<region_settings_river> region_settings_river_factory( "region_settings_river" );
+generic_factory<region_settings_lake> region_settings_lake_factory( "region_settings_lake" );
+generic_factory<region_settings_ocean> region_settings_ocean_factory( "region_settings_ocean" );
+generic_factory<region_settings_ravine> region_settings_ravine_factory( "region_settings_ravine" );
+generic_factory<region_settings_forest> region_settings_forest_factory( "region_settings_forest" );
+generic_factory<region_settings_highway>
+region_settings_highway_factory( "region_settings_highway" );
+generic_factory<region_settings_forest_trail>
+region_settings_forest_trail_factory( "region_settings_forest_trail" );
+generic_factory<region_settings_city> region_settings_city_factory( "region_settings_city" );
+generic_factory<region_settings_terrain_furniture>
+region_settings_terrain_furniture_factory( "region_settings_terrain_furniture" );
+generic_factory<region_terrain_furniture>
+region_terrain_furniture_factory( "region_terrain_furniture" );
+} // namespace
+
+/** OBJ */
+template<>
+const region_settings_river &string_id<region_settings_river>::obj() const
+{
+    return region_settings_river_factory.obj( *this );
+}
+template<>
+const region_settings_lake &string_id<region_settings_lake>::obj() const
+{
+    return region_settings_lake_factory.obj( *this );
+}
+template<>
+const region_settings_ocean &string_id<region_settings_ocean>::obj() const
+{
+    return region_settings_ocean_factory.obj( *this );
+}
+template<>
+const region_settings_ravine &string_id<region_settings_ravine>::obj() const
+{
+    return region_settings_ravine_factory.obj( *this );
+}
+template<>
+const region_settings_forest &string_id<region_settings_forest>::obj() const
+{
+    return region_settings_forest_factory.obj( *this );
+}
+template<>
+const region_settings_highway &string_id<region_settings_highway>::obj() const
+{
+    return region_settings_highway_factory.obj( *this );
+}
+template<>
+const region_settings_forest_trail &string_id<region_settings_forest_trail>::obj() const
+{
+    return region_settings_forest_trail_factory.obj( *this );
+}
+template<>
+const region_settings_city &string_id<region_settings_city>::obj() const
+{
+    return region_settings_city_factory.obj( *this );
+}
+template<>
+const region_settings_terrain_furniture &string_id<region_settings_terrain_furniture>::obj() const
+{
+    return region_settings_terrain_furniture_factory.obj( *this );
+}
+template<>
+const region_terrain_furniture &string_id<region_terrain_furniture>::obj() const
+{
+    return region_terrain_furniture_factory.obj( *this );
+}
+
+/** IS_VALID */
+template<>
+bool string_id<region_settings_river>::is_valid() const
+{
+    return region_settings_river_factory.is_valid( *this );
+}
+template<>
+bool string_id<region_settings_lake>::is_valid() const
+{
+    return region_settings_lake_factory.is_valid( *this );
+}
+template<>
+bool string_id<region_settings_ocean>::is_valid() const
+{
+    return region_settings_ocean_factory.is_valid( *this );
+}
+template<>
+bool string_id<region_settings_ravine>::is_valid() const
+{
+    return region_settings_ravine_factory.is_valid( *this );
+}
+template<>
+bool string_id<region_settings_forest>::is_valid() const
+{
+    return region_settings_forest_factory.is_valid( *this );
+}
+template<>
+bool string_id<region_settings_highway>::is_valid() const
+{
+    return region_settings_highway_factory.is_valid( *this );
+}
+template<>
+bool string_id<region_settings_forest_trail>::is_valid() const
+{
+    return region_settings_forest_trail_factory.is_valid( *this );
+}
+template<>
+bool string_id<region_settings_city>::is_valid() const
+{
+    return region_settings_city_factory.is_valid( *this );
+}
+template<>
+bool string_id<region_settings_terrain_furniture>::is_valid() const
+{
+    return region_settings_terrain_furniture_factory.is_valid( *this );
+}
+template<>
+bool string_id<region_terrain_furniture>::is_valid() const
+{
+    return region_terrain_furniture_factory.is_valid( *this );
+}
+/** INIT LOAD */
+void region_settings_river::load_region_settings_river( const JsonObject &jo,
+        const std::string &src )
+{
+    region_settings_river_factory.load( jo, src );
+}
+void region_settings_lake::load_region_settings_lake( const JsonObject &jo, const std::string &src )
+{
+    region_settings_lake_factory.load( jo, src );
+}
+void region_settings_ocean::load_region_settings_ocean( const JsonObject &jo,
+        const std::string &src )
+{
+    region_settings_ocean_factory.load( jo, src );
+}
+void region_settings_ravine::load_region_settings_ravine( const JsonObject &jo,
+        const std::string &src )
+{
+    region_settings_ravine_factory.load( jo, src );
+}
+void region_settings_forest::load_region_settings_forest( const JsonObject &jo,
+        const std::string &src )
+{
+    region_settings_forest_factory.load( jo, src );
+}
+void region_settings_highway::load_region_settings_highway( const JsonObject &jo,
+        const std::string &src )
+{
+    region_settings_highway_factory.load( jo, src );
+}
+void region_settings_forest_trail::load_region_settings_forest_trail( const JsonObject &jo,
+        const std::string &src )
+{
+    region_settings_forest_trail_factory.load( jo, src );
+}
+void region_settings_city::load_region_settings_city( const JsonObject &jo,
+        const std::string &src )
+{
+    region_settings_city_factory.load( jo, src );
+}
+void region_settings_terrain_furniture::load_region_settings_terrain_furniture(
+    const JsonObject &jo,
+    const std::string &src )
+{
+    region_settings_terrain_furniture_factory.load( jo, src );
+}
+void region_terrain_furniture::load_region_terrain_furniture( const JsonObject &jo,
+        const std::string &src )
+{
+    region_terrain_furniture_factory.load( jo, src );
+}
+
+/** UNLOAD (RESET) */
+void region_settings_river::reset()
+{
+    region_settings_river_factory.reset();
+}
+void region_settings_lake::reset()
+{
+    region_settings_lake_factory.reset();
+}
+void region_settings_ocean::reset()
+{
+    region_settings_ocean_factory.reset();
+}
+void region_settings_ravine::reset()
+{
+    region_settings_ravine_factory.reset();
+}
+void region_settings_forest::reset()
+{
+    region_settings_forest_factory.reset();
+}
+void region_settings_highway::reset()
+{
+    region_settings_highway_factory.reset();
+}
+void region_settings_forest_trail::reset()
+{
+    region_settings_forest_trail_factory.reset();
+}
+void region_settings_city::reset()
+{
+    region_settings_city_factory.reset();
+}
+void region_settings_terrain_furniture::reset()
+{
+    region_settings_terrain_furniture_factory.reset();
+}
+void region_terrain_furniture::reset()
+{
+    region_terrain_furniture_factory.reset();
+}
 
 template<typename T>
 void read_and_set_or_throw( const JsonObject &jo, const std::string &member, T &target,
@@ -246,6 +466,19 @@ static void load_forest_trail_settings( const JsonObject &jo,
     }
 }
 
+void region_settings_forest_trail::load( const JsonObject &jo, std::string_view )
+{
+    optional( jo, was_loaded, "chance", chance );
+    optional( jo, was_loaded, "border_point_chance", border_point_chance );
+    optional( jo, was_loaded, "minimum_forest_size", minimum_forest_size );
+    optional( jo, was_loaded, "random_point_min", random_point_min );
+    optional( jo, was_loaded, "random_point_max", random_point_max );
+    optional( jo, was_loaded, "random_point_size_scalar", random_point_size_scalar );
+    optional( jo, was_loaded, "trailhead_chance", trailhead_chance );
+    optional( jo, was_loaded, "trailhead_road_distance", trailhead_road_distance );
+    optional( jo, was_loaded, "trailheads", trailheads.buildings, building_bin_reader );
+}
+
 static void load_overmap_feature_flag_settings( const JsonObject &jo,
         overmap_feature_flag_settings &overmap_feature_flag_settings,
         const bool strict, const bool overlay )
@@ -291,6 +524,24 @@ static void load_overmap_feature_flag_settings( const JsonObject &jo,
     }
 }
 
+void region_settings_feature_flag::deserialize( const JsonObject &jo )
+{
+    optional( jo, was_loaded, "blacklist", blacklist );
+    optional( jo, was_loaded, "whitelist", whitelist );
+}
+
+region_settings_feature_flag &region_settings_feature_flag::operator+=
+( const region_settings_feature_flag &rhs )
+{
+    for( const std::string &bl_copy : rhs.blacklist ) {
+        blacklist.emplace( bl_copy );
+    }
+    for( const std::string &wl_copy : rhs.whitelist ) {
+        whitelist.emplace( wl_copy );
+    }
+    return *this;
+}
+
 static void load_overmap_forest_settings(
     const JsonObject &jo, overmap_forest_settings &overmap_forest_settings, const bool strict,
     const bool overlay )
@@ -316,6 +567,19 @@ static void load_overmap_forest_settings(
     }
 }
 
+void region_settings_forest::load( const JsonObject &jo, std::string_view )
+{
+    optional( jo, was_loaded, "noise_threshold_forest", noise_threshold_forest );
+    optional( jo, was_loaded, "noise_threshold_forest_thick", noise_threshold_forest_thick );
+    optional( jo, was_loaded, "noise_threshold_swamp_adjacent_water",
+              noise_threshold_swamp_adjacent_water );
+    optional( jo, was_loaded, "noise_threshold_swamp_isolated", noise_threshold_swamp_isolated );
+    optional( jo, was_loaded, "river_floodplain_buffer_distance_min",
+              river_floodplain_buffer_distance_min );
+    optional( jo, was_loaded, "river_floodplain_buffer_distance_max",
+              river_floodplain_buffer_distance_max );
+}
+
 static void load_overmap_ravine_settings(
     const JsonObject &jo, overmap_ravine_settings &overmap_ravine_settings, const bool strict,
     const bool overlay )
@@ -335,6 +599,15 @@ static void load_overmap_ravine_settings(
         read_and_set_or_throw<int>( overmap_ravine_settings_jo, "ravine_depth",
                                     overmap_ravine_settings.ravine_depth, !overlay );
     }
+}
+
+void region_settings_ravine::load( const JsonObject &jo, std::string_view )
+{
+    optional( jo, was_loaded, "num_ravines", num_ravines );
+    optional( jo, was_loaded, "ravine_width", ravine_width );
+    optional( jo, was_loaded, "ravine_range",
+              ravine_range );
+    optional( jo, was_loaded, "ravine_depth", ravine_depth );
 }
 
 static void load_overmap_connection_settings(
@@ -362,6 +635,16 @@ static void load_overmap_connection_settings(
                 "inter_city_road_connection",
                 overmap_connection_settings.inter_city_road_connection, !overlay );
     }
+}
+
+void region_settings_overmap_connection::deserialize( const JsonObject &jo )
+{
+    optional( jo, was_loaded, "trail_connection", trail_connection );
+    optional( jo, was_loaded, "sewer_connection", sewer_connection );
+    optional( jo, was_loaded, "subway_connection", subway_connection );
+    optional( jo, was_loaded, "rail_connection", rail_connection );
+    optional( jo, was_loaded, "intra_city_road_connection", intra_city_road_connection );
+    optional( jo, was_loaded, "inter_city_road_connection", inter_city_road_connection );
 }
 
 static void load_overmap_lake_settings( const JsonObject &jo,
@@ -411,6 +694,25 @@ static void load_overmap_lake_settings( const JsonObject &jo,
     }
 }
 
+void region_settings_lake::load( const JsonObject &jo, std::string_view )
+{
+    optional( jo, was_loaded, "noise_threshold_lake", noise_threshold_lake );
+    optional( jo, was_loaded, "lake_size_min", lake_size_min );
+    optional( jo, was_loaded, "lake_depth", lake_depth );
+    auto_flags_reader<oter_str_id> sid_reader;
+    optional( jo, was_loaded, "shore_extendable_overmap_terrain",
+              shore_extendable_overmap_terrain, sid_reader );
+    optional( jo, was_loaded, "shore_extendable_overmap_terrain_aliases",
+              shore_extendable_overmap_terrain_aliases );
+}
+
+void shore_extendable_overmap_terrain_alias::deserialize( const JsonObject &jo )
+{
+    optional( jo, false, "om_terrain", overmap_terrain );
+    optional( jo, false, "alias", alias );
+    optional( jo, false, "om_terrain_match_type", match_type );
+}
+
 static void load_overmap_river_settings( const JsonObject &jo,
         overmap_river_settings &overmap_river_settings,
         const bool strict, const bool overlay )
@@ -433,6 +735,16 @@ static void load_overmap_river_settings( const JsonObject &jo,
                                        overmap_river_settings.river_branch_scale_decrease, false );
     }
 }
+
+void region_settings_river::load( const JsonObject &jo, std::string_view )
+{
+    optional( jo, was_loaded, "river_scale", river_scale );
+    optional( jo, was_loaded, "river_frequency", river_frequency );
+    optional( jo, was_loaded, "river_branch_chance", river_branch_chance );
+    optional( jo, was_loaded, "river_branch_remerge_chance", river_branch_remerge_chance );
+    optional( jo, was_loaded, "river_branch_scale_decrease", river_branch_scale_decrease );
+}
+
 static void load_overmap_ocean_settings( const JsonObject &jo,
         overmap_ocean_settings &overmap_ocean_settings,
         const bool strict, const bool overlay )
@@ -460,6 +772,18 @@ static void load_overmap_ocean_settings( const JsonObject &jo,
         read_and_set_or_throw<int>( overmap_ocean_settings_jo, "sandy_beach_width",
                                     overmap_ocean_settings.sandy_beach_width, !overlay );
     }
+}
+
+void region_settings_ocean::load( const JsonObject &jo, std::string_view )
+{
+    optional( jo, was_loaded, "noise_threshold_ocean", noise_threshold_ocean );
+    optional( jo, was_loaded, "ocean_size_min", ocean_size_min );
+    optional( jo, was_loaded, "ocean_depth", ocean_depth );
+    optional( jo, was_loaded, "ocean_start_north", ocean_start_north );
+    optional( jo, was_loaded, "ocean_start_east", ocean_start_east );
+    optional( jo, was_loaded, "ocean_start_west", ocean_start_west );
+    optional( jo, was_loaded, "ocean_start_south", ocean_start_south );
+    optional( jo, was_loaded, "sandy_beach_width", sandy_beach_width );
 }
 
 static void load_overmap_highway_settings( const JsonObject &jo,
@@ -550,6 +874,41 @@ static void load_overmap_highway_settings( const JsonObject &jo,
     }
 }
 
+void region_settings_highway::load( const JsonObject &jo, std::string_view )
+{
+    optional( jo, was_loaded, "grid_column_seperation", grid_column_seperation );
+    optional( jo, was_loaded, "grid_row_seperation", grid_row_seperation );
+    optional( jo, was_loaded, "intersection_max_radius", intersection_max_radius );
+    optional( jo, was_loaded, "width_of_segments", width_of_segments );
+    optional( jo, was_loaded, "straightness_chance", straightness_chance );
+    optional( jo, was_loaded, "reserved_terrain_id", reserved_terrain_id );
+    optional( jo, was_loaded, "reserved_terrain_water_id", reserved_terrain_water_id );
+    optional( jo, was_loaded, "segment_flat_special", segment_flat );
+    optional( jo, was_loaded, "segment_ramp_special", segment_ramp );
+    optional( jo, was_loaded, "segment_road_bridge_special", segment_road_bridge );
+    optional( jo, was_loaded, "segment_bridge_special", segment_bridge );
+    optional( jo, was_loaded, "fallback_onramp_special", fallback_onramp );
+    optional( jo, was_loaded, "segment_bridge_supports_special", segment_bridge_supports );
+    optional( jo, was_loaded, "segment_overpass_special", segment_overpass );
+    optional( jo, was_loaded, "fallback_bend_special", fallback_bend );
+    optional( jo, was_loaded, "clockwise_slant_special", clockwise_slant );
+    optional( jo, was_loaded, "counterclockwise_slant_special", counterclockwise_slant );
+    optional( jo, was_loaded, "fallback_three_way_intersection_special",
+              fallback_three_way_intersection );
+    optional( jo, was_loaded, "fallback_four_way_intersection_special",
+              fallback_four_way_intersection );
+    optional( jo, was_loaded, "fallback_supports", fallback_supports );
+    optional( jo, was_loaded, "reserved_terrain_water_id", reserved_terrain_water_id );
+
+    optional( jo, was_loaded, "four_way_intersections", four_way_intersections.buildings,
+              building_bin_reader );
+    optional( jo, was_loaded, "three_way_intersections", three_way_intersections.buildings,
+              building_bin_reader );
+    optional( jo, was_loaded, "bends", bends.buildings, building_bin_reader );
+    optional( jo, was_loaded, "road_connections", road_connections.buildings, building_bin_reader );
+    optional( jo, was_loaded, "interchanges", interchanges.buildings, building_bin_reader );
+}
+
 static void load_region_terrain_and_furniture_settings( const JsonObject &jo,
         region_terrain_and_furniture_settings &region_terrain_and_furniture_settings,
         const bool strict, const bool overlay )
@@ -601,6 +960,76 @@ static void load_region_terrain_and_furniture_settings( const JsonObject &jo,
             }
         }
     }
+}
+
+void region_settings_terrain_furniture::load( const JsonObject &jo, std::string_view )
+{
+    optional( jo, was_loaded, "ter_furn", ter_furn, auto_flags_reader<region_terrain_furniture_id> {} );
+}
+
+region_settings_terrain_furniture &region_settings_terrain_furniture::operator+=
+( const region_settings_terrain_furniture &rhs )
+{
+    for( const region_terrain_furniture_id &rtf : rhs.ter_furn ) {
+        /**
+        * This is a copy of the templated apply_region_overlay
+        * it is necessary because terrain_furniture objects don't map with an overlay_id
+        */
+        furn_id f_overlay( rtf->replaced_furn_id );
+        ter_id t_overlay( rtf->replaced_ter_id );
+        bool valid_furniture = !f_overlay.id().is_null();
+        bool valid_terrain = !t_overlay.id().is_null();
+        auto predicate = [&valid_terrain, &valid_furniture, &f_overlay,
+                        &t_overlay]( const region_terrain_furniture_id & this_rtf ) {
+            if( valid_furniture ) {
+                return this_rtf->replaced_furn_id == f_overlay;
+            }
+            if( valid_terrain ) {
+                return this_rtf->replaced_ter_id == t_overlay;
+            }
+            return false;
+        };
+        auto find_collection = std::find_if( ter_furn.begin(), ter_furn.end(), predicate );
+        //found existing regional terrain/furniture, combine the objects
+        if( find_collection != ter_furn.end() ) {
+            const_cast<region_terrain_furniture &>( find_collection->obj() ) += *rtf;
+        } else {
+            debugmsg( "region_terrain_furniture replaced ter/furn_id %s/%s does not exist in DDA",
+                      t_overlay.id().str(), f_overlay.id().str() );
+        }
+    }
+    return *this;
+}
+
+void region_terrain_furniture::load( const JsonObject &jo, std::string_view )
+{
+    optional( jo, was_loaded, "ter_id", replaced_ter_id );
+    optional( jo, was_loaded, "furn_id", replaced_furn_id );
+    optional( jo, was_loaded, "replace_with_terrain", terrain, ter_reader );
+    optional( jo, was_loaded, "replace_with_furniture", furniture, furn_reader );
+}
+
+region_terrain_furniture &region_terrain_furniture::operator+=( const region_terrain_furniture
+        &rhs )
+{
+    for( const std::pair<ter_id, int> &pr : rhs.terrain ) {
+        terrain.try_add( pr );
+    }
+    for( const std::pair<furn_id, int> &pr : rhs.furniture ) {
+        furniture.try_add( pr );
+    }
+    return *this;
+}
+
+void region_settings_city::load( const JsonObject &jo, std::string_view )
+{
+    optional( jo, was_loaded, "shop_radius", shop_radius );
+    optional( jo, was_loaded, "shop_sigma", shop_sigma );
+    optional( jo, was_loaded, "park_radius", park_radius );
+    optional( jo, was_loaded, "park_sigma", park_sigma );
+    optional( jo, was_loaded, "houses", houses.buildings, building_bin_reader );
+    optional( jo, was_loaded, "shops", shops.buildings, building_bin_reader );
+    optional( jo, was_loaded, "parks", parks.buildings, building_bin_reader );
 }
 
 void load_region_settings( const JsonObject &jo )
@@ -1071,6 +1500,24 @@ void overmap_lake_settings::finalize()
     }
 }
 
+void region_settings_forest_trail::finalize()
+{
+    trailheads.finalize();
+}
+
+void region_settings_city::finalize()
+{
+    houses.finalize();
+    shops.finalize();
+    parks.finalize();
+}
+void region_settings_river::finalize() {}
+void region_settings_lake::finalize() {}
+void region_settings_ocean::finalize() {}
+void region_settings_forest::finalize() {}
+void region_settings_ravine::finalize() {}
+void region_settings_terrain_furniture::finalize() {}
+void region_terrain_furniture::finalize() {}
 void overmap_highway_settings::finalize()
 {
     //finds longest special in a building collection
@@ -1098,6 +1545,33 @@ void overmap_highway_settings::finalize()
                                          counterclockwise_slant->longest_side() );
         HIGHWAY_MAX_DEVIANCE = ( longest_bend_length + 1 ) * 2;
     }
+}
+
+void region_settings_highway::finalize()
+{
+    //finds longest special in a building collection
+    auto find_longest_special = []( const building_bin & b ) {
+        int longest_length = 0;
+        for( const auto &weighted_pair : b.get_all_buildings() ) {
+            const overmap_special_id &special = weighted_pair.first;
+            int spec_length = special.obj().longest_side();
+            if( spec_length > longest_length ) {
+                longest_length = spec_length;
+            }
+        }
+        return longest_length;
+    };
+
+    four_way_intersections.finalize();
+    three_way_intersections.finalize();
+    bends.finalize();
+    road_connections.finalize();
+    interchanges.finalize();
+
+    longest_bend_length = find_longest_special( bends );
+    longest_slant_length = std::max( clockwise_slant->longest_side(),
+                                     counterclockwise_slant->longest_side() );
+    HIGHWAY_MAX_DEVIANCE = ( longest_bend_length + 1 ) * 2;
 }
 
 map_extras map_extras::filtered_by( const mapgendata &dat ) const
@@ -1173,6 +1647,42 @@ furn_id region_terrain_and_furniture_settings::resolve( const furn_id &fid ) con
     while( region_list != furniture.end() ) {
         result = *region_list->second.pick();
         region_list = furniture.find( result );
+    }
+    return result;
+}
+
+ter_id region_settings_terrain_furniture::resolve( const ter_id &tid ) const
+{
+    if( tid.id().is_null() ) {
+        return tid;
+    }
+    ter_id result = tid;
+    auto predicate = [&result]( const region_terrain_furniture_id & tid_r ) {
+        return tid_r->replaced_ter_id == result;
+    };
+    auto found_tfid = std::find_if( ter_furn.begin(), ter_furn.end(), predicate );
+    while( found_tfid != ter_furn.end() ) {
+        const region_terrain_furniture_id &rtf_id = *found_tfid;
+        result = *rtf_id->terrain.pick();
+        found_tfid = std::find_if( ter_furn.begin(), ter_furn.end(), predicate );
+    }
+    return result;
+}
+
+furn_id region_settings_terrain_furniture::resolve( const furn_id &fid ) const
+{
+    if( fid.id().is_null() ) {
+        return fid;
+    }
+    furn_id result = fid;
+    auto predicate = [&result]( const region_terrain_furniture_id & fid_r ) {
+        return fid_r->replaced_furn_id == result;
+    };
+    auto found_tfid = std::find_if( ter_furn.begin(), ter_furn.end(), predicate );
+    while( found_tfid != ter_furn.end() ) {
+        const region_terrain_furniture_id &rtf_id = *found_tfid;
+        result = *rtf_id->furniture.pick();
+        found_tfid = std::find_if( ter_furn.begin(), ter_furn.end(), predicate );
     }
     return result;
 }

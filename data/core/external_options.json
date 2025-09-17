@@ -204,13 +204,6 @@
   },
   {
     "type": "EXTERNAL_OPTION",
-    "name": "STATS_THROUGH_KILLS",
-    "//": "Stats through Kills.  A mod that allows your stats to increase by killing zombies.",
-    "stype": "bool",
-    "value": false
-  },
-  {
-    "type": "EXTERNAL_OPTION",
     "name": "WEARY_BMR_MULT",
     "//": "What portion of BMR is used as the base for determining weariness threshold.",
     "stype": "float",

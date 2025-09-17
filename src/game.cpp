@@ -13741,7 +13741,7 @@ float game::slip_down_chance( climb_maneuver, climbing_aid_id aid_id,
     bool wet_feet = false;
     bool wet_hands = false;
 
-    for( const bodypart_id &bp : u.get_all_body_parts_of_type( body_part_type::type::foot,
+    for( const bodypart_id &bp : u.get_all_body_parts_of_type( bp_type::foot,
             get_body_part_flags::primary_type ) ) {
         if( u.get_part_wetness( bp ) > 0 && !climb_flying ) {
             add_msg_debug( debugmode::DF_GAME, "Foot %s %.1f wet", body_part_name( bp ),
@@ -13751,7 +13751,7 @@ float game::slip_down_chance( climb_maneuver, climbing_aid_id aid_id,
         }
     }
 
-    for( const bodypart_id &bp : u.get_all_body_parts_of_type( body_part_type::type::hand,
+    for( const bodypart_id &bp : u.get_all_body_parts_of_type( bp_type::hand,
             get_body_part_flags::primary_type ) ) {
         if( u.get_part_wetness( bp ) > 0 && !climb_flying ) {
             add_msg_debug( debugmode::DF_GAME, "Hand %s %.1f wet", body_part_name( bp ),

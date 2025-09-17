@@ -397,7 +397,7 @@ void suffer::while_grabbed( Character &you )
             g->cancel_activity_or_ignore_query( distraction_type::oxygen, _( "You're suffocating!" ) );
         }
         // your characters chest is being crushed and you are dying
-        you.apply_damage( nullptr, you.get_random_body_part_of_type( body_part_type::type::torso ), rng( 1,
+        you.apply_damage( nullptr, you.get_random_body_part_of_type( bp_type::torso ), rng( 1,
                           4 ) );
     } else if( you.oxygen <= 15 ) {
         you.add_msg_if_player( m_bad, _( "You can't breathe with all this weight!" ) );
