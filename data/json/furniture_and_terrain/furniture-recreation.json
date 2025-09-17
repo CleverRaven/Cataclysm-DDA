@@ -177,7 +177,8 @@
     "flags": [ "BLOCKSDOOR", "TRANSPARENT", "SMALL_HIDE" ],
     "deconstruct": {
       "items": [
-        { "item": "spring", "count": [ 4, 6 ] },
+        { "item": "spring_small", "count": [ 2, 4 ] },
+        { "item": "spring_medium", "count": [ 1, 2 ] },
         { "item": "plastic_chunk", "count": [ 3, 5 ] },
         { "item": "circuit", "count": 1 },
         { "item": "2x4", "count": 4 },
