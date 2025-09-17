@@ -1178,17 +1178,9 @@ struct islot_seed {
      */
     translation plant_name;
     /**
-     * What the plant sprouts into. Defaults to f_plant_seedling.
+     * What stages of growth does this plant have? What is the furniture associated with that stage of growth?
      */
-    furn_str_id seedling_form; // NOLINT(cata-serialize)
-    /**
-     * What the plant grows into. Defaults to f_plant_mature.
-     */
-    furn_str_id mature_form; // NOLINT(cata-serialize)
-    /**
-     * The plant's final growth stage. Defaults to f_plant_harvest.
-     */
-    furn_str_id harvestable_form; // NOLINT(cata-serialize)
+    std::map<flag_id, time_duration> growth_stages;
     /**
      * Type id of the fruit item.
      */

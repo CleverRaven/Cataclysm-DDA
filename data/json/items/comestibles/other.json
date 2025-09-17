@@ -504,7 +504,13 @@
     "fruit": "raw_beans",
     "seeds": false,
     "byproducts": [ "withered" ],
-    "grow": "91 days"
+    "growth_stages": [
+      { "GROWTH_SEED": "23 days" },
+      { "GROWTH_SEEDLING": "23 days" },
+      { "GROWTH_MATURE": "23 days" },
+      { "GROWTH_HARVEST": "22 days" },
+      { "GROWTH_OVERGROWN": "1 hour" }
+    ]
   },
   {
     "type": "ITEM",
@@ -612,7 +618,13 @@
     "fruit": "soybean",
     "seeds": false,
     "byproducts": [ "withered", "raw_edamame" ],
-    "grow": "91 days",
+    "growth_stages": [
+      { "GROWTH_SEED": "23 days" },
+      { "GROWTH_SEEDLING": "23 days" },
+      { "GROWTH_MATURE": "23 days" },
+      { "GROWTH_HARVEST": "22 days" },
+      { "GROWTH_OVERGROWN": "1 hour" }
+    ],
     "into": "paste_nut",
     "recipe": "paste_nut_mill_5_1"
   },
@@ -641,7 +653,13 @@
     "fruit": "soybean",
     "seeds": false,
     "byproducts": [ "withered", "raw_edamame" ],
-    "grow": "91 days",
+    "growth_stages": [
+      { "GROWTH_SEED": "23 days" },
+      { "GROWTH_SEEDLING": "23 days" },
+      { "GROWTH_MATURE": "23 days" },
+      { "GROWTH_HARVEST": "22 days" },
+      { "GROWTH_OVERGROWN": "1 hour" }
+    ],
     "into": "flour_wheat_free",
     "recipe": "flour_wheat_free_mill_1_1"
   },
