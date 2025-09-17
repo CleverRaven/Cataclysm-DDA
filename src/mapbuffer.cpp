@@ -19,7 +19,6 @@
 #include "debug.h"
 #include "filesystem.h"
 #include "flexbuffer_json.h"
-#include "game.h"
 #include "input.h"
 #include "json.h"
 #include "json_loader.h"
@@ -39,9 +38,6 @@
 #include "zzip.h"
 
 #define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
-
-// NOLINTNEXTLINE(cata-static-declarations)
-extern const int savegame_version;
 
 static std::string quad_file_name( const tripoint_abs_omt &om_addr )
 {
