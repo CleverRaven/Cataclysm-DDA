@@ -360,6 +360,7 @@
       [ "small_mc_steel_bar_round", -1 ],
       [ "small_hc_steel_bar_round", -1 ],
       [ "small_aluminum_bar_round", -1 ]
+    ]
     ],
     "components": [ [ [ "qt_wire", 1 ] ] ]
   },
