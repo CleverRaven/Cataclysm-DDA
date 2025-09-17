@@ -1586,6 +1586,13 @@ conditional_t::func f_tile_is_outside( const JsonObject &jo, std::string_view me
     };
 }
 
+conditional_t::func f_is_wall_adjacent( bool is_npc )
+{
+    return [is_npc]( const_dialogue const & d ) {
+        return d.const_actor( is_npc )->is_wall_adjacent();
+    };
+}
+
 conditional_t::func f_is_underwater( bool is_npc )
 {
     const map &here = get_map();
