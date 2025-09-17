@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <cstdio>
 #include <functional>
+#include <iterator>
 #include <memory>
 #include <optional>
 #include <string>
@@ -42,6 +43,7 @@
 #include "pimpl.h"
 #include "player_helpers.h"
 #include "point.h"
+#include "string_formatter.h"
 #include "type_id.h"
 #include "units.h"
 #include "weather.h"
@@ -1194,7 +1196,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
         "NPC Custom var is two.",
         "This is a u_var time test response for > 3_days.",
         "time_since_cataclysm > 3_days.",
-        "time_since_cataclysm in days > 3",
+        "time_since_cataclysm in days > 3", //NOTE: Extra conditional response inserted after this for next part of test, ctrl+f "insert" if reordering/removing this element!
         "Allies equals 1",
         "Cash equals 13",
         "Owed amount equals 14",
@@ -1236,14 +1238,22 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     gen_response_lines( d, expected_answers );
     for( int i = 0; i < expected_answers; i++ ) {
         // Offset by one here for human ease-of-use. Vectors count from 0, people don't.
-        CAPTURE( "Response # %d of %d", i + 1, expected_answers );
+        const std::string TEST_INFO = string_format( "Response # %d of %d", i + 1, expected_answers );
+        CAPTURE( TEST_INFO );
         CHECK( d.responses[ i ].text == expected_responses[i] );
     }
 
+    // This activates a new response, so we add it to the container and check again.
     calendar::turn = calendar::turn + time_duration( 4_days );
-    expected_answers++;
+    const std::string extra_test_response = "This is a time since u_var test response for > 3_days.";
+
+    const int extra_response_pos = std::distance( expected_responses.begin(),
+                                   std::find( expected_responses.begin(), expected_responses.end(),
+                                           "time_since_cataclysm in days > 3" ) ) + 1;
+    expected_responses.insert( expected_responses.begin() + extra_response_pos, extra_test_response );
+    expected_answers = expected_responses.size();
     gen_response_lines( d, expected_answers );
-    CHECK( d.responses[ 15 ].text == "This is a time since u_var test response for > 3_days." );
+    CHECK( d.responses[ extra_response_pos ].text == expected_responses[extra_response_pos] );
 
     // Teardown
     player_character.remove_value( "test_var_time_test_test" );
