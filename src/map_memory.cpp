@@ -379,7 +379,7 @@ shared_ptr_fast<mm_submap> map_memory::load_submap( const tripoint_abs_sm &sm_po
 
         if( world_generator->active_world->has_compression_enabled() ) {
             std::shared_ptr<zzip_stack> z = zzip_stack::load( mm_dir.get_unrelative_path(),
-                                            ( PATH_INFO::current_dimension_save_path() / "mmr.dict" ).get_unrelative_path() );
+                                            ( PATH_INFO::world_base_save_path() / "mmr.dict" ).get_unrelative_path() );
             if( !z ) {
                 return nullptr;
             }
@@ -494,7 +494,7 @@ bool map_memory::save( const tripoint_abs_ms &pos )
     std::shared_ptr<zzip_stack> z;
     if( world_generator->active_world->has_compression_enabled() ) {
         z = zzip_stack::load( dirname.get_unrelative_path(),
-                              ( PATH_INFO::current_dimension_save_path() / "mmr.dict" ).get_unrelative_path() );
+                              ( PATH_INFO::world_base_save_path() / "mmr.dict" ).get_unrelative_path() );
     }
     for( auto &it : regions ) {
         const tripoint &regp = it.first;

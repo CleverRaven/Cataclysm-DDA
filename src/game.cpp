@@ -12771,8 +12771,6 @@ bool game::travel_to_dimension( const std::string &new_prefix )
      right now they're all the same and it's hard to tell if it's working or not. */
     // weather.set_nextweather( calendar::turn );
     //}
-    // Ensure the new world has compression files
-    world_generator->active_world->assure_compression_files_present();
     // Clear the immediate game area around the player
     MAPBUFFER.clear();
     // hack to prevent crashes from temperature checks
