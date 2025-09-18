@@ -636,7 +636,7 @@
     "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str_sp": "scrap arm guards (pair)" },
-    "description": "Jagged metal scraps crudely strapped to lower arms. Gaps expose skin and swinging feels like lifting weights.",
+    "description": "Jagged metal scraps crudely strapped to lower arms.  Gaps expose skin and swinging feels like lifting weights.",
     "weight": "2500 g",
     "volume": "1800 ml",
     "price": "4 USD",

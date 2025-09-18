@@ -950,7 +950,7 @@
     "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "scrap cuirass", "str_pl": "scrap cuirasses" },
-    "description": "Jagged metal scraps crudely lashed to your torso with frayed cords. Gaps leave skin exposed and movement feels really awkward.",
+    "description": "Jagged metal scraps crudely lashed to your torso with frayed cords.  Gaps leave skin exposed and movement feels really awkward.",
     "weight": "6200 g",
     "volume": "5750 ml",
     "price": "4 USD",

@@ -1247,7 +1247,7 @@
     "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str_sp": "scrap leg guards (pair)" },
-    "description": "Jagged metal scraps crudely lashed to legs with frayed strings. Gaps leave skin exposed, and walking feels like dragging anvils, but they're better than nothing.",
+    "description": "Jagged metal scraps crudely lashed to legs with frayed strings.  Gaps leave skin exposed, and walking feels like dragging anvils, but they're better than nothing.",
     "weight": "3800 g",
     "volume": "3 L",
     "price": "4 USD",

@@ -1843,7 +1843,7 @@
     "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "scrap helmet" },
-    "description": "Loose metal scraps tied precariously to your head with frayed cords. Gaps leave critical areas exposed and the uneven weight causes constant neck strain.",
+    "description": "Loose metal scraps tied precariously to your head with frayed cords.  Gaps leave critical areas exposed and the uneven weight causes constant neck strain.",
     "weight": "2400 g",
     "volume": "1600 ml",
     "price": "4 USD",
