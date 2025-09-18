@@ -804,7 +804,7 @@
             { "not": { "u_has_worn_with_flag": "SUN_GLASSES" } }
           ]
         },
-        "then": { "u_add_effect": "blind", "duration": [ "15 seconds", "45 seconds" ] }
+        "then": { "u_add_effect": "blind", "duration": [ "5 seconds", "12 seconds" ] }
       },
       {
         "if": { "or": [ { "u_has_flag": "SUNDEATH" }, { "u_has_flag": "SUNBURN" } ] },
