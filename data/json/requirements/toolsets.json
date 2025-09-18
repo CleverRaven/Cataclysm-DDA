@@ -330,7 +330,7 @@
     "id": "spring_standard",
     "type": "requirement",
     "//": "for winding medium to small springs.",
-    "qualities": [ { "id": "DRILL", "level": 2 } ],
+    "qualities": [ { "id": "DRILL", "level": 2 }, { "id": "FILE", "level": 1 } ],
     "tools": [
       [ [ "corded_powerdrill", 5 ], [ "cordless_drill", 5 ], [ "fake_lathe", 5 ] ],
       [
