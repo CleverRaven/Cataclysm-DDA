@@ -420,6 +420,19 @@ void DynamicDataLoader::initialize()
          &region_settings_terrain_furniture::load_region_settings_terrain_furniture );
     add( "region_terrain_furniture",
          &region_terrain_furniture::load_region_terrain_furniture );
+    add( "region_settings_forest_mapgen",
+         &region_settings_forest_mapgen::load_region_settings_forest_mapgen );
+    add( "region_settings_map_extras",
+         &region_settings_map_extras::load_region_settings_map_extras );
+    add( "forest_biome_feature",
+         &forest_biome_feature::load_forest_biome_feature );
+    add( "forest_biome_mapgen",
+         &forest_biome_mapgen::load_forest_biome_mapgen );
+    add( "map_extra_collection",
+         &map_extra_collection::load_map_extra_collection );
+    add( "region_settings_new", &region_settings::load_region_settings );
+    add( "region_overlay_new", &region_overlay_new::load_region_overlay_new );
+
     add( "ITEM_BLACKLIST", []( const JsonObject & jo ) {
         item_controller->load_item_blacklist( jo );
     } );
@@ -702,6 +715,13 @@ void DynamicDataLoader::unload_data()
     region_settings_city::reset();
     region_settings_terrain_furniture::reset();
     region_terrain_furniture::reset();
+    region_settings_forest_mapgen::reset();
+    region_settings_map_extras::reset();
+    forest_biome_feature::reset();
+    forest_biome_mapgen::reset();
+    map_extra_collection::reset();
+    region_settings::reset();
+    region_overlay_new::reset();
     reset_monster_adjustment();
     recipe_dictionary::reset();
     recipe_group::reset();
@@ -860,6 +880,8 @@ void DynamicDataLoader::finalize_loaded_data()
             { _( "Proficiency Categories" ), &proficiency_category::finalize_all },
             { _( "Qualities" ), &quality::finalize_all },
             { _( "Recipe Groups" ), &recipe_group::finalize },
+            { _( "Region Settings" ), &region_settings::finalize_all },
+            { _( "Region Overlays" ), &region_overlay_new::finalize_all },
             { _( "Relic Procedural Generations" ), &relic_procgen_data::finalize_all },
             { _( "Speed Descriptions" ), &speed_description::finalize_all },
             { _( "Species" ), &species_type::finalize_all },
