@@ -22,6 +22,29 @@
           "spell_data": { "id": "summon_solar_spirit_triffid_monster", "min_level": 5 },
           "cooldown": 60,
           "monster_message": "%1$s's fronds extend toward the sky."
+        },
+        {
+          "id": "xe_greenseer_summon_vinebeast",
+          "type": "spell",
+          "spell_data": { "id": "summon_vinebeast_triffid_monster", "min_level": 5 },
+          "cooldown": 45,
+          "condition": { "and": [ "u_is_outside", "npc_is_outside", { "npc_is_on_terrain_with_flag": "GRAZABLE" } ] },
+          "monster_message": "%1$s's fronds make wavy motions."
+        },
+        {
+          "id": "xe_greenseer_destroy_summon",
+          "type": "spell",
+          "spell_data": { "id": "kill_summoned_creature_monster", "min_level": 8 },
+          "cooldown": 15,
+          "condition": {
+            "and": [
+              "u_is_outside",
+              "npc_is_outside",
+              { "npc_is_on_terrain_with_flag": "DIGGABLE" },
+              { "npc_has_species": "SUMMONED_CREATURE" }
+            ]
+          },
+          "monster_message": "%1$s's fronds leave trails of greenish light in the air."
         }
       ]
     }
