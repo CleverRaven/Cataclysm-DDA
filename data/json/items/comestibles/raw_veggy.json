@@ -757,7 +757,7 @@
     "quench": 18,
     "healthy": -1,
     "calories": 35,
-    "description": "A fluid bladder from a fungus-based lifeform.  Not very nutritious, but safe to eat.",
+    "description": "A fluid bladder from a fungus-based lifeform.  The membrane is tough and nearly indigestible.  It doesn't seem to contain anything deliberately toxic to you, but the alien biology and sharp, earthy, rotting scent suggests it still wouldn't be wise to ingest regardless of the fluid's purpose to its original owner.",
     "price": "0 cent",
     "price_postapoc": "10 cent",
     "material": [ "veggy" ],
