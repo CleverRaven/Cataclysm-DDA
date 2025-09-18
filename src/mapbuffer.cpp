@@ -19,6 +19,7 @@
 #include "debug.h"
 #include "filesystem.h"
 #include "flexbuffer_json.h"
+#include "game.h"
 #include "input.h"
 #include "json.h"
 #include "json_loader.h"
@@ -39,13 +40,6 @@
 
 #define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 
-class game;
-
-// NOLINTNEXTLINE(cata-static-declarations)
-extern std::unique_ptr<game> g;
-// NOLINTNEXTLINE(cata-static-declarations)
-extern const int savegame_version;
-
 static std::string quad_file_name( const tripoint_abs_omt &om_addr )
 {
     return string_format( "%d.%d.%d.map", om_addr.x(), om_addr.y(), om_addr.z() );
@@ -54,9 +48,10 @@ static std::string quad_file_name( const tripoint_abs_omt &om_addr )
 static cata_path find_dirname( const tripoint_abs_omt &om_addr )
 {
     const tripoint_abs_seg segment_addr = project_to<coords::seg>( om_addr );
-    return PATH_INFO::world_base_save_path() / "maps" / string_format( "%d.%d.%d",
-            segment_addr.x(),
-            segment_addr.y(), segment_addr.z() );
+    std::string segment = string_format( "%d.%d.%d",
+                                         segment_addr.x(),
+                                         segment_addr.y(), segment_addr.z() );
+    return PATH_INFO::current_dimension_save_path() / "maps" / segment;
 }
 
 mapbuffer MAPBUFFER;
@@ -181,8 +176,7 @@ bool mapbuffer::submap_exists_approx( const tripoint_abs_sm &p )
 
 void mapbuffer::save( bool delete_after_save )
 {
-    assure_dir_exist( PATH_INFO::world_base_save_path() / "maps" );
-
+    assure_dir_exist( PATH_INFO::current_dimension_save_path() / "maps" );
     int num_saved_submaps = 0;
     int num_total_submaps = submaps.size();
 
@@ -399,7 +393,6 @@ submap *mapbuffer::unserialize_submaps( const tripoint_abs_sm &p )
             return read_from_file_optional_json( quad_path, [this]( const JsonValue & jsin ) {
                 deserialize( jsin );
             } );
-
         }
     }();
 
