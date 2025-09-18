@@ -1306,27 +1306,9 @@ Check the location is in a city.
 
 #### Valid talkers:
 
-No talker is needed.
-
-#### Examples
-Will give a message if you're in the "default" dimension (most often the main dimension).
-```jsonc
-{ "if": { "u_in_dimension": "" },
-  "then": { "u_message": "You're in the default dimension." } }
-```
-Will give a message if you're in the dimension with the ID of "test".
-```jsonc
-{ "if": { "u_in_dimension": "test" },
-  "then": { "u_message": "You're in the test dimension." } }
-```
-
-### `u_in_dimension`
-- type: string or [variable object](#variable-object)
-- return true if the string matches the id of the currently occupied dimension.
-
-#### Valid talkers:
-
-No talker is needed.
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 
 #### Examples
 Will give a message if you're in the main dimension.
