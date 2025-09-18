@@ -1329,10 +1329,10 @@ Will give a message if you're in the dimension with the ID of "test".
 No talker is needed.
 
 #### Examples
-Will give a message if you're in the "default" dimension (most often the main dimension).
+Will give a message if you're in the main dimension.
 ```jsonc
 { "if": { "u_in_dimension": "" },
-  "then": { "u_message": "You're in the default dimension." } }
+  "then": { "u_message": "You're in the main dimension." } }
 ```
 Will give a message if you're in the dimension with the ID of "test".
 ```jsonc
