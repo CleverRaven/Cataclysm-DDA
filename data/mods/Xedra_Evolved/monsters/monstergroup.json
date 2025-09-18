@@ -498,6 +498,6 @@
     "type": "monstergroup",
     "id": "GROUP_TRIFFID_MAGES",
     "default": "mon_triffid",
-    "monsters": [ { "group": "mon_triffid_greenseer", "weight": 1 } ]
+    "monsters": [ { "monster": "mon_triffid_greenseer", "weight": 1 } ]
   }
 ]
