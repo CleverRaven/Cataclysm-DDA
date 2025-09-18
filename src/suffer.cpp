@@ -133,7 +133,8 @@ static const json_character_flag json_flag_RAD_DETECT( "RAD_DETECT" );
 static const json_character_flag json_flag_SUFFOCATION_IMMUNE( "SUFFOCATION_IMMUNE" );
 static const json_character_flag json_flag_SUNBURN( "SUNBURN" );
 static const json_character_flag json_flag_SUNBURN_SUPERNATURAL( "SUNBURN_SUPERNATURAL" );
-static const json_character_flag json_flag_SUNBURN_SUPERNATURAL_REDUCTION( "SUNBURN_SUPERNATURAL_REDUCTION" );
+static const json_character_flag
+json_flag_SUNBURN_SUPERNATURAL_REDUCTION( "SUNBURN_SUPERNATURAL_REDUCTION" );
 
 static const morale_type morale_feeling_bad( "morale_feeling_bad" );
 static const morale_type morale_feeling_good( "morale_feeling_good" );
@@ -818,7 +819,8 @@ void suffer::from_sunburn( Character &you, bool severe )
     }
 
     // If you have SUNBURN_SUPERNATURAL but some means of protection, you burn 75% slower
-    if( !one_turn_in( 4_seconds ) && you.has_flag( json_flag_SUNBURN_SUPERNATURAL ) && you.has_flag( json_flag_SUNBURN_SUPERNATURAL_REDUCTION ) ) {
+    if( !one_turn_in( 4_seconds ) && you.has_flag( json_flag_SUNBURN_SUPERNATURAL ) &&
+        you.has_flag( json_flag_SUNBURN_SUPERNATURAL_REDUCTION ) ) {
         return;
     }
 
@@ -885,7 +887,8 @@ void suffer::from_sunburn( Character &you, bool severe )
             }
             // If no UV-/glare-protection gear is worn the eyes should be treated as unprotected
             exposure = 1.0;
-        } else if( !you.has_flag( json_flag_SUNBURN_SUPERNATURAL ) && ( ( you.get_wielded_item() && you.get_wielded_item()->has_flag( flag_RAIN_PROTECT ) )
+        } else if( !you.has_flag( json_flag_SUNBURN_SUPERNATURAL ) && ( ( you.get_wielded_item() &&
+                   you.get_wielded_item()->has_flag( flag_RAIN_PROTECT ) )
                    || ( ( bp == body_part_hand_l || bp == body_part_hand_r )
                         && you.worn_with_flag( flag_POCKETS )
                         && you.can_use_pockets() )
