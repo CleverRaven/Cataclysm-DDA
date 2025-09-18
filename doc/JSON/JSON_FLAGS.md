@@ -445,7 +445,9 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```STOP_SLEEP_DEPRIVATION``` Stops Sleep Deprivation while awake and boosts it while sleeping.
 - ```STRICT_HUMANITARIAN``` You can eat foodstuffs tagged with `STRICT_HUMANITARIANISM` without morale penalties.
 - ```SUFFOCATION_IMMUNE``` You cannot suffocate by being crushed from multiple enemies.
-- ```SUNBURN``` TBD, probably related to `ALBINO`.
+- ```SUNBURN``` A worse version of ```ALBINO```, causing you to suffer even more severe damage.
+- ```SUNBURN_SUPERNATURAL``` The kind of sun damage that a vampire would suffer, leading to death in minutes.
+- ```SUNBURN_SUPERNATURAL_REDUCTION``` Reduces the damage taken by ```SUNBURN_SUPERNATURAL``` by 75%.
 - ```SUPER_CLAIRVOYANCE``` Gives a super clairvoyance effect (works with multiple z-levels), used for debug purposes.
 - ```SAFECRACK_NO_TOOL``` Allows to open safes without stethoscope.
 - ```SUPPRESS_INVISIBILITY``` Any invisibility effects on the creature, including the `PERMANENT_INVISIBILITY` flag, are ignored for the duration of the effect with this flag
@@ -1197,7 +1199,7 @@ Used to describe monster characteristics and set their properties and abilities.
 - ```PATH_AVOID_FALL``` This monster will path around cliffs instead of off of them.
 - ```PATH_AVOID_FIRE``` This monster will path around heat-related dangers instead of through them.
 - ```PAY_BOT``` Creature can be turned into a pet for a limited time in exchange of e-money.
-- ```PERMANENT_INVISIBILITY` The monster is invisible under all circumstances and requires preternatural means to detect.  Use with caution
+- ```PERMANENT_INVISIBILITY``` The monster is invisible under all circumstances and requires preternatural means to detect.  Use with caution
 - ```PET_HARNESSABLE``` Creature can be attached to a harness.
 - ```PET_MOUNTABLE``` Creature can be ridden or attached to a harness.
 - ```PET_WONT_FOLLOW``` This monster won't follow the player automatically when tamed.

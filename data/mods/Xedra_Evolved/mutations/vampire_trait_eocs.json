@@ -636,7 +636,7 @@
     "eoc_type": "EVENT",
     "required_event": "gains_mutation",
     "condition": { "compare_string": [ "ANATHEMA_WEAKNESS_SUN_BURN", { "context_val": "trait" } ] },
-    "effect": [ { "u_message": "You know with certainty that standing under the sun is now a lethal threat.", "type": "bad" } ]
+    "effect": [ { "u_message": "You know with certainty that standing under the sun will slay you in moments.", "type": "bad" } ]
   },
   {
     "type": "effect_on_condition",
@@ -2666,62 +2666,6 @@
         ],
         "type": "mutation",
         "true_eocs": [ "EOC_XE_VAMPIRE_BLOOD_RESEARCH_SUCCESS" ]
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_SUN_BURN_CHECK",
-    "//": "Until the day a single effect can damage all bodyparts at once, Slain by the Sun will need this EOC to work.",
-    "recurrence": 1,
-    "condition": {
-      "and": [
-        { "u_has_trait": "ANATHEMA_WEAKNESS_SUN_BURN" },
-        "is_day",
-        "u_is_outside",
-        { "not": { "is_weather": "blotted_sun" } },
-        { "not": { "u_has_effect": "effect_sun_burn_grace_period" } }
-      ]
-    },
-    "deactivate_condition": { "not": { "u_has_trait": "ANATHEMA_WEAKNESS_SUN_BURN" } },
-    "effect": [
-      { "u_add_effect": "effect_slain_by_the_sun", "duration": 100, "target_part": "arm_l" },
-      { "u_add_effect": "effect_slain_by_the_sun", "duration": 100, "target_part": "arm_r" },
-      { "u_add_effect": "effect_slain_by_the_sun", "duration": 100, "target_part": "leg_l" },
-      { "u_add_effect": "effect_slain_by_the_sun", "duration": 100, "target_part": "leg_r" },
-      { "u_add_effect": "effect_slain_by_the_sun", "duration": 100, "target_part": "torso" },
-      { "u_add_effect": "effect_slain_by_the_sun", "duration": 100, "target_part": "head" },
-      { "u_message": "You are under the sun!  You must find shelter from its rays or you will die!", "type": "bad" }
-    ],
-    "false_effect": [
-      {
-        "run_eocs": [
-          {
-            "id": "EOC_SUN_BURN_CHECK_REMOVE",
-            "condition": {
-              "or": [
-                { "math": [ "u_effect_intensity('effect_slain_by_the_sun', 'bodypart': 'arm_l') >= 1" ] },
-                { "math": [ "u_effect_intensity('effect_slain_by_the_sun', 'bodypart': 'arm_r') >= 1" ] },
-                { "math": [ "u_effect_intensity('effect_slain_by_the_sun', 'bodypart': 'leg_l') >= 1" ] },
-                { "math": [ "u_effect_intensity('effect_slain_by_the_sun', 'bodypart': 'leg_r') >= 1" ] },
-                { "math": [ "u_effect_intensity('effect_slain_by_the_sun', 'bodypart': 'torso') >= 1" ] },
-                { "math": [ "u_effect_intensity('effect_slain_by_the_sun', 'bodypart': 'head') >= 1" ] }
-              ]
-            },
-            "effect": [
-              { "u_lose_effect": "effect_slain_by_the_sun", "target_part": "arm_l" },
-              { "u_lose_effect": "effect_slain_by_the_sun", "target_part": "arm_r" },
-              { "u_lose_effect": "effect_slain_by_the_sun", "target_part": "leg_l" },
-              { "u_lose_effect": "effect_slain_by_the_sun", "target_part": "leg_r" },
-              { "u_lose_effect": "effect_slain_by_the_sun", "target_part": "torso" },
-              { "u_lose_effect": "effect_slain_by_the_sun", "target_part": "head" },
-              {
-                "u_message": "The sun's rays cannot reach you anymore.  You no longer feel like you're burning alive.",
-                "type": "good"
-              }
-            ]
-          }
-        ]
       }
     ]
   },

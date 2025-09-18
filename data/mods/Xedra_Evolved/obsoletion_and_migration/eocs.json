@@ -137,5 +137,10 @@
       { "u_lose_effect": "effect_changeling_wearing_iron" },
       { "u_lose_effect": "effect_changeling_wearing_steel" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SUN_BURN_CHECK",
+    "effect": [  ]
   }
 ]
