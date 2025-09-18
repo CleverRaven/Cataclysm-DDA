@@ -155,6 +155,7 @@
     "type": "SPELL",
     "name": { "str": "Summoned Dispel Monster", "//~": "NO_I18N" },
     "description": { "str": "Destroys a summoned monster, cast by monsters.", "//~": "NO_I18N" },
+    "message": "",
     "valid_targets": [ "hostile" ],
     "flags": [ "SILENT", "NO_PROJECTILE", "PERCENTAGE_DAMAGE", "NO_EXPLOSION_SFX" ],
     "effect": "attack",
