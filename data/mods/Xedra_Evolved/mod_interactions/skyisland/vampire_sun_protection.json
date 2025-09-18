@@ -1,0 +1,25 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONDITION_XE_VAMPIRE_AVOID_BURNING_IN_SUNLIGHT",
+    "condition": {
+      "and": [
+        { "not": { "is_weather": "blotted_sun" } },
+        {
+          "not": {
+            "and": [
+              { "u_has_worn_with_flag": "AURA" },
+              { "u_has_worn_with_flag": "SEMITANGIBLE" },
+              { "u_has_worn_with_flag": "ONLY_ONE" },
+              { "u_has_worn_with_flag": "NO_TAKEOFF" },
+              { "u_has_worn_with_flag": "RAIN_PROTECT" },
+              { "u_has_worn_with_flag": "SUN_GLASSES" },
+              { "u_has_worn_with_flag": "ALLOWS_NATURAL_ATTACKS" }
+            ]
+          }
+        }
+      ]
+    },
+    "effect": [  ]
+  }
+]
