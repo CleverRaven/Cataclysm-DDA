@@ -19,7 +19,7 @@
         {
           "id": "xe_greenseer_summon_solar_spirit",
           "type": "spell",
-          "spell_data": { "id": "summon_solar_spirit_triffid_monster", "min_level": 5 },
+          "spell_data": { "id": "summon_solar_spirit_triffid_monster", "min_level": 5, "hit_self": true },
           "cooldown": 60,
           "monster_message": "%1$s's fronds extend toward the sky."
         },
@@ -28,7 +28,7 @@
           "type": "spell",
           "spell_data": { "id": "summon_vinebeast_triffid_monster", "min_level": 5 },
           "cooldown": 45,
-          "condition": { "and": [ "u_is_outside", "npc_is_outside", { "npc_is_on_terrain_with_flag": "GRAZABLE" } ] },
+          "condition": { "and": [ "npc_is_outside", { "npc_is_on_terrain_with_flag": "GRAZABLE" } ] },
           "monster_message": "%1$s's fronds make wavy motions."
         },
         {
@@ -37,12 +37,7 @@
           "spell_data": { "id": "kill_summoned_creature_monster", "min_level": 8 },
           "cooldown": 15,
           "condition": {
-            "and": [
-              "u_is_outside",
-              "npc_is_outside",
-              { "npc_is_on_terrain_with_flag": "DIGGABLE" },
-              { "npc_has_species": "SUMMONED_CREATURE" }
-            ]
+            "and": [ "npc_is_outside", { "npc_is_on_terrain_with_flag": "DIGGABLE" }, { "npc_has_species": "SUMMONED_CREATURE" } ]
           },
           "monster_message": "%1$s's fronds leave trails of greenish light in the air."
         }

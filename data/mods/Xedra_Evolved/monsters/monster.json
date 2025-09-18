@@ -581,7 +581,7 @@
     "weight": "136 g",
     "hp": 40,
     "speed": 125,
-    "luminance": 6000,
+    "luminance": 1250,
     "material": [ "powder" ],
     "symbol": "o",
     "color": "yellow",
@@ -600,7 +600,7 @@
       {
         "id": "solar_spirit_solar_flare",
         "type": "spell",
-        "spell_data": { "id": "solar_spirit_flare_spell_monster", "min_level": 5 },
+        "spell_data": { "id": "solar_spirit_flare_spell_monster", "min_level": 5, "hit_self": true },
         "cooldown": 10,
         "monster_message": "%1$s emits a pulse of brilliant light!"
       }

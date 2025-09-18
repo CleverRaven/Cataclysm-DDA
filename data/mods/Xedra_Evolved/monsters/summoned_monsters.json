@@ -171,12 +171,14 @@
     "copy-from": "mon_solar_spirit",
     "looks_like": "mon_solar_spirit",
     "default_faction": "triffid",
+    "aggression": 15,
     "species": [ "NATURE_SPIRIT", "SUMMONED_CREATURE" ]
   },
   {
     "type": "MONSTER",
     "id": "mon_vinebeast_summon",
     "copy-from": "mon_vinebeast",
+    "death_function": { "message": "The %s rots into nothingness in moments.", "corpse_type": "NO_CORPSE" },
     "species": [ "PLANT", "SUMMONED_CREATURE" ]
   }
 ]

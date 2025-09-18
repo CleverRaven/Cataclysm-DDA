@@ -744,7 +744,7 @@
     "name": { "str": "Summon solar spirit", "//~": "NO_I18N" },
     "description": { "str": "Summons a solar spirit if you are a triffid.", "//~": "NO_I18N" },
     "flags": [ "HOSTILE_SUMMON", "RANDOM_DAMAGE", "NO_EXPLOSION_SFX" ],
-    "valid_targets": [ "ground", "self" ],
+    "valid_targets": [ "ground", "self", "hostile" ],
     "effect": "summon",
     "effect_str": "mon_solar_spirit_triffid_summon",
     "shape": "blast",
@@ -781,8 +781,8 @@
     "id": "solar_spirit_flare_spell_monster",
     "name": { "str": "Solar spirit flare", "//~": "NO_I18N" },
     "description": { "str": "Unleashes a flare if you are a solar spirit.", "//~": "NO_I18N" },
-    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "valid_targets": [ "ground", "self" ],
+    "flags": [ "SILENT" ],
+    "valid_targets": [ "ground", "hostile" ],
     "effect": "effect_on_condition",
     "effect_str": "EOC_SOLAR_SPIRIT_AOE_FLARE",
     "shape": "blast",
@@ -792,19 +792,43 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_SOLAR_SPIRIT_AOE_FLARE",
-    "condition": { "and": [ { "not": { "u_has_species": "PLANT" } } ] },
+    "condition": "has_alpha",
     "effect": [
-      { "if": { "not": { "u_has_effect": "blind" } }, "then": { "u_add_effect": "blind", "duration": "1 minutes" } },
+      {
+        "if": {
+          "and": [
+            { "not": { "u_has_species": "PLANT" } },
+            { "not": { "u_has_effect": "blind" } },
+            { "not": { "u_has_flag": "GLARE_RESIST" } },
+            { "not": { "u_has_worn_with_flag": "SUN_GLASSES" } }
+          ]
+        },
+        "then": { "u_add_effect": "blind", "duration": [ "15 seconds", "45 seconds" ] }
+      },
       {
         "if": { "or": [ { "u_has_flag": "SUNDEATH" }, { "u_has_flag": "SUNBURN" } ] },
-        "then": [
-          { "math": [ "u_val('morale') -= 200" ] },
-          {
-            "u_cast_spell": { "id": "changeling_summer_powerful_sunlight_spell_sundeath_self_damage", "hit_self": true }
-          },
-          { "message": "The <u_name> is seared by the brilliant light!", "type": "neutral" }
-        ]
+        "then": [ { "u_cast_spell": { "id": "solar_spirit_flare_spell_sundeath_hit_monster", "hit_self": true } } ]
       }
     ]
+  },
+  {
+    "id": "solar_spirit_flare_spell_sundeath_hit_monster",
+    "type": "SPELL",
+    "name": { "str": "Solar spirit flare Sundeath damage", "//~": "NO_I18N" },
+    "description": {
+      "str": "Used because auras are not currently possible.  Causes enemies with the SUNDEATH flag to burn.",
+      "//~": "NO_I18N"
+    },
+    "message": "",
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "NO_LEGS", "SPLIT_DAMAGE" ],
+    "valid_targets": [ "self" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "effect": "attack",
+    "damage_type": "pure",
+    "min_damage": 60,
+    "max_damage": 120
   }
 ]
