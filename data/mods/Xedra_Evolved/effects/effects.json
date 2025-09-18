@@ -3658,6 +3658,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_vampire_burn_to_death_in_sunlight",
+    "//": "Hidden effect, carries the flags so that vampires who blot out the sun with their powers don't burn in sunlight.",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "SUNBURN", "SUNBURN_SUPERNATURAL" ]
+  },
+  {
+    "type": "effect_type",
     "//": "Checks if you have every single vampiric power when trying to learn new ones.",
     "id": "effect_vampire_all_gift_check",
     "name": [ "" ],
@@ -3743,10 +3751,7 @@
     "miss_messages": [ [ "The sun is burning you.", 2 ] ],
     "rating": "bad",
     "main_parts_only": true,
-    "max_intensity": 100,
-    "resist_effects": [ "effect_vampire_vampiric_resilience_sun_protection" ]
-    "base_mods": { "pain_min": [ 2, 0 ], "pain_tick": [ 10, 20 ], "hurt_min": [ 1, 0 ], "hurt_max": [ 2, 0 ], "hurt_tick": [ 3, 6 ] },
-    "scaling_mods": { "pain_min": [ 0.2, 0.1 ], "pain_tick": [ -0.2, -0.1 ], "hurt_min": [ 0.2, 0.1 ], "hurt_max": [ 0.2, 0.1 ], "hurt_tick": [ -0.1, -0.05 ] },
+    "base_mods": { "pain_min": [ 2 ], "pain_tick": [ 10 ], "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_tick": [ 10 ] },
     "show_in_info": false
   },
   {

@@ -872,7 +872,7 @@ void suffer::from_sunburn( Character &you, bool severe )
         bodypart_id bp = bp_exp.first;
         float exposure = bp_exp.second;
 
-        if( you.has_flag( json_flag_SUNBURN_SUPERNATURAL ) {
+        if( you.has_flag( json_flag_SUNBURN_SUPERNATURAL ) ) {
             exposure = 1;
         }
 
