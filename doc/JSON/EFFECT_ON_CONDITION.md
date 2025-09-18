@@ -1300,6 +1300,26 @@ Check the location is in a city.
 },
 ```
 
+### `u_in_dimension`
+- type: string or [variable object](#variable-object)
+- return true if the string matches the id of the currently occupied dimension.
+
+#### Valid talkers:
+
+No talker is needed.
+
+#### Examples
+Will give a message if you're in the "default" dimension (most often the main dimension).
+```jsonc
+{ "if": { "u_in_dimension": "" },
+  "then": { "u_message": "You're in the default dimension." } }
+```
+Will give a message if you're in the dimension with the ID of "test".
+```jsonc
+{ "if": { "u_in_dimension": "test" },
+  "then": { "u_message": "You're in the test dimension." } }
+```
+
 Each time the avatar enters an OMT display a message as to whether or not they're in a city.
 ```jsonc
   {
@@ -4299,7 +4319,7 @@ You or NPC is teleported to `target_var` coordinates
 | "fail_message" | optional | string or [variable object](#variable-object) | message, that would be printed, if teleportation was failed, like if coordinates contained creature or impassable obstacle (like wall) | 
 | "force" | optional | boolean | default false; if true, teleportation can't fail - any creature, that stand on target coordinates, would be brutally telefragged, and if impassable obstacle occur, the closest point would be picked instead |
 | "force_safe" | optional | boolean | default false; if true, teleportation cannot^(tm) fail.  If there is a creature or obstacle at the target coordinate, the closest passable point within 5 horizontal tiles is picked instead.  If there is no point, the creature remains where they are.
-| "dimension_prefix" | optional | string | default ""; if a value is specified, will teleport the player to a dimension named after the prefix. Currently very WIP |
+| "dimension_prefix" | optional | string | default ""; if a value is specified, will teleport the player to a dimension named after the prefix. |
 
 ##### Valid talkers:
 
