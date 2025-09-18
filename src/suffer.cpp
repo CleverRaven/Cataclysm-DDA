@@ -819,7 +819,8 @@ void suffer::from_sunburn( Character &you, bool severe )
     }
 
     // If you have SUNBURN_SUPERNATURAL but some means of protection, you burn 75% slower
-    if( !one_turn_in( 4_seconds ) && you.has_flag( json_flag_SUNBURN_SUPERNATURAL ) && you.has_flag( json_flag_SUNBURN_SUPERNATURAL_REDUCTION ) ) {
+    if( !one_turn_in( 4_seconds ) && you.has_flag( json_flag_SUNBURN_SUPERNATURAL ) &&
+        you.has_flag( json_flag_SUNBURN_SUPERNATURAL_REDUCTION ) ) {
         return;
     }
 
