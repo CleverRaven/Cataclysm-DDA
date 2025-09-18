@@ -1300,7 +1300,7 @@ Check the location is in a city.
 },
 ```
 
-### `u_in_dimension`
+### `current_dimension`
 - type: string or [variable object](#variable-object)
 - return true if the string matches the id of the currently occupied dimension.
 
@@ -1313,13 +1313,13 @@ Check the location is in a city.
 #### Examples
 Will give a message if you're in the main dimension.
 ```jsonc
-{ "if": { "u_in_dimension": "" },
-  "then": { "u_message": "You're in the main dimension." } }
+{ "if": { "current_dimension": "" },
+  "then": { "u_message": "Currently loaded dimension is the main one." } }
 ```
 Will give a message if you're in the dimension with the ID of "test".
 ```jsonc
-{ "if": { "u_in_dimension": "test" },
-  "then": { "u_message": "You're in the test dimension." } }
+{ "if": { "current_dimension": "test" },
+  "then": { "u_message": "Currently loaded dimension is the one with ID of 'test'." } }
 ```
 
 ### `player_see_u`, `player_see_npc`
