@@ -2405,6 +2405,11 @@ void options_manager::add_options_graphics()
              8, 100, 16, COPT_CURSES_HIDE
            );
 
+        add( "GUI_FONT_SIZE", page_id, to_translation( "Gui font size" ),
+             to_translation( "Set the font size for the GUI.  Requires restart." ),
+             8, 100, 16, COPT_CURSES_HIDE
+           );
+
         add( "OVERMAP_FONT_WIDTH", page_id, to_translation( "Overmap font width" ),
              to_translation( "Set the overmap font width.  Requires restart." ),
              6, 100, 16, COPT_CURSES_HIDE
