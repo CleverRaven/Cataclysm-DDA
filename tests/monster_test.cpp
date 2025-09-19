@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <cmath>
+#include <cstdint>
 #include <filesystem>
 #include <fstream>
 #include <functional>
@@ -8,6 +9,7 @@
 #include <optional>
 #include <sstream>
 #include <string>
+#include <set>
 #include <utility>
 #include <vector>
 
@@ -21,12 +23,14 @@
 #include "creature_tracker.h"
 #include "game.h"
 #include "horde_entity.h"
+#include "item.h"
 #include "line.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "map_iterator.h"
 #include "map_scale_constants.h"
 #include "mapdata.h"
+#include "memory_fast.h"
 #include "monster.h"
 #include "monstergenerator.h"
 #include "mtype.h"
@@ -35,12 +39,12 @@
 #include "overmap_map_data_cache.h"
 #include "overmapbuffer.h"
 #include "point.h"
+#include "rng.h"
 #include "sounds.h"
 #include "submap.h"
 #include "test_statistics.h"
+#include "trap.h"
 #include "type_id.h"
-
-class item;
 
 using move_statistics = statistics<int>;
 

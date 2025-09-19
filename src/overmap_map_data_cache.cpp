@@ -1,9 +1,12 @@
 #include "overmap_map_data_cache.h"
 
 #include <array>
-#include <unordered_map>
+#include <bitset>
+#include <memory>
+#include <string>
 
 #include "cata_assert.h"
+#include "debug.h"
 #include "generic_factory.h"
 #include "string_id.h"
 

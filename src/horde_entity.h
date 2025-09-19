@@ -2,13 +2,13 @@
 #ifndef CATA_SRC_HORDE_ENTITY_H
 #define CATA_SRC_HORDE_ENTITY_H
 
+#include <memory>
+
 #include "calendar.h"
 #include "coordinates.h"
 #include "type_id.h"
+#include "monster.h"
 
-#include <memory>
-
-class monster;
 struct mtype;
 
 // This represents a single entity that moves around at overmap scale.
