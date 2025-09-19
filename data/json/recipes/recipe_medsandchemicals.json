@@ -2420,7 +2420,6 @@
     "result": "formic_acid",
     "id_suffix": "with_blood",
     "name": "%s with blood",
-    "charges": 40,
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "chemistry",
@@ -2453,7 +2452,6 @@
     "result": "formic_acid",
     "id_suffix": "with_blood_distill",
     "name": "distill %s with blood",
-    "charges": 40,
     "byproduct_group": [
       { "item": "water_clean", "container-item": "null", "charges": 1 },
       { "item": "chem_ethanol", "container-item": "null", "charges": [ 200, 250 ] }
