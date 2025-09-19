@@ -2205,8 +2205,8 @@
     "cancels": [ "ROBUST", "RESTRICTED", "RESISTANT_GENETICS" ],
     "valid": false,
     "vitamin_rates": [ [ "instability", -60 ] ],
-    "category": [ "CHIMERA" ],
-    "threshreq": [ "THRESH_CHIMERA" ]
+    "prereqs": [ "CHAOTIC" ],
+    "category": [ "CHIMERA" ]
   },
   {
     "type": "mutation",
