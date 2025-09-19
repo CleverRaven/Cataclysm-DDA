@@ -542,7 +542,7 @@
         "success_message": "This place feels different."
       },
       { "u_message": { "u_val": "destination_dimension" } },
-      { "if": { "u_in_dimension": "" }, "then": { "u_message": "home sweet home" } }
+      { "if": { "current_dimension": "" }, "then": { "u_message": "home sweet home" } }
     ]
   }
 ]
