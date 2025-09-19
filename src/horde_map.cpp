@@ -1,5 +1,8 @@
 #include "horde_map.h"
 
+#include <memory>
+#include <tuple>
+
 #include "monster.h"
 #include "mtype.h"
 

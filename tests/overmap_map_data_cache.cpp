@@ -1,8 +1,14 @@
+#include <bitset>
+#include <memory>
+#include <string>
+
 #include "cata_catch.h"
 #include "coordinates.h"
 #include "overmap.h"
 #include "overmap_map_data_cache.h"
+#include "point.h"
 #include "rng.h"
+#include "type_id.h"
 
 static const oter_str_id oter_road_nesw( "road_nesw" );
 static const oter_str_id oter_solid_earth( "solid_earth" );
