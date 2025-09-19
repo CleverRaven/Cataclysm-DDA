@@ -249,7 +249,7 @@
     "type": "mutation",
     "id": "SHADE_DEXTROUS_HANDS",
     "name": { "str": "Shade Dextrous Hands" },
-    "description": "Your hands are humanoid but appear to be made of swirling shadows.  You sport an extra digit on every finger that improves your ability to get into tight situations..",
+    "description": "Your hands are humanoid but appear to be made of swirling shadows.  You sport an extra digit on every finger that improves your ability to get into tight situations.",
     "//": "This is the first stage crafting hands mutation.",
     "types": [ "HANDS" ],
     "prereqs": [ "SHADE_HANDS" ],

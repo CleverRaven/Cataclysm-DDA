@@ -9735,7 +9735,12 @@
     "time": "1 s",
     "mana": true,
     "lumination": [ [ "torso", 8 ] ],
-    "transform": { "target": "DEBUG_MANA_FURNACE", "msg_transform": "You stop incinerate bugs with mana.", "active": false, "moves": 0 }
+    "transform": {
+      "target": "DEBUG_MANA_FURNACE",
+      "msg_transform": "You stop incinerating bugs with mana.",
+      "active": false,
+      "moves": 0
+    }
   },
   {
     "type": "mutation",

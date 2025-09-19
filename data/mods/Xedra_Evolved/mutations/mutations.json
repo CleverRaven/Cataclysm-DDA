@@ -1698,7 +1698,7 @@
     "id": "VAMPIRE_WEAKNESS_COLD_BLOODED",
     "name": { "str": "Vampiric weakness: cold as a corpse" },
     "points": -1,
-    "description": "You now lack amy body heat.  You feel colder at all times, and being cold will slow you down.",
+    "description": "You now lack any body heat.  You feel colder at all times, and being cold will slow you down.",
     "starting_trait": false,
     "valid": false,
     "purifiable": false,

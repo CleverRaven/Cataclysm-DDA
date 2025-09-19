@@ -137,7 +137,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_DHAMPIR_GAIN_NEW_WEAKNESS_MESSAGE",
-    "effect": [ { "u_message": "You use of your vampiric powers has caused you to gain a new frailty.", "type": "bad" } ]
+    "effect": [ { "u_message": "Your use of your vampiric powers has caused you to gain a new frailty.", "type": "bad" } ]
   },
   {
     "type": "effect_on_condition",
