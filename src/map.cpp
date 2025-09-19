@@ -8381,7 +8381,8 @@ void map::handle_decayed_corpse( const item &it, const tripoint_abs_ms &pnt )
         anything_left = roll > 0;
         for( int i = 0; i < roll; i++ ) {
             if( harvest.has_temperature() ) {
-                harvest.set_item_temperature( get_weather().get_temperature( project_to<coords::omt>( pnt ) ) );
+                harvest.set_item_temperature( get_weather().get_area_temperature( project_to<coords::omt>
+                                              ( pnt ) ) );
             }
             add_item_or_charges( get_bub( pnt ), harvest, false );
             if( anything_left && notify_player ) {
