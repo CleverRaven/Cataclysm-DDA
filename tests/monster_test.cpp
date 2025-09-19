@@ -655,6 +655,7 @@ TEST_CASE( "monsters_spawn_eggs", "[monster][reproduction]" )
 {
     clear_map();
     map &here = get_map();
+    g->place_player( { 66, 66, 0 } );
     tripoint_bub_ms loc = get_avatar().pos_bub() + tripoint::east;
     monster &test_monster = spawn_test_monster( "mon_dummy_reproducer_eggs", loc );
     bool test_monster_spawns_eggs = false;
@@ -677,6 +678,7 @@ TEST_CASE( "monsters_spawn_egg_itemgroups", "[monster][reproduction]" )
 {
     clear_map();
     map &here = get_map();
+    g->place_player( { 66, 66, 0 } );
     tripoint_bub_ms loc = get_avatar().pos_bub() + tripoint::east;
     monster &test_monster = spawn_test_monster( "mon_dummy_reproducer_egg_group", loc );
     bool test_monster_spawns_egg_group = false;
@@ -699,6 +701,7 @@ TEST_CASE( "monsters_spawn_babies", "[monster][reproduction]" )
 {
     clear_map();
     creature_tracker &creatures = get_creature_tracker();
+    g->place_player( { 66, 66, 0 } );
     tripoint_bub_ms loc = get_avatar().pos_bub() + tripoint::east;
     monster &test_monster = spawn_test_monster( "mon_dummy_reproducer_mon", loc );
     bool test_monster_spawns_babies = false;
@@ -722,6 +725,7 @@ TEST_CASE( "monsters_spawn_baby_groups", "[monster][reproduction]" )
 {
     clear_map();
     creature_tracker &creatures = get_creature_tracker();
+    g->place_player( { 66, 66, 0 } );
     tripoint_bub_ms loc = get_avatar().pos_bub() + tripoint::east;
     monster &test_monster = spawn_test_monster( "mon_dummy_reproducer_mon_group", loc );
     bool test_monster_spawns_baby_mongroup = false;
