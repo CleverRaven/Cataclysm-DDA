@@ -15,6 +15,7 @@
 #include "field.h"
 #include "game.h"
 #include "item.h"
+#include "mapbuffer.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_scale_constants.h"
@@ -278,6 +279,17 @@ void set_time( const time_point &time )
     here.update_visibility_cache( z );
     here.invalidate_map_cache( z );
     here.build_map_cache( z );
+}
+
+void clear_overmaps()
+{
+    // Just drop all generated overmaps.
+    overmap_buffer.clear();
+    // Also all generated submaps.
+    MAPBUFFER.clear();
+    // Just make a new map.
+    get_map() = map();
+    g->place_player_overmap( tripoint_abs_omt() );
 }
 
 bool map_meddler::has_altered_submaps( map &m )
