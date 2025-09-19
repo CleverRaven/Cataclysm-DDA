@@ -285,6 +285,11 @@ bool itype::is_basic_component() const
     return false;
 }
 
+const std::vector<std::pair<flag_id, time_duration>> &islot_seed::get_growth_stages() const
+{
+    return growth_stages;
+}
+
 int islot_armor::avg_env_resist() const
 {
     int acc = 0;
