@@ -711,7 +711,7 @@
         ]
       },
       {
-        "u_message": "You are burning in the sunlight! Your burn chance is 1 in <context_val:vampire_burning_chance>.",
+        "u_message": "You are burning in the sunlight!  Your burn chance is 1 in <context_val:vampire_burning_chance>.",
         "type": "debug"
       },
       { "run_eocs": "EOC_VAMPIRE_ANATHEMA_BURN_IN_SUNLIGHT_CONTINUAL", "time_in_future": 1 }
@@ -2284,11 +2284,22 @@
                 "rng(0.75,1.25) * (300 + (vampire_total_tier_one_traits_plus_potency() * 33) + (vampire_total_tier_two_traits() * 75) + (vampire_total_tier_three_traits() * 125) + (vampire_total_tier_four_traits_plus_potence() * 200) + (vampire_total_tier_five_traits_plus_cauldron() * 270))"
               ]
             },
+            {
+              "if": { "and": [ { "u_has_trait": "VAMPIRE_ANATHEMA" }, { "u_has_trait": "ANATHEMA_WEAKNESS_SUN_BURN" } ] },
+              "then": { "math": [ "sunless_time /= 100" ] }
+            },
             { "run_eocs": [ "EOC_BLOT_THE_SUN" ] },
             { "run_eocs": "EOC_UNBLOT_THE_SUN", "time_in_future": { "math": [ "sunless_time" ] } },
             {
-              "u_message": "Using your mastery over the Shadowed Path, you blot out the sun, covering the region around you in darkness for a short period of time.",
-              "type": "good"
+              "if": { "and": [ { "u_has_trait": "VAMPIRE_ANATHEMA" }, { "u_has_trait": "ANATHEMA_WEAKNESS_SUN_BURN" } ] },
+              "then": {
+                "u_message": "Using your mastery over the Shadowed Path, you blot out the sun, covering the region around you in darkness for a short period of time.  But you can already see the hateful sun burning through the shadows; you had better find shelter immediately.",
+                "type": "mixed"
+              },
+              "else": {
+                "u_message": "Using your mastery over the Shadowed Path, you blot out the sun, covering the region around you in darkness for a short period of time.",
+                "type": "good"
+              }
             }
           ]
         }
