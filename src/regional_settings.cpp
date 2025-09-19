@@ -46,6 +46,15 @@ generic_factory<region_settings_terrain_furniture>
 region_settings_terrain_furniture_factory( "region_settings_terrain_furniture" );
 generic_factory<region_terrain_furniture>
 region_terrain_furniture_factory( "region_terrain_furniture" );
+generic_factory<region_settings_forest_mapgen>
+region_settings_forest_mapgen_factory( "region_settings_forest_mapgen" );
+generic_factory<region_settings_map_extras>
+region_settings_map_extras_factory( "region_settings_map_extras" );
+generic_factory<forest_biome_feature> forest_biome_feature_factory( "forest_biome_feature" );
+generic_factory<forest_biome_mapgen> forest_biome_mapgen_factory( "forest_biome_mapgen" );
+generic_factory<map_extra_collection> map_extra_collection_factory( "map_extra_collection" );
+generic_factory<region_settings> region_settings_factory( "region_settings_new" );
+generic_factory<region_overlay_new> region_overlay_factory( "region_overlay_new" );
 } // namespace
 
 /** OBJ */
@@ -99,6 +108,41 @@ const region_terrain_furniture &string_id<region_terrain_furniture>::obj() const
 {
     return region_terrain_furniture_factory.obj( *this );
 }
+template<>
+const region_settings_forest_mapgen &string_id<region_settings_forest_mapgen>::obj() const
+{
+    return region_settings_forest_mapgen_factory.obj( *this );
+}
+template<>
+const region_settings_map_extras &string_id<region_settings_map_extras>::obj() const
+{
+    return region_settings_map_extras_factory.obj( *this );
+}
+template<>
+const forest_biome_feature &string_id<forest_biome_feature>::obj() const
+{
+    return forest_biome_feature_factory.obj( *this );
+}
+template<>
+const forest_biome_mapgen &string_id<forest_biome_mapgen>::obj() const
+{
+    return forest_biome_mapgen_factory.obj( *this );
+}
+template<>
+const region_settings &string_id<region_settings>::obj() const
+{
+    return region_settings_factory.obj( *this );
+}
+template<>
+const region_overlay_new &string_id<region_overlay_new>::obj() const
+{
+    return region_overlay_factory.obj( *this );
+}
+template<>
+const map_extra_collection &string_id<map_extra_collection>::obj() const
+{
+    return map_extra_collection_factory.obj( *this );
+}
 
 /** IS_VALID */
 template<>
@@ -151,6 +195,42 @@ bool string_id<region_terrain_furniture>::is_valid() const
 {
     return region_terrain_furniture_factory.is_valid( *this );
 }
+template<>
+bool string_id<region_settings_forest_mapgen>::is_valid() const
+{
+    return region_settings_forest_mapgen_factory.is_valid( *this );
+}
+template<>
+bool string_id<region_settings_map_extras>::is_valid() const
+{
+    return region_settings_map_extras_factory.is_valid( *this );
+}
+template<>
+bool string_id<forest_biome_feature>::is_valid() const
+{
+    return forest_biome_feature_factory.is_valid( *this );
+}
+template<>
+bool string_id<forest_biome_mapgen>::is_valid() const
+{
+    return forest_biome_mapgen_factory.is_valid( *this );
+}
+template<>
+bool string_id<map_extra_collection>::is_valid() const
+{
+    return map_extra_collection_factory.is_valid( *this );
+}
+template<>
+bool string_id<region_settings>::is_valid() const
+{
+    return region_settings_factory.is_valid( *this );
+}
+template<>
+bool string_id<region_overlay_new>::is_valid() const
+{
+    return region_overlay_factory.is_valid( *this );
+}
+
 /** INIT LOAD */
 void region_settings_river::load_region_settings_river( const JsonObject &jo,
         const std::string &src )
@@ -202,6 +282,41 @@ void region_terrain_furniture::load_region_terrain_furniture( const JsonObject &
 {
     region_terrain_furniture_factory.load( jo, src );
 }
+void region_settings_forest_mapgen::load_region_settings_forest_mapgen( const JsonObject &jo,
+        const std::string &src )
+{
+    region_settings_forest_mapgen_factory.load( jo, src );
+}
+void region_settings_map_extras::load_region_settings_map_extras( const JsonObject &jo,
+        const std::string &src )
+{
+    region_settings_map_extras_factory.load( jo, src );
+}
+void forest_biome_feature::load_forest_biome_feature( const JsonObject &jo,
+        const std::string &src )
+{
+    forest_biome_feature_factory.load( jo, src );
+}
+void forest_biome_mapgen::load_forest_biome_mapgen( const JsonObject &jo,
+        const std::string &src )
+{
+    forest_biome_mapgen_factory.load( jo, src );
+}
+void map_extra_collection::load_map_extra_collection( const JsonObject &jo,
+        const std::string &src )
+{
+    map_extra_collection_factory.load( jo, src );
+}
+void region_settings::load_region_settings( const JsonObject &jo,
+        const std::string &src )
+{
+    region_settings_factory.load( jo, src );
+}
+void region_overlay_new::load_region_overlay_new( const JsonObject &jo,
+        const std::string &src )
+{
+    region_overlay_factory.load( jo, src );
+}
 
 /** UNLOAD (RESET) */
 void region_settings_river::reset()
@@ -244,6 +359,34 @@ void region_terrain_furniture::reset()
 {
     region_terrain_furniture_factory.reset();
 }
+void region_settings_forest_mapgen::reset()
+{
+    region_settings_forest_mapgen_factory.reset();
+}
+void region_settings_map_extras::reset()
+{
+    region_settings_map_extras_factory.reset();
+}
+void forest_biome_feature::reset()
+{
+    forest_biome_feature_factory.reset();
+}
+void forest_biome_mapgen::reset()
+{
+    forest_biome_mapgen_factory.reset();
+}
+void map_extra_collection::reset()
+{
+    map_extra_collection_factory.reset();
+}
+void region_settings::reset()
+{
+    region_settings_factory.reset();
+}
+void region_overlay_new::reset()
+{
+    region_overlay_factory.reset();
+}
 
 template<typename T>
 void read_and_set_or_throw( const JsonObject &jo, const std::string &member, T &target,
@@ -284,6 +427,15 @@ static void load_forest_biome_component(
     }
 }
 
+void forest_biome_feature::load( const JsonObject &jo, std::string_view )
+{
+    optional( jo, was_loaded, "overlay_id", overlay_id );
+    weighted_string_id_reader<ter_furn_id, int> ter_furn_reader( 1 );
+    optional( jo, was_loaded, "chance", chance );
+    optional( jo, was_loaded, "sequence", sequence );
+    optional( jo, was_loaded, "types", types, ter_furn_reader );
+}
+
 static void load_forest_biome_terrain_dependent_furniture( const JsonObject &jo,
         forest_biome_terrain_dependent_furniture &forest_biome_terrain_dependent_furniture,
         const bool overlay )
@@ -309,6 +461,12 @@ static void load_forest_biome_terrain_dependent_furniture( const JsonObject &jo,
             forest_biome_terrain_dependent_furniture.unfinalized_furniture[member.name()] = member.get_int();
         }
     }
+}
+
+void forest_biome_terrain_dependent_furniture_new::deserialize( const JsonObject &jo )
+{
+    optional( jo, was_loaded, "chance", chance );
+    optional( jo, was_loaded, "furniture", furniture, furn_reader );
 }
 
 static void load_forest_biome( const JsonObject &jo, forest_biome &forest_biome,
@@ -377,6 +535,38 @@ static void load_forest_biome( const JsonObject &jo, forest_biome &forest_biome,
     }
 }
 
+void forest_biome_mapgen::load( const JsonObject &jo, std::string_view )
+{
+    optional( jo, was_loaded, "overlay_id", overlay_id );
+    optional( jo, was_loaded, "terrains", terrains );
+    optional( jo, was_loaded, "sparseness_adjacency_factor", sparseness_adjacency_factor );
+    optional( jo, was_loaded, "item_group", item_group );
+    optional( jo, was_loaded, "item_group_chance", item_group_chance );
+    optional( jo, was_loaded, "item_spawn_iterations", item_spawn_iterations );
+
+    optional( jo, was_loaded, "components", biome_components );
+    optional( jo, was_loaded, "groundcover", groundcover, ter_reader );
+    optional( jo, was_loaded, "terrain_furniture", terrain_dependent_furniture );
+}
+
+forest_biome_mapgen &forest_biome_mapgen::operator+=( const forest_biome_mapgen &rhs )
+{
+    for( const oter_type_str_id &ter_copy : rhs.terrains ) {
+        terrains.emplace( ter_copy );
+    }
+    for( const forest_biome_feature_id &fbf : rhs.biome_components ) {
+        apply_region_overlay<forest_biome_feature>( biome_components, fbf );
+    }
+    for( const std::pair<ter_id, int> &pr : rhs.groundcover ) {
+        groundcover.try_add( pr );
+    }
+    for( const std::pair<const int_id<ter_t>, forest_biome_terrain_dependent_furniture_new> &tdf_pr :
+         rhs.terrain_dependent_furniture ) {
+        terrain_dependent_furniture.emplace( tdf_pr.first, tdf_pr.second );
+    }
+    return *this;
+}
+
 static void load_forest_mapgen_settings( const JsonObject &jo,
         forest_mapgen_settings &forest_mapgen_settings,
         const bool strict,
@@ -422,6 +612,11 @@ static void load_forest_mapgen_settings( const JsonObject &jo,
             }
         }
     }
+}
+
+void region_settings_forest_mapgen::load( const JsonObject &jo, std::string_view )
+{
+    optional( jo, was_loaded, "biomes", biomes, auto_flags_reader<forest_biome_mapgen_id> {} );
 }
 
 static void load_forest_trail_settings( const JsonObject &jo,
@@ -1032,6 +1227,30 @@ void region_settings_city::load( const JsonObject &jo, std::string_view )
     optional( jo, was_loaded, "parks", parks.buildings, building_bin_reader );
 }
 
+void region_settings_map_extras::load( const JsonObject &jo, std::string_view )
+{
+    optional( jo, was_loaded, "extras", extras, auto_flags_reader<map_extra_collection_id> {} );
+}
+
+std::set<map_extra_id> region_settings_map_extras::get_all_map_extras() const
+{
+    std::set<map_extra_id> all_mx;
+    for( const map_extra_collection_id &region_extra : extras ) {
+        for( const std::pair<map_extra_id, int> &mx_entry : ( *region_extra ).values ) {
+            all_mx.emplace( mx_entry.first );
+        }
+    }
+    return all_mx;
+}
+
+void map_extra_collection::load( const JsonObject &jo, std::string_view )
+{
+    optional( jo, was_loaded, "chance", chance );
+    optional( jo, was_loaded, "overlay_id", overlay_id );
+    weighted_string_id_reader<map_extra_id, int> extras_reader( 1 );
+    optional( jo, was_loaded, "extras", values, extras_reader );
+}
+
 void load_region_settings( const JsonObject &jo )
 {
     regional_settings new_region;
@@ -1157,6 +1376,104 @@ void load_region_settings( const JsonObject &jo )
     region_settings_map[new_region.id] = new_region;
 }
 
+void region_settings::load( const JsonObject &jo, std::string_view )
+{
+    optional( jo, was_loaded, "tags", tags, auto_flags_reader{} );
+    optional( jo, was_loaded, "default_oter", default_oter );
+
+    optional( jo, was_loaded, "default_groundcover", default_groundcover, ter_reader );
+    optional( jo, was_loaded, "forest_composition", forest_composition );
+    optional( jo, was_loaded, "forest_trails", forest_trail );
+
+    optional( jo, was_loaded, "map_extras", region_extras );
+    optional( jo, was_loaded, "cities", city_spec );
+    optional( jo, was_loaded, "weather", weather );
+    optional( jo, was_loaded, "feature_flag_settings", overmap_feature_flag );
+    optional( jo, was_loaded, "forests", overmap_forest );
+    optional( jo, was_loaded, "rivers", overmap_river );
+    optional( jo, was_loaded, "lakes", overmap_lake );
+    optional( jo, was_loaded, "ocean", overmap_ocean );
+    optional( jo, was_loaded, "highways", overmap_highway );
+    optional( jo, was_loaded, "ravines", overmap_ravine );
+    optional( jo, was_loaded, "connections", overmap_connection );
+    optional( jo, was_loaded, "terrain_furniture", region_terrain_and_furniture );
+}
+
+void region_settings::finalize()
+{
+    // So the data definition goes from z = OVERMAP_HEIGHT to z = OVERMAP_DEPTH
+    std::reverse( default_oter.begin(), default_oter.end() );
+}
+
+void region_settings::finalize_all()
+{
+    forest_biome_feature_factory.finalize();
+
+    forest_biome_mapgen_factory.finalize();
+    region_terrain_furniture_factory.finalize();
+    map_extra_collection_factory.finalize();
+
+    region_settings_river_factory.finalize();
+    region_settings_lake_factory.finalize();
+    region_settings_ocean_factory.finalize();
+    region_settings_ravine_factory.finalize();
+    region_settings_forest_factory.finalize();
+    region_settings_highway_factory.finalize();
+    region_settings_forest_trail_factory.finalize();
+    region_settings_forest_mapgen_factory.finalize();
+    region_settings_city_factory.finalize();
+    region_settings_map_extras_factory.finalize();
+    region_settings_terrain_furniture_factory.finalize();
+
+    region_settings_factory.finalize();
+
+    if( !DEFAULT_REGION.is_valid() ) {
+        debugmsg( "id: `default` region settings were not loaded or failed to load" );
+    }
+}
+
+region_settings &region_settings::operator+=( const region_settings &rhs )
+{
+    if( rhs.city_spec.is_valid() ) {
+        const_cast<region_settings_city &>( *city_spec ) += *rhs.city_spec;
+    }
+    if( rhs.overmap_highway.is_valid() ) {
+        const_cast<region_settings_highway &>( *overmap_highway ) += *rhs.overmap_highway;
+    }
+    if( rhs.forest_trail.is_valid() ) {
+        const_cast<region_settings_forest_trail &>( *forest_trail ) += *rhs.forest_trail;
+    }
+    if( rhs.region_extras.is_valid() ) {
+        const_cast<region_settings_map_extras &>( *region_extras ) += *rhs.region_extras;
+    }
+    if( rhs.region_terrain_and_furniture.is_valid() ) {
+        const_cast<region_settings_terrain_furniture &>( *region_terrain_and_furniture ) +=
+            *rhs.region_terrain_and_furniture;
+    }
+    if( rhs.forest_composition.is_valid() ) {
+        const_cast<region_settings_forest_mapgen &>( *forest_composition ) += *rhs.forest_composition;
+    }
+    return *this;
+}
+
+void region_overlay_new::finalize()
+{
+    for( region_settings &region : region_settings_factory.get_all_mod() ) {
+        for( const std::string &tag : apply_to_tags ) {
+            if( apply_to_tags.count( "all" ) > 0 ||
+                std::find( region.tags.begin(), region.tags.end(), tag ) != region.tags.end() ) {
+                region += overlay;
+                break;
+            }
+        }
+    }
+}
+
+void region_overlay_new::finalize_all()
+{
+    region_overlay_factory.finalize();
+}
+
 void check_region_settings()
 {
     for( const std::pair<const std::string, regional_settings> &p : region_settings_map ) {
@@ -1193,6 +1510,12 @@ void check_region_settings()
 void reset_region_settings()
 {
     region_settings_map.clear();
+}
+
+void region_overlay_new::load( const JsonObject &jo, std::string_view )
+{
+    overlay.load( jo, std::string_view() );
+    optional( jo, false, "apply_to_tags", apply_to_tags );
 }
 
 /*
@@ -1437,6 +1760,27 @@ ter_furn_id forest_biome::pick() const
     return *result;
 }
 
+ter_furn_id forest_biome_mapgen::pick() const
+{
+    // Iterate through the biome components (which have already been put into sequence), roll for the
+    // one_in chance that component contributes a feature, and if so pick that feature and return it.
+    // If a given component does not roll as success, proceed to the next feature in sequence until
+    // a feature is picked or none are picked, in which case an empty feature is returned.
+    const ter_furn_id *result = nullptr;
+    for( const forest_biome_feature_id &pr : biome_components ) {
+        if( one_in( pr->chance ) ) {
+            result = pr->types.pick();
+            break;
+        }
+    }
+
+    if( result == nullptr ) {
+        return ter_furn_id();
+    }
+
+    return *result;
+}
+
 void forest_biome::finalize()
 {
     for( auto &pr : unfinalized_biome_components ) {
@@ -1464,12 +1808,28 @@ void forest_biome::finalize()
     }
 }
 
+void forest_biome_mapgen::finalize()
+{
+    for( auto &pr : terrain_dependent_furniture ) {
+        pr.second.finalize();
+    }
+}
+
 void forest_mapgen_settings::finalize()
 {
     for( auto &pr : unfinalized_biomes ) {
         pr.second.finalize();
         const oter_type_id ot( pr.first );
         biomes[ot] = pr.second;
+    }
+}
+
+void region_settings_forest_mapgen::finalize()
+{
+    for( const forest_biome_mapgen_id &biome_id : biomes ) {
+        for( const oter_type_id ott_id : biome_id->terrains ) {
+            oter_to_biomes[ott_id] = biome_id;
+        }
     }
 }
 
@@ -1511,6 +1871,10 @@ void region_settings_city::finalize()
     shops.finalize();
     parks.finalize();
 }
+
+//these could be defined in the future
+void forest_biome_feature::finalize() {}
+void forest_biome_terrain_dependent_furniture_new::finalize() {}
 void region_settings_river::finalize() {}
 void region_settings_lake::finalize() {}
 void region_settings_ocean::finalize() {}
@@ -1577,6 +1941,22 @@ void region_settings_highway::finalize()
 map_extras map_extras::filtered_by( const mapgendata &dat ) const
 {
     map_extras result( chance );
+    for( const std::pair<map_extra_id, int> &obj : values ) {
+        const map_extra_id &extra_id = obj.first;
+        if( extra_id->is_valid_for( dat ) ) {
+            result.values.add( extra_id, obj.second );
+        }
+    }
+    if( !values.empty() && result.values.empty() ) {
+        // OMT is too tall / too deep for all map extras. Skip map extra generation.
+        result.chance = 0;
+    }
+    return result;
+}
+
+map_extra_collection map_extra_collection::filtered_by( const mapgendata &dat ) const
+{
+    map_extra_collection result( chance );
     for( const std::pair<map_extra_id, int> &obj : values ) {
         const map_extra_id &extra_id = obj.first;
         if( extra_id->is_valid_for( dat ) ) {
