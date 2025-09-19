@@ -1,0 +1,112 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": [ "innawood_ore_vein_surface_indicator" ],
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "        ........        ",
+        "       ..........       ",
+        "      ....|||....       ",
+        "     ....|||||.....     ",
+        "    ....||RRR||....     ",
+        "    ...||RRRR|||...     ",
+        "    ...|||RRRR||...     ",
+        "    ....||RRR||....     ",
+        "     ...||||||....      ",
+        "      ....|||....       ",
+        "       .........        ",
+        "        .......         ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "innawood_ore_vein" ],
+      "terrain": {
+        " ": [ [ "t_grass", 10 ], [ "t_dirt", 1 ] ],
+        "|": [ [ "t_dirt", 10 ], [ "t_rock_floor", 1 ] ],
+        "R": "t_rock_floor",
+        ".": [ [ "t_grass", 3 ], [ "t_dirt", 10 ] ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "innawood_ore_vein_subsurface" ],
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "        ........        ",
+        "       ..........       ",
+        "      ....|||....       ",
+        "     ....|||||.....     ",
+        "    ....||RRR||....     ",
+        "    ...||RRRR|||...     ",
+        "    ...|||RRRR||...     ",
+        "    ....||RRR||....     ",
+        "     ...||||||....      ",
+        "      ....|||....       ",
+        "       .........        ",
+        "        .......         ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "innawood_ore_vein" ],
+      "terrain": { " ": "t_soil", "|": "t_rock", "R": "t_rock", ".": "t_rock" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [
+      [ "innawood_ore_vein_surface_left_side" ],
+      [ "innawood_ore_vein_surface_center" ],
+      [ "innawood_ore_vein_surface_right_side" ]
+    ],
+    "object": {
+      "rows": [
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        "
+      ],
+      "palettes": [ "innawood_ore_vein" ]
+    }
+  }
+]

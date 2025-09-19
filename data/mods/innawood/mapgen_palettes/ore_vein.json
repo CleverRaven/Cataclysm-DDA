@@ -1,0 +1,20 @@
+[
+  {
+    "type": "palette",
+    "id": "innawood_ore_vein",
+    "parameters": {
+      "ore_type": {
+        "type": "palette_id",
+        "default": {
+          "distribution": [
+            [ "innawood_ore_vein_copper", 5 ],
+            [ "innawood_ore_vein_tin", 1 ],
+            [ "innawood_ore_vein_iron_ore", 15 ],
+            [ "innawood_ore_vein_iron_hematite", 15 ]
+          ]
+        }
+      }
+    },
+    "palettes": [ { "param": "ore_type" } ]
+  }
+]
