@@ -112,6 +112,23 @@
     "duration_increment": 1350
   },
   {
+    "id": "migo_nether_shield_monster",
+    "type": "SPELL",
+    "name": { "str": "Mi-go Nether Shield", "//~": "NO_I18N" },
+    "description": {
+      "str": "Shield yourself from Nether damage, and secondarily from bullets, if you're a mi-go Nethermancer.",
+      "//~": "NO_I18N"
+    },
+    "valid_targets": [ "self" ],
+    "effect": "attack",
+    "effect_str": "effect_migo_nether_shield_monster",
+    "shape": "blast",
+    "flags": [ "SILENT", "NO_PROJECTILE" ],
+    "max_level": 25,
+    "min_duration": 5000,
+    "max_duration": 5000
+  },
+  {
     "id": "triffid_brambles_arc",
     "type": "SPELL",
     "name": { "str": "Triffid Summon Brambles", "//~": "NO_I18N" },
