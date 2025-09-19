@@ -526,7 +526,7 @@
       [ [ "scrap_aluminum", 4 ] ],
       [ [ "e_scrap", 2 ] ],
       [ [ "cable", 8 ] ],
-      [ [ "spring", 2 ] ],
+      [ [ "spring_small", 2 ] ],
       [ [ "radio_car_wheel", 1 ] ]
     ]
   },
