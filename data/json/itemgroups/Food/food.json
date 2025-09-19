@@ -118,7 +118,6 @@
     "magazine": 100,
     "subtype": "distribution",
     "entries": [
-      { "prob": 50, "group": "yeast_various" },
       { "prob": 40, "group": "sugar_various" },
       { "prob": 10, "group": "artificial_sweetener_box_small_71" },
       { "prob": 5, "group": "sprinkles_bottle_plastic_small_62" },
@@ -127,6 +126,7 @@
       { "prob": 15, "group": "cinnamon_various" },
       { "prob": 25, "group": "seasoning_italian_various" },
       { "prob": 25, "group": "seasoning_salt_various" },
+      { "item": "yeast", "prob": 15, "container-item": "sachet" },
       { "item": "cookbook_italian", "prob": 25 },
       { "item": "cookbook_daintydishes", "prob": 20 },
       { "item": "cookbook_liverforkids", "prob": 12 },
