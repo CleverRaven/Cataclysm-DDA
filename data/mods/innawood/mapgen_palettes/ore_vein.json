@@ -25,16 +25,16 @@
   {
     "type": "palette",
     "id": "innawood_ore_vein_tin",
-    "terrain": { "+": "t_rock_tin", ".": [ [ "t_rock_copper", 2 ], [ "t_rock", 1 ] ], " ": "t_rock" }
+    "terrain": { "+": "t_rock_tin", ".": [ [ "t_rock_tin", 2 ], [ "t_rock", 1 ] ], " ": "t_rock" }
   },
   {
     "type": "palette",
     "id": "innawood_ore_vein_iron_ore",
-    "terrain": { "+": "t_rock_iron_ore", ".": [ [ "t_rock_copper", 2 ], [ "t_rock", 1 ] ], " ": "t_rock" }
+    "terrain": { "+": "t_rock_iron_ore", ".": [ [ "t_rock_iron_ore", 2 ], [ "t_rock", 1 ] ], " ": "t_rock" }
   },
   {
     "type": "palette",
     "id": "innawood_ore_vein_iron_hematite",
-    "terrain": { "+": "t_rock_iron_hematite", ".": [ [ "t_rock_copper", 2 ], [ "t_rock", 1 ] ], " ": "t_rock" }
+    "terrain": { "+": "t_rock_iron_hematite", ".": [ [ "t_rock_iron_hematite", 2 ], [ "t_rock", 1 ] ], " ": "t_rock" }
   }
 ]
