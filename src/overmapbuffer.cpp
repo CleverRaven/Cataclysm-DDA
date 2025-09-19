@@ -85,7 +85,8 @@ std::string overmapbuffer::terrain_filename( const point_abs_om &p )
 
 cata_path overmapbuffer::player_filename( const point_abs_om &p )
 {
-    return PATH_INFO::player_base_save_path() + string_format( ".seen.%d.%d", p.x(), p.y() );
+    return PATH_INFO::current_dimension_player_save_path() + string_format( ".seen.%d.%d", p.x(),
+            p.y() );
 }
 
 overmap &overmapbuffer::get( const point_abs_om &p )
@@ -329,7 +330,8 @@ overmap *overmapbuffer::get_existing( const point_abs_om &p )
         // checked in a previous call of this function).
         return nullptr;
     }
-    if( file_exist( PATH_INFO::world_base_save_path() / terrain_filename( p ) ) ) {
+    assure_dir_exist( PATH_INFO::current_dimension_save_path() );
+    if( file_exist( terrain_filename( p ) ) ) {
         // File exists, load it normally (the get function
         // indirectly call overmap::open to do so).
         return &get( p );

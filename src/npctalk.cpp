@@ -7598,13 +7598,24 @@ talk_effect_fun_t::func f_teleport( const JsonObject &jo, std::string_view membe
 
     bool force = jo.get_bool( "force", false );
     bool force_safe = jo.get_bool( "force_safe", false );
+
+    str_or_var dimension_prefix;
+    optional( jo, false, "dimension_prefix", dimension_prefix, "" );
+
     return [is_npc, target_var, fail_message, success_message, force,
-            force_safe]( dialogue const & d ) {
+            force_safe, dimension_prefix]( dialogue const & d ) {
         tripoint_abs_ms target_pos = read_var_value( target_var, d ).tripoint();
         Creature *teleporter = d.actor( is_npc )->get_creature();
         if( teleporter ) {
+            std::string prefix = dimension_prefix.evaluate( d );
+            bool successful_dimension_swap = false;
+            // Make sure we don't cause a dimension swap on every
+            // short/long range teleport outside the default dimension
+            if( !prefix.empty() && prefix != g->get_dimension_prefix() ) {
+                successful_dimension_swap = g->travel_to_dimension( prefix );
+            }
             if( teleport::teleport_to_point( *teleporter, get_map().get_bub( target_pos ), true, false,
-                                             false, force, force_safe ) ) {
+                                             false, force, force_safe ) || successful_dimension_swap ) {
                 teleporter->add_msg_if_player( success_message.evaluate( d ) );
             } else {
                 teleporter->add_msg_if_player( fail_message.evaluate( d ) );

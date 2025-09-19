@@ -2360,6 +2360,16 @@
     "info": "This tool can test for voltage."
   },
   {
+    "id": "SUNBURN_SUPERNATURAL",
+    "type": "json_flag",
+    "info": "You burn in the sunlight like a vampire.  Probably because you're a vampire."
+  },
+  {
+    "id": "SUNBURN_SUPERNATURAL_REDUCTION",
+    "type": "json_flag",
+    "info": "You burn in the sunlight like a vampire, but not quite as badly."
+  },
+  {
     "id": "SHREDDED",
     "type": "json_flag",
     "info": "This is a small fragment."

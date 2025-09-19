@@ -83,20 +83,13 @@
 #include "units_utility.h"
 #include "value_ptr.h"
 #include "veh_type.h"
+#include "vehicle_part_location.h"
 #include "vehicle_selector.h"
 #include "weather.h"
 #include "weather_gen.h"
 #include "weather_type.h"
 
 class Skill;
-
-/*
- * Speed up all those if ( blarg == "structure" ) statements that are used everywhere;
- *   assemble "structure" once here instead of repeatedly later.
- */
-static const std::string part_location_structure( "structure" );
-static const std::string part_location_center( "center" );
-static const std::string part_location_onroof( "on_roof" );
 
 static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 
@@ -141,6 +134,10 @@ static const proficiency_id proficiency_prof_driver( "prof_driver" );
 static const skill_id skill_swimming( "swimming" );
 
 static const vpart_id vpart_power_cord( "power_cord" );
+
+static const vpart_location_id vpart_location_center( "center" );
+static const vpart_location_id vpart_location_on_roof( "on_roof" );
+static const vpart_location_id vpart_location_structure( "structure" );
 
 static const vproto_id vehicle_prototype_none( "none" );
 
@@ -917,7 +914,7 @@ void vehicle::smash( map &m, float hp_percent_loss_min, float hp_percent_loss_ma
         int structures_found = 0;
         for( const int square_part_index : parts_in_square ) {
             const vpart_info &vpi = parts[square_part_index].info();
-            if( vpi.location == part_location_structure ) {
+            if( vpi.location == vpart_location_structure ) {
                 structures_found++;
             }
         }
@@ -965,7 +962,7 @@ void vehicle::smash( map &m, float hp_percent_loss_min, float hp_percent_loss_ma
             const vpart_info &vpi2 = vp2.info();
 
             if( vpi1.id == vpi2.id ||
-                ( !vpi1.location.empty() && vpi1.location == vpi2.location ) ) {
+                ( !vpi1.location.is_empty() && vpi1.location == vpi2.location ) ) {
                 // Deferred creation of the handler to here so it is only created when actually needed.
                 if( !handler_ptr ) {
                     // This is a heuristic: we just assume the default handler is good enough when called
@@ -1240,7 +1237,7 @@ bool vehicle::has_structural_part( const point_rel_ms &dp ) const
     for( const int elem : parts_at_relative( dp, false ) ) {
         const vehicle_part &vp = part( elem );
         const vpart_info &vpi = vp.info();
-        if( vpi.location == part_location_structure &&
+        if( vpi.location == vpart_location_structure &&
             !vp.has_flag( vp_flag::carried_flag ) &&
             !vpi.has_flag( "PROTRUSION" ) ) {
             return true;
@@ -1256,7 +1253,7 @@ bool vehicle::has_structural_part( const point_rel_ms &dp ) const
 bool vehicle::is_structural_part_removed() const
 {
     for( const vpart_reference &vp : get_all_parts() ) {
-        if( vp.part().removed && vp.info().location == part_location_structure ) {
+        if( vp.part().removed && vp.info().location == vpart_location_structure ) {
             return true;
         }
     }
@@ -1270,7 +1267,7 @@ ret_val<void> vehicle::can_mount( const point_rel_ms &dp, const vpart_info &vpi 
 
     if( parts_in_square.empty() ) {
         // First part in an empty square MUST be a structural part or be an appliance
-        if( vpi.location != part_location_structure ) {
+        if( vpi.location != vpart_location_structure ) {
             return ret_val<void>::make_failure( _( "There's no structure to support it." ) );
         }
     } else {
@@ -1291,11 +1288,10 @@ ret_val<void> vehicle::can_mount( const point_rel_ms &dp, const vpart_info &vpi 
             return ret_val<void>::make_failure( _( "%s is already installed here." ), vpi.name() );
         }
         // Only parts with empty or different locations can be on same tile
-        if( !vpi.location.empty() && vpi.location == vpi_other.location ) {
-            const std::string loc = string_replace( vpi.location, "_", " " ); // slightly more user friendly
+        if( !vpi.location.is_empty() && vpi.location == vpi_other.location ) {
             //~ %1$s - already installed part name, %2$s - part location name
             return ret_val<void>::make_failure( _( "The installed %1$s already occupies the '%2$s' location." ),
-                                                vpi_other.name(), loc );
+                                                vpi_other.name(), vpi.location->name );
         }
         // Until we have an interface for handling multiple components with CARGO space,
         // exclude them from being mounted in the same tile.
@@ -1407,7 +1403,7 @@ ret_val<void> vehicle::can_unmount( const vehicle_part &vp_to_remove, bool allow
         return ret_val<void>::make_failure( _( "Unlock this part first." ) );
     }
 
-    if( vpi_to_remove.location != part_location_structure ) {
+    if( vpi_to_remove.location != vpart_location_structure ) {
         return ret_val<void>::make_success(); // non-structure parts don't have extra requirements
     }
 
@@ -1418,7 +1414,7 @@ ret_val<void> vehicle::can_unmount( const vehicle_part &vp_to_remove, bool allow
         bool vp_is_cable = vp_here.info().has_flag( VPFLAG_POWER_TRANSFER ) ||
                            vp_here.info().has_flag( "TOW_CABLE" );
         cable_here = cable_here || vp_is_cable;
-        if( vp_here.info().location != part_location_structure && !vp_is_cable ) {
+        if( vp_here.info().location != vpart_location_structure && !vp_is_cable ) {
             return ret_val<void>::make_failure( _( "Remove all other attached parts first." ) );
         }
     }
@@ -1513,7 +1509,7 @@ bool vehicle::is_connected( const vehicle_part &to, const vehicle_part &from,
             // 2022-08-27 assuming structure part is on 0th index is questionable but it worked before so...
             const vehicle_part &vp_next = parts[ parts_there[ 0 ] ];
 
-            if( vp_next.info().location != part_location_structure || // not a structure part
+            if( vp_next.info().location != vpart_location_structure || // not a structure part
                 vp_next.info().has_flag( "PROTRUSION" ) ||            // protrusions are not really a structure
                 vp_next.has_flag( vp_flag::carried_flag ) ) {         // carried frames are not a structure
                 continue; // can't connect if it's not a structure
@@ -1896,7 +1892,7 @@ bool vehicle::merge_rackable_vehicle( map *here, vehicle *carry_veh,
     invalidate_towing( *here, true );
     // By structs, we mean all the parts of the carry vehicle that are at the structure location
     // of the vehicle (i.e. frames)
-    std::vector<int> carry_veh_structs = carry_veh->all_parts_at_location( part_location_structure );
+    std::vector<int> carry_veh_structs = carry_veh->all_parts_at_location( vpart_location_structure );
     std::vector<mapping> carry_data;
     carry_data.reserve( carry_veh_structs.size() );
 
@@ -2500,7 +2496,7 @@ bool vehicle::remove_carried_vehicle( map &here, const std::vector<int> &carried
 
 bool vehicle::find_and_split_vehicles( map &here, std::set<int> exclude )
 {
-    std::vector<int> valid_parts = all_parts_at_location( part_location_structure );
+    std::vector<int> valid_parts = all_parts_at_location( vpart_location_structure );
     std::set<int> checked_parts = std::move( exclude );
 
     std::vector<std::vector <int>> all_vehicles;
@@ -2553,7 +2549,7 @@ bool vehicle::find_and_split_vehicles( map &here, std::set<int> exclude )
                     if( vp_neighbor.removed ) {
                         continue;
                     }
-                    if( vp_neighbor.info().location == part_location_structure ) {
+                    if( vp_neighbor.info().location == vpart_location_structure ) {
                         neighbor_struct_part = p;
                         break;
                     }
@@ -2635,7 +2631,7 @@ bool vehicle::split_vehicles( map &here,
             if( split_parts.size() > 1 ) {
                 for( int sp : split_parts ) {
                     const vpart_info &vpi_split = parts[sp].info();
-                    if( vpi_split.location == part_location_structure && !vpi_split.has_flag( "PROTRUSION" ) ) {
+                    if( vpi_split.location == vpart_location_structure && !vpi_split.has_flag( "PROTRUSION" ) ) {
                         split_part0 = sp;
                         break;
                     }
@@ -3337,7 +3333,7 @@ vehicle_part_with_feature_range<vpart_bitflags> vehicle::get_enabled_parts(
  * @param location The location slot to get parts for.
  * @return A list of indices to all parts with the specified location.
  */
-std::vector<int> vehicle::all_parts_at_location( const std::string &location ) const
+std::vector<int> vehicle::all_parts_at_location( const vpart_location_id &location ) const
 {
     std::vector<int> parts_found;
     vehicle_part_range all_parts = get_all_parts();
@@ -3511,12 +3507,6 @@ int vehicle::index_of_part( const vehicle_part *part, bool include_removed ) con
 int vehicle::part_displayed_at( const point_rel_ms &dp, bool include_fake, bool below_roof,
                                 bool roof ) const
 {
-    // Z-order is implicitly defined in game::load_vehiclepart, but as
-    // numbers directly set on parts rather than constants that can be
-    // used elsewhere. A future refactor might be nice but this way
-    // it's clear where the magic number comes from.
-    const int ON_ROOF_Z = 9;
-
     std::vector<int> parts_in_square = parts_at_relative( dp, true, include_fake );
 
     if( parts_in_square.empty() ) {
@@ -3529,17 +3519,17 @@ int vehicle::part_displayed_at( const point_rel_ms &dp, bool include_fake, bool 
         in_vehicle = is_passenger( get_player_character() );
     }
 
-    int hide_z_at_or_above = in_vehicle ? ON_ROOF_Z : INT_MAX;
+    int hide_z_at_or_above = in_vehicle ? vpart_location_on_roof->z_order : INT_MAX;
 
     int top_part = -1;
-    int top_z_order = ( below_roof ? 0 : ON_ROOF_Z ) - 1;
+    int top_z_order = ( below_roof ? 0 : vpart_location_on_roof->z_order ) - 1;
     for( size_t index = 0; index < parts_in_square.size(); index++ ) {
         int test_index = parts_in_square[index];
         const vehicle_part &vp = parts.at( test_index );
         if( !vp.is_real_or_active_fake() ) {
             continue;
         }
-        int test_z_order = vp.info().z_order;
+        int test_z_order = vp.info().location->z_order;
         if( ( top_z_order < test_z_order ) && ( test_z_order < hide_z_at_or_above ) ) {
             top_part = index;
             top_z_order = test_z_order;
@@ -3556,7 +3546,7 @@ int vehicle::roof_at_part( const int part ) const
 {
     for( const int p : parts_at_relative( parts[part].mount, true ) ) {
         const vehicle_part &vp = parts[p];
-        if( vp.info().location == "on_roof" || vp.info().has_flag( VPFLAG_ROOF ) ) {
+        if( vp.info().location == vpart_location_on_roof || vp.info().has_flag( VPFLAG_ROOF ) ) {
             return p;
         }
     }
@@ -4502,13 +4492,13 @@ double vehicle::coeff_air_drag() const
     constexpr double sail_height = 0.8;
     constexpr double rotor_height = 0.6;
 
-    std::vector<int> structure_indices = all_parts_at_location( part_location_structure );
+    std::vector<int> structure_indices = all_parts_at_location( vpart_location_structure );
     int width = mount_max.y() - mount_min.y() + 1;
     int length = mount_max.x() - mount_min.x() + 1;
     // a mess of lambdas to make the next bit slightly easier to read
     const auto d_exposed = [&]( const vehicle_part & p ) {
         // if it's not inside, it's a center location, and it doesn't need a roof, it's exposed
-        if( p.info().location != part_location_center ) {
+        if( p.info().location != vpart_location_center ) {
             return false;
         }
         return !( p.inside || p.info().has_flag( "NO_ROOF_NEEDED" ) ||
@@ -4550,7 +4540,7 @@ double vehicle::coeff_air_drag() const
                          pa.is_available() );
             d_check_max( drag[ col ].seat, pa, pa.info().has_flag( "SEAT" ) ||
                          pa.info().has_flag( "BED" ) );
-            d_check_max( drag[ col ].turret, pa, pa.info().location == part_location_onroof &&
+            d_check_max( drag[ col ].turret, pa, pa.info().location == vpart_location_on_roof &&
                          !pa.info().has_flag( "SOLAR_PANEL" ) );
             d_check_max( drag[ col ].roof, pa, pa.info().has_flag( "ROOF" ) );
             d_check_max( drag[ col ].panel, pa, pa.info().has_flag( "SOLAR_PANEL" ) );
@@ -4834,7 +4824,7 @@ double vehicle::coeff_water_drag( map &here ) const
         return coefficient_water_resistance;
     }
     int structural_part_count = 0;
-    for( int structural_part_idx : all_parts_at_location( part_location_structure ) ) {
+    for( int structural_part_idx : all_parts_at_location( vpart_location_structure ) ) {
         const vehicle_part &vp = part( structural_part_idx );
         const vpart_info &vpi = vp.info();
         if( !vp.has_flag( vp_flag::carried_flag ) &&
@@ -4964,7 +4954,7 @@ bool vehicle::sufficient_wheel_config() const
     } else if( wheelcache.size() == 1 ) {
         //Has to be a stable wheel, and one wheel can only support a 1-3 tile vehicle
         if( !part( wheelcache[0] ).info().has_flag( "STABLE" ) ||
-            all_parts_at_location( part_location_structure ).size() > 3 ) {
+            all_parts_at_location( vpart_location_structure ).size() > 3 ) {
             return false;
         }
     }
@@ -6613,7 +6603,7 @@ void vehicle::refresh( const bool remove_fakes )
     struct sort_veh_part_vector {
         vehicle *veh;
         inline bool operator()( const int p1, const int p2 ) const {
-            return veh->part( p1 ).info().list_order < veh->part( p2 ).info().list_order;
+            return veh->part( p1 ).info().location->list_order < veh->part( p2 ).info().location->list_order;
         }
     } svpv = { this };
 
@@ -7615,7 +7605,8 @@ int vehicle::damage( map &here, int p, int dmg, const damage_type_id &type, bool
     // Covered by armor -- hit both armor and part, but reduce damage by armor's reduction
     const int protection = type->no_resist ? 0 : vpi_armor.damage_reduction.at( type );
     // Parts on roof aren't protected
-    const bool overhead = vpi_target.has_flag( "ROOF" ) || vpi_target.location == "on_roof";
+    const bool overhead = vpi_target.has_flag( "ROOF" ) ||
+                          vpi_target.location == vpart_location_on_roof;
     // Calling damage_direct may remove the damaged part completely, therefore the
     // other index (target_part) becomes wrong if target_part > armor_part.
     // Damaging the part with the higher index first is safe, as removing a part
@@ -7647,7 +7638,7 @@ void vehicle::damage_all( map &here, int dmg1, int dmg2, const damage_type_id &t
         const int distance = 1 + square_dist( vp.mount, impact );
         if( distance > 1 ) {
             int net_dmg = rng( dmg1, dmg2 ) / ( distance * distance );
-            if( vpi.location != part_location_structure || !vpi.has_flag( "PROTRUSION" ) ) {
+            if( vpi.location != vpart_location_structure || !vpi.has_flag( "PROTRUSION" ) ) {
                 const int shock_absorber = part_with_feature( vp.mount, "SHOCK_ABSORBER", true );
                 if( shock_absorber >= 0 ) {
                     const vehicle_part &vp_shock_absorber = part( shock_absorber );
@@ -7706,7 +7697,7 @@ bool vehicle::shift_if_needed( map &here )
     }
     //Find a frame, any frame, to shift to
     for( const vpart_reference &vp : get_all_parts() ) {
-        if( vp.info().location == "structure"
+        if( vp.info().location == vpart_location_structure
             && !vp.has_feature( "PROTRUSION" )
             && !vp.part().removed ) {
             shift_parts( here, vp.mount_pos() );
@@ -7755,7 +7746,7 @@ int vehicle::break_off( map &here, vehicle_part &vp, int dmg )
     } else {
         handler_ptr = std::make_unique<MapgenRemovePartHandler>( here );
     }
-    if( vpi.location == part_location_structure ) {
+    if( vpi.location == vpart_location_structure ) {
         // For structural parts, remove other parts first
         std::vector<int> parts_in_square = parts_at_relative( vp.mount, true );
         for( int index = parts_in_square.size() - 1; index >= 0; index-- ) {
@@ -8181,7 +8172,7 @@ void vehicle::part_project_points( const tripoint_rel_ms &dp )
         }
 
         const vpart_info &info = vp.info();
-        if( !vp.is_fake && info.location != part_location_structure && !info.has_flag( VPFLAG_ROTOR ) ) {
+        if( !vp.is_fake && info.location != vpart_location_structure && !info.has_flag( VPFLAG_ROTOR ) ) {
             continue;
         }
         // Coordinates of where part will go due to movement (dx/dy/dz)
