@@ -6,6 +6,8 @@
 #include "json.h"
 #include "rng.h"
 
+enum class bp_type;
+
 void wound_type::load( const JsonObject &jo, const std::string_view & )
 {
     name_.make_plural();
@@ -20,9 +22,9 @@ void wound_type::load( const JsonObject &jo, const std::string_view & )
     optional( jo, was_loaded, "weight", weight, 1 );
 
     optional( jo, was_loaded, "whitelist_bp_with_flag", whitelist_bp_with_flag );
-    // optional( jo, was_loaded, "whitelist_body_part_type", whitelist_body_part_types );
+    optional( jo, was_loaded, "whitelist_body_part_types", whitelist_body_part_types );
     optional( jo, was_loaded, "blacklist_bp_with_flag", blacklist_bp_with_flag );
-    // optional( jo, was_loaded, "blacklist_body_part_type", blacklist_body_part_types );
+    optional( jo, was_loaded, "blacklist_body_part_types", blacklist_body_part_types );
 }
 
 wound::wound( wound_type_id wd ) :
@@ -89,11 +91,11 @@ bool wound_type::allowed_on_bodypart( bodypart_str_id bp_id ) const
 {
 
     // doesn't have bp type we want
-    // for( const body_part_type::type &bp_type : whitelist_body_part_types ) {
-    //     if( !bp_id->has_type( bp_type ) ) {
-    //         return false;
-    //     }
-    // }
+    for( const bp_type &bp_type : whitelist_body_part_types ) {
+        if( !bp_id->has_type( bp_type ) ) {
+            return false;
+        }
+    }
 
     // has no flag we want
     if( !bp_id->has_flag( whitelist_bp_with_flag ) &&
@@ -102,11 +104,11 @@ bool wound_type::allowed_on_bodypart( bodypart_str_id bp_id ) const
     }
 
     // has type we do not want
-    // for( const body_part_type::type &bp_type : blacklist_body_part_types ) {
-    //     if( bp_id->has_type( bp_type ) ) {
-    //         return false;
-    //     }
-    // }
+    for( const bp_type &bp_type : blacklist_body_part_types ) {
+        if( bp_id->has_type( bp_type ) ) {
+            return false;
+        }
+    }
 
     // has flag we do not want
     if( bp_id->has_flag( blacklist_bp_with_flag ) ) {

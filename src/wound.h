@@ -14,6 +14,8 @@
 class JsonObject;
 class JsonOut;
 
+enum class bp_type;
+
 class wound_type
 {
     public:
@@ -48,9 +50,8 @@ class wound_type
         json_character_flag whitelist_bp_with_flag;
         json_character_flag blacklist_bp_with_flag;
 
-        // desired, but requires circular include to be fixed
-        // std::vector<body_part_type::type> whitelist_body_part_types;
-        // std::vector<body_part_type::type> blacklist_body_part_types;
+        std::vector<bp_type> whitelist_body_part_types;
+        std::vector<bp_type> blacklist_body_part_types;
 
     private:
         translation name_;
