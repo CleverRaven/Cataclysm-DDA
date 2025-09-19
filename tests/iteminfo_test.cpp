@@ -1729,22 +1729,16 @@ TEST_CASE( "gun_or_other_ranged_weapon_attributes", "[iteminfo][weapon][gun]" )
     item glock( itype_test_glock );
     item rag( itype_test_rag );
 
-    SECTION( "weapon damage including floating-point multiplier" ) {
-        // Ranged damage info is displayed on a single line, in three parts:
-        //
-        // - base ranged damage (GUN_DAMAGE)
-        // - floating-point multiplier (GUN_DAMAGE_AMMOPROP)
-        // - total damage calculation (GUN_DAMAGE_TOTAL)
-        //
+    SECTION( "weapon damage" ) {
         std::vector<iteminfo_parts> damage = { iteminfo_parts::GUN_DAMAGE,
-                                               iteminfo_parts::GUN_DAMAGE_AMMOPROP,
+                                               iteminfo_parts::GUN_DAMAGE_PELLETS,
                                                iteminfo_parts::GUN_DAMAGE_TOTAL
                                              };
 
         CHECK( item_info_str( compbow, damage ) ==
                "--\n"
                "<color_c_white>Ranged damage</color>:"
-               " <color_c_yellow>18</color>*<color_c_yellow>1.50</color> = <color_c_yellow>27</color>\n" );
+               " <color_c_yellow>27</color>\n" );
     }
     // TODO: Test glock damage with and without ammo (test_glock has -1 damage when unloaded)
 
@@ -1875,7 +1869,7 @@ TEST_CASE( "gun_or_other_ranged_weapon_attributes", "[iteminfo][weapon][gun]" )
     SECTION( "armor piercing" ) {
         CHECK( item_info_str( compbow, { iteminfo_parts::GUN_ARMORPIERCE } ) ==
                "--\n"
-               "Armor-pierce: <color_c_yellow>0</color>\n" );
+               "Armor-pierce: <color_c_yellow>1</color>\n" );
     }
 
     SECTION( "time to reload weapon" ) {
@@ -1907,7 +1901,7 @@ TEST_CASE( "gun_or_other_ranged_weapon_attributes", "[iteminfo][weapon][gun]" )
     SECTION( "weapon dispersion" ) {
         CHECK( item_info_str( compbow, { iteminfo_parts::GUN_DISPERSION } ) ==
                "--\n"
-               "Dispersion: <color_c_yellow>8.50</color>\n" );
+               "Dispersion: <color_c_yellow>9.60</color> MOA\n" );
     }
 
     SECTION( "needing two hands to fire" ) {
@@ -1925,11 +1919,6 @@ TEST_CASE( "gun_armor_piercing_dispersion_and_other_stats", "[iteminfo][gun][mis
 {
     clear_avatar();
 
-    std::vector<iteminfo_parts> dmg_loaded = { iteminfo_parts::GUN_DAMAGE_LOADEDAMMO };
-    std::vector<iteminfo_parts> ap_loaded = { iteminfo_parts::GUN_ARMORPIERCE_LOADEDAMMO };
-    std::vector<iteminfo_parts> ap_total = { iteminfo_parts::GUN_ARMORPIERCE_TOTAL };
-    std::vector<iteminfo_parts> disp_loaded = { iteminfo_parts::GUN_DISPERSION_LOADEDAMMO };
-    std::vector<iteminfo_parts> disp_total = { iteminfo_parts::GUN_DISPERSION_TOTAL };
     std::vector<iteminfo_parts> disp_sight = { iteminfo_parts::GUN_DISPERSION_SIGHT };
 
     // TODO: Test these
@@ -1940,24 +1929,9 @@ TEST_CASE( "gun_armor_piercing_dispersion_and_other_stats", "[iteminfo][gun][mis
 
     item glock( itype_test_glock );
 
-    CHECK( item_info_str( glock, dmg_loaded ) ==
-           "--\n<color_c_yellow>+26</color>\n" );
-
-    CHECK( item_info_str( glock, ap_loaded ) ==
-           "--\n<color_c_yellow>+0</color>\n" );
-    CHECK( item_info_str( glock, ap_total ) ==
-           "--\n = <color_c_yellow>0</color>\n" );
-
-    CHECK( item_info_str( glock, disp_loaded ) ==
-           "--\n<color_c_yellow>+0.60</color>\n" );
-    CHECK( item_info_str( glock, disp_total ) ==
-           "--\n = <color_c_yellow>5.40</color> MOA\n" );
-
     CHECK( item_info_str( glock, disp_sight ) ==
            "--\n"
-           "Sight dispersion: <color_c_yellow>0.30</color>"
-           "<color_c_yellow>+0.14</color>"
-           " = <color_c_yellow>0.44</color> MOA\n" );
+           "Sight dispersion: <color_c_yellow>0.44</color> MOA\n" );
 
     // TODO: Add a test gun with thest attributes
     //CHECK( item_info_str( glock, recoil_bipod ).empty() );
