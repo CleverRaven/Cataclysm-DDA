@@ -37,7 +37,6 @@
 #include "mdarray.h"
 #include "memory_fast.h"
 #include "mongroup.h"
-#include "monster.h"
 #include "omdata.h"
 #include "overmap_types.h" // IWYU pragma: keep
 #include "point.h"
@@ -51,6 +50,7 @@ class JsonOut;
 class JsonValue;
 class cata_path;
 class character_id;
+class monster;
 class npc;
 class overmap_connection;
 struct horde_entity;

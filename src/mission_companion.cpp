@@ -38,6 +38,7 @@
 #include "flexbuffer_json.h"
 #include "game.h"
 #include "horde_entity.h"
+#include "horde_map.h"
 #include "input_context.h"
 #include "inventory.h"
 #include "item.h"

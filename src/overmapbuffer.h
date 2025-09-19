@@ -43,6 +43,7 @@ namespace om_direction
 enum class type : int;
 }  // namespace om_direction
 struct horde_entity;
+struct map_data_summary;
 struct mapgen_arguments;
 struct mongroup;
 struct regional_settings;

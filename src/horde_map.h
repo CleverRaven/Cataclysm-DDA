@@ -4,10 +4,13 @@
 
 #include <iterator>
 #include <unordered_map>
+#include <utility>
 #include <vector>
 
 #include "coordinates.h"
 #include "horde_entity.h"
+#include "point.h"
+#include "type_id.h"
 
 // Will be using for bitmasking so not a class.
 namespace horde_map_flavors
@@ -19,7 +22,7 @@ enum {
 };
 } // namespace horde_map_flavors
 
-class horde_map;
+class monster;
 
 // As this class holds a large number of entries (many thousands per overmap),
 // there are a number of optimizations that are worth investigating.

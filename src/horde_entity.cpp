@@ -1,7 +1,7 @@
 #include "horde_entity.h"
 
 #include "monster.h"
-#include "mtype.h"
+#include "point.h"
 
 horde_entity::horde_entity( const monster &original )
 {
