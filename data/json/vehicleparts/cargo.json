@@ -255,7 +255,7 @@
     "type": "vehicle_part",
     "name": { "str": "bike rack" },
     "item": "bike_rack",
-    "location": "anywhere",
+    "location": "on_frame",
     "categories": [ "cargo" ],
     "broken_color": "dark_gray",
     "durability": 150,

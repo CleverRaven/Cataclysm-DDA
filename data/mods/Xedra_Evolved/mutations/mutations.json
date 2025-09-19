@@ -700,7 +700,8 @@
           { "type": "bullet", "multiply": -0.08 }
         ]
       }
-    ]
+    ],
+    "active_flags": [ "SUNBURN_SUPERNATURAL_REDUCTION" ]
   },
   {
     "type": "mutation",
@@ -1037,13 +1038,13 @@
     "id": "VAMPIRE3",
     "name": { "str": "Mortal hungers are replaced with immortal hungers" },
     "points": 0,
-    "description": "You replace some of your regular caloric intake with blood and begin to see some of the more esoteric abilities inherent to vampirism.",
+    "description": "You replace some of your regular caloric intake with blood and begin to see some of the more esoteric abilities inherent to vampirism, though the sun now burns exposed flesh.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
     "vitamins_absorb_multi": [ [ "all", [ [ "human_blood_vitamin", 1.25 ] ] ] ],
     "vitamin_rates": [ [ "human_blood_vitamin", 720 ], [ "mutagen", 300 ] ],
-    "flags": [ "CANNIBAL", "ALBINO", "DAYFEAR", "HEMOVORE" ],
+    "flags": [ "CANNIBAL", "SUNBURN", "ALBINO", "DAYFEAR", "HEMOVORE" ],
     "enchantments": [
       { "condition": { "not": "is_day" }, "values": [ { "value": "OVERMAP_SIGHT", "add": 1 } ] },
       { "values": [ { "value": "STAMINA_REGEN_MOD", "add": 0.2 }, { "value": "METABOLISM", "multiply": -0.2 } ] }
@@ -1172,7 +1173,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "flags": [ "CANNIBAL", "SUNBURN", "DAYFEAR", "HEMOVORE", "MEND_ALL" ],
+    "flags": [ "CANNIBAL", "DAYFEAR", "HEMOVORE", "MEND_ALL" ],
     "enchantments": [
       {
         "values": [
@@ -1223,6 +1224,10 @@
           { "effect": "effect_vampire_immune_to_classic_zombification", "intensity": 1 },
           { "effect": "effect_dhampir_corpselike_pallor_pale", "intensity": 1 }
         ]
+      },
+      {
+        "condition": { "test_eoc": "EOC_CONDITION_XE_VAMPIRE_AVOID_BURNING_IN_SUNLIGHT" },
+        "ench_effects": [ { "effect": "effect_vampire_burn_to_death_in_sunlight", "intensity": 1 } ]
       }
     ]
   },
@@ -1430,7 +1435,7 @@
     "purifiable": false,
     "valid": false,
     "can_only_eat": [ "blood", "hblood", "fae_blood", "vampire_blood" ],
-    "flags": [ "CANNIBAL", "SUNBURN", "DAYFEAR", "NO_THIRST" ],
+    "flags": [ "CANNIBAL", "DAYFEAR", "NO_THIRST" ],
     "vitamin_rates": [ [ "vitC", -500 ], [ "iron", -500 ], [ "calcium", -500 ] ],
     "//": "When weariness can be modified through Json, this mutation should make the player immune to it.",
     "enchantments": [
@@ -1443,6 +1448,10 @@
           { "value": "THIRST", "multiply": -1 },
           { "value": "METABOLISM", "multiply": -1 }
         ]
+      },
+      {
+        "condition": { "test_eoc": "EOC_CONDITION_XE_VAMPIRE_AVOID_BURNING_IN_SUNLIGHT" },
+        "ench_effects": [ { "effect": "effect_vampire_burn_to_death_in_sunlight", "intensity": 1 } ]
       }
     ]
   },

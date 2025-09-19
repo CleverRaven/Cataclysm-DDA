@@ -1931,6 +1931,8 @@ void dialogue_chatbin::serialize( JsonOut &json ) const
     json.member( "talk_stranger_friendly", talk_stranger_friendly );
     json.member( "talk_stranger_neutral", talk_stranger_neutral );
     json.member( "talk_friend_guard", talk_friend_guard );
+    json.member( "talk_mission_inquire", talk_mission_inquire );
+    json.member( "talk_mission_describe_urgent", talk_mission_describe_urgent );
 
     if( mission_selected != nullptr ) {
         json.member( "mission_selected", mission_selected->get_id() );
@@ -1971,6 +1973,8 @@ void dialogue_chatbin::deserialize( const JsonObject &data )
     data.read( "style", style );
     data.read( "dialogue_spell", dialogue_spell );
     data.read( "proficiency", proficiency );
+    data.read( "talk_mission_inquire", talk_mission_inquire );
+    data.read( "talk_mission_describe_urgent", talk_mission_describe_urgent );
 
     std::vector<int> tmpmissions;
     data.read( "missions", tmpmissions );
@@ -3706,6 +3710,13 @@ void mission::deserialize( const JsonObject &jo )
         target.y() = ja.get_int( 1 );
     }
 
+    if( jo.has_string( "dimension" ) ) {
+        dimension = jo.get_string( "dimension" );
+    } else {
+        // dimension is set as the main one
+        dimension = "";
+    }
+
     if( jo.has_string( "follow_up" ) ) {
         follow_up = mission_type_id( jo.get_string( "follow_up" ) );
     }
@@ -3751,6 +3762,7 @@ void mission::serialize( JsonOut &json ) const
     json.write( target.z() );
     json.end_array();
 
+    json.member( "dimension", dimension );
     json.member( "item_id", item_id );
     json.member( "item_count", item_count );
     json.member( "target_id", target_id.str() );

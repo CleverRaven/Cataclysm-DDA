@@ -124,6 +124,8 @@ class map_memory
         /** Save memorized submaps to disk, drop ones far from given global map square pos. */
         bool save( const tripoint_abs_ms &pos );
 
+        /** Clear out loaded map memory */
+        void clear();
         /**
          * Prepares map memory for rendering and/or memorization of given region.
          * @param p1 top-left corner of the region, in global ms coords

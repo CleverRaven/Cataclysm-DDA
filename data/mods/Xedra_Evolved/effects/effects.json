@@ -3658,6 +3658,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_vampire_burn_to_death_in_sunlight",
+    "//": "Hidden effect, carries the flags so that vampires who blot out the sun with their powers don't burn in sunlight.",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "SUNBURN", "SUNBURN_SUPERNATURAL" ]
+  },
+  {
+    "type": "effect_type",
     "//": "Checks if you have every single vampiric power when trying to learn new ones.",
     "id": "effect_vampire_all_gift_check",
     "name": [ "" ],
