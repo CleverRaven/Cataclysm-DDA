@@ -2010,6 +2010,43 @@ public:
     }
 };
 
+// Reads into a vector of pairs in the format (example)
+// "growth_stages": [ { "GROWTH_SEED": "23 days" }, { "GROWTH_SEEDLING": "23 days" }, { "GROWTH_MATURE": "23 days" }, { "GROWTH_HARVEST": "22 days" } ]
+// OR
+// "growth_stages": [ [ "GROWTH_SEED", "23 days" ], [ "GROWTH_SEEDLING", "23 days" ], [ "GROWTH_MATURE", "23 days" ], [ "GROWTH_HARVEST", "22 days" ] ]
+// The key(K) of the pair object must be string constructable.
+template<typename K, typename V>
+class vector_pair_reader : public generic_typed_reader<vector_pair_reader<K, V>>
+{
+public:
+    std::pair<K, V> get_next( const JsonValue &jv ) const {
+        if( jv.test_object() ) {
+            JsonObject jo = jv.get_object();
+            if( jo.size() != 1 ) {
+                jv.throw_error( string_format( "Expected size of 1 for JsonObject, found size %d", jo.size() ) );
+            }
+            for( JsonMember jm : jo ) {
+                K key( jm.name() );
+                V ret;
+                jm.read( ret );
+                return std::make_pair( key, ret );
+            }
+        }
+        if( !jv.test_array() ) {
+            jv.throw_error( "bad pair" );
+        }
+        JsonArray ja = jv.get_array();
+        if( ja.size() != 2 ) {
+            ja.throw_error( "Must have 2 elements" );
+        }
+        K l;
+        V h;
+        ja[0].read( l, true );
+        ja[1].read( h, true );
+        return std::make_pair( l, h );
+    }
+};
+
 template<typename T1, typename T2>
 class named_pair_reader : public generic_typed_reader<named_pair_reader<T1, T2>>
 {
