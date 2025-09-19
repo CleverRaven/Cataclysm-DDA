@@ -8480,40 +8480,56 @@ void map::grow_plant( const tripoint_bub_ms &p )
         furn_set( p, furn_str_id::NULL_ID() );
         return;
     }
-    // TODO: this should probably be read from the seed's data. But for now, everything uses exactly this many growth stages.
-    std::map<ter_furn_flag, int> plant_epochs;
-    plant_epochs[ter_furn_flag::TFLAG_GROWTH_SEEDLING] = 1;
-    plant_epochs[ter_furn_flag::TFLAG_GROWTH_MATURE] = 2;
-    plant_epochs[ter_furn_flag::TFLAG_GROWTH_HARVEST] = 3;
 
-    const time_duration base_epoch_duration = seed->get_plant_epoch( plant_epochs.size() );
-    const time_duration epoch_duration = base_epoch_duration * furn.plant->growth_multiplier;
-    if( seed->age() >= epoch_duration ) {
-        const int epoch_age = seed->age() / epoch_duration;
-        int current_epoch = 0;
-        for( std::pair<const ter_furn_flag, int> pair : plant_epochs ) {
-            if( has_flag_furn( pair.first, p ) ) {
-                current_epoch = pair.second;
-                break;
-            }
+    const std::vector<std::pair<flag_id, time_duration>> &growth_stages =
+                seed->type->seed->get_growth_stages();
+    flag_id current_stage = flag_id( io::enum_to_string<ter_furn_flag>
+                                     ( ter_furn_flag::TFLAG_GROWTH_SEED ) );
+    flag_id target_stage = flag_id( io::enum_to_string<ter_furn_flag>
+                                    ( ter_furn_flag::TFLAG_GROWTH_SEED ) );
+    time_duration time_to_grow_to_this_stage = 0_seconds;
+    for( const auto &pair : growth_stages ) {
+        const time_duration stage_growth_time = pair.second;
+        time_to_grow_to_this_stage += stage_growth_time;
+        if( has_flag_furn( pair.first.str(), p ) ) {
+            current_stage = pair.first;
         }
-        const int epochs_to_advance = epoch_age - current_epoch;
-
-        for( int i = 0; i < epochs_to_advance; i++ ) {
-            // Remove fertilizer if any
-            map_stack::iterator fertilizer = std::find_if( items.begin(), items.end(), []( const item & it ) {
-                return it.has_flag( flag_FERTILIZER );
-            } );
-            if( fertilizer != items.end() ) {
-                items.erase( fertilizer );
-            }
-            // spawn appropriate amount of rot_spawn, equivalent to number of times we iterate this loop
-            rotten_item_spawn( *seed, tripoint_bub_ms( p ) );
-            // Get an updated reference to the furniture each time we go through this loop, to make sure we transform each step in turn
-            const furn_t &current_furn = this->furn( p ).obj();
-            furn_set( p, furn_str_id( current_furn.plant->transform ) );
+        if( seed->age() >= time_to_grow_to_this_stage ) {
+            target_stage = pair.first;
         }
+    }
 
+    const auto check_flag = []( const std::string & to_check ) {
+        return [&to_check]( const auto & pair_flag_and_dur ) {
+            return pair_flag_and_dur.first.str() == to_check;
+        };
+    };
+
+    const int stages_to_advance = std::distance(
+                                      std::find_if( growth_stages.begin(), growth_stages.end(), check_flag( current_stage.str() ) ),
+                                      std::find_if( growth_stages.begin(), growth_stages.end(), check_flag( target_stage.str() ) ) );
+
+    add_msg_debug( debugmode::DF_MAP,
+                   "Checking growth on a %s, aged %s. Current stage: %s. Target stage: %s. Advancing %d stages.",
+                   // Human readable time please. '7863287 s' from to_string_writable() is not a reasonable output.
+                   //NOLINTNEXTLINE(cata-translations-in-debug-messages)
+                   seed->tname(), to_string( seed->age() ), current_stage.c_str(), target_stage.c_str(),
+                   stages_to_advance );
+
+
+    for( int i = 0; i < stages_to_advance; i++ ) {
+        // Remove fertilizer if any
+        map_stack::iterator fertilizer = std::find_if( items.begin(), items.end(), []( const item & it ) {
+            return it.has_flag( flag_FERTILIZER );
+        } );
+        if( fertilizer != items.end() ) {
+            items.erase( fertilizer );
+        }
+        // spawn appropriate amount of rot_spawn, equivalent to number of times we iterate this loop
+        rotten_item_spawn( *seed, tripoint_bub_ms( p ) );
+        // Get an updated reference to the furniture each time we go through this loop, to make sure we transform each step in turn
+        const furn_t &current_furn = this->furn( p ).obj();
+        furn_set( p, furn_str_id( current_furn.plant->transform ) );
     }
 }
 
