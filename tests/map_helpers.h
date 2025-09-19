@@ -31,6 +31,7 @@ void player_add_headlamp();
 void player_wear_blindfold();
 void set_time_to_day();
 void set_time( const time_point &time );
+void clear_overmaps();
 
 class map_meddler
 {
