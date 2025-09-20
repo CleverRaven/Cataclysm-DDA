@@ -73,7 +73,7 @@
     "looks_like": "glock17_17",
     "type": "ITEM",
     "subtypes": [ "MAGAZINE" ],
-    "name": { "str": "Px4 .40 S&W 14-round magazine" },
+    "name": { "str": "Beretta Px4 Storm 14-round magazine" },
     "description": "A magazine for the Px4 Storm chambered for .40 S&W.  It holds 14 rounds.",
     "weight": "100 g",
     "volume": "81 ml",
@@ -128,13 +128,6 @@
     "variant_type": "gun",
     "name": { "str": "Luty .40 20-round magazine" },
     "description": "An improvised magazine that is mostly compatible with a homemade 'Luty' submachine gun, with a simplified feed system.  It looks like it might feed 20 rounds of .40S&W.",
-    "variants": [
-      {
-        "id": "smg_40_mag",
-        "name": { "str": "makeshift .40 20-round magazine" },
-        "description": "An improvised magazine that is mostly compatible with a homemade 'Luty' submachine gun, with a simplified feed system.  It looks like it might feed 20 rounds of .40S&W."
-      }
-    ],
     "weight": "207 g",
     "volume": "172 ml",
     "longest_side": "24 cm",
@@ -154,7 +147,7 @@
     "looks_like": "mp5mag",
     "type": "ITEM",
     "subtypes": [ "MAGAZINE" ],
-    "name": { "str": "UMP-40 30-round magazine" },
+    "name": { "str": "UMP .40 30-round magazine" },
     "description": "A straight, double-stack plastic box magazine for the UMP sub-machine gun in .40 S&W.  Holds 30 rounds.",
     "weight": "150 g",
     "volume": "206 ml",
@@ -174,7 +167,7 @@
     "looks_like": "glock17_17",
     "type": "ITEM",
     "subtypes": [ "MAGAZINE" ],
-    "name": { "str": "Hi-Power .40 S&W 10-round magazine" },
+    "name": { "str": "Browning Hi-Power .40 S&W 10-round magazine" },
     "description": "A 10-round steel box magazine for the Browning Hi-Power .40 S&W.",
     "weight": "100 g",
     "volume": "74 ml",

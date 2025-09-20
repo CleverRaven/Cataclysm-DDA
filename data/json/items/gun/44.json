@@ -5,7 +5,7 @@
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "reload_noise_volume": 10,
-    "name": { "str_sp": "Desert Eagle pistol" },
+    "name": { "str": "Desert Eagle pistol" },
     "description": "An icon of popular culture more than a practical weapon, this massive pistol can shoot a variety of magnum handgun rounds depending on the conversion kit and magazine used.",
     "weight": "1407 g",
     "volume": "671 ml",
@@ -114,7 +114,7 @@
     "looks_like": "sw_619",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
-    "name": { "str": ".44 revolver" },
+    "name": { "str": "large-bore revolver" },
     "description": "A stainless steel, six-shot, double-action revolver with a matte black plastic handle manufactured by Smith & Wesson.  Though hardly the most powerful handgun in the world any more, it could still blow a zombie's head clean off.",
     "//1": "If someone makes a sw269 ascii picture, make this only the ruger's art",
     "ascii_picture": "redhawk",
@@ -158,7 +158,7 @@
     "looks_like": "sw_619",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
-    "name": { "str": ".44 long barrel hunting revolver" },
+    "name": { "str": "long-barreled magnum revolver" },
     "description": "A large-frame revolver with a modern plastic handle.  Too large for law enforcement, it was mostly used by sport shooters and hunters, for the manufacturer deemed it to be the most accurate .44-caliber revolver in their line.  This one has an extended 8-inch barrel.",
     "variant_type": "gun",
     "variants": [
@@ -194,7 +194,7 @@
     "copy-from": "colt_anaconda_8",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
-    "name": { "str": ".44 hunting revolver" },
+    "name": { "str": "magnum revolver" },
     "description": "A large-frame revolver with a modern plastic handle.  Too large for law enforcement, it was mostly used by sport shooters and hunters, for the manufacturer deemed it to be the most accurate .44-caliber revolver in their line.  This one has a 6-inch barrel.",
     "variant_type": "gun",
     "variants": [
@@ -215,7 +215,7 @@
     "copy-from": "colt_anaconda_8",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
-    "name": { "str": ".44 short barrel hunting revolver" },
+    "name": { "str": "short-barreled magnum revolver" },
     "description": "A large-frame revolver with a modern plastic handle.  Too large for law enforcement, it was mostly used by sport shooters and hunters, for the manufacturer deemed it to be the most accurate .44-caliber revolver in their line.  This one has a shortened 4-inch barrel.",
     "variant_type": "gun",
     "variants": [
@@ -237,7 +237,7 @@
     "looks_like": "modular_ar15",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
-    "name": { "str": ".44 lever-action rifle" },
+    "name": { "str": "lever-action rifle" },
     "description": "This lever-action rifle is chambered in the powerful .44 Magnum cartridge, with an 16\" barrel with a tube-fed magazine.  Go get 'em cowboy!",
     "variant_type": "gun",
     "variants": [
@@ -277,7 +277,7 @@
     "looks_like": "modular_ar15",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
-    "name": { "str": "long-barreled .44 lever-action rifle" },
+    "name": { "str": "long-barreled lever-action rifle" },
     "description": "This lever-action rifle is chambered in the powerful .44 Magnum cartridge, with an 20\" barrel with a tube-fed magazine.  Go get 'em cowboy!",
     "variant_type": "gun",
     "variants": [

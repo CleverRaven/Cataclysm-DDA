@@ -5,7 +5,7 @@
     "looks_like": "win70",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
-    "name": { "str": "Safari rifle" },
+    "name": { "str": "safari rifle" },
     "description": "A bolt-action sporting rifle for hunting dangerous game, chambered in the powerful .458 Winchester Magnum cartridge.",
     "variant_type": "gun",
     "variants": [
