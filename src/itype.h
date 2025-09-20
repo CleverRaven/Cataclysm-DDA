@@ -1192,11 +1192,15 @@ struct islot_seed {
         islot_seed() = default;
 
         const std::vector<std::pair<flag_id, time_duration>> &get_growth_stages() const;
+        units::temperature get_growth_temp() const;
     private:
         /**
         * What stages of growth does this plant have? How long does each stage of growth last?
         */
         std::vector<std::pair<flag_id, time_duration>> growth_stages;
+        // Temperature needs to be at or above this temp for the plant to be planted/grow. Converted to Celsius in the getter.
+        // Kind of nasty! Would prefer to load this as a temperature instead of the conversion.
+        double growth_temp = 0;
 };
 
 enum condition_type {
