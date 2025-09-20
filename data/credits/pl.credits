@@ -6,9 +6,9 @@
 <color_yellow>Whales</color> (<color_dark_gray>emerytowany</color>)    <color_yellow>KevinGranade</color>
 
 <color_white>Specjalne podziękowania dla:</color>
-<color_yellow>Standing-Storm</color> - Creator and maintainer of the enormous 'Mind over Matter' mod and numerous contributions to other mods (fair folk and espers and wizards, oh my!)
-<color_yellow>Maleclypse</color> - Xedra Evolved maintainer and merger, clocking in at over 2,000 (thousand!!!) merges this release cycle.
-<color_yellow>GuardianDll</color> - Merging, non-specific json and c++ changes, memorizing and quoting documentation for everyone needed.  "I don't remember making so many PRs, what the hell?" - GuardianDll
+<color_yellow>Standing-Storm</color> - Twórca i konserwator ogromnego moda „Mind over Matter” i licznych kontrybucji do innych modów (fair folk i espers and wizards)
+<color_yellow>Maleclypse</color> - Konserwator i merdżer Xedra Evolved, wrzucenie ponad 2000 (tysięcy!!!) merdży w tym cyklu wydawniczym.
+<color_yellow>GuardianDll</color> - Merdżowanie, ogólne zmiany json i c++, zapamiętanie i cytowanie dokumentacji dla każdego potrzebującego. „Nie pamiętam, żebym robił tak dużo Pull Request, co do diabła?” - GuardianDll
 <color_yellow>RenechCDDA</color> - Ulepszenia grup NPC, obozów i pojazdów.
 <color_yellow>Procyonae</color> - Absurdalna ilość infrastrukturalnych Pull Request. Kod generatora świata bardzo się rozwinął pod ich opieką.
 <color_yellow>PatrikLundell</color> - Absurdalna ilość naprawionych błędów i ważnych aktualizacji bezpieczeństwa dla generatora świata, infrastruktury trzypunktowej i innych kluczowych systemów.
@@ -20,14 +20,14 @@
 <color_yellow>John Candlebury</color> - Aftershock. Czy wiedziałeś, że możesz teraz posiadać i latać ogromnym statkiem kosmicznym w Aftershock?
 <color_yellow>katemonster33</color> - Wziął grę szturmem przy pomocy ImGuI i ImTui. Dając nam UI, które zawsze chcieliśmy mieć.
 <color_yellow>Daniel Brooks 'db48x'</color> - Za podwaliny pod nasze nowe okienka ImGui.
-<color_yellow>moxian</color> - Mission-critical work on build and IWYU infrastructure. They've made every developer's life easier.
-<color_yellow>akrieger</color> - Continued game speed improvements, keeping CI alive, and saving hard drives from Sky Islands games with compressed saves.
+<color_yellow>moxian</color> - Niezastąpiona praca nad systemem misji i infrastrukturą IWYU. Uczynili życie każdego twórcy prostszym.
+<color_yellow>akrieger</color> - Ciągłe ulepszenia tempa gry, utrzymywanie CI przy życiu i oszczędzanie dysków twardych dzięki skompresowaniu zapisów z rozgrywek Sky Island.
 <color_yellow>SariusSkelrets</color> - Rozszerzenie i dopracowanie zawartości wampirów w Xedra Evolved.
 <color_yellow>ehughsbaird</color>, <color_yellow>Karol1223</color> i <color_yellow>mqrause</color>.
 
 <color_white>Specjalne podziękowania za kontrybucje grafik:</color>
-<color_yellow>hoasd1</color> - Most tileset contributions this cycle, they've chosen to ride off into the sunset with style. We wish them the best of luck with where life takes them, but Ultica will forever be shaped by their work!
-<color_yellow>gettingusedto</color> - MSX+ heavyweight and all around nice guy. We've gotten used to (heh) seeing them around!
+<color_yellow>hoasd1</color> - Większość kontrybucji tilesetów w tym cyklu, postanowili odjechać w stronę zachodzącego słońca ze stylem. Życzymy im szczęścia tam gdzie zaprowadzi ich los. Ich praca na zawsze ukształtowała Ultica.
+<color_yellow>gettingusedto</color> - MSX+ heavyweight i wszystko związane z nice guy. Przyzwyczailiśmy się do ich... widoku ;) !
 
 <color_white>Pełna lista kontrybutorów dostępna na:</color>
 <color_cyan>https://github.com/CleverRaven/Cataclysm-DDA/contributors</color>
