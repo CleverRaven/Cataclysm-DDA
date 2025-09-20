@@ -384,6 +384,7 @@ class map
                 field_proc_data & );
 
         // for testing
+        friend class map_meddler;
         friend void clear_fields( int zlevel );
 
     protected:
@@ -1890,6 +1891,7 @@ class map
          */
         void shift_traps( const point_rel_sm &shift );
 
+        void on_unload( const tripoint_rel_sm &loc );
         void copy_grid( const tripoint_rel_sm &to, const tripoint_rel_sm &from );
         void draw_map( mapgendata &dat );
 
@@ -1942,7 +1944,7 @@ class map
          */
         void set_abs_sub( const tripoint_abs_sm &p );
 
-    private:
+    protected:
         field &get_field( const tripoint_bub_ms &p );
 
         /**
@@ -2170,6 +2172,7 @@ class map
         // !value || value->first != map::abs_sub means cache is invalid
         std::optional<std::pair<tripoint_abs_sm, int>> max_populated_zlev = std::nullopt;
 
+        bool mapgen_in_progress = false;
         // this is set for maps loaded in bounds of the main map (g->m)
         bool _main_requires_cleanup = false;
         std::optional<bool> _main_cleanup_override = std::nullopt;
