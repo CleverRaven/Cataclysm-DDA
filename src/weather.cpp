@@ -24,6 +24,7 @@
 #include "item.h"
 #include "item_contents.h"
 #include "item_location.h"
+#include "itype.h"
 #include "line.h"
 #include "map.h"
 #include "map_scale_constants.h"
@@ -46,6 +47,7 @@
 #include "trap.h"
 #include "uistate.h"
 #include "units.h"
+#include "value_ptr.h"
 #include "weather_gen.h"
 
 static const activity_id ACT_WAIT_WEATHER( "ACT_WAIT_WEATHER" );
@@ -885,13 +887,12 @@ bool warm_enough_to_plant( const tripoint_abs_omt &pos, const itype_id &it )
     time_point check_date = calendar::turn;
     planting_times[check_date] = get_weather().get_area_temperature( pos );
     bool okay_to_plant = true;
-    const int num_epochs = 3; // FIXME. Should be stored on the seed ptr and read from there!
+    const std::vector<std::pair<flag_id, time_duration>> &growth_stages = it->seed->get_growth_stages();
     // and now iterate a copy of the weather into the future to see if they'll be plantable then as well.
-    time_duration one_growth_cycle = item( it ).get_plant_epoch( num_epochs );
     const weather_generator weather_gen = get_weather().get_cur_weather_gen();
-    for( int i = 0; i < num_epochs; i++ ) {
+    for( const auto &pair : growth_stages ) {
         // TODO: Replace epoch checks with data from a farmer's almanac
-        check_date = check_date + one_growth_cycle;
+        check_date = check_date + pair.second;
         const w_point &w = weather_gen.get_weather( project_to<coords::ms>( pos ), check_date,
                            g->get_seed() );
         planting_times[check_date] = w.temperature;

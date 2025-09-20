@@ -2528,8 +2528,10 @@ void Item_factory::check_definitions() const
             }
         }
         if( type->seed ) {
-            if( type->seed->grow < 1_turns ) {
-                msg += "seed growing time is less than 1 turn\n";
+            for( const auto &pair : type->seed->get_growth_stages() ) {
+                if( pair.second < 1_turns ) {
+                    msg += string_format( "Growth for stage %s is less than 1 turn", pair.first.c_str() );
+                }
             }
             if( !has_template( type->seed->fruit_id ) ) {
                 msg += string_format( "invalid fruit id %s\n", type->seed->fruit_id.c_str() );
@@ -3456,10 +3458,11 @@ void islot_compostable::deserialize( const JsonObject &jo )
 
 void islot_seed::deserialize( const JsonObject &jo )
 {
-    optional( jo, was_loaded, "grow", grow, 1_days );
     optional( jo, was_loaded, "fruit_div", fruit_div, 1 );
     mandatory( jo, was_loaded, "plant_name", plant_name );
     mandatory( jo, was_loaded, "fruit", fruit_id );
+    mandatory( jo, was_loaded, "growth_stages", growth_stages,
+               vector_pair_reader<flag_id, time_duration> {} );
     optional( jo, was_loaded, "seeds", spawn_seeds, true );
     optional( jo, was_loaded, "byproducts", byproducts );
     optional( jo, was_loaded, "required_terrain_flag", required_terrain_flag,

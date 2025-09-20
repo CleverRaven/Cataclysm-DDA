@@ -1266,7 +1266,13 @@
     "fruit": "corn",
     "seeds": false,
     "byproducts": [ "withered" ],
-    "grow": "80 days",
+    "growth_stages": [
+      { "GROWTH_SEED": "20 days" },
+      { "GROWTH_SEEDLING": "20 days" },
+      { "GROWTH_MATURE": "20 days" },
+      { "GROWTH_HARVEST": "20 days" },
+      { "GROWTH_OVERGROWN": "1 hour" }
+    ],
     "into": "cornmeal",
     "recipe": "cornmeal_mill_1_3"
   },
