@@ -1,6 +1,6 @@
 [
   {
-    "type": "faction_mission",
+    "type": "faction_mission"
     "id": "camp_gathering",
     "name": "Gathering",
     "desc": "Send a companion to gather materials for the next camp upgrade.",
