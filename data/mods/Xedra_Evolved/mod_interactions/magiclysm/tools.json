@@ -1,0 +1,50 @@
+[
+  {
+    "id": "tailors_kit",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "tailor's kit" },
+    "description": "This is a high quality kit consisting of a variety of needles, some wooden spools for thread, some small scissors, and an awl.  Use a tailor's kit to customize your clothing and armor.  This uses your tailoring skill.",
+    "weight": "100 g",
+    "volume": "500 ml",
+    "price": "10 USD",
+    "price_postapoc": "10 USD",
+    "material": [ "wood", "steel" ],
+    "symbol": ";",
+    "color": "red",
+    "sub": "sewing_kit",
+    "charges_per_use": 1,
+    "qualities": [ [ "SEW", 4 ], [ "SEW_CURVED", 1 ], [ "KNIT", 1 ], [ "LEATHER_AWL", 2 ], [ "CUT", 2 ], [ "FABRIC_CUT", 2 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "thread": 400 } } ],
+    "use_action": [
+      {
+        "type": "repair_item",
+        "item_action_type": "repair_fabric",
+        "materials": [
+          "cotton",
+          "leather",
+          "lycra",
+          "nylon",
+          "wool",
+          "fur",
+          "faux_fur",
+          "nomex",
+          "kevlar",
+          "kevlar_layered",
+          "neoprene",
+          "gutskin",
+          "canvas",
+          "denim",
+          "black_dragon_hide",
+          "fae_fur"
+        ],
+        "skill": "tailor",
+        "tool_quality": 1,
+        "cost_scaling": 0.1,
+        "move_cost": 800
+      }
+    ],
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "tool_ammo": [ "thread" ]
+  }
+]
