@@ -41,5 +41,101 @@
         { "item": "chunk_cinnabar", "count": [ 1, 3 ], "prob": 15 }
       ]
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_rock_copper",
+    "looks_like": "t_rock",
+    "name": "ore-bearing rock",
+    "description": "It's solid rock, with the glint of greenish ore in it.  Best grab your pickaxe or equivalent digging implement, and strike the earth!",
+    "symbol": "#",
+    "color": "white",
+    "move_cost": 0,
+    "coverage": 100,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "MINEABLE", "BLOCK_WIND" ],
+    "roof": "t_rock_floor_no_roof",
+    "bash": {
+      "str_min": 100,
+      "str_max": 400,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_rock_floor",
+      "ter_set_bashed_from_above": "t_rock_floor_no_roof",
+      "items": [ { "group": "mining_rock", "count": 1 }, { "item": "chunk_copper", "count": [ 1, 3 ], "prob": 100 } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_rock_tin",
+    "looks_like": "t_rock",
+    "name": "ore-bearing rock",
+    "description": "It's solid rock, with the glint of silvery ore in it.  Best grab your pickaxe or equivalent digging implement, and strike the earth!",
+    "symbol": "#",
+    "color": "white",
+    "move_cost": 0,
+    "coverage": 100,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "MINEABLE", "BLOCK_WIND" ],
+    "roof": "t_rock_floor_no_roof",
+    "bash": {
+      "str_min": 100,
+      "str_max": 400,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_rock_floor",
+      "ter_set_bashed_from_above": "t_rock_floor_no_roof",
+      "items": [ { "group": "mining_rock", "count": 1 }, { "item": "chunk_cassiterite", "count": [ 2, 4 ], "prob": 100 } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_rock_iron_ore",
+    "looks_like": "t_rock",
+    "name": "ore-bearing rock",
+    "description": "It's solid rock, with the glint of reddish ore in it.  Best grab your pickaxe or equivalent digging implement, and strike the earth!",
+    "symbol": "#",
+    "color": "white",
+    "move_cost": 0,
+    "coverage": 100,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "MINEABLE", "BLOCK_WIND" ],
+    "roof": "t_rock_floor_no_roof",
+    "bash": {
+      "str_min": 100,
+      "str_max": 400,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_rock_floor",
+      "ter_set_bashed_from_above": "t_rock_floor_no_roof",
+      "items": [ { "group": "mining_rock", "count": 1 }, { "item": "iron_ore", "count": [ 1, 5 ], "prob": 100 } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_rock_iron_hematite",
+    "looks_like": "t_rock",
+    "name": "ore-bearing rock",
+    "description": "It's solid rock, with the glint of reddish ore in it.  Best grab your pickaxe or equivalent digging implement, and strike the earth!",
+    "symbol": "#",
+    "color": "white",
+    "move_cost": 0,
+    "coverage": 100,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "MINEABLE", "BLOCK_WIND" ],
+    "roof": "t_rock_floor_no_roof",
+    "bash": {
+      "str_min": 100,
+      "str_max": 400,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_rock_floor",
+      "ter_set_bashed_from_above": "t_rock_floor_no_roof",
+      "items": [ { "group": "mining_rock", "count": 1 }, { "item": "chunk_hematite", "count": [ 2, 3 ], "prob": 100 } ]
+    }
   }
 ]
