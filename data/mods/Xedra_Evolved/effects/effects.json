@@ -3748,11 +3748,14 @@
     "id": "effect_slain_by_the_sun",
     "name": [ "Slain by the Sun" ],
     "desc": [ "The sun is burning you like a dry leaf in a wildfire." ],
-    "miss_messages": [ [ "The sun is burning you.", 2 ] ],
-    "rating": "bad",
-    "main_parts_only": true,
-    "base_mods": { "pain_min": [ 2 ], "pain_tick": [ 10 ], "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_tick": [ 10 ] },
-    "show_in_info": false
+    "rating": "bad"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_slain_by_the_sun_limiter",
+    "//": "Hidden effect, prevents the sun fire anathema EoC from firing new copies on every step.",
+    "name": [ "" ],
+    "desc": [ "" ]
   },
   {
     "type": "effect_type",
