@@ -20,6 +20,7 @@ from .parsers.enchant import parse_enchant
 from .parsers.end_screen import parse_end_screen
 from .parsers.event_statistic import parse_event_statistic
 from .parsers.faction import parse_faction
+from .parsers.faction_mission import parse_faction_mission
 from .parsers.fault import parse_fault
 from .parsers.fault_fix import parse_fault_fix
 from .parsers.field_type import parse_field_type
@@ -140,6 +141,7 @@ parsers = {
     "event_transformation": dummy_parser,
     "external_option": dummy_parser,
     "faction": parse_faction,
+    "faction_mission": parse_faction_mission,
     "fault": parse_fault,
     "fault_fix": parse_fault_fix,
     "fault_group": dummy_parser,
