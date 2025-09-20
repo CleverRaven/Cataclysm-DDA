@@ -9,6 +9,14 @@
   },
   {
     "type": "ITEM",
+    "id": "report_red_twilight_34",
+    "name": { "str": "Report Red Twilight 34", "str_pl": "copies of Report Red Twilight 34" },
+    "description": "A page from a report.",
+    "copy-from": "survnote",
+    "snippet_category": "bloodthorne_druid_vampire_report"
+  },
+  {
+    "type": "ITEM",
     "id": "border_patrol_files",
     "name": { "str_sp": "border patrol files" },
     "description": "A folder filled with pages.",
