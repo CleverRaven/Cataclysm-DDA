@@ -1128,7 +1128,7 @@ void monster::move()
         // Implement both avoiding obstacles and staggering.
         moved = false;
         float switch_chance = 0.0f;
-        const bool can_bash = bash_skill() > 0;
+        const bool can_bash = !bash_skill().empty();
         // This is a float and using trig_dist() because that Does the Right Thing(tm)
         // in both circular and roguelike distance modes.
         const float distance_to_target = trig_dist( pos_bub(), destination );
@@ -1510,7 +1510,7 @@ tripoint_bub_ms monster::scent_move()
         return { -1, -1, INT_MIN };
     }
 
-    const bool can_bash = bash_skill() > 0;
+    const bool can_bash = !bash_skill().empty();
     if( !fleeing && scent_here > smell_threshold ) {
         // Smell too strong to track, wander around
         sdirection.push_back( pos_bub() );
@@ -1769,7 +1769,7 @@ bool monster::bash_at( const tripoint_bub_ms &p )
         return false;
     }
 
-    if( bash_skill() <= 0 ) {
+    if( bash_skill().empty() ) {
         return false;
     }
 
@@ -1782,34 +1782,48 @@ bool monster::bash_at( const tripoint_bub_ms &p )
         }
     }
 
-    int bashskill = group_bash_skill( p );
+    std::map<damage_type_id, int> bashskill = group_bash_skill( p );
     here.bash( p, bashskill );
     mod_moves( -get_speed() );
     return true;
 }
 
-int monster::bash_estimate() const
+std::map<damage_type_id, int> monster::bash_estimate() const
 {
-    int estimate = bash_skill();
+    std::map<damage_type_id, int> estimate = bash_skill();
     if( has_flag( mon_flag_GROUP_BASH ) ) {
         // Right now just give them a boost so they try to bash a lot of stuff.
         // TODO: base it on number of nearby friendlies.
-        estimate *= 2;
+        for( std::pair<const damage_type_id, int> &pr : estimate ) {
+            pr.second *= 2;
+        }
     }
     return estimate;
 }
 
-int monster::bash_skill() const
+std::map<damage_type_id, int> monster::bash_skill() const
 {
     return type->bash_skill;
 }
 
-int monster::group_bash_skill( const tripoint_bub_ms &target )
+static void add_map( std::map<damage_type_id, int> &to, const std::map<damage_type_id, int> &from,
+                     double divisor )
+{
+    for( const std::pair<const damage_type_id, int> &dam : from ) {
+        auto ret = to.emplace( dam.first, dam.second / divisor );
+        // add to existing, emplace had no effect
+        if( !ret.second ) {
+            ret.first->second += dam.second / divisor;
+        }
+    }
+}
+
+std::map<damage_type_id, int> monster::group_bash_skill( const tripoint_bub_ms &target )
 {
     if( !has_flag( mon_flag_GROUP_BASH ) ) {
         return bash_skill();
     }
-    int bashskill = 0;
+    std::map<damage_type_id, int> ret;
 
     // pileup = more bash skill, but only help bashing mob directly in front of target
     const int max_helper_depth = 5;
@@ -1841,10 +1855,10 @@ int monster::group_bash_skill( const tripoint_bub_ms &target )
         // If we made it here, the last monster checked was the candidate.
         monster &helpermon = *mon;
         // Contribution falls off rapidly with distance from target.
-        bashskill += helpermon.bash_skill() / rl_dist( candidate, target );
+        add_map( ret, helpermon.bash_skill(), rl_dist( candidate, target ) );
     }
 
-    return bashskill;
+    return ret;
 }
 
 bool monster::attack_at( const tripoint_bub_ms &p )

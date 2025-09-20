@@ -29,6 +29,9 @@ using anatomy_id = string_id<anatomy>;
 struct attack_vector;
 using attack_vector_id = string_id<attack_vector>;
 
+class bash_damage_profile;
+using bash_damage_profile_id = string_id<bash_damage_profile>;
+
 struct bionic_data;
 using bionic_id = string_id<bionic_data>;
 

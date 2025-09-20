@@ -1514,8 +1514,8 @@ bool mattack::triffid_heartbeat( monster *z )
     const tripoint_bub_ms z_pos = z->pos_bub( here );
 
     creature_tracker &creatures = get_creature_tracker();
-    static pathfinding_settings root_pathfind( 10, 20, 50, 0, false, false, false, false, false,
-            false );
+    static pathfinding_settings root_pathfind( {{damage_bash, 10}}, 20, 50, 0, false, false, false,
+    false, false, false );
     const pathfinding_target pf_t = pathfinding_target::point( z_pos );
     if( rl_dist( z_pos, pos ) > 5 &&
         !here.route( pos, pf_t, root_pathfind ).empty() ) {

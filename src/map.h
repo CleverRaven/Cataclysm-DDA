@@ -138,7 +138,7 @@ struct visibility_variables {
 
 struct bash_params {
     // Initial strength
-    int strength = 0;
+    const std::map<damage_type_id, int> &strength;
     // Make a sound?
     bool silent = false;
     // Essentially infinite bash strength + some
@@ -154,6 +154,8 @@ struct bash_params {
     float roll = 0.0f;
     // Was anything hit?
     bool did_bash = false;
+    // can we keep damaging this tile (if not destroyed)
+    bool can_bash = false;
     // Was anything destroyed?
     bool success = false;
     // Did we bash furniture, terrain or vehicle
@@ -1045,7 +1047,8 @@ class map
         int bash_resistance( const tripoint_bub_ms &p, bool allow_floor = false ) const;
         /** Returns a success rating from -1 to 10 for a given tile based on a set strength, used for AI movement planning
         *  Values roughly correspond to 10% increment chances of success on a given bash, rounded down. -1 means the square is not bashable */
-        int bash_rating( int str, const tripoint_bub_ms &p, bool allow_floor = false ) const;
+        int bash_rating( const std::map<damage_type_id, int> &str, const tripoint_bub_ms &p,
+                         bool allow_floor = false ) const;
 
         // Rubble
         /** Generates rubble at the given location, if overwrite is true it just writes on top of what currently exists
@@ -1162,8 +1165,12 @@ class map
          * @param bash_floor Allow bashing the floor and the tile that supports it
          * @param bashing_vehicle Vehicle that should NOT be bashed (because it is doing the bashing)
          */
-        bash_params bash( const tripoint_bub_ms &p, int str, bool silent = false,
-                          bool destroy = false, bool bash_floor = false,
+        bash_params bash( const tripoint_bub_ms &p, const std::map<damage_type_id, int> &str,
+                          bool silent = false, bool destroy = false, bool bash_floor = false,
+                          const vehicle *bashing_vehicle = nullptr,
+                          bool repair_missing_ground = true );
+        bash_params bash( const tripoint_bub_ms &p, int str,
+                          bool silent = false, bool destroy = false, bool bash_floor = false,
                           const vehicle *bashing_vehicle = nullptr,
                           bool repair_missing_ground = true );
 
@@ -2029,9 +2036,9 @@ class map
          */
         int move_cost_internal( const furn_t &furniture, const ter_t &terrain, const field &field,
                                 const vehicle *veh, int vpart ) const;
-        int bash_rating_internal( int str, const furn_t &furniture,
-                                  const ter_t &terrain, bool allow_floor,
-                                  const vehicle *veh, int part ) const;
+        int bash_rating_internal( const std::map<damage_type_id, int> &str,
+                                  const furn_t &furniture, const ter_t &terrain,
+                                  bool allow_floor, const vehicle *veh, int part ) const;
 
         /**
          * Internal version of the drawsq. Keeps a cached maptile for less re-getting.
