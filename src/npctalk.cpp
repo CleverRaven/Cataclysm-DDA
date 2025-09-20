@@ -5224,6 +5224,7 @@ talk_effect_fun_t::func f_message( const JsonObject &jo, std::string_view member
     const bool same_snippet = jo.get_bool( "same_snippet", false );
     const bool outdoor_only = jo.get_bool( "outdoor_only", false );
     const bool store_in_lore = jo.get_bool( "store_in_lore", false );
+    const bool is_wall_adjacent = jo.get_bool( "is_wall_adjacent", false );
     const bool sound = jo.get_bool( "sound", false );
     const bool popup_msg = jo.get_bool( "popup", false );
     const bool popup_w_interrupt_query_msg = jo.get_bool( "popup_w_interrupt_query", false );
