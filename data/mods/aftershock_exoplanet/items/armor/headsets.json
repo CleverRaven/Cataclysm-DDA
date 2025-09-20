@@ -73,5 +73,33 @@
         "type": "transform"
       }
     ]
+  },
+  {
+    "id": "merc_cat_ears",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "category": "armor",
+    "symbol": "[",
+    "color": "blue",
+    "name": { "str": "Kat Gear™ headset" },
+    "description": "An icy blue cat-ear headset, currently all the rage among freelance mercenaries.  Kat Gear™  not only deadens loud sounds, but also uses proprietary Kat Ear™ technology to enhance the user's hearing!  It's combat rated, stylish, and nuclear powered, so you never need to fuss with batteries.",
+    "flags": [
+      "OVERSIZE",
+      "BELTED",
+      "ALLOWS_NATURAL_ATTACKS",
+      "PARTIAL_DEAF",
+      "WATER_BREAK",
+      "ELECTRONIC",
+      "STURDY",
+      "RADIOACTIVE",
+      "LEAK_DAM",
+      "MUNDANE"
+    ],
+    "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": { "value": "HEARING_MULT", "multiply": 2.5 } } ],
+    "faults": [ { "fault_group": "electronic_general" } ],
+    "price": "2 kUSD",
+    "material": [ "afs_kevlar" ],
+    "weight": "179 g",
+    "volume": "1 L"
   }
 ]
