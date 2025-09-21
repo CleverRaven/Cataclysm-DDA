@@ -532,7 +532,7 @@
     "type": "mutation",
     "id": "DHAMPIR_WEAKNESS_LOWER_KCAL_FROM_FOOD",
     "name": { "str": "Weakness: Thirst of the Damned" },
-    "points": -2,
+    "points": -3,
     "description": "Fresh blood has an energy that mortal food simply cannot compare to.  You gain 33% reduced kcal from the food you eat, but additional calories from drinking blood.",
     "purifiable": false,
     "valid": false,
@@ -546,6 +546,16 @@
     "description": "The power of fresh stolen blood lingers in your veins.  The natural rate that your blood empowers itself is cut in half.",
     "purifiable": false,
     "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "DHAMPIR_WEAKNESS_BURNED_BY_THE_SUN",
+    "name": { "str": "Weakness: Sun-Seared" },
+    "points": -5,
+    "description": "Your tainted blood flows so strongly that you have inherited the vampire's vulnerability to sunlight.  Unless you cover any exposed flesh, the sun will burn you slowly to ash.",
+    "purifiable": false,
+    "valid": false,
+    "flags": [ "SUNBURN" ]
   },
   {
     "type": "mutation",
