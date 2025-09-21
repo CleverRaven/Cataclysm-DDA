@@ -16,6 +16,7 @@
 #include <vector>
 
 #include "action.h"
+#include "activity_actor.h"
 #include "activity_actor_definitions.h"
 #include "activity_handlers.h"
 #include "addiction.h"
@@ -128,8 +129,6 @@
 #include "weather.h"
 #include "weather_type.h"
 #include "wound.h"
-
-class activity_actor;
 
 static const activity_id ACT_AUTODRIVE( "ACT_AUTODRIVE" );
 static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
@@ -9120,6 +9119,13 @@ void Character::set_knows_creature_type( const mtype_id &c )
 void Character::assign_activity( const activity_id &type, int moves, int index, int pos,
                                  const std::string &name )
 {
+    // This is not a perfect safety net, but I don't know of another way to get all activity actors and what activity_ids might be associated with them.
+    for( const auto &actor_ptr : activity_actors::deserialize_functions ) {
+        if( actor_ptr.first == type ) {
+            debugmsg( "Tried to assign generic activity %s to activity that has an actor!", type.c_str() );
+            return;
+        }
+    }
     assign_activity( player_activity( type, moves, index, pos, name ) );
 }
 
