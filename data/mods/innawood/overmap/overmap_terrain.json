@@ -22,7 +22,14 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "innawood_ore_vein_surface_left_side", "innawood_ore_vein_surface_center", "innawood_ore_vein_surface_right_side" ],
+    "id": [
+      "innawood_ore_vein_surface_z2_left_side",
+      "innawood_ore_vein_surface_z2_center",
+      "innawood_ore_vein_surface_z2_right_side",
+      "innawood_ore_vein_surface_z3_left_side",
+      "innawood_ore_vein_surface_z3_center",
+      "innawood_ore_vein_surface_z3_right_side"
+    ],
     "vision_levels": "always_full",
     "name": "ore vein",
     "sym": "%",

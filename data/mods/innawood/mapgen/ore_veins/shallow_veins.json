@@ -76,7 +76,50 @@
   {
     "type": "mapgen",
     "om_terrain": [
-      [ "innawood_ore_vein_surface_left_side", "innawood_ore_vein_surface_center", "innawood_ore_vein_surface_right_side" ]
+      [
+        "innawood_ore_vein_surface_z2_left_side",
+        "innawood_ore_vein_surface_z2_center",
+        "innawood_ore_vein_surface_z2_right_side"
+      ]
+    ],
+    "object": {
+      "rows": [
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        ",
+        "                  .......                                               ",
+        "             ..........................                                 ",
+        "             ..++++..............................                       ",
+        "              ...++++++++++++++++++++++++++++.......                    ",
+        "               ....+++++++++++++++++++++++++++++++....                  ",
+        "                ...+++++++++++++++++++++++++++++++++...                 ",
+        "                 .....+++++++++++++++++++++++++++++++..                 ",
+        "                     ........+++++++++++++++++++++++...                 ",
+        "                          ............................                  ",
+        "                                .....................                   ",
+        "                                        .......                         ",
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        "
+      ],
+      "palettes": [ "innawood_ore_vein" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [
+      [
+        "innawood_ore_vein_surface_z3_left_side",
+        "innawood_ore_vein_surface_z3_center",
+        "innawood_ore_vein_surface_z3_right_side"
+      ]
     ],
     "object": {
       "rows": [
