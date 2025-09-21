@@ -7,7 +7,7 @@
         "type": "palette_id",
         "default": {
           "distribution": [
-            [ "innawood_ore_vein_coal", 5 ],
+            [ "innawood_ore_vein_coal", 3 ],
             [ "innawood_ore_vein_salt", 10 ],
             [ "innawood_ore_vein_brimstone", 10 ],
             [ "innawood_ore_vein_copper", 5 ],

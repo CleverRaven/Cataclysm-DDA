@@ -1,12 +1,17 @@
 [
   {
-    "type": "overmap_terrain",
-    "id": "cave_innawood",
-    "name": "cave",
-    "looks_like": "cave",
-    "sym": "C",
-    "color": "brown",
-    "see_cost": "high",
-    "flags": [ "NO_ROTATE", "SOURCE_SAFETY" ]
+    "type": "overmap_special",
+    "id": "elf_workshop",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "innawood_ore_vein_surface_indicator_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "innawood_ore_vein_subsurface_north" },
+      { "point": [ -1, 0, -2 ], "overmap": "innawood_ore_vein_surface_left_side_north" },
+      { "point": [ 0, 0, -2 ], "overmap": "innawood_ore_vein_surface_center_north" },
+      { "point": [ 1, 0, -2 ], "overmap": "innawood_ore_vein_surface_right_side_north" }
+    ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ 20, -1 ],
+    "city_sizes": [ 0, 13 ],
+    "occurrences": [ 10, 25 ]
   }
 ]
