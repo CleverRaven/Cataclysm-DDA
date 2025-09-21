@@ -18,7 +18,7 @@
     "color": "dark_gray",
     "looks_like": "empty_rock",
     "see_cost": "opaque",
-    "flags": [ "NO_ROTATE" ]
+    "travel_cost_type": "basement"
   },
   {
     "type": "overmap_terrain",
@@ -29,6 +29,6 @@
     "color": "dark_gray",
     "looks_like": "empty_rock",
     "see_cost": "opaque",
-    "flags": [ "NO_ROTATE" ]
+    "travel_cost_type": "basement"
   }
 ]

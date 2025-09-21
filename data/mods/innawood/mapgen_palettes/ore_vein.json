@@ -5,6 +5,7 @@
     "parameters": {
       "ore_type": {
         "type": "palette_id",
+        "scope": "overmap_special",
         "default": {
           "distribution": [
             [ "innawood_ore_vein_coal", 3 ],
