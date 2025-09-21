@@ -36,7 +36,7 @@
         "R": "t_rock_floor",
         ".": [ [ "t_grass", 3 ], [ "t_dirt", 10 ] ]
       },
-      "furniture": { " ": [ [ "f_rubble_rock", 1 ], [ "f_null", 1 ] ], "|": [ [ "f_rubble_rock", 1 ], [ "f_null", 5 ] ] }
+      "furniture": { "R": [ [ "f_rubble_rock", 1 ], [ "f_null", 1 ] ], "|": [ [ "f_rubble_rock", 1 ], [ "f_null", 5 ] ] }
     }
   },
   {
