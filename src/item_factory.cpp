@@ -61,7 +61,6 @@
 #include "text_snippets.h"
 #include "translation.h"
 #include "translations.h"
-#include "try_parse_integer.h"
 #include "units.h"
 #include "value_ptr.h"
 #include "veh_type.h"
@@ -431,28 +430,6 @@ void Item_factory::finalize_pre( itype &obj )
         }
         obj.volume = units::from_milliliter( 1 );
     }
-
-    // set light_emission based on LIGHT_[X] flag
-    for( const auto &f : obj.item_tags ) {
-        if( string_starts_with( f.str(), "LIGHT_" ) ) {
-            ret_val<int> ll = try_parse_integer<int>( f.str().substr( 6 ), false );
-            if( ll.success() ) {
-                if( ll.value() > 0 ) {
-                    obj.light_emission = ll.value();
-                } else {
-                    debugmsg( "item %s specifies light emission of zero, which is redundant",
-                              obj.id.str() );
-                }
-            } else {
-                debugmsg( "error parsing integer light emission suffic for item %s: %s",
-                          obj.id.str(), ll.str() );
-            }
-        }
-    }
-    // remove LIGHT_[X] flags
-    erase_if( obj.item_tags, []( const flag_id & f ) {
-        return string_starts_with( f.str(), "LIGHT_" );
-    } );
 
     // Finalize vitamins in food
     if( obj.comestible ) {
@@ -4071,6 +4048,7 @@ void itype::load( const JsonObject &jo, std::string_view src )
     optional( jo, was_loaded, "price_postapoc", price_post, not_negative_money, -1_cent );
     optional( jo, was_loaded, "stackable", stackable_ );
     optional( jo, was_loaded, "integral_volume", integral_volume, not_negative_volume, -1_ml );
+    optional( jo, was_loaded, "light", light_emission, 0 );
     optional( jo, was_loaded, "integral_longest_side", integral_longest_side, not_negative_length,
               -1_mm );
     optional( jo, was_loaded, "variant_type", variant_kind, itype_variant_kind::generic );

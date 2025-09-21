@@ -409,7 +409,8 @@
     "color": "yellow_cyan",
     "weight": "199 g",
     "volume": "228 ml",
-    "flags": [ "FREEZERBURN", "NO_AUTO_CONSUME", "LIGHT_10" ],
+    "light": 10,
+    "flags": [ "FREEZERBURN", "NO_AUTO_CONSUME" ],
     "consumption_effect_on_conditions": [ "EOC_GOBLIN_FRUIT_GIANT_GROWTH" ]
   },
   {
@@ -682,7 +683,8 @@
     "color": "magenta",
     "weight": "279 g",
     "volume": "254 ml",
-    "flags": [ "FREEZERBURN", "NO_AUTO_CONSUME", "LIGHT_650" ],
+    "light": 650,
+    "flags": [ "FREEZERBURN", "NO_AUTO_CONSUME" ],
     "consumption_effect_on_conditions": [ "EOC_GOBLIN_FRUIT_BLIND_FLASH" ]
   },
   {

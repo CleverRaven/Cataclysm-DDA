@@ -301,7 +301,8 @@
         "type": "transform"
       }
     ],
-    "flags": [ "FIRE", "FIRESTARTER", "LIGHT_8", "FLAMING", "TRADER_AVOID", "WATER_EXTINGUISH" ],
+    "light": 8,
+    "flags": [ "FIRE", "FIRESTARTER", "FLAMING", "TRADER_AVOID", "WATER_EXTINGUISH" ],
     "tool_ammo": [ "lamp_oil" ]
   },
   {

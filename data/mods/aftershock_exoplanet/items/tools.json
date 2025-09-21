@@ -249,7 +249,8 @@
         "type": "transform"
       }
     ],
-    "extend": { "flags": [ "TRADER_AVOID", "LIGHT_25" ] }
+    "light": 25,
+    "extend": { "flags": [ "TRADER_AVOID" ] }
   },
   {
     "id": "afs_wraitheon_smartphone",
@@ -587,7 +588,8 @@
       "menu_text": "Turn off",
       "type": "transform"
     },
-    "flags": [ "WATCH", "LIGHT_10", "TRADER_AVOID" ]
+    "light": 10,
+    "flags": [ "WATCH", "TRADER_AVOID" ]
   },
   {
     "id": "vr_laptop",

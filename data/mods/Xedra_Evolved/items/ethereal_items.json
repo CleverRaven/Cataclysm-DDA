@@ -266,7 +266,8 @@
     "price": "1 cent",
     "symbol": ",",
     "color": "light_green",
-    "flags": [ "LIGHT_300", "AURA", "SEMITANGIBLE", "UNBREAKABLE", "ALLOWS_NATURAL_ATTACKS" ],
+    "light": 300,
+    "flags": [ "AURA", "SEMITANGIBLE", "UNBREAKABLE", "ALLOWS_NATURAL_ATTACKS" ],
     "armor": [ { "covers": [ "head" ] } ],
     "melee_damage": { "bash": 8 }
   },
@@ -312,6 +313,7 @@
     "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "neutral" },
     "melee_damage": { "cut": 6 },
     "techniques": [ "PRECISE", "WIDE", "SWEEP" ],
+    "light": 15,
     "flags": [
       "REACH_ATTACK",
       "REACH3",
@@ -322,7 +324,6 @@
       "NO_REPAIR",
       "NO_SALVAGE",
       "FIRESTARTER",
-      "LIGHT_15",
       "FLAMING",
       "FIRE"
     ],
