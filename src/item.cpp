@@ -13594,7 +13594,7 @@ bool item::process_temperature_rot( float insulation, const tripoint_bub_ms &pos
 
         units::temperature_delta temp_mod;
         // Toilets and vending machines will try to get the heat radiation and convection during mapgen and segfault.
-        if( !g->new_game ) {
+        if( !g->new_game && !g->swapping_dimensions ) {
             temp_mod = get_heat_radiation( pos );
             temp_mod += get_convection_temperature( pos );
             temp_mod += here.get_temperature_mod( pos );
@@ -15155,20 +15155,6 @@ void item::mod_charges( int mod )
 bool item::is_seed() const
 {
     return !!type->seed;
-}
-
-time_duration item::get_plant_epoch( int num_epochs ) const
-{
-    if( !type->seed ) {
-        return 0_turns;
-    }
-    // Growing times have been based around real world season length rather than
-    // the default in-game season length to give
-    // more accuracy for longer season lengths
-    // Also note that seed->grow is the time it takes from seeding to harvest, this is
-    // divided by number of growth stages (usually 3) to get the time it takes from one plant state to the next.
-    // TODO: move this into the islot_seed
-    return type->seed->grow * calendar::season_ratio() / num_epochs;
 }
 
 std::string item::get_plant_name() const

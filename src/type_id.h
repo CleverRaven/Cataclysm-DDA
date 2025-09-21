@@ -97,6 +97,9 @@ using end_screen_id = string_id<end_screen>;
 class event_statistic;
 using event_statistic_id = string_id<event_statistic>;
 
+class faction_mission;
+using faction_mission_id = string_id<faction_mission>;
+
 class fault;
 using fault_id = string_id<fault>;
 
@@ -150,6 +153,9 @@ using matec_id = string_id<ma_technique>;
 
 class map_extra;
 using map_extra_id = string_id<map_extra>;
+
+struct map_extra_collection;
+using map_extra_collection_id = string_id<map_extra_collection>;
 
 class mapgen_palette;
 using palette_id = string_id<mapgen_palette>;
@@ -261,6 +267,24 @@ using region_settings_terrain_furniture_id = string_id<region_settings_terrain_f
 struct region_terrain_furniture;
 using region_terrain_furniture_id = string_id<region_terrain_furniture>;
 
+struct region_settings_forest_mapgen;
+using region_settings_forest_mapgen_id = string_id<region_settings_forest_mapgen>;
+
+struct forest_biome_mapgen;
+using forest_biome_mapgen_id = string_id<forest_biome_mapgen>;
+
+struct forest_biome_feature;
+using forest_biome_feature_id = string_id<forest_biome_feature>;
+
+struct region_settings_map_extras;
+using region_settings_map_extras_id = string_id<region_settings_map_extras>;
+
+struct region_settings;
+using region_settings_id = string_id<region_settings>;
+
+struct region_overlay_new;
+using region_overlay_new_id = string_id<region_overlay_new>;
+
 struct requirement_data;
 using requirement_id = string_id<requirement_data>;
 
@@ -347,6 +371,9 @@ using vitamin_id = string_id<vitamin>;
 
 class vpart_info;
 using vpart_id = string_id<vpart_info>;
+
+class vpart_location;
+using vpart_location_id = string_id<vpart_location>;
 
 struct vehicle_prototype;
 using vproto_id = string_id<vehicle_prototype>;

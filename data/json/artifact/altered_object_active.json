@@ -102,7 +102,7 @@
     "id": "AO_TRUESIGHT_EFFECT",
     "name": { "str": "Artifact Truesight" },
     "description": "Grants you the TRUE_SEEING flag.",
-    "message": "You see movement in the corners of your vision..",
+    "message": "You see movement in the corners of your vision.",
     "valid_targets": [ "self" ],
     "flags": [ "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
     "effect": "attack",

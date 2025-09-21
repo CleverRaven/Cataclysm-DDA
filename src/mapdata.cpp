@@ -261,6 +261,7 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
         case ter_furn_flag::TFLAG_CAN_SIT: return "CAN_SIT";
         case ter_furn_flag::TFLAG_FLAT_SURF: return "FLAT_SURF";
         case ter_furn_flag::TFLAG_BUTCHER_EQ: return "BUTCHER_EQ";
+        case ter_furn_flag::TFLAG_GROWTH_SEED: return "GROWTH_SEED";
         case ter_furn_flag::TFLAG_GROWTH_SEEDLING: return "GROWTH_SEEDLING";
         case ter_furn_flag::TFLAG_GROWTH_MATURE: return "GROWTH_MATURE";
         case ter_furn_flag::TFLAG_WORKOUT_ARMS: return "WORKOUT_ARMS";

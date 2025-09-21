@@ -1161,51 +1161,42 @@ struct islot_bionic {
 };
 
 struct islot_seed {
-    // Generic factory stuff
-    bool was_loaded = false;
-    void deserialize( const JsonObject &jo );
+        // Generic factory stuff
+        bool was_loaded = false;
+        void deserialize( const JsonObject &jo );
 
-    /**
-     * Time it takes for a seed to grow (based of off a season length of 91 days).
-     */
-    time_duration grow = 0_turns;
-    /**
-     * Amount of harvested charges of fruits is divided by this number.
-     */
-    int fruit_div = 1;
-    /**
-     * Name of the plant.
-     */
-    translation plant_name;
-    /**
-     * What the plant sprouts into. Defaults to f_plant_seedling.
-     */
-    furn_str_id seedling_form; // NOLINT(cata-serialize)
-    /**
-     * What the plant grows into. Defaults to f_plant_mature.
-     */
-    furn_str_id mature_form; // NOLINT(cata-serialize)
-    /**
-     * The plant's final growth stage. Defaults to f_plant_harvest.
-     */
-    furn_str_id harvestable_form; // NOLINT(cata-serialize)
-    /**
-     * Type id of the fruit item.
-     */
-    itype_id fruit_id;
-    /**
-     * Whether to spawn seed items additionally to the fruit items.
-     */
-    bool spawn_seeds = true;
-    /**
-     * Additionally items (a list of their item ids) that will spawn when harvesting the plant.
-     */
-    std::vector<itype_id> byproducts;
-    /**
-     * Terrain tag required to plant the seed.
-     */
-    ter_furn_flag required_terrain_flag = ter_furn_flag::TFLAG_PLANTABLE;
-    islot_seed() = default;
+        /**
+         * Amount of harvested charges of fruits is divided by this number.
+         */
+        int fruit_div = 1;
+        /**
+         * Name of the plant.
+         */
+        translation plant_name;
+        /**
+         * Type id of the fruit item.
+         */
+        itype_id fruit_id;
+        /**
+         * Whether to spawn seed items additionally to the fruit items.
+         */
+        bool spawn_seeds = true;
+        /**
+         * Additionally items (a list of their item ids) that will spawn when harvesting the plant.
+         */
+        std::vector<itype_id> byproducts;
+        /**
+         * Terrain tag required to plant the seed.
+         */
+        ter_furn_flag required_terrain_flag = ter_furn_flag::TFLAG_PLANTABLE;
+        islot_seed() = default;
+
+        const std::vector<std::pair<flag_id, time_duration>> &get_growth_stages() const;
+    private:
+        /**
+        * What stages of growth does this plant have? How long does each stage of growth last?
+        */
+        std::vector<std::pair<flag_id, time_duration>> growth_stages;
 };
 
 enum condition_type {

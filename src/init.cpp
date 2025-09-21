@@ -45,6 +45,7 @@
 #include "end_screen.h"
 #include "event_statistics.h"
 #include "faction.h"
+#include "faction_camp.h"
 #include "fault.h"
 #include "field_type.h"
 #include "filesystem.h"
@@ -117,6 +118,7 @@
 #include "type_id.h"
 #include "veh_type.h"
 #include "vehicle_group.h"
+#include "vehicle_part_location.h"
 #include "vitamin.h"
 #include "weakpoint.h"
 #include "weather_gen.h"
@@ -339,6 +341,7 @@ void DynamicDataLoader::initialize()
 
     add( "vehicle_part",  &vehicles::parts::load );
     add( "vehicle_part_category",  &vpart_category::load_all );
+    add( "vehicle_part_location",  &vpart_location::load_vehicle_part_locations );
     add( "vehicle_part_migration", &vpart_migration::load );
     add( "vehicle", &vehicles::load_prototype );
     add( "vehicle_group",  &VehicleGroup::load );
@@ -420,6 +423,19 @@ void DynamicDataLoader::initialize()
          &region_settings_terrain_furniture::load_region_settings_terrain_furniture );
     add( "region_terrain_furniture",
          &region_terrain_furniture::load_region_terrain_furniture );
+    add( "region_settings_forest_mapgen",
+         &region_settings_forest_mapgen::load_region_settings_forest_mapgen );
+    add( "region_settings_map_extras",
+         &region_settings_map_extras::load_region_settings_map_extras );
+    add( "forest_biome_feature",
+         &forest_biome_feature::load_forest_biome_feature );
+    add( "forest_biome_mapgen",
+         &forest_biome_mapgen::load_forest_biome_mapgen );
+    add( "map_extra_collection",
+         &map_extra_collection::load_map_extra_collection );
+    add( "region_settings_new", &region_settings::load_region_settings );
+    add( "region_overlay_new", &region_overlay_new::load_region_overlay_new );
+
     add( "ITEM_BLACKLIST", []( const JsonObject & jo ) {
         item_controller->load_item_blacklist( jo );
     } );
@@ -483,6 +499,7 @@ void DynamicDataLoader::initialize()
     add( "damage_info_order", &damage_info_order::load_damage_info_orders );
     add( "wound", &wound_type::load_wounds );
     add( "mod_migration", &mod_migrations::load );
+    add( "faction_mission", &faction_mission::load_faction_missions );
 #if defined(TILES)
     add( "mod_tileset", &load_mod_tileset );
 #else
@@ -646,6 +663,7 @@ void DynamicDataLoader::unload_data()
     event_statistic::reset();
     effect_on_conditions::reset();
     event_transformation::reset();
+    faction_mission::reset();
     faction_template::reset();
     faults::reset();
     field_types::reset();
@@ -702,6 +720,13 @@ void DynamicDataLoader::unload_data()
     region_settings_city::reset();
     region_settings_terrain_furniture::reset();
     region_terrain_furniture::reset();
+    region_settings_forest_mapgen::reset();
+    region_settings_map_extras::reset();
+    forest_biome_feature::reset();
+    forest_biome_mapgen::reset();
+    map_extra_collection::reset();
+    region_settings::reset();
+    region_overlay_new::reset();
     reset_monster_adjustment();
     recipe_dictionary::reset();
     recipe_group::reset();
@@ -742,6 +767,7 @@ void DynamicDataLoader::unload_data()
     vitamin::reset();
     vehicles::parts::reset();
     vpart_category::reset();
+    vpart_location::reset();
     vpart_migration::reset();
     weakpoints::reset();
     weather_generator::reset();
@@ -822,6 +848,7 @@ void DynamicDataLoader::finalize_loaded_data()
             { _( "Cities" ), &city::finalize_all },
             { _( "Math functions" ), &jmath_func::finalize_all },
             { _( "Start locations" ), &start_locations::finalize_all },
+            { _( "Vehicle part locations" ), &vpart_location::finalize_all },
             { _( "Vehicle part migrations" ), &vpart_migration::finalize },
             { _( "Vehicle prototypes" ), &vehicles::finalize_prototypes },
             { _( "Map Extras" ), &map_extra::finalize_all },
@@ -860,6 +887,8 @@ void DynamicDataLoader::finalize_loaded_data()
             { _( "Proficiency Categories" ), &proficiency_category::finalize_all },
             { _( "Qualities" ), &quality::finalize_all },
             { _( "Recipe Groups" ), &recipe_group::finalize },
+            { _( "Region Settings" ), &region_settings::finalize_all },
+            { _( "Region Overlays" ), &region_overlay_new::finalize_all },
             { _( "Relic Procedural Generations" ), &relic_procgen_data::finalize_all },
             { _( "Speed Descriptions" ), &speed_description::finalize_all },
             { _( "Species" ), &species_type::finalize_all },
@@ -924,6 +953,7 @@ void DynamicDataLoader::check_consistency()
             { _( "Materials" ), &materials::check },
             { _( "Faults" ), &faults::check_consistency },
             { _( "Vehicle parts" ), &vehicles::parts::check },
+            { _( "Vehicle part locations" ), &vpart_location::check_all },
             { _( "Vehicle part migrations" ), &vpart_migration::check },
             { _( "Mapgen definitions" ), &check_mapgen_definitions },
             { _( "Mapgen palettes" ), &mapgen_palette::check_definitions },
@@ -985,7 +1015,8 @@ void DynamicDataLoader::check_consistency()
             { _( "Disease types" ), &disease_type::check_disease_consistency },
             { _( "Factions" ), &faction_template::check_consistency },
             { _( "Damage types" ), &damage_type::check },
-            { _( "Wounds" ), &wound_type::check_consistency }
+            { _( "Wounds" ), &wound_type::check_consistency },
+            { _( "Faction missions" ), &faction_mission::check_consistency }
         }
     };
 

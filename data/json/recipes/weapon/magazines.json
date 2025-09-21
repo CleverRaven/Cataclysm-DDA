@@ -133,7 +133,7 @@
     ],
     "using": [ [ "223_casehead", 1 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring", 1 ] ], [ [ "duct_tape", 40 ] ] ]
+    "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring_medium", 1 ] ], [ [ "duct_tape", 40 ] ] ]
   },
   {
     "result": "ruger_makeshiftmag",
@@ -149,7 +149,7 @@
     "tools": [ [ [ "ruger_mini", -1 ] ], [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ] ],
     "using": [ [ "223_casehead", 1 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring", 1 ] ], [ [ "duct_tape", 40 ] ] ]
+    "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring_medium", 1 ] ], [ [ "duct_tape", 40 ] ] ]
   },
   {
     "result": "m14_makeshiftmag",
@@ -165,7 +165,7 @@
     "tools": [ [ [ "m14ebr", -1 ], [ "m1a", -1 ], [ "M24", -1 ] ], [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ] ],
     "using": [ [ "308_casehead", 1 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring", 1 ] ], [ [ "duct_tape", 40 ] ] ]
+    "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring_medium", 1 ] ], [ [ "duct_tape", 40 ] ] ]
   },
   {
     "result": "hk417_makeshiftmag",
@@ -181,7 +181,7 @@
     "tools": [ [ [ "hk417_13", -1 ], [ "m110a1", -1 ] ], [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ] ],
     "using": [ [ "308_casehead", 1 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring", 1 ] ], [ [ "duct_tape", 40 ] ] ]
+    "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring_medium", 1 ] ], [ [ "duct_tape", 40 ] ] ]
   },
   {
     "result": "ar10_makeshiftmag",
@@ -197,7 +197,7 @@
     "tools": [ [ [ "ar10", -1 ] ], [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ] ],
     "using": [ [ "308_casehead", 1 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring", 1 ] ], [ [ "duct_tape", 40 ] ] ]
+    "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring_medium", 1 ] ], [ [ "duct_tape", 40 ] ] ]
   },
   {
     "result": "steyr_scout_mag_makeshift",
@@ -213,7 +213,7 @@
     "tools": [ [ [ "steyr_scout", -1 ] ], [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ] ],
     "using": [ [ "308_casehead", 1 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring", 1 ] ], [ [ "duct_tape", 40 ] ] ]
+    "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring_medium", 1 ] ], [ [ "duct_tape", 40 ] ] ]
   },
   {
     "result": "g3_makeshiftmag",
@@ -229,7 +229,7 @@
     "tools": [ [ [ "hk_g3", -1 ], [ "m1a", -1 ] ], [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ] ],
     "using": [ [ "308_casehead", 1 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring", 1 ] ], [ [ "duct_tape", 40 ] ] ]
+    "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring_medium", 1 ] ], [ [ "duct_tape", 40 ] ] ]
   },
   {
     "result": "fal_makeshiftmag",
@@ -245,7 +245,7 @@
     "tools": [ [ [ "fn_fal_semi", -1 ] ], [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ] ],
     "using": [ [ "308_casehead", 1 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring", 1 ] ], [ [ "duct_tape", 40 ] ] ]
+    "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring_medium", 1 ] ], [ [ "duct_tape", 40 ] ] ]
   },
   {
     "result": "scarh_makeshiftmag",
@@ -261,7 +261,7 @@
     "tools": [ [ [ "scar_h", -1 ] ], [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ] ],
     "using": [ [ "308_casehead", 1 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring", 1 ] ], [ [ "duct_tape", 40 ] ] ]
+    "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring_medium", 1 ] ], [ [ "duct_tape", 40 ] ] ]
   },
   {
     "result": "scarh_makeshiftmag",
@@ -334,7 +334,7 @@
     "tools": [ [ [ "smg_40", -1 ] ] ],
     "using": [ [ "40_casehead", 1 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring", 1 ] ], [ [ "duct_tape", 40 ] ] ]
+    "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring_medium", 1 ] ], [ [ "duct_tape", 40 ] ] ]
   },
   {
     "result": "smg_45_mag",
@@ -350,7 +350,7 @@
     "tools": [ [ [ "mac_10", -1 ], [ "smg_45", -1 ] ] ],
     "using": [ [ "45_casehead", 1 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring", 1 ] ], [ [ "duct_tape", 40 ] ] ]
+    "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring_medium", 1 ] ], [ [ "duct_tape", 40 ] ] ]
   },
   {
     "result": "ump45_makeshiftmag",
@@ -366,7 +366,7 @@
     "tools": [ [ [ "modular_ump", -1 ] ] ],
     "using": [ [ "45_casehead", 1 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring", 1 ] ], [ [ "duct_tape", 40 ] ] ]
+    "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring_medium", 1 ] ], [ [ "duct_tape", 40 ] ] ]
   },
   {
     "result": "thompson_makeshiftmag",
@@ -382,7 +382,7 @@
     "tools": [ [ [ "tommygun", -1 ] ] ],
     "using": [ [ "45_casehead", 1 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring", 1 ] ], [ [ "duct_tape", 40 ] ] ]
+    "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring_medium", 1 ] ], [ [ "duct_tape", 40 ] ] ]
   },
   {
     "result": "survivor9mm_mag",
@@ -398,7 +398,7 @@
     "tools": [ [ [ "smg_9mm", -1 ], [ "sten", -1 ] ] ],
     "using": [ [ "9mm_casehead", 1 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring", 1 ] ], [ [ "duct_tape", 40 ] ] ]
+    "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring_medium", 1 ] ], [ [ "duct_tape", 40 ] ] ]
   },
   {
     "result": "nailmag",
@@ -412,7 +412,7 @@
     "autolearn": true,
     "tools": [ [ [ "coilgun", -1 ] ], [ [ "nail", -1 ], [ "combatnail", -1 ] ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring", 1 ] ], [ [ "scrap", 1 ] ], [ [ "duct_tape", 20 ] ] ]
+    "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring_medium", 1 ] ], [ [ "scrap", 1 ] ], [ [ "duct_tape", 20 ] ] ]
   },
   {
     "result": "stanag20_beowulf",

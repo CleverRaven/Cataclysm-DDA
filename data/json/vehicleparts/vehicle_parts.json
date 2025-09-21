@@ -3019,7 +3019,7 @@
     "durability": 200,
     "description": "A water purifier, powered by the vehicle's batteries.  You can use it to purify water in a container or in the vehicle's tanks.  'e'xamine the tile with the purifier to use it.",
     "item": "water_purifier",
-    "location": "anywhere",
+    "location": "on_cargo",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 4 ] ], "time": "30 m", "using": [ [ "vehicle_screw", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_screw", 1 ] ] },

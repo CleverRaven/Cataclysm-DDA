@@ -69,7 +69,7 @@ extern std::map<std::string, std::list<input_event>> quick_shortcuts_map;
  * Changes that break backwards compatibility should bump this number, so the game can
  * load a legacy format loader.
  */
-const int savegame_version = 36;
+const int savegame_version = 37;
 
 /*
  * This is a global set by detected version header in .sav, maps.txt, or overmap.
@@ -98,6 +98,7 @@ void game::serialize_json( std::ostream &fout )
     json.member( "calendar_start", calendar::start_of_cataclysm );
     json.member( "game_start", calendar::start_of_game );
     json.member( "initial_season", static_cast<int>( calendar::initial_season ) );
+    json.member( "dimension_prefix", get_dimension_prefix() );
     json.member( "auto_travel_mode", auto_travel_mode );
     json.member( "run_mode", static_cast<int>( safe_mode ) );
     json.member( "mostseen", mostseen );
@@ -244,6 +245,11 @@ void game::unserialize_impl( const JsonObject &data )
     data.read( "calendar_start", tmpcalstart );
     calendar::initial_season = static_cast<season_type>( data.get_int( "initial_season",
                                static_cast<int>( SPRING ) ) );
+
+    std::string loaded_dimension_prefix;
+    if( data.read( "dimension_prefix", loaded_dimension_prefix ) ) {
+        dimension_prefix = loaded_dimension_prefix;
+    }
 
     data.read( "auto_travel_mode", auto_travel_mode );
     data.read( "run_mode", tmprun );
@@ -1588,6 +1594,33 @@ void game::unserialize_master( const JsonValue &jv )
     }
 }
 
+void game::unserialize_dimension_data( const cata_path &file_name, std::istream &fin )
+{
+    savegame_loading_version = 0;
+    size_t json_offset = chkversion( fin );
+    try {
+        JsonValue jv = json_loader::from_path_at_offset( file_name, json_offset );
+        unserialize_dimension_data( jv );
+    } catch( const JsonError &e ) {
+        debugmsg( "error loading %s: %s", SAVE_DIMENSION_DATA, e.c_str() );
+    }
+}
+
+void game::unserialize_dimension_data( const JsonValue &jv )
+{
+    JsonObject game_json = jv;
+    for( JsonMember jsin : game_json ) {
+        std::string name = jsin.name();
+        if( name == "weather" ) {
+            weather_manager::unserialize_all( jsin );
+        } else if( name == "overmapbuffer" ) {
+            overmap_buffer.deserialize_overmap_global_state( jsin );
+        } else if( name == "placed_unique_specials" ) {
+            overmap_buffer.deserialize_placed_unique_specials( jsin );
+        }
+    }
+}
+
 void mission::serialize_all( JsonOut &json )
 {
     json.start_array();
@@ -1711,8 +1744,6 @@ void game::serialize_master( std::ostream &fout )
 
         json.member( "active_missions" );
         mission::serialize_all( json );
-        json.member( "overmapbuffer" );
-        overmap_buffer.serialize_overmap_global_state( json );
 
         json.member( "timed_events" );
         timed_event_manager::serialize_all( json );
@@ -1720,12 +1751,28 @@ void game::serialize_master( std::ostream &fout )
         json.member( "factions", *faction_manager_ptr );
         json.member( "seed", seed );
 
+        json.end_object();
+    } catch( const JsonError &e ) {
+        debugmsg( "error saving to %s: %s", SAVE_MASTER, e.c_str() );
+    }
+}
+
+void game::serialize_dimension_data( std::ostream &fout )
+{
+    fout << "# version " << savegame_version << std::endl;
+    try {
+        JsonOut json( fout, true ); // pretty-print
+        json.start_object();
+
+        json.member( "overmapbuffer" );
+        overmap_buffer.serialize_overmap_global_state( json );
+
         json.member( "weather" );
         weather_manager::serialize_all( json );
 
         json.end_object();
     } catch( const JsonError &e ) {
-        debugmsg( "error saving to %s: %s", SAVE_MASTER, e.c_str() );
+        debugmsg( "error saving to %s: %s", SAVE_DIMENSION_DATA, e.c_str() );
     }
 }
 
@@ -1965,3 +2012,4 @@ void npc::export_to( const cata_path &path ) const
         serialize( jsout );
     } );
 }
+
