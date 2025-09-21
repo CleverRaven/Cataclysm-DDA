@@ -99,7 +99,6 @@ static const oter_str_id oter_lab_escape_cells( "lab_escape_cells" );
 static const oter_str_id oter_lab_escape_entrance( "lab_escape_entrance" );
 static const oter_str_id oter_lab_train_depot( "lab_train_depot" );
 static const oter_str_id oter_open_air( "open_air" );
-static const oter_str_id oter_river_center( "river_center" );
 static const oter_str_id oter_road_nesw_manhole( "road_nesw_manhole" );
 static const oter_str_id oter_sewer_end_north( "sewer_end_north" );
 static const oter_str_id oter_sewer_isolated( "sewer_isolated" );
@@ -129,7 +128,10 @@ static const oter_vision_id oter_vision_default( "default" );
 static const overmap_location_id overmap_location_land( "land" );
 static const overmap_location_id overmap_location_swamp( "swamp" );
 
-static const species_id species_ZOMBIE( "ZOMBIE" );
+static const string_id<map_data_summary> map_data_summary_empty_omt( "empty_omt" );
+static const string_id<map_data_summary> map_data_summary_full_omt( "full_omt" );
+static const string_id<map_data_summary>
+map_data_summary_scattered_obstacles_omt( "scattered_obstacles_omt" );
 
 #define dbg(x) DebugLog((x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -958,24 +960,24 @@ void oter_type_t::load( const JsonObject &jo, const std::string_view )
             // Revisit water and air?
             case oter_travel_cost_type::water:
             case oter_travel_cost_type::air:
-                default_map_data = string_id<map_data_summary>( "full_omt" );
+                default_map_data = map_data_summary_full_omt;
                 break;
             case oter_travel_cost_type::road:
             case oter_travel_cost_type::field:
             case oter_travel_cost_type::dirt_road:
-                default_map_data = string_id<map_data_summary>( "empty_omt" );
+                default_map_data = map_data_summary_empty_omt;
                 break;
             case oter_travel_cost_type::trail:
             case oter_travel_cost_type::forest:
             case oter_travel_cost_type::shore:
             case oter_travel_cost_type::swamp:
-                default_map_data = string_id<map_data_summary>( "scattered_obstacles_omt" );
+                default_map_data = map_data_summary_scattered_obstacles_omt;
                 break;
             case oter_travel_cost_type::other:
             default:
                 // Terrible hack, just mark it impssable?
                 // There seem to be something like 2,500 entries that need to be annotted for this to work.
-                default_map_data = string_id<map_data_summary>( "full_omt" );
+                default_map_data = map_data_summary_full_omt;
                 // Should not reach, throw an error.
                 //jo.throw_error( string_format( "No inferred or explicit default_map_data for %s", id.str() ) );
                 break;
@@ -3403,9 +3405,7 @@ void overmap::set_passable( const tripoint_abs_omt &p,
     if( overmap_coord != loc ) {
         return;
     }
-    std::shared_ptr<map_data_summary> &ptr = layer[omt_coord.z() +
-            OVERMAP_DEPTH].map_cache[omt_coord.xy()];
-    ptr = new_passable;
+    layer[omt_coord.z() + OVERMAP_DEPTH].map_cache[omt_coord.xy()] = std::move( new_passable );
 }
 
 void overmap::set_passable( const tripoint_abs_omt &p,
@@ -3441,7 +3441,7 @@ void overmap::set_passable( const tripoint_abs_omt &p, const std::bitset<24 * 24
         // Promote to error later.
         return;
     }
-    ptr.reset( new map_data_summary( new_passable ) );
+    ptr = std::make_shared<map_data_summary>( new_passable );
 }
 
 bool overmap::inbounds( const tripoint_abs_ms &p )
