@@ -982,6 +982,7 @@ Gun mods can be defined like this:
   { "GROWTH_HARVEST": "2 days" },         // will want at least 91 days (the length of winter) in between some stages. This example would overwinter in the GROWTH_MATURE form.
   { "GROWTH_OVERGROWN": "1 hour" }        // NOTE: GROWTH_OVERGROWN is optional, but if used should be a short duration. Or else it may fail to plant because the overgrown(dead) crops would not 'grow'!
 ],
+"growth_temp": "7 C",                     // (optional, default 10 C). Celsius (C) or milli-Celsius(mC). Temperature required on the days this seed is planted and for every day with a growth stage. If below the required temperature it simply won't be plantable.
 "fruit_div": 2, // (optional, default is 1). Final amount of fruit charges produced is divided by this number. Works only if fruit item is counted by charges.
 "required_terrain_flag": "PLANTABLE" // A tag that terrain and furniture would need to have in order for the seed to be plantable there.
 // Default is "PLANTABLE", and using this will cause any terain the plant is wrown on to turn into dirt once the plant is planted, unless furniture is used.
