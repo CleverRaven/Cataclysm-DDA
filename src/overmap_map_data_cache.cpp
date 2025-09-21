@@ -15,9 +15,8 @@
 
 namespace
 {
-
 generic_factory<map_data_summary> placeholder_map_data( "placeholder map data" );
-}
+} // namespace
 
 template<>
 const map_data_summary &string_id<map_data_summary>::obj() const
@@ -58,7 +57,7 @@ std::shared_ptr<const map_data_summary> map_data_placeholders::get_ptr(
     return std::shared_ptr<const map_data_summary> { dummy, &id.obj() };
 }
 
-void map_data_summary::load( const JsonObject &jo, const std::string & )
+void map_data_summary::load( const JsonObject &jo, const std::string_view & )
 {
     std::array<std::string, 24> rows;
     mandatory( jo, was_loaded, "grid", rows );
