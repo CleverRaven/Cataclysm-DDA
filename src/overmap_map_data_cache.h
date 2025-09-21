@@ -5,6 +5,7 @@
 #include <bitset>
 #include <memory>
 #include <string>
+#include <string_view>
 
 #include "string_id.h"
 
@@ -30,10 +31,10 @@ void finalize();
 // with the underlying OMT data and serialized with the overmap.
 struct map_data_summary {
     map_data_summary() = default;
-    map_data_summary( std::bitset<24 * 24> const &new_passable,
-                      bool placeholder_override = false ): placeholder( placeholder_override ),
+    explicit map_data_summary( std::bitset<24 * 24> const &new_passable,
+                               bool placeholder_override = false ): placeholder( placeholder_override ),
         passable( new_passable ) {}
-    void load( const JsonObject &jo, const std::string &src );
+    void load( const JsonObject &jo, const std::string_view &src );
     // Only used for placeholder summaries, not used by "real" map summaries.
     string_id<map_data_summary> id;
     bool was_loaded = false;
