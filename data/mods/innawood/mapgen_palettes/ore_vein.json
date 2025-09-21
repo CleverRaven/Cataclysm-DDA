@@ -7,9 +7,12 @@
         "type": "palette_id",
         "default": {
           "distribution": [
+            [ "innawood_ore_vein_coal", 5 ],
+            [ "innawood_ore_vein_salt", 10 ],
+            [ "innawood_ore_vein_brimstone", 10 ],
             [ "innawood_ore_vein_copper", 5 ],
-            [ "innawood_ore_vein_tin", 1 ],
-            [ "innawood_ore_vein_iron_ore", 15 ],
+            [ "innawood_ore_vein_cassiterite", 1 ],
+            [ "innawood_ore_vein_iron_galena", 15 ],
             [ "innawood_ore_vein_iron_hematite", 15 ]
           ]
         }
@@ -19,18 +22,33 @@
   },
   {
     "type": "palette",
+    "id": "innawood_ore_vein_coal",
+    "terrain": { "+": "t_rock_coal", ".": [ [ "t_rock_coal", 2 ], [ "t_rock", 1 ] ], " ": "t_rock" }
+  },
+  {
+    "type": "palette",
+    "id": "innawood_ore_vein_salt",
+    "terrain": { "+": "t_rock_halite", ".": [ [ "t_rock_halite", 2 ], [ "t_rock", 1 ] ], " ": "t_rock" }
+  },
+  {
+    "type": "palette",
+    "id": "innawood_ore_vein_brimstone",
+    "terrain": { "+": "t_rock_brimstone", ".": [ [ "t_rock_brimstone", 2 ], [ "t_rock", 1 ] ], " ": "t_rock" }
+  },
+  {
+    "type": "palette",
     "id": "innawood_ore_vein_copper",
     "terrain": { "+": "t_rock_copper", ".": [ [ "t_rock_copper", 2 ], [ "t_rock", 1 ] ], " ": "t_rock" }
   },
   {
     "type": "palette",
-    "id": "innawood_ore_vein_tin",
-    "terrain": { "+": "t_rock_tin", ".": [ [ "t_rock_tin", 2 ], [ "t_rock", 1 ] ], " ": "t_rock" }
+    "id": "innawood_ore_vein_cassiterite",
+    "terrain": { "+": "t_rock_cassiterite", ".": [ [ "t_rock_cassiterite", 2 ], [ "t_rock", 1 ] ], " ": "t_rock" }
   },
   {
     "type": "palette",
-    "id": "innawood_ore_vein_iron_ore",
-    "terrain": { "+": "t_rock_iron_ore", ".": [ [ "t_rock_iron_ore", 2 ], [ "t_rock", 1 ] ], " ": "t_rock" }
+    "id": "innawood_ore_vein_iron_galena",
+    "terrain": { "+": "t_rock_galena", ".": [ [ "t_rock_galena", 2 ], [ "t_rock", 1 ] ], " ": "t_rock" }
   },
   {
     "type": "palette",
