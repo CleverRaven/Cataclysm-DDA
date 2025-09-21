@@ -722,7 +722,12 @@
     "global": true,
     "run_for_npcs": false,
     "condition": {
-      "and": [ { "u_has_trait": "VAMPIRE_ANATHEMA" }, "is_day", "u_is_outside", { "not": { "is_weather": "blotted_sun" } } ]
+      "and": [
+        { "u_has_trait": "ANATHEMA_WEAKNESS_SUN_BURN" },
+        "is_day",
+        "u_is_outside",
+        { "not": { "is_weather": "blotted_sun" } }
+      ]
     },
     "effect": [ { "run_eocs": "EOC_VAMPIRE_ANATHEMA_BURN_IN_SUNLIGHT_CONTINUAL" } ]
   },
