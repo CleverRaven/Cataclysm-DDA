@@ -54,6 +54,6 @@
   {
     "type": "palette",
     "id": "innawood_ore_vein_iron_hematite",
-    "terrain": { "+": "t_rock_iron_hematite", ".": [ [ "t_rock_iron_hematite", 2 ], [ "t_rock", 1 ] ], " ": "t_rock" }
+    "terrain": { "+": "t_rock_hematite", ".": [ [ "t_rock_hematite", 2 ], [ "t_rock", 1 ] ], " ": "t_rock" }
   }
 ]
