@@ -661,7 +661,6 @@
     "required_event": "avatar_moves",
     "condition": {
       "and": [
-        { "u_has_trait": "VAMPIRE_ANATHEMA" },
         { "u_has_trait": "ANATHEMA_WEAKNESS_SUN_BURN" },
         "is_day",
         "u_is_outside",
@@ -683,7 +682,6 @@
     "required_event": "avatar_moves",
     "condition": {
       "and": [
-        { "u_has_trait": "VAMPIRE_ANATHEMA" },
         { "u_has_trait": "ANATHEMA_WEAKNESS_SUN_BURN" },
         { "or": [ { "not": "is_day" }, { "not": "u_is_outside" }, { "is_weather": "blotted_sun" } ] }
       ]
@@ -2284,14 +2282,11 @@
                 "rng(0.75,1.25) * (300 + (vampire_total_tier_one_traits_plus_potency() * 33) + (vampire_total_tier_two_traits() * 75) + (vampire_total_tier_three_traits() * 125) + (vampire_total_tier_four_traits_plus_potence() * 200) + (vampire_total_tier_five_traits_plus_cauldron() * 270))"
               ]
             },
-            {
-              "if": { "and": [ { "u_has_trait": "VAMPIRE_ANATHEMA" }, { "u_has_trait": "ANATHEMA_WEAKNESS_SUN_BURN" } ] },
-              "then": { "math": [ "sunless_time /= 100" ] }
-            },
+            { "if": { "u_has_trait": "ANATHEMA_WEAKNESS_SUN_BURN" }, "then": { "math": [ "sunless_time /= 100" ] } },
             { "run_eocs": [ "EOC_BLOT_THE_SUN" ] },
             { "run_eocs": "EOC_UNBLOT_THE_SUN", "time_in_future": { "math": [ "sunless_time" ] } },
             {
-              "if": { "and": [ { "u_has_trait": "VAMPIRE_ANATHEMA" }, { "u_has_trait": "ANATHEMA_WEAKNESS_SUN_BURN" } ] },
+              "if": { "u_has_trait": "ANATHEMA_WEAKNESS_SUN_BURN" },
               "then": {
                 "u_message": "Using your mastery over the Shadowed Path, you blot out the sun, covering the region around you in darkness for a short period of time.  But you can already see the hateful sun burning through the shadows; you had better find shelter immediately.",
                 "type": "mixed"
