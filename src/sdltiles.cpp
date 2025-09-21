@@ -892,31 +892,67 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                 if( showhordes && los ) {
                     const int horde_size = overmap_buffer.get_horde_size( omp );
                     if( horde_size >= HORDE_VISIBILITY_SIZE ) {
-                        // a little bit of hardcoded fallbacks for hordes
+                        // Scale down the range of horde population, which can be 1-576 to a range of 1-10
+                        // These thresholds are generated with pow( sprite_size, 2.4 ).
+                        int sprite_size = 1;
+                        if( horde_size < 5 ) {
+                            sprite_size = 1;
+                        } else if( horde_size < 13 ) {
+                            sprite_size = 2;
+                        } else if( horde_size < 27 ) {
+                            sprite_size = 3;
+                        } else if( horde_size < 47 ) {
+                            sprite_size = 4;
+                        } else if( horde_size < 73 ) {
+                            sprite_size = 5;
+                        } else if( horde_size < 106 ) {
+                            sprite_size = 6;
+                        } else if( horde_size < 147 ) {
+                            sprite_size = 7;
+                        } else if( horde_size < 195 ) {
+                            sprite_size = 8;
+                        } else if( horde_size < 251 ) {
+                            sprite_size = 9;
+                        } else {
+                            sprite_size = 10;
+                        }
+
                         if( find_tile_with_season( id ) ) {
                             // NOLINTNEXTLINE(cata-translate-string-literal)
-                            draw_from_id_string( string_format( "overmap_horde_%d", horde_size < 32 ? horde_size : 10 ),
+                            draw_from_id_string( string_format( "overmap_horde_%d", sprite_size ),
                                                  omp, 0, 0, lit_level::LIT, false );
                         } else {
-                            if( horde_size == HORDE_VISIBILITY_SIZE ) {
-                                draw_from_id_string( "mon_zombie", omp, 0, 0, lit_level::LIT,
-                                                     false );
-                            } else if( horde_size > HORDE_VISIBILITY_SIZE ) {
-                                draw_from_id_string( "mon_zombie_tough", omp, 0, 0,
-                                                     lit_level::LIT, false );
-                            } else if( horde_size > HORDE_VISIBILITY_SIZE * 2 ) {
-                                draw_from_id_string( "mon_zombie_brute", omp, 0, 0,
-                                                     lit_level::LIT, false );
-                            } else if( horde_size > HORDE_VISIBILITY_SIZE * 4 ) {
-                                draw_from_id_string( "mon_zombie_hulk", omp, 0, 0,
-                                                     lit_level::LIT, false );
-                            } else if( horde_size > HORDE_VISIBILITY_SIZE * 6 ) {
-                                draw_from_id_string( "mon_zombie_necro", omp, 0, 0,
-                                                     lit_level::LIT, false );
-                            } else {
-                                draw_from_id_string( "mon_zombie_master", omp, 0, 0,
-                                                     lit_level::LIT, false );
-                            }
+                            // a little bit of hardcoded fallbacks for hordes for
+                            // tilesets that don't have overmap_horde_X sprites defined.
+                            switch( sprite_size ) {
+                                case 1:
+                                    draw_from_id_string( "mon_zombie", omp, 0, 0, lit_level::LIT,
+                                                         false );
+                                    break;
+                                case 2:
+                                    draw_from_id_string( "mon_zombie_tough", omp, 0, 0,
+                                                         lit_level::LIT, false );
+                                    break;
+                                case 3:
+                                    draw_from_id_string( "mon_zombie_brute", omp, 0, 0,
+                                                         lit_level::LIT, false );
+                                    break;
+                                case 4:
+                                    draw_from_id_string( "mon_zombie_hulk", omp, 0, 0,
+                                                         lit_level::LIT, false );
+                                    break;
+                                case 5:
+                                    draw_from_id_string( "mon_zombie_necro", omp, 0, 0,
+                                                         lit_level::LIT, false );
+                                    break;
+                                case 6:
+                                case 7:
+                                case 8:
+                                case 9:
+                                case 10:
+                                    draw_from_id_string( "mon_zombie_master", omp, 0, 0,
+                                                         lit_level::LIT, false );
+                            };
                         }
                     }
                 }
