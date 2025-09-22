@@ -524,7 +524,6 @@
       [ "switchblade", 6 ],
       [ "atomic_light", 1 ],
       [ "atomic_lamp", 1 ],
-      [ "atomic_coffeepot", 1 ],
       [ "flaregun", 10 ],
       [ "signal_flare", 15 ],
       [ "knee_pads", 10 ],
@@ -1738,8 +1737,7 @@
       { "item": "dehydrator", "prob": 30 },
       { "item": "vac_sealer", "prob": 45 },
       { "item": "waffleiron", "prob": 45 },
-      { "item": "forge", "prob": 5 },
-      { "item": "atomic_coffeepot", "prob": 2 }
+      { "item": "forge", "prob": 5 }
     ]
   },
   {
