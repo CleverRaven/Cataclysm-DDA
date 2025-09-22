@@ -3196,51 +3196,39 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
 
     if( parts->test( iteminfo_parts::GUN_DAMAGE ) ) {
         insert_separation_line( info );
-        info.emplace_back( "GUN", _( "<bold>Ranged damage</bold>: " ), "", iteminfo::no_newline,
-                           mod->gun_damage( false ).total_damage() );
+        info.emplace_back( "GUN", colorize( _( "Ranged damage" ), c_bold ) + ": ", iteminfo::no_newline );
     }
 
     if( mod->ammo_required() ) {
-        // ammo_damage, sum_of_damage, and ammo_mult not shown so don't need to translate.
-        float dmg_mult = 1.0f;
-        for( const damage_unit &dmg : curammo->ammo->damage.damage_units ) {
-            dmg_mult *= dmg.unconditional_damage_mult;
-        }
-        if( dmg_mult != 1.0f ) {
-            if( parts->test( iteminfo_parts::GUN_DAMAGE_AMMOPROP ) ) {
-                info.emplace_back( "GUN", "ammo_mult", "*",
-                                   iteminfo::no_newline | iteminfo::no_name | iteminfo::is_decimal, dmg_mult );
-            }
-        } else {
-            if( parts->test( iteminfo_parts::GUN_DAMAGE_LOADEDAMMO ) ) {
-                damage_instance ammo_dam = curammo->ammo->damage;
-                int bullet_damage = ammo_dam.total_damage();
-                if( mod->barrel_length().value() > 0 ) {
-                    bullet_damage = ammo_dam.di_considering_length( mod->barrel_length() ).total_damage();
-                }
-                info.emplace_back( "GUN", "ammo_damage", "",
-                                   iteminfo::no_newline | iteminfo::no_name |
-                                   iteminfo::show_plus, bullet_damage );
-            }
-        }
+        // some names are not shown, so no need to translate them
 
-        const int gun_damage = loaded_mod->gun_damage( true ).total_damage();
-        if( damage() > 0 ) {
-            item intact_mod( *loaded_mod );
-            intact_mod.set_degradation( 0 );
-            intact_mod.set_damage( 0 );
-            const int intact_damage = intact_mod.gun_damage( true ).total_damage();
-            if( intact_damage != gun_damage ) {
-                const int dmg_penalty = gun_damage - intact_damage;
-                info.emplace_back( "GUN", "damaged_weapon_penalty", "",
-                                   iteminfo::no_newline | iteminfo::no_name, dmg_penalty );
-            }
+        const int gun_damage = loaded_mod->gun_damage( true, false ).total_damage();
+        int pellet_damage = 0;
+        const bool pellets = curammo->ammo->count > 1;
+        if( parts->test( iteminfo_parts::GUN_DAMAGE_PELLETS ) && pellets ) {
+            pellet_damage = loaded_mod->gun_damage( true, true ).total_damage();
+
+            // if shotgun, gun_damage is your point blank damage, and anything further is pellets x damage of a single pellet
+            info.emplace_back( "GUN", _( "<bold>Point blank damage:</bold> " ), "<num>", iteminfo::no_flags,
+                               gun_damage );
+            info.emplace_back( "GUN", "damage_per_pellet", _( "<num> per pellet" ),
+                               iteminfo::no_newline | iteminfo::no_name, pellet_damage );
+            info.emplace_back( "GUN", ", ", iteminfo::no_newline );
+            info.emplace_back( "GUN", "amount_of_pellets", _( "<num> pellets" ),
+                               iteminfo::no_newline | iteminfo::no_name, curammo->ammo->count );
+            info.emplace_back( "GUN", " = ", iteminfo::no_newline );
+        } else {
+
         }
 
         if( parts->test( iteminfo_parts::GUN_DAMAGE_TOTAL ) ) {
-            info.emplace_back( "GUN", "sum_of_damage", _( " = <num>" ),
-                               iteminfo::no_newline | iteminfo::no_name, gun_damage );
+            info.emplace_back( "GUN", "final_damage", "<num>",
+                               iteminfo::no_newline | iteminfo::no_name,
+                               pellets ? pellet_damage * curammo->ammo->count : gun_damage );
         }
+    } else {
+        info.emplace_back( "GUN", "final_damage", "<num>", iteminfo::no_newline | iteminfo::no_name,
+                           mod->gun_damage( false ).total_damage() );
     }
     info.back().bNewLine = true;
 
@@ -3268,73 +3256,42 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
 
     // TODO: This doesn't cover multiple damage types
 
+    int ammo_pierce = 0;
+    if( mod->ammo_required() ) {
+        ammo_pierce = get_ranged_pierce( *curammo->ammo );
+    }
+
     if( parts->test( iteminfo_parts::GUN_ARMORPIERCE ) ) {
         info.emplace_back( "GUN", _( "Armor-pierce: " ), "",
-                           iteminfo::no_newline, get_ranged_pierce( gun ) );
-    }
-    if( mod->ammo_required() ) {
-        int ammo_pierce = get_ranged_pierce( *curammo->ammo );
-        // ammo_armor_pierce and sum_of_armor_pierce don't need to translate.
-        if( parts->test( iteminfo_parts::GUN_ARMORPIERCE_LOADEDAMMO ) ) {
-            info.emplace_back( "GUN", "ammo_armor_pierce", "",
-                               iteminfo::no_newline | iteminfo::no_name |
-                               iteminfo::show_plus, ammo_pierce );
-        }
-        if( parts->test( iteminfo_parts::GUN_ARMORPIERCE_TOTAL ) ) {
-            info.emplace_back( "GUN", "sum_of_armor_pierce", _( " = <num>" ),
-                               iteminfo::no_name,
-                               get_ranged_pierce( gun ) + ammo_pierce );
-        }
+                           iteminfo::no_newline, get_ranged_pierce( gun ) + ammo_pierce );
     }
     info.back().bNewLine = true;
 
-    if( parts->test( iteminfo_parts::GUN_DISPERSION ) ) {
-        info.emplace_back( "GUN", _( "Dispersion: " ), "",
-                           iteminfo::is_decimal | iteminfo::lower_is_better | iteminfo::no_newline,
-                           mod->gun_dispersion( false, false ) / 100.0 );
-    }
+    double gun_dispersion = mod->gun_dispersion( false, false ) / 100.0;
     if( mod->ammo_required() ) {
-        int ammo_dispersion = curammo->ammo->dispersion_considering_length( barrel_length() );
-        // ammo_dispersion and sum_of_dispersion don't need to translate.
-        if( parts->test( iteminfo_parts::GUN_DISPERSION_LOADEDAMMO ) ) {
-            info.emplace_back( "GUN", "ammo_dispersion", "",
-                               iteminfo::is_decimal |  iteminfo::lower_is_better | iteminfo::no_name | iteminfo::no_newline |
-                               iteminfo::show_plus,
-                               ammo_dispersion / 100.0 );
-        }
-        if( parts->test( iteminfo_parts::GUN_DISPERSION_TOTAL ) ) {
-            info.emplace_back( "GUN", "sum_of_dispersion", _( " = <num> MOA" ),
-                               iteminfo::is_decimal |  iteminfo::lower_is_better | iteminfo::no_name,
-                               loaded_mod->gun_dispersion( true, false ) / 100.0 );
-        }
+        gun_dispersion = loaded_mod->gun_dispersion( true, false ) / 100.0;
+    }
+    if( parts->test( iteminfo_parts::GUN_DISPERSION ) ) {
+        info.emplace_back( "GUN", _( "Dispersion: " ), _( "<num> MOA" ),
+                           iteminfo::is_decimal | iteminfo::lower_is_better | iteminfo::no_newline,
+                           gun_dispersion );
     }
     info.back().bNewLine = true;
 
     // if effective sight dispersion differs from actual sight dispersion display both
     std::pair<int, int> disp = mod->sight_dispersion( player_character );
-    int act_disp = disp.first;
-    int eff_disp = disp.second;
-    int adj_disp = eff_disp - act_disp;
-    int point_shooting_limit = player_character.point_shooting_limit( *mod );
+    const int eff_disp = disp.second;
+    const int point_shooting_limit = player_character.point_shooting_limit( *mod );
 
     if( parts->test( iteminfo_parts::GUN_DISPERSION_SIGHT ) ) {
         if( point_shooting_limit <= eff_disp ) {
-            info.emplace_back( "GUN", _( "Sight dispersion (point shooting): " ), "",
+            info.emplace_back( "GUN", _( "Sight dispersion (point shooting): " ), _( "<num> MOA" ),
                                iteminfo::is_decimal | iteminfo::no_newline | iteminfo::lower_is_better,
                                point_shooting_limit / 100.0 );
         } else {
-            info.emplace_back( "GUN", _( "Sight dispersion: " ), "",
+            info.emplace_back( "GUN", _( "Sight dispersion: " ), _( "<num> MOA" ),
                                iteminfo::is_decimal | iteminfo::no_newline | iteminfo::lower_is_better,
-                               act_disp / 100.0 );
-
-            if( adj_disp ) {
-                info.emplace_back( "GUN", "sight_adj_disp", "",
-                                   iteminfo::is_decimal | iteminfo::no_newline | iteminfo::lower_is_better |
-                                   iteminfo::no_name | iteminfo::show_plus, adj_disp / 100.0 );
-                info.emplace_back( "GUN", "sight_eff_disp", _( " = <num> MOA" ),
-                                   iteminfo::is_decimal | iteminfo::lower_is_better | iteminfo::no_name,
-                                   eff_disp / 100.0 );
-            }
+                               eff_disp / 100.0 );
         }
     }
 
