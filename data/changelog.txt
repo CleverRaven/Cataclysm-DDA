@@ -157,6 +157,9 @@ display item name and owner for stealing prompt
 Monsters can now see you if you're invisible and they have the TRUESIGHT monster flag
 Make player go back to previous position when safemode is triggered
 Initial implementation of wounds
+JSONize mission-related topic IDs (TALK_MISSION_INQUIRE / TALK_MISSION_DESCRIBE_URGENT)
+Plant-specific growth stages for agriculture
+Add another form of scaling for batch recipes, enabling creation of bulk recipes
 
 
 
@@ -356,6 +359,12 @@ Allow EOCs to read artifact resonance
 Add lathe functionality and industrial baseball bat production
 Chitin armor overhaul
 Add deep fryers
+Move vehicle part locations to JSON
+Split springs into sizes and tweak recipes
+Typo, weird punctuation and plural fixes
+Fungal fluid sacs are no longer described as being edible
+Nesting more Weapons
+Begin moving faction mission definitions to JSON, starting with descriptions
 
 
 ## Interface:
@@ -907,6 +916,15 @@ Aftershock: Vehicle bay City Building a mix between mechanic garage, gas station
 Aftershock: Replace remaining vanilla robots with more setting appropriate ones
 [Magiclysm] Add the rust monster
 Aftershock: Properly Ruin cities
+Sky island terraforming & security
+[Bombastic Perks] Add more perks
+[MoM] Add the king of the wood (Telepathic deer)
+Re-Adds the animal empathy/discord traits as starting traits when using Tamable Wildlife
+[MoM] Add contemplation recipes for knacks (through photokinesis)
+[Xedra Evolved] The holy light of the sun burns vampires' impure flesh
+[Mods] Add the `SUMMONED_CREATURE` species to more summons
+[Xedra Evolved] Add the triffid greenseer
+[Magiclysm] Rework mi-go Nethermancer
 
 
 ## Balance:
@@ -1010,6 +1028,8 @@ Adds cuvettes to analysis kit crafting recipe, increase analysis kit weight.
 Fitness bands and smart watches are more common, while pocket watches and game watches are rarer.
 Tree bashing from being cut down is not a magic wand
 Star vampires have `PERMANENT_INVISIBILITY`, when they drink blood it applies `SUPPRESS_INVISIBILITY`
+Electric motors have sensible wattages
+Add cable ports and workbench to mounted kitchen and mounted workshop
 
 
 ## Bugfixes:
@@ -1391,6 +1411,10 @@ Power grid deleted on ship movement
 AIM uilist submenu shaking violently.
 fix zones disabling on save/load
 Fix enchantment cache load issue (If your save didn't load right hopefully it will now)
+Fix being unable to place traps
+Add serialization for TALK_MISSION_INQUIRE/TALK_MISSION_DESCRIBE_URGENT
+Currently, mags with ranger plates can't be speedloaded with 5.56x45mm/.300BLK clips, this change makes them compatible.
+<npcname> token will be replaced with NPC name
 
 
 ## Performance:
@@ -1567,6 +1591,7 @@ Use optional/mandatory for weather type, trap, start location, scent map, profes
 Check for unused extend/delete/proportional/relative with mandatory
 Begin moving duplicated UI code to new helpers library
 zzip.exe: a tool for manipulating compressed save 'zzip' files.
+travel to seperate world instances within the same save file
 
 
 ## Build:
