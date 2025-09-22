@@ -104,7 +104,7 @@
     "id": "helmet_acidchitin_light_xs",
     "replace": "helmet_acidchitin_xs"
   },
-    {
+  {
     "type": "MIGRATION",
     "id": "atomic_coffeepot",
     "replace": "coffeemaker"
