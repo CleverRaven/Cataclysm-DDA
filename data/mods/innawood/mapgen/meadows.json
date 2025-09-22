@@ -29,7 +29,7 @@
     "root": "meadow_core",
     "phases": [
       [
-        { "overmap": "meadow_core", "weight": 2800 },
+        { "overmap": "meadow_core", "weight": 2600 },
         { "overmap": "meadow_end", "weight": 50 },
         { "overmap": "meadow_fill", "weight": 1000 }
       ]
