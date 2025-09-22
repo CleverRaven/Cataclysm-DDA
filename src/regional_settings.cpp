@@ -1186,11 +1186,9 @@ region_settings_terrain_furniture &region_settings_terrain_furniture::operator+=
         };
         auto find_collection = std::find_if( ter_furn.begin(), ter_furn.end(), predicate );
         //found existing regional terrain/furniture, combine the objects
+        //if there isn't an existing ter/furn, we can't assume it should be added
         if( find_collection != ter_furn.end() ) {
             const_cast<region_terrain_furniture &>( find_collection->obj() ) += *rtf;
-        } else {
-            debugmsg( "region_terrain_furniture replaced ter/furn_id %s/%s does not exist in DDA",
-                      t_overlay.id().str(), f_overlay.id().str() );
         }
     }
     return *this;
