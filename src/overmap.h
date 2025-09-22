@@ -264,25 +264,6 @@ struct intrahighway_node {
     }
 };
 
-template<typename Tripoint>
-struct pos_dir {
-    Tripoint p;
-    cube_direction dir;
-
-    pos_dir opposite() const;
-
-    void serialize( JsonOut &jsout ) const;
-    void deserialize( const JsonArray &ja );
-
-    bool operator==( const pos_dir &r ) const;
-    bool operator<( const pos_dir &r ) const;
-};
-
-extern template struct pos_dir<tripoint_om_omt>;
-extern template struct pos_dir<tripoint_rel_omt>;
-
-using om_pos_dir = pos_dir<tripoint_om_omt>;
-using rel_pos_dir = pos_dir<tripoint_rel_omt>;
 using Highway_path = std::vector<intrahighway_node>;
 
 template<typename Tripoint>

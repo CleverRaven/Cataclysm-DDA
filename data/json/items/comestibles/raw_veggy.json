@@ -616,7 +616,13 @@
     "plant_name": "garlic",
     "fruit": "garlic",
     "byproducts": [ "withered" ],
-    "grow": "65 days"
+    "growth_stages": [
+      { "GROWTH_SEED": "17 days" },
+      { "GROWTH_SEEDLING": "16 days" },
+      { "GROWTH_MATURE": "16 days" },
+      { "GROWTH_HARVEST": "16 days" },
+      { "GROWTH_OVERGROWN": "1 hour" }
+    ]
   },
   {
     "type": "ITEM",
@@ -757,7 +763,7 @@
     "quench": 18,
     "healthy": -1,
     "calories": 35,
-    "description": "A fluid bladder from a fungus-based lifeform.  Not very nutritious, but safe to eat.",
+    "description": "A fluid bladder from a fungus-based lifeform.  The membrane is tough and nearly indigestible.  It doesn't seem to contain anything deliberately toxic to you, but the alien biology and sharp, earthy, rotting scent suggests it still wouldn't be wise to ingest regardless of the fluid's purpose to its original owner.",
     "price": "0 cent",
     "price_postapoc": "10 cent",
     "material": [ "veggy" ],
@@ -1177,7 +1183,13 @@
     "fruit": "raw_beans",
     "seeds": false,
     "byproducts": [ "withered" ],
-    "grow": "91 days"
+    "growth_stages": [
+      { "GROWTH_SEED": "23 days" },
+      { "GROWTH_SEEDLING": "23 days" },
+      { "GROWTH_MATURE": "23 days" },
+      { "GROWTH_HARVEST": "22 days" },
+      { "GROWTH_OVERGROWN": "1 hour" }
+    ]
   },
   {
     "type": "ITEM",

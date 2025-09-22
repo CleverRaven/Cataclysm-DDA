@@ -79,5 +79,12 @@
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
     "shape": "blast",
     "effect": "attack"
+  },
+  {
+    "type": "vehicle_part_location",
+    "id": "",
+    "name": "none",
+    "z_order": 0,
+    "list_order": 5
   }
 ]

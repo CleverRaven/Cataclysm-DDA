@@ -2130,10 +2130,6 @@ void building_bin::finalize()
         debugmsg( "Tried to finalize a finalized bin (that's a code-side error which can't be fixed with jsons)" );
         return;
     }
-    if( unfinalized_buildings.empty() ) {
-        debugmsg( "There must be at least one entry in this building bin." );
-        return;
-    }
 
     for( const std::pair<const overmap_special_id, int> &pr : unfinalized_buildings ) {
         overmap_special_id current_id = pr.first;

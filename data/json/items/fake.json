@@ -527,6 +527,7 @@
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "vertical mill" },
+    "charged_qualities": [ [ "DRILL", 3 ] ],
     "charges_per_use": 25
   },
   {

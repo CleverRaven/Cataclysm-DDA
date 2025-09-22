@@ -2,22 +2,22 @@
 # The following line is for reference
 ##############################################################################
 (<color_cyan>0.I</color>):</color>
-<color_white>오리지널 제작자:</color>    <color_white>프로젝트 매니저:</color>
+<color_white>원작자:</color>    <color_white>프로젝트 매니저:</color>
 <color_yellow>Whales</color> (<color_dark_gray>은퇴</color>)    <color_yellow>KevinGranade</color>
 
 <color_white>도움을 주신 분들:</color>
-<color_yellow>Standing-Storm</color> - Creator and maintainer of the enormous 'Mind over Matter' mod and numerous contributions to other mods (fair folk and espers and wizards, oh my!)
-<color_yellow>Maleclypse</color> - Xedra Evolved maintainer and merger, clocking in at over 2,000 (thousand!!!) merges this release cycle.
-<color_yellow>GuardianDll</color> - Merging, non-specific json and c++ changes, memorizing and quoting documentation for everyone needed.  "I don't remember making so many PRs, what the hell?" - GuardianDll
-<color_yellow>RenechCDDA</color> - Improvements to NPC factions, basecamps, and vehicles.
-<color_yellow>Procyonae</color> - Ludicrous amount of infrastructure PRs, mapgen code is thriving under their watch.
-<color_yellow>PatrikLundell</color> - An absurd amount of bugfixes and important safety changes to mapgen, tripoint infrastructure, and other critical systems.
-<color_yellow>Holli</color> - For their dedicated work on all things gun and gun related.
-<color_yellow>b3brodie</color> - Tons of infrastructure support for spells, bettering both mods and the base game.
+<color_yellow>Standing-Storm</color>- 대규모 모드인 '마인드 오버 매터' 의 제작자이자 유지 관리자이며 다른 모드(페어 포크들과 에스퍼와 마법사들!)에도 많은 기여를 했습니다.
+<color_yellow>Maleclypse</color>- Xedra 이볼브드 유지 관리자이자 합병자로, 이번 릴리스 주기에 2,000개!!! 이상의 합병을 기록했습니다.
+<color_yellow>GuardianDll</color>- 병합, JSON 및 C++ 변경, 모두에게 필요한 모든 문서 암기 및 인용. "PR을 그렇게 많이 작성한 기억이 없는데, 도대체 뭐야?" - ​​GuardianDll
+<color_yellow>RenechCDDA</color>- NPC 진영, 기지 캠프, 차량 개선.
+<color_yellow>Procyonae</color>- 엄청난 양의 인프라 PR과 맵 생성 코드가 그의 감독 하에 번창하고 있습니다.
+<color_yellow>PatrikLundell</color>- 맵젠, 트라이포인트 인프라, 기타 중요 시스템에 대한 엄청난 양의 버그 수정.
+<color_yellow>Holli</color>- 총과 총 관련 모든 것에 대한 헌신적인 노력에 감사드립니다.
+<color_yellow>b3brodie</color>- 주문에 대한 인프라 지원 대폭 강화로 모드와 기본 게임이 모두 향상되었습니다.
 <color_yellow>Milopetilo</color> - Awesome work on new mapgen, parameters for existing mapgen, item group overhauls, and more.
 <color_yellow>ShnitzelX2</color> - Electronic storage for items and cleaning up 10 years of technical debt by moving items to be loaded with generic_factory. (Don't be jealous, but they're my favorite.)
 <color_yellow>alef</color> - Keeping the game building so we can keep developing and playing.
-<color_yellow>John Candlebury</color> - Aftershock. Did you know you can own and fly a colossal spaceship in Aftershock now? Yeah.
+<color_yellow>John Candlebury</color>- 애프터쇼크. 애프터쇼크에서 이제 거대한 우주선을 소유하고 조종할 수 있다는 사실, 알고 계셨나요? 네.
 <color_yellow>katemonster33</color> - Took the game by the storm with ImGuI and ImTui. Bringing us the UI we've always wanted.
 <color_yellow>Daniel Brooks 'db48x'</color> - For fundamental work on our beautiful new ImGui windows.
 <color_yellow>moxian</color> - Mission-critical work on build and IWYU infrastructure. They've made every developer's life easier.
@@ -26,8 +26,8 @@
 <color_yellow>ehughsbaird</color>, <color_yellow>Karol1223</color>, and <color_yellow>mqrause</color>.
 
 <color_white>타일셋 등에 도움을 주신 분들:</color>
-<color_yellow>hoasd1</color> - Most tileset contributions this cycle, they've chosen to ride off into the sunset with style. We wish them the best of luck with where life takes them, but Ultica will forever be shaped by their work!
-<color_yellow>gettingusedto</color> - MSX+ heavyweight and all around nice guy. We've gotten used to (heh) seeing them around!
+<color_yellow>hoasd1</color>이번 주기에 타일셋 기여의 대부분을 차지하였지만, 간지나게 석양 속으로 사라지는 것을 선택했습니다. 앞으로의 삶에는 좋은 일만 가득하길 빌며, Ultica는 영원히 그의 작품에 기반해 빚어질 것입니다!
+<color_yellow>gettingusedto</color>- MSX+에 대규모 기여, 전반적으로 괜찮은 녀석이에요.
 
 <color_white>전체 기여자 목록:</color>
 <color_cyan>https://github.com/CleverRaven/Cataclysm-DDA/contributors</color>
@@ -41,7 +41,7 @@
 ******************************************************************************
 
 (<color_cyan>0.H</color>):</color>
-<color_white>오리지널 제작자:</color>    <color_white>프로젝트 매니저:</color>
+<color_white>원작자:</color>    <color_white>프로젝트 매니저:</color>
 <color_yellow>Whales</color> (<color_dark_gray>은퇴</color>)    <color_yellow>KevinGranade</color>
 
 <color_white>현재 개발자들:</color>
@@ -82,7 +82,7 @@
 ******************************************************************************
 
 (<color_cyan>0.G</color>):</color>
-<color_white>오리지널 제작자:</color>    <color_white>프로젝트 매니저:</color>
+<color_white>원작자:</color>    <color_white>프로젝트 매니저:</color>
 <color_yellow>Whales</color> (<color_dark_gray>은퇴</color>)    <color_yellow>KevinGranade</color>
 
 <color_white>현재 개발자들:</color>

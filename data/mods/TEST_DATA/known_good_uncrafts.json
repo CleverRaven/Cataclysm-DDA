@@ -72,7 +72,9 @@
       "boomer_bile",
       "boomer_bile_adv",
       "rivets",
-      "fake_lathe"
+      "fake_lathe",
+      "spring_medium",
+      "spring_small"
     ]
   }
 ]

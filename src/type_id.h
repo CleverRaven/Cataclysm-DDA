@@ -97,6 +97,9 @@ using end_screen_id = string_id<end_screen>;
 class event_statistic;
 using event_statistic_id = string_id<event_statistic>;
 
+class faction_mission;
+using faction_mission_id = string_id<faction_mission>;
+
 class fault;
 using fault_id = string_id<fault>;
 
@@ -368,6 +371,9 @@ using vitamin_id = string_id<vitamin>;
 
 class vpart_info;
 using vpart_id = string_id<vpart_info>;
+
+class vpart_location;
+using vpart_location_id = string_id<vpart_location>;
 
 struct vehicle_prototype;
 using vproto_id = string_id<vehicle_prototype>;

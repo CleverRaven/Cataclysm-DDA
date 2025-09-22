@@ -20,6 +20,7 @@ from .parsers.enchant import parse_enchant
 from .parsers.end_screen import parse_end_screen
 from .parsers.event_statistic import parse_event_statistic
 from .parsers.faction import parse_faction
+from .parsers.faction_mission import parse_faction_mission
 from .parsers.fault import parse_fault
 from .parsers.fault_fix import parse_fault_fix
 from .parsers.field_type import parse_field_type
@@ -86,6 +87,7 @@ from .parsers.trap import parse_trap
 from .parsers.vehicle import parse_vehicle
 from .parsers.vehicle_part import parse_vehicle_part
 from .parsers.vehicle_part_category import parse_vehicle_part_category
+from .parsers.vehicle_part_location import parse_vehicle_part_location
 from .parsers.vehicle_spawn import parse_vehicle_spawn
 from .parsers.vitamin import parse_vitamin
 from .parsers.weakpoint_set import parse_weakpoint_set
@@ -139,6 +141,7 @@ parsers = {
     "event_transformation": dummy_parser,
     "external_option": dummy_parser,
     "faction": parse_faction,
+    "faction_mission": parse_faction_mission,
     "fault": parse_fault,
     "fault_fix": parse_fault_fix,
     "fault_group": dummy_parser,
@@ -267,6 +270,7 @@ parsers = {
     "vehicle_group": dummy_parser,
     "vehicle_part": parse_vehicle_part,
     "vehicle_part_category": parse_vehicle_part_category,
+    "vehicle_part_location": parse_vehicle_part_location,
     "vehicle_part_migration": dummy_parser,
     "vehicle_placement": dummy_parser,
     "vehicle_spawn": parse_vehicle_spawn,
