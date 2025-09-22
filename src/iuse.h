@@ -205,6 +205,7 @@ std::optional<int> unfold_generic( Character *, item *, const tripoint & );
 std::optional<int> unpack_item( Character *, item *, const tripoint & );
 std::optional<int> vibe( Character *, item *, const tripoint & );
 std::optional<int> voltmeter( Character *p, item *it, const tripoint & );
+//std::optional<int> pocket_nanofab(Character* you, item* it, bool, const tripoint&);
 std::optional<int> vortex( Character *, item *, const tripoint & );
 std::optional<int> wash_all_items( Character *, item *, const tripoint & );
 std::optional<int> wash_hard_items( Character *, item *, const tripoint & );
