@@ -1339,6 +1339,35 @@ Will give a message if you're in the dimension with the ID of "test".
   "then": { "u_message": "Currently loaded dimension is the one with ID of 'test'." } }
 ```
 
+### `clear_dimension`
+- type: string or [variable object](#variable-object)
+- deletes the dimension folder with the given string ID.
+
+#### Valid talkers:
+
+| Avatar | NPC | Monster | Furniture | Item | Vehicle |
+| ------  --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+
+#### Examples
+Deletes (if present) the dimension with ID of 'test'.
+```jsonc
+{ { "clear_dimension": "test" } }
+```
+Asks for text input, will delete the dimension that matches the string ID.
+```jsonc
+{
+    "set_string_var": "",
+    "string_input": {
+      "title": { "str": "clear the dimension named:" },
+      "description": { "str": "the main dimension can't be cleared." },
+      "width": 30
+    },
+    "target_var": { "u_val": "target_dimension" }
+},
+{ "clear_dimension": { "u_val": "target_dimension" } }
+```
+
 ### `player_see_u`, `player_see_npc`
 - type: simple string
 - return true if player can see alpha or beta talker
