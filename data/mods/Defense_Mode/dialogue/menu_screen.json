@@ -47,7 +47,7 @@
       { "text": "Preset Game Options", "topic": "TALK_DEFENSE_MODE_PRESET_GAME_MENU" },
       { "text": "Advanced Game Options", "topic": "TALK_DEFENSE_MODE_ADVANCED_GAME_OPTIONS" },
       { "text": "Difficulty Options", "topic": "TALK_DEFENSE_MODE_DIFFICULTY_SELECTION_MENU" },
-      { "text": "Begin.", "topic": "TALK_DONE"}
+      { "text": "Begin.", "topic": "TALK_DONE" }
     ]
   },
   {
