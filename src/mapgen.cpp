@@ -3613,10 +3613,10 @@ class jmapgen_terrain : public jmapgen_piece_with_has_vehicle_collision
             act_unknown, act_ignore, act_dismantle, act_erase
         };
     public:
-        mapgen_value<ter_id> id;
+        mapgen_value<ter_str_id> id;
         jmapgen_terrain( const JsonObject &jsi, std::string_view/*context*/ ) :
             jmapgen_terrain( jsi.get_member( "ter" ) ) {}
-        explicit jmapgen_terrain( const JsonValue &tid ) : id( mapgen_value<ter_id>( tid ) ) {}
+        explicit jmapgen_terrain( const JsonValue &tid ) : id( mapgen_value<ter_str_id>( tid ) ) {}
 
         bool is_nop() const override {
             return id.is_null();
@@ -3627,7 +3627,7 @@ class jmapgen_terrain : public jmapgen_piece_with_has_vehicle_collision
 
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const jmapgen_int &z,
                     const std::string &context ) const override {
-            const ter_id &chosen_id = id.get( dat );
+            const ter_id &chosen_id = id.get( dat ).id();
             if( chosen_id.id().is_null() ) {
                 return;
             }
