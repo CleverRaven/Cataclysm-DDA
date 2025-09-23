@@ -55,7 +55,7 @@
       { "proficiency": "prof_frying", "time_multiplier": 1.2 }
     ],
     "components": [ [ [ "veggy_potatolike", 1, "LIST" ] ], [ [ "salt", 2 ], [ "seasoning_salt", 2 ] ], [ [ "cooking_oil", 1 ] ] ],
-    "byproducts": [ [ "cooking_oil", 19 ] ],
+    "byproducts": [ [ "cooking_oil", 2 ] ],
     "charges": 2
   },
   {
@@ -176,7 +176,7 @@
     "time": "16 m",
     "batch_time_factors": [ 70, 1 ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 8, "LIST" ] ], [ [ "cooking_oil", 47 ] ] ],
+    "tools": [ [ [ "surface_heat", 8, "LIST" ] ], [ [ "cooking_oil", 57 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_food_prep", "time_multiplier": 1 },
       { "proficiency": "prof_knife_skills", "time_multiplier": 1 },
@@ -187,7 +187,7 @@
       [ [ "salt", 2 ], [ "seasoning_salt", 2 ] ],
       [ [ "cooking_oil", 3 ] ]
     ],
-    "byproducts": [ [ "cooking_oil", 47 ] ],
+    "byproducts": [ [ "cooking_oil", 6 ] ],
     "charges": 3
   },
   {

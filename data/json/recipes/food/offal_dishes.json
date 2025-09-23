@@ -330,7 +330,7 @@
       { "proficiency": "prof_frying_bread", "time_multiplier": 1 }
     ],
     "components": [ [ [ "stewed_tripe", 1 ] ], [ [ "batter", 3, "LIST" ] ], [ [ "cooking_oil", 1 ] ] ],
-    "byproducts": [ [ "cooking_oil", 19 ] ]
+    "byproducts": [ [ "cooking_oil", 2 ] ]
   },
   {
     "type": "recipe",
