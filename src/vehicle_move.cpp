@@ -1247,6 +1247,34 @@ static double item_hardness_calc( const item &it )
     return item_hardness;
 }
 
+double vehicle::wheel_damage_chance_vs_item( const item &it, vehicle_part &vp_wheel ) const
+{
+    // damage is calculated based on the size of roadkill relative to the wheel's volume and hardness of the roadkill
+    // so e.g. a single nail is not likely to damage a huge tire by itself, but a whole road full of them almost certainly will.
+    // While a road full of feathers just gets flattened, because they're the softest thing possible! Even if there's a lot of them!
+    const units::quantity<double, units::volume_in_milliliter_tag> wheel_volume_dbl =
+        vp_wheel.get_base().volume();
+    const double wheel_hardness = item_hardness_calc( vp_wheel.get_base() );
+    double item_hardness = item_hardness_calc( it );
+    // It is exponentially more difficult for soft items to damage wheels, even if you're hitting a lot of them.
+    // This is capped at 1.0 (100% chance) before accounting for volume.
+    const double hardness_scalar = std::min( std::sqrt( item_hardness / wheel_hardness ), 1.0 );
+    // volume_comparison is also capped at 1.0(100% chance) at most - being bigger than the wheel doesn't increase your chance to damage it.
+    // But there's a linear chance increase as the roadkill's volume approaches the wheel's volume.
+    const units::quantity<double, units::volume_in_milliliter_tag> itm_volume_dbl = it.volume();
+    const double volume_comparison = std::min( itm_volume_dbl, wheel_volume_dbl ) / wheel_volume_dbl;
+    const double chance_to_damage = hardness_scalar * volume_comparison;
+    add_msg_debug( debugmode::DF_VEHICLE_MOVE,
+                   "Vehicle %s running over item %s."
+                   "\n Chance to damage: %f%%."
+                   "\n Multiplicative factors:"
+                   "\n Hardness: %s%%"
+                   "\n Volume: %s%%",
+                   disp_name(), it.tname(), chance_to_damage * 100.0, hardness_scalar * 100.0,
+                   volume_comparison * 100.0 );
+    return chance_to_damage;
+}
+
 std::vector<std::string> vehicle::handle_item_roadkill( map *here, const tripoint_bub_ms &p,
         vehicle_part &vp_wheel )
 {
@@ -1260,32 +1288,9 @@ std::vector<std::string> vehicle::handle_item_roadkill( map *here, const tripoin
     const int one_damage_level = vp_wheel.info().durability *
                                  ( static_cast<double>( itype::damage_scale ) / vp_wheel.max_damage() );
 
-    // damage is calculated based on the size of roadkill relative to the wheel's volume and hardness of the roadkill
-    // so e.g. a single nail is not likely to damage a huge tire by itself, but a whole road full of them almost certainly will.
-    // While a road full of feathers just gets flattened, because they're the softest thing possible! Even if there's a lot of them!
-    const units::quantity<double, units::volume_in_milliliter_tag> wheel_volume_dbl =
-        vp_wheel.get_base().volume();
-    const double wheel_hardness = item_hardness_calc( vp_wheel.get_base() );
 
     for( const item &it : roadkill ) {
-        double item_hardness = item_hardness_calc( it );
-        // It is exponentially more difficult for soft items to damage wheels, even if you're hitting a lot of them.
-        // This is capped at 1.0 (100% chance) before accounting for volume.
-        const double hardness_scalar = std::min( std::sqrt( item_hardness / wheel_hardness ), 1.0 );
-        // volume_comparison is also capped at 1.0(100% chance) at most - being bigger than the wheel doesn't increase your chance to damage it.
-        // But there's a linear chance increase as the roadkill's volume approaches the wheel's volume.
-        const units::quantity<double, units::volume_in_milliliter_tag> itm_volume_dbl = it.volume();
-        const double volume_comparison = std::min( itm_volume_dbl, wheel_volume_dbl ) / wheel_volume_dbl;
-
-        const double chance_to_damage = hardness_scalar * volume_comparison;
-        add_msg_debug( debugmode::DF_VEHICLE_MOVE,
-                       "Vehicle %s running over item %s."
-                       "\n Chance to damage: %f%%."
-                       "\n Multiplicative factors:"
-                       "\n Hardness: %s%%"
-                       "\n Volume: %s%%",
-                       disp_name(), it.tname(), chance_to_damage * 100.0, hardness_scalar * 100.0,
-                       volume_comparison * 100.0 );
+        const double chance_to_damage = wheel_damage_chance_vs_item( it, vp_wheel );
         if( chance_to_damage >= rng_float( 0.0, 1.0 ) ) {
             damage_to_deal += one_damage_level; // One 'level' worth of damage per successful damage roll
             //~%1$s vehicle name, %1$s vehicle part name, %3$s name of item being run over
