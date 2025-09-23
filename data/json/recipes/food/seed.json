@@ -502,7 +502,7 @@
   {
     "result": "garlic_clove",
     "type": "recipe",
-    "id_suffix": "seed_extraction_designation",
+    "id_suffix": "seed_designation",
     "name": "%s from seeds",
     "copy-from": "seed_extraction_designation",
     "components": [ [ [ "seed_garlic_clove", 1 ] ] ],
@@ -511,7 +511,7 @@
   {
     "result": "garlic_clove",
     "type": "recipe",
-    "id_suffix": "bulk_seed_extraction_designatin",
+    "id_suffix": "bulk_seed_designatin",
     "name": "bulk %s from seeds",
     "result_mult": 60,
     "copy-from": "seed_extraction_designation",
