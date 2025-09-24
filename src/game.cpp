@@ -3254,8 +3254,9 @@ bool game::load( const save_t &name )
                     u.set_save_id( name.decoded_name() );
 
                     if( world_generator->active_world->has_compression_enabled() ) {
-                        std::shared_ptr<zzip> z = zzip::load( ( save_file_path + ".zzip" ).get_unrelative_path() );
-                        abort = !read_from_zzip_optional( z, save_file_path.get_unrelative_path().filename(),
+                        std::optional<zzip> z = zzip::load( ( save_file_path + ".zzip" ).get_unrelative_path() );
+                        abort = !z.has_value() ||
+                        !read_from_zzip_optional( z.value(), save_file_path.get_unrelative_path().filename(),
                         [this]( std::string_view sv ) {
                             unserialize( std::string{ sv } );
                         } );
@@ -3519,8 +3520,8 @@ bool game::save_player_data()
     if( world_generator->active_world->has_compression_enabled() ) {
         std::stringstream save;
         serialize_json( save );
-        std::shared_ptr<zzip> z = zzip::load( ( playerfile + SAVE_EXTENSION +
-                                                ".zzip" ).get_unrelative_path() );
+        std::optional<zzip> z = zzip::load( ( playerfile + SAVE_EXTENSION +
+                                              ".zzip.tmp" ).get_unrelative_path() );
         saved_data = z->add_file( ( playerfile + SAVE_EXTENSION ).get_unrelative_path().filename(),
                                   save.str() );
         saved_data = saved_data && z->compact( 1.0 );
