@@ -548,7 +548,7 @@
     "components": [
       [ [ "mutagen", 1 ] ],
       [ [ "ursine_sample", 1 ] ],
-      [ [ "mutant_lard", 5 ], [ "honey_bottled", 1 ] ],
+      [ [ "honey_bottled", 1 ] ],
       [ [ "honeycomb", 2 ], [ "ursine_sample", 1 ] ]
     ],
     "flags": [ "SECRET" ]

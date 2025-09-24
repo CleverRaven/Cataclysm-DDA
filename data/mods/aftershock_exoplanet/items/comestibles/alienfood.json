@@ -156,14 +156,6 @@
   {
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
-    "id": "frost_human_lard",
-    "name": { "str_sp": "freezerburned human lard" },
-    "copy-from": "frost_human_tallow",
-    "description": "A smooth light green block of dry-rendered human fat.  It's very frostburnt, and while it will remain edible for a very long time, it's not the most appetizing."
-  },
-  {
-    "type": "ITEM",
-    "subtypes": [ "COMESTIBLE" ],
     "id": "frost_raw_hleather",
     "category": "spare_parts",
     "name": { "str_sp": "raw frostbitten human skin" },
@@ -482,14 +474,6 @@
     "volume": "62 ml",
     "vitamins": [ [ "mutant_toxin", 25 ], [ "meat_allergen", 1 ] ],
     "fun": -18
-  },
-  {
-    "type": "ITEM",
-    "subtypes": [ "COMESTIBLE" ],
-    "id": "alien_lard",
-    "name": { "str_sp": "alien lard" },
-    "copy-from": "alien_tallow",
-    "description": "A smooth white block of dry-rendered animal fat.  It'll last for a very long time, but you are unsure of its edibility.  Can be used as an ingredient in many foods and projects."
   },
   {
     "type": "ITEM",

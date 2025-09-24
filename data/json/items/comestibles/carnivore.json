@@ -243,14 +243,6 @@
     "vitamins": [ [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ]
   },
   {
-    "type": "ITEM",
-    "subtypes": [ "COMESTIBLE" ],
-    "id": "human_lard",
-    "name": { "str_sp": "human lard" },
-    "copy-from": "human_tallow",
-    "description": "A smooth, white block of dry-rendered human fat.  It will remain edible for a very long time, and can be used as an ingredient in many foods and projects."
-  },
-  {
     "id": "human_flesh",
     "copy-from": "meat",
     "type": "ITEM",
@@ -1595,14 +1587,6 @@
     "fun": -18
   },
   {
-    "type": "ITEM",
-    "subtypes": [ "COMESTIBLE" ],
-    "id": "lard",
-    "name": { "str_sp": "lard" },
-    "copy-from": "tallow",
-    "description": "A smooth, white block of dry-rendered animal fat.  It will remain edible for a very long time, and can be used as an ingredient in many foods and projects."
-  },
-  {
     "id": "mutant_fat",
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
@@ -1625,14 +1609,6 @@
     "vitamins": [ [ "mutant_toxin", 180 ], [ "meat_allergen", 1 ] ]
   },
   {
-    "id": "mutant_lard",
-    "type": "ITEM",
-    "subtypes": [ "COMESTIBLE" ],
-    "copy-from": "mutant_tallow",
-    "name": { "str_sp": "mutant lard" },
-    "description": "A smooth, white block of dry-rendered fat, sourced from a mutant animal.  It will remain edible for a very long time, and can be used as an ingredient in many foods and projects."
-  },
-  {
     "id": "mutant_human_fat",
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
@@ -1651,14 +1627,6 @@
     "description": "A smooth, white block of cleaned and rendered fat, sourced from a mutant humanoid.  It won't rot for a very long time, and can be used as an ingredient in many foods and projects.",
     "material": [ "hflesh" ],
     "vitamins": [ [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ]
-  },
-  {
-    "type": "ITEM",
-    "subtypes": [ "COMESTIBLE" ],
-    "id": "mutant_human_lard",
-    "name": { "str_sp": "mutant humanoid lard" },
-    "copy-from": "mutant_human_tallow",
-    "description": "A smooth, white block of dry-rendered fat, sourced from a mutant humanoid.  It won't rot for a very long time, and can be used as an ingredient in many foods and projects."
   },
   {
     "type": "ITEM",
@@ -2170,15 +2138,6 @@
     "material": [ "flesh" ],
     "extend": { "flags": [ "STRICT_HUMANITARIANISM" ] },
     "vitamins": [ [ "meat_allergen", 1 ] ]
-  },
-  {
-    "type": "ITEM",
-    "subtypes": [ "COMESTIBLE" ],
-    "id": "demihuman_lard",
-    "name": { "str_sp": "demihuman lard" },
-    "copy-from": "lard",
-    "description": "A smooth, white block of dry-rendered demihuman fat.  It will remain edible for a very long time, and can be used as an ingredient in many foods and projects.",
-    "extend": { "flags": [ "STRICT_HUMANITARIANISM" ] }
   },
   {
     "id": "demihuman_flesh",
