@@ -5,6 +5,7 @@
 #include <exception>
 #include <filesystem>
 #include <functional>
+#include <optional>
 #include <set>
 #include <sstream>
 #include <stdexcept>
@@ -159,9 +160,9 @@ bool mapbuffer::submap_exists_approx( const tripoint_abs_sm &p )
                 if( !file_exist( zzip_name ) ) {
                     return false;
                 }
-                std::shared_ptr<zzip> z = zzip::load( zzip_name.get_unrelative_path(),
-                                                      ( PATH_INFO::world_base_save_path() / "maps.dict" ).get_unrelative_path() );
-                return z->has_file( std::filesystem::u8path( file_name ) );
+                std::optional<zzip> z = zzip::load( zzip_name.get_unrelative_path(),
+                                                    ( PATH_INFO::world_base_save_path() / "maps.dict" ).get_unrelative_path() );
+                return z && z->has_file( std::filesystem::u8path( file_name ) );
             } else {
                 return file_exist( dirname / file_name );
             }
@@ -246,7 +247,7 @@ void mapbuffer::save_quad(
     bool reverted_to_uniform = false;
     bool file_exists = false;
 
-    std::shared_ptr<zzip> z;
+    std::optional<zzip> z;
     // The number of uniform submaps is so enormous that the filesystem overhead
     // for this step of just checking if the quad exists approaches 70% of the
     // total cost of saving the mapbuffer, in one test save I had.
@@ -372,9 +373,9 @@ submap *mapbuffer::unserialize_submaps( const tripoint_abs_sm &p )
             if( !file_exist( zzip_name ) ) {
                 return false;
             }
-            std::shared_ptr<zzip> z = zzip::load( zzip_name.get_unrelative_path(),
-                                                  ( PATH_INFO::world_base_save_path() / "maps.dict" ).get_unrelative_path() );
-            if( !z->has_file( file_name_path ) ) {
+            std::optional<zzip> z = zzip::load( zzip_name.get_unrelative_path(),
+                                                ( PATH_INFO::world_base_save_path() / "maps.dict" ).get_unrelative_path() );
+            if( !z || !z->has_file( file_name_path ) ) {
                 return false;
             }
             std::vector<std::byte> contents = z->get_file( file_name_path );
