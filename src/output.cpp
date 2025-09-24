@@ -19,6 +19,7 @@
 
 #include "cached_options.h" // IWYU pragma: keep
 #include "cata_imgui.h"
+#include "cata_imgui_debug.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "color.h"
@@ -1326,8 +1327,8 @@ static void draw_table( std::string_view s )
         return;
     }
 
-    if( ImGui::BeginTable( "##ITEMINFO_TABLE", num_cols,
-                           ImGuiTableFlags_BordersH | ImGuiTableFlags_BordersV ) ) {
+    if( cataimgui::BeginTable( "##ITEMINFO_TABLE", num_cols,
+                               ImGuiTableFlags_BordersH | ImGuiTableFlags_BordersV ) ) {
         const std::vector<std::string> chopped_up = string_split( rows.front(), ';' );
         for( const std::string &cell_text : chopped_up ) {
             // this prefix prevents imgui from drawing the text. We still have color tags, which imgui won't parse, so we don't want those exposed to the user.
@@ -1337,7 +1338,7 @@ static void draw_table( std::string_view s )
             //
             // Not great for debugging, but better than having a column with default (randomly generated number) ID!
             const std::string invisible_ID_label = "##" + cell_text;
-            ImGui::TableSetupColumn( invisible_ID_label.c_str(), ImGuiTableColumnFlags_WidthStretch );
+            cataimgui::TableSetupColumn( invisible_ID_label.c_str(), ImGuiTableColumnFlags_WidthStretch );
         }
         ImGui::TableHeadersRow();
         // After putting in the invisible labels in the last for-loop, this writes the actual text. Just the same text without the ## marker, and
@@ -1359,13 +1360,14 @@ static void draw_table( std::string_view s )
             }
         }
 
-        ImGui::EndTable();
+        cataimgui::EndTable();
     }
 }
 
 void display_item_info( const std::vector<iteminfo> &vItemDisplay,
                         const std::vector<iteminfo> &vItemCompare )
 {
+    cataimgui::add_cataimgui_debug_checkboxes();
     bool bAlreadyHasNewLine = true;
     for( const iteminfo &i : vItemDisplay ) {
         if( i.bIsArt ) {
