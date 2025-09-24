@@ -541,6 +541,18 @@
     "tool_ammo": "battery"
   },
   {
+    "id": "smart_watch_music",
+    "copy-from": "smart_watch",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "smart watch - music", "str_pl": "smart watches - music" },
+    "description": "This smart watch is playing music, steadily raising your morale.  You can't hear anything else while you're listening.",
+    "revert_to": "smart_watch",
+    "use_action": [ "MP3_DEACTIVATE", "CALORIES_INTAKE_TRACKER", "FITNESS_CHECK", "PORTABLE_GAME" ],
+    "tick_action": [ "MP3_ON" ],
+    "extend": { "flags": [ "TRADER_AVOID" ] }
+  },
+  {
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR" ],
     "id": "smart_watch_adv",
@@ -576,6 +588,18 @@
         "ememory_max": "64 GB"
       }
     ]
+  },
+  {
+    "id": "smart_watch_adv_music",
+    "copy-from": "smart_watch_adv",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "advanced smart watch - music", "str_pl": "advanced smart watches - music" },
+    "description": "This advanced smart watch is playing music, steadily raising your morale.  You can't hear anything else while you're listening.",
+    "revert_to": "smart_watch",
+    "use_action": [ "MP3_DEACTIVATE", "CALORIES_INTAKE_TRACKER", "FITNESS_CHECK", "PORTABLE_GAME" ],
+    "tick_action": [ "MP3_ON" ],
+    "extend": { "flags": [ "TRADER_AVOID" ] }
   },
   {
     "type": "ITEM",
