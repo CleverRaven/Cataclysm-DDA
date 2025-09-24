@@ -10096,6 +10096,12 @@ bool map::try_fall( const tripoint_bub_ms &p, Creature *c )
     int height = 0;
     tripoint_bub_ms where( p );
     tripoint_bub_ms below( where + tripoint_rel_ms::below );
+
+    if( has_flag( ter_furn_flag::TFLAG_LADDER, below ) ) {
+        // you can stand at the top of a ladder
+        return false;
+    }
+
     creature_tracker &creatures = get_creature_tracker();
     while( valid_move( where, below, false, true ) ) {
         where.z()--;

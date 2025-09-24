@@ -765,17 +765,11 @@
     "deployed_item": "stepladder",
     "rotates_to": "WALL",
     "bash": {
-      "str_min": 6,
-      "str_max": 40,
-      "sound": "smash!",
-      "sound_fail": "whump.",
-      "items": [
-        { "item": "2x4", "count": [ 4, 10 ] },
-        { "item": "nail", "charges": [ 10, 30 ] },
-        { "item": "splinter", "count": [ 5, 10 ] }
-      ],
-      "hit_field": [ "fd_dust", 2 ],
-      "destroyed_field": [ "fd_splinters", 1 ]
+      "str_min": 0,
+      "str_max": 2,
+      "sound": "thunk!",
+      "sound_fail": "tap.",
+      "items": [ { "item": "stepladder", "count": 1 } ]
     }
   },
   {
@@ -792,11 +786,11 @@
     "looks_like": "f_ladder",
     "deployed_item": "aluminum_stepladder",
     "bash": {
-      "str_min": 6,
-      "str_max": 40,
-      "sound": "smash!",
-      "sound_fail": "whump.",
-      "items": [ { "item": "scrap_aluminum", "count": [ 15, 285 ] } ]
+      "str_min": 0,
+      "str_max": 2,
+      "sound": "clang!",
+      "sound_fail": "tink.",
+      "items": [ { "item": "aluminum_stepladder", "count": 1 } ]
     }
   },
   {

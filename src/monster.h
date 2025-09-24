@@ -323,7 +323,7 @@ class monster : public Creature
          *
          * @return true if we destroyed something, false otherwise.
          */
-        bool bash_at( const tripoint_bub_ms &p );
+        bool bash_at( const tripoint_bub_ms &p, bool bash_here = false );
 
         /**
          * Try to push away whatever occupies p, then step in.
