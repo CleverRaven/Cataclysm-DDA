@@ -131,8 +131,7 @@
       { "item": "char_smoker", "prob": 5, "charges": [ 0, -1 ] },
       [ "can_sealer", 2 ],
       [ "oil_press_manual", 2 ],
-      [ "snow_machine_home", 5 ],
-      [ "atomic_coffeepot", 1 ]
+      [ "snow_machine_home", 5 ]
     ]
   },
   {

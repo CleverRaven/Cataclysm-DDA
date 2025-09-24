@@ -909,7 +909,7 @@
     "price": "44 cent",
     "price_postapoc": "50 cent",
     "material": [ "glass" ],
-    "flags": [ "LIGHT_8" ],
+    "light": 8,
     "volume": "50 ml"
   },
   {
@@ -2995,7 +2995,8 @@
       }
     ],
     "material": [ "paper" ],
-    "flags": [ "LITCIG", "LIGHT_2", "TOBACCO", "TRADER_AVOID", "FIRESTARTER", "FRAGILE", "OVERSIZE" ],
+    "light": 8,
+    "flags": [ "LITCIG", "TOBACCO", "TRADER_AVOID", "FIRESTARTER", "FRAGILE", "OVERSIZE" ],
     "warmth": 6,
     "armor": [
       {
@@ -3043,7 +3044,8 @@
       }
     ],
     "material": [ "paper" ],
-    "flags": [ "LITCIG", "LIGHT_2", "TOBACCO", "TRADER_AVOID", "FIRESTARTER", "FRAGILE", "OVERSIZE" ],
+    "light": 2,
+    "flags": [ "LITCIG", "TOBACCO", "TRADER_AVOID", "FIRESTARTER", "FRAGILE", "OVERSIZE" ],
     "warmth": 3,
     "armor": [
       {
@@ -3091,7 +3093,8 @@
       }
     ],
     "material": [ "paper" ],
-    "flags": [ "LITCIG", "LIGHT_2", "TRADER_AVOID", "FIRESTARTER", "FRAGILE", "OVERSIZE" ],
+    "light": 2,
+    "flags": [ "LITCIG", "TRADER_AVOID", "FIRESTARTER", "FRAGILE", "OVERSIZE" ],
     "warmth": 3,
     "armor": [
       {

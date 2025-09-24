@@ -451,7 +451,6 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "item": "atomic_coffeepot", "prob": 1 },
       { "item": "bottle_glass", "prob": 15 },
       { "prob": 25, "group": "coffee_raw_bag_plastic_20" },
       { "item": "coffee_syrup", "charges": [ 1, -1 ], "prob": 25 },

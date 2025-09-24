@@ -1,0 +1,162 @@
+[
+  {
+    "type": "region_overlay",
+    "regions": [ "all" ],
+    "region_terrain_and_furniture": {
+      "terrain": { "t_region_groundcover": { "t_sand": 1 }, "t_region_groundcover_swamp": { "t_bog_iron": 10 } },
+      "furniture": {
+        "f_region_weed": { "f_wildcotton": 10, "f_wildsbeet": 10, "f_wildweed": 10, "f_wildpumpkin": 10, "f_wildcorn": 10, "f_wildbeans": 10 },
+        "f_region_plain": { "f_wildcotton": 30, "f_wildsbeet": 30, "f_wildpumpkin": 30, "f_wildcorn": 30, "f_wildweed": 10, "f_wildbeans": 10 },
+        "f_region_forest": { "f_wildweed": 40, "f_wildcorn": 40, "f_wildbeans": 40 },
+        "f_region_forest_dense": { "f_wildweed": 30, "f_wildcorn": 30, "f_wildbeans": 30 }
+      }
+    },
+    "map_extras": { "forest_water": { "extras": { "mx_pond_swamp": 240, "mx_pond_swamp_2": 240 } } },
+    "forest_mapgen_settings": {
+      "forest_thick": {
+        "terrains": [
+          "cave_innawood",
+          "forest_thick",
+          "forest_trail",
+          "forest_trail_intersection",
+          "natural_spring",
+          "special_forest",
+          "spider_pit",
+          "standing_stones",
+          "stream",
+          "stream_corner",
+          "stream_end"
+        ]
+      },
+      "forest_water": {
+        "terrains": [ "forest_water" ],
+        "components": {
+          "water": {
+            "sequence": 3,
+            "chance": 2,
+            "clear_types": false,
+            "types": { "t_swater_sh": 6, "t_swater_dp": 1, "t_water_murky": 12 }
+          }
+        }
+      }
+    },
+    "forest_trail_settings": { "trailheads": { "trailhead_basic": 1 } },
+    "overmap_feature_flag_settings": {
+      "clear_blacklist": false,
+      "blacklist": [ "LAB", "MAN_MADE", "MILITARY", "URBAN", "FARM", "EXODII" ],
+      "clear_whitelist": false,
+      "whitelist": [  ]
+    }
+  },
+  {
+    "type": "region_settings_forest_trail",
+    "id": "default_innawood",
+    "copy-from": "default",
+    "trailheads": [ [ "trailhead_basic", 1 ] ]
+  },
+  {
+    "type": "map_extra_collection",
+    "id": "forest_water_innawood",
+    "extras": [ [ "mx_pond_swamp", 240 ], [ "mx_pond_swamp_2", 240 ] ]
+  },
+  {
+    "type": "region_settings_map_extras",
+    "id": "default_innawood",
+    "copy-from": "default",
+    "extras": [ "forest_water_innawood" ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "default_t_region_groundcover",
+    "ter_id": "t_region_groundcover",
+    "replace_with_terrain": [ [ "t_sand", 1 ] ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "default_t_region_groundcover_swamp",
+    "ter_id": "t_region_groundcover_swamp",
+    "replace_with_terrain": [ [ "t_bog_iron", 10 ] ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "default_f_region_weed",
+    "furn_id": "f_region_weed",
+    "replace_with_furniture": [
+      [ "f_wildcotton", 10 ],
+      [ "f_wildsbeet", 10 ],
+      [ "f_wildweed", 10 ],
+      [ "f_wildpumpkin", 10 ],
+      [ "f_wildcorn", 10 ],
+      [ "f_wildbeans", 10 ]
+    ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "default_f_region_plain",
+    "furn_id": "f_region_plain",
+    "replace_with_furniture": [
+      [ "f_wildcotton", 30 ],
+      [ "f_wildsbeet", 30 ],
+      [ "f_wildpumpkin", 30 ],
+      [ "f_wildcorn", 30 ],
+      [ "f_wildweed", 10 ],
+      [ "f_wildbeans", 10 ]
+    ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "default_f_region_forest",
+    "furn_id": "f_region_forest",
+    "replace_with_furniture": [ [ "f_wildweed", 40 ], [ "f_wildcorn", 40 ], [ "f_wildbeans", 40 ] ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "default_f_region_forest_dense",
+    "furn_id": "f_region_forest_dense",
+    "replace_with_furniture": [ [ "f_wildweed", 30 ], [ "f_wildcorn", 30 ], [ "f_wildbeans", 30 ] ]
+  },
+  {
+    "type": "region_settings_terrain_furniture",
+    "id": "default_innawood",
+    "copy-from": "default",
+    "ter_furn": [
+      "default_t_region_groundcover",
+      "default_t_region_groundcover_swamp",
+      "default_f_region_weed",
+      "default_f_region_plain",
+      "default_f_region_forest",
+      "default_f_region_forest_dense"
+    ]
+  },
+  {
+    "type": "forest_biome_mapgen",
+    "id": "biome_forest_water_innawood",
+    "copy-from": "biome_forest_water_default",
+    "terrains": [ "forest_water" ],
+    "components": [ "water_forest_water_innawood" ]
+  },
+  {
+    "type": "forest_biome_feature",
+    "id": "water_forest_water_innawood",
+    "copy-from": "water_forest_water",
+    "sequence": 3,
+    "chance": 2,
+    "types": [ [ "t_swater_sh", 6 ], [ "t_swater_dp", 1 ], [ "t_water_murky", 12 ] ]
+  },
+  {
+    "type": "region_settings_forest_mapgen",
+    "id": "default_innawood",
+    "copy-from": "default",
+    "biomes": [ "biome_forest_water_innawood" ]
+  },
+  {
+    "type": "region_settings_new",
+    "id": "default_innawood",
+    "copy-from": "default",
+    "forest_trails": "default_innawood",
+    "forest_composition": "default_innawood",
+    "map_extras": "default_innawood",
+    "terrain_furniture": "default_innawood",
+    "feature_flag_settings": { "blacklist": [ "LAB", "MAN_MADE", "MILITARY", "URBAN", "FARM", "EXODII" ], "whitelist": [  ] }
+  }
+]
