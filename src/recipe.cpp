@@ -474,19 +474,18 @@ void recipe::load( const JsonObject &jo, const std::string_view src )
     const requirement_id req_id( "inline_" + type + "_" + id.str() );
     requirement_data::load_requirement( jo, req_id, false, abstract );
     reqs_internal.emplace_back( req_id, 1 );
-    requirement_data req_data = req_id.obj();
 
-    if( inherited_tools && req_data.get_tools().empty() ) {
+    if( inherited_tools && !jo.has_member( "tools" ) ) {
         debugmsg( "Recipe %s inherits from recipe that has tools, but does not have any of its own.  "
                   "This is probably an error.", id.str() );
     }
 
-    if( inherited_qualities && req_data.get_qualities().empty() ) {
+    if( inherited_qualities && !jo.has_member( "qualities" ) ) {
         debugmsg( "Recipe %s inherits from recipe that has qualities, but does not have any of its own.  "
                   "This is probably an error.", id.str() );
     }
 
-    if( inherited_components  && req_data.get_components().empty() ) {
+    if( inherited_components  && !jo.has_member( "components" ) ) {
         debugmsg( "Recipe %s inherits from recipe that has components, but does not have any of its own.  "
                   "This is probably an error.", id.str() );
     }
