@@ -3439,7 +3439,7 @@ void islot_seed::deserialize( const JsonObject &jo )
     mandatory( jo, was_loaded, "plant_name", plant_name );
     mandatory( jo, was_loaded, "fruit", fruit_id );
     mandatory( jo, was_loaded, "growth_stages", growth_stages,
-               vector_pair_reader<flag_id, time_duration> {} );
+               pair_reader<flag_id, time_duration> {} );
     optional( jo, was_loaded, "seeds", spawn_seeds, true );
     optional( jo, was_loaded, "byproducts", byproducts );
     optional( jo, was_loaded, "required_terrain_flag", required_terrain_flag,
