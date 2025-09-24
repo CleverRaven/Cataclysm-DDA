@@ -461,7 +461,7 @@ void recipe::load( const JsonObject &jo, const std::string_view src )
     }
 
     const requirement_id req_id( "inline_" + type + "_" + id.str() );
-    requirement_data::load_requirement( jo, req_id );
+    requirement_data::load_requirement( jo, req_id, false, abstract );
     reqs_internal.emplace_back( req_id, 1 );
 }
 
