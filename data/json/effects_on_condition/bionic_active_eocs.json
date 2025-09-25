@@ -63,6 +63,19 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_bio_hydraulics_activated",
+    "effect": [
+      { "math": [ "u_bio_hydraulics_strength_adjustment = u_val('strength')" ] },
+      { "u_add_effect": "effect_bio_hydraulics_active", "duration": "PERMANENT" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_bio_hydraulics_deactivated",
+    "effect": [ { "u_lose_effect": "effect_bio_hydraulics_active" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_bio_blood_filter",
     "//": "todo: make EoC able to assing length to effects, and read int_dur_factor, to replicate now removed force_comedown() instead of this if-then",
     "//2": "or just force_comedown boolean for u_lose_effect, i failed to do any",
