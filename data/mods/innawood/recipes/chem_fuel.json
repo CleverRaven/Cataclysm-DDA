@@ -66,7 +66,7 @@
       [ [ "lye_powder", 8 ] ],
       [
         [ "cooking_oil", 64 ],
-        [ "edible_tallow", 8, "LIST" ],
+        [ "edible_tallow", 20, "LIST" ],
         [ "tallow_tainted", 8 ],
         [ "any_fat", 16, "LIST" ],
         [ "lamp_oil", 1000 ],

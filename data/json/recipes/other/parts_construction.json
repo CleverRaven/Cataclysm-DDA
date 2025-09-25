@@ -354,7 +354,7 @@
     "//": "a long pole is a single piece of wood, and the stout branch just isn't large enough.",
     "components": [
       [ [ "wooden_post_long", 1 ] ],
-      [ [ "any_tallow", 4, "LIST" ], [ "cooking_oil", 32 ], [ "lamp_oil", 500 ], [ "motor_oil", 500 ] ]
+      [ [ "any_tallow", 10, "LIST" ], [ "cooking_oil", 32 ], [ "lamp_oil", 500 ], [ "motor_oil", 500 ] ]
     ]
   },
   {
@@ -378,9 +378,9 @@
     "components": [
       [ [ "stick_long", 1 ] ],
       [
-        [ "any_tallow", 2, "LIST" ],
+        [ "any_tallow", 5, "LIST" ],
         [ "cooking_oil", 16 ],
-        [ "edible_tallow", 4, "LIST" ],
+        [ "edible_tallow", 10, "LIST" ],
         [ "lamp_oil", 250 ],
         [ "motor_oil", 250 ]
       ]
