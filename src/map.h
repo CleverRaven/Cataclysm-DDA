@@ -418,7 +418,6 @@ class map
 
         // invalidates seen cache for the whole zlevel unconditionally
         void set_seen_cache_dirty( int zlevel );
-        void set_outside_cache_dirty( int zlev );
         void set_floor_cache_dirty( int zlev );
         void set_pathfinding_cache_dirty( int zlev );
         void set_pathfinding_cache_dirty( const tripoint_bub_ms &p );
@@ -1060,6 +1059,7 @@ class map
         }
 
         bool is_outside( const tripoint_bub_ms &p ) const;
+        bool is_outside( const tripoint_abs_ms &p ) const;
         /**
          * Returns whether or not the terrain at the given location can be dived into
          * (by monsters that can swim or are aquatic or non-breathing).
