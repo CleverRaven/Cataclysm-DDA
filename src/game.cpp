@@ -3524,7 +3524,8 @@ bool game::save_player_data()
                                               ".zzip.tmp" ).get_unrelative_path() );
         saved_data = z->add_file( ( playerfile + SAVE_EXTENSION ).get_unrelative_path().filename(),
                                   save.str() );
-        saved_data = saved_data && z->compact( 1.0 );
+        saved_data = saved_data && z->compact_to( ( playerfile + SAVE_EXTENSION +
+                     ".zzip" ).get_unrelative_path(), 0.0 );
     } else {
         saved_data = write_to_file( playerfile + SAVE_EXTENSION, [&]( std::ostream & fout ) {
             serialize_json( fout );

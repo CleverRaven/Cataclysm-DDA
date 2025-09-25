@@ -248,12 +248,12 @@ void mapbuffer::save_quad(
     bool file_exists = false;
 
     std::optional<zzip> z;
+    cata_path zzip_name = dirname;
+    zzip_name += ".zzip";
     // The number of uniform submaps is so enormous that the filesystem overhead
     // for this step of just checking if the quad exists approaches 70% of the
     // total cost of saving the mapbuffer, in one test save I had.
     if( world_generator->active_world->has_compression_enabled() ) {
-        cata_path zzip_name = dirname;
-        zzip_name += ".zzip";
         z = zzip::load( zzip_name.get_unrelative_path(),
                         ( PATH_INFO::world_base_save_path() / "maps.dict" ).get_unrelative_path() );
         if( !z ) {
@@ -336,7 +336,6 @@ void mapbuffer::save_quad(
 
     if( z ) {
         z->add_file( filename.get_relative_path().filename(), s );
-        z->compact( 2.0 );
     } else {
         // Don't create the directory if it would be empty
         assure_dir_exist( dirname );
@@ -350,6 +349,13 @@ void mapbuffer::save_quad(
             z->delete_files( { filename.get_relative_path().filename() } );
         } else {
             std::filesystem::remove( filename.get_unrelative_path() );
+        }
+    }
+    if( z ) {
+        cata_path tmp_path = zzip_name + ".tmp";
+        if( z->compact_to( tmp_path.get_unrelative_path(), 2.0 ) ) {
+            z.reset();
+            rename_file( tmp_path, zzip_name );
         }
     }
 }

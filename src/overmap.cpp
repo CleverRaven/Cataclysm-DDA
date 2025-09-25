@@ -6416,7 +6416,11 @@ void overmap::save() const
             throw std::runtime_error( string_format( "Failed to save omap %d.%d to %s", loc.x(),
                                       loc.y(), zzip_path.get_unrelative_path().generic_u8string().c_str() ) );
         }
-        z->compact( 2.0 );
+        cata_path tmp_path = zzip_path + ".tmp";
+        if( z->compact_to( tmp_path.get_unrelative_path(), 2.0 ) ) {
+            z.reset();
+            rename_file( tmp_path, zzip_path );
+        }
     } else {
         write_to_file( PATH_INFO::current_dimension_save_path() /
                        overmapbuffer::terrain_filename(

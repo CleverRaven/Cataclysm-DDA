@@ -147,13 +147,13 @@ bool zzip_stack::extract_to_folder( std::filesystem::path const &path,
                                     std::filesystem::path const &dictionary )
 {
     std::shared_ptr<zzip_stack> stack = zzip_stack::load( path, dictionary );
-    if( !zzip::extract_to_folder( stack->cold().get_path(), folder, dictionary ) ) {
+    if( !stack->cold().extract_to_folder( folder ) ) {
         return false;
     }
-    if( !zzip::extract_to_folder( stack->warm().get_path(), folder, dictionary ) ) {
+    if( !stack->warm().extract_to_folder( folder ) ) {
         return false;
     }
-    if( !zzip::extract_to_folder( stack->hot().get_path(), folder, dictionary ) ) {
+    if( !stack->hot().extract_to_folder( folder ) ) {
         return false;
     }
     return true;
@@ -239,7 +239,11 @@ bool zzip_stack::compact( double bloat_factor )
     }
 
     // Finally normal compact on cold.
-    return cold_->compact( std::max( bloat_factor / 2.0, 1.0 ) );
+    std::filesystem::path tmp_path = path_ / "cold.zzip.tmp"; // NOLINT(cata-u8-path)
+    if( cold_->compact_to( tmp_path, std::max( bloat_factor / 2.0, 1.0 ) ) ) {
+        return rename_file( tmp_path, path_ / "cold.zzip" ); // NOLINT(cata-u8-path)
+    }
+    return true;
 }
 
 zzip &zzip_stack::cold() const
