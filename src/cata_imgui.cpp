@@ -19,6 +19,16 @@
 
 static ImGuiKey cata_key_to_imgui( int cata_key );
 
+namespace cataimgui
+{
+ImGuiWindowFlags default_cataimgui_window_flags =
+    ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize |
+    ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoMove |
+    ImGuiWindowFlags_NoNavFocus | ImGuiWindowFlags_NoBringToFrontOnFocus;
+}
+
+
+
 #ifdef TUI
 #include "wcwidth.h"
 #include <curses.h>
@@ -854,9 +864,7 @@ cataimgui::window::window( int window_flags )
 {
     p_impl = nullptr;
 
-    this->window_flags = window_flags | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize |
-                         ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoNavFocus |
-                         ImGuiWindowFlags_NoBringToFrontOnFocus;
+    this->window_flags = window_flags | default_cataimgui_window_flags;
 }
 
 cataimgui::window::window( const std::string &id_, int window_flags ) : window( window_flags )
