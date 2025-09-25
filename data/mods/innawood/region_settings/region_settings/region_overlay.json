@@ -57,76 +57,100 @@
   {
     "type": "map_extra_collection",
     "id": "forest_water_innawood",
-    "extras": [ [ "mx_pond_swamp", 240 ], [ "mx_pond_swamp_2", 240 ] ]
+    "copy-from": "forest_water",
+    "extend": { "extras": [ [ "mx_pond_swamp", 240 ], [ "mx_pond_swamp_2", 240 ] ] }
   },
   {
     "type": "region_settings_map_extras",
     "id": "default_innawood",
     "copy-from": "default",
-    "extras": [ "forest_water_innawood" ]
+    "delete": { "extras": [ "forest_water" ] },
+    "extend": { "extras": [ "forest_water_innawood" ] }
   },
   {
     "type": "region_terrain_furniture",
-    "id": "default_t_region_groundcover",
+    "id": "default_t_region_groundcover_innawood",
+    "copy-from": "default_t_region_groundcover",
     "ter_id": "t_region_groundcover",
-    "replace_with_terrain": [ [ "t_sand", 1 ] ]
+    "extend": { "replace_with_terrain": [ [ "t_sand", 1 ] ] }
   },
   {
     "type": "region_terrain_furniture",
-    "id": "default_t_region_groundcover_swamp",
+    "id": "default_t_region_groundcover_swamp_innawood",
+    "copy-from": "default_t_region_groundcover_swamp",
     "ter_id": "t_region_groundcover_swamp",
-    "replace_with_terrain": [ [ "t_bog_iron", 10 ] ]
+    "extend": { "replace_with_terrain": [ [ "t_bog_iron", 10 ] ] }
   },
   {
     "type": "region_terrain_furniture",
-    "id": "default_f_region_weed",
+    "id": "default_f_region_weed_innawood",
+    "copy-from": "default_f_region_weed",
     "furn_id": "f_region_weed",
-    "replace_with_furniture": [
-      [ "f_wildcotton", 10 ],
-      [ "f_wildsbeet", 10 ],
-      [ "f_wildweed", 10 ],
-      [ "f_wildpumpkin", 10 ],
-      [ "f_wildcorn", 10 ],
-      [ "f_wildbeans", 10 ]
-    ]
+    "extend": {
+      "replace_with_furniture": [
+        [ "f_wildcotton", 10 ],
+        [ "f_wildsbeet", 10 ],
+        [ "f_wildweed", 10 ],
+        [ "f_wildpumpkin", 10 ],
+        [ "f_wildcorn", 10 ],
+        [ "f_wildbeans", 10 ]
+      ]
+    }
   },
   {
     "type": "region_terrain_furniture",
-    "id": "default_f_region_plain",
+    "id": "default_f_region_plain_innawood",
+    "copy-from": "default_f_region_plain",
     "furn_id": "f_region_plain",
-    "replace_with_furniture": [
-      [ "f_wildcotton", 30 ],
-      [ "f_wildsbeet", 30 ],
-      [ "f_wildpumpkin", 30 ],
-      [ "f_wildcorn", 30 ],
-      [ "f_wildweed", 10 ],
-      [ "f_wildbeans", 10 ]
-    ]
+    "extend": {
+      "replace_with_furniture": [
+        [ "f_wildcotton", 30 ],
+        [ "f_wildsbeet", 30 ],
+        [ "f_wildpumpkin", 30 ],
+        [ "f_wildcorn", 30 ],
+        [ "f_wildweed", 10 ],
+        [ "f_wildbeans", 10 ]
+      ]
+    }
   },
   {
     "type": "region_terrain_furniture",
-    "id": "default_f_region_forest",
+    "id": "default_f_region_forest_innawood",
+    "copy-from": "default_f_region_forest",
     "furn_id": "f_region_forest",
-    "replace_with_furniture": [ [ "f_wildweed", 40 ], [ "f_wildcorn", 40 ], [ "f_wildbeans", 40 ] ]
+    "extend": { "replace_with_furniture": [ [ "f_wildweed", 40 ], [ "f_wildcorn", 40 ], [ "f_wildbeans", 40 ] ] }
   },
   {
     "type": "region_terrain_furniture",
-    "id": "default_f_region_forest_dense",
+    "id": "default_f_region_forest_dense_innawood",
+    "copy-from": "default_f_region_forest_dense",
     "furn_id": "f_region_forest_dense",
-    "replace_with_furniture": [ [ "f_wildweed", 30 ], [ "f_wildcorn", 30 ], [ "f_wildbeans", 30 ] ]
+    "extend": { "replace_with_furniture": [ [ "f_wildweed", 30 ], [ "f_wildcorn", 30 ], [ "f_wildbeans", 30 ] ] }
   },
   {
     "type": "region_settings_terrain_furniture",
     "id": "default_innawood",
     "copy-from": "default",
-    "ter_furn": [
-      "default_t_region_groundcover",
-      "default_t_region_groundcover_swamp",
-      "default_f_region_weed",
-      "default_f_region_plain",
-      "default_f_region_forest",
-      "default_f_region_forest_dense"
-    ]
+    "delete": {
+      "ter_furn": [
+        "default_t_region_groundcover",
+        "default_t_region_groundcover_swamp",
+        "default_f_region_weed",
+        "default_f_region_plain",
+        "default_f_region_forest",
+        "default_f_region_forest_dense"
+      ]
+    },
+    "extend": {
+      "ter_furn": [
+        "default_t_region_groundcover_innawood",
+        "default_t_region_groundcover_swamp_innawood",
+        "default_f_region_weed_innawood",
+        "default_f_region_plain_innawood",
+        "default_f_region_forest_innawood",
+        "default_f_region_forest_dense_innawood"
+      ]
+    }
   },
   {
     "type": "forest_biome_mapgen",
@@ -139,15 +163,14 @@
     "type": "forest_biome_feature",
     "id": "water_forest_water_innawood",
     "copy-from": "water_forest_water",
-    "sequence": 3,
-    "chance": 2,
     "types": [ [ "t_swater_sh", 6 ], [ "t_swater_dp", 1 ], [ "t_water_murky", 12 ] ]
   },
   {
     "type": "region_settings_forest_mapgen",
     "id": "default_innawood",
     "copy-from": "default",
-    "biomes": [ "biome_forest_water_innawood" ]
+    "delete": { "biomes": [ "biome_forest_water_default" ] },
+    "extend": { "biomes": [ "biome_forest_water_innawood" ] }
   },
   {
     "type": "region_settings_new",
