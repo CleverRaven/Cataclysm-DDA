@@ -3682,7 +3682,8 @@ static bool armor_encumb_header_info( const item &it, std::vector<iteminfo> &inf
     if( sizing_matters ) {
         const item::sizing sizing_level = it.get_sizing( player_character );
         //If we have the wrong size, we do not fit so alert the player
-        if( sizing_level == item::sizing::human_sized_small_char ) {
+        if( sizing_level == item::sizing::human_sized_small_char ||
+            sizing_level == item::sizing::big_sized_human_char ) {
             format = _( " <bad>(too big)</bad>" );
         } else if( sizing_level == item::sizing::big_sized_small_char ) {
             format = _( " <bad>(huge!)</bad>" );
