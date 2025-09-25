@@ -804,6 +804,7 @@
     "tools": [ [ [ "surface_heat", 60, "LIST" ] ] ],
     "//": "this recipe is weird.  440g of fat and nothing else, presumably cut into cubes and cooked.  the recipe should have water, but then it's not clear why this is different from tallow.",
     "//1": "for now I'm going to treat it as fat rendered without using water and the leftovers being turned into cracklins.  Power cost goes up as a result, compared to 30u for cracklins (which use same amt of fat).",
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
     "components": [ [ [ "demihuman_fat", 2 ] ] ]
   },
   {
