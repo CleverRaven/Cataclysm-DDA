@@ -64,7 +64,10 @@ void weather_generator::reset()
 {
     weather_generator_factory.reset();
 }
-
+void weather_generator::finalize()
+{
+    sort_weather();
+}
 void weather_generator::finalize_all()
 {
     weather_generator_factory.finalize();

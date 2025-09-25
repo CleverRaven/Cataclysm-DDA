@@ -18,7 +18,6 @@
 #include "mapdata.h"
 #include "map_extras.h"
 #include "options.h"
-#include "output.h"
 #include "rng.h"
 #include "string_formatter.h"
 #include "translation.h"
@@ -1370,8 +1369,6 @@ void load_region_settings( const JsonObject &jo )
 
     load_region_terrain_and_furniture_settings( jo, new_region.region_terrain_and_furniture, strict,
             false );
-
-    region_settings_map[new_region.id] = new_region;
 }
 
 void region_settings::load( const JsonObject &jo, std::string_view )
@@ -1474,6 +1471,7 @@ void region_overlay_new::finalize_all()
 
 void check_region_settings()
 {
+    /*
     for( const std::pair<const std::string, regional_settings> &p : region_settings_map ) {
         const std::string &region_name = p.first;
         const regional_settings &region = p.second;
@@ -1503,11 +1501,12 @@ void check_region_settings()
             }
         }
     }
+    */
 }
 
 void reset_region_settings()
 {
-    region_settings_map.clear();
+    region_settings_factory.reset();
 }
 
 void region_overlay_new::load( const JsonObject &jo, std::string_view )
@@ -1522,6 +1521,8 @@ void region_overlay_new::load( const JsonObject &jo, std::string_view )
  */
 void load_region_overlay( const JsonObject &jo )
 {
+    jo.allow_omitted_members();
+    /*
     if( jo.has_array( "regions" ) ) {
         JsonArray regions = jo.get_array( "regions" );
         for( const std::string regionid : regions ) {
@@ -1545,6 +1546,7 @@ void load_region_overlay( const JsonObject &jo )
     } else {
         jo.throw_error( "\"regions\" is required and must be an array" );
     }
+    */
 }
 
 void apply_region_overlay( const JsonObject &jo, regional_settings &region )
@@ -2080,9 +2082,11 @@ void regional_settings::finalize()
         overmap_lake.finalize();
         region_terrain_and_furniture.finalize();
         get_options().add_value( "DEFAULT_REGION", id, no_translation( id ) );
+        /*
         for( std::pair<const std::string, regional_settings> &p : region_settings_map ) {
             p.second.weather.sort_weather();
         }
+        */
     }
 }
 
@@ -2100,7 +2104,7 @@ void building_bin::add( const overmap_special_id &building, int weight )
         return;
     }
 
-    unfinalized_buildings[ building ] = weight;
+    buildings.add( building, weight );
 }
 
 overmap_special_id building_bin::pick() const
@@ -2118,8 +2122,6 @@ void building_bin::clear()
 {
     finalized = false;
     buildings.clear();
-    unfinalized_buildings.clear();
-    all.clear();
 }
 
 void building_bin::finalize()
@@ -2129,7 +2131,8 @@ void building_bin::finalize()
         return;
     }
 
-    for( const std::pair<const overmap_special_id, int> &pr : unfinalized_buildings ) {
+    weighted_int_list< overmap_special_id> new_buildings;
+    for( const std::pair<const overmap_special_id, int> pr : buildings ) {
         overmap_special_id current_id = pr.first;
         if( !current_id.is_valid() ) {
             // First, try to convert oter to special
@@ -2138,13 +2141,12 @@ void building_bin::finalize()
                 debugmsg( "Tried to add city building %s, but it is neither a special nor a terrain type",
                           pr.first.c_str() );
                 continue;
-            } else {
-                all.emplace_back( pr.first.str() );
             }
             current_id = overmap_specials::create_building_from( converted_id );
         }
-        buildings.add( current_id, pr.second );
+        new_buildings.add( current_id, pr.second );
     }
 
+    buildings = new_buildings;
     finalized = true;
 }
