@@ -7648,19 +7648,23 @@ talk_effect_fun_t::func f_teleport( const JsonObject &jo, std::string_view membe
     bool force_safe = jo.get_bool( "force_safe", false );
 
     str_or_var dimension_prefix;
-    optional( jo, false, "dimension_prefix", dimension_prefix, "" );
+    optional( jo, false, "dimension_prefix", dimension_prefix, g->get_dimension_prefix() );
+
+    // radius around which NPCs will be teleported with the avatar, if dimension hopping
+    dbl_or_var npc_radius = get_dbl_or_var( jo, "npc_radius", false, 0 );
 
     return [is_npc, target_var, fail_message, success_message, force,
-            force_safe, dimension_prefix]( dialogue const & d ) {
+            force_safe, dimension_prefix, npc_radius]( dialogue const & d ) {
         tripoint_abs_ms target_pos = read_var_value( target_var, d ).tripoint();
         Creature *teleporter = d.actor( is_npc )->get_creature();
         if( teleporter ) {
             std::string prefix = dimension_prefix.evaluate( d );
+            int radius = npc_radius.evaluate( d );
             bool successful_dimension_swap = false;
             // Make sure we don't cause a dimension swap on every
             // short/long range teleport outside the default dimension
             if( !prefix.empty() && prefix != g->get_dimension_prefix() ) {
-                successful_dimension_swap = g->travel_to_dimension( prefix );
+                successful_dimension_swap = g->travel_to_dimension( prefix, radius );
             }
             if( teleport::teleport_to_point( *teleporter, get_map().get_bub( target_pos ), true, false,
                                              false, force, force_safe ) || successful_dimension_swap ) {
