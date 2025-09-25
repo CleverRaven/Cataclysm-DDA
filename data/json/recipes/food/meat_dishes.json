@@ -316,7 +316,7 @@
     ],
     "components": [
       [ [ "meat_red", 2, "LIST" ], [ "meat_liver", 10, "LIST" ] ],
-      [ [ "edible_fat", 1, "LIST" ], [ "edible_tallow", 10, "LIST" ] ],
+      [ [ "edible_fat", 10, "LIST" ], [ "edible_tallow", 10, "LIST" ] ],
       [
         [ "salt", 4 ],
         [ "soysauce", 2 ],
@@ -347,7 +347,7 @@
     "components": [
       [ [ "meat_red", 1, "LIST" ] ],
       [ [ "edible_blood", 2, "LIST" ] ],
-      [ [ "edible_fat", 1, "LIST" ], [ "edible_tallow", 10, "LIST" ] ],
+      [ [ "edible_fat", 10, "LIST" ], [ "edible_tallow", 10, "LIST" ] ],
       [
         [ "salt", 4 ],
         [ "soysauce", 2 ],
@@ -386,7 +386,7 @@
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" }, { "proficiency": "prof_preservation" } ],
     "components": [
       [ [ "meat_red", 2, "LIST" ], [ "can_chicken", 2 ] ],
-      [ [ "edible_fat", 1, "LIST" ], [ "edible_tallow", 10, "LIST" ] ],
+      [ [ "edible_fat", 10, "LIST" ], [ "edible_tallow", 10, "LIST" ] ],
       [
         [ "salt", 4 ],
         [ "soysauce", 2 ],
@@ -423,7 +423,7 @@
     ],
     "components": [
       [ [ "meat_red", 2, "LIST" ], [ "meat_liver", 10, "LIST" ] ],
-      [ [ "edible_fat", 1, "LIST" ], [ "edible_tallow", 10, "LIST" ] ],
+      [ [ "edible_fat", 10, "LIST" ], [ "edible_tallow", 10, "LIST" ] ],
       [
         [ "salt", 4 ],
         [ "soysauce", 2 ],
@@ -555,7 +555,7 @@
     "tools": [ [ [ "surface_heat", 30, "LIST" ] ] ],
     "//": "440g of fat cooked to a crisp instead of being boiled.  basing off chunk of meat use 30u of charge.",
     "proficiencies": [ { "proficiency": "prof_food_prep" } ],
-    "components": [ [ [ "edible_fat", 1, "LIST" ] ] ]
+    "components": [ [ [ "edible_fat", 10, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -770,7 +770,7 @@
     "components": [
       [ [ "syrup", 1 ], [ "syrup_corn", 1 ] ],
       [ [ "meat_red", 3, "LIST" ], [ "can_chicken", 3 ] ],
-      [ [ "edible_fat", 1, "LIST" ], [ "edible_tallow", 10, "LIST" ] ],
+      [ [ "edible_fat", 10, "LIST" ], [ "edible_tallow", 10, "LIST" ] ],
       [
         [ "salt", 10 ],
         [ "soysauce", 1 ],
