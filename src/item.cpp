@@ -8395,9 +8395,13 @@ int item::get_encumber( const Character &p, const bodypart_id &bodypart,
             // non small characters have a HARD time wearing undersized clothing
             encumber *= 3;
             break;
-        case sizing::human_sized_small_char:
         case sizing::big_sized_small_char:
-            // clothes bag up around smol characters and encumber them more
+            // small characters are practically swimming in big clothing
+            encumber *= 3;
+            break;
+        case sizing::human_sized_small_char:
+        case sizing::big_sized_human_char:
+            // clothes bag up when they're bigger than the character
             encumber *= 2;
             break;
         default:
