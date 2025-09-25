@@ -315,6 +315,10 @@ static const itype_id itype_rebreather_xl_on( "rebreather_xl_on" );
 static const itype_id itype_shocktonfa_off( "shocktonfa_off" );
 static const itype_id itype_shocktonfa_on( "shocktonfa_on" );
 static const itype_id itype_smart_phone( "smart_phone" );
+static const itype_id itype_smart_watch( "smart_watch" );
+static const itype_id itype_smart_watch_adv( "smart_watch_adv" );
+static const itype_id itype_smart_watch_adv_music( "smart_watch_adv_music" );
+static const itype_id itype_smart_watch_music( "smart_watch_music" );
 static const itype_id itype_smartphone_music( "smartphone_music" );
 static const itype_id itype_soap( "soap" );
 static const itype_id itype_soldering_iron( "soldering_iron" );
@@ -3842,7 +3846,9 @@ std::optional<int> iuse::mp3( Character *p, item *it, const tripoint_bub_ms & )
         p->add_msg_if_player( m_info, _( "The device's batteries are dead." ) );
     } else if( p->has_active_item( itype_mp3_on ) || p->has_active_item( itype_smartphone_music ) ||
                p->has_active_item( itype_afs_atomic_smartphone_music ) ||
-               p->has_active_item( itype_afs_atomic_wraitheon_music ) ) {
+               p->has_active_item( itype_afs_atomic_wraitheon_music ) ||
+               p->has_active_item( itype_smart_watch_music ) ||
+               p->has_active_item( itype_smart_watch_adv_music ) ) {
         p->add_msg_if_player( m_info, _( "You are already listening to music!" ) );
     } else {
         p->add_msg_if_player( m_info, _( "You put in the earbuds and start listening to music." ) );
@@ -3854,6 +3860,10 @@ std::optional<int> iuse::mp3( Character *p, item *it, const tripoint_bub_ms & )
             it->convert( itype_afs_atomic_smartphone_music, p ).active = true;
         } else if( it->typeId() == itype_afs_wraitheon_smartphone ) {
             it->convert( itype_afs_atomic_wraitheon_music, p ).active = true;
+        } else if( it->typeId() == itype_smart_watch ) {
+            it->convert( itype_smart_watch_music, p ).active = true;
+        } else if( it->typeId() == itype_smart_watch_adv ) {
+            it->convert( itype_smart_watch_adv_music, p ).active = true;
         }
         p->mod_moves( -200 );
     }
@@ -3962,6 +3972,12 @@ std::optional<int> iuse::mp3_deactivate( Character *p, item *it, const tripoint_
     } else if( it->typeId() == itype_afs_atomic_wraitheon_music ) {
         p->add_msg_if_player( _( "The phone turns off." ) );
         it->convert( itype_afs_wraitheon_smartphone, p ).active = false;
+    } else if( it->typeId() == itype_smart_watch_music ) {
+        p->add_msg_if_player( _( "The phone turns off." ) );
+        it->convert( itype_smart_watch, p ).active = false;
+    } else if( it->typeId() == itype_smart_watch_adv_music ) {
+        p->add_msg_if_player( _( "The phone turns off." ) );
+        it->convert( itype_smart_watch_adv, p ).active = false;
     }
     p->mod_moves( -200 );
     music::deactivate_music_id( music::music_id::mp3 );
