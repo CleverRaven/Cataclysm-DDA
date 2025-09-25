@@ -566,11 +566,10 @@ void overmap::unserialize( const JsonObject &jsobj )
         if( name == "region_id" ) {
             std::string new_region_id;
             om_member.read( new_region_id );
-            if( settings->id != new_region_id ) {
-                t_regional_settings_map_citr rit = region_settings_map.find( new_region_id );
-                if( rit != region_settings_map.end() ) {
-                    // TODO: optimize
-                    settings = &rit->second;
+            if( settings->id.str() != new_region_id ) {
+                const region_settings_id new_region_set( new_region_id );
+                if( new_region_set.is_valid() ) {
+                    settings = new_region_set;
                 }
             }
         } else if( name == "mongroups" ) {
@@ -898,6 +897,11 @@ void overmap::unserialize( const JsonObject &jsobj )
 // MA mod's pregenerated overmaps that are shimmed in by overmap::generate.
 void overmap::unserialize_omap( const JsonValue &jsin, const cata_path &json_path )
 {
+    const region_settings_lake &settings_lake = settings->get_settings_lake();
+    const region_settings_ocean &settings_ocean = settings->get_settings_ocean();
+    const int lake_depth = settings_lake.lake_depth;
+    const int ocean_depth = settings_ocean.ocean_depth;
+
     JsonArray ja = jsin.get_array();
     JsonObject jo = ja.next_object();
 
@@ -981,10 +985,10 @@ void overmap::unserialize_omap( const JsonValue &jsin, const cata_path &json_pat
 
         // If this is not a shore, we'll make our subsurface lake cubes and beds.
         if( !shore ) {
-            for( int z = -1; z > settings->overmap_lake.lake_depth; z-- ) {
+            for( int z = -1; z > lake_depth; z-- ) {
                 ter_set( tripoint_om_omt( p.xy(), z ), oter_lake_water_cube );
             }
-            ter_set( tripoint_om_omt( p.xy(), settings->overmap_lake.lake_depth ), oter_lake_bed );
+            ter_set( tripoint_om_omt( p.xy(), lake_depth ), oter_lake_bed );
             layer[p.z() + OVERMAP_DEPTH].terrain[p.x()][p.y()] = oter_lake_surface;
         }
     }
@@ -1011,10 +1015,10 @@ void overmap::unserialize_omap( const JsonValue &jsin, const cata_path &json_pat
 
         // If this is not a shore, we'll make our subsurface ocean cubes and beds.
         if( !shore ) {
-            for( int z = -1; z > settings->overmap_ocean.ocean_depth; z-- ) {
+            for( int z = -1; z > ocean_depth; z-- ) {
                 ter_set( tripoint_om_omt( p.xy(), z ), oter_ocean_water_cube );
             }
-            ter_set( tripoint_om_omt( p.xy(), settings->overmap_ocean.ocean_depth ), oter_ocean_bed );
+            ter_set( tripoint_om_omt( p.xy(), ocean_depth ), oter_ocean_bed );
             layer[p.z() + OVERMAP_DEPTH].terrain[p.x()][p.y()] = oter_ocean_surface;
         }
     }

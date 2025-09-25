@@ -46,7 +46,7 @@ struct horde_entity;
 struct map_data_summary;
 struct mapgen_arguments;
 struct mongroup;
-struct regional_settings;
+struct region_settings;
 
 struct overmap_path_params {
     std::map<oter_travel_cost_type, int> travel_cost_per_type;
@@ -224,8 +224,8 @@ class overmapbuffer
         std::vector<om_vehicle> get_vehicle( const tripoint_abs_omt &p );
         std::string get_vehicle_ter_sym( const tripoint_abs_omt &omt );
         std::string get_vehicle_tile_id( const tripoint_abs_omt &omt );
-        const regional_settings &get_settings( const tripoint_abs_omt &p );
-        const regional_settings &get_default_settings( const point_abs_om &p );
+        const region_settings &get_settings( const tripoint_abs_omt &p );
+        const region_settings &get_default_settings( const point_abs_om &p );
         /**
          * Accessors for horde introspection into overmaps.
          * Probably also useful for NPC overmap-scale navigation.

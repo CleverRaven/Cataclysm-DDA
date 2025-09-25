@@ -55,7 +55,7 @@ class npc;
 class overmap_connection;
 struct horde_entity;
 struct map_data_summary;
-struct regional_settings;
+struct region_settings;
 template <typename T> struct enum_traits;
 
 struct om_note {
@@ -433,7 +433,7 @@ class overmap
         point_abs_omt global_base_point() const;
 
         // TODO: Should depend on coordinates
-        const regional_settings &get_settings() const {
+        const region_settings &get_settings() const {
             return *settings;
         }
 
@@ -531,7 +531,7 @@ class overmap
         // special, so that it can be queried later by mapgen
         std::unordered_map<om_pos_dir, std::string> joins_used;
 
-        const regional_settings *settings;
+        region_settings_id settings;
 
         oter_id get_default_terrain( int z ) const;
 
