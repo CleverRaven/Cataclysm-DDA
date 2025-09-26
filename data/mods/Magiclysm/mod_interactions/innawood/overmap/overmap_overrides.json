@@ -37,7 +37,7 @@
     "locations": [ "forest_center" ],
     "city_distance": [ 30, -1 ],
     "city_sizes": [ 0, 20 ],
-    "occurrences": [ 70, 100 ],
+    "occurrences": [ 50, 100 ],
     "flags": [ "OVERMAP_UNIQUE" ]
   },
   {
