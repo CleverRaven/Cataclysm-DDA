@@ -44,7 +44,7 @@
     "using": [ [ "adhesive", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_carving" }, { "proficiency": "prof_carpentry_basic" } ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "2x4", 1 ] ], [ [ "nails", 5, "LIST" ] ] ]
+    "components": [ [ [ "2x4", 1 ] ], [ [ "any_nail", 5, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -233,7 +233,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0.15 } ],
-    "components": [ [ [ "spear_shaft", 1 ] ], [ [ "hammer", 1 ], [ "homemade_polehammer_makeshift", 1 ] ], [ [ "nails", 3, "LIST" ] ] ]
+    "components": [ [ [ "spear_shaft", 1 ] ], [ [ "hammer", 1 ], [ "homemade_polehammer_makeshift", 1 ] ], [ [ "any_nail", 3, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -286,7 +286,7 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_carpentry_basic", "skill_penalty": 0 } ],
-    "components": [ [ [ "club_wooden", 1 ] ], [ [ "nails", 30, "LIST" ] ] ]
+    "components": [ [ [ "club_wooden", 1 ] ], [ [ "any_nail", 30, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -324,7 +324,7 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_carpentry_basic", "skill_penalty": 0 } ],
-    "components": [ [ [ "club_wooden_large", 1 ] ], [ [ "nails", 30, "LIST" ] ] ]
+    "components": [ [ [ "club_wooden_large", 1 ] ], [ [ "any_nail", 30, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -350,7 +350,7 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_carpentry_basic", "skill_penalty": 0 } ],
-    "components": [ [ [ "2x4", 1 ] ], [ [ "nails", 6, "LIST" ] ] ]
+    "components": [ [ [ "2x4", 1 ] ], [ [ "any_nail", 6, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -844,7 +844,7 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_carpentry_basic", "skill_penalty": 0 } ],
-    "components": [ [ [ "bat", 1 ] ], [ [ "nails", 20, "LIST" ] ] ]
+    "components": [ [ [ "bat", 1 ] ], [ [ "any_nail", 20, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -909,7 +909,7 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_carpentry_basic", "skill_penalty": 0 } ],
-    "components": [ [ [ "sword_wood", 1 ] ], [ [ "nails", 12, "LIST" ] ] ]
+    "components": [ [ [ "sword_wood", 1 ] ], [ [ "any_nail", 12, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1037,7 +1037,7 @@
     "using": [ [ "cordage", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_carpentry_basic", "skill_penalty": 0 }, { "proficiency": "prof_carving", "skill_penalty": 0 } ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "nails", 16, "LIST" ] ], [ [ "stick", 1 ], [ "2x4", 1 ] ] ]
+    "components": [ [ [ "any_nail", 16, "LIST" ] ], [ [ "stick", 1 ], [ "2x4", 1 ] ] ]
   },
   {
     "result": "xl_knuckle_nail",
@@ -1046,7 +1046,7 @@
     "time": "10 m",
     "using": [ [ "cordage", 4 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "nails", 18, "LIST" ] ], [ [ "stick", 1 ], [ "2x4", 1 ] ] ]
+    "components": [ [ [ "any_nail", 18, "LIST" ] ], [ [ "stick", 1 ], [ "2x4", 1 ] ] ]
   },
   {
     "result": "xs_knuckle_nail",
@@ -1055,7 +1055,7 @@
     "time": "10 m",
     "using": [ [ "cordage", 4 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "nails", 14, "LIST" ] ], [ [ "stick", 1 ], [ "2x4", 1 ] ] ]
+    "components": [ [ [ "any_nail", 14, "LIST" ] ], [ [ "stick", 1 ], [ "2x4", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1371,7 +1371,7 @@
     "components": [
       [ [ "stick", 1 ] ],
       [ [ "steel_lump_any", 1, "LIST" ], [ "steel_chunk_any", 1, "LIST" ], [ "pipe_fittings", 1 ] ],
-      [ [ "nails", 2, "LIST" ] ],
+      [ [ "any_nail", 2, "LIST" ] ],
       [ [ "cordage", 2, "LIST" ], [ "duct_tape", 100 ] ]
     ]
   },
@@ -1428,7 +1428,7 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0.15 } ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 }, { "id": "DRILL", "level": 1 } ],
-    "components": [ [ [ "mace_simple", 1 ] ], [ [ "nails", 2, "LIST" ] ], [ [ "cordage", 1, "LIST" ], [ "duct_tape", 50 ] ] ]
+    "components": [ [ [ "mace_simple", 1 ] ], [ [ "any_nail", 2, "LIST" ] ], [ [ "cordage", 1, "LIST" ], [ "duct_tape", 50 ] ] ]
   },
   {
     "type": "recipe",

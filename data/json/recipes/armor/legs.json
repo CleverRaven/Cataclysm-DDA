@@ -698,7 +698,7 @@
     "skills_required": [ "tailor", 1 ],
     "time": "90 m",
     "autolearn": true,
-    "components": [ [ [ "sheet_metal", 1 ] ], [ [ "leather_belt", 1 ] ], [ [ "nuts_bolts", 8 ], [ "nails", 8, "LIST" ] ] ],
+    "components": [ [ [ "sheet_metal", 1 ] ], [ [ "leather_belt", 1 ] ], [ [ "nuts_bolts", 8 ], [ "any_nail", 8, "LIST" ] ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_articulation" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 }, { "id": "DRILL", "level": 1 } ]
   },

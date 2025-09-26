@@ -44,7 +44,7 @@
     "using": [ [ "welding_standard", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_welding_basic" }, { "proficiency": "prof_metalworking" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "VISE", "level": 1 } ],
-    "components": [ [ [ "wire_barbed", 10 ], [ "any_wire", 10, "LIST" ], [ "nails", 10, "LIST" ] ] ]
+    "components": [ [ [ "wire_barbed", 10 ], [ "any_wire", 10, "LIST" ], [ "any_nail", 10, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -104,7 +104,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "2x4", 3 ] ], [ [ "nails", 20, "LIST" ] ] ]
+    "components": [ [ [ "2x4", 3 ] ], [ [ "any_nail", 20, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -119,7 +119,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "nailboard", 3 ] ], [ [ "nails", 2, "LIST" ] ] ]
+    "components": [ [ [ "nailboard", 3 ] ], [ [ "any_nail", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",

@@ -350,7 +350,7 @@
     "skills_required": [ "tailor", 1 ],
     "time": "240 m",
     "autolearn": true,
-    "components": [ [ [ "sheet_metal", 2 ] ], [ [ "leather_belt", 2 ] ], [ [ "nuts_bolts", 12 ], [ "nails", 12, "LIST" ] ] ],
+    "components": [ [ [ "sheet_metal", 2 ] ], [ [ "leather_belt", 2 ] ], [ [ "nuts_bolts", 12 ], [ "any_nail", 12, "LIST" ] ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 }, { "id": "DRILL", "level": 1 } ]
   },
@@ -381,7 +381,7 @@
     "skills_required": [ "tailor", 1 ],
     "time": "440 m",
     "autolearn": true,
-    "components": [ [ [ "sheet_metal", 4 ] ], [ [ "leather_belt", 2 ] ], [ [ "nuts_bolts", 12 ], [ "nails", 12, "LIST" ] ] ],
+    "components": [ [ [ "sheet_metal", 4 ] ], [ [ "leather_belt", 2 ] ], [ [ "nuts_bolts", 12 ], [ "any_nail", 12, "LIST" ] ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 }, { "id": "DRILL", "level": 1 } ]
   },
@@ -412,7 +412,7 @@
     "skills_required": [ "tailor", 1 ],
     "time": "240 m",
     "autolearn": true,
-    "components": [ [ [ "sheet_metal", 1 ] ], [ [ "leather_belt", 2 ] ], [ [ "nuts_bolts", 12 ], [ "nails", 12, "LIST" ] ] ],
+    "components": [ [ [ "sheet_metal", 1 ] ], [ [ "leather_belt", 2 ] ], [ [ "nuts_bolts", 12 ], [ "any_nail", 12, "LIST" ] ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 }, { "id": "DRILL", "level": 1 } ]
   },

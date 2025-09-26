@@ -191,7 +191,7 @@
     ],
     "components": [
       [ [ "metal_tank_little", 1 ] ],
-      [ [ "nails", 200, "LIST" ], [ "scrap", 16 ] ],
+      [ [ "any_nail", 200, "LIST" ], [ "scrap", 16 ] ],
       [ [ "fuse", 1 ] ],
       [ [ "dynamite", 1 ] ]
     ]
@@ -262,7 +262,7 @@
     "components": [
       [ [ "delay_fuze", 1 ] ],
       [ [ "glue_strong", 4 ], [ "duct_tape", 10 ], [ "cordage", 1, "LIST" ] ],
-      [ [ "nails", 50, "LIST" ], [ "scrap", 2 ] ]
+      [ [ "any_nail", 50, "LIST" ], [ "scrap", 2 ] ]
     ]
   },
   {
@@ -284,7 +284,7 @@
       [ [ "delay_fuze", 1 ] ],
       [ [ "glue_strong", 4 ], [ "duct_tape", 10 ], [ "cordage", 1, "LIST" ] ],
       [ [ "can_medium", 1 ] ],
-      [ [ "nails", 100, "LIST" ], [ "scrap", 4 ] ]
+      [ [ "any_nail", 100, "LIST" ], [ "scrap", 4 ] ]
     ]
   },
   {
@@ -322,7 +322,7 @@
       [ [ "delay_fuze", 1 ] ],
       [ [ "glue_strong", 4 ], [ "duct_tape", 10 ], [ "cordage", 1, "LIST" ] ],
       [ [ "jug_plastic", 1 ] ],
-      [ [ "nails", 750, "LIST" ], [ "scrap", 30 ] ]
+      [ [ "any_nail", 750, "LIST" ], [ "scrap", 30 ] ]
     ]
   },
   {
@@ -381,7 +381,7 @@
       [ [ "small_gas_canister_case", 1, "LIST" ] ],
       [ [ "fuse", 1 ] ],
       [ [ "glue_strong", 4 ], [ "duct_tape", 10 ] ],
-      [ [ "nails", 50, "LIST" ], [ "scrap", 2 ] ]
+      [ [ "any_nail", 50, "LIST" ], [ "scrap", 2 ] ]
     ]
   },
   {
@@ -402,7 +402,7 @@
       [ [ "can_medium", 1 ] ],
       [ [ "fuse", 1 ] ],
       [ [ "glue_strong", 4 ], [ "duct_tape", 10 ] ],
-      [ [ "nails", 100, "LIST" ], [ "scrap", 4 ] ]
+      [ [ "any_nail", 100, "LIST" ], [ "scrap", 4 ] ]
     ]
   },
   {
@@ -468,7 +468,7 @@
       [ [ "fuse", 1 ] ],
       [ [ "glue_strong", 4 ], [ "duct_tape", 10 ], [ "cordage", 1, "LIST" ] ],
       [ [ "jug_plastic", 1 ] ],
-      [ [ "nails", 750, "LIST" ], [ "scrap", 30 ] ]
+      [ [ "any_nail", 750, "LIST" ], [ "scrap", 30 ] ]
     ]
   },
   {

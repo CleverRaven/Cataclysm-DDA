@@ -1,6 +1,6 @@
 [
   {
-    "id": "nails",
+    "id": "any_nail",
     "type": "requirement",
     "extend": { "components": [ [ [ "dreamforged_nail", 1 ] ] ] }
   }

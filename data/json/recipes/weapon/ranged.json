@@ -283,7 +283,7 @@
       { "proficiency": "prof_welding_basic" },
       { "proficiency": "prof_gunsmithing_improv" }
     ],
-    "components": [ [ [ "pipe", 2 ] ], [ [ "nails", 1, "LIST" ] ], [ [ "scrap", 3 ] ] ]
+    "components": [ [ [ "pipe", 2 ] ], [ [ "any_nail", 1, "LIST" ] ], [ [ "scrap", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -328,7 +328,7 @@
       ]
     ],
     "proficiencies": [ { "proficiency": "prof_gunsmithing_basic" }, { "proficiency": "prof_gunsmithing_improv" } ],
-    "components": [ [ [ "pipe", 2 ] ], [ [ "nails", 1, "LIST" ] ], [ [ "pipe_fittings", 1 ] ] ]
+    "components": [ [ [ "pipe", 2 ] ], [ [ "any_nail", 1, "LIST" ] ], [ [ "pipe_fittings", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -386,7 +386,7 @@
       { "proficiency": "prof_welding_basic" },
       { "proficiency": "prof_gunsmithing_improv" }
     ],
-    "components": [ [ [ "pipe", 4 ] ], [ [ "nails", 2, "LIST" ] ], [ [ "scrap", 6 ] ] ]
+    "components": [ [ [ "pipe", 4 ] ], [ [ "any_nail", 2, "LIST" ] ], [ [ "scrap", 6 ] ] ]
   },
   {
     "type": "recipe",
@@ -458,7 +458,7 @@
       { "proficiency": "prof_welding_basic" },
       { "proficiency": "prof_gunsmithing_improv" }
     ],
-    "components": [ [ [ "pipe", 4 ] ], [ [ "nails", 2, "LIST" ] ], [ [ "pipe_fittings", 2 ] ], [ [ "scrap", 3 ] ] ]
+    "components": [ [ [ "pipe", 4 ] ], [ [ "any_nail", 2, "LIST" ] ], [ [ "pipe_fittings", 2 ] ], [ [ "scrap", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -812,7 +812,7 @@
       [ [ "cordage_superior_short", 1, "LIST" ] ],
       [ [ "spring_small", 1 ] ],
       [ [ "scrap", 4 ] ],
-      [ [ "nails", 10, "LIST" ] ]
+      [ [ "any_nail", 10, "LIST" ] ]
     ]
   },
   {
@@ -1127,7 +1127,7 @@
     "components": [
       [ [ "2x4", 14 ] ],
       [ [ "rope_superior_short", 2, "LIST" ] ],
-      [ [ "nail", 60 ], [ "bronze_nail", 60 ] ],
+      [ [ "any_nail", 60, "LIST" ] ],
       [ [ "nuts_bolts", 60 ] ],
       [ [ "simple_crank", 1 ], [ "foot_crank", 1 ] ],
       [ [ "spring", 4 ] ]
@@ -1165,7 +1165,7 @@
       [ [ "simple_crank", 1 ], [ "foot_crank", 1 ] ],
       [ [ "spring_medium", 4 ] ],
       [ [ "steel_chunk_any", 4, "LIST" ], [ "scrap", 12 ] ],
-      [ [ "nails", 60, "LIST" ] ]
+      [ [ "any_nail", 60, "LIST" ] ]
     ]
   },
   {
@@ -1191,7 +1191,7 @@
       [ [ "2x4", 4 ], [ "stick", 8 ] ],
       [ [ "spring_medium", 1 ] ],
       [ [ "cordage_superior", 1, "LIST" ] ],
-      [ [ "nails", 20, "LIST" ] ]
+      [ [ "any_nail", 20, "LIST" ] ]
     ]
   },
   {
