@@ -1890,7 +1890,7 @@
       "EATS",
       "COMBAT_MOUNT"
     ],
-    "armor": { "bash": 8, "electric": 5, "cut": 7, "ballistic": 14, "cold": 15 }
+    "armor": { "bash": 8, "electric": 5, "cut": 7, "bullet": 14, "cold": 15 }
   },
   {
     "id": "mon_negative_polymorph_arion",
@@ -1900,7 +1900,7 @@
     "default_faction": "jabberwock",
     "bodytype": "horse",
     "categories": [ "WILDLIFE" ],
-    "species": [ "ABOMINATION", "RENFIELD", "NIGHT_CREATURE" ],
+    "species": [ "VAMPIRE", "NIGHT_CREATURE" ],
     "volume": "850000 ml",
     "weight": "750 kg",
     "hp": 190,
@@ -2054,7 +2054,7 @@
       }
     ],
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PET_WONT_FOLLOW", "PET_MOUNTABLE", "PATH_AVOID_DANGER", "WARM", "EATS" ],
-    "armor": { "bash": 24, "electric": 10, "cut": 14, "ballistic": 52, "cold": 30 }
+    "armor": { "bash": 24, "electric": 10, "cut": 14, "bullet": 52, "cold": 30 }
   },
   {
     "type": "effect_on_condition",
