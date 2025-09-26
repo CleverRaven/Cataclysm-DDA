@@ -680,7 +680,7 @@
     "time": "20 m",
     "book_learn": [ [ "manual_shotgun", 4 ], [ "mag_shotgun", 5 ] ],
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 } ],
-    "components": [ [ [ "pipe", 2 ] ], [ [ "duct_tape", 75 ] ], [ [ "nail", 2 ] ] ]
+    "components": [ [ [ "pipe", 2 ] ], [ [ "duct_tape", 75 ] ], [ [ "nails", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -981,7 +981,7 @@
       { "id": "FILE", "level": 2 }
     ],
     "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.5 } ],
-    "components": [ [ [ "rolling_pin", 1 ] ], [ [ "nail", 2 ] ] ]
+    "components": [ [ [ "rolling_pin", 1 ] ], [ [ "nails", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",

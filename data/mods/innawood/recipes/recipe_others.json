@@ -190,7 +190,7 @@
     "components": [
       [ [ "wood_panel", 1 ] ],
       [ [ "2x4", 2 ] ],
-      [ [ "nail", 30 ] ],
+      [ [ "nails", 30, "LIST" ] ],
       [ [ "duct_tape", 25 ], [ "medical_tape", 50 ], [ "paint", 25, "LIST" ], [ "charcoal", 10 ] ],
       [ [ "2x4", 4 ], [ "log", 1 ], [ "wood_beam", 1 ] ]
     ]
