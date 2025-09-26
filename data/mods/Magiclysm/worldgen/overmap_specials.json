@@ -261,7 +261,7 @@
     "type": "overmap_special",
     "id": "small_magic_field",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "small_magic_field" } ],
-    "locations": [ "wilderness" ],
+    "locations": [ "field" ],
     "city_distance": [ 20, -1 ],
     "city_sizes": [ 0, 20 ],
     "occurrences": [ 0, 2 ],
