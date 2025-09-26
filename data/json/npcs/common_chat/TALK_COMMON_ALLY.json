@@ -228,6 +228,7 @@
         "topic": "TALK_DONE",
         "effect": "dismount"
       },
+      { "text": "Set up pickup rules.", "topic": "TALK_FRIEND", "effect": "set_npc_pickup" },
       { "text": "Let's talk about your current activity.", "topic": "TALK_ACTIVITIES" },
       { "text": "Let's talk about the camp.", "topic": "TALK_CAMP" },
       { "text": "Change your martial arts style.", "topic": "TALK_DONE", "effect": "pick_style" },
