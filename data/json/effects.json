@@ -3774,6 +3774,12 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_bio_hydraulics_active",
+    "rating": "good",
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": { "math": [ "20 - u_bio_hydraulics_strength_adjustment" ] } } ] } ]
+  },
+  {
+    "type": "effect_type",
     "id": "crushed",
     "apply_message": "The ceiling collapses on you!",
     "rating": "bad"

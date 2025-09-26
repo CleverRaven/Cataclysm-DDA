@@ -120,7 +120,7 @@
     "time": "5 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "nails", 1, "LIST" ], [ "bronze_nail", 1 ] ] ]
+    "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "nails", 1, "LIST" ] ] ]
   },
   {
     "result": "shed_stick",

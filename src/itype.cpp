@@ -290,6 +290,11 @@ const std::vector<std::pair<flag_id, time_duration>> &islot_seed::get_growth_sta
     return growth_stages;
 }
 
+units::temperature islot_seed::get_growth_temp() const
+{
+    return growth_temp;
+}
+
 int islot_armor::avg_env_resist() const
 {
     int acc = 0;

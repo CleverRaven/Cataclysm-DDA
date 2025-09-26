@@ -703,22 +703,6 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "demihuman_stomach_boiled",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_MEAT",
-    "skill_used": "cooking",
-    "time": "15 m",
-    "autolearn": true,
-    "batch_time_factors": [ 67, 5 ],
-    "qualities": [ { "id": "BOIL", "level": 1 } ],
-    "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
-    "//": "2u for the water and boiling for 15 minutes, 1u for the weight of the stomach (144g, half a meat chunk)",
-    "proficiencies": [ { "proficiency": "prof_food_prep" } ],
-    "components": [ [ [ "demihuman_stomach_large", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
     "result": "small_demihuman_stomach_boiled",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",

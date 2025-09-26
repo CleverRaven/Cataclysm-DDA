@@ -32,15 +32,78 @@ mmap_file::mmap_file() = default;
 mmap_file::~mmap_file() = default;
 
 struct mmap_file::impl {
+    virtual bool resize_file( size_t desired_size ) = 0;
+    virtual bool flush( size_t offset, size_t length ) = 0;
+
+    virtual ~impl() = default;
+
+    virtual size_t len() const = 0;
+    virtual void *base() const = 0;
+};
+
+struct malloc_impl : mmap_file::impl {
+    explicit malloc_impl( size_t size ) {
+        if( ( base_ = malloc( size ) ) ) {
+            len_ = size;
+        }
+    }
+
+    CLANG_REINITIALIZES void reset() {
+        base_ = nullptr;
+        len_ = 0;
+    }
+
+    malloc_impl( malloc_impl &&rhs ) noexcept {
+        *this = std::move( rhs );
+        rhs.reset();
+    }
+
+    ~malloc_impl() override {
+        free( base_ );
+    }
+
+    malloc_impl &operator=( malloc_impl &&rhs ) = default;
+
+    // No copying
+    malloc_impl( const malloc_impl & ) = delete;
+    malloc_impl &operator=( const malloc_impl & ) = delete;
+
+    size_t len() const override {
+        return len_;
+    }
+
+    void *base() const override {
+        return base_;
+    }
+
+    bool resize_file( size_t desired_size ) override {
+        void *new_base = realloc( base_, desired_size );
+        if( new_base ) {
+            base_ = new_base;
+            len_ = desired_size;
+            return true;
+        }
+        return false;
+    }
+
+    bool flush( size_t, size_t ) override {
+        return true;
+    }
+
+    void *base_ = nullptr;
+    size_t len_ = 0;
+};
+
+struct file_impl : mmap_file::impl {
 #ifdef _WIN32
-    impl( HANDLE file, bool writeable ) : writeable { writeable }, file { file} {}
+    file_impl( HANDLE file, bool writeable ) : writeable { writeable }, file { file} {}
 #else
-    impl( int file, bool writeable ) : writeable { writeable}, file { file } {}
+    file_impl( int file, bool writeable ) : writeable { writeable}, file { file } {}
 #endif
     CLANG_REINITIALIZES void reset() {
         writeable = false;
-        base = nullptr;
-        len = 0;
+        base_ = nullptr;
+        len_ = 0;
 #ifdef _WIN32
         file = INVALID_HANDLE_VALUE;
         file_mapping = NULL;
@@ -49,27 +112,35 @@ struct mmap_file::impl {
 #endif
     }
 
-    impl( impl &&rhs ) noexcept {
+    file_impl( file_impl &&rhs ) noexcept {
         *this = std::move( rhs );
         rhs.reset();
     }
-    impl &operator=( impl &&rhs ) = default;
+    file_impl &operator=( file_impl &&rhs ) = default;
 
     // No copying
-    impl( const impl & ) = delete;
-    impl &operator=( const impl & ) = delete;
+    file_impl( const file_impl & ) = delete;
+    file_impl &operator=( const file_impl & ) = delete;
 
     bool writeable = false;
 
-    void *base = nullptr;
-    size_t len = 0;
+    void *base() const override {
+        return base_;
+    }
+
+    size_t len() const override {
+        return len_;
+    }
+
+    mutable void *base_ = nullptr;
+    size_t len_ = 0;
 
 #ifdef _WIN32
     HANDLE file = INVALID_HANDLE_VALUE;
     HANDLE file_mapping = NULL;
 
     bool map_view() {
-        if( base != nullptr && len != 0 ) {
+        if( base_ != nullptr && len_ != 0 ) {
             return true;
         }
         LARGE_INTEGER file_size{};
@@ -108,20 +179,20 @@ struct mmap_file::impl {
         }
         close_file_mapping_guard.cancel();
         file_mapping = file_mapping_handle;
-        base = map_base;
-        len = file_size.QuadPart;
+        base_ = map_base;
+        len_ = file_size.QuadPart;
         return true;
     }
 
     bool unmap_view() {
         bool success = true;
-        if( base != nullptr ) {
-            if( !UnmapViewOfFile( base ) ) {
+        if( base_ != nullptr ) {
+            if( !UnmapViewOfFile( base_ ) ) {
                 success = false;
             }
         }
-        base = nullptr;
-        len = 0;
+        base_ = nullptr;
+        len_ = 0;
         if( file_mapping != NULL ) {
             if( !CloseHandle( file_mapping ) ) {
                 success = false;
@@ -131,7 +202,7 @@ struct mmap_file::impl {
         return success;
     }
 
-    ~impl() {
+    ~file_impl() override {
         unmap_view();
         if( file != INVALID_HANDLE_VALUE ) {
             CloseHandle( file );
@@ -153,27 +224,70 @@ struct mmap_file::impl {
             return false;
         }
 
-        base = map_base;
-        len = file_size;
+        base_ = map_base;
+        len_ = file_size;
 
         return true;
     }
 
     bool unmap_view() {
-        if( base != nullptr ) {
-            munmap( base, len );
+        if( base_ != nullptr ) {
+            munmap( base_, len_ );
         }
-        base = nullptr;
-        len = 0;
+        base_ = nullptr;
+        len_ = 0;
         return true;
     }
-    ~impl() {
+    ~file_impl() override {
         unmap_view();
         if( file != -1 ) {
             close( file );
         }
     }
 #endif
+
+    bool resize_file( size_t desired_size ) override {
+        if( desired_size == len() ) {
+            return true;
+        }
+        if( !unmap_view() ) {
+            return false;
+        }
+#ifdef _WIN32
+        LARGE_INTEGER file_size;
+        file_size.QuadPart = desired_size;
+        if( !SetFilePointerEx( file, file_size, NULL, FILE_BEGIN ) ) {
+            return false;
+        }
+        if( !SetEndOfFile( file ) ) {
+            return false;
+        }
+#else
+        if( ftruncate( file, desired_size ) ) {
+            return false;
+        }
+#endif
+
+        if( !map_view() ) {
+            return false;
+        }
+        return true;
+    }
+
+    bool flush( size_t offset, size_t length ) override {
+        char *base_ptr = reinterpret_cast<char *>( base() ) + offset;
+#ifdef _WIN32
+        FlushViewOfFile( base_ptr, length );
+        FlushFileBuffers( file );
+#else
+        // msync requires the base pointer to be rounded to a page boundary.
+        size_t page_offset = offset % 4096;
+        base_ptr -= page_offset;
+        length += page_offset;
+        msync( base_ptr, length, MS_SYNC );
+#endif
+        return true;
+    }
 };
 
 std::unique_ptr<mmap_file> mmap_file::map_file_generic(
@@ -195,7 +309,7 @@ std::unique_ptr<mmap_file> mmap_file::map_file_generic(
                   );
 
     if( file_handle == INVALID_HANDLE_VALUE ) {
-        return nullptr;
+        return mapped_file;
     }
 #else
     const std::string &file_path_string = file_path.native();
@@ -204,20 +318,21 @@ std::unique_ptr<mmap_file> mmap_file::map_file_generic(
     int perms = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
     int file_handle = open( file_path_string.c_str(), writeable ? O_CREAT | O_RDWR : O_RDONLY, perms );
     if( file_handle == -1 ) {
-        return nullptr;
+        return mapped_file;
     }
 #endif
-    mapped_file = std::unique_ptr<mmap_file> { new mmap_file() };
-    mapped_file->pimpl = std::make_shared<impl>( file_handle, writeable );
-    if( !mapped_file->pimpl->map_view() && !writeable ) {
-        return nullptr;
+    std::shared_ptr<file_impl> pimpl = std::make_shared<file_impl>( file_handle, writeable );
+    if( !pimpl->map_view() && !writeable ) {
+        return mapped_file;
     }
 #ifndef _WIN32
     if( !writeable ) {
-        close( mapped_file->pimpl->file );
-        mapped_file->pimpl->file = -1;
+        close( pimpl->file );
+        pimpl->file = -1;
     }
 #endif
+    mapped_file = std::unique_ptr<mmap_file> { new mmap_file() };
+    mapped_file->pimpl = std::move( pimpl );
     return mapped_file;
 }
 
@@ -231,77 +346,42 @@ std::unique_ptr<mmap_file> mmap_file::map_writeable_file( const std::filesystem:
     return map_file_generic( file_path, true );
 }
 
+std::unique_ptr<mmap_file> mmap_file::map_writeable_memory( size_t initial_size )
+{
+    std::unique_ptr<mmap_file> memory_file{ new mmap_file() };
+    memory_file->pimpl = std::make_shared<malloc_impl>( initial_size );
+    return memory_file;
+}
+
 bool mmap_file::resize_file( size_t desired_size )
 {
-    if( desired_size == pimpl->len ) {
-        return true;
-    }
-    if( !pimpl->unmap_view() ) {
-        return false;
-    }
-#ifdef _WIN32
-    LARGE_INTEGER file_size;
-    file_size.QuadPart = desired_size;
-    if( !SetFilePointerEx( pimpl->file, file_size, NULL, FILE_BEGIN ) ) {
-        return false;
-    }
-    if( !SetEndOfFile( pimpl->file ) ) {
-        return false;
-    }
-#else
-    if( ftruncate( pimpl->file, desired_size ) ) {
-        return false;
-    }
-#endif
-
-    if( !pimpl->map_view() ) {
-        return false;
-    }
-    return true;
+    return pimpl->resize_file( desired_size );
 }
 
 void *mmap_file::base()
 {
-    return pimpl->base;
+    return pimpl->base();
 }
 
 void const *mmap_file::base() const
 {
-    return pimpl->base;
+    return pimpl->base();
 }
 
 size_t mmap_file::len() const
 {
-    return pimpl->len;
+    return pimpl->len();
 }
 
 void mmap_file::flush()
 {
-    if( !base() || len() == 0 ) {
-        return;
-    }
-#ifdef _WIN32
-    FlushViewOfFile( base(), 0 );
-    FlushFileBuffers( pimpl->file );
-#else
-    msync( base(), len(), MS_SYNC );
-#endif
+    flush( 0, len() );
 }
 
 void mmap_file::flush( size_t offset, size_t length )
 {
-    if( offset + length > len() ) {
+    if( !base() || !len() || offset + length > len() ) {
         return;
     }
-    char *base_ptr = reinterpret_cast<char *>( base() ) + offset;
-#ifdef _WIN32
-    FlushViewOfFile( base_ptr, length );
-    FlushFileBuffers( pimpl->file );
-#else
-    // msync requires the base pointer to be rounded to a page boundary.
-    size_t page_offset = offset % 4096;
-    base_ptr -= page_offset;
-    length += page_offset;
-    msync( base_ptr, length, MS_SYNC );
-#endif
+    pimpl->flush( offset, length );
 }
