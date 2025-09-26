@@ -4014,7 +4014,7 @@ std::string options_manager::migrateOptionValue( const std::string &name,
 {
     //TODO: Remove after stable after world option reserialising is added
     if( name == "MONSTER_UPGRADE_FACTOR" ) {
-        const float new_value = std::stof( val ) / 4.0f;
+        const float new_value = svtod( val ).value_or( 4.0 ) / 4.0f;
         std::ostringstream ssTemp;
         ssTemp.imbue( std::locale::classic() );
         ssTemp.precision( 2 );

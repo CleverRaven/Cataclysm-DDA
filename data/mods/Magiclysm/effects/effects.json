@@ -2065,7 +2065,8 @@
       "effect_feral_technomancer_bless",
       "enchant_windrun_monster",
       "effect_feral_animist_guardian_spirit",
-      "effect_feral_animist_inner_voice"
+      "effect_feral_animist_inner_voice",
+      "effect_migo_nether_shield_monster"
     ]
   },
   {
@@ -2222,6 +2223,7 @@
       "enchant_windrun_monster",
       "effect_feral_animist_guardian_spirit",
       "effect_feral_animist_inner_voice",
+      "effect_migo_nether_shield_monster",
       "effect_feral_druid_thornskin"
     ]
   },

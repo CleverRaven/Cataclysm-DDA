@@ -123,6 +123,7 @@ These fields can be read by any ITEM regardless of subtypes:
 "integral_volume": "50 ml",                        // Volume added to base item when item is integrated into another (eg. a gunmod integrated to a gun). Volume in ml and L can be used - "50 ml" or "2 L". Default is the same as volume.
 "integral_weight": "50 g",                        // Weight added to base item when item is integrated into another (eg. a gunmod integrated to a gun). Default is the same as weight.
 "longest_side": "15 cm",                     // Length of longest item dimension. Default is cube root of volume.
+"light": 300,                                // How much light this item emits, like a flashlight. 10 is equal 1 tile of light, so 300 would illuminate 30 tiles circle around the player.
 "rigid": false,                              // For non-rigid items volume (and for worn items encumbrance) increases proportional to contents
 "insulation": 1,                             // (Optional, default = 1) If container or vehicle part, how much insulation should it provide to the contents
 "price": "1 USD",                                // Barter value of an item. Used as barter value only when price_postapoc isn't defined. For stackable items (ammo, comestibles) this is the price for stack_size charges. Can use string "cent", "cents", "dollar", "dollars", "USD", or "kUSD".
@@ -974,9 +975,14 @@ Gun mods can be defined like this:
 "fruit": "blackberries",  // The item id of the fruits that this seed will produce.
 "seeds": false,  // (optional, default is true). If true, harvesting the plant will spawn seeds (the same type as the item used to plant). If false only the fruits are spawned, no seeds.
 "byproducts": [ "withered" ],  // A list of further items that should spawn upon harvest.
-"grow": "91 days",  // A time duration: how long it takes for a plant to fully mature. Based around a 91 day season length (roughly a real world season) to give better accuracy for longer season lengths
-// Note that growing time is later converted based upon the season_length option, basing it around 91 is just for accuracy purposes
-// A value 91 means 3 full seasons, a value of 30 would mean 1 season.
+"growth_stages": [
+  { "GROWTH_SEED": "5 days" },            // The stages of growth that this plant will go through and how long each stage will last. The actual stages are currently defined by the furniture representing the growing plant, so
+  { "GROWTH_SEEDLING": "10 days" },       // it is highly recommended that you use exactly the same stages as listed here. The duration of each stage is fully fungible, and you can have a plant that stays in <form> for a very
+  { "GROWTH_MATURE": "99 days" },         // long time, or a very short time, etc. Planting currently checks the temperature during each stage advance, so a crop that should be plantable before winter to harvest in the spring
+  { "GROWTH_HARVEST": "2 days" },         // will want at least 91 days (the length of winter) in between some stages. This example would overwinter in the GROWTH_MATURE form.
+  { "GROWTH_OVERGROWN": "1 hour" }        // NOTE: GROWTH_OVERGROWN is optional, but if used should be a short duration. Or else it may fail to plant because the overgrown(dead) crops would not 'grow'!
+],
+"growth_temp": "7 C",                     // (optional, default 10 C). Celsius (C) or milli-Celsius(mC). Temperature required on the days this seed is planted and for every day with a growth stage. If below the required temperature it simply won't be plantable.
 "fruit_div": 2, // (optional, default is 1). Final amount of fruit charges produced is divided by this number. Works only if fruit item is counted by charges.
 "required_terrain_flag": "PLANTABLE" // A tag that terrain and furniture would need to have in order for the seed to be plantable there.
 // Default is "PLANTABLE", and using this will cause any terain the plant is wrown on to turn into dirt once the plant is planted, unless furniture is used.

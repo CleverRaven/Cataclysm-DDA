@@ -86,7 +86,7 @@
         { "item": "cotton_patchwork", "count": 4 },
         { "item": "seatbelt" },
         { "item": "plastic_chunk", "count": 10 },
-        { "item": "spring", "count": 3 }
+        { "item": "qt_wire", "count": 3 }
       ]
     },
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT", "SMALL_HIDE" ],
@@ -147,7 +147,7 @@
         { "item": "sheet_cotton", "count": 10 },
         { "item": "cotton_patchwork", "count": 5 },
         { "item": "nuts_bolts", "charges": 16 },
-        { "item": "spring", "count": 2 },
+        { "item": "qt_wire", "count": 3 },
         { "item": "splinter", "count": [ 1, 25 ] }
       ]
     },

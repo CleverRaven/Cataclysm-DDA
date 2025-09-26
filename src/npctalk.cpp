@@ -5,6 +5,7 @@
 #include <cmath>
 #include <cstddef>
 #include <exception>
+#include <filesystem>
 #include <iterator>
 #include <list>
 #include <map>
@@ -29,6 +30,7 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_lazy.h"
+#include "cata_path.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
@@ -58,6 +60,7 @@
 #include "faction.h"
 #include "faction_camp.h"
 #include "field.h"
+#include "filesystem.h"
 #include "flag.h"
 #include "flat_set.h"
 #include "flexbuffer_json.h"
@@ -107,6 +110,7 @@
 #include "output.h"
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
+#include "path_info.h"
 #include "pickup.h"
 #include "pimpl.h"
 #include "player_activity.h"
@@ -3497,6 +3501,33 @@ talk_effect_fun_t::func f_add_trait( const JsonObject &jo, std::string_view memb
         const trait_id trait = trait_id( new_trait.evaluate( d ) );
         const mutation_variant *variant = trait->variant( new_variant.evaluate( d ) );
 
+        Character *guy = d.actor( is_npc )->get_character();
+        if( !guy ) {
+            debugmsg( "f_add_trait: No valid character." );
+            return;
+        }
+
+        const auto &new_types = trait->types;
+
+        for( const trait_id &existing : guy->get_mutations() ) {
+            if( existing == trait ) {
+                continue;
+            }
+            const auto &existing_types = existing->types;
+            for( const std::string &t : existing_types ) {
+                bool match = false;
+                if constexpr( std::is_same_v<decltype( new_types ), const std::set<std::string> &> ) {
+                    match = new_types.count( t ) > 0;
+                } else {
+                    match = new_types.find( t ) != new_types.end();
+                }
+                if( match ) {
+                    guy->unset_mutation( existing );
+                    break;
+                }
+            }
+        }
+
         d.actor( is_npc )->set_mutation( trait, variant );
     };
 }
@@ -4734,6 +4765,23 @@ talk_effect_fun_t::func f_place_override( const JsonObject &jo, std::string_view
                                 calendar::turn + dov_length.evaluate( d ) + 1_seconds,
                                 //Timed events happen before the player turn and eocs are during so we add a second here to sync them up using the same variable
                                 -1, tripoint_abs_ms::zero, -1, new_place.evaluate( d ).translated(), key.evaluate( d ) );
+    };
+}
+
+talk_effect_fun_t::func f_clear_dimension( const JsonObject &jo, std::string_view member,
+        std::string_view )
+{
+    str_or_var target_dimension = get_str_or_var( jo.get_member( member ), member, true );
+
+    return [target_dimension]( dialogue const & d ) {
+        const std::string target_dimension_id = target_dimension.evaluate(
+                d );
+        const std::vector<cata_path> dimensions_query = get_directories_with( target_dimension_id,
+                PATH_INFO::dimensions_save_path() );
+        if( dimensions_query.size() == 1 ) {
+            std::filesystem::remove_all( ( PATH_INFO::dimensions_save_path() /
+                                           target_dimension_id ).get_unrelative_path() );
+        }
     };
 }
 
@@ -7863,6 +7911,7 @@ parsers = {
     { "set_npc_cbm_reserve_rule", jarg::member, &talk_effect_fun::f_npc_cbm_reserve_rule },
     { "set_npc_cbm_recharge_rule", jarg::member, &talk_effect_fun::f_npc_cbm_recharge_rule },
     { "map_spawn_item", jarg::member, &talk_effect_fun::f_spawn_item },
+    { "clear_dimension", jarg::member, &talk_effect_fun::f_clear_dimension },
     { "mapgen_update", jarg::member, &talk_effect_fun::f_mapgen_update },
     { "alter_timed_events", jarg::member, &talk_effect_fun::f_alter_timed_events },
     { "revert_location", jarg::member, &talk_effect_fun::f_revert_location },

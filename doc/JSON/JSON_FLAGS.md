@@ -666,9 +666,10 @@ Can also be used as `pre_flags` for `construction`.
 - ```FRESH_WATER``` Source of fresh water.  Will spawn fresh water (once) on terrains with `SPAWN_WITH_LIQUID` flag.
 - ```GOES_DOWN``` Can use <kbd>></kbd> to go down a level.
 - ```GOES_UP``` Can use <kbd><</kbd> to go up a level.
-- ```GROWTH_HARVEST``` This plant is ready for harvest.
-- ```GROWTH_MATURE``` This plant is in a mature stage of a growth.
-- ```GROWTH_SEEDLING``` This plant is in its seedling stage of growth.
+- ```GROWTH_HARVEST``` This plant is ready for harvest. Generic json flag, not all plants may use this!
+- ```GROWTH_MATURE``` This plant is in a mature stage of a growth. Generic json flag, not all plants may use this!
+- ```GROWTH_SEEDLING``` This plant is in its seedling stage of growth. Generic json flag, not all plants may use this!
+- ```GROWTH_SEED``` This plant was just planted, not grown yet. Generic json flag, not all plants may use this!
 - ```HARVESTED``` Marks the harvested version of a terrain type (e.g. harvesting an apple tree turns it into a harvested tree, which later becomes an apple tree again).
 - ```HIDE_PLACE``` Creatures on this tile can't be seen by creatures not standing on adjacent tiles.
 - ```INDOORS``` Has a roof over it; blocks rain, sunlight, etc.
@@ -1505,7 +1506,6 @@ Techniques may be used by tools, armors, weapons and anything else that can be w
 - ```FIRE``` Item will start a fire immediately.
 - ```HAS_RECIPE``` Used by the E-Ink tablet to indicate it's currently showing a recipe.
 - ```IS_UPS``` Item is Unified Power Supply.  Used in active item processing.
-- ```LIGHT_[X]``` Illuminates the area with light intensity `[X]` where `[X]` is an intensity value (e.g. `LIGHT_4` or `LIGHT_100`).  Note: this flags sets `itype::light_emission` field and then is removed (can't be found using `has_flag`).
 - ```MAGICAL``` Causes magical effects or functions based on arcane principles. Currently used by `iuse::robotcontrol` to determine if the hacking device is a computer (and thus has a screen that must be read etc).
 - ```NO_DROP``` Item should never exist on map tile as a discrete item (must be contained by another item).
 - ```NO_UNLOAD``` Cannot be unloaded.

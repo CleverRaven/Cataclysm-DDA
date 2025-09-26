@@ -24,6 +24,7 @@
 #include "item.h"
 #include "item_contents.h"
 #include "item_location.h"
+#include "itype.h"
 #include "line.h"
 #include "map.h"
 #include "map_scale_constants.h"
@@ -46,6 +47,7 @@
 #include "trap.h"
 #include "uistate.h"
 #include "units.h"
+#include "value_ptr.h"
 #include "weather_gen.h"
 
 static const activity_id ACT_WAIT_WEATHER( "ACT_WAIT_WEATHER" );
@@ -871,6 +873,28 @@ rl_vec2d convert_wind_to_coord( const int angle )
     return rl_vec2d( 0, 0 );
 }
 
+static units::temperature highest_temp_on_day( time_point &base_date, const tripoint_abs_omt &pos,
+        const weather_generator &weather_gen )
+{
+    units::temperature highest_temp = 0_C;
+    // we search a 24 hour period around the base_date, the base_date is exactly in the center
+    const time_duration search_radius = 12_hours;
+    // how long between each check. The performance on this shouldn't be a problem, but if we want more/less granularity this is a simple lever.
+    const time_duration check_interval = 15_minutes;
+
+    // Iterate through the search window, checking temp each check_interval. Highest found value in the entire range is what ends up being returned.
+    time_point check_date = base_date - search_radius;
+    while( check_date <= base_date + search_radius ) {
+        const w_point &w = weather_gen.get_weather( project_to<coords::ms>( pos ), check_date,
+                           g->get_seed() );
+        const units::temperature checked_temp = w.temperature;
+        highest_temp = std::max( highest_temp, checked_temp );
+        check_date = check_date + check_interval;
+    }
+
+    return highest_temp;
+}
+
 bool warm_enough_to_plant( const tripoint_bub_ms &pos, const itype_id &it )
 {
     const tripoint_abs_ms abs = get_map().get_abs( pos );
@@ -881,30 +905,28 @@ bool warm_enough_to_plant( const tripoint_bub_ms &pos, const itype_id &it )
 bool warm_enough_to_plant( const tripoint_abs_omt &pos, const itype_id &it )
 {
     std::map<time_point, units::temperature> planting_times;
+    bool okay_to_plant = true;
+    const std::vector<std::pair<flag_id, time_duration>> &growth_stages = it->seed->get_growth_stages();
+    // we will iterate a copy of the weather into the future to see if they'll be plantable then as well.
+    const weather_generator weather_gen = get_weather().get_cur_weather_gen();
     // initialize the first...
     time_point check_date = calendar::turn;
-    planting_times[check_date] = get_weather().get_temperature( pos );
-    bool okay_to_plant = true;
-    const int num_epochs = 3; // FIXME. Should be stored on the seed ptr and read from there!
-    // and now iterate a copy of the weather into the future to see if they'll be plantable then as well.
-    time_duration one_growth_cycle = item( it ).get_plant_epoch( num_epochs );
-    const weather_generator weather_gen = get_weather().get_cur_weather_gen();
-    for( int i = 0; i < num_epochs; i++ ) {
+    planting_times[check_date] = highest_temp_on_day( check_date, pos, weather_gen );
+    for( const auto &pair : growth_stages ) {
         // TODO: Replace epoch checks with data from a farmer's almanac
-        check_date = check_date + one_growth_cycle;
-        const w_point &w = weather_gen.get_weather( project_to<coords::ms>( pos ), check_date,
-                           g->get_seed() );
-        planting_times[check_date] = w.temperature;
+        check_date = check_date + pair.second;
+        planting_times[check_date] = highest_temp_on_day( check_date, pos, weather_gen );
     }
     for( const std::pair<const time_point, units::temperature> &pair : planting_times ) {
         // This absolutely needs to be a time point.
         add_msg_debug( debugmode::DF_MAP,
-                       "Checking plant time %s, temperature %s F…",
+                       "Checking plant time %s, highest temperature %s…",
                        //NOLINTNEXTLINE(cata-translations-in-debug-messages)
-                       to_string( pair.first ), units::to_fahrenheit( pair.second ) );
-        // semi-appropriate temperature for most plants
-        if( pair.second < units::from_fahrenheit( 50 ) ) {
-            add_msg_debug( debugmode::DF_MAP, "Planting failure!" );
+                       to_string( pair.first ), print_temperature( pair.second, 2 ) );
+        if( pair.second < it->seed->get_growth_temp() ) {
+            add_msg_debug( debugmode::DF_MAP, "Planting failure!  %s needs temperature of %s but found only %s",
+                           it->nname( 1 ), print_temperature( it->seed->get_growth_temp(), 2 ),
+                           print_temperature( pair.second, 2 ) );
             okay_to_plant = false;
             break;
         }
@@ -1011,7 +1033,7 @@ units::temperature weather_manager::get_temperature( const tripoint_bub_ms &loca
     return temp;
 }
 
-units::temperature weather_manager::get_temperature( const tripoint_abs_omt &location ) const
+units::temperature weather_manager::get_area_temperature( const tripoint_abs_omt &location ) const
 {
     return location.z() < 0 ? units::from_celsius(
                get_weather().get_cur_weather_gen().base_temperature ) : temperature;
