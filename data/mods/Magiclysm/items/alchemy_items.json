@@ -147,7 +147,8 @@
       "menu_text": "Close cover",
       "type": "transform"
     },
-    "flags": [ "LIGHT_5", "ALLOWS_REMOTE_USE" ]
+    "light": 5,
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "glow_light_off",

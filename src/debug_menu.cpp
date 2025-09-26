@@ -482,10 +482,9 @@ void write_min_archive()
                         min_mmr_save_rel +
                         ".temp" ).get_unrelative_path();
                 {
-                    std::shared_ptr<zzip> min_mmr_temp_zzip = zzip::load( min_mmr_temp_zzip_path, mmr_dict );
+                    std::optional<zzip> min_mmr_temp_zzip = zzip::load( min_mmr_temp_zzip_path, mmr_dict );
                     if( !min_mmr_temp_zzip ||
-                        !mmr_stack->copy_files_to( trimmed_mmr_entries, min_mmr_temp_zzip ) ||
-                        !min_mmr_temp_zzip->compact( 0 ) ) {
+                        !mmr_stack->copy_files_to( trimmed_mmr_entries, *min_mmr_temp_zzip ) ) {
                         popup( _( "Failed to create minimized archive" ) );
                         return;
                     }

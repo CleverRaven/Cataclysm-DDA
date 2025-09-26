@@ -368,7 +368,7 @@ bool read_from_file_optional_json( const cata_path &path,
  * error handling logic.
  */
 /**@{*/
-bool read_from_zzip_optional( const std::shared_ptr<zzip> &z,
+bool read_from_zzip_optional( const zzip &z,
                               const std::filesystem::path &file,
                               const std::function<void( std::string_view )> &reader );
 bool read_from_zzip_optional( const std::shared_ptr<zzip_stack> &z,
@@ -768,6 +768,6 @@ struct overloaded : Ts... {
 template <class... Ts>
 explicit overloaded( Ts... ) -> overloaded<Ts...>;
 
-std::optional<double> svtod( std::string_view token );
+std::optional<double> svtod( std::string_view token, bool debugmsg_on_fail = true );
 
 #endif // CATA_SRC_CATA_UTILITY_H
