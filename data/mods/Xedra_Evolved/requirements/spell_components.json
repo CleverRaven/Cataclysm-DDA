@@ -69,7 +69,7 @@
   {
     "id": "spell_components_hedge_witchlight",
     "type": "requirement",
-    "components": [ [ [ "lamp_oil", 4 ], [ "cooking_oil", 4 ], [ "cooking_oil2", 4 ], [ "crude_lamp_oil", 4 ] ] ]
+    "components": [ [ [ "lamp_oil", 4 ], [ "cooking_oil", 4 ], [ "crude_lamp_oil", 4 ] ] ]
   },
   {
     "id": "spell_components_hedge_see_fae_necklace",
