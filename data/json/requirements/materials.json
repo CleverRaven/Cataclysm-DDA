@@ -616,7 +616,7 @@
     ]
   },
   {
-    "id": "any_nail",
+    "id": "nails",
     "type": "requirement",
     "components": [ [ [ "nail", 1 ], [ "bronze_nail", 1 ] ] ]
   },

@@ -129,7 +129,7 @@
     "book_learn": [ [ "radio_book", 3 ], [ "textbook_anarch", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "amplifier", 1 ] ], [ [ "antenna", 1 ] ], [ [ "2x4", 2 ] ], [ [ "any_nail", 12, "LIST" ] ] ]
+    "components": [ [ [ "amplifier", 1 ] ], [ [ "antenna", 1 ] ], [ [ "2x4", 2 ] ], [ [ "nails", 12, "LIST" ] ] ]
   },
   {
     "type": "recipe",

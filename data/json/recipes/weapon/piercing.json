@@ -865,7 +865,7 @@
     "components": [
       [ [ "stick_long", 1 ] ],
       [ [ "spike", 1 ], [ "knife_small", 1 ], [ "knife_folding", 1 ], [ "scalpel", 1 ], [ "xacto", 1 ] ],
-      [ [ "any_nail", 2, "LIST" ], [ "nuts_bolts", 2 ] ],
+      [ [ "nails", 2, "LIST" ], [ "nuts_bolts", 2 ] ],
       [ [ "cordage", 2, "LIST" ], [ "duct_tape", 100 ] ]
     ]
   },
@@ -938,7 +938,7 @@
     "components": [
       [ [ "spear_shaft", 1 ] ],
       [ [ "spike", 1 ], [ "knife_small", 1 ], [ "knife_folding", 1 ], [ "scalpel", 1 ], [ "xacto", 1 ] ],
-      [ [ "any_nail", 2, "LIST" ], [ "nuts_bolts", 2 ] ],
+      [ [ "nails", 2, "LIST" ], [ "nuts_bolts", 2 ] ],
       [ [ "cordage", 2, "LIST" ], [ "duct_tape", 100 ] ]
     ]
   },
@@ -1008,7 +1008,7 @@
         [ "tanto", 1 ],
         [ "kirpan", 1 ]
       ],
-      [ [ "any_nail", 2, "LIST" ], [ "nuts_bolts", 2 ] ],
+      [ [ "nails", 2, "LIST" ], [ "nuts_bolts", 2 ] ],
       [ [ "cordage", 2, "LIST" ], [ "duct_tape", 100 ] ]
     ]
   },
@@ -1028,7 +1028,7 @@
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 }, { "id": "DRILL", "level": 1 } ],
     "components": [
       [ [ "spear_knife", 1 ] ],
-      [ [ "any_nail", 2, "LIST" ], [ "nuts_bolts", 2 ] ],
+      [ [ "nails", 2, "LIST" ], [ "nuts_bolts", 2 ] ],
       [ [ "cordage", 1, "LIST" ], [ "duct_tape", 50 ] ]
     ]
   },
@@ -1064,7 +1064,7 @@
         [ "tanto", 1 ],
         [ "kirpan", 1 ]
       ],
-      [ [ "any_nail", 2, "LIST" ], [ "nuts_bolts", 2 ] ],
+      [ [ "nails", 2, "LIST" ], [ "nuts_bolts", 2 ] ],
       [ [ "cordage", 2, "LIST" ], [ "duct_tape", 100 ] ]
     ]
   },

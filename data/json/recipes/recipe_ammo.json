@@ -250,7 +250,7 @@
         [ "rock", 1 ],
         [ "ceramic_shard", 1 ],
         [ "scrap", 2 ],
-        [ "any_nail", 10, "LIST" ],
+        [ "nails", 10, "LIST" ],
         [ "rock_flaking_any", 1, "LIST" ]
       ],
       [ [ "fletching", 1, "LIST" ] ]
@@ -394,7 +394,7 @@
     "proficiencies": [ { "proficiency": "prof_carving" }, { "proficiency": "prof_metalworking" } ],
     "using": [ [ "blacksmithing_standard", 1 ], [ "steel_standard", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "2x4", 1 ] ], [ [ "any_nail", 2, "LIST" ] ] ]
+    "components": [ [ [ "2x4", 1 ] ], [ [ "nails", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -597,7 +597,7 @@
         [ "rock", 1 ],
         [ "ceramic_shard", 1 ],
         [ "scrap", 2 ],
-        [ "any_nail", 10, "LIST" ],
+        [ "nails", 10, "LIST" ],
         [ "rock_flaking_any", 1, "LIST" ]
       ],
       [ [ "fletching", 1, "LIST" ] ]
@@ -712,7 +712,7 @@
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
       [ [ "chem_black_powder", 20 ] ],
-      [ [ "scrap", 1 ], [ "any_nail", 8, "LIST" ], [ "copper", 16 ] ],
+      [ [ "scrap", 1 ], [ "nails", 8, "LIST" ], [ "copper", 16 ] ],
       [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ]
     ]
   },
@@ -751,7 +751,7 @@
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
       [ [ "chem_black_powder", 20 ] ],
-      [ [ "any_nail", 8, "LIST" ], [ "combatnail", 8 ] ],
+      [ [ "nails", 8, "LIST" ], [ "combatnail", 8 ] ],
       [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ]
     ]
   },

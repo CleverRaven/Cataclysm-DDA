@@ -196,7 +196,7 @@
       [ [ "gunpowder_pistol", 10 ], [ "gunpowder_shotgun", 10 ] ],
       [
         [ "scrap", 1 ],
-        [ "any_nail", 4, "LIST" ],
+        [ "nails", 4, "LIST" ],
         [ "bb", 7 ],
         [ "solder_wire", 4 ],
         [ "platinum_small", 1 ],
@@ -230,7 +230,7 @@
       [ [ "chem_black_powder", 10 ] ],
       [
         [ "scrap", 1 ],
-        [ "any_nail", 4, "LIST" ],
+        [ "nails", 4, "LIST" ],
         [ "bb", 7 ],
         [ "solder_wire", 4 ],
         [ "platinum_small", 1 ],
@@ -258,7 +258,7 @@
       [ [ "chem_black_powder", 10 ] ],
       [
         [ "scrap", 1 ],
-        [ "any_nail", 4, "LIST" ],
+        [ "nails", 4, "LIST" ],
         [ "bb", 7 ],
         [ "solder_wire", 4 ],
         [ "platinum_small", 1 ],
@@ -520,7 +520,7 @@
       [ [ "gunpowder_pistol", 12 ], [ "gunpowder_shotgun", 12 ] ],
       [
         [ "scrap", 1 ],
-        [ "any_nail", 5, "LIST" ],
+        [ "nails", 5, "LIST" ],
         [ "bb", 10 ],
         [ "solder_wire", 5 ],
         [ "platinum_small", 2 ],
@@ -555,7 +555,7 @@
       [ [ "chem_black_powder", 12 ] ],
       [
         [ "scrap", 1 ],
-        [ "any_nail", 5, "LIST" ],
+        [ "nails", 5, "LIST" ],
         [ "bb", 10 ],
         [ "solder_wire", 5 ],
         [ "platinum_small", 2 ],
@@ -583,7 +583,7 @@
       [ [ "chem_black_powder", 23 ] ],
       [
         [ "scrap", 1 ],
-        [ "any_nail", 5, "LIST" ],
+        [ "nails", 5, "LIST" ],
         [ "bb", 10 ],
         [ "solder_wire", 5 ],
         [ "platinum_small", 2 ],
