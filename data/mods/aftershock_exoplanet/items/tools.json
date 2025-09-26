@@ -22,7 +22,12 @@
         "type": "transform"
       },
       "CAMERA",
-      "MP3",
+      {
+        "type": "mp3",
+        "transform": "afs_atomic_smartphone_music",
+        "message": "You put in the earbuds and start listening to music.",
+        "activate": true
+      },
       "CALORIES_INTAKE_TRACKER",
       "PORTABLE_GAME",
       "E_FILE_DEVICE",
@@ -227,7 +232,17 @@
     "name": { "str": "atomic smartphone - music", "str_pl": "atomic smartphones - music" },
     "description": "This phone is playing music, steadily raising your morale.  You can't hear anything else while you're listening.",
     "revert_to": "afs_atomic_smartphone",
-    "use_action": [ "PORTABLE_GAME", "E_FILE_DEVICE", "EBOOKSAVE", "MP3_DEACTIVATE" ],
+    "use_action": [
+      "PORTABLE_GAME",
+      "E_FILE_DEVICE",
+      "EBOOKSAVE",
+      {
+        "type": "mp3",
+        "transform": "afs_atomic_smartphone_music",
+        "message": "The phone turns off.",
+        "activate": false
+      }
+    ],
     "tick_action": [ "MP3_ON" ],
     "extend": { "flags": [ "TRADER_AVOID" ] }
   },
@@ -270,7 +285,12 @@
         "type": "transform"
       },
       "CAMERA",
-      "MP3",
+      {
+        "type": "mp3",
+        "transform": "afs_atomic_wraitheon_music",
+        "message": "You put in the earbuds and start listening to music.",
+        "activate": true
+      },
       "ROBOTCONTROL",
       "CALORIES_INTAKE_TRACKER",
       "PORTABLE_GAME",
@@ -296,7 +316,12 @@
     "name": { "str": "Wraitheon executive's smartphone - music", "str_pl": "Wraitheon executive's smartphones - music" },
     "description": "This phone is playing music, steadily raising your morale.  You can't hear anything else while you're listening.",
     "revert_to": "afs_atomic_smartphone",
-    "use_action": [ "PORTABLE_GAME", "E_FILE_DEVICE", "EBOOKSAVE", "MP3_DEACTIVATE" ],
+    "use_action": [
+      "PORTABLE_GAME",
+      "E_FILE_DEVICE",
+      "EBOOKSAVE",
+      { "type": "mp3", "transform": "afs_wraitheon_smartphone", "message": "The phone turns off.", "activate": false }
+    ],
     "extend": { "flags": [ "TRADER_AVOID" ] },
     "tick_action": [ "MP3_ON" ]
   },

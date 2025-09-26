@@ -620,7 +620,7 @@
       "FIFTH_SUN_TECHNOLOGY"
     ],
     "symbol": "[",
-    "use_action": [ "E_FILE_DEVICE", "EBOOKSAVE", "MP3", "CAMERA", "CALORIES_INTAKE_TRACKER", "PORTABLE_GAME", "FITNESS_CHECK" ],
+    "use_action": [ "E_FILE_DEVICE", "EBOOKSAVE", "CAMERA", "CALORIES_INTAKE_TRACKER", "PORTABLE_GAME", "FITNESS_CHECK" ],
     "pocket_data": [
       { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 10000 } },
       {

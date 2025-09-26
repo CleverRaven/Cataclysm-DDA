@@ -1634,6 +1634,9 @@ struct itype {
 
         bool can_use( const std::string &iuse_name ) const;
         const use_function *get_use( const std::string &iuse_name ) const;
+        // can use/get_use, but for tick actions
+        bool has_tick( const std::string &iuse_name ) const;
+        const use_function *get_tick( const std::string &iuse_name ) const;
 
         // Here "invoke" means "actively use". "Tick" means "active item working"
         // TODO: Replace usage of map less overload.
