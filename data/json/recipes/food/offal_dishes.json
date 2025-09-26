@@ -350,7 +350,7 @@
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
     "components": [
       [ [ "meat_liver", 8, "LIST" ] ],
-      [ [ "edible_fat", 1, "LIST" ], [ "edible_lard", 3, "LIST" ], [ "bacon_uncut", 1 ], [ "bacon", 3 ] ],
+      [ [ "edible_fat", 1, "LIST" ], [ "edible_tallow", 3, "LIST" ], [ "bacon_uncut", 1 ], [ "bacon", 3 ] ],
       [ [ "powder_eggs", 2 ], [ "eggs_bird", 2, "LIST" ] ],
       [ [ "onion", 1 ] ],
       [ [ "flour_any", 2, "LIST" ] ],
@@ -463,7 +463,7 @@
       [ [ "meat_lung", 4, "LIST" ] ],
       [ [ "flour_any", 4, "LIST" ] ],
       [ [ "onion", 1 ] ],
-      [ [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ] ],
+      [ [ "cooking_oil", 1 ], [ "edible_tallow", 1, "LIST" ] ],
       [ [ "salt", 6 ] ],
       [ [ "pepper", 6 ] ],
       [ [ "worthy_wine", 3, "LIST" ] ],

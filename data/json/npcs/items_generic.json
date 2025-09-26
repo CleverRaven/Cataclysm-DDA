@@ -484,7 +484,6 @@
       [ "cookbook_mexican", 1 ],
       [ "cookies", 3 ],
       { "group": "vegetable_oil_bottle", "prob": 3 },
-      { "group": "animal_oil_bottle", "prob": 3 },
       [ "cordless_drill", 2 ],
       [ "corded_powerdrill", 2 ],
       [ "cornmeal", 3 ],

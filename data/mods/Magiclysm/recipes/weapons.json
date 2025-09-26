@@ -19,7 +19,7 @@
       [ [ "q_staff", 1 ] ],
       [ [ "jar_glass_sealed", 2 ] ],
       [ [ "rune_magus", 2 ] ],
-      [ [ "tallow", 2 ], [ "tallow_tainted", 2 ], [ "cooking_oil", 16 ], [ "cooking_oil2", 16 ], [ "lamp_oil", 250 ] ]
+      [ [ "tallow", 2 ], [ "tallow_tainted", 2 ], [ "cooking_oil", 16 ], [ "lamp_oil", 250 ] ]
     ]
   },
   {
@@ -43,7 +43,7 @@
       [ [ "mana_pearl", 2 ] ],
       [ [ "leather", 4 ] ],
       [ [ "rune_magus", 2 ] ],
-      [ [ "tallow", 2 ], [ "tallow_tainted", 2 ], [ "cooking_oil", 16 ], [ "cooking_oil2", 16 ], [ "lamp_oil", 250 ] ]
+      [ [ "tallow", 2 ], [ "tallow_tainted", 2 ], [ "cooking_oil", 16 ], [ "lamp_oil", 250 ] ]
     ]
   },
   {

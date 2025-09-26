@@ -2330,7 +2330,13 @@
     "autolearn": true,
     "using": [ [ "tailoring_leather_patchwork", 1 ] ],
     "components": [
-      [ [ "any_tallow", 1, "LIST" ], [ "cooking_oil", 8 ], [ "cooking_oil2", 8 ], [ "lamp_oil", 200 ], [ "motor_oil", 200 ] ]
+      [
+        [ "any_tallow", 1, "LIST" ],
+        [ "cooking_oil", 8 ],
+        [ "edible_tallow", 2, "LIST" ],
+        [ "lamp_oil", 200 ],
+        [ "motor_oil", 200 ]
+      ]
     ],
     "proficiencies": [
       { "proficiency": "prof_millinery" },

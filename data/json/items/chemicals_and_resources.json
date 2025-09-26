@@ -2143,8 +2143,7 @@
     "price": "0 cent",
     "price_postapoc": "10 cent",
     "symbol": "=",
-    "color": "white",
-    "looks_like": "lard"
+    "color": "white"
   },
   {
     "id": "silicone",

@@ -257,17 +257,6 @@
   {
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
-    "id": "cooking_oil2",
-    "name": { "str_sp": "animal cooking oil" },
-    "copy-from": "cooking_oil",
-    "description": "Thin yellow animal oil used for cooking.",
-    "material": [ "flesh", "oil" ],
-    "delete": { "flags": [ "NUTRIENT_OVERRIDE" ] },
-    "vitamins": [ [ "meat_allergen", 1 ] ]
-  },
-  {
-    "type": "ITEM",
-    "subtypes": [ "COMESTIBLE" ],
     "id": "molasses",
     "name": { "str_sp": "molasses" },
     "weight": "89 g",
