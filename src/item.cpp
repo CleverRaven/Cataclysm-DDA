@@ -8393,11 +8393,9 @@ int item::get_encumber( const Character &p, const bodypart_id &bodypart,
     switch( sizing_level ) {
         case sizing::small_sized_human_char:
         case sizing::small_sized_big_char:
-            // non small characters have a HARD time wearing undersized clothing
-            encumber *= 3;
-            break;
         case sizing::big_sized_small_char:
-            // small characters are practically swimming in big clothing
+            // non small characters have a HARD time wearing undersized clothing
+            // and small characters are practically swimming in big clothing
             encumber *= 3;
             break;
         case sizing::human_sized_small_char:
