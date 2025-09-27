@@ -516,7 +516,7 @@
       ],
       [ [ "splinter", 1 ] ],
       [ [ "cornmeal", 1 ] ],
-      [ [ "cooking_oil", 1 ], [ "edible_tallow", 1, "LIST" ] ]
+      [ [ "cooking_oil", 1 ], [ "edible_tallow", 2, "LIST" ] ]
     ]
   },
   {
