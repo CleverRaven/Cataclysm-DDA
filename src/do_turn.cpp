@@ -522,18 +522,12 @@ bool do_turn()
         overmap_buffer.process_mongroups();
     }
 
-    // Move hordes every 2.5 min
+    // Move hordes every turn, move_hordes has its own rate limiting
+    overmap_buffer.move_hordes();
     if( calendar::once_every( time_duration::from_minutes( 2.5 ) ) ) {
-
-        if( get_option<bool>( "WANDER_SPAWNS" ) ) {
-            overmap_buffer.move_hordes();
-        }
         if( u.has_trait( trait_HAS_NEMESIS ) ) {
             overmap_buffer.move_nemesis();
         }
-        // Hordes that reached the reality bubble need to spawn,
-        // make them spawn in invisible areas only.
-        m.spawn_monsters( false );
     }
 
     g->debug_hour_timer.print_time();
