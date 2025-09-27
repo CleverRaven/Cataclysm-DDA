@@ -867,6 +867,8 @@ TEST_CASE( "monster_can_navigate_from_overmap_to_reality_bubble_following_sound"
     REQUIRE( test_mon->tracking_intensity > 0 );
     CAPTURE( test_mon->tracking_intensity );
     CAPTURE( test_mon->destination );
+    tripoint_bub_ms actual_destination = m.get_bub( test_mon->destination );
+    REQUIRE( rl_dist( actual_destination, destination ) <= 12 );
     // This reference will be invalidated once the monster spawns in the reality bubble,
     // don't access it again after calling move_hordes().
     // Process hordes and verify the monster appears on the reality bubble.
@@ -878,7 +880,7 @@ TEST_CASE( "monster_can_navigate_from_overmap_to_reality_bubble_following_sound"
     } while( g->num_creatures() == 1 && num_steps < 100 );
     REQUIRE( g->num_creatures() > 1 );
     monster &local_test_monster = *g->all_monsters().items.front().lock();
-    test_move_to_location( local_test_monster, destination );
+    test_move_to_location( local_test_monster, actual_destination );
 }
 
 TEST_CASE( "monster_moved_to_overmap_after_map_shift", "[monster][hordes]" )

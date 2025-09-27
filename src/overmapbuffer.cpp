@@ -634,13 +634,8 @@ void overmapbuffer::set_passable( const tripoint_abs_omt &p,
 
 void overmapbuffer::signal_hordes( const tripoint_abs_sm &center, const int sig_power )
 {
-    const int radius = sig_power;
-    for( overmap *&om : get_overmaps_near( center, radius ) ) {
-        const point_abs_sm abs_pos_om = project_to<coords::sm>( om->pos() );
-        const tripoint_rel_sm rel_pos = center - abs_pos_om;
-        // overmap::signal_hordes expects a coordinate relative to the overmap, this is easier
-        // for processing as the monster group stores is location as relative coordinates, too.
-        om->signal_hordes( rel_pos, sig_power );
+    for( overmap *&om : get_overmaps_near( center, sig_power ) ) {
+        om->signal_hordes( project_to<coords::ms>( center ), sig_power );
     }
 }
 
