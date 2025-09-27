@@ -2332,7 +2332,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
             unload_molle |= options.unload_molle();
             unload_mods |= options.unload_mods();
             unload_sparse_only |= options.unload_sparse_only();
-            if (options.unload_sparse_only() && options.unload_sparse_threshold() > unload_sparse_threshold) {
+            if( options.unload_sparse_only() && options.unload_sparse_threshold() > unload_sparse_threshold ) {
                 unload_sparse_threshold = options.unload_sparse_threshold();
             }
             unload_always |= options.unload_always();
