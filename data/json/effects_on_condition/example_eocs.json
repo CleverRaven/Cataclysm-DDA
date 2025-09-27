@@ -538,6 +538,7 @@
       {
         "u_teleport": { "u_val": "tele_test" },
         "dimension_prefix": { "u_val": "destination_dimension" },
+        "npc_radius": 5,
         "fail_message": "your body doesn't move",
         "success_message": "This place feels different."
       },

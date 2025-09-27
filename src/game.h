@@ -331,9 +331,10 @@ class game
 
         /**
          * Moves the player to an alternate dimension.
-         * The prefix identifies the dimension and its properties.
+         * @param prefix identifies the dimension and its properties.
+         * @param npc_radius if not 0, bring any NPCs within distance with the player
          */
-        bool travel_to_dimension( const std::string &prefix );
+        bool travel_to_dimension( const std::string &prefix, const int &npc_radius );
         /**
          * Retrieve the identifier of the current dimension.
          * TODO: this should be a dereferencable id that gives properties of the dimension.
