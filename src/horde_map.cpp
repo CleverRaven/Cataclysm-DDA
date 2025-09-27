@@ -3,6 +3,7 @@
 #include <memory>
 #include <tuple>
 
+#include "map_scale_constants.h"
 #include "monster.h"
 #include "mtype.h"
 
@@ -126,7 +127,69 @@ std::unordered_map<tripoint_abs_ms, horde_entity>::iterator horde_map::spawn_ent
     return result;
 }
 
-// TODO: This placement is wrong, just getting something compiling
+static void signal_sm( const tripoint_abs_ms &origin, const tripoint_abs_sm &sm_dest,
+                       const tripoint_abs_sm &sm_origin, int volume,
+                       std::unordered_map <tripoint_om_sm, std::unordered_map<tripoint_abs_ms, horde_entity>>::iterator
+                       &sm_iter, bool active, std::unordered_map<tripoint_abs_ms, horde_entity> &migrating_hordes )
+{
+
+    const int dist = rl_dist( sm_dest, sm_origin );
+    int eff_power = volume - dist;
+    if( eff_power <= 0 ) {
+        return;
+    }
+    int scaled_eff_power = eff_power * SEEX;
+    for( std::unordered_map<tripoint_abs_ms, horde_entity>::iterator mon = sm_iter->second.begin();
+         mon != sm_iter->second.end(); ) {
+        // Avoid unecessary extract/insert for already-active horde entities.
+        if( !active ) {
+            mon->second.destination = origin;
+            mon->second.tracking_intensity = scaled_eff_power;
+            std::unordered_map<tripoint_abs_ms, horde_entity>::iterator moving_mon = mon;
+            // Advance the loop iterator past the current node, which we will be removing.
+            mon++;
+            auto monster_node = sm_iter->second.extract( moving_mon );
+            migrating_hordes.insert( std::move( monster_node ) );
+        } else {
+            if( mon->second.tracking_intensity < scaled_eff_power ) {
+                mon->second.destination = origin;
+                mon->second.tracking_intensity = scaled_eff_power;
+            }
+            ++mon;
+        }
+    }
+}
+
+// Volume is scaled down by SEEX so it matches the scale of tripoint_om_sm
+void horde_map::signal_entities( const tripoint_abs_ms &origin, int volume )
+{
+    std::unordered_map<tripoint_abs_ms, horde_entity> migrating_hordes;
+    tripoint_abs_sm sm_dest = project_to<coords::sm>( origin );
+    for( std::unordered_map
+         <tripoint_om_sm, std::unordered_map<tripoint_abs_ms, horde_entity>>::iterator active_sm_iter =
+             active_monster_map.begin(); active_sm_iter != active_monster_map.end(); ++active_sm_iter ) {
+        tripoint_abs_sm abs_sm = project_combine( location, active_sm_iter->first );
+        signal_sm( origin, sm_dest, abs_sm, volume, active_sm_iter, true, migrating_hordes );
+    }
+    for( std::unordered_map
+         <tripoint_om_sm, std::unordered_map<tripoint_abs_ms, horde_entity>>::iterator idle_sm_iter =
+             idle_monster_map.begin(); idle_sm_iter != idle_monster_map.end(); ++idle_sm_iter ) {
+        tripoint_abs_sm abs_sm = project_combine( location, idle_sm_iter->first );
+        signal_sm( origin, sm_dest, abs_sm, volume, idle_sm_iter, false, migrating_hordes );
+    }
+    for( std::unordered_map
+         <tripoint_om_sm, std::unordered_map<tripoint_abs_ms, horde_entity>>::iterator dormant_sm_iter =
+             dormant_monster_map.begin(); dormant_sm_iter != dormant_monster_map.end(); ++dormant_sm_iter ) {
+        tripoint_abs_sm abs_sm = project_combine( location, dormant_sm_iter->first );
+        signal_sm( origin, sm_dest, abs_sm, volume, dormant_sm_iter, false, migrating_hordes );
+    }
+
+    while( !migrating_hordes.empty() ) {
+        auto monster_node = migrating_hordes.extract( migrating_hordes.begin() );
+        insert( std::move( monster_node ) );
+    }
+}
+
 void horde_map::insert( std::unordered_map<tripoint_abs_ms, horde_entity>::node_type &&node )
 {
     std::unordered_map <tripoint_om_sm, std::unordered_map<tripoint_abs_ms, horde_entity>> &target_map =

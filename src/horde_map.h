@@ -63,6 +63,7 @@ class horde_map
         spawn_entity( const tripoint_abs_ms &p, mtype_id id );
         std::unordered_map<tripoint_abs_ms, horde_entity>::iterator spawn_entity( const tripoint_abs_ms &p,
                 const monster &mon );
+        void signal_entities( const tripoint_abs_ms &origin, int volume );
         void insert( node_type &&node );
         void clear();
         void clear_chunk( const tripoint_om_sm &p );

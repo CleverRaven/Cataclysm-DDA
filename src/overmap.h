@@ -585,7 +585,7 @@ class overmap
         const city &get_nearest_city( const tripoint_om_omt &p ) const;
         const city &get_invalid_city() const;
 
-        void signal_hordes( const tripoint_rel_sm &p, int sig_power );
+        void signal_hordes( const tripoint_abs_ms &p, int sig_power );
         void alert_entity( const tripoint_om_ms &location, const tripoint_abs_ms &destination,
                            int intensity );
         void process_mongroups();

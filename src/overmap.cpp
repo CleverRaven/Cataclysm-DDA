@@ -4479,10 +4479,9 @@ bool overmap::remove_nemesis()
 * @param p location of signal relative to this overmap origin
 * @param sig_power - power of signal or max distance for reaction of zombies
 */
-void overmap::signal_hordes( const tripoint_rel_sm &p_rel, const int sig_power )
+void overmap::signal_hordes( const tripoint_abs_ms &p, const int sig_power )
 {
-    tripoint_om_sm p( p_rel.raw() );
-    tripoint_abs_sm absp = project_combine( pos(), p );
+    tripoint_abs_sm absp = project_to<coords::sm>( p );
     for( auto &elem : zg ) {
         mongroup &mg = elem.second;
         if( !mg.horde ) {
@@ -4520,35 +4519,7 @@ void overmap::signal_hordes( const tripoint_rel_sm &p_rel, const int sig_power )
             }
         }
     }
-    std::unordered_map<tripoint_abs_ms, horde_entity> migrating_hordes;
-    for( horde_map::iterator mon = hordes.begin(), mon_end = hordes.end(); mon != mon_end; ) {
-        tripoint_abs_ms origin = project_to<coords::ms>( absp ) + point{ 6, 6 };
-        bool already_active = mon->second.is_active();
-        const int dist = rl_dist( origin, mon->first );
-        // Sound intensity is scaled down by SEEX earlier in sound processing, scale it back up.
-        int eff_power = sig_power * SEEX - dist;
-        if( eff_power <= 0 ) {
-            continue;
-        }
-        if( mon->second.tracking_intensity < eff_power ) {
-            mon->second.destination = origin;
-            mon->second.tracking_intensity = eff_power;
-        }
-        // Avoid unecessary extract/insert for already-active horde entities.
-        if( !already_active ) {
-            horde_map::iterator moving_mon = mon;
-            // Advance the loop iterator past the current node, which we will be removing.
-            mon++;
-            auto monster_node = hordes.extract( moving_mon );
-            migrating_hordes.insert( std::move( monster_node ) );
-        } else {
-            ++mon;
-        }
-    }
-    while( !migrating_hordes.empty() ) {
-        auto monster_node = migrating_hordes.extract( migrating_hordes.begin() );
-        hordes.insert( std::move( monster_node ) );
-    }
+    hordes.signal_entities( p, sig_power );
 }
 
 void overmap::alert_entity( const tripoint_om_ms &location, const tripoint_abs_ms &destination,
