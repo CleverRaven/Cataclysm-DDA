@@ -62,6 +62,8 @@
   {
     "type": "uncraft",
     "copy-from": "ammunition_box_carlgustav_he",
-    "result": "ammunition_box_carlgustav_hedp"
+    "result": "ammunition_box_carlgustav_hedp",
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "sheet_metal", 2 ] ], [ [ "sheet_metal_small", 24 ] ], [ [ "scrap", 6 ] ] ]
   }
 ]

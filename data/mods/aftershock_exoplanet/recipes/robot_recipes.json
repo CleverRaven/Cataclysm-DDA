@@ -45,9 +45,11 @@
     "time": "4 m 10 s",
     "reversible": false,
     "book_learn": [ [ "recipe_lab_elec", 6 ], [ "textbook_robots", 7 ] ],
-    "tools": [ [ [ "electrohack", 20 ] ] ],
+    "//tools": [ [ [ "electrohack", 20 ] ] ],
+    "//1": "Tools cannot be inherited",
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ]
+    "//qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "//2": "Qualities cannot be inherited"
   },
   {
     "result": "bot_utilibot_beehive",
@@ -67,6 +69,7 @@
       [ [ "afs_energy_storage_3", 1 ] ],
       [ [ "afs_material_1", 7 ] ]
     ],
+    "tools": [ [ [ "electrohack", 20 ] ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ]
   },
   {
@@ -81,6 +84,7 @@
       [ [ "afs_material_1", 8 ] ],
       [ [ "robot_controls", 1 ] ]
     ],
+    "tools": [ [ [ "electrohack", 20 ] ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ]
   },
   {

@@ -68,6 +68,7 @@
     "book_learn": [ [ "survival_book", 1 ], [ "mag_survival", 1 ] ],
     "time": "4 m",
     "batch_time_factors": [ 60, 5 ],
+    "using": [ [ "shot_forming", 1 ], [ "ammo_bullet", 5 ], [ "ammo_410shot", 1 ] ],
     "tools": [ [ [ "press_dowel", -1 ] ] ],
     "components": [ [ [ "chem_black_powder", 10 ] ] ]
   },

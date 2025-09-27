@@ -64,6 +64,7 @@
     "copy-from": "gauntlets_acidchitin",
     "time": "12 h",
     "using": [ [ "armor_acidchitin", 6 ], [ "strap_small", 1 ], [ "clasps", 1 ] ],
+    "qualities": [ { "id": "CUT_FINE", "level": 1 } ],
     "components": [ [ [ "cordage_superior", 2, "LIST" ] ] ]
   },
   {
@@ -348,35 +349,40 @@
     "type": "recipe",
     "copy-from": "gloves_h20survivor",
     "time": "12 h",
-    "using": [ [ "tailoring_neoprene_patchwork", 4 ], [ "tailoring_kevlar_fabric", 8 ] ]
+    "using": [ [ "tailoring_neoprene_patchwork", 4 ], [ "tailoring_kevlar_fabric", 8 ] ],
+    "components": [ [ [ "wetsuit_gloves", 1 ] ], [ [ "glue_weak", 250 ] ] ]
   },
   {
     "result": "xs_gloves_h20survivor",
     "type": "recipe",
     "copy-from": "gloves_h20survivor",
     "time": "6 h",
-    "using": [ [ "tailoring_neoprene_patchwork", 2 ], [ "tailoring_kevlar_fabric", 4 ] ]
+    "using": [ [ "tailoring_neoprene_patchwork", 2 ], [ "tailoring_kevlar_fabric", 4 ] ],
+    "components": [ [ [ "wetsuit_gloves", 1 ] ], [ [ "glue_weak", 250 ] ] ]
   },
   {
     "result": "gloves_h20survivor_light",
     "type": "recipe",
     "copy-from": "gloves_h20survivor",
     "time": "12 h",
-    "using": [ [ "tailoring_neoprene_patchwork", 1 ], [ "tailoring_kevlar_fabric", 5 ] ]
+    "using": [ [ "tailoring_neoprene_patchwork", 1 ], [ "tailoring_kevlar_fabric", 5 ] ],
+    "components": [ [ [ "wetsuit_gloves", 1 ] ], [ [ "glue_weak", 250 ] ] ]
   },
   {
     "result": "xl_gloves_h20survivor_light",
     "type": "recipe",
     "copy-from": "gloves_h20survivor_light",
     "time": "18 h",
-    "using": [ [ "tailoring_neoprene_patchwork", 1 ], [ "tailoring_kevlar_fabric", 8 ] ]
+    "using": [ [ "tailoring_neoprene_patchwork", 1 ], [ "tailoring_kevlar_fabric", 8 ] ],
+    "components": [ [ [ "wetsuit_gloves", 1 ] ], [ [ "glue_weak", 250 ] ] ]
   },
   {
     "result": "xs_gloves_h20survivor_light",
     "type": "recipe",
     "copy-from": "gloves_h20survivor_light",
     "time": "10 h",
-    "using": [ [ "tailoring_neoprene_patchwork", 1 ], [ "tailoring_kevlar_fabric", 4 ] ]
+    "using": [ [ "tailoring_neoprene_patchwork", 1 ], [ "tailoring_kevlar_fabric", 4 ] ],
+    "components": [ [ [ "wetsuit_gloves", 1 ] ], [ [ "glue_weak", 250 ] ] ]
   },
   {
     "result": "gloves_h20survivor_thick",
@@ -391,14 +397,16 @@
     "type": "recipe",
     "copy-from": "gloves_h20survivor_thick",
     "time": "18 h",
-    "using": [ [ "tailoring_neoprene_patchwork", 1 ], [ "tailoring_kevlar_fabric", 16 ] ]
+    "using": [ [ "tailoring_neoprene_patchwork", 1 ], [ "tailoring_kevlar_fabric", 16 ] ],
+    "components": [ [ [ "wetsuit_gloves", 1 ] ], [ [ "glue_weak", 250 ] ] ]
   },
   {
     "result": "xs_gloves_h20survivor_thick",
     "type": "recipe",
     "copy-from": "gloves_h20survivor_thick",
     "time": "8 h",
-    "using": [ [ "tailoring_neoprene_patchwork", 1 ], [ "tailoring_kevlar_fabric", 8 ] ]
+    "using": [ [ "tailoring_neoprene_patchwork", 1 ], [ "tailoring_kevlar_fabric", 8 ] ],
+    "components": [ [ [ "wetsuit_gloves", 1 ] ], [ [ "glue_weak", 250 ] ] ]
   },
   {
     "result": "gloves_hsurvivor",
@@ -1134,14 +1142,16 @@
     "type": "recipe",
     "copy-from": "wetsuit_gloves",
     "time": "9 h",
-    "using": [ [ "tailoring_neoprene_patchwork", 6 ], [ "tailoring_nylon_patchwork", 8 ] ]
+    "using": [ [ "tailoring_neoprene_patchwork", 6 ], [ "tailoring_nylon_patchwork", 8 ] ],
+    "components": [ [ [ "glue_weak", 250 ] ] ]
   },
   {
     "result": "xs_wetsuit_gloves",
     "type": "recipe",
     "copy-from": "wetsuit_gloves",
     "time": "5 h",
-    "using": [ [ "tailoring_neoprene_patchwork", 3 ], [ "tailoring_nylon_patchwork", 4 ] ]
+    "using": [ [ "tailoring_neoprene_patchwork", 3 ], [ "tailoring_nylon_patchwork", 4 ] ],
+    "components": [ [ [ "glue_weak", 250 ] ] ]
   },
   {
     "result": "wetsuit_gloves_thick",
@@ -1149,21 +1159,24 @@
     "copy-from": "wetsuit_gloves",
     "difficulty": 5,
     "time": "9 h",
-    "using": [ [ "tailoring_neoprene_patchwork", 6 ], [ "tailoring_nylon_patchwork", 10 ] ]
+    "using": [ [ "tailoring_neoprene_patchwork", 6 ], [ "tailoring_nylon_patchwork", 10 ] ],
+    "components": [ [ [ "glue_weak", 250 ] ] ]
   },
   {
     "result": "xl_wetsuit_gloves_thick",
     "type": "recipe",
     "copy-from": "wetsuit_gloves_thick",
     "time": "14 h",
-    "using": [ [ "tailoring_neoprene_patchwork", 8 ], [ "tailoring_nylon_patchwork", 15 ] ]
+    "using": [ [ "tailoring_neoprene_patchwork", 8 ], [ "tailoring_nylon_patchwork", 15 ] ],
+    "components": [ [ [ "glue_weak", 250 ] ] ]
   },
   {
     "result": "xs_wetsuit_gloves_thick",
     "type": "recipe",
     "copy-from": "wetsuit_gloves_thick",
     "time": "7 h",
-    "using": [ [ "tailoring_neoprene_patchwork", 5 ], [ "tailoring_nylon_patchwork", 8 ] ]
+    "using": [ [ "tailoring_neoprene_patchwork", 5 ], [ "tailoring_nylon_patchwork", 8 ] ],
+    "components": [ [ [ "glue_weak", 250 ] ] ]
   },
   {
     "result": "lc_chainmail_hands",
