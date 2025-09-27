@@ -153,8 +153,6 @@ void bresenham( const point_bub_ms &p1, const point_bub_ms &p2, int t,
 void bresenham( const tripoint_bub_ms &loc1, const tripoint_bub_ms &loc2, int t, int t2,
                 const std::function<bool( const tripoint_bub_ms & )> &interact );
 
-tripoint move_along_line( const tripoint &loc, const std::vector<tripoint> &line,
-                          int distance );
 tripoint_bub_ms move_along_line( const tripoint_bub_ms &loc,
                                  const std::vector<tripoint_bub_ms> &line, int distance );
 // line from p1 to p2, including p2 but not p1, using Bresenham's algorithm
@@ -290,7 +288,6 @@ units::angle atan2( const rl_vec2d & );
 
 // Get the magnitude of the slope ranging from 0.0 to 1.0
 float get_normalized_angle( const point &start, const point &end );
-std::vector<tripoint> continue_line( const std::vector<tripoint> &line, int distance );
 std::vector<tripoint_bub_ms> continue_line( const std::vector<tripoint_bub_ms> &line,
         int distance );
 std::vector<point_bub_ms> squares_in_direction( const point_bub_ms &p1, const point_bub_ms &p2 );
