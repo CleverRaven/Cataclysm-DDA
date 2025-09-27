@@ -10300,6 +10300,16 @@ std::vector<const item_pocket *> item::get_all_ablative_pockets() const
     return contents.get_all_ablative_pockets();
 }
 
+std::vector<const item_pocket *> item::get_all_contained_and_mod_pockets() const
+{
+    return contents.get_all_contained_and_mod_pockets();
+}
+
+std::vector<item_pocket *> item::get_all_contained_and_mod_pockets()
+{
+    return contents.get_all_contained_and_mod_pockets();
+}
+
 item_pocket *item::contained_where( const item &contained )
 {
     return contents.contained_where( contained );
@@ -10536,7 +10546,7 @@ bool item::is_emissive() const
         return true;
     }
 
-    for( const item_pocket *pkt : get_all_contained_pockets() ) {
+    for( const item_pocket *pkt : get_all_contained_and_mod_pockets() ) {
         if( pkt->transparent() ) {
             for( const item *it : pkt->all_items_top() ) {
                 if( it->is_emissive() ) {
@@ -12715,7 +12725,16 @@ int item::getlight_emit() const
     float lumint = type->light_emission;
 
     if( lumint == 0 ) {
-        return 0;
+        // gunmods can create light, but cache_visit_items_with() do not check items inside mod pockets
+        // we will check it here
+        if( is_gun() && !gunmods().empty() ) {
+            for( const item *maybe_flashlight : gunmods() ) {
+                if( maybe_flashlight->type->light_emission != 0 ) {
+                    return maybe_flashlight->getlight_emit();
+                }
+            }
+            return 0;
+        }
     }
 
     if( ammo_required() == 0 || ( has_flag( flag_USE_UPS ) && ammo_capacity( ammo_battery ) == 0 ) ||
