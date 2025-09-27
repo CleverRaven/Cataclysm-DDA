@@ -3682,7 +3682,8 @@ static bool armor_encumb_header_info( const item &it, std::vector<iteminfo> &inf
     if( sizing_matters ) {
         const item::sizing sizing_level = it.get_sizing( player_character );
         //If we have the wrong size, we do not fit so alert the player
-        if( sizing_level == item::sizing::human_sized_small_char ) {
+        if( sizing_level == item::sizing::human_sized_small_char ||
+            sizing_level == item::sizing::big_sized_human_char ) {
             format = _( " <bad>(too big)</bad>" );
         } else if( sizing_level == item::sizing::big_sized_small_char ) {
             format = _( " <bad>(huge!)</bad>" );
@@ -8392,12 +8393,14 @@ int item::get_encumber( const Character &p, const bodypart_id &bodypart,
     switch( sizing_level ) {
         case sizing::small_sized_human_char:
         case sizing::small_sized_big_char:
+        case sizing::big_sized_small_char:
             // non small characters have a HARD time wearing undersized clothing
+            // and small characters are practically swimming in big clothing
             encumber *= 3;
             break;
         case sizing::human_sized_small_char:
-        case sizing::big_sized_small_char:
-            // clothes bag up around smol characters and encumber them more
+        case sizing::big_sized_human_char:
+            // clothes bag up when they're bigger than the character
             encumber *= 2;
             break;
         default:
