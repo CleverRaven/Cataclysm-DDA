@@ -7651,10 +7651,11 @@ talk_effect_fun_t::func f_teleport( const JsonObject &jo, std::string_view membe
     optional( jo, false, "dimension_prefix", dimension_prefix, g->get_dimension_prefix() );
 
     // accepts values "all"/"follower"/"enemy"
-    str_or_var npc_travel_filter = get_str_or_var( jo.get_member( "npc_travel_filter" ),
-                                   "npc_travel_filter", false, "all" );
+    str_or_var npc_travel_filter;
+    optional( jo, false, "npc_travel_filter", npc_travel_filter, "all" );
 
-    dbl_or_var npc_travel_radius = get_dbl_or_var( jo, "npc_travel_radius", false, 0 );
+    dbl_or_var npc_travel_radius;
+    optional( jo, false, "npc_travel_radius", npc_travel_radius, 0 );
 
     return [is_npc, target_var, fail_message, success_message, force,
             force_safe, dimension_prefix, npc_travel_filter, npc_travel_radius]( dialogue const & d ) {
