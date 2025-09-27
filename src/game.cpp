@@ -12743,14 +12743,26 @@ void game::vertical_move( int movez, bool force, bool peeking )
     cata_event_dispatch::avatar_moves( old_abs_pos, u, here );
 }
 
-bool game::travel_to_dimension( const std::string &new_prefix, const std::vector<npc *> &npc_radius )
+bool game::travel_to_dimension( const std::string &new_prefix,
+                                const std::vector<npc *> &npc_travellers )
 {
     map &here = get_map();
     avatar &player = get_avatar();
-    if( npc_radius > 0 ) {
+    if( !npc_travellers.empty() ) {
+        int traveller_count = npc_travellers.size();
         for( auto it = critter_tracker->active_npc.begin(); it != critter_tracker->active_npc.end(); ) {
-            const int distance_to_player = rl_dist( ( *it )->pos_abs(), player.pos_abs() );
-            if( distance_to_player > npc_radius ) {
+            // skip unloading a traveller
+            bool skip = false;
+            if( traveller_count > 0 ) {
+                for( npc *guy : npc_travellers ) {
+                    if( guy->getID() == ( *it )->getID() ) {
+                        skip = true;
+                        traveller_count--;
+                        break;
+                    }
+                }
+            }
+            if( !skip ) {
                 ( *it )->on_unload();
                 it = critter_tracker->active_npc.erase( it );
             } else {

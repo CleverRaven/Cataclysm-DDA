@@ -7649,30 +7649,46 @@ talk_effect_fun_t::func f_teleport( const JsonObject &jo, std::string_view membe
 
     str_or_var dimension_prefix;
     optional( jo, false, "dimension_prefix", dimension_prefix, g->get_dimension_prefix() );
-    std::string current_prefix = g->get_dimension_prefix;
 
-    std::function<bool( const_dialogue const & )> npc_travel_condition;
-    if (dimension_prefix != current_prefix) {
-        read_condition( jo, "npc_travel_condition", npc_travel_condition );
-    }
+    // accepts values "all"/"follower"/"enemy"
+    str_or_var npc_travel_filter = get_str_or_var( jo.get_member( "npc_travel_filter" ),
+                                   "npc_travel_filter", false, "all" );
+
+    dbl_or_var npc_travel_radius = get_dbl_or_var( jo, "npc_travel_radius", false, 0 );
 
     return [is_npc, target_var, fail_message, success_message, force,
-            force_safe, dimension_prefix, npc_travel_condition]( dialogue const & d ) {
+            force_safe, dimension_prefix, npc_travel_filter, npc_travel_radius]( dialogue const & d ) {
         tripoint_abs_ms target_pos = read_var_value( target_var, d ).tripoint();
         Creature *teleporter = d.actor( is_npc )->get_creature();
         if( teleporter ) {
             std::string prefix = dimension_prefix.evaluate( d );
-            int radius = npc_radius.evaluate( d );
             bool successful_dimension_swap = false;
             // Make sure we don't cause a dimension swap on every
             // short/long range teleport outside the default dimension
-            if( !prefix.empty() && prefix != current_prefix ) {
-                if (npc_travel_condition) {
-                    const std::vector<npc *> available = g->get_npcs_if( [npc_travel_condition]( const npc & guy ){
-                        return npc_travel_condition ( d );
-                    }
+            if( !prefix.empty() && prefix != g->get_dimension_prefix() ) {
+                std::vector<npc *> travellers;
+                std::string filter = npc_travel_filter.evaluate( d );
+                int radius = npc_travel_radius.evaluate( d );
+                if( !filter.empty() && radius > 0 ) {
+                    std::vector<npc *> travellers = g->get_npcs_if( [teleporter, filter, radius]( const npc & guy ) {
+                        const int distance_to_player = rl_dist( guy.pos_abs(), teleporter->pos_abs() );
+                        if( distance_to_player <= radius ) {
+                            if( filter == "all" ) {
+                                return true;
+                            }
+                            if( filter == "follower" ) {
+                                return guy.is_following();
+                            }
+                            if( filter == "enemy" ) {
+                                return guy.is_enemy();
+                            }
+                            return false;
+                        } else {
+                            return false;
+                        }
+                    } );
                 }
-                successful_dimension_swap = g->travel_to_dimension( prefix, radius );
+                successful_dimension_swap = g->travel_to_dimension( prefix, travellers );
             }
             if( teleport::teleport_to_point( *teleporter, get_map().get_bub( target_pos ), true, false,
                                              false, force, force_safe ) || successful_dimension_swap ) {
