@@ -3,6 +3,7 @@
     "type": "test_data",
     "//": "Uncategorized improvised weapons",
     "expected_dps": {
+      "art_book": 7.69,
       "shock_epee": 8.6,
       "shock_sabre": 7.4,
       "pointy_stick_long": 5.83,
