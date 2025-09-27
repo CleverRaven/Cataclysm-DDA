@@ -15,5 +15,11 @@
     "name": "DEFAULT_REGION",
     "stype": "string_input",
     "value": "default_isolation"
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_PLACE_HIGHWAYS",
+    "stype": "bool",
+    "value": false
   }
 ]
