@@ -1,0 +1,53 @@
+[
+  {
+    "type": "overmap_special",
+    "id": "goblin_encampment",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "goblin_1A_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "goblin_1A_roof_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "goblin_2A_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "goblin_2A_roof_north" },
+      { "point": [ 2, 0, 0 ], "overmap": "goblin_3A_north" },
+      { "point": [ 2, 0, 1 ], "overmap": "goblin_3A_roof_north" },
+      { "point": [ 3, 0, 0 ], "overmap": "goblin_4A_north" },
+      { "point": [ 3, 0, 1 ], "overmap": "goblin_4A_roof_north" },
+      { "point": [ 4, 0, 0 ], "overmap": "goblin_5A_north" },
+      { "point": [ 4, 0, 1 ], "overmap": "goblin_5A_roof_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "goblin_1B_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "goblin_1B_roof_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "goblin_2B_north" },
+      { "point": [ 1, 1, 1 ], "overmap": "goblin_2B_roof_north" },
+      { "point": [ 2, 1, 0 ], "overmap": "goblin_3B_north" },
+      { "point": [ 2, 1, 1 ], "overmap": "goblin_3B_roof_north" },
+      { "point": [ 3, 1, 0 ], "overmap": "goblin_4B_north" },
+      { "point": [ 3, 1, 1 ], "overmap": "goblin_4B_roof_north" },
+      { "point": [ 4, 1, 0 ], "overmap": "goblin_5B_north" },
+      { "point": [ 4, 1, 1 ], "overmap": "goblin_5B_roof_north" },
+      { "point": [ 0, 2, 0 ], "overmap": "goblin_1C_north" },
+      { "point": [ 0, 2, 1 ], "overmap": "goblin_1C_roof_north" },
+      { "point": [ 1, 2, 0 ], "overmap": "goblin_2C_north" },
+      { "point": [ 1, 2, 1 ], "overmap": "goblin_2C_roof_north" },
+      { "point": [ 2, 2, 0 ], "overmap": "goblin_3C_north" },
+      { "point": [ 2, 2, 1 ], "overmap": "goblin_3C_roof_north" },
+      { "point": [ 3, 2, 0 ], "overmap": "goblin_4C_north" },
+      { "point": [ 3, 2, 1 ], "overmap": "goblin_4C_roof_north" },
+      { "point": [ 4, 2, 0 ], "overmap": "goblin_5C_north" },
+      { "point": [ 4, 2, 1 ], "overmap": "goblin_5C_roof_north" }
+    ],
+    "locations": [ "forest_center" ],
+    "city_distance": [ 30, -1 ],
+    "city_sizes": [ 0, 20 ],
+    "occurrences": [ 50, 100 ],
+    "flags": [ "OVERMAP_UNIQUE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "orc_village",
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "orc_village_north" } ],
+    "locations": [ "forest_without_trail" ],
+    "city_distance": [ 20, -1 ],
+    "city_sizes": [ 0, -1 ],
+    "occurrences": [ 0, 1 ],
+    "spawns": { "group": "GROUP_ALL_GOBLINS", "population": [ 10, 30 ], "radius": [ 1, 10 ] }
+  }
+]
