@@ -94,8 +94,8 @@
     "vision_levels": "roof_or_air",
     "see_cost": "all_clear",
     "name": "open air",
-    "sym": ".",
-    "color": "blue",
+    "sym": " ",
+    "color": "cyan",
     "looks_like": "open_air"
   },
   {

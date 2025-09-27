@@ -684,6 +684,7 @@ Each legacy tileset has a `tile_config.json` describing how to map the contents 
         "height": 32,
         "width": 32,
         "iso" : true,                             //  Optional. Indicates an isometric tileset. Defaults to false.
+        "supports_overmap_transparency" : true,   //  Optional. Indicates a tileset supports overmap transparency. Defaults to false.
         "pixelscale" : 2                          //  Optional. Sets a multiplier for resizing a tileset. Defaults to 1.
       }
     ],

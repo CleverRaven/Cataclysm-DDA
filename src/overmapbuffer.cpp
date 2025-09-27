@@ -896,6 +896,15 @@ bool overmapbuffer::reveal( const tripoint_abs_omt &center, int radius,
     return result;
 }
 
+bool overmapbuffer::draw_below_curses( const tripoint_abs_omt &p )
+{
+    if( p.z() <= -OVERMAP_DEPTH ) {
+        return false;
+    } else {
+        return ter_existing( p )->can_see_down_through();
+    }
+}
+
 overmap_path_params overmap_path_params::for_player()
 {
     overmap_path_params ret;
