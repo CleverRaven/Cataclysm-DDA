@@ -151,7 +151,7 @@
     "category": "spare_parts",
     "price": "0 cent",
     "price_postapoc": "25 cent",
-    "name": { "str": "elastic sinew" },
+    "name": { "str": "underdeveloped sinew" },
     "symbol": "=",
     "color": "light_red",
     "looks_like": "thread",

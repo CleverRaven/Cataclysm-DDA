@@ -159,55 +159,21 @@
     "type": "MONSTER",
     "name": { "str": "zombie child", "str_pl": "zombie children" },
     "description": "It was only a child, and little is different about it now aside from the hungry look in its eyes.  You'd be hard-pressed to not feel like you were killing an actual child by putting it down.",
-    "copy-from": "mon_zombie_base",
-    "proportional": { "volume": 0.5, "weight": 0.5 },
-    "hp": 40,
-    "speed": 65,
-    "symbol": "z",
-    "melee_skill": 2,
-    "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
-    "dodge": 2,
-    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_child_body", "wps_humanoid_head_big" ],
-    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_child" ],
-    "vision_day": 30,
-    "special_attacks": [
-      { "id": "bite_humanoid", "attack_upper": false, "cooldown": 5 },
-      { "id": "scratch", "attack_upper": false, "cooldown": 15 }
-    ],
-    "death_drops": {
-      "subtype": "collection",
-      "groups": [ [ "default_zombie_children_clothes", 100 ], [ "child_items_pockets", 65 ] ],
-      "//": "default zombie children clothing (always), additional items from child_items_pockets (sometimes)"
-    },
-    "harvest": "zombie_child",
-    "burn_into": "mon_zombie_child_scorched",
-    "fungalize_into": "mon_zombie_child_dusted",
-    "upgrades": { "half_life": 120, "into_group": "GROUP_CHILD_ZOMBIE_UPGRADE" },
-    "extend": { "weakpoint_sets": [ "wps_humanoid_child_body", "wps_humanoid_head_big" ], "families": [ "prof_wp_child" ] },
-    "delete": { "flags": [ "PUSH_MON" ] }
+    "copy-from": "mon_zombie_child_base",
+    "harvest": "zombie_child"
   },
   {
     "id": "mon_zombie_runner",
     "type": "MONSTER",
     "name": { "str": "zombie runner" },
     "description": "This recently-risen body moves quickly, darting its head back and forth and gnawing at its hands.",
-    "copy-from": "mon_zombie_base",
-    "speed": 105,
-    "color": "brown_white",
-    "melee_dice": 4,
-    "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
-    "dodge": 1,
-    "special_attacks": [
-      { "id": "grab" },
-      { "id": "scratch_humanoid", "cooldown": 10 },
-      {
-        "id": "bite_humanoid",
-        "cooldown": 5,
-        "damage_max_instance": [ { "damage_type": "stab", "amount": 10, "armor_multiplier": 0.7 } ]
-      }
-    ],
-    "upgrades": { "half_life": 140, "into": "mon_zombie_hunter" },
-    "fungalize_into": "mon_zombie_runner_dusted",
+    "copy-from": "mon_zombie_runner",
     "harvest": "zombie_runner"
+  },
+  {
+    "id": "mon_zombie_nullfield",
+    "type": "MONSTER",
+    "copy-from": "mon_zombie_nullfield",
+    "harvest": "zombie_humanoid_electric_evolved"
   }
 ]

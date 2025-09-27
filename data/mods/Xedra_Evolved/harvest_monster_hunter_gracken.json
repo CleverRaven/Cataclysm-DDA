@@ -204,5 +204,24 @@
         { "drop": "runner_sinew", "type": "bone", "mass_ratio": 0.00035 }
       ]
     }
+  },
+  {
+    "id": "demihuman_sevenoclock",
+    "type": "harvest",
+    "copy-from": "demihuman",
+    "extend": { "entries": [ { "drop": "sevenoclock_eye", "scale_num": [ 1, 2 ], "max": 2, "type": "offal" } ] }
+  },
+  {
+    "id": "mutant_meatslug_deathworm",
+    "type": "harvest",
+    "copy-from": "mutant_meatslug",
+    "extend": { "entries": [ { "drop": "bile_bombadier", "scale_num": [ 1, 2 ], "max": 2, "type": "offal" } ] }
+  },
+  {
+    "id": "zombie_humanoid_electric_evolved",
+    "type": "harvest",
+    "copy-from": "zombie_humanoid_electric",
+    "message": "<zombie_humanoid_electric_harvest>",
+    "extend": { "entries": [ { "drop": "hunters_organ", "scale_num": [ 1, 2 ], "max": 2, "type": "offal" } ] }
   }
 ]
