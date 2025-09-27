@@ -8077,7 +8077,7 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
         bool unload_mods = false;
         bool unload_molle = false;
         bool unload_sparse_only = false;
-        int unload_sparse_threshold = 20;
+        int unload_sparse_threshold = 0;
 
         std::vector<zone_data const *> const zones = mgr.get_zones_at( src, zone_type_UNLOAD_ALL,
                 fac_id );
@@ -8088,7 +8088,9 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
             unload_molle |= options.unload_molle();
             unload_mods |= options.unload_mods();
             unload_sparse_only |= options.unload_sparse_only();
-            unload_sparse_threshold |= options.unload_sparse_threshold();
+            if( options.unload_sparse_only() && options.unload_sparse_threshold() > unload_sparse_threshold ) {
+                unload_sparse_threshold = options.unload_sparse_threshold();
+            }
         }
 
         //Skip items that have already been processed
