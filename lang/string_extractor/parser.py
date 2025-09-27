@@ -109,6 +109,7 @@ parsers = {
     "anatomy": dummy_parser,
     "ascii_art": dummy_parser,
     "attack_vector": dummy_parser,
+    "bash_damage_profile": dummy_parser,
     "behavior": dummy_parser,
     "bionic": parse_bionic,
     "bionic_migration": dummy_parser,

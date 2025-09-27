@@ -3170,7 +3170,7 @@ void npc::move_to( const tripoint_bub_ms &pt, bool no_bashing, std::set<tripoint
             mod_moves( ( -get_speed() * 5 ) - ( rng( 0, climb ) * 20 ) );
             moved = true;
         }
-    } else if( !no_bashing && smash_ability() > 0 && here.is_bashable( p ) &&
+    } else if( !no_bashing && !smash_ability().empty() && here.is_bashable( p ) &&
                here.bash_rating( smash_ability(), p ) > 0 ) {
         mod_moves( -get_speed() * 0.8 );
         here.bash( p, smash_ability() );

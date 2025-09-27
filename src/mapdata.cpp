@@ -32,7 +32,10 @@
 #include "trap.h"
 #include "type_id.h"
 
+
 static furn_id f_null;
+
+static const bash_damage_profile_id bash_damage_profile_default( "default" );
 
 static const flag_id json_flag_DIGGABLE( "DIGGABLE" );
 static const flag_id json_flag_EASY_DECONSTRUCT( "EASY_DECONSTRUCT" );
@@ -40,6 +43,7 @@ static const flag_id json_flag_FLAT( "FLAT" );
 static const flag_id json_flag_PLOWABLE( "PLOWABLE" );
 
 static const furn_str_id furn_f_null( "f_null" );
+
 
 static const item_group_id Item_spawn_data_EMPTY_GROUP( "EMPTY_GROUP" );
 
@@ -380,6 +384,8 @@ void map_common_bash_info::load( const JsonObject &jo, const bool was_loaded,
 
     optional( jo, was_loaded, "str_min_supported", str_min_supported, -1 );
     optional( jo, was_loaded, "str_max_supported", str_max_supported, -1 );
+
+    optional( jo, was_loaded, "profile", damage_profile, bash_damage_profile_default );
 
     optional( jo, was_loaded, "explosive", explosive, -1 );
 

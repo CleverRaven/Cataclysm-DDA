@@ -2650,7 +2650,7 @@ class Character : public Creature, public visitable
         virtual bool query_yn( const std::string &msg ) const = 0;
 
         std::pair<bodypart_id, int> best_part_to_smash() const;
-        virtual int smash_ability() const;
+        virtual std::map<damage_type_id, int> smash_ability() const;
 
         // checks if your character is immune to an effect or field based on field_immunity_data
         bool check_immunity_data( const field_immunity_data &ft ) const override;

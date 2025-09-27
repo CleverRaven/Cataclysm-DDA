@@ -519,7 +519,7 @@ struct mtype {
 
         unsigned int def_chance; // How likely a special "defensive" move is to trigger (0-100%, default 0)
         // Monster's ability to destroy terrain and vehicles
-        int bash_skill;
+        std::map<damage_type_id, int> bash_skill;
 
         // Monster upgrade variables
         int half_life;

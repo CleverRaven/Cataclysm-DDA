@@ -251,8 +251,7 @@ class avatar : public Character
 
         /** smash a map feature */
         struct smash_result {
-            int skill;
-            int resistance;
+            bool can_smash;
             bool did_smash;
             bool success;
         };
