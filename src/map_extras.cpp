@@ -104,6 +104,8 @@ static const mtype_id mon_fungaloid_queen( "mon_fungaloid_queen" );
 
 static const oter_type_str_id oter_type_road( "road" );
 
+static const region_settings_id region_settings_default( "default" );
+
 static const relic_procgen_id relic_procgen_data_alien_reality( "alien_reality" );
 
 static const ter_str_id ter_t_coast_rock_surf( "t_coast_rock_surf" );
@@ -1210,10 +1212,12 @@ void debug_spawn_test()
 {
     uilist mx_menu;
     std::vector<std::string> mx_names;
-    for( std::pair<const std::string, map_extras> &region_extra :
-         region_settings_map["default"].region_extras ) {
-        mx_menu.addentry( -1, true, -1, region_extra.first );
-        mx_names.push_back( region_extra.first );
+    const region_settings_map_extras &settings_map_extras =
+        region_settings_default->get_settings_map_extras();
+    for( const map_extra_collection_id &region_extra : settings_map_extras.extras ) {
+        const std::string &mx_name = region_extra.str();
+        mx_menu.addentry( -1, true, -1, mx_name );
+        mx_names.push_back( mx_name );
     }
 
     mx_menu.text = _( "Test which map extra list?" );
@@ -1228,9 +1232,13 @@ void debug_spawn_test()
         map_extra_id mx_null = map_extra_id::NULL_ID();
 
         for( size_t a = 0; a < 32400; a++ ) {
-            map_extras ex = region_settings_map["default"].region_extras[mx_names[index]];
+            auto mx_iter = settings_map_extras.extras.find( map_extra_collection_id( mx_names[index] ) );
+            if( mx_iter == settings_map_extras.extras.end() ) {
+                continue;
+            }
+            const map_extra_collection &ex = **mx_iter;
             if( ex.chance > 0 && one_in( ex.chance ) ) {
-                map_extra_id *extra = ex.values.pick();
+                const map_extra_id *extra = ex.values.pick();
                 if( extra == nullptr ) {
                     results[mx_null]++;
                 } else {

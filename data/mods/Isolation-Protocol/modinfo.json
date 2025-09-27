@@ -9,5 +9,17 @@
     "category": "total_conversion",
     "dependencies": [ "dda" ],
     "conflicts": [ "generic_guns", "aftershock_exoplanet", "innawood", "skyisland", "backrooms", "defense_mode", "MA", "tropicata" ]
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "DEFAULT_REGION",
+    "stype": "string_input",
+    "value": "default_isolation"
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_PLACE_HIGHWAYS",
+    "stype": "bool",
+    "value": false
   }
 ]

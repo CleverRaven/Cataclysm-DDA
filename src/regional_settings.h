@@ -33,9 +33,9 @@ class building_bin
 {
     private:
         bool finalized = false; // NOLINT(cata-serialize)
-        std::map<overmap_special_id, int> unfinalized_buildings; // NOLINT(cata-serialize)
     public:
         building_bin() = default;
+        //TODO: remove add
         void add( const overmap_special_id &building, int weight );
         overmap_special_id pick() const;
         std::vector<std::string> all; // NOLINT(cata-serialize)
@@ -133,15 +133,15 @@ struct region_settings_city {
     building_bin parks;
 
     overmap_special_id pick_house() const {
-        return houses.pick()->id;
+        return houses.pick();
     }
 
     overmap_special_id pick_shop() const {
-        return shops.pick()->id;
+        return shops.pick();
     }
 
     overmap_special_id pick_park() const {
-        return parks.pick()->id;
+        return parks.pick();
     }
 
     weighted_int_list<overmap_special_id> get_all_houses() const {
