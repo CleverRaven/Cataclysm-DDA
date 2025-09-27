@@ -12743,7 +12743,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
     cata_event_dispatch::avatar_moves( old_abs_pos, u, here );
 }
 
-bool game::travel_to_dimension( const std::string &new_prefix, const int &npc_radius )
+bool game::travel_to_dimension( const std::string &new_prefix, const std::vector<npc *> &npc_radius )
 {
     map &here = get_map();
     avatar &player = get_avatar();
