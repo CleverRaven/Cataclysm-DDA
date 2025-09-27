@@ -1870,6 +1870,8 @@
     "phase": "liquid",
     "explode_in_fire": true,
     "explosion": { "power": 5, "shrapnel": 0 },
+    "flags": [ "NUTRIENT_OVERRIDE" ],
+    "//": "Needed so calories from alcohol used to produce this aren't carried over to items using this as preservative",
     "looks_like": "ether"
   },
   {
