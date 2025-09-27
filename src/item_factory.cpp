@@ -2017,9 +2017,7 @@ void Item_factory::init()
     add_iuse( "MININUKE", &iuse::mininuke );
     add_iuse( "MOLOTOV_LIT", &iuse::molotov_lit );
     add_iuse( "MOP", &iuse::mop );
-    add_iuse( "MP3", &iuse::mp3 );
     add_iuse( "MP3_ON", &iuse::mp3_on );
-    add_iuse( "MP3_DEACTIVATE", &iuse::mp3_deactivate );
     add_iuse( "MULTICOOKER", &iuse::multicooker );
     add_iuse( "MULTICOOKER_TICK", &iuse::multicooker_tick );
     add_iuse( "MYCUS", &iuse::mycus );
@@ -2110,6 +2108,7 @@ void Item_factory::init()
     add_actor( std::make_unique<iuse_transform>() );
     add_actor( std::make_unique<unpack_actor>() );
     add_actor( std::make_unique<message_iuse>() );
+    add_actor( std::make_unique<mp3_iuse>() );
     add_actor( std::make_unique<sound_iuse>() );
     add_actor( std::make_unique<play_instrument_iuse>() );
     add_actor( std::make_unique<manualnoise_actor>() );

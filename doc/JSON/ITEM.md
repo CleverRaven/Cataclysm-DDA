@@ -1444,6 +1444,12 @@ The contents of `use_action` fields can either be a string indicating a built-in
   "name": "Light fuse"     // (optional) Name for the action. Default "Activate"
 },
 "use_action": {
+  "type": "mp3",       // Displays message text
+  "message": "You put your earbuds in and start listening to music.", // Message that is shown
+  "activate": true, // true/false = turn on/off music
+  "transform": "x_music" // item that will play music when active, or the inactive form of this item 
+},
+"use_action": {
   "type": "sound",            // Makes sound
   "name": "Turn on",          // Optional name for the action. Default "Activate"
   "sound_message": "Bzzzz.",  // message shown to player if they are able to hear the sound. %s is replaced by item name

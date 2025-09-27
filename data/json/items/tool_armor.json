@@ -535,7 +535,17 @@
     "faults": [ { "fault_group": "electronic_general" } ],
     "symbol": "[",
     "charges_per_use": 1,
-    "use_action": [ "MP3", "CALORIES_INTAKE_TRACKER", "FITNESS_CHECK", "PORTABLE_GAME" ],
+    "use_action": [
+      {
+        "type": "mp3",
+        "transform": "smart_watch_music",
+        "message": "You put in the earbuds and start listening to music.",
+        "activate": true
+      },
+      "CALORIES_INTAKE_TRACKER",
+      "FITNESS_CHECK",
+      "PORTABLE_GAME"
+    ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 20 } } ],
     "armor": [ { "coverage": 100, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ],
     "tool_ammo": "battery"
@@ -548,7 +558,12 @@
     "name": { "str": "smart watch - music", "str_pl": "smart watches - music" },
     "description": "This smart watch is playing music, steadily raising your morale.  You can't hear anything else while you're listening.",
     "revert_to": "smart_watch",
-    "use_action": [ "MP3_DEACTIVATE", "CALORIES_INTAKE_TRACKER", "FITNESS_CHECK", "PORTABLE_GAME" ],
+    "use_action": [
+      { "type": "mp3", "transform": "smart_watch", "message": "The smart watch turns off.", "activate": false },
+      "CALORIES_INTAKE_TRACKER",
+      "FITNESS_CHECK",
+      "PORTABLE_GAME"
+    ],
     "tick_action": [ "MP3_ON" ],
     "extend": { "flags": [ "TRADER_AVOID" ] }
   },
@@ -570,7 +585,12 @@
       "E_FILE_DEVICE",
       "EBOOKSAVE",
       "CAMERA",
-      "MP3",
+      {
+        "type": "mp3",
+        "transform": "smart_watch_adv_music",
+        "message": "You put in the earbuds and start listening to music.",
+        "activate": true
+      },
       "CALORIES_INTAKE_TRACKER",
       "FITNESS_CHECK",
       "WEATHER_TOOL",
@@ -597,7 +617,12 @@
     "name": { "str": "advanced smart watch - music", "str_pl": "advanced smart watches - music" },
     "description": "This advanced smart watch is playing music, steadily raising your morale.  You can't hear anything else while you're listening.",
     "revert_to": "smart_watch",
-    "use_action": [ "MP3_DEACTIVATE", "CALORIES_INTAKE_TRACKER", "FITNESS_CHECK", "PORTABLE_GAME" ],
+    "use_action": [
+      { "type": "mp3", "transform": "smart_watch_adv", "message": "The smart watch turns off.", "activate": false },
+      "CALORIES_INTAKE_TRACKER",
+      "FITNESS_CHECK",
+      "PORTABLE_GAME"
+    ],
     "tick_action": [ "MP3_ON" ],
     "extend": { "flags": [ "TRADER_AVOID" ] }
   },

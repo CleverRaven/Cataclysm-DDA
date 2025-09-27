@@ -3412,6 +3412,10 @@ class item : public visitable
     public:
         char invlet = 0;      // Inventory letter
         bool active = false; // If true, it has active effects to be processed
+        // for item cache
+        bool is_active() const {
+            return active;
+        }
         bool is_favorite = false;
 
         void set_favorite( bool favorite );

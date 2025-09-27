@@ -195,6 +195,17 @@ const use_function *itype::get_use( const std::string &iuse_name ) const
     return iter != use_methods.end() ? &iter->second : nullptr;
 }
 
+bool itype::has_tick( const std::string &iuse_name ) const
+{
+    return get_tick( iuse_name ) != nullptr;
+}
+
+const use_function *itype::get_tick( const std::string &iuse_name ) const
+{
+    const auto iter = tick_action.find( iuse_name );
+    return iter != tick_action.end() ? &iter->second : nullptr;
+}
+
 int itype::tick( Character *p, item &it, const tripoint_bub_ms &pos ) const
 {
     int charges_to_use = 0;

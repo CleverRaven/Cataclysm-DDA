@@ -1576,8 +1576,6 @@ These flags apply to the `use_action` field, instead of the `flags` field.
 - ```MOLOTOV_LIT``` Throw it, but don't drop it.
 - ```MOLOTOV``` Light the Molotov cocktail.
 - ```MOP``` Mop up the mess.
-- ```MP3_ON``` Turn the mp3 player off.
-- ```MP3``` Turn the mp3 player on.
 - ```NOISE_EMITTER_OFF``` Turn the noise emitter on.
 - ```NOISE_EMITTER_ON``` Turn the noise emitter off.
 - ```NONE``` Do nothing.
