@@ -235,6 +235,8 @@ class item_contents
         std::vector<item_pocket *> get_all_standard_pockets();
         std::vector<const item_pocket *> get_all_ablative_pockets() const;
         std::vector<item_pocket *> get_all_ablative_pockets();
+        std::vector<const item_pocket *> get_all_contained_and_mod_pockets() const;
+        std::vector<item_pocket *> get_all_contained_and_mod_pockets();
         std::vector<const item_pocket *>
         get_pockets( std::function<bool( item_pocket const & )> const &filter ) const;
         std::vector<item_pocket *>
