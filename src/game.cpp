@@ -3520,12 +3520,17 @@ bool game::save_player_data()
     if( world_generator->active_world->has_compression_enabled() ) {
         std::stringstream save;
         serialize_json( save );
-        std::optional<zzip> z = zzip::load( ( playerfile + SAVE_EXTENSION +
-                                              ".zzip.tmp" ).get_unrelative_path() );
+        std::filesystem::path save_path = ( playerfile + SAVE_EXTENSION +
+                                            ".zzip" ).get_unrelative_path();
+        std::filesystem::path tmp_path = save_path;
+        tmp_path.concat( ".tmp" ); // NOLINT(cata-u8-path)
+        std::optional<zzip> z = zzip::load( save_path );
         saved_data = z->add_file( ( playerfile + SAVE_EXTENSION ).get_unrelative_path().filename(),
                                   save.str() );
-        saved_data = saved_data && z->compact_to( ( playerfile + SAVE_EXTENSION +
-                     ".zzip" ).get_unrelative_path(), 0.0 );
+        if( saved_data && z->compact_to( tmp_path, 2.0 ) ) {
+            z.reset();
+            saved_data = rename_file( tmp_path, save_path );
+        }
     } else {
         saved_data = write_to_file( playerfile + SAVE_EXTENSION, [&]( std::ostream & fout ) {
             serialize_json( fout );
