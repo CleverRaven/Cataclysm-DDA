@@ -1046,8 +1046,7 @@
       { "prob": 17, "group": "flour_bulk" },
       [ "soysauce", 25 ],
       [ "hot_sauce", 25 ],
-      [ "cooking_oil", 50 ],
-      [ "cooking_oil2", 50 ],
+      { "group": "vegetable_oil_bottle", "prob": 50 },
       [ "cookbook", 8 ],
       [ "cookbook_italian", 9 ],
       { "prob": 3, "item": "cornmeal", "count": [ 10, -1 ] },
@@ -1086,8 +1085,7 @@
       { "prob": 17, "group": "flour_bulk" },
       [ "soysauce", 25 ],
       [ "hot_sauce", 25 ],
-      [ "cooking_oil", 40 ],
-      [ "cooking_oil2", 40 ],
+      { "group": "vegetable_oil_bottle", "prob": 40 },
       [ "cookbook", 8 ],
       [ "cookbook_daintydishes", 9 ],
       { "prob": 3, "item": "cornmeal", "count": [ 10, -1 ] },
@@ -1440,7 +1438,7 @@
       [ "onion", 15 ],
       [ "potato", 15 ],
       [ "pineapple", 20 ],
-      [ "lard", 10 ],
+      [ "tallow", 10 ],
       [ "mushroom_morel", 8 ],
       [ "sausage_cooked", 8 ],
       [ "mushroom", 20 ],
@@ -2799,5 +2797,28 @@
     "subtype": "collection",
     "container-item": "jar_glass_sealed",
     "entries": [ { "item": "jam_fruit", "container-item": "null", "count": -1 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "vegetable_oil_bottle",
+    "subtype": "distribution",
+    "items": [
+      { "item": "cooking_oil", "container-item": "bottle_plastic", "charges": [ 0, 20 ] },
+      { "item": "cooking_oil", "container-item": "bottle_folding", "charges": [ 0, 20 ] },
+      { "item": "cooking_oil", "container-item": "bottle_twoliter", "charges": [ 0, 80 ] },
+      { "item": "cooking_oil", "container-item": "jug_plastic", "charges": [ 0, 150 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "oil_bottle_empty",
+    "subtype": "distribution",
+    "items": [ { "item": "bottle_plastic" }, { "item": "bottle_folding" }, { "item": "bottle_twoliter" }, { "item": "jug_plastic" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "vegetable_oil_bottle_full",
+    "subtype": "distribution",
+    "items": [ { "item": "cooking_oil", "container-group": "oil_bottle_empty" } ]
   }
 ]

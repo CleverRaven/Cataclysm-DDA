@@ -3254,8 +3254,9 @@ bool game::load( const save_t &name )
                     u.set_save_id( name.decoded_name() );
 
                     if( world_generator->active_world->has_compression_enabled() ) {
-                        std::shared_ptr<zzip> z = zzip::load( ( save_file_path + ".zzip" ).get_unrelative_path() );
-                        abort = !read_from_zzip_optional( z, save_file_path.get_unrelative_path().filename(),
+                        std::optional<zzip> z = zzip::load( ( save_file_path + ".zzip" ).get_unrelative_path() );
+                        abort = !z.has_value() ||
+                        !read_from_zzip_optional( z.value(), save_file_path.get_unrelative_path().filename(),
                         [this]( std::string_view sv ) {
                             unserialize( std::string{ sv } );
                         } );
@@ -3519,11 +3520,17 @@ bool game::save_player_data()
     if( world_generator->active_world->has_compression_enabled() ) {
         std::stringstream save;
         serialize_json( save );
-        std::shared_ptr<zzip> z = zzip::load( ( playerfile + SAVE_EXTENSION +
-                                                ".zzip" ).get_unrelative_path() );
+        std::filesystem::path save_path = ( playerfile + SAVE_EXTENSION +
+                                            ".zzip" ).get_unrelative_path();
+        std::filesystem::path tmp_path = save_path;
+        tmp_path.concat( ".tmp" ); // NOLINT(cata-u8-path)
+        std::optional<zzip> z = zzip::load( save_path );
         saved_data = z->add_file( ( playerfile + SAVE_EXTENSION ).get_unrelative_path().filename(),
                                   save.str() );
-        saved_data = saved_data && z->compact( 1.0 );
+        if( saved_data && z->compact_to( tmp_path, 2.0 ) ) {
+            z.reset();
+            saved_data = rename_file( tmp_path, save_path );
+        }
     } else {
         saved_data = write_to_file( playerfile + SAVE_EXTENSION, [&]( std::ostream & fout ) {
             serialize_json( fout );
@@ -12736,11 +12743,23 @@ void game::vertical_move( int movez, bool force, bool peeking )
     cata_event_dispatch::avatar_moves( old_abs_pos, u, here );
 }
 
-bool game::travel_to_dimension( const std::string &new_prefix )
+bool game::travel_to_dimension( const std::string &new_prefix, const int &npc_radius )
 {
     map &here = get_map();
     avatar &player = get_avatar();
-    unload_npcs();
+    if( npc_radius > 0 ) {
+        for( auto it = critter_tracker->active_npc.begin(); it != critter_tracker->active_npc.end(); ) {
+            const int distance_to_player = rl_dist( ( *it )->pos_abs(), player.pos_abs() );
+            if( distance_to_player > npc_radius ) {
+                ( *it )->on_unload();
+                it = critter_tracker->active_npc.erase( it );
+            } else {
+                it++;
+            }
+        }
+    } else {
+        unload_npcs();
+    }
     save_dimension_data();
     for( monster &critter : all_monsters() ) {
         despawn_monster( critter );
@@ -13776,14 +13795,20 @@ cata_path PATH_INFO::world_base_save_path()
     return world_generator->active_world->folder_path();
 }
 
+cata_path PATH_INFO::dimensions_save_path()
+{
+    return PATH_INFO::world_base_save_path() / "dimensions";
+}
+
 cata_path PATH_INFO::current_dimension_save_path()
 {
     std::string dimension_prefix = g->get_dimension_prefix();
     if( !dimension_prefix.empty() ) {
-        return PATH_INFO::world_base_save_path() / "dimensions" / dimension_prefix;
+        return PATH_INFO::dimensions_save_path() / dimension_prefix;
     }
     return PATH_INFO::world_base_save_path();
 }
+
 
 cata_path PATH_INFO::current_dimension_player_save_path()
 {

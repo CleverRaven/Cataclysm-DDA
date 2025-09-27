@@ -499,7 +499,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 61,
-    "description": "A type of bread popular in Chile and Bolivia.  Prepared using animal lard or oil, it resembles a large, round scone.  In the pre-Cataclysm world, it would usually be filled with savory ingredients.",
+    "description": "A type of bread popular in Chile and Bolivia.  Prepared using animal tallow or oil, it resembles a large, round scone.  In the pre-Cataclysm world, it would usually be filled with savory ingredients.",
     "price": "136 cent",
     "price_postapoc": "2 USD",
     "material": [ "wheat" ],

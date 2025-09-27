@@ -1127,7 +1127,7 @@
     "components": [
       [ [ "2x4", 14 ] ],
       [ [ "rope_superior_short", 2, "LIST" ] ],
-      [ [ "nail", 60 ], [ "bronze_nail", 60 ] ],
+      [ [ "nails", 60, "LIST" ] ],
       [ [ "nuts_bolts", 60 ] ],
       [ [ "simple_crank", 1 ], [ "foot_crank", 1 ] ],
       [ [ "spring", 4 ] ]

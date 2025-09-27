@@ -817,7 +817,7 @@ A repeat response has the following format:
 ```jsonc
 {
   "for_item": [
-    "jerky", "meat_smoked", "fish_smoked", "cooking_oil", "cooking_oil2", "cornmeal", "flour",
+    "jerky", "meat_smoked", "fish_smoked", "cooking_oil", "cornmeal", "flour",
     "fruit_wine", "beer", "sugar"
   ],
   "response": { "text": "Delivering <topic_item>.", "topic": "TALK_DELIVER_ASK" }

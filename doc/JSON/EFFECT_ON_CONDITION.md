@@ -1339,6 +1339,35 @@ Will give a message if you're in the dimension with the ID of "test".
   "then": { "u_message": "Currently loaded dimension is the one with ID of 'test'." } }
 ```
 
+### `clear_dimension`
+- type: string or [variable object](#variable-object)
+- deletes the dimension folder with the given string ID.
+
+#### Valid talkers:
+
+| Avatar | NPC | Monster | Furniture | Item | Vehicle |
+| ------  --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+
+#### Examples
+Deletes (if present) the dimension with ID of 'test'.
+```jsonc
+{ { "clear_dimension": "test" } }
+```
+Asks for text input, will delete the dimension that matches the string ID.
+```jsonc
+{
+    "set_string_var": "",
+    "string_input": {
+      "title": { "str": "clear the dimension named:" },
+      "description": { "str": "the main dimension can't be cleared." },
+      "width": 30
+    },
+    "target_var": { "u_val": "target_dimension" }
+},
+{ "clear_dimension": { "u_val": "target_dimension" } }
+```
+
 ### `player_see_u`, `player_see_npc`
 - type: simple string
 - return true if player can see alpha or beta talker
@@ -4321,6 +4350,7 @@ You or NPC is teleported to `target_var` coordinates
 | "force" | optional | boolean | default false; if true, teleportation can't fail - any creature, that stand on target coordinates, would be brutally telefragged, and if impassable obstacle occur, the closest point would be picked instead |
 | "force_safe" | optional | boolean | default false; if true, teleportation cannot^(tm) fail.  If there is a creature or obstacle at the target coordinate, the closest passable point within 5 horizontal tiles is picked instead.  If there is no point, the creature remains where they are.
 | "dimension_prefix" | optional | string | default ""; if a value is specified, will teleport the player to a dimension named after the prefix. |
+| "npc_radius" | optional | int or [variable object](#variable-object) | default 0; if a value above 0 is specified, the NPCs within that radius around the player will be transported with them when dimension hopping. Does nothing if "dimension_prefix" isn't set. |
 
 ##### Valid talkers:
 
@@ -4343,6 +4373,18 @@ You teleport to `grass_place` with message `Yay!`; as `force` boolean is `true`,
   "fail_message": "Something is very wrong!",
   "force": true
 }
+```
+
+You teleport to a dimension with the ID of `test`, at the same position you're in currently, bringing any NPC within 5 tiles of you along.
+```jsonc
+  {
+  "u_location_variable": { "u_val": "tele_test" },
+  "u_teleport": { "u_val":"tele_test" },
+  "dimension_prefix": "test",
+  "npc_radius": 5,
+  "fail_message": "your body doesn't move",
+  "success_message": "This place feels different."
+  }
 ```
 
 #### `u_explosion`, `npc_explosion`

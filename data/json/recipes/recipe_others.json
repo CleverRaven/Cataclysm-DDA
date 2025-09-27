@@ -2142,7 +2142,7 @@
       [ [ "water_clean", 2 ], [ "water", 2 ] ],
       [ [ "tanning_agent", 1, "LIST" ] ],
       [ [ "salt_water", 2 ], [ "saline", 10 ], [ "salt", 10 ] ],
-      [ [ "edible_tallow_lard", 1, "LIST" ], [ "tallow_tainted", 1 ] ],
+      [ [ "edible_tallow", 1, "LIST" ], [ "tallow_tainted", 1 ] ],
       [ [ "cured_hide", 6 ] ]
     ]
   },
@@ -2183,7 +2183,7 @@
       [ [ "water_clean", 2 ], [ "water", 2 ] ],
       [ [ "tanning_agent", 1, "LIST" ] ],
       [ [ "salt_water", 2 ], [ "saline", 10 ], [ "salt", 10 ] ],
-      [ [ "edible_tallow_lard", 1, "LIST" ], [ "tallow_tainted", 1 ] ],
+      [ [ "edible_tallow", 1, "LIST" ], [ "tallow_tainted", 1 ] ],
       [ [ "cured_pelt", 6 ] ]
     ]
   },

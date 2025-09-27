@@ -1272,7 +1272,7 @@
       [ "cocoa_powder_milk", 30 ],
       [ "powder_eggs", 10 ],
       { "group": "egg_bird_unfert_carton_egg_10" },
-      [ "cooking_oil", 20 ],
+      { "group": "vegetable_oil_bottle", "prob": 20 },
       { "item": "apple", "prob": 5, "custom-flags": [ "IRRADIATED" ] },
       { "item": "banana", "prob": 5, "custom-flags": [ "IRRADIATED" ] },
       { "item": "strawberries", "prob": 5, "custom-flags": [ "IRRADIATED" ] },

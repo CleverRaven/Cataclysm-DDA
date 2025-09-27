@@ -3,6 +3,6 @@
     "id": "SUS_deep_fryer",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "cooking_oil", "container-item": "null", "count": 100 } ]
+    "entries": [ { "item": "cooking_oil", "count": 1000 } ]
   }
 ]

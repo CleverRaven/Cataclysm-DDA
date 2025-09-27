@@ -353,7 +353,7 @@
     "reversible": { "time": "5 m" },
     "using": [ [ "adhesive", 1 ], [ "tailoring_leather_small", 5 ], [ "clasps", 1 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "scrap", 1 ] ], [ [ "nail", 4 ], [ "bronze_nail", 4 ] ] ]
+    "components": [ [ [ "scrap", 1 ] ], [ [ "nails", 4, "LIST" ] ] ]
   },
   {
     "result": "back_holster",
@@ -503,7 +503,7 @@
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_leatherworking" }
     ],
-    "components": [ [ [ "2x4", 2 ] ], [ [ "nail", 8 ], [ "bronze_nail", 8 ] ] ]
+    "components": [ [ [ "2x4", 2 ] ], [ [ "nails", 8, "LIST" ] ] ]
   },
   {
     "result": "bandolier_pistol",
@@ -736,7 +736,7 @@
     "using": [ [ "tailoring_leather_small", 15 ], [ "adhesive", 1 ], [ "clasps", 1 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ],
-    "components": [ [ [ "2x4", 2 ] ], [ [ "nail", 10 ], [ "bronze_nail", 10 ] ] ]
+    "components": [ [ [ "2x4", 2 ] ], [ [ "nails", 10, "LIST" ] ] ]
   },
   {
     "result": "armrig",
@@ -1080,12 +1080,7 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
-    "components": [
-      [ [ "2x4", 3 ] ],
-      [ [ "wood_panel", 1 ] ],
-      [ [ "nail", 20 ], [ "bronze_nail", 20 ] ],
-      [ [ "rope_natural", 1, "LIST" ] ]
-    ]
+    "components": [ [ [ "2x4", 3 ] ], [ [ "wood_panel", 1 ] ], [ [ "nails", 20, "LIST" ] ], [ [ "rope_natural", 1, "LIST" ] ] ]
   },
   {
     "result": "leather_belt",
@@ -1635,7 +1630,7 @@
       { "proficiency": "prof_leatherworking" }
     ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "2x4", 2 ] ], [ [ "nail", 5 ], [ "bronze_nail", 5 ] ] ]
+    "components": [ [ [ "2x4", 2 ] ], [ [ "nails", 5, "LIST" ] ] ]
   },
   {
     "result": "nylon_scabbard",
@@ -1651,7 +1646,7 @@
     "using": [ [ "tailoring_nylon_patchwork", 10 ], [ "clasps", 1 ], [ "adhesive", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" } ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "2x4", 2 ] ], [ [ "nail", 5 ], [ "bronze_nail", 5 ] ] ]
+    "components": [ [ [ "2x4", 2 ] ], [ [ "nails", 5, "LIST" ] ] ]
   },
   {
     "result": "leg_sheath6",

@@ -603,7 +603,6 @@
       { "item": "water_clean", "prob": 90, "charges": [ 1, -1 ], "container-item": "bottle_plastic", "sealed": false },
       { "item": "cooking_oil", "prob": 100, "count": 4, "charges": [ 10, -1 ] },
       { "item": "chem_washing_soda", "prob": 100, "charges": [ 1, 20 ] },
-      { "item": "cooking_oil2", "prob": 100, "count": 4, "charges": [ 10, -1 ] },
       { "item": "lamp_oil", "prob": 100, "count": 4, "charges": [ 10, -1 ] }
     ]
   },

@@ -538,11 +538,31 @@
       {
         "u_teleport": { "u_val": "tele_test" },
         "dimension_prefix": { "u_val": "destination_dimension" },
+        "npc_radius": 5,
         "fail_message": "your body doesn't move",
         "success_message": "This place feels different."
       },
       { "u_message": { "u_val": "destination_dimension" } },
       { "if": { "current_dimension": "" }, "then": { "u_message": "home sweet home" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_dimension_clear_test",
+    "//": "clears out a dimension in '/dimensions' folder",
+    "global": true,
+    "effect": [
+      {
+        "set_string_var": "",
+        "string_input": {
+          "title": { "str": "clear the dimension named:" },
+          "description": { "str": "the main dimension can't be cleared." },
+          "width": 30
+        },
+        "target_var": { "u_val": "target_dimension" }
+      },
+      { "clear_dimension": { "u_val": "target_dimension" } },
+      { "u_message": "if dimension with ID <u_val:target_dimension> existed, it doesn't anymore." }
     ]
   }
 ]
