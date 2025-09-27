@@ -954,38 +954,34 @@ TEST_CASE( "monster_cant_enter_reality_bubble_because_wall", "[monster][hordes]"
     REQUIRE( g->num_creatures() == 1 );
 }
 
-static void clear_path( const tripoint_abs_omt &start, const tripoint_abs_omt &end )
+// The idea here is we wipe all the map data and place the player at world origin so that
+// when we flatten the overmap area we will be using we don't have pre-existing mapgen outputs.
+// EG the failure that led to this was the monster being placed in a lake,
+// which prevented it from spawning since the target map space was "deep_water".
+static void clear_area( const tripoint_abs_omt &start, const tripoint_abs_omt &end )
 {
     // This has the side effect of placing the player at abs 0,0
     clear_overmaps();
-    for( const tripoint_abs_omt &to_flatten : line_to( start, end ) ) {
+    for( const tripoint_abs_omt &to_flatten : tripoint_range<tripoint_abs_omt>( start, end ) ) {
         overmap_buffer.ter_set( to_flatten, oter_field );
     }
 }
 
-static void walk_toward_monster_off_the_map( point offset,
+static void walk_toward_monster_off_the_map( tripoint_abs_omt origin, point offset,
         point walk_direction, mtype_id id = mon_test_zombie )
 {
     calendar::turn = calendar::start_of_game;
-    // The idea here is we wipe all the map data and place the player at world origin so that
-    // when we flatten the overmap area we will be using we don't have pre-existing mapgen outputs.
-    // EG the failure that led to this was the monster being placed in a lake,
-    // which prevented it from spawning since the target map space was "deep_water".
-    tripoint_abs_ms player_pos{ 1000, 1000, 0 };
-    CAPTURE( player_pos );
-    tripoint_abs_ms monster_pos = player_pos + walk_direction * 144 + offset;
+    tripoint_abs_ms monster_pos = project_to<coords::ms>( origin ) + walk_direction * 144 + offset;
     CAPTURE( monster_pos );
-
-    clear_path( project_to<coords::omt>( player_pos ), project_to<coords::omt>( monster_pos ) );
 
     map &here = get_map();
     Character &test_player = get_player_character();
 
+    // Anywhere in the target omt is fine.
+    g->place_player_overmap( origin );
+
     // Verify we don't try to spawn the monster on a "tainted" area of the map.
     REQUIRE( !here.inbounds( monster_pos ) );
-
-    // Anywhere in the target omt is fine.
-    g->place_player_overmap( project_to<coords::omt>( player_pos ) );
     // Place monster in overmap::monster_map off the edge of the reality bubble.
     REQUIRE( nullptr == overmap_buffer.entity_at( monster_pos ) );
     REQUIRE( overmap_buffer.passable( monster_pos ) );
@@ -1034,26 +1030,85 @@ static void walk_toward_monster_off_the_map( point offset,
     CHECK( nullptr == overmap_buffer.entity_at( monster_pos ) );
 }
 
+static void dormant_monsters_spawn_correctly( const tripoint_abs_omt &origin )
+{
+    walk_toward_monster_off_the_map( origin, point(), point::east, pseudo_dormant_mon_zombie_fat );
+
+    uint64_t num_creatures_prev = g->num_creatures();
+    // From here we know there is a monster at the expected location that has the right ID.
+    // We also know it's the only monster on the map.
+
+    map &here = get_map();
+    // Verify it places the special dormant monster trap and corpse
+    creature_tracker &creatures = get_creature_tracker();
+    tripoint_bub_ms monster_location;
+    for( const shared_ptr_fast<monster> &creature : creatures.get_monsters_list() ) {
+        // We've asserted that there is only one already, so this should be it.
+        CHECK( creature->type->id == pseudo_dormant_mon_zombie_fat );
+        monster_location = here.get_bub( creature->pos_abs() );
+        while( !creature->is_dead() ) {
+            creature->set_moves( 1 );
+            // Need process_turn to drop the special attack cooldown.
+            creature->process_turn();
+            creature->move();
+        }
+    }
+    g->cleanup_dead();
+
+    CAPTURE( here.ter( monster_location ) );
+    CAPTURE( here.furn( monster_location ) );
+    CAPTURE( here.tr_at( monster_location ) );
+    CAPTURE( here.move_cost( monster_location ) );
+
+    CHECK( here.tr_at( monster_location ) == trap_id( "tr_dormant_corpse" ) );
+    bool found_corpse = false;
+    for( item &itm : here.i_at( monster_location ) ) {
+        // Can be multiples, but just need one corpse.
+        if( itm.is_corpse() ) {
+            found_corpse = true;
+            break;
+        }
+    }
+    CHECK( found_corpse );
+    // The monster count should have dropped by one since it destroyed itself.
+    // This handles NPCs being present at random.
+    CHECK( g->num_creatures() == num_creatures_prev - 1UL );
+}
+
 TEST_CASE( "monsters_appear_on_map_as_expected", "[monster][map][hordes]" )
 {
+    tripoint_abs_omt origin{ 90, 90, 0 };
+    // This clear_area call is very expensive, so just do it once for all the related
+    // tests and space them out far enough apart to avoid interfering with each other.
+    clear_area( origin + point::north_west * 18, origin + point::south_east * 18 );
     // The goal of the variations here is to catch edge cases concerning direction of movement or
     // which quadrant of an OMT the monster is on.
-    walk_toward_monster_off_the_map( point( 6, 6 ), point::east );
-    walk_toward_monster_off_the_map( point( 18, 6 ), point::east );
-    walk_toward_monster_off_the_map( point( 6, 18 ), point::east );
-    walk_toward_monster_off_the_map( point( 18, 18 ), point::east );
-    walk_toward_monster_off_the_map( point( 6, 6 ), point::west );
-    walk_toward_monster_off_the_map( point( 18, 6 ), point::west );
-    walk_toward_monster_off_the_map( point( 6, 18 ), point::west );
-    walk_toward_monster_off_the_map( point( 18, 18 ), point::west );
-    walk_toward_monster_off_the_map( point( 6, 6 ), point::north );
-    walk_toward_monster_off_the_map( point( 18, 6 ), point::north );
-    walk_toward_monster_off_the_map( point( 6, 18 ), point::north );
-    walk_toward_monster_off_the_map( point( 18, 18 ), point::north );
-    walk_toward_monster_off_the_map( point( 6, 6 ), point::south );
-    walk_toward_monster_off_the_map( point( 18, 6 ), point::south );
-    walk_toward_monster_off_the_map( point( 6, 18 ), point::south );
-    walk_toward_monster_off_the_map( point( 18, 18 ), point::south );
+    tripoint_abs_omt origin_nw = origin + point::north_west * 9;
+    walk_toward_monster_off_the_map( origin_nw, point( 6, 6 ), point::east );
+    walk_toward_monster_off_the_map( origin_nw, point( 6, 6 ), point::west );
+    walk_toward_monster_off_the_map( origin_nw, point( 6, 6 ), point::north );
+    walk_toward_monster_off_the_map( origin_nw, point( 6, 6 ), point::south );
+
+    tripoint_abs_omt origin_ne = origin + point::north_east * 9;
+    walk_toward_monster_off_the_map( origin_ne, point( 18, 6 ), point::east );
+    walk_toward_monster_off_the_map( origin_ne, point( 18, 6 ), point::west );
+    walk_toward_monster_off_the_map( origin_ne, point( 18, 6 ), point::north );
+    walk_toward_monster_off_the_map( origin_ne, point( 18, 6 ), point::south );
+
+    tripoint_abs_omt origin_sw = origin + point::south_west * 9;
+    walk_toward_monster_off_the_map( origin_sw, point( 6, 18 ), point::east );
+    walk_toward_monster_off_the_map( origin_sw, point( 6, 18 ), point::west );
+    walk_toward_monster_off_the_map( origin_sw, point( 6, 18 ), point::north );
+    walk_toward_monster_off_the_map( origin_sw, point( 6, 18 ), point::south );
+
+    tripoint_abs_omt origin_se = origin + point::south_east * 9;
+    walk_toward_monster_off_the_map( origin_se, point( 18, 18 ), point::east );
+    walk_toward_monster_off_the_map( origin_se, point( 18, 18 ), point::west );
+    walk_toward_monster_off_the_map( origin_se, point( 18, 18 ), point::north );
+    walk_toward_monster_off_the_map( origin_se, point( 18, 18 ), point::south );
+
+    // Also because of the clearing overhead, sneak this similar test in.
+    dormant_monsters_spawn_correctly( origin );
 }
 
 TEST_CASE( "obstacles_placed_on_map_are_present_in_overmap", "[map][hordes]" )
@@ -1159,49 +1214,4 @@ TEST_CASE( "dormant_zombie_places_corpse_and_trap", "[monster][map]" )
     CHECK( found_corpse );
     // The monster count should have dropped by one since it destroyed itself.
     CHECK( g->num_creatures() == 1 );
-}
-
-TEST_CASE( "dormant_zombies_spawn_correctly", "[hordes][monster][map]" )
-{
-    walk_toward_monster_off_the_map( point(), point::east, pseudo_dormant_mon_zombie_fat );
-
-    uint64_t num_creatures_prev = g->num_creatures();
-    // From here we know there is a monster at the expected location that has the right ID.
-    // We also know it's the only monster on the map.
-
-    map &here = get_map();
-    // Verify it places the special dormant monster trap and corpse
-    creature_tracker &creatures = get_creature_tracker();
-    tripoint_bub_ms monster_location;
-    for( const shared_ptr_fast<monster> &creature : creatures.get_monsters_list() ) {
-        // We've asserted that there is only one already, so this should be it.
-        CHECK( creature->type->id == pseudo_dormant_mon_zombie_fat );
-        monster_location = here.get_bub( creature->pos_abs() );
-        while( !creature->is_dead() ) {
-            creature->set_moves( 1 );
-            // Need process_turn to drop the special attack cooldown.
-            creature->process_turn();
-            creature->move();
-        }
-    }
-    g->cleanup_dead();
-
-    CAPTURE( here.ter( monster_location ) );
-    CAPTURE( here.furn( monster_location ) );
-    CAPTURE( here.tr_at( monster_location ) );
-    CAPTURE( here.move_cost( monster_location ) );
-
-    CHECK( here.tr_at( monster_location ) == trap_id( "tr_dormant_corpse" ) );
-    bool found_corpse = false;
-    for( item &itm : here.i_at( monster_location ) ) {
-        // Can be multiples, but just need one corpse.
-        if( itm.is_corpse() ) {
-            found_corpse = true;
-            break;
-        }
-    }
-    CHECK( found_corpse );
-    // The monster count should have dropped by one since it destroyed itself.
-    // This handles NPCs being present at random.
-    CHECK( g->num_creatures() == num_creatures_prev - 1UL );
 }
