@@ -12,9 +12,14 @@
 
 set -ue
 
-if ! which singledelta &>/dev/null
+DELTA=singledelta
+if !which $DELTA &> /dev/null && which delta &> /dev/null
 then
-    echo "singledelta not found.  Please install it to use this script" >&2
+    DELTA=delta
+fi
+if ! which $DELTA &> /dev/null
+then
+    echo "delta/singledelta not found.  Please install it to use this script" >&2
     exit 1
 fi
 
@@ -60,6 +65,6 @@ export REDUCE_TESTS_TEST_EXE=$test_exe
 # We have to add braces around the lines to avoid topformflat messing up the file.
 # The braces are removed again inside our helper script.
 "$test_exe" --list-test-names-only '~[.]' | grep '[^ ]' | sed 's/.*/{&}/' > list_of_tests || true
-singledelta -in_place -test=tools/reduce_tests_helper.sh list_of_tests
+$DELTA -in_place -test=tools/reduce_tests_helper.sh list_of_tests
 
 # vim:tw=0
