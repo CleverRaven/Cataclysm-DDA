@@ -1125,9 +1125,9 @@ bodypart_id Character::body_window( const std::string &menu_header,
         parts.push_back( { false, part, part->name.translated(), normal_bonus } );
     }
 
-    int max_bp_name_len = 0;
+    float max_bp_name_len = 0;
     for( const healable_bp &e : parts ) {
-        max_bp_name_len = std::max( max_bp_name_len, utf8_width( e.name ) );
+        max_bp_name_len = std::max( max_bp_name_len, ImGui::CalcTextSize( e.name.c_str() ).x );
     }
 
     uilist bmenu;
@@ -1194,7 +1194,10 @@ bodypart_id Character::body_window( const std::string &menu_header,
         }
         int new_d_power = static_cast<int>( std::floor( disinfectant_power ) );
 
-        const auto &aligned_name = std::string( max_bp_name_len - utf8_width( e.name ), ' ' ) + e.name;
+        const float width_to_fill = max_bp_name_len - ImGui::CalcTextSize( e.name.c_str() ).x;
+        const int num_padding_spaces = std::ceil( width_to_fill / ImGui::CalcTextSize( " " ).x );
+
+        const auto &aligned_name = std::string( num_padding_spaces, ' ' ) + e.name;
         std::string hp_str;
         if( limb_is_mending ) {
             desc += colorize( _( "It is broken, but has been set, and just needs time to heal." ),
