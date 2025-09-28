@@ -631,6 +631,7 @@
     "name": "Bionic Pseudovamp",
     "description": "You've long had an obsession with horror novels, and used your wealth to augment yourself with spells and bionics into a denizen of the night.  Your neglect to your health in your pursuit has left you pale and unlively.",
     "points": 8,
+    "traits": [ "CBM_Interface" ],
     "spells": [
       { "id": "recover_mana", "level": 2 },
       { "id": "necrotic_gaze", "level": 2 },
