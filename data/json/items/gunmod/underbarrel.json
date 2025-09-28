@@ -633,7 +633,7 @@
     "symbol": ":",
     "color": "brown",
     "location": "underbarrel",
-    "mod_targets": [ "shotgun", "smg", "rifle", "crossbow", "launcher" ],
+    "mod_targets": [ "pistol", "shotgun", "smg", "rifle", "crossbow", "launcher" ],
     "min_skills": [ [ "weapon", 1 ] ],
     "charges_per_use": 1,
     "is_visible_when_installed": true,
