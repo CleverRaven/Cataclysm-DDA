@@ -786,18 +786,13 @@ void monster::plan()
  * differing distance metrics.
  * It works by scaling the cost to take a step by
  * how much that step reduces the distance to your goal.
- * Since it incorporates the current distance metric,
- * it also scales for diagonal vs orthogonal movement.
  **/
 static float get_stagger_adjust( const tripoint_bub_ms &source, const tripoint_bub_ms &destination,
                                  const tripoint_bub_ms &next_step )
 {
-    // TODO: push this down into rl_dist
-    const float initial_dist =
-        trigdist ? trig_dist( source, destination ) : rl_dist( source, destination );
-    const float new_dist =
-        trigdist ? trig_dist( next_step, destination ) : rl_dist( next_step, destination );
-    // If we return 0, it wil cancel the action.
+    const float initial_dist = rl_dist( source, destination );
+    const float new_dist = rl_dist( next_step, destination );
+    // If we return 0, it will cancel the action.
     return std::max( 0.01f, initial_dist - new_dist );
 }
 
@@ -1227,7 +1222,7 @@ void monster::move()
             }
 
             // Try to shove vehicle out of the way
-            shove_vehicle( destination, tripoint_bub_ms( candidate ) );
+            shove_vehicle( destination, candidate );
             // Bail out if we can't move there and we can't bash.
             if( !pathed && !can_move_to( candidate ) ) {
                 if( !can_bash || has_flag( json_flag_CANNOT_ATTACK ) ) {
@@ -2319,15 +2314,15 @@ void monster::stumble()
     for( const tripoint_bub_ms &dest : here.points_in_radius( pos_bub(), 1 ) ) {
         if( dest != pos_bub() ) {
             if( here.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, dest ) ) {
-                valid_stumbles.emplace_back( dest + tripoint::below );
+                valid_stumbles.emplace_back( dest + tripoint_rel_ms::below );
             } else  if( here.has_flag( ter_furn_flag::TFLAG_RAMP_UP, dest ) ) {
-                valid_stumbles.emplace_back( dest + tripoint::above );
+                valid_stumbles.emplace_back( dest + tripoint_rel_ms::above );
             } else {
                 valid_stumbles.push_back( dest );
             }
         }
     }
-    const tripoint_bub_ms below( pos_bub() + tripoint::below );
+    const tripoint_bub_ms below( pos_bub() + tripoint_rel_ms::below );
     if( here.valid_move( pos_bub(), below, false, true ) ) {
         valid_stumbles.push_back( below );
     }
