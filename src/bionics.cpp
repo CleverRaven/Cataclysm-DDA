@@ -2277,7 +2277,11 @@ bool Character::uninstall_bionic( const bionic &bio, monster &installer, Charact
 }
 
 ret_val<void> Character::is_installable( const item *it, const bool by_autodoc ) const
-{
+{static const trait_id trait_NO_CBM_INSTALLATION( "NO_CBM_INSTALLATION" );
+if( has_trait( trait_NO_CBM_INSTALLATION ) ) {
+    return ret_val<void>::make_failure( _( "Your body rejects all CBM implants." ) );
+}
+
     const itype *itemtype = it->type;
     const bionic_id &bid = itemtype->bionic->id;
 
