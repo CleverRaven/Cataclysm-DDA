@@ -108,7 +108,11 @@
           "stream_end",
           "survivor_forest_camp",
           "ws_giant_sinkhole_1",
-          "ws_survivor_bunker_f0"
+          "ws_survivor_bunker_f0",
+          "mystic_glade_nw",
+          "mystic_glade_ne",
+          "mystic_glade_sw",
+          "mystic_glade_se"
         ]
       }
     }
