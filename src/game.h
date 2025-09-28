@@ -693,7 +693,9 @@ class game
         /** Checks whether or not there is a zone of particular type nearby */
         bool check_near_zone( const zone_type_id &type, const tripoint_bub_ms &where ) const;
         bool is_zones_manager_open() const;
-        void zones_manager();
+        void set_zones_manager_open( bool zm_open ) {
+            zones_manager_open = zm_open;
+        };
 
         /// @brief attempt to find a safe route (avoids tiles dangerous to '@ref who').
         /// @param who character to use for evaluating danger tiles and pathfinding start position

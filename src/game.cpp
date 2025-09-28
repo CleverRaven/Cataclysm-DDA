@@ -7295,7 +7295,8 @@ look_around_result game::look_around(
     std::optional<tripoint_bub_ms> zone_end;
     bool zone_blink = false;
     bool zone_cursor = true;
-    shared_ptr_fast<draw_callback_t> zone_cb = create_zone_callback( zone_start, zone_end, zone_blink,
+    shared_ptr_fast<draw_callback_t> zone_cb = zone_manager_ui::create_zone_callback( zone_start,
+            zone_end, zone_blink,
             zone_cursor, is_moving_zone );
     add_draw_callback( zone_cb );
 

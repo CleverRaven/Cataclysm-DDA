@@ -494,7 +494,7 @@ void vehicle::autopilot_patrol_check( map &here )
     if( mgr.has_near( zone_type_VEHICLE_PATROL, pos_abs(), MAX_VIEW_DISTANCE ) ) {
         enable_patrol( here );
     } else {
-        g->zones_manager();
+        zone_manager_ui::display_zone_manager();
     }
 }
 

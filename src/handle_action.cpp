@@ -2612,7 +2612,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_ZONES:
-            zones_manager();
+            zone_manager_ui::display_zone_manager();
             break;
 
         case ACTION_LOOT:

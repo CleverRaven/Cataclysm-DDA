@@ -1,20 +1,28 @@
-#include "clzones.h"
+#include "clzones.h" // IWYU pragma: associated
+
+#include <algorithm>
 
 #include "avatar.h"
-#include "cursesport.h"
-#include "map.h"
-#include "panels.h"
-#include <ui_manager.h>
-#include <output.h>
-#include <cursesdef.h>
-#include "input_context.h"
-#include <game.h>
-#include "popup.h"
-#include <cached_options.h>
+#include "cata_scope_helpers.h"
 #include "character.h"
-#include <string_input_popup.h>
-#include <uilist.h>
+#include "color.h"
+#include "cursesdef.h"
+#include "debug.h"
 #include "faction.h"
+#include "game.h"
+#include "line.h"
+#include "input_context.h"
+#include "map.h"
+#include "options.h"
+#include "output.h"
+#include "overmap_ui.h"
+#include "panels.h"
+#include "popup.h"
+#include "string_formatter.h"
+#include "string_input_popup.h"
+#include "translations.h"
+#include "uilist.h"
+#include "ui_manager.h"
 
 static const zone_type_id zone_type_LOOT_CUSTOM( "LOOT_CUSTOM" );
 
@@ -23,7 +31,7 @@ shared_ptr_fast<game::draw_callback_t> zone_manager_ui::create_zone_callback(
     const std::optional<tripoint_bub_ms> &zone_end,
     const bool &zone_blink,
     const bool &zone_cursor,
-    const bool &is_moving_zone = false
+    const bool &is_moving_zone
 )
 {
     map &here = get_map();
@@ -149,6 +157,7 @@ void zone_manager_ui::zones_manager_draw_borders( const catacurses::window &w_bo
 void zone_manager_ui::display_zone_manager()
 {
     map &here = get_map();
+    avatar &u = get_avatar();
 
     const tripoint_bub_ms pos = u.pos_bub();
 
@@ -300,9 +309,9 @@ void zone_manager_ui::display_zone_manager()
     std::optional<tripoint_bub_ms> zone_end;
     bool zone_blink = false;
     bool zone_cursor = false;
-    shared_ptr_fast<draw_callback_t> zone_cb = create_zone_callback(
+    shared_ptr_fast<game::draw_callback_t> zone_cb = create_zone_callback(
                 zone_start, zone_end, zone_blink, zone_cursor );
-    add_draw_callback( zone_cb );
+    g->add_draw_callback( zone_cb );
 
     // This lambda returns either absolute coordinates or relative-to-player
     // coordinates, depending on whether personal is false or true respectively.
@@ -329,12 +338,12 @@ void zone_manager_ui::display_zone_manager()
         tripoint_bub_ms center = pos + u.view_offset;
 
         const look_around_result first =
-        look_around( /*show_window=*/false, center, center, false, true, false );
+        g->look_around( /*show_window=*/false, center, center, false, true, false );
         if( first.position )
         {
             popup.message( "%s", _( "Select second point." ) );
 
-            const look_around_result second = look_around( /*show_window=*/false, center, *first.position,
+            const look_around_result second = g->look_around( /*show_window=*/false, center, *first.position,
                     true, true, false );
             if( second.position ) {
                 tripoint_abs_ms first_abs =
@@ -378,12 +387,12 @@ void zone_manager_ui::display_zone_manager()
         tripoint_bub_ms center = pos + u.view_offset;
 
         const look_around_result first =
-        look_around( /*show_window=*/false, center, center, false, true, false );
+        g->look_around( /*show_window=*/false, center, center, false, true, false );
         if( first.position )
         {
             popup.message( "%s", _( "Select second point." ) );
 
-            const look_around_result second = look_around( /*show_window=*/false, center, *first.position,
+            const look_around_result second = g->look_around( /*show_window=*/false, center, *first.position,
                     true, true, false );
             if( second.position ) {
                 tripoint_rel_ms first_rel(
@@ -468,7 +477,7 @@ void zone_manager_ui::display_zone_manager()
     const int scroll_rate = zone_cnt > 20 ? 10 : 3;
     bool quit = false;
     bool save = false;
-    zones_manager_open = true;
+    g->set_zones_manager_open( true );
     zone_manager::get_manager().save_zones( "zmgr-temp" );
     while( !quit ) {
         if( zone_cnt > 0 ) {
@@ -487,7 +496,7 @@ void zone_manager_ui::display_zone_manager()
         // call to `ui_manager::redraw`.
         //NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
         zone_blink = blink;
-        invalidate_main_ui_adaptor();
+        g->invalidate_main_ui_adaptor();
 
         ui_manager::redraw();
 
@@ -716,7 +725,7 @@ void zone_manager_ui::display_zone_manager()
                         // local position of the zone center, used to calculate the u.view_offset,
                         // could center the screen to the position it represents
                         tripoint_bub_ms view_center = here.get_bub( zone.get_center_point() );
-                        const look_around_result result_local = look_around( false, view_center,
+                        const look_around_result result_local = g->look_around( false, view_center,
                                                                 zone_local_start_point, false, false,
                                                                 false, true, zone_local_end_point );
                         if( result_local.position ) {
@@ -814,7 +823,7 @@ void zone_manager_ui::display_zone_manager()
             }
         }
     }
-    zones_manager_open = false;
+    g->set_zones_manager_open( false );
     ctxt.reset_timeout();
     zone_cb = nullptr;
 
