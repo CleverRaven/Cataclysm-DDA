@@ -15754,6 +15754,8 @@
         { "id": "wizardtower1_roof", "fg": 9927 },
         { "id": "wizardtower2_roof", "fg": 9929 },
         { "id": "overmap_horde_10", "fg": 10014 },
+        { "id": "overmap_horde_1", "fg": 10015 },
+        { "id": "overmap_horde_2", "fg": 10015 },
         { "id": "overmap_horde_3", "fg": 10015 },
         { "id": "overmap_horde_4", "fg": 10016 },
         { "id": "overmap_horde_5", "fg": 10017 },
