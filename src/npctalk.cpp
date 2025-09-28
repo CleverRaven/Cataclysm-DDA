@@ -7697,7 +7697,8 @@ talk_effect_fun_t::func f_travel_to_dimension( const JsonObject &jo, std::string
         Creature *teleporter = d.actor( false )->get_creature();
         if( teleporter ) {
             std::string prefix = dimension_prefix.evaluate( d );
-            if( !prefix.empty() && prefix != g->get_dimension_prefix() ) {
+            std::string temp_dimension_prefix = ( prefix == "default" ) ? "" : prefix;
+            if( temp_dimension_prefix != g->get_dimension_prefix() ) {
                 std::vector<npc *> travellers;
                 std::string filter = npc_travel_filter.evaluate( d );
                 int radius = npc_travel_radius.evaluate( d );
