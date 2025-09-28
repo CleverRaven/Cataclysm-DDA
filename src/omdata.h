@@ -54,6 +54,7 @@ class overmap;
 class overmap_connection;
 class overmap_special_batch;
 enum class om_vision_level : int8_t;
+struct map_data_summary;
 struct mapgen_arguments;
 struct oter_t;
 
@@ -410,6 +411,7 @@ struct oter_type_t {
         nc_color color = c_black;
     public:
         overmap_land_use_code_id land_use_code = overmap_land_use_code_id::NULL_ID();
+        string_id<map_data_summary> default_map_data;
         std::vector<std::string> looks_like;
         enum class see_costs : uint8_t {
             all_clear, // no vertical or horizontal obstacles
