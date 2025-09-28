@@ -2339,9 +2339,6 @@ bool Character::can_install_bionics( const itype &type, Character &installer, bo
         return false;
     }
     if( has_trait( trait_NO_CBM_INSTALLATION ) ) {
-        if( is_avatar() ) {
-            add_msg( m_info, _( "Your body rejects all CBM implants." ) );
-        }
         return false;
     }
 
