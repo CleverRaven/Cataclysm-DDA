@@ -552,13 +552,6 @@ static void bionic_install_common( npc &p, Character &patron, Character &patient
         bionic.remove_item();
         patient.install_bionics( it, p, false, 20 );
     }
-    if( patient.has_trait( trait_NO_CBM_INSTALLATION ) ) {
-    if( patient.is_avatar() ) {
-        add_msg( m_info, _( "Your body rejects all CBM implants." ) );
-    }
-    return false;
-}
-
 }
 
 void talk_function::bionic_install( npc &p )
