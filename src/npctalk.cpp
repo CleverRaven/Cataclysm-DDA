@@ -7647,8 +7647,43 @@ talk_effect_fun_t::func f_teleport( const JsonObject &jo, std::string_view membe
     bool force = jo.get_bool( "force", false );
     bool force_safe = jo.get_bool( "force_safe", false );
 
-    str_or_var dimension_prefix;
-    optional( jo, false, "dimension_prefix", dimension_prefix, g->get_dimension_prefix() );
+    return [is_npc, target_var, fail_message, success_message, force,
+            force_safe]( dialogue const & d ) {
+        tripoint_abs_ms target_pos = read_var_value( target_var, d ).tripoint();
+        Creature *teleporter = d.actor( is_npc )->get_creature();
+        if( teleporter ) {
+            if( teleport::teleport_to_point( *teleporter, get_map().get_bub( target_pos ), true, false,
+                                             false, force, force_safe ) ) {
+                teleporter->add_msg_if_player( success_message.evaluate( d ) );
+            } else {
+                teleporter->add_msg_if_player( fail_message.evaluate( d ) );
+            }
+        }
+        item_location *it = d.actor( is_npc )->get_item();
+        if( it && it->get_item() ) {
+            map_add_item( *it->get_item(), target_pos );
+            add_msg( success_message.evaluate( d ) );
+            it->remove_item();
+        }
+        vehicle *veh = d.actor( is_npc )->get_vehicle();
+        if( veh ) {
+            if( teleport::teleport_vehicle( *veh, target_pos ) ) {
+                add_msg( success_message.evaluate( d ) );
+            } else {
+                add_msg( fail_message.evaluate( d ) );
+            }
+        }
+    };
+}
+
+talk_effect_fun_t::func f_travel_to_dimension( const JsonObject &jo, std::string_view member,
+        std::string_view )
+{
+    str_or_var dimension_prefix = get_str_or_var( jo.get_member( member ), member, true );
+    translation_or_var fail_message;
+    optional( jo, false, "fail_message", fail_message );
+    translation_or_var success_message;
+    optional( jo, false, "success_message", success_message );
 
     // accepts values "all"/"follower"/"enemy"
     str_or_var npc_travel_filter;
@@ -7657,15 +7692,11 @@ talk_effect_fun_t::func f_teleport( const JsonObject &jo, std::string_view membe
     dbl_or_var npc_travel_radius;
     optional( jo, false, "npc_travel_radius", npc_travel_radius, 0 );
 
-    return [is_npc, target_var, fail_message, success_message, force,
-            force_safe, dimension_prefix, npc_travel_filter, npc_travel_radius]( dialogue const & d ) {
-        tripoint_abs_ms target_pos = read_var_value( target_var, d ).tripoint();
-        Creature *teleporter = d.actor( is_npc )->get_creature();
+    return [fail_message, success_message, dimension_prefix, npc_travel_filter,
+                  npc_travel_radius]( dialogue const & d ) {
+        Creature *teleporter = d.actor( false )->get_creature();
         if( teleporter ) {
             std::string prefix = dimension_prefix.evaluate( d );
-            bool successful_dimension_swap = false;
-            // Make sure we don't cause a dimension swap on every
-            // short/long range teleport outside the default dimension
             if( !prefix.empty() && prefix != g->get_dimension_prefix() ) {
                 std::vector<npc *> travellers;
                 std::string filter = npc_travel_filter.evaluate( d );
@@ -7688,27 +7719,14 @@ talk_effect_fun_t::func f_teleport( const JsonObject &jo, std::string_view membe
                         }
                     } );
                 }
-                successful_dimension_swap = g->travel_to_dimension( prefix, travellers );
-            }
-            if( teleport::teleport_to_point( *teleporter, get_map().get_bub( target_pos ), true, false,
-                                             false, force, force_safe ) || successful_dimension_swap ) {
-                teleporter->add_msg_if_player( success_message.evaluate( d ) );
+                // returns False if fail
+                if( g->travel_to_dimension( prefix, travellers ) ) {
+                    teleporter->add_msg_if_player( success_message.evaluate( d ) );
+                } else {
+                    teleporter->add_msg_if_player( fail_message.evaluate( d ) );
+                }
             } else {
                 teleporter->add_msg_if_player( fail_message.evaluate( d ) );
-            }
-        }
-        item_location *it = d.actor( is_npc )->get_item();
-        if( it && it->get_item() ) {
-            map_add_item( *it->get_item(), target_pos );
-            add_msg( success_message.evaluate( d ) );
-            it->remove_item();
-        }
-        vehicle *veh = d.actor( is_npc )->get_vehicle();
-        if( veh ) {
-            if( teleport::teleport_vehicle( *veh, target_pos ) ) {
-                add_msg( success_message.evaluate( d ) );
-            } else {
-                add_msg( fail_message.evaluate( d ) );
             }
         }
     };
@@ -7903,6 +7921,7 @@ parsers = {
     { "u_set_field", "npc_set_field", jarg::member, &talk_effect_fun::f_field },
     { "u_emit", "npc_emit", jarg::member, &talk_effect_fun::f_emit },
     { "u_teleport", "npc_teleport", jarg::object, &talk_effect_fun::f_teleport },
+    { "u_travel_to_dimension", jarg::member, &talk_effect_fun::f_travel_to_dimension},
     { "u_set_flag", "npc_set_flag", jarg::member, &talk_effect_fun::f_set_flag },
     { "u_unset_flag", "npc_unset_flag", jarg::member, &talk_effect_fun::f_unset_flag },
     { "u_set_fault", "npc_set_fault", jarg::member, &talk_effect_fun::f_set_fault },
