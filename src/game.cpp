@@ -12772,7 +12772,6 @@ bool game::travel_to_dimension( const std::string &new_prefix,
     } else {
         unload_npcs();
     }
-    save_dimension_data();
     for( monster &critter : all_monsters() ) {
         despawn_monster( critter );
     }
@@ -12780,7 +12779,7 @@ bool game::travel_to_dimension( const std::string &new_prefix,
         here.unboard_vehicle( player.pos_bub() );
     }
     // Make sure we don't mess up savedata if for some reason maps can't be saved
-    if( !save_maps() ) {
+    if( !save_maps() || !save_dimension_data() ) {
         return false;
     }
     player.save_map_memory();
