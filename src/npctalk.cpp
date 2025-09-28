@@ -7670,20 +7670,19 @@ talk_effect_fun_t::func f_teleport( const JsonObject &jo, std::string_view membe
                 std::vector<npc *> travellers;
                 std::string filter = npc_travel_filter.evaluate( d );
                 int radius = npc_travel_radius.evaluate( d );
-                if( !filter.empty() && radius > 0 ) {
-                    std::vector<npc *> travellers = g->get_npcs_if( [teleporter, filter, radius]( const npc & guy ) {
-                        const int distance_to_player = rl_dist( guy.pos_abs(), teleporter->pos_abs() );
+                if( radius > 0 ) {
+                    travellers = g->get_npcs_if( [teleporter, filter, radius]( const npc & guy ) {
+                        int distance_to_player = rl_dist( guy.pos_abs(), teleporter->pos_abs() );
                         if( distance_to_player <= radius ) {
                             if( filter == "all" ) {
                                 return true;
-                            }
-                            if( filter == "follower" ) {
+                            } else if( filter == "follower" ) {
                                 return guy.is_following();
-                            }
-                            if( filter == "enemy" ) {
+                            } else if( filter == "enemy" ) {
                                 return guy.is_enemy();
+                            } else {
+                                return false;
                             }
-                            return false;
                         } else {
                             return false;
                         }
