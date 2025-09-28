@@ -4373,23 +4373,31 @@ You teleport to `grass_place` with message `Yay!`; as `force` boolean is `true`,
 }
 ```
 
-You teleport to a dimension with the ID of `test`, at the same position you're in currently, bringing any NPC within 5 tiles of you along.
-```jsonc
-  {
-  "u_location_variable": { "u_val": "tele_test" },
-  "u_teleport": { "u_val":"tele_test" },
-  "dimension_prefix": "test",
-  "npc_radius": 5,
-  "fail_message": "your body doesn't move",
-  "success_message": "This place feels different."
-  }
-```
-
-### `u_travel_to_dimension`
+#### `u_travel_to_dimension`
 Unloads the current dimension and loads the dimension with the specific ID, optionally brings along NPCs.
 | "u_travel_to_dimension" | **mandatory** | string | Will teleport the player to a dimension with the ID. |
 | "npc_travel_radius" | optional | int or [variable object](#variable-object) | default 0; if a value above 0 is specified, the NPCs within that radius around the player will be transported with them when dimension hopping. |
 | "npc_travel_filter" | optional | string or [variable object](#variable-object) | default `all`; Acceps the following values: `all`, `follower`, `enemy`. Does nothing if `npc_travel_radius` is 0. |
+
+##### Valid talkers:
+
+| Avatar | NPC | Monster | Furniture | Item | Vehicle |
+| ------  --------- | ---- | ------- | --- | ---- |
+| ✔️ | ❌ | ❌ | ❌ | ❌ | ❌ |
+
+
+##### Examples
+
+You teleport to a dimension with the ID of `test`, at the same position you're in currently, bringing any NPC following you  within 5 tiles of you along.
+```jsonc
+  {
+  "u_travel_to_dimension": "test",
+  "npc_travel_radius": 5,
+  "npc_travel_filter": "follower",
+  "fail_message": "your body doesn't move",
+  "success_message": "This place feels different."
+  }
+```
 
 #### `u_explosion`, `npc_explosion`
 Creates an explosion at talker position or at passed coordinate
