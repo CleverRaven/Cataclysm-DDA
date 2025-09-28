@@ -2277,11 +2277,7 @@ bool Character::uninstall_bionic( const bionic &bio, monster &installer, Charact
 }
 
 ret_val<void> Character::is_installable( const item *it, const bool by_autodoc ) const
-{static const trait_id trait_NO_CBM_INSTALLATION( "NO_CBM_INSTALLATION" );
-if( has_trait( trait_NO_CBM_INSTALLATION ) ) {
-    return ret_val<void>::make_failure( _( "Your body rejects all CBM implants." ) );
-}
-
+{
     const itype *itemtype = it->type;
     const bionic_id &bid = itemtype->bionic->id;
 
@@ -2415,14 +2411,6 @@ float Character::env_surgery_bonus( int radius ) const
 bool Character::install_bionics( const itype &type, Character &installer, bool autodoc,
                                  int skill_level )
 {
-    static const trait_id trait_NO_CBM_INSTALLATION( "NO_CBM_INSTALLATION" );
-if( has_trait( trait_NO_CBM_INSTALLATION ) ) {
-    if( is_avatar() ) {
-        add_msg( m_info, _( "Your body rejects all CBM implants." ) );
-    }
-    return false;
-}
-
     if( !type.bionic ) {
         debugmsg( "Tried to install NULL bionic" );
         return false;
@@ -2483,13 +2471,6 @@ void Character::perform_install( const bionic_id &bid, bionic_uid upbio_uid, int
                                  int success, int pl_skill, const std::string &installer_name,
                                  const std::vector<trait_id> &trait_to_rem, const tripoint_bub_ms &patient_pos )
 {
-    static const trait_id trait_NO_CBM_INSTALLATION( "NO_CBM_INSTALLATION" );
-    if( has_trait( trait_NO_CBM_INSTALLATION ) ) {
-        if( is_avatar() ) {
-            add_msg( m_info, _( "Your body rejects all CBM implants." ) );
-        }
-        return;
-    }
     // if we chop off a limb, our stored kcal should decrease proportionally
     float cached_healthy_kcal = get_healthy_kcal();
 
