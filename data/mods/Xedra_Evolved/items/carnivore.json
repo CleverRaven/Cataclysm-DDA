@@ -245,6 +245,5 @@
     "name": { "str_sp": "hunter's organ" },
     "description": "Looking similar to intestines, these sparking entrails came from the Mongolian Death Worm.  This is how it brought the lightning.",
     "price_postapoc": "25 cent",
-    "delete": { "flags": [ "SMOKABLE" ] }
   }
 ]
