@@ -79,9 +79,39 @@
   },
   {
     "type": "mutation",
-    "id": "SHADE_SEVENOCLOCK_EYE",
-    "name": { "str": "Seven O'clock Eyes" },
-    "description": "Dark blue eyes glint out from the shadowy crevices of your face.",
+    "id": "SHADE_SEVENOCLOCK_EYES",
+    "name": { "str": "Eyes of the Nineteenth Hour" },
+    "points": 5,
+    "description": "You grafted the eyes of a cryptid that knew exactly the location of those who should sleep but aren't. They grant you the same power with the same conditions.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "enchantments": [
+      {
+        "special_vision": [
+          {
+            "condition": {
+              "and": [
+                {
+                  "or": [ { "math": [ "time_since('noon', 'unit':'hours') >= 7" ] }, { "math": [ "time_until('noon', 'unit':'hours') >= 7" ] } ]
+                },
+                { "not": { "npc_has_effect": "sleep" } }
+              ]
+            },
+            "distance": 50,
+            "precise": true,
+            "ignores_aiming_cone": true,
+            "descriptions": [ { "id": "sleep_sense", "text": "You sense something awake here.", "symbol": "a", "color": "yellow" } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "SHADE_SANDMAN_EYE",
+    "name": { "str": "Everdusting Eyes of a Sandman" },
+    "description": "Silver eyes glint out from the shadowy crevices of your face.",
     "types": [ "EYES" ],
     "purifiable": false,
     "mixed_effect": true,
@@ -90,8 +120,7 @@
     "ugliness": 1,
     "category": [ "GRACKEN" ],
     "threshreq": [ "THRESH_SPECIES_GRACKEN" ],
-    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "lose": "gracken_eyes" }, { "gain": "sevenoclock_eyes" } ] } ],
-    "spells_learned": [ [ "sevenoclock_gaze_spell", 1 ] ]
+    "spells_learned": [ [ "sandman_gaze_spell", 1 ] ]
   },
   {
     "type": "mutation",
@@ -102,7 +131,7 @@
     "valid": false,
     "purifiable": false,
     "player_display": false
-  }
+  },
   {
     "type": "mutation",
     "id": "NIGHTVISION",
