@@ -2471,6 +2471,14 @@ void Character::perform_install( const bionic_id &bid, bionic_uid upbio_uid, int
                                  int success, int pl_skill, const std::string &installer_name,
                                  const std::vector<trait_id> &trait_to_rem, const tripoint_bub_ms &patient_pos )
 {
+    
+    static const trait_id trait_NO_CBM_INSTALLATION( "NO_CBM_INSTALLATION" );
+    if( has_trait( trait_NO_CBM_INSTALLATION ) ) {
+        if( is_avatar() ) {
+            add_msg( m_info, _( "Your body rejects all CBM implants." ) );
+        }
+        return;
+    }
     // if we chop off a limb, our stored kcal should decrease proportionally
     float cached_healthy_kcal = get_healthy_kcal();
 
