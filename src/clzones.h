@@ -667,6 +667,23 @@ class zone_manager
         void deserialize( const JsonValue &jv );
 };
 
+class zone_manager_ui
+{
+        static void display_zone_manager();
+        static void zones_manager_draw_borders( const catacurses::window &w_border,
+                                                const catacurses::window &w_info_border,
+                                                const int iInfoHeight, const int width );
+        static void zones_manager_shortcuts( const catacurses::window &w_info, faction_id const &faction,
+                                             bool show_all_zones, const input_context &ctxt, const int width );
+        static shared_ptr_fast<game::draw_callback_t> create_zone_callback(
+            const std::optional<tripoint_bub_ms> &zone_start,
+            const std::optional<tripoint_bub_ms> &zone_end,
+            const bool &zone_blink,
+            const bool &zone_cursor,
+            const bool &is_moving_zone = false
+        );
+}
+
 void mapgen_place_zone( tripoint_abs_ms const &start, tripoint_abs_ms const &end,
                         zone_type_id const &type,
                         faction_id const &fac = your_fac, std::string const &name = {},
