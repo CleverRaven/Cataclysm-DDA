@@ -10714,7 +10714,8 @@
     "description": "While it doesn't cause you any problems in daily life, your immune system and body chemistry are overly sensitive to foreign implants.  You cannot have any CBMs installed.",
     "player_display": true,
     "points": -8,
-    "starting_trait": true
+    "starting_trait": true,
+    "cancels": [ "CBM_Interface" ]
   },
   {
     "type": "mutation",
