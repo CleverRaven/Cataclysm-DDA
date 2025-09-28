@@ -5,6 +5,7 @@
 #include <cmath>
 #include <cstdlib>
 #include <functional>
+#include <initializer_list>
 #include <iterator>
 #include <memory>
 #include <ostream>
@@ -263,7 +264,7 @@ npc::npc()
     patience = 0;
     attitude = NPCATT_NULL;
 
-    *path_settings = pathfinding_settings( 0, 1000, 1000, 10, true, true, true, true, false, true,
+    *path_settings = pathfinding_settings( {}, 1000, 1000, 10, true, true, true, true, false, true,
                                            get_size() );
     for( direction threat_dir : npc_threat_dir ) {
         ai_cache.threat_map[ threat_dir ] = 0.0f;
@@ -2659,11 +2660,11 @@ void npc::npc_dismount()
     mod_moves( -get_speed() );
 }
 
-int npc::smash_ability() const
+std::map<damage_type_id, int> npc::smash_ability() const
 {
     if( is_hallucination() || ( is_player_ally() && !rules.has_flag( ally_rule::allow_bash ) ) ) {
         // Not allowed to bash
-        return 0;
+        return {};
     }
 
     return Character::smash_ability();
@@ -3460,9 +3461,9 @@ const pathfinding_settings &npc::get_pathfinding_settings() const
 
 const pathfinding_settings &npc::get_pathfinding_settings( bool no_bashing ) const
 {
-    path_settings->bash_strength = no_bashing ? 0 : smash_ability();
+    path_settings->bash_strength = !no_bashing ? smash_ability() : std::map<damage_type_id, int>();
     if( has_trait( trait_NO_BASH ) ) {
-        path_settings->bash_strength = 0;
+        path_settings->bash_strength = {};
     }
     // TODO: Extract climb skill
     const int climb = std::min( 20, get_dex() );
