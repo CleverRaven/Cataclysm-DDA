@@ -2415,6 +2415,14 @@ float Character::env_surgery_bonus( int radius ) const
 bool Character::install_bionics( const itype &type, Character &installer, bool autodoc,
                                  int skill_level )
 {
+    static const trait_id trait_NO_CBM_INSTALLATION( "NO_CBM_INSTALLATION" );
+if( has_trait( trait_NO_CBM_INSTALLATION ) ) {
+    if( is_avatar() ) {
+        add_msg( m_info, _( "Your body rejects all CBM implants." ) );
+    }
+    return false;
+}
+
     if( !type.bionic ) {
         debugmsg( "Tried to install NULL bionic" );
         return false;
