@@ -10,5 +10,6 @@
     "purifiable": false,
     "types": [ "Cybernetic" ],
     "anger_relations": [ [ "CYBORG", 95 ] ]
+    "cancels": [ "NO_CBM_INSTALLATION" ]
   }
 ]
