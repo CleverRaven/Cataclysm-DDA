@@ -332,7 +332,7 @@ class game
         /**
          * Moves the player to an alternate dimension.
          * @param prefix identifies the dimension and its properties.
-         * @param npc_travel_condition conditions that permit NPCs to travel with player to other dimensions
+         * @param npc_travellers vector of NPCs that should be brought along when travelling to another dimension
          */
         bool travel_to_dimension( const std::string &prefix,
                                   const std::vector<npc *> &npc_travellers );
