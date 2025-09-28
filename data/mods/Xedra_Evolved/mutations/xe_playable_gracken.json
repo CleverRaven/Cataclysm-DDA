@@ -424,7 +424,7 @@
     "purifiable": false,
     "valid": false,
     "types": [ "EMISSIONS" ],
-    "description": "You've managed to bring down a creature with strong powers of electricity.  You have gained some measure of it's powers.",
+    "description": "You've managed to bring down a creature with strong powers of electricity.  You have gained some measure of its powers.",
     "enchantments": [
       { "incoming_damage_mod": [ { "type": "electric", "multiply": -0.4 } ] },
       {
@@ -450,7 +450,7 @@
     "purifiable": false,
     "valid": false,
     "types": [ "EMISSIONS" ],
-    "description": "You've managed to bring down a creature with strong acidity.  You have gained some measure of it's powers.",
+    "description": "You've managed to bring down a creature with strong acidity.  You have gained some measure of its powers.",
     "enchantments": [
       { "incoming_damage_mod": [ { "type": "biological", "multiply": -0.4 } ] },
       {

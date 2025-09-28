@@ -296,7 +296,7 @@
     "type": "effect_on_condition",
     "id": "sevenoclock_eye",
     "condition": { "not": { "u_has_trait": "SHADE_SEVENOCLOCK_EYE" } },
-    "effect": [ { "u_message": "You exchanged your previous eyess for this." }, { "u_add_trait": "SHADE_SEVENOCLOCK_EYE" } ],
+    "effect": [ { "u_message": "You exchanged your previous eyes for this." }, { "u_add_trait": "SHADE_SEVENOCLOCK_EYE" } ],
     "false_effect": [ { "u_message": "You are already have Seven O'clock Eyes.", "type": "neutral" } ]
   },
   {
@@ -318,7 +318,7 @@
     "type": "effect_on_condition",
     "id": "hunters_organ",
     "condition": { "not": { "u_has_trait": "SHADE_HUNTERS_ORGAN" } },
-    "effect": [ { "u_message": "You exchanged your previous eyess for this." }, { "u_add_trait": "SHADE_HUNTERS_ORGAN" } ],
-    "false_effect": [ { "u_message": "You are already have a Hunter's Organ.", "type": "neutral" } ]
+    "effect": [ { "u_message": "You exchanged your previous eyes for this." }, { "u_add_trait": "SHADE_HUNTERS_ORGAN" } ],
+    "false_effect": [ { "u_message": "You already have a Hunter's Organ.", "type": "neutral" } ]
   }
 ]
