@@ -229,7 +229,7 @@
     "id": "sevenoclock_eye",
     "symbol": "*",
     "color": "dark_blue",
-    "name": { "str": "sevenoclock eye" },
+    "name": { "str": "Eyes of the 19th Hour" },
     "description": "A cloudy eye, with deep dark blue pupil.  Looking at it makes you yawn.",
     "price": "2 kUSD",
     "price_postapoc": "10 USD",
