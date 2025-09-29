@@ -3572,9 +3572,17 @@ std::optional<int> iuse::molotov_lit( Character *p, item *it, const tripoint_bub
     if( !p ) {
         // It was thrown or dropped, so burst into flames
         map &here = get_map();
+        // Because fields decay with a half-life, we need to know how long it takes for the field to decay and set the age to slightly before that.
+        // the duration is also used for the effect's timer. It's hilariously lethal regardless.
+        const time_duration target_duration = 1_minutes;
+        const time_duration base_age = ( fd_fire->half_life / 2 ) - target_duration;
         for( const tripoint_bub_ms &pt : here.points_in_radius( pos, 1, 0 ) ) {
-            const int intensity = 1 + one_in( 3 ) + one_in( 5 );
-            here.add_field( pt, fd_fire, intensity );
+            Creature *critter = get_creature_tracker().creature_at( pt, true );
+            if( critter && one_in( 2 ) ) {
+                critter->add_effect( effect_onfire, target_duration );
+            } else if( !here.get_field( pt, fd_fire ) && one_in( 2 ) ) {
+                here.add_field( pt, fd_fire, 1, base_age );
+            }
         }
         avatar &player = get_avatar();
         if( player.has_unfulfilled_pyromania() ) {
