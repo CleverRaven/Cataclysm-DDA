@@ -365,8 +365,9 @@ input_context game::get_player_input( std::string &action )
                     const point map( iRand + offset );
 
                     const tripoint_bub_ms mapp( map.x, map.y, pos.z() );
-
+                    const bool no_roof_above = here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, mapp + tripoint::above );
                     if( here.inbounds( mapp ) && here.is_outside( mapp ) &&
+                        no_roof_above &&
                         here.get_visibility( visibility_cache[mapp.x()][mapp.y()], cache ) ==
                         visibility_type::CLEAR &&
                         !creatures.creature_at( mapp, true ) ) {
