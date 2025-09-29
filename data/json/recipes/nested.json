@@ -8337,6 +8337,131 @@
     ]
   },
   {
+    "id": "nested_wood_sword",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "name": "wooden swords",
+    "description": "Recipes for making wooden swords with various purposes and levels of refinement.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "sword_wood", "sword_wood_large", "sword_nail", "bokken" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_warhammer",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "name": "warhammers",
+    "description": "Recipes for making hammers used as weapons instead of tools.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "warhammer", "lucern_hammer", "homemade_polehammer", "homewrecker" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_bat",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "name": "bats",
+    "description": "Recipes for making baseball bats and improving them with various materials.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "bat", "bat_with_lathe", "nailbat", "bwirebat", "nutboltbat" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_baton",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "name": "batons",
+    "description": "Recipes for making bashing sticks known variously as batons, tonfas or truncheons.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "tonfa", "tonfa_wood", "shocktonfa_off", "blackjack", "cudgel" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_club",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "name": "clubs",
+    "description": "Recipes for making wooden clubs of various levels of refinement.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "club_wooden",
+      "club_wooden_nails",
+      "club_wooden_bolted",
+      "club_wooden_large_nails",
+      "club_wooden_large_bolted",
+      "2H_club_kanabo_spiked",
+      "2H_club_kanabo_studded",
+      "shillelagh"
+    ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_machete",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "name": "machetes",
+    "description": "Recipes for making useful tools able to cut through both brush and zombie limbs.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "machete", "makeshift_machete", "survivor_machete", "survivor_machete_qt" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_makeshift_swords",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "name": "improvised swords",
+    "description": "Recipes for creating metal swords of dubious quality out of dubious materials.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "sword_metal",
+      "sword_metal_large",
+      "sword_crude",
+      "sword_crude_large",
+      "sword_sheets_welded",
+      "sword_sheets_welded_large"
+    ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_speedloader_chutes",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "name": "speedloader chutes",
+    "description": "Recipes for creating tools useful to reload high capacity shotguns faster.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "arredondo_chute_remington_870",
+      "arredondo_chute_remington_870_simple",
+      "arredondo_chute_remington_870_breacher",
+      "arredondo_chute_remington_870_breacher_simple",
+      "arredondo_chute_benelli_sa",
+      "arredondo_chute_benelli_sa_simple",
+      "arredondo_chute_mossberg_500",
+      "arredondo_chute_mossberg_500_simple",
+      "arredondo_chute_mossberg_930",
+      "arredondo_chute_mossberg_930_simple",
+      "arredondo_chute_mossberg_590",
+      "arredondo_chute_mossberg_590_simple"
+    ],
+    "difficulty": 1
+  },
+  {
     "id": "nested_all_cowls",
     "type": "nested_category",
     "activity_level": "NO_EXERCISE",
@@ -8360,7 +8485,7 @@
     "difficulty": 1
   },
   {
-    "id": "nested__nomad_cowl",
+    "id": "nested_nomad_cowl",
     "type": "nested_category",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
@@ -8621,7 +8746,7 @@
     "name": "sheet metal chest guards",
     "description": "Recipes related to constructing chest armor out of sheet metal.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "chestguard_metal_sheets", "chestguard_metal_sheets_heavy", "chestguard_metal_sheets_heavy" ],
+    "nested_category_data": [ "chestguard_metal_sheets", "chestguard_metal_sheets_heavy", "chestguard_metal_sheets_light" ],
     "difficulty": 1
   },
   {
@@ -8645,7 +8770,7 @@
     "name": "coats",
     "description": "Recipes related to the tailoring of clothing usually worn above something else and providing great warmth and protection.",
     "skill_used": "tailor",
-    "nested_category_data": [ "nested_fur_coats", "nested_faux_fur_coats", "coat_rain", "coat_gut", "peacoat", "greatcoat", "armor_mercenary_top" ]
+    "nested_category_data": [ "nested_fur_coats", "nested_faux_fur_coats", "coat_rain", "coat_straw", "coat_gut", "peacoat", "greatcoat", "armor_mercenary_top" ]
   },
   {
     "id": "nested_fur_coats",
@@ -8672,7 +8797,7 @@
     "difficulty": 2
   },
   {
-    "id": "nested_jackets",
+    "id": "nested_all_jackets",
     "type": "nested_category",
     "activity_level": "NO_EXERCISE",
     "category": "CC_ARMOR",
@@ -8680,10 +8805,34 @@
     "name": "jackets",
     "description": "Recipes related to the tailoring of everyday clothing usually worn above something else.",
     "skill_used": "tailor",
-    "nested_category_data": [ "jacket_leather", "jacket_leather_mod", "jacket_jean", "jacket_jean_mod", "leather_police_jacket", "blazer", "haori" ]
+    "nested_category_data": [ "nested_leather_jackets", "nested_jean_jackets", "blazer", "haori" ]
   },
   {
-    "id": "nested_vests",
+    "id": "nested_leather_jackets",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "leather jackets",
+    "description": "Recipes related to the tailoring of jackets made out of leather.",
+    "skill_used": "tailor",
+    "nested_category_data": [ "jacket_leather", "jacket_leather_mod", "jacket_leather_mod_ch", "jacket_leather_tire", "leather_police_jacket" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_jean_jackets",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "jean jackets",
+    "description": "Recipes related to the tailoring of jackets made out of denim cloth.",
+    "skill_used": "tailor",
+    "nested_category_data": [ "jacket_jean", "jacket_jean_mod", "jacket_jean_mod_ch" ],
+    "difficulty": 2
+  },
+  {
+    "id": "nested_all_vests",
     "type": "nested_category",
     "activity_level": "NO_EXERCISE",
     "category": "CC_ARMOR",
@@ -8691,6 +8840,41 @@
     "name": "vests",
     "description": "Recipes related to the tailoring of light sleeveless garments worn over other clothing.",
     "skill_used": "tailor",
-    "nested_category_data": [ "vest_leather", "vest_leather_mod", "vest_jean", "vest_jean_mod" ]
+    "nested_category_data": [ "nested_leather_vests", "nested_jean_vests" ]
   },
+  {
+    "id": "nested_leather_vests",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "leather vests",
+    "description": "Recipes related to the tailoring of vests made out of leather.",
+    "skill_used": "tailor",
+    "nested_category_data": [ "vest_leather", "vest_leather_mod", "vest_leather_mod_ch" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_jean_vests",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "jean vests",
+    "description": "Recipes related to the tailoring of vests made out of denim cloth.",
+    "skill_used": "tailor",
+    "nested_category_data": [ "vest_jean", "vest_jean_mod", "vest_jean_mod_ch" ],
+    "difficulty": 2
+  },
+  {
+    "id": "nested_all_vests",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "name": "vests",
+    "description": "Recipes related to the tailoring of light sleeveless garments worn over other clothing.",
+    "skill_used": "tailor",
+    "nested_category_data": [ "nested_leather_vests", "nested_jean_vests" ]
+  }
 ]
