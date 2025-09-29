@@ -7245,7 +7245,14 @@
     "name": "hoodies",
     "description": "Recipes related to the production of hoodies.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "hoodie", "wool_hoodie", "hoodie_cropped", "hoodie_cropped_cutting", "nested_hoodies_animal", "nested_hoodies_cropped_animal" ]
+    "nested_category_data": [
+      "hoodie",
+      "wool_hoodie",
+      "hoodie_cropped",
+      "hoodie_cropped_cutting",
+      "nested_hoodies_animal",
+      "nested_hoodies_cropped_animal"
+    ]
   },
   {
     "id": "nested_hoodies_animal",
@@ -8770,7 +8777,16 @@
     "name": "coats",
     "description": "Recipes related to the tailoring of clothing usually worn above something else and providing great warmth and protection.",
     "skill_used": "tailor",
-    "nested_category_data": [ "nested_fur_coats", "nested_faux_fur_coats", "coat_rain", "coat_straw", "coat_gut", "peacoat", "greatcoat", "armor_mercenary_top" ]
+    "nested_category_data": [
+      "nested_fur_coats",
+      "nested_faux_fur_coats",
+      "coat_rain",
+      "coat_straw",
+      "coat_gut",
+      "peacoat",
+      "greatcoat",
+      "armor_mercenary_top"
+    ]
   },
   {
     "id": "nested_fur_coats",
