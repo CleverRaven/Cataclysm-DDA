@@ -5663,6 +5663,11 @@
           ]
         },
         {
+          "id": [ "overmap_horde_1", "overmap_horde_2" ],
+          "fg": 2719,
+          "rotates": false
+        },
+        {
           "id": [ "overmap_horde_3", "overmap_horde_4", "overmap_horde_5", "overmap_horde_6" ],
           "fg": 2719,
           "rotates": false
