@@ -538,9 +538,9 @@
   {
     "id": "bill_hook",
     "type": "ITEM",
-    "subtypes": [ "TOOL" ],
+    "category": "weapons",
     "name": { "str": "bill-hook" },
-    "description": "A nasty set of hooks & spikes set upon a shaft, w/ a metal endcap at the end. This ain't no gardening tool, & it'll hook someone very easily. Spingi la tua Roncola1",
+    "description": "A nasty set of hooks & spikes set upon a shaft, with a metal endcap at the end. This ain't no gardening tool, & it'll hook someone very easily.",
     "weight": "2100 g",
     "volume": "2300 ml",
     "longest_side": "160 cm",
