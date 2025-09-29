@@ -22,7 +22,8 @@
       { "weight": 100, "spell_id": "MoM_AEA_PHYSICAL_ENHANCEMENT", "base_power": 150 },
       { "weight": 100, "spell_id": "MoM_AEA_SPEED_BURST", "base_power": 400 },
       { "weight": 100, "spell_id": "MoM_AEA_HARDEN_SKIN", "base_power": 300 },
-      { "weight": 100, "spell_id": "MoM_AEA_EXTRA_CALORIE_COST", "base_power": -150 }
+      { "weight": 100, "spell_id": "MoM_AEA_EXTRA_CALORIE_COST", "base_power": -150 },
+      { "weight": 100, "spell_id": "MoM_AEA_EXTRA_MOVEMENT_EXERTION", "base_power": -50 }
     ],
     "passive_mult_procgen_values": [
       {

@@ -157,5 +157,21 @@
     "min_duration": 18000,
     "max_duration": 72000,
     "extra_effects": [ { "id": "mom_aea_artifact_calorie_hit", "hit_self": true } ]
+  },
+  {
+    "id": "MoM_AEA_EXTRA_MOVEMENT_EXERTION",
+    "type": "SPELL",
+    "name": { "str": "MoM AEA Extra Movement Exertion", "//~": "NO_I18N" },
+    "description": { "str": "Make it harder to move, briefly.", "//~": "NO_I18N" },
+    "message": "Your skin itches.",
+    "valid_targets": [ "self" ],
+    "spell_class": "NONE",
+    "flags": [ "NO_LEGS", "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "effect": "attack",
+    "effect_str": "effect_mom_artifact_movement_exertion",
+    "shape": "blast",
+    "min_duration": 36000,
+    "max_duration": 144000,
+    "extra_effects": [ { "id": "mom_aea_artifact_calorie_hit", "hit_self": true } ]
   }
 ]

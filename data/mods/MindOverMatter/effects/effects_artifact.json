@@ -31,6 +31,16 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_mom_artifact_movement_exertion",
+    "name": [ "Fatigue" ],
+    "desc": [ "Moving seems to take more effort than usual." ],
+    "apply_message": "",
+    "remove_message": "Movement becomes slightly easier.",
+    "rating": "bad",
+    "enchantments": [ { "values": [ { "value": "MOVEMENT_EXERTION_MODIFIER", "multiply": 0.3 } ] } ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_mom_artifact_hardened_skin",
     "name": [ "Hardened Skin" ],
     "desc": [ "Your skin is more resilient." ],
