@@ -3,6 +3,7 @@
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "id": "matrix_crystal_biokinesis",
+    "category": "other",
     "name": { "str_sp": "strange crystal, pink" },
     "description": "A strange-looking, surprisingly-heavy crystal with a faintly-glowing pink light in its depths.  Holding it, you feel more capable.",
     "color": "pink",
@@ -46,7 +47,7 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARTIFACT" ],
+    "subtypes": [ "ARTIFACT" ],
     "id": "matrix_crystal_biokinesis_artifact",
     "name": { "str_sp": "strange crystal, pink" },
     "description": "A strange-looking, surprisingly-heavy crystal with a faintly-glowing pink light in its depths.  Holding it, you feel more capable.",

@@ -13,9 +13,9 @@
     "type": "effect_type",
     "id": "effect_mom_artifact_physical_boost",
     "name": [ "Enhanced Prowess" ],
-    "desc": [ "Are you moving much faster than anything nearby." ],
+    "desc": [ "Your physical abilities are enhanced." ],
     "apply_message": "",
-    "remove_message": "The world speeds up again.",
+    "remove_message": "Your prowess fades away.",
     "rating": "good",
     "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 2 }, { "value": "DEXTERITY", "add": 2 } ] } ]
   }
