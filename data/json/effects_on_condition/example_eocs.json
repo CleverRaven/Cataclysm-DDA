@@ -534,11 +534,10 @@
         },
         "target_var": { "u_val": "destination_dimension" }
       },
-      { "u_location_variable": { "u_val": "tele_test" }, "x_adjust": 0, "y_adjust": 0 },
       {
-        "u_teleport": { "u_val": "tele_test" },
-        "dimension_prefix": { "u_val": "destination_dimension" },
-        "npc_radius": 5,
+        "u_travel_to_dimension": { "u_val": "destination_dimension" },
+        "npc_travel_radius": 5,
+        "npc_travel_filter": "follower",
         "fail_message": "your body doesn't move",
         "success_message": "This place feels different."
       },

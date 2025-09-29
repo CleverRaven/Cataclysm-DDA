@@ -7647,27 +7647,13 @@ talk_effect_fun_t::func f_teleport( const JsonObject &jo, std::string_view membe
     bool force = jo.get_bool( "force", false );
     bool force_safe = jo.get_bool( "force_safe", false );
 
-    str_or_var dimension_prefix;
-    optional( jo, false, "dimension_prefix", dimension_prefix, g->get_dimension_prefix() );
-
-    // radius around which NPCs will be teleported with the avatar, if dimension hopping
-    dbl_or_var npc_radius = get_dbl_or_var( jo, "npc_radius", false, 0 );
-
     return [is_npc, target_var, fail_message, success_message, force,
-            force_safe, dimension_prefix, npc_radius]( dialogue const & d ) {
+            force_safe]( dialogue const & d ) {
         tripoint_abs_ms target_pos = read_var_value( target_var, d ).tripoint();
         Creature *teleporter = d.actor( is_npc )->get_creature();
         if( teleporter ) {
-            std::string prefix = dimension_prefix.evaluate( d );
-            int radius = npc_radius.evaluate( d );
-            bool successful_dimension_swap = false;
-            // Make sure we don't cause a dimension swap on every
-            // short/long range teleport outside the default dimension
-            if( !prefix.empty() && prefix != g->get_dimension_prefix() ) {
-                successful_dimension_swap = g->travel_to_dimension( prefix, radius );
-            }
             if( teleport::teleport_to_point( *teleporter, get_map().get_bub( target_pos ), true, false,
-                                             false, force, force_safe ) || successful_dimension_swap ) {
+                                             false, force, force_safe ) ) {
                 teleporter->add_msg_if_player( success_message.evaluate( d ) );
             } else {
                 teleporter->add_msg_if_player( fail_message.evaluate( d ) );
@@ -7685,6 +7671,63 @@ talk_effect_fun_t::func f_teleport( const JsonObject &jo, std::string_view membe
                 add_msg( success_message.evaluate( d ) );
             } else {
                 add_msg( fail_message.evaluate( d ) );
+            }
+        }
+    };
+}
+
+talk_effect_fun_t::func f_travel_to_dimension( const JsonObject &jo, std::string_view member,
+        std::string_view )
+{
+    str_or_var dimension_prefix = get_str_or_var( jo.get_member( member ), member, true );
+    translation_or_var fail_message;
+    optional( jo, false, "fail_message", fail_message );
+    translation_or_var success_message;
+    optional( jo, false, "success_message", success_message );
+
+    // accepts values "all"/"follower"/"enemy"
+    str_or_var npc_travel_filter;
+    optional( jo, false, "npc_travel_filter", npc_travel_filter, "all" );
+
+    dbl_or_var npc_travel_radius;
+    optional( jo, false, "npc_travel_radius", npc_travel_radius, 0 );
+
+    return [fail_message, success_message, dimension_prefix, npc_travel_filter,
+                  npc_travel_radius]( dialogue const & d ) {
+        Creature *teleporter = d.actor( false )->get_creature();
+        if( teleporter ) {
+            std::string prefix = dimension_prefix.evaluate( d );
+            std::string temp_dimension_prefix = ( prefix == "default" ) ? "" : prefix;
+            if( temp_dimension_prefix != g->get_dimension_prefix() ) {
+                std::vector<npc *> travellers;
+                std::string filter = npc_travel_filter.evaluate( d );
+                int radius = npc_travel_radius.evaluate( d );
+                if( radius > 0 ) {
+                    travellers = g->get_npcs_if( [teleporter, filter, radius]( const npc & guy ) {
+                        int distance_to_player = rl_dist( guy.pos_abs(), teleporter->pos_abs() );
+                        if( distance_to_player <= radius ) {
+                            if( filter == "all" ) {
+                                return true;
+                            } else if( filter == "follower" ) {
+                                return guy.is_following();
+                            } else if( filter == "enemy" ) {
+                                return guy.is_enemy();
+                            } else {
+                                return false;
+                            }
+                        } else {
+                            return false;
+                        }
+                    } );
+                }
+                // returns False if fail
+                if( g->travel_to_dimension( prefix, travellers ) ) {
+                    teleporter->add_msg_if_player( success_message.evaluate( d ) );
+                } else {
+                    teleporter->add_msg_if_player( fail_message.evaluate( d ) );
+                }
+            } else {
+                teleporter->add_msg_if_player( fail_message.evaluate( d ) );
             }
         }
     };
@@ -7879,6 +7922,7 @@ parsers = {
     { "u_set_field", "npc_set_field", jarg::member, &talk_effect_fun::f_field },
     { "u_emit", "npc_emit", jarg::member, &talk_effect_fun::f_emit },
     { "u_teleport", "npc_teleport", jarg::object, &talk_effect_fun::f_teleport },
+    { "u_travel_to_dimension", jarg::member, &talk_effect_fun::f_travel_to_dimension},
     { "u_set_flag", "npc_set_flag", jarg::member, &talk_effect_fun::f_set_flag },
     { "u_unset_flag", "npc_unset_flag", jarg::member, &talk_effect_fun::f_unset_flag },
     { "u_set_fault", "npc_set_fault", jarg::member, &talk_effect_fun::f_set_fault },
