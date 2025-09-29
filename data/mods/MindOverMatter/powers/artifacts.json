@@ -13,5 +13,35 @@
     "shape": "blast",
     "min_duration": 1000,
     "max_duration": 3000
+  },
+  {
+    "type": "SPELL",
+    "id": "MoM_AEA_STAMINA_BURST",
+    "name": { "str": "MoM AEA Stamina Restore", "//~": "NO_I18N" },
+    "description": { "str": "Add a variable amount of stamina.", "//~": "NO_I18N" },
+    "message": "Your body is filled with vigor.",
+    "min_damage": 1500,
+    "max_damage": 5500,
+    "base_casting_time": 100,
+    "valid_targets": [ "self" ],
+    "flags": [ "RANDOM_DAMAGE", "SILENT", "NO_EXPLOSION_SFX" ],
+    "shape": "blast",
+    "effect": "recover_energy",
+    "effect_str": "STAMINA"
+  },
+  {
+    "id": "MoM_AEA_PHYSICAL_ENHANCEMENT",
+    "type": "SPELL",
+    "name": { "str": "MoM AEA Add Physical Boost", "//~": "NO_I18N" },
+    "description": { "str": "Add a Strength/Dexterity boost.", "//~": "NO_I18N" },
+    "message": "You feel more capable.",
+    "valid_targets": [ "self" ],
+    "spell_class": "NONE",
+    "flags": [ "NO_LEGS", "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "effect": "attack",
+    "effect_str": "effect_mom_artifact_physical_boost",
+    "shape": "blast",
+    "min_duration": 18000,
+    "max_duration": 72000
   }
 ]
