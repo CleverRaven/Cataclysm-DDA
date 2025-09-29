@@ -427,7 +427,7 @@ information about the translations.
 These stats are also normally updated by the GitHub workflow, but can be
 updated by hand via `lang/update_stats.sh`.
 
-[1]: https://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/
+[1]: https://explore.transifex.com/cataclysm-dda-translators/cataclysm-dda/
 [2]: https://discourse.cataclysmdda.org/c/game-talk/translations-team-discussion
 [3]: https://docs.transifex.com/
 [4]: ../lang/notes
