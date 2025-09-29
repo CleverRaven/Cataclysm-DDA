@@ -8,14 +8,14 @@
     "attitude": 0,
     "mission": 7,
     "chat": "TALK_DRUID_MASTER_SHIFTER_QUESTGIVER_INTRO",
-    "faction": "druid_circle",
+    "faction": "druid_master_shifter",
     "age": 239,
     "str": 7,
     "dex": 9,
     "int": 13,
     "per": 11,
     "gender": "female",
-    "personality": { "aggression": -2, "bravery": 5, "collector": -6, "altruism": 5 }
+    "personality": { "aggression": -2, "bravery": 5, "collector": -6, "altruism": 2 }
   },
   {
     "type": "npc_class",
@@ -33,7 +33,7 @@
       { "trait": "IRON_ALLERGY" },
       { "group": "BG_survival_story_RURAL" },
       { "group": "trait_group_elf_npc" },
-      { "trait": "hair_long", "variant": "green" },
+      { "trait": "hair_super_princess", "variant": "green" },
       { "trait": "SKIN_DARK" },
       { "trait": "eye_color", "variant": "hazel" }
     ],
@@ -49,6 +49,7 @@
       { "id": "druidic_healing", "level": 7 },
       { "id": "druid_natures_commune", "level": 12 },
       { "id": "druid_whisper_leaves", "level": 5 },
+      { "id": "druid_goodberry", "level": 8 },
       { "id": "druid_beguile_savage_beast", "level": 8 },
       { "id": "druid_summon_brambles", "level": 6 },
       { "id": "druid_wood_living_tree_spell", "level": 9 }
@@ -59,6 +60,8 @@
     "id": "NC_DRUID_MASTER_SHIFTER_worn",
     "subtype": "collection",
     "items": [
+      { "item": "bra" },
+      { "item": "panties" },
       { "item": "leathersandals" },
       { "item": "robe" },
       { "item": "boots_fur" },
@@ -99,7 +102,7 @@
       {
         "text": "And so are you, but not for much longer.",
         "topic": "TALK_DONE",
-        "condition": { "u_has_any_trait": [ "PSYCHOPATH", "KILLER_DRIVE", "CANNIBAL" ] },
+        "condition": { "u_has_any_trait": [ "PSYCHOPATH", "CANNIBAL" ] },
         "effect": "hostile"
       },
       { "text": "What are you doing out here?", "topic": "TALK_DRUID_MASTER_SHIFTER_QUESTGIVER_WHY_WILDERNESS" },
@@ -129,7 +132,7 @@
       {
         "text": "You grew this camp yourself, didn't you?  I thought that took a circle of druids.",
         "topic": "TALK_DRUID_MASTER_SHIFTER_QUESTGIVER_MAKE_CAMP_BIO_DRUID",
-        "condition": { "u_has_any_trait": [ "BIOMANCER", "DRUID" ] }
+        "condition": { "u_has_trait": "DRUID" }
       },
       {
         "text": "You're right about that.  Anyway, I should be going.",
@@ -157,7 +160,7 @@
   },
   {
     "type": "talk_topic",
-    "id": "TALK_DRUID_MASTER_SHIFTER_QUESTGIVER_WHO",
+    "id": "TALK_DRUID_MASTER_SHIFTER_GAVE_NAME",
     "dynamic_line": "*smiles brightly.  \"And I'm <npc_name>, nice to meet you too.  It's good to see we aren't all reduced to scrabbling in the ruins and trying to kill each other for scraps.",
     "responses": [
       {
@@ -176,7 +179,7 @@
         "topic": "TALK_DRUID_MASTER_SHIFTER_QUESTGIVER_MAIN",
         "effect": [
           { "npc_first_topic": "TALK_DRUID_MASTER_SHIFTER_QUESTGIVER_MAIN" },
-          { "math": [ "n_player_met_druid_shifter", "=", "1" ] }
+          { "npc_add_var": "player_met_druid_shifter", "value": "yes" }
         ]
       },
       {
@@ -184,7 +187,7 @@
         "topic": "TALK_DONE",
         "effect": [
           { "npc_first_topic": "TALK_DRUID_MASTER_SHIFTER_QUESTGIVER_MAIN" },
-          { "math": [ "n_player_met_druid_shifter", "=", "1" ] }
+          { "npc_add_var": "player_met_druid_shifter", "value": "yes" }
         ]
       }
     ]
@@ -192,14 +195,14 @@
   {
     "type": "talk_topic",
     "id": "TALK_DRUID_MASTER_SHIFTER_QUESTGIVER_MAKE_CAMP_NOT_DRUID",
-    "dynamic_line": "Yes, I made it myself.  It took a lot of effort, but you can see it's secure.  A spring, the wall to keep out any wandering wildlife, a garden.  I can live here until things settle down.  And if they never do, well, I have my little plot of the forest.",
+    "dynamic_line": "Yes, I made it myself.  It took a lot of effort, but you can see it's secure.  A spring, the thorn wall to keep out any wandering wildlife, a garden.  I can live here until things settle down.  And if they never do, well, I have my little plot of the forest.",
     "responses": [
       {
         "text": "And a lovely plot it is.  Anyway, let's talk about something else.",
         "topic": "TALK_DRUID_MASTER_SHIFTER_QUESTGIVER_MAIN",
         "effect": [
           { "npc_first_topic": "TALK_DRUID_MASTER_SHIFTER_QUESTGIVER_MAIN" },
-          { "math": [ "n_player_met_druid_shifter", "=", "1" ] }
+          { "npc_add_var": "player_met_druid_shifter", "value": "yes" }
         ]
       },
       {
@@ -207,7 +210,7 @@
         "topic": "TALK_DRUID_MASTER_SHIFTER_QUESTGIVER_MAIN",
         "effect": [
           { "npc_first_topic": "TALK_DRUID_MASTER_SHIFTER_QUESTGIVER_MAIN" },
-          { "math": [ "n_player_met_druid_shifter", "=", "1" ] }
+          { "npc_add_var": "player_met_druid_shifter", "value": "yes" }
         ]
       }
     ]
@@ -215,14 +218,14 @@
   {
     "type": "talk_topic",
     "id": "TALK_DRUID_MASTER_SHIFTER_QUESTGIVER_MAKE_CAMP_DRUID",
-    "dynamic_line": "*looks more closely at you.  \"You're a druid too?  I was worried there weren't any of us left, with how many people died in <the_cataclysm>.  It's good to see not all of us went mad or died.  You're welcome to stay here as long as you like.",
+    "dynamic_line": "*looks more closely at you.  \"You're a druid too?  I was worried there weren't any of us left, with how many people died in <the_cataclysm>.  It's good to see not all of us went mad or got eaten.  You're welcome to stay here as long as you like.",
     "responses": [
       {
         "text": "Thank you.  I appreciate that.",
         "topic": "TALK_DRUID_MASTER_SHIFTER_QUESTGIVER_MAIN",
         "effect": [
           { "npc_first_topic": "TALK_DRUID_MASTER_SHIFTER_QUESTGIVER_MAIN" },
-          { "math": [ "n_player_met_druid_shifter", "=", "1" ] }
+          { "npc_add_var": "player_met_druid_shifter", "value": "yes" }
         ]
       }
     ]
@@ -239,7 +242,7 @@
       {
         "text": "Is there anything I can do for you?",
         "topic": "TALK_DRUID_MASTER_SHIFTER_QUESTGIVER_MISSION_ONE",
-        "condition": { "math": [ "n_player_has_completed_mission_one", "!=", "1" ] }
+        "condition": { "not": { "compare_string": [ "yes", { "npc_val": "player_has_completed_mission_one" } ] } }
       }
     ]
   }
