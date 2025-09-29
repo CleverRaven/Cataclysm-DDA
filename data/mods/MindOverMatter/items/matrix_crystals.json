@@ -56,7 +56,7 @@
     "weight": "150 g",
     "longest_side": "21 mm",
     "material": [ "nether_crystal" ],
-    "looks_like": "art_crystal",
+    "looks_like": "matrix_crystal_biokinesis",
     "flags": [ "MATRIX_CRYSTAL_BIOKINESIS", "RELIC_PINK" ]
   },
   {
