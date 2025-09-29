@@ -220,10 +220,16 @@ class weather_manager
         time_point nextweather;
         /** temperature cache, cleared every turn, sparse map of map tripoints to temperatures */
         std::unordered_map< tripoint_bub_ms, units::temperature > temperature_cache;
-        // Returns outdoor or indoor temperature of given location
+        /*
+        * Returns current temperature of given tile. Includes temperature modifications from
+        * radiative and convective sources, such as fires or hot air from heaters.
+        */
         units::temperature get_temperature( const tripoint_bub_ms &location );
-        // Returns outdoor or indoor temperature of given location
-        units::temperature get_temperature( const tripoint_abs_omt &location ) const;
+        /*
+        * Returns temperature of given OMT. Does not include any modifications from local sourecs,
+        * this is essentially the "natural" temperature.
+        */
+        units::temperature get_area_temperature( const tripoint_abs_omt &location ) const;
         void clear_temp_cache();
         static void serialize_all( JsonOut &json );
         static void unserialize_all( const JsonObject &w );

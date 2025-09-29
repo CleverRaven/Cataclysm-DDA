@@ -1,4 +1,5 @@
 #include "game.h"
+#include "map_memory.h"
 
 #include <algorithm>
 #include <bitset>
@@ -3186,6 +3187,15 @@ void game::load_master()
     } );
 }
 
+bool game::load_dimension_data()
+{
+    const cata_path datafile = PATH_INFO::current_dimension_save_path() / SAVE_DIMENSION_DATA;
+    // If dimension_data.gsav doesn't exist, return false
+    return read_from_file_optional( datafile, [this, &datafile]( std::istream & is ) {
+        unserialize_dimension_data( datafile, is );
+    } );
+}
+
 bool game::load( const std::string &world )
 {
     world_generator->init();
@@ -3230,6 +3240,13 @@ bool game::load( const save_t &name )
                 }
             },
             {
+                _( "Dimension data" ), [&]()
+                {
+                    // Load up dimension specific data (ie; weather, overmapstate)
+                    load_dimension_data();
+                }
+            },
+            {
                 _( "Character save" ), [&]()
                 {
 
@@ -3237,8 +3254,9 @@ bool game::load( const save_t &name )
                     u.set_save_id( name.decoded_name() );
 
                     if( world_generator->active_world->has_compression_enabled() ) {
-                        std::shared_ptr<zzip> z = zzip::load( ( save_file_path + ".zzip" ).get_unrelative_path() );
-                        abort = !read_from_zzip_optional( z, save_file_path.get_unrelative_path().filename(),
+                        std::optional<zzip> z = zzip::load( ( save_file_path + ".zzip" ).get_unrelative_path() );
+                        abort = !z.has_value() ||
+                        !read_from_zzip_optional( z.value(), save_file_path.get_unrelative_path().filename(),
                         [this]( std::string_view sv ) {
                             unserialize( std::string{ sv } );
                         } );
@@ -3471,7 +3489,14 @@ bool game::save_factions_missions_npcs()
         serialize_master( fout );
     }, _( "factions data" ) );
 }
-
+//Saves per-dimension data like Weather and overmapbuffer state
+bool game::save_dimension_data()
+{
+    cata_path data_file = PATH_INFO::current_dimension_save_path() / SAVE_DIMENSION_DATA;
+    return write_to_file( data_file, [&]( std::ostream & fout ) {
+        serialize_dimension_data( fout );
+    }, _( "dimension data" ) );
+}
 bool game::save_maps()
 {
     map &here = get_map();
@@ -3495,11 +3520,17 @@ bool game::save_player_data()
     if( world_generator->active_world->has_compression_enabled() ) {
         std::stringstream save;
         serialize_json( save );
-        std::shared_ptr<zzip> z = zzip::load( ( playerfile + SAVE_EXTENSION +
-                                                ".zzip" ).get_unrelative_path() );
+        std::filesystem::path save_path = ( playerfile + SAVE_EXTENSION +
+                                            ".zzip" ).get_unrelative_path();
+        std::filesystem::path tmp_path = save_path;
+        tmp_path.concat( ".tmp" ); // NOLINT(cata-u8-path)
+        std::optional<zzip> z = zzip::load( save_path );
         saved_data = z->add_file( ( playerfile + SAVE_EXTENSION ).get_unrelative_path().filename(),
                                   save.str() );
-        saved_data = saved_data && z->compact( 1.0 );
+        if( saved_data && z->compact_to( tmp_path, 2.0 ) ) {
+            z.reset();
+            saved_data = rename_file( tmp_path, save_path );
+        }
     } else {
         saved_data = write_to_file( playerfile + SAVE_EXTENSION, [&]( std::ostream & fout ) {
             serialize_json( fout );
@@ -3641,6 +3672,7 @@ bool game::save()
         if( !save_player_data() ||
             !save_achievements() ||
             !save_factions_missions_npcs() ||
+            !save_dimension_data() ||
             !save_maps() ||
             !get_auto_pickup().save_character() ||
             !get_auto_notes_settings().save( true ) ||
@@ -4487,7 +4519,7 @@ Creature *game::is_hostile_within( int distance, bool dangerous )
                     return critter;
                 }
 
-                const pathfinding_settings pf_settings = pathfinding_settings{ 8, distance, distance * 2, 4, true, true, false, true, false, false };
+                const pathfinding_settings pf_settings = pathfinding_settings{ {{{ damage_bash, 8}}}, distance, distance * 2, 4, true, true, false, true, false, false };
                 const pathfinding_target pf_t = pathfinding_target::point( critter->pos_bub() );
                 if( !get_map().route( u.pos_bub(), pf_t, pf_settings ).empty() ) {
                     return critter;
@@ -5698,7 +5730,7 @@ bool game::revive_corpse( const tripoint_bub_ms &p, item &it, int radius )
     }
     // If this is not here, the game may attempt to spawn a monster before the map exists,
     // leading to it querying for furniture, and crashing.
-    if( g->new_game ) {
+    if( g->new_game || g->swapping_dimensions ) {
         return false;
     }
     if( it.has_flag( flag_FIELD_DRESS ) || it.has_flag( flag_FIELD_DRESS_FAILED ) ||
@@ -11480,7 +11512,7 @@ void game::place_player_overmap( const tripoint_abs_omt &om_dest, bool move_play
     here.spawn_monsters( true ); // Static monsters
     update_overmap_seen();
     // update weather now as it could be different on the new location
-    weather.nextweather = calendar::turn;
+    weather.set_nextweather( calendar::turn );
     if( move_player ) {
         place_player( player_pos );
     }
@@ -12711,6 +12743,90 @@ void game::vertical_move( int movez, bool force, bool peeking )
     cata_event_dispatch::avatar_moves( old_abs_pos, u, here );
 }
 
+bool game::travel_to_dimension( const std::string &new_prefix,
+                                const std::vector<npc *> &npc_travellers )
+{
+    map &here = get_map();
+    avatar &player = get_avatar();
+    if( !npc_travellers.empty() ) {
+        int traveller_count = npc_travellers.size();
+        for( auto it = critter_tracker->active_npc.begin(); it != critter_tracker->active_npc.end(); ) {
+            // skip unloading a traveller
+            bool skip = false;
+            if( traveller_count > 0 ) {
+                for( npc *guy : npc_travellers ) {
+                    if( guy->getID() == ( *it )->getID() ) {
+                        skip = true;
+                        traveller_count--;
+                        break;
+                    }
+                }
+            }
+            if( !skip ) {
+                ( *it )->on_unload();
+                it = critter_tracker->active_npc.erase( it );
+            } else {
+                it++;
+            }
+        }
+    } else {
+        unload_npcs();
+    }
+    for( monster &critter : all_monsters() ) {
+        despawn_monster( critter );
+    }
+    if( player.in_vehicle ) {
+        here.unboard_vehicle( player.pos_bub() );
+    }
+    // Make sure we don't mess up savedata if for some reason maps can't be saved
+    if( !save_maps() || !save_dimension_data() ) {
+        return false;
+    }
+    player.save_map_memory();
+    for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
+        here.clear_vehicle_list( z );
+    }
+    here.rebuild_vehicle_level_caches();
+    // Inputting an empty string to the text input EOC fails
+    // so i'm using 'default' as empty/main dimension
+    if( new_prefix != "default" ) {
+        dimension_prefix = new_prefix;
+    } else {
+        dimension_prefix.clear();
+    }
+    // Load in data specific to the dimension (like weather)
+    //if( !load_dimension_data() ) {
+    // dimension data file not found/created yet
+    /* handle weather instance switching when I have dimensions with different region settings,
+     right now they're all the same and it's hard to tell if it's working or not. */
+    // weather.set_nextweather( calendar::turn );
+    //}
+    // Clear the immediate game area around the player
+    MAPBUFFER.clear();
+    // hack to prevent crashes from temperature checks
+    // This returns to false in 'on_turn()' so it should be fine?
+    swapping_dimensions = true;
+    // Clear the overmap
+    overmap_buffer.clear();
+    // load/create new overmap
+    overmap_buffer.get( point_abs_om{} );
+    // clear map memory from the previous dimension
+    player.clear_map_memory();
+    // Load map memory in new dimension, if there is any
+    player.load_map_memory();
+    // Loads submaps and invalidate related caches
+    here.load( tripoint_abs_sm( here.get_abs_sub() ), false );
+
+    here.invalidate_visibility_cache();
+    //without this vehicles only load in after walking around a bit
+    here.reset_vehicles_sm_pos();
+    load_npcs();
+    // Handle static monsters
+    here.spawn_monsters( true, true );
+    update_overmap_seen();
+    return true;
+}
+
 void game::start_hauling( const tripoint_bub_ms &pos )
 {
     map &here = get_map();
@@ -13690,6 +13806,26 @@ cata_path PATH_INFO::world_base_save_path()
     return world_generator->active_world->folder_path();
 }
 
+cata_path PATH_INFO::dimensions_save_path()
+{
+    return PATH_INFO::world_base_save_path() / "dimensions";
+}
+
+cata_path PATH_INFO::current_dimension_save_path()
+{
+    std::string dimension_prefix = g->get_dimension_prefix();
+    if( !dimension_prefix.empty() ) {
+        return PATH_INFO::dimensions_save_path() / dimension_prefix;
+    }
+    return PATH_INFO::world_base_save_path();
+}
+
+
+cata_path PATH_INFO::current_dimension_player_save_path()
+{
+    return PATH_INFO::current_dimension_save_path() / base64_encode( get_avatar().get_save_id() );
+}
+
 void game::shift_destination_preview( const point_rel_ms &delta )
 {
     for( tripoint_bub_ms &p : destination_preview ) {
@@ -13741,7 +13877,7 @@ float game::slip_down_chance( climb_maneuver, climbing_aid_id aid_id,
     bool wet_feet = false;
     bool wet_hands = false;
 
-    for( const bodypart_id &bp : u.get_all_body_parts_of_type( body_part_type::type::foot,
+    for( const bodypart_id &bp : u.get_all_body_parts_of_type( bp_type::foot,
             get_body_part_flags::primary_type ) ) {
         if( u.get_part_wetness( bp ) > 0 && !climb_flying ) {
             add_msg_debug( debugmode::DF_GAME, "Foot %s %.1f wet", body_part_name( bp ),
@@ -13751,7 +13887,7 @@ float game::slip_down_chance( climb_maneuver, climbing_aid_id aid_id,
         }
     }
 
-    for( const bodypart_id &bp : u.get_all_body_parts_of_type( body_part_type::type::hand,
+    for( const bodypart_id &bp : u.get_all_body_parts_of_type( bp_type::hand,
             get_body_part_flags::primary_type ) ) {
         if( u.get_part_wetness( bp ) > 0 && !climb_flying ) {
             add_msg_debug( debugmode::DF_GAME, "Hand %s %.1f wet", body_part_name( bp ),

@@ -275,7 +275,8 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "druid_ritual_home" ]
+      "palettes": [ "druid_ritual_home" ],
+      "terrain": { " ": "t_open_air" }
     }
   },
   {

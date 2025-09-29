@@ -1290,7 +1290,7 @@ void repair_item_finish( player_activity *act, Character *you, bool no_menu )
         // TODO: Allow setting this in the actor
         // TODO: Don't use charges_to_use: welder has 50 charges per use, soldering iron has 1
         if( !used_tool->ammo_sufficient( you ) ) {
-            you->add_msg_if_player( _( "Your %s ran out of charges." ), used_tool->tname() );
+            you->add_msg_if_player( _( "Your %1$s ran out of charges." ), used_tool->tname() );
             act->set_to_null();
             return;
         }
@@ -2063,8 +2063,9 @@ void activity_handlers::plant_seed_finish( player_activity *act, Character *you 
         }
         used_seed.front().set_flag( json_flag_HIDDEN_ITEM );
         here.add_item_or_charges( examp, used_seed.front() );
-        if( here.has_flag_furn( seed_id->seed->required_terrain_flag, examp ) ) {
-            here.furn_set( examp, furn_str_id( here.furn( examp )->plant->transform ) );
+        if( here.has_flag_furn( seed_id->seed->required_terrain_flag, examp ) &&
+            here.furn( examp )->plant != nullptr ) {
+            here.furn_set( examp, here.furn( examp )->plant->transform );
         } else if( seed_id->seed->required_terrain_flag == ter_furn_flag::TFLAG_PLANTABLE ) {
             here.set( examp, ter_t_dirt, furn_f_plant_seed );
         } else {

@@ -218,7 +218,7 @@
     "id": "f_cardboard_box",
     "name": "large cardboard box",
     "symbol": "X",
-    "description": "A large box made of brown corrugated paper.  Could contain a number of things, and you could even hide inside.  Considering it only has two small flaps for carrying, it's very hard to see out of, and won't do anything to protect you if you're found.",
+    "description": "A large box made of brown corrugated paper.  Could contain a number of things.",
     "color": "brown",
     "move_cost_mod": 7,
     "coverage": 90,
@@ -229,7 +229,7 @@
     "max_volume": "324 L",
     "deployed_item": "box_large",
     "examine_action": "deployed_furniture",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "EASY_DECONSTRUCT", "HIDE_PLACE", "NO_SIGHT", "CONTAINER" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "EASY_DECONSTRUCT", "CONTAINER" ],
     "bash": { "str_min": 2, "str_max": 15, "sound": "crumple!", "sound_fail": "thud." }
   },
   {
@@ -237,7 +237,7 @@
     "id": "f_cardboard_box_large_reinforced",
     "name": "reinforced large cardboard box",
     "symbol": "X",
-    "description": "A large box made of brown corrugated paper that was doubled up for extra strength.  Could contain a number of things, and you could even hide inside.  Considering it only has two small flaps for carrying, it's very hard to see out of, and won't do anything to protect you if you're found.",
+    "description": "A large box made of brown corrugated paper that was doubled up for extra strength.  Could contain a number of things.",
     "color": "brown",
     "looks_like": "f_cardboard_box",
     "move_cost_mod": 7,
@@ -249,7 +249,7 @@
     "max_volume": "324 L",
     "deployed_item": "box_large_reinforced",
     "examine_action": "deployed_furniture",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "EASY_DECONSTRUCT", "HIDE_PLACE", "NO_SIGHT", "CONTAINER" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "EASY_DECONSTRUCT", "CONTAINER" ],
     "bash": { "str_min": 3, "str_max": 16, "sound": "crumple!", "sound_fail": "thud." }
   },
   {

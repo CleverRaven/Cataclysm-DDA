@@ -11,6 +11,6 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ],
-    "components": [ [ [ "2x4", 40 ] ], [ [ "nail", 200 ] ], [ [ "hinge", 2 ] ] ]
+    "components": [ [ [ "2x4", 40 ] ], [ [ "nails", 200, "LIST" ] ], [ [ "hinge", 2 ] ] ]
   }
 ]

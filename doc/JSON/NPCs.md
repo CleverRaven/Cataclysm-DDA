@@ -222,6 +222,8 @@ Field | Default topic ID  | Uses for...
 `talk_stranger_wary` | `TALK_STRANGER_WARY` | see "success and failure" section
 `talk_stranger_friendly` | `TALK_STRANGER_FRIENDLY` | see "success and failure" section
 `talk_stranger_neutral` | `TALK_STRANGER_NEUTRAL` | see "success and failure" section
+`talk_mission_inqure` | `TALK_MISSION_INQUIRE` | see [the missions docs](MISSIONS_JSON.md)
+`talk_mission_describe_urgent` | `TALK_MISSION_DESCRIBE_URGENT` | see [the missions docs](MISSIONS_JSON.md)
 
 ---
 
@@ -815,7 +817,7 @@ A repeat response has the following format:
 ```jsonc
 {
   "for_item": [
-    "jerky", "meat_smoked", "fish_smoked", "cooking_oil", "cooking_oil2", "cornmeal", "flour",
+    "jerky", "meat_smoked", "fish_smoked", "cooking_oil", "cornmeal", "flour",
     "fruit_wine", "beer", "sugar"
   ],
   "response": { "text": "Delivering <topic_item>.", "topic": "TALK_DELIVER_ASK" }

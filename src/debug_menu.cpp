@@ -482,10 +482,9 @@ void write_min_archive()
                         min_mmr_save_rel +
                         ".temp" ).get_unrelative_path();
                 {
-                    std::shared_ptr<zzip> min_mmr_temp_zzip = zzip::load( min_mmr_temp_zzip_path, mmr_dict );
+                    std::optional<zzip> min_mmr_temp_zzip = zzip::load( min_mmr_temp_zzip_path, mmr_dict );
                     if( !min_mmr_temp_zzip ||
-                        !mmr_stack->copy_files_to( trimmed_mmr_entries, min_mmr_temp_zzip ) ||
-                        !min_mmr_temp_zzip->compact( 0 ) ) {
+                        !mmr_stack->copy_files_to( trimmed_mmr_entries, *min_mmr_temp_zzip ) ) {
                         popup( _( "Failed to create minimized archive" ) );
                         return;
                     }
@@ -2444,9 +2443,7 @@ static void character_edit_menu()
     nmenu.addentry( D_HEALTHY, true, 'a', "%s", _( "Set health" ) );
     nmenu.addentry( D_NEEDS, true, 'n', "%s", _( "Set needs" ) );
     nmenu.addentry( D_NORMALIZE_BODY, true, 'N', "%s", _( "Normalize body stats" ) );
-    if( get_option<bool>( "STATS_THROUGH_KILLS" ) ) {
-        nmenu.addentry( D_KILL_XP, true, 'X', "%s", _( "Set kill XP" ) );
-    }
+    nmenu.addentry( D_KILL_XP, true, 'X', "%s", _( "Set kill XP (for mods)" ) );
     nmenu.addentry( D_MUTATE, true, 'u', "%s", _( "Mutate" ) );
     nmenu.addentry( D_BIONICS, true, 'b', "%s", _( "Edit [b]ionics" ) );
     nmenu.addentry( D_STATUS, true,
@@ -4156,10 +4153,8 @@ void debug()
 
         case debug_menu_index::SPAWN_HORDE: {
             const tripoint_abs_ms &player_abs_ms = get_player_character().pos_abs();
-            tripoint_abs_sm horde_dest = project_to<coords::sm>( player_abs_ms );
-            horde_dest = horde_dest + point{0, -20}; // 20 submaps to the north
-            overmap &om = overmap_buffer.get( project_to<coords::om>( player_abs_ms ).xy() );
-            om.debug_force_add_group( mongroup( GROUP_DEBUG_EXACTLY_ONE, horde_dest, 1 ) );
+            tripoint_abs_sm horde_dest = project_to<coords::sm>( player_abs_ms + point{0, -240} );
+            overmap_buffer.spawn_mongroup( horde_dest, GROUP_DEBUG_EXACTLY_ONE, 1 );
         }
         break;
 
@@ -4290,6 +4285,7 @@ void debug()
             g->cleanup_dead();
         }
         break;
+
         case debug_menu_index::DISPLAY_HORDES:
             ui::omap::display_hordes();
             break;

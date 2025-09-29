@@ -521,6 +521,7 @@ Here's a quick summary of what each of the JSON files contain, broken down by fo
 | `tutorial.json`               | messages for the tutorial (that is out of date)
 | `vehicle_groups.json`         | vehicle spawn groups
 | `vehicle_parts.json`          | vehicle parts, does NOT affect flag effects
+| `vehicle_part_locations.json` | locations on vehicles where parts are installed
 | `vitamin.json`                | vitamins and their deficiencies
 
 selected subfolders
@@ -1371,6 +1372,7 @@ When adding a new bionic, if it's not included with another one, you must also a
 | `edged`             | _(optional)_ Identifies this damage type as originating from a sharp or pointy weapon or implement. (defaults to false)
 | `environmental`     | _(optional)_ This damage type corresponds to environmental sources. Currently influences whether an item or piece of armor includes environmental resistance against this damage type. (defaults to false)
 | `material_required` | _(optional)_ Determines whether materials must defined a resistance for this damage type. (defaults to false)
+| `bash_conversion_factor` | _(optional)_ The rate at which damage of this type will be converted into damage to objects on the map (terrain/furniture/fields). Defaults to 0.
 | `mon_difficulty`    | _(optional)_ Determines whether this damage type should contribute to a monster's difficulty rating. (defaults to false)
 | `no_resist`         | _(optional)_ Identifies this damage type as being impossible to resist against (ie. "pure" damage). (defaults to false)
 | `immune_flags`      | _(optional)_ An object with two optional fields: `"character"` and `"monster"`. Both inner fields list an array of character flags and monster flags, respectively, that would make the character or monster immune to this damage type.
@@ -1388,6 +1390,7 @@ When adding a new bionic, if it's not included with another one, you must also a
     "physical": true,
     "edged": true,
     "magic_color": "light_red",
+    "bash_conversion_factor": 0.1,
     "name": "pierce",
     "skill": "stabbing",
     "//2": "derived from cut only for monster defs",
@@ -2701,6 +2704,7 @@ Vehicle components when installed on a vehicle.
 "location": "fuel_source",    // Optional. One of the checks used when determining if a part 
                               // can be installed on a given tile. A part cannot be installed
                               // if any existing part occupies the same location.
+                              // See "Vehicle Part Locations" below.
 "damage_modifier": 50,        // (Optional, default = 100) Dealt damage multiplier when this
                               // part hits something, as a percentage. Higher = more damage to
                               // creature struck
@@ -2893,6 +2897,21 @@ It also has a hotplate that can be activated by examining it with `e` then `h` o
   { "id": "hotplate", "hotkey": "h" },
   { "id": "pot" }
 ],
+```
+
+### Vehicle Part Locations
+
+The `"location"` field for a Vehicle Part must be a `vehicle_part_location` defined in [data/json/vehicle_part_locations.json](../../data/json/vehicle_part_locations.json)
+
+```jsonc
+  {
+    "type": "vehicle_part_location",
+    "id": "structure",        // Unique identifier
+    "name": "Structure",      // Displayed name
+    "desc": "Frames etc",     // Description of the location and what goes in it
+    "z_order": 5,             // The highest Z part on a tile gets drawn, -1 never gets drawn, default 0
+    "list_order": 1           // Sort order for part lists, lowest first, default 5
+  },
 ```
 
 ### Part Resistance
@@ -4391,8 +4410,9 @@ Fields can exist on top of terrain/furniture, and support different intensity le
     "decrease_intensity_on_contact": true, // Decrease the field intensity by one each time a character walk on it.
     "mopsafe": false, // field is safe to use in a mopping zone
     "bash": {
-      "str_min": 1, // lower bracket of bashing damage required to bash
-      "str_max": 3, // higher bracket
+      "str_min": 1, // minimum damage required to bash - e.g. 2 damage is required here
+      "str_max": 3, // defines "bash hp", minus str_min - how many minimum damage hits must be dealt to destroy
+      "profile": "wooden_door", // describes how different damage types will be applied as bash damage
       "sound_vol": 2, // noise made when successfully bashing the field
       "sound_fail_vol": 2, // noise made when failing to bash the field
       "sound": "shwip", // sound on success

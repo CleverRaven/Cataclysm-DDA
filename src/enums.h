@@ -512,4 +512,35 @@ enum mut_count_type {
     ALL
 };
 
+enum class bp_type {
+    // this is where helmets go, and is a vital part.
+    head,
+    // the torso is generally the center of mass of a creature
+    torso,
+    // provides sight
+    sensor,
+    // you eat and scream with this
+    mouth,
+    // may manipulate objects to some degree, is a main part
+    arm,
+    // manipulates objects. usually is not a main part.
+    hand,
+    // provides motive power
+    leg,
+    // helps with balance. usually is not a main part
+    foot,
+    // may reduce fall damage
+    wing,
+    // may provide balance or manipulation
+    tail,
+    // more of a general purpose limb, such as horns.
+    other,
+    num_types
+};
+
+template<>
+struct enum_traits<bp_type> {
+    static constexpr bp_type last = bp_type::num_types;
+};
+
 #endif // CATA_SRC_ENUMS_H

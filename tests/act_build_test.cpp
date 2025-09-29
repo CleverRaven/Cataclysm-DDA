@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <initializer_list>
 #include <list>
 #include <map>
 #include <memory>
@@ -278,7 +279,7 @@ void run_test_case( Character &u )
 
     SECTION( "visible but unreachable construction" ) {
         u.setpos( here, tripoint_bub_ms::zero );
-        u.path_settings->bash_strength = 0;
+        u.path_settings->bash_strength = {};
         here.build_map_cache( u.posz() );
         tripoint_bub_ms const tri_window = { 0, 5, 0 };
         for( tripoint_bub_ms const &it : here.points_in_radius( tri_window, 1 ) ) {

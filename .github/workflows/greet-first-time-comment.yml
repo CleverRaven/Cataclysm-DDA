@@ -1,0 +1,36 @@
+name: Greet new commenters
+
+on:
+  issue_comment:
+    types:
+      - created
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  PR_NUMBER: ${{ github.event.issue.number }}
+
+jobs:
+  triage:
+    permissions:
+       pull-requests: write
+    if: ${{ github.event.issue.pull_request }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check if user has any existing PR comments in this repository
+        id: pr-comment-check
+        run: |
+          commenter="${{ github.event.comment.user.login }}"
+          echo "Debug: Checking comment counts for... $commenter"
+          comment_count=$(gh search prs --owner=CleverRaven --repo=Cataclysm-DDA --commenter $commenter --json id | jq 'length')
+
+          echo "Debug: $commenter with $comment_count total comments, including checked comment."
+          echo "comment_count=$comment_count" >> $GITHUB_OUTPUT
+
+      - name: Greet commenters with no previous comments
+        if: steps.pr-comment-check.outputs.comment_count == 1
+        run: |
+          # I have no earthly idea how to pass the commenter on from the previous run (I have tried), so let's just re-acquire it.
+          commenter_name="${{ github.event.comment.user.login }}"
+          # We 'hardcode' the URLs here because doing a dynamic url points to OWNER/REPO/pull/code_of_conduct.md. Why is the 'pull' there? No idea.
+          gh pr comment $PR_NUMBER --body "Hi @$commenter_name, welcome to CleverRaven! We see that this is your first time commenting here. Check out [how development works](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/development_process.md) and be sure to follow the [code of conduct](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/CODE_OF_CONDUCT.md)! We hope to see you around!"

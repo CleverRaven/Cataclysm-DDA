@@ -137,7 +137,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_DHAMPIR_GAIN_NEW_WEAKNESS_MESSAGE",
-    "effect": [ { "u_message": "You use of your vampiric powers has caused you to gain a new frailty.", "type": "bad" } ]
+    "effect": [ { "u_message": "Your use of your vampiric powers has caused you to gain a new frailty.", "type": "bad" } ]
   },
   {
     "type": "effect_on_condition",
@@ -187,7 +187,8 @@
           "DHAMPIR_WEAKNESS_BLOODTHIRST",
           "DHAMPIR_WEAKNESS_OVERWHELMING_ARROGANCE",
           "DHAMPIR_WEAKNESS_SLOWER_BLOOD_GAIN",
-          "DHAMPIR_WEAKNESS_LOWER_KCAL_FROM_FOOD"
+          "DHAMPIR_WEAKNESS_LOWER_KCAL_FROM_FOOD",
+          "DHAMPIR_WEAKNESS_BURNED_BY_THE_SUN"
         ],
         "type": "mutation",
         "true_eocs": [ "EOC_DHAMPIR_GAIN_NEW_WEAKNESS_MESSAGE" ],

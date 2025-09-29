@@ -101,13 +101,7 @@
     "components": [
       [ [ "stick", 1 ], [ "2x4", 1 ] ],
       [ [ "log", 1 ] ],
-      [
-        [ "nail", 2 ],
-        [ "bronze_nail", 2 ],
-        [ "cordage_short", 2, "LIST" ],
-        [ "filament", 100, "LIST" ],
-        [ "duct_tape", 40 ]
-      ]
+      [ [ "nails", 2, "LIST" ], [ "cordage_short", 2, "LIST" ], [ "filament", 100, "LIST" ], [ "duct_tape", 40 ] ]
     ]
   },
   {

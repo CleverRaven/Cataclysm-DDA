@@ -5,6 +5,7 @@
 #include <cmath>
 #include <cstdlib>
 #include <functional>
+#include <initializer_list>
 #include <iterator>
 #include <memory>
 #include <ostream>
@@ -263,7 +264,7 @@ npc::npc()
     patience = 0;
     attitude = NPCATT_NULL;
 
-    *path_settings = pathfinding_settings( 0, 1000, 1000, 10, true, true, true, true, false, true,
+    *path_settings = pathfinding_settings( {}, 1000, 1000, 10, true, true, true, true, false, true,
                                            get_size() );
     for( direction threat_dir : npc_threat_dir ) {
         ai_cache.threat_map[ threat_dir ] = 0.0f;
@@ -384,6 +385,12 @@ void npc_template::load( const JsonObject &jsobj, std::string_view src )
     }
     if( jsobj.has_string( "talk_friend_guard" ) ) {
         guy.chatbin.talk_friend_guard = jsobj.get_string( "talk_friend_guard" );
+    }
+    if( jsobj.has_string( "talk_mission_inquire" ) ) {
+        guy.chatbin.talk_mission_inquire = jsobj.get_string( "talk_mission_inquire" );
+    }
+    if( jsobj.has_string( "talk_mission_describe_urgent" ) ) {
+        guy.chatbin.talk_mission_describe_urgent = jsobj.get_string( "talk_mission_describe_urgent" );
     }
     jsobj.read( "<acknowledged>", tem.snippets.snip_acknowledged );
     jsobj.read( "<camp_food_thanks>", tem.snippets.snip_camp_food_thanks );
@@ -565,6 +572,8 @@ void npc::load_npc_template( const string_id<npc_template> &ident )
     chatbin.talk_stranger_friendly = tguy.chatbin.talk_stranger_friendly;
     chatbin.talk_stranger_neutral = tguy.chatbin.talk_stranger_neutral;
     chatbin.talk_friend_guard = tguy.chatbin.talk_friend_guard;
+    chatbin.talk_mission_inquire = tguy.chatbin.talk_mission_inquire;
+    chatbin.talk_mission_describe_urgent = tguy.chatbin.talk_mission_describe_urgent;
 
     for( const mission_type_id &miss_id : tguy.miss_ids ) {
         add_new_mission( mission::reserve_new( miss_id, getID() ) );
@@ -1536,7 +1545,8 @@ bool npc::wield( item &it )
         return false;
     }
     if( get_wielded_item() ) {
-        add_msg_if_player_sees( *this, m_info, _( "<npcname> wields a %s." ),
+        // add_msg_if_player_sees does no internal npc name replacement
+        add_msg_if_player_sees( *this, m_info, replace_with_npc_name( _( "<npcname> wields a %s." ) ),
                                 get_wielded_item()->tname() );
     }
 
@@ -1551,7 +1561,8 @@ bool npc::wield( item_location loc, bool remove_old )
         return false;
     }
     if( get_wielded_item() ) {
-        add_msg_if_player_sees( *this, m_info, _( "<npcname> wields a %s." ),
+        // add_msg_if_player_sees does no internal npc name replacement
+        add_msg_if_player_sees( *this, m_info, replace_with_npc_name( _( "<npcname> wields a %s." ) ),
                                 get_wielded_item()->tname() );
     }
 
@@ -2649,11 +2660,11 @@ void npc::npc_dismount()
     mod_moves( -get_speed() );
 }
 
-int npc::smash_ability() const
+std::map<damage_type_id, int> npc::smash_ability() const
 {
     if( is_hallucination() || ( is_player_ally() && !rules.has_flag( ally_rule::allow_bash ) ) ) {
         // Not allowed to bash
-        return 0;
+        return {};
     }
 
     return Character::smash_ability();
@@ -3450,9 +3461,9 @@ const pathfinding_settings &npc::get_pathfinding_settings() const
 
 const pathfinding_settings &npc::get_pathfinding_settings( bool no_bashing ) const
 {
-    path_settings->bash_strength = no_bashing ? 0 : smash_ability();
+    path_settings->bash_strength = !no_bashing ? smash_ability() : std::map<damage_type_id, int>();
     if( has_trait( trait_NO_BASH ) ) {
-        path_settings->bash_strength = 0;
+        path_settings->bash_strength = {};
     }
     // TODO: Extract climb skill
     const int climb = std::min( 20, get_dex() );

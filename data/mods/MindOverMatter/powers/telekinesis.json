@@ -41,32 +41,32 @@
     "shape": "blast",
     "min_damage": {
       "math": [
-        "max( 50 - ( ( u_spell_level('telekinetic_pull') * 3 ) * ( scaling_factor( u_val('intelligence') ) ) * u_nether_attunement_power_scaling ), 0 )"
+        "max( 50 - ( ( (u_spell_level('telekinetic_pull') + u_spell_level('telekinetic_pull_knack') ) * 3 ) * ( scaling_factor( u_val('intelligence') ) ) * u_nether_attunement_power_scaling ), 0 )"
       ]
     },
     "max_damage": {
       "math": [
-        "max( 100 - ( ( u_spell_level('telekinetic_pull') * 4 ) * ( scaling_factor( u_val('intelligence') ) ) * u_nether_attunement_power_scaling ), 0 )"
+        "max( 100 - ( ( (u_spell_level('telekinetic_pull') + u_spell_level('telekinetic_pull_knack') ) * 4 ) * ( scaling_factor( u_val('intelligence') ) ) * u_nether_attunement_power_scaling ), 0 )"
       ]
     },
     "min_aoe": {
       "math": [
-        "( u_spell_level('telekinetic_pull') * 0.2 ) * ( scaling_factor( u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('telekinetic_pull') + u_spell_level('telekinetic_pull_knack') ) * 0.2 ) * ( scaling_factor( u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_aoe": {
       "math": [
-        "( u_spell_level('telekinetic_pull') * 0.2 ) * ( scaling_factor( u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('telekinetic_pull') + u_spell_level('telekinetic_pull_knack') ) * 0.2 ) * ( scaling_factor( u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "min_range": {
       "math": [
-        "min( ( ( ( u_spell_level('telekinetic_pull') * 0.9 ) + 2 ) * ( scaling_factor( u_val('intelligence') ) ) * u_nether_attunement_power_scaling ), 40 )"
+        "min( ( ( ( (u_spell_level('telekinetic_pull') + u_spell_level('telekinetic_pull_knack') ) * 0.9 ) + 2 ) * ( scaling_factor( u_val('intelligence') ) ) * u_nether_attunement_power_scaling ), 40 )"
       ]
     },
     "max_range": {
       "math": [
-        "min( ( ( ( u_spell_level('telekinetic_pull') * 0.9 ) + 2 ) * ( scaling_factor( u_val('intelligence') ) ) * u_nether_attunement_power_scaling ), 40 )"
+        "min( ( ( ( (u_spell_level('telekinetic_pull') + u_spell_level('telekinetic_pull_knack') ) * 0.9 ) + 2 ) * ( scaling_factor( u_val('intelligence') ) ) * u_nether_attunement_power_scaling ), 40 )"
       ]
     }
   },
@@ -86,22 +86,22 @@
     "shape": "blast",
     "min_damage": {
       "math": [
-        "min( (( (u_spell_level('telekinetic_pull') * 0.4) + 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 40)"
+        "min( ( ( ( (u_spell_level('telekinetic_pull') + u_spell_level('telekinetic_pull_knack') ) * 0.4) + 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 40)"
       ]
     },
     "max_damage": {
       "math": [
-        "min( (( (u_spell_level('telekinetic_pull') * 0.9) + 4) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 40)"
+        "min( ( ( ( (u_spell_level('telekinetic_pull') + u_spell_level('telekinetic_pull_knack') ) * 0.9) + 4) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 40)"
       ]
     },
     "min_range": {
       "math": [
-        "min( (( (u_spell_level('telekinetic_pull') * 0.9) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling ), 40)"
+        "min( ( ( ( (u_spell_level('telekinetic_pull') + u_spell_level('telekinetic_pull_knack') ) * 0.9) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling ), 40)"
       ]
     },
     "max_range": {
       "math": [
-        "min( (( (u_spell_level('telekinetic_pull') * 0.9) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 40)"
+        "min( ( ( ( (u_spell_level('telekinetic_pull') + u_spell_level('telekinetic_pull_knack') ) * 0.9) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 40)"
       ]
     }
   },

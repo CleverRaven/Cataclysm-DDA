@@ -11008,6 +11008,7 @@
         { "id": "helipad_nw", "fg": [ 9378, 9377, 9379, 9380 ], "rotates": true },
         { "id": "helipad_se", "fg": [ 9382, 9381, 9383, 9384 ], "rotates": true },
         { "id": "helipad_sw", "fg": [ 9386, 9385, 9387, 9388 ], "rotates": true },
+        { "id": [ "overmap_horde_1", "overmap_horde_2" ], "fg": 9390, "rotates": false },
         { "id": [ "overmap_horde_3", "overmap_horde_4" ], "fg": 9390, "rotates": false },
         { "id": [ "overmap_horde_5", "overmap_horde_6" ], "fg": 9391, "rotates": false },
         { "id": [ "overmap_horde_7", "overmap_horde_8" ], "fg": 9392, "rotates": false },
