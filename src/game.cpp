@@ -3235,8 +3235,9 @@ bool game::load( const save_t &name )
                     u.set_save_id( name.decoded_name() );
 
                     if( world_generator->active_world->has_compression_enabled() ) {
-                        std::shared_ptr<zzip> z = zzip::load( ( save_file_path + ".zzip" ).get_unrelative_path() );
-                        abort = !read_from_zzip_optional( z, save_file_path.get_unrelative_path().filename(),
+                        std::optional<zzip> z = zzip::load( ( save_file_path + ".zzip" ).get_unrelative_path() );
+                        abort = !z.has_value() ||
+                        !read_from_zzip_optional( z.value(), save_file_path.get_unrelative_path().filename(),
                         [this]( std::string_view sv ) {
                             unserialize( std::string{ sv } );
                         } );
@@ -3491,11 +3492,17 @@ bool game::save_player_data()
     if( world_generator->active_world->has_compression_enabled() ) {
         std::stringstream save;
         serialize_json( save );
-        std::shared_ptr<zzip> z = zzip::load( ( playerfile + SAVE_EXTENSION +
-                                                ".zzip" ).get_unrelative_path() );
+        std::filesystem::path save_path = ( playerfile + SAVE_EXTENSION +
+                                            ".zzip" ).get_unrelative_path();
+        std::filesystem::path tmp_path = save_path;
+        tmp_path.concat( ".tmp" ); // NOLINT(cata-u8-path)
+        std::optional<zzip> z = zzip::load( save_path );
         saved_data = z->add_file( ( playerfile + SAVE_EXTENSION ).get_unrelative_path().filename(),
                                   save.str() );
-        saved_data = saved_data && z->compact( 1.0 );
+        if( saved_data && z->compact_to( tmp_path, 2.0 ) ) {
+            z.reset();
+            saved_data = rename_file( tmp_path, save_path );
+        }
     } else {
         saved_data = write_to_file( playerfile + SAVE_EXTENSION, [&]( std::ostream & fout ) {
             serialize_json( fout );
