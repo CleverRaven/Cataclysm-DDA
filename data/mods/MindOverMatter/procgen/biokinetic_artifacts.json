@@ -13,7 +13,7 @@
       }
     ],
     "active_procgen_values": [
-      { "weight": 100, "spell_id": "AEA_ADRENALINE", "base_power": 250 },
+      { "weight": 100, "spell_id": "MoM_AEA_ADRENALINE", "base_power": 250 },
       { "weight": 100, "spell_id": "AEA_PAIN", "base_power": -150 },
       { "weight": 100, "spell_id": "AEA_VOMIT", "base_power": -50 },
       { "weight": 100, "spell_id": "AEA_STAMINA_EMPTY", "base_power": -250 },
