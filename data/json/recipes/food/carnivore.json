@@ -436,6 +436,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "result": "mutant_tallow",
     "copy-from": "tallow",
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "BOIL", "level": 2 } ],
     "tools": [ [ [ "water_boiling_heat", 20, "LIST" ] ] ],
     "components": [ [ [ "mutant_fat", 30 ] ] ]
   },
@@ -444,6 +445,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "result": "mutant_human_tallow",
     "copy-from": "tallow",
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "BOIL", "level": 2 } ],
     "tools": [ [ [ "water_boiling_heat", 20, "LIST" ] ] ],
     "components": [ [ [ "mutant_human_fat", 30 ] ] ]
   },
@@ -576,8 +578,9 @@
     "activity_level": "LIGHT_EXERCISE",
     "result": "human_tallow",
     "copy-from": "tallow",
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "BOIL", "level": 2 } ],
     "tools": [ [ [ "water_boiling_heat", 20, "LIST" ] ] ],
-    "components": [ [ [ "mutant_human_fat", 30 ] ] ]
+    "components": [ [ [ "human_fat", 30 ] ] ]
   },
   {
     "type": "recipe",
@@ -701,8 +704,9 @@
     "activity_level": "LIGHT_EXERCISE",
     "result": "demihuman_tallow",
     "copy-from": "tallow",
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "BOIL", "level": 2 } ],
     "tools": [ [ [ "water_boiling_heat", 20, "LIST" ] ] ],
-    "components": [ [ [ "mutant_human_fat", 30 ] ] ]
+    "components": [ [ [ "demihuman_fat", 30 ] ] ]
   },
   {
     "type": "recipe",
