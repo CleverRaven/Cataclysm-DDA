@@ -79,6 +79,7 @@
 #include "mtype.h"
 #include "output.h"
 #include "overmap.h"
+#include "overmap_map_data_cache.h"
 #include "overmapbuffer.h"
 #include "pathfinding.h"
 #include "pocket_type.h"
@@ -1778,6 +1779,10 @@ bool map::furn_set( const tripoint_bub_ms &p, const furn_id &new_furniture, cons
         return true;
     }
 
+    if( !mapgen_in_progress ) {
+        // TODO: Consider evaluating whether this is a "meaningful" adjustment instead of just any edit.
+        current_submap->player_adjusted_map = true;
+    }
     current_submap->set_furn( l, new_target_furniture );
     current_submap->set_map_damage( point_sm_ms( l ), 0 );
 
@@ -2225,6 +2230,10 @@ bool map::ter_set( const tripoint_bub_ms &p, const ter_id &new_terrain, bool avo
         return false;
     }
 
+    if( !mapgen_in_progress ) {
+        // TODO: Consider evaluating whether this is a "meaningful" adjustment instead of just any edit.
+        current_submap->player_adjusted_map = true;
+    }
     current_submap->set_ter( l, new_terrain );
     current_submap->set_map_damage( point_sm_ms( l ), 0 );
 
@@ -8079,6 +8088,31 @@ void map::shift( const point_rel_sm &sp )
     const tripoint_abs_sm abs = get_abs_sub();
     std::vector<tripoint_rel_sm> loaded_grids;
 
+    const int zmin = -OVERMAP_DEPTH;
+    const int zmax = OVERMAP_HEIGHT;
+
+    const int x_start = sp.x() >= 0 ? 0 : my_MAPSIZE - 1;
+    const int x_stop = sp.x() >= 0 ? my_MAPSIZE : -1;
+    const int x_step = sp.x() >= 0 ? 1 : -1;
+    const int y_start = sp.y() >= 0 ? 0 : my_MAPSIZE - 1;
+    const int y_stop = sp.y() >= 0 ? my_MAPSIZE : -1;
+    const int y_step = sp.y() >= 0 ? 1 : -1;
+
+    // Have to run on_unload before changing the abs_sub for the map.
+    // TODO: can probably skip a bunch of iteration here.
+    for( int gridx = x_start; gridx != x_stop; gridx += x_step ) {
+        for( int gridy = y_start; gridy != y_stop; gridy += y_step ) {
+            // The sp.x() and sp.y() check here establishes that we are moving
+            // in the x or y direction respectively. If we are not moving in the x direction,
+            // we don't want to call on_unload on grid points where gridx == x_start.
+            if( ( sp.x() && gridx == x_start ) || ( sp.y() && gridy == y_start ) ) {
+                for( int gridz = zmin; gridz <= zmax; gridz++ ) {
+                    const tripoint_rel_sm grid( gridx, gridy, gridz );
+                    on_unload( grid );
+                }
+            }
+        }
+    }
     set_abs_sub( abs + sp );
 
     g->shift_destination_preview( { -sp.x() * SEEX, -sp.y() * SEEY } );
@@ -8086,9 +8120,6 @@ void map::shift( const point_rel_sm &sp )
     shift_traps( sp );
 
     vehicle *remoteveh = g->remoteveh();
-
-    const int zmin = -OVERMAP_DEPTH;
-    const int zmax = OVERMAP_HEIGHT;
 
     for( int gridz = zmin; gridz <= zmax; gridz++ ) {
         level_cache *cache = get_cache_lazy( gridz );
@@ -8104,13 +8135,6 @@ void map::shift( const point_rel_sm &sp )
     // sx and sy should never be bigger than +/-1.
     // absx and absy are our position in the world, for saving/loading purposes.
     clear_vehicle_level_caches();
-
-    const int x_start = sp.x() >= 0 ? 0 : my_MAPSIZE - 1;
-    const int x_stop = sp.x() >= 0 ? my_MAPSIZE : -1;
-    const int x_step = sp.x() >= 0 ? 1 : -1;
-    const int y_start = sp.y() >= 0 ? 0 : my_MAPSIZE - 1;
-    const int y_stop = sp.y() >= 0 ? my_MAPSIZE : -1;
-    const int y_step = sp.y() >= 0 ? 1 : -1;
 
     for( int gridz = zmin; gridz <= zmax; gridz++ ) {
         // Clear vehicle list and rebuild after shift
@@ -8206,7 +8230,9 @@ void map::saven( const tripoint_bub_sm &grid )
         return;
     }
 
-    const tripoint_abs_sm abs = abs_sub.xy() + rebase_rel( grid );
+    tripoint_rel_sm relative_origin = rebase_rel( grid );
+    on_unload( relative_origin );
+    const tripoint_abs_sm abs = abs_sub.xy() + relative_origin;
 
     if( !zlevels && grid.z() != abs_sub.z() ) {
         debugmsg( "Tried to save submap (%d,%d,%d) as (%d,%d,%d), which isn't supported in non-z-level builds",
@@ -8900,6 +8926,66 @@ void map::add_tree_tops( const tripoint_rel_sm &grid )
                     }
                 }
         }
+    }
+}
+
+void map::on_unload( const tripoint_rel_sm &loc )
+{
+    // Look up the existing map data summary entry, if it's already dynamic we don't
+    // need to check all the submaps, just update it.
+    tripoint_abs_sm submap_abs_origin = get_abs_sub().xy() + loc;
+    tripoint_abs_omt omt_abs_origin;
+    point_omt_sm offset_within_omt;
+    std::tie( omt_abs_origin, offset_within_omt ) = project_remain<coords::omt>( submap_abs_origin );
+    // uuuugh this should be const?
+    std::shared_ptr<map_data_summary> const_summary = overmap_buffer.get_omt_summary( omt_abs_origin );
+    bool adjusted = !const_summary->placeholder;
+
+
+    if( !adjusted ) {
+        tripoint_rel_omt omt_origin = project_to<coords::omt>( loc );
+        tripoint_rel_sm sm_origin = project_to<coords::sm>( omt_origin );
+        std::vector<point_rel_sm> offsets;
+        offsets.reserve( 4 );
+        offsets.push_back( point_rel_sm::zero );
+        offsets.push_back( point_rel_sm::south );
+        offsets.push_back( point_rel_sm::east );
+        offsets.push_back( point_rel_sm::south_east );
+        for( const point_rel_sm &offset : offsets ) {
+            tripoint_rel_sm submap_offset = sm_origin + offset;
+            // Is there a better option than this manual check?
+            if( submap_offset.x() < 0 || submap_offset.x() >= my_MAPSIZE ||
+                submap_offset.y() < 0 || submap_offset.y() >= my_MAPSIZE ||
+                submap_offset.z() < -OVERMAP_DEPTH || submap_offset.z() > OVERMAP_HEIGHT ) {
+                continue;
+            }
+            // Handle null submap ptr, it can definitely happen and we just ignore it.
+            if( submap *sm = get_submap_at_grid( submap_offset ); sm && sm->player_adjusted_map ) {
+                adjusted = true;
+                break;
+            }
+
+        }
+    }
+    // Update just the quadrant of the map_data_summary matching the current submap.
+    if( adjusted ) {
+        // Just the passable data for now, in future might want to copy the whole thing.
+        // TODO: The interface here should be "retrieve writable summary" that handles returning a
+        // new summary if the existing one is a placeholder.
+        std::shared_ptr<map_data_summary> new_summary = std::make_shared<map_data_summary>
+                ( const_summary->passable );
+        tripoint_bub_ms submap_origin = get_bub( project_to<coords::ms>( submap_abs_origin ) );
+        point summary_origin = offset_within_omt.raw();
+        for( point cursor; cursor.y < 12; cursor.y++ ) {
+            int y_component = summary_origin.y * 12 + cursor.y;
+            for( cursor.x = 0; cursor.x < 12; cursor.x++ ) {
+                int x_component = summary_origin.x * 12 + cursor.x;
+                bool passable_value = passable( submap_origin + cursor );
+                new_summary->passable.set( ( y_component * 24 ) + x_component, passable_value );
+            }
+        }
+        // TODO: minimize copying?
+        overmap_buffer.set_passable( omt_abs_origin, new_summary->passable );
     }
 }
 

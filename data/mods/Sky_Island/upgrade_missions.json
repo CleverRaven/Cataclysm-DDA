@@ -5221,7 +5221,7 @@
       [ [ "jacket_windbreaker", 3 ] ],
       [ [ "survival_book", 1 ] ],
       [ [ "milk_cream", 5 ], [ "moisturizer", 5 ], [ "bristol_sherry", 5 ] ],
-      [ [ "any_tallow", 24, "LIST" ] ]
+      [ [ "any_tallow", 60, "LIST" ] ]
     ]
   },
   {

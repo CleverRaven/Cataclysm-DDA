@@ -33,6 +33,7 @@
     "description": "A skilled ship technician, turned to independent salvage work.",
     "points": 4,
     "starting_cash": 1120000,
+    "traits": [ "CBM_Interface" ],
     "CBMs": [ "bio_weight", "bn_bio_solar", "bio_power_storage_mkII", "bio_flashlight", "bio_tools", "bio_sunglasses" ],
     "skills": [ { "level": 4, "name": "electronics" }, { "level": 2, "name": "launcher" } ],
     "items": {
@@ -88,6 +89,7 @@
     "starting_cash": 1120000,
     "flags": [ "SCEN_ONLY" ],
     "copy-from": "specops",
+    "traits": [ "CBM_Interface" ],
     "CBMs": [ "bio_targeting", "bio_purifier", "bio_geiger", "bio_adrenaline", "bio_ethanol", "bio_power_storage_mkII" ],
     "skills": [
       { "level": 4, "name": "gun" },
@@ -165,7 +167,7 @@
       { "level": 3, "name": "swimming" },
       { "level": 4, "name": "survival" }
     ],
-    "traits": [ "STR_UP_3", "UPLIFTED", "THRESH_URSINE", "URSINE_FUR", "CANNIBAL", "HUGE_OK" ],
+    "traits": [ "STR_UP_3", "UPLIFTED", "THRESH_URSINE", "URSINE_FUR", "CANNIBAL", "HUGE_OK", "CBM_Interface" ],
     "items": {
       "both": {
         "entries": [
@@ -304,7 +306,7 @@
     "points": 8,
     "starting_cash": 200000000,
     "CBMs": [ "bio_batteries", "bio_power_storage_mkII", "bio_eye_enhancer", "bio_int_enhancer", "bio_memory", "bio_cable" ],
-    "traits": [ "FLIMSY3", "SLOWHEALER3", "AFS_MENTAL_CAPABILITY_GENEMOD", "AFS_RECOVERY_CAPABILITY_GENEMOD" ],
+    "traits": [ "FLIMSY3", "SLOWHEALER3", "AFS_MENTAL_CAPABILITY_GENEMOD", "AFS_RECOVERY_CAPABILITY_GENEMOD", "CBM_Interface" ],
     "pets": [ { "name": "afs_mon_sentinel_lx", "amount": 2 } ],
     "skills": [ { "level": 6, "name": "speech" }, { "level": 6, "name": "computer" } ],
     "items": {
@@ -462,6 +464,7 @@
     "description": "You worked as a mercenary across six continents for a dozen corps.  A VP at the last corp decided he wanted to put you on retainer and you agreed to a three month gig in return for some additional bionics.  You woke up with an extra bionic, a cranial bomb that needed to be reset every month or so or it blows up.  Now you have days until the bomb goes off.  Maybe you'll find someone who can remove it.  Can you even sleep, for fear of death?",
     "points": 2,
     "starting_cash": 1120000,
+    "traits": [ "CBM_Interface" ],
     "CBMs": [
       "bio_carbon",
       "bio_targeting",
