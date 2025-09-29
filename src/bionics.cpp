@@ -174,6 +174,7 @@ static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
 static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
 static const trait_id trait_NONE( "NONE" );
+static const trait_id trait_NO_CBM_INSTALLATION( "NO_CBM_INSTALLATION" );
 static const trait_id trait_PROF_AUTODOC( "PROF_AUTODOC" );
 static const trait_id trait_PROF_MED( "PROF_MED" );
 static const trait_id trait_THRESH_MEDICAL( "THRESH_MEDICAL" );
@@ -2335,6 +2336,9 @@ bool Character::can_install_bionics( const itype &type, Character &installer, bo
         return true;
     }
     if( is_mounted() ) {
+        return false;
+    }
+    if( has_trait( trait_NO_CBM_INSTALLATION ) ) {
         return false;
     }
 

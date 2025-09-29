@@ -15,7 +15,8 @@
     "description": "You have a matrix in your central nervous system that acts as a universal control and installation bus for compact bionic modules.",
     "valid": false,
     "purifiable": false,
-    "types": [ "Cybernetic" ]
+    "types": [ "Cybernetic" ],
+    "cancels": [ "NO_CBM_INSTALLATION" ]
   },
   {
     "type": "mutation",
