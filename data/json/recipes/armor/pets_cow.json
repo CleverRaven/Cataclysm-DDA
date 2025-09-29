@@ -121,7 +121,7 @@
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [
       [ [ "water", 36 ], [ "water_clean", 36 ] ],
-      [ [ "wax_any", 7, "LIST" ], [ "any_tallow", 28, "LIST" ], [ "vinegar", 36 ], [ "pine_bough", 66 ] ],
+      [ [ "wax_any", 7, "LIST" ], [ "any_tallow", 70, "LIST" ], [ "vinegar", 36 ], [ "pine_bough", 66 ] ],
       [ [ "salt", 180 ] ]
     ],
     "proficiencies": [
@@ -186,7 +186,7 @@
     "tools": [ [ [ "surface_heat", 60, "LIST" ] ] ],
     "components": [
       [ [ "water", 36 ], [ "water_clean", 36 ] ],
-      [ [ "wax_any", 7, "LIST" ], [ "any_tallow", 28, "LIST" ], [ "vinegar", 36 ], [ "pine_bough", 72 ] ],
+      [ [ "wax_any", 7, "LIST" ], [ "any_tallow", 70, "LIST" ], [ "vinegar", 36 ], [ "pine_bough", 72 ] ],
       [ [ "salt", 180 ] ],
       [ [ "bone_sturdy", 45, "LIST" ] ]
     ],
