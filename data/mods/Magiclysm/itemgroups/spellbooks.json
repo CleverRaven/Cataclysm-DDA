@@ -20,6 +20,7 @@
       [ "spell_scroll_stonefist", 20 ],
       [ "spell_scroll_eshaper_piercing_bolt", 40 ],
       [ "spell_scroll_eshaper_rockbolt", 50 ],
+      [ "spell_scroll_earthshaper_remove_corpses", 50 ],
       [ "spell_scroll_reactive_armor", 25 ],
       [ "spell_scroll_pertifying_touch", 25 ],
       [ "spell_scroll_kelvinist_firebolt", 40 ],
