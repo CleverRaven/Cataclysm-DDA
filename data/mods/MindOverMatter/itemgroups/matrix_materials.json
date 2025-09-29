@@ -3,7 +3,11 @@
     "type": "item_group",
     "subtype": "distribution",
     "id": "dist_matrix_crystals",
-    "items": [
+    "entries": [
+      {
+        "distribution": [ { "item": "matrix_crystal_biokinesis", "prob": 1 }, { "group": "biokinetic_crystal_artifact_procgen", "prob": 1 } ],
+        "prob": 10
+      },
       [ "matrix_crystal_biokinesis", 10 ],
       [ "matrix_crystal_clairsentience", 10 ],
       [ "matrix_crystal_electrokinesis", 10 ],
@@ -20,9 +24,12 @@
     "type": "item_group",
     "subtype": "distribution",
     "id": "dist_matrix_crystals_rare",
-    "items": [
+    "entries": [
       [ "null", 100 ],
-      [ "matrix_crystal_biokinesis", 10 ],
+      {
+        "distribution": [ { "item": "matrix_crystal_biokinesis", "prob": 1 }, { "group": "biokinetic_crystal_artifact_procgen", "prob": 1 } ],
+        "prob": 10
+      },
       [ "matrix_crystal_clairsentience", 10 ],
       [ "matrix_crystal_electrokinesis", 10 ],
       [ "matrix_crystal_photokinesis", 10 ],
@@ -38,9 +45,12 @@
     "type": "item_group",
     "subtype": "distribution",
     "id": "dist_matrix_crystals_50_50",
-    "items": [
+    "entries": [
       [ "matrix_crystal_drained", 9 ],
-      [ "matrix_crystal_biokinesis", 1 ],
+      {
+        "distribution": [ { "item": "matrix_crystal_biokinesis", "prob": 1 }, { "group": "biokinetic_crystal_artifact_procgen", "prob": 1 } ],
+        "prob": 1
+      },
       [ "matrix_crystal_clairsentience", 1 ],
       [ "matrix_crystal_electrokinesis", 1 ],
       [ "matrix_crystal_photokinesis", 1 ],

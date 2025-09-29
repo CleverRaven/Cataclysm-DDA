@@ -20,7 +20,9 @@
       { "weight": 100, "spell_id": "MoM_AEA_STAMINA_BURST", "base_power": 250 },
       { "weight": 100, "spell_id": "MoM_AEA_MUTATE", "base_power": -150 },
       { "weight": 100, "spell_id": "MoM_AEA_PHYSICAL_ENHANCEMENT", "base_power": 150 },
-      { "weight": 100, "spell_id": "MoM_AEA_SPEED_BURST", "base_power": 400 }
+      { "weight": 100, "spell_id": "MoM_AEA_SPEED_BURST", "base_power": 400 },
+      { "weight": 100, "spell_id": "MoM_AEA_HARDEN_SKIN", "base_power": 300 },
+      { "weight": 100, "spell_id": "MoM_AEA_EXTRA_CALORIE_COST", "base_power": -150 }
     ],
     "passive_mult_procgen_values": [
       {
@@ -123,7 +125,7 @@
         "ench_has": "HELD"
       },
       {
-        "weight": 25,
+        "weight": 20,
         "min_value": -0.25,
         "max_value": 0.25,
         "type": "PAIN_PENALTY_MOD_SPEED",
@@ -132,7 +134,7 @@
         "ench_has": "HELD"
       },
       {
-        "weight": 25,
+        "weight": 20,
         "min_value": -0.25,
         "max_value": 0.25,
         "type": "PAIN_PENALTY_MOD_DEX",
@@ -141,7 +143,7 @@
         "ench_has": "HELD"
       },
       {
-        "weight": 25,
+        "weight": 20,
         "min_value": -0.25,
         "max_value": 0.25,
         "type": "PAIN_PENALTY_MOD_STR",

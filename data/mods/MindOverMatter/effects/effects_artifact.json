@@ -28,5 +28,22 @@
     "remove_message": "The prickling sensation of your skin disappears.",
     "rating": "bad",
     "enchantments": [ { "values": [ { "value": "PAIN", "multiply": 0.2 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_mom_artifact_hardened_skin",
+    "name": [ "Hardened Skin" ],
+    "desc": [ "Your skin is more resilient." ],
+    "apply_message": "",
+    "remove_message": "The slight itching and waxiness in your skin fades away.",
+    "rating": "good",
+    "blocks_effects": [ "bleed", "hypovolemia", "dermatik" ],
+    "enchantments": [
+      {
+        "incoming_damage_mod": [ { "type": "bash", "add": -6 }, { "type": "stab", "add": -3 }, { "type": "cut", "add": -4 } ],
+        "values": [ { "value": "PAIN", "multiply": -0.2 } ]
+      }
+    ],
+    "flags": [ "TOUGH_FEET" ]
   }
 ]
