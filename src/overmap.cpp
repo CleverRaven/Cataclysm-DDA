@@ -7820,11 +7820,11 @@ void overmap::open( overmap_special_batch &enabled_specials )
         const cata_path zzip_path = PATH_INFO::world_base_save_path() / "overmaps" / terfilename_path +
                                     ".zzip";
         if( file_exist( zzip_path ) ) {
-            std::shared_ptr<zzip> z = zzip::load( zzip_path.get_unrelative_path(),
-                                                  ( PATH_INFO::world_base_save_path() / "overmaps.dict" ).get_unrelative_path()
-                                                );
+            std::optional<zzip> z = zzip::load( zzip_path.get_unrelative_path(),
+                                                ( PATH_INFO::world_base_save_path() / "overmaps.dict" ).get_unrelative_path()
+                                              );
 
-            if( read_from_zzip_optional( z, terfilename_path, [this]( std::string_view sv ) {
+            if( z && read_from_zzip_optional( *z, terfilename_path, [this]( std::string_view sv ) {
             std::istringstream is{ std::string( sv ) };
             unserialize( is );
             } ) ) {
@@ -7872,9 +7872,9 @@ void overmap::save() const
         const cata_path overmaps_folder = PATH_INFO::world_base_save_path() / "overmaps";
         assure_dir_exist( overmaps_folder );
         const cata_path zzip_path = overmaps_folder / terfilename_path + ".zzip";
-        std::shared_ptr<zzip> z = zzip::load( zzip_path.get_unrelative_path(),
-                                              ( PATH_INFO::world_base_save_path() / "overmaps.dict" ).get_unrelative_path()
-                                            );
+        std::optional<zzip> z = zzip::load( zzip_path.get_unrelative_path(),
+                                            ( PATH_INFO::world_base_save_path() / "overmaps.dict" ).get_unrelative_path()
+                                          );
         if( !z ) {
             throw std::runtime_error(
                 string_format(
