@@ -128,7 +128,7 @@
         "max_value": 0.25,
         "type": "PAIN_PENALTY_MOD_SPEED",
         "increment": 0.025,
-        "power_per_increment": 25,
+        "power_per_increment": -15,
         "ench_has": "HELD"
       },
       {
@@ -137,7 +137,7 @@
         "max_value": 0.25,
         "type": "PAIN_PENALTY_MOD_DEX",
         "increment": 0.025,
-        "power_per_increment": 25,
+        "power_per_increment": -15,
         "ench_has": "HELD"
       },
       {
@@ -146,7 +146,7 @@
         "max_value": 0.25,
         "type": "PAIN_PENALTY_MOD_STR",
         "increment": 0.025,
-        "power_per_increment": 25,
+        "power_per_increment": -15,
         "ench_has": "HELD"
       }
     ],
