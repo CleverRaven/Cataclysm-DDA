@@ -374,7 +374,7 @@ static int decompress_to( std::filesystem::path const &zzip_path,
         entry_map[filename] = std::move( *entry );
     }
 
-    for( const std::pair<std::string, ZzipEntry> &entry : entry_map ) {
+    for( const std::pair<const std::string, ZzipEntry> &entry : entry_map ) {
         const std::string &filename = entry.second.path;
         const char *entry_base = entry.second.base;
         size_t frame_size = entry.second.size;
