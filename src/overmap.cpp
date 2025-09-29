@@ -4262,7 +4262,7 @@ void overmap::spawn_mongroup( const tripoint_om_sm &p, const mongroup_id &type, 
 {
     tripoint_om_ms submap_origin = project_to<coords::ms>( p );
     point_rel_ms cursor{ 0, 0 };
-    while( count ) {
+    while( count > 0 ) {
         for( MonsterGroupResult &result : MonsterGroupManager::GetResultFromGroup( type, &count ) ) {
             for( int i = 0; i < result.pack_size; ++i ) {
 
