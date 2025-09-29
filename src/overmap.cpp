@@ -4319,11 +4319,12 @@ void overmap::move_hordes()
                 continue;
             }
             std::vector<tripoint_abs_ms> viable_candidates;
-            // TODO: wandering, pathing.
-            tripoint_abs_ms candidate = line_to( mon->first, mon->second.destination ).front();
             // Call up to overmapbuffer in case it needs to dispatch to an adjacent overmap.
-            if( overmap_buffer.passable( candidate ) ) {
-                viable_candidates.push_back( candidate );
+            for( const tripoint_abs_ms &candidate :
+                 squares_closer_to( mon->first, mon->second.destination ) ) {
+                if( overmap_buffer.passable( candidate ) ) {
+                    viable_candidates.push_back( candidate );
+                }
             }
             if( viable_candidates.empty() ) {
                 // We're stuck.
@@ -4336,6 +4337,8 @@ void overmap::move_hordes()
             if( viable_candidates.front() == mon->second.destination ) {
                 mon->second.tracking_intensity = 0;
             }
+            // squares_closer_to already orders candidates by how close to the main line they are.
+            // For now just pick the first non-blocked square, later we could fuzz/stumble.
             if( get_map().inbounds( viable_candidates.front() ) ) {
                 monster *placed_monster = nullptr;
                 if( mon->second.monster_data ) {
