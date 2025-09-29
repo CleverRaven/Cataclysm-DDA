@@ -1,3 +1,17 @@
 [
-  
+  {
+    "id": "MoM_AEA_SPEED_BURST",
+    "type": "SPELL",
+    "name": { "str": "MoM AEA Add Extra Speed", "//~": "NO_I18N" },
+    "description": { "str": "Add a speed boost.", "//~": "NO_I18N" },
+    "message": "The movements of everything nearby slow to a crawl.",
+    "valid_targets": [ "self" ],
+    "spell_class": "NONE",
+    "flags": [ "NO_LEGS", "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "effect": "attack",
+    "effect_str": "effect_mom_artifact_speed_boost",
+    "shape": "blast",
+    "min_duration": 1000,
+    "max_duration": 3000
+  }
 ]

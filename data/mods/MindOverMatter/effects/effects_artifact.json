@@ -1,0 +1,12 @@
+[
+  {
+    "type": "effect_type",
+    "id": "effect_mom_artifact_speed_boost",
+    "name": [ "Preternatural Speed" ],
+    "desc": [ "Are you moving much faster than anything nearby." ],
+    "apply_message": "",
+    "remove_message": "The world speeds up again.",
+    "rating": "good",
+    "enchantments": [ { "values": [ { "value": "SPEED", "add": 200 } ] } ]
+  }
+]
