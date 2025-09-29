@@ -15,5 +15,20 @@
     "type": "effect_on_condition",
     "id": "EOC_MOM_AEA_ARTIFACT_CALORIE_COST",
     "effect": [ { "math": [ "u_calories() -= rand(150) + 100" ] } ]
+  },
+  {
+    "id": "mom_aea_artifact_add_future_pain",
+    "type": "SPELL",
+    "name": { "str": "MoM AEA Add future Pain", "//~": "NO_I18N" },
+    "description": { "str": "Increase the amount of pain you receive for a period of time.", "//~": "NO_I18N" },
+    "message": "",
+    "valid_targets": [ "self" ],
+    "spell_class": "NONE",
+    "flags": [ "NO_LEGS", "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "effect": "attack",
+    "effect_str": "effect_mom_artifact_increase_pain",
+    "shape": "blast",
+    "min_duration": 18000,
+    "max_duration": 72000
   }
 ]
