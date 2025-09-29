@@ -4304,8 +4304,9 @@ void overmap::move_hordes()
          mon_end = hordes.end(); mon != mon_end; ) {
         // This might have an issue where a monster prevented from acting possibly should
         // get another chance to act?
-        if( mon->second.last_processed == calendar::turn ||
-            mon->second.get_type()->has_flag( mon_flag_DORMANT ) ) {
+        // This is here so that when a entity moves from one bucket to another it doesn't
+        // get a second set of moves.
+        if( mon->second.last_processed == calendar::turn ) {
             mon++;
             continue;
         }
