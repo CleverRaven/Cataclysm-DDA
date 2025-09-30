@@ -2420,7 +2420,7 @@ void activity_handlers::robot_control_finish( player_activity *act, Character *y
     /** @EFFECT_COMPUTER increases chance of successful robot reprogramming, vs difficulty */
     const float computer_skill = you->get_skill_level( skill_computer );
     const float randomized_skill = rng( 2, you->int_cur ) + computer_skill;
-    float success = computer_skill - 3 * z->type->difficulty / randomized_skill;
+    float success = computer_skill - 3 * z->type->get_total_difficulty() / randomized_skill;
     if( z->has_flag( mon_flag_RIDEABLE_MECH ) ) {
         success = randomized_skill - rng( 1, 11 );
     }

@@ -559,7 +559,7 @@ void overmap::place_rivers( const std::vector<const overmap *> &neighbor_overmap
     // ..closer to end point
     std::array<point_om_omt, max_rivers> control_end = { point_om_omt::invalid, point_om_omt::invalid };
 
-    auto bound_control_point = []( const point_om_omt & p, const point_rel_omt & init_diff ) {
+    auto bound_control_point = [&]( const point_om_omt & p, const point_rel_omt & init_diff ) {
         point_rel_omt diff = init_diff;
         point_om_omt continue_line = p + diff;
         while( !inbounds( continue_line ) ) {

@@ -1376,11 +1376,11 @@ std::string display::colorized_compass_legend_text( int width, int max_height, i
     }
     for( const auto &m : mlist ) {
         nc_color danger = c_dark_gray;
-        if( m.first->difficulty >= 30 ) {
+        if( m.first->get_total_difficulty() >= 30 ) {
             danger = c_red;
-        } else if( m.first->difficulty >= 16 ) {
+        } else if( m.first->get_total_difficulty() >= 16 ) {
             danger = c_light_red;
-        } else if( m.first->difficulty >= 8 ) {
+        } else if( m.first->get_total_difficulty() >= 8 ) {
             danger = c_white;
         } else if( m.first->agro > 0 ) {
             danger = c_light_gray;

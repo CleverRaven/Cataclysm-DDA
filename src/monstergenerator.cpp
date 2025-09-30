@@ -393,7 +393,7 @@ void MonsterGenerator::finalize_mtypes()
         }
         mon.difficulty = ( mon.melee_skill + 1 ) * mon.melee_dice * ( melee_dmg_total + mon.melee_sides ) *
                          0.04 + ( mon.sk_dodge + 1 ) * armor_diff * 0.04 +
-                         ( mon.difficulty_base + special_attacks_diff + 8 * mon.emit_fields.size() );
+                         ( mon.get_difficulty_adjustment() + special_attacks_diff + 8 * mon.emit_fields.size() );
         mon.difficulty *= ( mon.hp + mon.speed - mon.attack_cost + ( mon.morale + mon.agro ) * 0.1 ) * 0.01
                           + ( mon.vision_day + 2 * mon.vision_night ) * 0.01;
 
@@ -862,7 +862,7 @@ void mtype::load( const JsonObject &jo, const std::string_view src )
     optional( jo, was_loaded, "phase", phase, make_flag_reader( gen.phase_map, "phase id" ),
               phase_id::SOLID );
 
-    optional( jo, was_loaded, "diff", difficulty_base, numeric_bound_reader<int> {0}, 0 );
+    optional( jo, was_loaded, "diff", difficulty_adjustment, numeric_bound_reader<int> {0}, 0 );
     optional( jo, was_loaded, "hp", hp, numeric_bound_reader<int> {1} );
     optional( jo, was_loaded, "speed", speed, numeric_bound_reader<int> {0}, 0 );
     optional( jo, was_loaded, "aggression", agro, numeric_bound_reader<int> {-100, 100}, 0 );

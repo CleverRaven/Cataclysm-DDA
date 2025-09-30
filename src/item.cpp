@@ -6732,7 +6732,8 @@ void item::handle_pickup_ownership( Character &c )
                     const monster *const lmon = lhs->as_monster();
                     const monster *const rmon = rhs->as_monster();
                     // Sort more difficult monsters first
-                    return ( lmon ? lmon->type->difficulty : 0 ) > ( rmon ? rmon->type->difficulty : 0 );
+                    return ( lmon ? lmon->type->get_total_difficulty() : 0 ) >
+                           ( rmon ? rmon->type->get_total_difficulty() : 0 );
                 } else if( lnpc && !rnpc ) {
                     return true;
                 } else if( !lnpc && rnpc ) {
