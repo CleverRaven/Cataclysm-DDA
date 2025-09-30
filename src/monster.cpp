@@ -240,7 +240,7 @@ static const std::map<monster_attitude, std::pair<std::string, color_id>> attitu
 
 static int compute_kill_xp( const mtype_id &mon_type )
 {
-    return mon_type->difficulty + mon_type->difficulty_base;
+    return mon_type->get_total_difficulty() + mon_type->get_difficulty_adjustment();
 }
 
 monster::monster()
@@ -1133,17 +1133,17 @@ std::vector<std::string> monster::extended_description() const
 
     std::string difficulty_str;
     if( debug_mode ) {
-        difficulty_str = _( "Difficulty " ) + std::to_string( type->difficulty );
+        difficulty_str = _( "Difficulty " ) + std::to_string( type->get_total_difficulty() );
     } else {
-        if( type->difficulty < 3 ) {
+        if( type->get_total_difficulty() < 3 ) {
             difficulty_str = _( "<color_light_gray>Minimal threat.</color>" );
-        } else if( type->difficulty < 10 ) {
+        } else if( type->get_total_difficulty() < 10 ) {
             difficulty_str = _( "<color_light_gray>Mildly dangerous.</color>" );
-        } else if( type->difficulty < 20 ) {
+        } else if( type->get_total_difficulty() < 20 ) {
             difficulty_str = _( "<color_light_red>Dangerous.</color>" );
-        } else if( type->difficulty < 30 ) {
+        } else if( type->get_total_difficulty() < 30 ) {
             difficulty_str = _( "<color_red>Very dangerous.</color>" );
-        } else if( type->difficulty < 50 ) {
+        } else if( type->get_total_difficulty() < 50 ) {
             difficulty_str = _( "<color_red>Extremely dangerous.</color>" );
         } else {
             difficulty_str = _( "<color_red>Fatally dangerous!</color>" );

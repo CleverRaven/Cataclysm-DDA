@@ -2407,5 +2407,30 @@
     "color": "white",
     "flags": [ "NO_TEMP" ],
     "use_action": { "type": "consume_drug", "activation_message": "You set the pill under your tongue and let it dissolve." }
+  },
+  {
+    "id": "sunscreen",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
+    "ammo_type": "sunscreen",
+    "category": "drugs",
+    "name": { "str_sp": "sunscreen" },
+    "description": "Good luck finding someone to apply it to your back.",
+    "symbol": "~",
+    "color": "white",
+    "phase": "liquid",
+    "charges": 1,
+    "material": [ "water" ],
+    "weight": "30 g",
+    "volume": "30 ml",
+    "price_postapoc": "10 cent",
+    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "consume": true,
+      "menu_text": "Apply sunscreen",
+      "description": "You apply some sunscreen.",
+      "effect_on_conditions": [ { "id": "EOC_SUNSCREEN", "effect": [ { "u_add_effect": "sunscreen", "duration": 7200, "intensity": 2 } ] } ]
+    }
   }
 ]

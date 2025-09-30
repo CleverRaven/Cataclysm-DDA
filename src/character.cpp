@@ -13963,9 +13963,10 @@ bool character_martial_arts::pick_style( const Character &you ) // Style selecti
     if( selection >= STYLE_OFFSET ) {
         // If the currect style is selected, do not change styles
 
+        // Bizarre and unsafe casting const reference to non-const????????
         Character &u = const_cast<Character &>( you );
-        style_selected->remove_all_buffs( u );
-        style_selected = selectable_styles[selection - STYLE_OFFSET];
+        clear_all_effects( u );
+        set_style( selectable_styles[selection - STYLE_OFFSET], true );
         ma_static_effects( u );
         martialart_use_message( you );
     } else if( selection == KEEP_HANDS_FREE ) {

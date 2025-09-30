@@ -478,6 +478,16 @@ field_type_id mtype::gibType() const
     return fd_null;
 }
 
+int mtype::get_total_difficulty() const
+{
+    return difficulty;
+}
+
+int mtype::get_difficulty_adjustment() const
+{
+    return difficulty_adjustment;
+}
+
 itype_id mtype::get_meat_itype() const
 {
     if( has_flag( mon_flag_POISON ) ) {

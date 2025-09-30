@@ -1531,6 +1531,41 @@ void npc::stow_item( item &it )
     }
 }
 
+static void choose_best_MA_style( npc *you )
+{
+    // Evaluate either the weapon we have, or fake weapon(fists)
+    item_location wpn_location = you->get_wielded_item();
+    const item &weapon = wpn_location ? *wpn_location : null_item_reference();
+    double best_wpn_value = you->evaluate_weapon( weapon );
+
+    // And then see if switching style will improve our evaluation
+    const pimpl<character_martial_arts> &MA_data = you->martial_arts_data;
+    const matype_id starting_style = MA_data->selected_style();
+    matype_id best_style = starting_style;
+    for( const matype_id &style : MA_data->get_known_styles( false ) ) {
+        MA_data->clear_all_effects( *you );
+        MA_data->set_style( style );
+        MA_data->ma_static_effects( *you );
+        // We need to reset weapon_value before each comparison or else it will return the same stale value
+        you->cached_info.erase( "weapon_value" );
+        const double compared_wpn_value = you->evaluate_weapon( weapon );
+        if( compared_wpn_value > best_wpn_value ) {
+            best_wpn_value = compared_wpn_value;
+            best_style = style;
+        }
+    }
+
+    MA_data->clear_all_effects( *you );
+    MA_data->set_style( best_style );
+    MA_data->ma_static_effects( *you );
+
+    if( starting_style != best_style ) {
+        //~Position 1: Character's name. Position 2: Formal name of a martial arts style (e.g. "Karate")
+        add_msg_if_player_sees( *you, m_info, _( "%1$s switches to using %2$s!" ),
+                                you->disp_name(), MA_data->selected_style_name( *you ) );
+    }
+}
+
 bool npc::wield( item &it )
 {
     // dont unwield if you already wield the item
@@ -1550,7 +1585,7 @@ bool npc::wield( item &it )
                                 get_wielded_item()->tname() );
     }
 
-
+    choose_best_MA_style( this );
     invalidate_range_cache();
     return true;
 }
@@ -1566,6 +1601,7 @@ bool npc::wield( item_location loc, bool remove_old )
                                 get_wielded_item()->tname() );
     }
 
+    choose_best_MA_style( this );
     invalidate_range_cache();
     return true;
 }

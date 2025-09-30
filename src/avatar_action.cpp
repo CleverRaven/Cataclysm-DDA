@@ -738,7 +738,7 @@ static float rate_critter( const Creature &c )
     }
 
     const monster *m = dynamic_cast<const monster *>( &c );
-    return m->type->difficulty;
+    return m->type->get_total_difficulty();
 }
 
 void avatar_action::autoattack( avatar &you, map &m )

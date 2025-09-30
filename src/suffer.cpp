@@ -99,6 +99,7 @@ static const efftype_id effect_nausea( "nausea" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_shakes( "shakes" );
 static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_sunscreen( "sunscreen" );
 static const efftype_id effect_took_antiasthmatic( "took_antiasthmatic" );
 static const efftype_id effect_took_xanax( "took_xanax" );
 static const efftype_id effect_visuals( "visuals" );
@@ -721,13 +722,14 @@ void suffer::in_sunlight( Character &you )
             you.vitamin_mod( vitamin_vitC, 1 );
         }
     }
-    if( you.has_flag( json_flag_SUNBURN ) ) {
+    if( you.has_flag( json_flag_SUNBURN ) && !you.has_effect( effect_sunscreen ) ) {
         suffer::from_sunburn( you, true );
     }
 
     // Albinism and datura have the same effects and do not stack with each other or sunburn.
-    if( !you.has_flag( json_flag_SUNBURN ) &&
-        ( you.has_flag( json_flag_ALBINO ) || you.has_effect( effect_datura ) ) ) {
+    if( ( !you.has_flag( json_flag_SUNBURN ) &&
+          ( you.has_flag( json_flag_ALBINO ) || you.has_effect( effect_datura ) ) ) &&
+        !you.has_effect( effect_sunscreen ) ) {
         suffer::from_sunburn( you, false );
     }
 

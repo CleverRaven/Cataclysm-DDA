@@ -409,6 +409,7 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```MYOPIC_SUPERNATURAL``` You are nearsighted in such a way that glasses cannot fix it, such as by magic.
 - ```MYOPIC_IN_LIGHT_SUPERNATURAL``` You are nearsighted in light in such a way that glasses cannot fix it, such as by magic.
 - ```NIGHT_VISION``` You can see in the dark.
+- ```NO_CBM_INSTALLATION``` You are unable to install any CBMs.
 - ```NO_DISEASE``` This mutation grants immunity to diseases.
 - ```NO_RADIATION``` This mutation grants immunity to radiations.
 - ```NO_SCENT``` You have no scent.
