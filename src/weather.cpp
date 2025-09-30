@@ -895,28 +895,47 @@ static units::temperature highest_temp_on_day( time_point &base_date, const trip
     return highest_temp;
 }
 
-ret_val<void> warm_enough_to_plant( const tripoint_bub_ms &pos, const itype_id &it )
+static bool has_sunlight_access( const tripoint_bub_ms &pos )
 {
-    const tripoint_abs_ms abs = get_map().get_abs( pos );
-    const tripoint_abs_omt target_omt = project_to<coords::omt>( abs );
-    return warm_enough_to_plant( target_omt, it );
+    tripoint_bub_ms checked_pnt = pos;
+    const map &here = get_map();
+    while( checked_pnt.z() < OVERMAP_HEIGHT ) {
+        const tripoint_bub_ms pnt_above = {checked_pnt.xy(), checked_pnt.z() + 1 };
+        const bool should_check_above = pnt_above.z() < OVERMAP_HEIGHT;
+        // If checking above would take us outside of game bounds, just assume that it's all open air up there.
+        const bool transparent_roof = should_check_above ?
+                                      here.is_outside( pnt_above ) && here.has_flag_ter( "TRANSPARENT", pnt_above ) :
+                                      true;
+        if( !here.is_outside( checked_pnt ) || !transparent_roof ) {
+            return false;
+        }
+        checked_pnt = pnt_above;
+    }
+    return true;
 }
 
-ret_val<void> warm_enough_to_plant( const tripoint_abs_omt &pos, const itype_id &it )
+ret_val<void> warm_enough_to_plant( const tripoint_bub_ms &pos, const itype_id &it )
 {
     std::map<time_point, units::temperature> planting_times;
+
+    if( !has_sunlight_access( pos ) ) {
+        return ret_val<void>::make_failure( _( "Plants need sunlight to grow!  You can't plant there." ) );
+    }
+
+    const tripoint_abs_ms abs = get_map().get_abs( pos );
+    const tripoint_abs_omt checked_omt = project_to<coords::omt>( abs );
 
     const std::vector<std::pair<flag_id, time_duration>> &growth_stages = it->seed->get_growth_stages();
     // we will iterate a copy of the weather into the future to see if they'll be plantable then as well.
     const weather_generator weather_gen = get_weather().get_cur_weather_gen();
     // initialize the first...
     time_point check_date = calendar::turn;
-    planting_times[check_date] = highest_temp_on_day( check_date, pos, weather_gen );
+    planting_times[check_date] = highest_temp_on_day( check_date, checked_omt, weather_gen );
     for( const auto &pair : growth_stages ) {
         // TODO: Replace epoch checks with data from a farmer's almanac
         check_date = check_date + pair.second;
         // The [] operator in std::map inserts an entry if it doesn't already exist.
-        planting_times[check_date] = highest_temp_on_day( check_date, pos, weather_gen );
+        planting_times[check_date] = highest_temp_on_day( check_date, checked_omt, weather_gen );
     }
     for( const std::pair<const time_point, units::temperature> &pair : planting_times ) {
         // This absolutely needs to be a time point.

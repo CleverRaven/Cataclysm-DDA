@@ -168,11 +168,9 @@ nc_color get_wind_color( double );
 
 /**
  * Is it warm enough to plant seeds? Will it be warm enough during the type's grow periods?
- *
- * The first overload is simply a forwarding helper.
+ * Also includes check for whether the tile is exposed to sunlight.
  */
 ret_val<void> warm_enough_to_plant( const tripoint_bub_ms &pos, const itype_id &it );
-ret_val<void> warm_enough_to_plant( const tripoint_abs_omt &pos, const itype_id &it );
 
 bool is_wind_blocker( const tripoint_bub_ms &location );
 

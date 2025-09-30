@@ -60,6 +60,7 @@
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "point.h"
+#include "ret_val.h"
 #include "rng.h"
 #include "skill.h"
 #include "string_formatter.h"
