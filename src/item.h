@@ -884,6 +884,8 @@ class item : public visitable
         std::vector<item_pocket *> get_all_standard_pockets();
         std::vector<item_pocket *> get_all_ablative_pockets();
         std::vector<const item_pocket *> get_all_ablative_pockets() const;
+        std::vector<const item_pocket *> get_all_contained_and_mod_pockets() const;
+        std::vector<item_pocket *> get_all_contained_and_mod_pockets();
         /**
          * Updates the pockets of this item to be correct based on the mods that are installed.
          * Pockets which are modified that contain an item will be spilled

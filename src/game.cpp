@@ -2240,7 +2240,8 @@ int game::inventory_item_menu( item_location locThisItem,
     int cMenu = static_cast<int>( '+' );
 
     item &oThisItem = *locThisItem;
-    if( u.has_item( oThisItem ) ) {
+    // u.has_item(oThisItem) do not include mod pockets, where mounted flashlights are
+    if( /* u.has_item(oThisItem) */ true ) {
 #if defined(__ANDROID__)
         if( get_option<bool>( "ANDROID_INVENTORY_AUTOADD" ) ) {
             add_key_to_quick_shortcuts( oThisItem.invlet, "INVENTORY", false );
