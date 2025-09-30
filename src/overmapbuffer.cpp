@@ -265,22 +265,22 @@ void overmapbuffer::clear()
     last_requested_overmap = nullptr;
 }
 
-const regional_settings &overmapbuffer::get_settings( const tripoint_abs_omt &p )
+const region_settings &overmapbuffer::get_settings( const tripoint_abs_omt &p )
 {
     overmap *om = get_om_global( p ).om;
     return om->get_settings();
 }
 
-const regional_settings &overmapbuffer::get_default_settings( const point_abs_om &p )
+const region_settings &overmapbuffer::get_default_settings( const point_abs_om &p )
 {
     const std::string rsettings_id = get_option<std::string>( "DEFAULT_REGION" );
-    t_regional_settings_map_citr rsit = region_settings_map.find( rsettings_id );
+    const region_settings_id region_settings_default( rsettings_id );
 
-    if( rsit == region_settings_map.end() ) {
+    if( !region_settings_default.is_valid() ) {
         debugmsg( "overmap%s: can't find region '%s'", p.to_string(),
                   rsettings_id.c_str() ); // gonna die now =[
     }
-    return rsit->second;
+    return *region_settings_default;
 }
 
 void overmapbuffer::add_note( const tripoint_abs_omt &p, const std::string &message )
@@ -1792,8 +1792,8 @@ point_abs_om overmapbuffer::get_highway_global_offset() const
 std::vector<interhighway_node>
 overmapbuffer::find_highway_adjacent_intersections( const point_abs_om &generated_om_pos )
 {
-    const overmap_highway_settings &highway_settings = get_default_settings(
-                generated_om_pos ).overmap_highway;
+    const region_settings_highway &highway_settings = get_default_settings(
+                generated_om_pos ).get_settings_highway();
     const int c_seperation = highway_settings.grid_column_seperation;
     const int r_seperation = highway_settings.grid_row_seperation;
 
@@ -1831,8 +1831,8 @@ bool overmapbuffer::highway_intersection_exists( const point_abs_om &intersectio
 
 void overmapbuffer::generate_highway_intersection_point( const point_abs_om &generated_om_pos )
 {
-    const overmap_highway_settings &highway_settings = get_default_settings(
-                generated_om_pos ).overmap_highway;
+    const region_settings_highway &highway_settings = get_default_settings(
+                generated_om_pos ).get_settings_highway();
     const int intersection_max_radius = highway_settings.intersection_max_radius;
     if( !highway_intersection_exists( generated_om_pos ) ) {
         interhighway_node new_intersection( generated_om_pos );
@@ -1846,8 +1846,8 @@ void overmapbuffer::generate_highway_intersection_point( const point_abs_om &gen
 std::vector<point_abs_om> overmapbuffer::find_highway_intersection_bounds( const point_abs_om
         & generated_om_pos )
 {
-    const overmap_highway_settings &highway_settings = get_default_settings(
-                generated_om_pos ).overmap_highway;
+    const region_settings_highway &highway_settings = get_default_settings(
+                generated_om_pos ).get_settings_highway();
     const int c_seperation = highway_settings.grid_column_seperation;
     const int r_seperation = highway_settings.grid_row_seperation;
 

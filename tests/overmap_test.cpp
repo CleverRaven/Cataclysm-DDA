@@ -660,8 +660,8 @@ TEST_CASE( "highway_find_intersection_bounds", "[overmap]" )
     overmap_buffer.clear();
     overmap_buffer.set_highway_global_offset();
     point_abs_om pos = overmap_buffer.get_highway_global_offset();
-    const overmap_highway_settings &highway_settings = overmap_buffer.get_default_settings(
-                pos ).overmap_highway;
+    const region_settings_highway &highway_settings = overmap_buffer.get_default_settings(
+                pos ).get_settings_highway();
 
     const int c_seperation = highway_settings.grid_column_seperation;
     const int r_seperation = highway_settings.grid_row_seperation;

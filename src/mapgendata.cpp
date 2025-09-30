@@ -47,7 +47,7 @@ size_t std::hash<mapgen_arguments>::operator()( const mapgen_arguments &args ) c
     return h( args.map );
 }
 
-static const regional_settings dummy_regional_settings;
+static const region_settings dummy_regional_settings;
 
 mapgendata::mapgendata( map &mp, dummy_settings_t )
     : pos_( tripoint_abs_omt::zero )

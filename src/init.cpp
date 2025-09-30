@@ -821,6 +821,7 @@ void DynamicDataLoader::finalize_loaded_data()
             { _( "Damage info orders" ), &damage_info_order::finalize_all },
             { _( "Diseases" ), &disease_type::finalize_all },
             { _( "Weather types" ), &weather_types::finalize_all },
+            { _( "Weather generators" ), &weather_generator::finalize_all },
             { _( "Effect on conditions" ), &effect_on_conditions::finalize_all },
             { _( "Field types" ), &field_types::finalize_all },
             { _( "Ammo effects" ), &ammo_effects::finalize_all },
