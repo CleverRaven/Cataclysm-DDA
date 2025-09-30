@@ -1,8 +1,10 @@
 #include "horde_map.h"
 
 #include <memory>
+#include <string>
 #include <tuple>
 
+#include "debug.h"
 #include "map_scale_constants.h"
 #include "monster.h"
 #include "mtype.h"
@@ -123,7 +125,12 @@ std::unordered_map<tripoint_abs_ms, horde_entity>::iterator horde_map::spawn_ent
     bool inserted;
     // The [] operator creates a nested std::map if not present already.
     std::tie( result, inserted ) = target_map[sm].emplace( p, mon );
-    result->second.monster_data->set_pos_abs_only( p );
+    if( inserted ) {
+        result->second.monster_data->set_pos_abs_only( p );
+    } else {
+        debugmsg( "Attempted to insert a %s at %s, but there's already a %s there!",
+                  mon.name(), p.to_string(), result->second.get_type() );
+    }
     return result;
 }
 
