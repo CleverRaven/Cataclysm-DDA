@@ -1210,7 +1210,9 @@ static void draw_om_sidebar( ui_adaptor &ui,
     print_hint( "TOGGLE_MAP_NOTES", uistate.overmap_show_map_notes ? c_pink : c_magenta );
     print_hint( "TOGGLE_BLINKING", uistate.overmap_blinking ? c_pink : c_magenta );
     print_hint( "TOGGLE_OVERLAYS", show_overlays ? c_pink : c_magenta );
-    print_hint( "TOGGLE_LAND_USE_CODES", uistate.overmap_show_land_use_codes ? c_pink : c_magenta );
+    if( debug_mode ) {
+        print_hint( "TOGGLE_LAND_USE_CODES", uistate.overmap_show_land_use_codes ? c_pink : c_magenta );
+    }
     print_hint( "TOGGLE_CITY_LABELS", uistate.overmap_show_city_labels ? c_pink : c_magenta );
     print_hint( "TOGGLE_HORDES", uistate.overmap_show_hordes ? c_pink : c_magenta );
     print_hint( "TOGGLE_MAP_REVEALS", uistate.overmap_show_revealed_omts ? c_pink : c_magenta );
@@ -1978,6 +1980,12 @@ static bool try_travel_to_destination( avatar &player_character, const tripoint_
 
 static tripoint_abs_omt display()
 {
+    // HACK: Remove saved land use code uistate for people who might have accidentally turned it on previously, before it was debug-only
+    // Remove after 0.J.
+    if( uistate.overmap_show_land_use_codes && !debug_mode ) {
+        uistate.overmap_show_land_use_codes = !uistate.overmap_show_land_use_codes;
+    }
+
     map &here = get_map();
 
     overmap_draw_data_t &data = g->overmap_data;
@@ -2246,7 +2254,7 @@ static tripoint_abs_omt display()
                 uistate.overmap_show_overlays = !uistate.overmap_show_overlays;
                 data.show_explored = !data.show_explored;
             }
-        } else if( action == "TOGGLE_LAND_USE_CODES" ) {
+        } else if( action == "TOGGLE_LAND_USE_CODES" && debug_mode ) {
             uistate.overmap_show_land_use_codes = !uistate.overmap_show_land_use_codes;
         } else if( action == "TOGGLE_MAP_NOTES" ) {
             uistate.overmap_show_map_notes = !uistate.overmap_show_map_notes;
