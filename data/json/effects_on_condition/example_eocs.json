@@ -526,10 +526,10 @@
     "global": true,
     "effect": [
       {
-        "set_string_var": "",
+        "set_string_var": "default",
         "string_input": {
           "title": { "str": "teleport to dimension named:" },
-          "description": { "str": "'default' returns you to main dimension" },
+          "description": { "str": "empty for main dimension" },
           "width": 30
         },
         "target_var": { "u_val": "destination_dimension" }
