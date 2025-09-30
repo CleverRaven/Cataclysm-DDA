@@ -1554,7 +1554,6 @@
     "description": "Your health recovery is severely impaired.  Your HP whilst asleep, as well as your broken limbs, heal at 33% of the regular rate.",
     "starting_trait": true,
     "valid": false,
-    "purifiable": false,
     "types": [ "HEALING" ],
     "enchantments": [ { "values": [ { "value": "MENDING_MODIFIER", "multiply": -0.67 }, { "value": "REGEN_HP", "multiply": -0.67 } ] } ]
   },
@@ -1566,7 +1565,6 @@
     "description": "Wounds are incredibly dangerous to you, as they barely heal at all.  Your HP whilst asleep, as well as your broken limbs, heal at 10% of the regular rate.",
     "starting_trait": true,
     "valid": false,
-    "purifiable": false,
     "types": [ "HEALING" ],
     "enchantments": [ { "values": [ { "value": "MENDING_MODIFIER", "multiply": -0.9 }, { "value": "REGEN_HP", "multiply": -0.9 } ] } ]
   },
@@ -1578,7 +1576,6 @@
     "description": "Whatever caused the end of the world affected you in a horrible way.  Your wounds will never heal on their own and your broken limbs will never mend.",
     "starting_trait": true,
     "valid": false,
-    "purifiable": false,
     "types": [ "HEALING" ],
     "enchantments": [ { "values": [ { "value": "MENDING_MODIFIER", "multiply": -1 }, { "value": "REGEN_HP", "multiply": -1 } ] } ]
   },
@@ -10715,7 +10712,8 @@
     "player_display": true,
     "points": -8,
     "starting_trait": true,
-    "cancels": [ "CBM_Interface" ]
+    "cancels": [ "CBM_Interface" ],
+    "category": [ "ALPHA" ]
   },
   {
     "type": "mutation",
