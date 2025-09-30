@@ -1,8 +1,10 @@
 #include "horde_map.h"
 
 #include <memory>
+#include <string>
 #include <tuple>
 
+#include "debug.h"
 #include "map_scale_constants.h"
 #include "monster.h"
 #include "mtype.h"
