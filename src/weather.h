@@ -10,6 +10,7 @@
 #include "color.h"
 #include "coordinates.h"
 #include "pimpl.h"
+#include "ret_val.h"
 #include "type_id.h"
 #include "units.h"
 #include "weather_gen.h"
@@ -170,8 +171,8 @@ nc_color get_wind_color( double );
  *
  * The first overload is simply a forwarding helper.
  */
-bool warm_enough_to_plant( const tripoint_bub_ms &pos, const itype_id &it );
-bool warm_enough_to_plant( const tripoint_abs_omt &pos, const itype_id &it );
+ret_val<void> warm_enough_to_plant( const tripoint_bub_ms &pos, const itype_id &it );
+ret_val<void> warm_enough_to_plant( const tripoint_abs_omt &pos, const itype_id &it );
 
 bool is_wind_blocker( const tripoint_bub_ms &location );
 

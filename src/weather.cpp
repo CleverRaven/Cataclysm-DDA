@@ -895,17 +895,17 @@ static units::temperature highest_temp_on_day( time_point &base_date, const trip
     return highest_temp;
 }
 
-bool warm_enough_to_plant( const tripoint_bub_ms &pos, const itype_id &it )
+ret_val<void> warm_enough_to_plant( const tripoint_bub_ms &pos, const itype_id &it )
 {
     const tripoint_abs_ms abs = get_map().get_abs( pos );
     const tripoint_abs_omt target_omt = project_to<coords::omt>( abs );
     return warm_enough_to_plant( target_omt, it );
 }
 
-bool warm_enough_to_plant( const tripoint_abs_omt &pos, const itype_id &it )
+ret_val<void> warm_enough_to_plant( const tripoint_abs_omt &pos, const itype_id &it )
 {
     std::map<time_point, units::temperature> planting_times;
-    bool okay_to_plant = true;
+
     const std::vector<std::pair<flag_id, time_duration>> &growth_stages = it->seed->get_growth_stages();
     // we will iterate a copy of the weather into the future to see if they'll be plantable then as well.
     const weather_generator weather_gen = get_weather().get_cur_weather_gen();
@@ -915,6 +915,7 @@ bool warm_enough_to_plant( const tripoint_abs_omt &pos, const itype_id &it )
     for( const auto &pair : growth_stages ) {
         // TODO: Replace epoch checks with data from a farmer's almanac
         check_date = check_date + pair.second;
+        // The [] operator in std::map inserts an entry if it doesn't already exist.
         planting_times[check_date] = highest_temp_on_day( check_date, pos, weather_gen );
     }
     for( const std::pair<const time_point, units::temperature> &pair : planting_times ) {
@@ -927,11 +928,11 @@ bool warm_enough_to_plant( const tripoint_abs_omt &pos, const itype_id &it )
             add_msg_debug( debugmode::DF_MAP, "Planting failure!  %s needs temperature of %s but found only %s",
                            it->nname( 1 ), print_temperature( it->seed->get_growth_temp(), 2 ),
                            print_temperature( pair.second, 2 ) );
-            okay_to_plant = false;
-            break;
+            return ret_val<void>::make_failure(
+                       _( "If you plant now, the cold will kill this plant before it can be harvested!" ) );
         }
     }
-    return okay_to_plant;
+    return ret_val<void>::make_success();
 }
 
 weather_manager::weather_manager()
