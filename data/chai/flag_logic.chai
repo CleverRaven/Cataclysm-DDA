@@ -1,0 +1,13 @@
+// flags_logic.chai
+
+def check_tardis_logic( type ) {
+    if ( type.is_container() ) {
+
+        var current_volume = type.volume;
+
+        if ( type.count_by_charges() ) {
+            current_volume = current_volume / type.charges_default();
+        }
+
+    }
+}

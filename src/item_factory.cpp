@@ -66,6 +66,7 @@
 #include "veh_type.h"
 #include "vitamin.h"
 #include "weighted_list.h"
+#include "chaiscript/chaiscript.hpp"
 
 template <typename T> struct enum_traits;
 
@@ -140,6 +141,34 @@ static item_blacklist_t item_blacklist;
 
 std::unique_ptr<Item_factory> item_controller = std::make_unique<Item_factory>();
 std::set<std::string> Item_factory::repair_actions = {};
+
+chaiscript::ChaiScript chai;
+
+static void init_chai_scripts()
+{
+    auto is_container_func = [](const itype* t) -> bool {
+        bool am_container = false;
+        for (const pocket_data& pocket : t->pockets) {
+            if (pocket.type == pocket_type::CONTAINER) {
+                am_container = true;
+                break;
+            }
+        }
+        return am_container;
+        };
+
+    chai.add(chaiscript::user_type<itype>(), "itype");
+    chai.add(chaiscript::fun(&itype::volume), "volume");
+    chai.add(chaiscript::fun(&itype::count_by_charges), "count_by_charges");
+    chai.add(chaiscript::fun(&itype::charges_default), "charges_default");
+    chai.add(chaiscript::fun(is_container_func), "is_container");
+    try {
+        chai.eval_file("./data/chai/flag_logic.chai");
+    }
+    catch (const chaiscript::exception::eval_error& e) {
+        debugmsg("Error loading flags_logic.chai:", e.what());
+    }
+}
 
 static void migrate_mag_from_pockets( itype &def )
 {
@@ -2211,19 +2240,19 @@ void Item_factory::check_definitions() const
         return am_container;
     };
 
+    init_chai_scripts();
+
     for( const itype &elem : item_factory.get_all() ) {
         std::string msg;
         const itype *type = &elem;
 
         if( !type->has_flag( flag_TARDIS ) ) {
-            if( is_container( type ) ) {
-                units::volume volume = type->volume;
-                if( type->count_by_charges() ) {
-                    volume /= type->charges_default();
-                }
-                if( item_contents( type->pockets ).bigger_on_the_inside( volume ) ) {
-                    msg += "is bigger on the inside.  consider using TARDIS flag.\n";
-                }
+            try {
+                auto check_tardis = chai.eval<std::function<void(const itype*)>>("check_tardis_logic");
+                check_tardis(type);
+            }
+            catch (const chaiscript::exception::eval_error& e) {
+                debugmsg("Error calling check_tardis_logic in: %s", e.what());
             }
         }
 
