@@ -170,7 +170,7 @@
     "rating": "mixed",
     "max_duration": "30 m",
     "base_mods": { "per_mod": [ 6 ], "dex_mod": [ -2 ], "speed_mod": [ -5 ] },
-    "blood_analysis_description": "Cross-dimensional Narcotic, unexpected physics encountered"
+    "blood_analysis_description": "Cross-dimensional narcotic, unexpected physics encountered"
   },
   {
     "type": "effect_type",
@@ -3544,7 +3544,7 @@
     "id": "effect_xedra_chronomancer_stabilize_timeline",
     "name": [ "Stabilized Timeline" ],
     "desc": [ "You are protected from adverse changes in your personal timestream." ],
-    "apply_message": "You may not look any different, but you can tell that you're completely protected from harmful time magic",
+    "apply_message": "You may not look any different, but you can tell that you're completely protected from harmful time magic.",
     "remove_message": "You feel more vulnerable to manipulated time.",
     "rating": "good",
     "max_intensity": 1,
@@ -3781,7 +3781,7 @@
     "name": [ "Blood Craving" ],
     "//": "The description is intended to illustrate the ongoing craving.",
     "desc": [ "Need blood must have blood blood right now DRINK BLOOD NOW!" ],
-    "apply_message": "You are wracked with pain as your craving hits you.  You can only think about getting some of that delicious blood you so desesperately need.",
+    "apply_message": "You are wracked with pain as your craving hits you.  You can only think about getting some of that delicious blood you so desperately need.",
     "remove_message": "Your craving calms down.",
     "miss_messages": [ [ "Your craving distract you.", 1 ] ],
     "base_mods": {
