@@ -1531,7 +1531,7 @@ int talk_function::combat_score( const std::vector< monster * > &group )
     int score = 0;
     for( monster * const &elem : group ) {
         if( elem->get_hp() > 0 ) {
-            score += elem->type->difficulty;
+            score += elem->type->get_total_difficulty();
         }
     }
     return score;
@@ -2286,7 +2286,7 @@ bool talk_function::companion_om_combat_check( const std::vector<npc_ptr> &group
         if( mons->get_hp() <= 0 ) {
             continue;
         }
-        int d_modifier = avg_survival - mons->type->difficulty;
+        int d_modifier = avg_survival - mons->type->get_total_difficulty();
         int roll = rng( 1, 20 ) + d_modifier;
         if( roll > 10 ) {
             if( try_engage ) {
