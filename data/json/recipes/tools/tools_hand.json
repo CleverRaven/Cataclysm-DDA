@@ -1273,7 +1273,7 @@
     "time": "5 m",
     "autolearn": true,
     "qualities": [ { "id": "SAW_W", "level": 2 } ],
-    "byproducts": [ [ [ "2x4", 1 ], [ "stick", 1 ] ] ],
+    "byproducts": [ [ "2x4", 1 ] ],
     "components": [ [ "brush_axe", 1 ] ]
   },
   {
