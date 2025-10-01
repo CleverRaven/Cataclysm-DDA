@@ -213,7 +213,10 @@
       "terrain": { "Ы": "t_dirtfloor", "[": "t_dirtfloor" },
       "furniture": { "P": "f_anvil_crude" },
       "items": { "k": { "item": "SUS_office_desk", "chance": 30 } },
-      "item": { "Ы": { "item": "salt_lick", "chance": 80, "repeat": [ 1, 4 ] }, "P": { "item": "metalworking_tongs", "chance": 100 } },
+      "item": {
+        "Ы": { "item": "salt_lick", "chance": 80, "repeat": [ 1, 4 ] },
+        "P": { "item": "metalworking_tongs", "chance": 100 }
+      },
       "place_loot": [
         { "item": "stepladder", "x": 8, "y": 8, "chance": 100 },
         { "item": "horseshoe", "x": 17, "y": 6, "chance": 60, "repeat": [ 4, 8 ] },
