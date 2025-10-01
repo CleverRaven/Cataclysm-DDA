@@ -567,7 +567,11 @@ void overmap::unserialize( const JsonObject &jsobj )
             std::string new_region_id;
             om_member.read( new_region_id );
             if( settings->id.str() != new_region_id ) {
-                const region_settings_id new_region_set( new_region_id );
+                region_settings_id new_region_set( new_region_id );
+                //migrate old save region settings to new saves (remove in 0.J)
+                if( new_region_id == "default" ) {
+                    new_region_set = overmap_buffer.get_default_settings( pos() ).id;
+                }
                 if( new_region_set.is_valid() ) {
                     settings = new_region_set;
                 }
