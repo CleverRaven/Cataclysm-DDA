@@ -521,10 +521,10 @@
         "color": "brown"
       },
       {
-       "id": "rounding",
-       "name": { "str": "rounding hammer" },
-       "description": "A hammer with rounded face used by blacksmiths and farriers for drawing out the metal in metalworking.",
-       "color": "dark_gray"
+        "id": "rounding",
+        "name": { "str": "rounding hammer" },
+        "description": "A hammer with rounded face used by blacksmiths and farriers for drawing out the metal in metalworking.",
+        "color": "dark_gray"
       }
     ]
   },
