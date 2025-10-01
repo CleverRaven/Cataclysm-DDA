@@ -855,6 +855,7 @@ void effect_data::deserialize( const JsonObject &jo )
     optional( jo, false, "duration", duration, 0_seconds );
     optional( jo, false, "bp", bp, bodypart_str_id::NULL_ID() );
     optional( jo, false, "permanent", permanent, false );
+    optional( jo, false, "intensity", intensity, 0 );
 }
 
 } // namespace iuse
@@ -954,7 +955,7 @@ std::optional<int> consume_drug_iuse::use( Character *p, item &it, map *here,
         } else if( p->has_trait( trait_LIGHTWEIGHT ) ) {
             dur *= 1.2;
         }
-        p->add_effect( eff.id, dur, eff.bp, eff.permanent );
+        p->add_effect( eff.id, dur, eff.bp, eff.permanent, eff.intensity );
     }
     //Apply the various damage_over_time
     for( const damage_over_time_data &Dot : damage_over_time ) {
@@ -3826,7 +3827,7 @@ int heal_actor::finish_using( Character &healer, Character &patient, item &it,
     }
 
     for( const iuse::effect_data &eff : effects ) {
-        patient.add_effect( eff.id, eff.duration, eff.bp, eff.permanent );
+        patient.add_effect( eff.id, eff.duration, eff.bp, eff.permanent, eff.intensity );
     }
 
     if( !used_up_item_id.is_empty() ) {
@@ -5877,7 +5878,7 @@ std::optional<int> change_scent_iuse::use( Character *p, item &it, map *,
 
     // Apply the various effects.
     for( const iuse::effect_data &eff : effects ) {
-        p->add_effect( eff.id, eff.duration, eff.bp, eff.permanent );
+        p->add_effect( eff.id, eff.duration, eff.bp, eff.permanent, eff.intensity );
     }
     return charges_to_use;
 }
