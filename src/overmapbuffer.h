@@ -226,6 +226,7 @@ class overmapbuffer
         std::string get_vehicle_tile_id( const tripoint_abs_omt &omt );
         const region_settings &get_settings( const tripoint_abs_omt &p );
         const region_settings &get_default_settings( const point_abs_om &p );
+        std::string current_region_type;
         /**
          * Accessors for horde introspection into overmaps.
          * Probably also useful for NPC overmap-scale navigation.

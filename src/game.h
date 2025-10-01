@@ -334,7 +334,7 @@ class game
          * @param prefix identifies the dimension and its properties.
          * @param npc_travellers vector of NPCs that should be brought along when travelling to another dimension
          */
-        bool travel_to_dimension( const std::string &prefix,
+        bool travel_to_dimension( const std::string &prefix, const std::string &region_type,
                                   const std::vector<npc *> &npc_travellers );
         /**
          * Retrieve the identifier of the current dimension.

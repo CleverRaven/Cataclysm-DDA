@@ -75,7 +75,7 @@ extern std::map<std::string, std::list<input_event>> quick_shortcuts_map;
  * Changes that break backwards compatibility should bump this number, so the game can
  * load a legacy format loader.
  */
-const int savegame_version = 37;
+const int savegame_version = 38;
 
 /*
  * This is a global set by detected version header in .sav, maps.txt, or overmap.
@@ -1740,6 +1740,8 @@ void game::unserialize_dimension_data( const JsonValue &jv )
             overmap_buffer.deserialize_overmap_global_state( jsin );
         } else if( name == "placed_unique_specials" ) {
             overmap_buffer.deserialize_placed_unique_specials( jsin );
+        } else if( name == "region_type" ) {
+            jsin.read( overmap_buffer.current_region_type );
         }
     }
 }
@@ -1893,6 +1895,7 @@ void game::serialize_dimension_data( std::ostream &fout )
         json.member( "weather" );
         weather_manager::serialize_all( json );
 
+        json.member( "region_type", overmap_buffer.current_region_type );
         json.end_object();
     } catch( const JsonError &e ) {
         debugmsg( "error saving to %s: %s", SAVE_DIMENSION_DATA, e.c_str() );
