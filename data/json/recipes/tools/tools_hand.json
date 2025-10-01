@@ -1274,7 +1274,7 @@
     "autolearn": true,
     "qualities": [ { "id": "SAW_W", "level": 2 } ],
     "byproducts": [ [ "2x4", 1 ] ],
-    "components": [ [ "brush_axe", 1 ] ]
+    "components": [ [ [ "brush_axe", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1288,7 +1288,7 @@
     "autolearn": true,
     "qualities": [ { "id": "SAW_W", "level": 2 } ],
     "byproducts": [ [ "stick_long", 1 ] ],
-    "components": [ [ "brush_pole", 1 ] ]
+    "components": [ [ [ "brush_pole", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1322,7 +1322,12 @@
     "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0 } ],
     "qualities": [ { "id": "DRILL", "level": 2 } ],
     "byproducts": [ [ "splinter", 1 ] ],
-    "components": [ [ "brush_handaxe", 1 ], [ "nails", 4, "LIST" ], [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
+    "components": [
+      [ [ "brush_handaxe", 1 ] ],
+      [ [ "nails", 4, "LIST" ] ],
+      [ [ "2x4", 1 ], [ "stick", 2 ] ],
+      [ [ "fur", 2 ], [ "leather", 2 ] ]
+    ]
   },
   {
     "type": "recipe",
