@@ -2414,7 +2414,7 @@
     "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "sunscreen" },
-    "description": "Good luck finding someone to apply it to your back.",
+    "description": "Carcinoma may not be such a concern anymore, but sunburns are as painful as ever.",
     "symbol": "~",
     "color": "white",
     "phase": "liquid",
@@ -2427,7 +2427,7 @@
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You apply some sunscreen.",
-      "move_cost": 120,
+      "moves": 120,
       "effects": [ { "id": "sunscreen", "duration": "2 h" } ]
     }
   }
