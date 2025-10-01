@@ -601,7 +601,13 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "druid_ritual_home_z0", "druid_ritual_home_z1", "druid_ritual_home_z2", "druid_ritual_home_z3" ],
+    "id": [
+      "druid_ritual_home_z0",
+      "druid_ritual_home_z1",
+      "druid_ritual_home_z2",
+      "druid_ritual_home_z3",
+      "druid_ritual_home_z4"
+    ],
     "name": "druid tower",
     "sym": "F",
     "color": "green",
