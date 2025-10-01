@@ -46,8 +46,7 @@
     "vitamin_rates": [ [ "mutagen_human", 1 ] ],
     "empathize_with": [ "IERDE" ],
     "no_empathize_with": [ "HUMAN" ],
-    "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
-    "flags": [ "HERITAGE" ],
+    "flags": [ "HERITAGE", "NO_CBM_INSTALLATION" ],
     "chargen_allow_npc": false
   },
   {
@@ -97,8 +96,7 @@
     "vitamin_rates": [ [ "mutagen_human", 1 ] ],
     "empathize_with": [ "ARVORE" ],
     "no_empathize_with": [ "HUMAN" ],
-    "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
-    "flags": [ "TREE_COMMUNION_PLUS", "ARVORE_POLLEN_IMMUNE", "HERITAGE" ],
+    "flags": [ "TREE_COMMUNION_PLUS", "ARVORE_POLLEN_IMMUNE", "HERITAGE", "NO_CBM_INSTALLATION" ],
     "chargen_allow_npc": false,
     "enchantments": [
       {
@@ -170,8 +168,7 @@
     "vitamin_rates": [ [ "mutagen_human", 1 ] ],
     "empathize_with": [ "SALAMANDER" ],
     "no_empathize_with": [ "HUMAN" ],
-    "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
-    "flags": [ "HERITAGE" ],
+    "flags": [ "HERITAGE", "NO_CBM_INSTALLATION" ],
     "chargen_allow_npc": false
   },
   {
@@ -231,8 +228,7 @@
     "vitamin_rates": [ [ "mutagen_human", 1 ] ],
     "empathize_with": [ "UNDINE" ],
     "no_empathize_with": [ "HUMAN" ],
-    "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
-    "flags": [ "HERITAGE" ],
+    "flags": [ "HERITAGE", "NO_CBM_INSTALLATION" ],
     "chargen_allow_npc": false
   },
   {
@@ -330,8 +326,7 @@
     "vitamin_rates": [ [ "mutagen_human", 1 ] ],
     "empathize_with": [ "SYLPH" ],
     "no_empathize_with": [ "HUMAN" ],
-    "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
-    "flags": [ "HERITAGE" ],
+    "flags": [ "HERITAGE", "NO_CBM_INSTALLATION" ],
     "chargen_allow_npc": false
   },
   {
