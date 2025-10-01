@@ -56,7 +56,7 @@
     "valid_targets": [ "ally", "hostile" ],
     "effect": "effect_on_condition",
     "effect_str": "EOC_SANDMAN_GAZE_activated",
-    "components": [ "spell_components_sandman_gaze_spell" ],
+    "components": "spell_components_sandman_gaze_spell",
     "condition": { "u_has_item": "scrap_shadowstuff" },
     "condition_fail_message": "You do not have enough shadowstuff.",
     "shape": "blast",
