@@ -935,11 +935,5 @@
     "id": "3030",
     "name": ".30-30 Winchester",
     "default": "3030"
-  },
-  {
-    "type": "ammunition_type",
-    "id": "sunscreen",
-    "name": "sunscreen",
-    "default": "sunscreen"
   }
 ]
