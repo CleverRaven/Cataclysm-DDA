@@ -861,6 +861,6 @@
     "type": "item_group",
     "id": "sunscreen_bottle",
     "subtype": "distribution",
-    "entries": [ { "item": "sunscreen", "container-item": "bottle_bathroom" } ]
+    "entries": [ { "item": "sunscreen", "container-item": "bottle_plastic_small" } ]
   }
 ]
