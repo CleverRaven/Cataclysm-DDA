@@ -5,7 +5,8 @@
     "apply_to_tags": [ "all" ],
     "cities": "default_magiclysm",
     "map_extras": "default_magiclysm",
-    "terrain_furniture": "default_magiclysm"
+    "terrain_furniture": "default_magiclysm",
+    "forest_composition": "default_magiclysm"
   },
   {
     "type": "region_settings_city",
@@ -121,6 +122,11 @@
     "id": "forest_thick_magiclysm",
     "overlay_id": "forest_thick",
     "extras": [ [ "mx_catoblepas_lair", 1 ] ]
+  },
+  {
+    "type": "region_settings_forest_mapgen",
+    "id": "default_magiclysm",
+    "biomes": [ "biome_forest_thick_default_magiclysm" ]
   },
   {
     "type": "forest_biome_mapgen",
