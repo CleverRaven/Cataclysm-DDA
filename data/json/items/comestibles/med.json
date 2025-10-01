@@ -2427,6 +2427,7 @@
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You apply some sunscreen.",
+      "move_cost": 120,
       "effects": [ { "id": "sunscreen", "duration": "2 h" } ]
     }
   }
