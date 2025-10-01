@@ -5294,7 +5294,7 @@ bool basecamp::validate_sort_points()
 bool basecamp::set_sort_points()
 {
     popup( _( "Please create some sorting zones.  You must create a camp food zone, and a camp storage zone." ) );
-    g->zones_manager();
+    zone_manager_ui::display_zone_manager();
     return validate_sort_points();
 }
 
