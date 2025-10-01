@@ -3,7 +3,7 @@
     "id": "hoof_pick",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
-    "name": { "str": "hoof pick", "str_pl": "hoof picks" },
+    "name": { "str": "hoof pick" },
     "description": "A simple brush and pick combination tool for a farrier to clean up the horse's hoof before working on it.",
     "weight": "240 g",
     "volume": "155 ml",
