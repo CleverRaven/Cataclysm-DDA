@@ -7,7 +7,6 @@
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "components": [ [ [ "scrap", 6 ] ] ]
   },
-  [
   {
     "result": "hoof_pick",
     "type": "uncraft",
@@ -103,6 +102,4 @@
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "components": [ [ [ "scrap", 8 ] ] ]
   }
-]
-
 ]
