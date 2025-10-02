@@ -885,6 +885,7 @@ struct region_settings {
 * To solve this, we apply region_overlay.
 *
 * region_overlay should NEVER redefine or remove elements from a given setting!
+* overlays must always be applied before region_settings::finalize_all
 */
 struct region_overlay_new {
     region_overlay_new_id id = region_overlay_new_id::NULL_ID();
