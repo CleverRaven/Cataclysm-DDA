@@ -1811,7 +1811,7 @@ static void add_map( std::map<damage_type_id, int> &to, const std::map<damage_ty
                      double divisor )
 {
     for( const std::pair<const damage_type_id, int> &dam : from ) {
-        auto ret = to.emplace( dam.first, dam.second / divisor );
+        auto ret = to.emplace( dam.first, static_cast<int>( dam.second / divisor ) );
         // add to existing, emplace had no effect
         if( !ret.second ) {
             ret.first->second += dam.second / divisor;
