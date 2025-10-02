@@ -1325,6 +1325,8 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
         for( const zone_data &zone : zones ) {
             const plot_options &options = dynamic_cast<const plot_options &>( zone.get_options() );
             const itype_id seed = options.get_seed();
+            ret_val<void>can_plant = !seed.is_empty() ?
+                                     warm_enough_to_plant( src_loc, seed ) : ret_val<void>::make_success();
 
             if( here.has_flag_furn( ter_furn_flag::TFLAG_GROWTH_OVERGROWN, src_loc ) ) {
                 return activity_reason_info::ok( do_activity_reason::NEEDS_CLEARING );
@@ -1362,7 +1364,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
                 // If its a farm zone with no specified seed, and we've checked for tilling and harvesting.
                 // then it means no further work can be done here
             } else if( !seed.is_empty() &&
-                       warm_enough_to_plant( src_loc, seed ) &&
+                       can_plant.success() &&
                        here.has_flag_ter_or_furn( seed->seed->required_terrain_flag, src_loc ) ) {
                 if( here.has_items( src_loc ) ) {
                     return activity_reason_info::fail( do_activity_reason::BLOCKING_TILE );
@@ -1378,6 +1380,10 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
                 }
 
             } else {
+                // Extra, specific messaging returned from warm_enough_to_plant()
+                if( !can_plant.success() ) {
+                    you.add_msg_if_player( can_plant.c_str() );
+                }
                 // can't plant, till or harvest
                 return activity_reason_info::fail( do_activity_reason::ALREADY_DONE );
             }
