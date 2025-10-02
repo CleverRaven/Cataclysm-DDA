@@ -6627,7 +6627,7 @@
   {
     "type": "mutation",
     "id": "VERY_SHORT",
-    "flags": [ "SMALL" ],
+    "flags": [ "SMALL", "NATURAL" ],
     "name": { "str": "Very Short" },
     "points": 0,
     "vitamin_cost": 175,
@@ -6646,13 +6646,12 @@
           { "value": "CARRY_WEIGHT", "multiply": -0.2 }
         ]
       }
-    ],
-    "flags": [ "NATURAL" ]
+    ]
   },
   {
     "type": "mutation",
     "id": "VERY_TALL",
-    "flags": [ "LARGE" ],
+    "flags": [ "LARGE", "NATURAL" ],
     "name": { "str": "Very Tall" },
     "points": 0,
     "vitamin_cost": 175,
@@ -6665,8 +6664,7 @@
     "category": [ "URSINE", "CATTLE", "LIZARD", "CHIMERA", "CRUSTACEAN" ],
     "enchantments": [
       { "values": [ { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 0.5 }, { "value": "CARRY_WEIGHT", "multiply": 0.05 } ] }
-    ],
-    "flags": [ "NATURAL" ]
+    ]
   },
   {
     "type": "mutation",
@@ -10797,12 +10795,11 @@
     "description": "You are a god among mortals and they are all so very disappointing.  Why should you even bother to hide your disappointment in their failures?",
     "valid": false,
     "points": -1,
-    "flags": [ "ASOCIAL2" ],
+    "flags": [ "ASOCIAL2", "NATURAL" ],
     "category": [ "ALPHA" ],
     "triggers": [ [ { "condition": { "math": [ "time_since(u_transform_time) > time('36 h')" ] } } ] ],
     "transform": { "target": "AMOG", "msg_transform": "Maybe you can make better decisions this time.", "active": false, "moves": 10 },
-    "social_modifiers": { "intimidate": -10, "persuade": -25, "lie": -15 },
-    "flags": [ "NATURAL" ]
+    "social_modifiers": { "intimidate": -10, "persuade": -25, "lie": -15 }
   },
   {
     "type": "mutation",
