@@ -29,7 +29,6 @@ static const mutation_category_id mutation_category_ALPHA( "ALPHA" );
 static const mutation_category_id mutation_category_BIRD( "BIRD" );
 static const mutation_category_id mutation_category_CHIMERA( "CHIMERA" );
 static const mutation_category_id mutation_category_FELINE( "FELINE" );
-static const mutation_category_id mutation_category_HUMAN( "HUMAN" );
 static const mutation_category_id mutation_category_LUPINE( "LUPINE" );
 static const mutation_category_id mutation_category_MOUSE( "MOUSE" );
 static const mutation_category_id mutation_category_RAPTOR( "RAPTOR" );
@@ -62,7 +61,6 @@ static const trait_id trait_UGLY( "UGLY" );
 static const trait_id trait_WINGS_BIRD( "WINGS_BIRD" );
 
 static const vitamin_id vitamin_mutagen( "mutagen" );
-static const vitamin_id vitamin_mutagen_human( "mutagen_human" );
 static const vitamin_id vitamin_mutagen_test_removal( "mutagen_test_removal" );
 
 static std::string get_mutations_as_string( const Character &you );
