@@ -66,6 +66,7 @@ static const itype_id itype_fake_burrowing( "fake_burrowing" );
 static const json_character_flag json_flag_CHLOROMORPH( "CHLOROMORPH" );
 static const json_character_flag json_flag_HUGE( "HUGE" );
 static const json_character_flag json_flag_LARGE( "LARGE" );
+static const json_character_flag json_flag_NATURAL( "NATURAL" );
 static const json_character_flag json_flag_ROBUST_GENETIC( "ROBUST_GENETIC" );
 static const json_character_flag json_flag_ROOTS2( "ROOTS2" );
 static const json_character_flag json_flag_ROOTS3( "ROOTS3" );
@@ -1690,20 +1691,12 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
             cancel.erase( cancel.begin() + i );
             i--;
         } else if( !purifiable( cancel[i] ) ) {
-            //If we have the trait, but it's a base trait, don't allow it to be removed normally
             add_msg_debug( debugmode::DF_MUTATION,
                            "mutate_towards: cancelled trait %s is not purifiable, moving to canceltrait", cancel[i].c_str() );
             canceltrait.push_back( cancel[i] );
             cancel.erase( cancel.begin() + i );
             i--;
-        } else if( has_base_trait( cancel [i] ) &&
-                   !x_in_y( category.base_removal_chance, 100 ) ) {
-            add_msg_debug( debugmode::DF_MUTATION,
-                           "mutate_towards: cancelled trait %s is a starting trait and category %s failed its %d%% removal roll, moving to canceltrait",
-                           cancel[i].c_str(), category.id.c_str(), category.base_removal_chance );
-            canceltrait.push_back( cancel[i] );
-            cancel.erase( cancel.begin() + i );
-            i--;
+        }
         }
     }
 
@@ -2684,7 +2677,7 @@ void Character::customize_appearance( customize_appearance_choice choice )
 
     traits.erase(
     std::remove_if( traits.begin(), traits.end(), []( const trait_id & traitid ) {
-        return !traitid->vanity;
+        return !traitid->vanity || traitid->flags.count( json_flag_NATURAL ) > 0;
     } ), traits.end() );
 
     if( traits.empty() ) {
