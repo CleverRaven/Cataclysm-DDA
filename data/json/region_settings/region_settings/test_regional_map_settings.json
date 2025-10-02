@@ -1,0 +1,66 @@
+[
+  {
+    "type": "region_settings_new",
+    "id": "test",
+    "rivers": "no_rivers",
+    "lakes": "no_lakes",
+    "ocean": "no_ocean",
+    "ravines": "default",
+    "forests": "no_forests",
+    "forest_composition": "default",
+    "forest_trails": "no_forest_trails",
+    "highways": "default",
+    "cities": "default",
+    "map_extras": "no_map_extras",
+    "terrain_furniture": "default",
+    "weather": "extreme_weather",
+    "default_oter": [
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "field",
+      "solid_earth",
+      "empty_rock",
+      "empty_rock",
+      "deep_rock",
+      "deep_rock",
+      "deep_rock",
+      "deep_rock",
+      "deep_rock",
+      "deep_rock",
+      "deep_rock"
+    ],
+    "default_groundcover": [ [ "t_region_groundcover", 1 ] ],
+    "feature_flag_settings": { "blacklist": [  ], "whitelist": [  ] },
+    "connections": {
+      "intra_city_road_connection": "local_road",
+      "inter_city_road_connection": "local_road",
+      "trail_connection": "forest_trail",
+      "sewer_connection": "sewer_tunnel",
+      "subway_connection": "subway_tunnel",
+      "rail_connection": "local_railroad"
+    }
+  },
+  {
+    "type": "region_settings_map_extras",
+    "id": "no_map_extras",
+    "extras": [  ]
+  },
+  {
+    "type": "weather_generator",
+    "id": "extreme_weather",
+    "base_temperature": 60.5,
+    "base_humidity": 70.0,
+    "base_pressure": 1015.0,
+    "base_wind": 90.0,
+    "base_wind_distrib_peaks": 80,
+    "base_wind_season_variation": 50
+  }
+]

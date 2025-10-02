@@ -53,12 +53,13 @@
     "description": "Recipes related to constructing different types of staffs.",
     "skill_used": "fabrication",
     "nested_category_data": [
-      "shock_staff",
       "q_staff",
-      "bo_from long stick",
-      "bo_from quarterstaff",
       "i_staff",
       "i_staff_with sheet metal",
+      "shock_staff",
+      "bo_from long stick",
+      "bo_from quarterstaff",
+      "staff_pipe",
       "nested_steelshod"
     ],
     "difficulty": 1
@@ -4686,7 +4687,7 @@
     "name": "cutlasses",
     "description": "Recipes for making cutlasses.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "lc_cutlass", "mc_cutlass", "hc_cutlass", "ch_cutlass", "qt_cutlass" ],
+    "nested_category_data": [ "cutlass", "lc_cutlass", "mc_cutlass", "hc_cutlass", "ch_cutlass", "qt_cutlass" ],
     "difficulty": 7
   },
   {
@@ -4852,7 +4853,7 @@
     "name": "kukris",
     "description": "Recipes for making kukris.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "lc_kukri", "mc_kukri", "hc_kukri", "ch_kukri", "qt_kukri" ],
+    "nested_category_data": [ "kukri", "lc_kukri", "mc_kukri", "hc_kukri", "ch_kukri", "qt_kukri" ],
     "difficulty": 7
   },
   {
@@ -4888,7 +4889,7 @@
     "name": "battle axes",
     "description": "Recipes for making battle axes.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "lc_battleaxe", "mc_battleaxe", "hc_battleaxe", "ch_battleaxe", "qt_battleaxe" ],
+    "nested_category_data": [ "battleaxe", "lc_battleaxe", "mc_battleaxe", "hc_battleaxe", "ch_battleaxe", "qt_battleaxe", "ax_sheets_welded" ],
     "difficulty": 7
   },
   {

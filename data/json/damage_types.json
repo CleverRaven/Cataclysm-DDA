@@ -8,6 +8,7 @@
     "magic_color": "magenta",
     "name": "bash",
     "skill": "bashing",
+    "bash_conversion_factor": 1.0,
     "mon_difficulty": true,
     "material_required": true,
     "immune_flags": { "character": [ "BASH_IMMUNE" ] }

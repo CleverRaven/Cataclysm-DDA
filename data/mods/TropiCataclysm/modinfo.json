@@ -7,7 +7,7 @@
     "maintainers": [ "Karol1223" ],
     "description": "Changes the setting from New England to an undisclosed region in Brazil.  Initially based out of Desert Region mod.",
     "category": "content",
-    "conflicts": [ "backrooms", "desertpack" ],
+    "conflicts": [ "aftershock_exoplanet", "backrooms", "desertpack", "classic_zombies", "innawood", "Isolation_Protocol", "no_hope" ],
     "dependencies": [ "dda" ],
     "version": "0.80"
   },
@@ -29,5 +29,11 @@
     "name": "OVERMAP_PLACE_HIGHWAYS",
     "stype": "bool",
     "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "DEFAULT_REGION",
+    "stype": "string_input",
+    "value": "default_tropicataclysm"
   }
 ]

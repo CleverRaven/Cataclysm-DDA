@@ -99,6 +99,7 @@ class avatar : public Character
         void deserialize( const JsonObject &data ) override;
         bool save_map_memory();
         void load_map_memory();
+        void clear_map_memory();
 
         // newcharacter.cpp
         bool create( character_type type, const std::string &tempname = "" );
@@ -250,8 +251,7 @@ class avatar : public Character
 
         /** smash a map feature */
         struct smash_result {
-            int skill;
-            int resistance;
+            bool can_smash;
             bool did_smash;
             bool success;
         };

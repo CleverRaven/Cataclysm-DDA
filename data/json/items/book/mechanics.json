@@ -149,6 +149,26 @@
     "read_skill": "mechanics"
   },
   {
+    "id": "manual_mechanics_car_owner",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "category": "manuals",
+    "name": { "str": "car owner manual", "str_pl": "copies of car owner manual" },
+    "description": "A manual detailing how to do maintenance and light repairs to a car, ranging from changing a tire to changing oil and general checks of engine health.",
+    "weight": "454 g",
+    "volume": "750 ml",
+    "price": "30 USD",
+    "price_postapoc": "2 USD",
+    "material": [ "paper", "cardboard" ],
+    "symbol": "?",
+    "looks_like": "textbook_botany",
+    "color": "green",
+    "max_level": 2,
+    "intelligence": 8,
+    "time": "20 m",
+    "read_skill": "mechanics"
+  },
+  {
     "id": "textbook_atomic_lab",
     "type": "ITEM",
     "subtypes": [ "BOOK" ],

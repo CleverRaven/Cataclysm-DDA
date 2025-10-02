@@ -206,6 +206,8 @@ static const oter_str_id oter_tower_lab_stairs( "tower_lab_stairs" );
 static const oter_type_str_id oter_type_road( "road" );
 static const oter_type_str_id oter_type_sewer( "sewer" );
 
+static const region_settings_id region_settings_default( "default" );
+
 static const ter_str_id ter_t_bars( "t_bars" );
 static const ter_str_id ter_t_card_science( "t_card_science" );
 static const ter_str_id ter_t_concrete_wall( "t_concrete_wall" );
@@ -251,6 +253,8 @@ static const trap_str_id tr_portal( "tr_portal" );
 static const trap_str_id tr_shadow( "tr_shadow" );
 static const trap_str_id tr_snake( "tr_snake" );
 static const trap_str_id tr_telepad( "tr_telepad" );
+
+static const vpart_location_id vpart_location_structure( "structure" );
 
 static const vproto_id vehicle_prototype_shopping_cart( "shopping_cart" );
 
@@ -804,6 +808,12 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
 {
     dbg( D_INFO ) << "map::generate( g[" << g.get() << "], p[" << p << "], "
                   "when[" << to_string( when ) << "] )";
+    // Insure we reset mapgen_in_progress no matter how this method terminates.
+    // TODO: replace with a generic scope_guard class.
+    std::unique_ptr<int, std::function<void( int * )>> scope_guard( nullptr, [this]( int * ) {
+        this->mapgen_in_progress = false;
+    } );
+    mapgen_in_progress = true;
 
     const tripoint_abs_sm p_sm_base = project_to<coords::sm>( p );
     std::vector<bool> generated;
@@ -906,22 +916,26 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
         }
 
         if( any_missing || !save_results ) {
-
+            const region_settings_map_extras settings_mx =
+                region_settings_default->get_settings_map_extras();
             // At some point, we should add region information so we can grab the appropriate extras
-            map_extras &this_ex = region_settings_map["default"].region_extras[terrain_type->get_extras()];
-            map_extras ex = this_ex.filtered_by( dat );
-            if( this_ex.chance > 0 && ex.values.empty() && !this_ex.values.empty() ) {
-                DebugLog( D_WARNING, D_MAP_GEN ) << "Overmap terrain " << terrain_type->get_type_id().str() <<
-                                                 " (extra type \"" << terrain_type->get_extras() <<
-                                                 "\") zlevel = " << p.z() <<
-                                                 " is out of range of all assigned map extras.  Skipping map extra generation.";
-            } else if( ex.chance > 0 && one_in( ex.chance ) ) {
-                map_extra_id *extra = ex.values.pick();
-                if( extra == nullptr ) {
-                    debugmsg( "failed to pick extra for type %s (ter = %s)", terrain_type->get_extras(),
-                              terrain_type->get_type_id().str() );
-                } else {
-                    MapExtras::apply_function( *ex.values.pick(), *this, tripoint_abs_sm( abs_sub ) );
+            auto mx_iter = settings_mx.extras.find( map_extra_collection_id( terrain_type->get_extras() ) );
+            if( mx_iter != settings_mx.extras.end() ) {
+                const map_extra_collection &this_ex = **mx_iter;
+                map_extra_collection ex = this_ex.filtered_by( dat );
+                if( this_ex.chance > 0 && ex.values.empty() && !this_ex.values.empty() ) {
+                    DebugLog( D_WARNING, D_MAP_GEN ) << "Overmap terrain " << terrain_type->get_type_id().str() <<
+                                                     " (extra type \"" << terrain_type->get_extras() <<
+                                                     "\") zlevel = " << p.z() <<
+                                                     " is out of range of all assigned map extras.  Skipping map extra generation.";
+                } else if( ex.chance > 0 && one_in( ex.chance ) ) {
+                    map_extra_id *extra = ex.values.pick();
+                    if( extra == nullptr ) {
+                        debugmsg( "failed to pick extra for type %s (ter = %s)", terrain_type->get_extras(),
+                                  terrain_type->get_type_id().str() );
+                    } else {
+                        MapExtras::apply_function( *ex.values.pick(), *this, tripoint_abs_sm( abs_sub ) );
+                    }
                 }
             }
 
@@ -7599,7 +7613,7 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
     std::unique_ptr<vehicle> veh_to_add, const bool merge_wrecks )
 {
     //We only want to check once per square, so loop over all structural parts
-    std::vector<int> frame_indices = veh_to_add->all_parts_at_location( "structure" );
+    std::vector<int> frame_indices = veh_to_add->all_parts_at_location( vpart_location_structure );
 
     //Check for boat type vehicles that should be placeable in deep water
     const bool can_float = size( veh_to_add->get_avail_parts( "FLOATS" ) ) > 2;
@@ -7635,7 +7649,8 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
 
             // Hard wreck-merging limit: 200 tiles
             // Merging is slow for big vehicles which lags the mapgen
-            if( frame_indices.size() + first_veh->all_parts_at_location( "structure" ).size() > 200 ) {
+            if( frame_indices.size() + first_veh->all_parts_at_location( vpart_location_structure ).size() >
+                200 ) {
                 return nullptr;
             }
 

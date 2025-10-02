@@ -28,7 +28,7 @@ jobs:
           echo "comment_count=$comment_count" >> $GITHUB_OUTPUT
 
       - name: Greet commenters with no previous comments
-        if: steps.pr-check.outputs.comment_count == 1
+        if: steps.pr-comment-check.outputs.comment_count == 1
         run: |
           # I have no earthly idea how to pass the commenter on from the previous run (I have tried), so let's just re-acquire it.
           commenter_name="${{ github.event.comment.user.login }}"

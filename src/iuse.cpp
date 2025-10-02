@@ -261,10 +261,6 @@ static const furn_str_id furn_f_translocator_buoy( "f_translocator_buoy" );
 static const harvest_drop_type_id harvest_drop_blood( "blood" );
 
 static const itype_id itype_advanced_ecig( "advanced_ecig" );
-static const itype_id itype_afs_atomic_smartphone( "afs_atomic_smartphone" );
-static const itype_id itype_afs_atomic_smartphone_music( "afs_atomic_smartphone_music" );
-static const itype_id itype_afs_atomic_wraitheon_music( "afs_atomic_wraitheon_music" );
-static const itype_id itype_afs_wraitheon_smartphone( "afs_wraitheon_smartphone" );
 static const itype_id itype_apparatus( "apparatus" );
 static const itype_id itype_arcade_machine( "arcade_machine" );
 static const itype_id itype_atomic_coffeepot( "atomic_coffeepot" );
@@ -298,8 +294,6 @@ static const itype_id itype_log( "log" );
 static const itype_id itype_mask_h20survivor_on( "mask_h20survivor_on" );
 static const itype_id itype_mininuke_act( "mininuke_act" );
 static const itype_id itype_molotov( "molotov" );
-static const itype_id itype_mp3( "mp3" );
-static const itype_id itype_mp3_on( "mp3_on" );
 static const itype_id itype_multi_cooker( "multi_cooker" );
 static const itype_id itype_multi_cooker_filled( "multi_cooker_filled" );
 static const itype_id itype_nicotine_liquid( "nicotine_liquid" );
@@ -314,8 +308,6 @@ static const itype_id itype_rebreather_on( "rebreather_on" );
 static const itype_id itype_rebreather_xl_on( "rebreather_xl_on" );
 static const itype_id itype_shocktonfa_off( "shocktonfa_off" );
 static const itype_id itype_shocktonfa_on( "shocktonfa_on" );
-static const itype_id itype_smart_phone( "smart_phone" );
-static const itype_id itype_smartphone_music( "smartphone_music" );
 static const itype_id itype_soap( "soap" );
 static const itype_id itype_soldering_iron( "soldering_iron" );
 static const itype_id itype_spiral_stone( "spiral_stone" );
@@ -3580,9 +3572,17 @@ std::optional<int> iuse::molotov_lit( Character *p, item *it, const tripoint_bub
     if( !p ) {
         // It was thrown or dropped, so burst into flames
         map &here = get_map();
+        // Because fields decay with a half-life, we need to know how long it takes for the field to decay and set the age to slightly before that.
+        // the duration is also used for the effect's timer. It's hilariously lethal regardless.
+        const time_duration target_duration = 1_minutes;
+        const time_duration base_age = ( fd_fire->half_life / 2 ) - target_duration;
         for( const tripoint_bub_ms &pt : here.points_in_radius( pos, 1, 0 ) ) {
-            const int intensity = 1 + one_in( 3 ) + one_in( 5 );
-            here.add_field( pt, fd_fire, intensity );
+            Creature *critter = get_creature_tracker().creature_at( pt, true );
+            if( critter && one_in( 2 ) ) {
+                critter->add_effect( effect_onfire, target_duration );
+            } else if( !here.get_field( pt, fd_fire ) && one_in( 2 ) ) {
+                here.add_field( pt, fd_fire, 1, base_age );
+            }
         }
         avatar &player = get_avatar();
         if( player.has_unfulfilled_pyromania() ) {
@@ -3835,31 +3835,6 @@ std::optional<int> iuse::shocktonfa_on( Character *p, item *it, const tripoint_b
     return 0;
 }
 
-std::optional<int> iuse::mp3( Character *p, item *it, const tripoint_bub_ms & )
-{
-    // TODO: avoid item id hardcoding to make this function usable for pure json-defined devices.
-    if( !it->ammo_sufficient( p ) ) {
-        p->add_msg_if_player( m_info, _( "The device's batteries are dead." ) );
-    } else if( p->has_active_item( itype_mp3_on ) || p->has_active_item( itype_smartphone_music ) ||
-               p->has_active_item( itype_afs_atomic_smartphone_music ) ||
-               p->has_active_item( itype_afs_atomic_wraitheon_music ) ) {
-        p->add_msg_if_player( m_info, _( "You are already listening to music!" ) );
-    } else {
-        p->add_msg_if_player( m_info, _( "You put in the earbuds and start listening to music." ) );
-        if( it->typeId() == itype_mp3 ) {
-            it->convert( itype_mp3_on, p ).active = true;
-        } else if( it->typeId() == itype_smart_phone ) {
-            it->convert( itype_smartphone_music, p ).active = true;
-        } else if( it->typeId() == itype_afs_atomic_smartphone ) {
-            it->convert( itype_afs_atomic_smartphone_music, p ).active = true;
-        } else if( it->typeId() == itype_afs_wraitheon_smartphone ) {
-            it->convert( itype_afs_atomic_wraitheon_music, p ).active = true;
-        }
-        p->mod_moves( -200 );
-    }
-    return 1;
-}
-
 static std::string get_music_description()
 {
     const std::array<std::string, 5> descriptions = {{
@@ -3945,29 +3920,6 @@ std::optional<int> iuse::mp3_on( Character *p, item *, const tripoint_bub_ms &po
     play_music( p, pos, 0, 20 );
     music::activate_music_id( music::music_id::mp3 );
     return 0;
-}
-
-std::optional<int> iuse::mp3_deactivate( Character *p, item *it, const tripoint_bub_ms & )
-{
-
-    if( it->typeId() == itype_mp3_on ) {
-        p->add_msg_if_player( _( "The mp3 player turns off." ) );
-        it->convert( itype_mp3, p ).active = false;
-    } else if( it->typeId() == itype_smartphone_music ) {
-        p->add_msg_if_player( _( "The phone turns off." ) );
-        it->convert( itype_smart_phone, p ).active = false;
-    } else if( it->typeId() == itype_afs_atomic_smartphone_music ) {
-        p->add_msg_if_player( _( "The phone turns off." ) );
-        it->convert( itype_afs_atomic_smartphone, p ).active = false;
-    } else if( it->typeId() == itype_afs_atomic_wraitheon_music ) {
-        p->add_msg_if_player( _( "The phone turns off." ) );
-        it->convert( itype_afs_wraitheon_smartphone, p ).active = false;
-    }
-    p->mod_moves( -200 );
-    music::deactivate_music_id( music::music_id::mp3 );
-
-    return 0;
-
 }
 
 std::optional<int> iuse::rpgdie( Character *you, item *die, const tripoint_bub_ms & )
@@ -9202,8 +9154,14 @@ ret_val<void> use_function::can_call( const Character &p, const item &it,
     } else if( it.is_broken() ) {
         return ret_val<void>::make_failure( _( "Your %s is broken and won't activate." ),
                                             it.tname() );
+    } else if( actor->type == "GUNMOD_ATTACH" &&
+               it.is_gunmod() && !p.has_item( it ) ) {
+        // this should just check if gunmod is in MOD pocket already
+        // but it requires item_location
+        // so check if character do not have item in CONTAINER pockets
+        return ret_val<void>::make_failure(
+                   _( "Your %s is already installed and needs to be detached first." ), it.tname() );
     }
-
     return actor->can_use( p, it, here, pos );
 }
 

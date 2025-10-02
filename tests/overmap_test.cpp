@@ -27,6 +27,7 @@
 #include "item_factory.h"
 #include "itype.h"
 #include "map.h"
+#include "map_helpers.h"
 #include "map_iterator.h"
 #include "map_scale_constants.h"
 #include "mapbuffer.h"
@@ -472,6 +473,9 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
                     MAPBUFFER.clear_outside_reality_bubble();
                     smallmap tm;
                     tm.generate( pos, calendar::turn, false );
+                    // Map edits without the "mapgen_in_progress" variable set will toggle
+                    // player_adjusted_map to true, this should find callers that fail to do so.
+                    CHECK( !map_meddler::has_altered_submaps( *tm.cast_to_map() ) );
                     bool found = tally_items( item_counts, p.second.item_counts, tm );
                     if( enable_item_demographics && found && !p.second.found ) {
                         goal_samples = std::pow( std::log( std::max( 10, count ) ), 3 );
@@ -656,8 +660,8 @@ TEST_CASE( "highway_find_intersection_bounds", "[overmap]" )
     overmap_buffer.clear();
     overmap_buffer.set_highway_global_offset();
     point_abs_om pos = overmap_buffer.get_highway_global_offset();
-    const overmap_highway_settings &highway_settings = overmap_buffer.get_default_settings(
-                pos ).overmap_highway;
+    const region_settings_highway &highway_settings = overmap_buffer.get_default_settings(
+                pos ).get_settings_highway();
 
     const int c_seperation = highway_settings.grid_column_seperation;
     const int r_seperation = highway_settings.grid_row_seperation;

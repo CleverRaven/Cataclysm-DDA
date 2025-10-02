@@ -409,6 +409,7 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```MYOPIC_SUPERNATURAL``` You are nearsighted in such a way that glasses cannot fix it, such as by magic.
 - ```MYOPIC_IN_LIGHT_SUPERNATURAL``` You are nearsighted in light in such a way that glasses cannot fix it, such as by magic.
 - ```NIGHT_VISION``` You can see in the dark.
+- ```NO_CBM_INSTALLATION``` You are unable to install any CBMs.
 - ```NO_DISEASE``` This mutation grants immunity to diseases.
 - ```NO_RADIATION``` This mutation grants immunity to radiations.
 - ```NO_SCENT``` You have no scent.
@@ -445,7 +446,9 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```STOP_SLEEP_DEPRIVATION``` Stops Sleep Deprivation while awake and boosts it while sleeping.
 - ```STRICT_HUMANITARIAN``` You can eat foodstuffs tagged with `STRICT_HUMANITARIANISM` without morale penalties.
 - ```SUFFOCATION_IMMUNE``` You cannot suffocate by being crushed from multiple enemies.
-- ```SUNBURN``` TBD, probably related to `ALBINO`.
+- ```SUNBURN``` A worse version of ```ALBINO```, causing you to suffer even more severe damage.
+- ```SUNBURN_SUPERNATURAL``` The kind of sun damage that a vampire would suffer, leading to death in minutes.
+- ```SUNBURN_SUPERNATURAL_REDUCTION``` Reduces the damage taken by ```SUNBURN_SUPERNATURAL``` by 75%.
 - ```SUPER_CLAIRVOYANCE``` Gives a super clairvoyance effect (works with multiple z-levels), used for debug purposes.
 - ```SAFECRACK_NO_TOOL``` Allows to open safes without stethoscope.
 - ```SUPPRESS_INVISIBILITY``` Any invisibility effects on the creature, including the `PERMANENT_INVISIBILITY` flag, are ignored for the duration of the effect with this flag
@@ -664,9 +667,10 @@ Can also be used as `pre_flags` for `construction`.
 - ```FRESH_WATER``` Source of fresh water.  Will spawn fresh water (once) on terrains with `SPAWN_WITH_LIQUID` flag.
 - ```GOES_DOWN``` Can use <kbd>></kbd> to go down a level.
 - ```GOES_UP``` Can use <kbd><</kbd> to go up a level.
-- ```GROWTH_HARVEST``` This plant is ready for harvest.
-- ```GROWTH_MATURE``` This plant is in a mature stage of a growth.
-- ```GROWTH_SEEDLING``` This plant is in its seedling stage of growth.
+- ```GROWTH_HARVEST``` This plant is ready for harvest. Generic json flag, not all plants may use this!
+- ```GROWTH_MATURE``` This plant is in a mature stage of a growth. Generic json flag, not all plants may use this!
+- ```GROWTH_SEEDLING``` This plant is in its seedling stage of growth. Generic json flag, not all plants may use this!
+- ```GROWTH_SEED``` This plant was just planted, not grown yet. Generic json flag, not all plants may use this!
 - ```HARVESTED``` Marks the harvested version of a terrain type (e.g. harvesting an apple tree turns it into a harvested tree, which later becomes an apple tree again).
 - ```HIDE_PLACE``` Creatures on this tile can't be seen by creatures not standing on adjacent tiles.
 - ```INDOORS``` Has a roof over it; blocks rain, sunlight, etc.
@@ -1197,7 +1201,7 @@ Used to describe monster characteristics and set their properties and abilities.
 - ```PATH_AVOID_FALL``` This monster will path around cliffs instead of off of them.
 - ```PATH_AVOID_FIRE``` This monster will path around heat-related dangers instead of through them.
 - ```PAY_BOT``` Creature can be turned into a pet for a limited time in exchange of e-money.
-- ```PERMANENT_INVISIBILITY` The monster is invisible under all circumstances and requires preternatural means to detect.  Use with caution
+- ```PERMANENT_INVISIBILITY``` The monster is invisible under all circumstances and requires preternatural means to detect.  Use with caution
 - ```PET_HARNESSABLE``` Creature can be attached to a harness.
 - ```PET_MOUNTABLE``` Creature can be ridden or attached to a harness.
 - ```PET_WONT_FOLLOW``` This monster won't follow the player automatically when tamed.
@@ -1503,7 +1507,6 @@ Techniques may be used by tools, armors, weapons and anything else that can be w
 - ```FIRE``` Item will start a fire immediately.
 - ```HAS_RECIPE``` Used by the E-Ink tablet to indicate it's currently showing a recipe.
 - ```IS_UPS``` Item is Unified Power Supply.  Used in active item processing.
-- ```LIGHT_[X]``` Illuminates the area with light intensity `[X]` where `[X]` is an intensity value (e.g. `LIGHT_4` or `LIGHT_100`).  Note: this flags sets `itype::light_emission` field and then is removed (can't be found using `has_flag`).
 - ```MAGICAL``` Causes magical effects or functions based on arcane principles. Currently used by `iuse::robotcontrol` to determine if the hacking device is a computer (and thus has a screen that must be read etc).
 - ```NO_DROP``` Item should never exist on map tile as a discrete item (must be contained by another item).
 - ```NO_UNLOAD``` Cannot be unloaded.
@@ -1574,8 +1577,6 @@ These flags apply to the `use_action` field, instead of the `flags` field.
 - ```MOLOTOV_LIT``` Throw it, but don't drop it.
 - ```MOLOTOV``` Light the Molotov cocktail.
 - ```MOP``` Mop up the mess.
-- ```MP3_ON``` Turn the mp3 player off.
-- ```MP3``` Turn the mp3 player on.
 - ```NOISE_EMITTER_OFF``` Turn the noise emitter on.
 - ```NOISE_EMITTER_ON``` Turn the noise emitter off.
 - ```NONE``` Do nothing.

@@ -3,6 +3,7 @@
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "id": "matrix_crystal_biokinesis",
+    "category": "other",
     "name": { "str_sp": "strange crystal, pink" },
     "description": "A strange-looking, surprisingly-heavy crystal with a faintly-glowing pink light in its depths.  Holding it, you feel more capable.",
     "color": "pink",
@@ -12,7 +13,7 @@
     "longest_side": "21 mm",
     "material": [ "nether_crystal" ],
     "looks_like": "art_crystal",
-    "flags": [ "MATRIX_CRYSTAL_BIOKINESIS" ],
+    "flags": [ "MATRIX_CRYSTAL_BIOKINESIS", "RELIC_PINK" ],
     "use_action": {
       "type": "effect_on_conditions",
       "consume": true,
@@ -43,6 +44,21 @@
     "weight": "5 g",
     "material": [ "powder_nonflam" ],
     "looks_like": "material_quicklime"
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
+    "id": "matrix_crystal_biokinesis_artifact",
+    "name": { "str_sp": "strange crystal, pink" },
+    "description": "A strange-looking, surprisingly-heavy crystal with a faintly-glowing pink light in its depths.  Holding it, you feel more capable.",
+    "color": "pink",
+    "symbol": "+",
+    "volume": "10 ml",
+    "weight": "150 g",
+    "longest_side": "21 mm",
+    "material": [ "nether_crystal" ],
+    "looks_like": "matrix_crystal_biokinesis",
+    "flags": [ "MATRIX_CRYSTAL_BIOKINESIS", "RELIC_PINK" ]
   },
   {
     "type": "ITEM",

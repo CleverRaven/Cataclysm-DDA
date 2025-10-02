@@ -338,11 +338,11 @@ class monster : public Creature
         bool push_to( const tripoint_bub_ms &p, int boost, size_t depth );
 
         /** Returns innate monster bash skill, without calculating additional from helpers */
-        int bash_skill() const;
-        int bash_estimate() const;
+        std::map<damage_type_id, int> bash_skill() const;
+        std::map<damage_type_id, int> bash_estimate() const;
         /** Returns ability of monster and any cooperative helpers to
          * bash the designated target.  **/
-        int group_bash_skill( const tripoint_bub_ms &target );
+        std::map<damage_type_id, int> group_bash_skill( const tripoint_bub_ms &target );
 
         void stumble();
         void knock_back_to( const tripoint_bub_ms &to ) override;

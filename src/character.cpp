@@ -16,6 +16,7 @@
 #include <vector>
 
 #include "action.h"
+#include "activity_actor.h"
 #include "activity_actor_definitions.h"
 #include "activity_handlers.h"
 #include "addiction.h"
@@ -128,8 +129,6 @@
 #include "weather.h"
 #include "weather_type.h"
 #include "wound.h"
-
-class activity_actor;
 
 static const activity_id ACT_AUTODRIVE( "ACT_AUTODRIVE" );
 static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
@@ -625,7 +624,7 @@ Character::Character() :
     name.clear();
     custom_profession.clear();
 
-    *path_settings = pathfinding_settings{ 0, 1000, 1000, 0, true, true, true, true, false, true, creature_size::medium };
+    *path_settings = pathfinding_settings{ {}, 1000, 1000, 0, true, true, true, true, false, true, creature_size::medium };
 
     move_mode = move_mode_walk;
     next_expected_position = std::nullopt;
@@ -3812,25 +3811,37 @@ std::pair<bodypart_id, int> Character::best_part_to_smash() const
     return best_part_to_smash;
 }
 
-int Character::smash_ability() const
+std::map<damage_type_id, int> Character::smash_ability() const
 {
-    int ret = get_arm_str();
+    int bonus = 0;
+    std::map<damage_type_id, int> ret;
+
     ///\EFFECT_STR increases smashing capability
+    bonus += get_arm_str();
     if( is_mounted() ) {
         auto *mon = mounted_creature.get();
-        ret += mon->mech_str_addition() + mon->type->melee_dice * mon->type->melee_sides;
+        bonus += mon->mech_str_addition() + mon->type->melee_dice * mon->type->melee_sides;
     } else if( get_wielded_item() ) {
-        ret += get_wielded_item()->damage_melee( damage_bash );
-        ret = enchantment_cache->modify_melee_damage( damage_bash, ret );
+        for( const damage_unit &dam : get_wielded_item()->base_damage_melee() ) {
+            int damage = enchantment_cache->modify_melee_damage( dam.type, dam.amount );
+            damage = calculate_by_enchantment( damage, enchant_vals::mod::MELEE_DAMAGE, true );
+            // add strength
+            damage += bonus * dam.type->bash_conversion_factor;
+            if( damage > 0 ) {
+                ret[dam.type] = damage;
+            }
+        }
+        return ret;
     }
 
+    int damage = 0;
     if( !has_weapon() ) {
         std::pair<bodypart_id, int> best_part = best_part_to_smash();
-        const int min_ret = ret * best_part.first->smash_efficiency;
-        const int max_ret = ret * ( 1.0f + best_part.first->smash_efficiency );
-        ret = std::min( best_part.second + min_ret, max_ret );
+        const int min_ret = bonus * best_part.first->smash_efficiency;
+        const int max_ret = bonus * ( 1.0f + best_part.first->smash_efficiency );
+        damage = std::min( best_part.second + min_ret, max_ret );
     }
-    ret = calculate_by_enchantment( ret, enchant_vals::mod::MELEE_DAMAGE, true );
+    ret[damage_bash] = calculate_by_enchantment( damage, enchant_vals::mod::MELEE_DAMAGE, true );
 
     return ret;
 }
@@ -9120,6 +9131,13 @@ void Character::set_knows_creature_type( const mtype_id &c )
 void Character::assign_activity( const activity_id &type, int moves, int index, int pos,
                                  const std::string &name )
 {
+    // This is not a perfect safety net, but I don't know of another way to get all activity actors and what activity_ids might be associated with them.
+    for( const auto &actor_ptr : activity_actors::deserialize_functions ) {
+        if( actor_ptr.first == type ) {
+            debugmsg( "Tried to assign generic activity %s to activity that has an actor!", type.c_str() );
+            return;
+        }
+    }
     assign_activity( player_activity( type, moves, index, pos, name ) );
 }
 
@@ -13945,9 +13963,10 @@ bool character_martial_arts::pick_style( const Character &you ) // Style selecti
     if( selection >= STYLE_OFFSET ) {
         // If the currect style is selected, do not change styles
 
+        // Bizarre and unsafe casting const reference to non-const????????
         Character &u = const_cast<Character &>( you );
-        style_selected->remove_all_buffs( u );
-        style_selected = selectable_styles[selection - STYLE_OFFSET];
+        clear_all_effects( u );
+        set_style( selectable_styles[selection - STYLE_OFFSET], true );
         ma_static_effects( u );
         martialart_use_message( you );
     } else if( selection == KEEP_HANDS_FREE ) {

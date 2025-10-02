@@ -909,7 +909,7 @@
     "price": "44 cent",
     "price_postapoc": "50 cent",
     "material": [ "glass" ],
-    "flags": [ "LIGHT_8" ],
+    "light": 8,
     "volume": "50 ml"
   },
   {
@@ -1119,7 +1119,7 @@
     "id": "spring",
     "symbol": ",",
     "color": "light_gray",
-    "name": { "str": "spring" },
+    "name": { "str": "large spring" },
     "category": "spare_parts",
     "description": "A large, heavy-duty spring.  Expands with significant force when compressed.",
     "price": "10 USD",
@@ -1129,6 +1129,36 @@
     "volume": "750 ml",
     "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
     "melee_damage": { "bash": 3 }
+  },
+  {
+    "type": "ITEM",
+    "id": "spring_medium",
+    "symbol": ",",
+    "color": "light_gray",
+    "name": { "str": "medium spring" },
+    "category": "spare_parts",
+    "description": "A medium spring wound from tempered steel wire.  Resists corrosion and expands consistently when compressed.",
+    "price": "50 cents",
+    "price_postapoc": "10 cent",
+    "material": [ "steel" ],
+    "weight": "100 g",
+    "volume": "50 ml",
+    "longest_side": "10 cm"
+  },
+  {
+    "type": "ITEM",
+    "id": "spring_small",
+    "symbol": ",",
+    "color": "light_gray",
+    "name": { "str": "small spring" },
+    "category": "spare_parts",
+    "description": "A small spring wound from tempered steel wire.  Resists corrosion and expands consistently when compressed.",
+    "price": "20 cents",
+    "price_postapoc": "5 cent",
+    "material": [ "steel" ],
+    "weight": "10 g",
+    "volume": "5 ml",
+    "longest_side": "3 cm"
   },
   {
     "type": "ITEM",
@@ -2965,7 +2995,8 @@
       }
     ],
     "material": [ "paper" ],
-    "flags": [ "LITCIG", "LIGHT_2", "TOBACCO", "TRADER_AVOID", "FIRESTARTER", "FRAGILE", "OVERSIZE" ],
+    "light": 8,
+    "flags": [ "LITCIG", "TOBACCO", "TRADER_AVOID", "FIRESTARTER", "FRAGILE", "OVERSIZE" ],
     "warmth": 6,
     "armor": [
       {
@@ -3013,7 +3044,8 @@
       }
     ],
     "material": [ "paper" ],
-    "flags": [ "LITCIG", "LIGHT_2", "TOBACCO", "TRADER_AVOID", "FIRESTARTER", "FRAGILE", "OVERSIZE" ],
+    "light": 2,
+    "flags": [ "LITCIG", "TOBACCO", "TRADER_AVOID", "FIRESTARTER", "FRAGILE", "OVERSIZE" ],
     "warmth": 3,
     "armor": [
       {
@@ -3061,7 +3093,8 @@
       }
     ],
     "material": [ "paper" ],
-    "flags": [ "LITCIG", "LIGHT_2", "TRADER_AVOID", "FIRESTARTER", "FRAGILE", "OVERSIZE" ],
+    "light": 2,
+    "flags": [ "LITCIG", "TRADER_AVOID", "FIRESTARTER", "FRAGILE", "OVERSIZE" ],
     "warmth": 3,
     "armor": [
       {

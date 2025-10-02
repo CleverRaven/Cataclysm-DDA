@@ -31,7 +31,6 @@
       { "id": "fruit_leather", "description": " Cook: Fruit Leather" },
       { "id": "jerky", "description": " Cook: Meat Jerky" },
       { "id": "mushroom_cooked", "description": " Cook: Mushroom, Cooked" },
-      { "id": "lard", "description": " Cook: Lard" },
       { "id": "tallow", "description": " Cook: Tallow" },
       { "id": "cornmeal", "description": " Cook: Cornmeal" },
       { "id": "meat_smoked", "description": " Cook: Meat, Smoked" },

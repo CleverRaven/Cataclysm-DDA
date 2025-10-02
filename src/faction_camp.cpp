@@ -4,7 +4,6 @@
 #include <array>
 #include <climits>
 #include <cmath>
-#include <cstddef>
 #include <functional>
 #include <list>
 #include <map>
@@ -12,6 +11,7 @@
 #include <numeric>
 #include <optional>
 #include <set>
+#include <cstddef>
 #include <string>
 #include <string_view>
 #include <unordered_map>
@@ -108,6 +108,24 @@ static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 static const addiction_id addiction_alcohol( "alcohol" );
 
 static const efftype_id effect_HACK_camp_vision_for_npc( "HACK_camp_vision_for_npc" );
+
+static const faction_mission_id faction_mission_camp_clearcut( "camp_clearcut" );
+static const faction_mission_id faction_mission_camp_collect_firewood( "camp_collect_firewood" );
+static const faction_mission_id faction_mission_camp_combat_patrol( "camp_combat_patrol" );
+static const faction_mission_id faction_mission_camp_cut_logs( "camp_cut_logs" );
+static const faction_mission_id faction_mission_camp_foraging( "camp_foraging" );
+static const faction_mission_id faction_mission_camp_gathering( "camp_gathering" );
+static const faction_mission_id faction_mission_camp_harvest( "camp_harvest" );
+static const faction_mission_id faction_mission_camp_hunting( "camp_hunting" );
+static const faction_mission_id faction_mission_camp_menial( "camp_menial" );
+static const faction_mission_id faction_mission_camp_plant( "camp_plant" );
+static const faction_mission_id faction_mission_camp_plow( "camp_plow" );
+static const faction_mission_id faction_mission_camp_relay_hide_site( "camp_relay_hide_site" );
+static const faction_mission_id faction_mission_camp_scouting( "camp_scouting" );
+static const faction_mission_id faction_mission_camp_setup_hide_site( "camp_setup_hide_site" );
+static const faction_mission_id faction_mission_camp_survey_expansion( "camp_survey_expansion" );
+static const faction_mission_id faction_mission_camp_survey_field( "camp_survey_field" );
+static const faction_mission_id faction_mission_camp_trapping( "camp_trapping" );
 
 static const furn_str_id furn_f_plant_harvest( "f_plant_harvest" );
 static const furn_str_id furn_f_plant_seed( "f_plant_seed" );
@@ -853,20 +871,12 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
         const mission_id miss_id = { Camp_Gather_Materials, "", {}, dir };
         std::string gather_bldg = "null";
         comp_list npc_list = get_mission_workers( miss_id );
-        entry = string_format( _( "Notes:\n"
-                                  "Send a companion to gather materials for the next camp "
-                                  "upgrade.\n\n"
-                                  "Skill used: survival\n"
-                                  "Difficulty: N/A\n"
-                                  "Gathering Possibilities:\n"
-                                  "%s\n"
-                                  "Risk: Very Low\n"
-                                  "Intensity: Light\n"
-                                  "Time: 3 Hours, Repeated\n"
-                                  "Positions: %d/3\n" ), gathering_description(),
-                               npc_list.size() );
+        entry = faction_mission_camp_gathering->describe( npc_list.size(), std::function( [this]() {
+            return gathering_description();
+        } ) );
+
         mission_key.add_start( miss_id, name_display_of( miss_id ),
-                               entry, npc_list.size() < 3 );
+                               entry, npc_list.size() < faction_mission_camp_gathering->positions );
         if( !npc_list.empty() ) {
             entry = action_of( miss_id.id );
             bool avail = update_time_fixed( entry, npc_list, 3_hours );
@@ -877,20 +887,10 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
     if( has_provides( "firewood", dir ) ) {
         const mission_id miss_id = { Camp_Collect_Firewood, "", {}, dir };
         comp_list npc_list = get_mission_workers( miss_id );
-        entry = string_format( _( "Notes:\n"
-                                  "Send a companion to gather light brush and stout branches.\n\n"
-                                  "Skill used: survival\n"
-                                  "Difficulty: N/A\n"
-                                  "Gathering Possibilities:\n"
-                                  "> stout branches\n"
-                                  "> withered plants\n"
-                                  "> splintered wood\n\n"
-                                  "Risk: Very Low\n"
-                                  "Intensity: Light\n"
-                                  "Time: 3 Hours, Repeated\n"
-                                  "Positions: %d/3\n" ), npc_list.size() );
+        entry = faction_mission_camp_collect_firewood->describe( npc_list.size() );
+
         mission_key.add_start( miss_id, name_display_of( miss_id ),
-                               entry, npc_list.size() < 3 );
+                               entry, npc_list.size() < faction_mission_camp_collect_firewood->positions );
         if( !npc_list.empty() ) {
             entry = action_of( miss_id.id );
             bool avail = update_time_fixed( entry, npc_list, 3_hours );
@@ -901,19 +901,10 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
     if( has_provides( "sorting", dir ) ) {
         const mission_id miss_id = { Camp_Menial, "", {}, dir };
         comp_list npc_list = get_mission_workers( miss_id );
-        entry = string_format( _( "Notes:\n"
-                                  "Send a companion to do low level chores and sort "
-                                  "supplies.\n\n"
-                                  "Skill used: fabrication\n"
-                                  "Difficulty: N/A\n"
-                                  "Effects:\n"
-                                  "> Material left in the unsorted loot zone will be sorted "
-                                  "into a defined loot zone."
-                                  "\n\nRisk: None\n"
-                                  "Time: 3 Hours\n"
-                                  "Positions: %d/1\n" ), npc_list.size() );
+        entry = faction_mission_camp_menial->describe( npc_list.size() );
+
         mission_key.add_start( miss_id, name_display_of( miss_id ),
-                               entry, npc_list.empty() );
+                               entry, npc_list.size() < faction_mission_camp_menial->positions );
         if( !npc_list.empty() ) {
             entry = action_of( miss_id.id );
             bool avail = update_time_left( entry, npc_list );
@@ -925,22 +916,10 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
     if( has_provides( "logging", dir ) ) {
         const mission_id miss_id = { Camp_Cut_Logs, "", {}, dir };
         comp_list npc_list = get_mission_workers( miss_id );
-        entry = string_format( _( "Notes:\n"
-                                  "Send a companion to a nearby forest to cut logs.\n\n"
-                                  "Skill used: fabrication\n"
-                                  "Difficulty: 2\n"
-                                  "Effects:\n"
-                                  "> 50%% of trees/trunks at the forest position will be "
-                                  "cut down.\n"
-                                  "> 100%% of total material will be brought back.\n"
-                                  "> Repeatable with diminishing returns.\n"
-                                  "> Will eventually turn forests into fields.\n"
-                                  "Risk: None\n"
-                                  "Intensity: Active\n"
-                                  "Time: 6 Hour Base + Travel Time + Cutting Time\n"
-                                  "Positions: %d/1\n" ), npc_list.size() );
+        entry = faction_mission_camp_cut_logs->describe( npc_list.size() );
+
         mission_key.add_start( miss_id, name_display_of( miss_id ),
-                               entry, npc_list.empty() );
+                               entry, npc_list.size() < faction_mission_camp_cut_logs->positions );
         if( !npc_list.empty() ) {
             entry = action_of( miss_id.id );
             bool avail = update_time_left( entry, npc_list );
@@ -952,23 +931,10 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
     if( has_provides( "logging", dir ) ) {
         const mission_id miss_id = { Camp_Clearcut, "", {}, dir };
         comp_list npc_list = get_mission_workers( miss_id );
-        entry = string_format( _( "Notes:\n"
-                                  "Send a companion to clear a nearby forest.\n"
-                                  "Note that it's likely both forest and field roads look exactly the same after having been cleared.\n\n"
-                                  "Skill used: fabrication\n"
-                                  "Difficulty: 1\n"
-                                  "Effects:\n"
-                                  "> 95%% of trees/trunks at the forest position"
-                                  " will be cut down.\n"
-                                  "> 0%% of total material will be brought back.\n"
-                                  "> Forest should become a field tile.\n"
-                                  "> Useful for clearing land for another faction camp.\n\n"
-                                  "Risk: None\n"
-                                  "Intensity: Active\n"
-                                  "Time: 6 Hour Base + Travel Time + Cutting Time\n"
-                                  "Positions: %d/1\n" ), npc_list.size() );
+        entry = faction_mission_camp_clearcut->describe( npc_list.size() );
+
         mission_key.add_start( miss_id, name_display_of( miss_id ),
-                               entry, npc_list.empty() );
+                               entry, npc_list.size() < faction_mission_camp_clearcut->positions );
         if( !npc_list.empty() ) {
             entry = action_of( miss_id.id );
             bool avail = update_time_left( entry, npc_list );
@@ -980,21 +946,10 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
     if( has_provides( "relaying", dir ) ) {
         const mission_id miss_id = { Camp_Setup_Hide_Site, "", {}, dir };
         comp_list npc_list = get_mission_workers( miss_id );
-        entry = string_format( _( "Notes:\n"
-                                  "Send a companion to build an improvised shelter and stock it "
-                                  "with equipment at a distant map location.\n\n"
-                                  "Skill used: survival\n"
-                                  "Difficulty: 3\n"
-                                  "Effects:\n"
-                                  "> Good for setting up resupply or contingency points.\n"
-                                  "> Gear is left unattended and could be stolen.\n"
-                                  "> Time dependent on weight of equipment being sent forward.\n\n"
-                                  "Risk: Medium\n"
-                                  "Intensity: Light\n"
-                                  "Time: 6 Hour Construction + Travel\n"
-                                  "Positions: %d/1\n" ), npc_list.size() );
+        entry = faction_mission_camp_setup_hide_site->describe( npc_list.size() );
+
         mission_key.add_start( miss_id, name_display_of( miss_id ),
-                               entry, npc_list.empty() );
+                               entry, npc_list.size() < faction_mission_camp_setup_hide_site->positions );
         if( !npc_list.empty() ) {
             entry = action_of( miss_id.id );
             bool avail = update_time_left( entry, npc_list );
@@ -1006,22 +961,10 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
     if( has_provides( "relaying", dir ) ) {
         const mission_id miss_id = { Camp_Relay_Hide_Site, "", {}, dir };
         comp_list npc_list = get_mission_workers( miss_id );
-        entry = string_format( _( "Notes:\n"
-                                  "Push gear out to a hide site or bring gear back from one.\n\n"
-                                  "Skill used: survival\n"
-                                  "Difficulty: 1\n"
-                                  "Effects:\n"
-                                  "> Good for returning equipment you left in the hide site "
-                                  "shelter.\n"
-                                  "> Gear is left unattended and could be stolen.\n"
-                                  "> Time dependent on weight of equipment being sent forward or "
-                                  "back.\n\n"
-                                  "Risk: Medium\n"
-                                  "Intensity: Light\n"
-                                  "Time: 1 Hour Base + Travel\n"
-                                  "Positions: %d/1\n" ), npc_list.size() );
+        entry = faction_mission_camp_relay_hide_site->describe( npc_list.size() );
+
         mission_key.add_start( miss_id, name_display_of( miss_id ), entry,
-                               npc_list.empty() );
+                               npc_list.size() < faction_mission_camp_relay_hide_site->positions );
         if( !npc_list.empty() ) {
             entry = action_of( miss_id.id );
             bool avail = update_time_left( entry, npc_list );
@@ -1033,20 +976,10 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
     if( has_provides( "foraging", dir ) ) {
         const mission_id miss_id = { Camp_Foraging, "", {}, dir };
         comp_list npc_list = get_mission_workers( miss_id );
-        entry = string_format( _( "Notes:\n"
-                                  "Send a companion to forage for edible plants.\n\n"
-                                  "Skill used: survival\n"
-                                  "Difficulty: N/A\n"
-                                  "Foraging Possibilities:\n"
-                                  "> wild vegetables\n"
-                                  "> fruits and nuts depending on season\n"
-                                  "May produce less food than consumed!\n"
-                                  "Risk: Very Low\n"
-                                  "Intensity: Light\n"
-                                  "Time: 4 Hours, Repeated\n"
-                                  "Positions: %d/3\n" ), npc_list.size() );
+        entry = faction_mission_camp_foraging->describe( npc_list.size() );
+
         mission_key.add_start( miss_id, name_display_of( miss_id ),
-                               entry, npc_list.size() < 3 );
+                               entry, npc_list.size() < faction_mission_camp_foraging->positions );
         if( !npc_list.empty() ) {
             entry = action_of( miss_id.id );
             bool avail = update_time_fixed( entry, npc_list, 4_hours );
@@ -1058,19 +991,10 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
     if( has_provides( "trapping", dir ) ) {
         const mission_id miss_id = { Camp_Trapping, "", {}, dir };
         comp_list npc_list = get_mission_workers( miss_id );
-        entry = string_format( _( "Notes:\n"
-                                  "Send a companion to set traps for small game.\n\n"
-                                  "Skill used: devices\n"
-                                  "Difficulty: N/A\n"
-                                  "Trapping Possibilities:\n"
-                                  "> small and tiny animal corpses\n"
-                                  "May produce less food than consumed!\n"
-                                  "Risk: Low\n"
-                                  "Intensity: Light\n"
-                                  "Time: 6 Hours, Repeated\n"
-                                  "Positions: %d/2\n" ), npc_list.size() );
+        entry = faction_mission_camp_trapping->describe( npc_list.size() );
+
         mission_key.add_start( miss_id, name_display_of( miss_id ),
-                               entry, npc_list.size() < 2 );
+                               entry, npc_list.size() < faction_mission_camp_trapping->positions );
         if( !npc_list.empty() ) {
             entry = action_of( miss_id.id );
             bool avail = update_time_fixed( entry, npc_list, 6_hours );
@@ -1082,19 +1006,10 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
     if( has_provides( "hunting", dir ) ) {
         const mission_id miss_id = { Camp_Hunting, "", {}, dir };
         comp_list npc_list = get_mission_workers( miss_id );
-        entry = string_format( _( "Notes:\n"
-                                  "Send a companion to hunt large animals.\n\n"
-                                  "Skill used: marksmanship\n"
-                                  "Difficulty: N/A\n"
-                                  "Hunting Possibilities:\n"
-                                  "> small, medium, or large animal corpses\n"
-                                  "May produce less food than consumed!\n"
-                                  "Risk: Medium\n"
-                                  "Intensity: Moderate\n"
-                                  "Time: 6 Hours, Repeated\n"
-                                  "Positions: %d/1\n" ), npc_list.size() );
+        entry = faction_mission_camp_hunting->describe( npc_list.size() );
+
         mission_key.add_start( miss_id, name_display_of( miss_id ),
-                               entry, npc_list.empty() );
+                               entry, npc_list.size() < faction_mission_camp_hunting->positions );
         if( !npc_list.empty() ) {
             entry = action_of( miss_id.id );
             bool avail = update_time_fixed( entry, npc_list, 6_hours );
@@ -1164,22 +1079,10 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
     if( has_provides( "scouting", dir ) ) {
         const mission_id miss_id = { Camp_Scouting, "", {}, dir };
         comp_list npc_list = get_mission_workers( miss_id );
-        entry = string_format( _( "Notes:\n"
-                                  "Send a companion out into the great unknown.  High survival "
-                                  "skills are needed to avoid combat but you should expect an "
-                                  "encounter or two.\n\n"
-                                  "Skill used: survival\n"
-                                  "Difficulty: 3\n"
-                                  "Effects:\n"
-                                  "> Select checkpoints to customize path.\n"
-                                  "> Reveals terrain around the path.\n"
-                                  "> Can bounce off hide sites to extend range.\n\n"
-                                  "Risk: High\n"
-                                  "Intensity: Brisk\n"
-                                  "Time: Travel\n"
-                                  "Positions: %d/3\n" ), npc_list.size() );
+        entry = faction_mission_camp_scouting->describe( npc_list.size() );
+
         mission_key.add_start( miss_id, name_display_of( miss_id ),
-                               entry, npc_list.size() < 3 );
+                               entry, npc_list.size() < faction_mission_camp_scouting->positions );
         if( !npc_list.empty() ) {
             entry = action_of( miss_id.id );
             bool avail = update_time_left( entry, npc_list );
@@ -1191,24 +1094,10 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
     if( has_provides( "patrolling", dir ) ) {
         const mission_id miss_id = { Camp_Combat_Patrol, "", {}, dir };
         comp_list npc_list = get_mission_workers( miss_id );
-        entry = string_format( _( "Notes:\n"
-                                  "Send a companion to purge the wasteland.  Their goal is to "
-                                  "kill anything hostile they encounter and return when "
-                                  "their wounds are too great or the odds are stacked against "
-                                  "them.\n\n"
-                                  "Skill used: survival\n"
-                                  "Difficulty: 4\n"
-                                  "Effects:\n"
-                                  "> Pulls creatures encountered into combat instead of "
-                                  "fleeing.\n"
-                                  "> Select checkpoints to customize path.\n"
-                                  "> Can bounce off hide sites to extend range.\n\n"
-                                  "Risk: Very High\n"
-                                  "Intensity: Brisk\n"
-                                  "Time: Travel\n"
-                                  "Positions: %d/3\n" ), npc_list.size() );
+        entry = faction_mission_camp_combat_patrol->describe( npc_list.size() );
+
         mission_key.add_start( miss_id, name_display_of( miss_id ),
-                               entry, npc_list.size() < 3 );
+                               entry, npc_list.size() < faction_mission_camp_combat_patrol->positions );
         if( !npc_list.empty() ) {
             entry = action_of( miss_id.id );
             bool avail = update_time_left( entry, npc_list );
@@ -1302,23 +1191,16 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
         size_t plots = 0;
         const mission_id miss_id = { Camp_Plow, "", {}, dir };
         comp_list npc_list = get_mission_workers( miss_id );
-        if( npc_list.empty() ) {
-            entry = _( "Notes:\n"
-                       "Plow any spaces that have reverted to dirt or grass.\n\n" ) +
-                    farm_description( dir, plots, farm_ops::plow ) +
-                    _( "\n\n"
-                       "Skill used: fabrication\n"
-                       "Difficulty: N/A\n"
-                       "Effects:\n"
-                       "> Restores farm plots created in previous expansion upgrades.\n"
-                       "> Does not damage existing crops.\n\n"
-                       "Risk: None\n"
-                       "Intensity: Moderate\n"
-                       "Time: 5 Min / Plot\n"
-                       "Positions: 0/1\n" );
+        if( npc_list.size() < faction_mission_camp_plow->positions ) {
+            entry = faction_mission_camp_plow->describe( npc_list.size(), nullptr, std::function( [this, &dir,
+                  &plots]() {
+                return farm_description( dir, plots, farm_ops::plow );
+            } ) );
+
             mission_key.add_start( miss_id, name_display_of( miss_id ),
                                    entry, plots > 0 );
-        } else {
+        }
+        if( !npc_list.empty() ) {
             entry = action_of( miss_id.id );
             bool avail = update_time_left( entry, npc_list );
             mission_key.add_return( miss_id,
@@ -1329,27 +1211,19 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
         size_t plots = 0;
         const mission_id miss_id = { Camp_Plant, "", {}, dir };
         comp_list npc_list = get_mission_workers( miss_id );
-        if( npc_list.empty() ) {
-            entry = _( "Notes:\n"
-                       "Plant designated seeds in the spaces that have already been "
-                       "tilled.\n\n" ) +
-                    farm_description( dir, plots, farm_ops::plant ) +
-                    _( "\n\n"
-                       "Skill used: survival\n"
-                       "Difficulty: N/A\n"
-                       "Effects:\n"
-                       "> Choose which seed type or all of your seeds.\n"
-                       "> Stops when out of seeds or planting locations.\n"
-                       "> Will plant in ALL dirt mounds in the expansion.\n\n"
-                       "Risk: None\n"
-                       "Intensity: Moderate\n"
-                       "Time: 1 Min / Plot\n"
-                       "Positions: 0/1\n" );
+        if( npc_list.size() < faction_mission_camp_plant->positions ) {
+            entry = faction_mission_camp_plant->describe( npc_list.size(), nullptr, std::function( [this, &dir,
+                  &plots]() {
+                return farm_description( dir, plots, farm_ops::plant );
+            } ) );
+            const tripoint_abs_omt target_omt = omt_pos + dir;
+            const tripoint_bub_ms target_pnt = get_map().get_bub( project_to<coords::ms>( target_omt ) );
             // FIXME/HACK: Always checks buckwheat seeds!
             mission_key.add_start( miss_id,
                                    name_display_of( miss_id ), entry,
-                                   plots > 0 && warm_enough_to_plant( omt_pos + dir, itype_seed_buckwheat ) );
-        } else {
+                                   plots > 0 && warm_enough_to_plant( target_pnt, itype_seed_buckwheat ).success() );
+        }
+        if( !npc_list.empty() ) {
             entry = action_of( miss_id.id );
             bool avail = update_time_left( entry, npc_list );
             mission_key.add_return( miss_id,
@@ -1360,23 +1234,17 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
         size_t plots = 0;
         const mission_id miss_id = { Camp_Harvest, "", {}, dir };
         comp_list npc_list = get_mission_workers( miss_id );
-        if( npc_list.empty() ) {
-            entry = _( "Notes:\n"
-                       "Harvest any plants that are ripe and bring the produce back.\n\n" ) +
-                    farm_description( dir, plots, farm_ops::harvest ) +
-                    _( "\n\n"
-                       "Skill used: survival\n"
-                       "Difficulty: N/A\n"
-                       "Effects:\n"
-                       "> Will dump all harvesting products onto your location.\n\n"
-                       "Risk: None\n"
-                       "Intensity: Moderate\n"
-                       "Time: 3 Min / Plot\n"
-                       "Positions: 0/1\n" );
+        if( npc_list.size() < faction_mission_camp_harvest->positions ) {
+            entry = faction_mission_camp_harvest->describe( npc_list.size(), nullptr, std::function( [this,
+                    &dir,
+            &plots]() {
+                return farm_description( dir, plots, farm_ops::harvest );
+            } ) );
             mission_key.add_start( miss_id,
                                    name_display_of( miss_id ), entry,
                                    plots > 0 );
-        } else {
+        }
+        if( !npc_list.empty() ) {
             entry = action_of( miss_id.id );
             bool avail = update_time_left( entry, npc_list );
             mission_key.add_return( miss_id,
@@ -1421,27 +1289,9 @@ void basecamp::get_available_missions( mission_data &mission_key, map &here )
             if( free_non_field_found ) {
                 const mission_id miss_id = { Camp_Survey_Field, "", {}, base_dir };
                 comp_list npc_list = get_mission_workers( miss_id );
-                entry = string_format( _( "Notes:\n"
-                                          "Nearby terrain can be turned into fields if it is completely "
-                                          "cleared of terrain that isn't grass or dirt.  Doing so makes that "
-                                          "terrain eligible for usage for standard base camp expansion.  Note "
-                                          "that log cutting does this conversion automatically when the trees "
-                                          "are depleted, but not all terrain can be logged.\n\n"
-                                          "Skill used: N/A\n"
-                                          "Effects:\n"
-                                          "> If the expansion direction selected is eligible for conversion into "
-                                          "a field this mission will perform that conversion.  If it is not eligible "
-                                          "you are told as much, and would have to make it suitable for conversion "
-                                          "by removing everything that isn't grass or soil.  Mining zones are useful to "
-                                          "remove pavement, for instance.  Note that removal of buildings is dangerous, "
-                                          "laborious, and may still fail to get rid of everything if e.g. a basement or "
-                                          "an opening to underground areas (such as a manhole) remains.\n\n"
-                                          "Risk: None\n"
-                                          "Intensity: Moderate\n"
-                                          "Time: 0 Hours\n"
-                                          "Positions: %d/1\n" ), npc_list.size() );
+                entry = faction_mission_camp_survey_field->describe( npc_list.size() );
                 mission_key.add_start( miss_id, name_display_of( miss_id ),
-                                       entry, npc_list.empty() );
+                                       entry, npc_list.size() < faction_mission_camp_survey_field->positions );
                 if( !npc_list.empty() ) {
                     entry = action_of( miss_id.id );
                     bool avail = update_time_left( entry, npc_list );
@@ -1452,25 +1302,10 @@ void basecamp::get_available_missions( mission_data &mission_key, map &here )
 
             const mission_id miss_id = { Camp_Survey_Expansion, "", {}, base_dir };
             comp_list npc_list = get_mission_workers( miss_id );
-            entry = string_format( _( "Notes:\n"
-                                      "Expansions open up new opportunities but can be expensive and "
-                                      "time-consuming.  Pick them carefully, at most 8 can be built "
-                                      "at each camp.\n\n"
-                                      "Skill used: N/A\n"
-                                      "Effects:\n"
-                                      "> Choose any one of the available expansions.  Starting with "
-                                      "a farm is always a solid choice since food is used to support "
-                                      "companion missions and minimal investment is needed to get it going.  "
-                                      "A forge is also a great idea, allowing you to refine resources for "
-                                      "subsequent expansions, craft better gear and make charcoal.\n\n"
-                                      "NOTE: Actions available through expansions are located in "
-                                      "separate tabs of the Camp Manager window.\n\n"
-                                      "Risk: None\n"
-                                      "Intensity: Moderate\n"
-                                      "Time: 3 Hours\n"
-                                      "Positions: %d/1\n" ), npc_list.size() );
+            entry = faction_mission_camp_survey_expansion->describe( npc_list.size() );
             mission_key.add_start( miss_id, name_display_of( miss_id ),
-                                   entry, npc_list.empty() && possible_expansion_found );
+                                   entry, npc_list.size() < faction_mission_camp_survey_expansion->positions &&
+                                   possible_expansion_found );
             if( !npc_list.empty() ) {
                 entry = action_of( miss_id.id );
                 bool avail = update_time_left( entry, npc_list );
@@ -5461,7 +5296,7 @@ bool basecamp::validate_sort_points()
 bool basecamp::set_sort_points()
 {
     popup( _( "Please create some sorting zones.  You must create a camp food zone, and a camp storage zone." ) );
-    g->zones_manager();
+    zone_manager_ui::display_zone_manager();
     return validate_sort_points();
 }
 
@@ -5617,10 +5452,10 @@ std::string basecamp::recruit_description( int npc_count ) const
     return desc;
 }
 
-std::string basecamp::gathering_description()
+std::vector<std::string> basecamp::gathering_description() const
 {
     item_group_id itemlist = Item_spawn_data_forest;
-    std::string output;
+    std::vector<std::string> output;
 
     // Functions like the debug item group tester but only rolls 6 times so the player
     // doesn't have perfect knowledge
@@ -5637,23 +5472,23 @@ std::string basecamp::gathering_description()
         itemnames2.insert( std::pair<int, std::string>( e.second, e.first ) );
     }
     for( const auto &e : itemnames2 ) {
-        str_append( output, "> ", e.second, "\n" );
+        output.emplace_back( e.second );
     }
     return output;
 }
 
-std::string basecamp::farm_description( const point_rel_omt &dir, size_t &plots_count,
-                                        farm_ops operation )
+std::vector<std::string> basecamp::farm_description( const point_rel_omt &dir, size_t &plots_count,
+        farm_ops operation )
 {
     std::pair<size_t, std::string> farm_data = farm_action( dir, operation );
     plots_count = farm_data.first;
     switch( operation ) {
         case farm_ops::harvest:
-            return _( "Harvestable: " ) + std::to_string( plots_count ) + "\n" + farm_data.second;
+            return { _( "Harvestable: " ) + std::to_string( plots_count ), farm_data.second };
         case farm_ops::plant:
-            return _( "Ready for Planting: " ) + std::to_string( plots_count ) + "\n";
+            return { _( "Ready for Planting: " ) + std::to_string( plots_count ) };
         case farm_ops::plow:
-            return _( "Needs Plowing: " ) + std::to_string( plots_count ) + "\n";
+            return { _( "Needs Plowing: " ) + std::to_string( plots_count ) };
         default:
             debugmsg( "Farm operations called with no operation" );
             return {};

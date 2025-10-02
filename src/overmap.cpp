@@ -21,6 +21,7 @@
 #include "auto_note.h"
 #include "avatar.h"
 #include "cached_options.h"
+#include "calendar.h"
 #include "cata_assert.h"
 #include "cata_path.h"
 #include "cata_utility.h"
@@ -38,7 +39,7 @@
 #include "flood_fill.h"
 #include "game.h"
 #include "generic_factory.h"
-#include "json.h"
+#include "horde_entity.h"
 #include "line.h"
 #include "map.h"
 #include "map_extras.h"
@@ -56,7 +57,7 @@
 #include "options.h"
 #include "output.h"
 #include "overmap_connection.h"
-#include "overmap_location.h"
+#include "overmap_map_data_cache.h"
 #include "overmap_noise.h"
 #include "overmap_types.h"
 #include "overmapbuffer.h"
@@ -80,7 +81,7 @@ static const mongroup_id GROUP_OCEAN_SHORE( "GROUP_OCEAN_SHORE" );
 static const mongroup_id GROUP_RIVER( "GROUP_RIVER" );
 static const mongroup_id GROUP_SUBWAY_CITY( "GROUP_SUBWAY_CITY" );
 static const mongroup_id GROUP_SWAMP( "GROUP_SWAMP" );
-static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
+static const mongroup_id GROUP_ZOMBIE_HORDE( "GROUP_ZOMBIE_HORDE" );
 
 static const oter_str_id oter_central_lab( "central_lab" );
 static const oter_str_id oter_central_lab_core( "central_lab_core" );
@@ -98,7 +99,6 @@ static const oter_str_id oter_lab_escape_cells( "lab_escape_cells" );
 static const oter_str_id oter_lab_escape_entrance( "lab_escape_entrance" );
 static const oter_str_id oter_lab_train_depot( "lab_train_depot" );
 static const oter_str_id oter_open_air( "open_air" );
-static const oter_str_id oter_river_center( "river_center" );
 static const oter_str_id oter_road_nesw_manhole( "road_nesw_manhole" );
 static const oter_str_id oter_sewer_end_north( "sewer_end_north" );
 static const oter_str_id oter_sewer_isolated( "sewer_isolated" );
@@ -128,12 +128,18 @@ static const oter_vision_id oter_vision_default( "default" );
 static const overmap_location_id overmap_location_land( "land" );
 static const overmap_location_id overmap_location_swamp( "swamp" );
 
-static const species_id species_ZOMBIE( "ZOMBIE" );
+static const string_id<map_data_summary> map_data_summary_empty_omt( "empty_omt" );
+static const string_id<map_data_summary> map_data_summary_full_omt( "full_omt" );
+static const string_id<map_data_summary>
+map_data_summary_scattered_obstacles_omt( "scattered_obstacles_omt" );
 
 #define dbg(x) DebugLog((x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
 using oter_type_id = int_id<oter_type_t>;
 using oter_type_str_id = string_id<oter_type_t>;
+
+template struct pos_dir<tripoint_om_omt>;
+template struct pos_dir<tripoint_rel_omt>;
 
 ////////////////
 static oter_id ot_null;
@@ -182,6 +188,14 @@ const std::vector<oter_vision> &oter_vision::get_all()
     return oter_vision_factory.get_all();
 }
 
+static bool is_amongst_locations( const oter_id &oter,
+                                  const cata::flat_set<string_id<overmap_location>> &locations )
+{
+    return std::any_of( locations.begin(), locations.end(),
+    [&oter]( const string_id<overmap_location> &loc ) {
+        return loc->test( oter );
+    } );
+}
 
 namespace io
 {
@@ -330,9 +344,6 @@ static size_t from_dir( om_direction::type dir )
 }
 
 } // namespace om_lines
-
-//const regional_settings default_region_settings;
-t_regional_settings_map region_settings_map;
 
 namespace
 {
@@ -900,6 +911,35 @@ void oter_vision::check() const
     }
 }
 
+static string_id<map_data_summary> map_data_for_travel_cost( oter_travel_cost_type type,
+        const JsonObject &/*jo*/ )
+{
+    // With no specific override, set based on travel_cost_type if present.
+    switch( type ) {
+        case oter_travel_cost_type::impassable:
+        // Revisit water and air?
+        case oter_travel_cost_type::water:
+        case oter_travel_cost_type::air:
+            return map_data_summary_full_omt;
+        case oter_travel_cost_type::road:
+        case oter_travel_cost_type::field:
+        case oter_travel_cost_type::dirt_road:
+            return map_data_summary_empty_omt;
+        case oter_travel_cost_type::trail:
+        case oter_travel_cost_type::forest:
+        case oter_travel_cost_type::shore:
+        case oter_travel_cost_type::swamp:
+            return map_data_summary_scattered_obstacles_omt;
+        case oter_travel_cost_type::other:
+        default:
+            // Should not reach, throw an error.
+            //jo.throw_error( string_format( "No inferred or explicit default_map_data for %s", id.str() ) );
+            break;
+    }
+    // Terrible hack, just mark it impssable?
+    // There seem to be something like 2,500 entries that need to be annotted for this to work.
+    return map_data_summary_full_omt;
+}
 
 void oter_type_t::load( const JsonObject &jo, const std::string_view )
 {
@@ -936,6 +976,10 @@ void oter_type_t::load( const JsonObject &jo, const std::string_view )
 
     optional( jo, was_loaded, "connect_group", connect_group, string_reader{} );
     optional( jo, was_loaded, "travel_cost_type", travel_cost_type, oter_travel_cost_type::other );
+
+    optional( jo, was_loaded, "default_map_data", default_map_data,
+              map_data_for_travel_cost( travel_cost_type, jo ) );
+
 
     optional( jo, was_loaded, "vision_levels", vision_levels, oter_vision_default );
     optional( jo, false, "uniform_terrain", uniform_terrain );
@@ -1255,16 +1299,6 @@ void overmap_terrains::check_consistency()
 void overmap_terrains::finalize()
 {
     terrain_types.finalize();
-
-    if( region_settings_map.find( "default" ) == region_settings_map.end() ) {
-        debugmsg( "ERROR: can't find default overmap settings (region_map_settings 'default'), "
-                  "Cataclysm pending.  And not the fun kind." );
-    }
-
-    for( auto &elem : region_settings_map ) {
-        elem.second.finalize();
-    }
-
     set_oter_ids();
 }
 
@@ -1277,15 +1311,6 @@ void overmap_terrains::reset()
 const std::vector<oter_t> &overmap_terrains::get_all()
 {
     return terrains.get_all();
-}
-
-static bool is_amongst_locations( const oter_id &oter,
-                                  const cata::flat_set<string_id<overmap_location>> &locations )
-{
-    return std::any_of( locations.begin(), locations.end(),
-    [&oter]( const string_id<overmap_location> &loc ) {
-        return loc->test( oter );
-    } );
 }
 
 bool overmap_special_locations::can_be_placed_on( const oter_id &oter ) const
@@ -1396,345 +1421,297 @@ void overmap_special_connection::deserialize( const JsonObject &jo )
     optional( jo, false, "from", from );
 }
 
-struct special_placement_result {
-    std::vector<tripoint_om_omt> omts_used;
-    std::vector<std::pair<om_pos_dir, std::string>> joins_used;
-};
-
-struct overmap_special_data {
-    virtual ~overmap_special_data() = default;
-    virtual void finalize(
-        const std::string &context,
-        const cata::flat_set<string_id<overmap_location>> &default_locations ) = 0;
-    virtual void finalize_mapgen_parameters(
-        mapgen_parameters &, const std::string &context ) const = 0;
-    virtual void check( const std::string &context ) const = 0;
-    virtual std::vector<overmap_special_terrain> get_terrains() const = 0;
-    virtual std::vector<overmap_special_terrain> preview_terrains() const = 0;
-    virtual std::vector<overmap_special_locations> required_locations() const = 0;
-    virtual int score_rotation_at( const overmap &om, const tripoint_om_omt &p,
-                                   om_direction::type r ) const = 0;
-    virtual special_placement_result place(
-        overmap &om, const tripoint_om_omt &origin, om_direction::type dir, bool blob,
-        const city &cit, bool must_be_unexplored ) const = 0;
-};
-
-struct fixed_overmap_special_data : overmap_special_data {
-    fixed_overmap_special_data() = default;
-    explicit fixed_overmap_special_data( const overmap_special_terrain &ter )
-        : terrains{ ter }
-    {}
-
-    void finalize(
-        const std::string &/*context*/,
-        const cata::flat_set<string_id<overmap_location>> &default_locations ) override {
-        // If the special has default locations, then add those to the locations
-        // of each of the terrains IF the terrain has no locations already.
-        for( overmap_special_terrain &t : terrains ) {
-            if( t.locations.empty() ) {
-                t.locations = default_locations;
-            }
-        }
-
-        for( overmap_special_connection &elem : connections ) {
-            const overmap_special_terrain &oter = get_terrain_at( elem.p );
-            if( !elem.terrain && oter.terrain ) {
-                elem.terrain = oter.terrain->get_type_id();    // Defaulted.
-            }
-
-            // If the connection type hasn't been specified, we'll guess for them.
-            // The guess isn't always right (hence guessing) in the case where
-            // multiple connections types can be made on a single location type,
-            // e.g. both roads and forest trails can be placed on "forest" locations.
-            if( elem.connection.is_null() ) {
-                elem.connection = overmap_connections::guess_for( elem.terrain );
-            }
-
-            // If the connection has a "from" hint specified, then figure out what the
-            // resulting direction from the hinted location to the connection point is,
-            // and use that as the initial direction to be passed off to the connection
-            // building code.
-            if( elem.from ) {
-                const direction calculated_direction = direction_from( *elem.from, elem.p );
-                switch( calculated_direction ) {
-                    case direction::NORTH:
-                        elem.initial_dir = cube_direction::north;
-                        break;
-                    case direction::EAST:
-                        elem.initial_dir = cube_direction::east;
-                        break;
-                    case direction::SOUTH:
-                        elem.initial_dir = cube_direction::south;
-                        break;
-                    case direction::WEST:
-                        elem.initial_dir = cube_direction::west;
-                        break;
-                    default:
-                        // The only supported directions are north/east/south/west
-                        // as those are the four directions that overmap connections
-                        // can be made in. If the direction we figured out wasn't
-                        // one of those, just set this as invalid. We'll provide
-                        // a warning to the user/developer in overmap_special::check().
-                        elem.initial_dir = cube_direction::last;
-                        break;
-                }
-            }
+void fixed_overmap_special_data::finalize(
+    const std::string &,
+    const cata::flat_set<string_id<overmap_location>> &default_locations )
+{
+    // If the special has default locations, then add those to the locations
+    // of each of the terrains IF the terrain has no locations already.
+    for( overmap_special_terrain &t : terrains ) {
+        if( t.locations.empty() ) {
+            t.locations = default_locations;
         }
     }
 
-    void finalize_mapgen_parameters( mapgen_parameters &params,
-                                     const std::string &context ) const override {
-        for( const overmap_special_terrain &t : terrains ) {
-            if( !t.terrain.is_valid() ) {
-                if( oter_str_id( t.terrain.str() + "_north" ).is_valid() ) {
-                    debugmsg( "In %s, terrain \"%s\" rotates, but is specified without a "
-                              "rotation.", context, t.terrain.str() );
-                } else {
-                    debugmsg( "In %s, terrain \"%s\" is invalid.", context, t.terrain.str() );
-                }
+    for( overmap_special_connection &elem : connections ) {
+        const overmap_special_terrain &oter = get_terrain_at( elem.p );
+        if( !elem.terrain && oter.terrain ) {
+            elem.terrain = oter.terrain->get_type_id();    // Defaulted.
+        }
+
+        // If the connection type hasn't been specified, we'll guess for them.
+        // The guess isn't always right (hence guessing) in the case where
+        // multiple connections types can be made on a single location type,
+        // e.g. both roads and forest trails can be placed on "forest" locations.
+        if( elem.connection.is_null() ) {
+            elem.connection = overmap_connections::guess_for( elem.terrain );
+        }
+
+        // If the connection has a "from" hint specified, then figure out what the
+        // resulting direction from the hinted location to the connection point is,
+        // and use that as the initial direction to be passed off to the connection
+        // building code.
+        if( elem.from ) {
+            const direction calculated_direction = direction_from( *elem.from, elem.p );
+            switch( calculated_direction ) {
+                case direction::NORTH:
+                    elem.initial_dir = cube_direction::north;
+                    break;
+                case direction::EAST:
+                    elem.initial_dir = cube_direction::east;
+                    break;
+                case direction::SOUTH:
+                    elem.initial_dir = cube_direction::south;
+                    break;
+                case direction::WEST:
+                    elem.initial_dir = cube_direction::west;
+                    break;
+                default:
+                    // The only supported directions are north/east/south/west
+                    // as those are the four directions that overmap connections
+                    // can be made in. If the direction we figured out wasn't
+                    // one of those, just set this as invalid. We'll provide
+                    // a warning to the user/developer in overmap_special::check().
+                    elem.initial_dir = cube_direction::last;
+                    break;
             }
-            std::string mapgen_id = t.terrain->get_mapgen_id();
-            params.check_and_merge( get_map_special_params( mapgen_id ), context );
         }
     }
+}
 
-    void check( const std::string &context ) const override {
-        std::set<oter_str_id> invalid_terrains;
-        std::set<tripoint_rel_omt> points;
-
-        for( const overmap_special_terrain &elem : terrains ) {
-            const oter_str_id &oter = elem.terrain;
-
-            if( !oter.is_valid() ) {
-                if( !invalid_terrains.count( oter ) ) {
-                    // Not a huge fan of the direct id manipulation here, but I don't know
-                    // how else to do this
-                    // Because we try to access all the terrains in the finalization,
-                    // this is a little redundant, but whatever
-                    oter_str_id invalid( oter.str() + "_north" );
-                    if( invalid.is_valid() ) {
-                        debugmsg( "In %s, terrain \"%s\" rotates, but is specified without a "
-                                  "rotation.", context, oter.str() );
-                    } else  {
-                        debugmsg( "In %s, terrain \"%s\" is invalid.", context, oter.str() );
-                    }
-                    invalid_terrains.insert( oter );
-                }
-            }
-
-            const tripoint_rel_omt &pos = elem.p;
-
-            if( points.count( pos ) > 0 ) {
-                debugmsg( "In %s, point %s is duplicated.", context, pos.to_string() );
+void fixed_overmap_special_data::finalize_mapgen_parameters( mapgen_parameters &params,
+        const std::string &context ) const
+{
+    for( const overmap_special_terrain &t : terrains ) {
+        if( !t.terrain.is_valid() ) {
+            if( oter_str_id( t.terrain.str() + "_north" ).is_valid() ) {
+                debugmsg( "In %s, terrain \"%s\" rotates, but is specified without a "
+                          "rotation.", context, t.terrain.str() );
             } else {
-                points.insert( pos );
+                debugmsg( "In %s, terrain \"%s\" is invalid.", context, t.terrain.str() );
             }
+        }
+        std::string mapgen_id = t.terrain->get_mapgen_id();
+        params.check_and_merge( get_map_special_params( mapgen_id ), context );
+    }
+}
 
+void fixed_overmap_special_data::check( const std::string &context ) const
+{
+    std::set<oter_str_id> invalid_terrains;
+    std::set<tripoint_rel_omt> points;
+
+    for( const overmap_special_terrain &elem : terrains ) {
+        const oter_str_id &oter = elem.terrain;
+
+        if( !oter.is_valid() ) {
+            if( !invalid_terrains.count( oter ) ) {
+                // Not a huge fan of the direct id manipulation here, but I don't know
+                // how else to do this
+                // Because we try to access all the terrains in the finalization,
+                // this is a little redundant, but whatever
+                oter_str_id invalid( oter.str() + "_north" );
+                if( invalid.is_valid() ) {
+                    debugmsg( "In %s, terrain \"%s\" rotates, but is specified without a "
+                              "rotation.", context, oter.str() );
+                } else  {
+                    debugmsg( "In %s, terrain \"%s\" is invalid.", context, oter.str() );
+                }
+                invalid_terrains.insert( oter );
+            }
+        }
+
+        const tripoint_rel_omt &pos = elem.p;
+
+        if( points.count( pos ) > 0 ) {
+            debugmsg( "In %s, point %s is duplicated.", context, pos.to_string() );
+        } else {
+            points.insert( pos );
+        }
+
+        if( elem.camp_owner.has_value() ) {
+            if( !elem.camp_owner.value().is_valid() ) {
+                debugmsg( "In %s, camp at %s has invalid owner %s", context, pos.to_string(),
+                          elem.camp_owner.value().c_str() );
+            }
+            if( elem.camp_name.empty() ) {
+                debugmsg( "In %s, camp was defined but missing a camp_name.", context );
+            }
+        } else if( !elem.camp_name.empty() ) {
+            debugmsg( "In %s, camp_name defined but no owner.  Invalid name is discarded.", context );
+        }
+
+        if( elem.locations.empty() ) {
+            debugmsg( "In %s, no location is defined for point %s or the "
+                      "overall special.", context, pos.to_string() );
+        }
+
+        for( const auto &l : elem.locations ) {
+            if( !l.is_valid() ) {
+                debugmsg( "In %s, point %s, location \"%s\" is invalid.",
+                          context, pos.to_string(), l.c_str() );
+            }
+        }
+    }
+
+    for( const overmap_special_connection &elem : connections ) {
+        const overmap_special_terrain &oter = get_terrain_at( elem.p );
+        if( !elem.terrain ) {
+            debugmsg( "In %s, connection %s doesn't have a terrain.",
+                      context, elem.p.to_string() );
+        } else if( !elem.existing && !elem.terrain->has_flag( oter_flags::line_drawing ) ) {
+            debugmsg( "In %s, connection %s \"%s\" isn't drawn with lines.",
+                      context, elem.p.to_string(), elem.terrain.c_str() );
+        } else if( !elem.existing && oter.terrain && !oter.terrain->type_is( elem.terrain ) ) {
+            debugmsg( "In %s, connection %s overwrites \"%s\".",
+                      context, elem.p.to_string(), oter.terrain.c_str() );
+        }
+
+        if( elem.from ) {
+            // The only supported directions are north/east/south/west
+            // as those are the four directions that overmap connections
+            // can be made in. If the direction we figured out wasn't
+            // one of those, warn the user/developer.
+            const direction calculated_direction = direction_from( *elem.from, elem.p );
+            switch( calculated_direction ) {
+                case direction::NORTH:
+                case direction::EAST:
+                case direction::SOUTH:
+                case direction::WEST:
+                    continue;
+                default:
+                    debugmsg( "In %s, connection %s is not directly north, "
+                              "east, south or west of the defined \"from\" %s.",
+                              context, elem.p.to_string(), elem.from->to_string() );
+                    break;
+            }
+        }
+    }
+}
+
+const overmap_special_terrain &fixed_overmap_special_data::get_terrain_at(
+    const tripoint_rel_omt &p ) const
+{
+    const auto iter = std::find_if( terrains.begin(), terrains.end(),
+    [ &p ]( const overmap_special_terrain & elem ) {
+        return elem.p == p;
+    } );
+    if( iter == terrains.end() ) {
+        static const overmap_special_terrain null_terrain{};
+        return null_terrain;
+    }
+    return *iter;
+}
+
+std::vector<overmap_special_terrain> fixed_overmap_special_data::get_terrains() const
+{
+    return terrains;
+}
+
+std::vector<overmap_special_terrain> fixed_overmap_special_data::preview_terrains() const
+{
+    std::vector<overmap_special_terrain> result;
+    std::copy_if( terrains.begin(), terrains.end(), std::back_inserter( result ),
+    []( const overmap_special_terrain & terrain ) {
+        return terrain.p.z() == 0;
+    } );
+    return result;
+}
+
+std::vector<overmap_special_locations> fixed_overmap_special_data::required_locations() const
+{
+    std::vector<overmap_special_locations> result;
+    result.reserve( terrains.size() );
+    std::copy( terrains.begin(), terrains.end(), std::back_inserter( result ) );
+    return result;
+}
+
+int fixed_overmap_special_data::score_rotation_at( const overmap &om, const tripoint_om_omt &p,
+        om_direction::type r ) const
+{
+    int score = 0;
+    for( const overmap_special_connection &con : connections ) {
+        const tripoint_om_omt rp = p + om_direction::rotate( con.p, r );
+        if( !overmap::inbounds( rp ) ) {
+            return -1;
+        }
+        const oter_id &oter = om.ter( rp );
+
+        if( ( oter->get_type_id() == oter_type_str_id( con.terrain.str() ) ) ) {
+            ++score; // Found another one satisfied connection.
+        } else if( !oter || con.existing || !con.connection->pick_subtype_for( oter ) ) {
+            return -1;
+        }
+    }
+    return score;
+}
+
+special_placement_result fixed_overmap_special_data::place(
+    overmap &om, const tripoint_om_omt &origin, om_direction::type dir, bool blob,
+    const city &cit, bool must_be_unexplored ) const
+{
+    special_placement_result result;
+
+    for( const overmap_special_terrain &elem : terrains ) {
+        const tripoint_om_omt location = origin + om_direction::rotate( elem.p, dir );
+        if( !( elem.terrain == oter_str_id::NULL_ID() ) ) {
+            result.omts_used.push_back( location );
+            const oter_id tid = elem.terrain->get_rotated( dir );
+            om.ter_set( location, tid );
             if( elem.camp_owner.has_value() ) {
-                if( !elem.camp_owner.value().is_valid() ) {
-                    debugmsg( "In %s, camp at %s has invalid owner %s", context, pos.to_string(),
-                              elem.camp_owner.value().c_str() );
-                }
-                if( elem.camp_name.empty() ) {
-                    debugmsg( "In %s, camp was defined but missing a camp_name.", context );
-                }
-            } else if( !elem.camp_name.empty() ) {
-                debugmsg( "In %s, camp_name defined but no owner.  Invalid name is discarded.", context );
-            }
-
-            if( elem.locations.empty() ) {
-                debugmsg( "In %s, no location is defined for point %s or the "
-                          "overall special.", context, pos.to_string() );
-            }
-
-            for( const auto &l : elem.locations ) {
-                if( !l.is_valid() ) {
-                    debugmsg( "In %s, point %s, location \"%s\" is invalid.",
-                              context, pos.to_string(), l.c_str() );
+                // This always results in z=0, but pos() doesn't return z-level information...
+                tripoint_abs_omt camp_loc =  {project_combine( om.pos(), location.xy() ), 0};
+                get_map().add_camp( camp_loc, "faction_camp", false );
+                std::optional<basecamp *> bcp = overmap_buffer.find_camp( camp_loc.xy() );
+                if( !bcp ) {
+                    debugmsg( "Camp placement during special generation failed at %s", camp_loc.to_string() );
+                } else {
+                    basecamp *temp_camp = *bcp;
+                    temp_camp->set_owner( elem.camp_owner.value() );
+                    temp_camp->set_name( elem.camp_name.translated() );
+                    // FIXME? Camp types are raw strings! Not ideal.
+                    temp_camp->define_camp( camp_loc, "faction_base_bare_bones_NPC_camp_0", false );
                 }
             }
-        }
-
-        for( const overmap_special_connection &elem : connections ) {
-            const overmap_special_terrain &oter = get_terrain_at( elem.p );
-            if( !elem.terrain ) {
-                debugmsg( "In %s, connection %s doesn't have a terrain.",
-                          context, elem.p.to_string() );
-            } else if( !elem.existing && !elem.terrain->has_flag( oter_flags::line_drawing ) ) {
-                debugmsg( "In %s, connection %s \"%s\" isn't drawn with lines.",
-                          context, elem.p.to_string(), elem.terrain.c_str() );
-            } else if( !elem.existing && oter.terrain && !oter.terrain->type_is( elem.terrain ) ) {
-                debugmsg( "In %s, connection %s overwrites \"%s\".",
-                          context, elem.p.to_string(), oter.terrain.c_str() );
-            }
-
-            if( elem.from ) {
-                // The only supported directions are north/east/south/west
-                // as those are the four directions that overmap connections
-                // can be made in. If the direction we figured out wasn't
-                // one of those, warn the user/developer.
-                const direction calculated_direction = direction_from( *elem.from, elem.p );
-                switch( calculated_direction ) {
-                    case direction::NORTH:
-                    case direction::EAST:
-                    case direction::SOUTH:
-                    case direction::WEST:
-                        continue;
-                    default:
-                        debugmsg( "In %s, connection %s is not directly north, "
-                                  "east, south or west of the defined \"from\" %s.",
-                                  context, elem.p.to_string(), elem.from->to_string() );
-                        break;
-                }
-            }
-        }
-    }
-
-    const overmap_special_terrain &get_terrain_at( const tripoint_rel_omt &p ) const {
-        const auto iter = std::find_if( terrains.begin(), terrains.end(),
-        [ &p ]( const overmap_special_terrain & elem ) {
-            return elem.p == p;
-        } );
-        if( iter == terrains.end() ) {
-            static const overmap_special_terrain null_terrain{};
-            return null_terrain;
-        }
-        return *iter;
-    }
-
-    std::vector<overmap_special_terrain> get_terrains() const override {
-        return terrains;
-    }
-
-    std::vector<overmap_special_terrain> preview_terrains() const override {
-        std::vector<overmap_special_terrain> result;
-        std::copy_if( terrains.begin(), terrains.end(), std::back_inserter( result ),
-        []( const overmap_special_terrain & terrain ) {
-            return terrain.p.z() == 0;
-        } );
-        return result;
-    }
-
-    std::vector<overmap_special_locations> required_locations() const override {
-        std::vector<overmap_special_locations> result;
-        result.reserve( terrains.size() );
-        std::copy( terrains.begin(), terrains.end(), std::back_inserter( result ) );
-        return result;
-    }
-
-    int score_rotation_at( const overmap &om, const tripoint_om_omt &p,
-                           om_direction::type r ) const override {
-        int score = 0;
-        for( const overmap_special_connection &con : connections ) {
-            const tripoint_om_omt rp = p + om_direction::rotate( con.p, r );
-            if( !overmap::inbounds( rp ) ) {
-                return -1;
-            }
-            const oter_id &oter = om.ter( rp );
-
-            if( ( oter->get_type_id() == oter_type_str_id( con.terrain.str() ) ) ) {
-                ++score; // Found another one satisfied connection.
-            } else if( !oter || con.existing || !con.connection->pick_subtype_for( oter ) ) {
-                return -1;
-            }
-        }
-        return score;
-    }
-
-    special_placement_result place(
-        overmap &om, const tripoint_om_omt &origin, om_direction::type dir, bool blob,
-        const city &cit, bool must_be_unexplored ) const override {
-        special_placement_result result;
-
-        for( const overmap_special_terrain &elem : terrains ) {
-            const tripoint_om_omt location = origin + om_direction::rotate( elem.p, dir );
-            if( !( elem.terrain == oter_str_id::NULL_ID() ) ) {
-                result.omts_used.push_back( location );
-                const oter_id tid = elem.terrain->get_rotated( dir );
-                om.ter_set( location, tid );
-                if( elem.camp_owner.has_value() ) {
-                    // This always results in z=0, but pos() doesn't return z-level information...
-                    tripoint_abs_omt camp_loc =  {project_combine( om.pos(), location.xy() ), 0};
-                    get_map().add_camp( camp_loc, "faction_camp", false );
-                    std::optional<basecamp *> bcp = overmap_buffer.find_camp( camp_loc.xy() );
-                    if( !bcp ) {
-                        debugmsg( "Camp placement during special generation failed at %s", camp_loc.to_string() );
-                    } else {
-                        basecamp *temp_camp = *bcp;
-                        temp_camp->set_owner( elem.camp_owner.value() );
-                        temp_camp->set_name( elem.camp_name.translated() );
-                        // FIXME? Camp types are raw strings! Not ideal.
-                        temp_camp->define_camp( camp_loc, "faction_base_bare_bones_NPC_camp_0", false );
-                    }
-                }
-                if( blob ) {
-                    for( int x = -2; x <= 2; x++ ) {
-                        for( int y = -2; y <= 2; y++ ) {
-                            const tripoint_om_omt nearby_pos = location + point( x, y );
-                            if( !overmap::inbounds( nearby_pos ) ) {
-                                continue;
-                            }
-                            if( one_in( 1 + std::abs( x ) + std::abs( y ) ) &&
-                                elem.can_be_placed_on( om.ter( nearby_pos ) ) ) {
-                                om.ter_set( nearby_pos, tid );
-                            }
+            if( blob ) {
+                for( int x = -2; x <= 2; x++ ) {
+                    for( int y = -2; y <= 2; y++ ) {
+                        const tripoint_om_omt nearby_pos = location + point( x, y );
+                        if( !overmap::inbounds( nearby_pos ) ) {
+                            continue;
+                        }
+                        if( one_in( 1 + std::abs( x ) + std::abs( y ) ) &&
+                            elem.can_be_placed_on( om.ter( nearby_pos ) ) ) {
+                            om.ter_set( nearby_pos, tid );
                         }
                     }
                 }
             }
         }
-        // Make connections.
-        for( const overmap_special_connection &elem : connections ) {
-            if( elem.connection ) {
-                const tripoint_om_omt rp = origin + om_direction::rotate( elem.p, dir );
-                cube_direction initial_dir = elem.initial_dir;
+    }
+    // Make connections.
+    for( const overmap_special_connection &elem : connections ) {
+        if( elem.connection ) {
+            const tripoint_om_omt rp = origin + om_direction::rotate( elem.p, dir );
+            cube_direction initial_dir = elem.initial_dir;
 
-                if( initial_dir != cube_direction::last ) {
-                    initial_dir = initial_dir + dir;
-                }
-                // TODO: JSONification of logic + don't treat non roads like roads
-                point_om_omt target;
-                if( cit ) {
-                    target = cit.pos;
-                } else {
-                    target = om.get_fallback_road_connection_point();
-                }
-                om.build_connection( target, rp.xy(), elem.p.z(), *elem.connection, must_be_unexplored,
-                                     initial_dir );
+            if( initial_dir != cube_direction::last ) {
+                initial_dir = initial_dir + dir;
             }
-        }
-
-        return result;
-    }
-
-    std::vector<overmap_special_terrain> terrains;
-    std::vector<overmap_special_connection> connections;
-};
-
-struct mutable_overmap_join {
-    std::string id;
-    std::string opposite_id;
-    cata::flat_set<string_id<overmap_location>> into_locations;
-    unsigned priority; // NOLINT(cata-serialize)
-    const mutable_overmap_join *opposite = nullptr; // NOLINT(cata-serialize)
-
-    void deserialize( const JsonValue &jin ) {
-        if( jin.test_string() ) {
-            id = jin.get_string();
-        } else {
-            JsonObject jo = jin.get_object();
-            jo.read( "id", id, true );
-            jo.read( "into_locations", into_locations, true );
-            jo.read( "opposite", opposite_id, true );
+            // TODO: JSONification of logic + don't treat non roads like roads
+            point_om_omt target;
+            if( cit ) {
+                target = cit.pos;
+            } else {
+                target = om.get_fallback_road_connection_point();
+            }
+            om.build_connection( target, rp.xy(), elem.p.z(), *elem.connection, must_be_unexplored,
+                                 initial_dir );
         }
     }
-};
 
-enum class join_type {
-    mandatory,
-    available,
-    last
-};
+    return result;
+}
 
 template<>
 struct enum_traits<join_type> {
@@ -1760,1196 +1737,899 @@ std::string enum_to_string<join_type>( join_type data )
 
 } // namespace io
 
-struct mutable_overmap_terrain_join {
-    std::string join_id;
-    const mutable_overmap_join *join = nullptr; // NOLINT(cata-serialize)
-    cata::flat_set<std::string> alternative_join_ids;
-    cata::flat_set<const mutable_overmap_join *> alternative_joins; // NOLINT(cata-serialize)
-    join_type type = join_type::mandatory;
-
-    void finalize( const std::string &context,
-                   const std::unordered_map<std::string, mutable_overmap_join *> &joins ) {
-        auto join_it = joins.find( join_id );
-        if( join_it != joins.end() ) {
-            join = join_it->second;
+void mutable_overmap_terrain_join::finalize( const std::string &context,
+        const std::unordered_map<std::string, mutable_overmap_join *> &joins )
+{
+    auto join_it = joins.find( join_id );
+    if( join_it != joins.end() ) {
+        join = join_it->second;
+    } else {
+        debugmsg( "invalid join id %s in %s", join_id, context );
+    }
+    for( const std::string &alt_join_id : alternative_join_ids ) {
+        auto alt_join_it = joins.find( alt_join_id );
+        if( alt_join_it != joins.end() ) {
+            alternative_joins.insert( alt_join_it->second );
         } else {
-            debugmsg( "invalid join id %s in %s", join_id, context );
-        }
-        for( const std::string &alt_join_id : alternative_join_ids ) {
-            auto alt_join_it = joins.find( alt_join_id );
-            if( alt_join_it != joins.end() ) {
-                alternative_joins.insert( alt_join_it->second );
-            } else {
-                debugmsg( "invalid join id %s in %s", alt_join_id, context );
-            }
+            debugmsg( "invalid join id %s in %s", alt_join_id, context );
         }
     }
+}
 
-    void deserialize( const JsonValue &jin ) {
-        if( jin.test_string() ) {
-            jin.read( join_id, true );
-        } else if( jin.test_object() ) {
-            JsonObject jo = jin.get_object();
-            jo.read( "id", join_id, true );
-            jo.read( "type", type, true );
-            jo.read( "alternatives", alternative_join_ids, true );
-        } else {
-            jin.throw_error( "Expected string or object" );
+std::optional<mutable_overmap_phase_remainder::can_place_result>
+mutable_overmap_phase_remainder::can_place(
+    const overmap &om, const mutable_overmap_placement_rule_remainder &rule,
+    const tripoint_om_omt &origin, om_direction::type dir,
+    const joins_tracker &unresolved
+) const
+{
+    int context_mandatory_joins_shortfall = 0;
+
+    for( const mutable_overmap_piece_candidate &piece : rule.pieces( origin, dir ) ) {
+        if( !overmap::inbounds( piece.pos ) ) {
+            return std::nullopt;
         }
-    }
-};
-
-using join_map = std::unordered_map<cube_direction, mutable_overmap_terrain_join>;
-
-struct mutable_special_connection {
-    string_id<overmap_connection> connection;
-
-    void deserialize( const JsonObject &jo ) {
-        jo.read( "connection", connection );
-    }
-
-    void check( const std::string &context ) const {
-        if( !connection.is_valid() ) {
-            debugmsg( "invalid connection id %s in %s", connection.str(), context );
+        if( !is_amongst_locations( om.ter( piece.pos ), piece.overmap->locations ) ) {
+            return std::nullopt;
         }
-    }
-};
-
-struct mutable_overmap_terrain {
-    oter_str_id terrain;
-    cata::flat_set<string_id<overmap_location>> locations;
-    join_map joins;
-    std::map<cube_direction, mutable_special_connection> connections;
-    std::optional<faction_id> camp_owner;
-    translation camp_name;
-
-    void finalize( const std::string &context,
-                   const std::unordered_map<std::string, mutable_overmap_join *> &special_joins,
-                   const cata::flat_set<string_id<overmap_location>> &default_locations ) {
-        if( locations.empty() ) {
-            locations = default_locations;
+        if( unresolved.any_postponed_at( piece.pos ) ) {
+            return std::nullopt;
         }
-        for( join_map::value_type &p : joins ) {
-            mutable_overmap_terrain_join &ter_join = p.second;
-            ter_join.finalize( context, special_joins );
-        }
+        context_mandatory_joins_shortfall -= unresolved.count_unresolved_at( piece.pos );
     }
 
-    void check( const std::string &context ) const {
-        if( !terrain.is_valid() ) {
-            debugmsg( "invalid overmap terrain id %s in %s", terrain.str(), context );
+    int num_my_non_available_matched = 0;
+
+    std::vector<om_pos_dir> suppressed_joins;
+
+    for( const std::pair<om_pos_dir, const mutable_overmap_terrain_join *> &p :
+         rule.outward_joins( origin, dir ) ) {
+        const om_pos_dir &pos_d = p.first;
+        const mutable_overmap_terrain_join &ter_join = *p.second;
+        const mutable_overmap_join &join = *ter_join.join;
+        switch( unresolved.allows( pos_d, ter_join ) ) {
+            case joins_tracker::join_status::disallowed:
+                return std::nullopt;
+            case joins_tracker::join_status::matched_non_available:
+                ++context_mandatory_joins_shortfall;
+                [[fallthrough]];
+            case joins_tracker::join_status::matched_available:
+                if( ter_join.type != join_type::available ) {
+                    ++num_my_non_available_matched;
+                }
+                continue;
+            case joins_tracker::join_status::mismatched_available:
+                suppressed_joins.push_back( pos_d );
+                break;
+            case joins_tracker::join_status::free:
+                break;
         }
-
-        if( locations.empty() ) {
-            debugmsg( "In %s, no locations are defined", context );
+        if( ter_join.type == join_type::available ) {
+            continue;
         }
-
-        for( const string_id<overmap_location> &loc : locations ) {
-            if( !loc.is_valid() ) {
-                debugmsg( "invalid overmap location id %s in %s", loc.str(), context );
-            }
+        // Verify that the remaining joins lead to
+        // suitable locations
+        tripoint_om_omt neighbour = pos_d.p + displace( pos_d.dir );
+        if( !overmap::inbounds( neighbour ) ) {
+            return std::nullopt;
         }
-
-        for( const std::pair<const cube_direction, mutable_special_connection> &p :
-             connections ) {
-            p.second.check( string_format( "connection %s in %s", io::enum_to_string( p.first ),
-                                           context ) );
-        }
-        if( camp_owner.has_value() ) {
-            if( !camp_owner.value().is_valid() ) {
-                debugmsg( "In %s, camp at %s has invalid owner %s", context, terrain.str(),
-                          camp_owner.value().c_str() );
-            }
-            if( camp_name.empty() ) {
-                debugmsg( "In %s, camp was defined but missing a camp_name.", context );
-            }
-        } else if( !camp_name.empty() ) {
-            debugmsg( "In %s, camp_name defined but no owner.  Invalid name is discarded.", context );
-        }
-    }
-
-    void deserialize( const JsonObject &jo ) {
-        jo.read( "overmap", terrain, true );
-        jo.read( "locations", locations );
-        for( int i = 0; i != static_cast<int>( cube_direction::last ); ++i ) {
-            cube_direction dir = static_cast<cube_direction>( i );
-            std::string dir_s = io::enum_to_string( dir );
-            if( jo.has_member( dir_s ) ) {
-                jo.read( dir_s, joins[dir], true );
-            }
-        }
-        jo.read( "connections", connections );
-        jo.read( "camp", camp_owner );
-        jo.read( "camp_name", camp_name );
-    }
-};
-
-struct mutable_overmap_piece_candidate {
-    const mutable_overmap_terrain *overmap; // NOLINT(cata-serialize)
-    tripoint_om_omt pos;
-    om_direction::type rot = om_direction::type::north;
-};
-
-struct mutable_overmap_placement_rule_piece {
-    std::string overmap_id;
-    const mutable_overmap_terrain *overmap; // NOLINT(cata-serialize)
-    tripoint_rel_omt pos;
-    om_direction::type rot = om_direction::type::north;
-
-    void deserialize( const JsonObject &jo ) {
-        jo.read( "overmap", overmap_id, true );
-        jo.read( "pos", pos, true );
-        jo.read( "rot", rot, true );
-    }
-};
-
-struct mutable_overmap_placement_rule_remainder;
-
-struct mutable_overmap_placement_rule {
-    std::string name;
-    std::vector<mutable_overmap_placement_rule_piece> pieces;
-    // NOLINTNEXTLINE(cata-serialize)
-    std::vector<std::pair<rel_pos_dir, const mutable_overmap_terrain_join *>> outward_joins;
-    int_distribution max = int_distribution( INT_MAX );
-    int weight = INT_MAX;
-
-    std::string description() const {
-        if( !name.empty() ) {
-            return name;
-        }
-        std::string first_om_id = pieces[0].overmap_id;
-        if( pieces.size() == 1 ) {
-            return first_om_id;
-        } else {
-            return "chunk using overmap " + first_om_id;
+        const oter_id &neighbour_terrain = om.ter( neighbour );
+        if( !is_amongst_locations( neighbour_terrain, join.into_locations ) ) {
+            return std::nullopt;
         }
     }
+    return mutable_overmap_phase_remainder::can_place_result{ context_mandatory_joins_shortfall,
+            num_my_non_available_matched, suppressed_joins };
+}
 
-    void finalize( const std::string &context,
-                   const std::unordered_map<std::string, mutable_overmap_terrain> &special_overmaps
-                 ) {
-        std::unordered_map<tripoint_rel_omt, const mutable_overmap_placement_rule_piece *>
-        pieces_by_pos;
-        for( mutable_overmap_placement_rule_piece &piece : pieces ) {
-            bool inserted = pieces_by_pos.emplace( piece.pos, &piece ).second;
-            if( !inserted ) {
-                debugmsg( "phase of %s has chunk with duplicated position %s",
-                          context, piece.pos.to_string() );
-            }
-            auto it = special_overmaps.find( piece.overmap_id );
-            if( it == special_overmaps.end() ) {
-                cata_fatal( "phase of %s specifies overmap %s which is not defined for that "
-                            "special", context, piece.overmap_id );
-            } else {
-                piece.overmap = &it->second;
-            }
-        }
-        for( const mutable_overmap_placement_rule_piece &piece : pieces ) {
-            const mutable_overmap_terrain &ter = *piece.overmap;
-            for( const join_map::value_type &p : ter.joins ) {
-                const cube_direction dir = p.first;
-                const mutable_overmap_terrain_join &ter_join = p.second;
-                rel_pos_dir this_side{ piece.pos, dir + piece.rot };
-                rel_pos_dir other_side = this_side.opposite();
-                auto opposite_piece = pieces_by_pos.find( other_side.p );
-                if( opposite_piece == pieces_by_pos.end() ) {
-                    outward_joins.emplace_back( this_side, &ter_join );
-                } else {
-                    const std::string &opposite_join = ter_join.join->opposite_id;
-                    const mutable_overmap_placement_rule_piece &other_piece =
-                        *opposite_piece->second;
-                    const mutable_overmap_terrain &other_om = *other_piece.overmap;
+mutable_overmap_phase_remainder::satisfy_result mutable_overmap_phase_remainder::satisfy(
+    const overmap &om, const tripoint_om_omt &pos,
+    const joins_tracker &unresolved )
+{
+    weighted_int_list<satisfy_result> options;
 
-                    auto opposite_om_join =
-                        other_om.joins.find( other_side.dir - other_piece.rot );
-                    if( opposite_om_join == other_om.joins.end() ) {
-                        debugmsg( "in phase of %s, %s has adjacent pieces %s at %s and %s at "
-                                  "%s where the former has a join %s pointed towards the latter, "
-                                  "but the latter has no join pointed towards the former",
-                                  context, description(), piece.overmap_id, piece.pos.to_string(),
-                                  other_piece.overmap_id, other_piece.pos.to_string(),
-                                  ter_join.join_id );
-                    } else if( opposite_om_join->second.join_id != opposite_join ) {
-                        debugmsg( "in phase of %s, %s has adjacent pieces %s at %s and %s at "
-                                  "%s where the former has a join %s pointed towards the latter, "
-                                  "expecting a matching join %s whereas the latter has the join %s "
-                                  "pointed towards the former",
-                                  context, description(), piece.overmap_id, piece.pos.to_string(),
-                                  other_piece.overmap_id, other_piece.pos.to_string(),
-                                  ter_join.join_id, opposite_join,
-                                  opposite_om_join->second.join_id );
+    for( mutable_overmap_placement_rule_remainder &rule : rules ) {
+        std::vector<satisfy_result> pos_dir_options;
+        can_place_result best_result{ 0, 0, {} };
+
+        for( om_direction::type dir : om_direction::all ) {
+            for( const tripoint_rel_omt &piece_pos : rule.positions( dir ) ) {
+                tripoint_om_omt origin = pos - piece_pos;
+
+                if( std::optional<can_place_result> result = can_place(
+                            om, rule, origin, dir, unresolved ) ) {
+                    if( best_result < *result ) {
+                        pos_dir_options.clear();
+                        best_result = *result;
+                    }
+                    if( *result == best_result ) {
+                        pos_dir_options.emplace_back( origin, dir, &rule, result.value().supressed_joins, std::string{} );
                     }
                 }
             }
         }
-    }
-    void check( const std::string &context ) const {
-        if( pieces.empty() ) {
-            cata_fatal( "phase of %s has chunk with zero pieces" );
+
+        if( auto chosen_result = random_entry_opt( pos_dir_options ) ) {
+            options.add( *chosen_result, rule.get_weight() );
         }
-        int min_max = max.minimum();
-        if( min_max < 0 ) {
-            debugmsg( "phase of %s specifies max which might be as low as %d; this should "
-                      "be a positive number", context, min_max );
+    }
+    std::string joins_s = enumerate_as_string( unresolved.all_unresolved_at( pos ),
+    []( const joins_tracker::join * j ) {
+        return string_format( "%s: %s", io::enum_to_string( j->where.dir ), j->join->id );
+    } );
+
+    if( satisfy_result *picked = options.pick() ) {
+        om_direction::type dir = picked->dir;
+        const mutable_overmap_placement_rule_remainder &rule = *picked->rule;
+        picked->description =
+            string_format(
+                // NOLINTNEXTLINE(cata-translate-string-literal)
+                "At %s chose '%s' rot %d with neighbours N:%s E:%s S:%s W:%s and constraints "
+                "%s",
+                pos.to_string(), rule.description(), static_cast<int>( dir ),
+                om.ter( pos + point::north ).id().str(), om.ter( pos + point::east ).id().str(),
+                om.ter( pos + point::south ).id().str(), om.ter( pos + point::west ).id().str(),
+                joins_s );
+        picked->rule->decrement();
+        return *picked;
+    } else {
+        std::string rules_s = enumerate_as_string( rules,
+        []( const mutable_overmap_placement_rule_remainder & rule ) {
+            if( rule.is_exhausted() ) {
+                return string_format( "(%s)", rule.description() );
+            } else {
+                return rule.description();
+            }
+        } );
+        std::string message =
+            string_format(
+                // NOLINTNEXTLINE(cata-translate-string-literal)
+                "At %s FAILED to match on terrain %s with neighbours N:%s E:%s S:%s W:%s and "
+                "constraints %s from amongst rules %s",
+                pos.to_string(), om.ter( pos ).id().str(),
+                om.ter( pos + point::north ).id().str(), om.ter( pos + point::east ).id().str(),
+                om.ter( pos + point::south ).id().str(), om.ter( pos + point::west ).id().str(),
+                joins_s, rules_s );
+        return satisfy_result{ {}, om_direction::type::invalid, nullptr, std::vector<om_pos_dir>{}, std::move( message ) };
+    }
+}
+
+void mutable_overmap_terrain_join::deserialize( const JsonValue &jin )
+{
+    if( jin.test_string() ) {
+        jin.read( join_id, true );
+    } else if( jin.test_object() ) {
+        JsonObject jo = jin.get_object();
+        jo.read( "id", join_id, true );
+        jo.read( "type", type, true );
+        jo.read( "alternatives", alternative_join_ids, true );
+    } else {
+        jin.throw_error( "Expected string or object" );
+    }
+}
+
+using join_map = std::unordered_map<cube_direction, mutable_overmap_terrain_join>;
+
+void mutable_overmap_terrain::finalize( const std::string &context,
+                                        const std::unordered_map<std::string, mutable_overmap_join *> &special_joins,
+                                        const cata::flat_set<string_id<overmap_location>> &default_locations )
+{
+    if( locations.empty() ) {
+        locations = default_locations;
+    }
+    for( join_map::value_type &p : joins ) {
+        mutable_overmap_terrain_join &ter_join = p.second;
+        ter_join.finalize( context, special_joins );
+    }
+}
+
+void mutable_overmap_terrain::check( const std::string &context ) const
+{
+    if( !terrain.is_valid() ) {
+        debugmsg( "invalid overmap terrain id %s in %s", terrain.str(), context );
+    }
+
+    if( locations.empty() ) {
+        debugmsg( "In %s, no locations are defined", context );
+    }
+
+    for( const string_id<overmap_location> &loc : locations ) {
+        if( !loc.is_valid() ) {
+            debugmsg( "invalid overmap location id %s in %s", loc.str(), context );
         }
     }
 
-    mutable_overmap_placement_rule_remainder realise() const;
+    for( const std::pair<const cube_direction, mutable_special_connection> &p :
+         connections ) {
+        p.second.check( string_format( "connection %s in %s", io::enum_to_string( p.first ),
+                                       context ) );
+    }
+    if( camp_owner.has_value() ) {
+        if( !camp_owner.value().is_valid() ) {
+            debugmsg( "In %s, camp at %s has invalid owner %s", context, terrain.str(),
+                      camp_owner.value().c_str() );
+        }
+        if( camp_name.empty() ) {
+            debugmsg( "In %s, camp was defined but missing a camp_name.", context );
+        }
+    } else if( !camp_name.empty() ) {
+        debugmsg( "In %s, camp_name defined but no owner.  Invalid name is discarded.", context );
+    }
+}
 
-    void deserialize( const JsonObject &jo ) {
-        jo.read( "name", name );
-        if( jo.has_member( "overmap" ) ) {
-            pieces.emplace_back();
-            jo.read( "overmap", pieces.back().overmap_id, true );
-        } else if( jo.has_member( "chunk" ) ) {
-            jo.read( "chunk", pieces );
+void mutable_overmap_terrain::deserialize( const JsonObject &jo )
+{
+    jo.read( "overmap", terrain, true );
+    jo.read( "locations", locations );
+    for( int i = 0; i != static_cast<int>( cube_direction::last ); ++i ) {
+        cube_direction dir = static_cast<cube_direction>( i );
+        std::string dir_s = io::enum_to_string( dir );
+        if( jo.has_member( dir_s ) ) {
+            jo.read( dir_s, joins[dir], true );
+        }
+    }
+    jo.read( "connections", connections );
+    jo.read( "camp", camp_owner );
+    jo.read( "camp_name", camp_name );
+}
+
+std::string mutable_overmap_placement_rule::description() const
+{
+    if( !name.empty() ) {
+        return name;
+    }
+    std::string first_om_id = pieces[0].overmap_id;
+    if( pieces.size() == 1 ) {
+        return first_om_id;
+    } else {
+        return "chunk using overmap " + first_om_id;
+    }
+}
+
+void mutable_overmap_placement_rule::finalize( const std::string &context,
+        const std::unordered_map<std::string, mutable_overmap_terrain> &special_overmaps
+                                             )
+{
+    std::unordered_map<tripoint_rel_omt, const mutable_overmap_placement_rule_piece *>
+    pieces_by_pos;
+    for( mutable_overmap_placement_rule_piece &piece : pieces ) {
+        bool inserted = pieces_by_pos.emplace( piece.pos, &piece ).second;
+        if( !inserted ) {
+            debugmsg( "phase of %s has chunk with duplicated position %s",
+                      context, piece.pos.to_string() );
+        }
+        auto it = special_overmaps.find( piece.overmap_id );
+        if( it == special_overmaps.end() ) {
+            cata_fatal( "phase of %s specifies overmap %s which is not defined for that "
+                        "special", context, piece.overmap_id );
         } else {
-            jo.throw_error( R"(placement rule must specify at least one of "overmap" or "chunk")" );
-        }
-        jo.read( "max", max );
-        jo.read( "weight", weight );
-        if( !jo.has_member( "max" ) && weight == INT_MAX ) {
-            jo.throw_error( R"(placement rule must specify at least one of "max" or "weight")" );
+            piece.overmap = &it->second;
         }
     }
-};
+    for( const mutable_overmap_placement_rule_piece &piece : pieces ) {
+        const mutable_overmap_terrain &ter = *piece.overmap;
+        for( const join_map::value_type &p : ter.joins ) {
+            const cube_direction dir = p.first;
+            const mutable_overmap_terrain_join &ter_join = p.second;
+            rel_pos_dir this_side{ piece.pos, dir + piece.rot };
+            rel_pos_dir other_side = this_side.opposite();
+            auto opposite_piece = pieces_by_pos.find( other_side.p );
+            if( opposite_piece == pieces_by_pos.end() ) {
+                outward_joins.emplace_back( this_side, &ter_join );
+            } else {
+                const std::string &opposite_join = ter_join.join->opposite_id;
+                const mutable_overmap_placement_rule_piece &other_piece =
+                    *opposite_piece->second;
+                const mutable_overmap_terrain &other_om = *other_piece.overmap;
 
-struct mutable_overmap_placement_rule_remainder {
-    const mutable_overmap_placement_rule *parent;
-    int max = INT_MAX;
-    int weight = INT_MAX;
-
-    std::string description() const {
-        return parent->description();
-    }
-
-    int get_weight() const {
-        return std::min( max, weight );
-    }
-
-    bool is_exhausted() const {
-        return get_weight() == 0;
-    }
-
-    void decrement() {
-        --max;
-    }
-
-    std::vector<tripoint_rel_omt> positions( om_direction::type rot ) const {
-        std::vector<tripoint_rel_omt> result;
-        result.reserve( parent->pieces.size() );
-        for( const mutable_overmap_placement_rule_piece &piece : parent->pieces ) {
-            result.push_back( rotate( piece.pos, rot ) );
+                auto opposite_om_join =
+                    other_om.joins.find( other_side.dir - other_piece.rot );
+                if( opposite_om_join == other_om.joins.end() ) {
+                    debugmsg( "in phase of %s, %s has adjacent pieces %s at %s and %s at "
+                              "%s where the former has a join %s pointed towards the latter, "
+                              "but the latter has no join pointed towards the former",
+                              context, description(), piece.overmap_id, piece.pos.to_string(),
+                              other_piece.overmap_id, other_piece.pos.to_string(),
+                              ter_join.join_id );
+                } else if( opposite_om_join->second.join_id != opposite_join ) {
+                    debugmsg( "in phase of %s, %s has adjacent pieces %s at %s and %s at "
+                              "%s where the former has a join %s pointed towards the latter, "
+                              "expecting a matching join %s whereas the latter has the join %s "
+                              "pointed towards the former",
+                              context, description(), piece.overmap_id, piece.pos.to_string(),
+                              other_piece.overmap_id, other_piece.pos.to_string(),
+                              ter_join.join_id, opposite_join,
+                              opposite_om_join->second.join_id );
+                }
+            }
         }
-        return result;
     }
-    auto pieces( const tripoint_om_omt &origin, om_direction::type rot ) const {
-        using orig_t = mutable_overmap_placement_rule_piece;
-        using dest_t = mutable_overmap_piece_candidate;
-        return cata::views::transform < decltype( parent->pieces ), dest_t > ( parent->pieces,
-        [origin, rot]( const orig_t &piece ) -> dest_t {
-            tripoint_rel_omt rotated_offset = rotate( piece.pos, rot );
-            return { piece.overmap, origin + rotated_offset, add( rot, piece.rot ) };
-        } );
+}
+void mutable_overmap_placement_rule::check( const std::string &context ) const
+{
+    if( pieces.empty() ) {
+        cata_fatal( "phase of %s has chunk with zero pieces" );
     }
-    auto outward_joins( const tripoint_om_omt &origin, om_direction::type rot ) const {
-        using orig_t = std::pair<rel_pos_dir, const mutable_overmap_terrain_join *>;
-        using dest_t = std::pair<om_pos_dir, const mutable_overmap_terrain_join *>;
-        return cata::views::transform < decltype( parent->outward_joins ), dest_t > ( parent->outward_joins,
-        [origin, rot]( const orig_t &p ) -> dest_t {
-            tripoint_rel_omt rotated_offset = rotate( p.first.p, rot );
-            om_pos_dir p_d{ origin + rotated_offset, p.first.dir + rot };
-            return { p_d, p.second };
-        } );
+    int min_max = max.minimum();
+    if( min_max < 0 ) {
+        debugmsg( "phase of %s specifies max which might be as low as %d; this should "
+                  "be a positive number", context, min_max );
     }
-};
+}
+
+void mutable_overmap_placement_rule::deserialize( const JsonObject &jo )
+{
+    jo.read( "name", name );
+    if( jo.has_member( "overmap" ) ) {
+        pieces.emplace_back();
+        jo.read( "overmap", pieces.back().overmap_id, true );
+    } else if( jo.has_member( "chunk" ) ) {
+        jo.read( "chunk", pieces );
+    } else {
+        jo.throw_error( R"(placement rule must specify at least one of "overmap" or "chunk")" );
+    }
+    jo.read( "max", max );
+    jo.read( "weight", weight );
+    if( !jo.has_member( "max" ) && weight == INT_MAX ) {
+        jo.throw_error( R"(placement rule must specify at least one of "max" or "weight")" );
+    }
+}
 
 mutable_overmap_placement_rule_remainder mutable_overmap_placement_rule::realise() const
 {
     return mutable_overmap_placement_rule_remainder{ this, max.sample(), weight };
 }
 
+cata::views::transform<std::vector<mutable_overmap_placement_rule_piece>, mutable_overmap_piece_candidate>
+mutable_overmap_placement_rule_remainder::pieces( const tripoint_om_omt &origin,
+        om_direction::type rot ) const
+{
+    using orig_t = mutable_overmap_placement_rule_piece;
+    using dest_t = mutable_overmap_piece_candidate;
+    return cata::views::transform < decltype( parent->pieces ), dest_t > ( parent->pieces,
+    [origin, rot]( const orig_t &piece ) -> dest_t {
+        tripoint_rel_omt rotated_offset = rotate( piece.pos, rot );
+        return { piece.overmap, origin + rotated_offset, add( rot, piece.rot ) };
+    } );
+}
+
+cata::views::transform<std::vector<std::pair<rel_pos_dir, const mutable_overmap_terrain_join *>>,
+     mutable_overmap_placement_rule_remainder::dest_outward_t>
+     mutable_overmap_placement_rule_remainder::outward_joins( const tripoint_om_omt &origin,
+             om_direction::type rot ) const
+{
+    using orig_t = std::pair<rel_pos_dir, const mutable_overmap_terrain_join *>;
+    return cata::views::transform < decltype( parent->outward_joins ),
+           dest_outward_t > ( parent->outward_joins,
+    [origin, rot]( const orig_t &p ) -> dest_outward_t {
+        tripoint_rel_omt rotated_offset = rotate( p.first.p, rot );
+        om_pos_dir p_d{ origin + rotated_offset, p.first.dir + rot };
+        return { p_d, p.second };
+    } );
+}
+
 // When building a mutable overmap special we maintain a collection of
 // unresolved joins.  We need to be able to index that collection in
 // various ways, so it gets its own struct to maintain the relevant invariants.
-class joins_tracker
+
+void joins_tracker::consistency_check() const
 {
-    public:
-        struct join {
-            om_pos_dir where;
-            const mutable_overmap_join *join;
-        };
-        using iterator = std::list<join>::iterator;
-        using const_iterator = std::list<join>::const_iterator;
-
-        bool any_unresolved() const {
-            return !unresolved.empty();
-        }
-
-        std::vector<const join *> all_unresolved_at( const tripoint_om_omt &pos ) const {
-            std::vector<const join *> result;
-            for( iterator it : unresolved.all_at( pos ) ) {
-                result.push_back( &*it );
-            }
-            return result;
-        }
-
-        std::size_t count_unresolved_at( const tripoint_om_omt &pos ) const {
-            return unresolved.count_at( pos );
-        }
-
-        bool any_postponed() const {
-            return !postponed.empty();
-        }
-
-        bool any_postponed_at( const tripoint_om_omt &p ) const {
-            return postponed.any_at( p );
-        }
-
-        void consistency_check() const {
 #if 0 // Enable this to check the class invariants, at the cost of more runtime
-            // verify that there are no positions in common between the
-            // resolved and postponed lists
-            for( const join &j : postponed ) {
-                auto j_pos = j.where.p;
-                if( unresolved.any_at( j_pos ) ) {
-                    std::vector<iterator> unr = unresolved.all_at( j_pos );
-                    if( unr.empty() ) {
-                        cata_fatal( "inconsistency between all_at and any_at" );
-                    } else {
-                        const join &unr_j = *unr.front();
-                        cata_fatal( "postponed and unresolved should be disjoint but are not at "
-                                    "%s where unresolved has %s: %s",
-                                    j_pos.to_string(), unr_j.where.p.to_string(), unr_j.join_id );
-                    }
-                }
-            }
-#endif
-        }
-
-        enum class join_status {
-            disallowed, // Conflicts with existing join, and at least one was mandatory
-            matched_available, // Matches an existing non-mandatory join
-            matched_non_available, // Matches an existing mandatory join
-            mismatched_available, // Points at an incompatible join, but both are non-mandatory
-            free, // Doesn't point at another join at all
-        };
-
-        join_status allows( const om_pos_dir &this_side,
-                            const mutable_overmap_terrain_join &this_ter_join ) const {
-            om_pos_dir other_side = this_side.opposite();
-
-            auto is_allowed_opposite = [&]( const std::string & candidate ) {
-                const mutable_overmap_join &this_join = *this_ter_join.join;
-
-                if( this_join.opposite_id == candidate ) {
-                    return true;
-                }
-
-                for( const mutable_overmap_join *alt_join : this_ter_join.alternative_joins ) {
-                    if( alt_join->opposite_id == candidate ) {
-                        return true;
-                    }
-                }
-
-                return false;
-            };
-
-            if( const join *existing = resolved.find( other_side ) ) {
-                bool other_side_mandatory = unresolved.count( this_side );
-                if( is_allowed_opposite( existing->join->id ) ) {
-                    return other_side_mandatory
-                           ? join_status::matched_non_available : join_status::matched_available;
-                } else {
-                    if( other_side_mandatory || this_ter_join.type != join_type::available ) {
-                        return join_status::disallowed;
-                    } else {
-                        return join_status::mismatched_available;
-                    }
-                }
+    // verify that there are no positions in common between the
+    // resolved and postponed lists
+    for( const join &j : postponed ) {
+        auto j_pos = j.where.p;
+        if( unresolved.any_at( j_pos ) ) {
+            std::vector<iterator> unr = unresolved.all_at( j_pos );
+            if( unr.empty() ) {
+                cata_fatal( "inconsistency between all_at and any_at" );
             } else {
-                return join_status::free;
+                const join &unr_j = *unr.front();
+                cata_fatal( "postponed and unresolved should be disjoint but are not at "
+                            "%s where unresolved has %s: %s",
+                            j_pos.to_string(), unr_j.where.p.to_string(), unr_j.join_id );
             }
         }
+    }
+#endif
+}
 
-        void add_joins_for(
-            const mutable_overmap_terrain &ter, const tripoint_om_omt &pos,
-            om_direction::type rot, const std::vector<om_pos_dir> &suppressed_joins ) {
-            consistency_check();
+joins_tracker::join_status joins_tracker::allows( const om_pos_dir &this_side,
+        const mutable_overmap_terrain_join &this_ter_join ) const
+{
+    om_pos_dir other_side = this_side.opposite();
 
-            std::unordered_set<om_pos_dir> avoid(
-                suppressed_joins.begin(), suppressed_joins.end() );
+    auto is_allowed_opposite = [&]( const std::string & candidate ) {
+        const mutable_overmap_join &this_join = *this_ter_join.join;
 
-            for( const std::pair<const cube_direction, mutable_overmap_terrain_join> &p :
-                 ter.joins ) {
-                cube_direction dir = p.first + rot;
-                const mutable_overmap_terrain_join &this_side_join = p.second;
-
-                om_pos_dir this_side{ pos, dir };
-                om_pos_dir other_side = this_side.opposite();
-
-                if( const join *other_side_join = resolved.find( other_side ) ) {
-                    erase_unresolved( this_side );
-                    if( !avoid.count( this_side ) ) {
-                        used.emplace_back( other_side, other_side_join->join->id );
-                        // Because of the existence of alternative joins, we don't
-                        // simply add this_side_join here, we add the opposite of
-                        // the opposite that was actually present (this saves us
-                        // from heaving to search through the alternates to find
-                        // which one actually matched).
-                        used.emplace_back( this_side, other_side_join->join->opposite_id );
-                    }
-                } else {
-                    // If there were postponed joins pointing into this point,
-                    // so we need to un-postpone them because it might now be
-                    // possible to satisfy them.
-                    restore_postponed_at( other_side.p );
-                    if( this_side_join.type == join_type::mandatory ) {
-                        if( !overmap::inbounds( other_side.p ) ) {
-                            debugmsg( "out of bounds join" );
-                            continue;
-                        }
-                        const mutable_overmap_join *opposite_join = this_side_join.join->opposite;
-                        add_unresolved( other_side, opposite_join );
-                    }
-                }
-                resolved.add( this_side, this_side_join.join );
-            }
-            consistency_check();
-        }
-
-        tripoint_om_omt pick_top_priority() const {
-            cata_assert( any_unresolved() );
-            auto priority_it =
-                std::find_if( unresolved_priority_index.begin(), unresolved_priority_index.end(),
-            []( const cata::flat_set<iterator, compare_iterators> &its ) {
-                return !its.empty();
-            } );
-            cata_assert( priority_it != unresolved_priority_index.end() );
-            auto it = random_entry( *priority_it );
-            const tripoint_om_omt &pos = it->where.p;
-            cata_assert( !postponed.any_at( pos ) );
-            return pos;
-        }
-        void postpone( const tripoint_om_omt &pos ) {
-            consistency_check();
-            for( iterator it : unresolved.all_at( pos ) ) {
-                postponed.add( *it );
-                [[maybe_unused]] const bool erased = erase_unresolved( it->where );
-                cata_assert( erased );
-            }
-            consistency_check();
-        }
-        void restore_postponed_at( const tripoint_om_omt &pos ) {
-            for( iterator it : postponed.all_at( pos ) ) {
-                add_unresolved( it->where, it->join );
-                postponed.erase( it );
-            }
-            consistency_check();
-        }
-        void restore_postponed() {
-            consistency_check();
-            for( const join &j : postponed ) {
-                add_unresolved( j.where, j.join );
-            }
-            postponed.clear();
-        }
-
-        const std::vector<std::pair<om_pos_dir, std::string>> &all_used() const {
-            return used;
-        }
-    private:
-        struct indexed_joins {
-            std::list<join> joins;
-            std::unordered_map<om_pos_dir, iterator> position_index;
-
-            iterator begin() {
-                return joins.begin();
-            }
-
-            iterator end() {
-                return joins.end();
-            }
-
-            const_iterator begin() const {
-                return joins.begin();
-            }
-
-            const_iterator end() const {
-                return joins.end();
-            }
-
-            bool empty() const {
-                return joins.empty();
-            }
-
-            bool count( const om_pos_dir &p ) const {
-                return position_index.count( p );
-            }
-
-            const join *find( const om_pos_dir &p ) const {
-                auto it = position_index.find( p );
-                if( it == position_index.end() ) {
-                    return nullptr;
-                }
-                return &*it->second;
-            }
-
-            bool any_at( const tripoint_om_omt &pos ) const {
-                for( cube_direction dir : all_enum_values<cube_direction>() ) {
-                    if( count( om_pos_dir{ pos, dir } ) ) {
-                        return true;
-                    }
-                }
-                return false;
-            }
-
-            std::vector<iterator> all_at( const tripoint_om_omt &pos ) const {
-                std::vector<iterator> result;
-                for( cube_direction dir : all_enum_values<cube_direction>() ) {
-                    om_pos_dir key{ pos, dir };
-                    auto pos_it = position_index.find( key );
-                    if( pos_it != position_index.end() ) {
-                        result.push_back( pos_it->second );
-                    }
-                }
-                return result;
-            }
-
-            std::size_t count_at( const tripoint_om_omt &pos ) const {
-                std::size_t result = 0;
-                for( cube_direction dir : all_enum_values<cube_direction>() ) {
-                    if( position_index.find( { pos, dir } ) != position_index.end() ) {
-                        ++result;
-                    }
-                }
-                return result;
-            }
-
-            iterator add( const om_pos_dir &p, const mutable_overmap_join *j ) {
-                return add( { p, j } );
-            }
-
-            iterator add( const join &j ) {
-                joins.push_front( j );
-                auto it = joins.begin();
-                [[maybe_unused]] const bool inserted = position_index.emplace( j.where, it ).second;
-                cata_assert( inserted );
-                return it;
-            }
-
-            void erase( const iterator it ) {
-                [[maybe_unused]] const size_t erased = position_index.erase( it->where );
-                cata_assert( erased );
-                joins.erase( it );
-            }
-
-            void clear() {
-                joins.clear();
-                position_index.clear();
-            }
-        };
-
-        void add_unresolved( const om_pos_dir &p, const mutable_overmap_join *j ) {
-            iterator it = unresolved.add( p, j );
-            unsigned priority = it->join->priority;
-            if( unresolved_priority_index.size() <= priority ) {
-                unresolved_priority_index.resize( priority + 1 );
-            }
-            [[maybe_unused]] const bool inserted = unresolved_priority_index[priority].insert( it ).second;
-            cata_assert( inserted );
-        }
-
-        bool erase_unresolved( const om_pos_dir &p ) {
-            auto pos_it = unresolved.position_index.find( p );
-            if( pos_it == unresolved.position_index.end() ) {
-                return false;
-            }
-            iterator it = pos_it->second;
-            unsigned priority = it->join->priority;
-            cata_assert( priority < unresolved_priority_index.size() );
-            [[maybe_unused]] const size_t erased = unresolved_priority_index[priority].erase( it );
-            cata_assert( erased );
-            unresolved.erase( it );
+        if( this_join.opposite_id == candidate ) {
             return true;
         }
 
-        struct compare_iterators {
-            bool operator()( iterator l, iterator r ) {
-                return l->where < r->where;
+        for( const mutable_overmap_join *alt_join : this_ter_join.alternative_joins ) {
+            if( alt_join->opposite_id == candidate ) {
+                return true;
             }
-        };
+        }
 
-        indexed_joins unresolved;
-        std::vector<cata::flat_set<iterator, compare_iterators>> unresolved_priority_index;
-
-        indexed_joins resolved;
-        indexed_joins postponed;
-
-        std::vector<std::pair<om_pos_dir, std::string>> used;
-};
-
-struct mutable_overmap_phase_remainder {
-    std::vector<mutable_overmap_placement_rule_remainder> rules;
-
-    struct satisfy_result {
-        tripoint_om_omt origin;
-        om_direction::type dir;
-        mutable_overmap_placement_rule_remainder *rule;
-        std::vector<om_pos_dir> suppressed_joins;
-        // For debugging purposes it's really handy to have a record of exactly
-        // what happened during placement of a mutable special when it fails,
-        // so to aid that we provide a human-readable description here which is
-        // only used in the event of a placement error.
-        std::string description;
-
-        explicit satisfy_result( const tripoint_om_omt origin, const om_direction::type dir,
-                                 mutable_overmap_placement_rule_remainder *rule,
-                                 std::vector<om_pos_dir> suppressed_joins, std::string description ) :
-            origin( origin ), dir( dir ), rule( rule ),
-            suppressed_joins( std::move( suppressed_joins ) ), description( std::move( description ) ) {}
+        return false;
     };
 
-    bool all_rules_exhausted() const {
-        return std::all_of( rules.begin(), rules.end(),
-        []( const mutable_overmap_placement_rule_remainder & rule ) {
-            return rule.is_exhausted();
-        } );
-    }
-
-    struct can_place_result {
-        int num_context_mandatory_joins_matched;
-        int num_my_non_available_matched;
-        std::vector<om_pos_dir> supressed_joins;
-
-        std::pair<int, int> as_pair() const {
-            return { num_context_mandatory_joins_matched, num_my_non_available_matched };
-        }
-
-        friend bool operator==( const can_place_result &l, const can_place_result &r ) {
-            return l.as_pair() == r.as_pair();
-        }
-
-        friend bool operator<( const can_place_result &l, const can_place_result &r ) {
-            return l.as_pair() < r.as_pair();
-        }
-    };
-
-    std::optional<can_place_result> can_place(
-        const overmap &om, const mutable_overmap_placement_rule_remainder &rule,
-        const tripoint_om_omt &origin, om_direction::type dir,
-        const joins_tracker &unresolved
-    ) const {
-        int context_mandatory_joins_shortfall = 0;
-
-        for( const mutable_overmap_piece_candidate &piece : rule.pieces( origin, dir ) ) {
-            if( !overmap::inbounds( piece.pos ) ) {
-                return std::nullopt;
-            }
-            if( !is_amongst_locations( om.ter( piece.pos ), piece.overmap->locations ) ) {
-                return std::nullopt;
-            }
-            if( unresolved.any_postponed_at( piece.pos ) ) {
-                return std::nullopt;
-            }
-            context_mandatory_joins_shortfall -= unresolved.count_unresolved_at( piece.pos );
-        }
-
-        int num_my_non_available_matched = 0;
-
-        std::vector<om_pos_dir> suppressed_joins;
-
-        for( const std::pair<om_pos_dir, const mutable_overmap_terrain_join *> &p :
-             rule.outward_joins( origin, dir ) ) {
-            const om_pos_dir &pos_d = p.first;
-            const mutable_overmap_terrain_join &ter_join = *p.second;
-            const mutable_overmap_join &join = *ter_join.join;
-            switch( unresolved.allows( pos_d, ter_join ) ) {
-                case joins_tracker::join_status::disallowed:
-                    return std::nullopt;
-                case joins_tracker::join_status::matched_non_available:
-                    ++context_mandatory_joins_shortfall;
-                    [[fallthrough]];
-                case joins_tracker::join_status::matched_available:
-                    if( ter_join.type != join_type::available ) {
-                        ++num_my_non_available_matched;
-                    }
-                    continue;
-                case joins_tracker::join_status::mismatched_available:
-                    suppressed_joins.push_back( pos_d );
-                    break;
-                case joins_tracker::join_status::free:
-                    break;
-            }
-            if( ter_join.type == join_type::available ) {
-                continue;
-            }
-            // Verify that the remaining joins lead to
-            // suitable locations
-            tripoint_om_omt neighbour = pos_d.p + displace( pos_d.dir );
-            if( !overmap::inbounds( neighbour ) ) {
-                return std::nullopt;
-            }
-            const oter_id &neighbour_terrain = om.ter( neighbour );
-            if( !is_amongst_locations( neighbour_terrain, join.into_locations ) ) {
-                return std::nullopt;
-            }
-        }
-        return can_place_result{ context_mandatory_joins_shortfall,
-                                 num_my_non_available_matched, suppressed_joins };
-    }
-
-    satisfy_result satisfy( const overmap &om, const tripoint_om_omt &pos,
-                            const joins_tracker &unresolved ) {
-        weighted_int_list<satisfy_result> options;
-
-        for( mutable_overmap_placement_rule_remainder &rule : rules ) {
-            std::vector<satisfy_result> pos_dir_options;
-            can_place_result best_result{ 0, 0, {} };
-
-            for( om_direction::type dir : om_direction::all ) {
-                for( const tripoint_rel_omt &piece_pos : rule.positions( dir ) ) {
-                    tripoint_om_omt origin = pos - piece_pos;
-
-                    if( std::optional<can_place_result> result = can_place(
-                                om, rule, origin, dir, unresolved ) ) {
-                        if( best_result < *result ) {
-                            pos_dir_options.clear();
-                            best_result = *result;
-                        }
-                        if( *result == best_result ) {
-                            pos_dir_options.emplace_back( origin, dir, &rule, result.value().supressed_joins, std::string{} );
-                        }
-                    }
-                }
-            }
-
-            if( auto chosen_result = random_entry_opt( pos_dir_options ) ) {
-                options.add( *chosen_result, rule.get_weight() );
-            }
-        }
-        std::string joins_s = enumerate_as_string( unresolved.all_unresolved_at( pos ),
-        []( const joins_tracker::join * j ) {
-            return string_format( "%s: %s", io::enum_to_string( j->where.dir ), j->join->id );
-        } );
-
-        if( satisfy_result *picked = options.pick() ) {
-            om_direction::type dir = picked->dir;
-            const mutable_overmap_placement_rule_remainder &rule = *picked->rule;
-            picked->description =
-                string_format(
-                    // NOLINTNEXTLINE(cata-translate-string-literal)
-                    "At %s chose '%s' rot %d with neighbours N:%s E:%s S:%s W:%s and constraints "
-                    "%s",
-                    pos.to_string(), rule.description(), static_cast<int>( dir ),
-                    om.ter( pos + point::north ).id().str(), om.ter( pos + point::east ).id().str(),
-                    om.ter( pos + point::south ).id().str(), om.ter( pos + point::west ).id().str(),
-                    joins_s );
-            picked->rule->decrement();
-            return *picked;
+    if( const join *existing = resolved.find( other_side ) ) {
+        bool other_side_mandatory = unresolved.count( this_side );
+        if( is_allowed_opposite( existing->join->id ) ) {
+            return other_side_mandatory
+                   ? join_status::matched_non_available : join_status::matched_available;
         } else {
-            std::string rules_s = enumerate_as_string( rules,
-            []( const mutable_overmap_placement_rule_remainder & rule ) {
-                if( rule.is_exhausted() ) {
-                    return string_format( "(%s)", rule.description() );
-                } else {
-                    return rule.description();
-                }
-            } );
-            std::string message =
-                string_format(
-                    // NOLINTNEXTLINE(cata-translate-string-literal)
-                    "At %s FAILED to match on terrain %s with neighbours N:%s E:%s S:%s W:%s and "
-                    "constraints %s from amongst rules %s",
-                    pos.to_string(), om.ter( pos ).id().str(),
-                    om.ter( pos + point::north ).id().str(), om.ter( pos + point::east ).id().str(),
-                    om.ter( pos + point::south ).id().str(), om.ter( pos + point::west ).id().str(),
-                    joins_s, rules_s );
-            return satisfy_result{ {}, om_direction::type::invalid, nullptr, std::vector<om_pos_dir>{}, std::move( message ) };
-        }
-    }
-};
-
-struct mutable_overmap_phase {
-    std::vector<mutable_overmap_placement_rule> rules;
-
-    mutable_overmap_phase_remainder realise() const {
-        std::vector<mutable_overmap_placement_rule_remainder> realised_rules;
-        realised_rules.reserve( rules.size() );
-        for( const mutable_overmap_placement_rule &rule : rules ) {
-            realised_rules.push_back( rule.realise() );
-        }
-        return { realised_rules };
-    }
-
-    void deserialize( const JsonValue &jin ) {
-        jin.read( rules, true );
-    }
-};
-
-template<typename Tripoint>
-pos_dir<Tripoint> pos_dir<Tripoint>::opposite() const
-{
-    switch( dir ) {
-        case cube_direction::north:
-            return { p + tripoint::north, cube_direction::south };
-        case cube_direction::east:
-            return { p + tripoint::east, cube_direction::west };
-        case cube_direction::south:
-            return { p + tripoint::south, cube_direction::north };
-        case cube_direction::west:
-            return { p + tripoint::west, cube_direction::east };
-        case cube_direction::above:
-            return { p + tripoint::above, cube_direction::below };
-        case cube_direction::below:
-            return { p + tripoint::below, cube_direction::above };
-        case cube_direction::last:
-            break;
-    }
-    cata_fatal( "Invalid cube_direction" );
-}
-
-template<typename Tripoint>
-void pos_dir<Tripoint>::serialize( JsonOut &jsout ) const
-{
-    jsout.start_array();
-    jsout.write( p );
-    jsout.write( dir );
-    jsout.end_array();
-}
-
-template<typename Tripoint>
-void pos_dir<Tripoint>::deserialize( const JsonArray &ja )
-{
-    if( ja.size() != 2 ) {
-        ja.throw_error( "Expected array of size 2" );
-    }
-    ja.read( 0, p );
-    ja.read( 1, dir );
-}
-
-template<typename Tripoint>
-bool pos_dir<Tripoint>::operator==( const pos_dir<Tripoint> &r ) const
-{
-    return p == r.p && dir == r.dir;
-}
-
-template<typename Tripoint>
-bool pos_dir<Tripoint>::operator<( const pos_dir<Tripoint> &r ) const
-{
-    return std::tie( p, dir ) < std::tie( r.p, r.dir );
-}
-
-template struct pos_dir<tripoint_om_omt>;
-template struct pos_dir<tripoint_rel_omt>;
-
-struct mutable_overmap_special_data : overmap_special_data {
-    overmap_special_id parent_id;
-    std::vector<overmap_special_locations> check_for_locations;
-    std::vector<overmap_special_locations> check_for_locations_area;
-    std::vector<mutable_overmap_join> joins_vec;
-    std::unordered_map<std::string, mutable_overmap_join *> joins;
-    std::unordered_map<std::string, mutable_overmap_terrain> overmaps;
-    std::string root;
-    std::vector<mutable_overmap_phase> phases;
-
-    explicit mutable_overmap_special_data( const overmap_special_id &p_id )
-        : parent_id( p_id )
-    {}
-
-    void finalize( const std::string &context,
-                   const cata::flat_set<string_id<overmap_location>> &default_locations ) override {
-        if( check_for_locations.empty() ) {
-            check_for_locations.push_back( root_as_overmap_special_terrain() );
-        }
-        for( size_t i = 0; i != joins_vec.size(); ++i ) {
-            mutable_overmap_join &join = joins_vec[i];
-            if( join.into_locations.empty() ) {
-                join.into_locations = default_locations;
-            }
-            join.priority = i;
-            joins.emplace( join.id, &join );
-        }
-        for( mutable_overmap_join &join : joins_vec ) {
-            if( join.opposite_id.empty() ) {
-                join.opposite_id = join.id;
-                join.opposite = &join;
-                continue;
-            }
-            auto opposite_it = joins.find( join.opposite_id );
-            if( opposite_it == joins.end() ) {
-                // Error reported later in check()
-                continue;
-            }
-            join.opposite = opposite_it->second;
-        }
-        for( std::pair<const std::string, mutable_overmap_terrain> &p : overmaps ) {
-            mutable_overmap_terrain &ter = p.second;
-            ter.finalize( string_format( "overmap %s in %s", p.first, context ), joins,
-                          default_locations );
-        }
-        for( mutable_overmap_phase &phase : phases ) {
-            for( mutable_overmap_placement_rule &rule : phase.rules ) {
-                rule.finalize( context, overmaps );
-            }
-        }
-    }
-
-    void finalize_mapgen_parameters(
-        mapgen_parameters &params, const std::string &context ) const override {
-        for( const std::pair<const std::string, mutable_overmap_terrain> &p : overmaps ) {
-            const mutable_overmap_terrain &t = p.second;
-            std::string mapgen_id = t.terrain->get_mapgen_id();
-            params.check_and_merge( get_map_special_params( mapgen_id ), context );
-        }
-    }
-
-    void check( const std::string &context ) const override {
-        if( joins_vec.size() != joins.size() ) {
-            debugmsg( "duplicate join id in %s", context );
-        }
-        for( const mutable_overmap_join &join : joins_vec ) {
-            if( join.opposite ) {
-                if( join.opposite->opposite_id != join.id ) {
-                    debugmsg( "in %1$s: join id %2$s specifies its opposite to be %3$s, but "
-                              "the opposite of %3$s is %4$s, when it should match the "
-                              "original id %2$s",
-                              context, join.id, join.opposite_id, join.opposite->opposite_id );
-                }
+            if( other_side_mandatory || this_ter_join.type != join_type::available ) {
+                return join_status::disallowed;
             } else {
-                debugmsg( "in %s: join id '%s' specified as opposite of '%s' not valid",
-                          context, join.opposite_id, join.id );
+                return join_status::mismatched_available;
             }
         }
-        for( const std::pair<const std::string, mutable_overmap_terrain> &p : overmaps ) {
-            const mutable_overmap_terrain &ter = p.second;
-            ter.check( string_format( "overmap %s in %s", p.first, context ) );
-        }
-        if( !overmaps.count( root ) ) {
-            debugmsg( "root %s is not amongst the defined overmaps for %s", root, context );
-        }
-        for( const mutable_overmap_phase &phase : phases ) {
-            for( const mutable_overmap_placement_rule &rule : phase.rules ) {
-                rule.check( context );
+    } else {
+        return join_status::free;
+    }
+}
+
+void joins_tracker::add_joins_for(
+    const mutable_overmap_terrain &ter, const tripoint_om_omt &pos,
+    om_direction::type rot, const std::vector<om_pos_dir> &suppressed_joins )
+{
+    consistency_check();
+
+    std::unordered_set<om_pos_dir> avoid(
+        suppressed_joins.begin(), suppressed_joins.end() );
+
+    for( const std::pair<const cube_direction, mutable_overmap_terrain_join> &p :
+         ter.joins ) {
+        cube_direction dir = p.first + rot;
+        const mutable_overmap_terrain_join &this_side_join = p.second;
+
+        om_pos_dir this_side{ pos, dir };
+        om_pos_dir other_side = this_side.opposite();
+
+        if( const join *other_side_join = resolved.find( other_side ) ) {
+            erase_unresolved( this_side );
+            if( !avoid.count( this_side ) ) {
+                used.emplace_back( other_side, other_side_join->join->id );
+                // Because of the existence of alternative joins, we don't
+                // simply add this_side_join here, we add the opposite of
+                // the opposite that was actually present (this saves us
+                // from heaving to search through the alternates to find
+                // which one actually matched).
+                used.emplace_back( this_side, other_side_join->join->opposite_id );
             }
-        }
-    }
-
-    overmap_special_terrain root_as_overmap_special_terrain() const {
-        auto it = overmaps.find( root );
-        if( it == overmaps.end() ) {
-            debugmsg( "root '%s' is not an overmap in this special", root );
-            return {};
-        }
-        const mutable_overmap_terrain &root_om = it->second;
-        return { tripoint_rel_omt::zero, root_om.terrain, root_om.locations, {} };
-    }
-
-
-    std::vector<overmap_special_terrain> get_terrains() const override {
-        debugmsg( "currently not supported" );
-        return std::vector<overmap_special_terrain> { root_as_overmap_special_terrain() };
-    }
-
-    std::vector<overmap_special_terrain> preview_terrains() const override {
-        return std::vector<overmap_special_terrain> { root_as_overmap_special_terrain() };
-    }
-
-    std::vector<overmap_special_locations> required_locations() const override {
-        return check_for_locations;
-    }
-
-    int score_rotation_at( const overmap &, const tripoint_om_omt &,
-                           om_direction::type ) const override {
-        // TODO: worry about connections for mutable specials
-        // For now we just allow all rotations, but will be restricted by
-        // can_place_special
-        return 0;
-    }
-
-    // Returns a list of the points placed and a list of the joins used
-    special_placement_result place(
-        overmap &om, const tripoint_om_omt &origin, om_direction::type dir, bool /*blob*/,
-        const city &cit, bool must_be_unexplored ) const override {
-        // TODO: respect must_be_unexplored
-        std::vector<tripoint_om_omt> result;
-
-        auto it = overmaps.find( root );
-        if( it == overmaps.end() ) {
-            debugmsg( "Invalid root %s", root );
-            return { result, {} };
-        }
-
-        joins_tracker unresolved;
-
-        struct placed_connection {
-            overmap_connection_id connection;
-            pos_dir<tripoint_om_omt> where;
-        };
-
-        std::vector<placed_connection> connections_placed;
-
-        // This is for debugging only, it tracks a human-readable description
-        // of what happened to be put in the debugmsg in the event of failure.
-        std::vector<std::string> descriptions;
-
-        // Helper function to add a particular mutable_overmap_terrain at a
-        // particular place.
-        auto add_ter = [&](
-                           const mutable_overmap_terrain & ter, const tripoint_om_omt & pos,
-        om_direction::type rot, const std::vector<om_pos_dir> &suppressed_joins ) {
-            const oter_id tid = ter.terrain->get_rotated( rot );
-            om.ter_set( pos, tid );
-            if( ter.camp_owner.has_value() ) {
-                tripoint_abs_omt camp_loc =  {project_combine( om.pos(), pos.xy() ), pos.z()};
-                get_map().add_camp( camp_loc, "faction_camp", false );
-                std::optional<basecamp *> bcp = overmap_buffer.find_camp( camp_loc.xy() );
-                if( !bcp ) {
-                    debugmsg( "Camp placement during special generation failed at %s", camp_loc.to_string() );
-                } else {
-                    basecamp *temp_camp = *bcp;
-                    temp_camp->set_owner( ter.camp_owner.value() );
-                    temp_camp->set_name( ter.camp_name.translated() );
-                    // FIXME? Camp types are raw strings! Not ideal.
-                    temp_camp->define_camp( camp_loc, "faction_base_bare_bones_NPC_camp_0", false );
+        } else {
+            // If there were postponed joins pointing into this point,
+            // so we need to un-postpone them because it might now be
+            // possible to satisfy them.
+            restore_postponed_at( other_side.p );
+            if( this_side_join.type == join_type::mandatory ) {
+                if( !overmap::inbounds( other_side.p ) ) {
+                    debugmsg( "out of bounds join" );
+                    continue;
                 }
+                const mutable_overmap_join *opposite_join = this_side_join.join->opposite;
+                add_unresolved( other_side, opposite_join );
             }
-            unresolved.add_joins_for( ter, pos, rot, suppressed_joins );
-            result.push_back( pos );
+        }
+        resolved.add( this_side, this_side_join.join );
+    }
+    consistency_check();
+}
 
-            // Accumulate connections to be dealt with later
-            for( const std::pair<const cube_direction, mutable_special_connection> &p :
-                 ter.connections ) {
-                cube_direction base_dir = p.first;
-                const mutable_special_connection &conn = p.second;
-                cube_direction dir = base_dir + rot;
-                tripoint_om_omt conn_pos = pos + displace( dir );
-                if( overmap::inbounds( conn_pos ) ) {
-                    connections_placed.push_back( { conn.connection, { conn_pos, dir } } );
-                }
+tripoint_om_omt joins_tracker::pick_top_priority() const
+{
+    cata_assert( any_unresolved() );
+    auto priority_it =
+        std::find_if( unresolved_priority_index.begin(), unresolved_priority_index.end(),
+    []( const cata::flat_set<jl_iterator, compare_iterators> &its ) {
+        return !its.empty();
+    } );
+    cata_assert( priority_it != unresolved_priority_index.end() );
+    auto it = random_entry( *priority_it );
+    const tripoint_om_omt &pos = it->where.p;
+    cata_assert( !postponed.any_at( pos ) );
+    return pos;
+}
+void joins_tracker::postpone( const tripoint_om_omt &pos )
+{
+    consistency_check();
+    for( jl_iterator it : unresolved.all_at( pos ) ) {
+        postponed.add( *it );
+        [[maybe_unused]] const bool erased = erase_unresolved( it->where );
+        cata_assert( erased );
+    }
+    consistency_check();
+}
+void joins_tracker::restore_postponed_at( const tripoint_om_omt &pos )
+{
+    for( jl_iterator it : postponed.all_at( pos ) ) {
+        add_unresolved( it->where, it->join );
+        postponed.erase( it );
+    }
+    consistency_check();
+}
+void joins_tracker::restore_postponed()
+{
+    consistency_check();
+    for( const join &j : postponed ) {
+        add_unresolved( j.where, j.join );
+    }
+    postponed.clear();
+}
+
+std::vector<joins_tracker::jl_iterator> joins_tracker::indexed_joins::all_at(
+    const tripoint_om_omt &pos ) const
+{
+    std::vector<jl_iterator> result;
+    for( cube_direction dir : all_enum_values<cube_direction>() ) {
+        om_pos_dir key{ pos, dir };
+        auto pos_it = position_index.find( key );
+        if( pos_it != position_index.end() ) {
+            result.push_back( pos_it->second );
+        }
+    }
+    return result;
+}
+
+bool joins_tracker::indexed_joins::any_at( const tripoint_om_omt &pos ) const
+{
+    for( cube_direction dir : all_enum_values<cube_direction>() ) {
+        if( count( om_pos_dir{ pos, dir } ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+std::size_t joins_tracker::indexed_joins::count_at( const tripoint_om_omt &pos ) const
+{
+    std::size_t result = 0;
+    for( cube_direction dir : all_enum_values<cube_direction>() ) {
+        if( position_index.find( { pos, dir } ) != position_index.end() ) {
+            ++result;
+        }
+    }
+    return result;
+}
+
+void joins_tracker::add_unresolved( const om_pos_dir &p, const mutable_overmap_join *j )
+{
+    jl_iterator it = unresolved.add( p, j );
+    unsigned priority = it->join->priority;
+    if( unresolved_priority_index.size() <= priority ) {
+        unresolved_priority_index.resize( priority + 1 );
+    }
+    [[maybe_unused]] const bool inserted = unresolved_priority_index[priority].insert( it ).second;
+    cata_assert( inserted );
+}
+
+bool joins_tracker::erase_unresolved( const om_pos_dir &p )
+{
+    auto pos_it = unresolved.position_index.find( p );
+    if( pos_it == unresolved.position_index.end() ) {
+        return false;
+    }
+    jl_iterator it = pos_it->second;
+    unsigned priority = it->join->priority;
+    cata_assert( priority < unresolved_priority_index.size() );
+    [[maybe_unused]] const size_t erased = unresolved_priority_index[priority].erase( it );
+    cata_assert( erased );
+    unresolved.erase( it );
+    return true;
+}
+
+void mutable_overmap_special_data::finalize( const std::string &context,
+        const cata::flat_set<string_id<overmap_location>> &default_locations )
+{
+    if( check_for_locations.empty() ) {
+        check_for_locations.push_back( root_as_overmap_special_terrain() );
+    }
+    for( size_t i = 0; i != joins_vec.size(); ++i ) {
+        mutable_overmap_join &join = joins_vec[i];
+        if( join.into_locations.empty() ) {
+            join.into_locations = default_locations;
+        }
+        join.priority = i;
+        joins.emplace( join.id, &join );
+    }
+    for( mutable_overmap_join &join : joins_vec ) {
+        if( join.opposite_id.empty() ) {
+            join.opposite_id = join.id;
+            join.opposite = &join;
+            continue;
+        }
+        auto opposite_it = joins.find( join.opposite_id );
+        if( opposite_it == joins.end() ) {
+            // Error reported later in check()
+            continue;
+        }
+        join.opposite = opposite_it->second;
+    }
+    for( std::pair<const std::string, mutable_overmap_terrain> &p : overmaps ) {
+        mutable_overmap_terrain &ter = p.second;
+        ter.finalize( string_format( "overmap %s in %s", p.first, context ), joins,
+                      default_locations );
+    }
+    for( mutable_overmap_phase &phase : phases ) {
+        for( mutable_overmap_placement_rule &rule : phase.rules ) {
+            rule.finalize( context, overmaps );
+        }
+    }
+}
+
+void mutable_overmap_special_data::finalize_mapgen_parameters(
+    mapgen_parameters &params, const std::string &context ) const
+{
+    for( const std::pair<const std::string, mutable_overmap_terrain> &p : overmaps ) {
+        const mutable_overmap_terrain &t = p.second;
+        std::string mapgen_id = t.terrain->get_mapgen_id();
+        params.check_and_merge( get_map_special_params( mapgen_id ), context );
+    }
+}
+
+void mutable_special_connection::check( const std::string &context ) const
+{
+    if( !connection.is_valid() ) {
+        debugmsg( "invalid connection id %s in %s", connection.str(), context );
+    }
+}
+
+void mutable_overmap_special_data::check( const std::string &context ) const
+{
+    if( joins_vec.size() != joins.size() ) {
+        debugmsg( "duplicate join id in %s", context );
+    }
+    for( const mutable_overmap_join &join : joins_vec ) {
+        if( join.opposite ) {
+            if( join.opposite->opposite_id != join.id ) {
+                debugmsg( "in %1$s: join id %2$s specifies its opposite to be %3$s, but "
+                          "the opposite of %3$s is %4$s, when it should match the "
+                          "original id %2$s",
+                          context, join.id, join.opposite_id, join.opposite->opposite_id );
             }
-        };
+        } else {
+            debugmsg( "in %s: join id '%s' specified as opposite of '%s' not valid",
+                      context, join.opposite_id, join.id );
+        }
+    }
+    for( const std::pair<const std::string, mutable_overmap_terrain> &p : overmaps ) {
+        const mutable_overmap_terrain &ter = p.second;
+        ter.check( string_format( "overmap %s in %s", p.first, context ) );
+    }
+    if( !overmaps.count( root ) ) {
+        debugmsg( "root %s is not amongst the defined overmaps for %s", root, context );
+    }
+    for( const mutable_overmap_phase &phase : phases ) {
+        for( const mutable_overmap_placement_rule &rule : phase.rules ) {
+            rule.check( context );
+        }
+    }
+}
 
-        const mutable_overmap_terrain &root_omt = it->second;
-        add_ter( root_omt, origin, dir, {} );
+overmap_special_terrain mutable_overmap_special_data::root_as_overmap_special_terrain() const
+{
+    auto it = overmaps.find( root );
+    if( it == overmaps.end() ) {
+        debugmsg( "root '%s' is not an overmap in this special", root );
+        return {};
+    }
+    const mutable_overmap_terrain &root_om = it->second;
+    return { tripoint_rel_omt::zero, root_om.terrain, root_om.locations, {} };
+}
 
-        auto current_phase = phases.begin();
-        mutable_overmap_phase_remainder phase_remaining = current_phase->realise();
 
-        while( unresolved.any_unresolved() ) {
-            tripoint_om_omt next_pos = unresolved.pick_top_priority();
-            mutable_overmap_phase_remainder::satisfy_result satisfy_result =
-                phase_remaining.satisfy( om, next_pos, unresolved );
-            descriptions.push_back( std::move( satisfy_result.description ) );
-            const mutable_overmap_placement_rule_remainder *rule = satisfy_result.rule;
-            if( rule ) {
-                const tripoint_om_omt &satisfy_origin = satisfy_result.origin;
-                om_direction::type rot = satisfy_result.dir;
-                for( const mutable_overmap_piece_candidate &piece : rule->pieces( satisfy_origin, rot ) ) {
-                    const mutable_overmap_terrain &ter = *piece.overmap;
-                    add_ter( ter, piece.pos, piece.rot, satisfy_result.suppressed_joins );
-                }
+std::vector<overmap_special_terrain> mutable_overmap_special_data::get_terrains() const
+{
+    debugmsg( "currently not supported" );
+    return std::vector<overmap_special_terrain> { root_as_overmap_special_terrain() };
+}
+
+std::vector<overmap_special_terrain> mutable_overmap_special_data::preview_terrains() const
+{
+    return std::vector<overmap_special_terrain> { root_as_overmap_special_terrain() };
+}
+
+std::vector<overmap_special_locations> mutable_overmap_special_data::required_locations() const
+{
+    return check_for_locations;
+}
+
+int mutable_overmap_special_data::score_rotation_at( const overmap &, const tripoint_om_omt &,
+        om_direction::type ) const
+{
+    // TODO: worry about connections for mutable specials
+    // For now we just allow all rotations, but will be restricted by
+    // can_place_special
+    return 0;
+}
+
+// Returns a list of the points placed and a list of the joins used
+special_placement_result mutable_overmap_special_data::place(
+    overmap &om, const tripoint_om_omt &origin, om_direction::type dir, bool /*blob*/,
+    const city &cit, bool must_be_unexplored ) const
+{
+    // TODO: respect must_be_unexplored
+    std::vector<tripoint_om_omt> result;
+
+    auto it = overmaps.find( root );
+    if( it == overmaps.end() ) {
+        debugmsg( "Invalid root %s", root );
+        return { result, {} };
+    }
+
+    joins_tracker unresolved;
+
+    struct placed_connection {
+        overmap_connection_id connection;
+        pos_dir<tripoint_om_omt> where;
+    };
+
+    std::vector<placed_connection> connections_placed;
+
+    // This is for debugging only, it tracks a human-readable description
+    // of what happened to be put in the debugmsg in the event of failure.
+    std::vector<std::string> descriptions;
+
+    // Helper function to add a particular mutable_overmap_terrain at a
+    // particular place.
+    auto add_ter = [&](
+                       const mutable_overmap_terrain & ter, const tripoint_om_omt & pos,
+    om_direction::type rot, const std::vector<om_pos_dir> &suppressed_joins ) {
+        const oter_id tid = ter.terrain->get_rotated( rot );
+        om.ter_set( pos, tid );
+        if( ter.camp_owner.has_value() ) {
+            tripoint_abs_omt camp_loc =  {project_combine( om.pos(), pos.xy() ), pos.z()};
+            get_map().add_camp( camp_loc, "faction_camp", false );
+            std::optional<basecamp *> bcp = overmap_buffer.find_camp( camp_loc.xy() );
+            if( !bcp ) {
+                debugmsg( "Camp placement during special generation failed at %s", camp_loc.to_string() );
             } else {
-                unresolved.postpone( next_pos );
-            }
-            if( !unresolved.any_unresolved() || phase_remaining.all_rules_exhausted() ) {
-                ++current_phase;
-                if( current_phase == phases.end() ) {
-                    break;
-                }
-                descriptions.push_back(
-                    // NOLINTNEXTLINE(cata-translate-string-literal)
-                    string_format( "## Entering phase %td", current_phase - phases.begin() ) );
-                phase_remaining = current_phase->realise();
-                unresolved.restore_postponed();
+                basecamp *temp_camp = *bcp;
+                temp_camp->set_owner( ter.camp_owner.value() );
+                temp_camp->set_name( ter.camp_name.translated() );
+                // FIXME? Camp types are raw strings! Not ideal.
+                temp_camp->define_camp( camp_loc, "faction_base_bare_bones_NPC_camp_0", false );
             }
         }
+        unresolved.add_joins_for( ter, pos, rot, suppressed_joins );
+        result.push_back( pos );
 
-        if( unresolved.any_postponed() ) {
-            // This is an error in the JSON; extract some useful info to help
-            // the user debug it
-            unresolved.restore_postponed();
-            tripoint_om_omt p = unresolved.pick_top_priority();
+        // Accumulate connections to be dealt with later
+        for( const std::pair<const cube_direction, mutable_special_connection> &p :
+             ter.connections ) {
+            cube_direction base_dir = p.first;
+            const mutable_special_connection &conn = p.second;
+            cube_direction dir = base_dir + rot;
+            tripoint_om_omt conn_pos = pos + displace( dir );
+            if( overmap::inbounds( conn_pos ) ) {
+                connections_placed.push_back( { conn.connection, { conn_pos, dir } } );
+            }
+        }
+    };
 
-            const oter_id &current_terrain = om.ter( p );
-            std::string joins = enumerate_as_string( unresolved.all_unresolved_at( p ),
-            []( const joins_tracker::join * dir_join ) {
+    const mutable_overmap_terrain &root_omt = it->second;
+    add_ter( root_omt, origin, dir, {} );
+
+    auto current_phase = phases.begin();
+    mutable_overmap_phase_remainder phase_remaining = current_phase->realise();
+
+    while( unresolved.any_unresolved() ) {
+        tripoint_om_omt next_pos = unresolved.pick_top_priority();
+        mutable_overmap_phase_remainder::satisfy_result satisfy_result =
+            phase_remaining.satisfy( om, next_pos, unresolved );
+        descriptions.push_back( std::move( satisfy_result.description ) );
+        const mutable_overmap_placement_rule_remainder *rule = satisfy_result.rule;
+        if( rule ) {
+            const tripoint_om_omt &satisfy_origin = satisfy_result.origin;
+            om_direction::type rot = satisfy_result.dir;
+            for( const mutable_overmap_piece_candidate &piece : rule->pieces( satisfy_origin, rot ) ) {
+                const mutable_overmap_terrain &ter = *piece.overmap;
+                add_ter( ter, piece.pos, piece.rot, satisfy_result.suppressed_joins );
+            }
+        } else {
+            unresolved.postpone( next_pos );
+        }
+        if( !unresolved.any_unresolved() || phase_remaining.all_rules_exhausted() ) {
+            ++current_phase;
+            if( current_phase == phases.end() ) {
+                break;
+            }
+            descriptions.push_back(
                 // NOLINTNEXTLINE(cata-translate-string-literal)
-                return string_format( "%s: %s", io::enum_to_string( dir_join->where.dir ),
-                                      dir_join->join->id );
-            } );
-
-            debugmsg( "Spawn of mutable special %s had unresolved joins.  Existing terrain "
-                      "at %s was %s; joins were %s\nComplete record of placement follows:\n%s",
-                      parent_id.str(), p.to_string(), current_terrain.id().str(), joins,
-                      string_join( descriptions, "\n" ) );
-
-            om.add_note(
-                p, string_format(
-                    // NOLINTNEXTLINE(cata-translate-string-literal)
-                    "U:R;DEBUG: unresolved joins %s at %s placing %s",
-                    joins, p.to_string(), parent_id.str() ) );
+                string_format( "## Entering phase %td", current_phase - phases.begin() ) );
+            phase_remaining = current_phase->realise();
+            unresolved.restore_postponed();
         }
-
-        // Deal with connections
-        // TODO: JSONification of logic + don't treat non roads like roads + deduplicate with fixed data
-        for( const placed_connection &elem : connections_placed ) {
-            const tripoint_om_omt &pos = elem.where.p;
-            cube_direction connection_dir = elem.where.dir;
-
-            point_om_omt target;
-            if( cit ) {
-                target = cit.pos;
-            } else {
-                target = om.get_fallback_road_connection_point();
-            }
-            om.build_connection( target, pos.xy(), pos.z(), *elem.connection, must_be_unexplored,
-                                 connection_dir );
-        }
-
-        return { result, unresolved.all_used() };
     }
 
-    void load( const JsonObject &jo, bool was_loaded ) {
-        optional( jo, was_loaded, "check_for_locations", check_for_locations );
-        if( jo.has_array( "check_for_locations_area" ) ) {
-            JsonArray jar = jo.get_array( "check_for_locations_area" );
-            while( jar.has_more() ) {
-                JsonObject joc = jar.next_object();
+    if( unresolved.any_postponed() ) {
+        // This is an error in the JSON; extract some useful info to help
+        // the user debug it
+        unresolved.restore_postponed();
+        tripoint_om_omt p = unresolved.pick_top_priority();
 
-                cata::flat_set<string_id<overmap_location>> type;
-                tripoint_rel_omt from;
-                tripoint_rel_omt to;
-                mandatory( joc, was_loaded, "type", type );
-                mandatory( joc, was_loaded, "from", from );
-                mandatory( joc, was_loaded, "to", to );
-                if( from.x() > to.x() ) {
-                    std::swap( from.x(), to.x() );
-                }
-                if( from.y() > to.y() ) {
-                    std::swap( from.y(), to.y() );
-                }
-                if( from.z() > to.z() ) {
-                    std::swap( from.z(), to.z() );
-                }
-                for( int x = from.x(); x <= to.x(); x++ ) {
-                    for( int y = from.y(); y <= to.y(); y++ ) {
-                        for( int z = from.z(); z <= to.z(); z++ ) {
-                            overmap_special_locations loc;
-                            loc.p = tripoint_rel_omt( x, y, z );
-                            loc.locations = type;
-                            check_for_locations.push_back( loc );
-                        }
+        const oter_id &current_terrain = om.ter( p );
+        std::string joins = enumerate_as_string( unresolved.all_unresolved_at( p ),
+        []( const joins_tracker::join * dir_join ) {
+            // NOLINTNEXTLINE(cata-translate-string-literal)
+            return string_format( "%s: %s", io::enum_to_string( dir_join->where.dir ),
+                                  dir_join->join->id );
+        } );
+
+        debugmsg( "Spawn of mutable special %s had unresolved joins.  Existing terrain "
+                  "at %s was %s; joins were %s\nComplete record of placement follows:\n%s",
+                  parent_id.str(), p.to_string(), current_terrain.id().str(), joins,
+                  string_join( descriptions, "\n" ) );
+
+        om.add_note(
+            p, string_format(
+                // NOLINTNEXTLINE(cata-translate-string-literal)
+                "U:R;DEBUG: unresolved joins %s at %s placing %s",
+                joins, p.to_string(), parent_id.str() ) );
+    }
+
+    // Deal with connections
+    // TODO: JSONification of logic + don't treat non roads like roads + deduplicate with fixed data
+    for( const placed_connection &elem : connections_placed ) {
+        const tripoint_om_omt &pos = elem.where.p;
+        cube_direction connection_dir = elem.where.dir;
+
+        point_om_omt target;
+        if( cit ) {
+            target = cit.pos;
+        } else {
+            target = om.get_fallback_road_connection_point();
+        }
+        om.build_connection( target, pos.xy(), pos.z(), *elem.connection, must_be_unexplored,
+                             connection_dir );
+    }
+
+    return { result, unresolved.all_used() };
+}
+
+void mutable_overmap_special_data::load( const JsonObject &jo, bool was_loaded )
+{
+    optional( jo, was_loaded, "check_for_locations", check_for_locations );
+    if( jo.has_array( "check_for_locations_area" ) ) {
+        JsonArray jar = jo.get_array( "check_for_locations_area" );
+        while( jar.has_more() ) {
+            JsonObject joc = jar.next_object();
+
+            cata::flat_set<string_id<overmap_location>> type;
+            tripoint_rel_omt from;
+            tripoint_rel_omt to;
+            mandatory( joc, was_loaded, "type", type );
+            mandatory( joc, was_loaded, "from", from );
+            mandatory( joc, was_loaded, "to", to );
+            if( from.x() > to.x() ) {
+                std::swap( from.x(), to.x() );
+            }
+            if( from.y() > to.y() ) {
+                std::swap( from.y(), to.y() );
+            }
+            if( from.z() > to.z() ) {
+                std::swap( from.z(), to.z() );
+            }
+            for( int x = from.x(); x <= to.x(); x++ ) {
+                for( int y = from.y(); y <= to.y(); y++ ) {
+                    for( int z = from.z(); z <= to.z(); z++ ) {
+                        overmap_special_locations loc;
+                        loc.p = tripoint_rel_omt( x, y, z );
+                        loc.locations = type;
+                        check_for_locations.push_back( loc );
                     }
                 }
             }
         }
-        mandatory( jo, was_loaded, "joins", joins_vec );
-        mandatory( jo, was_loaded, "overmaps", overmaps );
-        mandatory( jo, was_loaded, "root", root );
-        mandatory( jo, was_loaded, "phases", phases );
     }
-};
+    mandatory( jo, was_loaded, "joins", joins_vec );
+    mandatory( jo, was_loaded, "overmaps", overmaps );
+    mandatory( jo, was_loaded, "root", root );
+    mandatory( jo, was_loaded, "phases", phases );
+}
 
 overmap_special::overmap_special( const overmap_special_id &i, const overmap_special_terrain &ter )
     : id( i )
@@ -3132,8 +2812,15 @@ void overmap_special::check() const
 // *** BEGIN overmap FUNCTIONS ***
 overmap::overmap( const point_abs_om &p ) : loc( p )
 {
-    settings = &overmap_buffer.get_default_settings( p );
+    const region_settings_id region_type( overmap_buffer.current_region_type );
+    if( overmap_buffer.current_region_type == "default" || !region_type.is_valid() ) {
+        const region_settings_id default_settings = overmap_buffer.get_default_settings( p ).id;
+        settings = default_settings;
+    } else {
+        settings = region_type;
+    }
     init_layers();
+    hordes.set_location( loc );
 }
 
 overmap::~overmap() = default;
@@ -3150,7 +2837,7 @@ void overmap::populate( overmap_special_batch &enabled_specials )
 void overmap::populate()
 {
     overmap_special_batch enabled_specials = overmap_specials::get_default_batch( loc );
-    const overmap_feature_flag_settings &overmap_feature_flag = settings->overmap_feature_flag;
+    const region_settings_feature_flag &overmap_feature_flag = settings->overmap_feature_flag;
 
     const bool should_blacklist = !overmap_feature_flag.blacklist.empty();
     const bool should_whitelist = !overmap_feature_flag.whitelist.empty();
@@ -3190,6 +2877,10 @@ oter_id overmap::get_default_terrain( int z ) const
     return settings->default_oter[OVERMAP_DEPTH + z].id();
 }
 
+// underlying bitset default constructs to all 0.
+static map_data_summary impassable_omt{};
+static map_data_summary passable_omt{ ~impassable_omt.passable, true };
+
 void overmap::init_layers()
 {
     for( int k = 0; k < OVERMAP_LAYERS; ++k ) {
@@ -3198,6 +2889,8 @@ void overmap::init_layers()
         l.terrain.fill( tid );
         l.visible.fill( om_vision_level::unseen );
         l.explored.fill( false );
+        // Verify this isn't copying!
+        l.map_cache.fill( std::shared_ptr<map_data_summary> { std::shared_ptr<void>(), &passable_omt } );
     }
 }
 
@@ -3239,6 +2932,8 @@ void overmap::ter_set( const tripoint_om_omt &p, const oter_id &id )
         // We had a predecessor, and it was the same type as the incoming one
         // Don't push another copy.
     }
+    // TODO: maaaaybe this can be set after underlying map data has been changed? IDK.
+    set_passable( project_combine( loc, p ), id->get_type_id()->default_map_data );
     current_oter = id;
 }
 
@@ -3339,16 +3034,6 @@ bool overmap::mongroup_check( const mongroup &candidate ) const
                candidate.interest == match.second.interest &&
                candidate.dying == match.second.dying &&
                candidate.horde == match.second.horde;
-    } ) != matching_range.second;
-}
-
-bool overmap::monster_check( const std::pair<tripoint_om_sm, monster> &candidate ) const
-{
-    const auto matching_range = monster_map.equal_range( candidate.first );
-    return std::find_if( matching_range.first, matching_range.second,
-    [candidate]( const std::pair<tripoint_om_sm, monster> &match ) {
-        return candidate.second.pos_bub() == match.second.pos_bub() &&
-               candidate.second.type == match.second.type;
     } ) != matching_range.second;
 }
 
@@ -3654,6 +3339,113 @@ void overmap::add_omt_stack_argument( const point_abs_omt &p, const std::string 
     omt_stack_arguments_map[p].add( param_name, value );
 }
 
+bool overmap::passable( const tripoint_om_ms &p )
+{
+    point_om_omt omt_origin;
+    tripoint_omt_ms index;
+    std::tie( omt_origin, index ) = project_remain<coords::omt>( p );
+    std::shared_ptr<map_data_summary> &ptr = layer[index.z() +
+            OVERMAP_DEPTH].map_cache[omt_origin];
+    if( !ptr ) {
+        // Oh no we aren't populated???
+        // Promote to error later.
+        return false;
+    }
+    if( !ptr->passable[index.y() * 24 + index.x()] ) {
+        return false;
+    }
+    return hordes.entity_at( p ) == nullptr;
+}
+
+std::shared_ptr<map_data_summary> overmap::get_omt_summary( const tripoint_om_omt &p )
+{
+    std::shared_ptr<map_data_summary> &ptr = layer[p.z() +
+            OVERMAP_DEPTH].map_cache[p.xy()];
+    if( !ptr ) {
+        // Oh no we aren't populated???
+        // Promote to error later.
+        return std::shared_ptr<map_data_summary>();
+    }
+    return ptr;
+}
+
+void overmap::set_passable( const tripoint_om_ms &p, bool new_passable )
+{
+    point_om_omt omt_origin;
+    tripoint_omt_ms index;
+    std::tie( omt_origin, index ) = project_remain<coords::omt>( p );
+    std::shared_ptr<map_data_summary> &ptr = layer[index.z() +
+            OVERMAP_DEPTH].map_cache[omt_origin];
+    if( !ptr ) {
+        // Oh no we aren't populated???
+        // Promote to error later.
+        return;
+    }
+    if( ptr->placeholder ) {
+        // Copy the placeholder data.
+        ptr = std::make_shared<map_data_summary>( ptr->passable );
+    }
+    ptr->passable[index.y() * 24 + index.x()] = new_passable;
+}
+
+// For internal use only, just overwrite the pointer.
+void overmap::set_passable( const tripoint_abs_omt &p,
+                            std::shared_ptr<map_data_summary> new_passable )
+{
+    point_abs_om overmap_coord;
+    tripoint_om_omt omt_coord;
+    std::tie( overmap_coord, omt_coord ) = project_remain<coords::om>( p );
+    if( overmap_coord != loc ) {
+        return;
+    }
+    layer[omt_coord.z() + OVERMAP_DEPTH].map_cache[omt_coord.xy()] = std::move( new_passable );
+}
+
+void overmap::set_passable( const tripoint_abs_omt &p,
+                            string_id<map_data_summary> new_passable )
+{
+    point_abs_om overmap_coord;
+    tripoint_om_omt omt_coord;
+    std::tie( overmap_coord, omt_coord ) = project_remain<coords::om>( p );
+    if( overmap_coord != loc ) {
+        return;
+    }
+    std::shared_ptr<map_data_summary> &ptr = layer[omt_coord.z() +
+            OVERMAP_DEPTH].map_cache[omt_coord.xy()];
+    // overmap pinky promises to never write to this map_data_summary.
+    // This is enforced by all writes to map_cache[] checking for placeholder == true.
+    // If so, we CoW to a new map_data_summary then edit that.
+    ptr = std::const_pointer_cast<map_data_summary>( map_data_placeholders::get_ptr(
+                new_passable ) );
+}
+
+void overmap::set_passable( const tripoint_abs_omt &p, const std::bitset<24 * 24> &new_passable )
+{
+    point_abs_om overmap_coord;
+    tripoint_om_omt omt_coord;
+    std::tie( overmap_coord, omt_coord ) = project_remain<coords::om>( p );
+    if( overmap_coord != loc ) {
+        return;
+    }
+    std::shared_ptr<map_data_summary> &ptr = layer[omt_coord.z() +
+            OVERMAP_DEPTH].map_cache[omt_coord.xy()];
+    if( !ptr ) {
+        // Oh no we aren't populated???
+        // Promote to error later.
+        return;
+    }
+    ptr = std::make_shared<map_data_summary>( new_passable );
+}
+
+bool overmap::inbounds( const tripoint_abs_ms &p )
+{
+    point_abs_om overmap_coord;
+    tripoint_om_omt omt_within_overmap;
+    std::tie( overmap_coord, omt_within_overmap ) =
+        project_remain<coords::om>( project_to<coords::omt> ( p ) );
+    return overmap_coord == loc;
+}
+
 bool overmap::inbounds( const tripoint_om_omt &p, int clearance )
 {
     static constexpr tripoint_om_omt overmap_boundary_min( 0, 0, -OVERMAP_DEPTH );
@@ -3709,6 +3501,8 @@ void overmap::generate( const std::vector<const overmap *> &neighbor_overmaps,
             for( int j = 0; j < OMAPY; j++ ) {
                 // NOLINTNEXTLINE(modernize-loop-convert)
                 for( int i = 0; i < OMAPX; i++ ) {
+                    set_passable( project_combine( loc, tripoint_om_omt( i, j, z ) ),
+                                  omt_outside_defined_omap->get_type_id()->default_map_data );
                     layer[z + OVERMAP_DEPTH].terrain[i][j] = omt_outside_defined_omap;
                 }
             }
@@ -4414,155 +4208,173 @@ void mongroup::wander( const overmap &om )
     }
 }
 
+horde_entity &overmap::spawn_monster( const tripoint_abs_ms &p, mtype_id id )
+{
+    return hordes.spawn_entity( p, id )->second;
+}
+
+// Seeks through the submap looking for open areas.
+// Cursor is passed in to track progress across multiple calls.
+// An alternative is just returning a shuffled vector of open spaces to consume.
+std::optional<tripoint_om_ms> overmap::find_open_space_in_submap( const tripoint_om_ms
+        &submap_origin, point_rel_ms &cursor )
+{
+    for( ; cursor.y() < SEEX; cursor.y()++ ) {
+        do {
+            if( passable( submap_origin + cursor ) ) {
+                return { submap_origin + cursor };
+            }
+            // We want to preserve the initial value of cursor but still loop,
+            // this structure accomplishes that.
+            if( ++cursor.x() >= SEEX ) {
+                cursor.x() = 0;
+                break;
+            }
+        } while( true );
+    }
+    // Ran out of space on the submap!
+    return std::optional<tripoint_om_ms>();
+}
+
+void overmap::spawn_monsters( const tripoint_om_sm &p, std::vector<monster> &monsters )
+{
+    tripoint_om_ms submap_origin = project_to<coords::ms>( p );
+    point_rel_ms cursor{ 0, 0 };
+    for( monster &mon_to_spawn : monsters ) {
+        std::optional<tripoint_om_ms> open_space =
+            find_open_space_in_submap( submap_origin, cursor );
+        if( !open_space ) {
+            // Ran out of space on the submap!
+            return;
+        }
+        hordes.spawn_entity( project_combine( pos(), *open_space ), mon_to_spawn );
+    }
+}
+
+void overmap::spawn_mongroup( const tripoint_om_sm &p, const mongroup_id &type, int count )
+{
+    tripoint_om_ms submap_origin = project_to<coords::ms>( p );
+    point_rel_ms cursor{ 0, 0 };
+    while( count > 0 ) {
+        for( MonsterGroupResult &result : MonsterGroupManager::GetResultFromGroup( type, &count ) ) {
+            for( int i = 0; i < result.pack_size; ++i ) {
+
+                std::optional<tripoint_om_ms> open_space =
+                    find_open_space_in_submap( submap_origin, cursor );
+                if( !open_space ) {
+                    // Ran out of space on the submap!
+                    return;
+                }
+                hordes.spawn_entity( project_combine( pos(), *open_space ), result.id );
+            }
+        }
+    }
+}
+
+horde_entity *overmap::entity_at( const tripoint_om_ms &p )
+{
+    return hordes.entity_at( p );
+}
+
+
+// This should really be const but I don't want to mess with it right now.
+std::vector<std::unordered_map<tripoint_abs_ms, horde_entity>*> overmap::hordes_at(
+    const tripoint_om_omt &p )
+{
+    return hordes.entity_group_at( p );
+}
+
 /**
  * Moves hordes around the map according to their behaviour and target.
- * Also, emerge hordes from monsters that are outside the player's view. Currently only works for zombies.
+ * If they enter the coordinate space of the loaded map, spawn them there.
  */
 void overmap::move_hordes()
 {
-    // Prevent hordes to be moved twice by putting them in here after moving.
-    decltype( zg ) tmpzg;
-    //MOVE ZOMBIE GROUPS
-    for( auto it = zg.begin(); it != zg.end(); ) {
-        mongroup &mg = it->second;
-        if( !mg.horde || mg.behaviour == mongroup::horde_behaviour::nemesis ) {
-            //nemesis hordes have their own move function
-            ++it;
+    // TODO: throttle processing of monsters.
+    // Specifically for throttling, only a process a subset of the eligible monster buckets per invocation.
+    std::unordered_map<tripoint_abs_ms, horde_entity> migrating_hordes;
+    for( horde_map::iterator mon = hordes.get_view( horde_map_flavors::active ).begin(),
+         mon_end = hordes.end(); mon != mon_end; ) {
+        // This might have an issue where a monster prevented from acting possibly should
+        // get another chance to act?
+        // This is here so that when a entity moves from one bucket to another it doesn't
+        // get a second set of moves.
+        if( mon->second.last_processed == calendar::turn ) {
+            mon++;
             continue;
         }
-
-        if( mg.behaviour == mongroup::horde_behaviour::none ) {
-            mg.behaviour =
-                one_in( 2 ) ? mongroup::horde_behaviour::city : mongroup::horde_behaviour::roam;
-        }
-
-        // Gradually decrease interest.
-        mg.dec_interest( 1 );
-
-        if( ( mg.abs_pos.xy() == mg.target ) || mg.interest <= 15 ) {
-            mg.wander( *this );
-        }
-
-        // Decrease movement chance according to the terrain we're currently on.
-        const oter_id &walked_into = ter( project_to<coords::omt>( mg.rel_pos() ) );
-        int movement_chance = 1;
-        if( walked_into == oter_forest || walked_into == oter_forest_water ) {
-            movement_chance = 3;
-        } else if( walked_into == oter_forest_thick ) {
-            movement_chance = 6;
-        } else if( walked_into == oter_river_center ) {
-            movement_chance = 10;
-        }
-
-        // If the average horde speed is 50% that of normal, then the chance to
-        // move should be 1/2 what it would be if the speed was 100%.
-        // Since the max speed for a horde is one map space per 2.5 minutes,
-        // choose that to be the speed of the fastest horde monster, which is
-        // roughly 200 at the time of writing. So a horde with average speed
-        // 200 or over will move at max speed, and slower hordes will move less
-        // frequently. The average horde speed for regular Z's is around 100,
-        // or one space per 5 minutes.
-        if( one_in( movement_chance ) && rng( 0, 100 ) < mg.interest && rng( 0, 200 ) < mg.avg_speed() ) {
-            // TODO: Handle moving to adjacent overmaps.
-            if( mg.abs_pos.x() > mg.target.x() ) {
-                mg.abs_pos.x()--;
+        mon->second.last_processed = calendar::turn;
+        // If we have a goal, proceed toward it.
+        if( mon->second.tracking_intensity > 0 && mon->first != mon->second.destination ) {
+            mon->second.tracking_intensity--;
+            mon->second.moves += mon->second.type_id->speed;
+            if( mon->second.moves <= 0 ) {
+                mon++;
+                continue;
             }
-            if( mg.abs_pos.x() < mg.target.x() ) {
-                mg.abs_pos.x()++;
+            std::vector<tripoint_abs_ms> viable_candidates;
+            // Call up to overmapbuffer in case it needs to dispatch to an adjacent overmap.
+            for( const tripoint_abs_ms &candidate :
+                 squares_closer_to( mon->first, mon->second.destination ) ) {
+                if( overmap_buffer.passable( candidate ) ) {
+                    viable_candidates.push_back( candidate );
+                }
             }
-            if( mg.abs_pos.y() > mg.target.y() ) {
-                mg.abs_pos.y()--;
+            if( viable_candidates.empty() ) {
+                // We're stuck.
+                // TODO: try to wander to get around obstacles, or smash.
+                mon++;
+                continue;
             }
-            if( mg.abs_pos.y() < mg.target.y() ) {
-                mg.abs_pos.y()++;
+            // TODO: nuanced move costs.
+            mon->second.moves -= 100;
+            if( viable_candidates.front() == mon->second.destination ) {
+                mon->second.tracking_intensity = 0;
+            }
+            // squares_closer_to already orders candidates by how close to the main line they are.
+            // For now just pick the first non-blocked square, later we could fuzz/stumble.
+            if( get_map().inbounds( viable_candidates.front() ) ) {
+                monster *placed_monster = nullptr;
+                if( mon->second.monster_data ) {
+                    placed_monster = g->place_critter_around( make_shared_fast<monster>( *mon->second.monster_data ),
+                                     get_map().get_bub( viable_candidates.front() ), 1 );
+                } else {
+                    placed_monster = g->place_critter_around( mon->second.type_id->id,
+                                     get_map().get_bub( viable_candidates.front() ), 1 );
+                }
+                if( placed_monster == nullptr ) {
+                    // If the tile is occupied it can't enter, just don't move for now.
+                    mon++;
+                    continue;
+                }
+                // TODO: this should be bundled into a constructor.
+                if( mon->second.tracking_intensity > 0 ) {
+                    placed_monster->wander_to( mon->second.destination, mon->second.tracking_intensity );
+                }
+                mon = hordes.erase( mon );
+                continue;
             }
 
-            // Erase the group at it's old location, add the group with the new location
-            tmpzg.emplace( mg.rel_pos(), mg );
-            zg.erase( it++ );
-        } else {
-            ++it;
+            horde_map::iterator moving_mon = mon;
+            // Advance the loop iterator past the current node, which we will be removing.
+            mon++;
+            auto monster_node = hordes.extract( moving_mon );
+            monster_node.key() = viable_candidates.front();
+            migrating_hordes.insert( std::move( monster_node ) );
         }
     }
-    // and now back into the monster group map.
-    zg.insert( tmpzg.begin(), tmpzg.end() );
-
-    if( get_option<bool>( "WANDER_SPAWNS" ) ) {
-
-        // Re-absorb zombies into hordes.
-        // Scan over monsters outside the player's view and place them back into hordes.
-        auto monster_map_it = monster_map.begin();
-        while( monster_map_it != monster_map.end() ) {
-            const tripoint_om_sm &p = monster_map_it->first;
-            monster &this_monster = monster_map_it->second;
-
-            // Only zombies on z-level 0 may join hordes.
-            if( p.z() != 0 ) {
-                ++monster_map_it;
-                continue;
-            }
-
-            // Check if the monster is a zombie.
-            const mtype &type = *this_monster.type;
-            if(
-                !type.species.count( species_ZOMBIE ) || // Only add zombies to hordes.
-                this_monster.get_speed() <= 30 || // So are very slow zombies, like crawling zombies.
-                !this_monster.will_join_horde( INT_MAX ) || // So are zombies who won't join a horde of any size.
-                !this_monster.mission_ids.empty() // We mustn't delete monsters that are related to missions.
-            ) {
-                // Don't delete the monster, just increment the iterator.
-                ++monster_map_it;
-                continue;
-            }
-
-            // Only monsters in the open (fields, forests, roads) are eligible to wander
-            const oter_id &om_here = ter( project_to<coords::omt>( p ) );
-            if( !is_ot_match( "field", om_here, ot_match_type::contains ) &&
-                !is_ot_match( "road", om_here, ot_match_type::contains ) &&
-                !is_ot_match( "forest", om_here, ot_match_type::prefix ) &&
-                !is_ot_match( "swamp", om_here, ot_match_type::prefix ) ) {
-                ++monster_map_it;
-                continue;
-            }
-
-            // Scan for compatible hordes in this area, selecting the largest.
-            mongroup *add_to_group = nullptr;
-            auto group_bucket = zg.equal_range( p );
-            std::vector<monster>::size_type add_to_horde_size = 0;
-            std::for_each( group_bucket.first, group_bucket.second,
-            [&]( std::pair<const tripoint_om_sm, mongroup> &horde_entry ) {
-                mongroup &horde = horde_entry.second;
-
-                // We only absorb zombies into GROUP_ZOMBIE hordes
-                if( horde.horde && !horde.monsters.empty() && horde.type == GROUP_ZOMBIE &&
-                    horde.monsters.size() > add_to_horde_size ) {
-                    add_to_group = &horde;
-                    add_to_horde_size = horde.monsters.size();
-                }
-            } );
-
-            // Check again if the zombie will join the largest horde, now that we know the accurate size.
-            if( this_monster.will_join_horde( add_to_horde_size ) ) {
-                // If there is no horde to add the monster to, create one.
-                if( add_to_group == nullptr ) {
-                    tripoint_abs_sm abs_pos = project_combine( pos(), p );
-                    mongroup m( GROUP_ZOMBIE, abs_pos, 0 );
-                    m.horde = true;
-                    m.monsters.push_back( this_monster );
-                    m.interest = 0; // Ensures that we will select a new target.
-                    add_mon_group( m );
-                } else {
-                    add_to_group->monsters.push_back( this_monster );
-                }
-            } else { // Bad luck--the zombie would have joined a larger horde, but not this one.  Skip.
-                // Don't delete the monster, just increment the iterator.
-                ++monster_map_it;
-                continue;
-            }
-
-            // Delete the monster, continue iterating.
-            monster_map_it = monster_map.erase( monster_map_it );
+    while( !migrating_hordes.empty() ) {
+        auto monster_node = migrating_hordes.extract( migrating_hordes.begin() );
+        point_abs_om dest_omp;
+        tripoint_om_sm dest_sm;
+        std::tie( dest_omp, dest_sm ) = project_remain<coords::om>( project_to<coords::sm>
+                                        ( monster_node.key() ) );
+        overmap *dest_om = overmap_buffer.get_existing( dest_omp );
+        if( dest_om == nullptr ) {
+            debugmsg( "A horde entity tried to wander into a non-existent overmap." );
+            continue;
         }
+        dest_om->hordes.insert( std::move( monster_node ) );
     }
 }
 
@@ -4664,10 +4476,9 @@ bool overmap::remove_nemesis()
 * @param p location of signal relative to this overmap origin
 * @param sig_power - power of signal or max distance for reaction of zombies
 */
-void overmap::signal_hordes( const tripoint_rel_sm &p_rel, const int sig_power )
+void overmap::signal_hordes( const tripoint_abs_ms &p, const int sig_power )
 {
-    tripoint_om_sm p( p_rel.raw() );
-    tripoint_abs_sm absp = project_combine( pos(), p );
+    tripoint_abs_sm absp = project_to<coords::sm>( p );
     for( auto &elem : zg ) {
         mongroup &mg = elem.second;
         if( !mg.horde ) {
@@ -4704,6 +4515,19 @@ void overmap::signal_hordes( const tripoint_rel_sm &p_rel, const int sig_power )
                 add_msg_debug( debugmode::DF_OVERMAP, "horde set interest %d dist %d", min_capped_inter, dist );
             }
         }
+    }
+    hordes.signal_entities( p, sig_power );
+}
+
+void overmap::alert_entity( const tripoint_om_ms &location, const tripoint_abs_ms &destination,
+                            int intensity )
+{
+    horde_map::iterator target = hordes.find( location );
+    if( target != hordes.end() && intensity > target->second.tracking_intensity ) {
+        auto monster_node = hordes.extract( target );
+        monster_node.mapped().tracking_intensity = intensity;
+        monster_node.mapped().destination = destination;
+        hordes.insert( std::move( monster_node ) );
     }
 }
 
@@ -4784,7 +4608,7 @@ void overmap::place_forest_trails()
         return current_terrain == oter_forest || current_terrain == oter_forest_thick ||
                current_terrain == oter_forest_water;
     };
-    const forest_trail_settings &forest_trail = settings->forest_trail;
+    const region_settings_forest_trail &forest_trail = settings->get_settings_forest_trail();
 
     for( int i = 0; i < OMAPX; i++ ) {
         for( int j = 0; j < OMAPY; j++ ) {
@@ -4905,6 +4729,8 @@ void overmap::place_forest_trailheads()
         return;
     }
 
+    const region_settings_forest_trail &settings_forest_trail = settings->get_settings_forest_trail();
+
     // Trailheads may be placed if all of the following are true:
     // 1. we're at a forest_trail_end_north/south/west/east,
     // 2. we're within trailhead_road_distance from an existing road
@@ -4915,7 +4741,7 @@ void overmap::place_forest_trailheads()
         bool close = false;
         for( const tripoint_om_omt &nearby_point : closest_points_first(
                  trailhead,
-                 settings->forest_trail.trailhead_road_distance
+                 settings_forest_trail.trailhead_road_distance
              ) ) {
             if( check_ot( "road", ot_match_type::contains, nearby_point ) ) {
                 close = true;
@@ -4926,8 +4752,8 @@ void overmap::place_forest_trailheads()
 
     const auto try_place_trailhead_special = [&]( const tripoint_om_omt & trail_end,
     const om_direction::type & dir ) {
-        overmap_special_id trailhead = settings->forest_trail.trailheads.pick();
-        if( one_in( settings->forest_trail.trailhead_chance ) &&
+        overmap_special_id trailhead = settings_forest_trail.trailheads.pick();
+        if( one_in( settings_forest_trail.trailhead_chance ) &&
             trailhead_close_to_road( trail_end ) &&
             can_place_special( *trailhead, trail_end, dir, false ) ) {
             const city &nearest_city = get_nearest_city( trail_end );
@@ -4948,6 +4774,7 @@ void overmap::place_forest_trailheads()
 
 void overmap::place_forests()
 {
+    const region_settings_forest &settings_forest = settings->get_settings_forest();
     const oter_id default_oter_id( settings->default_oter[OVERMAP_DEPTH] );
     const om_noise::om_noise_layer_forest f( global_base_point(), g->get_seed() );
 
@@ -4965,9 +4792,9 @@ void overmap::place_forests()
             const float n = f.noise_at( p.xy() );
 
             // If the noise here meets our threshold, turn it into a forest.
-            if( n + forest_size_adjust > settings->overmap_forest.noise_threshold_forest_thick ) {
+            if( n + forest_size_adjust > settings_forest.noise_threshold_forest_thick ) {
                 ter_set( p, oter_forest_thick );
-            } else if( n + forest_size_adjust > settings->overmap_forest.noise_threshold_forest ) {
+            } else if( n + forest_size_adjust > settings_forest.noise_threshold_forest ) {
                 ter_set( p, oter_forest );
             }
         }
@@ -5007,6 +4834,7 @@ bool overmap::guess_has_lake( const point_abs_om &p, const double noise_threshol
 
 void overmap::place_swamps()
 {
+    const region_settings_forest &settings_forest = settings->get_settings_forest();
     // Buffer our river terrains by a variable radius and increment a counter for the location each
     // time it's included in a buffer. It's a floodplain that we'll then intersect later with some
     // noise to adjust how frequently it occurs.
@@ -5021,8 +4849,8 @@ void overmap::place_swamps()
                 std::vector<point_om_omt> buffered_points =
                     closest_points_first(
                         pos.xy(),
-                        rng( settings->overmap_forest.river_floodplain_buffer_distance_min,
-                             settings->overmap_forest.river_floodplain_buffer_distance_max ) );
+                        rng( settings_forest.river_floodplain_buffer_distance_min,
+                             settings_forest.river_floodplain_buffer_distance_max ) );
                 for( const point_om_omt &p : buffered_points )  {
                     if( !inbounds( p ) ) {
                         continue;
@@ -5048,12 +4876,12 @@ void overmap::place_swamps()
             // If this was a part of our buffered floodplain, and the noise here meets the threshold, and the one_in rng
             // triggers, then we should flood this location and make it a swamp.
             const bool should_flood = ( floodplain[x][y] > 0 && !one_in( floodplain[x][y] ) && f.noise_at( { x, y } )
-                                        > settings->overmap_forest.noise_threshold_swamp_adjacent_water );
+                                        > settings_forest.noise_threshold_swamp_adjacent_water );
 
             // If this location meets our isolated swamp threshold, regardless of floodplain values, we'll make it
             // into a swamp.
             const bool should_isolated_swamp = f.noise_at( pos.xy() ) >
-                                               settings->overmap_forest.noise_threshold_swamp_isolated;
+                                               settings_forest.noise_threshold_swamp_isolated;
             if( should_flood || should_isolated_swamp )  {
                 ter_set( pos, oter_forest_water );
             }
@@ -5235,6 +5063,7 @@ std::vector<tripoint_om_omt> overmap::get_border( const point_rel_om &direction,
 
 void overmap::calculate_forestosity()
 {
+    const region_settings_forest &settings_forest = settings->get_settings_forest();
     float northern_forest_increase = get_option<float>( "OVERMAP_FOREST_INCREASE_NORTH" );
     float eastern_forest_increase = get_option<float>( "OVERMAP_FOREST_INCREASE_EAST" );
     float western_forest_increase = get_option<float>( "OVERMAP_FOREST_INCREASE_WEST" );
@@ -5257,7 +5086,7 @@ void overmap::calculate_forestosity()
     // make sure forest size never totally overwhelms the map
     forest_size_adjust = std::min( forest_size_adjust,
                                    get_option<float>( "OVERMAP_FOREST_LIMIT" ) - static_cast<float>
-                                   ( settings->overmap_forest.noise_threshold_forest ) );
+                                   ( settings_forest.noise_threshold_forest ) );
 }
 
 void overmap::calculate_urbanity()
@@ -5491,7 +5320,8 @@ bool overmap::build_lab(
 
 void overmap::place_ravines()
 {
-    if( settings->overmap_ravine.num_ravines == 0 ) {
+    const region_settings_ravine &settings_ravine = settings->get_settings_ravine();
+    if( settings_ravine.num_ravines == 0 ) {
         return;
     }
 
@@ -5511,20 +5341,24 @@ void overmap::place_ravines()
     // A path is generated for each of ravine, and all its constituent points are stored within the
     // rift_points set. In the code block below, the set is then used to determine edges and place the
     // actual terrain pieces of the ravine.
-    for( int n = 0; n < settings->overmap_ravine.num_ravines; n++ ) {
-        const point_rel_omt offset( rng( -settings->overmap_ravine.ravine_range,
-                                         settings->overmap_ravine.ravine_range ),
-                                    rng( -settings->overmap_ravine.ravine_range, settings->overmap_ravine.ravine_range ) );
+    const int ravine_range = settings_ravine.ravine_range;
+    const int ravine_width = settings_ravine.ravine_width;
+    const int ravine_depth = settings_ravine.ravine_depth;
+
+    for( int n = 0; n < settings_ravine.num_ravines; n++ ) {
+        const point_rel_omt offset( rng( -ravine_range,
+                                         ravine_range ),
+                                    rng( -ravine_range, ravine_range ) );
         const point_om_omt origin( rng( 0, OMAPX ), rng( 0, OMAPY ) );
         const point_om_omt destination = origin + offset;
-        if( !inbounds( destination, settings->overmap_ravine.ravine_width * 3 ) ) {
+        if( !inbounds( destination, ravine_width * 3 ) ) {
             continue;
         }
         const auto path = pf::greedy_path( origin, destination, point_om_omt( OMAPX, OMAPY ), estimate );
         for( const auto &node : path.nodes ) {
-            for( int i = 1 - settings->overmap_ravine.ravine_width; i < settings->overmap_ravine.ravine_width;
+            for( int i = 1 - ravine_width; i < ravine_width;
                  i++ ) {
-                for( int j = 1 - settings->overmap_ravine.ravine_width; j < settings->overmap_ravine.ravine_width;
+                for( int j = 1 - ravine_width; j < ravine_width;
                      j++ ) {
                     const point_om_omt n = node.pos + point( j, i );
                     if( inbounds( n, 1 ) ) {
@@ -5548,8 +5382,8 @@ void overmap::place_ravines()
                 }
             }
         }
-        for( int z = 0; z >= settings->overmap_ravine.ravine_depth; z-- ) {
-            if( z == settings->overmap_ravine.ravine_depth ) {
+        for( int z = 0; z >= ravine_depth; z-- ) {
+            if( z == ravine_depth ) {
                 ter_set( tripoint_om_omt( p, z ), edge ? rift_floor_edge : rift_floor );
             } else {
                 ter_set( tripoint_om_omt( p, z ), edge ? rift_edge : rift );
@@ -6440,7 +6274,7 @@ void overmap::place_mongroups()
 
                 tripoint_abs_omt city_center = project_combine( elem.pos_om, tripoint_om_omt( elem.pos, 0 ) );
 
-                std::vector<tripoint_abs_sm> submap_list;
+                std::vector<tripoint_om_sm> submap_list;
 
                 // gather all of the points in range to test for viable placement of hordes.
                 for( tripoint_om_omt const &temp_omt : points_in_radius( tripoint_om_omt( elem.pos, 0 ),
@@ -6448,17 +6282,16 @@ void overmap::place_mongroups()
 
                     // running too close to the edge of the overmap can get us cascading mapgen
                     if( inbounds( temp_omt, 2 ) ) {
-
                         tripoint_abs_omt target_omt = project_combine( elem.pos_om, temp_omt );
 
                         // right now we're only placing city horde spawns on roads, for simplicity.
                         // this can be replaced with an OMT flag for later for better flexibility.
                         if( overmap_buffer.ter( target_omt )->get_type_id() == oter_type_road ) {
-                            tripoint_abs_sm this_sm = project_to<coords::sm>( target_omt );
+                            tripoint_om_sm this_sm = project_to<coords::sm>( temp_omt );
 
                             // for some reason old style spawns are submap-aligned.
                             // get all four quadrants for better distribution.
-                            std::vector<tripoint_abs_sm> local_sm_list;
+                            std::vector<tripoint_om_sm> local_sm_list;
                             local_sm_list.push_back( this_sm );
                             local_sm_list.push_back( this_sm + point::east );
                             local_sm_list.push_back( this_sm + point::south );
@@ -6493,21 +6326,11 @@ void overmap::place_mongroups()
                 // if there aren't enough roads, we'll just reuse them, re-shuffled.
                 while( desired_zombies > 0 ) {
                     std::shuffle( submap_list.begin(), submap_list.end(), rng_get_engine() );
-                    for( tripoint_abs_sm const &s : submap_list ) {
+                    for( tripoint_om_sm const &s : submap_list ) {
                         if( desired_zombies <= 0 ) {
                             break;
                         }
-                        mongroup m( GROUP_ZOMBIE, s, desired_zombies > 10 ? 10 : desired_zombies );
-
-                        // with wander_spawns (aka wandering hordes) off, these become 'normal'
-                        // zombie spawns and behave like ants, triffids, fungals, etc.
-                        // they won't try very hard to get placed in the world, so there will
-                        // probably be fewer zombies than expected.
-                        m.horde = true;
-                        if( get_option<bool>( "WANDER_SPAWNS" ) ) {
-                            m.wander( *this );
-                        }
-                        add_mon_group( m );
+                        spawn_mongroup( s, GROUP_ZOMBIE_HORDE, desired_zombies > 10 ? 10 : desired_zombies );
                         desired_zombies -= 10;
                     }
                 }
@@ -6567,12 +6390,13 @@ void overmap::place_mongroups()
     }
     if( get_option<bool>( "OVERMAP_PLACE_OCEANS" ) ) {
         // Now place ocean mongroup. Weights may need to be altered.
+        const region_settings_ocean &settings_ocean = settings->get_settings_ocean();
         const om_noise::om_noise_layer_ocean f( global_base_point(), g->get_seed() );
         const point_abs_om this_om = pos();
-        const int northern_ocean = settings->overmap_ocean.ocean_start_north;
-        const int eastern_ocean = settings->overmap_ocean.ocean_start_east;
-        const int western_ocean = settings->overmap_ocean.ocean_start_west;
-        const int southern_ocean = settings->overmap_ocean.ocean_start_south;
+        const int northern_ocean = settings_ocean.ocean_start_north;
+        const int eastern_ocean = settings_ocean.ocean_start_east;
+        const int western_ocean = settings_ocean.ocean_start_west;
+        const int southern_ocean = settings_ocean.ocean_start_south;
 
         // noise threshold adjuster for deep ocean. Increase to make deep ocean move further from the shore.
         constexpr float DEEP_OCEAN_THRESHOLD_ADJUST = 1.25;
@@ -6593,7 +6417,7 @@ void overmap::place_mongroups()
                 // It's too soon!  Too soon for an ocean!!  ABORT!!!
                 return false;
             }
-            return f.noise_at( p ) + ocean_adjust > settings->overmap_ocean.noise_threshold_ocean *
+            return f.noise_at( p ) + ocean_adjust > settings_ocean.noise_threshold_ocean *
                    DEEP_OCEAN_THRESHOLD_ADJUST;
         };
 
@@ -6682,17 +6506,18 @@ void overmap::place_radios()
 void overmap::open( overmap_special_batch &enabled_specials )
 {
     if( world_generator->active_world->has_compression_enabled() ) {
-        assure_dir_exist( PATH_INFO::world_base_save_path() / "overmaps" );
+        assure_dir_exist( PATH_INFO::current_dimension_save_path() / "overmaps" );
         const std::string terfilename = overmapbuffer::terrain_filename( loc );
         const std::filesystem::path terfilename_path = std::filesystem::u8path( terfilename );
-        const cata_path zzip_path = PATH_INFO::world_base_save_path() / "overmaps" / terfilename_path +
+        const cata_path zzip_path = PATH_INFO::current_dimension_save_path() / "overmaps" / terfilename_path
+                                    +
                                     ".zzip";
         if( file_exist( zzip_path ) ) {
-            std::shared_ptr<zzip> z = zzip::load( zzip_path.get_unrelative_path(),
-                                                  ( PATH_INFO::world_base_save_path() / "overmaps.dict" ).get_unrelative_path()
-                                                );
+            std::optional<zzip> z = zzip::load( zzip_path.get_unrelative_path(),
+                                                ( PATH_INFO::world_base_save_path() / "overmaps.dict" ).get_unrelative_path()
+                                              );
 
-            if( read_from_zzip_optional( z, terfilename_path, [this]( std::string_view sv ) {
+            if( z && read_from_zzip_optional( *z, terfilename_path, [this]( std::string_view sv ) {
             std::istringstream is{ std::string( sv ) };
             unserialize( is );
             } ) ) {
@@ -6704,7 +6529,8 @@ void overmap::open( overmap_special_batch &enabled_specials )
             }
         }
     } else {
-        const cata_path terfilename = PATH_INFO::world_base_save_path() / overmapbuffer::terrain_filename(
+        const cata_path terfilename = PATH_INFO::current_dimension_save_path() /
+                                      overmapbuffer::terrain_filename(
                                           loc );
 
         if( read_from_file_optional( terfilename, [this, &terfilename]( std::istream & is ) {
@@ -6737,12 +6563,12 @@ void overmap::save() const
     if( world_generator->active_world->has_compression_enabled() ) {
         const std::string terfilename = overmapbuffer::terrain_filename( loc );
         const std::filesystem::path terfilename_path = std::filesystem::u8path( terfilename );
-        const cata_path overmaps_folder = PATH_INFO::world_base_save_path() / "overmaps";
+        const cata_path overmaps_folder = PATH_INFO::current_dimension_save_path() / "overmaps";
         assure_dir_exist( overmaps_folder );
         const cata_path zzip_path = overmaps_folder / terfilename_path + ".zzip";
-        std::shared_ptr<zzip> z = zzip::load( zzip_path.get_unrelative_path(),
-                                              ( PATH_INFO::world_base_save_path() / "overmaps.dict" ).get_unrelative_path()
-                                            );
+        std::optional<zzip> z = zzip::load( zzip_path.get_unrelative_path(),
+                                            ( PATH_INFO::world_base_save_path() / "overmaps.dict" ).get_unrelative_path()
+                                          );
         if( !z ) {
             throw std::runtime_error(
                 string_format(
@@ -6759,9 +6585,15 @@ void overmap::save() const
             throw std::runtime_error( string_format( "Failed to save omap %d.%d to %s", loc.x(),
                                       loc.y(), zzip_path.get_unrelative_path().generic_u8string().c_str() ) );
         }
-        z->compact( 2.0 );
+        cata_path tmp_path = zzip_path + ".tmp";
+        if( z->compact_to( tmp_path.get_unrelative_path(), 2.0 ) ) {
+            z.reset();
+            rename_file( tmp_path, zzip_path );
+        }
     } else {
-        write_to_file( PATH_INFO::world_base_save_path() / overmapbuffer::terrain_filename( loc ), [&](
+        write_to_file( PATH_INFO::current_dimension_save_path() /
+                       overmapbuffer::terrain_filename(
+                           loc ), [&](
         std::ostream & stream ) {
             serialize( stream );
         } );

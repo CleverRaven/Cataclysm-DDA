@@ -696,7 +696,7 @@ static void magical_polymorph( monster &victim, Creature &caster, const spell &s
 
     // if effect_str is empty, we become a random monster of close difficulty
     if( new_id.is_empty() ) {
-        int victim_diff = victim.type->difficulty;
+        int victim_diff = victim.type->get_total_difficulty();
         const std::vector<mtype> &mtypes = MonsterGenerator::generator().get_all_mtypes();
         for( int difficulty_variance = 1; difficulty_variance < 2048; difficulty_variance *= 2 ) {
             unsigned int random_entry = rng( 0, mtypes.size() );
@@ -705,8 +705,8 @@ static void magical_polymorph( monster &victim, Creature &caster, const spell &s
                 if( iter >= mtypes.size() ) {
                     iter = 0;
                 }
-                if( ( mtypes[iter].id != victim.type->id ) && ( std::abs( mtypes[iter].difficulty - victim_diff )
-                        <= difficulty_variance ) ) {
+                if( ( mtypes[iter].id != victim.type->id ) &&
+                    ( std::abs( mtypes[iter].get_total_difficulty() - victim_diff ) <= difficulty_variance ) ) {
                     if( !mtypes[iter].in_species( species_HALLUCINATION ) &&
                         mtypes[iter].id != mon_generator ) {
                         new_id = mtypes[iter].id;
