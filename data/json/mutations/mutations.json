@@ -1100,10 +1100,10 @@
     "active": true,
     "enchantments": [
       {
-        "values": [ { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 1 }, { "value": "CONSUME_TIME_MOD", "multiply": -0.25 } ],
-    "flags": [ "NATURAL" ]
+        "values": [ { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 1 }, { "value": "CONSUME_TIME_MOD", "multiply": -0.25 } ]
       }
-    ]
+    ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
