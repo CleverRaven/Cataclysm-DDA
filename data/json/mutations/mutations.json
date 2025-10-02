@@ -328,7 +328,8 @@
     "changes_to": [ "FLEET2" ],
     "category": [ "SPIDER", "MOUSE", "RABBIT", "BIRD" ],
     "types": [ "RUNNING" ],
-    "enchantments": [ { "values": [ { "value": "MOVECOST_FLATGROUND_MOD", "multiply": -0.15 } ] } ]
+    "enchantments": [ { "values": [ { "value": "MOVECOST_FLATGROUND_MOD", "multiply": -0.15 } ] } ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -483,7 +484,8 @@
     "description": "You tend to have bouts of depression during the fall and especially winter.  Taking antidepressants can help.",
     "starting_trait": true,
     "types": [ "ATTITUDE" ],
-    "category": [ "PLANT", "ELFA", "MEDICAL" ]
+    "category": [ "PLANT", "ELFA", "MEDICAL" ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -496,7 +498,8 @@
     "types": [ "HEARING" ],
     "changes_to": [ "BATEARS" ],
     "category": [ "ALPHA", "MOUSE", "ELFA", "RABBIT", "CHIROPTERAN" ],
-    "enchantments": [ { "values": [ { "value": "HEARING_MULT", "multiply": 0.25 } ] } ]
+    "enchantments": [ { "values": [ { "value": "HEARING_MULT", "multiply": 0.25 } ] } ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -562,7 +565,8 @@
     "starting_trait": true,
     "description": "You never paid attention to your surroundings and specifically to people around you.  You can't judge the intent of critters you see.",
     "purifiable": false,
-    "valid": false
+    "valid": false,
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -583,7 +587,8 @@
       { "part": "hand_l", "neutral": 12 },
       { "part": "hand_r", "neutral": 12 },
       { "part": "torso", "neutral": 10 }
-    ]
+    ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -596,7 +601,8 @@
     "types": [ "CARDIO" ],
     "changes_to": [ "GOODCARDIO2" ],
     "category": [ "FISH", "LUPINE", "MOUSE", "INSECT", "RABBIT", "CHIROPTERAN" ],
-    "enchantments": [ { "values": [ { "value": "CARDIO_MULTIPLIER", "multiply": 0.3 } ] } ]
+    "enchantments": [ { "values": [ { "value": "CARDIO_MULTIPLIER", "multiply": 0.3 } ] } ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -620,7 +626,8 @@
     "description": "You're just generally quick!  You get a 10% bonus to action points.",
     "starting_trait": true,
     "category": [ "FISH", "BIRD", "INSECT", "TROGLOBITE", "CHIMERA", "RAPTOR", "MOUSE", "RABBIT", "CHIROPTERAN" ],
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SPEED", "multiply": 0.1 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SPEED", "multiply": 0.1 } ] } ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -682,7 +689,8 @@
     "description": "Nothing gets you down!  You savor the joys of life, ignore its hardships, and are generally happier than most people.",
     "starting_trait": true,
     "valid": false,
-    "types": [ "ATTITUDE" ]
+    "types": [ "ATTITUDE" ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -703,7 +711,8 @@
           { "value": "REGEN_HP_AWAKE", "multiply": 0.133 }
         ]
       }
-    ]
+    ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -717,7 +726,8 @@
     "types": [ "METABOLISM" ],
     "changes_to": [ "GIZZARD" ],
     "category": [ "FISH", "BIRD", "TROGLOBITE", "CHIROPTERAN", "GASTROPOD", "CEPHALOPOD", "RAPTOR" ],
-    "enchantments": [ { "values": [ { "value": "METABOLISM", "multiply": -0.333 } ] } ]
+    "enchantments": [ { "values": [ { "value": "METABOLISM", "multiply": -0.333 } ] } ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -731,7 +741,8 @@
     "starting_trait": true,
     "cancels": [ "INSOMNIA" ],
     "category": [ "MOUSE", "INSECT", "GASTROPOD", "RABBIT" ],
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SLEEPY", "add": 24 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SLEEPY", "add": 24 } ] } ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -779,7 +790,8 @@
     "starting_trait": true,
     "types": [ "PAIN" ],
     "category": [ "MEDICAL", "TROGLOBITE" ],
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "PAIN", "multiply": -0.33 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "PAIN", "multiply": -0.33 } ] } ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -806,7 +818,8 @@
       "TROGLOBITE"
     ],
     "active": true,
-    "starts_active": true
+    "starts_active": true,
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -830,7 +843,8 @@
       "CHIMERA",
       "GASTROPOD",
       "CRUSTACEAN"
-    ]
+    ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -842,7 +856,8 @@
     "enchantments": [ { "values": [ { "value": "READING_SPEED_MULTIPLIER", "multiply": -0.2 } ] } ],
     "starting_trait": true,
     "valid": false,
-    "cancels": [ "ILLITERATE", "SLOWREADER" ]
+    "cancels": [ "ILLITERATE", "SLOWREADER" ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -854,7 +869,7 @@
     "starting_trait": true,
     "types": [ "SOLES" ],
     "category": [ "GASTROPOD" ],
-    "flags": [ "TOUGH_FEET" ]
+    "flags": [ "TOUGH_FEET", "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -909,7 +924,8 @@
     "changes_to": [ "TOUGH2" ],
     "cancels": [ "FLIMSY", "FLIMSY2", "FLIMSY3" ],
     "social_modifiers": { "intimidate": 2 },
-    "enchantments": [ { "values": [ { "value": "MAX_HP", "multiply": 0.2 } ] } ]
+    "enchantments": [ { "values": [ { "value": "MAX_HP", "multiply": 0.2 } ] } ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -957,7 +973,8 @@
     "enchantments": [ { "values": [ { "value": "OBTAIN_COST_MULTIPLIER", "multiply": -0.1 } ] } ],
     "starting_trait": true,
     "valid": false,
-    "cancels": [ "DISORGANIZED" ]
+    "cancels": [ "DISORGANIZED" ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -969,7 +986,8 @@
     "starting_trait": true,
     "valid": false,
     "cancels": [ "BADBACK" ],
-    "enchantments": [ { "values": [ { "value": "CARRY_WEIGHT", "multiply": 0.35 } ] } ]
+    "enchantments": [ { "values": [ { "value": "CARRY_WEIGHT", "multiply": 0.35 } ] } ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -980,7 +998,8 @@
     "starting_trait": true,
     "valid": false,
     "cancels": [ "SLOWLEARNER" ],
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "LEARNING_FOCUS", "multiply": 0.15 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "LEARNING_FOCUS", "multiply": 0.15 } ] } ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -1003,7 +1022,8 @@
     "starting_trait": true,
     "enchantments": [ { "values": [ { "value": "VOMIT_MUL", "multiply": -0.5 } ] } ],
     "types": [ "CONSTITUTION" ],
-    "//": "nope.  This does NOT lead to EATPOISON.  Stomach problems are part of the GI upgrades--one advantage to not having Robust Genetics."
+    "//": "nope.  This does NOT lead to EATPOISON.  Stomach problems are part of the GI upgrades--one advantage to not having Robust Genetics.",
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -1030,7 +1050,8 @@
     "enchantments": [ { "values": [ { "value": "SKILL_RUST_RESIST", "multiply": -0.34 } ] } ],
     "starting_trait": true,
     "valid": false,
-    "cancels": [ "FORGETFUL" ]
+    "cancels": [ "FORGETFUL" ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -1040,7 +1061,8 @@
     "vitamin_cost": 60,
     "description": "While you're not any better at melee combat, you are better at recovering from a miss, and will be able to attempt another strike faster.",
     "starting_trait": true,
-    "category": [ "BIRD", "BEAST", "RAPTOR", "FELINE" ]
+    "category": [ "BIRD", "BEAST", "RAPTOR", "FELINE" ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -1051,7 +1073,7 @@
     "starting_trait": true,
     "social_modifiers": { "persuade": 5 },
     "valid": false,
-    "flags": [ "SPIRITUAL" ]
+    "flags": [ "SPIRITUAL", "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -1063,7 +1085,8 @@
     "starting_trait": true,
     "leads_to": [ "ALCMET" ],
     "category": [ "TROGLOBITE", "RAPTOR", "RAT", "CHIMERA", "BATRACHIAN", "CRUSTACEAN" ],
-    "cancels": [ "LIGHTWEIGHT" ]
+    "cancels": [ "LIGHTWEIGHT" ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -1080,7 +1103,8 @@
       {
         "values": [ { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 1 }, { "value": "CONSUME_TIME_MOD", "multiply": -0.25 } ]
       }
-    ]
+    ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -1091,7 +1115,8 @@
     "description": "Either as the result of a lifesaving surgery, or as a congenital defect, your stomach is much smaller than usual.  You'll have to eat your food in small servings during the day, rather than one or two large daily meals.",
     "starting_trait": true,
     "active": false,
-    "enchantments": [ { "values": [ { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": -0.7 } ] } ]
+    "enchantments": [ { "values": [ { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": -0.7 } ] } ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -1100,7 +1125,8 @@
     "points": 1,
     "description": "There's nothing quite like the smell of a good book!  Books are more fun (or less boring) for you!",
     "valid": false,
-    "cancels": [ "ILLITERATE", "HATES_BOOKS" ]
+    "cancels": [ "ILLITERATE", "HATES_BOOKS" ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -1111,7 +1137,8 @@
     "description": "Whether due to a lifetime of exposure or through simple willpower, it's harder for you to become addicted to substances, and easier to rid yourself of these addictions.",
     "starting_trait": true,
     "category": [ "BATRACHIAN" ],
-    "cancels": [ "ADDICTIVE" ]
+    "cancels": [ "ADDICTIVE" ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -1147,7 +1174,8 @@
     "starting_trait": true,
     "types": [ "ANIMAL_EMPATHY" ],
     "category": [ "BEAST", "INSECT", "CHIMERA", "CRUSTACEAN" ],
-    "social_modifiers": { "intimidate": 15 }
+    "social_modifiers": { "intimidate": 15 },
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -1158,7 +1186,8 @@
     "description": "It's very unlikely that you will catch ambient diseases like the cold or flu.",
     "starting_trait": true,
     "changes_to": [ "DISIMMUNE" ],
-    "category": [ "CATTLE", "RAT", "MEDICAL", "PLANT", "SLIME", "TROGLOBITE", "CHIMERA", "CHIROPTERAN" ]
+    "category": [ "CATTLE", "RAT", "MEDICAL", "PLANT", "SLIME", "TROGLOBITE", "CHIMERA", "CHIROPTERAN" ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -1199,7 +1228,8 @@
     "types": [ "SLEEP" ],
     "starting_trait": true,
     "category": [ "ALPHA", "ELFA", "PLANT", "BATRACHIAN" ],
-    "enchantments": [ { "values": [ { "value": "SLEEPINESS", "multiply": -0.15 } ] } ]
+    "enchantments": [ { "values": [ { "value": "SLEEPINESS", "multiply": -0.15 } ] } ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -1234,7 +1264,8 @@
     "starting_trait": true,
     "cancels": [ "CLUMSY" ],
     "category": [ "BIRD", "ELFA", "FELINE", "CHIROPTERAN" ],
-    "enchantments": [ { "values": [ { "value": "FOOTSTEP_NOISE", "multiply": -0.6 } ] } ]
+    "enchantments": [ { "values": [ { "value": "FOOTSTEP_NOISE", "multiply": -0.6 } ] } ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -1304,7 +1335,8 @@
     "starting_trait": true,
     "category": [ "BIRD", "MOUSE", "CEPHALOPOD" ],
     "cancels": [ "UNOBSERVANT" ],
-    "enchantments": [ { "condition": "is_day", "values": [ { "value": "OVERMAP_SIGHT", "add": 5 } ] } ]
+    "enchantments": [ { "condition": "is_day", "values": [ { "value": "OVERMAP_SIGHT", "add": 5 } ] } ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -1315,7 +1347,8 @@
     "valid": false,
     "starting_trait": true,
     "cancels": [ "EAGLEEYED" ],
-    "enchantments": [ { "values": [ { "value": "OVERMAP_SIGHT", "add": -10 } ] } ]
+    "enchantments": [ { "values": [ { "value": "OVERMAP_SIGHT", "add": -10 } ] } ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -1327,7 +1360,7 @@
     "chargen_allow_npc": false,
     "valid": false,
     "cancels": [ "VEGETARIAN", "VEGAN", "HERBIVORE", "RUMINANT", "GRAZER" ],
-    "flags": [ "CANNIBAL" ]
+    "flags": [ "CANNIBAL", "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -1339,7 +1372,7 @@
     "chargen_allow_npc": false,
     "valid": false,
     "cancels": [ "VEGETARIAN", "VEGAN", "HERBIVORE", "RUMINANT", "GRAZER", "CANNIBAL" ],
-    "flags": [ "STRICT_HUMANITARIAN" ]
+    "flags": [ "STRICT_HUMANITARIAN", "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -1352,7 +1385,7 @@
     "valid": false,
     "social_modifiers": { "lie": -5, "persuade": -5 },
     "types": [ "HUMAN_EMPATHY" ],
-    "flags": [ "PSYCHOPATH" ]
+    "flags": [ "PSYCHOPATH", "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -1362,7 +1395,8 @@
     "description": "You have received some martial arts training at a local dojo.  You start with your choice of Karate, Judo, Aikido, Tai Chi, Taekwondo, or Pankration.",
     "player_display": false,
     "initial_ma_styles": [ "style_karate", "style_judo", "style_aikido", "style_tai_chi", "style_taekwondo", "style_pankration" ],
-    "valid": false
+    "valid": false,
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -1381,7 +1415,8 @@
       "style_kickboxing",
       "style_boxing"
     ],
-    "valid": false
+    "valid": false,
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -1391,7 +1426,8 @@
     "description": "You have studied the arts of the Shaolin monks.  You start with one of the five animal fighting styles: Tiger, Crane, Leopard, Snake, or Dragon.",
     "player_display": false,
     "initial_ma_styles": [ "style_tiger", "style_crane", "style_leopard", "style_snake", "style_dragon" ],
-    "valid": false
+    "valid": false,
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -1411,7 +1447,8 @@
       "style_swordsmanship",
       "style_medievalpole"
     ],
-    "valid": false
+    "valid": false,
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -1420,7 +1457,8 @@
     "points": 0,
     "description": "You were an avid fencer, starting with foil and moving onto saber, then épée.  You competed nationally and dabbled with some of the historical fencing weapons afforded by HEMA's popularity.",
     "initial_ma_styles": [ "style_fencing" ],
-    "valid": false
+    "valid": false,
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -1432,7 +1470,8 @@
     "starting_trait": true,
     "category": [ "ALPHA" ],
     "scent_intensity": 300,
-    "types": [ "SCENT" ]
+    "types": [ "SCENT" ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -1441,7 +1480,8 @@
     "points": 1,
     "description": "You have no qualms about bending the truth, and have practically no tells.  Telling lies and otherwise bluffing will be much easier for you.",
     "cancels": [ "TRUTHTELLER" ],
-    "social_modifiers": { "lie": 40 }
+    "social_modifiers": { "lie": 40 },
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -1453,7 +1493,8 @@
     "starting_trait": true,
     "player_display": false,
     "valid": false,
-    "cancels": [ "XXXL" ]
+    "cancels": [ "XXXL" ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -1465,7 +1506,8 @@
     "starting_trait": true,
     "player_display": false,
     "valid": false,
-    "cancels": [ "XS" ]
+    "cancels": [ "XS" ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -1479,7 +1521,8 @@
     "starting_trait": true,
     "types": [ "ATTRACTIVENESS" ],
     "category": [ "ALPHA", "ELFA" ],
-    "changes_to": [ "BEAUTIFUL" ]
+    "changes_to": [ "BEAUTIFUL" ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -1490,7 +1533,8 @@
     "starting_trait": true,
     "cancels": [ "STRONGKNEES", "REALLYBADKNEES" ],
     "valid": false,
-    "enchantments": [ { "values": [ { "value": "MOVECOST_OBSTACLE_MOD", "multiply": 0.25 } ] } ]
+    "enchantments": [ { "values": [ { "value": "MOVECOST_OBSTACLE_MOD", "multiply": 0.25 } ] } ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -1501,7 +1545,8 @@
     "starting_trait": true,
     "cancels": [ "STRONGKNEES", "BADKNEES" ],
     "valid": false,
-    "enchantments": [ { "values": [ { "value": "MOVECOST_OBSTACLE_MOD", "multiply": 2.5 } ] } ]
+    "enchantments": [ { "values": [ { "value": "MOVECOST_OBSTACLE_MOD", "multiply": 2.5 } ] } ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -1522,7 +1567,8 @@
     "starting_trait": true,
     "valid": false,
     "types": [ "CARDIO" ],
-    "enchantments": [ { "values": [ { "value": "CARDIO_MULTIPLIER", "multiply": -0.3 } ] } ]
+    "enchantments": [ { "values": [ { "value": "CARDIO_MULTIPLIER", "multiply": -0.3 } ] } ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -1534,7 +1580,7 @@
     "starting_trait": true,
     "cancels": [ "URSINE_EYE", "MESOPIC" ],
     "category": [ "BEAST" ],
-    "flags": [ "MYOPIC" ]
+    "flags": [ "MYOPIC", "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -1544,7 +1590,8 @@
     "description": "Your wounds heal a little slower than most.  Your HP whilst asleep, as well as your broken limbs, heal at 75% of the regular rate.",
     "starting_trait": true,
     "types": [ "HEALING" ],
-    "enchantments": [ { "values": [ { "value": "MENDING_MODIFIER", "multiply": -0.25 }, { "value": "REGEN_HP", "multiply": -0.25 } ] } ]
+    "enchantments": [ { "values": [ { "value": "MENDING_MODIFIER", "multiply": -0.25 }, { "value": "REGEN_HP", "multiply": -0.25 } ] } ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -1556,7 +1603,8 @@
     "valid": false,
     "purifiable": false,
     "types": [ "HEALING" ],
-    "enchantments": [ { "values": [ { "value": "MENDING_MODIFIER", "multiply": -0.67 }, { "value": "REGEN_HP", "multiply": -0.67 } ] } ]
+    "enchantments": [ { "values": [ { "value": "MENDING_MODIFIER", "multiply": -0.67 }, { "value": "REGEN_HP", "multiply": -0.67 } ] } ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -1568,7 +1616,8 @@
     "valid": false,
     "purifiable": false,
     "types": [ "HEALING" ],
-    "enchantments": [ { "values": [ { "value": "MENDING_MODIFIER", "multiply": -0.9 }, { "value": "REGEN_HP", "multiply": -0.9 } ] } ]
+    "enchantments": [ { "values": [ { "value": "MENDING_MODIFIER", "multiply": -0.9 }, { "value": "REGEN_HP", "multiply": -0.9 } ] } ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -1590,7 +1639,7 @@
     "description": "Without reading glasses, you are unable to read anything, and take penalties on melee accuracy and electronics/tailoring crafting.  However, you are guaranteed to start with a pair of reading glasses.",
     "starting_trait": true,
     "cancels": [ "MESOPIC" ],
-    "flags": [ "HYPEROPIC" ]
+    "flags": [ "HYPEROPIC", "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -1601,7 +1650,8 @@
     "description": "You're quite the heavy sleeper.  Noises are unlikely to wake you up.",
     "changes_to": [ "HEAVYSLEEPER2" ],
     "starting_trait": true,
-    "category": [ "INSECT", "PLANT", "MEDICAL", "LUPINE", "BEAST", "URSINE" ]
+    "category": [ "INSECT", "PLANT", "MEDICAL", "LUPINE", "BEAST", "URSINE" ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -1614,7 +1664,8 @@
     "starting_trait": true,
     "types": [ "SLEEP" ],
     "category": [ "BEAST", "CHIMERA", "MOUSE", "RABBIT", "FELINE", "RAT" ],
-    "enchantments": [ { "values": [ { "value": "SLEEPINESS_REGEN", "multiply": 0.333 }, { "value": "SLEEPINESS", "multiply": 0.333 } ] } ]
+    "enchantments": [ { "values": [ { "value": "SLEEPINESS_REGEN", "multiply": 0.333 }, { "value": "SLEEPINESS", "multiply": 0.333 } ] } ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -1624,7 +1675,8 @@
     "description": "You will occasionally need to use an inhaler, or else suffer severe physical limitations.  However, you are guaranteed to start with an inhaler.",
     "social_modifiers": { "intimidate": -2 },
     "starting_trait": true,
-    "valid": false
+    "valid": false,
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -1636,7 +1688,8 @@
     "starting_trait": true,
     "category": [ "BIRD", "ELFA" ],
     "cancels": [ "STRONGBACK" ],
-    "enchantments": [ { "values": [ { "value": "CARRY_WEIGHT", "multiply": -0.35 } ] } ]
+    "enchantments": [ { "values": [ { "value": "CARRY_WEIGHT", "multiply": -0.35 } ] } ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -1647,7 +1700,8 @@
     "description": "Things just keep getting you down.  You tend to be unhappy, and it takes some doing to cheer you up.",
     "starting_trait": true,
     "types": [ "ATTITUDE" ],
-    "category": [ "URSINE", "LIZARD", "CHIMERA", "ALPHA" ]
+    "category": [ "URSINE", "LIZARD", "CHIMERA", "ALPHA" ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -1657,7 +1711,8 @@
     "description": "You are terrible at organizing and storing your possessions.  You retrieve things from containers 10% slower.",
     "enchantments": [ { "values": [ { "value": "OBTAIN_COST_MULTIPLIER", "multiply": 0.1 } ] } ],
     "valid": false,
-    "cancels": [ "PACKMULE" ]
+    "cancels": [ "PACKMULE" ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -1667,7 +1722,8 @@
     "description": "You never learned to read!  Books and computers are off-limits to you.",
     "starting_trait": true,
     "valid": false,
-    "cancels": [ "FASTREADER", "SLOWREADER", "PROF_DICEMASTER", "LOVES_BOOKS", "HATES_BOOKS" ]
+    "cancels": [ "FASTREADER", "SLOWREADER", "PROF_DICEMASTER", "LOVES_BOOKS", "HATES_BOOKS" ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -1680,7 +1736,8 @@
     "types": [ "HEARING" ],
     "category": [ "PLANT", "GASTROPOD" ],
     "changes_to": [ "DEAF" ],
-    "enchantments": [ { "values": [ { "value": "HEARING_MULT", "multiply": -0.5 } ] } ]
+    "enchantments": [ { "values": [ { "value": "HEARING_MULT", "multiply": -0.5 } ] } ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -1692,7 +1749,7 @@
     "types": [ "HEARING" ],
     "prereqs": [ "BADHEARING" ],
     "enchantments": [ { "values": [ { "value": "HEARING_MULT", "multiply": -1 } ] } ],
-    "flags": [ "DEAF" ]
+    "flags": [ "DEAF", "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -1703,7 +1760,8 @@
     "starting_trait": true,
     "valid": false,
     "cancels": [ "FASTLEARNER" ],
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "LEARNING_FOCUS", "multiply": -0.15 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "LEARNING_FOCUS", "multiply": -0.15 } ] } ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -1715,7 +1773,8 @@
     "types": [ "SLEEPINESS" ],
     "starting_trait": true,
     "category": [ "MEDICAL", "ALPHA" ],
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SLEEPY", "add": -12 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SLEEPY", "add": -12 } ] } ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -1729,7 +1788,8 @@
     "types": [ "DIET" ],
     "cancels": [ "CANNIBAL", "STRICT_HUMANITARIAN", "VEGAN" ],
     "changes_to": [ "HERBIVORE" ],
-    "category": [ "CATTLE", "RABBIT" ]
+    "category": [ "CATTLE", "RABBIT" ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -1751,7 +1811,8 @@
     "valid": false,
     "starting_trait": true,
     "vitamins_absorb_multi": [ [ "veggy", [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ] ] ],
-    "cancels": [ "HERBIVORE", "RUMINANT", "GRAZER" ]
+    "cancels": [ "HERBIVORE", "RUMINANT", "GRAZER" ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -1760,7 +1821,8 @@
     "points": -1,
     "description": "Reading is for nerds!  Boring books are more boring, and you can't have fun by reading books.",
     "valid": false,
-    "cancels": [ "ILLITERATE", "LOVES_BOOKS" ]
+    "cancels": [ "ILLITERATE", "LOVES_BOOKS" ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -1771,7 +1833,8 @@
     "valid": false,
     "starting_trait": true,
     "vitamins_absorb_multi": [ [ "fruit", [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ] ] ],
-    "cancels": [ "HERBIVORE", "RUMINANT", "GRAZER" ]
+    "cancels": [ "HERBIVORE", "RUMINANT", "GRAZER" ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -1780,7 +1843,8 @@
     "points": -1,
     "description": "You, like 75 percent of the world, cannot tolerate milk or milk based products.  It's possible for you to eat them, but you will suffer morale penalties and obtain less nutrition from them.",
     "vitamins_absorb_multi": [ [ "milk", [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ] ] ],
-    "starting_trait": true
+    "starting_trait": true,
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -1792,7 +1856,8 @@
     "starting_trait": true,
     "cancels": [ "PROJUNK" ],
     "vitamins_absorb_multi": [ [ "junk", [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ] ] ],
-    "category": [ "RAPTOR", "ALPHA", "ELFA", "RABBIT", "GASTROPOD", "CHIROPTERAN" ]
+    "category": [ "RAPTOR", "ALPHA", "ELFA", "RABBIT", "GASTROPOD", "CHIROPTERAN" ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -1804,7 +1869,8 @@
     "vitamins_absorb_multi": [ [ "wheat", [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ] ] ],
     "starting_trait": true,
     "//": "Add Lupine to category in a followup PR",
-    "category": [ "CHIROPTERAN" ]
+    "category": [ "CHIROPTERAN" ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -1816,7 +1882,8 @@
     "starting_trait": true,
     "cancels": [ "ANTIJUNK" ],
     "changes_to": [ "PROJUNK2" ],
-    "category": [ "MOUSE", "INSECT" ]
+    "category": [ "MOUSE", "INSECT" ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -1841,7 +1908,8 @@
     "description": "Your head can't take much abuse.  Its maximum HP is 20% lower than usual.  Your apparent fragility makes you less intimidating.",
     "starting_trait": true,
     "social_modifiers": { "intimidate": -2 },
-    "category": [ "BIRD", "RAPTOR" ]
+    "category": [ "BIRD", "RAPTOR" ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -1855,7 +1923,8 @@
     "mixed_effect": true,
     "enchantments": [ { "values": [ { "value": "SKILL_RUST_RESIST", "multiply": 0.33 } ] } ],
     "starting_trait": true,
-    "category": [ "BEAST", "MEDICAL", "CHIMERA", "MOUSE", "INSECT", "RABBIT" ]
+    "category": [ "BEAST", "MEDICAL", "CHIMERA", "MOUSE", "INSECT", "RABBIT" ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -1866,7 +1935,8 @@
     "description": "Alcohol and drugs go straight to your head.  You suffer the negative effects of these for longer.",
     "starting_trait": true,
     "category": [ "MEDICAL", "INSECT" ],
-    "cancels": [ "TOLERANCE" ]
+    "cancels": [ "TOLERANCE" ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -1877,7 +1947,8 @@
     "description": "It's easier for you to become addicted to substances, and harder to rid yourself of these addictions.",
     "starting_trait": true,
     "category": [ "MEDICAL" ],
-    "cancels": [ "NONADDICTIVE" ]
+    "cancels": [ "NONADDICTIVE" ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -1903,7 +1974,8 @@
       "INSECT",
       "CATTLE",
       "CRUSTACEAN"
-    ]
+    ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -1914,7 +1986,8 @@
     "description": "You suffer from a minor chemical imbalance, whether mental or physical.  Minor changes to your internal chemistry will manifest themselves on occasion, such as hunger, sleepiness, narcotic effects, etc.",
     "starting_trait": true,
     "chargen_allow_npc": false,
-    "category": [ "SLIME", "MEDICAL", "CHIMERA", "ELFA" ]
+    "category": [ "SLIME", "MEDICAL", "CHIMERA", "ELFA" ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -1949,7 +2022,8 @@
     "enchantments": [ { "values": [ { "value": "READING_SPEED_MULTIPLIER", "multiply": 0.3 } ] } ],
     "starting_trait": true,
     "valid": false,
-    "cancels": [ "FASTREADER", "ILLITERATE" ]
+    "cancels": [ "FASTREADER", "ILLITERATE" ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -1971,7 +2045,8 @@
     "description": "You randomly fall asleep without any reason.",
     "starting_trait": true,
     "chargen_allow_npc": false,
-    "category": [ "MEDICAL" ]
+    "category": [ "MEDICAL" ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -1983,7 +2058,8 @@
     "starting_trait": true,
     "category": [ "CRUSTACEAN" ],
     "cancels": [ "LIGHTSTEP" ],
-    "enchantments": [ { "values": [ { "value": "FOOTSTEP_NOISE", "multiply": 0.7 } ] } ]
+    "enchantments": [ { "values": [ { "value": "FOOTSTEP_NOISE", "multiply": 0.7 } ] } ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -1993,7 +2069,8 @@
     "vitamin_cost": 160,
     "description": "When very hungry or under the effects of stimulants, you may find your hands shaking uncontrollably, severely reducing your Dexterity.",
     "starting_trait": true,
-    "category": [ "MEDICAL", "MOUSE", "RABBIT" ]
+    "category": [ "MEDICAL", "MOUSE", "RABBIT" ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -2002,7 +2079,8 @@
     "points": -4,
     "description": "You don't feel right unless you're carrying as much as you can.  You suffer morale penalties for carrying less than maximum volume (weight is ignored).  Xanax can help control this anxiety.",
     "starting_trait": true,
-    "valid": false
+    "valid": false,
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -2011,7 +2089,8 @@
     "points": -4,
     "description": "You tend to specialize in one skill and be poor at all others.  You advance at half speed in all skills except your best one.  Note that combining this with Fast Learner will come out to a slower rate of learning for all skills.",
     "starting_trait": true,
-    "valid": false
+    "valid": false,
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -2022,7 +2101,8 @@
     "starting_trait": true,
     "social_modifiers": { "intimidate": -10 },
     "valid": false,
-    "types": [ "HUMAN_EMPATHY", "PREDATION" ]
+    "types": [ "HUMAN_EMPATHY", "PREDATION" ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -2032,7 +2112,8 @@
     "vitamin_cost": 60,
     "description": "Your morale will shift up and down at random, often dramatically.",
     "starting_trait": true,
-    "category": [ "MEDICAL", "ELFA" ]
+    "category": [ "MEDICAL", "ELFA" ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -2042,7 +2123,8 @@
     "description": "You can't move as fast as most, resulting in a 15% speed penalty on flat ground.",
     "starting_trait": true,
     "types": [ "RUNNING" ],
-    "enchantments": [ { "values": [ { "value": "MOVECOST_FLATGROUND_MOD", "multiply": 0.15 } ] } ]
+    "enchantments": [ { "values": [ { "value": "MOVECOST_FLATGROUND_MOD", "multiply": 0.15 } ] } ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -2068,7 +2150,8 @@
       "CHIMERA",
       "GASTROPOD",
       "CRUSTACEAN"
-    ]
+    ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -2077,7 +2160,8 @@
     "points": -1,
     "description": "You are badly allergic to wool, and cannot wear any clothing made of the substance.",
     "starting_trait": true,
-    "valid": true
+    "valid": true,
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -2088,7 +2172,8 @@
     "starting_trait": true,
     "valid": false,
     "types": [ "DIET" ],
-    "cancels": [ "CANNIBAL", "STRICT_HUMANITARIAN", "VEGETARIAN" ]
+    "cancels": [ "CANNIBAL", "STRICT_HUMANITARIAN", "VEGETARIAN" ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -2098,7 +2183,8 @@
     "description": "When you try to tell a lie, you blush, stammer, and get all shifty-eyed.  Telling lies and otherwise bluffing will be much more difficult for you.",
     "starting_trait": true,
     "cancels": [ "LIAR" ],
-    "social_modifiers": { "lie": -40 }
+    "social_modifiers": { "lie": -40 },
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -2132,7 +2218,8 @@
       "CRUSTACEAN",
       "CHIROPTERAN"
     ],
-    "cancels": [ "VANITY" ]
+    "cancels": [ "VANITY" ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -2144,7 +2231,7 @@
     "starting_trait": true,
     "changes_to": [ "SUNBURN" ],
     "category": [ "TROGLOBITE", "MOUSE", "RABBIT" ],
-    "flags": [ "ALBINO" ],
+    "flags": [ "ALBINO", "NATURAL" ],
     "types": [ "skin_tone" ]
   },
   {
@@ -2160,7 +2247,8 @@
     "category": [ "MOUSE", "ELFA", "RABBIT", "CHIROPTERAN" ],
     "changes_to": [ "FLIMSY2" ],
     "cancels": [ "TOUGH", "TOUGH2", "TOUGH3" ],
-    "enchantments": [ { "values": [ { "value": "MAX_HP", "multiply": -0.25 } ] } ]
+    "enchantments": [ { "values": [ { "value": "MAX_HP", "multiply": -0.25 } ] } ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -2176,7 +2264,8 @@
     "prereqs": [ "FLIMSY" ],
     "changes_to": [ "FLIMSY3" ],
     "cancels": [ "TOUGH", "TOUGH2", "TOUGH3" ],
-    "enchantments": [ { "values": [ { "value": "MAX_HP", "multiply": -0.5 } ] } ]
+    "enchantments": [ { "values": [ { "value": "MAX_HP", "multiply": -0.5 } ] } ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -2191,7 +2280,8 @@
     "types": [ "DURABILITY" ],
     "prereqs": [ "FLIMSY2" ],
     "cancels": [ "TOUGH", "TOUGH2", "TOUGH3" ],
-    "enchantments": [ { "values": [ { "value": "MAX_HP", "multiply": -0.75 } ] } ]
+    "enchantments": [ { "values": [ { "value": "MAX_HP", "multiply": -0.75 } ] } ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -2219,7 +2309,8 @@
     "description": "It's subtle, but your skin has definitely taken on a sickly yellow-green hue.",
     "types": [ "SKIN", "BODY_ARMOR", "ARMOR", "BODY_ARMOR_MOD" ],
     "changes_to": [ "PLANTSKIN" ],
-    "category": [ "PLANT", "ELFA" ]
+    "category": [ "PLANT", "ELFA" ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -2245,7 +2336,8 @@
     "description": "You've developed a persistent skin rash.  Sometimes it's fine, other times it itches like hell.",
     "types": [ "SKIN", "BODY_ARMOR", "ARMOR", "BODY_ARMOR_MOD" ],
     "changes_to": [ "PATCHSKIN1" ],
-    "category": [ "CHIMERA" ]
+    "category": [ "CHIMERA" ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -2256,7 +2348,8 @@
     "description": "Your body hair is growing in thicker than it used to.  It's almost like you're going through a second puberty or something.",
     "types": [ "SKIN", "BODY_ARMOR", "ARMOR", "BODY_ARMOR_MOD" ],
     "changes_to": [ "LIGHTFUR" ],
-    "category": [ "MOUSE", "BEAST", "CATTLE", "RAT", "FELINE", "LUPINE", "RABBIT", "URSINE", "CHIROPTERAN" ]
+    "category": [ "MOUSE", "BEAST", "CATTLE", "RAT", "FELINE", "LUPINE", "RABBIT", "URSINE", "CHIROPTERAN" ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -2457,7 +2550,7 @@
     "starting_trait": true,
     "cancels": [ "MYOPIC", "HYPEROPIC" ],
     "category": [ "CHIROPTERAN", "TROGLOBITE" ],
-    "flags": [ "MYOPIC_IN_LIGHT" ]
+    "flags": [ "MYOPIC_IN_LIGHT", "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -4124,7 +4217,8 @@
     "description": "Your immune system is particularly good at resisting infections.  You have an increased chance for bad wounds and infections to heal on their own, and only suffer reduced penalties from them.",
     "starting_trait": true,
     "changes_to": [ "INFIMMUNE" ],
-    "category": [ "TROGLOBITE", "RAT", "MEDICAL", "GASTROPOD", "CHIMERA", "SLIME" ]
+    "category": [ "TROGLOBITE", "RAT", "MEDICAL", "GASTROPOD", "CHIMERA", "SLIME" ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -4146,7 +4240,8 @@
     "vitamin_cost": 60,
     "starting_trait": true,
     "description": "You tend to get hay fever, especially in springtime.  Antihistamines are your friend.",
-    "category": [ "CHIMERA", "BEAST" ]
+    "category": [ "CHIMERA", "BEAST" ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -5241,7 +5336,8 @@
     "types": [ "PAIN_RECOVERY" ],
     "description": "You recover from pain slightly faster than normal.",
     "changes_to": [ "PAINREC2" ],
-    "category": [ "MEDICAL" ]
+    "category": [ "MEDICAL" ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "effect_on_condition",
@@ -5360,7 +5456,8 @@
     "//": "The MORE_PAIN mutations will always increase the pain you receive by at least 1.",
     "changes_to": [ "MORE_PAIN2" ],
     "category": [ "CEPHALOPOD" ],
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "PAIN", "multiply": 0.25 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "PAIN", "multiply": 0.25 } ] } ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -6135,7 +6232,8 @@
       "URSINE",
       "CRUSTACEAN"
     ],
-    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 1 } ] } ]
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 1 } ] } ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -6148,7 +6246,8 @@
     "prereqs": [ "STR_UP" ],
     "changes_to": [ "STR_UP_3", "STR_ALPHA" ],
     "category": [ "LIZARD", "CATTLE", "PLANT", "ALPHA", "CHIMERA", "LUPINE", "TROGLOBITE", "BEAST", "URSINE", "CRUSTACEAN" ],
-    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 2 } ] } ]
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 2 } ] } ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -6226,7 +6325,8 @@
       "CEPHALOPOD",
       "FISH"
     ],
-    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 1 } ] } ]
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 1 } ] } ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -6253,7 +6353,8 @@
       "ALPHA",
       "CHIROPTERAN"
     ],
-    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 2 } ] } ]
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 2 } ] } ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -6305,7 +6406,8 @@
     "types": [ "INT" ],
     "changes_to": [ "INT_UP_2", "INT_SLIME" ],
     "category": [ "SLIME", "ALPHA", "ELFA", "CEPHALOPOD" ],
-    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": 1 } ] } ]
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": 1 } ] } ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -6318,7 +6420,8 @@
     "prereqs": [ "INT_UP" ],
     "changes_to": [ "INT_UP_3", "INT_ALPHA" ],
     "category": [ "CEPHALOPOD", "ALPHA" ],
-    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": 2 } ] } ]
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": 2 } ] } ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -6403,7 +6506,8 @@
     "types": [ "PER" ],
     "changes_to": [ "PER_UP_2" ],
     "category": [ "ALPHA", "CHIMERA", "BATRACHIAN", "ELFA", "RAPTOR", "BIRD", "SLIME", "SPIDER" ],
-    "enchantments": [ { "values": [ { "value": "PERCEPTION", "add": 1 } ] } ]
+    "enchantments": [ { "values": [ { "value": "PERCEPTION", "add": 1 } ] } ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -6416,7 +6520,8 @@
     "prereqs": [ "PER_UP" ],
     "changes_to": [ "PER_UP_3", "PER_ALPHA" ],
     "category": [ "ALPHA", "CHIMERA", "BATRACHIAN", "ELFA", "RAPTOR", "BIRD", "SPIDER" ],
-    "enchantments": [ { "values": [ { "value": "PERCEPTION", "add": 2 } ] } ]
+    "enchantments": [ { "values": [ { "value": "PERCEPTION", "add": 2 } ] } ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -6522,7 +6627,7 @@
   {
     "type": "mutation",
     "id": "VERY_SHORT",
-    "flags": [ "SMALL" ],
+    "flags": [ "SMALL", "NATURAL" ],
     "name": { "str": "Very Short" },
     "points": 0,
     "vitamin_cost": 175,
@@ -6546,7 +6651,7 @@
   {
     "type": "mutation",
     "id": "VERY_TALL",
-    "flags": [ "LARGE" ],
+    "flags": [ "LARGE", "NATURAL" ],
     "name": { "str": "Very Tall" },
     "points": 0,
     "vitamin_cost": 175,
@@ -6887,7 +6992,8 @@
     "description": "Your skin is rather pale.",
     "changes_to": [ "ALBINO" ],
     "category": [ "LUPINE", "TROGLOBITE", "MOUSE", "RABBIT", "BEAST" ],
-    "types": [ "skin_tone" ]
+    "types": [ "skin_tone" ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -6899,7 +7005,8 @@
     "ugliness": 2,
     "description": "Your skin is covered in a pattern of red spots.",
     "changes_to": [ "SORES" ],
-    "category": [ "BATRACHIAN", "SLIME" ]
+    "category": [ "BATRACHIAN", "SLIME" ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -6914,7 +7021,8 @@
     "types": [ "SCENT" ],
     "prereqs": [ "SMELLY" ],
     "leads_to": [ "PHEROMONE_INSECT", "PHEROMONE_MAMMAL", "PHEROMONE_AMPHIBIAN" ],
-    "category": [ "FISH", "BEAST", "SLIME", "CHIMERA", "URSINE", "BATRACHIAN", "INSECT", "CATTLE", "CRUSTACEAN" ]
+    "category": [ "FISH", "BEAST", "SLIME", "CHIMERA", "URSINE", "BATRACHIAN", "INSECT", "CATTLE", "CRUSTACEAN" ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -6989,7 +7097,8 @@
     "prereqs": [ "PRETTY" ],
     "changes_to": [ "BEAUTIFUL2" ],
     "leads_to": [ "VANITY" ],
-    "category": [ "ALPHA", "ELFA" ]
+    "category": [ "ALPHA", "ELFA" ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -7212,7 +7321,8 @@
           { "value": "CARRY_WEIGHT", "multiply": -0.4 }
         ]
       }
-    ]
+    ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -7236,7 +7346,8 @@
         ]
       }
     ],
-    "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "bash": 2 } ]
+    "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "bash": 2 } ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -7263,7 +7374,8 @@
       "GASTROPOD",
       "CRUSTACEAN"
     ],
-    "active": true
+    "active": true,
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -7290,7 +7402,8 @@
       "GASTROPOD",
       "CRUSTACEAN"
     ],
-    "active": true
+    "active": true,
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -7329,7 +7442,8 @@
     "types": [ "METABOLISM" ],
     "changes_to": [ "HUNGER2", "MET_RAT" ],
     "category": [ "RAT", "ALPHA", "MEDICAL", "ELFA", "BEAST", "SLIME", "RAPTOR", "CHIMERA", "MOUSE", "RABBIT" ],
-    "enchantments": [ { "values": [ { "value": "STAMINA_REGEN_MOD", "add": 0.1 }, { "value": "METABOLISM", "multiply": 0.5 } ] } ]
+    "enchantments": [ { "values": [ { "value": "STAMINA_REGEN_MOD", "add": 0.1 }, { "value": "METABOLISM", "multiply": 0.5 } ] } ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -7391,7 +7505,8 @@
     "types": [ "THIRST" ],
     "changes_to": [ "THIRST2" ],
     "category": [ "SLIME", "CEPHALOPOD", "CHIMERA", "ELFA", "GASTROPOD", "FISH", "BATRACHIAN", "CRUSTACEAN" ],
-    "enchantments": [ { "values": [ { "value": "THIRST", "multiply": 0.5 } ] } ]
+    "enchantments": [ { "values": [ { "value": "THIRST", "multiply": 0.5 } ] } ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -7520,7 +7635,8 @@
     "ugliness": 6,
     "description": "Your extremities are covered in painful sores.  The pain is worse when they are covered in clothing.",
     "prereqs": [ "SPOTS" ],
-    "category": [ "SLIME" ]
+    "category": [ "SLIME" ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -7982,7 +8098,8 @@
     "types": [ "RUNNING" ],
     "changes_to": [ "PONDEROUS2" ],
     "category": [ "URSINE", "CATTLE", "PLANT" ],
-    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": 0.1 } ] } ]
+    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": 0.1 } ] } ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -7995,7 +8112,8 @@
     "prereqs": [ "PONDEROUS1" ],
     "changes_to": [ "PONDEROUS3" ],
     "category": [ "CATTLE", "PLANT" ],
-    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": 0.2 } ] } ]
+    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": 0.2 } ] } ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -8007,7 +8125,8 @@
     "types": [ "RUNNING" ],
     "prereqs": [ "PONDEROUS2" ],
     "category": [ "PLANT" ],
-    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": 0.3 } ] } ]
+    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": 0.3 } ] } ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -8326,7 +8445,8 @@
     "types": [ "VOICE_TONE" ],
     "changes_to": [ "SNARL" ],
     "category": [ "RAT", "URSINE", "LUPINE", "BEAST", "CHIMERA", "FELINE" ],
-    "social_modifiers": { "persuade": -20, "lie": -10, "intimidate": 10 }
+    "social_modifiers": { "persuade": -20, "lie": -10, "intimidate": 10 },
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -8338,7 +8458,8 @@
     "description": "You have a low, croaking voice, like an aged grandparent.  Persuading NPCs will be easier, but threatening them will be more difficult.",
     "types": [ "VOICE_TONE" ],
     "category": [ "BATRACHIAN" ],
-    "social_modifiers": { "persuade": 10, "lie": 10, "intimidate": -10 }
+    "social_modifiers": { "persuade": 10, "lie": 10, "intimidate": -10 },
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -8351,7 +8472,8 @@
     "types": [ "VOICE_TONE" ],
     "prereqs": [ "GROWL" ],
     "category": [ "BEAST", "CHIMERA", "FELINE", "LUPINE" ],
-    "social_modifiers": { "persuade": -60, "lie": -40, "intimidate": 20 }
+    "social_modifiers": { "persuade": -60, "lie": -40, "intimidate": 20 },
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -9088,7 +9210,8 @@
     "vitamin_cost": 160,
     "description": "You have an unhealthy obsession with fire, and you get anxious if you don't light them every now and then or stand near them often.  However, you gain a mood bonus from doing so.",
     "starting_trait": true,
-    "chargen_allow_npc": false
+    "chargen_allow_npc": false,
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -9210,7 +9333,8 @@
     "description": "You are a duly sworn law enforcement officer, with jurisdiction throughout the New England region thanks to interstate agreements.  Whether that means anything now is another question.",
     "valid": false,
     "purifiable": false,
-    "profession": true
+    "profession": true,
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -9220,7 +9344,8 @@
     "description": "You are a duly sworn law enforcement officer, with jurisdiction throughout the New England region thanks to interstate agreements.  Whether that means anything now is another question.",
     "valid": false,
     "purifiable": false,
-    "profession": true
+    "profession": true,
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -9230,7 +9355,8 @@
     "description": "Thou art a lewede man, a lowly cowherd, though where thi catel been thou hast not ynn certain.",
     "valid": false,
     "purifiable": false,
-    "profession": true
+    "profession": true,
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -9240,7 +9366,8 @@
     "description": "You are a duly sworn law enforcement investigator, with jurisdiction throughout the New England region thanks to interstate agreements.  Whether your shield means anything now is another question.",
     "valid": false,
     "purifiable": false,
-    "profession": true
+    "profession": true,
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -9251,7 +9378,8 @@
     "cancels": [ "PROF_HUB01_ANCILLIARY" ],
     "valid": false,
     "purifiable": false,
-    "profession": true
+    "profession": true,
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -9262,7 +9390,8 @@
     "cancels": [ "PROF_FED" ],
     "valid": false,
     "purifiable": false,
-    "profession": true
+    "profession": true,
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -9272,7 +9401,8 @@
     "description": "You are the true Foodperson, some might think Foodperson is just a mascot, but you know better.  You are Foodperson, the mask has become your face; you are real, and the only thing standing between this world and oblivion is you.",
     "valid": false,
     "purifiable": false,
-    "profession": true
+    "profession": true,
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -9283,7 +9413,8 @@
     "description": "You trained as a medical professional in a clinic or hospital.  You can put \"Dr.\" in front of your name and everything.",
     "valid": false,
     "purifiable": false,
-    "profession": true
+    "profession": true,
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -9291,7 +9422,8 @@
     "name": { "str": "Skater" },
     "points": 1,
     "description": "You are skilled in maneuvering on skates.  You suffer lower penalties to dodging and are less likely to fall down if hit in melee combat while you're wearing rollerskates or rollerblades.",
-    "valid": false
+    "valid": false,
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -9320,7 +9452,8 @@
       "style_zui_quan"
     ],
     "purifiable": false,
-    "profession": true
+    "profession": true,
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -9349,7 +9482,8 @@
     ],
     "valid": false,
     "purifiable": false,
-    "profession": true
+    "profession": true,
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -9360,7 +9494,8 @@
     "valid": false,
     "initial_ma_styles": [ "style_boxing" ],
     "purifiable": false,
-    "profession": true
+    "profession": true,
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -9371,7 +9506,8 @@
     "valid": false,
     "initial_ma_styles": [ "style_kickboxing" ],
     "purifiable": false,
-    "profession": true
+    "profession": true,
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -9383,7 +9519,8 @@
     "valid": false,
     "purifiable": false,
     "profession": true,
-    "cancels": [ "ILLITERATE" ]
+    "cancels": [ "ILLITERATE" ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -9855,7 +9992,8 @@
     "points": -1,
     "vitamin_cost": 60,
     "starting_trait": true,
-    "description": "You can't even think about putting filthy clothes on yourself, especially from zombies' corpses."
+    "description": "You can't even think about putting filthy clothes on yourself, especially from zombies' corpses.",
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -9883,7 +10021,7 @@
     "points": 0,
     "valid": false,
     "description": "Trait that makes it impossible to say anything.",
-    "flags": [ "MUTE" ]
+    "flags": [ "MUTE", "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -10062,7 +10200,8 @@
     "types": [ "WANDERLUST" ],
     "starting_trait": true,
     "changes_to": [ "NOMAD2" ],
-    "category": [ "BIRD", "FISH", "CHIMERA" ]
+    "category": [ "BIRD", "FISH", "CHIMERA" ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -10094,7 +10233,8 @@
     "points": -8,
     "description": "Whether from personal choice or childhood trauma, traveling with vehicles is off-limits to you, even if your life depended on it.",
     "starting_trait": true,
-    "valid": false
+    "valid": false,
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -10104,7 +10244,8 @@
     "description": "Whether from personal choice or childhood trauma, using ranged weapons is off-limits to you, even if your life depended on it.",
     "starting_trait": true,
     "valid": false,
-    "cancels": [ "GUNSHY" ]
+    "cancels": [ "GUNSHY" ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -10114,7 +10255,8 @@
     "description": "Using a firearm is off limits, due to personal philosophy or a traumatic event.  You can still use bows and slings.",
     "starting_trait": true,
     "valid": false,
-    "cancels": [ "BRAWLER" ]
+    "cancels": [ "BRAWLER" ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -10125,7 +10267,8 @@
     "description": "You have fast reflexes, allowing you to dodge attacks more easily.",
     "starting_trait": true,
     "enchantments": [ { "values": [ { "value": "DODGE_CHANCE", "add": 3 } ] } ],
-    "category": [ "FELINE" ]
+    "category": [ "FELINE" ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -10318,7 +10461,8 @@
       { "part": "hand_l", "good": -16 },
       { "part": "hand_r", "good": -16 },
       { "part": "torso", "good": -30 }
-    ]
+    ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -10381,7 +10525,7 @@
     "valid": false,
     "purifiable": false,
     "starting_trait": true,
-    "flags": [ "NYCTOPHOBIA" ]
+    "flags": [ "NYCTOPHOBIA", "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -10395,7 +10539,8 @@
     "cancels": [ "STRONGER_RESISTCHILL", "RESISTCHILL" ],
     "types": [ "ACCLIMATIZATION", "ECTOTHERMIC" ],
     "category": [ "ELFA", "SLIME" ],
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": -10 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": -10 } ] } ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -10423,7 +10568,8 @@
     "changes_to": [ "STRONGER_RESISTCHILL" ],
     "types": [ "ACCLIMATIZATION", "ECTOTHERMIC" ],
     "category": [ "LUPINE", "URSINE", "CATTLE", "FELINE", "RABBIT", "MOUSE", "BEAST" ],
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 10 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 10 } ] } ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -10450,7 +10596,8 @@
     "changes_to": [ "STRONGER_VULNERABLEWARM" ],
     "cancels": [ "STRONGER_RESISTWARM", "RESISTWARM" ],
     "category": [ "CHIMERA" ],
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": -10 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": -10 } ] } ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -10477,7 +10624,8 @@
     "starting_trait": true,
     "changes_to": [ "STRONGER_RESISTWARM" ],
     "category": [ "FISH", "CEPHALOPOD", "GASTROPOD", "LIZARD", "BATRACHIAN", "PLANT" ],
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 10 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 10 } ] } ],
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -10578,7 +10726,8 @@
     "description": "You're a very picky eater.  You refuse to eat any food that tastes bad unless you're starving.",
     "category": [ "ALPHA" ],
     "cancels": [ "GOURMAND" ],
-    "starting_trait": true
+    "starting_trait": true,
+    "flags": [ "NATURAL" ]
   },
   {
     "type": "mutation",
@@ -10591,7 +10740,7 @@
     "changes_to": [ "SOCIAL2" ],
     "description": "You don't mind being alone, but you get a slight mood boost from being around friends.",
     "starting_trait": true,
-    "flags": [ "SOCIAL1" ],
+    "flags": [ "SOCIAL1", "NATURAL" ],
     "category": [ "CATTLE", "ELFA", "LUPINE", "MOUSE", "RAT", "CHIROPTERAN", "BIRD", "FISH" ]
   },
   {
@@ -10605,7 +10754,7 @@
     "description": "You are a social creature.  Spending time with friends will improve your mood, but if you're alone too long, you'll start to feel unhappy.",
     "starting_trait": true,
     "mixed_effect": true,
-    "flags": [ "SOCIAL2" ],
+    "flags": [ "SOCIAL2", "NATURAL" ],
     "category": [ "CATTLE", "LUPINE", "MOUSE", "RAT", "CHIROPTERAN", "ELFA" ]
   },
   {
@@ -10646,7 +10795,7 @@
     "description": "You are a god among mortals and they are all so very disappointing.  Why should you even bother to hide your disappointment in their failures?",
     "valid": false,
     "points": -1,
-    "flags": [ "ASOCIAL2" ],
+    "flags": [ "ASOCIAL2", "NATURAL" ],
     "category": [ "ALPHA" ],
     "triggers": [ [ { "condition": { "math": [ "time_since(u_transform_time) > time('36 h')" ] } } ] ],
     "transform": { "target": "AMOG", "msg_transform": "Maybe you can make better decisions this time.", "active": false, "moves": 10 },
@@ -10663,7 +10812,7 @@
     "changes_to": [ "ASOCIAL2" ],
     "description": "You can tolerate others, but you prefer to be alone.  Spending time by yourself will boost your mood slightly.",
     "starting_trait": true,
-    "flags": [ "ASOCIAL1" ],
+    "flags": [ "ASOCIAL1", "NATURAL" ],
     "category": [ "SPIDER", "URSINE", "FELINE", "LIZARD", "BEAST", "CHIMERA" ]
   },
   {
@@ -10677,7 +10826,7 @@
     "description": "You'd really rather be by yourself.  Being alone will improve your mood, but spending too much time around other people can grate on your nerves.",
     "starting_trait": true,
     "mixed_effect": true,
-    "flags": [ "ASOCIAL2" ],
+    "flags": [ "ASOCIAL2", "NATURAL" ],
     "category": [ "SPIDER", "URSINE", "LIZARD", "BEAST" ]
   },
   {
