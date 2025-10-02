@@ -586,9 +586,8 @@
       { "part": "arm_r", "neutral": 8 },
       { "part": "hand_l", "neutral": 12 },
       { "part": "hand_r", "neutral": 12 },
-      { "part": "torso", "neutral": 10 },
+      { "part": "torso", "neutral": 10 }],
     "flags": [ "NATURAL" ]
-    ]
   },
   {
     "type": "mutation",
