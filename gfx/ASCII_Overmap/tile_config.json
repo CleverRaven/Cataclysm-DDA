@@ -15,7 +15,6 @@
       "file": "ASCIITiles.png",
       "//": "range 1 to 191",
       "tiles": [
-        { "id": [ "overmap_horde_1", "overmap_horde_2" ], "fg": 185, "rotates": false },
         { "id": [ "overmap_horde_3", "overmap_horde_4", "overmap_horde_5", "overmap_horde_6" ], "fg": 185, "rotates": false },
         {
           "id": [ "overmap_horde_7", "overmap_horde_8", "overmap_horde_9", "overmap_horde_10" ],
