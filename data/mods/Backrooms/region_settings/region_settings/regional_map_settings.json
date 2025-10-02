@@ -160,7 +160,6 @@
     "type": "forest_biome_feature",
     "id": "trees_forest_backrooms",
     "copy-from": "trees_forest",
-    "sequence": 0,
     "chance": 6,
     "types": [ [ "t_wall", 128 ] ]
   },
@@ -168,24 +167,18 @@
     "type": "forest_biome_feature",
     "id": "shrubs_and_flowers_forest_backrooms",
     "copy-from": "shrubs_and_flowers_forest",
-    "sequence": 1,
-    "chance": 10,
     "types": [ [ "f_rack_coat", 1 ], [ "f_sign_warning", 1 ], [ "f_sign", 1 ] ]
   },
   {
     "type": "forest_biome_feature",
     "id": "clutter_forest_backrooms",
     "copy-from": "clutter_forest",
-    "sequence": 2,
-    "chance": 80,
     "types": [ [ "t_wall_b", 128 ], [ "t_wall", 128 ], [ "t_carpet_red", 128 ] ]
   },
   {
     "type": "forest_biome_feature",
     "id": "water_forest_backrooms",
     "copy-from": "water_forest",
-    "sequence": 3,
-    "chance": 512,
     "types": [ [ "t_thconc_floor", 1 ] ]
   },
   {
@@ -209,32 +202,24 @@
     "type": "forest_biome_feature",
     "id": "trees_forest_thick_backrooms",
     "copy-from": "trees_forest_thick",
-    "sequence": 0,
-    "chance": 5,
     "types": [ [ "t_wall_b", 128 ], [ "t_wall", 128 ], [ "t_carpet_red", 128 ], [ "t_thconc_floor_olight", 20 ] ]
   },
   {
     "type": "forest_biome_feature",
     "id": "shrubs_and_flowers_forest_thick_backrooms",
     "copy-from": "shrubs_and_flowers_forest_thick",
-    "sequence": 1,
-    "chance": 5,
     "types": [ [ "f_rack_coat", 1 ], [ "f_sign_warning", 1 ], [ "f_sign", 1 ] ]
   },
   {
     "type": "forest_biome_feature",
     "id": "clutter_forest_thick_backrooms",
     "copy-from": "clutter_forest_thick",
-    "sequence": 2,
-    "chance": 64,
     "types": [ [ "t_scrap_floor", 64 ], [ "t_dirtfloor", 64 ] ]
   },
   {
     "type": "forest_biome_feature",
     "id": "water_forest_thick_backrooms",
     "copy-from": "water_forest_thick",
-    "sequence": 3,
-    "chance": 512,
     "types": [ [ "t_carpet_green", 1 ] ]
   },
   {
@@ -258,7 +243,6 @@
     "type": "forest_biome_feature",
     "id": "trees_forest_water_backrooms",
     "copy-from": "trees_forest_water",
-    "sequence": 0,
     "chance": 5,
     "types": [ [ "t_utility_light", 30 ] ]
   },
@@ -266,24 +250,18 @@
     "type": "forest_biome_feature",
     "id": "shrubs_and_flowers_forest_water_backrooms",
     "copy-from": "shrubs_and_flowers_forest_water",
-    "sequence": 1,
-    "chance": 15,
     "types": [ [ "t_floor_wax", 1 ] ]
   },
   {
     "type": "forest_biome_feature",
     "id": "clutter_forest_water_backrooms",
     "copy-from": "clutter_forest_water",
-    "sequence": 2,
-    "chance": 75,
     "types": [ [ "t_linoleum_gray", 1 ] ]
   },
   {
     "type": "forest_biome_feature",
     "id": "water_forest_water_backrooms",
     "copy-from": "water_forest_water",
-    "sequence": 3,
-    "chance": 2,
     "types": [ [ "t_junk_floor", 6 ] ]
   },
   {
