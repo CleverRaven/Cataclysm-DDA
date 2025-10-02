@@ -6,6 +6,7 @@
 #include <cstdlib>
 #include <functional>
 #include <memory>
+#include <set>
 #include <unordered_set>
 
 #include "character.h"
