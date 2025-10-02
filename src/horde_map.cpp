@@ -9,6 +9,9 @@
 #include "monster.h"
 #include "mtype.h"
 
+static const species_id species_FERAL( "FERAL" );
+static const species_id species_ZOMBIE( "ZOMBIE" );
+
 // Is just entity enough or do we need to wrap it in a tuple with a coordinate?
 // Or worse an iterator?
 horde_entity *horde_map::entity_at( const tripoint_om_ms &p )
@@ -49,10 +52,21 @@ horde_entity *horde_map::entity_at( const tripoint_om_ms &p )
             return  &iter->second;
         }
     }
+    std::unordered_map<tripoint_om_sm, std::unordered_map<tripoint_abs_ms, horde_entity>>::iterator
+            immobile_monster_submap = immobile_monster_map.find( submap_offset );
+    bool immobile_map_exists = immobile_monster_submap != immobile_monster_map.end() &&
+                               !immobile_monster_submap->second.empty();
+    if( immobile_map_exists ) {
+        std::unordered_map<tripoint_abs_ms, horde_entity>::iterator iter =
+            immobile_monster_submap->second.find( entity_loc );
+        if( iter != immobile_monster_submap->second.end() ) {
+            return  &iter->second;
+        }
+    }
     return nullptr;
 }
 
-// TODO: if callers want to filter for dormant vs idle vs active we can do it cheaply.
+// TODO: if callers want to filter for dormant vs idle vs active, etc we can do it cheaply.
 std::vector < std::unordered_map<tripoint_abs_ms, horde_entity> *> horde_map::entity_group_at(
     const tripoint_om_omt &p )
 {
@@ -72,7 +86,7 @@ std::vector < std::unordered_map<tripoint_abs_ms, horde_entity> *> horde_map::en
     return horde_chunk;
 }
 
-// TODO: if callers want to filter for dormant vs idle vs active we can do it cheaply.
+// TODO: if callers want to filter for dormant vs idle vs active, etc we can do it cheaply.
 std::vector<std::unordered_map<tripoint_abs_ms, horde_entity> *> horde_map::entity_group_at(
     const tripoint_om_sm &p )
 {
@@ -89,7 +103,19 @@ std::vector<std::unordered_map<tripoint_abs_ms, horde_entity> *> horde_map::enti
     if( dormant_monster_map_iter != dormant_monster_map.end() ) {
         horde_chunk.push_back( &dormant_monster_map_iter->second );
     }
+    auto immobile_monster_map_iter = immobile_monster_map.find( p );
+    if( immobile_monster_map_iter != immobile_monster_map.end() ) {
+        horde_chunk.push_back( &immobile_monster_map_iter->second );
+    }
     return horde_chunk;
+}
+
+// Helper because this is too much to inline.
+// This essentially means "these should get sounds broadcast to them".
+static bool is_alert( const mtype &type )
+{
+    bool aggro = type.in_species( species_ZOMBIE ) || type.in_species( species_FERAL );
+    return aggro && type.has_flag( mon_flag_HEARS );
 }
 
 // These have no goal so they can't go in the active map.
@@ -97,7 +123,9 @@ std::unordered_map<tripoint_abs_ms, horde_entity>::iterator horde_map::spawn_ent
     const tripoint_abs_ms &p, mtype_id id )
 {
     std::unordered_map <tripoint_om_sm, std::unordered_map<tripoint_abs_ms, horde_entity>> &target_map =
-                id->has_flag( mon_flag_DORMANT ) ? dormant_monster_map : idle_monster_map;
+                id->has_flag( mon_flag_DORMANT ) ? dormant_monster_map :
+                is_alert( *id ) ? idle_monster_map :
+                immobile_monster_map;
     std::unordered_map<tripoint_abs_ms, horde_entity>::iterator result;
     point_abs_om omp;
     tripoint_om_sm sm;
@@ -113,11 +141,10 @@ std::unordered_map<tripoint_abs_ms, horde_entity>::iterator horde_map::spawn_ent
     const tripoint_abs_ms &p, const monster &mon )
 {
     std::unordered_map <tripoint_om_sm, std::unordered_map<tripoint_abs_ms, horde_entity>> &target_map =
-                mon.type->has_flag( mon_flag_DORMANT ) ?
-                dormant_monster_map :
-                ( mon.has_dest() || mon.wandf > 0 ) ?
-                active_monster_map :
-                idle_monster_map;
+                mon.type->has_flag( mon_flag_DORMANT ) ? dormant_monster_map :
+                ( mon.has_dest() || mon.wandf > 0 ) ? active_monster_map :
+                is_alert( *mon.type ) ? idle_monster_map :
+                immobile_monster_map;
     std::unordered_map<tripoint_abs_ms, horde_entity>::iterator result;
     point_abs_om omp;
     tripoint_om_sm sm;
@@ -168,6 +195,7 @@ static void signal_sm( const tripoint_abs_ms &origin, const tripoint_abs_sm &sm_
 }
 
 // Volume is scaled down by SEEX so it matches the scale of tripoint_om_sm
+// dormant_monster_map and immobile_monster_map are intentionally excluded here.
 void horde_map::signal_entities( const tripoint_abs_ms &origin, int volume )
 {
     std::unordered_map<tripoint_abs_ms, horde_entity> migrating_hordes;
@@ -184,12 +212,6 @@ void horde_map::signal_entities( const tripoint_abs_ms &origin, int volume )
         tripoint_abs_sm abs_sm = project_combine( location, idle_sm_iter->first );
         signal_sm( origin, sm_dest, abs_sm, volume, idle_sm_iter, false, migrating_hordes );
     }
-    for( std::unordered_map
-         <tripoint_om_sm, std::unordered_map<tripoint_abs_ms, horde_entity>>::iterator dormant_sm_iter =
-             dormant_monster_map.begin(); dormant_sm_iter != dormant_monster_map.end(); ++dormant_sm_iter ) {
-        tripoint_abs_sm abs_sm = project_combine( location, dormant_sm_iter->first );
-        signal_sm( origin, sm_dest, abs_sm, volume, dormant_sm_iter, false, migrating_hordes );
-    }
 
     while( !migrating_hordes.empty() ) {
         auto monster_node = migrating_hordes.extract( migrating_hordes.begin() );
@@ -201,7 +223,9 @@ void horde_map::insert( std::unordered_map<tripoint_abs_ms, horde_entity>::node_
 {
     std::unordered_map <tripoint_om_sm, std::unordered_map<tripoint_abs_ms, horde_entity>> &target_map =
                 node.mapped().get_type()->has_flag( mon_flag_DORMANT ) ? dormant_monster_map :
-                node.mapped().is_active() ? active_monster_map : idle_monster_map;
+                node.mapped().is_active() ? active_monster_map :
+                is_alert( *node.mapped().get_type() ) ? idle_monster_map :
+                immobile_monster_map;
     point_abs_om omp;
     tripoint_om_sm sm;
     std::tie( omp, sm ) = project_remain<coords::om>( project_to<coords::sm> ( node.key() ) );
@@ -214,6 +238,7 @@ void horde_map::clear()
     active_monster_map.clear();
     idle_monster_map.clear();
     dormant_monster_map.clear();
+    immobile_monster_map.clear();
 }
 
 void horde_map::clear_chunk( const tripoint_om_sm &p )
@@ -221,6 +246,7 @@ void horde_map::clear_chunk( const tripoint_om_sm &p )
     active_monster_map.erase( p );
     idle_monster_map.erase( p );
     dormant_monster_map.erase( p );
+    immobile_monster_map.erase( p );
 }
 
 // horde_map::iterator definitions
@@ -232,12 +258,22 @@ void horde_map::iterator::next_map()
             outer_map = &parent->idle_monster_map;
         } else if( filter & horde_map_flavors::dormant ) {
             outer_map = &parent->dormant_monster_map;
+        } else if( filter & horde_map_flavors::immobile ) {
+            outer_map = &parent->immobile_monster_map;
         } else {
             outer_map = nullptr;
         }
     } else if( outer_map == &parent->idle_monster_map ) {
         if( filter & horde_map_flavors::dormant ) {
             outer_map = &parent->dormant_monster_map;
+        } else if( filter & horde_map_flavors::immobile ) {
+            outer_map = &parent->immobile_monster_map;
+        } else {
+            outer_map = nullptr;
+        }
+    } else if( outer_map == &parent->dormant_monster_map ) {
+        if( filter & horde_map_flavors::immobile ) {
+            outer_map = &parent->immobile_monster_map;
         } else {
             outer_map = nullptr;
         }
