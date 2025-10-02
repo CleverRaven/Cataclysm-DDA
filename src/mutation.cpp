@@ -58,6 +58,7 @@ static const efftype_id effect_mutation_internal_damage( "mutation_internal_dama
 
 static const flag_id json_flag_CANT_HEAL_EVERYONE( "CANT_HEAL_EVERYONE" );
 static const flag_id json_flag_INTEGRATED( "INTEGRATED" );
+static const flag_id json_flag_NATURAL( "NATURAL" );
 static const flag_id json_flag_OVERSIZE( "OVERSIZE" );
 static const flag_id json_flag_UNRESTRICTED( "UNRESTRICTED" );
 
@@ -66,7 +67,6 @@ static const itype_id itype_fake_burrowing( "fake_burrowing" );
 static const json_character_flag json_flag_CHLOROMORPH( "CHLOROMORPH" );
 static const json_character_flag json_flag_HUGE( "HUGE" );
 static const json_character_flag json_flag_LARGE( "LARGE" );
-static const json_character_flag json_flag_NATURAL( "NATURAL" );
 static const json_character_flag json_flag_ROBUST_GENETIC( "ROBUST_GENETIC" );
 static const json_character_flag json_flag_ROOTS2( "ROOTS2" );
 static const json_character_flag json_flag_ROOTS3( "ROOTS3" );
