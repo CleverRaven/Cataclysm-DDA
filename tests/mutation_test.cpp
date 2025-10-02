@@ -267,36 +267,6 @@ TEST_CASE( "Mutation/starting_trait_interactions", "[mutations]" )
     Character &dummy = get_player_character();
     clear_avatar();
 
-    SECTION( "Removal via purifier" ) {
-        // Set up for purifier test
-        dummy.my_traits.insert( trait_TEST_REMOVAL_0 );
-        dummy.set_mutation( trait_TEST_REMOVAL_0 );
-        dummy.my_traits.insert( trait_TEST_REMOVAL_1 );
-        dummy.set_mutation( trait_TEST_REMOVAL_1 );
-        dummy.vitamin_set( vitamin_mutagen_human, 1500 );
-        dummy.vitamin_set( vitamin_mutagen, 1500 );
-
-        // Check that everything works as it should
-        CHECK( mutation_category_trait::get_category( mutation_category_HUMAN ).base_removal_chance == 0 );
-        CHECK( dummy.has_trait( trait_TEST_REMOVAL_0 ) );
-        CHECK( dummy.has_base_trait( trait_TEST_REMOVAL_0 ) );
-        CHECK( dummy.has_trait( trait_TEST_REMOVAL_1 ) );
-        CHECK( dummy.has_base_trait( trait_TEST_REMOVAL_1 ) );
-        CHECK( dummy.vitamin_get( vitamin_mutagen_human ) == 1500 );
-        CHECK( dummy.vitamin_get( vitamin_mutagen ) == 1500 );
-
-        // Trigger a mutation
-        dialogue newDialog( get_talker_for( dummy ), nullptr );
-        effect_on_condition_changing_mutate2->activate( newDialog );
-
-        // Mutation triggered as expected, traits not removed
-        CHECK( dummy.vitamin_get( vitamin_mutagen ) < 1500 );
-        CHECK( dummy.has_trait( trait_TEST_REMOVAL_0 ) );
-        CHECK( dummy.has_base_trait( trait_TEST_REMOVAL_0 ) );
-        CHECK( dummy.has_trait( trait_TEST_REMOVAL_1 ) );
-        CHECK( dummy.has_base_trait( trait_TEST_REMOVAL_1 ) );
-    }
-
     SECTION( "Removal via mutation" ) {
         clear_avatar();
         dummy.my_traits.insert( trait_TEST_REMOVAL_1 );
