@@ -2231,9 +2231,8 @@
     "starting_trait": true,
     "changes_to": [ "SUNBURN" ],
     "category": [ "TROGLOBITE", "MOUSE", "RABBIT" ],
-    "flags": [ "ALBINO" ],
-    "types": [ "skin_tone" ],
-    "flags": [ "NATURAL" ]
+    "flags": [ "ALBINO", "NATURAL" ],
+    "types": [ "skin_tone" ]
   },
   {
     "type": "mutation",
