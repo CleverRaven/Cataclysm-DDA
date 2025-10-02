@@ -410,9 +410,6 @@ void DynamicDataLoader::initialize()
     add( "map_extra", &MapExtras::load );
     add( "omt_placeholder", &map_data_placeholders::load );
 
-    add( "region_settings", &load_region_settings );
-    add( "region_overlay", &load_region_overlay );
-
     add( "region_settings_river", &region_settings_river::load_region_settings_river );
     add( "region_settings_lake", &region_settings_lake::load_region_settings_lake );
     add( "region_settings_ocean", &region_settings_ocean::load_region_settings_ocean );
@@ -747,7 +744,6 @@ void DynamicDataLoader::unload_data()
     reset_mod_tileset();
     reset_overlay_ordering();
     reset_recipe_categories();
-    reset_region_settings();
     reset_scenarios_blacklist();
     reset_speech();
     rotatable_symbols::reset();
@@ -985,7 +981,6 @@ void DynamicDataLoader::check_consistency()
             { _( "Mutations" ), &mutation_branch::check_consistency },
             { _( "Mutation categories" ), &mutation_category_trait::check_consistency },
             { _( "Mod migrations" ), &mod_migrations::check },
-            { _( "Region settings" ), check_region_settings },
             { _( "Overmap land use codes" ), &overmap_land_use_codes::check_consistency },
             { _( "Overmap connections" ), &overmap_connections::check_consistency },
             { _( "Overmap terrain" ), &overmap_terrains::check_consistency },
