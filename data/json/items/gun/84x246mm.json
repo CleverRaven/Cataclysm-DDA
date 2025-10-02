@@ -7,8 +7,16 @@
     "reload_noise_volume": 10,
     "symbol": "(",
     "color": "green",
-    "name": { "str": "M3 recoilless rifle" },
+    "name": { "str": "M3 recoilless rifle", "//~": "A recoilless rifle is a type of man-portable rocket launcher" },
     "description": "Manufactured in Sweden, the Carl Gustaf M3 is a breech-loading 84 millimeter man-portable, reusable, multi-role recoilless rifle commonly used by the US military.  Under normal circumstances, users should refrain from shooting more than 6 rounds per day to avoid undue risk of brain injury…",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "m3_carlgustav",
+        "name": { "str": "Carl Gustaf M3 launcher" },
+        "description": "Manufactured in Sweden, the Carl Gustaf M3 is a breech-loading 84 millimeter man-portable, reusable, multi-role recoilless rifle commonly used by the US military.  Under normal circumstances, users should refrain from shooting more than 6 rounds per day to avoid undue risk of brain injury…"
+      }
+    ],
     "price": "13 kUSD",
     "price_postapoc": "60 USD",
     "material": [ "steel" ],
@@ -34,8 +42,16 @@
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "copy-from": "m3_carlgustav",
-    "name": { "str": "M3E1 recoilless rifle" },
+    "name": { "str": "M3E1 recoilless rifle", "//~": "A recoilless rifle is a type of man-portable rocket launcher" },
     "description": "The Carl Gustaf M3E1 is a breech-loading 84 millimeter man-portable, reusable, multi-role recoilless rifle.  This is a shorter, lighter, and more advanced development of the M3.  Under normal circumstances, users should refrain from shooting more than 6 rounds per day to prevent undue risk of brain injury…",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "m4_carlgustav",
+        "name": { "str": "Carl Gustaf M3E1 launcher" },
+        "description": "The Carl Gustaf M3E1 is a breech-loading 84 millimeter man-portable, reusable, multi-role recoilless rifle.  This is a shorter, lighter, and more advanced development of the M3.  Under normal circumstances, users should refrain from shooting more than 6 rounds per day to prevent undue risk of brain injury…"
+      }
+    ],
     "//": "This is called the Carl Gustaf M4 everywhere but in the U.S. It is the lighter and more portable version of the Carl Gustaf, with Picatinny rails, programmable ammunition, etc.",
     "price": "20 kUSD",
     "price_postapoc": "80 USD",
@@ -50,8 +66,16 @@
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "copy-from": "m3_carlgustav",
-    "name": { "str": "AT4" },
-    "description": "A milspec recoilless rifle - an 84mm unguided, portable, single-shot recoilless smoothbore weapon used primarily by the US military.",
+    "name": { "str": "disposable anti-tank launcher" },
+    "description": "A milspec recoilless launcher - an 84mm unguided, portable, single-shot recoilless smoothbore weapon used primarily by the US military.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "AT4",
+        "name": { "str": "AT4 launcher" },
+        "description": "A milspec recoilless launcher - an 84mm unguided, portable, single-shot recoilless smoothbore weapon used primarily by the US military."
+      }
+    ],
     "extend": { "flags": [ "FIRE_TWOHAND", "NO_REPAIR", "NO_RELOAD", "NO_UNLOAD" ] },
     "delete": { "flags": [ "RELOAD_ONE" ] },
     "ammo": [ "84x246mm" ],
