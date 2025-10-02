@@ -1212,7 +1212,15 @@ The contents of `use_action` fields can either be a string indicating a built-in
 "use_action": {
   "type": "consume_drug",                 // A drug the player can consume
   "activation_message": "You smoke your crack rocks.  Mother would be proud.", // Message, ayup
-  "effects": { "high": 15 },              // Effects and their duration
+  "effects": [                            // List of effects to apply when consumed
+    {
+      "id": "opiate_eff",                 // Id of the effect to apply. Mandatory.
+      "duration": 42,                     // Duration for the effect to last, in turns but can accept time units syntax. Optional, defaults to 0, meaning the effect will disappear immediately.
+      "bp": "torso",                      // Bodypart to apply the effect to. Optional, defaults to no particular body part.
+      "permanent": false,                 // Whether the effect is permanent. Optional, defaults to false.
+      "intensity": 2                      // Intensity to set the effect to when applied. Optional, defaults to 0.
+    },  
+  ],       
   "damage_over_time": [
     {
       "damage_type": "pure",              // Type of damage
@@ -1220,7 +1228,7 @@ The contents of `use_action` fields can either be a string indicating a built-in
       "amount": -10,                      // Amount of damage applied every turn, negative damage heals
       "bodyparts": [ "torso", "head", "arm_l", "leg_l", "arm_r", "leg_r" ] // Body parts hit by the damage
     }
-  ]
+  ],
   "stat_adjustments": { "hunger": -10 },   // Adjustment to make to player stats
   "fields_produced": { "cracksmoke": 2 },  // Fields to produce, mostly used for smoke
   "charges_needed": { "fire": 1 },         // Charges to use in the process of consuming the drug
