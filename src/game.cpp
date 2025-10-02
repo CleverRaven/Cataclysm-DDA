@@ -922,6 +922,7 @@ bool game::start_game()
     refresh_display();
 
     load_master();
+    overmap_buffer.current_region_type = "default";
     u.setID( assign_npc_id() ); // should be as soon as possible, but *after* load_master
 
     // Make sure the items are added after the calendar is started
@@ -3190,6 +3191,8 @@ void game::load_master()
 bool game::load_dimension_data()
 {
     const cata_path datafile = PATH_INFO::current_dimension_save_path() / SAVE_DIMENSION_DATA;
+    // if for whatever reason the dimension data file doesn't have a set region_type, use the default one
+    overmap_buffer.current_region_type = "default";
     // If dimension_data.gsav doesn't exist, return false
     return read_from_file_optional( datafile, [this, &datafile]( std::istream & is ) {
         unserialize_dimension_data( datafile, is );
@@ -11934,6 +11937,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
 }
 
 bool game::travel_to_dimension( const std::string &new_prefix,
+                                const std::string &region_type,
                                 const std::vector<npc *> &npc_travellers )
 {
     map &here = get_map();
@@ -11985,12 +11989,12 @@ bool game::travel_to_dimension( const std::string &new_prefix,
         dimension_prefix.clear();
     }
     // Load in data specific to the dimension (like weather)
-    //if( !load_dimension_data() ) {
-    // dimension data file not found/created yet
-    /* handle weather instance switching when I have dimensions with different region settings,
-     right now they're all the same and it's hard to tell if it's working or not. */
-    // weather.set_nextweather( calendar::turn );
-    //}
+    if( !load_dimension_data() ) {
+        // dimension data file not found/created yet
+
+        // Only allow `region_type` input for new dimensions.
+        overmap_buffer.current_region_type = region_type;
+    }
     // Clear the immediate game area around the player
     MAPBUFFER.clear();
     // hack to prevent crashes from temperature checks
@@ -12013,6 +12017,9 @@ bool game::travel_to_dimension( const std::string &new_prefix,
     load_npcs();
     // Handle static monsters
     here.spawn_monsters( true, true );
+    // updates the weather, if the weather settings are different in the new world
+    weather.weather_override = WEATHER_NULL;
+    weather.set_nextweather( calendar::turn );
     update_overmap_seen();
     return true;
 }

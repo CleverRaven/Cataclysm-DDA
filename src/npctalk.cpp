@@ -7692,10 +7692,14 @@ talk_effect_fun_t::func f_travel_to_dimension( const JsonObject &jo, std::string
     dbl_or_var npc_travel_radius;
     optional( jo, false, "npc_travel_radius", npc_travel_radius, 0 );
 
+    str_or_var region_type_var;
+    optional( jo, false, "region_type", region_type_var, "default" );
+
     return [fail_message, success_message, dimension_prefix, npc_travel_filter,
-                  npc_travel_radius]( dialogue const & d ) {
+                  npc_travel_radius, region_type_var]( dialogue const & d ) {
         Creature *teleporter = d.actor( false )->get_creature();
         if( teleporter ) {
+            std::string region_type = region_type_var.evaluate( d );
             std::string prefix = dimension_prefix.evaluate( d );
             std::string temp_dimension_prefix = ( prefix == "default" ) ? "" : prefix;
             if( temp_dimension_prefix != g->get_dimension_prefix() ) {
@@ -7721,7 +7725,7 @@ talk_effect_fun_t::func f_travel_to_dimension( const JsonObject &jo, std::string
                     } );
                 }
                 // returns False if fail
-                if( g->travel_to_dimension( prefix, travellers ) ) {
+                if( g->travel_to_dimension( prefix, region_type, travellers ) ) {
                     teleporter->add_msg_if_player( success_message.evaluate( d ) );
                 } else {
                     teleporter->add_msg_if_player( fail_message.evaluate( d ) );

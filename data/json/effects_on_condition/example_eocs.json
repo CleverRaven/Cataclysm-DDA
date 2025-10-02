@@ -526,17 +526,27 @@
     "global": true,
     "effect": [
       {
-        "set_string_var": "",
+        "set_string_var": "default",
         "string_input": {
           "title": { "str": "teleport to dimension named:" },
-          "description": { "str": "'default' returns you to main dimension" },
+          "description": { "str": "empty for main dimension" },
           "width": 30
         },
         "target_var": { "u_val": "destination_dimension" }
       },
       {
+        "set_string_var": "default",
+        "string_input": {
+          "title": { "str": "region type for the dimension?" },
+          "description": { "str": "empty for default region." },
+          "width": 30
+        },
+        "target_var": { "u_val": "region_type" }
+      },
+      {
         "u_travel_to_dimension": { "u_val": "destination_dimension" },
         "npc_travel_radius": 5,
+        "region_type": { "u_val": "region_type" },
         "npc_travel_filter": "follower",
         "fail_message": "your body doesn't move",
         "success_message": "This place feels different."
