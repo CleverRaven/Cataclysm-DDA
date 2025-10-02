@@ -1009,8 +1009,7 @@
     "description": "You've been taught proper table manners from your early childhood on; now, you can't even think about eating without being seated at a table and taking your time.  Eating without a table and chair frustrates you, but eating like a civilized person gives you a bigger morale bonus.",
     "starting_trait": true,
     "chargen_allow_npc": false,
-    "valid": false,
-    "flags": [ "NATURAL" ]
+    "valid": false
   },
   {
     "type": "mutation",
