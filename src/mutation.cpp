@@ -1697,7 +1697,6 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
             cancel.erase( cancel.begin() + i );
             i--;
         }
-        }
     }
 
     for( size_t i = 0; i < cancel.size(); i++ ) {
