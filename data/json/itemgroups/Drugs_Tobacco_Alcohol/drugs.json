@@ -856,5 +856,11 @@
     "subtype": "collection",
     "container-item": "bottle_plastic_pill_prescription",
     "entries": [ { "item": "estrogen", "count": [ 1, 200 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "sunscreen_bottle",
+    "subtype": "distribution",
+    "entries": [ { "item": "sunscreen", "container-item": "bottle_plastic_small" } ]
   }
 ]
