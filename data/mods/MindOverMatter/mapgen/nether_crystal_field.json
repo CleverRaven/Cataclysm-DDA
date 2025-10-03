@@ -227,22 +227,6 @@
     "object": {
       "mapgensize": [ 2, 2 ],
       "rows": [
-        "NC",
-        "CN"
-      ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": { "C": "t_nether_stone" },
-      "furniture": { "N": [ [ "f_nether_crystal_structure", 1 ], [ "f_null", 1 ] ] },
-      "items": { "C": { "item": "dist_matrix_crystals", "chance": 50 } }
-    }
-  },
-  {
-    "type": "mapgen",
-    "nested_mapgen_id": "crystal_field_chunk_center_2x2",
-    "weight": 500,
-    "object": {
-      "mapgensize": [ 2, 2 ],
-      "rows": [
         "CN",
         "NC"
       ],

@@ -5,7 +5,10 @@
     "id": "dist_matrix_crystals",
     "entries": [
       {
-        "distribution": [ { "item": "matrix_crystal_biokinesis", "prob": 1 }, { "group": "biokinetic_crystal_artifact_procgen", "prob": 1 } ],
+        "distribution": [
+          { "group": "biokinetic_crystal_awakening_artifact_procgen", "prob": 1 },
+          { "group": "biokinetic_crystal_artifact_procgen", "prob": 1 }
+        ],
         "prob": 10
       },
       { "item": "matrix_crystal_clairsentience", "prob": 10 },
@@ -26,7 +29,10 @@
     "entries": [
       { "item": "null", "prob": 100 },
       {
-        "distribution": [ { "item": "matrix_crystal_biokinesis", "prob": 1 }, { "group": "biokinetic_crystal_artifact_procgen", "prob": 1 } ],
+        "distribution": [
+          { "group": "biokinetic_crystal_awakening_artifact_procgen", "prob": 1 },
+          { "group": "biokinetic_crystal_artifact_procgen", "prob": 1 }
+        ],
         "prob": 10
       },
       { "item": "matrix_crystal_clairsentience", "prob": 10 },
@@ -47,8 +53,11 @@
     "entries": [
       { "item": "matrix_crystal_drained", "prob": 9 },
       {
-        "distribution": [ { "item": "matrix_crystal_biokinesis", "prob": 1 }, { "group": "biokinetic_crystal_artifact_procgen", "prob": 1 } ],
-        "prob": 1
+        "distribution": [
+          { "group": "biokinetic_crystal_awakening_artifact_procgen", "prob": 1 },
+          { "group": "biokinetic_crystal_artifact_procgen", "prob": 1 }
+        ],
+        "prob": 10
       },
       { "item": "matrix_crystal_clairsentience", "prob": 1 },
       { "item": "matrix_crystal_electrokinesis", "prob": 1 },

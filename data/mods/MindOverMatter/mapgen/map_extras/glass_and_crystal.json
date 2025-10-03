@@ -61,17 +61,6 @@
       "rows": [ "X" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": { "X": "t_nether_stone" },
-      "items": { "X": { "item": "dist_matrix_crystal_artifacts", "chance": 100 } }
-    }
-  },
-  {
-    "type": "mapgen",
-    "nested_mapgen_id": "glass_and_crystal_chunk_center",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "rows": [ "X" ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": { "X": "t_nether_stone" },
       "furniture": { "X": "f_nether_crystal_structure" }
     }
   },
