@@ -1,5 +1,131 @@
 #include "item.h"
 
+#include <algorithm>
+#include <cmath>
+#include <cstdlib>
+#include <functional>
+#include <iomanip>
+#include <limits>
+#include <list>
+#include <map>
+#include <memory>
+#include <optional>
+#include <set>
+#include <sstream>
+#include <string>
+#include <string_view>
+#include <tuple>
+#include <unordered_map>
+#include <unordered_set>
+#include <utility>
+#include <vector>
+
+#include "ammo.h"
+#include "ascii_art.h"
+#include "avatar.h"
+#include "bionics.h"
+#include "body_part_set.h"
+#include "bodygraph.h"
+#include "bodypart.h"
+#include "calendar.h"
+#include "cata_utility.h"
+#include "character.h"
+#include "character_martial_arts.h"
+#include "color.h"
+#include "damage.h"
+#include "debug.h"
+#include "dialogue.h"
+#include "dispersion.h"
+#include "enum_traits.h"
+#include "enums.h"
+#include "fault.h"
+#include "flag.h"
+#include "flat_set.h"
+#include "game.h"
+#include "game_constants.h"
+#include "global_vars.h"
+#include "gun_mode.h"
+#include "inventory.h"
+#include "item_category.h"
+#include "item_components.h"
+#include "item_contents.h"
+#include "item_factory.h"
+#include "item_pocket.h"
+#include "iteminfo_query.h"
+#include "itype.h"
+#include "iuse.h"
+#include "iuse_actor.h"
+#include "localized_comparator.h"
+#include "magic_enchantment.h"
+#include "martialarts.h"
+#include "material.h"
+#include "math_parser_diag_value.h"
+#include "mod_manager.h"
+#include "mtype.h"
+#include "options.h"
+#include "output.h"
+#include "pimpl.h"
+#include "pocket_type.h"
+#include "proficiency.h"
+#include "ranged.h"
+#include "recipe.h"
+#include "recipe_dictionary.h"
+#include "requirements.h"
+#include "ret_val.h"
+#include "skill.h"
+#include "stomach.h"
+#include "string_formatter.h"
+#include "string_id_utils.h"
+#include "subbodypart.h"
+#include "talker.h"
+#include "text_snippets.h"
+#include "translation.h"
+#include "translations.h"
+#include "type_id.h"
+#include "units.h"
+#include "units_utility.h"
+#include "value_ptr.h"
+#include "veh_type.h"
+#include "vitamin.h"
+#include "weighted_list.h"
+
+static const ammo_effect_str_id ammo_effect_BLACKPOWDER( "BLACKPOWDER" );
+static const ammo_effect_str_id ammo_effect_IGNITE( "IGNITE" );
+static const ammo_effect_str_id ammo_effect_INCENDIARY( "INCENDIARY" );
+static const ammo_effect_str_id ammo_effect_MATCHHEAD( "MATCHHEAD" );
+static const ammo_effect_str_id ammo_effect_NEVER_MISFIRES( "NEVER_MISFIRES" );
+static const ammo_effect_str_id ammo_effect_RECYCLED( "RECYCLED" );
+
+static const bionic_id bio_digestion( "bio_digestion" );
+
+static const bodygraph_id bodygraph_full_body_iteminfo( "full_body_iteminfo" );
+
+static const damage_type_id damage_acid( "acid" );
+static const damage_type_id damage_heat( "heat" );
+
+static const item_category_id item_category_container( "container" );
+
+static const itype_id itype_disassembly( "disassembly" );
+static const itype_id itype_rad_badge( "rad_badge" );
+static const itype_id itype_rm13_armor( "rm13_armor" );
+
+static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );
+static const json_character_flag json_flag_CARNIVORE_DIET( "CARNIVORE_DIET" );
+static const json_character_flag json_flag_IMMUNE_SPOIL( "IMMUNE_SPOIL" );
+static const json_character_flag json_flag_PSYCHOPATH( "PSYCHOPATH" );
+static const json_character_flag json_flag_SAPIOVORE( "SAPIOVORE" );
+
+static const quality_id qual_JACK( "JACK" );
+static const quality_id qual_LIFT( "LIFT" );
+
+static const skill_id skill_cooking( "cooking" );
+static const skill_id skill_melee( "melee" );
+static const skill_id skill_survival( "survival" );
+
+static const vitamin_id vitamin_human_flesh_vitamin( "human_flesh_vitamin" );
+
+static const std::string flag_NO_DISPLAY( "NO_DISPLAY" );
+
 // sorts with localized_compare, and enumerates entries, if more than \p max entries
 // the rest are abbreviated into " and %d more"
 static std::string enumerate_lcsorted_with_limit( const std::vector<std::string> &v,
