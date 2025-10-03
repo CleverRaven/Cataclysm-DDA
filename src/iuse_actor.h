@@ -256,6 +256,7 @@ struct effect_data {
     efftype_id id;
     time_duration duration = 0_seconds;
     bodypart_id bp = bodypart_id( "bp_null" );
+    int intensity;
     bool permanent = false;
 
     void deserialize( const JsonObject &jo );
