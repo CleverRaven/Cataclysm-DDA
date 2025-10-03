@@ -5,7 +5,6 @@
 #include <cctype>
 #include <cmath>
 #include <cstdlib>
-#include <iomanip>
 #include <iterator>
 #include <limits>
 #include <memory>
@@ -14,7 +13,6 @@
 #include <sstream>
 #include <stack>
 #include <string>
-#include <string_view>
 #include <tuple>
 #include <unordered_map>
 #include <unordered_set>
@@ -22,11 +20,9 @@
 
 #include "activity_actor_definitions.h"
 #include "ammo.h"
-#include "ascii_art.h"
 #include "avatar.h"
 #include "bionics.h"
 #include "body_part_set.h"
-#include "bodygraph.h"
 #include "bodypart.h"
 #include "cached_options.h"
 #include "calendar.h"
@@ -43,8 +39,6 @@
 #include "creature.h"
 #include "damage.h"
 #include "debug.h"
-#include "dialogue.h"
-#include "dispersion.h"
 #include "effect.h" // for weed_msg
 #include "effect_source.h"
 #include "enum_bitset.h"
@@ -67,7 +61,6 @@
 #include "item_factory.h"
 #include "item_group.h"
 #include "item_tname.h"
-#include "iteminfo_query.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
@@ -82,7 +75,6 @@
 #include "material.h"
 #include "math_defines.h"
 #include "messages.h"
-#include "mod_manager.h"
 #include "monster.h"
 #include "mtype.h"
 #include "mutation.h"
@@ -95,7 +87,6 @@
 #include "point.h"
 #include "proficiency.h"
 #include "projectile.h"
-#include "ranged.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "relic.h"
@@ -105,16 +96,13 @@
 #include "skill.h"
 #include "stomach.h"
 #include "string_formatter.h"
-#include "string_id_utils.h"
 #include "subbodypart.h"
-#include "talker.h"
 #include "text_snippets.h"
 #include "trait_group.h"
 #include "translation.h"
 #include "translations.h"
 #include "trap.h"
 #include "units.h"
-#include "units_utility.h"
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
@@ -130,21 +118,10 @@ static const std::string GUN_MODE_VAR_NAME( "item::mode" );
 static const std::string CLOTHING_MOD_VAR_PREFIX( "clothing_mod_" );
 static const std::string var_lateral( "lateral" );
 
-static const ammo_effect_str_id ammo_effect_BLACKPOWDER( "BLACKPOWDER" );
-static const ammo_effect_str_id ammo_effect_IGNITE( "IGNITE" );
-static const ammo_effect_str_id ammo_effect_INCENDIARY( "INCENDIARY" );
-static const ammo_effect_str_id ammo_effect_MATCHHEAD( "MATCHHEAD" );
-static const ammo_effect_str_id ammo_effect_NEVER_MISFIRES( "NEVER_MISFIRES" );
-static const ammo_effect_str_id ammo_effect_RECYCLED( "RECYCLED" );
-
 static const ammotype ammo_battery( "battery" );
 static const ammotype ammo_bolt( "bolt" );
 static const ammotype ammo_money( "money" );
 static const ammotype ammo_plutonium( "plutonium" );
-
-static const bionic_id bio_digestion( "bio_digestion" );
-
-static const bodygraph_id bodygraph_full_body_iteminfo( "full_body_iteminfo" );
 
 static const damage_type_id damage_acid( "acid" );
 static const damage_type_id damage_bash( "bash" );
@@ -193,19 +170,11 @@ static const itype_id itype_efile_recipes( "efile_recipes" );
 static const itype_id itype_hand_crossbow( "hand_crossbow" );
 static const itype_id itype_joint_lit( "joint_lit" );
 static const itype_id itype_power_cord( "power_cord" );
-static const itype_id itype_rad_badge( "rad_badge" );
-static const itype_id itype_rm13_armor( "rm13_armor" );
 static const itype_id itype_stock_none( "stock_none" );
 static const itype_id itype_tuned_mechanism( "tuned_mechanism" );
 static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
 static const itype_id itype_waterproof_gunmod( "waterproof_gunmod" );
-
-static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );
-static const json_character_flag json_flag_CARNIVORE_DIET( "CARNIVORE_DIET" );
-static const json_character_flag json_flag_IMMUNE_SPOIL( "IMMUNE_SPOIL" );
-static const json_character_flag json_flag_PSYCHOPATH( "PSYCHOPATH" );
-static const json_character_flag json_flag_SAPIOVORE( "SAPIOVORE" );
 
 static const matec_id RAPID( "RAPID" );
 
@@ -218,12 +187,8 @@ static const mtype_id mon_zombie_survivor_no_weakpoints( "mon_zombie_survivor_no
 static const mtype_id pseudo_debug_mon( "pseudo_debug_mon" );
 
 static const quality_id qual_BOIL( "BOIL" );
-static const quality_id qual_JACK( "JACK" );
-static const quality_id qual_LIFT( "LIFT" );
 
 static const skill_id skill_archery( "archery" );
-static const skill_id skill_cooking( "cooking" );
-static const skill_id skill_melee( "melee" );
 static const skill_id skill_survival( "survival" );
 static const skill_id skill_weapon( "weapon" );
 
@@ -237,10 +202,7 @@ static const trait_id trait_LIGHTWEIGHT( "LIGHTWEIGHT" );
 static const trait_id trait_TOLERANCE( "TOLERANCE" );
 static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
 
-static const vitamin_id vitamin_human_flesh_vitamin( "human_flesh_vitamin" );
-
 // vitamin flags
-static const std::string flag_NO_DISPLAY( "NO_DISPLAY" );
 static const std::string flag_NO_SELL( "NO_SELL" );
 
 // fault flags
