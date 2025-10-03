@@ -1030,7 +1030,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_SKY_ISLAND_EVICT_HOSTILES",
-    "effect": [ "u_die" ]
+    "effect": [ { "u_die": { "remove_corpse": true, "supress_message": true, "remove_from_creature_tracker": true } } ]
   },
   {
     "id": "island_close_tear_and_portal",
