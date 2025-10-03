@@ -17,15 +17,22 @@
 
 #include "coordinates.h"
 #include "cuboid_rectangle.h"
+#include "game.h"
 #include "map_scale_constants.h"
 #include "memory_fast.h"
 #include "point.h"
 #include "translation.h"
 #include "type_id.h"
 
+namespace catacurses
+{
+class window;
+} //namespace catacurses
+
 class JsonObject;
 class JsonOut;
 class JsonValue;
+class input_context;
 class item;
 class map;
 struct construction;
@@ -665,6 +672,25 @@ class zone_manager
         void revert_vzones();
         void serialize( JsonOut &json ) const;
         void deserialize( const JsonValue &jv );
+};
+
+/**
+* TO-DO: update to ImGui
+*/
+class zone_manager_ui
+{
+    public:
+        static void display_zone_manager();
+        static shared_ptr_fast<game::draw_callback_t> create_zone_callback(
+            const std::optional<tripoint_bub_ms> &zone_start,
+            const std::optional<tripoint_bub_ms> &zone_end,
+            const bool &zone_blink, const bool &zone_cursor, const bool &is_moving_zone = false );
+    private:
+        static void zones_manager_draw_borders( const catacurses::window &w_border,
+                                                const catacurses::window &w_info_border,
+                                                int iInfoHeight, int width );
+        static void zones_manager_shortcuts( const catacurses::window &w_info, faction_id const &faction,
+                                             bool show_all_zones, const input_context &ctxt, int width );
 };
 
 void mapgen_place_zone( tripoint_abs_ms const &start, tripoint_abs_ms const &end,

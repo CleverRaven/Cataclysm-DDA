@@ -424,7 +424,7 @@ TEST_CASE( "npc-board-player-vehicle" )
                     int bash = std::accumulate( companion->path_settings->bash_strength.begin(),
                                                 companion->path_settings->bash_strength.end(), 0,
                     []( int so_far, const std::pair<damage_type_id, int> &dam ) {
-                        return so_far + ( dam.second * dam.first->bash_conversion_factor );
+                        return so_far + static_cast<int>( dam.second * dam.first->bash_conversion_factor );
                     } );
                     UNSCOPED_INFO( "part hp: " << hp << " - bash strength: " << bash );
 

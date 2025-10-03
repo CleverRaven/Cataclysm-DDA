@@ -267,7 +267,7 @@ int map::cost_to_pass( const tripoint_bub_ms &cur, const tripoint_bub_ms &p,
             } else if( !bash.empty() ) {
                 int damage = std::accumulate( bash.begin(), bash.end(), 0, []( int so_far,
                 const std::pair<damage_type_id, int> &pr ) {
-                    return so_far + ( pr.second * pr.first->bash_conversion_factor );
+                    return so_far + static_cast<int>( pr.second * pr.first->bash_conversion_factor );
                 } );
                 // Car obstacle that isn't a door
                 // TODO: Account for armor

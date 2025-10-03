@@ -1,10 +1,5 @@
 [
   {
-    "type": "region_overlay",
-    "regions": [ "all" ],
-    "city": { "houses": { "railroad_station_city": 5 } }
-  },
-  {
     "type": "region_overlay_new",
     "id": "default_railroads",
     "apply_to_tags": [ "all" ],

@@ -60,6 +60,7 @@
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "point.h"
+#include "ret_val.h"
 #include "rng.h"
 #include "skill.h"
 #include "string_formatter.h"
@@ -1577,8 +1578,9 @@ void talk_function::field_plant( npc &p, const std::string &place )
     }
 
     const itype_id &seed_id = seed_types[seed_index];
-    if( !warm_enough_to_plant( player_character.pos_bub(), seed_id ) ) {
-        popup( _( "It is too cold to plant that now." ) );
+    ret_val<void>can_plant = warm_enough_to_plant( player_character.pos_bub(), seed_id );
+    if( !can_plant.success() ) {
+        popup( can_plant.c_str() );
         return;
     }
     if( item::count_by_charges( seed_id ) ) {

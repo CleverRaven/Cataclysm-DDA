@@ -10715,7 +10715,8 @@
     "player_display": true,
     "points": -8,
     "starting_trait": true,
-    "cancels": [ "CBM_Interface" ]
+    "cancels": [ "CBM_Interface" ],
+    "flags": [ "NO_CBM_INSTALLATION" ]
   },
   {
     "type": "mutation",

@@ -5234,7 +5234,6 @@
       "sprite_offset_x": 0,
       "sprite_offset_y": -4,
       "tiles": [
-        { "id": [ "overmap_horde_1", "overmap_horde_2" ], "fg": 416, "rotates": false },
         { "id": [ "overmap_horde_3", "overmap_horde_4" ], "fg": 416, "rotates": false },
         { "id": [ "overmap_horde_5", "overmap_horde_6" ], "fg": 417, "rotates": false },
         { "id": [ "overmap_horde_7", "overmap_horde_8" ], "fg": 418, "rotates": false },

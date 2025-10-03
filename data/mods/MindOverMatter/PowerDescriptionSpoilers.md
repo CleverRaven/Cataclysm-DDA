@@ -99,7 +99,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Stamina Cost*: 3500, minus 175 per level to a minimum of 1250<br />
 *Channeling Time*: 250 moves, minus 8.5 moves per level to a minimum of 150<br />
 *Effects*: Increases temperature tolerance in both directions by 15 degrees plus 7.5 degrees per level.<br />
-*Prerequisites*: Oxygen Absorption 5, Physical Enhancement 9 *or* Metabolic Hyperefficiency 6<br />
+*Prerequisites*: Overcome Pain 5, Physical Enhancement 9 *or* Metabolic Hyperefficiency 6<br />
 </details>
 <details>
 <summary><h3>Enhance Mobility (C)</h3></summary>

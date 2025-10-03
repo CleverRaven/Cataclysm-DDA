@@ -1216,10 +1216,12 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
                   &plots]() {
                 return farm_description( dir, plots, farm_ops::plant );
             } ) );
+            const tripoint_abs_omt target_omt = omt_pos + dir;
+            const tripoint_bub_ms target_pnt = get_map().get_bub( project_to<coords::ms>( target_omt ) );
             // FIXME/HACK: Always checks buckwheat seeds!
             mission_key.add_start( miss_id,
                                    name_display_of( miss_id ), entry,
-                                   plots > 0 && warm_enough_to_plant( omt_pos + dir, itype_seed_buckwheat ) );
+                                   plots > 0 && warm_enough_to_plant( target_pnt, itype_seed_buckwheat ).success() );
         }
         if( !npc_list.empty() ) {
             entry = action_of( miss_id.id );
@@ -5294,7 +5296,7 @@ bool basecamp::validate_sort_points()
 bool basecamp::set_sort_points()
 {
     popup( _( "Please create some sorting zones.  You must create a camp food zone, and a camp storage zone." ) );
-    g->zones_manager();
+    zone_manager_ui::display_zone_manager();
     return validate_sort_points();
 }
 

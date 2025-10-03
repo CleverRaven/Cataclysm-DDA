@@ -1,10 +1,5 @@
 [
   {
-    "type": "region_overlay",
-    "regions": [ "all" ],
-    "overmap_feature_flag_settings": { "clear_blacklist": false, "blacklist": [  ], "clear_whitelist": false, "whitelist": [ "DEFENSE_MODE" ] }
-  },
-  {
     "type": "region_overlay_new",
     "apply_to_tags": [ "all" ],
     "id": "default_defense_mode",

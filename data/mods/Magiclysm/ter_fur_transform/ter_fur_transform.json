@@ -491,24 +491,7 @@
         "message": "The earth hardens into solid rock."
       }
     ],
-    "furniture": [
-      {
-        "result": "f_null",
-        "valid_furniture": [
-          "f_dirtmound_tall",
-          "f_dirtmound_shallow",
-          "f_dirtmound_pile_seed",
-          "f_dirtmound_pile_mature",
-          "f_dirtmound_shallow_seed",
-          "f_dirtmound_pile_harvest",
-          "f_dirtmound_pile_seedling",
-          "f_dirtmound_shallow_mature",
-          "f_dirtmound_shallow_harvest",
-          "f_dirtmound_shallow_seedling"
-        ],
-        "message": ""
-      }
-    ]
+    "furniture": [ { "result": "f_null", "valid_furniture": [ "f_dirtmound_tall", "f_dirtmound_shallow" ], "message": "" } ]
   },
   {
     "type": "ter_furn_transform",
