@@ -132,6 +132,6 @@
     "type": "forest_biome_mapgen",
     "id": "biome_forest_thick_default_magiclysm",
     "overlay_id": "biome_forest_thick_default",
-    "terrains": [ "druid_ritual_home_z0" ]
+    "terrains": [ "druid_ritual_home_z0", "mystic_glade_nw", "mystic_glade_ne", "mystic_glade_sw", "mystic_glade_se" ]
   }
 ]
