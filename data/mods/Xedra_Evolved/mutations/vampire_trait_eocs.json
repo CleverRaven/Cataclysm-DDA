@@ -1779,7 +1779,7 @@
             }
           },
           { "value": "REGEN_HP_AWAKE", "multiply": 1 },
-          { "value": "SLEEPINESS_REGEN", "multiply": 0.99 },
+          { "value": "SLEEPINESS_REGEN", "multiply": 20 },
           { "value": "SLEEPINESS", "multiply": -0.99 }
         ]
       }
