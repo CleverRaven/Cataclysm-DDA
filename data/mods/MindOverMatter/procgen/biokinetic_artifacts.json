@@ -275,5 +275,10 @@
     "id": "biokinetic_crystal_artifact_item",
     "subtype": "distribution",
     "items": [ [ "matrix_crystal_biokinesis_artifact", 100 ] ]
+  },
+  {
+    "type": "relic_procgen_data",
+    "id": "biokinetic_matrix_crystal_procgen",
+    "copy-from": "biokinetic_crystal_procgen"
   }
 ]
