@@ -1316,5 +1316,67 @@
         "else": { "u_message": "You must be on the living earth to use Earth Gate.", "type": "bad" }
       }
     ]
+  },
+  {
+    "id": "earthshaper_remove_corpses",
+    "type": "SPELL",
+    "name": "The Last Embrace",
+    "description": "A truly ancient spell, its use attested in funeral rites from prehistoric times, The Last Embrace causes all bodies within its area of effect to sink within the living earth, coming to rest in a natural tomb.  It only works on earth or stone.",
+    "valid_targets": [ "self" ],
+    "flags": [ "CHANNELING_SPELL", "SOMATIC", "LOUD", "NO_PROJECTILE" ],
+    "extra_effects": [ { "id": "eoc_channeling_setup", "hit_self": true } ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_EARTHSHAPER_REMOVE_CORPSES",
+    "shape": "blast",
+    "difficulty": 4,
+    "spell_class": "EARTHSHAPER",
+    "teachable": false,
+    "max_level": 15,
+    "magic_type": "magiclysm_generic_magic",
+    "base_energy_cost": 150,
+    "final_energy_cost": 50,
+    "energy_increment": -7,
+    "base_casting_time": 1200
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EARTHSHAPER_REMOVE_CORPSES",
+    "effect": [
+      {
+        "u_query_tile": "line_of_sight",
+        "target_var": { "context_val": "earthshaper_target_point" },
+        "range": { "math": [ "(u_spell_level('earthshaper_remove_corpses') + 3)" ] },
+        "z_level": false,
+        "message": "Select diggable ground."
+      },
+      {
+        "u_map_run_eocs": [
+          {
+            "id": "EOC_EARTHSHAPER_REMOVE_CORPSES_PER_TILE",
+            "effect": [
+              {
+                "u_map_run_item_eocs": "all",
+                "loc": { "context_val": "earthshaper_digging_point" },
+                "min_radius": 0,
+                "max_radius": 0,
+                "search_data": [ { "flags": [ "CORPSE" ] } ],
+                "true_eocs": [ { "id": "EOC_EARTHSHAPER_REMOVE_CORPSES_HIT_CORPSES", "effect": [ "npc_die" ] } ]
+              }
+            ]
+          }
+        ],
+        "range": { "math": [ "( (u_spell_level('earthshaper_remove_corpses') * 0.15) + 1)" ] },
+        "store_coordinates_in": { "context_val": "earthshaper_digging_point" },
+        "stop_at_first": false,
+        "target_var": { "context_val": "earthshaper_target_point" },
+        "condition": {
+          "or": [
+            { "map_terrain_id": "t_rock_floor_no_roof", "loc": { "context_val": "earthshaper_target_point" } },
+            { "map_terrain_id": "t_rock_floor", "loc": { "context_val": "earthshaper_target_point" } },
+            { "map_terrain_with_flag": "DIGGABLE", "loc": { "context_val": "earthshaper_target_point" } }
+          ]
+        }
+      }
+    ]
   }
 ]
