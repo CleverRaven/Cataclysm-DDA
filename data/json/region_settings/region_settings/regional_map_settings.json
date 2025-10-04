@@ -259,21 +259,21 @@
     "terrain_furniture": { "t_water_murky": { "chance": 2, "furniture": [ [ "f_region_water_plant", 1 ] ] } }
   },
   {
-    "type": "forest_biome_feature",
+    "type": "forest_biome_component",
     "id": "trees_forest",
     "sequence": 0,
     "chance": 12,
     "types": [ [ "t_region_tree_forest", 128 ], [ "t_tree_young", 32 ] ]
   },
   {
-    "type": "forest_biome_feature",
+    "type": "forest_biome_component",
     "id": "shrubs_and_flowers_forest",
     "sequence": 1,
     "chance": 10,
     "types": [ [ "t_region_shrub_forest", 120 ], [ "t_tree_young", 10 ] ]
   },
   {
-    "type": "forest_biome_feature",
+    "type": "forest_biome_component",
     "id": "clutter_forest",
     "sequence": 2,
     "chance": 80,
@@ -289,28 +289,28 @@
     ]
   },
   {
-    "type": "forest_biome_feature",
+    "type": "forest_biome_component",
     "id": "water_forest",
     "sequence": 3,
     "chance": 512,
     "types": [ [ "t_puddle", 1 ] ]
   },
   {
-    "type": "forest_biome_feature",
+    "type": "forest_biome_component",
     "id": "trees_forest_thick",
     "copy-from": "trees_forest",
     "chance": 5,
     "types": [ [ "t_region_tree_forest_dense", 100 ], [ "t_tree_young", 5 ] ]
   },
   {
-    "type": "forest_biome_feature",
+    "type": "forest_biome_component",
     "id": "shrubs_and_flowers_forest_thick",
     "copy-from": "shrubs_and_flowers_forest",
     "chance": 5,
     "types": [ [ "t_region_shrub_forest_dense", 130 ], [ "t_tree_young", 10 ] ]
   },
   {
-    "type": "forest_biome_feature",
+    "type": "forest_biome_component",
     "id": "clutter_forest_thick",
     "copy-from": "clutter_forest",
     "chance": 64,
@@ -326,13 +326,13 @@
     ]
   },
   {
-    "type": "forest_biome_feature",
+    "type": "forest_biome_component",
     "id": "water_forest_thick",
     "copy-from": "water_forest",
     "//": "for ease of mod copies"
   },
   {
-    "type": "forest_biome_feature",
+    "type": "forest_biome_component",
     "id": "trees_forest_water",
     "copy-from": "trees_forest",
     "chance": 45,
@@ -368,21 +368,21 @@
     ]
   },
   {
-    "type": "forest_biome_feature",
+    "type": "forest_biome_component",
     "id": "shrubs_and_flowers_forest_water",
     "copy-from": "shrubs_and_flowers_forest",
     "chance": 15,
     "types": [ [ "t_region_shrub_swamp", 80 ], [ "f_region_forest_water", 30 ] ]
   },
   {
-    "type": "forest_biome_feature",
+    "type": "forest_biome_component",
     "id": "clutter_forest_water",
     "copy-from": "clutter_forest",
     "chance": 75,
     "types": [ [ "t_trunk", 1 ], [ "f_boulder_small", 2 ], [ "f_boulder_medium", 1 ] ]
   },
   {
-    "type": "forest_biome_feature",
+    "type": "forest_biome_component",
     "id": "water_forest_water",
     "copy-from": "water_forest",
     "chance": 2,

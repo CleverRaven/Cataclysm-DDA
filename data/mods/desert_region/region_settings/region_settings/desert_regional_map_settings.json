@@ -458,21 +458,21 @@
     "terrain_furniture": {  }
   },
   {
-    "type": "forest_biome_feature",
+    "type": "forest_biome_component",
     "id": "trees_forest_desert",
     "copy-from": "trees_forest",
     "chance": 180,
     "types": [ [ "t_region_tree", 128 ] ]
   },
   {
-    "type": "forest_biome_feature",
+    "type": "forest_biome_component",
     "id": "shrubs_and_flowers_forest_desert",
     "copy-from": "shrubs_and_flowers_forest",
     "chance": 100,
     "types": [ [ "t_region_shrub", 100 ], [ "f_region_weed", 20 ] ]
   },
   {
-    "type": "forest_biome_feature",
+    "type": "forest_biome_component",
     "id": "clutter_forest_desert",
     "copy-from": "clutter_forest",
     "chance": 800,
@@ -488,7 +488,7 @@
     ]
   },
   {
-    "type": "forest_biome_feature",
+    "type": "forest_biome_component",
     "id": "water_forest_desert",
     "copy-from": "water_forest",
     "chance": 5120,
@@ -513,21 +513,21 @@
     "terrain_furniture": {  }
   },
   {
-    "type": "forest_biome_feature",
+    "type": "forest_biome_component",
     "id": "trees_forest_thick_desert",
     "copy-from": "trees_forest_thick",
     "chance": 750,
     "types": [ [ "t_region_tree", 100 ] ]
   },
   {
-    "type": "forest_biome_feature",
+    "type": "forest_biome_component",
     "id": "shrubs_and_flowers_forest_thick_desert",
     "copy-from": "shrubs_and_flowers_forest_thick",
     "chance": 50,
     "types": [ [ "t_region_shrub", 100 ], [ "f_region_weed", 20 ] ]
   },
   {
-    "type": "forest_biome_feature",
+    "type": "forest_biome_component",
     "id": "clutter_forest_thick_desert",
     "copy-from": "clutter_forest_thick",
     "types": [
@@ -542,7 +542,7 @@
     ]
   },
   {
-    "type": "forest_biome_feature",
+    "type": "forest_biome_component",
     "id": "water_forest_thick_desert",
     "copy-from": "water_forest_thick",
     "chance": 5120,
@@ -572,7 +572,7 @@
     }
   },
   {
-    "type": "forest_biome_feature",
+    "type": "forest_biome_component",
     "id": "clutter_forest_water_desert",
     "copy-from": "clutter_forest_water",
     "chance": 10,
@@ -585,21 +585,21 @@
     ]
   },
   {
-    "type": "forest_biome_feature",
+    "type": "forest_biome_component",
     "id": "shrubs_and_flowers_forest_water_desert",
     "copy-from": "shrubs_and_flowers_forest_water",
     "chance": 400,
     "types": [ [ "t_region_shrub", 80 ], [ "f_region_weed", 30 ] ]
   },
   {
-    "type": "forest_biome_feature",
+    "type": "forest_biome_component",
     "id": "trees_forest_water_desert",
     "copy-from": "trees_forest_water",
     "chance": 6500,
     "types": [ [ "t_region_tree", 1 ] ]
   },
   {
-    "type": "forest_biome_feature",
+    "type": "forest_biome_component",
     "id": "water_forest_water_desert",
     "copy-from": "water_forest_water",
     "chance": 10,

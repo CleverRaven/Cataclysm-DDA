@@ -712,19 +712,19 @@
     "terrain_furniture": {  }
   },
   {
-    "type": "forest_biome_feature",
+    "type": "forest_biome_component",
     "id": "trees_forest_ruralbiome",
     "copy-from": "trees_forest",
     "types": [ [ "t_region_tree", 128 ] ]
   },
   {
-    "type": "forest_biome_feature",
+    "type": "forest_biome_component",
     "id": "shrubs_and_flowers_forest_ruralbiome",
     "copy-from": "shrubs_and_flowers_forest",
     "types": [ [ "t_region_shrub", 100 ], [ "f_region_weed", 20 ] ]
   },
   {
-    "type": "forest_biome_feature",
+    "type": "forest_biome_component",
     "id": "clutter_forest_ruralbiome",
     "copy-from": "clutter_forest",
     "types": [
@@ -739,7 +739,7 @@
     ]
   },
   {
-    "type": "forest_biome_feature",
+    "type": "forest_biome_component",
     "id": "water_forest_ruralbiome",
     "copy-from": "water_forest",
     "types": [ [ "t_puddle", 1 ] ]
@@ -762,19 +762,19 @@
     "terrain_furniture": {  }
   },
   {
-    "type": "forest_biome_feature",
+    "type": "forest_biome_component",
     "id": "trees_forest_thick_ruralbiome",
     "copy-from": "trees_forest_thick",
     "types": [ [ "t_region_tree", 100 ] ]
   },
   {
-    "type": "forest_biome_feature",
+    "type": "forest_biome_component",
     "id": "shrubs_and_flowers_forest_thick_ruralbiome",
     "copy-from": "shrubs_and_flowers_forest_thick",
     "types": [ [ "t_region_shrub", 100 ], [ "f_region_weed", 20 ] ]
   },
   {
-    "type": "forest_biome_feature",
+    "type": "forest_biome_component",
     "id": "clutter_forest_thick_ruralbiome",
     "copy-from": "clutter_forest_thick",
     "types": [
@@ -789,7 +789,7 @@
     ]
   },
   {
-    "type": "forest_biome_feature",
+    "type": "forest_biome_component",
     "id": "water_forest_thick_ruralbiome",
     "copy-from": "water_forest_thick",
     "types": [ [ "t_puddle", 1 ] ]
@@ -813,7 +813,7 @@
     "terrain_furniture": { "t_water_murky": { "chance": 2, "furniture": { "f_region_water_plant": 1 } } }
   },
   {
-    "type": "forest_biome_feature",
+    "type": "forest_biome_component",
     "id": "trees_forest_water_ruralbiome",
     "copy-from": "trees_forest_water",
     "types": [
@@ -845,19 +845,19 @@
     ]
   },
   {
-    "type": "forest_biome_feature",
+    "type": "forest_biome_component",
     "id": "shrubs_and_flowers_forest_water_ruralbiome",
     "copy-from": "shrubs_and_flowers_forest_water",
     "types": [ [ "t_region_shrub", 80 ], [ "f_region_weed", 30 ] ]
   },
   {
-    "type": "forest_biome_feature",
+    "type": "forest_biome_component",
     "id": "clutter_forest_water_ruralbiome",
     "copy-from": "clutter_forest_water",
     "types": [ [ "t_trunk", 1 ], [ "f_boulder_small", 2 ], [ "f_boulder_medium", 1 ] ]
   },
   {
-    "type": "forest_biome_feature",
+    "type": "forest_biome_component",
     "id": "water_forest_water_ruralbiome",
     "copy-from": "water_forest_water",
     "types": [ [ "t_water_sh", 6 ], [ "t_water_dp", 1 ], [ "t_water_murky", 12 ] ]
