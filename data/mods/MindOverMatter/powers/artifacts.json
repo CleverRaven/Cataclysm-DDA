@@ -1,6 +1,20 @@
 [
   {
     "type": "SPELL",
+    "id": "MoM_AEA_BIOKINETIC_AWAKENING",
+    "name": { "str": "MoM Artifact Biokinetic Awakening", "//~": "NO_I18N" },
+    "description": { "str": "Causes the artifact to take even more calories than usual.", "//~": "NO_I18N" },
+    "valid_targets": [ "self" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_BIOKIN_MATRIX_AWAKENING",
+    "shape": "blast",
+    "base_casting_time": 100,
+    "flags": [ "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
+    "message": "",
+    "extra_effects": [ { "id": "mom_aea_artifact_calorie_hit", "hit_self": true } ]
+  },
+  {
+    "type": "SPELL",
     "id": "MoM_AEA_EXTRA_CALORIE_COST",
     "name": { "str": "MoM Artifact Extra calories", "//~": "NO_I18N" },
     "description": { "str": "Causes the artifact to take even more calories than usual.", "//~": "NO_I18N" },
