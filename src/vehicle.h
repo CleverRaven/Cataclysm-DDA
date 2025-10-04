@@ -1858,6 +1858,15 @@ class vehicle
         veh_collision part_collision( map &here, int part, const tripoint_abs_ms &p,
                                       bool just_detect, bool bash_floor );
 
+        // extracted helper for calculating damage chance in handle_item_roadkill(). Used for tests.
+        double wheel_damage_chance_vs_item( const item &it, vehicle_part &vp_wheel ) const;
+
+        // Handle damage to vehicle's wheels from running over items (and only items)
+        // Returns a string of damage messages so that they can be played back later (in the "correct" log order as opposed to order of execution)
+        // **Does not** damage or modify the items on the ground in any way.
+        std::vector<std::string> handle_item_roadkill( map *here, const tripoint_bub_ms &p,
+                vehicle_part &vp_wheel );
+
         // Process the trap beneath
         void handle_trap( map *here, const tripoint_bub_ms &p, vehicle_part &vp_wheel );
         void activate_magical_follow();
