@@ -17,6 +17,7 @@
     "use_action": {
       "type": "effect_on_conditions",
       "consume": true,
+      "need_wielding": true,
       "description": "The pink glow calls to you.",
       "effect_on_conditions": [ "EOC_BIOKIN_MATRIX_AWAKENING" ]
     }
@@ -72,6 +73,7 @@
     "use_action": {
       "type": "effect_on_conditions",
       "consume": true,
+      "need_wielding": true,
       "description": "The gray glow calls to you.",
       "effect_on_conditions": [ "EOC_CLAIR_MATRIX_AWAKENING" ]
     }
@@ -104,6 +106,7 @@
     "use_action": {
       "type": "effect_on_conditions",
       "consume": true,
+      "need_wielding": true,
       "description": "The cyan glow calls to you.",
       "effect_on_conditions": [ "EOC_ELECTRO_MATRIX_AWAKENING" ]
     }
@@ -136,6 +139,7 @@
     "use_action": {
       "type": "effect_on_conditions",
       "consume": true,
+      "need_wielding": true,
       "description": "The golden glow calls to you.",
       "effect_on_conditions": [ "EOC_PHOTOKIN_MATRIX_AWAKENING" ]
     }
@@ -168,6 +172,7 @@
     "use_action": {
       "type": "effect_on_conditions",
       "consume": true,
+      "need_wielding": true,
       "description": "The red glow calls to you.",
       "effect_on_conditions": [ "EOC_PYROKIN_MATRIX_AWAKENING" ]
     }
@@ -200,6 +205,7 @@
     "use_action": {
       "type": "effect_on_conditions",
       "consume": true,
+      "need_wielding": true,
       "description": "The yellow glow calls to you.",
       "effect_on_conditions": [ "EOC_TELEKIN_MATRIX_AWAKENING" ]
     }
@@ -232,6 +238,7 @@
     "use_action": {
       "type": "effect_on_conditions",
       "consume": true,
+      "need_wielding": true,
       "description": "The white glow calls to you.",
       "effect_on_conditions": [ "EOC_TEEP_MATRIX_AWAKENING" ]
     }
@@ -264,6 +271,7 @@
     "use_action": {
       "type": "effect_on_conditions",
       "consume": true,
+      "need_wielding": true,
       "description": "The blue glow calls to you.",
       "effect_on_conditions": [ "EOC_TELEPORT_MATRIX_AWAKENING" ]
     }
@@ -296,6 +304,7 @@
     "use_action": {
       "type": "effect_on_conditions",
       "consume": true,
+      "need_wielding": true,
       "description": "The green glow calls to you.",
       "effect_on_conditions": [ "EOC_VITAKIN_MATRIX_AWAKENING" ]
     }
