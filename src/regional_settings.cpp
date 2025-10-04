@@ -50,7 +50,7 @@ generic_factory<forest_biome_feature> forest_biome_feature_factory( "forest_biom
 generic_factory<forest_biome_mapgen> forest_biome_mapgen_factory( "forest_biome_mapgen" );
 generic_factory<map_extra_collection> map_extra_collection_factory( "map_extra_collection" );
 generic_factory<region_settings> region_settings_factory( "region_settings_new" );
-generic_factory<region_overlay_new> region_overlay_factory( "region_overlay_new" );
+generic_factory<region_overlay> region_overlay_factory( "region_overlay" );
 } // namespace
 
 /** OBJ */
@@ -130,7 +130,7 @@ const region_settings &string_id<region_settings>::obj() const
     return region_settings_factory.obj( *this );
 }
 template<>
-const region_overlay_new &string_id<region_overlay_new>::obj() const
+const region_overlay &string_id<region_overlay>::obj() const
 {
     return region_overlay_factory.obj( *this );
 }
@@ -222,7 +222,7 @@ bool string_id<region_settings>::is_valid() const
     return region_settings_factory.is_valid( *this );
 }
 template<>
-bool string_id<region_overlay_new>::is_valid() const
+bool string_id<region_overlay>::is_valid() const
 {
     return region_overlay_factory.is_valid( *this );
 }
@@ -308,7 +308,7 @@ void region_settings::load_region_settings( const JsonObject &jo,
 {
     region_settings_factory.load( jo, src );
 }
-void region_overlay_new::load_region_overlay_new( const JsonObject &jo,
+void region_overlay::load_region_overlay_new( const JsonObject &jo,
         const std::string &src )
 {
     region_overlay_factory.load( jo, src );
@@ -379,7 +379,7 @@ void region_settings::reset()
 {
     region_settings_factory.reset();
 }
-void region_overlay_new::reset()
+void region_overlay::reset()
 {
     region_overlay_factory.reset();
 }
@@ -760,7 +760,7 @@ region_settings &region_settings::operator+=( const region_settings &rhs )
     return *this;
 }
 
-void region_overlay_new::finalize()
+void region_overlay::finalize()
 {
     for( region_settings &region : region_settings_factory.get_all_mod() ) {
         for( const std::string &tag : apply_to_tags ) {
@@ -773,12 +773,12 @@ void region_overlay_new::finalize()
     }
 }
 
-void region_overlay_new::finalize_all()
+void region_overlay::finalize_all()
 {
     region_overlay_factory.finalize();
 }
 
-void region_overlay_new::load( const JsonObject &jo, std::string_view )
+void region_overlay::load( const JsonObject &jo, std::string_view )
 {
     overlay.load( jo, std::string_view() );
     optional( jo, false, "apply_to_tags", apply_to_tags );

@@ -609,8 +609,8 @@ struct region_settings {
 * region_overlay should NEVER redefine or remove elements from a given setting!
 * overlays must always be applied before region_settings::finalize_all
 */
-struct region_overlay_new {
-    region_overlay_new_id id = region_overlay_new_id::NULL_ID();
+struct region_overlay {
+    region_overlay_id id = region_overlay_id::NULL_ID();
     std::set<std::string> apply_to_tags;
     region_settings overlay;
     bool apply_to_all_regions = false;
