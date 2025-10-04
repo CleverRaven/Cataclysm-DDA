@@ -637,6 +637,7 @@ bioblaster
 bioblasters
 biocompatibility
 biodiesel
+bioelectric
 bioelectricity
 bioforms
 biofuel
