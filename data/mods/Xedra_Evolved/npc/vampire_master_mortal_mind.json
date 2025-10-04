@@ -81,7 +81,7 @@
       {
         "text": "[Spend a massive amount of blood to make them your renfield]",
         "topic": "TALK_YOUR_NEW_RENFIELD",
-        "condition": { "math": [ "u_vitamin('human_blood_vitamin') > -501" ] },
+        "condition": { "math": [ "u_vitamin('human_blood_vitamin') > 2501" ] },
         "effect": [
           {
             "if": { "u_has_trait": "VAMPIRE_MASTER_MORTAL_MIND_UPGRADE" },
