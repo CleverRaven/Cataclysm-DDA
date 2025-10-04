@@ -149,15 +149,15 @@ struct groundcover_extra {
     groundcover_extra() = default;
 };
 
-struct forest_biome_feature {
-    forest_biome_feature_id id = forest_biome_feature_id::NULL_ID();
+struct forest_biome_component {
+    forest_biome_component_id id = forest_biome_component_id::NULL_ID();
     std::string overlay_id;
 
     weighted_int_list<ter_furn_id> types;
     int sequence = 0;
     int chance = 0;
 
-    forest_biome_feature &operator+=( const forest_biome_feature &rhs ) {
+    forest_biome_component &operator+=( const forest_biome_component &rhs ) {
         for( const std::pair<ter_furn_id, int> &val : rhs.types ) {
             types.try_add( val );
         }
@@ -167,7 +167,7 @@ struct forest_biome_feature {
     bool was_loaded = false;
     void finalize();
     void load( const JsonObject &jo, std::string_view );
-    forest_biome_feature() = default;
+    forest_biome_component() = default;
     static void load_forest_biome_feature( const JsonObject &jo, const std::string &src );
     static void reset();
 };
@@ -188,7 +188,7 @@ struct forest_biome_mapgen {
     std::string overlay_id;
 
     std::set<oter_type_str_id> terrains;
-    std::set<forest_biome_feature_id> biome_components;
+    std::set<forest_biome_component_id> biome_components;
     weighted_int_list<ter_id> groundcover;
     std::map<ter_id, forest_biome_terrain_dependent_furniture_new> terrain_dependent_furniture;
 

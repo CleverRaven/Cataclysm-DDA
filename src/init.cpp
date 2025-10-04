@@ -428,8 +428,8 @@ void DynamicDataLoader::initialize()
          &region_settings_forest_mapgen::load_region_settings_forest_mapgen );
     add( "region_settings_map_extras",
          &region_settings_map_extras::load_region_settings_map_extras );
-    add( "forest_biome_feature",
-         &forest_biome_feature::load_forest_biome_feature );
+    add( "forest_biome_component",
+         &forest_biome_component::load_forest_biome_feature );
     add( "forest_biome_mapgen",
          &forest_biome_mapgen::load_forest_biome_mapgen );
     add( "map_extra_collection",
@@ -725,7 +725,7 @@ void DynamicDataLoader::unload_data()
     region_terrain_furniture::reset();
     region_settings_forest_mapgen::reset();
     region_settings_map_extras::reset();
-    forest_biome_feature::reset();
+    forest_biome_component::reset();
     forest_biome_mapgen::reset();
     map_extra_collection::reset();
     region_settings::reset();

@@ -46,7 +46,7 @@ generic_factory<region_settings_forest_mapgen>
 region_settings_forest_mapgen_factory( "region_settings_forest_mapgen" );
 generic_factory<region_settings_map_extras>
 region_settings_map_extras_factory( "region_settings_map_extras" );
-generic_factory<forest_biome_feature> forest_biome_feature_factory( "forest_biome_feature" );
+generic_factory<forest_biome_component> forest_biome_feature_factory( "forest_biome_component" );
 generic_factory<forest_biome_mapgen> forest_biome_mapgen_factory( "forest_biome_mapgen" );
 generic_factory<map_extra_collection> map_extra_collection_factory( "map_extra_collection" );
 generic_factory<region_settings> region_settings_factory( "region_settings_new" );
@@ -115,7 +115,7 @@ const region_settings_map_extras &string_id<region_settings_map_extras>::obj() c
     return region_settings_map_extras_factory.obj( *this );
 }
 template<>
-const forest_biome_feature &string_id<forest_biome_feature>::obj() const
+const forest_biome_component &string_id<forest_biome_component>::obj() const
 {
     return forest_biome_feature_factory.obj( *this );
 }
@@ -202,7 +202,7 @@ bool string_id<region_settings_map_extras>::is_valid() const
     return region_settings_map_extras_factory.is_valid( *this );
 }
 template<>
-bool string_id<forest_biome_feature>::is_valid() const
+bool string_id<forest_biome_component>::is_valid() const
 {
     return forest_biome_feature_factory.is_valid( *this );
 }
@@ -288,7 +288,7 @@ void region_settings_map_extras::load_region_settings_map_extras( const JsonObje
 {
     region_settings_map_extras_factory.load( jo, src );
 }
-void forest_biome_feature::load_forest_biome_feature( const JsonObject &jo,
+void forest_biome_component::load_forest_biome_feature( const JsonObject &jo,
         const std::string &src )
 {
     forest_biome_feature_factory.load( jo, src );
@@ -363,7 +363,7 @@ void region_settings_map_extras::reset()
 {
     region_settings_map_extras_factory.reset();
 }
-void forest_biome_feature::reset()
+void forest_biome_component::reset()
 {
     forest_biome_feature_factory.reset();
 }
@@ -398,7 +398,7 @@ void read_and_set_or_throw( const JsonObject &jo, const std::string &member, T &
     }
 }
 
-void forest_biome_feature::load( const JsonObject &jo, std::string_view )
+void forest_biome_component::load( const JsonObject &jo, std::string_view )
 {
     optional( jo, was_loaded, "overlay_id", overlay_id );
     weighted_string_id_reader<ter_furn_id, int> ter_furn_reader( 1 );
@@ -432,8 +432,8 @@ forest_biome_mapgen &forest_biome_mapgen::operator+=( const forest_biome_mapgen 
     for( const oter_type_str_id &ter_copy : rhs.terrains ) {
         terrains.emplace( ter_copy );
     }
-    for( const forest_biome_feature_id &fbf : rhs.biome_components ) {
-        apply_region_overlay<forest_biome_feature>( biome_components, fbf );
+    for( const forest_biome_component_id &fbf : rhs.biome_components ) {
+        apply_region_overlay<forest_biome_component>( biome_components, fbf );
     }
     for( const std::pair<ter_id, int> &pr : rhs.groundcover ) {
         groundcover.try_add( pr );
@@ -871,7 +871,7 @@ ter_furn_id forest_biome_mapgen::pick() const
     // If a given component does not roll as success, proceed to the next feature in sequence until
     // a feature is picked or none are picked, in which case an empty feature is returned.
     const ter_furn_id *result = nullptr;
-    for( const forest_biome_feature_id &pr : biome_components ) {
+    for( const forest_biome_component_id &pr : biome_components ) {
         if( one_in( pr->chance ) ) {
             result = pr->types.pick();
             break;
@@ -914,7 +914,7 @@ void region_settings_city::finalize()
 }
 
 //these could be defined in the future
-void forest_biome_feature::finalize() {}
+void forest_biome_component::finalize() {}
 void forest_biome_terrain_dependent_furniture_new::finalize() {}
 void region_settings_river::finalize() {}
 void region_settings_lake::finalize() {}
