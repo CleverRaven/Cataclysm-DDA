@@ -18,7 +18,8 @@ namespace horde_map_flavors
 enum {
     active = 1,
     idle = 1 << 1,
-    dormant = 1 << 2
+    dormant = 1 << 2,
+    immobile = 1 << 3
 };
 } // namespace horde_map_flavors
 
@@ -44,6 +45,7 @@ class horde_map
         // ignored by overmap::move_hordes but is otherwise handled the same.
         map_type idle_monster_map;
         map_type dormant_monster_map;
+        map_type immobile_monster_map;
         point_abs_om location;
 
     public:
@@ -79,7 +81,8 @@ class horde_map
                 map_type *outer_map = nullptr;
                 map_type::iterator outer_iter;
                 std::unordered_map<tripoint_abs_ms, horde_entity>::iterator inner_iter;
-                int filter = horde_map_flavors::active | horde_map_flavors::idle | horde_map_flavors::dormant;
+                int filter = horde_map_flavors::active | horde_map_flavors::idle | horde_map_flavors::dormant |
+                             horde_map_flavors::immobile;
             public:
                 friend horde_map;
                 // TODO: ideally these would be private, no use case for constructing them outside of horde_map
