@@ -395,11 +395,8 @@ std::optional<zzip> zzip::load(
 
     ZSTD_CCtx *cctx;
     ZSTD_DCtx *dctx;
-    if( dictionary_path.empty() ) {
-        cctx = ZSTD_createCCtx();
-        dctx = ZSTD_createDCtx();
-    } else if( auto it = cached_contexts.find( dictionary_path.generic_u8string() );
-               it != cached_contexts.end() ) {
+    if( auto it = cached_contexts.find( dictionary_path.generic_u8string() );
+        it != cached_contexts.end() ) {
         cctx = it->second.cctx;
         dctx = it->second.dctx;
     } else {
