@@ -8567,8 +8567,6 @@ void map::grow_plant( const tripoint_bub_ms &p )
                    seed->tname(), to_string( seed->age() ), current_stage.c_str(), target_stage.c_str(),
                    stages_to_advance );
 
-    ter_furn_flag current = io::string_to_enum<ter_furn_flag>( current_stage.str() );
-
     if( stages_to_advance <= 0 ) {
         // We don't have the logic to reverse growth transforms, so leave the stage as is on a time rewind.
         return;
