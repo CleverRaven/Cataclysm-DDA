@@ -577,6 +577,16 @@
           "not": { "or": [ { "u_has_effect": "vampire_attacked_vampire_or_renfield" }, { "u_has_trait": "VAMPIRE_ANATHEMA" } ] }
         },
         "mutations": [ "VAMPIRE_TRUCE" ]
+      },
+      {
+        "values": [
+          {
+            "value": "NIGHT_VIS",
+            "add": {
+              "math": [ "1 + u_has_trait('VAMPIRE2') + u_has_trait('VAMPIRE3') + u_has_trait('VAMPIRE4') + u_has_trait('BLOOD_DRINKER')" ]
+            }
+          }
+        ]
       }
     ]
   },
