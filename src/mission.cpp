@@ -484,7 +484,9 @@ bool mission::is_complete( const character_id &_npc_id ) const
     if( status == mission_status::success ) {
         return true;
     }
-
+    if( status == mission_status::yet_to_start ) {
+        return true;
+    }
     avatar &player_character = get_avatar();
     switch( type->goal ) {
         case MGOAL_GO_TO: {
