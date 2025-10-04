@@ -1724,6 +1724,8 @@
     "type": "effect_on_condition",
     "id": "EOC_VAMPIRE_TORPOR_activated",
     "effect": [
+      { "math": [ "u_val('sleepiness') = 0" ] },
+      { "math": [ "u_val('sleep_deprivation') = 0" ] },
       { "u_assign_activity": "ACT_VAMPIRE_TORPOR", "duration": "8 hours" },
       { "u_add_effect": "effect_vampire_torpor", "duration": "8 hours" }
     ]
@@ -1738,13 +1740,16 @@
     "interruptable": false,
     "interruptable_with_kb": false,
     "rooted": true,
-    "do_turn_eoc": "EOC_VAMPIRE_TORPOR_RECOVER",
-    "completion_eoc": "EOC_EARTH_SLEEP_CHECK_REAL"
+    "completion_eoc": "EOC_REGAIN_SLEEP_AND_EARTH_SLEEP_CHECK_REAL"
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_VAMPIRE_TORPOR_RECOVER",
-    "effect": [ { "math": [ "u_val('sleepiness') = 0" ] }, { "math": [ "u_val('sleep_deprivation') = 0" ] } ]
+    "id": "EOC_REGAIN_SLEEP_AND_EARTH_SLEEP_CHECK_REAL",
+    "effect": [
+      { "math": [ "u_val('sleepiness') = 0" ] },
+      { "math": [ "u_val('sleep_deprivation') = 0" ] },
+      { "run_eocs": "EOC_EARTH_SLEEP_CHECK_REAL" }
+    ]
   },
   {
     "type": "effect_type",
@@ -1773,7 +1778,9 @@
               ]
             }
           },
-          { "value": "REGEN_HP_AWAKE", "multiply": 1 }
+          { "value": "REGEN_HP_AWAKE", "multiply": 1 },
+          { "value": "SLEEPINESS_REGEN", "multiply": 20 },
+          { "value": "SLEEPINESS", "multiply": -0.99 }
         ]
       }
     ]
