@@ -227,7 +227,7 @@
     "id": "tearer",
     "type": "vehicle_part",
     "copy-from": "ram_blaze",
-    "name": { "str": "shredder" },
+    "description": "This menacing-looking attachment is meant to be powered by a vehicle's engine.  Upon doing so, the circular blades of this device will rotate rapidly; anything in front of it is likely to be ripped to shreds.  It is sturdy enough to withstand multiple impacts, and is designed to detach if it would take a hit that would break it.",
     "item": "tearer",
     "color": "dark_gray",
     "broken_color": "dark_gray",
@@ -236,7 +236,6 @@
     "damage_modifier": 500,
     "breaks_into": [  ],
     "//": "120 cm weld to affix it to a vehicle",
-    "description": "A circular blade, powered by the vehicle's engine.  It will dramatically increase the damage the vehicle delivers in collisions.  Mount on the edges of the vehicle, preferably the front.",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 5 ] ],
@@ -259,7 +258,6 @@
     "type": "vehicle_part",
     "copy-from": "ram_blaze",
     "id": "blade",
-    "name": { "str": "blade" },
     "damage_modifier": 250,
     "durability": 200,
     "description": "A blade, welded to the vehicle, for cutting up zombies.",
@@ -278,7 +276,6 @@
     "type": "vehicle_part",
     "copy-from": "blade",
     "id": "spike",
-    "name": { "str": "spike" },
     "damage_modifier": 300,
     "durability": 250,
     "color": "white",
