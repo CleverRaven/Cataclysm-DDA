@@ -1,6 +1,6 @@
 [
   {
-    "type": "region_settings_new",
+    "type": "region_settings",
     "id": "default",
     "rivers": "default",
     "lakes": "default",

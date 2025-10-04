@@ -394,7 +394,7 @@
     "biomes": [ "biome_forest_aftershock", "biome_forest_thick_aftershock", "biome_forest_water_aftershock" ]
   },
   {
-    "type": "region_settings_new",
+    "type": "region_settings",
     "id": "default_aftershock",
     "copy-from": "default",
     "rivers": "no_rivers",

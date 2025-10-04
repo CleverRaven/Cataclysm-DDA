@@ -869,7 +869,7 @@
     "biomes": [ "biome_forest_ruralbiome", "biome_forest_thick_ruralbiome", "biome_forest_water_ruralbiome" ]
   },
   {
-    "type": "region_settings_new",
+    "type": "region_settings",
     "id": "default_ruralbiome",
     "copy-from": "default",
     "rivers": "default_ruralbiome",

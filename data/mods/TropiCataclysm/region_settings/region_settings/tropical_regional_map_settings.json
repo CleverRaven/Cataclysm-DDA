@@ -771,7 +771,7 @@
     "biomes": [ "biome_forest_tropicataclysm", "biome_forest_thick_tropicataclysm", "biome_forest_water_tropicataclysm" ]
   },
   {
-    "type": "region_settings_new",
+    "type": "region_settings",
     "id": "default_tropicataclysm",
     "copy-from": "default",
     "rivers": "default_tropicataclysm",

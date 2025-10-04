@@ -124,7 +124,7 @@
     "extend": { "biomes": [ "biome_forest_water_innawood" ] }
   },
   {
-    "type": "region_settings_new",
+    "type": "region_settings",
     "id": "default_innawood",
     "copy-from": "default",
     "forest_trails": "default_innawood",

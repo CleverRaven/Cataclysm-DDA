@@ -612,7 +612,7 @@
     "biomes": [ "biome_forest_desert", "biome_forest_thick_desert", "biome_forest_water_desert" ]
   },
   {
-    "type": "region_settings_new",
+    "type": "region_settings",
     "id": "default_desert",
     "copy-from": "default",
     "rivers": "default_desert",

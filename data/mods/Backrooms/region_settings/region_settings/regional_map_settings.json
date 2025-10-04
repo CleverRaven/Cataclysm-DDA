@@ -271,7 +271,7 @@
     "biomes": [ "biome_forest_backrooms", "biome_forest_thick_backrooms", "biome_forest_water_backrooms" ]
   },
   {
-    "type": "region_settings_new",
+    "type": "region_settings",
     "id": "default_backrooms",
     "copy-from": "default",
     "rivers": "no_rivers",
