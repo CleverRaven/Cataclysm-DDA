@@ -1,6 +1,6 @@
 [
   {
-    "type": "region_overlay_new",
+    "type": "region_overlay",
     "apply_to_tags": [ "all" ],
     "id": "default_defense_mode",
     "feature_flag_settings": { "whitelist": [ "DEFENSE_MODE" ] }

@@ -1,6 +1,6 @@
 [
   {
-    "type": "region_overlay_new",
+    "type": "region_overlay",
     "id": "default_magiclysm",
     "apply_to_tags": [ "all" ],
     "cities": "default_magiclysm",

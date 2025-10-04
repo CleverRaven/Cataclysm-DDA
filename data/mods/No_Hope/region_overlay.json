@@ -1,6 +1,6 @@
 [
   {
-    "type": "region_settings_new",
+    "type": "region_settings",
     "id": "default_nohope",
     "copy-from": "default",
     "map_extras": "default_nohope",

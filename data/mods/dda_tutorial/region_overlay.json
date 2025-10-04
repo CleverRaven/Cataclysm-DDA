@@ -1,6 +1,6 @@
 [
   {
-    "type": "region_overlay_new",
+    "type": "region_overlay",
     "id": "default_tutorial",
     "apply_to_tags": [ "all" ],
     "feature_flag_settings": { "whitelist": [ "TUTORIAL" ] }

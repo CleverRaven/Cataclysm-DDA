@@ -32,7 +32,7 @@
     "autonote": true
   },
   {
-    "type": "region_overlay_new",
+    "type": "region_overlay",
     "id": "default_crazy",
     "apply_to_tags": [ "all" ],
     "map_extras": "default_crazy"

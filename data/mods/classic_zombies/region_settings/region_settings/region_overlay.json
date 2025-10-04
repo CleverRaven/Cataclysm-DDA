@@ -58,7 +58,7 @@
     "weather_black_list": [ "early_portal_storm", "portal_storm" ]
   },
   {
-    "type": "region_settings_new",
+    "type": "region_settings",
     "id": "default_classiczombies",
     "copy-from": "default",
     "lakes": "default_classiczombies",
