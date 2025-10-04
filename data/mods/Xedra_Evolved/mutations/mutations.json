@@ -583,7 +583,7 @@
           {
             "value": "NIGHT_VIS",
             "add": {
-              "math": [ "1 + u_has_trait('VAMPIRE2') + u_has_trait('VAMPIRE3') + (u_has_trait('VAMPIRE4') + (u_has_trait('BLOOD_DRINKER')" ]
+              "math": [ "1 + u_has_trait('VAMPIRE2') + u_has_trait('VAMPIRE3') + u_has_trait('VAMPIRE4') + u_has_trait('BLOOD_DRINKER')" ]
             }
           }
         ]
