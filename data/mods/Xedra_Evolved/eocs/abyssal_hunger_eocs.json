@@ -6,15 +6,15 @@
       { "u_location_variable": { "global_val": "original_loc" } },
       { "u_location_variable": { "global_val": "dungeon_loc" }, "z_adjust": 6, "z_override": true },
       { "u_location_variable": { "global_val": "dungeon_roof_loc" }, "z_adjust": 7, "z_override": true },
-      { "revert_location": { "global_val": "dungeon_loc" }, "key": "abyssal_hunger", "time_in_future": "infinite" },
+      { "revert_location": { "global_val": "dungeon_loc" }, "key": "abyssal_hunger", "time_in_future": "172800 s" },
       {
         "place_override": { "global_val": "place_name", "default": "Inside the Abyssal Hunger" },
         "key": "abyssal_hunger",
-        "length": "infinite"
+        "length": "172800 s"
       },
       {
         "revert_location": { "global_val": "dungeon_roof_loc" },
-        "time_in_future": "infinite",
+        "time_in_future": "172800 s",
         "key": "abyssal_hunger"
       },
       { "mapgen_update": "abyssal_hunger_roof", "target_var": { "global_val": "dungeon_roof_loc" } },

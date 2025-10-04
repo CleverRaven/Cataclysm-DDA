@@ -128,47 +128,47 @@
       },
       {
         "revert_location": { "global_val": "vitrified_farm_ground" },
-        "time_in_future": "infinite",
+        "time_in_future": "172800 s",
         "key": "vitrified_farm_escape_key"
       },
       {
         "revert_location": { "global_val": "vitrified_farm_upper" },
-        "time_in_future": "infinite",
+        "time_in_future": "172800 s",
         "key": "vitrified_farm_escape_key"
       },
       {
         "revert_location": { "global_val": "vitrified_farm_basement" },
-        "time_in_future": "infinite",
+        "time_in_future": "172800 s",
         "key": "vitrified_farm_escape_key"
       },
       {
         "revert_location": { "global_val": "vitrified_farm_roof" },
-        "time_in_future": "infinite",
+        "time_in_future": "172800 s",
         "key": "vitrified_farm_escape_key"
       },
       {
         "revert_location": { "global_val": "vitrified_sky_1" },
-        "time_in_future": "infinite",
+        "time_in_future": "172800 s",
         "key": "vitrified_farm_escape_key"
       },
       {
         "revert_location": { "global_val": "vitrified_apples" },
-        "time_in_future": "infinite",
+        "time_in_future": "172800 s",
         "key": "vitrified_farm_escape_key"
       },
       {
         "revert_location": { "global_val": "vitrified_apples_sky_lower" },
-        "time_in_future": "infinite",
+        "time_in_future": "172800 s",
         "key": "vitrified_farm_escape_key"
       },
       {
         "revert_location": { "global_val": "vitrified_apples_sky_upper" },
-        "time_in_future": "infinite",
+        "time_in_future": "172800 s",
         "key": "vitrified_farm_escape_key"
       },
       {
         "revert_location": { "global_val": "vitrified_sky_2" },
-        "time_in_future": "infinite",
+        "time_in_future": "172800 s",
         "key": "vitrified_farm_escape_key"
       },
       { "mapgen_update": "vitrified_farm_0", "target_var": { "global_val": "vitrified_farm_ground" } },

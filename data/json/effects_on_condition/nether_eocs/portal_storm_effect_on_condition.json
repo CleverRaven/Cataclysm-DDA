@@ -871,7 +871,7 @@
       { "assign_mission": "MISSION_INVESTIGATE_PORTAL_DUNGEON" },
       {
         "revert_location": { "global_val": "portal_dungeon" },
-        "time_in_future": "infinite",
+        "time_in_future": "172800 s",
         "key": "portal_dungeon_entrance"
       },
       { "mapgen_update": "portal_dungeon_entrance", "target_var": { "global_val": "portal_dungeon" } }
@@ -884,7 +884,7 @@
       { "u_location_variable": { "global_val": "original_loc" } },
       { "u_location_variable": { "global_val": "dungeon_loc" }, "z_adjust": 6, "z_override": true },
       { "u_location_variable": { "global_val": "dungeon_roof_loc" }, "z_adjust": 7, "z_override": true },
-      { "revert_location": { "global_val": "dungeon_loc" }, "key": "portal_dungeon", "time_in_future": "infinite" },
+      { "revert_location": { "global_val": "dungeon_loc" }, "key": "portal_dungeon", "time_in_future": "172800 s" },
       {
         "set_string_var": [ "Somewhere", "Nowhere", "Everywhere", "Yesterday", "Tomorrow" ],
         "target_var": { "global_val": "place_name" },
@@ -893,11 +893,11 @@
       {
         "place_override": { "global_val": "place_name", "default": "Error" },
         "key": "portal_dungeon",
-        "length": "infinite"
+        "length": "172800 s"
       },
       {
         "revert_location": { "global_val": "dungeon_roof_loc" },
-        "time_in_future": "infinite",
+        "time_in_future": "172800 s",
         "key": "portal_dungeon"
       },
       { "mapgen_update": "portal_dungeon_roof", "target_var": { "global_val": "dungeon_roof_loc" } },
