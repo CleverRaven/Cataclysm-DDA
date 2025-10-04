@@ -760,5 +760,15 @@
       ]
     },
     "targeted_monster_species": [ "HUMAN", "FERAL", "CYBORG" ]
+  },
+  {
+    "type": "SPELL",
+    "id": "abyssal_hunger_next_level",
+    "name": "abyssal hunger next level",
+    "description": "abyssal hunger next level",
+    "shape": "blast",
+    "valid_targets": [ "hostile", "ground", "self", "ally" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_ENTER_ABYSSAL_HUNGER_NEXT_LEVEL"
   }
 ]

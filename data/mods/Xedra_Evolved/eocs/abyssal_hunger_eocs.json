@@ -10,7 +10,7 @@
       {
         "place_override": { "global_val": "place_name", "default": "Inside the Abyssal Hunger" },
         "key": "abyssal_hunger",
-        "length": "172800 s"
+        "length": "infinite"
       },
       {
         "revert_location": { "global_val": "dungeon_roof_loc" },

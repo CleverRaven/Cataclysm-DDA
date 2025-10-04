@@ -47,7 +47,7 @@
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN", "NO_UNDERLYING_ROTATE" ],
       "set": [
         { "square": "furniture", "id": "f_null", "x": 0, "x2": 23, "y": 0, "y2": 23 },
-        { "point": "variable", "id": "dungeon_start", "x": 1, "y": 2 },
+        { "point": "variable", "id": "dungeon_start", "x": [ 1, 22 ], "y": 2 },
         { "point": "trap", "id": "tr_abyssal_hunger_next_level", "x": [ 1, 22 ], "y": 22 }
       ]
     }
@@ -86,7 +86,7 @@
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN", "NO_UNDERLYING_ROTATE" ],
       "set": [
         { "square": "furniture", "id": "f_null", "x": 0, "x2": 23, "y": 0, "y2": 23 },
-        { "point": "variable", "id": "dungeon_start", "x": 1, "y": 2 }
+        { "point": "variable", "id": "dungeon_start", "x": [ 1, 22 ], "y": 2 }
       ]
     }
   },
@@ -108,17 +108,7 @@
     "name": "Hole to elsewhere",
     "color": "blue",
     "copy-from": "tr_swirling_vortex",
-    "action": "spell",
-    "spell_data": { "id": "abyssal_hunger_next_level" }
-  },
-  {
-    "type": "SPELL",
-    "id": "abyssal_hunger_next_level",
-    "name": "abyssal hunger next level",
-    "description": "abyssal hunger next level",
-    "shape": "blast",
-    "valid_targets": [ "hostile", "ground", "self", "ally" ],
-    "effect": "effect_on_condition",
-    "effect_str": "EOC_ENTER_ABYSSAL_HUNGER_NEXT_LEVEL"
+    "action": "eocs",
+    "eocs": [ "EOC_ENTER_ABYSSAL_HUNGER_NEXT_LEVEL" ]
   }
 ]
