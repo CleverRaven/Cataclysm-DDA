@@ -4033,6 +4033,21 @@ void options_manager::update_options_cache()
     trigdist = ::get_option<bool>( "CIRCLEDIST" );
     use_tiles = ::get_option<bool>( "USE_TILES" );
 
+    // Since these are external options they aren't loaded before the first time
+    // update_options_cache is called, so they're conditionally loaded.
+    if( ::has_option( "PLAYER_MAX_STR_VALUE" ) ) {
+        character_max_str = ::get_option<int>( "PLAYER_MAX_STR_VALUE" );
+    }
+    if( ::has_option( "PLAYER_MAX_DEX_VALUE" ) ) {
+        character_max_dex = ::get_option<int>( "PLAYER_MAX_DEX_VALUE" );
+    }
+    if( ::has_option( "PLAYER_MAX_PER_VALUE" ) ) {
+        character_max_per = ::get_option<int>( "PLAYER_MAX_PER_VALUE" );
+    }
+    if( ::has_option( "PLAYER_MAX_INT_VALUE" ) ) {
+        character_max_int = ::get_option<int>( "PLAYER_MAX_INT_VALUE" );
+    }
+
     prevent_occlusion = ::get_option<int>( "PREVENT_OCCLUSION" );
     prevent_occlusion_retract = ::get_option<bool>( "PREVENT_OCCLUSION_RETRACT" );
     prevent_occlusion_transp = ::get_option<bool>( "PREVENT_OCCLUSION_TRANSP" );

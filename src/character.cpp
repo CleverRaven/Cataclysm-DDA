@@ -513,6 +513,11 @@ static const std::string type_skin_tone( "skin_tone" );
 static const std::string type_facial_hair( "facial_hair" );
 static const std::string type_eye_color( "eye_color" );
 
+int character_max_str = 20;
+int character_max_dex = 20;
+int character_max_per = 20;
+int character_max_int = 20;
+
 namespace io
 {
 
@@ -4330,36 +4335,36 @@ body_part_set Character::exclusive_flag_coverage( const flag_id &flag ) const
 // get_stat_bonus() is always just the bonus amount
 int Character::get_str() const
 {
-    return std::max( 0, get_str_base() + str_bonus );
+    return std::min( character_max_str, std::max( 0, get_str_base() + str_bonus ) );
 }
 int Character::get_dex() const
 {
-    return std::max( 0, get_dex_base() + dex_bonus );
+    return std::min( character_max_dex, std::max( 0, get_dex_base() + dex_bonus ) );
 }
 int Character::get_per() const
 {
-    return std::max( 0, get_per_base() + per_bonus );
+    return std::min( character_max_per, std::max( 0, get_per_base() + per_bonus ) );
 }
 int Character::get_int() const
 {
-    return std::max( 0, get_int_base() + int_bonus );
+    return std::min( character_max_int, std::max( 0, get_int_base() + int_bonus ) );
 }
 
 int Character::get_str_base() const
 {
-    return str_max;
+    return std::min( character_max_str, str_max );
 }
 int Character::get_dex_base() const
 {
-    return dex_max;
+    return std::min( character_max_dex, dex_max );
 }
 int Character::get_per_base() const
 {
-    return per_max;
+    return std::min( character_max_per, per_max );
 }
 int Character::get_int_base() const
 {
-    return int_max;
+    return std::min( character_max_int, int_max );
 }
 
 int Character::get_str_bonus() const
