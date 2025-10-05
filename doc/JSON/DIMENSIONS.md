@@ -2,8 +2,8 @@
 Dimensions are worlds that are stored within a save folder, they are mostly disconnected from the "main dimension." 
 When travelling between them, you aren't travelling as much as you are "switching" which world data folder is loaded right now.
 
-There's almost no distinction between creating a dimension and loading into it. `u_travel_to_dimension` will create a dimension if the ID you gave it doesn't correspond to an existing dimension.
-The one exception is `region_type`, you're only allowed to change a dimension's `region_settings` object when creating a new dimension. If you're loading into a dimension the `region_type` variable in `u_travel_to_dimension` will be ignored.  
+There's almost no distinction between creating a dimension and loading into it. `u_travel_to_dimension` will just create a dimension if the ID you gave it doesn't correspond to an existing dimension.
+The one exception is `region_type`, you're only allowed to change a dimension's `region_settings` object when creating a new dimension. If you're loading into an already existing dimension, the `region_type` variable in `u_travel_to_dimension` will be ignored.  
 
 By design, you aren't allowed to alter world data of unloaded dimensions. Meaning you can't place down structures in unloaded dimensions, place down NPCs, assign missions requiring a location inside the dimension, you can't even view the unloaded dimensions on an in-game map.
 
