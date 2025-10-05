@@ -1,0 +1,318 @@
+[
+  {
+    "type": "mutation",
+    "id": "DEBUG_TAIL",
+    "name": { "str": "Debug Tail" },
+    "points": 99,
+    "valid": false,
+    "description": "Gain a tail bodypart.",
+    "enchantments": [ "ENCH_DEBUG_TAIL" ],
+    "debug": true
+  },
+  {
+    "type": "mutation",
+    "id": "DEBUG_ONLY_HEAD",
+    "name": { "str": "Debug No Torso" },
+    "points": 99,
+    "valid": false,
+    "description": "They said college costs an arm and a leg, they sure weren't kidding!",
+    "enchantments": [ "ENCH_DEBUG_ONLY_HEAD" ],
+    "debug": true
+  },
+  {
+    "type": "mutation",
+    "id": "DEBUG_BIG_HEAD",
+    "name": { "str": "Debug Big Head" },
+    "points": 99,
+    "valid": false,
+    "description": "They said college what make me smart, this is a lot to lug around!",
+    "enchantments": [ "ENCH_DEBUG_BIG_HEAD" ],
+    "debug": true
+  },
+  {
+    "type": "mutation",
+    "id": "DEBUG_WEIGHT_MULT",
+    "name": { "str": "Debug Half Weight" },
+    "points": 99,
+    "valid": false,
+    "description": "Better than GLP1 drugs!",
+    "enchantments": [ "ENCH_DEBUG_WEIGHT_MODIFIER" ],
+    "debug": true
+  },
+  {
+    "type": "mutation",
+    "id": "DEBUG_MUTATE",
+    "name": { "str": "Debug Genetic Instability" },
+    "points": 99,
+    "valid": false,
+    "description": "You just can't wait to turn into a bug!  Triggers a mutation using the normal mutation rules (requiring primer but no catalyst) every five seconds.",
+    "debug": true,
+    "processed_eocs": [ "eoc_debug_mutate" ],
+    "time": "5 s"
+  },
+  {
+    "type": "mutation",
+    "id": "DEBUG_NIGHTVISION",
+    "name": { "str": "Debug Night and Map Vision" },
+    "points": 99,
+    "valid": false,
+    "description": "Grants flawless night vision and the ability to see all of the overmaps without having to reveal them manually.  As such, you can clearly see that this is for dev purposes only.",
+    "debug": true
+  },
+  {
+    "type": "mutation",
+    "id": "DEBUG_CLAIRVOYANCE_PLUS",
+    "name": { "str": "Debug Clairvoyance" },
+    "points": 99,
+    "valid": false,
+    "description": "Being able to see through walls and the floor is clearly for dev purposes only.",
+    "flags": [ "CLAIRVOYANCE_PLUS" ],
+    "debug": true
+  },
+  {
+    "type": "mutation",
+    "id": "DEBUG_CLAIRVOYANCE",
+    "name": { "str": "Debug Clairvoyance Super" },
+    "points": 99,
+    "valid": false,
+    "description": "Much bigger range than the other Debug Clairvoyance trait.  Unsure which one to use?  Use them both!  You can see all the bugs with this one.",
+    "flags": [ "SUPER_CLAIRVOYANCE" ],
+    "debug": true
+  },
+  {
+    "type": "mutation",
+    "id": "DEBUG_PHASE_MOVEMENT",
+    "name": { "str": "Debug Phase Movement" },
+    "points": 99,
+    "valid": false,
+    "description": "You can walk anywhere, do anything.  Neither walls nor gravity can stop you.",
+    "flags": [ "PHASE_MOVEMENT" ],
+    "debug": true
+  },
+  {
+    "type": "mutation",
+    "id": "DEBUG_CLOAK",
+    "name": { "str": "Debug Invisibility" },
+    "points": 99,
+    "valid": false,
+    "description": "If you see this, you'd best be debugging something.",
+    "debug": true
+  },
+  {
+    "type": "mutation",
+    "id": "DEBUG_LS",
+    "name": { "str": "Debug Life Support" },
+    "points": 99,
+    "valid": false,
+    "description": "Holds hunger, thirst, and sleepiness stable.  You can debug all year long with this one!",
+    "debug": true
+  },
+  {
+    "type": "mutation",
+    "id": "DEBUG_CARDIO",
+    "name": { "str": "Debug Cardio" },
+    "points": 99,
+    "valid": false,
+    "enchantments": [ { "values": [ { "value": "CARDIO_MULTIPLIER", "multiply": 10000 } ] } ],
+    "description": "You can run, but you'll never run out of breath.",
+    "debug": true
+  },
+  {
+    "type": "mutation",
+    "id": "DEBUG_HP",
+    "name": { "str": "Debug 9000 HP" },
+    "points": 99,
+    "valid": false,
+    "description": "If you need to survive the deadliest bug attacks.",
+    "enchantments": [ { "values": [ { "value": "MAX_HP", "add": 9000 } ] } ],
+    "debug": true
+  },
+  {
+    "type": "mutation",
+    "id": "DEBUG_HP_REGEN",
+    "name": { "str": "Debug Regeneration" },
+    "points": 99,
+    "valid": false,
+    "description": "Heal yourself from this stupid bug attacks.",
+    "enchantments": [ { "values": [ { "value": "REGEN_HP", "add": 100 } ] } ],
+    "debug": true
+  },
+  {
+    "type": "mutation",
+    "id": "DEBUG_NOSCENT",
+    "name": { "str": "Debug Deodorizer" },
+    "points": 99,
+    "valid": false,
+    "description": "Smell that bug?  Smell's certainly not coming from you!",
+    "debug": true,
+    "flags": [ "NO_SCENT" ]
+  },
+  {
+    "type": "mutation",
+    "id": "DEBUG_SILENT",
+    "name": { "str": "Debug Silent Walk" },
+    "points": 99,
+    "valid": false,
+    "description": "Be vewwy vewwy quiet.  We're hunting bugs.",
+    "debug": true
+  },
+  {
+    "type": "mutation",
+    "id": "DEBUG_MANA",
+    "//": "Moved to mainline so multiple mods have access to this debug trait.",
+    "name": { "str": "Debug Mana" },
+    "points": 99,
+    "valid": false,
+    "description": "To cast bug killing spells.  Also increase the cast speed of spells.",
+    "debug": true,
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [
+          { "value": "MAX_MANA", "add": 500000 },
+          { "value": "REGEN_MANA", "multiply": 1000 },
+          { "value": "CASTING_TIME_MULTIPLIER", "multiply": -0.99 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "DEBUG_MANA_FURNACE",
+    "name": { "str": "Debug Mana Furnace" },
+    "points": 99,
+    "valid": false,
+    "description": "Using mana to incinerate all bugs, activate to start burning.",
+    "active": true,
+    "transform": {
+      "target": "DEBUG_MANA_FURNACE_active",
+      "msg_transform": "You start using mana to burning bugs.",
+      "active": true,
+      "moves": 0
+    },
+    "debug": true
+  },
+  {
+    "type": "mutation",
+    "id": "DEBUG_MANA_FURNACE_active",
+    "name": { "str": "Debug Mana Furnace (ON)" },
+    "description": "You're burning mana like crazy to burn of all bugs, also making you glow softly.",
+    "copy-from": "DEBUG_MANA_FURNACE",
+    "cost": 100,
+    "time": "1 s",
+    "mana": true,
+    "lumination": [ [ "torso", 8 ] ],
+    "transform": {
+      "target": "DEBUG_MANA_FURNACE",
+      "msg_transform": "You stop incinerating bugs with mana.",
+      "active": false,
+      "moves": 0
+    }
+  },
+  {
+    "type": "mutation",
+    "id": "DEBUG_NOTEMP",
+    "name": { "str": "Debug HVAC" },
+    "points": 99,
+    "valid": false,
+    "description": "Temperature and weather won't bug you.",
+    "debug": true
+  },
+  {
+    "type": "mutation",
+    "id": "DEBUG_NODMG",
+    "name": { "str": "Debug Invincibility" },
+    "points": 99,
+    "valid": false,
+    "description": "Bug-repellent forcefield.",
+    "flags": [ "CANNOT_TAKE_DAMAGE" ],
+    "debug": true
+  },
+  {
+    "type": "mutation",
+    "id": "DEBUG_LIGHT",
+    "name": { "str": "Debug Light" },
+    "points": 99,
+    "valid": false,
+    "description": "You start to emit a light, so you can debug in the darkest nights.",
+    "debug": true,
+    "enchantments": [ { "values": [ { "value": "LUMINATION", "add": 9000 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "DEBUG_HS",
+    "name": { "str": "Debug Hammerspace" },
+    "points": 99,
+    "valid": false,
+    "description": "Crafting and construction requirements bugger off with this one.  Apply with care.",
+    "debug": true
+  },
+  {
+    "type": "mutation",
+    "id": "DEBUG_CNF",
+    "name": { "str": "Debug Crafting Virtuoso" },
+    "points": 99,
+    "valid": false,
+    "description": "Crafting failures won't bug you any more.",
+    "debug": true
+  },
+  {
+    "type": "mutation",
+    "id": "DEBUG_CS",
+    "name": { "str": "Debug Crafting Speed" },
+    "points": 99,
+    "valid": false,
+    "description": "Craft the bug out 50 times faster.",
+    "enchantments": [ { "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 50 } ] } ],
+    "debug": true
+  },
+  {
+    "type": "mutation",
+    "id": "DEBUG_MIND_CONTROL",
+    "name": { "str": "Debug Mind Control" },
+    "points": 99,
+    "valid": false,
+    "description": "Mind the bugs, would you kindly?",
+    "debug": true
+  },
+  {
+    "type": "mutation",
+    "id": "DEBUG_BIONICS",
+    "name": { "str": "Debug Bionic Installation" },
+    "points": 99,
+    "valid": false,
+    "description": "Lets you instantly install torsion ratchets for your eight legs.",
+    "debug": true
+  },
+  {
+    "type": "mutation",
+    "id": "DEBUG_SPEED",
+    "name": { "str": "Debug Speed" },
+    "points": 99,
+    "valid": false,
+    "description": "With this, you'll be fixing those bugs faster than ever!",
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SPEED", "multiply": 10 } ] } ],
+    "debug": true,
+    "active": true
+  },
+  {
+    "type": "mutation",
+    "id": "DEBUG_STAMINA",
+    "name": { "str": "Debug Stamina" },
+    "points": 99,
+    "valid": false,
+    "description": "Your energy to squash bugs is endless!",
+    "enchantments": [ { "values": [ { "value": "STAMINA_REGEN_MOD", "add": 9 } ] } ],
+    "debug": true,
+    "active": true
+  },
+  {
+    "type": "mutation",
+    "id": "DEBUG_PREVENT_DEATH",
+    "name": { "str": "Debug Prevent Death" },
+    "points": 99,
+    "valid": false,
+    "description": "You are prevented from death.",
+    "debug": true
+  }
+]
