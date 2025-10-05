@@ -1,9 +1,9 @@
 # Dimensions
 Dimensions are worlds that are stored within a save folder, they are mostly disconnected from the "main dimension." 
 When travelling between them, you aren't travelling as much as you are "switching" which world data folder is loaded right now.
-By design, you aren't allowed to alter world data of unloaded dimensions. Meaning you can't place down structures in unloaded dimensions, place down NPCs, assign missions there, you can't even view the unloaded dimensions on an in-game map.
+By design, you aren't allowed to alter world data of unloaded dimensions. Meaning you can't place down structures in unloaded dimensions, place down NPCs, assign missions requiring a location inside the dimension, you can't even view the unloaded dimensions on an in-game map.
 
-To get around this, we need to do all our world alterations when travelling into the dimension.
+To get around this, we need to do all our world alterations/queries when travelling into the dimension.
 
 Warping player to a dimension `portal_cell`, updating the location they teleported with a portal_cell structure and then teleporting the player inside:
 ```jsonc
