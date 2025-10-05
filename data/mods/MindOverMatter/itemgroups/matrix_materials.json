@@ -108,8 +108,8 @@
     "subtype": "distribution",
     "id": "clairsentient_matrix_crystals_group",
     "entries": [
-      { "group": "biokinetic_crystal_awakening_artifact_procgen", "prob": 1 },
-      { "group": "biokinetic_crystal_artifact_procgen", "prob": 1 }
+      { "group": "clairsentient_crystal_awakening_artifact_procgen", "prob": 1 },
+      { "group": "clairsentient_crystal_artifact_procgen", "prob": 1 }
     ]
   },
   {
