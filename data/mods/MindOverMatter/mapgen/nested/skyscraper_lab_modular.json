@@ -310,7 +310,7 @@
       "terrain": { "W": "t_wall_metal" },
       "furniture": { "ȼ": "f_counter", "P": "f_curtain" },
       "item": {
-        "d": [ { "item": "matrix_crystal_clairsentience", "chance": 5 }, { "item": "matrix_crystal_telepathy", "chance": 5 } ],
+        "d": [ { "group": "clairsentient_matrix_crystals_group", "chance": 5 }, { "item": "matrix_crystal_telepathy", "chance": 5 } ],
         "ȼ": [ { "item": "psionic_telepathic_dampener", "chance": 70 }, { "item": "schematics_telepathic_dampener", "chance": 25 } ],
         "C": [
           { "item": "1l_lead", "chance": 20 },
@@ -370,7 +370,7 @@
       "terrain": { "W": "t_wall_metal" },
       "furniture": { "ȼ": "f_counter", "P": "f_curtain" },
       "item": {
-        "d": [ { "item": "matrix_crystal_clairsentience", "chance": 5 }, { "item": "matrix_crystal_telepathy", "chance": 5 } ],
+        "d": [ { "group": "clairsentient_matrix_crystals_group", "chance": 5 }, { "item": "matrix_crystal_telepathy", "chance": 5 } ],
         "ȼ": [ { "item": "psionic_telepathic_dampener", "chance": 70 }, { "item": "schematics_telepathic_dampener", "chance": 25 } ],
         "C": [
           { "item": "1l_lead", "chance": 20 },
@@ -592,7 +592,7 @@
       "furniture": { "P": "f_curtain", "đ": "f_desk", "Đ": "f_desk" },
       "palettes": [ "phavian_skyscraper_office_room_palette" ],
       "item": {
-        "d": [ { "item": "matrix_crystal_clairsentience", "chance": 5 }, { "item": "matrix_crystal_telepathy", "chance": 5 } ]
+        "d": [ { "group": "clairsentient_matrix_crystals_group", "chance": 5 }, { "item": "matrix_crystal_telepathy", "chance": 5 } ]
       },
       "place_item": [
         { "item": "pen", "x": 7, "y": 5, "chance": 100 },
@@ -634,7 +634,7 @@
       "furniture": { "P": "f_curtain", "đ": "f_desk", "Đ": "f_desk" },
       "palettes": [ "phavian_skyscraper_office_room_palette" ],
       "item": {
-        "d": [ { "item": "matrix_crystal_clairsentience", "chance": 5 }, { "item": "matrix_crystal_telepathy", "chance": 5 } ]
+        "d": [ { "group": "clairsentient_matrix_crystals_group", "chance": 5 }, { "item": "matrix_crystal_telepathy", "chance": 5 } ]
       },
       "place_item": [
         { "item": "pen", "x": 1, "y": 5, "chance": 100 },
@@ -825,10 +825,8 @@
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "phavian_skyscraper_office_room_palette" ],
       "furniture": { "f": "f_air_filter", "5": "f_server", "Ȼ": "f_counter" },
-      "place_item": [
-        { "item": "matrix_crystal_clairsentience", "x": 4, "y": 7, "chance": 30 },
-        { "item": "matrix_crystal_telepathy", "x": 4, "y": 7, "chance": 30 }
-      ],
+      "place_item": [ { "item": "matrix_crystal_telepathy", "x": 4, "y": 7, "chance": 30 } ],
+      "place_items": [ { "item": "clairsentient_matrix_crystals_group", "x": 4, "y": 7, "chance": 30 } ],
       "items": {
         "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] },
         "d": { "item": "dist_lab_file_phavian_skyscraper_lab", "chance": 5 },
@@ -863,10 +861,8 @@
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "phavian_skyscraper_office_room_palette" ],
       "furniture": { "f": "f_air_filter", "5": "f_server", "Ȼ": "f_counter" },
-      "place_item": [
-        { "item": "matrix_crystal_clairsentience", "x": 4, "y": 7, "chance": 30 },
-        { "item": "matrix_crystal_telepathy", "x": 4, "y": 7, "chance": 30 }
-      ],
+      "place_item": [ { "item": "matrix_crystal_telepathy", "x": 4, "y": 7, "chance": 30 } ],
+      "place_items": [ { "item": "clairsentient_matrix_crystals_group", "x": 4, "y": 7, "chance": 30 } ],
       "items": {
         "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] },
         "d": { "item": "dist_lab_file_phavian_skyscraper_lab", "chance": 5 },
@@ -950,10 +946,10 @@
       "palettes": [ "phavian_skyscraper_office_room_palette" ],
       "nested": { "X": { "chunks": [ [ "phavian_skyscraper_osiris_chamber", 1 ] ] } },
       "place_item": [
-        { "item": "matrix_crystal_clairsentience", "x": 0, "y": 0, "chance": 30 },
         { "item": "matrix_crystal_telepathy", "x": 0, "y": 0, "chance": 30 },
         { "item": "lab_file_obsidian_ring_item", "x": 1, "y": 0, "chance": 45 }
       ],
+      "place_items": [ { "item": "clairsentient_matrix_crystals_group", "x": 0, "y": 0, "chance": 30 } ],
       "items": {
         "d": { "item": "dist_lab_file_phavian_skyscraper_lab", "chance": 5 },
         "C": { "item": "psi_lab_no_recipes", "chance": 60, "repeat": [ 1, 3 ] },
@@ -992,10 +988,10 @@
       "palettes": [ "phavian_skyscraper_office_room_palette" ],
       "nested": { "X": { "chunks": [ [ "phavian_skyscraper_osiris_chamber", 1 ] ] } },
       "place_item": [
-        { "item": "matrix_crystal_clairsentience", "x": 8, "y": 0, "chance": 30 },
         { "item": "matrix_crystal_telepathy", "x": 8, "y": 0, "chance": 30 },
         { "item": "lab_file_obsidian_ring_item", "x": 7, "y": 0, "chance": 45 }
       ],
+      "place_items": [ { "item": "clairsentient_matrix_crystals_group", "x": 8, "y": 0, "chance": 30 } ],
       "items": {
         "d": { "item": "dist_lab_file_phavian_skyscraper_lab", "chance": 5 },
         "C": { "item": "psi_lab_no_recipes", "chance": 60, "repeat": [ 1, 3 ] },

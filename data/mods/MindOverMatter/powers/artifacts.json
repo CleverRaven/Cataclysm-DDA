@@ -3,7 +3,7 @@
     "type": "SPELL",
     "id": "MoM_AEA_BIOKINETIC_AWAKENING",
     "name": { "str": "MoM Artifact Biokinetic Awakening", "//~": "NO_I18N" },
-    "description": { "str": "Causes the artifact to take even more calories than usual.", "//~": "NO_I18N" },
+    "description": { "str": "Causes the artifact to awaken you as a biokinetic.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "skill": "metaphysics",
     "effect": "effect_on_condition",
@@ -30,6 +30,21 @@
       { "id": "mom_aea_artifact_calorie_hit", "hit_self": true },
       { "id": "mom_aea_artifact_calorie_hit", "hit_self": true }
     ]
+  },
+  {
+    "type": "SPELL",
+    "id": "MoM_AEA_NETHER_ATTUNEMENT",
+    "name": { "str": "MoM Artifact Nether Attunement", "//~": "NO_I18N" },
+    "description": { "str": "Causes the artifact to give you a whack of Nether Attunement.", "//~": "NO_I18N" },
+    "valid_targets": [ "self" ],
+    "skill": "metaphysics",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_MoM_AEA_NETHER_ATTUNEMENT",
+    "shape": "blast",
+    "base_casting_time": 100,
+    "flags": [ "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
+    "message": "",
+    "extra_effects": [ { "id": "mom_aea_artifact_calorie_hit", "hit_self": true } ]
   },
   {
     "type": "SPELL",
@@ -252,6 +267,21 @@
     "field_id": "fd_clairvoyant",
     "min_field_intensity": 1,
     "max_field_intensity": 1,
+    "extra_effects": [ { "id": "mom_aea_artifact_calorie_hit", "hit_self": true } ]
+  },
+  {
+    "type": "SPELL",
+    "id": "MoM_AEA_ASTRAL_PROJECTION",
+    "name": { "str": "MoM Artifact Astral Projection", "//~": "NO_I18N" },
+    "description": { "str": "Causes the artifact cast you forth from your body as a spirit.", "//~": "NO_I18N" },
+    "valid_targets": [ "self" ],
+    "skill": "metaphysics",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CLAIR_ASTRAL_PROJECTION_INITIATE",
+    "shape": "blast",
+    "base_casting_time": 100,
+    "flags": [ "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
+    "message": "",
     "extra_effects": [ { "id": "mom_aea_artifact_calorie_hit", "hit_self": true } ]
   }
 ]
