@@ -69,7 +69,7 @@
     "copy-from": "matrix_crystal_biokinesis",
     "description": "A strange-looking, surprisingly-heavy crystal with a faintly-glowing gray light in its depths.  Holding it, you feel more perceptive.",
     "color": "dark_gray",
-    "flags": [ "MATRIX_CRYSTAL_CLAIRSENTIENCE" ],
+    "flags": [ "MATRIX_CRYSTAL_CLAIRSENTIENCE", "RELIC_PINK" ],
     "use_action": {
       "type": "effect_on_conditions",
       "consume": true,
@@ -93,6 +93,20 @@
     "description": "Concentrated matrix crystal dust.  It glitters gray even in complete darkness.",
     "copy-from": "matrix_crystal_biokin_dust_refined",
     "color": "dark_gray"
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
+    "id": "matrix_crystal_clairsentience_artifact",
+    "name": { "str_sp": "strange crystal, gray" },
+    "description": "A strange-looking, surprisingly-heavy crystal with a faintly-glowing gray light in its depths.  Holding it, you feel more perceptive.",
+    "color": "dark_gray",
+    "symbol": "+",
+    "volume": "10 ml",
+    "weight": "150 g",
+    "longest_side": "21 mm",
+    "looks_like": "matrix_crystal_clairsentience",
+    "flags": [ "MATRIX_CRYSTAL_CLAIRSENTIENCE", "RELIC_PINK" ]
   },
   {
     "type": "ITEM",
