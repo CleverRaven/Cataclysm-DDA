@@ -2307,7 +2307,8 @@ int game::inventory_item_menu( item_location locThisItem,
                     }
                     addentry( 'v', pgettext( "action", "pocket settings" ), hint_rating::good );
                 }
-                addentry( 'f', pgettext( "action", oThisItem.is_favorite ? "unfavorite" : "favorite" ),
+                addentry( 'f', oThisItem.is_favorite ? pgettext( "action", "unfavorite" ) : pgettext( "action",
+                          "favorite" ),
                           hint_rating::good );
                 addentry( 'V', pgettext( "action", "view recipe" ), rate_action_view_recipe( u, oThisItem ) );
                 addentry( '>', pgettext( "action", "hide contents" ), rate_action_collapse( oThisItem ) );
