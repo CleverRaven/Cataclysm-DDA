@@ -4316,7 +4316,8 @@ void overmap::move_hordes()
             // Call up to overmapbuffer in case it needs to dispatch to an adjacent overmap.
             for( const tripoint_abs_ms &candidate :
                  squares_closer_to( mon->first, mon->second.destination ) ) {
-                if( overmap_buffer.passable( candidate ) ) {
+                // Just filter out cross-level candidates for now.
+                if( candidate.z() == mon->first.z() && overmap_buffer.passable( candidate ) ) {
                     viable_candidates.push_back( candidate );
                 }
             }
