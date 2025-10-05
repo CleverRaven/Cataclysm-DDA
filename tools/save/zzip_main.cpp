@@ -220,22 +220,8 @@ struct ZzipStream {
 
 #define RETURN_ERROR(e) err = e; return entry
 
-            // Skip the zzip header.
-            if( !ZSTD_isSkippableFrame( base, remaining_len ) ) {
-                RETURN_ERROR( ZzipError( zzip_path, 0, "Zzip does not start with skippable frame." ) );
-            }
-
-            // The first frame of a zzip should be a skippable frame of two 64 bit ints
             ZSTD_FrameHeader header;
-            size_t error_code = ZSTD_getFrameHeader( &header, base, remaining_len );
-            if( ZSTD_isError( error_code ) ||
-                header.dictID != kFooterChecksumMagic ||
-                header.frameContentSize != 2 * sizeof( uint64_t ) ) {
-                RETURN_ERROR( ZzipError( zzip_path, 0, "Error reading zzip header." ) );
-            }
-
-            base += ZSTD_SKIPPABLEHEADERSIZE + 2 * sizeof( uint64_t );
-            remaining_len -= ZSTD_SKIPPABLEHEADERSIZE + 2 * sizeof( uint64_t );
+            size_t error_code = 0;
 
             std::string filename;
             uint64_t checksum = 0;
@@ -402,7 +388,6 @@ static int decompress_to( std::filesystem::path const &zzip_path,
         } catch( std::exception &e ) {
             throw FsError( output_file, {}, std::string{ "Error writing output: " } + e.what() );
         }
-        return {};
     }
     if( !zs.good() ) {
         zs.e().throw_exception();
