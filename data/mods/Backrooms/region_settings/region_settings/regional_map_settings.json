@@ -157,26 +157,26 @@
     "terrain_furniture": {  }
   },
   {
-    "type": "forest_biome_feature",
+    "type": "forest_biome_component",
     "id": "trees_forest_backrooms",
     "copy-from": "trees_forest",
     "chance": 6,
     "types": [ [ "t_wall", 128 ] ]
   },
   {
-    "type": "forest_biome_feature",
+    "type": "forest_biome_component",
     "id": "shrubs_and_flowers_forest_backrooms",
     "copy-from": "shrubs_and_flowers_forest",
     "types": [ [ "f_rack_coat", 1 ], [ "f_sign_warning", 1 ], [ "f_sign", 1 ] ]
   },
   {
-    "type": "forest_biome_feature",
+    "type": "forest_biome_component",
     "id": "clutter_forest_backrooms",
     "copy-from": "clutter_forest",
     "types": [ [ "t_wall_b", 128 ], [ "t_wall", 128 ], [ "t_carpet_red", 128 ] ]
   },
   {
-    "type": "forest_biome_feature",
+    "type": "forest_biome_component",
     "id": "water_forest_backrooms",
     "copy-from": "water_forest",
     "types": [ [ "t_thconc_floor", 1 ] ]
@@ -199,25 +199,25 @@
     "terrain_furniture": {  }
   },
   {
-    "type": "forest_biome_feature",
+    "type": "forest_biome_component",
     "id": "trees_forest_thick_backrooms",
     "copy-from": "trees_forest_thick",
     "types": [ [ "t_wall_b", 128 ], [ "t_wall", 128 ], [ "t_carpet_red", 128 ], [ "t_thconc_floor_olight", 20 ] ]
   },
   {
-    "type": "forest_biome_feature",
+    "type": "forest_biome_component",
     "id": "shrubs_and_flowers_forest_thick_backrooms",
     "copy-from": "shrubs_and_flowers_forest_thick",
     "types": [ [ "f_rack_coat", 1 ], [ "f_sign_warning", 1 ], [ "f_sign", 1 ] ]
   },
   {
-    "type": "forest_biome_feature",
+    "type": "forest_biome_component",
     "id": "clutter_forest_thick_backrooms",
     "copy-from": "clutter_forest_thick",
     "types": [ [ "t_scrap_floor", 64 ], [ "t_dirtfloor", 64 ] ]
   },
   {
-    "type": "forest_biome_feature",
+    "type": "forest_biome_component",
     "id": "water_forest_thick_backrooms",
     "copy-from": "water_forest_thick",
     "types": [ [ "t_carpet_green", 1 ] ]
@@ -240,26 +240,26 @@
     "terrain_furniture": { "t_water_sh": { "chance": 1, "furniture": { "f_sign_warning": 5 } } }
   },
   {
-    "type": "forest_biome_feature",
+    "type": "forest_biome_component",
     "id": "trees_forest_water_backrooms",
     "copy-from": "trees_forest_water",
     "chance": 5,
     "types": [ [ "t_utility_light", 30 ] ]
   },
   {
-    "type": "forest_biome_feature",
+    "type": "forest_biome_component",
     "id": "shrubs_and_flowers_forest_water_backrooms",
     "copy-from": "shrubs_and_flowers_forest_water",
     "types": [ [ "t_floor_wax", 1 ] ]
   },
   {
-    "type": "forest_biome_feature",
+    "type": "forest_biome_component",
     "id": "clutter_forest_water_backrooms",
     "copy-from": "clutter_forest_water",
     "types": [ [ "t_linoleum_gray", 1 ] ]
   },
   {
-    "type": "forest_biome_feature",
+    "type": "forest_biome_component",
     "id": "water_forest_water_backrooms",
     "copy-from": "water_forest_water",
     "types": [ [ "t_junk_floor", 6 ] ]
@@ -271,7 +271,7 @@
     "biomes": [ "biome_forest_backrooms", "biome_forest_thick_backrooms", "biome_forest_water_backrooms" ]
   },
   {
-    "type": "region_settings_new",
+    "type": "region_settings",
     "id": "default_backrooms",
     "copy-from": "default",
     "rivers": "no_rivers",
