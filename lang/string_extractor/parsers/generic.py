@@ -65,8 +65,8 @@ def parse_generic(json, origin):
                 write_text(entry["text"], origin,
                            comment="Snippet of item \"{}\"".format(name))
 
-    if "seed_data" in json:
-        write_text(json["seed_data"]["plant_name"], origin,
+    if "plant_name" in json:
+        write_text(json["plant_name"], origin,
                    comment="Plant name of seed \"{}\"".format(name))
 
     if "revert_msg" in json:

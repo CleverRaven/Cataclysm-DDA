@@ -162,7 +162,7 @@
       "WITHER_MAGE",
       "MAGIC_EMPTY"
     ],
-    "flags": [ "ATTUNEMENT", "BLEEDSLOW2" ]
+    "flags": [ "ATTUNEMENT", "BLEED_IMMUNE" ]
   },
   {
     "id": "BOREAL_MAGE",

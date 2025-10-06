@@ -571,19 +571,19 @@
     "terrain_furniture": {  }
   },
   {
-    "type": "forest_biome_feature",
+    "type": "forest_biome_component",
     "id": "trees_forest_tropicataclysm",
     "copy-from": "trees_forest",
     "types": [ [ "t_region_tree_forest", 128 ], [ "t_tree_young", 32 ] ]
   },
   {
-    "type": "forest_biome_feature",
+    "type": "forest_biome_component",
     "id": "shrubs_and_flowers_forest_tropicataclysm",
     "copy-from": "shrubs_and_flowers_forest",
     "types": [ [ "t_region_shrub", 120 ], [ "f_region_forest", 10 ] ]
   },
   {
-    "type": "forest_biome_feature",
+    "type": "forest_biome_component",
     "id": "clutter_forest_tropicataclysm",
     "copy-from": "clutter_forest",
     "types": [
@@ -598,7 +598,7 @@
     ]
   },
   {
-    "type": "forest_biome_feature",
+    "type": "forest_biome_component",
     "id": "water_forest_tropicataclysm",
     "copy-from": "water_forest",
     "types": [ [ "t_puddle", 1 ] ]
@@ -647,7 +647,7 @@
     "terrain_furniture": {  }
   },
   {
-    "type": "forest_biome_feature",
+    "type": "forest_biome_component",
     "id": "trees_forest_thick_tropicataclysm",
     "copy-from": "trees_forest_thick",
     "types": [
@@ -663,13 +663,13 @@
     ]
   },
   {
-    "type": "forest_biome_feature",
+    "type": "forest_biome_component",
     "id": "shrubs_and_flowers_forest_thick_tropicataclysm",
     "copy-from": "shrubs_and_flowers_forest_thick",
     "types": [ [ "t_region_shrub", 130 ], [ "f_region_forest_dense", 10 ] ]
   },
   {
-    "type": "forest_biome_feature",
+    "type": "forest_biome_component",
     "id": "clutter_forest_thick_tropicataclysm",
     "copy-from": "clutter_forest_thick",
     "types": [
@@ -684,7 +684,7 @@
     ]
   },
   {
-    "type": "forest_biome_feature",
+    "type": "forest_biome_component",
     "id": "water_forest_thick_tropicataclysm",
     "copy-from": "water_forest_thick",
     "types": [ [ "t_puddle", 1 ] ]
@@ -708,7 +708,7 @@
     "terrain_furniture": { "t_water_murky": { "chance": 2, "furniture": { "f_region_water_plant": 1 } } }
   },
   {
-    "type": "forest_biome_feature",
+    "type": "forest_biome_component",
     "id": "trees_forest_water_tropicataclysm",
     "copy-from": "trees_forest_water",
     "types": [
@@ -747,19 +747,19 @@
     ]
   },
   {
-    "type": "forest_biome_feature",
+    "type": "forest_biome_component",
     "id": "shrubs_and_flowers_forest_water_tropicataclysm",
     "copy-from": "shrubs_and_flowers_forest_water",
     "types": [ [ "t_region_shrub", 80 ], [ "f_region_forest_water", 30 ] ]
   },
   {
-    "type": "forest_biome_feature",
+    "type": "forest_biome_component",
     "id": "clutter_forest_water_tropicataclysm",
     "copy-from": "clutter_forest_water",
     "types": [ [ "t_trunk", 1 ], [ "f_boulder_small", 2 ], [ "f_boulder_medium", 1 ] ]
   },
   {
-    "type": "forest_biome_feature",
+    "type": "forest_biome_component",
     "id": "water_forest_water_tropicataclysm",
     "copy-from": "water_forest_water",
     "types": [ [ "t_water_sh", 6 ], [ "t_water_dp", 1 ], [ "t_water_murky", 12 ] ]
@@ -771,7 +771,7 @@
     "biomes": [ "biome_forest_tropicataclysm", "biome_forest_thick_tropicataclysm", "biome_forest_water_tropicataclysm" ]
   },
   {
-    "type": "region_settings_new",
+    "type": "region_settings",
     "id": "default_tropicataclysm",
     "copy-from": "default",
     "rivers": "default_tropicataclysm",
