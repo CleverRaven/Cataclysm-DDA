@@ -198,22 +198,10 @@
         "ench_has": "HELD"
       }
     ],
-    "passive_hit_me": [
-      {
-        "weight": 100,
-        "min_value": -3,
-        "max_value": 4,
-        "type": "PERCEPTION",
-        "increment": 1,
-        "power_per_increment": 250,
-        "ench_has": "HELD"
-      }
-    ],
     "type_weights": [
       { "weight": 100, "value": "passive_enchantment_add" },
       { "weight": 100, "value": "active_enchantment" },
-      { "weight": 100, "value": "passive_enchantment_mult" },
-      { "weight": 100, "value": "hit_me" }
+      { "weight": 100, "value": "passive_enchantment_mult" }
     ],
     "items": [ { "weight": 100, "item": "matrix_crystal_clairsentience_artifact" } ]
   },
@@ -412,7 +400,7 @@
       }
     ],
     "type_weights": [ { "weight": 100, "value": "passive_enchantment_add" }, { "weight": 100, "value": "passive_enchantment_mult" } ],
-    "items": [ { "weight": 100, "item": "matrix_crystal_clairsentience_artifact" } ]
+    "items": [ { "weight": 100, "item": "matrix_crystal_clairsentience" } ]
   },
   {
     "type": "item_group",

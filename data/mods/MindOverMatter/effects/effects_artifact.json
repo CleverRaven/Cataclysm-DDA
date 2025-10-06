@@ -58,7 +58,7 @@
   },
   {
     "type": "effect_type",
-    "id": "effect_mom_artifact_physical_boost",
+    "id": "effect_mom_artifact_perception_boost",
     "name": [ "Enhanced Perception" ],
     "desc": [ "Your senses are enhanced." ],
     "apply_message": "",
