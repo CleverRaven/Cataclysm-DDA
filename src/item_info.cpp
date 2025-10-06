@@ -1733,14 +1733,19 @@ void item::armor_protection_info( std::vector<iteminfo> &info, const iteminfo_qu
         bool display_median = percent_best < 50 && percent_worst < 50;
 
         std::string protection_table;
+        const std::string worst_chance_string = string_format( _( "<bad>%d%%</bad> chance" ),
+                                                percent_worst );
+        const std::string median_chance = _( "<color_c_yellow>Median</color> chance" );
+        const std::string best_chance_string = string_format( _( "<good>%d%%</good> chance" ),
+                                               percent_best );
         if( display_median ) {
             protection_table +=
-                string_format( "<bold>%s</bold>;<bad>%d%%</bad> chance;<color_c_yellow>Median</color> chance;<good>%d%%</good> chance\n",
-                               _( "Protection" ), percent_worst, percent_best );
+                string_format( "<bold>%s</bold>;%s;%s;%s\n",
+                               _( "Protection" ), worst_chance_string, median_chance, best_chance_string );
         } else if( percent_worst > 0 ) {
             protection_table +=
-                string_format( "<bold>%s</bold>;<bad>%d%%</bad> chance;<good>%d%%</good> chance\n",
-                               _( "Protection" ), percent_worst, percent_best );
+                string_format( "<bold>%s</bold>;%s;%s\n",
+                               _( "Protection" ), worst_chance_string, best_chance_string );
         } else {
             protection_table += string_format( "<bold>%s</bold>\n", _( "Protection" ) );
         }
