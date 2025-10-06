@@ -7,12 +7,14 @@
 #include <iterator>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <string_view>
 #include <utility>
 #include <vector>
 
+#include "debug.h"
 #include "enums.h"
 #include "map_scale_constants.h"
 #include "mapdata.h"
@@ -531,17 +533,17 @@ struct region_settings {
     weighted_int_list<ter_id> default_groundcover; // i.e., 'grass_or_dirt'
     shared_ptr_fast<weighted_int_list<ter_str_id>> default_groundcover_str;
 
-    region_settings_city_id city_spec;
+    std::optional<region_settings_city_id> city_spec;
     region_settings_forest_mapgen_id forest_composition;
-    region_settings_forest_trail_id forest_trail;
+    std::optional<region_settings_forest_trail_id> forest_trail;
     weather_generator_id weather;
     region_settings_feature_flag overmap_feature_flag;
-    region_settings_forest_id overmap_forest;
-    region_settings_river_id overmap_river;
-    region_settings_lake_id overmap_lake;
-    region_settings_ocean_id overmap_ocean;
-    region_settings_highway_id overmap_highway;
-    region_settings_ravine_id overmap_ravine;
+    std::optional<region_settings_forest_id> overmap_forest;
+    std::optional<region_settings_river_id> overmap_river;
+    std::optional<region_settings_lake_id> overmap_lake;
+    std::optional<region_settings_ocean_id> overmap_ocean;
+    std::optional<region_settings_highway_id> overmap_highway;
+    std::optional<region_settings_ravine_id> overmap_ravine;
     region_settings_overmap_connection overmap_connection;
     region_settings_terrain_furniture_id region_terrain_and_furniture;
 
@@ -552,34 +554,74 @@ struct region_settings {
     }
 
     const region_settings_city &get_settings_city() const {
-        return *city_spec;
+        if( !city_spec.has_value() ) {
+            debugmsg( "No city settings defined for %s, but requesting them", id.str() );
+            static region_settings_city ret;
+            return ret;
+        }
+        return *city_spec.value();
     }
     const region_settings_forest_mapgen &get_settings_forest_composition() const {
         return *forest_composition;
     }
     const region_settings_forest_trail &get_settings_forest_trail() const {
-        return *forest_trail;
+        if( !forest_trail.has_value() ) {
+            debugmsg( "No forest trail settings defined for %s, but requesting them", id.str() );
+            static region_settings_forest_trail ret;
+            return ret;
+        }
+        return *forest_trail.value();
     }
     const weather_generator &get_settings_weather() const {
         return *weather;
     }
     const region_settings_forest &get_settings_forest() const {
-        return *overmap_forest;
+        if( !overmap_forest.has_value() ) {
+            debugmsg( "No forest settings defined for %s, but requesting them", id.str() );
+            static region_settings_forest ret;
+            return ret;
+        }
+        return *overmap_forest.value();
     }
     const region_settings_river &get_settings_river() const {
-        return *overmap_river;
+        if( !overmap_river.has_value() ) {
+            debugmsg( "No river settings defined for %s, but requesting them", id.str() );
+            static region_settings_river ret;
+            return ret;
+        }
+        return *overmap_river.value();
     }
     const region_settings_lake &get_settings_lake() const {
-        return *overmap_lake;
+        if( !overmap_lake.has_value() ) {
+            debugmsg( "No lake settings defined for %s, but requesting them", id.str() );
+            static region_settings_lake ret;
+            return ret;
+        }
+        return *overmap_lake.value();
     }
     const region_settings_ocean &get_settings_ocean() const {
-        return *overmap_ocean;
+        if( !overmap_ocean.has_value() ) {
+            debugmsg( "No ocean settings defined for %s, but requesting them", id.str() );
+            static region_settings_ocean ret;
+            return ret;
+        }
+        return *overmap_ocean.value();
     }
     const region_settings_highway &get_settings_highway() const {
-        return *overmap_highway;
+        if( !overmap_highway.has_value() ) {
+            debugmsg( "No highway settings defined for %s, but requesting them", id.str() );
+            static region_settings_highway ret;
+            return ret;
+        }
+        return *overmap_highway.value();
     }
     const region_settings_ravine &get_settings_ravine() const {
-        return *overmap_ravine;
+        if( !overmap_ravine.has_value() ) {
+            debugmsg( "No ravine settings defined for %s, but requesting them", id.str() );
+            static region_settings_ravine ret;
+            return ret;
+        }
+        return *overmap_ravine.value();
     }
     const region_settings_terrain_furniture &get_settings_terrain_furniture() const {
         return *region_terrain_and_furniture;

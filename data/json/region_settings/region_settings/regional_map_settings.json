@@ -58,11 +58,6 @@
     "river_branch_scale_decrease": 1.0
   },
   {
-    "type": "region_settings_river",
-    "id": "no_rivers",
-    "river_scale": 0.0
-  },
-  {
     "type": "region_settings_lake",
     "id": "default",
     "noise_threshold_lake": 0.25,
@@ -77,11 +72,6 @@
     ]
   },
   {
-    "type": "region_settings_lake",
-    "id": "no_lakes",
-    "noise_threshold_lake": 1
-  },
-  {
     "type": "region_settings_ocean",
     "id": "default",
     "noise_threshold_ocean": 0.25,
@@ -92,11 +82,6 @@
     "ocean_start_west": 1000,
     "ocean_start_south": 0,
     "sandy_beach_width": 6
-  },
-  {
-    "type": "region_settings_ocean",
-    "id": "no_ocean",
-    "noise_threshold_ocean": 1
   },
   {
     "type": "region_settings_highway",
@@ -146,12 +131,6 @@
     "river_floodplain_buffer_distance_max": 15
   },
   {
-    "type": "region_settings_forest",
-    "id": "no_forests",
-    "noise_threshold_forest": 1,
-    "noise_threshold_forest_thick": 1
-  },
-  {
     "type": "region_settings_forest_trail",
     "id": "default",
     "chance": 2,
@@ -163,12 +142,6 @@
     "trailhead_chance": 1,
     "trailhead_road_distance": 6,
     "trailheads": [ [ "trailhead_basic", 1 ], [ "trailhead_outhouse", 1 ], [ "trailhead_shack", 1 ] ]
-  },
-  {
-    "type": "region_settings_forest_trail",
-    "id": "no_forest_trails",
-    "copy-from": "default",
-    "chance": 0
   },
   {
     "type": "region_settings_forest_mapgen",
