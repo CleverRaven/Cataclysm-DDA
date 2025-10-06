@@ -3406,6 +3406,10 @@ void islot_comestible::deserialize( const JsonObject &jo )
         consumption_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
     optional( jo, was_loaded, "rot_spawn", rot_spawn );
+
+    if( !smoking_result.is_empty() && comesttype == "INVALID" ) {
+        jo.throw_error( "comestible_type INVALID cannot have smoking_result" );
+    }
 }
 
 void islot_brewable::deserialize( const JsonObject &jo )
