@@ -27,12 +27,6 @@
   },
   {
     "type": "EXTERNAL_OPTION",
-    "name": "OVERMAP_PLACE_HIGHWAYS",
-    "stype": "bool",
-    "value": false
-  },
-  {
-    "type": "EXTERNAL_OPTION",
     "name": "DEFAULT_REGION",
     "stype": "string_input",
     "value": "default_desert"

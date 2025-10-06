@@ -782,6 +782,7 @@
     "forest_trails": "default_tropicataclysm",
     "forest_composition": "default_tropicataclysm",
     "terrain_furniture": "default_tropicataclysm",
+    "highways": null,
     "weather": "default_tropicataclysm",
     "default_oter": [
       "open_air",
