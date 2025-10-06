@@ -2476,7 +2476,17 @@
     "id": "spell_scroll_earthshaper_remove_corpses",
     "//": "Earthshaper spell",
     "name": { "str": "Scroll of The Last Embrace", "str_pl": "Scrolls of The Last Embrace" },
-    "description": "Target a corpse and cause it to sink beneath the living earth.  A stable of prehistoric funeral rites.",
+    "description": "Target a corpse and cause it to sink beneath the living earth.  A staple of prehistoric funeral rites.",
     "use_action": { "type": "learn_spell", "spells": [ "earthshaper_remove_corpses" ] }
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_biomancer_pull_items_from_distance",
+    "//": "Biomancer spell",
+    "name": { "str": "Scroll of Monstrous Grasp", "str_pl": "Scrolls of Monstrous Grasp" },
+    "description": "Extend a tentacle to grab an item and drag it back to you.  Disgusting but practical.",
+    "use_action": { "type": "learn_spell", "spells": [ "biomancer_pull_items_from_distance" ] }
   }
 ]
