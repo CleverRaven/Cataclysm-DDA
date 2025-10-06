@@ -44,7 +44,7 @@
       { "item": "camera_pro", "prob": 2, "charges": [ 0, 150 ] },
       [ "cable", 30 ],
       { "item": "soldering_iron_portable", "prob": 70, "charges": [ 0, 50 ] },
-      { "item": "soldering_iron", "prob": 70 },
+      { "group": "plastic_welding_tools", "prob": 35 },
       [ "solder_wire", 70 ],
       { "item": "hotplate", "prob": 10 },
       { "item": "hotplate_induction", "prob": 3 },

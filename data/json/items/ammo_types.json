@@ -935,5 +935,11 @@
     "id": "3030",
     "name": ".30-30 Winchester",
     "default": "3030"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "hot_staple",
+    "name": "hot staples",
+    "default": "hot_staple"
   }
 ]

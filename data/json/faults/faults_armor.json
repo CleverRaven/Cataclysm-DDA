@@ -116,5 +116,124 @@
       { "damage_id": "cut", "multiply": 0.9 },
       { "damage_id": "stab", "multiply": 0.9 }
     ]
+  },
+  {
+    "type": "fault",
+    "id": "fault_armor_thermo_resin_tear",
+    "name": { "str": "Torn" },
+    "description": "The thermoplastic resin was torn.",
+    "item_prefix": "torn",
+    "message": "%s was torn!",
+    "degradation_mod": 5,
+    "price_modifier": 0.8,
+    "armor_mod": [
+      { "damage_id": "bash", "multiply": 0.8 },
+      { "damage_id": "cut", "multiply": 0.9 },
+      { "damage_id": "stab", "multiply": 0.8 }
+    ]
+  },
+  {
+    "type": "fault",
+    "id": "fault_armor_thermo_resin_hole",
+    "name": { "str": "Punctured" },
+    "description": "The thermoplastic resin was punctured.",
+    "item_prefix": "punctured",
+    "message": "%s was punctured!",
+    "degradation_mod": 5,
+    "price_modifier": 0.8,
+    "armor_mod": [
+      { "damage_id": "bash", "multiply": 0.8 },
+      { "damage_id": "cut", "multiply": 0.9 },
+      { "damage_id": "stab", "multiply": 0.7 }
+    ]
+  },
+  {
+    "type": "fault",
+    "id": "fault_armor_epoxy_tear",
+    "name": { "str": "Torn" },
+    "description": "The epoxy was torn.",
+    "item_prefix": "torn",
+    "message": "%s was torn!",
+    "degradation_mod": 5,
+    "price_modifier": 0.8,
+    "armor_mod": [
+      { "damage_id": "bash", "multiply": 0.8 },
+      { "damage_id": "cut", "multiply": 0.9 },
+      { "damage_id": "stab", "multiply": 0.8 }
+    ]
+  },
+  {
+    "type": "fault",
+    "id": "fault_armor_epoxy_shatter",
+    "name": { "str": "Shattered" },
+    "description": "The epoxy was shattered.",
+    "item_prefix": "shattered",
+    "message": "%s was shattered!",
+    "degradation_mod": 5,
+    "price_modifier": 0.8,
+    "armor_mod": [
+      { "damage_id": "bash", "multiply": 0.8 },
+      { "damage_id": "cut", "multiply": 0.9 },
+      { "damage_id": "stab", "multiply": 0.7 }
+    ]
+  },
+  {
+    "type": "fault",
+    "id": "fault_armor_plastic_tear",
+    "name": { "str": "Torn" },
+    "description": "The plastic was torn.",
+    "item_prefix": "torn",
+    "message": "%s was torn!",
+    "degradation_mod": 5,
+    "price_modifier": 0.8,
+    "armor_mod": [
+      { "damage_id": "bash", "multiply": 0.8 },
+      { "damage_id": "cut", "multiply": 0.9 },
+      { "damage_id": "stab", "multiply": 0.8 }
+    ]
+  },
+  {
+    "type": "fault",
+    "id": "fault_armor_plastic_hole",
+    "name": { "str": "Punctured" },
+    "description": "The plastic was punctured.",
+    "item_prefix": "punctured",
+    "message": "%s was punctured!",
+    "degradation_mod": 5,
+    "price_modifier": 0.8,
+    "armor_mod": [
+      { "damage_id": "bash", "multiply": 0.8 },
+      { "damage_id": "cut", "multiply": 0.9 },
+      { "damage_id": "stab", "multiply": 0.7 }
+    ]
+  },
+  {
+    "type": "fault",
+    "id": "fault_armor_hard_plastic_transp_torn",
+    "copy-from": "fault_armor_plastic_tear",
+    "name": { "str": "Torn" },
+    "description": "The transparent plastic was torn."
+  },
+  {
+    "type": "fault",
+    "id": "fault_armor_hard_plastic_transp_hole",
+    "copy-from": "fault_armor_plastic_hole",
+    "name": { "str": "Punctured" },
+    "description": "The transparent plastic was punctured."
+  },
+  {
+    "type": "fault",
+    "id": "fault_armor_plastic_padding_destroyed",
+    "name": { "str": "Destroyed" },
+    "description": "The plastic padding was destroyed.",
+    "item_prefix": "destroyed",
+    "message": "%s was destroyed!",
+    "degradation_mod": 5,
+    "price_modifier": 0.8,
+    "armor_mod": [
+      { "damage_id": "bash", "multiply": 0.5 },
+      { "damage_id": "cut", "multiply": 0.9 },
+      { "damage_id": "stab", "multiply": 0.9 }
+    ]
   }
 ]
