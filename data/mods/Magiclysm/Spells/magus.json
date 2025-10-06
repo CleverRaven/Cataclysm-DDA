@@ -678,12 +678,9 @@
         "then": {
           "run_eocs": {
             "id": "EOC_MAGUS_FAR_HAND_PULL_CREATURE",
-            "effect": [ { "npc_cast_spell": { "id": "magus_far_hand_pull_creatures" }, "loc": { "context_val": "pos" } } ]
-          },
-          "alpha_loc": { "context_val": "pos" },
-          "false_eocs": {
-            "id": "EOC_MAGUS_FAR_HAND_PULL_ITEMS",
-            "effect": { "npc_cast_spell": { "id": "magus_far_hand_pull_items" }, "loc": { "context_val": "pos" } }
+            "condition": "has_alpha",
+            "effect": [ { "npc_cast_spell": { "id": "magus_far_hand_pull_creatures" }, "loc": { "context_val": "pos" } } ],
+            "false_effect": [ { "npc_cast_spell": { "id": "magus_far_hand_pull_items" }, "loc": { "context_val": "pos" } } ]
           }
         }
       }
