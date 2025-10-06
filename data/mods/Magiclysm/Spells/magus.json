@@ -668,30 +668,30 @@
     "id": "EOC_MAGUS_FAR_HAND_PULL",
     "effect": [
       {
-        "u_query_tile": "line_of_sight",
-        "range": { "math": [ "u_spell_level('magus_far_hand_pull')" ] },
-        "target_var": { "context_val": "pos" },
-        "message": "Select target"
-      },
-      {
-        "if": { "math": [ "has_var(_pos)" ] },
-        "then": {
-          "run_eocs": {
-            "id": "EOC_MAGUS_FAR_HAND_PULL_CREATURE",
-            "condition": "has_alpha",
-            "effect": [ { "npc_cast_spell": { "id": "magus_far_hand_pull_creatures" }, "loc": { "context_val": "pos" } } ],
-            "false_effect": [ { "npc_cast_spell": { "id": "magus_far_hand_pull_items" }, "loc": { "context_val": "pos" } } ]
-          }
-        }
+        "run_eoc_selector": [ "EOC_MAGUS_FAR_HAND_PULL_ITEM", "EOC_MAGUS_FAR_HAND_PULL_CREATURE" ],
+        "names": [ "Grab Item", "Pull Creature" ],
+        "keys": [ "a", "b" ],
+        "allow_cancel": true,
+        "descriptions": [ "Pick up an item and pull it to you", "Target a creature and pull it toward you" ]
       }
     ]
   },
   {
+    "type": "effect_on_condition",
+    "id": "EOC_MAGUS_FAR_HAND_PULL_ITEM",
+    "effect": [ { "u_cast_spell": { "id": "magus_far_hand_pull_items" }, "targeted": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MAGUS_FAR_HAND_PULL_CREATURE",
+    "effect": [ { "u_cast_spell": { "id": "magus_far_hand_pull_creatures" }, "targeted": true } ]
+  },
+  {
     "id": "magus_far_hand_pull_creatures",
     "type": "SPELL",
-    "name": "Sorcerer's Hand",
-    "description": "Pull a target or set of items to you.",
-    "valid_targets": [ "ally", "hostile", "item", "ground" ],
+    "name": { "str": "Sorcerer's Hand Creature", "//~": "NO_I18N" },
+    "description": { "str": "Pull a target to you.", "//~": "NO_I18N" },
+    "valid_targets": [ "ally", "hostile" ],
     "spell_class": "MAGUS",
     "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC", "NO_HANDS" ],
     "difficulty": 2,
@@ -700,15 +700,15 @@
     "shape": "blast",
     "min_damage": { "math": [ "u_spell_level('magus_far_hand_pull') * -1" ] },
     "max_damage": { "math": [ "u_spell_level('magus_far_hand_pull') * -1" ] },
-    "min_range": 50,
-    "max_range": 50,
+    "min_range": { "math": [ "(u_spell_level('magus_far_hand_pull') * 1) + 3" ] },
+    "max_range": { "math": [ "(u_spell_level('magus_far_hand_pull') * 1) + 3" ] },
     "magic_type": "magiclysm_generic_magic"
   },
   {
     "id": "magus_far_hand_pull_items",
     "type": "SPELL",
-    "name": "Sorcerer's Hand",
-    "description": "Pull a target or set of items to you.",
+    "name": { "str": "Sorcerer's Hand Items", "//~": "NO_I18N" },
+    "description": { "str": "Pull an items to you.", "//~": "NO_I18N" },
     "valid_targets": [ "ally", "hostile", "item", "ground" ],
     "spell_class": "MAGUS",
     "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC", "NO_HANDS" ],
@@ -718,8 +718,8 @@
     "shape": "blast",
     "min_damage": { "math": [ "250 - (u_spell_level('magus_far_hand_pull') * 10)" ] },
     "max_damage": { "math": [ "250 - (u_spell_level('magus_far_hand_pull') * 10)" ] },
-    "min_range": 50,
-    "max_range": 50,
+    "min_range": { "math": [ "(u_spell_level('magus_far_hand_pull') * 1) + 3" ] },
+    "max_range": { "math": [ "(u_spell_level('magus_far_hand_pull') * 1) + 3" ] },
     "magic_type": "magiclysm_generic_magic"
   },
   {
