@@ -3838,7 +3838,7 @@ void game::display_faction_epilogues()
                                                point( std::max( 0, ( TERMX - FULL_SCREEN_WIDTH ) / 2 ),
                                                       std::max( 0, ( TERMY - FULL_SCREEN_HEIGHT ) / 2 ) ) );
                 };
-                scrollable_text( new_win, elem.second.name,
+                scrollable_text( new_win, elem.second.get_name(),
                                  std::accumulate( epilogue.begin() + 1, epilogue.end(), epilogue.front(),
                 []( std::string lhs, const std::string & rhs ) -> std::string {
                     return std::move( lhs ) + "\n" + rhs;
@@ -6443,7 +6443,7 @@ bool game::warn_player_maybe_anger_local_faction( bool really_bad_offense,
     // Else there's a camp, and we're doing something we're not supposed to! Time to warn the player.
     if( !query_yn(
             _( "You're in the territory of %s, they probably won't appreciate your actions.  Continue anyway?" ),
-            actual_camp->get_owner()->name ) ) {
+            actual_camp->get_owner()->get_name() ) ) {
         return false;
     } else {
         faction *owner_fac_pointer = g->faction_manager_ptr->get( actual_camp->get_owner() );

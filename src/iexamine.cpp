@@ -2202,7 +2202,7 @@ void iexamine::bulletin_board( Character &you, const tripoint_bub_ms &examp )
                           temp_camp->camp_name() ) ) {
                 bool plunder = query_yn(
                                    _( "Take whatever you can find from the stores?  This may anger %s and their allies." ),
-                                   temp_camp->get_owner()->name );
+                                   temp_camp->get_owner()->get_name() );
                 temp_camp->handle_takeover_by( you.get_faction()->id, plunder );
                 return;
             }

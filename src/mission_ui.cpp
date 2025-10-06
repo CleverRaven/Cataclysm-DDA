@@ -379,7 +379,7 @@ void mission_ui_impl::draw_selected_description( std::vector<mission *> missions
         if( mission_giver ) {
             draw_label_with_value( _( "Given by:" ), mission_giver->disp_name() );
             if( mission_giver->get_faction() && mission_giver->get_fac_id() != faction_no_faction ) {
-                draw_label_with_value( _( "Faction:" ), mission_giver->get_faction()->name );
+                draw_label_with_value( _( "Faction:" ), mission_giver->get_faction()->get_name() );
             }
             const tripoint_abs_omt npc_location = mission_giver->pos_abs_omt();
             draw_location( _( "Map location:" ), npc_location );

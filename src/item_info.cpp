@@ -283,7 +283,7 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     }
     if( parts->test( iteminfo_parts::BASE_OWNER ) && !owner.is_null() ) {
         info.emplace_back( "BASE", string_format( _( "Owner: %s" ),
-                           _( get_owner_name() ) ) );
+                           get_owner_name() ) );
     }
     if( parts->test( iteminfo_parts::BASE_CATEGORY ) ) {
         info.emplace_back( "BASE", _( "Category: " ),
@@ -394,7 +394,7 @@ void item::debug_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                typeId().str() ) );
             if( !old_owner.is_null() ) {
                 info.emplace_back( "BASE", string_format( _( "Old owner: %s" ),
-                                   _( get_old_owner_name() ) ) );
+                                   get_old_owner_name() ) );
             }
             info.emplace_back( "BASE", _( "age (hours): " ), "", iteminfo::lower_is_better,
                                to_hours<int>( age() ) );
