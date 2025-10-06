@@ -283,5 +283,22 @@
     "flags": [ "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
     "message": "",
     "extra_effects": [ { "id": "mom_aea_artifact_calorie_hit", "hit_self": true } ]
+  },
+  {
+    "id": "MoM_AEA_PERCEPTION_ENHANCEMENT",
+    "type": "SPELL",
+    "name": { "str": "MoM AEA Add Perception Boost", "//~": "NO_I18N" },
+    "description": { "str": "Add a Perception boost.", "//~": "NO_I18N" },
+    "message": "You feel more capable.",
+    "valid_targets": [ "self" ],
+    "skill": "metaphysics",
+    "spell_class": "NONE",
+    "flags": [ "NO_LEGS", "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "effect": "attack",
+    "effect_str": "effect_mom_artifact_perception_boost",
+    "shape": "blast",
+    "min_duration": 18000,
+    "max_duration": 72000,
+    "extra_effects": [ { "id": "mom_aea_artifact_calorie_hit", "hit_self": true } ]
   }
 ]

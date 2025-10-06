@@ -16,6 +16,7 @@
       { "weight": 100, "spell_id": "MoM_AEA_MAP", "base_power": 350 },
       { "weight": 100, "spell_id": "MoM_AEA_CLAIRVOYANCE", "base_power": 250 },
       { "weight": 100, "spell_id": "MoM_AEA_NETHER_ATTUNEMENT", "base_power": -100 },
+      { "weight": 100, "spell_id": "MoM_AEA_STAMINA_EMPTY", "base_power": -250 },
       { "weight": 100, "spell_id": "MoM_AEA_VOMIT", "base_power": -50 },
       { "weight": 100, "spell_id": "MoM_AEA_ATTENTION", "base_power": -150 },
       { "weight": 100, "spell_id": "MoM_AEA_PERCEPTION_ENHANCEMENT", "base_power": 150 },
@@ -197,10 +198,22 @@
         "ench_has": "HELD"
       }
     ],
+    "passive_hit_me": [
+      {
+        "weight": 100,
+        "min_value": -3,
+        "max_value": 4,
+        "type": "PERCEPTION",
+        "increment": 1,
+        "power_per_increment": 250,
+        "ench_has": "HELD"
+      }
+    ],
     "type_weights": [
       { "weight": 100, "value": "passive_enchantment_add" },
       { "weight": 100, "value": "active_enchantment" },
-      { "weight": 100, "value": "passive_enchantment_mult" }
+      { "weight": 100, "value": "passive_enchantment_mult" },
+      { "weight": 100, "value": "hit_me" }
     ],
     "items": [ { "weight": 100, "item": "matrix_crystal_clairsentience_artifact" } ]
   },
