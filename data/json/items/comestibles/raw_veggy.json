@@ -672,7 +672,7 @@
     "weight": "504 g",
     "color": "light_green",
     "spoils_in": "10 days",
-    "comestible_type": "INVALID",
+    "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 2,
     "calories": 70,
@@ -681,8 +681,7 @@
     "price_postapoc": "132 cent",
     "material": [ "veggy" ],
     "volume": "1850 ml",
-    "flags": [ "FREEZERBURN", "SMOKABLE", "RAW", "CATTLE", "RABBIT", "RAT", "MOUSE" ],
-    "smoking_result": "dry_veggy",
+    "flags": [ "FREEZERBURN", "INEDIBLE", "RAW", "CATTLE", "RABBIT", "RAT", "MOUSE" ],
     "vitamins": [ [ "vitC", "14 mg" ], [ "iron", "2100 μg" ], [ "calcium", "91 mg" ], [ "veggy_allergen", 1 ] ]
   },
   {
