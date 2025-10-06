@@ -160,6 +160,10 @@ Initial implementation of wounds
 JSONize mission-related topic IDs (TALK_MISSION_INQUIRE / TALK_MISSION_DESCRIBE_URGENT)
 Plant-specific growth stages for agriculture
 Add another form of scaling for batch recipes, enabling creation of bulk recipes
+dimension npc travel filter expansion and other tweaks
+Underbarrel flashlights or something
+NPCs automatically select the best MA style for their weapon
+Custom region settings for dimensions
 
 
 
@@ -361,6 +365,13 @@ Chitin armor overhaul
 Add deep fryers
 Move vehicle part locations to JSON
 Begin moving faction mission definitions to JSON, starting with descriptions
+New book artifact types.
+Few Minor Typo Fixes
+Replace hardcoded check for Oversensitive System with flag check
+Add sunscreen
+Repair window with bars
+Better feedback on planting failures + plants need sunlight
+Adds bills & revamps the bill-hooks.
 
 
 ## Interface:
@@ -485,6 +496,7 @@ Message to player when UPS equipment runs out of power.
 Construction interface shows prerequisite furniture/terrain flags
 Default android sidebar changed to sidebar-mobile
 Present dispersion as MOA in item UI
+Hide overmap display's 'land use code' behind debug mode
 
 
 ## Mods:
@@ -913,6 +925,18 @@ Aftershock: Replace remaining vanilla robots with more setting appropriate ones
 [Magiclysm] Add the rust monster
 Aftershock: Properly Ruin cities
 [Xedra Evolved] The holy light of the sun burns vampires' impure flesh
+[Innawood] Duct tape recipe makes 40 charges 
+[MoM] Add biokinetic-attuned artifacts
+update mod compatibility for new region settings
+[Magiclysm] Mystic Glade counts as forest biome
+[Magiclysm/Innawood] Greet trees count as part of `forest_biome_mapgen`
+[XE] Vampires have a baseline night vision.
+[Sky Island] Fix Evict hostiles interacting with normally-unkillable monsters exp 
+[MoM] Matrix crystals that cause awakening are *also* artifacts
+[XE] Torpor works without a do_turn_eoc now.
+[MoM] Matrix crystals must be wielded to awaken
+[XE] Fix some ordinary humans being immune to vampire mind control + remove another blood gotcha.
+[Magiclysm] Blood mages cannot bleed.
 
 
 ## Balance:
@@ -1016,6 +1040,7 @@ Adds cuvettes to analysis kit crafting recipe, increase analysis kit weight.
 Fitness bands and smart watches are more common, while pocket watches and game watches are rarer.
 Tree bashing from being cut down is not a magic wand
 Star vampires have `PERMANENT_INVISIBILITY`, when they drink blood it applies `SUPPRESS_INVISIBILITY`
+Molotovs do not create walls of fire
 
 
 ## Bugfixes:
@@ -1398,6 +1423,19 @@ AIM uilist submenu shaking violently.
 fix zones disabling on save/load
 Fix enchantment cache load issue (If your save didn't load right hopefully it will now)
 Fix being unable to place traps
+Profession that start with bionics gets Standard Neurobionic Interface.
+ Sky Island exit missing
+Fix stack size limit for unload zones
+tallow misses qualities
+Oversensitive System will prevent installation of all CBMs
+Stop breaking alignment with Roboto
+Stop breaking alignment with Roboto
+migration fix for old saves using new region settings
+[Magiclysm] Fix druid tower roof
+fix new region settings/overlay finalize order
+Incorrect requirement in Mind over Matter power spoilers doc
+fix how selection changes are handled in a uilist with disabled entries
+Fix terrain not being recognized in palettes based on loading order
 
 
 ## Performance:
@@ -1575,6 +1613,8 @@ Check for unused extend/delete/proportional/relative with mandatory
 Begin moving duplicated UI code to new helpers library
 zzip.exe: a tool for manipulating compressed save 'zzip' files.
 travel to seperate world instances within the same save file
+region settings overhaul
+Consume_drug use actions can define intensity for their effect
 
 
 ## Build:
