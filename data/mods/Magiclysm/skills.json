@@ -7,10 +7,10 @@
     "sort_rank": 14500,
     "description": "Your skill in the arcane.  Represents magic theory and all that entails.  A higher skill increases how quickly you can learn spells, and decreases their spell failure chance.  You learn this skill by studying books or spells.",
     "level_descriptions_theory": [
-      { "level": 0, "description": "You can’t tell a spellbook from a cookbook." },
+      { "level": 0, "description": "You can't tell a spellbook from a cookbook." },
       {
         "level": 1,
-        "description": "You’ve probably some utiliy spell or another for cleaning or other every day activities."
+        "description": "You've probably some utiliy spell or another for cleaning or other every day activities."
       },
       {
         "level": 3,
@@ -37,7 +37,7 @@
       { "level": 0, "description": "If you know a single spell, it probably fizzle, spark, and die in your hands." },
       {
         "level": 1,
-        "description": "You can manage a spark of energy—if the stars align and luck’s on your side."
+        "description": "You can manage a spark of energy—if the stars align and luck's on your side."
       },
       { "level": 3, "description": "You weave spells with deliberate care and can get reliable results." },
       { "level": 5, "description": "Your incantations flow naturally, you adapt to magical feedback with ease." },
