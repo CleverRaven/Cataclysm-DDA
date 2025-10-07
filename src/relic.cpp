@@ -69,14 +69,14 @@ std::string enum_to_string<relic_recharge_type>( relic_recharge_type type )
 }
 
 template<>
-std::string enum_to_string<relic_recharge_has>( relic_recharge_has has )
+std::string enum_to_string<relic_has>( relic_has has )
 {
     // *INDENT-OFF*
     switch (has) {
-    case relic_recharge_has::WIELD: return "wield";
-    case relic_recharge_has::WORN: return "worn";
-    case relic_recharge_has::HELD: return "held";
-    case relic_recharge_has::NUM: break;
+    case relic_has::WIELD: return "wield";
+    case relic_has::WORN: return "worn";
+    case relic_has::HELD: return "held";
+    case relic_has::NUM: break;
     }
     // *INDENT-ON*
     cata_fatal( "Invalid relic recharge has condition" );
@@ -545,19 +545,19 @@ bool relic::can_recharge( item &parent, Character *carrier ) const
 
     switch( charge.has ) {
 
-        case relic_recharge_has::HELD: {
+        case relic_has::HELD: {
             return carrier->has_item( parent );
         }
 
-        case relic_recharge_has::WORN: {
+        case relic_has::WORN: {
             return carrier->is_worn( parent ) || carrier->is_wielding( parent );
         }
 
-        case relic_recharge_has::WIELD: {
+        case relic_has::WIELD: {
             return carrier->is_wielding( parent );
         }
 
-        case relic_recharge_has::NUM: {
+        case relic_has::NUM: {
             return true;
         }
 

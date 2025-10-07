@@ -137,7 +137,7 @@ class relic_procgen_data
         void deserialize( const JsonObject &jobj );
 };
 
-enum class relic_recharge_has : int {
+enum class relic_has : int {
     WIELD,
     WORN,
     HELD,
@@ -161,7 +161,7 @@ struct relic_charge_template {
     std::pair<int, int> charges_per_use;
     std::pair<time_duration, time_duration> time;
     relic_recharge_type type = relic_recharge_type::NUM;
-    relic_recharge_has has = relic_recharge_has::NUM;
+    relic_has has = relic_has::NUM;
 
     int power_level = 0;
 
@@ -177,7 +177,7 @@ struct relic_charge_info {
     int charges_per_use = 0;
     int max_charges = 0;
     relic_recharge_type type = relic_recharge_type::NUM;
-    relic_recharge_has has = relic_recharge_has::NUM;
+    relic_has has = relic_has::NUM;
 
     time_duration activation_accumulator = 0_seconds;
     time_duration activation_time = 0_seconds;
@@ -268,8 +268,8 @@ struct enum_traits<relic_recharge_type> {
 };
 
 template<>
-struct enum_traits<relic_recharge_has> {
-    static constexpr relic_recharge_has last = relic_recharge_has::NUM;
+struct enum_traits<relic_has> {
+    static constexpr relic_has last = relic_has::NUM;
 };
 
 #endif // CATA_SRC_RELIC_H
