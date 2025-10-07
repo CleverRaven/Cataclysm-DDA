@@ -1,0 +1,80 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_open_sorcerer_menu",
+    "effect": [ { "open_dialogue": { "topic": "TALK_SORCERER_MENU_MAIN" } } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_SORCERER_MENU_MAIN",
+    "dynamic_line": "Level <u_val:current_sorcerer_level> Sorcerer.\nCurrent EXP: <u_val:available_exp_sorcerer>.\nEXP to next level: <u_val:exp_to_sorcerer_level>.",
+    "responses": [
+      {
+        "condition": { "math": [ "u_sorcerer_forget_spell_charge >= 1" ] },
+        "text": "Replace a known spell",
+        "topic": "TALK_SORCERER_FORGET_SPELL"
+      },
+      {
+        "condition": { "math": [ "u_sorcerer_level_9_spells_known_slots > u_sorcerer_level_9_spells_known" ] },
+        "text": "Learn a level 9 spell",
+        "topic": "TALK_SORCERER_LEARN_SPELL_9"
+      },
+      {
+        "condition": { "math": [ "u_sorcerer_level_8_spells_known_slots > u_sorcerer_level_8_spells_known" ] },
+        "text": "Learn a level 8 spell",
+        "topic": "TALK_SORCERER_LEARN_SPELL_8"
+      },
+      {
+        "condition": { "math": [ "u_sorcerer_level_7_spells_known_slots > u_sorcerer_level_7_spells_known" ] },
+        "text": "Learn a level 7 spell",
+        "topic": "TALK_SORCERER_LEARN_SPELL_7"
+      },
+      {
+        "condition": { "math": [ "u_sorcerer_level_6_spells_known_slots > u_sorcerer_level_6_spells_known" ] },
+        "text": "Learn a level 6 spell",
+        "topic": "TALK_SORCERER_LEARN_SPELL_6"
+      },
+      {
+        "condition": { "math": [ "u_sorcerer_level_5_spells_known_slots > u_sorcerer_level_5_spells_known" ] },
+        "text": "Learn a level 5 spell",
+        "topic": "TALK_SORCERER_LEARN_SPELL_5"
+      },
+      {
+        "condition": { "math": [ "u_sorcerer_level_4_spells_known_slots > u_sorcerer_level_4_spells_known" ] },
+        "text": "Learn a level 4 spell",
+        "topic": "TALK_SORCERER_LEARN_SPELL_4"
+      },
+      {
+        "condition": { "math": [ "u_sorcerer_level_3_spells_known_slots > u_sorcerer_level_3_spells_known" ] },
+        "text": "Learn a level 3 spell",
+        "topic": "TALK_SORCERER_LEARN_SPELL_3"
+      },
+      {
+        "condition": { "math": [ "u_sorcerer_level_2_spells_known_slots > u_sorcerer_level_2_spells_known" ] },
+        "text": "Learn a level 2 spell",
+        "topic": "TALK_SORCERER_LEARN_SPELL_2"
+      },
+      {
+        "condition": { "math": [ "u_sorcerer_level_1_spells_known_slots > u_sorcerer_level_1_spells_known" ] },
+        "text": "Learn a level 1 spell",
+        "topic": "TALK_SORCERER_LEARN_SPELL_1"
+      },
+      {
+        "condition": { "math": [ "u_sorcerer_level_0_spells_known_slots > u_sorcerer_level_0_spells_known" ] },
+        "text": "Learn a level 0 spell",
+        "topic": "TALK_SORCERER_LEARN_SPELL_0"
+      },
+      {
+        "condition": { "math": [ "u_current_sorcerer_level == 0" ] },
+        "text": "Pick a bloodline",
+        "topic": "TALK_SORCERER_PICK_BLOODLINE"
+      },
+      {
+        "condition": { "math": [ "u_available_favourite_spells > 0" ] },
+        "text": "Pick a favourite spell",
+        "topic": "TALK_SORCERER_PICK_FAV_SPELL"
+      },
+      { "text": "Quit.", "topic": "TALK_DONE" }
+    ]
+  }
+]

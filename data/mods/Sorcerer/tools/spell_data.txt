@@ -1,0 +1,28 @@
+[
+  {
+    "id": "create_rune_sorcerer",
+    "safe_id": "create_rune_sorcerer",
+    "level": 0,
+    "name": "Counterfeit Rune",
+    "description": "This ritual creates a small pebble infused with a sorcerer's power.  It can trick spells that require runes to cast to think that you have the rune required.",
+    "tier": 0
+  },
+  {
+    "id": "create_electric_lighter",
+    "disabled": true,
+    "//": "Mostly same effect as the kelvinist version, and we don't need two of them to clog up the UI."
+  },
+  {
+    "id": "convert_sorcerer",
+    "safe_id": "convert_sorcerer",
+    "level": 5,
+    "name": "Convert",
+    "description": "Kill an ally creature, converting its life energy into compact rune, that you can use afterwards.",
+    "tier": 2
+  },
+  {
+    "id": "convert",
+    "disabled": true,
+    "//": "We don't want sorcerers to be able to get animist runes, so we create a custom spell that gives sorcerer runes instead."
+  }
+]
