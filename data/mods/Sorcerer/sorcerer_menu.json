@@ -70,8 +70,8 @@
         "topic": "TALK_SORCERER_PICK_BLOODLINE"
       },
       {
-        "condition": { "math": [ "u_available_favourite_spells > 0" ] },
-        "text": "Pick a favourite spell",
+        "condition": { "math": [ "u_available_favorite_spells > 0" ] },
+        "text": "Pick a favorite spell",
         "topic": "TALK_SORCERER_PICK_FAV_SPELL"
       },
       { "text": "Quit.", "topic": "TALK_DONE" }
