@@ -722,13 +722,8 @@
           { "item": "longshirt" },
           { "item": "socks" },
           { "item": "sneakers" },
-          { "item": "mbag" },
-          { "item": "pockknife" },
-          { "item": "water_clean" },
-          { "item": "wristwatch" },
           { "group": "charged_smart_phone", "contents-item": "guidebook" },
-          { "group": "starter_wallet_full" },
-          { "group": "charged_matches" }
+          { "group": "starter_wallet_full" }
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
