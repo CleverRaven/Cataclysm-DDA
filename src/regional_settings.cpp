@@ -493,8 +493,8 @@ void region_settings_forest::load( const JsonObject &jo, std::string_view )
     optional( jo, was_loaded, "river_floodplain_buffer_distance_max",
               river_floodplain_buffer_distance_max );
 
-    optional(jo, was_loaded, "forest_threshold_limit", max_forest, 0.395 );
-    optional(jo, was_loaded, "forest_threshold_increase", forest_increase );
+    optional( jo, was_loaded, "forest_threshold_limit", max_forest, 0.395 );
+    optional( jo, was_loaded, "forest_threshold_increase", forest_increase, { 0, 0, 0, 0 } );
 }
 
 void region_settings_ravine::load( const JsonObject &jo, std::string_view )
@@ -705,8 +705,15 @@ void region_settings::load( const JsonObject &jo, std::string_view )
     optional( jo, was_loaded, "connections", overmap_connection );
     optional( jo, was_loaded, "terrain_furniture", region_terrain_and_furniture );
 
-    optional(jo, was_loaded, "max_urbanity", max_urban, 8 );
-    optional(jo, was_loaded, "urbanity_increase", urban_increase );
+    optional( jo, was_loaded, "place_swamps", place_swamps, true );
+    optional( jo, was_loaded, "place_roads", place_roads, true );
+    optional( jo, was_loaded, "place_railroads", place_railroads, false );
+    optional( jo, was_loaded, "place_railroads_before_roads", place_railroads_before_roads, false );
+    optional( jo, was_loaded, "place_specials", place_specials, true );
+    optional( jo, was_loaded, "neighbor_connections", neighbor_connections, true );
+
+    optional( jo, was_loaded, "max_urbanity", max_urban, 8 );
+    optional( jo, was_loaded, "urbanity_increase", urban_increase, { 0, 0, 0, 0 } );
 }
 
 void region_settings::finalize()

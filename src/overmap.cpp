@@ -3512,7 +3512,7 @@ void overmap::generate( const std::vector<const overmap *> &neighbor_overmaps,
     std::vector<Highway_path> highway_paths;
     calculate_urbanity();
     calculate_forestosity();
-    if( get_option<bool>( "OVERMAP_POPULATE_OUTSIDE_CONNECTIONS_FROM_NEIGHBORS" ) ) {
+    if( settings->neighbor_connections ) {
         populate_connections_out_from_neighbors( neighbor_overmaps );
     }
     if( settings->overmap_river ) {
@@ -3527,7 +3527,7 @@ void overmap::generate( const std::vector<const overmap *> &neighbor_overmaps,
     if( settings->overmap_forest ) {
         place_forests();
     }
-    if( settings->overmap_forest && get_option<bool>( "OVERMAP_PLACE_SWAMPS" ) ) {
+    if( settings->overmap_forest && settings->place_swamps ) {
         place_swamps();
     }
     if( settings->overmap_ravine ) {
@@ -3552,22 +3552,22 @@ void overmap::generate( const std::vector<const overmap *> &neighbor_overmaps,
     if( settings->forest_trail ) {
         place_forest_trails();
     }
-    if( get_option<bool>( "OVERMAP_PLACE_RAILROADS_BEFORE_ROADS" ) ) {
-        if( get_option<bool>( "OVERMAP_PLACE_RAILROADS" ) ) {
+    if( settings->place_railroads_before_roads ) {
+        if( settings->place_railroads ) {
             place_railroads( neighbor_overmaps );
         }
-        if( get_option<bool>( "OVERMAP_PLACE_ROADS" ) ) {
+        if( settings->place_roads ) {
             place_roads( neighbor_overmaps );
         }
     } else {
-        if( get_option<bool>( "OVERMAP_PLACE_ROADS" ) ) {
+        if( settings->place_roads ) {
             place_roads( neighbor_overmaps );
         }
-        if( get_option<bool>( "OVERMAP_PLACE_RAILROADS" ) ) {
+        if( settings->place_railroads ) {
             place_railroads( neighbor_overmaps );
         }
     }
-    if( get_option<bool>( "OVERMAP_PLACE_SPECIALS" ) ) {
+    if( settings->place_specials ) {
         place_specials( enabled_specials );
     }
     if( settings->overmap_highway ) {
@@ -5070,10 +5070,14 @@ void overmap::calculate_forestosity()
         return;
     }
     const region_settings_forest &settings_forest = settings->get_settings_forest();
-    float northern_forest_increase = settings_forest.forest_increase[om_direction::type::north];
-    float eastern_forest_increase = settings_forest.forest_increase[om_direction::type::east];
-    float western_forest_increase = settings_forest.forest_increase[om_direction::type::west];
-    float southern_forest_increase = settings_forest.forest_increase[om_direction::type::south];
+    float northern_forest_increase = settings_forest.forest_increase[static_cast<int>
+                                     ( om_direction::type::north )];
+    float eastern_forest_increase = settings_forest.forest_increase[static_cast<int>
+                                    ( om_direction::type::east )];
+    float western_forest_increase = settings_forest.forest_increase[static_cast<int>
+                                    ( om_direction::type::west )];
+    float southern_forest_increase = settings_forest.forest_increase[static_cast<int>
+                                     ( om_direction::type::south )];
     const point_abs_om this_om = pos();
     if( western_forest_increase != 0 && this_om.x() < 0 ) {
         forest_size_adjust -= this_om.x() * western_forest_increase;
@@ -5090,7 +5094,8 @@ void overmap::calculate_forestosity()
     forestosity = forest_size_adjust * 25.0f;
     //debugmsg( "forestosity = %1.2f at OM %i, %i", forestosity, this_om.x(), this_om.y() );
     // make sure forest size never totally overwhelms the map
-    forest_size_adjust = std::min<float>( forest_size_adjust, settings_forest.forest_max - settings_forest.noise_threshold_forest );
+    forest_size_adjust = std::min<float>( forest_size_adjust,
+                                          settings_forest.max_forest - settings_forest.noise_threshold_forest );
 }
 
 void overmap::calculate_urbanity()
@@ -5099,10 +5104,12 @@ void overmap::calculate_urbanity()
     if( op_city_size <= 0 ) {
         return;
     }
-    int northern_urban_increase = settings->urban_increase[om_direction::type::north];
-    int eastern_urban_increase = settings->urban_increase[om_direction::type::east];
-    int western_urban_increase = settings->urban_increase[om_direction::type::west];
-    int southern_urban_increase = settings->urban_increase[om_direction::type::south];
+    int northern_urban_increase = settings->urban_increase[static_cast<int>
+                                  ( om_direction::type::north )];
+    int eastern_urban_increase = settings->urban_increase[static_cast<int>( om_direction::type::east )];
+    int western_urban_increase = settings->urban_increase[static_cast<int>( om_direction::type::west )];
+    int southern_urban_increase = settings->urban_increase[static_cast<int>
+                                  ( om_direction::type::south )];
     if( northern_urban_increase == 0 && eastern_urban_increase == 0 && western_urban_increase == 0 &&
         southern_urban_increase == 0 ) {
         return;

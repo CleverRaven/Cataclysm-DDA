@@ -4,7 +4,9 @@
     "id": "default_railroads",
     "apply_to_tags": [ "all" ],
     "cities": "default_railroads",
-    "highways": null
+    "highways": null,
+    "place_railroads": true,
+    "place_railroads_before_roads": true
   },
   {
     "type": "region_settings_city",

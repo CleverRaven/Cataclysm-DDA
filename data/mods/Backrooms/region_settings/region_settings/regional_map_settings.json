@@ -135,6 +135,8 @@
     "map_extras": "default_backrooms",
     "terrain_furniture": "default_backrooms",
     "weather": "default_backrooms",
+    "neighbor_connections": false,
+    "place_roads": false,
     "default_oter": [
       "backroom_border",
       "backroom_border",
