@@ -5,7 +5,7 @@
     "name": "Sorcerer",
     "authors": [ "Lightwave" ],
     "maintainers": [ "Lightwave" ],
-    "description": "A different way to play Magiclysm. Gain spells and spell levels from killing enemies instead of reading books.",
+    "description": "A different way to play Magiclysm.  Gain spells and spell levels from killing enemies instead of reading books.",
     "category": "content",
     "dependencies": [ "dda", "magiclysm" ]
   },

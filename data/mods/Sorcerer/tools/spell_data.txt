@@ -3,8 +3,9 @@
     "id": "create_rune_sorcerer",
     "safe_id": "create_rune_sorcerer",
     "level": 0,
-    "name": "Counterfeit Rune",
-    "description": "This ritual creates a small pebble infused with a sorcerer's power.  It can trick spells that require runes to cast to think that you have the rune required.",
+    "name": "<spell_name:create_rune_sorcerer>",
+    "description": "<spell_description:create_rune_sorcerer>",
+    "NO_I18N": true,
     "tier": 0
   },
   {
@@ -16,8 +17,9 @@
     "id": "convert_sorcerer",
     "safe_id": "convert_sorcerer",
     "level": 5,
-    "name": "Convert",
-    "description": "Kill an ally creature, converting its life energy into compact rune, that you can use afterwards.",
+    "name": "<spell_name:convert_sorcerer>",
+    "description": "<spell_description:convert_sorcerer>",
+    "NO_I18N": true,
     "tier": 2
   },
   {

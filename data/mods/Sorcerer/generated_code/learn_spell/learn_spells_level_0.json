@@ -2,7 +2,8 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_create_atomic_light_at_level_0",
-    "dynamic_line": "Magical Light: Creates a magical light.",
+    "dynamic_line": "<spell_name:create_atomic_light>: <spell_description:create_atomic_light>",
+    "//~": "NO_I18N",
     "responses": [
       {
         "text": "Select Spell.",
@@ -20,7 +21,8 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_classless_watch_spell_at_level_0",
-    "dynamic_line": "Knowing the Day and the Hour: Probably the single greatest example of technology rendering magic obsolete, this spell allows you know exactly what time it is.",
+    "dynamic_line": "<spell_name:classless_watch_spell>: <spell_description:classless_watch_spell>",
+    "//~": "NO_I18N",
     "responses": [
       {
         "text": "Select Spell.",
@@ -38,7 +40,8 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_classless_easy_sleep_spell_at_level_0",
-    "dynamic_line": "Peaceful Rest: A favorite of overworked mages and dilettantes who, this spell makes it much easier to fall asleep regardless of how tired you are.",
+    "dynamic_line": "<spell_name:classless_easy_sleep_spell>: <spell_description:classless_easy_sleep_spell>",
+    "//~": "NO_I18N",
     "responses": [
       {
         "text": "Select Spell.",
@@ -56,7 +59,8 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_druid_woodshaft_at_level_0",
-    "dynamic_line": "Wooden Shaft: This spell creates a projectile of hardwood that shoots forth from the caster's hand at high speed to stab into an enemy.",
+    "dynamic_line": "<spell_name:druid_woodshaft>: <spell_description:druid_woodshaft>",
+    "//~": "NO_I18N",
     "responses": [
       {
         "text": "Select Spell.",
@@ -74,7 +78,8 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_summon_cats_at_level_0",
-    "dynamic_line": "Bag of Cats: Are you the crazy cat lady?",
+    "dynamic_line": "<spell_name:summon_cats>: <spell_description:summon_cats>",
+    "//~": "NO_I18N",
     "responses": [
       {
         "text": "Select Spell.",
@@ -92,7 +97,8 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_eshaper_rockbolt_at_level_0",
-    "dynamic_line": "Rockbolt: Fires a conjured stone projectile at high velocity.",
+    "dynamic_line": "<spell_name:eshaper_rockbolt>: <spell_description:eshaper_rockbolt>",
+    "//~": "NO_I18N",
     "responses": [
       {
         "text": "Select Spell.",
@@ -110,7 +116,8 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_create_lighter_at_level_0",
-    "dynamic_line": "Finger Firelighter: Summons a small flame that does not affect you, but can be used to light things on fire.  It seems to need you to have some intent to light things on fire, since you are able to put it in your pocket with no issue.",
+    "dynamic_line": "<spell_name:create_lighter>: <spell_description:create_lighter>",
+    "//~": "NO_I18N",
     "responses": [
       {
         "text": "Select Spell.",
@@ -128,7 +135,8 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_chilling_touch_at_level_0",
-    "dynamic_line": "Chilling Touch: Freezes the touched target with intense cold.",
+    "dynamic_line": "<spell_name:chilling_touch>: <spell_description:chilling_touch>",
+    "//~": "NO_I18N",
     "responses": [
       {
         "text": "Select Spell.",
@@ -146,7 +154,8 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_kelvinist_heat_food_at_level_0",
-    "dynamic_line": "Baking Hands: With the tiniest amount of heat, unfreeze an item of food or drink and heat it up to a comfortable temperature.",
+    "dynamic_line": "<spell_name:kelvinist_heat_food>: <spell_description:kelvinist_heat_food>",
+    "//~": "NO_I18N",
     "responses": [
       {
         "text": "Select Spell.",
@@ -164,7 +173,8 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_shadow_field_at_level_0",
-    "dynamic_line": "Shadow Field: Shroud an area in intense shadows.",
+    "dynamic_line": "<spell_name:shadow_field>: <spell_description:shadow_field>",
+    "//~": "NO_I18N",
     "responses": [
       {
         "text": "Select Spell.",
@@ -182,7 +192,8 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_magic_missile_at_level_0",
-    "dynamic_line": "Magic Missile: I cast Magic Missile at the darkness!",
+    "dynamic_line": "<spell_name:magic_missile>: <spell_description:magic_missile>",
+    "//~": "NO_I18N",
     "responses": [
       {
         "text": "Select Spell.",
@@ -200,7 +211,8 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_shocking_lash_at_level_0",
-    "dynamic_line": "Shocking Lash: A quick burst of electricity strikes a target and possibly one other nearby.",
+    "dynamic_line": "<spell_name:shocking_lash>: <spell_description:shocking_lash>",
+    "//~": "NO_I18N",
     "responses": [
       {
         "text": "Select Spell.",
@@ -218,7 +230,8 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_electric_arts_at_level_0",
-    "dynamic_line": "Electric Arts: A spell designed for scholars who have recently started to learn stormshaping, allowing them to reduce the damage their often capricious new abilities may cause to themselves.",
+    "dynamic_line": "<spell_name:electric_arts>: <spell_description:electric_arts>",
+    "//~": "NO_I18N",
     "responses": [
       {
         "text": "Select Spell.",
@@ -236,7 +249,8 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_taze_at_level_0",
-    "dynamic_line": "Taze: This spell arcs two small bolts of electricity into a target, shocking them.",
+    "dynamic_line": "<spell_name:taze>: <spell_description:taze>",
+    "//~": "NO_I18N",
     "responses": [
       {
         "text": "Select Spell.",
@@ -254,7 +268,8 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_create_rune_sorcerer_at_level_0",
-    "dynamic_line": "Counterfeit Rune: This ritual creates a small pebble infused with a sorcerer's power.  It can trick spells that require runes to cast to think that you have the rune required.",
+    "dynamic_line": "<spell_name:create_rune_sorcerer>: <spell_description:create_rune_sorcerer>",
+    "//~": "NO_I18N",
     "responses": [
       {
         "text": "Select Spell.",
@@ -279,77 +294,77 @@
       { "text": "Quit.", "topic": "TALK_DONE" },
       {
         "condition": { "math": [ "u_used_spell_slot_for_create_atomic_light == 0" ] },
-        "text": "Learn Magical Light ( level 0 )",
+        "text": "Learn <spell_name:create_atomic_light> ( level 0 )",
         "topic": "TALK_SORCERER_LEARN_SPELL_create_atomic_light_at_level_0"
       },
       {
         "condition": { "math": [ "u_used_spell_slot_for_classless_watch_spell == 0" ] },
-        "text": "Learn Knowing the Day and the Hour ( level 0 )",
+        "text": "Learn <spell_name:classless_watch_spell> ( level 0 )",
         "topic": "TALK_SORCERER_LEARN_SPELL_classless_watch_spell_at_level_0"
       },
       {
         "condition": { "math": [ "u_used_spell_slot_for_classless_easy_sleep_spell == 0" ] },
-        "text": "Learn Peaceful Rest ( level 0 )",
+        "text": "Learn <spell_name:classless_easy_sleep_spell> ( level 0 )",
         "topic": "TALK_SORCERER_LEARN_SPELL_classless_easy_sleep_spell_at_level_0"
       },
       {
         "condition": { "math": [ "u_used_spell_slot_for_druid_woodshaft == 0" ] },
-        "text": "Learn Wooden Shaft ( level 0 )",
+        "text": "Learn <spell_name:druid_woodshaft> ( level 0 )",
         "topic": "TALK_SORCERER_LEARN_SPELL_druid_woodshaft_at_level_0"
       },
       {
         "condition": { "math": [ "u_used_spell_slot_for_summon_cats == 0" ] },
-        "text": "Learn Bag of Cats ( level 0 )",
+        "text": "Learn <spell_name:summon_cats> ( level 0 )",
         "topic": "TALK_SORCERER_LEARN_SPELL_summon_cats_at_level_0"
       },
       {
         "condition": { "math": [ "u_used_spell_slot_for_eshaper_rockbolt == 0" ] },
-        "text": "Learn Rockbolt ( level 0 )",
+        "text": "Learn <spell_name:eshaper_rockbolt> ( level 0 )",
         "topic": "TALK_SORCERER_LEARN_SPELL_eshaper_rockbolt_at_level_0"
       },
       {
         "condition": { "math": [ "u_used_spell_slot_for_create_lighter == 0" ] },
-        "text": "Learn Finger Firelighter ( level 0 )",
+        "text": "Learn <spell_name:create_lighter> ( level 0 )",
         "topic": "TALK_SORCERER_LEARN_SPELL_create_lighter_at_level_0"
       },
       {
         "condition": { "math": [ "u_used_spell_slot_for_chilling_touch == 0" ] },
-        "text": "Learn Chilling Touch ( level 0 )",
+        "text": "Learn <spell_name:chilling_touch> ( level 0 )",
         "topic": "TALK_SORCERER_LEARN_SPELL_chilling_touch_at_level_0"
       },
       {
         "condition": { "math": [ "u_used_spell_slot_for_kelvinist_heat_food == 0" ] },
-        "text": "Learn Baking Hands ( level 0 )",
+        "text": "Learn <spell_name:kelvinist_heat_food> ( level 0 )",
         "topic": "TALK_SORCERER_LEARN_SPELL_kelvinist_heat_food_at_level_0"
       },
       {
         "condition": { "math": [ "u_used_spell_slot_for_shadow_field == 0" ] },
-        "text": "Learn Shadow Field ( level 0 )",
+        "text": "Learn <spell_name:shadow_field> ( level 0 )",
         "topic": "TALK_SORCERER_LEARN_SPELL_shadow_field_at_level_0"
       },
       {
         "condition": { "math": [ "u_used_spell_slot_for_magic_missile == 0" ] },
-        "text": "Learn Magic Missile ( level 0 )",
+        "text": "Learn <spell_name:magic_missile> ( level 0 )",
         "topic": "TALK_SORCERER_LEARN_SPELL_magic_missile_at_level_0"
       },
       {
         "condition": { "math": [ "u_used_spell_slot_for_shocking_lash == 0" ] },
-        "text": "Learn Shocking Lash ( level 0 )",
+        "text": "Learn <spell_name:shocking_lash> ( level 0 )",
         "topic": "TALK_SORCERER_LEARN_SPELL_shocking_lash_at_level_0"
       },
       {
         "condition": { "math": [ "u_used_spell_slot_for_electric_arts == 0" ] },
-        "text": "Learn Electric Arts ( level 0 )",
+        "text": "Learn <spell_name:electric_arts> ( level 0 )",
         "topic": "TALK_SORCERER_LEARN_SPELL_electric_arts_at_level_0"
       },
       {
         "condition": { "math": [ "u_used_spell_slot_for_taze == 0" ] },
-        "text": "Learn Taze ( level 0 )",
+        "text": "Learn <spell_name:taze> ( level 0 )",
         "topic": "TALK_SORCERER_LEARN_SPELL_taze_at_level_0"
       },
       {
         "condition": { "math": [ "u_used_spell_slot_for_create_rune_sorcerer == 0" ] },
-        "text": "Learn Counterfeit Rune ( level 0 )",
+        "text": "Learn <spell_name:create_rune_sorcerer> ( level 0 )",
         "topic": "TALK_SORCERER_LEARN_SPELL_create_rune_sorcerer_at_level_0"
       }
     ]

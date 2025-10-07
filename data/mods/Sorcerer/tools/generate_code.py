@@ -134,18 +134,14 @@ def read_spell_data(path):
                     "safe_id": str(jo["id"]).replace("-", "_"),
                     "level": -1,
                     "name": str(jo["name"]),
-                    "description": str(jo["description"]),
+                    "name": "<spell_name:" + str(jo["id"]) + ">",
+                    "description": "<spell_description:" + str(jo["id"]) + ">",
+                    "NO_I18N": True
                 }
                 # Deals with if the name is not just a string.
                 # Haven't figgured out a way to automatically deal with spells
                 # that contains the string "str".
                 # So we just deal with them manually.
-                if (
-                    "str" in jo["name"] and
-                    new_spell_data["id"] != "windstrike" and
-                    new_spell_data["id"] != "demon_possession_aura"
-                ):
-                    new_spell_data["name"] = str(jo["name"]["str"])
                 for spell_name in tier_0_spell_list:
                     if jo["id"] == spell_name:
                         if difficulty <= 1:
@@ -238,6 +234,7 @@ def write_learn_spell(level):
                 "_at_level_" +
                 str(level),
                 "dynamic_line": spell["name"] + ": " + spell["description"],
+                "//~": "",
                 "responses": [
                     {
                         "text": "Select Spell.",
@@ -270,6 +267,8 @@ def write_learn_spell(level):
                     {"text": "Quit.", "topic": "TALK_DONE"},
                 ],
             }
+            if "NO_I18N" in spell and spell["NO_I18N"] is True:
+                new_other_topic["//~"] = "NO_I18N"
             all_topics.append(new_other_topic)
     all_topics.append(main_topic)
     path = "../generated_code/learn_spell"

@@ -3,1873 +3,2114 @@
     "id": "banishment_lesser",
     "safe_id": "banishment_lesser",
     "level": 8,
-    "name": "Lesser Banishment",
-    "description": "Banish a monster to a lesser-known nether dimension.  If a monster is more powerful than you can handle, the spell drains your life force to make up the difference.",
+    "name": "<spell_name:banishment_lesser>",
+    "description": "<spell_description:banishment_lesser>",
+    "NO_I18N": true,
     "tier": 3
   },
   {
     "id": "animist_mass_hiding_aoe",
     "safe_id": "animist_mass_hiding_aoe",
     "level": 8,
-    "name": "A Shadow in the Crowd",
-    "description": "Sever the connections between your spirit and the spirits of everyone around you, rendering them incapable of perceiving you; the light might hit their eyes and the sounds their ears, but they cannot recognize what those impressions mean.  Anything outside the spell's area of effect will have no trouble spotting you.\n\nThis spell does not affect any target without a spirit, such as a robot.",
+    "name": "<spell_name:animist_mass_hiding_aoe>",
+    "description": "<spell_description:animist_mass_hiding_aoe>",
+    "NO_I18N": true,
     "tier": 3
   },
   {
     "id": "animist_spirit_walking",
     "safe_id": "animist_spirit_walking",
     "level": 8,
-    "name": "Spirit-Walking",
-    "description": "Transform your body to pure spirit, making you invisible and intangible.  You can move incredibly quickly while the spell is in effect and can pass by enemies unseen, but you will be unable to affect the physical world or cast spells.",
+    "name": "<spell_name:animist_spirit_walking>",
+    "description": "<spell_description:animist_spirit_walking>",
+    "NO_I18N": true,
     "tier": 3
   },
   {
     "id": "biomancer_hyper_regeneration",
     "safe_id": "biomancer_hyper_regeneration",
     "level": 8,
-    "name": "Corporeal Reconstitution",
-    "description": "Possibly the most powerful of the biomantic healing spells, this causes your flesh to literally knit itself together before your eyes.",
+    "name": "<spell_name:biomancer_hyper_regeneration>",
+    "description": "<spell_description:biomancer_hyper_regeneration>",
+    "NO_I18N": true,
     "tier": 3
   },
   {
     "id": "classless_disjunction",
     "safe_id": "classless_disjunction",
     "level": 8,
-    "name": "Disjunction",
-    "description": "The ultimate anti-magic spell, Disjunction will strip even attunement-related or powerful enchantments from the target.",
+    "name": "<spell_name:classless_disjunction>",
+    "description": "<spell_description:classless_disjunction>",
+    "NO_I18N": true,
     "tier": 3
   },
   {
     "id": "cause_rot",
     "safe_id": "cause_rot",
     "level": 8,
-    "name": "Cause Rot",
-    "description": "A spell from a darker sect of druidry, created to forcibly begin the circle of life anew.  For without rot, you cannot have growth.  Affects a huge area, but is indiscriminate; even rusting machines into nothing but dust and slow both in casting and effect.  Once lost entirely to the passage of time, this spell was thought to be no more than a myth, the stuff of fairy tales, albeit grim ones.",
+    "name": "<spell_name:cause_rot>",
+    "description": "<spell_description:cause_rot>",
+    "NO_I18N": true,
     "tier": 3
   },
   {
     "id": "druid_beguile_savage_beast",
     "safe_id": "druid_beguile_savage_beast",
     "level": 8,
-    "name": "Beguiling the Savage Beast",
-    "description": "Using your connection to nature, you can sway an animal to your service.  This spell even works on mutated animals.",
+    "name": "<spell_name:druid_beguile_savage_beast>",
+    "description": "<spell_description:druid_beguile_savage_beast>",
+    "NO_I18N": true,
     "tier": 3
   },
   {
     "id": "druid_thorn_skin",
     "safe_id": "druid_thorn_skin",
     "level": 8,
-    "name": "Thornskin",
-    "description": "This spell transforms the druid's skin into a bark-like material covered in large thorns.  It provides excellent protection but slightly slows you and makes you vulnerable to fire.",
+    "name": "<spell_name:druid_thorn_skin>",
+    "description": "<spell_description:druid_thorn_skin>",
+    "NO_I18N": true,
     "tier": 3
   },
   {
     "id": "druid_renew_forest_spell",
     "safe_id": "druid_renew_forest_spell",
     "level": 8,
-    "name": "Renewing the Forest",
-    "description": "While outdoors and not underground, the druid can create a profusion of life around themselves, causing grass to grow through pavement, bushes and flowers to sprout, and trees to grow to full height in moments.\n\nIn <color_yellow>addition to</color> mana, this spell also requires <color_red>hit points</color> to cast and <color_yellow>will fail</color> if you are too injured.",
+    "name": "<spell_name:druid_renew_forest_spell>",
+    "description": "<spell_description:druid_renew_forest_spell>",
+    "NO_I18N": true,
     "tier": 3
   },
   {
     "id": "druid_create_temporary_spring",
     "safe_id": "druid_create_temporary_spring",
     "level": 8,
-    "name": "Fountain of the Depths",
-    "description": "Call to the waters beneath the earth and bring them to the surface, creating a natural spring.  The waters will subside when the spell's duration ends.",
+    "name": "<spell_name:druid_create_temporary_spring>",
+    "description": "<spell_description:druid_create_temporary_spring>",
+    "NO_I18N": true,
     "tier": 3
   },
   {
     "id": "druid_turn_tree_into_treant",
     "safe_id": "druid_turn_tree_into_treant",
     "level": 8,
-    "name": "Awakening of the Forest Guardian",
-    "description": "Grant a nearby tree awareness and mobility, letting it shake free from the soil and rise up to crush your enemies.  It will root itself again when the spell expires.\n\nYou must be <color_yellow>standing next to a tree</color> for the spell to take effect.",
+    "name": "<spell_name:druid_turn_tree_into_treant>",
+    "description": "<spell_description:druid_turn_tree_into_treant>",
+    "NO_I18N": true,
     "tier": 3
   },
   {
     "id": "shape_of_dust",
     "safe_id": "shape_of_dust",
     "level": 8,
-    "name": "Shape of Dust",
-    "description": "Hide yourself within sand-filled winds.  It's harder to hit you, and monsters can't spot you.  Attacking a target will break the spell.",
+    "name": "<spell_name:shape_of_dust>",
+    "description": "<spell_description:shape_of_dust>",
+    "NO_I18N": true,
     "tier": 3
   },
   {
     "id": "summon_eshaper_golem",
     "safe_id": "summon_eshaper_golem",
     "level": 8,
-    "name": "Summon Earthshaper's Golem",
-    "description": "Shape a strong golem out of stone.  It may help for a while, but you haven't enough energy to support it forever.",
+    "name": "<spell_name:summon_eshaper_golem>",
+    "description": "<spell_description:summon_eshaper_golem>",
+    "NO_I18N": true,
     "tier": 3
   },
   {
     "id": "earthshaper_reveal_world_map",
     "safe_id": "earthshaper_reveal_world_map",
     "level": 8,
-    "name": "Reading the Earthbones",
-    "description": "You extend your senses into the ground, becoming aware of every hill and valley within a large area.  It will only work when in contact with the earth.",
+    "name": "<spell_name:earthshaper_reveal_world_map>",
+    "description": "<spell_description:earthshaper_reveal_world_map>",
+    "NO_I18N": true,
     "tier": 3
   },
   {
     "id": "earthshaper_granite_aegis",
     "safe_id": "earthshaper_granite_aegis",
     "level": 8,
-    "name": "Granite Aegis",
-    "description": "In an extremity of danger, summon a hollow shell of rock around yourself.  It lasts only a few moments, but sometimes that's all you need.  You must be standing on the living earth to invoke it.",
+    "name": "<spell_name:earthshaper_granite_aegis>",
+    "description": "<spell_description:earthshaper_granite_aegis>",
+    "NO_I18N": true,
     "tier": 3
   },
   {
     "id": "earthshaper_sleep_in_earth",
     "safe_id": "earthshaper_sleep_in_earth",
     "level": 8,
-    "name": "Stone Slumber",
-    "description": "When standing on earth or stone, sink into the ground.  While submerged, you will heal faster, sleep will be more restorative, and you will not need to eat or drink.  Cast this spell again to return to the surface.",
+    "name": "<spell_name:earthshaper_sleep_in_earth>",
+    "description": "<spell_description:earthshaper_sleep_in_earth>",
+    "NO_I18N": true,
     "tier": 3
   },
   {
     "id": "earthshaper_diggable_teleport",
     "safe_id": "earthshaper_diggable_teleport",
     "level": 8,
-    "name": "Earth Gate",
-    "description": "While standing on natural earth, sink into it and emerge from any other patch of natural earth within the spell's range.",
+    "name": "<spell_name:earthshaper_diggable_teleport>",
+    "description": "<spell_description:earthshaper_diggable_teleport>",
+    "NO_I18N": true,
     "tier": 3
   },
   {
     "id": "nova_flare",
     "safe_id": "nova_flare",
     "level": 8,
-    "name": "Nova Flare",
-    "description": "Generates an intense heat at the location, greatly damaging anything susceptible to high temperatures.",
+    "name": "<spell_name:nova_flare>",
+    "description": "<spell_description:nova_flare>",
+    "NO_I18N": true,
     "tier": 3
   },
   {
     "id": "freezing_touch",
     "safe_id": "freezing_touch",
     "level": 8,
-    "name": "Freezing Touch",
-    "description": "Your hands freeze anything they touch at temperatures so cold it slows down your foes.",
+    "name": "<spell_name:freezing_touch>",
+    "description": "<spell_description:freezing_touch>",
+    "NO_I18N": true,
     "tier": 3
   },
   {
     "id": "kelvinist_no_emotion_spell",
     "safe_id": "kelvinist_no_emotion_spell",
     "level": 8,
-    "name": "The Rime-Covered Heart",
-    "description": "Draw on the essence of ice to freeze out all emotion, rendering you comfortably numb.  This spell used to get you on several lists if the government learned that you knew it, back when there was a government to care about that.",
+    "name": "<spell_name:kelvinist_no_emotion_spell>",
+    "description": "<spell_description:kelvinist_no_emotion_spell>",
+    "NO_I18N": true,
     "tier": 3
   },
   {
     "id": "kelvinist_set_everyone_on_fire",
     "safe_id": "kelvinist_set_everyone_on_fire",
     "level": 8,
-    "name": "Flames of the Apocalypse",
-    "description": "Force a large amount of burning mana into every hostile target affected by the spell, causing them to explode in flames.  Knowledge of this spell required licensing and registration before the Cataclysm, but you're pretty sure the ATF isn't going to be hassling you any time soon.",
+    "name": "<spell_name:kelvinist_set_everyone_on_fire>",
+    "description": "<spell_description:kelvinist_set_everyone_on_fire>",
+    "NO_I18N": true,
     "tier": 3
   },
   {
     "id": "magus_haste",
     "safe_id": "magus_haste",
     "level": 8,
-    "name": "Haste",
-    "description": "This spell gives you an enormous boost of speed lasting a short period of time.",
+    "name": "<spell_name:magus_haste>",
+    "description": "<spell_description:magus_haste>",
+    "NO_I18N": true,
     "tier": 3
   },
   {
     "id": "focused_bolt",
     "safe_id": "focused_bolt",
     "level": 8,
-    "name": "Focused Bolt",
-    "description": "You focus your mana into a microscopically thin pulsed beam of pure energy, capable of extreme range and precision; as well as unparalleled penetration, provided proper skill.  Once the invention of a notorious assassin, this spell has slain many a king and noble.  Passed on only through direct descendants over the ages, though occasionally shared by them to others.",
+    "name": "<spell_name:focused_bolt>",
+    "description": "<spell_description:focused_bolt>",
+    "NO_I18N": true,
     "tier": 3
   },
   {
     "id": "magus_word_of_recall",
     "safe_id": "magus_word_of_recall",
     "level": 8,
-    "name": "Word of Recall",
-    "description": "Immediately return to the place you marked with Magus's Mark, no matter how far away it is.",
+    "name": "<spell_name:magus_word_of_recall>",
+    "description": "<spell_description:magus_word_of_recall>",
+    "NO_I18N": true,
     "tier": 3
   },
   {
     "id": "magus_diamond_imbuement",
     "safe_id": "magus_diamond_imbuement",
     "level": 8,
-    "name": "Diamond Imbuement",
-    "description": "Magically infuse a melee weapon with the hardness and resilience of a diamond as well as its industrial cutting capability, making it supremely sharp and durable.  However, like a diamond, any damage the weapon suffers afterwards cannot be repaired.",
+    "name": "<spell_name:magus_diamond_imbuement>",
+    "description": "<spell_description:magus_diamond_imbuement>",
+    "NO_I18N": true,
     "tier": 3
   },
   {
     "id": "magus_permanent_light",
     "safe_id": "magus_permanent_light",
     "level": 8,
-    "name": "Imperishable Light",
-    "description": "Enchant the air in a location to glow, producing a orb of soft light.  While not particularly bright, the light will last years if you're not lucky and millennia if you are.",
+    "name": "<spell_name:magus_permanent_light>",
+    "description": "<spell_description:magus_permanent_light>",
+    "NO_I18N": true,
     "tier": 3
   },
   {
     "id": "magus_cannot_move_attack_or_damage_target",
     "safe_id": "magus_cannot_move_attack_or_damage_target",
     "level": 8,
-    "name": "Adamantine Gaol",
-    "description": "Create an impenetrable shell of force around the target, preventing them from moving or acting for the spell's duration.  The shell works in two directions and the target is also immune to all harm.\n\nAdamantine Gaol <color_yellow>cannot be dispelled</color>.",
+    "name": "<spell_name:magus_cannot_move_attack_or_damage_target>",
+    "description": "<spell_description:magus_cannot_move_attack_or_damage_target>",
+    "NO_I18N": true,
     "tier": 3
   },
   {
     "id": "lightning_storm",
     "safe_id": "lightning_storm",
     "level": 8,
-    "name": "Lightning Storm",
-    "description": "You call the power of the sky to strike the earth.  Several lightning blasts fire from your finger tips to strike the target.",
+    "name": "<spell_name:lightning_storm>",
+    "description": "<spell_description:lightning_storm>",
+    "NO_I18N": true,
     "tier": 3
   },
   {
     "id": "vacuum_decompression",
     "safe_id": "vacuum_decompression",
     "level": 8,
-    "name": "Vacuum Decompression",
-    "description": "Create a high-pressure zone originating from the selected point.  Shortly after, a massive pressure wave will crush everything inside, inflicting barotraumatic injuries on everyone affected.  The pressure differential will also pull unprepared creatures inside the zone before collapsing.",
+    "name": "<spell_name:vacuum_decompression>",
+    "description": "<spell_description:vacuum_decompression>",
+    "NO_I18N": true,
     "tier": 3
   },
   {
     "id": "rupture",
     "safe_id": "rupture",
     "level": 7,
-    "name": "Rupture",
-    "description": "You pour mana into an unwilling and unprepared vessel, causing cellular break-down, internal hemorrhaging, muddling ley lines, and overcharging electronics.  The more powerful the spell, the faster the damage happens.  Immensely gruesome and crude, it was once illegal world-wide, not that it matters now.",
+    "name": "<spell_name:rupture>",
+    "description": "<spell_description:rupture>",
+    "NO_I18N": true,
     "tier": 3
   },
   {
     "id": "obfuscated_body",
     "safe_id": "obfuscated_body",
     "level": 7,
-    "name": "Obfuscated Body",
-    "description": "A magical aura distorts light around your body, increasing the amount of attacks you might dodge in a given turn.",
+    "name": "<spell_name:obfuscated_body>",
+    "description": "<spell_description:obfuscated_body>",
+    "NO_I18N": true,
     "tier": 3
   },
   {
     "id": "druidic_healing",
     "safe_id": "druidic_healing",
     "level": 7,
-    "name": "Sacrificial Healing",
-    "description": "Channels some of the user's own life force into healing energy, for the sake of one's allies.",
+    "name": "<spell_name:druidic_healing>",
+    "description": "<spell_description:druidic_healing>",
+    "NO_I18N": true,
     "tier": 3
   },
   {
     "id": "magus_mana_blast",
     "safe_id": "magus_mana_blast",
     "level": 7,
-    "name": "Mana Blast",
-    "description": "A blast of concentrated magical power that obliterates a large area.",
+    "name": "<spell_name:magus_mana_blast>",
+    "description": "<spell_description:magus_mana_blast>",
+    "NO_I18N": true,
     "tier": 3
   },
   {
     "id": "summon_magic_motorcycle",
     "safe_id": "summon_magic_motorcycle",
     "level": 7,
-    "name": "Summon Mojocycle",
-    "description": "You're not a cowboy, but on a steel horse you ride regardless.",
+    "name": "<spell_name:summon_magic_motorcycle>",
+    "description": "<spell_description:summon_magic_motorcycle>",
+    "NO_I18N": true,
     "tier": 3
   },
   {
     "id": "dominate",
     "safe_id": "dominate",
     "level": 6,
-    "name": "Domination",
-    "description": "Force the undead creature you pick to obey your command, making it your ally for a short time.",
+    "name": "<spell_name:dominate>",
+    "description": "<spell_description:dominate>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "devour",
     "safe_id": "devour",
     "level": 6,
-    "name": "Devour",
-    "description": "Kill an allied creature, consuming its life energy to regain some health.",
+    "name": "<spell_name:devour>",
+    "description": "<spell_description:devour>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "animist_see_invisibility",
     "safe_id": "animist_see_invisibility",
     "level": 6,
-    "name": "Seeing the Unseen",
-    "description": "Rather than relying on your eyes, use your soul to also detect nearby beings, allowing you to see even creatures that are invisible to normal sight.",
+    "name": "<spell_name:animist_see_invisibility>",
+    "description": "<spell_description:animist_see_invisibility>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "vicious_tentacle",
     "safe_id": "vicious_tentacle",
     "level": 6,
-    "name": "Vicious Tentacle",
-    "description": "This spell extrudes a long and nasty whiplike tentacle of sharp bones and oozing acid from your body, which has a long reach attack and vicious damage.",
+    "name": "<spell_name:vicious_tentacle>",
+    "description": "<spell_description:vicious_tentacle>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "bio_bonespear",
     "safe_id": "bio_bonespear",
     "level": 6,
-    "name": "Conjure Bonespear",
-    "description": "This spell creates a long shaft of bone with a wicked point and blades along its length.",
+    "name": "<spell_name:bio_bonespear>",
+    "description": "<spell_description:bio_bonespear>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "biomancer_giant_growth",
     "safe_id": "biomancer_giant_growth",
     "level": 6,
-    "name": "Giant Growth",
-    "description": "Grow to enormous size.  Your clothing and equipment will not grow with you.",
+    "name": "<spell_name:biomancer_giant_growth>",
+    "description": "<spell_description:biomancer_giant_growth>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "biomancer_lashing_tentacles",
     "safe_id": "biomancer_lashing_tentacles",
     "level": 6,
-    "name": "Lashing Tentacles",
-    "description": "Grow a pair of lashing tentacles from your shoulders.  While not as long as the Vicious Tentacle, they will strike anyone in melee with you.  You cannot wear rigid armor that covers the shoulders with them.",
+    "name": "<spell_name:biomancer_lashing_tentacles>",
+    "description": "<spell_description:biomancer_lashing_tentacles>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "biomancer_caustic_blood",
     "safe_id": "biomancer_caustic_blood",
     "level": 6,
-    "name": "Caustic Blood",
-    "description": "Transmute your blood to magically-enhanced acid, making you immune to acid and also splashing anyone who spills your blood.",
+    "name": "<spell_name:biomancer_caustic_blood>",
+    "description": "<spell_description:biomancer_caustic_blood>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "megablast",
     "safe_id": "megablast",
     "level": 6,
-    "name": "Megablast",
-    "description": "You always wanted to fire energy beams like in the animes you watched as a kid.  Now you can!",
+    "name": "<spell_name:megablast>",
+    "description": "<spell_description:megablast>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "druidic_regrowth",
     "safe_id": "druidic_regrowth",
     "level": 6,
-    "name": "Sacrificial Regrowth",
-    "description": "Through giving of one's own life force, you restore withered and barren plant life nearby.  What remains will need time to regrow its full strength.",
+    "name": "<spell_name:druidic_regrowth>",
+    "description": "<spell_description:druidic_regrowth>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "summon_wolf_druid",
     "safe_id": "summon_wolf_druid",
     "level": 6,
-    "name": "Summon Wolf",
-    "description": "Call to the wilds for aid from some wolves.",
+    "name": "<spell_name:summon_wolf_druid>",
+    "description": "<spell_description:summon_wolf_druid>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "druid_healing",
     "safe_id": "druid_healing",
     "level": 6,
-    "name": "Restoration",
-    "description": "Slowly heal your wounds by drawing on the power of nature.\n\nYou must be <color_yellow>outdoors and in a natural area</color> away from civilization to cast Restoration.",
+    "name": "<spell_name:druid_healing>",
+    "description": "<spell_description:druid_healing>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "druid_whisper_leaves",
     "safe_id": "druid_whisper_leaves",
     "level": 6,
-    "name": "Whisper of the Leaves",
-    "description": "This spell allows you to hear the trees' wisdom in the rustle of the leaves and the creaking of their roots, discerning the layout of the forest.",
+    "name": "<spell_name:druid_whisper_leaves>",
+    "description": "<spell_description:druid_whisper_leaves>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "druid_summon_tanglevine",
     "safe_id": "druid_summon_tanglevine",
     "level": 6,
-    "name": "Summon Tanglevine",
-    "description": "This spell causes an animated vine to burst from the ground and attempt to seize a nearby target and hold it fast.",
+    "name": "<spell_name:druid_summon_tanglevine>",
+    "description": "<spell_description:druid_summon_tanglevine>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "eshaper_melee_damage",
     "safe_id": "eshaper_melee_damage",
     "level": 6,
-    "name": "Weighting",
-    "description": "Fill yourself with the power of Earth, and make each your attacks as devastating as an earthquake.",
+    "name": "<spell_name:eshaper_melee_damage>",
+    "description": "<spell_description:eshaper_melee_damage>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "eshaper_crystal_wrap",
     "safe_id": "eshaper_crystal_wrap",
     "level": 6,
-    "name": "Crystal Wrapping",
-    "description": "You cover your body with a layer of small, razor-sharp crystals.  It makes monsters that attack you take some damage in return, and gives you some additional cut damage in melee.",
+    "name": "<spell_name:eshaper_crystal_wrap>",
+    "description": "<spell_description:eshaper_crystal_wrap>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "kelvinist_summon_freezer_spell",
     "safe_id": "kelvinist_summon_freezer_spell",
     "level": 6,
-    "name": "Freezer Field",
-    "description": "Summon a sphere of ice that will preserve anything placed inside while the container lasts.",
+    "name": "<spell_name:kelvinist_summon_freezer_spell>",
+    "description": "<spell_description:kelvinist_summon_freezer_spell>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "gravity_well",
     "safe_id": "gravity_well",
     "level": 6,
-    "name": "Gravity Well",
-    "description": "Summons a well of gravity centered on the targeted location.  Dealing bashing damage to all creatures in the affected area.",
+    "name": "<spell_name:gravity_well>",
+    "description": "<spell_description:gravity_well>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "magus_slow",
     "safe_id": "magus_slow",
     "level": 6,
-    "name": "Slow",
-    "description": "This spell weakens your target, resulting in a decrease of speed lasting a short period of time.",
+    "name": "<spell_name:magus_slow>",
+    "description": "<spell_description:magus_slow>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "magus_baleful_polymorph",
     "safe_id": "magus_baleful_polymorph",
     "level": 6,
-    "name": "Baleful Polymorph",
-    "description": "Transform your enemies into frogs.",
+    "name": "<spell_name:magus_baleful_polymorph>",
+    "description": "<spell_description:magus_baleful_polymorph>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "stormshaper_ionization",
     "safe_id": "stormshaper_ionization",
     "level": 6,
-    "name": "Ionization",
-    "description": "By manipulating the charge in the air, you can conjure a sharp snap of lightning over a wide area.  While its destructive potential is a far cry from natural lightning, the light and thunderclap produced will leave your foes reeling.",
+    "name": "<spell_name:stormshaper_ionization>",
+    "description": "<spell_description:stormshaper_ionization>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "storm_shipwrecker",
     "safe_id": "storm_shipwrecker",
     "level": 6,
-    "name": "Shipwrecker",
-    "description": "As the sound of the spell moves out of your mouth, it creates a crushing shockwave that shatters everything in its path.",
+    "name": "<spell_name:storm_shipwrecker>",
+    "description": "<spell_description:storm_shipwrecker>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "storm_superconductor",
     "safe_id": "storm_superconductor",
     "level": 6,
-    "name": "Superconductor",
-    "description": "Create arcs of devastating electric charge in an area around you, roasting everything within.",
+    "name": "<spell_name:storm_superconductor>",
+    "description": "<spell_description:storm_superconductor>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "summon_teravolt",
     "safe_id": "summon_teravolt",
     "level": 6,
-    "name": "Summon Teravolt",
-    "description": "Summon a Teravolt, a small, semi-intelligent spirit that homes in on hostile creatures before exploding into a huge spark cloud.",
+    "name": "<spell_name:summon_teravolt>",
+    "description": "<spell_description:summon_teravolt>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "stormshaper_heart_of_hurricane",
     "safe_id": "stormshaper_heart_of_hurricane",
     "level": 6,
-    "name": "Heart of the Hurricane",
-    "description": "Compress the fury of hurricane winds into a thin shell of raging air around yourself.  This will make it harder for you to lose your footing or be knocked down and occasionally throw attackers away from you, but the whirling winds are loud.",
+    "name": "<spell_name:stormshaper_heart_of_hurricane>",
+    "description": "<spell_description:stormshaper_heart_of_hurricane>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "recover_bionic_power",
     "safe_id": "recover_bionic_power",
     "level": 6,
-    "name": "Manatricity",
-    "description": "You have found a way to convert your mana into power you can use for your bionics.",
+    "name": "<spell_name:recover_bionic_power>",
+    "description": "<spell_description:recover_bionic_power>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "animated_blade",
     "safe_id": "animated_blade",
     "level": 6,
-    "name": "Animated Blade",
-    "description": "This spell conjures flying animated blades that will cut your enemies down to size.  Into small pieces that is.",
+    "name": "<spell_name:animated_blade>",
+    "description": "<spell_description:animated_blade>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "improved_knock",
     "safe_id": "improved_knock",
     "level": 6,
-    "name": "Improved Knock",
-    "description": "You channel magic into a force capable of opening doors.  This variant can open any locked door.",
+    "name": "<spell_name:improved_knock>",
+    "description": "<spell_description:improved_knock>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "technomancer_robot_shutdown",
     "safe_id": "technomancer_robot_shutdown",
     "level": 6,
-    "name": "Shutdown",
-    "description": "Overload the target, stunning it briefly.  Originally developed during the Roman Empire to target out-of-control golems, this spell became significantly more popular in modern times when it was discovered it also worked on robots and machinery.",
+    "name": "<spell_name:technomancer_robot_shutdown>",
+    "description": "<spell_description:technomancer_robot_shutdown>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "technomancer_conjure_ups",
     "safe_id": "technomancer_conjure_ups",
     "level": 6,
-    "name": "Power Supply",
-    "description": "For the technomancer with no enhancements, this spell summons a power supply composed of pure mana that can be used to charge any compatible device.  Just keep it on your person and it will continually recharge your electronic devices until the duration expires.",
+    "name": "<spell_name:technomancer_conjure_ups>",
+    "description": "<spell_description:technomancer_conjure_ups>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "technomancer_create_ups_connection",
     "safe_id": "technomancer_create_ups_connection",
     "level": 6,
-    "name": "Power Linkage",
-    "description": "Enchant an item so that it is capable of drawing power wirelessly through the air from a compatible power source.",
+    "name": "<spell_name:technomancer_create_ups_connection>",
+    "description": "<spell_description:technomancer_create_ups_connection>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "recover_mana",
     "safe_id": "recover_mana",
     "level": 5,
-    "name": "Life Conversion",
-    "description": "You channel lifeforce itself into your spiritual energy.  You consume a rune to regain mana.",
+    "name": "<spell_name:recover_mana>",
+    "description": "<spell_description:recover_mana>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "recover_pain",
     "safe_id": "recover_pain",
     "level": 5,
-    "name": "Mind over Pain",
-    "description": "With an intense ritual that resembles crossfit, you manage to put some of your pain at bay.",
+    "name": "<spell_name:recover_pain>",
+    "description": "<spell_description:recover_pain>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "summon_undead_swarm",
     "safe_id": "summon_undead_swarm",
     "level": 5,
-    "name": "Summon Undead Swarm",
-    "description": "A group of undead animals rises from the depths of the earth to fight for you.  The type of undead you summon get deadlier with increasing spell level.",
+    "name": "<spell_name:summon_undead_swarm>",
+    "description": "<spell_description:summon_undead_swarm>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "life_detonation",
     "safe_id": "life_detonation",
     "level": 5,
-    "name": "Life Detonation",
-    "description": "Force life energy into an allied undead, making them explode with tremendous force.",
+    "name": "<spell_name:life_detonation>",
+    "description": "<spell_description:life_detonation>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "animist_add_evasion_spell",
     "safe_id": "animist_add_evasion_spell",
     "level": 5,
-    "name": "Guardian Spirit",
-    "description": "Summon a benevolent spirit to keep watch over you and warn you of imminent attacks, allowing you to dodge some of them.",
+    "name": "<spell_name:animist_add_evasion_spell>",
+    "description": "<spell_description:animist_add_evasion_spell>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "animist_slow_food_rotting_spell",
     "safe_id": "animist_slow_food_rotting_spell",
     "level": 5,
-    "name": "Abjure Spirits of Rot",
-    "description": "Placing a warding on food or drink, preventing the spirits of decay from nesting within it.  The mage may affect as much food or drink as they can carry.  The principles by which this spell functions were not discovered until the 20th century, but some animists maintain that radiation is frightening to decay spirits.",
+    "name": "<spell_name:animist_slow_food_rotting_spell>",
+    "description": "<spell_description:animist_slow_food_rotting_spell>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "biomancer_scalpel_fingers",
     "safe_id": "biomancer_scalpel_fingers",
     "level": 5,
-    "name": "Flensing Fingers",
-    "description": "Change each of your fingers into a myriad of tiny bone knives, allowing you to cut with surgical precision\u2026 or slice your enemies to ribbons.",
+    "name": "<spell_name:biomancer_scalpel_fingers>",
+    "description": "<spell_description:biomancer_scalpel_fingers>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "dark_sight",
     "safe_id": "dark_sight",
     "level": 5,
-    "name": "Dark Sight",
-    "description": "Gives you the power to see in the dark.",
+    "name": "<spell_name:dark_sight>",
+    "description": "<spell_description:dark_sight>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "recover_sleepiness",
     "safe_id": "recover_sleepiness",
     "level": 5,
-    "name": "Nature's Trance",
-    "description": "Your connection to living things allows you to go into a magical trance.  This allows you to recover from fatigue quickly in exchange for mana.",
+    "name": "<spell_name:recover_sleepiness>",
+    "description": "<spell_description:recover_sleepiness>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "druid_feralform",
     "safe_id": "druid_feralform",
     "level": 5,
-    "name": "Feral Form",
-    "description": "This spell unleashes your inner beast, growing claws & fangs to rend your foes limb from limb.",
+    "name": "<spell_name:druid_feralform>",
+    "description": "<spell_description:druid_feralform>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "druid_natures_commune",
     "safe_id": "druid_natures_commune",
     "level": 5,
-    "name": "Communion with Nature",
-    "description": "You focus on the bounty of nature around you and commune with it, improving your health and mood and calming nearby wildlife.  This spell may only be cast outdoors away from civilization.",
+    "name": "<spell_name:druid_natures_commune>",
+    "description": "<spell_description:druid_natures_commune>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "druid_wood_living_tree_spell",
     "safe_id": "druid_wood_living_tree_spell",
     "level": 5,
-    "name": "Shape Wood",
-    "description": "Using druidic magic, shape living wood into a log that you can use for other projects without harming the tree.  You must cast this spell on a living tree.",
+    "name": "<spell_name:druid_wood_living_tree_spell>",
+    "description": "<spell_description:druid_wood_living_tree_spell>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "recover_stamina",
     "safe_id": "recover_stamina",
     "level": 5,
-    "name": "Stone's Endurance",
-    "description": "You focus on the stones beneath you and draw from their agelessness.  Your mana is converted to stamina.",
+    "name": "<spell_name:recover_stamina>",
+    "description": "<spell_description:recover_stamina>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "eshaper_shardstorm",
     "safe_id": "eshaper_shardstorm",
     "level": 5,
-    "name": "Shardstorm",
-    "description": "Creates an omnidirectional spray of razor sharp metal shards all around you.",
+    "name": "<spell_name:eshaper_shardstorm>",
+    "description": "<spell_description:eshaper_shardstorm>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "eshaper_impalement",
     "safe_id": "eshaper_impalement",
     "level": 5,
-    "name": "Impalement",
-    "description": "Summon a stone spikes underground, that penetrate your enemies, and nail them for a while.",
+    "name": "<spell_name:eshaper_impalement>",
+    "description": "<spell_description:eshaper_impalement>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "fireball",
     "safe_id": "fireball",
     "level": 5,
-    "name": "Fireball",
-    "description": "You hurl a pea-sized glowing orb that produces a pressure-less blast of searing heat when it hits an obstacle or reaches the target.",
+    "name": "<spell_name:fireball>",
+    "description": "<spell_description:fireball>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "cone_cold",
     "safe_id": "cone_cold",
     "level": 5,
-    "name": "Cone of Cold",
-    "description": "You blast a cone of frigid air toward the target.",
+    "name": "<spell_name:cone_cold>",
+    "description": "<spell_description:cone_cold>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "hoary_blast",
     "safe_id": "hoary_blast",
     "level": 5,
-    "name": "Hoary Blast",
-    "description": "You project a glowing white crystal of ice and it explodes on impact into a blossom of shattering cold.",
+    "name": "<spell_name:hoary_blast>",
+    "description": "<spell_description:hoary_blast>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "kelvinist_extinguish_fire_spell",
     "safe_id": "kelvinist_extinguish_fire_spell",
     "level": 5,
-    "name": "Extinguish",
-    "description": "Just as the kelvinist can start a fire, they can extinguish it, by transmuting the heat of the fire directly into cold and leaving nothing left to continue the flames.",
+    "name": "<spell_name:kelvinist_extinguish_fire_spell>",
+    "description": "<spell_description:kelvinist_extinguish_fire_spell>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "magus_mana_bolt",
     "safe_id": "magus_mana_bolt",
     "level": 5,
-    "name": "Mana Bolt",
-    "description": "A bolt of magical power that only damages your foes.",
+    "name": "<spell_name:magus_mana_bolt>",
+    "description": "<spell_description:magus_mana_bolt>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "magus_mana_beam",
     "safe_id": "magus_mana_beam",
     "level": 5,
-    "name": "Mana Beam",
-    "description": "A beam of focused magical power that damages any foes in its path.",
+    "name": "<spell_name:magus_mana_beam>",
+    "description": "<spell_description:magus_mana_beam>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "magus_escape",
     "safe_id": "magus_escape",
     "level": 5,
-    "name": "Escape",
-    "description": "Teleports you in a random direction a medium distance, to help escape your foes in dangerous situations.",
+    "name": "<spell_name:magus_escape>",
+    "description": "<spell_description:magus_escape>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "cats_grace",
     "safe_id": "cats_grace",
     "level": 5,
-    "name": "Cat's Grace",
-    "description": "You align your senses to be closer to those of a cat, becoming more graceful, agile, and coordinated.",
+    "name": "<spell_name:cats_grace>",
+    "description": "<spell_description:cats_grace>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "eagles_sight",
     "safe_id": "eagles_sight",
     "level": 5,
-    "name": "Eagle's Sight",
-    "description": "You gain the perception of an eagle.",
+    "name": "<spell_name:eagles_sight>",
+    "description": "<spell_description:eagles_sight>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "ogres_strength",
     "safe_id": "ogres_strength",
     "level": 5,
-    "name": "Ogre's Strength",
-    "description": "You gain the strength of an ogre.",
+    "name": "<spell_name:ogres_strength>",
+    "description": "<spell_description:ogres_strength>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "foxs_cunning",
     "safe_id": "foxs_cunning",
     "level": 5,
-    "name": "Fox's Cunning",
-    "description": "You become wily like a fox.",
+    "name": "<spell_name:foxs_cunning>",
+    "description": "<spell_description:foxs_cunning>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "magus_teleport_mark",
     "safe_id": "magus_teleport_mark",
     "level": 5,
-    "name": "Magus's Mark",
-    "description": "Mark a particular patch of ground to allow you to return to it later.",
+    "name": "<spell_name:magus_teleport_mark>",
+    "description": "<spell_description:magus_teleport_mark>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "magus_ranged_increase",
     "safe_id": "magus_ranged_increase",
     "level": 5,
-    "name": "Arrowflight",
-    "description": "A popular military spell since ancient times, Arrowflight increases the range of bows and, as it later turned out, firearms.",
+    "name": "<spell_name:magus_ranged_increase>",
+    "description": "<spell_description:magus_ranged_increase>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "magus_push_nearby_enemies_back",
     "safe_id": "magus_push_nearby_enemies_back",
     "level": 5,
-    "name": "Repulsion Wave",
-    "description": "Unleash a wave of force, hurling all nearby targets away from you.  Heavier targets are harder to affect.",
+    "name": "<spell_name:magus_push_nearby_enemies_back>",
+    "description": "<spell_description:magus_push_nearby_enemies_back>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "storm_hammer",
     "safe_id": "storm_hammer",
     "level": 5,
-    "name": "Call Stormhammer",
-    "description": "Creates a crackling magical warhammer full of lightning to smite your foes with, and of course, smash things to bits!",
+    "name": "<spell_name:storm_hammer>",
+    "description": "<spell_description:storm_hammer>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "stormfist",
     "safe_id": "stormfist",
     "level": 5,
-    "name": "Stormfist",
-    "description": "Encases your arm and hand in a sheath of crackling magical lightning, you can punch and defend yourself with it in melee combat.",
+    "name": "<spell_name:stormfist>",
+    "description": "<spell_description:stormfist>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "explosive_decompression",
     "safe_id": "explosive_decompression",
     "level": 5,
-    "name": "Explosive Decompression",
-    "description": "Create a high-pressure zone originating from the selected point.  Shortly after, a massive pressure wave will crush everything inside, inflicting barotraumatic injuries on everyone affected.",
+    "name": "<spell_name:explosive_decompression>",
+    "description": "<spell_description:explosive_decompression>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "shocking_dash",
     "safe_id": "shocking_dash",
     "level": 5,
-    "name": "Shocking Dash",
-    "description": "Fill your legs with energy and quickly dash to a target destination.",
+    "name": "<spell_name:shocking_dash>",
+    "description": "<spell_description:shocking_dash>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "toxtricity",
     "safe_id": "toxtricity",
     "level": 5,
-    "name": "Toxtricity",
-    "description": "Inject a corrosive electric energy into targets within the affected area, weakening them and dealing huge damage over time.",
+    "name": "<spell_name:toxtricity>",
+    "description": "<spell_description:toxtricity>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "electric_waves",
     "safe_id": "electric_waves",
     "level": 5,
-    "name": "Electric Waves",
-    "description": "Your hands start to store a vast amount of energy, which you release with each attack.  You feel the spell will get stronger with a higher mastery.",
+    "name": "<spell_name:electric_waves>",
+    "description": "<spell_description:electric_waves>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "invisibility",
     "safe_id": "invisibility",
     "level": 5,
-    "name": "Invisibility",
-    "description": "Creates a magical field that hides your visual presence to others.  Colloquially known as invisibility, but without all the science mumbo jumbo.  Attacking a target will break the invisibility.",
+    "name": "<spell_name:invisibility>",
+    "description": "<spell_description:invisibility>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "mirror_image",
     "safe_id": "mirror_image",
     "level": 5,
-    "name": "Mirror Image",
-    "description": "This spell manipulates light into barely tangible duplicates of a living being, a magical hologram in short.",
+    "name": "<spell_name:mirror_image>",
+    "description": "<spell_description:mirror_image>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "holographic_transposition",
     "safe_id": "holographic_transposition",
     "level": 5,
-    "name": "Holographic Transposition",
-    "description": "Allows you to swap places with a previously existing holographic image of yourself.  If the universe itself can't tell you apart, who could?",
+    "name": "<spell_name:holographic_transposition>",
+    "description": "<spell_description:holographic_transposition>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "summon_floating_disk",
     "safe_id": "summon_floating_disk",
     "level": 5,
-    "name": "Summon Floating Disk",
-    "description": "Summons a floating disk that is sworn to carry your burdens.",
+    "name": "<spell_name:summon_floating_disk>",
+    "description": "<spell_description:summon_floating_disk>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "technomancer_knifeshot",
     "safe_id": "technomancer_knifeshot",
     "level": 5,
-    "name": "Knifeshot",
-    "description": "This spell generates a magnetic field around a knife, before launching it at high speed.",
+    "name": "<spell_name:technomancer_knifeshot>",
+    "description": "<spell_description:technomancer_knifeshot>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "technomancer_recharge_vehicle",
     "safe_id": "technomancer_recharge_vehicle",
     "level": 5,
-    "name": "Imbue with Lightning",
-    "description": "This fancifully-named spell actually restores power to a battery or power grid.  An esoteric curiosity until electrical power became widespread, even then the power efficiency of fossil fuels rendered it a niche spell.",
+    "name": "<spell_name:technomancer_recharge_vehicle>",
+    "description": "<spell_description:technomancer_recharge_vehicle>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "convert_sorcerer",
     "safe_id": "convert_sorcerer",
     "level": 5,
-    "name": "Convert",
-    "description": "Kill an ally creature, converting its life energy into compact rune, that you can use afterwards.",
+    "name": "<spell_name:convert_sorcerer>",
+    "description": "<spell_description:convert_sorcerer>",
+    "NO_I18N": true,
     "tier": 2
   },
   {
     "id": "animist_summon_decaying_boneclub",
     "safe_id": "animist_summon_decaying_boneclub",
     "level": 4,
-    "name": "Decaying Boneclub",
-    "description": "You link your living blood to dead bones, creating a club hungry for the flesh of the living.",
+    "name": "<spell_name:animist_summon_decaying_boneclub>",
+    "description": "<spell_description:animist_summon_decaying_boneclub>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "animist_luck_bone",
     "safe_id": "animist_luck_bone",
     "level": 4,
-    "name": "Osseous Luck",
-    "description": "Attract spirits of good fortune to a bone, granting minor bonuses as long as it is carried.  Though benevolent, the spirits are capricious, and exactly what benefits they will provide cannot be determined ahead of time.  The bone crumbles to dust when the spell duration expires and the spirits leave.",
+    "name": "<spell_name:animist_luck_bone>",
+    "description": "<spell_description:animist_luck_bone>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "animist_do_psionic_damage_to_head",
     "safe_id": "animist_do_psionic_damage_to_head",
     "level": 4,
-    "name": "Mind Crush",
-    "description": "Directly assault the target's spirit, bypassing any physical protections they have.",
+    "name": "<spell_name:animist_do_psionic_damage_to_head>",
+    "description": "<spell_description:animist_do_psionic_damage_to_head>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "bio_grotesque",
     "safe_id": "bio_grotesque",
     "level": 4,
-    "name": "Grotesque Enhancement",
-    "description": "A spell that warps your body in foreign, unnatural ways to increase your physical abilities and strength.",
+    "name": "<spell_name:bio_grotesque>",
+    "description": "<spell_description:bio_grotesque>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "biomancer_get_more_blood",
     "safe_id": "biomancer_get_more_blood",
     "level": 4,
-    "name": "Carmine Infusion",
-    "description": "Using water as a catalyst, restore some of your lost blood.  This spell has no effect if you're healthy and uninjured.",
+    "name": "<spell_name:biomancer_get_more_blood>",
+    "description": "<spell_description:biomancer_get_more_blood>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "thought_shield",
     "safe_id": "thought_shield",
     "level": 4,
-    "name": "Thought Shield",
-    "description": "Two small shimmering spots appear on your temples, protecting your mind from outside influences.",
+    "name": "<spell_name:thought_shield>",
+    "description": "<spell_description:thought_shield>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "classless_dispel_magic",
     "safe_id": "classless_dispel_magic",
     "level": 4,
-    "name": "Dispel Magic",
-    "description": "Remove magical effects from your target.  It fails when faced with powerful enchantments or the unique bonuses provided by attunements.",
+    "name": "<spell_name:classless_dispel_magic>",
+    "description": "<spell_description:classless_dispel_magic>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "druid_naturebow1",
     "safe_id": "druid_naturebow1",
     "level": 4,
-    "name": "Nature's Bow",
-    "description": "This spell conjures a magical wooden recurve bow, as well as a quiver and a set of arrows to go with it.",
+    "name": "<spell_name:druid_naturebow1>",
+    "description": "<spell_description:druid_naturebow1>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "purify_seed",
     "safe_id": "purify_seed",
     "level": 4,
-    "name": "Purification Seed",
-    "description": "You summon a gift of the earth which will purify water.  Rapidly degrades if not utilized.",
+    "name": "<spell_name:purify_seed>",
+    "description": "<spell_description:purify_seed>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "druid_healing_herb",
     "safe_id": "druid_healing_herb",
     "level": 4,
-    "name": "Floral Healing",
-    "description": "Use some magic herbs to heal yourself.",
+    "name": "<spell_name:druid_healing_herb>",
+    "description": "<spell_description:druid_healing_herb>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "druid_bandage_heal",
     "safe_id": "druid_bandage_heal",
     "level": 4,
-    "name": "Vegetative Poultice",
-    "description": "This spell turns a mixture of bark and leaves into a powerful salve capable of stopping even grievous wounds from bleeding.",
+    "name": "<spell_name:druid_bandage_heal>",
+    "description": "<spell_description:druid_bandage_heal>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "druid_summon_brambles",
     "safe_id": "druid_summon_brambles",
     "level": 4,
-    "name": "Stranglethorns",
-    "description": "Call up thick, swiftly growing brambles, either in a line to form a wall or an arc to trap an enemy.",
+    "name": "<spell_name:druid_summon_brambles>",
+    "description": "<spell_description:druid_summon_brambles>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "druid_breathing_underwater",
     "safe_id": "druid_breathing_underwater",
     "level": 4,
-    "name": "Aquatic Mantle",
-    "description": "Cover yourself in a thin layer of magical seaweed, preventing you from getting wet and allowing you to breathe underwater.",
+    "name": "<spell_name:druid_breathing_underwater>",
+    "description": "<spell_description:druid_breathing_underwater>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "ice_spike",
     "safe_id": "ice_spike",
     "level": 4,
-    "name": "Ice Spike",
-    "description": "Causes jagged icicles to form in the air above the target, falling and damaging them.",
+    "name": "<spell_name:ice_spike>",
+    "description": "<spell_description:ice_spike>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "frost_armor",
     "safe_id": "frost_armor",
     "level": 4,
-    "name": "Frost Armor",
-    "description": "Covers you in a thin layer of reactive magical ice to attack those who harm you.",
+    "name": "<spell_name:frost_armor>",
+    "description": "<spell_description:frost_armor>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "kelvinist_flamebreath",
     "safe_id": "kelvinist_flamebreath",
     "level": 4,
-    "name": "Flamebreath",
-    "description": "This spell ignites dust scattered in the air, creating a cone of flame.  The hot ashes can cling to targets, causing additional burns over time.",
+    "name": "<spell_name:kelvinist_flamebreath>",
+    "description": "<spell_description:kelvinist_flamebreath>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "lightning_bolt",
     "safe_id": "lightning_bolt",
     "level": 4,
-    "name": "Lightning Bolt",
-    "description": "The go-to spell for many Stormshapers, this iconic spell does just what you expect: shoot lightning from your fingertips.  However, this lightning is more directed than most lightning, and travels in a line through most non-solid targets.",
+    "name": "<spell_name:lightning_bolt>",
+    "description": "<spell_description:lightning_bolt>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "holy_blade",
     "safe_id": "holy_blade",
     "level": 4,
-    "name": "Mage Blade",
-    "description": "This blade of light will cut through any evil it makes contact with!",
+    "name": "<spell_name:holy_blade>",
+    "description": "<spell_description:holy_blade>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "spirit_armor",
     "safe_id": "spirit_armor",
     "level": 4,
-    "name": "Mage Armor",
-    "description": "Evil will not make it through your defenses if your faith is strong enough!",
+    "name": "<spell_name:spirit_armor>",
+    "description": "<spell_description:spirit_armor>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "synaptic_stimulation",
     "safe_id": "synaptic_stimulation",
     "level": 4,
-    "name": "Synaptic Stimulation",
-    "description": "This spell stimulates the synapses in your brain beyond normal processing speeds, giving you a large boost in mental processing capability.  It enhances your reflexes, speed, and raw intellectual power.  Use responsibly!",
+    "name": "<spell_name:synaptic_stimulation>",
+    "description": "<spell_description:synaptic_stimulation>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "technomancer_welder",
     "safe_id": "technomancer_welder",
     "level": 4,
-    "name": "Voltaic Touch",
-    "description": "Using the principles of what were once called \"voltaic arcs\", you can electrically heat metal hot enough to weld it together.",
+    "name": "<spell_name:technomancer_welder>",
+    "description": "<spell_description:technomancer_welder>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "technomancer_far_sight",
     "safe_id": "technomancer_far_sight",
     "level": 4,
-    "name": "Zoom Lens",
-    "description": "By etching tiny runes on a lens of great quality and infusing it with their magic, the caster can use the lens to see further than even the finest mundane binoculars.  Unfortunately, the arrangement is unstable and the lens will disintegrate after a time.",
+    "name": "<spell_name:technomancer_far_sight>",
+    "description": "<spell_description:technomancer_far_sight>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "animist_summon_watcher",
     "safe_id": "animist_summon_watcher",
     "level": 3,
-    "name": "Summon Watcher Spirit",
-    "description": "Summon a watcher spirit, whose senses overlap with your own and through whose eyes you can see.  Although they are spirits, they are fragile and dissipate easily in the face of any assault.",
+    "name": "<spell_name:animist_summon_watcher>",
+    "description": "<spell_description:animist_summon_watcher>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "animist_cast_spells_when_silent",
     "safe_id": "animist_cast_spells_when_silent",
     "level": 3,
-    "name": "The Inner Voice",
-    "description": "Channel magic through your soul instead of your voice, allowing you to cast spells that require speech even when mute.",
+    "name": "<spell_name:animist_cast_spells_when_silent>",
+    "description": "<spell_description:animist_cast_spells_when_silent>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "pain_split",
     "safe_id": "pain_split",
     "level": 3,
-    "name": "Pain Split",
-    "description": "Evens out damage among your limbs.",
+    "name": "<spell_name:pain_split>",
+    "description": "<spell_description:pain_split>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "bio_fleshpouch",
     "safe_id": "bio_fleshpouch",
     "level": 3,
-    "name": "Flesh Pouch",
-    "description": "This spell grows a large pouch out of your skin on your back, allowing you to store your gear in it.",
+    "name": "<spell_name:bio_fleshpouch>",
+    "description": "<spell_description:bio_fleshpouch>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "biomancer_coagulant_weave",
     "safe_id": "biomancer_coagulant_weave",
     "level": 3,
-    "name": "Coagulant Weave",
-    "description": "Turns your biological mastery inwards, medically enhancing your flesh.  Rather than strength of healing, it staves off blood loss and purges wounds before they can turn septic, at the cost of increased hunger and thirst.",
+    "name": "<spell_name:biomancer_coagulant_weave>",
+    "description": "<spell_description:biomancer_coagulant_weave>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "biomancer_caustic_aura",
     "safe_id": "biomancer_caustic_aura",
     "level": 3,
-    "name": "Caustic Aura",
-    "description": "This spell suspends acid in a layer around you, corroding melee attackers when struck and enhancing your melee damage.",
+    "name": "<spell_name:biomancer_caustic_aura>",
+    "description": "<spell_description:biomancer_caustic_aura>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "biomancer_swim_frog",
     "safe_id": "biomancer_swim_frog",
     "level": 3,
-    "name": "Limbs of the Frog",
-    "description": "Grow webbing on your hands and feet, making quick swimming a breeze.",
+    "name": "<spell_name:biomancer_swim_frog>",
+    "description": "<spell_description:biomancer_swim_frog>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "biomancer_carrion_feast",
     "safe_id": "biomancer_carrion_feast",
     "level": 3,
-    "name": "Carrion Feast",
-    "description": "Alter your digestive system to consume rotten food with no ill effects.  This is either a truly ancient spell or otherwise must have been the product of some university thaumaturgical research department.",
+    "name": "<spell_name:biomancer_carrion_feast>",
+    "description": "<spell_description:biomancer_carrion_feast>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "biomancer_slow_bleeding",
     "safe_id": "biomancer_slow_bleeding",
     "level": 3,
-    "name": "Halt Bleeding",
-    "description": "As you can control your body, you can control your blood.",
+    "name": "<spell_name:biomancer_slow_bleeding>",
+    "description": "<spell_description:biomancer_slow_bleeding>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "biomancer_eat_tons_of_food",
     "safe_id": "biomancer_eat_tons_of_food",
     "level": 3,
-    "name": "Gluttonous Consumption",
-    "description": "Magically expand your stomach size, allowing it to consume more food without taking up any more room in your body.  Once a rarely-learned spell, it's much more useful now that you're not always sure where your next meal is coming from.",
+    "name": "<spell_name:biomancer_eat_tons_of_food>",
+    "description": "<spell_description:biomancer_eat_tons_of_food>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "protection_aura",
     "safe_id": "protection_aura",
     "level": 3,
-    "name": "Aura of Protection",
-    "description": "Encases your whole body in a magical aura that protects you from the environment.",
+    "name": "<spell_name:protection_aura>",
+    "description": "<spell_description:protection_aura>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "sound_bomb",
     "safe_id": "sound_bomb",
     "level": 3,
-    "name": "Sound Bomb",
-    "description": "Behind the cool name hides a common joke spell to spook your friends and restrain dogs.  It can be useful in some special cases.",
+    "name": "<spell_name:sound_bomb>",
+    "description": "<spell_description:sound_bomb>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "druid_veggrasp",
     "safe_id": "druid_veggrasp",
     "level": 3,
-    "name": "Vegetative Grasp",
-    "description": "This spell causes roots and vines to burst forth from the ground and grab your foes, slowing them and doing a small amount of damage as they dig in.\n\nLarger targets will be <color_yellow>less affected</color> by the spell, and it has <color_red>no effect</color> on targets not on natural ground.",
+    "name": "<spell_name:druid_veggrasp>",
+    "description": "<spell_description:druid_veggrasp>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "druid_rootstrike",
     "safe_id": "druid_rootstrike",
     "level": 3,
-    "name": "Root Strike",
-    "description": "This spell causes roots to spear out of the ground in a cone and stab into your foes, impaling them.",
+    "name": "<spell_name:druid_rootstrike>",
+    "description": "<spell_description:druid_rootstrike>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "druid_harvest_hunter",
     "safe_id": "druid_harvest_hunter",
     "level": 3,
-    "name": "Harvest of the Hunter",
-    "description": "This spell creates a grouping of odd-looking but functional arrows out of forest detritus.",
+    "name": "<spell_name:druid_harvest_hunter>",
+    "description": "<spell_description:druid_harvest_hunter>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "druid_bramble_spear",
     "safe_id": "druid_bramble_spear",
     "level": 3,
-    "name": "Spear of Brambles",
-    "description": "This spell turns a stick into a vicious spear that drips with sticky sap.",
+    "name": "<spell_name:druid_bramble_spear>",
+    "description": "<spell_description:druid_bramble_spear>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "druid_disinfectant",
     "safe_id": "druid_disinfectant",
     "level": 3,
-    "name": "Wash the Wounds Clean",
-    "description": "Transform a bit of water into a magical disinfectant as you pour it over your wounds.",
+    "name": "<spell_name:druid_disinfectant>",
+    "description": "<spell_description:druid_disinfectant>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "druid_water_walking",
     "safe_id": "druid_water_walking",
     "level": 3,
-    "name": "Water Strider's Walk",
-    "description": "Enchant yourself so that the water will buoy you up and prevent you from sinking, allowing you to walk on its surface.",
+    "name": "<spell_name:druid_water_walking>",
+    "description": "<spell_description:druid_water_walking>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "druid_bearmantle",
     "safe_id": "druid_bearmantle",
     "level": 3,
-    "name": "Bearmantle",
-    "description": "Adopt some of the aspect of the bear, protecting you from cold and preparing you for winter.",
+    "name": "<spell_name:druid_bearmantle>",
+    "description": "<spell_description:druid_bearmantle>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "druid_goodberry",
     "safe_id": "druid_goodberry",
     "level": 3,
-    "name": "Goodberry",
-    "description": "Enchant a set of berries, transforming them into magical fruit that will provide a hearty meal's worth of nutrition and a small amount of healing when eaten.  The goodberries will rot away within 24 hours if not eaten.",
+    "name": "<spell_name:druid_goodberry>",
+    "description": "<spell_description:druid_goodberry>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "seismic_stomp",
     "safe_id": "seismic_stomp",
     "level": 3,
-    "name": "Seismic Stomp",
-    "description": "Focusing mana into your leg, you stomp your foot and send out a shockwave, knocking enemies around you onto the ground.",
+    "name": "<spell_name:seismic_stomp>",
+    "description": "<spell_description:seismic_stomp>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "eshaper_shardspray",
     "safe_id": "eshaper_shardspray",
     "level": 3,
-    "name": "Shardspray",
-    "description": "This spell projects a wide spray of sharp metal shards, cutting into your foes and friends alike.",
+    "name": "<spell_name:eshaper_shardspray>",
+    "description": "<spell_description:eshaper_shardspray>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "move_earth",
     "safe_id": "move_earth",
     "level": 3,
-    "name": "Move Earth",
-    "description": "Your essence flows around you, and the earth follows.",
+    "name": "<spell_name:move_earth>",
+    "description": "<spell_description:move_earth>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "clairvoyance",
     "safe_id": "clairvoyance",
     "level": 3,
-    "name": "Clairvoyance",
-    "description": "You close your eyes and the earth surrenders its secrets to you.",
+    "name": "<spell_name:clairvoyance>",
+    "description": "<spell_description:clairvoyance>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "earthshaper_stoneskin",
     "safe_id": "earthshaper_stoneskin",
     "level": 3,
-    "name": "Stoneskin",
-    "description": "Envelops your entire body in armor formed from living rock, encumbering yet protective.",
+    "name": "<spell_name:earthshaper_stoneskin>",
+    "description": "<spell_description:earthshaper_stoneskin>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "earthshaper_pillar",
     "safe_id": "earthshaper_pillar",
     "level": 3,
-    "name": "Pillar of Stone",
-    "description": "Drawing upon the surrounding earth, you form a pillar of solid rock.  Experience will make the task easier, and less disruptive to the surrounding area.",
+    "name": "<spell_name:earthshaper_pillar>",
+    "description": "<spell_description:earthshaper_pillar>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "eshaper_spawn_tools",
     "safe_id": "eshaper_spawn_tools",
     "level": 3,
-    "name": "Utility Molding",
-    "description": "Shape the basic working tools, using your own magic abilities and earth nearby.  Activate to change the shape of a tool.",
+    "name": "<spell_name:eshaper_spawn_tools>",
+    "description": "<spell_description:eshaper_spawn_tools>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "earthshaper_danger_sense",
     "safe_id": "earthshaper_danger_sense",
     "level": 3,
-    "name": "Tremorsense",
-    "description": "By sensing their movements upon the earth, you can detect nearby sources of danger.  You must maintain a connection to the earth for the spell to function.",
+    "name": "<spell_name:earthshaper_danger_sense>",
+    "description": "<spell_description:earthshaper_danger_sense>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "earthshaper_fortitude_of_stone",
     "safe_id": "earthshaper_fortitude_of_stone",
     "level": 3,
-    "name": "Stones' Fortitude",
-    "description": "Draw on the eternal endurance of the stones, slowing your metabolism and staving off hunger and thirst.  However, while the enchantment is in effect, you will not heal.",
+    "name": "<spell_name:earthshaper_fortitude_of_stone>",
+    "description": "<spell_description:earthshaper_fortitude_of_stone>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "earthshaper_harden_earth",
     "safe_id": "earthshaper_harden_earth",
     "level": 3,
-    "name": "Harden Earth",
-    "description": "Compress dirt together so it becomes as hard as rock.  A great way to turn makeshift barricades into a fortress.",
+    "name": "<spell_name:earthshaper_harden_earth>",
+    "description": "<spell_description:earthshaper_harden_earth>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "earthshaper_repair_metal_stone",
     "safe_id": "earthshaper_repair_metal_stone",
     "level": 3,
-    "name": "Fault-Mending Chant",
-    "description": "While holding an item made of natural metal or stone, mold it with your hands, work to repairing any flaws and restoring its condition.  Note that some items may still not be repaired.",
+    "name": "<spell_name:earthshaper_repair_metal_stone>",
+    "description": "<spell_description:earthshaper_repair_metal_stone>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "point_flare",
     "safe_id": "point_flare",
     "level": 3,
-    "name": "Point Flare",
-    "description": "Generates strong heat at the targeted location, damaging anything susceptible to high temperatures.",
+    "name": "<spell_name:point_flare>",
+    "description": "<spell_description:point_flare>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "burning_hands",
     "safe_id": "burning_hands",
     "level": 3,
-    "name": "Burning Hands",
-    "description": "You're pretty sure you saw this in a game somewhere.  You fire a short-range cone of fire.",
+    "name": "<spell_name:burning_hands>",
+    "description": "<spell_description:burning_hands>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "frost_spray",
     "safe_id": "frost_spray",
     "level": 3,
-    "name": "Frost Spray",
-    "description": "You're pretty sure you saw this in a game somewhere.  You fire a short-range cone of ice and cold.",
+    "name": "<spell_name:frost_spray>",
+    "description": "<spell_description:frost_spray>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "glide_ice",
     "safe_id": "glide_ice",
     "level": 3,
-    "name": "Glide on Ice",
-    "description": "Encases your feet in a magical coating of ice, allowing you to glide along smooth surfaces faster.",
+    "name": "<spell_name:glide_ice>",
+    "description": "<spell_description:glide_ice>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "ice_shield",
     "safe_id": "ice_shield",
     "level": 3,
-    "name": "Ice Shield",
-    "description": "Creates a magical shield of ice on your arm, with which you can defend yourself in melee and use it to bash.",
+    "name": "<spell_name:ice_shield>",
+    "description": "<spell_description:ice_shield>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "kelvinist_summon_flamesword",
     "safe_id": "kelvinist_summon_flamesword",
     "level": 3,
-    "name": "Flamesword",
-    "description": "This spell ignites a wooden sword, creating a flaming blade able to burn, bruise, and chop.",
+    "name": "<spell_name:kelvinist_summon_flamesword>",
+    "description": "<spell_description:kelvinist_summon_flamesword>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "kelvinist_anti_cold",
     "safe_id": "kelvinist_anti_cold",
     "level": 3,
-    "name": "Cloak of Warmth",
-    "description": "Heat the nearby air, keeping you warm and providing some protection against ice and cold.",
+    "name": "<spell_name:kelvinist_anti_cold>",
+    "description": "<spell_description:kelvinist_anti_cold>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "kelvinist_anti_heat",
     "safe_id": "kelvinist_anti_heat",
     "level": 3,
-    "name": "Cloak of Chill",
-    "description": "Cool the nearby air, keeping you cool and providing some protection against heat and flame.",
+    "name": "<spell_name:kelvinist_anti_heat>",
+    "description": "<spell_description:kelvinist_anti_heat>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "kelvinist_persuasion_spell",
     "safe_id": "kelvinist_persuasion_spell",
     "level": 3,
-    "name": "Flames of Passion",
-    "description": "Like the bonfire gathers revelers around it, the kelvinist becomes the life of the party, as their eyes shine with passion and their voice burns with the heat of their conviction.  You will be more convincing while this spell is in effect.  Before the Cataclysm, this was one of the most common spells that apprentices were desperate to learn and master mages were reluctant to teach.",
+    "name": "<spell_name:kelvinist_persuasion_spell>",
+    "description": "<spell_description:kelvinist_persuasion_spell>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "phase_door",
     "safe_id": "phase_door",
     "level": 3,
-    "name": "Phase Door",
-    "description": "Teleports you a short distance in a random direction.",
+    "name": "<spell_name:phase_door>",
+    "description": "<spell_description:phase_door>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "magus_force_jar",
     "safe_id": "magus_force_jar",
     "level": 3,
-    "name": "Jar of Force",
-    "description": "Summon a jar of force in which you can store liquids.",
+    "name": "<spell_name:magus_force_jar>",
+    "description": "<spell_description:magus_force_jar>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "magus_summon_impact_sling",
     "safe_id": "magus_summon_impact_sling",
     "level": 3,
-    "name": "Impact Sling",
-    "description": "This spell infuses a sling with tremendous force, delivering devastating pebble shots until the energy tears it apart.",
+    "name": "<spell_name:magus_summon_impact_sling>",
+    "description": "<spell_description:magus_summon_impact_sling>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "magus_slowfall",
     "safe_id": "magus_slowfall",
     "level": 3,
-    "name": "Slowfall",
-    "description": "Reduce the velocity of your falls by a great amount, or to zero if at high mastery.",
+    "name": "<spell_name:magus_slowfall>",
+    "description": "<spell_description:magus_slowfall>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "magus_spiderclimb",
     "safe_id": "magus_spiderclimb",
     "level": 3,
-    "name": "Spider Climb",
-    "description": "Ascend even the most sheer wall with ease as you cling to surfaces.",
+    "name": "<spell_name:magus_spiderclimb>",
+    "description": "<spell_description:magus_spiderclimb>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "jolt",
     "safe_id": "jolt",
     "level": 3,
-    "name": "Jolt",
-    "description": "A short-ranged fan of electricity shoots from your fingers.",
+    "name": "<spell_name:jolt>",
+    "description": "<spell_description:jolt>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "windstrike",
     "safe_id": "windstrike",
     "level": 3,
-    "name": "Windstrike",
-    "description": "A powerful blast of wind slams into anything in front of your body.",
+    "name": "<spell_name:windstrike>",
+    "description": "<spell_description:windstrike>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "windrun",
     "safe_id": "windrun",
     "level": 3,
-    "name": "Windrunning",
-    "description": "A magical wind pushes you forward as you move, easing your movements and increasing speed.",
+    "name": "<spell_name:windrun>",
+    "description": "<spell_description:windrun>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "stormshaper_repelling_arc",
     "safe_id": "stormshaper_repelling_arc",
     "level": 3,
-    "name": "Repelling Arc",
-    "description": "Manifests an aura of crackling electricity around you to strike attackers with baleful lightning.",
+    "name": "<spell_name:stormshaper_repelling_arc>",
+    "description": "<spell_description:stormshaper_repelling_arc>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "air_bubble",
     "safe_id": "air_bubble",
     "level": 3,
-    "name": "Air Bubble",
-    "description": "Cover your head with an air bubble, allowing you to breathe underwater or prevent breathing of toxic gases.",
+    "name": "<spell_name:air_bubble>",
+    "description": "<spell_description:air_bubble>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "electric_eye",
     "safe_id": "electric_eye",
     "level": 3,
-    "name": "Electric Eye",
-    "description": "Enhance your sight with your powers which allows you to see creatures of the same energy around you.  This enhanced perception speed enables you to see more attacks incoming, allowing for an additional block or dodge attempt.",
+    "name": "<spell_name:electric_eye>",
+    "description": "<spell_description:electric_eye>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "stormshaper_cloak_of_fog",
     "safe_id": "stormshaper_cloak_of_fog",
     "level": 3,
-    "name": "Cloak of Fog",
-    "description": "Call out to the sky spirits for aid and ask them to conceal you from your enemies.  The fog will hide your passage, but you do not have any special ability to see through it yourself.",
+    "name": "<spell_name:stormshaper_cloak_of_fog>",
+    "description": "<spell_description:stormshaper_cloak_of_fog>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "quantum_tunnel_lesser",
     "safe_id": "quantum_tunnel_lesser",
     "level": 3,
-    "name": "Lesser Quantum Tunnel",
-    "description": "This spell manipulates some quantum something or other to tunnel you through a short distance of space, and even matter, unfortunately there's that whole uncertainty thing as to where you come out.  It leaves you a little dazed on the other side as you reorient yourself.",
+    "name": "<spell_name:quantum_tunnel_lesser>",
+    "description": "<spell_description:quantum_tunnel_lesser>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "knock",
     "safe_id": "knock",
     "level": 3,
-    "name": "Knock",
-    "description": "You channel magic into a force capable of opening doors.  This variant can only open wooden doors.",
+    "name": "<spell_name:knock>",
+    "description": "<spell_description:knock>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "technomancer_gain_electronics_computer_spell",
     "safe_id": "technomancer_gain_electronics_computer_spell",
     "level": 3,
-    "name": "Machine Mind",
-    "description": "This spell grants the caster an intuitive understanding of electronics and computers, making their use, repair, and construction much easier.",
+    "name": "<spell_name:technomancer_gain_electronics_computer_spell>",
+    "description": "<spell_description:technomancer_gain_electronics_computer_spell>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "technomancer_pain_ignore",
     "safe_id": "technomancer_pain_ignore",
     "level": 3,
-    "name": "The Body Mechanical",
-    "description": "With a word of power, you spur your body to function as a machine would, partially ignoring the effects of pain for a brief moment.",
+    "name": "<spell_name:technomancer_pain_ignore>",
+    "description": "<spell_description:technomancer_pain_ignore>",
+    "NO_I18N": true,
     "tier": 1
   },
   {
     "id": "smite",
     "safe_id": "smite",
     "level": 2,
-    "name": "Smite",
-    "description": "Evil has become pervasive throughout the world.  Let your power be the light that shines in the darkness!"
+    "name": "<spell_name:smite>",
+    "description": "<spell_description:smite>",
+    "NO_I18N": true
   },
   {
     "id": "animist_sense_outsiders",
     "safe_id": "animist_sense_outsiders",
     "level": 2,
-    "name": "Sense Outsiders",
-    "description": "You can sense the presence of nearby beings from the Nether."
+    "name": "<spell_name:animist_sense_outsiders>",
+    "description": "<spell_description:animist_sense_outsiders>",
+    "NO_I18N": true
   },
   {
     "id": "pertifying_touch",
     "safe_id": "pertifying_touch",
     "level": 2,
-    "name": "Petrifying Touch",
-    "description": "With a simple touch, you transform the body of your enemy into pure stone.  The effect is temporary, but the target will be totally immobile while the spell lasts."
+    "name": "<spell_name:pertifying_touch>",
+    "description": "<spell_description:pertifying_touch>",
+    "NO_I18N": true
   },
   {
     "id": "reactive_armor",
     "safe_id": "reactive_armor",
     "level": 2,
-    "name": "Reactive Armor",
-    "description": "Explode your stone skin, to deal massive damage to all enemies around."
+    "name": "<spell_name:reactive_armor>",
+    "description": "<spell_description:reactive_armor>",
+    "NO_I18N": true
   },
   {
     "id": "lightning_blast",
     "safe_id": "lightning_blast",
     "level": 2,
-    "name": "Lightning Blast",
-    "description": "You fire a small concentrated ball of lightning at the target.  The electricity diffuses rapidly, so it doesn't do much damage, but you're able to fire off several ones quickly."
+    "name": "<spell_name:lightning_blast>",
+    "description": "<spell_description:lightning_blast>",
+    "NO_I18N": true
   },
   {
     "id": "bless",
     "safe_id": "bless",
     "level": 2,
-    "name": "Bless",
-    "description": "A blessing that gives you energy and boosts your abilities."
+    "name": "<spell_name:bless>",
+    "description": "<spell_description:bless>",
+    "NO_I18N": true
   },
   {
     "id": "laze",
     "safe_id": "laze",
     "level": 2,
-    "name": "Laze",
-    "description": "You concentrate and release a focused beam of photons at a target, also known as a laser."
+    "name": "<spell_name:laze>",
+    "description": "<spell_description:laze>",
+    "NO_I18N": true
   },
   {
     "id": "x-ray",
     "safe_id": "x_ray",
     "level": 2,
-    "name": "X-ray Vision",
-    "description": "You fire a cone of X-rays that magically allow you to see that area for a short time."
+    "name": "<spell_name:x-ray>",
+    "description": "<spell_description:x-ray>",
+    "NO_I18N": true
   },
   {
     "id": "summon_undead",
     "safe_id": "summon_undead",
     "level": 1,
-    "name": "Summon Undead",
-    "description": "An ethereal-looking undead rises from the depths of the earth to fight for you.  The type of undead you summon get deadlier with increasing spell level."
+    "name": "<spell_name:summon_undead>",
+    "description": "<spell_description:summon_undead>",
+    "NO_I18N": true
   },
   {
     "id": "necrotic_gaze",
     "safe_id": "necrotic_gaze",
     "level": 1,
-    "name": "Necrotic Gaze",
-    "description": "Using the power of blood contained within a rune, you imbue necrotic energy into your gaze, damaging the target you look at."
+    "name": "<spell_name:necrotic_gaze>",
+    "description": "<spell_description:necrotic_gaze>",
+    "NO_I18N": true
   },
   {
     "id": "disruption_bolt",
     "safe_id": "disruption_bolt",
     "level": 1,
-    "name": "Disruption Bolt",
-    "description": "Release a resonant bolt of spiritual energy at a nearby target.  It will disrupt the natural link between matter and animus, causing heavy, non-lethal damage."
+    "name": "<spell_name:disruption_bolt>",
+    "description": "<spell_description:disruption_bolt>",
+    "NO_I18N": true
   },
   {
     "id": "summon_wisps",
     "safe_id": "summon_wisps",
     "level": 1,
-    "name": "Ignus Fatuus",
-    "description": "Summons ghostly foxfire worked from living marsh vapor to lead your enemies astray.  With more experience, this spell can conjure multiple ghost lights."
+    "name": "<spell_name:summon_wisps>",
+    "description": "<spell_description:summon_wisps>",
+    "NO_I18N": true
   },
   {
     "id": "bleed",
     "safe_id": "bleed",
     "level": 1,
-    "name": "Bleed",
-    "description": "Agitate old wounds on a creature, causing blood to ooze out of them."
+    "name": "<spell_name:bleed>",
+    "description": "<spell_description:bleed>",
+    "NO_I18N": true
   },
   {
     "id": "animist_detect_wizards",
     "safe_id": "animist_detect_wizards",
     "level": 1,
-    "name": "Witchsight",
-    "description": "Open your senses up to look for the bright corporeal ley lines of those who spent their lives frequently expending their mana.  This also applies to creatures or alien beings that frequently use spells."
+    "name": "<spell_name:animist_detect_wizards>",
+    "description": "<spell_description:animist_detect_wizards>",
+    "NO_I18N": true
   },
   {
     "id": "light_healing",
     "safe_id": "light_healing",
     "level": 1,
-    "name": "Knit the Rent Flesh",
-    "description": "Cause the target's wounds to writhe, the flesh to crawl back together, and their injuries to heal.  Disturbing, and painful, but effective."
+    "name": "<spell_name:light_healing>",
+    "description": "<spell_description:light_healing>",
+    "NO_I18N": true
   },
   {
     "id": "bio_acidicspray",
     "safe_id": "bio_acidicspray",
     "level": 1,
-    "name": "Acidic Spray",
-    "description": "When cast, the mage opens his mouth and sprays acid in a wide cone to dissolve his foes into goo.  Just imagine what he'll do with the goo."
+    "name": "<spell_name:bio_acidicspray>",
+    "description": "<spell_description:bio_acidicspray>",
+    "NO_I18N": true
   },
   {
     "id": "biomancer_paralytic_dart",
     "safe_id": "biomancer_paralytic_dart",
     "level": 1,
-    "name": "Paralytic Dart",
-    "description": "Spits a warped needle of sinew and bone, carrying with it a sting that slows your victim."
+    "name": "<spell_name:biomancer_paralytic_dart>",
+    "description": "<spell_description:biomancer_paralytic_dart>",
+    "NO_I18N": true
   },
   {
     "id": "biomancer_visceral_projection",
     "safe_id": "biomancer_visceral_projection",
     "level": 1,
-    "name": "Visceral Projection",
-    "description": "Projects a spray of acrid blood and gore all around you, growing to ensnare your prey in a field of twitching poisonous tendrils."
+    "name": "<spell_name:biomancer_visceral_projection>",
+    "description": "<spell_description:biomancer_visceral_projection>",
+    "NO_I18N": true
   },
   {
     "id": "biomancer_cure_disease_minor",
     "safe_id": "biomancer_cure_disease_minor",
     "level": 1,
-    "name": "Purgation of Maladies",
-    "description": "Vomit up any minor illnesses you might be suffering from, such as colds or the flu.  This is one of the few biomantic cure spells that is castable on other people."
+    "name": "<spell_name:biomancer_cure_disease_minor>",
+    "description": "<spell_description:biomancer_cure_disease_minor>",
+    "NO_I18N": true
   },
   {
     "id": "crystallize_mana",
     "safe_id": "crystallize_mana",
     "level": 1,
-    "name": "Crystallize Mana",
-    "description": "Crystallizes mana into solid form."
+    "name": "<spell_name:crystallize_mana>",
+    "description": "<spell_description:crystallize_mana>",
+    "NO_I18N": true
   },
   {
     "id": "blinding_flash",
     "safe_id": "blinding_flash",
     "level": 1,
-    "name": "Blinding Flash",
-    "description": "Blind enemies for a short time with a sudden, dazzling light.  Higher levels deal slightly higher damage."
+    "name": "<spell_name:blinding_flash>",
+    "description": "<spell_description:blinding_flash>",
+    "NO_I18N": true
   },
   {
     "id": "ethereal_grasp",
     "safe_id": "ethereal_grasp",
     "level": 1,
-    "name": "Ethereal Grasp",
-    "description": "A mass of spectral hands emerge from the ground, grabbing and slowing everything in range.  Higher levels allow a bigger AoE, and longer effect\n\nLarger targets will be <color_yellow>less affected</color> by the spell."
+    "name": "<spell_name:ethereal_grasp>",
+    "description": "<spell_description:ethereal_grasp>",
+    "NO_I18N": true
   },
   {
     "id": "classless_clean_clothing_and_self",
     "safe_id": "classless_clean_clothing_and_self",
     "level": 1,
-    "name": "Freshen Up",
-    "description": "Undoubtedly the single most common spell in the world before the Cataclysm, Freshen Up cleans your teeth, sweetens your breath, removes stains and sweat from your clothes, exfoliates you, and gives volume back to your hair."
+    "name": "<spell_name:classless_clean_clothing_and_self>",
+    "description": "<spell_description:classless_clean_clothing_and_self>",
+    "NO_I18N": true
   },
   {
     "id": "classless_restore_crystal_mana",
     "safe_id": "classless_restore_crystal_mana",
     "level": 1,
-    "name": "Mana Extraction",
-    "description": "Return crystallized mana into raw mana and absorb it, restoring some of your mana.  The process is slow and not very efficient, but it's easier to transport than mana potions."
+    "name": "<spell_name:classless_restore_crystal_mana>",
+    "description": "<spell_description:classless_restore_crystal_mana>",
+    "NO_I18N": true
   },
   {
     "id": "druid_tornskin",
     "safe_id": "druid_tornskin",
     "level": 1,
-    "name": "Tornskin",
-    "description": "This spell, which resembles Thornskin through the sap & needles covering the page, seemed to involve thorns and bleeding wounds.  The marred words may have altered the function."
+    "name": "<spell_name:druid_tornskin>",
+    "description": "<spell_description:druid_tornskin>",
+    "NO_I18N": true
   },
   {
     "id": "druid_growth",
     "safe_id": "druid_growth",
     "level": 1,
-    "name": "Seed of Growth",
-    "description": "Offer some of your life in a ritual to get tokens of growth in return."
+    "name": "<spell_name:druid_growth>",
+    "description": "<spell_description:druid_growth>",
+    "NO_I18N": true
   },
   {
     "id": "druid_anti_heat",
     "safe_id": "druid_anti_heat",
     "level": 1,
-    "name": "Water's Cooling Touch",
-    "description": "Draw on some of the essence of water, providing protection against the summer's heat."
+    "name": "<spell_name:druid_anti_heat>",
+    "description": "<spell_description:druid_anti_heat>",
+    "NO_I18N": true
   },
   {
     "id": "druid_traverse_the_wilds",
     "safe_id": "druid_traverse_the_wilds",
     "level": 1,
-    "name": "Traverse the Wilds",
-    "description": "Blend in the wilds and urge them to speed your passage.  Trees bend out of the way, bushes do not hinder you, and even grass subtly moves your feet along.  The spell cannot be cast near civilization and similarly will fade if your travels take you out of the wilds."
+    "name": "<spell_name:druid_traverse_the_wilds>",
+    "description": "<spell_description:druid_traverse_the_wilds>",
+    "NO_I18N": true
   },
   {
     "id": "stonefist",
     "safe_id": "stonefist",
     "level": 1,
-    "name": "Stonefist",
-    "description": "Encases your arms and hands in a sheath of magical stone, you can punch and defend yourself with it in melee combat."
+    "name": "<spell_name:stonefist>",
+    "description": "<spell_description:stonefist>",
+    "NO_I18N": true
   },
   {
     "id": "eshaper_piercing_bolt",
     "safe_id": "eshaper_piercing_bolt",
     "level": 1,
-    "name": "Piercing Bolt",
-    "description": "This spell projects a piercing rod of conjured iron at those that dare oppose you."
+    "name": "<spell_name:eshaper_piercing_bolt>",
+    "description": "<spell_description:eshaper_piercing_bolt>",
+    "NO_I18N": true
   },
   {
     "id": "earthshaper_boulder",
     "safe_id": "earthshaper_boulder",
     "level": 1,
-    "name": "Summon Boulder",
-    "description": "Pull forth a table of smooth rock from the underground bedrock, using your forces of earthshaping.  You can use it as a table or as a primitive anvil."
+    "name": "<spell_name:earthshaper_boulder>",
+    "description": "<spell_description:earthshaper_boulder>",
+    "NO_I18N": true
   },
   {
     "id": "earthshaper_turning_of_earth",
     "safe_id": "earthshaper_turning_of_earth",
     "level": 1,
-    "name": "The Turning of the Earth",
-    "description": "Ask the earth spirits to prepare the earth for growth and planting."
+    "name": "<spell_name:earthshaper_turning_of_earth>",
+    "description": "<spell_description:earthshaper_turning_of_earth>",
+    "NO_I18N": true
   },
   {
     "id": "kelvinist_firebolt",
     "safe_id": "kelvinist_firebolt",
     "level": 1,
-    "name": "Firebolt",
-    "description": "A simple spell that hurls a bolt of fire to the target location.  While not as damaging as some more complex spells, it is quick to cast and will ignite anything flammable at the target."
+    "name": "<spell_name:kelvinist_firebolt>",
+    "description": "<spell_description:kelvinist_firebolt>",
+    "NO_I18N": true
   },
   {
     "id": "magus_stop_attack_shield",
     "safe_id": "magus_stop_attack_shield",
     "level": 1,
-    "name": "Mageshield",
-    "description": "A simple but powerful spell, Mageshield will render the caster immune to any single attack.  It is indiscriminate: whether hit by an anti-tank missile or the caster stubbing their toe, it will absorb all energy of the attack and then fade."
+    "name": "<spell_name:magus_stop_attack_shield>",
+    "description": "<spell_description:magus_stop_attack_shield>",
+    "NO_I18N": true
   },
   {
     "id": "magus_far_hand_pull",
     "safe_id": "magus_far_hand_pull",
     "level": 1,
-    "name": "Sorcerer's Hand",
-    "description": "Pull a target or set of items to you."
+    "name": "<spell_name:magus_far_hand_pull>",
+    "description": "<spell_description:magus_far_hand_pull>",
+    "NO_I18N": true
   },
   {
     "id": "magus_light_target",
     "safe_id": "magus_light_target",
     "level": 1,
-    "name": "Faerie Fire",
-    "description": "Cause the air around the target to glow slightly, revealing their location and making it slightly harder for them to dodge attacks."
+    "name": "<spell_name:magus_light_target>",
+    "description": "<spell_description:magus_light_target>",
+    "NO_I18N": true
   },
   {
     "id": "stormshaper_wall_of_fog",
     "safe_id": "stormshaper_wall_of_fog",
     "level": 1,
-    "name": "Wall of Fog",
-    "description": "Draws forth a broad wall of thick fog.  While the sudden force of air pressure will floor any enemies caught in it, the conjuration is otherwise harmless."
+    "name": "<spell_name:stormshaper_wall_of_fog>",
+    "description": "<spell_description:stormshaper_wall_of_fog>",
+    "NO_I18N": true
   },
   {
     "id": "stormshaper_cloak_of_frog",
     "safe_id": "stormshaper_cloak_of_frog",
     "level": 1,
-    "name": "Cloak of Frog",
-    "description": "Someone's personal notes were added to this spell.  You're positive that they changed both the name and the function."
+    "name": "<spell_name:stormshaper_cloak_of_frog>",
+    "description": "<spell_description:stormshaper_cloak_of_frog>",
+    "NO_I18N": true
   },
   {
     "id": "stormshaper_loud_voice_spell",
     "safe_id": "stormshaper_loud_voice_spell",
     "level": 1,
-    "name": "Thundering Voice",
-    "description": "Increase the volume of the caster's voice, allowing every word to resound like a peal of thunder.  As a useful side effect, it makes the caster immune to hearing damage caused by loud noises."
+    "name": "<spell_name:stormshaper_loud_voice_spell>",
+    "description": "<spell_description:stormshaper_loud_voice_spell>",
+    "NO_I18N": true
   },
   {
     "id": "create_atomic_lamp",
     "safe_id": "create_atomic_lamp",
     "level": 1,
-    "name": "Lamp",
-    "description": "Creates a magical lamp."
+    "name": "<spell_name:create_atomic_lamp>",
+    "description": "<spell_description:create_atomic_lamp>",
+    "NO_I18N": true
   },
   {
     "id": "technomancer_conjure_radio",
     "safe_id": "technomancer_conjure_radio",
     "level": 1,
-    "name": "Speak through the Aether",
-    "description": "One of the most widely-known pre-modern technomantic spells, this allows technomancers to communicate at a distance.  Its use declined rapidly after Guglielmo Marconi invented the radio and suddenly everyone could listen in to their conversations."
+    "name": "<spell_name:technomancer_conjure_radio>",
+    "description": "<spell_description:technomancer_conjure_radio>",
+    "NO_I18N": true
   },
   {
     "id": "create_atomic_light",
     "safe_id": "create_atomic_light",
     "level": 0,
-    "name": "Magical Light",
-    "description": "Creates a magical light."
+    "name": "<spell_name:create_atomic_light>",
+    "description": "<spell_description:create_atomic_light>",
+    "NO_I18N": true
   },
   {
     "id": "classless_watch_spell",
     "safe_id": "classless_watch_spell",
     "level": 0,
-    "name": "Knowing the Day and the Hour",
-    "description": "Probably the single greatest example of technology rendering magic obsolete, this spell allows you know exactly what time it is."
+    "name": "<spell_name:classless_watch_spell>",
+    "description": "<spell_description:classless_watch_spell>",
+    "NO_I18N": true
   },
   {
     "id": "classless_easy_sleep_spell",
     "safe_id": "classless_easy_sleep_spell",
     "level": 0,
-    "name": "Peaceful Rest",
-    "description": "A favorite of overworked mages and dilettantes who, this spell makes it much easier to fall asleep regardless of how tired you are."
+    "name": "<spell_name:classless_easy_sleep_spell>",
+    "description": "<spell_description:classless_easy_sleep_spell>",
+    "NO_I18N": true
   },
   {
     "id": "druid_woodshaft",
     "safe_id": "druid_woodshaft",
     "level": 0,
-    "name": "Wooden Shaft",
-    "description": "This spell creates a projectile of hardwood that shoots forth from the caster's hand at high speed to stab into an enemy."
+    "name": "<spell_name:druid_woodshaft>",
+    "description": "<spell_description:druid_woodshaft>",
+    "NO_I18N": true
   },
   {
     "id": "summon_cats",
     "safe_id": "summon_cats",
     "level": 0,
-    "name": "Bag of Cats",
-    "description": "Are you the crazy cat lady?"
+    "name": "<spell_name:summon_cats>",
+    "description": "<spell_description:summon_cats>",
+    "NO_I18N": true
   },
   {
     "id": "eshaper_rockbolt",
     "safe_id": "eshaper_rockbolt",
     "level": 0,
-    "name": "Rockbolt",
-    "description": "Fires a conjured stone projectile at high velocity."
+    "name": "<spell_name:eshaper_rockbolt>",
+    "description": "<spell_description:eshaper_rockbolt>",
+    "NO_I18N": true
   },
   {
     "id": "create_lighter",
     "safe_id": "create_lighter",
     "level": 0,
-    "name": "Finger Firelighter",
-    "description": "Summons a small flame that does not affect you, but can be used to light things on fire.  It seems to need you to have some intent to light things on fire, since you are able to put it in your pocket with no issue."
+    "name": "<spell_name:create_lighter>",
+    "description": "<spell_description:create_lighter>",
+    "NO_I18N": true
   },
   {
     "id": "chilling_touch",
     "safe_id": "chilling_touch",
     "level": 0,
-    "name": "Chilling Touch",
-    "description": "Freezes the touched target with intense cold."
+    "name": "<spell_name:chilling_touch>",
+    "description": "<spell_description:chilling_touch>",
+    "NO_I18N": true
   },
   {
     "id": "kelvinist_heat_food",
     "safe_id": "kelvinist_heat_food",
     "level": 0,
-    "name": "Baking Hands",
-    "description": "With the tiniest amount of heat, unfreeze an item of food or drink and heat it up to a comfortable temperature."
+    "name": "<spell_name:kelvinist_heat_food>",
+    "description": "<spell_description:kelvinist_heat_food>",
+    "NO_I18N": true
   },
   {
     "id": "shadow_field",
     "safe_id": "shadow_field",
     "level": 0,
-    "name": "Shadow Field",
-    "description": "Shroud an area in intense shadows."
+    "name": "<spell_name:shadow_field>",
+    "description": "<spell_description:shadow_field>",
+    "NO_I18N": true
   },
   {
     "id": "magic_missile",
     "safe_id": "magic_missile",
     "level": 0,
-    "name": "Magic Missile",
-    "description": "I cast Magic Missile at the darkness!"
+    "name": "<spell_name:magic_missile>",
+    "description": "<spell_description:magic_missile>",
+    "NO_I18N": true
   },
   {
     "id": "shocking_lash",
     "safe_id": "shocking_lash",
     "level": 0,
-    "name": "Shocking Lash",
-    "description": "A quick burst of electricity strikes a target and possibly one other nearby."
+    "name": "<spell_name:shocking_lash>",
+    "description": "<spell_description:shocking_lash>",
+    "NO_I18N": true
   },
   {
     "id": "electric_arts",
     "safe_id": "electric_arts",
     "level": 0,
-    "name": "Electric Arts",
-    "description": "A spell designed for scholars who have recently started to learn stormshaping, allowing them to reduce the damage their often capricious new abilities may cause to themselves."
+    "name": "<spell_name:electric_arts>",
+    "description": "<spell_description:electric_arts>",
+    "NO_I18N": true
   },
   {
     "id": "taze",
     "safe_id": "taze",
     "level": 0,
-    "name": "Taze",
-    "description": "This spell arcs two small bolts of electricity into a target, shocking them."
+    "name": "<spell_name:taze>",
+    "description": "<spell_description:taze>",
+    "NO_I18N": true
   },
   {
     "id": "create_rune_sorcerer",
     "safe_id": "create_rune_sorcerer",
     "level": 0,
-    "name": "Counterfeit Rune",
-    "description": "This ritual creates a small pebble infused with a sorcerer's power.  It can trick spells that require runes to cast to think that you have the rune required.",
+    "name": "<spell_name:create_rune_sorcerer>",
+    "description": "<spell_description:create_rune_sorcerer>",
+    "NO_I18N": true,
     "tier": 0
   }
 ]

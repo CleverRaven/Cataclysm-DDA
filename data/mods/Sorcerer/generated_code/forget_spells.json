@@ -7,7 +7,7 @@
     { "text": "Quit.", "topic": "TALK_DONE" },
     {
       "condition": { "math": [ "u_used_spell_slot_for_banishment_lesser > 0" ] },
-      "text": "Forget Lesser Banishment ( level <u_val:used_spell_slot_for_banishment_lesser> )",
+      "text": "Forget <spell_name:banishment_lesser> ( level <u_val:used_spell_slot_for_banishment_lesser> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('banishment_lesser') = -1" ] },
@@ -21,7 +21,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_animist_mass_hiding_aoe > 0" ] },
-      "text": "Forget A Shadow in the Crowd ( level <u_val:used_spell_slot_for_animist_mass_hiding_aoe> )",
+      "text": "Forget <spell_name:animist_mass_hiding_aoe> ( level <u_val:used_spell_slot_for_animist_mass_hiding_aoe> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('animist_mass_hiding_aoe') = -1" ] },
@@ -35,7 +35,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_animist_spirit_walking > 0" ] },
-      "text": "Forget Spirit-Walking ( level <u_val:used_spell_slot_for_animist_spirit_walking> )",
+      "text": "Forget <spell_name:animist_spirit_walking> ( level <u_val:used_spell_slot_for_animist_spirit_walking> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('animist_spirit_walking') = -1" ] },
@@ -49,7 +49,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_biomancer_hyper_regeneration > 0" ] },
-      "text": "Forget Corporeal Reconstitution ( level <u_val:used_spell_slot_for_biomancer_hyper_regeneration> )",
+      "text": "Forget <spell_name:biomancer_hyper_regeneration> ( level <u_val:used_spell_slot_for_biomancer_hyper_regeneration> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('biomancer_hyper_regeneration') = -1" ] },
@@ -63,7 +63,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_classless_disjunction > 0" ] },
-      "text": "Forget Disjunction ( level <u_val:used_spell_slot_for_classless_disjunction> )",
+      "text": "Forget <spell_name:classless_disjunction> ( level <u_val:used_spell_slot_for_classless_disjunction> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('classless_disjunction') = -1" ] },
@@ -77,7 +77,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_cause_rot > 0" ] },
-      "text": "Forget Cause Rot ( level <u_val:used_spell_slot_for_cause_rot> )",
+      "text": "Forget <spell_name:cause_rot> ( level <u_val:used_spell_slot_for_cause_rot> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('cause_rot') = -1" ] },
@@ -91,7 +91,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_druid_beguile_savage_beast > 0" ] },
-      "text": "Forget Beguiling the Savage Beast ( level <u_val:used_spell_slot_for_druid_beguile_savage_beast> )",
+      "text": "Forget <spell_name:druid_beguile_savage_beast> ( level <u_val:used_spell_slot_for_druid_beguile_savage_beast> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('druid_beguile_savage_beast') = -1" ] },
@@ -105,7 +105,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_druid_thorn_skin > 0" ] },
-      "text": "Forget Thornskin ( level <u_val:used_spell_slot_for_druid_thorn_skin> )",
+      "text": "Forget <spell_name:druid_thorn_skin> ( level <u_val:used_spell_slot_for_druid_thorn_skin> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('druid_thorn_skin') = -1" ] },
@@ -119,7 +119,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_druid_renew_forest_spell > 0" ] },
-      "text": "Forget Renewing the Forest ( level <u_val:used_spell_slot_for_druid_renew_forest_spell> )",
+      "text": "Forget <spell_name:druid_renew_forest_spell> ( level <u_val:used_spell_slot_for_druid_renew_forest_spell> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('druid_renew_forest_spell') = -1" ] },
@@ -133,7 +133,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_druid_create_temporary_spring > 0" ] },
-      "text": "Forget Fountain of the Depths ( level <u_val:used_spell_slot_for_druid_create_temporary_spring> )",
+      "text": "Forget <spell_name:druid_create_temporary_spring> ( level <u_val:used_spell_slot_for_druid_create_temporary_spring> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('druid_create_temporary_spring') = -1" ] },
@@ -147,7 +147,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_druid_turn_tree_into_treant > 0" ] },
-      "text": "Forget Awakening of the Forest Guardian ( level <u_val:used_spell_slot_for_druid_turn_tree_into_treant> )",
+      "text": "Forget <spell_name:druid_turn_tree_into_treant> ( level <u_val:used_spell_slot_for_druid_turn_tree_into_treant> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('druid_turn_tree_into_treant') = -1" ] },
@@ -161,7 +161,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_shape_of_dust > 0" ] },
-      "text": "Forget Shape of Dust ( level <u_val:used_spell_slot_for_shape_of_dust> )",
+      "text": "Forget <spell_name:shape_of_dust> ( level <u_val:used_spell_slot_for_shape_of_dust> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('shape_of_dust') = -1" ] },
@@ -175,7 +175,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_summon_eshaper_golem > 0" ] },
-      "text": "Forget Summon Earthshaper's Golem ( level <u_val:used_spell_slot_for_summon_eshaper_golem> )",
+      "text": "Forget <spell_name:summon_eshaper_golem> ( level <u_val:used_spell_slot_for_summon_eshaper_golem> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('summon_eshaper_golem') = -1" ] },
@@ -189,7 +189,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_earthshaper_reveal_world_map > 0" ] },
-      "text": "Forget Reading the Earthbones ( level <u_val:used_spell_slot_for_earthshaper_reveal_world_map> )",
+      "text": "Forget <spell_name:earthshaper_reveal_world_map> ( level <u_val:used_spell_slot_for_earthshaper_reveal_world_map> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('earthshaper_reveal_world_map') = -1" ] },
@@ -203,7 +203,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_earthshaper_granite_aegis > 0" ] },
-      "text": "Forget Granite Aegis ( level <u_val:used_spell_slot_for_earthshaper_granite_aegis> )",
+      "text": "Forget <spell_name:earthshaper_granite_aegis> ( level <u_val:used_spell_slot_for_earthshaper_granite_aegis> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('earthshaper_granite_aegis') = -1" ] },
@@ -217,7 +217,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_earthshaper_sleep_in_earth > 0" ] },
-      "text": "Forget Stone Slumber ( level <u_val:used_spell_slot_for_earthshaper_sleep_in_earth> )",
+      "text": "Forget <spell_name:earthshaper_sleep_in_earth> ( level <u_val:used_spell_slot_for_earthshaper_sleep_in_earth> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('earthshaper_sleep_in_earth') = -1" ] },
@@ -231,7 +231,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_earthshaper_diggable_teleport > 0" ] },
-      "text": "Forget Earth Gate ( level <u_val:used_spell_slot_for_earthshaper_diggable_teleport> )",
+      "text": "Forget <spell_name:earthshaper_diggable_teleport> ( level <u_val:used_spell_slot_for_earthshaper_diggable_teleport> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('earthshaper_diggable_teleport') = -1" ] },
@@ -245,7 +245,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_nova_flare > 0" ] },
-      "text": "Forget Nova Flare ( level <u_val:used_spell_slot_for_nova_flare> )",
+      "text": "Forget <spell_name:nova_flare> ( level <u_val:used_spell_slot_for_nova_flare> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('nova_flare') = -1" ] },
@@ -259,7 +259,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_freezing_touch > 0" ] },
-      "text": "Forget Freezing Touch ( level <u_val:used_spell_slot_for_freezing_touch> )",
+      "text": "Forget <spell_name:freezing_touch> ( level <u_val:used_spell_slot_for_freezing_touch> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('freezing_touch') = -1" ] },
@@ -273,7 +273,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_kelvinist_no_emotion_spell > 0" ] },
-      "text": "Forget The Rime-Covered Heart ( level <u_val:used_spell_slot_for_kelvinist_no_emotion_spell> )",
+      "text": "Forget <spell_name:kelvinist_no_emotion_spell> ( level <u_val:used_spell_slot_for_kelvinist_no_emotion_spell> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('kelvinist_no_emotion_spell') = -1" ] },
@@ -287,7 +287,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_kelvinist_set_everyone_on_fire > 0" ] },
-      "text": "Forget Flames of the Apocalypse ( level <u_val:used_spell_slot_for_kelvinist_set_everyone_on_fire> )",
+      "text": "Forget <spell_name:kelvinist_set_everyone_on_fire> ( level <u_val:used_spell_slot_for_kelvinist_set_everyone_on_fire> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('kelvinist_set_everyone_on_fire') = -1" ] },
@@ -301,7 +301,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_magus_haste > 0" ] },
-      "text": "Forget Haste ( level <u_val:used_spell_slot_for_magus_haste> )",
+      "text": "Forget <spell_name:magus_haste> ( level <u_val:used_spell_slot_for_magus_haste> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('magus_haste') = -1" ] },
@@ -315,7 +315,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_focused_bolt > 0" ] },
-      "text": "Forget Focused Bolt ( level <u_val:used_spell_slot_for_focused_bolt> )",
+      "text": "Forget <spell_name:focused_bolt> ( level <u_val:used_spell_slot_for_focused_bolt> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('focused_bolt') = -1" ] },
@@ -329,7 +329,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_magus_word_of_recall > 0" ] },
-      "text": "Forget Word of Recall ( level <u_val:used_spell_slot_for_magus_word_of_recall> )",
+      "text": "Forget <spell_name:magus_word_of_recall> ( level <u_val:used_spell_slot_for_magus_word_of_recall> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('magus_word_of_recall') = -1" ] },
@@ -343,7 +343,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_magus_diamond_imbuement > 0" ] },
-      "text": "Forget Diamond Imbuement ( level <u_val:used_spell_slot_for_magus_diamond_imbuement> )",
+      "text": "Forget <spell_name:magus_diamond_imbuement> ( level <u_val:used_spell_slot_for_magus_diamond_imbuement> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('magus_diamond_imbuement') = -1" ] },
@@ -357,7 +357,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_magus_permanent_light > 0" ] },
-      "text": "Forget Imperishable Light ( level <u_val:used_spell_slot_for_magus_permanent_light> )",
+      "text": "Forget <spell_name:magus_permanent_light> ( level <u_val:used_spell_slot_for_magus_permanent_light> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('magus_permanent_light') = -1" ] },
@@ -371,7 +371,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_magus_cannot_move_attack_or_damage_target > 0" ] },
-      "text": "Forget Adamantine Gaol ( level <u_val:used_spell_slot_for_magus_cannot_move_attack_or_damage_target> )",
+      "text": "Forget <spell_name:magus_cannot_move_attack_or_damage_target> ( level <u_val:used_spell_slot_for_magus_cannot_move_attack_or_damage_target> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('magus_cannot_move_attack_or_damage_target') = -1" ] },
@@ -385,7 +385,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_lightning_storm > 0" ] },
-      "text": "Forget Lightning Storm ( level <u_val:used_spell_slot_for_lightning_storm> )",
+      "text": "Forget <spell_name:lightning_storm> ( level <u_val:used_spell_slot_for_lightning_storm> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('lightning_storm') = -1" ] },
@@ -399,7 +399,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_vacuum_decompression > 0" ] },
-      "text": "Forget Vacuum Decompression ( level <u_val:used_spell_slot_for_vacuum_decompression> )",
+      "text": "Forget <spell_name:vacuum_decompression> ( level <u_val:used_spell_slot_for_vacuum_decompression> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('vacuum_decompression') = -1" ] },
@@ -413,7 +413,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_rupture > 0" ] },
-      "text": "Forget Rupture ( level <u_val:used_spell_slot_for_rupture> )",
+      "text": "Forget <spell_name:rupture> ( level <u_val:used_spell_slot_for_rupture> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('rupture') = -1" ] },
@@ -427,7 +427,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_obfuscated_body > 0" ] },
-      "text": "Forget Obfuscated Body ( level <u_val:used_spell_slot_for_obfuscated_body> )",
+      "text": "Forget <spell_name:obfuscated_body> ( level <u_val:used_spell_slot_for_obfuscated_body> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('obfuscated_body') = -1" ] },
@@ -441,7 +441,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_druidic_healing > 0" ] },
-      "text": "Forget Sacrificial Healing ( level <u_val:used_spell_slot_for_druidic_healing> )",
+      "text": "Forget <spell_name:druidic_healing> ( level <u_val:used_spell_slot_for_druidic_healing> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('druidic_healing') = -1" ] },
@@ -455,7 +455,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_magus_mana_blast > 0" ] },
-      "text": "Forget Mana Blast ( level <u_val:used_spell_slot_for_magus_mana_blast> )",
+      "text": "Forget <spell_name:magus_mana_blast> ( level <u_val:used_spell_slot_for_magus_mana_blast> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('magus_mana_blast') = -1" ] },
@@ -469,7 +469,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_summon_magic_motorcycle > 0" ] },
-      "text": "Forget Summon Mojocycle ( level <u_val:used_spell_slot_for_summon_magic_motorcycle> )",
+      "text": "Forget <spell_name:summon_magic_motorcycle> ( level <u_val:used_spell_slot_for_summon_magic_motorcycle> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('summon_magic_motorcycle') = -1" ] },
@@ -483,7 +483,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_dominate > 0" ] },
-      "text": "Forget Domination ( level <u_val:used_spell_slot_for_dominate> )",
+      "text": "Forget <spell_name:dominate> ( level <u_val:used_spell_slot_for_dominate> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('dominate') = -1" ] },
@@ -497,7 +497,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_devour > 0" ] },
-      "text": "Forget Devour ( level <u_val:used_spell_slot_for_devour> )",
+      "text": "Forget <spell_name:devour> ( level <u_val:used_spell_slot_for_devour> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('devour') = -1" ] },
@@ -511,7 +511,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_animist_see_invisibility > 0" ] },
-      "text": "Forget Seeing the Unseen ( level <u_val:used_spell_slot_for_animist_see_invisibility> )",
+      "text": "Forget <spell_name:animist_see_invisibility> ( level <u_val:used_spell_slot_for_animist_see_invisibility> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('animist_see_invisibility') = -1" ] },
@@ -525,7 +525,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_vicious_tentacle > 0" ] },
-      "text": "Forget Vicious Tentacle ( level <u_val:used_spell_slot_for_vicious_tentacle> )",
+      "text": "Forget <spell_name:vicious_tentacle> ( level <u_val:used_spell_slot_for_vicious_tentacle> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('vicious_tentacle') = -1" ] },
@@ -539,7 +539,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_bio_bonespear > 0" ] },
-      "text": "Forget Conjure Bonespear ( level <u_val:used_spell_slot_for_bio_bonespear> )",
+      "text": "Forget <spell_name:bio_bonespear> ( level <u_val:used_spell_slot_for_bio_bonespear> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('bio_bonespear') = -1" ] },
@@ -553,7 +553,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_biomancer_giant_growth > 0" ] },
-      "text": "Forget Giant Growth ( level <u_val:used_spell_slot_for_biomancer_giant_growth> )",
+      "text": "Forget <spell_name:biomancer_giant_growth> ( level <u_val:used_spell_slot_for_biomancer_giant_growth> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('biomancer_giant_growth') = -1" ] },
@@ -567,7 +567,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_biomancer_lashing_tentacles > 0" ] },
-      "text": "Forget Lashing Tentacles ( level <u_val:used_spell_slot_for_biomancer_lashing_tentacles> )",
+      "text": "Forget <spell_name:biomancer_lashing_tentacles> ( level <u_val:used_spell_slot_for_biomancer_lashing_tentacles> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('biomancer_lashing_tentacles') = -1" ] },
@@ -581,7 +581,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_biomancer_caustic_blood > 0" ] },
-      "text": "Forget Caustic Blood ( level <u_val:used_spell_slot_for_biomancer_caustic_blood> )",
+      "text": "Forget <spell_name:biomancer_caustic_blood> ( level <u_val:used_spell_slot_for_biomancer_caustic_blood> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('biomancer_caustic_blood') = -1" ] },
@@ -595,7 +595,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_megablast > 0" ] },
-      "text": "Forget Megablast ( level <u_val:used_spell_slot_for_megablast> )",
+      "text": "Forget <spell_name:megablast> ( level <u_val:used_spell_slot_for_megablast> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('megablast') = -1" ] },
@@ -609,7 +609,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_druidic_regrowth > 0" ] },
-      "text": "Forget Sacrificial Regrowth ( level <u_val:used_spell_slot_for_druidic_regrowth> )",
+      "text": "Forget <spell_name:druidic_regrowth> ( level <u_val:used_spell_slot_for_druidic_regrowth> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('druidic_regrowth') = -1" ] },
@@ -623,7 +623,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_summon_wolf_druid > 0" ] },
-      "text": "Forget Summon Wolf ( level <u_val:used_spell_slot_for_summon_wolf_druid> )",
+      "text": "Forget <spell_name:summon_wolf_druid> ( level <u_val:used_spell_slot_for_summon_wolf_druid> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('summon_wolf_druid') = -1" ] },
@@ -637,7 +637,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_druid_healing > 0" ] },
-      "text": "Forget Restoration ( level <u_val:used_spell_slot_for_druid_healing> )",
+      "text": "Forget <spell_name:druid_healing> ( level <u_val:used_spell_slot_for_druid_healing> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('druid_healing') = -1" ] },
@@ -651,7 +651,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_druid_whisper_leaves > 0" ] },
-      "text": "Forget Whisper of the Leaves ( level <u_val:used_spell_slot_for_druid_whisper_leaves> )",
+      "text": "Forget <spell_name:druid_whisper_leaves> ( level <u_val:used_spell_slot_for_druid_whisper_leaves> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('druid_whisper_leaves') = -1" ] },
@@ -665,7 +665,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_druid_summon_tanglevine > 0" ] },
-      "text": "Forget Summon Tanglevine ( level <u_val:used_spell_slot_for_druid_summon_tanglevine> )",
+      "text": "Forget <spell_name:druid_summon_tanglevine> ( level <u_val:used_spell_slot_for_druid_summon_tanglevine> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('druid_summon_tanglevine') = -1" ] },
@@ -679,7 +679,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_eshaper_melee_damage > 0" ] },
-      "text": "Forget Weighting ( level <u_val:used_spell_slot_for_eshaper_melee_damage> )",
+      "text": "Forget <spell_name:eshaper_melee_damage> ( level <u_val:used_spell_slot_for_eshaper_melee_damage> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('eshaper_melee_damage') = -1" ] },
@@ -693,7 +693,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_eshaper_crystal_wrap > 0" ] },
-      "text": "Forget Crystal Wrapping ( level <u_val:used_spell_slot_for_eshaper_crystal_wrap> )",
+      "text": "Forget <spell_name:eshaper_crystal_wrap> ( level <u_val:used_spell_slot_for_eshaper_crystal_wrap> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('eshaper_crystal_wrap') = -1" ] },
@@ -707,7 +707,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_kelvinist_summon_freezer_spell > 0" ] },
-      "text": "Forget Freezer Field ( level <u_val:used_spell_slot_for_kelvinist_summon_freezer_spell> )",
+      "text": "Forget <spell_name:kelvinist_summon_freezer_spell> ( level <u_val:used_spell_slot_for_kelvinist_summon_freezer_spell> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('kelvinist_summon_freezer_spell') = -1" ] },
@@ -721,7 +721,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_gravity_well > 0" ] },
-      "text": "Forget Gravity Well ( level <u_val:used_spell_slot_for_gravity_well> )",
+      "text": "Forget <spell_name:gravity_well> ( level <u_val:used_spell_slot_for_gravity_well> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('gravity_well') = -1" ] },
@@ -735,7 +735,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_magus_slow > 0" ] },
-      "text": "Forget Slow ( level <u_val:used_spell_slot_for_magus_slow> )",
+      "text": "Forget <spell_name:magus_slow> ( level <u_val:used_spell_slot_for_magus_slow> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('magus_slow') = -1" ] },
@@ -749,7 +749,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_magus_baleful_polymorph > 0" ] },
-      "text": "Forget Baleful Polymorph ( level <u_val:used_spell_slot_for_magus_baleful_polymorph> )",
+      "text": "Forget <spell_name:magus_baleful_polymorph> ( level <u_val:used_spell_slot_for_magus_baleful_polymorph> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('magus_baleful_polymorph') = -1" ] },
@@ -763,7 +763,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_stormshaper_ionization > 0" ] },
-      "text": "Forget Ionization ( level <u_val:used_spell_slot_for_stormshaper_ionization> )",
+      "text": "Forget <spell_name:stormshaper_ionization> ( level <u_val:used_spell_slot_for_stormshaper_ionization> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('stormshaper_ionization') = -1" ] },
@@ -777,7 +777,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_storm_shipwrecker > 0" ] },
-      "text": "Forget Shipwrecker ( level <u_val:used_spell_slot_for_storm_shipwrecker> )",
+      "text": "Forget <spell_name:storm_shipwrecker> ( level <u_val:used_spell_slot_for_storm_shipwrecker> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('storm_shipwrecker') = -1" ] },
@@ -791,7 +791,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_storm_superconductor > 0" ] },
-      "text": "Forget Superconductor ( level <u_val:used_spell_slot_for_storm_superconductor> )",
+      "text": "Forget <spell_name:storm_superconductor> ( level <u_val:used_spell_slot_for_storm_superconductor> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('storm_superconductor') = -1" ] },
@@ -805,7 +805,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_summon_teravolt > 0" ] },
-      "text": "Forget Summon Teravolt ( level <u_val:used_spell_slot_for_summon_teravolt> )",
+      "text": "Forget <spell_name:summon_teravolt> ( level <u_val:used_spell_slot_for_summon_teravolt> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('summon_teravolt') = -1" ] },
@@ -819,7 +819,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_stormshaper_heart_of_hurricane > 0" ] },
-      "text": "Forget Heart of the Hurricane ( level <u_val:used_spell_slot_for_stormshaper_heart_of_hurricane> )",
+      "text": "Forget <spell_name:stormshaper_heart_of_hurricane> ( level <u_val:used_spell_slot_for_stormshaper_heart_of_hurricane> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('stormshaper_heart_of_hurricane') = -1" ] },
@@ -833,7 +833,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_recover_bionic_power > 0" ] },
-      "text": "Forget Manatricity ( level <u_val:used_spell_slot_for_recover_bionic_power> )",
+      "text": "Forget <spell_name:recover_bionic_power> ( level <u_val:used_spell_slot_for_recover_bionic_power> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('recover_bionic_power') = -1" ] },
@@ -847,7 +847,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_animated_blade > 0" ] },
-      "text": "Forget Animated Blade ( level <u_val:used_spell_slot_for_animated_blade> )",
+      "text": "Forget <spell_name:animated_blade> ( level <u_val:used_spell_slot_for_animated_blade> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('animated_blade') = -1" ] },
@@ -861,7 +861,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_improved_knock > 0" ] },
-      "text": "Forget Improved Knock ( level <u_val:used_spell_slot_for_improved_knock> )",
+      "text": "Forget <spell_name:improved_knock> ( level <u_val:used_spell_slot_for_improved_knock> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('improved_knock') = -1" ] },
@@ -875,7 +875,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_technomancer_robot_shutdown > 0" ] },
-      "text": "Forget Shutdown ( level <u_val:used_spell_slot_for_technomancer_robot_shutdown> )",
+      "text": "Forget <spell_name:technomancer_robot_shutdown> ( level <u_val:used_spell_slot_for_technomancer_robot_shutdown> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('technomancer_robot_shutdown') = -1" ] },
@@ -889,7 +889,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_technomancer_conjure_ups > 0" ] },
-      "text": "Forget Power Supply ( level <u_val:used_spell_slot_for_technomancer_conjure_ups> )",
+      "text": "Forget <spell_name:technomancer_conjure_ups> ( level <u_val:used_spell_slot_for_technomancer_conjure_ups> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('technomancer_conjure_ups') = -1" ] },
@@ -903,7 +903,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_technomancer_create_ups_connection > 0" ] },
-      "text": "Forget Power Linkage ( level <u_val:used_spell_slot_for_technomancer_create_ups_connection> )",
+      "text": "Forget <spell_name:technomancer_create_ups_connection> ( level <u_val:used_spell_slot_for_technomancer_create_ups_connection> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('technomancer_create_ups_connection') = -1" ] },
@@ -917,7 +917,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_recover_mana > 0" ] },
-      "text": "Forget Life Conversion ( level <u_val:used_spell_slot_for_recover_mana> )",
+      "text": "Forget <spell_name:recover_mana> ( level <u_val:used_spell_slot_for_recover_mana> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('recover_mana') = -1" ] },
@@ -931,7 +931,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_recover_pain > 0" ] },
-      "text": "Forget Mind over Pain ( level <u_val:used_spell_slot_for_recover_pain> )",
+      "text": "Forget <spell_name:recover_pain> ( level <u_val:used_spell_slot_for_recover_pain> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('recover_pain') = -1" ] },
@@ -945,7 +945,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_summon_undead_swarm > 0" ] },
-      "text": "Forget Summon Undead Swarm ( level <u_val:used_spell_slot_for_summon_undead_swarm> )",
+      "text": "Forget <spell_name:summon_undead_swarm> ( level <u_val:used_spell_slot_for_summon_undead_swarm> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('summon_undead_swarm') = -1" ] },
@@ -959,7 +959,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_life_detonation > 0" ] },
-      "text": "Forget Life Detonation ( level <u_val:used_spell_slot_for_life_detonation> )",
+      "text": "Forget <spell_name:life_detonation> ( level <u_val:used_spell_slot_for_life_detonation> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('life_detonation') = -1" ] },
@@ -973,7 +973,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_animist_add_evasion_spell > 0" ] },
-      "text": "Forget Guardian Spirit ( level <u_val:used_spell_slot_for_animist_add_evasion_spell> )",
+      "text": "Forget <spell_name:animist_add_evasion_spell> ( level <u_val:used_spell_slot_for_animist_add_evasion_spell> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('animist_add_evasion_spell') = -1" ] },
@@ -987,7 +987,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_animist_slow_food_rotting_spell > 0" ] },
-      "text": "Forget Abjure Spirits of Rot ( level <u_val:used_spell_slot_for_animist_slow_food_rotting_spell> )",
+      "text": "Forget <spell_name:animist_slow_food_rotting_spell> ( level <u_val:used_spell_slot_for_animist_slow_food_rotting_spell> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('animist_slow_food_rotting_spell') = -1" ] },
@@ -1001,7 +1001,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_biomancer_scalpel_fingers > 0" ] },
-      "text": "Forget Flensing Fingers ( level <u_val:used_spell_slot_for_biomancer_scalpel_fingers> )",
+      "text": "Forget <spell_name:biomancer_scalpel_fingers> ( level <u_val:used_spell_slot_for_biomancer_scalpel_fingers> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('biomancer_scalpel_fingers') = -1" ] },
@@ -1015,7 +1015,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_dark_sight > 0" ] },
-      "text": "Forget Dark Sight ( level <u_val:used_spell_slot_for_dark_sight> )",
+      "text": "Forget <spell_name:dark_sight> ( level <u_val:used_spell_slot_for_dark_sight> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('dark_sight') = -1" ] },
@@ -1029,7 +1029,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_recover_sleepiness > 0" ] },
-      "text": "Forget Nature's Trance ( level <u_val:used_spell_slot_for_recover_sleepiness> )",
+      "text": "Forget <spell_name:recover_sleepiness> ( level <u_val:used_spell_slot_for_recover_sleepiness> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('recover_sleepiness') = -1" ] },
@@ -1043,7 +1043,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_druid_feralform > 0" ] },
-      "text": "Forget Feral Form ( level <u_val:used_spell_slot_for_druid_feralform> )",
+      "text": "Forget <spell_name:druid_feralform> ( level <u_val:used_spell_slot_for_druid_feralform> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('druid_feralform') = -1" ] },
@@ -1057,7 +1057,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_druid_natures_commune > 0" ] },
-      "text": "Forget Communion with Nature ( level <u_val:used_spell_slot_for_druid_natures_commune> )",
+      "text": "Forget <spell_name:druid_natures_commune> ( level <u_val:used_spell_slot_for_druid_natures_commune> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('druid_natures_commune') = -1" ] },
@@ -1071,7 +1071,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_druid_wood_living_tree_spell > 0" ] },
-      "text": "Forget Shape Wood ( level <u_val:used_spell_slot_for_druid_wood_living_tree_spell> )",
+      "text": "Forget <spell_name:druid_wood_living_tree_spell> ( level <u_val:used_spell_slot_for_druid_wood_living_tree_spell> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('druid_wood_living_tree_spell') = -1" ] },
@@ -1085,7 +1085,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_recover_stamina > 0" ] },
-      "text": "Forget Stone's Endurance ( level <u_val:used_spell_slot_for_recover_stamina> )",
+      "text": "Forget <spell_name:recover_stamina> ( level <u_val:used_spell_slot_for_recover_stamina> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('recover_stamina') = -1" ] },
@@ -1099,7 +1099,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_eshaper_shardstorm > 0" ] },
-      "text": "Forget Shardstorm ( level <u_val:used_spell_slot_for_eshaper_shardstorm> )",
+      "text": "Forget <spell_name:eshaper_shardstorm> ( level <u_val:used_spell_slot_for_eshaper_shardstorm> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('eshaper_shardstorm') = -1" ] },
@@ -1113,7 +1113,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_eshaper_impalement > 0" ] },
-      "text": "Forget Impalement ( level <u_val:used_spell_slot_for_eshaper_impalement> )",
+      "text": "Forget <spell_name:eshaper_impalement> ( level <u_val:used_spell_slot_for_eshaper_impalement> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('eshaper_impalement') = -1" ] },
@@ -1127,7 +1127,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_fireball > 0" ] },
-      "text": "Forget Fireball ( level <u_val:used_spell_slot_for_fireball> )",
+      "text": "Forget <spell_name:fireball> ( level <u_val:used_spell_slot_for_fireball> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('fireball') = -1" ] },
@@ -1141,7 +1141,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_cone_cold > 0" ] },
-      "text": "Forget Cone of Cold ( level <u_val:used_spell_slot_for_cone_cold> )",
+      "text": "Forget <spell_name:cone_cold> ( level <u_val:used_spell_slot_for_cone_cold> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('cone_cold') = -1" ] },
@@ -1155,7 +1155,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_hoary_blast > 0" ] },
-      "text": "Forget Hoary Blast ( level <u_val:used_spell_slot_for_hoary_blast> )",
+      "text": "Forget <spell_name:hoary_blast> ( level <u_val:used_spell_slot_for_hoary_blast> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('hoary_blast') = -1" ] },
@@ -1169,7 +1169,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_kelvinist_extinguish_fire_spell > 0" ] },
-      "text": "Forget Extinguish ( level <u_val:used_spell_slot_for_kelvinist_extinguish_fire_spell> )",
+      "text": "Forget <spell_name:kelvinist_extinguish_fire_spell> ( level <u_val:used_spell_slot_for_kelvinist_extinguish_fire_spell> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('kelvinist_extinguish_fire_spell') = -1" ] },
@@ -1183,7 +1183,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_magus_mana_bolt > 0" ] },
-      "text": "Forget Mana Bolt ( level <u_val:used_spell_slot_for_magus_mana_bolt> )",
+      "text": "Forget <spell_name:magus_mana_bolt> ( level <u_val:used_spell_slot_for_magus_mana_bolt> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('magus_mana_bolt') = -1" ] },
@@ -1197,7 +1197,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_magus_mana_beam > 0" ] },
-      "text": "Forget Mana Beam ( level <u_val:used_spell_slot_for_magus_mana_beam> )",
+      "text": "Forget <spell_name:magus_mana_beam> ( level <u_val:used_spell_slot_for_magus_mana_beam> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('magus_mana_beam') = -1" ] },
@@ -1211,7 +1211,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_magus_escape > 0" ] },
-      "text": "Forget Escape ( level <u_val:used_spell_slot_for_magus_escape> )",
+      "text": "Forget <spell_name:magus_escape> ( level <u_val:used_spell_slot_for_magus_escape> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('magus_escape') = -1" ] },
@@ -1225,7 +1225,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_cats_grace > 0" ] },
-      "text": "Forget Cat's Grace ( level <u_val:used_spell_slot_for_cats_grace> )",
+      "text": "Forget <spell_name:cats_grace> ( level <u_val:used_spell_slot_for_cats_grace> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('cats_grace') = -1" ] },
@@ -1239,7 +1239,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_eagles_sight > 0" ] },
-      "text": "Forget Eagle's Sight ( level <u_val:used_spell_slot_for_eagles_sight> )",
+      "text": "Forget <spell_name:eagles_sight> ( level <u_val:used_spell_slot_for_eagles_sight> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('eagles_sight') = -1" ] },
@@ -1253,7 +1253,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_ogres_strength > 0" ] },
-      "text": "Forget Ogre's Strength ( level <u_val:used_spell_slot_for_ogres_strength> )",
+      "text": "Forget <spell_name:ogres_strength> ( level <u_val:used_spell_slot_for_ogres_strength> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('ogres_strength') = -1" ] },
@@ -1267,7 +1267,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_foxs_cunning > 0" ] },
-      "text": "Forget Fox's Cunning ( level <u_val:used_spell_slot_for_foxs_cunning> )",
+      "text": "Forget <spell_name:foxs_cunning> ( level <u_val:used_spell_slot_for_foxs_cunning> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('foxs_cunning') = -1" ] },
@@ -1281,7 +1281,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_magus_teleport_mark > 0" ] },
-      "text": "Forget Magus's Mark ( level <u_val:used_spell_slot_for_magus_teleport_mark> )",
+      "text": "Forget <spell_name:magus_teleport_mark> ( level <u_val:used_spell_slot_for_magus_teleport_mark> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('magus_teleport_mark') = -1" ] },
@@ -1295,7 +1295,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_magus_ranged_increase > 0" ] },
-      "text": "Forget Arrowflight ( level <u_val:used_spell_slot_for_magus_ranged_increase> )",
+      "text": "Forget <spell_name:magus_ranged_increase> ( level <u_val:used_spell_slot_for_magus_ranged_increase> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('magus_ranged_increase') = -1" ] },
@@ -1309,7 +1309,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_magus_push_nearby_enemies_back > 0" ] },
-      "text": "Forget Repulsion Wave ( level <u_val:used_spell_slot_for_magus_push_nearby_enemies_back> )",
+      "text": "Forget <spell_name:magus_push_nearby_enemies_back> ( level <u_val:used_spell_slot_for_magus_push_nearby_enemies_back> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('magus_push_nearby_enemies_back') = -1" ] },
@@ -1323,7 +1323,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_storm_hammer > 0" ] },
-      "text": "Forget Call Stormhammer ( level <u_val:used_spell_slot_for_storm_hammer> )",
+      "text": "Forget <spell_name:storm_hammer> ( level <u_val:used_spell_slot_for_storm_hammer> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('storm_hammer') = -1" ] },
@@ -1337,7 +1337,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_stormfist > 0" ] },
-      "text": "Forget Stormfist ( level <u_val:used_spell_slot_for_stormfist> )",
+      "text": "Forget <spell_name:stormfist> ( level <u_val:used_spell_slot_for_stormfist> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('stormfist') = -1" ] },
@@ -1351,7 +1351,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_explosive_decompression > 0" ] },
-      "text": "Forget Explosive Decompression ( level <u_val:used_spell_slot_for_explosive_decompression> )",
+      "text": "Forget <spell_name:explosive_decompression> ( level <u_val:used_spell_slot_for_explosive_decompression> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('explosive_decompression') = -1" ] },
@@ -1365,7 +1365,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_shocking_dash > 0" ] },
-      "text": "Forget Shocking Dash ( level <u_val:used_spell_slot_for_shocking_dash> )",
+      "text": "Forget <spell_name:shocking_dash> ( level <u_val:used_spell_slot_for_shocking_dash> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('shocking_dash') = -1" ] },
@@ -1379,7 +1379,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_toxtricity > 0" ] },
-      "text": "Forget Toxtricity ( level <u_val:used_spell_slot_for_toxtricity> )",
+      "text": "Forget <spell_name:toxtricity> ( level <u_val:used_spell_slot_for_toxtricity> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('toxtricity') = -1" ] },
@@ -1393,7 +1393,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_electric_waves > 0" ] },
-      "text": "Forget Electric Waves ( level <u_val:used_spell_slot_for_electric_waves> )",
+      "text": "Forget <spell_name:electric_waves> ( level <u_val:used_spell_slot_for_electric_waves> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('electric_waves') = -1" ] },
@@ -1407,7 +1407,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_invisibility > 0" ] },
-      "text": "Forget Invisibility ( level <u_val:used_spell_slot_for_invisibility> )",
+      "text": "Forget <spell_name:invisibility> ( level <u_val:used_spell_slot_for_invisibility> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('invisibility') = -1" ] },
@@ -1421,7 +1421,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_mirror_image > 0" ] },
-      "text": "Forget Mirror Image ( level <u_val:used_spell_slot_for_mirror_image> )",
+      "text": "Forget <spell_name:mirror_image> ( level <u_val:used_spell_slot_for_mirror_image> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('mirror_image') = -1" ] },
@@ -1435,7 +1435,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_holographic_transposition > 0" ] },
-      "text": "Forget Holographic Transposition ( level <u_val:used_spell_slot_for_holographic_transposition> )",
+      "text": "Forget <spell_name:holographic_transposition> ( level <u_val:used_spell_slot_for_holographic_transposition> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('holographic_transposition') = -1" ] },
@@ -1449,7 +1449,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_summon_floating_disk > 0" ] },
-      "text": "Forget Summon Floating Disk ( level <u_val:used_spell_slot_for_summon_floating_disk> )",
+      "text": "Forget <spell_name:summon_floating_disk> ( level <u_val:used_spell_slot_for_summon_floating_disk> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('summon_floating_disk') = -1" ] },
@@ -1463,7 +1463,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_technomancer_knifeshot > 0" ] },
-      "text": "Forget Knifeshot ( level <u_val:used_spell_slot_for_technomancer_knifeshot> )",
+      "text": "Forget <spell_name:technomancer_knifeshot> ( level <u_val:used_spell_slot_for_technomancer_knifeshot> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('technomancer_knifeshot') = -1" ] },
@@ -1477,7 +1477,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_technomancer_recharge_vehicle > 0" ] },
-      "text": "Forget Imbue with Lightning ( level <u_val:used_spell_slot_for_technomancer_recharge_vehicle> )",
+      "text": "Forget <spell_name:technomancer_recharge_vehicle> ( level <u_val:used_spell_slot_for_technomancer_recharge_vehicle> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('technomancer_recharge_vehicle') = -1" ] },
@@ -1491,7 +1491,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_convert_sorcerer > 0" ] },
-      "text": "Forget Convert ( level <u_val:used_spell_slot_for_convert_sorcerer> )",
+      "text": "Forget <spell_name:convert_sorcerer> ( level <u_val:used_spell_slot_for_convert_sorcerer> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('convert_sorcerer') = -1" ] },
@@ -1505,7 +1505,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_animist_summon_decaying_boneclub > 0" ] },
-      "text": "Forget Decaying Boneclub ( level <u_val:used_spell_slot_for_animist_summon_decaying_boneclub> )",
+      "text": "Forget <spell_name:animist_summon_decaying_boneclub> ( level <u_val:used_spell_slot_for_animist_summon_decaying_boneclub> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('animist_summon_decaying_boneclub') = -1" ] },
@@ -1519,7 +1519,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_animist_luck_bone > 0" ] },
-      "text": "Forget Osseous Luck ( level <u_val:used_spell_slot_for_animist_luck_bone> )",
+      "text": "Forget <spell_name:animist_luck_bone> ( level <u_val:used_spell_slot_for_animist_luck_bone> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('animist_luck_bone') = -1" ] },
@@ -1533,7 +1533,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_animist_do_psionic_damage_to_head > 0" ] },
-      "text": "Forget Mind Crush ( level <u_val:used_spell_slot_for_animist_do_psionic_damage_to_head> )",
+      "text": "Forget <spell_name:animist_do_psionic_damage_to_head> ( level <u_val:used_spell_slot_for_animist_do_psionic_damage_to_head> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('animist_do_psionic_damage_to_head') = -1" ] },
@@ -1547,7 +1547,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_bio_grotesque > 0" ] },
-      "text": "Forget Grotesque Enhancement ( level <u_val:used_spell_slot_for_bio_grotesque> )",
+      "text": "Forget <spell_name:bio_grotesque> ( level <u_val:used_spell_slot_for_bio_grotesque> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('bio_grotesque') = -1" ] },
@@ -1561,7 +1561,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_biomancer_get_more_blood > 0" ] },
-      "text": "Forget Carmine Infusion ( level <u_val:used_spell_slot_for_biomancer_get_more_blood> )",
+      "text": "Forget <spell_name:biomancer_get_more_blood> ( level <u_val:used_spell_slot_for_biomancer_get_more_blood> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('biomancer_get_more_blood') = -1" ] },
@@ -1575,7 +1575,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_thought_shield > 0" ] },
-      "text": "Forget Thought Shield ( level <u_val:used_spell_slot_for_thought_shield> )",
+      "text": "Forget <spell_name:thought_shield> ( level <u_val:used_spell_slot_for_thought_shield> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('thought_shield') = -1" ] },
@@ -1589,7 +1589,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_classless_dispel_magic > 0" ] },
-      "text": "Forget Dispel Magic ( level <u_val:used_spell_slot_for_classless_dispel_magic> )",
+      "text": "Forget <spell_name:classless_dispel_magic> ( level <u_val:used_spell_slot_for_classless_dispel_magic> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('classless_dispel_magic') = -1" ] },
@@ -1603,7 +1603,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_druid_naturebow1 > 0" ] },
-      "text": "Forget Nature's Bow ( level <u_val:used_spell_slot_for_druid_naturebow1> )",
+      "text": "Forget <spell_name:druid_naturebow1> ( level <u_val:used_spell_slot_for_druid_naturebow1> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('druid_naturebow1') = -1" ] },
@@ -1617,7 +1617,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_purify_seed > 0" ] },
-      "text": "Forget Purification Seed ( level <u_val:used_spell_slot_for_purify_seed> )",
+      "text": "Forget <spell_name:purify_seed> ( level <u_val:used_spell_slot_for_purify_seed> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('purify_seed') = -1" ] },
@@ -1631,7 +1631,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_druid_healing_herb > 0" ] },
-      "text": "Forget Floral Healing ( level <u_val:used_spell_slot_for_druid_healing_herb> )",
+      "text": "Forget <spell_name:druid_healing_herb> ( level <u_val:used_spell_slot_for_druid_healing_herb> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('druid_healing_herb') = -1" ] },
@@ -1645,7 +1645,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_druid_bandage_heal > 0" ] },
-      "text": "Forget Vegetative Poultice ( level <u_val:used_spell_slot_for_druid_bandage_heal> )",
+      "text": "Forget <spell_name:druid_bandage_heal> ( level <u_val:used_spell_slot_for_druid_bandage_heal> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('druid_bandage_heal') = -1" ] },
@@ -1659,7 +1659,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_druid_summon_brambles > 0" ] },
-      "text": "Forget Stranglethorns ( level <u_val:used_spell_slot_for_druid_summon_brambles> )",
+      "text": "Forget <spell_name:druid_summon_brambles> ( level <u_val:used_spell_slot_for_druid_summon_brambles> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('druid_summon_brambles') = -1" ] },
@@ -1673,7 +1673,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_druid_breathing_underwater > 0" ] },
-      "text": "Forget Aquatic Mantle ( level <u_val:used_spell_slot_for_druid_breathing_underwater> )",
+      "text": "Forget <spell_name:druid_breathing_underwater> ( level <u_val:used_spell_slot_for_druid_breathing_underwater> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('druid_breathing_underwater') = -1" ] },
@@ -1687,7 +1687,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_ice_spike > 0" ] },
-      "text": "Forget Ice Spike ( level <u_val:used_spell_slot_for_ice_spike> )",
+      "text": "Forget <spell_name:ice_spike> ( level <u_val:used_spell_slot_for_ice_spike> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('ice_spike') = -1" ] },
@@ -1701,7 +1701,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_frost_armor > 0" ] },
-      "text": "Forget Frost Armor ( level <u_val:used_spell_slot_for_frost_armor> )",
+      "text": "Forget <spell_name:frost_armor> ( level <u_val:used_spell_slot_for_frost_armor> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('frost_armor') = -1" ] },
@@ -1715,7 +1715,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_kelvinist_flamebreath > 0" ] },
-      "text": "Forget Flamebreath ( level <u_val:used_spell_slot_for_kelvinist_flamebreath> )",
+      "text": "Forget <spell_name:kelvinist_flamebreath> ( level <u_val:used_spell_slot_for_kelvinist_flamebreath> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('kelvinist_flamebreath') = -1" ] },
@@ -1729,7 +1729,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_lightning_bolt > 0" ] },
-      "text": "Forget Lightning Bolt ( level <u_val:used_spell_slot_for_lightning_bolt> )",
+      "text": "Forget <spell_name:lightning_bolt> ( level <u_val:used_spell_slot_for_lightning_bolt> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('lightning_bolt') = -1" ] },
@@ -1743,7 +1743,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_holy_blade > 0" ] },
-      "text": "Forget Mage Blade ( level <u_val:used_spell_slot_for_holy_blade> )",
+      "text": "Forget <spell_name:holy_blade> ( level <u_val:used_spell_slot_for_holy_blade> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('holy_blade') = -1" ] },
@@ -1757,7 +1757,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_spirit_armor > 0" ] },
-      "text": "Forget Mage Armor ( level <u_val:used_spell_slot_for_spirit_armor> )",
+      "text": "Forget <spell_name:spirit_armor> ( level <u_val:used_spell_slot_for_spirit_armor> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('spirit_armor') = -1" ] },
@@ -1771,7 +1771,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_synaptic_stimulation > 0" ] },
-      "text": "Forget Synaptic Stimulation ( level <u_val:used_spell_slot_for_synaptic_stimulation> )",
+      "text": "Forget <spell_name:synaptic_stimulation> ( level <u_val:used_spell_slot_for_synaptic_stimulation> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('synaptic_stimulation') = -1" ] },
@@ -1785,7 +1785,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_technomancer_welder > 0" ] },
-      "text": "Forget Voltaic Touch ( level <u_val:used_spell_slot_for_technomancer_welder> )",
+      "text": "Forget <spell_name:technomancer_welder> ( level <u_val:used_spell_slot_for_technomancer_welder> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('technomancer_welder') = -1" ] },
@@ -1799,7 +1799,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_technomancer_far_sight > 0" ] },
-      "text": "Forget Zoom Lens ( level <u_val:used_spell_slot_for_technomancer_far_sight> )",
+      "text": "Forget <spell_name:technomancer_far_sight> ( level <u_val:used_spell_slot_for_technomancer_far_sight> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('technomancer_far_sight') = -1" ] },
@@ -1813,7 +1813,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_animist_summon_watcher > 0" ] },
-      "text": "Forget Summon Watcher Spirit ( level <u_val:used_spell_slot_for_animist_summon_watcher> )",
+      "text": "Forget <spell_name:animist_summon_watcher> ( level <u_val:used_spell_slot_for_animist_summon_watcher> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('animist_summon_watcher') = -1" ] },
@@ -1827,7 +1827,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_animist_cast_spells_when_silent > 0" ] },
-      "text": "Forget The Inner Voice ( level <u_val:used_spell_slot_for_animist_cast_spells_when_silent> )",
+      "text": "Forget <spell_name:animist_cast_spells_when_silent> ( level <u_val:used_spell_slot_for_animist_cast_spells_when_silent> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('animist_cast_spells_when_silent') = -1" ] },
@@ -1841,7 +1841,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_pain_split > 0" ] },
-      "text": "Forget Pain Split ( level <u_val:used_spell_slot_for_pain_split> )",
+      "text": "Forget <spell_name:pain_split> ( level <u_val:used_spell_slot_for_pain_split> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('pain_split') = -1" ] },
@@ -1855,7 +1855,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_bio_fleshpouch > 0" ] },
-      "text": "Forget Flesh Pouch ( level <u_val:used_spell_slot_for_bio_fleshpouch> )",
+      "text": "Forget <spell_name:bio_fleshpouch> ( level <u_val:used_spell_slot_for_bio_fleshpouch> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('bio_fleshpouch') = -1" ] },
@@ -1869,7 +1869,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_biomancer_coagulant_weave > 0" ] },
-      "text": "Forget Coagulant Weave ( level <u_val:used_spell_slot_for_biomancer_coagulant_weave> )",
+      "text": "Forget <spell_name:biomancer_coagulant_weave> ( level <u_val:used_spell_slot_for_biomancer_coagulant_weave> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('biomancer_coagulant_weave') = -1" ] },
@@ -1883,7 +1883,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_biomancer_caustic_aura > 0" ] },
-      "text": "Forget Caustic Aura ( level <u_val:used_spell_slot_for_biomancer_caustic_aura> )",
+      "text": "Forget <spell_name:biomancer_caustic_aura> ( level <u_val:used_spell_slot_for_biomancer_caustic_aura> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('biomancer_caustic_aura') = -1" ] },
@@ -1897,7 +1897,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_biomancer_swim_frog > 0" ] },
-      "text": "Forget Limbs of the Frog ( level <u_val:used_spell_slot_for_biomancer_swim_frog> )",
+      "text": "Forget <spell_name:biomancer_swim_frog> ( level <u_val:used_spell_slot_for_biomancer_swim_frog> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('biomancer_swim_frog') = -1" ] },
@@ -1911,7 +1911,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_biomancer_carrion_feast > 0" ] },
-      "text": "Forget Carrion Feast ( level <u_val:used_spell_slot_for_biomancer_carrion_feast> )",
+      "text": "Forget <spell_name:biomancer_carrion_feast> ( level <u_val:used_spell_slot_for_biomancer_carrion_feast> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('biomancer_carrion_feast') = -1" ] },
@@ -1925,7 +1925,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_biomancer_slow_bleeding > 0" ] },
-      "text": "Forget Halt Bleeding ( level <u_val:used_spell_slot_for_biomancer_slow_bleeding> )",
+      "text": "Forget <spell_name:biomancer_slow_bleeding> ( level <u_val:used_spell_slot_for_biomancer_slow_bleeding> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('biomancer_slow_bleeding') = -1" ] },
@@ -1939,7 +1939,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_biomancer_eat_tons_of_food > 0" ] },
-      "text": "Forget Gluttonous Consumption ( level <u_val:used_spell_slot_for_biomancer_eat_tons_of_food> )",
+      "text": "Forget <spell_name:biomancer_eat_tons_of_food> ( level <u_val:used_spell_slot_for_biomancer_eat_tons_of_food> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('biomancer_eat_tons_of_food') = -1" ] },
@@ -1953,7 +1953,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_protection_aura > 0" ] },
-      "text": "Forget Aura of Protection ( level <u_val:used_spell_slot_for_protection_aura> )",
+      "text": "Forget <spell_name:protection_aura> ( level <u_val:used_spell_slot_for_protection_aura> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('protection_aura') = -1" ] },
@@ -1967,7 +1967,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_sound_bomb > 0" ] },
-      "text": "Forget Sound Bomb ( level <u_val:used_spell_slot_for_sound_bomb> )",
+      "text": "Forget <spell_name:sound_bomb> ( level <u_val:used_spell_slot_for_sound_bomb> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('sound_bomb') = -1" ] },
@@ -1981,7 +1981,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_druid_veggrasp > 0" ] },
-      "text": "Forget Vegetative Grasp ( level <u_val:used_spell_slot_for_druid_veggrasp> )",
+      "text": "Forget <spell_name:druid_veggrasp> ( level <u_val:used_spell_slot_for_druid_veggrasp> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('druid_veggrasp') = -1" ] },
@@ -1995,7 +1995,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_druid_rootstrike > 0" ] },
-      "text": "Forget Root Strike ( level <u_val:used_spell_slot_for_druid_rootstrike> )",
+      "text": "Forget <spell_name:druid_rootstrike> ( level <u_val:used_spell_slot_for_druid_rootstrike> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('druid_rootstrike') = -1" ] },
@@ -2009,7 +2009,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_druid_harvest_hunter > 0" ] },
-      "text": "Forget Harvest of the Hunter ( level <u_val:used_spell_slot_for_druid_harvest_hunter> )",
+      "text": "Forget <spell_name:druid_harvest_hunter> ( level <u_val:used_spell_slot_for_druid_harvest_hunter> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('druid_harvest_hunter') = -1" ] },
@@ -2023,7 +2023,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_druid_bramble_spear > 0" ] },
-      "text": "Forget Spear of Brambles ( level <u_val:used_spell_slot_for_druid_bramble_spear> )",
+      "text": "Forget <spell_name:druid_bramble_spear> ( level <u_val:used_spell_slot_for_druid_bramble_spear> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('druid_bramble_spear') = -1" ] },
@@ -2037,7 +2037,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_druid_disinfectant > 0" ] },
-      "text": "Forget Wash the Wounds Clean ( level <u_val:used_spell_slot_for_druid_disinfectant> )",
+      "text": "Forget <spell_name:druid_disinfectant> ( level <u_val:used_spell_slot_for_druid_disinfectant> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('druid_disinfectant') = -1" ] },
@@ -2051,7 +2051,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_druid_water_walking > 0" ] },
-      "text": "Forget Water Strider's Walk ( level <u_val:used_spell_slot_for_druid_water_walking> )",
+      "text": "Forget <spell_name:druid_water_walking> ( level <u_val:used_spell_slot_for_druid_water_walking> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('druid_water_walking') = -1" ] },
@@ -2065,7 +2065,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_druid_bearmantle > 0" ] },
-      "text": "Forget Bearmantle ( level <u_val:used_spell_slot_for_druid_bearmantle> )",
+      "text": "Forget <spell_name:druid_bearmantle> ( level <u_val:used_spell_slot_for_druid_bearmantle> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('druid_bearmantle') = -1" ] },
@@ -2079,7 +2079,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_druid_goodberry > 0" ] },
-      "text": "Forget Goodberry ( level <u_val:used_spell_slot_for_druid_goodberry> )",
+      "text": "Forget <spell_name:druid_goodberry> ( level <u_val:used_spell_slot_for_druid_goodberry> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('druid_goodberry') = -1" ] },
@@ -2093,7 +2093,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_seismic_stomp > 0" ] },
-      "text": "Forget Seismic Stomp ( level <u_val:used_spell_slot_for_seismic_stomp> )",
+      "text": "Forget <spell_name:seismic_stomp> ( level <u_val:used_spell_slot_for_seismic_stomp> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('seismic_stomp') = -1" ] },
@@ -2107,7 +2107,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_eshaper_shardspray > 0" ] },
-      "text": "Forget Shardspray ( level <u_val:used_spell_slot_for_eshaper_shardspray> )",
+      "text": "Forget <spell_name:eshaper_shardspray> ( level <u_val:used_spell_slot_for_eshaper_shardspray> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('eshaper_shardspray') = -1" ] },
@@ -2121,7 +2121,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_move_earth > 0" ] },
-      "text": "Forget Move Earth ( level <u_val:used_spell_slot_for_move_earth> )",
+      "text": "Forget <spell_name:move_earth> ( level <u_val:used_spell_slot_for_move_earth> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('move_earth') = -1" ] },
@@ -2135,7 +2135,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_clairvoyance > 0" ] },
-      "text": "Forget Clairvoyance ( level <u_val:used_spell_slot_for_clairvoyance> )",
+      "text": "Forget <spell_name:clairvoyance> ( level <u_val:used_spell_slot_for_clairvoyance> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('clairvoyance') = -1" ] },
@@ -2149,7 +2149,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_earthshaper_stoneskin > 0" ] },
-      "text": "Forget Stoneskin ( level <u_val:used_spell_slot_for_earthshaper_stoneskin> )",
+      "text": "Forget <spell_name:earthshaper_stoneskin> ( level <u_val:used_spell_slot_for_earthshaper_stoneskin> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('earthshaper_stoneskin') = -1" ] },
@@ -2163,7 +2163,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_earthshaper_pillar > 0" ] },
-      "text": "Forget Pillar of Stone ( level <u_val:used_spell_slot_for_earthshaper_pillar> )",
+      "text": "Forget <spell_name:earthshaper_pillar> ( level <u_val:used_spell_slot_for_earthshaper_pillar> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('earthshaper_pillar') = -1" ] },
@@ -2177,7 +2177,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_eshaper_spawn_tools > 0" ] },
-      "text": "Forget Utility Molding ( level <u_val:used_spell_slot_for_eshaper_spawn_tools> )",
+      "text": "Forget <spell_name:eshaper_spawn_tools> ( level <u_val:used_spell_slot_for_eshaper_spawn_tools> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('eshaper_spawn_tools') = -1" ] },
@@ -2191,7 +2191,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_earthshaper_danger_sense > 0" ] },
-      "text": "Forget Tremorsense ( level <u_val:used_spell_slot_for_earthshaper_danger_sense> )",
+      "text": "Forget <spell_name:earthshaper_danger_sense> ( level <u_val:used_spell_slot_for_earthshaper_danger_sense> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('earthshaper_danger_sense') = -1" ] },
@@ -2205,7 +2205,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_earthshaper_fortitude_of_stone > 0" ] },
-      "text": "Forget Stones' Fortitude ( level <u_val:used_spell_slot_for_earthshaper_fortitude_of_stone> )",
+      "text": "Forget <spell_name:earthshaper_fortitude_of_stone> ( level <u_val:used_spell_slot_for_earthshaper_fortitude_of_stone> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('earthshaper_fortitude_of_stone') = -1" ] },
@@ -2219,7 +2219,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_earthshaper_harden_earth > 0" ] },
-      "text": "Forget Harden Earth ( level <u_val:used_spell_slot_for_earthshaper_harden_earth> )",
+      "text": "Forget <spell_name:earthshaper_harden_earth> ( level <u_val:used_spell_slot_for_earthshaper_harden_earth> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('earthshaper_harden_earth') = -1" ] },
@@ -2233,7 +2233,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_earthshaper_repair_metal_stone > 0" ] },
-      "text": "Forget Fault-Mending Chant ( level <u_val:used_spell_slot_for_earthshaper_repair_metal_stone> )",
+      "text": "Forget <spell_name:earthshaper_repair_metal_stone> ( level <u_val:used_spell_slot_for_earthshaper_repair_metal_stone> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('earthshaper_repair_metal_stone') = -1" ] },
@@ -2247,7 +2247,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_point_flare > 0" ] },
-      "text": "Forget Point Flare ( level <u_val:used_spell_slot_for_point_flare> )",
+      "text": "Forget <spell_name:point_flare> ( level <u_val:used_spell_slot_for_point_flare> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('point_flare') = -1" ] },
@@ -2261,7 +2261,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_burning_hands > 0" ] },
-      "text": "Forget Burning Hands ( level <u_val:used_spell_slot_for_burning_hands> )",
+      "text": "Forget <spell_name:burning_hands> ( level <u_val:used_spell_slot_for_burning_hands> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('burning_hands') = -1" ] },
@@ -2275,7 +2275,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_frost_spray > 0" ] },
-      "text": "Forget Frost Spray ( level <u_val:used_spell_slot_for_frost_spray> )",
+      "text": "Forget <spell_name:frost_spray> ( level <u_val:used_spell_slot_for_frost_spray> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('frost_spray') = -1" ] },
@@ -2289,7 +2289,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_glide_ice > 0" ] },
-      "text": "Forget Glide on Ice ( level <u_val:used_spell_slot_for_glide_ice> )",
+      "text": "Forget <spell_name:glide_ice> ( level <u_val:used_spell_slot_for_glide_ice> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('glide_ice') = -1" ] },
@@ -2303,7 +2303,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_ice_shield > 0" ] },
-      "text": "Forget Ice Shield ( level <u_val:used_spell_slot_for_ice_shield> )",
+      "text": "Forget <spell_name:ice_shield> ( level <u_val:used_spell_slot_for_ice_shield> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('ice_shield') = -1" ] },
@@ -2317,7 +2317,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_kelvinist_summon_flamesword > 0" ] },
-      "text": "Forget Flamesword ( level <u_val:used_spell_slot_for_kelvinist_summon_flamesword> )",
+      "text": "Forget <spell_name:kelvinist_summon_flamesword> ( level <u_val:used_spell_slot_for_kelvinist_summon_flamesword> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('kelvinist_summon_flamesword') = -1" ] },
@@ -2331,7 +2331,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_kelvinist_anti_cold > 0" ] },
-      "text": "Forget Cloak of Warmth ( level <u_val:used_spell_slot_for_kelvinist_anti_cold> )",
+      "text": "Forget <spell_name:kelvinist_anti_cold> ( level <u_val:used_spell_slot_for_kelvinist_anti_cold> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('kelvinist_anti_cold') = -1" ] },
@@ -2345,7 +2345,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_kelvinist_anti_heat > 0" ] },
-      "text": "Forget Cloak of Chill ( level <u_val:used_spell_slot_for_kelvinist_anti_heat> )",
+      "text": "Forget <spell_name:kelvinist_anti_heat> ( level <u_val:used_spell_slot_for_kelvinist_anti_heat> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('kelvinist_anti_heat') = -1" ] },
@@ -2359,7 +2359,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_kelvinist_persuasion_spell > 0" ] },
-      "text": "Forget Flames of Passion ( level <u_val:used_spell_slot_for_kelvinist_persuasion_spell> )",
+      "text": "Forget <spell_name:kelvinist_persuasion_spell> ( level <u_val:used_spell_slot_for_kelvinist_persuasion_spell> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('kelvinist_persuasion_spell') = -1" ] },
@@ -2373,7 +2373,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_phase_door > 0" ] },
-      "text": "Forget Phase Door ( level <u_val:used_spell_slot_for_phase_door> )",
+      "text": "Forget <spell_name:phase_door> ( level <u_val:used_spell_slot_for_phase_door> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('phase_door') = -1" ] },
@@ -2387,7 +2387,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_magus_force_jar > 0" ] },
-      "text": "Forget Jar of Force ( level <u_val:used_spell_slot_for_magus_force_jar> )",
+      "text": "Forget <spell_name:magus_force_jar> ( level <u_val:used_spell_slot_for_magus_force_jar> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('magus_force_jar') = -1" ] },
@@ -2401,7 +2401,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_magus_summon_impact_sling > 0" ] },
-      "text": "Forget Impact Sling ( level <u_val:used_spell_slot_for_magus_summon_impact_sling> )",
+      "text": "Forget <spell_name:magus_summon_impact_sling> ( level <u_val:used_spell_slot_for_magus_summon_impact_sling> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('magus_summon_impact_sling') = -1" ] },
@@ -2415,7 +2415,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_magus_slowfall > 0" ] },
-      "text": "Forget Slowfall ( level <u_val:used_spell_slot_for_magus_slowfall> )",
+      "text": "Forget <spell_name:magus_slowfall> ( level <u_val:used_spell_slot_for_magus_slowfall> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('magus_slowfall') = -1" ] },
@@ -2429,7 +2429,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_magus_spiderclimb > 0" ] },
-      "text": "Forget Spider Climb ( level <u_val:used_spell_slot_for_magus_spiderclimb> )",
+      "text": "Forget <spell_name:magus_spiderclimb> ( level <u_val:used_spell_slot_for_magus_spiderclimb> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('magus_spiderclimb') = -1" ] },
@@ -2443,7 +2443,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_jolt > 0" ] },
-      "text": "Forget Jolt ( level <u_val:used_spell_slot_for_jolt> )",
+      "text": "Forget <spell_name:jolt> ( level <u_val:used_spell_slot_for_jolt> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('jolt') = -1" ] },
@@ -2457,7 +2457,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_windstrike > 0" ] },
-      "text": "Forget Windstrike ( level <u_val:used_spell_slot_for_windstrike> )",
+      "text": "Forget <spell_name:windstrike> ( level <u_val:used_spell_slot_for_windstrike> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('windstrike') = -1" ] },
@@ -2471,7 +2471,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_windrun > 0" ] },
-      "text": "Forget Windrunning ( level <u_val:used_spell_slot_for_windrun> )",
+      "text": "Forget <spell_name:windrun> ( level <u_val:used_spell_slot_for_windrun> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('windrun') = -1" ] },
@@ -2485,7 +2485,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_stormshaper_repelling_arc > 0" ] },
-      "text": "Forget Repelling Arc ( level <u_val:used_spell_slot_for_stormshaper_repelling_arc> )",
+      "text": "Forget <spell_name:stormshaper_repelling_arc> ( level <u_val:used_spell_slot_for_stormshaper_repelling_arc> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('stormshaper_repelling_arc') = -1" ] },
@@ -2499,7 +2499,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_air_bubble > 0" ] },
-      "text": "Forget Air Bubble ( level <u_val:used_spell_slot_for_air_bubble> )",
+      "text": "Forget <spell_name:air_bubble> ( level <u_val:used_spell_slot_for_air_bubble> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('air_bubble') = -1" ] },
@@ -2513,7 +2513,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_electric_eye > 0" ] },
-      "text": "Forget Electric Eye ( level <u_val:used_spell_slot_for_electric_eye> )",
+      "text": "Forget <spell_name:electric_eye> ( level <u_val:used_spell_slot_for_electric_eye> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('electric_eye') = -1" ] },
@@ -2527,7 +2527,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_stormshaper_cloak_of_fog > 0" ] },
-      "text": "Forget Cloak of Fog ( level <u_val:used_spell_slot_for_stormshaper_cloak_of_fog> )",
+      "text": "Forget <spell_name:stormshaper_cloak_of_fog> ( level <u_val:used_spell_slot_for_stormshaper_cloak_of_fog> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('stormshaper_cloak_of_fog') = -1" ] },
@@ -2541,7 +2541,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_quantum_tunnel_lesser > 0" ] },
-      "text": "Forget Lesser Quantum Tunnel ( level <u_val:used_spell_slot_for_quantum_tunnel_lesser> )",
+      "text": "Forget <spell_name:quantum_tunnel_lesser> ( level <u_val:used_spell_slot_for_quantum_tunnel_lesser> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('quantum_tunnel_lesser') = -1" ] },
@@ -2555,7 +2555,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_knock > 0" ] },
-      "text": "Forget Knock ( level <u_val:used_spell_slot_for_knock> )",
+      "text": "Forget <spell_name:knock> ( level <u_val:used_spell_slot_for_knock> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('knock') = -1" ] },
@@ -2569,7 +2569,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_technomancer_gain_electronics_computer_spell > 0" ] },
-      "text": "Forget Machine Mind ( level <u_val:used_spell_slot_for_technomancer_gain_electronics_computer_spell> )",
+      "text": "Forget <spell_name:technomancer_gain_electronics_computer_spell> ( level <u_val:used_spell_slot_for_technomancer_gain_electronics_computer_spell> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('technomancer_gain_electronics_computer_spell') = -1" ] },
@@ -2583,7 +2583,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_technomancer_pain_ignore > 0" ] },
-      "text": "Forget The Body Mechanical ( level <u_val:used_spell_slot_for_technomancer_pain_ignore> )",
+      "text": "Forget <spell_name:technomancer_pain_ignore> ( level <u_val:used_spell_slot_for_technomancer_pain_ignore> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('technomancer_pain_ignore') = -1" ] },
@@ -2597,7 +2597,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_smite > 0" ] },
-      "text": "Forget Smite ( level <u_val:used_spell_slot_for_smite> )",
+      "text": "Forget <spell_name:smite> ( level <u_val:used_spell_slot_for_smite> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('smite') = -1" ] },
@@ -2611,7 +2611,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_animist_sense_outsiders > 0" ] },
-      "text": "Forget Sense Outsiders ( level <u_val:used_spell_slot_for_animist_sense_outsiders> )",
+      "text": "Forget <spell_name:animist_sense_outsiders> ( level <u_val:used_spell_slot_for_animist_sense_outsiders> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('animist_sense_outsiders') = -1" ] },
@@ -2625,7 +2625,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_pertifying_touch > 0" ] },
-      "text": "Forget Petrifying Touch ( level <u_val:used_spell_slot_for_pertifying_touch> )",
+      "text": "Forget <spell_name:pertifying_touch> ( level <u_val:used_spell_slot_for_pertifying_touch> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('pertifying_touch') = -1" ] },
@@ -2639,7 +2639,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_reactive_armor > 0" ] },
-      "text": "Forget Reactive Armor ( level <u_val:used_spell_slot_for_reactive_armor> )",
+      "text": "Forget <spell_name:reactive_armor> ( level <u_val:used_spell_slot_for_reactive_armor> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('reactive_armor') = -1" ] },
@@ -2653,7 +2653,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_lightning_blast > 0" ] },
-      "text": "Forget Lightning Blast ( level <u_val:used_spell_slot_for_lightning_blast> )",
+      "text": "Forget <spell_name:lightning_blast> ( level <u_val:used_spell_slot_for_lightning_blast> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('lightning_blast') = -1" ] },
@@ -2667,7 +2667,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_bless > 0" ] },
-      "text": "Forget Bless ( level <u_val:used_spell_slot_for_bless> )",
+      "text": "Forget <spell_name:bless> ( level <u_val:used_spell_slot_for_bless> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('bless') = -1" ] },
@@ -2681,7 +2681,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_laze > 0" ] },
-      "text": "Forget Laze ( level <u_val:used_spell_slot_for_laze> )",
+      "text": "Forget <spell_name:laze> ( level <u_val:used_spell_slot_for_laze> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('laze') = -1" ] },
@@ -2695,7 +2695,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_x_ray > 0" ] },
-      "text": "Forget X-ray Vision ( level <u_val:used_spell_slot_for_x_ray> )",
+      "text": "Forget <spell_name:x-ray> ( level <u_val:used_spell_slot_for_x_ray> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('x-ray') = -1" ] },
@@ -2709,7 +2709,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_summon_undead > 0" ] },
-      "text": "Forget Summon Undead ( level <u_val:used_spell_slot_for_summon_undead> )",
+      "text": "Forget <spell_name:summon_undead> ( level <u_val:used_spell_slot_for_summon_undead> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('summon_undead') = -1" ] },
@@ -2723,7 +2723,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_necrotic_gaze > 0" ] },
-      "text": "Forget Necrotic Gaze ( level <u_val:used_spell_slot_for_necrotic_gaze> )",
+      "text": "Forget <spell_name:necrotic_gaze> ( level <u_val:used_spell_slot_for_necrotic_gaze> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('necrotic_gaze') = -1" ] },
@@ -2737,7 +2737,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_disruption_bolt > 0" ] },
-      "text": "Forget Disruption Bolt ( level <u_val:used_spell_slot_for_disruption_bolt> )",
+      "text": "Forget <spell_name:disruption_bolt> ( level <u_val:used_spell_slot_for_disruption_bolt> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('disruption_bolt') = -1" ] },
@@ -2751,7 +2751,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_summon_wisps > 0" ] },
-      "text": "Forget Ignus Fatuus ( level <u_val:used_spell_slot_for_summon_wisps> )",
+      "text": "Forget <spell_name:summon_wisps> ( level <u_val:used_spell_slot_for_summon_wisps> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('summon_wisps') = -1" ] },
@@ -2765,7 +2765,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_bleed > 0" ] },
-      "text": "Forget Bleed ( level <u_val:used_spell_slot_for_bleed> )",
+      "text": "Forget <spell_name:bleed> ( level <u_val:used_spell_slot_for_bleed> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('bleed') = -1" ] },
@@ -2779,7 +2779,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_animist_detect_wizards > 0" ] },
-      "text": "Forget Witchsight ( level <u_val:used_spell_slot_for_animist_detect_wizards> )",
+      "text": "Forget <spell_name:animist_detect_wizards> ( level <u_val:used_spell_slot_for_animist_detect_wizards> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('animist_detect_wizards') = -1" ] },
@@ -2793,7 +2793,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_light_healing > 0" ] },
-      "text": "Forget Knit the Rent Flesh ( level <u_val:used_spell_slot_for_light_healing> )",
+      "text": "Forget <spell_name:light_healing> ( level <u_val:used_spell_slot_for_light_healing> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('light_healing') = -1" ] },
@@ -2807,7 +2807,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_bio_acidicspray > 0" ] },
-      "text": "Forget Acidic Spray ( level <u_val:used_spell_slot_for_bio_acidicspray> )",
+      "text": "Forget <spell_name:bio_acidicspray> ( level <u_val:used_spell_slot_for_bio_acidicspray> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('bio_acidicspray') = -1" ] },
@@ -2821,7 +2821,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_biomancer_paralytic_dart > 0" ] },
-      "text": "Forget Paralytic Dart ( level <u_val:used_spell_slot_for_biomancer_paralytic_dart> )",
+      "text": "Forget <spell_name:biomancer_paralytic_dart> ( level <u_val:used_spell_slot_for_biomancer_paralytic_dart> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('biomancer_paralytic_dart') = -1" ] },
@@ -2835,7 +2835,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_biomancer_visceral_projection > 0" ] },
-      "text": "Forget Visceral Projection ( level <u_val:used_spell_slot_for_biomancer_visceral_projection> )",
+      "text": "Forget <spell_name:biomancer_visceral_projection> ( level <u_val:used_spell_slot_for_biomancer_visceral_projection> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('biomancer_visceral_projection') = -1" ] },
@@ -2849,7 +2849,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_biomancer_cure_disease_minor > 0" ] },
-      "text": "Forget Purgation of Maladies ( level <u_val:used_spell_slot_for_biomancer_cure_disease_minor> )",
+      "text": "Forget <spell_name:biomancer_cure_disease_minor> ( level <u_val:used_spell_slot_for_biomancer_cure_disease_minor> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('biomancer_cure_disease_minor') = -1" ] },
@@ -2863,7 +2863,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_crystallize_mana > 0" ] },
-      "text": "Forget Crystallize Mana ( level <u_val:used_spell_slot_for_crystallize_mana> )",
+      "text": "Forget <spell_name:crystallize_mana> ( level <u_val:used_spell_slot_for_crystallize_mana> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('crystallize_mana') = -1" ] },
@@ -2877,7 +2877,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_blinding_flash > 0" ] },
-      "text": "Forget Blinding Flash ( level <u_val:used_spell_slot_for_blinding_flash> )",
+      "text": "Forget <spell_name:blinding_flash> ( level <u_val:used_spell_slot_for_blinding_flash> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('blinding_flash') = -1" ] },
@@ -2891,7 +2891,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_ethereal_grasp > 0" ] },
-      "text": "Forget Ethereal Grasp ( level <u_val:used_spell_slot_for_ethereal_grasp> )",
+      "text": "Forget <spell_name:ethereal_grasp> ( level <u_val:used_spell_slot_for_ethereal_grasp> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('ethereal_grasp') = -1" ] },
@@ -2905,7 +2905,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_classless_clean_clothing_and_self > 0" ] },
-      "text": "Forget Freshen Up ( level <u_val:used_spell_slot_for_classless_clean_clothing_and_self> )",
+      "text": "Forget <spell_name:classless_clean_clothing_and_self> ( level <u_val:used_spell_slot_for_classless_clean_clothing_and_self> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('classless_clean_clothing_and_self') = -1" ] },
@@ -2919,7 +2919,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_classless_restore_crystal_mana > 0" ] },
-      "text": "Forget Mana Extraction ( level <u_val:used_spell_slot_for_classless_restore_crystal_mana> )",
+      "text": "Forget <spell_name:classless_restore_crystal_mana> ( level <u_val:used_spell_slot_for_classless_restore_crystal_mana> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('classless_restore_crystal_mana') = -1" ] },
@@ -2933,7 +2933,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_druid_tornskin > 0" ] },
-      "text": "Forget Tornskin ( level <u_val:used_spell_slot_for_druid_tornskin> )",
+      "text": "Forget <spell_name:druid_tornskin> ( level <u_val:used_spell_slot_for_druid_tornskin> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('druid_tornskin') = -1" ] },
@@ -2947,7 +2947,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_druid_growth > 0" ] },
-      "text": "Forget Seed of Growth ( level <u_val:used_spell_slot_for_druid_growth> )",
+      "text": "Forget <spell_name:druid_growth> ( level <u_val:used_spell_slot_for_druid_growth> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('druid_growth') = -1" ] },
@@ -2961,7 +2961,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_druid_anti_heat > 0" ] },
-      "text": "Forget Water's Cooling Touch ( level <u_val:used_spell_slot_for_druid_anti_heat> )",
+      "text": "Forget <spell_name:druid_anti_heat> ( level <u_val:used_spell_slot_for_druid_anti_heat> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('druid_anti_heat') = -1" ] },
@@ -2975,7 +2975,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_druid_traverse_the_wilds > 0" ] },
-      "text": "Forget Traverse the Wilds ( level <u_val:used_spell_slot_for_druid_traverse_the_wilds> )",
+      "text": "Forget <spell_name:druid_traverse_the_wilds> ( level <u_val:used_spell_slot_for_druid_traverse_the_wilds> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('druid_traverse_the_wilds') = -1" ] },
@@ -2989,7 +2989,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_stonefist > 0" ] },
-      "text": "Forget Stonefist ( level <u_val:used_spell_slot_for_stonefist> )",
+      "text": "Forget <spell_name:stonefist> ( level <u_val:used_spell_slot_for_stonefist> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('stonefist') = -1" ] },
@@ -3003,7 +3003,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_eshaper_piercing_bolt > 0" ] },
-      "text": "Forget Piercing Bolt ( level <u_val:used_spell_slot_for_eshaper_piercing_bolt> )",
+      "text": "Forget <spell_name:eshaper_piercing_bolt> ( level <u_val:used_spell_slot_for_eshaper_piercing_bolt> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('eshaper_piercing_bolt') = -1" ] },
@@ -3017,7 +3017,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_earthshaper_boulder > 0" ] },
-      "text": "Forget Summon Boulder ( level <u_val:used_spell_slot_for_earthshaper_boulder> )",
+      "text": "Forget <spell_name:earthshaper_boulder> ( level <u_val:used_spell_slot_for_earthshaper_boulder> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('earthshaper_boulder') = -1" ] },
@@ -3031,7 +3031,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_earthshaper_turning_of_earth > 0" ] },
-      "text": "Forget The Turning of the Earth ( level <u_val:used_spell_slot_for_earthshaper_turning_of_earth> )",
+      "text": "Forget <spell_name:earthshaper_turning_of_earth> ( level <u_val:used_spell_slot_for_earthshaper_turning_of_earth> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('earthshaper_turning_of_earth') = -1" ] },
@@ -3045,7 +3045,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_kelvinist_firebolt > 0" ] },
-      "text": "Forget Firebolt ( level <u_val:used_spell_slot_for_kelvinist_firebolt> )",
+      "text": "Forget <spell_name:kelvinist_firebolt> ( level <u_val:used_spell_slot_for_kelvinist_firebolt> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('kelvinist_firebolt') = -1" ] },
@@ -3059,7 +3059,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_magus_stop_attack_shield > 0" ] },
-      "text": "Forget Mageshield ( level <u_val:used_spell_slot_for_magus_stop_attack_shield> )",
+      "text": "Forget <spell_name:magus_stop_attack_shield> ( level <u_val:used_spell_slot_for_magus_stop_attack_shield> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('magus_stop_attack_shield') = -1" ] },
@@ -3073,7 +3073,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_magus_far_hand_pull > 0" ] },
-      "text": "Forget Sorcerer's Hand ( level <u_val:used_spell_slot_for_magus_far_hand_pull> )",
+      "text": "Forget <spell_name:magus_far_hand_pull> ( level <u_val:used_spell_slot_for_magus_far_hand_pull> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('magus_far_hand_pull') = -1" ] },
@@ -3087,7 +3087,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_magus_light_target > 0" ] },
-      "text": "Forget Faerie Fire ( level <u_val:used_spell_slot_for_magus_light_target> )",
+      "text": "Forget <spell_name:magus_light_target> ( level <u_val:used_spell_slot_for_magus_light_target> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('magus_light_target') = -1" ] },
@@ -3101,7 +3101,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_stormshaper_wall_of_fog > 0" ] },
-      "text": "Forget Wall of Fog ( level <u_val:used_spell_slot_for_stormshaper_wall_of_fog> )",
+      "text": "Forget <spell_name:stormshaper_wall_of_fog> ( level <u_val:used_spell_slot_for_stormshaper_wall_of_fog> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('stormshaper_wall_of_fog') = -1" ] },
@@ -3115,7 +3115,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_stormshaper_cloak_of_frog > 0" ] },
-      "text": "Forget Cloak of Frog ( level <u_val:used_spell_slot_for_stormshaper_cloak_of_frog> )",
+      "text": "Forget <spell_name:stormshaper_cloak_of_frog> ( level <u_val:used_spell_slot_for_stormshaper_cloak_of_frog> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('stormshaper_cloak_of_frog') = -1" ] },
@@ -3129,7 +3129,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_stormshaper_loud_voice_spell > 0" ] },
-      "text": "Forget Thundering Voice ( level <u_val:used_spell_slot_for_stormshaper_loud_voice_spell> )",
+      "text": "Forget <spell_name:stormshaper_loud_voice_spell> ( level <u_val:used_spell_slot_for_stormshaper_loud_voice_spell> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('stormshaper_loud_voice_spell') = -1" ] },
@@ -3143,7 +3143,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_create_atomic_lamp > 0" ] },
-      "text": "Forget Lamp ( level <u_val:used_spell_slot_for_create_atomic_lamp> )",
+      "text": "Forget <spell_name:create_atomic_lamp> ( level <u_val:used_spell_slot_for_create_atomic_lamp> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('create_atomic_lamp') = -1" ] },
@@ -3157,7 +3157,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_technomancer_conjure_radio > 0" ] },
-      "text": "Forget Speak through the Aether ( level <u_val:used_spell_slot_for_technomancer_conjure_radio> )",
+      "text": "Forget <spell_name:technomancer_conjure_radio> ( level <u_val:used_spell_slot_for_technomancer_conjure_radio> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('technomancer_conjure_radio') = -1" ] },
@@ -3171,7 +3171,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_create_atomic_light > 0" ] },
-      "text": "Forget Magical Light ( level <u_val:used_spell_slot_for_create_atomic_light> )",
+      "text": "Forget <spell_name:create_atomic_light> ( level <u_val:used_spell_slot_for_create_atomic_light> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('create_atomic_light') = -1" ] },
@@ -3185,7 +3185,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_classless_watch_spell > 0" ] },
-      "text": "Forget Knowing the Day and the Hour ( level <u_val:used_spell_slot_for_classless_watch_spell> )",
+      "text": "Forget <spell_name:classless_watch_spell> ( level <u_val:used_spell_slot_for_classless_watch_spell> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('classless_watch_spell') = -1" ] },
@@ -3199,7 +3199,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_classless_easy_sleep_spell > 0" ] },
-      "text": "Forget Peaceful Rest ( level <u_val:used_spell_slot_for_classless_easy_sleep_spell> )",
+      "text": "Forget <spell_name:classless_easy_sleep_spell> ( level <u_val:used_spell_slot_for_classless_easy_sleep_spell> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('classless_easy_sleep_spell') = -1" ] },
@@ -3213,7 +3213,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_druid_woodshaft > 0" ] },
-      "text": "Forget Wooden Shaft ( level <u_val:used_spell_slot_for_druid_woodshaft> )",
+      "text": "Forget <spell_name:druid_woodshaft> ( level <u_val:used_spell_slot_for_druid_woodshaft> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('druid_woodshaft') = -1" ] },
@@ -3227,7 +3227,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_summon_cats > 0" ] },
-      "text": "Forget Bag of Cats ( level <u_val:used_spell_slot_for_summon_cats> )",
+      "text": "Forget <spell_name:summon_cats> ( level <u_val:used_spell_slot_for_summon_cats> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('summon_cats') = -1" ] },
@@ -3241,7 +3241,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_eshaper_rockbolt > 0" ] },
-      "text": "Forget Rockbolt ( level <u_val:used_spell_slot_for_eshaper_rockbolt> )",
+      "text": "Forget <spell_name:eshaper_rockbolt> ( level <u_val:used_spell_slot_for_eshaper_rockbolt> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('eshaper_rockbolt') = -1" ] },
@@ -3255,7 +3255,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_create_lighter > 0" ] },
-      "text": "Forget Finger Firelighter ( level <u_val:used_spell_slot_for_create_lighter> )",
+      "text": "Forget <spell_name:create_lighter> ( level <u_val:used_spell_slot_for_create_lighter> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('create_lighter') = -1" ] },
@@ -3269,7 +3269,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_chilling_touch > 0" ] },
-      "text": "Forget Chilling Touch ( level <u_val:used_spell_slot_for_chilling_touch> )",
+      "text": "Forget <spell_name:chilling_touch> ( level <u_val:used_spell_slot_for_chilling_touch> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('chilling_touch') = -1" ] },
@@ -3283,7 +3283,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_kelvinist_heat_food > 0" ] },
-      "text": "Forget Baking Hands ( level <u_val:used_spell_slot_for_kelvinist_heat_food> )",
+      "text": "Forget <spell_name:kelvinist_heat_food> ( level <u_val:used_spell_slot_for_kelvinist_heat_food> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('kelvinist_heat_food') = -1" ] },
@@ -3297,7 +3297,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_shadow_field > 0" ] },
-      "text": "Forget Shadow Field ( level <u_val:used_spell_slot_for_shadow_field> )",
+      "text": "Forget <spell_name:shadow_field> ( level <u_val:used_spell_slot_for_shadow_field> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('shadow_field') = -1" ] },
@@ -3311,7 +3311,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_magic_missile > 0" ] },
-      "text": "Forget Magic Missile ( level <u_val:used_spell_slot_for_magic_missile> )",
+      "text": "Forget <spell_name:magic_missile> ( level <u_val:used_spell_slot_for_magic_missile> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('magic_missile') = -1" ] },
@@ -3325,7 +3325,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_shocking_lash > 0" ] },
-      "text": "Forget Shocking Lash ( level <u_val:used_spell_slot_for_shocking_lash> )",
+      "text": "Forget <spell_name:shocking_lash> ( level <u_val:used_spell_slot_for_shocking_lash> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('shocking_lash') = -1" ] },
@@ -3339,7 +3339,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_electric_arts > 0" ] },
-      "text": "Forget Electric Arts ( level <u_val:used_spell_slot_for_electric_arts> )",
+      "text": "Forget <spell_name:electric_arts> ( level <u_val:used_spell_slot_for_electric_arts> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('electric_arts') = -1" ] },
@@ -3353,7 +3353,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_taze > 0" ] },
-      "text": "Forget Taze ( level <u_val:used_spell_slot_for_taze> )",
+      "text": "Forget <spell_name:taze> ( level <u_val:used_spell_slot_for_taze> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('taze') = -1" ] },
@@ -3367,7 +3367,7 @@
     },
     {
       "condition": { "math": [ "u_used_spell_slot_for_create_rune_sorcerer > 0" ] },
-      "text": "Forget Counterfeit Rune ( level <u_val:used_spell_slot_for_create_rune_sorcerer> )",
+      "text": "Forget <spell_name:create_rune_sorcerer> ( level <u_val:used_spell_slot_for_create_rune_sorcerer> )",
       "topic": "TALK_SORCERER_MENU_MAIN",
       "effect": [
         { "math": [ "u_spell_level('create_rune_sorcerer') = -1" ] },
