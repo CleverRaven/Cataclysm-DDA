@@ -708,6 +708,7 @@ class item : public visitable
 
         units::length length() const;
         units::length barrel_length() const;
+        units::length sawn_off_reduction() const;
 
         /**
          * Simplified, faster volume check for when processing time is important and exact volume is not.
