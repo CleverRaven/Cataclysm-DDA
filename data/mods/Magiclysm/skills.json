@@ -35,10 +35,7 @@
     ],
     "level_descriptions_practice": [
       { "level": 0, "description": "If you know a single spell, it probably fizzle, spark, and die in your hands." },
-      {
-        "level": 1,
-        "description": "You can manage a spark of energy—if the stars align and luck's on your side."
-      },
+      { "level": 1, "description": "You can manage a spark of energy—if the stars align and luck's on your side." },
       { "level": 3, "description": "You weave spells with deliberate care and can get reliable results." },
       { "level": 5, "description": "Your incantations flow naturally, you adapt to magical feedback with ease." },
       { "level": 7, "description": "You cast complex spells effortlessly, as if speaking a native tongue." },
