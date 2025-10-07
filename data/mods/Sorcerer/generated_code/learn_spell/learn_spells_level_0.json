@@ -2,8 +2,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_create_atomic_light_at_level_0",
-    "dynamic_line": "<spell_name:create_atomic_light>: <spell_description:create_atomic_light>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:create_atomic_light>: <spell_description:create_atomic_light>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -21,8 +20,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_classless_watch_spell_at_level_0",
-    "dynamic_line": "<spell_name:classless_watch_spell>: <spell_description:classless_watch_spell>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:classless_watch_spell>: <spell_description:classless_watch_spell>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -40,8 +38,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_classless_easy_sleep_spell_at_level_0",
-    "dynamic_line": "<spell_name:classless_easy_sleep_spell>: <spell_description:classless_easy_sleep_spell>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:classless_easy_sleep_spell>: <spell_description:classless_easy_sleep_spell>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -59,8 +56,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_druid_woodshaft_at_level_0",
-    "dynamic_line": "<spell_name:druid_woodshaft>: <spell_description:druid_woodshaft>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:druid_woodshaft>: <spell_description:druid_woodshaft>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -78,8 +74,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_summon_cats_at_level_0",
-    "dynamic_line": "<spell_name:summon_cats>: <spell_description:summon_cats>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:summon_cats>: <spell_description:summon_cats>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -97,8 +92,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_eshaper_rockbolt_at_level_0",
-    "dynamic_line": "<spell_name:eshaper_rockbolt>: <spell_description:eshaper_rockbolt>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:eshaper_rockbolt>: <spell_description:eshaper_rockbolt>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -116,8 +110,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_create_lighter_at_level_0",
-    "dynamic_line": "<spell_name:create_lighter>: <spell_description:create_lighter>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:create_lighter>: <spell_description:create_lighter>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -135,8 +128,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_chilling_touch_at_level_0",
-    "dynamic_line": "<spell_name:chilling_touch>: <spell_description:chilling_touch>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:chilling_touch>: <spell_description:chilling_touch>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -154,8 +146,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_kelvinist_heat_food_at_level_0",
-    "dynamic_line": "<spell_name:kelvinist_heat_food>: <spell_description:kelvinist_heat_food>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:kelvinist_heat_food>: <spell_description:kelvinist_heat_food>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -173,8 +164,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_shadow_field_at_level_0",
-    "dynamic_line": "<spell_name:shadow_field>: <spell_description:shadow_field>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:shadow_field>: <spell_description:shadow_field>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -192,8 +182,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_magic_missile_at_level_0",
-    "dynamic_line": "<spell_name:magic_missile>: <spell_description:magic_missile>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:magic_missile>: <spell_description:magic_missile>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -211,8 +200,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_shocking_lash_at_level_0",
-    "dynamic_line": "<spell_name:shocking_lash>: <spell_description:shocking_lash>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:shocking_lash>: <spell_description:shocking_lash>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -230,8 +218,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_electric_arts_at_level_0",
-    "dynamic_line": "<spell_name:electric_arts>: <spell_description:electric_arts>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:electric_arts>: <spell_description:electric_arts>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -249,8 +236,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_taze_at_level_0",
-    "dynamic_line": "<spell_name:taze>: <spell_description:taze>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:taze>: <spell_description:taze>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -268,8 +254,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_create_rune_sorcerer_at_level_0",
-    "dynamic_line": "<spell_name:create_rune_sorcerer>: <spell_description:create_rune_sorcerer>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:create_rune_sorcerer>: <spell_description:create_rune_sorcerer>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",

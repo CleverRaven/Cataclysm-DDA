@@ -2,8 +2,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_banishment_lesser_at_level_8",
-    "dynamic_line": "<spell_name:banishment_lesser>: <spell_description:banishment_lesser>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:banishment_lesser>: <spell_description:banishment_lesser>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -21,8 +20,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_animist_mass_hiding_aoe_at_level_8",
-    "dynamic_line": "<spell_name:animist_mass_hiding_aoe>: <spell_description:animist_mass_hiding_aoe>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:animist_mass_hiding_aoe>: <spell_description:animist_mass_hiding_aoe>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -40,8 +38,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_animist_spirit_walking_at_level_8",
-    "dynamic_line": "<spell_name:animist_spirit_walking>: <spell_description:animist_spirit_walking>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:animist_spirit_walking>: <spell_description:animist_spirit_walking>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -59,8 +56,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_biomancer_hyper_regeneration_at_level_8",
-    "dynamic_line": "<spell_name:biomancer_hyper_regeneration>: <spell_description:biomancer_hyper_regeneration>",
-    "//~": "NO_I18N",
+    "dynamic_line": {
+      "str": "<spell_name:biomancer_hyper_regeneration>: <spell_description:biomancer_hyper_regeneration>",
+      "//~": "NO_I18N"
+    },
     "responses": [
       {
         "text": "Select Spell.",
@@ -78,8 +77,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_classless_disjunction_at_level_8",
-    "dynamic_line": "<spell_name:classless_disjunction>: <spell_description:classless_disjunction>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:classless_disjunction>: <spell_description:classless_disjunction>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -97,8 +95,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_cause_rot_at_level_8",
-    "dynamic_line": "<spell_name:cause_rot>: <spell_description:cause_rot>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:cause_rot>: <spell_description:cause_rot>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -116,8 +113,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_druid_beguile_savage_beast_at_level_8",
-    "dynamic_line": "<spell_name:druid_beguile_savage_beast>: <spell_description:druid_beguile_savage_beast>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:druid_beguile_savage_beast>: <spell_description:druid_beguile_savage_beast>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -135,8 +131,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_druid_thorn_skin_at_level_8",
-    "dynamic_line": "<spell_name:druid_thorn_skin>: <spell_description:druid_thorn_skin>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:druid_thorn_skin>: <spell_description:druid_thorn_skin>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -154,8 +149,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_druid_renew_forest_spell_at_level_8",
-    "dynamic_line": "<spell_name:druid_renew_forest_spell>: <spell_description:druid_renew_forest_spell>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:druid_renew_forest_spell>: <spell_description:druid_renew_forest_spell>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -173,8 +167,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_druid_create_temporary_spring_at_level_8",
-    "dynamic_line": "<spell_name:druid_create_temporary_spring>: <spell_description:druid_create_temporary_spring>",
-    "//~": "NO_I18N",
+    "dynamic_line": {
+      "str": "<spell_name:druid_create_temporary_spring>: <spell_description:druid_create_temporary_spring>",
+      "//~": "NO_I18N"
+    },
     "responses": [
       {
         "text": "Select Spell.",
@@ -192,8 +188,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_druid_turn_tree_into_treant_at_level_8",
-    "dynamic_line": "<spell_name:druid_turn_tree_into_treant>: <spell_description:druid_turn_tree_into_treant>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:druid_turn_tree_into_treant>: <spell_description:druid_turn_tree_into_treant>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -211,8 +206,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_shape_of_dust_at_level_8",
-    "dynamic_line": "<spell_name:shape_of_dust>: <spell_description:shape_of_dust>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:shape_of_dust>: <spell_description:shape_of_dust>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -230,8 +224,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_summon_eshaper_golem_at_level_8",
-    "dynamic_line": "<spell_name:summon_eshaper_golem>: <spell_description:summon_eshaper_golem>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:summon_eshaper_golem>: <spell_description:summon_eshaper_golem>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -249,8 +242,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_earthshaper_reveal_world_map_at_level_8",
-    "dynamic_line": "<spell_name:earthshaper_reveal_world_map>: <spell_description:earthshaper_reveal_world_map>",
-    "//~": "NO_I18N",
+    "dynamic_line": {
+      "str": "<spell_name:earthshaper_reveal_world_map>: <spell_description:earthshaper_reveal_world_map>",
+      "//~": "NO_I18N"
+    },
     "responses": [
       {
         "text": "Select Spell.",
@@ -268,8 +263,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_earthshaper_granite_aegis_at_level_8",
-    "dynamic_line": "<spell_name:earthshaper_granite_aegis>: <spell_description:earthshaper_granite_aegis>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:earthshaper_granite_aegis>: <spell_description:earthshaper_granite_aegis>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -287,8 +281,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_earthshaper_sleep_in_earth_at_level_8",
-    "dynamic_line": "<spell_name:earthshaper_sleep_in_earth>: <spell_description:earthshaper_sleep_in_earth>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:earthshaper_sleep_in_earth>: <spell_description:earthshaper_sleep_in_earth>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -306,8 +299,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_earthshaper_diggable_teleport_at_level_8",
-    "dynamic_line": "<spell_name:earthshaper_diggable_teleport>: <spell_description:earthshaper_diggable_teleport>",
-    "//~": "NO_I18N",
+    "dynamic_line": {
+      "str": "<spell_name:earthshaper_diggable_teleport>: <spell_description:earthshaper_diggable_teleport>",
+      "//~": "NO_I18N"
+    },
     "responses": [
       {
         "text": "Select Spell.",
@@ -325,8 +320,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_nova_flare_at_level_8",
-    "dynamic_line": "<spell_name:nova_flare>: <spell_description:nova_flare>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:nova_flare>: <spell_description:nova_flare>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -344,8 +338,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_freezing_touch_at_level_8",
-    "dynamic_line": "<spell_name:freezing_touch>: <spell_description:freezing_touch>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:freezing_touch>: <spell_description:freezing_touch>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -363,8 +356,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_kelvinist_no_emotion_spell_at_level_8",
-    "dynamic_line": "<spell_name:kelvinist_no_emotion_spell>: <spell_description:kelvinist_no_emotion_spell>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:kelvinist_no_emotion_spell>: <spell_description:kelvinist_no_emotion_spell>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -382,8 +374,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_kelvinist_set_everyone_on_fire_at_level_8",
-    "dynamic_line": "<spell_name:kelvinist_set_everyone_on_fire>: <spell_description:kelvinist_set_everyone_on_fire>",
-    "//~": "NO_I18N",
+    "dynamic_line": {
+      "str": "<spell_name:kelvinist_set_everyone_on_fire>: <spell_description:kelvinist_set_everyone_on_fire>",
+      "//~": "NO_I18N"
+    },
     "responses": [
       {
         "text": "Select Spell.",
@@ -401,8 +395,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_magus_haste_at_level_8",
-    "dynamic_line": "<spell_name:magus_haste>: <spell_description:magus_haste>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:magus_haste>: <spell_description:magus_haste>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -420,8 +413,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_focused_bolt_at_level_8",
-    "dynamic_line": "<spell_name:focused_bolt>: <spell_description:focused_bolt>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:focused_bolt>: <spell_description:focused_bolt>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -439,8 +431,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_magus_word_of_recall_at_level_8",
-    "dynamic_line": "<spell_name:magus_word_of_recall>: <spell_description:magus_word_of_recall>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:magus_word_of_recall>: <spell_description:magus_word_of_recall>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -458,8 +449,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_magus_diamond_imbuement_at_level_8",
-    "dynamic_line": "<spell_name:magus_diamond_imbuement>: <spell_description:magus_diamond_imbuement>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:magus_diamond_imbuement>: <spell_description:magus_diamond_imbuement>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -477,8 +467,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_magus_permanent_light_at_level_8",
-    "dynamic_line": "<spell_name:magus_permanent_light>: <spell_description:magus_permanent_light>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:magus_permanent_light>: <spell_description:magus_permanent_light>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -496,8 +485,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_magus_cannot_move_attack_or_damage_target_at_level_8",
-    "dynamic_line": "<spell_name:magus_cannot_move_attack_or_damage_target>: <spell_description:magus_cannot_move_attack_or_damage_target>",
-    "//~": "NO_I18N",
+    "dynamic_line": {
+      "str": "<spell_name:magus_cannot_move_attack_or_damage_target>: <spell_description:magus_cannot_move_attack_or_damage_target>",
+      "//~": "NO_I18N"
+    },
     "responses": [
       {
         "text": "Select Spell.",
@@ -515,8 +506,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_lightning_storm_at_level_8",
-    "dynamic_line": "<spell_name:lightning_storm>: <spell_description:lightning_storm>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:lightning_storm>: <spell_description:lightning_storm>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -534,8 +524,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_vacuum_decompression_at_level_8",
-    "dynamic_line": "<spell_name:vacuum_decompression>: <spell_description:vacuum_decompression>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:vacuum_decompression>: <spell_description:vacuum_decompression>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -553,8 +542,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_rupture_at_level_8",
-    "dynamic_line": "<spell_name:rupture>: <spell_description:rupture>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:rupture>: <spell_description:rupture>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -572,8 +560,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_obfuscated_body_at_level_8",
-    "dynamic_line": "<spell_name:obfuscated_body>: <spell_description:obfuscated_body>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:obfuscated_body>: <spell_description:obfuscated_body>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -591,8 +578,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_druidic_healing_at_level_8",
-    "dynamic_line": "<spell_name:druidic_healing>: <spell_description:druidic_healing>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:druidic_healing>: <spell_description:druidic_healing>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -610,8 +596,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_magus_mana_blast_at_level_8",
-    "dynamic_line": "<spell_name:magus_mana_blast>: <spell_description:magus_mana_blast>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:magus_mana_blast>: <spell_description:magus_mana_blast>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -629,8 +614,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_summon_magic_motorcycle_at_level_8",
-    "dynamic_line": "<spell_name:summon_magic_motorcycle>: <spell_description:summon_magic_motorcycle>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:summon_magic_motorcycle>: <spell_description:summon_magic_motorcycle>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -648,8 +632,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_dominate_at_level_8",
-    "dynamic_line": "<spell_name:dominate>: <spell_description:dominate>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:dominate>: <spell_description:dominate>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -667,8 +650,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_devour_at_level_8",
-    "dynamic_line": "<spell_name:devour>: <spell_description:devour>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:devour>: <spell_description:devour>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -686,8 +668,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_animist_see_invisibility_at_level_8",
-    "dynamic_line": "<spell_name:animist_see_invisibility>: <spell_description:animist_see_invisibility>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:animist_see_invisibility>: <spell_description:animist_see_invisibility>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -705,8 +686,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_vicious_tentacle_at_level_8",
-    "dynamic_line": "<spell_name:vicious_tentacle>: <spell_description:vicious_tentacle>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:vicious_tentacle>: <spell_description:vicious_tentacle>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -724,8 +704,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_bio_bonespear_at_level_8",
-    "dynamic_line": "<spell_name:bio_bonespear>: <spell_description:bio_bonespear>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:bio_bonespear>: <spell_description:bio_bonespear>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -743,8 +722,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_biomancer_giant_growth_at_level_8",
-    "dynamic_line": "<spell_name:biomancer_giant_growth>: <spell_description:biomancer_giant_growth>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:biomancer_giant_growth>: <spell_description:biomancer_giant_growth>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -762,8 +740,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_biomancer_lashing_tentacles_at_level_8",
-    "dynamic_line": "<spell_name:biomancer_lashing_tentacles>: <spell_description:biomancer_lashing_tentacles>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:biomancer_lashing_tentacles>: <spell_description:biomancer_lashing_tentacles>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -781,8 +758,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_biomancer_caustic_blood_at_level_8",
-    "dynamic_line": "<spell_name:biomancer_caustic_blood>: <spell_description:biomancer_caustic_blood>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:biomancer_caustic_blood>: <spell_description:biomancer_caustic_blood>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -800,8 +776,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_megablast_at_level_8",
-    "dynamic_line": "<spell_name:megablast>: <spell_description:megablast>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:megablast>: <spell_description:megablast>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -819,8 +794,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_druidic_regrowth_at_level_8",
-    "dynamic_line": "<spell_name:druidic_regrowth>: <spell_description:druidic_regrowth>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:druidic_regrowth>: <spell_description:druidic_regrowth>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -838,8 +812,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_summon_wolf_druid_at_level_8",
-    "dynamic_line": "<spell_name:summon_wolf_druid>: <spell_description:summon_wolf_druid>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:summon_wolf_druid>: <spell_description:summon_wolf_druid>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -857,8 +830,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_druid_healing_at_level_8",
-    "dynamic_line": "<spell_name:druid_healing>: <spell_description:druid_healing>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:druid_healing>: <spell_description:druid_healing>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -876,8 +848,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_druid_whisper_leaves_at_level_8",
-    "dynamic_line": "<spell_name:druid_whisper_leaves>: <spell_description:druid_whisper_leaves>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:druid_whisper_leaves>: <spell_description:druid_whisper_leaves>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -895,8 +866,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_druid_summon_tanglevine_at_level_8",
-    "dynamic_line": "<spell_name:druid_summon_tanglevine>: <spell_description:druid_summon_tanglevine>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:druid_summon_tanglevine>: <spell_description:druid_summon_tanglevine>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -914,8 +884,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_eshaper_melee_damage_at_level_8",
-    "dynamic_line": "<spell_name:eshaper_melee_damage>: <spell_description:eshaper_melee_damage>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:eshaper_melee_damage>: <spell_description:eshaper_melee_damage>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -933,8 +902,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_eshaper_crystal_wrap_at_level_8",
-    "dynamic_line": "<spell_name:eshaper_crystal_wrap>: <spell_description:eshaper_crystal_wrap>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:eshaper_crystal_wrap>: <spell_description:eshaper_crystal_wrap>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -952,8 +920,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_kelvinist_summon_freezer_spell_at_level_8",
-    "dynamic_line": "<spell_name:kelvinist_summon_freezer_spell>: <spell_description:kelvinist_summon_freezer_spell>",
-    "//~": "NO_I18N",
+    "dynamic_line": {
+      "str": "<spell_name:kelvinist_summon_freezer_spell>: <spell_description:kelvinist_summon_freezer_spell>",
+      "//~": "NO_I18N"
+    },
     "responses": [
       {
         "text": "Select Spell.",
@@ -971,8 +941,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_gravity_well_at_level_8",
-    "dynamic_line": "<spell_name:gravity_well>: <spell_description:gravity_well>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:gravity_well>: <spell_description:gravity_well>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -990,8 +959,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_magus_slow_at_level_8",
-    "dynamic_line": "<spell_name:magus_slow>: <spell_description:magus_slow>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:magus_slow>: <spell_description:magus_slow>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -1009,8 +977,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_magus_baleful_polymorph_at_level_8",
-    "dynamic_line": "<spell_name:magus_baleful_polymorph>: <spell_description:magus_baleful_polymorph>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:magus_baleful_polymorph>: <spell_description:magus_baleful_polymorph>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -1028,8 +995,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_stormshaper_ionization_at_level_8",
-    "dynamic_line": "<spell_name:stormshaper_ionization>: <spell_description:stormshaper_ionization>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:stormshaper_ionization>: <spell_description:stormshaper_ionization>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -1047,8 +1013,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_storm_shipwrecker_at_level_8",
-    "dynamic_line": "<spell_name:storm_shipwrecker>: <spell_description:storm_shipwrecker>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:storm_shipwrecker>: <spell_description:storm_shipwrecker>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -1066,8 +1031,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_storm_superconductor_at_level_8",
-    "dynamic_line": "<spell_name:storm_superconductor>: <spell_description:storm_superconductor>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:storm_superconductor>: <spell_description:storm_superconductor>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -1085,8 +1049,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_summon_teravolt_at_level_8",
-    "dynamic_line": "<spell_name:summon_teravolt>: <spell_description:summon_teravolt>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:summon_teravolt>: <spell_description:summon_teravolt>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -1104,8 +1067,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_stormshaper_heart_of_hurricane_at_level_8",
-    "dynamic_line": "<spell_name:stormshaper_heart_of_hurricane>: <spell_description:stormshaper_heart_of_hurricane>",
-    "//~": "NO_I18N",
+    "dynamic_line": {
+      "str": "<spell_name:stormshaper_heart_of_hurricane>: <spell_description:stormshaper_heart_of_hurricane>",
+      "//~": "NO_I18N"
+    },
     "responses": [
       {
         "text": "Select Spell.",
@@ -1123,8 +1088,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_recover_bionic_power_at_level_8",
-    "dynamic_line": "<spell_name:recover_bionic_power>: <spell_description:recover_bionic_power>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:recover_bionic_power>: <spell_description:recover_bionic_power>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -1142,8 +1106,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_animated_blade_at_level_8",
-    "dynamic_line": "<spell_name:animated_blade>: <spell_description:animated_blade>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:animated_blade>: <spell_description:animated_blade>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -1161,8 +1124,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_improved_knock_at_level_8",
-    "dynamic_line": "<spell_name:improved_knock>: <spell_description:improved_knock>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:improved_knock>: <spell_description:improved_knock>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -1180,8 +1142,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_technomancer_robot_shutdown_at_level_8",
-    "dynamic_line": "<spell_name:technomancer_robot_shutdown>: <spell_description:technomancer_robot_shutdown>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:technomancer_robot_shutdown>: <spell_description:technomancer_robot_shutdown>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -1199,8 +1160,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_technomancer_conjure_ups_at_level_8",
-    "dynamic_line": "<spell_name:technomancer_conjure_ups>: <spell_description:technomancer_conjure_ups>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:technomancer_conjure_ups>: <spell_description:technomancer_conjure_ups>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -1218,8 +1178,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_technomancer_create_ups_connection_at_level_8",
-    "dynamic_line": "<spell_name:technomancer_create_ups_connection>: <spell_description:technomancer_create_ups_connection>",
-    "//~": "NO_I18N",
+    "dynamic_line": {
+      "str": "<spell_name:technomancer_create_ups_connection>: <spell_description:technomancer_create_ups_connection>",
+      "//~": "NO_I18N"
+    },
     "responses": [
       {
         "text": "Select Spell.",
@@ -1237,8 +1199,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_recover_mana_at_level_8",
-    "dynamic_line": "<spell_name:recover_mana>: <spell_description:recover_mana>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:recover_mana>: <spell_description:recover_mana>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -1256,8 +1217,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_recover_pain_at_level_8",
-    "dynamic_line": "<spell_name:recover_pain>: <spell_description:recover_pain>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:recover_pain>: <spell_description:recover_pain>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -1275,8 +1235,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_summon_undead_swarm_at_level_8",
-    "dynamic_line": "<spell_name:summon_undead_swarm>: <spell_description:summon_undead_swarm>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:summon_undead_swarm>: <spell_description:summon_undead_swarm>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -1294,8 +1253,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_life_detonation_at_level_8",
-    "dynamic_line": "<spell_name:life_detonation>: <spell_description:life_detonation>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:life_detonation>: <spell_description:life_detonation>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -1313,8 +1271,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_animist_add_evasion_spell_at_level_8",
-    "dynamic_line": "<spell_name:animist_add_evasion_spell>: <spell_description:animist_add_evasion_spell>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:animist_add_evasion_spell>: <spell_description:animist_add_evasion_spell>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -1332,8 +1289,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_animist_slow_food_rotting_spell_at_level_8",
-    "dynamic_line": "<spell_name:animist_slow_food_rotting_spell>: <spell_description:animist_slow_food_rotting_spell>",
-    "//~": "NO_I18N",
+    "dynamic_line": {
+      "str": "<spell_name:animist_slow_food_rotting_spell>: <spell_description:animist_slow_food_rotting_spell>",
+      "//~": "NO_I18N"
+    },
     "responses": [
       {
         "text": "Select Spell.",
@@ -1351,8 +1310,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_biomancer_scalpel_fingers_at_level_8",
-    "dynamic_line": "<spell_name:biomancer_scalpel_fingers>: <spell_description:biomancer_scalpel_fingers>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:biomancer_scalpel_fingers>: <spell_description:biomancer_scalpel_fingers>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -1370,8 +1328,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_dark_sight_at_level_8",
-    "dynamic_line": "<spell_name:dark_sight>: <spell_description:dark_sight>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:dark_sight>: <spell_description:dark_sight>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -1389,8 +1346,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_recover_sleepiness_at_level_8",
-    "dynamic_line": "<spell_name:recover_sleepiness>: <spell_description:recover_sleepiness>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:recover_sleepiness>: <spell_description:recover_sleepiness>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -1408,8 +1364,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_druid_feralform_at_level_8",
-    "dynamic_line": "<spell_name:druid_feralform>: <spell_description:druid_feralform>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:druid_feralform>: <spell_description:druid_feralform>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -1427,8 +1382,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_druid_natures_commune_at_level_8",
-    "dynamic_line": "<spell_name:druid_natures_commune>: <spell_description:druid_natures_commune>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:druid_natures_commune>: <spell_description:druid_natures_commune>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -1446,8 +1400,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_druid_wood_living_tree_spell_at_level_8",
-    "dynamic_line": "<spell_name:druid_wood_living_tree_spell>: <spell_description:druid_wood_living_tree_spell>",
-    "//~": "NO_I18N",
+    "dynamic_line": {
+      "str": "<spell_name:druid_wood_living_tree_spell>: <spell_description:druid_wood_living_tree_spell>",
+      "//~": "NO_I18N"
+    },
     "responses": [
       {
         "text": "Select Spell.",
@@ -1465,8 +1421,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_recover_stamina_at_level_8",
-    "dynamic_line": "<spell_name:recover_stamina>: <spell_description:recover_stamina>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:recover_stamina>: <spell_description:recover_stamina>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -1484,8 +1439,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_eshaper_shardstorm_at_level_8",
-    "dynamic_line": "<spell_name:eshaper_shardstorm>: <spell_description:eshaper_shardstorm>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:eshaper_shardstorm>: <spell_description:eshaper_shardstorm>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -1503,8 +1457,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_eshaper_impalement_at_level_8",
-    "dynamic_line": "<spell_name:eshaper_impalement>: <spell_description:eshaper_impalement>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:eshaper_impalement>: <spell_description:eshaper_impalement>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -1522,8 +1475,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_fireball_at_level_8",
-    "dynamic_line": "<spell_name:fireball>: <spell_description:fireball>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:fireball>: <spell_description:fireball>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -1541,8 +1493,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_cone_cold_at_level_8",
-    "dynamic_line": "<spell_name:cone_cold>: <spell_description:cone_cold>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:cone_cold>: <spell_description:cone_cold>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -1560,8 +1511,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_hoary_blast_at_level_8",
-    "dynamic_line": "<spell_name:hoary_blast>: <spell_description:hoary_blast>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:hoary_blast>: <spell_description:hoary_blast>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -1579,8 +1529,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_kelvinist_extinguish_fire_spell_at_level_8",
-    "dynamic_line": "<spell_name:kelvinist_extinguish_fire_spell>: <spell_description:kelvinist_extinguish_fire_spell>",
-    "//~": "NO_I18N",
+    "dynamic_line": {
+      "str": "<spell_name:kelvinist_extinguish_fire_spell>: <spell_description:kelvinist_extinguish_fire_spell>",
+      "//~": "NO_I18N"
+    },
     "responses": [
       {
         "text": "Select Spell.",
@@ -1598,8 +1550,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_magus_mana_bolt_at_level_8",
-    "dynamic_line": "<spell_name:magus_mana_bolt>: <spell_description:magus_mana_bolt>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:magus_mana_bolt>: <spell_description:magus_mana_bolt>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -1617,8 +1568,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_magus_mana_beam_at_level_8",
-    "dynamic_line": "<spell_name:magus_mana_beam>: <spell_description:magus_mana_beam>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:magus_mana_beam>: <spell_description:magus_mana_beam>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -1636,8 +1586,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_magus_escape_at_level_8",
-    "dynamic_line": "<spell_name:magus_escape>: <spell_description:magus_escape>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:magus_escape>: <spell_description:magus_escape>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -1655,8 +1604,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_cats_grace_at_level_8",
-    "dynamic_line": "<spell_name:cats_grace>: <spell_description:cats_grace>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:cats_grace>: <spell_description:cats_grace>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -1674,8 +1622,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_eagles_sight_at_level_8",
-    "dynamic_line": "<spell_name:eagles_sight>: <spell_description:eagles_sight>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:eagles_sight>: <spell_description:eagles_sight>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -1693,8 +1640,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_ogres_strength_at_level_8",
-    "dynamic_line": "<spell_name:ogres_strength>: <spell_description:ogres_strength>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:ogres_strength>: <spell_description:ogres_strength>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -1712,8 +1658,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_foxs_cunning_at_level_8",
-    "dynamic_line": "<spell_name:foxs_cunning>: <spell_description:foxs_cunning>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:foxs_cunning>: <spell_description:foxs_cunning>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -1731,8 +1676,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_magus_teleport_mark_at_level_8",
-    "dynamic_line": "<spell_name:magus_teleport_mark>: <spell_description:magus_teleport_mark>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:magus_teleport_mark>: <spell_description:magus_teleport_mark>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -1750,8 +1694,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_magus_ranged_increase_at_level_8",
-    "dynamic_line": "<spell_name:magus_ranged_increase>: <spell_description:magus_ranged_increase>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:magus_ranged_increase>: <spell_description:magus_ranged_increase>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -1769,8 +1712,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_magus_push_nearby_enemies_back_at_level_8",
-    "dynamic_line": "<spell_name:magus_push_nearby_enemies_back>: <spell_description:magus_push_nearby_enemies_back>",
-    "//~": "NO_I18N",
+    "dynamic_line": {
+      "str": "<spell_name:magus_push_nearby_enemies_back>: <spell_description:magus_push_nearby_enemies_back>",
+      "//~": "NO_I18N"
+    },
     "responses": [
       {
         "text": "Select Spell.",
@@ -1788,8 +1733,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_storm_hammer_at_level_8",
-    "dynamic_line": "<spell_name:storm_hammer>: <spell_description:storm_hammer>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:storm_hammer>: <spell_description:storm_hammer>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -1807,8 +1751,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_stormfist_at_level_8",
-    "dynamic_line": "<spell_name:stormfist>: <spell_description:stormfist>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:stormfist>: <spell_description:stormfist>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -1826,8 +1769,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_explosive_decompression_at_level_8",
-    "dynamic_line": "<spell_name:explosive_decompression>: <spell_description:explosive_decompression>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:explosive_decompression>: <spell_description:explosive_decompression>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -1845,8 +1787,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_shocking_dash_at_level_8",
-    "dynamic_line": "<spell_name:shocking_dash>: <spell_description:shocking_dash>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:shocking_dash>: <spell_description:shocking_dash>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -1864,8 +1805,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_toxtricity_at_level_8",
-    "dynamic_line": "<spell_name:toxtricity>: <spell_description:toxtricity>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:toxtricity>: <spell_description:toxtricity>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -1883,8 +1823,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_electric_waves_at_level_8",
-    "dynamic_line": "<spell_name:electric_waves>: <spell_description:electric_waves>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:electric_waves>: <spell_description:electric_waves>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -1902,8 +1841,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_invisibility_at_level_8",
-    "dynamic_line": "<spell_name:invisibility>: <spell_description:invisibility>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:invisibility>: <spell_description:invisibility>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -1921,8 +1859,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_mirror_image_at_level_8",
-    "dynamic_line": "<spell_name:mirror_image>: <spell_description:mirror_image>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:mirror_image>: <spell_description:mirror_image>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -1940,8 +1877,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_holographic_transposition_at_level_8",
-    "dynamic_line": "<spell_name:holographic_transposition>: <spell_description:holographic_transposition>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:holographic_transposition>: <spell_description:holographic_transposition>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -1959,8 +1895,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_summon_floating_disk_at_level_8",
-    "dynamic_line": "<spell_name:summon_floating_disk>: <spell_description:summon_floating_disk>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:summon_floating_disk>: <spell_description:summon_floating_disk>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -1978,8 +1913,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_technomancer_knifeshot_at_level_8",
-    "dynamic_line": "<spell_name:technomancer_knifeshot>: <spell_description:technomancer_knifeshot>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:technomancer_knifeshot>: <spell_description:technomancer_knifeshot>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -1997,8 +1931,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_technomancer_recharge_vehicle_at_level_8",
-    "dynamic_line": "<spell_name:technomancer_recharge_vehicle>: <spell_description:technomancer_recharge_vehicle>",
-    "//~": "NO_I18N",
+    "dynamic_line": {
+      "str": "<spell_name:technomancer_recharge_vehicle>: <spell_description:technomancer_recharge_vehicle>",
+      "//~": "NO_I18N"
+    },
     "responses": [
       {
         "text": "Select Spell.",
@@ -2016,8 +1952,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_convert_sorcerer_at_level_8",
-    "dynamic_line": "<spell_name:convert_sorcerer>: <spell_description:convert_sorcerer>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:convert_sorcerer>: <spell_description:convert_sorcerer>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -2035,8 +1970,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_animist_summon_decaying_boneclub_at_level_8",
-    "dynamic_line": "<spell_name:animist_summon_decaying_boneclub>: <spell_description:animist_summon_decaying_boneclub>",
-    "//~": "NO_I18N",
+    "dynamic_line": {
+      "str": "<spell_name:animist_summon_decaying_boneclub>: <spell_description:animist_summon_decaying_boneclub>",
+      "//~": "NO_I18N"
+    },
     "responses": [
       {
         "text": "Select Spell.",
@@ -2054,8 +1991,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_animist_luck_bone_at_level_8",
-    "dynamic_line": "<spell_name:animist_luck_bone>: <spell_description:animist_luck_bone>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:animist_luck_bone>: <spell_description:animist_luck_bone>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -2073,8 +2009,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_animist_do_psionic_damage_to_head_at_level_8",
-    "dynamic_line": "<spell_name:animist_do_psionic_damage_to_head>: <spell_description:animist_do_psionic_damage_to_head>",
-    "//~": "NO_I18N",
+    "dynamic_line": {
+      "str": "<spell_name:animist_do_psionic_damage_to_head>: <spell_description:animist_do_psionic_damage_to_head>",
+      "//~": "NO_I18N"
+    },
     "responses": [
       {
         "text": "Select Spell.",
@@ -2092,8 +2030,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_bio_grotesque_at_level_8",
-    "dynamic_line": "<spell_name:bio_grotesque>: <spell_description:bio_grotesque>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:bio_grotesque>: <spell_description:bio_grotesque>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -2111,8 +2048,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_biomancer_get_more_blood_at_level_8",
-    "dynamic_line": "<spell_name:biomancer_get_more_blood>: <spell_description:biomancer_get_more_blood>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:biomancer_get_more_blood>: <spell_description:biomancer_get_more_blood>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -2130,8 +2066,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_thought_shield_at_level_8",
-    "dynamic_line": "<spell_name:thought_shield>: <spell_description:thought_shield>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:thought_shield>: <spell_description:thought_shield>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -2149,8 +2084,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_classless_dispel_magic_at_level_8",
-    "dynamic_line": "<spell_name:classless_dispel_magic>: <spell_description:classless_dispel_magic>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:classless_dispel_magic>: <spell_description:classless_dispel_magic>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -2168,8 +2102,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_druid_naturebow1_at_level_8",
-    "dynamic_line": "<spell_name:druid_naturebow1>: <spell_description:druid_naturebow1>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:druid_naturebow1>: <spell_description:druid_naturebow1>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -2187,8 +2120,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_purify_seed_at_level_8",
-    "dynamic_line": "<spell_name:purify_seed>: <spell_description:purify_seed>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:purify_seed>: <spell_description:purify_seed>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -2206,8 +2138,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_druid_healing_herb_at_level_8",
-    "dynamic_line": "<spell_name:druid_healing_herb>: <spell_description:druid_healing_herb>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:druid_healing_herb>: <spell_description:druid_healing_herb>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -2225,8 +2156,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_druid_bandage_heal_at_level_8",
-    "dynamic_line": "<spell_name:druid_bandage_heal>: <spell_description:druid_bandage_heal>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:druid_bandage_heal>: <spell_description:druid_bandage_heal>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -2244,8 +2174,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_druid_summon_brambles_at_level_8",
-    "dynamic_line": "<spell_name:druid_summon_brambles>: <spell_description:druid_summon_brambles>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:druid_summon_brambles>: <spell_description:druid_summon_brambles>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -2263,8 +2192,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_druid_breathing_underwater_at_level_8",
-    "dynamic_line": "<spell_name:druid_breathing_underwater>: <spell_description:druid_breathing_underwater>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:druid_breathing_underwater>: <spell_description:druid_breathing_underwater>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -2282,8 +2210,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_ice_spike_at_level_8",
-    "dynamic_line": "<spell_name:ice_spike>: <spell_description:ice_spike>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:ice_spike>: <spell_description:ice_spike>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -2301,8 +2228,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_frost_armor_at_level_8",
-    "dynamic_line": "<spell_name:frost_armor>: <spell_description:frost_armor>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:frost_armor>: <spell_description:frost_armor>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -2320,8 +2246,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_kelvinist_flamebreath_at_level_8",
-    "dynamic_line": "<spell_name:kelvinist_flamebreath>: <spell_description:kelvinist_flamebreath>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:kelvinist_flamebreath>: <spell_description:kelvinist_flamebreath>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -2339,8 +2264,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_lightning_bolt_at_level_8",
-    "dynamic_line": "<spell_name:lightning_bolt>: <spell_description:lightning_bolt>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:lightning_bolt>: <spell_description:lightning_bolt>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -2358,8 +2282,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_holy_blade_at_level_8",
-    "dynamic_line": "<spell_name:holy_blade>: <spell_description:holy_blade>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:holy_blade>: <spell_description:holy_blade>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -2377,8 +2300,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_spirit_armor_at_level_8",
-    "dynamic_line": "<spell_name:spirit_armor>: <spell_description:spirit_armor>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:spirit_armor>: <spell_description:spirit_armor>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -2396,8 +2318,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_synaptic_stimulation_at_level_8",
-    "dynamic_line": "<spell_name:synaptic_stimulation>: <spell_description:synaptic_stimulation>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:synaptic_stimulation>: <spell_description:synaptic_stimulation>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -2415,8 +2336,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_technomancer_welder_at_level_8",
-    "dynamic_line": "<spell_name:technomancer_welder>: <spell_description:technomancer_welder>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:technomancer_welder>: <spell_description:technomancer_welder>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -2434,8 +2354,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_technomancer_far_sight_at_level_8",
-    "dynamic_line": "<spell_name:technomancer_far_sight>: <spell_description:technomancer_far_sight>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:technomancer_far_sight>: <spell_description:technomancer_far_sight>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -2453,8 +2372,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_animist_summon_watcher_at_level_8",
-    "dynamic_line": "<spell_name:animist_summon_watcher>: <spell_description:animist_summon_watcher>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:animist_summon_watcher>: <spell_description:animist_summon_watcher>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -2472,8 +2390,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_animist_cast_spells_when_silent_at_level_8",
-    "dynamic_line": "<spell_name:animist_cast_spells_when_silent>: <spell_description:animist_cast_spells_when_silent>",
-    "//~": "NO_I18N",
+    "dynamic_line": {
+      "str": "<spell_name:animist_cast_spells_when_silent>: <spell_description:animist_cast_spells_when_silent>",
+      "//~": "NO_I18N"
+    },
     "responses": [
       {
         "text": "Select Spell.",
@@ -2491,8 +2411,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_pain_split_at_level_8",
-    "dynamic_line": "<spell_name:pain_split>: <spell_description:pain_split>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:pain_split>: <spell_description:pain_split>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -2510,8 +2429,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_bio_fleshpouch_at_level_8",
-    "dynamic_line": "<spell_name:bio_fleshpouch>: <spell_description:bio_fleshpouch>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:bio_fleshpouch>: <spell_description:bio_fleshpouch>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -2529,8 +2447,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_biomancer_coagulant_weave_at_level_8",
-    "dynamic_line": "<spell_name:biomancer_coagulant_weave>: <spell_description:biomancer_coagulant_weave>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:biomancer_coagulant_weave>: <spell_description:biomancer_coagulant_weave>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -2548,8 +2465,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_biomancer_caustic_aura_at_level_8",
-    "dynamic_line": "<spell_name:biomancer_caustic_aura>: <spell_description:biomancer_caustic_aura>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:biomancer_caustic_aura>: <spell_description:biomancer_caustic_aura>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -2567,8 +2483,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_biomancer_swim_frog_at_level_8",
-    "dynamic_line": "<spell_name:biomancer_swim_frog>: <spell_description:biomancer_swim_frog>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:biomancer_swim_frog>: <spell_description:biomancer_swim_frog>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -2586,8 +2501,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_biomancer_carrion_feast_at_level_8",
-    "dynamic_line": "<spell_name:biomancer_carrion_feast>: <spell_description:biomancer_carrion_feast>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:biomancer_carrion_feast>: <spell_description:biomancer_carrion_feast>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -2605,8 +2519,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_biomancer_slow_bleeding_at_level_8",
-    "dynamic_line": "<spell_name:biomancer_slow_bleeding>: <spell_description:biomancer_slow_bleeding>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:biomancer_slow_bleeding>: <spell_description:biomancer_slow_bleeding>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -2624,8 +2537,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_biomancer_eat_tons_of_food_at_level_8",
-    "dynamic_line": "<spell_name:biomancer_eat_tons_of_food>: <spell_description:biomancer_eat_tons_of_food>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:biomancer_eat_tons_of_food>: <spell_description:biomancer_eat_tons_of_food>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -2643,8 +2555,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_protection_aura_at_level_8",
-    "dynamic_line": "<spell_name:protection_aura>: <spell_description:protection_aura>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:protection_aura>: <spell_description:protection_aura>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -2662,8 +2573,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_sound_bomb_at_level_8",
-    "dynamic_line": "<spell_name:sound_bomb>: <spell_description:sound_bomb>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:sound_bomb>: <spell_description:sound_bomb>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -2681,8 +2591,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_druid_veggrasp_at_level_8",
-    "dynamic_line": "<spell_name:druid_veggrasp>: <spell_description:druid_veggrasp>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:druid_veggrasp>: <spell_description:druid_veggrasp>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -2700,8 +2609,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_druid_rootstrike_at_level_8",
-    "dynamic_line": "<spell_name:druid_rootstrike>: <spell_description:druid_rootstrike>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:druid_rootstrike>: <spell_description:druid_rootstrike>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -2719,8 +2627,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_druid_harvest_hunter_at_level_8",
-    "dynamic_line": "<spell_name:druid_harvest_hunter>: <spell_description:druid_harvest_hunter>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:druid_harvest_hunter>: <spell_description:druid_harvest_hunter>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -2738,8 +2645,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_druid_bramble_spear_at_level_8",
-    "dynamic_line": "<spell_name:druid_bramble_spear>: <spell_description:druid_bramble_spear>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:druid_bramble_spear>: <spell_description:druid_bramble_spear>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -2757,8 +2663,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_druid_disinfectant_at_level_8",
-    "dynamic_line": "<spell_name:druid_disinfectant>: <spell_description:druid_disinfectant>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:druid_disinfectant>: <spell_description:druid_disinfectant>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -2776,8 +2681,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_druid_water_walking_at_level_8",
-    "dynamic_line": "<spell_name:druid_water_walking>: <spell_description:druid_water_walking>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:druid_water_walking>: <spell_description:druid_water_walking>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -2795,8 +2699,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_druid_bearmantle_at_level_8",
-    "dynamic_line": "<spell_name:druid_bearmantle>: <spell_description:druid_bearmantle>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:druid_bearmantle>: <spell_description:druid_bearmantle>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -2814,8 +2717,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_druid_goodberry_at_level_8",
-    "dynamic_line": "<spell_name:druid_goodberry>: <spell_description:druid_goodberry>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:druid_goodberry>: <spell_description:druid_goodberry>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -2833,8 +2735,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_seismic_stomp_at_level_8",
-    "dynamic_line": "<spell_name:seismic_stomp>: <spell_description:seismic_stomp>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:seismic_stomp>: <spell_description:seismic_stomp>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -2852,8 +2753,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_eshaper_shardspray_at_level_8",
-    "dynamic_line": "<spell_name:eshaper_shardspray>: <spell_description:eshaper_shardspray>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:eshaper_shardspray>: <spell_description:eshaper_shardspray>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -2871,8 +2771,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_move_earth_at_level_8",
-    "dynamic_line": "<spell_name:move_earth>: <spell_description:move_earth>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:move_earth>: <spell_description:move_earth>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -2890,8 +2789,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_clairvoyance_at_level_8",
-    "dynamic_line": "<spell_name:clairvoyance>: <spell_description:clairvoyance>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:clairvoyance>: <spell_description:clairvoyance>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -2909,8 +2807,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_earthshaper_stoneskin_at_level_8",
-    "dynamic_line": "<spell_name:earthshaper_stoneskin>: <spell_description:earthshaper_stoneskin>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:earthshaper_stoneskin>: <spell_description:earthshaper_stoneskin>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -2928,8 +2825,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_earthshaper_pillar_at_level_8",
-    "dynamic_line": "<spell_name:earthshaper_pillar>: <spell_description:earthshaper_pillar>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:earthshaper_pillar>: <spell_description:earthshaper_pillar>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -2947,8 +2843,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_eshaper_spawn_tools_at_level_8",
-    "dynamic_line": "<spell_name:eshaper_spawn_tools>: <spell_description:eshaper_spawn_tools>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:eshaper_spawn_tools>: <spell_description:eshaper_spawn_tools>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -2966,8 +2861,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_earthshaper_danger_sense_at_level_8",
-    "dynamic_line": "<spell_name:earthshaper_danger_sense>: <spell_description:earthshaper_danger_sense>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:earthshaper_danger_sense>: <spell_description:earthshaper_danger_sense>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -2985,8 +2879,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_earthshaper_fortitude_of_stone_at_level_8",
-    "dynamic_line": "<spell_name:earthshaper_fortitude_of_stone>: <spell_description:earthshaper_fortitude_of_stone>",
-    "//~": "NO_I18N",
+    "dynamic_line": {
+      "str": "<spell_name:earthshaper_fortitude_of_stone>: <spell_description:earthshaper_fortitude_of_stone>",
+      "//~": "NO_I18N"
+    },
     "responses": [
       {
         "text": "Select Spell.",
@@ -3004,8 +2900,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_earthshaper_harden_earth_at_level_8",
-    "dynamic_line": "<spell_name:earthshaper_harden_earth>: <spell_description:earthshaper_harden_earth>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:earthshaper_harden_earth>: <spell_description:earthshaper_harden_earth>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -3023,8 +2918,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_earthshaper_repair_metal_stone_at_level_8",
-    "dynamic_line": "<spell_name:earthshaper_repair_metal_stone>: <spell_description:earthshaper_repair_metal_stone>",
-    "//~": "NO_I18N",
+    "dynamic_line": {
+      "str": "<spell_name:earthshaper_repair_metal_stone>: <spell_description:earthshaper_repair_metal_stone>",
+      "//~": "NO_I18N"
+    },
     "responses": [
       {
         "text": "Select Spell.",
@@ -3042,8 +2939,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_point_flare_at_level_8",
-    "dynamic_line": "<spell_name:point_flare>: <spell_description:point_flare>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:point_flare>: <spell_description:point_flare>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -3061,8 +2957,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_burning_hands_at_level_8",
-    "dynamic_line": "<spell_name:burning_hands>: <spell_description:burning_hands>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:burning_hands>: <spell_description:burning_hands>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -3080,8 +2975,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_frost_spray_at_level_8",
-    "dynamic_line": "<spell_name:frost_spray>: <spell_description:frost_spray>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:frost_spray>: <spell_description:frost_spray>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -3099,8 +2993,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_glide_ice_at_level_8",
-    "dynamic_line": "<spell_name:glide_ice>: <spell_description:glide_ice>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:glide_ice>: <spell_description:glide_ice>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -3118,8 +3011,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_ice_shield_at_level_8",
-    "dynamic_line": "<spell_name:ice_shield>: <spell_description:ice_shield>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:ice_shield>: <spell_description:ice_shield>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -3137,8 +3029,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_kelvinist_summon_flamesword_at_level_8",
-    "dynamic_line": "<spell_name:kelvinist_summon_flamesword>: <spell_description:kelvinist_summon_flamesword>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:kelvinist_summon_flamesword>: <spell_description:kelvinist_summon_flamesword>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -3156,8 +3047,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_kelvinist_anti_cold_at_level_8",
-    "dynamic_line": "<spell_name:kelvinist_anti_cold>: <spell_description:kelvinist_anti_cold>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:kelvinist_anti_cold>: <spell_description:kelvinist_anti_cold>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -3175,8 +3065,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_kelvinist_anti_heat_at_level_8",
-    "dynamic_line": "<spell_name:kelvinist_anti_heat>: <spell_description:kelvinist_anti_heat>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:kelvinist_anti_heat>: <spell_description:kelvinist_anti_heat>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -3194,8 +3083,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_kelvinist_persuasion_spell_at_level_8",
-    "dynamic_line": "<spell_name:kelvinist_persuasion_spell>: <spell_description:kelvinist_persuasion_spell>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:kelvinist_persuasion_spell>: <spell_description:kelvinist_persuasion_spell>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -3213,8 +3101,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_phase_door_at_level_8",
-    "dynamic_line": "<spell_name:phase_door>: <spell_description:phase_door>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:phase_door>: <spell_description:phase_door>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -3232,8 +3119,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_magus_force_jar_at_level_8",
-    "dynamic_line": "<spell_name:magus_force_jar>: <spell_description:magus_force_jar>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:magus_force_jar>: <spell_description:magus_force_jar>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -3251,8 +3137,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_magus_summon_impact_sling_at_level_8",
-    "dynamic_line": "<spell_name:magus_summon_impact_sling>: <spell_description:magus_summon_impact_sling>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:magus_summon_impact_sling>: <spell_description:magus_summon_impact_sling>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -3270,8 +3155,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_magus_slowfall_at_level_8",
-    "dynamic_line": "<spell_name:magus_slowfall>: <spell_description:magus_slowfall>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:magus_slowfall>: <spell_description:magus_slowfall>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -3289,8 +3173,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_magus_spiderclimb_at_level_8",
-    "dynamic_line": "<spell_name:magus_spiderclimb>: <spell_description:magus_spiderclimb>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:magus_spiderclimb>: <spell_description:magus_spiderclimb>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -3308,8 +3191,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_jolt_at_level_8",
-    "dynamic_line": "<spell_name:jolt>: <spell_description:jolt>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:jolt>: <spell_description:jolt>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -3327,8 +3209,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_windstrike_at_level_8",
-    "dynamic_line": "<spell_name:windstrike>: <spell_description:windstrike>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:windstrike>: <spell_description:windstrike>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -3346,8 +3227,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_windrun_at_level_8",
-    "dynamic_line": "<spell_name:windrun>: <spell_description:windrun>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:windrun>: <spell_description:windrun>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -3365,8 +3245,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_stormshaper_repelling_arc_at_level_8",
-    "dynamic_line": "<spell_name:stormshaper_repelling_arc>: <spell_description:stormshaper_repelling_arc>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:stormshaper_repelling_arc>: <spell_description:stormshaper_repelling_arc>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -3384,8 +3263,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_air_bubble_at_level_8",
-    "dynamic_line": "<spell_name:air_bubble>: <spell_description:air_bubble>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:air_bubble>: <spell_description:air_bubble>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -3403,8 +3281,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_electric_eye_at_level_8",
-    "dynamic_line": "<spell_name:electric_eye>: <spell_description:electric_eye>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:electric_eye>: <spell_description:electric_eye>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -3422,8 +3299,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_stormshaper_cloak_of_fog_at_level_8",
-    "dynamic_line": "<spell_name:stormshaper_cloak_of_fog>: <spell_description:stormshaper_cloak_of_fog>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:stormshaper_cloak_of_fog>: <spell_description:stormshaper_cloak_of_fog>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -3441,8 +3317,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_quantum_tunnel_lesser_at_level_8",
-    "dynamic_line": "<spell_name:quantum_tunnel_lesser>: <spell_description:quantum_tunnel_lesser>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:quantum_tunnel_lesser>: <spell_description:quantum_tunnel_lesser>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -3460,8 +3335,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_knock_at_level_8",
-    "dynamic_line": "<spell_name:knock>: <spell_description:knock>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:knock>: <spell_description:knock>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -3479,8 +3353,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_technomancer_gain_electronics_computer_spell_at_level_8",
-    "dynamic_line": "<spell_name:technomancer_gain_electronics_computer_spell>: <spell_description:technomancer_gain_electronics_computer_spell>",
-    "//~": "NO_I18N",
+    "dynamic_line": {
+      "str": "<spell_name:technomancer_gain_electronics_computer_spell>: <spell_description:technomancer_gain_electronics_computer_spell>",
+      "//~": "NO_I18N"
+    },
     "responses": [
       {
         "text": "Select Spell.",
@@ -3498,8 +3374,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_technomancer_pain_ignore_at_level_8",
-    "dynamic_line": "<spell_name:technomancer_pain_ignore>: <spell_description:technomancer_pain_ignore>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:technomancer_pain_ignore>: <spell_description:technomancer_pain_ignore>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -3517,8 +3392,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_smite_at_level_8",
-    "dynamic_line": "<spell_name:smite>: <spell_description:smite>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:smite>: <spell_description:smite>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -3536,8 +3410,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_animist_sense_outsiders_at_level_8",
-    "dynamic_line": "<spell_name:animist_sense_outsiders>: <spell_description:animist_sense_outsiders>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:animist_sense_outsiders>: <spell_description:animist_sense_outsiders>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -3555,8 +3428,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_pertifying_touch_at_level_8",
-    "dynamic_line": "<spell_name:pertifying_touch>: <spell_description:pertifying_touch>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:pertifying_touch>: <spell_description:pertifying_touch>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -3574,8 +3446,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_reactive_armor_at_level_8",
-    "dynamic_line": "<spell_name:reactive_armor>: <spell_description:reactive_armor>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:reactive_armor>: <spell_description:reactive_armor>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -3593,8 +3464,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_lightning_blast_at_level_8",
-    "dynamic_line": "<spell_name:lightning_blast>: <spell_description:lightning_blast>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:lightning_blast>: <spell_description:lightning_blast>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -3612,8 +3482,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_bless_at_level_8",
-    "dynamic_line": "<spell_name:bless>: <spell_description:bless>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:bless>: <spell_description:bless>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -3631,8 +3500,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_laze_at_level_8",
-    "dynamic_line": "<spell_name:laze>: <spell_description:laze>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:laze>: <spell_description:laze>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -3650,8 +3518,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_x-ray_at_level_8",
-    "dynamic_line": "<spell_name:x-ray>: <spell_description:x-ray>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:x-ray>: <spell_description:x-ray>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -3669,8 +3536,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_summon_undead_at_level_8",
-    "dynamic_line": "<spell_name:summon_undead>: <spell_description:summon_undead>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:summon_undead>: <spell_description:summon_undead>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -3688,8 +3554,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_necrotic_gaze_at_level_8",
-    "dynamic_line": "<spell_name:necrotic_gaze>: <spell_description:necrotic_gaze>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:necrotic_gaze>: <spell_description:necrotic_gaze>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -3707,8 +3572,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_disruption_bolt_at_level_8",
-    "dynamic_line": "<spell_name:disruption_bolt>: <spell_description:disruption_bolt>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:disruption_bolt>: <spell_description:disruption_bolt>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -3726,8 +3590,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_summon_wisps_at_level_8",
-    "dynamic_line": "<spell_name:summon_wisps>: <spell_description:summon_wisps>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:summon_wisps>: <spell_description:summon_wisps>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -3745,8 +3608,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_bleed_at_level_8",
-    "dynamic_line": "<spell_name:bleed>: <spell_description:bleed>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:bleed>: <spell_description:bleed>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -3764,8 +3626,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_animist_detect_wizards_at_level_8",
-    "dynamic_line": "<spell_name:animist_detect_wizards>: <spell_description:animist_detect_wizards>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:animist_detect_wizards>: <spell_description:animist_detect_wizards>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -3783,8 +3644,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_light_healing_at_level_8",
-    "dynamic_line": "<spell_name:light_healing>: <spell_description:light_healing>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:light_healing>: <spell_description:light_healing>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -3802,8 +3662,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_bio_acidicspray_at_level_8",
-    "dynamic_line": "<spell_name:bio_acidicspray>: <spell_description:bio_acidicspray>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:bio_acidicspray>: <spell_description:bio_acidicspray>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -3821,8 +3680,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_biomancer_paralytic_dart_at_level_8",
-    "dynamic_line": "<spell_name:biomancer_paralytic_dart>: <spell_description:biomancer_paralytic_dart>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:biomancer_paralytic_dart>: <spell_description:biomancer_paralytic_dart>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -3840,8 +3698,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_biomancer_visceral_projection_at_level_8",
-    "dynamic_line": "<spell_name:biomancer_visceral_projection>: <spell_description:biomancer_visceral_projection>",
-    "//~": "NO_I18N",
+    "dynamic_line": {
+      "str": "<spell_name:biomancer_visceral_projection>: <spell_description:biomancer_visceral_projection>",
+      "//~": "NO_I18N"
+    },
     "responses": [
       {
         "text": "Select Spell.",
@@ -3859,8 +3719,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_biomancer_cure_disease_minor_at_level_8",
-    "dynamic_line": "<spell_name:biomancer_cure_disease_minor>: <spell_description:biomancer_cure_disease_minor>",
-    "//~": "NO_I18N",
+    "dynamic_line": {
+      "str": "<spell_name:biomancer_cure_disease_minor>: <spell_description:biomancer_cure_disease_minor>",
+      "//~": "NO_I18N"
+    },
     "responses": [
       {
         "text": "Select Spell.",
@@ -3878,8 +3740,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_crystallize_mana_at_level_8",
-    "dynamic_line": "<spell_name:crystallize_mana>: <spell_description:crystallize_mana>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:crystallize_mana>: <spell_description:crystallize_mana>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -3897,8 +3758,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_blinding_flash_at_level_8",
-    "dynamic_line": "<spell_name:blinding_flash>: <spell_description:blinding_flash>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:blinding_flash>: <spell_description:blinding_flash>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -3916,8 +3776,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_ethereal_grasp_at_level_8",
-    "dynamic_line": "<spell_name:ethereal_grasp>: <spell_description:ethereal_grasp>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:ethereal_grasp>: <spell_description:ethereal_grasp>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -3935,8 +3794,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_classless_clean_clothing_and_self_at_level_8",
-    "dynamic_line": "<spell_name:classless_clean_clothing_and_self>: <spell_description:classless_clean_clothing_and_self>",
-    "//~": "NO_I18N",
+    "dynamic_line": {
+      "str": "<spell_name:classless_clean_clothing_and_self>: <spell_description:classless_clean_clothing_and_self>",
+      "//~": "NO_I18N"
+    },
     "responses": [
       {
         "text": "Select Spell.",
@@ -3954,8 +3815,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_classless_restore_crystal_mana_at_level_8",
-    "dynamic_line": "<spell_name:classless_restore_crystal_mana>: <spell_description:classless_restore_crystal_mana>",
-    "//~": "NO_I18N",
+    "dynamic_line": {
+      "str": "<spell_name:classless_restore_crystal_mana>: <spell_description:classless_restore_crystal_mana>",
+      "//~": "NO_I18N"
+    },
     "responses": [
       {
         "text": "Select Spell.",
@@ -3973,8 +3836,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_druid_tornskin_at_level_8",
-    "dynamic_line": "<spell_name:druid_tornskin>: <spell_description:druid_tornskin>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:druid_tornskin>: <spell_description:druid_tornskin>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -3992,8 +3854,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_druid_growth_at_level_8",
-    "dynamic_line": "<spell_name:druid_growth>: <spell_description:druid_growth>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:druid_growth>: <spell_description:druid_growth>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -4011,8 +3872,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_druid_anti_heat_at_level_8",
-    "dynamic_line": "<spell_name:druid_anti_heat>: <spell_description:druid_anti_heat>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:druid_anti_heat>: <spell_description:druid_anti_heat>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -4030,8 +3890,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_druid_traverse_the_wilds_at_level_8",
-    "dynamic_line": "<spell_name:druid_traverse_the_wilds>: <spell_description:druid_traverse_the_wilds>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:druid_traverse_the_wilds>: <spell_description:druid_traverse_the_wilds>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -4049,8 +3908,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_stonefist_at_level_8",
-    "dynamic_line": "<spell_name:stonefist>: <spell_description:stonefist>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:stonefist>: <spell_description:stonefist>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -4068,8 +3926,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_eshaper_piercing_bolt_at_level_8",
-    "dynamic_line": "<spell_name:eshaper_piercing_bolt>: <spell_description:eshaper_piercing_bolt>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:eshaper_piercing_bolt>: <spell_description:eshaper_piercing_bolt>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -4087,8 +3944,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_earthshaper_boulder_at_level_8",
-    "dynamic_line": "<spell_name:earthshaper_boulder>: <spell_description:earthshaper_boulder>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:earthshaper_boulder>: <spell_description:earthshaper_boulder>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -4106,8 +3962,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_earthshaper_turning_of_earth_at_level_8",
-    "dynamic_line": "<spell_name:earthshaper_turning_of_earth>: <spell_description:earthshaper_turning_of_earth>",
-    "//~": "NO_I18N",
+    "dynamic_line": {
+      "str": "<spell_name:earthshaper_turning_of_earth>: <spell_description:earthshaper_turning_of_earth>",
+      "//~": "NO_I18N"
+    },
     "responses": [
       {
         "text": "Select Spell.",
@@ -4125,8 +3983,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_kelvinist_firebolt_at_level_8",
-    "dynamic_line": "<spell_name:kelvinist_firebolt>: <spell_description:kelvinist_firebolt>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:kelvinist_firebolt>: <spell_description:kelvinist_firebolt>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -4144,8 +4001,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_magus_stop_attack_shield_at_level_8",
-    "dynamic_line": "<spell_name:magus_stop_attack_shield>: <spell_description:magus_stop_attack_shield>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:magus_stop_attack_shield>: <spell_description:magus_stop_attack_shield>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -4163,8 +4019,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_magus_far_hand_pull_at_level_8",
-    "dynamic_line": "<spell_name:magus_far_hand_pull>: <spell_description:magus_far_hand_pull>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:magus_far_hand_pull>: <spell_description:magus_far_hand_pull>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -4182,8 +4037,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_magus_light_target_at_level_8",
-    "dynamic_line": "<spell_name:magus_light_target>: <spell_description:magus_light_target>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:magus_light_target>: <spell_description:magus_light_target>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -4201,8 +4055,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_stormshaper_wall_of_fog_at_level_8",
-    "dynamic_line": "<spell_name:stormshaper_wall_of_fog>: <spell_description:stormshaper_wall_of_fog>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:stormshaper_wall_of_fog>: <spell_description:stormshaper_wall_of_fog>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -4220,8 +4073,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_stormshaper_cloak_of_frog_at_level_8",
-    "dynamic_line": "<spell_name:stormshaper_cloak_of_frog>: <spell_description:stormshaper_cloak_of_frog>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:stormshaper_cloak_of_frog>: <spell_description:stormshaper_cloak_of_frog>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -4239,8 +4091,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_stormshaper_loud_voice_spell_at_level_8",
-    "dynamic_line": "<spell_name:stormshaper_loud_voice_spell>: <spell_description:stormshaper_loud_voice_spell>",
-    "//~": "NO_I18N",
+    "dynamic_line": {
+      "str": "<spell_name:stormshaper_loud_voice_spell>: <spell_description:stormshaper_loud_voice_spell>",
+      "//~": "NO_I18N"
+    },
     "responses": [
       {
         "text": "Select Spell.",
@@ -4258,8 +4112,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_create_atomic_lamp_at_level_8",
-    "dynamic_line": "<spell_name:create_atomic_lamp>: <spell_description:create_atomic_lamp>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:create_atomic_lamp>: <spell_description:create_atomic_lamp>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -4277,8 +4130,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_technomancer_conjure_radio_at_level_8",
-    "dynamic_line": "<spell_name:technomancer_conjure_radio>: <spell_description:technomancer_conjure_radio>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:technomancer_conjure_radio>: <spell_description:technomancer_conjure_radio>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -4296,8 +4148,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_create_atomic_light_at_level_8",
-    "dynamic_line": "<spell_name:create_atomic_light>: <spell_description:create_atomic_light>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:create_atomic_light>: <spell_description:create_atomic_light>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -4315,8 +4166,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_classless_watch_spell_at_level_8",
-    "dynamic_line": "<spell_name:classless_watch_spell>: <spell_description:classless_watch_spell>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:classless_watch_spell>: <spell_description:classless_watch_spell>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -4334,8 +4184,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_classless_easy_sleep_spell_at_level_8",
-    "dynamic_line": "<spell_name:classless_easy_sleep_spell>: <spell_description:classless_easy_sleep_spell>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:classless_easy_sleep_spell>: <spell_description:classless_easy_sleep_spell>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -4353,8 +4202,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_druid_woodshaft_at_level_8",
-    "dynamic_line": "<spell_name:druid_woodshaft>: <spell_description:druid_woodshaft>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:druid_woodshaft>: <spell_description:druid_woodshaft>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -4372,8 +4220,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_summon_cats_at_level_8",
-    "dynamic_line": "<spell_name:summon_cats>: <spell_description:summon_cats>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:summon_cats>: <spell_description:summon_cats>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -4391,8 +4238,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_eshaper_rockbolt_at_level_8",
-    "dynamic_line": "<spell_name:eshaper_rockbolt>: <spell_description:eshaper_rockbolt>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:eshaper_rockbolt>: <spell_description:eshaper_rockbolt>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -4410,8 +4256,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_create_lighter_at_level_8",
-    "dynamic_line": "<spell_name:create_lighter>: <spell_description:create_lighter>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:create_lighter>: <spell_description:create_lighter>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -4429,8 +4274,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_chilling_touch_at_level_8",
-    "dynamic_line": "<spell_name:chilling_touch>: <spell_description:chilling_touch>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:chilling_touch>: <spell_description:chilling_touch>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -4448,8 +4292,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_kelvinist_heat_food_at_level_8",
-    "dynamic_line": "<spell_name:kelvinist_heat_food>: <spell_description:kelvinist_heat_food>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:kelvinist_heat_food>: <spell_description:kelvinist_heat_food>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -4467,8 +4310,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_shadow_field_at_level_8",
-    "dynamic_line": "<spell_name:shadow_field>: <spell_description:shadow_field>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:shadow_field>: <spell_description:shadow_field>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -4486,8 +4328,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_magic_missile_at_level_8",
-    "dynamic_line": "<spell_name:magic_missile>: <spell_description:magic_missile>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:magic_missile>: <spell_description:magic_missile>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -4505,8 +4346,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_shocking_lash_at_level_8",
-    "dynamic_line": "<spell_name:shocking_lash>: <spell_description:shocking_lash>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:shocking_lash>: <spell_description:shocking_lash>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -4524,8 +4364,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_electric_arts_at_level_8",
-    "dynamic_line": "<spell_name:electric_arts>: <spell_description:electric_arts>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:electric_arts>: <spell_description:electric_arts>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -4543,8 +4382,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_taze_at_level_8",
-    "dynamic_line": "<spell_name:taze>: <spell_description:taze>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:taze>: <spell_description:taze>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
@@ -4562,8 +4400,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_create_rune_sorcerer_at_level_8",
-    "dynamic_line": "<spell_name:create_rune_sorcerer>: <spell_description:create_rune_sorcerer>",
-    "//~": "NO_I18N",
+    "dynamic_line": { "str": "<spell_name:create_rune_sorcerer>: <spell_description:create_rune_sorcerer>", "//~": "NO_I18N" },
     "responses": [
       {
         "text": "Select Spell.",
