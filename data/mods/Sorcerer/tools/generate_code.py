@@ -122,11 +122,11 @@ def read_spell_data(path):
             return None
         for jo in json_data:
             if (
-                isinstance(jo, dict)
-                and "id" in jo
-                and "name" in jo
-                and "description" in jo
-                and should_read_spell(jo["id"])
+                isinstance(jo, dict) and
+                "id" in jo and
+                "name" in jo and
+                "description" in jo and
+                should_read_spell(jo["id"])
             ):
                 difficulty = int(jo["difficulty"] if "difficulty" in jo else 0)
                 new_spell_data = {
@@ -141,9 +141,9 @@ def read_spell_data(path):
                 # that contains the string "str".
                 # So we just deal with them manually.
                 if (
-                    "str" in jo["name"]
-                    and new_spell_data["id"] != "windstrike"
-                    and new_spell_data["id"] != "demon_possession_aura"
+                    "str" in jo["name"] and
+                    new_spell_data["id"] != "windstrike" and
+                    new_spell_data["id"] != "demon_possession_aura"
                 ):
                     new_spell_data["name"] = str(jo["name"]["str"])
                 for spell_name in tier_0_spell_list:
@@ -198,15 +198,15 @@ def write_learn_spell(level):
     main_topic = {
         "type": "talk_topic",
         "id": "TALK_SORCERER_LEARN_SPELL_" + str(level),
-        "dynamic_line": "<u_val:sorcerer_level_"
-        + str(level)
-        + "_spells_known> / <u_val:sorcerer_level_"
-        + str(level)
-        + "_spells_known_slots> level "
-        + str(level)
-        + " spells known.",
-        "speaker_effect": {"effect": {"math": ["curent_spell_slot = "
-                                               + str(level)]}},
+        "dynamic_line": "<u_val:sorcerer_level_" +
+        str(level) +
+        "_spells_known> / <u_val:sorcerer_level_" +
+        str(level) +
+        "_spells_known_slots> level " +
+        str(level) +
+        " spells known.",
+        "speaker_effect": {"effect": {"math": ["curent_spell_slot = " +
+                                               str(level)]}},
         "responses": [
             {"text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN"},
             {"text": "Quit.", "topic": "TALK_DONE"},
@@ -217,26 +217,26 @@ def write_learn_spell(level):
         if int(spell["level"]) <= level:
             response = {
                 "condition": {
-                    "math": ["u_used_spell_slot_for_" + spell["safe_id"]
-                             + " == 0"]
+                    "math": ["u_used_spell_slot_for_" + spell["safe_id"] +
+                             " == 0"]
                 },
-                "text": "Learn "
-                + spell["name"]
-                + " ( level "
-                + str(spell["level"])
-                + " )",
-                "topic": "TALK_SORCERER_LEARN_SPELL_"
-                + spell["id"]
-                + "_at_level_"
-                + str(level),
+                "text": "Learn " +
+                spell["name"] +
+                " ( level " +
+                str(spell["level"]) +
+                " )",
+                "topic": "TALK_SORCERER_LEARN_SPELL_" +
+                spell["id"] +
+                "_at_level_" +
+                str(level),
             }
             main_topic["responses"].append(response)
             new_other_topic = {
                 "type": "talk_topic",
-                "id": "TALK_SORCERER_LEARN_SPELL_"
-                + spell["id"]
-                + "_at_level_"
-                + str(level),
+                "id": "TALK_SORCERER_LEARN_SPELL_" +
+                spell["id"] +
+                "_at_level_" +
+                str(level),
                 "dynamic_line": spell["name"] + ": " + spell["description"],
                 "responses": [
                     {
@@ -245,15 +245,15 @@ def write_learn_spell(level):
                         "effect": [
                             {
                                 "math": [
-                                    "u_spell_level('"
-                                    + spell["id"]
-                                    + "') = u_current_sorcerer_level"
+                                    "u_spell_level('" +
+                                    spell["id"] +
+                                    "') = u_current_sorcerer_level"
                                 ]
                             },
                             {
                                 "math": [
-                                    "u_used_spell_slot_for_"
-                                    + spell["safe_id"],
+                                    "u_used_spell_slot_for_" +
+                                    spell["safe_id"],
                                     "=",
                                     str(max(level, 0.5)),
                                 ]
@@ -297,11 +297,11 @@ def write_forget_spell():
             "condition": {
                 "math": ["u_used_spell_slot_for_" + spell["safe_id"] + " > 0"]
             },
-            "text": "Forget "
-            + spell["name"]
-            + " ( level <u_val:used_spell_slot_for_"
-            + spell["safe_id"]
-            + "> )",
+            "text": "Forget " +
+            spell["name"] +
+            " ( level <u_val:used_spell_slot_for_" +
+            spell["safe_id"] +
+            "> )",
             "topic": "TALK_SORCERER_MENU_MAIN",
             "effect": [
                 {"math": ["u_spell_level('" + spell["id"] + "') = -1"]},
@@ -332,10 +332,10 @@ def write_pick_favorite_spell():
     main_topic = {
         "type": "talk_topic",
         "id": "TALK_SORCERER_PICK_FAV_SPELL",
-        "dynamic_line": "Pick a spell you have a special affinity for to gain"
-        + " a small boost in caster level for said spell.  The boost will"
-        + " quickly become obsolete, but will help you get started on your"
-        + " journey.",
+        "dynamic_line": "Pick a spell you have a special affinity for to" +
+        " gain a small boost in caster level for said spell.  The boost will" +
+        " quickly become obsolete, but will help you get started on your" +
+        " journey.",
         "responses": [
             {"text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN"},
             {"text": "Quit.", "topic": "TALK_DONE"},
@@ -345,23 +345,23 @@ def write_pick_favorite_spell():
         if spell["level"] <= 1:
             response = {
                 "condition": {
-                    "math": ["u_used_spell_slot_for_" + spell["safe_id"]
-                             + " > 0"]
+                    "math": ["u_used_spell_slot_for_" + spell["safe_id"] +
+                             " > 0"]
                 },
-                "text": "Pick "
-                + spell["name"]
-                + " ( level <u_val:used_spell_slot_for_"
-                + spell["safe_id"]
-                + "> )",
+                "text": "Pick " +
+                spell["name"] +
+                " ( level <u_val:used_spell_slot_for_" +
+                spell["safe_id"] +
+                "> )",
                 "topic": "TALK_SORCERER_MENU_MAIN",
                 "effect": [
                     {
                         "math": [
-                            "u_spell_level('"
-                            + spell["id"]
-                            + "') = max(3, u_spell_level('"
-                            + spell["id"]
-                            + "') )"
+                            "u_spell_level('" +
+                            spell["id"] +
+                            "') = max(3, u_spell_level('" +
+                            spell["id"] +
+                            "') )"
                         ]
                     },
                     {"math": ["u_available_favorite_spells--"]},
@@ -389,18 +389,18 @@ def write_level_up_spells():
             "run_eocs": {
                 "id": "sorcerer_level_up_" + spell["safe_id"],
                 "condition": {
-                    "math": ["u_used_spell_slot_for_" + spell["safe_id"]
-                             + " > 0"]
+                    "math": ["u_used_spell_slot_for_" + spell["safe_id"] +
+                             " > 0"]
                 },
                 "effect": [
                     {
                         "math": [
-                            "u_spell_level('"
-                            + spell["id"]
-                            + "') = max(u_current_sorcerer_level,"
-                            + " u_spell_level('"
-                            + spell["id"]
-                            + "') )"
+                            "u_spell_level('" +
+                            spell["id"] +
+                            "') = max(u_current_sorcerer_level," +
+                            " u_spell_level('" +
+                            spell["id"] +
+                            "') )"
                         ]
                     }
                 ],
