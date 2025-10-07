@@ -3391,7 +3391,7 @@ void islot_comestible::deserialize( const JsonObject &jo )
     if( smoking_result.str() == " " ) {
         // For some reason a blank entry is parsed as one containing a blank, so transform it back
         // to clear the entry.
-        smoking_result = itype_id( "" );
+        smoking_result = empty_itype_id;
     }
     optional( jo, was_loaded, "petfood", petfood, string_reader{} );
     optional( jo, was_loaded, "monotony_penalty", monotony_penalty, -1 );
