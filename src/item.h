@@ -1213,6 +1213,8 @@ class item : public visitable
             rot += val;
         }
 
+        bool is_smokable() const;
+
         /** Time for this item to be fully fermented. */
         time_duration brewing_time() const;
         /** The results of fermenting this item. */

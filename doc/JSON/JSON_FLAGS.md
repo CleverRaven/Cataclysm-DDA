@@ -528,7 +528,6 @@ These branches are the valid `dreams` from [dreams.json](../data/json/dreams.jso
 - ```PKILL_L``` Slow-release painkiller.
 - ```RAD_STERILIZED``` Irradiated food that is safe to eat, but is not edible forever (such as MREs).
 - ```RAW``` Reduces kcal by 25%, until cooked (that is, used in a recipe that requires a heat source).  Should be added to *all* uncooked food, unless that food derives more than 50% of its calories from sugars (i.e. many fruits, some veggies) or fats (i.e. butchered fat, coconut).  TODO: Make a unit test for these criteria after fat/protein/carbs are added.
-- ```SMOKABLE``` Accepted by smoking rack.
 - ```SMOKED``` Not accepted by smoking rack (product of smoking).
 - ```USE_EAT_VERB``` "You drink your %s." or "You eat your %s."
 - ```USE_ON_NPC``` Can be used on NPCs (not necessarily by them).

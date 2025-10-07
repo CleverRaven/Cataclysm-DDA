@@ -322,7 +322,6 @@ extern const flag_id flag_SLEEP_AID;
 extern const flag_id flag_SLEEP_AID_CONTAINER;
 extern const flag_id flag_SLEEP_IGNORE;
 extern const flag_id flag_SLOW_WIELD;
-extern const flag_id flag_SMOKABLE;
 extern const flag_id flag_SMOKED;
 extern const flag_id flag_SOLARPACK;
 extern const flag_id flag_SOLARPACK_ON;

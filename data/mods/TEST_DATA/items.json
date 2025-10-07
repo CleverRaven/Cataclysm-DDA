@@ -1795,7 +1795,7 @@
     "price_postapoc": "1 USD",
     "material": [ "fruit" ],
     "fun": 10,
-    "flags": [ "FREEZERBURN", "SMOKABLE" ],
+    "flags": [ "FREEZERBURN" ],
     "smoking_result": "dry_fruit",
     "vitamins": [ [ "vitC", 14 ], [ "iron", 1 ], [ "fruit_allergen", 1 ] ]
   },
@@ -3561,7 +3561,7 @@
     "material": [ "fruit" ],
     "volume": "375 ml",
     "fun": 3,
-    "flags": [ "FREEZERBURN", "SMOKABLE" ],
+    "flags": [ "FREEZERBURN" ],
     "smoking_result": "dry_fruit",
     "vitamins": [ [ "vitC", 100 ], [ "calcium", 100 ], [ "iron", 100 ], [ "fruit_allergen", 1 ] ]
   },

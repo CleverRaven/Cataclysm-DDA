@@ -22,7 +22,6 @@
     "price_postapoc": "2 USD",
     "material": [ "flesh" ],
     "volume": "250 ml",
-    "flags": [ "SMOKABLE" ],
     "smoking_result": "sausage",
     "vitamins": [ [ "calcium", 2 ], [ "iron", 6 ], [ "meat_allergen", 1 ] ],
     "fun": -10
@@ -227,7 +226,6 @@
     "name": { "str": "raw wasteland sausage" },
     "description": "Lean raw sausage made from heavily salt-cured offal, ready to be smoked.",
     "quench": -7,
-    "flags": [ "SMOKABLE" ],
     "smoking_result": "sausage_wasteland"
   },
   {
