@@ -10,7 +10,7 @@
         "effect": [
           { "math": [ "u_spell_level('banishment_lesser') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_banishment_lesser", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -28,7 +28,7 @@
         "effect": [
           { "math": [ "u_spell_level('animist_mass_hiding_aoe') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_animist_mass_hiding_aoe", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -46,7 +46,7 @@
         "effect": [
           { "math": [ "u_spell_level('animist_spirit_walking') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_animist_spirit_walking", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -64,7 +64,7 @@
         "effect": [
           { "math": [ "u_spell_level('biomancer_hyper_regeneration') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_biomancer_hyper_regeneration", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -82,7 +82,7 @@
         "effect": [
           { "math": [ "u_spell_level('classless_disjunction') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_classless_disjunction", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -100,7 +100,7 @@
         "effect": [
           { "math": [ "u_spell_level('cause_rot') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_cause_rot", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -118,7 +118,7 @@
         "effect": [
           { "math": [ "u_spell_level('druid_beguile_savage_beast') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_druid_beguile_savage_beast", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -136,7 +136,7 @@
         "effect": [
           { "math": [ "u_spell_level('druid_thorn_skin') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_druid_thorn_skin", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -154,7 +154,7 @@
         "effect": [
           { "math": [ "u_spell_level('druid_renew_forest_spell') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_druid_renew_forest_spell", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -172,7 +172,7 @@
         "effect": [
           { "math": [ "u_spell_level('druid_create_temporary_spring') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_druid_create_temporary_spring", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -190,7 +190,7 @@
         "effect": [
           { "math": [ "u_spell_level('druid_turn_tree_into_treant') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_druid_turn_tree_into_treant", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -208,7 +208,7 @@
         "effect": [
           { "math": [ "u_spell_level('shape_of_dust') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_shape_of_dust", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -226,7 +226,7 @@
         "effect": [
           { "math": [ "u_spell_level('summon_eshaper_golem') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_summon_eshaper_golem", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -244,7 +244,7 @@
         "effect": [
           { "math": [ "u_spell_level('earthshaper_reveal_world_map') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_earthshaper_reveal_world_map", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -262,7 +262,7 @@
         "effect": [
           { "math": [ "u_spell_level('earthshaper_granite_aegis') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_earthshaper_granite_aegis", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -280,7 +280,7 @@
         "effect": [
           { "math": [ "u_spell_level('earthshaper_sleep_in_earth') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_earthshaper_sleep_in_earth", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -298,7 +298,7 @@
         "effect": [
           { "math": [ "u_spell_level('earthshaper_diggable_teleport') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_earthshaper_diggable_teleport", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -316,7 +316,7 @@
         "effect": [
           { "math": [ "u_spell_level('nova_flare') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_nova_flare", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -334,7 +334,7 @@
         "effect": [
           { "math": [ "u_spell_level('freezing_touch') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_freezing_touch", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -352,7 +352,7 @@
         "effect": [
           { "math": [ "u_spell_level('kelvinist_no_emotion_spell') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_kelvinist_no_emotion_spell", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -370,7 +370,7 @@
         "effect": [
           { "math": [ "u_spell_level('kelvinist_set_everyone_on_fire') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_kelvinist_set_everyone_on_fire", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -388,7 +388,7 @@
         "effect": [
           { "math": [ "u_spell_level('magus_haste') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_magus_haste", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -406,7 +406,7 @@
         "effect": [
           { "math": [ "u_spell_level('focused_bolt') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_focused_bolt", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -424,7 +424,7 @@
         "effect": [
           { "math": [ "u_spell_level('magus_word_of_recall') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_magus_word_of_recall", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -442,7 +442,7 @@
         "effect": [
           { "math": [ "u_spell_level('magus_diamond_imbuement') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_magus_diamond_imbuement", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -460,7 +460,7 @@
         "effect": [
           { "math": [ "u_spell_level('magus_permanent_light') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_magus_permanent_light", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -478,7 +478,7 @@
         "effect": [
           { "math": [ "u_spell_level('magus_cannot_move_attack_or_damage_target') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_magus_cannot_move_attack_or_damage_target", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -496,7 +496,7 @@
         "effect": [
           { "math": [ "u_spell_level('lightning_storm') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_lightning_storm", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -514,7 +514,7 @@
         "effect": [
           { "math": [ "u_spell_level('vacuum_decompression') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_vacuum_decompression", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -532,7 +532,7 @@
         "effect": [
           { "math": [ "u_spell_level('rupture') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_rupture", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -550,7 +550,7 @@
         "effect": [
           { "math": [ "u_spell_level('obfuscated_body') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_obfuscated_body", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -568,7 +568,7 @@
         "effect": [
           { "math": [ "u_spell_level('druidic_healing') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_druidic_healing", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -586,7 +586,7 @@
         "effect": [
           { "math": [ "u_spell_level('magus_mana_blast') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_magus_mana_blast", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -604,7 +604,7 @@
         "effect": [
           { "math": [ "u_spell_level('summon_magic_motorcycle') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_summon_magic_motorcycle", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -622,7 +622,7 @@
         "effect": [
           { "math": [ "u_spell_level('dominate') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_dominate", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -640,7 +640,7 @@
         "effect": [
           { "math": [ "u_spell_level('devour') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_devour", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -658,7 +658,7 @@
         "effect": [
           { "math": [ "u_spell_level('animist_see_invisibility') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_animist_see_invisibility", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -676,7 +676,7 @@
         "effect": [
           { "math": [ "u_spell_level('vicious_tentacle') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_vicious_tentacle", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -694,7 +694,7 @@
         "effect": [
           { "math": [ "u_spell_level('bio_bonespear') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_bio_bonespear", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -712,7 +712,7 @@
         "effect": [
           { "math": [ "u_spell_level('biomancer_giant_growth') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_biomancer_giant_growth", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -730,7 +730,7 @@
         "effect": [
           { "math": [ "u_spell_level('biomancer_lashing_tentacles') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_biomancer_lashing_tentacles", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -748,7 +748,7 @@
         "effect": [
           { "math": [ "u_spell_level('biomancer_caustic_blood') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_biomancer_caustic_blood", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -766,7 +766,7 @@
         "effect": [
           { "math": [ "u_spell_level('megablast') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_megablast", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -784,7 +784,7 @@
         "effect": [
           { "math": [ "u_spell_level('druidic_regrowth') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_druidic_regrowth", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -802,7 +802,7 @@
         "effect": [
           { "math": [ "u_spell_level('summon_wolf_druid') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_summon_wolf_druid", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -820,7 +820,7 @@
         "effect": [
           { "math": [ "u_spell_level('druid_healing') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_druid_healing", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -838,7 +838,7 @@
         "effect": [
           { "math": [ "u_spell_level('druid_whisper_leaves') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_druid_whisper_leaves", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -856,7 +856,7 @@
         "effect": [
           { "math": [ "u_spell_level('druid_summon_tanglevine') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_druid_summon_tanglevine", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -874,7 +874,7 @@
         "effect": [
           { "math": [ "u_spell_level('eshaper_melee_damage') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_eshaper_melee_damage", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -892,7 +892,7 @@
         "effect": [
           { "math": [ "u_spell_level('eshaper_crystal_wrap') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_eshaper_crystal_wrap", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -910,7 +910,7 @@
         "effect": [
           { "math": [ "u_spell_level('kelvinist_summon_freezer_spell') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_kelvinist_summon_freezer_spell", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -928,7 +928,7 @@
         "effect": [
           { "math": [ "u_spell_level('gravity_well') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_gravity_well", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -946,7 +946,7 @@
         "effect": [
           { "math": [ "u_spell_level('magus_slow') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_magus_slow", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -964,7 +964,7 @@
         "effect": [
           { "math": [ "u_spell_level('magus_baleful_polymorph') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_magus_baleful_polymorph", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -982,7 +982,7 @@
         "effect": [
           { "math": [ "u_spell_level('stormshaper_ionization') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_stormshaper_ionization", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -1000,7 +1000,7 @@
         "effect": [
           { "math": [ "u_spell_level('storm_shipwrecker') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_storm_shipwrecker", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -1018,7 +1018,7 @@
         "effect": [
           { "math": [ "u_spell_level('storm_superconductor') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_storm_superconductor", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -1036,7 +1036,7 @@
         "effect": [
           { "math": [ "u_spell_level('summon_teravolt') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_summon_teravolt", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -1054,7 +1054,7 @@
         "effect": [
           { "math": [ "u_spell_level('stormshaper_heart_of_hurricane') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_stormshaper_heart_of_hurricane", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -1072,7 +1072,7 @@
         "effect": [
           { "math": [ "u_spell_level('recover_bionic_power') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_recover_bionic_power", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -1090,7 +1090,7 @@
         "effect": [
           { "math": [ "u_spell_level('animated_blade') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_animated_blade", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -1108,7 +1108,7 @@
         "effect": [
           { "math": [ "u_spell_level('improved_knock') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_improved_knock", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -1126,7 +1126,7 @@
         "effect": [
           { "math": [ "u_spell_level('technomancer_robot_shutdown') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_technomancer_robot_shutdown", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -1144,7 +1144,7 @@
         "effect": [
           { "math": [ "u_spell_level('technomancer_conjure_ups') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_technomancer_conjure_ups", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -1162,7 +1162,7 @@
         "effect": [
           { "math": [ "u_spell_level('technomancer_create_ups_connection') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_technomancer_create_ups_connection", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -1180,7 +1180,7 @@
         "effect": [
           { "math": [ "u_spell_level('recover_mana') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_recover_mana", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -1198,7 +1198,7 @@
         "effect": [
           { "math": [ "u_spell_level('recover_pain') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_recover_pain", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -1216,7 +1216,7 @@
         "effect": [
           { "math": [ "u_spell_level('summon_undead_swarm') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_summon_undead_swarm", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -1234,7 +1234,7 @@
         "effect": [
           { "math": [ "u_spell_level('life_detonation') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_life_detonation", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -1252,7 +1252,7 @@
         "effect": [
           { "math": [ "u_spell_level('animist_add_evasion_spell') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_animist_add_evasion_spell", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -1270,7 +1270,7 @@
         "effect": [
           { "math": [ "u_spell_level('animist_slow_food_rotting_spell') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_animist_slow_food_rotting_spell", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -1288,7 +1288,7 @@
         "effect": [
           { "math": [ "u_spell_level('biomancer_scalpel_fingers') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_biomancer_scalpel_fingers", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -1306,7 +1306,7 @@
         "effect": [
           { "math": [ "u_spell_level('dark_sight') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_dark_sight", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -1324,7 +1324,7 @@
         "effect": [
           { "math": [ "u_spell_level('recover_sleepiness') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_recover_sleepiness", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -1342,7 +1342,7 @@
         "effect": [
           { "math": [ "u_spell_level('druid_feralform') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_druid_feralform", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -1360,7 +1360,7 @@
         "effect": [
           { "math": [ "u_spell_level('druid_natures_commune') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_druid_natures_commune", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -1378,7 +1378,7 @@
         "effect": [
           { "math": [ "u_spell_level('druid_wood_living_tree_spell') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_druid_wood_living_tree_spell", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -1396,7 +1396,7 @@
         "effect": [
           { "math": [ "u_spell_level('recover_stamina') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_recover_stamina", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -1414,7 +1414,7 @@
         "effect": [
           { "math": [ "u_spell_level('eshaper_shardstorm') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_eshaper_shardstorm", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -1432,7 +1432,7 @@
         "effect": [
           { "math": [ "u_spell_level('eshaper_impalement') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_eshaper_impalement", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -1450,7 +1450,7 @@
         "effect": [
           { "math": [ "u_spell_level('fireball') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_fireball", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -1468,7 +1468,7 @@
         "effect": [
           { "math": [ "u_spell_level('cone_cold') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_cone_cold", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -1486,7 +1486,7 @@
         "effect": [
           { "math": [ "u_spell_level('hoary_blast') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_hoary_blast", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -1504,7 +1504,7 @@
         "effect": [
           { "math": [ "u_spell_level('kelvinist_extinguish_fire_spell') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_kelvinist_extinguish_fire_spell", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -1522,7 +1522,7 @@
         "effect": [
           { "math": [ "u_spell_level('magus_mana_bolt') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_magus_mana_bolt", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -1540,7 +1540,7 @@
         "effect": [
           { "math": [ "u_spell_level('magus_mana_beam') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_magus_mana_beam", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -1558,7 +1558,7 @@
         "effect": [
           { "math": [ "u_spell_level('magus_escape') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_magus_escape", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -1576,7 +1576,7 @@
         "effect": [
           { "math": [ "u_spell_level('cats_grace') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_cats_grace", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -1594,7 +1594,7 @@
         "effect": [
           { "math": [ "u_spell_level('eagles_sight') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_eagles_sight", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -1612,7 +1612,7 @@
         "effect": [
           { "math": [ "u_spell_level('ogres_strength') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_ogres_strength", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -1630,7 +1630,7 @@
         "effect": [
           { "math": [ "u_spell_level('foxs_cunning') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_foxs_cunning", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -1648,7 +1648,7 @@
         "effect": [
           { "math": [ "u_spell_level('magus_teleport_mark') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_magus_teleport_mark", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -1666,7 +1666,7 @@
         "effect": [
           { "math": [ "u_spell_level('magus_ranged_increase') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_magus_ranged_increase", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -1684,7 +1684,7 @@
         "effect": [
           { "math": [ "u_spell_level('magus_push_nearby_enemies_back') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_magus_push_nearby_enemies_back", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -1702,7 +1702,7 @@
         "effect": [
           { "math": [ "u_spell_level('storm_hammer') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_storm_hammer", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -1720,7 +1720,7 @@
         "effect": [
           { "math": [ "u_spell_level('stormfist') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_stormfist", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -1738,7 +1738,7 @@
         "effect": [
           { "math": [ "u_spell_level('explosive_decompression') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_explosive_decompression", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -1756,7 +1756,7 @@
         "effect": [
           { "math": [ "u_spell_level('shocking_dash') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_shocking_dash", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -1774,7 +1774,7 @@
         "effect": [
           { "math": [ "u_spell_level('toxtricity') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_toxtricity", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -1792,7 +1792,7 @@
         "effect": [
           { "math": [ "u_spell_level('electric_waves') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_electric_waves", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -1810,7 +1810,7 @@
         "effect": [
           { "math": [ "u_spell_level('invisibility') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_invisibility", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -1828,7 +1828,7 @@
         "effect": [
           { "math": [ "u_spell_level('mirror_image') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_mirror_image", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -1846,7 +1846,7 @@
         "effect": [
           { "math": [ "u_spell_level('holographic_transposition') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_holographic_transposition", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -1864,7 +1864,7 @@
         "effect": [
           { "math": [ "u_spell_level('summon_floating_disk') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_summon_floating_disk", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -1882,7 +1882,7 @@
         "effect": [
           { "math": [ "u_spell_level('technomancer_knifeshot') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_technomancer_knifeshot", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -1900,7 +1900,7 @@
         "effect": [
           { "math": [ "u_spell_level('technomancer_recharge_vehicle') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_technomancer_recharge_vehicle", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -1918,7 +1918,7 @@
         "effect": [
           { "math": [ "u_spell_level('convert_sorcerer') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_convert_sorcerer", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -1936,7 +1936,7 @@
         "effect": [
           { "math": [ "u_spell_level('animist_summon_decaying_boneclub') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_animist_summon_decaying_boneclub", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -1954,7 +1954,7 @@
         "effect": [
           { "math": [ "u_spell_level('animist_luck_bone') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_animist_luck_bone", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -1972,7 +1972,7 @@
         "effect": [
           { "math": [ "u_spell_level('animist_do_psionic_damage_to_head') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_animist_do_psionic_damage_to_head", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -1990,7 +1990,7 @@
         "effect": [
           { "math": [ "u_spell_level('bio_grotesque') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_bio_grotesque", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -2008,7 +2008,7 @@
         "effect": [
           { "math": [ "u_spell_level('biomancer_get_more_blood') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_biomancer_get_more_blood", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -2026,7 +2026,7 @@
         "effect": [
           { "math": [ "u_spell_level('thought_shield') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_thought_shield", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -2044,7 +2044,7 @@
         "effect": [
           { "math": [ "u_spell_level('classless_dispel_magic') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_classless_dispel_magic", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -2062,7 +2062,7 @@
         "effect": [
           { "math": [ "u_spell_level('druid_naturebow1') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_druid_naturebow1", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -2080,7 +2080,7 @@
         "effect": [
           { "math": [ "u_spell_level('purify_seed') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_purify_seed", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -2098,7 +2098,7 @@
         "effect": [
           { "math": [ "u_spell_level('druid_healing_herb') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_druid_healing_herb", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -2116,7 +2116,7 @@
         "effect": [
           { "math": [ "u_spell_level('druid_bandage_heal') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_druid_bandage_heal", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -2134,7 +2134,7 @@
         "effect": [
           { "math": [ "u_spell_level('druid_summon_brambles') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_druid_summon_brambles", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -2152,7 +2152,7 @@
         "effect": [
           { "math": [ "u_spell_level('druid_breathing_underwater') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_druid_breathing_underwater", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -2170,7 +2170,7 @@
         "effect": [
           { "math": [ "u_spell_level('ice_spike') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_ice_spike", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -2188,7 +2188,7 @@
         "effect": [
           { "math": [ "u_spell_level('frost_armor') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_frost_armor", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -2206,7 +2206,7 @@
         "effect": [
           { "math": [ "u_spell_level('kelvinist_flamebreath') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_kelvinist_flamebreath", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -2224,7 +2224,7 @@
         "effect": [
           { "math": [ "u_spell_level('lightning_bolt') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_lightning_bolt", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -2242,7 +2242,7 @@
         "effect": [
           { "math": [ "u_spell_level('holy_blade') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_holy_blade", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -2260,7 +2260,7 @@
         "effect": [
           { "math": [ "u_spell_level('spirit_armor') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_spirit_armor", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -2278,7 +2278,7 @@
         "effect": [
           { "math": [ "u_spell_level('synaptic_stimulation') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_synaptic_stimulation", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -2296,7 +2296,7 @@
         "effect": [
           { "math": [ "u_spell_level('technomancer_welder') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_technomancer_welder", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -2314,7 +2314,7 @@
         "effect": [
           { "math": [ "u_spell_level('technomancer_far_sight') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_technomancer_far_sight", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -2332,7 +2332,7 @@
         "effect": [
           { "math": [ "u_spell_level('animist_summon_watcher') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_animist_summon_watcher", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -2350,7 +2350,7 @@
         "effect": [
           { "math": [ "u_spell_level('animist_cast_spells_when_silent') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_animist_cast_spells_when_silent", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -2368,7 +2368,7 @@
         "effect": [
           { "math": [ "u_spell_level('pain_split') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_pain_split", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -2386,7 +2386,7 @@
         "effect": [
           { "math": [ "u_spell_level('bio_fleshpouch') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_bio_fleshpouch", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -2404,7 +2404,7 @@
         "effect": [
           { "math": [ "u_spell_level('biomancer_coagulant_weave') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_biomancer_coagulant_weave", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -2422,7 +2422,7 @@
         "effect": [
           { "math": [ "u_spell_level('biomancer_caustic_aura') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_biomancer_caustic_aura", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -2440,7 +2440,7 @@
         "effect": [
           { "math": [ "u_spell_level('biomancer_swim_frog') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_biomancer_swim_frog", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -2458,7 +2458,7 @@
         "effect": [
           { "math": [ "u_spell_level('biomancer_carrion_feast') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_biomancer_carrion_feast", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -2476,7 +2476,7 @@
         "effect": [
           { "math": [ "u_spell_level('biomancer_slow_bleeding') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_biomancer_slow_bleeding", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -2494,7 +2494,7 @@
         "effect": [
           { "math": [ "u_spell_level('biomancer_eat_tons_of_food') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_biomancer_eat_tons_of_food", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -2512,7 +2512,7 @@
         "effect": [
           { "math": [ "u_spell_level('protection_aura') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_protection_aura", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -2530,7 +2530,7 @@
         "effect": [
           { "math": [ "u_spell_level('sound_bomb') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_sound_bomb", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -2548,7 +2548,7 @@
         "effect": [
           { "math": [ "u_spell_level('druid_veggrasp') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_druid_veggrasp", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -2566,7 +2566,7 @@
         "effect": [
           { "math": [ "u_spell_level('druid_rootstrike') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_druid_rootstrike", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -2584,7 +2584,7 @@
         "effect": [
           { "math": [ "u_spell_level('druid_harvest_hunter') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_druid_harvest_hunter", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -2602,7 +2602,7 @@
         "effect": [
           { "math": [ "u_spell_level('druid_bramble_spear') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_druid_bramble_spear", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -2620,7 +2620,7 @@
         "effect": [
           { "math": [ "u_spell_level('druid_disinfectant') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_druid_disinfectant", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -2638,7 +2638,7 @@
         "effect": [
           { "math": [ "u_spell_level('druid_water_walking') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_druid_water_walking", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -2656,7 +2656,7 @@
         "effect": [
           { "math": [ "u_spell_level('druid_bearmantle') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_druid_bearmantle", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -2674,7 +2674,7 @@
         "effect": [
           { "math": [ "u_spell_level('druid_goodberry') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_druid_goodberry", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -2692,7 +2692,7 @@
         "effect": [
           { "math": [ "u_spell_level('seismic_stomp') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_seismic_stomp", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -2710,7 +2710,7 @@
         "effect": [
           { "math": [ "u_spell_level('eshaper_shardspray') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_eshaper_shardspray", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -2728,7 +2728,7 @@
         "effect": [
           { "math": [ "u_spell_level('move_earth') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_move_earth", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -2746,7 +2746,7 @@
         "effect": [
           { "math": [ "u_spell_level('clairvoyance') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_clairvoyance", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -2764,7 +2764,7 @@
         "effect": [
           { "math": [ "u_spell_level('earthshaper_stoneskin') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_earthshaper_stoneskin", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -2782,7 +2782,7 @@
         "effect": [
           { "math": [ "u_spell_level('earthshaper_pillar') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_earthshaper_pillar", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -2800,7 +2800,7 @@
         "effect": [
           { "math": [ "u_spell_level('eshaper_spawn_tools') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_eshaper_spawn_tools", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -2818,7 +2818,7 @@
         "effect": [
           { "math": [ "u_spell_level('earthshaper_danger_sense') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_earthshaper_danger_sense", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -2836,7 +2836,7 @@
         "effect": [
           { "math": [ "u_spell_level('earthshaper_fortitude_of_stone') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_earthshaper_fortitude_of_stone", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -2854,7 +2854,7 @@
         "effect": [
           { "math": [ "u_spell_level('earthshaper_harden_earth') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_earthshaper_harden_earth", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -2872,7 +2872,7 @@
         "effect": [
           { "math": [ "u_spell_level('earthshaper_repair_metal_stone') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_earthshaper_repair_metal_stone", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -2890,7 +2890,7 @@
         "effect": [
           { "math": [ "u_spell_level('point_flare') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_point_flare", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -2908,7 +2908,7 @@
         "effect": [
           { "math": [ "u_spell_level('burning_hands') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_burning_hands", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -2926,7 +2926,7 @@
         "effect": [
           { "math": [ "u_spell_level('frost_spray') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_frost_spray", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -2944,7 +2944,7 @@
         "effect": [
           { "math": [ "u_spell_level('glide_ice') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_glide_ice", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -2962,7 +2962,7 @@
         "effect": [
           { "math": [ "u_spell_level('ice_shield') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_ice_shield", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -2980,7 +2980,7 @@
         "effect": [
           { "math": [ "u_spell_level('kelvinist_summon_flamesword') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_kelvinist_summon_flamesword", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -2998,7 +2998,7 @@
         "effect": [
           { "math": [ "u_spell_level('kelvinist_anti_cold') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_kelvinist_anti_cold", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -3016,7 +3016,7 @@
         "effect": [
           { "math": [ "u_spell_level('kelvinist_anti_heat') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_kelvinist_anti_heat", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -3034,7 +3034,7 @@
         "effect": [
           { "math": [ "u_spell_level('kelvinist_persuasion_spell') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_kelvinist_persuasion_spell", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -3052,7 +3052,7 @@
         "effect": [
           { "math": [ "u_spell_level('phase_door') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_phase_door", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -3070,7 +3070,7 @@
         "effect": [
           { "math": [ "u_spell_level('magus_force_jar') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_magus_force_jar", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -3088,7 +3088,7 @@
         "effect": [
           { "math": [ "u_spell_level('magus_summon_impact_sling') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_magus_summon_impact_sling", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -3106,7 +3106,7 @@
         "effect": [
           { "math": [ "u_spell_level('magus_slowfall') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_magus_slowfall", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -3124,7 +3124,7 @@
         "effect": [
           { "math": [ "u_spell_level('magus_spiderclimb') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_magus_spiderclimb", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -3142,7 +3142,7 @@
         "effect": [
           { "math": [ "u_spell_level('jolt') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_jolt", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -3160,7 +3160,7 @@
         "effect": [
           { "math": [ "u_spell_level('windstrike') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_windstrike", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -3178,7 +3178,7 @@
         "effect": [
           { "math": [ "u_spell_level('windrun') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_windrun", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -3196,7 +3196,7 @@
         "effect": [
           { "math": [ "u_spell_level('stormshaper_repelling_arc') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_stormshaper_repelling_arc", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -3214,7 +3214,7 @@
         "effect": [
           { "math": [ "u_spell_level('air_bubble') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_air_bubble", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -3232,7 +3232,7 @@
         "effect": [
           { "math": [ "u_spell_level('electric_eye') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_electric_eye", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -3250,7 +3250,7 @@
         "effect": [
           { "math": [ "u_spell_level('stormshaper_cloak_of_fog') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_stormshaper_cloak_of_fog", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -3268,7 +3268,7 @@
         "effect": [
           { "math": [ "u_spell_level('quantum_tunnel_lesser') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_quantum_tunnel_lesser", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -3286,7 +3286,7 @@
         "effect": [
           { "math": [ "u_spell_level('knock') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_knock", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -3304,7 +3304,7 @@
         "effect": [
           { "math": [ "u_spell_level('technomancer_gain_electronics_computer_spell') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_technomancer_gain_electronics_computer_spell", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -3322,7 +3322,7 @@
         "effect": [
           { "math": [ "u_spell_level('technomancer_pain_ignore') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_technomancer_pain_ignore", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -3340,7 +3340,7 @@
         "effect": [
           { "math": [ "u_spell_level('smite') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_smite", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -3358,7 +3358,7 @@
         "effect": [
           { "math": [ "u_spell_level('animist_sense_outsiders') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_animist_sense_outsiders", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -3376,7 +3376,7 @@
         "effect": [
           { "math": [ "u_spell_level('pertifying_touch') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_pertifying_touch", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -3394,7 +3394,7 @@
         "effect": [
           { "math": [ "u_spell_level('reactive_armor') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_reactive_armor", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -3412,7 +3412,7 @@
         "effect": [
           { "math": [ "u_spell_level('lightning_blast') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_lightning_blast", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -3430,7 +3430,7 @@
         "effect": [
           { "math": [ "u_spell_level('bless') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_bless", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -3448,7 +3448,7 @@
         "effect": [
           { "math": [ "u_spell_level('laze') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_laze", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -3466,7 +3466,7 @@
         "effect": [
           { "math": [ "u_spell_level('x-ray') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_x_ray", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -3484,7 +3484,7 @@
         "effect": [
           { "math": [ "u_spell_level('summon_undead') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_summon_undead", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -3502,7 +3502,7 @@
         "effect": [
           { "math": [ "u_spell_level('necrotic_gaze') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_necrotic_gaze", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -3520,7 +3520,7 @@
         "effect": [
           { "math": [ "u_spell_level('disruption_bolt') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_disruption_bolt", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -3538,7 +3538,7 @@
         "effect": [
           { "math": [ "u_spell_level('summon_wisps') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_summon_wisps", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -3556,7 +3556,7 @@
         "effect": [
           { "math": [ "u_spell_level('bleed') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_bleed", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -3574,7 +3574,7 @@
         "effect": [
           { "math": [ "u_spell_level('animist_detect_wizards') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_animist_detect_wizards", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -3592,7 +3592,7 @@
         "effect": [
           { "math": [ "u_spell_level('light_healing') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_light_healing", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -3610,7 +3610,7 @@
         "effect": [
           { "math": [ "u_spell_level('bio_acidicspray') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_bio_acidicspray", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -3628,7 +3628,7 @@
         "effect": [
           { "math": [ "u_spell_level('biomancer_paralytic_dart') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_biomancer_paralytic_dart", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -3646,7 +3646,7 @@
         "effect": [
           { "math": [ "u_spell_level('biomancer_visceral_projection') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_biomancer_visceral_projection", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -3664,7 +3664,7 @@
         "effect": [
           { "math": [ "u_spell_level('biomancer_cure_disease_minor') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_biomancer_cure_disease_minor", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -3682,7 +3682,7 @@
         "effect": [
           { "math": [ "u_spell_level('crystallize_mana') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_crystallize_mana", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -3700,7 +3700,7 @@
         "effect": [
           { "math": [ "u_spell_level('blinding_flash') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_blinding_flash", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -3718,7 +3718,7 @@
         "effect": [
           { "math": [ "u_spell_level('ethereal_grasp') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_ethereal_grasp", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -3736,7 +3736,7 @@
         "effect": [
           { "math": [ "u_spell_level('classless_clean_clothing_and_self') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_classless_clean_clothing_and_self", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -3754,7 +3754,7 @@
         "effect": [
           { "math": [ "u_spell_level('classless_restore_crystal_mana') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_classless_restore_crystal_mana", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -3772,7 +3772,7 @@
         "effect": [
           { "math": [ "u_spell_level('druid_tornskin') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_druid_tornskin", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -3790,7 +3790,7 @@
         "effect": [
           { "math": [ "u_spell_level('druid_growth') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_druid_growth", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -3808,7 +3808,7 @@
         "effect": [
           { "math": [ "u_spell_level('druid_anti_heat') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_druid_anti_heat", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -3826,7 +3826,7 @@
         "effect": [
           { "math": [ "u_spell_level('druid_traverse_the_wilds') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_druid_traverse_the_wilds", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -3844,7 +3844,7 @@
         "effect": [
           { "math": [ "u_spell_level('stonefist') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_stonefist", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -3862,7 +3862,7 @@
         "effect": [
           { "math": [ "u_spell_level('eshaper_piercing_bolt') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_eshaper_piercing_bolt", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -3880,7 +3880,7 @@
         "effect": [
           { "math": [ "u_spell_level('earthshaper_boulder') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_earthshaper_boulder", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -3898,7 +3898,7 @@
         "effect": [
           { "math": [ "u_spell_level('earthshaper_turning_of_earth') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_earthshaper_turning_of_earth", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -3916,7 +3916,7 @@
         "effect": [
           { "math": [ "u_spell_level('kelvinist_firebolt') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_kelvinist_firebolt", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -3934,7 +3934,7 @@
         "effect": [
           { "math": [ "u_spell_level('magus_stop_attack_shield') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_magus_stop_attack_shield", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -3952,7 +3952,7 @@
         "effect": [
           { "math": [ "u_spell_level('magus_far_hand_pull') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_magus_far_hand_pull", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -3970,7 +3970,7 @@
         "effect": [
           { "math": [ "u_spell_level('magus_light_target') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_magus_light_target", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -3988,7 +3988,7 @@
         "effect": [
           { "math": [ "u_spell_level('stormshaper_wall_of_fog') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_stormshaper_wall_of_fog", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -4006,7 +4006,7 @@
         "effect": [
           { "math": [ "u_spell_level('stormshaper_cloak_of_frog') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_stormshaper_cloak_of_frog", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -4024,7 +4024,7 @@
         "effect": [
           { "math": [ "u_spell_level('stormshaper_loud_voice_spell') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_stormshaper_loud_voice_spell", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -4042,7 +4042,7 @@
         "effect": [
           { "math": [ "u_spell_level('create_atomic_lamp') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_create_atomic_lamp", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -4060,7 +4060,7 @@
         "effect": [
           { "math": [ "u_spell_level('technomancer_conjure_radio') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_technomancer_conjure_radio", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -4078,7 +4078,7 @@
         "effect": [
           { "math": [ "u_spell_level('create_atomic_light') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_create_atomic_light", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -4096,7 +4096,7 @@
         "effect": [
           { "math": [ "u_spell_level('classless_watch_spell') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_classless_watch_spell", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -4114,7 +4114,7 @@
         "effect": [
           { "math": [ "u_spell_level('classless_easy_sleep_spell') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_classless_easy_sleep_spell", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -4132,7 +4132,7 @@
         "effect": [
           { "math": [ "u_spell_level('druid_woodshaft') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_druid_woodshaft", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -4150,7 +4150,7 @@
         "effect": [
           { "math": [ "u_spell_level('summon_cats') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_summon_cats", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -4168,7 +4168,7 @@
         "effect": [
           { "math": [ "u_spell_level('eshaper_rockbolt') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_eshaper_rockbolt", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -4186,7 +4186,7 @@
         "effect": [
           { "math": [ "u_spell_level('create_lighter') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_create_lighter", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -4204,7 +4204,7 @@
         "effect": [
           { "math": [ "u_spell_level('chilling_touch') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_chilling_touch", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -4222,7 +4222,7 @@
         "effect": [
           { "math": [ "u_spell_level('kelvinist_heat_food') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_kelvinist_heat_food", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -4240,7 +4240,7 @@
         "effect": [
           { "math": [ "u_spell_level('shadow_field') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_shadow_field", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -4258,7 +4258,7 @@
         "effect": [
           { "math": [ "u_spell_level('magic_missile') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_magic_missile", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -4276,7 +4276,7 @@
         "effect": [
           { "math": [ "u_spell_level('shocking_lash') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_shocking_lash", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -4294,7 +4294,7 @@
         "effect": [
           { "math": [ "u_spell_level('electric_arts') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_electric_arts", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -4312,7 +4312,7 @@
         "effect": [
           { "math": [ "u_spell_level('taze') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_taze", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
@@ -4330,7 +4330,7 @@
         "effect": [
           { "math": [ "u_spell_level('create_rune_sorcerer') = u_current_sorcerer_level" ] },
           { "math": [ "u_used_spell_slot_for_create_rune_sorcerer", "=", "8" ] },
-          { "math": [ "u_sorcerer_level_8_spells_known", "++" ] }
+          { "math": [ "u_sorcerer_level_8_spells_known++" ] }
         ]
       },
       { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },

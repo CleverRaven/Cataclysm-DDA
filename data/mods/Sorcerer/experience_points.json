@@ -25,7 +25,7 @@
     "type": "effect_on_condition",
     "id": "EOC_level_up_sorcerer",
     "effect": [
-      { "math": [ "u_current_sorcerer_level", "++" ] },
+      { "math": [ "u_current_sorcerer_level++" ] },
       {
         "run_eocs": {
           "id": "sorcerer_grant_forget_spell_charge",

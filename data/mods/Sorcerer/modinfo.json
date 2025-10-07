@@ -16,10 +16,10 @@
     "required_event": "game_start",
     "condition": { "and": [ { "not": { "u_has_trait": "SORCERER" } } ] },
     "effect": [
-      { "math": [ "u_exp_to_sorcerer_level", "=", "100" ] },
-      { "math": [ "u_exp_per_sorcerer_level", "=", "300" ] },
-      { "math": [ "u_available_exp_sorcerer", "=", "0" ] },
-      { "math": [ "u_current_sorcerer_level", "=", "0" ] },
+      { "math": [ "u_exp_to_sorcerer_level = 100" ] },
+      { "math": [ "u_exp_per_sorcerer_level = 300" ] },
+      { "math": [ "u_available_exp_sorcerer = 0" ] },
+      { "math": [ "u_current_sorcerer_level = 0" ] },
       { "open_dialogue": { "topic": "TALK_SORCERER_MENU_MAIN" } },
       { "u_message": "You can open the Sorcerer menu again from the mutations menu." },
       { "u_add_trait": "SORCERER" }
