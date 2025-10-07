@@ -761,7 +761,7 @@ std::vector<Highway_path> overmap::place_highways(
     }
 
     // guaranteed intersection close to (but not at) avatar start location
-    if( overmap_buffer.highway_global_offset.is_invalid() ) {
+    if( overmap_buffer.global_state.highway_global_offset.is_invalid() ) {
         overmap_buffer.set_highway_global_offset();
         overmap_buffer.generate_highway_intersection_point( overmap_buffer.get_highway_global_offset() );
     }

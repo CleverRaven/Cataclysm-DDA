@@ -151,12 +151,38 @@ struct omt_find_params {
     std::optional<overmap_special_id> om_special = std::nullopt;
 };
 
+/**
+* Helper struct for dynamic data about the world's overmaps (not including overmap objects themselves).
+* For example: unique overmap special counts, highway intersection locations.
+*/
+struct overmap_global_state {
+    // Set of globally unique overmap specials that have already been placed
+    std::unordered_set<overmap_special_id> placed_unique_specials;
+    // This tracks the overmap unique specials we have placed. It is used to
+    // Adjust weights of special spawns to correct for things like failure to spawn.
+    std::unordered_map<overmap_special_id, int> unique_special_count;
+    // Global count of number of overmaps generated for this world.
+    int overmap_count = 0;
+    // Global count of major rivers generated for this world
+    int major_river_count = 0;
+    // most central overmap highway intersection
+    point_abs_om highway_global_offset = point_abs_om::invalid;
+    // all highway intersections
+    std::map<std::string, interhighway_node> highway_intersections;
+
+    void clear();
+    void reset();
+    void deserialize( const JsonObject &json );
+    void serialize( JsonOut &json ) const;
+};
+
 class overmapbuffer
 {
     public:
         overmapbuffer();
 
         bool externally_set_args = false;
+        overmap_global_state global_state;
 
         static std::string terrain_filename( const point_abs_om & );
         static cata_path player_filename( const point_abs_om & );
@@ -588,25 +614,11 @@ class overmapbuffer
         bool place_special( const overmap_special_id &special_id, const tripoint_abs_omt &center,
                             int radius );
 
-        int get_unique_special_count( const overmap_special_id &id ) {
-            return unique_special_count[id];
-        }
+        int get_unique_special_count( const overmap_special_id &id );
+        int get_overmap_count() const;
+        int get_major_river_count() const;
+        void inc_major_river_count();
 
-        int get_overmap_count() const {
-            return overmap_count;
-        }
-
-        int get_major_river_count() const {
-            return major_river_count;
-        }
-
-        void inc_major_river_count() {
-            major_river_count++;
-        }
-        // most central overmap highway intersection
-        point_abs_om highway_global_offset = point_abs_om::invalid;
-        // all highway intersections
-        std::map<std::string, interhighway_node> highway_intersections;
         interhighway_node get_overmap_highway_intersection_point( const point_abs_om &p );
         void set_overmap_highway_intersection_point( const point_abs_om &p,
                 const interhighway_node &intersection );
@@ -644,15 +656,6 @@ class overmapbuffer
         mutable std::set<point_abs_om> known_non_existing;
         // Cached result of previous call to overmapbuffer::get_existing
         overmap mutable *last_requested_overmap;
-        // Set of globally unique overmap specials that have already been placed
-        std::unordered_set<overmap_special_id> placed_unique_specials;
-        // This tracks the overmap unique specials we have placed. It is used to
-        // Adjust weights of special spawns to correct for things like failure to spawn.
-        std::unordered_map<overmap_special_id, int> unique_special_count;
-        // Global count of number of overmaps generated for this world.
-        int overmap_count = 0;
-        // Global count of major rivers generated for this world
-        int major_river_count = 0;
 
         /**
          * Get a list of notes in the (loaded) overmaps.
@@ -696,21 +699,11 @@ class overmapbuffer
         /**
          * Logs the placement of the given unique overmap special
          */
-        void log_unique_special( const overmap_special_id &id ) {
-            unique_special_count[id]++;
-        }
+        void log_unique_special( const overmap_special_id &id );
         /**
          * Returns true if the given globally unique overmap special has already been placed.
          */
         bool contains_unique_special( const overmap_special_id &id ) const;
-        /**
-         * Writes metadata about special placement as a JSON value.
-         */
-        void serialize_overmap_global_state( JsonOut &json ) const;
-        /**
-         * Reads metadata about special placement from JSON.
-         */
-        void deserialize_overmap_global_state( const JsonObject &json );
         /**
          * Reads deprecated placed unique specials data, replaced by overmap_global_state.
          */
