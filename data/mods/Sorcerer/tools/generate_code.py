@@ -334,7 +334,7 @@ def write_pick_favorite_spell():
         "id": "TALK_SORCERER_PICK_FAV_SPELL",
         "dynamic_line": "Pick a spell you have a special affinity for to gain"
         + " a small boost in caster level for said spell.  The boost will"
-        + "quickly become obsolete, but will help you get started on your"
+        + " quickly become obsolete, but will help you get started on your"
         + " journey.",
         "responses": [
             {"text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN"},
