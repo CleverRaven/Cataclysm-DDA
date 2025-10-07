@@ -66,7 +66,7 @@ void overmap::place_cities()
 {
     int op_city_spacing = get_option<int>( "CITY_SPACING" );
     int op_city_size = get_option<int>( "CITY_SIZE" );
-    int max_urbanity = get_option<int>( "OVERMAP_MAXIMUM_URBANITY" );
+    int max_urbanity = settings->max_urban;
     if( op_city_size <= 0 ) {
         return;
     }

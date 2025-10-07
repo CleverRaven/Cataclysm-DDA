@@ -316,41 +316,6 @@
   },
   {
     "type": "EXTERNAL_OPTION",
-    "name": "OVERMAP_FOREST_INCREASE_NORTH",
-    "//": "Rate at which forest coverage of the map increases to the North, based on regional map settings thresholds.  0=no increase.",
-    "stype": "float",
-    "value": 0.04
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "OVERMAP_FOREST_INCREASE_EAST",
-    "//": "Rate at which forest coverage of the map increases to the East.  0=no increase.",
-    "stype": "float",
-    "value": 0
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "OVERMAP_FOREST_INCREASE_WEST",
-    "//": "Rate at which forest coverage of the map increases to the West.  0=no increase.",
-    "stype": "float",
-    "value": 0.02
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "OVERMAP_FOREST_INCREASE_SOUTH",
-    "//": "Rate at which forest coverage of the map increases to the South.  0=no increase.",
-    "stype": "float",
-    "value": 0
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "OVERMAP_FOREST_LIMIT",
-    "//": "Caps how high the forest threshold can rise.  No cities form at values over 0.4",
-    "stype": "float",
-    "value": 0.395
-  },
-  {
-    "type": "EXTERNAL_OPTION",
     "name": "OVERMAP_PLACE_SWAMPS",
     "//": "Allows to place procgen swamps during overmap generation.",
     "stype": "bool",
@@ -383,41 +348,6 @@
     "//": "Allows to place overmap specials during overmap generation.",
     "stype": "bool",
     "value": true
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "OVERMAP_URBAN_INCREASE_NORTH",
-    "//": "Rate at which urbanity of the map increases to the North.  0=no increase.  Negative numbers are technically allowed but may cause weird effects.",
-    "stype": "int",
-    "value": 0
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "OVERMAP_URBAN_INCREASE_EAST",
-    "//": "Rate at which urbanity of the map increases to the East.  0=no increase.",
-    "stype": "int",
-    "value": 10
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "OVERMAP_URBAN_INCREASE_WEST",
-    "//": "Rate at which urbanity of the map increases to the South.  0=no increase.",
-    "stype": "int",
-    "value": 0
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "OVERMAP_URBAN_INCREASE_SOUTH",
-    "//": "Rate at which urbanity of the map increases to the West.  0=no increase.",
-    "stype": "int",
-    "value": 5
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "OVERMAP_MAXIMUM_URBANITY",
-    "//": "How urban do we allow our megacities to go?  Mostly functions as a multiple of map settings city size.",
-    "stype": "int",
-    "value": 8
   },
   {
     "type": "EXTERNAL_OPTION",

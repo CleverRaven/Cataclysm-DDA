@@ -23,6 +23,8 @@
     "noise_threshold_forest_thick": 0.45,
     "noise_threshold_swamp_adjacent_water": 0.5,
     "noise_threshold_swamp_isolated": 0.7
+    "forest_threshold_increase": [ 0.1, 0, 0, 0.1 ],
+    "forest_threshold_max": 0.6
   },
   {
     "type": "region_settings_city",
@@ -66,6 +68,7 @@
     "forests": "default_classiczombies",
     "cities": "default_classiczombies",
     "weather": "default_classiczombies",
+    "urbanity_increase": [ -1, 0, 0, -1 ],
     "feature_flag_settings": { "whitelist": [ "CLASSIC" ] }
   }
 ]

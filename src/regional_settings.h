@@ -279,6 +279,9 @@ struct region_settings_forest {
     int river_floodplain_buffer_distance_min = 3;
     int river_floodplain_buffer_distance_max = 15;
 
+    float max_forest;
+    std::array<float, om_direction::size> forest_increase;
+
     bool was_loaded = false;
     void load( const JsonObject &jo, std::string_view );
     void finalize();
@@ -546,6 +549,11 @@ struct region_settings {
     std::optional<region_settings_ravine_id> overmap_ravine;
     region_settings_overmap_connection overmap_connection;
     region_settings_terrain_furniture_id region_terrain_and_furniture;
+
+    // hard to generate cities above 0.4
+    float max_urban;
+    std::array<float, om_direction::size> urban_increase;
+
 
     region_settings_map_extras_id region_extras;
 

@@ -5070,10 +5070,10 @@ void overmap::calculate_forestosity()
         return;
     }
     const region_settings_forest &settings_forest = settings->get_settings_forest();
-    float northern_forest_increase = get_option<float>( "OVERMAP_FOREST_INCREASE_NORTH" );
-    float eastern_forest_increase = get_option<float>( "OVERMAP_FOREST_INCREASE_EAST" );
-    float western_forest_increase = get_option<float>( "OVERMAP_FOREST_INCREASE_WEST" );
-    float southern_forest_increase = get_option<float>( "OVERMAP_FOREST_INCREASE_SOUTH" );
+    float northern_forest_increase = settings_forest.forest_increase[om_direction::type::north];
+    float eastern_forest_increase = settings_forest.forest_increase[om_direction::type::east];
+    float western_forest_increase = settings_forest.forest_increase[om_direction::type::west];
+    float southern_forest_increase = settings_forest.forest_increase[om_direction::type::south];
     const point_abs_om this_om = pos();
     if( western_forest_increase != 0 && this_om.x() < 0 ) {
         forest_size_adjust -= this_om.x() * western_forest_increase;
@@ -5090,9 +5090,7 @@ void overmap::calculate_forestosity()
     forestosity = forest_size_adjust * 25.0f;
     //debugmsg( "forestosity = %1.2f at OM %i, %i", forestosity, this_om.x(), this_om.y() );
     // make sure forest size never totally overwhelms the map
-    forest_size_adjust = std::min( forest_size_adjust,
-                                   get_option<float>( "OVERMAP_FOREST_LIMIT" ) - static_cast<float>
-                                   ( settings_forest.noise_threshold_forest ) );
+    forest_size_adjust = std::min<float>( forest_size_adjust, settings_forest.forest_max - settings_forest.noise_threshold_forest );
 }
 
 void overmap::calculate_urbanity()
@@ -5101,10 +5099,10 @@ void overmap::calculate_urbanity()
     if( op_city_size <= 0 ) {
         return;
     }
-    int northern_urban_increase = get_option<int>( "OVERMAP_URBAN_INCREASE_NORTH" );
-    int eastern_urban_increase = get_option<int>( "OVERMAP_URBAN_INCREASE_EAST" );
-    int western_urban_increase = get_option<int>( "OVERMAP_URBAN_INCREASE_WEST" );
-    int southern_urban_increase = get_option<int>( "OVERMAP_URBAN_INCREASE_SOUTH" );
+    int northern_urban_increase = settings->urban_increase[om_direction::type::north];
+    int eastern_urban_increase = settings->urban_increase[om_direction::type::east];
+    int western_urban_increase = settings->urban_increase[om_direction::type::west];
+    int southern_urban_increase = settings->urban_increase[om_direction::type::south];
     if( northern_urban_increase == 0 && eastern_urban_increase == 0 && western_urban_increase == 0 &&
         southern_urban_increase == 0 ) {
         return;

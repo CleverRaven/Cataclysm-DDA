@@ -492,6 +492,9 @@ void region_settings_forest::load( const JsonObject &jo, std::string_view )
               river_floodplain_buffer_distance_min );
     optional( jo, was_loaded, "river_floodplain_buffer_distance_max",
               river_floodplain_buffer_distance_max );
+
+    optional(jo, was_loaded, "forest_threshold_limit", max_forest, 0.395 );
+    optional(jo, was_loaded, "forest_threshold_increase", forest_increase );
 }
 
 void region_settings_ravine::load( const JsonObject &jo, std::string_view )
@@ -701,6 +704,9 @@ void region_settings::load( const JsonObject &jo, std::string_view )
     optional( jo, was_loaded, "ravines", overmap_ravine );
     optional( jo, was_loaded, "connections", overmap_connection );
     optional( jo, was_loaded, "terrain_furniture", region_terrain_and_furniture );
+
+    optional(jo, was_loaded, "max_urbanity", max_urban, 8 );
+    optional(jo, was_loaded, "urbanity_increase", urban_increase );
 }
 
 void region_settings::finalize()
