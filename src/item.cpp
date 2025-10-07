@@ -7212,7 +7212,7 @@ bool item::has_rotten_away() const
 
 bool item::is_smokable() const
 {
-    return is_comestible() && !get_comestible()->smoking_result.is_empty();
+    return is_comestible() && get_comestible()->smoking_result != itype_id::NULL_ID();
 }
 
 bool item_ptr_compare_by_charges( const item *left, const item *right )

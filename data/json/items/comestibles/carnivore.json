@@ -82,7 +82,7 @@
     "description": "A tiny scrap of edible fish.  It's not much, but it'll do in a pinch.",
     "cooks_like": "fish_scrap_cooked",
     "proportional": { "weight": 0.1, "volume": 0.1, "price": 0.1, "calories": 0.1 },
-    "smoking_result": "",
+    "smoking_result": "null",
     "vitamins": [ [ "calcium", 1 ], [ "iron", 1 ], [ "meat_allergen", 1 ] ]
   },
   {
@@ -314,7 +314,7 @@
     "symbol": "~",
     "charges": 1,
     "phase": "liquid",
-    "smoking_result": ""
+    "smoking_result": "null"
   },
   {
     "id": "porkbelly",
@@ -403,7 +403,7 @@
     "description": "A tiny scrap of raw meat.  It's not much, but it'll do in a pinch.",
     "cooks_like": "meat_scrap_cooked",
     "proportional": { "weight": 0.1, "volume": 0.1, "price_postapoc": 0.1, "calories": 0.1 },
-    "smoking_result": "",
+    "smoking_result": "null",
     "vitamins": [ [ "calcium", 0 ], [ "iron", 1 ], [ "meat_allergen", 1 ] ]
   },
   {
@@ -457,7 +457,7 @@
     "material": "blood",
     "charges": 1,
     "phase": "liquid",
-    "smoking_result": ""
+    "smoking_result": "null"
   },
   {
     "id": "mutant_meat_scrap",
@@ -505,7 +505,7 @@
     "material": "hblood",
     "charges": 1,
     "phase": "liquid",
-    "smoking_result": "",
+    "smoking_result": "null",
     "vitamins": [ [ "calcium", 2 ], [ "iron", 12 ], [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ]
   },
   {
@@ -796,7 +796,7 @@
     "description": "A selection of uncooked internal organs and entrails.  Filled with essential vitamins, but most people consider it a bit gross unless it's very carefully prepared.",
     "proportional": { "parasites": 0.5 },
     "price_postapoc": "25 cent",
-    "smoking_result": "",
+    "smoking_result": "null",
     "vitamins": [ [ "calcium", 2 ], [ "iron", 16 ], [ "meat_allergen", 1 ] ],
     "relative": { "fun": -5 }
   },
@@ -1542,7 +1542,7 @@
     "volume": "250 ml",
     "charges": 1,
     "phase": "liquid",
-    "smoking_result": "",
+    "smoking_result": "null",
     "vitamins": [ [ "calcium", 2 ], [ "iron", 12 ], [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ]
   },
   {
@@ -1705,7 +1705,7 @@
     "material": "blood",
     "charges": 1,
     "phase": "liquid",
-    "smoking_result": ""
+    "smoking_result": "null"
   },
   {
     "type": "ITEM",
@@ -2161,7 +2161,7 @@
     "extend": { "flags": [ "STRICT_HUMANITARIANISM" ] },
     "charges": 1,
     "phase": "liquid",
-    "smoking_result": ""
+    "smoking_result": "null"
   },
   {
     "id": "demihuman_cooked",
@@ -2302,7 +2302,7 @@
     "description": "A tiny scrap of raw meat from a bird.  You figure that one of these should be about one fifth of a portion.  Dangerous to eat as-is.",
     "cooks_like": "meat_scrap_cooked",
     "proportional": { "weight": 0.2, "volume": 0.2, "price_postapoc": 0.2, "calories": 0.2 },
-    "smoking_result": "",
+    "smoking_result": "null",
     "vitamins": [ [ "calcium", "1 mg" ], [ "iron", "1 mg" ], [ "meat_allergen", 1 ] ]
   },
   {

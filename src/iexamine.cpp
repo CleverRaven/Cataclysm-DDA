@@ -6840,7 +6840,7 @@ static void smoker_finalize( Character &, const tripoint_bub_ms &examp,
 
     for( item &it : items ) {
         if( it.is_smokable() ) {
-            if( it.get_comestible()->smoking_result.is_empty() ) {
+            if( it.get_comestible()->smoking_result == itype_id::NULL_ID() ) {
                 it.unset_flag( flag_PROCESSING );
             } else {
                 it.calc_rot_while_processing( 6_hours );

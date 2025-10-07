@@ -141,7 +141,6 @@ using item_group_id = string_id<Item_spawn_data>;
 
 struct itype;
 using itype_id = string_id<itype>;
-static itype_id empty_itype_id = itype_id( "" );
 
 class weapon_category;
 using weapon_category_id = string_id<weapon_category>;
