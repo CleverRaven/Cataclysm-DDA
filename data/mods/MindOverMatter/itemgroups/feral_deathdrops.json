@@ -144,7 +144,11 @@
     "type": "item_group",
     "subtype": "distribution",
     "id": "feral_humans_crystal_drops_clair",
-    "entries": [ { "item": "matrix_crystal_drained", "prob": 70 }, { "item": "matrix_crystal_clairsentience", "prob": 30 } ]
+    "entries": [
+      { "item": "matrix_crystal_drained", "prob": 70 },
+      { "group": "clairsentient_crystal_awakening_artifact_procgen", "prob": 30 },
+      { "group": "clairsentient_crystal_artifact_procgen", "prob": 15 }
+    ]
   },
   {
     "type": "item_group",

@@ -15,10 +15,12 @@
     "active_procgen_values": [
       { "weight": 100, "spell_id": "MoM_AEA_ADRENALINE", "base_power": 250 },
       { "weight": 100, "spell_id": "MoM_AEA_REMOVE_PAIN", "base_power": 150 },
+      { "weight": 100, "spell_id": "MoM_AEA_ATTENTION", "base_power": -150 },
       { "weight": 100, "spell_id": "MoM_AEA_VOMIT", "base_power": -50 },
       { "weight": 100, "spell_id": "MoM_AEA_STAMINA_EMPTY", "base_power": -250 },
       { "weight": 100, "spell_id": "MoM_AEA_STAMINA_BURST", "base_power": 250 },
-      { "weight": 100, "spell_id": "MoM_AEA_MUTATE", "base_power": -150 },
+      { "weight": 100, "spell_id": "MoM_AEA_MUTATE", "base_power": -500 },
+      { "weight": 100, "spell_id": "MoM_AEA_NETHER_ATTUNEMENT", "base_power": -100 },
       { "weight": 100, "spell_id": "MoM_AEA_PHYSICAL_ENHANCEMENT", "base_power": 150 },
       { "weight": 100, "spell_id": "MoM_AEA_SPEED_BURST", "base_power": 400 },
       { "weight": 100, "spell_id": "MoM_AEA_HARDEN_SKIN", "base_power": 300 },

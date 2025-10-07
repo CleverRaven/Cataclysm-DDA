@@ -30,5 +30,10 @@
     "shape": "blast",
     "min_duration": 18000,
     "max_duration": 72000
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MoM_AEA_NETHER_ATTUNEMENT",
+    "effect": [ { "math": [ "u_vitamin('vitamin_psionic_drain') += rand(25)" ] } ]
   }
 ]
