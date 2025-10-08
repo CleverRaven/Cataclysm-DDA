@@ -26,6 +26,7 @@
 #include "cursesdef.h"
 #include "enums.h"
 #include "global_vars.h"
+#include "item.h"
 #include "item_location.h"
 #include "map_scale_constants.h"
 #include "memory_fast.h"
@@ -75,7 +76,6 @@ class eoc_events;
 class event_bus;
 class faction_manager;
 class field_entry;
-class item;
 class kill_tracker;
 class live_view;
 class map;
@@ -751,6 +751,7 @@ class game
             RIGHT_OF_INFO,
             LEFT_TERMINAL_EDGE,
         };
+        hint_rating rate_action_insert( const avatar &you, const item_location &loc );
         int inventory_item_menu( item_location locThisItem,
         const std::function<int()> &startx = []() {
             return 0;
@@ -1014,6 +1015,7 @@ class game
 
         void chat(); // Talk to a nearby NPC  'C'
 
+        std::string get_fire_fuel_string( const tripoint_bub_ms &examp );
         // Internal methods to show "look around" info
         void print_fields_info( const tripoint_bub_ms &lp, const catacurses::window &w_look, int column,
                                 int &line );
@@ -1133,6 +1135,7 @@ class game
          */
         Creature *is_hostile_within( int distance, bool dangerous = false );
 
+        std::string timestamp_now() const;
         void move_save_to_graveyard();
         bool save_player_data();
         bool save_achievements();
