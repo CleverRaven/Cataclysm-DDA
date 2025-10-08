@@ -1726,20 +1726,23 @@ void effect::deserialize( const JsonObject &jo )
     jo.read( "source", source );
 }
 
-std::string texitify_base_healing_power( const int power )
+std::string texitify_base_healing_power( const float power )
 {
-    if( power == 1 ) {
-        return colorize( _( "very poor" ), c_red );
-    } else if( power == 2 ) {
-        return colorize( _( "poor" ), c_light_red );
-    } else if( power == 3 ) {
-        return colorize( _( "average" ), c_yellow );
-    } else if( power == 4 ) {
-        return colorize( _( "good" ), c_light_green );
-    } else if( power >= 5 ) {
+    if( power >= 5 ) {
         return colorize( _( "great" ), c_green );
+    } else if( power >= 4 ) {
+        return colorize( _( "good" ), c_light_green );
+    } else if( power >= 3 ) {
+        return colorize( _( "average" ), c_yellow );
+    } else if( power >= 2 ) {
+        return colorize( _( "poor" ), c_light_red );
+    } else if( power >= 1 ) {
+        return colorize( _( "very poor" ), c_red );
+    } else if( power > 0 ) {
+        return colorize( _( "awful" ), c_red );
     }
-    if( power < 1 ) {
+
+    if( power <= 0 ) {
         debugmsg( "Tried to convert zero or negative value." );
     }
     return "";
