@@ -1113,7 +1113,7 @@ class activatable_inventory_preset : public pickup_inventory_preset
         }
 
         bool is_shown( const item_location &loc ) const override {
-            return loc->type->has_use() || loc->has_relic_activation();
+            return loc->type->has_use() || ( loc->has_relic_activation() && loc->can_use_relic( you ) );
         }
 
         std::string get_denial( const item_location &loc ) const override {

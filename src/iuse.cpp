@@ -2222,7 +2222,8 @@ class exosuit_interact
                 amenu.addentry( -1, true, MENU_AUTOASSIGN, _( "Unload everything from this %s" ),
                                 get_pocket_name( pkt ) );
                 amenu.addentry( -1, true, MENU_AUTOASSIGN, _( "Replace the %s" ), mod_name );
-                amenu.addentry( -1, mod_it->has_relic_activation() || mod_it->type->has_use(), MENU_AUTOASSIGN,
+                amenu.addentry( -1, ( mod_it->has_relic_activation() && mod_it->can_use_relic( c ) ) ||
+                                mod_it->type->has_use(), MENU_AUTOASSIGN,
                                 mod_it->active ? _( "Deactivate the %s" ) : _( "Activate the %s" ), mod_name );
                 amenu.addentry( -1, mod_it->is_reloadable() && c.can_reload( *mod_it ), MENU_AUTOASSIGN,
                                 _( "Reload the %s" ), mod_name );

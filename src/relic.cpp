@@ -69,14 +69,14 @@ std::string enum_to_string<relic_recharge_type>( relic_recharge_type type )
 }
 
 template<>
-std::string enum_to_string<relic_recharge_has>( relic_recharge_has has )
+std::string enum_to_string<relic_has>( relic_has has )
 {
     // *INDENT-OFF*
     switch (has) {
-    case relic_recharge_has::WIELD: return "wield";
-    case relic_recharge_has::WORN: return "worn";
-    case relic_recharge_has::HELD: return "held";
-    case relic_recharge_has::NUM: break;
+    case relic_has::WIELD: return "wield";
+    case relic_has::WORN: return "worn";
+    case relic_has::HELD: return "held";
+    case relic_has::NUM: break;
     }
     // *INDENT-ON*
     cata_fatal( "Invalid relic recharge has condition" );
@@ -112,9 +112,26 @@ void relic_procgen_data::finalize_all()
 
 relic::~relic() = default;
 
-void relic::add_active_effect( const fake_spell &sp )
+// me when
+static relic_has ench_to_relic_has( enchantment::has from )
+{
+    switch( from ) {
+        case enchantment::has::WIELD:
+            return relic_has::WIELD;
+        case enchantment::has::WORN:
+            return relic_has::WORN;
+        case enchantment::has::HELD:
+            return relic_has::HELD;
+        case enchantment::has::NUM_HAS:
+            break;
+    }
+    return relic_has::NUM;
+}
+
+void relic::add_active_effect( const fake_spell &sp, enchantment::has req )
 {
     active_effects.emplace_back( sp );
+    activation_req = ench_to_relic_has( req );
 }
 
 void relic::add_passive_effect( const enchant_cache &nench )
@@ -345,13 +362,33 @@ void relic_charge_info::accumulate_charge( item &parent )
     }
 }
 
+// me when
+static enchantment::has relic_has_to_ench( relic_has to )
+{
+    switch( to ) {
+        case relic_has::WIELD:
+            return enchantment::has::WIELD;
+        case relic_has::WORN:
+            return enchantment::has::WORN;
+        case relic_has::HELD:
+            return enchantment::has::HELD;
+        case relic_has::NUM:
+            break;
+    }
+    return enchantment::has::NUM_HAS;
+}
+
 void relic::load( const JsonObject &jo )
 {
+    relic_has act_req = relic_has::NUM;
+    if( jo.has_member( "activation_requirement" ) ) {
+        jo.read( "activation_requirement", act_req );
+    }
     if( jo.has_array( "active_effects" ) ) {
         for( JsonObject jobj : jo.get_array( "active_effects" ) ) {
             fake_spell sp;
             sp.load( jobj );
-            add_active_effect( sp );
+            add_active_effect( sp, relic_has_to_ench( act_req ) );
         }
     }
     if( jo.has_array( "passive_effects" ) ) {
@@ -414,9 +451,15 @@ void relic::serialize( JsonOut &jsout ) const
         jsout.end_array();
     }
 
+    jsout.member( "activation_requirement", activation_req );
     jsout.member( "charge_info", charge );
 
     jsout.end_object();
+}
+
+bool relic::can_activate( const item &parent, const Creature &caster ) const
+{
+    return satisfies_has( activation_req, &parent, dynamic_cast<const Character *>( &caster ) );
 }
 
 int relic::activate( Creature &caster, const tripoint_bub_ms &target )
@@ -536,35 +579,32 @@ void relic::try_recharge( item &parent, Character *carrier, const tripoint_bub_m
     }
 }
 
-bool relic::can_recharge( item &parent, Character *carrier ) const
+bool relic::satisfies_has( relic_has req, const item *parent, const Character *carrier )
 {
-
-    if( carrier == nullptr && charge.has != relic_recharge_has::NUM ) {
+    if( ( parent == nullptr || carrier == nullptr ) && req != relic_has::NUM ) {
         return false;
     }
 
-    switch( charge.has ) {
-
-        case relic_recharge_has::HELD: {
-            return carrier->has_item( parent );
+    switch( req ) {
+        case relic_has::HELD: {
+            return carrier->has_item( *parent );
         }
-
-        case relic_recharge_has::WORN: {
-            return carrier->is_worn( parent ) || carrier->is_wielding( parent );
+        case relic_has::WORN: {
+            return carrier->is_worn( *parent ) || carrier->is_wielding( *parent );
         }
-
-        case relic_recharge_has::WIELD: {
-            return carrier->is_wielding( parent );
+        case relic_has::WIELD: {
+            return carrier->is_wielding( *parent );
         }
-
-        case relic_recharge_has::NUM: {
-            return true;
-        }
-
+        case relic_has::NUM:
+            break;
     }
 
     return true;
+}
 
+bool relic::can_recharge( item &parent, Character *carrier ) const
+{
+    return satisfies_has( charge.has, &parent, carrier );
 }
 
 void relic::overwrite_charge( const relic_charge_info &info )
@@ -679,7 +719,7 @@ relic relic_procgen_data::generate( const relic_procgen_data::generation_rules &
                         negative_attribute_power += power;
                     }
                     num_attributes++;
-                    ret.add_active_effect( active_sp );
+                    ret.add_active_effect( active_sp, active->ench_has );
                 }
                 break;
             }
