@@ -11496,7 +11496,8 @@ void game::vertical_move( int movez, bool force, bool peeking )
 
 bool game::travel_to_dimension( const std::string &new_prefix,
                                 const std::string &region_type,
-                                const std::vector<npc *> &npc_travellers )
+                                const std::vector<npc *> &npc_travellers,
+                                vehicle *veh )
 {
     map &here = get_map();
     avatar &player = get_avatar();
@@ -11527,8 +11528,13 @@ bool game::travel_to_dimension( const std::string &new_prefix,
     for( monster &critter : all_monsters() ) {
         despawn_monster( critter );
     }
+    bool controlling_vehicle = player.controlling_vehicle;
     if( player.in_vehicle ) {
         here.unboard_vehicle( player.pos_bub() );
+    }
+    std::unique_ptr<vehicle> vehicle_ref;
+    if( veh != nullptr ) {
+        vehicle_ref = here.detach_vehicle( veh );
     }
     // Make sure we don't mess up savedata if for some reason maps can't be saved
     if( !save_maps() || !save_dimension_data() ) {
@@ -11541,6 +11547,7 @@ bool game::travel_to_dimension( const std::string &new_prefix,
     here.rebuild_vehicle_level_caches();
     // Inputting an empty string to the text input EOC fails
     // so i'm using 'default' as empty/main dimension
+    std::string old_prefix = dimension_prefix;
     if( new_prefix != "default" ) {
         dimension_prefix = new_prefix;
     } else {
@@ -11570,8 +11577,16 @@ bool game::travel_to_dimension( const std::string &new_prefix,
     here.load( tripoint_abs_sm( here.get_abs_sub() ), false );
 
     here.invalidate_visibility_cache();
-    //without this vehicles only load in after walking around a bit
+    bool undo_shift = false;
+    if( vehicle_ref ) {
+        undo_shift = here.place_vehicle( std::move( vehicle_ref ) );
+    }
+    // Without this vehicles only load in after walking around a bit
     here.reset_vehicles_sm_pos();
+    if( here.veh_at( player.pos_bub() ) ) {
+        here.board_vehicle( player.pos_bub(), &player );
+        player.controlling_vehicle = controlling_vehicle;
+    }
     load_npcs();
     // Handle static monsters
     here.spawn_monsters( true, true );
@@ -11579,6 +11594,9 @@ bool game::travel_to_dimension( const std::string &new_prefix,
     weather.weather_override = WEATHER_NULL;
     weather.set_nextweather( calendar::turn );
     update_overmap_seen();
+    if( undo_shift ) {
+        travel_to_dimension( old_prefix, region_type, npc_travellers, veh );
+    }
     return true;
 }
 

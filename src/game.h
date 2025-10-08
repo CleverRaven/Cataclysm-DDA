@@ -333,9 +333,10 @@ class game
          * Moves the player to an alternate dimension.
          * @param prefix identifies the dimension and its properties.
          * @param npc_travellers vector of NPCs that should be brought along when travelling to another dimension
+         * @param veh pointer to a vehicle to bring along.
          */
         bool travel_to_dimension( const std::string &prefix, const std::string &region_type,
-                                  const std::vector<npc *> &npc_travellers );
+                                  const std::vector<npc *> &npc_travellers, vehicle *veh = nullptr );
         /**
          * Retrieve the identifier of the current dimension.
          * TODO: this should be a dereferencable id that gives properties of the dimension.
