@@ -4900,6 +4900,11 @@ bool item::has_relic_activation() const
     return is_relic() && relic_data->has_activation();
 }
 
+bool item::can_use_relic( const Character &guy ) const
+{
+    return is_relic() && relic_data->can_activate( *this, guy );
+}
+
 std::vector<enchant_cache> item::get_proc_enchantments() const
 {
     if( !is_relic() ) {

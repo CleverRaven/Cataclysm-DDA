@@ -1956,6 +1956,7 @@ class item : public visitable
          */
         void on_contents_changed();
 
+        bool can_use_relic( const Character &guy ) const;
         bool use_relic( Character &guy, const tripoint_bub_ms &pos );
         bool has_relic_recharge() const;
         bool has_relic_activation() const;

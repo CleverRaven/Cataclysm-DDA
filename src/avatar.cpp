@@ -1391,7 +1391,7 @@ bool avatar::invoke_item( item *used, const tripoint_bub_ms &pt, int pre_obtain_
         return false;
     } else if( num_methods == 1 && !has_relic ) {
         return invoke_item( used, use_methods.begin()->first, pt, pre_obtain_moves );
-    } else if( num_methods == 0 && has_relic ) {
+    } else if( num_methods == 0 && has_relic && used->can_use_relic( *this ) ) {
         return used->use_relic( *this, pt );
     }
 
