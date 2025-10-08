@@ -118,14 +118,6 @@ static const skill_id skill_archery( "archery" );
 
 static constexpr float MIN_LINK_EFFICIENCY = 0.001f;
 
-// Returns the default item type, used for the null item (default constructed),
-// the returned pointer is always valid, it's never cleared by the @ref Item_factory.
-static const itype *nullitem()
-{
-    static itype nullitem_m;
-    return &nullitem_m;
-}
-
 item &null_item_reference()
 {
     static item result{};
@@ -2383,7 +2375,7 @@ bool item::reload( Character &u, item_location ammo, int qty )
         if( ammo_from_map ) {
             u.invalidate_weight_carried_cache();
         }
-        if( magazine_removed.type != nullitem() ) {
+        if( !magazine_removed.is_null() ) {
             u.i_add( magazine_removed, true, nullptr, nullptr, true, allow_wield );
         }
         return true;
