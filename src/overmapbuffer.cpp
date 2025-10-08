@@ -105,7 +105,7 @@ overmap &overmapbuffer::get( const point_abs_om &p )
 
     // That constructor loads an existing overmap or creates a new one.
     overmap &new_om = *( overmaps[ p ] = std::make_unique<overmap>( p ) );
-    overmap_count++;
+    global_state.overmap_count++;
     new_om.populate();
     // Note: fix_mongroups might load other overmaps, so overmaps.back() is not
     // necessarily the overmap at (x,y)
@@ -125,7 +125,7 @@ void overmapbuffer::create_custom_overmap( const point_abs_om &p, overmap_specia
         }
     }
     overmap &new_om = *( overmaps[ p ] = std::make_unique<overmap>( p ) );
-    overmap_count++;
+    global_state.overmap_count++;
     new_om.populate( specials );
 }
 
@@ -256,13 +256,18 @@ void overmapbuffer::clear()
 {
     overmaps.clear();
     known_non_existing.clear();
+    global_state.clear();
+    last_requested_overmap = nullptr;
+}
+
+void overmap_global_state::clear()
+{
     placed_unique_specials.clear();
     unique_special_count.clear();
     highway_intersections.clear();
     highway_global_offset = point_abs_om::invalid;
     overmap_count = 0;
     major_river_count = 0;
-    last_requested_overmap = nullptr;
 }
 
 const region_settings &overmapbuffer::get_settings( const tripoint_abs_omt &p )
@@ -1176,12 +1181,17 @@ void overmapbuffer::add_unique_special( const overmap_special_id &id )
     if( contains_unique_special( id ) ) {
         debugmsg( "Globally unique overmap special placed more than once: %s", id.str() );
     }
-    placed_unique_specials.emplace( id );
+    global_state.placed_unique_specials.emplace( id );
+}
+
+void overmapbuffer::log_unique_special( const overmap_special_id &id )
+{
+    global_state.unique_special_count[id]++;
 }
 
 bool overmapbuffer::contains_unique_special( const overmap_special_id &id ) const
 {
-    return placed_unique_specials.find( id ) != placed_unique_specials.end();
+    return global_state.placed_unique_specials.find( id ) != global_state.placed_unique_specials.end();
 }
 
 static omt_find_params assign_params(
@@ -1767,13 +1777,13 @@ city_reference overmapbuffer::closest_known_city( const tripoint_abs_sm &center 
 interhighway_node overmapbuffer::get_overmap_highway_intersection_point(
     const point_abs_om &p )
 {
-    return overmap_buffer.highway_intersections[p.to_string_writable()];
+    return global_state.highway_intersections[p.to_string_writable()];
 }
 
 void overmapbuffer::set_overmap_highway_intersection_point( const point_abs_om &p,
         const interhighway_node &intersection )
 {
-    overmap_buffer.highway_intersections[p.to_string_writable()] = intersection;
+    global_state.highway_intersections[p.to_string_writable()] = intersection;
 }
 
 
@@ -1781,12 +1791,12 @@ void overmapbuffer::set_highway_global_offset()
 {
     //this only happens exactly once, upon generation of the first overmap
     //TODO: there should be an intersection around the avatar's start location, not 0,0
-    overmap_buffer.highway_global_offset = point_abs_om();
+    global_state.highway_global_offset = point_abs_om();
 }
 
 point_abs_om overmapbuffer::get_highway_global_offset() const
 {
-    return overmap_buffer.highway_global_offset;
+    return global_state.highway_global_offset;
 }
 
 std::vector<interhighway_node>
@@ -1822,12 +1832,31 @@ overmapbuffer::find_highway_adjacent_intersections( const point_abs_om &generate
     return adjacent_intersections;
 }
 
-bool overmapbuffer::highway_intersection_exists( const point_abs_om &intersection_om ) const
+int overmapbuffer::get_unique_special_count( const overmap_special_id &id )
 {
-    return highway_intersections.find( intersection_om.to_string_writable() ) !=
-           highway_intersections.end();
+    return global_state.unique_special_count[id];
 }
 
+int overmapbuffer::get_overmap_count() const
+{
+    return global_state.overmap_count;
+}
+
+int overmapbuffer::get_major_river_count() const
+{
+    return global_state.major_river_count;
+}
+
+void overmapbuffer::inc_major_river_count()
+{
+    global_state.major_river_count++;
+}
+
+bool overmapbuffer::highway_intersection_exists( const point_abs_om &intersection_om ) const
+{
+    return global_state.highway_intersections.find( intersection_om.to_string_writable() ) !=
+           global_state.highway_intersections.end();
+}
 
 void overmapbuffer::generate_highway_intersection_point( const point_abs_om &generated_om_pos )
 {
@@ -1839,7 +1868,7 @@ void overmapbuffer::generate_highway_intersection_point( const point_abs_om &gen
         new_intersection.generate_offset( intersection_max_radius );
         add_msg_debug( debugmode::DF_HIGHWAY, "Generated intersection at overmap %s.",
                        new_intersection.offset_pos.to_string_writable() );
-        overmap_buffer.highway_intersections.insert( { generated_om_pos.to_string_writable(), new_intersection } );
+        global_state.highway_intersections.insert( { generated_om_pos.to_string_writable(), new_intersection } );
     }
 }
 
@@ -1851,7 +1880,7 @@ std::vector<point_abs_om> overmapbuffer::find_highway_intersection_bounds( const
     const int c_seperation = highway_settings.grid_column_seperation;
     const int r_seperation = highway_settings.grid_row_seperation;
 
-    const point_abs_om center = overmap_buffer.highway_global_offset;
+    const point_abs_om center = global_state.highway_global_offset;
     const point_rel_om diff = generated_om_pos - center;
 
     const double col_diff = diff.x() / static_cast<double>( c_seperation );
