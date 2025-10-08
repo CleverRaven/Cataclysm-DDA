@@ -3,7 +3,7 @@
     "id": "convert_sorcerer",
     "type": "SPELL",
     "name": "Convert",
-    "description": "Kill an ally creature, converting its life energy into compact rune, that you can use afterwards.",
+    "description": "Kill an ally creature, converting its life energy into a compact rune, that you can use afterwards.",
     "valid_targets": [ "ally" ],
     "flags": [ "CONCENTRATE", "SOMATIC", "SILENT", "PERCENTAGE_DAMAGE" ],
     "effect": "attack",
