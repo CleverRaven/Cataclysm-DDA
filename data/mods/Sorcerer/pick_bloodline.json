@@ -2,7 +2,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SORCERER_PICK_BLOODLINE",
-    "dynamic_line": "While wizards spend their lives buried in books to understand magic, your power stems from your innately magical bloodline.  Magic is your birthright.\nInstead of studying books, you increase in power by slaying monsters.\n\nThe standard sorcerer gains a caster level bonus based on their intelligence, but some bloodlines changes this.\nThat being said, what exactly is your bloodline?",
+    "dynamic_line": "While wizards spend their lives buried in books to understand magic, your power stems from your innately magical bloodline.  Magic is your birthright.\nInstead of studying books, you increase in power by slaying monsters.\n\nThe standard sorcerer gains a caster level bonus based on their intelligence, but some bloodlines change this.\nThat being said, what exactly is your bloodline?",
     "responses": [
       { "text": "Standard bloodline", "topic": "TALK_SORCERER_GAIN_BLOODLINE_STANDARD" },
       { "text": "Bloodrager", "topic": "TALK_SORCERER_GAIN_BLOODLINE_BLOODRAGER" },
