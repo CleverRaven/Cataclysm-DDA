@@ -139,6 +139,26 @@ other map extras in "forest".
 }
 ```
 
+### Tags
+
+The "apply_to_tags" field will apply the overlay to any `region_settings` with
+matching `tags`. Currently, using the tag "all" will apply the overlay to all regions:
+```jsonc
+{
+    "apply_to_tags": [ "all" ],
+}
+```
+
+If you wanted to apply the overlay only for regions with a "default" tag:
+```jsonc
+{
+    "apply_to_tags": [ "default" ],
+}
+```
+
+Tags are arbitary strings and are only used to avoid referencing a likely-growing number
+of region_settings ids.
+
 ## Region Terrain / Furniture
 
 **region_terrain_furniture** defines the resolution of regional terrain/furniture
