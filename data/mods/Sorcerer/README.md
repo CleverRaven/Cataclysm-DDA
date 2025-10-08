@@ -31,7 +31,7 @@ Counterfeit Rune: This spell creates a small pebble infused with a sorcerer's po
 
 # Future plans and loose ideas
 
-Some more rebalancing and nerfing is probably needed. I'm open to suggestions. Perhaps your sorcerer level should only give half its level to you caster level? Perhaps higher level spells should have a reduced caster level bonus so that you start using them with a low level?
+Some more rebalancing and nerfing is probably needed. I'm open to suggestions. Perhaps your sorcerer level should only give half its level to your caster level? Perhaps higher level spells should have a reduced caster level bonus so that you start using them with a low level?
 
 Figure out a more elegant way to lock the player out of reading all magic books, including classless.
 
