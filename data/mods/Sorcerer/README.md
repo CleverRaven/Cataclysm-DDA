@@ -20,7 +20,7 @@ Bloodline-specific stuff should if practical go into the bloodlines folders, eit
 ## Balancing
 
 It seems that sorcerers will end up being more powerful than traditional Magiclysm wizards. I'm not yet sure if that is good or not. The mod might need a fair bit of nerfing.<br>
-One path forwards would be to give traditional Magiclysm wizards more toys depending on their school, like the school weapons, the caster level boosting items, or the druids wildshape.<br>
+One path forwards would be to give traditional Magiclysm wizards more toys depending on their school, like the school weapons, the caster level boosting items, or the druid's wildshape.<br>
 Bloodlines should feel roughly equally powerful to each other, preferably.<br>
 My thinking is that if you are playing as a traditional Magiclysm wizard, you would level your main combat spell to around level 5 before you try to use it in combat, so a sorcerer should start with their main combat spell's effective spell level being around there as well. A sorcerer will likely gain levels in less in-game time than a wizard would, but would have to do more dangerous activities to do so.<br>
 The leveling up speed is supposed to be equal to the default settings for BombasticPerks.
