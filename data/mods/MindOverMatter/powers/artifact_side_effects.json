@@ -51,5 +51,21 @@
     "min_duration": 1500,
     "max_duration": 1500,
     "message": ""
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MoM_AEA_ELECTRICAL_ZAP_ATTACK_MELEE_CHARACTER",
+    "eoc_type": "EVENT",
+    "required_event": "character_melee_attacks_character",
+    "condition": { "u_has_effect": "effect_mom_artifact_electrical_zap_attack" },
+    "effect": [ { "u_lose_effect": "effect_mom_artifact_electrical_zap_attack" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MoM_AEA_ELECTRICAL_ZAP_ATTACK_MELEE_MONSTER",
+    "eoc_type": "EVENT",
+    "required_event": "character_melee_attacks_monster",
+    "condition": { "u_has_effect": "effect_mom_artifact_electrical_zap_attack" },
+    "effect": [ { "u_lose_effect": "effect_mom_artifact_electrical_zap_attack" } ]
   }
 ]

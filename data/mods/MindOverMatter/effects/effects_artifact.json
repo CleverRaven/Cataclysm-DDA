@@ -73,5 +73,14 @@
     "desc": [ "" ],
     "rating": "good",
     "enchantments": [ { "incoming_damage_mod": [ { "type": "electric", "multiply": -1 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_mom_artifact_electrical_zap_attack",
+    "name": [ "Horripilation" ],
+    "desc": [ "Your hair is standing on end." ],
+    "rating": "good",
+    "remove_message": "Your skin crackles as lightning discharges into your target!",
+    "enchantments": [ { "melee_damage_bonus": [ { "type": "electric", "add": { "math": [ "rand(40) + 40" ] } } ] } ]
   }
 ]
