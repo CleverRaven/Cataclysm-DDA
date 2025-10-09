@@ -3,7 +3,8 @@
     "type": "region_overlay",
     "id": "default_railroads",
     "apply_to_tags": [ "all" ],
-    "cities": "default_railroads"
+    "cities": "default_railroads",
+    "highways": null
   },
   {
     "type": "region_settings_city",

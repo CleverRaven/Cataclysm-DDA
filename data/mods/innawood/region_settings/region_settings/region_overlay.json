@@ -127,6 +127,8 @@
     "type": "region_settings",
     "id": "default_innawood",
     "copy-from": "default",
+    "cities": null,
+    "highways": null,
     "forest_trails": "default_innawood",
     "forest_composition": "default_innawood",
     "map_extras": "default_innawood",

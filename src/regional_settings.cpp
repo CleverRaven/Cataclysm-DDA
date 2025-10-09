@@ -736,17 +736,27 @@ void region_settings::finalize_all()
     }
 }
 
+template<typename T>
+static void extend_settings( const std::optional<string_id<T>> &lhs,
+                             const std::optional<string_id<T>> &rhs )
+{
+    if( !rhs.has_value() || !rhs.value().is_valid() ) {
+        return;
+    }
+    // gross const casts
+    // the extend really should happen in the types, not here...
+    if( !lhs.has_value() ) {
+        const_cast<std::optional<string_id<T>> &>( lhs ) = rhs;
+        return;
+    }
+    const_cast<T &>( *lhs.value() ) += *rhs.value();
+}
+
 region_settings &region_settings::operator+=( const region_settings &rhs )
 {
-    if( rhs.city_spec.is_valid() ) {
-        const_cast<region_settings_city &>( *city_spec ) += *rhs.city_spec;
-    }
-    if( rhs.overmap_highway.is_valid() ) {
-        const_cast<region_settings_highway &>( *overmap_highway ) += *rhs.overmap_highway;
-    }
-    if( rhs.forest_trail.is_valid() ) {
-        const_cast<region_settings_forest_trail &>( *forest_trail ) += *rhs.forest_trail;
-    }
+    extend_settings( city_spec, rhs.city_spec );
+    extend_settings( overmap_highway, rhs.overmap_highway );
+    extend_settings( forest_trail, rhs.forest_trail );
     if( rhs.region_extras.is_valid() ) {
         const_cast<region_settings_map_extras &>( *region_extras ) += *rhs.region_extras;
     }
