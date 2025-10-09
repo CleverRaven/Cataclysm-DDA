@@ -13,15 +13,15 @@
       }
     ],
     "active_procgen_values": [
-      { "weight": 100, "spell_id": "MoM_AEA_MAP", "base_power": 350 },
-      { "weight": 100, "spell_id": "MoM_AEA_CLAIRVOYANCE", "base_power": 250 },
-      { "weight": 100, "spell_id": "MoM_AEA_NETHER_ATTUNEMENT", "base_power": -100 },
-      { "weight": 100, "spell_id": "MoM_AEA_STAMINA_EMPTY", "base_power": -250 },
-      { "weight": 100, "spell_id": "MoM_AEA_VOMIT", "base_power": -50 },
-      { "weight": 100, "spell_id": "MoM_AEA_ATTENTION", "base_power": -150 },
-      { "weight": 100, "spell_id": "MoM_AEA_PERCEPTION_ENHANCEMENT", "base_power": 150 },
-      { "weight": 100, "spell_id": "MoM_AEA_EXTRA_CALORIE_COST", "base_power": -150 },
-      { "weight": 100, "spell_id": "MoM_AEA_ASTRAL_PROJECTION", "base_power": 500 }
+      { "weight": 100, "spell_id": "MoM_AEA_MAP", "base_power": 350, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_CLAIRVOYANCE", "base_power": 250, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_NETHER_ATTUNEMENT", "base_power": -100, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_STAMINA_EMPTY", "base_power": -250, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_VOMIT", "base_power": -50, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_ATTENTION", "base_power": -150, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_PERCEPTION_ENHANCEMENT", "base_power": 150, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_EXTRA_CALORIE_COST", "base_power": -150, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_ASTRAL_PROJECTION", "base_power": 500, "ench_has": "WIELD" }
     ],
     "passive_mult_procgen_values": [
       {
@@ -159,7 +159,7 @@
         "type": "MOTION_ALARM",
         "increment": 1,
         "power_per_increment": 150,
-        "ench_has": "HELD"
+        "ench_has": "WIELD"
       },
       {
         "weight": 100,
@@ -168,7 +168,7 @@
         "type": "NIGHT_VIS",
         "increment": 1,
         "power_per_increment": 150,
-        "ench_has": "HELD"
+        "ench_has": "WIELD"
       },
       {
         "weight": 50,
@@ -177,7 +177,7 @@
         "type": "OVERMAP_SIGHT",
         "increment": 1,
         "power_per_increment": 500,
-        "ench_has": "HELD"
+        "ench_has": "WIELD"
       },
       {
         "weight": 50,

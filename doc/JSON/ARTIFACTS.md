@@ -111,6 +111,16 @@ As the names suggest, these are *passive* benefits/penalties to having the artif
 - **power_per_increment:** the power value per increment
 - **ench_has:** where the artifact must be in inventory for the enchantment to take effect
 
+### active_procgen_values 
+
+These are active effects that require the artifact to be activated to be used.  It is possible for an artifact to randomly roll multiple **active_procgen_values** during random generation; if so, all of them activate simultaneously when the artifact is activated. No matter how many active abilities the artifact has, it only requires the number of charges specified in the **charges_per_use** parameter under **charge_types** to activate them all.
+
+- **spell_id:** the id of the spell cast when the artifact is activated. This uses the **fake_spell** template (ignoring casting time and resource cost)
+- **base_power:** the artifact power that choosing this active effect consumes (positive or negative)
+- **min_level:** the minimum possible level chosen for the spell to be cast at.  Defaults to 0 if unspecified.
+- **max_level:** the maximum possible level chosen for the spell to be cast at.  Defaults to 0 if unspecified. If max_level is higher than 0, the level is randomly determined between **min_level** and **max_level**
+- **ench_has:**: where the artifact must be in inventory in order to successfully activate it.  If there are multiple active effects with separate **ench_has** conditions, the last randomly-chosen activation condition takes precedence. 
+
 #### ench_has
 
 - **wield** This enchantment or spell only takes effect while the artifact is wielded
