@@ -65,5 +65,13 @@
     "remove_message": "Your enhanced senses fade away.",
     "rating": "good",
     "enchantments": [ { "values": [ { "value": "PERCEPTION", "add": 3 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_mom_artifact_lightning_immune",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good",
+    "enchantments": [ { "incoming_damage_mod": [ { "type": "electric", "multiply": -1 } ] } ]
   }
 ]

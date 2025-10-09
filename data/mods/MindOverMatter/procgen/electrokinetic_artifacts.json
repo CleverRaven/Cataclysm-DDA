@@ -13,12 +13,15 @@
       }
     ],
     "active_procgen_values": [
-      { "weight": 100, "spell_id": "MoM_AEA_NETHER_ATTUNEMENT", "base_power": -100 },
-      { "weight": 100, "spell_id": "MoM_AEA_STAMINA_EMPTY", "base_power": -250 },
-      { "weight": 100, "spell_id": "MoM_AEA_VOMIT", "base_power": -50 },
-      { "weight": 100, "spell_id": "MoM_AEA_ATTENTION", "base_power": -150 },
-      { "weight": 100, "spell_id": "MoM_AEA_EXTRA_CALORIE_COST", "base_power": -150 },
-      { "weight": 100, "spell_id": "MoM_AEA_ZAPPED", "base_power": -50 }
+      { "weight": 100, "spell_id": "MoM_AEA_APPLIANCE_RECHARGE", "base_power": 450, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_FIELD_OF_LIGHTNING", "base_power": 450, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_AREA_PARALYSIS", "base_power": 600, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_NETHER_ATTUNEMENT", "base_power": -100, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_STAMINA_EMPTY", "base_power": -250, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_VOMIT", "base_power": -50, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_ATTENTION", "base_power": -150, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_EXTRA_CALORIE_COST", "base_power": -150, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_ZAPPED", "base_power": -50, "ench_has": "WIELD" }
     ],
     "passive_mult_procgen_values": [
       {
@@ -146,13 +149,13 @@
       { "weight": 100, "value": "active_enchantment" },
       { "weight": 100, "value": "passive_enchantment_mult" }
     ],
-    "items": [ { "weight": 100, "item": "matrix_crystal_electrokinetic_artifact" } ]
+    "items": [ { "weight": 100, "item": "matrix_crystal_electrokinesis_artifact" } ]
   },
   {
     "type": "item_group",
     "id": "electrokinetic_crystal_artifact_item",
     "subtype": "distribution",
-    "items": [ [ "matrix_crystal_electrokinetic_artifact", 100 ] ]
+    "items": [ [ "matrix_crystal_electrokinesis_artifact", 100 ] ]
   },
   {
     "type": "relic_procgen_data",

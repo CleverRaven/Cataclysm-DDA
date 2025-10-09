@@ -267,6 +267,7 @@
     "field_id": "fd_clairvoyant",
     "min_field_intensity": 1,
     "max_field_intensity": 1,
+    "field_chance": 1,
     "extra_effects": [ { "id": "mom_aea_artifact_calorie_hit", "hit_self": true } ]
   },
   {
@@ -300,5 +301,93 @@
     "min_duration": 18000,
     "max_duration": 72000,
     "extra_effects": [ { "id": "mom_aea_artifact_calorie_hit", "hit_self": true } ]
+  },
+  {
+    "id": "MoM_AEA_ZAPPED",
+    "type": "SPELL",
+    "name": { "str": "MoM AEA Zap Self", "//~": "NO_I18N" },
+    "description": { "str": "Zaps the user of the artifact.", "//~": "NO_I18N" },
+    "message": "A jolt passes through your body!",
+    "valid_targets": [ "self" ],
+    "skill": "metaphysics",
+    "spell_class": "NONE",
+    "flags": [ "NO_LEGS", "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "effect": "attack",
+    "effect_str": "zapped",
+    "shape": "blast",
+    "min_duration": 200,
+    "max_duration": 800,
+    "extra_effects": [ { "id": "mom_aea_artifact_calorie_hit", "hit_self": true } ]
+  },
+  {
+    "id": "MoM_AEA_APPLIANCE_RECHARGE",
+    "type": "SPELL",
+    "name": { "str": "MoM AEA Appliance Recharge", "//~": "NO_I18N" },
+    "description": { "str": "Recharges nearby vehicles and power grids.", "//~": "NO_I18N" },
+    "message": "Sparks crackle over the nearby ground.",
+    "valid_targets": [ "ground" ],
+    "skill": "metaphysics",
+    "spell_class": "NONE",
+    "flags": [ "NO_LEGS", "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DAMAGE", "RANDOM_AOE" ],
+    "effect": "recharge_vehicle",
+    "shape": "blast",
+    "min_damage": 250,
+    "max_damage": 5000,
+    "min_aoe": 2,
+    "max_aoe": 6,
+    "extra_effects": [ { "id": "mom_aea_artifact_calorie_hit", "hit_self": true } ]
+  },
+  {
+    "id": "MoM_AEA_FIELD_OF_LIGHTNING",
+    "type": "SPELL",
+    "name": { "str": "MoM AEA Field of Lightning", "//~": "NO_I18N" },
+    "description": { "str": "Spawns a bunch of electricity around you.", "//~": "NO_I18N" },
+    "message": "The air erupts with lightning!",
+    "valid_targets": [ "ground" ],
+    "skill": "metaphysics",
+    "spell_class": "NONE",
+    "flags": [ "NO_LEGS", "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DAMAGE", "RANDOM_AOE", "EXTRA_EFFECTS_FIRST" ],
+    "effect": "noise",
+    "shape": "blast",
+    "min_aoe": 4,
+    "max_aoe": 10,
+    "field_id": "fd_electricity",
+    "min_field_intensity": 3,
+    "max_field_intensity": 7,
+    "field_chance": 2,
+    "extra_effects": [
+      { "id": "mom_aea_artifact_calorie_hit", "hit_self": true },
+      { "id": "mom_aea_artifact_electricity_immune", "hit_self": true }
+    ]
+  },
+  {
+    "id": "MoM_AEA_AREA_PARALYSIS",
+    "type": "SPELL",
+    "name": { "str": "MoM AEA Appliance Recharge", "//~": "NO_I18N" },
+    "description": { "str": "Recharges nearby vehicles and power grids.", "//~": "NO_I18N" },
+    "message": "Sparks crackle over the nearby ground.",
+    "valid_targets": [ "ground" ],
+    "skill": "metaphysics",
+    "spell_class": "NONE",
+    "flags": [ "NO_LEGS", "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DURATION", "RANDOM_AOE" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_MoM_AEA_AREA_PARALYSIS",
+    "shape": "blast",
+    "min_duration": 1000,
+    "max_duration": 3200,
+    "min_aoe": 4,
+    "max_aoe": 12,
+    "extra_effects": [ { "id": "mom_aea_artifact_calorie_hit", "hit_self": true } ],
+    "ignored_monster_species": [ "ROBOT", "ROBOT_FLYING", "NETHER", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "PLANT", "FUNGUS", "SLIME", "PSI_NULL" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MoM_AEA_AREA_PARALYSIS",
+    "effect": [
+      { "math": [ "_duration = rng(10,32)" ] },
+      { "u_add_effect": "downed", "duration": { "math": [ "_duration" ] } },
+      { "u_add_effect": "psi_dazed", "duration": { "math": [ "_duration" ] } },
+      { "u_add_effect": "effect_electrokin_paralysis", "duration": { "math": [ "_duration" ] } }
+    ]
   }
 ]
