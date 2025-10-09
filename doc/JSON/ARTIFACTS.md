@@ -46,7 +46,7 @@ The procedural generation of artifacts is defined in Json. The object looks like
         "time": [ "3 h", "6 h" ]
       }
     ],
-    "active_procgen_values": [ { "weight": 100, "spell_id": "AEA_PAIN" } ],
+    "active_procgen_values": [ { "weight": 100, "spell_id": "AEA_PAIN", "ench_has": "WIELD" } ],
     "passive_add_procgen_values": [
       {
         "weight": 100,
