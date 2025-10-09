@@ -6210,7 +6210,7 @@ void game::examine( bool with_pickup )
     u.manual_examine = false;
 }
 
-static std::string get_fire_fuel_string( const tripoint_bub_ms &examp )
+std::string game::get_fire_fuel_string( const tripoint_bub_ms &examp ) const
 {
     map &here = get_map();
     if( here.has_flag( ter_furn_flag::TFLAG_FIRE_CONTAINER, examp ) ) {
