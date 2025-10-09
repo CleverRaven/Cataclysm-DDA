@@ -47,10 +47,7 @@
     "tools": [
       [ [ "laptop", -1 ] ],
       [ [ "psi_usb_rad_recipes", -1 ] ],
-      [
-        [ "betavoltaic", -1 ],
-        [ "huge_atomic_battery_cell", -1 ]
-      ]
+      [ [ "betavoltaic", -1 ], [ "huge_atomic_battery_cell", -1 ] ]
     ],
     "proficiencies": [
       { "proficiency": "prof_intro_chemistry", "required": false },
@@ -107,10 +104,7 @@
     "tools": [
       [ [ "laptop", -1 ] ],
       [ [ "psi_usb_rad_recipes", -1 ] ],
-      [
-        [ "betavoltaic", -1 ],
-        [ "huge_atomic_battery_cell", -1 ]
-      ]
+      [ [ "betavoltaic", -1 ], [ "huge_atomic_battery_cell", -1 ] ]
     ],
     "proficiencies": [
       { "proficiency": "prof_intro_chemistry", "required": false },
