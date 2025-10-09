@@ -5245,7 +5245,7 @@
     "passive_effects": [
       {
         "values": [
-          { "value": "STRENGTH", "add": 3, "multiply": 1 },
+          { "value": "STRENGTH", "add": 2, "multiply": 0.25 },
           { "value": "DEXTERITY", "add": -2 },
           { "value": "INTELLIGENCE", "add": 1, "multiply": -0.5 },
           { "value": "PERCEPTION", "add": -7 }

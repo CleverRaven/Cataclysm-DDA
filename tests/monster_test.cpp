@@ -1008,9 +1008,10 @@ static void walk_toward_monster_off_the_map( tripoint_abs_omt origin, point offs
         }
         for( monster &critter : g->all_monsters() ) {
             if( critter.type->id != id ) {
-                g->remove_zombie( critter );
+                critter.die( &here, nullptr );
             }
         }
+        g->cleanup_dead();
     }
     CAPTURE( overmap_buffer.ter( project_to<coords::omt>( monster_pos ) ) );
     CAPTURE( here.ter( monster_location ) );
@@ -1042,9 +1043,12 @@ static void dormant_monsters_spawn_correctly( const tripoint_abs_omt &origin )
     // Verify it places the special dormant monster trap and corpse
     creature_tracker &creatures = get_creature_tracker();
     tripoint_bub_ms monster_location;
+    bool found_target = false;
     for( const shared_ptr_fast<monster> &creature : creatures.get_monsters_list() ) {
-        // We've asserted that there is only one already, so this should be it.
-        CHECK( creature->type->id == pseudo_dormant_mon_zombie_fat );
+        if( creature->type->id != pseudo_dormant_mon_zombie_fat ) {
+            continue;
+        }
+        found_target = true;
         monster_location = here.get_bub( creature->pos_abs() );
         while( !creature->is_dead() ) {
             creature->set_moves( 1 );
@@ -1053,6 +1057,7 @@ static void dormant_monsters_spawn_correctly( const tripoint_abs_omt &origin )
             creature->move();
         }
     }
+    REQUIRE( found_target );
     g->cleanup_dead();
 
     CAPTURE( here.ter( monster_location ) );

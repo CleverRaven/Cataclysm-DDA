@@ -16,15 +16,15 @@ see their info later in this document.
 | `type`                   |                                     | Type identifier. Must be "region_settings".                           |
 | `id`                     |                                     | Unique identifier for this region.                                    |
 | `tags`                   | array of string                     | An arbitrary list of tags for overlays to apply to.                   |
-| `rivers`                 | `region_settings_river`             | River generation parameters;                                          |
-| `lakes`                  | `region_settings_lake`              | Defines parameters for generating lakes in the region.                |
-| `ocean`                  | `region_settings_ocean`             | Defines parameters for generating oceans in the region.               |
-| `ravines`                | `region_settings_ravine`            | Defines parameters for generating ravines in the region.              |
-| `forests`                | `region_settings_forest`            | Defines parameters for generating forests and swamps in the region.   |
+| `rivers`                 | `region_settings_river`             | River generation parameters; Use `null` to disable river generation.  |
+| `lakes`                  | `region_settings_lake`              | Defines parameters for generating lakes in the region. `null` to disable. |
+| `ocean`                  | `region_settings_ocean`             | Defines parameters for generating oceans in the region. `null` to disable. |
+| `ravines`                | `region_settings_ravine`            | Defines parameters for generating ravines in the region. `null` to disable. |
+| `forests`                | `region_settings_forest`            | Defines parameters for generating forests and swamps in the region. `null` to disable forest generation. |
 | `forest_composition`     | `region_settings_forest_mapgen`     | Defines flora (and "stuff") that cover the `forest` terrain types.    |
-| `forest_trails`          | `region_settings_forest_trail`      | Defines the overmap and local structure of forest trails.             |
-| `highways`               | `region_settings_highway`           | Defines parameters for generating highways in the region.             |
-| `cities`                 | `region_settings_city`              | Defines the structural compositions of cities.                        |
+| `forest_trails`          | `region_settings_forest_trail`      | Defines the overmap and local structure of forest trails. `null` to disable. |
+| `highways`               | `region_settings_highway`           | Defines parameters for generating highways in the region. `null` to disable. |
+| `cities`                 | `region_settings_city`              | Defines the structural compositions of cities. `null` to disable city generation. |
 | `map_extras`             | `region_settings_map_extras`        | Defines the map extra groups referenced by overmap terrains.          |
 | `terrain_furniture`      | `region_settings_terrain_furniture` | Defines the resolution of regional terrain/furniture to actual types. |
 | `weather`                | `weather_generator`                 | Defines the base weather attributes for the region.                   |
@@ -138,6 +138,26 @@ other map extras in "forest".
     "extras": [ [ "mx_shia", 1 ] ]
 }
 ```
+
+### Tags
+
+The "apply_to_tags" field will apply the overlay to any `region_settings` with
+matching `tags`. Currently, using the tag "all" will apply the overlay to all regions:
+```jsonc
+{
+    "apply_to_tags": [ "all" ],
+}
+```
+
+If you wanted to apply the overlay only for regions with a "default" tag:
+```jsonc
+{
+    "apply_to_tags": [ "default" ],
+}
+```
+
+Tags are arbitary strings and are only used to avoid referencing a likely-growing number
+of region_settings ids.
 
 ## Region Terrain / Furniture
 

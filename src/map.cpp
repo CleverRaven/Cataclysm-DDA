@@ -8532,20 +8532,22 @@ void map::grow_plant( const tripoint_bub_ms &p )
 
     const std::vector<std::pair<flag_id, time_duration>> &growth_stages =
                 seed->type->seed->get_growth_stages();
+
     flag_id current_stage = flag_id( io::enum_to_string<ter_furn_flag>
                                      ( ter_furn_flag::TFLAG_GROWTH_SEED ) );
     flag_id target_stage = flag_id( io::enum_to_string<ter_furn_flag>
                                     ( ter_furn_flag::TFLAG_GROWTH_SEED ) );
     time_duration time_to_grow_to_this_stage = 0_seconds;
+
     for( const auto &pair : growth_stages ) {
-        const time_duration stage_growth_time = pair.second;
-        time_to_grow_to_this_stage += stage_growth_time;
         if( has_flag_furn( pair.first.str(), p ) ) {
             current_stage = pair.first;
         }
         if( seed->age() >= time_to_grow_to_this_stage ) {
             target_stage = pair.first;
-        }
+        } // Don't break the loop for the case where time has been rewound.
+        // Advance to the time of the next stage for the next iteration.
+        time_to_grow_to_this_stage += pair.second;
     }
 
     const auto check_flag = []( const std::string & to_check ) {
@@ -8565,6 +8567,10 @@ void map::grow_plant( const tripoint_bub_ms &p )
                    seed->tname(), to_string( seed->age() ), current_stage.c_str(), target_stage.c_str(),
                    stages_to_advance );
 
+    if( stages_to_advance <= 0 ) {
+        // We don't have the logic to reverse growth transforms, so leave the stage as is on a time rewind.
+        return;
+    }
 
     for( int i = 0; i < stages_to_advance; i++ ) {
         // Remove fertilizer if any

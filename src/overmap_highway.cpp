@@ -22,7 +22,6 @@
 #include "map_scale_constants.h"
 #include "messages.h"
 #include "omdata.h"
-#include "options.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "point.h"
@@ -530,9 +529,9 @@ std::pair<bool, std::bitset<HIGHWAY_MAX_CONNECTIONS>> overmap::highway_handle_oc
 {
     std::bitset<HIGHWAY_MAX_CONNECTIONS> ocean_adjacent;
     const point_abs_om this_om = pos();
-    const region_settings_ocean &settings_ocean = settings->get_settings_ocean();
 
-    if( get_option<bool>( "OVERMAP_PLACE_OCEANS" ) ) {
+    if( settings->overmap_ocean ) {
+        const region_settings_ocean &settings_ocean = settings->get_settings_ocean();
         // Not ideal as oceans can start later than these settings but it's at least reliably stopping before them
         const int ocean_start_north = settings_ocean.ocean_start_north == 0 ? INT_MAX :
                                       settings_ocean.ocean_start_north;
@@ -756,12 +755,12 @@ std::vector<Highway_path> overmap::place_highways(
     }
 
     if( c_seperation == 0 && r_seperation == 0 ) {
-        debugmsg( "Use the external option OVERMAP_PLACE_HIGHWAYS to disable highways instead" );
+        debugmsg( "Use regional map settings to disable highways instead" );
         return paths;
     }
 
     // guaranteed intersection close to (but not at) avatar start location
-    if( overmap_buffer.highway_global_offset.is_invalid() ) {
+    if( overmap_buffer.global_state.highway_global_offset.is_invalid() ) {
         overmap_buffer.set_highway_global_offset();
         overmap_buffer.generate_highway_intersection_point( overmap_buffer.get_highway_global_offset() );
     }
@@ -1057,9 +1056,12 @@ std::optional<std::bitset<HIGHWAY_MAX_CONNECTIONS>> overmap::is_highway_overmap(
 void interhighway_node::generate_offset( int intersection_max_radius )
 {
     auto no_lakes = []( const point_abs_om & pt ) {
+        const region_settings &settings = overmap_buffer.get_default_settings( pt );
+        if( !settings.overmap_lake ) {
+            return true;
+        }
         //TODO: this can't be correct usage of default region settings...
-        const region_settings_lake &lake_settings = overmap_buffer.get_default_settings(
-                    pt ).get_settings_lake();
+        const region_settings_lake &lake_settings = settings.get_settings_lake();
         return !overmap::guess_has_lake( pt, lake_settings.noise_threshold_lake,
                                          lake_settings.lake_size_min );
     };

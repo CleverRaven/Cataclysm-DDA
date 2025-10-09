@@ -8,5 +8,33 @@
     "description": "Cataclysm but with magic spells!",
     "category": "content",
     "dependencies": [ "dda" ]
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "PLAYER_MAX_STR_VALUE",
+    "//": "Sets a cap on maximum effective strength for characters.",
+    "stype": "int",
+    "value": 35
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "PLAYER_MAX_DEX_VALUE",
+    "//": "Sets a cap on maximum effective dexterity for characters.",
+    "stype": "int",
+    "value": 35
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "PLAYER_MAX_PER_VALUE",
+    "//": "Sets a cap on maximum effective perception for characters.",
+    "stype": "int",
+    "value": 35
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "PLAYER_MAX_INT_VALUE",
+    "//": "Sets a cap on maximum effective inteligence for characters.",
+    "stype": "int",
+    "value": 35
   }
 ]

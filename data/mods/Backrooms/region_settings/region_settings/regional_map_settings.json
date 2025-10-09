@@ -1,31 +1,5 @@
 [
   {
-    "type": "region_settings_forest_trail",
-    "id": "default_backrooms",
-    "copy-from": "default",
-    "chance": 2,
-    "border_point_chance": 2,
-    "minimum_forest_size": 100,
-    "random_point_min": 4,
-    "random_point_max": 50,
-    "random_point_size_scalar": 100,
-    "trailhead_chance": 1,
-    "trailhead_road_distance": 6,
-    "trailheads": [ [ "trailhead_basic", 1 ], [ "trailhead_outhouse", 1 ], [ "trailhead_shack", 1 ] ]
-  },
-  {
-    "type": "region_settings_city",
-    "id": "default_backrooms",
-    "copy-from": "default",
-    "shop_radius": 30,
-    "shop_sigma": 50,
-    "park_radius": 20,
-    "park_sigma": 80,
-    "houses": [ [ "s_liquor", 100 ] ],
-    "parks": [ [ "s_liquor", 100 ] ],
-    "shops": [ [ "s_liquor", 100 ] ]
-  },
-  {
     "type": "weather_generator",
     "id": "default_backrooms",
     "copy-from": "default",
@@ -140,148 +114,24 @@
     ]
   },
   {
-    "type": "forest_biome_mapgen",
-    "id": "biome_forest_backrooms",
-    "copy-from": "biome_forest_default",
-    "sparseness_adjacency_factor": 3,
-    "item_group": "forest",
-    "item_group_chance": 60,
-    "item_spawn_iterations": 1,
-    "groundcover": { "t_carpet_yellow": 10, "t_carpet_red": 1 },
-    "components": [
-      "trees_forest_backrooms",
-      "shrubs_and_flowers_forest_backrooms",
-      "clutter_forest_backrooms",
-      "water_forest_backrooms"
-    ],
-    "terrain_furniture": {  }
-  },
-  {
-    "type": "forest_biome_component",
-    "id": "trees_forest_backrooms",
-    "copy-from": "trees_forest",
-    "chance": 6,
-    "types": [ [ "t_wall", 128 ] ]
-  },
-  {
-    "type": "forest_biome_component",
-    "id": "shrubs_and_flowers_forest_backrooms",
-    "copy-from": "shrubs_and_flowers_forest",
-    "types": [ [ "f_rack_coat", 1 ], [ "f_sign_warning", 1 ], [ "f_sign", 1 ] ]
-  },
-  {
-    "type": "forest_biome_component",
-    "id": "clutter_forest_backrooms",
-    "copy-from": "clutter_forest",
-    "types": [ [ "t_wall_b", 128 ], [ "t_wall", 128 ], [ "t_carpet_red", 128 ] ]
-  },
-  {
-    "type": "forest_biome_component",
-    "id": "water_forest_backrooms",
-    "copy-from": "water_forest",
-    "types": [ [ "t_thconc_floor", 1 ] ]
-  },
-  {
-    "type": "forest_biome_mapgen",
-    "id": "biome_forest_thick_backrooms",
-    "copy-from": "biome_forest_thick_default",
-    "sparseness_adjacency_factor": 4,
-    "item_group": "forest",
-    "item_group_chance": 60,
-    "item_spawn_iterations": 1,
-    "groundcover": { "t_floor": 1 },
-    "components": [
-      "trees_forest_thick_backrooms",
-      "shrubs_and_flowers_forest_thick_backrooms",
-      "clutter_forest_thick_backrooms",
-      "water_forest_thick_backrooms"
-    ],
-    "terrain_furniture": {  }
-  },
-  {
-    "type": "forest_biome_component",
-    "id": "trees_forest_thick_backrooms",
-    "copy-from": "trees_forest_thick",
-    "types": [ [ "t_wall_b", 128 ], [ "t_wall", 128 ], [ "t_carpet_red", 128 ], [ "t_thconc_floor_olight", 20 ] ]
-  },
-  {
-    "type": "forest_biome_component",
-    "id": "shrubs_and_flowers_forest_thick_backrooms",
-    "copy-from": "shrubs_and_flowers_forest_thick",
-    "types": [ [ "f_rack_coat", 1 ], [ "f_sign_warning", 1 ], [ "f_sign", 1 ] ]
-  },
-  {
-    "type": "forest_biome_component",
-    "id": "clutter_forest_thick_backrooms",
-    "copy-from": "clutter_forest_thick",
-    "types": [ [ "t_scrap_floor", 64 ], [ "t_dirtfloor", 64 ] ]
-  },
-  {
-    "type": "forest_biome_component",
-    "id": "water_forest_thick_backrooms",
-    "copy-from": "water_forest_thick",
-    "types": [ [ "t_carpet_green", 1 ] ]
-  },
-  {
-    "type": "forest_biome_mapgen",
-    "id": "biome_forest_water_backrooms",
-    "copy-from": "biome_forest_water_default",
-    "sparseness_adjacency_factor": 2,
-    "item_group": "forest",
-    "item_group_chance": 60,
-    "item_spawn_iterations": 1,
-    "groundcover": { "t_linoleum_white": 2 },
-    "components": [
-      "trees_forest_water_backrooms",
-      "shrubs_and_flowers_forest_water_backrooms",
-      "clutter_forest_water_backrooms",
-      "water_forest_water_backrooms"
-    ],
-    "terrain_furniture": { "t_water_sh": { "chance": 1, "furniture": { "f_sign_warning": 5 } } }
-  },
-  {
-    "type": "forest_biome_component",
-    "id": "trees_forest_water_backrooms",
-    "copy-from": "trees_forest_water",
-    "chance": 5,
-    "types": [ [ "t_utility_light", 30 ] ]
-  },
-  {
-    "type": "forest_biome_component",
-    "id": "shrubs_and_flowers_forest_water_backrooms",
-    "copy-from": "shrubs_and_flowers_forest_water",
-    "types": [ [ "t_floor_wax", 1 ] ]
-  },
-  {
-    "type": "forest_biome_component",
-    "id": "clutter_forest_water_backrooms",
-    "copy-from": "clutter_forest_water",
-    "types": [ [ "t_linoleum_gray", 1 ] ]
-  },
-  {
-    "type": "forest_biome_component",
-    "id": "water_forest_water_backrooms",
-    "copy-from": "water_forest_water",
-    "types": [ [ "t_junk_floor", 6 ] ]
-  },
-  {
     "type": "region_settings_forest_mapgen",
     "id": "default_backrooms",
     "copy-from": "default",
-    "biomes": [ "biome_forest_backrooms", "biome_forest_thick_backrooms", "biome_forest_water_backrooms" ]
+    "biomes": [  ]
   },
   {
     "type": "region_settings",
     "id": "default_backrooms",
     "copy-from": "default",
-    "rivers": "no_rivers",
-    "lakes": "no_lakes",
-    "ocean": "no_ocean",
-    "forests": "no_forests",
-    "ravines": "default",
-    "forest_trails": "default_backrooms",
+    "rivers": null,
+    "lakes": null,
+    "ocean": null,
+    "forests": null,
+    "ravines": null,
+    "forest_trails": null,
     "forest_composition": "default_backrooms",
-    "cities": "default_backrooms",
+    "highways": null,
+    "cities": null,
     "map_extras": "default_backrooms",
     "terrain_furniture": "default_backrooms",
     "weather": "default_backrooms",

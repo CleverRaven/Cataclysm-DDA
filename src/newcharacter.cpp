@@ -3055,12 +3055,21 @@ void set_hobbies( tab_manager &tabs, avatar &u, pool_type pool )
             // Do not allow selection of hobby if there's a trait conflict
             const profession *hobb = &sorted_hobbies[cur_id].obj();
             bool conflict_found = false;
+            bool conflict_reason_found = false;
             for( const trait_and_var &new_trait : hobb->get_locked_traits() ) {
                 if( u.has_conflicting_trait( new_trait.trait ) ) {
+                    conflict_found = true;
+                    for( const trait_and_var &suspect : u.prof->get_locked_traits() ) {
+                        if( are_conflicting_traits( new_trait.trait, suspect.trait ) ) {
+                            conflict_reason_found = true;
+                            popup( _( "The trait [%1$s] conflicts with profession [%2$s]'s trait [%3$s]." ), new_trait.name(),
+                                   u.prof->gender_appropriate_name( u.male ), suspect.name() );
+                        }
+                    }
                     for( const profession *hobby : u.hobbies ) {
                         for( const trait_and_var &suspect : hobby->get_locked_traits() ) {
                             if( are_conflicting_traits( new_trait.trait, suspect.trait ) ) {
-                                conflict_found = true;
+                                conflict_reason_found = true;
                                 popup( _( "The trait [%1$s] conflicts with background [%2$s]'s trait [%3$s]." ), new_trait.name(),
                                        hobby->gender_appropriate_name( u.male ), suspect.name() );
                             }
@@ -3069,6 +3078,10 @@ void set_hobbies( tab_manager &tabs, avatar &u, pool_type pool )
                 }
             }
             if( conflict_found ) {
+                if( !conflict_reason_found ) {
+                    popup( _( "A conflicting trait is preventing you from taking %s" ),
+                           hobb->gender_appropriate_name( u.male ) );
+                }
                 continue;
             }
 

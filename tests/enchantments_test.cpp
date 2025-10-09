@@ -73,7 +73,7 @@ static void test_generic_ench( avatar &p, enchant_test enc_test )
     // wait a turn for the effect to kick in
     p.process_turn();
 
-    CHECK( p.get_dex() == ( enc_test.dex_before + 25 ) * 3 );
+    CHECK( p.get_dex() == ( enc_test.dex_before + 1 ) * 2 );
     CHECK( get_talker_for( p )->trial_chance_mod( "lie" ) == static_cast<int>( round( (
                 enc_test.lie_before + 15 ) * 1.5 ) ) );
     CHECK( get_talker_for( p )->trial_chance_mod( "persuade" ) == static_cast<int>( round( (
@@ -167,7 +167,7 @@ TEST_CASE( "Enchantments_change_stats", "[magic][enchantments]" )
     guy.recalculate_enchantment_cache();
     advance_turn( guy );
     INFO( "Stats change accordingly" );
-    REQUIRE( guy.get_str() == 22 );
+    REQUIRE( guy.get_str() == 12 );
     REQUIRE( guy.get_dex() == 6 );
     REQUIRE( guy.get_int() == 5 );
     REQUIRE( guy.get_per() == 1 );
@@ -191,7 +191,7 @@ TEST_CASE( "Enchantments_change_stats", "[magic][enchantments]" )
     guy.recalculate_enchantment_cache();
     advance_turn( guy );
     INFO( "Stats change accordingly" );
-    REQUIRE( guy.get_str() == 42 );
+    REQUIRE( guy.get_str() == 18 );
     REQUIRE( guy.get_dex() == 4 );
     REQUIRE( guy.get_int() == 0 );
     REQUIRE( guy.get_per() == 0 );

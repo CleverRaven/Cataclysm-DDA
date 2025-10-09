@@ -277,7 +277,8 @@ void overmap::place_building( const tripoint_om_omt &p, om_direction::type dir, 
 pf::directed_path<point_om_omt> overmap::lay_out_street( const overmap_connection &connection,
         const point_om_omt &source, om_direction::type dir, size_t len )
 {
-    const int &highway_width = settings->get_settings_highway().width_of_segments;
+    const int &highway_width = settings->overmap_highway ?
+                               settings->get_settings_highway().width_of_segments : 0;
     auto valid_placement = [this]( const overmap_connection & connection, const tripoint_om_omt pos,
     om_direction::type dir ) {
         if( !inbounds( pos, 1 ) ) {
