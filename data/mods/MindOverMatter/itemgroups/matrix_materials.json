@@ -6,7 +6,7 @@
     "entries": [
       { "group": "biokinetic_matrix_crystals_group", "prob": 10 },
       { "group": "clairsentient_matrix_crystals_group", "prob": 10 },
-      { "item": "matrix_crystal_electrokinesis", "prob": 10 },
+      { "group": "electrokinetic_matrix_crystals_group", "prob": 10 },
       { "item": "matrix_crystal_photokinesis", "prob": 10 },
       { "item": "matrix_crystal_pyrokinesis", "prob": 10 },
       { "item": "matrix_crystal_telekinesis", "prob": 10 },
@@ -24,7 +24,7 @@
       { "item": "null", "prob": 100 },
       { "group": "biokinetic_matrix_crystals_group", "prob": 10 },
       { "group": "clairsentient_matrix_crystals_group", "prob": 10 },
-      { "item": "matrix_crystal_electrokinesis", "prob": 10 },
+      { "group": "electrokinetic_matrix_crystals_group", "prob": 10 },
       { "item": "matrix_crystal_photokinesis", "prob": 10 },
       { "item": "matrix_crystal_pyrokinesis", "prob": 10 },
       { "item": "matrix_crystal_telekinesis", "prob": 10 },
@@ -42,7 +42,7 @@
       { "item": "matrix_crystal_drained", "prob": 9 },
       { "group": "biokinetic_matrix_crystals_group", "prob": 1 },
       { "group": "clairsentient_matrix_crystals_group", "prob": 1 },
-      { "item": "matrix_crystal_electrokinesis", "prob": 1 },
+      { "group": "electrokinetic_matrix_crystals_group", "prob": 1 },
       { "item": "matrix_crystal_photokinesis", "prob": 1 },
       { "item": "matrix_crystal_pyrokinesis", "prob": 1 },
       { "item": "matrix_crystal_telekinesis", "prob": 1 },
@@ -110,6 +110,15 @@
     "entries": [
       { "group": "clairsentient_crystal_awakening_artifact_procgen", "prob": 1 },
       { "group": "clairsentient_crystal_artifact_procgen", "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "electrokinetic_matrix_crystals_group",
+    "entries": [
+      { "group": "electrokinetic_crystal_awakening_artifact_procgen", "prob": 1 },
+      { "group": "electrokinetic_crystal_artifact_procgen", "prob": 1 }
     ]
   },
   {
