@@ -1435,7 +1435,8 @@
           { "item": "spell_scroll_earthshaper_danger_sense", "prob": 50 },
           { "item": "spell_scroll_earthshaper_fortitude_of_stone", "prob": 50 },
           { "item": "spell_scroll_earthshaper_turning_of_earth", "prob": 50 },
-          { "item": "spell_scroll_earthshaper_repair_metal_stone", "prob": 25 }
+          { "item": "spell_scroll_earthshaper_repair_metal_stone", "prob": 25 },
+          { "item": "spell_scroll_earthshaper_remove_corpses", "prob": 35 }
         ],
         "prob": 45
       },
@@ -1480,7 +1481,8 @@
           { "item": "spell_scroll_biomancer_visceral_projection", "prob": 50 },
           { "item": "spell_scroll_biomancer_swim_frog", "prob": 35 },
           { "item": "spell_scroll_biomancer_cure_disease_minor", "prob": 50 },
-          { "item": "spell_scroll_biomancer_eat_tons_of_food", "prob": 30 }
+          { "item": "spell_scroll_biomancer_eat_tons_of_food", "prob": 30 },
+          { "item": "spell_scroll_biomancer_pull_items_from_distance", "prob": 30 }
         ],
         "prob": 45
       },
