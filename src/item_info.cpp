@@ -2720,7 +2720,7 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
     std::string &eport = type->tool->e_port;
     if( !eport.empty() ) {
         std::string compat;
-        compat += _( "* This device has electronic port type: " + colorize( eport, c_light_green ) );
+        compat += _( "* This device has electronic port type: " ) + colorize( _( eport ), c_light_green ) ;
         std::vector<std::string> &eport_banned = type->tool->e_ports_banned;
         if( !eport_banned.empty() ) {
             compat += _( "\n* This device does not support transfer to e-port types: " );
