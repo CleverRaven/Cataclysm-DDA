@@ -289,7 +289,7 @@
     "type": "SPELL",
     "name": { "str": "MoM AEA Add Perception Boost", "//~": "NO_I18N" },
     "description": { "str": "Add a Perception boost.", "//~": "NO_I18N" },
-    "message": "You feel more capable.",
+    "message": "",
     "valid_targets": [ "self" ],
     "skill": "metaphysics",
     "spell_class": "NONE",

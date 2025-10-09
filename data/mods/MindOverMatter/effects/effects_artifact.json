@@ -61,7 +61,7 @@
     "id": "effect_mom_artifact_perception_boost",
     "name": [ "Enhanced Perception" ],
     "desc": [ "Your senses are enhanced." ],
-    "apply_message": "",
+    "apply_message": "All your senses suddenly sharpen.",
     "remove_message": "Your enhanced senses fade away.",
     "rating": "good",
     "enchantments": [ { "values": [ { "value": "PERCEPTION", "add": 3 } ] } ]

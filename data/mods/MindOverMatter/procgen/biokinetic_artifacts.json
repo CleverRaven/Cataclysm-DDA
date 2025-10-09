@@ -13,19 +13,19 @@
       }
     ],
     "active_procgen_values": [
-      { "weight": 100, "spell_id": "MoM_AEA_ADRENALINE", "base_power": 250 },
-      { "weight": 100, "spell_id": "MoM_AEA_REMOVE_PAIN", "base_power": 150 },
-      { "weight": 100, "spell_id": "MoM_AEA_ATTENTION", "base_power": -150 },
-      { "weight": 100, "spell_id": "MoM_AEA_VOMIT", "base_power": -50 },
-      { "weight": 100, "spell_id": "MoM_AEA_STAMINA_EMPTY", "base_power": -250 },
-      { "weight": 100, "spell_id": "MoM_AEA_STAMINA_BURST", "base_power": 250 },
-      { "weight": 100, "spell_id": "MoM_AEA_MUTATE", "base_power": -500 },
-      { "weight": 100, "spell_id": "MoM_AEA_NETHER_ATTUNEMENT", "base_power": -100 },
-      { "weight": 100, "spell_id": "MoM_AEA_PHYSICAL_ENHANCEMENT", "base_power": 150 },
-      { "weight": 100, "spell_id": "MoM_AEA_SPEED_BURST", "base_power": 400 },
-      { "weight": 100, "spell_id": "MoM_AEA_HARDEN_SKIN", "base_power": 300 },
-      { "weight": 100, "spell_id": "MoM_AEA_EXTRA_CALORIE_COST", "base_power": -150 },
-      { "weight": 100, "spell_id": "MoM_AEA_EXTRA_MOVEMENT_EXERTION", "base_power": -50 }
+      { "weight": 100, "spell_id": "MoM_AEA_ADRENALINE", "base_power": 250, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_REMOVE_PAIN", "base_power": 150, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_ATTENTION", "base_power": -150, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_VOMIT", "base_power": -50, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_STAMINA_EMPTY", "base_power": -250, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_STAMINA_BURST", "base_power": 250, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_MUTATE", "base_power": -500, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_NETHER_ATTUNEMENT", "base_power": -100, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_PHYSICAL_ENHANCEMENT", "base_power": 150, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_SPEED_BURST", "base_power": 400, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_HARDEN_SKIN", "base_power": 300, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_EXTRA_CALORIE_COST", "base_power": -150, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_EXTRA_MOVEMENT_EXERTION", "base_power": -50, "ench_has": "WIELD" }
     ],
     "passive_mult_procgen_values": [
       {
@@ -71,7 +71,7 @@
         "type": "REGEN_HP",
         "increment": 0.1,
         "power_per_increment": 50,
-        "ench_has": "HELD"
+        "ench_has": "WIELD"
       },
       {
         "weight": 100,
@@ -107,7 +107,7 @@
         "type": "REGEN_STAMINA",
         "increment": 0.1,
         "power_per_increment": 100,
-        "ench_has": "HELD"
+        "ench_has": "WIELD"
       },
       {
         "weight": 35,
@@ -193,7 +193,7 @@
         "ench_has": "HELD"
       },
       {
-        "weight": 50,
+        "weight": 25,
         "min_value": -2500,
         "max_value": 10000,
         "type": "MAX_STAMINA",
@@ -217,7 +217,7 @@
         "type": "CLIMATE_CONTROL_HEAT",
         "increment": 1,
         "power_per_increment": 50,
-        "ench_has": "HELD"
+        "ench_has": "WIELD"
       },
       {
         "weight": 100,
@@ -226,7 +226,7 @@
         "type": "CLIMATE_CONTROL_CHILL",
         "increment": 1,
         "power_per_increment": 50,
-        "ench_has": "HELD"
+        "ench_has": "WIELD"
       },
       {
         "weight": 100,
@@ -253,7 +253,7 @@
         "type": "MAX_STAMINA",
         "increment": 500,
         "power_per_increment": 500,
-        "ench_has": "HELD"
+        "ench_has": "WIELD"
       },
       {
         "weight": 10,
@@ -262,7 +262,7 @@
         "type": "MUT_INSTABILITY_MOD",
         "increment": 1,
         "power_per_increment": 750,
-        "ench_has": "HELD"
+        "ench_has": "WIELD"
       }
     ],
     "type_weights": [
@@ -335,7 +335,7 @@
         "type": "REGEN_HP",
         "increment": 0.1,
         "power_per_increment": 50,
-        "ench_has": "HELD"
+        "ench_has": "WIELD"
       },
       {
         "weight": 100,
@@ -371,7 +371,7 @@
         "type": "REGEN_STAMINA",
         "increment": 0.1,
         "power_per_increment": 100,
-        "ench_has": "HELD"
+        "ench_has": "WIELD"
       },
       {
         "weight": 35,
@@ -457,13 +457,13 @@
         "ench_has": "HELD"
       },
       {
-        "weight": 50,
+        "weight": 25,
         "min_value": -2500,
         "max_value": 10000,
         "type": "MAX_STAMINA",
         "increment": 250,
         "power_per_increment": 50,
-        "ench_has": "HELD"
+        "ench_has": "WIELD"
       },
       {
         "weight": 50,
@@ -481,7 +481,7 @@
         "type": "CLIMATE_CONTROL_HEAT",
         "increment": 1,
         "power_per_increment": 50,
-        "ench_has": "HELD"
+        "ench_has": "WIELD"
       },
       {
         "weight": 100,
@@ -490,7 +490,7 @@
         "type": "CLIMATE_CONTROL_CHILL",
         "increment": 1,
         "power_per_increment": 50,
-        "ench_has": "HELD"
+        "ench_has": "WIELD"
       },
       {
         "weight": 100,
@@ -517,7 +517,7 @@
         "type": "MAX_STAMINA",
         "increment": 500,
         "power_per_increment": 500,
-        "ench_has": "HELD"
+        "ench_has": "WIELD"
       },
       {
         "weight": 10,
@@ -526,7 +526,7 @@
         "type": "MUT_INSTABILITY_MOD",
         "increment": 1,
         "power_per_increment": 750,
-        "ench_has": "HELD"
+        "ench_has": "WIELD"
       }
     ],
     "type_weights": [ { "weight": 100, "value": "passive_enchantment_add" }, { "weight": 100, "value": "passive_enchantment_mult" } ],
