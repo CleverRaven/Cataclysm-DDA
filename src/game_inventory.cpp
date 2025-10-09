@@ -1113,12 +1113,16 @@ class activatable_inventory_preset : public pickup_inventory_preset
         }
 
         bool is_shown( const item_location &loc ) const override {
-            return loc->type->has_use() || ( loc->has_relic_activation() && loc->can_use_relic( you ) );
+            return loc->type->has_use() || loc->has_relic_activation();
         }
 
         std::string get_denial( const item_location &loc ) const override {
             const item &it = *loc;
             const auto &uses = it.type->use_methods;
+
+            if( !it.can_use_relic( you ) ) {
+                return string_format( _( "The %s can't be used like that." ), it.tname() );
+            }
 
             const auto &comest = it.get_comestible();
             if( comest && !comest->tool.is_null() ) {
