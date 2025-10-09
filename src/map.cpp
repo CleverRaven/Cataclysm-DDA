@@ -8530,17 +8530,19 @@ void map::grow_plant( const tripoint_bub_ms &p )
         return;
     }
 
-    const std::vector<std::pair<flag_id, time_duration>> &growth_stages =
+    const std::vector<std::pair<ter_furn_flag, time_duration>> &growth_stages =
                 seed->type->seed->get_growth_stages();
 
-    flag_id current_stage = flag_id( io::enum_to_string<ter_furn_flag>
-                                     ( ter_furn_flag::TFLAG_GROWTH_SEED ) );
-    flag_id target_stage = flag_id( io::enum_to_string<ter_furn_flag>
-                                    ( ter_furn_flag::TFLAG_GROWTH_SEED ) );
+    ter_furn_flag current_stage = ter_furn_flag::TFLAG_GROWTH_SEED;
+    ter_furn_flag target_stage = ter_furn_flag::TFLAG_GROWTH_SEED;
+    //    flag_id current_stage = flag_id( io::enum_to_string<ter_furn_flag>
+    //                                     ( ter_furn_flag::TFLAG_GROWTH_SEED ) );
+    //    flag_id target_stage = flag_id( io::enum_to_string<ter_furn_flag>
+    //                                    ( ter_furn_flag::TFLAG_GROWTH_SEED ) );
     time_duration time_to_grow_to_this_stage = 0_seconds;
 
     for( const auto &pair : growth_stages ) {
-        if( has_flag_furn( pair.first.str(), p ) ) {
+        if( has_flag_furn( pair.first, p ) ) {
             current_stage = pair.first;
         }
         if( seed->age() >= time_to_grow_to_this_stage ) {
@@ -8550,21 +8552,14 @@ void map::grow_plant( const tripoint_bub_ms &p )
         time_to_grow_to_this_stage += pair.second;
     }
 
-    const auto check_flag = []( const std::string & to_check ) {
-        return [&to_check]( const auto & pair_flag_and_dur ) {
-            return pair_flag_and_dur.first.str() == to_check;
-        };
-    };
-
-    const int stages_to_advance = std::distance(
-                                      std::find_if( growth_stages.begin(), growth_stages.end(), check_flag( current_stage.str() ) ),
-                                      std::find_if( growth_stages.begin(), growth_stages.end(), check_flag( target_stage.str() ) ) );
+    const int stages_to_advance = static_cast<int>( target_stage ) - static_cast<int>( current_stage );
 
     add_msg_debug( debugmode::DF_MAP,
                    "Checking growth on a %s, aged %s. Current stage: %s. Target stage: %s. Advancing %d stages.",
                    // Human readable time please. '7863287 s' from to_string_writable() is not a reasonable output.
                    //NOLINTNEXTLINE(cata-translations-in-debug-messages)
-                   seed->tname(), to_string( seed->age() ), current_stage.c_str(), target_stage.c_str(),
+                   seed->tname(), to_string( seed->age() ), io::enum_to_string<ter_furn_flag>( current_stage ),
+                   io::enum_to_string<ter_furn_flag>( target_stage ),
                    stages_to_advance );
 
     if( stages_to_advance <= 0 ) {

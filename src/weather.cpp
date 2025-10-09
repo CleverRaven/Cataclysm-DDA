@@ -927,7 +927,8 @@ ret_val<void> warm_enough_to_plant( const tripoint_bub_ms &pos, const itype_id &
     const tripoint_abs_ms abs = get_map().get_abs( pos );
     const tripoint_abs_omt checked_omt = project_to<coords::omt>( abs );
 
-    const std::vector<std::pair<flag_id, time_duration>> &growth_stages = it->seed->get_growth_stages();
+    const std::vector<std::pair<ter_furn_flag, time_duration>> &growth_stages =
+                it->seed->get_growth_stages();
     // we will iterate a copy of the weather into the future to see if they'll be plantable then as well.
     const weather_generator weather_gen = get_weather().get_cur_weather_gen();
     // initialize the first...

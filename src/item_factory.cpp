@@ -2506,7 +2506,8 @@ void Item_factory::check_definitions() const
         if( type->seed ) {
             for( const auto &pair : type->seed->get_growth_stages() ) {
                 if( pair.second < 1_turns ) {
-                    msg += string_format( "Growth for stage %s is less than 1 turn", pair.first.c_str() );
+                    msg += string_format( "Growth for stage %s is less than 1 turn",
+                                          io::enum_to_string<ter_furn_flag>( pair.first ) );
                 }
             }
             if( !has_template( type->seed->fruit_id ) ) {
@@ -3442,7 +3443,23 @@ void islot_seed::deserialize( const JsonObject &jo )
     mandatory( jo, was_loaded, "plant_name", plant_name );
     mandatory( jo, was_loaded, "fruit", fruit_id );
     mandatory( jo, was_loaded, "growth_stages", growth_stages,
-               pair_reader<flag_id, time_duration> {} );
+               pair_reader<ter_furn_flag, time_duration> {} );
+    ter_furn_flag expected_growth_flag = ter_furn_flag::TFLAG_GROWTH_SEED;
+    for( const std::pair<ter_furn_flag, time_duration> &stage : growth_stages ) {
+        if( stage.first < ter_furn_flag::TFLAG_GROWTH_SEED ||
+            stage.first > ter_furn_flag::TFLAG_GROWTH_OVERGROWN ) {
+            debugmsg( "Incorrect growth stage flag %s for plant name: %s.",
+                      io::enum_to_string<ter_furn_flag>( stage.first ), plant_name );
+        } else if( stage.first != expected_growth_flag ) {
+            debugmsg( "Incorrect growth stage order of flag %s for plant name: %s (they have to be specified in chronological order).",
+                      io::enum_to_string<ter_furn_flag>( stage.first ), plant_name );
+        }
+        expected_growth_flag = static_cast<ter_furn_flag>( static_cast<int>( expected_growth_flag ) + 1 );
+    }
+    if( expected_growth_flag < ter_furn_flag::TFLAG_GROWTH_OVERGROWN ) {
+        debugmsg( "Missing growth stage(s) for plant name: %s.  All stages from SEED to MATURE have to be specified in order.",
+                  plant_name );
+    }
     optional( jo, was_loaded, "growth_temp", growth_temp, 10_C );
     optional( jo, was_loaded, "seeds", spawn_seeds, true );
     optional( jo, was_loaded, "byproducts", byproducts );

@@ -296,7 +296,7 @@ bool itype::is_basic_component() const
     return false;
 }
 
-const std::vector<std::pair<flag_id, time_duration>> &islot_seed::get_growth_stages() const
+const std::vector<std::pair<ter_furn_flag, time_duration>> &islot_seed::get_growth_stages() const
 {
     return growth_stages;
 }
