@@ -13,7 +13,6 @@
       }
     ],
     "active_procgen_values": [
-      { "weight": 100, "spell_id": "MoM_AEA_APPLIANCE_RECHARGE", "base_power": 450, "ench_has": "WIELD" },
       { "weight": 100, "spell_id": "MoM_AEA_FIELD_OF_LIGHTNING", "base_power": 450, "ench_has": "WIELD" },
       { "weight": 100, "spell_id": "MoM_AEA_AREA_PARALYSIS", "base_power": 600, "ench_has": "WIELD" },
       { "weight": 100, "spell_id": "MoM_AEA_ROBOT_KILL", "base_power": 300, "ench_has": "WIELD" },
