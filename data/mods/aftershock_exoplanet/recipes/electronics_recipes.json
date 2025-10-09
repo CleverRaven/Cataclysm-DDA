@@ -75,10 +75,6 @@
     "autolearn": true,
     "using": [ [ "tailoring_nylon_patchwork", 2 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [
-      [ [ "afs_atomic_lamp", 1 ], [ "afs_atomic_lamp_off", 1 ] ],
-      [ [ "glue_strong", 1 ] ],
-      [ [ "cable", 2 ] ]
-    ]
+    "components": [ [ [ "afs_atomic_lamp", 1 ], [ "afs_atomic_lamp_off", 1 ] ], [ [ "glue_strong", 1 ] ], [ [ "cable", 2 ] ] ]
   }
 ]
