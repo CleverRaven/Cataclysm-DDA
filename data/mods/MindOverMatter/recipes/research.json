@@ -49,12 +49,6 @@
       [ [ "psi_usb_rad_recipes", -1 ] ],
       [
         [ "atomic_coffeepot", -1 ],
-        [ "wearable_atomic_light", -1 ],
-        [ "wearable_atomic_light_off", -1 ],
-        [ "atomic_lamp", -1 ],
-        [ "atomic_lamp_off", -1 ],
-        [ "atomic_light", -1 ],
-        [ "atomic_light_off", -1 ],
         [ "betavoltaic", -1 ],
         [ "atomic_coffeepot", -1 ],
         [ "huge_atomic_battery_cell", -1 ]
@@ -117,12 +111,6 @@
       [ [ "psi_usb_rad_recipes", -1 ] ],
       [
         [ "atomic_coffeepot", -1 ],
-        [ "wearable_atomic_light", -1 ],
-        [ "wearable_atomic_light_off", -1 ],
-        [ "atomic_lamp", -1 ],
-        [ "atomic_lamp_off", -1 ],
-        [ "atomic_light", -1 ],
-        [ "atomic_light_off", -1 ],
         [ "betavoltaic", -1 ],
         [ "atomic_coffeepot", -1 ],
         [ "huge_atomic_battery_cell", -1 ]
