@@ -1189,7 +1189,7 @@
     "id": "VAMPIRE4",
     "name": { "str": "Discarded their mortality" },
     "points": 0,
-    "description": "You have become a true vampire and are beginning to see some of the most potent abilities vampirism has to offer.",
+    "description": "You have become a true vampire and are beginning to see some of the most potent abilities vampirism has to offer.  The sun burns you even if you cover yourself, your body is now too dead to passively produce mana and your healing will stop while you suffer from the Withering, but your new power more than compensates for that.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
