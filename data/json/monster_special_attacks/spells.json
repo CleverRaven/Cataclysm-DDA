@@ -603,7 +603,7 @@
       { "text": { "str": "HUMAN", "//~": "NO_I18N" }, "weight": 1 },
       { "text": { "str": "RABBIT", "//~": "NO_I18N" }, "weight": 2 },
       { "text": { "str": "GASTROPOD", "//~": "NO_I18N" }, "weight": 2 },
-      { "text": { "str": "BEAST", "//~": "NO_I18N"}, "weight": 1 },
+      { "text": { "str": "BEAST", "//~": "NO_I18N" }, "weight": 1 },
       { "text": { "str": "FELINE", "//~": "NO_I18N" }, "weight": 1 },
       { "text": { "str": "CATTLE", "//~": "NO_I18N" }, "weight": 1 },
       { "text": { "str": "LIZARD", "//~": "NO_I18N" }, "weight": 1 },
