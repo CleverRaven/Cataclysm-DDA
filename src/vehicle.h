@@ -1390,7 +1390,7 @@ class vehicle
         int next_part_to_unlock( int p, bool outside = false ) const;
 
         // returns indices of all parts in the given location slot
-        std::vector<int> all_parts_at_location( const std::string &location ) const;
+        std::vector<int> all_parts_at_location( const vpart_location_id &location ) const;
         // shifts an index to next available of that type for NPC activities
         int get_next_shifted_index( int original_index, Character &you ) const;
         // Given a part and a flag, returns the indices of all contiguously adjacent parts

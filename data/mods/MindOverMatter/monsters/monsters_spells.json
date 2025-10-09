@@ -1011,6 +1011,7 @@
     "damage_type": "psi_telepathic_damage",
     "min_damage": 1,
     "max_damage": 1,
+    "affected_body_parts": [ "head" ],
     "extra_effects": [
       { "id": "telepathic_blast_monster", "hit_self": false, "max_level": 20 },
       { "id": "telepathic_horror_monster", "hit_self": false, "max_level": 20 }

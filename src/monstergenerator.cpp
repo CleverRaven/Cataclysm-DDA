@@ -8,7 +8,6 @@
 #include <unordered_set>
 #include <utility>
 
-#include "assign.h"
 #include "cached_options.h"
 #include "calendar.h"
 #include "cata_utility.h"
@@ -41,6 +40,10 @@
 #include "weakpoint.h"
 
 struct itype;
+
+static const damage_type_id damage_bash( "bash" );
+
+static const harvest_id harvest_list_human( "human" );
 
 static const material_id material_flesh( "flesh" );
 
@@ -219,7 +222,7 @@ void MonsterGenerator::reset()
     init_attack();
 }
 
-static int calc_bash_skill( const mtype &t )
+static std::map<damage_type_id, int> calc_bash_skill( const mtype &t )
 {
     // IOW, the critter's max bashing damage
     int ret = t.melee_dice * t.melee_sides;
@@ -229,10 +232,10 @@ static int calc_bash_skill( const mtype &t )
     } else if( t.has_flag( mon_flag_DESTROYS ) ) {
         ret *= 2.5;
     } else if( !t.has_flag( mon_flag_BASHES ) ) {
-        ret = 0;
+        return {};
     }
 
-    return ret;
+    return {{{damage_bash, ret}}};
 }
 
 static creature_size volume_to_size( const units::volume &vol )
@@ -350,7 +353,7 @@ void MonsterGenerator::finalize_mtypes()
             adj.apply( mon );
         }
 
-        if( mon.bash_skill < 0 ) {
+        if( mon.bash_skill.empty() ) {
             mon.bash_skill = calc_bash_skill( mon );
         }
 
@@ -390,7 +393,7 @@ void MonsterGenerator::finalize_mtypes()
         }
         mon.difficulty = ( mon.melee_skill + 1 ) * mon.melee_dice * ( melee_dmg_total + mon.melee_sides ) *
                          0.04 + ( mon.sk_dodge + 1 ) * armor_diff * 0.04 +
-                         ( mon.difficulty_base + special_attacks_diff + 8 * mon.emit_fields.size() );
+                         ( mon.get_difficulty_adjustment() + special_attacks_diff + 8 * mon.emit_fields.size() );
         mon.difficulty *= ( mon.hp + mon.speed - mon.attack_cost + ( mon.morale + mon.agro ) * 0.1 ) * 0.01
                           + ( mon.vision_day + 2 * mon.vision_night ) * 0.01;
 
@@ -523,7 +526,7 @@ mtype MonsterGenerator::generate_fake_pseudo_dormant_monster( const mtype &mon )
     // first make a new mon_spellcasting_actor actor
     std::unique_ptr<mon_spellcasting_actor> new_actor( new mon_spellcasting_actor() );
     new_actor->allow_no_target = true;
-    new_actor->cooldown.min.dbl_val = 1;
+    new_actor->cooldown = 1;
     new_actor->spell_data.id = spell_pseudo_dormant_trap_setup;
     new_actor->spell_data.self = true;
 
@@ -568,7 +571,7 @@ void MonsterGenerator::finalize_pathfinding_settings( mtype &mon )
         mon.path_settings.max_length = mon.path_settings.max_dist * 5;
     }
 
-    if( mon.path_settings.bash_strength < 0 ) {
+    if( mon.path_settings.bash_strength.empty() ) {
         mon.path_settings.bash_strength = mon.bash_skill;
     }
 
@@ -813,12 +816,7 @@ struct special_attacks_reader : generic_typed_reader<special_attacks_reader> {
         report_double_def( name, jv );
 
         mtype_special_attack new_attack = mtype_special_attack( iter->second );
-        if( inner.has_array( 1 ) ) {
-            new_attack.actor->cooldown.min = get_dbl_or_var_part( inner.get_array( 1 )[0] );
-            new_attack.actor->cooldown.max = get_dbl_or_var_part( inner.get_array( 1 )[1] );
-        } else {
-            new_attack.actor->cooldown.min = get_dbl_or_var_part( inner[1] );
-        }
+        new_attack.actor->cooldown.deserialize( inner[1] );
         names.push_back( name );
         return std::make_pair( name, new_attack );
     }
@@ -857,13 +855,14 @@ void mtype::load( const JsonObject &jo, const std::string_view src )
 
     optional( jo, was_loaded, "bodytype", bodytype );
     optional( jo, was_loaded, "color", color, nc_color_reader{}, c_white );
-    optional( jo, was_loaded, "volume", volume, units_bound_reader<units::volume> { 0_ml } );
-    optional( jo, was_loaded, "weight", weight, units_bound_reader<units::mass> { 0_gram } );
+    optional( jo, was_loaded, "volume", volume, units_bound_reader<units::volume> { 0_ml }, 62499_ml );
+    optional( jo, was_loaded, "weight", weight, units_bound_reader<units::mass> { 0_gram },
+              81499_gram );
 
     optional( jo, was_loaded, "phase", phase, make_flag_reader( gen.phase_map, "phase id" ),
               phase_id::SOLID );
 
-    optional( jo, was_loaded, "diff", difficulty_base, numeric_bound_reader<int> {0}, 0 );
+    optional( jo, was_loaded, "diff", difficulty_adjustment, numeric_bound_reader<int> {0}, 0 );
     optional( jo, was_loaded, "hp", hp, numeric_bound_reader<int> {1} );
     optional( jo, was_loaded, "speed", speed, numeric_bound_reader<int> {0}, 0 );
     optional( jo, was_loaded, "aggression", agro, numeric_bound_reader<int> {-100, 100}, 0 );
@@ -960,7 +959,7 @@ void mtype::load( const JsonObject &jo, const std::string_view src )
               weighted_string_id_reader<efftype_id, int> { 1 } );
 
     optional( jo, was_loaded, "starting_ammo", starting_ammo );
-    assign( jo, "luminance", luminance, true );
+    optional( jo, was_loaded, "luminance", luminance, 0 );
     optional( jo, was_loaded, "revert_to_itype", revert_to_itype, itype_id() );
     optional( jo, was_loaded, "broken_itype", broken_itype, itype_id() );
     optional( jo, was_loaded, "mech_weapon", mech_weapon, itype_id() );
@@ -992,13 +991,12 @@ void mtype::load( const JsonObject &jo, const std::string_view src )
                                          "death_drops for mtype " + id.str() );
     }
 
-    assign( jo, "harvest", harvest );
-    // FIXME: assign doesn't trigger issues that optional does???
-    //optional( jo, was_loaded, "harvest", harvest, harvest_id::NULL_ID() );
+    // FIXME: there's code to check if harvest is null, which will never trigger as it defaults to human
+    optional( jo, was_loaded, "harvest", harvest, harvest_list_human );
 
     optional( jo, was_loaded, "dissect", dissect );
 
-    optional( jo, was_loaded, "decay", decay );
+    optional( jo, was_loaded, "decay", decay, harvest_id::NULL_ID() );
 
     optional( jo, was_loaded, "shearing", shearing );
 
@@ -1136,52 +1134,18 @@ void mtype::load( const JsonObject &jo, const std::string_view src )
     optional( jo, was_loaded, "burn_into", burn_into, string_id_reader<::mtype> {},
               mtype_id::NULL_ID() );
 
-    if( jo.has_member( "flags" ) ) {
-        pre_flags_.clear();
-        if( jo.has_string( "flags" ) ) {
-            pre_flags_.emplace( jo.get_string( "flags" ) );
-        } else {
-            for( JsonValue jval : jo.get_array( "flags" ) ) {
-                pre_flags_.emplace( jval.get_string() );
-            }
-        }
-    } else {
-        if( jo.has_member( "extend" ) ) {
-            JsonObject exjo = jo.get_object( "extend" );
-            exjo.allow_omitted_members();
-            if( exjo.has_member( "flags" ) ) {
-                if( exjo.has_string( "flags" ) ) {
-                    pre_flags_.emplace( exjo.get_string( "flags" ) );
-                } else {
-                    for( JsonValue jval : exjo.get_array( "flags" ) ) {
-                        pre_flags_.emplace( jval.get_string() );
-                    }
-                }
-            }
-        }
-        if( jo.has_member( "delete" ) ) {
-            JsonObject deljo = jo.get_object( "delete" );
-            deljo.allow_omitted_members();
-            if( deljo.has_member( "flags" ) ) {
-                if( deljo.has_string( "flags" ) ) {
-                    auto iter = pre_flags_.find( mon_flag_str_id( deljo.get_string( "flags" ) ) );
-                    if( iter != pre_flags_.end() ) {
-                        pre_flags_.erase( iter );
-                    }
-                } else {
-                    for( JsonValue jval : deljo.get_array( "flags" ) ) {
-                        auto iter = pre_flags_.find( mon_flag_str_id( jval.get_string() ) );
-                        if( iter != pre_flags_.end() ) {
-                            pre_flags_.erase( iter );
-                        }
-                    }
-                }
-            }
-        }
-    }
+    optional( jo, was_loaded, "flags", pre_flags_, string_id_reader<mon_flag> {} );
 
     // Can't calculate yet - we want all flags first
-    optional( jo, was_loaded, "bash_skill", bash_skill, -1 );
+    if( jo.has_int( "bash_skill" ) ) {
+        int skill;
+        optional( jo, false, "bash_skill", skill, -1 );
+        if( skill <= 0 ) {
+            bash_skill = {{{damage_bash, skill}}};
+        }
+    } else {
+        optional( jo, was_loaded, "bash_skill", bash_skill );
+    }
 
     const auto trigger_reader = enum_flags_reader<mon_trigger> { "monster trigger" };
     optional( jo, was_loaded, "anger_triggers", anger, trigger_reader );
@@ -1193,7 +1157,7 @@ void mtype::load( const JsonObject &jo, const std::string_view src )
         // Here rather than in pathfinding.cpp because we want monster-specific defaults and was_loaded
         optional( jop, was_loaded, "max_dist", path_settings.max_dist, 0 );
         optional( jop, was_loaded, "max_length", path_settings.max_length, -1 );
-        optional( jop, was_loaded, "bash_strength", path_settings.bash_strength, -1 );
+        optional( jop, was_loaded, "bash_strength", path_settings.bash_strength );
         optional( jop, was_loaded, "allow_open_doors", path_settings.allow_open_doors, false );
         optional( jop, was_loaded, "avoid_traps", path_settings.avoid_traps, false );
         optional( jop, was_loaded, "allow_climb_stairs", path_settings.allow_climb_stairs, true );
@@ -1217,49 +1181,7 @@ void species_type::load( const JsonObject &jo, std::string_view )
     optional( jo, was_loaded, "description", description );
     optional( jo, was_loaded, "footsteps", footsteps, to_translation( "footsteps." ) );
 
-    if( jo.has_member( "flags" ) ) {
-        flags.clear();
-        if( jo.has_string( "flags" ) ) {
-            flags.emplace( jo.get_string( "flags" ) );
-        } else {
-            for( JsonValue jval : jo.get_array( "flags" ) ) {
-                flags.emplace( jval.get_string() );
-            }
-        }
-    } else {
-        if( jo.has_member( "extend" ) ) {
-            JsonObject exjo = jo.get_object( "extend" );
-            exjo.allow_omitted_members();
-            if( exjo.has_member( "flags" ) ) {
-                if( exjo.has_string( "flags" ) ) {
-                    flags.emplace( exjo.get_string( "flags" ) );
-                } else {
-                    for( JsonValue jval : exjo.get_array( "flags" ) ) {
-                        flags.emplace( jval.get_string() );
-                    }
-                }
-            }
-        }
-        if( jo.has_member( "delete" ) ) {
-            JsonObject deljo = jo.get_object( "delete" );
-            deljo.allow_omitted_members();
-            if( deljo.has_member( "flags" ) ) {
-                if( deljo.has_string( "flags" ) ) {
-                    auto iter = flags.find( mon_flag_str_id( deljo.get_string( "flags" ) ) );
-                    if( iter != flags.end() ) {
-                        flags.erase( iter );
-                    }
-                } else {
-                    for( JsonValue jval : deljo.get_array( "flags" ) ) {
-                        auto iter = flags.find( mon_flag_str_id( jval.get_string() ) );
-                        if( iter != flags.end() ) {
-                            flags.erase( iter );
-                        }
-                    }
-                }
-            }
-        }
-    }
+    optional( jo, was_loaded, "flags", flags, string_id_reader<mon_flag> {} );
 
     const auto trigger_reader = enum_flags_reader<mon_trigger> { "monster trigger" };
     optional( jo, was_loaded, "anger_triggers", anger, trigger_reader );
@@ -1394,15 +1316,13 @@ mtype_special_attack MonsterGenerator::create_actor( const JsonObject &obj,
 
 void mattack_actor::load( const JsonObject &jo, const std::string &src )
 {
-    // Legacy support
-    if( !jo.has_string( "id" ) ) {
-        id = jo.get_string( "type" );
+    if( jo.has_string( "id" ) ) {
+        mandatory( jo, false, "id", id );
     } else {
-        // Loading ids can't be strict at the moment, since it has to match the stored version
-        assign( jo, "id", id, false );
+        mandatory( jo, false, "type", id );
     }
 
-    mandatory( jo, was_loaded, "cooldown", cooldown, dbl_or_var_reader{} );
+    mandatory( jo, was_loaded, "cooldown", cooldown );
 
     load_internal( jo, src );
     // Set was_loaded manually because we don't have generic_factory to do it for us

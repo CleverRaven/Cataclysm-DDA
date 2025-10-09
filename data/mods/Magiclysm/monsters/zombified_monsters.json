@@ -236,7 +236,8 @@
     "//": "Not technically a zombie, but allied with them as a feral druid summon.",
     "type": "MONSTER",
     "name": { "str": "wolf" },
-    "default_faction": "zombie"
+    "default_faction": "zombie",
+    "species": [ "MAMMAL", "SUMMONED_CREATURE" ]
   },
   {
     "type": "MONSTER",

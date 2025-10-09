@@ -37,6 +37,8 @@
 #include "faction_camp.h"
 #include "flexbuffer_json.h"
 #include "game.h"
+#include "horde_entity.h"
+#include "horde_map.h"
 #include "input_context.h"
 #include "inventory.h"
 #include "item.h"
@@ -58,6 +60,7 @@
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "point.h"
+#include "ret_val.h"
 #include "rng.h"
 #include "skill.h"
 #include "string_formatter.h"
@@ -1529,7 +1532,7 @@ int talk_function::combat_score( const std::vector< monster * > &group )
     int score = 0;
     for( monster * const &elem : group ) {
         if( elem->get_hp() > 0 ) {
-            score += elem->type->difficulty;
+            score += elem->type->get_total_difficulty();
         }
     }
     return score;
@@ -1546,16 +1549,12 @@ npc_ptr talk_function::temp_npc( const string_id<npc_template> &type )
 void talk_function::field_plant( npc &p, const std::string &place )
 {
     Character &player_character = get_player_character();
-    if( !warm_enough_to_plant( player_character.pos_bub() ) ) {
-        popup( _( "It is too cold to plant anything now." ) );
-        return;
-    }
     std::vector<item *> seed_inv = player_character.cache_get_items_with( "is_seed", &item::is_seed,
     []( const item & itm ) {
         return itm.typeId() != itype_marloss_seed && itm.typeId() != itype_fungal_seeds;
     } );
     if( seed_inv.empty() ) {
-        popup( _( "You have no seeds to plant!" ) );
+        popup( _( "You have no seeds to plant." ) );
         return;
     }
 
@@ -1578,7 +1577,12 @@ void talk_function::field_plant( npc &p, const std::string &place )
         return;
     }
 
-    const auto &seed_id = seed_types[seed_index];
+    const itype_id &seed_id = seed_types[seed_index];
+    ret_val<void>can_plant = warm_enough_to_plant( player_character.pos_bub(), seed_id );
+    if( !can_plant.success() ) {
+        popup( can_plant.c_str() );
+        return;
+    }
     if( item::count_by_charges( seed_id ) ) {
         free_seeds = player_character.charges_of( seed_id );
     } else {
@@ -2248,25 +2252,27 @@ bool talk_function::companion_om_combat_check( const std::vector<npc_ptr> &group
         //return true;
     }
 
-    tripoint_abs_sm sm_tgt = project_to<coords::sm>( om_tgt );
-
     tinymap target_bay;
     target_bay.load( om_tgt, false );
     std::vector< monster * > monsters_around;
     for( int x = 0; x < 2; x++ ) {
         for( int y = 0; y < 2; y++ ) {
-            tripoint_abs_sm sm = sm_tgt + point( x, y );
             point_abs_om omp;
-            tripoint_om_sm local_sm;
-            std::tie( omp, local_sm ) = project_remain<coords::om>( sm );
+            tripoint_om_omt local_omt;
+            std::tie( omp, local_omt ) = project_remain<coords::om>( om_tgt );
             overmap &omi = overmap_buffer.get( omp );
 
-            auto monster_bucket = omi.monster_map.equal_range( local_sm );
-            std::for_each( monster_bucket.first,
-            monster_bucket.second, [&]( std::pair<const tripoint_om_sm, monster> &monster_entry ) {
-                monster &this_monster = monster_entry.second;
-                monsters_around.push_back( &this_monster );
-            } );
+            // TODO: Interact with dormant horde monsters as well?
+            for( std::unordered_map<tripoint_abs_ms, horde_entity> *bucket :
+                 omi.hordes.entity_group_at( local_omt ) ) {
+                for( std::pair<const tripoint_abs_ms, horde_entity> &monster_entry : *bucket ) {
+                    // TODO: figure out hwat to do if this involves lightweight horde entities?
+                    if( monster_entry.second.monster_data ) {
+                        monster &this_monster = *monster_entry.second.monster_data;
+                        monsters_around.push_back( &this_monster );
+                    }
+                }
+            }
         }
     }
     float avg_survival = 0.0f;
@@ -2282,7 +2288,7 @@ bool talk_function::companion_om_combat_check( const std::vector<npc_ptr> &group
         if( mons->get_hp() <= 0 ) {
             continue;
         }
-        int d_modifier = avg_survival - mons->type->difficulty;
+        int d_modifier = avg_survival - mons->type->get_total_difficulty();
         int roll = rng( 1, 20 ) + d_modifier;
         if( roll > 10 ) {
             if( try_engage ) {

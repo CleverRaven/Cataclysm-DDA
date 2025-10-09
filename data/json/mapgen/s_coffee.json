@@ -251,7 +251,7 @@
         { "item": "coffee_bathroom", "x": [ 5, 6 ], "y": [ 21, 22 ], "chance": 20, "repeat": [ 1, 2 ] },
         { "item": "coffee_bathroom", "x": [ 2, 3 ], "y": [ 21, 22 ], "chance": 20, "repeat": [ 1, 2 ] }
       ],
-      "place_item": [ { "item": "coffeemaker", "x": 21, "y": 22 }, { "item": "atomic_coffeepot", "x": 21, "y": 22, "chance": 20 } ],
+      "place_item": [ { "item": "coffeemaker", "x": 21, "y": 22 } ],
       "items": { "x": { "item": "cash_register_random", "chance": 100 } }
     }
   },

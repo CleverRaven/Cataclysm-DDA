@@ -20,6 +20,7 @@ from .parsers.enchant import parse_enchant
 from .parsers.end_screen import parse_end_screen
 from .parsers.event_statistic import parse_event_statistic
 from .parsers.faction import parse_faction
+from .parsers.faction_mission import parse_faction_mission
 from .parsers.fault import parse_fault
 from .parsers.fault_fix import parse_fault_fix
 from .parsers.field_type import parse_field_type
@@ -86,6 +87,7 @@ from .parsers.trap import parse_trap
 from .parsers.vehicle import parse_vehicle
 from .parsers.vehicle_part import parse_vehicle_part
 from .parsers.vehicle_part_category import parse_vehicle_part_category
+from .parsers.vehicle_part_location import parse_vehicle_part_location
 from .parsers.vehicle_spawn import parse_vehicle_spawn
 from .parsers.vitamin import parse_vitamin
 from .parsers.weakpoint_set import parse_weakpoint_set
@@ -107,6 +109,7 @@ parsers = {
     "anatomy": dummy_parser,
     "ascii_art": dummy_parser,
     "attack_vector": dummy_parser,
+    "bash_damage_profile": dummy_parser,
     "behavior": dummy_parser,
     "bionic": parse_bionic,
     "bionic_migration": dummy_parser,
@@ -139,6 +142,7 @@ parsers = {
     "event_transformation": dummy_parser,
     "external_option": dummy_parser,
     "faction": parse_faction,
+    "faction_mission": parse_faction_mission,
     "fault": parse_fault,
     "fault_fix": parse_fault_fix,
     "fault_group": dummy_parser,
@@ -189,6 +193,7 @@ parsers = {
     "nested_category": parse_nested_category,
     "npc": parse_npc,
     "npc_class": parse_npc_class,
+    "omt_placeholder": dummy_parser,
     "oter_id_migration": dummy_parser,
     "oter_vision": parse_oter_vision,
     "option_slider": parse_option_slider,
@@ -212,6 +217,21 @@ parsers = {
     "recipe_group": parse_recipe_group,
     "region_overlay": dummy_parser,
     "region_settings": dummy_parser,
+    "region_settings_river": dummy_parser,
+    "region_settings_lake": dummy_parser,
+    "region_settings_ocean": dummy_parser,
+    "region_settings_ravine": dummy_parser,
+    "region_settings_forest": dummy_parser,
+    "region_settings_highway": dummy_parser,
+    "region_settings_forest_trail": dummy_parser,
+    "region_settings_city": dummy_parser,
+    "region_settings_terrain_furniture": dummy_parser,
+    "region_terrain_furniture": dummy_parser,
+    "region_settings_forest_mapgen": dummy_parser,
+    "region_settings_map_extras": dummy_parser,
+    "forest_biome_component": dummy_parser,
+    "forest_biome_mapgen": dummy_parser,
+    "map_extra_collection": dummy_parser,
     "relic_procgen_data": dummy_parser,
     "requirement": dummy_parser,
     "rotatable_symbol": dummy_parser,
@@ -250,6 +270,7 @@ parsers = {
     "vehicle_group": dummy_parser,
     "vehicle_part": parse_vehicle_part,
     "vehicle_part_category": parse_vehicle_part_category,
+    "vehicle_part_location": parse_vehicle_part_location,
     "vehicle_part_migration": dummy_parser,
     "vehicle_placement": dummy_parser,
     "vehicle_spawn": parse_vehicle_spawn,
@@ -257,5 +278,6 @@ parsers = {
     "weakpoint_set": parse_weakpoint_set,
     "weapon_category": parse_weapon_category,
     "weather_type": parse_weather_type,
+    "weather_generator": dummy_parser,
     "widget": parse_widget,
 }

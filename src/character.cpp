@@ -16,6 +16,7 @@
 #include <vector>
 
 #include "action.h"
+#include "activity_actor.h"
 #include "activity_actor_definitions.h"
 #include "activity_handlers.h"
 #include "addiction.h"
@@ -113,8 +114,8 @@
 #include "translation.h"
 #include "translations.h"
 #include "trap.h"
-#include "uilist.h"
 #include "ui_manager.h"
+#include "uilist.h"
 #include "uistate.h"
 #include "units.h"
 #include "value_ptr.h"
@@ -127,8 +128,7 @@
 #include "vpart_range.h"
 #include "weather.h"
 #include "weather_type.h"
-
-class activity_actor;
+#include "wound.h"
 
 static const activity_id ACT_AUTODRIVE( "ACT_AUTODRIVE" );
 static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
@@ -330,6 +330,9 @@ static const json_character_flag json_flag_INVERTEBRATEBLOOD( "INVERTEBRATEBLOOD
 static const json_character_flag json_flag_INVISIBLE( "INVISIBLE" );
 static const json_character_flag json_flag_MYOPIC( "MYOPIC" );
 static const json_character_flag json_flag_MYOPIC_IN_LIGHT( "MYOPIC_IN_LIGHT" );
+static const json_character_flag
+json_flag_MYOPIC_IN_LIGHT_SUPERNATURAL( "MYOPIC_IN_LIGHT_SUPERNATURAL" );
+static const json_character_flag json_flag_MYOPIC_SUPERNATURAL( "MYOPIC_SUPERNATURAL" );
 static const json_character_flag json_flag_NIGHT_VISION( "NIGHT_VISION" );
 static const json_character_flag json_flag_NON_THRESH( "NON_THRESH" );
 static const json_character_flag json_flag_NO_RADIATION( "NO_RADIATION" );
@@ -510,6 +513,11 @@ static const std::string type_skin_tone( "skin_tone" );
 static const std::string type_facial_hair( "facial_hair" );
 static const std::string type_eye_color( "eye_color" );
 
+int character_max_str = 20;
+int character_max_dex = 20;
+int character_max_per = 20;
+int character_max_int = 20;
+
 namespace io
 {
 
@@ -621,7 +629,7 @@ Character::Character() :
     name.clear();
     custom_profession.clear();
 
-    *path_settings = pathfinding_settings{ 0, 1000, 1000, 0, true, true, true, true, false, true, creature_size::medium };
+    *path_settings = pathfinding_settings{ {}, 1000, 1000, 0, true, true, true, true, false, true, creature_size::medium };
 
     move_mode = move_mode_walk;
     next_expected_position = std::nullopt;
@@ -728,6 +736,22 @@ std::vector<matype_id> Character::known_styles( bool teachable_only ) const
 bool Character::has_martialart( const matype_id &m ) const
 {
     return martial_arts_data->has_martialart( m );
+}
+
+int Character::count_threshold_substitute_traits() const
+{
+    int count = 0;
+    for( const mutation_branch &mut : mutation_branch::get_all() ) {
+        if( !mut.threshold_substitutes.empty() && has_trait( mut.id ) &&
+            std::find_if( mut.threshold_substitutes.begin(), mut.threshold_substitutes.end(),
+        [this]( const trait_id & t ) {
+        return has_trait( t );
+        } ) != mut.threshold_substitutes.end() ) {
+            ++count;
+            break;
+        }
+    }
+    return count;
 }
 
 int Character::get_oxygen_max() const
@@ -1457,6 +1481,8 @@ bool Character::sight_impaired() const
              !has_effect( effect_contacts ) &&
              !has_effect( effect_transition_contacts ) &&
              !has_flag( json_flag_ENHANCED_VISION ) ) ||
+           ( in_light && has_flag( json_flag_MYOPIC_IN_LIGHT_SUPERNATURAL ) ) ||
+           has_flag( json_flag_MYOPIC_SUPERNATURAL ) ||
            has_trait( trait_PER_SLIME ) || is_blind();
 }
 
@@ -2214,7 +2240,7 @@ bool Character::has_min_manipulators() const
 bool Character::has_two_arms_lifting() const
 {
     // 0.5f is one "standard" arm, so if you have more than that you barely qualify.
-    return get_limb_score( limb_score_lift, body_part_type::type::arm ) > 0.5f;
+    return get_limb_score( limb_score_lift, bp_type::arm ) > 0.5f;
 }
 
 std::set<matec_id> Character::get_limb_techs() const
@@ -2233,7 +2259,7 @@ std::set<matec_id> Character::get_limb_techs() const
 int Character::get_working_arm_count() const
 {
     int limb_count = 0;
-    body_part_type::type arm_type = body_part_type::type::arm;
+    bp_type arm_type = bp_type::arm;
     for( const bodypart_id &part : get_all_body_parts_of_type( arm_type ) ) {
         // Almost broken or overencumbered arms don't count
         if( get_part( part )->get_limb_score( *this,
@@ -2251,7 +2277,7 @@ bool Character::enough_working_legs() const
     int limb_count = 0;
     int working_limb_count = 0;
     for( const bodypart_id &part : get_all_body_parts() ) {
-        if( part->primary_limb_type() == body_part_type::type::leg ) {
+        if( part->primary_limb_type() == bp_type::leg ) {
             limb_count++;
             if( !is_limb_broken( part ) ) {
                 working_limb_count++;
@@ -2267,7 +2293,7 @@ int Character::get_working_leg_count() const
 {
     int working_limb_count = 0;
     for( const bodypart_id &part : get_all_body_parts() ) {
-        if( part->primary_limb_type() == body_part_type::type::leg ) {
+        if( part->primary_limb_type() == bp_type::leg ) {
             if( !is_limb_broken( part ) ) {
                 working_limb_count++;
             }
@@ -2525,6 +2551,8 @@ void Character::process_turn()
         }
     }
 
+    update_wounds( 1_turns );
+
     // We can dodge again! Assuming we can actually move...
     if( in_sleep_state() ) {
         blocks_left = 0;
@@ -2669,10 +2697,13 @@ void Character::recalc_sight_limits()
         sight_max = 2;
     } else if( has_trait( trait_PER_SLIME ) ) {
         sight_max = 8;
-    } else if( ( has_flag( json_flag_MYOPIC ) || ( in_light &&
-                 has_flag( json_flag_MYOPIC_IN_LIGHT ) ) ) &&
-               !worn_with_flag( flag_FIX_NEARSIGHT ) && !has_effect( effect_contacts ) &&
-               !has_effect( effect_transition_contacts ) ) {
+    } else if( ( ( has_flag( json_flag_MYOPIC ) || ( in_light &&
+                   has_flag( json_flag_MYOPIC_IN_LIGHT ) ) ) &&
+                 !worn_with_flag( flag_FIX_NEARSIGHT ) && !has_effect( effect_contacts ) &&
+                 !has_effect( effect_transition_contacts ) ) ||
+               ( in_light && has_flag( json_flag_MYOPIC_IN_LIGHT_SUPERNATURAL ) ) ||
+               has_flag( json_flag_MYOPIC_SUPERNATURAL )
+             ) {
         sight_max = 12;
     } else if( has_effect( effect_darkness ) ) {
         vision_mode_cache.set( DARKNESS );
@@ -3475,7 +3506,7 @@ ret_val<void> Character::can_unwield( const item &it ) const
         std::optional<bionic *> bio_opt = find_bionic_by_uid( get_weapon_bionic_uid() );
         if( !is_wielding( it ) || it.ethereal || !bio_opt ||
             !can_deactivate_bionic( **bio_opt ).success() ) {
-            return ret_val<void>::make_failure( _( "You cannot unwield your %s." ), it.tname() );
+            return ret_val<void>::make_failure( _( "You can't unwield your %s." ), it.tname() );
         }
     }
 
@@ -3785,25 +3816,37 @@ std::pair<bodypart_id, int> Character::best_part_to_smash() const
     return best_part_to_smash;
 }
 
-int Character::smash_ability() const
+std::map<damage_type_id, int> Character::smash_ability() const
 {
-    int ret = get_arm_str();
+    int bonus = 0;
+    std::map<damage_type_id, int> ret;
+
     ///\EFFECT_STR increases smashing capability
+    bonus += get_arm_str();
     if( is_mounted() ) {
         auto *mon = mounted_creature.get();
-        ret += mon->mech_str_addition() + mon->type->melee_dice * mon->type->melee_sides;
+        bonus += mon->mech_str_addition() + mon->type->melee_dice * mon->type->melee_sides;
     } else if( get_wielded_item() ) {
-        ret += get_wielded_item()->damage_melee( damage_bash );
-        ret = enchantment_cache->modify_melee_damage( damage_bash, ret );
+        for( const damage_unit &dam : get_wielded_item()->base_damage_melee() ) {
+            int damage = enchantment_cache->modify_melee_damage( dam.type, dam.amount );
+            damage = calculate_by_enchantment( damage, enchant_vals::mod::MELEE_DAMAGE, true );
+            // add strength
+            damage += bonus * dam.type->bash_conversion_factor;
+            if( damage > 0 ) {
+                ret[dam.type] = damage;
+            }
+        }
+        return ret;
     }
 
+    int damage = 0;
     if( !has_weapon() ) {
         std::pair<bodypart_id, int> best_part = best_part_to_smash();
-        const int min_ret = ret * best_part.first->smash_efficiency;
-        const int max_ret = ret * ( 1.0f + best_part.first->smash_efficiency );
-        ret = std::min( best_part.second + min_ret, max_ret );
+        const int min_ret = bonus * best_part.first->smash_efficiency;
+        const int max_ret = bonus * ( 1.0f + best_part.first->smash_efficiency );
+        damage = std::min( best_part.second + min_ret, max_ret );
     }
-    ret = calculate_by_enchantment( ret, enchant_vals::mod::MELEE_DAMAGE, true );
+    ret[damage_bash] = calculate_by_enchantment( damage, enchant_vals::mod::MELEE_DAMAGE, true );
 
     return ret;
 }
@@ -4192,7 +4235,7 @@ int layer_details::layer( const int encumbrance, bool conflicts )
     return total - current;
 }
 
-int Character::avg_encumb_of_limb_type( body_part_type::type part_type ) const
+int Character::avg_encumb_of_limb_type( bp_type part_type ) const
 {
     float limb_encumb = 0.0f;
     int num_limbs = 0;
@@ -4292,36 +4335,36 @@ body_part_set Character::exclusive_flag_coverage( const flag_id &flag ) const
 // get_stat_bonus() is always just the bonus amount
 int Character::get_str() const
 {
-    return std::max( 0, get_str_base() + str_bonus );
+    return std::min( character_max_str, std::max( 0, get_str_base() + str_bonus ) );
 }
 int Character::get_dex() const
 {
-    return std::max( 0, get_dex_base() + dex_bonus );
+    return std::min( character_max_dex, std::max( 0, get_dex_base() + dex_bonus ) );
 }
 int Character::get_per() const
 {
-    return std::max( 0, get_per_base() + per_bonus );
+    return std::min( character_max_per, std::max( 0, get_per_base() + per_bonus ) );
 }
 int Character::get_int() const
 {
-    return std::max( 0, get_int_base() + int_bonus );
+    return std::min( character_max_int, std::max( 0, get_int_base() + int_bonus ) );
 }
 
 int Character::get_str_base() const
 {
-    return str_max;
+    return std::min( character_max_str, str_max );
 }
 int Character::get_dex_base() const
 {
-    return dex_max;
+    return std::min( character_max_dex, dex_max );
 }
 int Character::get_per_base() const
 {
-    return per_max;
+    return std::min( character_max_per, per_max );
 }
 int Character::get_int_base() const
 {
-    return int_max;
+    return std::min( character_max_int, int_max );
 }
 
 int Character::get_str_bonus() const
@@ -5774,7 +5817,7 @@ bool Character::check_immunity_data( const field_immunity_data &ft ) const
         }
     }
     bool immune_by_body_part_resistance = !ft.immunity_data_body_part_env_resistance.empty();
-    for( const std::pair<body_part_type::type, int> &fide :
+    for( const std::pair<bp_type, int> &fide :
          ft.immunity_data_body_part_env_resistance ) {
         for( const bodypart_id &bp : get_all_body_parts_of_type( fide.first ) ) {
             if( get_env_resist( bp ) < fide.second ) {
@@ -5791,7 +5834,7 @@ bool Character::check_immunity_data( const field_immunity_data &ft ) const
 
     bool immune_by_worn_flags = !ft.immunity_data_part_item_flags.empty();
     // Check if all worn flags are fulfilled
-    for( const std::pair<body_part_type::type, flag_id> &fide :
+    for( const std::pair<bp_type, flag_id> &fide :
          ft.immunity_data_part_item_flags ) {
         for( const bodypart_id &bp : get_all_body_parts_of_type( fide.first ) ) {
             if( !worn_with_flag( fide.second, bp ) ) {
@@ -5808,7 +5851,7 @@ bool Character::check_immunity_data( const field_immunity_data &ft ) const
     }
 
     // Check if the optional worn flags are fulfilled
-    for( const std::pair<body_part_type::type, flag_id> &fide :
+    for( const std::pair<bp_type, flag_id> &fide :
          ft.immunity_data_part_item_flags_any ) {
         for( const bodypart_id &bp : get_all_body_parts_of_type( fide.first ) ) {
             if( worn_with_flag( fide.second, bp ) ) {
@@ -6867,7 +6910,7 @@ void Character::recalc_limb_energy_usage()
     float total_limb_count = 0.0f;
     float bionic_limb_count = 0.0f;
     float bionic_powercost = 0;
-    body_part_type::type arm_type = body_part_type::type::arm;
+    bp_type arm_type = bp_type::arm;
     for( const bodypart_id &bp : get_all_body_parts_of_type( arm_type ) ) {
         total_limb_count++;
         if( bp->has_flag( json_flag_BIONIC_LIMB ) ) {
@@ -6892,7 +6935,7 @@ void Character::recalc_limb_energy_usage()
     total_limb_count = 0.0f;
     bionic_limb_count = 0.0f;
     bionic_powercost = 0;
-    body_part_type::type leg_type = body_part_type::type::leg;
+    bp_type leg_type = bp_type::leg;
     for( const bodypart_id &bp : get_all_body_parts_of_type( leg_type ) ) {
         total_limb_count++;
         if( bp->has_flag( json_flag_BIONIC_LIMB ) ) {
@@ -7297,8 +7340,8 @@ int Character::item_handling_cost( const item &it, bool penalties, int base_cost
         // Grabbed penalty scales for grabbed arms/hands
         int pen = 2;
         for( const effect &eff : get_effects_with_flag( json_flag_GRAB ) ) {
-            if( eff.get_bp()->primary_limb_type() == body_part_type::type::arm ||
-                eff.get_bp()->primary_limb_type() == body_part_type::type::hand ) {
+            if( eff.get_bp()->primary_limb_type() == bp_type::arm ||
+                eff.get_bp()->primary_limb_type() == bp_type::hand ) {
                 pen++;
             }
         }
@@ -7309,12 +7352,12 @@ int Character::item_handling_cost( const item &it, bool penalties, int base_cost
     if( !bulk_cost ) {
         // For single handed items use the least encumbered hand
         if( it.is_two_handed( *this ) ) {
-            for( const bodypart_id &part : get_all_body_parts_of_type( body_part_type::type::hand ) ) {
+            for( const bodypart_id &part : get_all_body_parts_of_type( bp_type::hand ) ) {
                 mv += encumb( part );
             }
         } else {
             int min_encumb = INT_MAX;
-            for( const bodypart_id &part : get_all_body_parts_of_type( body_part_type::type::hand ) ) {
+            for( const bodypart_id &part : get_all_body_parts_of_type( bp_type::hand ) ) {
                 min_encumb = std::min( min_encumb, encumb( part ) );
             }
             mv += min_encumb;
@@ -7933,6 +7976,21 @@ void Character::update_cached_mutations()
     trait_flag_cache.clear();
 }
 
+void Character::apply_wound( bodypart_id bp, wound_type_id wd )
+{
+    bodypart &body_bp = body.at( bp.id() );
+    body_bp.add_wound( wd );
+    morale->on_stat_change( "perceived_pain", get_perceived_pain() );
+}
+
+void Character::update_wounds( time_duration time_passed )
+{
+    for( auto &bp : body ) {
+        bp.second.update_wounds( time_passed );
+    }
+    morale->on_stat_change( "perceived_pain", get_perceived_pain() );
+}
+
 void Character::passive_absorb_hit( const bodypart_id &bp, damage_unit &du ) const
 {
     // >0 check because some mutations provide negative armor
@@ -8353,6 +8411,29 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam,
     }
 }
 
+void Character::apply_random_wound( bodypart_id bp, const damage_instance &d )
+{
+    if( x_in_y( 1.0f - get_option<float>( "WOUND_CHANCE" ), 1.0f ) ) {
+        return;
+    }
+
+    weighted_int_list<wound_type_id> possible_wounds;
+    for( const std::pair<bp_wounds, int> &wd : bp->potential_wounds ) {
+        for( const damage_unit &du : d.damage_units ) {
+            const bool damage_within_limits = du.amount >= wd.first.damage_required.first &&
+                                              du.amount <= wd.first.damage_required.second;
+            const bool damage_type_matches = std::find( wd.first.damage_type.begin(),
+                                             wd.first.damage_type.end(), du.type ) != wd.first.damage_type.end();
+            if( damage_within_limits && damage_type_matches ) {
+                possible_wounds.add( wd.first.id, wd.second );
+            }
+        }
+    }
+    if( !possible_wounds.empty() ) {
+        apply_wound( bp, *possible_wounds.pick() );
+    }
+}
+
 dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
         const damage_instance &d, const weakpoint_attack &attack, const weakpoint & )
 {
@@ -8468,6 +8549,8 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
             add_msg_if_player( _( "Filth from your clothing has been embedded deep in the wound." ) );
         }
     }
+
+    apply_random_wound( bp, d );
 
     on_hurt( source );
     return dealt_dams;
@@ -9053,6 +9136,13 @@ void Character::set_knows_creature_type( const mtype_id &c )
 void Character::assign_activity( const activity_id &type, int moves, int index, int pos,
                                  const std::string &name )
 {
+    // This is not a perfect safety net, but I don't know of another way to get all activity actors and what activity_ids might be associated with them.
+    for( const auto &actor_ptr : activity_actors::deserialize_functions ) {
+        if( actor_ptr.first == type ) {
+            debugmsg( "Tried to assign generic activity %s to activity that has an actor!", type.c_str() );
+            return;
+        }
+    }
     assign_activity( player_activity( type, moves, index, pos, name ) );
 }
 
@@ -10594,7 +10684,7 @@ void Character::place_corpse( const tripoint_abs_omt &om_target )
     bay.load( om_target, false );
     // Redundant as long as map operations aren't using get_map() in a transitive call chain. Added for future proofing.
     swap_map swap( *bay.cast_to_map() );
-    point_omt_ms fin( rng( 1, SEEX * 2 - 2 ), rng( 1, SEEX * 2 - 2 ) );
+    point_omt_ms fin = rng_map_point<point_omt_ms>( 1 );
     // This makes no sense at all. It may find a random tile without furniture, but
     // if the first try to find one fails, it will go through all tiles of the map
     // and essentially select the last one that has no furniture.
@@ -11474,7 +11564,7 @@ bool Character::has_weapon() const
 int Character::get_lowest_hp() const
 {
     // Set lowest_hp to an arbitrarily large number.
-    int lowest_hp = 999;
+    int lowest_hp = INT_MAX;
     for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
         const int cur_hp = elem.second.get_hp_cur();
         if( cur_hp < lowest_hp ) {
@@ -11482,6 +11572,19 @@ int Character::get_lowest_hp() const
         }
     }
     return lowest_hp;
+}
+
+int Character::get_highest_hp() const
+{
+    // Set lowest_hp to an arbitrarily large number.
+    int highest_hp = INT_MIN;
+    for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
+        const int cur_hp = elem.second.get_hp_cur();
+        if( cur_hp > highest_hp ) {
+            highest_hp = cur_hp;
+        }
+    }
+    return highest_hp;
 }
 
 Creature::Attitude Character::attitude_to( const Creature &other ) const
@@ -12761,6 +12864,18 @@ bool Character::immune_to( const bodypart_id &bp, damage_unit dam ) const
     return dam.amount <= 0;
 }
 
+int Character::get_pain() const
+{
+    int p = 0;
+    for( const std::pair<const bodypart_str_id, bodypart> &bp : get_body() ) {
+        for( const wound &wd : bp.second.get_wounds() ) {
+            p += wd.get_pain();
+        }
+    }
+
+    return p + Creature::get_pain();
+}
+
 int Character::mod_pain( int npain )
 {
     if( npain > 0 ) {
@@ -13475,7 +13590,7 @@ void Character::use( item_location loc, int pre_obtain_moves, std::string const 
         pre_obtain_moves = get_moves();
     }
     if( !loc ) {
-        add_msg( m_info, _( "You do not have that item." ) );
+        add_msg( m_info, _( "You don't have that item." ) );
         set_moves( pre_obtain_moves );
         return;
     }
@@ -13604,8 +13719,8 @@ bodypart_id Character::most_staunchable_bp( int &max_staunch )
         add_msg_debug( debugmode::DF_CHARACTER, "Wound care proficiency found, new limit %d", max_staunch );
     }
 
-    int num_broken_arms = get_num_broken_body_parts_of_type( body_part_type::type::arm );
-    int num_arms = get_num_body_parts_of_type( body_part_type::type::arm );
+    int num_broken_arms = get_num_broken_body_parts_of_type( bp_type::arm );
+    int num_arms = get_num_body_parts_of_type( bp_type::arm );
 
     // Don't warn about encumbrance if your arms are broken
     if( num_broken_arms ) {
@@ -13621,7 +13736,7 @@ bodypart_id Character::most_staunchable_bp( int &max_staunch )
     for( const bodypart_id &bp : get_all_body_parts() ) {
         intensity = get_effect_int( effect_bleed, bp );
         // Staunching a bleeding on one of your arms is hard (handle multiple arms)
-        if( bp->has_type( body_part_type::type::arm ) ) {
+        if( bp->has_type( bp_type::arm ) ) {
             intensity /= ( 1.0f - 1.0f / num_arms );
         }
         // Tourniquets make staunching easier, letting you treat arterial bleeds on your legs
@@ -13699,7 +13814,7 @@ void Character::pause()
         bodypart_id bp_id = most_staunchable_bp( max );
 
         // Don't warn about encumbrance if your arms are broken
-        int num_broken_arms = get_num_broken_body_parts_of_type( body_part_type::type::arm );
+        int num_broken_arms = get_num_broken_body_parts_of_type( bp_type::arm );
         if( num_broken_arms ) {
             add_msg_player_or_npc( m_warning,
                                    _( "Your broken limb significantly hampers your efforts to put pressure on a bleeding wound!" ),
@@ -13853,9 +13968,10 @@ bool character_martial_arts::pick_style( const Character &you ) // Style selecti
     if( selection >= STYLE_OFFSET ) {
         // If the currect style is selected, do not change styles
 
+        // Bizarre and unsafe casting const reference to non-const????????
         Character &u = const_cast<Character &>( you );
-        style_selected->remove_all_buffs( u );
-        style_selected = selectable_styles[selection - STYLE_OFFSET];
+        clear_all_effects( u );
+        set_style( selectable_styles[selection - STYLE_OFFSET], true );
         ma_static_effects( u );
         martialart_use_message( you );
     } else if( selection == KEEP_HANDS_FREE ) {

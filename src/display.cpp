@@ -1232,11 +1232,7 @@ std::string display::colorized_overmap_text( const avatar &u, const int width, c
 
 std::string display::overmap_position_text( const tripoint_abs_omt &loc )
 {
-    point_abs_omt abs_omt = loc.xy();
-    point_abs_om om;
-    point_om_omt omt;
-    std::tie( om, omt ) = project_remain<coords::om>( abs_omt );
-    return string_format( _( "LEVEL %i, %d'%d, %d'%d" ), loc.z(), om.x(), omt.x(), om.y(), omt.y() );
+    return loc.to_string();
 }
 
 std::string display::current_position_text( const tripoint_abs_omt &loc )
@@ -1380,11 +1376,11 @@ std::string display::colorized_compass_legend_text( int width, int max_height, i
     }
     for( const auto &m : mlist ) {
         nc_color danger = c_dark_gray;
-        if( m.first->difficulty >= 30 ) {
+        if( m.first->get_total_difficulty() >= 30 ) {
             danger = c_red;
-        } else if( m.first->difficulty >= 16 ) {
+        } else if( m.first->get_total_difficulty() >= 16 ) {
             danger = c_light_red;
-        } else if( m.first->difficulty >= 8 ) {
+        } else if( m.first->get_total_difficulty() >= 8 ) {
             danger = c_white;
         } else if( m.first->agro > 0 ) {
             danger = c_light_gray;

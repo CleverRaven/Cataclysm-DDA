@@ -2701,5 +2701,45 @@
     "type": "MIGRATION",
     "id": "crude_bronze_nail",
     "replace": "bronze_nail"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "chips2",
+    "replace": "chips"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "chips3",
+    "replace": "chips"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "lard",
+    "replace": "tallow"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "mutant_human_lard",
+    "replace": "mutant_human_tallow"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "mutant_lard",
+    "replace": "mutant_tallow"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "demihuman_lard",
+    "replace": "demihuman_tallow"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "human_lard",
+    "replace": "human_tallow"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "cooking_oil2",
+    "replace": "cooking_oil"
   }
 ]

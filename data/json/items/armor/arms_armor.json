@@ -636,11 +636,11 @@
     "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str_sp": "scrap arm guards (pair)" },
-    "description": "A pair of arm guards made from scraps of metal secured by simple strings.",
-    "weight": "3064 g",
-    "volume": "4750 ml",
-    "price": "200 USD",
-    "price_postapoc": "5 USD",
+    "description": "Jagged metal scraps crudely strapped to lower arms.  Gaps expose skin and swinging feels like lifting weights.",
+    "weight": "2500 g",
+    "volume": "1800 ml",
+    "price": "4 USD",
+    "price_postapoc": "2 USD",
     "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "uneven" },
     "material": [ "budget_steel", "cotton" ],
     "symbol": "[",
@@ -651,12 +651,12 @@
     "armor": [
       {
         "material": [
-          { "type": "budget_steel", "covered_by_mat": 75, "thickness": 1.5 },
+          { "type": "budget_steel", "covered_by_mat": 60, "thickness": 1.5 },
           { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 }
         ],
         "covers": [ "arm_l", "arm_r" ],
-        "encumbrance": 6,
-        "coverage": 95,
+        "encumbrance": 8,
+        "coverage": 70,
         "specifically_covers": [ "arm_lower_r", "arm_lower_l" ]
       }
     ],

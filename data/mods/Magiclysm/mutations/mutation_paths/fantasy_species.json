@@ -577,7 +577,7 @@
     "description": "Your people have always had an easier time operating at night, away from the hated light of the sun.",
     "mixed_effect": true,
     "valid": false,
-    "flags": [ "MYOPIC_IN_LIGHT" ],
+    "flags": [ "MYOPIC_IN_LIGHT_SUPERNATURAL" ],
     "category": [ "SPECIES_GOBLIN" ],
     "enchantments": [
       {

@@ -133,5 +133,10 @@
     "type": "MIGRATION",
     "id": "wearable_atomic_light_off",
     "replace": "wearable_big_light"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "atomic_coffeepot",
+    "replace": "coffeemaker"
   }
 ]

@@ -22,6 +22,34 @@
   },
   {
     "type": "EXTERNAL_OPTION",
+    "name": "PLAYER_MAX_STR_VALUE",
+    "//": "Sets a cap on maximum effective strength for characters.",
+    "stype": "int",
+    "value": 20
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "PLAYER_MAX_DEX_VALUE",
+    "//": "Sets a cap on maximum effective dexterity for characters.",
+    "stype": "int",
+    "value": 20
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "PLAYER_MAX_PER_VALUE",
+    "//": "Sets a cap on maximum effective perception for characters.",
+    "stype": "int",
+    "value": 20
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "PLAYER_MAX_INT_VALUE",
+    "//": "Sets a cap on maximum effective intelligence for characters.",
+    "stype": "int",
+    "value": 20
+  },
+  {
+    "type": "EXTERNAL_OPTION",
     "name": "PLAYER_CARDIOFIT_STAMINA_SCALING",
     "//": "Sets the effect of cardio on maximum stamina.",
     "stype": "int",
@@ -103,6 +131,13 @@
     "//": "Enables CBM slots mechanics.  If true CBM slots are enabled.",
     "stype": "bool",
     "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "WOUND_CHANCE",
+    "//": "Probability to get a wound from taking damage.  0.25 means 25% to get a wound.",
+    "stype": "float",
+    "value": 0.25
   },
   {
     "type": "EXTERNAL_OPTION",
@@ -197,13 +232,6 @@
   },
   {
     "type": "EXTERNAL_OPTION",
-    "name": "STATS_THROUGH_KILLS",
-    "//": "Stats through Kills.  A mod that allows your stats to increase by killing zombies.",
-    "stype": "bool",
-    "value": false
-  },
-  {
-    "type": "EXTERNAL_OPTION",
     "name": "WEARY_BMR_MULT",
     "//": "What portion of BMR is used as the base for determining weariness threshold.",
     "stype": "float",
@@ -288,34 +316,6 @@
   },
   {
     "type": "EXTERNAL_OPTION",
-    "name": "OVERMAP_PLACE_RIVERS",
-    "//": "Allows to place procgen rivers during overmap generation.",
-    "stype": "bool",
-    "value": true
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "OVERMAP_PLACE_LAKES",
-    "//": "Allows to place procgen lakes during overmap generation.",
-    "stype": "bool",
-    "value": true
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "OVERMAP_PLACE_OCEANS",
-    "//": "Allows to place procgen oceans during overmap generation.",
-    "stype": "bool",
-    "value": true
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "OVERMAP_PLACE_FORESTS",
-    "//": "Allows to place procgen forests during overmap generation.",
-    "stype": "bool",
-    "value": true
-  },
-  {
-    "type": "EXTERNAL_OPTION",
     "name": "OVERMAP_FOREST_INCREASE_NORTH",
     "//": "Rate at which forest coverage of the map increases to the North, based on regional map settings thresholds.  0=no increase.",
     "stype": "float",
@@ -358,34 +358,6 @@
   },
   {
     "type": "EXTERNAL_OPTION",
-    "name": "OVERMAP_PLACE_RAVINES",
-    "//": "Allows to place procgen ravines during overmap generation.",
-    "stype": "bool",
-    "value": true
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "OVERMAP_PLACE_CITIES",
-    "//": "Allows to place cities during overmap generation.",
-    "stype": "bool",
-    "value": true
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "OVERMAP_PLACE_FOREST_TRAILS",
-    "//": "Allows to place procgen forest trails during overmap generation.",
-    "stype": "bool",
-    "value": true
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "OVERMAP_PLACE_HIGHWAYS",
-    "//": "Allows to place fixed distance highways during overmap generation.",
-    "stype": "bool",
-    "value": true
-  },
-  {
-    "type": "EXTERNAL_OPTION",
     "name": "OVERMAP_PLACE_ROADS",
     "//": "Allows to place procgen roads during overmap generation.",
     "stype": "bool",
@@ -409,13 +381,6 @@
     "type": "EXTERNAL_OPTION",
     "name": "OVERMAP_PLACE_SPECIALS",
     "//": "Allows to place overmap specials during overmap generation.",
-    "stype": "bool",
-    "value": true
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "OVERMAP_PLACE_FOREST_TRAILHEADS",
-    "//": "Allows to place procgen forest trailheads during overmap generation.",
     "stype": "bool",
     "value": true
   },

@@ -22,7 +22,12 @@
         "type": "transform"
       },
       "CAMERA",
-      "MP3",
+      {
+        "type": "mp3",
+        "transform": "afs_atomic_smartphone_music",
+        "message": "You put in the earbuds and start listening to music.",
+        "activate": true
+      },
       "CALORIES_INTAKE_TRACKER",
       "PORTABLE_GAME",
       "E_FILE_DEVICE",
@@ -39,6 +44,53 @@
         "ememory_max": "1 TB"
       }
     ]
+  },
+  {
+    "id": "g_shovel",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "copy-from": "g_shovel",
+    "name": { "str": "trowel" },
+    "price": "6 USD",
+    "description": "A small, sharp shovel, perfect for breaking off chunks of ice.",
+    "material": [ "mc_steel", "plastic" ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "ammo_scale": 1,
+      "menu_text": "Harvest ice",
+      "effect_on_conditions": [ "EOC_SHOVEL_SNOW" ]
+    }
+  },
+  {
+    "id": "shovel",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "copy-from": "shovel",
+    "name": { "str": "shovel" },
+    "description": "A shovel with a steel blade.",
+    "material": [ "mc_steel", "plastic" ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "ammo_scale": 1,
+      "menu_text": "Harvest ice",
+      "effect_on_conditions": [ "EOC_SHOVEL_SNOW" ]
+    }
+  },
+  {
+    "id": "shovel_snow",
+    "looks_like": "shovel",
+    "type": "ITEM",
+    "copy-from": "shovel_snow",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "snow shovel" },
+    "description": "A sturdy metal shovel used for picking up snow and moving it somewhere else.",
+    "material": [ "mc_steel", "plastic" ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "ammo_scale": 1,
+      "menu_text": "Harvest ice",
+      "effect_on_conditions": [ "EOC_SHOVEL_SNOW" ]
+    }
   },
   {
     "id": "afs_imager",
@@ -180,7 +232,17 @@
     "name": { "str": "atomic smartphone - music", "str_pl": "atomic smartphones - music" },
     "description": "This phone is playing music, steadily raising your morale.  You can't hear anything else while you're listening.",
     "revert_to": "afs_atomic_smartphone",
-    "use_action": [ "PORTABLE_GAME", "E_FILE_DEVICE", "EBOOKSAVE", "MP3_DEACTIVATE" ],
+    "use_action": [
+      "PORTABLE_GAME",
+      "E_FILE_DEVICE",
+      "EBOOKSAVE",
+      {
+        "type": "mp3",
+        "transform": "afs_atomic_smartphone_music",
+        "message": "The phone turns off.",
+        "activate": false
+      }
+    ],
     "tick_action": [ "MP3_ON" ],
     "extend": { "flags": [ "TRADER_AVOID" ] }
   },
@@ -202,7 +264,8 @@
         "type": "transform"
       }
     ],
-    "extend": { "flags": [ "TRADER_AVOID", "LIGHT_25" ] }
+    "light": 25,
+    "extend": { "flags": [ "TRADER_AVOID" ] }
   },
   {
     "id": "afs_wraitheon_smartphone",
@@ -222,7 +285,12 @@
         "type": "transform"
       },
       "CAMERA",
-      "MP3",
+      {
+        "type": "mp3",
+        "transform": "afs_atomic_wraitheon_music",
+        "message": "You put in the earbuds and start listening to music.",
+        "activate": true
+      },
       "ROBOTCONTROL",
       "CALORIES_INTAKE_TRACKER",
       "PORTABLE_GAME",
@@ -248,7 +316,12 @@
     "name": { "str": "Wraitheon executive's smartphone - music", "str_pl": "Wraitheon executive's smartphones - music" },
     "description": "This phone is playing music, steadily raising your morale.  You can't hear anything else while you're listening.",
     "revert_to": "afs_atomic_smartphone",
-    "use_action": [ "PORTABLE_GAME", "E_FILE_DEVICE", "EBOOKSAVE", "MP3_DEACTIVATE" ],
+    "use_action": [
+      "PORTABLE_GAME",
+      "E_FILE_DEVICE",
+      "EBOOKSAVE",
+      { "type": "mp3", "transform": "afs_wraitheon_smartphone", "message": "The phone turns off.", "activate": false }
+    ],
     "extend": { "flags": [ "TRADER_AVOID" ] },
     "tick_action": [ "MP3_ON" ]
   },
@@ -286,26 +359,6 @@
     "color": "light_green",
     "use_action": [ "HOTPLATE" ],
     "flags": [ "ALLOWS_REMOTE_USE" ]
-  },
-  {
-    "id": "atomic_coffeepot",
-    "type": "ITEM",
-    "category": "tools",
-    "name": { "str": "atomic coffeemaker" },
-    "looks_like": "coffeemaker",
-    "description": "A Curie-G coffeemaker, made by CuppaTech.  It famously uses a radioactive generator to heat water for coffee.  Normally the water is heated using energy stored in a capacitor, and makes ordinary coffee.  However, as a special feature, water from the RTG containment area can be used, giving the coffee a very special kick.  The Curie-G is illegal in most countries.",
-    "weight": "6000 g",
-    "volume": "1500 ml",
-    "longest_side": "20 cm",
-    "price": "1 kUSD",
-    "price_postapoc": "30 USD",
-    "material": [ "plastic", "aluminum" ],
-    "qualities": [ [ "BOIL", 1 ] ],
-    "symbol": ",",
-    "color": "light_green",
-    "use_action": [ "HOTPLATE_ATOMIC" ],
-    "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE" ],
-    "melee_damage": { "bash": 5 }
   },
   {
     "id": "afs_power_cutter",
@@ -540,7 +593,8 @@
       "menu_text": "Turn off",
       "type": "transform"
     },
-    "flags": [ "WATCH", "LIGHT_10", "TRADER_AVOID" ]
+    "light": 10,
+    "flags": [ "WATCH", "TRADER_AVOID" ]
   },
   {
     "id": "vr_laptop",

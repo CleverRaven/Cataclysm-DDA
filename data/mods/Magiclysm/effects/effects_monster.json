@@ -1,5 +1,12 @@
 [
   {
+    "id": "effect_monster_no_double_cast",
+    "type": "effect_type",
+    "//": "Hidden effect, used for cooldown manipulations",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
     "id": "effect_demon_spider_speed",
     "type": "effect_type",
     "name": [ "Flaming Speed" ],
@@ -44,5 +51,16 @@
     "rating": "good",
     "max_duration": "12 hours",
     "show_in_info": true
+  },
+  {
+    "id": "effect_migo_nether_shield_monster",
+    "type": "effect_type",
+    "name": [ "Nether Shell" ],
+    "desc": [ "You are surrounded by a shield that blocks nether damage, and also a bit of bullet damage." ],
+    "rating": "good",
+    "max_duration": "12 hours",
+    "show_in_info": true,
+    "enchantments": [ { "incoming_damage_mod": [ { "type": "nether", "multiply": -1 }, { "type": "bullet", "multiply": -0.8 } ] } ],
+    "base_mods": { "dodge_mod": [ 1 ] }
   }
 ]

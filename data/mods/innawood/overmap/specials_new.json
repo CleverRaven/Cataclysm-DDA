@@ -1,0 +1,55 @@
+[
+  {
+    "type": "overmap_special",
+    "id": "innawood_ore_vein_shallow_z2",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "innawood_ore_vein_surface_indicator_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "innawood_ore_vein_subsurface_north" },
+      { "point": [ -1, 0, -2 ], "overmap": "innawood_ore_vein_surface_z2_left_side_north" },
+      { "point": [ 0, 0, -2 ], "overmap": "innawood_ore_vein_surface_z2_center_north" },
+      { "point": [ 1, 0, -2 ], "overmap": "innawood_ore_vein_surface_z2_right_side_north" }
+    ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ 20, -1 ],
+    "city_sizes": [ 0, 13 ],
+    "occurrences": [ 0, 5 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "innawood_ore_vein_shallow_z3",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "innawood_ore_vein_surface_indicator_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "innawood_ore_vein_subsurface_north" },
+      { "point": [ 0, 0, -2 ], "overmap": "special_rock" },
+      { "point": [ -1, 0, -3 ], "overmap": "innawood_ore_vein_surface_z3_left_side_north" },
+      { "point": [ 0, 0, -3 ], "overmap": "innawood_ore_vein_surface_z3_center_north" },
+      { "point": [ 1, 0, -3 ], "overmap": "innawood_ore_vein_surface_z3_right_side_north" }
+    ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ 20, -1 ],
+    "city_sizes": [ 0, 13 ],
+    "occurrences": [ 3, 10 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "innawood_ore_vein_shallow_larger",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "innawood_ore_vein_surface_indicator_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "innawood_ore_vein_subsurface_north" },
+      { "point": [ -1, 0, -2 ], "overmap": "innawood_ore_vein_surface_z2_left_side_north" },
+      { "point": [ 0, 0, -2 ], "overmap": "innawood_ore_vein_surface_z2_center_north" },
+      { "point": [ 1, 0, -2 ], "overmap": "innawood_ore_vein_surface_z2_right_side_north" },
+      { "point": [ -1, 0, -3 ], "overmap": "innawood_ore_vein_surface_z3_left_side_north" },
+      { "point": [ 0, 0, -3 ], "overmap": "innawood_ore_vein_surface_z3_center_north" },
+      { "point": [ 1, 0, -3 ], "overmap": "innawood_ore_vein_surface_z3_right_side_north" },
+      { "point": [ -1, 0, -4 ], "overmap": "innawood_ore_vein_surface_z2_left_side_north" },
+      { "point": [ 0, 0, -4 ], "overmap": "innawood_ore_vein_surface_z2_center_north" },
+      { "point": [ 1, 0, -4 ], "overmap": "innawood_ore_vein_surface_z2_right_side_north" }
+    ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ 20, -1 ],
+    "city_sizes": [ 0, 13 ],
+    "occurrences": [ 50, 100 ],
+    "flags": [ "OVERMAP_UNIQUE" ]
+  }
+]

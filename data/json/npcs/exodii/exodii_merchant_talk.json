@@ -383,7 +383,8 @@
         "condition": {
           "and": [
             { "compare_string": [ "yes", { "u_val": "mission_completed_anusfetick" } ] },
-            { "not": { "u_has_trait": "CBM_Interface" } }
+            { "not": { "u_has_trait": "CBM_Interface" } },
+            { "not": { "u_has_flag": "NO_CBM_INSTALLATION" } }
           ]
         },
         "topic": "TALK_EXODII_MERCHANT_ExodizeMe2"

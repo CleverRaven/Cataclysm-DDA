@@ -60,7 +60,7 @@
       [ [ "battery_car_clay", 4 ] ],
       [ [ "makeshift_transformer", 2 ] ],
       [ [ "2x4", 6 ] ],
-      [ [ "nail", 12 ] ],
+      [ [ "nails", 12, "LIST" ] ],
       [ [ "cable", 5 ] ]
     ]
   }

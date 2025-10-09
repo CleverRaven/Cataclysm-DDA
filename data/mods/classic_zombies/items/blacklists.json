@@ -96,7 +96,6 @@
       "ai_308mag_10",
       "mrad_338lapua_mag",
       "ruger_pr_mag",
-      "atomic_coffeepot",
       "bfr",
       "bio_adrenaline",
       "bio_ads",
@@ -372,7 +371,8 @@
       "ruger_mk4",
       "ruger_mk4_mag",
       "sl8",
-      "sl8mag"
+      "sl8mag",
+      "flyer_evac"
     ]
   }
 ]

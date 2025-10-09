@@ -950,11 +950,11 @@
     "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "scrap cuirass", "str_pl": "scrap cuirasses" },
-    "description": "A cuirass made from scraps of metal secured by simple strings.",
-    "weight": "3366 g",
+    "description": "Jagged metal scraps crudely lashed to your torso with frayed cords.  Gaps leave skin exposed and movement feels really awkward.",
+    "weight": "6200 g",
     "volume": "5750 ml",
-    "price": "200 USD",
-    "price_postapoc": "50 cent",
+    "price": "4 USD",
+    "price_postapoc": "2 USD",
     "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "budget_steel", "cotton" ],
     "repairs_with": [ "budget_steel" ],
@@ -967,12 +967,12 @@
     "armor": [
       {
         "material": [
-          { "type": "budget_steel", "covered_by_mat": 75, "thickness": 2 },
+          { "type": "budget_steel", "covered_by_mat": 60, "thickness": 2.2 },
           { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 }
         ],
         "covers": [ "torso" ],
-        "coverage": 95,
-        "encumbrance": 18
+        "coverage": 70,
+        "encumbrance": 22
       }
     ],
     "melee_damage": { "bash": 2, "cut": 3 }

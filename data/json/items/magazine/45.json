@@ -405,7 +405,7 @@
     "type": "ITEM",
     "subtypes": [ "MAGAZINE" ],
     "name": { "str": "Glock 36 magazine" },
-    "description": "A 6-round magazine for the Glock 36. Incompatible with other .45 Glocks",
+    "description": "A 6-round magazine for the Glock 36.  Incompatible with other .45 Glocks.",
     "//": "delete variants from glock 21 mag",
     "variants": [  ],
     "weight": "70 g",

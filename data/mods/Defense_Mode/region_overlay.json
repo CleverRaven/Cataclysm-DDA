@@ -1,7 +1,10 @@
 [
   {
-    "type": "region_overlay",
-    "regions": [ "all" ],
-    "overmap_feature_flag_settings": { "clear_blacklist": false, "blacklist": [  ], "clear_whitelist": false, "whitelist": [ "DEFENSE_MODE" ] }
+    "type": "region_settings",
+    "id": "default",
+    "copy-from": "default",
+    "highways": null,
+    "cities": null,
+    "feature_flag_settings": { "blacklist": [  ], "whitelist": [ "DEFENSE_MODE" ] }
   }
 ]

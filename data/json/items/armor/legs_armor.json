@@ -1247,11 +1247,11 @@
     "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str_sp": "scrap leg guards (pair)" },
-    "description": "A pair of leg guards made from scraps of metal secured by simple strings.",
-    "weight": "3104 g",
-    "volume": "5 L",
-    "price": "200 USD",
-    "price_postapoc": "50 cent",
+    "description": "Jagged metal scraps crudely lashed to legs with frayed strings.  Gaps leave skin exposed, and walking feels like dragging anvils, but they're better than nothing.",
+    "weight": "3800 g",
+    "volume": "3 L",
+    "price": "4 USD",
+    "price_postapoc": "2 USD",
     "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "budget_steel", "cotton" ],
     "symbol": "[",
@@ -1262,11 +1262,11 @@
     "armor": [
       {
         "material": [
-          { "type": "budget_steel", "covered_by_mat": 75, "thickness": 1.5 },
+          { "type": "budget_steel", "covered_by_mat": 60, "thickness": 1.8 },
           { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 }
         ],
         "covers": [ "leg_l", "leg_r" ],
-        "coverage": 95,
+        "coverage": 70,
         "encumbrance": 15
       }
     ],

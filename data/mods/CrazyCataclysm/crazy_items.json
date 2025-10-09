@@ -170,7 +170,8 @@
         "water_extinguish_message": "Your sword hisses in the water and goes out."
       }
     ],
-    "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID", "WATER_EXTINGUISH" ],
+    "light": 240,
+    "flags": [ "FIRE", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID", "WATER_EXTINGUISH" ],
     "melee_damage": { "bash": 4, "cut": 31 },
     "tool_ammo": [ "gasoline" ]
   },
@@ -289,7 +290,8 @@
         "water_extinguish_message": "Dein Schwert zischt und erlischt."
       }
     ],
-    "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID", "WATER_EXTINGUISH", "ALWAYS_TWOHAND" ],
+    "light": 240,
+    "flags": [ "FIRE", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID", "WATER_EXTINGUISH", "ALWAYS_TWOHAND" ],
     "melee_damage": { "bash": 17, "cut": 40 },
     "tool_ammo": [ "gasoline" ]
   },
@@ -367,7 +369,8 @@
         "type": "transform"
       }
     ],
-    "flags": [ "FIRE", "LIGHT_310", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID", "WATER_EXTINGUISH" ],
+    "light": 310,
+    "flags": [ "FIRE", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID", "WATER_EXTINGUISH" ],
     "melee_damage": { "bash": 18 }
   },
   {

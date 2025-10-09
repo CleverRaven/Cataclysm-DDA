@@ -343,11 +343,11 @@ class basecamp
         std::string recruit_description( int npc_count ) const;
         /// Provides a "guess" for some of the things your gatherers will return with
         /// to upgrade the camp
-        std::string gathering_description();
+        std::vector<std::string> gathering_description() const;
         /// Returns a string for the number of plants that are harvestable, plots ready to plant,
         /// and ground that needs tilling
-        std::string farm_description( const point_rel_omt &dir, size_t &plots_count,
-                                      farm_ops operation );
+        std::vector<std::string> farm_description( const point_rel_omt &dir, size_t &plots_count,
+                farm_ops operation );
         /// Returns the description of a camp crafting options. converts fire charges to charcoal,
         /// allows dark crafting
         std::string craft_description( const recipe_id &itm );

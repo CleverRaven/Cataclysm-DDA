@@ -1110,19 +1110,15 @@
     "id": "bio_hydraulics",
     "type": "bionic",
     "name": { "str": "Hydraulic Muscles" },
-    "description": "While activated, your muscles will be greatly enhanced, increasing your strength by 20.",
+    "description": "While activated, your muscles will be greatly enhanced, setting your strength to 20.",
     "occupied_bodyparts": [ [ "torso", 10 ], [ "arm_l", 8 ], [ "arm_r", 8 ], [ "leg_l", 10 ], [ "leg_r", 10 ] ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
-    "enchantments": [
-      {
-        "condition": "ACTIVE",
-        "ench_effects": [ { "effect": "bio_hydraulics_eff", "intensity": 1 } ],
-        "values": [ { "value": "STRENGTH", "add": 20 } ]
-      }
-    ],
+    "enchantments": [ { "condition": "ACTIVE", "ench_effects": [ { "effect": "bio_hydraulics_eff", "intensity": 1 } ] } ],
     "act_cost": "10 kJ",
     "react_cost": "10 kJ",
-    "time": "1 s"
+    "time": "1 s",
+    "activated_eocs": [ "EOC_bio_hydraulics_activated" ],
+    "deactivated_eocs": [ "EOC_bio_hydraulics_deactivated" ]
   },
   {
     "id": "bio_infrared",
@@ -1895,7 +1891,7 @@
     "name": { "str": "Electromagnetic Leak" },
     "capacity": "-25 kJ",
     "dupes_allowed": true,
-    "description": "A broken implant that sends electromagnetic impulses that reduce other implants capacity to store charge.",
+    "description": "A broken implant that sends electromagnetic impulses that reduce other implants' capacity to store charge.",
     "flags": [ "BIONIC_FAULTY" ]
   },
   {

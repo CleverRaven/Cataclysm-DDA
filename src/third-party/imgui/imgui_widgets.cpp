@@ -743,8 +743,13 @@ bool ImGui::ButtonEx(const char* label, const ImVec2& size_arg, ImGuiButtonFlags
     bool pressed = ButtonBehavior(bb, id, &hovered, &held, flags);
 
     // Render
+#ifdef IMTUI
+    const bool nav = ImGui::ShouldRenderNavCursor(id);
+    const ImU32 col = GetColorU32(nav ? ImGuiCol_NavCursor : (held && hovered) ? ImGuiCol_ButtonActive : hovered ? ImGuiCol_ButtonHovered : ImGuiCol_Button);
+#else
     const ImU32 col = GetColorU32((held && hovered) ? ImGuiCol_ButtonActive : hovered ? ImGuiCol_ButtonHovered : ImGuiCol_Button);
     RenderNavCursor(bb, id);
+#endif
     ImVec2 final_bb_max = bb.Max;
 #ifdef IMTUI
     final_bb_max += ImVec2(0.5f, 0.0f);

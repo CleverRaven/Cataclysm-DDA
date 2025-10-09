@@ -2049,9 +2049,14 @@ bool inventory_selector::add_contained_items( item_location &container, inventor
         return false;
     }
 
-    std::list<item *> const items = preset.get_pocket_type() == pocket_type::LAST
-                                    ? container->all_items_top()
-                                    : container->all_items_top( preset.get_pocket_type() );
+    std::list<item *> items;
+    if( preset.get_pocket_type().size() == 1 && preset.has_pocket_type( pocket_type::LAST ) ) {
+        items = container->all_items_top();
+    } else {
+        for( const pocket_type pt : preset.get_pocket_type() ) {
+            items.splice( items.begin(), container->all_items_top( pt ) );
+        }
+    }
 
     bool vis_top = false;
     inventory_column temp( preset );
@@ -4239,7 +4244,7 @@ inventory_selector::stats inventory_insert_selector::get_raw_stats() const
 }
 
 pickup_selector::pickup_selector( Character &p, const inventory_selector_preset &preset,
-                                  const std::string &selection_column_title, const std::optional<tripoint_bub_ms> &where ) :
+                                  const std::string &selection_column_title, const std::set<tripoint_bub_ms> &where ) :
     inventory_multiselector( p, preset, selection_column_title ), where( where )
 {
     ctxt.register_action( "WEAR" );
@@ -4362,11 +4367,7 @@ void pickup_selector::reopen_menu()
 {
     // copy the member variables to still be valid on call
     uistate.open_menu = [where = where, to_use = to_use]() {
-        std::optional<tripoint_bub_ms> temp;
-        if( where.has_value() ) {
-            temp = tripoint_bub_ms( where.value() );
-        }
-        get_player_character().pick_up( game_menus::inv::pickup( temp, to_use ) );
+        get_player_character().pick_up( game_menus::inv::pickup( where, to_use ) );
     };
 }
 
@@ -4409,9 +4410,9 @@ inventory_selector::stats pickup_selector::get_raw_stats() const
 
     return get_weight_and_volume_and_holster_stats(
                u.weight_carried() + weight,
-               u.weight_capacity(),
+               overriden_mass.has_value() ? overriden_mass.value() : u.weight_capacity(),
                u.volume_carried() + volume,
-               u.volume_capacity(),
+               overriden_volume.has_value() ? overriden_volume.value() : u.volume_capacity(),
                u.max_single_item_length(),
                u.max_single_item_volume(),
                u.free_holster_volume(),
