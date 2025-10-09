@@ -161,7 +161,7 @@
   },
   {
     "type": "relic_procgen_data",
-    "id": "electrokinetic__matrix_crystal_procgen",
+    "id": "electrokinetic_matrix_crystal_procgen",
     "charge_types": [
       {
         "weight": 100,
