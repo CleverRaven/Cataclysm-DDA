@@ -1639,12 +1639,11 @@ void avatar::talk_to( std::unique_ptr<talker> talk_with, bool radio_contact,
         }
         if( next.id == "TALK_DONE" || d.topic_stack.empty() ) {
             npc *npc_actor = d.actor( true )->get_npc();
-            if( npc_actor ) {
-                if( npc_actor->myclass->bye_message_override.empty() ) {
-                    d.actor( true )->say( npc_actor->chat_snippets().snip_bye.translated() );
-                } else {
-                    d.actor( true )->say( npc_actor->myclass->bye_message_override.translated() );
-                }
+            if( npc_actor->myclass->bye_message_override.empty() ) {
+                d.actor( true )->say( npc_actor->chat_snippets().snip_bye.translated() );
+            } else if( npc_actor->myclass->bye_message_override.translated() !=
+                       string_id<translation>::NULL_ID().str() ) {
+                d.actor( true )->say( npc_actor->myclass->bye_message_override.translated() );
             }
             d.done = true;
         } else if( next.id != "TALK_NONE" ) {
