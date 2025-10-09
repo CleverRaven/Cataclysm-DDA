@@ -19,7 +19,17 @@
     "dummy": true,
     "category": [ "HUMAN" ],
     "types": [ "BIOLUM", "HORNS", "HAIR", "TAIL", "WHISKERS", "WINGS", "TUSKS", "BODY_ARMOR_MOD" ],
-    "cancels": [ "ARM_FEATHERS", "CF_HAIR", "HAIRROOTS", "INK_GLANDS", "THORNS", "TRANSPIRATION", "WEB_RAPPEL", "WEB_ROPE", "CHAOTIC_BAD" ],
+    "cancels": [
+      "ARM_FEATHERS",
+      "CF_HAIR",
+      "HAIRROOTS",
+      "INK_GLANDS",
+      "THORNS",
+      "TRANSPIRATION",
+      "WEB_RAPPEL",
+      "WEB_ROPE",
+      "CHAOTIC_BAD"
+    ],
     "description": "You don't have any tails, whiskers, horns, or miscellaneous extra bits."
   },
   {
