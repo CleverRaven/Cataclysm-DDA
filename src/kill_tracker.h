@@ -29,8 +29,6 @@ class kill_tracker : public event_subscriber
         int monster_kill_count() const;
         int npc_kill_count() const;
         int total_kill_count() const;
-        // TEMPORARY until 0.G
-        int legacy_kill_xp() const;
 
         void clear();
         using event_subscriber::notify;

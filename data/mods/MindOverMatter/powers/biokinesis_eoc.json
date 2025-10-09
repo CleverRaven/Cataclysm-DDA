@@ -215,7 +215,7 @@
     "id": "EOC_BIOKIN_VITAMINOSIS_REMOVE",
     "effect": [
       { "u_lose_effect": "effect_biokin_vitaminosis" },
-      { "u_message": "You exit your trance and feel somehow fuller", "type": "good" }
+      { "u_message": "You exit your trance and feel somehow fuller.", "type": "good" }
     ]
   },
   {

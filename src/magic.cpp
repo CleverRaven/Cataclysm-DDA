@@ -184,6 +184,7 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::NON_MAGICAL: return "NON_MAGICAL";
         case spell_flag::PSIONIC: return "PSIONIC";
         case spell_flag::RECHARM: return "RECHARM";
+        case spell_flag::CHARM_PET: return "CHARM_PET";
         case spell_flag::EVOCATION_SPELL: return "EVOCATION_SPELL";
         case spell_flag::CHANNELING_SPELL: return "CHANNELING_SPELL";
         case spell_flag::CONJURATION_SPELL: return "CONJURATION_SPELL";
@@ -393,122 +394,41 @@ void spell_type::load( const JsonObject &jo, std::string_view src )
     if( field_input != "none" ) {
         field = field_type_id( field_input );
     }
-    if( !was_loaded || jo.has_member( "field_chance" ) ) {
-        field_chance = get_dbl_or_var( jo, "field_chance", false, field_chance_default );
-    }
-    if( !was_loaded || jo.has_member( "min_field_intensity" ) ) {
-        min_field_intensity = get_dbl_or_var( jo, "min_field_intensity", false,
-                                              min_field_intensity_default );
-    }
-    if( !was_loaded || jo.has_member( "max_field_intensity" ) ) {
-        max_field_intensity = get_dbl_or_var( jo, "max_field_intensity", false,
-                                              max_field_intensity_default );
-    }
-    if( !was_loaded || jo.has_member( "field_intensity_increment" ) ) {
-        field_intensity_increment = get_dbl_or_var( jo, "field_intensity_increment", false,
-                                    field_intensity_increment_default );
-    }
-    if( !was_loaded || jo.has_member( "field_intensity_variance" ) ) {
-        field_intensity_variance = get_dbl_or_var( jo, "field_intensity_variance", false,
-                                   field_intensity_variance_default );
-    }
-
-    if( !was_loaded || jo.has_member( "min_accuracy" ) ) {
-        min_accuracy = get_dbl_or_var( jo, "min_accuracy", false, min_accuracy_default );
-    }
-    if( !was_loaded || jo.has_member( "accuracy_increment" ) ) {
-        accuracy_increment = get_dbl_or_var( jo, "accuracy_increment", false,
-                                             accuracy_increment_default );
-    }
-    if( !was_loaded || jo.has_member( "max_accuracy" ) ) {
-        max_accuracy = get_dbl_or_var( jo, "max_accuracy", false, max_accuracy_default );
-    }
-    if( !was_loaded || jo.has_member( "min_damage" ) ) {
-        min_damage = get_dbl_or_var( jo, "min_damage", false, min_damage_default );
-    }
-    if( !was_loaded || jo.has_member( "damage_increment" ) ) {
-        damage_increment = get_dbl_or_var( jo, "damage_increment", false,
-                                           damage_increment_default );
-    }
-    if( !was_loaded || jo.has_member( "max_damage" ) ) {
-        max_damage = get_dbl_or_var( jo, "max_damage", false, max_damage_default );
-    }
-
-    if( !was_loaded || jo.has_member( "min_range" ) ) {
-        min_range = get_dbl_or_var( jo, "min_range", false, min_range_default );
-    }
-    if( !was_loaded || jo.has_member( "range_increment" ) ) {
-        range_increment = get_dbl_or_var( jo, "range_increment", false, range_increment_default );
-    }
-    if( !was_loaded || jo.has_member( "max_range" ) ) {
-        max_range = get_dbl_or_var( jo, "max_range", false, max_range_default );
-    }
-
-    if( !was_loaded || jo.has_member( "min_aoe" ) ) {
-        min_aoe = get_dbl_or_var( jo, "min_aoe", false, min_aoe_default );
-    }
-    if( !was_loaded || jo.has_member( "aoe_increment" ) ) {
-        aoe_increment = get_dbl_or_var( jo, "aoe_increment", false, aoe_increment_default );
-    }
-    if( !was_loaded || jo.has_member( "max_aoe" ) ) {
-        max_aoe = get_dbl_or_var( jo, "max_aoe", false, max_aoe_default );
-    }
-    if( !was_loaded || jo.has_member( "min_dot" ) ) {
-        min_dot = get_dbl_or_var( jo, "min_dot", false, min_dot_default );
-    }
-    if( !was_loaded || jo.has_member( "dot_increment" ) ) {
-        dot_increment = get_dbl_or_var( jo, "dot_increment", false, dot_increment_default );
-    }
-    if( !was_loaded || jo.has_member( "max_dot" ) ) {
-        max_dot = get_dbl_or_var( jo, "max_dot", false, max_dot_default );
-    }
-
-    if( !was_loaded || jo.has_member( "min_duration" ) ) {
-        min_duration = get_dbl_or_var( jo, "min_duration", false, min_duration_default );
-    }
-    if( !was_loaded || jo.has_member( "duration_increment" ) ) {
-        duration_increment = get_dbl_or_var( jo, "duration_increment", false,
-                                             duration_increment_default );
-    }
-    if( !was_loaded || jo.has_member( "max_duration" ) ) {
-        max_duration = get_dbl_or_var( jo, "max_duration", false, max_duration_default );
-    }
-
-    if( !was_loaded || jo.has_member( "min_pierce" ) ) {
-        min_pierce = get_dbl_or_var( jo, "min_pierce", false, min_pierce_default );
-    }
-    if( !was_loaded || jo.has_member( "pierce_increment" ) ) {
-        pierce_increment = get_dbl_or_var( jo, "pierce_increment", false,
-                                           pierce_increment_default );
-    }
-    if( !was_loaded || jo.has_member( "max_pierce" ) ) {
-        max_pierce = get_dbl_or_var( jo, "max_pierce", false, max_pierce_default );
-    }
-
-    if( !was_loaded || jo.has_member( "min_bash_scaling" ) ) {
-        min_bash_scaling = get_dbl_or_var( jo, "min_bash_scaling", false, min_bash_scaling_default );
-    }
-    if( !was_loaded || jo.has_member( "bash_scaling_increment" ) ) {
-        bash_scaling_increment = get_dbl_or_var( jo, "bash_scaling_increment", false,
-                                 bash_scaling_increment_default );
-    }
-    if( !was_loaded || jo.has_member( "max_bash_scaling" ) ) {
-        max_bash_scaling = get_dbl_or_var( jo, "max_bash_scaling", false, max_bash_scaling_default );
-    }
-
-    if( !was_loaded || jo.has_member( "base_energy_cost" ) ) {
-        base_energy_cost = get_dbl_or_var( jo, "base_energy_cost", false,
-                                           base_energy_cost_default );
-    }
-    if( jo.has_member( "final_energy_cost" ) ) {
-        final_energy_cost = get_dbl_or_var( jo, "final_energy_cost" );
-    } else if( !was_loaded ) {
-        final_energy_cost = base_energy_cost;
-    }
-    if( !was_loaded || jo.has_member( "energy_increment" ) ) {
-        energy_increment = get_dbl_or_var( jo, "energy_increment", false,
-                                           energy_increment_default );
-    }
+    optional( jo, was_loaded, "field_chance", field_chance, field_chance_default );
+    optional( jo, was_loaded, "min_field_intensity", min_field_intensity, min_field_intensity_default );
+    optional( jo, was_loaded, "max_field_intensity", max_field_intensity, max_field_intensity_default );
+    optional( jo, was_loaded, "field_intensity_increment", field_intensity_increment,
+              field_intensity_increment_default );
+    optional( jo, was_loaded, "field_intensity_variance", field_intensity_variance,
+              field_intensity_variance_default );
+    optional( jo, was_loaded, "min_accuracy", min_accuracy, min_accuracy_default );
+    optional( jo, was_loaded, "accuracy_increment", accuracy_increment, accuracy_increment_default );
+    optional( jo, was_loaded, "max_accuracy", max_accuracy, max_accuracy_default );
+    optional( jo, was_loaded, "min_damage", min_damage, min_damage_default );
+    optional( jo, was_loaded, "damage_increment", damage_increment, damage_increment_default );
+    optional( jo, was_loaded, "max_damage", max_damage, max_damage_default );
+    optional( jo, was_loaded, "min_range", min_range, min_range_default );
+    optional( jo, was_loaded, "range_increment", range_increment, range_increment_default );
+    optional( jo, was_loaded, "max_range", max_range, max_range_default );
+    optional( jo, was_loaded, "min_aoe", min_aoe, min_aoe_default );
+    optional( jo, was_loaded, "aoe_increment", aoe_increment, aoe_increment_default );
+    optional( jo, was_loaded, "max_aoe", max_aoe, max_aoe_default );
+    optional( jo, was_loaded, "min_dot", min_dot, min_dot_default );
+    optional( jo, was_loaded, "dot_increment", dot_increment, dot_increment_default );
+    optional( jo, was_loaded, "max_dot", max_dot, max_dot_default );
+    optional( jo, was_loaded, "min_duration", min_duration, min_duration_default );
+    optional( jo, was_loaded, "duration_increment", duration_increment, duration_increment_default );
+    optional( jo, was_loaded, "max_duration", max_duration, max_duration_default );
+    optional( jo, was_loaded, "min_pierce", min_pierce, min_pierce_default );
+    optional( jo, was_loaded, "pierce_increment", pierce_increment, pierce_increment_default );
+    optional( jo, was_loaded, "max_pierce", max_pierce, max_pierce_default );
+    optional( jo, was_loaded, "min_bash_scaling", min_bash_scaling, min_bash_scaling_default );
+    optional( jo, was_loaded, "bash_scaling_increment", bash_scaling_increment,
+              bash_scaling_increment_default );
+    optional( jo, was_loaded, "max_bash_scaling", max_bash_scaling, max_bash_scaling_default );
+    optional( jo, was_loaded, "base_energy_cost", base_energy_cost, base_energy_cost_default );
+    optional( jo, was_loaded, "final_energy_cost", final_energy_cost, base_energy_cost );
+    optional( jo, was_loaded, "energy_increment", energy_increment, energy_increment_default );
 
     optional( jo, was_loaded, "spell_class", spell_class, spell_class_default );
     if( jo.has_string( "energy_source" ) ) {
@@ -529,33 +449,15 @@ void spell_type::load( const JsonObject &jo, std::string_view src )
         debugmsg( "spell id:%s has a get_level_formula_id or exp_for_level_formula_id but not the other!  This breaks the calculations for xp/level!",
                   id.c_str() );
     }
-    if( !was_loaded || jo.has_member( "difficulty" ) ) {
-        difficulty = get_dbl_or_var( jo, "difficulty", false, difficulty_default );
-    }
-    if( !was_loaded || jo.has_member( "multiple_projectiles" ) ) {
-        multiple_projectiles = get_dbl_or_var( jo, "multiple_projectiles", false,
-                                               multiple_projectiles_default );
-    }
-    if( !was_loaded || jo.has_member( "max_level" ) ) {
-        max_level = get_dbl_or_var( jo, "max_level", false, max_level_default );
-    }
-
-    if( !was_loaded || jo.has_member( "base_casting_time" ) ) {
-        base_casting_time = get_dbl_or_var( jo, "base_casting_time", false,
-                                            base_casting_time_default );
-    }
-    if( jo.has_member( "final_casting_time" ) ) {
-        final_casting_time = get_dbl_or_var( jo, "final_casting_time" );
-    } else if( !was_loaded ) {
-        final_casting_time = base_casting_time;
-    }
-    if( !was_loaded || jo.has_member( "max_damage" ) ) {
-        max_damage = get_dbl_or_var( jo, "max_damage", false, max_damage_default );
-    }
-    if( !was_loaded || jo.has_member( "casting_time_increment" ) ) {
-        casting_time_increment = get_dbl_or_var( jo, "casting_time_increment", false,
-                                 casting_time_increment_default );
-    }
+    optional( jo, was_loaded, "difficulty", difficulty, difficulty_default );
+    optional( jo, was_loaded, "multiple_projectiles", multiple_projectiles,
+              multiple_projectiles_default );
+    optional( jo, was_loaded, "max_level", max_level, max_level_default );
+    optional( jo, was_loaded, "base_casting_time", base_casting_time, base_casting_time_default );
+    optional( jo, was_loaded, "final_casting_time", final_casting_time, base_casting_time );
+    optional( jo, was_loaded, "max_damage", max_damage, max_damage_default );
+    optional( jo, was_loaded, "casting_time_increment", casting_time_increment,
+              casting_time_increment_default );
 
     for( const JsonMember member : jo.get_object( "learn_spells" ) ) {
         learn_spells.insert( std::pair<std::string, int>( member.name(), member.get_int() ) );
@@ -1074,7 +976,7 @@ int spell::energy_cost( const Character &guy ) const
     if( !no_hands() && !guy.has_flag( json_flag_SUBTLE_SPELL ) ) {
         // the first 10 points of combined encumbrance is ignored, but quickly adds up
         const int hands_encumb = std::max( 0,
-                                           guy.avg_encumb_of_limb_type( body_part_type::type::hand ) - 5 );
+                                           guy.avg_encumb_of_limb_type( bp_type::hand ) - 5 );
         switch( type->get_energy_source() ) {
             default:
                 cost += 10 * hands_encumb * temp_somatic_difficulty_multiplyer;
@@ -1237,13 +1139,13 @@ int spell::casting_time( const Character &guy, bool ignore_encumb ) const
         if( !has_flag( spell_flag::NO_LEGS ) ) {
             // the first 20 points of encumbrance combined is ignored
             const int legs_encumb = std::max( 0,
-                                              guy.avg_encumb_of_limb_type( body_part_type::type::leg ) - 10 );
+                                              guy.avg_encumb_of_limb_type( bp_type::leg ) - 10 );
             casting_time += legs_encumb * 3 * temp_somatic_difficulty_multiplyer;
         }
         if( has_flag( spell_flag::SOMATIC ) && !guy.has_flag( json_flag_SUBTLE_SPELL ) ) {
             // the first 20 points of encumbrance combined is ignored
             const int arms_encumb = std::max( 0,
-                                              guy.avg_encumb_of_limb_type( body_part_type::type::arm ) - 10 );
+                                              guy.avg_encumb_of_limb_type( bp_type::arm ) - 10 );
             casting_time += arms_encumb * 2 * temp_somatic_difficulty_multiplyer;
         }
     }
@@ -1350,7 +1252,7 @@ float spell::spell_fail( const Character &guy ) const
             !guy.has_flag( json_flag_SUBTLE_SPELL ) && temp_somatic_difficulty_multiplyer > 0 ) {
             // the first 20 points of encumbrance combined is ignored
             const int arms_encumb = std::max( 0,
-                                              guy.avg_encumb_of_limb_type( body_part_type::type::arm ) - 10 );
+                                              guy.avg_encumb_of_limb_type( bp_type::arm ) - 10 );
             // each encumbrance point beyond the "gray" color counts as half an additional fail %
             fail_chance += ( arms_encumb / 200.0f ) * temp_somatic_difficulty_multiplyer;
         }
@@ -1358,7 +1260,7 @@ float spell::spell_fail( const Character &guy ) const
             !guy.has_flag( json_flag_SILENT_SPELL ) && temp_sound_multiplyer > 0 ) {
             // a little bit of mouth encumbrance is allowed, but not much
             const int mouth_encumb = std::max( 0,
-                                               guy.avg_encumb_of_limb_type( body_part_type::type::mouth ) - 5 );
+                                               guy.avg_encumb_of_limb_type( bp_type::mouth ) - 5 );
             fail_chance += ( mouth_encumb / 100.0f ) * temp_sound_multiplyer;
         }
     }
@@ -2786,12 +2688,12 @@ bool spell::casting_time_encumbered( const Character &guy ) const
     int encumb = 0;
     if( !has_flag( spell_flag::NO_LEGS ) && temp_somatic_difficulty_multiplyer > 0 ) {
         // the first 20 points of encumbrance combined is ignored
-        encumb += std::max( 0, guy.avg_encumb_of_limb_type( body_part_type::type::leg ) - 10 );
+        encumb += std::max( 0, guy.avg_encumb_of_limb_type( bp_type::leg ) - 10 );
     }
     if( has_flag( spell_flag::SOMATIC ) && !guy.has_flag( json_flag_SUBTLE_SPELL ) &&
         temp_somatic_difficulty_multiplyer > 0 ) {
         // the first 20 points of encumbrance combined is ignored
-        encumb += std::max( 0, guy.avg_encumb_of_limb_type( body_part_type::type::arm ) - 10 );
+        encumb += std::max( 0, guy.avg_encumb_of_limb_type( bp_type::arm ) - 10 );
     }
     return encumb > 0;
 }
@@ -2799,7 +2701,7 @@ bool spell::casting_time_encumbered( const Character &guy ) const
 bool spell::energy_cost_encumbered( const Character &guy ) const
 {
     if( !no_hands() && !guy.has_flag( json_flag_SUBTLE_SPELL ) ) {
-        return std::max( 0, guy.avg_encumb_of_limb_type( body_part_type::type:: hand ) - 5 ) >
+        return std::max( 0, guy.avg_encumb_of_limb_type( bp_type:: hand ) - 5 ) >
                0;
     }
     return false;
@@ -2863,7 +2765,7 @@ std::string spell::enumerate_spell_data( const Character &guy ) const
         has_flag( spell_flag::PSIONIC ) ) {
         spell_data.emplace_back( _( "can be channeled through walls" ) );
     }
-    return enumerate_as_string( spell_data );
+    return uppercase_first_letter( enumerate_as_string( spell_data ) );
 }
 
 void spellcasting_callback::display_spell_info( size_t index )
@@ -2968,7 +2870,7 @@ void spellcasting_callback::display_spell_info( size_t index )
     std::string target_ids;
     target_ids = sp.list_targeted_monster_names();
     if( !target_ids.empty() ) {
-        ImGui::TextWrapped( _( "Only affects the monsters: %s" ), target_ids.c_str() );
+        ImGui::TextWrapped( _( "Only affects the monsters: %1$s" ), target_ids.c_str() );
         ImGui::NewLine();
     }
 

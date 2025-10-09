@@ -1,116 +1,137 @@
 [
   {
     "type": "region_overlay",
-    "regions": [ "all" ],
-    "city": {
-      "houses": { "house_technomancer": 20, "wizard_tower_1": 10, "wizard_tower_2": 20 },
-      "shops": { "magiclysm_augmentation_clinic": 100, "magic_shop": 100, "used_bookstore": 225, "magic_academy": 150 }
-    },
-    "region_terrain_and_furniture": {
-      "terrain": { "t_region_groundcover_swamp": { "t_horn_moss": 10 } },
-      "furniture": {
-        "f_region_water_plant": { "f_barnacle_weed": 1, "f_golden_reed": 1 },
-        "f_region_flower": {
-          "f_kampuch": 30,
-          "f_olieribos": 30,
-          "f_barnacle_weed": 13,
-          "f_dragonail": 17,
-          "f_moly": 17,
-          "f_flowering_fern": 3,
-          "f_funnelcap": 17,
-          "f_sojourners_palm": 3,
-          "f_platonic_flower": 7
-        },
-        "f_region_weed": {
-          "f_whiskflower": 100,
-          "f_kampuch": 17,
-          "f_olieribos": 17,
-          "f_glowing_mushroom": 33,
-          "f_dragonail": 17,
-          "f_moly": 17,
-          "f_flowering_fern": 3,
-          "f_funnelcap": 17,
-          "f_sojourners_palm": 7,
-          "f_platonic_flower": 7
-        },
-        "f_region_plain": {
-          "f_dragonail": 17,
-          "f_moly": 17,
-          "f_flowering_fern": 3,
-          "f_olieribos": 30,
-          "f_sojourners_palm": 3,
-          "f_whiskflower": 120
-        },
-        "f_region_forest": {
-          "f_platonic_flower": 6,
-          "f_kampuch": 20,
-          "f_flowering_fern": 3,
-          "f_funnelcap": 8,
-          "f_sojourners_palm": 3,
-          "f_whiskflower": 60
-        },
-        "f_region_forest_dense": {
-          "f_platonic_flower": 12,
-          "f_kampuch": 30,
-          "f_flowering_fern": 3,
-          "f_funnelcap": 17,
-          "f_sojourners_palm": 3,
-          "f_whiskflower": 10
-        }
-      }
-    },
-    "map_extras": { "forest_water": { "chance": 20, "extras": { "mx_catoblepas_lair": 1 } } },
-    "forest_mapgen_settings": {
-      "forest_thick": {
-        "terrains": [
-          "anthill",
-          "bandit_cabin",
-          "bandit_garage_1",
-          "bandit_garage_2",
-          "campsite",
-          "campsite_a",
-          "campsite_cabin_incomplete",
-          "campsite_field_biker",
-          "campsite_field_biker_destroyed",
-          "cave",
-          "central_lab_entrance",
-          "corpse_tentacle_surface_entry",
-          "derelict_property",
-          "desolatebarn",
-          "druid_ritual_home_z0",
-          "forest_thick",
-          "forest_trail",
-          "forest_trail_intersection",
-          "homelesscamp",
-          "island_forest",
-          "island_forest_thick",
-          "lake_shore",
-          "moonshine_still",
-          "moonshine_still_1",
-          "moonshine_still_2",
-          "natural_spring",
-          "river",
-          "river_c_not_ne",
-          "river_c_not_nw",
-          "river_c_not_se",
-          "river_c_not_sw",
-          "river_center",
-          "river_ne",
-          "river_nw",
-          "river_se",
-          "river_sw",
-          "slimepit_z0",
-          "special_forest_thick",
-          "spider_pit",
-          "standing_stones",
-          "stream",
-          "stream_corner",
-          "stream_end",
-          "survivor_forest_camp",
-          "ws_giant_sinkhole_1",
-          "ws_survivor_bunker_f0"
-        ]
-      }
-    }
+    "id": "default_magiclysm",
+    "apply_to_tags": [ "all" ],
+    "cities": "default_magiclysm",
+    "map_extras": "default_magiclysm",
+    "terrain_furniture": "default_magiclysm",
+    "forest_composition": "default_magiclysm"
+  },
+  {
+    "type": "region_settings_city",
+    "id": "default_magiclysm",
+    "houses": [ [ "house_technomancer", 20 ], [ "wizard_tower_1", 10 ], [ "wizard_tower_2", 20 ] ],
+    "shops": [ [ "magiclysm_augmentation_clinic", 100 ], [ "magic_shop", 100 ], [ "used_bookstore", 225 ], [ "magic_academy", 150 ] ]
+  },
+  {
+    "type": "region_settings_terrain_furniture",
+    "id": "default_magiclysm",
+    "ter_furn": [
+      "default_t_groundcover_swamp_magiclysm",
+      "default_f_water_plant_magiclysm",
+      "default_f_flower_magiclysm",
+      "default_f_weed_magiclysm",
+      "default_f_plain_magiclysm",
+      "default_f_forest_magiclysm",
+      "default_f_forest_dense_magiclysm",
+      "default_f_forest_dense_magiclysm"
+    ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "default_t_groundcover_swamp_magiclysm",
+    "ter_id": "t_region_groundcover_swamp",
+    "replace_with_terrain": [ [ "t_horn_moss", 10 ] ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "default_f_water_plant_magiclysm",
+    "furn_id": "f_region_water_plant",
+    "replace_with_furniture": [ [ "f_barnacle_weed", 1 ], [ "f_golden_reed", 1 ] ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "default_f_flower_magiclysm",
+    "furn_id": "f_region_flower",
+    "replace_with_furniture": [
+      [ "f_kampuch", 30 ],
+      [ "f_olieribos", 30 ],
+      [ "f_barnacle_weed", 13 ],
+      [ "f_dragonail", 17 ],
+      [ "f_moly", 17 ],
+      [ "f_flowering_fern", 3 ],
+      [ "f_funnelcap", 17 ],
+      [ "f_sojourners_palm", 3 ],
+      [ "f_platonic_flower", 7 ]
+    ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "default_f_weed_magiclysm",
+    "furn_id": "f_region_weed",
+    "replace_with_furniture": [
+      [ "f_whiskflower", 100 ],
+      [ "f_kampuch", 17 ],
+      [ "f_olieribos", 17 ],
+      [ "f_glowing_mushroom", 33 ],
+      [ "f_dragonail", 17 ],
+      [ "f_moly", 17 ],
+      [ "f_flowering_fern", 3 ],
+      [ "f_funnelcap", 17 ],
+      [ "f_sojourners_palm", 7 ],
+      [ "f_platonic_flower", 7 ]
+    ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "default_f_plain_magiclysm",
+    "furn_id": "f_region_plain",
+    "replace_with_furniture": [
+      [ "f_dragonail", 17 ],
+      [ "f_moly", 17 ],
+      [ "f_flowering_fern", 3 ],
+      [ "f_olieribos", 30 ],
+      [ "f_sojourners_palm", 3 ],
+      [ "f_whiskflower", 120 ]
+    ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "default_f_forest_magiclysm",
+    "furn_id": "f_region_forest",
+    "replace_with_furniture": [
+      [ "f_platonic_flower", 6 ],
+      [ "f_kampuch", 20 ],
+      [ "f_flowering_fern", 3 ],
+      [ "f_funnelcap", 8 ],
+      [ "f_sojourners_palm", 3 ],
+      [ "f_whiskflower", 60 ]
+    ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "default_f_forest_dense_magiclysm",
+    "furn_id": "f_region_forest_dense",
+    "replace_with_furniture": [
+      [ "f_platonic_flower", 12 ],
+      [ "f_kampuch", 30 ],
+      [ "f_flowering_fern", 3 ],
+      [ "f_funnelcap", 17 ],
+      [ "f_sojourners_palm", 3 ],
+      [ "f_whiskflower", 10 ]
+    ]
+  },
+  {
+    "type": "region_settings_map_extras",
+    "id": "default_magiclysm",
+    "extras": [ "forest_thick_magiclysm" ]
+  },
+  {
+    "type": "map_extra_collection",
+    "id": "forest_thick_magiclysm",
+    "overlay_id": "forest_thick",
+    "extras": [ [ "mx_catoblepas_lair", 1 ] ]
+  },
+  {
+    "type": "region_settings_forest_mapgen",
+    "id": "default_magiclysm",
+    "biomes": [ "biome_forest_thick_default_magiclysm" ]
+  },
+  {
+    "type": "forest_biome_mapgen",
+    "id": "biome_forest_thick_default_magiclysm",
+    "overlay_id": "biome_forest_thick_default",
+    "terrains": [ "druid_ritual_home_z0", "mystic_glade_nw", "mystic_glade_ne", "mystic_glade_sw", "mystic_glade_se" ]
   }
 ]

@@ -294,7 +294,7 @@
     "components": [
       [ [ "meat_cooked", 1, "LIST" ] ],
       [ [ "edible_blood", 2, "LIST" ] ],
-      [ [ "edible_fat", 1, "LIST" ], [ "edible_tallow_lard", 4, "LIST" ] ],
+      [ [ "edible_fat", 10, "LIST" ], [ "edible_tallow", 10, "LIST" ] ],
       [
         [ "salt", 4 ],
         [ "soysauce", 2 ],
@@ -369,7 +369,7 @@
     ],
     "components": [
       [ [ "meat_red", 2, "LIST" ], [ "meat_liver", 10, "LIST" ] ],
-      [ [ "edible_fat", 1, "LIST" ], [ "edible_tallow_lard", 4, "LIST" ] ],
+      [ [ "edible_fat", 10, "LIST" ], [ "edible_tallow", 10, "LIST" ] ],
       [
         [ "salt", 4 ],
         [ "soysauce", 2 ],
@@ -398,7 +398,7 @@
     "tools": [ [ [ "funnel", -1 ], [ "makeshift_funnel", -1 ], [ "leather_funnel", -1 ], [ "metal_funnel", -1 ] ] ],
     "components": [
       [ [ "meat_red", 2, "LIST" ], [ "meat_liver", 10, "LIST" ] ],
-      [ [ "edible_fat", 1, "LIST" ], [ "edible_tallow_lard", 4, "LIST" ] ],
+      [ [ "edible_fat", 10, "LIST" ], [ "edible_tallow", 10, "LIST" ] ],
       [
         [ "salt", 4 ],
         [ "soysauce", 2 ],
@@ -430,7 +430,7 @@
     "components": [
       [ [ "syrup", 1 ] ],
       [ [ "meat_red", 3, "LIST" ], [ "can_chicken", 3 ] ],
-      [ [ "edible_fat", 1, "LIST" ], [ "edible_tallow_lard", 4, "LIST" ] ],
+      [ [ "edible_fat", 10, "LIST" ], [ "edible_tallow", 10, "LIST" ] ],
       [
         [ "salt", 10 ],
         [ "soysauce", 1 ],

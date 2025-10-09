@@ -659,7 +659,7 @@ void talk_function::give_equipment_allowance( npc &p, int allowance )
     }
     item it = *giving[chosen].loc.get_item();
     giving[chosen].loc.remove_item();
-    popup( _( "%1$s gives you a %2$s" ), p.get_name(), it.tname() );
+    popup( _( "%1$s gives you a %2$s." ), p.get_name(), it.tname() );
     Character &player_character = get_player_character();
     it.set_owner( player_character );
     player_character.i_add( it );

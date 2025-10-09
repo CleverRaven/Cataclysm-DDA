@@ -197,18 +197,6 @@
   },
   {
     "type": "recipe",
-    "copy-from": "mutant_meat_cooked",
-    "result": "meat_mutant_tainted_cooked",
-    "components": [ [ [ "meat_mutant_tainted", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "meat_mutant_tainted_smoked",
-    "copy-from": "meat_smoked",
-    "components": [ [ [ "meat_mutant_tainted", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "mutant_meat_scrap_cooked",
     "copy-from": "mutant_meat_cooked",
@@ -434,34 +422,14 @@
     "skill_used": "cooking",
     "difficulty": 2,
     "time": "2 h",
-    "charges": 12,
+    "charges": 30,
     "autolearn": true,
-    "batch_time_factors": [ 75, 2 ],
+    "batch_time_factors": [ 90, 2 ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "BOIL", "level": 2 } ],
     "tools": [ [ [ "water_boiling_heat", 20, "LIST" ] ] ],
     "//": "total is 660g of fat, 5960 calories.  https://heygrillhey.com/beef-tallow/ shows 4 hours of low boil to make 11610 calories of tallow, so halve that, 2 hours boiling ish",
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
-    "components": [ [ [ "fat", 3 ] ], [ [ "water", 3 ], [ "water_clean", 3 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "lard",
-    "byproducts": [ [ "cracklins" ] ],
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_MEAT",
-    "skill_used": "cooking",
-    "difficulty": 3,
-    "time": "2 h",
-    "charges": 6,
-    "autolearn": true,
-    "batch_time_factors": [ 75, 2 ],
-    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 60, "LIST" ] ] ],
-    "//": "this recipe is weird.  440g of fat and nothing else, presumably cut into cubes and cooked.  the recipe should have water, but then it's not clear why this is different from tallow.",
-    "//1": "for now I'm going to treat it as dry rendering fat and the leftovers being turned into cracklins.  Power cost goes up as a result, compared to 30u for cracklins (which use same amt of fat).",
-    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
-    "components": [ [ [ "fat", 2 ] ] ]
+    "components": [ [ [ "fat", 30 ] ] ]
   },
   {
     "type": "recipe",
@@ -470,20 +438,7 @@
     "copy-from": "tallow",
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "BOIL", "level": 2 } ],
     "tools": [ [ [ "water_boiling_heat", 20, "LIST" ] ] ],
-    "//": "total is 660g of fat, 5960 calories.  https://heygrillhey.com/beef-tallow/ shows 4 hours of low boil to make 11610 calories of tallow, so halve that, 2 hours boiling ish",
-    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
-    "components": [ [ [ "mutant_fat", 3 ] ], [ [ "water", 3 ], [ "water_clean", 3 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "mutant_lard",
-    "copy-from": "lard",
-    "byproducts": [ [ "mutant_cracklins" ] ],
-    "tools": [ [ [ "surface_heat", 60, "LIST" ] ] ],
-    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 2 } ],
-    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
-    "components": [ [ [ "mutant_fat", 2 ] ] ]
+    "components": [ [ [ "mutant_fat", 30 ] ] ]
   },
   {
     "type": "recipe",
@@ -492,19 +447,7 @@
     "copy-from": "tallow",
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "BOIL", "level": 2 } ],
     "tools": [ [ [ "water_boiling_heat", 20, "LIST" ] ] ],
-    "//": "total is 660g of fat, 5960 calories.  https://heygrillhey.com/beef-tallow/ shows 4 hours of low boil to make 11610 calories of tallow, so halve that, 2 hours boiling ish",
-    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
-    "components": [ [ [ "mutant_human_fat", 3 ] ], [ [ "water", 3 ], [ "water_clean", 3 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "mutant_human_lard",
-    "byproducts": [ [ "mutant_human_cracklins" ] ],
-    "copy-from": "lard",
-    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 2 } ],
-    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
-    "components": [ [ [ "mutant_human_fat", 2 ] ] ]
+    "components": [ [ [ "mutant_human_fat", 30 ] ] ]
   },
   {
     "type": "recipe",
@@ -523,6 +466,22 @@
     "//": "300g of meat for 30 smoking_heats",
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_curing" } ],
     "components": [ [ [ "meat_red_raw", 1, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "copy-from": "mutant_meat_cooked",
+    "result": "meat_mutant_tainted_cooked",
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
+    "components": [ [ [ "meat_mutant_tainted", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "meat_mutant_tainted_smoked",
+    "copy-from": "meat_smoked",
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "smoking_heat", 30, "LIST" ] ] ],
+    "components": [ [ [ "meat_mutant_tainted", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -618,39 +577,10 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "human_tallow",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_MEAT",
-    "skill_used": "cooking",
-    "difficulty": 2,
-    "time": "2 h",
-    "charges": 12,
-    "autolearn": true,
-    "batch_time_factors": [ 75, 2 ],
+    "copy-from": "tallow",
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "BOIL", "level": 2 } ],
     "tools": [ [ [ "water_boiling_heat", 20, "LIST" ] ] ],
-    "//": "total is 660g of fat, 5960 calories.  https://heygrillhey.com/beef-tallow/ shows 4 hours of low boil to make 11610 calories of tallow, so halve that, 2 hours boiling ish",
-    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
-    "components": [ [ [ "human_fat", 3 ] ], [ [ "water", 3 ], [ "water_clean", 3 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "human_lard",
-    "byproducts": [ [ "human_cracklins" ] ],
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_MEAT",
-    "skill_used": "cooking",
-    "difficulty": 3,
-    "time": "2 h",
-    "charges": 6,
-    "autolearn": true,
-    "batch_time_factors": [ 75, 2 ],
-    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 60, "LIST" ] ] ],
-    "//": "this recipe is weird.  440g of fat and nothing else, presumably cut into cubes and cooked.  the recipe should have water, but then it's not clear why this is different from tallow.",
-    "//1": "for now I'm going to treat it as fat rendered without using water and the leftovers being turned into cracklins.  Power cost goes up as a result, compared to 30u for cracklins (which use same amt of fat).",
-    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
-    "components": [ [ [ "human_fat", 2 ] ] ]
+    "components": [ [ [ "human_fat", 30 ] ] ]
   },
   {
     "type": "recipe",
@@ -773,54 +703,10 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "demihuman_tallow",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_MEAT",
-    "skill_used": "cooking",
-    "difficulty": 2,
-    "time": "2 h",
-    "charges": 12,
-    "autolearn": true,
-    "batch_time_factors": [ 75, 2 ],
+    "copy-from": "tallow",
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "BOIL", "level": 2 } ],
     "tools": [ [ [ "water_boiling_heat", 20, "LIST" ] ] ],
-    "//": "total is 660g of fat, 5960 calories.  https://heygrillhey.com/beef-tallow/ shows 4 hours of low boil to make 11610 calories of tallow, so halve that, 2 hours boiling ish",
-    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
-    "components": [ [ [ "demihuman_fat", 3 ] ], [ [ "water", 3 ], [ "water_clean", 3 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "demihuman_lard",
-    "byproducts": [ [ "demihuman_cracklins" ] ],
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_MEAT",
-    "skill_used": "cooking",
-    "difficulty": 3,
-    "time": "2 h",
-    "charges": 6,
-    "autolearn": true,
-    "batch_time_factors": [ 75, 2 ],
-    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 60, "LIST" ] ] ],
-    "//": "this recipe is weird.  440g of fat and nothing else, presumably cut into cubes and cooked.  the recipe should have water, but then it's not clear why this is different from tallow.",
-    "//1": "for now I'm going to treat it as fat rendered without using water and the leftovers being turned into cracklins.  Power cost goes up as a result, compared to 30u for cracklins (which use same amt of fat).",
-    "components": [ [ [ "demihuman_fat", 2 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "demihuman_stomach_boiled",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_MEAT",
-    "skill_used": "cooking",
-    "time": "15 m",
-    "autolearn": true,
-    "batch_time_factors": [ 67, 5 ],
-    "qualities": [ { "id": "BOIL", "level": 1 } ],
-    "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
-    "//": "2u for the water and boiling for 15 minutes, 1u for the weight of the stomach (144g, half a meat chunk)",
-    "proficiencies": [ { "proficiency": "prof_food_prep" } ],
-    "components": [ [ [ "demihuman_stomach_large", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "demihuman_fat", 30 ] ] ]
   },
   {
     "type": "recipe",

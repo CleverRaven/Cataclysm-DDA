@@ -489,6 +489,16 @@
     "info": "This gear <good>corrects nearsightedness</good>."
   },
   {
+    "id": "MYOPIC_SUPERNATURAL",
+    "type": "json_flag",
+    "//": "Like MYOPIC, but can't be fixed by glasses."
+  },
+  {
+    "id": "MYOPIC_IN_LIGHT_SUPERNATURAL",
+    "type": "json_flag",
+    "//": "Like MYOPIC_IN_LIGHT, but can't be fixed by glasses."
+  },
+  {
     "id": "FILTHY",
     "type": "json_flag",
     "//": "Zombie-dropped clothing giving various penalties if Filthy mod is active.  Also CBMs harvested from zombies.",
@@ -2348,6 +2358,16 @@
     "id": "VOLTMETER",
     "type": "json_flag",
     "info": "This tool can test for voltage."
+  },
+  {
+    "id": "SUNBURN_SUPERNATURAL",
+    "type": "json_flag",
+    "info": "You burn in the sunlight like a vampire.  Probably because you're a vampire."
+  },
+  {
+    "id": "SUNBURN_SUPERNATURAL_REDUCTION",
+    "type": "json_flag",
+    "info": "You burn in the sunlight like a vampire, but not quite as badly."
   },
   {
     "id": "SHREDDED",

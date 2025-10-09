@@ -2660,7 +2660,7 @@ void iexamine::harvest_ter( Character &you, const tripoint_bub_ms &examp )
  */
 void iexamine::harvested_plant( Character &you, const tripoint_bub_ms &examp )
 {
-    you.add_msg_if_player( m_info, _( "Nothing can be harvested from this plant in current season" ) );
+    you.add_msg_if_player( m_info, _( "Nothing can be harvested from this plant in current season." ) );
     iexamine::none( you, examp );
 }
 
@@ -2772,11 +2772,6 @@ void iexamine::plant_seed( Character &you, const tripoint_bub_ms &examp, const i
  */
 void iexamine::dirtmound( Character &you, const tripoint_bub_ms &examp )
 {
-
-    if( !warm_enough_to_plant( get_player_character().pos_bub() ) ) {
-        add_msg( m_info, _( "It is too cold to plant anything now." ) );
-        return;
-    }
     map &here = get_map();
     /* ambient_light_at() not working?
     if (here.ambient_light_at(examp) < LIGHT_AMBIENT_LOW) {
@@ -2802,7 +2797,13 @@ void iexamine::dirtmound( Character &you, const tripoint_bub_ms &examp )
         add_msg( _( "You saved your seeds for later." ) );
         return;
     }
-    const auto &seed_id = std::get<0>( seed_entries[seed_index] );
+    const itype_id &seed_id = std::get<0>( seed_entries[seed_index] );
+
+    ret_val<void>can_plant = warm_enough_to_plant( you.pos_bub(), seed_id );
+    if( !can_plant.success() ) {
+        you.add_msg_if_player( m_info, can_plant.c_str() );
+        return;
+    }
 
     if( !here.has_flag_ter_or_furn( seed_id->seed->required_terrain_flag, examp ) ) {
         add_msg( _( "This type of seed can not be planted in this location." ) );
@@ -6047,7 +6048,7 @@ void iexamine::autodoc( Character &you, const tripoint_bub_ms &examp )
     }
 
     const bool unsafe_usage = &Operator == &null_player || ( &Operator == &you && &patient == &you );
-    std::string autodoc_header = _( "Autodoc Mk. XI.  Status: Online.  Please choose operation" );
+    std::string autodoc_header = _( "Autodoc Mk. XI.  Status: Online.  Please choose operation." );
     if( unsafe_usage ) {
         const std::string &warning_sign = colorize( " /", c_yellow ) + colorize( "!",
                                           c_red ) + colorize( "\\", c_yellow );

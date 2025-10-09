@@ -260,7 +260,8 @@
       { "item": "silver_nose_ring_loop", "prob": 6 },
       { "item": "silver_nose_ring_stud", "prob": 6 },
       { "item": "gold_toe_ring", "prob": 5 },
-      { "item": "silver_toe_ring", "prob": 6 }
+      { "item": "silver_toe_ring", "prob": 6 },
+      { "group": "sunscreen_bottle", "prob": 5 }
     ]
   },
   {
@@ -381,7 +382,8 @@
       { "item": "hygrometer", "prob": 3 },
       { "item": "barometer", "prob": 3 },
       { "item": "smart_lamp", "prob": 3 },
-      { "item": "nuts_bolts", "prob": 95, "charges": [ 10, 20 ] }
+      { "item": "nuts_bolts", "prob": 95, "charges": [ 10, 20 ] },
+      { "group": "sunscreen_bottle", "prob": 5 }
     ]
   },
   {
@@ -568,7 +570,7 @@
     "//2": "This group is for a cupboard where coffee and tea supplies are kept.",
     "subtype": "collection",
     "entries": [
-      { "distribution": [ { "item": "coffeemaker", "prob": 90 }, { "item": "atomic_coffeepot", "prob": 10 } ], "prob": 75 },
+      { "distribution": [ { "item": "coffeemaker", "prob": 90 } ], "prob": 75 },
       {
         "distribution": [
           { "item": "coffee_raw", "prob": 30 },
@@ -814,7 +816,8 @@
       { "item": "menstrual_cup", "prob": 1 },
       { "item": "toothbrush_plain", "count": [ 1, 3 ], "prob": 45 },
       { "item": "dentures", "count": [ 1, 2 ], "prob": 15 },
-      { "item": "toothbrush_electric", "count": [ 1, 3 ], "prob": 25 }
+      { "item": "toothbrush_electric", "count": [ 1, 3 ], "prob": 25 },
+      { "group": "sunscreen_bottle", "prob": 25 }
     ]
   },
   {

@@ -96,7 +96,7 @@
     "weight": "150 kg",
     "volume": "50 L",
     "price": "4 kUSD",
-    "price_postapoc": "25 USD",
+    "price_postapoc": "250 USD",
     "capacity": 100000,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 100000 } } ],
     "melee_damage": { "bash": 40 }
@@ -112,7 +112,7 @@
     "weight": "15 kg",
     "volume": "5 L",
     "price": "500 USD",
-    "price_postapoc": "7 USD 50 cent",
+    "price_postapoc": "22 USD 50 cent",
     "capacity": 10000,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 10000 } } ],
     "melee_damage": { "bash": 14 }
@@ -128,7 +128,7 @@
     "weight": "1500 g",
     "volume": "500 ml",
     "price": "50 USD",
-    "price_postapoc": "5 USD",
+    "price_postapoc": "2 USD",
     "capacity": 1000,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1000 } } ],
     "melee_damage": { "bash": 7 }
@@ -144,7 +144,7 @@
     "weight": "75 kg",
     "volume": "25 L",
     "price": "2 kUSD",
-    "price_postapoc": "15 USD",
+    "price_postapoc": "120 USD",
     "material": [ "plastic", "lc_steel" ],
     "symbol": ":",
     "color": "light_cyan",

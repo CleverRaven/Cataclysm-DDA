@@ -131,6 +131,7 @@
       { "monster": "mon_shrieker", "weight": 10 },
       { "monster": "mon_lemure", "weight": 5, "cost_multiplier": 2, "pack_size": [ 1, 4 ] },
       { "monster": "mon_troll_stone", "weight": 3, "cost_multiplier": 10, "conditions": [ "DAY" ] },
+      { "monster": "mon_rust_monster", "weight": 5 },
       {
         "monster": "mon_owlbear_zombie",
         "weight": 40,
@@ -225,7 +226,17 @@
   {
     "type": "monstergroup",
     "id": "GROUP_SEWER",
-    "monsters": [ { "monster": "mon_otyugh", "weight": 15 } ]
+    "monsters": [ { "monster": "mon_otyugh", "weight": 15 }, { "monster": "mon_rust_monster", "weight": 20 } ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_SUBWAY",
+    "monsters": [ { "monster": "mon_rust_monster", "weight": 35 } ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_SUBWAY_CITY",
+    "monsters": [ { "monster": "mon_rust_monster", "weight": 35 } ]
   },
   {
     "type": "monstergroup",
@@ -633,7 +644,7 @@
       { "monster": "mon_yugg_migo", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_gelatin_migo", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_flaming_eye_migo", "weight": 100, "cost_multiplier": 0 },
-      { "monster": "mon_kreck_migo", "weight": 100, "cost_multiplier": 0 }
+      { "monster": "mon_kreck_migo", "weight": 100, "cost_multiplier": 0, "pack_size": [ 2, 4 ] }
     ]
   },
   {

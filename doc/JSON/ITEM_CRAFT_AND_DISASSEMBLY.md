@@ -76,7 +76,7 @@ Crafting recipes are defined as a JSON object with the following fields:
 "contained": true, // Boolean value which defines if the resulting item comes in its designated container. Automatically set to true if any container is defined in the recipe. 
 "container": "jar_glass_sealed", //The resulting item will be contained by the item set here, overrides default container.
 "container_variant": "jar_glass_sealed_strawberry_picture", //The container specified above will spawn as the specified variant, overrides the normal weighted behavior.
-"batch_time_factors": [25, 15], // Optional factors for batch crafting time reduction. First number specifies maximum crafting time reduction as percentage, and the second number the minimal batch size to reach that number. In this example given batch size of 20 the last 6 crafts will take only 3750 time units.
+"batch_time_factors": ..., // See below for details
 "charges": 2,                // Number of resulting items/charges per craft. Uses default charges if not set. If a container is set, this is the amount that gets put inside it, capped by container capacity.
 "result_mult": 2,            // Multiplier for resulting items. Also multiplies container items.
 "flags": [                   // A set of strings describing boolean features of the recipe
@@ -115,6 +115,26 @@ Crafting recipes are defined as a JSON object with the following fields:
   "item_a",
   "item_b"
 ]
+```
+
+#### `batch_time_factors`
+
+`batch_time_factors supports several formats, with two different scaling functions.
+
+Logistic scaling provides savings of some percent once the batch reaches a certain size.
+```jsonc
+"batch_time_factors": [ 25, 15 ], // legacy
+"batch_time_factors": { "mode": "logistic", "percent": 25, "at": 15 }
+```
+
+This shows both formats for logistic scaling. The first number specifies the maximum crafting time reduction as a percentage, and the second number the minimal batch size to reach that number. If this recipe took 5000 moves, when made in a batch of 20, the last 5 units would take only 3750 moves to produce.
+
+Linear scaling provides purely linear scaling. There are two parameters, the `setup` time `T`, and the max batch size `M`, which is optional. The time taken for a batch of size `n` for a recipe which takes `t` time is: `(ceil(n/M) * T) + (n * (t - T))`. If `M` is not specified, it defaults to n, simplifying to `T + (n * (t - T))`.
+In other words, max does not limit the max batch size, it merely specifies when the setup cost will be applied again.
+It is specified as follows:
+```jsonc
+"batch_time_factors": { "mode": "linear": "setup": "12 m" },
+"batch_time_factors": { "mode": "linear": "setup": "12 m", "max": 20 },
 ```
 
 ## Practice recipes

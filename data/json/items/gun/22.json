@@ -1,7 +1,7 @@
 [
   {
     "id": "marlin_9a",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "copy-from": "gun_base_rifle_manual",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
@@ -49,7 +49,7 @@
   },
   {
     "id": "rifle_22",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "copy-from": "gun_base_rifle_manual",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
@@ -77,7 +77,7 @@
   },
   {
     "id": "ruger_1022",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "copy-from": "gun_base_22_semi_rifle",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
@@ -331,7 +331,7 @@
   },
   {
     "id": "rossi_gallery",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "copy-from": "gun_base_rifle_manual",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
@@ -692,7 +692,7 @@
   },
   {
     "id": "mp_15_22",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "copy-from": "gun_base_22_semi_rifle",
     "type": "ITEM",
     "subtypes": [ "GUN" ],

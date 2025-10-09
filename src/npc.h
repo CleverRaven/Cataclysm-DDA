@@ -1017,7 +1017,7 @@ class npc : public Character
         bool is_dead() const;
         void prevent_death() override;
         // How well we smash terrain (not corpses!)
-        int smash_ability() const override;
+        std::map<damage_type_id, int> smash_ability() const override;
 
         /*
          *  CBM management functions

@@ -40,5 +40,29 @@
     "id": "transformation_proficiency_modifier",
     "num_args": 0,
     "return": "1 + ( (u_proficiency('prof_magic_transformation_beginner', 'format': 'percent') / 1000) + (u_proficiency('prof_magic_transformation_apprentice', 'format': 'percent') / 1000) + (u_proficiency('prof_magic_transformation_master', 'format': 'percent') / 1000) )"
+  },
+  {
+    "type": "jmath_function",
+    "id": "casting_proficiency_beginner_xp_modifier",
+    "num_args": 0,
+    "return": "(rng(1,4) / 16) * casting_proficiency_adjustments()"
+  },
+  {
+    "type": "jmath_function",
+    "id": "casting_proficiency_apprentice_xp_modifier",
+    "num_args": 0,
+    "return": "(rng(1,4) / 32) * casting_proficiency_adjustments()"
+  },
+  {
+    "type": "jmath_function",
+    "id": "casting_proficiency_master_xp_modifier",
+    "num_args": 0,
+    "return": "(rng(1,4) / 64) * casting_proficiency_adjustments()"
+  },
+  {
+    "type": "jmath_function",
+    "id": "casting_proficiency_adjustments",
+    "num_args": 0,
+    "return": "u_last_spell_cast_difficulty * (sqrt(u_last_spell_cast_casting_time / 100) )"
   }
 ]

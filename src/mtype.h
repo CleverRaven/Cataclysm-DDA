@@ -458,14 +458,20 @@ struct mtype {
 
     private:
         ::weakpoints weakpoints_deferred_inline;
+        // How dangerous is this thing?
+        int difficulty = 0;
+        // Manually-defined adjustment in JSON. *Not* additive, use the getter functions.
+        int difficulty_adjustment = 0;
     public:
         int mat_portion_total = 0;
         units::volume volume;
         creature_size size;
         phase_id phase;
-        int difficulty = 0;     /** many uses; 30 min + (diff-3)*30 min = earliest appearance */
-        // difficulty from special attacks instead of from melee attacks, defenses, HP, etc.
-        int difficulty_base = 0;
+
+        // Return the total difficulty as used to determine monster coloring etc
+        int get_total_difficulty() const;
+        // You should probably not be using this!! This was already factored into the difficulty calculation!
+        int get_difficulty_adjustment() const;
 
         int hp = 0;
         int speed = 0;          /** e.g. human = 100 */
@@ -519,7 +525,7 @@ struct mtype {
 
         unsigned int def_chance; // How likely a special "defensive" move is to trigger (0-100%, default 0)
         // Monster's ability to destroy terrain and vehicles
-        int bash_skill;
+        std::map<damage_type_id, int> bash_skill;
 
         // Monster upgrade variables
         int half_life;

@@ -1254,7 +1254,7 @@
     "volume": "2 ml",
     "flags": [ "NO_INGEST", "WATER_DISSOLVE" ],
     "//6": "The ratio of how much water can be purified per tablet (maximum).  Should match the water_purifying recipe",
-    "variables": { "water_per_tablet": "4" }
+    "variables": { "water_per_tablet": 4 }
   },
   {
     "type": "ITEM",
@@ -1870,6 +1870,8 @@
     "phase": "liquid",
     "explode_in_fire": true,
     "explosion": { "power": 5, "shrapnel": 0 },
+    "flags": [ "NUTRIENT_OVERRIDE" ],
+    "//": "Needed so calories from alcohol used to produce this aren't carried over to items using this as preservative",
     "looks_like": "ether"
   },
   {
@@ -2143,8 +2145,7 @@
     "price": "0 cent",
     "price_postapoc": "10 cent",
     "symbol": "=",
-    "color": "white",
-    "looks_like": "lard"
+    "color": "white"
   },
   {
     "id": "silicone",

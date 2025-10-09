@@ -52,7 +52,7 @@
         [ "scrap_bronze", 1 ],
         [ "scrap", 1 ],
         [ "bearing", 1 ],
-        [ "nail", 1 ],
+        [ "nails", 1, "LIST" ],
         [ "combatnail", 1 ]
       ]
     ]
@@ -64,7 +64,7 @@
     "components": [
       [
         [ "scrap", 1 ],
-        [ "nail", 5 ],
+        [ "nails", 5, "LIST" ],
         [ "bb", 10 ],
         [ "solder_wire", 5 ],
         [ "platinum_small", 2 ],

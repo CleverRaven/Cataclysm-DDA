@@ -85,36 +85,12 @@
   },
   {
     "id": "mon_mi_go_nethermancer",
+    "copy-from": "mon_mi_go_scout",
+    "looks_like": "mon_mi_go",
     "type": "MONSTER",
     "name": { "str": "mi-go nethermancer" },
     "description": "An alien creature of uncertain origin.  Its shapeless pink body bears numerous sets of paired appendages of unknown function, and a pair of ribbed, membranous wings which seem to be quite useless.  Its odd, vaguely pyramid-shaped head bristles with numerous wavering antennae, and it moves with an uncanny fluidity on its many legs.  Its carapace is covered in regular patterns which occasionally shift as you look at them before settling into a new configuration.",
-    "default_faction": "mi-go",
-    "bodytype": "migo",
-    "species": [ "MIGO" ],
-    "looks_like": "mon_mi_go",
-    "volume": "92500 ml",
-    "weight": "110 kg",
-    "hp": 160,
-    "speed": 120,
-    "diff": 35,
-    "material": [ "mi-go_flesh" ],
-    "symbol": "&",
-    "color": "red",
-    "aggression": 20,
-    "morale": 30,
-    "melee_skill": 7,
-    "melee_dice": 4,
-    "melee_dice_sides": 6,
-    "melee_damage": [ { "damage_type": "cut", "amount": 8 } ],
     "dodge": 4,
-    "bleed_rate": 75,
-    "vision_day": 50,
-    "vision_night": 20,
-    "harvest": "mi-go",
-    "weakpoint_sets": [ "wps_mi-go", "wps_natural_armor" ],
-    "families": [ "prof_wp_mi-go_basic", "prof_wp_mi-go_advanced", "prof_wp_nat_armored" ],
-    "path_settings": { "max_dist": 50, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
-    "scents_ignored": [ "sc_fetid" ],
     "special_attacks": [
       [ "PARROT", 100 ],
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 12, "armor_multiplier": 0.4 } ] },
@@ -143,6 +119,40 @@
         "monster_message": "%1$s's numerous antennae weave in a complicated pattern."
       },
       {
+        "id": "migo_nethermancer_nether_shield",
+        "type": "spell",
+        "spell_data": { "id": "migo_nether_shield_monster", "hit_self": true, "min_level": 10 },
+        "cooldown": 60,
+        "condition": {
+          "and": [ { "not": { "u_has_effect": "effect_migo_nether_shield_monster" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ]
+        },
+        "monster_message": "%1$s's numerous antennae sync their movements for a brief moment."
+      },
+      {
+        "type": "monster_attack",
+        "attack_type": "melee",
+        "id": "migo_nethermancer_nether_shield_initial",
+        "//": "fake attack, allowing the mi-go to put up Nether Shield immediately",
+        "cooldown": 1,
+        "move_cost": 80,
+        "dodgeable": false,
+        "blockable": false,
+        "uncanny_dodgeable": false,
+        "range": 50,
+        "self_effects_always": [
+          { "id": "effect_migo_nether_shield_monster", "duration": 50 },
+          { "id": "effect_monster_no_double_cast", "duration": 8000 }
+        ],
+        "effects_require_dmg": false,
+        "condition": { "not": { "u_has_effect": "effect_monster_no_double_cast" } },
+        "hit_dmg_u": "%1$s's numerous antennae sync their movements for a brief moment.",
+        "hit_dmg_npc": "%1$s's numerous antennae sync their movements for a brief moment.",
+        "miss_msg_u": "%1$s's numerous antennae sync their movements for a brief moment.",
+        "miss_msg_npc": "%1$s's numerous antennae sync their movements for a brief moment.",
+        "no_dmg_msg_u": "%1$s's numerous antennae sync their movements for a brief moment.",
+        "no_dmg_msg_npc": "%1$s's numerous antennae sync their movements for a brief moment."
+      },
+      {
         "id": "migo_nethermancer_dispel",
         "type": "spell",
         "spell_data": { "id": "dispel_magic_monster", "min_level": 8 },
@@ -151,23 +161,6 @@
         "monster_message": "%1$s numerous antennae point directly at %3$s."
       }
     ],
-    "flags": [
-      "SEES",
-      "SMELLS",
-      "HEARS",
-      "HAS_MIND",
-      "WARM",
-      "BASHES",
-      "POISON",
-      "NO_BREATHE",
-      "MAGIC_USER",
-      "ARTHROPOD_BLOOD",
-      "PATH_AVOID_DANGER",
-      "CAN_OPEN_DOORS",
-      "PRIORITIZE_TARGETS",
-      "CORNERED_FIGHTER"
-    ],
-    "//": "Armor value assumes some kind of space-warping protective spell to defend against bullets (no way to single out arrows from spears etc or I'd add those too)",
-    "armor": { "bash": 5, "cut": 13, "bullet": 80, "electric": 3 }
+    "extend": { "flags": [ "MAGIC_USER", "CORNERED_FIGHTER" ] }
   }
 ]

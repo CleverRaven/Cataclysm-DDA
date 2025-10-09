@@ -3,12 +3,14 @@
 #define CATA_SRC_PATHFINDING_H
 
 #include <cstdint>
+#include <map>
 #include <optional>
 #include <unordered_set>
 
 #include "coordinates.h"
 #include "mdarray.h"
 #include "point.h"
+#include "type_id.h"
 
 enum class creature_size : int;
 
@@ -135,7 +137,7 @@ struct pathfinding_cache {
 };
 
 struct pathfinding_settings {
-    int bash_strength = 0;
+    std::map<damage_type_id, int> bash_strength;
     int max_dist = 0;
     // At least 2 times the above, usually more
     int max_length = 0;
@@ -157,7 +159,8 @@ struct pathfinding_settings {
     pathfinding_settings() = default;
     pathfinding_settings( const pathfinding_settings & ) = default;
 
-    pathfinding_settings( int bs, int md, int ml, int cc, bool aod, bool aud, bool at, bool acs,
+    pathfinding_settings( const std::map<damage_type_id, int> &bs, int md, int ml, int cc, bool aod,
+                          bool aud, bool at, bool acs,
                           bool art, bool as, std::optional<creature_size> sz = std::nullopt )
         : bash_strength( bs ), max_dist( md ), max_length( ml ), climb_cost( cc ),
           allow_open_doors( aod ), allow_unlock_doors( aud ), avoid_traps( at ), allow_climb_stairs( acs ),

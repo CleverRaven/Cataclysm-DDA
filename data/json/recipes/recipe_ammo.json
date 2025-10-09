@@ -394,7 +394,7 @@
     "proficiencies": [ { "proficiency": "prof_carving" }, { "proficiency": "prof_metalworking" } ],
     "using": [ [ "blacksmithing_standard", 1 ], [ "steel_standard", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "2x4", 1 ] ], [ [ "nail", 2 ], [ "bronze_nail", 2 ] ] ]
+    "components": [ [ [ "2x4", 1 ] ], [ [ "nails", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -597,8 +597,7 @@
         [ "rock", 1 ],
         [ "ceramic_shard", 1 ],
         [ "scrap", 2 ],
-        [ "nail", 10 ],
-        [ "bronze_nail", 10 ],
+        [ "nails", 10, "LIST" ],
         [ "rock_flaking_any", 1, "LIST" ]
       ],
       [ [ "fletching", 1, "LIST" ] ]

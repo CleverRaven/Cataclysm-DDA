@@ -61,6 +61,12 @@
   },
   {
     "type": "SPECIES",
+    "id": "IRON_GOLEM",
+    "description": "an iron golem, hated by rust monsters",
+    "anger_triggers": [ "HURT", "PLAYER_CLOSE" ]
+  },
+  {
+    "type": "SPECIES",
     "id": "OGRE",
     "description": "a monstrous, powerful humanoid",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_WEAK" ]

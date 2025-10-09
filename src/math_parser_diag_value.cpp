@@ -114,12 +114,8 @@ std::string diag_value::to_string( bool i18n ) const
             conv << v;
             return conv.str();
         },
-        [i18n]( std::string const & v )
+        []( std::string const & v )
         {
-            if( i18n ) {
-                // FIXME: is this the correct place to translate?
-                return to_translation( v ).translated();
-            }
             return v;
         },
         []( diag_array const & v )
@@ -336,14 +332,18 @@ void diag_value::serialize( JsonOut &jsout ) const
     _serialize( data, jsout );
 }
 
-void diag_value::deserialize( const JsonValue &jsin )
+void diag_value::_deserialize( const JsonValue &jsin, bool allow_legacy )
 {
     if( jsin.test_null() ) {
         data = std::monostate{};
     } else if( jsin.test_float() ) {
         data = jsin.get_float();
     } else if( jsin.test_string() ) {
-        data = legacy_value{ jsin.get_string() };
+        if( allow_legacy ) {
+            data = legacy_value{ jsin.get_string() };
+        } else {
+            data = jsin.get_string();
+        }
     } else if( jsin.test_array() ) {
         diag_array a;
         jsin.read( a );
@@ -354,7 +354,7 @@ void diag_value::deserialize( const JsonValue &jsin )
             tripoint_abs_ms t;
             jo.read( "tripoint", t );
             data = t;
-        } else if( jo.has_member( "str" ) ) {
+        } else if( jo.has_member( "str" ) && !jo.get_bool( "i18n", false ) ) {
             std::string str;
             jo.read( "str", str );
             data = str;
@@ -362,7 +362,15 @@ void diag_value::deserialize( const JsonValue &jsin )
             // inf and nan
             std::string str;
             jo.read( "dbl", str );
-            data = std::stof( str );
+            std::optional<double> opt = svtod( str );
+            if( !opt.has_value() ) {
+                jo.allow_omitted_members();
+                jo.throw_error( "Invalid dbl value" );
+            }
+            data = opt.value();
+        } else {
+            jo.allow_omitted_members();
+            throw JsonError( "invalid diag_value object" );
         }
     }
 }

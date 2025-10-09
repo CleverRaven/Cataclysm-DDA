@@ -108,6 +108,7 @@ using item_location_filter = std::function<bool ( const item_location & )>;
 enum peek_act : int {
     PA_BLIND_THROW,
     PA_BLIND_THROW_WIELDED,
+    PA_MOVE,
     // obvious future additional value is PA_BLIND_FIRE
 };
 
@@ -240,6 +241,8 @@ class game
         void serialize_json( std::ostream &fout ); // for save
         void unserialize( std::istream &fin, const cata_path &path ); // for load
         void unserialize( std::string fin ); // for load
+        void unserialize_dimension_data( const cata_path &file_name, std::istream &fin ); // for load
+        void unserialize_dimension_data( const JsonValue &jv ); // for load
         void unserialize_master( const cata_path &file_name, std::istream &fin ); // for load
         void unserialize_master( const JsonValue &jv ); // for load
     private:
@@ -325,6 +328,22 @@ class game
          */
         void vertical_move( int z, bool force, bool peeking = false );
         void start_hauling( const tripoint_bub_ms &pos );
+
+        /**
+         * Moves the player to an alternate dimension.
+         * @param prefix identifies the dimension and its properties.
+         * @param npc_travellers vector of NPCs that should be brought along when travelling to another dimension
+         */
+        bool travel_to_dimension( const std::string &prefix, const std::string &region_type,
+                                  const std::vector<npc *> &npc_travellers );
+        /**
+         * Retrieve the identifier of the current dimension.
+         * TODO: this should be a dereferencable id that gives properties of the dimension.
+         */
+        std::string get_dimension_prefix() {
+            return dimension_prefix;
+        }
+
         /** Returns the other end of the stairs (if any). May query, affect u etc.
         * @param pos Disable queries and msgs if not the same position as player.
         */
@@ -674,7 +693,9 @@ class game
         /** Checks whether or not there is a zone of particular type nearby */
         bool check_near_zone( const zone_type_id &type, const tripoint_bub_ms &where ) const;
         bool is_zones_manager_open() const;
-        void zones_manager();
+        void set_zones_manager_open( bool zm_open ) {
+            zones_manager_open = zm_open;
+        };
 
         /// @brief attempt to find a safe route (avoids tiles dangerous to '@ref who').
         /// @param who character to use for evaluating danger tiles and pathfinding start position
@@ -896,7 +917,10 @@ class game
         //private save functions.
         // returns false if saving failed for whatever reason
         bool save_factions_missions_npcs();
+        bool save_dimension_data();
+        bool load_dimension_data();
         void reset_npc_dispositions();
+        void serialize_dimension_data( std::ostream &fout );
         void serialize_master( std::ostream &fout );
         // returns false if saving failed for whatever reason
         bool save_maps();
@@ -1349,6 +1373,13 @@ class game
         bool can_pulp_corpse( const Character &you, const mtype &corpse_mtype );
         bool can_pulp_corpse( const pulp_data &pd );
         bool can_pulp_acid_corpse( const Character &you, const mtype &corpse_mtype );
+
+        //currently used as a hacky workaround for dimension swapping
+        bool swapping_dimensions = false; // NOLINT (cata-serialize)
+    private:
+        // Stores the currently occupied dimension.
+        // TODO: should be an id instead of a string.
+        std::string dimension_prefix;
 };
 
 // Returns temperature modifier from direct heat radiation of nearby sources

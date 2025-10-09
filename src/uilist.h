@@ -300,7 +300,20 @@ class uilist // NOLINT(cata-xy)
         void setup();
         // initialize the window or reposition it after screen size change.
         void reposition();
-        bool scrollby( int scrollby );
+        struct scroll_amount {
+            enum { relative_wrapped, relative_clamped, absolute } type;
+            int qty;
+            static scroll_amount wrapped( int qty ) {
+                return {scroll_amount::relative_wrapped, qty};
+            };
+            static scroll_amount clamped( int qty ) {
+                return {scroll_amount::relative_clamped, qty};
+            };
+            static scroll_amount abs( int idx ) {
+                return {scroll_amount::absolute, idx};
+            };
+        };
+        bool scrollby( uilist::scroll_amount scrollby );
         void query( bool loop = true, int timeout = 50, bool allow_unfiltered_hotkeys = false );
         void filterlist();
         // In add_entry/add_entry_desc/add_entry_col, int k only support letters
@@ -404,7 +417,7 @@ class uilist // NOLINT(cata-xy)
         operator int() const;
 
     private:
-        int scroll_amount_from_action( const std::string &action );
+        scroll_amount scroll_amount_from_action( const std::string &action );
         // This function assumes it's being called from `query` and should
         // not be made public.
         void inputfilter();

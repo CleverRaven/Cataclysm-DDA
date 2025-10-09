@@ -48,9 +48,7 @@
       [ [ "laptop", -1 ] ],
       [ [ "psi_usb_rad_recipes", -1 ] ],
       [
-        [ "atomic_coffeepot", -1 ],
         [ "betavoltaic", -1 ],
-        [ "atomic_coffeepot", -1 ],
         [ "huge_atomic_battery_cell", -1 ]
       ]
     ],
@@ -110,9 +108,7 @@
       [ [ "laptop", -1 ] ],
       [ [ "psi_usb_rad_recipes", -1 ] ],
       [
-        [ "atomic_coffeepot", -1 ],
         [ "betavoltaic", -1 ],
-        [ "atomic_coffeepot", -1 ],
         [ "huge_atomic_battery_cell", -1 ]
       ]
     ],

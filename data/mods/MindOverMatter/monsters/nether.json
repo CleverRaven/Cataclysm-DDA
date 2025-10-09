@@ -94,7 +94,7 @@
     "melee_dice": 1,
     "melee_dice_sides": 1,
     "dodge": 4,
-    "armor": { "bash": 10, "stab": 85, "cut": 50, "bullet": 1000, "psi_telekinetic_damage": 300 },
+    "armor": { "bash": 10, "stab": 85, "cut": 50 },
     "bleed_rate": 0,
     "vision_day": 0,
     "vision_night": 0,
@@ -143,6 +143,7 @@
       "NOHEAD",
       "FLIES",
       "BIOLOGICALPROOF",
+      "BULLETPROOF",
       "COLDPROOF",
       "HAS_MIND",
       "NO_FUNG_DMG",
@@ -188,6 +189,14 @@
         },
         "allow_no_target": true,
         "cooldown": 1,
+        "monster_message": ""
+      },
+      {
+        "id": "silent_one_detect_psionic_activity",
+        "type": "spell",
+        "spell_data": { "id": "silent_one_detect_psionic_activity_aggressive", "hit_self": true },
+        "cooldown": { "math": [ "6 + rand(10)" ] },
+        "allow_no_target": true,
         "monster_message": ""
       }
     ]

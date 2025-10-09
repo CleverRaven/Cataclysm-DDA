@@ -1,28 +1,5 @@
 [
   {
-    "id": "atomic_coffeepot",
-    "type": "ITEM",
-    "subtypes": [ "TOOL" ],
-    "category": "tools",
-    "name": { "str": "atomic coffeemaker" },
-    "looks_like": "coffeemaker",
-    "description": "This is a Curie-G coffeemaker, by CuppaTech.  It famously uses a radioactive generator to heat water for coffee, reducing the amount of total electricity it consumes.  Consumer safety concerns led to it being banned in the EU as well as many other countries, but don't let that stop you from brewing your morning Joe with the power of the atom™!",
-    "weight": "6102 g",
-    "volume": "1500 ml",
-    "longest_side": "20 cm",
-    "price": "1 kUSD",
-    "price_postapoc": "30 USD",
-    "material": [ "plastic", "aluminum", "lead", "steel" ],
-    "qualities": [ [ "BOIL", 1 ] ],
-    "symbol": ",",
-    "color": "light_green",
-    "use_action": [ "HOTPLATE_ATOMIC", { "type": "link_up", "cable_length": 2, "charge_rate": "1 kW" } ],
-    "//": "This now uses energy to heat food, the RTG is just a minor cost-saving element.  However in a pinch you could use just the RTG to unfreeze water",
-    "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE", "WATER_BREAK", "ALLOWS_REMOTE_USE" ],
-    "melee_damage": { "bash": 5 },
-    "tool_ammo": [ "battery" ]
-  },
-  {
     "id": "butchering_kit",
     "name": { "str": "butchering kit" },
     "type": "ITEM",
@@ -96,10 +73,10 @@
             "effect": {
               "run_eocs": "EOC_toolweapon_activate",
               "variables": {
-                "turn_cost": "0.8",
+                "turn_cost": 0.8,
                 "transform_target": "carver_on",
                 "success_message": { "i18n": true, "str": "The electric carver's serrated blades start buzzing!" },
-                "volume": "20",
+                "volume": 20,
                 "failure_message": { "i18n": true, "str": "You pull the trigger, but nothing happens." }
               }
             }
@@ -145,9 +122,9 @@
           "effect": {
             "run_eocs": "EOC_toolweapon_running",
             "variables": {
-              "sound_chance": "10",
+              "sound_chance": 10,
               "sound_message": { "i18n": true, "str": "Your electric carver buzzes." },
-              "volume": "8",
+              "volume": 8,
               "revert_to": "carver_off"
             }
           }

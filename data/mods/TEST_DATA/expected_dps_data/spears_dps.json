@@ -39,6 +39,8 @@
       "spear_copper": 26.7,
       "spear_bronze": 28.83,
       "spear_steel": 30.58,
+      "brush_pole": 20.0,
+      "bronze_brush_pole": 15.2,
       "art_spear": 30.7
     }
   }
