@@ -17,52 +17,102 @@
       {
         "condition": { "math": [ "u_sorcerer_level_9_spells_known_slots > u_sorcerer_level_9_spells_known" ] },
         "text": "Learn a level 9 spell",
-        "topic": "TALK_SORCERER_LEARN_SPELL_9"
+        "topic": "TALK_SORCERER_LEARN_SPELL",
+        "effect": [
+          { "math": [ "u_sorcerer_level_x_spells_known = u_sorcerer_level_9_spells_known" ] },
+          { "math": [ "u_sorcerer_level_x_spells_known_slots = u_sorcerer_level_9_spells_known_slots" ] },
+          { "math": [ "u_picked_level = 9" ] }
+        ]
       },
       {
         "condition": { "math": [ "u_sorcerer_level_8_spells_known_slots > u_sorcerer_level_8_spells_known" ] },
         "text": "Learn a level 8 spell",
-        "topic": "TALK_SORCERER_LEARN_SPELL_8"
+        "topic": "TALK_SORCERER_LEARN_SPELL",
+        "effect": [
+          { "math": [ "u_sorcerer_level_x_spells_known = u_sorcerer_level_8_spells_known" ] },
+          { "math": [ "u_sorcerer_level_x_spells_known_slots = u_sorcerer_level_8_spells_known_slots" ] },
+          { "math": [ "u_picked_level = 8" ] }
+        ]
       },
       {
         "condition": { "math": [ "u_sorcerer_level_7_spells_known_slots > u_sorcerer_level_7_spells_known" ] },
         "text": "Learn a level 7 spell",
-        "topic": "TALK_SORCERER_LEARN_SPELL_7"
+        "topic": "TALK_SORCERER_LEARN_SPELL",
+        "effect": [
+          { "math": [ "u_sorcerer_level_x_spells_known = u_sorcerer_level_7_spells_known" ] },
+          { "math": [ "u_sorcerer_level_x_spells_known_slots = u_sorcerer_level_7_spells_known_slots" ] },
+          { "math": [ "u_picked_level = 7" ] }
+        ]
       },
       {
         "condition": { "math": [ "u_sorcerer_level_6_spells_known_slots > u_sorcerer_level_6_spells_known" ] },
         "text": "Learn a level 6 spell",
-        "topic": "TALK_SORCERER_LEARN_SPELL_6"
+        "topic": "TALK_SORCERER_LEARN_SPELL",
+        "effect": [
+          { "math": [ "u_sorcerer_level_x_spells_known = u_sorcerer_level_6_spells_known" ] },
+          { "math": [ "u_sorcerer_level_x_spells_known_slots = u_sorcerer_level_6_spells_known_slots" ] },
+          { "math": [ "u_picked_level = 6" ] }
+        ]
       },
       {
         "condition": { "math": [ "u_sorcerer_level_5_spells_known_slots > u_sorcerer_level_5_spells_known" ] },
         "text": "Learn a level 5 spell",
-        "topic": "TALK_SORCERER_LEARN_SPELL_5"
+        "topic": "TALK_SORCERER_LEARN_SPELL",
+        "effect": [
+          { "math": [ "u_sorcerer_level_x_spells_known = u_sorcerer_level_5_spells_known" ] },
+          { "math": [ "u_sorcerer_level_x_spells_known_slots = u_sorcerer_level_5_spells_known_slots" ] },
+          { "math": [ "u_picked_level = 5" ] }
+        ]
       },
       {
         "condition": { "math": [ "u_sorcerer_level_4_spells_known_slots > u_sorcerer_level_4_spells_known" ] },
         "text": "Learn a level 4 spell",
-        "topic": "TALK_SORCERER_LEARN_SPELL_4"
+        "topic": "TALK_SORCERER_LEARN_SPELL",
+        "effect": [
+          { "math": [ "u_sorcerer_level_x_spells_known = u_sorcerer_level_4_spells_known" ] },
+          { "math": [ "u_sorcerer_level_x_spells_known_slots = u_sorcerer_level_4_spells_known_slots" ] },
+          { "math": [ "u_picked_level = 4" ] }
+        ]
       },
       {
         "condition": { "math": [ "u_sorcerer_level_3_spells_known_slots > u_sorcerer_level_3_spells_known" ] },
         "text": "Learn a level 3 spell",
-        "topic": "TALK_SORCERER_LEARN_SPELL_3"
+        "topic": "TALK_SORCERER_LEARN_SPELL",
+        "effect": [
+          { "math": [ "u_sorcerer_level_x_spells_known = u_sorcerer_level_3_spells_known" ] },
+          { "math": [ "u_sorcerer_level_x_spells_known_slots = u_sorcerer_level_3_spells_known_slots" ] },
+          { "math": [ "u_picked_level = 3" ] }
+        ]
       },
       {
         "condition": { "math": [ "u_sorcerer_level_2_spells_known_slots > u_sorcerer_level_2_spells_known" ] },
         "text": "Learn a level 2 spell",
-        "topic": "TALK_SORCERER_LEARN_SPELL_2"
+        "topic": "TALK_SORCERER_LEARN_SPELL",
+        "effect": [
+          { "math": [ "u_sorcerer_level_x_spells_known = u_sorcerer_level_2_spells_known" ] },
+          { "math": [ "u_sorcerer_level_x_spells_known_slots = u_sorcerer_level_2_spells_known_slots" ] },
+          { "math": [ "u_picked_level = 2" ] }
+        ]
       },
       {
         "condition": { "math": [ "u_sorcerer_level_1_spells_known_slots > u_sorcerer_level_1_spells_known" ] },
         "text": "Learn a level 1 spell",
-        "topic": "TALK_SORCERER_LEARN_SPELL_1"
+        "topic": "TALK_SORCERER_LEARN_SPELL",
+        "effect": [
+          { "math": [ "u_sorcerer_level_x_spells_known = u_sorcerer_level_1_spells_known" ] },
+          { "math": [ "u_sorcerer_level_x_spells_known_slots = u_sorcerer_level_1_spells_known_slots" ] },
+          { "math": [ "u_picked_level = 1" ] }
+        ]
       },
       {
         "condition": { "math": [ "u_sorcerer_level_0_spells_known_slots > u_sorcerer_level_0_spells_known" ] },
         "text": "Learn a level 0 spell",
-        "topic": "TALK_SORCERER_LEARN_SPELL_0"
+        "topic": "TALK_SORCERER_LEARN_SPELL",
+        "effect": [
+          { "math": [ "u_sorcerer_level_x_spells_known = u_sorcerer_level_0_spells_known" ] },
+          { "math": [ "u_sorcerer_level_x_spells_known_slots = u_sorcerer_level_0_spells_known_slots" ] },
+          { "math": [ "u_picked_level = 0.5" ] }
+        ]
       },
       {
         "condition": { "math": [ "u_current_sorcerer_level == 0" ] },
