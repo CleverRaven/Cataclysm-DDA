@@ -293,7 +293,7 @@
   },
   {
     "type": "item_group",
-    "id": "electrokinetic_crystal_artifact_item",
+    "id": "electrokinetic_crystal_awakening_artifact_item",
     "subtype": "distribution",
     "items": [ [ "matrix_crystal_electrokinesis", 100 ] ]
   }
