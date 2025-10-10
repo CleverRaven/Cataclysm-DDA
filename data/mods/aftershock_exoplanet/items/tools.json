@@ -1036,7 +1036,8 @@
       "menu_text": "Close cover",
       "type": "transform"
     },
-    "flags": [ "LIGHT_15", "LEAK_DAM", "RADIOACTIVE", "ALLOWS_REMOTE_USE", "SPAWN_ACTIVE" ],
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "ALLOWS_REMOTE_USE", "SPAWN_ACTIVE" ],
+    "light": 15,
     "melee_damage": { "bash": 8 }
   },
   {
@@ -1074,7 +1075,8 @@
       "menu_text": "Close cover",
       "type": "transform"
     },
-    "flags": [ "LIGHT_10", "LEAK_DAM", "RADIOACTIVE", "ALLOWS_REMOTE_USE", "SPAWN_ACTIVE" ],
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "ALLOWS_REMOTE_USE", "SPAWN_ACTIVE" ],
+    "light": 10,
     "melee_damage": { "bash": 4 }
   },
   {
@@ -1106,7 +1108,8 @@
     "price": "40 USD",
     "price_postapoc": "15 USD",
     "material": [ "aluminum", "nylon" ],
-    "flags": [ "LIGHT_15", "LEAK_DAM", "RADIOACTIVE", "OVERSIZE", "PADDED", "ALLOWS_NATURAL_ATTACKS", "SPAWN_ACTIVE" ],
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "OVERSIZE", "PADDED", "ALLOWS_NATURAL_ATTACKS", "SPAWN_ACTIVE" ],
+    "light": 15,
     "weight": "4 kg",
     "volume": "1500 ml",
     "use_action": {
