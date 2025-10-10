@@ -107,7 +107,7 @@ Finally, there are some sources of true-random mutations that can be inflicted b
 
 Specific mutations are extremely versatile. A mutation only needs to have a few mandatory fields filled out, but a very high number of optional fields exist, in addition to supporting EOCs.
 
-Note that **all new traits that can be obtained through mutation must be purifiable** - otherwise, unit tests will fail. To make a mutation purifiable, just add it to the `cancels` field for an existing appropriate dummy mutation, or define its `types` if you want it to be mutually exclusive with certain other mutations.
+ To make a mutation purifiable, just add it to the `cancels` field for an existing appropriate dummy mutation, or define its `types` if you want it to be mutually exclusive with certain other mutations.
 
 ### Example
 
