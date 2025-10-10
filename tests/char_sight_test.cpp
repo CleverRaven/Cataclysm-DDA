@@ -25,7 +25,7 @@
 static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_darkness( "darkness" );
 
-static const itype_id itype_atomic_lamp( "atomic_lamp" );
+static const itype_id itype_smart_phone_flashlight( "smart_phone_flashlight" );
 static const itype_id itype_blindfold( "blindfold" );
 static const itype_id itype_glasses_eye( "glasses_eye" );
 
@@ -84,9 +84,9 @@ TEST_CASE( "light_and_fine_detail_vision_mod", "[character][sight][light][vision
     }
 
     SECTION( "wielding a bright lamp" ) {
-        item lamp( itype_atomic_lamp );
+        item lamp( itype_smart_phone_flashlight );
         dummy.wield( lamp );
-        REQUIRE( dummy.active_light() == Approx( 15.0f ) );
+        REQUIRE( dummy.active_light() == Approx( 10.0f ) );
 
         // 1.0 is LIGHT_AMBIENT_LIT or brighter
         CHECK( dummy.fine_detail_vision_mod() == Approx( 1.0f ) );
