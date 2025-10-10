@@ -8535,10 +8535,6 @@ void map::grow_plant( const tripoint_bub_ms &p )
 
     ter_furn_flag current_stage = ter_furn_flag::TFLAG_GROWTH_SEED;
     ter_furn_flag target_stage = ter_furn_flag::TFLAG_GROWTH_SEED;
-    //    flag_id current_stage = flag_id( io::enum_to_string<ter_furn_flag>
-    //                                     ( ter_furn_flag::TFLAG_GROWTH_SEED ) );
-    //    flag_id target_stage = flag_id( io::enum_to_string<ter_furn_flag>
-    //                                    ( ter_furn_flag::TFLAG_GROWTH_SEED ) );
     time_duration time_to_grow_to_this_stage = 0_seconds;
 
     for( const auto &pair : growth_stages ) {
