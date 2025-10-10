@@ -65,5 +65,23 @@
     "remove_message": "Your enhanced senses fade away.",
     "rating": "good",
     "enchantments": [ { "values": [ { "value": "PERCEPTION", "add": 3 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_mom_artifact_lightning_immune",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good",
+    "enchantments": [ { "incoming_damage_mod": [ { "type": "electric", "multiply": -1 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_mom_artifact_electrical_zap_attack",
+    "name": [ "Horripilation" ],
+    "desc": [ "Your hair is standing on end." ],
+    "rating": "good",
+    "apply_message": "Your hair stands on end.",
+    "remove_message": "Your skin crackles as lightning discharges into your target!",
+    "enchantments": [ { "melee_damage_bonus": [ { "type": "electric", "add": { "math": [ "rand(40) + 40" ] } } ] } ]
   }
 ]

@@ -35,5 +35,37 @@
     "type": "effect_on_condition",
     "id": "EOC_MoM_AEA_NETHER_ATTUNEMENT",
     "effect": [ { "math": [ "u_vitamin('vitamin_psionic_drain') += rand(25)" ] } ]
+  },
+  {
+    "type": "SPELL",
+    "id": "mom_aea_artifact_electricity_immune",
+    "name": { "str": "MoM Artifact Lightning Immune", "//~": "NO_I18N" },
+    "description": { "str": "Makes you immune to electricity.", "//~": "NO_I18N" },
+    "valid_targets": [ "self" ],
+    "skill": "metaphysics",
+    "effect": "attack",
+    "effect_str": "effect_mom_artifact_lightning_immune",
+    "shape": "blast",
+    "base_casting_time": 100,
+    "flags": [ "RANDOM_DURATION", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
+    "min_duration": 1500,
+    "max_duration": 1500,
+    "message": ""
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MoM_AEA_ELECTRICAL_ZAP_ATTACK_MELEE_CHARACTER",
+    "eoc_type": "EVENT",
+    "required_event": "character_melee_attacks_character",
+    "condition": { "u_has_effect": "effect_mom_artifact_electrical_zap_attack" },
+    "effect": [ { "u_lose_effect": "effect_mom_artifact_electrical_zap_attack" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MoM_AEA_ELECTRICAL_ZAP_ATTACK_MELEE_MONSTER",
+    "eoc_type": "EVENT",
+    "required_event": "character_melee_attacks_monster",
+    "condition": { "u_has_effect": "effect_mom_artifact_electrical_zap_attack" },
+    "effect": [ { "u_lose_effect": "effect_mom_artifact_electrical_zap_attack" } ]
   }
 ]
