@@ -13,5 +13,18 @@
       [ [ 9, 15 ], "<color_blue>Stories</color> are all thats <color_orange>left</color>." ],
       [ [ 4, 21 ], "Mortal striving lasted for: <time_survived>" ]
     ]
+  },
+  {
+    "type": "end_screen",
+    "id": "vampire_death",
+    "priority": 100,
+    "picture_id": "ascii_rip_vampire",
+    "condition": { "and": [ { "not": "u_is_alive" }, { "u_has_trait": "VAMPIRE" } ] },
+    "added_info": [
+      [ [ 8, 14 ], "The night is over for you: <color_light_red><u_name></color>" ],
+      [ [ 15, 15 ], "Survived: <time_survived>" ],
+      [ [ 17, 16 ], "Kills: <total_kills>" ]
+    ],
+    "last_words_label": "Last Words:"
   }
 ]
