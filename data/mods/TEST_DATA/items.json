@@ -5499,5 +5499,24 @@
     "symbol": ",",
     "color": "light_green",
     "light": 15
+  },
+  {
+    "id": "wearable_test_lamp",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "category": "clothing",
+    "symbol": "[",
+    "color": "blue",
+    "looks_like": "wearable_light_on",
+    "name": { "str": "test headlamp" },
+    "description": "A headlamp fine-tuned for testing.",
+    "price": "40 USD",
+    "price_postapoc": "15 USD",
+    "material": [ "steel", "plastic" ],
+    "light": 200,
+    "weight": "1 kg",
+    "volume": "1500 ml",
+    "material_thickness": 1,
+    "armor": [ { "encumbrance": 5, "coverage": 50, "covers": [ "head" ], "specifically_covers": [ "head_crown", "head_forehead" ] } ]
   }
 ]
