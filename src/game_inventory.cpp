@@ -1120,7 +1120,7 @@ class activatable_inventory_preset : public pickup_inventory_preset
             const item &it = *loc;
             const auto &uses = it.type->use_methods;
 
-            if( !it.can_use_relic( you ) ) {
+            if( it.has_relic_activation() && !it.can_use_relic( you ) ) {
                 return string_format( _( "The %s can't be used like that." ), it.tname() );
             }
 
