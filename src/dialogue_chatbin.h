@@ -134,7 +134,7 @@ struct dialogue_chatbin_snippets {
 
     // talk from npctalk.cpp(can use snippets in json)
     translation snip_acknowledged = no_translation( "<acknowledged>" );
-    translation snip_bye = to_translation( "<end_talking_bye>" );
+    translation snip_bye = no_translation( "<end_talking_bye>" );
 
     // talk from talker_npc.cpp(can use snippets in json)
     translation snip_consume_cant_accept =
