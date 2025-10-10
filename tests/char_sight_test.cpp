@@ -25,9 +25,9 @@
 static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_darkness( "darkness" );
 
-static const itype_id itype_test_lamp( "test_lamp" );
 static const itype_id itype_blindfold( "blindfold" );
 static const itype_id itype_glasses_eye( "glasses_eye" );
+static const itype_id itype_test_lamp( "test_lamp" );
 
 static const trait_id trait_MYOPIC( "MYOPIC" );
 static const trait_id trait_URSINE_EYE( "URSINE_EYE" );

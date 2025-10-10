@@ -17,8 +17,8 @@
 
 static const efftype_id effect_sleep( "sleep" );
 
-static const itype_id itype_test_lamp( "test_lamp" );
 static const itype_id itype_duffelbag( "duffelbag" );
+static const itype_id itype_test_lamp( "test_lamp" );
 
 void activity_schedule::setup( avatar &guy ) const
 {

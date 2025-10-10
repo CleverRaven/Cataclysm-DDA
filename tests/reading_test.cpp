@@ -33,7 +33,6 @@ static const efftype_id effect_darkness( "darkness" );
 
 static const flag_id json_flag_INSPIRATIONAL( "INSPIRATIONAL" );
 
-static const itype_id itype_test_lamp( "test_lamp" );
 static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_child_book( "child_book" );
 static const itype_id itype_holybook_pastafarian( "holybook_pastafarian" );
@@ -43,6 +42,7 @@ static const itype_id itype_recipe_alpha( "recipe_alpha" );
 static const itype_id itype_sheet_cotton( "sheet_cotton" );
 static const itype_id itype_test_battery_disposable( "test_battery_disposable" );
 static const itype_id itype_test_ebook_reader( "test_ebook_reader" );
+static const itype_id itype_test_lamp( "test_lamp" );
 static const itype_id itype_test_textbook_fabrication( "test_textbook_fabrication" );
 
 static const limb_score_id limb_score_vision( "vision" );
