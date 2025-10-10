@@ -4,7 +4,7 @@
     "id": "boann_court_win",
     "priority": 200,
     "picture_id": "ascii_portal_storm_win",
-    "condition": { "and": [ { "not": "u_is_alive" }, { "u_has_effect": "a_winner_is_u" }, { "u_has_effect": "march_baron" }  ] },
+    "condition": { "and": [ { "not": "u_is_alive" }, { "u_has_effect": "a_winner_is_u" }, { "u_has_effect": "march_baron" } ] },
     "added_info": [
       [ [ 6, 6 ], "You <color_light_green>escaped</color>" ],
       [ [ 8, 7 ], "<u_name> has trod the path to Arcadia." ],
