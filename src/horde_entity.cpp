@@ -1,5 +1,6 @@
 #include "horde_entity.h"
 
+#include "mtype.h"
 #include "monster.h"
 #include "point.h"
 
@@ -14,18 +15,18 @@ horde_entity::horde_entity( const monster &original )
         tracking_intensity = original.wandf;
     }
     moves = original.get_moves();
-    type_id = original.type;
+    type_id = original.type->id.id();
     monster_data = std::make_unique<monster>( original );
 }
 
 horde_entity::horde_entity( const mtype_id &original )
 {
-    type_id = &original.obj();
+    type_id = original.id();
 }
 
 const mtype *horde_entity::get_type() const
 {
-    return type_id ? type_id : monster_data->type;
+    return type_id ? &type_id.obj() : monster_data->type;
 }
 
 bool horde_entity::is_active() const

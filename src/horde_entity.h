@@ -35,8 +35,7 @@ struct horde_entity {
     time_point last_processed;
     // Same here, this could probably be a byte.
     int moves = 0;
-    // TODO: int_id<mtype> is smaller and more idiomatic.
-    const mtype *type_id;
+    mtype_int_id type_id;
     // If this monster was never spawned, this member can be empty.
     // If it was, it has this populated to capture all the random bits of state that a monster can accumulate.
     // The vast majority of entities in an overmap have never actually been spawned,

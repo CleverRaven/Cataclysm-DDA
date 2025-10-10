@@ -192,6 +192,7 @@ using morale_type = string_id<morale_type_data>;
 
 struct mtype;
 using mtype_id = string_id<mtype>;
+using mtype_int_id = int_id<mtype>;
 
 class nested_mapgen;
 using nested_mapgen_id = string_id<nested_mapgen>;
