@@ -13,8 +13,8 @@
     "damaged_power_factor": 0.25,
     "m2c": 50,
     "flags": [ "ENGINE", "E_COMBUSTION", "E_ALTERNATOR", "E_HIGHER_SKILL", "E_HEATER" ],
-    "description": "A combustion engine.  Burns fuel from a tank in the vehicle.",
-    "variants": [ { "symbols": "*", "symbols_broken": "#" } ]
+    "variants": [ { "symbols": "*", "symbols_broken": "#" } ],
+    "//": "A combustion engine.  Burns fuel from a tank in the vehicle."
   },
   {
     "abstract": "aero_engine",
@@ -24,7 +24,7 @@
     "fuel_options": [ "avgas", "gasoline" ],
     "m2c": 60,
     "//": "30% energy efficiency",
-    "description": "A combustion engine for use on aircraft.  Burns gasoline or avgas fuel from a tank in the vehicle."
+    "//2": "A combustion engine for use on aircraft.  Burns gasoline or avgas fuel from a tank in the vehicle."
   },
   {
     "abstract": "diesel_engine",
@@ -33,9 +33,9 @@
     "fuel_type": "diesel",
     "fuel_options": [ "diesel", "biodiesel", "lamp_oil", "motor_oil", "jp8" ],
     "m2c": 65,
-    "//": "40% energy efficiency",
     "extend": { "flags": [ "E_COLD_START", "E_DIESEL_FUEL" ] },
-    "description": "A combustion engine.  Burns diesel fuel from a tank in the vehicle.  Can also burn biodiesel or kerosene, though somewhat less efficiently."
+    "//": "40% energy efficiency",
+    "//2": "A combustion engine.  Burns diesel fuel from a tank in the vehicle.  Can also burn biodiesel or kerosene, though somewhat less efficiently."
   },
   {
     "abstract": "gasoline_engine",
@@ -44,7 +44,7 @@
     "fuel_type": "gasoline",
     "m2c": 60,
     "//": "30% energy efficiency",
-    "description": "A combustion engine.  Burns gasoline fuel from a tank in the vehicle."
+    "//2": "A combustion engine.  Burns gasoline fuel from a tank in the vehicle."
   },
   {
     "abstract": "gas_turbine_engine",
@@ -54,14 +54,14 @@
     "fuel_options": [ "gasoline", "diesel", "lamp_oil", "jp8", "motor_oil", "avgas", "biodiesel" ],
     "m2c": 60,
     "//": "25% energy efficiency",
-    "description": "An advanced combustion engine.  Burns gasoline or diesel or aviation fuel from a tank in the vehicle.  Can also burn kerosene, though somewhat less efficiently.  Better power-to-weight ratio than a traditional engine, but consumes more fuel."
+    "//2": "An advanced combustion engine.  Burns gasoline or diesel or aviation fuel from a tank in the vehicle.  Can also burn kerosene, though somewhat less efficiently.  Better power-to-weight ratio than a traditional engine, but consumes more fuel."
   },
   {
     "id": "diesel_engine_i6",
     "copy-from": "diesel_engine",
     "type": "vehicle_part",
     "item": "i6_diesel",
-    "description": "An inline 6-cylinder diesel engine.  Somewhat more powerful but much larger than a V6, you might see an engine like this in a road roller or excavator.",
+    "description": "An industrial-sized 6-cylinder diesel engine, commonly called a straight-six.  About as powerful as a V6 engine but significantly larger for use in heavy equipment.",
     "durability": 400,
     "epower": "-350 W",
     "power": "223800 W",
@@ -114,7 +114,7 @@
     "durability": 300,
     "type": "vehicle_part",
     "item": "i1_diesel",
-    "description": "A single-cylinder diesel engine.",
+    "description": "A small, diesel powered one-cylinder, four-stroke air-cooled engine.",
     "epower": "-200 W",
     "power": "23300 W",
     "energy_consumption": "58200 W",
@@ -216,7 +216,7 @@
     "copy-from": "gasoline_engine",
     "type": "vehicle_part",
     "item": "1cyl_combustion_large",
-    "description": "A 200 cc engine, suitable for a dirt bike or scooter.",
+    "description": "A high-compression, 200 cc single-cylinder 4-stroke combustion engine, suitable for a dirt bike or scooter.",
     "durability": 150,
     "power": "21000 W",
     "energy_consumption": "49800 W",
@@ -242,14 +242,14 @@
     "copy-from": "engine_1cyl_large",
     "type": "vehicle_part",
     "item": "1cyl_combustion_med",
-    "description": "A 150 cc engine, suitable for a dirt bike, scooter or generator."
+    "description": "A high-compression, 150 cc single-cylinder 4-stroke combustion engine, suitable for a dirt bike, scooter or generator."
   },
   {
     "id": "engine_1cyl_diesel_large",
     "type": "vehicle_part",
     "copy-from": "diesel_engine",
     "item": "engine_1cyl_diesel_large",
-    "description": "A 200 cc engine, suitable for a dirt bike, scooter, or generator.",
+    "description": "A high-compression, 200 cc single-cylinder 4-stroke diesel combustion engine, suitable for a dirt bike, scooter, or generator.",
     "durability": 150,
     "power": "22000 W",
     "energy_consumption": "55000 W",
@@ -301,6 +301,7 @@
     "copy-from": "aero_engine",
     "type": "vehicle_part",
     "item": "aero_engine_light",
+    "description": "An air-cooled, 4-cylinder, horizontally opposed internal combustion engine, rated for 150 horsepower.  Commonly used on light aircraft.",
     "durability": 300,
     "epower": "-200 W",
     "power": "111900 W",
@@ -352,7 +353,7 @@
     "copy-from": "gasoline_engine",
     "type": "vehicle_part",
     "item": "v12_combustion",
-    "description": "A massive 12-cylinder gasoline engine, with the kind of power you might need in a sports car.",
+    "description": "A massive and extremely powerful 12-cylinder combustion engine, usually built into high-end sports cars.",
     "durability": 600,
     "epower": "-350 W",
     "power": "447600 W",
@@ -378,7 +379,7 @@
     "copy-from": "diesel_engine",
     "type": "vehicle_part",
     "item": "v12_diesel",
-    "description": "A massive 12-cylinder diesel engine, typical of a heavy cargo truck.",
+    "description": "A massive and extremely powerful 12-cylinder diesel engine, usually built into heavy trucks.",
     "durability": 600,
     "epower": "-400 W",
     "power": "447600 W",
@@ -485,19 +486,19 @@
     "fuel_options": [ "coal_lump", "charcoal" ],
     "looks_like": "diesel_engine_v12",
     "m2c": 65,
-    "//": "50% energy efficiency",
     "extend": { "flags": [ "E_COLD_START" ] },
     "backfire_threshold": 0.7,
     "backfire_freq": 10,
     "noise_factor": 20,
-    "description": "A closed cycle, external combustion steam engine.  Burns coal or charcoal from a bunker in the vehicle to produce steam.",
-    "damage_reduction": { "all": 75 }
+    "damage_reduction": { "all": 75 },
+    "//": "50% energy efficiency"
   },
   {
     "id": "engine_steam_makeshift",
     "copy-from": "steam_engine",
     "type": "vehicle_part",
     "item": "steam_watts_small",
+    "description": "A small, primitive steam engine.  An integrated boiler burns coal to heat water into steam, driving a reciprocating shaft.  A condenser recaptures the water, making this a closed-cycle system.",
     "durability": 200,
     "power": "55950 W",
     "energy_consumption": "112000 W",
@@ -523,6 +524,7 @@
     "copy-from": "steam_engine",
     "type": "vehicle_part",
     "item": "steam_triple_small",
+    "description": "A small steam engine.  An integrated boiler burns coal to heat water into steam, driving a reciprocating shaft.  A condenser recaptures the water, making this a closed-cycle system.",
     "durability": 200,
     "power": "93250 W",
     "energy_consumption": "186500 W",
@@ -548,6 +550,7 @@
     "copy-from": "steam_engine",
     "type": "vehicle_part",
     "item": "steam_triple_medium",
+    "description": "A medium-sized steam engine.  An integrated boiler burns coal to heat water into steam, driving a reciprocating shaft.  A condenser recaptures the water, making this a closed-cycle system.",
     "durability": 200,
     "epower": "-20 W",
     "power": "149200 W",
@@ -601,7 +604,7 @@
     "copy-from": "gas_turbine_engine",
     "type": "vehicle_part",
     "item": "medium_turbine_engine",
-    "description": "A heavy-duty gas turbine engine, like those typically found in a Medevac, Apache, or Blackhawk helicopter.",
+    "description": "A large gas turbine engine, usually used for military helicopters.  Known for its high rate of fuel consumption.",
     "durability": 400,
     "epower": "-10 W",
     "power": "1416830 W",
@@ -628,7 +631,7 @@
     "copy-from": "gas_turbine_engine",
     "type": "vehicle_part",
     "item": "large_turbine_engine",
-    "description": "A huge gas turbine engine, used to lift large military helicopters such as the V-22 Osprey.",
+    "description": "A massive gas turbine engine, used to power the V-22 Osprey.  Known for its high rate of fuel consumption.",
     "durability": 400,
     "epower": "-10 W",
     "power": "4474199 W",
