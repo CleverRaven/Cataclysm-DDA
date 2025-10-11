@@ -1600,24 +1600,22 @@ void npc::handle_sound( const sounds::sound_t spriority, const std::string &desc
 static std::string bye_message( const npc *npc_actor )
 {
     // some dialogues do not have beta actor
-    if( npc_actor ) {
-        const std::optional<std::string> bye_snippet = npc_actor->myclass->bye_message_override;
-        // if no bye_snippet, use default bye snippet
-        if( !bye_snippet.has_value() ) {
-            return npc_actor->chat_snippets().snip_bye.translated();
-            // if null, we want npc to mute bye message
-            // snippet categories do not have their own type,
-            // therefore do not have type::NULL_ID(), so check it against plain string
-        } else if( bye_snippet.value() != "null" ) {
-            return "";
-        } else {
-            const std::optional<translation> &bye_message = SNIPPET.random_from_category( bye_snippet.value() );
-            if( bye_message.has_value() ) {
-                return bye_message.value().translated();
-            }
-        }
+    if( !npc_actor ) {
+        return "";
     }
-    return "";
+    const std::optional<std::string> bye_snippet = npc_actor->myclass->bye_message_override;
+    // if no bye_snippet, use default bye snippet
+    if( !bye_snippet.has_value() ) {
+        return npc_actor->chat_snippets().snip_bye.translated();
+    }
+    // if null, we want npc to mute bye message
+    // snippet categories do not have their own type,
+    // therefore do not have type::NULL_ID(), so check it against plain string
+    if( bye_snippet.value() == "null" ) {
+        return "";
+    }
+    const std::optional<translation> &bye_message = SNIPPET.random_from_category( bye_snippet.value() );
+    return bye_message.value_or( no_translation( string_format( "No snippet value for %s", bye_snippet.value() ) ) ).translated();
 }
 
 void avatar::talk_to( std::unique_ptr<talker> talk_with, bool radio_contact,
