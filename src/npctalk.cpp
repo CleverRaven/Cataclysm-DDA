@@ -1615,7 +1615,8 @@ static std::string bye_message( const npc *npc_actor )
         return "";
     }
     const std::optional<translation> &bye_message = SNIPPET.random_from_category( bye_snippet.value() );
-    return bye_message.value_or( no_translation( string_format( "No snippet value for %s", bye_snippet.value() ) ) ).translated();
+    return bye_message.value_or( no_translation( string_format( "No snippet value for %s",
+                                 bye_snippet.value() ) ) ).translated();
 }
 
 void avatar::talk_to( std::unique_ptr<talker> talk_with, bool radio_contact,
