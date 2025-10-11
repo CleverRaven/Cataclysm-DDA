@@ -146,14 +146,6 @@ void mission_ui_impl::draw_controls()
 
     if( last_action == "QUIT" ) {
         return;
-    } else if( last_action == "UP" ) {
-        adjust_selected = true;
-        ImGui::SetKeyboardFocusHere( -1 );
-        selected_mission--;
-    } else if( last_action == "DOWN" ) {
-        adjust_selected = true;
-        ImGui::SetKeyboardFocusHere( 1 );
-        selected_mission++;
     } else if( last_action == "NEXT_TAB" || last_action == "RIGHT" ) {
         adjust_selected = true;
         selected_mission = 0;
@@ -220,17 +212,29 @@ void mission_ui_impl::draw_controls()
         ImGui::EndTabBar();
     }
 
+    size_t num_entries = umissions.size();
+    if( selected_tab == mission_ui_tab_enum::POINTS_OF_INTEREST ) {
+        num_entries = upoints_of_interest.size();
+    }
+    const int last_entry = num_entries == 0 ? 0 : ( static_cast<int>( num_entries ) - 1 );
+    const int previous_selected_mission = selected_mission;
+    if( last_action == "UP" ) {
+        ImGui::SetKeyboardFocusHere( -1 );
+        selected_mission--;
+    } else if( last_action == "DOWN" ) {
+        ImGui::SetKeyboardFocusHere( 1 );
+        selected_mission++;
+    } else if( last_action == "HOME" ) {
+        selected_mission = 0;
+    } else if( last_action == "END" ) {
+        selected_mission = last_entry;
+    }
     if( selected_mission < 0 ) {
+        selected_mission = last_entry;
+    } else if( selected_mission > last_entry ) {
         selected_mission = 0;
     }
-
-    if( selected_tab != mission_ui_tab_enum::POINTS_OF_INTEREST &&
-        static_cast<size_t>( selected_mission ) > umissions.size() - 1 ) {
-        selected_mission = umissions.size() - 1;
-    } else if( selected_tab == mission_ui_tab_enum::POINTS_OF_INTEREST &&
-               static_cast<size_t>( selected_mission ) > upoints_of_interest.size() - 1 ) {
-        selected_mission = upoints_of_interest.size() - 1;
-    }
+    adjust_selected |= selected_mission != previous_selected_mission;
 
     // This action needs to be after umissions is populated
     if( last_action == "CONFIRM" ) {
@@ -268,7 +272,7 @@ void mission_ui_impl::draw_controls()
     }
 
     if( ImGui::BeginTable( "##MISSION_TABLE", 2, ImGuiTableFlags_None,
-                           ImVec2( window_width, window_height ) ) ) {
+                           ImGui::GetContentRegionAvail() ) ) {
         // Missions selection is purposefully thinner than the description, it has less to convey.
         if( selected_tab != mission_ui_tab_enum::POINTS_OF_INTEREST ) {
             ImGui::TableSetupColumn( _( "Missions" ), ImGuiTableColumnFlags_WidthStretch,
@@ -303,10 +307,8 @@ void mission_ui_impl::draw_mission_names( std::vector<mission *> missions, int &
 {
     const int num_missions = missions.size();
 
-    // roughly 6 lines of header info. title+tab+objective+table headers+2 lines worth of padding between those four
-    const float header_height = ImGui::GetTextLineHeight() * 6;
     if( ImGui::BeginListBox( "##LISTBOX", ImVec2( table_column_width * 0.75,
-                             window_height - header_height ) ) ) {
+                             ImGui::GetContentRegionAvail().y ) ) ) {
         for( int i = 0; i < num_missions; i++ ) {
             const bool is_selected = selected_mission == i;
             ImGui::PushID( i );
@@ -334,10 +336,8 @@ void mission_ui_impl::draw_point_of_interest_names( std::vector<point_of_interes
 {
     const int num_missions = points_of_interest.size();
 
-    // roughly 6 lines of header info. title+tab+objective+table headers+2 lines worth of padding between those four
-    const float header_height = ImGui::GetTextLineHeight() * 6;
     if( ImGui::BeginListBox( "##LISTBOX", ImVec2( table_column_width * 0.75,
-                             window_height - header_height ) ) ) {
+                             ImGui::GetContentRegionAvail().y ) ) ) {
         for( int i = 0; i < num_missions; i++ ) {
             const bool is_selected = selected_mission == i;
             ImGui::PushID( i );
