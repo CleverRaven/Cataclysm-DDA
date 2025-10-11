@@ -1,18 +1,20 @@
 #include "omdata.h" // IWYU pragma: associated
 
 #include <algorithm>
-#include <cmath>
-#include <list>
+#include <cstdlib>
+#include <iterator>
 #include <optional>
 #include <set>
-#include <unordered_set>
 #include <vector>
 
+#include "basecamp.h"
+#include "city.h"
 #include "coordinates.h"
 #include "debug.h"
 #include "line.h"
 #include "map.h"
 #include "mapgen_functions.h"
+#include "overmap.h"
 #include "overmap_connection.h"
 #include "overmapbuffer.h"
 #include "rng.h"

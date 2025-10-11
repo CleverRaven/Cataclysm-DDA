@@ -27,15 +27,6 @@
 #include "string_formatter.h"
 #include "weighted_list.h"
 
-static bool is_amongst_locations( const oter_id &oter,
-                                  const cata::flat_set<string_id<overmap_location>> &locations )
-{
-    return std::any_of( locations.begin(), locations.end(),
-    [&oter]( const string_id<overmap_location> &loc ) {
-        return loc->test( oter );
-    } );
-}
-
 template<>
 struct enum_traits<join_type> {
     static constexpr join_type last = join_type::last;
@@ -92,7 +83,7 @@ mutable_overmap_phase_remainder::can_place(
         if( !overmap::inbounds( piece.pos ) ) {
             return std::nullopt;
         }
-        if( !om.is_amongst_locations( om.ter( piece.pos ), piece.overmap->locations ) ) {
+        if( !overmap::is_amongst_locations( om.ter( piece.pos ), piece.overmap->locations ) ) {
             return std::nullopt;
         }
         if( unresolved.any_postponed_at( piece.pos ) ) {
@@ -137,7 +128,7 @@ mutable_overmap_phase_remainder::can_place(
             return std::nullopt;
         }
         const oter_id &neighbour_terrain = om.ter( neighbour );
-        if( !om.is_amongst_locations( neighbour_terrain, join.into_locations ) ) {
+        if( !overmap::is_amongst_locations( neighbour_terrain, join.into_locations ) ) {
             return std::nullopt;
         }
     }

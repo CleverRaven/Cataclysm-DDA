@@ -23,8 +23,8 @@
 static const overmap_location_id overmap_location_land( "land" );
 static const overmap_location_id overmap_location_swamp( "swamp" );
 
-static bool is_amongst_locations( const oter_id &oter,
-                                  const cata::flat_set<string_id<overmap_location>> &locations )
+bool overmap::is_amongst_locations( const oter_id &oter,
+                                    const cata::flat_set<string_id<overmap_location>> &locations )
 {
     return std::any_of( locations.begin(), locations.end(),
     [&oter]( const string_id<overmap_location> &loc ) {
@@ -133,7 +133,7 @@ overmap_special_batch overmap_specials::get_default_batch( const point_abs_om &o
 
 bool overmap_special_locations::can_be_placed_on( const oter_id &oter ) const
 {
-    return is_amongst_locations( oter, locations );
+    return overmap::is_amongst_locations( oter, locations );
 }
 
 void overmap_special_locations::deserialize( const JsonArray &ja )
