@@ -724,7 +724,7 @@ static void edit_vars( std::string const &title, global_variables::impl_t &vars 
         .title( _( "Key\n" ) )
         .width( 85 )
         .edit( key );
-        if( query_yn( "Is the value a number or a text?  'Y'es for number, 'N'o for text." ) ) {
+        if( query_yn( "Is the value a number or a text?  [Y]es for number, [N]o for text." ) ) {
             int value;
             query_int( value, false, "Numeric value:" );
             get_globals().set_global_value( key, value );
@@ -733,7 +733,7 @@ static void edit_vars( std::string const &title, global_variables::impl_t &vars 
             get_globals().set_global_value( key, value );
         }
     } else if( selected_globvar > 0 && selected_globvar <= static_cast<int>( keymap_index.size() ) ) {
-        if( query_yn( "Is the value a number or a text?  'Y'es for number, 'N'o for text." ) ) {
+        if( query_yn( "Is the value a number or a text?  [Y]es for number, [N]o for text." ) ) {
             int value;
             query_int( value, false, "Numeric value:" );
             get_globals().set_global_value( keymap_index[selected_globvar], value );
