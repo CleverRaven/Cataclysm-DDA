@@ -49,6 +49,7 @@ Furthermore, there are additional criteria:
 *  Content mods need to be providing some kind of curated experience. Either they introduce a set of locations, encounters, equipment, or progression mechanisms that do not fit the style of the core game, or they in some fashion modify the game according to some well-defined concept.
 *  *  Mods which do not qualify as curated experiences: Grab bag mods with no defined purpose (i.e. adding a bunch of random guns), "settings" mods that just turn off a possibly undesired but working feature (acid ants).
 *  Development mods need to have an associated work-in-progress feature that they exist to mitigate.
+*  Mods that have dependencies must have their dependencies in-repo, and require the approval of the maintainer(s) of the dependencies. Having another mod be dependent on yours incurs a maintenance burden (you can't make changes without possibly breaking theirs), so the dependencies need to be on board with that.
 
 ## What are the responsibilities of a mod curator?
 
