@@ -1,0 +1,30 @@
+[
+  {
+    "id": "create_rune_sorcerer",
+    "safe_id": "create_rune_sorcerer",
+    "level": 0,
+    "name": "<spell_name:create_rune_sorcerer>",
+    "description": "<spell_description:create_rune_sorcerer>",
+    "NO_I18N": true,
+    "tier": 0
+  },
+  {
+    "id": "create_electric_lighter",
+    "disabled": true,
+    "//": "Mostly same effect as the kelvinist version, and we don't need two of them to clog up the UI."
+  },
+  {
+    "id": "convert_sorcerer",
+    "safe_id": "convert_sorcerer",
+    "level": 5,
+    "name": "<spell_name:convert_sorcerer>",
+    "description": "<spell_description:convert_sorcerer>",
+    "NO_I18N": true,
+    "tier": 2
+  },
+  {
+    "id": "convert",
+    "disabled": true,
+    "//": "We don't want sorcerers to be able to get animist runes, so we create a custom spell that gives sorcerer runes instead."
+  }
+]
