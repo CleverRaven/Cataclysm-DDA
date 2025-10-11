@@ -108,6 +108,24 @@ std::string enum_to_string<mdeath_type>( mdeath_type data )
 
 } // namespace io
 
+template<>
+const mtype &int_id<mtype>::obj() const
+{
+    return MonsterGenerator::generator().mon_templates->obj( *this );
+}
+
+template<>
+bool int_id<mtype>::is_valid() const
+{
+    return MonsterGenerator::generator().mon_templates->is_valid( *this );
+}
+
+template<>
+const string_id<mtype> &int_id<mtype>::id() const
+{
+    return MonsterGenerator::generator().mon_templates->convert( *this );
+}
+
 /** @relates string_id */
 template<>
 const mtype &string_id<mtype>::obj() const
@@ -120,6 +138,12 @@ template<>
 bool string_id<mtype>::is_valid() const
 {
     return MonsterGenerator::generator().mon_templates->is_valid( *this );
+}
+
+template<>
+int_id<mtype> string_id<mtype>::id() const
+{
+    return MonsterGenerator::generator().mon_templates->convert( *this, int_id<mtype>( 0 ) );
 }
 
 /** @relates string_id */

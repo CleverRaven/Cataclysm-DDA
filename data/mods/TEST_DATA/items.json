@@ -5484,5 +5484,39 @@
     "flags": [ "SHEATH_SWORD", "NONCONDUCTIVE", "WATER_BREAK_ACTIVE" ],
     "melee_damage": { "bash": 2, "cut": 8 },
     "tool_ammo": [ "battery" ]
+  },
+  {
+    "id": "test_lamp",
+    "type": "ITEM",
+    "category": "tools",
+    "name": { "str": "test lamp" },
+    "description": "Powered by the magic of debug and testing, this very expensive lamp will emit a small amount of light for enough time to get a test done.",
+    "weight": "1438 g",
+    "volume": "1 L",
+    "price": "1 kUSD 750 USD",
+    "price_postapoc": "40 USD",
+    "material": [ "plastic", "aluminum" ],
+    "symbol": ",",
+    "color": "light_green",
+    "light": 15
+  },
+  {
+    "id": "wearable_test_lamp",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "category": "clothing",
+    "symbol": "[",
+    "color": "blue",
+    "looks_like": "wearable_light_on",
+    "name": { "str": "test headlamp" },
+    "description": "A headlamp fine-tuned for testing.",
+    "price": "40 USD",
+    "price_postapoc": "15 USD",
+    "material": [ "steel", "plastic" ],
+    "light": 200,
+    "weight": "1 kg",
+    "volume": "1500 ml",
+    "material_thickness": 1,
+    "armor": [ { "encumbrance": 5, "coverage": 50, "covers": [ "head" ], "specifically_covers": [ "head_crown", "head_forehead" ] } ]
   }
 ]

@@ -1149,50 +1149,6 @@
     "tool_ammo": [ "battery" ]
   },
   {
-    "id": "wearable_atomic_light",
-    "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
-    "category": "clothing",
-    "symbol": "[",
-    "color": "blue",
-    "looks_like": "wearable_light_on",
-    "name": { "str": "atomic headlamp" },
-    "description": "A custom-made, reinforced headlamp powered by the magic of nuclear decay, focused for more usable brightness.  The adjustable strap allows it to be comfortably worn on your head or attached to your helmet.  Use it to close the cover and hide the light.",
-    "price": "40 USD",
-    "price_postapoc": "15 USD",
-    "material": [ "steel", "plastic" ],
-    "light": 200,
-    "flags": [ "LEAK_DAM", "RADIOACTIVE", "STURDY", "OVERSIZE", "BELTED", "PADDED", "ALLOWS_NATURAL_ATTACKS", "SPAWN_ACTIVE" ],
-    "weight": "1 kg",
-    "volume": "1500 ml",
-    "use_action": {
-      "type": "transform",
-      "msg": "You close the headlamp's cover.",
-      "menu_text": "Close cover",
-      "target": "wearable_atomic_light_off"
-    },
-    "material_thickness": 1,
-    "armor": [ { "encumbrance": 5, "coverage": 50, "covers": [ "head" ], "specifically_covers": [ "head_crown", "head_forehead" ] } ],
-    "melee_damage": { "bash": 2 }
-  },
-  {
-    "id": "wearable_atomic_light_off",
-    "copy-from": "wearable_atomic_light",
-    "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
-    "looks_like": "wearable_light",
-    "name": { "str": "atomic headlamp (covered)", "str_pl": "atomic headlamps (covered)" },
-    "description": "A custom-made, reinforced headlamp powered by the magic of nuclear decay, focused for more usable brightness.  The adjustable strap allows it to be comfortably worn on your head or attached to your helmet.  Use it to open the cover and show the light.",
-    "flags": [ "LEAK_DAM", "RADIOACTIVE", "STURDY", "OVERSIZE", "BELTED", "PADDED", "ALLOWS_NATURAL_ATTACKS" ],
-    "use_action": {
-      "type": "transform",
-      "msg": "You open the headlamp's cover.",
-      "menu_text": "Open cover",
-      "target": "wearable_atomic_light",
-      "active": true
-    }
-  },
-  {
     "id": "ar_glasses_basic",
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR" ],

@@ -58,7 +58,7 @@ static const itype_id itype_e_tool( "e_tool" );
 static const itype_id itype_hammer( "hammer" );
 static const itype_id itype_test_backpack( "test_backpack" );
 static const itype_id itype_test_multitool( "test_multitool" );
-static const itype_id itype_wearable_atomic_light( "wearable_atomic_light" );
+static const itype_id itype_wearable_test_lamp( "wearable_test_lamp" );
 
 static const ter_str_id ter_t_dirt( "t_dirt" );
 static const ter_str_id ter_t_floor( "t_floor" );
@@ -164,7 +164,7 @@ void run_test_case( Character &u )
     g->reset_light_level();
 
     u.wear_item( item( itype_test_backpack ), false, false );
-    u.wear_item( item( itype_wearable_atomic_light ), false, true );
+    u.wear_item( item( itype_wearable_test_lamp ), false, true );
     u.i_add( item( itype_test_multitool ) );
     u.i_add( item( itype_hammer ) );
     u.i_add( item( itype_bow_saw ) );
