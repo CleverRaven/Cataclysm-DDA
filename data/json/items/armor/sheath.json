@@ -574,13 +574,13 @@
     "armor": [ { "encumbrance": 1, "coverage": 10, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {
-    "id": "spearsling_cotton",
+    "id": "spearsling_canvas",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "spearsling",
-    "name": { "str": "cotton spear strap" },
-    "description": "A cotton strap tied around the torso for toting spears while keeping your hands free.  You have to duck to get through doors while one's in it, though.  Activate to holster/draw a weapon.",
-    "material": [ "cotton" ],
+    "name": { "str": "canvas spear strap" },
+    "description": "A canvas strap tied around the torso for toting spears while keeping your hands free.  You have to duck to get through doors while one's in it, though.  Activate to holster/draw a weapon.",
+    "material": [ "canvas" ],
     "price": "25 USD",
     "price_postapoc": "1 USD 50 cent",
     "symbol": "[",
