@@ -16,6 +16,14 @@ see their info later in this document.
 | `type`                   |                                     | Type identifier. Must be "region_settings".                           |
 | `id`                     |                                     | Unique identifier for this region.                                    |
 | `tags`                   | array of string                     | An arbitrary list of tags for overlays to apply to.                   |
+| `place_swamps`           | boolean                             | Controls whether or not swamps will be placed (requires forests to be placed) |
+| `place_roads`            | boolean                             | Whether or not to generate road connections |
+| `place_railroads`        | boolean                             | Whether or not to generate railroad connections |
+| `place_railroads_before_roads` | boolean                       | Generates railroads before roads if true |
+| `place_specials`         | boolean                             | Controls placement of overmap specials |
+| `neighbor_connections`   | boolean                             | Generate connections between neighboring overmaps |
+| `max_urbanity`           | integer                             | Max urbanity (a multiplier on city size) |
+| `urbanity_increase`      | array of numbers                    | Increase in urbanity to the [ north, east, south, west ] of overmap (0,0) |
 | `rivers`                 | `region_settings_river`             | River generation parameters; Use `null` to disable river generation.  |
 | `lakes`                  | `region_settings_lake`              | Defines parameters for generating lakes in the region. `null` to disable. |
 | `ocean`                  | `region_settings_ocean`             | Defines parameters for generating oceans in the region. `null` to disable. |
@@ -260,6 +268,8 @@ on the overmap. The actual placement of these features is determined globally ac
 so that the edges of the features align, and these parameters are mostly about how those global
 features are interpreted.
 
+Two noise functions with values between 0 and 1 are generated over the entire map. The noise threshold values control which values from the noise function correspond to what terrain.
+
 ### Fields
 
 |               Identifier               |                              Description                               |
@@ -270,6 +280,8 @@ features are interpreted.
 | `noise_threshold_swamp_isolated`       | [0, 1], x > value spawns `forest_water` if forest isolated from water. |
 | `river_floodplain_buffer_distance_min` | Minimum buffer distance in overmap terrains for river floodplains.     |
 | `river_floodplain_buffer_distance_max` | Maximum buffer distance in overmap terrains for river floodplains.     |
+| `forest_threshold_limit`               | Number. Maximum increase in forest threshold value due to distance from overmap (0,0) |
+| `forest_threshold_increase`               | Array of numbers. [ north, east, south, west ] change in forest noise threshold per overmap from overmap (0,0) |
 
 ### Example
 
