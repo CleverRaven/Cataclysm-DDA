@@ -679,16 +679,16 @@ static void monster_ammo_edit( monster &mon )
     }
 }
 
-// static std::string query_npctalkvar_new_value()
-// {
-//     std::string value;
-//     string_input_popup popup_val;
-//     popup_val
-//     .title( _( "Value" ) )
-//     .width( 85 )
-//     .edit( value );
-//     return value;
-// }
+static std::string query_var_value_text()
+{
+    std::string value;
+    string_input_popup popup_val;
+    popup_val
+    .title( _( "Text value:" ) )
+    .width( 85 )
+    .edit( value );
+    return value;
+}
 
 static void edit_vars( std::string const &title, global_variables::impl_t &vars )
 {
@@ -724,9 +724,23 @@ static void edit_vars( std::string const &title, global_variables::impl_t &vars 
         .title( _( "Key\n" ) )
         .width( 85 )
         .edit( key );
-        // globvars.set_global_value( key, query_npctalkvar_new_value() );
+        if( query_yn( "Is the value a number or a text?  [Y]es for number, [N]o for text." ) ) {
+            int value;
+            query_int( value, false, "Numeric value:" );
+            get_globals().set_global_value( key, value );
+        } else {
+            const std::string value = query_var_value_text();
+            get_globals().set_global_value( key, value );
+        }
     } else if( selected_globvar > 0 && selected_globvar <= static_cast<int>( keymap_index.size() ) ) {
-        // globvars.set_global_value( keymap_index[selected_globvar], query_npctalkvar_new_value() );
+        if( query_yn( "Is the value a number or a text?  [Y]es for number, [N]o for text." ) ) {
+            int value;
+            query_int( value, false, "Numeric value:" );
+            get_globals().set_global_value( keymap_index[selected_globvar], value );
+        } else {
+            const std::string value = query_var_value_text();
+            get_globals().set_global_value( keymap_index[selected_globvar], value );
+        }
     }
 }
 
