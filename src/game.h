@@ -960,6 +960,7 @@ class game
         // Examine nearby terrain 'e', with or without picking up items
         void examine( const tripoint_bub_ms &p, bool with_pickup = false );
         void examine( bool with_pickup = true );
+        std::string get_fire_fuel_string( const tripoint_bub_ms &examp ) const;
 
         // Pick up items from a single nearby tile (prompting first)
         void pickup();
