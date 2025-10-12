@@ -1,0 +1,21 @@
+[
+  {
+    "type": "region_settings",
+    "id": "default_archipelago",
+    "copy-from": "default",
+    "lakes": "default_archipelago",
+    "highways": null
+  },
+  {
+    "type": "region_settings_lake",
+    "id": "default_archipelago",
+    "noise_threshold_lake": 0.3,
+    "lake_size_min": 1,
+    "lake_depth": -9,
+    "invert_lakes": true,
+    "shore_ter": "ocean_shore",
+    "surface_ter": "ocean_surface",
+    "interior_ter": "ocean_water_cube",
+    "bed_ter": "ocean_bed"
+  }
+]

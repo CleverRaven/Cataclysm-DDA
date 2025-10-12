@@ -1,0 +1,18 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "Archipelago",
+    "name": "Archipelago",
+    "authors": [ "Karol1223" ],
+    "maintainers": [ "Karol1223" ],
+    "description": "WIP but basically like a lot of water and islands also.",
+    "category": "total_conversion",
+    "dependencies": [ "dda" ]
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "DEFAULT_REGION",
+    "stype": "string_input",
+    "value": "default_archipelago"
+  }
+]
