@@ -1262,6 +1262,14 @@
         "then": { "u_learn_recipe": "practice_photokinetic_radio_knack" }
       },
       {
+        "if": { "math": [ "u_spell_level('pyrokinetic_flash_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_pyrokinetic_flash_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('practice_pyrokinetic_eruption_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "pyrokinetic_eruption_knack" }
+      },
+      {
         "if": { "math": [ "u_spell_level('telekinetic_pull_knack') >= 1" ] },
         "then": { "u_learn_recipe": "practice_telekinetic_pull_knack" }
       },
