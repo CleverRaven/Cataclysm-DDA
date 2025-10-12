@@ -1530,7 +1530,7 @@
     "material": [ "glass" ],
     "weight": "5 g",
     "volume": "2 ml",
-    "price_postapoc": "1 USD",
+    "price_postapoc": "0 USD",
     "symbol": "-",
     "color": "light_cyan"
   },
