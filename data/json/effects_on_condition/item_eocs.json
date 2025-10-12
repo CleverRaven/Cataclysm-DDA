@@ -211,5 +211,34 @@
     "condition": { "u_has_trait": "VANITY" },
     "effect": { "u_message": "You apply some makeup.  The world will now get to know the true meaning of beauty." },
     "false_effect": { "u_message": "You apply some makeup.  It feels good to take care of yourself." }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_use_microscope",
+    "effect": {
+      "run_eoc_selector": [ "EOC_observe_water_murky", "EOC_cancel_observation" ],
+      "names": [ "Murky water sample", "Cancel" ],
+      "hide_failing": true,
+      "allow_cancel": true
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_observe_water_murky",
+    "condition": { "u_has_item": "microscope_slide_murky_water" },
+    "effect": {
+      "if": { "or": [ { "math": [ "u_skill('chemistry') >= 2" ] }, { "math": [ "u_skill('firstaid') >= 2" ] } ] },
+      "then": {
+        "u_message": "You place the slide on the stage, adjust the light and focus the lens, in the sample you can see <microscope_water_murky>"
+      },
+      "else": {
+        "u_message": "You place the slide on the stage then look through the lens, even though the image is very blurry you can make out <microscope_water_murky_untrained>"
+      }
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_cancel_observation",
+    "effect": { "u_message": "You changed your mind." }
   }
 ]

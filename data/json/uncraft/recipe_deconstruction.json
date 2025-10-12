@@ -5054,7 +5054,7 @@
     "components": [ [ [ "scrap", 2 ] ], [ [ "amplifier", 1 ] ], [ [ "cable", 6 ] ], [ [ "plastic_chunk", 4 ] ], [ [ "e_scrap", 3 ] ] ]
   },
   {
-    "result": "microscope",
+    "result": "microscope_off",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "skill_used": "fabrication",

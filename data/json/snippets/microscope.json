@@ -1,0 +1,14 @@
+[
+  {
+    "type": "snippet",
+    "category": "<microscope_water_murky>",
+    "//": "Don't use a capital letter but do put a period at the end, this is meant to be inserted at the end of a description.",
+    "text": [ "algae, with their chloroplasts clearly visible, arranged in spiral or dots." ]
+  },
+  {
+    "type": "snippet",
+    "category": "<microscope_water_murky_untrained>",
+    "//": "Don't use a capital letter but do put a period at the end, this is meant to be inserted at the end of a description.",
+    "text": [ "tiny green translucent shapes slowly drifting in the water." ]
+  }
+]

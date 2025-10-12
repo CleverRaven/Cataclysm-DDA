@@ -1,0 +1,15 @@
+[
+  {
+    "result": "microscope_slide_murky_water",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "chemistry",
+    "difficulty": 0,
+    "time": "30 s",
+    "autolearn": true,
+    "tools": [ [ [ "water_murky", -1 ] ] ],
+    "components": [ [ [ "microscope_slide", 2 ] ] ]
+  }
+]

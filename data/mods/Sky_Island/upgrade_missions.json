@@ -252,7 +252,7 @@
     "components": [
       [ [ "lens", 2 ], [ "lens_small", 1 ] ],
       [ [ "warptoken", 8 ] ],
-      [ [ "microscope", 1 ] ],
+      [ [ "microscope_off", 1 ] ],
       [ [ "silver_small", 20 ] ],
       [ [ "brazing_rod_bronze", 5 ], [ "brazing_rod_alloy", 5 ] ],
       [ [ "heavy_plus_battery_cell", 1 ], [ "heavy_battery_cell", 2 ] ],

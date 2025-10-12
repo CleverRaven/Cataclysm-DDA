@@ -36,7 +36,7 @@
     "time": "1 h",
     "book_learn": [ [ "schematics_matrix_crystal_ground", 5 ], [ "recipe_survivor_matrix_crystal_ground", 7 ] ],
     "qualities": [ { "id": "FINE_GRIND", "level": 1 }, { "id": "BOIL", "level": 1 } ],
-    "tools": [ [ [ "microscope", -1 ] ] ],
+    "tools": [ [ [ "microscope_off", -1 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_intro_chemistry", "required": false },
       { "proficiency": "prof_inorganic_chemistry", "required": false }
@@ -71,7 +71,7 @@
     "time": "1 h",
     "book_learn": [ [ "schematics_matrix_crystal_ground", 5 ], [ "recipe_survivor_matrix_crystal_ground", 7 ] ],
     "qualities": [ { "id": "FINE_GRIND", "level": 1 }, { "id": "BOIL", "level": 1 } ],
-    "tools": [ [ [ "microscope", -1 ] ] ],
+    "tools": [ [ [ "microscope_off", -1 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_intro_chemistry", "required": false },
       { "proficiency": "prof_inorganic_chemistry", "required": false }
@@ -106,7 +106,7 @@
     "time": "1 h",
     "book_learn": [ [ "schematics_matrix_crystal_ground", 5 ], [ "recipe_survivor_matrix_crystal_ground", 7 ] ],
     "qualities": [ { "id": "FINE_GRIND", "level": 1 }, { "id": "BOIL", "level": 1 } ],
-    "tools": [ [ [ "microscope", -1 ] ] ],
+    "tools": [ [ [ "microscope_off", -1 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_intro_chemistry", "required": false },
       { "proficiency": "prof_inorganic_chemistry", "required": false }
@@ -141,7 +141,7 @@
     "time": "1 h",
     "book_learn": [ [ "schematics_matrix_crystal_ground", 5 ], [ "recipe_survivor_matrix_crystal_ground", 7 ] ],
     "qualities": [ { "id": "FINE_GRIND", "level": 1 }, { "id": "BOIL", "level": 1 } ],
-    "tools": [ [ [ "microscope", -1 ] ] ],
+    "tools": [ [ [ "microscope_off", -1 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_intro_chemistry", "required": false },
       { "proficiency": "prof_inorganic_chemistry", "required": false }
@@ -176,7 +176,7 @@
     "time": "1 h",
     "book_learn": [ [ "schematics_matrix_crystal_ground", 5 ], [ "recipe_survivor_matrix_crystal_ground", 7 ] ],
     "qualities": [ { "id": "FINE_GRIND", "level": 1 }, { "id": "BOIL", "level": 1 } ],
-    "tools": [ [ [ "microscope", -1 ] ] ],
+    "tools": [ [ [ "microscope_off", -1 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_intro_chemistry", "required": false },
       { "proficiency": "prof_inorganic_chemistry", "required": false }
@@ -211,7 +211,7 @@
     "time": "1 h",
     "book_learn": [ [ "schematics_matrix_crystal_ground", 5 ], [ "recipe_survivor_matrix_crystal_ground", 7 ] ],
     "qualities": [ { "id": "FINE_GRIND", "level": 1 }, { "id": "BOIL", "level": 1 } ],
-    "tools": [ [ [ "microscope", -1 ] ] ],
+    "tools": [ [ [ "microscope_off", -1 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_intro_chemistry", "required": false },
       { "proficiency": "prof_inorganic_chemistry", "required": false }
@@ -246,7 +246,7 @@
     "time": "1 h",
     "book_learn": [ [ "schematics_matrix_crystal_ground", 5 ], [ "recipe_survivor_matrix_crystal_ground", 7 ] ],
     "qualities": [ { "id": "FINE_GRIND", "level": 1 }, { "id": "BOIL", "level": 1 } ],
-    "tools": [ [ [ "microscope", -1 ] ] ],
+    "tools": [ [ [ "microscope_off", -1 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_intro_chemistry", "required": false },
       { "proficiency": "prof_inorganic_chemistry", "required": false }
@@ -281,7 +281,7 @@
     "time": "1 h",
     "book_learn": [ [ "schematics_matrix_crystal_ground", 5 ], [ "recipe_survivor_matrix_crystal_ground", 7 ] ],
     "qualities": [ { "id": "FINE_GRIND", "level": 1 }, { "id": "BOIL", "level": 1 } ],
-    "tools": [ [ [ "microscope", -1 ] ] ],
+    "tools": [ [ [ "microscope_off", -1 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_intro_chemistry", "required": false },
       { "proficiency": "prof_inorganic_chemistry", "required": false }
@@ -316,7 +316,7 @@
     "time": "1 h",
     "book_learn": [ [ "schematics_matrix_crystal_ground", 5 ], [ "recipe_survivor_matrix_crystal_ground", 7 ] ],
     "qualities": [ { "id": "FINE_GRIND", "level": 1 }, { "id": "BOIL", "level": 1 } ],
-    "tools": [ [ [ "microscope", -1 ] ] ],
+    "tools": [ [ [ "microscope_off", -1 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_intro_chemistry", "required": false },
       { "proficiency": "prof_inorganic_chemistry", "required": false }
@@ -351,7 +351,7 @@
     "time": "1 h",
     "book_learn": [ [ "schematics_matrix_crystal_ground", 5 ], [ "recipe_survivor_matrix_crystal_ground", 7 ] ],
     "qualities": [ { "id": "FINE_GRIND", "level": 1 }, { "id": "BOIL", "level": 1 } ],
-    "tools": [ [ [ "microscope", -1 ] ] ],
+    "tools": [ [ [ "microscope_off", -1 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_intro_chemistry", "required": false },
       { "proficiency": "prof_inorganic_chemistry", "required": false }

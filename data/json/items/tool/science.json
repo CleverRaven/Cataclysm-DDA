@@ -1050,12 +1050,12 @@
     ]
   },
   {
-    "id": "microscope",
+    "id": "microscope_off",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "category": "tools",
-    "name": { "str": "microscope" },
-    "description": "A classic tool for the ages!  This hefty, durable piece of lab equipment makes small things look bigger.  Without electricity the light doesn't work, but the rest of it is surprisingly functional.  Unfortunately it's not useful for very much at the moment.",
+    "name": { "str": "microscope (off)" },
+    "description": "A classic tool for the ages!  This hefty, durable piece of lab equipment makes small things look bigger.  Without electricity the light doesn't work, but the rest of it is surprisingly functional.",
     "weight": "2 kg",
     "volume": "3800 ml",
     "price": "30 USD",
@@ -1064,7 +1064,54 @@
     "material": [ "steel", "glass" ],
     "symbol": "G",
     "color": "white",
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 4 },
+    "tool_ammo": [ "battery" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_LIGHT" ],
+        "default_magazine": "light_battery_cell"
+      }
+    ],
+    "use_action": [
+      { "type": "link_up", "cable_length": 2, "charge_rate": "10 W" },
+      {
+        "type": "transform",
+        "menu_text": "Turn on",
+        "need_charges": 1,
+        "target": "microscope_on",
+        "msg": "You turn the microscope on."
+      },
+      {
+        "type": "message",
+        "name": "Observe samples",
+        "message": "You look through the inactive microscope lens, everything is dark."
+      }
+    ]
+  },
+  {
+    "id": "microscope_on",
+    "copy-from": "microscope_off",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "microscope (on)" },
+    "power_draw": "10 W",
+    "revert_to": "microscope_off",
+    "use_action": [
+      { "type": "link_up", "cable_length": 2, "charge_rate": "10 W" },
+      {
+        "type": "transform",
+        "menu_text": "Turn off",
+        "target": "microscope_off",
+        "msg": "You turn the microscope off."
+      },
+      {
+        "type": "effect_on_conditions",
+        "menu_text": "Observe samples",
+        "effect_on_conditions": [ "EOC_use_microscope" ]
+      }
+    ]
   },
   {
     "id": "microscope_dissecting",
@@ -1474,5 +1521,25 @@
     "color": "light_red",
     "use_action": [ "WEATHER_TOOL" ],
     "flags": [ "THERMOMETER" ]
+  },
+  {
+    "id": "microscope_slide",
+    "type": "ITEM",
+    "name": { "str": "microscope slide" },
+    "description": "A microscope slide.",
+    "material": [ "glass" ],
+    "weight": "5 g",
+    "volume": "2 ml",
+    "price_postapoc": "1 USD",
+    "symbol": "-",
+    "color": "light_cyan"
+  },
+  {
+    "id": "microscope_slide_murky_water",
+    "copy-from": "microscope_slide",
+    "proportional": { "weight": 2, "volume": 2 },
+    "type": "ITEM",
+    "name": { "str": "water slice" },
+    "description": "A water slice."
   }
 ]
