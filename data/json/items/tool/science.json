@@ -1526,7 +1526,7 @@
     "id": "microscope_slide",
     "type": "ITEM",
     "name": { "str": "microscope slide" },
-    "description": "A microscope slide.",
+    "description": "A tiny, thin rectangle of glass, used to observe samples through microscopes.",
     "material": [ "glass" ],
     "weight": "5 g",
     "volume": "2 ml",
@@ -1539,7 +1539,7 @@
     "copy-from": "microscope_slide",
     "proportional": { "weight": 2, "volume": 2 },
     "type": "ITEM",
-    "name": { "str": "water slice" },
-    "description": "A water slice."
+    "name": { "str": "microscope slide with murky water" },
+    "description": "A microscope slide with a sample of murky water."
   }
 ]
