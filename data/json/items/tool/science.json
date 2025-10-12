@@ -1528,7 +1528,7 @@
     "name": { "str": "microscope slide" },
     "description": "A tiny, thin rectangle of glass, used to observe samples through microscopes.",
     "material": [ "glass" ],
-    "weight": "5 g",
+    "weight": "4125 mg",
     "volume": "2 ml",
     "price_postapoc": "0 USD",
     "symbol": "-",
