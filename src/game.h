@@ -1134,6 +1134,7 @@ class game
          */
         Creature *is_hostile_within( int distance, bool dangerous = false );
 
+        static std::string timestamp_now();
         void move_save_to_graveyard();
         bool save_player_data();
         bool save_achievements();

@@ -2992,7 +2992,7 @@ void game::death_screen()
 // Date format is a somewhat ISO-8601 compliant local time date (except we use '-' instead of ':' probably because of Windows file name rules).
 // XXX: removed the timezone suffix due to an mxe bug
 // See: https://github.com/mxe/mxe/issues/2749
-static std::string timestamp_now()
+std::string game::timestamp_now()
 {
     std::time_t time = std::time( nullptr );
     std::stringstream date_buffer;
