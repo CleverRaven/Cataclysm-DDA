@@ -1740,10 +1740,7 @@ void Item_factory::load_item_blacklist( const JsonObject &json )
 
 Item_factory::~Item_factory() = default;
 
-Item_factory::Item_factory()
-{
-    init();
-}
+Item_factory::Item_factory() = default;
 
 class iuse_function_wrapper : public iuse_actor
 {
