@@ -4025,7 +4025,7 @@ void heal_actor::info( const item &, std::vector<iteminfo> &dump ) const
 
     if( bandages_power > 0 ) {
         dump.emplace_back( "HEAL", _( "Base bandaging quality: " ),
-                           texitify_base_healing_power( static_cast<int>( bandages_power ) ) );
+                           texitify_base_healing_power( bandages_power ) );
         if( g != nullptr ) {
             dump.emplace_back( "HEAL", _( "Actual bandaging quality: " ),
                                texitify_healing_power( get_bandaged_level( player_character ) ) );
@@ -4034,7 +4034,7 @@ void heal_actor::info( const item &, std::vector<iteminfo> &dump ) const
 
     if( disinfectant_power > 0 ) {
         dump.emplace_back( "HEAL", _( "Base disinfecting quality: " ),
-                           texitify_base_healing_power( static_cast<int>( disinfectant_power ) ) );
+                           texitify_base_healing_power( disinfectant_power ) );
         if( g != nullptr ) {
             dump.emplace_back( "HEAL", _( "Actual disinfecting quality: " ),
                                texitify_healing_power( get_disinfected_level( player_character ) ) );
