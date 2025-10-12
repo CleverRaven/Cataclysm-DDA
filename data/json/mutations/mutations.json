@@ -10715,6 +10715,7 @@
     "player_display": true,
     "points": -8,
     "starting_trait": true,
+    "purifiable": false,
     "cancels": [ "CBM_Interface" ],
     "flags": [ "NO_CBM_INSTALLATION" ]
   },
