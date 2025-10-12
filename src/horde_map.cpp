@@ -156,7 +156,7 @@ std::unordered_map<tripoint_abs_ms, horde_entity>::iterator horde_map::spawn_ent
         result->second.monster_data->set_pos_abs_only( p );
     } else {
         debugmsg( "Attempted to insert a %s at %s, but there's already a %s there!",
-                  mon.name(), p.to_string(), result->second.get_type() );
+                  mon.name(), p.to_string(), result->second.get_type().nname() );
     }
     return result;
 }
