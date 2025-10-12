@@ -161,7 +161,7 @@ static bool shelf_life_less_than_each_component( const item &craft )
 // Method 2 is used when any component has a longer maximum shelf life than the result does.
 // Inheriting the lowest remaining lifespan can not be used in this case because it would break
 // food preservation recipes.
-static void inherit_rot_from_components( item &it )
+void item::inherit_rot_from_components( item &it )
 {
     if( shelf_life_less_than_each_component( it ) ) {
         const time_duration shortest_lifespan = get_shortest_lifespan_from_components( it );
