@@ -800,9 +800,9 @@
     "volume": "82 ml",
     "longest_side": "15 cm",
     "to_hit": { "grip": "none", "length": "hand", "surface": "line", "balance": "good" },
-    "flags": [ "SHEATH_KNIFE", "CONDUCTIVE", "FRAGILE_MELEE", "ALLOWS_BODY_BLOCK" ],
+    "flags": [ "SHEATH_KNIFE", "FRAGILE_MELEE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "SHIVS" ],
-    "qualities": [ [ "BUTCHER", -18 ] ],
+    "qualities": [ ["CUT", 1 ], [ "BUTCHER", -18 ], [ "FABRIC_CUT", 1 ] ],
     "melee_damage": { "cut": 6 }
   },
   {
