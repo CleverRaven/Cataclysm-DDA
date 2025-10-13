@@ -798,12 +798,12 @@
     "weight": "75 g",
     "price_postapoc": "10 cent",
     "volume": "30 ml",
-    "longest_side": "4 cm",
+    "longest_side": "5 cm",
     "to_hit": { "grip": "none", "length": "hand", "surface": "line", "balance": "good" },
     "flags": [ "SHEATH_KNIFE", "FRAGILE_MELEE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "SHIVS" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -18 ], [ "FABRIC_CUT", 1 ] ],
-    "melee_damage": { "cut": 6 }
+    "melee_damage": { "cut": 4 }
   },
   {
     "id": "bone_knife",
