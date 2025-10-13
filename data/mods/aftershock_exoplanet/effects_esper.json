@@ -165,6 +165,29 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_afs_precog_danger_sense",
+    "name": [ "Premonition" ],
+    "desc": [ "You are preternaturally aware of nearby movement and possible dangers." ],
+    "apply_message": "",
+    "remove_message": "Your preternatural awareness fades.",
+    "rating": "good",
+    "max_duration": "7 days",
+    "max_intensity": 58,
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "MOTION_ALARM",
+            "add": {
+              "math": [ "max( ( ( 3 + ( u_spell_level('clair_danger_sense') * 0.5  ) * (scaling_factor(u_val('intelligence') ) ) ) ), 25)" ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_afs_telekinetic_momentum",
     "name": [ "Altered Momentum" ],
     "desc": [ "Your powers are affecting movement around you; dangerous objects are slowed and your own speed is increased." ],

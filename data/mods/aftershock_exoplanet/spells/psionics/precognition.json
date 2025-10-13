@@ -1,0 +1,36 @@
+[
+  {
+    "id": "afs_precog_danger_sense",
+    "type": "SPELL",
+    "name": "[Ψ]Premonition (C)",
+    "description": "You can sense nearby movement and sometimes gain an advance warning of dangerous events.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "AFS_PRECOG",
+    "magic_type": "aftershock_psionics",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 2,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_AFS_PRECOG_DANGER_SENSE_INITIATE",
+    "shape": "blast",
+    "min_duration": {
+      "math": [ "( ( u_spell_level('afs_precog_danger_sense') * 30300) + 117400) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_duration": {
+      "math": [ "( (u_spell_level('afs_precog_danger_sense') * 100200) + 223200) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_afs_precog_premonition') > -1 ? 0 : max( (2250 - ( (u_spell_level('afs_precog_danger_sense') + u_spell_level('clair_danger_sense_knack') ) * 85)), 850)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_afs_precog_premonition') > -1 ? 10 : max( (85 - (u_spell_level('afs_precog_danger_sense') * 7) ), 25)"
+      ]
+    }
+  }
+]

@@ -776,7 +776,7 @@
     "flags": [ "SCEN_ONLY" ],
     "skills": [ { "level": 4, "name": "metaphysics" } ],
     "spells": [
-      { "id": "afs_electrokinetic_see_electric", "level": 8 },
+      { "id": "afs_precog_danger_sense", "level": 8 },
       { "id": "afs_electrokinetic_zap_enemies", "level": 6 },
       { "id": "afs_electrokinetic_hacking_interface", "level": 6 },
       { "id": "afs_electrokinetic_personal_battery", "level": 5 },
