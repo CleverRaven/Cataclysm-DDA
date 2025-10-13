@@ -242,6 +242,10 @@ are interpreted.
 | `shore_extendable_overmap_terrain`         | List of overmap terrains that can be extended to the shore if adjacent.     |
 | `shore_extendable_overmap_terrain_aliases` | Overmap terrains to treat as different overmap terrain for extending shore. |
 | `invert_lakes`                             | Invert drawing of lakes. What would be a lake is land, what would be land is a lake. |
+| `shore_ter`                                | Overmap terrain id of shore terrain place on boundary with land. |
+| `surface_ter`                              | Overmap terrain id of surface terrain, placed on z = 0. |
+| `interior_ter`                             | Overmap terrain id of interior terrain, placed between surface terrain and bed terrain. |
+| `bed_ter`                                  | Overmap terrain id of bed terrain, placed on bottom of the lake. |
 
 ### Example
 

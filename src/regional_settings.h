@@ -324,6 +324,10 @@ struct region_settings_lake {
     double noise_threshold_lake = 0.25;
     int lake_size_min = 20;
     int lake_depth = -5;
+    oter_str_id surface;
+    oter_str_id shore;
+    oter_str_id interior;
+    oter_str_id bed;
     std::vector<oter_str_id> shore_extendable_overmap_terrain;
     std::vector<shore_extendable_overmap_terrain_alias> shore_extendable_overmap_terrain_aliases;
     bool invert_lakes = false;
@@ -334,7 +338,7 @@ struct region_settings_lake {
 
     static void load_region_settings_lake( const JsonObject &jo, const std::string &src );
     static void reset();
-    region_settings_lake() = default;
+    region_settings_lake();
 };
 
 struct region_settings_ocean {
