@@ -1989,6 +1989,20 @@
     "scaling_mods": { "speed_mod": [ -1 ] }
   },
   {
+    "type": "effect_type",
+    "id": "effect_mana_overload",
+    "name": [ "Mana Overload" ],
+    "desc": [ "Your leylines are overloaded with a surfeit of mana.  It is much harder to control the mana flow." ],
+    "apply_message": "You feel a tingling sensation all along your leylines.",
+    "remove_message": "Your leylines finally calm down.",
+    "max_intensity": 3,
+    "enchantments": [
+      {
+        "values": [ { "value": "REGEN_MANA", "multiply": { "math": [ "-0.3 + (u_effect_intensity('effect_mana_overload') * -0.2)" ] } } ]
+      }
+    ]
+  },
+  {
     "id": "effect_dispel_magic",
     "type": "effect_type",
     "name": [ "Dispel Magic" ],
