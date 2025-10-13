@@ -797,7 +797,7 @@
     "material": [ { "type": "glass", "portion": 13 }, { "type": "cotton", "portion": 1 } ],
     "weight": "75 g",
     "price_postapoc": "10 cent",
-    "volume": "30 ml",
+    "volume": "33 ml",
     "longest_side": "5 cm",
     "to_hit": { "grip": "none", "length": "hand", "surface": "line", "balance": "good" },
     "flags": [ "SHEATH_KNIFE", "FRAGILE_MELEE", "ALLOWS_BODY_BLOCK" ],
