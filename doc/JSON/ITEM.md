@@ -1044,7 +1044,7 @@ If an item is BREWABLE, it can be placed in a vat and will ferment into a differ
 "price_postapoc": "150 cent",
 "material": [ "nut" ],
 "volume": "62 ml",
-"flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "RAW", "SMOKABLE" ],
+"flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "RAW" ],
 "into": "paste_nut", // resulting item ID for milling this item
 "recipe": "paste_nut_mill_10_1", //associated recipe for milling this item
 ...

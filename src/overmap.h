@@ -30,6 +30,7 @@
 #include "coordinates.h"
 #include "cube_direction.h"
 #include "enums.h"
+#include "flat_set.h"
 #include "hash_utils.h"
 #include "horde_map.h"
 #include "map_scale_constants.h"
@@ -38,6 +39,7 @@
 #include "memory_fast.h"
 #include "mongroup.h"
 #include "omdata.h"
+#include "overmap_location.h"
 #include "overmap_types.h" // IWYU pragma: keep
 #include "point.h"
 #include "rng.h"
@@ -775,6 +777,9 @@ class overmap
 
         om_direction::type random_special_rotation( const overmap_special &special,
                 const tripoint_om_omt &p, bool must_be_unexplored ) const;
+
+        static bool is_amongst_locations( const oter_id &oter,
+                                          const cata::flat_set<string_id<overmap_location>> &locations );
 
         bool can_place_special( const overmap_special &special, const tripoint_om_omt &p,
                                 om_direction::type dir, bool must_be_unexplored ) const;

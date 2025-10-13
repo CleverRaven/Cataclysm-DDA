@@ -194,7 +194,7 @@
     "price_postapoc": "10 cent",
     "material": [ "veggy" ],
     "volume": "250 ml",
-    "flags": [ "SMOKABLE", "RAW" ],
+    "flags": [ "RAW" ],
     "smoking_result": "dry_veggy",
     "rot_spawn": { "group": "GROUP_EGG_TRIFFID" },
     "vitamins": [ [ "veggy_allergen", 1 ] ]
@@ -218,7 +218,7 @@
     "price_postapoc": "10 cent",
     "material": [ "veggy" ],
     "volume": "250 ml",
-    "flags": [ "SMOKABLE", "RAW" ],
+    "flags": [ "RAW" ],
     "smoking_result": "dry_veggy",
     "rot_spawn": { "group": "GROUP_EGG_FUNGUS" },
     "vitamins": [ [ "veggy_allergen", 1 ] ]

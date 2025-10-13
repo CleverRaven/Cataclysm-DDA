@@ -1740,10 +1740,7 @@ void Item_factory::load_item_blacklist( const JsonObject &json )
 
 Item_factory::~Item_factory() = default;
 
-Item_factory::Item_factory()
-{
-    init();
-}
+Item_factory::Item_factory() = default;
 
 class iuse_function_wrapper : public iuse_actor
 {
@@ -3387,7 +3384,7 @@ void islot_comestible::deserialize( const JsonObject &jo )
     optional( jo, was_loaded, "freezing_point", freeze_point );
     optional( jo, was_loaded, "spoils_in", spoils, time_bound_reader{0_seconds} );
     optional( jo, was_loaded, "cooks_like", cooks_like );
-    optional( jo, was_loaded, "smoking_result", smoking_result );
+    optional( jo, was_loaded, "smoking_result", smoking_result, itype_id::NULL_ID() );
     optional( jo, was_loaded, "petfood", petfood, string_reader{} );
     optional( jo, was_loaded, "monotony_penalty", monotony_penalty, -1 );
     optional( jo, was_loaded, "calories", default_nutrition.calories );
@@ -3407,7 +3404,7 @@ void islot_comestible::deserialize( const JsonObject &jo )
     }
     optional( jo, was_loaded, "rot_spawn", rot_spawn );
 
-    if( !smoking_result.is_empty() && comesttype == "INVALID" ) {
+    if( smoking_result != itype_id::NULL_ID() && comesttype == "INVALID" ) {
         jo.throw_error( "comestible_type INVALID cannot have smoking_result" );
     }
 }

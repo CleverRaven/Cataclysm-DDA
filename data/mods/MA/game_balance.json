@@ -10,23 +10,5 @@
     "name": "OVERMAP_PREGENERATED_PATH",
     "stype": "string_input",
     "value": "MA/MA_overmap"
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "OVERMAP_POPULATE_OUTSIDE_CONNECTIONS_FROM_NEIGHBORS",
-    "stype": "bool",
-    "value": true
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "OVERMAP_PLACE_SWAMPS",
-    "stype": "bool",
-    "value": false
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "OVERMAP_PLACE_SPECIALS",
-    "stype": "bool",
-    "value": true
   }
 ]

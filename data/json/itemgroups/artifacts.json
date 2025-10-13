@@ -4,6 +4,7 @@
     "id": "microlab_artifacts",
     "subtype": "distribution",
     "entries": [
+      { "item": "abyss_teleport_orb", "prob": 1 },
       {
         "group": "twisted_geometry",
         "artifact": {

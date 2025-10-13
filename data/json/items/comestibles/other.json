@@ -550,7 +550,7 @@
     "fun": -4,
     "material": [ "veggy" ],
     "volume": "85 ml",
-    "flags": [ "SMOKABLE", "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "smoking_result": "dry_tofu",
     "vitamins": [ [ "calcium", 20 ], [ "iron", 4 ], [ "veggy_allergen", 1 ] ]
   },
@@ -613,7 +613,7 @@
     "vitamins": [ [ "iron", 25 ], [ "vitC", 1 ], [ "calcium", 3 ], [ "veggy_allergen", 1 ] ],
     "smoking_result": "dry_soybean",
     "petfood": [ "CATTLEFOOD" ],
-    "flags": [ "EDIBLE_FROZEN", "SMOKABLE", "NUTRIENT_OVERRIDE", "RAW", "INEDIBLE", "CATTLE", "PLANTABLE_SEED" ],
+    "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "RAW", "INEDIBLE", "CATTLE", "PLANTABLE_SEED" ],
     "plant_name": "soybean",
     "fruit": "soybean",
     "seeds": false,
@@ -648,7 +648,7 @@
     "vitamins": [ [ "iron", 25 ], [ "vitC", 1 ], [ "calcium", 3 ], [ "veggy_allergen", 1 ] ],
     "petfood": [ "CATTLEFOOD" ],
     "smoking_result": "soy_nuts",
-    "flags": [ "EDIBLE_FROZEN", "SMOKABLE", "NUTRIENT_OVERRIDE", "SMOKED", "RAW", "INEDIBLE", "CATTLE", "PLANTABLE_SEED" ],
+    "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "SMOKED", "RAW", "INEDIBLE", "CATTLE", "PLANTABLE_SEED" ],
     "plant_name": "soybean",
     "fruit": "soybean",
     "seeds": false,
@@ -682,7 +682,7 @@
     "fun": 1,
     "vitamins": [ [ "iron", 26 ], [ "vitC", 16 ], [ "calcium", 6 ], [ "veggy_allergen", 1 ] ],
     "petfood": [ "CATTLEFOOD" ],
-    "flags": [ "SMOKABLE", "NUTRIENT_OVERRIDE", "RAW", "INEDIBLE", "CATTLE" ],
+    "flags": [ "NUTRIENT_OVERRIDE", "RAW", "INEDIBLE", "CATTLE" ],
     "smoking_result": "edamame_roasted"
   },
   {
@@ -1468,7 +1468,7 @@
     "fun": -5,
     "//": "10 earthworms triple-boiled",
     "parasites": 0,
-    "flags": [ "FREEZERBURN", "SMOKABLE", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "FREEZERBURN", "NUTRIENT_OVERRIDE" ],
     "smoking_result": "earthworm_dried"
   },
   {

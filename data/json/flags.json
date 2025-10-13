@@ -1887,10 +1887,6 @@
     "type": "json_flag"
   },
   {
-    "id": "SMOKABLE",
-    "type": "json_flag"
-  },
-  {
     "id": "SMOKED",
     "type": "json_flag"
   },

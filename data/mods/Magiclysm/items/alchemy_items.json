@@ -114,7 +114,7 @@
     "subtypes": [ "COMESTIBLE" ],
     "name": { "str": "large adrenal gland" },
     "description": "An organ located above the kidneys responsible for secretion of adrenaline, cortisol, and aldosterone.  This one is huge, whether by nature or mutation.",
-    "delete": { "flags": [ "SMOKABLE" ] },
+    "smoking_result": "null",
     "price": "20 USD"
   },
   {

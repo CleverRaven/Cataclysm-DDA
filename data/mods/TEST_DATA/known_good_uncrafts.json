@@ -3,6 +3,7 @@
     "type": "test_data",
     "//": "dda",
     "known_good_uncraft": [
+      "abyss_teleport_orb",
       "aerosol_paint",
       "airsoft_helmet_stripped",
       "art_beads",
@@ -43,6 +44,7 @@
       "artifact_scp_doc",
       "butane",
       "candle_wax",
+      "default_dimension_teleport_orb",
       "fake_mill_vertical",
       "flare_nitrate",
       "gunpowder",

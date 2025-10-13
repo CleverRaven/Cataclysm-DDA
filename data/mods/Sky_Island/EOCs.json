@@ -890,15 +890,6 @@
     ]
   },
   {
-    "type": "effect_on_condition",
-    "id": "EOC_SKY_ISLAND_GAME_LOAD_WARPED_POND_GRANTER",
-    "eoc_type": "EVENT",
-    "//": "Delete after 0.I",
-    "required_event": "game_load",
-    "condition": { "math": [ "islandrank >= 2" ] },
-    "effect": [ { "u_learn_recipe": "sky_island_warped_pond" } ]
-  },
-  {
     "id": "warp_home",
     "type": "SPELL",
     "name": "Warp Home",
