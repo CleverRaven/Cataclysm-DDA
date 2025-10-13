@@ -326,6 +326,7 @@ struct region_settings_lake {
     int lake_depth = -5;
     std::vector<oter_str_id> shore_extendable_overmap_terrain;
     std::vector<shore_extendable_overmap_terrain_alias> shore_extendable_overmap_terrain_aliases;
+    bool invert_lakes = false;
 
     bool was_loaded = false;
     void load( const JsonObject &jo, std::string_view );

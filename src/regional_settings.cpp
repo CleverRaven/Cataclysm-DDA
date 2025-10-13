@@ -526,6 +526,7 @@ void region_settings_lake::load( const JsonObject &jo, std::string_view )
               shore_extendable_overmap_terrain, sid_reader );
     optional( jo, was_loaded, "shore_extendable_overmap_terrain_aliases",
               shore_extendable_overmap_terrain_aliases );
+    optional( jo, was_loaded, "invert_lakes", invert_lakes, false );
 }
 
 void shore_extendable_overmap_terrain_alias::deserialize( const JsonObject &jo )

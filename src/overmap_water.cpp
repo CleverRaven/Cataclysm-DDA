@@ -9,6 +9,7 @@
 #include <vector>
 
 #include "coordinates.h"
+#include "cuboid_rectangle.h"
 #include "debug.h"
 #include "enums.h"
 #include "flood_fill.h"
@@ -261,8 +262,14 @@ void overmap::place_lakes( const std::vector<const overmap *> &neighbor_overmaps
     double noise_threshold = settings_lake.noise_threshold_lake;
     const int lake_depth = settings_lake.lake_depth;
 
+    // For cases where lakes take up most or all of the map, we need to stop the flood-fill
+    // from being unbounded. However, the bounds cannot be simply the overmap edges, or the
+    // shorelines will not be generated properly.
+    inclusive_rectangle<point_om_omt> considered_bounds( point_om_omt( -5, -5 ),
+            point_om_omt( OMAPX + 5, OMAPY + 5 ) );
     const auto is_lake = [&]( const point_om_omt & p ) {
-        return omt_lake_noise_threshold( origin, p, noise_threshold );
+        return considered_bounds.contains( p ) &&
+               settings_lake.invert_lakes ^ omt_lake_noise_threshold( origin, p, noise_threshold );
     };
 
     const oter_id lake_surface( "lake_surface" );
@@ -281,7 +288,7 @@ void overmap::place_lakes( const std::vector<const overmap *> &neighbor_overmaps
             }
 
             // It's a lake if it exceeds the noise threshold defined in the region settings.
-            if( !omt_lake_noise_threshold( origin, seed_point, noise_threshold ) ) {
+            if( !is_lake( seed_point ) ) {
                 continue;
             }
 

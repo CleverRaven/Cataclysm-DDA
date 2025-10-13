@@ -241,6 +241,7 @@ are interpreted.
 | `lake_depth`                               | Depth of lakes, expressed in Z-levels (e.g. -1 to -10).                     |
 | `shore_extendable_overmap_terrain`         | List of overmap terrains that can be extended to the shore if adjacent.     |
 | `shore_extendable_overmap_terrain_aliases` | Overmap terrains to treat as different overmap terrain for extending shore. |
+| `invert_lakes`                             | Invert drawing of lakes. What would be a lake is land, what would be land is a lake. |
 
 ### Example
 
