@@ -10205,7 +10205,7 @@ bool map::try_fall( const tripoint_bub_ms &p, Creature *c )
         return false;
     }
 
-    if( c->has_effect_with_flag( json_flag_LEVITATION ) && !c->has_effect( effect_slow_descent ) 
+    if( c->has_effect_with_flag( json_flag_LEVITATION ) && !c->has_effect( effect_slow_descent )
         && !c->has_effect( effect_stunned ) && !c->has_effect( effect_psi_stunned ) ) {
         return false;
     }
