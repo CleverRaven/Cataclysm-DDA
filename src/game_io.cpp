@@ -85,6 +85,13 @@
 #include "worldfactory.h"
 #include "zzip.h"
 
+#if defined(_WIN32)
+#if 1 // HACK: Hack to prevent reordering of #include "platform_win.h" by IWYU
+#   include "platform_win.h"
+#endif
+#   include <tchar.h>
+#endif
+
 static const mod_id MOD_INFORMATION_dda( "dda" );
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
