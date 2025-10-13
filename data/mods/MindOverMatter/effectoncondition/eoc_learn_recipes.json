@@ -1266,8 +1266,28 @@
         "then": { "u_learn_recipe": "practice_pyrokinetic_flash_knack" }
       },
       {
-        "if": { "math": [ "u_spell_level('practice_pyrokinetic_eruption_knack') >= 1" ] },
-        "then": { "u_learn_recipe": "pyrokinetic_eruption_knack" }
+        "if": { "math": [ "u_spell_level('pyrokinetic_eruption_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_pyrokinetic_eruption_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('pyrokinetic_call_flames_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_pyrokinetic_call_flames_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('pyrokinetic_cloak_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_pyrokinetic_cloak_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('pyrokinetic_flamethrower_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_pyrokinetic_flamethrower_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('pyrokinetic_aura_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_pyrokinetic_aura_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('pyrokinetic_blast_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_pyrokinetic_blast_knack" }
       },
       {
         "if": { "math": [ "u_spell_level('telekinetic_pull_knack') >= 1" ] },
