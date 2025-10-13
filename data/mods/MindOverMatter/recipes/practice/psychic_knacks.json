@@ -29,7 +29,10 @@
       "practice_pyrokinetic_aura_knack",
       "practice_pyrokinetic_blast_knack",
       "practice_telekinetic_pull_knack",
-      "practice_telekinetic_push_knack"
+      "practice_telekinetic_push_knack",
+      "practice_telekinetic_slam_down_knack",
+      "practice_telekinetic_wave_knack",
+      "practice_telekinetic_shield_knack"
     ],
     "difficulty": 1
   },
@@ -370,9 +373,6 @@
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_pyrokinesis", "required": false } ],
-    "tools": [
-      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_pyrokinesis", -1 ] ]
-    ],
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
@@ -399,9 +399,6 @@
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_pyrokinesis", "required": false } ],
-    "tools": [
-      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_pyrokinesis", -1 ] ]
-    ],
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
@@ -428,9 +425,6 @@
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_pyrokinesis", "required": false } ],
-    "tools": [
-      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_pyrokinesis", -1 ] ]
-    ],
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
@@ -457,9 +451,6 @@
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_pyrokinesis", "required": false } ],
-    "tools": [
-      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_pyrokinesis", -1 ] ]
-    ],
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
@@ -486,9 +477,6 @@
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_pyrokinesis", "required": false } ],
-    "tools": [
-      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_pyrokinesis", -1 ] ]
-    ],
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
@@ -515,9 +503,6 @@
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_pyrokinesis", "required": false } ],
-    "tools": [
-      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_pyrokinesis", -1 ] ]
-    ],
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
@@ -544,9 +529,6 @@
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_pyrokinesis", "required": false } ],
-    "tools": [
-      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_pyrokinesis", -1 ] ]
-    ],
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
@@ -617,9 +599,9 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "name": "contemplation: force shove",
-    "id": "practice_telekinetic_push_knack",
-    "description": "Contemplate your powers and improve your manipulation of living beings.",
+    "name": "contemplation: knockdown",
+    "id": "practice_telekinetic_slam_down_knack",
+    "description": "Contemplate your powers and improve your ability to knock your targets over.",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
@@ -630,10 +612,64 @@
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
-        "id": "EOC_PRACTICE_TELEKIN_PUSH_KNACK",
+        "id": "EOC_PRACTICE_TELEKIN_SLAM_DOWN_KNACK",
         "condition": { "u_has_trait": "PSYCHIC_KNACK" },
         "effect": [
-          { "set_string_var": "telekinetic_push_knack", "target_var": { "u_val": "latest_studied_power_name" } },
+          { "set_string_var": "telekinetic_slam_down_knack", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "run_eocs": [ "EOC_PSI_STUDYING_TELEKIN_POWER_SETUP", "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: wave of force",
+    "id": "practice_telekinetic_wave_knack",
+    "description": "Contemplate your powers and develop your ability to control bursts of telekinetic force.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 0,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_telekinesis", "required": false } ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_TELEKIN_FORCE_WAVE_KNACK",
+        "condition": { "u_has_trait": "PSYCHIC_KNACK" },
+        "effect": [
+          { "set_string_var": "telekinetic_wave_knack", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "run_eocs": [ "EOC_PSI_STUDYING_TELEKIN_POWER_SETUP", "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: inertial barrier",
+    "id": "practice_telekinetic_shield_knack",
+    "description": "Contemplate your powers and improve your creation of force barriers.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 0,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_telekinesis", "required": false } ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_TELEKIN_BARRIER_KNACK",
+        "condition": { "u_has_trait": "PSYCHIC_KNACK" },
+        "effect": [
+          { "set_string_var": "telekinetic_wave_knack", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "run_eocs": [ "EOC_PSI_STUDYING_TELEKIN_POWER_SETUP", "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]
           }

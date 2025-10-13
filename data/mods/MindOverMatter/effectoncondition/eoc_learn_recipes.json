@@ -1296,6 +1296,18 @@
       {
         "if": { "math": [ "u_spell_level('telekinetic_push_knack') >= 1" ] },
         "then": { "u_learn_recipe": "practice_telekinetic_push_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('telekinetic_slam_down_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_telekinetic_slam_down_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('telekinetic_wave_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_telekinetic_wave_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('telekinetic_wave_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_telekinetic_shield_knack" }
       }
     ]
   },
