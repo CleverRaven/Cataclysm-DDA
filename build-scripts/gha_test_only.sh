@@ -57,9 +57,8 @@ else
     export UBSAN_OPTIONS=print_stacktrace=1
     parallel -j "$num_test_jobs" ${parallel_opts} "run_test './tests/cata_test' '('{}')=> ' --user-dir=test_user_dir_{#} {}" ::: "[slow] ~starting_items" "~[slow] ~[.],starting_items"
     if [ -n "$MODS" ]
-    MODLIST=${MODS#--mods=}
     then
-        for MODSET in ${MODLIST//|/ }; do
+        for MODSET in ${MODS//|/ }; do
             parallel -j "$num_test_jobs" ${parallel_opts} "run_test './tests/cata_test' 'Mods-('{}')=> ' --mods=$(printf %q "${MODSET}") --user-dir=modded_{#} {}" ::: "[slow] ~starting_items" "~[slow] ~[.],starting_items"
         done
     fi
