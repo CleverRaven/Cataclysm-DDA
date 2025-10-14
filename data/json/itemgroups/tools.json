@@ -762,7 +762,7 @@
       { "item": "mask_gas_half", "prob": 5, "charges": [ 0, 100 ] },
       [ "glasses_safety", 5 ],
       { "item": "UPS_OFF", "prob": 3, "charges": [ 0, 1000 ] },
-      [ "microscope_off", 5 ],
+      [ "microscope", 5 ],
       { "item": "microscope_slide", "prob": 5, "count": [ 0, 20 ] },
       [ "microscope_dissecting", 5 ],
       [ "funnel_separation", 3 ],

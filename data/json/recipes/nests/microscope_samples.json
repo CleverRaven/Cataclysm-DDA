@@ -8,17 +8,6 @@
     "name": "microscope samples",
     "description": "Recipes related to the production of microscope slides of various samples.",
     "skill_used": "chemistry",
-    "nested_category_data": [ "nested_water" ]
-  },
-  {
-    "id": "nested_water",
-    "type": "nested_category",
-    "activity_level": "NO_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "name": "microscope samples of water",
-    "description": "Recipes related to the production of microscope slides of water samples.",
-    "skill_used": "chemistry",
-    "nested_category_data": [ "microscope_slide_murky_water" ]
+    "nested_category_data": [ "microscope_slide_murky_water", "microscope_slide_soil" ]
   }
 ]

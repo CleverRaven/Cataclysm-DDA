@@ -216,8 +216,8 @@
     "type": "effect_on_condition",
     "id": "EOC_use_microscope",
     "effect": {
-      "run_eoc_selector": [ "EOC_observe_water_murky", "EOC_cancel_observation" ],
-      "names": [ "Murky water sample", "Cancel" ],
+      "run_eoc_selector": [ "EOC_observe_water_murky", "EOC_observe_soil", "EOC_cancel_observation" ],
+      "names": [ "Murky water sample", "Soil sample", "Cancel" ],
       "hide_failing": true,
       "allow_cancel": true
     }
@@ -225,15 +225,17 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_observe_water_murky",
-    "condition": { "u_has_item": "microscope_slide_murky_water" },
+    "condition": { "u_has_item": "microscope_slide_water_murky" },
     "effect": {
-      "if": { "or": [ { "math": [ "u_skill('chemistry') >= 2" ] }, { "math": [ "u_skill('firstaid') >= 2" ] } ] },
-      "then": {
-        "u_message": "You place the slide on the stage, adjust the light and focus the lens, in the sample you can see <microscope_water_murky>"
-      },
-      "else": {
-        "u_message": "You place the slide on the stage then look through the lens, even though the image is very blurry you can make out <microscope_water_murky_untrained>"
-      }
+      "u_message": "You place the slide on the stage, adjust the light and focus the lens, you see  <microscope_water_murky>"
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_observe_soil",
+    "condition": { "u_has_item": "microscope_slide_soil" },
+    "effect": {
+      "u_message": "You place the slide on the stage, adjust the light and focus the lens, you manage to spot <microscope_soil>"
     }
   },
   {

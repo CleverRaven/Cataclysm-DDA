@@ -2741,10 +2741,5 @@
     "type": "MIGRATION",
     "id": "cooking_oil2",
     "replace": "cooking_oil"
-  },
-  {
-    "type": "MIGRATION",
-    "id": "microscope",
-    "replace": "microscope_off"
   }
 ]
