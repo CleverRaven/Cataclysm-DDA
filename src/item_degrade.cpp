@@ -1217,11 +1217,6 @@ bool item::has_rotten_away() const
     }
 }
 
-bool item::is_smokable() const
-{
-    return is_comestible() && get_comestible()->smoking_result != itype_id::NULL_ID();
-}
-
 void item::apply_freezerburn()
 {
     if( !has_flag( flag_FREEZERBURN ) ) {
