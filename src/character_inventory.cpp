@@ -1,6 +1,8 @@
 #include <algorithm>
 #include <climits>
+#include <cstddef>
 #include <functional>
+#include <initializer_list>
 #include <iterator>
 #include <limits>
 #include <list>
@@ -10,42 +12,98 @@
 #include <ostream>
 #include <set>
 #include <string>
+#include <unordered_map>
 #include <utility>
 #include <vector>
 
 #include "activity_actor_definitions.h"
 #include "activity_handlers.h"
+#include "bionics.h"
+#include "body_part_set.h"
+#include "bodypart.h"
 #include "cached_options.h"
+#include "calendar.h"
 #include "catacharset.h"
 #include "character.h"
 #include "character_attire.h"
+#include "character_martial_arts.h"
+#include "color.h"
 #include "coordinates.h"
 #include "debug.h"
+#include "effect.h"
 #include "enums.h"
+#include "event.h"
+#include "event_bus.h"
 #include "flag.h"
+#include "game.h"
+#include "game_constants.h"
+#include "gun_mode.h"
+#include "handle_liquid.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_contents.h"
 #include "item_location.h"
 #include "item_pocket.h"
+#include "item_stack.h"
+#include "item_tname.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
+#include "line.h"
 #include "map.h"
+#include "mapdata.h"
+#include "map_iterator.h"
 #include "map_selector.h"
+#include "messages.h"
+#include "monster.h"
+#include "morale.h"
+#include "mtype.h"
 #include "options.h"
+#include "overmapbuffer.h"
 #include "pickup.h"
 #include "pimpl.h"
+#include "player_activity.h"
 #include "pocket_type.h"
+#include "profession.h"
 #include "ret_val.h"
+#include "safe_reference.h"
 #include "string_formatter.h"
+#include "subbodypart.h"
 #include "translations.h"
+#include "trap.h"
 #include "type_id.h"
 #include "uilist.h"
 #include "units.h"
+#include "value_ptr.h"
 #include "vehicle.h"
 #include "visitable.h"
 #include "vpart_position.h"
+#include "vpart_range.h"
+
+static const activity_id ACT_MOVE_ITEMS( "ACT_MOVE_ITEMS" );
+static const activity_id ACT_TOOLMOD_ADD( "ACT_TOOLMOD_ADD" );
+
+static const ammotype ammo_battery( "battery" );
+
+static const bionic_id bio_ground_sonar( "bio_ground_sonar" );
+
+static const efftype_id effect_incorporeal( "incorporeal" );
+static const efftype_id effect_subaquatic_sonar( "subaquatic_sonar" );
+
+static const itype_id itype_apparatus( "apparatus" );
+static const itype_id itype_battery( "battery" );
+static const itype_id itype_e_handcuffs( "e_handcuffs" );
+static const itype_id itype_fire( "fire" );
+
+static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
+static const json_character_flag json_flag_GRAB( "GRAB" );
+static const json_character_flag json_flag_WATCH( "WATCH" );
+
+static const proficiency_id proficiency_prof_spotting( "prof_spotting" );
+static const proficiency_id proficiency_prof_traps( "prof_traps" );
+static const proficiency_id proficiency_prof_trapsetting( "prof_trapsetting" );
+
+static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
 void Character::handle_contents_changed( const std::vector<item_location> &containers )
 {
