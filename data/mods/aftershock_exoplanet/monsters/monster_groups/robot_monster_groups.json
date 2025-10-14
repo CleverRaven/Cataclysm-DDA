@@ -27,7 +27,7 @@
     "default": "mon_skitterbot_rat",
     "monsters": [
       { "monster": "mon_bloodhound_drone", "weight": 100, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_manhack", "weight": 200, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_skitterbot", "weight": 200, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_skitterbot", "weight": 200, "cost_multiplier": 0 },
       { "monster": "mon_skitterbot_rat", "weight": 500, "cost_multiplier": 0 }
     ]
@@ -45,10 +45,10 @@
   {
     "type": "monstergroup",
     "id": "GROUP_PIRATE__BOT_AMBUSH",
-    "default": "mon_manhack",
+    "default": "mon_skitterbot",
     "monsters": [
       { "monster": "mon_bloodhound_drone", "weight": 500, "cost_multiplier": 50, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_manhack", "weight": 200, "cost_multiplier": 4, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_skitterbot", "weight": 200, "cost_multiplier": 4, "pack_size": [ 1, 2 ] },
       { "monster": "mon_skitterbot", "weight": 200, "cost_multiplier": 20 },
       { "monster": "mon_scavbot_needle", "weight": 100, "cost_multiplier": 70 }
     ]
@@ -56,7 +56,7 @@
   {
     "type": "monstergroup",
     "id": "GROUP_ROBOT_FARM_HOSTILE",
-    "default": "mon_manhack",
+    "default": "mon_skitterbot",
     "monsters": [
       { "monster": "mon_utilibot_hostile", "weight": 500, "cost_multiplier": 70 },
       { "monster": "mon_fumigator", "weight": 200, "cost_multiplier": 4, "pack_size": [ 1, 2 ] },
@@ -67,7 +67,7 @@
   {
     "type": "monstergroup",
     "id": "GROUP_ROBOT_COPS_HOSTILE",
-    "default": "mon_manhack",
+    "default": "mon_skitterbot",
     "monsters": [
       { "monster": "mon_zenit", "weight": 50, "cost_multiplier": 100 },
       { "monster": "mon_skitterbot", "weight": 200, "cost_multiplier": 20 },

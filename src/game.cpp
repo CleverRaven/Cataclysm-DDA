@@ -321,7 +321,7 @@ static const mod_id MOD_INFORMATION_dda( "dda" );
 
 static const mongroup_id GROUP_BLACK_ROAD( "GROUP_BLACK_ROAD" );
 
-static const mtype_id mon_manhack( "mon_manhack" );
+static const mtype_id mon_grenade_hack( "mon_grenade_hack" );
 
 static const npc_class_id NC_DOCTOR( "NC_DOCTOR" );
 static const npc_class_id NC_HALLU( "NC_HALLU" );
@@ -9209,7 +9209,7 @@ bool game::disable_robot( const tripoint_bub_ms &p )
         return true;
     }
     // Manhacks are special, they have their own menu here.
-    if( mid == mon_manhack ) {
+    if( mid == mon_grenade_hack ) {
         int choice = UILIST_CANCEL;
         if( critter.has_effect( effect_docile ) ) {
             choice = uilist( _( "Reprogram the manhack?" ), { _( "Engage targets." ) } );

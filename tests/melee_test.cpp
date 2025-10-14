@@ -43,7 +43,7 @@ static const itype_id itype_test_zentai_resist_test_fire( "test_zentai_resist_te
 
 static const move_mode_id move_mode_prone( "prone" );
 
-static const mtype_id mon_manhack( "mon_manhack" );
+static const mtype_id mon_grenade_hack( "mon_grenade_hack" );
 static const mtype_id mon_zombie( "mon_zombie" );
 static const mtype_id mon_zombie_hulk( "mon_zombie_hulk" );
 static const mtype_id pseudo_debug_mon( "pseudo_debug_mon" );
@@ -140,7 +140,7 @@ TEST_CASE( "Character_attacking_a_zombie", "[.melee]" )
 
 TEST_CASE( "Character_attacking_a_manhack", "[.melee]" )
 {
-    monster manhack( mon_manhack );
+    monster manhack( mon_grenade_hack );
     INFO( "Manhack has get_dodge() == " + std::to_string( manhack.get_dodge() ) );
 
     SECTION( "8/8/8/8, no skills, unarmed" ) {
@@ -208,7 +208,7 @@ TEST_CASE( "Zombie_attacking_a_character", "[.melee]" )
 
 TEST_CASE( "Manhack_attacking_a_character", "[.melee]" )
 {
-    monster manhack( mon_manhack );
+    monster manhack( mon_grenade_hack );
     INFO( "Manhack has get_hit() == " + std::to_string( manhack.get_hit() ) );
 
     SECTION( "8/8/8/8, no skills, unencumbered" ) {

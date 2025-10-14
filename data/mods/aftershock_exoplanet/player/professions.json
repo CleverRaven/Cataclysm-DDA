@@ -556,7 +556,6 @@
           { "item": "socks" },
           { "item": "molle_pack" },
           { "item": "wristwatch" },
-          { "item": "bot_manhack", "count": 2 },
           { "group": "charged_smart_phone" },
           { "item": "afs_cartridge", "ammo-item": "battery", "charges": 1500 },
           {
