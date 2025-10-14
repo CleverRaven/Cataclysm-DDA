@@ -227,7 +227,7 @@
     "id": "EOC_observe_water_murky",
     "condition": { "u_has_item": "microscope_slide_water_murky" },
     "effect": {
-      "u_message": "You place the slide on the stage, adjust the light and focus the lens, you see  <microscope_water_murky>"
+      "u_message": "You place the slide on the stage, adjust the light and focus the lens, you manage to see  <microscope_water_murky>"
     }
   },
   {
@@ -235,7 +235,7 @@
     "id": "EOC_observe_soil",
     "condition": { "u_has_item": "microscope_slide_soil" },
     "effect": {
-      "u_message": "You place the slide on the stage, adjust the light and focus the lens, you manage to spot <microscope_soil>"
+      "u_message": "You place the slide on the stage, adjust the light and focus the lens, you manage to see <microscope_soil>"
     }
   },
   {
