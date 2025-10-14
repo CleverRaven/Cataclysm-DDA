@@ -75,7 +75,9 @@
       "rivets",
       "fake_lathe",
       "spring_medium",
-      "spring_small"
+      "spring_small",
+      "microscope_slide_water_murky",
+      "microscope_slide_soil"
     ]
   }
 ]

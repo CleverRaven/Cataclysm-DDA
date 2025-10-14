@@ -8,6 +8,6 @@
     "name": "microscope samples",
     "description": "Recipes related to the production of microscope slides of various samples.",
     "skill_used": "chemistry",
-    "nested_category_data": [ "microscope_slide_murky_water", "microscope_slide_soil" ]
+    "nested_category_data": [ "microscope_slide_water_murky", "microscope_slide_soil" ]
   }
 ]
