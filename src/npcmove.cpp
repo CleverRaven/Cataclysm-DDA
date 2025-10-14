@@ -4140,7 +4140,7 @@ item *npc::evaluate_best_weapon() const
     double best_value = evaluate_weapon( weap );
 
     // To prevent changing to barely better stuff
-    best_value *= std::max<float>( 1.0f, ai_cache.danger_assessment / 10.0f );
+    best_value *= std::max<float>( 1.0f, std::min<float>( 2.0, ai_cache.danger_assessment / 10.0f ) );
 
     // Fists aren't checked below
     double fist_value = evaluate_weapon( null_item_reference() );
