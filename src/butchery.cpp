@@ -438,7 +438,6 @@ int butcher_time_to_cut( Character &you, const item &corpse_item, const butcher_
             }
             break;
         case butcher_type::DISMEMBER:
-            time_to_cut /= 10;
             if( time_to_cut < 600 ) {
                 time_to_cut = 600;
             }
@@ -461,8 +460,13 @@ int butcher_time_to_cut( Character &you, const item &corpse_item, const butcher_
     double penalty_small = 0.5;
     double penalty_big = 1.5;
 
-    int prof_butch_penalty = penalty_big * ( 1 - butch_basic ) + penalty_small * ( 1 - butch_adv );
-    int prof_skin_penalty = penalty_small * ( 1 - skin_basic );
+    double prof_butch_penalty = penalty_big * ( 1.0 - butch_basic ) + penalty_small *
+                                ( 1.0 - butch_adv );
+    double prof_skin_penalty = penalty_small * ( 1.0 - skin_basic );
+
+    add_msg_debug( debugmode::DF_ACT_BUTCHER,
+                   "Time penalties for butchering:\n Butchery proficiencies penalty: %.2f%%\n Skinning proficiency penalty: %.2f%%",
+                   prof_butch_penalty * 100.0, prof_skin_penalty * 100.0 );
 
     // there supposed to be a code for book mitigation, but we don't have any book fitting for this
 
