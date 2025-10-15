@@ -1055,7 +1055,7 @@
     "subtypes": [ "TOOL" ],
     "category": "tools",
     "name": { "str": "microscope" },
-    "description": "A classic tool for the ages!  This hefty, durable piece of lab equipment makes small things look bigger.  When on it allows the user to observe various samples on a microscopic scale.",
+    "description": "A classic tool for the ages!  This hefty, durable piece of lab equipment makes small things look bigger.  When powered, it allows the user to observe various samples on a microscopic scale.",
     "weight": "2 kg",
     "volume": "3800 ml",
     "price": "30 USD",
