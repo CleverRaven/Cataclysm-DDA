@@ -2345,6 +2345,23 @@ item &Character::best_item_with_quality( const quality_id &qid )
     return null_item_reference();
 }
 
+const item &Character::best_item_with_quality( const quality_id &qid ) const
+{
+    int max_lvl_found = INT_MIN;
+    std::vector<const item *> items = items_with( [qid, &max_lvl_found]( const item & it ) {
+        int qlvl = it.get_quality_nonrecursive( qid );
+        if( qlvl > max_lvl_found ) {
+            max_lvl_found = qlvl;
+            return true;
+        }
+        return false;
+    } );
+    if( max_lvl_found > INT_MIN ) {
+        return *items.back();
+    }
+    return null_item_reference();
+}
+
 bool Character::add_or_drop_with_msg( item &it, const bool /*unloading*/, const item *avoid,
                                       const item *original_inventory_item )
 {
