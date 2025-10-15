@@ -104,5 +104,25 @@
       "Red Hat's logo on it, underneath it says \"The World's Open Source Leader\"",
       "the Debian logo on it, underneath it says \"The Universal Operating System\""
     ]
+  },
+  {
+    "type": "snippet",
+    "category": "<catholic_saints>",
+    "text": [
+      "St. Michael the Archangel, patron saint of soldiers, police officers, and doctors",
+      "St. Francis of Assisi, patron saint of animals, merchants, and ecology",
+      "St. Catherine of Siena, patron saint of fire prevention",
+      "St. Joseph, patron saint of fathers, carpenters, and immigrants",
+      "St. Valentine, patron saint of love, young people, and happy marriages",
+      "St. Christopher, patron saint of traveling, storms, and toothache",
+      "St. Patrick, patron saint of Ireland",
+      "St. Anthony, patron saint of finding lost things",
+      "St. Rita, patron saint of lost causes and parenthood",
+      "St. Mary, Mother of God",
+      "St. Joan of Arc, patron saint of soldiers and France",
+      "St. Pope John Paul II",
+      "St. Genesius, patron saint of actors, liars, and thieves"
+    ]
   }
+
 ]

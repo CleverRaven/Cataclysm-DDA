@@ -1301,6 +1301,13 @@
         "weight": 5
       },
       {
+        "id": "saint_necklace",
+        "name": { "str": "Saint Medallion" },
+        "description": "A necklace made of a fine gold chain with a medallion bearing the image of a Catholic Saint.  The back reads \"<catholic_saints> pray for us.\".",
+        "color": "yellow",
+        "weight": 5
+      },
+      {
         "id": "buddhist_necklace",
         "name": { "str": "Dharmachakra necklace" },
         "description": "A necklace made of a fine gold chain with the Dharmachakra symbol as a pendant.  It is a symbol of the Hindu, Jain and Buddhist faiths.  Also known as Dharma Wheel, the circle, the round shape of the wheel, represents the perfection of the Dharma, the Buddha's teaching.  The rim of the wheel represents meditative concentration and mindfulness, which hold practice together.  The hub represents moral discipline.",
