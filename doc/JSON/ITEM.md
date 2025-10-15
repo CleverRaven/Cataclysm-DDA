@@ -1241,7 +1241,7 @@ The contents of `use_action` fields can either be a string indicating a built-in
 },
 "use_action": {
   "type": "place_monster",          // Place a turret / manhack / whatever monster on the map
-  "monster_id": "mon_grenade_hack",      // Monster ID, see monsters.json
+  "monster_id": "mon_manhack",      // Monster ID, see monsters.json
   "difficulty": 4,                  // Difficulty for programming it (manhacks have 4, turrets 6, etc.)
   "hostile_msg": "It's hostile!",   // (optional) Message when programming the monster failed and it's hostile
   "friendly_msg": "Good!",          // (optional) Message when the monster is programmed properly and it's friendly

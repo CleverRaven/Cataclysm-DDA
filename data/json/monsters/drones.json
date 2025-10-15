@@ -87,6 +87,25 @@
     "armor": { "cut": 4, "bullet": 3 }
   },
   {
+    "id": "mon_manhack",
+    "copy-from": "base_drone",
+    "type": "MONSTER",
+    "name": { "str": "manhack" },
+    "description": "An automated anti-personnel drone, a small quadcopter robot surrounded by whirring blades.",
+    "diff": 2,
+    "speed": 190,
+    "color": "light_green",
+    "melee_skill": 5,
+    "melee_dice": 2,
+    "melee_dice_sides": 4,
+    "melee_damage": [ { "damage_type": "cut", "amount": 12 } ],
+    "revert_to_itype": "bot_manhack",
+    "death_function": { "corpse_type": "BROKEN" },
+    "extend": { "flags": [ "HIT_AND_RUN" ] },
+    "delete": { "flags": [ "PACIFIST" ] },
+    "armor": { "bash": 2, "cut": 8, "bullet": 6 }
+  },
+  {
     "abstract": "exodii_sniper_drone",
     "type": "MONSTER",
     "name": { "str": "balloon sniper-drone" },

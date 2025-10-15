@@ -134,6 +134,7 @@
       { "item": "flashbang" },
       { "item": "EMPbomb" },
       { "item": "smokebomb" },
+      { "item": "bot_manhack" },
       { "item": "bot_turret" },
       { "item": "UPS_OFF" },
       { "item": "mininuke" }

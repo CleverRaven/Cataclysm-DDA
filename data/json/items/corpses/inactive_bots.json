@@ -157,6 +157,33 @@
     "flags": [ "SINGLE_USE", "NO_SALVAGE" ]
   },
   {
+    "id": "bot_manhack",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "inactive manhack" },
+    "description": "An inactive manhack, a fist-sized robot that flies through the air.  This one is covered with whirring blades and attacks by throwing itself against its target.  Use this item to reprogram and activate the manhack.  Electronics and computer skill determines if the targeting matrix is reprogrammed successfully.",
+    "weight": "1500 g",
+    "volume": "750 ml",
+    "price": "600 USD",
+    "price_postapoc": "5 USD",
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "line", "balance": "clumsy" },
+    "material": [ "aluminum", "plastic" ],
+    "symbol": ",",
+    "color": "light_green",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_manhack",
+      "friendly_msg": "The manhack flies from your hand and surveys the area!",
+      "hostile_msg": "You misprogram the manhack; it's hostile!",
+      "difficulty": 4,
+      "moves": 60,
+      "place_randomly": true,
+      "skills": [ "electronics", "computer" ]
+    },
+    "flags": [ "SINGLE_USE", "NO_SALVAGE", "ROBOFAC_ROBOT_SMALL" ],
+    "melee_damage": { "bash": 6, "cut": 6 }
+  },
+  {
     "id": "bot_rifleturret",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],

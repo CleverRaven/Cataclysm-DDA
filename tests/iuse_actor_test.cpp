@@ -36,7 +36,7 @@ static const ammotype ammo_battery( "battery" );
 static const itype_id itype_acidchitin_harness_dog( "acidchitin_harness_dog" );
 static const itype_id itype_backpack_hiking( "backpack_hiking" );
 static const itype_id itype_blanket( "blanket" );
-static const itype_id itype_bot_grenade_hack( "bot_grenade_hack" );
+static const itype_id itype_bot_manhack( "bot_manhack" );
 static const itype_id itype_boxpack( "boxpack" );
 static const itype_id itype_bunker_coat( "bunker_coat" );
 static const itype_id itype_bunker_pants( "bunker_pants" );
@@ -72,7 +72,7 @@ static const itype_id itype_wetsuit_gloves( "wetsuit_gloves" );
 static const itype_id itype_wetsuit_hood( "wetsuit_hood" );
 static const itype_id itype_wetsuit_spring( "wetsuit_spring" );
 
-static const mtype_id mon_grenade_hack( "mon_grenade_hack" );
+static const mtype_id mon_manhack( "mon_manhack" );
 
 static monster *find_adjacent_monster( const tripoint_bub_ms &pos )
 {
@@ -89,6 +89,33 @@ static monster *find_adjacent_monster( const tripoint_bub_ms &pos )
         }
     }
     return nullptr;
+}
+
+TEST_CASE( "manhack", "[iuse_actor][manhack]" )
+{
+    clear_avatar();
+    Character &player_character = get_avatar();
+    clear_map();
+
+    g->clear_zombies();
+    item_location test_item = player_character.i_add( item( itype_bot_manhack, calendar::turn_zero,
+                              item::default_charges_tag{} ) );
+
+    REQUIRE( player_character.has_item( *test_item ) );
+
+    monster *new_manhack = find_adjacent_monster( player_character.pos_bub() );
+    REQUIRE( new_manhack == nullptr );
+
+    player_character.invoke_item( &*test_item );
+
+    REQUIRE( !player_character.has_item_with( []( const item & it ) {
+        return it.typeId() == itype_bot_manhack;
+    } ) );
+
+    new_manhack = find_adjacent_monster( player_character.pos_bub() );
+    REQUIRE( new_manhack != nullptr );
+    REQUIRE( new_manhack->type->id == mon_manhack );
+    g->clear_zombies();
 }
 
 TEST_CASE( "tool_transform_when_activated", "[iuse][tool][transform]" )

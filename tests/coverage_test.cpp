@@ -51,7 +51,7 @@ static const itype_id itype_test_swat_mostly_steel( "test_swat_mostly_steel" );
 static const itype_id itype_test_zentai( "test_zentai" );
 static const itype_id itype_test_zentai_nomelee( "test_zentai_nomelee" );
 
-static const mtype_id mon_grenade_hack( "mon_grenade_hack" );
+static const mtype_id mon_manhack( "mon_manhack" );
 
 static const sub_bodypart_str_id sub_body_part_eyes_right( "eyes_right" );
 
@@ -82,7 +82,7 @@ static float get_avg_melee_dmg( const itype_id &clothing_id, bool infect_risk = 
 {
     map &here = get_map();
 
-    monster zed( mon_grenade_hack, mon_pos );
+    monster zed( mon_manhack, mon_pos );
     standard_npc dude( "TestCharacter", dude_pos, {}, 0, 8, 8, 8, 8 );
     item cloth( clothing_id );
     if( infect_risk ) {
@@ -120,7 +120,7 @@ static float get_avg_melee_dmg( item cloth, bool infect_risk = false )
 {
     map &here = get_map();
 
-    monster zed( mon_grenade_hack, mon_pos );
+    monster zed( mon_manhack, mon_pos );
     standard_npc dude( "TestCharacter", dude_pos, {}, 0, 8, 8, 8, 8 );
     if( infect_risk ) {
         cloth.set_flag( json_flag_FILTHY );

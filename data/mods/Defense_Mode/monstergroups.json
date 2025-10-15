@@ -25,7 +25,7 @@
     "type": "monstergroup",
     "id": "GROUP_ROBOT_DM",
     "monsters": [
-      { "monster": "mon_skitterbot", "weight": 515, "cost_multiplier": 0 },
+      { "monster": "mon_manhack", "weight": 515, "cost_multiplier": 0 },
       { "monster": "mon_skitterbot", "weight": 220, "cost_multiplier": 0 },
       { "monster": "mon_molebot", "weight": 40, "cost_multiplier": 0 }
     ]

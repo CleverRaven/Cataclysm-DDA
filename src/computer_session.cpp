@@ -100,7 +100,7 @@ static const mission_type_id
 mission_MISSION_OLD_GUARD_REPEATER_BEGIN( "MISSION_OLD_GUARD_REPEATER_BEGIN" );
 static const mission_type_id mission_MISSION_REACH_REFUGEE_CENTER( "MISSION_REACH_REFUGEE_CENTER" );
 
-static const mtype_id mon_grenade_hack( "mon_grenade_hack" );
+static const mtype_id mon_manhack( "mon_manhack" );
 static const mtype_id mon_secubot( "mon_secubot" );
 
 static const oter_type_str_id oter_type_sewer( "sewer" );
@@ -1620,7 +1620,7 @@ void computer_session::failure_manhacks()
     const tripoint_range<tripoint_bub_ms> range =
         get_map().points_in_radius( get_player_character().pos_bub(), 3 );
     for( int i = 0; i < num_robots; i++ ) {
-        if( g->place_critter_within( mon_grenade_hack, range ) ) {
+        if( g->place_critter_within( mon_manhack, range ) ) {
             add_msg( m_warning, _( "Manhacks drop from compartments in the ceiling." ) );
         }
     }
