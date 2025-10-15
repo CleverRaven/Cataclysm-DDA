@@ -4840,7 +4840,7 @@
       "male": {
         "entries": [
           { "item": "pants", "variant": "pants_black" },
-          { "item": "longshirt" },
+          { "item": "longshirt", "variant": "black" },
           { "item": "gold_watch" },
           { "item": "priest_collar" },
           { "item": "briefs" }

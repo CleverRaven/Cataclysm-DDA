@@ -138,5 +138,15 @@
     "type": "MIGRATION",
     "id": "atomic_coffeepot",
     "replace": "coffeemaker"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "cape_catholic",
+    "replace": "cloak_vampire_red"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "zuchetto",
+    "replace": "kippah"
   }
 ]
