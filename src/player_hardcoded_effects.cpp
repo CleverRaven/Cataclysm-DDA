@@ -1095,13 +1095,13 @@ static void eff_fun_sleep( Character &u, effect &it )
             float factor = 0.0f;
             if( incident > irradiance_min ) {
                 const float normalized = std::clamp( ( incident - irradiance_min ) /
-                        std::max( irradiance_full - irradiance_min, 1.0f ), 0.0f, 1.0f );
+                                                     std::max( irradiance_full - irradiance_min, 1.0f ), 0.0f, 1.0f );
                 // Half-sine curve: f(x) = sin(x * π/2) on [0,1]
                 factor = std::sin( normalized * M_PI / 2.0f );
             }
             if( factor > 0.0f ) {
                 if( u.has_active_mutation( trait_CHLOROMORPH ) &&
-                        ( u.get_sleepiness() <= 25 ) ) {
+                    ( u.get_sleepiness() <= 25 ) ) {
                     u.set_sleepiness( 25 );
                 }
                 // Hunger and thirst fall before your Chloromorphic physiology!
