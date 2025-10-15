@@ -47,6 +47,7 @@ if ! lang/extract_json_strings.py \
         -X data/json/furniture_and_terrain/terrain-regional-pseudo.json \
         -X data/json/furniture_and_terrain/furniture-regional-pseudo.json \
         -X data/json/items/book/abstract.json \
+        -X data/json/items/tool/debug_tools.json \
         -X data/json/npcs/TALK_TEST.json \
         -X data/json/recipes/basecamps/special_hardcoded.json \
         -X data/core/sentinels.json \
