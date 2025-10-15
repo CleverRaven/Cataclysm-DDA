@@ -145,7 +145,7 @@
     "difficulty": 3,
     "time": "6 h",
     "autolearn": true,
-    "reversible": { "time": "10 m" },
+    "reversible": { "time": "15 m" },
     "using": [ [ "tailoring_nylon_patchwork", 9 ], [ "fastener_small", 2 ], [ "strap_small", 1 ], [ "clasps", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ]
   },
@@ -197,18 +197,21 @@
     "skill_used": "tailor",
     "skills_required": [ "fabrication", 2 ],
     "difficulty": 4,
-    "time": "4 h",
+    "time": "6 h",
     "autolearn": true,
-    "reversible": { "time": "10 m" },
+    "reversible": true,
+    "//": "Item disassembly based on reversible craft and manually defined uncraft integration. Read ITEM_DISASSEMBLY.mb for more info.",
     "using": [
       [ "tailoring_nylon_patchwork", 10 ],
       [ "fastener_small", 1 ],
       [ "strap_small", 1 ],
-      [ "clasps", 1 ]
+      [ "clasps", 1 ],
+      [ "plastic_molding", 1 ]
     ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
-      { "proficiency": "prof_closures_waterproofing" }
+      { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_plasticworking" }
     ]
   },
   {
@@ -222,7 +225,7 @@
     "difficulty": 4,
     "time": "4 h",
     "autolearn": true,
-    "reversible": { "time": "10 m" },
+    "reversible": { "time": "15 m" },
     "using": [ [ "tailoring_nylon_patchwork", 4 ], [ "fastener_small", 2 ], [ "strap_small", 1 ], [ "clasps", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ]
   },
