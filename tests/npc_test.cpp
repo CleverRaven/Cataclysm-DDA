@@ -670,7 +670,10 @@ TEST_CASE( "npc_prefers_guns", "[npc_ai]" )
     hostile.regen_ai_cache();
     float danger_around = hostile.danger_assessment();
     CHECK( danger_around > 1.0f );
+    CAPTURE( hostile.evaluate_weapon( null_item_reference() ) );
+    CAPTURE( hostile.evaluate_weapon( item( itype_bat ) ) );
     hostile.wield_better_weapon();
+    REQUIRE( hostile.get_wielded_item() );
     CAPTURE( hostile.get_wielded_item().get_item()->tname() );
     CHECK( !hostile.get_wielded_item().get_item()->is_gun() );
     // Now give them a gun and some magazines
