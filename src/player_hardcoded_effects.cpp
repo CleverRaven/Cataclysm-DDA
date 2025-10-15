@@ -1086,23 +1086,49 @@ static void eff_fun_sleep( Character &u, effect &it )
             u.has_trait( trait_M_SKIN3 ) || u.has_trait( trait_WATERSLEEP ) ) &&
         here.is_outside( u.pos_bub() ) ) {
         if( u.has_trait( trait_CHLOROMORPH ) ) {
-            // Hunger and thirst fall before your Chloromorphic physiology!
-            if( incident_sun_irradiance( get_weather().weather_id, calendar::turn ) > irradiance::low ) {
+            const float incident = incident_sun_irradiance( get_weather().weather_id, calendar::turn );
+            const float irradiance_min = irradiance::minimal;
+            const float irradiance_full = irradiance::high;
+            float factor = 0.0f;
+            if( incident > irradiance_min ) {
+                const float normalized = std::clamp( ( incident - irradiance_min ) /
+                        std::max( irradiance_full - irradiance_min, 1.0f ), 0.0f, 1.0f );
+                static constexpr float pi = 3.14159265358979323846f;
+                // Half-sine curve: f(x) = sin(x * π/2) on [0,1]
+                factor = std::sin( normalized * pi / 2.0f );
+            }
+            if( factor > 0.0f ) {
                 if( u.has_active_mutation( trait_CHLOROMORPH ) && ( u.get_sleepiness() <= 25 ) ) {
                     u.set_sleepiness( 25 );
                 }
+                // Hunger and thirst fall before your Chloromorphic physiology!
                 if( u.get_hunger() >= -30 ) {
-                    u.mod_hunger( -5 );
-                    // photosynthesis warrants absorbing kcal directly
-                    u.mod_stored_kcal( 43 );
+                    const int hunger_delta = -std::lround( 5.0f * factor );
+                    if( hunger_delta != 0 ) {
+                        u.mod_hunger( hunger_delta );
+                    }
+                    const int kcal_delta = std::lround( 43.0f * factor );
+                    if( kcal_delta != 0 ) {
+                        // photosynthesis warrants absorbing kcal directly
+                        u.mod_stored_kcal( kcal_delta );
+                    }
+                }
+                if( u.get_thirst() >= -40 ) {
+                    const int thirst_delta = -std::lround( 5.0f * factor );
+                    if( thirst_delta != 0 ) {
+                        u.mod_thirst( thirst_delta );
+                    }
+                }
+                // Assuming eight hours of sleep, this will take care of Iron and Calcium needs
+                const int iron_delta = std::lround( 2.0f * factor );
+                if( iron_delta != 0 ) {
+                    u.vitamin_mod( vitamin_iron, iron_delta );
+                }
+                const int calcium_delta = std::lround( 2.0f * factor );
+                if( calcium_delta != 0 ) {
+                    u.vitamin_mod( vitamin_calcium, calcium_delta );
                 }
             }
-            if( u.get_thirst() >= -40 ) {
-                u.mod_thirst( -5 );
-            }
-            // Assuming eight hours of sleep, this will take care of Iron and Calcium needs
-            u.vitamin_mod( vitamin_iron, 2 );
-            u.vitamin_mod( vitamin_calcium, 2 );
         }
         if( u.has_trait( trait_M_SKIN3 ) ) {
             // Spores happen!
