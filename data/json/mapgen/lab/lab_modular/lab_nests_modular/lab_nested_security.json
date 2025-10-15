@@ -959,13 +959,13 @@
       "furniture": { "6": "f_vent_toxic_belch" },
       "place_monster": [
         {
-          "monster": [ "mon_gasbomb_hack", "mon_skitterbot", "mon_skitterbot", "mon_tazer_hack", "mon_flashbang_hack" ],
+          "monster": [ "mon_gasbomb_hack", "mon_grenade_hack", "mon_skitterbot", "mon_tazer_hack", "mon_flashbang_hack" ],
           "x": 5,
           "y": 0,
           "chance": 100
         },
         {
-          "monster": [ "mon_gasbomb_hack", "mon_skitterbot", "mon_skitterbot", "mon_tazer_hack", "mon_flashbang_hack" ],
+          "monster": [ "mon_gasbomb_hack", "mon_grenade_hack", "mon_skitterbot", "mon_tazer_hack", "mon_flashbang_hack" ],
           "x": 5,
           "y": 3,
           "chance": 100
