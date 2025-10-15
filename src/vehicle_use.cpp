@@ -19,6 +19,8 @@
 #include "creature.h"
 #include "creature_tracker.h"
 #include "debug.h"
+#include "dialogue.h"
+#include "effect_on_condition.h"
 #include "enums.h"
 #include "game.h"
 #include "game_inventory.h"
@@ -2064,6 +2066,15 @@ void vehicle::build_interact_menu( veh_menu &menu, map *here, const tripoint_bub
         .hotkey( "TOGGLE_ALARM" )
         .on_submit( [this, here] { smash_security_system( *here ); } );
     }
+    for( const vpart_reference &vp : this->get_avail_parts( "EOC_ACTIVATION" ) ) {
+        vehicle_part &part = vp.part();
+        menu.add( string_format( _( "Activate  %s" ), vp.part().name() ) )
+        .on_submit( [&part] {
+            dialogue newDialog( get_talker_for( get_player_character() ), nullptr );
+            part.info().activatable_eoc.value()->activate( newDialog );
+        } );
+    }
+
 
     if( remote ) {
         menu.add( _( "Stop controlling" ) )
