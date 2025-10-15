@@ -31,10 +31,10 @@
 #include "item.h"
 #include "item_location.h"
 #include "map.h"
-#include "math_defines.h"
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "martialarts.h"
+#include "math_defines.h"
 #include "messages.h"
 #include "mongroup.h"
 #include "player_activity.h"
@@ -1087,7 +1087,8 @@ static void eff_fun_sleep( Character &u, effect &it )
             u.has_trait( trait_M_SKIN3 ) || u.has_trait( trait_WATERSLEEP ) ) &&
         here.is_outside( u.pos_bub() ) ) {
         if( u.has_trait( trait_CHLOROMORPH ) ) {
-            const float incident = incident_sun_irradiance( get_weather().weather_id, calendar::turn );
+            const float incident = incident_sun_irradiance( get_weather().weather_id,
+                                   calendar::turn );
             const float irradiance_min = irradiance::minimal;
             const float irradiance_full = irradiance::high;
             float factor = 0.0f;
@@ -1098,7 +1099,8 @@ static void eff_fun_sleep( Character &u, effect &it )
                 factor = std::sin( normalized * M_PI / 2.0f );
             }
             if( factor > 0.0f ) {
-                if( u.has_active_mutation( trait_CHLOROMORPH ) && ( u.get_sleepiness() <= 25 ) ) {
+                if( u.has_active_mutation( trait_CHLOROMORPH ) &&
+                        ( u.get_sleepiness() <= 25 ) ) {
                     u.set_sleepiness( 25 );
                 }
                 // Hunger and thirst fall before your Chloromorphic physiology!
