@@ -891,6 +891,24 @@ void Item_factory::finalize_post( itype &obj )
                           obj.id.str(), dtype.str() );
             }
         }
+
+        const use_function *consume_drug = obj.get_use( "consume_drug" );
+        if( consume_drug ) {
+            const consume_drug_iuse *consume_drug_use = dynamic_cast<const consume_drug_iuse *>
+                    ( consume_drug->get_actor_ptr() );
+            // This map is actually empty (i.e no entries) if undefined
+            const bool has_drug_vitamins = !consume_drug_use->vitamins.empty();
+            // This map (nutrients) is ALWAYS filled with all vitamin types, but the entries are zero'd, so we cannot check empty()!
+            const bool has_food_vitamins = obj.comestible->default_nutrition_read_only().has_any_vitamin();
+            if( has_food_vitamins && !has_drug_vitamins ) {
+                debugmsg( "Error on item %s: You need to put food vitamins into the consume_drug use_action, for stupid technical reasons.",
+                          obj.id.c_str() );
+            }
+            if( has_drug_vitamins && !has_food_vitamins ) {
+                debugmsg( "Error on item %s: You also need to put the consume_drug vitamins into food vitamins, for stupider technical reasons.",
+                          obj.id.c_str() );
+            }
+        }
     }
 
     // weight_override, weight_add, weight_mult, group_id
