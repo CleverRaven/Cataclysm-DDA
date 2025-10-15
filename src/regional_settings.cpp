@@ -21,6 +21,11 @@
 
 class mapgendata;
 
+static const oter_str_id oter_lake_bed( "lake_bed" );
+static const oter_str_id oter_lake_shore( "lake_shore" );
+static const oter_str_id oter_lake_surface( "lake_surface" );
+static const oter_str_id oter_lake_water_cube( "lake_water_cube" );
+
 static const weighted_string_id_reader<overmap_special_id, int> building_bin_reader( 1 );
 static const weighted_string_id_reader<furn_id, int> furn_reader( 1 );
 static const weighted_string_id_reader<ter_id, int> ter_reader( 1 );
@@ -516,6 +521,13 @@ void region_settings_overmap_connection::deserialize( const JsonObject &jo )
     optional( jo, was_loaded, "inter_city_road_connection", inter_city_road_connection );
 }
 
+region_settings_lake::region_settings_lake() :
+    surface( oter_lake_surface ),
+    shore( oter_lake_shore ),
+    interior( oter_lake_water_cube ),
+    bed( oter_lake_bed )
+{}
+
 void region_settings_lake::load( const JsonObject &jo, std::string_view )
 {
     optional( jo, was_loaded, "noise_threshold_lake", noise_threshold_lake );
@@ -526,6 +538,11 @@ void region_settings_lake::load( const JsonObject &jo, std::string_view )
               shore_extendable_overmap_terrain, sid_reader );
     optional( jo, was_loaded, "shore_extendable_overmap_terrain_aliases",
               shore_extendable_overmap_terrain_aliases );
+    optional( jo, was_loaded, "invert_lakes", invert_lakes, false );
+    optional( jo, was_loaded, "surface_ter", surface, oter_lake_surface );
+    optional( jo, was_loaded, "shore_ter", shore, oter_lake_shore );
+    optional( jo, was_loaded, "interior_ter", interior, oter_lake_water_cube );
+    optional( jo, was_loaded, "bed_ter", bed, oter_lake_bed );
 }
 
 void shore_extendable_overmap_terrain_alias::deserialize( const JsonObject &jo )
