@@ -765,6 +765,12 @@
         "append": true,
         "expand_snippets": true,
         "description": "This one has <color> stripes."
+      },
+      {
+        "id": "black",
+        "name": { "str": "striped button shirt" },
+        "append": true,
+        "description": "This one is black"
       }
     ]
   },
