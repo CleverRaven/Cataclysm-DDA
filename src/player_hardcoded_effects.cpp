@@ -31,6 +31,7 @@
 #include "item.h"
 #include "item_location.h"
 #include "map.h"
+#include "math_defines.h"
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "martialarts.h"
@@ -1093,9 +1094,8 @@ static void eff_fun_sleep( Character &u, effect &it )
             if( incident > irradiance_min ) {
                 const float normalized = std::clamp( ( incident - irradiance_min ) /
                         std::max( irradiance_full - irradiance_min, 1.0f ), 0.0f, 1.0f );
-                static constexpr float pi = 3.14159265358979323846f;
                 // Half-sine curve: f(x) = sin(x * π/2) on [0,1]
-                factor = std::sin( normalized * pi / 2.0f );
+                factor = std::sin( normalized * M_PI / 2.0f );
             }
             if( factor > 0.0f ) {
                 if( u.has_active_mutation( trait_CHLOROMORPH ) && ( u.get_sleepiness() <= 25 ) ) {
