@@ -424,7 +424,7 @@
     "name": "RAD_MUTATION",
     "//": "If true, radiation causes the player to mutate.",
     "stype": "bool",
-    "value": true
+    "value": false
   },
   {
     "type": "EXTERNAL_OPTION",
