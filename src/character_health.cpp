@@ -251,8 +251,7 @@ bool Character::is_warm() const
 {
     if( has_flag( json_flag_NO_BODY_HEAT ) ) {
         return false;
-    }
-    else { 
+    } else {
         return true;
     }
 }
