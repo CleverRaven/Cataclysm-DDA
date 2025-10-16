@@ -4874,7 +4874,7 @@
   {
     "id": "cardboard_roll",
     "type": "ITEM",
-    "category": "other",
+    "category": "container",
     "name": { "str": "cardboard roll" },
     "description": "A small cardboard roll used to conveniently store materials such as tape or toilet paper.",
     "ascii_picture": "cardboard_roll",
