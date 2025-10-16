@@ -2356,7 +2356,7 @@ static faction *select_faction()
     uilist factionlist;
     int facnum = 0;
     for( const faction *faction : factions ) {
-        factionlist.addentry( facnum++, true, MENU_AUTOASSIGN, "%s", faction->name.c_str() );
+        factionlist.addentry( facnum++, true, MENU_AUTOASSIGN, "%s", faction->get_name() );
     }
 
     factionlist.query();
@@ -2903,7 +2903,7 @@ static void faction_edit_menu()
     uilist nmenu;
 
     std::stringstream data;
-    data << fac->name << std::endl;
+    data << fac->get_name() << std::endl;
     data << fac->describe() << std::endl;
     data << string_format( _( "Id: %s" ), fac->id.c_str() ) << std::endl;
     data << string_format( _( "Wealth: %d" ), fac->wealth ) << " | "
@@ -4449,7 +4449,7 @@ void debug()
                 std::cout << std::to_string( count ) << " Faction_id key in factions map = " << elem.first.str() <<
                           std::endl;
                 std::cout << std::to_string( count ) << " Faction name associated with this id is " <<
-                          elem.second.name << std::endl;
+                          elem.second.get_name() << std::endl;
                 std::cout << std::to_string( count ) << " the id of that faction object is " << elem.second.id.str()
                           << std::endl;
                 count++;

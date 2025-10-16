@@ -1060,7 +1060,7 @@ std::string item::get_old_owner_name() const
         debugmsg( "item::get_owner_name() item %s has no valid nor null faction id", tname() );
         return "no owner";
     }
-    return g->faction_manager_ptr->get( get_old_owner() )->name;
+    return g->faction_manager_ptr->get( get_old_owner() )->get_name();
 }
 
 std::string item::get_owner_name() const
@@ -1069,7 +1069,7 @@ std::string item::get_owner_name() const
         debugmsg( "item::get_owner_name() item %s has no valid nor null faction id ", tname() );
         return "no owner";
     }
-    return g->faction_manager_ptr->get( get_owner() )->name;
+    return g->faction_manager_ptr->get( get_owner() )->get_name();
 }
 
 void item::set_owner( const faction_id &new_owner )
