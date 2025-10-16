@@ -63,6 +63,7 @@
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
+#include "overmap_debug.h"
 #include "overmap_types.h"
 #include "overmapbuffer.h"
 #include "point.h"
@@ -1178,6 +1179,7 @@ static void draw_om_sidebar( ui_adaptor &ui,
         print_hint( "PLACE_TERRAIN", c_light_blue );
         print_hint( "SET_SPECIAL_ARGS", c_light_blue );
         print_hint( "MODIFY_HORDE", c_light_blue );
+        print_hint( "PRINT_NOISE_MAPS", c_light_blue );
         lines--;
     } else {
         lines = 11;
@@ -2075,6 +2077,7 @@ static tripoint_abs_omt display()
     if( data.debug_editor ) {
         ictxt.register_action( "PLACE_TERRAIN" );
         ictxt.register_action( "PLACE_SPECIAL" );
+        ictxt.register_action( "PRINT_NOISE_MAPS" );
         ictxt.register_action( "SET_SPECIAL_ARGS" );
         ictxt.register_action( "LONG_TELEPORT" );
         ictxt.register_action( "MODIFY_HORDE" );
@@ -2290,6 +2293,8 @@ static tripoint_abs_omt display()
             action = "QUIT";
         } else if( action == "MODIFY_HORDE" ) {
             modify_horde_func( curs );
+        } else if( action == "PRINT_NOISE_MAPS" ) {
+            om_debug::print_noise_maps( curs );
         } else if( action == "REVEAL_MAP" ) {
             debug_menu::prompt_map_reveal( curs );
         } else if( action == "MISSIONS" ) {
