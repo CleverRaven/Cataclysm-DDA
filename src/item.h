@@ -3230,6 +3230,8 @@ class item : public visitable
         void update_prefix_suffix_flags();
         void update_prefix_suffix_flags( const flag_id &flag );
 
+        void inherit_rot_from_components( item &it );
+
     public:
         enum class sizing : int {
             human_sized_human_char = 0,
