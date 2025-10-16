@@ -785,8 +785,7 @@ class comestible_inventory_preset : public inventory_selector_preset
         }
 
         bool is_shown( const item_location &loc ) const override {
-            return ( loc->is_comestible() && you.can_consume_as_is( *loc ) ) ||
-                   loc->is_medical_tool();
+            return  loc->is_comestible() && you.can_consume_as_is( *loc );
         }
 
         std::string get_denial( const item_location &loc ) const override {
@@ -1113,7 +1112,8 @@ class activatable_inventory_preset : public pickup_inventory_preset
         }
 
         bool is_shown( const item_location &loc ) const override {
-            return loc->type->has_use() || loc->has_relic_activation();
+            return ( loc->type->has_use() || loc->has_relic_activation() ) && !loc->is_medical_tool() &&
+                   !loc->is_medication();
         }
 
         std::string get_denial( const item_location &loc ) const override {
