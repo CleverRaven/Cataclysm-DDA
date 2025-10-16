@@ -968,7 +968,7 @@
     "remove_message": "You end your imitation of death.",
     "rating": "mixed",
     "enchantments": [ { "mutations": [ "WINTER_FEIGN_DEATH_TRAITS" ], "ench_effects": [ { "effect": "downed", "intensity": 1 } ] } ],
-    "flags": [ "CANNOT_ATTACK", "CANNOT_MOVE" ]
+    "flags": [ "CANNOT_ATTACK", "CANNOT_MOVE", "NO_BODY_HEAT" ]
   },
   {
     "type": "effect_type",

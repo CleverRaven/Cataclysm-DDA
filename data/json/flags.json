@@ -2247,6 +2247,11 @@
     "info": "Allows movement in open air."
   },
   {
+    "id": "NO_BODY_HEAT",
+    "type": "json_flag",
+    "info": "The character produces no body heat and is not visible on infrared (for characters only, for monsters use the WARM flag to enable infrared visibility)."
+  },
+  {
     "id": "ALL_TERRAIN_NAVIGATION",
     "type": "json_flag",
     "info": "Allows movement over rough and sharp terrain without penalty."
