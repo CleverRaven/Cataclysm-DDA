@@ -1137,6 +1137,28 @@
     "interruptable_with_kb": false
   },
   {
+    "id": "ACT_PHONE_RECOVERY_BASIC",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "recovering",
+    "based_on": "time",
+    "interruptable": true,
+    "can_resume": false,
+    "interruptable_with_kb": true,
+    "completion_eoc": "EOC_SMARTPHONE_RECOVERY_BASIC_2"
+  },
+  {
+    "id": "ACT_PHONE_RECOVERY_ADVANCED",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "recovering",
+    "based_on": "time",
+    "interruptable": true,
+    "can_resume": false,
+    "interruptable_with_kb": true,
+    "completion_eoc": "EOC_SMARTPHONE_RECOVERY_ADVANCED_2"
+  },
+  {
     "id": "ACT_SALINE_INFUSE",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
