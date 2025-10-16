@@ -235,8 +235,6 @@ static const activity_id ACT_TRAIN( "ACT_TRAIN" );
 static const activity_id ACT_TRAIN_TEACHER( "ACT_TRAIN_TEACHER" );
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
 
-static const ascii_art_id ascii_art_ascii_tombstone( "ascii_tombstone" );
-
 static const bionic_id bio_jointservo( "bio_jointservo" );
 static const bionic_id bio_probability_travel( "bio_probability_travel" );
 static const bionic_id bio_remote( "bio_remote" );
@@ -2866,103 +2864,6 @@ bool game::is_game_over()
         return is_game_over();
     }
     return false;
-}
-
-class end_screen_data;
-
-class end_screen_data
-{
-        friend class end_screen_ui_impl;
-    public:
-        void draw_end_screen_ui();
-};
-
-class end_screen_ui_impl : public cataimgui::window
-{
-    public:
-        std::string text;
-        explicit end_screen_ui_impl() : cataimgui::window( _( "The End" ) ) {
-        }
-    protected:
-        void draw_controls() override;
-};
-
-void end_screen_data::draw_end_screen_ui()
-{
-    input_context ctxt;
-    ctxt.register_action( "TEXT.CONFIRM" );
-#if defined(WIN32) || defined(TILES)
-    ctxt.set_timeout( 50 );
-#endif
-    end_screen_ui_impl p_impl;
-
-    while( true ) {
-        ui_manager::redraw_invalidated();
-        std::string action = ctxt.handle_input();
-        if( action == "TEXT.CONFIRM" || !p_impl.get_is_open() ) {
-            break;
-        }
-    }
-    avatar &u = get_avatar();
-    const bool is_suicide = g->uquit == QUIT_SUICIDE;
-    get_event_bus().send<event_type::game_avatar_death>( u.getID(), u.name, is_suicide, p_impl.text );
-}
-
-void end_screen_ui_impl::draw_controls()
-{
-    avatar &u = get_avatar();
-    ascii_art_id art = ascii_art_ascii_tombstone;
-    dialogue d( get_talker_for( u ), nullptr );
-    std::string input_label;
-    std::vector<std::pair<std::pair<int, int>, std::string>> added_info;
-
-    //Sort end_screens in order of decreasing priority
-    std::vector<end_screen> sorted_screens = end_screen::get_all();
-    std::sort( sorted_screens.begin(), sorted_screens.end(), []( end_screen const & a,
-    end_screen const & b ) {
-        return a.priority > b.priority;
-    } );
-
-    for( const end_screen &e_screen : sorted_screens ) {
-        if( e_screen.condition( d ) ) {
-            art = e_screen.picture_id;
-            if( !e_screen.added_info.empty() ) {
-                added_info = e_screen.added_info;
-            }
-            if( !e_screen.last_words_label.empty() ) {
-                input_label = e_screen.last_words_label;
-            }
-            break;
-        }
-    }
-
-    if( art.is_valid() ) {
-        cataimgui::PushMonoFont();
-        int row = 1;
-        for( const std::string &line : art->picture ) {
-            cataimgui::draw_colored_text( line );
-
-            for( std::pair<std::pair<int, int>, std::string> info : added_info ) {
-                if( row ==  info.first.second ) {
-                    parse_tags( info.second, u, u );
-                    ImGui::SameLine( str_width_to_pixels( info.first.first ), 0 );
-                    cataimgui::draw_colored_text( info.second );
-                }
-            }
-            row++;
-        }
-        ImGui::PopFont();
-    }
-
-    if( !input_label.empty() ) {
-        ImGui::NewLine();
-        ImGui::AlignTextToFramePadding();
-        cataimgui::draw_colored_text( input_label );
-        ImGui::SameLine( str_width_to_pixels( input_label.size() + 2 ), 0 );
-        ImGui::InputText( "##LAST_WORD_BOX", &text );
-        ImGui::SetKeyboardFocusHere( -1 );
-    }
-
 }
 
 void game::bury_screen() const

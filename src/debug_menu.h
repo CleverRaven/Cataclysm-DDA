@@ -74,6 +74,7 @@ enum class debug_menu_index : int {
     ENABLE_ACHIEVEMENTS,
     SHOW_MSG,
     CRASH_GAME,
+    TEST_END_SCREEN,
     MAP_EXTRA,
     DISPLAY_NPC_PATH,
     DISPLAY_NPC_ATTACK,
