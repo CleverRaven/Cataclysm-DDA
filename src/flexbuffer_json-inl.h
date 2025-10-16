@@ -616,6 +616,14 @@ auto JsonArray::read( T &v, bool throw_on_error ) const -> decltype( v.front(), 
     return true;
 }
 
+template< typename... Ts >
+bool JsonValue::read( std::variant<Ts...> &v, bool throw_on_error ) const
+{
+    return std::visit( [&]( auto & value ) {
+        return read( value, throw_on_error );
+    }, v );
+}
+
 inline JsonValue JsonArray::operator[]( size_t idx ) const
 {
     // Manually bsearch for the key idx to store in visited_fields_bitset_.
