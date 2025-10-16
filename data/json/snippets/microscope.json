@@ -2,12 +2,12 @@
   {
     "type": "snippet",
     "category": "<microscope_water_murky>",
-    "text": [ "<protozoa>", "<diatom>", "<algae>", "<rotifer>", "<cyanobacteria>" ]
+    "text": [ "<protozoa>", "<diatom>", "<algae>", "<rotifer>", "<cyanobacteria>", "<larvae>", "<crustacean>" ]
   },
   {
     "type": "snippet",
     "category": "<microscope_soil>",
-    "text": [ "<protozoa>", "<larvae>", "<nematode>", "<mite>", "<crustacean>" ]
+    "text": [ "<protozoa>", "<nematode>", "<mite>", "<fungi>" ]
   },
   {
     "type": "snippet",
@@ -23,7 +23,7 @@
     "text": [
       "a golden spindle with a hard, transparent shell, floating silently.",
       "a golden sphere with a hard, transparent shell, floating silently.",
-      "a golden rectangle with a hard, transparent shell, floating silently."
+      "a golden cube with a hard, transparent shell, floating silently."
     ]
   },
   {
@@ -80,6 +80,14 @@
     "text": [
       "a big, straight, green shape, so long it seems to go on forever, there's some kind of repeating zigzag structure inside.",
       "big, impossibly long green shapes bunched together, they seem to be gliding along each other."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<fungi>",
+    "text": [
+      "a huge structure made out of small transparent strands.",
+      "a huge structure made out of small transparent strands, looking closer, it appears to be full of tiny, round, colorful shapes."
     ]
   }
 ]
