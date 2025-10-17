@@ -2988,7 +2988,7 @@ std::vector<std::string> optional_vpart_position::extended_description() const
     ret.emplace_back( get_origin( v.type->src ) );
     ret.emplace_back( "--" );
 
-    ret.emplace_back( string_format( _( "%s (%s)" ), v.name, v.owner->name ) );
+    ret.emplace_back( string_format( _( "%s (%s)" ), v.name, v.owner->get_name() ) );
     ret.emplace_back( "--" );
 
     for( int idx : v.parts_at_relative( value().mount_pos(), true ) ) {
@@ -4991,7 +4991,7 @@ std::string vehicle::get_owner_name() const
         debugmsg( "vehicle::get_owner_name() vehicle %s has no valid nor null faction id ", disp_name() );
         return _( "no owner" );
     }
-    return _( g->faction_manager_ptr->get( owner )->name );
+    return g->faction_manager_ptr->get( owner )->get_name();
 }
 
 void vehicle::set_owner( const Character &c )
@@ -5044,7 +5044,7 @@ bool vehicle::handle_potential_theft( Character const &you, bool check_only, boo
     if( prompt ) {
         if( !you.query_yn(
                 _( "This vehicle belongs to: %s, there may be consequences if you are observed interacting with it, continue?" ),
-                _( get_owner_name() ) ) ) {
+                get_owner_name() ) ) {
             return false;
         }
     }

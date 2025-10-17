@@ -96,6 +96,16 @@ void faction_template::reset()
     npc_factions::all_templates.clear();
 }
 
+std::string faction_template::get_name() const
+{
+    return _( name );
+}
+
+void faction_template::set_name( std::string new_name )
+{
+    name = std::move( new_name );
+}
+
 void faction_template::load_relations( const JsonObject &jsobj )
 {
     for( const JsonMember fac : jsobj.get_object( "relations" ) ) {
@@ -536,7 +546,7 @@ faction *faction_manager::add_new_faction( const std::string &name_new, const fa
     for( const faction_template &fac_temp : npc_factions::all_templates ) {
         if( template_id == fac_temp.id ) {
             faction fac( fac_temp );
-            fac.name = name_new;
+            fac.set_name( name_new );
             fac.id = id_new;
             factions[fac.id] = fac;
             return &factions[fac.id];
@@ -559,7 +569,7 @@ faction *faction_manager::get( const faction_id &id, const bool complain )
                         elem.second.price_rules = fac_temp.price_rules;
                         elem.second.lone_wolf_faction = fac_temp.lone_wolf_faction;
                         elem.second.limited_area_claim = fac_temp.limited_area_claim;
-                        elem.second.name = fac_temp.name;
+                        elem.second.set_name( fac_temp.get_name() );
                         elem.second.desc = fac_temp.desc;
                         elem.second.mon_faction = fac_temp.mon_faction;
                         elem.second.epilogue_data = fac_temp.epilogue_data;
@@ -994,7 +1004,7 @@ void faction_manager::display() const
                 const std::string no_fac = _( "You don't know of any factions." );
                 if( active_vec_size > 0 ) {
                     draw_list( std::function( [&valfac]( size_t i ) {
-                        return _( valfac[i]->name );
+                        return valfac[i]->get_name();
                     } ) );
                     if( cur_fac ) {
                         cur_fac->faction_display( w_missions, 31 );

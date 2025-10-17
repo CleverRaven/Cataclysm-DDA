@@ -15,6 +15,7 @@
 #include "options.h"
 #include "rng.h"
 #include "string_formatter.h"
+#include "translation.h"
 #include "translations.h"
 #include "units.h"
 #include "units_utility.h"
@@ -907,13 +908,13 @@ std::pair<month, int> month_and_day( time_point turn )
 
 std::string to_string( month m )
 {
-    static std::array<std::string, 12> months = {
-        translate_marker_context( "month", "Jan" ), translate_marker_context( "month", "Feb" ),
-        translate_marker_context( "month", "Mar" ), translate_marker_context( "month", "Apr" ),
-        translate_marker_context( "month", "May" ), translate_marker_context( "month", "Jun" ),
-        translate_marker_context( "month", "Jul" ), translate_marker_context( "month", "Aug" ),
-        translate_marker_context( "month", "Sep" ), translate_marker_context( "month", "Oct" ),
-        translate_marker_context( "month", "Nov" ), translate_marker_context( "month", "Dec" )
+    static std::array<translation, 12> months = {
+        to_translation( "month", "Jan" ), to_translation( "month", "Feb" ),
+        to_translation( "month", "Mar" ), to_translation( "month", "Apr" ),
+        to_translation( "month", "May" ), to_translation( "month", "Jun" ),
+        to_translation( "month", "Jul" ), to_translation( "month", "Aug" ),
+        to_translation( "month", "Sep" ), to_translation( "month", "Oct" ),
+        to_translation( "month", "Nov" ), to_translation( "month", "Dec" )
     };
 
     static_assert( static_cast<month>( 0 ) == month::JANUARY, "month enum out of phase" );
@@ -922,7 +923,7 @@ std::string to_string( month m )
         return _( "Cataclysm" );
     }
 
-    return _( months[static_cast<int>( m )] );
+    return months[static_cast<int>( m )].translated();
 }
 
 std::string get_diary_time_since_str( const time_duration &turn_diff, time_accuracy acc,

@@ -1455,7 +1455,7 @@
     "purifiable": false,
     "valid": false,
     "can_only_eat": [ "blood", "hblood", "fae_blood", "vampire_blood" ],
-    "flags": [ "CANNIBAL", "DAYFEAR", "NO_THIRST" ],
+    "flags": [ "CANNIBAL", "DAYFEAR", "NO_THIRST", "NO_BODY_HEAT" ],
     "vitamin_rates": [ [ "vitC", -500 ], [ "iron", -500 ], [ "calcium", -500 ] ],
     "//": "When weariness can be modified through Json, this mutation should make the player immune to it.",
     "enchantments": [
@@ -1729,7 +1729,8 @@
           { "value": "SPEED", "add": { "math": [ "temperature_speed_mod(65, 0.5)" ] } }
         ]
       }
-    ]
+    ],
+    "flags": [ "NO_BODY_HEAT" ]
   },
   {
     "type": "mutation",

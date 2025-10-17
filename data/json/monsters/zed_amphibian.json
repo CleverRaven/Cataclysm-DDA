@@ -3,7 +3,7 @@
     "abstract": "mon_proxy_frog_zombie",
     "type": "MONSTER",
     "name": { "str": "zombie frog" },
-    "description": "A hypothetical frog of the zombie variety.  You should not be seeing it without debug.",
+    "description": { "str": "A hypothetical frog of the zombie variety.  You should not be seeing it without debug.", "//~": "NO_I18N" },
     "default_faction": "zombie",
     "bodytype": "frog",
     "species": [ "ZOMBIE" ],
