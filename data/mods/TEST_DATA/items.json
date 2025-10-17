@@ -49,7 +49,6 @@
     "volume": "60050 ml",
     "price": "100 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -4,
     "material": [ "steel" ],
     "symbol": "}",
     "color": "light_cyan",
@@ -62,8 +61,7 @@
         "max_contains_weight": "120 kg"
       }
     ],
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "melee_damage": { "bash": 6 }
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "type": "ITEM",
@@ -1529,7 +1527,6 @@
     "name": { "str": "long waist apron" },
     "description": "A long waist apron made of cotton.",
     "price_postapoc": "50 cent",
-    "to_hit": 1,
     "symbol": "[",
     "looks_like": "vest_leather",
     "volume": "1750 ml",
