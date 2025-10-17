@@ -5212,21 +5212,6 @@
     "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
-    "id": "tail_bunny_playboy",
-    "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
-    "name": { "str": "bunny tail" },
-    "description": "A fluffy bunny tail ball, usually worn with a sexy one-piece bunny suit and bunny ears headband.",
-    "weight": "50 g",
-    "volume": "100 ml",
-    "price": "10 USD",
-    "price_postapoc": "10 cent",
-    "material": [ "cotton" ],
-    "symbol": "*",
-    "color": "light_gray",
-    "flags": [ "NO_WEAR_EFFECT" ]
-  },
-  {
     "result": "gold_ring",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
