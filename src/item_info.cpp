@@ -479,6 +479,13 @@ void item::debug_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                     weight_percent ), has_fault( fault.first ) ? c_yellow : c_white );
             }
             info.emplace_back( "BASE", string_format( "faults: %s", faults ) );
+
+            units::mass sum_of_components_weight;
+            for( const item_comp &c : get_uncraft_components() ) {
+                sum_of_components_weight += c.type->weight * c.count;
+            }
+            info.emplace_back( "BASE", string_format( "weight of uncraft components: %s grams",
+                               to_gram( sum_of_components_weight ) ) );
         }
     }
 }
