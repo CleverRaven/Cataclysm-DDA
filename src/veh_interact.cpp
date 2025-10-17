@@ -544,7 +544,7 @@ void veh_interact::do_main_loop( map &here )
                 do_rename();
             } else {
                 if( owner_fac ) {
-                    popup( _( "You cannot rename this vehicle as it is owned by: %s." ), _( owner_fac->name ) );
+                    popup( _( "You cannot rename this vehicle as it is owned by: %s." ), owner_fac->get_name() );
                 }
             }
         } else if( action == "SIPHON" ) {
@@ -570,7 +570,7 @@ void veh_interact::do_main_loop( map &here )
             } else {
                 if( owner_fac ) {
                     popup( _( "You cannot assign crew on this vehicle as it is owned by: %s." ),
-                           _( owner_fac->name ) );
+                           owner_fac->get_name() );
                 }
             }
         } else if( action == "RELABEL" ) {
@@ -578,7 +578,7 @@ void veh_interact::do_main_loop( map &here )
                 do_relabel( here );
             } else {
                 if( owner_fac ) {
-                    popup( _( "You cannot relabel this vehicle as it is owned by: %s." ), _( owner_fac->name ) );
+                    popup( _( "You cannot relabel this vehicle as it is owned by: %s." ), owner_fac->get_name() );
                 }
             }
         } else if( action == "FUEL_LIST_DOWN" ) {

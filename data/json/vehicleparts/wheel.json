@@ -651,7 +651,7 @@
   {
     "id": "wheel_wheelchair",
     "type": "vehicle_part",
-    "name": { "str": "wheelchair wheel" },
+    "name": { "str": "wheelchair wheels (pair)" },
     "item": "wheel_wheelchair",
     "location": "under",
     "looks_like": "wheel_bicycle",

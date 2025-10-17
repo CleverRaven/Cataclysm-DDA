@@ -54,10 +54,7 @@
     "//": "Audited with real-life measurements of a 10rd PMAG, ranger plates all set to add 1.5cm of length and 20grams of weight.",
     "type": "ITEM",
     "subtypes": [ "MAGAZINE" ],
-    "name": {
-      "str": "STANAG 10-round magazine with attached ranger plate",
-      "str_pl": "STANAG 10-round magazines with attached ranger plates"
-    },
+    "name": { "str": "STANAG 10-round magazine with ranger plate", "str_pl": "STANAG 10-round magazines with ranger plates" },
     "description": "A compact 10-round box magazine for use with STANAG compatible rifles.  The bottom has been modified with a ranger plate attachment to allow it to clip to carabiners.",
     "weight": "104 g",
     "volume": "156 ml",

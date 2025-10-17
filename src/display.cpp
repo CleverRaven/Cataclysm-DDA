@@ -835,7 +835,7 @@ std::pair<std::string, nc_color> display::faction_text( const Character &u )
     if( owner->limited_area_claim && u.pos_abs_omt() != actual_camp->camp_omt_pos() ) {
         return std::pair( display_name, display_color );
     }
-    display_name = owner->name;
+    display_name = owner->get_name();
     // TODO: Make this magic number into a constant
     if( owner->likes_u < -10 ) {
         display_color = c_red;
@@ -954,9 +954,8 @@ std::pair<std::string, nc_color> display::vehicle_cruise_text_color( const Chara
     if( veh ) {
         const double target = convert_velocity( veh->cruise_velocity, VU_VEHICLE );
         const double current = convert_velocity( veh->velocity, VU_VEHICLE );
-        const std::string units = get_option<std::string> ( "USE_METRIC_SPEEDS" );
         vel_text = string_format( "%s < %s %s", three_digit_display( target ),
-                                  three_digit_display( current ), units );
+                                  three_digit_display( current ), velocity_units( VU_VEHICLE ) );
 
         const float strain = veh->strain( here );
         if( strain <= 0 ) {

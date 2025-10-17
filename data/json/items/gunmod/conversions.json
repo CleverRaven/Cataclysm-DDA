@@ -955,7 +955,7 @@
     "magazine_adaptor": [ [ "357mag", [ "deaglemag_357" ] ] ],
     "pocket_mods": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "deaglemag_357" ] } ],
     "min_skills": [ [ "weapon", 2 ] ],
-    "overwrite_min_cycle_recoil": 651,
+    "overwrite_min_cycle_recoil": 625,
     "add_mod": [ [ "sights", 1 ] ]
   },
   {
