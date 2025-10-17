@@ -440,7 +440,7 @@
       ]
     },
     "flags": [ "NONCONDUCTIVE" ],
-    "melee_damage": { "bash": 4, "cut": 8 },
+    "melee_damage": { "bash": 4, "cut": 5 },
     "tool_ammo": [ "gasoline" ]
   },
   {
@@ -483,6 +483,6 @@
     },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -60 ] ],
     "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ],
-    "melee_damage": { "bash": 4, "cut": 5 }
+    "melee_damage": { "bash": 4, "cut": 8 }
   }
 ]
