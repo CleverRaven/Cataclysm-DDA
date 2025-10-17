@@ -763,7 +763,6 @@
   },
   {
     "id": "juice",
-    "copy-from": "oj_fresh",
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "fruit juice" },
