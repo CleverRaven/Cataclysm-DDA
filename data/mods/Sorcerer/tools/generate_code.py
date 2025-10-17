@@ -3,7 +3,7 @@ import json
 
 # If you want to run this script you might need to edit this path
 # The way this file handles paths might not work on systems other than Windows.
-Magiclysm_path = "../Magiclysm"
+Magiclysm_path = "../../Magiclysm"
 
 tier_0_scroll_list = []
 tier_1_scroll_list = []

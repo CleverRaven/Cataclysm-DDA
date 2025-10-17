@@ -461,6 +461,30 @@ VehicleList map::get_vehicles()
                          tripoint_bub_ms( SEEX * my_MAPSIZE, SEEY * my_MAPSIZE, OVERMAP_HEIGHT ) );
 }
 
+bool map::place_vehicle( std::unique_ptr<vehicle> &&new_vehicle )
+{
+    bool collision = false;
+    // This works in the dimension shift case specifically because
+    // the old map origin and the new map origin are the same,
+    // if that is no longer the case something else will need to happen here.
+    tripoint_bub_ms vehicle_origin = new_vehicle->pos_bub( *this );
+    for( std::pair<const point_rel_ms, std::vector<int>> &mount_point : new_vehicle->relative_parts ) {
+        if( impassable( vehicle_origin + mount_point.first ) ) {
+            collision = true;
+            break;
+        }
+    }
+    submap *place_on_submap = get_submap_at_grid( new_vehicle->sm_pos - get_abs_sub().xy() );
+    if( place_on_submap == nullptr ) {
+        debugmsg( "Tried to add vehicle at %s but the submap is not loaded",
+                  new_vehicle->sm_pos.to_string() );
+    } else {
+        place_on_submap->ensure_nonuniform();
+        place_on_submap->vehicles.push_back( std::move( new_vehicle ) );
+    }
+    return collision;
+}
+
 void map::rebuild_vehicle_level_caches()
 {
     clear_vehicle_level_caches();

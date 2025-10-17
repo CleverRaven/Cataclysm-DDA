@@ -87,3 +87,7 @@ def parse_generic(json, origin):
     if "relic_data" in json and "passive_effects" in json["relic_data"]:
         for enchantment in json["relic_data"]["passive_effects"]:
             parse_enchant(enchantment, origin)
+
+    write_text(json.get("e_port"), origin, comment="E-port name")
+    for e_port in json.get("e_ports_banned", []):
+        write_text(e_port, origin, comment="E-port name")

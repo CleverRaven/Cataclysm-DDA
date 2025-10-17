@@ -134,8 +134,11 @@
   {
     "id": "afs_telepathic_confusion_blind",
     "type": "SPELL",
-    "name": "[Ψ]Sensory Deprivation blind Effect",
-    "description": "The is the part of the Sensory Deprivation that blinds the target.  It's a bug if you have it.",
+    "name": { "str": "[Ψ]Sensory Deprivation blind Effect", "//~": "NO_I18N" },
+    "description": {
+      "str": "The is the part of the Sensory Deprivation that blinds the target.  It's a bug if you have it.",
+      "//~": "NO_I18N"
+    },
     "valid_targets": [ "hostile" ],
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "NO_PROJECTILE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],

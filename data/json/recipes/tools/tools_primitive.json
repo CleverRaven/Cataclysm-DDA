@@ -114,7 +114,7 @@
     "difficulty": 4,
     "time": "1 h",
     "reversible": true,
-    "//": "Item disassembly based on reversible craft and manually defined uncraft integration. Read ITEM_DISASSEMBLY.mb for more info.",
+    "//": "Item disassembly based on reversible craft and manually defined uncraft integration. Read ITEM_CRAFT_AND_DISASSEMBLY.md for more info.",
     "autolearn": true,
     "book_learn": [ [ "mag_survival", 1 ], [ "atomic_survival", 1 ], [ "textbook_carpentry", 2 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ],

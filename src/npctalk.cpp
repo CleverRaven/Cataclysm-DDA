@@ -2345,8 +2345,7 @@ static std::string faction_or_fallback( const_talker const &guy )
     if( !fac ) {
         return guy.get_name();
     }
-    // Note: Check for translation, don't just return raw name.
-    return _( fac->name );
+    return fac->get_name();
 }
 
 void parse_tags( std::string &phrase, const Character &u, const Creature &me,
@@ -7705,8 +7704,11 @@ talk_effect_fun_t::func f_travel_to_dimension( const JsonObject &jo, std::string
     str_or_var region_type_var;
     optional( jo, false, "region_type", region_type_var, "default" );
 
+    bool take_vehicle = false;;
+    optional( jo, false, "take_vehicle", take_vehicle );
+
     return [fail_message, success_message, dimension_prefix, npc_travel_filter,
-                  npc_travel_radius, region_type_var]( dialogue const & d ) {
+                  npc_travel_radius, region_type_var, take_vehicle]( dialogue const & d ) {
         Creature *teleporter = d.actor( false )->get_creature();
         if( teleporter ) {
             std::string region_type = region_type_var.evaluate( d );
@@ -7734,8 +7736,17 @@ talk_effect_fun_t::func f_travel_to_dimension( const JsonObject &jo, std::string
                         }
                     } );
                 }
+                vehicle *veh = nullptr;
+                if( take_vehicle ) {
+                    const optional_vpart_position vp_here = get_map().veh_at( teleporter->pos_bub() );
+                    if( !vp_here ) {
+                        teleporter->add_msg_if_player( fail_message.evaluate( d ) );
+                        return;
+                    }
+                    veh = &vp_here->vehicle();
+                }
                 // returns False if fail
-                if( g->travel_to_dimension( prefix, region_type, travellers ) ) {
+                if( g->travel_to_dimension( prefix, region_type, travellers, veh ) ) {
                     teleporter->add_msg_if_player( success_message.evaluate( d ) );
                 } else {
                     teleporter->add_msg_if_player( fail_message.evaluate( d ) );

@@ -634,11 +634,14 @@
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "id": "debug_calories",
-    "name": { "str": "unholy debug angel cake" },
+    "name": { "str": "unholy debug angel cake", "//~": "NO_I18N" },
     "spoils_in": "4 days",
     "copy-from": "jihelucake",
     "calories": 10000,
-    "description": "This unholy confection of delight does not lie, it packs a heavenly amount of calories in each sinful bite.  For debug use only.",
+    "description": {
+      "str": "This unholy confection of delight does not lie, it packs a heavenly amount of calories in each sinful bite.  For debug use only.",
+      "//~": "NO_I18N"
+    },
     "fun": 20
   },
   {
