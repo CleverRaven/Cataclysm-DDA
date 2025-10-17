@@ -20,11 +20,11 @@
       "//~": "NO_I18N"
     },
     "valid_targets": [ "hostile" ],
-    "flags": [ "SILENT", "NO_PROJECTILE", "NO_EXPLOSION_SFX", "SPLIT_DAMAGE" ],
+    "flags": [ "SILENT", "NO_PROJECTILE", "NO_EXPLOSION_SFX", "SPLIT_DAMAGE", "RANDOM_DAMAGE" ],
     "effect": "attack",
     "shape": "blast",
-    "min_damage": 5,
-    "max_damage": 5,
+    "min_damage": 3,
+    "max_damage": 10,
     "min_aoe": 3,
     "max_aoe": 3,
     "damage_type": "cold"
