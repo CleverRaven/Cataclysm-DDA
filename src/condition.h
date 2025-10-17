@@ -36,21 +36,20 @@ struct enum_traits<jarg> {
     static constexpr bool is_flag_enum = true;
 };
 
+// DEPRECATED. use mandatory/optional, deserialize, or JsonValue::read
 str_or_var get_str_or_var( const JsonValue &jv, std::string_view member, bool required = true,
                            std::string_view default_val = "" );
-str_or_var get_str_or_var_part( const JsonObject &jo );
+// DEPRECATED. use mandatory/optional, deserialize, or JsonValue::read
 translation_or_var get_translation_or_var( const JsonValue &jv, std::string_view member,
         bool required = true, const translation &default_val = {} );
-translation_or_var get_translation_or_var( const JsonObject &jo );
-str_translation_or_var get_str_translation_or_var(
-    const JsonValue &jv, std::string_view member, bool required = true );
+// DEPRECATED. use mandatory/optional, deserialize, or JsonValue::read
 dbl_or_var get_dbl_or_var( const JsonObject &jo, std::string_view member, bool required = true,
                            double default_val = 0.0 );
-dbl_or_var_part get_dbl_or_var_part( const JsonValue &jv );
+// DEPRECATED. use mandatory/optional, deserialize, or JsonValue::read
 duration_or_var get_duration_or_var( const JsonObject &jo, std::string_view member,
                                      bool required = true,
                                      time_duration default_val = 0_seconds );
-duration_or_var_part get_duration_or_var_part( const JsonValue &jv );
+// DEPRECATED. use mandatory/optional, deserialize, or JsonValue::read
 var_info read_var_info( const JsonObject &jo );
 void write_var_value( var_type type, const std::string &name, dialogue *d,
                       const std::string &value );
@@ -84,9 +83,6 @@ struct conditional_t {
         explicit conditional_t( std::string_view type );
         explicit conditional_t( const JsonObject &jo );
 
-        static std::function<std::string( const_dialogue const & )> get_get_string( const JsonObject &jo );
-        static std::function<translation( const_dialogue const & )> get_get_translation(
-            const JsonObject &jo );
         static double get_legacy_dbl( const_dialogue const &d, std::string_view checked_value, char scope );
         static void set_legacy_dbl( dialogue &d, double input, std::string_view checked_value, char scope );
         bool operator()( const_dialogue const &d ) const {

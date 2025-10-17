@@ -325,7 +325,7 @@
         "spell_data": { "id": "telepathic_fear_blast_monster", "min_level": 2 },
         "cooldown": { "math": [ "9 + rand(18)" ] },
         "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
-        "monster_message": "%1$'s third eye opens and it coos!"
+        "monster_message": "%s's third eye opens and it coos!"
       },
       { "id": "pigeon_aura", "type": "spell", "spell_data": { "id": "pigeon_aura", "min_level": 4 }, "cooldown": 200 }
     ],
@@ -498,5 +498,49 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 1 }, { "damage_type": "heat", "amount": 3 } ],
     "upgrades": { "age_grow": 42, "into": "mon_hellhound" },
     "armor": { "heat": 50 }
+  },
+  {
+    "id": "mon_fear_deer",
+    "copy-from": "mon_deer",
+    "type": "MONSTER",
+    "looks_like": "mon_deer",
+    "name": { "str": "king of the wood", "str_pl": "kings of the wood" },
+    "description": "The northern woodland white-tailed deer, a quick and strong grazing animal.  Favored prey of coyotes, wolves, and giant spider mutants.  This one has an almost regal aura of calm about it and gazes at the forest around it without fear.",
+    "reproduction": { "baby_type": { "baby_monster_group": "GROUP_REPRODUCTION_FEAR_DEER_BABIES" }, "baby_count": 1, "baby_timer": 330 },
+    "tracking_distance": 9,
+    "aggression": -10,
+    "anger_triggers": [ "PLAYER_NEAR_BABY", "PLAYER_WEAK", "FRIEND_ATTACKED", "FRIEND_DIED" ],
+    "extend": {
+      "special_attacks": [
+        {
+          "id": "psi_fear_deer_terror_attack",
+          "type": "spell",
+          "spell_data": { "id": "telepathic_fear_blast_monster", "min_level": 5 },
+          "cooldown": { "math": [ "9 + rand(18)" ] },
+          "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
+          "monster_message": "%1$s turns its head sideways and looks directly at %3$s."
+        },
+        {
+          "id": "psi_fear_deer_empower_herd",
+          "type": "spell",
+          "spell_data": { "id": "telepathic_network_monster", "min_level": 5 },
+          "cooldown": 50,
+          "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
+          "monster_message": "%1$s raises its head with an air of authority."
+        }
+      ],
+      "flags": [ "TEEP_IMMUNE", "KEEP_DISTANCE" ]
+    }
+  },
+  {
+    "id": "mon_fear_deer_fawn",
+    "copy-from": "mon_deer_fawn",
+    "type": "MONSTER",
+    "looks_like": "mon_deer_fawn",
+    "name": { "str": "prince of the wood", "str_pl": "princes of the wood" },
+    "description": "A juvenile northern woodland white-tailed deer, a quick and strong grazing animal.  Favored prey of coyotes, wolves, and giant spider mutants.  This one doesn't seem as skittish as most deer are.",
+    "melee_damage": [ { "damage_type": "cut", "amount": 1 }, { "damage_type": "heat", "amount": 3 } ],
+    "upgrades": { "age_grow": 330, "into": "mon_fear_deer" },
+    "extend": { "flags": [ "TEEP_IMMUNE" ] }
   }
 ]

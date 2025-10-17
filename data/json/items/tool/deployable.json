@@ -212,7 +212,7 @@
       "type": "place_trap",
       "allow_under_player": true,
       "trap": "tr_cot",
-      "moves": 100,
+      "moves": 1000,
       "practice": 0,
       "done_message": "You unfold the cot and place it on the ground."
     },

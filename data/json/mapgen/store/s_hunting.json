@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_hunting" ],
     "object": {
       "fill_ter": "t_floor",
@@ -54,7 +53,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_hunting_roof",
     "object": {
       "fill_ter": "t_flat_roof",

@@ -1041,6 +1041,11 @@ bool advanced_inventory::move_all_items()
         }
     }
     if( spane.get_area() == AIM_CONTAINER &&
+        spane.container.get_item() == nullptr ) {
+        popup_getkey( _( "Source container isn't valid." ) );
+        return false;
+    }
+    if( spane.get_area() == AIM_CONTAINER &&
         spane.container.get_item()->has_flag( json_flag_NO_UNLOAD ) ) {
         popup_getkey( _( "Source container can't be unloaded." ) );
         return false;
@@ -2027,9 +2032,8 @@ void advanced_inventory::display()
                                     TERMX - 2 * ( panel_manager::get_manager().get_width_right() +
                                                   panel_manager::get_manager().get_width_left() ) );
 
-            w_height = TERMY < min_w_height + head_height ? min_w_height : TERMY - head_height;
-            w_width = TERMX < min_w_width ? min_w_width : TERMX > max_w_width ? max_w_width :
-                      static_cast<int>( TERMX );
+            w_height = std::max( min_w_height, TERMY - head_height );
+            w_width = std::clamp( TERMX, min_w_width, max_w_width );
 
             //(TERMY>w_height)?(TERMY-w_height)/2:0;
             headstart = 0;
@@ -2341,9 +2345,7 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
         if( amount <= 0 ) {
             return false;
         }
-        if( amount > possible_max ) {
-            amount = possible_max;
-        }
+        amount = std::min( amount, possible_max );
     }
     return true;
 }

@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "farm_isherwood_3", "null", "farm_isherwood_1" ],
       [ "farm_isherwood_6", "farm_isherwood_5", "farm_isherwood_4" ],
@@ -111,7 +110,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "farm_isherwood_2" ] ],
     "object": {
       "faction_owner": [ { "id": "isherwood_family", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
@@ -181,7 +179,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "farm_isherwood_2_cellar",
     "object": {
       "faction_owner": [ { "id": "isherwood_family", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
@@ -234,7 +231,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "farm_isherwood_3_hayloft", "farm_isherwood_2_roof" ] ],
     "object": {
       "faction_owner": [
@@ -275,7 +271,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "farm_isherwood_3_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",

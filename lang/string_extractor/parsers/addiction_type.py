@@ -14,6 +14,6 @@ def parse_addiction_type(json, origin):
                    .format(id))
 
     if "description" in json:
-        write_text(json["description"], origin, c_format=False,
+        write_text(json["description"], origin,
                    comment="Description of the \"{}\" addiction's effects as "
                    "it appears in the player's status".format(id))

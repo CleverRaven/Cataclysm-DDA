@@ -149,5 +149,11 @@
     "id": "HAND_AXES",
     "name": "HAND AXES",
     "proficiencies": [ "prof_hand_axes_familiar", "prof_hand_axes_pro", "prof_hand_axes_master" ]
+  },
+  {
+    "type": "weapon_category",
+    "id": "WHIPS",
+    "name": "WHIPS",
+    "proficiencies": [ "prof_whips_familiar", "prof_whips_pro", "prof_whips_master" ]
   }
 ]

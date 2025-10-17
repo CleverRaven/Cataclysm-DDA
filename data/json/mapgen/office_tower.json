@@ -2,7 +2,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "loffice_tower_1", "loffice_tower_2" ], [ "loffice_tower_3", "loffice_tower_4" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -61,7 +60,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "loffice_tower_5", "loffice_tower_6" ], [ "loffice_tower_7", "loffice_tower_8" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_linoleum_gray",
       "rows": [
@@ -121,7 +119,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "loffice_tower_9", "loffice_tower_10" ], [ "loffice_tower_11", "loffice_tower_12" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_linoleum_gray",
       "rows": [
@@ -180,7 +177,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "loffice_tower_9b", "loffice_tower_10b" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_linoleum_gray",
       "rows": [
@@ -215,7 +211,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "loffice_tower_13", "loffice_tower_14" ], [ "loffice_tower_15", "loffice_tower_16" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -319,7 +314,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "loffice_tower_17", "loffice_tower_18" ], [ "loffice_tower_19", "loffice_tower_20" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -378,7 +372,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "office_tower_nw", "office_tower_ne" ], [ "office_tower_sw", "office_tower_se" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -452,7 +445,6 @@
       [ "office_tower_underground_nw", "office_tower_underground_ne" ],
       [ "office_tower_underground_sw", "office_tower_underground_se" ]
     ],
-    "method": "json",
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -511,7 +503,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "office_tower_roof_nw", "office_tower_roof_ne" ], [ "office_tower_roof_sw", "office_tower_roof_se" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -584,7 +575,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "office_tower_roof_ne_roof" ], [ "office_tower_roof_se_roof" ] ],
-    "method": "json",
     "object": {
       "rows": [
         "                        ",

@@ -67,7 +67,7 @@
     "entries": [
       { "group": "male_underwear" },
       { "distribution": [ { "group": "clothing_prisoner_shoes" }, { "group": "cop_shoes" } ] },
-      { "distribution": [ { "item": "striped_shirt" }, { "group": "cop_torso" } ] },
+      { "distribution": [ { "item": "buttonshirt", "variant": "striped" }, { "group": "cop_torso" } ] },
       { "distribution": [ { "item": "striped_pants" }, { "group": "cop_pants" } ] },
       { "distribution": [ { "item": "tacvest" }, { "item": "kevlar" } ], "prob": 15 },
       { "group": "socks_unisex" },

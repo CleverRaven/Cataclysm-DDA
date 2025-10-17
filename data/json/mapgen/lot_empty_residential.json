@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "emptyresidentiallot",
     "weight": 100,
     "object": {
@@ -47,7 +46,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "emptyresidentiallot",
     "weight": 100,
     "object": {
@@ -95,7 +93,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "emptyresidentiallot",
     "weight": 100,
     "object": {
@@ -132,7 +129,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "emptyresidentiallot",
     "weight": 100,
     "object": {
@@ -173,7 +169,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "emptyresidentiallot",
     "weight": 100,
     "object": {

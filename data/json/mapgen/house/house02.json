@@ -1,6 +1,5 @@
 [
   {
-    "method": "json",
     "om_terrain": "house_02",
     "//": "normal variant",
     "type": "mapgen",
@@ -17,7 +16,7 @@
         "..##oo##oo##:*:##ooo##..",
         "..#147FO5JJ|y L|D  @@#^.",
         "..#2       |   |b  @@o%.",
-        "..#3  66  Y|   |d   Io%.",
+        "..#3 é66  Y|   |d   Io%.",
         "..#|+||||+||   +  E T#%.",
         "..#            ||||||#..",
         "..o hfh    sss +  ETR#..",
@@ -54,7 +53,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "house_02",
     "//": "construction variant",
     "type": "mapgen",
@@ -93,7 +91,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_02_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",

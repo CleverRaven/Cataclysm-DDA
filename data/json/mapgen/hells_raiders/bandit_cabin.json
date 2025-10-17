@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "bandit_cabin",
     "object": {
       "predecessor_mapgen": "forest",
@@ -101,7 +100,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "bandit_cabin_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",

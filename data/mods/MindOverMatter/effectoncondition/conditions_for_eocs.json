@@ -14,7 +14,8 @@
             "TELEKINETIC",
             "TELEPATH",
             "TELEPORTER",
-            "VITAKINETIC"
+            "VITAKINETIC",
+            "PSYCHIC_KNACK"
           ]
         },
         {
@@ -27,7 +28,8 @@
             { "compare_string": [ "TELEKINETIC", { "context_val": "school" } ] },
             { "compare_string": [ "TELEPATH", { "context_val": "school" } ] },
             { "compare_string": [ "TELEPORTER", { "context_val": "school" } ] },
-            { "compare_string": [ "VITAKINETIC", { "context_val": "school" } ] }
+            { "compare_string": [ "VITAKINETIC", { "context_val": "school" } ] },
+            { "compare_string": [ "PSYCHIC_KNACK", { "context_val": "school" } ] }
           ]
         }
       ]
@@ -182,7 +184,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_CONDITION_AWAKENING_X_IN_Y_CHANCE",
-    "condition": { "x_in_y_chance": { "x": { "math": [ "100 - u_awakening_reducer" ] }, "y": 100 } },
+    "condition": { "x_in_y_chance": { "x": { "math": [ "u_awakening_reducer" ] }, "y": 100 } },
     "effect": [  ]
   },
   {
@@ -197,7 +199,7 @@
               { "u_has_effect": "effect_telepathic_psi_armor" },
               {
                 "math": [
-                  "u_spell_level('telepathic_shield')",
+                  "u_spell_level('telepathic_shield') + u_spell_level('telepathic_shield_knack')",
                   ">=",
                   "(u_vitamin('vitamin_psionic_drain') / 10) + (max(u_school_level('BIOKINETIC'), u_school_level('CLAIRSENTIENT'), u_school_level('ELECTROKINETIC'), u_school_level('PHOTOKINETIC'), u_school_level('PYROKINETIC'), u_school_level('TELEPATH'), u_school_level('TELEKINETIC'), u_school_level('TELEPORTER'), u_school_level('VITAKINETIC')) / 3) + (u_awakening_countup / 3)"
                 ]
@@ -254,6 +256,29 @@
         },
         { "not": { "npc_has_effect": "eff_monster_immune_to_telepathy" } },
         { "not": { "npc_has_flag": "TEEP_IMMUNE" } }
+      ]
+    },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONDITION_MONSTER_MAINTAINING_PSI_POWER",
+    "condition": {
+      "or": [
+        { "u_has_effect": "effect_monster_hardened_skin" },
+        { "u_has_effect": "effect_monster_heightened_reflex" },
+        { "u_has_effect": "effect_monster_heightened_reflex_enhanced" },
+        { "u_has_effect": "effect_psi_biokin3_hurricane_blows" },
+        { "u_has_effect": "effect_feral_regeneration" },
+        { "u_has_effect": "effect_pattern_screamer_rock_thrower" },
+        { "u_has_effect": "effect_monster_neuro_acceleration" },
+        { "u_has_effect": "effect_monster_neuro_acceleration_enhanced" },
+        { "u_has_effect": "effect_monster_pyrokinetic_fire_immunity" },
+        { "u_has_effect": "effect_monster_momentum_alteration" },
+        { "u_has_effect": "effect_monster_inertial_barrier" },
+        { "u_has_effect": "effect_monster_inertial_barrier_improved" },
+        { "u_has_effect": "effect_feral_regeneration" },
+        { "u_has_effect": "effect_telepath_network_monster_effect" }
       ]
     },
     "effect": [  ]

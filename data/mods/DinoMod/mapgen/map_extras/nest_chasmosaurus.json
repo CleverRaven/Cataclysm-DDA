@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_nest_chasmosaurus",
     "object": {
       "rows": [

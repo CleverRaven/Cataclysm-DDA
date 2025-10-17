@@ -205,7 +205,8 @@
     "is_bayonet": true,
     "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ], [ "BUTCHER", -18 ] ],
     "flags": [ "SLOW_WIELD", "IRREMOVABLE", "ALLOWS_REMOTE_USE" ],
-    "melee_damage": { "stab": 10 }
+    "melee_damage": { "stab": 10 },
+    "to_hit_mod": 3
   },
   {
     "id": "inter_bayonet_folded",
@@ -615,5 +616,62 @@
     "min_skills": [ [ "weapon", 2 ] ],
     "flags": [ "BIPOD", "SLOW_WIELD" ],
     "melee_damage": { "bash": 12 }
+  },
+  {
+    "id": "mounted_flashlight",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "GUNMOD" ],
+    "name": { "str": "mounted flashlight" },
+    "description": "Precisely manufactured flashlight that can be mounted on any modern gun.  You still can use it without attaching it to anything if you happen to never find a handheld one.",
+    "weight": "68 g",
+    "volume": "150 ml",
+    "longest_side": "63 mm",
+    "price": "350 USD",
+    "price_postapoc": "4 USD",
+    "install_time": "4 m",
+    "material": [ "steel", "plastic" ],
+    "symbol": ":",
+    "color": "brown",
+    "location": "underbarrel",
+    "mod_targets": [ "pistol", "shotgun", "smg", "rifle", "crossbow", "launcher" ],
+    "min_skills": [ [ "weapon", 1 ] ],
+    "charges_per_use": 1,
+    "is_visible_when_installed": true,
+    "use_action": {
+      "type": "transform",
+      "msg": "You turn the mounted flashlight on.",
+      "target": "mounted_flashlight_on",
+      "active": true,
+      "need_charges": 1,
+      "need_charges_msg": "The mounted flashlight's batteries are dead."
+    },
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_LIGHT" ],
+        "default_magazine": "light_battery_cell"
+      }
+    ],
+    "tool_ammo": [ "battery" ]
+  },
+  {
+    "id": "mounted_flashlight_on",
+    "copy-from": "mounted_flashlight",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "GUNMOD" ],
+    "name": { "str": "mounted flashlight (on)", "str_pl": "mounted flashlights (on)" },
+    "//": "about 1.5 h of work off a single battery",
+    "power_draw": "2700 mW",
+    "revert_to": "mounted_flashlight",
+    "use_action": {
+      "menu_text": "Turn off",
+      "type": "transform",
+      "msg": "You turn the mounted flashlight off.",
+      "target": "mounted_flashlight",
+      "ammo_scale": 0
+    },
+    "light": 160,
+    "extend": { "flags": [ "CHARGEDIM", "TRADER_AVOID" ] }
   }
 ]

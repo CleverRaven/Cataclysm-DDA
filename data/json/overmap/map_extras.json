@@ -120,18 +120,6 @@
     "flags": [ "MAN_MADE", "CLASSIC" ]
   },
   {
-    "id": "mx_minefield",
-    "type": "map_extra",
-    "name": { "str": "Minefield" },
-    "description": "Mines are scattered here.",
-    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_minefield" },
-    "min_max_zlevel": [ 0, 0 ],
-    "sym": "M",
-    "color": "red",
-    "autonote": true,
-    "flags": [ "MAN_MADE", "CLASSIC" ]
-  },
-  {
     "id": "mx_supplydrop",
     "type": "map_extra",
     "name": { "str": "Supply Drop" },

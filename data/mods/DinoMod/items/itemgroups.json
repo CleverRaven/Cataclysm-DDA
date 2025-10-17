@@ -131,7 +131,7 @@
     "ammo": 75,
     "magazine": 100,
     "items": [
-      { "group": "office", "prob": 100 },
+      { "group": "SUS_office_desk", "prob": 100 },
       [ "newest_newspaper", 100 ],
       [ "egg_dino", 75 ],
       [ "egg_dino_theropod", 75 ],

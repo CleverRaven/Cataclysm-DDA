@@ -1,6 +1,5 @@
 [
   {
-    "method": "json",
     "om_terrain": "house_26",
     "//": "used by basement_survival",
     "type": "mapgen",
@@ -42,7 +41,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_26_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",

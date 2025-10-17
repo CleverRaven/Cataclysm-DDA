@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "aircraft_carrier_1a", "aircraft_carrier_1b", "aircraft_carrier_1c" ],
       [ "aircraft_carrier_2a", "aircraft_carrier_2b", "aircraft_carrier_2c" ],

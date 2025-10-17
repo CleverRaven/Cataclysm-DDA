@@ -20,7 +20,27 @@
     "upgrades": { "half_life": 168, "into_group": "GROUP_ZOMBIE_BOOMER_UPGRADE" },
     "fungalize_into": "mon_boomer_dusted",
     "armor": { "electric": 2 },
-    "extend": { "flags": [ "BILE_BLOOD" ], "weakpoint_sets": [ "wps_humanoid_head_small" ], "special_attacks": [ [ "BOOMER", 20 ] ] }
+    "starting_ammo": { "boomer_bile": 999 },
+    "extend": {
+      "flags": [ "BILE_BLOOD" ],
+      "weakpoint_sets": [ "wps_humanoid_head_small" ],
+      "special_attacks": [
+        {
+          "type": "gun",
+          "move_cost": 150,
+          "cooldown": 5,
+          "id": "boomer_bile",
+          "gun_type": "boomer_head",
+          "ammo_type": "boomer_bile",
+          "fake_skills": [ [ "gun", 3 ], [ "rifle", 3 ] ],
+          "fake_dex": 10,
+          "targeting_sound": "gurgling.",
+          "description": "The %s spews bile!",
+          "no_ammo_sound": "dry heaving.",
+          "ranges": [ [ 0, 2, "DEFAULT" ] ]
+        }
+      ]
+    }
   },
   {
     "id": "mon_boomer_huge",
@@ -42,31 +62,26 @@
       "corpse_type": "NO_CORPSE"
     },
     "armor": { "bash": 5, "cut": 5, "bullet": 4, "electric": 3 },
-    "delete": { "special_attacks": [ "BOOMER" ] },
-    "extend": { "special_attacks": [ [ "BOOMER_GLOW", 20 ] ] }
-  },
-  {
-    "id": "mon_gas_zombie",
-    "type": "MONSTER",
-    "name": { "str": "gasoline zombie" },
-    "description": "A huge, bloated zombie that appears to have consumed gasoline; fumes and flames escape from its mouth and liquid fuel leaks from its waddling form.",
-    "copy-from": "mon_boomer",
-    "diff": 20,
-    "weight": "160 kg",
-    "hp": 90,
-    "speed": 25,
-    "color": "dark_gray_red",
-    "luminance": 8,
-    "//grab": "Big lad",
-    "grab_strength": 30,
-    "death_function": {
-      "effect": { "id": "death_conflagration", "hit_self": true },
-      "message": "The %s explodes!",
-      "corpse_type": "NO_CORPSE"
-    },
-    "armor": { "electric": 1 },
-    "delete": { "flags": [ "BILE_BLOOD" ], "special_attacks": [ "BOOMER" ] },
-    "extend": { "flags": [ "DRIPS_GASOLINE" ] }
+    "delete": { "special_attacks": [ "boomer_bile" ] },
+    "starting_ammo": { "boomer_bile_adv": 999 },
+    "extend": {
+      "special_attacks": [
+        {
+          "type": "gun",
+          "move_cost": 150,
+          "cooldown": 20,
+          "id": "boomer_bile_adv",
+          "gun_type": "boomer_head",
+          "ammo_type": "boomer_bile_adv",
+          "fake_skills": [ [ "gun", 3 ], [ "rifle", 3 ] ],
+          "fake_dex": 10,
+          "targeting_sound": "gurgling.",
+          "description": "The %s spews bile!",
+          "no_ammo_sound": "dry heaving.",
+          "ranges": [ [ 0, 2, "DEFAULT" ] ]
+        }
+      ]
+    }
   },
   {
     "id": "mon_zombie_gasbag",
@@ -82,7 +97,7 @@
     "death_function": { "message": "The %s explodes!", "effect": { "id": "death_gas", "hit_self": true }, "corpse_type": "NO_CORPSE" },
     "fungalize_into": "mon_gasbag_dusted",
     "armor": { "electric": 1 },
-    "delete": { "flags": [ "BILE_BLOOD", "BASHES", "GROUP_BASH" ], "special_attacks": [ "BOOMER" ] }
+    "delete": { "flags": [ "BILE_BLOOD", "BASHES", "GROUP_BASH", "GRABS", "PUSH_MON" ], "special_attacks": [ "boomer_bile" ] }
   },
   {
     "id": "mon_zombie_relax_gasbag",
@@ -125,13 +140,29 @@
     "speed": 75,
     "color": "pink",
     "melee_skill": 4,
+    "melee_dice": 0,
+    "melee_dice_sides": 0,
     "vision_night": 5,
     "emit_fields": [ { "emit_id": "emit_sludge_puddle", "delay": "1 s" } ],
     "grab_strength": 30,
+    "starting_ammo": { "boomer_bile_adv": 999 },
     "special_attacks": [
       { "id": "grab" },
       { "id": "scratch_humanoid" },
-      [ "BOOMER", 21 ],
+      {
+        "type": "gun",
+        "move_cost": 150,
+        "cooldown": 7,
+        "id": "boomer_bile_adv",
+        "gun_type": "boomer_head",
+        "ammo_type": "boomer_bile_adv",
+        "fake_skills": [ [ "gun", 3 ], [ "rifle", 3 ] ],
+        "fake_dex": 10,
+        "targeting_sound": "gurgling.",
+        "description": "The %s spews bile!",
+        "no_ammo_sound": "dry heaving.",
+        "ranges": [ [ 0, 2, "DEFAULT" ] ]
+      },
       {
         "id": "bite_humanoid",
         "cooldown": 3,
@@ -165,11 +196,12 @@
     "special_attacks": [
       {
         "type": "spell",
+        "cooldown": 0,
         "spell_data": { "id": "boomer_claymore_initial", "min_level": 0 },
         "monster_message": "A bombardier boomer explodes!"
       }
     ],
-    "delete": { "flags": [ "BILE_BLOOD" ] },
+    "delete": { "flags": [ "BILE_BLOOD", "GRABS", "GROUP_BASH", "PUSH_MON" ] },
     "armor": { "bash": 10, "cut": 5, "bullet": 5, "electric": 2 }
   }
 ]

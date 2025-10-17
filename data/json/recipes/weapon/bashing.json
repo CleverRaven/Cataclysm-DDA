@@ -15,6 +15,23 @@
     "components": [ [ [ "wooden_post", 1 ] ] ]
   },
   {
+    "type": "recipe",
+    "result": "bat",
+    "id_suffix": "with_lathe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 2 } ],
+    "difficulty": 3,
+    "time": "1 h",
+    "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "FILE", "level": 1 }, { "id": "CHISEL_WOOD", "level": 2 } ],
+    "tools": [ [ [ "fake_lathe", -1 ] ] ],
+    "components": [ [ [ "wooden_post", 1 ] ] ],
+    "byproducts": [ [ "splinter", 30 ] ],
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
     "result": "hollow_cane",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -43,7 +60,7 @@
     "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_carving" } ],
     "tools": [ [ [ "char_smoker", 100 ] ] ],
-    "components": [ [ [ "log", 1 ] ], [ [ "butter", 30 ], [ "raw_butter", 30 ], [ "edible_lard", 4, "LIST" ] ] ]
+    "components": [ [ [ "log", 1 ] ], [ [ "butter", 30 ], [ "raw_butter", 30 ], [ "edible_tallow", 10, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -229,7 +246,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0.15 } ],
-    "components": [ [ [ "stick_long", 1 ], [ "long_pole", 1 ] ], [ [ "hammer", 1 ] ], [ [ "super_glue", 1 ] ] ]
+    "components": [ [ [ "stick_long", 1 ], [ "long_pole", 1 ] ], [ [ "hammer", 1 ] ], [ [ "glue_strong", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -253,10 +270,36 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",
     "skill_used": "fabrication",
-    "time": "5 m",
+    "time": "25 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "2x4", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "club_wooden_nails",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "time": "10 m",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_carpentry_basic", "skill_penalty": 0 } ],
+    "components": [ [ [ "club_wooden", 1 ] ], [ [ "nails", 30, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "club_wooden_bolted",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "time": "15 m",
+    "autolearn": true,
+    "qualities": [ { "id": "DRILL", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_carpentry_basic", "skill_penalty": 0 } ],
+    "components": [ [ [ "club_wooden", 1 ] ], [ [ "nuts_bolts", 30 ] ] ]
   },
   {
     "type": "recipe",
@@ -265,10 +308,36 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",
     "skill_used": "fabrication",
-    "time": "5 m",
+    "time": "25 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "2x4", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "club_wooden_large_nails",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "time": "10 m",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_carpentry_basic", "skill_penalty": 0 } ],
+    "components": [ [ [ "club_wooden_large", 1 ] ], [ [ "nails", 30, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "club_wooden_large_bolted",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "time": "15 m",
+    "autolearn": true,
+    "qualities": [ { "id": "DRILL", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_carpentry_basic", "skill_penalty": 0 } ],
+    "components": [ [ [ "club_wooden_large", 1 ] ], [ [ "nuts_bolts", 30 ] ] ]
   },
   {
     "type": "recipe",
@@ -380,16 +449,7 @@
       { "id": "GRIND", "level": 1 },
       { "id": "FILE", "level": 1 }
     ],
-    "components": [
-      [ [ "2x4", 2 ] ],
-      [
-        [ "any_tallow", 4, "LIST" ],
-        [ "cooking_oil", 48 ],
-        [ "cooking_oil2", 48 ],
-        [ "lamp_oil", 500 ],
-        [ "motor_oil", 500 ]
-      ]
-    ]
+    "components": [ [ [ "2x4", 2 ] ], [ [ "any_tallow", 10, "LIST" ], [ "cooking_oil", 48 ], [ "lamp_oil", 500 ], [ "motor_oil", 500 ] ] ]
   },
   {
     "type": "recipe",
@@ -417,13 +477,7 @@
     ],
     "components": [
       [ [ "2x4", 2 ] ],
-      [
-        [ "any_tallow", 4, "LIST" ],
-        [ "cooking_oil", 48 ],
-        [ "cooking_oil2", 48 ],
-        [ "lamp_oil", 500 ],
-        [ "motor_oil", 500 ]
-      ],
+      [ [ "any_tallow", 10, "LIST" ], [ "cooking_oil", 48 ], [ "lamp_oil", 500 ], [ "motor_oil", 500 ] ],
       [ [ "leather", 3 ], [ "fur", 3 ], [ "faux_fur", 3 ] ]
     ]
   },
@@ -453,13 +507,7 @@
     ],
     "components": [
       [ [ "2x4", 2 ] ],
-      [
-        [ "any_tallow", 4, "LIST" ],
-        [ "cooking_oil", 48 ],
-        [ "cooking_oil2", 48 ],
-        [ "lamp_oil", 500 ],
-        [ "motor_oil", 500 ]
-      ],
+      [ [ "any_tallow", 10, "LIST" ], [ "cooking_oil", 48 ], [ "lamp_oil", 500 ], [ "motor_oil", 500 ] ],
       [ [ "leather", 3 ], [ "fur", 3 ], [ "faux_fur", 3 ] ]
     ]
   },
@@ -490,13 +538,7 @@
     ],
     "components": [
       [ [ "2x4", 2 ] ],
-      [
-        [ "any_tallow", 4, "LIST" ],
-        [ "cooking_oil", 48 ],
-        [ "cooking_oil2", 48 ],
-        [ "lamp_oil", 500 ],
-        [ "motor_oil", 500 ]
-      ],
+      [ [ "any_tallow", 10, "LIST" ], [ "cooking_oil", 48 ], [ "lamp_oil", 500 ], [ "motor_oil", 500 ] ],
       [ [ "leather", 3 ], [ "scrap_kevlar", 3 ] ]
     ]
   },
@@ -527,13 +569,7 @@
     ],
     "components": [
       [ [ "2x4", 2 ] ],
-      [
-        [ "any_tallow", 4, "LIST" ],
-        [ "cooking_oil", 48 ],
-        [ "cooking_oil2", 48 ],
-        [ "lamp_oil", 500 ],
-        [ "motor_oil", 500 ]
-      ],
+      [ [ "any_tallow", 10, "LIST" ], [ "cooking_oil", 48 ], [ "lamp_oil", 500 ], [ "motor_oil", 500 ] ],
       [ [ "leather", 3 ], [ "scrap_kevlar", 3 ] ]
     ]
   },
@@ -609,13 +645,7 @@
     "components": [
       [ [ "spear_shaft", 1 ] ],
       [ [ "2x4", 1 ] ],
-      [
-        [ "any_tallow", 1, "LIST" ],
-        [ "cooking_oil", 8 ],
-        [ "cooking_oil2", 8 ],
-        [ "lamp_oil", 125 ],
-        [ "motor_oil", 125 ]
-      ]
+      [ [ "any_tallow", 2, "LIST" ], [ "cooking_oil", 8 ], [ "lamp_oil", 125 ], [ "motor_oil", 125 ] ]
     ]
   },
   {
@@ -645,13 +675,7 @@
     "components": [
       [ [ "spear_shaft", 1 ] ],
       [ [ "2x4", 1 ] ],
-      [
-        [ "any_tallow", 1, "LIST" ],
-        [ "cooking_oil", 8 ],
-        [ "cooking_oil2", 8 ],
-        [ "lamp_oil", 125 ],
-        [ "motor_oil", 125 ]
-      ]
+      [ [ "any_tallow", 2, "LIST" ], [ "cooking_oil", 8 ], [ "lamp_oil", 125 ], [ "motor_oil", 125 ] ]
     ]
   },
   {
@@ -681,13 +705,7 @@
     "components": [
       [ [ "spear_shaft", 1 ] ],
       [ [ "2x4", 1 ] ],
-      [
-        [ "any_tallow", 1, "LIST" ],
-        [ "cooking_oil", 8 ],
-        [ "cooking_oil2", 8 ],
-        [ "lamp_oil", 125 ],
-        [ "motor_oil", 125 ]
-      ]
+      [ [ "any_tallow", 2, "LIST" ], [ "cooking_oil", 8 ], [ "lamp_oil", 125 ], [ "motor_oil", 125 ] ]
     ]
   },
   {
@@ -718,13 +736,7 @@
     "components": [
       [ [ "spear_shaft", 1 ] ],
       [ [ "2x4", 1 ] ],
-      [
-        [ "any_tallow", 1, "LIST" ],
-        [ "cooking_oil", 8 ],
-        [ "cooking_oil2", 8 ],
-        [ "lamp_oil", 125 ],
-        [ "motor_oil", 125 ]
-      ]
+      [ [ "any_tallow", 2, "LIST" ], [ "cooking_oil", 8 ], [ "lamp_oil", 125 ], [ "motor_oil", 125 ] ]
     ]
   },
   {
@@ -755,13 +767,7 @@
     "components": [
       [ [ "spear_shaft", 1 ] ],
       [ [ "2x4", 1 ] ],
-      [
-        [ "any_tallow", 1, "LIST" ],
-        [ "cooking_oil", 8 ],
-        [ "cooking_oil2", 8 ],
-        [ "lamp_oil", 125 ],
-        [ "motor_oil", 125 ]
-      ]
+      [ [ "any_tallow", 2, "LIST" ], [ "cooking_oil", 8 ], [ "lamp_oil", 125 ], [ "motor_oil", 125 ] ]
     ]
   },
   {
@@ -775,7 +781,7 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_carpentry_basic", "skill_penalty": 0 } ],
-    "components": [ [ [ "bat", 1 ] ], [ [ "nails", 6, "LIST" ] ] ]
+    "components": [ [ [ "bat", 1 ] ], [ [ "nails", 20, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -800,7 +806,7 @@
     "autolearn": true,
     "qualities": [ { "id": "DRILL", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_carpentry_basic", "skill_penalty": 0 } ],
-    "components": [ [ [ "bat", 1 ] ], [ [ "nuts_bolts", 12 ] ] ]
+    "components": [ [ [ "bat", 1 ] ], [ [ "nuts_bolts", 20 ] ] ]
   },
   {
     "type": "recipe",
@@ -926,6 +932,7 @@
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_redsmithing", "required": true },
+      { "proficiency": "prof_redsmithing_adv" },
       { "proficiency": "prof_toolsmithing" }
     ],
     "difficulty": 3,
@@ -1127,13 +1134,7 @@
     "//": "Bokken is a single piece of wood, and the stout branch just isn't large enough.",
     "components": [
       [ [ "stick_long", 1 ] ],
-      [
-        [ "any_tallow", 2, "LIST" ],
-        [ "cooking_oil", 16 ],
-        [ "cooking_oil2", 16 ],
-        [ "lamp_oil", 250 ],
-        [ "motor_oil", 250 ]
-      ],
+      [ [ "any_tallow", 5, "LIST" ], [ "cooking_oil", 16 ], [ "lamp_oil", 250 ], [ "motor_oil", 250 ] ],
       [ [ "fur", 2 ], [ "leather", 2 ] ],
       [ [ "duct_tape", 20 ], [ "filament", 20, "LIST" ] ]
     ]
@@ -1147,12 +1148,12 @@
     "skill_used": "fabrication",
     "difficulty": 4,
     "time": "3 h",
-    "book_learn": [ [ "textbook_weapwest", 3 ], [ "recipe_melee", 4 ] ],
+    "autolearn": true,
+    "book_learn": [ [ "textbook_weapwest", 2 ], [ "recipe_melee", 2 ], [ "textbook_weparabic", 2 ], [ "textbook_armschina", 2 ] ],
     "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 3 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_toolsmithing" },
       { "proficiency": "prof_carving", "skill_penalty": 0 },
       { "proficiency": "prof_leatherworking_basic", "skill_penalty": 0 }
     ],
@@ -1168,12 +1169,12 @@
     "skill_used": "fabrication",
     "difficulty": 3,
     "time": "2 h",
-    "book_learn": [ [ "textbook_weapwest", 2 ], [ "recipe_melee", 3 ], [ "textbook_weparabic", 2 ], [ "textbook_armschina", 2 ] ],
+    "autolearn": true,
+    "book_learn": [ [ "textbook_weapwest", 2 ], [ "recipe_melee", 2 ], [ "textbook_weparabic", 2 ], [ "textbook_armschina", 2 ] ],
     "using": [ [ "blacksmithing_standard", 12 ], [ "lc_steel_standard", 3 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_toolsmithing" },
       { "proficiency": "prof_carving", "skill_penalty": 0 },
       { "proficiency": "prof_leatherworking_basic", "skill_penalty": 0 }
     ],
@@ -1189,12 +1190,12 @@
     "skill_used": "fabrication",
     "difficulty": 4,
     "time": "3 h",
-    "book_learn": [ [ "textbook_weapwest", 3 ], [ "recipe_melee", 4 ], [ "textbook_weparabic", 3 ], [ "textbook_armschina", 3 ] ],
+    "autolearn": true,
+    "book_learn": [ [ "textbook_weapwest", 3 ], [ "recipe_melee", 3 ], [ "textbook_weparabic", 3 ], [ "textbook_armschina", 3 ] ],
     "using": [ [ "blacksmithing_standard", 12 ], [ "mc_steel_standard", 3 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_toolsmithing" },
       { "proficiency": "prof_carving", "skill_penalty": 0 },
       { "proficiency": "prof_leatherworking_basic", "skill_penalty": 0 }
     ],
@@ -1210,12 +1211,12 @@
     "skill_used": "fabrication",
     "difficulty": 4,
     "time": "3 h",
-    "book_learn": [ [ "textbook_weapwest", 3 ], [ "recipe_melee", 4 ], [ "textbook_weparabic", 3 ], [ "textbook_armschina", 3 ] ],
+    "autolearn": true,
+    "book_learn": [ [ "textbook_weapwest", 3 ], [ "recipe_melee", 3 ], [ "textbook_weparabic", 3 ], [ "textbook_armschina", 3 ] ],
     "using": [ [ "blacksmithing_standard", 12 ], [ "hc_steel_standard", 3 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_toolsmithing" },
       { "proficiency": "prof_carving", "skill_penalty": 0 },
       { "proficiency": "prof_leatherworking_basic", "skill_penalty": 0 }
     ],
@@ -1231,12 +1232,12 @@
     "skill_used": "fabrication",
     "difficulty": 5,
     "time": "15 h",
-    "book_learn": [ [ "textbook_weapwest", 4 ], [ "recipe_melee", 5 ], [ "textbook_weparabic", 4 ], [ "textbook_armschina", 4 ] ],
+    "autolearn": true,
+    "book_learn": [ [ "textbook_weapwest", 4 ], [ "recipe_melee", 4 ], [ "textbook_weparabic", 4 ], [ "textbook_armschina", 4 ] ],
     "using": [ [ "blacksmithing_standard", 12 ], [ "lc_steel_standard", 3 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_toolsmithing" },
       { "proficiency": "prof_carving", "skill_penalty": 0 },
       { "proficiency": "prof_leatherworking_basic", "skill_penalty": 0 },
       { "proficiency": "prof_case_hardening", "skill_penalty": 0 }
@@ -1253,12 +1254,12 @@
     "skill_used": "fabrication",
     "difficulty": 6,
     "time": "19 h",
-    "book_learn": [ [ "textbook_weapwest", 5 ], [ "recipe_melee", 6 ], [ "textbook_weparabic", 5 ], [ "textbook_armschina", 5 ] ],
+    "autolearn": true,
+    "book_learn": [ [ "textbook_weapwest", 5 ], [ "recipe_melee", 5 ], [ "textbook_weparabic", 5 ], [ "textbook_armschina", 5 ] ],
     "using": [ [ "blacksmithing_standard", 12 ], [ "mc_steel_standard", 3 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_toolsmithing" },
       { "proficiency": "prof_carving", "skill_penalty": 0 },
       { "proficiency": "prof_leatherworking_basic", "skill_penalty": 0 },
       { "proficiency": "prof_quenching", "skill_penalty": 1 }
@@ -1367,9 +1368,9 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
-    "difficulty": 5,
+    "difficulty": 3,
     "time": "3 h",
-    "book_learn": [ [ "bronze_book", 4 ], [ "bronze_mag", 4 ] ],
+    "book_learn": [ [ "bronze_book", 2 ], [ "bronze_mag", 2 ] ],
     "autolearn": true,
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
@@ -1435,13 +1436,7 @@
     "//2": "Max experience set because waiting for oil to soak in isn't really teaching you anything.  Remove this when crafting time reduced to only carving time.",
     "components": [
       [ [ "stick_long", 1 ] ],
-      [
-        [ "any_tallow", 2, "LIST" ],
-        [ "cooking_oil", 16 ],
-        [ "cooking_oil2", 16 ],
-        [ "lamp_oil", 250 ],
-        [ "motor_oil", 250 ]
-      ]
+      [ [ "any_tallow", 5, "LIST" ], [ "cooking_oil", 16 ], [ "lamp_oil", 250 ], [ "motor_oil", 250 ] ]
     ]
   },
   {
@@ -1462,13 +1457,7 @@
     "//2": "Max experience set because waiting for oil to soak in isn't really teaching you anything.  Remove this when crafting time reduced to only carving time.",
     "components": [
       [ [ "q_staff", 1 ] ],
-      [
-        [ "any_tallow", 2, "LIST" ],
-        [ "cooking_oil", 16 ],
-        [ "cooking_oil2", 16 ],
-        [ "lamp_oil", 250 ],
-        [ "motor_oil", 250 ]
-      ]
+      [ [ "any_tallow", 5, "LIST" ], [ "cooking_oil", 16 ], [ "lamp_oil", 250 ], [ "motor_oil", 250 ] ]
     ]
   },
   {

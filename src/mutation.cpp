@@ -28,7 +28,6 @@
 #include "itype.h"
 #include "magic.h"
 #include "magic_enchantment.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -57,7 +56,10 @@ static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
 
 static const efftype_id effect_mutation_internal_damage( "mutation_internal_damage" );
 
+static const flag_id json_flag_CANT_HEAL_EVERYONE( "CANT_HEAL_EVERYONE" );
 static const flag_id json_flag_INTEGRATED( "INTEGRATED" );
+static const flag_id json_flag_OVERSIZE( "OVERSIZE" );
+static const flag_id json_flag_UNRESTRICTED( "UNRESTRICTED" );
 
 static const itype_id itype_fake_burrowing( "fake_burrowing" );
 
@@ -85,6 +87,7 @@ static const mutation_category_id mutation_category_ANY( "ANY" );
 static const trait_id trait_ARVORE_FOREST_MAPPING( "ARVORE_FOREST_MAPPING" );
 static const trait_id trait_BURROW( "BURROW" );
 static const trait_id trait_BURROWLARGE( "BURROWLARGE" );
+static const trait_id trait_CHAOTIC( "CHAOTIC" );
 static const trait_id trait_CHAOTIC_BAD( "CHAOTIC_BAD" );
 static const trait_id trait_ECHOLOCATION( "ECHOLOCATION" );
 static const trait_id trait_GASTROPOD_EXTREMITY2( "GASTROPOD_EXTREMITY2" );
@@ -100,6 +103,11 @@ static const trait_id trait_SNAIL_TRAIL( "SNAIL_TRAIL" );
 static const trait_id trait_TREE_COMMUNION( "TREE_COMMUNION" );
 static const trait_id trait_VOMITOUS( "VOMITOUS" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
+
+static const std::string trait_type_eye_color( "eye_color" );
+static const std::string trait_type_facial_hair( "facial_hair" );
+static const std::string trait_type_hair_style( "hair_style" );
+static const std::string trait_type_skin_tone( "skin_tone" );
 
 namespace io
 {
@@ -583,15 +591,18 @@ void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_
 
     for( const itype_id &armor : branch.integrated_armor ) {
         item tmparmor( armor );
-        wear_item( tmparmor, false );
+        wear_item( tmparmor, false, true, true, true );
     }
 
     remove_worn_items_with( [&]( item & armor ) {
         // Check for exceptions first
-        if( armor.has_flag( STATIC( flag_id( "OVERSIZE" ) ) ) ) {
+        if( armor.has_flag( json_flag_OVERSIZE ) ) {
             return false;
         }
-        if( armor.has_flag( STATIC( flag_id( "INTEGRATED" ) ) ) ) {
+        if( armor.has_flag( json_flag_INTEGRATED ) ) {
+            return false;
+        }
+        if( armor.has_flag( json_flag_UNRESTRICTED ) ) {
             return false;
         }
         // initial check for rigid items to pull off, doesn't matter what else the item has you can only wear one rigid item
@@ -781,7 +792,7 @@ bool Character::can_use_heal_item( const item &med ) const
         }
     }
     if( !got_restriction ) {
-        can_use = !med.has_flag( STATIC( flag_id( "CANT_HEAL_EVERYONE" ) ) );
+        can_use = !med.has_flag( json_flag_CANT_HEAL_EVERYONE );
     }
 
     if( !can_use ) {
@@ -868,11 +879,7 @@ void Character::activate_cached_mutation( const trait_id &mut )
         for( const effect_on_condition_id &eoc : mut->activated_eocs ) {
             dialogue d( get_talker_for( *this ), nullptr );
             d.set_value( "this", mut.str() );
-            if( eoc->type == eoc_type::ACTIVATION ) {
-                eoc->activate( d );
-            } else {
-                debugmsg( "Must use an activation eoc for a mutation activation.  If you don't want the effect_on_condition to happen on its own (without the mutation being activated), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this mutation with its condition and effects, then have a recurring one queue it." );
-            }
+            eoc->activate_activation_only( d, "a mutation activation", "mutation being activated", "mutation" );
         }
         // if the activation EOCs are not just setup for processing then turn the mutation off
         tdata.powered = mut->activated_is_setup;
@@ -1022,11 +1029,8 @@ void Character::deactivate_mutation( const trait_id &mut )
     for( const effect_on_condition_id &eoc : mut->deactivated_eocs ) {
         dialogue d( get_talker_for( *this ), nullptr );
         d.set_value( "this", mut.str() );
-        if( eoc->type == eoc_type::ACTIVATION ) {
-            eoc->activate( d );
-        } else {
-            debugmsg( "Must use an activation eoc for a mutation deactivation.  If you don't want the effect_on_condition to happen on its own (without the mutation being activated), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this mutation with its condition and effects, then have a recurring one queue it." );
-        }
+        eoc->activate_activation_only( d, "a mutation deactivation", "mutation being activated",
+                                       "mutation" );
     }
 
     if( mdata.transform && !mdata.transform->msg_transform.empty() ) {
@@ -1169,7 +1173,7 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
         try_opposite = false;
     } else if( cat_list.get_weight() > 0 ) {
         cat = *cat_list.pick();
-        cat_list.add_or_replace( cat, 0 );
+        cat_list.remove( cat );
         add_msg_debug( debugmode::DF_MUTATION, "Picked category %s", cat.c_str() );
         // Only decide if it's good or bad after we pick the category.
         if( roll_bad_mutation( cat ) ) {
@@ -1191,6 +1195,7 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
         add_msg_debug( debugmode::DF_MUTATION, "mutate: Genetic Downward Spiral found, all bad traits" );
         allow_good = false;
         allow_bad = true;
+        allow_neutral = false;
         try_opposite = false;
     }
 
@@ -1326,7 +1331,7 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
                 cat = *cat_list.pick();
                 add_msg_debug( debugmode::DF_MUTATION, "No valid traits in category found, new category %s",
                                cat.c_str() );
-                cat_list.add_or_replace( cat, 0 );
+                cat_list.remove( cat );
             } else {
                 // every option we have vitamins for is invalid
                 add_msg_if_player( m_bad,
@@ -1340,8 +1345,24 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
             }
             if( mutate_towards( valid, cat, 2, use_vitamins ) ) {
                 add_msg_if_player( m_mixed, mutation_category_trait::get_category( cat ).mutagen_message() );
+                int sub_count = count_threshold_substitute_traits();
+                if( sub_count > 2 ) {
+                    int chance = sub_count - 2;
+                    if( !has_trait( trait_CHAOTIC ) && !has_trait( trait_CHAOTIC_BAD ) ) {
+                        if( rng( 1, 100 ) <= chance ) {
+                            mutate_towards( trait_CHAOTIC );
+                            add_msg_if_player( m_bad, _( "You will mutate uncontrollably from now on!" ) );
+                        } else if( has_trait( trait_CHAOTIC ) && !has_trait( trait_CHAOTIC_BAD ) ) {
+                            if( rng( 1, 100 ) <= chance ) {
+                                mutate_towards( trait_CHAOTIC_BAD );
+                                add_msg_if_player( m_bad, _( "Your genetics have become irreparably damaged!" ) );
+                            }
+                        }
+                    }
+                    return;
+                }
+                return;
             }
-            return;
         }
     } while( valid.empty() );
 }
@@ -1414,6 +1435,12 @@ void Character::mutate_category( const mutation_category_id &cat )
 bool Character::mutation_selector( const std::vector<trait_id> &prospective_traits,
                                    const mutation_category_id &cat, const bool &use_vitamins )
 {
+    if( has_trait( trait_CHAOTIC ) || has_trait( trait_CHAOTIC_BAD ) ) {
+        add_msg_if_player( m_bad,
+                           _( "Your genetic degeneration prevents you from selecting a mutation directly!" ) );
+        return false;
+    }
+
     // Setup menu
     uilist mmenu;
     mmenu.text =
@@ -1462,6 +1489,13 @@ bool Character::mutation_selector( const std::vector<trait_id> &prospective_trai
         for( size_t i = 0; !c_has_threshreq && i < threshreq.size(); i++ ) {
             if( has_permanent_trait( threshreq[i] ) ) {
                 c_has_threshreq = true;
+            }
+            if( !mdata.strict_threshreq ) {
+                for( const trait_id &subst : threshreq[i]->threshold_substitutes ) {
+                    if( has_permanent_trait( subst ) ) {
+                        c_has_threshreq = true;
+                    }
+                }
             }
         }
         if( !c_has_threshreq ) {
@@ -2264,8 +2298,8 @@ void Character::remove_mutation( const trait_id &mut, bool silent )
             // Both visible
             if( mdata.player_display && replace_mdata.player_display ) {
                 add_msg_player_or_npc( rating,
-                                       _( "Your %1$s mutation turns into %2$s." ),
-                                       _( "<npcname>'s %1$s mutation turns into %2$s." ),
+                                       _( "Your %1$s mutation turns into %2$s!" ),
+                                       _( "<npcname>'s %1$s mutation turns into %2$s!" ),
                                        lost_name, replace_name );
             }
             // Old trait invisible, new visible
@@ -2309,8 +2343,8 @@ void Character::remove_mutation( const trait_id &mut, bool silent )
             // Both visible
             if( mdata.player_display && replace_mdata.player_display ) {
                 add_msg_player_or_npc( rating,
-                                       _( "Your %1$s mutation turns into %2$s." ),
-                                       _( "<npcname>'s %1$s mutation turns into %2$s." ),
+                                       _( "Your %1$s mutation turns into %2$s!" ),
+                                       _( "<npcname>'s %1$s mutation turns into %2$s!" ),
                                        lost_name, replace_name );
             }
             // Old trait invisible, new visible
@@ -2628,22 +2662,22 @@ void Character::customize_appearance( customize_appearance_choice choice )
     switch( choice ) {
         case customize_appearance_choice::EYES:
             amenu.text = _( "Choose a new eye color" );
-            traits = get_mutations_in_type( STATIC( "eye_color" ) );
+            traits = get_mutations_in_type( trait_type_eye_color );
             end_message = _( "Maybe things will be better by seeing it with new eyes." );
             break;
         case customize_appearance_choice::HAIR:
             amenu.text = _( "Choose a new hairstyle" );
-            traits = get_mutations_in_type( STATIC( "hair_style" ) );
+            traits = get_mutations_in_type( trait_type_hair_style );
             end_message = _( "A change in hairstyle will freshen up the mood." );
             break;
         case customize_appearance_choice::HAIR_F:
-            amenu.text = _( "Choose a new facial hairstyle" );
-            traits = get_mutations_in_type( STATIC( "facial_hair" ) );
+            amenu.text = _( "Choose a new facial hair style" );
+            traits = get_mutations_in_type( trait_type_facial_hair );
             end_message = _( "Surviving the end with style." );
             break;
         case customize_appearance_choice::SKIN:
             amenu.text = _( "Choose a new skin color" );
-            traits = get_mutations_in_type( STATIC( "skin_tone" ) );
+            traits = get_mutations_in_type( trait_type_skin_tone );
             end_message = _( "Life in the Cataclysm seems to have changed you." );
             break;
     }

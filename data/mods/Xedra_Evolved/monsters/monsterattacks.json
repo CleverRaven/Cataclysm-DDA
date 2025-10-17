@@ -56,8 +56,8 @@
     "hit_dmg_npc": "%1$s impales <npcname>!",
     "miss_msg_u": "%1$s tries to impale your %2$s, but you dodge!",
     "miss_msg_npc": "%1$s tries to impale <npcname>, but they dodge!",
-    "no_dmg_msg_u": "%1$s tries to impale your %2$s, but fails to penetrate your armor!",
-    "no_dmg_msg_npc": "%1$s tries to impale <npcname>, but fails to penetrate their armor!",
+    "no_dmg_msg_u": "%1$s tries to impale your %2$s, but fails to penetrate your armor.",
+    "no_dmg_msg_npc": "%1$s tries to impale <npcname>, but fails to penetrate their armor.",
     "dodgeable": true,
     "blockable": true
   },
@@ -320,7 +320,10 @@
     "id": "xedra_monster_erosion_attack",
     "type": "SPELL",
     "name": { "str": "Monster Erosion - Attack", "//~": "NO_I18N" },
-    "description": "This causes the dot when attacking targets with the erosion buff.  Having the spell is a bug.  Monster version",
+    "description": {
+      "str": "This causes the dot when attacking targets with the erosion buff.  Having the spell is a bug.  Monster version",
+      "//~": "NO_I18N"
+    },
     "valid_targets": [ "hostile", "ground", "none" ],
     "flags": [ "SILENT", "NO_PROJECTILE", "NO_EXPLOSION_SFX", "RANDOM_DAMAGE", "RANDOM_DURATION", "SPLIT_DAMAGE" ],
     "message": "monster erosion attack",
@@ -338,7 +341,7 @@
     "id": "xedra_monster_erosion_buff",
     "type": "SPELL",
     "name": { "str": "Monster Erosion - Buff", "//~": "NO_I18N" },
-    "description": "This gives the monster the erosion buff.  Having the spell is a bug.  Monster version",
+    "description": { "str": "This gives the monster the erosion buff.  Having the spell is a bug.  Monster version", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "flags": [ "SILENT", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
     "effect": "attack",

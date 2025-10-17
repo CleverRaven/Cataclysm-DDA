@@ -23,7 +23,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "wasp_brood",
     "//": "Empty cell",
     "weight": 100,
@@ -31,7 +30,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "wasp_brood",
     "//": "Egg cell.",
     "weight": 200,
@@ -44,7 +42,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "wasp_brood",
     "//": "Hatched larva, unsealed",
     "weight": 300,
@@ -57,7 +54,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "wasp_brood",
     "//": "Sealed brood with a pupating wasp.",
     "weight": 300,
@@ -70,7 +66,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "wasp_brood",
     "//": "Just in time for the adult. Lucky you.",
     "weight": 100,
@@ -83,7 +78,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "wasp_gibs",
     "weight": 100,
     "object": {
@@ -93,7 +87,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "wasp_gibs",
     "weight": 100,
     "object": {
@@ -103,7 +96,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "wasp_gibs",
     "weight": 100,
     "object": {
@@ -113,14 +105,12 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "wasp_gibs",
     "weight": 80,
     "object": { "mapgensize": [ 1, 1 ], "place_loot": [ { "group": "bug_parts", "x": 0, "y": 0, "repeat": [ 0, 3 ], "chance": 50 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "wasp_gibs",
     "weight": 80,
     "object": {
@@ -130,7 +120,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "wasp_gibs",
     "weight": 80,
     "object": {

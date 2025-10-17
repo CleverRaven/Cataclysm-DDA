@@ -5,7 +5,7 @@
     "condition": "ALWAYS",
     "emitter": "emit_shadow_field",
     "values": [
-      { "value": "DEXTERITY", "multiply": 2, "add": 25 },
+      { "value": "DEXTERITY", "multiply": 1, "add": 1 },
       { "value": "SOCIAL_LIE", "multiply": 0.5, "add": 15 },
       { "value": "SOCIAL_PERSUADE", "multiply": 0.5, "add": 15 },
       { "value": "SOCIAL_INTIMIDATE", "multiply": 0.5, "add": 1 }

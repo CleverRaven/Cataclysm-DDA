@@ -70,7 +70,7 @@
       "Á": { "item": "cash_register_random", "chance": 100 },
       "l": { "item": "jackets", "chance": 5 },
       "L": { "item": "home_hw", "chance": 50 },
-      "o": { "item": "oven", "chance": 70 },
+      "o": { "item": "SUS_oven", "chance": 70 },
       "t": { "item": "SUS_trash_trashcan_public", "chance": 60 },
       "U": { "item": "kitchen", "chance": 40 },
       "D": { "item": "SUS_office_desk", "chance": 30 },
@@ -85,7 +85,7 @@
     "items": {
       "b": { "item": "novels", "chance": 65, "repeat": [ 4, 12 ] },
       "f": { "item": "produce", "chance": 65, "repeat": [ 2, 10 ] },
-      "F": { "item": "fridgesnacks", "chance": 65, "repeat": [ 2, 10 ] },
+      "F": { "item": "SUS_fridge_breakroom", "chance": 65, "repeat": [ 2, 4 ] },
       "k": { "item": "shirts", "chance": 65, "repeat": [ 1, 4 ] },
       "K": { "item": "shoes", "chance": 65, "repeat": [ 1, 4 ] },
       "r": { "item": "pants", "chance": 65, "repeat": [ 1, 4 ] },
@@ -99,8 +99,8 @@
     "id": "mega_goods_b",
     "items": {
       "b": { "item": "homebooks", "chance": 70, "repeat": [ 2, 10 ] },
-      "f": { "item": "fridgesnacks", "chance": 65, "repeat": [ 2, 10 ] },
-      "F": { "item": "fridge", "chance": 65, "repeat": [ 2, 10 ] },
+      "f": { "item": "SUS_fridge_breakroom", "chance": 65, "repeat": [ 2, 4 ] },
+      "F": { "item": "SUS_fridge", "chance": 65, "repeat": [ 2, 10 ] },
       "k": { "item": "shoes", "chance": 65, "repeat": [ 1, 4 ] },
       "K": { "item": "cannedfood", "chance": 65, "repeat": [ 2, 10 ] },
       "r": { "item": "hardware", "chance": 65, "repeat": [ 1, 4 ] },
@@ -114,10 +114,10 @@
     "id": "mega_goods_c",
     "items": {
       "b": { "item": "waitingroom", "chance": 60, "repeat": [ 1, 4 ] },
-      "f": { "item": "fridge", "chance": 65, "repeat": [ 2, 10 ] },
+      "f": { "item": "SUS_fridge", "chance": 65, "repeat": [ 2, 10 ] },
       "F": { "item": "produce", "chance": 65, "repeat": [ 1, 4 ] },
       "k": { "item": "cannedfood", "chance": 65, "repeat": [ 2, 10 ] },
-      "K": { "item": "pasta", "chance": 65, "repeat": [ 2, 10 ] },
+      "K": { "item": "pasta_ingredients", "chance": 65, "repeat": [ 2, 10 ] },
       "r": { "item": "hardware", "chance": 65, "repeat": [ 1, 4 ] },
       "R": { "item": "cleaning", "chance": 65, "repeat": [ 1, 4 ] },
       "x": { "item": "shoes", "chance": 65, "repeat": [ 1, 8 ] },
@@ -131,12 +131,12 @@
       "b": { "item": "waitingroom", "chance": 65, "repeat": [ 1, 4 ] },
       "f": { "item": "vending_food_items", "chance": 65, "repeat": [ 4, 12 ] },
       "F": { "item": "kitchen", "chance": 65, "repeat": [ 1, 4 ] },
-      "k": { "item": "pasta", "chance": 65, "repeat": [ 2, 10 ] },
+      "k": { "item": "pasta_ingredients", "chance": 65, "repeat": [ 2, 10 ] },
       "K": { "item": "winter", "chance": 65, "repeat": [ 1, 4 ] },
       "r": { "item": "sports", "chance": 65, "repeat": [ 1, 4 ] },
       "R": { "item": "camping", "chance": 65, "repeat": [ 1, 4 ] },
       "x": { "item": "cleaning", "chance": 65, "repeat": [ 1, 4 ] },
-      "X": { "item": "pasta", "chance": 65, "repeat": [ 2, 10 ] }
+      "X": { "item": "pasta_ingredients", "chance": 65, "repeat": [ 2, 10 ] }
     }
   },
   {
@@ -159,7 +159,7 @@
     "id": "mega_goods_f",
     "items": {
       "b": { "item": "novels", "chance": 65, "repeat": [ 4, 12 ] },
-      "f": { "item": "fridgesnacks", "chance": 65, "repeat": [ 4, 12 ] },
+      "f": { "item": "SUS_fridge_breakroom", "chance": 65, "repeat": [ 1, 4 ] },
       "F": { "item": "vending_drink_items", "chance": 65, "repeat": [ 4, 12 ] },
       "k": { "item": "shirts", "chance": 65, "repeat": [ 1, 4 ] },
       "K": { "item": "shoes", "chance": 65, "repeat": [ 1, 4 ] },
@@ -171,7 +171,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "megastore_parking_0_4" ], [ "megastore_parking_0_3" ], [ "megastore_parking_0_2" ] ],
     "object": {
       "fill_ter": "t_pavement",
@@ -258,7 +257,7 @@
         "T": "t_region_tree_shade"
       },
       "furniture": { "D": "f_dumpster" },
-      "items": { "D": { "item": "SUS_trash_dumpster", "chance": 66, "repeat": [ 2, 5 ] } },
+      "items": { "D": { "item": "SUS_trash_dumpster", "chance": 66 } },
       "vehicles": {
         ">": { "vehicle": "truck_trailer", "chance": 50, "rotation": 330 },
         "<": { "vehicle": "parking_garage_short", "chance": 33, "rotation": 180 }
@@ -267,7 +266,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "megastore_parking_3_1", "megastore_parking_2_1", "megastore_parking_1_1", "megastore_parking_0_1" ],
       [ "megastore_parking_3_0", "megastore_parking_2_0", "megastore_parking_1_0", "megastore_parking_0_0" ]
@@ -339,7 +337,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "megastore_0_0_0", "megastore_1_0_0", "megastore_2_0_0" ],
       [ "megastore_0_1_0", "null", "megastore_2_1_0" ],
@@ -426,13 +423,12 @@
       "items": {
         "u": { "item": "coffee_display", "chance": 30 },
         "l": { "item": "everyday_gear", "chance": 75 },
-        "=": { "item": "office", "chance": 20 }
+        "=": { "item": "SUS_office_desk", "chance": 20 }
       }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "megastore_0_0_0", "megastore_1_0_0", "megastore_2_0_0" ],
       [ "megastore_0_1_0", "null", "megastore_2_1_0" ],
@@ -519,7 +515,7 @@
       "items": {
         "u": { "item": "coffee_table", "chance": 30 },
         "l": { "item": "everyday_gear", "chance": 75 },
-        "=": { "item": "office", "chance": 20 },
+        "=": { "item": "SUS_office_desk", "chance": 20 },
         "ü": { "item": "consumer_electronics", "chance": 60 },
         "M": { "item": "jewelry_front", "chance": 60 }
       }
@@ -527,7 +523,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "megastore_0_0_0", "megastore_1_0_0", "megastore_2_0_0" ],
       [ "megastore_0_1_0", "null", "megastore_2_1_0" ],
@@ -614,14 +609,13 @@
       "items": {
         "u": { "item": "coffee_table", "chance": 30 },
         "l": { "item": "everyday_gear", "chance": 75 },
-        "=": { "item": "office", "chance": 20 },
+        "=": { "item": "SUS_office_desk", "chance": 20 },
         "ü": { "item": "produce", "chance": 30, "repeat": 3 }
       }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "megastore_0_0_0", "megastore_1_0_0", "megastore_2_0_0" ],
       [ "megastore_0_1_0", "null", "megastore_2_1_0" ],
@@ -708,14 +702,13 @@
       "items": {
         "u": { "item": "coffee_table", "chance": 30 },
         "l": { "item": "everyday_gear", "chance": 75 },
-        "=": { "item": "office", "chance": 20 },
+        "=": { "item": "SUS_office_desk", "chance": 20 },
         "ü": { "item": "consumer_electronics", "chance": 60 }
       }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "megastore_0_0_0", "megastore_1_0_0", "megastore_2_0_0" ],
       [ "megastore_0_1_0", "null", "megastore_2_1_0" ],
@@ -803,13 +796,12 @@
       "items": {
         "u": { "item": "coffee_table", "chance": 30 },
         "l": { "item": "everyday_gear", "chance": 75 },
-        "=": { "item": "office", "chance": 20 }
+        "=": { "item": "SUS_office_desk", "chance": 20 }
       }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "megastore_1_1_0",
     "//": "ground floor middle area, variant a",
     "weight": 100,
@@ -847,7 +839,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "megastore_1_1_0",
     "//": "ground floor middle area, variant b",
     "weight": 100,
@@ -885,7 +876,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "megastore_1_1_0",
     "//": "ground floor middle area, variant d",
     "weight": 100,
@@ -923,7 +913,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "megastore_1_1_0",
     "//": "ground floor middle area, variant d",
     "weight": 100,
@@ -961,7 +950,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "megastore_1_1_0",
     "//": "ground floor middle area, variant e",
     "weight": 100,
@@ -999,7 +987,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "megastore_1_2_0",
     "//": "ground floor entrance, variant 1",
     "weight": 10,
@@ -1037,7 +1024,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "megastore_1_2_0",
     "//": "ground floor entrance, variant 2",
     "weight": 100,
@@ -1074,7 +1060,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "megastore_0_0_1", "megastore_1_0_1", "megastore_2_0_1" ],
       [ "megastore_0_1_1", "megastore_1_1_1", "megastore_2_1_1" ],
@@ -1164,7 +1149,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "megastore_0_0_roof", "megastore_1_0_roof", "megastore_2_0_roof" ],
       [ "megastore_0_1_roof", "megastore_1_1_roof", "megastore_2_1_roof" ],

@@ -108,7 +108,7 @@
     "id": "enchant_windrun",
     "name": [ "Windrunning" ],
     "desc": [ "You are bolstered and pushed along by the power of the wind." ],
-    "apply_message": "You are bolstered and pushed along by the power of the wind",
+    "apply_message": "You are bolstered and pushed along by the power of the wind.",
     "remove_message": "The wind at your back dies down.",
     "rating": "good",
     "max_duration": 1200,
@@ -120,7 +120,7 @@
     "id": "enchant_windrun_monster",
     "name": [ "Windrunning" ],
     "desc": [ "You are bolstered and pushed along by the power of the wind." ],
-    "apply_message": "You are bolstered and pushed along by the power of the wind",
+    "apply_message": "You are bolstered and pushed along by the power of the wind.",
     "remove_message": "The wind at your back dies down.",
     "rating": "good",
     "show_in_info": true,
@@ -400,7 +400,8 @@
     "remove_message": "The clouds of dust around you die down",
     "rating": "good",
     "max_duration": 2400,
-    "enchantments": [ "ench_shape_of_dust" ]
+    "enchantments": [ "ench_shape_of_dust" ],
+    "flags": [ "INVISIBLE" ]
   },
   {
     "type": "effect_type",
@@ -1221,6 +1222,17 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_animist_see_invisibility",
+    "name": [ "Seeing the Unseen" ],
+    "desc": [ "You can detect nearby invisible creatures." ],
+    "apply_message": "",
+    "remove_message": "Your awareness of the invisible fades.",
+    "rating": "good",
+    "max_duration": 19200,
+    "flags": [ "TRUE_SEEING" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_animist_add_evasion",
     "name": [ "Guardian Spirit" ],
     "desc": [ "A protective spirit is looking out for you." ],
@@ -1857,6 +1869,19 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_feral_druid_thornskin",
+    "name": [ { "str": "Thornskin" } ],
+    "desc": [ { "str": "You are a feral druid with the Thornskin spell on." } ],
+    "show_in_info": true,
+    "enchantments": [
+      {
+        "hit_me_effect": [ { "id": "druid_thorn_skin_attacked", "hit_self": false, "once_in": 2 } ],
+        "incoming_damage_mod": [ { "type": "bash", "multiply": -0.2 }, { "type": "cut", "multiply": -0.1 }, { "type": "stab", "multiply": -0.2 } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_feral_stormshaper_stormhammer",
     "name": [ { "str": "Wielding Stormhammer", "//~": "NO_I18N" } ],
     "desc": [ { "str": "You are a monster wielding a stormhammer, as this effect indicates.", "//~": "NO_I18N" } ],
@@ -1930,6 +1955,50 @@
           { "type": "stab", "add": -30 },
           { "type": "bullet", "add": -30 }
         ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_manatouched_mana_flash_active",
+    "//": "Duration tracker, empty to hide effect",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_manatouched_external_mana_luminance",
+    "name": [ "Eldritch Glow" ],
+    "desc": [ "The air around you shimmers in a multitude of colors." ],
+    "enchantments": [
+      {
+        "values": [ { "value": "LUMINATION", "add": { "math": [ "min( (u_sum_traits_of_category_char_has('MANATOUCHED') * 3), 50)" ] } } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_will_o_wisp_draining_monsters",
+    "//": "Self-explanatory",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good",
+    "max_intensity": 25,
+    "int_add_val": 1,
+    "base_mods": { "speed_mod": [ -1 ] },
+    "scaling_mods": { "speed_mod": [ -1 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_mana_overload",
+    "name": [ "Mana Overload" ],
+    "desc": [ "Your leylines are overloaded with a surfeit of mana.  It is much harder to control the mana flow." ],
+    "apply_message": "You feel a tingling sensation all along your leylines.",
+    "remove_message": "Your leylines finally calm down.",
+    "max_intensity": 3,
+    "enchantments": [
+      {
+        "values": [ { "value": "REGEN_MANA", "multiply": { "math": [ "-0.3 + (u_effect_intensity('effect_mana_overload') * -0.2)" ] } } ]
       }
     ]
   },
@@ -2008,7 +2077,10 @@
       "effect_feral_technomancer_mage_blade",
       "effect_feral_technomancer_mage_armor",
       "effect_feral_technomancer_bless",
-      "enchant_windrun_monster"
+      "enchant_windrun_monster",
+      "effect_feral_animist_guardian_spirit",
+      "effect_feral_animist_inner_voice",
+      "effect_migo_nether_shield_monster"
     ]
   },
   {
@@ -2162,7 +2234,11 @@
       "effect_feral_technomancer_mage_blade",
       "effect_feral_technomancer_mage_armor",
       "effect_feral_technomancer_bless",
-      "enchant_windrun_monster"
+      "enchant_windrun_monster",
+      "effect_feral_animist_guardian_spirit",
+      "effect_feral_animist_inner_voice",
+      "effect_migo_nether_shield_monster",
+      "effect_feral_druid_thornskin"
     ]
   },
   {
@@ -2304,6 +2380,13 @@
     "desc": [ "" ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
     "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 20 } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_magiclysm_craft_in_darkness",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "CRAFT_IN_DARKNESS" ]
   },
   {
     "type": "effect_type",

@@ -176,6 +176,22 @@ class monster : public Creature
         bool flies() const;
         bool climbs() const;
         bool swims() const;
+
+        /** @returns dig skill. -1 if unable */
+        int dig_skill() const;
+        /** @returns dig modifier. -1 if unable */
+        int get_dig_mod() const;
+
+        /** @returns climb skill. -1 if unable */
+        int climb_skill() const;
+        /** @returns climb modifier. -1 if unable */
+        int get_climb_mod() const;
+
+        /** @returns swim skill. -1 if unable */
+        int swim_skill() const;
+        /** @returns swim modifier. -1 if unable */
+        int get_swim_mod() const;
+
         // Returns false if the monster is stunned, has 0 moves or otherwise wouldn't act this turn
         bool can_act() const;
         int sight_range( float light_level ) const override;
@@ -266,9 +282,8 @@ class monster : public Creature
         bool die_if_drowning( const tripoint_bub_ms &at_pos, int chance = 1 );
 
         tripoint_bub_ms scent_move();
-        int calc_movecost( const tripoint_bub_ms &f, const tripoint_bub_ms &t,
-                           bool ignore_fields = false ) const;
-        int calc_climb_cost( const tripoint_bub_ms &f, const tripoint_bub_ms &t ) const;
+        int calc_movecost( const map &here, const tripoint_bub_ms &f,
+                           const tripoint_bub_ms &t, bool force  = false ) const;
 
         bool is_immune_field( const field_type_id &fid ) const override;
         bool check_immunity_data( const field_immunity_data &ft ) const override;
@@ -323,11 +338,11 @@ class monster : public Creature
         bool push_to( const tripoint_bub_ms &p, int boost, size_t depth );
 
         /** Returns innate monster bash skill, without calculating additional from helpers */
-        int bash_skill() const;
-        int bash_estimate() const;
+        std::map<damage_type_id, int> bash_skill() const;
+        std::map<damage_type_id, int> bash_estimate() const;
         /** Returns ability of monster and any cooperative helpers to
          * bash the designated target.  **/
-        int group_bash_skill( const tripoint_bub_ms &target );
+        std::map<damage_type_id, int> group_bash_skill( const tripoint_bub_ms &target );
 
         void stumble();
         void knock_back_to( const tripoint_bub_ms &to ) override;
@@ -539,9 +554,8 @@ class monster : public Creature
         // DEFINING VALUES
         int friendly = 0;
         int anger = 0;
-        int morale = 0;
+        int morale = 2;
     private:
-        int stomach_size = 0;
         int amount_eaten = 0;
         void recheck_fed_status();
     public:
@@ -624,14 +638,14 @@ class monster : public Creature
         void process_trigger( mon_trigger trig, int amount );
         void process_trigger( mon_trigger trig, const std::function<int()> &amount_func );
 
-        int hp = 0;
+        int hp = 60;
         std::map<std::string, mon_special_attack, std::less<>> special_attacks;
         std::optional<tripoint_abs_ms> goal;
         bool dead = false;
         /** Normal upgrades **/
         int next_upgrade_time();
         bool upgrades = false;
-        int upgrade_time = 0;
+        int upgrade_time = -1;
         bool reproduces = false;
         std::optional<time_point> baby_timer;
         bool biosignatures = false;

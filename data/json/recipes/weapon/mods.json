@@ -546,7 +546,7 @@
     "using": [ [ "welding_standard", 15 ], [ "plastic_molding", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "qualities": [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 } ],
-    "components": [ [ [ "scrap", 3 ], [ "steel_chunk_any", 1, "LIST" ] ], [ [ "plastic_chunk", 1 ] ], [ [ "spring", 1 ] ] ]
+    "components": [ [ [ "scrap", 3 ], [ "steel_chunk_any", 1, "LIST" ] ], [ [ "plastic_chunk", 1 ] ], [ [ "spring_medium", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -651,7 +651,7 @@
     "time": "10 m",
     "book_learn": [ [ "mag_archery", 1 ], [ "manual_archery", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "chunk_rubber", 1 ] ], [ [ "super_glue", 5 ] ] ]
+    "components": [ [ [ "chunk_rubber", 1 ] ], [ [ "glue_strong", 5 ] ] ]
   },
   {
     "type": "recipe",
@@ -666,7 +666,7 @@
     "autolearn": true,
     "book_learn": [ [ "mag_archery", 1 ], [ "manual_archery", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "fur", 1 ] ], [ [ "bone_glue", 1 ] ] ]
+    "components": [ [ [ "fur", 1 ] ], [ [ "glue_weak", 150 ] ] ]
   },
   {
     "type": "recipe",
@@ -680,7 +680,7 @@
     "time": "20 m",
     "book_learn": [ [ "manual_shotgun", 4 ], [ "mag_shotgun", 5 ] ],
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 } ],
-    "components": [ [ [ "pipe", 2 ] ], [ [ "duct_tape", 75 ] ], [ [ "nail", 2 ] ] ]
+    "components": [ [ [ "pipe", 2 ] ], [ [ "duct_tape", 75 ] ], [ [ "nails", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -878,7 +878,11 @@
     ],
     "//": "25cm weld",
     "using": [ [ "welding_standard", 25 ] ],
-    "components": [ [ [ "scrap", 6 ], [ "pipe", 1 ], [ "steel_chunk_any", 2, "LIST" ] ], [ [ "spring", 1 ] ], [ [ "plastic_chunk", 3 ] ] ]
+    "components": [
+      [ [ "scrap", 6 ], [ "pipe", 1 ], [ "steel_chunk_any", 2, "LIST" ] ],
+      [ [ "spring_medium", 1 ] ],
+      [ [ "plastic_chunk", 3 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -977,7 +981,7 @@
       { "id": "FILE", "level": 2 }
     ],
     "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.5 } ],
-    "components": [ [ [ "rolling_pin", 1 ] ], [ [ "nail", 2 ] ] ]
+    "components": [ [ [ "rolling_pin", 1 ] ], [ [ "nails", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1056,7 +1060,11 @@
     ],
     "//": "25cm weld",
     "using": [ [ "welding_standard", 25 ] ],
-    "components": [ [ [ "scrap", 6 ], [ "pipe", 1 ], [ "steel_chunk_any", 2, "LIST" ] ], [ [ "plastic_chunk", 3 ] ], [ [ "spring", 2 ] ] ]
+    "components": [
+      [ [ "scrap", 6 ], [ "pipe", 1 ], [ "steel_chunk_any", 2, "LIST" ] ],
+      [ [ "plastic_chunk", 3 ] ],
+      [ [ "spring_medium", 2 ] ]
+    ]
   },
   {
     "type": "recipe",

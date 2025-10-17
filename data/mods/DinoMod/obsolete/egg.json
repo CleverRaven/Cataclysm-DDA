@@ -1,8 +1,0 @@
-[
-  {
-    "id": "egg_mosasaurus",
-    "type": "MIGRATION",
-    "replace": "egg_tyrannosaurus",
-    "//": "Remove post 0.I"
-  }
-]

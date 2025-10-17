@@ -906,11 +906,11 @@ std::vector<std::string> Messages::dialog::filter_help_text( int width )
             }
             if( next_it != type_list.end() ) {
                 //~ the 2nd %s is a type name, this is used to format a list of type names
-                type_text += string_format( pgettext( "message log", "<color_%s>%s</color>, " ),
+                type_text += string_format( pgettext( "message log", "<color_%1$s>%2$s</color>, " ),
                                             col_name, pgettext( "message type", it->second ) );
             } else {
                 //~ the 2nd %s is a type name, this is used to format the last type name in a list of type names
-                type_text += string_format( pgettext( "message log", "<color_%s>%s</color>." ),
+                type_text += string_format( pgettext( "message log", "<color_%1$s>%2$s</color>." ),
                                             col_name, pgettext( "message type", it->second ) );
             }
         }
@@ -1011,6 +1011,7 @@ void add_msg( const game_message_params &params, std::string msg )
     Messages::add_msg( params, std::move( msg ) );
 }
 
+// msg argument will not expand name place holders
 void add_msg_if_player_sees( const tripoint_bub_ms &target, std::string msg )
 {
     const map &here = get_map();

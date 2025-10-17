@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "rubik_store_base",
     "//": "Rubik's store in the Exodii main base",
     "object": {
@@ -32,7 +31,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "luliya_base",
     "//": "Luliya's area in the Exodii main base",
     "object": {
@@ -56,7 +54,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "weaponmaster_workshop_base",
     "object": {
       "mapgensize": [ 5, 5 ],

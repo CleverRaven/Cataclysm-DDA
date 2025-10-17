@@ -1,3 +1,18 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Post-apocalypse Price Guide](#post-apocalypse-price-guide)
+    - [Pricing philosophy](#pricing-philosophy)
+      - [Items are priced on a combination of their availability and their utility.](#items-are-priced-on-a-combination-of-their-availability-and-their-utility)
+      - [Currently Implemented faction currencies](#currently-implemented-faction-currencies)
+        - [Some benchmark prices](#some-benchmark-prices)
+      - [Food pricing](#food-pricing)
+      - [Stack size](#stack-size)
+      - [IRREPLACEABLE_CONSUMABLE Flag](#irreplaceable_consumable-flag)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Post-apocalypse Price Guide
 How to give items a sensible postapoc_price value
 
@@ -85,7 +100,7 @@ pretty much the most anyone will be willing to spend on any one thing, no matter
   {
     "id": "boltcutters",
     "type": "TOOL",
-    "name": { "str": "pair of bolt cutters", "str_pl": "pairs of bolt cutters" },
+    "name": { "str_sp": "bolt cutters" },
     "description": "This is a large pair of bolt cutters.  You could use them to cut padlocks or heavy gauge wire.",
     "price_postapoc": "2 USD 50 cent",
   },

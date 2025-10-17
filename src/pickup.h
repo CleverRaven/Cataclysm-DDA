@@ -16,9 +16,12 @@ class item;
 
 namespace Pickup
 {
-/** Pick up information reminder for bulk loading */
+/** Pick up information */
 struct pick_info {
-    pick_info() = default;
+    explicit pick_info( int extra_moves_per_distance = 0, units::volume max_volume = -1_ml,
+                        units::mass max_mass = -1_gram ) : extra_moves_per_distance( extra_moves_per_distance ),
+        max_volume( max_volume ), max_mass( max_mass ) {}
+
     void serialize( JsonOut &jsout ) const;
     void deserialize( const JsonObject &jsobj );
     void set_src( const item_location &src_ );
@@ -29,6 +32,13 @@ struct pick_info {
     tripoint_bub_ms src_pos;
     item_location src_container;
     item_location dst;
+
+    int extra_moves_per_distance = 0;
+
+    units::volume picked_up_volume = 0_ml;
+    units::volume max_volume = -1_ml;
+    units::mass picked_up_mass = 0_gram;
+    units::mass max_mass = -1_gram;
 };
 
 /**
@@ -37,7 +47,7 @@ struct pick_info {
  */
 bool do_pickup( std::vector<item_location> &targets, std::vector<int> &quantities,
                 bool autopickup, bool &stash_successful, Pickup::pick_info &info );
-bool query_thief();
+bool query_thief( const item &it );
 
 enum from_where : int {
     from_cargo = 0,

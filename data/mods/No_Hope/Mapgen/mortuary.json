@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mortuary",
     "//": "Adds CBMs",
     "weight": 10000,

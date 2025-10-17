@@ -3,7 +3,6 @@
     "type": "mapgen",
     "om_terrain": "house_fence01_basement",
     "weight": 20,
-    "method": "json",
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -46,7 +45,6 @@
     "type": "mapgen",
     "om_terrain": "house_fence01_basement",
     "weight": 20,
-    "method": "json",
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -83,7 +81,6 @@
     "type": "mapgen",
     "om_terrain": "house_fence01_basement",
     "weight": 20,
-    "method": "json",
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -129,7 +126,6 @@
   {
     "type": "mapgen",
     "om_terrain": "house_fence01",
-    "method": "json",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -202,7 +198,6 @@
   {
     "type": "mapgen",
     "om_terrain": "house_fence01_roof",
-    "method": "json",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
       "rows": [

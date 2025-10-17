@@ -425,7 +425,7 @@
   {
     "id": [ "MISSION_ROBOFAC_INTERCOM_2_COMPLETE", "MISSION_ROBOFAC_INTERCOM_2_COMPLETE_Hardcase" ],
     "type": "talk_topic",
-    "dynamic_line": "&The intercom's tray slides shut.\n\n\"This is the case; thank you.  Transferring the stipulated amount now.\"  The tray slides back open with your payment.  \"As an additional form of payment, you have been given clearance to receive a map of the area around this site, to assist in your work.  The standing price is 1 HGC; please inform us if you'd like to follow up on that offer going forward.",
+    "dynamic_line": "&The intercom's tray slides shut.\n\n\"This is the case; thank you.  Transferring the stipulated amount now.\"  The tray slides back open with your payment.  \"As an additional form of payment, you have been given clearance to receive a map of the area around this site, to assist in your work.  The standing price is 1 HGC; please inform us if you'd like to follow up on that offer going forward.\"",
     "responses": [
       {
         "text": "[PER 8] The original markings on that case had been scratched out.  Who did it really belong to?",
@@ -507,7 +507,8 @@
   {
     "id": "MISSION_ROBOFAC_INTERCOM_3_ADVICE_Location",
     "type": "talk_topic",
-    "dynamic_line": "I don't believe I'm cleared to-\"  You hear brief chatter.  \"Apologies; I was mistaken.  The manufacturer was, technically speaking, kept secret from the public.  As a result, it operated using an office tower as a front, and was located underground.  An elevator in the back of the building led to the basement, but it was likely destroyed in the damage - as a result, you will need to find a way down yourself.  While there were stairs as well, it's highly likely that they have been destroyed.\"\n\n\"We advise bringing a way to safely enter and exit the lower level; a grappling hook would work well for this purpose.  Given the damage, the elevator shaft itself probably remains intact, and would be your likeliest point of entry to the underground portion of the building."
+    "//": "Restore previous dialogue if we ever get multi-story rappelling. If so, make sure to leave at least one elevator as the teleporting elevator trap",
+    "dynamic_line": "I don't believe I'm cleared to-\"  You hear brief chatter.  \"Apologies; I was mistaken.  The manufacturer was, technically speaking, kept secret from the public.  As a result, it operated using an office tower as a front, and was located underground.  An elevator in the back of the building led to the basement, but it was likely destroyed in the damage and the shaft may well be inaccessible - as a result, you will need to find a way down yourself.  There is a maintenance staircase in the compound, which may provide a means of entry should you be able to find an access card on the premises."
   },
   {
     "id": [
@@ -1077,7 +1078,7 @@
     "goal": "MGOAL_NULL",
     "difficulty": 1,
     "value": 0,
-    "fail": { "effect": { "math": [ "faction_trust('robofac')", "-=", "20" ] } },
+    "fail": { "effect": { "math": [ "faction_trust('robofac') -= 20" ] } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "deadline": [ "20 days", "20 days" ],

@@ -149,7 +149,7 @@
     "price_postapoc": "40 USD",
     "to_hit": -1,
     "material": [ "aluminum", "steel", "plastic" ],
-    "color": "black",
+    "color": "dark_gray",
     "ammo": [ "NULL" ],
     "dispersion": 50,
     "durability": 10,

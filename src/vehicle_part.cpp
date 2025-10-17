@@ -14,6 +14,7 @@
 #include "game.h"
 #include "item.h"
 #include "itype.h"
+#include "mapdata.h"
 #include "messages.h"
 #include "npc.h"
 #include "pocket_type.h"
@@ -32,6 +33,7 @@ static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_none( "null" );
 
 static const itype_id itype_battery( "battery" );
+static const itype_id itype_seed_buckwheat( "seed_buckwheat" );
 
 /*-----------------------------------------------------------------------------
  *                              VEHICLE_PART
@@ -79,13 +81,7 @@ std::vector<item> vehicle_part::get_salvageable() const
         item newit( comp.type, calendar::turn );
         if( base.typeId() != comp.type && !newit.has_flag( flag_UNRECOVERABLE ) ) {
             int compcount = comp.count;
-            const bool is_liquid = newit.made_of( phase_id::LIQUID );
-            if( newit.count_by_charges() || is_liquid ) {
-                newit.charges = compcount;
-                compcount = 1;
-            } else if( !newit.craft_has_charges() && newit.charges > 0 ) {
-                newit.charges = 0;
-            }
+            newit.compress_charges_or_liquid( compcount );
             for( ; compcount > 0; compcount-- ) {
                 tmp.push_back( newit );
             }
@@ -119,8 +115,20 @@ std::string vehicle_part::name( bool with_prefix ) const
         res += string_format( _( "%d\" " ), base.type->wheel->diameter );
     }
     res += info().name();
+    // animal carrier
     if( base.has_var( "contained_name" ) ) {
         res += string_format( _( " holding %s" ), base.get_var( "contained_name" ) );
+    }
+    // furniture tiedown
+    if( base.has_var( "tied_down_furniture" ) ) {
+        furn_str_id stored_furniture( base.get_var( "tied_down_furniture" ) );
+        if( stored_furniture.is_valid() ) {
+            res += string_format( _( " holding %s" ), stored_furniture->name() );
+        } else {
+            // no debugmsg or else it will trigger every frame, essentially forcing (i)gnore error to exit the menu at all
+            //~Invalid here means it doesn't refer to a real furn_str_id, i.e. something is wrong with the game. This is not a state the player should normally encounter.
+            res += _( " holding invalid furniture" );
+        }
     }
     for( const fault_id &f : base.faults ) {
         const std::string prefix = f->item_prefix();
@@ -518,6 +526,58 @@ bool vehicle_part::fault_set( const fault_id &f )
     return true;
 }
 
+bool vpart_position::can_load_furniture() const
+{
+    std::optional<vpart_reference> loader = part_with_feature( "FURNITURE_TIEDOWN", true );
+    if( !loader.has_value() ) {
+        return false;
+    }
+    if( !loader->items().empty() ) {
+        return false;
+    }
+    if( loader->part().get_base().has_var( "tied_down_furniture" ) ) {
+        return false;
+    }
+    return true;
+}
+
+bool vpart_position::has_loaded_furniture() const
+{
+    std::optional<vpart_reference> loader = part_with_feature( "FURNITURE_TIEDOWN", true );
+    if( !loader.has_value() ) {
+        return false;
+    }
+    return loader->part().get_base().has_var( "tied_down_furniture" );
+}
+
+void vehicle_part::load_furniture( map &here, const tripoint_bub_ms &from )
+{
+    if( base.has_var( "tied_down_furniture" ) ) {
+        return;
+    }
+
+    // The awful hack that makes this all work. We store the furniture's string id directly on the item as an item var.
+    base.set_var( "tied_down_furniture", here.furn( from ).id().str() );
+    here.furn_clear( from );
+}
+
+void vehicle_part::unload_furniture( map &here, const tripoint_bub_ms &to )
+{
+    if( !base.has_var( "tied_down_furniture" ) ) {
+        return;
+    }
+    furn_str_id carried_furn( base.get_var( "tied_down_furniture" ) );
+    if( !carried_furn.is_valid() ) {
+        debugmsg( "Invalid carried furniture %s", carried_furn.str() );
+        return;
+    }
+    if( here.has_furn( to ) ) {
+        return;
+    }
+    base.remove_var( "tied_down_furniture" );
+    here.furn_set( to, carried_furn );
+}
+
 npc *vehicle_part::crew() const
 {
     if( is_broken() || !crew_id.is_valid() ) {
@@ -667,9 +727,12 @@ bool vehicle::can_enable( map &here, const vehicle_part &pt, bool alert ) const
         return false;
     }
 
-    if( pt.info().has_flag( "PLANTER" ) && !warm_enough_to_plant( get_player_character().pos_bub() ) ) {
+    // FIXME/HACK: Always checks buckwheat seeds!
+    ret_val<void>can_plant = warm_enough_to_plant( get_player_character().pos_bub(),
+                             itype_seed_buckwheat );
+    if( pt.info().has_flag( "PLANTER" ) && !can_plant.success() ) {
         if( alert ) {
-            add_msg( m_bad, _( "It is too cold to plant anything now." ) );
+            add_msg( m_bad, can_plant.c_str() );
         }
         return false;
     }

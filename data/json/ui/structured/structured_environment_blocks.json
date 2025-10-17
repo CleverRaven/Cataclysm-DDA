@@ -3,7 +3,7 @@
     "id": "structured_time_moon_layout",
     "type": "widget",
     "label": "Date/Time/Moon",
-    "description": "Shows date, time and moon phase.",
+    "description": "Shows date, time, and moon phase.",
     "style": "layout",
     "arrange": "columns",
     "separator": ": ",

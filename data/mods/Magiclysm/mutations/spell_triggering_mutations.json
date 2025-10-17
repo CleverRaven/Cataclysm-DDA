@@ -26,7 +26,8 @@
         "intermittent_activation": { "effects": [ { "frequency": "5 seconds", "spell_effects": [ { "id": "boreal_mage_cold_damage" } ] } ] }
       }
     ],
-    "transform": { "target": "COLD_AURA_OFF", "msg_transform": "You suppress your frozen powers.", "active": false, "moves": 10 }
+    "transform": { "target": "COLD_AURA_OFF", "msg_transform": "You suppress your frozen powers.", "active": false, "moves": 10 },
+    "flags": [ "NO_BODY_HEAT" ]
   },
   {
     "type": "mutation",

@@ -391,11 +391,7 @@ bool trapfunc::eocs( const tripoint_bub_ms &p, Creature *critter, item * )
     for( const effect_on_condition_id &eoc : tr.eocs ) {
         dialogue d( get_talker_for( critter ), nullptr );
         write_var_value( var_type::context, "trap_location", &d, trap_location );
-        if( eoc->type == eoc_type::ACTIVATION ) {
-            eoc->activate( d );
-        } else {
-            debugmsg( "Must use an activation eoc for activation.  If you don't want the effect_on_condition to happen on its own (without the item's involvement), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this item with its condition and effects, then have a recurring one queue it." );
-        }
+        eoc->activate_activation_only( d, "activation", "item's involvement", "item" );
     }
     here.remove_trap( p );
     return true;
@@ -795,7 +791,7 @@ bool trapfunc::snare_species( const tripoint_bub_ms &p, Creature *critter, item 
     }
 
     if( critter ) {
-        const bodypart_id hit = critter->get_random_body_part_of_type( body_part_type::type::leg );
+        const bodypart_id hit = critter->get_random_body_part_of_type( bp_type::leg );
 
         critter->add_msg_if_player( m_bad, _( "A %1$s catches your %2$s!" ),
                                     laid_trap.name(), hit->name.translated() );

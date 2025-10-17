@@ -13,7 +13,6 @@
 #include <utility>
 #include <vector>
 
-#include "bodypart.h"
 #include "calendar.h"
 #include "catacharset.h"
 #include "color.h"
@@ -58,9 +57,9 @@ generic_factory<field_type> &get_all_field_types();
 
 struct field_immunity_data {
     std::vector<json_character_flag> immunity_data_flags;
-    std::vector<std::pair<body_part_type::type, int>> immunity_data_body_part_env_resistance;
-    std::vector < std::pair<body_part_type::type, flag_id>> immunity_data_part_item_flags;
-    std::vector < std::pair<body_part_type::type, flag_id>> immunity_data_part_item_flags_any;
+    std::vector<std::pair<bp_type, int>> immunity_data_body_part_env_resistance;
+    std::vector < std::pair<bp_type, flag_id>> immunity_data_part_item_flags;
+    std::vector < std::pair<bp_type, flag_id>> immunity_data_part_item_flags_any;
 };
 
 struct field_effect {
@@ -203,6 +202,7 @@ struct field_type {
         bool has_acid = false;
         bool has_elec = false;
         bool has_fume = false;
+        bool moppable = false;
         description_affix desc_affix = description_affix::DESCRIPTION_AFFIX_NUM;
         std::optional<map_fd_bash_info> bash_info;
 

@@ -2,7 +2,6 @@
   {
     "//": "dino operating theater",
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "lab_finale_1level" ],
     "weight": 75,
     "object": {
@@ -81,7 +80,6 @@
   {
     "//": "dino portal room",
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "lab_finale_1level" ],
     "weight": 20,
     "object": {
@@ -147,7 +145,6 @@
   {
     "//": "dino portal room 2",
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "lab_finale_1level" ],
     "weight": 20,
     "object": {

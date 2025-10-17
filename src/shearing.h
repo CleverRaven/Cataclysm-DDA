@@ -1,10 +1,12 @@
 #pragma once
-#include "type_id.h"
 #ifndef CATA_SRC_SHEARING_H
 #define CATA_SRC_SHEARING_H
 
 #include <vector>
 
+#include "type_id.h"
+
+class JsonArray;
 class JsonObject;
 class monster;
 
@@ -25,6 +27,9 @@ struct shearing_entry {
 
     bool was_loaded = false;
     void load( const JsonObject &jo );
+    void deserialize( const JsonObject &jo ) {
+        load( jo );
+    }
 };
 
 class shearing_data
@@ -42,6 +47,8 @@ class shearing_data
         }
 
         std::vector<shearing_roll> roll_all( const monster &mon ) const;
+
+        void deserialize( const JsonArray &ja );
 
     private:
         bool valid_ = false;

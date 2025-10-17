@@ -2,7 +2,6 @@
   {
     "type": "mapgen",
     "om_terrain": "house_fence05_basement",
-    "method": "json",
     "object": {
       "palettes": [ "standard_domestic_palette", "standard_domestic_basement_palette" ],
       "fill_ter": "t_thconc_floor",
@@ -38,7 +37,6 @@
   {
     "type": "mapgen",
     "om_terrain": "house_fence05_1",
-    "method": "json",
     "object": {
       "palettes": [
         "standard_domestic_palette",
@@ -97,7 +95,6 @@
   {
     "type": "mapgen",
     "om_terrain": "house_fence05_2",
-    "method": "json",
     "object": {
       "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
       "fill_ter": "t_floor",
@@ -139,7 +136,6 @@
   {
     "type": "mapgen",
     "om_terrain": "house_fence05_roof",
-    "method": "json",
     "object": {
       "palettes": [ "roof_palette" ],
       "fill_ter": "t_shingle_flat_roof",

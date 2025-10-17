@@ -77,7 +77,7 @@
     "tools": [ [ [ "pipe_cleaner", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ] ],
     "components": [
       [ [ "cotton_patchwork", 1 ], [ "fur", 1 ], [ "faux_fur", 1 ], [ "felt_patch", 1 ], [ "cotton_ball", 2 ] ],
-      [ [ "lamp_oil", 5 ], [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ], [ "motor_oil", 5 ] ]
+      [ [ "lamp_oil", 5 ], [ "cooking_oil", 1 ], [ "motor_oil", 5 ] ]
     ]
   },
   {
@@ -108,6 +108,12 @@
       [ [ "metal_file_any", 1, "LIST" ] ],
       [ [ "metalworking_tongs_any", 1, "LIST" ] ]
     ]
+  },
+  {
+    "id": "blacksmithing_standard_fileless",
+    "type": "requirement",
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
+    "tools": [ [ [ "forge", 20 ], [ "oxy_torch", 20 ] ], [ [ "metalworking_tongs_any", 1, "LIST" ] ] ]
   },
   {
     "id": "blacksmithing_scrap",
@@ -281,8 +287,22 @@
   {
     "id": "drilling_standard",
     "type": "requirement",
-    "//": "Drilling holes in various materials, including metal",
+    "//": "Drilling holes in various materials, including steel",
     "tools": [ [ [ "cordless_drill", 2 ], [ "corded_powerdrill", 2 ], [ "drill_press_tool", 1 ], [ "hand_drill", -1 ] ] ]
+  },
+  {
+    "id": "drilling_light",
+    "type": "requirement",
+    "//": "Drilling holes in various materials other than steel",
+    "tools": [
+      [
+        [ "cordless_drill", 1 ],
+        [ "corded_powerdrill", 1 ],
+        [ "drill_press_tool", 1 ],
+        [ "hand_drill", -1 ],
+        [ "makeshift_hand_drill", -2 ]
+      ]
+    ]
   },
   {
     "id": "anesthetic",
@@ -297,6 +317,33 @@
     "tools": [
       [ [ "hacksaw", -1 ], [ "multitool", -1 ], [ "boltcutters", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ]
     ]
+  },
+  {
+    "id": "pliers_standard",
+    "type": "requirement",
+    "//": "tools that can grip harder than just your bare hands.",
+    "tools": [
+      [ [ "pliers", -1 ], [ "big_pliers", -1 ], [ "pliers_locking", -1 ], [ "multitool", -1 ], [ "camping_multitool", -1 ] ]
+    ]
+  },
+  {
+    "id": "spring_standard",
+    "type": "requirement",
+    "//": "for winding medium to small springs.",
+    "qualities": [ { "id": "DRILL", "level": 2 }, { "id": "FILE", "level": 1 } ],
+    "tools": [
+      [ [ "corded_powerdrill", 5 ], [ "cordless_drill", 5 ], [ "fake_lathe", 5 ] ],
+      [
+        [ "stick", -1 ],
+        [ "small_lc_steel_bar_round", -1 ],
+        [ "small_mc_steel_bar_round", -1 ],
+        [ "small_hc_steel_bar_round", -1 ],
+        [ "small_aluminum_bar_round", -1 ]
+      ],
+      [ [ "pliers_standard", 1, "LIST" ] ],
+      [ [ "cutting_wire_standard", 1, "LIST" ] ]
+    ],
+    "components": [ [ [ "qt_wire", 1 ] ] ]
   },
   {
     "id": "mining_standard",
@@ -523,5 +570,17 @@
         [ "hd_tow_cable", -1 ]
       ]
     ]
+  },
+  {
+    "id": "rivet_setting",
+    "type": "requirement",
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "DRILL", "level": 3 } ],
+    "components": [ [ [ "rivets", 1 ] ] ]
+  },
+  {
+    "id": "rivet_replacement",
+    "type": "requirement",
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "FILE", "level": 2 } ],
+    "components": [ [ [ "rivets", 1 ] ] ]
   }
 ]

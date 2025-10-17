@@ -33,6 +33,7 @@ namespace construction_groups
 
 void load( const JsonObject &jo, const std::string &src );
 void reset();
+void finalize();
 
 const std::vector<construction_group> &get_all();
 

@@ -130,6 +130,11 @@ void weapon_category::load_weapon_categories( const JsonObject &jo, const std::s
     weapon_category_factory.load( jo, src );
 }
 
+void weapon_category::finalize_all()
+{
+    weapon_category_factory.finalize();
+}
+
 void weapon_category::reset()
 {
     weapon_category_factory.reset();
@@ -178,6 +183,11 @@ matype_id martial_art_learned_from( const itype &type )
 void load_technique( const JsonObject &jo, const std::string &src )
 {
     ma_techniques.load( jo, src );
+}
+
+void ma_technique::finalize_all()
+{
+    ma_techniques.finalize();
 }
 
 // To avoid adding empty entries
@@ -402,6 +412,11 @@ bool string_id<ma_buff>::is_valid() const
 void load_martial_art( const JsonObject &jo, const std::string &src )
 {
     martialarts.load( jo, src );
+}
+
+void martialart::finalize_all()
+{
+    martialarts.finalize();
 }
 
 class ma_buff_reader : public generic_typed_reader<ma_buff_reader>
@@ -630,6 +645,7 @@ void finalize_martial_arts()
         effect_type::register_ma_buff_effect( new_eff );
     }
     attack_vector_factory.finalize();
+    ma_buffs.finalize();
     for( const attack_vector &vector : attack_vector_factory.get_all() ) {
         // Check if this vector allows substitutions in the first place
         if( vector.strict_limb_definition ) {
@@ -1304,11 +1320,8 @@ void martialart::activate_eocs( Character &u,
 {
     for( const effect_on_condition_id &eoc : eocs ) {
         dialogue d( get_talker_for( u ), nullptr );
-        if( eoc->type == eoc_type::ACTIVATION ) {
-            eoc->activate( d );
-        } else {
-            debugmsg( "Must use an activation eoc for a martial art activation.  If you don't want the effect_on_condition to happen on its own (without the martial art being activated), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this martial art with its condition and effects, then have a recurring one queue it." );
-        }
+        eoc->activate_activation_only( d, "a martial art activation", "martial art being activated",
+                                       "martial art" );
     }
 }
 
@@ -1502,7 +1515,7 @@ std::optional<std::pair<attack_vector_id, sub_bodypart_str_id>>
         }
         // Check if we have the required limbs
         bool reqs = true;
-        for( const std::pair<body_part_type::type, int> &req : vec->limb_req ) {
+        for( const std::pair<bp_type, int> &req : vec->limb_req ) {
             int count = 0;
             for( const bodypart_id &bp : user.get_all_body_parts_of_type( req.first ) ) {
                 if( user.get_part_hp_cur( bp ) > bp->health_limit ) {
@@ -1668,13 +1681,13 @@ bool character_martial_arts::can_leg_block( const Character &owner ) const
     // Do we have boring human anatomy? Use the basic calculation
     // Legs are harder to block with, so the score thresholds stay the same
     if( !owner.has_flag( json_flag_NONSTANDARD_BLOCK ) ) {
-        return owner.get_limb_score( limb_score_block, body_part_type::type::leg ) >= 0.5f;
+        return owner.get_limb_score( limb_score_block, bp_type::leg ) >= 0.5f;
     } else {
         // Check all standard legs for the score threshold
-        for( const bodypart_id &bp : owner.get_all_body_parts_of_type( body_part_type::type::leg ) ) {
+        for( const bodypart_id &bp : owner.get_all_body_parts_of_type( bp_type::leg ) ) {
             if( !bp->has_flag( json_flag_NONSTANDARD_BLOCK ) &&
                 owner.get_part( bp )->get_limb_score( owner, limb_score_block ) * bp->limbtypes.at(
-                    body_part_type::type::leg ) >= 0.25f ) {
+                    bp_type::leg ) >= 0.25f ) {
                 return true;
             }
         }
@@ -1702,13 +1715,13 @@ bool character_martial_arts::can_arm_block( const Character &owner ) const
     // Success conditions.
     // Do we have boring human anatomy? Use the basic calculation
     if( !owner.has_flag( json_flag_NONSTANDARD_BLOCK ) ) {
-        return owner.get_limb_score( limb_score_block, body_part_type::type::arm ) >= 0.5f;
+        return owner.get_limb_score( limb_score_block, bp_type::arm ) >= 0.5f;
     } else {
         // Check all standard arms for the score threshold
-        for( const bodypart_id &bp : owner.get_all_body_parts_of_type( body_part_type::type::arm ) ) {
+        for( const bodypart_id &bp : owner.get_all_body_parts_of_type( bp_type::arm ) ) {
             if( !bp->has_flag( json_flag_NONSTANDARD_BLOCK ) &&
                 owner.get_part( bp )->get_limb_score( owner, limb_score_block ) * bp->limbtypes.at(
-                    body_part_type::type::arm ) >= 0.25f ) {
+                    bp_type::arm ) >= 0.25f ) {
                 return true;
             }
         }

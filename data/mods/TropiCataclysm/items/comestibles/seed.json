@@ -15,7 +15,13 @@
     "fruit": "melon",
     "fruit_div": 3,
     "byproducts": [ "withered" ],
-    "grow": "91 days"
+    "growth_stages": [
+      { "GROWTH_SEED": "23 days" },
+      { "GROWTH_SEEDLING": "23 days" },
+      { "GROWTH_MATURE": "23 days" },
+      { "GROWTH_HARVEST": "22 days" },
+      { "GROWTH_OVERGROWN": "1 hour" }
+    ]
   },
   {
     "type": "ITEM",
@@ -24,7 +30,7 @@
     "copy-from": "seed",
     "name": { "str_sp": "banana seeds" },
     "weight": "2 g",
-    "color": "black",
+    "color": "dark_gray",
     "use_action": [ "SEED" ],
     "description": "Some raw banana seeds.",
     "price": "1 cent",
@@ -32,7 +38,13 @@
     "plant_name": "banana",
     "fruit": "banana",
     "fruit_div": 3,
-    "grow": "91 days"
+    "growth_stages": [
+      { "GROWTH_SEED": "23 days" },
+      { "GROWTH_SEEDLING": "23 days" },
+      { "GROWTH_MATURE": "23 days" },
+      { "GROWTH_HARVEST": "22 days" },
+      { "GROWTH_OVERGROWN": "1 hour" }
+    ]
   },
   {
     "type": "ITEM",
@@ -41,7 +53,7 @@
     "copy-from": "seed",
     "name": { "str_sp": "kiwi seeds" },
     "weight": "2 g",
-    "color": "black",
+    "color": "dark_gray",
     "use_action": [ "SEED" ],
     "description": "Some raw kiwi seeds.",
     "price": "1 cent",
@@ -50,6 +62,12 @@
     "fruit": "kiwi",
     "fruit_div": 3,
     "byproducts": [ "withered" ],
-    "grow": "91 days"
+    "growth_stages": [
+      { "GROWTH_SEED": "23 days" },
+      { "GROWTH_SEEDLING": "23 days" },
+      { "GROWTH_MATURE": "23 days" },
+      { "GROWTH_HARVEST": "22 days" },
+      { "GROWTH_OVERGROWN": "1 hour" }
+    ]
   }
 ]

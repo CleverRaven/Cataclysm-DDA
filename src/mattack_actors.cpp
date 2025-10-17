@@ -93,6 +93,17 @@ static const skill_id skill_throw( "throw" );
 static const trait_id trait_TOXICFLESH( "TOXICFLESH" );
 static const trait_id trait_VAMPIRE( "VAMPIRE" );
 
+bool invalid_mattack_actor::call( monster &m ) const
+{
+    debugmsg( "%s has invalid mattack actor definition!", m.type->id.str() );
+    return false;
+}
+
+std::unique_ptr<mattack_actor> invalid_mattack_actor::clone() const
+{
+    return std::make_unique<invalid_mattack_actor>( *this );
+}
+
 void leap_actor::load_internal( const JsonObject &obj, const std::string & )
 {
     // Mandatory:

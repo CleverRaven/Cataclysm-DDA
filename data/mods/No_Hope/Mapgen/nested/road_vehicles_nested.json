@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_end_vehicles",
     "//": "TODO: Should use an external option to disable the vanilla versions rather than 999999 weight",
     "weight": 999999,
@@ -52,7 +51,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_straight_vehicles",
     "weight": 999999,
     "object": {
@@ -106,7 +104,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_curved_vehicles",
     "weight": 999999,
     "object": {
@@ -160,7 +157,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_tee_vehicles",
     "weight": 999999,
     "object": {
@@ -218,7 +214,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_four_way_crossroad_vehicles",
     "weight": 999999,
     "object": {
@@ -280,7 +275,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_country_out_of_fuel_north",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -299,7 +293,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_country_out_of_fuel_east",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -318,7 +311,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_country_out_of_fuel_south",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -337,7 +329,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_country_out_of_fuel_west",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -356,7 +347,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_country_out_of_fuel_north_north_facing",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -366,7 +356,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_country_out_of_fuel_north_south_facing",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -376,7 +365,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_country_out_of_fuel_west_east_facing",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -386,7 +374,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_country_out_of_fuel_west_west_facing",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -396,7 +383,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_country_out_of_fuel_south_north_facing",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -406,7 +392,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_country_out_of_fuel_south_south_facing",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -416,7 +401,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_country_out_of_fuel_east_east_facing",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -426,7 +410,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_country_out_of_fuel_east_west_facing",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -436,7 +419,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_city_wrecks_north",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -452,7 +434,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_city_wrecks_east",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -468,7 +449,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_city_wrecks_south",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -484,7 +464,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_city_wrecks_west",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -500,7 +479,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_city_wrecks_north_north_facing",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -514,7 +492,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_city_wrecks_north_south_facing",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -528,7 +505,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_city_wrecks_east_east_facing",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -542,7 +518,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_city_wrecks_east_west_facing",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -556,7 +531,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_city_wrecks_south_north_facing",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -570,7 +544,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_city_wrecks_south_south_facing",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -584,7 +557,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_city_wrecks_west_east_facing",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -598,7 +570,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_city_wrecks_west_west_facing",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -612,7 +583,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_city_parked_north",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -628,7 +598,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_city_parked_east",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -644,7 +613,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_city_parked_south",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -660,7 +628,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_city_parked_west",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -676,7 +643,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_city_parked_north_north_facing",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -686,7 +652,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_city_parked_north_south_facing",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -696,7 +661,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_city_parked_west_east_facing",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -706,7 +670,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_city_parked_west_west_facing",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -716,7 +679,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_city_parked_south_north_facing",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -726,7 +688,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_city_parked_south_south_facing",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -736,7 +697,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_city_parked_east_east_facing",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -746,7 +706,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_city_parked_east_west_facing",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -756,7 +715,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_special",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -776,7 +734,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_city_jack-knifed_semi",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -797,7 +754,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_city_jack-knifed_semi_north",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -810,7 +766,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_city_jack-knifed_semi_east",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -823,7 +778,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_city_jack-knifed_semi_south",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -836,7 +790,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_city_jack-knifed_semi_west",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -849,7 +802,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_city_vehicle_pileup",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -928,7 +880,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_city_policecar_pileup",
     "object": {
       "mapgensize": [ 24, 24 ],

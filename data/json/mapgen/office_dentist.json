@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "office_dentist" ],
     "weight": 500,
     "object": {
@@ -104,14 +103,13 @@
         "P": { "item": "SUS_office_desk", "chance": 80 },
         "n": { "item": "dinnerware", "chance": 25 },
         "C": { "item": "dentist_supplies", "chance": 75 },
-        "t": { "item": "SUS_trash_trashcan", "chance": 100 }
+        "t": { "item": "SUS_trash_trashcan_public", "chance": 100 }
       },
       "place_loot": [ { "item": "microwave", "x": 4, "y": 11 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "office_dentist_roof",
     "object": {
       "fill_ter": "t_flat_roof",

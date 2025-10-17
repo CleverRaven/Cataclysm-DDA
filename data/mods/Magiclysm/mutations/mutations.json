@@ -37,6 +37,8 @@
       "MANA_SUBTLE_SPELL",
       "MANA_SILENT_SPELL",
       "MANA_LUM",
+      "MANA_LUM_FLASH",
+      "MANA_LUM_EXTERNAL",
       "OVERLY_ACID_GUT",
       "DRAGON_BREATH_BLACK",
       "DRAGON_SPELLS",

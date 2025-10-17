@@ -198,14 +198,14 @@ class basecamp
         std::vector<std::vector<ui_mission_id>> hidden_missions;
         std::vector<tripoint_abs_omt> fortifications;
         std::vector<expansion_salt_water_pipe *> salt_water_pipes;
-        std::string name;
         void faction_display( const catacurses::window &fac_w, int width ) const;
 
         //change name of camp
         void set_name( const std::string &new_name );
         void query_new_name( bool force = false );
         // remove the camp without safety checks; use abandon_camp() for in-game
-        void remove_camp( const tripoint_abs_omt &omt_pos ) const;
+        // normally always removes from overmap, but when mass-removing via overmap::clear_camps() we don't so we can iterate it properly
+        void remove_camp( bool remove_from_overmap = true ) const;
         // remove the camp from an in-game context
         void abandon_camp();
         void scan_pseudo_items();
@@ -248,7 +248,7 @@ class basecamp
         /// Changes the faction food supply by @ref change, returns the amount of kcal+vitamins consumed, a negative
         /// total food supply hurts morale
         /// Handles vitamin consumption when only a kcal value is supplied
-        nutrients camp_food_supply( nutrients &change );
+        nutrients camp_food_supply( nutrients change );
         /// Constructs a new nutrients struct in place and forwards it. Passed argument should be in kilocalories.
         nutrients camp_food_supply( int change );
         /// Calculates raw kcal cost from duration (including non-work hours) and work exercise, then forwards it to above
@@ -343,11 +343,11 @@ class basecamp
         std::string recruit_description( int npc_count ) const;
         /// Provides a "guess" for some of the things your gatherers will return with
         /// to upgrade the camp
-        std::string gathering_description();
+        std::vector<std::string> gathering_description() const;
         /// Returns a string for the number of plants that are harvestable, plots ready to plant,
         /// and ground that needs tilling
-        std::string farm_description( const point_rel_omt &dir, size_t &plots_count,
-                                      farm_ops operation );
+        std::vector<std::string> farm_description( const point_rel_omt &dir, size_t &plots_count,
+                farm_ops operation );
         /// Returns the description of a camp crafting options. converts fire charges to charcoal,
         /// allows dark crafting
         std::string craft_description( const recipe_id &itm );
@@ -499,6 +499,8 @@ class basecamp
         // lazy re-evaluation of available camp resources
         void reset_camp_resources( map &here );
         void add_resource( const itype_id &camp_resource );
+        // Translated name w/ parse_tags evaluated
+        std::string name;
         // omt pos
         tripoint_abs_omt omt_pos;
         std::vector<npc_ptr> assigned_npcs; // NOLINT(cata-serialize)

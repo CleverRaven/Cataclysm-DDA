@@ -12,15 +12,14 @@
           "omt": "roadstop_a",
           "map_update": "nest_RandEnc_roadstop_a_add",
           "map_removal": "nest_RandEnc_roadstop_a_remove",
-          "chance": "10",
-          "days_till_spawn": "7"
+          "chance": 10,
+          "days_till_spawn": 7
         }
       }
     ]
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "nest_RandEnc_roadstop_a_add",
     "//": "Adds a random encounter at this roadstop",
     "object": {
@@ -34,7 +33,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "nest_RandEnc_roadstop_a_remove",
     "//": "removes a random encounter at this roadstop",
     "object": {
@@ -64,15 +62,14 @@
           "omt": "roadstop_a",
           "map_update": "nest_RandEnc_roadstop_a_refugee_add",
           "map_removal": "nest_RandEnc_roadstop_a_refugee_remove",
-          "chance": "10",
-          "days_till_spawn": "7"
+          "chance": 10,
+          "days_till_spawn": 7
         }
       }
     ]
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "nest_RandEnc_roadstop_a_refugee_add",
     "//": "Adds refugee random encounter at this roadstop",
     "object": {
@@ -85,7 +82,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "nest_RandEnc_roadstop_a_refugee_remove",
     "//": "removes refugee random encounter at this roadstop",
     "object": {

@@ -22,7 +22,7 @@
     "name": "cliffside",
     "color": "light_gray",
     "flags": [ "NO_ROTATE", "RAVINE_EDGE" ],
-    "mapgen": [ { "method": "builtin", "name": "ravine_edge" } ]
+    "mapgen": [ { "builtin": "ravine_edge" } ]
   },
   {
     "type": "overmap_terrain",
@@ -32,7 +32,7 @@
     "name": "cliffside",
     "color": "light_gray",
     "flags": [ "NO_ROTATE", "RAVINE_EDGE" ],
-    "mapgen": [ { "method": "builtin", "name": "ravine_edge" } ]
+    "mapgen": [ { "builtin": "ravine_edge" } ]
   },
   {
     "type": "overmap_terrain",

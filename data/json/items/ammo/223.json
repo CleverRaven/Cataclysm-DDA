@@ -74,7 +74,7 @@
     "copy-from": "223",
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
-    "name": { "str_sp": "5.56 NATO Mk 262" },
+    "name": { "str_sp": "5.56x45mm NATO Mk 262" },
     "description": "5.56x45mm ammunition, loaded for precision from the Mk 12 SPR rifles, and later used by other SF units looking for more effective loadings for their M4A1 and Mk 18 carbines.  The Mk 262 Mod 1 is loaded with a 77 grain Open Tip Match bullet, enhancing lethality even at longer ranges when compared to older M855 loadings.",
     "price": "6 USD",
     "price_postapoc": "20 USD",
@@ -86,7 +86,7 @@
     "copy-from": "223",
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
-    "name": { "str_sp": "5.56 NATO Mk318" },
+    "name": { "str_sp": "5.56x45mm NATO Mk318" },
     "description": "5.56x45mm ammunition, developed due to SOF dissatisfaction with the M855 cartridge.  The Mk318 Mod 1 is loaded with a 62 grain Open Tip Match Rear Penetrator bullet, a copper slug enclosed inside an open-tipped brass projectile, providing for consistent loading, enhanced lethality and increased penetration.  When compared to M855, the Mk318 fragments consistently, even out of short-barreled carbines.",
     "price": "7 USD",
     "price_postapoc": "23 USD",
@@ -98,7 +98,7 @@
     "copy-from": "223",
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
-    "name": { "str_sp": "5.56 NATO M855" },
+    "name": { "str_sp": "5.56x45mm NATO M855" },
     "material": [ "steel", "brass", "lead", "powder" ],
     "description": "5.56x45mm ammunition with a 62gr FMJ bullet containing a steel penetrator.  Originally designed for the M249 FN Minimi, M855 was designed to penetrate steel helmets and light cover at range, sacrificing terminal performance and accuracy in the process.  The limited yaw and fragmentation is worsened with shorter-barreled carbines shooting this round, and optimization of barrel twist for stabilization of the tracer variant of M855 has resulted in lackluster accuracy overall.",
     "ascii_picture": "556",
@@ -115,7 +115,7 @@
     "copy-from": "223",
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
-    "name": { "str_sp": "5.56 NATO M855A1" },
+    "name": { "str_sp": "5.56x45mm NATO M855A1" },
     "description": "An updated loading of M855 5.56x45mm ammunition, featuring a 62 grain projectile containing an exposed steel penetrator and copper slug.  Designed as a mostly lead-free projectile, the opportunity was further taken to improve upon M855's penetration and lethality characteristics through penetrator design and increased pressure.  Its improved accuracy, penetration and lethality over M855 are appreciated by users of shorter-barreled AR variants.",
     "ascii_picture": "556_m855a1",
     "price": "3 USD",
@@ -130,7 +130,7 @@
     "copy-from": "556",
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
-    "name": { "str_sp": "5.56 NATO tracer" },
+    "name": { "str_sp": "5.56x45mm NATO tracer" },
     "description": "An M856 tracer round.  Traditional practice is to load one tracer per every four normal rounds to help keep the weapon they are fired from on target.  They have the potential to ignite flammable surfaces at their point of impact.",
     "ascii_picture": "556_incendiary",
     "extend": { "effects": [ "INCENDIARY" ] }
@@ -140,7 +140,7 @@
     "copy-from": "556",
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
-    "name": { "str_sp": "5.56 NATO M995" },
+    "name": { "str_sp": "5.56x45mm NATO M995" },
     "description": "An armor piercing 5.56x45mm M995 round using a 52gr projectile, featuring a black-tipped, tungsten carbide penetrator over an aluminum slug.  Increased penetration over standard ball rounds at the cost of worse wounding potential in soft tissue.",
     "ascii_picture": "556_m995",
     "relative": { "damage": { "damage_type": "bullet", "amount": -3, "armor_penetration": 8 } }
@@ -158,14 +158,14 @@
       "dispersion": 1.2
     },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
     "id": "bp_556",
     "copy-from": "556",
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
-    "name": { "str_sp": "5.56 NATO, black powder" },
+    "name": { "str_sp": "5.56x45mm NATO, black powder" },
     "proportional": {
       "price": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.57, "armor_penetration": 0.5 },
@@ -173,14 +173,14 @@
       "dispersion": 1.2
     },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
     "id": "bp_556_incendiary",
     "copy-from": "556_incendiary",
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
-    "name": { "str_sp": "5.56 NATO tracer, black powder" },
+    "name": { "str_sp": "5.56x45mm NATO tracer, black powder" },
     "proportional": {
       "price": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.57, "armor_penetration": 0.5 },
@@ -188,7 +188,7 @@
       "dispersion": 1.2
     },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
     "id": "reloaded_223",
@@ -198,26 +198,26 @@
     "name": { "str_sp": ".223 Remington, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
     "id": "reloaded_556",
     "copy-from": "556",
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
-    "name": { "str_sp": "5.56 NATO, reloaded" },
+    "name": { "str_sp": "5.56x45mm NATO, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
     "id": "reloaded_556_incendiary",
     "copy-from": "556_incendiary",
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
-    "name": { "str_sp": "5.56 NATO tracer, reloaded" },
+    "name": { "str_sp": "5.56x45mm NATO tracer, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   }
 ]

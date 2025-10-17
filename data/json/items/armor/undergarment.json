@@ -3,7 +3,7 @@
     "id": "arm_warmers",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "pair of arm warmers", "str_pl": "pairs of arm warmers" },
+    "name": { "str_sp": "arm warmers (pair)" },
     "description": "Snug, soft cloth sleeves to keep your arms warm.",
     "weight": "32 g",
     "volume": "250 ml",
@@ -29,7 +29,7 @@
     "id": "xl_arm_warmers",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "pair of arm warmers", "str_pl": "pairs of arm warmers" },
+    "name": { "str_sp": "arm warmers (pair)" },
     "weight": "49 g",
     "volume": "350 ml",
     "copy-from": "arm_warmers",
@@ -40,7 +40,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "arm_warmers",
-    "name": { "str": "pair of arm warmers", "str_pl": "pairs of arm warmers" },
+    "name": { "str_sp": "arm warmers (pair)" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
@@ -305,6 +305,8 @@
     "subtypes": [ "ARMOR" ],
     "copy-from": "binder_top",
     "name": { "str": "binder" },
+    "//": "delete binder variants, this is survivor made",
+    "variants": [  ],
     "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
@@ -314,6 +316,8 @@
     "subtypes": [ "ARMOR" ],
     "copy-from": "binder_top",
     "name": { "str": "binder" },
+    "//": "delete binder variants, this is survivor made",
+    "variants": [  ],
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
@@ -321,7 +325,7 @@
     "id": "boxer_briefs",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "boxer briefs", "str_pl": "pairs of boxer briefs" },
+    "name": { "str_sp": "boxer briefs" },
     "description": "The age-old question, boxers or briefs?  Your answer?  Yes.",
     "weight": "37 g",
     "volume": "250 ml",
@@ -338,35 +342,35 @@
     "variants": [
       {
         "id": "boxer_brief_basic",
-        "name": { "str": "boxer briefs", "str_pl": "pairs of boxer briefs" },
+        "name": { "str_sp": "boxer briefs" },
         "description": "The age-old question, boxers or briefs?  Your answer?  Yes.",
         "expand_snippets": true,
         "weight": 100
       },
       {
         "id": "boxer_brief_makeshift",
-        "name": { "str": "homemade boxer briefs", "str_pl": "pairs of homemade boxer briefs" },
+        "name": { "str_sp": "homemade boxer briefs" },
         "description": "A pair of homemade boxer briefs, a marvel of basic sewing skills.",
         "expand_snippets": true,
         "weight": 0
       },
       {
         "id": "boxer_brief_color",
-        "name": { "str": "solid boxer briefs", "str_pl": "pairs of solid boxer briefs" },
+        "name": { "str_sp": "solid boxer briefs" },
         "description": "A pair of boxer briefs, these are a solid <color> color.",
         "expand_snippets": true,
         "weight": 300
       },
       {
         "id": "boxer_brief_hearts",
-        "name": { "str": "heart boxer briefs", "str_pl": "pairs of heart boxer briefs" },
+        "name": { "str_sp": "heart boxer briefs" },
         "description": "A pair of boxer briefs, adorned with little <color> hearts.",
         "expand_snippets": true,
         "weight": 100
       },
       {
         "id": "boxer_brief_day",
-        "name": { "str": "day boxer briefs", "str_pl": "pairs of day boxer briefs" },
+        "name": { "str_sp": "day boxer briefs" },
         "description": "A pair of boxer briefs.  Printed across the bottom, in bubble letters, is the word \"<day>.\"",
         "expand_snippets": true,
         "weight": 30
@@ -377,7 +381,9 @@
     "id": "xlboxer_briefs",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "boxer briefs", "str_pl": "pairs of boxer briefs" },
+    "name": { "str_sp": "boxer briefs" },
+    "//": "delete boxer variants, this is survivor made",
+    "variants": [  ],
     "weight": "50 g",
     "volume": "350 ml",
     "copy-from": "boxer_briefs",
@@ -388,7 +394,9 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "boxer_briefs",
-    "name": { "str": "boxer briefs", "str_pl": "pairs of boxer briefs" },
+    "name": { "str_sp": "boxer briefs" },
+    "//": "delete boxer variants, this is survivor made",
+    "variants": [  ],
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
@@ -396,68 +404,68 @@
     "id": "boxer_shorts",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "boxer shorts", "str_pl": "pairs of boxer shorts" },
+    "name": { "str_sp": "boxer shorts" },
     "description": "Men's boxer shorts.  More fashionable than briefs and just as comfortable.",
     "variant_type": "generic",
     "variants": [
       {
         "id": "generic_boxer_shorts",
-        "name": { "str": "boxer shorts", "str_pl": "pairs of boxer shorts" },
+        "name": { "str_sp": "boxer shorts" },
         "description": "Men's boxer shorts.  More fashionable than briefs and just as comfortable.",
         "weight": 30
       },
       {
         "id": "flag_boxer_shorts",
-        "name": { "str": "star-spangled boxer shorts", "str_pl": "pairs of star-spangled boxer shorts" },
+        "name": { "str_sp": "star-spangled boxer shorts" },
         "description": "This pair has been printed with the pattern of an American flag, with stars and miniature eagles embroidered at strategic positions.",
         "append": true,
         "weight": 100
       },
       {
         "id": "boxer_shorts_makeshift",
-        "name": { "str": "homemade boxer shorts", "str_pl": "pairs of homemade boxer shorts" },
+        "name": { "str_sp": "homemade boxer shorts" },
         "description": "A pair of homemade boxer shorts, a marvel of basic sewing skills.",
         "expand_snippets": true,
         "weight": 0
       },
       {
         "id": "boxer_shorts_color",
-        "name": { "str": "solid boxer shorts", "str_pl": "pairs of solid boxer shorts" },
+        "name": { "str_sp": "solid boxer shorts" },
         "description": "A pair of boxer shorts, these are a solid <color> color.",
         "expand_snippets": true,
         "weight": 400
       },
       {
         "id": "boxer_shorts_hearts",
-        "name": { "str": "heart boxer shorts", "str_pl": "pairs of heart boxer shorts" },
+        "name": { "str_sp": "heart boxer shorts" },
         "description": "A pair of boxer shorts, adorned with little <color> hearts.",
         "expand_snippets": true,
         "weight": 200
       },
       {
         "id": "boxer_shorts_day",
-        "name": { "str": "day boxer shorts", "str_pl": "pairs of day boxer shorts" },
+        "name": { "str_sp": "day boxer shorts" },
         "description": "A pair of boxer shorts.  Printed across the bottom, in bubble letters, is the word \"<day>.\"",
         "expand_snippets": true,
         "weight": 30
       },
       {
         "id": "boxer_shorts_money",
-        "name": { "str": "money boxer shorts", "str_pl": "pairs of money boxer shorts" },
+        "name": { "str_sp": "money boxer shorts" },
         "description": "A pair of boxer shorts adorned with images of hundred dollar bills.",
         "expand_snippets": true,
         "weight": 70
       },
       {
         "id": "boxer_shorts_animal",
-        "name": { "str": "animal boxer shorts", "str_pl": "pairs of animal boxer shorts" },
+        "name": { "str_sp": "animal boxer shorts" },
         "description": "A pair of boxer shorts, these are adorned with little <animals> in a pattern across the entire garment.",
         "expand_snippets": true,
         "weight": 70
       },
       {
         "id": "boxer_shorts_cartoon",
-        "name": { "str": "cartoon boxer shorts", "str_pl": "pairs of cartoon boxer shorts" },
+        "name": { "str_sp": "cartoon boxer shorts" },
         "description": "A pair of boxer shorts, merchandise for a famous cartoon.  It features <cartoon_blanket>.",
         "expand_snippets": true,
         "weight": 70
@@ -483,7 +491,9 @@
     "id": "xlboxer_shorts",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "boxer shorts", "str_pl": "pairs of boxer shorts" },
+    "name": { "str_sp": "boxer shorts" },
+    "//": "delete boxer variants, this is survivor made",
+    "variants": [  ],
     "weight": "72 g",
     "volume": "500 ml",
     "copy-from": "boxer_shorts",
@@ -494,7 +504,9 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "boxer_shorts",
-    "name": { "str": "boxer shorts", "str_pl": "pairs of boxer shorts" },
+    "name": { "str_sp": "boxer shorts" },
+    "//": "delete boxer variants, this is survivor made",
+    "variants": [  ],
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
@@ -502,19 +514,19 @@
     "id": "boy_shorts",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "boy shorts", "str_pl": "pairs of boy shorts" },
+    "name": { "str_sp": "boy shorts" },
     "description": "Female underwear similar to men's boxer shorts, but much more close-fitting.",
     "variant_type": "generic",
     "variants": [
       {
         "id": "generic_boy_shorts",
-        "name": { "str": "boy shorts", "str_pl": "pairs of boy shorts" },
+        "name": { "str_sp": "boy shorts" },
         "description": "Female underwear similar to men's boxer shorts, but much more close-fitting.",
         "weight": 30
       },
       {
         "id": "flag_boy_shorts",
-        "name": { "str": "star-spangled boy shorts", "str_pl": "pairs of star-spangled boy shorts" },
+        "name": { "str_sp": "star-spangled boy shorts" },
         "description": "This pair has been printed with the pattern of an American flag, with stars and miniature eagles embroidered at strategic positions.",
         "append": true
       }
@@ -539,7 +551,9 @@
     "id": "xlboy_shorts",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "boy shorts", "str_pl": "pairs of boy shorts" },
+    "name": { "str_sp": "boy shorts" },
+    "//": "delete boy shorts variants, this is survivor made",
+    "variants": [  ],
     "weight": "72 g",
     "volume": "500 ml",
     "copy-from": "boy_shorts",
@@ -550,7 +564,9 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "boy_shorts",
-    "name": { "str": "boy shorts", "str_pl": "pairs of boy shorts" },
+    "name": { "str_sp": "boy shorts" },
+    "//": "delete boy shorts variants, this is survivor made",
+    "variants": [  ],
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
@@ -595,7 +611,7 @@
     "id": "briefs",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "briefs", "str_pl": "pairs of briefs" },
+    "name": { "str_sp": "briefs" },
     "description": "A pair of briefs.  Comfortable underwear worn by men.",
     "weight": "32 g",
     "volume": "250 ml",
@@ -874,7 +890,7 @@
     "id": "leg_warmers",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "pair of leg warmers", "str_pl": "pairs of leg warmers" },
+    "name": { "str_sp": "leg warmers (pair)" },
     "description": "Snug, soft cloth sleeves to keep your legs warm.",
     "weight": "70 g",
     "volume": "500 ml",
@@ -901,7 +917,7 @@
     "id": "leg_warmers_f",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "pair of fur leggings", "str_pl": "pairs of fur leggings" },
+    "name": { "str_sp": "fur leggings" },
     "description": "Snug fur sleeves to keep your legs warm.  Simple yet effective since prehistoric times.",
     "weight": "700 g",
     "volume": "1500 ml",
@@ -928,7 +944,7 @@
     "id": "leg_warmers_xlf",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "pair of fetlock furs", "str_pl": "pairs of fetlock furs" },
+    "name": { "str_sp": "fetlock furs (pair)" },
     "description": "Snug fur sleeves to keep your fetlocks warm.",
     "weight": "500 g",
     "volume": "750 ml",
@@ -948,7 +964,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "leg_warmers_f",
-    "name": { "str": "pair of fur leggings", "str_pl": "pairs of fur leggings" },
+    "name": { "str_sp": "fur leggings" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
@@ -956,7 +972,7 @@
     "id": "leg_warmers_xl",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "pair of leg warmers", "str_pl": "pairs of leg warmers" },
+    "name": { "str_sp": "leg warmers (pair)" },
     "description": "Large, soft, snug cloth sleeves to keep your exotic anatomy warm.",
     "weight": "90 g",
     "volume": "750 ml",
@@ -984,7 +1000,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "leg_warmers",
-    "name": { "str": "pair of leg warmers", "str_pl": "pairs of leg warmers" },
+    "name": { "str_sp": "leg warmers (pair)" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
@@ -1139,7 +1155,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "tank top" },
     "description": "A sleeveless cotton shirt.  Very easy to move in.",
-    "weight": "130 g",
+    "weight": "55 g",
     "volume": "115 ml",
     "price": "9 USD",
     "price_postapoc": "50 cent",
@@ -1180,7 +1196,7 @@
     "id": "tights",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "tights", "str_pl": "pairs of tights" },
+    "name": { "str_sp": "tights" },
     "description": "A snug cloth garment which clings tightly to the legs and feet to protect them from the cold.",
     "weight": "114 g",
     "volume": "250 ml",
@@ -1197,14 +1213,14 @@
     "variants": [
       {
         "id": "tights_basic",
-        "name": { "str": "tights", "str_pl": "pairs of tights" },
+        "name": { "str_sp": "tights" },
         "description": "A snug cloth garment which clings tightly to the legs and feet to protect them from the cold.",
         "expand_snippets": true,
         "weight": 50
       },
       {
         "id": "tights_polka_dot",
-        "name": { "str": "polka dot tights", "str_pl": "pairs of polka dot tights" },
+        "name": { "str_sp": "polka dot tights" },
         "description": "These are adorned with dozens of <color> polka dots.",
         "expand_snippets": true,
         "append": true,
@@ -1212,14 +1228,14 @@
       },
       {
         "id": "tights_print",
-        "name": { "str": "animal print tights", "str_pl": "pairs of animal print tights" },
+        "name": { "str_sp": "animal print tights" },
         "description": "A pair of snug cotton tights, featuring a classic <animal_print> pattern.",
         "expand_snippets": true,
         "weight": 150
       },
       {
         "id": "tights_solid",
-        "name": { "str": "solid color tights", "str_pl": "pairs of solid color tights" },
+        "name": { "str_sp": "solid color tights" },
         "description": "A pair of cotton tights, these are a solid <color> color.",
         "expand_snippets": true,
         "weight": 300

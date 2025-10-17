@@ -3,7 +3,7 @@
     "id": "ceramics_workroom",
     "type": "item_group",
     "items": [
-      [ "cooking_oil", 15 ],
+      { "group": "vegetable_oil_bottle", "prob": 15 },
       [ "mag_fabrication", 5 ],
       [ "manual_fabrication", 5 ],
       [ "mag_survival", 10 ],
@@ -33,6 +33,7 @@
       [ "gloves_cut_resistant", 25 ],
       [ "armguard_cut_resistant", 25 ],
       [ "balaclava_cut_resistant", 5 ],
+      [ "throat_guard_cut_resistant", 5 ],
       [ "gloves_leather", 25 ],
       [ "vac_mold", 10 ],
       [ "polycarbonate_sheet", 20 ],

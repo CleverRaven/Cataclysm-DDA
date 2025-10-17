@@ -248,8 +248,6 @@
   {
     "type": "overmap_terrain",
     "id": [
-      "ws_regional_dump_0_0",
-      "ws_regional_dump_1_0",
       "ws_regional_dump_2_0",
       "ws_regional_dump_3_0",
       "ws_regional_dump_3_0_roof",
@@ -285,6 +283,13 @@
       "ws_biker_dump_3_3"
     ],
     "copy-from": "generic_regional_dump"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "ws_regional_dump_0_0", "ws_regional_dump_1_0" ],
+    "copy-from": "generic_regional_dump",
+    "looks_like": "s_lot",
+    "vision_levels": "large_pavement"
   },
   {
     "type": "overmap_terrain",

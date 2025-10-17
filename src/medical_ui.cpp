@@ -19,6 +19,7 @@
 #include "coordinates.h"
 #include "creature.h"
 #include "cursesdef.h"
+#include "debug.h"
 #include "display.h"
 #include "effect.h"
 #include "flag.h"
@@ -35,6 +36,8 @@
 #include "ui_manager.h"
 #include "units.h"
 #include "weather.h"
+#include "weighted_list.h"
+#include "wound.h"
 
 class avatar;
 
@@ -503,6 +506,33 @@ static medical_column draw_health_summary( const int column_count, Character &yo
                 std::string valstr = colorize( string_format( "%.2f", mod.modifier( you ) ),
                                                score_c );
                 detail_str += string_format( "%s: %s%s\n", desc, mod.mod_type_str(), valstr );
+            }
+        }
+
+        // for existing wounds
+        for( const wound &wd : bp->get_wounds() ) {
+            detail_str += "Current wounds:\n";
+            detail_str +=
+                string_format( "wound: %s - %s(healing time %s, healing percentage %.3f%%, gives pain: %s)\n",
+                               colorize( wd.type->get_name(), c_cyan ), wd.type->get_description(),
+                               to_string( wd.get_healing_time() ), wd.healing_percentage(), wd.get_pain() );
+        }
+
+        if( debug_mode ) {
+            detail_str += "All potential wounds:\n";
+            for( const std::pair<bp_wounds, int> &wd : bp->get_id()->potential_wounds ) {
+                std::string damage_types;
+
+                for( const damage_type_id dt : wd.first.damage_type ) {
+                    damage_types += dt.c_str();
+                    damage_types += ", ";
+                }
+                damage_types.pop_back();
+                damage_types.pop_back();
+                detail_str +=
+                    string_format( "%s:\nweight: %s\ndamage types required: %s\ndamage required: [ %s - %s ]\n",
+                                   colorize( wd.first.id.c_str(), c_yellow ), wd.second, damage_types, wd.first.damage_required.first,
+                                   wd.first.damage_required.second );
             }
         }
 

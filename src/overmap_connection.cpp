@@ -20,6 +20,7 @@ generic_factory<overmap_connection> connections( "overmap connection" );
 static const std::unordered_map<std::string, overmap_connection::subtype::flag>
 connection_subtype_flag_map = {
     { "ORTHOGONAL", overmap_connection::subtype::flag::orthogonal },
+    { "PERPENDICULAR_CROSSING", overmap_connection::subtype::flag::perpendicular_crossing }
 };
 
 template<>
@@ -134,9 +135,6 @@ void overmap_connections::load( const JsonObject &jo, const std::string &src )
 void overmap_connections::finalize()
 {
     connections.finalize();
-    for( const overmap_connection &elem : connections.get_all() ) {
-        const_cast<overmap_connection &>( elem ).finalize(); // This cast is ugly, but safe.
-    }
 }
 
 void overmap_connections::check_consistency()

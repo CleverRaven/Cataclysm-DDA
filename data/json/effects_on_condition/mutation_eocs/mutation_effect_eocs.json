@@ -595,33 +595,18 @@
   {
     "type": "snippet",
     "category": "<radiation_category>",
+    "//": "Radiation will only mutate you inside your class ie Mammalia",
     "text": [
-      { "text": "CHIMERA" },
-      { "text": "INSECT" },
-      { "text": "ALPHA" },
-      { "text": "URSINE" },
-      { "text": "CHIROPTERAN" },
-      { "text": "BIRD" },
-      { "text": "MEDICAL" },
-      { "text": "LUPINE" },
-      { "text": "RAT" },
-      { "text": "SLIME" },
-      { "text": "PLANT" },
-      { "text": "BATRACHIAN" },
-      { "text": "RAPTOR" },
-      { "text": "MOUSE" },
-      { "text": "CEPHALOPOD" },
-      { "text": "ELFA" },
-      { "text": "FISH" },
-      { "text": "HUMAN" },
-      { "text": "RABBIT" },
-      { "text": "GASTROPOD" },
-      { "text": "BEAST" },
-      { "text": "FELINE" },
-      { "text": "CATTLE" },
-      { "text": "LIZARD" },
-      { "text": "TROGLOBITE" },
-      { "text": "CRUSTACEAN" }
+      { "text": { "str": "URSINE", "//~": "NO_I18N" } },
+      { "text": { "str": "CHIROPTERAN", "//~": "NO_I18N" } },
+      { "text": { "str": "LUPINE", "//~": "NO_I18N" } },
+      { "text": { "str": "RAT", "//~": "NO_I18N" } },
+      { "text": { "str": "MOUSE", "//~": "NO_I18N" } },
+      { "text": { "str": "HUMAN", "//~": "NO_I18N" } },
+      { "text": { "str": "RABBIT", "//~": "NO_I18N" } },
+      { "text": { "str": "FELINE", "//~": "NO_I18N" } },
+      { "text": { "str": "CATTLE", "//~": "NO_I18N" } },
+      { "text": { "str": "TROGLOBITE", "//~": "NO_I18N" } }
     ]
   },
   {
@@ -653,8 +638,8 @@
       ]
     },
     "effect": [
-      { "math": [ "u_calories()", "-=", "47" ] },
-      { "math": [ "u_val('thirst')", "+=", "4" ] },
+      { "math": [ "u_calories() -= 47" ] },
+      { "math": [ "u_val('thirst') += 4" ] },
       {
         "u_add_effect": "ink_gland_ink",
         "duration": "PERMANENT",

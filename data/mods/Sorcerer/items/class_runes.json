@@ -1,0 +1,15 @@
+[
+  {
+    "id": "rune_sorcerer",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "symbol": "=",
+    "color": "light_red",
+    "name": { "str": "counterfeit rune" },
+    "description": "This magical pebble is infused with a sorcerer's power.  It can trick spells that require runes to cast to think that you have the rune required.",
+    "volume": "5ml",
+    "weight": "1 g",
+    "material": [ "stone" ],
+    "flags": [ "TRADER_AVOID" ]
+  }
+]

@@ -1,6 +1,5 @@
 [
   {
-    "method": "json",
     "om_terrain": "lab_1x1_RES_8_bedrooms_maintenance",
     "type": "mapgen",
     "object": {
@@ -47,7 +46,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "lab_1x1_RES_8_bedrooms_security",
     "type": "mapgen",
     "object": {
@@ -93,7 +91,7 @@
       "terrain": { "!": "t_open_air_rooved", "U": "t_linoleum_gray" },
       "items": {
         "f": { "item": "snacks", "chance": 5 },
-        "I": [ { "item": "SUS_desks_bedroom_unisex", "chance": 5 }, { "item": "office", "chance": 25 } ],
+        "I": [ { "item": "SUS_desks_bedroom_unisex", "chance": 5 }, { "item": "SUS_office_desk", "chance": 25 } ],
         "U": { "item": "cleaning", "chance": 30 },
         "≠": [
           { "item": "prison_weapons", "chance": 30 },
@@ -105,7 +103,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": [ "lab_1x1_RES_8_commons_SEC" ],
     "type": "mapgen",
     "object": {
@@ -175,7 +172,7 @@
       "place_monsters": [ { "monster": "GROUP_LAB_BASIC_SECURITY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.2 } ],
       "place_monster": [
         { "monster": "mon_flashbang_hack", "x": 1, "y": 15, "chance": 100 },
-        { "monster": "mon_manhack", "x": 1, "y": 16, "chance": 100 },
+        { "monster": "mon_grenade_hack", "x": 1, "y": 16, "chance": 100 },
         { "monster": "mon_flashbang_hack", "x": 14, "y": 22, "chance": 100 },
         { "monster": "mon_gasbomb_hack", "x": 15, "y": 22, "chance": 100 }
       ],
@@ -238,7 +235,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": [ "lab_1x1_RES_8_commons_MAINT" ],
     "type": "mapgen",
     "object": {
@@ -308,7 +304,7 @@
       "place_monsters": [ { "monster": "GROUP_LAB_MAINTENANCE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.2 } ],
       "place_monster": [
         { "monster": "mon_flashbang_hack", "x": 1, "y": 15, "chance": 100 },
-        { "monster": "mon_manhack", "x": 1, "y": 16, "chance": 100 },
+        { "monster": "mon_grenade_hack", "x": 1, "y": 16, "chance": 100 },
         { "monster": "mon_flashbang_hack", "x": 14, "y": 22, "chance": 100 },
         { "monster": "mon_gasbomb_hack", "x": 15, "y": 22, "chance": 100 }
       ],

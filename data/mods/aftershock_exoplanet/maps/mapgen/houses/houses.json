@@ -1,6 +1,5 @@
 [
   {
-    "method": "json",
     "om_terrain": "afs_shelter_1",
     "type": "mapgen",
     "object": {
@@ -39,7 +38,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "afs_shelter_1_roof",
     "type": "mapgen",
     "object": {

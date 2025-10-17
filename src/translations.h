@@ -13,6 +13,7 @@
  * Marks a string literal to be extracted for translation. This is only for running `xgettext` via
  * "lang/update_pot.sh". Use `_` to extract *and* translate at run time. The macro itself does not
  * do anything, the argument is passed through it without any changes.
+ * That means, this does NOT return a translated string. Calling translate_marker on an English string in any UI code is likely a mistake! Use `_` or to_translation etc.
  */
 #define translate_marker(x) x
 #endif

@@ -5,7 +5,6 @@
       [ "phavan_office_skyscraper_lab_lower_nw", "phavan_office_skyscraper_lab_lower_ne" ],
       [ "phavan_office_skyscraper_lab_lower_sw", "phavan_office_skyscraper_lab_lower_se" ]
     ],
-    "method": "json",
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [
@@ -84,10 +83,10 @@
       ],
       "item": { "l": [ { "item": "grenade_anti_psi", "chance": 15 } ] },
       "items": {
-        "e": { "item": "fridgesnacks", "chance": 80, "repeat": [ 1, 12 ] },
+        "e": { "item": "SUS_fridge_breakroom", "chance": 80, "repeat": [ 1, 4 ] },
         "l": { "item": "feral_security_death_drops_9mm", "chance": 80, "repeat": [ 1, 3 ] },
         "d": { "item": "SUS_office_desk", "chance": 33 },
-        ".": { "item": "office_mess", "chance": 1 }
+        ".": { "item": "SUS_office_mess", "chance": 1 }
       },
       "vendingmachines": { "Đ": { "item_group": "vending_drink" }, "Ƒ": { "item_group": "vending_food" } },
       "place_monster": [
@@ -134,7 +133,6 @@
       [ "phavan_office_skyscraper_lab_middle_nw", "phavan_office_skyscraper_lab_middle_ne" ],
       [ "phavan_office_skyscraper_lab_middle_sw", "phavan_office_skyscraper_lab_middle_se" ]
     ],
-    "method": "json",
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [
@@ -213,10 +211,10 @@
       ],
       "item": { "l": [ { "item": "grenade_anti_psi", "chance": 15 } ] },
       "items": {
-        "e": { "item": "fridgesnacks", "chance": 80, "repeat": [ 1, 12 ] },
+        "e": { "item": "SUS_fridge_breakroom", "chance": 80, "repeat": [ 1, 4 ] },
         "l": { "item": "feral_security_death_drops_9mm", "chance": 80, "repeat": [ 1, 3 ] },
         "d": { "item": "SUS_office_desk", "chance": 33 },
-        ".": { "item": "office_mess", "chance": 1 }
+        ".": { "item": "SUS_office_mess", "chance": 1 }
       },
       "vendingmachines": { "Đ": { "item_group": "vending_drink" }, "Ƒ": { "item_group": "vending_food" } },
       "place_monster": [
@@ -263,7 +261,6 @@
       [ "phavan_office_skyscraper_lab_upper_nw", "phavan_office_skyscraper_lab_upper_ne" ],
       [ "phavan_office_skyscraper_lab_upper_sw", "phavan_office_skyscraper_lab_upper_se" ]
     ],
-    "method": "json",
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [
@@ -342,10 +339,10 @@
       ],
       "item": { "l": [ { "item": "grenade_anti_psi", "chance": 15 } ] },
       "items": {
-        "e": { "item": "fridgesnacks", "chance": 80, "repeat": [ 1, 12 ] },
+        "e": { "item": "SUS_fridge_breakroom", "chance": 80, "repeat": [ 1, 4 ] },
         "l": { "item": "feral_security_death_drops_9mm", "chance": 80, "repeat": [ 1, 3 ] },
         "d": { "item": "SUS_office_desk", "chance": 33 },
-        ".": { "item": "office_mess", "chance": 1 }
+        ".": { "item": "SUS_office_mess", "chance": 1 }
       },
       "vendingmachines": { "Đ": { "item_group": "vending_drink" }, "Ƒ": { "item_group": "vending_food" } },
       "place_monster": [

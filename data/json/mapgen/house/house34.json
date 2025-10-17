@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "house_34" ],
     "object": {
       "fill_ter": "t_floor",
@@ -64,7 +63,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_34_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -100,7 +98,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_34_basement",
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -169,7 +166,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_34_basement",
     "weight": 190,
     "object": {
@@ -239,7 +235,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_34_basement",
     "weight": 10,
     "object": {

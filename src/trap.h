@@ -7,7 +7,6 @@
 #include <optional>
 #include <string>
 #include <string_view>
-#include <tuple>
 #include <utility>
 #include <vector>
 
@@ -22,6 +21,7 @@
 class Character;
 class Creature;
 class JsonObject;
+class JsonValue;
 class item;
 class map;
 
@@ -82,6 +82,8 @@ struct vehicle_handle_trap_data {
     // the double represents the count or chance to spawn.
     std::vector<std::pair<itype_id, double>> spawn_items;
     trap_str_id set_trap = trap_str_id::NULL_ID();
+
+    void deserialize( const JsonObject &jo );
 };
 
 using trap_function = std::function<bool( const tripoint_bub_ms &, Creature *, item * )>;
@@ -157,8 +159,15 @@ struct trap {
          */
         std::pair<int, int> sound_threshold = {0, 0};
         int funnel_radius_mm = 0;
+
+        struct comp {
+            itype_id item_type;
+            int quantity;
+            int charges;
+            void deserialize( const JsonValue &jv );
+        };
         // For disassembly?
-        std::vector<std::tuple<itype_id, int, int>> components;
+        std::vector<comp> components;
     public:
         std::optional<itype_id> trap_item_type;
         // data required for trapfunc::spell()
@@ -372,7 +381,8 @@ struct trap {
          * It also sets the trap ids of the terrain types that have built-in traps.
          * Must be called after all traps have been loaded.
          */
-        static void finalize();
+        void finalize();
+        static void finalize_all();
         /**
          * Checks internal consistency (reference to other things like item ids etc.)
          */

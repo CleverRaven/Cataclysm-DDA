@@ -1,3 +1,18 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Getting Mods Into The Repository](#getting-mods-into-the-repository)
+  - [Why have in-repo mods?](#why-have-in-repo-mods)
+  - [What kind of mods can be in the CleverRaven repository?](#what-kind-of-mods-can-be-in-the-cleverraven-repository)
+  - [What is necessary for a mod to be included in the repository?](#what-is-necessary-for-a-mod-to-be-included-in-the-repository)
+  - [What are the responsibilities of a mod curator?](#what-are-the-responsibilities-of-a-mod-curator)
+  - [When do mods get removed?](#when-do-mods-get-removed)
+  - [Why do mods get removed?](#why-do-mods-get-removed)
+  - [How can mods be rescued from removal?](#how-can-mods-be-rescued-from-removal)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Getting Mods Into The Repository
 
 Cataclysm: Dark Days Ahead is not only moddable, but ships with a number of mods available for users to select from even without having to obtain mods from a third party source.
@@ -34,6 +49,7 @@ Furthermore, there are additional criteria:
 *  Content mods need to be providing some kind of curated experience. Either they introduce a set of locations, encounters, equipment, or progression mechanisms that do not fit the style of the core game, or they in some fashion modify the game according to some well-defined concept.
 *  *  Mods which do not qualify as curated experiences: Grab bag mods with no defined purpose (i.e. adding a bunch of random guns), "settings" mods that just turn off a possibly undesired but working feature (acid ants).
 *  Development mods need to have an associated work-in-progress feature that they exist to mitigate.
+*  Mods that have dependencies must have their dependencies in-repo, and require the approval of the maintainer(s) of the dependencies. Having another mod be dependent on yours incurs a maintenance burden (you can't make changes without possibly breaking theirs), so the dependencies need to be on board with that.
 
 ## What are the responsibilities of a mod curator?
 

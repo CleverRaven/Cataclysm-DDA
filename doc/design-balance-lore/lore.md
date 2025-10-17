@@ -1,3 +1,28 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Lore - Setting](#lore---setting)
+      - [Seriously, spoiler alert.](#seriously-spoiler-alert)
+  - [Table of Contents](#table-of-contents)
+    - [Supporting Documents](#supporting-documents)
+- [Story](#story)
+  - [Style and Structure](#style-and-structure)
+  - [Background Information](#background-information)
+  - [XEDRA](#xedra)
+- [Basic Setting Lore](#basic-setting-lore)
+  - [General Changes to the World](#general-changes-to-the-world)
+    - [Pre-Cataclysm Tech Changes](#pre-cataclysm-tech-changes)
+    - [Effects of Blob Infection](#effects-of-blob-infection)
+      - [Cognition after the Cataclysm](#cognition-after-the-cataclysm)
+    - [Human Factions and Organizations](#human-factions-and-organizations)
+      - [General Philosophy](#general-philosophy)
+      - [Major Factions](#major-factions)
+      - [Micro Factions](#micro-factions)
+    - [Extradimensional and Alien Forces](#extradimensional-and-alien-forces)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Lore - Setting
 
 #### Seriously, spoiler alert.

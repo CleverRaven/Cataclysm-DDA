@@ -1,6 +1,5 @@
 [
   {
-    "method": "json",
     "object": {
       "fill_ter": "t_floor",
       "place_items": [
@@ -96,7 +95,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "smoke_lounge_roof",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -143,7 +141,6 @@
     }
   },
   {
-    "method": "json",
     "object": {
       "place_items": [
         { "chance": 85, "repeat": [ 1, 4 ], "item": "smokelounge_items", "x": 19, "y": [ 15, 16 ] },
@@ -165,7 +162,7 @@
         { "chance": 55, "item": "hatstore_hats", "x": 21, "y": 15 },
         { "chance": 55, "item": "hatstore_hats", "x": 2, "y": 13 },
         { "chance": 45, "item": "jackets", "x": 2, "y": 14 },
-        { "chance": 45, "item": "office", "x": 12, "y": [ 20, 21 ] },
+        { "chance": 45, "item": "SUS_office_filing_cabinet", "x": 12, "y": [ 20, 21 ] },
         { "chance": 75, "repeat": [ 1, 4 ], "item": "smokelounge_items", "x": [ 11, 17 ], "y": 7 },
         { "chance": 75, "repeat": [ 1, 4 ], "item": "smokelounge_items", "x": 2, "y": [ 7, 11 ] },
         { "chance": 75, "repeat": [ 1, 4 ], "item": "smokelounge_items", "x": [ 11, 17 ], "y": 4 },
@@ -242,7 +239,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "smoke_lounge_roof_1",
     "object": {
       "fill_ter": "t_flat_roof",

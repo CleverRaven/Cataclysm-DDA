@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "magic_field_a1", "magic_field_a2" ], [ "magic_field_b1", "magic_field_b2" ] ],
     "object": {
       "fill_ter": "t_grass",
@@ -64,14 +63,11 @@
           [ "f_moonflower", 1 ],
           [ "f_kampuch", 5 ],
           [ "f_olieribos", 5 ],
-          [ "f_glowing_mushroom", 5 ],
           [ "f_golden_reed", 5 ],
           [ "f_barnacle_weed", 5 ],
           [ "f_dragonail", 5 ],
           [ "f_moly", 5 ],
           [ "f_flowering_fern", 5 ],
-          [ "f_funnelcap", 5 ],
-          [ "f_sojourners_palm", 5 ],
           [ "f_whiskflower", 5 ]
         ]
       },

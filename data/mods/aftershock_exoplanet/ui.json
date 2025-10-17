@@ -4,35 +4,35 @@
     "copy-from": "legacy_classic_sidebar",
     "type": "widget",
     "id": "legacy_classic_sidebar",
-    "extend": { "widgets": [ "shield_layout" ] }
+    "extend": { "widgets": [ "cryosuit_power", "shield_layout" ] }
   },
   {
     "//": "Extend with the danger widget",
     "copy-from": "legacy_compact_sidebar",
     "type": "widget",
     "id": "legacy_compact_sidebar",
-    "extend": { "widgets": [ "shield_layout" ] }
+    "extend": { "widgets": [ "cryosuit_power", "shield_layout" ] }
   },
   {
     "//": "Extend with the danger widget",
     "copy-from": "legacy_labels_narrow_sidebar",
     "type": "widget",
     "id": "legacy_labels_narrow_sidebar",
-    "extend": { "widgets": [ "shield_layout" ] }
+    "extend": { "widgets": [ "cryosuit_power", "shield_layout" ] }
   },
   {
     "//": "Extend with the danger widget",
     "copy-from": "legacy_labels_sidebar",
     "type": "widget",
     "id": "legacy_labels_sidebar",
-    "extend": { "widgets": [ "shield_layout" ] }
+    "extend": { "widgets": [ "cryosuit_power", "shield_layout" ] }
   },
   {
     "//": "Extend with the danger widget",
     "copy-from": "structured_sidebar",
     "type": "widget",
     "id": "structured_sidebar",
-    "extend": { "widgets": [ "shield_layout" ] }
+    "extend": { "widgets": [ "cryosuit_power", "shield_layout" ] }
   },
   {
     "id": "shield_layout",
@@ -322,5 +322,81 @@
     "style": "text",
     "string": "",
     "flags": [ "W_LABEL_NONE", "W_NO_PADDING" ]
+  },
+  {
+    "id": "cryosuit_power",
+    "style": "layout",
+    "label": "CRYOSUIT",
+    "label_align": "right",
+    "text_align": "right",
+    "flags": [ "W_DISABLED_WHEN_EMPTY" ],
+    "widgets": [ "cryosuit_power_graph" ],
+    "type": "widget"
+  },
+  {
+    "id": "cryosuit_power_graph",
+    "type": "widget",
+    "style": "text",
+    "label": "CRYOSUIT POWER",
+    "width": 19,
+    "clauses": [
+      {
+        "id": "empty",
+        "text": "<color_red>      OFFLINE      </color>",
+        "condition": { "not": { "u_has_worn_with_flag": "ACTIVE_CRYOSUIT" } }
+      },
+      {
+        "id": "full10",
+        "text": { "str": "<color_red>▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇</color>", "//~": "NO_I18N" },
+        "condition": { "math": [ "u_cryosuit_power", ">=", "90" ] }
+      },
+      {
+        "id": "full9",
+        "text": { "str": "<color_red>▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇  </color>", "//~": "NO_I18N" },
+        "condition": { "math": [ "u_cryosuit_power", ">=", "80" ] }
+      },
+      {
+        "id": "full8",
+        "text": { "str": "<color_red>▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇    </color>", "//~": "NO_I18N" },
+        "condition": { "math": [ "u_cryosuit_power", ">=", "70" ] }
+      },
+      {
+        "id": "full7",
+        "text": { "str": "<color_red>▇ ▇ ▇ ▇ ▇ ▇ ▇      </color>", "//~": "NO_I18N" },
+        "condition": { "math": [ "u_cryosuit_power", ">=", "60" ] }
+      },
+      {
+        "id": "full6",
+        "text": { "str": "<color_red>▇ ▇ ▇ ▇ ▇ ▇        </color>", "//~": "NO_I18N" },
+        "condition": { "math": [ "u_cryosuit_power", ">=", "50" ] }
+      },
+      {
+        "id": "full5",
+        "text": { "str": "<color_red>▇ ▇ ▇ ▇ ▇          </color>", "//~": "NO_I18N" },
+        "condition": { "math": [ "u_cryosuit_power", ">=", "40" ] }
+      },
+      {
+        "id": "full4",
+        "text": { "str": "<color_red>▇ ▇ ▇ ▇            </color>", "//~": "NO_I18N" },
+        "condition": { "math": [ "u_cryosuit_power", ">=", "30" ] }
+      },
+      {
+        "id": "full3",
+        "text": { "str": "<color_red>▇ ▇ ▇              </color>", "//~": "NO_I18N" },
+        "condition": { "math": [ "u_cryosuit_power", ">=", "20" ] }
+      },
+      {
+        "id": "full2",
+        "text": { "str": "<color_red>▇ ▇                </color>", "//~": "NO_I18N" },
+        "condition": { "math": [ "u_cryosuit_power", ">=", "10" ] }
+      },
+      {
+        "id": "full1",
+        "text": { "str": "<color_red>▇                  </color>", "//~": "NO_I18N" },
+        "condition": { "math": [ "u_cryosuit_power", ">", "0" ] }
+      }
+    ],
+    "default_clause": { "text": "      BOOTING      ", "color": "red" },
+    "flags": [ "W_NO_PADDING" ]
   }
 ]
