@@ -145,6 +145,7 @@
     "difficulty": 3,
     "time": "6 h",
     "autolearn": true,
+    "reversible": { "time": "15 m" },
     "using": [ [ "tailoring_nylon_patchwork", 9 ], [ "fastener_small", 2 ], [ "strap_small", 1 ], [ "clasps", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ]
   },
@@ -224,7 +225,7 @@
     "difficulty": 4,
     "time": "4 h",
     "autolearn": true,
-    "reversible": true,
+    "reversible": { "time": "15 m" },
     "using": [ [ "tailoring_nylon_patchwork", 4 ], [ "fastener_small", 2 ], [ "strap_small", 1 ], [ "clasps", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ]
   },

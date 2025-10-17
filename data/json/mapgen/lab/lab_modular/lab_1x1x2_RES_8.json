@@ -172,7 +172,7 @@
       "place_monsters": [ { "monster": "GROUP_LAB_BASIC_SECURITY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.2 } ],
       "place_monster": [
         { "monster": "mon_flashbang_hack", "x": 1, "y": 15, "chance": 100 },
-        { "monster": "mon_manhack", "x": 1, "y": 16, "chance": 100 },
+        { "monster": "mon_grenade_hack", "x": 1, "y": 16, "chance": 100 },
         { "monster": "mon_flashbang_hack", "x": 14, "y": 22, "chance": 100 },
         { "monster": "mon_gasbomb_hack", "x": 15, "y": 22, "chance": 100 }
       ],
@@ -304,7 +304,7 @@
       "place_monsters": [ { "monster": "GROUP_LAB_MAINTENANCE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.2 } ],
       "place_monster": [
         { "monster": "mon_flashbang_hack", "x": 1, "y": 15, "chance": 100 },
-        { "monster": "mon_manhack", "x": 1, "y": 16, "chance": 100 },
+        { "monster": "mon_grenade_hack", "x": 1, "y": 16, "chance": 100 },
         { "monster": "mon_flashbang_hack", "x": 14, "y": 22, "chance": 100 },
         { "monster": "mon_gasbomb_hack", "x": 15, "y": 22, "chance": 100 }
       ],

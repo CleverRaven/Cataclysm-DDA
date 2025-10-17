@@ -2554,6 +2554,27 @@
   },
   {
     "type": "talk_topic",
+    "id": "TALK_SORCERER_LEARN_SPELL_biomancer_pull_items_from_distance",
+    "dynamic_line": {
+      "str": "<spell_name:biomancer_pull_items_from_distance>: <spell_description:biomancer_pull_items_from_distance>",
+      "//~": "NO_I18N"
+    },
+    "responses": [
+      {
+        "text": "Select Spell.",
+        "topic": "TALK_SORCERER_MENU_MAIN",
+        "effect": [
+          { "math": [ "u_spell_level('biomancer_pull_items_from_distance') = u_current_sorcerer_level" ] },
+          { "math": [ "u_used_spell_slot_for_biomancer_pull_items_from_distance = u_picked_level" ] },
+          { "run_eocs": "EOC_incremnet_sorcerer_known_spells" }
+        ]
+      },
+      { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
+      { "text": "Quit.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_protection_aura",
     "dynamic_line": { "str": "<spell_name:protection_aura>: <spell_description:protection_aura>", "//~": "NO_I18N" },
     "responses": [
@@ -3982,6 +4003,24 @@
   },
   {
     "type": "talk_topic",
+    "id": "TALK_SORCERER_LEARN_SPELL_earthshaper_remove_corpses",
+    "dynamic_line": { "str": "<spell_name:earthshaper_remove_corpses>: <spell_description:earthshaper_remove_corpses>", "//~": "NO_I18N" },
+    "responses": [
+      {
+        "text": "Select Spell.",
+        "topic": "TALK_SORCERER_MENU_MAIN",
+        "effect": [
+          { "math": [ "u_spell_level('earthshaper_remove_corpses') = u_current_sorcerer_level" ] },
+          { "math": [ "u_used_spell_slot_for_earthshaper_remove_corpses = u_picked_level" ] },
+          { "run_eocs": "EOC_incremnet_sorcerer_known_spells" }
+        ]
+      },
+      { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
+      { "text": "Quit.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
     "id": "TALK_SORCERER_LEARN_SPELL_kelvinist_firebolt",
     "dynamic_line": { "str": "<spell_name:kelvinist_firebolt>: <spell_description:kelvinist_firebolt>", "//~": "NO_I18N" },
     "responses": [
@@ -5229,6 +5268,16 @@
         "topic": "TALK_SORCERER_LEARN_SPELL_biomancer_eat_tons_of_food"
       },
       {
+        "condition": {
+          "and": [
+            { "math": [ "u_used_spell_slot_for_biomancer_pull_items_from_distance == 0" ] },
+            { "math": [ "u_picked_level >= 3" ] }
+          ]
+        },
+        "text": "Learn <spell_name:biomancer_pull_items_from_distance> ( level 3 )",
+        "topic": "TALK_SORCERER_LEARN_SPELL_biomancer_pull_items_from_distance"
+      },
+      {
         "condition": { "and": [ { "math": [ "u_used_spell_slot_for_protection_aura == 0" ] }, { "math": [ "u_picked_level >= 3" ] } ] },
         "text": "Learn <spell_name:protection_aura> ( level 3 )",
         "topic": "TALK_SORCERER_LEARN_SPELL_protection_aura"
@@ -5663,6 +5712,13 @@
         },
         "text": "Learn <spell_name:earthshaper_turning_of_earth> ( level 1 )",
         "topic": "TALK_SORCERER_LEARN_SPELL_earthshaper_turning_of_earth"
+      },
+      {
+        "condition": {
+          "and": [ { "math": [ "u_used_spell_slot_for_earthshaper_remove_corpses == 0" ] }, { "math": [ "u_picked_level >= 1" ] } ]
+        },
+        "text": "Learn <spell_name:earthshaper_remove_corpses> ( level 1 )",
+        "topic": "TALK_SORCERER_LEARN_SPELL_earthshaper_remove_corpses"
       },
       {
         "condition": { "and": [ { "math": [ "u_used_spell_slot_for_kelvinist_firebolt == 0" ] }, { "math": [ "u_picked_level >= 1" ] } ] },

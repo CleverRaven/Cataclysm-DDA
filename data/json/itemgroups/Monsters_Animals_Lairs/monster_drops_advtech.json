@@ -27,7 +27,6 @@
     "id": "bots",
     "subtype": "distribution",
     "entries": [
-      { "item": "bot_manhack", "prob": 2 },
       { "item": "bot_grenade_hack", "prob": 2 },
       { "item": "bot_flashbang_hack", "prob": 2 },
       { "item": "bot_gasbomb_hack", "prob": 2 },

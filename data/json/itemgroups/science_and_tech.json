@@ -77,7 +77,7 @@
       [ "EMPbomb", 2 ],
       [ "flux_comp_gen", 3 ],
       [ "portal", 2 ],
-      [ "bot_manhack", 1 ],
+      [ "bot_grenade_hack", 1 ],
       { "item": "UPS_OFF", "prob": 8, "charges": [ 0, 1000 ] },
       { "item": "tazer", "prob": 3, "charges": [ 0, 500 ] },
       { "item": "plasma", "prob": 8, "charges": [ 1, 25 ] },
