@@ -806,7 +806,7 @@
     "comestible_type": "DRINK",
     "symbol": "~",
     "quench": 65,
-    "calories": 32,
+    "calories": 64,
     "description": "Freshly-squeezed from real fruit!  Tasty and nutritious.",
     "price": "80 cent",
     "price_postapoc": "50 cent",
@@ -814,9 +814,9 @@
     "primary_material": "water",
     "volume": "250 ml",
     "phase": "liquid",
-    "charges": 2,
+    "charges": 1,
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 53 ], [ "iron", 2 ], [ "fruit_allergen", 1 ] ],
+    "vitamins": [ [ "vitC", 106 ], [ "iron", 4 ], [ "fruit_allergen", 1 ] ],
     "fun": 3
   },
   {
