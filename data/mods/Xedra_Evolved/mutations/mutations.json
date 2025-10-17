@@ -1729,7 +1729,8 @@
           { "value": "SPEED", "add": { "math": [ "temperature_speed_mod(65, 0.5)" ] } }
         ]
       }
-    ]
+    ],
+    "flags": [ "NO_BODY_HEAT" ]
   },
   {
     "type": "mutation",
