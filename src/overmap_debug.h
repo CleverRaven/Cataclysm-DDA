@@ -9,7 +9,7 @@
 namespace om_noise
 {
 class om_noise_layer;
-}; // namespace om_noise
+} // namespace om_noise
 
 namespace om_debug
 {
@@ -22,6 +22,6 @@ void export_raw_noise( const std::string &filename, const om_noise::om_noise_lay
 void export_interpreted_noise( const std::string &filename, const om_noise::om_noise_layer &noise,
                                int width, int height, float threshold, bool invert );
 
-}; // namespace om_debug
+} // namespace om_debug
 
 #endif // CATA_SRC_OVERMAP_DEBUG_H

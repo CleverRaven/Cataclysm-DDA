@@ -122,4 +122,4 @@ void export_interpreted_noise(
     testfile.close();
 }
 
-}; // namespace om_debug
+} // namespace om_debug
