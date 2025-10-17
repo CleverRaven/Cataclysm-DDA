@@ -799,10 +799,25 @@
       { "type": "COMPONENT_ID", "condition": "watermelon_wedge", "name": { "str_sp": "watermelon juice" } },
       { "type": "COMPONENT_ID", "condition": "wintergreen_berry", "name": { "str_sp": "wintergreen berry juice" } }
     ],
-    "description": "Freshly-squeezed from real fruit!  Tasty and nutritious.",
+    "weight": "125 g",
     "color": "light_red",
     "spoils_in": "5 days",
-    "container": "bottle_plastic"
+    "container": "bottle_plastic",
+    "comestible_type": "DRINK",
+    "symbol": "~",
+    "quench": 65,
+    "calories": 32,
+    "description": "Freshly-squeezed from real fruit!  Tasty and nutritious.",
+    "price": "80 cent",
+    "price_postapoc": "50 cent",
+    "material": [ "fruit" ],
+    "primary_material": "water",
+    "volume": "250 ml",
+    "phase": "liquid",
+    "charges": 2,
+    "flags": [ "EATEN_COLD" ],
+    "vitamins": [ [ "vitC", 53 ], [ "iron", 2 ], [ "fruit_allergen", 1 ] ],
+    "fun": 3
   },
   {
     "type": "ITEM",
