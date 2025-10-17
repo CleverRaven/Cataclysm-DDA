@@ -1021,13 +1021,13 @@
     "id": "any_butter_or_oil",
     "type": "requirement",
     "//": "For when a recipe calls for either cooking oil or butter, like many baking recipes do.",
-    "components": [ [ [ "cooking_oil", 1 ], [ "tallow", 1 ], [ "raw_butter", 1 ], [ "butter", 1 ], [ "ghee", 1 ] ] ]
+    "components": [ [ [ "cooking_oil", 1 ], [ "edible_tallow", 1, "LIST" ], [ "raw_butter", 1 ], [ "butter", 1 ], [ "ghee", 1 ] ] ]
   },
   {
     "id": "fry_oil",
     "type": "requirement",
-    "//": "For when a recipe calls for deep frying, and the food absorbs some oil. Clarafied butter or ghee can be used to deep fry, but butter's smoke point is too low without clarification",
-    "components": [ [ [ "cooking_oil", 1 ], [ "tallow", 1 ], [ "ghee", 1 ] ] ]
+    "//": "For when a recipe calls for deep frying, and the food absorbs some oil. Clarified butter or ghee can be used to deep fry, but butter's smoke point is too low without clarification",
+    "components": [ [ [ "cooking_oil", 1 ], [ "edible_tallow", 1, "LIST" ], [ "ghee", 1 ] ] ]
   },
   {
     "id": "seasoning_mild",
