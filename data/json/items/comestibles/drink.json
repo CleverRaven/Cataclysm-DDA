@@ -799,7 +799,7 @@
       { "type": "COMPONENT_ID", "condition": "watermelon_wedge", "name": { "str_sp": "watermelon juice" } },
       { "type": "COMPONENT_ID", "condition": "wintergreen_berry", "name": { "str_sp": "wintergreen berry juice" } }
     ],
-    "weight": "125 g",
+    "weight": "250 g",
     "color": "light_red",
     "spoils_in": "5 days",
     "container": "bottle_plastic",
