@@ -1,0 +1,158 @@
+name: Build tilesets
+on:
+  workflow_dispatch:
+  workflow_call:
+
+jobs:
+  formatter:
+    name: Build json formatter
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout local repo
+        uses: actions/checkout@v4
+        with:
+          ref: master
+          sparse-checkout: |
+            src
+            tools
+          fetch-depth: 1
+
+      - name: Build json formatter
+        run: make tools/format/json_formatter.cgi
+
+      - name: Save formatter and compose into cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            tools/format
+            tools/gfx_tools
+          key: tools-${{ github.run_id }}
+
+  builds:
+    needs: formatter
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: Altica
+            tileset_repo: I-am-Erk/CDDA-Tilesets
+            tileset_dir: gfx/Altica
+            compose_args: --use-all --obsolete-fillers
+            tileset_src_checkout: "gfx"
+          - name: ASCII_Overmap
+            tileset_repo: I-am-Erk/CDDA-Tilesets
+            tileset_dir: gfx/ASCII_Overmap
+            compose_args: --use-all
+            tileset_src_checkout: "gfx"
+          - name: BrownLikeBears
+            tileset_repo: I-am-Erk/CDDA-Tilesets
+            tileset_dir: gfx/BrownLikeBears
+            compose_args: --use-all --obsolete-fillers
+            tileset_src_checkout: "gfx"
+          - name: ChibiUltica
+            tileset_repo: I-am-Erk/CDDA-Tilesets
+            tileset_dir: gfx/Chibi_Ultica
+            compose_args: --use-all
+            tileset_src_checkout: "gfx"
+          - name: HollowMoon
+            tileset_repo: I-am-Erk/CDDA-Tilesets
+            tileset_dir: gfx/HollowMoon
+            compose_args: --use-all --obsolete-fillers
+            tileset_src_checkout: "gfx"
+          - name: Larwick_Overmap
+            tileset_repo: I-am-Erk/CDDA-Tilesets
+            tileset_dir: gfx/Larwick_Overmap
+            compose_args: --use-all
+            tileset_src_checkout: "gfx"
+          - name: MShockXotto+
+            tileset_repo: I-am-Erk/CDDA-Tilesets
+            tileset_dir: gfx/MShockXotto+
+            compose_args: --use-all
+            tileset_src_checkout: "gfx"
+          - name: NeoDays
+            tileset_repo: I-am-Erk/CDDA-Tilesets
+            tileset_dir: gfx/NeoDays
+            compose_args: --use-all
+            tileset_src_checkout: "gfx"
+          - name: Retrodays
+            tileset_repo: I-am-Erk/CDDA-Tilesets
+            tileset_dir: gfx/Retrodays
+            compose_args: --use-all
+            tileset_src_checkout: "gfx"
+          - name: GiantDays
+            tileset_repo: I-am-Erk/CDDA-Tilesets
+            tileset_dir: gfx/GiantDays
+            compose_args: --use-all
+            tileset_src_checkout: "gfx"
+          - name: SmashButton_iso
+            tileset_repo: I-am-Erk/CDDA-Tilesets
+            tileset_dir: gfx/HitButton_iso
+            compose_args: --use-all
+            tileset_src_checkout: "gfx"
+          - name: SurveyorsMap
+            tileset_repo: I-am-Erk/CDDA-Tilesets
+            tileset_dir: gfx/SurveyorsMap
+            compose_args: --use-all
+            tileset_src_checkout: "gfx"
+          - name: UltimateCataclysm
+            tileset_repo: I-am-Erk/CDDA-Tilesets
+            tileset_dir: gfx/UltimateCataclysm
+            compose_args: --use-all --obsolete-fillers
+            tileset_src_checkout: "gfx"
+          - name: Ultica_iso
+            tileset_repo: I-am-Erk/CDDA-Tilesets
+            tileset_dir: gfx/Ultica_iso
+            compose_args: --use-all
+            tileset_src_checkout: "gfx"
+          - name: PenAndPaper
+            tileset_repo: I-am-Erk/CDDA-Tilesets
+            tileset_dir: gfx/PenAndPaper
+            compose_args: --use-all
+            tileset_src_checkout: "gfx"
+          - name: Cuteclysm
+            tileset_dir: "."
+            compose_args: --use-all
+            tileset_repo: pixel-32/CDDA-tileset
+            tileset_src_checkout: ""
+
+    name: Compose tileset
+    runs-on: ubuntu-latest
+    steps:
+      - name: Restore tools into workspace from cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            tools/format
+            tools/gfx_tools
+          key: tools-${{ github.run_id }}
+
+      - name: Install dependencies
+        uses: awalsh128/cache-apt-pkgs-action@v1
+        with:
+          packages: python3 python3-pip libvips42
+      - run: pip install pyvips
+
+      - name: Clone tileset repo
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ matrix.tileset_repo }}
+          ref: master
+          path: build-tilesets
+          sparse-checkout: ${{matrix.tileset_src_checkout}}
+          fetch-depth: 1
+
+      - name: Build ${{ matrix.name }}
+        run: |
+          export SOURCE="${{github.workspace}}/build-tilesets/${{ matrix.tileset_dir }}"
+          export DEST="${{github.workspace}}/gfx/${{ matrix.name }}"
+          python3 ${{ github.workspace }}/tools/gfx_tools/compose.py ${{ matrix.compose_args }} --feedback CONCISE --format-json --loglevel INFO "$SOURCE" "$DEST"
+
+          mv -v "$SOURCE/tileset.txt" "$DEST/"
+          [ -f "$SOURCE/fallback.png"  ] && mv -v "$SOURCE/fallback.png" "$DEST/" || echo "No fallback.png for ${{ matrix.name }}"
+          [ -f "$SOURCE/layering.json" ] && mv -v "$SOURCE/layering.json" "$DEST/" || echo "No layering.json for ${{ matrix.name }}"
+
+      - name: Store artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: "tileset-${{ matrix.name }}"
+          path: "${{github.workspace}}/gfx/*"
