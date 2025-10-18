@@ -896,39 +896,23 @@ void Item_factory::finalize_post( itype &obj )
         if( consume_drug ) {
             const consume_drug_iuse *consume_drug_use = dynamic_cast<const consume_drug_iuse *>
                     ( consume_drug->get_actor_ptr() );
-            // This map is actually empty (i.e no entries) if undefined
-            const bool has_drug_vitamins = !consume_drug_use->vitamins.empty();
-            // This map (nutrients) is ALWAYS filled with all vitamin types, but the entries are zero'd, so we cannot check empty()!
-            const bool has_food_vitamins = obj.comestible->default_nutrition_read_only().has_any_vitamin();
-            if( has_food_vitamins && !has_drug_vitamins ) {
-                debugmsg( "Error on item %s: You need to put food vitamins into the consume_drug use_action, for stupid technical reasons.",
-                          obj.id.c_str() );
-            }
-            if( has_drug_vitamins && !has_food_vitamins ) {
-                debugmsg( "Error on item %s: You also need to put the consume_drug vitamins into food vitamins, for stupider technical reasons.",
-                          obj.id.c_str() );
-            }
 
-            // Now to be extra sure, we also compare the vitamins to make sure they're equal...
+            // We compare the vitamins to make sure they're equal...
             const auto &LHS_vitmap = consume_drug_use->vitamins;
             const auto &RHS_vitmap = obj.comestible->default_nutrition_read_only().vitamins();
             for( const std::pair<const vitamin_id, vitamin> &vit_pair : vitamin::all() ) {
                 const vitamin_id &vit = vit_pair.first;
+                // Bounds check. Stupid juggling because LHS is a range, we want the midpoint.
+                const auto LHS_range = LHS_vitmap.find( vit );
                 const bool LHS_has_vit = LHS_vitmap.find( vit ) != LHS_vitmap.end();
                 const bool RHS_has_vit = RHS_vitmap.find( vit ) != RHS_vitmap.end();
-                if( LHS_has_vit != RHS_has_vit ) {
-                    debugmsg( "Error in item definition %s.  Food vitamins and consume_drug vitamins do not match.",
-                              obj.id.c_str() );
-                    break; // stop evaluating this itype, it's already known to be broken.
-                }
-                // Bounds check. Stupid juggling because LHS is a range, we want the midpoint. If LHS doesn't have the vitamin we can skip the rest, because we just checked that
-                // both LHS and RHS should have the vitamin.
-                const auto LHS_range = LHS_vitmap.find( vit );
-                if( LHS_range == LHS_vitmap.end() ) {
-                    continue;
-                }
-                const int LHS_vit_amt = ( LHS_range->second.first + LHS_range->second.second ) / 2;
-                const int RHS_vit_amt = RHS_has_vit ? RHS_vitmap.find( vit )->second : 0;
+
+                const int LHS_vit_amt = LHS_has_vit ?
+                                        ( LHS_range->second.first + LHS_range->second.second ) / 2 :
+                                        0;
+                const int RHS_vit_amt = RHS_has_vit ?
+                                        RHS_vitmap.find( vit )->second :
+                                        0;
                 if( LHS_vit_amt != RHS_vit_amt ) {
                     debugmsg( "Error in item definition %s.  Food vitamins and consume_drug vitamins have different vitamin amounts for %s.",
                               obj.id.c_str(), vit.c_str() );
