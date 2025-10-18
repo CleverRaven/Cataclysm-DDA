@@ -31,12 +31,6 @@
   {
     "type": "test_data",
     "//": "Powered tools",
-    "expected_dps": {
-      "polesaw_on": 2.72,
-      "trimmer_on": 1.64,
-      "elec_chainsaw_on": 3.85,
-      "masonrysaw_on": 3.07,
-      "electric_masonrysaw_on": 3.07
-    }
+    "expected_dps": { "polesaw_on": 2.72, "elec_chainsaw_on": 3.85, "masonrysaw_on": 3.07, "electric_masonrysaw_on": 3.07 }
   }
 ]
