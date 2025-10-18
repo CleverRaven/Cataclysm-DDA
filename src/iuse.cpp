@@ -1772,12 +1772,12 @@ static bool good_fishing_spot( const tripoint_bub_ms &pos, Character *p )
     // isolated little body of water with no definite fish population
     const oter_id &cur_omt =
         overmap_buffer.ter( coords::project_to<coords::omt>( here.get_abs( pos ) ) );
-    std::string om_id = cur_omt.id().c_str();
     if( fishables.empty() && !here.has_flag( ter_furn_flag::TFLAG_CURRENT, pos ) &&
         // this is a ridiculous way to find a good fishing spot, but I'm just trying
         // to do oceans right now.  Maybe is_water_body() would be better?
         // if you find this comment still here and it's later than 2025, LOL.
-        om_id.find( "river_" ) == std::string::npos && !cur_omt->is_lake() && !cur_omt->is_ocean() &&
+        is_ot_match( "river_", cur_omt, ot_match_type::contains ) &&
+        !cur_omt->is_lake() && !cur_omt->is_ocean() &&
         !cur_omt->is_lake_shore() && !cur_omt->is_ocean_shore() ) {
         p->add_msg_if_player( m_info, _( "You doubt you will have much luck catching fish here." ) );
         return false;
