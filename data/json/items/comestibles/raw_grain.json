@@ -18,7 +18,12 @@
     "volume": "195 ml",
     "flags": [ "EATEN_HOT", "RAW" ],
     "vitamins": [ [ "vitC", 12 ], [ "iron", 4 ], [ "veggy_allergen", 1 ] ],
-    "use_action": { "type": "consume_drug", "used_up_item": "empty_corn_cob", "moves": 500 }
+    "use_action": {
+      "type": "consume_drug",
+      "used_up_item": "empty_corn_cob",
+      "moves": 500,
+      "vitamins": [ [ "vitC", 12 ], [ "iron", 4 ], [ "veggy_allergen", 1 ] ]
+    }
   },
   {
     "type": "ITEM",
@@ -80,7 +85,12 @@
     "copy-from": "corn",
     "fun": -2,
     "description": "A popcorn cob full of popcorn kernels.  You can eat them on the cob or shell it for cooking.",
-    "use_action": { "type": "consume_drug", "used_up_item": "empty_corn_cob", "moves": 500 }
+    "use_action": {
+      "type": "consume_drug",
+      "used_up_item": "empty_corn_cob",
+      "moves": 500,
+      "vitamins": [ [ "vitC", 12 ], [ "iron", 4 ], [ "veggy_allergen", 1 ] ]
+    }
   },
   {
     "type": "ITEM",

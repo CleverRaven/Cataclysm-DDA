@@ -149,7 +149,8 @@
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You take some %s.",
-      "effects": [ { "id": "pkill1_nsaid", "duration": 9000 } ]
+      "effects": [ { "id": "pkill1_nsaid", "duration": 9000 } ],
+      "vitamins": [ [ "vit_bloodthinner", 4320, 4320 ] ]
     },
     "vitamins": [ [ "vit_bloodthinner", 4320 ] ]
   },
@@ -173,7 +174,8 @@
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You take some %s.",
-      "effects": [ { "id": "pkill1_nsaid", "duration": 9000 } ]
+      "effects": [ { "id": "pkill1_nsaid", "duration": 9000 } ],
+      "vitamins": [ [ "vit_ibuprofen", 216, 216 ] ]
     },
     "vitamins": [ [ "vit_ibuprofen", 216 ] ]
   },
@@ -197,7 +199,8 @@
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You take some %s.",
-      "effects": [ { "id": "pkill1_nsaid", "duration": 18000 } ]
+      "effects": [ { "id": "pkill1_nsaid", "duration": 18000 } ],
+      "vitamins": [ [ "vit_ibuprofen", 432, 432 ] ]
     },
     "vitamins": [ [ "vit_ibuprofen", 432 ] ]
   },
@@ -241,7 +244,7 @@
     "container": "bottle_plastic_pill_painkiller",
     "healthy": -1,
     "flags": [ "WATER_DISSOLVE", "NO_TEMP" ],
-    "use_action": { "type": "consume_drug", "activation_message": "You take some %s." },
+    "use_action": { "type": "consume_drug", "activation_message": "You take some %s.", "vitamins": [ [ "vit_betablocker", 864, 864 ] ] },
     "vitamins": [ [ "vit_betablocker", 864 ] ]
   },
   {
@@ -492,7 +495,8 @@
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You take some %s.",
-      "effects": [ { "id": "pkill2", "duration": 1080 }, { "id": "cough_suppress", "duration": 1000 } ]
+      "effects": [ { "id": "pkill2", "duration": 1080 }, { "id": "cough_suppress", "duration": 1000 } ],
+      "vitamins": [ [ "vit_mme", 450, 450 ] ]
     }
   },
   {
@@ -1262,7 +1266,8 @@
         { "id": "pkill3", "duration": 480 },
         { "id": "pkill2", "duration": 1200 },
         { "id": "cough_suppress", "duration": 1000 }
-      ]
+      ],
+      "vitamins": [ [ "vit_mme", 3000, 3000 ] ]
     }
   },
   {
@@ -1410,7 +1415,8 @@
       "type": "consume_drug",
       "activation_message": "You shoot up.",
       "tools_needed": { "syringe": -1 },
-      "effects": [ { "id": "pkill3", "duration": 120 }, { "id": "pkill2", "duration": 1200 } ]
+      "effects": [ { "id": "pkill3", "duration": 120 }, { "id": "pkill2", "duration": 1200 } ],
+      "vitamins": [ [ "vit_mme", 3000, 3000 ] ]
     }
   },
   {
@@ -1556,7 +1562,8 @@
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You take some %s.",
-      "effects": [ { "id": "pkill3", "duration": 120 }, { "id": "pkill2", "duration": 1200 } ]
+      "effects": [ { "id": "pkill3", "duration": 120 }, { "id": "pkill2", "duration": 1200 } ],
+      "vitamins": [ [ "vit_mme", 2250, 2250 ] ]
     }
   },
   {
@@ -1614,7 +1621,8 @@
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You take some %s.",
-      "effects": [ { "id": "pkill2", "duration": 1080 } ]
+      "effects": [ { "id": "pkill2", "duration": 1080 } ],
+      "vitamins": [ [ "vit_mme", 200, 200 ] ]
     }
   },
   {
@@ -1636,7 +1644,7 @@
     "addiction_type": [ "sleeping pill", "opiate" ],
     "vitamins": [ [ "vit_mme", 200 ] ],
     "flags": [ "NO_TEMP" ],
-    "use_action": { "type": "consume_drug", "activation_message": "You take a %s." },
+    "use_action": { "type": "consume_drug", "activation_message": "You take a %s.", "vitamins": [ [ "vit_mme", 200, 200 ] ] },
     "sleepiness_mod": -40
   },
   {
@@ -1872,7 +1880,8 @@
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You take some %s.",
-      "effects": [ { "id": "pkill_l", "duration": 27000 } ]
+      "effects": [ { "id": "pkill_l", "duration": 27000 } ],
+      "vitamins": [ [ "vit_mme", 600, 600 ] ]
     }
   },
   {
@@ -1896,8 +1905,6 @@
       "activation_message": "You take the %s.",
       "vitamins": [ [ "calcium", 24, 48 ], [ "iron", 24, 48 ], [ "vitC", 24, 48 ] ]
     },
-    "//": "Yes, the vitamins are intentionally duplicated here. The consume/use/iteminfo UI needs them in use_action, but to actually pass on the vitamins they need to be in the comestible data, as below.",
-    "//2": "TODO: Fix this...",
     "vitamins": [ [ "calcium", 36 ], [ "iron", 36 ], [ "vitC", 36 ] ]
   },
   {
@@ -1916,6 +1923,7 @@
     "symbol": "!",
     "color": "magenta",
     "container": "bottle_plastic_pill_supplement",
+    "vitamins": [ [ "calcium", 75 ] ],
     "use_action": { "type": "consume_drug", "activation_message": "You take the %s.", "vitamins": [ [ "calcium", 75 ] ] }
   },
   {
@@ -1936,8 +1944,12 @@
     "color": "white",
     "looks_like": "calcium_tablet",
     "flags": [ "NO_TEMP" ],
-    "use_action": { "type": "consume_drug", "activation_message": "You take the %s.", "vitamins": [ [ "calcium", 24 ] ] },
-    "vitamins": [ [ "meat_allergen", 1 ] ]
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You take the %s.",
+      "vitamins": [ [ "calcium", 24 ], [ "meat_allergen", 1 ] ]
+    },
+    "vitamins": [ [ "calcium", 24 ], [ "meat_allergen", 1 ] ]
   },
   {
     "id": "flavored_bonemeal_tablet",
@@ -1957,8 +1969,12 @@
     "color": "yellow",
     "looks_like": "calcium_tablet",
     "flags": [ "NO_TEMP" ],
-    "use_action": { "type": "consume_drug", "activation_message": "You take the %s.", "vitamins": [ [ "calcium", 23 ] ] },
-    "vitamins": [ [ "meat_allergen", 1 ] ]
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You take the %s.",
+      "vitamins": [ [ "calcium", 23 ], [ "meat_allergen", 1 ] ]
+    },
+    "vitamins": [ [ "calcium", 23 ], [ "meat_allergen", 1 ] ]
   },
   {
     "id": "vitc_tablet",
@@ -1975,7 +1991,8 @@
     "flags": [ "IRREPLACEABLE_CONSUMABLE", "NO_TEMP" ],
     "symbol": "!",
     "color": "magenta",
-    "use_action": { "type": "consume_drug", "activation_message": "You take the %s.", "vitamins": [ [ "vitC", 556 ] ] }
+    "use_action": { "type": "consume_drug", "activation_message": "You take the %s.", "vitamins": [ [ "vitC", 556 ] ] },
+    "vitamins": [ [ "vitC", 556 ] ]
   },
   {
     "id": "vitc_fragment",
@@ -1992,7 +2009,8 @@
     "flags": [ "IRREPLACEABLE_CONSUMABLE", "NO_TEMP" ],
     "symbol": "!",
     "color": "magenta",
-    "use_action": { "type": "consume_drug", "activation_message": "You take the %s.", "vitamins": [ [ "vitC", 92 ] ] }
+    "use_action": { "type": "consume_drug", "activation_message": "You take the %s.", "vitamins": [ [ "vitC", 92 ] ] },
+    "vitamins": [ [ "vitC", 92 ] ]
   },
   {
     "id": "gummy_vitamins",
@@ -2078,6 +2096,7 @@
     "symbol": "!",
     "color": "magenta",
     "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE", "NO_TEMP" ],
+    "vitamins": [ [ "iron", 100 ] ],
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You inject some iron.",
@@ -2113,7 +2132,8 @@
       "fields_produced": { "fd_weedsmoke": 2 },
       "charges_needed": { "fire": 1 },
       "tools_needed": { "apparatus": -1 },
-      "moves": 420
+      "moves": 420,
+      "vitamins": [ [ "veggy_allergen", 1 ] ]
     },
     "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
@@ -2210,6 +2230,7 @@
     "color": "white",
     "container": "bottle_plastic_small",
     "flags": [ "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "NPC_SAFE", "NO_TEMP" ],
+    "vitamins": [ [ "calcium", 25 ] ],
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You take an antacid tablet.",

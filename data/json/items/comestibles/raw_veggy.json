@@ -1027,7 +1027,8 @@
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You chew the wintergreen leaves.",
-      "effects": [ { "id": "pkill_wintergreen", "duration": "30 m" } ]
+      "effects": [ { "id": "pkill_wintergreen", "duration": "30 m" } ],
+      "vitamins": [ [ "veggy_allergen", 1 ] ]
     },
     "material": [ "veggy" ],
     "primary_material": "dried_vegetable",

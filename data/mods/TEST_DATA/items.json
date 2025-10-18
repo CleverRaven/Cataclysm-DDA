@@ -3583,6 +3583,7 @@
     "color": "magenta",
     "container": "bottle_plastic_pill_supplement",
     "flags": [ "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
+    "vitamins": [ [ "calcium", 100 ], [ "iron", 100 ], [ "vitC", 100 ] ],
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You take the %s.",
