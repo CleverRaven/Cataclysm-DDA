@@ -1546,55 +1546,22 @@
     "id": "milk_powder_various",
     "subtype": "distribution",
     "entries": [
-      { "prob": 2, "group": "milk_powder_bottle_plastic" },
-      { "prob": 2, "group": "milk_powder_bottle_glass" },
-      { "prob": 4, "group": "milk_powder_bag_plastic" },
-      { "prob": 2, "group": "milk_powder_bag_paper" }
+      { "item": "milk_powder", "entry-wrapper": "bottle_plastic_seasoning", "count": [ 0, 8 ], "prob": 2 },
+      { "item": "milk_powder", "entry-wrapper": "bottle_glass_seasoning", "count": [ 0, 8 ], "prob": 2 },
+      { "item": "milk_powder", "entry-wrapper": "bag_plastic_small", "count": [ 0, 8 ], "prob": 4 },
+      { "item": "milk_powder", "entry-wrapper": "bag_paper_powder", "count": [ 0, 40 ], "prob": 2 }
     ]
   },
   {
     "type": "item_group",
     "id": "milk_powder_various_full",
     "subtype": "distribution",
-    "entries": [ { "prob": 1, "group": "milk_powder_bag_paper_full", "container-item": "null", "count": [ 10, 40 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "milk_powder_bag_paper_full",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "bag_paper_powder",
-    "entries": [ { "item": "milk_powder", "container-item": "null", "count": 40 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "milk_powder_bottle_plastic",
-    "subtype": "collection",
-    "container-item": "bottle_plastic_seasoning",
-    "entries": [ { "item": "milk_powder", "container-item": "null", "count": [ 2, 8 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "milk_powder_bottle_glass",
-    "subtype": "collection",
-    "container-item": "bottle_glass_seasoning",
-    "entries": [ { "item": "milk_powder", "container-item": "null", "count": [ 2, 8 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "milk_powder_bag_plastic",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "bag_plastic_small",
-    "entries": [ { "item": "milk_powder", "container-item": "null", "count": [ 2, 8 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "milk_powder_bag_paper",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "bag_paper_powder",
-    "entries": [ { "item": "milk_powder", "container-item": "null", "count": [ 5, 40 ] } ]
+    "entries": [
+      { "item": "milk_powder", "entry-wrapper": "bottle_plastic_seasoning", "count": 8, "prob": 2 },
+      { "item": "milk_powder", "entry-wrapper": "bottle_glass_seasoning", "count": 8, "prob": 2 },
+      { "item": "milk_powder", "entry-wrapper": "bag_plastic_small", "count": 8, "prob": 4 },
+      { "item": "milk_powder", "entry-wrapper": "bag_paper_powder", "count": 40, "prob": 2 }
+    ]
   },
   {
     "type": "item_group",
