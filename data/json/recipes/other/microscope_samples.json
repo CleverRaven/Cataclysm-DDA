@@ -1,0 +1,22 @@
+[
+  {
+    "result": "microscope_slide_water_murky",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "chemistry",
+    "difficulty": 0,
+    "time": "30 s",
+    "autolearn": true,
+    "tools": [ [ [ "water_murky", -1 ] ] ],
+    "components": [ [ [ "microscope_slide", 1 ] ] ]
+  },
+  {
+    "result": "microscope_slide_soil",
+    "copy-from": "microscope_slide_water_murky",
+    "type": "recipe",
+    "tools": [ [ [ "material_soil", -1 ] ] ],
+    "components": [ [ [ "microscope_slide", 1 ] ] ]
+  }
+]
