@@ -342,7 +342,7 @@
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "components": [
       [ [ "scrap_bronze", 4 ] ],
-      [ [ "stick_long", 1 ] ],
+      [ [ "spear_shaft", 1 ] ],
       [ [ "cotton_patchwork", 2 ], [ "felt_patch", 2 ], [ "leather", 2 ], [ "fur", 2 ] ]
     ]
   },

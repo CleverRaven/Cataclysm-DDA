@@ -253,7 +253,7 @@
     "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 3 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "hotcut_any", 1, "LIST" ], [ "drift", -1 ] ] ],
-    "components": [ [ [ "stick_long", 1 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
+    "components": [ [ [ "spear_shaft", 1 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -2181,7 +2181,7 @@
     "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 3 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "hotcut_any", 1, "LIST" ], [ "drift", -1 ] ] ],
-    "components": [ [ [ "stick_long", 1 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
+    "components": [ [ [ "spear_shaft", 1 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -2191,7 +2191,7 @@
     "subcategory": "CSC_WEAPON_CUTTING",
     "skill_used": "fabrication",
     "difficulty": 7,
-    "time": "7 h 40 m",
+    "time": "6 h 40 m",
     "book_learn": [ [ "textbook_weapwest", 6 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
@@ -2202,7 +2202,7 @@
     "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 2 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
-    "components": [ [ [ "stick_long", 1 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
+    "components": [ [ [ "spear_shaft", 1 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -2233,7 +2233,7 @@
     "subcategory": "CSC_WEAPON_CUTTING",
     "skill_used": "fabrication",
     "difficulty": 7,
-    "time": "7 h 40 m",
+    "time": "6 h 40 m",
     "book_learn": [ [ "textbook_weapeast", 6 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
@@ -2244,7 +2244,7 @@
     "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 2 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
-    "components": [ [ [ "stick_long", 1 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
+    "components": [ [ [ "spear_shaft", 1 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -2255,7 +2255,7 @@
     "subcategory": "CSC_WEAPON_CUTTING",
     "skill_used": "fabrication",
     "difficulty": 7,
-    "time": "2 h",
+    "time": "1 h",
     "book_learn": [ [ "textbook_weapeast", 6 ] ],
     "using": [ [ "blacksmithing_standard", 5 ] ],
     "proficiencies": [
@@ -2266,7 +2266,7 @@
     ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
-    "components": [ [ [ "katana", 1 ], [ "wakizashi", 1 ] ], [ [ "stick_long", 1 ] ] ]
+    "components": [ [ [ "katana", 1 ], [ "wakizashi", 1 ] ], [ [ "spear_shaft", 1 ] ] ]
   },
   {
     "type": "recipe",
