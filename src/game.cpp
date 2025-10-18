@@ -3705,7 +3705,8 @@ std::unordered_set<tripoint_bub_ms> game::get_fishable_locations_bub( int distan
     // to determine if any fishable monsters are in those locations.
     return ff::point_flood_fill_4_connected<std::unordered_set>( fish_pos, visited, [&here,
     &fishing_boundaries]( const tripoint_bub_ms & p ) {
-        return !fishing_boundaries.contains( p ) && here.has_flag( ter_furn_flag::TFLAG_FISHABLE, p );
+        return fishing_boundaries.contains( p ) && here.inbounds( p ) &&
+               here.has_flag( ter_furn_flag::TFLAG_FISHABLE, p );
     } );
 }
 
