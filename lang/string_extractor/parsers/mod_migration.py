@@ -2,8 +2,7 @@ from ..write_text import write_text
 
 
 def parse_mod_migration(json, origin):
-    id = json["id"]
+    ident = json["id"]
 
-    if "removal_reason" in json:
-        write_text(json["removal_reason"], origin,
-                   comment="Explaination for removal of mod \"{}\"".format(id))
+    write_text(json.get("removal_reason"), origin,
+               comment=f"Explaination for removal of mod '{ident}'")

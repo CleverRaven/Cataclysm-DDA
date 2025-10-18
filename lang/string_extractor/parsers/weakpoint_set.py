@@ -1,19 +1,15 @@
+from ..helper import get_singular_name
 from ..write_text import write_text
 
 
 def parse_weakpoint_set(json, origin):
-    if "weakpoints" in json:
-        for wp in json["weakpoints"]:
-            id = ""
-            if "id" in wp:
-                id = wp["id"]
-            if "name" in wp:
-                comment = "Sentence fragment describing " \
-                          "the \"{}\" weakpoint".format(id)
-                write_text(wp["name"], origin, comment=comment)
-            if "effects" in wp:
-                for fx in wp["effects"]:
-                    if "message" in fx:
-                        comment = "Message describing the effect of hitting " \
-                                  "the \"{}\" weakpoint".format(id)
-                        write_text(fx["message"], origin, comment=comment)
+    for weakpoint in json.get("weakpoints", []):
+        name = get_singular_name(weakpoint)
+        write_text(weakpoint.get("name"), origin,
+                   comment=[
+                       "Description of weakpoint",
+                       "ex. '[You hit the zombie in] a crack in the armor!'"])
+
+        for effect in weakpoint.get("effects", []):
+            write_text(effect.get("message"), origin,
+                       comment=f"Effect of hitting '{name}' weakpoint")

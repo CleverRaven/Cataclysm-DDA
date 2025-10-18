@@ -4,15 +4,14 @@ from ..write_text import write_text
 
 def parse_option_slider(json, origin):
     name = get_singular_name(json["name"])
+
     write_text(json["name"], origin,
                comment="Name of an option slider")
-    if "levels" in json:
-        for level in json["levels"]:
-            if "name" in level:
-                write_text(level["name"], origin,
-                           comment="Name of a slider position in the "
-                           "\"{}\" option slider".format(name))
-            if "description" in level:
-                write_text(level["description"], origin,
-                           comment="Description of a slider position in the "
-                           "\"{}\" option slider".format(name))
+
+    for level in json.get("levels", []):
+        write_text(level.get("name"), origin,
+                   comment="Name of a slider position in the "
+                   f"'{name}' option slider")
+        write_text(level.get("description"), origin,
+                   comment="Description of a slider position in the "
+                   f"'{name}' option slider")
