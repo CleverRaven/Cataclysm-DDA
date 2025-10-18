@@ -1765,7 +1765,8 @@ std::optional<int> iuse::remove_all_mods( Character *p, item *, const tripoint_b
 
 static bool good_fishing_spot( const tripoint_bub_ms &pos, Character *p )
 {
-    std::unordered_set<tripoint_bub_ms> fishable_locations = g->get_fishable_locations_bub( 60, pos );
+    std::unordered_set<tripoint_bub_ms> fishable_locations = g->get_fishable_locations_bub(
+                MAX_VIEW_DISTANCE, pos );
     std::vector<monster *> fishables = g->get_fishable_monsters( fishable_locations );
     map &here = get_map();
     // isolated little body of water with no definite fish population
@@ -1808,7 +1809,7 @@ std::optional<int> iuse::fishing_rod( Character *p, item *it, const tripoint_bub
     p->add_msg_if_player( _( "You cast your line and wait to hook something…" ) );
     p->assign_activity( ACT_FISH, to_moves<int>( 5_hours ), 0, 0, it->tname() );
     p->activity.targets.emplace_back( *p, it );
-    p->activity.coord_set = g->get_fishable_locations_abs( 60, *found );
+    p->activity.coord_set = g->get_fishable_locations_abs( MAX_VIEW_DISTANCE, *found );
     return 0;
 }
 
@@ -1908,7 +1909,8 @@ std::optional<int> iuse::fish_trap_tick( Character *p, item *it, const tripoint_
         }
 
         //get the fishables around the trap's spot
-        std::unordered_set<tripoint_bub_ms> fishable_locations = g->get_fishable_locations_bub( 60, pos );
+        std::unordered_set<tripoint_bub_ms> fishable_locations = g->get_fishable_locations_bub(
+                    MAX_VIEW_DISTANCE, pos );
         std::vector<monster *> fishables = g->get_fishable_monsters( fishable_locations );
         for( int i = 0; i < fishes; i++ ) {
             player.practice( skill_survival, rng( 3, 10 ) );
