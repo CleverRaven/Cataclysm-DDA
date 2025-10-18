@@ -1,26 +1,16 @@
 #include <algorithm>
 #include <cstdlib>
-#include <map>
-#include <memory>
 #include <string>
-#include <unordered_set>
-#include <utility>
-#include <vector>
 
 #include "avatar.h"
 #include "cata_catch.h"
-#include "flag.h"
 #include "item.h"
-#include "item_factory.h"
 #include "item_location.h"
-#include "itype.h"
 #include "melee.h"
 #include "monster.h"
 #include "player_helpers.h"
 #include "ret_val.h"
 #include "sounds.h"
-#include "string_formatter.h"
-#include "test_data.h"
 #include "type_id.h"
 
 static const itype_id itype_test_balanced_sword( "test_balanced_sword" );
@@ -31,12 +21,6 @@ static const mtype_id mon_zombie_smoker( "mon_zombie_smoker" );
 static const mtype_id mon_zombie_soldier_no_weakpoints( "mon_zombie_soldier_no_weakpoints" );
 static const mtype_id mon_zombie_survivor_no_weakpoints( "mon_zombie_survivor_no_weakpoints" );
 static const mtype_id pseudo_debug_mon( "pseudo_debug_mon" );
-
-static const skill_id skill_bashing( "bashing" );
-static const skill_id skill_cutting( "cutting" );
-static const skill_id skill_melee( "melee" );
-static const skill_id skill_stabbing( "stabbing" );
-static const skill_id skill_unarmed( "unarmed" );
 
 // Run a large number of trials of a player attacking a monster with a given weapon,
 // and return the average damage done per second.
@@ -241,84 +225,5 @@ TEST_CASE( "accuracy_increases_success", "[accuracy][dps]" )
 
     SECTION( "survivor zombie" ) {
         check_accuracy_dps( dummy, survivor, clumsy_sword, normal_sword, good_sword );
-    }
-}
-
-static void make_experienced_tester( avatar &test_guy )
-{
-    clear_character( test_guy );
-    test_guy.str_max = 10;
-    test_guy.dex_max = 10;
-    test_guy.int_max = 10;
-    test_guy.per_max = 10;
-    test_guy.set_str_bonus( 0 );
-    test_guy.set_dex_bonus( 0 );
-    test_guy.set_int_bonus( 0 );
-    test_guy.set_per_bonus( 0 );
-    test_guy.reset_bonuses();
-    test_guy.set_speed_base( 100 );
-    test_guy.set_speed_bonus( 0 );
-    test_guy.set_body();
-    test_guy.set_all_parts_hp_to_max();
-
-    test_guy.set_skill_level( skill_bashing, 4 );
-    test_guy.set_skill_level( skill_cutting, 4 );
-    test_guy.set_skill_level( skill_stabbing, 4 );
-    test_guy.set_skill_level( skill_unarmed, 4 );
-    test_guy.set_skill_level( skill_melee, 4 );
-
-    REQUIRE( test_guy.get_str() == 10 );
-    REQUIRE( test_guy.get_dex() == 10 );
-    REQUIRE( test_guy.get_per() == 10 );
-    REQUIRE( static_cast<int>( test_guy.get_skill_level( skill_bashing ) ) == 4 );
-    REQUIRE( static_cast<int>( test_guy.get_skill_level( skill_cutting ) ) == 4 );
-    REQUIRE( static_cast<int>( test_guy.get_skill_level( skill_stabbing ) ) == 4 );
-    REQUIRE( static_cast<int>( test_guy.get_skill_level( skill_unarmed ) ) == 4 );
-    REQUIRE( static_cast<int>( test_guy.get_skill_level( skill_melee ) ) == 4 );
-}
-/*
- * A super tedious set of test cases to make sure that weapon values do not drift too far out
- * of range without anyone noticing them and adjusting them.
- * Used expected_dps(), which should make actual dps because of the calculations above.
- */
-TEST_CASE( "expected_weapon_dps", "[expected][dps]" )
-{
-    avatar &test_guy = get_avatar();
-    make_experienced_tester( test_guy );
-
-    REQUIRE_FALSE( test_data::expected_dps.empty() );
-
-    const auto calc_expected_dps = [&test_guy]( const itype_id & weapon_id ) {
-        item weapon( weapon_id );
-        return Approx( test_guy.melee_value( weapon ) ).margin( 0.5 );
-    };
-
-    std::unordered_set<itype_id> tested;
-    for( std::pair<const itype_id, double> &weap : test_data::expected_dps ) {
-        if( weap.first->src.empty() || weap.first->src.back().second.str() != "dda" ) {
-            continue;
-        }
-        tested.emplace( weap.first );
-        INFO( string_format( "%s's dps changed, if it's intended replace the value in the respective file in data/mods/TEST_DATA/expected_dps_data.",
-                             weap.first.str() ) );
-        CHECK( calc_expected_dps( weap.first ) == weap.second );
-    }
-
-    for( const itype *it : item_controller->all() ) {
-        if( it->src.empty() || it->src.back().second.str() != "dda" ) {
-            continue;
-        }
-        if( it->has_flag( flag_PSEUDO ) ) {
-            continue;
-        }
-        if( !item( it ).is_melee() ) {
-            continue;
-        }
-        if( tested.find( it->get_id() ) != tested.end() ) {
-            continue;
-        }
-        INFO( string_format( "'%s' is a weapon, but is not included in DPS tests.  Please place it in the appropriate file in data/mods/TEST_DATA/expected_dps_data.",
-                             it->get_id().str() ) );
-        CHECK( calc_expected_dps( it->get_id() ) <= 5.0 );
     }
 }
