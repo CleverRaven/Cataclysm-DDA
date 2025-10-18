@@ -92,7 +92,8 @@
         "distribution": [ { "item": "flashlight", "charges": [ 0, 100 ] }, { "item": "heavy_flashlight", "charges": [ 0, 100 ] } ],
         "prob": 50
       },
-      { "item": "multitool", "prob": 30 }
+      { "item": "multitool", "prob": 30 },
+      { "group": "plastic_welding_tools", "prob": 20 }
     ]
   },
   {
