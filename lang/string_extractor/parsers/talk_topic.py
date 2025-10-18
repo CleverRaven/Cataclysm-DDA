@@ -83,9 +83,8 @@ def parse_dynamic_line(json, origin, comment=[]):
 
 
 def parse_response(json, origin):
-    if "text" in json:
-        write_text(json["text"], origin,
-                   comment="Response to NPC dialogue")
+    write_text(json.get("text"), origin,
+               comment="Response to NPC dialogue")
 
     if "truefalsetext" in json:
         write_text(json["truefalsetext"]["true"], origin,
@@ -93,9 +92,8 @@ def parse_response(json, origin):
         write_text(json["truefalsetext"]["false"], origin,
                    comment="Negative response to NPC dialogue")
 
-    if "failure_explanation" in json:
-        write_text(json["failure_explanation"], origin,
-                   comment="Failure explanation for NPC dialogue response")
+    write_text(json.get("failure_explanation"), origin,
+               comment="Failure explanation for NPC dialogue response")
 
     if "success" in json:
         parse_response(json["success"], origin)

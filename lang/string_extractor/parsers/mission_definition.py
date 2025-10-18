@@ -5,20 +5,17 @@ from .mapgen import parse_mapgen_object
 
 
 def parse_mission_definition(json, origin):
-    name = get_singular_name(json["name"])
-    write_text(json["name"], origin, comment="Mission name")
+    name = get_singular_name(json)
 
-    if "description" in json:
-        write_text(json["description"], origin,
-                   comment="Description of mission \"{}\"".format(name))
+    write_text(json["name"], origin, comment="Mission name")
+    write_text(json.get("description"), origin,
+               comment=f"Description of mission '{name}'")
 
     if "dialogue" in json:
         for key in ["describe", "offer", "accepted", "rejected", "advice",
                     "inquire", "success", "success_lie", "failure"]:
-            if key in json["dialogue"]:
-                write_text(json["dialogue"][key], origin,
-                           comment="Dialogue line in mission \"{}\"".
-                           format(name))
+            write_text(json["dialogue"].get(key), origin,
+                       comment=f"Dialogue line '{key}' in mission '{name}'")
 
     for key in ["start", "end", "fail"]:
         if key in json:
@@ -26,5 +23,4 @@ def parse_mission_definition(json, origin):
                 parse_effect(json[key]["effect"], origin)
             if "update_mapgen" in json[key]:
                 parse_mapgen_object(json[key]["update_mapgen"], origin,
-                                    om="update on {} of mission \"{}\""
-                                    .format(key, name))
+                                    om=f"update on {key} of mission '{name}'")
