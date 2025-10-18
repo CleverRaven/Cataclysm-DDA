@@ -1,0 +1,52 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_PRECOG_DANGER_SENSE_INITIATE",
+    "condition": { "not": { "u_has_effect": "effect_afs_precog_danger_sense" } },
+    "effect": [
+      { "u_message": "You become preternaturally aware of possible dangers.", "type": "good" },
+      { "run_eocs": "EOC_AFS_POWER_MAINTENANCE_PLUS_ONE" },
+      { "u_add_effect": "effect_afs_precog_danger_sense", "duration": "PERMANENT" },
+      {
+        "run_eocs": "EOC_AFS_PRECOG_DANGER_SENSE_MAINTENANCE",
+        "time_in_future": [
+          {
+            "math": [ "( (u_spell_level('afs_precog_danger_sense') * 303.00) + 1174.00) * (scaling_factor(u_val('intelligence') ) )" ]
+          },
+          {
+            "math": [ "( (u_spell_level('afs_precog_danger_sense') * 1002.00) + 2232.00) * (scaling_factor(u_val('intelligence') ) )" ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_AFS_PRECOG_REMOVE_DANGER_SENSE" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_PRECOG_REMOVE_DANGER_SENSE",
+    "condition": { "u_has_effect": "effect_afs_precog_danger_sense" },
+    "effect": [ { "run_eocs": "EOC_AFS_POWER_MAINTENANCE_MINUS_ONE" }, { "u_lose_effect": "effect_afs_precog_danger_sense" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_PRECOG_DANGER_SENSE_MAINTENANCE",
+    "condition": { "u_has_effect": "effect_afs_precog_danger_sense" },
+    "effect": [
+      { "math": [ "u_latest_channeled_power_difficulty = u_spell_difficulty('afs_precog_danger_sense')" ] },
+      { "run_eocs": "EOC_AFS_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
+      { "math": [ "u_spell_exp('afs_precog_danger_sense') += psionic_power_experience_formula_maintenance()" ] },
+      {
+        "run_eocs": "EOC_AFS_PRECOG_DANGER_SENSE_MAINTENANCE",
+        "time_in_future": [
+          {
+            "math": [ "( (u_spell_level('afs_precog_danger_sense') * 303.00) + 1174.00) * (scaling_factor(u_val('intelligence') ) )" ]
+          },
+          {
+            "math": [ "( (u_spell_level('afs_precog_danger_sense') * 1002.00) + 2232.00) * (scaling_factor(u_val('intelligence') ) )" ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [  ]
+  }
+]

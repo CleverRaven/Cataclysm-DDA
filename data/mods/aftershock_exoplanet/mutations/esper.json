@@ -64,6 +64,19 @@
   },
   {
     "type": "mutation",
+    "id": "AFS_PRECOG",
+    "name": "Precognition",
+    "points": 0,
+    "description": "The ability to see the future.",
+    "types": [ "ESPER" ],
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "player_display": false,
+    "spells_learned": [ [ "afs_classless_toggleable_concentration_end", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "AFS_TELEKINETIC",
     "name": "Telekinesis",
     "points": 0,

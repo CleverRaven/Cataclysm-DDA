@@ -8,6 +8,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "AFS_ELECTROKINETIC",
+    "magic_type": "aftershock_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "difficulty": 2,
