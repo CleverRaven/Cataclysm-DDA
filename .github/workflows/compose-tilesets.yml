@@ -4,7 +4,32 @@ on:
   workflow_call:
 
 jobs:
+  formatter:
+    name: Build json formatter
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout local repo
+        uses: actions/checkout@v4
+        with:
+          ref: master
+          sparse-checkout: |
+            src
+            tools
+          fetch-depth: 1
+
+      - name: Build json formatter
+        run: make tools/format/json_formatter.cgi
+
+      - name: Save formatter and compose into cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            tools/format
+            tools/gfx_tools
+          key: tools-${{ github.run_id }}
+
   builds:
+    needs: formatter
     strategy:
       fail-fast: false
       matrix:
@@ -90,21 +115,16 @@ jobs:
             tileset_repo: pixel-32/CDDA-tileset
             tileset_src_checkout: ""
 
-
     name: Compose tileset
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout local repo
-        uses: actions/checkout@v4
+      - name: Restore tools into workspace from cache
+        uses: actions/cache@v4
         with:
-          ref: master
-          sparse-checkout: |
-            src
-            tools
-          fetch-depth: 1
-
-      - name: Build json formatter
-        run: make tools/format/json_formatter.cgi
+          path: |
+            tools/format
+            tools/gfx_tools
+          key: tools-${{ github.run_id }}
 
       - name: Install dependencies
         uses: awalsh128/cache-apt-pkgs-action@v1
