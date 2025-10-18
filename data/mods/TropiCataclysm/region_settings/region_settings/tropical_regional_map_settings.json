@@ -1,74 +1,43 @@
 [
   {
+    "type": "region_settings",
+    "id": "default_tropicataclysm",
+    "copy-from": "default",
+    "rivers": "default_tropicataclysm",
+    "ocean": "default_tropicataclysm",
+    "forests": "default_tropicataclysm",
+    "forest_composition": "default_tropicataclysm",
+    "weather": "default_tropicataclysm"
+  },
+  {
     "type": "region_settings_river",
     "id": "default_tropicataclysm",
     "copy-from": "default",
-    "river_scale": 1.0,
-    "river_frequency": 1.2,
-    "river_branch_chance": 48.0,
-    "river_branch_remerge_chance": 2.0,
-    "river_branch_scale_decrease": 1.0
-  },
-  {
-    "type": "region_settings_lake",
-    "id": "default_tropicataclysm",
-    "copy-from": "default",
-    "noise_threshold_lake": 0.25,
-    "lake_size_min": 20,
-    "lake_depth": -5,
-    "shore_extendable_overmap_terrain": [ "forest", "forest_thick", "forest_water", "field" ],
-    "shore_extendable_overmap_terrain_aliases": [
-      { "om_terrain": "island_forest", "om_terrain_match_type": "TYPE", "alias": "forest" },
-      { "om_terrain": "island_forest_thick", "om_terrain_match_type": "TYPE", "alias": "forest_thick" },
-      { "om_terrain": "island_forest_water", "om_terrain_match_type": "TYPE", "alias": "forest_water" },
-      { "om_terrain": "island_field", "om_terrain_match_type": "TYPE", "alias": "field" }
-    ]
+    "river_scale": 1.65
   },
   {
     "type": "region_settings_ocean",
     "id": "default_tropicataclysm",
     "copy-from": "default",
-    "noise_threshold_ocean": 0.25,
-    "ocean_size_min": 100,
-    "ocean_depth": -9,
-    "ocean_start_north": 500,
-    "ocean_start_east": 10,
-    "ocean_start_west": 1000,
-    "ocean_start_south": 0,
-    "sandy_beach_width": 8
+    "ocean_start_north": 10,
+    "ocean_start_east": 100,
+    "ocean_start_west": 0,
+    "ocean_start_south": 0
   },
   {
     "type": "region_settings_forest",
     "id": "default_tropicataclysm",
     "copy-from": "default",
-    "noise_threshold_forest": 0.2,
-    "noise_threshold_forest_thick": 0.25,
-    "noise_threshold_swamp_adjacent_water": 0.3,
-    "noise_threshold_swamp_isolated": 0.6,
-    "river_floodplain_buffer_distance_min": 3,
-    "river_floodplain_buffer_distance_max": 15
-  },
-  {
-    "type": "region_settings_forest_trail",
-    "id": "default_tropicataclysm",
-    "copy-from": "default",
-    "chance": 2,
-    "border_point_chance": 2,
-    "minimum_forest_size": 100,
-    "random_point_min": 4,
-    "random_point_max": 50,
-    "random_point_size_scalar": 100,
-    "trailhead_chance": 1,
-    "trailhead_road_distance": 6,
-    "trailheads": [ [ "trailhead_basic", 1 ], [ "trailhead_outhouse", 1 ], [ "trailhead_shack", 1 ] ]
+    "noise_threshold_forest": 0.15,
+    "noise_threshold_forest_thick": 0.2
   },
   {
     "type": "weather_generator",
     "id": "default_tropicataclysm",
     "copy-from": "default",
     "base_temperature": 16.0,
-    "base_humidity": 80.0,
-    "base_pressure": 1025.0,
+    "base_humidity": 83.5,
+    "base_pressure": 1010.0,
     "base_wind": 6.0,
     "base_wind_distrib_peaks": 30,
     "base_wind_season_variation": 64,
@@ -98,44 +67,14 @@
   },
   {
     "type": "region_terrain_furniture",
-    "id": "default_t_region_groundcover_urban",
-    "ter_id": "t_region_groundcover_urban",
-    "replace_with_terrain": [ [ "t_grass", 20 ], [ "t_grass_dead", 3 ] ]
-  },
-  {
-    "type": "region_terrain_furniture",
     "id": "default_t_region_groundcover_forest",
     "ter_id": "t_region_groundcover_forest",
-    "replace_with_terrain": [ [ "t_grass_long", 5 ], [ "t_grass_tall", 1 ], [ "t_moss", 1 ], [ "t_grass_dead", 3 ] ]
+    "replace_with_terrain": [ [ "t_forestfloor", 93 ], [ "t_grass", 1 ], [ "t_moss", 5 ], [ "t_grass_dead", 1 ] ]
   },
   {
     "type": "region_terrain_furniture",
-    "id": "default_t_region_groundcover_swamp",
-    "ter_id": "t_region_groundcover_swamp",
-    "replace_with_terrain": [ [ "t_grass_long", 30 ], [ "t_grass_tall", 10 ], [ "t_moss", 20 ], [ "t_dirt", 20 ] ]
-  },
-  {
-    "type": "region_terrain_furniture",
-    "id": "default_t_region_groundcover_barren",
-    "ter_id": "t_region_groundcover_barren",
-    "replace_with_terrain": [ [ "t_dirt", 30 ], [ "t_grass_dead", 2 ], [ "t_railroad_rubble", 1 ] ]
-  },
-  {
-    "type": "region_terrain_furniture",
-    "id": "default_t_region_grass",
-    "ter_id": "t_region_grass",
-    "replace_with_terrain": [ [ "t_grass", 1 ] ]
-  },
-  {
-    "type": "region_terrain_furniture",
-    "id": "default_t_region_soil",
-    "ter_id": "t_region_soil",
-    "replace_with_terrain": [ [ "t_dirt", 1 ] ]
-  },
-  {
-    "type": "region_terrain_furniture",
-    "id": "default_t_region_shrub",
-    "ter_id": "t_region_shrub",
+    "id": "default_t_region_shrub_forest",
+    "ter_id": "t_region_shrub_forest",
     "replace_with_terrain": [
       [ "t_underbrush", 30 ],
       [ "t_shrub", 10 ],
@@ -152,12 +91,6 @@
       [ "t_cholla_cactus", 1 ],
       [ "t_nopal_cactus", 1 ]
     ]
-  },
-  {
-    "type": "region_terrain_furniture",
-    "id": "default_t_region_shrub_plains",
-    "ter_id": "t_region_shrub_plains",
-    "replace_with_terrain": [ [ "t_region_shrub", 1 ] ]
   },
   {
     "type": "region_terrain_furniture",
@@ -237,12 +170,6 @@
       [ "t_tree_mulberry", 10 ],
       [ "t_tree_juniper", 5 ]
     ]
-  },
-  {
-    "type": "region_terrain_furniture",
-    "id": "default_t_region_tree_forest",
-    "ter_id": "t_region_tree_forest",
-    "replace_with_terrain": [ [ "t_region_tree_forest_dense", 2 ], [ "t_region_tree_forest_other", 1 ] ]
   },
   {
     "type": "region_terrain_furniture",
@@ -372,45 +299,6 @@
   },
   {
     "type": "region_terrain_furniture",
-    "id": "default_t_region_tree_evergreen",
-    "ter_id": "t_region_tree_evergreen",
-    "replace_with_terrain": [ [ "t_tree_pine", 32 ], [ "t_tree_juniper", 16 ], [ "t_tree_deadpine", 2 ] ]
-  },
-  {
-    "type": "region_terrain_furniture",
-    "id": "default_f_region_flower",
-    "furn_id": "f_region_flower",
-    "replace_with_furniture": [
-      [ "f_black_eyed_susan", 100 ],
-      [ "f_lily", 100 ],
-      [ "f_flower_tulip", 100 ],
-      [ "f_flower_spurge", 100 ],
-      [ "f_chamomile", 100 ],
-      [ "f_dandelion", 100 ],
-      [ "f_dahlia", 100 ],
-      [ "f_bluebell", 100 ],
-      [ "f_sunflower", 100 ]
-    ]
-  },
-  {
-    "type": "region_terrain_furniture",
-    "id": "default_f_region_flower_decorative",
-    "furn_id": "f_region_flower_decorative",
-    "replace_with_furniture": [
-      [ "f_lily", 4 ],
-      [ "f_flower_tulip", 4 ],
-      [ "f_black_eyed_susan", 3 ],
-      [ "f_bluebell", 2 ],
-      [ "f_maianthemum_stellatum", 2 ],
-      [ "f_flower_spurge", 1 ],
-      [ "f_dahlia", 1 ],
-      [ "f_salsify", 1 ],
-      [ "f_chicory", 1 ],
-      [ "f_sunflower", 1 ]
-    ]
-  },
-  {
-    "type": "region_terrain_furniture",
     "id": "default_f_region_weed",
     "furn_id": "f_region_weed",
     "replace_with_furniture": [
@@ -496,155 +384,21 @@
     "replace_with_furniture": [ [ "f_cattails", 15 ], [ "f_lilypad", 1 ], [ "f_lotus", 5 ] ]
   },
   {
-    "type": "region_terrain_furniture",
-    "id": "default_f_region_lake_bed",
-    "furn_id": "f_region_lake_bed",
-    "replace_with_furniture": [ [ "f_boulder_small", 8 ], [ "f_boulder_medium", 4 ], [ "f_boulder_large", 2 ] ]
-  },
-  {
-    "type": "region_terrain_furniture",
-    "id": "default_f_region_ocean_bed",
-    "furn_id": "f_region_ocean_bed",
-    "replace_with_furniture": [
-      [ "f_algae_red", 4 ],
-      [ "f_algae_green", 3 ],
-      [ "f_kelp_sugar", 1 ],
-      [ "f_boulder_small", 8 ],
-      [ "f_boulder_medium", 4 ],
-      [ "f_boulder_large", 2 ],
-      [ "f_sea_anemone", 1 ],
-      [ "f_sea_sponge", 1 ]
-    ]
-  },
-  {
-    "type": "region_settings_terrain_furniture",
-    "id": "default_tropicataclysm",
-    "copy-from": "default",
-    "ter_furn": [
-      "default_t_region_groundcover",
-      "default_t_region_groundcover_urban",
-      "default_t_region_groundcover_forest",
-      "default_t_region_groundcover_swamp",
-      "default_t_region_groundcover_barren",
-      "default_t_region_grass",
-      "default_t_region_soil",
-      "default_t_region_shrub",
-      "default_t_region_shrub_plains",
-      "default_t_region_shrub_fruit",
-      "default_t_region_shrub_decorative",
-      "default_t_region_tree_forest_dense",
-      "default_t_region_tree_forest_other",
-      "default_t_region_tree_forest",
-      "default_t_region_tree",
-      "default_t_region_tree_shade",
-      "default_t_region_tree_fruit",
-      "default_t_region_tree_nut",
-      "default_t_region_tree_evergreen",
-      "default_f_region_flower",
-      "default_f_region_flower_decorative",
-      "default_f_region_weed",
-      "default_f_region_plain",
-      "default_f_region_forest",
-      "default_f_region_forest_dense",
-      "default_f_region_forest_water",
-      "default_f_region_water_plant",
-      "default_f_region_lake_bed",
-      "default_f_region_ocean_bed"
-    ]
-  },
-  {
     "type": "forest_biome_mapgen",
     "id": "biome_forest_tropicataclysm",
     "copy-from": "biome_forest_default",
-    "terrains": [ "forest", "special_forest" ],
-    "sparseness_adjacency_factor": 3,
-    "item_group": "forest",
-    "item_group_chance": 60,
-    "item_spawn_iterations": 1,
-    "groundcover": { "t_region_groundcover_forest": 1 },
-    "components": [
-      "trees_forest_tropicataclysm",
-      "shrubs_and_flowers_forest_tropicataclysm",
-      "clutter_forest_tropicataclysm",
-      "water_forest_tropicataclysm"
-    ],
-    "terrain_furniture": {  }
-  },
-  {
-    "type": "forest_biome_component",
-    "id": "trees_forest_tropicataclysm",
-    "copy-from": "trees_forest",
-    "types": [ [ "t_region_tree_forest", 128 ], [ "t_tree_young", 32 ] ]
-  },
-  {
-    "type": "forest_biome_component",
-    "id": "shrubs_and_flowers_forest_tropicataclysm",
-    "copy-from": "shrubs_and_flowers_forest",
-    "types": [ [ "t_region_shrub", 120 ], [ "f_region_forest", 10 ] ]
-  },
-  {
-    "type": "forest_biome_component",
-    "id": "clutter_forest_tropicataclysm",
-    "copy-from": "clutter_forest",
-    "types": [
-      [ "t_trunk", 128 ],
-      [ "t_dirtmound", 128 ],
-      [ "f_boulder_small", 128 ],
-      [ "f_rubble_rock", 32 ],
-      [ "f_boulder_medium", 8 ],
-      [ "f_boulder_large", 1 ],
-      [ "t_pit", 1 ],
-      [ "t_pit_shallow", 1 ]
-    ]
-  },
-  {
-    "type": "forest_biome_component",
-    "id": "water_forest_tropicataclysm",
-    "copy-from": "water_forest",
-    "types": [ [ "t_puddle", 1 ] ]
+    "terrains": [ "forest", "special_forest" ]
   },
   {
     "type": "forest_biome_mapgen",
     "id": "biome_forest_thick_tropicataclysm",
     "copy-from": "biome_forest_thick_default",
-    "terrains": [
-      "bandit_cabin",
-      "bandit_garage_1",
-      "bandit_garage_2",
-      "campsite",
-      "campsite_a",
-      "campsite_cabin_incomplete",
-      "campsite_field_biker",
-      "campsite_field_biker_destroyed",
-      "cave",
-      "central_lab_entrance",
-      "derelict_property",
-      "desolatebarn",
-      "forest_thick",
-      "forest_trail",
-      "forest_trail_intersection",
-      "homelesscamp",
-      "moonshine_still",
-      "moonshine_still_1",
-      "moonshine_still_2",
-      "natural_spring",
-      "special_forest_thick",
-      "spider_pit",
-      "standing_stones",
-      "ws_survivor_bunker_f0"
-    ],
-    "sparseness_adjacency_factor": 4,
-    "item_group": "forest",
-    "item_group_chance": 60,
-    "item_spawn_iterations": 1,
-    "groundcover": { "t_region_groundcover_forest": 1 },
     "components": [
       "trees_forest_thick_tropicataclysm",
       "shrubs_and_flowers_forest_thick_tropicataclysm",
-      "clutter_forest_thick_tropicataclysm",
-      "water_forest_thick_tropicataclysm"
-    ],
-    "terrain_furniture": {  }
+      "clutter_forest_thick",
+      "water_forest_thick"
+    ]
   },
   {
     "type": "forest_biome_component",
@@ -666,46 +420,18 @@
     "type": "forest_biome_component",
     "id": "shrubs_and_flowers_forest_thick_tropicataclysm",
     "copy-from": "shrubs_and_flowers_forest_thick",
-    "types": [ [ "t_region_shrub", 130 ], [ "f_region_forest_dense", 10 ] ]
-  },
-  {
-    "type": "forest_biome_component",
-    "id": "clutter_forest_thick_tropicataclysm",
-    "copy-from": "clutter_forest_thick",
-    "types": [
-      [ "t_trunk", 64 ],
-      [ "t_dirtmound", 64 ],
-      [ "f_boulder_small", 32 ],
-      [ "f_rubble_rock", 32 ],
-      [ "f_boulder_medium", 16 ],
-      [ "f_boulder_large", 4 ],
-      [ "t_pit", 1 ],
-      [ "t_pit_shallow", 1 ]
-    ]
-  },
-  {
-    "type": "forest_biome_component",
-    "id": "water_forest_thick_tropicataclysm",
-    "copy-from": "water_forest_thick",
-    "types": [ [ "t_puddle", 1 ] ]
+    "types": [ [ "t_region_shrub_forest", 130 ], [ "f_region_forest_dense", 10 ] ]
   },
   {
     "type": "forest_biome_mapgen",
     "id": "biome_forest_water_tropicataclysm",
     "copy-from": "biome_forest_water_default",
-    "terrains": [ "forest_water", "hunter_shack", "hunter_shack_1", "shipwreck_river_1", "shipwreck_river_2" ],
-    "sparseness_adjacency_factor": 2,
-    "item_group": "forest",
-    "item_group_chance": 60,
-    "item_spawn_iterations": 1,
-    "groundcover": { "t_region_groundcover_swamp": 1 },
     "components": [
       "trees_forest_water_tropicataclysm",
       "shrubs_and_flowers_forest_water_tropicataclysm",
-      "clutter_forest_water_tropicataclysm",
-      "water_forest_water_tropicataclysm"
-    ],
-    "terrain_furniture": { "t_water_murky": { "chance": 2, "furniture": { "f_region_water_plant": 1 } } }
+      "clutter_forest_water",
+      "water_forest_water"
+    ]
   },
   {
     "type": "forest_biome_component",
@@ -750,64 +476,12 @@
     "type": "forest_biome_component",
     "id": "shrubs_and_flowers_forest_water_tropicataclysm",
     "copy-from": "shrubs_and_flowers_forest_water",
-    "types": [ [ "t_region_shrub", 80 ], [ "f_region_forest_water", 30 ] ]
-  },
-  {
-    "type": "forest_biome_component",
-    "id": "clutter_forest_water_tropicataclysm",
-    "copy-from": "clutter_forest_water",
-    "types": [ [ "t_trunk", 1 ], [ "f_boulder_small", 2 ], [ "f_boulder_medium", 1 ] ]
-  },
-  {
-    "type": "forest_biome_component",
-    "id": "water_forest_water_tropicataclysm",
-    "copy-from": "water_forest_water",
-    "types": [ [ "t_water_sh", 6 ], [ "t_water_dp", 1 ], [ "t_water_murky", 12 ] ]
+    "types": [ [ "t_region_shrub_forest", 80 ], [ "f_region_forest_water", 30 ] ]
   },
   {
     "type": "region_settings_forest_mapgen",
     "id": "default_tropicataclysm",
     "copy-from": "default",
     "biomes": [ "biome_forest_tropicataclysm", "biome_forest_thick_tropicataclysm", "biome_forest_water_tropicataclysm" ]
-  },
-  {
-    "type": "region_settings",
-    "id": "default_tropicataclysm",
-    "copy-from": "default",
-    "rivers": "default_tropicataclysm",
-    "lakes": "default_tropicataclysm",
-    "ocean": "default_tropicataclysm",
-    "forests": "default_tropicataclysm",
-    "ravines": "default",
-    "forest_trails": "default_tropicataclysm",
-    "forest_composition": "default_tropicataclysm",
-    "terrain_furniture": "default_tropicataclysm",
-    "highways": null,
-    "weather": "default_tropicataclysm",
-    "default_oter": [
-      "open_air",
-      "open_air",
-      "open_air",
-      "open_air",
-      "open_air",
-      "open_air",
-      "open_air",
-      "open_air",
-      "open_air",
-      "open_air",
-      "field",
-      "solid_earth",
-      "empty_rock",
-      "empty_rock",
-      "deep_rock",
-      "deep_rock",
-      "deep_rock",
-      "deep_rock",
-      "deep_rock",
-      "deep_rock",
-      "deep_rock"
-    ],
-    "default_groundcover": [ [ "t_region_groundcover", 1 ] ],
-    "feature_flag_settings": { "blacklist": [  ], "whitelist": [  ] }
   }
 ]
