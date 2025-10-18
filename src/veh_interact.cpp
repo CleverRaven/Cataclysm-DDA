@@ -2043,7 +2043,8 @@ void veh_interact::do_rename()
 {
     std::string name = string_input_popup()
                        .title( _( "Enter new vehicle name:" ) )
-                       .width( 20 )
+                       .width( 60 )
+                       .text( veh->name )
                        .query_string();
     if( !name.empty() ) {
         veh->name = name;
@@ -2793,6 +2794,7 @@ void veh_interact::display_details( const vpart_info *part )
     int line = 0;
     bool small_mode = column_width < 20;
 
+    // TODO: show mod part comes from
     // line 0: part name
     fold_and_print( w_details, point( col_1, line ), details_w, c_light_green, part->name() );
 
