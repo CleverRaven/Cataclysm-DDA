@@ -772,6 +772,11 @@ bool vehicle::autodrive_controller::check_drivable( map &here, const tripoint_bu
         return false;
     }
 
+    // don't drive over junk which could damage our wheels, the player must always manually do that.
+    if( here.has_items( pt ) ) {
+        return false;
+    }
+
     // check for furniture that hinders movement; furniture with 0 move cost
     // can be driven on
     const furn_id &furniture = here.furn( pt );

@@ -35,6 +35,7 @@
 #include "options.h"
 #include "rng.h"
 #include "sounds.h"
+#include "string_formatter.h"
 #include "translations.h"
 #include "trap.h"
 #include "units.h"
@@ -1228,6 +1229,80 @@ veh_collision vehicle::part_collision( map &here, int part, const tripoint_abs_m
     }
 
     ret.imp = part_dmg;
+    return ret;
+}
+
+// simple boilerplate extracted to a static to re-use
+static double item_hardness_calc( const item &it )
+{
+    const std::map<material_id, int> &mats = it.made_of();
+    if( mats.empty() ) {
+        return 0.0; // weird item, no defined materials. Just skip it.
+    }
+    double item_hardness = 0;
+    for( const std::pair<const material_id, int> &mat_pair : mats ) {
+        const double material_percent = mat_pair.second / 100.0;
+        item_hardness += mat_pair.first->chip_resist() * material_percent;
+    }
+    return item_hardness;
+}
+
+double vehicle::wheel_damage_chance_vs_item( const item &it, vehicle_part &vp_wheel ) const
+{
+    // damage is calculated based on the size of roadkill relative to the wheel's volume and hardness of the roadkill
+    // so e.g. a single nail is not likely to damage a huge tire by itself, but a whole road full of them almost certainly will.
+    // While a road full of feathers just gets flattened, because they're the softest thing possible! Even if there's a lot of them!
+    const units::quantity<double, units::volume_in_milliliter_tag> wheel_volume_dbl =
+        vp_wheel.get_base().volume();
+    const double wheel_hardness = item_hardness_calc( vp_wheel.get_base() );
+    double item_hardness = item_hardness_calc( it );
+    // It is exponentially more difficult for soft items to damage wheels, even if you're hitting a lot of them.
+    // This is capped at 1.0 (100% chance) before accounting for volume.
+    const double hardness_scalar = std::min( std::sqrt( item_hardness / wheel_hardness ), 1.0 );
+    // volume_comparison is also capped at 1.0(100% chance) at most - being bigger than the wheel doesn't increase your chance to damage it.
+    // But there's a linear chance increase as the roadkill's volume approaches the wheel's volume.
+    const units::quantity<double, units::volume_in_milliliter_tag> itm_volume_dbl = it.volume();
+    const double volume_comparison = std::min( itm_volume_dbl, wheel_volume_dbl ) / wheel_volume_dbl;
+    const double chance_to_damage = hardness_scalar * volume_comparison;
+    add_msg_debug( debugmode::DF_VEHICLE_MOVE,
+                   "Vehicle %s running over item %s."
+                   "\n Chance to damage: %f%%."
+                   "\n Multiplicative factors:"
+                   "\n Hardness: %s%%"
+                   "\n Volume: %s%%",
+                   disp_name(), it.tname(), chance_to_damage * 100.0, hardness_scalar * 100.0,
+                   volume_comparison * 100.0 );
+    return chance_to_damage;
+}
+
+std::vector<std::string> vehicle::handle_item_roadkill( map *here, const tripoint_bub_ms &p,
+        vehicle_part &vp_wheel )
+{
+    std::vector<std::string> ret;
+    const map_stack roadkill = here->i_at( p );
+
+    int damage_to_deal = 0;
+
+    // bullshit to work around vehicle::damage_direct() --> vehicle::mod_hp() doing incorrect(??) calculations.
+    // Each damage instance should be worth exactly one 'level' of vehicle part damage.
+    const int one_damage_level = vp_wheel.info().durability *
+                                 ( static_cast<double>( itype::damage_scale ) / vp_wheel.max_damage() );
+
+
+    for( const item &it : roadkill ) {
+        const double chance_to_damage = wheel_damage_chance_vs_item( it, vp_wheel );
+        if( chance_to_damage >= rng_float( 0.0, 1.0 ) ) {
+            damage_to_deal += one_damage_level; // One 'level' worth of damage per successful damage roll
+            //~%1$s vehicle name, %1$s vehicle part name, %3$s name of item being run over
+            ret.emplace_back( string_format( _( "The %1$s's %2$s is damaged by running over %3$s!" ),
+                                             disp_name(), vp_wheel.info().name(), it.tname() ) );
+        }
+
+    }
+
+    // We only damage the part once, to avoid having to check for/replace/abort early if the vehicle part is destroyed by damage. Makes things much simpler and safer.
+    damage_direct( *here, vp_wheel, damage_to_deal );
+
     return ret;
 }
 

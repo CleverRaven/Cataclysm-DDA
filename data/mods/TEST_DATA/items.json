@@ -5440,6 +5440,22 @@
     "ranged_damage": { "damage_type": "cut", "amount": 5 }
   },
   {
+    "type": "ITEM",
+    "id": "corpse_fake_TEST",
+    "symbol": "%",
+    "color": "white",
+    "name": { "str": "corpse fake TEST" },
+    "description": "Visualize it as your annoying neighbor, if that helps you feel better.",
+    "//COMMENT": "Roughly human sized.",
+    "volume": "75 L",
+    "flags": [ "TRADER_AVOID", "CORPSE", "TARDIS" ],
+    "category": "corpses",
+    "copy-from": "corpse",
+    "looks_like": "corpse_generic_human",
+    "source_monster": "mon_child",
+    "material": [ "hflesh" ]
+  },
+  {
     "id": "carver_off_test",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
