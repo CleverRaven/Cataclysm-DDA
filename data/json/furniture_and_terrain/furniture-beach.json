@@ -9,6 +9,13 @@
     "color": "green",
     "move_cost_mod": 0,
     "required_str": -1,
+    "bash": {
+      "str_min": 0,
+      "str_max": 2,
+      "sound": "crunch.",
+      "sound_fail": "whish.",
+      "items": [ { "item": "seaweed", "count": [ 2, 10 ] } ]
+    },
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC" ]
   },
   {
