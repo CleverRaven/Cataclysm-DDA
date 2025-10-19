@@ -227,6 +227,7 @@
     "price": "100 USD",
     "price_postapoc": "5 USD",
     "material": [ "lc_steel" ],
+    "flags": [ "DAMAGE_VEHICLE_WHEELS" ],
     "symbol": "#",
     "color": "light_gray"
   },

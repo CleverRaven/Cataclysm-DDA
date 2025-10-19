@@ -55,6 +55,7 @@ static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_stunned( "stunned" );
 
 static const flag_id json_flag_CANNOT_TAKE_DAMAGE( "CANNOT_TAKE_DAMAGE" );
+static const flag_id json_flag_DAMAGE_VEHICLE_WHEELS( "DAMAGE_VEHICLE_WHEELS" );
 
 static const itype_id fuel_type_animal( "animal" );
 static const itype_id fuel_type_battery( "battery" );
@@ -1232,46 +1233,52 @@ veh_collision vehicle::part_collision( map &here, int part, const tripoint_abs_m
     return ret;
 }
 
-// simple boilerplate extracted to a static to re-use
-static double item_hardness_calc( const item &it )
+// Simple boilerplate extracted to a static to re-use.
+static std::pair<double, double> item_hardness_calc( const item &it )
 {
+    // To prevent DBZ. A material's chip resist could well be 0!
+    const double min_value_clamp = 0.001;
+    const double max_value_clamp = 1000.0;
+    // These are intentionally "reversed".
+    double min_hardness = max_value_clamp;
+    double max_hardness = min_value_clamp;
     const std::map<material_id, int> &mats = it.made_of();
     if( mats.empty() ) {
-        return 0.0; // weird item, no defined materials. Just skip it.
+        // weird item, no defined materials. Just skip it.
+        return std::make_pair( min_value_clamp, max_value_clamp );
     }
-    double item_hardness = 0;
     for( const std::pair<const material_id, int> &mat_pair : mats ) {
-        const double material_percent = mat_pair.second / 100.0;
-        item_hardness += mat_pair.first->chip_resist() * material_percent;
+        const double chip_resist = mat_pair.first->chip_resist();
+        min_hardness = std::min( min_hardness, chip_resist );
+        max_hardness = std::max( max_hardness, chip_resist );
     }
-    return item_hardness;
+    min_hardness = std::clamp( min_hardness, min_value_clamp, max_value_clamp );
+    max_hardness = std::clamp( max_hardness, min_value_clamp, max_value_clamp );
+    return std::make_pair( min_hardness, max_hardness );
 }
 
 double vehicle::wheel_damage_chance_vs_item( const item &it, vehicle_part &vp_wheel ) const
 {
-    // damage is calculated based on the size of roadkill relative to the wheel's volume and hardness of the roadkill
-    // so e.g. a single nail is not likely to damage a huge tire by itself, but a whole road full of them almost certainly will.
-    // While a road full of feathers just gets flattened, because they're the softest thing possible! Even if there's a lot of them!
-    const units::quantity<double, units::volume_in_milliliter_tag> wheel_volume_dbl =
-        vp_wheel.get_base().volume();
-    const double wheel_hardness = item_hardness_calc( vp_wheel.get_base() );
-    double item_hardness = item_hardness_calc( it );
+    if( !it.has_flag( json_flag_DAMAGE_VEHICLE_WHEELS ) ) {
+        return 0.0;
+    }
+    // Wheels use the worst/softest possible value, the squishy parts. In other words, a wheel is damaged
+    // if its rubber tire is punctured.
+    double wheel_hardness = item_hardness_calc( vp_wheel.get_base() ).first;
+    if( vp_wheel.info().has_flag( "RESIST_RUNOVER_DAMAGE" ) ) {
+        // Wheels with the flag have double effective hardness due to their design, etc.
+        wheel_hardness = wheel_hardness * 2.0;
+    }
+    // Items attempting to do damage use the best/hardest possible value, the pointy bits.
+    double item_hardness = item_hardness_calc( it ).second;
     // It is exponentially more difficult for soft items to damage wheels, even if you're hitting a lot of them.
-    // This is capped at 1.0 (100% chance) before accounting for volume.
-    const double hardness_scalar = std::min( std::sqrt( item_hardness / wheel_hardness ), 1.0 );
-    // volume_comparison is also capped at 1.0(100% chance) at most - being bigger than the wheel doesn't increase your chance to damage it.
-    // But there's a linear chance increase as the roadkill's volume approaches the wheel's volume.
-    const units::quantity<double, units::volume_in_milliliter_tag> itm_volume_dbl = it.volume();
-    const double volume_comparison = std::min( itm_volume_dbl, wheel_volume_dbl ) / wheel_volume_dbl;
-    const double chance_to_damage = hardness_scalar * volume_comparison;
+    const double chance_to_damage = std::min( std::pow( item_hardness / wheel_hardness, 2.0 ), 1.0 );
     add_msg_debug( debugmode::DF_VEHICLE_MOVE,
                    "Vehicle %s running over item %s."
                    "\n Chance to damage: %f%%."
-                   "\n Multiplicative factors:"
-                   "\n Hardness: %s%%"
-                   "\n Volume: %s%%",
-                   disp_name(), it.tname(), chance_to_damage * 100.0, hardness_scalar * 100.0,
-                   volume_comparison * 100.0 );
+                   "\n Item hardness: %f"
+                   "\n Wheel hardness: %f",
+                   disp_name(), it.tname(), chance_to_damage * 100.0, item_hardness, wheel_hardness );
     return chance_to_damage;
 }
 
@@ -1291,7 +1298,7 @@ std::vector<std::string> vehicle::handle_item_roadkill( map *here, const tripoin
 
     for( const item &it : roadkill ) {
         const double chance_to_damage = wheel_damage_chance_vs_item( it, vp_wheel );
-        if( chance_to_damage >= rng_float( 0.0, 1.0 ) ) {
+        if( chance_to_damage > 0.0 && chance_to_damage >= rng_float( 0.0, 1.0 ) ) {
             damage_to_deal += one_damage_level; // One 'level' worth of damage per successful damage roll
             //~%1$s vehicle name, %1$s vehicle part name, %3$s name of item being run over
             ret.emplace_back( string_format( _( "The %1$s's %2$s is damaged by running over %3$s!" ),

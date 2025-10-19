@@ -42,6 +42,7 @@ static const efftype_id effect_grabbed( "grabbed" );
 
 static const itype_id itype_bodypillow( "bodypillow" );
 static const itype_id itype_corpse_fake_TEST( "corpse_fake_TEST" );
+static const itype_id itype_corpse_fake_TEST_NODMG( "corpse_fake_TEST_NODMG" );
 static const itype_id itype_debug_backpack( "debug_backpack" );
 static const itype_id itype_exodii_ingot_lc_steel( "exodii_ingot_lc_steel" );
 static const itype_id itype_folded_bicycle( "folded_bicycle" );
@@ -902,6 +903,25 @@ static vehicle_part *setup_squish_test_return_wheel( map &here, const tripoint_b
     return vp_wheel;
 }
 
+static void run_squish_test( const std::map<itype_id, double> &to_squish,
+                             const tripoint_bub_ms &test_point, map &here,
+                             vehicle *veh_ptr, vehicle_part *vp_wheel )
+{
+    // 0.2% difference from expectations allowed to account for loating point precision. Exceedingly generous.
+    const double allowed_variance = 0.002;
+    for( const auto &test_data : to_squish ) {
+        const double expected_chance = test_data.second;
+        here.i_clear( test_point );
+        const item &test_item = here.add_item_or_charges( test_point, item( test_data.first ) );
+        REQUIRE( here.i_at( test_point ).size() == 1 );
+        const double damage_chance = veh_ptr->wheel_damage_chance_vs_item( test_item, *vp_wheel );
+        CAPTURE( test_item.typeId().c_str() );
+        CAPTURE( expected_chance );
+        CAPTURE( damage_chance );
+        CHECK( damage_chance == Approx( expected_chance ).epsilon( allowed_variance ) );
+    }
+}
+
 TEST_CASE( "vehicle_wheels_damaged_by_running_over_items", "[vehicle]" )
 {
     clear_map();
@@ -915,42 +935,22 @@ TEST_CASE( "vehicle_wheels_damaged_by_running_over_items", "[vehicle]" )
                                              test_point, 0_degrees, 100, 0, false );
         vehicle_part *vp_wheel = setup_squish_test_return_wheel( here, test_point, veh_ptr );
 
-        // Dangerous scenario: A chunk of steel on the road. You wouldn't want to run this over.
-        const item &test1_steel_chunk = here.add_item_or_charges( test_point,
-                                        item( itype_qt_steel_chunk ) );
+        const std::map<itype_id, double> test_items = {
+            // Dangerous scenario: A chunk of steel on the road. You wouldn't want to run this over.
+            {itype_qt_steel_chunk, 1.0},
+            // Unlikely scenario: An abandoned body pillow. (Do you know how expensive these things are?! Who would do this???)
+            {itype_bodypillow, 0.5625},
+            // Player scenario: Running over people in your car
+            {itype_corpse_fake_TEST, 0.0625},
+            // Final Destination: This thing is guaranteed to ruin your day if you run it over.
+            {itype_exodii_ingot_lc_steel, 1.0},
+            // Finally, something big that should be very squishable and not much of a threat to a normal wheel.
+            {itype_watermelon, 0.015625},
+            // And to be sure: An item without the flag allowing it to damage wheels.
+            {itype_corpse_fake_TEST_NODMG, 0.0}
+        };
 
-        // Unlikely scenario: An abandoned body pillow. (Do you know how expensive these things are?! Who would do this???)
-        const item &test2_big_and_soft = here.add_item_or_charges( test_point, item( itype_bodypillow ) );
-
-        // Player scenario: Running over people in your car
-        const item &test3_fake_human_corpse = here.add_item_or_charges( test_point,
-                                              item( itype_corpse_fake_TEST ) );
-
-        // Final Destination: This thing is nearly guaranteed to ruin your day if you run it over.
-        const item &test4_DOOM = here.add_item_or_charges( test_point,
-                                 item( itype_exodii_ingot_lc_steel ) );
-
-        // Finally, something big that should be very squishable and not much of a threat to a normal wheel.
-        const item &test5_squishy = here.add_item_or_charges( test_point, item( itype_watermelon ) );
-
-        // 5 items to test, there better be 5 there!
-        REQUIRE( here.i_at( test_point ).size() == 5 );
-
-        // ~0.572% chance. Yes, ~5 in 1000 or ~1 in 200.
-        CHECK( veh_ptr->wheel_damage_chance_vs_item( test1_steel_chunk, *vp_wheel ) ==
-               Approx( 0.00572 ).epsilon( 0.002 ) );
-        // ~57.735% chance.
-        CHECK( veh_ptr->wheel_damage_chance_vs_item( test2_big_and_soft, *vp_wheel ) ==
-               Approx( 0.57735 ).epsilon( 0.002 ) );
-        // ~33.333% chance.
-        CHECK( veh_ptr->wheel_damage_chance_vs_item( test3_fake_human_corpse, *vp_wheel ) ==
-               Approx( 0.33333 ).epsilon( 0.002 ) );
-        // ~97.182% chance.
-        CHECK( veh_ptr->wheel_damage_chance_vs_item( test4_DOOM, *vp_wheel ) ==
-               Approx( 0.97182 ).epsilon( 0.002 ) );
-        // ~15.320% chance.
-        CHECK( veh_ptr->wheel_damage_chance_vs_item( test5_squishy, *vp_wheel ) ==
-               Approx( 0.15320 ).epsilon( 0.002 ) );
+        run_squish_test( test_items, test_point, here, veh_ptr, vp_wheel );
     }
 
     SECTION( "Normal wheel vs variety of test items" ) {
@@ -958,31 +958,16 @@ TEST_CASE( "vehicle_wheels_damaged_by_running_over_items", "[vehicle]" )
                                              test_point, 0_degrees, 100, 0, false );
         vehicle_part *vp_wheel = setup_squish_test_return_wheel( here, test_point, veh_ptr );
 
-        const item &test1_steel_chunk = here.add_item_or_charges( test_point,
-                                        item( itype_qt_steel_chunk ) );
-        const item &test2_big_and_soft = here.add_item_or_charges( test_point, item( itype_bodypillow ) );
-        const item &test3_fake_human_corpse = here.add_item_or_charges( test_point,
-                                              item( itype_corpse_fake_TEST ) );
-        const item &test4_DOOM = here.add_item_or_charges( test_point,
-                                 item( itype_exodii_ingot_lc_steel ) );
-        const item &test5_squishy = here.add_item_or_charges( test_point, item( itype_watermelon ) );
-        REQUIRE( here.i_at( test_point ).size() == 5 );
+        const std::map<itype_id, double> test_items = {
+            {itype_qt_steel_chunk, 1.0},
+            {itype_bodypillow, 0.5625},
+            {itype_corpse_fake_TEST, 0.0625},
+            {itype_exodii_ingot_lc_steel, 1.0},
+            {itype_watermelon, 0.015625},
+            {itype_corpse_fake_TEST_NODMG, 0.0}
+        };
 
-        // ~0.197% chance. Yes, ~2 in 1000 or ~1 in 500.
-        CHECK( veh_ptr->wheel_damage_chance_vs_item( test1_steel_chunk, *vp_wheel ) ==
-               Approx( 0.00197 ).epsilon( 0.002 ) );
-        // ~48.038% chance.
-        CHECK( veh_ptr->wheel_damage_chance_vs_item( test2_big_and_soft, *vp_wheel ) ==
-               Approx( 0.48038 ).epsilon( 0.002 ) );
-        // ~27.735% chance.
-        CHECK( veh_ptr->wheel_damage_chance_vs_item( test3_fake_human_corpse, *vp_wheel ) ==
-               Approx( 0.27735 ).epsilon( 0.002 ) );
-        // ~80.860% chance.
-        CHECK( veh_ptr->wheel_damage_chance_vs_item( test4_DOOM, *vp_wheel ) ==
-               Approx( 0.80860 ).epsilon( 0.002 ) );
-        // ~5.007% chance.
-        CHECK( veh_ptr->wheel_damage_chance_vs_item( test5_squishy, *vp_wheel ) ==
-               Approx( 0.05007 ).epsilon( 0.002 ) );
+        run_squish_test( test_items, test_point, here, veh_ptr, vp_wheel );
     }
 
     SECTION( "Armored wheel vs variety of test items" ) {
@@ -990,31 +975,15 @@ TEST_CASE( "vehicle_wheels_damaged_by_running_over_items", "[vehicle]" )
                                              test_point, 0_degrees, 100, 0, false );
         vehicle_part *vp_wheel = setup_squish_test_return_wheel( here, test_point, veh_ptr );
 
-        const item &test1_steel_chunk = here.add_item_or_charges( test_point,
-                                        item( itype_qt_steel_chunk ) );
-        const item &test2_big_and_soft = here.add_item_or_charges( test_point, item( itype_bodypillow ) );
-        const item &test3_fake_human_corpse = here.add_item_or_charges( test_point,
-                                              item( itype_corpse_fake_TEST ) );
-        const item &test4_DOOM = here.add_item_or_charges( test_point,
-                                 item( itype_exodii_ingot_lc_steel ) );
-        const item &test5_squishy = here.add_item_or_charges( test_point, item( itype_watermelon ) );
-        REQUIRE( here.i_at( test_point ).size() == 5 );
+        const std::map<itype_id, double> test_items = {
+            {itype_qt_steel_chunk, 0.25},
+            {itype_bodypillow, 0.0225},
+            {itype_corpse_fake_TEST, 0.0025},
+            {itype_exodii_ingot_lc_steel, 0.180625},
+            {itype_watermelon, 0.000625},
+            {itype_corpse_fake_TEST_NODMG, 0.0}
+        };
 
-        // ~0.254% chance. Yes, ~3 in 1000 or ~1 in 400.
-        // **NOTE** that the chance here is so low that we use margin(absolute) comparison, but only for this specific item in this section.
-        CHECK( veh_ptr->wheel_damage_chance_vs_item( test1_steel_chunk, *vp_wheel ) ==
-               Approx( 0.00254 ).margin( 0.002 ) );
-        // ~38.729% chance.
-        CHECK( veh_ptr->wheel_damage_chance_vs_item( test2_big_and_soft, *vp_wheel ) ==
-               Approx( 0.38729 ).epsilon( 0.002 ) );
-        // ~22.360% chance.
-        CHECK( veh_ptr->wheel_damage_chance_vs_item( test3_fake_human_corpse, *vp_wheel ) ==
-               Approx( 0.22360 ).epsilon( 0.002 ) );
-        // ~65.192% chance. Wow, armored wheel's pretty crazy here...
-        CHECK( veh_ptr->wheel_damage_chance_vs_item( test4_DOOM, *vp_wheel ) ==
-               Approx( 0.65192 ).epsilon( 0.002 ) );
-        // ~6.460% chance.
-        CHECK( veh_ptr->wheel_damage_chance_vs_item( test5_squishy, *vp_wheel ) ==
-               Approx( 0.06460 ).epsilon( 0.002 ) );
+        run_squish_test( test_items, test_point, here, veh_ptr, vp_wheel );
     }
 }

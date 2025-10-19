@@ -91,7 +91,7 @@ void material_type::load( const JsonObject &jsobj, std::string_view )
     }
 
     optional( jsobj, was_loaded, "conductive", _conductive );
-    mandatory( jsobj, was_loaded, "chip_resist", _chip_resist );
+    mandatory( jsobj, was_loaded, "chip_resist", _chip_resist, numeric_bound_reader<int> {0} );
     mandatory( jsobj, was_loaded, "density", _density );
 
     optional( jsobj, was_loaded, "sheet_thickness", _sheet_thickness );

@@ -5448,12 +5448,19 @@
     "description": "Visualize it as your annoying neighbor, if that helps you feel better.",
     "//COMMENT": "Roughly human sized.",
     "volume": "75 L",
-    "flags": [ "TRADER_AVOID", "CORPSE", "TARDIS" ],
+    "flags": [ "TRADER_AVOID", "CORPSE", "TARDIS", "DAMAGE_VEHICLE_WHEELS" ],
     "category": "corpses",
     "copy-from": "corpse",
     "looks_like": "corpse_generic_human",
     "source_monster": "mon_child",
     "material": [ "hflesh" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "corpse_fake_TEST_NODMG",
+    "copy-from": "corpse_fake_TEST",
+    "name": { "str": "corpse fake TEST NODMG" },
+    "delete": { "flags": [ "DAMAGE_VEHICLE_WHEELS" ] }
   },
   {
     "id": "carver_off_test",
