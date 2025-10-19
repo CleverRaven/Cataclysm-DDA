@@ -489,6 +489,16 @@
     "info": "This gear <good>corrects nearsightedness</good>."
   },
   {
+    "id": "MYOPIC_SUPERNATURAL",
+    "type": "json_flag",
+    "//": "Like MYOPIC, but can't be fixed by glasses."
+  },
+  {
+    "id": "MYOPIC_IN_LIGHT_SUPERNATURAL",
+    "type": "json_flag",
+    "//": "Like MYOPIC_IN_LIGHT, but can't be fixed by glasses."
+  },
+  {
     "id": "FILTHY",
     "type": "json_flag",
     "//": "Zombie-dropped clothing giving various penalties if Filthy mod is active.  Also CBMs harvested from zombies.",
@@ -1877,10 +1887,6 @@
     "type": "json_flag"
   },
   {
-    "id": "SMOKABLE",
-    "type": "json_flag"
-  },
-  {
     "id": "SMOKED",
     "type": "json_flag"
   },
@@ -2241,6 +2247,11 @@
     "info": "Allows movement in open air."
   },
   {
+    "id": "NO_BODY_HEAT",
+    "type": "json_flag",
+    "info": "The character produces no body heat and is not visible on infrared (for characters only, for monsters use the WARM flag to enable infrared visibility)."
+  },
+  {
     "id": "ALL_TERRAIN_NAVIGATION",
     "type": "json_flag",
     "info": "Allows movement over rough and sharp terrain without penalty."
@@ -2348,6 +2359,16 @@
     "id": "VOLTMETER",
     "type": "json_flag",
     "info": "This tool can test for voltage."
+  },
+  {
+    "id": "SUNBURN_SUPERNATURAL",
+    "type": "json_flag",
+    "info": "You burn in the sunlight like a vampire.  Probably because you're a vampire."
+  },
+  {
+    "id": "SUNBURN_SUPERNATURAL_REDUCTION",
+    "type": "json_flag",
+    "info": "You burn in the sunlight like a vampire, but not quite as badly."
   },
   {
     "id": "SHREDDED",

@@ -59,7 +59,13 @@
       { "group": "survivor_basic_feet", "damage": [ 0, 3 ] },
       { "group": "clothing_glasses", "prob": 5, "damage": [ 0, 3 ] },
       { "group": "clothing_watch", "prob": 5, "damage": [ 0, 3 ] },
-      { "item": "spearsling", "prob": 100, "damage": [ 0, 3 ] },
+      {
+        "distribution": [
+          { "item": "spearsling", "prob": 50, "damage": [ 0, 3 ] },
+          { "item": "spearsling_canvas", "prob": 50, "damage": [ 0, 3 ] }
+        ],
+        "prob": 100
+      },
       {
         "distribution": [
           { "item": "police_belt", "prob": 35, "damage": [ 0, 3 ] },

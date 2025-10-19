@@ -708,6 +708,7 @@ class item : public visitable
 
         units::length length() const;
         units::length barrel_length() const;
+        units::length sawn_off_reduction() const;
 
         /**
          * Simplified, faster volume check for when processing time is important and exact volume is not.
@@ -884,6 +885,8 @@ class item : public visitable
         std::vector<item_pocket *> get_all_standard_pockets();
         std::vector<item_pocket *> get_all_ablative_pockets();
         std::vector<const item_pocket *> get_all_ablative_pockets() const;
+        std::vector<const item_pocket *> get_all_contained_and_mod_pockets() const;
+        std::vector<item_pocket *> get_all_contained_and_mod_pockets();
         /**
          * Updates the pockets of this item to be correct based on the mods that are installed.
          * Pockets which are modified that contain an item will be spilled
@@ -1210,6 +1213,8 @@ class item : public visitable
         void mod_rot( const time_duration &val ) {
             rot += val;
         }
+
+        bool is_smokable() const;
 
         /** Time for this item to be fully fermented. */
         time_duration brewing_time() const;
@@ -1954,6 +1959,7 @@ class item : public visitable
          */
         void on_contents_changed();
 
+        bool can_use_relic( const Character &guy ) const;
         bool use_relic( Character &guy, const tripoint_bub_ms &pos );
         bool has_relic_recharge() const;
         bool has_relic_activation() const;
@@ -2163,11 +2169,6 @@ class item : public visitable
          * Whether this is actually a seed, the seed functions won't be of much use for non-seeds.
          */
         bool is_seed() const;
-        /**
-         * Time it takes to grow from one stage to another. There are normally 4 plant stages:
-         * seed, seedling, mature and harvest. Non-seed items return 0.
-         */
-        time_duration get_plant_epoch( int num_epochs = 3 ) const;
         /**
          * The name of the plant as it appears in the various informational menus. This should be
          * translated. Returns an empty string for non-seed items.
@@ -3229,6 +3230,8 @@ class item : public visitable
         void update_prefix_suffix_flags();
         void update_prefix_suffix_flags( const flag_id &flag );
 
+        void inherit_rot_from_components( item &it );
+
     public:
         enum class sizing : int {
             human_sized_human_char = 0,
@@ -3417,6 +3420,10 @@ class item : public visitable
     public:
         char invlet = 0;      // Inventory letter
         bool active = false; // If true, it has active effects to be processed
+        // for item cache
+        bool is_active() const {
+            return active;
+        }
         bool is_favorite = false;
 
         void set_favorite( bool favorite );

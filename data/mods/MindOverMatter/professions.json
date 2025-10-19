@@ -162,7 +162,7 @@
           { "item": "socks" },
           { "item": "robe" },
           { "item": "lowtops" },
-          { "item": "matrix_crystal_clairsentience" },
+          { "group": "clairsentient_matrix_crystals_group" },
           { "item": "newest_newspaper" },
           { "item": "weeks_old_newspaper" },
           { "item": "months_old_newspaper" },

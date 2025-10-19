@@ -1,0 +1,680 @@
+[
+  {
+    "id": "psychic_knack_practice",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_METAPHYSICS",
+    "name": "contemplation: knacks",
+    "description": "Recipes related to practicing psychic knacks.",
+    "skill_used": "metaphysics",
+    "nested_category_data": [
+      "practice_biokin_flexibility_knack",
+      "practice_biokin_adrenaline_knack",
+      "practice_clair_better_senses_knack",
+      "practice_clair_danger_sense_knack",
+      "practice_clair_examine_item_knack",
+      "practice_clair_astral_projection_knack",
+      "practice_electrokinetic_see_electric_knack",
+      "practice_electrokinetic_pain_immune_knack",
+      "practice_electrokinetic_hacking_interface_knack",
+      "practice_photokinetic_camouflage_knack",
+      "practice_photokinetic_hide_ugly_knack",
+      "practice_photokinetic_radio_knack",
+      "practice_pyrokinetic_flash_knack",
+      "practice_pyrokinetic_eruption_knack",
+      "practice_pyrokinetic_call_flames_knack",
+      "practice_pyrokinetic_cloak_knack",
+      "practice_pyrokinetic_flamethrower_knack",
+      "practice_pyrokinetic_aura_knack",
+      "practice_pyrokinetic_blast_knack",
+      "practice_telekinetic_pull_knack",
+      "practice_telekinetic_push_knack",
+      "practice_telekinetic_slam_down_knack",
+      "practice_telekinetic_wave_knack",
+      "practice_telekinetic_shield_knack"
+    ],
+    "difficulty": 1
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: flexibility",
+    "id": "practice_biokin_flexibility_knack",
+    "description": "Contemplate your powers and improve your ability to move your body.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 0,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_biokinesis", "required": false } ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_BIOKIN_FLEXIBILITY_KNACK",
+        "condition": { "u_has_trait": "PSYCHIC_KNACK" },
+        "effect": [
+          { "set_string_var": "biokin_flexibility_knack", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "run_eocs": [ "EOC_PSI_STUDYING_BIOKIN_POWER_SETUP", "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: adrenaline trigger",
+    "id": "practice_biokin_adrenaline_knack",
+    "description": "Contemplate your powers and improve your ability to trigger a burst of adrenaline on command.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 0,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_biokinesis", "required": false } ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_BIOKIN_ADRENALINE_KNACK",
+        "condition": { "u_has_trait": "PSYCHIC_KNACK" },
+        "effect": [
+          { "set_string_var": "biokin_adrenaline_knack", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "run_eocs": [ "EOC_PSI_STUDYING_BIOKIN_POWER_SETUP", "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: heightened senses",
+    "id": "practice_clair_better_senses_knack",
+    "description": "Contemplate your powers and improve your ability to enhance your mundane senses.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 0,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_clairsentience", "required": false } ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_CLAIR_HEIGHTENED_SENSES_KNACK",
+        "condition": { "u_has_trait": "PSYCHIC_KNACK" },
+        "effect": [
+          { "set_string_var": "clair_better_senses_knack", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "run_eocs": [ "EOC_PSI_STUDYING_CLAIR_POWER_SETUP", "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: premonition",
+    "id": "practice_clair_danger_sense_knack",
+    "description": "Contemplate your powers and improve your sense of nearby danger.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 0,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_clairsentience", "required": false } ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_CLAIR_DANGER_SENSE_KNACK",
+        "condition": { "u_has_trait": "PSYCHIC_KNACK" },
+        "effect": [
+          { "set_string_var": "clair_danger_sense_knack", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "run_eocs": [ "EOC_PSI_STUDYING_CLAIR_POWER_SETUP", "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: psychometry",
+    "id": "practice_clair_examine_item_knack",
+    "description": "Contemplate your powers and improve your ability to determine hidden aspects of items.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 0,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_clairsentience", "required": false } ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_CLAIR_EXAMINE_ITEM_KNACK",
+        "condition": { "u_has_trait": "PSYCHIC_KNACK" },
+        "effect": [
+          { "set_string_var": "clair_examine_item_knack", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "run_eocs": [ "EOC_PSI_STUDYING_CLAIR_POWER_SETUP", "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: astral projection",
+    "id": "practice_clair_astral_projection_knack",
+    "description": "Contemplate your powers and improve your ability to cast your spirit forth from your body.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 0,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_clairsentience", "required": false } ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_CLAIR_ASTRAL_PROJECTION_KNACK",
+        "condition": { "u_has_trait": "PSYCHIC_KNACK" },
+        "effect": [
+          { "set_string_var": "clair_astral_projection_knack", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "run_eocs": [ "EOC_PSI_STUDYING_CLAIR_POWER_SETUP", "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: spark sight",
+    "id": "practice_electrokinetic_see_electric_knack",
+    "description": "Contemplate your powers and improve your ability to detect electrical creatures or robots.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 0,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_electrokinesis", "required": false } ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_ELECTROKIN_SPARK_SIGHT_KNACK",
+        "condition": { "u_has_trait": "PSYCHIC_KNACK" },
+        "effect": [
+          { "set_string_var": "electrokinetic_see_electric_knack", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "run_eocs": [ "EOC_PSI_STUDYING_ELECTROKIN_POWER_SETUP", "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: analgesic block",
+    "id": "practice_electrokinetic_pain_immune_knack",
+    "description": "Contemplate your powers and improve your ability to put off the effects of pain completely until later.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 0,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_electrokinesis", "required": false } ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_ELECTROKIN_PAIN_IMMUNE_KNACK",
+        "condition": { "u_has_trait": "PSYCHIC_KNACK" },
+        "effect": [
+          { "set_string_var": "electrokinetic_pain_immune_knack", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "run_eocs": [ "EOC_PSI_STUDYING_ELECTROKIN_POWER_SETUP", "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: hacking interface",
+    "id": "practice_electrokinetic_hacking_interface_knack",
+    "description": "Contemplate your powers and improve your ability to hack nearby devices with your powers.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 0,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_electrokinesis", "required": false } ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_ELECTRO_HACKING_INTERFACE_KNACK",
+        "condition": { "u_has_trait": "PSYCHIC_KNACK" },
+        "effect": [
+          { "set_string_var": "electrokinetic_hacking_interface_knack", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "run_eocs": [ "EOC_PSI_STUDYING_ELECTROKIN_POWER_SETUP", "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: chameleoflage",
+    "id": "practice_photokinetic_camouflage_knack",
+    "description": "Contemplate your powers and improve your ability to hide your presence from distance observers.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 0,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_photokinesis", "required": false } ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_PHOTOKIN_CAMOUFLAGE_KNACK",
+        "condition": { "u_has_trait": "PSYCHIC_KNACK" },
+        "effect": [
+          { "set_string_var": "photokinetic_camouflage_knack", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "run_eocs": [ "EOC_PSI_STUDYING_PHOTOKIN_POWER_SETUP", "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: mirror-mask",
+    "id": "practice_photokinetic_hide_ugly_knack",
+    "description": "Contemplate your powers and improve your ability to disguise your appearance behind an illusion.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 0,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_photokinesis", "required": false } ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_PHOTOKIN_HIDE_UGLY_KNACK",
+        "condition": { "u_has_trait": "PSYCHIC_KNACK" },
+        "effect": [
+          { "set_string_var": "photokinetic_hide_ugly_knack", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "run_eocs": [ "EOC_PSI_STUDYING_PHOTOKIN_POWER_SETUP", "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: radio transception",
+    "id": "practice_photokinetic_radio_knack",
+    "description": "Contemplate your powers and improve your ability to see, interpret, and transmit radio waves.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 0,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_photokinesis", "required": false } ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_PHOTOKIN_RADIO_KNACK",
+        "condition": { "u_has_trait": "PSYCHIC_KNACK" },
+        "effect": [
+          { "set_string_var": "photokinetic_radio_knack", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "run_eocs": [ "EOC_PSI_STUDYING_PHOTOKIN_POWER_SETUP", "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: brilliant flash",
+    "id": "practice_pyrokinetic_flash_knack",
+    "description": "Contemplate your powers and improve your ability to create light.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 0,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_pyrokinesis", "required": false } ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_PYROKIN_FLASH_KNACK",
+        "condition": { "u_has_trait": "PSYCHIC_KNACK" },
+        "effect": [
+          { "set_string_var": "pyrokinetic_flash_knack", "target_var": { "u_val": "latest_studied_power_name" } },
+          { "run_eocs": "EOC_PSI_STUDYING_PYROKIN_POWER_SETUP" },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: fountain of flames",
+    "id": "practice_pyrokinetic_eruption_knack",
+    "description": "Contemplate your powers and improve your ability to summon flames.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 0,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_pyrokinesis", "required": false } ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_PYROKIN_FLAMES_KNACK",
+        "condition": { "u_has_trait": "PSYCHIC_KNACK" },
+        "effect": [
+          { "set_string_var": "pyrokinetic_eruption_knack", "target_var": { "u_val": "latest_studied_power_name" } },
+          { "run_eocs": "EOC_PSI_STUDYING_PYROKIN_POWER_SETUP" },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: banked flames",
+    "id": "practice_pyrokinetic_call_flames_knack",
+    "description": "Contemplate your powers and improve your ability to summon a controlled flame.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 0,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_pyrokinesis", "required": false } ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_PYROKIN_CALL_FLAMES_KNACK",
+        "condition": { "u_has_trait": "PSYCHIC_KNACK" },
+        "effect": [
+          { "set_string_var": "pyrokinetic_call_flames_knack", "target_var": { "u_val": "latest_studied_power_name" } },
+          { "run_eocs": "EOC_PSI_STUDYING_PYROKIN_POWER_SETUP" },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: cloak of warmth",
+    "id": "practice_pyrokinetic_cloak_knack",
+    "description": "Contemplate your powers and improve your control of nearby temperatures.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 0,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_pyrokinesis", "required": false } ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_PYROKIN_CLOAK_KNACK",
+        "condition": { "u_has_trait": "PSYCHIC_KNACK" },
+        "effect": [
+          { "set_string_var": "pyrokinetic_cloak_knack", "target_var": { "u_val": "latest_studied_power_name" } },
+          { "run_eocs": "EOC_PSI_STUDYING_PYROKIN_POWER_SETUP" },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: flamethrower",
+    "id": "practice_pyrokinetic_flamethrower_knack",
+    "description": "Contemplate your powers and improve your ability to direct a spray of flame.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 0,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_pyrokinesis", "required": false } ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_PYROKIN_FLAMETHROWER_KNACK",
+        "condition": { "u_has_trait": "PSYCHIC_KNACK" },
+        "effect": [
+          { "set_string_var": "pyrokinetic_flamethrower_knack", "target_var": { "u_val": "latest_studied_power_name" } },
+          { "run_eocs": "EOC_PSI_STUDYING_PYROKIN_POWER_SETUP" },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: blazing aura",
+    "id": "practice_pyrokinetic_aura_knack",
+    "description": "Contemplate your powers and improve your ability to heat the surrounding air to dangerous temperatures.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 0,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_pyrokinesis", "required": false } ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_PYROKIN_AURA_KNACK",
+        "condition": { "u_has_trait": "PSYCHIC_KNACK" },
+        "effect": [
+          { "set_string_var": "pyrokinetic_aura_knack", "target_var": { "u_val": "latest_studied_power_name" } },
+          { "run_eocs": "EOC_PSI_STUDYING_PYROKIN_POWER_SETUP" },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: conflagration",
+    "id": "practice_pyrokinetic_blast_knack",
+    "description": "Contemplate your powers and improve your manifestation of explosions.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 0,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_pyrokinesis", "required": false } ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_PYROKIN_BLAST_KNACK",
+        "condition": { "u_has_trait": "PSYCHIC_KNACK" },
+        "effect": [
+          { "set_string_var": "pyrokinetic_blast_knack", "target_var": { "u_val": "latest_studied_power_name" } },
+          { "run_eocs": "EOC_PSI_STUDYING_PYROKIN_POWER_SETUP" },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: far hand",
+    "id": "practice_telekinetic_pull_knack",
+    "description": "Contemplate your powers and improve your manipulation of non-living matter.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 0,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_telekinesis", "required": false } ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_TELEKIN_PULL_KNACK",
+        "condition": { "u_has_trait": "PSYCHIC_KNACK" },
+        "effect": [
+          { "set_string_var": "telekinetic_pull_knack", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "run_eocs": [ "EOC_PSI_STUDYING_TELEKIN_POWER_SETUP", "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: force shove",
+    "id": "practice_telekinetic_push_knack",
+    "description": "Contemplate your powers and improve your manipulation of living beings.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 0,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_telekinesis", "required": false } ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_TELEKIN_PUSH_KNACK",
+        "condition": { "u_has_trait": "PSYCHIC_KNACK" },
+        "effect": [
+          { "set_string_var": "telekinetic_push_knack", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "run_eocs": [ "EOC_PSI_STUDYING_TELEKIN_POWER_SETUP", "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: knockdown",
+    "id": "practice_telekinetic_slam_down_knack",
+    "description": "Contemplate your powers and improve your ability to knock your targets over.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 0,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_telekinesis", "required": false } ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_TELEKIN_SLAM_DOWN_KNACK",
+        "condition": { "u_has_trait": "PSYCHIC_KNACK" },
+        "effect": [
+          { "set_string_var": "telekinetic_slam_down_knack", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "run_eocs": [ "EOC_PSI_STUDYING_TELEKIN_POWER_SETUP", "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: wave of force",
+    "id": "practice_telekinetic_wave_knack",
+    "description": "Contemplate your powers and develop your ability to control bursts of telekinetic force.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 0,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_telekinesis", "required": false } ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_TELEKIN_FORCE_WAVE_KNACK",
+        "condition": { "u_has_trait": "PSYCHIC_KNACK" },
+        "effect": [
+          { "set_string_var": "telekinetic_wave_knack", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "run_eocs": [ "EOC_PSI_STUDYING_TELEKIN_POWER_SETUP", "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: inertial barrier",
+    "id": "practice_telekinetic_shield_knack",
+    "description": "Contemplate your powers and improve your creation of force barriers.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 0,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_telekinesis", "required": false } ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_TELEKIN_BARRIER_KNACK",
+        "condition": { "u_has_trait": "PSYCHIC_KNACK" },
+        "effect": [
+          { "set_string_var": "telekinetic_wave_knack", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "run_eocs": [ "EOC_PSI_STUDYING_TELEKIN_POWER_SETUP", "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]
+          }
+        ]
+      }
+    ]
+  }
+]

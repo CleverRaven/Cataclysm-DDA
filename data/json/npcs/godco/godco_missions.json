@@ -822,7 +822,7 @@
       "advice": "All you need is a good wrench and a solar car.",
       "inquire": "Do you have the solar panel?",
       "success": "The great work is now complete.  Are you good with words, by the way?  I was thinking, maybe you should be the one to negotiate with Helena.  But whatever you do, don't accept their icons.  Our work is worth a lot more than their valueless currency.",
-      "success_lie": "Thanks for trying…  I guess.",
+      "success_lie": "Thanks for trying… I guess.",
       "failure": "No electricity for us then."
     },
     "end": {

@@ -39,11 +39,6 @@
 #include "viewer.h"
 #include "vpart_position.h"
 
-class game;
-
-// NOLINTNEXTLINE(cata-static-declarations)
-extern std::unique_ptr<game> g;
-
 namespace
 {
 

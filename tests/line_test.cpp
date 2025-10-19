@@ -343,11 +343,11 @@ TEST_CASE( "squares_closer_to_test", "[line]" )
     expected = { tripoint_bub_ms::zero + tripoint::west, tripoint_bub_ms::zero + tripoint::south_west, tripoint_bub_ms::zero + tripoint::north_west, tripoint_bub_ms::zero + tripoint::north};
     CHECK( actual == expected );
 
-    actual = squares_closer_to( {10, -10, 0}, {10, 10, 0} );
+    actual = squares_closer_to( tripoint_bub_ms{10, -10, 0}, {10, 10, 0} );
     expected = {tripoint_bub_ms( 10, -9, 0 ), tripoint_bub_ms( 11, -9, 0 ), tripoint_bub_ms( 9, -9, 0 )};
     CHECK( actual == expected );
 
-    actual = squares_closer_to( {10, -10, 0}, {-10, -5, 0} );
+    actual = squares_closer_to( tripoint_bub_ms{10, -10, 0}, {-10, -5, 0} );
     expected = {tripoint_bub_ms( 9, -10, 0 ), tripoint_bub_ms( 9, -9, 0 ), tripoint_bub_ms( 9, -11, 0 ), tripoint_bub_ms( 10, -9, 0 )};
     CHECK( actual == expected );
 }

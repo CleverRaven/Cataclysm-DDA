@@ -3,6 +3,7 @@
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "id": "matrix_crystal_biokinesis",
+    "category": "other",
     "name": { "str_sp": "strange crystal, pink" },
     "description": "A strange-looking, surprisingly-heavy crystal with a faintly-glowing pink light in its depths.  Holding it, you feel more capable.",
     "color": "pink",
@@ -12,10 +13,11 @@
     "longest_side": "21 mm",
     "material": [ "nether_crystal" ],
     "looks_like": "art_crystal",
-    "flags": [ "MATRIX_CRYSTAL_BIOKINESIS" ],
+    "flags": [ "MATRIX_CRYSTAL_BIOKINESIS", "RELIC_PINK" ],
     "use_action": {
       "type": "effect_on_conditions",
       "consume": true,
+      "need_wielding": true,
       "description": "The pink glow calls to you.",
       "effect_on_conditions": [ "EOC_BIOKIN_MATRIX_AWAKENING" ]
     }
@@ -46,16 +48,32 @@
   },
   {
     "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
+    "id": "matrix_crystal_biokinesis_artifact",
+    "name": { "str_sp": "strange crystal, pink" },
+    "description": "A strange-looking, surprisingly-heavy crystal with a faintly-glowing pink light in its depths.  Holding it, you feel more capable.",
+    "color": "pink",
+    "symbol": "+",
+    "volume": "10 ml",
+    "weight": "150 g",
+    "longest_side": "21 mm",
+    "material": [ "nether_crystal" ],
+    "looks_like": "matrix_crystal_biokinesis",
+    "flags": [ "MATRIX_CRYSTAL_BIOKINESIS", "RELIC_PINK" ]
+  },
+  {
+    "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "id": "matrix_crystal_clairsentience",
     "name": { "str_sp": "strange crystal, gray" },
     "copy-from": "matrix_crystal_biokinesis",
     "description": "A strange-looking, surprisingly-heavy crystal with a faintly-glowing gray light in its depths.  Holding it, you feel more perceptive.",
     "color": "dark_gray",
-    "flags": [ "MATRIX_CRYSTAL_CLAIRSENTIENCE" ],
+    "flags": [ "MATRIX_CRYSTAL_CLAIRSENTIENCE", "RELIC_PINK" ],
     "use_action": {
       "type": "effect_on_conditions",
       "consume": true,
+      "need_wielding": true,
       "description": "The gray glow calls to you.",
       "effect_on_conditions": [ "EOC_CLAIR_MATRIX_AWAKENING" ]
     }
@@ -78,16 +96,31 @@
   },
   {
     "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
+    "id": "matrix_crystal_clairsentience_artifact",
+    "name": { "str_sp": "strange crystal, gray" },
+    "description": "A strange-looking, surprisingly-heavy crystal with a faintly-glowing gray light in its depths.  Holding it, you feel more perceptive.",
+    "color": "dark_gray",
+    "symbol": "+",
+    "volume": "10 ml",
+    "weight": "150 g",
+    "longest_side": "21 mm",
+    "looks_like": "matrix_crystal_clairsentience",
+    "flags": [ "MATRIX_CRYSTAL_CLAIRSENTIENCE", "RELIC_PINK" ]
+  },
+  {
+    "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "id": "matrix_crystal_electrokinesis",
     "name": { "str_sp": "strange crystal, cyan" },
     "copy-from": "matrix_crystal_biokinesis",
     "description": "A strange-looking, surprisingly-heavy crystal with a faintly-glowing cyan light in its depths.  Holding it, you feel more energetic.",
     "color": "cyan",
-    "flags": [ "MATRIX_CRYSTAL_ELECTROKINESIS" ],
+    "flags": [ "MATRIX_CRYSTAL_ELECTROKINESIS", "RELIC_PINK" ],
     "use_action": {
       "type": "effect_on_conditions",
       "consume": true,
+      "need_wielding": true,
       "description": "The cyan glow calls to you.",
       "effect_on_conditions": [ "EOC_ELECTRO_MATRIX_AWAKENING" ]
     }
@@ -110,6 +143,20 @@
   },
   {
     "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
+    "id": "matrix_crystal_electrokinesis_artifact",
+    "name": { "str_sp": "strange crystal, cyan" },
+    "description": "A strange-looking, surprisingly-heavy crystal with a faintly-glowing cyan light in its depths.  Holding it, you feel more energetic.",
+    "color": "cyan",
+    "symbol": "+",
+    "volume": "10 ml",
+    "weight": "150 g",
+    "longest_side": "21 mm",
+    "looks_like": "matrix_crystal_electrokinesis",
+    "flags": [ "MATRIX_CRYSTAL_ELECTROKINESIS", "RELIC_PINK" ]
+  },
+  {
+    "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "id": "matrix_crystal_photokinesis",
     "name": { "str_sp": "strange crystal, golden" },
@@ -120,6 +167,7 @@
     "use_action": {
       "type": "effect_on_conditions",
       "consume": true,
+      "need_wielding": true,
       "description": "The golden glow calls to you.",
       "effect_on_conditions": [ "EOC_PHOTOKIN_MATRIX_AWAKENING" ]
     }
@@ -152,6 +200,7 @@
     "use_action": {
       "type": "effect_on_conditions",
       "consume": true,
+      "need_wielding": true,
       "description": "The red glow calls to you.",
       "effect_on_conditions": [ "EOC_PYROKIN_MATRIX_AWAKENING" ]
     }
@@ -184,6 +233,7 @@
     "use_action": {
       "type": "effect_on_conditions",
       "consume": true,
+      "need_wielding": true,
       "description": "The yellow glow calls to you.",
       "effect_on_conditions": [ "EOC_TELEKIN_MATRIX_AWAKENING" ]
     }
@@ -216,6 +266,7 @@
     "use_action": {
       "type": "effect_on_conditions",
       "consume": true,
+      "need_wielding": true,
       "description": "The white glow calls to you.",
       "effect_on_conditions": [ "EOC_TEEP_MATRIX_AWAKENING" ]
     }
@@ -248,6 +299,7 @@
     "use_action": {
       "type": "effect_on_conditions",
       "consume": true,
+      "need_wielding": true,
       "description": "The blue glow calls to you.",
       "effect_on_conditions": [ "EOC_TELEPORT_MATRIX_AWAKENING" ]
     }
@@ -280,6 +332,7 @@
     "use_action": {
       "type": "effect_on_conditions",
       "consume": true,
+      "need_wielding": true,
       "description": "The green glow calls to you.",
       "effect_on_conditions": [ "EOC_VITAKIN_MATRIX_AWAKENING" ]
     }

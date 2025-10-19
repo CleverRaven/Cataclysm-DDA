@@ -265,6 +265,10 @@ class coord_point_ob : public
             return coord_point_ob( this->raw().rotate( turns, dim ) );
         }
 
+        constexpr auto rotate_in_map( int turns ) const {
+            return coord_point_ob( this->raw().rotate_in_map( turns ) );
+        }
+
         friend inline this_as_ob operator+( const coord_point_ob &l, const point &r ) {
             return this_as_ob( l.raw() + r );
         }
@@ -1029,6 +1033,39 @@ std::vector < coords::coord_point_ib < Tripoint, Origin, Scale>>
     return result;
 }
 
+// Returns the coordinates adjacent to loc1 that are closer to loc2 than loc1 is.
+// Out-of-bounds version.
+template<typename Tripoint, coords::origin Origin, coords::scale Scale,
+         std::enable_if_t<std::is_same_v<Tripoint, tripoint>, int> = 0>
+std::vector < coords::coord_point < Tripoint, Origin, Scale >>
+        squares_closer_to( const coords::coord_point_ob<Tripoint, Origin, Scale> &loc1,
+                           const coords::coord_point_ob<Tripoint, Origin, Scale> &loc2 )
+{
+    std::vector<Tripoint> raw_result = squares_closer_to( loc1.raw(), loc2.raw() );
+    std::vector < coords::coord_point < Tripoint, Origin, Scale>> result;
+    std::transform( raw_result.begin(), raw_result.end(), std::back_inserter( result ),
+    []( const Tripoint & p ) {
+        return coords::coord_point < Tripoint, Origin, Scale >::make_unchecked( p );
+    } );
+    return result;
+}
+
+// Returns the coordinates adjacent to loc1 that are closer to loc2 than loc1 is.
+// Out-of-bounds version.
+template<typename Tripoint, coords::origin Origin, coords::scale Scale,
+         std::enable_if_t<std::is_same_v<Tripoint, tripoint>, int> = 0>
+std::vector < coords::coord_point_ib < Tripoint, Origin, Scale>>
+        squares_closer_to( const coords::coord_point_ib<Tripoint, Origin, Scale> &loc1,
+                           const coords::coord_point_ib<Tripoint, Origin, Scale> &loc2 )
+{
+    std::vector<Tripoint> raw_result = squares_closer_to( loc1.raw(), loc2.raw() );
+    std::vector < coords::coord_point_ib < Tripoint, Origin, Scale >> result;
+    std::transform( raw_result.begin(), raw_result.end(), std::back_inserter( result ),
+    []( const Tripoint & p ) {
+        return coords::coord_point_ib < Tripoint, Origin, Scale >::make_unchecked( p );
+    } );
+    return result;
+}
 
 template<typename Point, coords::origin Origin, coords::scale Scale>
 coords::coord_point < Point, Origin, Scale >

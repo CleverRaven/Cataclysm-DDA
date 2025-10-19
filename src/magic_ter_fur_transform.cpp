@@ -20,7 +20,8 @@
 #include "translation.h"
 #include "trap.h"
 #include "type_id.h"
-#include "weighted_list.h"
+
+template<typename T> struct weighted_int_list;
 
 namespace
 {
@@ -72,7 +73,7 @@ static void load_transform_results( const JsonObject &jsi, const std::string &js
         list.add( T( jsi.get_string( json_key ) ), 1 );
         return;
     }
-    load_weighted_list( jsi.get_member( json_key ), list, 1 );
+    list.deserialize( jsi.get_member( json_key ) );
 }
 
 void ter_furn_transform::reset()

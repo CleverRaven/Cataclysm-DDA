@@ -1798,7 +1798,7 @@ void construct::done_vehicle( const tripoint_bub_ms &p, Character & )
 {
     std::string name = string_input_popup()
                        .title( _( "Enter new vehicle name:" ) )
-                       .width( 20 )
+                       .width( 60 )
                        .query_string();
     if( name.empty() ) {
         name = _( "Car" );

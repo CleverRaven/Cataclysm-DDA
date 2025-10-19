@@ -685,7 +685,12 @@
     "condition": "u_is_character",
     "effect": [
       {
-        "if": { "math": [ "u_vitamin('vitamin_maintained_powers') >= 1" ] },
+        "if": {
+          "or": [
+            { "math": [ "u_vitamin('vitamin_maintained_powers') >= 1" ] },
+            { "math": [ "u_nether_conduit_repeated_channeling_value >= 1" ] }
+          ]
+        },
         "then": [
           { "math": [ "n_val('anger')", "+=", "rand(5) + 1" ] },
           {
@@ -742,7 +747,12 @@
     "condition": "u_is_character",
     "effect": [
       {
-        "if": { "math": [ "u_vitamin('vitamin_maintained_powers') >= 1" ] },
+        "if": {
+          "or": [
+            { "math": [ "u_vitamin('vitamin_maintained_powers') >= 1" ] },
+            { "math": [ "u_nether_conduit_repeated_channeling_value >= 1" ] }
+          ]
+        },
         "then": [
           { "math": [ "n_val('anger')", "+=", "rand(10) + 2" ] },
           { "u_message": "A chill aura emanates from the silent one.", "type": "bad" }

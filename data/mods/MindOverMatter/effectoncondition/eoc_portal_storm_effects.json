@@ -33,6 +33,7 @@
           [ "EOC_PORTAL_TAUNT", 1 ],
           [ "EOC_PORTAL_SHIFTING_MASS", 1 ],
           [ "EOC_PORTAL_ARTIFACT_WEAK", 1 ],
+          [ "EOC_PORTAL_CONSCIOUSNESS_BLIP", 1 ],
           [ "EOC_PORTAL_TEMPORARY_TEARS_IN_REALITY", 1 ]
         ]
       }
@@ -40,17 +41,41 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_PORTAL_CONSCIOUSNESS_BLIP",
+    "//": "Simulates your consciousness being interrupted by the portal storm for a variable length of time (max six seconds)",
+    "condition": { "one_in_chance": 15 },
+    "effect": [
+      { "math": [ "_value = (min( (ps_str * 0.1), 5) + 1)" ] },
+      { "u_add_effect": "psi_stunned", "duration": { "math": [ "_value" ] } },
+      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "_value" ] } },
+      { "math": [ "u_ire -= 3" ] },
+      { "u_message": "Your head tingles and the world suddenly lurches!", "type": "bad" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_PORTAL_TEMPORARY_TEARS_IN_REALITY",
     "condition": { "one_in_chance": 10 },
     "effect": [
-      { "u_location_variable": { "context_val": "loc" }, "min_radius": 2, "max_radius": 8 },
+      {
+        "u_location_variable": { "context_val": "loc" },
+        "min_radius": 2,
+        "max_radius": 8,
+        "outdoor_only": true,
+        "true_eocs": [
+          {
+            "id": "EOC_PORTAL_TEMPORARY_TEARS_IN_REALITY_MESSAGE",
+            "effect": [ { "message": "The nearby air cracks.", "type": "bad" } ]
+          }
+        ]
+      },
       {
         "u_set_field": "fd_tear_in_reality_temporary",
         "radius": 0,
         "intensity": 3,
+        "outdoor_only": true,
         "target_var": { "context_val": "loc" }
       },
-      { "message": "The nearby air cracks.", "type": "bad" },
       { "math": [ "u_ire -= 5" ] }
     ]
   }

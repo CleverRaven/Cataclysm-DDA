@@ -290,5 +290,17 @@
     "flags": [ "AURA", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE", "OVERSIZE", "UNBREAKABLE", "ALLOWS_NATURAL_ATTACKS" ],
     "max_worn": 1,
     "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "hit_me_effect": [ { "id": "thorns_zap" } ] } ]
+  },
+  {
+    "id": "warg_food",
+    "copy-from": "cattlefodder_medium",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "comestible_type": "FOOD",
+    "name": { "str": "warg food", "//~": "NO_I18N" },
+    "description": { "str": "A food that doesn't exist but is necessary for technical reasons.", "//~": "NO_I18N" },
+    "flags": [ "INEDIBLE" ],
+    "use_action": [ "PETFOOD" ],
+    "petfood": [ "WARG_FOOD" ]
   }
 ]

@@ -103,5 +103,40 @@
     "type": "MIGRATION",
     "id": "helmet_acidchitin_light_xs",
     "replace": "helmet_acidchitin_xs"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "atomic_lamp",
+    "replace": "reading_light_on"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "atomic_lamp_off",
+    "replace": "electric_lantern"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "atomic_light",
+    "replace": "reading_light_on"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "atomic_light_off",
+    "replace": "reading_light"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "wearable_atomic_light",
+    "replace": "wearable_big_light"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "wearable_atomic_light_off",
+    "replace": "wearable_big_light"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "atomic_coffeepot",
+    "replace": "coffeemaker"
   }
 ]

@@ -5,6 +5,7 @@
 #include <cmath>
 #include <cstddef>
 #include <exception>
+#include <filesystem>
 #include <iterator>
 #include <list>
 #include <map>
@@ -29,6 +30,7 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_lazy.h"
+#include "cata_path.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
@@ -58,6 +60,7 @@
 #include "faction.h"
 #include "faction_camp.h"
 #include "field.h"
+#include "filesystem.h"
 #include "flag.h"
 #include "flat_set.h"
 #include "flexbuffer_json.h"
@@ -107,6 +110,8 @@
 #include "output.h"
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
+#include "path_info.h"
+#include "pickup.h"
 #include "pimpl.h"
 #include "player_activity.h"
 #include "pocket_type.h"
@@ -182,6 +187,9 @@ static std::map<std::string, json_talk_topic> json_talk_topics;
 
 using item_menu = std::function<item_location( const item_location_filter & )>;
 using item_menu_mul = std::function<drop_locations( const item_location_filter & )>;
+
+extern template struct value_or_var<diag_value, eoc_math, string_mutator<translation>>;
+using diag_value_or_var = value_or_var<diag_value, eoc_math, string_mutator<translation>>;
 
 struct sub_effect_parser {
     using f_t = talk_effect_fun_t::func( * )( const JsonObject &, std::string_view,
@@ -1589,6 +1597,28 @@ void npc::handle_sound( const sounds::sound_t spriority, const std::string &desc
     }
 }
 
+static std::string bye_message( const npc *npc_actor )
+{
+    // some dialogues do not have beta actor
+    if( !npc_actor ) {
+        return "";
+    }
+    const std::optional<std::string> bye_snippet = npc_actor->myclass->bye_message_override;
+    // if no bye_snippet, use default bye snippet
+    if( !bye_snippet.has_value() ) {
+        return npc_actor->chat_snippets().snip_bye.translated();
+    }
+    // if null, we want npc to mute bye message
+    // snippet categories do not have their own type,
+    // therefore do not have type::NULL_ID(), so check it against plain string
+    if( bye_snippet.value() == "null" ) {
+        return "";
+    }
+    const std::optional<translation> &bye_message = SNIPPET.random_from_category( bye_snippet.value() );
+    return bye_message.value_or( no_translation( string_format( "No snippet value for %s",
+                                 bye_snippet.value() ) ) ).translated();
+}
+
 void avatar::talk_to( std::unique_ptr<talker> talk_with, bool radio_contact,
                       bool is_computer, bool is_not_conversation, const std::string &debug_topic )
 {
@@ -1630,14 +1660,7 @@ void avatar::talk_to( std::unique_ptr<talker> talk_with, bool radio_contact,
             } while( cat != -1 && topic_category( d.topic_stack.back() ) == cat );
         }
         if( next.id == "TALK_DONE" || d.topic_stack.empty() ) {
-            npc *npc_actor = d.actor( true )->get_npc();
-            if( npc_actor ) {
-                if( npc_actor->myclass->bye_message_override.empty() ) {
-                    d.actor( true )->say( npc_actor->chat_snippets().snip_bye.translated() );
-                } else {
-                    d.actor( true )->say( npc_actor->myclass->bye_message_override.translated() );
-                }
-            }
+            d.actor( true )->say( bye_message( d.actor( true )->get_npc() ) );
             d.done = true;
         } else if( next.id != "TALK_NONE" ) {
             d.add_topic( next );
@@ -1758,12 +1781,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic )
     }
 
     if( topic == "TALK_NONE" || topic == "TALK_DONE" ) {
-        npc *guy = actor( true )->get_npc();
-        if( guy->myclass->bye_message_override.empty() ) {
-            return guy->chat_snippets().snip_bye.translated();
-        } else {
-            return guy->myclass->bye_message_override.translated();
-        }
+        return bye_message( actor( true )->get_npc() );
     } else if( topic == "TALK_TRAIN" ) {
         if( !player_character.backlog.empty() && player_character.backlog.front().id() == ACT_TRAIN ) {
             return _( "Shall we resume?" );
@@ -2327,8 +2345,7 @@ static std::string faction_or_fallback( const_talker const &guy )
     if( !fac ) {
         return guy.get_name();
     }
-    // Note: Check for translation, don't just return raw name.
-    return _( fac->name );
+    return fac->get_name();
 }
 
 void parse_tags( std::string &phrase, const Character &u, const Creature &me,
@@ -2451,13 +2468,15 @@ void parse_tags( std::string &phrase, const_talker const &u, const_talker const 
             } else if( get_option<bool>( "SHOW_MONTHS" ) && calendar::year_length() ==  364_days ) {
                 std::pair<month, int> month_day = month_and_day( guy->restock_time() );
                 //~ 1 is month, 2 is day
-                phrase.replace( fa, l, string_format( pgettext( "month and day", "%1$s %2$d" ),
-                                                      to_string( month_day.first ), month_day.second ) );
+                phrase.replace( fa, l, string_format( pgettext( "month, day and time", "%1$s %2$d, %3$s" ),
+                                                      to_string( month_day.first ), month_day.second,
+                                                      to_string_time_of_day( guy->restock_time() ) ) );
             } else {
                 //~ 1 is season, 2 is day
-                phrase.replace( fa, l, string_format( pgettext( "season and day", "%1$s %2$d" ),
+                phrase.replace( fa, l, string_format( pgettext( "season, day, and time", "%1$s %2$d, %3$s" ),
                                                       calendar::name_season( season_of_year( guy->restock_time() ) ),
-                                                      day_of_season<int>( guy->restock_time() ) ) );
+                                                      day_of_season<int>( guy->restock_time() ) + 1,
+                                                      to_string_time_of_day( guy->restock_time() ) ) );
             }
         } else if( tag.find( "<u_val:" ) == 0 ) {
             //adding a user variable to the string
@@ -3490,6 +3509,33 @@ talk_effect_fun_t::func f_add_trait( const JsonObject &jo, std::string_view memb
     return [is_npc, new_trait, new_variant]( dialogue const & d ) {
         const trait_id trait = trait_id( new_trait.evaluate( d ) );
         const mutation_variant *variant = trait->variant( new_variant.evaluate( d ) );
+
+        Character *guy = d.actor( is_npc )->get_character();
+        if( !guy ) {
+            debugmsg( "f_add_trait: No valid character." );
+            return;
+        }
+
+        const auto &new_types = trait->types;
+
+        for( const trait_id &existing : guy->get_mutations() ) {
+            if( existing == trait ) {
+                continue;
+            }
+            const auto &existing_types = existing->types;
+            for( const std::string &t : existing_types ) {
+                bool match = false;
+                if constexpr( std::is_same_v<decltype( new_types ), const std::set<std::string> &> ) {
+                    match = new_types.count( t ) > 0;
+                } else {
+                    match = new_types.find( t ) != new_types.end();
+                }
+                if( match ) {
+                    guy->unset_mutation( existing );
+                    break;
+                }
+            }
+        }
 
         d.actor( is_npc )->set_mutation( trait, variant );
     };
@@ -4728,6 +4774,23 @@ talk_effect_fun_t::func f_place_override( const JsonObject &jo, std::string_view
                                 calendar::turn + dov_length.evaluate( d ) + 1_seconds,
                                 //Timed events happen before the player turn and eocs are during so we add a second here to sync them up using the same variable
                                 -1, tripoint_abs_ms::zero, -1, new_place.evaluate( d ).translated(), key.evaluate( d ) );
+    };
+}
+
+talk_effect_fun_t::func f_clear_dimension( const JsonObject &jo, std::string_view member,
+        std::string_view )
+{
+    str_or_var target_dimension = get_str_or_var( jo.get_member( member ), member, true );
+
+    return [target_dimension]( dialogue const & d ) {
+        const std::string target_dimension_id = target_dimension.evaluate(
+                d );
+        const std::vector<cata_path> dimensions_query = get_directories_with( target_dimension_id,
+                PATH_INFO::dimensions_save_path() );
+        if( dimensions_query.size() == 1 ) {
+            std::filesystem::remove_all( ( PATH_INFO::dimensions_save_path() /
+                                           target_dimension_id ).get_unrelative_path() );
+        }
     };
 }
 
@@ -6200,13 +6263,13 @@ talk_effect_fun_t::func f_run_eocs( const JsonObject &jo, std::string_view membe
         random_time = jo.get_bool( "randomize_time_in_future", false );
     }
 
-    std::unordered_map<std::string, str_translation_or_var> context;
+    std::unordered_map<std::string, diag_value_or_var> context;
     if( jo.has_object( "variables" ) ) {
         const JsonObject &variables = jo.get_object( "variables" );
         for( const JsonMember &jv : variables ) {
-            str_translation_or_var stov;
-            stov.deserialize( jv );
-            context[jv.name()] = stov;
+            diag_value_or_var vov;
+            mandatory( variables, false, jv.name(), vov );
+            context[jv.name()] = vov;
         }
     }
 
@@ -6243,8 +6306,7 @@ talk_effect_fun_t::func f_run_eocs( const JsonObject &jo, std::string_view membe
                             d.get_context() };
 
         for( const auto &val : context ) {
-            // FXIXME: typed variables
-            newDialog.set_value( val.first, diag_value::legacy_value{ val.second.evaluate( d, true ) } );
+            newDialog.set_value( val.first, val.second.evaluate( d ) );
         }
 
         if( dov_time ) {
@@ -6302,15 +6364,15 @@ talk_effect_fun_t::func f_run_eoc_selector( const JsonObject &jo, std::string_vi
         jo.throw_error( "Invalid input for run_eoc_selector, size of eocs and keys needs to be identical, or keys need to be empty." );
     }
 
-    std::vector<std::unordered_map<std::string, str_translation_or_var>> context;
+    std::vector<std::unordered_map<std::string, diag_value_or_var>> context;
     if( jo.has_array( "variables" ) ) {
         for( const JsonValue &member : jo.get_array( "variables" ) ) {
             const JsonObject &variables = member.get_object();
-            std::unordered_map<std::string, str_translation_or_var> temp_context;
+            std::unordered_map<std::string, diag_value_or_var> temp_context;
             for( const JsonMember &jv : variables ) {
-                str_translation_or_var stov;
-                stov.deserialize( jv );
-                temp_context[jv.name()] = stov;
+                diag_value_or_var vov;
+                mandatory( variables, false, jv.name(), vov );
+                temp_context[jv.name()] = vov;
             }
             context.emplace_back( temp_context );
         }
@@ -6405,8 +6467,7 @@ talk_effect_fun_t::func f_run_eoc_selector( const JsonObject &jo, std::string_vi
         }
         if( !context.empty() ) {
             for( const auto &val : context[contextIndex] ) {
-                // FIXME: typed variables
-                newDialog.set_value( val.first, diag_value::legacy_value{ val.second.evaluate( d, true ) } );
+                newDialog.set_value( val.first, val.second.evaluate( d ) );
             }
         }
 
@@ -7134,11 +7195,13 @@ talk_effect_fun_t::func f_spawn_monster( const JsonObject &jo, std::string_view 
     dbl_or_var dov_max_radius = get_dbl_or_var( jo, "max_radius", false, 10 );
     bool summoner_is_alpha = jo.get_bool( "summoner_is_alpha", false );
     bool summoner_is_beta = jo.get_bool( "summoner_is_beta", false );
-    std::unordered_map<std::string, str_or_var> set_mon_var;
+    std::unordered_map<std::string, diag_value_or_var> set_mon_var;
     if( jo.has_object( "mon_variables" ) ) {
         const JsonObject &variables = jo.get_object( "mon_variables" );
         for( const JsonMember &jv : variables ) {
-            set_mon_var[jv.name()] = get_str_or_var( jv, jv.name(), true );
+            diag_value_or_var vov;
+            mandatory( variables, false, jv.name(), vov );
+            set_mon_var[jv.name()] = vov;
         }
     }
 
@@ -7290,8 +7353,7 @@ talk_effect_fun_t::func f_spawn_monster( const JsonObject &jo, std::string_view 
                     }
                     if( !set_mon_var.empty() ) {
                         for( const auto &val : set_mon_var ) {
-                            // FIXME: typed variables
-                            spawned->set_value( val.first, diag_value::legacy_value{ val.second.evaluate( d ) } );
+                            spawned->set_value( val.first, val.second.evaluate( d ) );
                         }
                     }
                     spawns++;
@@ -7555,6 +7617,33 @@ talk_effect_fun_t::func f_closest_city( const JsonObject &jo, std::string_view m
     };
 }
 
+talk_effect_fun_t::func f_pickup_items( const JsonObject &jo, std::string_view member,
+                                        std::string_view, bool is_npc )
+{
+    var_info target_var = read_var_info( jo.get_object( member ) );
+    int extra_moves_per_item = 0;
+    units::volume max_volume = -1_ml;
+    units::mass max_mass = -1_gram;
+    if( jo.has_int( "extra_moves_per_item" ) ) {
+        extra_moves_per_item = jo.get_int( "extra_moves_per_item" );
+    }
+    if( jo.has_float( "max_volume" ) ) {
+        max_volume =  units::from_liter( jo.get_float( "max_volume" ) );
+    }
+    if( jo.has_float( "max_mass" ) ) {
+        max_mass = units::from_gram( jo.has_float( "max_mass" ) );
+    }
+    return [is_npc, target_var, extra_moves_per_item, max_volume, max_mass]( dialogue const & d ) {
+        tripoint_abs_ms target_pos_abs = read_var_value( target_var, d ).tripoint();
+        tripoint_bub_ms target_pos = get_map().get_bub( target_pos_abs );
+        Character *c = d.actor( is_npc )->get_character();
+        Pickup::pick_info info = Pickup::pick_info( extra_moves_per_item, max_volume, max_mass );
+        if( c ) {
+            ( *c ).pick_up( game_menus::inv::pickup( {target_pos}, {}, info ) );
+        }
+    };
+}
+
 talk_effect_fun_t::func f_teleport( const JsonObject &jo, std::string_view member,
                                     std::string_view, bool is_npc )
 {
@@ -7566,6 +7655,7 @@ talk_effect_fun_t::func f_teleport( const JsonObject &jo, std::string_view membe
 
     bool force = jo.get_bool( "force", false );
     bool force_safe = jo.get_bool( "force_safe", false );
+
     return [is_npc, target_var, fail_message, success_message, force,
             force_safe]( dialogue const & d ) {
         tripoint_abs_ms target_pos = read_var_value( target_var, d ).tripoint();
@@ -7590,6 +7680,79 @@ talk_effect_fun_t::func f_teleport( const JsonObject &jo, std::string_view membe
                 add_msg( success_message.evaluate( d ) );
             } else {
                 add_msg( fail_message.evaluate( d ) );
+            }
+        }
+    };
+}
+
+talk_effect_fun_t::func f_travel_to_dimension( const JsonObject &jo, std::string_view member,
+        std::string_view )
+{
+    str_or_var dimension_prefix = get_str_or_var( jo.get_member( member ), member, true );
+    translation_or_var fail_message;
+    optional( jo, false, "fail_message", fail_message );
+    translation_or_var success_message;
+    optional( jo, false, "success_message", success_message );
+
+    // accepts values "all"/"follower"/"enemy"
+    str_or_var npc_travel_filter;
+    optional( jo, false, "npc_travel_filter", npc_travel_filter, "all" );
+
+    dbl_or_var npc_travel_radius;
+    optional( jo, false, "npc_travel_radius", npc_travel_radius, 0 );
+
+    str_or_var region_type_var;
+    optional( jo, false, "region_type", region_type_var, "default" );
+
+    bool take_vehicle = false;;
+    optional( jo, false, "take_vehicle", take_vehicle );
+
+    return [fail_message, success_message, dimension_prefix, npc_travel_filter,
+                  npc_travel_radius, region_type_var, take_vehicle]( dialogue const & d ) {
+        Creature *teleporter = d.actor( false )->get_creature();
+        if( teleporter ) {
+            std::string region_type = region_type_var.evaluate( d );
+            std::string prefix = dimension_prefix.evaluate( d );
+            std::string temp_dimension_prefix = ( prefix == "default" ) ? "" : prefix;
+            if( temp_dimension_prefix != g->get_dimension_prefix() ) {
+                std::vector<npc *> travellers;
+                std::string filter = npc_travel_filter.evaluate( d );
+                int radius = npc_travel_radius.evaluate( d );
+                if( radius > 0 ) {
+                    travellers = g->get_npcs_if( [teleporter, filter, radius]( const npc & guy ) {
+                        int distance_to_player = rl_dist( guy.pos_abs(), teleporter->pos_abs() );
+                        if( distance_to_player <= radius ) {
+                            if( filter == "all" ) {
+                                return true;
+                            } else if( filter == "follower" ) {
+                                return guy.is_following();
+                            } else if( filter == "enemy" ) {
+                                return guy.is_enemy();
+                            } else {
+                                return false;
+                            }
+                        } else {
+                            return false;
+                        }
+                    } );
+                }
+                vehicle *veh = nullptr;
+                if( take_vehicle ) {
+                    const optional_vpart_position vp_here = get_map().veh_at( teleporter->pos_bub() );
+                    if( !vp_here ) {
+                        teleporter->add_msg_if_player( fail_message.evaluate( d ) );
+                        return;
+                    }
+                    veh = &vp_here->vehicle();
+                }
+                // returns False if fail
+                if( g->travel_to_dimension( prefix, region_type, travellers, veh ) ) {
+                    teleporter->add_msg_if_player( success_message.evaluate( d ) );
+                } else {
+                    teleporter->add_msg_if_player( fail_message.evaluate( d ) );
+                }
+            } else {
+                teleporter->add_msg_if_player( fail_message.evaluate( d ) );
             }
         }
     };
@@ -7620,18 +7783,20 @@ talk_effect_fun_t::func f_trigger_event( const JsonObject &jo, std::string_view 
     JsonArray const &jargs = jo.get_array( "args" );
 
     event_type type = io::string_to_enum<event_type>( type_str );
-    std::vector<str_or_var> args;
+    std::vector<diag_value_or_var> args;
     args.reserve( jargs.size() );
     for( JsonValue const &jv : jargs ) {
-        args.emplace_back( get_str_or_var( jv, "args" ) );
+        diag_value_or_var vov;
+        vov.deserialize( jv );
+        args.emplace_back( vov );
     }
 
     return [type, args]( dialogue & d ) {
         std::vector<std::string> args_str;
         args_str.reserve( args.size() );
         std::transform( args.cbegin(), args.cend(),
-        std::back_inserter( args_str ), [&d]( str_or_var const & sov ) {
-            return sov.evaluate( d );
+        std::back_inserter( args_str ), [&d]( diag_value_or_var const & sov ) {
+            return sov.evaluate( d ).to_string();
         } );
         get_event_bus().send( cata::event::make_dyn( type, args_str ) );
     };
@@ -7782,6 +7947,7 @@ parsers = {
     { "u_set_field", "npc_set_field", jarg::member, &talk_effect_fun::f_field },
     { "u_emit", "npc_emit", jarg::member, &talk_effect_fun::f_emit },
     { "u_teleport", "npc_teleport", jarg::object, &talk_effect_fun::f_teleport },
+    { "u_travel_to_dimension", jarg::member, &talk_effect_fun::f_travel_to_dimension},
     { "u_set_flag", "npc_set_flag", jarg::member, &talk_effect_fun::f_set_flag },
     { "u_unset_flag", "npc_unset_flag", jarg::member, &talk_effect_fun::f_unset_flag },
     { "u_set_fault", "npc_set_fault", jarg::member, &talk_effect_fun::f_set_fault },
@@ -7796,6 +7962,7 @@ parsers = {
     { "u_cast_spell", "npc_cast_spell", jarg::member, &talk_effect_fun::f_cast_spell },
     { "u_map_run_eocs", "npc_map_run_eocs", jarg::member, &talk_effect_fun::f_map_run_eocs },
     { "u_map_run_item_eocs", "npc_map_run_item_eocs", jarg::member, &talk_effect_fun::f_map_run_item_eocs },
+    { "u_pickup_items", "npc_pickup_items", jarg::object, &talk_effect_fun::f_pickup_items },
     { "companion_mission", jarg::string, &talk_effect_fun::f_companion_mission },
     { "copy_var", jarg::member, &talk_effect_fun::f_copy_var },
     { "reveal_map", jarg::object, &talk_effect_fun::f_reveal_map },
@@ -7817,6 +7984,7 @@ parsers = {
     { "set_npc_cbm_reserve_rule", jarg::member, &talk_effect_fun::f_npc_cbm_reserve_rule },
     { "set_npc_cbm_recharge_rule", jarg::member, &talk_effect_fun::f_npc_cbm_recharge_rule },
     { "map_spawn_item", jarg::member, &talk_effect_fun::f_spawn_item },
+    { "clear_dimension", jarg::member, &talk_effect_fun::f_clear_dimension },
     { "mapgen_update", jarg::member, &talk_effect_fun::f_mapgen_update },
     { "alter_timed_events", jarg::member, &talk_effect_fun::f_alter_timed_events },
     { "revert_location", jarg::member, &talk_effect_fun::f_revert_location },
@@ -8708,7 +8876,9 @@ std::string const &npc::get_specified_talk_topic( std::string const &topic_id )
         {default_chatbin.talk_stranger_wary, chatbin.talk_stranger_wary},
         {default_chatbin.talk_stranger_friendly, chatbin.talk_stranger_friendly},
         {default_chatbin.talk_stranger_neutral, chatbin.talk_stranger_neutral},
-        {default_chatbin.talk_friend_guard, chatbin.talk_friend_guard}
+        {default_chatbin.talk_friend_guard, chatbin.talk_friend_guard},
+        {default_chatbin.talk_mission_inquire, chatbin.talk_mission_inquire},
+        {default_chatbin.talk_mission_describe_urgent, chatbin.talk_mission_describe_urgent}
     };
 
     const auto iter = std::find_if( talk_topics.begin(), talk_topics.end(),

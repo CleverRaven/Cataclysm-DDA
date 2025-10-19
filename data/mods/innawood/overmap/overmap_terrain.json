@@ -1,0 +1,41 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": "innawood_ore_vein_surface_indicator",
+    "name": "rocky patch",
+    "looks_like": "field",
+    "sym": ".",
+    "color": "brown",
+    "see_cost": "none",
+    "vision_levels": "blends_till_details"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "innawood_ore_vein_subsurface",
+    "vision_levels": "always_full",
+    "name": "subsurface rock",
+    "sym": "%",
+    "color": "dark_gray",
+    "looks_like": "empty_rock",
+    "see_cost": "opaque",
+    "travel_cost_type": "basement"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "innawood_ore_vein_surface_z2_left_side",
+      "innawood_ore_vein_surface_z2_center",
+      "innawood_ore_vein_surface_z2_right_side",
+      "innawood_ore_vein_surface_z3_left_side",
+      "innawood_ore_vein_surface_z3_center",
+      "innawood_ore_vein_surface_z3_right_side"
+    ],
+    "vision_levels": "always_full",
+    "name": "ore vein",
+    "sym": "%",
+    "color": "dark_gray",
+    "looks_like": "empty_rock",
+    "see_cost": "opaque",
+    "travel_cost_type": "basement"
+  }
+]

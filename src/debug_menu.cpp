@@ -56,6 +56,7 @@
 #include "display.h"
 #include "effect.h"
 #include "effect_on_condition.h"
+#include "end_screen.h"
 #include "enum_conversions.h"
 #include "enums.h"
 #include "event.h"
@@ -196,6 +197,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::SHORT_TELEPORT: return "SHORT_TELEPORT";
         case debug_menu::debug_menu_index::LONG_TELEPORT: return "LONG_TELEPORT";
         case debug_menu::debug_menu_index::SPAWN_NPC: return "SPAWN_NPC";
+        case debug_menu::debug_menu_index::SPAWN_NPC_FOLLOWER: return "SPAWN_NPC_FOLLOWER";
         case debug_menu::debug_menu_index::SPAWN_NAMED_NPC: return "SPAWN_NAMED_NPC";
         case debug_menu::debug_menu_index::SPAWN_OM_NPC: return "SPAWN_OM_NPC";
         case debug_menu::debug_menu_index::SPAWN_MON: return "SPAWN_MON";
@@ -245,6 +247,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::UNLOCK_ALL: return "UNLOCK_ALL";
         case debug_menu::debug_menu_index::SHOW_MSG: return "SHOW_MSG";
         case debug_menu::debug_menu_index::CRASH_GAME: return "CRASH_GAME";
+        case debug_menu::debug_menu_index::TEST_END_SCREEN: return "TEST_END_SCREEN";
         case debug_menu::debug_menu_index::MAP_EXTRA: return "MAP_EXTRA";
         case debug_menu::debug_menu_index::DISPLAY_NPC_PATH: return "DISPLAY_NPC_PATH";
         case debug_menu::debug_menu_index::DISPLAY_NPC_ATTACK: return "DISPLAY_NPC_ATTACK";
@@ -481,10 +484,9 @@ void write_min_archive()
                         min_mmr_save_rel +
                         ".temp" ).get_unrelative_path();
                 {
-                    std::shared_ptr<zzip> min_mmr_temp_zzip = zzip::load( min_mmr_temp_zzip_path, mmr_dict );
+                    std::optional<zzip> min_mmr_temp_zzip = zzip::load( min_mmr_temp_zzip_path, mmr_dict );
                     if( !min_mmr_temp_zzip ||
-                        !mmr_stack->copy_files_to( trimmed_mmr_entries, min_mmr_temp_zzip ) ||
-                        !min_mmr_temp_zzip->compact( 0 ) ) {
+                        !mmr_stack->copy_files_to( trimmed_mmr_entries, *min_mmr_temp_zzip ) ) {
                         popup( _( "Failed to create minimized archive" ) );
                         return;
                     }
@@ -679,16 +681,16 @@ static void monster_ammo_edit( monster &mon )
     }
 }
 
-// static std::string query_npctalkvar_new_value()
-// {
-//     std::string value;
-//     string_input_popup popup_val;
-//     popup_val
-//     .title( _( "Value" ) )
-//     .width( 85 )
-//     .edit( value );
-//     return value;
-// }
+static std::string query_var_value_text()
+{
+    std::string value;
+    string_input_popup popup_val;
+    popup_val
+    .title( _( "Text value:" ) )
+    .width( 85 )
+    .edit( value );
+    return value;
+}
 
 static void edit_vars( std::string const &title, global_variables::impl_t &vars )
 {
@@ -724,9 +726,23 @@ static void edit_vars( std::string const &title, global_variables::impl_t &vars 
         .title( _( "Key\n" ) )
         .width( 85 )
         .edit( key );
-        // globvars.set_global_value( key, query_npctalkvar_new_value() );
+        if( query_yn( "Is the value a number or a text?  [Y]es for number, [N]o for text." ) ) {
+            int value;
+            query_int( value, false, "Numeric value:" );
+            get_globals().set_global_value( key, value );
+        } else {
+            const std::string value = query_var_value_text();
+            get_globals().set_global_value( key, value );
+        }
     } else if( selected_globvar > 0 && selected_globvar <= static_cast<int>( keymap_index.size() ) ) {
-        // globvars.set_global_value( keymap_index[selected_globvar], query_npctalkvar_new_value() );
+        if( query_yn( "Is the value a number or a text?  [Y]es for number, [N]o for text." ) ) {
+            int value;
+            query_int( value, false, "Numeric value:" );
+            get_globals().set_global_value( keymap_index[selected_globvar], value );
+        } else {
+            const std::string value = query_var_value_text();
+            get_globals().set_global_value( keymap_index[selected_globvar], value );
+        }
     }
 }
 
@@ -995,6 +1011,7 @@ static int game_uilist()
         { uilist_entry( debug_menu_index::UNLOCK_ALL, true, 'u', _( "Unlock all progression" ) ) },
         { uilist_entry( debug_menu_index::SHOW_MSG, true, 'd', _( "Show debug message" ) ) },
         { uilist_entry( debug_menu_index::CRASH_GAME, true, 'C', _( "Crash game (test crash handling)" ) ) },
+        { uilist_entry( debug_menu_index::TEST_END_SCREEN, true, 'T', _( "Show end screen (game over/graveyard)" ) ) },
         { uilist_entry( debug_menu_index::ACTIVATE_EOC, true, 'E', _( "Activate EOC" ) ) },
         { uilist_entry( debug_menu_index::QUIT_NOSAVE, true, 'Q', _( "Quit to main menu" ) )  },
         { uilist_entry( debug_menu_index::QUICKLOAD, true, 'q', _( "Quickload" ) )  },
@@ -1038,6 +1055,7 @@ static int spawning_uilist()
         { uilist_entry( debug_menu_index::WISH, true, 'w', _( "Spawn an item" ) ) },
         { uilist_entry( debug_menu_index::SPAWN_ITEM_GROUP, true, 'W', _( "Spawn an item group" ) ) },
         { uilist_entry( debug_menu_index::SPAWN_NPC, true, 'n', _( "Spawn NPC" ) ) },
+        { uilist_entry( debug_menu_index::SPAWN_NPC_FOLLOWER, true, 'f', _( "Spawn NPC follower" ) ) },
         { uilist_entry( debug_menu_index::SPAWN_NAMED_NPC, true, 'p', _( "Spawn named NPC" ) ) },
         { uilist_entry( debug_menu_index::SPAWN_OM_NPC, true, 'N', _( "Spawn random NPC on overmap" ) ) },
         { uilist_entry( debug_menu_index::SPAWN_MON, true, 'm', _( "Spawn monster" ) ) },
@@ -2338,7 +2356,7 @@ static faction *select_faction()
     uilist factionlist;
     int facnum = 0;
     for( const faction *faction : factions ) {
-        factionlist.addentry( facnum++, true, MENU_AUTOASSIGN, "%s", faction->name.c_str() );
+        factionlist.addentry( facnum++, true, MENU_AUTOASSIGN, "%s", faction->get_name() );
     }
 
     factionlist.query();
@@ -2442,9 +2460,7 @@ static void character_edit_menu()
     nmenu.addentry( D_HEALTHY, true, 'a', "%s", _( "Set health" ) );
     nmenu.addentry( D_NEEDS, true, 'n', "%s", _( "Set needs" ) );
     nmenu.addentry( D_NORMALIZE_BODY, true, 'N', "%s", _( "Normalize body stats" ) );
-    if( get_option<bool>( "STATS_THROUGH_KILLS" ) ) {
-        nmenu.addentry( D_KILL_XP, true, 'X', "%s", _( "Set kill XP" ) );
-    }
+    nmenu.addentry( D_KILL_XP, true, 'X', "%s", _( "Set kill XP (for mods)" ) );
     nmenu.addentry( D_MUTATE, true, 'u', "%s", _( "Mutate" ) );
     nmenu.addentry( D_BIONICS, true, 'b', "%s", _( "Edit [b]ionics" ) );
     nmenu.addentry( D_STATUS, true,
@@ -2887,7 +2903,7 @@ static void faction_edit_menu()
     uilist nmenu;
 
     std::stringstream data;
-    data << fac->name << std::endl;
+    data << fac->get_name() << std::endl;
     data << fac->describe() << std::endl;
     data << string_format( _( "Id: %s" ), fac->id.c_str() ) << std::endl;
     data << string_format( _( "Wealth: %d" ), fac->wealth ) << " | "
@@ -3749,6 +3765,23 @@ static void spawn_npc()
     g->load_npcs();
 }
 
+static void spawn_npc_follower()
+{
+    avatar &player_character = get_avatar();
+    shared_ptr_fast<npc> temp = make_shared_fast<npc>();
+    temp->normalize();
+    temp->randomize();
+    temp->spawn_at_precise( player_character.pos_abs() + point( -4, -4 ) );
+    overmap_buffer.insert_npc( temp );
+    temp->form_opinion( player_character );
+    temp->set_attitude( NPCATT_FOLLOW );
+    temp->set_fac( faction_your_followers );
+    temp->mission = NPC_MISSION_NULL;
+    temp->add_new_mission( mission::reserve_random( ORIGIN_ANY_NPC, temp->pos_abs_omt(),
+                           temp->getID() ) );
+    g->load_npcs();
+}
+
 static void spawn_named_npc()
 {
     uilist npc_menu;
@@ -4117,6 +4150,10 @@ void debug()
             spawn_npc();
             break;
 
+        case debug_menu_index::SPAWN_NPC_FOLLOWER:
+            spawn_npc_follower();
+            break;
+
         case debug_menu_index::SPAWN_NAMED_NPC:
             spawn_named_npc();
             break;
@@ -4133,10 +4170,8 @@ void debug()
 
         case debug_menu_index::SPAWN_HORDE: {
             const tripoint_abs_ms &player_abs_ms = get_player_character().pos_abs();
-            tripoint_abs_sm horde_dest = project_to<coords::sm>( player_abs_ms );
-            horde_dest = horde_dest + point{0, -20}; // 20 submaps to the north
-            overmap &om = overmap_buffer.get( project_to<coords::om>( player_abs_ms ).xy() );
-            om.debug_force_add_group( mongroup( GROUP_DEBUG_EXACTLY_ONE, horde_dest, 1 ) );
+            tripoint_abs_sm horde_dest = project_to<coords::sm>( player_abs_ms + point{0, -240} );
+            overmap_buffer.spawn_mongroup( horde_dest, GROUP_DEBUG_EXACTLY_ONE, 1 );
         }
         break;
 
@@ -4267,6 +4302,7 @@ void debug()
             g->cleanup_dead();
         }
         break;
+
         case debug_menu_index::DISPLAY_HORDES:
             ui::omap::display_hordes();
             break;
@@ -4390,6 +4426,10 @@ void debug()
                 };
             }
             break;
+        case debug_menu_index::TEST_END_SCREEN:
+            end_screen_data new_instance;
+            new_instance.draw_end_screen_ui();
+            break;
         case debug_menu_index::ACTIVATE_EOC: {
             run_eoc_menu();
         }
@@ -4409,7 +4449,7 @@ void debug()
                 std::cout << std::to_string( count ) << " Faction_id key in factions map = " << elem.first.str() <<
                           std::endl;
                 std::cout << std::to_string( count ) << " Faction name associated with this id is " <<
-                          elem.second.name << std::endl;
+                          elem.second.get_name() << std::endl;
                 std::cout << std::to_string( count ) << " the id of that faction object is " << elem.second.id.str()
                           << std::endl;
                 count++;

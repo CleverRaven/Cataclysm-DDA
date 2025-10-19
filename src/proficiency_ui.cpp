@@ -4,7 +4,6 @@
 #include <optional>
 #include <ostream>
 #include <set>
-#include <stdexcept>
 #include <string>
 #include <utility>
 #include <vector>
@@ -124,14 +123,14 @@ void prof_window::filter()
     }
     float prog_val = 0.0f;
     if( prefix == _prof_filter_prefix::AS_PROGRESS ) {
-        try {
-            prog_val = std::stof( qry );
-        } catch( const std::invalid_argument &e ) {
+        std::optional<double> v = svtod( qry, false );
+        if( !v.has_value() ) {
             // User mistyped query. Not severe enough for debugmsg.
             DebugLog( DebugLevel::D_WARNING, DebugClass::D_GAME ) <<
-                    "Malformed proficiency query \"" << filter_str << "\": " << e.what();
+                    "Malformed proficiency query \"" << filter_str << "\"";
             return;
         }
+        prog_val = v.value();
     }
     for( display_prof_deps &dp : all_profs ) {
         if( prefix == _prof_filter_prefix::AS_PROGRESS ) {

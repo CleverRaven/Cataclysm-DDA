@@ -389,23 +389,23 @@ int butcher_time_to_cut( Character &you, const item &corpse_item, const butcher_
     switch( corpse.size ) {
         // Time (roughly) in turns to cut up the corpse
         case creature_size::tiny:
-            time_to_cut = 150;
+            time_to_cut = 900;
             break;
         case creature_size::small:
-            time_to_cut = 300;
+            time_to_cut = 1800;
             break;
         case creature_size::medium:
-            time_to_cut = 450;
+            time_to_cut = 2700;
             break;
         case creature_size::large:
-            time_to_cut = 600;
+            time_to_cut = 3600;
             break;
         case creature_size::huge:
-            time_to_cut = 1800;
+            time_to_cut = 10800;
             break;
         default:
             debugmsg( "ERROR: Invalid creature_size on %s", corpse.nname() );
-            time_to_cut = 450; // default to medium
+            time_to_cut = 2700; // default to medium
             break;
     }
 

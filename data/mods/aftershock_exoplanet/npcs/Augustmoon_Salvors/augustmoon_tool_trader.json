@@ -38,6 +38,7 @@
       { "group": "afs_tools_pocket", "count": [ 5, 10 ] },
       { "item": "afs_thermos", "count": [ 2, 3 ] },
       { "item": "multi_cooker", "count": 1 },
+      { "item": "g_shovel", "count": 1 },
       { "item": "water_purifier", "count": 1 },
       { "item": "afs_40g_plasma_civ", "count": [ 2, 5 ] },
       { "item": "afs_heavy_suit_battery_cell", "count": [ 2, 5 ] },

@@ -481,6 +481,54 @@
     "melee_damage": { "bash": 7 }
   },
   {
+    "id": "hammer_peen",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "ball-peen hammer" },
+    "description": "A hammer with two heads; one flat and the other rounded used in the peening process in metalworking.",
+    "ascii_picture": "hammer",
+    "longest_side": "25 cm",
+    "weight": "566 g",
+    "volume": "320 ml",
+    "price": "7 USD",
+    "price_postapoc": "1 USD",
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "neutral" },
+    "material": [ "mc_steel", "wood" ],
+    "symbol": ";",
+    "color": "brown",
+    "qualities": [ [ "HAMMER", 3 ], [ "HAMMER_FINE", 1 ] ],
+    "flags": [ "BELT_CLIP", "NONCONDUCTIVE", "ALLOWS_BODY_BLOCK" ],
+    "weapon_category": [ "BATONS" ],
+    "melee_damage": { "bash": 6 },
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "peen_ball",
+        "name": { "str": "ball-peen hammer" },
+        "description": "A hammer with two heads; one flat and the other rounded used in the peening process in metalworking.",
+        "color": "brown"
+      },
+      {
+        "id": "peen_straight",
+        "name": { "str": "straight-peen hammer" },
+        "description": "A hammer with two heads; one flat and the other wedge-shaped oriented parallel to the hammer's handle used in the peening process in metalworking.",
+        "color": "brown"
+      },
+      {
+        "id": "peen_cross",
+        "name": { "str": "cross-peen hammer" },
+        "description": "A hammer with two heads; one flat and the other wedge-shaped oriented perpendicular to the hammer's handle used in the peening process in metalworking.",
+        "color": "brown"
+      },
+      {
+        "id": "rounding",
+        "name": { "str": "rounding hammer" },
+        "description": "A hammer with rounded face used by blacksmiths and farriers for drawing out the metal in metalworking.",
+        "color": "dark_gray"
+      }
+    ]
+  },
+  {
     "id": "nail_puller_bronze",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],

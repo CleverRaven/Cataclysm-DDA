@@ -34,10 +34,10 @@
     "symbol": ".",
     "color": "light_blue",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "ROUGH" ],
+    "flags": [ "TRANSPARENT", "DIGGABLE", "SNOW_SOURCE", "FLAT", "ROUGH" ],
     "bash": {
-      "str_min": 50,
-      "str_max": 100,
+      "str_min": 800,
+      "str_max": 1000,
       "sound": "splosh!",
       "sound_fail": "fweet!",
       "ter_set": "t_null",
@@ -183,7 +183,7 @@
       "str_max": 100,
       "sound": "splosh!",
       "sound_fail": "fweet!",
-      "ter_set": "t_deaddirt",
+      "ter_set": "t_ice",
       "str_min_supported": 100
     }
   },
@@ -196,13 +196,32 @@
     "symbol": ".",
     "color": "light_blue",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "ROUGH" ],
+    "flags": [ "TRANSPARENT", "DIGGABLE", "SNOW_SOURCE", "FLAT", "ROUGH" ],
     "bash": {
       "str_min": 8,
       "str_max": 100,
       "sound": "splosh!",
       "sound_fail": "fweet!",
-      "ter_set": "t_deaddirt",
+      "ter_set": "t_ice",
+      "str_min_supported": 100
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_snow_metal_floor",
+    "name": "snow",
+    "looks_like": "t_snow",
+    "description": "A patch of thick snow, very cold.",
+    "symbol": ".",
+    "color": "light_blue",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "SNOW_SOURCE", "FLAT", "ROUGH" ],
+    "bash": {
+      "str_min": 8,
+      "str_max": 100,
+      "sound": "splosh!",
+      "sound_fail": "fweet!",
+      "ter_set": "t_metal_floor",
       "str_min_supported": 100
     }
   },
@@ -215,7 +234,7 @@
     "symbol": ".",
     "color": "light_blue",
     "move_cost": 4,
-    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ],
+    "flags": [ "TRANSPARENT", "DIGGABLE", "SNOW_SOURCE", "FLAT" ],
     "bash": {
       "str_min": 8,
       "str_max": 100,
@@ -234,7 +253,7 @@
     "symbol": ".",
     "color": "light_blue",
     "move_cost": 4,
-    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ],
+    "flags": [ "TRANSPARENT", "DIGGABLE", "SNOW_SOURCE", "FLAT" ],
     "bash": {
       "str_min": 80,
       "str_max": 100,
@@ -435,6 +454,21 @@
     "required_str": 32,
     "flags": [ "NOITEM", "MINEABLE", "BLOCK_WIND" ],
     "bash": { "str_min": 64, "str_max": 160, "sound": "smash!", "sound_fail": "thump." }
+  },
+  {
+    "type": "furniture",
+    "id": "f_snow_bowl",
+    "name": "snow bowl",
+    "symbol": "o",
+    "description": "A small depression dug from mostly clean snow.  Can hold small amounts of liquid.",
+    "color": "white",
+    "move_cost_mod": 2,
+    "coverage": 30,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "CONTAINER", "PLACE_ITEM", "LIQUIDCONT", "UNSTABLE", "MOUNTABLE", "TINY" ],
+    "max_volume": "8 L",
+    "examine_action": "keg",
+    "keg_capacity": "8 L"
   },
   {
     "type": "terrain",

@@ -15,7 +15,6 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
-#include <variant>
 #include <vector>
 
 #include "avatar.h"
@@ -239,27 +238,6 @@ translation_or_var get_translation_or_var( const JsonValue &jv, std::string_view
     translation_or_var ret;
     ret.deserialize( jv );
     return ret;
-}
-
-void str_translation_or_var::deserialize( JsonValue const &jv )
-{
-    if( jv.test_object() ) {
-        const JsonObject &jo = jv.get_object();
-        if( jo.get_bool( "i18n", false ) ) {
-            translation tov;
-            mandatory( jo, false, "str", tov );
-            val = translation_or_var{ tov };
-        } else {
-            jo.allow_omitted_members();
-            str_or_var sov;
-            sov.deserialize( jv );
-            val = sov;
-        }
-    } else {
-        str_or_var sov;
-        sov.deserialize( jv );
-        val = sov;
-    }
 }
 
 void var_info::deserialize( JsonValue const &jsin )
@@ -692,6 +670,14 @@ conditional_t::func f_is_wearing( const JsonObject &jo, std::string_view member,
     str_or_var item_id = get_str_or_var( jo.get_member( member ), member, true );
     return [item_id, is_npc]( const_dialogue const & d ) {
         return d.const_actor( is_npc )->is_wearing( itype_id( item_id.evaluate( d ) ) );
+    };
+}
+
+conditional_t::func current_dimension( const JsonObject &jo, std::string_view member )
+{
+    str_or_var dimension_prefix = get_str_or_var( jo.get_member( member ), member, true );
+    return [dimension_prefix]( const_dialogue const & d ) {
+        return ( g->get_dimension_prefix() == dimension_prefix.evaluate( d ) );
     };
 }
 
@@ -2120,16 +2106,26 @@ template<class T>
 static std::function<T( const_dialogue const & )> get_get_translation_( const JsonObject &jo,
         std::function<T( const translation & )> ret_func )
 {
+    // straight translation - used by diag_value_or_var
+    if( jo.get_bool( "i18n", false ) && jo.has_string( "str" ) ) {
+        translation tr;
+        tr.deserialize( jo.get_member( "str" ) );
+        return [tr, ret_func]( const_dialogue const &/* d */ ) {
+            return ret_func( tr );
+        };
+    }
+
     if( !jo.has_string( "mutator" ) ) {
         return nullptr;
     }
-    if( jo.get_string( "mutator" ) == "ma_technique_description" ) {
+    std::string const &mutator = jo.get_string( "mutator" );
+    if( mutator == "ma_technique_description" ) {
         str_or_var ma = get_str_or_var( jo.get_member( "matec_id" ), "matec_id" );
 
         return [ma, ret_func]( const_dialogue const & d ) {
             return ret_func( matec_id( ma.evaluate( d ) )->description );
         };
-    } else if( jo.get_string( "mutator" ) == "ma_technique_name" ) {
+    } else if( mutator == "ma_technique_name" ) {
         str_or_var ma = get_str_or_var( jo.get_member( "matec_id" ), "matec_id" );
 
         return [ma, ret_func]( const_dialogue const & d ) {
@@ -2157,7 +2153,7 @@ void string_mutator<translation>::deserialize( JsonValue const &jsin )
         } );
         if( !ret_func ) {
             jo.allow_omitted_members();
-            jo.throw_error( "unrecognized string mutator in " + jo.str() );
+            throw JsonError( "invalid string mutator" );
         }
     }
 }
@@ -2176,7 +2172,7 @@ void string_mutator<std::string>::deserialize( JsonValue const &jsin )
         } );
         if( !ret_func ) {
             jo.allow_omitted_members();
-            jo.throw_error( "unrecognized string mutator in " + jo.str() );
+            throw JsonError( "invalid string mutator" );
         }
     }
 }
@@ -2371,7 +2367,7 @@ void deferred_math::_validate_type() const
 void eoc_math::from_json( const JsonObject &jo, std::string_view member, math_type_t type_ )
 {
     if( !jo.has_array( member ) ) {
-        jo.throw_error( "invalid math object" );
+        throw JsonError( "invalid math object" );
     }
     JsonArray const objects = jo.get_array( member );
     std::string combined;
@@ -2428,6 +2424,7 @@ parsers = {
     {"u_has_part_temp", "npc_has_part_temp", jarg::member | jarg::array, &conditional_fun::f_has_part_temp },
     {"u_is_wearing", "npc_is_wearing", jarg::member, &conditional_fun::f_is_wearing },
     {"is_outside", jarg::member, &conditional_fun::f_tile_is_outside },
+    {"current_dimension", jarg::member, &conditional_fun::current_dimension },
     {"u_has_item", "npc_has_item", jarg::member, &conditional_fun::f_has_item },
     {"u_has_item_with_flag", "npc_has_item_with_flag", jarg::member, &conditional_fun::f_has_item_with_flag },
     {"u_has_items", "npc_has_items", jarg::member, &conditional_fun::f_has_items },

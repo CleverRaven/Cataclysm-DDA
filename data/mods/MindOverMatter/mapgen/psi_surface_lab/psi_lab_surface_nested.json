@@ -1673,12 +1673,13 @@
         "CC&    =   "
       ],
       "terrain": {
-        "_": [ [ "t_nether_glass_floor", 10 ], [ "t_nether_crystal_structure", 1 ], [ "t_null", 2 ] ],
-        "s": [ [ "t_nether_glass_floor", 2 ], [ "t_null", 1 ] ],
-        "b": [ [ "t_nether_glass_floor", 2 ], [ "t_null", 1 ] ],
-        "U": [ [ "t_nether_glass_floor", 1 ], [ "t_null", 2 ] ],
-        "l": [ [ "t_nether_glass_floor", 1 ], [ "t_null", 2 ] ]
+        "_": "t_nether_glass_floor",
+        "s": "t_nether_glass_floor",
+        "b": "t_nether_glass_floor",
+        "U": "t_nether_glass_floor",
+        "l": "t_nether_glass_floor"
       },
+      "furniture": { "_": [ [ "f_null", 10 ], [ "f_nether_crystal_structure", 1 ] ] },
       "items": {
         "b": [
           { "item": "tools_science", "chance": 30, "repeat": [ 1, 2 ] },
@@ -1854,14 +1855,14 @@
         "bbb& CSC&  "
       ],
       "terrain": {
-        "_": [ [ "t_nether_glass_floor", 5 ], [ "t_nether_crystal_structure", 1 ] ],
+        "_": "t_nether_glass_floor",
         "X": "t_nether_glass_floor",
         "E": "t_nether_glass_floor",
         "ȼ": "t_nether_glass_floor",
         "ś": "t_nether_glass_floor",
         "=": [ [ "t_nether_glass_floor", 1 ], [ "t_strconc_floor", 1 ] ]
       },
-      "furniture": { "ȼ": "f_counter", "ś": "f_stool" },
+      "furniture": { "ȼ": "f_counter", "ś": "f_stool", "_": [ [ "f_null", 10 ], [ "f_nether_crystal_structure", 1 ] ] },
       "items": {
         "b": [
           { "item": "tools_science", "chance": 30, "repeat": [ 1, 2 ] },

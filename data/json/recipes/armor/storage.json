@@ -145,6 +145,7 @@
     "difficulty": 3,
     "time": "6 h",
     "autolearn": true,
+    "reversible": { "time": "15 m" },
     "using": [ [ "tailoring_nylon_patchwork", 9 ], [ "fastener_small", 2 ], [ "strap_small", 1 ], [ "clasps", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ]
   },
@@ -199,7 +200,7 @@
     "time": "6 h",
     "autolearn": true,
     "reversible": true,
-    "//": "Item disassembly based on reversible craft and manually defined uncraft integration. Read ITEM_DISASSEMBLY.mb for more info.",
+    "//": "Item disassembly based on reversible craft and manually defined uncraft integration. Read ITEM_CRAFT_AND_DISASSEMBLY.md for more info.",
     "using": [
       [ "tailoring_nylon_patchwork", 10 ],
       [ "fastener_small", 1 ],
@@ -224,7 +225,7 @@
     "difficulty": 4,
     "time": "4 h",
     "autolearn": true,
-    "reversible": true,
+    "reversible": { "time": "15 m" },
     "using": [ [ "tailoring_nylon_patchwork", 4 ], [ "fastener_small", 2 ], [ "strap_small", 1 ], [ "clasps", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ]
   },
@@ -353,7 +354,7 @@
     "reversible": { "time": "5 m" },
     "using": [ [ "adhesive", 1 ], [ "tailoring_leather_small", 5 ], [ "clasps", 1 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "scrap", 1 ] ], [ [ "nail", 4 ], [ "bronze_nail", 4 ] ] ]
+    "components": [ [ [ "scrap", 1 ] ], [ [ "nails", 4, "LIST" ] ] ]
   },
   {
     "result": "back_holster",
@@ -503,7 +504,7 @@
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_leatherworking" }
     ],
-    "components": [ [ [ "2x4", 2 ] ], [ [ "nail", 8 ], [ "bronze_nail", 8 ] ] ]
+    "components": [ [ [ "2x4", 2 ] ], [ [ "nails", 8, "LIST" ] ] ]
   },
   {
     "result": "bandolier_pistol",
@@ -736,7 +737,7 @@
     "using": [ [ "tailoring_leather_small", 15 ], [ "adhesive", 1 ], [ "clasps", 1 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ],
-    "components": [ [ [ "2x4", 2 ] ], [ [ "nail", 10 ], [ "bronze_nail", 10 ] ] ]
+    "components": [ [ [ "2x4", 2 ] ], [ [ "nails", 10, "LIST" ] ] ]
   },
   {
     "result": "armrig",
@@ -875,7 +876,7 @@
     "time": "3 h",
     "autolearn": true,
     "reversible": true,
-    "//": "Item disassembly based on reversible craft and manually defined uncraft integration. Read ITEM_DISASSEMBLY.mb for more info.",
+    "//": "Item disassembly based on reversible craft and manually defined uncraft integration. Read ITEM_CRAFT_AND_DISASSEMBLY.md for more info.",
     "using": [
       [ "tailoring_nylon_patchwork", 1 ],
       [ "fastener_small", 1 ],
@@ -1080,12 +1081,7 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
-    "components": [
-      [ [ "2x4", 3 ] ],
-      [ [ "wood_panel", 1 ] ],
-      [ [ "nail", 20 ], [ "bronze_nail", 20 ] ],
-      [ [ "rope_natural", 1, "LIST" ] ]
-    ]
+    "components": [ [ [ "2x4", 3 ] ], [ [ "wood_panel", 1 ] ], [ [ "nails", 20, "LIST" ] ], [ [ "rope_natural", 1, "LIST" ] ] ]
   },
   {
     "result": "leather_belt",
@@ -1288,7 +1284,7 @@
     "autolearn": false,
     "book_learn": [ [ "manual_gun", 2 ] ],
     "reversible": true,
-    "//": "Item disassembly based on reversible craft and manually defined uncraft integration. Read ITEM_DISASSEMBLY.mb for more info.",
+    "//": "Item disassembly based on reversible craft and manually defined uncraft integration. Read ITEM_CRAFT_AND_DISASSEMBLY.md for more info.",
     "using": [ [ "tailoring_nylon_patchwork", 6 ], [ "fastener_small", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ],
     "components": [ [ [ "strap_small", 2, "LIST" ] ], [ [ "clasps", 2, "LIST" ] ] ]
@@ -1635,7 +1631,7 @@
       { "proficiency": "prof_leatherworking" }
     ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "2x4", 2 ] ], [ [ "nail", 5 ], [ "bronze_nail", 5 ] ] ]
+    "components": [ [ [ "2x4", 2 ] ], [ [ "nails", 5, "LIST" ] ] ]
   },
   {
     "result": "nylon_scabbard",
@@ -1651,7 +1647,7 @@
     "using": [ [ "tailoring_nylon_patchwork", 10 ], [ "clasps", 1 ], [ "adhesive", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" } ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "2x4", 2 ] ], [ [ "nail", 5 ], [ "bronze_nail", 5 ] ] ]
+    "components": [ [ [ "2x4", 2 ] ], [ [ "nails", 5, "LIST" ] ] ]
   },
   {
     "result": "leg_sheath6",
@@ -1757,6 +1753,22 @@
     "autolearn": true,
     "reversible": true,
     "using": [ [ "tailoring_leather_patchwork", 2 ] ],
+    "proficiencies": [ { "proficiency": "prof_closures" } ],
+    "components": [ [ [ "strap_large", 1, "LIST" ] ], [ [ "clasps", 1, "LIST" ] ] ]
+  },
+  {
+    "result": "spearsling_canvas",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "skills_required": [ "melee", 1 ],
+    "time": "45 m",
+    "autolearn": true,
+    "reversible": true,
+    "using": [ [ "tailoring_canvas_patchwork", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" } ],
     "components": [ [ [ "strap_large", 1, "LIST" ] ], [ [ "clasps", 1, "LIST" ] ] ]
   },

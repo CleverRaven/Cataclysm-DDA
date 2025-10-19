@@ -362,7 +362,8 @@
         "id": "robofac",
         "name": { "str": "Hub 01 jumpsuit" },
         "description": "A brown jumpsuit worn by the staff of Hub 01.",
-        "color": "brown"
+        "color": "brown",
+        "weight": 0
       }
     ]
   },
@@ -425,7 +426,7 @@
     "subtypes": [ "ARMOR" ],
     "copy-from": "jumpsuit",
     "name": { "str": "jumpsuit" },
-    "description": "A thin, short-sleeved jumpsuit; similar to those worn by prisoners.  Provides decent storage and is not very encumbering.",
+    "description": "A thin, short-sleeved jumpsuit similar to those worn by prisoners.  Provides decent storage and is not very encumbering.",
     "//": "delete jumpsuit variants",
     "variants": [  ],
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },

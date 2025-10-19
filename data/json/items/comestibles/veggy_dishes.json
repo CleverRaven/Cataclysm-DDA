@@ -115,7 +115,7 @@
     "description": "Cooked leaves from wild dandelions.  Tasty and nutritious.",
     "price": "2 USD",
     "price_postapoc": "10 cent",
-    "flags": [ "EATEN_HOT", "FREEZERBURN", "SMOKABLE" ],
+    "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 1
   },
   {
@@ -148,7 +148,7 @@
     "description": "Cooked burdock leaves.  Tasty and nutritious.",
     "price": "2 USD",
     "price_postapoc": "50 cent",
-    "flags": [ "EATEN_HOT", "FREEZERBURN", "SMOKABLE" ],
+    "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 1
   },
   {
@@ -201,7 +201,7 @@
     "description": "Peeled and cooked bamboo shoots.  Tasty and nutritious.",
     "price": "2 USD",
     "price_postapoc": "50 cent",
-    "flags": [ "EATEN_HOT", "FREEZERBURN", "SMOKABLE" ],
+    "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 1
   },
   {
@@ -1266,7 +1266,13 @@
     "fruit": "corn",
     "seeds": false,
     "byproducts": [ "withered" ],
-    "grow": "80 days",
+    "growth_stages": [
+      { "GROWTH_SEED": "20 days" },
+      { "GROWTH_SEEDLING": "20 days" },
+      { "GROWTH_MATURE": "20 days" },
+      { "GROWTH_HARVEST": "20 days" },
+      { "GROWTH_OVERGROWN": "1 hour" }
+    ],
     "into": "cornmeal",
     "recipe": "cornmeal_mill_1_3"
   },
@@ -1672,7 +1678,7 @@
     "spoils_in": "2 days",
     "description": "Ground nuts that have been peeled and then boiled, to destroy the harmful protease inhibitors.  Safe to eat, but need further cooking to become palatable.  Can be used much like potatoes.",
     "delete": { "flags": [ "RAW" ] },
-    "extend": { "flags": [ "EATEN_HOT", "SMOKABLE" ] },
+    "extend": { "flags": [ "EATEN_HOT" ] },
     "smoking_result": "dry_veggy",
     "healthy": 0,
     "fun": -2

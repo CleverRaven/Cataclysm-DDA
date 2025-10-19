@@ -119,7 +119,7 @@
     "description": "This golem is easy to separate from other golems - the metallic earthshaper's emblem shines on its smooth body, and it's eyes and hands are made out of amethyst.",
     "default_faction": "player",
     "bodytype": "human",
-    "species": [ "GOLEM" ],
+    "species": [ "GOLEM", "SUMMONED_CREATURE" ],
     "volume": "80 L",
     "weight": "112 kg",
     "hp": 90,

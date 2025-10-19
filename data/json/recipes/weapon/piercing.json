@@ -217,7 +217,8 @@
     "skills_required": [ "fabrication", 2 ],
     "difficulty": 6,
     "time": "3 h",
-    "reversible": { "time": "5 m" },
+    "reversible": true,
+    "//": "Item disassembly based on reversible craft and manually defined uncraft integration. Read ITEM_CRAFT_AND_DISASSEMBLY.md for more info.",
     "autolearn": true,
     "qualities": [
       { "id": "PUNCH", "level": 1 },
@@ -242,7 +243,8 @@
     "skills_required": [ "fabrication", 2 ],
     "difficulty": 6,
     "time": "3 h",
-    "reversible": { "time": "5 m" },
+    "reversible": true,
+    "//": "Item disassembly based on reversible craft and manually defined uncraft integration. Read ITEM_CRAFT_AND_DISASSEMBLY.md for more info.",
     "autolearn": true,
     "qualities": [
       { "id": "PUNCH", "level": 1 },
@@ -340,7 +342,7 @@
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "components": [
       [ [ "scrap_bronze", 4 ] ],
-      [ [ "stick_long", 1 ] ],
+      [ [ "spear_shaft", 1 ] ],
       [ [ "cotton_patchwork", 2 ], [ "felt_patch", 2 ], [ "leather", 2 ], [ "fur", 2 ] ]
     ]
   },
@@ -986,6 +988,7 @@
     "difficulty": 1,
     "time": "2 h",
     "reversible": true,
+    "//": "Item disassembly based on reversible craft and manually defined uncraft integration. Read ITEM_CRAFT_AND_DISASSEMBLY.md for more info.",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 }, { "id": "DRILL", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0.15 } ],
@@ -1023,6 +1026,7 @@
     "difficulty": 1,
     "time": "30 m",
     "reversible": true,
+    "//": "Item disassembly based on reversible craft and manually defined uncraft integration. Read ITEM_CRAFT_AND_DISASSEMBLY.md for more info.",
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0.15 } ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 }, { "id": "DRILL", "level": 1 } ],
@@ -1042,6 +1046,7 @@
     "difficulty": 1,
     "time": "30 m",
     "reversible": true,
+    "//": "Item disassembly based on reversible craft and manually defined uncraft integration. Read ITEM_CRAFT_AND_DISASSEMBLY.md for more info.",
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0.15 } ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 }, { "id": "DRILL", "level": 1 } ],

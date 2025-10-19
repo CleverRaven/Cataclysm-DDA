@@ -134,19 +134,31 @@
     "type": "item_group",
     "subtype": "distribution",
     "id": "feral_humans_crystal_drops_bio",
-    "entries": [ { "item": "matrix_crystal_drained", "prob": 70 }, { "item": "matrix_crystal_biokinesis", "prob": 30 } ]
+    "entries": [
+      { "item": "matrix_crystal_drained", "prob": 85 },
+      { "group": "biokinetic_crystal_awakening_artifact_procgen", "prob": 30 },
+      { "group": "biokinetic_crystal_artifact_procgen", "prob": 15 }
+    ]
   },
   {
     "type": "item_group",
     "subtype": "distribution",
     "id": "feral_humans_crystal_drops_clair",
-    "entries": [ { "item": "matrix_crystal_drained", "prob": 70 }, { "item": "matrix_crystal_clairsentience", "prob": 30 } ]
+    "entries": [
+      { "item": "matrix_crystal_drained", "prob": 70 },
+      { "group": "clairsentient_crystal_awakening_artifact_procgen", "prob": 30 },
+      { "group": "clairsentient_crystal_artifact_procgen", "prob": 15 }
+    ]
   },
   {
     "type": "item_group",
     "subtype": "distribution",
     "id": "feral_humans_crystal_drops_electro",
-    "entries": [ { "item": "matrix_crystal_drained", "prob": 70 }, { "item": "matrix_crystal_electrokinesis", "prob": 30 } ]
+    "entries": [
+      { "item": "matrix_crystal_drained", "prob": 70 },
+      { "group": "electrokinetic_crystal_awakening_artifact_procgen", "prob": 30 },
+      { "group": "electrokinetic_crystal_artifact_procgen", "prob": 15 }
+    ]
   },
   {
     "type": "item_group",

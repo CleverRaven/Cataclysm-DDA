@@ -101,6 +101,8 @@ static const trait_id trait_STRONGBACK( "STRONGBACK" );
 
 static const vpart_id vpart_ap_wall_wiring( "ap_wall_wiring" );
 
+static const vpart_location_id vpart_location_structure( "structure" );
+
 static std::string status_color( bool status )
 {
     return status ? "<color_green>" : "<color_red>";
@@ -542,7 +544,7 @@ void veh_interact::do_main_loop( map &here )
                 do_rename();
             } else {
                 if( owner_fac ) {
-                    popup( _( "You cannot rename this vehicle as it is owned by: %s." ), _( owner_fac->name ) );
+                    popup( _( "You cannot rename this vehicle as it is owned by: %s." ), owner_fac->get_name() );
                 }
             }
         } else if( action == "SIPHON" ) {
@@ -568,7 +570,7 @@ void veh_interact::do_main_loop( map &here )
             } else {
                 if( owner_fac ) {
                     popup( _( "You cannot assign crew on this vehicle as it is owned by: %s." ),
-                           _( owner_fac->name ) );
+                           owner_fac->get_name() );
                 }
             }
         } else if( action == "RELABEL" ) {
@@ -576,7 +578,7 @@ void veh_interact::do_main_loop( map &here )
                 do_relabel( here );
             } else {
                 if( owner_fac ) {
-                    popup( _( "You cannot relabel this vehicle as it is owned by: %s." ), _( owner_fac->name ) );
+                    popup( _( "You cannot relabel this vehicle as it is owned by: %s." ), owner_fac->get_name() );
                 }
             }
         } else if( action == "FUEL_LIST_DOWN" ) {
@@ -2041,7 +2043,8 @@ void veh_interact::do_rename()
 {
     std::string name = string_input_popup()
                        .title( _( "Enter new vehicle name:" ) )
-                       .width( 20 )
+                       .width( 60 )
+                       .text( veh->name )
                        .query_string();
     if( !name.empty() ) {
         veh->name = name;
@@ -2344,7 +2347,7 @@ void veh_interact::display_veh( map &here )
     nc_color col_at_cursor = c_black;
     int sym_at_cursor = ' ';
     //Iterate over structural parts so we only hit each square once
-    for( const int structural_part_idx : veh->all_parts_at_location( "structure" ) ) {
+    for( const int structural_part_idx : veh->all_parts_at_location( vpart_location_structure ) ) {
         const vehicle_part &vp = veh->part( structural_part_idx );
         const vpart_display vd = veh->get_display_of_tile( vp.mount, false, false );
         const point_rel_ms q = ( vp.mount + dd ).rotate( 3 );
@@ -2791,6 +2794,7 @@ void veh_interact::display_details( const vpart_info *part )
     int line = 0;
     bool small_mode = column_width < 20;
 
+    // TODO: show mod part comes from
     // line 0: part name
     fold_and_print( w_details, point( col_1, line ), details_w, c_light_green, part->name() );
 
@@ -3346,7 +3350,7 @@ void veh_interact::complete_vehicle( map &here, Character &you )
 
             veh.unlink_cables( here, part_mount, you,
                                false, /* unneeded as items will be unlinked if the connected part is removed */
-                               appliance_removal || vpi.location == "structure",
+                               appliance_removal || vpi.location == vpart_location_structure,
                                appliance_removal || vpi.has_flag( VPFLAG_CABLE_PORTS ) || vpi.has_flag( VPFLAG_BATTERY ) );
 
             if( veh.part_count_real() <= 1 ) {

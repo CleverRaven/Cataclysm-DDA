@@ -49,7 +49,6 @@
     "volume": "60050 ml",
     "price": "100 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -4,
     "material": [ "steel" ],
     "symbol": "}",
     "color": "light_cyan",
@@ -62,8 +61,7 @@
         "max_contains_weight": "120 kg"
       }
     ],
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "melee_damage": { "bash": 6 }
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "type": "ITEM",
@@ -1088,8 +1086,7 @@
         "need_charges_msg": "The smartphone's charge is too low.",
         "type": "transform"
       },
-      "CAMERA",
-      "MP3"
+      "CAMERA"
     ],
     "flags": [ "WATCH", "ALARMCLOCK", "USE_UPS", "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK" ],
     "tool_ammo": [ "battery" ]
@@ -1104,7 +1101,6 @@
     "volume": "75 ml",
     "material": [ { "type": "aluminum", "portion": 75 }, { "type": "plastic", "portion": 25 } ],
     "symbol": ";",
-    "use_action": [ "MP3" ],
     "charges_per_use": 1,
     "flags": [ "WATER_BREAK_ACTIVE" ],
     "pocket_data": [
@@ -1531,7 +1527,6 @@
     "name": { "str": "long waist apron" },
     "description": "A long waist apron made of cotton.",
     "price_postapoc": "50 cent",
-    "to_hit": 1,
     "symbol": "[",
     "looks_like": "vest_leather",
     "volume": "1750 ml",
@@ -1797,7 +1792,7 @@
     "price_postapoc": "1 USD",
     "material": [ "fruit" ],
     "fun": 10,
-    "flags": [ "FREEZERBURN", "SMOKABLE" ],
+    "flags": [ "FREEZERBURN" ],
     "smoking_result": "dry_fruit",
     "vitamins": [ [ "vitC", 14 ], [ "iron", 1 ], [ "fruit_allergen", 1 ] ]
   },
@@ -3563,7 +3558,7 @@
     "material": [ "fruit" ],
     "volume": "375 ml",
     "fun": 3,
-    "flags": [ "FREEZERBURN", "SMOKABLE" ],
+    "flags": [ "FREEZERBURN" ],
     "smoking_result": "dry_fruit",
     "vitamins": [ [ "vitC", 100 ], [ "calcium", 100 ], [ "iron", 100 ], [ "fruit_allergen", 1 ] ]
   },
@@ -5247,7 +5242,7 @@
     "passive_effects": [
       {
         "values": [
-          { "value": "STRENGTH", "add": 3, "multiply": 1 },
+          { "value": "STRENGTH", "add": 2, "multiply": 0.25 },
           { "value": "DEXTERITY", "add": -2 },
           { "value": "INTELLIGENCE", "add": 1, "multiply": -0.5 },
           { "value": "PERCEPTION", "add": -7 }
@@ -5471,10 +5466,10 @@
             "effect": {
               "run_eocs": "EOC_toolweapon_activate",
               "variables": {
-                "turn_cost": "0.8",
+                "turn_cost": 0.8,
                 "transform_target": "carver_on",
                 "success_message": { "i18n": true, "str": "The electric carver's serrated blades start buzzing!" },
-                "volume": "20",
+                "volume": 20,
                 "failure_message": { "i18n": true, "str": "You pull the trigger, but nothing happens." }
               }
             }
@@ -5486,5 +5481,39 @@
     "flags": [ "SHEATH_SWORD", "NONCONDUCTIVE", "WATER_BREAK_ACTIVE" ],
     "melee_damage": { "bash": 2, "cut": 8 },
     "tool_ammo": [ "battery" ]
+  },
+  {
+    "id": "test_lamp",
+    "type": "ITEM",
+    "category": "tools",
+    "name": { "str": "test lamp" },
+    "description": "Powered by the magic of debug and testing, this very expensive lamp will emit a small amount of light for enough time to get a test done.",
+    "weight": "1438 g",
+    "volume": "1 L",
+    "price": "1 kUSD 750 USD",
+    "price_postapoc": "40 USD",
+    "material": [ "plastic", "aluminum" ],
+    "symbol": ",",
+    "color": "light_green",
+    "light": 15
+  },
+  {
+    "id": "wearable_test_lamp",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "category": "clothing",
+    "symbol": "[",
+    "color": "blue",
+    "looks_like": "wearable_light_on",
+    "name": { "str": "test headlamp" },
+    "description": "A headlamp fine-tuned for testing.",
+    "price": "40 USD",
+    "price_postapoc": "15 USD",
+    "material": [ "steel", "plastic" ],
+    "light": 200,
+    "weight": "1 kg",
+    "volume": "1500 ml",
+    "material_thickness": 1,
+    "armor": [ { "encumbrance": 5, "coverage": 50, "covers": [ "head" ], "specifically_covers": [ "head_crown", "head_forehead" ] } ]
   }
 ]

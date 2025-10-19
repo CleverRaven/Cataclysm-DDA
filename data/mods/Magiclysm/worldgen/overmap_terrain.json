@@ -569,6 +569,16 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "mystic_glade_nw", "mystic_glade_ne", "mystic_glade_sw", "mystic_glade_se" ],
+    "name": "mystic glade",
+    "sym": "*",
+    "color": "green",
+    "vision_levels": "blends_till_outlines",
+    "travel_cost_type": "forest",
+    "see_cost": "low"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "small_magic_field" ],
     "name": "magic meadow",
     "sym": "*",
@@ -591,7 +601,13 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "druid_ritual_home_z0", "druid_ritual_home_z1", "druid_ritual_home_z2", "druid_ritual_home_z3" ],
+    "id": [
+      "druid_ritual_home_z0",
+      "druid_ritual_home_z1",
+      "druid_ritual_home_z2",
+      "druid_ritual_home_z3",
+      "druid_ritual_home_z4"
+    ],
     "name": "druid tower",
     "sym": "F",
     "color": "green",

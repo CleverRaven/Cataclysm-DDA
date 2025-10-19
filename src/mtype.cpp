@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <initializer_list>
 #include <unordered_map>
 
 #include "behavior_strategy.h"
@@ -337,7 +338,7 @@ mtype::mtype()
     harvest = harvest_list_human;
     decay = harvest_id::NULL_ID();
     luminance = 0;
-    bash_skill = 0;
+    bash_skill = {};
 
     aggro_character = true;
 
@@ -475,6 +476,16 @@ field_type_id mtype::gibType() const
     }
     // There are other materials not listed here like steel, protoplasmic, powder, null, stone, bone
     return fd_null;
+}
+
+int mtype::get_total_difficulty() const
+{
+    return difficulty;
+}
+
+int mtype::get_difficulty_adjustment() const
+{
+    return difficulty_adjustment;
 }
 
 itype_id mtype::get_meat_itype() const

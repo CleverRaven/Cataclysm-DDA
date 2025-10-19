@@ -450,8 +450,8 @@
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
-    "name": { "str": "debug chloroform soaked rag" },
-    "description": "A debug item that lets you put NPCs (or yourself) to sleep.",
+    "name": { "str": "debug chloroform soaked rag", "//~": "NO_I18N" },
+    "description": { "str": "A debug item that lets you put NPCs (or yourself) to sleep.", "//~": "NO_I18N" },
     "weight": "125 g",
     "volume": "250 ml",
     "price": "30 USD",
@@ -574,7 +574,7 @@
             "id": "EOC_myopia_contacts_weekly",
             "effect": {
               "run_eocs": "EOC_CONTACTS",
-              "variables": { "flag1": "MYOPIC", "flag2": "MYOPIC_IN_LIGHT", "effect": "contacts", "time": "604800" }
+              "variables": { "flag1": "MYOPIC", "flag2": "MYOPIC_IN_LIGHT", "effect": "contacts", "time": 604800 }
             }
           }
         ]
@@ -602,7 +602,7 @@
             "id": "EOC_myopia_transition_contacts_weekly",
             "effect": {
               "run_eocs": "EOC_CONTACTS",
-              "variables": { "flag1": "MYOPIC", "flag2": "MYOPIC_IN_LIGHT", "effect": "transition_contacts", "time": "604800" }
+              "variables": { "flag1": "MYOPIC", "flag2": "MYOPIC_IN_LIGHT", "effect": "transition_contacts", "time": 604800 }
             }
           }
         ]
@@ -628,7 +628,7 @@
             "id": "EOC_myopia_contacts_daily",
             "effect": {
               "run_eocs": "EOC_CONTACTS",
-              "variables": { "flag1": "MYOPIC", "flag2": "MYOPIC_IN_LIGHT", "effect": "contacts", "time": "57600" }
+              "variables": { "flag1": "MYOPIC", "flag2": "MYOPIC_IN_LIGHT", "effect": "contacts", "time": 57600 }
             }
           }
         ]
@@ -654,7 +654,7 @@
             "id": "EOC_myopia_transition_contacts_daily",
             "effect": {
               "run_eocs": "EOC_CONTACTS",
-              "variables": { "flag1": "MYOPIC", "flag2": "MYOPIC_IN_LIGHT", "effect": "transition_contacts", "time": "57600" }
+              "variables": { "flag1": "MYOPIC", "flag2": "MYOPIC_IN_LIGHT", "effect": "transition_contacts", "time": 57600 }
             }
           }
         ]
@@ -678,7 +678,7 @@
         "effect_on_conditions": [
           {
             "id": "EOC_hyperopia_contacts_weekly",
-            "effect": { "run_eocs": "EOC_CONTACTS", "variables": { "flag1": "HYPEROPIC", "effect": "contacts", "time": "604800" } }
+            "effect": { "run_eocs": "EOC_CONTACTS", "variables": { "flag1": "HYPEROPIC", "effect": "contacts", "time": 604800 } }
           }
         ]
       }
@@ -701,7 +701,7 @@
         "effect_on_conditions": [
           {
             "id": "EOC_hyperopia_transition_contacts_weekly",
-            "effect": { "run_eocs": "EOC_CONTACTS", "variables": { "flag1": "HYPEROPIC", "effect": "transition_contacts", "time": "604800" } }
+            "effect": { "run_eocs": "EOC_CONTACTS", "variables": { "flag1": "HYPEROPIC", "effect": "transition_contacts", "time": 604800 } }
           }
         ]
       }
@@ -724,7 +724,7 @@
         "effect_on_conditions": [
           {
             "id": "EOC_hyperopia_contacts_daily",
-            "effect": { "run_eocs": "EOC_CONTACTS", "variables": { "flag1": "HYPEROPIC", "effect": "contacts", "time": "57600" } }
+            "effect": { "run_eocs": "EOC_CONTACTS", "variables": { "flag1": "HYPEROPIC", "effect": "contacts", "time": 57600 } }
           }
         ]
       }
@@ -747,7 +747,7 @@
         "effect_on_conditions": [
           {
             "id": "EOC_hyperopia_transition_contacts_daily",
-            "effect": { "run_eocs": "EOC_CONTACTS", "variables": { "flag1": "HYPEROPIC", "effect": "transition_contacts", "time": "57600" } }
+            "effect": { "run_eocs": "EOC_CONTACTS", "variables": { "flag1": "HYPEROPIC", "effect": "transition_contacts", "time": 57600 } }
           }
         ]
       }
@@ -772,7 +772,7 @@
             "id": "EOC_bifocal_contacts_weekly",
             "effect": {
               "run_eocs": "EOC_CONTACTS",
-              "variables": { "flag1": "MYOPIC", "flag2": "MYOPIC_IN_LIGHT", "flag3": "HYPEROPIC", "effect": "contacts", "time": "604800" }
+              "variables": { "flag1": "MYOPIC", "flag2": "MYOPIC_IN_LIGHT", "flag3": "HYPEROPIC", "effect": "contacts", "time": 604800 }
             }
           }
         ]
@@ -798,13 +798,7 @@
             "id": "EOC_bifocal_transition_contacts_weekly",
             "effect": {
               "run_eocs": "EOC_CONTACTS",
-              "variables": {
-                "flag1": "MYOPIC",
-                "flag2": "MYOPIC_IN_LIGHT",
-                "flag3": "HYPEROPIC",
-                "effect": "transition_contacts",
-                "time": "604800"
-              }
+              "variables": { "flag1": "MYOPIC", "flag2": "MYOPIC_IN_LIGHT", "flag3": "HYPEROPIC", "effect": "transition_contacts", "time": 604800 }
             }
           }
         ]
@@ -830,7 +824,7 @@
             "id": "EOC_bifocal_contacts_daily",
             "effect": {
               "run_eocs": "EOC_CONTACTS",
-              "variables": { "flag1": "MYOPIC", "flag2": "MYOPIC_IN_LIGHT", "flag3": "HYPEROPIC", "effect": "contacts", "time": "57600" }
+              "variables": { "flag1": "MYOPIC", "flag2": "MYOPIC_IN_LIGHT", "flag3": "HYPEROPIC", "effect": "contacts", "time": 57600 }
             }
           }
         ]
@@ -856,13 +850,7 @@
             "id": "EOC_bifocal_transition_contacts_daily",
             "effect": {
               "run_eocs": "EOC_CONTACTS",
-              "variables": {
-                "flag1": "MYOPIC",
-                "flag2": "MYOPIC_IN_LIGHT",
-                "flag3": "HYPEROPIC",
-                "effect": "transition_contacts",
-                "time": "57600"
-              }
+              "variables": { "flag1": "MYOPIC", "flag2": "MYOPIC_IN_LIGHT", "flag3": "HYPEROPIC", "effect": "transition_contacts", "time": 57600 }
             }
           }
         ]
@@ -886,7 +874,7 @@
         "effect_on_conditions": [
           {
             "id": "EOC_plano_transition_contacts_weekly",
-            "effect": { "run_eocs": "EOC_CONTACTS", "variables": { "effect": "transition_contacts_plano", "plano": "1", "time": "604800" } }
+            "effect": { "run_eocs": "EOC_CONTACTS", "variables": { "effect": "transition_contacts_plano", "plano": 1, "time": 604800 } }
           }
         ]
       }
@@ -909,7 +897,7 @@
         "effect_on_conditions": [
           {
             "id": "EOC_plano_transition_contacts_daily",
-            "effect": { "run_eocs": "EOC_CONTACTS", "variables": { "plano": "1", "effect": "transition_contacts_plano", "time": "57600" } }
+            "effect": { "run_eocs": "EOC_CONTACTS", "variables": { "plano": 1, "effect": "transition_contacts_plano", "time": 57600 } }
           }
         ]
       }
@@ -2419,5 +2407,28 @@
     "color": "white",
     "flags": [ "NO_TEMP" ],
     "use_action": { "type": "consume_drug", "activation_message": "You set the pill under your tongue and let it dissolve." }
+  },
+  {
+    "id": "sunscreen",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "comestible_type": "MED",
+    "name": { "str_sp": "sunscreen" },
+    "description": "Carcinoma may not be such a concern anymore, but sunburns are as painful as ever.",
+    "symbol": "~",
+    "color": "white",
+    "phase": "liquid",
+    "charges": 1,
+    "material": [ "water" ],
+    "weight": "30 g",
+    "volume": "30 ml",
+    "price_postapoc": "10 cent",
+    "flags": [ "NO_TEMP", "NO_INGEST", "NO_AUTO_CONSUME", "INEDIBLE", "IRREPLACEABLE_CONSUMABLE" ],
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You apply some sunscreen.",
+      "moves": 120,
+      "effects": [ { "id": "sunscreen", "duration": "2 h" } ]
+    }
   }
 ]

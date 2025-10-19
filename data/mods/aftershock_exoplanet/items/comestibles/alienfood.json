@@ -56,7 +56,7 @@
     "fun": -10,
     "cooks_like": "meat_cooked",
     "vitamins": [ [ "vitC", 13 ], [ "calcium", 2 ], [ "iron", 53 ], [ "mutant_toxin", 25 ] ],
-    "flags": [ "SMOKABLE", "RAW" ],
+    "flags": [ "RAW" ],
     "smoking_result": "meat_smoked"
   },
   {
@@ -156,14 +156,6 @@
   {
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
-    "id": "frost_human_lard",
-    "name": { "str_sp": "freezerburned human lard" },
-    "copy-from": "frost_human_tallow",
-    "description": "A smooth light green block of dry-rendered human fat.  It's very frostburnt, and while it will remain edible for a very long time, it's not the most appetizing."
-  },
-  {
-    "type": "ITEM",
-    "subtypes": [ "COMESTIBLE" ],
     "id": "frost_raw_hleather",
     "category": "spare_parts",
     "name": { "str_sp": "raw frostbitten human skin" },
@@ -201,7 +193,7 @@
     "fun": -10,
     "cooks_like": "meat_cooked",
     "vitamins": [ [ "vitC", 13 ], [ "calcium", 2 ], [ "iron", 53 ], [ "mutant_toxin", 25 ] ],
-    "flags": [ "SMOKABLE", "RAW", "PREDATOR_FUN" ],
+    "flags": [ "RAW", "PREDATOR_FUN" ],
     "smoking_result": "meat_smoked"
   },
   {
@@ -230,7 +222,7 @@
     "description": "This is a tiny scrap of dubiously edible alien meat.  It's not much, but it might be better than starving.",
     "cooks_like": "meat_scrap_cooked",
     "proportional": { "weight": 0.1, "volume": 0.1, "price": 0.1, "calories": 0.1 },
-    "delete": { "flags": [ "SMOKABLE" ] },
+    "smoking_result": "null",
     "vitamins": [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ], [ "mutant_toxin", 5 ] ]
   },
   {
@@ -482,14 +474,6 @@
     "volume": "62 ml",
     "vitamins": [ [ "mutant_toxin", 25 ], [ "meat_allergen", 1 ] ],
     "fun": -18
-  },
-  {
-    "type": "ITEM",
-    "subtypes": [ "COMESTIBLE" ],
-    "id": "alien_lard",
-    "name": { "str_sp": "alien lard" },
-    "copy-from": "alien_tallow",
-    "description": "A smooth white block of dry-rendered animal fat.  It'll last for a very long time, but you are unsure of its edibility.  Can be used as an ingredient in many foods and projects."
   },
   {
     "type": "ITEM",

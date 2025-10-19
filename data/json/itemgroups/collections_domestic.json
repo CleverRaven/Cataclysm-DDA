@@ -131,8 +131,7 @@
       { "item": "char_smoker", "prob": 5, "charges": [ 0, -1 ] },
       [ "can_sealer", 2 ],
       [ "oil_press_manual", 2 ],
-      [ "snow_machine_home", 5 ],
-      [ "atomic_coffeepot", 1 ]
+      [ "snow_machine_home", 5 ]
     ]
   },
   {
@@ -165,8 +164,6 @@
       { "group": "tools_fishingrods_commercial", "prob": 2 },
       { "item": "portable_stove", "prob": 1, "container-item": "nylon_bag", "sealed": false },
       { "item": "bearing", "prob": 1, "charges": [ 1, 50 ] },
-      { "item": "atomic_light", "prob": 1 },
-      { "item": "atomic_lamp", "prob": 1 },
       { "item": "alarmclock", "prob": 10 },
       { "item": "pet_carrier", "prob": 3 },
       { "group": "charcoal_bag_part", "prob": 20 },
@@ -626,8 +623,6 @@
       { "item": "caff_gum", "prob": 3, "count": [ 1, 10 ] },
       { "prob": 3, "group": "licorice_bag_plastic_4" },
       { "item": "flask_hip", "prob": 5 },
-      { "item": "atomic_light", "prob": 1 },
-      { "item": "atomic_lamp", "prob": 1 },
       { "item": "dog_whistle", "prob": 5 },
       { "item": "pet_carrier", "prob": 2 },
       { "item": "rubber_harness_dog", "prob": 2 },
@@ -816,8 +811,6 @@
       { "item": "lawn_dart", "prob": 10 },
       { "item": "flask_hip", "prob": 5 },
       { "group": "lye_powder_bottle_part", "prob": 5 },
-      { "item": "atomic_light", "prob": 1 },
-      { "item": "atomic_lamp", "prob": 1 },
       { "item": "smart_lamp", "prob": 2 },
       { "item": "dog_whistle", "prob": 5 },
       { "item": "dogfood", "prob": 10, "container-item": "can_medium" },
@@ -964,8 +957,6 @@
       { "item": "tailor_portfolio", "prob": 1 },
       { "item": "recipe_augs", "prob": 1 },
       { "group": "civilian_laptops", "prob": 10 },
-      { "item": "atomic_light", "prob": 2 },
-      { "item": "atomic_lamp", "prob": 2 },
       { "group": "civilian_phones", "prob": 40 },
       { "group": "civilian_eink_tablet_pcs", "prob": 2 },
       { "group": "civilian_memory_cards", "prob": 4 },
@@ -992,7 +983,7 @@
       { "item": "firecracker_pack", "prob": 5 },
       { "item": "firecracker", "prob": 5 },
       { "prob": 30, "group": "fried_seeds_bag_plastic_4" },
-      { "prob": 65, "group": "chips_bag_plastic_3" },
+      { "prob": 65, "group": "bag_chips" },
       { "group": "softdrinks_canned", "prob": 380 },
       { "item": "picklocks", "prob": 10 },
       { "item": "fursuit", "prob": 6 },
@@ -1555,55 +1546,22 @@
     "id": "milk_powder_various",
     "subtype": "distribution",
     "entries": [
-      { "prob": 2, "group": "milk_powder_bottle_plastic" },
-      { "prob": 2, "group": "milk_powder_bottle_glass" },
-      { "prob": 4, "group": "milk_powder_bag_plastic" },
-      { "prob": 2, "group": "milk_powder_bag_paper" }
+      { "item": "milk_powder", "entry-wrapper": "bottle_plastic_seasoning", "count": [ 0, 8 ], "prob": 2 },
+      { "item": "milk_powder", "entry-wrapper": "bottle_glass_seasoning", "count": [ 0, 8 ], "prob": 2 },
+      { "item": "milk_powder", "entry-wrapper": "bag_plastic_small", "count": [ 0, 8 ], "prob": 4 },
+      { "item": "milk_powder", "entry-wrapper": "bag_paper_powder", "count": [ 0, 40 ], "prob": 2 }
     ]
   },
   {
     "type": "item_group",
     "id": "milk_powder_various_full",
     "subtype": "distribution",
-    "entries": [ { "prob": 1, "group": "milk_powder_bag_paper_full", "container-item": "null", "count": [ 10, 40 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "milk_powder_bag_paper_full",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "bag_paper_powder",
-    "entries": [ { "item": "milk_powder", "container-item": "null", "count": 40 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "milk_powder_bottle_plastic",
-    "subtype": "collection",
-    "container-item": "bottle_plastic_seasoning",
-    "entries": [ { "item": "milk_powder", "container-item": "null", "count": [ 2, 8 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "milk_powder_bottle_glass",
-    "subtype": "collection",
-    "container-item": "bottle_glass_seasoning",
-    "entries": [ { "item": "milk_powder", "container-item": "null", "count": [ 2, 8 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "milk_powder_bag_plastic",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "bag_plastic_small",
-    "entries": [ { "item": "milk_powder", "container-item": "null", "count": [ 2, 8 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "milk_powder_bag_paper",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "bag_paper_powder",
-    "entries": [ { "item": "milk_powder", "container-item": "null", "count": [ 5, 40 ] } ]
+    "entries": [
+      { "item": "milk_powder", "entry-wrapper": "bottle_plastic_seasoning", "count": 8, "prob": 2 },
+      { "item": "milk_powder", "entry-wrapper": "bottle_glass_seasoning", "count": 8, "prob": 2 },
+      { "item": "milk_powder", "entry-wrapper": "bag_plastic_small", "count": 8, "prob": 4 },
+      { "item": "milk_powder", "entry-wrapper": "bag_paper_powder", "count": 40, "prob": 2 }
+    ]
   },
   {
     "type": "item_group",
@@ -2293,14 +2251,6 @@
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_plastic_small",
     "entries": [ { "item": "fried_seeds", "container-item": "null", "count": 4 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "chips_bag_plastic_3",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "bag_plastic_small",
-    "entries": [ { "item": "chips", "container-item": "null", "count": 3 } ]
   },
   {
     "type": "item_group",

@@ -671,8 +671,7 @@
         "max_contains_volume": "500 ml",
         "max_item_volume": "17 ml",
         "max_contains_weight": "1 kg",
-        "spoil_multiplier": 0.5,
-        "sealed_data": { "spoil_multiplier": 0.0 },
+        "sealed_data": { "spoil_multiplier": 0.5 },
         "moves": 400
       }
     ],
@@ -1731,7 +1730,7 @@
     "category": "container",
     "name": { "str": "large metal box", "str_pl": "large metal boxes" },
     "looks_like": "box_small_metal",
-    "description": "A small metal crate.  The slim profile makes storage a little bit easier.",
+    "description": "A large metal box.  It's big and strong enough to hold just about anything.",
     "ascii_picture": "box_large_metal",
     "weight": "48 kg",
     "volume": "330000 ml",
@@ -4857,7 +4856,7 @@
     "weight": "200 g",
     "volume": "1730 ml",
     "price": "9 USD",
-    "price_postapoc": "1 USD",
+    "price_postapoc": "5 cent",
     "material": [ "cotton" ],
     "symbol": "p",
     "color": "dark_gray",
@@ -4874,7 +4873,7 @@
   {
     "id": "cardboard_roll",
     "type": "ITEM",
-    "category": "other",
+    "category": "container",
     "name": { "str": "cardboard roll" },
     "description": "A small cardboard roll used to conveniently store materials such as tape or toilet paper.",
     "ascii_picture": "cardboard_roll",
@@ -5176,5 +5175,53 @@
     "symbol": "o",
     "color": "white",
     "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "45 ml", "max_contains_weight": "30 g" } ]
+  },
+  {
+    "id": "bag_chips_small",
+    "copy-from": "bag_plastic_small",
+    "type": "ITEM",
+    "name": "small chips bag",
+    "description": "A small plastic bag made to contain chips.",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "max_contains_volume": "200 ml",
+        "max_contains_weight": "1 kg",
+        "moves": 400
+      }
+    ]
+  },
+  {
+    "id": "bag_chips_medium",
+    "copy-from": "bag_chips_small",
+    "type": "ITEM",
+    "name": { "str": "chips bag" },
+    "description": "A plastic bag made to contain chips.",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "max_contains_volume": "400 ml",
+        "max_contains_weight": "1 kg",
+        "moves": 400
+      }
+    ]
+  },
+  {
+    "id": "bag_chips_large",
+    "copy-from": "bag_chips_small",
+    "type": "ITEM",
+    "name": { "str": "large chips bag" },
+    "description": "A large plastic bag made to contain chips.",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "max_contains_volume": "600 ml",
+        "max_contains_weight": "1 kg",
+        "moves": 400
+      }
+    ]
   }
 ]

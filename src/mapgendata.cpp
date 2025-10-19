@@ -47,7 +47,7 @@ size_t std::hash<mapgen_arguments>::operator()( const mapgen_arguments &args ) c
     return h( args.map );
 }
 
-static const regional_settings dummy_regional_settings;
+static const region_settings dummy_regional_settings;
 
 mapgendata::mapgendata( map &mp, dummy_settings_t )
     : pos_( tripoint_abs_omt::zero )
@@ -244,7 +244,7 @@ void mapgendata::fill_groundcover() const
 bool mapgendata::is_groundcover( const ter_id &iid ) const
 {
     for( const auto &pr : default_groundcover ) {
-        if( pr.obj == iid ) {
+        if( pr.first == iid ) {
             return true;
         }
     }
