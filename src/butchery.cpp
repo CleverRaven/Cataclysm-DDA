@@ -1175,7 +1175,7 @@ void destroy_the_carcass( const butchery_data &bd, Character &you )
     you.recoil = MAX_RECOIL;
 
     get_event_bus().send<event_type::character_butchered_corpse>( you.getID(),
-            corpse_item.get_mtype()->id, "ACT_" + io::enum_to_string<butcher_type>( bd.b_type ) );
+            corpse->id, "ACT_" + io::enum_to_string<butcher_type>( action ) );
 
 }
 
