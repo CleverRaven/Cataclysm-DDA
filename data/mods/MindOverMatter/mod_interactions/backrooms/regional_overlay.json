@@ -1,27 +1,19 @@
 [
   {
-    "type": "region_overlay",
-    "id": "mom_backrooms_combined_overlay",
-    "apply_to_tags": [ "all" ],
-    "map_extras": "mom_backrooms_combined_overlay_extras"
-  },
-  {
-    "type": "region_settings_map_extras",
-    "id": "mom_backrooms_combined_overlay_extras",
-    "extras": [ "mom_backrooms_extras" ]
-  },
-  {
     "type": "map_extra_collection",
-    "id": "mom_backrooms_extras",
-    "extras": [
-      [ "mx_alien_grass", 10000 ],
-      [ "mx_alien_grass_2", 10000 ],
-      [ "mx_alien_grass_3", 10000 ],
-      [ "mx_alien_grass_4", 10000 ],
-      [ "mx_alien_grass_5", 10000 ],
-      [ "mx_nether_pond", 50000 ],
-      [ "mx_glass_and_crystal", 50000 ],
-      [ "mx_phavian_science", 30000 ]
-    ]
+    "id": "backrooms",
+    "copy-from": "backrooms",
+    "extend": {
+      "extras": [
+        [ "mx_alien_grass", 100 ],
+        [ "mx_alien_grass_2", 100 ],
+        [ "mx_alien_grass_3", 100 ],
+        [ "mx_alien_grass_4", 100 ],
+        [ "mx_alien_grass_5", 100 ],
+        [ "mx_nether_pond", 500 ],
+        [ "mx_glass_and_crystal", 500 ],
+        [ "mx_phavian_science", 300 ]
+      ]
+    }
   }
 ]
