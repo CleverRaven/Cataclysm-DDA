@@ -497,7 +497,6 @@
     "types": [ "THIRST" ],
     "prereqs": [ "SALAMANDER_SKIN_2", "SALAMANDER_SKIN_3" ],
     "category": [ "SALAMANDER" ],
-    "purifiable": false,
     "flags": [ "NO_THIRST" ],
     "purifiable": false
   },
