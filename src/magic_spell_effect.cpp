@@ -79,6 +79,7 @@ static const efftype_id effect_teleglow( "teleglow" );
 
 static const flag_id json_flag_FIT( "FIT" );
 
+static const json_character_flag json_flag_BLOCK_SUPERNATURAL_HEALING( "BLOCK_SUPERNATURAL_HEALING" );
 static const json_character_flag json_flag_PRED1( "PRED1" );
 static const json_character_flag json_flag_PRED2( "PRED2" );
 static const json_character_flag json_flag_PRED3( "PRED3" );
@@ -623,7 +624,7 @@ static void damage_targets( const spell &sp, Creature &caster,
                 }
                 cr->deal_projectile_attack( &here, &caster, atk, atk.missed_by, true );
             }
-        } else if( sp.damage( caster ) < 0 ) {
+        } else if( sp.damage( caster ) < 0 && !cr->has_flag( json_flag_BLOCK_SUPERNATURAL_HEALING ) ) {
             sp.heal( target, caster );
             add_msg_if_player_sees( cr->pos_bub(), m_good, _( "%s wounds are closing up!" ),
                                     cr->disp_name( true ) );
