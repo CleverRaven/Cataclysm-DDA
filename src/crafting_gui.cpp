@@ -37,6 +37,7 @@
 #include "input.h"
 #include "input_context.h"
 #include "input_enums.h"
+#include "input_popup.h"
 #include "inventory.h"
 #include "inventory_ui.h"
 #include "item.h"
@@ -53,7 +54,6 @@
 #include "requirements.h"
 #include "skill.h"
 #include "string_formatter.h"
-#include "string_input_popup.h"
 #include "translation.h"
 #include "translation_cache.h"
 #include "translations.h"
@@ -1241,6 +1241,53 @@ static bool selection_ok( const std::vector<const recipe *> &list, const int cur
     return false;
 }
 
+// returns false if the popup was cancelled
+static bool filter_crafting_recipes( std::string &filterstring )
+{
+    int max_example_length = 0;
+    for( const auto &prefix : prefixes ) {
+        max_example_length = std::max( max_example_length, utf8_width( prefix.example.translated() ) );
+    }
+    std::string spaces( max_example_length, ' ' );
+
+    std::string description = filter_help_start.translated();
+
+    {
+        std::string example_name = _( "shirt" );
+        int padding = max_example_length - utf8_width( example_name );
+        description += string_format(
+                           _( "  <color_white>%s</color>%.*s    %s\n" ),
+                           example_name, padding, spaces,
+                           _( "<color_cyan>name</color> of resulting item" ) );
+
+        std::string example_exclude = _( "clean" );
+        padding = max_example_length - utf8_width( example_exclude );
+        description += string_format(
+                           _( "  <color_yellow>-</color><color_white>%s</color>%.*s   %s\n" ),
+                           example_exclude, padding, spaces,
+                           _( "<color_cyan>names</color> to exclude" ) );
+    }
+
+    for( const auto &prefix : prefixes ) {
+        int padding = max_example_length - utf8_width( prefix.example.translated() );
+        description += string_format(
+                           _( "  <color_yellow>%c</color><color_white>:%s</color>%.*s  %s\n" ),
+                           prefix.key, prefix.example, padding, spaces, prefix.description );
+    }
+
+    description +=
+        _( "\nUse <color_red>up/down arrow</color> to go through your search history." );
+
+    string_input_popup_imgui popup( 85, filterstring );
+    popup.set_label( _( "Search:" ) );
+    popup.set_description( description, c_light_gray, /*monofont=*/ true );
+    popup.set_identifier( "craft_recipe_filter" );
+    popup.use_uilist_history( false );
+    filterstring = popup.query();
+
+    return !popup.cancelled();
+}
+
 std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &batch_size_out,
         const recipe_id &goto_recipe, Character *crafter, std::string filterstring, bool camp_crafting,
         inventory *inventory_override )
@@ -1913,51 +1960,7 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
                                          info_width, info_height );
             info_window.execute();
         } else if( action == "FILTER" ) {
-            int max_example_length = 0;
-            for( const auto &prefix : prefixes ) {
-                max_example_length = std::max( max_example_length, utf8_width( prefix.example.translated() ) );
-            }
-            std::string spaces( max_example_length, ' ' );
-
-            std::string description = filter_help_start.translated();
-
-            {
-                std::string example_name = _( "shirt" );
-                int padding = max_example_length - utf8_width( example_name );
-                description += string_format(
-                                   _( "  <color_white>%s</color>%.*s    %s\n" ),
-                                   example_name, padding, spaces,
-                                   _( "<color_cyan>name</color> of resulting item" ) );
-
-                std::string example_exclude = _( "clean" );
-                padding = max_example_length - utf8_width( example_exclude );
-                description += string_format(
-                                   _( "  <color_yellow>-</color><color_white>%s</color>%.*s   %s\n" ),
-                                   example_exclude, padding, spaces,
-                                   _( "<color_cyan>names</color> to exclude" ) );
-            }
-
-            for( const auto &prefix : prefixes ) {
-                int padding = max_example_length - utf8_width( prefix.example.translated() );
-                description += string_format(
-                                   _( "  <color_yellow>%c</color><color_white>:%s</color>%.*s  %s\n" ),
-                                   prefix.key, prefix.example, padding, spaces, prefix.description );
-            }
-
-            description +=
-                _( "\nUse <color_red>up/down arrow</color> to go through your search history." );
-
-            string_input_popup popup;
-            popup
-            .title( _( "Search:" ) )
-            .width( 85 )
-            .description( description )
-            .desc_color( c_light_gray )
-            .identifier( "craft_recipe_filter" )
-            .hist_use_uilist( false )
-            .edit( filterstring );
-
-            if( popup.confirmed() ) {
+            if( filter_crafting_recipes( filterstring ) ) {
                 recalc = true;
                 recalc_unread = highlight_unread_recipes;
                 if( batch ) {

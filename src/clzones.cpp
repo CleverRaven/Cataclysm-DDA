@@ -21,6 +21,7 @@
 #include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "iexamine.h"
+#include "input_popup.h"
 #include "item.h"
 #include "item_category.h"
 #include "item_group.h"
@@ -35,7 +36,6 @@
 #include "output.h"
 #include "path_info.h"
 #include "string_formatter.h"
-#include "string_input_popup.h"
 #include "translations.h"
 #include "uilist.h"
 #include "value_ptr.h"
@@ -265,14 +265,12 @@ ignorable_options::query_ignorable_result ignorable_options::query_ignorable()
 
 loot_options::query_loot_result loot_options::query_loot()
 {
-    string_input_popup()
-    .title( _( "Filter:" ) )
-    .description( item_filter_rule_string( item_filter_type::FILTER ) + "\n\n" )
-    .desc_color( c_white )
-    .width( 55 )
-    .identifier( "item_filter" )
-    .max_length( 256 )
-    .edit( mark );
+    string_input_popup_imgui input_popup( 55, mark );
+    input_popup.set_label( _( "Filter:" ) );
+    input_popup.set_description( item_filter_rule_string( item_filter_type::FILTER ) + "\n\n",
+                                 c_white, /*monofont=*/ true );
+    input_popup.set_identifier( "item_filter" );
+    mark = input_popup.query();
     return changed;
 }
 
@@ -571,16 +569,13 @@ void unload_options::deserialize( const JsonObject &jo_zone )
 
 std::optional<std::string> zone_manager::query_name( const std::string &default_name ) const
 {
-    string_input_popup popup;
-    popup
-    .title( _( "Zone name:" ) )
-    .width( 55 )
-    .text( default_name )
-    .query();
-    if( popup.canceled() ) {
+    string_input_popup_imgui popup( 55, default_name );
+    popup.set_label( _( "Zone name:" ) );
+    std::string text = popup.query();
+    if( popup.cancelled() ) {
         return {};
     } else {
-        return popup.text();
+        return text;
     }
 }
 

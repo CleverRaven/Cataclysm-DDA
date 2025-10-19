@@ -25,6 +25,7 @@
 #include "faction.h"
 #include "faction_camp.h"
 #include "game.h"
+#include "input_popup.h"
 #include "inventory.h"
 #include "item.h"
 #include "map.h"
@@ -41,7 +42,6 @@
 #include "recipe_groups.h"
 #include "requirements.h"
 #include "string_formatter.h"
-#include "string_input_popup.h"
 #include "translations.h"
 #include "type_id.h"
 
@@ -670,15 +670,15 @@ comp_list basecamp::get_mission_workers( const mission_id &miss_id, bool contain
 
 void basecamp::query_new_name( bool force )
 {
-    string_input_popup input_popup;
+    string_input_popup_imgui input_popup( 40 );
     bool done = false;
     bool need_input = true;
+    std::string text;
     do {
-        input_popup.title( _( "Name this camp" ) )
-        .width( 40 )
-        .max_length( 25 )
-        .query();
-        if( input_popup.canceled() || input_popup.text().empty() ) {
+        input_popup.set_description( _( "Name this camp" ) );
+        input_popup.set_max_input_length( 25 );
+        text = input_popup.query();
+        if( input_popup.cancelled() || text.empty() ) {
             if( name.empty() || force ) {
                 popup( _( "You need to input the base camp name." ) );
             } else {
@@ -689,7 +689,7 @@ void basecamp::query_new_name( bool force )
         }
     } while( !done && need_input );
     if( done ) {
-        name = input_popup.text();
+        name = text;
     }
 }
 
