@@ -9059,7 +9059,9 @@ bool butchery_activity_actor::initiate_butchery( player_activity &act, Character
 
     if( !set_up_butchery( act, you, this_bd ) ) {
         return false;
-    };
+    }
+    act.moves_total = to_moves<int>( this_bd.time_to_butcher );
+    act.moves_left = to_moves<int>( this_bd.time_to_butcher - this_bd.progress );
     return true;
 }
 
@@ -9147,6 +9149,9 @@ void butchery_activity_actor::do_turn( player_activity &act, Character &you )
         }
     } else {
         this_bd->progress += 1_seconds;
+        // Uses max(1, ..) to prevent it going all the way to zero, which would stop the activity by the general `activity_actor` handling.
+        // Instead, the checks for `bd.empty()` will make sure to stop the activity by explicitly setting it to zero.
+        act.moves_left = std::max( 1, to_moves<int>( this_bd->time_to_butcher - this_bd->progress ) );
     }
 }
 
