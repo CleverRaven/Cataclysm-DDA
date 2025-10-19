@@ -1281,8 +1281,8 @@
       },
       {
         "id": "rosary",
-        "name": { "str": "Rosary" },
-        "description": "A necklace made of a fine gold chain, with 59 beads and crucifix on the end.  The Rosary is a sort of ritual prayer primarily done by Roman Catholics.  It consists of 5 decades, each made up of 10 Hail Marys, each followed by one Lord's Prayer. It is said that praying a whole Rosary sends 1000 souls to Heaven.",
+        "name": { "str": "rosary" "str_pl": "rosaries" },
+        "description": "A necklace made of a fine gold chain, with 59 beads and crucifix on the end.  The Rosary is a sort of ritual prayer primarily done by Roman Catholics.  It consists of 5 decades, each made up of 10 Hail Marys, each followed by one Lord's Prayer.  It is said that praying a whole Rosary sends 1000 souls to Heaven.",
         "color": "yellow",
         "weight": 15
       },
