@@ -777,6 +777,18 @@
   },
   {
     "type": "effect_type",
+    "id": "boreal_mage_slow_chilled",
+    "name": [ "Chilled" ],
+    "desc": [ "A frozen aura has chilled you to the bone." ],
+    "apply_message": "You feel yourself getting slower, as ice seems to run through your veins.",
+    "remove_message": "The bone-deep chill fades away.",
+    "rating": "bad",
+    "show_in_info": true,
+    "immune_flags": [ "COLD_IMMUNE", "COLDPROOF" ],
+    "base_mods": { "speed_mod": [ -20 ] }
+  },
+  {
+    "type": "effect_type",
     "id": "overclocker_drive_effect",
     "name": [ "Overdrive" ],
     "desc": [ "Is it possible to dart aside and avoid a cannon ball?  Is it possible to grab an arrow in flight with one hand?" ],

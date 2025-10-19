@@ -26,22 +26,6 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_GIVE_COLD_AURA_OFF",
-    "recurrence": [ "60 s", "60 s" ],
-    "condition": {
-      "and": [
-        { "u_has_trait": "BOREAL_MAGE" },
-        { "not": { "compare_string": [ "yes", { "u_val": "attunement_attunement_u_got_boreal_mage_attunement" } ] } }
-      ]
-    },
-    "deactivate_condition": { "not": { "u_has_trait": "BOREAL_MAGE" } },
-    "effect": [
-      { "u_add_trait": "COLD_AURA_OFF" },
-      { "u_add_var": "attunement_attunement_u_got_boreal_mage_attunement", "value": "yes" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
     "id": "EOC_DUST_REBORN_INITIAL",
     "effect": [
       { "u_location_variable": { "u_val": "dust_reborn_teleport" }, "min_radius": 0, "max_radius": 0 },

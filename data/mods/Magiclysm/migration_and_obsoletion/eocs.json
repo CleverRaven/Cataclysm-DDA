@@ -162,5 +162,11 @@
       { "npc_remove_item_with": "warg_food" },
       { "u_spawn_item": "meat", "suppress_message": true }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GIVE_COLD_AURA_OFF",
+    "//": "Remove in 0.J",
+    "effect": [  ]
   }
 ]
