@@ -206,7 +206,9 @@
             "multiply": {
               "math": [ "max((( ( u_spell_level('afs_precog_ranged_enhance') * -0.025) * scaling_factor(u_val('intelligence') ) ) ),-0.6)" ]
             }
-          }
+          },
+          { "value": "MOVE_COST", "multiply": 0.1 },
+          { "value": "DODGE_CHANCE", "add": -3 }
         ]
       },
       {

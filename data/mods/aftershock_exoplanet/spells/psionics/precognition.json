@@ -37,7 +37,7 @@
     "id": "afs_precog_ranged_enhance",
     "type": "SPELL",
     "name": "[Ψ]Marksman's Eye (C)",
-    "description": "By predicting your opponent's movements and the conditions affecting your weapon, you can increase the effective range and accuracy of your ranged attacks.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "description": "By predicting your opponent's movements and the conditions affecting your weapon, you can increase the effective range and accuracy of your ranged attacks.  The shifting futures and focus required will slow your movem and reduce your chance to avoid any close-combat attacks, however.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
