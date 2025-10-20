@@ -691,6 +691,20 @@
   },
   {
     "type": "terrain",
+    "id": "t_stone_road",
+    "name": "cobblestone road",
+    "description": "Quarried stone blocks carefully laid to create a durable road surface.  Moss and grass grow in the gaps between the stones.",
+    "symbol": ".",
+    "color": "light_gray",
+    "looks_like": "t_stone_masonry_floor",
+    "connect_groups": "ROCKFLOOR",
+    "connects_to": "ROCKFLOOR",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD" ],
+    "bash": { "ter_set": "t_null", "str_min": 75, "str_max": 400, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
     "id": "t_grate",
     "name": "metal grate",
     "description": "A walkway that can be used as a protective covering over drains, or even as a filter.",

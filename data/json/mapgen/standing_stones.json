@@ -104,13 +104,7 @@
         "                        "
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": {
-        "#": "t_region_soil",
-        ".": [ "t_region_soil", "t_region_groundcover" ],
-        "O": "t_region_soil",
-        "o": "t_region_soil",
-        "s": "t_region_soil"
-      },
+      "terrain": { "#": "t_dirt", ".": [ "t_dirt", "t_highland_groundcover" ], "O": "t_dirt", "o": "t_dirt", "s": "t_dirt" },
       "furniture": { "O": "f_boulder_large", "o": "f_boulder_small" }
     }
   }

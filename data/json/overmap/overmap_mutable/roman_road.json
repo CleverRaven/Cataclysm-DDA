@@ -1,0 +1,41 @@
+[
+  {
+    "type": "overmap_special",
+    "id": "roman_road",
+    "subtype": "mutable",
+    "locations": [ "land" ],
+    "city_distance": [ 0, -1 ],
+    "city_sizes": [ 0, -1 ],
+    "occurrences": [ 1, 3 ],
+    "flags": [ "HIGHLANDS", "MAN_MADE" ],
+    "check_for_locations": [
+      [ [ 0, 0, 0 ], [ "land" ] ],
+      [ [ 1, 0, 0 ], [ "land" ] ],
+      [ [ -1, 0, 0 ], [ "land" ] ],
+      [ [ 0, -1, 0 ], [ "land" ] ],
+      [ [ 0, 1, 0 ], [ "land" ] ]
+    ],
+    "joins": [ "road_to_road", "invisible_road" ],
+    "overmaps": {
+      "road_straight": { "overmap": "highland_road_ns", "north": "road_to_road", "south": "road_to_road", "locations": [ "land" ] },
+      "straight_invisible": { "overmap": "highlands", "north": "invisible_road", "south": "invisible_road" },
+      "to_invisible": { "overmap": "highland_road_end_north", "north": "road_to_road", "south": "invisible_road" },
+      "road_curve": { "overmap": "highland_road_ne", "north": "road_to_road", "east": "road_to_road" },
+      "road_end": { "overmap": "highland_road_end_north", "north": "road_to_road" },
+      "invisible_end": { "overmap": "highlands", "south": "invisible_road" },
+      "road_tee": { "overmap": "highland_road_nes", "north": "road_to_road", "east": "road_to_road", "south": "road_to_road" }
+    },
+    "root": "road_straight",
+    "phases": [
+      [ { "overmap": "road_straight", "max": 4 } ],
+      [
+        { "overmap": "road_straight", "max": 80 },
+        { "overmap": "road_curve", "max": { "poisson": 1.5, "bounds": [ 1, 2 ] } },
+        { "overmap": "road_tee", "max": { "poisson": 1.5, "bounds": [ 0, 2 ] } },
+        { "overmap": "straight_invisible", "max": 140 },
+        { "overmap": "to_invisible", "max": { "poisson": 1.3, "bounds": [ 0, 4 ] } }
+      ],
+      [ { "overmap": "invisible_end", "weight": 1 }, { "overmap": "road_end", "weight": 100000 } ]
+    ]
+  }
+]
