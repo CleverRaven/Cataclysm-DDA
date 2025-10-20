@@ -222,7 +222,7 @@
     "max_duration": "30 hours",
     "max_intensity": 1,
     "flags": [ "TEEPSHIELD" ],
-    "enchantments": [ { "values": [ { "value": "LEARNING_FOCUS", "add": 15 }, { "value": "SKILL_RUST_RESIST", "add": 100 } ] } ]
+    "enchantments": [ { "values": [ { "value": "LEARNING_FOCUS", "add": 15 }, { "value": "SKILL_RUST_BONUS_XP", "multiply": 1.5 } ] } ]
   },
   {
     "type": "effect_type",

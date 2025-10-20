@@ -2462,6 +2462,15 @@ bool Character::practice( const skill_id &id, int amount, int cap, bool suppress
     // but perception also plays a role, representing both memory/attentiveness and catching on to how
     // the two apply to each other.
     float catchup_modifier = 1.0f + ( 2.0f * get_int() + get_per() ) / 24.0f; // 2 for an average person
+    if( level.isRusty() ) {
+        if( skill.is_combat_skill() ) {
+            catchup_modifier = enchantment_cache->modify_value( enchant_vals::mod::COMBAT_CATCHUP,
+                               catchup_modifier );
+        }
+        catchup_modifier = enchantment_cache->modify_value( enchant_vals::mod::SKILL_RUST_BONUS_XP,
+                           catchup_modifier );
+    }
+
     float knowledge_modifier = 1.0f + get_int() /
                                40.0f; // 1.2 for an average person, always a bit higher than base amount
 
@@ -2484,9 +2493,6 @@ bool Character::practice( const skill_id &id, int amount, int cap, bool suppress
     if( has_trait( trait_PACIFIST ) && skill.is_combat_skill() ) {
         amount /= 3.0f;
     }
-
-    catchup_modifier = enchantment_cache->modify_value( enchant_vals::mod::COMBAT_CATCHUP,
-                       catchup_modifier );
 
     if( isSavant && id != savantSkill ) {
         amount *= 0.5f;
@@ -3184,10 +3190,7 @@ void Character::do_skill_rust()
             continue;
         }
 
-        const int rust_resist = enchantment_cache->get_value_add( enchant_vals::mod::SKILL_RUST_RESIST );
-        const float rust_resist_mult = 1.0f + enchantment_cache->get_value_multiply(
-                                           enchant_vals::mod::SKILL_RUST_RESIST );
-        if( skill_level_obj.rust( rust_resist, rust_resist_mult ) ) {
+        if( skill_level_obj.rust() ) {
             mod_power_level( -bio_memory->power_trigger );
         }
     }
