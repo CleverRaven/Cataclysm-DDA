@@ -245,6 +245,36 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_afs_precog_craft_bonus",
+    "name": [ "Intuitive Artistry" ],
+    "desc": [
+      "You just know what you need to do next.  It's harder for you to pay attention to anything else due to the shifting futures, however, and you will lose awareness of the outside world entirely when making something."
+    ],
+    "rating": "good",
+    "max_duration": "7 days",
+    "enchantments": [
+      {
+        "values": [
+          { "value": "MOVE_COST", "multiply": 3 },
+          {
+            "value": "CRAFTING_SPEED_MULTIPLIER",
+            "multiply": { "math": [ "( 0.04 + ( u_spell_level('afs_precog_craft_bonus') * 0.01 ) * scaling_factor(u_val('intelligence') ) )" ] }
+          }
+        ]
+      }
+    ],
+    "flags": [ "MYOPIC", "CRAFT_IN_DARKNESS" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_afs_precog_craft_bonus_blindness",
+    "//": "Hidden effect, blinds you while crafting.",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "BLIND" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_afs_precog_melee_enhance",
     "name": [ "Martial Trance" ],
     "desc": [ "By predicting your enemies' movements, melee combat becomes much easier." ],

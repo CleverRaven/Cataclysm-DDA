@@ -104,6 +104,81 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_AFS_PRECOG_CRAFT_BONUS_INITIATE",
+    "condition": { "not": { "u_has_effect": "effect_afs_precog_craft_bonus" } },
+    "effect": [
+      { "u_message": "You can see how it all fits together, and how it *should* fit together.", "type": "good" },
+      { "run_eocs": [ "EOC_AFS_POWER_MAINTENANCE_PLUS_ONE", "EOC_AFS_PRECOG_CRAFT_BONUS_SWITCHER" ] },
+      { "u_add_effect": "effect_afs_precog_craft_bonus", "duration": "PERMANENT" },
+      {
+        "run_eocs": "EOC_AFS_PRECOG_CRAFT_BONUS_MAINTENANCE",
+        "time_in_future": [
+          {
+            "math": [ "( (u_spell_level('afs_precog_craft_bonus') * 250.00) + 1215.00) * scaling_factor(u_val('intelligence') )" ]
+          },
+          {
+            "math": [ "( (u_spell_level('afs_precog_craft_bonus') * 600.00) + 2700.00) * scaling_factor(u_val('intelligence') )" ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_CLAIR_REMOVE_CRAFT_BONUS" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_PRECOG_CRAFT_BONUS_SWITCHER",
+    "effect": {
+      "switch": { "math": [ "u_spell_level('afs_precog_craft_bonus')" ] },
+      "cases": [
+        { "case": 0, "effect": { "u_add_trait": "AFS_PRECOG_CRAFT_BONUS_01" } },
+        { "case": 4, "effect": { "u_add_trait": "AFS_PRECOG_CRAFT_BONUS_02" } },
+        { "case": 8, "effect": { "u_add_trait": "AFS_PRECOG_CRAFT_BONUS_03" } },
+        { "case": 12, "effect": { "u_add_trait": "AFS_PRECOG_CRAFT_BONUS_04" } },
+        { "case": 16, "effect": { "u_add_trait": "AFS_PRECOG_CRAFT_BONUS_05" } },
+        { "case": 20, "effect": { "u_add_trait": "AFS_PRECOG_CRAFT_BONUS_06" } }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_PRECOG_REMOVE_CRAFT_BONUS",
+    "condition": { "u_has_effect": "effect_afs_precog_craft_bonus" },
+    "effect": [
+      { "run_eocs": "EOC_AFS_POWER_MAINTENANCE_MINUS_ONE" },
+      { "u_lose_effect": "effect_afs_precog_craft_bonus" },
+      { "u_lose_effect": "effect_afs_precog_craft_bonus_blindness" },
+      { "u_lose_trait": "AFS_PRECOG_CRAFT_BONUS_01" },
+      { "u_lose_trait": "AFS_PRECOG_CRAFT_BONUS_02" },
+      { "u_lose_trait": "AFS_PRECOG_CRAFT_BONUS_03" },
+      { "u_lose_trait": "AFS_PRECOG_CRAFT_BONUS_04" },
+      { "u_lose_trait": "AFS_PRECOG_CRAFT_BONUS_05" },
+      { "u_lose_trait": "AFS_PRECOG_CRAFT_BONUS_06" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_PRECOG_CRAFT_BONUS_MAINTENANCE",
+    "condition": { "u_has_effect": "effect_afs_precog_craft_bonus" },
+    "effect": [
+      { "math": [ "u_latest_channeled_power_difficulty = u_spell_difficulty('afs_precog_craft_bonus')" ] },
+      { "run_eocs": "EOC_AFS_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
+      { "math": [ "u_spell_exp('afs_precog_craft_bonus') += psionic_power_experience_formula_maintenance()" ] },
+      {
+        "run_eocs": "EOC_AFS_PRECOG_CRAFT_BONUS_MAINTENANCE",
+        "time_in_future": [
+          {
+            "math": [ "( (u_spell_level('afs_precog_craft_bonus') * 250.00) + 1215.00) * scaling_factor(u_val('intelligence') )" ]
+          },
+          {
+            "math": [ "( (u_spell_level('afs_precog_craft_bonus') * 600.00) + 2700.00) * scaling_factor(u_val('intelligence') )" ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_AFS_PRECOG_MELEE_ENHANCE_INITIATE",
     "condition": { "not": { "u_has_effect": "effect_afs_precog_melee_enhance" } },
     "effect": [

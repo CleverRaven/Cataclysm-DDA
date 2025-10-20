@@ -779,8 +779,8 @@
       { "id": "afs_precog_danger_sense", "level": 8 },
       { "id": "afs_precog_damage_foresee", "level": 6 },
       { "id": "afs_precog_ranged_enhance", "level": 6 },
-      { "id": "afs_electrokinetic_personal_battery", "level": 5 },
-      { "id": "afs_precog_melee_enhance", "level": 3 }
+      { "id": "afs_precog_craft_bonus", "level": 5 },
+      { "id": "afs_precog_esper_dodge", "level": 3 }
     ],
     "proficiencies": [ "prof_concentration_basic" ],
     "items": {

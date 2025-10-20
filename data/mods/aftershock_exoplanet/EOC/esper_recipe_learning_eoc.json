@@ -91,8 +91,8 @@
           "EOC_CHECK_GAMEBEGIN_AFS_PRECOG_RECIPE_DANGER_SENSE",
           "EOC_CHECK_GAMEBEGIN_AFS_PRECOG_RECIPE_DAMAGE_FORESEE",
           "EOC_CHECK_GAMEBEGIN_AFS_PRECOG_RECIPE_RANGED_ENHANCE",
-          "EOC_CHECK_GAMEBEGIN_AFS_PRECOG_RECIPE_MELEE_ENHANCE",
-          "EOC_CHECK_GAMEBEGIN_AFS_PRECOG_RECIPE_PERSONAL_BATTERY"
+          "EOC_CHECK_GAMEBEGIN_AFS_PRECOG_RECIPE_CRAFT_BONUS",
+          "EOC_CHECK_GAMEBEGIN_AFS_PRECOG_RECIPE_MELEE_ENHANCE"
         ]
       }
     ]
@@ -117,17 +117,15 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_CHECK_GAMEBEGIN_AFS_PRECOG_RECIPE_MELEE_ENHANCE",
-    "condition": { "and": [ { "u_has_trait": "AFS_PRECOG" }, { "math": [ "u_spell_level('afs_precog_melee_enhance') >= 0" ] } ] },
-    "effect": [ { "u_learn_recipe": "practice_afs_precog_melee_enhance" } ]
+    "id": "EOC_CHECK_GAMEBEGIN_AFS_PRECOG_RECIPE_CRAFT_BONUS",
+    "condition": { "and": [ { "u_has_trait": "AFS_PRECOG" }, { "math": [ "u_spell_level('afs_precog_craft_bonus') >= 0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_afs_precog_craft_bonus" } ]
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_CHECK_GAMEBEGIN_AFS_ELECTROKIN_RECIPE_PERSONAL_BATTERY",
-    "condition": {
-      "and": [ { "u_has_trait": "AFS_PRECOG" }, { "math": [ "u_spell_level('afs_electrokinetic_personal_battery') >= 0" ] } ]
-    },
-    "effect": [ { "u_learn_recipe": "practice_afs_electrokinetic_personal_battery" } ]
+    "id": "EOC_CHECK_GAMEBEGIN_AFS_PRECOG_RECIPE_MELEE_ENHANCE",
+    "condition": { "and": [ { "u_has_trait": "AFS_PRECOG" }, { "math": [ "u_spell_level('afs_precog_melee_enhance') >= 0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_afs_precog_melee_enhance" } ]
   },
   {
     "type": "effect_on_condition",

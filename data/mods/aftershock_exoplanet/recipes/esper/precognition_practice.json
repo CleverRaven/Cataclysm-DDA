@@ -12,6 +12,8 @@
       "practice_afs_precog_danger_sense",
       "practice_afs_precog_damage_foresee",
       "practice_afs_precog_ranged_enhance",
+      "practice_afs_precog_craft_bonus",
+      "practice_afs_precog_esper_dodge",
       "practice_afs_precog_melee_enhance"
     ],
     "difficulty": 1
@@ -86,6 +88,31 @@
         "effect": [
           { "set_string_var": "afs_precog_ranged_enhance", "target_var": { "u_val": "latest_studied_power_name" } },
           { "math": [ "u_latest_studied_power_difficulty = u_spell_difficulty('afs_precog_ranged_enhance')" ] },
+          { "run_eocs": [ "EOC_AFS_ESPER_STUDYING_POWER_BEGIN", "EOC_AFS_ESPER_STUDYING_POWER_SIDE_EFFECTS" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: intuitive artistry",
+    "id": "practice_afs_precog_craft_bonus",
+    "description": "Contemplate your powers and improve your ability to search through the future to determine exactly how you should build that thing you're working on.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 0,
+    "time": "0 s",
+    "autolearn": false,
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_AFS_PRECOG_CRAFT_BONUS",
+        "condition": { "u_has_trait": "AFS_PRECOG" },
+        "effect": [
+          { "set_string_var": "afs_precog_craft_bonus", "target_var": { "u_val": "latest_studied_power_name" } },
+          { "math": [ "u_latest_studied_power_difficulty = u_spell_difficulty('afs_precog_craft_bonus')" ] },
           { "run_eocs": [ "EOC_AFS_ESPER_STUDYING_POWER_BEGIN", "EOC_AFS_ESPER_STUDYING_POWER_SIDE_EFFECTS" ] }
         ]
       }
