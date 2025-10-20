@@ -563,7 +563,7 @@
         { "item": "afs_circuitry_2", "count": [ 1, 6 ] },
         { "item": "afs_circuitry_3", "count": [ 0, 1 ] },
         { "item": "afs_circuitry_3", "count": [ 0, 1 ] },
-        { "item": "afs_heat_2", "count": [ 0, 1 ] },
+        { "item": "afs_heat_2_salvage", "count": [ 0, 1 ] },
         { "item": "afs_energy_storage_2", "count": [ 1, 6 ] },
         { "item": "afs_energy_storage_4", "count": [ 0, 1 ] },
         { "item": "afs_material_1", "count": [ 12, 18 ] }
@@ -606,7 +606,7 @@
         { "item": "afs_circuitry_2", "count": [ 1, 6 ] },
         { "item": "afs_circuitry_3", "count": [ 0, 1 ] },
         { "item": "afs_circuitry_3", "count": [ 0, 1 ] },
-        { "item": "afs_heat_2", "count": [ 0, 1 ] },
+        { "item": "afs_heat_2_salvage", "count": [ 0, 1 ] },
         { "item": "afs_energy_storage_2", "count": [ 1, 6 ] },
         { "item": "afs_energy_storage_4", "count": [ 0, 1 ] },
         { "item": "afs_material_1", "count": [ 12, 18 ] }
@@ -643,7 +643,7 @@
       "items": [
         { "item": "afs_circuitry_1", "count": [ 1, 7 ] },
         { "item": "afs_circuitry_2", "count": [ 0, 2 ] },
-        { "item": "afs_heat_2", "count": [ 0, 1 ] },
+        { "item": "afs_heat_2_salvage", "count": [ 0, 1 ] },
         { "item": "afs_material_1", "count": [ 8, 12 ] }
       ]
     }
@@ -670,7 +670,7 @@
         { "item": "afs_circuitry_2", "count": [ 1, 6 ] },
         { "item": "afs_circuitry_3", "count": [ 0, 1 ] },
         { "item": "afs_circuitry_3", "count": [ 0, 1 ] },
-        { "item": "afs_heat_2", "count": [ 0, 1 ] },
+        { "item": "afs_heat_2_salvage", "count": [ 0, 1 ] },
         { "item": "afs_energy_storage_2", "count": [ 1, 6 ] },
         { "item": "afs_energy_storage_4", "count": [ 0, 1 ] },
         { "item": "afs_material_1", "count": [ 12, 18 ] }
@@ -700,7 +700,7 @@
         { "item": "afs_circuitry_3", "count": [ 0, 1 ] },
         { "item": "afs_circuitry_3", "count": [ 0, 1 ] },
         { "item": "ai_module", "count": [ 0, 1 ] },
-        { "item": "afs_heat_2", "count": [ 0, 1 ] },
+        { "item": "afs_heat_2_salvage", "count": [ 0, 1 ] },
         { "item": "afs_energy_storage_2", "count": [ 1, 6 ] },
         { "item": "afs_energy_storage_4", "count": [ 0, 1 ] },
         { "item": "afs_material_1", "count": [ 12, 18 ] }
@@ -730,7 +730,7 @@
         { "item": "afs_circuitry_3", "count": [ 0, 1 ] },
         { "item": "afs_circuitry_3", "count": [ 0, 1 ] },
         { "item": "ai_module", "count": [ 0, 1 ] },
-        { "item": "afs_heat_2", "count": [ 0, 1 ] },
+        { "item": "afs_heat_2_salvage", "count": [ 0, 1 ] },
         { "item": "afs_energy_storage_2", "count": [ 1, 6 ] },
         { "item": "afs_energy_storage_4", "count": [ 0, 1 ] },
         { "item": "afs_material_1", "count": [ 12, 18 ] }

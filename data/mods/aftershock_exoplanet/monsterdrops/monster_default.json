@@ -90,10 +90,6 @@
     "subtype": "collection",
     "//": "contains cloth (always), a cash card (10% chance), and a random item (50% chance)",
     "id": "default_moxie_human_death_drops",
-    "entries": [
-      { "group": "default_moxie_human_clothes" },
-      { "group": "default_moxie_human_items", "prob": 50 },
-      { "group": "wallets", "damage": [ 1, 4 ], "prob": 10 }
-    ]
+    "entries": [ { "group": "default_moxie_human_clothes" }, { "group": "default_moxie_human_items", "prob": 50 } ]
   }
 ]
