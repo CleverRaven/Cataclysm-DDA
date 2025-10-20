@@ -37,7 +37,7 @@
     "id": "afs_precog_ranged_enhance",
     "type": "SPELL",
     "name": "[Ψ]Marksman's Eye (C)",
-    "description": "By predicting your opponent's movements and the conditions affecting your weapon, you can increase the effective range and accuracy of your ranged attacks.  The shifting futures and focus required will slow your movem and reduce your chance to avoid any close-combat attacks, however.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "description": "By predicting your opponent's position and the conditions affecting your weapon, you can increase the effective range and accuracy of your ranged attacks.  The shifting futures and focus required will slow your movem and reduce your chance to avoid any close-combat attacks, however.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
@@ -62,6 +62,36 @@
     "base_casting_time": {
       "math": [
         "u_effect_intensity('effect_afs_precog_ranged_enhance') > -1 ? 10 : max((200 -(u_spell_level('afs_precog_ranged_enhance') * 6)), 125)"
+      ]
+    }
+  },
+  {
+    "id": "afs_precog_melee_enhance",
+    "type": "SPELL",
+    "name": "[Ψ]Martial Trance (C)",
+    "description": "By opening yourself up to possible futures, you can predict your opponent's movements, striking at the place where they will be and avoiding their attacks before they happen.  Focusing on the shifting futures will narrow your vision to only the nearby melee, however.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "AFS_PRECOG",
+    "magic_type": "aftershock_psionics",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 7,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_AFS_PRECOG_MELEE_ENHANCE_INITIATE",
+    "shape": "blast",
+    "min_duration": { "math": [ "( (u_spell_level('afs_precog_melee_enhance') * 900) + 24000) * scaling_factor(u_val('intelligence') )" ] },
+    "max_duration": { "math": [ "( (u_spell_level('afs_precog_melee_enhance') * 2800) + 69000) * scaling_factor(u_val('intelligence') )" ] },
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_afs_precog_melee_enhance') > -1 ? 0 : max((3500 - (u_spell_level('afs_precog_melee_enhance') * 135)), 1750)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_afs_precog_melee_enhance') > -1 ? 10 : max((200 -(u_spell_level('afs_precog_melee_enhance') * 6)), 125)"
       ]
     }
   }

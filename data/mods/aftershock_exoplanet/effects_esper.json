@@ -234,6 +234,57 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_afs_precog_melee_enhance",
+    "name": [ "Martial Trance" ],
+    "desc": [ "By predicting your enemies' movements, melee combat becomes much easier." ],
+    "apply_message": "",
+    "remove_message": "The possible futures all snap back into the present.",
+    "rating": "good",
+    "max_duration": "7 days",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "MELEE_TO_HIT",
+            "add": { "math": [ "(1 + ( u_spell_level('afs_precog_ranged_enhance') * 0.25 ) * scaling_factor(u_val('intelligence') ) )" ] }
+          },
+          {
+            "value": "DODGE_CHANCE",
+            "add": { "math": [ "(1 + ( u_spell_level('afs_precog_ranged_enhance') * 0.25 ) * scaling_factor(u_val('intelligence') ) )" ] }
+          },
+          {
+            "value": "MELEE_DAMAGE",
+            "add": {
+              "math": [ "(0.1 + ( u_spell_level('afs_precog_ranged_enhance') * 0.05 ) * scaling_factor(u_val('intelligence') ) )" ]
+            }
+          },
+          { "value": "BONUS_DODGE", "add": 1 }
+        ]
+      },
+      {
+        "condition": {
+          "or": [
+            { "u_has_wielded_with_skill": "melee" },
+            { "u_has_wielded_with_skill": "bashing" },
+            { "u_has_wielded_with_skill": "stabbing" },
+            { "u_has_wielded_with_skill": "cutting" }
+          ]
+        },
+        "values": [
+          {
+            "value": "WEAKPOINT_ACCURACY",
+            "multiply": {
+              "math": [
+                "min( ( ( ( u_spell_level('afs_precog_ranged_enhance') * 0.08) + 0.10 ) * scaling_factor(u_val('intelligence') ) ), 9 )"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_afs_telekinetic_momentum",
     "name": [ "Altered Momentum" ],
     "desc": [ "Your powers are affecting movement around you; dangerous objects are slowed and your own speed is increased." ],

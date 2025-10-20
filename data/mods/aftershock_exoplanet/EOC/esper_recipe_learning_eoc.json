@@ -76,6 +76,69 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_AFS_PRECOG_RECIPE_TEACHER",
+    "eoc_type": "EVENT",
+    "required_event": "game_begin",
+    "condition": { "u_has_trait": "AFS_PRECOG" },
+    "effect": [ { "run_eocs": "EOC_TEACH_AFS_PRECOG_CONTEMPLATE_RECIPES" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TEACH_AFS_PRECOG_CONTEMPLATE_RECIPES",
+    "effect": [
+      {
+        "run_eocs": [
+          "EOC_CHECK_GAMEBEGIN_AFS_PRECOG_RECIPE_DANGER_SENSE",
+          "EOC_CHECK_GAMEBEGIN_AFS_PRECOG_RECIPE_DAMAGE_PREDICT",
+          "EOC_CHECK_GAMEBEGIN_AFS_PRECOG_RECIPE_RANGED_ENHANCE",
+          "EOC_CHECK_GAMEBEGIN_AFS_PRECOG_RECIPE_MELEE_ENHANCE",
+          "EOC_CHECK_GAMEBEGIN_AFS_PRECOG_RECIPE_PERSONAL_BATTERY"
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_AFS_PRECOG_RECIPE_DANGER_SENSE",
+    "condition": { "and": [ { "u_has_trait": "AFS_PRECOG" }, { "math": [ "u_spell_level('afs_precog_danger_sense') >= 0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_afs_precog_danger_sense" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_AFS_PRECOG_RECIPE_DAMAGE_PREDICT",
+    "condition": { "and": [ { "u_has_trait": "AFS_PRECOG" }, { "math": [ "u_spell_level('afs_electrokinetic_shock_touch') >= 0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_afs_electrokinetic_shock_touch" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_AFS_PRECOG_RECIPE_RANGED_ENHANCE",
+    "condition": { "and": [ { "u_has_trait": "AFS_PRECOG" }, { "math": [ "u_spell_level('afs_precog_ranged_enhance') >= 0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_afs_precog_ranged_enhance" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_AFS_PRECOG_RECIPE_MELEE_ENHANCE",
+    "condition": { "and": [ { "u_has_trait": "AFS_PRECOG" }, { "math": [ "u_spell_level('afs_precog_melee_enhance') >= 0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_afs_precog_melee_enhance" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_AFS_ELECTROKIN_RECIPE_PERSONAL_BATTERY",
+    "condition": {
+      "and": [ { "u_has_trait": "AFS_PRECOG" }, { "math": [ "u_spell_level('afs_electrokinetic_personal_battery') >= 0" ] } ]
+    },
+    "effect": [ { "u_learn_recipe": "practice_afs_electrokinetic_personal_battery" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_TELEKINETIC_RECIPE_TEACHER",
+    "eoc_type": "EVENT",
+    "required_event": "game_begin",
+    "condition": { "u_has_trait": "AFS_TELEKINETIC" },
+    "effect": [ { "run_eocs": "EOC_TEACH_AFS_TELEKINETIC_CONTEMPLATE_RECIPES" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_AFS_TELEKINETIC_RECIPE_TEACHER",
     "eoc_type": "EVENT",
     "required_event": "game_begin",
