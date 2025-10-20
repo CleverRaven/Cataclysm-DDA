@@ -2599,7 +2599,8 @@ void item_contents::process( map &here, Character *carrier, const tripoint_bub_m
                              temperature_flag flag, float spoil_multiplier_parent, bool watertight_container )
 {
     for( item_pocket &pocket : contents ) {
-        if( pocket.is_type( pocket_type::CONTAINER ) || pocket.is_type( pocket_type::MOD ) ) {
+        if( pocket.is_type( pocket_type::CONTAINER ) || pocket.is_type( pocket_type::MOD ) ||
+            pocket.is_type( pocket_type::MAGAZINE_WELL ) )  {
             pocket.process( here, carrier, pos, insulation, flag, spoil_multiplier_parent,
                             watertight_container );
         }
