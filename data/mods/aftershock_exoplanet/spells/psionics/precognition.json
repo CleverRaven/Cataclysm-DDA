@@ -32,5 +32,37 @@
         "u_effect_intensity('effect_afs_precog_premonition') > -1 ? 10 : max( (85 - (u_spell_level('afs_precog_danger_sense') * 7) ), 25)"
       ]
     }
+  },
+  {
+    "id": "afs_precog_ranged_enhance",
+    "type": "SPELL",
+    "name": "[Ψ]Marksman's Eye (C)",
+    "description": "By predicting your opponent's movements and the conditions affecting your weapon, you can increase the effective range and accuracy of your ranged attacks.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "AFS_PRECOG",
+    "magic_type": "aftershock_psionics",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 4,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_AFS_PRECOG_RANGED_ENHANCE_INITIATE",
+    "shape": "blast",
+    "min_duration": { "math": [ "( (u_spell_level('afs_precog_ranged_enhance') * 800) + 21000) * scaling_factor(u_val('intelligence') )" ] },
+    "max_duration": {
+      "math": [ "( (u_spell_level('afs_precog_ranged_enhance') * 2500) + 64000) * scaling_factor(u_val('intelligence') )" ]
+    },
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_afs_precog_ranged_enhance') > -1 ? 0 : max((4500 - (u_spell_level('afs_precog_ranged_enhance') * 135)), 2250)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_afs_precog_ranged_enhance') > -1 ? 10 : max((200 -(u_spell_level('afs_precog_ranged_enhance') * 6)), 125)"
+      ]
+    }
   }
 ]

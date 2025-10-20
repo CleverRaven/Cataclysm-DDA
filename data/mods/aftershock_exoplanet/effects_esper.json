@@ -172,7 +172,6 @@
     "remove_message": "Your preternatural awareness fades.",
     "rating": "good",
     "max_duration": "7 days",
-    "max_intensity": 58,
     "enchantments": [
       {
         "values": [
@@ -180,6 +179,51 @@
             "value": "MOTION_ALARM",
             "add": {
               "math": [ "max( ( ( 3 + ( u_spell_level('clair_danger_sense') * 0.5  ) * (scaling_factor(u_val('intelligence') ) ) ) ), 25)" ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_afs_precog_ranged_enhance",
+    "name": [ "Dead Aim" ],
+    "desc": [ "By predicting your enemies' movements, aiming becomes much easier." ],
+    "apply_message": "",
+    "remove_message": "The possible futures all snap back into the present.",
+    "rating": "good",
+    "max_duration": "7 days",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "RANGE",
+            "add": { "math": [ "(1 + ( u_spell_level('afs_precog_ranged_enhance') * 0.25 ) * scaling_factor(u_val('intelligence') ) )" ] }
+          },
+          {
+            "value": "WEAPON_DISPERSION",
+            "multiply": {
+              "math": [ "max((( ( u_spell_level('afs_precog_ranged_enhance') * -0.025) * scaling_factor(u_val('intelligence') ) ) ),-0.6)" ]
+            }
+          }
+        ]
+      },
+      {
+        "condition": {
+          "or": [
+            { "u_has_wielded_with_skill": "pistol" },
+            { "u_has_wielded_with_skill": "rifle" },
+            { "u_has_wielded_with_skill": "gun" }
+          ]
+        },
+        "values": [
+          {
+            "value": "WEAKPOINT_ACCURACY",
+            "multiply": {
+              "math": [
+                "min( ( ( ( u_spell_level('afs_precog_ranged_enhance') * 0.08) + 0.10 ) * scaling_factor(u_val('intelligence') ) ), 9 )"
+              ]
             }
           }
         ]
