@@ -134,6 +134,6 @@
     "map_extras": "default_innawood",
     "terrain_furniture": "default_innawood",
     "place_roads": false,
-    "feature_flag_settings": { "blacklist": [ "LAB", "MAN_MADE", "MILITARY", "URBAN", "FARM", "EXODII" ], "whitelist": [  ] }
+    "feature_flag_settings": { "blacklist": [ "LAB", "MAN_MADE", "MILITARY", "URBAN", "FARM", "EXODII", "HIGHLANDS" ], "whitelist": [  ] }
   }
 ]

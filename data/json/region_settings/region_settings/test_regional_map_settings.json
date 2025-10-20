@@ -90,7 +90,7 @@
       "nether_glass_deep_north"
     ],
     "default_groundcover": [ [ "t_nether_glass_floor", 1 ] ],
-    "feature_flag_settings": { "blacklist": [  ], "whitelist": [  ] },
+    "feature_flag_settings": { "blacklist": [  ], "whitelist": [ "NETHER_ABYSS" ] },
     "//": "ignored",
     "connections": {
       "intra_city_road_connection": "local_road",
