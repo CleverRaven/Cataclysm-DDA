@@ -34,6 +34,34 @@
     }
   },
   {
+    "id": "afs_precog_damage_foresee",
+    "type": "SPELL",
+    "name": "[Ψ]Forewarned (C)",
+    "description": "By taking a moment to peer through possible futures, you can determine if any harm may come to you in the near future and therefore avoid it.  This requires a moment in trance to sift through the visions.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "AFS_PRECOG",
+    "magic_type": "aftershock_psionics",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 3,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "attack",
+    "effect_str": "effect_afs_precog_damage_foresee",
+    "shape": "blast",
+    "min_duration": {
+      "math": [ "( ( u_spell_level('afs_precog_damage_foresee') * 3000) + 30000) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_duration": {
+      "math": [ "( (u_spell_level('afs_precog_damage_foresee') * 5500) + 60000) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "base_energy_cost": 5000,
+    "base_casting_time": 6000,
+    "final_casting_time": 3000,
+    "casting_time_increment": -100
+  },
+  {
     "id": "afs_precog_ranged_enhance",
     "type": "SPELL",
     "name": "[Ψ]Marksman's Eye (C)",

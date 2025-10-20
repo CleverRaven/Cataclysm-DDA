@@ -187,6 +187,17 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_afs_precog_damage_foresee",
+    "name": [ "Forewarning" ],
+    "desc": [ "You are warned of any dangers that would strike you." ],
+    "rating": "good",
+    "remove_message": "This was it.  You avoided the attack, but can you avoid the next one?",
+    "max_duration": "30 minutes",
+    "//": "Needs to be FORCEFIELD because it has to check if you get hit to be removed, and if it's EVASION, you'll never get hit.",
+    "enchantments": [ { "values": [ { "value": "FORCEFIELD", "add": 1 } ] } ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_afs_precog_ranged_enhance",
     "name": [ "Dead Aim" ],
     "desc": [ "By predicting your enemies' movements, aiming becomes much easier." ],
@@ -281,7 +292,8 @@
           }
         ]
       }
-    ]
+    ],
+    "flags": [ "MYOPIC_SUPERNATURAL" ]
   },
   {
     "type": "effect_type",

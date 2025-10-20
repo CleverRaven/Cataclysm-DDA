@@ -1,0 +1,10 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_PRECOG_FOREWARNING_REMOVE",
+    "eoc_type": "EVENT",
+    "required_event": "character_takes_damage",
+    "condition": { "u_has_effect": "effect_afs_precog_damage_foresee" },
+    "effect": [ { "u_lose_effect": "effect_afs_precog_damage_foresee" } ]
+  }
+]

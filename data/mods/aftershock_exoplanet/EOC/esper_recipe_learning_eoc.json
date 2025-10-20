@@ -89,7 +89,7 @@
       {
         "run_eocs": [
           "EOC_CHECK_GAMEBEGIN_AFS_PRECOG_RECIPE_DANGER_SENSE",
-          "EOC_CHECK_GAMEBEGIN_AFS_PRECOG_RECIPE_DAMAGE_PREDICT",
+          "EOC_CHECK_GAMEBEGIN_AFS_PRECOG_RECIPE_DAMAGE_FORESEE",
           "EOC_CHECK_GAMEBEGIN_AFS_PRECOG_RECIPE_RANGED_ENHANCE",
           "EOC_CHECK_GAMEBEGIN_AFS_PRECOG_RECIPE_MELEE_ENHANCE",
           "EOC_CHECK_GAMEBEGIN_AFS_PRECOG_RECIPE_PERSONAL_BATTERY"
@@ -105,9 +105,9 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_CHECK_GAMEBEGIN_AFS_PRECOG_RECIPE_DAMAGE_PREDICT",
-    "condition": { "and": [ { "u_has_trait": "AFS_PRECOG" }, { "math": [ "u_spell_level('afs_electrokinetic_shock_touch') >= 0" ] } ] },
-    "effect": [ { "u_learn_recipe": "practice_afs_electrokinetic_shock_touch" } ]
+    "id": "EOC_CHECK_GAMEBEGIN_AFS_PRECOG_RECIPE_DAMAGE_FORESEE",
+    "condition": { "and": [ { "u_has_trait": "AFS_PRECOG" }, { "math": [ "u_spell_level('afs_precog_damage_foresee') >= 0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_afs_precog_damage_foresee" } ]
   },
   {
     "type": "effect_on_condition",
