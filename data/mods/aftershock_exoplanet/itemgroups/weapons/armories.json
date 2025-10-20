@@ -19,10 +19,10 @@
       { "group": "afs_general_armory", "prob": 2 },
       {
         "distribution": [
-          { "item": "afs_ruined_laser_pistol", "prob": 10 },
-          { "item": "afs_ruined_laser_rifle", "prob": 10 },
-          { "item": "afs_ruined_rifle", "prob": 15 },
-          { "item": "afs_ruined_magazine", "prob": 5 }
+          { "item": "afs_ruined_laser_pistol", "prob": 10, "damage": [ 2, 4 ] },
+          { "item": "afs_ruined_laser_rifle", "prob": 10, "damage": [ 2, 4 ] },
+          { "item": "afs_ruined_rifle", "prob": 15, "damage": [ 2, 4 ] },
+          { "item": "afs_ruined_magazine", "prob": 5, "damage": [ 2, 4 ] }
         ],
         "prob": 3
       }
@@ -119,8 +119,7 @@
       [ "3x35toxic", 2 ],
       [ "afs_shot_he", 20 ],
       [ "afs_4g_plasma", 20 ],
-      [ "afs_20g_plasma", 10 ],
-      [ "afs_cartridge", 10 ]
+      [ "afs_20g_plasma", 10 ]
     ]
   },
   {

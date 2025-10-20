@@ -83,7 +83,8 @@
     "range": 110,
     "stack_size": 1,
     "recoil": 100,
-    "effects": [ "NEVER_MISFIRES", "CASELESS_ROUNDS" ],
+    "flags": [ "CASELESS_ROUNDS" ],
+    "effects": [ "NEVER_MISFIRES" ],
     "damage": { "damage_type": "bullet", "amount": 35, "armor_penetration": 15 },
     "critical_multiplier": 10,
     "dispersion": 0

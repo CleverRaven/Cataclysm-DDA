@@ -20,6 +20,7 @@
     "melee_dice": 2,
     "melee_dice_sides": 10,
     "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
+    "attack_effs": [ { "id": "effect_clay_golem_unhealing", "duration": 1800 } ],
     "dodge": 0,
     "vision_day": 40,
     "vision_night": 40,
