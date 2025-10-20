@@ -24,7 +24,7 @@
     "terrain_furniture": "highlands_terrain_furniture",
     "weather": "highland_weather",
     "place_roads": false,
-    "place_specials": false,
+    "place_specials": true,
     "neighbor_connections": false,
     "default_oter": [
       "open_air",

@@ -847,18 +847,18 @@
     ],
     "locations": [ "land" ],
     "city_distance": [ 0, -1 ],
-    "occurrences": [ 60, 100 ],
+    "occurrences": [ 2, 4 ],
     "flags": [ "WILDERNESS", "HIGHLANDS" ]
   },
   {
     "type": "overmap_special",
-    "id": "Standing stones",
+    "id": "Standing stones Highlands",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "standing_stones_highlands" } ],
     "locations": [ "land" ],
     "city_distance": [ 0, -1 ],
-    "occurrences": [ 60, 100 ],
+    "occurrences": [ 2, 4 ],
     "rotate": false,
-    "flags": [ "CLASSIC", "WILDERNESS", "OVERMAP_UNIQUE", "HIGHLANDS" ]
+    "flags": [ "CLASSIC", "WILDERNESS", "HIGHLANDS" ]
   },
   {
     "type": "overmap_special",

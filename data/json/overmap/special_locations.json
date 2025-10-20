@@ -2,7 +2,7 @@
   {
     "type": "overmap_location",
     "id": "field",
-    "terrains": [ "field", "meadow_core", "meadow_end" ]
+    "terrains": [ "field", "meadow_core", "meadow_end", "highlands" ]
   },
   {
     "type": "overmap_location",
