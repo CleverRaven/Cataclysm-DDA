@@ -90,6 +90,16 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "standing_stones_highlands",
+    "name": "highlands",
+    "sym": "O",
+    "color": "dark_gray",
+    "vision_levels": "open_land",
+    "see_cost": "medium",
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "boat_rental", "boat_rental_1", "boat_rental_2" ],
     "name": "boat rental",
     "sym": "#",

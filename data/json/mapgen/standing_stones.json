@@ -71,5 +71,47 @@
       ],
       "items": { "#": { "item": "fireplace_fill", "repeat": [ 1, 3 ] } }
     }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "standing_stones_highlands" ],
+    "object": {
+      "predecessor_mapgen": "forest",
+      "rows": [
+        "                        ",
+        "               ...      ",
+        "               .o...    ",
+        "    ....        ....    ",
+        "    .o.......   ....    ",
+        " .....   ....     ....  ",
+        " ...... ......  ........",
+        "  ....................o.",
+        "  .o........o...........",
+        " ..........ss...O.....  ",
+        " ........ossssss....... ",
+        "     ..sssssssss.....   ",
+        "   ..OssssssOsss.o..... ",
+        " ......sssssssss.....o. ",
+        " .o.....ossssssO....... ",
+        " .......ss..ss.......   ",
+        "   .......o.......      ",
+        "  ..................    ",
+        "   .................... ",
+        "  ...o..  ...........o. ",
+        "   .....   ......   ... ",
+        "           ....o..      ",
+        "             .....      ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        "#": "t_region_soil",
+        ".": [ "t_region_soil", "t_region_groundcover" ],
+        "O": "t_region_soil",
+        "o": "t_region_soil",
+        "s": "t_region_soil"
+      },
+      "furniture": { "O": "f_boulder_large", "o": "f_boulder_small" }
+    }
   }
 ]

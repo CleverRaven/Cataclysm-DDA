@@ -836,6 +836,32 @@
   },
   {
     "type": "overmap_special",
+    "id": "Strangle Temple Highlands",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "temple_stairs_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "temple_underground_1_north" },
+      { "point": [ 0, 0, -2 ], "overmap": "temple_underground_2_north" },
+      { "point": [ 0, 0, -3 ], "overmap": "temple_underground_3_north" },
+      { "point": [ 0, 0, -4 ], "overmap": "temple_underground_4_north" },
+      { "point": [ 0, 0, -5 ], "overmap": "temple_finale_north" }
+    ],
+    "locations": [ "land" ],
+    "city_distance": [ 0, -1 ],
+    "occurrences": [ 60, 100 ],
+    "flags": [ "WILDERNESS", "HIGHLANDS" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Standing stones",
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "standing_stones_highlands" } ],
+    "locations": [ "land" ],
+    "city_distance": [ 0, -1 ],
+    "occurrences": [ 60, 100 ],
+    "rotate": false,
+    "flags": [ "CLASSIC", "WILDERNESS", "OVERMAP_UNIQUE", "HIGHLANDS" ]
+  },
+  {
+    "type": "overmap_special",
     "id": "Standing stones",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "standing_stones" } ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "forest_trail", "connection": "forest_trail" } ],
