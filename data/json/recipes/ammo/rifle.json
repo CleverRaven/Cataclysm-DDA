@@ -1612,7 +1612,7 @@
     "charges": 1,
     "reversible": { "time": "5 s" },
     "using": [ [ "bullet_forming", 12 ], [ "ammo_bullet", 3 ] ],
-    "//": "3200 mg gunpowder rounded to 32 100 mg 'pieces'",
+    "//1": "3200 mg gunpowder rounded to 32 100 mg 'pieces'",
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
       [ [ "unprimed_123ln_casing", 1 ] ],
