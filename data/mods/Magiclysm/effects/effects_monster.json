@@ -68,7 +68,7 @@
     "id": "effect_migo_fleshwarper_block_healing",
     "name": [ "Writhing Flesh" ],
     "desc": [ "Your flesh twitches and wriggles unnaturally." ],
-    "apply_message": "",
+    "apply_message": "Your flesh twitches and wriggles!",
     "remove_message": "Your flesh finally settles down.",
     "rating": "bad",
     "max_duration": "7 days",
