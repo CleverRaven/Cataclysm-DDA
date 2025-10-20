@@ -900,8 +900,7 @@ item::armor_status item::damage_armor_durability( damage_unit &du, damage_unit &
                         armors_own_resist * 1.3333 );
     double k = has_flag( flag_FRAGILE ) ? 0.1 : 1.0;
     double damage_chance = 0.8 / ( 1.0 + std::exp( -k * ( premitigated.amount - armors_own_resist ) ) )
-                           *
-                           enchant_multiplier;
+                           * enchant_multiplier;
 
     // Scale chance of article taking damage based on the number of parts it covers.
     // This represents large articles being able to take more punishment
