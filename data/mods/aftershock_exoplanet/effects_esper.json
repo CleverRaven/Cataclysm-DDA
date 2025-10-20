@@ -275,6 +275,35 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_afs_precog_dodge_bonus",
+    "name": [ "Prescient Dodge" ],
+    "desc": [ "You can see your enemies' attacks in advance." ],
+    "apply_message": "",
+    "remove_message": "The fore-images of your enemies fade away.",
+    "rating": "good",
+    "max_duration": "7 days",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "RANGE_DODGE",
+            "add": {
+              "math": [ "min(((0.25 + ( u_spell_level('afs_precog_dodge_bonus') * 0.015) * scaling_factor(u_val('intelligence') ) ) ), 0.7)" ]
+            }
+          },
+          {
+            "value": "DODGE_CHANCE",
+            "add": {
+              "math": [ "min((( ( u_spell_level('afs_precog_dodge_bonus') * 0.5) * scaling_factor(u_val('intelligence') ) ) ), 10)" ]
+            }
+          }
+        ]
+      }
+    ],
+    "flags": [ "HARDTOHIT" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_afs_precog_melee_enhance",
     "name": [ "Martial Trance" ],
     "desc": [ "By predicting your enemies' movements, melee combat becomes much easier." ],

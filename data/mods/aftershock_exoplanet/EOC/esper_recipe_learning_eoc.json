@@ -92,6 +92,7 @@
           "EOC_CHECK_GAMEBEGIN_AFS_PRECOG_RECIPE_DAMAGE_FORESEE",
           "EOC_CHECK_GAMEBEGIN_AFS_PRECOG_RECIPE_RANGED_ENHANCE",
           "EOC_CHECK_GAMEBEGIN_AFS_PRECOG_RECIPE_CRAFT_BONUS",
+          "EOC_CHECK_GAMEBEGIN_AFS_PRECOG_RECIPE_DODGE_BONUS",
           "EOC_CHECK_GAMEBEGIN_AFS_PRECOG_RECIPE_MELEE_ENHANCE"
         ]
       }
@@ -120,6 +121,12 @@
     "id": "EOC_CHECK_GAMEBEGIN_AFS_PRECOG_RECIPE_CRAFT_BONUS",
     "condition": { "and": [ { "u_has_trait": "AFS_PRECOG" }, { "math": [ "u_spell_level('afs_precog_craft_bonus') >= 0" ] } ] },
     "effect": [ { "u_learn_recipe": "practice_afs_precog_craft_bonus" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_AFS_PRECOG_RECIPE_DODGE_BONUS",
+    "condition": { "and": [ { "u_has_trait": "AFS_PRECOG" }, { "math": [ "u_spell_level('afs_precog_dodge_bonus') >= 0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_afs_precog_dodge_bonus" } ]
   },
   {
     "type": "effect_on_condition",

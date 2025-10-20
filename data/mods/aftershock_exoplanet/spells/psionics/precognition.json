@@ -124,6 +124,36 @@
     }
   },
   {
+    "id": "afs_precog_dodge_bonus",
+    "type": "SPELL",
+    "name": "[Ψ]Prescient Evasion (C)",
+    "description": "By gazing into the near future, you can be wherever your enemies are not attacking.  You can even \"dodge\" bullets or lasers by simply not being in the line of fire.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  You may only have <color_red>one</color> of Markman's Eye, Prescient Evasion, and Martial Trance active at once.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "AFS_PRECOG",
+    "magic_type": "aftershock_psionics",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 6,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_AFS_PRECOG_DODGE_BONUS_INITIATE",
+    "shape": "blast",
+    "min_duration": { "math": [ "( (u_spell_level('afs_precog_dodge_bonus') * 900) + 12000) * scaling_factor(u_val('intelligence') )" ] },
+    "max_duration": { "math": [ "( (u_spell_level('afs_precog_dodge_bonus') * 1700) + 45000) * scaling_factor(u_val('intelligence') )" ] },
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_afs_precog_dodge_bonus') > -1 ? 0 : max((5500 - (u_spell_level('afs_precog_dodge_bonus') * 145)), 2750)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_afs_precog_dodge_bonus') > -1 ? 10 : max((150 -(u_spell_level('afs_precog_dodge_bonus') * 9)), 70)"
+      ]
+    }
+  },
+  {
     "id": "afs_precog_melee_enhance",
     "type": "SPELL",
     "name": "[Ψ]Martial Trance (C)",
