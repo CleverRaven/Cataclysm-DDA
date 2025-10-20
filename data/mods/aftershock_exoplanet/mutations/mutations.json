@@ -20,6 +20,16 @@
   },
   {
     "type": "mutation",
+    "id": "BKGR_NOETIC_SCION",
+    "name": { "str": "Noetic Scion" },
+    "points": 0,
+    "description": "Some worlds maintained human life but lost technologically advanced civilization.  As these worlds get rediscovered some organizations leave the worlds to develop, while others see a source of cheap labor.  Whether you snuck onto a ship or were Shanghaied onto one you've somehow ended up on the hell that is Salus IV.  At least you have some experience surviving outside of what these spacers call 'civilization'.",
+    "valid": false,
+    "purifiable": false,
+    "profession": true
+  },
+  {
+    "type": "mutation",
     "id": "PROF_SYSTEM_SECURITY",
     "name": { "str": "Local System Security" },
     "points": 0,

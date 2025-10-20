@@ -26,6 +26,7 @@
       "afs_spacer",
       "afs_leadership",
       "afs_earthling",
+      "afs_noetic_scion_inheritance",
       "afs_physical_stat_genemod",
       "afs_mental_stat_genemod",
       "afs_health_genemod",
@@ -68,6 +69,7 @@
       "afs_spacer",
       "afs_leadership",
       "afs_earthling",
+      "afs_noetic_scion_inheritance",
       "afs_physical_stat_genemod",
       "afs_mental_stat_genemod",
       "afs_health_genemod",
@@ -168,7 +170,14 @@
     "whitelist_hobbies": true,
     "requirement": "afs_achievement_crashed_spaceship",
     "hard_requirement": true,
-    "hobbies": [ "afs_speed_freak", "afs_armament_license", "afs_spacer", "afs_leadership", "afs_earthling" ],
+    "hobbies": [
+      "afs_speed_freak",
+      "afs_armament_license",
+      "afs_spacer",
+      "afs_leadership",
+      "afs_earthling",
+      "afs_noetic_scion_inheritance"
+    ],
     "eoc": [ "EOC_CRASHING_SHIP_SETUP" ]
   },
   {
@@ -214,6 +223,7 @@
       "afs_spacer",
       "afs_leadership",
       "afs_earthling",
+      "afs_noetic_scion_inheritance",
       "afs_physical_stat_genemod",
       "afs_mental_stat_genemod",
       "afs_health_genemod",
