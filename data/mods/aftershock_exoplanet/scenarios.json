@@ -31,8 +31,7 @@
       "afs_mental_stat_genemod",
       "afs_health_genemod",
       "afs_efficiency_genemod",
-      "afs_beauty_genemod",
-      "afs_esper_inheritance"
+      "afs_beauty_genemod"
     ],
     "flags": [ "LONE_START" ],
     "start_name": "Port Augustmoon"
@@ -74,8 +73,7 @@
       "afs_mental_stat_genemod",
       "afs_health_genemod",
       "afs_efficiency_genemod",
-      "afs_beauty_genemod",
-      "afs_esper_inheritance"
+      "afs_beauty_genemod"
     ],
     "surround_groups": [ [ "GROUP_PIRATE__BOT_AMBUSH", 70.0 ] ],
     "requirement": "afs_achievement_crashed_spaceship",
@@ -228,8 +226,7 @@
       "afs_mental_stat_genemod",
       "afs_health_genemod",
       "afs_efficiency_genemod",
-      "afs_beauty_genemod",
-      "afs_esper_inheritance"
+      "afs_beauty_genemod"
     ],
     "flags": [ "LONE_START" ],
     "requirement": "afs_achievement_crashed_spaceship",
