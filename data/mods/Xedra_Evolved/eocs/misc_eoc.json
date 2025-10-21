@@ -460,6 +460,7 @@
     "condition": {
       "and": [
         { "u_has_trait": "VAMPIRE" },
+        { "not": { "u_has_trait": "BLOODTHORNE_DRUID_SYMBIOTIC_PLANT" } },
         {
           "or": [
             { "math": [ "u_effect_intensity('bleed', 'bodypart': 'arm_l') >= 1" ] },
@@ -473,10 +474,8 @@
       ]
     },
     "effect": [
-      {
-        "if": { "not": { "u_has_trait": "BLOODTHORNE_DRUID_SYMBIOTIC_PLANT" } },
-        "then": [ { "math": [ "u_vitamin('blood') += 1000" ] }, { "math": [ "u_vitamin('redcells') += 1000" ] } ]
-      },
+      { "math": [ "u_vitamin('blood') += 1000" ] },
+      { "math": [ "u_vitamin('redcells') += 1000" ] },
       {
         "foreach": "array",
         "target": [ "arm_l", "arm_r", "leg_l", "leg_r", "torso", "head" ],
