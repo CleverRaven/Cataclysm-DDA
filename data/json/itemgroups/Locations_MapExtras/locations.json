@@ -468,7 +468,7 @@
     "type": "item_group",
     "items": [
       [ "condom", 80 ],
-      { "item": "vibrator", "prob": 60, "charges": [ 0, 50 ] },
+      { "group": "sex_accessories_domestic", "prob": 60 },
       [ "panties", 40 ],
       [ "bra", 40 ],
       [ "hot_pants_leather", 30 ],
@@ -689,7 +689,7 @@
     "type": "item_group",
     "items": [
       [ "barrette", 30 ],
-      { "item": "vibrator", "prob": 20, "charges": [ 0, 25 ] },
+      { "group": "sex_accessories_domestic", "prob": 20 },
       [ "bubblewrap", 30 ],
       [ "syringe", 35 ],
       [ "glowstick_dead", 15 ],
@@ -1937,7 +1937,7 @@
       { "item": "mp3", "prob": 6, "charges": [ 0, 100 ] },
       { "item": "portable_game", "prob": 8, "charges": [ 0, 100 ] },
       { "item": "game_watch", "prob": 2, "charges": [ 0, 50 ] },
-      { "item": "vibrator", "prob": 6, "charges": [ 0, 100 ] },
+      { "group": "sex_accessories_domestic", "prob": 6 },
       [ "firecracker_pack", 1 ],
       [ "firecracker", 1 ],
       [ "fried_seeds", 10 ],

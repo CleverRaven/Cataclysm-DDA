@@ -379,5 +379,69 @@
       { "item": "egg_wormsnake", "prob": 2 },
       { "item": "egg_skink_fivelined", "prob": 2 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "sex_accessories_abstract",
+    "//": "Needs to be extended with either charged or uncharged vibrators",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "distribution": [
+          { "item": "sextoy_anal", "prob": 46 },
+          {
+            "distribution": [
+              { "item": "rope_6" },
+              { "item": "bullwhip" },
+              { "item": "candle" },
+              { "item": "handcuffs_leather" },
+              { "item": "gag_ball" },
+              { "item": "paddle_plastic" }
+            ],
+            "prob": 27
+          },
+          { "item": "dildo", "prob": 35 },
+          {
+            "distribution": [ { "item": "moisturizer", "variant": "lube", "entry-wrapper": "bottle_plastic_small", "count": 8 } ],
+            "prob": 40
+          }
+        ],
+        "prob": 90
+      },
+      { "item": "condom", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "sex_accessories_domestic",
+    "copy-from": "sex_accessories_abstract",
+    "subtype": "distribution",
+    "extend": {
+      "entries": [
+        { "item": "vibrator_egg", "charges": [ 0, 100 ], "prob": 29 },
+        {
+          "distribution": [
+            { "item": "vibrator", "charges": [ 0, 100 ], "prob": 30 },
+            { "item": "vibrator_dildo", "charges": [ 0, 100 ], "prob": 60 }
+          ],
+          "prob": 55
+        }
+      ]
+    }
+  },
+  {
+    "type": "item_group",
+    "id": "sex_accessories_commercial",
+    "copy-from": "sex_accessories_abstract",
+    "subtype": "distribution",
+    "extend": {
+      "entries": [
+        { "item": "vibrator_egg", "charges": 100, "prob": 29 },
+        {
+          "distribution": [ { "item": "vibrator", "charges": 100, "prob": 30 }, { "item": "vibrator_dildo", "charges": 100, "prob": 60 } ],
+          "prob": 55
+        }
+      ]
+    }
   }
 ]

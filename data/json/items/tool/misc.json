@@ -1139,5 +1139,84 @@
     "to_hit": { "grip": "bad", "length": "hand", "surface": "point", "balance": "neutral" },
     "melee_damage": { "cut": 12 },
     "weapon_category": [ "SHIVS" ]
+  },
+  {
+    "id": "dildo",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "dildo", "str_pl": "dildoes" },
+    "description": "You know what this is.  Use it to take a break and unwind.",
+    "weight": "500 g",
+    "volume": "500 ml",
+    "longest_side": "20 cm",
+    "price_postapoc": "20 cent",
+    "material": [ "plastic" ],
+    "symbol": "ï",
+    "color": "pink",
+    "use_action": [ "VIBE" ]
+  },
+  {
+    "id": "sextoy_anal",
+    "copy-from": "dildo",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "anal sex toy" },
+    "description": "You know what this is.  Use it to take a break and unwind.",
+    "weight": "200 g",
+    "volume": "300 ml",
+    "longest_side": "15 cm",
+    "symbol": "†",
+    "variants": [
+      {
+        "id": "beads",
+        "name": { "str_sp": "anal beads" },
+        "description": "Very inappropriate for prayer.  Use it to take a break and unwind."
+      },
+      {
+        "id": "plug",
+        "name": { "str": "anal plug" },
+        "description": "Will produce sparks but won't start your car.  Use it to take a break and unwind."
+      }
+    ]
+  },
+  {
+    "id": "handcuffs_leather",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "pair of leather cuffs", "str_pl": "pairs of leather cuffs" },
+    "description": "A pair of sturdy leather cuffs connected by a chain.  Perfect to hold prisoners in your dungeon.",
+    "weight": "200 g",
+    "volume": "300 ml",
+    "price_postapoc": "1 cent",
+    "material": [ { "type": "leather", "portion": 9 }, { "type": "steel", "portion": 1 } ],
+    "symbol": "8",
+    "color": "red"
+  },
+  {
+    "id": "gag_ball",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "gag" },
+    "description": "A ball gag, make sure you're not keeping a katana nearby before using it.",
+    "weight": "150 g",
+    "volume": "150 ml",
+    "price_postapoc": "1 cent",
+    "material": [ { "type": "leather", "portion": 9 }, { "type": "plastic", "portion": 1 } ],
+    "symbol": "§",
+    "color": "red"
+  },
+  {
+    "id": "paddle_plastic",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "small plastic paddle" },
+    "description": "Using it against unfriendly cheeks would be ill advised.",
+    "weight": "50 g",
+    "volume": "50 ml",
+    "longest_side": "30 cm",
+    "price_postapoc": "1 cent",
+    "material": [ "plastic" ],
+    "symbol": "p",
+    "color": "dark_gray"
   }
 ]
