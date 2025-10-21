@@ -16,7 +16,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "38 L",
+        "max_contains_volume": "66 L",
         "max_contains_weight": "60 kg",
         "max_item_length": "60 cm",
         "magazine_well": "7500 ml",
@@ -675,6 +675,7 @@
       "msg": "You turn the shoulder mounted flashlight off.",
       "target": "nomad_rig"
     },
-    "flags": [ "LIGHT_500", "WATER_FRIENDLY", "STURDY", "BELTED", "USES_BIONIC_POWER" ]
+    "light": 500,
+    "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "USES_BIONIC_POWER" ]
   }
 ]

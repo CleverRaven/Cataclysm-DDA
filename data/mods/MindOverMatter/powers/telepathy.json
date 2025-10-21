@@ -10,7 +10,7 @@
     "spell_class": "TELEPATH",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
     "difficulty": 1,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
@@ -48,7 +48,7 @@
     "spell_class": "TELEPATH",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
     "effect": "effect_on_condition",
     "effect_str": "EOC_TELEPATH_SHIELD_INITIATE",
     "shape": "blast",
@@ -86,7 +86,7 @@
     "spell_class": "TELEPATH",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
     "effect": "effect_on_condition",
     "effect_str": "EOC_TELEPATH_SENSE_MINDS_INITIATE",
     "shape": "blast",
@@ -120,7 +120,7 @@
     "spell_class": "TELEPATH",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DAMAGE", "NO_PROJECTILE", "IGNORE_WALLS" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DAMAGE", "NO_PROJECTILE", "IGNORE_WALLS" ],
     "difficulty": 3,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
@@ -156,7 +156,7 @@
     "spell_class": "TELEPATH",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
     "difficulty": 3,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
@@ -214,7 +214,6 @@
     "skill": "metaphysics",
     "flags": [
       "PSIONIC",
-      "CONCENTRATE",
       "NO_PROJECTILE",
       "SILENT",
       "RANDOM_DAMAGE",
@@ -263,7 +262,7 @@
     "spell_class": "TELEPATH",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "NO_PROJECTILE", "SILENT", "RANDOM_DAMAGE", "RANDOM_DURATION", "NO_HANDS", "NO_LEGS" ],
+    "flags": [ "PSIONIC", "NO_PROJECTILE", "SILENT", "RANDOM_DAMAGE", "RANDOM_DURATION", "NO_HANDS", "NO_LEGS" ],
     "difficulty": 4,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "charm_monster",
@@ -326,7 +325,7 @@
     "spell_class": "TELEPATH",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "NO_PROJECTILE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "flags": [ "PSIONIC", "NO_PROJECTILE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
     "difficulty": 5,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
@@ -402,7 +401,7 @@
     "spell_class": "TELEPATH",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DAMAGE", "NO_PROJECTILE", "IGNORE_WALLS" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DAMAGE", "NO_PROJECTILE", "IGNORE_WALLS" ],
     "difficulty": 6,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
@@ -449,7 +448,7 @@
     "spell_class": "TELEPATH",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
     "difficulty": 6,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
@@ -496,7 +495,7 @@
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS" ],
     "effect": "attack",
     "effect_str": "telepathic_ignorance_self",
     "shape": "blast",
@@ -522,17 +521,7 @@
     "spell_class": "TELEPATH",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [
-      "PSIONIC",
-      "CONCENTRATE",
-      "SILENT",
-      "RANDOM_DAMAGE",
-      "NO_HANDS",
-      "NO_EXPLOSION_SFX",
-      "NO_LEGS",
-      "PERCENTAGE_DAMAGE",
-      "IGNORE_WALLS"
-    ],
+    "flags": [ "PSIONIC", "SILENT", "RANDOM_DAMAGE", "NO_HANDS", "NO_EXPLOSION_SFX", "NO_LEGS", "PERCENTAGE_DAMAGE", "IGNORE_WALLS" ],
     "difficulty": 7,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
@@ -597,11 +586,10 @@
     "spell_class": "TELEPATH",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "NO_PROJECTILE", "RECHARM", "SILENT", "RANDOM_DURATION", "NO_HANDS", "NO_LEGS" ],
+    "flags": [ "PSIONIC", "NO_PROJECTILE", "RECHARM", "CHARM_PET", "SILENT", "RANDOM_DURATION", "NO_HANDS", "NO_LEGS" ],
     "difficulty": 7,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "charm_monster",
-    "extra_effects": [ { "id": "telepathic_beast_taming_pet", "hit_self": false } ],
     "shape": "blast",
     "min_damage": {
       "math": [
@@ -648,49 +636,6 @@
     ]
   },
   {
-    "id": "telepathic_beast_taming_pet",
-    "type": "SPELL",
-    "name": { "str": "[Ψ]Beast Tamer Pet Effect", "//~": "NO_I18N" },
-    "description": { "str": "This applies the pet effect to a tamed animal.  It's a bug if you have it directly.", "//~": "NO_I18N" },
-    "message": "",
-    "teachable": false,
-    "valid_targets": [ "ally" ],
-    "flags": [ "PSIONIC", "CONCENTRATE", "NO_PROJECTILE", "SILENT", "RANDOM_DURATION", "NO_HANDS", "NO_LEGS" ],
-    "max_level": { "math": [ "int_to_level(1)" ] },
-    "effect": "attack",
-    "effect_str": "pet",
-    "shape": "blast",
-    "min_duration": {
-      "math": [
-        "( (u_spell_level('telepathic_beast_taming') * 8640000) + 241920000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
-    "max_duration": {
-      "math": [
-        "( (u_spell_level('telepathic_beast_taming') * 25920000) + 483840000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
-    "min_range": {
-      "math": [
-        "min( (( (u_spell_level('telepathic_beast_taming') * 1) + 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 70)"
-      ]
-    },
-    "max_range": 70,
-    "targeted_monster_species": [ "MAMMAL", "BIRD", "AMPHIBIAN", "REPTILE", "FISH" ],
-    "ignored_monster_species": [
-      "ZOMBIE",
-      "ROBOT",
-      "ROBOT_FLYING",
-      "NETHER",
-      "NETHER_EMANATION",
-      "LEECH_PLANT",
-      "WORM",
-      "FUNGUS",
-      "SLIME",
-      "PSI_NULL"
-    ]
-  },
-  {
     "id": "telepathic_mind_control",
     "type": "SPELL",
     "name": "[Ψ]Mind Control",
@@ -701,7 +646,7 @@
     "spell_class": "TELEPATH",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "NO_PROJECTILE", "SILENT", "RANDOM_DAMAGE", "RANDOM_DURATION", "NO_HANDS", "NO_LEGS" ],
+    "flags": [ "PSIONIC", "NO_PROJECTILE", "SILENT", "RANDOM_DAMAGE", "RANDOM_DURATION", "NO_HANDS", "NO_LEGS" ],
     "difficulty": 8,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "charm_monster",
@@ -763,7 +708,7 @@
     "spell_class": "TELEPATH",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
     "difficulty": 9,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",

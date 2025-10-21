@@ -5,10 +5,8 @@
 #include <string>
 #include <unordered_map>
 
-#include "assign.h"
 #include "debug.h"
 #include "flexbuffer_json.h"
-#include "game_constants.h"
 #include "generic_factory.h"
 #include "translations.h"
 
@@ -54,14 +52,10 @@ void move_mode::load( const JsonObject &jo, std::string_view/*src*/ )
     mandatory( jo, was_loaded, "name",  _name );
 
     mandatory( jo, was_loaded, "panel_char", _panel_letter, unicode_codepoint_from_symbol_reader );
-    assign( jo, "panel_color", _panel_color );
-    assign( jo, "symbol_color", _symbol_color );
+    optional( jo, was_loaded, "panel_color", _panel_color, nc_color_reader{} );
+    optional( jo, was_loaded, "symbol_color", _symbol_color, nc_color_reader{} );
 
-    std::string exert = jo.get_string( "exertion_level" );
-    if( !activity_levels_map.count( exert ) ) {
-        jo.throw_error_at( id.str(), "Invalid activity level for move mode " + id.str() );
-    }
-    _exertion_level = activity_levels_map.at( exert );
+    mandatory( jo, was_loaded, "exertion_level", _exertion_level, activity_level_reader{} );
 
     mandatory( jo, was_loaded, "change_good_none", change_messages_success[steed_type::NONE] );
     mandatory( jo, was_loaded, "change_good_animal", change_messages_success[steed_type::ANIMAL] );
@@ -93,6 +87,11 @@ void move_mode::reset()
 
 void move_mode::finalize()
 {
+}
+
+void move_mode::finalize_all()
+{
+    move_mode_factory.finalize();
     for( const move_mode &mode : move_mode_factory.get_all() ) {
         move_modes_sorted.emplace_back( mode.ident() );
     }

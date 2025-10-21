@@ -615,7 +615,7 @@
         }
       }
     ],
-    "false_effect": [ { "u_message": "You must be surrounded by nature to commune with nature", "type": "bad" } ]
+    "false_effect": [ { "u_message": "You must be surrounded by nature to commune with nature.", "type": "bad" } ]
   },
   {
     "id": "druid_growth",

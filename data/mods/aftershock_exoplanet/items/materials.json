@@ -95,6 +95,20 @@
   },
   {
     "type": "material",
+    "id": "afs_plastic_armor",
+    "name": "HDPE",
+    "density": 5,
+    "chip_resist": 4,
+    "dmg_adj": [ "marked", "scarred", "cut", "ripped" ],
+    "bash_dmg_verb": "dented",
+    "cut_dmg_verb": "cut",
+    "breathability": "IMPERMEABLE",
+    "//": "half of light armor. but no ballistic protection.",
+    "resist": { "cut": 5, "bash": 4, "bullet": 0, "acid": 2, "heat": 0, "afs_plasma": 0, "electric": 0 },
+    "repair_difficulty": 4
+  },
+  {
+    "type": "material",
     "id": "afs_kevlar",
     "name": "Aramid Fiber",
     "density": 1.4,

@@ -156,7 +156,7 @@
         "H": [ { "item": "arcology_vitamin_shop", "chance": 30, "repeat": [ 1, 2 ] } ],
         "Y": [ { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 1, 2 ] } ],
         "L": [ { "item": "arcology_vitamin_shop", "chance": 30, "repeat": [ 0, 4 ] } ],
-        "M": [ { "item": "office", "chance": 30, "repeat": [ 0, 4 ] } ],
+        "M": [ { "item": "SUS_office_desk", "chance": 30 } ],
         "V": [ { "item": "arcology_vitamin_shop", "chance": 30, "repeat": [ 0, 4 ] } ]
       }
     }
@@ -248,7 +248,7 @@
         "G": [ { "item": "mussto_windinst", "chance": 30, "repeat": [ 1, 2 ] } ],
         "Y": [ { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 1, 2 ] } ],
         "L": [ { "item": "mussto_stringinst", "chance": 30, "repeat": [ 0, 4 ] } ],
-        "M": [ { "item": "office", "chance": 30, "repeat": [ 0, 1 ] } ],
+        "M": [ { "item": "SUS_office_desk", "chance": 30, "repeat": [ 0, 1 ] } ],
         "V": [ { "item": "musicstore_showpiece", "chance": 30, "repeat": [ 0, 4 ] } ]
       }
     }
@@ -296,7 +296,7 @@
         "Y": [ { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 1, 2 ] } ],
         "L": [ { "item": "elecsto_entapl", "chance": 30, "repeat": [ 0, 4 ] } ],
         "B": [ { "item": "elecsto_homapl", "chance": 30, "repeat": [ 0, 4 ] } ],
-        "M": [ { "item": "office", "chance": 30, "repeat": [ 0, 1 ] } ],
+        "M": [ { "item": "SUS_office_desk", "chance": 30, "repeat": [ 0, 1 ] } ],
         "V": [
           { "item": "elecsto_lights", "chance": 30, "repeat": [ 0, 4 ] },
           { "item": "elecsto_diy", "chance": 30, "repeat": [ 0, 4 ] }

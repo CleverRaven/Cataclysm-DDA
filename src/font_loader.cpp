@@ -122,6 +122,11 @@ static void load_font_from_config( const JsonObject &config, const std::string &
                           key );
             }
         }
+    } else if( key == "gui_typeface" &&
+               !config.has_member( key ) ) { // More legacy migration, remove after 0.I
+        typefaces.emplace_back( "data/font/Roboto-Medium.ttf", ImGuiFreeTypeBuilderFlags_LightHinting );
+        typefaces.emplace_back( "data/font/Terminus.ttf", ImGuiFreeTypeBuilderFlags_Bitmap );
+        typefaces.emplace_back( "data/font/unifont.ttf" ); // default hinting
     } else {
         debugmsg( "Font specifiers must be an array, object, or string." );
     }

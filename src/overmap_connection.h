@@ -23,7 +23,7 @@ class overmap_connection
                 friend overmap_connection;
 
             public:
-                enum class flag : int { orthogonal };
+                enum class flag : int { orthogonal, perpendicular_crossing };
 
                 string_id<oter_type_t> terrain;
 
@@ -36,6 +36,10 @@ class overmap_connection
 
                 bool is_orthogonal() const {
                     return flags.count( flag::orthogonal );
+                }
+
+                bool is_perpendicular_crossing() const {
+                    return flags.count( flag::perpendicular_crossing );
                 }
 
                 void load( const JsonObject &jo );

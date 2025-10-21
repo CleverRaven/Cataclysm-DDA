@@ -646,20 +646,15 @@
     "type": "SPELL",
     "name": "Sorcerer's Hand",
     "description": "Pull a target or set of items to you.",
-    "valid_targets": [ "ally", "hostile", "item", "ground" ],
+    "valid_targets": [ "self" ],
     "spell_class": "MAGUS",
     "flags": [ "EVOCATION_SPELL", "CONCENTRATE", "VERBAL", "SOMATIC", "NO_HANDS" ],
     "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
     "difficulty": 2,
     "max_level": 10,
-    "effect": "directed_push",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_MAGUS_FAR_HAND_PULL",
     "shape": "blast",
-    "min_damage": -1,
-    "max_damage": -10,
-    "damage_increment": -1,
-    "min_range": 1,
-    "max_range": 10,
-    "range_increment": 1,
     "magic_type": "magiclysm_generic_magic",
     "base_energy_cost": 200,
     "final_energy_cost": 50,
@@ -667,6 +662,65 @@
     "base_casting_time": 150,
     "final_casting_time": 50,
     "casting_time_increment": -10
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MAGUS_FAR_HAND_PULL",
+    "effect": [
+      {
+        "run_eoc_selector": [ "EOC_MAGUS_FAR_HAND_PULL_ITEM", "EOC_MAGUS_FAR_HAND_PULL_CREATURE" ],
+        "names": [ "Grab Item", "Pull Creature" ],
+        "keys": [ "a", "b" ],
+        "allow_cancel": true,
+        "descriptions": [ "Pick up an item and pull it to you", "Target a creature and pull it toward you" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MAGUS_FAR_HAND_PULL_ITEM",
+    "effect": [ { "u_cast_spell": { "id": "magus_far_hand_pull_items" }, "targeted": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MAGUS_FAR_HAND_PULL_CREATURE",
+    "effect": [ { "u_cast_spell": { "id": "magus_far_hand_pull_creatures" }, "targeted": true } ]
+  },
+  {
+    "id": "magus_far_hand_pull_creatures",
+    "type": "SPELL",
+    "name": { "str": "Sorcerer's Hand Creature", "//~": "NO_I18N" },
+    "description": { "str": "Pull a target to you.", "//~": "NO_I18N" },
+    "valid_targets": [ "ally", "hostile" ],
+    "spell_class": "MAGUS",
+    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC", "NO_HANDS" ],
+    "difficulty": 2,
+    "max_level": 10,
+    "effect": "directed_push",
+    "shape": "blast",
+    "min_damage": { "math": [ "u_spell_level('magus_far_hand_pull') * -1" ] },
+    "max_damage": { "math": [ "u_spell_level('magus_far_hand_pull') * -1" ] },
+    "min_range": { "math": [ "(u_spell_level('magus_far_hand_pull') * 1) + 3" ] },
+    "max_range": { "math": [ "(u_spell_level('magus_far_hand_pull') * 1) + 3" ] },
+    "magic_type": "magiclysm_generic_magic"
+  },
+  {
+    "id": "magus_far_hand_pull_items",
+    "type": "SPELL",
+    "name": { "str": "Sorcerer's Hand Items", "//~": "NO_I18N" },
+    "description": { "str": "Pull an items to you.", "//~": "NO_I18N" },
+    "valid_targets": [ "ally", "hostile", "item", "ground" ],
+    "spell_class": "MAGUS",
+    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC", "NO_HANDS" ],
+    "difficulty": 2,
+    "max_level": 10,
+    "effect": "pickup",
+    "shape": "blast",
+    "min_damage": { "math": [ "250 - (u_spell_level('magus_far_hand_pull') * 10)" ] },
+    "max_damage": { "math": [ "250 - (u_spell_level('magus_far_hand_pull') * 10)" ] },
+    "min_range": { "math": [ "(u_spell_level('magus_far_hand_pull') * 1) + 3" ] },
+    "max_range": { "math": [ "(u_spell_level('magus_far_hand_pull') * 1) + 3" ] },
+    "magic_type": "magiclysm_generic_magic"
   },
   {
     "id": "magus_ranged_increase",
@@ -823,5 +877,54 @@
     "min_duration": 600,
     "max_duration": 2500,
     "duration_increment": 100
+  },
+  {
+    "id": "magus_push_nearby_enemies_back",
+    "type": "SPELL",
+    "name": "Repulsion Wave",
+    "description": "Unleash a wave of force, hurling all nearby targets away from you.  Heavier targets are harder to affect.",
+    "valid_targets": [ "ally", "hostile" ],
+    "flags": [ "EVOCATION_SPELL", "VERBAL", "SOMATIC" ],
+    "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_MAGUS_PUSH_NEARBY_ENEMIES_BACK",
+    "shape": "blast",
+    "spell_class": "MAGUS",
+    "magic_type": "magiclysm_generic_magic",
+    "difficulty": 5,
+    "base_casting_time": 75,
+    "base_energy_cost": 350,
+    "max_level": 20,
+    "min_aoe": 1,
+    "max_aoe": 3,
+    "aoe_increment": 0.2
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MAGUS_PUSH_NEARBY_ENEMIES_BACK",
+    "condition": "has_alpha",
+    "effect": [
+      { "npc_location_variable": { "context_val": "player_position" } },
+      { "math": [ "_push_nearby_enemies_power_level = n_spell_level('magus_push_nearby_enemies_back')" ] },
+      { "math": [ "_telekinesis_weight_ratio = 55" ] },
+      {
+        "math": [
+          "_weight_ratio",
+          "=",
+          "( (_push_nearby_enemies_power_level * _telekinesis_weight_ratio) + (_telekinesis_weight_ratio / 2) ) / (u_weight() / 1000000)"
+        ]
+      },
+      { "math": [ "_telekinesis_shove_spell_level = clamp( ( (_weight_ratio - 1) * 1.5), 0, 20)" ] },
+      {
+        "if": { "x_in_y_chance": { "x": { "math": [ "_weight_ratio * 1000" ] }, "y": 1000 } },
+        "then": [ { "u_add_effect": "downed", "duration": 2 } ]
+      },
+      {
+        "u_knockback": { "math": [ "_telekinesis_shove_spell_level" ] },
+        "stun": 2,
+        "dam_mult": { "math": [ "1 + (_telekinesis_shove_spell_level * 0.4)" ] },
+        "direction_var": { "context_val": "player_position" }
+      }
+    ]
   }
 ]

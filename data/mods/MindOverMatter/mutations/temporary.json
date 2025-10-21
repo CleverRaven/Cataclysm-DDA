@@ -568,6 +568,7 @@
     "active": true,
     "player_display": true,
     "purifiable": false,
+    "valid": false,
     "cost": 0,
     "transform": {
       "target": "PHOTOLIXIR_LIGHT_active",

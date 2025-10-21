@@ -97,7 +97,7 @@
       [ [ "material_limestone", 1 ], [ "chem_manganese_dioxide", 1 ], [ "light_battery_cell", 1 ] ],
       [
         [ "rosin", 5 ],
-        [ "bone_glue", 1 ],
+        [ "glue_weak", 150 ],
         [ "sugar", 1 ],
         [ "plastic_chunk", 1 ],
         [ "wax_any", 1, "LIST" ],
@@ -210,6 +210,7 @@
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_redsmithing", "required": true },
+      { "proficiency": "prof_redsmithing_adv" },
       { "proficiency": "prof_intro_chemistry" }
     ],
     "components": [ [ [ "scrap_bronze", 1 ] ], [ [ "detergent", 7 ] ] ]

@@ -33,7 +33,6 @@
 #include "itype.h"
 #include "json.h"
 #include "localized_comparator.h"
-#include "make_static.h"
 #include "output.h"
 #include "pocket_type.h"
 #include "string_formatter.h"
@@ -41,6 +40,8 @@
 #include "units.h"
 #include "value_ptr.h"
 #include "visitable.h"
+
+static const flag_id json_flag_UNRECOVERABLE( "UNRECOVERABLE" );
 
 static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_char_forge( "char_forge" );
@@ -110,6 +111,11 @@ void quality::reset()
 void quality::load_static( const JsonObject &jo, const std::string &src )
 {
     quality_factory.load( jo, src );
+}
+
+void quality::finalize_all()
+{
+    quality_factory.finalize();
 }
 
 void quality::load( const JsonObject &jo, std::string_view )
@@ -434,7 +440,7 @@ requirement_data requirement_data::operator+( const std::pair<requirement_id, in
 }
 
 void requirement_data::load_requirement( const JsonObject &jsobj, const requirement_id &id,
-        const bool check_extend )
+        const bool check_extend, const bool is_abstract )
 {
     requirement_data req;
     requirement_data ext;
@@ -454,12 +460,24 @@ void requirement_data::load_requirement( const JsonObject &jsobj, const requirem
 
     if( ext.components.empty() || jsobj.has_member( "components" ) ) {
         load_obj_list( jsobj.get_array( "components" ), req.components );
+        if( is_abstract && !req.components.empty() ) {
+            debugmsg( "Abstract recipe %s has components, which cannot be inherited.  "
+                      "This is probably an error.", id.str() );
+        }
     }
     if( ext.qualities.empty() || jsobj.has_member( "qualities" ) ) {
         load_obj_list( jsobj.get_array( "qualities" ), req.qualities );
+        if( is_abstract && !req.qualities.empty() ) {
+            debugmsg( "Abstract recipe %s has qualities, which cannot be inherited.  "
+                      "This is probably an error.", id.str() );
+        }
     }
     if( ext.tools.empty() || jsobj.has_member( "tools" ) ) {
         load_obj_list( jsobj.get_array( "tools" ), req.tools );
+        if( is_abstract && !req.tools.empty() ) {
+            debugmsg( "Abstract recipe %s has tools, which cannot be inherited.  "
+                      "This is probably an error.", id.str() );
+        }
     }
 
     if( !id.is_null() ) {
@@ -1313,7 +1331,7 @@ requirement_data requirement_data::disassembly_requirements() const
     []( std::vector<item_comp> &cov ) {
         cov.erase( std::remove_if( cov.begin(), cov.end(),
         []( const item_comp & comp ) {
-            return !comp.recoverable || item( comp.type ).has_flag( STATIC( flag_id( "UNRECOVERABLE" ) ) );
+            return !comp.recoverable || item( comp.type ).has_flag( json_flag_UNRECOVERABLE );
         } ), cov.end() );
         return cov.empty();
     } ), ret.components.end() );

@@ -13,5 +13,10 @@
     "type": "TRAIT_MIGRATION",
     "id": "STYLISH",
     "remove": true
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "KILLER",
+    "remove": true
   }
 ]

@@ -149,7 +149,7 @@
         { "u_add_var": "u_met_John_Bailey", "value": "yes" },
         { "npc_first_topic": "TALK_RC_John_Bailey_1a" },
         { "math": [ "n_zkc_john = 2 * time_since('cataclysm', 'unit': 'days')" ] },
-        { "math": [ "n_zkc_john", "+=", "rand(10)" ] }
+        { "math": [ "n_zkc_john += rand(10)" ] }
       ]
     },
     "responses": [
@@ -240,7 +240,7 @@
         "topic": "TALK_DONE",
         "condition": { "compare_string": [ "no", { "npc_val": "exodii_mission_wh_correct" } ] },
         "effect": [
-          { "math": [ "exodii_mission_wh_chance", "-=", "1" ] },
+          { "math": [ "exodii_mission_wh_chance -= 1" ] },
           { "math": [ "exodii_mission_wh_chance = max( exodii_mission_wh_chance, 1 )" ] }
         ]
       }

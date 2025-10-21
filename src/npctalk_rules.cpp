@@ -283,20 +283,16 @@ void follower_rules_ui_impl::rules_transfer_popup( bool &exporting_rules, bool &
 
 template<typename T>
 void follower_rules_ui_impl::checkbox( int rule_number, const T &this_rule,
-                                       input_event &assigned_hotkey, const input_event &pressed_key )
+                                       input_event &assigned_hotkey, const input_event &pressed_key, bool confirm_toggle )
 {
     ImGui::PushID( rule_number );
     print_hotkey( assigned_hotkey );
     bool rule_enabled = guy->rules.has_flag( this_rule.rule );
-    std::string rules_text;
-    if( rule_enabled ) {
-        rules_text = this_rule.rule_true_text;
-    } else {
-        rules_text = this_rule.rule_false_text;
-    }
+    std::string rules_text = rule_enabled ? this_rule.rule_true_text : this_rule.rule_false_text;
     rules_text = string_format( "%s###CHECK", get_parsed( rules_text ) );
     bool clicked = ImGui::Checkbox( rules_text.c_str(), &rule_enabled );
-    bool typed = pressed_key == assigned_hotkey;
+    bool typed = ( pressed_key == assigned_hotkey ) ||
+                 ( confirm_toggle && ImGui::GetActiveID() == ImGui::GetID( rule_number ) );
     bool changed = typed || clicked;
     if( typed ) {
         ImGui::SetKeyboardFocusHere( -1 );
@@ -347,6 +343,7 @@ void follower_rules_ui_impl::draw_controls()
         return;
     }
 
+    bool confirm_toggle = false;
     // ImGui only captures arrow keys by default, we want to also capture the numpad and hjkl
     if( last_action == "QUIT" ) {
         return;
@@ -363,7 +360,7 @@ void follower_rules_ui_impl::draw_controls()
         ImGui::NavMoveRequestSubmit( ImGuiDir_Right, ImGuiDir_Right, ImGuiNavMoveFlags_None,
                                      ImGuiScrollFlags_None );
     } else if( last_action == "CONFIRM" ) {
-        ImGui::ActivateItemByID( ImGui::GetFocusID() );
+        confirm_toggle = true;
     }
 
     ImGui::SetWindowSize( ImVec2( window_width, window_height ), ImGuiCond_Once );
@@ -414,7 +411,7 @@ void follower_rules_ui_impl::draw_controls()
     /* Handle all of our regular, boolean rules */
     for( const std::pair<const std::string, ally_rule_data> &rule_data : ally_rule_strs ) {
         assigned_hotkey = input_ptr->next_unassigned_hotkey( hotkeys, assigned_hotkey );
-        checkbox( rule_number, rule_data.second, assigned_hotkey, pressed_key );
+        checkbox( rule_number, rule_data.second, assigned_hotkey, pressed_key, confirm_toggle );
         rule_number += 1;
     }
 

@@ -14,7 +14,7 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "plastic_chunk", 1 ] ],
-      [ [ "super_glue", 1 ] ],
+      [ [ "glue_strong", 1 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "cable", 1 ] ],
       [ [ "light_bulb", 1 ], [ "e_scrap", 1 ] ]

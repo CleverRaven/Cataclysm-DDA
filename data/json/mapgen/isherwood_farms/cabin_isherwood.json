@@ -172,7 +172,7 @@
         "o": { "item": "SUS_oven", "chance": 100, "repeat": [ 1, 3 ] },
         "f": { "item": "fresh_produce", "chance": 100, "repeat": [ 5, 10 ] },
         "S": { "item": "shower", "chance": 100, "repeat": [ 1, 2 ] },
-        "R": { "item": "SUS_trash_trashcan", "chance": 25, "repeat": [ 1, 2 ] },
+        "R": { "item": "SUS_trash_trashcan", "chance": 25 },
         "w": { "item": "stash_wood", "chance": 100, "repeat": [ 5, 15 ] },
         "t": { "item": "book_survival", "chance": 20, "repeat": [ 1, 2 ] },
         "a": { "item": "jackets", "chance": 25, "repeat": [ 1, 2 ] },

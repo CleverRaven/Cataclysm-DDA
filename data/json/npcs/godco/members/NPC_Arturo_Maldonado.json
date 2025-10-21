@@ -175,7 +175,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Arturo_Hallucinations",
-    "dynamic_line": "&Arturo stares blankly for a moment.  \"The man in the mirror comes to me at night, and whispers things in my ear.  Eyes on the walls, watching, watching…  The woman who crawls.\"  I'm sorry about that.",
+    "dynamic_line": "&Arturo stares blankly for a moment.  \"The man in the mirror comes to me at night, and whispers things in my ear.  Eyes on the walls, watching, watching…  The woman who crawls.  I'm sorry about that.\"",
     "responses": [
       { "text": "<done_conversation_section>", "topic": "TALK_GODCO_Arturo_2" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }

@@ -3,7 +3,7 @@
     "abstract": "mon_proxy_frog_zombie",
     "type": "MONSTER",
     "name": { "str": "zombie frog" },
-    "description": "A hypothetical frog of the zombie variety.  You should not be seeing it without debug.",
+    "description": { "str": "A hypothetical frog of the zombie variety.  You should not be seeing it without debug.", "//~": "NO_I18N" },
     "default_faction": "zombie",
     "bodytype": "frog",
     "species": [ "ZOMBIE" ],
@@ -549,6 +549,7 @@
       {
         "id": "dusty_frog_leap",
         "type": "spell",
+        "cooldown": 0,
         "spell_data": { "id": "dusty_frog_leap" },
         "allow_no_target": true,
         "condition": { "u_has_effect": "fragile_frog" },
@@ -592,6 +593,7 @@
       {
         "id": "fragile_frog_leap",
         "type": "spell",
+        "cooldown": 0,
         "spell_data": { "id": "fragile_frog_leap" },
         "allow_no_target": true,
         "condition": { "u_has_effect": "fragile_frog" },
@@ -633,6 +635,7 @@
       {
         "id": "fragile_frog_leap",
         "type": "spell",
+        "cooldown": 0,
         "spell_data": { "id": "fragile_frog_leap" },
         "allow_no_target": true,
         "condition": { "u_has_effect": "fragile_frog" },

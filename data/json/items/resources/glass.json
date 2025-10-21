@@ -14,7 +14,7 @@
     "use_action": {
       "type": "place_trap",
       "trap": "tr_glass",
-      "moves": 150,
+      "moves": 12000,
       "practice": 2,
       "done_message": "You carefully place the shards on the ground, ready to be cracked by something passing by."
     },
@@ -41,7 +41,7 @@
     "use_action": {
       "type": "place_trap",
       "trap": "tr_glass",
-      "moves": 150,
+      "moves": 60000,
       "practice": 2,
       "done_message": "You break the pane and place the shards on the ground, ready to be cracked by something passing by."
     },

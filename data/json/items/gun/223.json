@@ -5,7 +5,7 @@
     "subtypes": [ "GUN" ],
     "name": { "str": "AR-15" },
     "copy-from": "gun_base_rifle_semi",
-    "//": "This is assumed to be the standard model matching the (currently not in-game) M16. Tileset whitelist for rifles",
+    "//": "This is assumed to be the standard model matching the M16. Tileset whitelist for rifles",
     "description": "This ubiquitous rifle is the forefather of the M16 rifle series.  It is lightweight and accurate, but will malfunction if not properly maintained.  This one is a semi-automatic civilian version.",
     "weight": "902 g",
     "volume": "1550 ml",
@@ -35,14 +35,15 @@
     "looks_like": "modular_ar15",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
-    "name": { "str": "AR pistol" },
-    "description": "The common AR-15 platform, with its stock removed and buffer tube covered by a sleeve.  AR pistols lack stocks, or have arm braces due to restrictions on short barreled rifles, and so without a stock, they're legally classified as a pistol.",
+    "name": { "str": "AR \"pistol\"", "str_pl": "AR \"pistols\"" },
+    "description": "The common AR-15 platform, with its stock removed and buffer tube covered by a thick, padded sleeve that allows the user to brace it like a rifle.  AR pistols lack stocks, or have arm braces due to restrictions on short barreled rifles, and so without a stock, they're legally classified as a pistol.",
     "weight": "735 g",
     "volume": "748 ml",
     "longest_side": "373 mm",
     "price": "245 USD",
     "price_postapoc": "35 USD",
     "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "skill": "rifle",
     "material": [ "steel", "aluminum" ],
     "ammo": [ "NULL" ],
     "dispersion": 150,
@@ -861,5 +862,64 @@
       }
     ],
     "melee_damage": { "bash": 12 }
+  },
+  {
+    "id": "mp_15",
+    "//": "Based on https://www.smith-wesson.com/product/mp15-sport-iii-10rd-fixed-stock-compliant",
+    "copy-from": "gun_base_223_semi_rifle",
+    "looks_like": "modular_ar15",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str": "sporter AR rifle" },
+    "description": "A lightweight AR-15 platform rifle, capable of feeding standard AR magazines.  Unlike the military versions, it has no threaded barrel or collapsing stock.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "mp_15",
+        "name": { "str": "M&P 15" },
+        "description": "S&Ws version of the AR-15, the M&P-15 is a very common rifle.  Despite being very similar to an AR-15 in both form and function, the receivers and uppers are incompatible."
+      }
+    ],
+    "weight": "2903 g",
+    "volume": "3677 ml",
+    "longest_side": "876 mm",
+    "barrel_length": "406 mm",
+    "price": "799 USD",
+    "material": [ "steel", "plastic" ],
+    "dispersion": 150,
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "brass catcher", 1 ],
+      [ "mechanism", 2 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock accessory", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [
+          "stanag30",
+          "stanag5",
+          "stanag5ranger",
+          "stanag10",
+          "stanag10ranger",
+          "stanag20",
+          "stanag20ranger",
+          "stanag30ranger",
+          "stanag40",
+          "stanag50",
+          "stanag60",
+          "stanag60drum",
+          "stanag90",
+          "stanag100",
+          "stanag100drum",
+          "stanag150",
+          "survivor223mag"
+        ]
+      }
+    ]
   }
 ]

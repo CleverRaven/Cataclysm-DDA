@@ -508,10 +508,10 @@
       {
         "switch": { "math": [ "u_preshift_size" ] },
         "cases": [
-          { "case": 1, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "12" ] } ] },
-          { "case": 2, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "6" ] } ] },
-          { "case": 3, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "2" ] } ] },
-          { "case": 4, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "1.5" ] } ] },
+          { "case": 1, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) *= 12" ] } ] },
+          { "case": 2, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) *= 6" ] } ] },
+          { "case": 3, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) *= 2" ] } ] },
+          { "case": 4, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) *= 1.5" ] } ] },
           { "case": 5, "effect": [  ] }
         ]
       },
@@ -531,10 +531,10 @@
       {
         "switch": { "math": [ "u_preshift_size" ] },
         "cases": [
-          { "case": 1, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "12" ] } ] },
-          { "case": 2, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "6" ] } ] },
-          { "case": 3, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "2" ] } ] },
-          { "case": 4, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "1.5" ] } ] },
+          { "case": 1, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) /= 12" ] } ] },
+          { "case": 2, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) /= 6" ] } ] },
+          { "case": 3, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) /= 2" ] } ] },
+          { "case": 4, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) /= 1.5" ] } ] },
           { "case": 5, "effect": [  ] }
         ]
       },
@@ -696,6 +696,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BIOMANCER_SLOW_BLEEDING",
+    "condition": { "not": { "u_has_flag": "BLOCK_SUPERNATURAL_HEALING" } },
     "effect": {
       "switch": { "math": [ "u_spell_level('biomancer_slow_bleeding')" ] },
       "cases": [
@@ -721,7 +722,8 @@
           }
         }
       ]
-    }
+    },
+    "false_effect": [ { "u_message": "Your healing spell has no effect!", "type": "bad" } ]
   },
   {
     "id": "biomancer_scalpel_fingers",
@@ -811,11 +813,11 @@
     "effect": [
       {
         "if": { "math": [ "u_vitamin('blood') < 0" ] },
-        "then": { "math": [ "u_vitamin('blood')", "+=", "300 + (u_spell_level('biomancer_get_more_blood') * 150)" ] }
+        "then": { "math": [ "u_vitamin('blood') += 300 + (u_spell_level('biomancer_get_more_blood') * 150)" ] }
       },
       {
         "if": { "math": [ "u_vitamin('redcells') < 0" ] },
-        "then": { "math": [ "u_vitamin('redcells')", "+=", "300 + (u_spell_level('biomancer_get_more_blood') * 150)" ] }
+        "then": { "math": [ "u_vitamin('redcells') += 300 + (u_spell_level('biomancer_get_more_blood') * 150)" ] }
       }
     ]
   },
@@ -839,5 +841,27 @@
     "base_energy_cost": 1200,
     "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true }, { "id": "biomantic_pain_caused_light", "hit_self": true } ],
     "base_casting_time": 6000
+  },
+  {
+    "id": "biomancer_pull_items_from_distance",
+    "type": "SPELL",
+    "name": "Monstrous Grasp",
+    "description": "Extend a tentacle with a myriad of grasping appendages, grasping an item and dragging it back to you.  This spell is slightly painful due to the rapidity of the transformation.",
+    "valid_targets": [ "ally", "hostile", "item", "ground" ],
+    "spell_class": "BIOMANCER",
+    "flags": [ "TRANSFORMATION_SPELL", "CONCENTRATE", "VERBAL", "SOMATIC", "NO_HANDS" ],
+    "extra_effects": [ { "id": "eoc_transformation_setup", "hit_self": true }, { "id": "biomantic_pain_caused_light", "hit_self": true } ],
+    "difficulty": 4,
+    "max_level": 10,
+    "effect": "pickup",
+    "shape": "blast",
+    "min_damage": { "math": [ "350 - (u_spell_level('biomancer_pull_items_from_distance') * 12)" ] },
+    "max_damage": { "math": [ "350 - (u_spell_level('biomancer_pull_items_from_distance') * 12)" ] },
+    "min_range": 3,
+    "max_range": 8,
+    "range_increment": 0.5,
+    "magic_type": "magiclysm_generic_magic",
+    "base_energy_cost": 100,
+    "base_casting_time": 150
   }
 ]

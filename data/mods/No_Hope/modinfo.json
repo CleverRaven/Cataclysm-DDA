@@ -8,6 +8,7 @@
     "description": "Aims to make the world more inhospitable and challenging in as many ways as possible, items needed for survival and vehicles are much harder to obtain, destruction and banditry is prevelent, even the weather has taken a turn for the worse, see in game help menu by pressing 0 once in-game for full feature list and option explanations.",
     "category": "content",
     "dependencies": [ "dda" ],
+    "conflicts": [ "aftershock_exoplanet", "backrooms", "desertpack", "tropicata", "classic_zombies", "innawood", "Isolation_Protocol" ],
     "version": "3.5"
   }
 ]

@@ -43,7 +43,10 @@
         ">": "t_stairs_down"
       },
       "furniture": { "C": "f_centrifuge" },
-      "mapping": { "c": { "items": { "item": "chem_lab", "chance": 30 } }, "d": { "items": { "item": "office", "chance": 30 } } },
+      "mapping": {
+        "c": { "items": { "item": "chem_lab", "chance": 30 } },
+        "d": { "items": { "item": "SUS_office_desk", "chance": 30 } }
+      },
       "monster": { "7": { "monster": "mon_turret_rifle" } },
       "place_nested": [
         { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 3, "y": 1 },

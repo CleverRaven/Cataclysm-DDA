@@ -15,5 +15,17 @@
         { "item": "carbide_cuirass", "prob": 1 }
       ]
     }
+  },
+  {
+    "type": "item_group",
+    "id": "afs_your_ship_clothing",
+    "subtype": "collection",
+    "//": "We could spawn clothes based on character selection, but that would require a lot of work.  Lets just say PC's taste is very specific.",
+    "items": [
+      { "item": "afs_leather_jacket", "count": 5, "custom-flags": [ "FIT" ] },
+      { "item": "longshirt", "count": 12, "custom-flags": [ "FIT" ] },
+      { "item": "pants", "count": 8, "custom-flags": [ "FIT" ] },
+      { "group": "socks_unisex", "custom-flags": [ "FIT" ] }
+    ]
   }
 ]

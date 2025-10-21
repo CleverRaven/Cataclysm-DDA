@@ -68,7 +68,7 @@
       },
       "items": {
         "Y": { "item": "coat_rack", "chance": 40, "repeat": 2 },
-        "I": { "item": "office", "chance": 30 },
+        "I": { "item": "SUS_office_desk", "chance": 30 },
         "S": { "item": "SUS_office_filing_cabinet", "chance": 30 },
         "R": { "item": "softdrugs", "chance": 30 },
         "T": { "item": "SUS_toilet", "chance": 50 },
@@ -187,7 +187,7 @@
       "items": { "Y": { "item": "coat_rack", "chance": 40, "repeat": 2 } },
       "place_items": [
         { "chance": 45, "item": "SUS_fridge", "x": 20, "y": 20 },
-        { "chance": 15, "repeat": [ 1, 3 ], "item": "SUS_trash_trashcan", "x": 19, "y": 15 },
+        { "chance": 15, "item": "SUS_trash_trashcan_public", "x": 19, "y": 15 },
         { "chance": 50, "item": "vending_drink_items", "x": 15, "y": 20 },
         { "chance": 50, "item": "vending_drink_items", "x": 16, "y": 20 }
       ],

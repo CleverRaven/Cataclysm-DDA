@@ -7,15 +7,18 @@
 #include <memory>
 #include <ostream>
 #include <queue>
+#include <stdexcept>
 
-#include "assign.h"
 #include "cata_utility.h"
 #include "debug.h"
 #include "dependency_tree.h"
 #include "filesystem.h"
 #include "flexbuffer_json.h"
+#include "generic_factory.h"
+#include "input_context.h"
 #include "json.h"
 #include "localized_comparator.h"
+#include "output.h"
 #include "path_info.h"
 #include "string_formatter.h"
 #include "worldfactory.h"
@@ -111,19 +114,40 @@ const std::map<std::string, std::string> &get_mod_list_cat_tab()
     return mod_list_cat_tab;
 }
 
-void mod_manager::load_replacement_mods( const cata_path &path )
+static std::map<mod_id, mod_id> migrated_mods;
+static std::map<mod_id, translation> removed_mods;
+
+void mod_migrations::load( const JsonObject &jo )
 {
-    read_from_file_optional_json( path, [&]( const JsonArray & jsin ) {
-        for( JsonArray arr : jsin ) {
-            mod_replacements.emplace( mod_id( arr.get_string( 0 ) ),
-                                      mod_id( arr.size() > 1 ? arr.get_string( 1 ) : "" ) );
+    const mod_id old_id( jo.get_string( "id" ) );
+    if( jo.has_string( "new_id" ) ) {
+        const mod_id new_id( jo.get_string( "new_id" ) );
+        migrated_mods.insert( std::make_pair( old_id, new_id ) );
+    } else {
+        translation removal_reason;
+        jo.read( "removal_reason", removal_reason );
+        removed_mods.insert( std::make_pair( old_id, removal_reason ) );
+    }
+}
+
+void mod_migrations::reset()
+{
+    migrated_mods.clear();
+    removed_mods.clear();
+}
+
+void mod_migrations::check()
+{
+    for( const auto &migration : migrated_mods ) {
+        if( !migration.second.is_valid() ) {
+            debugmsg( "mod_migration from '%s' specifies invalid new_id '%s'", migration.first.c_str(),
+                      migration.second.c_str() );
         }
-    } );
+    }
 }
 
 mod_manager::mod_manager()
 {
-    load_replacement_mods( PATH_INFO::mods_replacements() );
     refresh_mod_list();
     set_usable_mods();
 }
@@ -150,6 +174,8 @@ void mod_manager::clear()
     tree->clear();
     mod_map.clear();
     default_mods.clear();
+    migrated_mods.clear();
+    removed_mods.clear();
 }
 
 void mod_manager::refresh_mod_list()
@@ -174,29 +200,11 @@ void mod_manager::refresh_mod_list()
     if( !set_default_mods( MOD_INFORMATION_user_default ) ) {
         set_default_mods( MOD_INFORMATION_dev_default );
     }
-    // remove these mods from the list, so they do not appear to the user
-    remove_mod( MOD_INFORMATION_user_default );
-    remove_mod( MOD_INFORMATION_dev_default );
     for( auto &elem : mod_map ) {
         const auto &deps = elem.second.dependencies;
         mod_dependency_map[elem.second.ident] = std::vector<mod_id>( deps.begin(), deps.end() );
     }
     tree->init( mod_dependency_map );
-}
-
-void mod_manager::remove_mod( const mod_id &ident )
-{
-    const auto a = mod_map.find( ident );
-    if( a != mod_map.end() ) {
-        mod_map.erase( a );
-    }
-}
-
-void mod_manager::remove_invalid_mods( std::vector<mod_id> &mods ) const
-{
-    mods.erase( std::remove_if( mods.begin(), mods.end(), [this]( const mod_id & mod ) {
-        return mod_map.count( mod ) == 0;
-    } ), mods.end() );
 }
 
 bool mod_manager::set_default_mods( const mod_id &ident )
@@ -208,7 +216,6 @@ bool mod_manager::set_default_mods( const mod_id &ident )
     }
     const MOD_INFORMATION &mod = iter->second;
     auto deps = std::vector<mod_id>( mod.dependencies.begin(), mod.dependencies.end() );
-    remove_invalid_mods( deps );
     default_mods = deps;
     return true;
 }
@@ -273,25 +280,32 @@ void mod_manager::load_modfile( const JsonObject &jo, const cata_path &path )
     modfile.category = p_cat;
 
     std::string mod_json_path;
-    if( assign( jo, "path", mod_json_path ) ) {
+    if( jo.has_member( "path" ) ) {
+        optional( jo, false, "path", mod_json_path );
         modfile.path = path / mod_json_path;
     } else {
         modfile.path = path;
     }
 
-    assign( jo, "authors", modfile.authors );
-    assign( jo, "maintainers", modfile.maintainers );
-    assign( jo, "description", modfile.description );
-    assign( jo, "version", modfile.version );
-    assign( jo, "dependencies", modfile.dependencies );
-    assign( jo, "conflicts", modfile.conflicts );
-    assign( jo, "core", modfile.core );
-    assign( jo, "obsolete", modfile.obsolete );
-    assign( jo, "loading_images", modfile.loading_images );
+    optional( jo, false, "authors", modfile.authors );
+    optional( jo, false, "maintainers", modfile.maintainers );
+    optional( jo, false, "description", modfile.description );
+    optional( jo, false, "version", modfile.version );
+    optional( jo, false, "dependencies", modfile.dependencies );
+    optional( jo, false, "conflicts", modfile.conflicts );
+    optional( jo, false, "core", modfile.core, false );
+    optional( jo, false, "obsolete", modfile.obsolete, false );
+    optional( jo, false, "loading_images", modfile.loading_images );
 
     if( std::find( modfile.dependencies.begin(), modfile.dependencies.end(),
                    modfile.ident ) != modfile.dependencies.end() ) {
         jo.throw_error_at( "dependencies", "mod specifies self as a dependency" );
+    }
+
+    // TODO: Temporary migration, remove after 0.I stable
+    if( !modfile.obsolete && modfile.ident.str() == "user:default" ) {
+        modfile.obsolete = true;
+        set_default_mods( modfile.dependencies );
     }
 
     mod_map[modfile.ident] = std::move( modfile );
@@ -308,6 +322,9 @@ bool mod_manager::set_default_mods( const t_mod_list &mods )
         json.member( "conflicts", std::vector<std::string>() );
         json.member( "dependencies" );
         json.write( mods );
+        json.member( "//",
+                     "Not really obsolete!  Marked as such to prevent it from showing in the main list" );
+        json.member( "obsolete", true );
         json.end_object();
     }, _( "list of default mods" ) );
 }
@@ -429,26 +446,60 @@ void mod_manager::load_mods_list( WORLD *world ) const
     }
     std::vector<mod_id> &amo = world->active_mod_order;
     amo.clear();
-    bool obsolete_mod_found = false;
     read_from_file_optional_json( get_mods_list_file( world ), [&]( const JsonArray & jsin ) {
         for( const std::string line : jsin ) {
             const mod_id mod( line );
             if( std::find( amo.begin(), amo.end(), mod ) != amo.end() ) {
                 continue;
             }
-            const auto iter = mod_replacements.find( mod );
-            if( iter != mod_replacements.end() ) {
-                if( !iter->second.is_empty() ) {
-                    amo.push_back( iter->second );
-                }
-                obsolete_mod_found = true;
-                continue;
-            }
             amo.push_back( mod );
         }
     } );
-    if( obsolete_mod_found ) {
-        // If we found an obsolete mod, overwrite the mod list without the obsolete one.
+}
+
+void mod_manager::check_mods_list( WORLD *world ) const
+{
+    if( world == nullptr ) {
+        return;
+    }
+    std::vector<mod_id> &amo = world->active_mod_order;
+    bool changed = false;
+
+    for( auto check_it = amo.begin(); check_it != amo.end(); check_it++ ) {
+        if( !check_it->is_valid() ) {
+            if( const auto replace_it = migrated_mods.find( *check_it ); replace_it != migrated_mods.end() &&
+                std::find( amo.begin(), amo.end(), replace_it->second ) == amo.end() ) {
+                amo.insert( check_it, replace_it->second );
+                amo.erase( check_it );
+                changed = true;
+            } else {
+                input_context dummy_ctxt( "YESNOQUIT" );
+                const std::string cancel_option_name = dummy_ctxt.get_action_name( "QUIT" );
+                query_ynq_result res;
+                if( const auto it = removed_mods.find( *check_it ); it != removed_mods.end() ) {
+                    res = query_ynq(
+                              _( "Mod %s has been removed with reason: %s\nRemove it from this world's active mods?  (%s aborts load)" ),
+                              check_it->c_str(), it->second.translated(), cancel_option_name );
+                } else {
+                    res = query_ynq(
+                              _( "Mod %s not found in mods folder, remove it from this world's active mods?  (%s aborts load)" ),
+                              check_it->c_str(), cancel_option_name );
+                }
+                switch( res ) {
+                    case query_ynq_result::quit:
+                        throw std::runtime_error( _( "Player aborted load." ) );
+                    case query_ynq_result::no:
+                        break;
+                    case query_ynq_result::yes:
+                        amo.erase( check_it-- );
+                        changed = true;
+                        break;
+                }
+            }
+        }
+    }
+    // If we migrated or the player chose to remove a mod, overwrite the mod list.
+    if( changed ) {
         save_mods_list( world );
     }
 }

@@ -55,6 +55,11 @@
     "info": "With a seat or saddle, you drive from here.  You can 'e'xamine the tile to access the controls, or use the vehicle control key (default '^')."
   },
   {
+    "id": "EOC_ACTIVATION",
+    "type": "json_flag",
+    "info": "Enables an associated EOC to be triggered from the vehicle control menu."
+  },
+  {
     "id": "SMART_ENGINE_CONTROLLER",
     "type": "json_flag",
     "info": "When active, turns engines on and off automatically."
@@ -109,6 +114,11 @@
     "id": "FLOATS",
     "type": "json_flag",
     "info": "Each boat hull will reduce the draft of your vehicle and increase the height sealed against water.  If the draft is less than the sealed height, your vehicle will float if placed in water."
+  },
+  {
+    "id": "FURNITURE_TIEDOWN",
+    "type": "json_flag",
+    "info": "You can tie down a furniture here."
   },
   {
     "id": "NO_LEAK",

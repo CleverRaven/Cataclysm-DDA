@@ -57,7 +57,7 @@
     "type": "item_group",
     "id": "REFUGEE_Garry_carried",
     "subtype": "collection",
-    "entries": [ { "group": "duct_tape_roll_part" }, { "group": "superglue" } ]
+    "entries": [ { "group": "duct_tape_roll_part" }, { "group": "glue_strong_domestic" }, { "group": "glue_weak_domestic" } ]
   },
   {
     "type": "item_group",

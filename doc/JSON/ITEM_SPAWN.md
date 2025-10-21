@@ -1,3 +1,21 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Item spawn system](#item-spawn-system)
+  - [Collection or Distribution](#collection-or-distribution)
+  - [Format](#format)
+    - [Entries array](#entries-array)
+    - [Ammo and Magazines](#ammo-and-magazines)
+  - [Shortcuts](#shortcuts)
+  - [Adding to item groups](#adding-to-item-groups)
+  - [Inlined item groups](#inlined-item-groups)
+    - [Notes](#notes)
+      - [Testing](#testing)
+      - [SUS](#sus)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Item spawn system
 
 ## Collection or Distribution
@@ -97,6 +115,7 @@ Each entry can have more values (shown above as `...`).  They allow further prop
 "artifact": <object>
 "event": <string>
 "snippets": <string>
+"faults": <object>
 ```
 
 `contents` is added as contents of the created item.  It is not checked if they can be put into the item.  This allows water, that contains a book, that contains a steel frame, that contains a corpse.
@@ -117,8 +136,6 @@ Each entry can have more values (shown above as `...`).  They allow further prop
 
 `event`: A reference to a holiday in the `holiday` enum. If specified, the entry only spawns during the specified real holiday. This works the same way as the seasonal title screens, where the holiday is checked against the current system's time. If the holiday matches, the item's spawn probability is taken from the `prob` field. Otherwise, the spawn probability becomes 0.
 
-`snippets`: If item uses `snippet_category` instead of description, and snippets contain ids, allow to pick a specific description of an item to spawn; see [JSON_INFO.md#snippets](JSON_INFO.md#snippets)
-
 Current possible values are:
 - "none" (Not event-based. Same as omitting the "event" field.)
 - "new_year"
@@ -127,6 +144,16 @@ Current possible values are:
 - "halloween"
 - "thanksgiving"
 - "christmas"
+
+`snippets`: If item uses `snippet_category` instead of description, and snippets contain ids, allow to pick a specific description of an item to spawn; see [JSON_INFO.md#snippets](JSON_INFO.md#snippets)
+
+`faults`: If item can have this fault or faults, it would be spawned with it applied. Possible values are:
+  `id`: array of fault id that should be applied, if possible
+  `chance`: chance to apply any of the faults. Default is 100, always apply
+For example:
+```json
+  { "group": "nested_ar10", "prob": 89, "faults": { "id": [ "fault_stovepipe" ], "chance": 50 } },
+```
 
 `artifact`: This object determines that the item or group that is spawned by this entry will become an artifact. Here is an example:
 ```jsonc

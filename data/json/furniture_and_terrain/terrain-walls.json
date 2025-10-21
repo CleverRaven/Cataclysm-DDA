@@ -158,7 +158,9 @@
         { "item": "2x4", "count": [ 0, 5 ] },
         { "item": "nail", "charges": [ 0, 5 ] },
         { "item": "splinter", "count": [ 5, 10 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -174,7 +176,17 @@
     "connect_groups": [ "INDOORFLOOR", "WALL" ],
     "connects_to": "WALL",
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "PLACE_ITEM", "INDOORS", "AUTO_WALL_SYMBOL", "THIN_OBSTACLE", "MOUNTABLE", "SHORT" ],
+    "flags": [
+      "TRANSPARENT",
+      "PERMEABLE",
+      "FLAMMABLE",
+      "PLACE_ITEM",
+      "INDOORS",
+      "AUTO_WALL_SYMBOL",
+      "THIN_OBSTACLE",
+      "MOUNTABLE",
+      "SHORT"
+    ],
     "deconstruct": { "ter_set": "t_floor", "items": [ { "item": "2x4", "count": 5 }, { "item": "nail", "charges": 20 } ] },
     "bash": {
       "str_min": 8,
@@ -206,7 +218,9 @@
         { "item": "wood_panel", "count": [ 0, 2 ] },
         { "item": "nail", "charges": [ 1, 5 ] },
         { "item": "splinter", "count": [ 1, 4 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1141,7 +1155,9 @@
         { "item": "wood_panel", "count": [ 0, 2 ] },
         { "item": "nail", "charges": [ 1, 3 ] },
         { "item": "splinter", "count": [ 1, 4 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1168,7 +1184,9 @@
         { "item": "wood_panel", "count": [ 0, 2 ] },
         { "item": "nail", "charges": [ 4, 10 ] },
         { "item": "splinter", "count": [ 1, 5 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     },
     "shoot": { "chance_to_hit": 25, "reduce_damage": [ 20, 40 ], "reduce_damage_laser": [ 10, 30 ], "destroy_damage": [ 30, 100 ] }
   },
@@ -1214,7 +1232,9 @@
       "sound": "crash!",
       "sound_fail": "whump!",
       "ter_set": "t_null",
-      "items": [ { "item": "splinter", "count": [ 10, 20 ] } ]
+      "items": [ { "item": "splinter", "count": [ 10, 20 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1232,7 +1252,9 @@
       "sound": "crunch!",
       "sound_fail": "whump!",
       "ter_set": "t_wall_log_chipped",
-      "items": [ { "item": "splinter", "count": [ 5, 10 ] } ]
+      "items": [ { "item": "splinter", "count": [ 5, 10 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1249,7 +1271,9 @@
       "sound": "crunch!",
       "sound_fail": "whump!",
       "ter_set": "t_wall_log_broken",
-      "items": [ { "item": "splinter", "count": [ 5, 10 ] } ]
+      "items": [ { "item": "splinter", "count": [ 5, 10 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1270,7 +1294,9 @@
       "sound": "crash!",
       "sound_fail": "whump!",
       "ter_set": "t_null",
-      "items": [ { "item": "splinter", "count": [ 10, 20 ] } ]
+      "items": [ { "item": "splinter", "count": [ 10, 20 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     },
     "shoot": { "chance_to_hit": 25, "reduce_damage": [ 20, 50 ], "reduce_damage_laser": [ 10, 40 ], "destroy_damage": [ 40, 120 ] }
   },
@@ -1293,7 +1319,9 @@
       "sound": "crunch!",
       "sound_fail": "whump!",
       "ter_set": "t_null",
-      "items": [ { "item": "splinter", "count": [ 10, 30 ] } ]
+      "items": [ { "item": "splinter", "count": [ 10, 30 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1313,7 +1341,9 @@
       "ter_set": "t_wall_wattle_broken",
       "sound": "crunch!",
       "sound_fail": "whump!",
-      "items": [ { "item": "2x4", "count": [ 0, 3 ] }, { "item": "splinter", "count": [ 0, 6 ] } ]
+      "items": [ { "item": "2x4", "count": [ 0, 3 ] }, { "item": "splinter", "count": [ 0, 6 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1331,7 +1361,9 @@
       "ter_set": "t_null",
       "sound": "crash!",
       "sound_fail": "whump!",
-      "items": [ { "item": "2x4", "count": [ 0, 3 ] }, { "item": "splinter", "count": [ 3, 6 ] } ]
+      "items": [ { "item": "2x4", "count": [ 0, 3 ] }, { "item": "splinter", "count": [ 3, 6 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     },
     "shoot": { "chance_to_hit": 25, "reduce_damage": [ 20, 40 ], "reduce_damage_laser": [ 20, 50 ], "destroy_damage": [ 30, 100 ] },
     "connect_groups": "WALL",
@@ -1354,7 +1386,9 @@
       "ter_set": "t_null",
       "sound": "crunch!",
       "sound_fail": "whump!",
-      "items": [ { "item": "2x4", "count": [ 1, 3 ] }, { "item": "splinter", "count": [ 6, 6 ] } ]
+      "items": [ { "item": "2x4", "count": [ 1, 3 ] }, { "item": "splinter", "count": [ 6, 6 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     },
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "NOITEM", "REDUCE_SCENT", "MOUNTABLE" ]
   },
@@ -1780,7 +1814,9 @@
       "sound": "crunch!",
       "sound_fail": "whump!",
       "ter_set": "t_null",
-      "items": [ { "item": "splinter", "count": [ 2, 5 ] } ]
+      "items": [ { "item": "splinter", "count": [ 2, 5 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -2066,7 +2102,11 @@
       "sound": "crash!",
       "sound_fail": "whump!",
       "ter_set": "t_null",
-      "items": [ { "item": "field_stone", "count": [ 900, 980 ] }, { "item": "pebble", "count": [ 200, 380 ] } ]
+      "items": [
+        { "item": "field_stone", "count": [ 500, 800 ] },
+        { "item": "rock", "count": [ 200, 400 ] },
+        { "item": "pebble", "count": [ 100, 200 ] }
+      ]
     }
   },
   {
@@ -2080,7 +2120,17 @@
     "move_cost": 0,
     "coverage": 60,
     "examine_action": "chainfence",
-    "flags": [ "TRANSPARENT", "NOITEM", "REDUCE_SCENT", "MOUNTABLE", "MINEABLE", "THIN_OBSTACLE", "CLIMBABLE", "BURROWABLE" ],
+    "flags": [
+      "TRANSPARENT",
+      "NOITEM",
+      "REDUCE_SCENT",
+      "MOUNTABLE",
+      "MINEABLE",
+      "THIN_OBSTACLE",
+      "CLIMBABLE",
+      "BURROWABLE",
+      "PERMEABLE"
+    ],
     "connect_groups": "WALL",
     "connects_to": "WALL",
     "bash": {
@@ -2089,7 +2139,11 @@
       "sound": "crash!",
       "sound_fail": "whump!",
       "ter_set": "t_null",
-      "items": [ { "item": "rock", "count": [ 400, 480 ] }, { "item": "pebble", "count": [ 50, 120 ] } ]
+      "items": [
+        { "item": "field_stone", "count": [ 200, 300 ] },
+        { "item": "rock", "count": [ 200, 400 ] },
+        { "item": "pebble", "count": [ 100, 200 ] }
+      ]
     }
   },
   {

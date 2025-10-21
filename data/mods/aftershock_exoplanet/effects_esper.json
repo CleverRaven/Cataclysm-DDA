@@ -9,6 +9,17 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_afs_psi_intense_concentration",
+    "name": [ "Intense Concentration" ],
+    "desc": [ "It's taking a lot of concentration to maintain your powers." ],
+    "apply_message": "",
+    "remove_message": "",
+    "base_mods": { "dodge_mod": [ -1 ] },
+    "limb_score_mods": [ { "limb_score": "breathing", "modifier": 0.95 }, { "limb_score": "reaction", "modifier": 0.97 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_afs_esper_headache",
     "name": [
       "Headache",

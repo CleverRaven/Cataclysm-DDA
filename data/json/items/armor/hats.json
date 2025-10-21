@@ -655,12 +655,12 @@
     "looks_like": "hat_ball",
     "color": "yellow",
     "warmth": 5,
-    "material_thickness": 4,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "WATERPROOF", "PADDED" ],
     "armor": [
       {
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 4 } ],
         "encumbrance_modifiers": [ "NONE" ],
         "coverage": 100,
         "cover_vitals": 90,
@@ -1046,6 +1046,107 @@
       }
     ],
     "melee_damage": { "bash": 6 }
+  },
+  {
+    "id": "hat_hard_modified",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "copy-from": "hat_hard",
+    "name": { "str": "modified hard hat" },
+    "description": "A hard hat that has been modified with a metal trim along the forehead and covering the ears, allowing the wearer to affix aventails.",
+    "weight": "862 g",
+    "price_postapoc": "5 USD",
+    "material": [ "plastic", "lc_steel" ],
+    "armor": [
+      {
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 4 } ],
+        "encumbrance_modifiers": [ "NONE" ],
+        "coverage": 100,
+        "cover_vitals": 90,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown" ]
+      },
+      {
+        "material": [
+          { "type": "lc_steel", "covered_by_mat": 10, "thickness": 1.5 },
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 4 }
+        ],
+        "encumbrance_modifiers": [ "NONE" ],
+        "coverage": 100,
+        "cover_vitals": 90,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_forehead" ]
+      },
+      {
+        "material": [ { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.5 } ],
+        "encumbrance_modifiers": [ "NONE" ],
+        "coverage": 100,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_ear_r", "head_ear_l" ]
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "500 g",
+        "moves": 250,
+        "description": "Pocket for a face shield or a shield visor.",
+        "flag_restriction": [ "HELMET_FACE_SHIELD" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "250 g",
+        "moves": 250,
+        "description": "Pocket for a nape protector.",
+        "flag_restriction": [ "HELMET_NAPE_PROTECTOR" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "400 g",
+        "moves": 250,
+        "description": "Pocket for a strapped mandible guard.",
+        "flag_restriction": [ "HELMET_MANDIBLE_GUARD_STRAPPED" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "400 ml",
+        "max_contains_weight": "400 g",
+        "moves": 250,
+        "description": "Pocket for a counterweight pouch.",
+        "flag_restriction": [ "HELMET_BACK_POUCH" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "300 ml",
+        "max_contains_weight": "500 g",
+        "max_item_length": "14 cm",
+        "moves": 100,
+        "description": "Pocket for a flashlight attachment.",
+        "flag_restriction": [ "HELMET_HEAD_ATTACHMENT" ],
+        "transparent": true
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "600 ml",
+        "max_contains_weight": "2000 g",
+        "moves": 250,
+        "description": "attachment for a partial or full aventail.",
+        "flag_restriction": [ "HELMET_AVENTAIL" ]
+      }
+    ]
   },
   {
     "id": "hat_hunting",

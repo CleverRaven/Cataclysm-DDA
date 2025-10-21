@@ -73,7 +73,7 @@
       { "item": "rubber_band", "prob": 20, "count": [ 2, 10 ] },
       { "item": "coin_quarter", "prob": 10, "count": [ 1, 8 ] },
       { "group": "duct_tape_roll_part", "prob": 5 },
-      { "group": "superglue", "prob": 5 },
+      { "group": "glue_weak_domestic", "prob": 5 },
       { "item": "umbrella", "prob": 5 },
       { "item": "teleumbrella", "prob": 5 },
       { "item": "survnote", "prob": 1 },

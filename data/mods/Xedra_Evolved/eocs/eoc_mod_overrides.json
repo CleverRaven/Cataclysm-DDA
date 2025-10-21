@@ -10,5 +10,48 @@
     "id": "EOC_CONDITIONS_LILIN_FANTASY_SPECIES_RUACH_DRAIN",
     "condition": { "math": [ "false" ] },
     "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "target_valid_drink",
+    "condition": {
+      "and": [
+        { "not": { "npc_has_flag": "BLEED_IMMUNE" } },
+        { "not": { "npc_has_trait": "ACIDBLOOD" } },
+        { "not": { "npc_has_trait": "THRESH_CRUSTACEAN" } },
+        { "not": { "npc_has_trait": "THRESH_INSECT" } },
+        { "not": { "npc_has_trait": "THRESH_CEPHALOPOD" } },
+        { "not": { "npc_has_trait": "THRESH_GASTROPOD" } },
+        { "not": { "npc_has_species": "ZOMBIE" } },
+        { "not": { "npc_has_species": "MAMMAL" } },
+        { "not": { "npc_has_species": "AMPHIBIAN" } },
+        { "not": { "npc_has_species": "BIRD" } },
+        { "not": { "npc_has_species": "CYBORG" } },
+        { "not": { "npc_has_species": "REPTILE" } },
+        { "not": { "npc_has_species": "FISH" } },
+        { "not": { "npc_has_species": "KRAKEN" } },
+        { "not": { "npc_has_species": "MUTANT" } },
+        { "not": { "npc_has_species": "NETHER" } },
+        { "not": { "npc_has_species": "MIGO" } },
+        { "not": { "npc_has_species": "FUNGUS" } },
+        { "not": { "npc_has_species": "SLIME" } },
+        { "not": { "npc_has_species": "LEECH_PLANT" } },
+        { "not": { "npc_has_species": "INSECT" } },
+        { "not": { "npc_has_species": "CENTIPEDE" } },
+        { "not": { "npc_has_species": "INSECT_FLYING" } },
+        { "not": { "npc_has_species": "SPIDER" } },
+        { "not": { "npc_has_species": "PLANT" } },
+        { "not": { "npc_has_species": "MOLLUSK" } },
+        { "not": { "npc_has_species": "WORM" } },
+        { "not": { "npc_has_species": "ROBOT" } },
+        { "not": { "npc_has_species": "HORROR" } },
+        { "not": { "npc_has_species": "PLANT" } },
+        { "not": { "npc_has_species": "ABERRATION" } },
+        { "not": { "npc_has_species": "VAMPIRE" } },
+        { "not": { "npc_has_species": "VAMPIRE_ANATHEMA" } },
+        { "not": { "npc_has_trait": "VAMPIRE" } },
+        { "not": { "npc_has_trait": "BLOOD_OF_SAINTS" } }
+      ]
+    }
   }
 ]

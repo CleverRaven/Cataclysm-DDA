@@ -39,18 +39,18 @@
         { "chunks": [ [ "lab_wall_chain_5x5", 50 ], [ "null", 50 ] ], "x": 3, "y": 6 }
       ],
       "place_monster": [
-        { "monster": "mon_manhack", "x": 30, "y": 1, "chance": 100 },
+        { "monster": "mon_grenade_hack", "x": 30, "y": 1, "chance": 100 },
         { "monster": "mon_skitterbot", "x": 31, "y": 1, "chance": 100 },
-        { "monster": "mon_manhack", "x": 32, "y": 1, "chance": 100 },
+        { "monster": "mon_grenade_hack", "x": 32, "y": 1, "chance": 100 },
         { "monster": "mon_flashbang_hack", "x": 34, "y": 1, "chance": 100 },
-        { "monster": "mon_manhack", "x": 35, "y": 1, "chance": 100 },
+        { "monster": "mon_grenade_hack", "x": 35, "y": 1, "chance": 100 },
         { "monster": "mon_flashbang_hack", "x": 36, "y": 1, "chance": 100 },
         { "monster": "mon_gasbomb_hack", "x": 38, "y": 1, "chance": 100 },
         { "monster": "mon_secubot", "x": 39, "y": 1, "chance": 100 },
         { "monster": "mon_gasbomb_hack", "x": 40, "y": 1, "chance": 100 },
-        { "monster": "mon_manhack", "x": 42, "y": 1, "chance": 100 },
+        { "monster": "mon_grenade_hack", "x": 42, "y": 1, "chance": 100 },
         { "monster": "mon_skitterbot", "x": 43, "y": 1, "chance": 100 },
-        { "monster": "mon_manhack", "x": 44, "y": 1, "chance": 100 }
+        { "monster": "mon_grenade_hack", "x": 44, "y": 1, "chance": 100 }
       ]
     }
   },
@@ -95,18 +95,18 @@
         { "chunks": [ [ "lab_wall_chain_5x5", 50 ], [ "null", 50 ] ], "x": 3, "y": 12 }
       ],
       "place_monster": [
-        { "monster": "mon_manhack", "x": 30, "y": 1, "chance": 100 },
+        { "monster": "mon_grenade_hack", "x": 30, "y": 1, "chance": 100 },
         { "monster": "mon_skitterbot", "x": 31, "y": 1, "chance": 100 },
-        { "monster": "mon_manhack", "x": 32, "y": 1, "chance": 100 },
+        { "monster": "mon_grenade_hack", "x": 32, "y": 1, "chance": 100 },
         { "monster": "mon_flashbang_hack", "x": 34, "y": 1, "chance": 100 },
-        { "monster": "mon_manhack", "x": 35, "y": 1, "chance": 100 },
+        { "monster": "mon_grenade_hack", "x": 35, "y": 1, "chance": 100 },
         { "monster": "mon_flashbang_hack", "x": 36, "y": 1, "chance": 100 },
         { "monster": "mon_gasbomb_hack", "x": 38, "y": 1, "chance": 100 },
         { "monster": "mon_secubot", "x": 39, "y": 1, "chance": 100 },
         { "monster": "mon_gasbomb_hack", "x": 40, "y": 1, "chance": 100 },
-        { "monster": "mon_manhack", "x": 42, "y": 1, "chance": 100 },
+        { "monster": "mon_grenade_hack", "x": 42, "y": 1, "chance": 100 },
         { "monster": "mon_skitterbot", "x": 43, "y": 1, "chance": 100 },
-        { "monster": "mon_manhack", "x": 44, "y": 1, "chance": 100 }
+        { "monster": "mon_grenade_hack", "x": 44, "y": 1, "chance": 100 }
       ],
       "place_vehicles": [ { "vehicle": "golf_cart", "x": [ 8, 20 ], "y": [ 17, 18 ], "rotation": 90 } ]
     }

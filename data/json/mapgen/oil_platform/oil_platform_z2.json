@@ -157,11 +157,10 @@
         ],
         "K": [
           { "item": "SUS_office_mess", "chance": 5, "repeat": [ 1, 2 ] },
-          { "item": "office", "chance": 5, "repeat": [ 1, 2 ] },
           { "item": "consumer_electronics", "chance": 5 },
           { "item": "tools_common", "chance": 10 },
           { "item": "tools_electronics", "chance": 5, "repeat": [ 0, 2 ] },
-          { "item": "SUS_office_desk", "chance": 5 }
+          { "item": "SUS_office_desk", "chance": 15 }
         ],
         "N": [
           { "item": "drugs_pharmacy", "chance": 90, "repeat": [ 1, 3 ] },

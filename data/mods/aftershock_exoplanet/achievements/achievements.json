@@ -1,5 +1,107 @@
 [
   {
+    "id": "afs_alien_dawn",
+    "type": "achievement",
+    "name": "Alien Dawn",
+    "description": "At night, both water and carbon dioxide freeze in the upper atmosphere, such that every dawn is accompanied by a procession of colorful haloes over the horizon.\n<color_c_dark_gray>  - Salus IV rediscovery report 02.11.2428, submitted by Cpt.  Jean McAllister.",
+    "time_constraint": { "since": "game_start", "is": ">=", "target": "1 day" },
+    "requirements": [ { "event_statistic": "num_avatar_wake_ups", "is": "anything", "description": "Wake up after a night on Salus IV." } ]
+  },
+  {
+    "id": "afs_achievement_discontinuity_weapon",
+    "type": "achievement",
+    "name": { "str": "A civilized Age" },
+    "description": "Mostly, it makes me feel very small, like when I was a kid playing with my father's tools.\n<color_c_dark_gray>  - \"Life in the Tenellus Frontier\", interview with mercenary captain, c2514.",
+    "requirements": [
+      {
+        "event_statistic": "num_avatar_wields_archeotech_gun",
+        "is": ">=",
+        "target": 1,
+        "description": "Wield a weapon from the Late Hyperspace Age."
+      }
+    ]
+  },
+  {
+    "id": "afs_achievement_plasma_weapon",
+    "type": "achievement",
+    "name": { "str": "Sunfire" },
+    "description": "Now just watch this!  [STATIC]\n<color_c_dark_gray>  - unattributed comms chatter from raid on UFS Golden Sunray.",
+    "requirements": [
+      { "event_statistic": "num_avatar_wields_plasma_gun", "is": ">=", "target": 1, "description": "Obtain a plasma weapon" }
+    ]
+  },
+  {
+    "id": "afs_achievement_crashed_spaceship",
+    "type": "achievement",
+    "name": { "str": "Falling Star" },
+    "description": "Planet crosses into a giant scrapfield every few months, some old battlefield from when the discontinuity happened.  Locals make a great show of it, marks the start of the great hunt.\n<color_c_dark_gray>  -\"The Highlands of Aztlan\" holodoc",
+    "requirements": [
+      {
+        "event_statistic": "num_avatar_enters_crashed_ship",
+        "is": ">=",
+        "target": 1,
+        "description": "Visit a crashed spaceship."
+      }
+    ]
+  },
+  {
+    "id": "afs_achievement_ruins",
+    "type": "achievement",
+    "name": { "str": "Boneyards" },
+    "description": "We had those at home too, on summer days we'd chase frogs through the pipes and into the coolant chambers deep below them.  I remember the em-lights still glittering in the immense halls, it was like a secret night sky sealed away.\n<color_c_dark_gray>  - overheard in Port Augustmoon.",
+    "requirements": [ { "event_statistic": "num_avatar_enters_ruins", "is": ">=", "target": 1, "description": "Visit a ruin" } ]
+  },
+  {
+    "id": "afs_achievement_many_ruins",
+    "type": "achievement",
+    "name": { "str": "Ruins of Orion" },
+    "description": "I try not to think about what it actually means, none of us do really.  Otherwise it would drive us mad with grief.  [Laughs] Still drives some mad though, I guess.\n<color_c_dark_gray>  - \"Life in the Tenellus Frontier\", interview with salvor guild journeyman, c2514.",
+    "requirements": [ { "event_statistic": "num_avatar_enters_ruins", "is": ">=", "target": 50, "description": "Visit many ruins." } ]
+  },
+  {
+    "id": "afs_achievement_discontinous",
+    "type": "achievement",
+    "name": { "str": "Discontinous" },
+    "description": "[ ERROR: Outside Hypernet Range ]",
+    "requirements": [
+      {
+        "event_statistic": "avatar_max_damage",
+        "is": ">=",
+        "target": 2500,
+        "description": "Recieve 2500 damage in a single attack and survive (optional)."
+      }
+    ]
+  },
+  {
+    "id": "afs_achievement_chimera",
+    "type": "achievement",
+    "name": { "str": "Chimera" },
+    "description": "Unexplained, instinctual urges might rarely manifest after bio-modification.  In such cases we recommend the following self-centering techniques…\n<color_c_dark_gray>  - Aftercare brochure, Mercurial Genomics ltd.",
+    "requirements": [
+      {
+        "event_statistic": "num_crosses_mutation_threshold",
+        "is": ">=",
+        "target": 1,
+        "description": "Cross a threshold using genetech templates."
+      }
+    ]
+  },
+  {
+    "id": "achievement_psion",
+    "type": "achievement",
+    "name": { "str": "The New Sun" },
+    "description": "There were among our men those who asked whether it was all not a dream.  How else could one explain the glimpse of things never heard of, never seen, and never even conceived of before.\n<color_c_dark_gray>  - recovered from the log of ESS Firebird.",
+    "requirements": [
+      {
+        "event_statistic": "avatar_last_gains_mutation",
+        "is": "==",
+        "target": [ "trait_id", "ESPER" ],
+        "description": "Gain psionic powers.",
+        "visible": "when_achievement_completed"
+      }
+    ]
+  },
+  {
     "id": "achievement_kill_moxie",
     "type": "achievement",
     "name": "Breaking the Ice",

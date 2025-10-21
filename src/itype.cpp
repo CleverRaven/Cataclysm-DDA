@@ -11,7 +11,6 @@
 #include "debug.h"
 #include "generic_factory.h"
 #include "item.h"
-#include "make_static.h"
 #include "map.h"
 #include "material.h"
 #include "recipe.h"
@@ -19,6 +18,8 @@
 #include "ret_val.h"
 #include "subbodypart.h"
 #include "translations.h"
+
+static const flag_id json_flag_CAN_HAVE_CHARGES( "CAN_HAVE_CHARGES" );
 
 std::string gunmod_location::name() const
 {
@@ -194,6 +195,17 @@ const use_function *itype::get_use( const std::string &iuse_name ) const
     return iter != use_methods.end() ? &iter->second : nullptr;
 }
 
+bool itype::has_tick( const std::string &iuse_name ) const
+{
+    return get_tick( iuse_name ) != nullptr;
+}
+
+const use_function *itype::get_tick( const std::string &iuse_name ) const
+{
+    const auto iter = tick_action.find( iuse_name );
+    return iter != tick_action.end() ? &iter->second : nullptr;
+}
+
 int itype::tick( Character *p, item &it, const tripoint_bub_ms &pos ) const
 {
     int charges_to_use = 0;
@@ -268,7 +280,7 @@ bool itype::can_have_charges() const
     if( gun && gun->clip > 0 ) {
         return true;
     }
-    if( has_flag( STATIC( flag_id( "CAN_HAVE_CHARGES" ) ) ) ) {
+    if( has_flag( json_flag_CAN_HAVE_CHARGES ) ) {
         return true;
     }
     return false;
@@ -282,6 +294,16 @@ bool itype::is_basic_component() const
         }
     }
     return false;
+}
+
+const std::vector<std::pair<flag_id, time_duration>> &islot_seed::get_growth_stages() const
+{
+    return growth_stages;
+}
+
+units::temperature islot_seed::get_growth_temp() const
+{
+    return growth_temp;
 }
 
 int islot_armor::avg_env_resist() const
@@ -504,5 +526,8 @@ void item_melee_damage::deserialize( const JsonObject &jo )
 {
     damage_map = load_damage_map( jo );
     //we can do this because items are always loaded after damage types
+    // ^this is not true, objects are loaded as they are encountered, and in mod load order
+    // Being loaded in mod load order particularly is the risk here!
+    // FIXME: call finalize in the right place
     finalize();
 }

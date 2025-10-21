@@ -11,6 +11,7 @@
     "price": "1 USD",
     "price_postapoc": "10 USD",
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
+    "loudness": 7,
     "count": 100,
     "stack_size": 150,
     "recoil": 39,
@@ -22,7 +23,7 @@
     "copy-from": "22_lr",
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
-    "name": { "str_sp": ".22 FMJ" },
+    "name": { "str_sp": ".22 LR FMJ" },
     "description": ".22 Long Rifle ammunition with a 30gr FMJ bullet.  The .22LR round is extremely weak, with short range and negligible recoil.  This type is marginally better at piercing through targets, but deals even less damage as a result.",
     "relative": { "damage": { "damage_type": "bullet", "amount": -1, "armor_penetration": 2 } }
   },
@@ -47,7 +48,27 @@
     "ammo_type": "22",
     "casing": "22_casing",
     "range": 13,
-    "damage": { "damage_type": "bullet", "amount": 12 },
+    "damage": {
+      "damage_type": "bullet",
+      "amount": 12,
+      "barrels": [
+        { "barrel_length": "5 mm", "amount": 3 },
+        { "barrel_length": "6 mm", "amount": 4 },
+        { "barrel_length": "9 mm", "amount": 5 },
+        { "barrel_length": "13 mm", "amount": 6 },
+        { "barrel_length": "19 mm", "amount": 7 },
+        { "barrel_length": "29 mm", "amount": 8 },
+        { "barrel_length": "42 mm", "amount": 9 },
+        { "barrel_length": "63 mm", "amount": 10 },
+        { "barrel_length": "93 mm", "amount": 11 },
+        { "barrel_length": "138 mm", "amount": 12 },
+        { "barrel_length": "205 mm", "amount": 13 },
+        { "barrel_length": "304 mm", "amount": 14 },
+        { "barrel_length": "452 mm", "amount": 15 },
+        { "barrel_length": "672 mm", "amount": 16 },
+        { "barrel_length": "998 mm", "amount": 17 }
+      ]
+    },
     "dispersion": 60,
     "recoil": 150,
     "effects": [ "COOKOFF" ]
@@ -82,7 +103,7 @@
       "dispersion": 1.2
     },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
     "id": "bp_22_lr",
@@ -97,7 +118,7 @@
       "dispersion": 1.2
     },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
     "id": "reloaded_22_lr",
@@ -107,17 +128,17 @@
     "name": { "str_sp": ".22 LR, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
     "id": "reloaded_22_fmj",
     "copy-from": "22_fmj",
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
-    "name": { "str_sp": ".22 FMJ, reloaded" },
+    "name": { "str_sp": ".22 LR FMJ, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
     "id": "matchhead_22_fmj",
@@ -125,7 +146,7 @@
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
     "//": "matchhead bullets assumed to have about 75% of the muzzle energy of black powder",
-    "name": { "str_sp": ".22 FMJ, matchhead powder" },
+    "name": { "str_sp": ".22 LR FMJ, matchhead powder" },
     "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
     "looks_like": "bp_22_fmj",
     "extend": { "effects": [ "MATCHHEAD" ] }

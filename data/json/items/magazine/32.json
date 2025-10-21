@@ -38,5 +38,28 @@
     "ammo_type": [ "32" ],
     "flags": [ "MAG_COMPACT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "32": 7 } } ]
+  },
+  {
+    "id": "lws32mag",
+    "looks_like": "glock17_17",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
+    "name": { "str": "micro conceal carry magazine" },
+    "description": "A 6 round magazine for the micro conceal carry pistol.",
+    "variant_type": "gun",
+    "variants": [
+      { "id": "lws32mag", "name": { "str": "Seecamp LWS 32 magazine" }, "description": "A 6 round magazine for the LWS 32." }
+    ],
+    "weight": "30 g",
+    "volume": "20 ml",
+    "longest_side": "81 mm",
+    "price": "26 USD",
+    "price_postapoc": "5 cent",
+    "material": [ "steel", "plastic" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "32" ],
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "32": 6 } } ]
   }
 ]

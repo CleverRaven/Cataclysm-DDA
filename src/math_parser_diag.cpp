@@ -200,6 +200,13 @@ double distance_eval( const_dialogue const &d, char /* scope */,
     return rl_dist( get_pos( params[0] ), get_pos( params[1] ) );
 }
 
+double artifact_resonance_eval( const_dialogue const &d, char scope,
+                                std::vector<diag_value> const & /* params */,
+                                diag_kwargs const & /* kwargs */ )
+{
+    return d.const_actor( is_beta( scope ) )->get_artifact_resonance();
+}
+
 double damage_level_eval( const_dialogue const &d, char scope,
                           std::vector<diag_value> const & /* params */,
                           diag_kwargs const & /* kwargs */ )
@@ -1022,12 +1029,13 @@ double spell_sum_eval( const_dialogue const &d, char scope,
 
 double spell_difficulty_eval( const_dialogue const &d, char scope,
                               std::vector<diag_value> const &params,
-                              diag_kwargs const & /* kwargs */ )
+                              diag_kwargs const &kwargs )
 {
+    bool ignore_modifiers = is_true( kwargs.kwarg_or( "baseline" ).dbl( d ) );
     std::string const &sid_str = params[0].str( d );
     spell_id spell( sid_str );
     if( spell.is_valid() ) {
-        return d.const_actor( is_beta( scope ) )->get_spell_difficulty( spell );
+        return d.const_actor( is_beta( scope ) )->get_spell_difficulty( spell, ignore_modifiers );
     }
     throw math::runtime_error( R"(Unknown spell id "%s" for spell_difficulty_eval)", sid_str );
 }
@@ -1656,6 +1664,7 @@ std::map<std::string_view, dialogue_func> const dialogue_funcs{
     { "addiction_intensity", { "un", 1, addiction_intensity_eval } },
     { "addiction_turns", { "un", 1, addiction_turns_eval, addiction_turns_ass } },
     { "armor", { "un", 2, armor_eval } },
+    { "artifact_resonance", { "un", 0, artifact_resonance_eval } },
     { "attack_speed", { "un", 0, attack_speed_eval } },
     { "speed", { "un", 0, move_speed_eval } },
     { "characters_nearby", { "ung", 0, characters_nearby_eval, {}, { "radius", "attitude", "location" } } },
@@ -1705,7 +1714,7 @@ std::map<std::string_view, dialogue_func> const dialogue_funcs{
     { "skill", { "un", 1, skill_eval, skill_ass } },
     { "skill_exp", { "un", 1, skill_exp_eval, skill_exp_ass, { "format" } } },
     { "spell_count", { "un", 0, spell_count_eval, {}, { "school" } } },
-    { "spell_difficulty", { "un", 1, spell_difficulty_eval } },
+    { "spell_difficulty", { "un", 1, spell_difficulty_eval, {}, { "baseline" } } },
     { "spell_exp", { "un", 1, spell_exp_eval, spell_exp_ass } },
     { "spell_exp_for_level", { "g", 2, spell_exp_for_level_eval } },
     { "spell_level", { "un", 1, spell_level_eval, spell_level_ass } },

@@ -302,7 +302,7 @@
       [ [ "gunpowder", 6 ], [ "gunpowder_pistol", 6 ], [ "gunpowder_shotgun", 6 ] ],
       [
         [ "scrap", 1 ],
-        [ "nail", 5 ],
+        [ "nails", 5, "LIST" ],
         [ "bb", 10 ],
         [ "solder_wire", 5 ],
         [ "platinum_small", 2 ],
@@ -335,7 +335,7 @@
       [ [ "chem_black_powder", 6 ] ],
       [
         [ "scrap", 1 ],
-        [ "nail", 5 ],
+        [ "nails", 5, "LIST" ],
         [ "bb", 10 ],
         [ "solder_wire", 5 ],
         [ "platinum_small", 2 ],

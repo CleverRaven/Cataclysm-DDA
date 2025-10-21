@@ -58,7 +58,8 @@
           { "value": "SLEEPINESS_REGEN", "multiply": 0.5 },
           { "value": "MENDING_MODIFIER", "multiply": 15 },
           { "value": "REGEN_HP", "multiply": 1.5 },
-          { "value": "REGEN_HP_AWAKE", "multiply": 0.8 }
+          { "value": "REGEN_HP_AWAKE", "multiply": 0.8 },
+          { "value": "CLIMATE_CONTROL_HEAT", "add": 150 }
         ]
       }
     ]
@@ -90,5 +91,15 @@
     "valid": false,
     "player_display": false,
     "override_look": { "id": "mon_hologram", "tile_category": "monster" }
+  },
+  {
+    "type": "mutation",
+    "id": "MAG_STAG_BEETLE_BOND",
+    "name": { "str": "Beetle Bond" },
+    "points": 0,
+    "description": "You have gained a bond with a stag beetle.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false
   }
 ]

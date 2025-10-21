@@ -77,7 +77,7 @@
         "l": { "item": "SUS_desks_bedroom_unisex", "chance": 50 },
         "r": { "item": "beauty", "chance": 100, "repeat": [ 1, 4 ] },
         "t": { "item": "SUS_toilet", "chance": 50 },
-        "T": { "item": "SUS_trash_trashcan", "chance": 50 }
+        "T": { "item": "SUS_trash_trashcan_public", "chance": 50 }
       },
       "place_loot": [
         { "group": "SUS_janitors_closet", "chance": 100, "repeat": [ 0, 2 ], "x": [ 10, 12 ], "y": [ 3 ] },

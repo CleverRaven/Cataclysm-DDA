@@ -7,6 +7,8 @@
     "subtypes": [ "GUN" ],
     "name": { "str": "Winchester M37 .410" },
     "description": "A single-shot break-action shotgun, chambered in .410 bore.  Designed as a lower-recoil alternative to 12 gauge shotguns, it is light and easy to manufacture.",
+    "//": "remove shotgun variants",
+    "variants": [  ],
     "weight": "2948 g",
     "volume": "1748 ml",
     "longest_side": "1152 mm",

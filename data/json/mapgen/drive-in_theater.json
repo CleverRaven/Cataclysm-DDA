@@ -154,8 +154,8 @@
         { "vehicle": "parking_garage", "chance": 20, "x": 105, "y": 51, "rotation": 0 }
       ],
       "items": {
-        "a": { "item": "SUS_trash_trashcan", "chance": 60 },
-        "&": { "item": "SUS_trash_trashcan", "chance": 60 },
+        "a": { "item": "SUS_trash_trashcan_public", "chance": 60 },
+        "&": { "item": "SUS_trash_trashcan_public", "chance": 60 },
         "O": { "item": "SUS_oven", "chance": 100 },
         "M": { "item": "SUS_fridge_snacks", "chance": 75, "repeat": [ 2, 4 ] },
         "m": { "item": "groce_softdrink", "chance": 75, "repeat": [ 5, 10 ] },
@@ -198,7 +198,7 @@
       ],
       "palettes": [ "car_theater" ],
       "items": {
-        "&": { "item": "SUS_trash_trashcan", "chance": 60 },
+        "&": { "item": "SUS_trash_trashcan_public", "chance": 60 },
         "d": { "item": "SUS_office_desk", "chance": 25, "repeat": [ 1, 2 ] },
         "i": { "item": "SUS_office_filing_cabinet", "chance": 50 }
       },

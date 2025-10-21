@@ -141,6 +141,42 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_CLAIR_EXAMINE_ITEM_INITIATE",
+    "effect": [
+      {
+        "u_run_inv_eocs": "manual",
+        "true_eocs": [
+          {
+            "id": "EOC_CLAIR_EXAMINE_ITEM_DETECTION",
+            "effect": [
+              { "math": [ "_artifact_resonance = n_artifact_resonance()" ] },
+              {
+                "math": [ "_resonance_modifier = min( (u_spell_level('clair_examine_item') + u_spell_level('clair_examine_item_knack')),10)" ]
+              },
+              { "math": [ "_resonance_modifier = (10 - _resonance_modifier) / 50" ] },
+              {
+                "math": [ "_artifact_resonance = _artifact_resonance * rng( ( 1 - _resonance_modifier), (1 + _resonance_modifier) )" ]
+              },
+              {
+                "if": { "math": [ "_artifact_resonance > 0" ] },
+                "then": {
+                  "u_message": "The strange object has an otherworldly resonance about it (about <color_light_cyan><context_val:artifact_resonance></color> resonance )."
+                }
+              },
+              {
+                "if": { "npc_has_flag": "FIFTH_SUN_TECHNOLOGY" },
+                "then": {
+                  "u_message": "You have a sense of vast distances from this object, as though it came from a place you would never find on any map.  For a moment, you see an eagle stooping over a snake, wings flashing in the sun, and a vast shape moving through the void between the stars."
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_CLAIR_CRAFTING_ADD_BLINDNESS_WHEN_CRAFTING",
     "eoc_type": "EVENT",
     "required_event": "character_starts_activity",
@@ -224,7 +260,7 @@
     "eoc_type": "EVENT",
     "required_event": "avatar_moves",
     "condition": { "u_has_effect": "effect_clair_astral_projection" },
-    "effect": [ { "math": [ "u_val('stamina')", "-=", "max((75 - (u_spell_level('clair_astral_projection') * 3)), 25)" ] } ]
+    "effect": [ { "math": [ "u_val('stamina') -= max((75 - (u_spell_level('clair_astral_projection') * 3)), 25)" ] } ]
   },
   {
     "type": "effect_on_condition",

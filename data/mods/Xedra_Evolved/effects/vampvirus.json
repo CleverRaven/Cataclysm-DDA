@@ -62,7 +62,9 @@
               { "u_lose_trait": "VAMPIRE_WEAKNESS_NEED_LIVING_BLOOD" },
               { "u_lose_trait": "VAMPIRE_WEAKNESS_NEED_HUMAN_BLOOD" },
               { "u_lose_trait": "VAMPIRE_WEAKNESS_BLOOD_CRAVING" },
+              { "u_lose_trait": "VAMPIRE_WEAKNESS_NO_FUN" },
               { "u_lose_effect": "vampire_need_living_blood" },
+              { "u_lose_morale": "morale_vw_no_fun" },
               { "math": [ "u_spell_level('vampire_magic_for_blood_spell') = -1" ] },
               { "math": [ "u_spell_level('spell_hypnotic_gaze') = -1" ] },
               { "math": [ "u_spell_level('vampire_command_beast_spell') = -1" ] },
@@ -615,20 +617,6 @@
       {
         "u_roll_remainder": [ "ANATHEMA_WEAKNESS_SUN_BURN", "ANATHEMA_WEAKNESS_MIND_CHAOS", "ANATHEMA_WEAKNESS_NEED_VAMPIRE_BLOOD" ],
         "type": "mutation"
-      },
-      {
-        "run_eocs": {
-          "id": "EOC_VAMPIRE_ANATHEMA_ADD_SUN_GRACE_PERIOD",
-          "//": "As suddenly gaining this weakness in the wild or otherwise away from shelter is a death sentence, its effects won't trigger instantly after gaining the weakness.",
-          "condition": { "u_has_trait": "ANATHEMA_WEAKNESS_SUN_BURN" },
-          "effect": [
-            {
-              "u_message": "You have a sudden feeling of dread.  In a few hours, the sun will burn you to a crisp if you ever stand under its unblocked rays.",
-              "type": "bad"
-            },
-            { "u_add_effect": "effect_sun_burn_grace_period", "intensity": 1, "duration": "5 hours" }
-          ]
-        }
       }
     ]
   },

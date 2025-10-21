@@ -110,7 +110,8 @@
                               "VAMPIRE_MOTION_ALARM",
                               "VAMPIRE_BONUS_HP",
                               "DHAMPIR_REDUCED_PAIN",
-                              "DHAMPIR_MEND_WOUNDS_FASTER"
+                              "DHAMPIR_MEND_WOUNDS_FASTER",
+                              "DHAMPIR_AVOID_EAT_SLEEP_DRINK"
                             ],
                             "type": "mutation",
                             "true_eocs": [ "EOC_DHAMPIR_GAIN_NEW_POWER_MESSAGE", "EOC_DHAMPIR_GAIN_NEW_POWER_RESET_VALUE", "EOC_DHAMPIR_GAIN_WEAKNESSES_TIER_3" ],
@@ -136,7 +137,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_DHAMPIR_GAIN_NEW_WEAKNESS_MESSAGE",
-    "effect": [ { "u_message": "You use of your vampiric powers has caused you to gain a new frailty.", "type": "bad" } ]
+    "effect": [ { "u_message": "Your use of your vampiric powers has caused you to gain a new frailty.", "type": "bad" } ]
   },
   {
     "type": "effect_on_condition",
@@ -186,7 +187,8 @@
           "DHAMPIR_WEAKNESS_BLOODTHIRST",
           "DHAMPIR_WEAKNESS_OVERWHELMING_ARROGANCE",
           "DHAMPIR_WEAKNESS_SLOWER_BLOOD_GAIN",
-          "DHAMPIR_WEAKNESS_LOWER_KCAL_FROM_FOOD"
+          "DHAMPIR_WEAKNESS_LOWER_KCAL_FROM_FOOD",
+          "DHAMPIR_WEAKNESS_BURNED_BY_THE_SUN"
         ],
         "type": "mutation",
         "true_eocs": [ "EOC_DHAMPIR_GAIN_NEW_WEAKNESS_MESSAGE" ],
@@ -210,6 +212,137 @@
       },
       { "u_add_effect": "effect_dhampir_bloodlust_cravings", "duration": { "math": [ "rng(10800,21600)" ] } },
       { "u_message": "Crimson clouds your vision as you are overcome with an urge to drink blood.", "type": "bad" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DHAMPIR_FANGS_activated",
+    "effect": [ { "math": [ "u_spell_level('vampire_drink_blood_with_fangs_spell') = 0" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DHAMPIR_FANGS_deactivated",
+    "effect": [ { "math": [ "u_spell_level('vampire_drink_blood_with_fangs_spell') = -1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DHAMPIR_AVOID_EAT_SLEEP_DRINK_activated",
+    "condition": { "math": [ "u_vitamin('human_blood_vitamin') > 0" ] },
+    "effect": [
+      { "math": [ "u_dhampir_avoid_eat_sleep_drink_counter = 0" ] },
+      { "math": [ "u_dhampir_avoid_eat_sleep_drink_long_counter = 0" ] }
+    ],
+    "false_effect": [
+      { "u_message": "You have not enough power in your blood to sustain yourself.", "type": "bad" },
+      { "run_eocs": "EOC_DHAMPIR_AVOID_EAT_SLEEP_DRINK_deactivate_future", "time_in_future": 0 }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DHAMPIR_AVOID_EAT_SLEEP_DRINK_deactivate_future",
+    "//": "This is necessary because calling u_deactivate_trait from within the trait EoC does not work",
+    "effect": { "u_deactivate_trait": "DHAMPIR_AVOID_EAT_SLEEP_DRINK" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DHAMPIR_AVOID_EAT_SLEEP_DRINK_periodic",
+    "effect": [
+      { "math": [ "u_dhampir_avoid_eat_sleep_drink_counter", "++" ] },
+      { "math": [ "u_dhampir_avoid_eat_sleep_drink_long_counter", "++" ] },
+      {
+        "if": {
+          "and": [
+            "u_is_outside",
+            "is_day",
+            { "or": [ { "is_weather": "sunny" }, { "is_weather": "clear" } ] },
+            {
+              "or": [
+                { "math": [ "(u_dhampir_avoid_eat_sleep_drink_counter / 15) == 1" ] },
+                { "math": [ "(u_dhampir_avoid_eat_sleep_drink_counter / 15) == 2" ] },
+                { "math": [ "(u_dhampir_avoid_eat_sleep_drink_counter / 15) == 3" ] }
+              ]
+            }
+          ]
+        },
+        "then": [ { "math": [ "u_vitamin('human_blood_vitamin') --" ] } ]
+      },
+      {
+        "if": { "math": [ "(u_dhampir_avoid_eat_sleep_drink_counter / 60) == 1" ] },
+        "then": [
+          { "math": [ "u_vitamin('human_blood_vitamin') --" ] },
+          { "math": [ "u_dhampir_avoid_eat_sleep_drink_counter = 0" ] },
+          { "if": { "math": [ "u_calories()", "<", "118000" ] }, "then": { "math": [ "u_calories() += 2" ] } },
+          { "math": [ "u_val('sleep_deprivation') = 0" ] }
+        ]
+      },
+      {
+        "if": { "math": [ "u_vitamin('human_blood_vitamin') <= 0" ] },
+        "then": { "run_eocs": "EOC_DHAMPIR_AVOID_EAT_SLEEP_DRINK_deactivate_future", "time_in_future": 0 }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DHAMPIR_AVOID_EAT_SLEEP_DRINK_deactivated",
+    "effect": [
+      {
+        "u_message": "You feel a wave of tiredness as you allow mortal needs to assert their will once again.",
+        "type": "bad"
+      },
+      { "math": [ "u_val('sleepiness') += min( (u_dhampir_avoid_eat_sleep_drink_long_counter / 200), 700)" ] },
+      { "math": [ "u_calories() -= min( (u_dhampir_avoid_eat_sleep_drink_long_counter * 0.06), 10000)" ] },
+      {
+        "math": [
+          "u_calories('dont_affect_weariness': true)",
+          "+=",
+          "min( (u_dhampir_avoid_eat_sleep_drink_long_counter * 0.06), 10000)"
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DHAMPIR_BLEED_STOLEN_BLOOD",
+    "//": "Vampires fill their veins with others' blood.  Dhampirs fill their own blood with power, so they lose a little of both.",
+    "//2": "If they don't have empowerment, they only lose regular blood.",
+    "//3": "When possible, make the effect below require less lines.",
+    "condition": {
+      "and": [
+        { "u_has_trait": "DHAMPIR_TRAIT" },
+        {
+          "or": [
+            { "math": [ "u_effect_intensity('bleed', 'bodypart': 'arm_l') >= 1" ] },
+            { "math": [ "u_effect_intensity('bleed', 'bodypart': 'arm_r') >= 1" ] },
+            { "math": [ "u_effect_intensity('bleed', 'bodypart': 'leg_l') >= 1" ] },
+            { "math": [ "u_effect_intensity('bleed', 'bodypart': 'leg_r') >= 1" ] },
+            { "math": [ "u_effect_intensity('bleed', 'bodypart': 'torso') >= 1" ] },
+            { "math": [ "u_effect_intensity('bleed', 'bodypart': 'head') >= 1" ] }
+          ]
+        },
+        { "math": [ "u_vitamin('human_blood_vitamin') > 0" ] }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('blood') += u_effect_intensity('bleed', 'bodypart': 'arm_l') * 2" ] },
+      { "math": [ "u_vitamin('blood') += u_effect_intensity('bleed', 'bodypart': 'arm_r') * 2" ] },
+      { "math": [ "u_vitamin('blood') += u_effect_intensity('bleed', 'bodypart': 'leg_l') * 2" ] },
+      { "math": [ "u_vitamin('blood') += u_effect_intensity('bleed', 'bodypart': 'leg_r') * 2" ] },
+      { "math": [ "u_vitamin('blood') += u_effect_intensity('bleed', 'bodypart': 'torso') * 2" ] },
+      { "math": [ "u_vitamin('blood') += u_effect_intensity('bleed', 'bodypart': 'head') * 2" ] },
+      { "math": [ "u_vitamin('redcells') += u_effect_intensity('bleed', 'bodypart': 'arm_l') * 2" ] },
+      { "math": [ "u_vitamin('redcells') += u_effect_intensity('bleed', 'bodypart': 'arm_r') * 2" ] },
+      { "math": [ "u_vitamin('redcells') += u_effect_intensity('bleed', 'bodypart': 'leg_l') * 2" ] },
+      { "math": [ "u_vitamin('redcells') += u_effect_intensity('bleed', 'bodypart': 'leg_r') * 2" ] },
+      { "math": [ "u_vitamin('redcells') += u_effect_intensity('bleed', 'bodypart': 'torso') * 2" ] },
+      { "math": [ "u_vitamin('redcells') += u_effect_intensity('bleed', 'bodypart': 'head') * 2" ] },
+      { "math": [ "u_vitamin('human_blood_vitamin') -= u_effect_intensity('bleed', 'bodypart': 'arm_l') * 2" ] },
+      { "math": [ "u_vitamin('human_blood_vitamin') -= u_effect_intensity('bleed', 'bodypart': 'arm_r') * 2" ] },
+      { "math": [ "u_vitamin('human_blood_vitamin') -= u_effect_intensity('bleed', 'bodypart': 'leg_l') * 2" ] },
+      { "math": [ "u_vitamin('human_blood_vitamin') -= u_effect_intensity('bleed', 'bodypart': 'leg_r') * 2" ] },
+      { "math": [ "u_vitamin('human_blood_vitamin') -= u_effect_intensity('bleed', 'bodypart': 'torso') * 2" ] },
+      { "math": [ "u_vitamin('human_blood_vitamin') -= u_effect_intensity('bleed', 'bodypart': 'head') * 2" ] },
+      { "u_message": "Your empowered blood is falling to the ground!", "type": "bad" },
+      { "run_eocs": "EOC_DHAMPIR_BLEED_STOLEN_BLOOD", "time_in_future": [ "10 s", "10 s" ] }
     ]
   }
 ]

@@ -10,7 +10,15 @@
     "coverage": 40,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "FUNGUS", "SHRUB", "SHORT", "GRAZER_INEDIBLE" ],
     "examine_action": "shrub_marloss",
-    "bash": { "str_min": 4, "str_max": 60, "sound": "crunch.", "sound_fail": "poof!", "ter_set": "t_fungus" }
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "poof!",
+      "ter_set": "t_fungus",
+      "hit_field": [ "fd_spores", 1 ],
+      "destroyed_field": [ "fd_fungal_splinters", 1 ]
+    }
   },
   {
     "type": "terrain",
@@ -27,7 +35,9 @@
       "ter_set": "t_null",
       "str_min": 20,
       "str_max": 400,
-      "str_min_supported": 50
+      "str_min_supported": 50,
+      "hit_field": [ "fd_spores", 1 ],
+      "destroyed_field": [ "fd_fungal_splinters", 1 ]
     }
   },
   {
@@ -41,7 +51,15 @@
     "move_cost": 2,
     "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "FUNGUS" ],
-    "bash": { "sound": "smash", "ter_set": "t_null", "str_min": 20, "str_max": 400, "str_min_supported": 50 }
+    "bash": {
+      "sound": "smash",
+      "ter_set": "t_null",
+      "str_min": 20,
+      "str_max": 400,
+      "str_min_supported": 50,
+      "hit_field": [ "fd_spores", 1 ],
+      "destroyed_field": [ "fd_fungal_splinters", 1 ]
+    }
   },
   {
     "type": "terrain",
@@ -53,7 +71,15 @@
     "color": "light_gray",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "SUPPORTS_ROOF", "FLAT", "FUNGUS" ],
-    "bash": { "sound": "smash", "ter_set": "t_null", "str_min": 20, "str_max": 400, "str_min_supported": 50 }
+    "bash": {
+      "sound": "smash",
+      "ter_set": "t_null",
+      "str_min": 20,
+      "str_max": 400,
+      "str_min_supported": 50,
+      "hit_field": [ "fd_spores", 1 ],
+      "destroyed_field": [ "fd_fungal_splinters", 1 ]
+    }
   },
   {
     "type": "terrain",
@@ -65,7 +91,15 @@
     "color": "light_gray",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "FLAT", "FUNGUS" ],
-    "bash": { "sound": "SMASH!", "ter_set": "t_null", "str_min": 20, "str_max": 400, "str_min_supported": 50 }
+    "bash": {
+      "sound": "SMASH!",
+      "ter_set": "t_null",
+      "str_min": 20,
+      "str_max": 400,
+      "str_min_supported": 50,
+      "hit_field": [ "fd_spores", 1 ],
+      "destroyed_field": [ "fd_fungal_splinters", 1 ]
+    }
   },
   {
     "type": "terrain",
@@ -79,7 +113,15 @@
     "connect_groups": "WALL",
     "connects_to": "WALL",
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "FUNGUS", "WALL", "REDUCE_SCENT", "MINEABLE" ],
-    "bash": { "str_min": 30, "str_max": 180, "sound": "crunch!", "sound_fail": "poof!", "ter_set": "t_fungus" }
+    "bash": {
+      "str_min": 30,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "poof!",
+      "ter_set": "t_fungus",
+      "hit_field": [ "fd_spores", 1 ],
+      "destroyed_field": [ "fd_fungal_splinters", 1 ]
+    }
   },
   {
     "type": "terrain",
@@ -93,7 +135,15 @@
     "connect_groups": "WALL",
     "connects_to": "WALL",
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "FUNGUS", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE" ],
-    "bash": { "str_min": 30, "str_max": 180, "sound": "crunch!", "sound_fail": "poof!", "ter_set": "t_fungus" }
+    "bash": {
+      "str_min": 30,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "poof!",
+      "ter_set": "t_fungus",
+      "hit_field": [ "fd_spores", 1 ],
+      "destroyed_field": [ "fd_fungal_splinters", 1 ]
+    }
   },
   {
     "type": "terrain",
@@ -104,7 +154,15 @@
     "color": "light_gray",
     "move_cost": 4,
     "flags": [ "TRANSPARENT", "THIN_OBSTACLE", "FLAMMABLE_ASH", "FUNGUS", "MOUNTABLE" ],
-    "bash": { "str_min": 10, "str_max": 70, "sound": "crunch!", "sound_fail": "poof!", "ter_set": "t_fungus" }
+    "bash": {
+      "str_min": 10,
+      "str_max": 70,
+      "sound": "crunch!",
+      "sound_fail": "poof!",
+      "ter_set": "t_fungus",
+      "hit_field": [ "fd_spores", 1 ],
+      "destroyed_field": [ "fd_fungal_splinters", 1 ]
+    }
   },
   {
     "type": "terrain",
@@ -126,7 +184,15 @@
       "SHORT",
       "GRAZER_INEDIBLE"
     ],
-    "bash": { "str_min": 4, "str_max": 60, "sound": "crunch.", "sound_fail": "poof!", "ter_set": "t_fungus" }
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "poof!",
+      "ter_set": "t_fungus",
+      "hit_field": [ "fd_spores", 1 ],
+      "destroyed_field": [ "fd_fungal_splinters", 1 ]
+    }
   },
   {
     "type": "terrain",
