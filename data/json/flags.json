@@ -499,6 +499,11 @@
     "//": "Like MYOPIC_IN_LIGHT, but can't be fixed by glasses."
   },
   {
+    "id": "BLOCK_SUPERNATURAL_HEALING",
+    "type": "json_flag",
+    "//": "Supernatural healing effects, like magical spells, do not work while you have this flag.  Does not block u_hp EoC effects"
+  },
+  {
     "id": "FILTHY",
     "type": "json_flag",
     "//": "Zombie-dropped clothing giving various penalties if Filthy mod is active.  Also CBMs harvested from zombies.",
@@ -2245,6 +2250,11 @@
     "id": "LEVITATION",
     "type": "json_flag",
     "info": "Allows movement in open air."
+  },
+  {
+    "id": "NO_BODY_HEAT",
+    "type": "json_flag",
+    "info": "The character produces no body heat and is not visible on infrared (for characters only, for monsters use the WARM flag to enable infrared visibility)."
   },
   {
     "id": "ALL_TERRAIN_NAVIGATION",

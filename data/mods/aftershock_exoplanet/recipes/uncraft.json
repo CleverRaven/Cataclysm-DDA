@@ -192,6 +192,46 @@
     ]
   },
   {
+    "result": "afs_ruined_laser_rifle",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "electronics",
+    "difficulty": 6,
+    "time": "50 m",
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 } ],
+    "using": [ [ "soldering_standard", 10 ], [ "electric_probing", 1 ] ],
+    "components": [
+      [ [ "scrap", 4 ] ],
+      [ [ "cable", 20 ] ],
+      [ [ "afs_optics_3", 1 ] ],
+      [ [ "afs_material_1", 5 ] ],
+      [ [ "afs_heat_1", 3 ] ],
+      [ [ "afs_energy_storage_2", 2 ] ],
+      [ [ "afs_energy_storage_3", 1 ] ],
+      [ [ "afs_heat_3", 1 ] ],
+      [ [ "afs_heat_2", 1 ] ]
+    ]
+  },
+  {
+    "result": "afs_ruined_laser_pistol",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "electronics",
+    "difficulty": 6,
+    "time": "40 m",
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 } ],
+    "using": [ [ "soldering_standard", 10 ], [ "electric_probing", 1 ] ],
+    "components": [
+      [ [ "scrap", 2 ] ],
+      [ [ "cable", 20 ] ],
+      [ [ "afs_optics_3", 1 ] ],
+      [ [ "afs_material_1", 1 ] ],
+      [ [ "afs_heat_1", 2 ] ],
+      [ [ "afs_energy_storage_2", 1 ] ],
+      [ [ "afs_heat_2", 1 ] ]
+    ]
+  },
+  {
     "result": "broken_utilibot_butler",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",

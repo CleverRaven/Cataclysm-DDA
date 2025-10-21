@@ -97,7 +97,7 @@
     "subtype": "hobby",
     "id": "newly_clairsentient",
     "name": "Newly-Awakened Clairsentient",
-    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You can read much faster and can see much better in the dark, and even in total darkness you no longer have any hesitation about moving.  At least once you avoided zombies on the other side of a wall that you didn't hear and couldn't see, but you, you just knew they were there.",
+    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You can read much faster and your senses are much sharper; you've been able to hear a zombie scratching at a front door from outside and across the street.  At least once you avoided zombies on the other side of a wall that you didn't hear and couldn't see, but you just knew they were there.  Maybe you felt the vibrations of their movement.",
     "points": 5,
     "traits": [ "CLAIRSENTIENT", "CLAIR_SENSES" ],
     "chargen_allow_npc": false

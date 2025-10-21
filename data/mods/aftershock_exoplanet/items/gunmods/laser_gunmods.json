@@ -1,13 +1,39 @@
 [
   {
+    "id": "beam_scatterer",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
+    "copy-from": "beam_scatterer",
+    "name": { "str": "beam scatterer" },
+    "description": "A set of optics made to fit on laser weapons, which will diffract the laser beam into several lower powered beams.  This increases point-blank damage, but greatly reduces range.",
+    "damage_modifier": { "damage_type": "afs_laser", "amount": 10 },
+    "ammo_to_fire_multiplier": 1.2,
+    "price_postapoc": "850 USD",
+    "price": "850 USD"
+  },
+  {
+    "id": "focusing_lens",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
+    "copy-from": "focusing_lens",
+    "name": { "str": "focusing lens", "str_pl": "focusing lenses" },
+    "description": "A set of optics to concentrate the laser beam on a smaller focus point.  This increases range and damage output, but complicates targeting.",
+    "damage_modifier": { "damage_type": "afs_laser", "amount": 3 },
+    "ammo_to_fire_multiplier": 1.2,
+    "price_postapoc": "850 USD",
+    "price": "850 USD"
+  },
+  {
     "id": "electrolaser_conversion",
     "type": "ITEM",
     "subtypes": [ "GUNMOD" ],
     "copy-from": "electrolaser_conversion",
     "name": { "str": "electrolaser conversion" },
     "description": "A set of high-tech electronics and optics.  This converts a laser pistol into a less-lethal electrolaser capable of stunning targets, at the cost of decreased damage output and increased power consumption.",
-    "damage_modifier": { "damage_type": "heat", "amount": -4 },
-    "ammo_to_fire_multiplier": 1.2
+    "damage_modifier": { "damage_type": "afs_laser", "amount": -4 },
+    "ammo_to_fire_multiplier": 1.2,
+    "price_postapoc": "1550 USD",
+    "price": "1550 USD"
   },
   {
     "id": "effective_emitter",
@@ -16,7 +42,9 @@
     "copy-from": "effective_emitter",
     "name": { "str": "effective emitter" },
     "description": "A set of electronics to optimize emitter workcycle and increase overall energy efficiency.  Decreases power consumption.",
-    "ammo_to_fire_multiplier": 0.9
+    "ammo_to_fire_multiplier": 0.9,
+    "price_postapoc": "850 USD",
+    "price": "850 USD"
   },
   {
     "id": "high_density_capacitor",
@@ -25,7 +53,9 @@
     "copy-from": "high_density_capacitor",
     "name": { "str": "high density capacitor" },
     "description": "A capacitor with a higher energy density increases range and damage, at the cost of doubling power consumption.",
-    "damage_modifier": { "damage_type": "heat", "amount": 10 },
-    "ammo_to_fire_multiplier": 2.0
+    "damage_modifier": { "damage_type": "afs_laser", "amount": 6 },
+    "ammo_to_fire_multiplier": 2.0,
+    "price_postapoc": "1550 USD",
+    "price": "1550 USD"
   }
 ]

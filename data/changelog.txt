@@ -366,6 +366,7 @@ Move vehicle part locations to JSON
 Begin moving faction mission definitions to JSON, starting with descriptions
 New book artifact types.
 Better feedback on planting failures + plants need sunlight
+Add NO_BODY_HEAT flag for characters who don't show up on infrared
 
 
 ## Interface:
@@ -491,6 +492,7 @@ Construction interface shows prerequisite furniture/terrain flags
 Default android sidebar changed to sidebar-mobile
 Present dispersion as MOA in item UI
 Hide overmap display's 'land use code' behind debug mode
+Show progress percent when butchering
 
 
 ## Mods:
@@ -1406,6 +1408,10 @@ fix zones disabling on save/load
 Fix enchantment cache load issue (If your save didn't load right hopefully it will now)
 Fix being unable to place traps
 Fix terrain not being recognized in palettes based on loading order
+Fix spawning map extras with non-default region settings
+Fix fishing on non river/lake/ocean tiles
+Fix roads going nowhere
+Prevent segfault when cancelling butchery
 
 
 ## Performance:
@@ -1585,6 +1591,8 @@ zzip.exe: a tool for manipulating compressed save 'zzip' files.
 travel to seperate world instances within the same save file
 region settings overhaul
 Consume_drug use actions can define intensity for their effect
+Allowing inverting lake generation for islands-style overmaps
+Add debug command to print overmap noise maps
 
 
 ## Build:
