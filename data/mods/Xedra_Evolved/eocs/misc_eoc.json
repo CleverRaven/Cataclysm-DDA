@@ -473,8 +473,10 @@
       ]
     },
     "effect": [
-      { "math": [ "u_vitamin('blood') += 1000" ] },
-      { "math": [ "u_vitamin('redcells') += 1000" ] },
+      {
+        "if": { "not": { "u_has_trait": "BLOODTHORNE_DRUID_SYMBIOTIC_PLANT" } },
+        "then": [ { "math": [ "u_vitamin('blood') += 1000" ] }, { "math": [ "u_vitamin('redcells') += 1000" ] } ]
+      },
       {
         "foreach": "array",
         "target": [ "arm_l", "arm_r", "leg_l", "leg_r", "torso", "head" ],
