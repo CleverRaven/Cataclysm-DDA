@@ -178,7 +178,9 @@
           {
             "value": "MOTION_ALARM",
             "add": {
-              "math": [ "max( ( ( 3 + ( u_spell_level('clair_danger_sense') * 0.5  ) * (scaling_factor(u_val('intelligence') ) ) ) ), 25)" ]
+              "math": [
+                "max( ( ( 3 + ( u_spell_level('afs_precog_danger_sense') * 0.5  ) * (scaling_factor(u_val('intelligence') ) ) ) ), 25)"
+              ]
             }
           }
         ]

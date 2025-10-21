@@ -780,7 +780,7 @@
       { "id": "afs_precog_damage_foresee", "level": 6 },
       { "id": "afs_precog_ranged_enhance", "level": 6 },
       { "id": "afs_precog_craft_bonus", "level": 5 },
-      { "id": "afs_precog_esper_dodge", "level": 3 }
+      { "id": "afs_precog_dodge_bonus", "level": 3 }
     ],
     "proficiencies": [ "prof_concentration_basic" ],
     "items": {

@@ -5,7 +5,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_PRACTICE",
     "subcategory": "CSC_PRACTICE_PSI",
-    "name": "[Ψ]practice: precogniiion",
+    "name": "[Ψ]practice: precognition",
     "description": "Recipes related to practicing precognition.",
     "skill_used": "metaphysics",
     "nested_category_data": [
@@ -16,7 +16,7 @@
       "practice_afs_precog_dodge_bonus",
       "practice_afs_precog_melee_enhance"
     ],
-    "difficulty": 1
+    "difficulty": 10
   },
   {
     "type": "recipe",
