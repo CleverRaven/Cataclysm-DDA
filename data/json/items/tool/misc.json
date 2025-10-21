@@ -1217,6 +1217,7 @@
     "price_postapoc": "1 cent",
     "material": [ "plastic" ],
     "symbol": "p",
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "melee_damage": { "bash": 1 }
   }
 ]
