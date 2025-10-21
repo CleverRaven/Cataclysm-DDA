@@ -3705,7 +3705,8 @@ std::unordered_set<tripoint_bub_ms> game::get_fishable_locations_bub( int distan
     // to determine if any fishable monsters are in those locations.
     return ff::point_flood_fill_4_connected<std::unordered_set>( fish_pos, visited, [&here,
     &fishing_boundaries]( const tripoint_bub_ms & p ) {
-        return !fishing_boundaries.contains( p ) && here.has_flag( ter_furn_flag::TFLAG_FISHABLE, p );
+        return fishing_boundaries.contains( p ) && here.inbounds( p ) &&
+               here.has_flag( ter_furn_flag::TFLAG_FISHABLE, p );
     } );
 }
 
@@ -8515,6 +8516,11 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint_bub_ms &dest_l
         return u.immune_to( bp, { damage_cut, 10 } );
     };
 
+    // For future reference... It turns out that 78 is exactly the dex required to avoid all damage at the function call used elsewhere.
+    // That function call is:
+    // x_in_y(1+u.dex_cur/2, 40)
+    const int magic_number_78 = 78;
+
     if( here.has_flag( ter_furn_flag::TFLAG_ROUGH, dest_loc ) &&
         !here.has_flag( ter_furn_flag::TFLAG_ROUGH, u.pos_bub() ) &&
         !u.has_flag( json_flag_ALL_TERRAIN_NAVIGATION ) &&
@@ -8526,7 +8532,7 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint_bub_ms &dest_l
                !here.has_flag( ter_furn_flag::TFLAG_SHARP, u.pos_bub() ) &&
                !u.has_flag( json_flag_ALL_TERRAIN_NAVIGATION ) &&
                !( u.in_vehicle || here.veh_at( dest_loc ) ) &&
-               u.dex_cur < 78 &&
+               u.dex_cur < magic_number_78 &&
                !( u.is_mounted() &&
                   u.mounted_creature->get_armor_type( damage_cut, bodypart_id( "torso" ) ) >= 10 ) &&
                !std::all_of( sharp_bps.begin(), sharp_bps.end(), sharp_bp_check ) ) {

@@ -62,5 +62,38 @@
     "show_in_info": true,
     "enchantments": [ { "incoming_damage_mod": [ { "type": "nether", "multiply": -1 }, { "type": "bullet", "multiply": -0.8 } ] } ],
     "base_mods": { "dodge_mod": [ 1 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_migo_fleshwarper_block_healing",
+    "name": [ "Writhing Flesh" ],
+    "desc": [ "Your flesh twitches and wriggles unnaturally." ],
+    "apply_message": "Your flesh twitches and wriggles!",
+    "remove_message": "Your flesh finally settles down.",
+    "rating": "bad",
+    "max_duration": "7 days",
+    "show_in_info": true,
+    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": -0.75 } ] } ],
+    "flags": [ "BLOCK_SUPERNATURAL_HEALING" ]
+  },
+  {
+    "id": "effect_migo_enhance_flesh_monster",
+    "type": "effect_type",
+    "name": [ "Enhance Flesh" ],
+    "desc": [ "Your speed and physical damage resistance are enhanced." ],
+    "rating": "good",
+    "max_duration": "12 hours",
+    "show_in_info": true,
+    "enchantments": [
+      {
+        "incoming_damage_mod": [
+          { "type": "bash", "multiply": -0.2 },
+          { "type": "cut", "multiply": -0.2 },
+          { "type": "stab", "multiply": -0.2 },
+          { "type": "acid", "multiply": -0.8 }
+        ]
+      },
+      { "values": [ { "value": "SPEED", "multiply": 0.15 } ] }
+    ]
   }
 ]
