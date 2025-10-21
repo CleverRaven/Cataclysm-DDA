@@ -4998,7 +4998,7 @@ static bool heat_item( Character &p )
 
 std::optional<int> iuse::heatpack( Character *p, item *it, const tripoint_bub_ms & )
 {
-    if( heat_item( *p ) ) {
+    if( heat_solid_items( p, it, p->pos_bub() ) ) {
         it->convert( itype_heatpack_used, p );
     }
     return 0;
@@ -5007,11 +5007,11 @@ std::optional<int> iuse::heatpack( Character *p, item *it, const tripoint_bub_ms
 std::optional<int> iuse::heat_food( Character *p, item *it, const tripoint_bub_ms & )
 {
     if( get_map().has_nearby_fire( p->pos_bub() ) ) {
-        heat_item( *p );
+        heat_solid_items( p, it, p->pos_bub() );
         return 0;
     } else if( p->has_active_bionic( bio_tools ) && p->get_power_level() > 10_kJ &&
                query_yn( _( "There is no fire around; use your integrated toolset instead?" ) ) ) {
-        if( heat_item( *p ) ) {
+        if( heat_solid_items( p, it, p->pos_bub() ) ) {
             p->mod_power_level( -10_kJ );
             return 0;
         }
@@ -5033,7 +5033,7 @@ std::optional<int> iuse::hotplate( Character *p, item *it, const tripoint_bub_ms
         return std::nullopt;
     }
 
-    if( heat_item( *p ) ) {
+    if( heat_solid_items( p, it, p->pos_bub() ) ) {
         return 1;
     }
     return std::nullopt;
@@ -5045,7 +5045,7 @@ std::optional<int> iuse::hotplate_atomic( Character *p, item *it, const tripoint
         return std::nullopt;
     }
     if( it->typeId() == itype_atomic_coffeepot ) {
-        heat_item( *p );
+        heat_solid_items( p, it, p->pos_bub() );
     }
 
     return std::nullopt;
