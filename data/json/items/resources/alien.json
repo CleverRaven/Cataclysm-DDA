@@ -199,6 +199,7 @@
     "price": "50 USD",
     "price_postapoc": "1 USD",
     "material": [ "aluminum" ],
+    "flags": [ "DAMAGE_VEHICLE_WHEELS" ],
     "symbol": "#",
     "color": "light_gray"
   },
@@ -213,6 +214,7 @@
     "price": "10 USD",
     "price_postapoc": "50 cent",
     "material": [ "plastic" ],
+    "flags": [ "DAMAGE_VEHICLE_WHEELS" ],
     "symbol": "#",
     "color": "white"
   },
@@ -242,6 +244,7 @@
     "price": "20 USD",
     "price_postapoc": "80 cent",
     "material": [ "tin" ],
+    "flags": [ "DAMAGE_VEHICLE_WHEELS" ],
     "symbol": "#",
     "color": "white"
   },
@@ -256,6 +259,7 @@
     "price": "80 USD",
     "price_postapoc": "3 USD",
     "material": [ "copper" ],
+    "flags": [ "DAMAGE_VEHICLE_WHEELS" ],
     "symbol": "#",
     "color": "light_green"
   },
@@ -270,6 +274,7 @@
     "price": "10 USD",
     "price_postapoc": "20 cent",
     "material": [ "zinc" ],
+    "flags": [ "DAMAGE_VEHICLE_WHEELS" ],
     "symbol": "#",
     "color": "white"
   },
@@ -284,6 +289,7 @@
     "price": "90 USD",
     "price_postapoc": "4 USD",
     "material": [ "lead" ],
+    "flags": [ "DAMAGE_VEHICLE_WHEELS" ],
     "symbol": "#",
     "color": "dark_gray"
   },
