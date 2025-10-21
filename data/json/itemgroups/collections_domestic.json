@@ -293,7 +293,7 @@
       [ "hairbrush", 5 ],
       { "group": "pillbox_any_used", "prob": 10 },
       { "item": "home_picture", "prob": 50 },
-      { "group": "sex_accessories_domestic", "prob": 40 }
+      { "group": "sex_accessories_domestic", "prob": 20 }
     ]
   },
   {
