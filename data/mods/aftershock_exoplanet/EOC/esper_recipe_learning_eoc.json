@@ -144,14 +144,6 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_AFS_TELEKINETIC_RECIPE_TEACHER",
-    "eoc_type": "EVENT",
-    "required_event": "game_begin",
-    "condition": { "u_has_trait": "AFS_TELEKINETIC" },
-    "effect": [ { "run_eocs": "EOC_TEACH_AFS_TELEKINETIC_CONTEMPLATE_RECIPES" } ]
-  },
-  {
-    "type": "effect_on_condition",
     "id": "EOC_TEACH_AFS_TELEKINETIC_CONTEMPLATE_RECIPES",
     "effect": [
       {

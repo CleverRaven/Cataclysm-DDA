@@ -22,7 +22,6 @@
     "max_duration": {
       "math": [ "( (u_spell_level('afs_electrokinetic_see_electric') * 30000) + 180000) * (scaling_factor(u_val('intelligence') ) )" ]
     },
-    "magic_type": "aftershock_psionics",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_electrokin_see_electricity') > -1 ? 0 : max((2000 - (u_spell_level('afs_electrokinetic_see_electric') * 75)), 750)"
