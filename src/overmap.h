@@ -847,6 +847,8 @@ class overmap
         //gets border OMT points of this overmap in cardinal direction
         std::vector<tripoint_om_omt> get_border( const point_rel_om &direction, int z,
                 int distance_corner );
+        std::vector<tripoint_om_omt> get_border( om_direction::type direction, int z,
+                int distance_corner );
         //gets border OMT points of the neighboring overmap in cardinal direction
         std::vector<tripoint_om_omt> get_neighbor_border( const point_rel_om &direction, int z,
                 int distance_corner );

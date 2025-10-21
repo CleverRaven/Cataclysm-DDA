@@ -3,85 +3,88 @@
     "id": "mon_mi_go_fleshwarper",
     "type": "MONSTER",
     "name": { "str": "mi-go fleshwarper" },
+    "copy-from": "mon_mi_go",
     "description": "An alien creature of uncertain origin.  Its shapeless pink body bears numerous sets of paired appendages of unknown function, and a pair of ribbed, membranous wings which seem to be quite useless.  Its odd, vaguely pyramid-shaped head bristles with numerous wavering antennae, and it moves with an uncanny fluidity on its many legs.  Its flesh occasionally ripples, as though something inside was squirming and trying to get free.",
-    "default_faction": "mi-go",
-    "bodytype": "migo",
-    "species": [ "MIGO" ],
-    "looks_like": "mon_mi_go",
     "volume": "92500 ml",
     "weight": "120 kg",
     "hp": 240,
-    "speed": 135,
-    "diff": 50,
-    "//": "Speed (and armor values and regeneration) assume additional protective spells",
-    "material": [ "mi-go_flesh" ],
-    "symbol": "&",
-    "color": "pink",
-    "aggression": 20,
+    "diff": 25,
     "morale": 35,
     "melee_skill": 6,
-    "melee_dice": 4,
-    "melee_dice_sides": 6,
-    "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-    "dodge": 4,
-    "regenerates": 2,
+    "regenerates": 0,
+    "regeneration_modifiers": [ [ "effect_migo_enhance_flesh_monster", 2 ] ],
     "bleed_rate": 50,
-    "vision_day": 50,
-    "vision_night": 20,
-    "harvest": "mi-go",
-    "weakpoint_sets": [ "wps_mi-go", "wps_natural_armor" ],
-    "families": [ "prof_wp_mi-go_basic", "prof_wp_mi-go_advanced", "prof_wp_nat_armored" ],
-    "path_settings": { "max_dist": 50, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
-    "scents_ignored": [ "sc_fetid" ],
-    "special_attacks": [
-      [ "PARROT", 100 ],
-      {
-        "id": "scratch",
-        "damage_max_instance": [ { "damage_type": "cut", "amount": 16, "armor_multiplier": 0.8 } ],
-        "effects": [ { "id": "effect_flesh_rending", "duration": 10, "affect_hit_bp": true } ]
-      },
-      {
-        "id": "migo_fleshwarper_blood_spell",
-        "type": "spell",
-        "spell_data": { "id": "migo_fleshwarper_blood_poison_spell", "min_level": 5 },
-        "cooldown": 20,
-        "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-        "monster_message": "%1$s's numerous antennae move rhythmically for a moment."
-      },
-      {
-        "id": "migo_fleshwarper_cure_spell",
-        "type": "spell",
-        "spell_data": { "id": "monster_heal_spell", "hit_self": true, "min_level": 15 },
-        "cooldown": 30,
-        "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-        "monster_message": "%1$s's numerous antennae twitch in all directions for a moment."
-      },
-      {
-        "id": "migo_fleshwarper_mutate_spell",
-        "type": "spell",
-        "spell_data": { "id": "migo_fleshwarper_mutate", "min_level": 1 },
-        "cooldown": 50,
-        "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-        "monster_message": "As %1$s touches %3$s, the flesh warps and twists!"
-      }
-    ],
-    "flags": [
-      "SEES",
-      "SMELLS",
-      "HEARS",
-      "HAS_MIND",
-      "WARM",
-      "BASHES",
-      "POISON",
-      "NO_BREATHE",
-      "MAGIC_USER",
-      "ARTHROPOD_BLOOD",
-      "PATH_AVOID_DANGER",
-      "CAN_OPEN_DOORS",
-      "PRIORITIZE_TARGETS",
-      "CORNERED_FIGHTER"
-    ],
-    "armor": { "bash": 15, "cut": 20, "stab": 10, "bullet": 10, "electric": 3, "acid": 40 }
+    "extend": {
+      "flags": [ "MAGIC_USER" ],
+      "special_attacks": [
+        {
+          "id": "migo_fleshwarper_blood_spell",
+          "type": "spell",
+          "spell_data": { "id": "migo_fleshwarper_blood_poison_spell", "min_level": 5 },
+          "cooldown": 20,
+          "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+          "monster_message": "%1$s's numerous antennae move rhythmically for a moment."
+        },
+        {
+          "id": "migo_fleshwarper_cure_spell",
+          "type": "spell",
+          "spell_data": { "id": "monster_heal_spell", "hit_self": true, "min_level": 15 },
+          "cooldown": 30,
+          "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+          "monster_message": "%1$s's numerous antennae twitch in all directions for a moment."
+        },
+        {
+          "id": "migo_fleshwarper_mutate_spell",
+          "type": "spell",
+          "spell_data": { "id": "migo_fleshwarper_mutate", "min_level": 1 },
+          "cooldown": 50,
+          "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+          "monster_message": "As %1$s touches %3$s, the flesh warps and twists!"
+        },
+        {
+          "id": "migo_fleshwarper_block_healing_spell",
+          "type": "spell",
+          "spell_data": { "id": "migo_fleshwarper_block_healing", "min_level": 2 },
+          "cooldown": { "math": [ "12 + rand(25)" ] },
+          "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+          "monster_message": "%1$s's numerous antennae synch and point at %3$s."
+        },
+        {
+          "id": "migo_fleshwarper_enhance_flesh_spell",
+          "type": "spell",
+          "spell_data": { "id": "migo_enhance_flesh_monster", "hit_self": true, "min_level": 1 },
+          "cooldown": 50,
+          "condition": {
+            "and": [ { "not": { "u_has_effect": "effect_migo_enhance_flesh_monster" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ]
+          },
+          "monster_message": "%1$s's numerous antennae sync their movements for a brief moment."
+        },
+        {
+          "type": "monster_attack",
+          "attack_type": "melee",
+          "id": "migo_fleshwarper_enhance_flesh_initial",
+          "//": "fake attack, allowing the mi-go to put up Enhance Flesh immediately",
+          "cooldown": 1,
+          "move_cost": 80,
+          "dodgeable": false,
+          "blockable": false,
+          "uncanny_dodgeable": false,
+          "range": 50,
+          "self_effects_always": [
+            { "id": "effect_migo_enhance_flesh_monster", "duration": 50 },
+            { "id": "effect_monster_no_double_cast", "duration": 8000 }
+          ],
+          "effects_require_dmg": false,
+          "condition": { "not": { "u_has_effect": "effect_monster_no_double_cast" } },
+          "hit_dmg_u": "%1$s's numerous antennae sync their movements for a brief moment.",
+          "hit_dmg_npc": "%1$s's numerous antennae sync their movements for a brief moment.",
+          "miss_msg_u": "%1$s's numerous antennae sync their movements for a brief moment.",
+          "miss_msg_npc": "%1$s's numerous antennae sync their movements for a brief moment.",
+          "no_dmg_msg_u": "%1$s's numerous antennae sync their movements for a brief moment.",
+          "no_dmg_msg_npc": "%1$s's numerous antennae sync their movements for a brief moment."
+        }
+      ]
+    }
   },
   {
     "id": "mon_mi_go_nethermancer",

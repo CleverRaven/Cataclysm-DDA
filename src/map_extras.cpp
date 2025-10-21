@@ -58,7 +58,6 @@ static const furn_str_id furn_f_beach_seaweed( "f_beach_seaweed" );
 static const furn_str_id furn_f_boulder_large( "f_boulder_large" );
 static const furn_str_id furn_f_boulder_medium( "f_boulder_medium" );
 static const furn_str_id furn_f_boulder_small( "f_boulder_small" );
-static const furn_str_id furn_f_broken_boat( "f_broken_boat" );
 static const furn_str_id furn_f_cattails( "f_cattails" );
 static const furn_str_id furn_f_crate_c( "f_crate_c" );
 static const furn_str_id furn_f_lilypad( "f_lilypad" );
@@ -1067,7 +1066,6 @@ static bool mx_sandy_beach( map &m, const tripoint_abs_sm &abs_sub )
     detritus.add( furn_f_boulder_small, 20 );
     detritus.add( furn_f_boulder_medium, 10 );
     detritus.add( furn_f_boulder_large, 3 );
-    detritus.add( furn_f_broken_boat, 1 );
 
     for( int i = 0; i < SEEX * 2; i++ ) {
         for( int j = 0; j < SEEY * 2; j++ ) {

@@ -6,6 +6,12 @@
       [ "afs_shuttlepad_salvors_b1_1", "afs_shuttlepad_salvors_b2_1" ]
     ],
     "object": {
+      "faction_owner": [
+        { "id": "UICA", "x": [ 0, 23 ], "y": [ 0, 23 ] },
+        { "id": "UICA", "x": [ 24, 47 ], "y": [ 0, 23 ] },
+        { "id": "UICA", "x": [ 0, 23 ], "y": [ 24, 47 ] },
+        { "id": "UICA", "x": [ 24, 47 ], "y": [ 24, 47 ] }
+      ],
       "fill_ter": "t_metal_floor",
       "rows": [
         "   ℗℗ ℗℗℗         -            ℗℗℗ ℗℗℗          ",
@@ -280,6 +286,12 @@
       [ "afs_shuttlepad_salvors_b1_2", "afs_shuttlepad_salvors_b2_2" ]
     ],
     "object": {
+      "faction_owner": [
+        { "id": "UICA", "x": [ 0, 23 ], "y": [ 0, 23 ] },
+        { "id": "UICA", "x": [ 24, 47 ], "y": [ 0, 23 ] },
+        { "id": "UICA", "x": [ 0, 23 ], "y": [ 24, 47 ] },
+        { "id": "UICA", "x": [ 24, 47 ], "y": [ 24, 47 ] }
+      ],
       "fill_ter": "t_metal_floor",
       "rows": [
         "                  .                             ",
@@ -373,6 +385,12 @@
       [ "afs_shuttlepad_salvors_b1_3", "afs_shuttlepad_salvors_b2_3" ]
     ],
     "object": {
+      "faction_owner": [
+        { "id": "UICA", "x": [ 0, 23 ], "y": [ 0, 23 ] },
+        { "id": "UICA", "x": [ 24, 47 ], "y": [ 0, 23 ] },
+        { "id": "UICA", "x": [ 0, 23 ], "y": [ 24, 47 ] },
+        { "id": "UICA", "x": [ 24, 47 ], "y": [ 24, 47 ] }
+      ],
       "fill_ter": "t_metal_floor",
       "rows": [
         "                                                ",
@@ -445,6 +463,12 @@
       [ "afs_shuttlepad_salvors_b1_4", "afs_shuttlepad_salvors_b2_4" ]
     ],
     "object": {
+      "faction_owner": [
+        { "id": "UICA", "x": [ 0, 23 ], "y": [ 0, 23 ] },
+        { "id": "UICA", "x": [ 24, 47 ], "y": [ 0, 23 ] },
+        { "id": "UICA", "x": [ 0, 23 ], "y": [ 24, 47 ] },
+        { "id": "UICA", "x": [ 24, 47 ], "y": [ 24, 47 ] }
+      ],
       "fill_ter": "t_metal_floor",
       "rows": [
         "                                                ",

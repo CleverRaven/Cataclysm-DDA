@@ -212,7 +212,7 @@
     "weight": "140 kg",
     "volume": "62500 ml",
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "LEAK_DAM", "RADIOACTIVE" ],
+    "flags": [ "TRADER_AVOID" ],
     "melee_damage": { "bash": 6, "cut": 6 }
   },
   {
@@ -270,7 +270,7 @@
     "weight": "140 kg",
     "volume": "62500 ml",
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "LEAK_DAM", "RADIOACTIVE" ],
+    "flags": [ "TRADER_AVOID" ],
     "melee_damage": { "bash": 6, "cut": 6 }
   },
   {
@@ -288,7 +288,7 @@
     "weight": "140 kg",
     "volume": "62500 ml",
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "LEAK_DAM", "RADIOACTIVE" ],
+    "flags": [ "TRADER_AVOID" ],
     "melee_damage": { "bash": 6, "cut": 6 }
   },
   {
@@ -306,7 +306,7 @@
     "weight": "140 kg",
     "volume": "62500 ml",
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "LEAK_DAM", "RADIOACTIVE" ],
+    "flags": [ "TRADER_AVOID" ],
     "melee_damage": { "bash": 6, "cut": 6 }
   },
   {
@@ -357,7 +357,7 @@
     "volume": "60 L",
     "weight": "120 kg",
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
+    "flags": [ "TRADER_AVOID", "NO_REPAIR", "RADIOACTIVE", "LEAK_DAM" ],
     "melee_damage": { "bash": 4, "cut": 1 }
   },
   {

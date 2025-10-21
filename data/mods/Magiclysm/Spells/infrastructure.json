@@ -20,13 +20,16 @@
       "//~": "NO_I18N"
     },
     "valid_targets": [ "hostile" ],
-    "flags": [ "SILENT", "NO_PROJECTILE", "NO_EXPLOSION_SFX", "SPLIT_DAMAGE" ],
+    "flags": [ "SILENT", "NO_PROJECTILE", "NO_EXPLOSION_SFX", "SPLIT_DAMAGE", "RANDOM_DAMAGE", "RANDOM_DURATION" ],
     "effect": "attack",
+    "effect_str": "boreal_mage_slow_chilled",
     "shape": "blast",
-    "min_damage": 5,
-    "max_damage": 5,
+    "min_damage": 3,
+    "max_damage": 10,
     "min_aoe": 3,
     "max_aoe": 3,
+    "min_duration": 500,
+    "max_duration": 600,
     "damage_type": "cold"
   },
   {

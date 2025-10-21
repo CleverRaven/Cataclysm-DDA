@@ -166,6 +166,7 @@ static const json_character_flag json_flag_CANNOT_TAKE_DAMAGE( "CANNOT_TAKE_DAMA
 static const json_character_flag json_flag_DEAF( "DEAF" );
 static const json_character_flag json_flag_GRAB( "GRAB" );
 static const json_character_flag json_flag_HEAL_OVERRIDE( "HEAL_OVERRIDE" );
+static const json_character_flag json_flag_NO_BODY_HEAT( "NO_BODY_HEAT" );
 static const json_character_flag json_flag_NO_RADIATION( "NO_RADIATION" );
 static const json_character_flag json_flag_NO_THIRST( "NO_THIRST" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
@@ -248,8 +249,11 @@ bool Character::can_recover_oxygen() const
 
 bool Character::is_warm() const
 {
-    // TODO: is there a mutation (plant?) that makes a npc not warm blooded?
-    return true;
+    if( has_flag( json_flag_NO_BODY_HEAT ) ) {
+        return false;
+    } else {
+        return true;
+    }
 }
 
 int Character::get_fat_to_hp() const
