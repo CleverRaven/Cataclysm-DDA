@@ -58,7 +58,9 @@
         "u_message": "Your enemies seem highlighted against the terrain as you tighten your grip on your weapon.",
         "type": "good"
       },
-      { "run_eocs": "EOC_AFS_POWER_MAINTENANCE_PLUS_ONE" },
+      {
+        "run_eocs": [ "EOC_AFS_POWER_MAINTENANCE_PLUS_ONE", "EOC_AFS_PRECOG_REMOVE_MELEE_ENHANCE", "EOC_AFS_PRECOG_REMOVE_DODGE_BONUS" ]
+      },
       { "u_add_effect": "effect_afs_precog_ranged_enhance", "duration": "PERMANENT" },
       {
         "run_eocs": "EOC_AFS_PRECOG_RANGED_ENHANCE_MAINTENANCE",
@@ -108,7 +110,9 @@
     "condition": { "not": { "u_has_effect": "effect_afs_precog_dodge_bonus" } },
     "effect": [
       { "u_message": "You can see a premonition of your enemies' attacks like a ghostly image.", "type": "good" },
-      { "run_eocs": "EOC_AFS_POWER_MAINTENANCE_PLUS_ONE" },
+      {
+        "run_eocs": [ "EOC_AFS_POWER_MAINTENANCE_PLUS_ONE", "EOC_AFS_PRECOG_REMOVE_MELEE_ENHANCE", "EOC_AFS_PRECOG_REMOVE_RANGED_ENHANCE" ]
+      },
       { "u_add_effect": "effect_afs_precog_dodge_bonus", "duration": "PERMANENT" },
       {
         "run_eocs": "EOC_AFS_PRECOG_DODGE_BONUS_MAINTENANCE",
@@ -232,7 +236,9 @@
         "u_message": "Distances seem to narrow and your enemies' movements seem to slow as their vulnerabilities are laid bare.",
         "type": "good"
       },
-      { "run_eocs": "EOC_AFS_POWER_MAINTENANCE_PLUS_ONE" },
+      {
+        "run_eocs": [ "EOC_AFS_POWER_MAINTENANCE_PLUS_ONE", "EOC_AFS_PRECOG_REMOVE_RANGED_ENHANCE", "EOC_AFS_PRECOG_REMOVE_DODGE_BONUS" ]
+      },
       { "u_add_effect": "effect_afs_precog_melee_enhance", "duration": "PERMANENT" },
       {
         "run_eocs": "EOC_AFS_PRECOG_MELEE_ENHANCE_MAINTENANCE",
