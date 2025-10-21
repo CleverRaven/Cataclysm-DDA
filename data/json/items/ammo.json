@@ -399,7 +399,11 @@
         "description": "A moisturizer that works all day and night.  A perfect fit for those that decide their own sleep schedule.",
         "weight": 5
       },
-      { "id": "lube", "name": { "str_sp": "lube" }, "description": "Some lube." }
+      {
+        "id": "lube",
+        "name": { "str_sp": "lube" },
+        "description": "Helps insertion of different medical tools in the body, among other things."
+      }
     ]
   },
   {
