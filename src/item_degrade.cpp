@@ -892,16 +892,24 @@ item::armor_status item::damage_armor_durability( damage_unit &du, damage_unit &
     *
     *  Non fragile items are considered to always have at least 10 points of armor, this is to prevent
     *  regular clothes from exploding into ribbons whenever you get punched.
+    *
+    *  Fragile items have have a smaller growth rate for damage chance (k) and are more likely to be damaged
+    *  even at low damage absorbed.
     */
     armors_own_resist = has_flag( flag_FRAGILE ) ? armors_own_resist * 0.6666 : std::max( 10.0,
                         armors_own_resist * 1.3333 );
-    double damage_chance = 0.8 / ( 1.0 + std::exp( -( premitigated.amount - armors_own_resist ) ) ) *
-                           enchant_multiplier;
+    double k = has_flag( flag_FRAGILE ) ? 0.1 : 1.0;
+    double damage_chance = 0.8 / ( 1.0 + std::exp( -k * ( premitigated.amount - armors_own_resist ) ) )
+                           * enchant_multiplier;
 
     // Scale chance of article taking damage based on the number of parts it covers.
     // This represents large articles being able to take more punishment
     // before becoming ineffective or being destroyed
-    damage_chance = damage_chance / get_covered_body_parts().count();
+    if( !has_flag( flag_FRAGILE ) ) {
+        damage_chance = damage_chance / get_covered_body_parts().count();
+    }
+    add_msg_debug( debugmode::DF_CREATURE, "Chance to degrade armor %s: %.2f%%",
+                   tname(), damage_chance * 100.0 );
     if( has_flag( flag_STURDY ) && premitigated.amount < armors_own_resist ) {
         return armor_status::UNDAMAGED;
     } else if( x_in_y( damage_chance, 1.0 ) ) {
