@@ -39,7 +39,7 @@
         "l": { "items": [ { "item": "gear_soldier_sidearm", "chance": 33 } ] },
         "]": { "items": [ { "item": "book_military", "chance": 20 } ] },
         "t": { "items": [ { "item": "book_military", "chance": 10 } ] },
-        "d": { "items": [ { "item": "office", "chance": 50 } ] },
+        "d": { "items": [ { "item": "SUS_office_desk", "chance": 50 } ] },
         "r": {
           "items": [
             { "item": "ammo_milspec", "chance": 40 },

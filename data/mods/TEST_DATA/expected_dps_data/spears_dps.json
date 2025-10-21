@@ -22,7 +22,6 @@
       "simple_spear_pipe": 12.59,
       "javelin_fletched": 13.23,
       "nether_huntsman_javelin": 6.42,
-      "spear_forked": 13.8,
       "spear_stone_simple": 14.18,
       "lc_aztec_spear": 15.23,
       "spear_spike": 15.47,
@@ -40,6 +39,8 @@
       "spear_copper": 26.7,
       "spear_bronze": 28.83,
       "spear_steel": 30.58,
+      "brush_pole": 20.0,
+      "bronze_brush_pole": 15.2,
       "art_spear": 30.7
     }
   }

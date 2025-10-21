@@ -9,15 +9,16 @@
 #include "character_attire.h"
 #include "debug.h"
 #include "item.h"
-#include "make_static.h"
 #include "map_helpers.h"
 #include "player_activity.h"
 #include "player_helpers.h"
 #include "stomach.h"
 #include "string_formatter.h"
 
-static const itype_id itype_atomic_lamp( "atomic_lamp" );
+static const efftype_id effect_sleep( "sleep" );
+
 static const itype_id itype_duffelbag( "duffelbag" );
+static const itype_id itype_test_lamp( "test_lamp" );
 
 void activity_schedule::setup( avatar &guy ) const
 {
@@ -78,7 +79,7 @@ void sleep_schedule::setup( avatar &guy ) const
 
 void sleep_schedule::do_turn( avatar &guy ) const
 {
-    if( !guy.has_effect( STATIC( efftype_id( "sleep" ) ) ) ) {
+    if( !guy.has_effect( effect_sleep ) ) {
         debugmsg( "Woke up!" );
     }
 }
@@ -94,7 +95,7 @@ weariness_events do_activity( tasklist tasks, bool do_clear_avatar )
     avatar &guy = get_avatar();
     // Ensure we have enough light to see
     item bag( itype_duffelbag );
-    item light( itype_atomic_lamp );
+    item light( itype_test_lamp );
     guy.worn.wear_item( guy, bag, false, false );
     guy.i_add( light );
     // How long we've been doing activities for

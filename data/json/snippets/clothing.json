@@ -104,10 +104,5 @@
       "Red Hat's logo on it, underneath it says \"The World's Open Source Leader\"",
       "the Debian logo on it, underneath it says \"The Universal Operating System\""
     ]
-  },
-  {
-    "type": "snippet",
-    "category": "<hoodie_animal>",
-    "text": [ "shark", "bear", "cat", "bunny", "wolf", "lizard", "dog", "panda", "frog" ]
   }
 ]

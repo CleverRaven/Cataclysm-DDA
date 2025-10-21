@@ -1,9 +1,10 @@
 #include <string>
-#include <vector>
 
-#include "activity_handlers.h"
+#include "activity_actor_definitions.h"
+#include "butchery.h"
 #include "cata_catch.h"
 #include "character.h"
+#include "character_attire.h"
 #include "coordinates.h"
 #include "item.h"
 #include "item_group.h"
@@ -17,13 +18,18 @@
 #include "point.h"
 #include "type_id.h"
 
-static const activity_id ACT_DISSECT( "ACT_DISSECT" );
-
 static const item_group_id
 Item_spawn_data_cattle_sample_single( "cattle_sample_single" );
 
+static const itype_id itype_debug_backpack( "debug_backpack" );
+static const itype_id itype_fake_lift_light( "fake_lift_light" );
+static const itype_id itype_hacksaw( "hacksaw" );
+static const itype_id itype_knife_combat( "knife_combat" );
+static const itype_id itype_plastic_sheet( "plastic_sheet" );
+static const itype_id itype_rope_30( "rope_30" );
 static const itype_id itype_scalpel( "scalpel" );
 
+static const mtype_id mon_deer( "mon_deer" );
 static const mtype_id mon_test_CBM( "mon_test_CBM" );
 static const mtype_id mon_test_bovine( "mon_test_bovine" );
 
@@ -33,7 +39,7 @@ static const skill_id skill_survival( "survival" );
 static const int max_iters = 1000;
 static constexpr tripoint_bub_ms mon_pos( HALF_MAPSIZE_X - 1, HALF_MAPSIZE_Y, 0 );
 
-static void butcher_mon( const mtype_id &monid, const activity_id &actid, int *cbm_count,
+static void butcher_mon( const mtype_id &monid, butcher_type butchery_type, int *cbm_count,
                          int *sample_count, int *other_count )
 {
     item scalpel( itype_scalpel );
@@ -49,11 +55,12 @@ static void butcher_mon( const mtype_id &monid, const activity_id &actid, int *c
         const tripoint_bub_ms cow_loc = cow.pos_bub();
         cow.die( &here, nullptr );
         u.move_to( cow.pos_abs() );
-        player_activity act( actid, 0, true );
-        act.targets.emplace_back( map_cursor( u.pos_abs() ), &*here.i_at( cow_loc ).begin() );
-        while( !act.is_null() ) {
-            activity_handlers::butcher_finish( &act, &u );
-        }
+
+        item_location loc = item_location( map_cursor( u.pos_abs() ), &*here.i_at( cow_loc ).begin() );
+        butchery_data bd( loc, butchery_type );
+        butchery_activity_actor act( bd );
+        act.calculate_butchery_data( u, bd );
+        destroy_the_carcass( bd, u );
         for( const item &it : here.i_at( cow_loc ) ) {
             if( it.is_bionic() ) {
                 ( *cbm_count )++;
@@ -75,7 +82,7 @@ TEST_CASE( "Harvest_drops_from_dissecting_corpse", "[harvest]" )
         int sample_count = 0;
         int cbm_count = 0;
         int other_count = 0;
-        butcher_mon( mon_test_bovine, ACT_DISSECT, &cbm_count, &sample_count, &other_count );
+        butcher_mon( mon_test_bovine, butcher_type::DISSECT, &cbm_count, &sample_count, &other_count );
         CHECK( other_count > 0 );
         CHECK( cbm_count == 0 );
         CHECK( sample_count > 0 );
@@ -85,9 +92,52 @@ TEST_CASE( "Harvest_drops_from_dissecting_corpse", "[harvest]" )
         int sample_count = 0;
         int cbm_count = 0;
         int other_count = 0;
-        butcher_mon( mon_test_CBM, ACT_DISSECT, &cbm_count, &sample_count, &other_count );
+        butcher_mon( mon_test_CBM, butcher_type::DISSECT, &cbm_count, &sample_count, &other_count );
         CHECK( other_count > 0 );
         CHECK( cbm_count > 0 );
         CHECK( sample_count == 0 );
     }
+}
+
+static void do_butchery_timing( int expected_turns, butcher_type butchery_type,
+                                int skill, mtype_id mon_type )
+{
+    Character &u = get_player_character();
+    map &here = get_map();
+    const tripoint_abs_ms orig_pos = u.pos_abs();
+    clear_character( u, true );
+    u.set_skill_level( skill_firstaid, skill );
+    u.set_skill_level( skill_survival, skill );
+    u.worn.wear_item( u, item( itype_debug_backpack ), false, false );
+    u.i_add( item( itype_fake_lift_light ) );
+    u.i_add( item( itype_hacksaw ) );
+    u.i_add( item( itype_knife_combat ) );
+    u.i_add( item( itype_plastic_sheet ) );
+    u.i_add( item( itype_rope_30 ) );
+    monster butcherable_animal( mon_type, mon_pos );
+    const tripoint_bub_ms animal_loc = butcherable_animal.pos_bub();
+    const tripoint_abs_ms animal_loc_abs = butcherable_animal.pos_abs();
+    here.i_clear( animal_loc );
+    butcherable_animal.die( &here, nullptr );
+    u.move_to( animal_loc_abs );
+    REQUIRE( u.pos_abs() == animal_loc_abs );
+    CAPTURE( here.i_at( animal_loc ) );
+    item_location loc = item_location( map_cursor( u.pos_abs() ), &*here.i_at( animal_loc ).begin() );
+    butchery_data bd( loc, butchery_type );
+    butchery_activity_actor act( bd );
+    player_activity p_act{ act };
+    int turns_taken = 0;
+    while( p_act.moves_left > 0 ) {
+        p_act.do_turn( u );
+        turns_taken++;
+    }
+    CHECK( turns_taken > expected_turns * 0.9 );
+    CHECK( turns_taken < expected_turns * 1.1 );
+    here.i_clear( animal_loc );
+    u.move_to( orig_pos );
+}
+
+TEST_CASE( "butchery_speed", "[harvest]" )
+{
+    do_butchery_timing( 8 * 60 * 60, butcher_type::FULL, 5, mon_deer );
 }

@@ -73,10 +73,20 @@ void proficiency::load_proficiencies( const JsonObject &jo, const std::string &s
     proficiency_factory.load( jo, src );
 }
 
+void proficiency::finalize_all()
+{
+    proficiency_factory.finalize();
+}
+
 void proficiency_category::load_proficiency_categories( const JsonObject &jo,
         const std::string &src )
 {
     proficiency_category_factory.load( jo, src );
+}
+
+void proficiency_category::finalize_all()
+{
+    proficiency_category_factory.finalize();
 }
 
 void proficiency_bonus::deserialize( const JsonObject &jo )

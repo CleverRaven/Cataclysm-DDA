@@ -34,6 +34,7 @@
 #include "player_helpers.h"
 #include "pocket_type.h"
 #include "point.h"
+#include "requirements.h"
 #include "ret_val.h"
 #include "string_formatter.h"
 #include "subbodypart.h"
@@ -101,6 +102,8 @@ static const itype_id itype_win70( "win70" );
 static const itype_id itype_wrapper( "wrapper" );
 
 static const json_character_flag json_flag_DEAF( "DEAF" );
+
+static const mod_id MOD_INFORMATION_test_data( "test_data" );
 
 TEST_CASE( "item_volume", "[item]" )
 {
@@ -329,6 +332,7 @@ TEST_CASE( "item_length_sanity_check", "[item]" )
 TEST_CASE( "corpse_length_sanity_check", "[item]" )
 {
     for( const mtype &type : MonsterGenerator::generator().get_all_mtypes() ) {
+        INFO( type.id.str() )
         const item sample = item::make_corpse( type.id );
         assert_minimum_length_to_volume_ratio( sample );
     }
@@ -828,39 +832,26 @@ static float item_density( const item &target )
                 target.volume() ) );
 }
 
-static bool assert_maximum_density_for_material( const item &target )
+static void assert_maximum_density_for_material( const item &target )
 {
     if( to_milliliter( target.volume() ) == 0 ) {
-        return false;
+        return;
     }
     const std::map<material_id, int> &mats = target.made_of();
     if( !mats.empty() && test_data::known_bad.count( target.typeId() ) == 0 ) {
         const float max_density = max_density_for_mats( mats, target.type->mat_portion_total );
         CAPTURE( target.typeId(), target.weight(), target.volume() );
         CHECK( item_density( target ) <= max_density );
-
-        return item_density( target ) > max_density;
     }
-
-    // fallback return
-    return false;
 }
 
 TEST_CASE( "item_material_density_sanity_check", "[item]" )
 {
     std::vector<const itype *> all_items = item_controller->all();
 
-    // only allow so many failures before stopping
-    int number_of_failures = 0;
-
     for( const itype *type : all_items ) {
         const item sample( type, calendar::turn_zero, item::solitary_tag{} );
-        if( assert_maximum_density_for_material( sample ) ) {
-            number_of_failures++;
-            if( number_of_failures > 20 ) {
-                break;
-            }
-        }
+        assert_maximum_density_for_material( sample );
     }
 }
 
@@ -1097,4 +1088,111 @@ TEST_CASE( "item_rotten_contents", "[item]" )
     //   butter (rotten)
     //   butter
     CHECK( wrapper.get_category_of_contents().id == item_category_food );
+}
+
+static bool uncraft_need_to_be_checked( const item &it )
+{
+    // skip items that do not have uncraft
+    if( it.get_uncraft_components().empty() ) {
+        return false;
+    }
+
+    // skip specifically these mod stuff
+    if( it.type->src.back().second == MOD_INFORMATION_test_data ) {
+        return false;
+    }
+
+    // ethereal, technical, mutation related item etc stuff are skipped even if have uncraft
+    if( it.type->weight == 0_gram ||
+        it.type->volume == 0_ml ||
+        it.type->has_flag( flag_INTEGRATED ) ||
+        it.type->has_flag( flag_NO_TAKEOFF ) ||
+        it.type->has_flag( flag_AURA ) ||
+        it.type->has_flag( flag_PERSONAL ) ) {
+        return false;
+    }
+    return true;
+}
+
+// checks only items that have some uncraft, either manually defined or reversible craft
+TEST_CASE( "uncraft_sanity_check", "[item]" )
+{
+    std::vector<const itype *> all_items = item_controller->all();
+
+    // this specifies the precision of a crafting test
+    // 0.1 means 1000 g item can drop from 900 g to 1100 g of resources
+    const float tolerance = 0.1f;
+
+    for( const itype *type : all_items ) {
+
+        // skip if already know it's bad
+        const bool in_list = test_data::known_bad_uncraft.count( type->id ) != 0;
+        if( in_list ) {
+            continue;
+        }
+
+        const item target( type, calendar::turn_zero, item::solitary_tag{} );
+
+        if( !uncraft_need_to_be_checked( target ) ) {
+            continue;
+        }
+
+        units::mass sum_of_components_weight;
+        for( const item_comp &c : target.get_uncraft_components() ) {
+            sum_of_components_weight += c.type->weight * c.count;
+        }
+
+        const units::mass item_weight = target.type->weight;
+
+        const int weight_difference = std::abs( to_milligram( sum_of_components_weight - item_weight ) );
+        const int weight_tolerance = to_milligram( tolerance * item_weight );
+        const bool is_within_tolerance = weight_difference <= weight_tolerance;
+
+        if( !is_within_tolerance ) {
+            INFO( string_format( "Item %s weight %s gram, but it's uncrafting recipe has components with total weight of %s gram.  It should be within %.0f%%.",
+                                 target.typeId().str(), to_gram( item_weight ),
+                                 to_gram( sum_of_components_weight ), tolerance * 100.f ) );
+            CHECK( is_within_tolerance );
+        }
+    }
+}
+
+TEST_CASE( "uncraft_blacklist_is_pruned", "[item]" )
+{
+    std::string list;
+    // this specifies the precision of a crafting test
+    // 0.1 means 1000 g item can drop from 900 g to 1100 g of resources
+    const float tolerance = 0.1f;
+
+    for( const itype_id &bad : test_data::known_bad_uncraft ) {
+
+        if( !bad.is_valid() ) {
+            continue;
+        }
+
+        const units::mass item_weight = bad->weight;
+        const item target( bad, calendar::turn_zero, item::solitary_tag{} );
+
+        if( target.get_uncraft_components().empty() ) {
+            INFO( string_format( "Item '%s' do not have uncraft anymore, remove it from data/mods/TEST_DATA/known_bad_uncrafts.json",
+                                 bad.str() ) );
+            CHECK( false );
+            continue;
+        }
+
+        units::mass sum_of_components_weight;
+        for( const item_comp &c : target.get_uncraft_components() ) {
+            sum_of_components_weight += c.type->weight * c.count;
+        }
+
+        const int weight_difference = std::abs( to_milligram( sum_of_components_weight - item_weight ) );
+        const int weight_tolerance = to_milligram( tolerance * item_weight );
+        const bool is_within_tolerance = weight_difference <= weight_tolerance;
+
+        if( is_within_tolerance ) {
+            INFO( string_format( "%s had its uncrafting recipe fixed, remove it from the list in data/mods/TEST_DATA/known_bad_uncrafts.json",
+                                 bad.str() ) );
+            CHECK_FALSE( is_within_tolerance );
+        }
+    }
 }

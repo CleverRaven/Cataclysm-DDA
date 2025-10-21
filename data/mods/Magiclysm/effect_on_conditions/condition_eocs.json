@@ -1,0 +1,14 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MAGICLYSM_GAME_START_HUMANS_ARE_HUMAN_MOM_CONDITIONS",
+    "condition": { "math": [ "0 == 1" ] },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MAGICLYSM_GAME_START_HUMANS_ARE_HUMAN_XE_CONDITIONS",
+    "condition": { "math": [ "0 == 1" ] },
+    "effect": [  ]
+  }
+]

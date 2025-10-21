@@ -88,7 +88,7 @@
       [ [ "metalworking_tongs_any", 1, "LIST" ] ],
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "forge", 30 ] ],
-      [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ], [ "food_processor", 10 ] ]
+      [ [ "rock_quern", -1 ], [ "mortar_pestle", -1 ], [ "food_processor", 10 ] ]
     ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_intro_chemistry" } ],
     "components": [
@@ -97,7 +97,7 @@
       [ [ "material_limestone", 1 ], [ "chem_manganese_dioxide", 1 ], [ "light_battery_cell", 1 ] ],
       [
         [ "rosin", 5 ],
-        [ "bone_glue", 1 ],
+        [ "glue_weak", 150 ],
         [ "sugar", 1 ],
         [ "plastic_chunk", 1 ],
         [ "wax_any", 1, "LIST" ],
@@ -127,7 +127,7 @@
       [ [ "metalworking_tongs_any", 1, "LIST" ] ],
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "forge", 350 ] ],
-      [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ], [ "food_processor", 25 ] ]
+      [ [ "rock_quern", -1 ], [ "mortar_pestle", -1 ], [ "food_processor", 25 ] ]
     ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
@@ -210,6 +210,7 @@
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_redsmithing", "required": true },
+      { "proficiency": "prof_redsmithing_adv" },
       { "proficiency": "prof_intro_chemistry" }
     ],
     "components": [ [ [ "scrap_bronze", 1 ] ], [ [ "detergent", 7 ] ] ]

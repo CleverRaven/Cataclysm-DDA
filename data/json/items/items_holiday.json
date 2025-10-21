@@ -49,7 +49,8 @@
       "msg": "The LED winks out inside the lantern.",
       "menu_text": "Extinguish"
     },
-    "extend": { "flags": [ "LIGHT_6", "TRADER_AVOID" ] }
+    "light": 6,
+    "extend": { "flags": [ "TRADER_AVOID" ] }
   },
   {
     "id": "jackolantern",
@@ -92,7 +93,8 @@
       "msg": "You blow out the jack-o'-lantern.",
       "menu_text": "Extinguish"
     },
-    "extend": { "flags": [ "LIGHT_8", "WATER_EXTINGUISH", "TRADER_AVOID", "WIND_EXTINGUISH" ] }
+    "light": 8,
+    "extend": { "flags": [ "WATER_EXTINGUISH", "TRADER_AVOID", "WIND_EXTINGUISH" ] }
   },
   {
     "id": "decorative_wreath",

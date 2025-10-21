@@ -487,38 +487,8 @@
         { "id": "s_sports_roof", "fg": 109, "bg": 1, "rotates": true },
         { "id": "s_liquor", "fg": 140, "bg": 1, "rotates": true },
         { "id": "s_liquor_roof", "fg": 140, "bg": 1, "rotates": true },
-        {
-          "id": [
-            "s_gun",
-            "s_gun_looted",
-            "s_gun_1",
-            "s_gun_2",
-            "s_gun_3",
-            "s_gun_3_looted",
-            "s_gun_4",
-            "s_gun_4_looted",
-            "s_gunstore",
-            "s_gunstore_looted"
-          ],
-          "fg": 158,
-          "bg": 1,
-          "rotates": true
-        },
-        {
-          "id": [
-            "s_gun_roof",
-            "s_gun_upper_roof",
-            "s_gun_roof_1",
-            "s_gun_upper_roof_1",
-            "s_gun_roof_3",
-            "s_gun_roof_4",
-            "s_gunstore_roof"
-          ],
-          "fg": 158,
-          "bg": 1,
-          "rotates": true
-        },
-        { "id": [ "s_gun_2ndfloor_4", "s_gunstore_2ndfloor" ], "fg": 158, "bg": 1, "rotates": true },
+        { "id": [ "s_gun_a", "s_gun_b_range", "s_gun_b_store" ], "fg": 158, "bg": 1, "rotates": true },
+        { "id": [ "s_gun_a_roof", "s_gun_b_roof", "s_gun_b_range_roof" ], "fg": 158, "bg": 1, "rotates": true },
         {
           "id": [ "s_clothes", "s_clothes_1", "s_clothes_2", "s_clothes_3", "s_clothes_4", "s_clothes_5", "s_clothes_6" ],
           "fg": 52,

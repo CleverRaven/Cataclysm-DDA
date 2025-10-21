@@ -9,7 +9,8 @@
     "description": "Your skin has turned the rolling grey of the clouds.  Your skin is now an ever-shifting color of clouds shifting from stormy to rainy to barely there.  This has no gameplay effects.",
     "types": [ "skin_tone" ],
     "leads_to": [ "SYLPH_SKIN_2" ],
-    "category": [ "SYLPH" ]
+    "category": [ "SYLPH" ],
+    "purifiable": false
   },
   {
     "type": "mutation",
@@ -21,6 +22,7 @@
     "description": "Your skin is clearly separate from the air around you but has become its own weather system.  If someone reaches out and touches you, they will clearly feel you but you look like someone might reach right through you.",
     "types": [ "SKIN" ],
     "category": [ "SYLPH" ],
+    "purifiable": false,
     "prereqs": [ "SYLPH_SKIN_1" ],
     "changes_to": [ "SYLPH_SKIN_3" ],
     "wet_protection": [
@@ -35,6 +37,7 @@
       { "part": "hand_r", "ignored": 1 },
       { "part": "torso", "ignored": 10 }
     ],
+    "enchantments": [ { "values": [ { "value": "WEIGHT", "multiply": -0.1 } ] } ],
     "integrated_armor": [ "integrated_cloud_skin" ]
   },
   {
@@ -50,6 +53,7 @@
     "prereqs": [ "SYLPH_SKIN_2" ],
     "threshreq": [ "THRESH_SYLPH" ],
     "category": [ "SYLPH" ],
+    "purifiable": false,
     "wet_protection": [
       { "part": "head", "ignored": 5 },
       { "part": "leg_l", "ignored": 16 },
@@ -62,6 +66,7 @@
       { "part": "hand_r", "ignored": 4 },
       { "part": "torso", "ignored": 30 }
     ],
+    "enchantments": [ { "values": [ { "value": "WEIGHT", "multiply": -0.2 } ] } ],
     "integrated_armor": [ "integrated_storm_skin" ]
   },
   {
@@ -73,6 +78,7 @@
     "ugliness": 0,
     "description": "Upon gaining this ability the Sylph gains the ability to breathe without oxygen.  This will prevent damage from a lack of oxygen.",
     "category": [ "SYLPH" ],
+    "purifiable": false,
     "integrated_armor": [ "integrated_sylph_breath" ]
   },
   {
@@ -84,6 +90,7 @@
     "ugliness": 0,
     "description": "Upon gaining this ability the Sylph's eyes begin reflecting their mood with lightning and storms when angry and clear skies when happy.  Glare no longer impacts them.",
     "category": [ "SYLPH" ],
+    "purifiable": false,
     "integrated_armor": [ "integrated_sylph_eyes" ]
   },
   {
@@ -95,6 +102,7 @@
     "ugliness": 0,
     "description": "The Sylph's ears are longer and pointed, like a wisp of cloud trailing across the sky.  They can hear better and no matter how loud the thunder, their ears will not ring from it.",
     "category": [ "SYLPH" ],
+    "purifiable": false,
     "enchantments": [ { "values": [ { "value": "HEARING_MULT", "multiply": 0.5 } ] } ],
     "flags": [ "IMMUNE_HEARING_DAMAGE" ]
   },
@@ -109,6 +117,7 @@
     "prereqs": [ "CLAP_OF_THUNDER" ],
     "prereqs2": [ "BREATHE_WO_AIR" ],
     "category": [ "SYLPH" ],
+    "purifiable": false,
     "active": true,
     "activated_is_setup": false,
     "enchantments": [ "ench_sylph_louder_shouting" ]
@@ -122,6 +131,7 @@
     "ugliness": 0,
     "description": "Upon gaining this ability the Sylph gains the ability to create a loud clap of thunder noise at a distance.",
     "category": [ "SYLPH" ],
+    "purifiable": false,
     "spells_learned": [ [ "clap_of_thunder", 1 ] ]
   },
   {
@@ -133,6 +143,7 @@
     "ugliness": 0,
     "description": "Upon gaining this ability the Sylph gains the ability to summon and ominous wind that damages sapient creatures morale.",
     "category": [ "SYLPH" ],
+    "purifiable": false,
     "spells_learned": [ [ "ominous_wind", 1 ] ]
   },
   {
@@ -145,6 +156,7 @@
     "description": "Upon gaining this ability the Sylph gains the ability to rush forward in a burst of wind.",
     "prereqs": [ "SYLPH_SPEED_INCREASE", "SYLPH_SPEED_INCREASE2" ],
     "category": [ "SYLPH" ],
+    "purifiable": false,
     "spells_learned": [ [ "sylph_charge_dash_spell", 1 ] ]
   },
   {
@@ -157,6 +169,7 @@
     "description": "Upon gaining this ability the Sylph gains the ability increase the speed of one of their allies.",
     "prereqs": [ "SYLPH_CHARGE_DASH" ],
     "category": [ "SYLPH" ],
+    "purifiable": false,
     "spells_learned": [ [ "sylph_increase_ally_speed_spell", 1 ] ]
   },
   {
@@ -169,6 +182,7 @@
     "description": "Upon gaining this ability the Sylph gains the ability to see surrounding terrain as though standing on high.",
     "prereqs": [ "SYLPH_PER_BONUS_1" ],
     "category": [ "SYLPH" ],
+    "purifiable": false,
     "spells_learned": [ [ "sylph_reveal_overmap_spell", 1 ] ]
   },
   {
@@ -181,6 +195,7 @@
     "description": "Upon gaining this ability the Sylph gains the ability to strike so precisely that the air will carry their melee attacks a short distance.",
     "prereqs": [ "SYLPH_BONUS_RANGE", "SYLPH_DEX_BONUS_2" ],
     "category": [ "SYLPH" ],
+    "purifiable": false,
     "spells_learned": [ [ "sylph_bonus_melee_range_spell", 1 ] ]
   },
   {
@@ -193,6 +208,8 @@
     "description": "Upon gaining this ability the Sylph ceases to fall at speeds that would damage themselves, no matter how high the fall is.",
     "changes_to": [ "SYLPH_GLIDING" ],
     "category": [ "SYLPH" ],
+    "purifiable": false,
+    "enchantments": [ { "values": [ { "value": "WEIGHT", "multiply": -0.05 } ] } ],
     "flags": [ "FEATHER_FALL" ]
   },
   {
@@ -206,6 +223,7 @@
     "prereqs": [ "SLOWFALL" ],
     "leads_to": [ "SYLPH_JUMP_HIGH" ],
     "category": [ "SYLPH" ],
+    "purifiable": false,
     "flags": [ "GLIDE", "FEATHER_FALL" ]
   },
   {
@@ -219,6 +237,7 @@
     "prereqs": [ "SYLPH_GLIDING" ],
     "prereqs2": [ "SYLPH_SKIN_2", "SYLPH_SKIN_3" ],
     "category": [ "SYLPH" ],
+    "purifiable": false,
     "active": true,
     "activated_is_setup": false,
     "activated_eocs": [ "EOC_SYLPH_JUMP_HIGH_ON" ]
@@ -269,6 +288,7 @@
     "prereqs": [ "SLYPH_RESIST_COLD2" ],
     "description": "The sylph is nearly immune to mundane cold and heavily resistant to cold-based damage.",
     "category": [ "SYLPH" ],
+    "purifiable": false,
     "threshreq": [ "THRESH_SYLPH" ],
     "enchantments": [
       {
@@ -301,6 +321,7 @@
     "changes_to": "SYLPH_SPEED_INCREASE2",
     "prereqs": [ "PUSHING_WIND" ],
     "category": [ "SYLPH" ],
+    "purifiable": false,
     "enchantments": [ { "condition": "u_is_outside", "values": [ { "value": "MOVE_COST", "multiply": -0.1 } ] } ]
   },
   {
@@ -313,6 +334,7 @@
     "description": "When outdoors, the Sylph moves 10% faster and has +10% increased speed.",
     "prereqs": [ "SYLPH_SPEED_INCREASE" ],
     "category": [ "SYLPH" ],
+    "purifiable": false,
     "enchantments": [
       {
         "condition": "u_is_outside",
@@ -330,6 +352,7 @@
     "description": "The Sylph slips away from attacks as easily as the wind finds its way through cracks in a wall.  They gain +1 bonus dodge attempt per turn (+2 if they have the Sylph trait).",
     "prereqs": [ "SYLPH_SPEED_INCREASE", "SYLPH_SPEED_INCREASE2" ],
     "category": [ "SYLPH" ],
+    "purifiable": false,
     "enchantments": [ "sylph_extra_dodges" ]
   },
   {
@@ -342,6 +365,7 @@
     "prereqs": [ "PUSHING_WIND" ],
     "description": "Upon gaining this ability the Sylph gains the ability to grow a goblin fruit when outdoors and the wind is blowing strongly.",
     "category": [ "SYLPH" ],
+    "purifiable": false,
     "spells_learned": [ [ "sylph_cultivate_goblin_fruit", 1 ] ]
   },
   {
@@ -353,6 +377,7 @@
     "ugliness": 0,
     "description": "The Sylph learns how to use the wind to push their opponents.",
     "category": [ "SYLPH" ],
+    "purifiable": false,
     "spells_learned": [ [ "pushing_wind", 1 ] ]
   },
   {
@@ -365,6 +390,7 @@
     "description": "The Sylph learns how to surround a single target with buffeting winds, slowing their movements and knocking them off-balance.",
     "prereqs": [ "PUSHING_WIND" ],
     "category": [ "SYLPH" ],
+    "purifiable": false,
     "spells_learned": [ [ "sylph_hindering_wind_spell", 1 ] ]
   },
   {
@@ -378,6 +404,7 @@
     "prereqs": [ "SYLPH_PER_BONUS_1" ],
     "prereqs2": [ "PUSHING_WIND" ],
     "category": [ "SYLPH" ],
+    "purifiable": false,
     "spells_learned": [ [ "sylph_clear_the_air", 1 ] ]
   },
   {
@@ -389,6 +416,7 @@
     "ugliness": 0,
     "description": "Sylphs often develop electrical emissions that can culminate in lightning bolts.",
     "category": [ "SYLPH" ],
+    "purifiable": false,
     "spells_learned": [ [ "zap_electrical_emission", 1 ] ]
   },
   {
@@ -400,6 +428,7 @@
     "ugliness": 0,
     "description": "Upon gaining this ability the Sylph gains the ability to summon electrical fields.",
     "category": [ "SYLPH" ],
+    "purifiable": false,
     "spells_learned": [ [ "electrical_field", 1 ] ]
   },
   {
@@ -412,6 +441,7 @@
     "description": "Upon gaining this ability the Sylph gains the ability to call down the thunderstorm's judgement on a location while outdoors.",
     "prereqs": [ "SYLPH_LIGHTNING_MELEE_ATTACKS" ],
     "category": [ "SYLPH" ],
+    "purifiable": false,
     "threshreq": [ "THRESH_SYLPH" ],
     "spells_learned": [ [ "sylph_massive_lightning_bolt_spell", 1 ] ]
   },
@@ -424,6 +454,7 @@
     "ugliness": 0,
     "description": "Upon gaining this ability the Sylph gains the ability to summon an air sprite.",
     "category": [ "SYLPH" ],
+    "purifiable": false,
     "spells_learned": [ [ "summon_air_sprite", 1 ] ]
   },
   {
@@ -437,6 +468,7 @@
     "prereqs2": [ "ELECTRICAL_FIELD" ],
     "description": "At will, the Sylph may cause their attacks to carry a charge, whose power grows with their mastery of lightning.  Each attack costs mana while this trait is active.",
     "category": [ "SYLPH" ],
+    "purifiable": false,
     "active": true,
     "activated_is_setup": true,
     "activated_eocs": [ "EOC_SYLPH_LIGHTNING_MELEE_ATTACKS_ON" ],
@@ -452,6 +484,7 @@
     "ugliness": 0,
     "description": { "str": "The actual trait that grants you fulgurating strikes.  It's a bug if you have it.", "//~": "NO_I18N" },
     "category": [ "SYLPH" ],
+    "purifiable": false,
     "valid": false,
     "player_display": false,
     "enchantments": [ "ench_sylph_fulgurating_strikes_basic", "ench_sylph_fulgurating_strikes_advanced" ]
@@ -467,6 +500,7 @@
     "prereqs": [ "SYLPH_SPEED_INCREASE" ],
     "description": "The Sylph's moves like the wind.  +2 Dexterity.",
     "category": [ "SYLPH" ],
+    "purifiable": false,
     "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 2 } ] } ]
   },
   {
@@ -480,6 +514,7 @@
     "prereqs2": [ "SYLPH_SPEED_INCREASE2" ],
     "description": "The Sylph's moves like a sudden burst of wind.  +5 Dexterity.",
     "category": [ "SYLPH" ],
+    "purifiable": false,
     "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 5 } ] } ]
   },
   {
@@ -493,6 +528,7 @@
     "prereqs": [ "SYLPH_SKIN_2", "SYLPH_SKIN_3" ],
     "description": "The Sylph's mind has the clarity of pure frozen water.  +2 Intelligence.",
     "category": [ "SYLPH" ],
+    "purifiable": false,
     "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": 2 } ] } ]
   },
   {
@@ -505,6 +541,7 @@
     "prereqs": [ "SYLPH_INT_BONUS_1" ],
     "description": "The Sylph's thoughts move as quickly as a bolt of lightning.  +4 Intelligence.",
     "category": [ "SYLPH" ],
+    "purifiable": false,
     "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": 4 } ] } ]
   },
   {
@@ -517,6 +554,7 @@
     "prereqs": [ "SYLPH_EYES" ],
     "description": "Like a bird soaring on the wind, the Sylph's keen eyes take in their surroundings.  +3 Perception.",
     "category": [ "SYLPH" ],
+    "purifiable": false,
     "enchantments": [ { "values": [ { "value": "PERCEPTION", "add": 3 } ] } ],
     "flags": [ "ENHANCED_VISION" ]
   },
@@ -529,6 +567,7 @@
     "prereqs": [ "SYLPH_INT_BONUS_2" ],
     "changes_to": [ "SYLPH_FAST_CAST2" ],
     "category": [ "SYLPH" ],
+    "purifiable": false,
     "enchantments": [ "sylph_fast_cast" ]
   },
   {
@@ -539,8 +578,9 @@
     "description": "The wind finds it way through any crack, and so does the Sylph's mana come to their call regardless of what movements they make.  -20% spell casting speed when outdoors and the Sylph no longer needs to gesture to use their magick.",
     "prereqs": [ "SYLPH_FAST_CAST" ],
     "category": [ "SYLPH" ],
+    "purifiable": false,
     "threshreq": [ "THRESH_SYLPH" ],
-    "enchantments": [ "sylph_fast_cast2" ]
+    "enchantments": [ "sylph_fast_cast2", { "values": [ { "value": "WEIGHT", "multiply": -0.1 } ] } ]
   },
   {
     "type": "mutation",
@@ -550,6 +590,7 @@
     "description": "Born of the winds, the Sylph can walk on them as easily as the ground.  While this trait is active, the Sylph will not fall and may walk on the air as they like.  It requires 3 mana per turn to fuel their steps.",
     "prereqs": [ "SYLPH_JUMP_HIGH" ],
     "category": [ "SYLPH" ],
+    "purifiable": false,
     "threshreq": [ "THRESH_SYLPH" ],
     "active": true,
     "activated_is_setup": true,
@@ -567,6 +608,7 @@
     "ugliness": 0,
     "description": "Upon gaining this ability the Sylph gains the ability to travel along the blowing winds to another location they have previously been to.",
     "category": [ "SYLPH" ],
+    "purifiable": false,
     "threshreq": [ "THRESH_SYLPH" ],
     "prereqs": [ "SYLPH_FLY_AT_WILL" ],
     "spells_learned": [ [ "sylph_wind_translocation_spell", 1 ], [ "sylph_wind_translocation_attune", 1 ] ]
@@ -579,6 +621,7 @@
     "description": "The Sylph may transform into misty cloud.  They will be insubstantial and unable to interact with the environment, but also able to move incredibly quickly and attacks will simply pass through them.  Each second in the cloud form will cost 10 mana.",
     "prereqs": [ "SYLPH_FLY_AT_WILL" ],
     "category": [ "SYLPH" ],
+    "purifiable": false,
     "threshreq": [ "THRESH_SYLPH" ],
     "active": true,
     "activated_is_setup": true,
@@ -589,13 +632,17 @@
   {
     "type": "mutation",
     "id": "SYLPH_CLOUD_FORM_APPEARANCE",
-    "name": { "str": "Body of Cloud Appearance" },
+    "name": { "str": "Body of Cloud Appearance", "//~": "NO_I18N" },
     "points": 1,
-    "description": "This mutation carries the sprite override info for Body of Cloud.  You shouldn't be able to see it in game.",
+    "description": {
+      "str": "This mutation carries the sprite override info for Body of Cloud.  You shouldn't be able to see it in game.",
+      "//~": "NO_I18N"
+    },
     "valid": false,
     "player_display": false,
     "override_look": { "id": "fd_extinguisher", "tile_category": "field" },
     "category": [ "SYLPH" ],
+    "purifiable": false,
     "threshreq": [ "THRESH_SYLPH" ]
   },
   {
@@ -608,8 +655,15 @@
     "description": "Like the wind, the Sylph goes where they will with no one to stop them.  They are immune to anything that would restrict their movement, such as grabs, terrain costs, or slippery terrain.",
     "prereqs": [ "SYLPH_DEX_BONUS_2" ],
     "category": [ "SYLPH" ],
+    "purifiable": false,
     "threshreq": [ "THRESH_SYLPH" ],
-    "enchantments": [ { "condition": "ALWAYS", "ench_effects": [ { "effect": "effect_sylph_cannot_be_slowed", "intensity": 1 } ] } ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "WEIGHT", "multiply": -0.05 } ],
+        "ench_effects": [ { "effect": "effect_sylph_cannot_be_slowed", "intensity": 1 } ]
+      }
+    ],
     "flags": [ "STEADY", "SLUDGE_IMMUNE", "WEB_WALKER" ]
   },
   {
@@ -622,6 +676,7 @@
     "description": "The winds surround the Sylph and carry them along regardless of their physical condition.  They suffer no penalties to dexterity or speed due to pain.",
     "prereqs": [ "SYLPH_CANNOT_BE_SLOWED_OR_STOPPED" ],
     "category": [ "SYLPH" ],
+    "purifiable": false,
     "threshreq": [ "THRESH_SYLPH" ],
     "enchantments": [
       {

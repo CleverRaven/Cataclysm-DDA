@@ -82,7 +82,7 @@
         "5": { "item": { "item": "seed_mugwort" }, "furniture": "f_planter_harvest" }
       },
       "items": {
-        "I": { "item": "office", "chance": 30 },
+        "I": { "item": "SUS_office_desk", "chance": 30 },
         "S": { "item": "SUS_office_filing_cabinet", "chance": 30 },
         "r": { "item": "farming_tools", "chance": 60, "repeat": [ 1, 2 ] },
         "#": { "item": "flower_pots", "chance": 70, "repeat": [ 2, 8 ] },

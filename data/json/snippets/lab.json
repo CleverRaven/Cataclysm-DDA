@@ -30,131 +30,81 @@
     "type": "snippet",
     "category": "lab_postit_bio",
     "text": [
-      { "name": "green postit 1", "id": "lab_postit_bio_1", "text": "Subject amortization too high.  Lower dosage?" },
-      {
-        "name": "green postit 2",
-        "id": "lab_postit_bio_2",
-        "text": "Enrichment makes for better data.  Coloring book?"
-      },
-      {
-        "name": "green postit 3",
-        "id": "lab_postit_bio_3",
-        "text": "Reduce caloric intake.  Stress potentiates the process."
-      },
-      { "name": "green postit 4", "id": "lab_postit_bio_4", "text": "WHEN IN DOUBT, INCINERATE" },
-      {
-        "name": "green postit 5",
-        "id": "lab_postit_bio_5",
-        "text": "Requisition more subjects when half have been processed."
-      },
-      { "name": "green postit 6", "id": "lab_postit_bio_6", "text": "Droppings caustic, handle with care" },
-      {
-        "name": "green postit 7",
-        "id": "lab_postit_bio_7",
-        "text": "DON'T remove from cage between 10-12 PM (it knows)"
-      },
-      { "name": "green postit 8", "id": "lab_postit_bio_8", "text": "Can walk on ceiling" },
-      { "name": "green postit 9", "id": "lab_postit_bio_9", "text": "More eggs, keeps eating them" },
-      { "name": "green postit 10", "id": "lab_postit_bio_10", "text": "DON'T LICK" }
+      { "id": "lab_postit_bio_1", "text": "Subject amortization too high.  Lower dosage?" },
+      { "id": "lab_postit_bio_2", "text": "Enrichment makes for better data.  Coloring book?" },
+      { "id": "lab_postit_bio_3", "text": "Reduce caloric intake.  Stress potentiates the process." },
+      { "id": "lab_postit_bio_4", "text": "WHEN IN DOUBT, INCINERATE" },
+      { "id": "lab_postit_bio_5", "text": "Requisition more subjects when half have been processed." },
+      { "id": "lab_postit_bio_6", "text": "Droppings caustic, handle with care" },
+      { "id": "lab_postit_bio_7", "text": "DON'T remove from cage between 10-12 PM (it knows)" },
+      { "id": "lab_postit_bio_8", "text": "Can walk on ceiling" },
+      { "id": "lab_postit_bio_9", "text": "More eggs, keeps eating them" },
+      { "id": "lab_postit_bio_10", "text": "DON'T LICK" }
     ]
   },
   {
     "type": "snippet",
     "category": "lab_postit_blob",
     "text": [
-      { "name": "gray postit 1", "id": "lab_postit_blob_1", "text": "Dismember within 15 minutes" },
-      { "name": "gray postit 2", "id": "lab_postit_blob_2", "text": "No weight difference - superpositional?" },
-      { "name": "gray postit 3", "id": "lab_postit_blob_3", "text": "TODO: terminate subject within a week" },
-      { "name": "gray postit 4", "id": "lab_postit_blob_4", "text": "Need more bodies - Mass General?" },
-      { "name": "gray postit 5", "id": "lab_postit_blob_5", "text": "Reinforce doors" },
-      { "name": "gray postit 6", "id": "lab_postit_blob_6", "text": "Where does the energy come from?" },
-      {
-        "name": "gray postit 7",
-        "id": "lab_postit_blob_7",
-        "text": "Anaerobic conditions without change in activity <-> temperature?!"
-      },
-      { "name": "gray postit 8", "id": "lab_postit_blob_8", "text": "Ashes still contaminated" },
-      {
-        "name": "gray postit 9",
-        "id": "lab_postit_blob_9",
-        "text": "Removed parts fuse preferentially to original host"
-      },
-      { "name": "gray postit 10", "id": "lab_postit_blob_10", "text": "Never dead" }
+      { "id": "lab_postit_blob_1", "text": "Dismember within 15 minutes" },
+      { "id": "lab_postit_blob_2", "text": "No weight difference - superpositional?" },
+      { "id": "lab_postit_blob_3", "text": "TODO: terminate subject within a week" },
+      { "id": "lab_postit_blob_4", "text": "Need more bodies - Mass General?" },
+      { "id": "lab_postit_blob_5", "text": "Reinforce doors" },
+      { "id": "lab_postit_blob_6", "text": "Where does the energy come from?" },
+      { "id": "lab_postit_blob_7", "text": "Anaerobic conditions without change in activity <-> temperature?!" },
+      { "id": "lab_postit_blob_8", "text": "Ashes still contaminated" },
+      { "id": "lab_postit_blob_9", "text": "Removed parts fuse preferentially to original host" },
+      { "id": "lab_postit_blob_10", "text": "Never dead" }
     ]
   },
   {
     "type": "snippet",
     "category": "lab_postit_migo",
     "text": [
-      { "name": "pink postit 1", "id": "lab_postit_migo_1", "text": "Don't listen" },
-      { "name": "pink postit 2", "id": "lab_postit_migo_2", "text": "Damage -> Resin\nArmor?\nBlood?\nBribe?" },
-      { "name": "pink postit 3", "id": "lab_postit_migo_3", "text": "Stay quiet.  They can hear you." },
+      { "id": "lab_postit_migo_1", "text": "Don't listen" },
+      { "id": "lab_postit_migo_2", "text": "Damage -> Resin\nArmor?\nBlood?\nBribe?" },
+      { "id": "lab_postit_migo_3", "text": "Stay quiet.  They can hear you." },
       {
-        "name": "pink postit 4",
         "id": "lab_postit_migo_4",
         "text": "Resin return: 0.45 on vegetable matter, 0.51 on meat, 0.66 on nonsedated live meal (vertebrate preference)"
       },
-      { "name": "pink postit 5", "id": "lab_postit_migo_5", "text": "How can they see me up here?" },
+      { "id": "lab_postit_migo_5", "text": "How can they see me up here?" },
+      { "id": "lab_postit_migo_6", "text": "Only post-mortems on the big ones from now on -- equipment's expensive" },
+      { "id": "lab_postit_migo_7", "text": "Dim lights before feeding for lightshow" },
       {
-        "name": "pink postit 6",
-        "id": "lab_postit_migo_6",
-        "text": "Only post-mortems on the big ones from now on -- equipment's expensive"
-      },
-      { "name": "pink postit 7", "id": "lab_postit_migo_7", "text": "Dim lights before feeding for lightshow" },
-      {
-        "name": "pink postit 8",
         "id": "lab_postit_migo_8",
         "text": "Prefers prey capable of vocalization -- implanted speakers work but no repeats"
       },
-      { "name": "pink postit 9", "id": "lab_postit_migo_9", "text": "Blast with white noise as a deterrent?" },
-      { "name": "pink postit 10", "id": "lab_postit_migo_10", "text": "Likes it warm, not bothered by cold" }
+      { "id": "lab_postit_migo_9", "text": "Blast with white noise as a deterrent?" },
+      { "id": "lab_postit_migo_10", "text": "Likes it warm, not bothered by cold" }
     ]
   },
   {
     "type": "snippet",
     "category": "lab_postit_portal",
     "text": [
-      {
-        "name": "orange postit 1",
-        "id": "lab_postit_portal_1",
-        "text": "Increase frequencies in odd steps - local discontinuity!"
-      },
-      { "name": "orange postit 2", "id": "lab_postit_portal_2", "text": "Limit time spent in-phase to 29.1 minutes" },
-      {
-        "name": "orange postit 3",
-        "id": "lab_postit_portal_3",
-        "text": "Sub-plane 117RA likes prime-numbered calibration pings"
-      },
-      {
-        "name": "orange postit 4",
-        "id": "lab_postit_portal_4",
-        "text": "First the candle, then the blood, NOT THE OTHER WAY AROUND"
-      },
-      { "name": "orange postit 5", "id": "lab_postit_portal_5", "text": "Remember Jake?  Me neither." },
-      { "name": "orange postit 6", "id": "lab_postit_portal_6", "text": "Keep line of sight minimal" },
-      { "name": "orange postit 7", "id": "lab_postit_portal_7", "text": "Calibrate on 013TQ for manned transfers" },
-      {
-        "name": "orange postit 8",
-        "id": "lab_postit_portal_8",
-        "text": "No touching returning probes, even if they beg you to"
-      },
-      { "name": "orange postit 9", "id": "lab_postit_portal_9", "text": "Remember to forget.  Forget to remember." },
-      {
-        "name": "orange postit 10",
-        "id": "lab_postit_portal_10",
-        "text": "Scream at Maintenance for a replacement again"
-      }
+      { "id": "lab_postit_portal_1", "text": "Increase frequencies in odd steps - local discontinuity!" },
+      { "id": "lab_postit_portal_2", "text": "Limit time spent in-phase to 29.1 minutes" },
+      { "id": "lab_postit_portal_3", "text": "Sub-plane 117RA likes prime-numbered calibration pings" },
+      { "id": "lab_postit_portal_4", "text": "First the candle, then the blood, NOT THE OTHER WAY AROUND" },
+      { "id": "lab_postit_portal_5", "text": "Remember Jake?  Me neither." },
+      { "id": "lab_postit_portal_6", "text": "Keep line of sight minimal" },
+      { "id": "lab_postit_portal_7", "text": "Calibrate on 013TQ for manned transfers" },
+      { "id": "lab_postit_portal_8", "text": "No touching returning probes, even if they beg you to" },
+      { "id": "lab_postit_portal_9", "text": "Remember to forget.  Forget to remember." },
+      { "id": "lab_postit_portal_10", "text": "Scream at Maintenance for a replacement again" }
     ]
   },
   {
     "type": "snippet",
     "category": "lab_postit_tech",
     "text": [
-      { "name": "red postit 1", "id": "lab_postit_tech_1", "text": "Don't release switch before discharge" },
-      { "name": "red postit 2", "id": "lab_postit_tech_2", "text": "Shielding corrodes too fast\n\nMount on drone?" },
-      { "name": "red postit 3", "id": "lab_postit_tech_3", "text": "Meltdown after 3 shots" },
-      { "name": "red postit 4", "id": "lab_postit_tech_4", "text": "Need more power" },
-      { "name": "red postit 5", "id": "lab_postit_tech_5", "text": "Ho lasers stabilize the compound long enough" }
+      { "id": "lab_postit_tech_1", "text": "Don't release switch before discharge" },
+      { "id": "lab_postit_tech_2", "text": "Shielding corrodes too fast\n\nMount on drone?" },
+      { "id": "lab_postit_tech_3", "text": "Meltdown after 3 shots" },
+      { "id": "lab_postit_tech_4", "text": "Need more power" },
+      { "id": "lab_postit_tech_5", "text": "Ho lasers stabilize the compound long enough" }
     ]
   },
   {

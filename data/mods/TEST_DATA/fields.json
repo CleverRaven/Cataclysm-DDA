@@ -24,6 +24,40 @@
     "display_field": true
   },
   {
+    "id": "fd_bash_bothfield",
+    "type": "field_type",
+    "copy-from": "fd_bash_nofield",
+    "bash": { "str_min": 4, "str_max": 100, "hit_field": [ "fd_marker1", 1 ], "destroyed_field": [ "fd_marker2", 1 ] }
+  },
+  {
+    "id": "fd_bash_destroyfield",
+    "type": "field_type",
+    "copy-from": "fd_bash_nofield",
+    "bash": { "str_min": 4, "str_max": 100, "destroyed_field": [ "fd_marker1", 2 ] }
+  },
+  {
+    "id": "fd_bash_hitfield",
+    "type": "field_type",
+    "copy-from": "fd_bash_nofield",
+    "bash": { "str_min": 4, "str_max": 100, "hit_field": [ "fd_marker2", 1 ] }
+  },
+  {
+    "id": "fd_bash_nofield",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "1", "sym": "1" } ],
+    "bash": { "str_min": 4, "str_max": 100 }
+  },
+  {
+    "id": "fd_marker1",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "1", "sym": "1" }, { "name": "2", "sym": "2" } ]
+  },
+  {
+    "id": "fd_marker2",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "1", "sym": "1" }, { "name": "2", "sym": "2" } ]
+  },
+  {
     "id": "fd_test",
     "type": "field_type",
     "intensity_levels": [

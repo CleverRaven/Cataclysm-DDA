@@ -52,6 +52,7 @@
       [ "hybrid_sight_4x", 30 ],
       [ "rifle_scope_high_end_mount", 20 ],
       [ "modern_handguard", 20 ],
+      [ "mounted_flashlight", 80 ],
       [ "bipod_handguard", 10 ],
       [ "high_end_folding_stock", 10 ],
       [ "muzzle_weight", 10 ]

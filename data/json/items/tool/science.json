@@ -80,7 +80,7 @@
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "electrolysis kit" },
-    "description": "A set of wiring and electrodes for applying a direct current, usually to a liquid.  Useful for crafting.  Load with a storage battery or 12 V vehicle battery to use.",
+    "description": "A set of wiring and electrodes for applying a direct current, usually to a liquid.  Useful for crafting.  Load with a storage battery or 12V vehicle battery to use.",
     "weight": "250 g",
     "volume": "250 ml",
     "price": "10 USD",
@@ -107,7 +107,7 @@
     "weight": "1800 g",
     "volume": "2 L",
     "price": "200 USD",
-    "price_postapoc": "10 USD",
+    "price_postapoc": "2 USD",
     "material": [ "glass", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
@@ -132,7 +132,7 @@
     "weight": "3200 g",
     "volume": "1500 ml",
     "price": "200 USD",
-    "price_postapoc": "10 USD",
+    "price_postapoc": "1 USD",
     "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "steel", "plastic" ],
     "symbol": "^",
@@ -173,7 +173,7 @@
     "weight": "3200 g",
     "volume": "1500 ml",
     "price": "200 USD",
-    "price_postapoc": "10 USD",
+    "price_postapoc": "2 USD",
     "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "plastic" ],
     "symbol": ":",
@@ -214,7 +214,7 @@
     "weight": "3200 g",
     "volume": "1500 ml",
     "price": "200 USD",
-    "price_postapoc": "10 USD",
+    "price_postapoc": "50 cent",
     "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "steel", "glass" ],
     "symbol": "^",
@@ -247,7 +247,7 @@
     "weight": "40860 g",
     "volume": "27 L",
     "price": "1 kUSD",
-    "price_postapoc": "30 USD",
+    "price_postapoc": "5 USD",
     "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "steel" ],
     "symbol": "E",
@@ -270,7 +270,7 @@
     "weight": "36 kg",
     "volume": "60 L",
     "price": "5 kUSD",
-    "price_postapoc": "60 USD",
+    "price_postapoc": "5 USD",
     "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "steel" ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
@@ -289,7 +289,7 @@
     "weight": "181600 g",
     "volume": "240 L",
     "price": "20 kUSD",
-    "price_postapoc": "100 USD",
+    "price_postapoc": "15 USD",
     "material": [ "steel" ],
     "symbol": "E",
     "color": "dark_gray",
@@ -310,7 +310,8 @@
     "looks_like": "55gal_drum",
     "weight": "22700 g",
     "volume": "210 L",
-    "price": "200 USD",
+    "price": "100 USD",
+    "price_postapoc": "2 USD",
     "material": [ "steel" ],
     "qualities": [ [ "EXTRACT", 1 ] ]
   },
@@ -326,6 +327,7 @@
     "weight": "500 kg",
     "volume": "500 L",
     "price": "200 USD",
+    "price_postapoc": "5 USD",
     "material": [ "steel" ]
   },
   {
@@ -386,7 +388,7 @@
     "weight": "22700 g",
     "volume": "6 L",
     "price": "3 kUSD",
-    "price_postapoc": "45 USD",
+    "price_postapoc": "5 USD",
     "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "iron" ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
@@ -423,7 +425,7 @@
     "weight": "27240 g",
     "volume": "8 L",
     "price": "2 kUSD 800 USD",
-    "price_postapoc": "35 USD",
+    "price_postapoc": "2 USD",
     "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "steel" ],
     "melee_damage": { "bash": 10 }
@@ -807,8 +809,8 @@
     "subtypes": [ "TOOL" ],
     "category": "tools",
     "name": { "str": "basic laboratory analysis kit" },
-    "description": "A hefty kit containing some basic things you should probably not try to do precise chemistry without: a small balance scale, a spectrophotometer, a melting point apparatus, a pH meter, and a set of paper for thin layer chromatography.  This makes it a lot easier to feel confident that the chemical you've made is what you think it is.",
-    "weight": "12500 g",
+    "description": "A hefty kit containing some basic things you should probably not try to do precise chemistry without: a small balance scale, a spectrophotometer, cuvettes, a melting point apparatus, a pH meter, and a set of paper for thin layer chromatography.  This makes it a lot easier to feel confident that the chemical you've made is what you think it is.",
+    "weight": "14470 g",
     "volume": "5 L",
     "price": "250 USD",
     "price_postapoc": "10 USD",
@@ -1371,7 +1373,7 @@
           "condition": { "not": { "one_in_chance": 100 } },
           "effect": [
             { "u_message": "You have an intense feeling of being watched." },
-            { "math": [ "u_migo_interest_interest_migo_interest", "+=", "10" ] }
+            { "math": [ "u_migo_interest_interest_migo_interest += 10" ] }
           ]
         },
         {
@@ -1399,20 +1401,17 @@
         {
           "id": "EOC_MIGO_BIO_TECH_FOCUS",
           "condition": { "compare_string": [ "focus", { "npc_val": "mbt_f_function" } ] },
-          "effect": [
-            { "u_message": "You feel incredibly focused!" },
-            { "math": [ "u_val('focus')", "+=", "min( u_val('focus') + 30, 130)" ] }
-          ]
+          "effect": [ { "u_message": "You feel incredibly focused!" }, { "math": [ "u_val('focus') += min( u_val('focus') + 30, 130)" ] } ]
         },
         {
           "id": "EOC_MIGO_BIO_TECH_PAIN",
           "condition": { "compare_string": [ "pain", { "npc_val": "mbt_f_function" } ] },
-          "effect": [ { "u_message": "You feel your aches and pains fade away!" }, { "math": [ "u_pain()", "-=", "30" ] } ]
+          "effect": [ { "u_message": "You feel your aches and pains fade away!" }, { "math": [ "u_pain() -= 30" ] } ]
         },
         {
           "id": "EOC_MIGO_BIO_TECH_SLEEPINESS",
           "condition": { "compare_string": [ "sleepiness", { "npc_val": "mbt_f_function" } ] },
-          "effect": [ { "u_message": "You instantly feel more awake!" }, { "math": [ "u_val('sleepiness')", "-=", "30" ] } ]
+          "effect": [ { "u_message": "You instantly feel more awake!" }, { "math": [ "u_val('sleepiness') -= 30" ] } ]
         }
       ]
     }

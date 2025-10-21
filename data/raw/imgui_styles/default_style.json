@@ -51,7 +51,7 @@
     "ImGuiCol_TableRowBgAlt": [ 1.0, 1.0, 1.0, 0.0 ],
     "ImGuiCol_TextSelectedBg": [ 0.04, 0.04, 0.86, 0.65 ],
     "ImGuiCol_DragDropTarget": [ 1.0, 1.0, 0.0, 0.9 ],
-    "ImGuiCol_NavHighlight": [ 0.04, 0.04, 0.86, 0.65 ],
+    "ImGuiCol_NavHighlight": [ 1.0, 1.0, 1.0, 1.0 ],
     "ImGuiCol_NavWindowingHighlight": [ 1.0, 1.0, 1.0, 0.7 ],
     "ImGuiCol_NavWindowingDimBg": [ 0.8, 0.8, 0.8, 0.2 ],
     "ImGuiCol_ModalWindowDimBg": [ 80, 0.8, 0.8, 0.3 ]

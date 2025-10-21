@@ -58,7 +58,7 @@
     "type": "requirement",
     "//": "Shaping and attaching a rigid Kevlar plate to something, per 430 g of rigid Kevlar.  Time needed is 45 minutes per unit.",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "rigid_kevlar_plate", 1 ] ], [ [ "super_glue", 1 ] ] ]
+    "components": [ [ [ "rigid_kevlar_plate", 1 ] ], [ [ "glue_strong", 1 ] ] ]
   },
   {
     "id": "armor_kevlar_layered",
@@ -85,7 +85,7 @@
     "type": "requirement",
     "//": "Layering paper sheets, cutting holes in them, laminating them with glue, and connecting multiple of resulting plates with cordage, per 162 g of paper.  Time needed is 50 minutes per unit.",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "paper", 50 ] ], [ [ "super_glue", 4 ], [ "bone_glue", 1 ] ], [ [ "cordage_short", 2, "LIST" ] ] ]
+    "components": [ [ [ "paper", 50 ] ], [ [ "glue_strong", 4 ], [ "glue_weak", 1 ] ], [ [ "cordage_short", 2, "LIST" ] ] ]
   },
   {
     "id": "armor_wood",

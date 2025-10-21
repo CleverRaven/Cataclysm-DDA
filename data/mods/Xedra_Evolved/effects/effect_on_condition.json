@@ -40,6 +40,49 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "xe_book_lies_carried",
+    "recurrence": [ "20 minutes", "40 minutes" ],
+    "condition": { "u_has_items": { "item": "book_deduction_lies", "count": 1 } },
+    "effect": [
+      { "math": [ "morale_book_lies = -3 * u_skill('deduction')" ] },
+      {
+        "u_add_morale": "morale_book_lies",
+        "bonus": { "math": [ "morale_book_lies" ] },
+        "max_bonus": { "math": [ "morale_book_lies" ] },
+        "duration": "30 minutes",
+        "decay_start": "15 minutes"
+      },
+      { "u_message": "XE_BOOK_LIES_CARRIED", "snippet": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "xe_book_lies_carried_no_tick_down",
+    "recurrence": 60,
+    "condition": { "u_has_items": { "item": "book_deduction_lies", "count": 1 } },
+    "//": "The vitamin that scales everything the player gains and suffers from that book won't tick down if the book is carried.  It's a good idea to not carry that book.",
+    "effect": [ { "math": [ "u_vitamin('xedra_knowing_lies') ++" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BOOK_LIES_NIGHTMARES",
+    "eoc_type": "EVENT",
+    "required_event": "character_wakes_up",
+    "condition": { "math": [ "u_vitamin('xedra_knowing_lies') >= 500" ] },
+    "effect": [
+      { "u_message": "nightmares_book_lies", "snippet": true, "type": "bad" },
+      { "math": [ "morale_book_lies = -3 * u_skill('deduction')" ] },
+      {
+        "u_add_morale": "morale_book_lies",
+        "bonus": { "math": [ "morale_book_lies" ] },
+        "max_bonus": { "math": [ "morale_book_lies" ] },
+        "duration": "30 minutes",
+        "decay_start": "15 minutes"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "faeblood_hallu_light",
     "recurrence": [ "29 minutes", "29 minutes" ],
     "global": true,

@@ -36,7 +36,6 @@
 #include "json.h"
 #include "line.h"
 #include "localized_comparator.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_selector.h"
 #include "memory_fast.h"
@@ -77,6 +76,9 @@
 #include <type_traits>
 #include <unordered_map>
 #include <vector>
+
+static const flag_id json_flag_NO_UNLOAD( "NO_UNLOAD" );
+static const flag_id json_flag_SHREDDED( "SHREDDED" );
 
 static const item_category_id item_category_BIONIC_FUEL_SOURCE( "BIONIC_FUEL_SOURCE" );
 static const item_category_id item_category_INTEGRATED( "INTEGRATED" );
@@ -2043,13 +2045,18 @@ bool inventory_selector::add_contained_items( item_location &container, inventor
         const item_category *const custom_category, item_location const &topmost_parent, int indent,
         bool add_efiles )
 {
-    if( container->has_flag( STATIC( flag_id( "NO_UNLOAD" ) ) ) ) {
+    if( container->has_flag( json_flag_NO_UNLOAD ) ) {
         return false;
     }
 
-    std::list<item *> const items = preset.get_pocket_type() == pocket_type::LAST
-                                    ? container->all_items_top()
-                                    : container->all_items_top( preset.get_pocket_type() );
+    std::list<item *> items;
+    if( preset.get_pocket_type().size() == 1 && preset.has_pocket_type( pocket_type::LAST ) ) {
+        items = container->all_items_top();
+    } else {
+        for( const pocket_type pt : preset.get_pocket_type() ) {
+            items.splice( items.begin(), container->all_items_top( pt ) );
+        }
+    }
 
     bool vis_top = false;
     inventory_column temp( preset );
@@ -3959,7 +3966,7 @@ void inventory_multiselector::deselect_contained_items()
         []( const inventory_entry & entry ) {
         return entry.is_item() && entry.chosen_count > 0 && entry.locations.front()->is_frozen_liquid() &&
                    //Frozen liquids can be selected if it have the SHREDDED flag.
-                   !entry.locations.front()->has_flag( STATIC( flag_id( "SHREDDED" ) ) ) &&
+                   !entry.locations.front()->has_flag( json_flag_SHREDDED ) &&
                    (
                        ( //Frozen liquids on the map are not selectable if they can't be crushed.
                            entry.locations.front().where() == item_location::type::map &&
@@ -4237,7 +4244,7 @@ inventory_selector::stats inventory_insert_selector::get_raw_stats() const
 }
 
 pickup_selector::pickup_selector( Character &p, const inventory_selector_preset &preset,
-                                  const std::string &selection_column_title, const std::optional<tripoint_bub_ms> &where ) :
+                                  const std::string &selection_column_title, const std::set<tripoint_bub_ms> &where ) :
     inventory_multiselector( p, preset, selection_column_title ), where( where )
 {
     ctxt.register_action( "WEAR" );
@@ -4360,11 +4367,7 @@ void pickup_selector::reopen_menu()
 {
     // copy the member variables to still be valid on call
     uistate.open_menu = [where = where, to_use = to_use]() {
-        std::optional<tripoint_bub_ms> temp;
-        if( where.has_value() ) {
-            temp = tripoint_bub_ms( where.value() );
-        }
-        get_player_character().pick_up( game_menus::inv::pickup( temp, to_use ) );
+        get_player_character().pick_up( game_menus::inv::pickup( where, to_use ) );
     };
 }
 
@@ -4407,9 +4410,9 @@ inventory_selector::stats pickup_selector::get_raw_stats() const
 
     return get_weight_and_volume_and_holster_stats(
                u.weight_carried() + weight,
-               u.weight_capacity(),
+               overriden_mass.has_value() ? overriden_mass.value() : u.weight_capacity(),
                u.volume_carried() + volume,
-               u.volume_capacity(),
+               overriden_volume.has_value() ? overriden_volume.value() : u.volume_capacity(),
                u.max_single_item_length(),
                u.max_single_item_volume(),
                u.free_holster_volume(),

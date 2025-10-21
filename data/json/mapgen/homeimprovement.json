@@ -63,7 +63,7 @@
       "toilets": { "&": {  } },
       "items": {
         "&": { "item": "SUS_toilet", "chance": 50 },
-        "I": { "item": "office", "chance": 30 },
+        "I": { "item": "SUS_office_desk", "chance": 50 },
         "U": { "item": "SUS_trash_dumpster", "chance": 50 },
         "l": [ { "item": "jackets", "chance": 10 }, { "item": "bags", "chance": 10 } ]
       },

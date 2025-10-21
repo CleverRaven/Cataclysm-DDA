@@ -261,6 +261,7 @@ enum debug_filter : int {
     DF_EXPLOSION, // explosion generic
     DF_FOOD, // food generic
     DF_GAME, // game generic
+    DF_HIGHWAY, // highway overmap generation
     DF_IEXAMINE, // iexamine generic
     DF_IUSE, // iuse generic
     DF_MAP, // map generic

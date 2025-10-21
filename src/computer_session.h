@@ -9,6 +9,7 @@
 
 #include "computer.h"
 #include "cursesdef.h"
+#include "type_id.h"
 
 class Character;
 
@@ -104,6 +105,8 @@ class computer_session
         void action_list_bionics();
         void action_list_mutations();
         void action_lock();
+        void helper_map( bool ( *func )( const oter_id & ), const char *query,
+                         enum computer_action action );
         void action_map_sewer();
         void action_map_subway();
         void action_maps();
@@ -115,6 +118,7 @@ class computer_session
         void action_open_disarm();
         void action_portal();
         void action_radio_archive();
+        void helper_release( float radius );
         void action_release();
         void action_release_bionics();
         void action_release_disarm();

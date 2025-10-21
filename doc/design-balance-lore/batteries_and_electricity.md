@@ -1,3 +1,13 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Voltage, Current, Capacity](#voltage-current-capacity)
+- [Battery representation](#battery-representation)
+- [Matching batteries to devices](#matching-batteries-to-devices)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 The way that batteries, power storage, and electricity use are handled is a pile of compromises, so this document outlines the decisions about these topics and some of the rationales for them.
 
 ## Voltage, Current, Capacity

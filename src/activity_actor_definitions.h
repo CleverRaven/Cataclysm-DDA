@@ -11,6 +11,7 @@
 #include <vector>
 
 #include "activity_type.h"
+#include "butchery.h"
 #include "calendar.h"
 #include "character.h"
 #include "clone_ptr.h"
@@ -554,6 +555,14 @@ class pickup_activity_actor : public activity_actor
                                const std::optional<tripoint_bub_ms> &starting_pos,
                                bool autopickup ) : target_items( target_items ),
             quantities( quantities ), starting_pos( starting_pos ), stash_successful( true ),
+            autopickup( autopickup ) {
+            info = Pickup::pick_info();
+        }
+        pickup_activity_actor( const std::vector<item_location> &target_items,
+                               const std::vector<int> &quantities,
+                               const std::optional<tripoint_bub_ms> &starting_pos,
+                               bool autopickup, Pickup::pick_info &info ) : target_items( target_items ),
+            quantities( quantities ), info( info ), starting_pos( starting_pos ), stash_successful( true ),
             autopickup( autopickup ) {}
 
         /**
@@ -1508,6 +1517,37 @@ class disassemble_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 };
 
+class move_furniture_on_vehicle_activity_actor : public activity_actor
+{
+    private:
+        tripoint_rel_ms dp;
+        bool via_ramp;
+
+    public:
+        move_furniture_on_vehicle_activity_actor( const tripoint_rel_ms &dp, bool via_ramp ) :
+            dp( dp ), via_ramp( via_ramp ) {}
+        const activity_id &get_type() const override {
+            static const activity_id ACT_FURNITURE_MOVE( "ACT_FURNITURE_MOVE" );
+            return ACT_FURNITURE_MOVE;
+        }
+
+        bool can_move_furn_on_veh_to( map &, const tripoint_bub_ms & ) const;
+        // false = move player, true = don't move player
+        bool move_furniture( Character & ) const;
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &, Character & ) override {}
+        void finish( player_activity &act, Character &who ) override;
+        void canceled( player_activity &act, Character &who ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<move_furniture_on_vehicle_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+};
+
 class move_furniture_activity_actor : public activity_actor
 {
     private:
@@ -2422,10 +2462,11 @@ class pulp_activity_actor : public activity_actor
 {
     public:
         pulp_activity_actor() = default;
-        explicit pulp_activity_actor( const tripoint_abs_ms placement ) : placement( { placement } ),
-        num_corpses( 0 ) {}
-        explicit pulp_activity_actor( const std::set<tripoint_abs_ms> &placement ) : placement( placement ),
-            num_corpses( 0 ) {}
+        explicit pulp_activity_actor( const tripoint_abs_ms placement ) : placement( { placement } ) {}
+        explicit pulp_activity_actor( const std::set<tripoint_abs_ms> &placement ) : placement(
+                placement ) {}
+        explicit pulp_activity_actor( const item_location &corpses ) : corpses( { corpses } ) {}
+        explicit pulp_activity_actor( const std::vector<item_location> &corpses ) : corpses( corpses ) {}
         const activity_id &get_type() const override {
             static const activity_id ACT_PULP( "ACT_PULP" );
             return ACT_PULP;
@@ -2436,6 +2477,7 @@ class pulp_activity_actor : public activity_actor
         bool punch_corpse_once( item &corpse, Character &you, tripoint_bub_ms pos, map &here );
         void finish( player_activity &, Character & ) override;
 
+        bool can_pulp( item &corpse, Character &you );
         void send_final_message( Character &you ) const;
 
         std::unique_ptr<activity_actor> clone() const override {
@@ -2446,9 +2488,13 @@ class pulp_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 
     private:
+        // list of corpses we are iterating over, from last
+        // if not provided, is constructed from `placement`
+        std::vector<item_location> corpses;
+
         // tripoints with corpses we need to pulp;
         // either single tripoint shoved into set, or 3x3 zone around u/npc
-        std::set<tripoint_abs_ms> placement;
+        std::set<tripoint_abs_ms> placement; // NOLINT(cata-serialize)
 
         float float_corpse_damage_accum = 0.0f; // NOLINT(cata-serialize)
 
@@ -2466,6 +2512,38 @@ class pulp_activity_actor : public activity_actor
         int num_corpses = 0;
 
         pulp_data pd;
+};
+
+class butchery_activity_actor : public activity_actor
+{
+    public:
+        butchery_activity_actor() = default;
+        explicit butchery_activity_actor( butchery_data bd ) : bd( { std::move( bd ) } ) {}
+        explicit butchery_activity_actor( std::vector<butchery_data> bd ) : bd( std::move( bd ) ) {}
+
+        const activity_id &get_type() const override;
+        void start( player_activity & /* act */, Character & /* you */ ) override {};
+        void do_turn( player_activity &act, Character &you ) override;
+        void finish( player_activity &act, Character & /* you */ ) override;
+        void canceled( player_activity &act, Character &you ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<butchery_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+
+        // store said data in this_bd
+        void calculate_butchery_data( Character &you, butchery_data &this_bd );
+        // return false if preparation failed for some reason
+        bool initiate_butchery( player_activity &act, Character &you, butchery_data &this_bd );
+
+    private:
+        // list of butcheries we want to perform in this activity
+        // we iterate over it, starting from last, and pop_back() when instance is finished
+        // when vector is empty, we are done
+        std::vector<butchery_data> bd;
 };
 
 class wait_stamina_activity_actor : public activity_actor
@@ -2498,6 +2576,31 @@ class wait_stamina_activity_actor : public activity_actor
     private:
         int stamina_threshold = -1;
         int initial_stamina = -1;
+};
+
+class wait_followers_activity_actor : public activity_actor
+{
+    public:
+        // Wait until stamina is at the maximum.
+        wait_followers_activity_actor() = default;
+
+        void start( player_activity &act, Character &who ) override;
+        void do_turn( player_activity &act, Character &you ) override;
+        void finish( player_activity &act, Character &you ) override;
+
+        static std::vector<npc *> get_absent_followers( Character &you );
+
+        const activity_id &get_type() const override {
+            static const activity_id ACT_WAIT_FOLLOWERS( "ACT_WAIT_FOLLOWERS" );
+            return ACT_WAIT_FOLLOWERS;
+        }
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<wait_followers_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 };
 
 #endif // CATA_SRC_ACTIVITY_ACTOR_DEFINITIONS_H

@@ -152,7 +152,7 @@
         { "item": "SUS_wardrobe_womens", "chance": 20, "repeat": [ 1, 2 ] }
       ],
       "F": { "item": "SUS_fridge_healthy_vegan", "chance": 10 },
-      "I": [ { "item": "SUS_desks_bedroom_unisex", "chance": 5 }, { "item": "office", "chance": 25 } ],
+      "I": [ { "item": "SUS_desks_bedroom_unisex", "chance": 5 }, { "item": "SUS_office_desk", "chance": 25 } ],
       "J": { "item": "kitchen_counters", "chance": 5 },
       "L": { "item": "unisex_coat_rack", "chance": 30, "repeat": [ 1, 4 ] },
       "M": { "item": "home_display_case", "chance": 20 },

@@ -352,7 +352,7 @@
     "end": {
       "effect": [
         { "u_add_var": "mission_flag_Alonso_pants", "value": "yes" },
-        { "math": [ "u_counter_refugee_center_refugee_happiness", "+=", "2" ] },
+        { "math": [ "u_counter_refugee_center_refugee_happiness += 2" ] },
         { "npc_add_effect": "Alonso_pants_restored", "duration": "PERMANENT" }
       ]
     },

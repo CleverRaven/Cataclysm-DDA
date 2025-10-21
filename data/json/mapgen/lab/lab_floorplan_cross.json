@@ -233,7 +233,7 @@
         "t": { "items": [ { "item": "SUS_fridge", "chance": 30 } ] },
         "l": {
           "items": [
-            { "item": "office", "chance": 20 },
+            { "item": "SUS_office_filing_cabinet", "chance": 20 },
             { "item": "textbooks", "chance": 10 },
             { "item": "science", "chance": 10 },
             { "item": "harddrugs", "chance": 5 },

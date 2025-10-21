@@ -12,7 +12,6 @@
 #include <unordered_set>
 
 #include "ammo.h"
-#include "assign.h"
 #include "cata_assert.h"
 #include "catacharset.h"
 #include "character.h"
@@ -32,6 +31,7 @@
 #include "item_pocket.h"
 #include "itype.h"
 #include "json.h"
+#include "magic_enchantment.h"
 #include "map.h"
 #include "output.h"
 #include "pocket_type.h"
@@ -39,6 +39,7 @@
 #include "ret_val.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "type_id.h"
 #include "units.h"
 #include "units_utility.h"
 #include "value_ptr.h"
@@ -47,6 +48,9 @@
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "wcwidth.h"
+
+class emit;
+class proficiency;
 
 namespace
 {
@@ -67,6 +71,8 @@ static const quality_id qual_SMG( "SMG" );
 static const skill_id skill_launcher( "launcher" );
 
 static const vpart_id vpart_turret_generic( "turret_generic" );
+
+static const vpart_location_id vpart_location_structure( "structure" );
 
 // GENERAL GUIDELINES
 // To determine mount position for parts (dx, dy), check this scheme:
@@ -178,25 +184,11 @@ static void parse_vp_reqs( const JsonObject &obj, const vpart_id &id, const std:
     }
     JsonObject src = obj.get_object( key );
 
-    JsonArray sk = src.get_array( "skills" );
-    if( !sk.empty() ) {
-        skills.clear();
-        for( JsonArray cur : sk ) {
-            if( cur.size() != 2 ) {
-                debugmsg( "vpart '%s' has requirement with invalid skill entry", id.str() );
-                continue;
-            }
-            skills.emplace( skill_id( cur.get_string( 0 ) ), cur.get_int( 1 ) );
-        }
-    }
+    optional( src, false, "skills", skills, weighted_string_id_reader<skill_id, int> { std::nullopt } );
 
-    if( src.has_string( "time" ) ) {
-        assign( src, "time", time, /* strict = */ false );
-    } else if( src.has_int( "time" ) ) { // remove in 0.H
-        time = time_duration::from_moves( src.get_int( "time" ) );
-        debugmsg( "vpart '%s' defines requirement time as integer, use time units string", id.str() );
-    }
+    optional( src, false, "time", time, time );
 
+    // FIXME: generic typed reader for requirements
     if( src.has_string( "using" ) ) {
         reqs = { { requirement_id( src.get_string( "using" ) ), 1 } };
     } else if( src.has_array( "using" ) ) {
@@ -215,28 +207,10 @@ static void parse_vp_reqs( const JsonObject &obj, const vpart_id &id, const std:
     }
 }
 
-static void parse_vp_control_reqs( const JsonObject &obj, const vpart_id &id,
-                                   std::string_view key,
-                                   vp_control_req &req )
+void vp_control_req::deserialize( const JsonObject &jo )
 {
-    if( !obj.has_object( key ) ) {
-        return;
-    }
-    JsonObject src = obj.get_object( key );
-
-    JsonArray sk = src.get_array( "skills" );
-    if( !sk.empty() ) {
-        req.skills.clear();
-        for( JsonArray cur : sk ) {
-            if( cur.size() != 2 ) {
-                debugmsg( "vpart '%s' has requirement with invalid skill entry", id.str() );
-                continue;
-            }
-            req.skills.emplace( skill_id( cur.get_string( 0 ) ), cur.get_int( 1 ) );
-        }
-    }
-
-    optional( src, false, "proficiencies", req.proficiencies );
+    optional( jo, false, "skills", skills, weighted_string_id_reader<skill_id, int> { std::nullopt} );
+    optional( jo, false, "proficiencies", proficiencies, string_id_reader<proficiency> {} );
 }
 
 void vehicles::parts::load( const JsonObject &jo, const std::string &src )
@@ -268,39 +242,40 @@ void vpart_info::handle_inheritance( const vpart_info &copy_from,
     }
 }
 
-void vpart_info::load( const JsonObject &jo, const std::string &src )
+void vpart_info::load( const JsonObject &jo, const std::string_view src )
 {
-    const bool strict = src == "dda";
+    optional( jo, was_loaded, "name", name_ );
+    optional( jo, was_loaded, "item", base_item );
+    optional( jo, was_loaded, "remove_as", removed_item );
+    optional( jo, was_loaded, "location", location );
+    optional( jo, was_loaded, "durability", durability, 0 );
+    optional( jo, was_loaded, "damage_modifier", dmg_mod, 100 );
+    optional( jo, was_loaded, "energy_consumption", energy_consumption, 0_W );
+    optional( jo, was_loaded, "power", power, 0_W );
+    optional( jo, was_loaded, "epower", epower, 0_W );
+    optional( jo, was_loaded, "emissions", emissions, string_id_reader<emit> {} );
+    optional( jo, was_loaded, "exhaust", exhaust, string_id_reader<emit> {} );
+    optional( jo, was_loaded, "fuel_type", fuel_type, itype_id::NULL_ID() );
+    optional( jo, was_loaded, "default_ammo", default_ammo, itype_id::NULL_ID() );
+    optional( jo, was_loaded, "folded_volume", folded_volume, std::nullopt );
+    optional( jo, was_loaded, "size", size, 0_ml );
+    optional( jo, was_loaded, "bonus", bonus, 0 );
+    optional( jo, was_loaded, "cargo_weight_modifier", cargo_weight_modifier, 100 );
+    optional( jo, was_loaded, "categories", categories, string_reader{} );
+    optional( jo, was_loaded, "flags", flags, string_reader{} );
+    optional( jo, was_loaded, "description", description );
+    optional( jo, was_loaded, "color", color, nc_color_reader{}, c_light_gray );
+    optional( jo, was_loaded, "broken_color", color_broken, nc_color_reader{}, c_light_gray );
+    optional( jo, was_loaded, "comfort", comfort, 0 );
+    optional( jo, was_loaded, "floor_bedding_warmth", floor_bedding_warmth, 0_C_delta );
+    optional( jo, was_loaded, "bonus_fire_warmth_feet", bonus_fire_warmth_feet, 0.6_C_delta );
+    optional( jo, was_loaded, "activatable_eoc", activatable_eoc );
 
-    assign( jo, "name", name_, strict );
-    assign( jo, "item", base_item, strict );
-    assign( jo, "remove_as", removed_item, strict );
-    assign( jo, "location", location, strict );
-    assign( jo, "durability", durability, strict );
-    assign( jo, "damage_modifier", dmg_mod, strict );
-    assign( jo, "energy_consumption", energy_consumption, strict );
-    assign( jo, "power", power, strict );
-    assign( jo, "epower", epower, strict );
-    assign( jo, "emissions", emissions, strict );
-    assign( jo, "exhaust", exhaust, strict );
-    assign( jo, "fuel_type", fuel_type, strict );
-    assign( jo, "default_ammo", default_ammo, strict );
-    assign( jo, "folded_volume", folded_volume, strict );
-    assign( jo, "size", size, strict );
-    assign( jo, "bonus", bonus, strict );
-    assign( jo, "cargo_weight_modifier", cargo_weight_modifier, strict );
-    assign( jo, "categories", categories, strict );
-    assign( jo, "flags", flags, strict );
-    assign( jo, "description", description, strict );
-    assign( jo, "color", color, strict );
-    assign( jo, "broken_color", color_broken, strict );
-    assign( jo, "comfort", comfort, strict );
-    int legacy_floor_bedding_warmth = units::to_legacy_bodypart_temp_delta( floor_bedding_warmth );
-    assign( jo, "floor_bedding_warmth", legacy_floor_bedding_warmth, strict );
-    floor_bedding_warmth = units::from_legacy_bodypart_temp_delta( legacy_floor_bedding_warmth );
-    int legacy_bonus_fire_warmth_feet = units::to_legacy_bodypart_temp_delta( bonus_fire_warmth_feet );
-    assign( jo, "bonus_fire_warmth_feet", legacy_bonus_fire_warmth_feet, strict );
-    bonus_fire_warmth_feet = units::from_legacy_bodypart_temp_delta( legacy_bonus_fire_warmth_feet );
+    int enchant_num = 0;
+    for( JsonValue jv : jo.get_array( "enchantments" ) ) {
+        std::string enchant_name = "INLINE_ENCH_" + name_ + "_" + std::to_string( enchant_num++ );
+        enchantments.push_back( enchantment::load_inline_enchantment( jv, src, enchant_name ) );
+    }
 
     if( jo.has_array( "variants" ) ) {
         variants.clear();
@@ -332,24 +307,18 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
     if( jo.has_member( "control_requirements" ) ) {
         JsonObject reqs = jo.get_object( "control_requirements" );
 
-        parse_vp_control_reqs( reqs, id, "air", control_air );
-        parse_vp_control_reqs( reqs, id, "land", control_land );
+        optional( reqs, false, "air", control_air );
+        optional( reqs, false, "land", control_land );
     }
 
-    assign( jo, "looks_like", looks_like, strict );
+    optional( jo, was_loaded, "looks_like", looks_like, looks_like );
 
     if( jo.has_member( "breaks_into" ) ) {
         breaks_into_group = item_group::load_item_group(
                                 jo.get_member( "breaks_into" ), "collection", "breaks_into for vpart " + id.str() );
     }
 
-    JsonArray qual = jo.get_array( "qualities" );
-    if( !qual.empty() ) {
-        qualities.clear();
-        for( JsonArray pair : qual ) {
-            qualities[ quality_id( pair.get_string( 0 ) ) ] = pair.get_int( 1 );
-        }
-    }
+    optional( jo, was_loaded, "qualities", qualities, weighted_string_id_reader<quality_id, int> {std::nullopt} );
 
     JsonArray tools = jo.get_array( "pseudo_tools" );
     if( !tools.empty() ) {
@@ -364,87 +333,126 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
             }
         }
     }
-    assign( jo, "folding_tools", folding_tools, strict );
-    assign( jo, "unfolding_tools", unfolding_tools, strict );
-    assign( jo, "folding_time", folding_time, strict );
-    assign( jo, "unfolding_time", unfolding_time, strict );
+    optional( jo, was_loaded, "folding_tools", folding_tools, string_id_reader<itype> {} );
+    optional( jo, was_loaded, "unfolding_tools", unfolding_tools, string_id_reader<itype> {} );
+    optional( jo, was_loaded, "folding_time", folding_time, 10_seconds );
+    optional( jo, was_loaded, "unfolding_time", unfolding_time, 10_seconds );
 
     if( jo.has_member( "damage_reduction" ) ) {
         JsonObject dred = jo.get_object( "damage_reduction" );
         damage_reduction = load_damage_map( dred );
     }
 
+    // TODO?: move this into an object?
     if( has_flag( "ENGINE" ) ) {
         if( !engine_info ) {
             engine_info.emplace();
         }
-        assign( jo, "backfire_threshold", engine_info->backfire_threshold, strict );
-        assign( jo, "backfire_freq", engine_info->backfire_freq, strict );
-        assign( jo, "noise_factor", engine_info->noise_factor, strict );
-        assign( jo, "damaged_power_factor", engine_info->damaged_power_factor, strict );
-        assign( jo, "m2c", engine_info->m2c, strict );
-        assign( jo, "muscle_power_factor", engine_info->muscle_power_factor, strict );
-        assign( jo, "exclusions", engine_info->exclusions, strict );
-        assign( jo, "fuel_options", engine_info->fuel_opts, strict );
+        engine_info->deserialize( jo );
     }
 
     if( has_flag( "WHEEL" ) ) {
         if( !wheel_info ) {
             wheel_info.emplace();
         }
-
-        assign( jo, "rolling_resistance", wheel_info->rolling_resistance, strict );
-        assign( jo, "contact_area", wheel_info->contact_area, strict );
-        assign( jo, "wheel_offroad_rating", wheel_info->offroad_rating, strict );
-        if( const std::optional<JsonValue> jo_termod = jo.get_member_opt( "wheel_terrain_modifiers" ) ) {
-            wheel_info->terrain_modifiers.clear();
-            for( const JsonMember jo_mod : static_cast<JsonObject>( *jo_termod ) ) {
-                const JsonArray jo_mod_values = jo_mod.get_array();
-                veh_ter_mod mod { jo_mod.name(), jo_mod_values.get_int( 0 ), jo_mod_values.get_int( 1 ) };
-                wheel_info->terrain_modifiers.emplace_back( std::move( mod ) );
-            }
-        }
+        wheel_info->deserialize( jo );
     }
 
     if( has_flag( "ROTOR" ) ) {
         if( !rotor_info ) {
             rotor_info.emplace();
         }
-        assign( jo, "rotor_diameter", rotor_info->rotor_diameter, strict );
+        rotor_info->deserialize( jo );
     }
 
     if( has_flag( "WORKBENCH" ) ) {
-        if( !workbench_info ) {
-            workbench_info.emplace();
-        }
-
-        JsonObject wb_jo = jo.get_object( "workbench" );
-        assign( wb_jo, "multiplier", workbench_info->multiplier, strict );
-        assign( wb_jo, "mass", workbench_info->allowed_mass, strict );
-        assign( wb_jo, "volume", workbench_info->allowed_volume, strict );
+        mandatory( jo, was_loaded, "workbench", workbench_info );
     }
 
     if( has_flag( "VEH_TOOLS" ) ) {
         if( !toolkit_info ) {
             toolkit_info.emplace();
         }
-        assign( jo, "allowed_tools", toolkit_info->allowed_types, strict );
+        toolkit_info->deserialize( jo );
     }
 
     if( has_flag( "TRANSFORM_TERRAIN" ) || has_flag( "CRASH_TERRAIN_AROUND" ) ) {
         if( !transform_terrain_info ) {
             transform_terrain_info.emplace();
         }
-        JsonObject jttd = jo.get_object( "transform_terrain" );
-        vpslot_terrain_transform &vtt = *transform_terrain_info;
-        optional( jttd, was_loaded, "pre_flags", vtt.pre_flags, {} );
-        optional( jttd, was_loaded, "post_terrain", vtt.post_terrain );
-        optional( jttd, was_loaded, "post_furniture", vtt.post_furniture );
-        if( jttd.has_string( "post_field" ) ) {
-            mandatory( jttd, was_loaded, "post_field", vtt.post_field );
-            mandatory( jttd, was_loaded, "post_field_intensity", vtt.post_field_intensity );
-            mandatory( jttd, was_loaded, "post_field_age", vtt.post_field_age );
-        }
+        mandatory( jo, was_loaded, "transform_terrain", transform_terrain_info );
+    }
+}
+
+void vpslot_engine::deserialize( const JsonObject &jo )
+{
+    optional( jo, was_loaded, "backfire_threshold", backfire_threshold, 0.f );
+    optional( jo, was_loaded, "backfire_freq", backfire_freq, 1 );
+    optional( jo, was_loaded, "noise_factor", noise_factor, 0 );
+    optional( jo, was_loaded, "damaged_power_factor", damaged_power_factor, 0.f );
+    optional( jo, was_loaded, "m2c", m2c, 100 );
+    optional( jo, was_loaded, "muscle_power_factor", muscle_power_factor, 0 );
+    optional( jo, was_loaded, "exclusions", exclusions, string_reader{} );
+    optional( jo, was_loaded, "fuel_options", fuel_opts, string_id_reader<itype> {} );
+
+    was_loaded = true;
+}
+
+void veh_ter_mod::deserialize( const JsonValue &jv )
+{
+    if( !jv.is_member() ) {
+        jv.throw_error( "Invalid format" );
+    }
+
+    const JsonMember &jm = dynamic_cast<const JsonMember &>( jv );
+    JsonArray ja = jm.get_array();
+
+    terrain_flag = jm.name();
+    move_override = ja.get_int( 0 );
+    move_penalty = ja.get_int( 1 );
+}
+
+void vpslot_wheel::deserialize( const JsonObject &jo )
+{
+    optional( jo, was_loaded, "rolling_resistance", rolling_resistance, 1.f );
+    optional( jo, was_loaded, "contact_area", contact_area, 1 );
+    optional( jo, was_loaded, "wheel_offroad_rating", offroad_rating, 0.5f );
+    optional( jo, was_loaded, "wheel_terrain_modifiers", terrain_modifiers,
+              json_read_reader<veh_ter_mod> {} );
+
+    was_loaded = true;
+}
+
+void vpslot_rotor::deserialize( const JsonObject &jo )
+{
+    optional( jo, was_loaded, "rotor_diameter", rotor_diameter, 1 );
+
+    was_loaded = true;
+}
+
+void vpslot_workbench::deserialize( const JsonObject &jo )
+{
+    optional( jo, false, "multiplier", multiplier, 1.f );
+    optional( jo, false, "mass", allowed_mass, 0_gram );
+    optional( jo, false, "volume", allowed_volume, 0_ml );
+}
+
+void vpslot_toolkit::deserialize( const JsonObject &jo )
+{
+    optional( jo, was_loaded, "allowed_tools", allowed_types, string_id_reader<itype> {} );
+
+    was_loaded = true;
+}
+
+void vpslot_terrain_transform::deserialize( const JsonObject &jo )
+{
+    optional( jo, false, "pre_flags", pre_flags, {} );
+    optional( jo, false, "post_terrain", post_terrain );
+    optional( jo, false, "post_furniture", post_furniture );
+    if( jo.has_string( "post_field" ) ) {
+        mandatory( jo, false, "post_field", post_field );
+        mandatory( jo, false, "post_field_intensity", post_field_intensity );
+        mandatory( jo, false, "post_field_age", post_field_age );
     }
 }
 
@@ -599,6 +607,16 @@ void vehicles::parts::finalize()
             new_part.folded_volume = item->volume;
         }
 
+        // override install requirements
+        std::vector<std::vector<tool_comp>> tools;
+        std::vector<std::vector<quality_requirement>> qualities;
+        std::vector<std::vector<item_comp>> components = { { { new_part.base_item, 1 } } };
+        requirement_data ins( tools, qualities, components );
+
+        const requirement_id ins_id( std::string( "inline_vehins_base_" ) + new_part.id.str() );
+        requirement_data::save_requirement( ins, ins_id );
+        new_part.set_install_requirements( { {ins_id, 1} } );
+
         // cap all skills at 8
         primary_req = std::min( 8, primary_req );
         mechanics_req = std::min( 8, mechanics_req );
@@ -630,12 +648,6 @@ void vehicles::parts::finalize()
     // hide the generic turret prototype
     vpart_info &vpi_turret_generic = const_cast<vpart_info &>( *vpart_turret_generic );
     vpi_turret_generic.set_flag( "NO_INSTALL_HIDDEN" );
-
-    for( const vpart_info &const_vpi : vehicles::parts::get_all() ) {
-        // const_cast hack until/if generic factory supports finalize
-        vpart_info &vpi = const_cast<vpart_info &>( const_vpi );
-        vpi.finalize();
-    }
 }
 
 void vpart_info::finalize()
@@ -654,54 +666,11 @@ void vpart_info::finalize()
     if( has_flag( VPFLAG_APPLIANCE ) ) {
         // force all appliances' location field to "structure"
         // dragging code currently checks this for considering collisions
-        location = "structure";
+        location = vpart_location_structure;
     }
 
     finalize_damage_map( damage_reduction );
 
-    // Calculate and cache z-ordering based off of location
-    // list_order is used when inspecting the vehicle
-    if( location == "on_roof" ) {
-        z_order = 9;
-        list_order = 3;
-    } else if( location == "on_cargo" ) {
-        z_order = 8;
-        list_order = 6;
-    } else if( location == "center" ) {
-        z_order = 7;
-        list_order = 7;
-    } else if( location == "under" ) {
-        // Have wheels show up over frames
-        z_order = 6;
-        list_order = 10;
-    } else if( location == "structure" ) {
-        z_order = 5;
-        list_order = 1;
-    } else if( location == "engine_block" ) {
-        // Should be hidden by frames
-        z_order = 4;
-        list_order = 8;
-    } else if( location == "on_battery_mount" ) {
-        // Should be hidden by frames
-        z_order = 3;
-        list_order = 10;
-    } else if( location == "fuel_source" ) {
-        // Should be hidden by frames
-        z_order = 3;
-        list_order = 9;
-    } else if( location == "roof" ) {
-        // Shouldn't be displayed
-        z_order = -1;
-        list_order = 4;
-    } else if( location == "armor" ) {
-        // Shouldn't be displayed (the color is used, but not the symbol)
-        z_order = -2;
-        list_order = 2;
-    } else {
-        // Everything else
-        z_order = 0;
-        list_order = 5;
-    }
     std::set<std::pair<itype_id, int>> &pt = pseudo_tools;
     for( auto it = pt.begin(); it != pt.end(); /* blank */ ) {
         const itype_id &tool = it->first;
@@ -1088,6 +1057,11 @@ requirement_data vpart_info::install_requirements() const
     return requirement_data( install_reqs );
 }
 
+void vpart_info::set_install_requirements( const std::vector<std::pair<requirement_id, int>> &reqs )
+{
+    install_reqs = reqs;
+}
+
 requirement_data vpart_info::removal_requirements() const
 {
     return requirement_data( removal_reqs );
@@ -1277,122 +1251,100 @@ static std::pair<std::string, std::string> get_vpart_str_variant( const std::str
            : std::make_pair( vpid.substr( 0, loc ), vpid.substr( loc + 1 ) );
 }
 
+struct veh_proto_part_def_reader : generic_typed_reader<veh_proto_part_def_reader> {
+    point_rel_ms pos;
+
+    explicit veh_proto_part_def_reader( const point_rel_ms &p ) : pos( p ) {}
+
+    vehicle_prototype::part_def get_next( const JsonValue &jv ) const {
+        vehicle_prototype::part_def ret;
+        if( jv.test_string() ) {
+            const auto [id, variant] = get_vpart_str_variant( jv.get_string() );
+            ret.part = vpart_id( id );
+            ret.variant = variant;
+            ret.pos = pos;
+            return ret;
+        }
+        JsonObject jo = jv.get_object();
+        const auto [id, variant] = get_vpart_str_variant( jo.get_string( "part" ) );
+        ret.part = vpart_id( id );
+        ret.variant = variant;
+        ret.pos = pos;
+
+        optional( jo, false, "ammo", ret.with_ammo, numeric_bound_reader{0, 100}, 0 );
+        optional( jo, false, "ammo_types", ret.ammo_types, string_id_reader<itype> {} );
+        optional( jo, false, "ammo_qty", ret.ammo_qty, { -1, -1 } );
+        optional( jo, false, "fuel", ret.fuel, itype_id::NULL_ID() );
+        optional( jo, false, "tools", ret.tools, string_id_reader<itype> {} );
+        return ret;
+    }
+
+};
+
+struct veh_spawn_item_reader : generic_typed_reader<veh_spawn_item_reader> {
+    std::pair<itype_id, std::string> get_next( const JsonValue &jv ) const {
+        if( jv.test_string() ) {
+            return std::make_pair( itype_id( jv.get_string() ), "" );
+        }
+        JsonObject jo = jv.get_object();
+        std::pair<itype_id, std::string> ret;
+        mandatory( jo, false, "id", ret.first );
+        optional( jo, false, "variant", ret.second );
+        return ret;
+    }
+};
+
+void vehicle_item_spawn::deserialize( const JsonObject &jo )
+{
+    mandatory( jo, false, "x", pos.x() );
+    mandatory( jo, false, "y", pos.y() );
+
+    mandatory( jo, false, "chance", chance, numeric_bound_reader{ 0, 100 } );
+
+    // constrain both with_magazine and with_ammo to [0-100]
+    optional( jo, false, "magazine", with_magazine, numeric_bound_reader{ 0, 100 }, 0 );
+    optional( jo, false, "ammo", with_ammo, numeric_bound_reader{ 0, 100 }, 0 );
+
+    optional( jo, false, "items", item_ids, veh_spawn_item_reader{} );
+    optional( jo, false, "item_groups", item_groups, string_id_reader<Item_spawn_data> {} );
+}
+
+void vehicle_prototype::zone_def::deserialize( const JsonObject &jo )
+{
+    mandatory( jo, false, "type", zone_type );
+    mandatory( jo, false, "x", pt.x() );
+    mandatory( jo, false, "y", pt.y() );
+    optional( jo, false, "name", name );
+    optional( jo, false, "filter", filter );
+}
+
 void vehicle_prototype::load( const JsonObject &jo, std::string_view )
 {
     vgroups[vgroup_id( id.str() )].add_vehicle( id, 100 );
     optional( jo, was_loaded, "name", name );
-
-    const auto add_part_obj = [&]( const JsonObject & part, point_rel_ms pos ) {
-        const auto [id, variant] = get_vpart_str_variant( part.get_string( "part" ) );
-        part_def pt;
-        pt.part = vpart_id( id );
-        pt.variant = variant;
-        pt.pos = pos;
-
-        assign( part, "ammo", pt.with_ammo, true, 0, 100 );
-        assign( part, "ammo_types", pt.ammo_types, true );
-        assign( part, "ammo_qty", pt.ammo_qty, true, 0 );
-        assign( part, "fuel", pt.fuel, true );
-        assign( part, "tools", pt.tools, true );
-
-        parts.emplace_back( pt );
-    };
-
-    const auto add_part_string = [&]( const std::string & part, point_rel_ms pos ) {
-        const auto [id, variant] = get_vpart_str_variant( part );
-        part_def pt;
-        pt.part = vpart_id( id );
-        pt.variant = variant;
-        pt.pos = pos;
-        parts.emplace_back( pt );
-    };
 
     if( jo.has_member( "blueprint" ) ) {
         // currently unused, read to suppress unvisited members warning
         jo.get_array( "blueprint" );
     }
 
+    std::vector<part_def> tmp;
     for( JsonObject part : jo.get_array( "parts" ) ) {
-        point_rel_ms pos{ part.get_int( "x" ), part.get_int( "y" ) };
-
-        if( part.has_string( "part" ) ) {
-            add_part_obj( part, pos );
-            debugmsg( "vehicle prototype '%s' uses deprecated string definition for part"
-                      " '%s', use 'parts' array instead", id.str(), part.get_string( "part" ) );
-        } else if( part.has_array( "parts" ) ) {
-            for( const JsonValue entry : part.get_array( "parts" ) ) {
-                if( entry.test_string() ) {
-                    std::string part_name = entry.get_string();
-                    add_part_string( part_name, pos );
-                } else {
-                    JsonObject subpart = entry.get_object();
-                    add_part_obj( subpart, pos );
-                }
-            }
-        }
+        point_rel_ms pos;
+        mandatory( part, false, "x", pos.x() );
+        mandatory( part, false, "y", pos.y() );
+        mandatory( part, false, "parts", tmp, veh_proto_part_def_reader{ pos } );
+        // gross
+        parts.insert( parts.end(), tmp.begin(), tmp.end() );
     }
 
-    for( JsonObject spawn_info : jo.get_array( "items" ) ) {
-        vehicle_item_spawn next_spawn;
-        next_spawn.pos.x() = spawn_info.get_int( "x" );
-        next_spawn.pos.y() = spawn_info.get_int( "y" );
-
-        next_spawn.chance = spawn_info.get_int( "chance" );
-        if( next_spawn.chance <= 0 || next_spawn.chance > 100 ) {
-            debugmsg( "Invalid spawn chance in %s (%d, %d): %d%%",
-                      name, next_spawn.pos.x(), next_spawn.pos.y(), next_spawn.chance );
-        }
-
-        // constrain both with_magazine and with_ammo to [0-100]
-        next_spawn.with_magazine = std::max( std::min( spawn_info.get_int( "magazine",
-                                             next_spawn.with_magazine ), 100 ), 0 );
-        next_spawn.with_ammo = std::max( std::min( spawn_info.get_int( "ammo",
-                                         next_spawn.with_ammo ), 100 ), 0 );
-
-        if( spawn_info.has_array( "items" ) ) {
-            //Array of items that all spawn together (i.e. jack+tire)
-            spawn_info.read( "items", next_spawn.item_ids, true );
-        } else if( spawn_info.has_string( "items" ) ) {
-            //Treat single item as array
-            // And read the gun variant (if it exists)
-            if( spawn_info.has_string( "variant" ) ) {
-                const std::string variant = spawn_info.get_string( "variant" );
-                next_spawn.variant_ids.emplace_back( itype_id( spawn_info.get_string( "items" ) ), variant );
-            } else {
-                next_spawn.item_ids.emplace_back( spawn_info.get_string( "items" ) );
-            }
-        }
-        if( spawn_info.has_array( "item_groups" ) ) {
-            //Pick from a group of items, just like map::place_items
-            for( const std::string line : spawn_info.get_array( "item_groups" ) ) {
-                next_spawn.item_groups.emplace_back( line );
-            }
-        } else if( spawn_info.has_string( "item_groups" ) ) {
-            next_spawn.item_groups.emplace_back( spawn_info.get_string( "item_groups" ) );
-        }
-        item_spawns.push_back( std::move( next_spawn ) );
-    }
-
-    for( JsonObject jzi : jo.get_array( "zones" ) ) {
-        zone_type_id zone_type( jzi.get_member( "type" ).get_string() );
-        std::string name;
-        std::string filter;
-        point_rel_ms pt( jzi.get_member( "x" ).get_int(), jzi.get_member( "y" ).get_int() );
-
-        if( jzi.has_string( "name" ) ) {
-            name = jzi.get_string( "name" );
-        }
-        if( jzi.has_string( "filter" ) ) {
-            filter = jzi.get_string( "filter" );
-        }
-        zone_defs.emplace_back( zone_def{ zone_type, name, filter, pt } );
-    }
+    optional( jo, was_loaded, "items", item_spawns );
+    optional( jo, was_loaded, "zones", zone_defs, json_read_reader<zone_def> {} );
 }
 
 void vehicle_prototype::save_vehicle_as_prototype( const vehicle &veh,
         JsonOut &json )
 {
-    static const std::string part_location_structure( "structure" );
     json.start_object();
     // Add some notes to the exported file.
     json.member( "//1",
@@ -1668,8 +1620,8 @@ void vehicles::finalize_prototypes()
                           proto.name, i.pos.x(), i.pos.y(), i.chance );
             }
             for( auto &j : i.item_ids ) {
-                if( !item::type_is_defined( j ) ) {
-                    debugmsg( "unknown item %s in spawn list of %s", j.c_str(), proto.id.str() );
+                if( !item::type_is_defined( j.first ) ) {
+                    debugmsg( "unknown item %s in spawn list of %s", j.first.c_str(), proto.id.str() );
                 }
             }
             for( auto &j : i.item_groups ) {
@@ -1688,19 +1640,22 @@ const std::vector<vpart_category> &vpart_category::all()
     return vpart_categories_all;
 }
 
-void vpart_category::load( const JsonObject &jo )
+void vpart_category::load_all( const JsonObject &jo )
 {
     vpart_category def;
-
-    assign( jo, "id", def.id_ );
-    assign( jo, "name", def.name_ );
-    assign( jo, "short_name", def.short_name_ );
-    assign( jo, "priority", def.priority_ );
-
+    def.load( jo );
     vpart_categories_all.push_back( def );
 }
 
-void vpart_category::finalize()
+void vpart_category::load( const JsonObject &jo )
+{
+    mandatory( jo, false, "id", id_ );
+    mandatory( jo, false, "name", name_ );
+    mandatory( jo, false, "short_name", short_name_ );
+    mandatory( jo, false, "priority", priority_ );
+}
+
+void vpart_category::finalize_all()
 {
     std::sort( vpart_categories_all.begin(), vpart_categories_all.end() );
 }

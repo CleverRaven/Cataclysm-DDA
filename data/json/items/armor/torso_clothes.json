@@ -11,7 +11,6 @@
     "price": "10 USD",
     "material": [ "cotton" ],
     "color": "white",
-    "delete": { "flags": [ "WATER_FRIENDLY" ] },
     "armor": [
       { "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ], "coverage": 100, "encumbrance": [ 1, 1 ] },
       {
@@ -147,7 +146,6 @@
     "price": "25 USD",
     "material": [ "cotton" ],
     "color": "white",
-    "delete": { "flags": [ "WATER_FRIENDLY" ] },
     "armor": [
       { "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ], "coverage": 80, "encumbrance": [ 0, 0 ] },
       {
@@ -777,6 +775,8 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "pocket shirt" },
     "description": "A white button-down shirt with long sleeves and a pocket on the front.  Looks professional!",
+    "//": "delete button shirt variants",
+    "variants": [  ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -793,7 +793,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "wedding dress", "str_pl": "wedding dresses" },
     "description": "A beautiful white wedding dress.  What good will it be now?",
-    "weight": "9333 g",
+    "weight": "9 kg",
     "volume": "18 L",
     "price": "590 USD",
     "price_postapoc": "50 cent",
@@ -905,7 +905,7 @@
         "description": "This one is colored red.",
         "color": "red",
         "append": true,
-        "weight": 1
+        "weight": 100
       },
       {
         "id": "hoodie_blue",
@@ -913,7 +913,7 @@
         "color": "blue",
         "description": "This one is colored blue.",
         "append": true,
-        "weight": 1
+        "weight": 100
       },
       {
         "id": "hoodie_yellow",
@@ -921,7 +921,7 @@
         "color": "yellow",
         "description": "This one is colored yellow.",
         "append": true,
-        "weight": 1
+        "weight": 100
       },
       {
         "id": "hoodie_green",
@@ -929,7 +929,7 @@
         "color": "green",
         "description": "This one is colored green.",
         "append": true,
-        "weight": 1
+        "weight": 100
       },
       {
         "id": "hoodie_purple",
@@ -937,7 +937,7 @@
         "color": "magenta",
         "description": "This one is colored purple.",
         "append": true,
-        "weight": 1
+        "weight": 100
       },
       {
         "id": "hoodie_pink",
@@ -945,7 +945,7 @@
         "color": "magenta",
         "description": "This one is colored pink.",
         "append": true,
-        "weight": 1
+        "weight": 100
       },
       {
         "id": "hoodie_cyan",
@@ -953,7 +953,7 @@
         "color": "cyan",
         "description": "This one is colored cyan.",
         "append": true,
-        "weight": 1
+        "weight": 100
       },
       {
         "id": "hoodie_black",
@@ -961,7 +961,7 @@
         "color": "dark_gray",
         "description": "This one is colored black.",
         "append": true,
-        "weight": 1
+        "weight": 100
       },
       {
         "id": "hoodie_white",
@@ -969,7 +969,7 @@
         "color": "light_gray",
         "description": "This one is colored white.",
         "append": true,
-        "weight": 1
+        "weight": 100
       },
       {
         "id": "hoodie_brown",
@@ -977,15 +977,61 @@
         "color": "brown",
         "description": "This one is colored brown.",
         "append": true,
-        "weight": 1
+        "weight": 100
       },
       {
-        "id": "hoodie_animal",
-        "name": { "str": "animal hoodie" },
+        "id": "shark",
+        "name": { "str": "shark hoodie" },
         "append": true,
-        "expand_snippets": true,
-        "description": "This one looks like a cute <hoodie_animal>.",
-        "weight": 1
+        "description": "This one is made to look like a cute shark."
+      },
+      {
+        "id": "bear",
+        "name": { "str": "bear hoodie" },
+        "append": true,
+        "description": "This one is made to look like a cute bear."
+      },
+      {
+        "id": "cat",
+        "name": { "str": "cat hoodie" },
+        "append": true,
+        "description": "This one is made to look like a cute cat."
+      },
+      {
+        "id": "bunny",
+        "name": { "str": "bunny hoodie" },
+        "append": true,
+        "description": "This one is made to look like a cute bunny."
+      },
+      {
+        "id": "wolf",
+        "name": { "str": "wolf hoodie" },
+        "append": true,
+        "description": "This one is made to look like a cute wolf."
+      },
+      {
+        "id": "lizard",
+        "name": { "str": "lizard hoodie" },
+        "append": true,
+        "description": "This one is made to look like a cute lizard."
+      },
+      {
+        "id": "dog",
+        "name": { "str": "dog hoodie" },
+        "append": true,
+        "description": "This one is made to look like a cute dog."
+      },
+      {
+        "id": "panda",
+        "name": { "str": "panda hoodie" },
+        "append": true,
+        "description": "This one is made to look like a cute panda."
+      },
+      {
+        "id": "frog",
+        "name": { "str": "frog hoodie" },
+        "append": true,
+        "description": "This one is made to look like a cute frog."
       }
     ]
   },
@@ -993,6 +1039,7 @@
     "id": "hoodie_cropped",
     "copy-from": "hoodie",
     "delete": { "flags": [ "POCKETS" ] },
+    "pocket_data": [  ],
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str": "cropped hoodie" },
@@ -1010,7 +1057,7 @@
         "description": "This one is colored red.",
         "color": "red",
         "append": true,
-        "weight": 1
+        "weight": 100
       },
       {
         "id": "hoodie_blue",
@@ -1018,7 +1065,7 @@
         "color": "blue",
         "description": "This one is colored blue.",
         "append": true,
-        "weight": 1
+        "weight": 100
       },
       {
         "id": "hoodie_yellow",
@@ -1026,7 +1073,7 @@
         "color": "yellow",
         "description": "This one is colored yellow.",
         "append": true,
-        "weight": 1
+        "weight": 100
       },
       {
         "id": "hoodie_green",
@@ -1034,7 +1081,7 @@
         "color": "green",
         "description": "This one is colored green.",
         "append": true,
-        "weight": 1
+        "weight": 100
       },
       {
         "id": "hoodie_purple",
@@ -1042,7 +1089,7 @@
         "color": "magenta",
         "description": "This one is colored purple.",
         "append": true,
-        "weight": 1
+        "weight": 100
       },
       {
         "id": "hoodie_pink",
@@ -1050,7 +1097,7 @@
         "color": "magenta",
         "description": "This one is colored pink.",
         "append": true,
-        "weight": 1
+        "weight": 100
       },
       {
         "id": "hoodie_cyan",
@@ -1058,7 +1105,7 @@
         "color": "cyan",
         "description": "This one is colored cyan.",
         "append": true,
-        "weight": 1
+        "weight": 100
       },
       {
         "id": "hoodie_black",
@@ -1066,7 +1113,7 @@
         "color": "dark_gray",
         "description": "This one is colored black.",
         "append": true,
-        "weight": 1
+        "weight": 100
       },
       {
         "id": "hoodie_white",
@@ -1074,7 +1121,7 @@
         "color": "light_gray",
         "description": "This one is colored white.",
         "append": true,
-        "weight": 1
+        "weight": 100
       },
       {
         "id": "hoodie_brown",
@@ -1082,15 +1129,61 @@
         "color": "brown",
         "description": "This one is colored brown.",
         "append": true,
-        "weight": 1
+        "weight": 100
       },
       {
-        "id": "hoodie_animal",
-        "name": { "str": "animal hoodie" },
+        "id": "shark",
+        "name": { "str": "shark cropped hoodie" },
         "append": true,
-        "expand_snippets": true,
-        "description": "This one looks like a cute <hoodie_animal>.",
-        "weight": 1
+        "description": "This one is made to look like a cute shark."
+      },
+      {
+        "id": "bear",
+        "name": { "str": "bear cropped hoodie" },
+        "append": true,
+        "description": "This one is made to look like a cute bear."
+      },
+      {
+        "id": "cat",
+        "name": { "str": "cat cropped hoodie" },
+        "append": true,
+        "description": "This one is made to look like a cute cat."
+      },
+      {
+        "id": "bunny",
+        "name": { "str": "bunny cropped hoodie" },
+        "append": true,
+        "description": "This one is made to look like a cute bunny."
+      },
+      {
+        "id": "wolf",
+        "name": { "str": "wolf cropped hoodie" },
+        "append": true,
+        "description": "This one is made to look like a cute wolf."
+      },
+      {
+        "id": "lizard",
+        "name": { "str": "lizard cropped hoodie" },
+        "append": true,
+        "description": "This one is made to look like a cute lizard."
+      },
+      {
+        "id": "dog",
+        "name": { "str": "dog cropped hoodie" },
+        "append": true,
+        "description": "This one is made to look like a cute dog."
+      },
+      {
+        "id": "panda",
+        "name": { "str": "panda cropped hoodie" },
+        "append": true,
+        "description": "This one is made to look like a cute panda."
+      },
+      {
+        "id": "frog",
+        "name": { "str": "frog cropped hoodie" },
+        "append": true,
+        "description": "This one is made to look like a cute frog."
       }
     ]
   },
@@ -1170,7 +1263,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "French maid clothes" },
     "description": "The French maid dress, blue with a frilly white apron.",
-    "weight": "250 g",
+    "weight": "125 g",
     "volume": "250 ml",
     "price": "50 USD",
     "price_postapoc": "50 cent",
@@ -1228,7 +1321,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "short French maid clothes" },
     "description": "The French maid dress, black with a frilly white apron.  This version is much lighter and shorter than normal.",
-    "weight": "150 g",
+    "weight": "125 g",
     "volume": "250 ml",
     "price": "50 USD",
     "price_postapoc": "50 cent",
@@ -2349,6 +2442,32 @@
       { "coverage": 75, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] }
     ],
     "material_thickness": 0.1,
+    "flags": [ "VARSIZE", "SKINTIGHT" ]
+  },
+  {
+    "id": "cheongsam",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "cheongsam" },
+    "description": "Also called qipao, it's a long, figure-fitting traditional chinese dress that covers the shoulders and features a standing collar, an asymmetric, left-over-right opening and two side slits.",
+    "weight": "500 g",
+    "volume": "3 L",
+    "price": "100 USD",
+    "price_postapoc": "50 cent",
+    "material": [ "cotton" ],
+    "symbol": "Y",
+    "looks_like": "dress",
+    "color": "light_red",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 100 },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 80 },
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ],
+        "coverage": 100
+      }
+    ],
+    "material_thickness": 0.2,
     "flags": [ "VARSIZE", "SKINTIGHT" ]
   }
 ]

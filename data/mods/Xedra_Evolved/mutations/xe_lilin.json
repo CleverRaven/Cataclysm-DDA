@@ -54,7 +54,8 @@
     ],
     "activated_eocs": [ "EOC_LILIN_SPEND_RUACH_FOR_POWERS" ],
     "activation_msg": "You dedicate some ruach to increasing your power.",
-    "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ]
+    "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ],
+    "flags": [ "HERITAGE" ]
   },
   {
     "type": "mutation",

@@ -124,7 +124,7 @@
       "palettes": [ "regional_dump" ],
       "items": {
         ".": { "item": "SUS_trash_floor", "chance": 5 },
-        "B": { "item": "SUS_trash_trashcan", "chance": 15 },
+        "B": { "item": "SUS_trash_trashcan_full", "chance": 15 },
         "1": { "item": "oa_ig_rd_electronic_trash", "chance": 10 },
         "2": { "item": "SUS_trash_floor", "chance": 10 },
         "3": { "item": "oa_ig_rd_metal_trash", "chance": 10 },

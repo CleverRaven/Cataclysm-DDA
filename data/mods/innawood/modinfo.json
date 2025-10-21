@@ -7,7 +7,15 @@
     "maintainers": [ "Lightwave" ],
     "description": "An untouched land that mankind has yet to reach.  Disables most traces of civilization for that 'innawood' experience.",
     "category": "total_conversion",
+    "conflicts": [ "aftershock_exoplanet", "backrooms", "desertpack", "tropicata", "classic_zombies", "Isolation_Protocol", "no_hope" ],
     "dependencies": [ "dda" ],
+    "loading_images": [ "innawoods1.png" ],
     "obsolete": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "DEFAULT_REGION",
+    "stype": "string_input",
+    "value": "default_innawood"
   }
 ]

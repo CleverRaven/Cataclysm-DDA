@@ -169,5 +169,12 @@
     "intensity": 2,
     "chance": 1,
     "qty": 10
+  },
+  {
+    "id": "emit_radiation_aura_fields",
+    "type": "emit",
+    "field": "fd_radiation_aura",
+    "intensity": 1,
+    "qty": 15
   }
 ]

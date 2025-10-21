@@ -89,9 +89,9 @@
         { "item": "vet_utility", "x": 3, "y": 7, "chance": 70, "repeat": [ 2, 3 ] },
         { "item": "vet_utility", "x": [ 15, 16 ], "y": 14, "chance": 70, "repeat": [ 2, 5 ] },
         { "item": "vet_utility", "x": 15, "y": 18, "chance": 70, "repeat": [ 2, 5 ] },
-        { "item": "office", "x": [ 15, 16 ], "y": 20, "chance": 40, "repeat": [ 1, 2 ] },
-        { "item": "office", "x": 17, "y": 8, "chance": 40, "repeat": [ 1, 2 ] },
-        { "item": "office", "x": [ 7, 9 ], "y": 13, "chance": 40, "repeat": [ 2, 5 ] },
+        { "item": "SUS_office_filing_cabinet", "x": [ 15, 16 ], "y": 20, "chance": 40, "repeat": [ 1, 2 ] },
+        { "item": "SUS_office_desk", "x": 17, "y": 8, "chance": 40, "repeat": [ 1, 2 ] },
+        { "item": "SUS_office_desk", "x": [ 7, 9 ], "y": 13, "chance": 40, "repeat": [ 2, 3 ] },
         { "item": "doctors_books", "x": 5, "y": 14, "chance": 35, "repeat": [ 1, 3 ] },
         { "item": "cash_register_random", "x": 14, "y": [ 7, 8 ], "chance": 100 }
       ],

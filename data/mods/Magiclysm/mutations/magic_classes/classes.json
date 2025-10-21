@@ -9,7 +9,8 @@
     "purifiable": false,
     "valid": false,
     "cancels": [ "ANIMIST" ],
-    "spells_learned": [ [ "create_rune_magus", 0 ] ]
+    "spells_learned": [ [ "create_rune_magus", 0 ] ],
+    "flags": [ "ATTUNEMENT" ]
   },
   {
     "type": "mutation",
@@ -22,7 +23,8 @@
     "valid": false,
     "cancels": [ "MAGUS" ],
     "spells_learned": [ [ "create_rune_animist", 0 ] ],
-    "moncams": [ [ "mon_watcher_spirit", 30 ] ]
+    "moncams": [ [ "mon_watcher_spirit", 30 ] ],
+    "flags": [ "ATTUNEMENT" ]
   },
   {
     "type": "mutation",
@@ -35,7 +37,8 @@
     "valid": false,
     "enchantments": [ "KELVINIST" ],
     "cancels": [ "STORMSHAPER" ],
-    "spells_learned": [ [ "create_rune_kelvinist", 0 ] ]
+    "spells_learned": [ [ "create_rune_kelvinist", 0 ] ],
+    "flags": [ "ATTUNEMENT" ]
   },
   {
     "type": "mutation",
@@ -48,7 +51,8 @@
     "valid": false,
     "enchantments": [ "STORMSHAPER" ],
     "cancels": [ "KELVINIST" ],
-    "spells_learned": [ [ "create_rune_stormshaper", 0 ] ]
+    "spells_learned": [ [ "create_rune_stormshaper", 0 ] ],
+    "flags": [ "ATTUNEMENT" ]
   },
   {
     "type": "mutation",
@@ -60,7 +64,8 @@
     "purifiable": false,
     "valid": false,
     "cancels": [ "EARTHSHAPER" ],
-    "spells_learned": [ [ "create_rune_technomancer", 0 ] ]
+    "spells_learned": [ [ "create_rune_technomancer", 0 ] ],
+    "flags": [ "ATTUNEMENT" ]
   },
   {
     "type": "mutation",
@@ -72,7 +77,8 @@
     "purifiable": false,
     "valid": false,
     "cancels": [ "TECHNOMANCER" ],
-    "spells_learned": [ [ "create_rune_earthshaper", 0 ] ]
+    "spells_learned": [ [ "create_rune_earthshaper", 0 ] ],
+    "flags": [ "ATTUNEMENT" ]
   },
   {
     "type": "mutation",
@@ -84,7 +90,8 @@
     "purifiable": false,
     "valid": false,
     "cancels": [ "DRUID" ],
-    "spells_learned": [ [ "create_rune_biomancer", 0 ] ]
+    "spells_learned": [ [ "create_rune_biomancer", 0 ] ],
+    "flags": [ "ATTUNEMENT" ]
   },
   {
     "type": "mutation",
@@ -96,7 +103,7 @@
     "purifiable": false,
     "valid": false,
     "cancels": [ "BIOMANCER" ],
-    "flags": [ "TREE_COMMUNION_PLUS" ],
-    "spells_learned": [ [ "create_rune_druid", 0 ] ]
+    "spells_learned": [ [ "create_rune_druid", 0 ] ],
+    "flags": [ "ATTUNEMENT", "TREE_COMMUNION_PLUS" ]
   }
 ]

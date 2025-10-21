@@ -17,15 +17,22 @@
 
 #include "coordinates.h"
 #include "cuboid_rectangle.h"
+#include "game.h"
 #include "map_scale_constants.h"
 #include "memory_fast.h"
 #include "point.h"
 #include "translation.h"
 #include "type_id.h"
 
+namespace catacurses
+{
+class window;
+} //namespace catacurses
+
 class JsonObject;
 class JsonOut;
 class JsonValue;
+class input_context;
 class item;
 class map;
 struct construction;
@@ -60,6 +67,7 @@ class zone_type
         bool hidden = false;
 
         static void load_zones( const JsonObject &jo, const std::string &src );
+        static void finalize_all();
         static void reset();
         void load( const JsonObject &jo, std::string_view );
         /**
@@ -383,7 +391,6 @@ class zone_data
 
         zone_data( const std::string &_name, const zone_type_id &_type, const faction_id &_faction,
                    bool _invert, const bool _enabled,
-                   const tripoint_abs_ms &_start, const tripoint_abs_ms &_end,
                    const shared_ptr_fast<zone_options> &_options = nullptr,
                    bool _is_displayed = false ) {
             name = _name;
@@ -392,9 +399,6 @@ class zone_data
             invert = _invert;
             enabled = _enabled;
             is_vehicle = false;
-            is_personal = false;
-            start = _start;
-            end = _end;
             is_displayed = _is_displayed;
 
             // ensure that supplied options is of correct class
@@ -407,26 +411,24 @@ class zone_data
 
         zone_data( const std::string &_name, const zone_type_id &_type, const faction_id &_faction,
                    bool _invert, const bool _enabled,
+                   const tripoint_abs_ms &_start, const tripoint_abs_ms &_end,
+                   const shared_ptr_fast<zone_options> &_options = nullptr,
+                   bool _is_displayed = false )
+            : zone_data( _name, _type, _faction, _invert, _enabled, _options, _is_displayed ) {
+            is_personal = false;
+            start = _start;
+            end = _end;
+        }
+
+        zone_data( const std::string &_name, const zone_type_id &_type, const faction_id &_faction,
+                   bool _invert, const bool _enabled,
                    const tripoint_rel_ms &_start, const tripoint_rel_ms &_end,
                    const shared_ptr_fast<zone_options> &_options = nullptr,
-                   bool _is_displayed = false ) {
-            name = _name;
-            type = _type;
-            faction = _faction;
-            invert = _invert;
-            enabled = _enabled;
-            is_vehicle = false;
+                   bool _is_displayed = false )
+            : zone_data( _name, _type, _faction, _invert, _enabled, _options, _is_displayed ) {
             is_personal = true;
             personal_start = _start;
             personal_end = _end;
-            is_displayed = _is_displayed;
-
-            // ensure that supplied options is of correct class
-            if( _options == nullptr || !zone_options::is_valid( type, *_options ) ) {
-                options = zone_options::create( type );
-            } else {
-                options = _options;
-            }
         }
 
         // returns true if name is changed
@@ -670,6 +672,25 @@ class zone_manager
         void revert_vzones();
         void serialize( JsonOut &json ) const;
         void deserialize( const JsonValue &jv );
+};
+
+/**
+* TO-DO: update to ImGui
+*/
+class zone_manager_ui
+{
+    public:
+        static void display_zone_manager();
+        static shared_ptr_fast<game::draw_callback_t> create_zone_callback(
+            const std::optional<tripoint_bub_ms> &zone_start,
+            const std::optional<tripoint_bub_ms> &zone_end,
+            const bool &zone_blink, const bool &zone_cursor, const bool &is_moving_zone = false );
+    private:
+        static void zones_manager_draw_borders( const catacurses::window &w_border,
+                                                const catacurses::window &w_info_border,
+                                                int iInfoHeight, int width );
+        static void zones_manager_shortcuts( const catacurses::window &w_info, faction_id const &faction,
+                                             bool show_all_zones, const input_context &ctxt, int width );
 };
 
 void mapgen_place_zone( tripoint_abs_ms const &start, tripoint_abs_ms const &end,

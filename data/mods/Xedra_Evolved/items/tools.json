@@ -255,6 +255,7 @@
     "color": "magenta",
     "use_action": {
       "type": "effect_on_conditions",
+      "consume": true,
       "description": "Complete the ritual.",
       "effect_on_conditions": [ "EOC_CHECK_TO_SUMMON_REVENANT" ],
       "//": "until the day EoCs can be affected with need_wielding, they won't have it to allow the game to start"

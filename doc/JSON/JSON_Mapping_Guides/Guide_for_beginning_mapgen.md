@@ -1,3 +1,25 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Guide for basic mapgen](#guide-for-basic-mapgen)
+    - [General comments:](#general-comments)
+    - [Specials vs. city buildings:](#specials-vs-city-buildings)
+    - [The Files & their purpose:](#the-files--their-purpose)
+    - [Starting the mapgen entry:](#starting-the-mapgen-entry)
+    - [The mapgen map:](#the-mapgen-map)
+      - [The metadata:](#the-metadata)
+      - [The object data:](#the-object-data)
+    - [Adding the roof!](#adding-the-roof)
+    - [Linking various mapgen maps using multitile_city_buildings.json](#linking-various-mapgen-maps-using-multitile_city_buildingsjson)
+    - [Setting overmap spawns using regional_map_settings.json](#setting-overmap-spawns-using-regional_map_settingsjson)
+    - [Linking and spawning specials:](#linking-and-spawning-specials)
+    - [Overmap_terrain entries:](#overmap_terrain-entries)
+    - [Palettes:](#palettes)
+    - [Final comments:](#final-comments)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## Guide for basic mapgen
 
 This guide will cover the basics of mapgen, which files you need to edit, the tags in each file and the differences in creating specials or regular city buildings.  For full technical information about mapgen entries refer to: [doc/JSON/MAPGEN.md](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/JSON/MAPGEN.md).

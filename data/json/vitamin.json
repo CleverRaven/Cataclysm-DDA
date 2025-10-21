@@ -184,7 +184,7 @@
     "id": "mutagen",
     "type": "vitamin",
     "vit_type": "counter",
-    "name": { "str": "Mutagen" },
+    "name": { "str": "Mutagenic Catalyst" },
     "excess": "mutagen",
     "min": 0,
     "max": 2500,

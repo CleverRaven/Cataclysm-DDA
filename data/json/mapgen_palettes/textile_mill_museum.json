@@ -44,7 +44,7 @@
     },
     "items": {
       "l": { "item": "clothing_work_set", "chance": 25 },
-      "d": { "item": "office", "chance": 30 },
+      "d": { "item": "SUS_office_desk", "chance": 30 },
       "W": { "item": "SUS_tailoring_tool_drawer", "chance": 25 },
       "t": { "item": "SUS_tailoring_materials", "chance": 25 },
       "C": { "item": "SUS_tailoring_tool_drawer", "chance": 25 },

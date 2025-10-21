@@ -15,7 +15,9 @@
 #include "zstd_deps.h"   /* ZSTD_malloc, ZSTD_calloc, ZSTD_free, ZSTD_memset */
 
 #include "compiler.h" /* MEM_STATIC */
+#ifndef ZSTD_STATIC_LINKING_ONLY
 #define ZSTD_STATIC_LINKING_ONLY
+#endif
 #include "../zstd.h" /* ZSTD_customMem */
 
 #ifndef ZSTD_ALLOCATIONS_H

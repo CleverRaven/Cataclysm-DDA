@@ -1,0 +1,31 @@
+[
+  {
+    "type": "ter_furn_transform",
+    "id": "f_snow_bowl",
+    "furniture": [ { "result": "f_snow_bowl", "valid_furniture": [ "f_null" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SHOVEL_SNOW",
+    "effect": [
+      {
+        "u_choose_adjacent_highlight": { "context_val": "_dig_loc" },
+        "condition": {
+          "and": [
+            { "map_terrain_with_flag": "SNOW_SOURCE", "loc": { "context_val": "loc" } },
+            { "map_furniture_id": "f_null", "loc": { "context_val": "loc" } }
+          ]
+        },
+        "message": "Select ice or snow to harvest from.",
+        "failure_message": "There's no frozen terrain nearby"
+      },
+      { "u_transform_radius": 0, "ter_furn_transform": "f_snow_bowl", "target_var": { "context_val": "_dig_loc" } },
+      {
+        "map_spawn_item": "water",
+        "loc": { "context_val": "_dig_loc" },
+        "count": 5,
+        "flags": [ "SHREDDED", "FROZEN" ]
+      }
+    ]
+  }
+]

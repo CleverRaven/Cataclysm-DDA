@@ -17,7 +17,8 @@
       { "value": "ATTACK_SPEED", "multiply": 2 },
       { "value": "MOVE_COST", "multiply": 1 },
       { "value": "BONUS_DODGE", "multiply": -1 },
-      { "value": "FOOTSTEP_NOISE", "multiply": 4 }
+      { "value": "FOOTSTEP_NOISE", "multiply": 4 },
+      { "value": "WEIGHT", "multiply": 5 }
     ]
   },
   {

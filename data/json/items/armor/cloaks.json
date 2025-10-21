@@ -5,7 +5,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "American flag" },
     "description": "A large American flag, made to fly in even the worst conditions.",
-    "weight": "3200 g",
+    "weight": "1 kg",
     "volume": "2 L",
     "price": "50 USD",
     "price_postapoc": "50 cent",
@@ -23,6 +23,29 @@
         "encumbrance": 50,
         "coverage": 60,
         "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ]
+  },
+  {
+    "id": "artifact_energy_shield",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "distorted air" },
+    "description": "The empty air around you vibrates faintly.",
+    "weight": "10 g",
+    "volume": "1 ml",
+    "symbol": "o",
+    "color": "blue",
+    "material": [ "anomaly" ],
+    "material_thickness": 2,
+    "max_energy_shield_hp": 100,
+    "flags": [ "AURA", "ENERGY_SHIELD", "OVERSIZE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE", "ALLOWS_NATURAL_ATTACKS" ],
+    "max_worn": 1,
+    "armor": [
+      {
+        "encumbrance": 0,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
       }
     ]
   },
@@ -1924,7 +1947,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "Jedi cloak" },
     "description": "A long, flowing robe.  Be sure to tear it off dramatically before fighting any foes!",
-    "weight": "1587 g",
+    "weight": "1250 g",
     "volume": "2500 ml",
     "price": "225 USD",
     "price_postapoc": "5 USD",

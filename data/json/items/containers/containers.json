@@ -449,7 +449,7 @@
         "transparent": true,
         "magazine_well": "50 ml",
         "max_contains_volume": "4500 ml",
-        "max_contains_weight": "3000 g",
+        "max_contains_weight": "5000 g",
         "max_item_length": "29 cm",
         "spoil_multiplier": 0.8,
         "moves": 600
@@ -643,6 +643,15 @@
     "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
+    "id": "bottle_plastic_glue",
+    "copy-from": "bottle_plastic",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "plastic glue bottle" },
+    "description": "A watertight plastic bottle, holds 500 mL of glue.  Cannot be reused or refilled.",
+    "extend": { "flags": [ "NO_RELOAD", "NO_UNLOAD" ] }
+  },
+  {
     "id": "condiment_bottle_sealed",
     "type": "ITEM",
     "category": "container",
@@ -662,8 +671,7 @@
         "max_contains_volume": "500 ml",
         "max_item_volume": "17 ml",
         "max_contains_weight": "1 kg",
-        "spoil_multiplier": 0.5,
-        "sealed_data": { "spoil_multiplier": 0.0 },
+        "sealed_data": { "spoil_multiplier": 0.5 },
         "moves": 400
       }
     ],
@@ -705,6 +713,15 @@
     "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
+    "id": "bottle_plastic_small_glue",
+    "copy-from": "bottle_plastic_small",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "small plastic glue bottle" },
+    "description": "A watertight plastic bottle, holds 250 mL of glue.  Cannot be reused or refilled.",
+    "extend": { "flags": [ "NO_RELOAD", "NO_UNLOAD" ] }
+  },
+  {
     "id": "bottle_plastic_tiny",
     "type": "ITEM",
     "category": "container",
@@ -740,26 +757,16 @@
     "type": "ITEM",
     "copy-from": "bottle_plastic_tiny",
     "name": { "str": "tiny plastic glue bottle" },
-    "description": "A watertight plastic bottle, holds 30 mL of liquid.  Due to the design of the tip, it cannot be refilled.",
+    "description": "A watertight plastic bottle, holds 30 mL of glue.  Cannot be reused or refilled.",
     "longest_side": "120 mm",
-    "extend": { "flags": [ "NO_RELOAD", "NO_UNLOAD" ] },
-    "variant_type": "generic",
-    "variants": [
-      {
-        "id": "bottle_plastic_tiny_superglue",
-        "name": { "str": "large superglue bottle" },
-        "description": "This one reads \"Super Glue - All Purpose!\", with directions and cautions below.",
-        "weight": 1,
-        "append": true
-      }
-    ]
+    "extend": { "flags": [ "NO_RELOAD", "NO_UNLOAD" ] }
   },
   {
     "id": "small_squeeze_tube",
     "type": "ITEM",
     "category": "container",
-    "name": { "str": "small squeeze tube" },
-    "description": "A small squeeze tube, holds 4 mL of liquid.  It cannot be refilled after it's empty.",
+    "name": { "str": "small glue squeeze tube" },
+    "description": "A small squeeze tube, holds 4 mL of glue.  Cannot be reused or refilled.",
     "ascii_picture": "bottle_plastic_small",
     "weight": "2 g",
     "volume": "11 ml",
@@ -781,17 +788,7 @@
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "white",
-    "flags": [ "NO_RELOAD", "NO_UNLOAD" ],
-    "variant_type": "generic",
-    "variants": [
-      {
-        "id": "small_squeeze_tube_superglue",
-        "name": { "str": "superglue tube" },
-        "description": "This one reads \"Super Glue - All Purpose!\", with directions and cautions below.",
-        "weight": 1,
-        "append": true
-      }
-    ]
+    "flags": [ "NO_RELOAD", "NO_UNLOAD" ]
   },
   {
     "id": "bottle_plastic_pill_prescription",
@@ -994,6 +991,16 @@
     "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
+    "id": "bottle_twoliter_glue",
+    "copy-from": "bottle_twoliter",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "large plastic glue bottle" },
+    "looks_like": "bottle_plastic",
+    "description": "A two-liter plastic bottle that can hold 2 L of glue.  Cannot be reused or refilled.",
+    "extend": { "flags": [ "NO_RELOAD", "NO_UNLOAD" ] }
+  },
+  {
     "id": "bowl_clay",
     "type": "ITEM",
     "category": "container",
@@ -1185,7 +1192,7 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "max_contains_volume": "540 ml",
-        "max_contains_weight": "500 g",
+        "max_contains_weight": "800 g",
         "max_item_length": "11 cm"
       }
     ],
@@ -1723,7 +1730,7 @@
     "category": "container",
     "name": { "str": "large metal box", "str_pl": "large metal boxes" },
     "looks_like": "box_small_metal",
-    "description": "A small metal crate.  The slim profile makes storage a little bit easier.",
+    "description": "A large metal box.  It's big and strong enough to hold just about anything.",
     "ascii_picture": "box_large_metal",
     "weight": "48 kg",
     "volume": "330000 ml",
@@ -1861,7 +1868,7 @@
     "looks_like": "runner_bag",
     "description": "A slim and lightweight insulated plastic bladder worn on the back or within a hydration pouch in a backpack.  It has a large pocket and a capped mouth for filling with liquid, with a hose that allows the wearer to drink hands-free.",
     "ascii_picture": "camelbak",
-    "weight": "286 g",
+    "weight": "185 g",
     "volume": "250 ml",
     "price": "100 USD",
     "price_postapoc": "2 USD 50 cent",
@@ -2159,8 +2166,8 @@
     "looks_like": "bowl_clay",
     "description": "A fragile clay vessel with a waterproofed hide lid.  It can be used to make crude impact grenades or to store liquid.",
     "ascii_picture": "clay_canister",
-    "weight": "268 g",
-    "volume": "295 ml",
+    "weight": "536 g",
+    "volume": "590 ml",
     "price": "10 USD",
     "price_postapoc": "10 cent",
     "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
@@ -2172,8 +2179,8 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
-        "max_contains_volume": "250 ml",
-        "max_contains_weight": "1 kg"
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "2 kg"
       }
     ],
     "use_action": [ "HEAT_LIQUID_ITEMS" ],
@@ -2769,6 +2776,16 @@
     ],
     "flags": [ "COLLAPSE_CONTENTS" ],
     "//2": "Based on https://www.amazon.com/dp/B07GC1VJ9T"
+  },
+  {
+    "id": "jug_plastic_glue",
+    "copy-from": "jug_plastic",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "gallon glue jug" },
+    "looks_like": "bottle_plastic",
+    "description": "A standard plastic jug that can hold 3750 mL of glue.  Cannot be reused or refilled.",
+    "extend": { "flags": [ "NO_RELOAD", "NO_UNLOAD" ] }
   },
   {
     "id": "fuel_tin",
@@ -3447,20 +3464,27 @@
     "flags": [ "NO_RELOAD" ]
   },
   {
-    "id": "wrapper_pr",
+    "id": "wrapper_bar",
     "type": "ITEM",
     "name": { "str": "wrapper" },
-    "description": {
-      "//~": "Daizu is Japanese for soy, hence DaiZoom",
-      "str": "\"DaiZoom Protein Bar, brought to you by SoyPelusa\" is emblazoned proudly upon this greaseproof wrapper."
-    },
-    "ascii_picture": "wrapper_pr",
+    "description": "A wrapper for some kind of snack bar.",
     "copy-from": "wrapper",
     "weight": "1 g",
     "volume": "5 ml",
     "pocket_data": [
       { "pocket_type": "CONTAINER", "magazine_well": "4 ml", "max_contains_volume": "175 ml", "max_contains_weight": "1 kg" }
     ]
+  },
+  {
+    "id": "wrapper_pr",
+    "type": "ITEM",
+    "name": { "str": "wrapper" },
+    "copy-from": "wrapper_bar",
+    "ascii_picture": "wrapper_pr",
+    "description": {
+      "//~": "Daizu is Japanese for soy, hence DaiZoom",
+      "str": "\"DaiZoom Protein Bar, brought to you by SoyPelusa\" is emblazoned proudly upon this greaseproof wrapper."
+    }
   },
   {
     "id": "styrofoam_cup",
@@ -3654,6 +3678,8 @@
     "looks_like": "condom",
     "name": { "str": "balloon" },
     "description": "A deflated balloon.  This could be used as a makeshift water container.",
+    "//": "delete condom variants",
+    "variants": [  ],
     "ascii_picture": "balloon",
     "copy-from": "condom"
   },
@@ -4830,7 +4856,7 @@
     "weight": "200 g",
     "volume": "1730 ml",
     "price": "9 USD",
-    "price_postapoc": "1 USD",
+    "price_postapoc": "5 cent",
     "material": [ "cotton" ],
     "symbol": "p",
     "color": "dark_gray",
@@ -4847,7 +4873,7 @@
   {
     "id": "cardboard_roll",
     "type": "ITEM",
-    "category": "other",
+    "category": "container",
     "name": { "str": "cardboard roll" },
     "description": "A small cardboard roll used to conveniently store materials such as tape or toilet paper.",
     "ascii_picture": "cardboard_roll",
@@ -5149,5 +5175,53 @@
     "symbol": "o",
     "color": "white",
     "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "45 ml", "max_contains_weight": "30 g" } ]
+  },
+  {
+    "id": "bag_chips_small",
+    "copy-from": "bag_plastic_small",
+    "type": "ITEM",
+    "name": "small chips bag",
+    "description": "A small plastic bag made to contain chips.",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "max_contains_volume": "200 ml",
+        "max_contains_weight": "1 kg",
+        "moves": 400
+      }
+    ]
+  },
+  {
+    "id": "bag_chips_medium",
+    "copy-from": "bag_chips_small",
+    "type": "ITEM",
+    "name": { "str": "chips bag" },
+    "description": "A plastic bag made to contain chips.",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "max_contains_volume": "400 ml",
+        "max_contains_weight": "1 kg",
+        "moves": 400
+      }
+    ]
+  },
+  {
+    "id": "bag_chips_large",
+    "copy-from": "bag_chips_small",
+    "type": "ITEM",
+    "name": { "str": "large chips bag" },
+    "description": "A large plastic bag made to contain chips.",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "max_contains_volume": "600 ml",
+        "max_contains_weight": "1 kg",
+        "moves": 400
+      }
+    ]
   }
 ]

@@ -33,7 +33,7 @@
     "name": "Ice Orbit",
     "//": "dirty hack till emit spell would be fixed",
     "description": "Small particles of ice orbit around your body, as a beacon for a giant field of frozen energy.",
-    "weight": "1 g",
+    "weight": "500 mg",
     "volume": "1 ml",
     "symbol": "o",
     "color": "blue",

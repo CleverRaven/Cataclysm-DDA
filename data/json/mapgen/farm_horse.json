@@ -32,7 +32,7 @@
       ],
       "palettes": [ "farm_horse" ],
       "terrain": { "p": "t_grass" },
-      "items": { "k": { "item": "office", "chance": 30 }, "D": { "item": "SUS_trash_trashcan", "chance": 20, "repeat": [ 2, 4 ] } },
+      "items": { "k": { "item": "SUS_office_desk", "chance": 30 }, "D": { "item": "SUS_trash_trashcan", "chance": 20 } },
       "place_loot": [ { "item": "television", "x": 21, "y": 6, "chance": 100 } ]
     }
   },
@@ -190,7 +190,7 @@
         "........................",
         "........................",
         "..WWvvWWWGGGGGWWWvvWW...",
-        "..Wkkk8W5;;;;;;WL  ^W...",
+        "..Wkkk8W5;;;;;;WL P^W...",
         "..v h  +;;;;;;;+   ^v...",
         "..W1  8W;;;;;;;WLL ^W...",
         "..WWWWWWW;;;;;WWWWWWW...",
@@ -211,10 +211,17 @@
       ],
       "palettes": [ "farm_horse" ],
       "terrain": { "Ы": "t_dirtfloor", "[": "t_dirtfloor" },
-      "items": { "k": { "item": "office", "chance": 30 } },
-      "item": { "Ы": { "item": "salt_lick", "chance": 80, "repeat": [ 1, 4 ] } },
+      "furniture": { "P": "f_anvil_crude" },
+      "items": { "k": { "item": "SUS_office_desk", "chance": 30 } },
+      "item": {
+        "Ы": { "item": "salt_lick", "chance": 80, "repeat": [ 1, 4 ] },
+        "P": { "item": "metalworking_tongs", "chance": 100 }
+      },
       "place_loot": [
-        { "item": "stepladder", "x": 18, "y": 8, "chance": 100 },
+        { "item": "stepladder", "x": 8, "y": 8, "chance": 100 },
+        { "item": "horseshoe", "x": 17, "y": 6, "chance": 60, "repeat": [ 4, 8 ] },
+        { "group": "farrier_tools", "x": 17, "y": 8, "chance": 100 },
+        { "item": "forge", "x": 19, "y": 7, "chance": 100 },
         { "group": "farming_tools", "x": [ 74, 77 ], "y": 15, "chance": 40, "repeat": [ 2, 4 ] },
         { "group": "farming_tools", "x": [ 79, 81 ], "y": 15, "chance": 40, "repeat": [ 2, 4 ] },
         { "group": "farming_tools", "x": [ 75, 81 ], "y": [ 17, 22 ], "chance": 50, "repeat": [ 2, 4 ] },

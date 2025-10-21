@@ -16,7 +16,7 @@ def parse_generic(json, origin):
     if "name" in json:
         name = get_singular_name(json["name"])
         write_text(json["name"], origin, comment=comment + ["Item name"],
-                   plural=True, c_format=False)
+                   plural=True)
     elif "id" in json:
         name = json["id"]
 
@@ -30,7 +30,7 @@ def parse_generic(json, origin):
             parse_magazine(json, origin)
 
     if "description" in json:
-        write_text(json["description"], origin, c_format=False,
+        write_text(json["description"], origin,
                    comment=comment + ["Description of \"{}\"".format(name)])
 
     if "use_action" in json:
@@ -65,8 +65,8 @@ def parse_generic(json, origin):
                 write_text(entry["text"], origin,
                            comment="Snippet of item \"{}\"".format(name))
 
-    if "seed_data" in json:
-        write_text(json["seed_data"]["plant_name"], origin,
+    if "plant_name" in json:
+        write_text(json["plant_name"], origin,
                    comment="Plant name of seed \"{}\"".format(name))
 
     if "revert_msg" in json:
@@ -87,3 +87,7 @@ def parse_generic(json, origin):
     if "relic_data" in json and "passive_effects" in json["relic_data"]:
         for enchantment in json["relic_data"]["passive_effects"]:
             parse_enchant(enchantment, origin)
+
+    write_text(json.get("e_port"), origin, comment="E-port name")
+    for e_port in json.get("e_ports_banned", []):
+        write_text(e_port, origin, comment="E-port name")

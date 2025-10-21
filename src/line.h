@@ -165,6 +165,12 @@ std::vector<point> line_to( const point &p1, const point &p2, int t = 0 );
 std::vector<tripoint> line_to( const tripoint &loc1, const tripoint &loc2, int t = 0, int t2 = 0 );
 // sqrt(dX^2 + dY^2)
 
+// orthogonally-connected line from p1 to p2, for overmap generation
+// Note: reordering p1 and p2 may result in different lines
+// C++ implementation of https://www.redblobgames.com/grids/line-drawing/ algorithm
+// if needed, generalize for all point types
+std::vector<point_abs_om> orthogonal_line_to( const point_abs_om &p1, const point_abs_om &p2 );
+
 inline float trig_dist( const tripoint &loc1, const tripoint &loc2 )
 {
     return std::sqrt( static_cast<double>( ( loc1.x - loc2.x ) * ( loc1.x - loc2.x ) ) +
@@ -291,8 +297,7 @@ std::vector<point_bub_ms> squares_in_direction( const point_bub_ms &p1, const po
 std::vector<point_omt_ms> squares_in_direction( const point_omt_ms &p1, const point_omt_ms &p2 );
 // Returns a vector of squares adjacent to @from that are closer to @to than @from is.
 // Currently limited to the same z-level as @from.
-std::vector<tripoint_bub_ms> squares_closer_to( const tripoint_bub_ms &from,
-        const tripoint_bub_ms &to );
+std::vector<tripoint> squares_closer_to( const tripoint &from, const tripoint &to );
 void calc_ray_end( units::angle, int range, const tripoint &p, tripoint &out );
 template<typename Point, coords::origin Origin, coords::scale Scale>
 void calc_ray_end( units::angle angle, int range,

@@ -42,6 +42,54 @@
   },
   {
     "type": "mapgen",
+    "nested_mapgen_id": "culvert_east",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "        ____",
+        "        ___.",
+        "        __..",
+        "        _~~~",
+        "        _~~~",
+        "        _~~~",
+        "        _~~~",
+        "        _~~~",
+        "        _~~~",
+        "        __..",
+        "        ___.",
+        "        ____"
+      ],
+      "terrain": { ".": "t_region_groundcover", "~": "t_water_moving_sh", "_": "t_concrete" },
+      "furniture": { ".": "f_null", "~": "f_null", "_": "f_null" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "culvert_west",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "____        ",
+        ".___        ",
+        "..__        ",
+        "~~~_        ",
+        "~~~_        ",
+        "~~~_        ",
+        "~~~_        ",
+        "~~~_        ",
+        "~~~_        ",
+        "..__        ",
+        ".___        ",
+        "____        "
+      ],
+      "terrain": { ".": "t_region_groundcover", "~": "t_water_moving_sh", "_": "t_concrete" },
+      "furniture": { ".": "f_null", "~": "f_null", "_": "f_null" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
     "nested_mapgen_id": "16x16_marked_crosswalk_h",
     "object": {
       "mapgensize": [ 16, 16 ],

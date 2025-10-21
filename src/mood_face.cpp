@@ -34,6 +34,11 @@ void mood_face::load_mood_faces( const JsonObject &jo, const std::string &src )
     mood_face_factory.load( jo, src );
 }
 
+void mood_face::finalize_all()
+{
+    mood_face_factory.finalize();
+}
+
 void mood_face::reset()
 {
     mood_face_factory.reset();

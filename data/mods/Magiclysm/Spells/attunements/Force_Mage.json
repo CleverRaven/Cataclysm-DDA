@@ -30,7 +30,7 @@
     "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": { "str_sp": "Force Shield" },
     "description": "A shield of pure force that protects you from most types of physical damage.",
-    "weight": "1 g",
+    "weight": "500 mg",
     "volume": "1 ml",
     "to_hit": -10,
     "symbol": "[",
