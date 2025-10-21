@@ -382,8 +382,7 @@
       {
         "collection": [
           { "item": "cassock", "damage": [ 1, 4 ] },
-          { "item": "cape_catholic", "prob": 95, "damage": [ 1, 4 ] },
-          { "item": "zucchetto", "prob": 85, "damage": [ 1, 4 ] },
+          { "item": "priest_collar", "prob": 95, "damage": [ 1, 4 ] },
           { "group": "costume_masks", "prob": 25, "damage": [ 1, 4 ] },
           { "item": "leather_belt", "prob": 75, "damage": [ 1, 4 ] },
           { "group": "shirts_unisex", "damage": [ 1, 4 ] },
