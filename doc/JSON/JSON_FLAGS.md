@@ -348,6 +348,7 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```BLEEDSLOW``` When bleeding, lose blood at 2/3 of the normal rate.
 - ```BLEEDSLOW2``` When bleeding, lose blood at 1/3 of the normal rate.
 - ```BLIND``` Makes you blind.
+- ```BLOCK_SUPERNATURAL_HEALING``` Blocks supernatural healing effects, like magical healing spells, from taking effect.  This flag does not block EoC-based healing like using the u_hp() effect.
 - ```BULLET_IMMUNE``` You are immune to bullet damage.
 - ```CANNIBAL``` Butcher humans, eat foods with the `CANNIBALISM` and `STRICT_HUMANITARIANISM` flags without a morale penalty.
 - ```CANNOT_ATTACK``` A creature with this flag cannot attack (includes spellcasting).

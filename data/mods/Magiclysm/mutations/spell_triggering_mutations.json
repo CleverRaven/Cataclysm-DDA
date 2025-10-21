@@ -1,33 +1,26 @@
 [
   {
     "type": "mutation",
-    "id": "COLD_AURA_OFF",
+    "id": "BOREAL_MAGE_COLD_AURA",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
     "name": { "str": "Cold Aura" },
     "points": 0,
     "active": true,
-    "description": "Your presence is so dangerous you can freeze everything around yourself.  You are currently suppressing this power.",
-    "transform": { "target": "COLD_AURA_ON", "msg_transform": "Everything around you is covered in frost!", "active": true, "moves": 10 }
-  },
-  {
-    "type": "mutation",
-    "id": "COLD_AURA_ON",
-    "starting_trait": false,
-    "purifiable": false,
-    "valid": false,
-    "active": true,
-    "name": { "str": "Cold Aura (on)" },
-    "points": -1,
+    "activated_is_setup": true,
+    "cost": 2,
+    "mana": true,
+    "time": 5,
     "description": "Your presence is so dangerous you can freeze everything around yourself.",
+    "activation_msg": "Everything around you is covered in frost!",
     "enchantments": [
       {
+        "condition": "ACTIVE",
         "intermittent_activation": { "effects": [ { "frequency": "5 seconds", "spell_effects": [ { "id": "boreal_mage_cold_damage" } ] } ] }
       }
     ],
-    "transform": { "target": "COLD_AURA_OFF", "msg_transform": "You suppress your frozen powers.", "active": false, "moves": 10 },
-    "flags": [ "NO_BODY_HEAT" ]
+    "active_flags": [ "NO_BODY_HEAT" ]
   },
   {
     "type": "mutation",
