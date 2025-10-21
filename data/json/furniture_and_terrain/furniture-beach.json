@@ -9,21 +9,28 @@
     "color": "green",
     "move_cost_mod": 0,
     "required_str": -1,
+    "bash": {
+      "str_min": 0,
+      "str_max": 2,
+      "sound": "crunch.",
+      "sound_fail": "whish.",
+      "items": [ { "item": "seaweed", "count": [ 2, 10 ] } ]
+    },
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC" ]
   },
   {
     "id": "f_beach_log",
     "type": "furniture",
-    "name": "driftwood log",
-    "description": "A small log, bleached white by sun and salt.",
+    "name": "driftwood",
+    "description": "A hollow and twisted piece of a root or a branch, bleached white by sun and salt.",
     "symbol": "-",
     "looks_like": "t_trunk",
     "color": "white",
     "move_cost_mod": 1,
     "required_str": 12,
     "bash": {
-      "str_min": 80,
-      "str_max": 180,
+      "str_min": 6,
+      "str_max": 30,
       "sound": "crunch!",
       "sound_fail": "whack!",
       "items": [ { "item": "splinter", "count": [ 25, 100 ] } ],
@@ -31,38 +38,5 @@
       "destroyed_field": [ "fd_splinters", 1 ]
     },
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE" ]
-  },
-  {
-    "type": "furniture",
-    "id": "f_broken_boat",
-    "name": "broken boat",
-    "symbol": "<",
-    "description": "A section of old, sun-bleached boat, half-buried in the ground.  There's no restoring it, but parts could be salvaged.",
-    "color": "white",
-    "move_cost_mod": 5,
-    "coverage": 35,
-    "required_str": -1,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "SMALL_HIDE" ],
-    "deconstruct": {
-      "items": [
-        { "item": "2x4", "count": [ 3, 6 ] },
-        { "item": "wood_panel", "count": [ 0, 1 ] },
-        { "item": "nail", "charges": [ 6, 10 ] },
-        { "item": "splinter", "count": [ 10, 20 ] }
-      ]
-    },
-    "bash": {
-      "str_min": 8,
-      "str_max": 15,
-      "sound": "smash!",
-      "sound_fail": "whump.",
-      "items": [
-        { "item": "2x4", "count": [ 1, 2 ] },
-        { "item": "nail", "charges": [ 4, 8 ] },
-        { "item": "splinter", "count": [ 15, 30 ] }
-      ],
-      "hit_field": [ "fd_dust", 2 ],
-      "destroyed_field": [ "fd_splinters", 1 ]
-    }
   }
 ]

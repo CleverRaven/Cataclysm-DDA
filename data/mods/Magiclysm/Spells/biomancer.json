@@ -696,6 +696,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BIOMANCER_SLOW_BLEEDING",
+    "condition": { "not": { "u_has_flag": "BLOCK_SUPERNATURAL_HEALING" } },
     "effect": {
       "switch": { "math": [ "u_spell_level('biomancer_slow_bleeding')" ] },
       "cases": [
@@ -721,7 +722,8 @@
           }
         }
       ]
-    }
+    },
+    "false_effect": [ { "u_message": "Your healing spell has no effect!", "type": "bad" } ]
   },
   {
     "id": "biomancer_scalpel_fingers",
