@@ -622,8 +622,6 @@ static std::vector<item> create_charge_items( const itype *drop, int count,
     return objs;
 }
 
-static const double skinning_factor = 0.85;
-
 bool butchery_drops_harvest( butchery_data bt, Character &you )
 {
     const butcher_type action = bt.b_type;
@@ -924,7 +922,7 @@ bool butchery_drops_harvest( butchery_data bt, Character &you )
             // 25% of the corpse weight is what's removed during field dressing
             monster_weight_remaining -= monster_weight * 3 / 4;
         } else if( action == butcher_type::SKIN ) {
-            monster_weight_remaining -= monster_weight * skinning_factor;
+            monster_weight_remaining -= monster_weight * 0.85;
         } else {
             // a carcass is 75% of the weight of the unmodified creature's weight
             if( ( corpse_item.has_flag( flag_FIELD_DRESS ) ||
