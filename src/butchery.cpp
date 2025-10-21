@@ -622,6 +622,8 @@ static std::vector<item> create_charge_items( const itype *drop, int count,
     return objs;
 }
 
+static const double skinning_factor = 0.85;
+
 bool butchery_drops_harvest( butchery_data bt, Character &you )
 {
     const butcher_type action = bt.b_type;
@@ -732,8 +734,9 @@ bool butchery_drops_harvest( butchery_data bt, Character &you )
             roll /= 1.6;
         }
 
-        if( corpse_item.has_flag( flag_SKINNED ) && entry.type == harvest_drop_skin ) {
-            roll = 0;
+        if( ( corpse_item.has_flag( flag_SKINNED ) || corpse_item.has_flag( flag_QUARTERED ) ) &&
+            entry.type == harvest_drop_skin ) {
+            continue;
         }
 
         const double butch_basic = you.get_proficiency_practice( proficiency_prof_butchering_basic );
@@ -823,14 +826,8 @@ bool butchery_drops_harvest( butchery_data bt, Character &you )
                 roll = rng( 0, roll );
             }
         }
-        // quartering ruins skin
         if( corpse_item.has_flag( flag_QUARTERED ) ) {
-            if( entry.type == harvest_drop_skin ) {
-                //not continue to show fail effect
-                roll = 0;
-            } else {
-                roll /= 4;
-            }
+            roll /= 4;
         }
 
         if( drop != nullptr ) {
@@ -874,7 +871,9 @@ bool butchery_drops_harvest( butchery_data bt, Character &you )
 
                 // If we're not bleeding the animal we don't care about the blood being wasted
                 if( action != butcher_type::BLEED ) {
-                    drop_on_map( you, item_drop_reason::deliberate, { obj }, &here, corpse_loc );
+                    if( !corpse_item.has_flag( flag_BLED ) ) {
+                        drop_on_map( you, item_drop_reason::deliberate, { obj }, &here, corpse_loc );
+                    }
                 } else {
                     liquid_handler::handle_all_or_npc_liquid( you, obj, 1 );
                 }
@@ -911,7 +910,9 @@ bool butchery_drops_harvest( butchery_data bt, Character &you )
                     }
                 }
             }
-            you.add_msg_if_player( m_good, _( "You harvest: %s" ), drop->nname( roll ) );
+            if( drop->phase != phase_id::LIQUID || action == butcher_type::BLEED ) {
+                you.add_msg_if_player( m_good, _( "You harvest: %s" ), drop->nname( roll ) );
+            }
         }
         practice++;
     }
@@ -923,7 +924,7 @@ bool butchery_drops_harvest( butchery_data bt, Character &you )
             // 25% of the corpse weight is what's removed during field dressing
             monster_weight_remaining -= monster_weight * 3 / 4;
         } else if( action == butcher_type::SKIN ) {
-            monster_weight_remaining -= monster_weight * 0.85;
+            monster_weight_remaining -= monster_weight * skinning_factor;
         } else {
             // a carcass is 75% of the weight of the unmodified creature's weight
             if( ( corpse_item.has_flag( flag_FIELD_DRESS ) ||
@@ -1048,6 +1049,8 @@ bool butchery_drops_harvest( butchery_data bt, Character &you )
 void butchery_quarter( item *corpse_item, const Character &you )
 {
     corpse_item->set_flag( flag_QUARTERED );
+    // Quartering destroys the skin, so mark it as skinned, even if it isn't.
+    corpse_item->set_flag( flag_SKINNED );
     you.add_msg_if_player( m_good,
                            _( "You roughly slice the corpse of %s into four parts and set them aside." ),
                            corpse_item->get_mtype()->nname() );
