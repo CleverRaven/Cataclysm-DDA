@@ -98,7 +98,9 @@
     "id": "button",
     "type": "requirement",
     "//": "All kinds of clothing buttons.",
-    "components": [ [ [ "button_plastic", 1 ], [ "button_wood", 1 ], [ "button_steel", 1 ], [ "button_bronze", 1 ] ] ]
+    "components": [
+      [ [ "button_plastic", 1 ], [ "button_wood", 1 ], [ "button_steel", 1 ], [ "button_bronze", 1 ], [ "button_bone", 1 ] ]
+    ]
   },
   {
     "id": "strap_small",
