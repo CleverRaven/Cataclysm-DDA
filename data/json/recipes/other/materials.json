@@ -1540,6 +1540,28 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "button_bone",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "2 h 10 m",
+    "charges": 50,
+    "autolearn": true,
+    "qualities": [
+      { "id": "SAW_W", "level": 1 },
+      [ { "id": "PUNCH", "level": 1 }, { "id": "DRILL", "level": 1 } ],
+      { "id": "CUT", "level": 2 },
+      { "id": "FILE", "level": 1 },
+      { "id": "BOIL", "level": 1 }
+    ],
+    "tools": [ [ [ "water_boiling_heat", 1, "LIST" ] ], [ [ "water", -1 ], [ "water_clean", -1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.25, "skill_penalty": 0.125 } ],
+    "components": [ [ "bone", 1 ] ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "button_plastic",
     "category": "CC_OTHER",
