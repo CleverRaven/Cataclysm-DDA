@@ -7,12 +7,7 @@
     "description": "Simple bikini bottoms.",
     "variant_type": "generic",
     "variants": [
-      {
-        "id": "generic_bikini_bottom",
-        "name": { "str_sp": "bikini bottoms" },
-        "description": "Simple bikini bottoms.",
-        "weight": 30
-      },
+      { "id": "generic_bikini_bottom", "//": "inherit name and description from item", "weight": 30 },
       {
         "id": "black_bikini_bottom",
         "name": { "str_sp": "black bikini bottoms" },
@@ -139,7 +134,7 @@
     "description": "A simple bikini top.",
     "variant_type": "generic",
     "variants": [
-      { "id": "generic_bikini_top", "name": { "str": "bikini top" }, "description": "A simple bikini top.", "weight": 30 },
+      { "id": "generic_bikini_top", "//": "inherit name and description from item", "weight": 30 },
       {
         "id": "black_bikini_top",
         "name": { "str": "black bikini top" },

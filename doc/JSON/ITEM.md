@@ -154,8 +154,8 @@ These fields can be read by any ITEM regardless of subtypes:
 "variants": [              // Cosmetic variants this item can have
   {
     "id": "variant_a",                           // id used in spawning to spawn this variant specifically
-    "name": { "str": "Variant A" },             // The name used instead of the default name when this variant is selected
-    "description": "A fancy variant A",         // The description used instead of the default when this variant is selected
+    "name": { "str": "Variant A" },             // The name used instead of the default name when this variant is selected. Optional, can be omitted to inherit the description of an item.
+    "description": "A fancy variant A",         // The description used instead of the default when this variant is selected. Optional, can be omitted to inherit the description of an item.
     "ascii_picture": "valid_ascii_art_id",      // An ASCII art picture used when this variant is selected. If there is none, the default (if it exists) is used.
     "symbol": "/",                              // Valid unicode character to replace the item symbol. If not specified, no change will be made.
     "color": "red",                             // Replacement color of item symbol. If not specified, no change will be made.
