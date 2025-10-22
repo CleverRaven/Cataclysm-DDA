@@ -246,7 +246,7 @@
     "looks_like": "book_nonf_soft_psych_cggamers",
     "description": "A leather-back journal for preserving notes and maps, has a strap to keep loose pages contained.",
     "volume": "300 ml",
-    "weight": "95 g",
+    "weight": "80 g",
     "flags": [ "TRADER_AVOID" ],
     "material": [ "leather" ],
     "symbol": "*",
