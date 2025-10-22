@@ -1304,7 +1304,7 @@
         "id": "saint_necklace",
         "expand_snippets": true,
         "name": { "str": "Saint Medallion" },
-        "description": "A necklace made of a fine gold chain with a medallion bearing the image of a Catholic Saint.  The back reads \"<catholic_saints>\".",
+        "description": "A necklace made of a fine gold chain with a medallion bearing the image of a Catholic saint.  The back reads \"<catholic_saints>\".",
         "color": "yellow",
         "weight": 5
       },
