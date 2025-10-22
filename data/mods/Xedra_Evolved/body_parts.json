@@ -228,6 +228,6 @@
     "name": "eyes",
     "limb_type": "sensor",
     "limb_scores": [ [ "vision", 1.0 ], [ "night_vis", 1.0 ], [ "reaction", 0.7 ] ],
-    "similar_bodyparts": [ "eyes_bulging", "eyes_insect_1", "gracken_eyes", "stalker_eyes" ]
+    "similar_bodyparts": [ "gracken_eyes", "stalker_eyes" ]
   }
 ]
