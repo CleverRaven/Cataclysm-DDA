@@ -2435,7 +2435,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str": "bunny suit" },
-    "description": "A bunny suit, still shiny despite the time it's likely spent in storage, or worse, on a corpse.  While not resembling a bunny without its accompanying tail and ears, it was a recognizable piece of clothing often found in clubs or in playboy magazines.",
+    "description": "A bunny suit, still shiny despite the time it's likely spent in storage, or worse, on a corpse.  It was a recognizable piece of clothing often found in clubs or in playboy magazines.",
     "weight": "136 g",
     "volume": "750 ml",
     "price": "50 USD",
@@ -2449,7 +2449,20 @@
       { "coverage": 75, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] }
     ],
     "material_thickness": 0.1,
-    "flags": [ "VARSIZE", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "SKINTIGHT" ],
+    "variants": [
+      {
+        "id": "tailless",
+        "name": { "str": "bunny suit" },
+        "description": "A bunny suit, still shiny despite the time it's likely spent in storage, or worse, on a corpse.  It was a recognizable piece of clothing often found in clubs or in playboy magazines."
+      },
+      {
+        "id": "tail",
+        "name": { "str": "bunny suit" },
+        "description": "This one comes with a white, fluffy tail",
+        "append": true
+      }
+    ]
   },
   {
     "id": "cheongsam",
