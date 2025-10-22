@@ -146,7 +146,8 @@
     "monsters": [
       { "monster": "mon_feral_scientist_psychic", "weight": 20, "cost_multiplier": 1 },
       { "monster": "mon_feral_human_porter3", "weight": 35, "cost_multiplier": 1 },
-      { "monster": "mon_nether_eater", "weight": 60, "cost_multiplier": 1 }
+      { "monster": "mon_nether_eater", "weight": 60, "cost_multiplier": 1 },
+      { "monster": "mon_nether_silent_one_passive", "weight": 30, "cost_multiplier": 2 }
     ]
   },
   {
@@ -197,17 +198,26 @@
   {
     "type": "monstergroup",
     "id": "GROUP_NETHER_REALITY_TEAR_FIELD",
-    "monsters": [ { "monster": "mon_nether_eater", "weight": 100, "cost_multiplier": 0 } ]
+    "monsters": [
+      { "monster": "mon_nether_eater", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_nether_silent_one_passive", "weight": 100, "cost_multiplier": 0 }
+    ]
   },
   {
     "type": "monstergroup",
     "id": "GROUP_NETHER",
-    "monsters": [ { "monster": "mon_nether_eater", "weight": 120, "cost_multiplier": 0 } ]
+    "monsters": [
+      { "monster": "mon_nether_eater", "weight": 120, "cost_multiplier": 0 },
+      { "monster": "mon_nether_silent_one_passive", "weight": 50, "cost_multiplier": 2 }
+    ]
   },
   {
     "type": "monstergroup",
     "id": "GROUP_NETHER_PORTAL",
-    "monsters": [ { "monster": "mon_nether_eater", "weight": 200, "cost_multiplier": 0 } ]
+    "monsters": [
+      { "monster": "mon_nether_eater", "weight": 200, "cost_multiplier": 0 },
+      { "monster": "mon_nether_silent_one_passive", "weight": 200, "cost_multiplier": 0 }
+    ]
   },
   {
     "id": "GROUP_CIVILIANS_STANDARD",
@@ -218,6 +228,15 @@
     "id": "GROUP_BEARS",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_bandersnatch", "weight": 20, "starts": "8 days", "cost_multiplier": 5 } ]
+  },
+  {
+    "id": "GROUP_DEERS",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_fear_deer", "weight": 20, "starts": "8 days", "cost_multiplier": 2 },
+      { "monster": "mon_fear_deer_fawn", "weight": 5, "cost_multiplier": 2 },
+      { "monster": "mon_fear_deer_fawn", "weight": 10, "starts": "360 days", "cost_multiplier": 2 }
+    ]
   },
   {
     "type": "monstergroup",
@@ -331,7 +350,7 @@
   },
   {
     "type": "monstergroup",
-    "id": "GROUP_MI-GO_CAMP_OM",
+    "id": "GO_CAMP_OM",
     "monsters": [
       { "monster": "mon_mi_go_telepath", "weight": 50, "cost_multiplier": 20, "starts": "35 days" },
       { "monster": "mon_mi_go_photokinetic", "weight": 50, "cost_multiplier": 2, "starts": "35 days" },
@@ -385,14 +404,5 @@
     "id": "GROUP_TRIFFID_HEARTGUARDS",
     "default": "mon_triffid",
     "monsters": [ { "group": "GROUP_TRIFFID_PSIONS", "weight": 150, "cost_multiplier": 2 } ]
-  },
-  {
-    "type": "monstergroup",
-    "id": "GROUP_TRIFFID_PSIONS",
-    "monsters": [
-      { "monster": "mon_triffid_clairsentient", "weight": 400 },
-      { "monster": "mon_triffid_pyrokinetic", "weight": 400 },
-      { "monster": "mon_triffid_teleporter", "weight": 200 }
-    ]
   }
 ]

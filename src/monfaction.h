@@ -95,6 +95,8 @@ class monfaction
         /** Load from JSON */
         void load( const JsonObject &jo, std::string_view src );
 
+        void finalize();
+
         friend void monfactions::finalize();
         friend class generic_factory<monfaction>;
 };

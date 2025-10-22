@@ -76,6 +76,7 @@
       }
     ],
     "faults": [ { "fault_group": "electronic_general" } ],
-    "flags": [ "WATCH", "LIGHT_10", "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC" ]
+    "light": 10,
+    "flags": [ "WATCH", "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC" ]
   }
 ]

@@ -419,7 +419,8 @@
     "description": "A portable electric heater that steadily emits warm air.  Raises temperature about 10 degrees Celsius, and fills a larger volume of air than the smaller version.",
     "power_draw": "1 kW",
     "emits": [ "emit_hot_air2_blast" ],
-    "flags": [ "ALLOWS_REMOTE_USE", "LIGHT_2" ],
+    "light": 2,
+    "flags": [ "ALLOWS_REMOTE_USE" ],
     "revert_to": "large_space_heater",
     "use_action": [
       {
@@ -630,7 +631,8 @@
     "description": "A portable electric heater that steadily emits warm air.  Raises temperature about 10 degrees Celsius.",
     "power_draw": "500 W",
     "emits": [ "emit_hot_air2_stream" ],
-    "flags": [ "ALLOWS_REMOTE_USE", "LIGHT_2" ],
+    "light": 2,
+    "flags": [ "ALLOWS_REMOTE_USE" ],
     "revert_to": "small_space_heater",
     "use_action": [
       {
@@ -748,8 +750,8 @@
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "category": "weapons",
-    "name": { "str": "C-4 payload" },
-    "description": "This is a dummy item used by c4 hacks.  You should never see it outside of debug.",
+    "name": { "str": "C-4 payload", "//~": "NO_I18N" },
+    "description": { "str": "This is a dummy item used by c4 hacks.  You should never see it outside of debug.", "//~": "NO_I18N" },
     "symbol": "*",
     "color": "dark_gray",
     "use_action": { "target": "c4armed", "target_timer": "10 seconds", "type": "transform" },
@@ -760,13 +762,13 @@
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "category": "weapons",
-    "name": { "str": "tear gas payload" },
-    "description": "This is a dummy item used by tear gas hacks.  You should never see it outside of debug.",
+    "name": { "str": "tear gas payload", "//~": "NO_I18N" },
+    "description": { "str": "This is a dummy item used by tear gas hacks.  You should never see it outside of debug.", "//~": "NO_I18N" },
     "symbol": "*",
     "color": "dark_gray",
     "use_action": {
       "target": "tear_gas_payload_act",
-      "msg": "You pull the pin on the payload.",
+      "msg": "You pull the pin on the %s.",
       "target_timer": "5 seconds",
       "type": "transform"
     },
@@ -777,8 +779,11 @@
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "category": "weapons",
-    "name": { "str": "active tear gas payload" },
-    "description": "This is a dummy item used by tear gas hacks that just so happens to be counting down.  You should never see it outside of debug.",
+    "name": { "str": "active tear gas payload", "//~": "NO_I18N" },
+    "description": {
+      "str": "This is a dummy item used by tear gas hacks that just so happens to be counting down.  You should never see it outside of debug.",
+      "//~": "NO_I18N"
+    },
     "symbol": "*",
     "color": "dark_gray",
     "countdown_action": {
@@ -908,7 +913,8 @@
     "symbol": "/",
     "color": "light_gray",
     "techniques": [ "WBLOCK_3", "WIDE" ],
-    "flags": [ "FIRE", "LIGHT_240", "FLAMING", "TRADER_AVOID" ],
+    "light": 240,
+    "flags": [ "FIRE", "FLAMING", "TRADER_AVOID" ],
     "melee_damage": { "bash": 1, "cut": 1 }
   },
   {

@@ -1120,7 +1120,6 @@
     "points": 1,
     "vitamin_cost": 60,
     "description": "Peaceful animals will not run away from you, and even aggressive animals are less likely to attack.  This only applies to natural animals such as woodland creatures.",
-    "starting_trait": true,
     "types": [ "ANIMAL_EMPATHY" ],
     "category": [ "LUPINE", "ELFA" ],
     "changes_to": [ "ANIMALEMPATH2" ],
@@ -1205,7 +1204,7 @@
   {
     "type": "mutation",
     "id": "MASOCHIST",
-    "name": { "str": "Masochist" },
+    "name": { "str": "Pain Driven" },
     "points": 1,
     "vitamin_cost": 60,
     "description": "Although you still suffer the negative effects of pain, it also brings a unique pleasure to you.",
@@ -1924,7 +1923,6 @@
     "points": -1,
     "vitamin_cost": 60,
     "description": "Most animals don't like you, and aggressive animals are more likely to attack you.  This only applies to natural animals such as woodland creatures.",
-    "starting_trait": true,
     "types": [ "ANIMAL_EMPATHY" ],
     "changes_to": [ "ANIMALDISCORD2" ],
     "category": [ "BEAST", "RAPTOR", "INSECT", "MOUSE", "RABBIT" ],
@@ -2206,7 +2204,9 @@
     "starting_trait": true,
     "cancels": [ "ROBUST", "RESTRICTED", "RESISTANT_GENETICS" ],
     "valid": false,
-    "vitamin_rates": [ [ "instability", -60 ] ]
+    "vitamin_rates": [ [ "instability", -60 ] ],
+    "prereqs": [ "CHAOTIC" ],
+    "category": [ "CHIMERA" ]
   },
   {
     "type": "mutation",
@@ -4289,6 +4289,7 @@
     "types": [ "TONGUE" ],
     "changes_to": [ "GASTROPOD_EXTREMITY3" ],
     "threshreq": [ "THRESH_GASTROPOD" ],
+    "strict_threshreq": true,
     "category": [ "GASTROPOD" ],
     "cancels": [ "FANGS", "MANDIBLES" ],
     "active": true,
@@ -4313,6 +4314,7 @@
     "types": [ "TONGUE" ],
     "threshreq": [ "THRESH_GASTROPOD" ],
     "category": [ "GASTROPOD" ],
+    "strict_threshreq": true,
     "active": true,
     "attacks": {
       "attack_text_u": "You stab into %s with your harpoon tongue!",
@@ -4514,6 +4516,7 @@
     "active": true,
     "activated_is_setup": false,
     "activated_eocs": [ "EOC_CRUSHING_LEAP" ],
+    "strict_threshreq": true,
     "prereqs": [ "LEAPING_LEGS" ],
     "threshreq": [ "THRESH_BATRACHIAN" ],
     "category": [ "BATRACHIAN" ]
@@ -4844,7 +4847,7 @@
     "types": [ "HORNS" ],
     "prereqs": [ "HEADBUMPS" ],
     "changes_to": [ "HORNS_CURLED", "HORNS_POINTED", "ANTLERS" ],
-    "category": [ "CATTLE", "CHIMERA" ],
+    "category": [ "CATTLE", "CHIMERA", "BEAST" ],
     "restricts_gear": [ "head_crown" ],
     "allow_soft_gear": true,
     "attacks": {
@@ -4866,7 +4869,7 @@
     "description": "You have a pair of large curled horns, like those of a ram.  They allow you to make a strong bashing headbutt attack, but prevent wearing any headwear.",
     "types": [ "HORNS" ],
     "prereqs": [ "HORNS" ],
-    "category": [ "CHIMERA" ],
+    "category": [ "CHIMERA", "BEAST" ],
     "restricts_gear": [ "head_crown" ],
     "attacks": {
       "attack_text_u": "You headbutt %s with your curled horns!",
@@ -5177,6 +5180,7 @@
     "prereqs": [ "HEAVYSLEEPER2" ],
     "prereqs2": [ "FAT" ],
     "threshreq": [ "THRESH_URSINE" ],
+    "strict_threshreq": true,
     "category": [ "URSINE" ],
     "active": true,
     "cost": 0,
@@ -5223,6 +5227,7 @@
     "types": [ "DURABILITY" ],
     "prereqs": [ "MUT_TOUGH2" ],
     "threshreq": [ "THRESH_URSINE", "THRESH_CATTLE" ],
+    "strict_threshreq": true,
     "cancels": [ "FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW" ],
     "category": [ "URSINE", "CATTLE" ],
     "enchantments": [ { "values": [ { "value": "MAX_HP", "multiply": 0.4 } ] } ]
@@ -5785,6 +5790,7 @@
     "points": 1,
     "vitamin_cost": 80,
     "visibility": 4,
+    "ugliness": 1,
     "description": "Your ears have extended into long, pointed, velvety ones, like those of a feline.  You find it easier to tune in on sounds from afar.",
     "types": [ "EARS" ],
     "category": [ "FELINE" ],
@@ -5873,6 +5879,7 @@
     "types": [ "SECRETION" ],
     "prereqs": [ "WEB_WALKER" ],
     "threshreq": [ "THRESH_SPIDER" ],
+    "strict_threshreq": true,
     "changes_to": [ "WEB_WEAVER" ],
     "category": [ "SPIDER" ],
     "comfort": [
@@ -5899,6 +5906,7 @@
     "types": [ "SECRETION" ],
     "prereqs": [ "WEB_SPINNER" ],
     "threshreq": [ "THRESH_SPIDER" ],
+    "strict_threshreq": true,
     "category": [ "SPIDER" ],
     "leads_to": [ "WEB_RAPPEL", "WEB_ROPE" ],
     "active": true,
@@ -5929,6 +5937,7 @@
     "description": "Your webbing is strong enough to support your weight.  Activate to rappel down any drop you encounter, at the cost of nutrition.",
     "prereqs": [ "WEB_WEAVER" ],
     "threshreq": [ "THRESH_SPIDER" ],
+    "strict_threshreq": true,
     "category": [ "SPIDER" ],
     "active": true,
     "cost": 95,
@@ -6090,6 +6099,7 @@
     "prereqs": [ "HUGE" ],
     "prereqs2": [ "STR_UP_3", "STR_UP_4" ],
     "threshreq": [ "THRESH_URSINE", "THRESH_CATTLE", "THRESH_CRUSTACEAN" ],
+    "strict_threshreq": true,
     "category": [ "URSINE", "CATTLE", "CRUSTACEAN" ],
     "enchantments": [
       {
@@ -6175,6 +6185,7 @@
     "types": [ "STR" ],
     "prereqs": [ "STR_UP_3" ],
     "threshreq": [ "THRESH_BEAST", "THRESH_URSINE", "THRESH_CRUSTACEAN" ],
+    "strict_threshreq": true,
     "category": [ "BEAST", "URSINE", "CRUSTACEAN" ],
     "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 7 } ] } ]
   },
@@ -6268,6 +6279,7 @@
     "types": [ "DEX" ],
     "prereqs": [ "DEX_UP_3" ],
     "threshreq": [ "THRESH_CEPHALOPOD", "THRESH_FISH" ],
+    "strict_threshreq": true,
     "category": [ "CEPHALOPOD", "FISH" ],
     "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 7 } ] } ]
   },
@@ -6321,6 +6333,7 @@
     "prereqs": [ "INT_UP_2" ],
     "changes_to": [ "INT_UP_4" ],
     "threshreq": [ "THRESH_CEPHALOPOD" ],
+    "strict_threshreq": true,
     "category": [ "CEPHALOPOD" ],
     "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": 4 } ] } ]
   },
@@ -6336,6 +6349,7 @@
     "types": [ "INT" ],
     "prereqs": [ "INT_UP_3" ],
     "threshreq": [ "THRESH_CEPHALOPOD" ],
+    "strict_threshreq": true,
     "category": [ "CEPHALOPOD" ],
     "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": 7 } ] } ]
   },
@@ -6415,6 +6429,7 @@
     "prereqs": [ "PER_UP_2" ],
     "changes_to": [ "PER_UP_4" ],
     "threshreq": [ "THRESH_ELFA", "THRESH_RAPTOR", "THRESH_BIRD" ],
+    "strict_threshreq": true,
     "category": [ "ELFA", "RAPTOR", "BIRD" ],
     "enchantments": [ { "values": [ { "value": "PERCEPTION", "add": 4 } ] } ]
   },
@@ -6429,6 +6444,7 @@
     "prereqs": [ "PER_UP_3" ],
     "leads_to": [ "BIRD_EYE" ],
     "threshreq": [ "THRESH_BIRD" ],
+    "strict_threshreq": true,
     "category": [ "BIRD" ],
     "enchantments": [ { "values": [ { "value": "PERCEPTION", "add": 7 } ] } ]
   },
@@ -6608,6 +6624,7 @@
     "prereqs": [ "SMALL2" ],
     "purifiable": false,
     "threshreq": [ "THRESH_MOUSE" ],
+    "strict_threshreq": true,
     "leads_to": [ "CRAFTY" ],
     "category": [ "MOUSE" ],
     "enchantments": [
@@ -6632,6 +6649,7 @@
     "purifiable": false,
     "prereqs": [ "SMALL_OK" ],
     "threshreq": [ "THRESH_MOUSE" ],
+    "strict_threshreq": true,
     "category": [ "MOUSE" ],
     "enchantments": [
       {
@@ -6667,7 +6685,7 @@
     "description": "You have a pair of bumps on your skull.",
     "types": [ "HORNS" ],
     "changes_to": [ "HORNS", "ANTENNAE" ],
-    "category": [ "CATTLE", "CHIMERA", "INSECT" ]
+    "category": [ "CATTLE", "CHIMERA", "INSECT", "BEAST" ]
   },
   {
     "type": "mutation",
@@ -6715,6 +6733,7 @@
     "description": "You've developed an extremely long and mobile tongue.  You may use it to attack your enemies and pull them towards you.",
     "types": [ "TONGUE" ],
     "threshreq": [ "THRESH_BATRACHIAN" ],
+    "strict_threshreq": true,
     "category": [ "BATRACHIAN" ],
     "active": true,
     "attacks": {
@@ -6850,6 +6869,7 @@
     "types": [ "WINGS" ],
     "prereqs": [ "WINGS_STUB" ],
     "threshreq": [ "THRESH_INSECT" ],
+    "strict_threshreq": true,
     "category": [ "INSECT" ],
     "restricts_gear": [ "torso" ],
     "social_modifiers": { "lie": 15, "persuade": 5, "intimidate": -20 },
@@ -7294,6 +7314,7 @@
     "types": [ "METABOLISM" ],
     "prereqs": [ "PERSISTENCE_HUNTER" ],
     "threshreq": [ "THRESH_LUPINE" ],
+    "strict_threshreq": true,
     "category": [ "LUPINE" ],
     "enchantments": [ { "values": [ { "value": "STAMINA_REGEN_MOD", "add": 0.2 }, { "value": "SLEEPINESS", "multiply": -0.2 } ] } ]
   },
@@ -7719,6 +7740,7 @@
     "cancels": [ "MOUTH_TENTACLES" ],
     "prereqs": [ "BEAK" ],
     "threshreq": [ "THRESH_BIRD" ],
+    "strict_threshreq": true,
     "category": [ "BIRD" ],
     "wet_protection": [ { "part": "mouth", "ignored": 2 } ],
     "active": true,
@@ -7757,6 +7779,7 @@
     "purifiable": false,
     "description": "Your body alters itself rapidly, and without your intervention or conscious control.",
     "prereqs": [ "UNSTABLE", "MUT_JUNKIE" ],
+    "changes_to": [ "CHAOTIC_BAD" ],
     "category": [ "CHIMERA" ]
   },
   {
@@ -7829,6 +7852,7 @@
     "leads_to": [ "AMORPHOUS" ],
     "prereqs": [ "SLIMY" ],
     "threshreq": [ "THRESH_SLIME", "THRESH_GASTROPOD" ],
+    "strict_threshreq": true,
     "category": [ "SLIME", "GASTROPOD" ],
     "flags": [ "IRRITANT_IMMUNE" ],
     "wet_protection": [
@@ -7945,6 +7969,7 @@
     "vitamins_absorb_multi": [ [ "blood", [ [ "mutant_toxin", 0.25 ] ] ], [ "flesh", [ [ "mutant_toxin", 0.75 ] ] ] ],
     "category": [ "CHIROPTERAN" ],
     "threshreq": [ "THRESH_CHIROPTERAN" ],
+    "strict_threshreq": true,
     "vitamin_rates": [ [ "iron", 800 ], [ "vitC", -600 ] ]
   },
   {
@@ -8631,6 +8656,7 @@
     "changes_to": [ "SHELL3" ],
     "prereqs": [ "SHELL" ],
     "threshreq": [ "THRESH_CEPHALOPOD", "THRESH_GASTROPOD" ],
+    "strict_threshreq": true,
     "category": [ "CEPHALOPOD", "GASTROPOD" ],
     "wet_protection": [ { "part": "torso", "ignored": 26 } ],
     "active": true,
@@ -8656,6 +8682,7 @@
     "types": [ "TORSO_ARMOR" ],
     "prereqs": [ "SHELL2" ],
     "threshreq": [ "THRESH_GASTROPOD" ],
+    "strict_threshreq": true,
     "category": [ "GASTROPOD" ],
     "wet_protection": [ { "part": "torso", "ignored": 45 } ],
     "active": true,
@@ -8851,8 +8878,7 @@
     "flags": [ "PLANTBLOOD" ],
     "valid": false,
     "purifiable": false,
-    "threshold": true,
-    "threshold_substitutes": [ "THRESH_CHIMERA" ]
+    "threshold": true
   },
   {
     "type": "mutation",
@@ -8946,7 +8972,7 @@
     "name": { "str": "Chaos" },
     "points": 1,
     "description": "You can't tell what you are anymore.  Everything and yet nothing, like you weren't meant to exist.  But you do, and you're a force, no matter what happens.  Unlocks gaining post-threshold traits from most other mutation categories.",
-    "//": "Acceptable substitute for all lines except the human-based ones and slime - the former are more controlled, the latter will diverge too much in anatomy.",
+    "//": "Acceptable substitute for many lines except the human-based ones, raptor, plant, and slime - the former are more controlled, the latter will diverge too much in anatomy.",
     "valid": false,
     "purifiable": false,
     "threshold": true
@@ -8959,8 +8985,7 @@
     "description": "The chance to undo not one but TWO extinction events.  You're confident you'll do fine.",
     "valid": false,
     "purifiable": false,
-    "threshold": true,
-    "threshold_substitutes": [ "THRESH_CHIMERA" ]
+    "threshold": true
   },
   {
     "type": "mutation",
@@ -9074,6 +9099,7 @@
     "description": "You're as comfortable in water as on land, and your body has adapted around that fact.  Your base swimming speed is greatly increased, and weight will hinder you much less while swimming.",
     "category": [ "FISH", "BATRACHIAN" ],
     "threshreq": [ "THRESH_FISH", "THRESH_BATRACHIAN" ],
+    "strict_threshreq": true,
     "enchantments": [ { "values": [ { "value": "MOVECOST_SWIM_MOD", "multiply": -0.55 } ] } ],
     "purifiable": false
   },
@@ -9088,6 +9114,7 @@
     "description": "Like a true fish, your eyes lack eyelids, and are instead covered by a translucent, protective membrane that blocks irritants and water, and provides minor armor.  It also allows you to sleep with your eyes open!  Activate to cause the approach of hostile creatures to wake you up.",
     "category": [ "FISH" ],
     "threshreq": [ "THRESH_FISH" ],
+    "strict_threshreq": true,
     "armor": [ { "parts": "eyes", "cut": 3, "bash": 1 } ],
     "flags": [ "EYE_MEMBRANE", "SEESLEEP" ],
     "active": true
@@ -9102,6 +9129,7 @@
     "prereqs": [ "SEESLEEP", "FROG_EYES", "GILLS_CEPH" ],
     "category": [ "FISH", "BATRACHIAN", "CEPHALOPOD" ],
     "threshreq": [ "THRESH_FISH", "THRESH_BATRACHIAN", "THRESH_CEPHALOPOD" ],
+    "strict_threshreq": true,
     "comfort": [
       {
         "conditions": [ { "type": "terrain", "flag": "DEEP_WATER" } ],
@@ -9135,7 +9163,8 @@
     "description": "Your gills and skin are highly permeable to moisture, and you can hydrate your body through osmosis.  While submerged in fresh water, any thirst you might have will be slaked.",
     "prereqs": [ "GILLS" ],
     "category": [ "FISH", "BATRACHIAN" ],
-    "threshreq": [ "THRESH_FISH", "THRESH_BATRACHIAN" ]
+    "threshreq": [ "THRESH_FISH", "THRESH_BATRACHIAN" ],
+    "strict_threshreq": true
   },
   {
     "type": "mutation",
@@ -9706,7 +9735,12 @@
     "time": "1 s",
     "mana": true,
     "lumination": [ [ "torso", 8 ] ],
-    "transform": { "target": "DEBUG_MANA_FURNACE", "msg_transform": "You stop incinerate bugs with mana.", "active": false, "moves": 0 }
+    "transform": {
+      "target": "DEBUG_MANA_FURNACE",
+      "msg_transform": "You stop incinerating bugs with mana.",
+      "active": false,
+      "moves": 0
+    }
   },
   {
     "type": "mutation",
@@ -10238,6 +10272,7 @@
     "types": [ "HUMAN_EMPATHY" ],
     "category": [ "MEDICAL" ],
     "threshreq": [ "THRESH_MEDICAL" ],
+    "purifiable": false,
     "flags": [ "NUMB" ]
   },
   {
@@ -10456,6 +10491,7 @@
     "types": [ "ACCLIMATIZATION" ],
     "category": [ "FISH", "CEPHALOPOD", "GASTROPOD", "LIZARD", "BATRACHIAN", "PLANT" ],
     "threshreq": [ "THRESH_FISH", "THRESH_CEPHALOPOD", "THRESH_GASTROPOD", "THRESH_LIZARD", "THRESH_BATRACHIAN" ],
+    "strict_threshreq": true,
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 25 } ] } ]
   },
   {
@@ -10486,6 +10522,7 @@
     "category": [ "CEPHALOPOD" ],
     "prereqs": [ "CAMO1" ],
     "threshreq": [ "THRESH_CEPHALOPOD" ],
+    "strict_threshreq": true,
     "enchantments": [ { "values": [ { "value": "STEALTH_MODIFIER", "add": 20 } ] } ]
   },
   {
@@ -10502,7 +10539,8 @@
     "enchantments": [ { "values": [ { "value": "LEARNING_FOCUS", "add": 17 }, { "value": "SKILL_RUST_RESIST", "multiply": 0.5 } ] } ],
     "category": [ "CEPHALOPOD" ],
     "prereqs": [ "INT_UP_4" ],
-    "threshreq": [ "THRESH_CEPHALOPOD" ]
+    "threshreq": [ "THRESH_CEPHALOPOD" ],
+    "strict_threshreq": true
   },
   {
     "type": "mutation",
@@ -10677,8 +10715,9 @@
     "player_display": true,
     "points": -8,
     "starting_trait": true,
-    "valid": false,
-    "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+    "purifiable": false,
+    "cancels": [ "CBM_Interface" ],
+    "flags": [ "NO_CBM_INSTALLATION" ]
   },
   {
     "type": "mutation",
@@ -10717,6 +10756,7 @@
     "types": [ "TEETH" ],
     "prereqs": [ "FANGS" ],
     "threshreq": [ "THRESH_CHIROPTERAN" ],
+    "strict_threshreq": true,
     "category": [ "CHIROPTERAN" ],
     "integrated_armor": [ "integrated_vampire_fangs" ]
   },
@@ -10730,5 +10770,17 @@
     "category": [ "HUMAN" ],
     "types": [ "ATTRACTIVENESS" ],
     "description": "Your attractiveness would be considered unremarkable by the average human."
+  },
+  {
+    "type": "mutation",
+    "id": "anti_shape",
+    "name": { "str": "Extradimensional Comprehension" },
+    "player_display": true,
+    "points": 0,
+    "description": "In the tunnel at LIXA, you were inside of an impossible shape, where the X, Y, and Z axis were mere suggestions.  When you put the shape out of its misery, (as much misery as a concept can have), you saw it for what it was; just a shape.  You can now visualize \"impossible\" shapes in your mind's eye, rendering them mundane to you.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": 1 } ] } ]
   }
 ]

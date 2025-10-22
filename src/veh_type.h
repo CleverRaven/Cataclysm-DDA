@@ -27,6 +27,7 @@
 class Character;
 class JsonObject;
 class JsonOut;
+class JsonValue;
 class vehicle;
 class vpart_info;
 struct vehicle_prototype;
@@ -122,6 +123,8 @@ enum vpart_bitflags : int {
 };
 
 struct vpslot_engine {
+    bool was_loaded = false;
+
     float backfire_threshold = 0.0f;
     int backfire_freq = 1;
     int muscle_power_factor = 0;
@@ -130,23 +133,39 @@ struct vpslot_engine {
     int m2c = 100;
     std::vector<std::string> exclusions;
     std::vector<itype_id> fuel_opts;
+
+    void deserialize( const JsonObject &jo );
 };
 
 struct veh_ter_mod {
     std::string terrain_flag; // terrain flag this mod block applies to
     int move_override;        // override when on flagged terrain, ignored if 0
     int move_penalty;         // penalty added when not on flagged terrain, ignored if 0
+
+    void deserialize( const JsonValue &jv );
+    // for generic_factory delete/extend
+    bool operator==( const veh_ter_mod &rhs ) const {
+        return terrain_flag == rhs.terrain_flag;
+    }
 };
 
 struct vpslot_wheel {
+    bool was_loaded = false;
+
     float rolling_resistance = 1.0f;
     int contact_area = 1;
     std::vector<veh_ter_mod> terrain_modifiers;
     float offroad_rating = 0.5f;
+
+    void deserialize( const JsonObject &jo );
 };
 
 struct vpslot_rotor {
+    bool was_loaded = false;
+
     int rotor_diameter = 1;
+
+    void deserialize( const JsonObject &jo );
 };
 
 struct vpslot_workbench {
@@ -155,10 +174,16 @@ struct vpslot_workbench {
     // Mass/volume allowed before a crafting speed penalty is applied
     units::mass allowed_mass = 0_gram;
     units::volume allowed_volume = 0_ml;
+
+    void deserialize( const JsonObject &jo );
 };
 
 struct vpslot_toolkit {
+    bool was_loaded = false;
+
     std::set<itype_id> allowed_types;
+
+    void deserialize( const JsonObject &jo );
 };
 
 struct vpslot_terrain_transform {
@@ -169,11 +194,15 @@ struct vpslot_terrain_transform {
     //Both only defined if(post_field)
     int post_field_intensity;
     time_duration post_field_age;
+
+    void deserialize( const JsonObject &jo );
 };
 
 struct vp_control_req {
     std::set<std::pair<skill_id, int>> skills;
     std::set<proficiency_id> proficiencies;
+
+    void deserialize( const JsonObject &jo );
 };
 
 class vpart_category
@@ -181,8 +210,9 @@ class vpart_category
     public:
         static const std::vector<vpart_category> &all();
 
-        static void load( const JsonObject &jo );
-        static void finalize();
+        static void load_all( const JsonObject &jo );
+        static void finalize_all();
+        void load( const JsonObject &jo );
         static void reset();
 
         std::string get_id() const {
@@ -243,7 +273,7 @@ class vpart_info
     public:
         vpart_id id;
 
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
         void check() const;
         void finalize();
         void handle_inheritance( const vpart_info &copy_from,
@@ -275,6 +305,9 @@ class vpart_info
         /** Installation requirements for this component */
         requirement_data install_requirements() const;
 
+        // needed for setting turret requirements, possibly not for general use
+        void set_install_requirements( const std::vector<std::pair<requirement_id, int>> &reqs );
+
         /** Installation time (in moves) for this component accounting for player skills */
         time_duration install_time( const Character &you ) const;
 
@@ -301,6 +334,7 @@ class vpart_info
         std::optional<vpslot_terrain_transform> transform_terrain_info;
         //Enchantments
         std::vector<enchantment_id> enchantments;
+        std::optional<effect_on_condition_id> activatable_eoc;
 
         std::set<std::pair<itype_id, int>> get_pseudo_tools() const;
 
@@ -407,7 +441,7 @@ class vpart_info
         std::optional<itype_id> removed_item;
 
         /** What slot of the vehicle tile does this part occupy? */
-        std::string location;
+        vpart_location_id location = vpart_location_id::NULL_ID();
 
         /** Maximum damage part can sustain before being destroyed */
         int durability = 0;
@@ -456,10 +490,6 @@ class vpart_info
         units::temperature_delta floor_bedding_warmth = 0_C_delta;
         units::temperature_delta bonus_fire_warmth_feet = 0.6_C_delta;
 
-        // z-ordering, inferred from location, cached here
-        int z_order = 0;
-        // Display order in vehicle interact display
-        int list_order = 0;
     private:
         bool was_loaded = false; // used by generic_factory
         std::vector<std::pair<vpart_id, mod_id>> src;
@@ -474,10 +504,11 @@ struct vehicle_item_spawn {
     int with_ammo = 0;
     /** Chance [0-100%] for items to spawn with their default magazine (if any) */
     int with_magazine = 0;
-    std::vector<itype_id> item_ids;
-    // item_ids, but for items with variants specified
-    std::vector<std::pair<itype_id, std::string>> variant_ids;
+    // item_ids, with variants specified (empty is ignored)
+    std::vector<std::pair<itype_id, std::string>> item_ids;
     std::vector<item_group_id> item_groups;
+
+    void deserialize( const JsonObject &jo );
 };
 
 /**
@@ -495,6 +526,12 @@ struct vehicle_prototype {
             std::pair<int, int> ammo_qty = { -1, -1 };
             itype_id fuel = itype_id::NULL_ID();
             std::vector<itype_id> tools;
+
+            bool operator==( const part_def &other ) const {
+                return pos == other.pos && part == other.part && variant == other.variant &&
+                       with_ammo == other.with_ammo && ammo_types == other.ammo_types && ammo_qty == other.ammo_qty &&
+                       fuel == other.fuel && tools == other.tools;
+            }
         };
 
         struct zone_def {
@@ -502,6 +539,11 @@ struct vehicle_prototype {
             std::string name;
             std::string filter;
             point_rel_ms pt;
+
+            void deserialize( const JsonObject &jo );
+            bool operator==( const zone_def &other ) const {
+                return zone_type == other.zone_type && name == other.name && filter == other.name && pt == other.pt;
+            }
         };
 
         vproto_id id;

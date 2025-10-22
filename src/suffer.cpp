@@ -99,6 +99,7 @@ static const efftype_id effect_nausea( "nausea" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_shakes( "shakes" );
 static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_sunscreen( "sunscreen" );
 static const efftype_id effect_took_antiasthmatic( "took_antiasthmatic" );
 static const efftype_id effect_took_xanax( "took_xanax" );
 static const efftype_id effect_visuals( "visuals" );
@@ -130,7 +131,11 @@ static const json_character_flag json_flag_MEND_LIMB( "MEND_LIMB" );
 static const json_character_flag json_flag_NYCTOPHOBIA( "NYCTOPHOBIA" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const json_character_flag json_flag_RAD_DETECT( "RAD_DETECT" );
+static const json_character_flag json_flag_SUFFOCATION_IMMUNE( "SUFFOCATION_IMMUNE" );
 static const json_character_flag json_flag_SUNBURN( "SUNBURN" );
+static const json_character_flag json_flag_SUNBURN_SUPERNATURAL( "SUNBURN_SUPERNATURAL" );
+static const json_character_flag
+json_flag_SUNBURN_SUPERNATURAL_REDUCTION( "SUNBURN_SUPERNATURAL_REDUCTION" );
 
 static const morale_type morale_feeling_bad( "morale_feeling_bad" );
 static const morale_type morale_feeling_good( "morale_feeling_good" );
@@ -366,6 +371,12 @@ void suffer::while_grabbed( Character &you )
     if( crowd < crush_grabs_req ) {
         return;
     }
+
+    // if you don't need to breathe, you can't suffocate from being crushed
+    if( you.has_flag( json_flag_SUFFOCATION_IMMUNE ) ) {
+        return;
+    }
+
     // Getting crushed against the wall counts as a monster
     if( impassable_ter ) {
         you.add_msg_if_player( m_bad, _( "You're crushed against the walls!" ) );
@@ -390,7 +401,7 @@ void suffer::while_grabbed( Character &you )
             g->cancel_activity_or_ignore_query( distraction_type::oxygen, _( "You're suffocating!" ) );
         }
         // your characters chest is being crushed and you are dying
-        you.apply_damage( nullptr, you.get_random_body_part_of_type( body_part_type::type::torso ), rng( 1,
+        you.apply_damage( nullptr, you.get_random_body_part_of_type( bp_type::torso ), rng( 1,
                           4 ) );
     } else if( you.oxygen <= 15 ) {
         you.add_msg_if_player( m_bad, _( "You can't breathe with all this weight!" ) );
@@ -711,13 +722,14 @@ void suffer::in_sunlight( Character &you )
             you.vitamin_mod( vitamin_vitC, 1 );
         }
     }
-    if( you.has_flag( json_flag_SUNBURN ) ) {
+    if( you.has_flag( json_flag_SUNBURN ) && !you.has_effect( effect_sunscreen ) ) {
         suffer::from_sunburn( you, true );
     }
 
     // Albinism and datura have the same effects and do not stack with each other or sunburn.
-    if( !you.has_flag( json_flag_SUNBURN ) &&
-        ( you.has_flag( json_flag_ALBINO ) || you.has_effect( effect_datura ) ) ) {
+    if( ( !you.has_flag( json_flag_SUNBURN ) &&
+          ( you.has_flag( json_flag_ALBINO ) || you.has_effect( effect_datura ) ) ) &&
+        !you.has_effect( effect_sunscreen ) ) {
         suffer::from_sunburn( you, false );
     }
 
@@ -803,8 +815,14 @@ static float heavy_eff_chance( float exp )
 
 void suffer::from_sunburn( Character &you, bool severe )
 {
-    // Sunburn effects and albinism/datura occur about once per minute
-    if( !one_turn_in( 1_minutes ) ) {
+    // Sunburn effects and albinism/datura occur about once per minute unless you have the SUNBURN_SUPERNATURAL flag
+    if( !one_turn_in( 1_minutes ) && !you.has_flag( json_flag_SUNBURN_SUPERNATURAL ) ) {
+        return;
+    }
+
+    // If you have SUNBURN_SUPERNATURAL but some means of protection, you burn 75% slower
+    if( !one_turn_in( 4_seconds ) && you.has_flag( json_flag_SUNBURN_SUPERNATURAL ) &&
+        you.has_flag( json_flag_SUNBURN_SUPERNATURAL_REDUCTION ) ) {
         return;
     }
 
@@ -858,8 +876,12 @@ void suffer::from_sunburn( Character &you, bool severe )
         bodypart_id bp = bp_exp.first;
         float exposure = bp_exp.second;
 
-        if( bp == bodypart_id( "eyes" ) ) {
-            // Sunglasses can keep the sun off the eyes.
+        if( you.has_flag( json_flag_SUNBURN_SUPERNATURAL ) ) {
+            exposure = 1;
+        }
+
+        if( bp == bodypart_id( "eyes" ) && !you.has_flag( json_flag_SUNBURN_SUPERNATURAL ) ) {
+            // Sunglasses can keep the sun off the eyes. SUNBURN_SUPERNATURAL ignores clothing
             if( you.has_flag( json_flag_GLARE_RESIST )
                 || you.worn_with_flag( flag_SUN_GLASSES )
                 || you.worn_with_flag( flag_BLIND ) ) {
@@ -867,7 +889,8 @@ void suffer::from_sunburn( Character &you, bool severe )
             }
             // If no UV-/glare-protection gear is worn the eyes should be treated as unprotected
             exposure = 1.0;
-        } else if( ( you.get_wielded_item() && you.get_wielded_item()->has_flag( flag_RAIN_PROTECT ) )
+        } else if( !you.has_flag( json_flag_SUNBURN_SUPERNATURAL ) && ( ( you.get_wielded_item() &&
+                   you.get_wielded_item()->has_flag( flag_RAIN_PROTECT ) )
                    || ( ( bp == body_part_hand_l || bp == body_part_hand_r )
                         && you.worn_with_flag( flag_POCKETS )
                         && you.can_use_pockets() )
@@ -876,7 +899,7 @@ void suffer::from_sunburn( Character &you, bool severe )
                         && you.can_use_hood() )
                    || ( bp == body_part_mouth
                         && you.worn_with_flag( flag_COLLAR )
-                        && you.can_use_collar() ) ) {
+                        && you.can_use_collar() ) ) ) {
             // Eyes suffer even in the presence of the checks in this branch!
             // Umbrellas can keep the sun off all bodyparts
             // Pockets can keep the sun off your hands if you don't wield a too large item

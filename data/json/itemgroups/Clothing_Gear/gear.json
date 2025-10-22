@@ -298,7 +298,6 @@
       { "group": "tools_toolbox", "prob": 1 },
       { "item": "smoxygen_tank", "prob": 35, "charges": [ 4, -1 ] },
       { "item": "watercannon", "prob": 10, "charges": [ 0, -1 ] },
-      [ "solarpack", 2 ],
       [ "bag_body_bag", 5 ]
     ]
   },

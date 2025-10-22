@@ -7,7 +7,7 @@ def parse_martial_art(json, origin):
     write_text(name, origin, comment="Name of martial art")
 
     if "description" in json:
-        write_text(json["description"], origin, c_format=False,
+        write_text(json["description"], origin,
                    comment="Description of martial art \"{}\"".format(name))
 
     if "initiate" in json:
@@ -39,6 +39,6 @@ def parse_martial_art(json, origin):
         buff_name = get_singular_name(buff["name"])
         write_text(buff_name, origin,
                    comment="Buff name of martial art \"{}\"".format(name))
-        write_text(buff["description"], origin, c_format=False,
+        write_text(buff["description"], origin,
                    comment="Description of buff \"{0}\" in martial art "
                            "\"{1}\"".format(name, buff_name))

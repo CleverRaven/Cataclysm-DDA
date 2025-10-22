@@ -93,52 +93,52 @@
     "responses": [
       {
         "text": "[<item_name:2x4>, $1 a piece, max 200]",
-        "effect": { "run_eocs": "EOC_LUMBERMILL_FABRICATE_order", "variables": { "name": "2x4", "max": "200" } },
+        "effect": { "run_eocs": "EOC_LUMBERMILL_FABRICATE_order", "variables": { "name": "2x4", "max": 200 } },
         "topic": "TALK_LUMBERMILL_FABRICATE"
       },
       {
         "text": "[<item_name:plank_short>, $0.7 a piece, max 200]",
-        "effect": { "run_eocs": "EOC_LUMBERMILL_FABRICATE_order", "variables": { "name": "plank_short", "max": "200" } },
+        "effect": { "run_eocs": "EOC_LUMBERMILL_FABRICATE_order", "variables": { "name": "plank_short", "max": 200 } },
         "topic": "TALK_LUMBERMILL_FABRICATE"
       },
       {
         "text": "[<item_name:plank_long>, $1.5 a piece, max 200]",
-        "effect": { "run_eocs": "EOC_LUMBERMILL_FABRICATE_order", "variables": { "name": "plank_long", "max": "200" } },
+        "effect": { "run_eocs": "EOC_LUMBERMILL_FABRICATE_order", "variables": { "name": "plank_long", "max": 200 } },
         "topic": "TALK_LUMBERMILL_FABRICATE"
       },
       {
         "text": "[<item_name:wooden_post>, $1 a piece, max 100]",
-        "effect": { "run_eocs": "EOC_LUMBERMILL_FABRICATE_order", "variables": { "name": "wooden_post", "max": "100" } },
+        "effect": { "run_eocs": "EOC_LUMBERMILL_FABRICATE_order", "variables": { "name": "wooden_post", "max": 100 } },
         "topic": "TALK_LUMBERMILL_FABRICATE"
       },
       {
         "text": "[<item_name:wooden_post_short>, $0.7 a piece, max 100]",
-        "effect": { "run_eocs": "EOC_LUMBERMILL_FABRICATE_order", "variables": { "name": "wooden_post_short", "max": "100" } },
+        "effect": { "run_eocs": "EOC_LUMBERMILL_FABRICATE_order", "variables": { "name": "wooden_post_short", "max": 100 } },
         "topic": "TALK_LUMBERMILL_FABRICATE"
       },
       {
         "text": "[<item_name:wooden_post_long>, $1.5 a piece, max 100]",
-        "effect": { "run_eocs": "EOC_LUMBERMILL_FABRICATE_order", "variables": { "name": "wooden_post_long", "max": "100" } },
+        "effect": { "run_eocs": "EOC_LUMBERMILL_FABRICATE_order", "variables": { "name": "wooden_post_long", "max": 100 } },
         "topic": "TALK_LUMBERMILL_FABRICATE"
       },
       {
         "text": "[<item_name:wood_panel>, $8 a piece, max 100]",
-        "effect": { "run_eocs": "EOC_LUMBERMILL_FABRICATE_order", "variables": { "name": "wood_panel", "max": "100" } },
+        "effect": { "run_eocs": "EOC_LUMBERMILL_FABRICATE_order", "variables": { "name": "wood_panel", "max": 100 } },
         "topic": "TALK_LUMBERMILL_FABRICATE"
       },
       {
         "text": "[<item_name:wood_sheet>, $16 a piece, max 100]",
-        "effect": { "run_eocs": "EOC_LUMBERMILL_FABRICATE_order", "variables": { "name": "wood_sheet", "max": "100" } },
+        "effect": { "run_eocs": "EOC_LUMBERMILL_FABRICATE_order", "variables": { "name": "wood_sheet", "max": 100 } },
         "topic": "TALK_LUMBERMILL_FABRICATE"
       },
       {
         "text": "[<item_name:wood_beam>, $25 a piece, max 50]",
-        "effect": { "run_eocs": "EOC_LUMBERMILL_FABRICATE_order", "variables": { "name": "wood_beam", "max": "50" } },
+        "effect": { "run_eocs": "EOC_LUMBERMILL_FABRICATE_order", "variables": { "name": "wood_beam", "max": 50 } },
         "topic": "TALK_LUMBERMILL_FABRICATE"
       },
       {
         "text": "[<item_name:log>, $5 a piece, max 100]",
-        "effect": { "run_eocs": "EOC_LUMBERMILL_FABRICATE_order", "variables": { "name": "log", "max": "100" } },
+        "effect": { "run_eocs": "EOC_LUMBERMILL_FABRICATE_order", "variables": { "name": "log", "max": 100 } },
         "topic": "TALK_LUMBERMILL_FABRICATE"
       },
       {

@@ -410,7 +410,7 @@ static void do_blast( map *m, const Creature *source, const tripoint_bub_ms &p, 
             add_msg_debug( debugmode::DF_EXPLOSION, "%s for %d raw, %d actual", hit_part_name, part_dam,
                            res_dmg );
             if( res_dmg > 0 ) {
-                pl->add_msg_if_player( m_bad, _( "Your %s is hit for %d damage!" ), hit_part_name, res_dmg );
+                pl->add_msg_if_player( m_bad, _( "Your %1$s is hit for %2$d damage!" ), hit_part_name, res_dmg );
             }
         }
     }

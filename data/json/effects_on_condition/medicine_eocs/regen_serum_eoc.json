@@ -4,7 +4,7 @@
     "id": "spent_to_ingested_ratio",
     "//": "return ratio between calories you spent yesterday and calories you ingested yesterday. if bigger than 1, you consumed more calories than you ingested",
     "num_args": 0,
-    "return": "max( get_calories_daily('type':'spent', 'day':'1'), 1 ) / max( get_calories_daily('type':'ingested', 'day':'1'), 1 )"
+    "return": "max( get_calories_daily('type':'spent', 'day':1), 1 ) / max( get_calories_daily('type':'ingested', 'day':1), 1 )"
   },
   {
     "type": "effect_on_condition",

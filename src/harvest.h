@@ -21,6 +21,7 @@ class harvest_drop_type
 {
     public:
         static void load_harvest_drop_types( const JsonObject &jo, const std::string &src );
+        static void finalize_all();
         static void reset();
         void load( const JsonObject &jo, std::string_view src );
         static const std::vector<harvest_drop_type> &get_all();
@@ -139,6 +140,7 @@ class harvest_list
 
         /** Fills out the set of cached names. */
         static void finalize_all();
+        void finalize();
 
         /** Check consistency of all loaded harvest data */
         static void check_consistency();
@@ -156,7 +158,6 @@ class harvest_list
         translation message_;
         butchery_requirements_id butchery_requirements_;
 
-        void finalize();
 };
 
 #endif // CATA_SRC_HARVEST_H

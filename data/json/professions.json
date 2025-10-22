@@ -711,6 +711,7 @@
   {
     "type": "profession",
     "id": "unemployed",
+    "//": "This profession is meant to convey an average person who has not prepared for the Cataclysm at all. Starting out unprepared is fully intentional, and this scenario is not meant to aid new players.",
     "name": "Survivor",
     "description": "Some would say that there's nothing particularly notable about you, but you've survived, and that's more than most could say right now.",
     "npc_background": "BG_survival_story_EVACUEE",
@@ -722,13 +723,8 @@
           { "item": "longshirt" },
           { "item": "socks" },
           { "item": "sneakers" },
-          { "item": "mbag" },
-          { "item": "pockknife" },
-          { "item": "water_clean" },
-          { "item": "wristwatch" },
           { "group": "charged_smart_phone", "contents-item": "guidebook" },
-          { "group": "starter_wallet_full" },
-          { "group": "charged_matches" }
+          { "group": "starter_wallet_full" }
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
@@ -1347,7 +1343,7 @@
     "type": "profession",
     "id": "major-general",
     "name": "Major General",
-    "requirement": "achievement_reach_military_bunker",
+    "requirement": [ "achievement_reach_military_bunker", "achievement_reach_military_base" ],
     "description": "You worked your way up through the ranks from a no-name private to a big shot Major General, respected and decorated.  On the downside, years of desk duty have left your shooting skills rusty, and all the medals in the world won't protect you now.",
     "npc_background": "BG_survival_story_SOLDIER",
     "points": 4,
@@ -4716,7 +4712,6 @@
       "both": {
         "entries": [
           { "item": "jumpsuit_pocketless", "variant": "orange" },
-          { "item": "striped_pants" },
           { "item": "sneakers" },
           { "item": "socks" },
           { "item": "gum" },

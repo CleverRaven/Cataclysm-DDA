@@ -747,7 +747,11 @@
         { "test_eoc": "EOC_CONDITION_ATTUNEMENT_CHECK_PROFICIENCY_MASTERY" }
       ]
     },
-    "effect": [ { "u_add_trait": "BOREAL_MAGE" }, { "run_eocs": "EOC_ATTUNEMENT_SUCCESS_MESSAGE" } ]
+    "effect": [
+      { "u_add_trait": "BOREAL_MAGE" },
+      { "u_add_trait": "BOREAL_MAGE_COLD_AURA" },
+      { "run_eocs": "EOC_ATTUNEMENT_SUCCESS_MESSAGE" }
+    ]
   },
   {
     "type": "effect_on_condition",

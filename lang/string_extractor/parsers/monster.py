@@ -5,7 +5,7 @@ from .monster_attack import parse_monster_attack
 
 def parse_monster_concrete(json, origin, name):
     if "description" in json:
-        write_text(json["description"], origin, c_format=False,
+        write_text(json["description"], origin,
                    comment="Description of monster \"{}\"".format(name))
 
     if "death_function" in json:

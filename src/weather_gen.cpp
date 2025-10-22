@@ -41,6 +41,37 @@ constexpr double noise_magnitude_K = 8;
 weather_generator::weather_generator() = default;
 int weather_generator::current_winddir = 1000;
 
+namespace
+{
+generic_factory<weather_generator> weather_generator_factory( "weather_generator" );
+} // namespace
+template<>
+const weather_generator &string_id<weather_generator>::obj() const
+{
+    return weather_generator_factory.obj( *this );
+}
+template<>
+bool string_id<weather_generator>::is_valid() const
+{
+    return weather_generator_factory.is_valid( *this );
+}
+void weather_generator::load_weather_generator( const JsonObject &jo,
+        const std::string &src )
+{
+    weather_generator_factory.load( jo, src );
+}
+void weather_generator::reset()
+{
+    weather_generator_factory.reset();
+}
+void weather_generator::finalize()
+{
+    sort_weather();
+}
+void weather_generator::finalize_all()
+{
+    weather_generator_factory.finalize();
+}
 struct weather_gen_common {
     double x = 0;
     double y = 0;
@@ -342,14 +373,14 @@ void weather_generator::sort_weather()
     } );
 }
 
-void weather_generator::load( const JsonObject &jo, const bool was_loaded )
+void weather_generator::load( const JsonObject &jo, std::string_view )
 {
     mandatory( jo, was_loaded, "base_temperature", base_temperature );
     mandatory( jo, was_loaded, "base_humidity", base_humidity );
     mandatory( jo, was_loaded, "base_pressure", base_pressure );
     mandatory( jo, was_loaded, "base_wind", base_wind );
-    mandatory( jo, was_loaded, "base_wind_distrib_peaks", base_wind_distrib_peaks );
-    mandatory( jo, was_loaded, "base_wind_season_variation", base_wind_season_variation );
+    optional( jo, was_loaded, "base_wind_distrib_peaks", base_wind_distrib_peaks );
+    optional( jo, was_loaded, "base_wind_season_variation", base_wind_season_variation );
     optional( jo, was_loaded, "summer_temp_manual_mod", summer_temp_manual_mod, 0 );
     optional( jo, was_loaded, "spring_temp_manual_mod", spring_temp_manual_mod, 0 );
     optional( jo, was_loaded, "autumn_temp_manual_mod", autumn_temp_manual_mod, 0 );

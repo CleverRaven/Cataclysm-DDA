@@ -23,7 +23,7 @@
       {
         "run_eocs": "EOC_GENERIC_SPELL_MUTATION",
         "variables": {
-          "prep_time": "1",
+          "prep_time": 1,
           "spell_to_cast": "gracken_arm_push_spell",
           "message_success": { "i18n": true, "str": "You lash out and push your target away!" }
         }

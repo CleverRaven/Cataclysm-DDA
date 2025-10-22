@@ -259,6 +259,60 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "arrow_heavy_field_point_fletched",
+    "id_suffix": "lathe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_ARROWS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "archery", 3 ] ],
+    "difficulty": 3,
+    "charges": 1,
+    "time": "30 m",
+    "batch_time_factors": [ 50, 2 ],
+    "autolearn": true,
+    "book_learn": [ [ "recipe_arrows", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_fletching" }, { "proficiency": "prof_machining_basic" } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "tools": [ [ [ "fake_lathe", 30 ] ] ],
+    "components": [
+      [ [ "adhesive", 1, "LIST" ] ],
+      [ [ "glue_strong", 5, "LIST" ] ],
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ], [ "mop", 1 ] ],
+      [ [ "small_lc_steel_bar_round", 1 ], [ "small_mc_steel_bar_round", 1 ], [ "small_hc_steel_bar_round", 1 ] ],
+      [ [ "fletching", 1, "LIST" ] ]
+    ],
+    "byproducts": [ [ "scrap", 1 ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "arrow_field_point_fletched",
+    "id_suffix": "lathe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_ARROWS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "archery", 3 ] ],
+    "difficulty": 3,
+    "charges": 1,
+    "time": "30 m",
+    "batch_time_factors": [ 50, 2 ],
+    "autolearn": true,
+    "book_learn": [ [ "recipe_arrows", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_fletching" }, { "proficiency": "prof_machining_basic" } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "tools": [ [ [ "fake_lathe", 30 ] ] ],
+    "components": [
+      [ [ "adhesive", 1, "LIST" ] ],
+      [ [ "glue_strong", 5, "LIST" ] ],
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ], [ "mop", 1 ] ],
+      [ [ "small_lc_steel_bar_round", 1 ], [ "small_mc_steel_bar_round", 1 ], [ "small_hc_steel_bar_round", 1 ] ],
+      [ [ "fletching", 1, "LIST" ] ]
+    ],
+    "byproducts": [ [ "scrap", 1 ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "wood_atlatl_spear",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -340,7 +394,7 @@
     "proficiencies": [ { "proficiency": "prof_carving" }, { "proficiency": "prof_metalworking" } ],
     "using": [ [ "blacksmithing_standard", 1 ], [ "steel_standard", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "2x4", 1 ] ], [ [ "nail", 2 ], [ "bronze_nail", 2 ] ] ]
+    "components": [ [ [ "2x4", 1 ] ], [ [ "nails", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -439,6 +493,31 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "bolt_wood_bodkin",
+    "id_suffix": "lathe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_ARROWS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "archery", 2 ] ],
+    "difficulty": 3,
+    "charges": 1,
+    "time": "45 m",
+    "autolearn": true,
+    "book_learn": [ [ "recipe_arrows", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_fletching" }, { "proficiency": "prof_machining_basic" } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "tools": [ [ [ "fake_lathe", 30 ] ] ],
+    "components": [
+      [ [ "adhesive", 1, "LIST" ] ],
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ], [ "mop", 1 ] ],
+      [ [ "small_lc_steel_bar_round", 1 ], [ "small_mc_steel_bar_round", 1 ], [ "small_hc_steel_bar_round", 1 ] ],
+      [ [ "fletching", 1, "LIST" ] ]
+    ],
+    "byproducts": [ [ "scrap", 1 ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "bolt_crude",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",
@@ -518,8 +597,7 @@
         [ "rock", 1 ],
         [ "ceramic_shard", 1 ],
         [ "scrap", 2 ],
-        [ "nail", 10 ],
-        [ "bronze_nail", 10 ],
+        [ "nails", 10, "LIST" ],
         [ "rock_flaking_any", 1, "LIST" ]
       ],
       [ [ "fletching", 1, "LIST" ] ]

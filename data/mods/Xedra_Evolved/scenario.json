@@ -103,7 +103,7 @@
     "flags": [ "LONE_START" ]
   },
   {
-    "copy-from": "mine_bottom",
+    "copy-from": "Mine_bottom",
     "type": "scenario",
     "extend": { "professions": [ "archaeologist" ] },
     "id": "Mine_bottom"

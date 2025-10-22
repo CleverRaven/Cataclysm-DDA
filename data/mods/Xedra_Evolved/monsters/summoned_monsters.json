@@ -7,6 +7,7 @@
     "looks_like": "mon_feral_armored_mace",
     "description": "Clad in ancient armor and with a mace in hand, this warrior was summoned by magic to defend you.",
     "default_faction": "player",
+    "species": [ "SUMMONED_CREATURE" ],
     "delete": { "special_attacks": [ "BROWSE", "EAT_FOOD", "PARROT" ] },
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s fades away." }
   },
@@ -18,6 +19,7 @@
     "looks_like": "mon_feral_armored_battleaxe",
     "description": "Clad in ancient armor and with a battleaxe in hand, this warrior was summoned by magic to defend you.",
     "default_faction": "player",
+    "species": [ "SUMMONED_CREATURE" ],
     "delete": { "special_attacks": [ "BROWSE", "EAT_FOOD", "PARROT" ] },
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s fades away." }
   },
@@ -29,6 +31,7 @@
     "looks_like": "mon_feral_sapien_spear",
     "description": "Clad in leather armor and with a spear in hand, this warrior was summoned by magic to defend you.",
     "default_faction": "player",
+    "species": [ "SUMMONED_CREATURE" ],
     "delete": { "special_attacks": [ "PARROT_AT_DANGER" ] },
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s fades away." }
   },
@@ -40,6 +43,7 @@
     "looks_like": "mon_feral_fancy_rapier",
     "description": "Clad in leather armor and with a sword in hand, this warrior was summoned by magic to defend you.",
     "default_faction": "player",
+    "species": [ "SUMMONED_CREATURE" ],
     "extend": { "armor": { "bash": 9, "cut": 14, "acid": 4, "bullet": 18 } },
     "delete": { "special_attacks": [ "BROWSE", "EAT_FOOD", "PARROT" ] },
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s fades away." }
@@ -52,6 +56,7 @@
     "looks_like": "mon_memory",
     "description": "A shadowy figure, only barely visible as more than a mist, but the silhouette of armor and weapons are obvious.",
     "default_faction": "player",
+    "species": [ "SUMMONED_CREATURE" ],
     "melee_skill": 5,
     "speed": 95,
     "vision_night": 15,
@@ -67,6 +72,7 @@
     "looks_like": "mon_memory",
     "description": "A shadowy figure, only barely visible as more than a mist, but the silhouette of armor and weapons are obvious.",
     "default_faction": "player",
+    "species": [ "SUMMONED_CREATURE" ],
     "melee_skill": 5,
     "speed": 95,
     "vision_night": 15,
@@ -82,6 +88,7 @@
     "description": "A shadowy figure, only barely visible as more than a mist, but the silhouette of armor and weapons are obvious.",
     "looks_like": "mon_memory",
     "default_faction": "player",
+    "species": [ "SUMMONED_CREATURE" ],
     "melee_skill": 5,
     "speed": 95,
     "vision_night": 15,
@@ -95,14 +102,15 @@
     "id": "mon_fetch_daffodil_warrior_player",
     "copy-from": "mon_fetch_daffodil_warrior",
     "looks_like": "mon_fetch_daffodil_warrior",
-    "default_faction": "player"
+    "default_faction": "player",
+    "species": [ "CHANGELING", "SUMMONED_CREATURE" ]
   },
   {
     "id": "mon_spring_changeling_bashing_vine",
     "type": "MONSTER",
     "name": { "str": "tanglevine" },
     "description": "A thick mass of animated vine, lashing back and forth at anything that comes within reach.  Long thorns grow from its sides.",
-    "species": [ "PLANT" ],
+    "species": [ "PLANT", "SUMMONED_CREATURE" ],
     "default_faction": "changeling",
     "volume": "92500 ml",
     "weight": "120 kg",
@@ -156,5 +164,21 @@
     "death_function": { "message": "The %s rots into nothingness in moments.", "corpse_type": "NO_CORPSE" },
     "flags": [ "HEARS", "GOODHEARING", "IMMOBILE", "NOHEAD", "HARDTOSHOOT", "GRABS", "PLASTIC" ],
     "armor": { "bash": 18, "stab": 10, "electric": 3, "bullet": 22 }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_solar_spirit_triffid_summon",
+    "copy-from": "mon_solar_spirit",
+    "looks_like": "mon_solar_spirit",
+    "default_faction": "triffid",
+    "aggression": 15,
+    "species": [ "NATURE_SPIRIT", "SUMMONED_CREATURE" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_vinebeast_summon",
+    "copy-from": "mon_vinebeast",
+    "death_function": { "message": "The %s rots into nothingness in moments.", "corpse_type": "NO_CORPSE" },
+    "species": [ "PLANT", "SUMMONED_CREATURE" ]
   }
 ]

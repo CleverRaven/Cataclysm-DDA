@@ -54,7 +54,6 @@
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
-#include "magic.h"
 #include "magic_teleporter_list.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -211,7 +210,6 @@ static const itype_id itype_unfinished_cac2( "unfinished_cac2" );
 static const itype_id itype_unfinished_charcoal( "unfinished_charcoal" );
 static const itype_id itype_withered( "withered" );
 
-static const json_character_flag json_flag_ATTUNEMENT( "ATTUNEMENT" );
 static const json_character_flag json_flag_GLIDE( "GLIDE" );
 static const json_character_flag json_flag_LEVITATION( "LEVITATION" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
@@ -770,101 +768,6 @@ void iexamine::gaspump( Character &you, const tripoint_bub_ms &examp )
         }
     }
     add_msg( m_info, _( "Out of order." ) );
-}
-
-static bool has_attunement_spell_prereqs( Character &you, const trait_id &attunement )
-{
-    // for each prereq we need to check that the player has 2 level 15 spells
-    for( const trait_id &prereq : attunement->prereqs ) {
-        int spells_known = 0;
-        for( const spell &sp : you.spells_known_of_class( prereq ) ) {
-            if( sp.get_level() >= 15 ) {
-                spells_known++;
-            }
-        }
-        if( spells_known < 2 ) {
-            return false;
-        }
-    }
-    return true;
-}
-
-void iexamine::attunement_altar( Character &you, const tripoint_bub_ms & )
-{
-    std::set<trait_id> attunements;
-    for( const mutation_branch &mut : mutation_branch::get_all() ) {
-        if( mut.flags.count( json_flag_ATTUNEMENT ) ) {
-            attunements.emplace( mut.id );
-        }
-    }
-    // remove the attunements the player does not have prereqs for
-    for( auto iter = attunements.begin(); iter != attunements.end(); ) {
-        bool has_prereq = true;
-        // the normal usage of prereqs only needs one, but attunements put all their prereqs into the same array
-        // each prereqs is required for it as well
-        for( const trait_id &prereq : ( *iter )->prereqs ) {
-            if( !you.has_trait( prereq ) ) {
-                has_prereq = false;
-                break;
-            }
-        }
-        if( has_prereq ) {
-            ++iter;
-        } else {
-            iter = attunements.erase( iter );
-        }
-    }
-    if( attunements.empty() ) {
-        // the player doesn't have at least two base classes
-        you.add_msg_if_player( _( "This altar gives you the creeps." ) );
-        return;
-    }
-    // remove the attunements the player has conflicts for
-    for( auto iter = attunements.begin(); iter != attunements.end(); ) {
-        if( !you.has_opposite_trait( *iter ) && you.mutation_ok( *iter, true, true, true ) ) {
-            ++iter;
-        } else {
-            iter = attunements.erase( iter );
-        }
-    }
-    if( attunements.empty() ) {
-        you.add_msg_if_player( _( "You've attained what you can for now." ) );
-        return;
-    }
-    for( auto iter = attunements.begin(); iter != attunements.end(); ) {
-        if( has_attunement_spell_prereqs( you, *iter ) ) {
-            ++iter;
-        } else {
-            iter = attunements.erase( iter );
-        }
-    }
-    if( attunements.empty() ) {
-        you.add_msg_if_player( _( "You feel that the altar does not deem you worthy, yet." ) );
-        return;
-    }
-    uilist attunement_list;
-    attunement_list.title = _( "Pick an Attunement to show the world your Worth." );
-    for( const trait_id &attunement : attunements ) {
-        // There's no way for you to have this mutation, so a variant is pointless
-        attunement_list.addentry( attunement->name() );
-    }
-    attunement_list.query();
-    if( attunement_list.ret == UILIST_CANCEL ) {
-        you.add_msg_if_player( _( "Maybe later." ) );
-        return;
-    }
-    auto attunement_iter = attunements.begin();
-    std::advance( attunement_iter, attunement_list.ret );
-    const trait_id &attunement = *attunement_iter;
-    // There's no way for you to have this mutation, so a variant is pointless
-    if( query_yn( string_format( _( "Are you sure you want to pick %s?  This selection is permanent." ),
-                                 attunement->name() ) ) ) {
-        you.toggle_trait( attunement );
-        // There's no way for you to have this mutation, so a variant is pointless
-        you.add_msg_if_player( m_info, you.mutation_desc( attunement ) );
-    } else {
-        you.add_msg_if_player( _( "Maybe later." ) );
-    }
 }
 
 void iexamine::translocator( Character &you, const tripoint_bub_ms &examp )
@@ -2299,7 +2202,7 @@ void iexamine::bulletin_board( Character &you, const tripoint_bub_ms &examp )
                           temp_camp->camp_name() ) ) {
                 bool plunder = query_yn(
                                    _( "Take whatever you can find from the stores?  This may anger %s and their allies." ),
-                                   temp_camp->get_owner()->name );
+                                   temp_camp->get_owner()->get_name() );
                 temp_camp->handle_takeover_by( you.get_faction()->id, plunder );
                 return;
             }
@@ -2757,7 +2660,7 @@ void iexamine::harvest_ter( Character &you, const tripoint_bub_ms &examp )
  */
 void iexamine::harvested_plant( Character &you, const tripoint_bub_ms &examp )
 {
-    you.add_msg_if_player( m_info, _( "Nothing can be harvested from this plant in current season" ) );
+    you.add_msg_if_player( m_info, _( "Nothing can be harvested from this plant in current season." ) );
     iexamine::none( you, examp );
 }
 
@@ -2869,11 +2772,6 @@ void iexamine::plant_seed( Character &you, const tripoint_bub_ms &examp, const i
  */
 void iexamine::dirtmound( Character &you, const tripoint_bub_ms &examp )
 {
-
-    if( !warm_enough_to_plant( get_player_character().pos_bub() ) ) {
-        add_msg( m_info, _( "It is too cold to plant anything now." ) );
-        return;
-    }
     map &here = get_map();
     /* ambient_light_at() not working?
     if (here.ambient_light_at(examp) < LIGHT_AMBIENT_LOW) {
@@ -2899,7 +2797,13 @@ void iexamine::dirtmound( Character &you, const tripoint_bub_ms &examp )
         add_msg( _( "You saved your seeds for later." ) );
         return;
     }
-    const auto &seed_id = std::get<0>( seed_entries[seed_index] );
+    const itype_id &seed_id = std::get<0>( seed_entries[seed_index] );
+
+    ret_val<void>can_plant = warm_enough_to_plant( you.pos_bub(), seed_id );
+    if( !can_plant.success() ) {
+        you.add_msg_if_player( m_info, can_plant.c_str() );
+        return;
+    }
 
     if( !here.has_flag_ter_or_furn( seed_id->seed->required_terrain_flag, examp ) ) {
         add_msg( _( "This type of seed can not be planted in this location." ) );
@@ -3658,7 +3562,7 @@ void iexamine::stook_full( Character &, const tripoint_bub_ms &examp )
         return;
     }
     for( item &it : items ) {
-        if( it.has_flag( flag_SMOKABLE ) && it.get_comestible() ) {
+        if( it.is_smokable() ) {
             item result( it.get_comestible()->smoking_result, it.birthday() );
             recipe rec;
             result.inherit_flags( it, rec );
@@ -6144,7 +6048,7 @@ void iexamine::autodoc( Character &you, const tripoint_bub_ms &examp )
     }
 
     const bool unsafe_usage = &Operator == &null_player || ( &Operator == &you && &patient == &you );
-    std::string autodoc_header = _( "Autodoc Mk. XI.  Status: Online.  Please choose operation" );
+    std::string autodoc_header = _( "Autodoc Mk. XI.  Status: Online.  Please choose operation." );
     if( unsafe_usage ) {
         const std::string &warning_sign = colorize( " /", c_yellow ) + colorize( "!",
                                           c_red ) + colorize( "\\", c_yellow );
@@ -6668,7 +6572,7 @@ static std::pair<item *, units::volume> smoker_prep_internal(
     std::pair<item *, units::volume> data;
 
     for( item &it : items ) {
-        if( it.has_flag( flag_SMOKABLE ) ) {
+        if( it.is_smokable() ) {
             data.second += it.volume();
             continue;
         }
@@ -6698,12 +6602,12 @@ bool iexamine::smoker_prep( Character &you, const tripoint_bub_ms &examp )
     map_stack items = here.i_at( examp );
 
     for( item &it : items ) {
-        if( it.has_flag( flag_SMOKED ) && !it.has_flag( flag_SMOKABLE ) ) {
+        if( it.has_flag( flag_SMOKED ) && !it.is_smokable() ) {
             add_msg( _( "This rack already contains smoked food." ) );
             add_msg( _( "Remove it before firing the smoking rack again." ) );
             return false;
         }
-        if( it.typeId() != itype_charcoal && !it.has_flag( flag_SMOKABLE ) ) {
+        if( it.typeId() != itype_charcoal && !it.is_smokable() ) {
             add_msg( m_bad, _( "This rack contains %s, which can't be smoked!" ), it.tname( 1,
                      false ) );
             add_msg( _( "You remove %s from the rack." ), it.tname() );
@@ -6712,7 +6616,7 @@ bool iexamine::smoker_prep( Character &you, const tripoint_bub_ms &examp )
             here.i_rem( examp, &it );
             return false;
         }
-        if( it.has_flag( flag_SMOKED ) && it.has_flag( flag_SMOKABLE ) ) {
+        if( it.has_flag( flag_SMOKED ) && it.is_smokable() ) {
             add_msg( _( "This rack has some smoked food that might be dehydrated by smoking it again." ) );
         }
     }
@@ -6770,7 +6674,7 @@ bool iexamine::smoker_fire( Character &you, const tripoint_bub_ms &examp )
     }
 
     for( item &it : here.i_at( examp ) ) {
-        if( it.has_flag( flag_SMOKABLE ) ) {
+        if( it.is_smokable() ) {
             it.process_temperature_rot( 1, examp, here, nullptr );
             it.set_flag( flag_PROCESSING );
         }
@@ -6935,8 +6839,8 @@ static void smoker_finalize( Character &, const tripoint_bub_ms &examp,
     }
 
     for( item &it : items ) {
-        if( it.has_flag( flag_SMOKABLE ) && it.get_comestible() ) {
-            if( it.get_comestible()->smoking_result.is_empty() ) {
+        if( it.is_smokable() ) {
+            if( it.get_comestible()->smoking_result == itype_id::NULL_ID() ) {
                 it.unset_flag( flag_PROCESSING );
             } else {
                 it.calc_rot_while_processing( 6_hours );
@@ -7764,7 +7668,6 @@ iexamine_functions iexamine_functions_from_string( const std::string &function_n
 {
     static const std::map<std::string, iexamine_examine_function> function_map = {{
             { "none", &iexamine::none },
-            { "attunement_altar", &iexamine::attunement_altar },
             { "deployed_furniture", &iexamine::deployed_furniture },
             { "cvdmachine", &iexamine::cvdmachine },
             { "change_appearance", &iexamine::change_appearance },

@@ -19,6 +19,8 @@
 #include "creature.h"
 #include "creature_tracker.h"
 #include "debug.h"
+#include "dialogue.h"
+#include "effect_on_condition.h"
 #include "enums.h"
 #include "game.h"
 #include "game_inventory.h"
@@ -79,6 +81,7 @@ static const flag_id json_flag_PSEUDO( "PSEUDO" );
 
 static const furn_str_id furn_f_plant_harvest( "f_plant_harvest" );
 static const furn_str_id furn_f_plant_seed( "f_plant_seed" );
+static const furn_str_id furn_f_plant_unharvested_overgrown( "f_plant_unharvested_overgrown" );
 
 static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_muscle( "muscle" );
@@ -494,7 +497,7 @@ void vehicle::autopilot_patrol_check( map &here )
     if( mgr.has_near( zone_type_VEHICLE_PATROL, pos_abs(), MAX_VIEW_DISTANCE ) ) {
         enable_patrol( here );
     } else {
-        g->zones_manager();
+        zone_manager_ui::display_zone_manager();
     }
 }
 
@@ -907,8 +910,8 @@ void vehicle::reload_seeds( map *here, const tripoint_bub_ms &pos )
 
     if( seed_index > 0 && seed_index < static_cast<int>( seed_entries.size() ) ) {
         const int count = std::get<2>( seed_entries[seed_index] );
-        int amount = 0;
-        query_int( amount, false, _( "Move how many?  [Have %d] (0 to cancel)" ), count );
+        int amount = count;
+        query_int( amount, true, _( "Move how many?  (0 to cancel)" ) );
 
         if( amount > 0 ) {
             int actual_amount = std::min( amount, count );
@@ -1045,10 +1048,13 @@ void vehicle::operate_reaper( map &here )
 {
     for( const vpart_reference &vp : get_enabled_parts( "REAPER" ) ) {
         const tripoint_bub_ms reaper_pos = vp.pos_bub( here );
-        const int plant_produced = rng( 1, vp.info().bonus );
-        const int seed_produced = rng( 1, 3 );
+        int plant_produced = rng( 1, vp.info().bonus );
+        int seed_produced = rng( 1, 3 );
         const units::volume max_pickup_volume = vp.info().size / 20;
-        if( here.furn( reaper_pos ) != furn_f_plant_harvest ) {
+        if( here.furn( reaper_pos ) == furn_f_plant_unharvested_overgrown ) {
+            plant_produced = 0;
+            seed_produced = 0;
+        } else if( here.furn( reaper_pos ) != furn_f_plant_harvest ) {
             continue;
         }
         // Can't use item_stack::only_item() since there might be fertilizer
@@ -2049,7 +2055,7 @@ void vehicle::build_interact_menu( veh_menu &menu, map *here, const tripoint_bub
             .hotkey( "TOGGLE_ALARM" )
             .on_submit( [this] {
                 is_alarm_on = true;
-                add_msg( _( "You trigger the alarm" ) );
+                add_msg( _( "You trigger the alarm!" ) );
             } );
         }
     }
@@ -2060,6 +2066,15 @@ void vehicle::build_interact_menu( veh_menu &menu, map *here, const tripoint_bub
         .hotkey( "TOGGLE_ALARM" )
         .on_submit( [this, here] { smash_security_system( *here ); } );
     }
+    for( const vpart_reference &vp : this->get_avail_parts( "EOC_ACTIVATION" ) ) {
+        vehicle_part &part = vp.part();
+        menu.add( string_format( _( "Activate  %s" ), vp.part().name() ) )
+        .on_submit( [&part] {
+            dialogue newDialog( get_talker_for( get_player_character() ), nullptr );
+            part.info().activatable_eoc.value()->activate( newDialog );
+        } );
+    }
+
 
     if( remote ) {
         menu.add( _( "Stop controlling" ) )
@@ -2412,7 +2427,7 @@ void vehicle::build_interact_menu( veh_menu &menu, map *here, const tripoint_bub
         .enable( fuel_left( *here, itype_water ) &&
                  fuel_left( *here, itype_battery ) >= itype_water_purifier->charges_to_use() )
         .hotkey( "PURIFY_WATER" )
-        .on_submit( [this, &here] {
+        .on_submit( [this, here] {
             const auto sel = []( const map &, const vehicle_part & pt )
             {
                 return pt.is_tank() && pt.ammo_current() == itype_water;

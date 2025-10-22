@@ -279,6 +279,12 @@
     ]
   },
   {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "psi_lab_recipes_rare",
+    "items": [ { "group": "psi_lab", "prob": 1 }, { "group": "psi_lab_no_recipes", "prob": 5 } ]
+  },
+  {
     "id": "clairsentience_telepathy_matrix_technology",
     "type": "item_group",
     "subtype": "distribution",
@@ -287,6 +293,20 @@
       { "item": "psionic_telepathic_dampener", "prob": 4 },
       { "item": "schematics_telepathic_focusing_tool", "prob": 4 },
       { "item": "telepathic_focusing_tool", "prob": 4 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "mutagenic_alpha_kit",
+    "container-item": "box_small_plastic",
+    "subtype": "collection",
+    "items": [
+      { "item": "iv_mutagen_alpha", "prob": 100, "count": 2 },
+      { "item": "iv_mutagen", "prob": 100, "count": 1 },
+      { "item": "syringe", "prob": 100, "count": 3 },
+      { "item": "bubblewrap", "prob": 100, "count": [ 2, 5 ] },
+      { "item": "lab_file_mutagen_guide", "prob": 100 },
+      { "item": "lab_file_mutation_testing", "prob": 100 }
     ]
   }
 ]

@@ -170,7 +170,7 @@ The following types of changelings exist or are planned:
 - Selkies: Based on the seal-folk of Northern Europe. They can control the weather and exist without penalty in water, and are beguiling to mortals.
 - Trow: Based on coblyns and knockers. Their abilities relate to the earth and mining.
 
-Currently, changelings gain their powers in a steady drip of 1 per 5-7 days. It is intended that they accomplish various deeds to gain their powers, but it is currently unimplemeneted.
+Currently, changelings gain their powers in a steady drip of 1 per 8-10 days. There are a small number of various deeds that each changeling can accomplish to gain more powers, which will be expanded over time. Deeds should generally be in-theme, such as how pooka deeds invovle the wilderness, trow deeds involve mining and the underground, etc. Repeatable deeds are possible, but should be tasks that require effort: the only currently repeatable deeds are killing a March Lord and closing a shadow wound.
 
 #### Seasonal Magick
 

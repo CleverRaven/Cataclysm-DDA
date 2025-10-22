@@ -189,8 +189,7 @@ bool mission_type::load( const JsonObject &jo, const std::string_view src )
         return false;
     }
 
-    // FIXME: duration_or_var generic factory reader
-    deadline = get_duration_or_var( jo, "deadline", false );
+    optional( jo, was_loaded, "deadline", deadline );
 
     optional( jo, was_loaded, "followup", follow_up, mission_type_id::NULL_ID() );
     optional( jo, was_loaded, "monster_species", monster_species );
@@ -216,8 +215,9 @@ bool mission_type::test_goal_condition( struct dialogue &d ) const
     return true;
 }
 
-void mission_type::finalize()
+void mission_type::finalize_all()
 {
+    mission_type_factory.finalize();
 }
 
 void mission_type::check_consistency()

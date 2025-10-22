@@ -12,6 +12,7 @@
 #include <iosfwd>
 #include <iterator>
 #include <map>
+#include <memory>
 #include <optional>
 #include <string>
 #include <string_view>
@@ -22,6 +23,7 @@
 #include <vector>
 
 #include "basecamp.h"
+#include "catacharset.h"
 #include "cata_variant.h"
 #include "city.h"
 #include "colony.h"
@@ -29,14 +31,17 @@
 #include "coordinates.h"
 #include "cube_direction.h"
 #include "enums.h"
+#include "flat_set.h"
 #include "hash_utils.h"
+#include "horde_map.h"
 #include "map_scale_constants.h"
 #include "mapgendata.h"
 #include "mdarray.h"
 #include "memory_fast.h"
 #include "mongroup.h"
-#include "monster.h"
 #include "omdata.h"
+#include "output.h"
+#include "overmap_location.h"
 #include "overmap_types.h" // IWYU pragma: keep
 #include "point.h"
 #include "rng.h"
@@ -49,9 +54,12 @@ class JsonOut;
 class JsonValue;
 class cata_path;
 class character_id;
+class monster;
 class npc;
 class overmap_connection;
-struct regional_settings;
+struct horde_entity;
+struct map_data_summary;
+struct region_settings;
 template <typename T> struct enum_traits;
 
 struct om_note {
@@ -65,6 +73,85 @@ struct om_map_extra {
     map_extra_id id;
     point_om_omt p;
 };
+
+
+namespace om_lines
+{
+struct type {
+    uint32_t symbol;
+    size_t mapgen;
+    MULTITILE_TYPE subtile;
+    int rotation;
+    std::string suffix;
+};
+
+const std::array<std::string, 5> mapgen_suffixes = { {
+        "_straight", "_curved", "_end", "_tee", "_four_way"
+    }
+};
+
+const std::array < type, 1 + om_direction::bits > all = { {
+        { UTF8_getch( LINE_XXXX_S ), 4, unconnected,  0, "_isolated"  }, // 0  ----
+        { UTF8_getch( LINE_XOXO_S ), 2, end_piece,    2, "_end_south" }, // 1  ---n
+        { UTF8_getch( LINE_OXOX_S ), 2, end_piece,    1, "_end_west"  }, // 2  --e-
+        { UTF8_getch( LINE_XXOO_S ), 1, corner,       1, "_ne"        }, // 3  --en
+        { UTF8_getch( LINE_XOXO_S ), 2, end_piece,    0, "_end_north" }, // 4  -s--
+        { UTF8_getch( LINE_XOXO_S ), 0, edge,         0, "_ns"        }, // 5  -s-n
+        { UTF8_getch( LINE_OXXO_S ), 1, corner,       0, "_es"        }, // 6  -se-
+        { UTF8_getch( LINE_XXXO_S ), 3, t_connection, 1, "_nes"       }, // 7  -sen
+        { UTF8_getch( LINE_OXOX_S ), 2, end_piece,    3, "_end_east"  }, // 8  w---
+        { UTF8_getch( LINE_XOOX_S ), 1, corner,       2, "_wn"        }, // 9  w--n
+        { UTF8_getch( LINE_OXOX_S ), 0, edge,         1, "_ew"        }, // 10 w-e-
+        { UTF8_getch( LINE_XXOX_S ), 3, t_connection, 2, "_new"       }, // 11 w-en
+        { UTF8_getch( LINE_OOXX_S ), 1, corner,       3, "_sw"        }, // 12 ws--
+        { UTF8_getch( LINE_XOXX_S ), 3, t_connection, 3, "_nsw"       }, // 13 ws-n
+        { UTF8_getch( LINE_OXXX_S ), 3, t_connection, 0, "_esw"       }, // 14 wse-
+        { UTF8_getch( LINE_XXXX_S ), 4, center,       0, "_nesw"      } // 15 wsen
+    }
+};
+
+const size_t size = all.size();
+const size_t invalid = 0;
+
+inline constexpr size_t rotate( size_t line, om_direction::type dir )
+{
+    if( dir == om_direction::type::invalid ) {
+        return line;
+    }
+    // Bitwise rotation to the left.
+    return ( ( line << static_cast<size_t>( dir ) ) |
+             ( line >> ( om_direction::size - static_cast<size_t>( dir ) ) ) ) & om_direction::bits;
+}
+
+inline constexpr size_t set_segment( size_t line, om_direction::type dir )
+{
+    if( dir == om_direction::type::invalid ) {
+        return line;
+    }
+    return line | 1 << static_cast<int>( dir );
+}
+
+inline constexpr bool has_segment( size_t line, om_direction::type dir )
+{
+    if( dir == om_direction::type::invalid ) {
+        return false;
+    }
+    return static_cast<bool>( line & 1 << static_cast<int>( dir ) );
+}
+
+inline constexpr bool is_straight( size_t line )
+{
+    return line == 1
+           || line == 2
+           || line == 4
+           || line == 5
+           || line == 8
+           || line == 10;
+}
+
+size_t from_dir( om_direction::type dir );
+
+} // namespace om_lines
 
 struct om_vehicle {
     tripoint_om_omt p; // overmap coordinates of tracked vehicle
@@ -128,6 +215,7 @@ struct map_layer {
     cata::mdarray<oter_id, point_om_omt> terrain;
     cata::mdarray<om_vision_level, point_om_omt> visible;
     cata::mdarray<bool, point_om_omt> explored;
+    cata::mdarray<std::shared_ptr<map_data_summary>, point_om_omt> map_cache;
     std::vector<om_note> notes;
     std::vector<om_map_extra> extras;
 };
@@ -246,6 +334,7 @@ struct intrahighway_node {
     overmap_special_id placed_special = overmap_special_id::NULL_ID();
     bool is_segment = true;
     bool is_ramp = false;
+    bool is_interchange = false;
     //whether to flip ramp direction
     bool ramp_down = false;
     explicit intrahighway_node( tripoint_om_omt pos, om_direction::type dir,
@@ -263,25 +352,6 @@ struct intrahighway_node {
     }
 };
 
-template<typename Tripoint>
-struct pos_dir {
-    Tripoint p;
-    cube_direction dir;
-
-    pos_dir opposite() const;
-
-    void serialize( JsonOut &jsout ) const;
-    void deserialize( const JsonArray &ja );
-
-    bool operator==( const pos_dir &r ) const;
-    bool operator<( const pos_dir &r ) const;
-};
-
-extern template struct pos_dir<tripoint_om_omt>;
-extern template struct pos_dir<tripoint_rel_omt>;
-
-using om_pos_dir = pos_dir<tripoint_om_omt>;
-using rel_pos_dir = pos_dir<tripoint_rel_omt>;
 using Highway_path = std::vector<intrahighway_node>;
 
 template<typename Tripoint>
@@ -373,6 +443,28 @@ class overmap
         void delete_extra( const tripoint_om_omt &p );
 
         /**
+         * Access cache of map data for agents operating at overmap scale.
+         */
+        bool passable( const tripoint_om_ms &p );
+        std::shared_ptr<map_data_summary> get_omt_summary( const tripoint_om_omt &p );
+        void set_passable( const tripoint_om_ms &p, bool new_passable );
+        void set_passable( const tripoint_abs_omt &p, const std::bitset<24 * 24> &new_passable );
+    private:
+        void set_passable( const tripoint_abs_omt &p, std::shared_ptr<map_data_summary> new_passable );
+        void set_passable( const tripoint_abs_omt &p, string_id<map_data_summary> new_passable );
+        std::optional<tripoint_om_ms> find_open_space_in_submap( const tripoint_om_ms &submap_origin,
+                point_rel_ms &cursor );
+    public:
+        // Spawn a monter at overmap scale.
+        horde_entity &spawn_monster( const tripoint_abs_ms &p, mtype_id id );
+        // Spawn a vector of monsters at overmap scale on a specified submap.
+        void spawn_monsters( const tripoint_om_sm &p, std::vector<monster> &monsters );
+        // Spawn monsters from a mongroup on a specified submap.
+        void spawn_mongroup( const tripoint_om_sm &p, const mongroup_id &type, int count );
+        horde_entity *entity_at( const tripoint_om_ms &p );
+        std::vector<std::unordered_map<tripoint_abs_ms, horde_entity>*> hordes_at(
+            const tripoint_om_omt &p );
+        /**
          * Getter for overmap scents.
          * @returns a reference to a scent_trace from the requested location.
          */
@@ -390,6 +482,8 @@ class overmap
         static bool inbounds( const point_om_omt &p, int clearance = 0 ) {
             return inbounds( tripoint_om_omt( p, 0 ), clearance );
         }
+        bool inbounds( const tripoint_abs_ms &p );
+
         /**
          * Return a vector containing the absolute coordinates of
          * every matching note on the current z level of the current overmap.
@@ -422,7 +516,7 @@ class overmap
         point_abs_omt global_base_point() const;
 
         // TODO: Should depend on coordinates
-        const regional_settings &get_settings() const {
+        const region_settings &get_settings() const {
             return *settings;
         }
 
@@ -451,7 +545,6 @@ class overmap
     public:
         /** Unit test enablers to check if a given mongroup is present. */
         bool mongroup_check( const mongroup &candidate ) const;
-        bool monster_check( const std::pair<tripoint_om_sm, monster> &candidate ) const;
 
         // TODO: make private
         std::vector<radio_tower> radios;
@@ -521,7 +614,7 @@ class overmap
         // special, so that it can be queried later by mapgen
         std::unordered_map<om_pos_dir, std::string> joins_used;
 
-        const regional_settings *settings;
+        region_settings_id settings;
 
         oter_id get_default_terrain( int z ) const;
 
@@ -540,12 +633,13 @@ class overmap
         void add_omt_stack_argument( const point_abs_omt &p, const std::string &param_name,
                                      const cata_variant &value );
         /**
-         * When monsters despawn during map-shifting they will be added here.
+         * Monster entries live here so they can move around at overmap scales.
+         * When monsters despawn during map-shifting they will also be added here.
          * map::spawn_monsters will load them and place them into the reality bubble
          * (adding it to the creature tracker and putting it onto the map).
-         * This stores each submap worth of monsters in a different bucket of the multimap.
+         * This stores each submap worth of monsters in a seperate tree.
          */
-        std::unordered_multimap<tripoint_om_sm, monster> monster_map;
+        horde_map hordes;
 
         // parse data in an opened overmap file
         void unserialize( const cata_path &file_name, std::istream &fin );
@@ -574,7 +668,9 @@ class overmap
         const city &get_nearest_city( const tripoint_om_omt &p ) const;
         const city &get_invalid_city() const;
 
-        void signal_hordes( const tripoint_rel_sm &p, int sig_power );
+        void signal_hordes( const tripoint_abs_ms &p, int sig_power );
+        void alert_entity( const tripoint_om_ms &location, const tripoint_abs_ms &destination,
+                           int intensity );
         void process_mongroups();
         void move_hordes();
 
@@ -632,6 +728,10 @@ class overmap
         Highway_path place_highway_reserved_path( const tripoint_om_omt &p1,
                 const tripoint_om_omt &p2,
                 int dir1, int dir2, int base_z );
+        /**
+        * Places some guaranteed interchange specials on the given path if possible
+        */
+        void place_highway_interchanges( std::vector<Highway_path> &highway_path );
         /*
         * tries to find a point to place an intersection special where it isn't on water
         * @return point in radius of center without water; invalid if none found
@@ -707,7 +807,10 @@ class overmap
         void calculate_urbanity();
         void calculate_forestosity();
 
+        // place city centers
         void place_cities();
+        // build cities using placed centers
+        void build_cities();
         void place_building( const tripoint_om_omt &p, om_direction::type dir, const city &town,
                              std::unordered_set<overmap_special_id> &placed_unique_buildings );
 
@@ -744,6 +847,8 @@ class overmap
         //gets border OMT points of this overmap in cardinal direction
         std::vector<tripoint_om_omt> get_border( const point_rel_om &direction, int z,
                 int distance_corner );
+        std::vector<tripoint_om_omt> get_border( om_direction::type direction, int z,
+                int distance_corner );
         //gets border OMT points of the neighboring overmap in cardinal direction
         std::vector<tripoint_om_omt> get_neighbor_border( const point_rel_om &direction, int z,
                 int distance_corner );
@@ -755,6 +860,9 @@ class overmap
 
         om_direction::type random_special_rotation( const overmap_special &special,
                 const tripoint_om_omt &p, bool must_be_unexplored ) const;
+
+        static bool is_amongst_locations( const oter_id &oter,
+                                          const cata::flat_set<string_id<overmap_location>> &locations );
 
         bool can_place_special( const overmap_special &special, const tripoint_om_omt &p,
                                 om_direction::type dir, bool must_be_unexplored ) const;

@@ -435,7 +435,7 @@
     "copy-from": "mom_fifth_sun_standard_body_armor_on",
     "type": "ITEM",
     "subtypes": [ "ARMOR", "TOOL", "ARTIFACT" ],
-    "name": { "str": "strange body armor  (active)", "str_pl": "sets of strange body armor  (active)" },
+    "name": { "str": "strange body armor (active)", "str_pl": "sets of strange body armor (active)" },
     "description": "A set of leather armor covered in some kind of very stiff white cloth.  A small textured box is attached to the left side, easily accessible with either hand.  The box has a switch of some kind and several odd pictographs around the switch.  The switch is currently flipped.",
     "power_draw": "15 W",
     "revert_to": "mom_fifth_sun_standard_body_armor_non_fifth_sun",
@@ -620,7 +620,7 @@
       "FIFTH_SUN_TECHNOLOGY"
     ],
     "symbol": "[",
-    "use_action": [ "E_FILE_DEVICE", "EBOOKSAVE", "MP3", "CAMERA", "CALORIES_INTAKE_TRACKER", "PORTABLE_GAME", "FITNESS_CHECK" ],
+    "use_action": [ "E_FILE_DEVICE", "EBOOKSAVE", "CAMERA", "CALORIES_INTAKE_TRACKER", "PORTABLE_GAME", "FITNESS_CHECK" ],
     "pocket_data": [
       { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 10000 } },
       {
@@ -683,6 +683,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "Imperial Church holy symbol" },
     "description": "A necklace made of fine gold chain, bearing an image of Jesucristo as the Ultimate Sacrifice as a pendant, his heart clearly visible through his chest.  Under his left hand is a raindrop, representing the Aeon Tláloc, and under his right hand is a sun disc, representing the Aeon Huītzilōpōchtli.",
-    "extend": { "flags": [ "FIFTH_SUN_TECHNOLOGY" ] }
+    "extend": { "flags": [ "FIFTH_SUN_TECHNOLOGY" ] },
+    "variants": [  ]
   }
 ]

@@ -112,7 +112,7 @@ void material_type::load( const JsonObject &jsobj, std::string_view )
     optional( jsobj, was_loaded, "soft", _soft, false );
     optional( jsobj, was_loaded, "uncomfortable", _uncomfortable, false );
 
-    optional( jsobj, was_loaded, "vitamins", _vitamins, weighted_string_id_reader<vitamin_id, double> { 1 } );
+    optional( jsobj, was_loaded, "vitamins", _vitamins, weighted_string_id_reader<vitamin_id, double> { 1.0 } );
 
     mandatory( jsobj, was_loaded, "bash_dmg_verb", _bash_dmg_verb );
     mandatory( jsobj, was_loaded, "cut_dmg_verb", _cut_dmg_verb );
@@ -128,13 +128,14 @@ void material_type::load( const JsonObject &jsobj, std::string_view )
     optional( jsobj, was_loaded, "burn_products", _burn_products );
 }
 
+void material_type::finalize()
+{
+    finalize_damage_map( _resistances.resist_vals );
+}
+
 void material_type::finalize_all()
 {
     material_data.finalize();
-    for( const material_type &mtype : material_data.get_all() ) {
-        material_type &mt = const_cast<material_type &>( mtype );
-        finalize_damage_map( mt._resistances.resist_vals );
-    }
 }
 
 void material_type::check() const

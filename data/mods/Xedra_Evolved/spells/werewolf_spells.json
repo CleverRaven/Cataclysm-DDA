@@ -45,7 +45,7 @@
     "type": "SPELL",
     "name": "Mighty Blow",
     "description": "No barrier can stop the hunter truly devoted to flushing out their quarry.  You can temporarily enhance your strength for the purposes of smashing through barriers.",
-    "message": "Your unleash a punishing blow.",
+    "message": "You unleash a punishing blow.",
     "teachable": false,
     "valid_targets": [ "ground" ],
     "spell_class": "WEREWOLF_SPELLS",

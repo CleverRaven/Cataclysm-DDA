@@ -27,6 +27,29 @@
     ]
   },
   {
+    "id": "artifact_energy_shield",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "distorted air" },
+    "description": "The empty air around you vibrates faintly.",
+    "weight": "10 g",
+    "volume": "1 ml",
+    "symbol": "o",
+    "color": "blue",
+    "material": [ "anomaly" ],
+    "material_thickness": 2,
+    "max_energy_shield_hp": 100,
+    "flags": [ "AURA", "ENERGY_SHIELD", "OVERSIZE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE", "ALLOWS_NATURAL_ATTACKS" ],
+    "max_worn": 1,
+    "armor": [
+      {
+        "encumbrance": 0,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
+      }
+    ]
+  },
+  {
     "id": "debug_energy_shield",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],

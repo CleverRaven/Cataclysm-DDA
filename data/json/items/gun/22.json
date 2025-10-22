@@ -1,7 +1,7 @@
 [
   {
     "id": "marlin_9a",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "copy-from": "gun_base_rifle_manual",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
@@ -49,7 +49,7 @@
   },
   {
     "id": "rifle_22",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "copy-from": "gun_base_rifle_manual",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
@@ -77,7 +77,7 @@
   },
   {
     "id": "ruger_1022",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "copy-from": "gun_base_22_semi_rifle",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
@@ -190,7 +190,7 @@
     "copy-from": "gun_base_22_semi_pistol",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
-    "name": { "str": "firefly training pistol" },
+    "name": { "str": "Firefly training pistol" },
     "//": "Was the sig mosquito, has been renamed to the more common GSG firefly",
     "description": "A medium sized, .22 caliber semi-automatic pistol, for training with a pistol similar to more powerful pistols.  Built from aluminum and polymer components, the weapon is lightweight and concealable, but its chambering is not very powerful.",
     "variant_type": "gun",
@@ -331,7 +331,7 @@
   },
   {
     "id": "rossi_gallery",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "copy-from": "gun_base_rifle_manual",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
@@ -636,7 +636,7 @@
     "looks_like": "glock19",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
-    "name": { "str": "Glock 44" },
+    "name": { "str": "Glock 44 pistol" },
     "description": "A Glock chambered in .22LR.  While effective against paper targets and rodents, it will struggle against the walking dead.",
     "weight": "358 g",
     "volume": "398 ml",
@@ -692,7 +692,7 @@
   },
   {
     "id": "mp_15_22",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "copy-from": "gun_base_22_semi_rifle",
     "type": "ITEM",
     "subtypes": [ "GUN" ],

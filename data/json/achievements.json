@@ -99,7 +99,7 @@
     "type": "achievement",
     "name": "The first day of the rest of their unlives",
     "description": "Survive for a day and find a safe place to sleep",
-    "time_constraint": { "since": "game_start", "is": ">=", "target": "1 day" },
+    "time_constraint": { "since": "game_start", "is": ">=", "target": "16 hours" },
     "requirements": [ { "event_statistic": "num_avatar_wake_ups", "is": "anything" } ]
   },
   {
@@ -2550,5 +2550,13 @@
     "requirements": [ 
       {"description": "Understand the value of ugliness" }
     ]
+  },
+  {
+    "id": "achievement_LIXA_finale",
+    "type": "achievement",
+    "name": { "str": "Trigintaduonion" },
+    "manually_given": true,
+    "description": "Defeat a being from a higher dimension, and free the damned souls trapped inside",
+    "requirements": [  ]
   }
 ]

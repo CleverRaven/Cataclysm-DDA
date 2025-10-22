@@ -275,7 +275,7 @@
     "id": "vampire_anathema_book",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
-    "name": { "str_sp": "old leather-bound journal" },
+    "name": { "str": "old leather-bound journal" },
     "description": "This handwritten book contains the detailed yet disorganized notes of a vampire who found how to consume other vampires for power.  Reading it might tell you how to do it, if it is what you want.",
     "//": "As it is a unique item acquired in violent circumstances, I made it fireproof so the player can use fire without fearing the lost of this item.",
     "weight": "830 g",

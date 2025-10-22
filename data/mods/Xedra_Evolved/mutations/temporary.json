@@ -531,7 +531,8 @@
       "SALAMANDER",
       "SYLPH",
       "UNDINE"
-    ]
+    ],
+    "flags": [ "NO_BODY_HEAT" ]
   },
   {
     "type": "mutation",

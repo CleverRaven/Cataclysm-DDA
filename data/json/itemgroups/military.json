@@ -778,7 +778,6 @@
       { "item": "grapnel", "prob": 1 },
       { "item": "briefcase", "prob": 5 },
       { "item": "survnote", "prob": 2 },
-      { "item": "solarpack", "prob": 1 },
       { "item": "flight_helmet", "prob": 20, "ammo-item": "light_battery_cell", "charges": [ 0, 150 ] },
       { "item": "mil_flight_suit", "prob": 20 }
     ]
@@ -793,7 +792,6 @@
       [ "bot_gasbomb_hack", 50 ],
       [ "bot_grenade_hack", 50 ],
       [ "bot_antimateriel", 5 ],
-      [ "bot_manhack", 100 ],
       [ "bot_rifleturret", 10 ],
       [ "bot_crows_m240", 10 ],
       [ "bot_talon_m202a1", 10 ],

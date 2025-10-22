@@ -27,6 +27,71 @@
     "melee_damage": { "bash": 5 }
   },
   {
+    "id": "art_book",
+    "type": "ITEM",
+    "category": "artifacts",
+    "looks_like": "philosophy_book",
+    "name": { "str": "ancient codex", "str_pl": "ancient codices" },
+    "description": "Vellum pages bound in bark.  The strange symbols within seems to have been overwritten hundreds of times.",
+    "symbol": "?",
+    "color": "light_blue",
+    "volume": "500 ml",
+    "weight": "300 g",
+    "variants": [
+      {
+        "id": "uklm_si",
+        "name": { "str_sp": "In Uklm-si" },
+        "description": "The text is written in english, but every word takes incredible effort to comprehend.",
+        "weight": 300
+      },
+      {
+        "id": "borges1",
+        "name": { "str": "Perfect Index", "str_pl": "Perfect Indices" },
+        "description": "The book describes a curious heximal library classification system, and purports to be a perfect index for all possible written works.",
+        "weight": 100
+      },
+      {
+        "id": "borges2",
+        "name": { "str_sp": "MCV" },
+        "description": "The book contains nothing but the letters MCV perversely repeated from the first line to the last.",
+        "weight": 500
+      },
+      {
+        "id": "infinite",
+        "name": { "str": "Kybernetika", "str_pl": "copies of Kybernetika" },
+        "description": "A postmodern novel where the protagonist finds a copy of this very book, and reads it to find a copy of this very book, and reads it to find a copy of this very book, and…",
+        "weight": 300
+      },
+      {
+        "id": "codex",
+        "name": { "str": "ancient codex", "str_pl": "ancient codices" },
+        "description": "Vellum pages bound in bark.  The strange symbols within seems to have been overwritten hundreds of times.",
+        "weight": 1500
+      },
+      {
+        "id": "stars",
+        "name": { "str": "celestial atlas", "str_pl": "celestial atlases" },
+        "description": "Its pages are filled with star charts and diagrams of fanciful constellations.",
+        "weight": 500
+      },
+      {
+        "id": "faeries",
+        "name": { "str": "book of fairytales", "str_pl": "books of fairytales" },
+        "description": "Any glance given to this book is survived by the drone of flapping wings.",
+        "weight": 300
+      },
+      {
+        "id": "blank",
+        "name": { "str": "blank book" },
+        "description": "This book is blank and perfectly immaculate.",
+        "weight": 300
+      }
+    ],
+    "material": [ "anomaly" ],
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "neutral" },
+    "melee_damage": { "bash": 10 }
+  },
+  {
     "id": "art_teardrop",
     "type": "ITEM",
     "category": "artifacts",

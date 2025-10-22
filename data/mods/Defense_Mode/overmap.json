@@ -1,23 +1,5 @@
 [
   {
-    "type": "EXTERNAL_OPTION",
-    "name": "OVERMAP_PLACE_CITIES",
-    "stype": "bool",
-    "value": false
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "OVERMAP_PLACE_ROADS",
-    "stype": "bool",
-    "value": false
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "OVERMAP_PLACE_HIGHWAYS",
-    "stype": "bool",
-    "value": false
-  },
-  {
     "type": "overmap_terrain",
     "id": [
       "dm_hospital_1",

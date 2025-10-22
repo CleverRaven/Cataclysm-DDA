@@ -301,13 +301,13 @@
     "copy-from": "gun_base_45_semi_pistol",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
-    "name": { "str": "USP pistol" },
+    "name": { "str": "USP .45 pistol" },
     "description": "A semi-automatic pistol chambered in .45 ACP and accepting USP magazines.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "usp_45",
-        "name": { "str": ".45 USP pistol" },
+        "name": { "str": "USP .45 pistol" },
         "description": "A popular pistol, widely used among law enforcement.  Extensively tested for durability, it has been found to stay accurate even after being subjected to extreme abuse."
       },
       {
@@ -419,7 +419,7 @@
     "looks_like": "glock_17",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
-    "name": { "str": "Glock 30" },
+    "name": { "str": "Glock 30 pistol" },
     "description": "A Glock compact pistol chambered in .45 ACP.  Accepts the same magazines as its older brothers.",
     "weight": "675 g",
     "volume": "422 ml",
@@ -443,7 +443,7 @@
     "looks_like": "glock_17",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
-    "name": { "str": "Glock 36" },
+    "name": { "str": "Glock 36 pistol" },
     "description": "A Glock subcompact pistol chambered in .45 ACP.  Due to its slim construction, it only accepts Glock 36 magazines.",
     "weight": "565 g",
     "volume": "370 ml",

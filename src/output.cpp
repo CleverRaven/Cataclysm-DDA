@@ -1153,6 +1153,42 @@ void draw_item_filter_rules( const catacurses::window &win, const int starty, co
     wnoutrefresh( win );
 }
 
+static std::string format_table( std::string_view s )
+{
+    std::string table;
+
+    std::vector<std::string> rows = string_split( s, '\n' );
+
+    if( rows.empty() ) {
+        return table;
+    }
+
+    std::vector<std::string> header = string_split( rows[0], ';' );
+    table += header[0] + ":";
+    for( size_t col = 1; col < header.size(); col++ ) {
+        table += ( col == 1 ? " " : ", " ) + header[col];
+    }
+    if( rows.size() > 1 ) {
+        table += '\n';
+    }
+
+    for( size_t row = 1; row < rows.size(); row++ ) {
+        if( rows[row].empty() ) {
+            continue;
+        }
+        std::vector<std::string> cols = string_split( rows[row], ';' );
+        table += "  " + cols[0] + ":";
+        for( size_t i = 1; i < cols.size(); i++ ) {
+            table += ( i == 1 ? " " : ", " ) + cols[i];
+        }
+        if( row + 1 < rows.size() && !rows[row + 1].empty() ) {
+            table += '\n';
+        }
+    }
+
+    return table;
+}
+
 std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
                               const std::vector<iteminfo> &vItemCompare )
 {
@@ -1160,7 +1196,9 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
     bool bIsNewLine = true;
 
     for( const iteminfo &i : vItemDisplay ) {
-        if( i.sType == "DESCRIPTION" ) {
+        if( i.isTable ) {
+            buffer += format_table( i.sName );
+        } else if( i.sType == "DESCRIPTION" ) {
             // Always start a new line for sType == "DESCRIPTION"
             if( !bIsNewLine ) {
                 buffer += "\n";
@@ -1268,6 +1306,63 @@ static nc_color get_comparison_color( const iteminfo &i,
     return thisColor;
 }
 
+static int get_num_cols( std::vector<std::string> &rows )
+{
+    int cols = 0;
+
+    for( const std::string &row : rows ) {
+        cols = std::max( cols, static_cast<int>( string_split( row, ';' ).size() ) );
+    }
+
+    return cols;
+}
+
+static void draw_table( std::string_view s )
+{
+    std::vector<std::string> rows = string_split( s, '\n' );
+    int num_cols = get_num_cols( rows );
+
+    if( rows.empty() || num_cols == 0 ) {
+        return;
+    }
+
+    if( ImGui::BeginTable( "##ITEMINFO_TABLE", num_cols,
+                           ImGuiTableFlags_BordersH | ImGuiTableFlags_BordersV ) ) {
+        const std::vector<std::string> chopped_up = string_split( rows.front(), ';' );
+        for( const std::string &cell_text : chopped_up ) {
+            // this prefix prevents imgui from drawing the text. We still have color tags, which imgui won't parse, so we don't want those exposed to the user.
+            // But we still want proper column IDs. So we put them in, but we *hide them* with this.
+            // This results in a column with an ID of e.g.
+            // ##<color_white>Protection:</color>
+            //
+            // Not great for debugging, but better than having a column with default (randomly generated number) ID!
+            const std::string invisible_ID_label = "##" + cell_text;
+            ImGui::TableSetupColumn( invisible_ID_label.c_str(), ImGuiTableColumnFlags_WidthStretch );
+        }
+        ImGui::TableHeadersRow();
+        // After putting in the invisible labels in the last for-loop, this writes the actual text. Just the same text without the ## marker, and
+        // with our native functions doing the drawing. (So we parse color tags)
+        for( size_t i = 0; i < chopped_up.size(); i++ ) {
+            ImGui::TableSetColumnIndex( i );
+            cataimgui::draw_colored_text( chopped_up[i], c_unset );
+        }
+
+        for( size_t i = 1; i < rows.size(); i++ ) {
+            if( rows[i].empty() ) {
+                continue;
+            }
+            ImGui::TableNextRow();
+            const std::vector<std::string> delimited_strings = string_split( rows[i], ';' );
+            for( const std::string &text : delimited_strings ) {
+                ImGui::TableNextColumn();
+                cataimgui::draw_colored_text( text, c_unset );
+            }
+        }
+
+        ImGui::EndTable();
+    }
+}
+
 void display_item_info( const std::vector<iteminfo> &vItemDisplay,
                         const std::vector<iteminfo> &vItemCompare )
 {
@@ -1276,7 +1371,9 @@ void display_item_info( const std::vector<iteminfo> &vItemDisplay,
         if( i.bIsArt ) {
             cataimgui::PushMonoFont();
         }
-        if( i.sType == "DESCRIPTION" ) {
+        if( i.isTable ) {
+            draw_table( i.sName );
+        } else if( i.sType == "DESCRIPTION" ) {
             if( i.bDrawName ) {
                 if( i.sName == "--" ) {
                     if( !bAlreadyHasNewLine ) {

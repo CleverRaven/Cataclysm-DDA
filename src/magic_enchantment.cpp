@@ -199,29 +199,24 @@ bool string_id<enchantment>::is_valid() const
 }
 
 template<typename TKey>
-void load_add_and_multiply( const JsonObject &jo, const bool &is_child,
-                            std::string_view array_key, const std::string &type_key, std::map<TKey, dbl_or_var> &add_map,
-                            std::map<TKey, dbl_or_var> &mult_map )
+void load_add_and_multiply_dbl_or_var( const JsonObject &jo, std::string_view array_key,
+                                       const std::string &type_key, std::map<TKey, dbl_or_var> &add_map,
+                                       std::map<TKey, dbl_or_var> &mult_map )
 {
-    if( !is_child && jo.has_array( array_key ) ) {
+    if( jo.has_array( array_key ) ) {
         for( const JsonObject value_obj : jo.get_array( array_key ) ) {
 
             TKey value;
             mandatory( value_obj, false, type_key, value );
 
             if( value_obj.has_member( "add" ) ) {
-                dbl_or_var add = get_dbl_or_var( value_obj, "add", false );
+                dbl_or_var add = get_dbl_or_var( value_obj, "add" );
                 add_map.emplace( value, add );
             }
 
             if( value_obj.has_member( "multiply" ) ) {
-                dbl_or_var mult;
-                if( value_obj.has_float( "multiply" ) ) {
-                    mult.max.dbl_val = mult.min.dbl_val = value_obj.get_float( "multiply" );
-                } else {
-                    mult = get_dbl_or_var( value_obj, "multiply", false );
+                dbl_or_var mult = get_dbl_or_var( value_obj, "multiply" );
 
-                }
                 mult_map.emplace( value, mult );
             }
 
@@ -246,7 +241,11 @@ void load_add_and_multiply( const JsonObject &jo, std::string_view array_key,
     if( jo.has_array( array_key ) ) {
         for( const JsonObject value_obj : jo.get_array( array_key ) ) {
 
-            const TKey value = TKey( value_obj.get_string( type_key ) );
+            // Migration from accidental corruption, remove after 0.J
+            const TKey value = !value_obj.has_string( type_key ) && value_obj.has_string( "value" ) ?
+                               TKey( value_obj.get_string( "value" ) ) :
+                               TKey( value_obj.get_string( type_key ) );
+            // Values of 0 used to be serialised exist (removed in 0.J exp) so for now load based on != 0 rather than on member existance
             const double add = value_obj.get_float( "add", 0.0 );
             const double mult = value_obj.get_float( "multiply", 0.0 );
 
@@ -293,7 +292,7 @@ void enchant_cache::save_add_and_multiply( JsonOut &jsout, const std::string_vie
             continue;
         }
         jsout.start_object();
-        jsout.member( "value", type );
+        jsout.member( type_key, type );
         jsout.member( "multiply", multiply );
         jsout.end_object();
     }
@@ -303,6 +302,11 @@ void enchant_cache::save_add_and_multiply( JsonOut &jsout, const std::string_vie
 void enchantment::load_enchantment( const JsonObject &jo, const std::string &src )
 {
     spell_factory.load( jo, src );
+}
+
+void enchantment::finalize_all()
+{
+    spell_factory.finalize();
 }
 
 void enchantment::reset()
@@ -564,25 +568,29 @@ void enchantment::load( const JsonObject &jo, std::string_view,
     optional( jo, was_loaded, "name", name );
     optional( jo, was_loaded, "description", description );
 
-    load_add_and_multiply<enchant_vals::mod>( jo, is_child, "values", "value", values_add,
+    if( is_child ) {
+        return;
+    }
+
+    load_add_and_multiply_dbl_or_var<enchant_vals::mod>( jo, "values", "value", values_add,
             values_multiply );
 
-    load_add_and_multiply<skill_id>( jo, is_child, "skills", "value",
-                                     skill_values_add, skill_values_multiply );
+    load_add_and_multiply_dbl_or_var<skill_id>( jo, "skills", "value", skill_values_add,
+            skill_values_multiply );
 
-    load_add_and_multiply<bodypart_str_id>( jo, is_child, "encumbrance_modifier", "part",
-                                            encumbrance_values_add, encumbrance_values_multiply );
+    load_add_and_multiply_dbl_or_var<bodypart_str_id>( jo, "encumbrance_modifier", "part",
+            encumbrance_values_add, encumbrance_values_multiply );
 
-    load_add_and_multiply<damage_type_id>( jo, is_child, "melee_damage_bonus", "type",
-                                           damage_values_add, damage_values_multiply );
+    load_add_and_multiply_dbl_or_var<damage_type_id>( jo, "melee_damage_bonus", "type",
+            damage_values_add, damage_values_multiply );
 
-    load_add_and_multiply<damage_type_id>( jo, is_child, "incoming_damage_mod", "type",
-                                           armor_values_add, armor_values_multiply );
+    load_add_and_multiply_dbl_or_var<damage_type_id>( jo, "incoming_damage_mod", "type",
+            armor_values_add, armor_values_multiply );
 
-    load_add_and_multiply<damage_type_id>( jo, is_child, "incoming_damage_mod_post_absorbed", "type",
-                                           extra_damage_add, extra_damage_multiply );
+    load_add_and_multiply_dbl_or_var<damage_type_id>( jo, "incoming_damage_mod_post_absorbed", "type",
+            extra_damage_add, extra_damage_multiply );
 
-    if( !is_child && jo.has_array( "special_vision" ) ) {
+    if( jo.has_array( "special_vision" ) ) {
         for( const JsonObject vision_obj : jo.get_array( "special_vision" ) ) {
             special_vision _vision;
             special_vision_descriptions _desc;
@@ -599,7 +607,7 @@ void enchantment::load( const JsonObject &jo, std::string_view,
                 }
             }
 
-            _vision.range = get_dbl_or_var( vision_obj, "distance" );
+            mandatory( vision_obj, was_loaded, "distance", _vision.range );
             read_condition( vision_obj, "condition", _vision.condition, true );
             optional( vision_obj, was_loaded, "precise", _vision.precise );
             optional( vision_obj, was_loaded, "ignores_aiming_cone", _vision.ignores_aiming_cone );
@@ -942,127 +950,72 @@ void enchant_cache::force_add( const enchantment &rhs, const vehicle &veh )
 void enchant_cache::force_add( const enchantment &rhs )
 {
     const_dialogue d( nullptr, nullptr );
-    force_add_with_dialogue( rhs, d, false );
+    force_add_with_dialogue( rhs, d );
 }
 
-void enchant_cache::force_add_with_dialogue( const enchantment &rhs, const const_dialogue &d,
-        const bool evaluate )
+void enchant_cache::force_add_with_dialogue( const enchantment &rhs, const const_dialogue &d )
 {
     for( const std::pair<const enchant_vals::mod, dbl_or_var> &pair_values :
          rhs.values_add ) {
-        if( evaluate ) {
-            values_add[pair_values.first] += pair_values.second.evaluate( d );
-        } else {
-            values_add[pair_values.first] += pair_values.second.constant();
-        }
+        values_add[pair_values.first] += pair_values.second.evaluate( d );
     }
     for( const std::pair<const enchant_vals::mod, dbl_or_var> &pair_values :
          rhs.values_multiply ) {
         // values do not multiply against each other, they add.
         // so +10% and -10% will add to 0%
-        if( evaluate ) {
-            values_multiply[pair_values.first] += pair_values.second.evaluate( d );
-        } else {
-            values_multiply[pair_values.first] += pair_values.second.constant();
-        }
+        values_multiply[pair_values.first] += pair_values.second.evaluate( d );
     }
 
     for( const std::pair<const skill_id, dbl_or_var> &pair_values :
          rhs.skill_values_add ) {
-        if( evaluate ) {
-            skill_values_add[pair_values.first] += pair_values.second.evaluate( d );
-        } else {
-            skill_values_add[pair_values.first] += pair_values.second.constant();
-        }
+        skill_values_add[pair_values.first] += pair_values.second.evaluate( d );
     }
     for( const std::pair<const skill_id, dbl_or_var> &pair_values :
          rhs.skill_values_multiply ) {
         // values do not multiply against each other, they add.
         // so +10% and -10% will add to 0%
-        if( evaluate ) {
-            skill_values_multiply[pair_values.first] += pair_values.second.evaluate( d );
-        } else {
-            skill_values_multiply[pair_values.first] += pair_values.second.constant();
-        }
+        skill_values_multiply[pair_values.first] += pair_values.second.evaluate( d );
     }
 
     for( const std::pair<const bodypart_str_id, dbl_or_var> &pair_values :
          rhs.encumbrance_values_add ) {
-        if( evaluate ) {
-            encumbrance_values_add[pair_values.first] += pair_values.second.evaluate( d );
-        } else {
-            encumbrance_values_add[pair_values.first] += pair_values.second.constant();
-        }
+        encumbrance_values_add[pair_values.first] += pair_values.second.evaluate( d );
     }
     for( const std::pair<const bodypart_str_id, dbl_or_var> &pair_values :
          rhs.encumbrance_values_multiply ) {
-        if( evaluate ) {
-            encumbrance_values_multiply[pair_values.first] += pair_values.second.evaluate( d );
-        } else {
-            encumbrance_values_multiply[pair_values.first] += pair_values.second.constant();
-        }
+        encumbrance_values_multiply[pair_values.first] += pair_values.second.evaluate( d );
     }
 
     for( const std::pair<const damage_type_id, dbl_or_var> &pair_values :
          rhs.damage_values_add ) {
-        if( evaluate ) {
-            damage_values_add[pair_values.first] += pair_values.second.evaluate( d );
-        } else {
-            damage_values_add[pair_values.first] += pair_values.second.constant();
-        }
+        damage_values_add[pair_values.first] += pair_values.second.evaluate( d );
     }
     for( const std::pair<const damage_type_id, dbl_or_var> &pair_values :
          rhs.damage_values_multiply ) {
-        if( evaluate ) {
-            damage_values_multiply[pair_values.first] += pair_values.second.evaluate( d );
-        } else {
-            damage_values_multiply[pair_values.first] += pair_values.second.constant();
-        }
+        damage_values_multiply[pair_values.first] += pair_values.second.evaluate( d );
     }
 
     for( const std::pair<const damage_type_id, dbl_or_var> &pair_values :
          rhs.armor_values_add ) {
-        if( evaluate ) {
-            armor_values_add[pair_values.first] += pair_values.second.evaluate( d );
-        } else {
-            armor_values_add[pair_values.first] += pair_values.second.constant();
-        }
+        armor_values_add[pair_values.first] += pair_values.second.evaluate( d );
     }
     for( const std::pair<const damage_type_id, dbl_or_var> &pair_values :
          rhs.armor_values_multiply ) {
-        if( evaluate ) {
-            armor_values_multiply[pair_values.first] += pair_values.second.evaluate( d );
-        } else {
-            armor_values_multiply[pair_values.first] += pair_values.second.constant();
-        }
+        armor_values_multiply[pair_values.first] += pair_values.second.evaluate( d );
     }
 
     for( const std::pair<const damage_type_id, dbl_or_var> &pair_values :
          rhs.extra_damage_add ) {
-        if( evaluate ) {
-            extra_damage_add[pair_values.first] += pair_values.second.evaluate( d );
-        } else {
-            extra_damage_add[pair_values.first] += pair_values.second.constant();
-        }
+        extra_damage_add[pair_values.first] += pair_values.second.evaluate( d );
     }
     for( const std::pair<const damage_type_id, dbl_or_var> &pair_values :
          rhs.extra_damage_multiply ) {
-        if( evaluate ) {
-            extra_damage_multiply[pair_values.first] += pair_values.second.evaluate( d );
-        } else {
-            extra_damage_multiply[pair_values.first] += pair_values.second.constant();
-        }
+        extra_damage_multiply[pair_values.first] += pair_values.second.evaluate( d );
     }
     for( const enchantment::special_vision &struc : rhs.special_vision_vector ) {
-        if( evaluate ) {
-            special_vision_vector.emplace_back( special_vision{
-                struc.special_vision_descriptions_vector, struc.condition, struc.range.evaluate( d ),
-                struc.precise, struc.ignores_aiming_cone } );
-        } else {
-            special_vision_vector.emplace_back( special_vision{
-                struc.special_vision_descriptions_vector, struc.condition, struc.range.constant(),
-                struc.precise, struc.ignores_aiming_cone } );
-        }
+        special_vision_vector.emplace_back( special_vision{
+            struc.special_vision_descriptions_vector, struc.condition, struc.range.evaluate( d ),
+            struc.precise, struc.ignores_aiming_cone } );
     }
 
     hit_me_effect.insert( hit_me_effect.end(), rhs.hit_me_effect.begin(), rhs.hit_me_effect.end() );

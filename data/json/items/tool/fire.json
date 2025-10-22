@@ -174,7 +174,7 @@
     "weight": "10 g",
     "volume": "10 ml",
     "price": "10 cent",
-    "price_postapoc": "50 cent",
+    "price_postapoc": "5 cent",
     "material": [ "cardboard" ],
     "symbol": ",",
     "color": "blue",
@@ -216,7 +216,7 @@
     "weight": "10 g",
     "volume": "25 ml",
     "price_postapoc": "50 cent",
-    "price": "10 cent",
+    "price": "7 cent",
     "material": [ "cardboard" ],
     "symbol": ",",
     "color": "blue",
@@ -301,7 +301,8 @@
         "type": "transform"
       }
     ],
-    "flags": [ "FIRE", "FIRESTARTER", "LIGHT_8", "FLAMING", "TRADER_AVOID", "WATER_EXTINGUISH" ],
+    "light": 8,
+    "flags": [ "FIRE", "FIRESTARTER", "FLAMING", "TRADER_AVOID", "WATER_EXTINGUISH" ],
     "tool_ammo": [ "lamp_oil" ]
   },
   {

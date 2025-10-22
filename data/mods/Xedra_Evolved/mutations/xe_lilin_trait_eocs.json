@@ -438,8 +438,8 @@
       {
         "run_eocs": "EOC_GENERIC_SPELL_MUTATION",
         "variables": {
-          "energy_amount": "2000",
-          "prep_time": "1",
+          "energy_amount": 2000,
+          "prep_time": 1,
           "spell_to_cast": "lilin_strix_leap_spell",
           "message_success": {
             "i18n": true,

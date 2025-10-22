@@ -832,7 +832,8 @@
         ],
         "covers": [ "head" ],
         "specifically_covers": [ "head_crown", "head_forehead", "head_ear_l", "head_ear_r", "head_nape", "head_throat" ],
-        "coverage": 95
+        "coverage": 95,
+        "encumbrance_modifiers": [ "NONE" ]
       }
     ],
     "warmth": 20,
@@ -1842,11 +1843,11 @@
     "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "scrap helmet" },
-    "description": "A helmet made from scraps of metal secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.",
-    "weight": "1692 g",
-    "volume": "2750 ml",
-    "price": "350 USD",
-    "price_postapoc": "5 USD",
+    "description": "Loose metal scraps tied precariously to your head with frayed cords.  Gaps leave critical areas exposed and the uneven weight causes constant neck strain.",
+    "weight": "2400 g",
+    "volume": "1600 ml",
+    "price": "4 USD",
+    "price_postapoc": "2 USD",
     "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "budget_steel", "cotton" ],
     "symbol": "[",
@@ -1857,12 +1858,12 @@
     "armor": [
       {
         "material": [
-          { "type": "budget_steel", "covered_by_mat": 75, "thickness": 2 },
+          { "type": "budget_steel", "covered_by_mat": 60, "thickness": 2.2 },
           { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 }
         ],
         "covers": [ "head" ],
         "specifically_covers": [ "head_crown", "head_ear_l", "head_ear_r", "head_ear_r" ],
-        "coverage": 100,
+        "coverage": 70,
         "encumbrance_modifiers": [ "IMBALANCED" ]
       }
     ],

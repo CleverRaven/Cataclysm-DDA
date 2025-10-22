@@ -87,6 +87,7 @@ static const mutation_category_id mutation_category_ANY( "ANY" );
 static const trait_id trait_ARVORE_FOREST_MAPPING( "ARVORE_FOREST_MAPPING" );
 static const trait_id trait_BURROW( "BURROW" );
 static const trait_id trait_BURROWLARGE( "BURROWLARGE" );
+static const trait_id trait_CHAOTIC( "CHAOTIC" );
 static const trait_id trait_CHAOTIC_BAD( "CHAOTIC_BAD" );
 static const trait_id trait_ECHOLOCATION( "ECHOLOCATION" );
 static const trait_id trait_GASTROPOD_EXTREMITY2( "GASTROPOD_EXTREMITY2" );
@@ -1194,6 +1195,7 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
         add_msg_debug( debugmode::DF_MUTATION, "mutate: Genetic Downward Spiral found, all bad traits" );
         allow_good = false;
         allow_bad = true;
+        allow_neutral = false;
         try_opposite = false;
     }
 
@@ -1343,8 +1345,24 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
             }
             if( mutate_towards( valid, cat, 2, use_vitamins ) ) {
                 add_msg_if_player( m_mixed, mutation_category_trait::get_category( cat ).mutagen_message() );
+                int sub_count = count_threshold_substitute_traits();
+                if( sub_count > 2 ) {
+                    int chance = sub_count - 2;
+                    if( !has_trait( trait_CHAOTIC ) && !has_trait( trait_CHAOTIC_BAD ) ) {
+                        if( rng( 1, 100 ) <= chance ) {
+                            mutate_towards( trait_CHAOTIC );
+                            add_msg_if_player( m_bad, _( "You will mutate uncontrollably from now on!" ) );
+                        } else if( has_trait( trait_CHAOTIC ) && !has_trait( trait_CHAOTIC_BAD ) ) {
+                            if( rng( 1, 100 ) <= chance ) {
+                                mutate_towards( trait_CHAOTIC_BAD );
+                                add_msg_if_player( m_bad, _( "Your genetics have become irreparably damaged!" ) );
+                            }
+                        }
+                    }
+                    return;
+                }
+                return;
             }
-            return;
         }
     } while( valid.empty() );
 }
@@ -1417,6 +1435,12 @@ void Character::mutate_category( const mutation_category_id &cat )
 bool Character::mutation_selector( const std::vector<trait_id> &prospective_traits,
                                    const mutation_category_id &cat, const bool &use_vitamins )
 {
+    if( has_trait( trait_CHAOTIC ) || has_trait( trait_CHAOTIC_BAD ) ) {
+        add_msg_if_player( m_bad,
+                           _( "Your genetic degeneration prevents you from selecting a mutation directly!" ) );
+        return false;
+    }
+
     // Setup menu
     uilist mmenu;
     mmenu.text =
@@ -1465,6 +1489,13 @@ bool Character::mutation_selector( const std::vector<trait_id> &prospective_trai
         for( size_t i = 0; !c_has_threshreq && i < threshreq.size(); i++ ) {
             if( has_permanent_trait( threshreq[i] ) ) {
                 c_has_threshreq = true;
+            }
+            if( !mdata.strict_threshreq ) {
+                for( const trait_id &subst : threshreq[i]->threshold_substitutes ) {
+                    if( has_permanent_trait( subst ) ) {
+                        c_has_threshreq = true;
+                    }
+                }
             }
         }
         if( !c_has_threshreq ) {
@@ -2267,8 +2298,8 @@ void Character::remove_mutation( const trait_id &mut, bool silent )
             // Both visible
             if( mdata.player_display && replace_mdata.player_display ) {
                 add_msg_player_or_npc( rating,
-                                       _( "Your %1$s mutation turns into %2$s." ),
-                                       _( "<npcname>'s %1$s mutation turns into %2$s." ),
+                                       _( "Your %1$s mutation turns into %2$s!" ),
+                                       _( "<npcname>'s %1$s mutation turns into %2$s!" ),
                                        lost_name, replace_name );
             }
             // Old trait invisible, new visible
@@ -2312,8 +2343,8 @@ void Character::remove_mutation( const trait_id &mut, bool silent )
             // Both visible
             if( mdata.player_display && replace_mdata.player_display ) {
                 add_msg_player_or_npc( rating,
-                                       _( "Your %1$s mutation turns into %2$s." ),
-                                       _( "<npcname>'s %1$s mutation turns into %2$s." ),
+                                       _( "Your %1$s mutation turns into %2$s!" ),
+                                       _( "<npcname>'s %1$s mutation turns into %2$s!" ),
                                        lost_name, replace_name );
             }
             // Old trait invisible, new visible
@@ -2640,7 +2671,7 @@ void Character::customize_appearance( customize_appearance_choice choice )
             end_message = _( "A change in hairstyle will freshen up the mood." );
             break;
         case customize_appearance_choice::HAIR_F:
-            amenu.text = _( "Choose a new facial hairstyle" );
+            amenu.text = _( "Choose a new facial hair style" );
             traits = get_mutations_in_type( trait_type_facial_hair );
             end_message = _( "Surviving the end with style." );
             break;

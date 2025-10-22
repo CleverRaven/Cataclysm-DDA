@@ -791,7 +791,7 @@ bool trapfunc::snare_species( const tripoint_bub_ms &p, Creature *critter, item 
     }
 
     if( critter ) {
-        const bodypart_id hit = critter->get_random_body_part_of_type( body_part_type::type::leg );
+        const bodypart_id hit = critter->get_random_body_part_of_type( bp_type::leg );
 
         critter->add_msg_if_player( m_bad, _( "A %1$s catches your %2$s!" ),
                                     laid_trap.name(), hit->name.translated() );

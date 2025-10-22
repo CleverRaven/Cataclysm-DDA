@@ -91,6 +91,11 @@ namespace catacurses
 {
 class window;
 }  // namespace catacurses
+namespace Pickup
+{
+struct pick_info;
+} // namespace Pickup
+
 enum action_id : int;
 enum class proficiency_bonus_type : int;
 enum class recipe_filter_flags : int;
@@ -117,6 +122,11 @@ struct w_point;
 template <typename E> struct enum_traits;
 
 using bionic_uid = unsigned int;
+
+extern int character_max_str;
+extern int character_max_dex;
+extern int character_max_per;
+extern int character_max_int;
 
 constexpr int MAX_CLAIRVOYANCE = 40;
 // kcal in a kilogram of fat, used to convert stored kcal into body weight. 3500kcal/lb * 2.20462lb/kg = 7716.17
@@ -576,9 +586,8 @@ class Character : public Creature, public visitable
         int ppen_per;
         int ppen_spd;
 
+        // Legacy value, used by several mods via eoc.
         int kill_xp = 0;
-        // Level-up points spent on Stats through Kills
-        int spent_upgrade_points = 0;
 
         float cached_organic_size;
 
@@ -648,6 +657,8 @@ class Character : public Creature, public visitable
         int get_arm_str() const;
         // Defines distance from which CAMOUFLAGE mobs are visible
         int get_eff_per() const override;
+        // Counts how many traits a character has via threshold substitution
+        int count_threshold_substitute_traits() const;
 
         // Penalty modifiers applied for ranged attacks due to low stats
         int ranged_dex_mod() const;
@@ -945,6 +956,10 @@ class Character : public Creature, public visitable
         void update_stomach( const time_point &from, const time_point &to );
         /** Updates the mutations from enchantments */
         void update_cached_mutations();
+        /** Adds this specific wound to bodypart */
+        void apply_wound( bodypart_id bp, wound_type_id wd );
+        /** Updates the status of wounds character has */
+        void update_wounds( time_duration time_passed );
         /** Returns true if character needs food, false if character is an NPC with NO_NPC_FOOD set */
         bool needs_food() const;
         /** Increases hunger, thirst, sleepiness and stimulants wearing off. `rate_multiplier` is for retroactive updates. */
@@ -982,7 +997,7 @@ class Character : public Creature, public visitable
 
         /** Returns ENC provided by armor, etc. */
         int encumb( const bodypart_id &bp ) const;
-        int avg_encumb_of_limb_type( body_part_type::type part_type ) const;
+        int avg_encumb_of_limb_type( bp_type part_type ) const;
 
         /** Returns body weight plus weight of inventory and worn/wielded items */
         units::mass get_weight() const override;
@@ -1282,6 +1297,7 @@ class Character : public Creature, public visitable
         /** Actually hurt the player, hurts a body_part directly, no armor reduction */
         void apply_damage( Creature *source, bodypart_id hurt, int dam,
                            bool bypass_med = false ) override;
+        void apply_random_wound( bodypart_id bp, const damage_instance &d );
         /** Calls Creature::deal_damage and handles damaged effects (waking up, etc.) */
         dealt_damage_instance deal_damage( Creature *source, bodypart_id bp,
                                            const damage_instance &d,
@@ -1414,6 +1430,27 @@ class Character : public Creature, public visitable
         bool empathizes_with_species( const species_id &species ) const;
         /** Whether the character feels significant empathy for the given monster.  HUMAN is empathized with by default */
         bool empathizes_with_monster( const mtype_id &monster ) const;
+        /** Whether the character is a pyromaniac who hasn't seen a fire in a while */
+        bool has_unfulfilled_pyromania() const;
+        /** Fulfill the character's pyromaniacal urges */
+        void fulfill_pyromania( int bonus = 15, int max_bonus = 15,
+                                const time_duration &duration = 8_hours, const time_duration &decay_start = 6_hours );
+        /** Fulfill the character's pyromaniacal urges, with a message */
+        void fulfill_pyromania_msg( const std::string &message, int bonus = 15, int max_bonus = 15,
+                                    const time_duration &duration = 8_hours, const time_duration &decay_start = 6_hours );
+        /** Fulfill the character's pyromaniacal urges, with a standard message */
+        void fulfill_pyromania_msg_std( const std::string &target_name = "",
+                                        int bonus = 15, int max_bonus = 15,
+                                        const time_duration &duration = 8_hours, const time_duration &decay_start = 6_hours );
+        /** Fulfill the character's pyromaniacal urges, if they can see the creature on fire */
+        bool fulfill_pyromania_sees( const map &here, const Creature &target,
+                                     int bonus = 15, int max_bonus = 15,
+                                     const time_duration &duration = 8_hours, const time_duration &decay_start = 6_hours );
+        /** Fulfill the character's pyromaniacal urges, if they can see the location on fire */
+        bool fulfill_pyromania_sees( const map &here, const tripoint_bub_ms &target,
+                                     const std::string &target_str = "", bool std_msg = true, int bonus = 15, int max_bonus = 15,
+                                     const time_duration &duration = 8_hours, const time_duration &decay_start = 6_hours );
+
         /** Whether the character suffers schizophrenic symptoms, with odds 1 in chance */
         bool schizo_symptoms( int chance = 1 ) const;
 
@@ -1479,10 +1516,10 @@ class Character : public Creature, public visitable
         // Get the specified limb score. If bp is defined, only the scores from that body part type are summed.
         // override forces the limb score to be affected by encumbrance/wounds (-1 == no override).
         float get_limb_score( const limb_score_id &score,
-                              const body_part_type::type &bp = body_part_type::type::num_types,
+                              const bp_type &bp = bp_type::num_types,
                               int override_encumb = -1, int override_wounds = -1 ) const;
         float manipulator_score( const std::map<bodypart_str_id, bodypart> &body,
-                                 body_part_type::type type, int override_encumb, int override_wounds ) const;
+                                 bp_type type, int override_encumb, int override_wounds ) const;
 
         bool has_min_manipulators() const;
         // technically this is "has more than one arm"
@@ -2399,9 +2436,11 @@ class Character : public Creature, public visitable
          * Wield an item, unwielding currently wielded item (if any).
          * If moving from a location, use provide item_location instead of item for more accurate move-cost.
          * @param it item to be wielded.
+         * @param obtain_cost value to override move cost calculation
+         * @param combat wielding for combat purposes
          * @return whether both removal and replacement were successful (they are performed atomically)
          */
-        bool wield( item &it, std::optional<int> obtain_cost = std::nullopt );
+        bool wield( item &it, std::optional<int> obtain_cost = std::nullopt, bool combat = true );
         /**
          * Check player capable of unwielding an item.
          * @param it Thing to be unwielded
@@ -2430,6 +2469,7 @@ class Character : public Creature, public visitable
          *  Requires sufficient storage; items cannot be wielded or worn from this activity.
          */
         void pick_up( const drop_locations &what );
+        void pick_up( const drop_locations &what, Pickup::pick_info &info );
 
         bool is_wielding( const item &target ) const;
 
@@ -2615,7 +2655,7 @@ class Character : public Creature, public visitable
         virtual bool query_yn( const std::string &msg ) const = 0;
 
         std::pair<bodypart_id, int> best_part_to_smash() const;
-        virtual int smash_ability() const;
+        virtual std::map<damage_type_id, int> smash_ability() const;
 
         // checks if your character is immune to an effect or field based on field_immunity_data
         bool check_immunity_data( const field_immunity_data &ft ) const override;
@@ -2646,6 +2686,8 @@ class Character : public Creature, public visitable
          */
         bool immune_to( const bodypart_id &bp, damage_unit dam ) const;
 
+        /** Modifies a pain value by wounds before passing it to Creature::mod_pain() */
+        int get_pain() const override;
         /** Modifies a pain value by player traits before passing it to Creature::mod_pain() */
         int mod_pain( int npain ) override;
         /** Sets new intensity of pain an reacts to it */
@@ -2850,6 +2892,8 @@ class Character : public Creature, public visitable
         std::vector<effect_on_condition_id> inactive_effect_on_condition_vector;
         queued_eocs queued_effect_on_conditions;
 
+        /** Queue mutliple EOCs without delay */
+        void queue_effects( const std::vector<effect_on_condition_id> &effects );
         /** Queue an EOC to add effect after a delay */
         void queue_effect( const std::string &name, const time_duration &delay,
                            const time_duration &duration );
@@ -3833,6 +3877,8 @@ class Character : public Creature, public visitable
 
         // used in debugging all health
         int get_lowest_hp() const;
+        // used in debugging all health
+        int get_highest_hp() const;
         bool has_weapon() const override;
         void shift_destination( const point_rel_ms &shift );
         // Auto move methods

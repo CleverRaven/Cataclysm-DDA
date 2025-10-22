@@ -51,10 +51,13 @@ struct is_string_like<T, std::void_t<decltype( std::declval<T &>().substr() )>> 
 std::true_type { };
 
 template<typename T, typename Enable = void>
-struct key_from_json_string;
+struct key_from_json_string {
+    static constexpr bool valid = false;
+};
 
 template<>
 struct key_from_json_string<std::string, void> {
+    static constexpr bool valid = true;
     std::string operator()( const std::string &s ) {
         return s;
     }
@@ -62,6 +65,7 @@ struct key_from_json_string<std::string, void> {
 
 template<typename T>
 struct key_from_json_string<string_id<T>, void> {
+    static constexpr bool valid = true;
     string_id<T> operator()( const std::string &s ) {
         return string_id<T>( s );
     }
@@ -69,6 +73,7 @@ struct key_from_json_string<string_id<T>, void> {
 
 template<typename T>
 struct key_from_json_string<int_id<T>, void> {
+    static constexpr bool valid = true;
     int_id<T> operator()( const std::string &s ) {
         return int_id<T>( s );
     }
@@ -76,6 +81,7 @@ struct key_from_json_string<int_id<T>, void> {
 
 template<typename Enum>
 struct key_from_json_string<Enum, std::enable_if_t<std::is_enum_v<Enum>>> {
+    static constexpr bool valid = true;
     Enum operator()( const std::string &s ) {
         return io::string_to_enum<Enum>( s );
     }
@@ -83,6 +89,7 @@ struct key_from_json_string<Enum, std::enable_if_t<std::is_enum_v<Enum>>> {
 
 template<typename T>
 struct key_from_json_string<T, std::void_t<decltype( std::declval<T &>().to_string_writable() )>> {
+    static constexpr bool valid = true;
     T operator()( const std::string &s ) {
         return T::from_string( s );
     }

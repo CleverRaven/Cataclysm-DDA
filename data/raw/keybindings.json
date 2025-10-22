@@ -1279,6 +1279,13 @@
   },
   {
     "type": "keybinding",
+    "id": "PRINT_NOISE_MAPS",
+    "category": "OVERMAP",
+    "name": "Print noise maps",
+    "bindings": [ { "input_method": "keyboard_any", "key": "," } ]
+  },
+  {
+    "type": "keybinding",
     "name": "View missions",
     "category": "OVERMAP",
     "id": "MISSIONS",

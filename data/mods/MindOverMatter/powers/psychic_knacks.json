@@ -133,6 +133,13 @@
     "difficulty": { "math": [ "ceil(max( (u_spell_difficulty('pyrokinetic_blast') / 2), 1) )" ] }
   },
   {
+    "id": "telekinetic_pull_knack",
+    "copy-from": "telekinetic_pull",
+    "type": "SPELL",
+    "spell_class": "PSYCHIC_KNACK",
+    "difficulty": { "math": [ "ceil(max( (u_spell_difficulty('telekinetic_pull') / 2), 1) )" ] }
+  },
+  {
     "id": "telekinetic_push_knack",
     "copy-from": "telekinetic_push",
     "type": "SPELL",

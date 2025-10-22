@@ -555,6 +555,14 @@ class pickup_activity_actor : public activity_actor
                                const std::optional<tripoint_bub_ms> &starting_pos,
                                bool autopickup ) : target_items( target_items ),
             quantities( quantities ), starting_pos( starting_pos ), stash_successful( true ),
+            autopickup( autopickup ) {
+            info = Pickup::pick_info();
+        }
+        pickup_activity_actor( const std::vector<item_location> &target_items,
+                               const std::vector<int> &quantities,
+                               const std::optional<tripoint_bub_ms> &starting_pos,
+                               bool autopickup, Pickup::pick_info &info ) : target_items( target_items ),
+            quantities( quantities ), info( info ), starting_pos( starting_pos ), stash_successful( true ),
             autopickup( autopickup ) {}
 
         /**
@@ -2568,6 +2576,31 @@ class wait_stamina_activity_actor : public activity_actor
     private:
         int stamina_threshold = -1;
         int initial_stamina = -1;
+};
+
+class wait_followers_activity_actor : public activity_actor
+{
+    public:
+        // Wait until stamina is at the maximum.
+        wait_followers_activity_actor() = default;
+
+        void start( player_activity &act, Character &who ) override;
+        void do_turn( player_activity &act, Character &you ) override;
+        void finish( player_activity &act, Character &you ) override;
+
+        static std::vector<npc *> get_absent_followers( Character &you );
+
+        const activity_id &get_type() const override {
+            static const activity_id ACT_WAIT_FOLLOWERS( "ACT_WAIT_FOLLOWERS" );
+            return ACT_WAIT_FOLLOWERS;
+        }
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<wait_followers_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 };
 
 #endif // CATA_SRC_ACTIVITY_ACTOR_DEFINITIONS_H

@@ -12,7 +12,7 @@
     "material": [ "superalloy", "powder", "lead" ],
     "symbol": "=",
     "color": "pink",
-    "count": 5,
+    "count": 15,
     "stack_size": 1,
     "ammo_type": "afs_25mm",
     "casing": "afs_25_casing",
@@ -93,8 +93,9 @@
     "range": 110,
     "stack_size": 1,
     "recoil": 100,
-    "effects": [ "NEVER_MISFIRES", "CASELESS_ROUNDS" ],
-    "damage": { "damage_type": "bullet", "amount": 40, "armor_penetration": 30 },
+    "flags": [ "CASELESS_ROUNDS" ],
+    "effects": [ "NEVER_MISFIRES" ],
+    "damage": { "damage_type": "bullet", "amount": 60, "armor_penetration": 30 },
     "critical_multiplier": 10,
     "dispersion": 0
   }

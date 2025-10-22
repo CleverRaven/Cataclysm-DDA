@@ -51,7 +51,7 @@
   },
   {
     "id": "plasma_gun",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "reload_noise_volume": 10,
@@ -89,7 +89,7 @@
   },
   {
     "id": "plasma_rifle",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "reload_noise_volume": 10,
@@ -207,7 +207,7 @@
       {
         "id": "a180mag1",
         "name": { "str": "American-180 polymer 165-round magazine" },
-        "description": "An unusually-shaped, polymer pan magazine for the American-180."
+        "description": "An unusually-shaped polymer pan magazine for the American-180."
       }
     ],
     "weight": "779 g",

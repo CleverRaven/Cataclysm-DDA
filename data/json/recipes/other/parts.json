@@ -74,6 +74,34 @@
   },
   {
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "spring_medium",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "15 m",
+    "autolearn": false,
+    "using": [ [ "spring_standard", 2 ] ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" } ],
+    "book_learn": [ [ "reference_fabrication1", 2 ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "spring_small",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "15 m",
+    "autolearn": false,
+    "using": [ [ "spring_standard", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" } ],
+    "book_learn": [ [ "reference_fabrication1", 2 ] ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "antenna",
     "//": "The components require far more copper wire than the materials equal out to, this is to indicate the trial and error process of finding the right frequency to make an antenna",
@@ -334,7 +362,7 @@
     "result": "ch_sheet_metal_small",
     "type": "recipe",
     "copy-from": "sheet_metal_small",
-    "using": [ [ "carbon", 1 ] ],
+    "extend": { "using": [ [ "carbon", 1 ] ] },
     "components": [ [ [ "lc_steel_chunk", 1 ] ] ]
   },
   {
@@ -767,7 +795,7 @@
       { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 },
       { "proficiency": "prof_welding" }
     ],
-    "components": [ [ [ "pipe", 4 ] ], [ [ "spring", 2 ] ], [ [ "nylon", 20 ], [ "sheet_nylon", 3 ] ], [ [ "pipe_fittings", 4 ] ] ]
+    "components": [ [ [ "pipe", 4 ] ], [ [ "spring_medium", 2 ] ], [ [ "nylon", 20 ], [ "sheet_nylon", 3 ] ], [ [ "pipe_fittings", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -791,7 +819,7 @@
     ],
     "components": [
       [ [ "pipe", 4 ] ],
-      [ [ "spring", 2 ] ],
+      [ [ "spring_medium", 2 ] ],
       [ [ "leather", 12 ], [ "fur", 12 ], [ "tanned_hide", 3 ], [ "tanned_pelt", 3 ] ],
       [ [ "pipe_fittings", 4 ] ],
       [ [ "nylon", 8 ] ]
@@ -815,7 +843,7 @@
       { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 },
       { "proficiency": "prof_welding" }
     ],
-    "components": [ [ [ "pipe", 4 ] ], [ [ "spring", 2 ] ], [ [ "nylon", 20 ], [ "sheet_nylon", 3 ] ], [ [ "pipe_fittings", 4 ] ] ]
+    "components": [ [ [ "pipe", 4 ] ], [ [ "spring_medium", 2 ] ], [ [ "nylon", 20 ], [ "sheet_nylon", 3 ] ], [ [ "pipe_fittings", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -839,7 +867,7 @@
     ],
     "components": [
       [ [ "pipe", 4 ] ],
-      [ [ "spring", 2 ] ],
+      [ [ "spring_medium", 2 ] ],
       [ [ "leather", 12 ], [ "fur", 12 ], [ "tanned_hide", 3 ], [ "tanned_pelt", 3 ] ],
       [ [ "pipe_fittings", 4 ] ],
       [ [ "nylon", 8 ] ]

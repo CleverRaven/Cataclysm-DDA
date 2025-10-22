@@ -100,7 +100,7 @@
     "copy-from": "esoteric_books",
     "type": "item_group",
     "extend": {
-      "items": [ { "group": "dist_meditation_books_begin", "prob": 25 }, { "group": "dist_meditation_books_int", "prob": 10 } ]
+      "items": [ { "group": "dist_meditation_books_begin", "prob": 12 }, { "group": "dist_meditation_books_int", "prob": 5 } ]
     }
   }
 ]

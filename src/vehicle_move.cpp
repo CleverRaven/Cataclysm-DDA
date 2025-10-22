@@ -78,7 +78,7 @@ static const ter_str_id ter_t_railroad_track_v_on_tie( "t_railroad_track_v_on_ti
 static const trait_id trait_DEFT( "DEFT" );
 static const trait_id trait_PROF_SKATER( "PROF_SKATER" );
 
-static const std::string part_location_structure( "structure" );
+static const vpart_location_id vpart_location_structure( "structure" );
 
 // tile height in meters
 static const float tile_height = 4.0f;
@@ -750,7 +750,7 @@ bool vehicle::collision( map &here, std::vector<veh_collision> &colls,
         }
 
         const vpart_info &info = vp.info();
-        if( !vp.is_fake && info.location != part_location_structure && !info.has_flag( VPFLAG_ROTOR ) ) {
+        if( !vp.is_fake && info.location != vpart_location_structure && !info.has_flag( VPFLAG_ROTOR ) ) {
             continue;
         }
         empty = false;
@@ -1122,11 +1122,11 @@ veh_collision vehicle::part_collision( map &here, int part, const tripoint_abs_m
                 if( !critter->has_flag( json_flag_CANNOT_TAKE_DAMAGE ) ) {
                     if( vpi.has_flag( "SHARP" ) ) {
                         critter->add_effect( effect_source( driver ), effect_bleed, 1_minutes * rng( 1, dam ),
-                                             critter->get_random_body_part_of_type( body_part_type::type::torso ) );
+                                             critter->get_random_body_part_of_type( bp_type::torso ) );
                     } else if( dam > 18 && rng( 1, 20 ) > 15 ) {
                         //low chance of lighter bleed even with non sharp objects.
                         critter->add_effect( effect_source( driver ), effect_bleed, 1_minutes,
-                                             critter->get_random_body_part_of_type( body_part_type::type::torso ) );
+                                             critter->get_random_body_part_of_type( bp_type::torso ) );
                     }
                 }
                 add_msg_debug( debugmode::DF_VEHICLE_MOVE, "Critter collision damage: %d", dam );
@@ -1193,11 +1193,11 @@ veh_collision vehicle::part_collision( map &here, int part, const tripoint_abs_m
         if( player_is_driving_this_veh( &here ) ) {
             if( !snd.empty() ) {
                 //~ 1$s - vehicle name, 2$s - part name, 3$s - collision object name, 4$s - sound message
-                add_msg( m_warning, _( "Your %1$s's %2$s rams into %3$s with a %4$s" ),
+                add_msg( m_warning, _( "Your %1$s's %2$s rams into %3$s with a %4$s!" ),
                          name, vp.name(), ret.target_name, snd );
             } else {
                 //~ 1$s - vehicle name, 2$s - part name, 3$s - collision object name
-                add_msg( m_warning, _( "Your %1$s's %2$s rams into %3$s." ),
+                add_msg( m_warning, _( "Your %1$s's %2$s rams into %3$s!" ),
                          name, vp.name(), ret.target_name );
             }
         }
@@ -2010,7 +2010,7 @@ bool vehicle::level_vehicle( map &here )
     // make sure that all parts are either supported across levels or on the same level
     std::map<int, bool> no_support;
     for( vehicle_part &prt : parts ) {
-        if( prt.info().location != part_location_structure ) {
+        if( prt.info().location != vpart_location_structure ) {
             continue;
         }
         const tripoint_bub_ms part_pos = bub_part_pos( here, prt );

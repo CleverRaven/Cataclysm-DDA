@@ -72,7 +72,7 @@ static ImVec4 compute_color( uint8_t index )
     }
 }
 
-ImVec4 cataimgui::imvec4_from_color( nc_color &color )
+ImVec4 cataimgui::imvec4_from_color( const nc_color &color )
 {
     int pair_id = color.get_index();
     pairs &pair = colorpairs[pair_id];
@@ -239,7 +239,7 @@ RGBTuple color_loader<RGBTuple>::from_rgb( const int r, const int g, const int b
 #include <imgui/imgui_impl_sdl2.h>
 #include <imgui/imgui_impl_sdlrenderer2.h>
 
-ImVec4 cataimgui::imvec4_from_color( nc_color &color )
+ImVec4 cataimgui::imvec4_from_color( const nc_color &color )
 {
     SDL_Color c = curses_color_to_SDL( color );
     return { static_cast<float>( c.r / 255. ),
@@ -1251,4 +1251,29 @@ void cataimgui::init_colors()
         debugmsg( "Failed to load imgui color data from \"%s\": %s",
                   style_path.generic_u8string(), err.what() );
     }
+}
+
+void cataimgui::TextKeybinding( const input_context &ctxt,
+                                const char *action, const char *description, bool active,
+                                int max_limit, const nc_color &default_color )
+{
+    const nc_color color = active ? ACTIVE_HOTKEY_COLOR : default_color;
+    ImGui::TextColored( default_color, "[" );
+    ImGui::SameLine( 0, 0 );
+    ImGui::TextColored( color, "%s",
+                        // strlen(action) <= 1 // for non-action explicit keys
+                        ( *action == 0 || *( action + 1 ) == 0 ) ?
+                        action :
+                        ctxt.get_desc( action, max_limit ).c_str() );
+    ImGui::SameLine( 0, 0 );
+    ImGui::TextColored( default_color, "] " );
+    ImGui::SameLine( 0, 0 );
+    ImGui::TextColored( color, "%s", description );
+}
+
+void cataimgui::TextListSeparator( const nc_color &color )
+{
+    ImGui::SameLine( 0, 0 );
+    ImGui::TextColored( color, ", " );
+    ImGui::SameLine( 0, 0 );
 }

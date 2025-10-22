@@ -343,9 +343,7 @@
       [ "ceramic_plate", 40 ],
       [ "cup_plastic", 40 ],
       { "item": "portable_game", "prob": 10, "charges": [ 0, 100 ] },
-      [ "chips", 15 ],
-      [ "chips2", 3 ],
-      [ "chips3", 3 ],
+      [ "chips", 20 ],
       [ "news_regional", 12 ],
       [ "flyer", 7 ]
     ]
@@ -387,9 +385,7 @@
       { "item": "bottle_glass", "prob": 5 },
       { "item": "ceramic_cup", "prob": 15 },
       { "item": "ceramic_plate", "prob": 15 },
-      { "prob": 25, "group": "chips_bag_plastic_3" },
-      { "prob": 25, "group": "chips2_bag_plastic_3" },
-      { "prob": 25, "group": "chips3_bag_plastic_3" },
+      { "prob": 75, "group": "bag_chips" },
       { "prob": 50, "group": "choco_coffee_beans_bag_plastic_5" },
       { "prob": 50, "group": "coffee_raw_bag_plastic_20" },
       { "item": "coffee_syrup", "prob": 15 },
@@ -455,7 +451,6 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "item": "atomic_coffeepot", "prob": 1 },
       { "item": "bottle_glass", "prob": 15 },
       { "prob": 25, "group": "coffee_raw_bag_plastic_20" },
       { "item": "coffee_syrup", "charges": [ 1, -1 ], "prob": 25 },
@@ -969,7 +964,7 @@
       [ "lemon", 15 ],
       { "prob": 10, "group": "pickle_jar_glass_sealed_2" },
       [ "lutefisk", 15 ],
-      [ "fries", 15 ],
+      { "item": "fries", "prob": 15 },
       [ "cheese_fries", 10 ],
       [ "onion_rings", 10 ],
       [ "royal_beef", 1 ],
@@ -1017,7 +1012,7 @@
       [ "lobster_cooked", 10 ],
       [ "lemon", 20 ],
       { "prob": 10, "group": "pickle_jar_glass_sealed_2" },
-      [ "fries", 15 ],
+      { "item": "fries", "prob": 15 },
       [ "crab_cakes", 20 ],
       [ "stuffed_clams", 20 ],
       [ "onion_rings", 10 ],
@@ -1051,8 +1046,7 @@
       { "prob": 17, "group": "flour_bulk" },
       [ "soysauce", 25 ],
       [ "hot_sauce", 25 ],
-      [ "cooking_oil", 50 ],
-      [ "cooking_oil2", 50 ],
+      { "group": "vegetable_oil_bottle", "prob": 50 },
       [ "cookbook", 8 ],
       [ "cookbook_italian", 9 ],
       { "prob": 3, "item": "cornmeal", "count": [ 10, -1 ] },
@@ -1091,8 +1085,7 @@
       { "prob": 17, "group": "flour_bulk" },
       [ "soysauce", 25 ],
       [ "hot_sauce", 25 ],
-      [ "cooking_oil", 40 ],
-      [ "cooking_oil2", 40 ],
+      { "group": "vegetable_oil_bottle", "prob": 40 },
       [ "cookbook", 8 ],
       [ "cookbook_daintydishes", 9 ],
       { "prob": 3, "item": "cornmeal", "count": [ 10, -1 ] },
@@ -1445,7 +1438,7 @@
       [ "onion", 15 ],
       [ "potato", 15 ],
       [ "pineapple", 20 ],
-      [ "lard", 10 ],
+      [ "tallow", 25 ],
       [ "mushroom_morel", 8 ],
       [ "sausage_cooked", 8 ],
       [ "mushroom", 20 ],
@@ -1949,22 +1942,6 @@
     "subtype": "collection",
     "container-item": "bag_canvas",
     "entries": [ { "item": "onion", "container-item": "null", "count": [ 1, 25 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "chips2_bag_plastic_3",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "bag_plastic_small",
-    "entries": [ { "item": "chips2", "container-item": "null", "count": 3 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "chips3_bag_plastic_3",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "bag_plastic_small",
-    "entries": [ { "item": "chips3", "container-item": "null", "count": 3 } ]
   },
   {
     "type": "item_group",
@@ -2820,5 +2797,28 @@
     "subtype": "collection",
     "container-item": "jar_glass_sealed",
     "entries": [ { "item": "jam_fruit", "container-item": "null", "count": -1 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "vegetable_oil_bottle",
+    "subtype": "distribution",
+    "items": [
+      { "item": "cooking_oil", "container-item": "bottle_plastic", "charges": [ 0, 20 ] },
+      { "item": "cooking_oil", "container-item": "bottle_folding", "charges": [ 0, 20 ] },
+      { "item": "cooking_oil", "container-item": "bottle_twoliter", "charges": [ 0, 80 ] },
+      { "item": "cooking_oil", "container-item": "jug_plastic", "charges": [ 0, 150 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "oil_bottle_empty",
+    "subtype": "distribution",
+    "items": [ { "item": "bottle_plastic" }, { "item": "bottle_folding" }, { "item": "bottle_twoliter" }, { "item": "jug_plastic" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "vegetable_oil_bottle_full",
+    "subtype": "distribution",
+    "items": [ { "item": "cooking_oil", "container-group": "oil_bottle_empty" } ]
   }
 ]

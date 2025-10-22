@@ -835,7 +835,7 @@ std::pair<std::string, nc_color> display::faction_text( const Character &u )
     if( owner->limited_area_claim && u.pos_abs_omt() != actual_camp->camp_omt_pos() ) {
         return std::pair( display_name, display_color );
     }
-    display_name = owner->name;
+    display_name = owner->get_name();
     // TODO: Make this magic number into a constant
     if( owner->likes_u < -10 ) {
         display_color = c_red;
@@ -954,9 +954,8 @@ std::pair<std::string, nc_color> display::vehicle_cruise_text_color( const Chara
     if( veh ) {
         const double target = convert_velocity( veh->cruise_velocity, VU_VEHICLE );
         const double current = convert_velocity( veh->velocity, VU_VEHICLE );
-        const std::string units = get_option<std::string> ( "USE_METRIC_SPEEDS" );
         vel_text = string_format( "%s < %s %s", three_digit_display( target ),
-                                  three_digit_display( current ), units );
+                                  three_digit_display( current ), velocity_units( VU_VEHICLE ) );
 
         const float strain = veh->strain( here );
         if( strain <= 0 ) {
@@ -1232,11 +1231,7 @@ std::string display::colorized_overmap_text( const avatar &u, const int width, c
 
 std::string display::overmap_position_text( const tripoint_abs_omt &loc )
 {
-    point_abs_omt abs_omt = loc.xy();
-    point_abs_om om;
-    point_om_omt omt;
-    std::tie( om, omt ) = project_remain<coords::om>( abs_omt );
-    return string_format( _( "LEVEL %i, %d'%d, %d'%d" ), loc.z(), om.x(), omt.x(), om.y(), omt.y() );
+    return loc.to_string();
 }
 
 std::string display::current_position_text( const tripoint_abs_omt &loc )
@@ -1380,11 +1375,11 @@ std::string display::colorized_compass_legend_text( int width, int max_height, i
     }
     for( const auto &m : mlist ) {
         nc_color danger = c_dark_gray;
-        if( m.first->difficulty >= 30 ) {
+        if( m.first->get_total_difficulty() >= 30 ) {
             danger = c_red;
-        } else if( m.first->difficulty >= 16 ) {
+        } else if( m.first->get_total_difficulty() >= 16 ) {
             danger = c_light_red;
-        } else if( m.first->difficulty >= 8 ) {
+        } else if( m.first->get_total_difficulty() >= 8 ) {
             danger = c_white;
         } else if( m.first->agro > 0 ) {
             danger = c_light_gray;

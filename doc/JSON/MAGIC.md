@@ -110,7 +110,17 @@ In `data/mods/Magiclysm` there is a template spell, copied here for your perusal
     "sound_ambient": true,                                    // whether or not this is treated as an ambient sound or not
     "sound_id": "misc",                                       // the sound id
     "sound_variant": "shockwave",                             // the sound variant
-    "learn_spells": { "create_atomic_light": 5, "megablast": 10 }   // the caster will learn these spells when the current spell reaches the specified level. should be a map of spell_type_id and the level at which the new spell is learned.
+    "learn_spells": { "create_atomic_light": 5, "megablast": 10 },   // the caster will learn these spells when the current spell reaches the specified level. should be a map of spell_type_id and the level at which the new spell is learned.
+    "condition": {                                            // if valid_targets, targeted_monster_ids, targeted_monster_species and ignored_monster_species is not enough,
+      "and": [                                                // you can place more conditions to check both the caster (alpha/u_) and target (beta/npc/n_).
+        { "not": { "npc_has_worn_with_flag": "DIMENSIONAL_ANCHOR" } }, // If it return false, you cannot cast this spell against creature you are aiming at
+        { "not": { "npc_has_worn_with_flag": "STABILIZED_TIMELINE" } }
+      ]
+    },
+    "condition_fail_message": "Cannot be used against time or space anchored." // if `condition` fails, this message would be printed.
+                                                                               // because `condition` is designed to evaluate both alpha and beta,
+                                                                               // the only place where this message can be rendered is at aiming menu
+                                                                               // which i consider a bug that needs to be resovled
   }
 ```
 The template spell above shows every JSON field that spells can have.  Most of these values can be set at 0 or "NONE", so you may leave out most of these fields if they do not pertain to your spell.
@@ -196,6 +206,7 @@ Effect                 | Description
 `noise`                | Causes damage() amount of noise at the target.  Note: the noise can be described further with `sound_type`, `sound_description`, `sound_ambient`, `sound_id` and `sound_variant`.
 `pain_split`           | Evens out all of your limbs' damage.
 `pull_target`          | Attempts to pull the target towards the caster in a straight line.  If the path is blocked by impassable furniture or terrain, the effect fails.
+`pickup`               | Opens up the pickup menu at the target(s), allowing characters to pick up items at the area.  For every 1 damage in the spell's definition, each item takes 1 extra move to pick up.
 `recharge_vehicle`     | Increases or decreases the battery charge of a vehicle or battery-connected power grid. Damage is equal to the charge (negative decreases).
 `recover_energy`       | Recovers an energy source equal to damage of the spell and may be one of `BIONIC`, `SLEEPINESS`, `PAIN`, `MANA` or `STAMINA`. Alternative notation can be used for spell consuming vitamins, see example below
 `remove_effect`        | Removes `effect_str` effects from all creatures in the aoe.
@@ -308,6 +319,7 @@ Flag                       | Description
 `RANDOM_DURATION`          | Picks random number between (min + increment) * level and max instead of normal behavior.
 `RANDOM_TARGET`            | Forces the spell to choose a random valid target within range instead of the caster choosing the target.  This also affects `extra_effects`. 
 `RECHARM`                  | charm_monster spell stacks its duration onto existing charm effect.
+`CHARM_PET`                | charm_monster spell also makes the monster a pet, as though petfood had been used.
 `SILENT`                   | Spell makes no noise at target.
 `SOMATIC`                  | Arm encumbrance affects fail % and casting time (slightly).
 `SPAWN_GROUP`              | Spawn or summon from an `item_group` or `monstergroup`, instead of the specific IDs.

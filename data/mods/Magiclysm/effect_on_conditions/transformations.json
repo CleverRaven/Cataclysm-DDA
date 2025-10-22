@@ -23,7 +23,8 @@
                   { "npc_set_flag": "SEMITANGIBLE" },
                   { "npc_set_flag": "UNRESTRICTED" },
                   { "npc_set_flag": "INTANGIBLE_ARMOR" },
-                  { "npc_set_flag": "NO_TAKEOFF" }
+                  { "npc_set_flag": "NO_TAKEOFF" },
+                  { "npc_set_flag": "UNBREAKABLE" }
                 ]
               }
             ]
@@ -47,7 +48,8 @@
               { "npc_unset_flag": "INTANGIBLE_ARMOR" },
               { "npc_unset_flag": "UNRESTRICTED" },
               { "npc_unset_flag": "NO_TAKEOFF" },
-              { "npc_unset_flag": "SHAPESHIFTED_ARMOR" }
+              { "npc_unset_flag": "SHAPESHIFTED_ARMOR" },
+              { "npc_unset_flag": "UNBREAKABLE" }
             ]
           }
         ]

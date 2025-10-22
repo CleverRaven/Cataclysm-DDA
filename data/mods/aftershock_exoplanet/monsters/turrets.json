@@ -63,8 +63,8 @@
       {
         "type": "gun",
         "cooldown": 1,
-        "move_cost": 100,
-        "gun_type": "afs_a7_mon",
+        "move_cost": 200,
+        "gun_type": "afs_light_cannon_mon",
         "fake_skills": [ [ "gun", 5 ], [ "rifle", 6 ] ],
         "fake_dex": 12,
         "ranges": [ [ 0, 20, "DEFAULT" ] ],

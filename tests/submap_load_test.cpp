@@ -17,6 +17,7 @@
 #include "debug.h"
 #include "field.h"
 #include "flexbuffer_json.h"
+#include "game.h"
 #include "item.h"
 #include "json_loader.h"
 #include "map_scale_constants.h"
@@ -65,9 +66,6 @@ static const trap_str_id tr_bubblewrap( "tr_bubblewrap" );
 static const trap_str_id tr_funnel( "tr_funnel" );
 static const trap_str_id tr_landmine( "tr_landmine" );
 static const trap_str_id tr_rollmat( "tr_rollmat" );
-
-// NOLINTNEXTLINE(cata-static-declarations)
-extern const int savegame_version;
 
 static const point_sm_ms &corner_ne = point_sm_ms::zero;
 static const point_sm_ms corner_nw( SEEX - 1, 0 );
@@ -874,7 +872,7 @@ static JsonValue submap_fd_pre_migration = json_loader::from_string( submap_fd_p
 static void load_from_jsin( submap &sm, const JsonValue &jsin )
 {
     // Ensure that the JSON is up to date for our savegame version
-    REQUIRE( savegame_version == 36 );
+    REQUIRE( savegame_version == 38 );
     int version = 0;
     JsonObject sm_json = jsin.get_object();
     if( sm_json.has_member( "version" ) ) {

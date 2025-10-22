@@ -146,6 +146,7 @@ static const json_character_flag json_flag_BIONIC_TOGGLED( "BIONIC_TOGGLED" );
 static const json_character_flag json_flag_BIONIC_WEAPON( "BIONIC_WEAPON" );
 static const json_character_flag json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
 static const json_character_flag json_flag_MANUAL_CBM_INSTALLATION( "MANUAL_CBM_INSTALLATION" );
+static const json_character_flag json_flag_NO_CBM_INSTALLATION( "NO_CBM_INSTALLATION" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 
 static const material_id fuel_type_metabolism( "metabolism" );
@@ -162,8 +163,6 @@ static const material_id material_qt_steel( "qt_steel" );
 static const material_id material_steel( "steel" );
 
 static const morale_type morale_feeling_good( "morale_feeling_good" );
-static const morale_type morale_pyromania_nofire( "morale_pyromania_nofire" );
-static const morale_type morale_pyromania_startfire( "morale_pyromania_startfire" );
 
 static const requirement_id requirement_data_anesthetic( "anesthetic" );
 
@@ -178,7 +177,6 @@ static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
 static const trait_id trait_NONE( "NONE" );
 static const trait_id trait_PROF_AUTODOC( "PROF_AUTODOC" );
 static const trait_id trait_PROF_MED( "PROF_MED" );
-static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_THRESH_MEDICAL( "THRESH_MEDICAL" );
 
 struct Character::bionic_fuels {
@@ -926,10 +924,8 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         if( pnt && here.is_flammable( *pnt ) && !here.get_field( *pnt, fd_fire ) ) {
             add_msg_activate();
             here.add_field( *pnt, fd_fire, 1 );
-            if( has_trait( trait_PYROMANIA ) ) {
-                add_morale( morale_pyromania_startfire, 5, 10, 3_hours, 2_hours );
-                rem_morale( morale_pyromania_nofire );
-                add_msg_if_player( m_good, _( "You happily light a fire." ) );
+            if( has_unfulfilled_pyromania() ) {
+                fulfill_pyromania_msg( _( "You happily light a fire." ), 5, 10, 3_hours, 2_hours );
             }
             mod_moves( -100 );
         } else {
@@ -2340,6 +2336,9 @@ bool Character::can_install_bionics( const itype &type, Character &installer, bo
         return true;
     }
     if( is_mounted() ) {
+        return false;
+    }
+    if( has_flag( json_flag_NO_CBM_INSTALLATION ) ) {
         return false;
     }
 

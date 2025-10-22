@@ -22,7 +22,6 @@
     "price_postapoc": "2 USD",
     "material": [ "flesh" ],
     "volume": "250 ml",
-    "flags": [ "SMOKABLE" ],
     "smoking_result": "sausage",
     "vitamins": [ [ "calcium", 2 ], [ "iron", 6 ], [ "meat_allergen", 1 ] ],
     "fun": -10
@@ -227,7 +226,6 @@
     "name": { "str": "raw wasteland sausage" },
     "description": "Lean raw sausage made from heavily salt-cured offal, ready to be smoked.",
     "quench": -7,
-    "flags": [ "SMOKABLE" ],
     "smoking_result": "sausage_wasteland"
   },
   {
@@ -695,9 +693,12 @@
     "subtypes": [ "COMESTIBLE" ],
     "id": "debug_nutrition",
     "copy-from": "can_spam",
-    "name": { "str_sp": "holy SPAM of debugging" },
+    "name": { "str_sp": "holy SPAM of debugging", "//~": "NO_I18N" },
     "calories": 2150,
-    "description": "A mysterious lump of SPAM that contains just enough calories and vitamins to feed you for a day.  For debug use only.",
+    "description": {
+      "str": "A mysterious lump of SPAM that contains just enough calories and vitamins to feed you for a day.  For debug use only.",
+      "//~": "NO_I18N"
+    },
     "//": "This is used for the all_nutrient_starve_test.",
     "vitamins": [ [ "vitC", 100 ], [ "calcium", 100 ], [ "iron", 100 ] ]
   },

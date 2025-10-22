@@ -1843,7 +1843,7 @@ static bool query_consume_ownership( item &target, Character &p )
     if( !target.is_owned_by( p, true ) ) {
         bool choice = true;
         if( p.get_value( "THIEF_MODE" ).str() == "THIEF_ASK" ) {
-            choice = Pickup::query_thief();
+            choice = Pickup::query_thief( target );
         }
         if( p.get_value( "THIEF_MODE" ).str() == "THIEF_HONEST" || !choice ) {
             return false;
@@ -1915,7 +1915,7 @@ static bool consume_med( item &target, Character &you )
 trinary Character::consume( item &target, bool force )
 {
     if( target.is_null() ) {
-        add_msg_if_player( m_info, _( "You do not have that item." ) );
+        add_msg_if_player( m_info, _( "You don't have that item." ) );
         return trinary::NONE;
     }
     if( ( !has_trait( trait_WATERSLEEP ) && !has_trait( trait_UNDINE_SLEEP_WATER ) ) &&

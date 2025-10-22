@@ -344,7 +344,7 @@
     "name": [ "Dimensionally Unstable" ],
     "desc": [ "You feel like you're barely part of the world." ],
     "apply_message": "",
-    "remove_message": "With a jolt you feel more solid again.",
+    "remove_message": "With a jolt, you feel more solid again.",
     "rating": "bad",
     "enchantments": [ "enchant_riftwalker_teleport" ],
     "immune_flags": [ "TELESTOP", "DIMENSIONAL_ANCHOR" ]
@@ -488,5 +488,33 @@
     "int_decay_step": -1,
     "int_decay_tick": 60,
     "int_decay_remove": true
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_nether_silent_one_resistances",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "enchantments": [
+      {
+        "incoming_damage_mod": [
+          { "type": "head", "multiply": -0.45 },
+          { "type": "electric", "multiply": -0.95 },
+          { "type": "psi_telepathic_damage", "multiply": -0.5 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_silent_one_monster_drain",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "max_intensity": 50,
+    "int_add_val": 1,
+    "int_decay_step": -1,
+    "int_decay_tick": 1800,
+    "int_decay_remove": true,
+    "base_mods": { "hit_mod": [ -0.2 ], "dodge_mod": [ -0.2 ], "speed_mod": [ -1 ] },
+    "scaling_mods": { "hit_mod": [ -0.2 ], "dodge_mod": [ -0.2 ], "speed_mod": [ -1 ] }
   }
 ]

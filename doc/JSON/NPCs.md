@@ -57,7 +57,7 @@ Format:
   "carry_override": "NC_EXAMPLE_carried",                                  // Optional. Defines an item group that replaces their carried items (in pockets, etc). Items which cannot
                                                                            // be carried will overflow(fall to the ground) when the NPC is loaded.
   "weapon_override": "NC_EXAMPLE_weapon",                                  // Optional. Defines an item group that replaces their wielded weapon.
-  "bye_message_override": "<fuck_you>",                                    // Optional. If used, overrides the default bye message (picked from <bye> snippet) to any another custom snippet
+  "bye_message_override": "<fuck_you>",                                    // Optional. If used, overrides the default bye message (picked from <bye> snippet) to any another custom snippet, if set to "null" will make the npc not say anything when leaving dialogue.
   "shopkeeper_item_group": [                                               // Optional. See [Shopkeeper NPC configuration](#shopkeeper-npc-configuration) below.
     { "group": "example_shopkeeper_itemgroup1" },
     { "group": "example_shopkeeper_itemgroup2", "trust": 10 },
@@ -222,6 +222,8 @@ Field | Default topic ID  | Uses for...
 `talk_stranger_wary` | `TALK_STRANGER_WARY` | see "success and failure" section
 `talk_stranger_friendly` | `TALK_STRANGER_FRIENDLY` | see "success and failure" section
 `talk_stranger_neutral` | `TALK_STRANGER_NEUTRAL` | see "success and failure" section
+`talk_mission_inqure` | `TALK_MISSION_INQUIRE` | see [the missions docs](MISSIONS_JSON.md)
+`talk_mission_describe_urgent` | `TALK_MISSION_DESCRIBE_URGENT` | see [the missions docs](MISSIONS_JSON.md)
 
 ---
 
@@ -815,7 +817,7 @@ A repeat response has the following format:
 ```jsonc
 {
   "for_item": [
-    "jerky", "meat_smoked", "fish_smoked", "cooking_oil", "cooking_oil2", "cornmeal", "flour",
+    "jerky", "meat_smoked", "fish_smoked", "cooking_oil", "cornmeal", "flour",
     "fruit_wine", "beer", "sugar"
   ],
   "response": { "text": "Delivering <topic_item>.", "topic": "TALK_DELIVER_ASK" }
@@ -875,6 +877,7 @@ Effect | Description
 ---|---
 `start_trade` | Opens the trade screen and allows trading with the NPC.
 `give_equipment` | Allows your character to select items from the NPC's inventory and transfer them to your inventory.
+`pick_style` | Allows the player to manually select a style for the NPC. Only for use in mods, not 'vanilla' DDA.
 `npc_gets_item` | Allows your character to select an item from your character's inventory and transfer it to the NPC's inventory.  The NPC will not accept it if they do not have space or weight to carry it, and will set a reason that can be referenced in a future dynamic line with `"use_reason"`.
 `npc_gets_item_to_use` | Allow your character to select an item from your character's inventory and transfer it to the NPC's inventory.  The NPC will attempt to wield it and will not accept it if it is too heavy or is an inferior weapon to what they are currently using, and will set a reason that can be referenced in a future dynamic line with `"use_reason"`.
 `u_spawn_item: `string or [variable object](#variable-object), (*optional* `count: `int or [variable object](#variable-object)), (*optional* `container: `string or [variable object](#variable-object)), (*optional* `use_item_group: `bool), (*optional* `suppress_message: `bool), (*optional* `flags: `array of string or [variable object](#variable-object)) | Your character gains the item or `count` copies of the item, contained in `container` if specified. If used in an NPC conversation the items are said to be given by the NPC.  If a variable item is passed for the name an item of the type contained in it will be used.  If `use_item_group` is true (defaults to false) , it will instead create items from the item group given. ("count" and "container" will be ignored since they are defined in the item group.)  If `suppress_message` is true (defaults to false) no message will be shown. If `force_equip` is true (defaults to false) characters will equip the items if they can.  The item will have all the flags from the array `flags`.

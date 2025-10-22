@@ -396,6 +396,15 @@ void player_morale::remove_expired()
     } );
 }
 
+std::string player_morale::to_string_writable()
+{
+    std::string str;
+    for( const morale_point mp : points ) {
+        str += string_format( "point: %s, net_bonus: %s\n", mp.get_name(), mp.get_net_bonus() );
+    }
+    return str;
+}
+
 morale_mult player_morale::get_temper_mult() const
 {
     morale_mult mult;

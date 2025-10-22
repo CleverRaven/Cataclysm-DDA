@@ -174,7 +174,10 @@
         "g": [ { "item": "SUS_trash_trashcan" } ],
         "j": { "item": "SUS_toilet", "chance": 50 },
         "£": { "item": "cleaning", "repeat": [ 2, 4 ] },
-        "r": { "item": "nether_cabin_ritual_ingredients", "repeat": [ 2, 4 ] },
+        "r": [
+          { "item": "nether_cabin_ritual_ingredients", "repeat": [ 2, 4 ] },
+          { "item": "xe_nether_cult_artifact", "chance": 2 }
+        ],
         "s": { "item": "SUS_bathroom_sink", "chance": 50 }
       },
       "place_item": [

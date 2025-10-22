@@ -51,5 +51,25 @@
       ]
     },
     "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONDITIONS_YOU_ARE_A_PLAYABLE_CHANGELING",
+    "condition": {
+      "u_has_any_trait": [
+        "UNKNOWING_CHANGELING_NOBLE",
+        "UNKNOWING_CHANGELING_COMMONER_BROWNIE",
+        "UNKNOWING_CHANGELING_COMMONER_POOKA",
+        "UNKNOWING_CHANGELING_COMMONER_SELKIE",
+        "UNKNOWING_CHANGELING_COMMONER_TROW"
+      ]
+    },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONDITION_XE_VAMPIRE_AVOID_BURNING_IN_SUNLIGHT",
+    "condition": { "and": [ { "not": { "is_weather": "blotted_sun" } } ] },
+    "effect": [  ]
   }
 ]

@@ -42,8 +42,18 @@
     "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "NO_TURRET" ]
   },
   {
+    "id": "afs_light_cannon_mon",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "copy-from": "afs_v29",
+    "name": { "str": "light cannon" },
+    "ranged_damage": { "damage_type": "afs_laser", "amount": 25 },
+    "energy_drain": "0 kJ",
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "NO_TURRET" ]
+  },
+  {
     "id": "laser_cannon_xray",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "reload_noise_volume": 10,

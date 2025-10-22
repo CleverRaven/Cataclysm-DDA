@@ -522,9 +522,6 @@
       [ "knife_trench", 7 ],
       { "item": "sm_extinguisher", "prob": 10, "charges": 10 },
       [ "switchblade", 6 ],
-      [ "atomic_light", 1 ],
-      [ "atomic_lamp", 1 ],
-      [ "atomic_coffeepot", 1 ],
       [ "flaregun", 10 ],
       [ "signal_flare", 15 ],
       [ "knee_pads", 10 ],
@@ -613,7 +610,7 @@
       [ "haori", 1 ],
       [ "hakama", 2 ],
       [ "geta", 1 ],
-      [ "solarpack", 5 ],
+      [ "folding_solar_panel_v2", 5 ],
       [ "tourist_table", 10 ],
       [ "thermos", 25 ],
       [ "magic_8_ball", 2 ],
@@ -748,7 +745,7 @@
       [ "sheath", 10 ],
       [ "bootsheath", 10 ],
       [ "survnote", 1 ],
-      [ "solarpack", 1 ],
+      [ "folding_solar_panel_v2", 1 ],
       [ "tourist_table", 5 ],
       [ "chem_hexamine", 5 ],
       [ "esbit_stove", 10 ],
@@ -861,7 +858,6 @@
       { "item": "portable_game", "prob": 60 },
       { "item": "game_watch", "prob": 15 },
       { "item": "deck_of_cards", "prob": 25 },
-      { "item": "atomic_light", "prob": 1 },
       { "item": "folded_inflatable_boat", "prob": 10 },
       { "item": "hand_pump", "prob": 15 },
       { "prob": 45, "group": "toastem_box_small_8" },
@@ -1273,7 +1269,7 @@
       [ "cocoa_powder_milk", 30 ],
       [ "powder_eggs", 10 ],
       { "group": "egg_bird_unfert_carton_egg_10" },
-      [ "cooking_oil", 20 ],
+      { "group": "vegetable_oil_bottle", "prob": 20 },
       { "item": "apple", "prob": 5, "custom-flags": [ "IRRADIATED" ] },
       { "item": "banana", "prob": 5, "custom-flags": [ "IRRADIATED" ] },
       { "item": "strawberries", "prob": 5, "custom-flags": [ "IRRADIATED" ] },
@@ -1576,8 +1572,7 @@
       [ "condom", 50 ],
       { "item": "cuffs", "prob": 30 },
       { "item": "collar_playboy", "prob": 30 },
-      { "item": "bunny_ears_black", "prob": 30 },
-      { "item": "tail_bunny_playboy", "prob": 30 }
+      { "item": "bunny_ears_black", "prob": 30 }
     ]
   },
   {
@@ -1679,8 +1674,7 @@
     "items": [
       { "item": "flashlight", "prob": 95, "charges": 300 },
       { "item": "wearable_light", "prob": 65, "charges": 100 },
-      [ "floodlight", 10 ],
-      [ "atomic_light", 1 ]
+      [ "floodlight", 10 ]
     ]
   },
   {
@@ -1738,8 +1732,7 @@
       { "item": "dehydrator", "prob": 30 },
       { "item": "vac_sealer", "prob": 45 },
       { "item": "waffleiron", "prob": 45 },
-      { "item": "forge", "prob": 5 },
-      { "item": "atomic_coffeepot", "prob": 2 }
+      { "item": "forge", "prob": 5 }
     ]
   },
   {

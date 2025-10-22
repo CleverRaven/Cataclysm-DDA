@@ -1020,7 +1020,7 @@
       "removal": { "time": "1 m" }
     },
     "pseudo_tools": [ { "id": "microwave" } ],
-    "size": 20,
+    "size": "5 L",
     "breaks_into": [
       { "item": "plastic_chunk", "count": [ 4, 7 ] },
       { "item": "mc_steel_chunk", "count": [ 3, 6 ] },
@@ -1116,6 +1116,83 @@
       { "item": "scrap", "count": [ 12, 20 ] },
       { "item": "chunk_cast_iron", "count": [ 2, 4 ] },
       { "item": "lump_cast_iron", "count": [ 1, 2 ] }
+    ]
+  },
+  {
+    "id": "ap_mill",
+    "type": "vehicle_part",
+    "categories": [ "utility" ],
+    "name": { "str": "vertical mill" },
+    "description": "A machinist's one knee vertical mill, commonly known as a Bridgeport.  Used to shape blocks of metal into various parts.",
+    "looks_like": "f_machinery_light",
+    "variants": [ { "symbols": "M", "symbols_broken": "#" } ],
+    "color": "cyan_red",
+    "flags": [ "OBSTACLE", "APPLIANCE" ],
+    "pseudo_tools": [ { "id": "fake_mill_vertical" } ],
+    "item": "mill_vertical",
+    "damage_modifier": 10,
+    "damage_reduction": { "all": 30 },
+    "durability": 80,
+    "breaks_into": [
+      { "item": "cable", "charges": [ 0, 4 ] },
+      { "item": "scrap", "count": [ 12, 20 ] },
+      { "item": "chunk_cast_iron", "count": [ 2, 4 ] },
+      { "item": "lump_cast_iron", "count": [ 1, 2 ] },
+      { "item": "motor_small", "count": [ 0, 1 ] }
+    ]
+  },
+  {
+    "id": "ap_deep_fryer",
+    "type": "vehicle_part",
+    "categories": [ "utility" ],
+    "name": { "str": "deep fryer" },
+    "description": "An industrial deep fryer, for frying huge batches of food at once.",
+    "looks_like": "f_oven",
+    "variants": [ { "symbols": "h", "symbols_broken": "#" } ],
+    "broken_color": "dark_gray_white",
+    "flags": [ "OBSTACLE", "APPLIANCE" ],
+    "pseudo_tools": [ { "id": "fake_deep_fryer" } ],
+    "item": "deep_fryer",
+    "damage_modifier": 10,
+    "damage_reduction": { "all": 20 },
+    "durability": 60,
+    "breaks_into": [
+      { "item": "sheet_metal", "count": [ 1, 2 ] },
+      { "item": "sheet_metal_small", "count": [ 4, 6 ] },
+      { "item": "lc_steel_chunk", "count": [ 0, 2 ] },
+      { "item": "scrap", "count": [ 0, 3 ] },
+      { "item": "element", "count": [ 1, 2 ] },
+      { "item": "cable", "charges": [ 1, 2 ] }
+    ]
+  },
+  {
+    "id": "ap_oil_press_industrial",
+    "type": "vehicle_part",
+    "categories": [ "utility" ],
+    "name": "industrial oil press",
+    "description": "A heavy-duty press used to create vegetable oil from nuts or seeds.",
+    "looks_like": "f_machinery_light",
+    "variants": [ { "symbols": "Y", "symbols_broken": "#" } ],
+    "color": "green",
+    "flags": [ "OBSTACLE", "APPLIANCE" ],
+    "pseudo_tools": [ { "id": "fake_oil_press_industrial" } ],
+    "item": "oil_press_electric",
+    "damage_modifier": 10,
+    "damage_reduction": { "all": 30 },
+    "durability": 80,
+    "breaks_into": [
+      { "item": "funnel", "count": [ 0, 1 ] },
+      { "item": "frame", "count": [ 0, 1 ] },
+      { "item": "sheet_metal", "count": [ 0, 2 ] },
+      { "item": "element", "count": [ 0, 2 ] },
+      { "item": "crude_heating_element", "count": [ 0, 3 ] },
+      { "item": "motor_tiny", "count": [ 0, 1 ] },
+      { "item": "cable", "count": [ 0, 10 ] },
+      { "item": "power_supply", "count": [ 0, 1 ] },
+      { "item": "pipe_fittings", "count": [ 0, 2 ] },
+      { "item": "pipe", "count": [ 0, 2 ] },
+      { "item": "wire_mesh", "count": [ 0, 1 ] },
+      { "item": "metal_tank_little", "count": [ 0, 1 ] }
     ]
   }
 ]

@@ -17,6 +17,24 @@
   },
   {
     "type": "effect_type",
+    "id": "haste_vampire_water_running",
+    "//": "Hidden effect_lets you run on water using Zephyr",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "ITEM_WATERPROOFING", "WATERWALKING" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vampire_resilience_flesh_of_marble",
+    "name": [ "Flesh of Marble" ],
+    "desc": [ "You are invincible." ],
+    "rating": "good",
+    "show_in_info": true,
+    "remove_message": "Your undead flesh blunts the attack.",
+    "enchantments": [ { "values": [ { "value": "FORCEFIELD", "add": 1 } ] } ]
+  },
+  {
+    "type": "effect_type",
     "id": "buoyant",
     "name": [ "Buoyant" ],
     "desc": [ "You are more buoyant than before.  This will make swimming much easier." ],
@@ -152,7 +170,7 @@
     "rating": "mixed",
     "max_duration": "30 m",
     "base_mods": { "per_mod": [ 6 ], "dex_mod": [ -2 ], "speed_mod": [ -5 ] },
-    "blood_analysis_description": "Cross-dimensional Narcotic, unexpected physics encountered"
+    "blood_analysis_description": "Cross-dimensional narcotic, unexpected physics encountered"
   },
   {
     "type": "effect_type",
@@ -610,6 +628,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_dhampir_corpselike_pallor_pale",
+    "//": "Hidden--cosmetic to make dhampirs with Corpselike Pallor more pale",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "enchantments": [ { "mutations": [ "PALE" ] } ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_vampire_immune_to_classic_zombification",
     "//": "Hidden--does nothing in base XE, used for DDotD interactions",
     "name": [ "" ],
@@ -752,6 +778,28 @@
             "add": {
               "math": [
                 "-10 + (vampire_total_tier_one_traits_plus_potency() * -1) + (vampire_total_tier_two_traits() * -2) + (vampire_total_tier_three_traits() * -3) + (vampire_total_tier_four_traits_plus_potence() * -4)  + (vampire_total_tier_five_traits_plus_cauldron() * -5)"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vampire_unholy_devastation",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "max_intensity": 20,
+    "int_add_val": 1,
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "STRENGTH",
+            "add": {
+              "math": [
+                "(1 + (vampire_total_tier_one_traits_plus_potency() * 0.25) + (vampire_total_tier_two_traits() * 0.33) + (vampire_total_tier_three_traits() * 0.5) + (vampire_total_tier_four_traits_plus_potence() * 0.75)  + (vampire_total_tier_five_traits_plus_cauldron() * 1) ) * (u_effect_intensity('effect_vampire_unholy_devastation') * 0.25 )"
               ]
             }
           }
@@ -920,7 +968,7 @@
     "remove_message": "You end your imitation of death.",
     "rating": "mixed",
     "enchantments": [ { "mutations": [ "WINTER_FEIGN_DEATH_TRAITS" ], "ench_effects": [ { "effect": "downed", "intensity": 1 } ] } ],
-    "flags": [ "CANNOT_ATTACK", "CANNOT_MOVE" ]
+    "flags": [ "CANNOT_ATTACK", "CANNOT_MOVE", "NO_BODY_HEAT" ]
   },
   {
     "type": "effect_type",
@@ -1945,7 +1993,9 @@
       "BULLET_IMMUNE",
       "BASH_IMMUNE",
       "ACID_IMMUNE",
-      "BIO_IMMUNE"
+      "BIO_IMMUNE",
+      "INHALED_TOXIN_IMMUNE",
+      "SUFFOCATION_IMMUNE"
     ],
     "//": "Deliberately vulnerable to electricity damage."
   },
@@ -2023,7 +2073,7 @@
     "remove_message": "Your body regains its solidity.",
     "rating": "good",
     "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": -0.8 }, { "value": "EVASION", "add": 1 } ] } ],
-    "flags": [ "ETHEREAL", "INVISIBLE", "LEVITATION", "CLIMB_FLYING" ]
+    "flags": [ "ETHEREAL", "INVISIBLE", "LEVITATION", "CLIMB_FLYING", "INHALED_TOXIN_IMMUNE", "MYCUS_IMMUNE" ]
   },
   {
     "type": "effect_type",
@@ -2049,7 +2099,7 @@
       { "limb_score": "crawl", "modifier": 1.5 }
     ],
     "enchantments": [ { "values": [ { "value": "FALL_DAMAGE", "multiply": -0.6 }, { "value": "EVASION", "add": 0.33 } ] } ],
-    "flags": [ "DOWNED_RECOVERY", "EFFECT_LIMB_SCORE_MOD" ]
+    "flags": [ "DOWNED_RECOVERY", "EFFECT_LIMB_SCORE_MOD", "ONE_STORY_FALL" ]
   },
   {
     "type": "effect_type",
@@ -2845,6 +2895,24 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_pooka_outdoors_tracker",
+    "//": "Hidden effect, used for pooka advancement",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good",
+    "max_intensity": 24,
+    "int_decay_step": 1,
+    "int_decay_tick": 3600
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_advancement_selkie_stand_in_rain_counter",
+    "//": "Hidden effect, used as a counter",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_selkie_fog_cloak",
     "name": [ "Cloak of Fog" ],
     "desc": [ "The fog shields you from sight." ],
@@ -3476,7 +3544,7 @@
     "id": "effect_xedra_chronomancer_stabilize_timeline",
     "name": [ "Stabilized Timeline" ],
     "desc": [ "You are protected from adverse changes in your personal timestream." ],
-    "apply_message": "You may not look any different, but you can tell that you're completely protected from harmful time magic",
+    "apply_message": "You may not look any different, but you can tell that you're completely protected from harmful time magic.",
     "remove_message": "You feel more vulnerable to manipulated time.",
     "rating": "good",
     "max_intensity": 1,
@@ -3581,6 +3649,23 @@
   },
   {
     "type": "effect_type",
+    "//": "Hidden, reveals invisible monsters",
+    "id": "effect_xe_reveal_invisibility",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "show_in_info": false,
+    "flags": [ "SUPPRESS_INVISIBILITY" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vampire_burn_to_death_in_sunlight",
+    "//": "Hidden effect, carries the flags so that vampires who blot out the sun with their powers don't burn in sunlight.",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "SUNBURN", "SUNBURN_SUPERNATURAL" ]
+  },
+  {
+    "type": "effect_type",
     "//": "Checks if you have every single vampiric power when trying to learn new ones.",
     "id": "effect_vampire_all_gift_check",
     "name": [ "" ],
@@ -3663,11 +3748,14 @@
     "id": "effect_slain_by_the_sun",
     "name": [ "Slain by the Sun" ],
     "desc": [ "The sun is burning you like a dry leaf in a wildfire." ],
-    "miss_messages": [ [ "The sun is burning you.", 2 ] ],
-    "rating": "bad",
-    "main_parts_only": true,
-    "base_mods": { "pain_min": [ 2 ], "pain_tick": [ 10 ], "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_tick": [ 10 ] },
-    "show_in_info": false
+    "rating": "bad"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_slain_by_the_sun_limiter",
+    "//": "Hidden effect, prevents the sun fire anathema EoC from firing new copies on every step.",
+    "name": [ "" ],
+    "desc": [ "" ]
   },
   {
     "type": "effect_type",
@@ -3693,7 +3781,7 @@
     "name": [ "Blood Craving" ],
     "//": "The description is intended to illustrate the ongoing craving.",
     "desc": [ "Need blood must have blood blood right now DRINK BLOOD NOW!" ],
-    "apply_message": "You are wracked with pain as your craving hits you.  You can only think about getting some of that delicious blood you so desesperately need.",
+    "apply_message": "You are wracked with pain as your craving hits you.  You can only think about getting some of that delicious blood you so desperately need.",
     "remove_message": "Your craving calms down.",
     "miss_messages": [ [ "Your craving distract you.", 1 ] ],
     "base_mods": {

@@ -777,23 +777,8 @@ void Character::load( const JsonObject &data )
     data.read( "stim", stim );
     data.read( "stamina", stamina );
 
-    // stats through kills
+    //legacy value, maintained until kill_xp dependency removed from in-repo mods
     data.read( "kill_xp", kill_xp );
-    if( !data.read( "spent_upgrade_points", spent_upgrade_points ) ) {
-        // TEMPORARY until 0.G, remove migration logic after
-        int str_upgrade = 0;
-        int dex_upgrade = 0;
-        int int_upgrade = 0;
-        int per_upgrade = 0;
-        if( data.read( "str_upgrade", str_upgrade ) && data.read( "dex_upgrade", dex_upgrade ) &&
-            data.read( "int_upgrade", int_upgrade ) && data.read( "per_upgrade", per_upgrade ) ) {
-            str_max += str_upgrade;
-            dex_max += dex_upgrade;
-            int_max += int_upgrade;
-            per_max += per_upgrade;
-            spent_upgrade_points = str_upgrade + dex_upgrade + int_upgrade + per_upgrade;
-        }
-    }
 
     data.read( "moncams", moncams );
 
@@ -1429,9 +1414,8 @@ void Character::store( JsonOut &json ) const
     json.member( "type_of_scent", type_of_scent );
     json.member( "focus_pool", focus_pool );
 
-    // stats through kills
+    //legacy value, maintained until kill_xp dependency removed from in-repo mods
     json.member( "kill_xp", kill_xp );
-    json.member( "spent_upgrade_points", spent_upgrade_points );
 
     // breathing
     json.member( "underwater", underwater );
@@ -1947,6 +1931,8 @@ void dialogue_chatbin::serialize( JsonOut &json ) const
     json.member( "talk_stranger_friendly", talk_stranger_friendly );
     json.member( "talk_stranger_neutral", talk_stranger_neutral );
     json.member( "talk_friend_guard", talk_friend_guard );
+    json.member( "talk_mission_inquire", talk_mission_inquire );
+    json.member( "talk_mission_describe_urgent", talk_mission_describe_urgent );
 
     if( mission_selected != nullptr ) {
         json.member( "mission_selected", mission_selected->get_id() );
@@ -1987,6 +1973,8 @@ void dialogue_chatbin::deserialize( const JsonObject &data )
     data.read( "style", style );
     data.read( "dialogue_spell", dialogue_spell );
     data.read( "proficiency", proficiency );
+    data.read( "talk_mission_inquire", talk_mission_inquire );
+    data.read( "talk_mission_describe_urgent", talk_mission_describe_urgent );
 
     std::vector<int> tmpmissions;
     data.read( "missions", tmpmissions );
@@ -2769,7 +2757,11 @@ void time_duration::serialize( JsonOut &jsout ) const
 void time_duration::deserialize( const JsonValue &jsin )
 {
     if( jsin.test_string() ) {
-        *this = read_from_json_string<time_duration>( jsin, time_duration::units );
+        if( std::string const &str = jsin.get_string(); str == "infinite" ) {
+            *this = time_duration::from_turns( calendar::INDEFINITELY_LONG );
+        } else {
+            *this = read_from_json_string<time_duration>( jsin, time_duration::units );
+        }
     } else {
         turns_ = jsin.get_int();
     }
@@ -3718,6 +3710,13 @@ void mission::deserialize( const JsonObject &jo )
         target.y() = ja.get_int( 1 );
     }
 
+    if( jo.has_string( "dimension" ) ) {
+        dimension = jo.get_string( "dimension" );
+    } else {
+        // dimension is set as the main one
+        dimension = "";
+    }
+
     if( jo.has_string( "follow_up" ) ) {
         follow_up = mission_type_id( jo.get_string( "follow_up" ) );
     }
@@ -3763,6 +3762,7 @@ void mission::serialize( JsonOut &json ) const
     json.write( target.z() );
     json.end_array();
 
+    json.member( "dimension", dimension );
     json.member( "item_id", item_id );
     json.member( "item_count", item_count );
     json.member( "target_id", target_id.str() );
@@ -4343,7 +4343,7 @@ void deserialize( recipe_subset &value, const JsonArray &ja )
     value.clear();
     for( std::string && recipe_id_string : ja ) {
         recipe_id rid( std::move( recipe_id_string ) );
-        if( !rid.is_valid() ) {
+        if( !rid.is_valid() && rid != recipe_id::NULL_ID() ) {
             DebugLog( DebugLevel::D_WARNING, DebugClass::D_MAIN )
                     << "recipe_subset deserialized invalid recipe_id '" << rid.str() << "'";
             rid = recipe_id::NULL_ID();

@@ -264,7 +264,7 @@
       [ "mag_electronics", 25 ],
       [ "colamdew", 50 ],
       [ "adderall", 10 ],
-      [ "fries", 10 ],
+      { "item": "fries", "prob": 10 },
       [ "cheese_fries", 10 ],
       [ "onion_rings", 10 ],
       [ "mintpatties", 20 ],

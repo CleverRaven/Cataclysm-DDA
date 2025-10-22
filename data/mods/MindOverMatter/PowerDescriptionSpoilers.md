@@ -99,7 +99,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Stamina Cost*: 3500, minus 175 per level to a minimum of 1250<br />
 *Channeling Time*: 250 moves, minus 8.5 moves per level to a minimum of 150<br />
 *Effects*: Increases temperature tolerance in both directions by 15 degrees plus 7.5 degrees per level.<br />
-*Prerequisites*: Oxygen Absorption 5, Physical Enhancement 9 *or* Metabolic Hyperefficiency 6<br />
+*Prerequisites*: Overcome Pain 5, Physical Enhancement 9 *or* Metabolic Hyperefficiency 6<br />
 </details>
 <details>
 <summary><h3>Enhance Mobility (C)</h3></summary>
@@ -180,7 +180,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Stamina Cost*: 8000, minus 250 per level to a minimum of 4000<br />
 *Channeling Time*: 250 moves, minus 13 moves per level to a minimum of 50<br />
 *Effects*: Whenever the psion mutates, they may choose from 1 + 0.25 extra mutations per level for which trait they want to mutate.  This power does not in of itself mutate the psion, and at high nether attunement may result in extra random mutations.<br />
-*Prerequisites*: Vitaminosis 10, Metabolic Hyperefficiency 10<br />
+*Prerequisites*: Special (must be studied from notes)<br />
 </details>
 <details>
 <summary><h3>Vitaminosis</h3></summary>
@@ -393,7 +393,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Duration*: 2 minutes and 30 seconds to 7 minutes and 30 seconds, plus 12 seconds to 25 seconds per level<br />
 *Stamina Cost*: 8000, minus 150 per level to a minimum of 4500<br />
 *Channeling Time*: 75 moves, minus 3.5 moves per level to a minimum of 25<br />
-*Effects*: The psion prevents anything from interfering with their senses, becoming immune to being Dazed, Stunned (either physically or psionically), blinded, made to hallucinate, deafened, Blinding Venom, and also cannot get high or drunk.<br />
+*Effects*: The psion prevents anything from interfering with their senses, becoming immune to being Dazed, Stunned (either physically or psionically), blinded, made to hallucinate, deafened, Blinding Venom, and also cannot get high or drunk.  In addition, the psion can see creatures that are supernaturally hard to perceive.  This does not stop enemy telepaths from hiding their presence.<br />
 *Prerequisites*: Night Eyes 10, Speed Reader 8 *or* Aura Sight 8 *or* Combat Sense 5<br />
 </details>
 <details>

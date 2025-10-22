@@ -2,7 +2,7 @@
   {
     "id": "xe_vampire_blood_powers",
     "type": "magic_type",
-    "energy_source": "NONE",
+    "energy_source": { "type": "VITAMIN", "vitamin": "human_blood_vitamin", "color": "c_red" },
     "cannot_cast_flags": [ "NO_VAMPIRE_BLOOD_POWERS" ],
     "cannot_cast_message": "Your blood will not respond to you!",
     "failure_cost_percent": 0.75,
@@ -49,7 +49,6 @@
     "flags": [ "NO_HANDS", "SILENT", "NO_FAIL" ],
     "skill": "deduction",
     "spell_class": "VAMPIRE_BLOOD_ARTS",
-    "energy_source": { "type": "VITAMIN", "vitamin": "human_blood_vitamin", "color": "c_red" },
     "base_energy_cost": 0,
     "base_casting_time": 25,
     "difficulty": 1
@@ -69,7 +68,6 @@
     "flags": [ "NO_HANDS", "SILENT", "NO_FAIL" ],
     "skill": "deduction",
     "spell_class": "VAMPIRE_BLOOD_ARTS",
-    "energy_source": { "type": "VITAMIN", "vitamin": "human_blood_vitamin", "color": "c_red" },
     "base_casting_time": 0,
     "difficulty": 1,
     "min_range": 1
@@ -85,6 +83,7 @@
     "effect": "recover_energy",
     "effect_str": "STAMINA",
     "condition": { "math": [ "u_vitamin('human_blood_vitamin') > -500" ] },
+    "condition_fail_message": "You do not have enough stolen blood.",
     "shape": "blast",
     "valid_targets": [ "self" ],
     "min_damage": {
@@ -100,7 +99,6 @@
     "flags": [ "NO_HANDS", "SILENT", "NO_FAIL", "RANDOM_DAMAGE" ],
     "skill": "deduction",
     "spell_class": "VAMPIRE_BLOOD_ARTS",
-    "energy_source": { "type": "VITAMIN", "vitamin": "human_blood_vitamin", "color": "c_red" },
     "base_energy_cost": 100,
     "base_casting_time": 100,
     "difficulty": 5
@@ -116,12 +114,12 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_COMMUNE_NIGHT_MAP",
     "condition": { "math": [ "u_vitamin('human_blood_vitamin') > -500" ] },
+    "condition_fail_message": "You do not have enough stolen blood.",
     "shape": "blast",
     "valid_targets": [ "self" ],
     "flags": [ "NO_HANDS", "SILENT", "NO_FAIL" ],
     "skill": "deduction",
     "spell_class": "VAMPIRE_BLOOD_ARTS",
-    "energy_source": { "type": "VITAMIN", "vitamin": "human_blood_vitamin", "color": "c_red" },
     "base_energy_cost": 100,
     "base_casting_time": 12000,
     "difficulty": 5
@@ -137,6 +135,7 @@
     "effect": "recover_energy",
     "effect_str": "MANA",
     "condition": { "math": [ "u_vitamin('human_blood_vitamin') > -500" ] },
+    "condition_fail_message": "You do not have enough stolen blood.",
     "shape": "blast",
     "valid_targets": [ "self" ],
     "min_damage": {
@@ -152,7 +151,6 @@
     "flags": [ "NO_HANDS", "SILENT", "NO_FAIL", "RANDOM_DAMAGE" ],
     "skill": "deduction",
     "spell_class": "VAMPIRE_BLOOD_ARTS",
-    "energy_source": { "type": "VITAMIN", "vitamin": "human_blood_vitamin", "color": "c_red" },
     "base_energy_cost": 200,
     "base_casting_time": 100,
     "difficulty": 5
@@ -169,11 +167,11 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_BLOODHEAL_activated",
     "condition": { "math": [ "u_vitamin('human_blood_vitamin') > -500" ] },
+    "condition_fail_message": "You do not have enough stolen blood.",
     "shape": "blast",
     "flags": [ "NO_HANDS", "SILENT", "NO_FAIL" ],
     "skill": "deduction",
     "spell_class": "VAMPIRE_BLOOD_ARTS",
-    "energy_source": { "type": "VITAMIN", "vitamin": "human_blood_vitamin", "color": "c_red" },
     "base_energy_cost": 750,
     "base_casting_time": 20,
     "difficulty": 2
@@ -182,13 +180,14 @@
     "id": "vampire_fear_gaze_spell",
     "type": "SPELL",
     "name": { "str": "Predator's Mien" },
-    "description": "With a bit of stolen blood and a savage expression, you can send your enemies fleeing.  This power only works on enemies capable of feeling fear.\n\nYou must have <color_yellow>greater</color> than <color_red>-500</color> Stolen Blood to use this blood art.",
+    "description": "With a bit of stolen blood and a savage expression, you can send your enemies fleeing.  This power only works on enemies capable of feeling fear and cannot affect vampires.\n\nYou must have <color_yellow>greater</color> than <color_red>-500</color> Stolen Blood to use this blood art.",
     "message": "",
     "teachable": false,
     "magic_type": "xe_vampire_blood_powers",
     "effect": "effect_on_condition",
     "effect_str": "EOC_VAMPIRE_FEAR_GAZE_activated",
     "condition": { "math": [ "u_vitamin('human_blood_vitamin') > -500" ] },
+    "condition_fail_message": "You do not have enough stolen blood.",
     "shape": "blast",
     "valid_targets": [ "ally", "hostile" ],
     "flags": [ "NO_HANDS", "SILENT", "NO_FAIL", "NO_PROJECTILE" ],
@@ -204,16 +203,27 @@
         "min((3 + (vampire_total_tier_one_traits() * 0.2) + (vampire_total_tier_two_traits() * 0.33) + (vampire_total_tier_three_traits() * 0.5) + (vampire_total_tier_four_traits() * 0.75)), 12)"
       ]
     },
-    "energy_source": { "type": "VITAMIN", "vitamin": "human_blood_vitamin", "color": "c_red" },
     "base_energy_cost": 150,
     "base_casting_time": 25,
-    "ignored_monster_species": [ "ZOMBIE", "ROBOT", "ROBOT_FLYING", "NETHER", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "FUNGUS", "SLIME" ]
+    "ignored_monster_species": [
+      "ZOMBIE",
+      "ROBOT",
+      "ROBOT_FLYING",
+      "NETHER",
+      "NETHER_EMANATION",
+      "LEECH_PLANT",
+      "WORM",
+      "FUNGUS",
+      "SLIME",
+      "VAMPIRE",
+      "VAMPIRE_ANATHEMA"
+    ]
   },
   {
     "id": "spell_hypnotic_gaze",
     "type": "SPELL",
     "name": "Hypnotic Gaze",
-    "description": "Stare into the eyes of your victim and wills them to pause.  This power does not work on unliving targets.\n\nYou must have <color_yellow>greater</color> than <color_red>-500</color> Stolen Blood to use this blood art.",
+    "description": "Stare into the eyes of your victim and will them to pause.  This power does not work on unliving targets.\n\nYou must have <color_yellow>greater</color> than <color_red>-500</color> Stolen Blood to use this blood art.",
     "message": "",
     "teachable": false,
     "magic_type": "xe_vampire_blood_powers",
@@ -223,6 +233,7 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_HYPNOTIC_GAZE_activated",
     "condition": { "math": [ "u_vitamin('human_blood_vitamin') > -500" ] },
+    "condition_fail_message": "You do not have enough stolen blood.",
     "shape": "blast",
     "flags": [ "NO_HANDS", "SILENT", "NO_FAIL", "NO_PROJECTILE" ],
     "difficulty": 3,
@@ -236,10 +247,21 @@
         "min((3 + (vampire_total_tier_one_traits() * 0.2) + (vampire_total_tier_two_traits() * 0.33) + (vampire_total_tier_three_traits() * 0.5) + (vampire_total_tier_four_traits() * 0.75)), 12)"
       ]
     },
-    "energy_source": { "type": "VITAMIN", "vitamin": "human_blood_vitamin", "color": "c_red" },
     "base_energy_cost": 150,
     "base_casting_time": 100,
-    "ignored_monster_species": [ "ZOMBIE", "ROBOT", "ROBOT_FLYING", "NETHER", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "FUNGUS", "SLIME" ]
+    "ignored_monster_species": [
+      "ZOMBIE",
+      "ROBOT",
+      "ROBOT_FLYING",
+      "NETHER",
+      "NETHER_EMANATION",
+      "LEECH_PLANT",
+      "WORM",
+      "FUNGUS",
+      "SLIME",
+      "VAMPIRE",
+      "VAMPIRE_ANATHEMA"
+    ]
   },
   {
     "id": "vampire_command_beast_spell",
@@ -252,6 +274,7 @@
     "valid_targets": [ "hostile" ],
     "effect": "charm_monster",
     "condition": { "math": [ "u_vitamin('human_blood_vitamin') > -500" ] },
+    "condition_fail_message": "You do not have enough stolen blood.",
     "shape": "blast",
     "flags": [ "NO_HANDS", "SILENT", "NO_FAIL", "RECHARM", "RANDOM_DAMAGE", "RANDOM_DURATION" ],
     "skill": "deduction",
@@ -287,7 +310,6 @@
         "min((3 + (vampire_total_tier_one_traits() * 0.2) + (vampire_total_tier_two_traits() * 0.33) + (vampire_total_tier_three_traits() * 0.5) + (vampire_total_tier_four_traits() * 0.75)), 12)"
       ]
     },
-    "energy_source": { "type": "VITAMIN", "vitamin": "human_blood_vitamin", "color": "c_red" },
     "base_energy_cost": 500,
     "base_casting_time": 75,
     "targeted_monster_species": [ "NIGHT_CREATURE" ]
@@ -307,7 +329,6 @@
     "flags": [ "NO_HANDS", "SILENT", "NO_FAIL" ],
     "skill": "deduction",
     "spell_class": "VAMPIRE_BLOOD_ARTS",
-    "energy_source": { "type": "VITAMIN", "vitamin": "human_blood_vitamin", "color": "c_red" },
     "base_energy_cost": 0,
     "base_casting_time": 150,
     "difficulty": 2
@@ -327,7 +348,6 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_VAMPIRE_TORPOR_activated",
     "shape": "blast",
-    "energy_source": { "type": "VITAMIN", "vitamin": "human_blood_vitamin", "color": "c_red" },
     "base_energy_cost": 0,
     "base_casting_time": 100,
     "difficulty": 2
@@ -346,6 +366,7 @@
     "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_FAIL", "RANDOM_DURATION" ],
     "effect": "charm_monster",
     "condition": { "math": [ "u_vitamin('human_blood_vitamin') > -500" ] },
+    "condition_fail_message": "You do not have enough stolen blood.",
     "shape": "blast",
     "difficulty": 8,
     "min_damage": {
@@ -378,10 +399,10 @@
         "min((3 + (vampire_total_tier_one_traits() * 0.2) + (vampire_total_tier_two_traits() * 0.33) + (vampire_total_tier_three_traits() * 0.5) + (vampire_total_tier_four_traits() * 0.75)), 12)"
       ]
     },
-    "energy_source": { "type": "VITAMIN", "vitamin": "human_blood_vitamin", "color": "c_red" },
     "base_energy_cost": 700,
     "base_casting_time": 100,
-    "targeted_monster_species": [ "HUMAN", "FERAL", "CYBORG" ]
+    "targeted_monster_species": [ "HUMAN", "FERAL", "CYBORG" ],
+    "ignored_monster_species": [ "VAMPIRE", "VAMPIRE_ANATHEMA" ]
   },
   {
     "id": "vampire_mist_form_pass_through_doors_and_windows",
@@ -403,15 +424,16 @@
   {
     "id": "vampire_summon_blood_container",
     "type": "SPELL",
-    "name": "Create blood-storing sphere.",
-    "description": "Create a magical sphere that will contain any blood you will put in it until the spell ends.\n\nYou must have <color_yellow>greater</color> than <color_red>-500</color> Stolen Blood to use this blood art.",
-    "message": "You conjure a magical sphere to store blood.",
+    "name": "Vintner's Vessel",
+    "description": "Create a magical sphere that will contain any blood you will put in it until the power ends.\n\nYou must have <color_yellow>greater</color> than <color_red>-500</color> Stolen Blood to use this blood art.",
+    "message": "You spin a crimson sphere out of blood to store blood.  Like calls to like.",
     "teachable": false,
     "magic_type": "xe_vampire_blood_powers",
     "valid_targets": [ "self" ],
     "effect": "spawn_item",
     "effect_str": "vampire_blood_ball",
     "condition": { "math": [ "u_vitamin('human_blood_vitamin') > -500" ] },
+    "condition_fail_message": "You do not have enough stolen blood.",
     "shape": "blast",
     "base_casting_time": 75,
     "flags": [ "NO_HANDS", "SILENT", "NO_FAIL" ],
@@ -419,13 +441,12 @@
     "spell_class": "VAMPIRE_BLOOD_ARTS",
     "difficulty": 0,
     "min_duration": 16640000,
-    "base_energy_cost": 350,
-    "energy_source": "MANA"
+    "base_energy_cost": 150
   },
   {
     "id": "vampire_invisible_in_dark",
     "type": "SPELL",
-    "name": "Shrouded by the Shadowed Path.",
+    "name": "Shrouded by the Shadowed Path",
     "description": "Surround yourself in shadows, becoming invisible for a while.  This power <color_yellow>will fail</color> if you stand outside under the sun.\n\nYou must have <color_yellow>greater</color> than <color_red>-500</color> Stolen Blood to use this blood art.",
     "message": "You gather as many shadows as you can.",
     "teachable": false,
@@ -437,8 +458,8 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_VAMPIRE_INVISIBLE_IN_DARK",
     "condition": { "math": [ "u_vitamin('human_blood_vitamin') > -500" ] },
+    "condition_fail_message": "You do not have enough stolen blood.",
     "shape": "blast",
-    "energy_source": { "type": "VITAMIN", "vitamin": "human_blood_vitamin", "color": "c_red" },
     "base_energy_cost": 300,
     "base_casting_time": 50,
     "difficulty": 5

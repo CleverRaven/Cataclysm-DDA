@@ -17,6 +17,8 @@
     "id": "EOC_initiate_randomport",
     "//": "The actual EOC that teleports the player and NPCs that follow to the ground.  If this fails, it will be checked and corrected in the following EOC_safely_landed event, which is also where most values are initialized.  A target location must already be stored when this is called.  When this begins, it also memorizes the player's exact position on leaving, which is where they'll return to when the mission ends or they die.  Note that this also gives a bit of warpcloak before the teleport even happens, so if the player spawns over a pit or hole they will not be injured.",
     "effect": [
+      { "math": [ "u_spell_level('island_hostile_eviction') = -1" ] },
+      { "math": [ "u_spell_level('island_close_tear_and_portal') = -1" ] },
       { "u_location_variable": { "global_val": "OM_HQ_origin" } },
       {
         "u_location_variable": { "global_val": "OM_HQ_origin_npc" },
@@ -122,8 +124,8 @@
               { "u_teleport": { "global_val": "OM_HQ_origin_npc" }, "force": true },
               {
                 "location_variable_adjust": { "global_val": "OM_HQ_origin_npc" },
-                "x_adjust": [ -2, -1, 1, 2 ],
-                "y_adjust": [ -2, -1, 1, 2 ]
+                "x_adjust": [ -2, 2 ],
+                "y_adjust": [ -2, 2 ]
               }
             ]
           }
@@ -888,15 +890,6 @@
     ]
   },
   {
-    "type": "effect_on_condition",
-    "id": "EOC_SKY_ISLAND_GAME_LOAD_WARPED_POND_GRANTER",
-    "eoc_type": "EVENT",
-    "//": "Delete after 0.I",
-    "required_event": "game_load",
-    "condition": { "math": [ "islandrank >= 2" ] },
-    "effect": [ { "u_learn_recipe": "sky_island_warped_pond" } ]
-  },
-  {
     "id": "warp_home",
     "type": "SPELL",
     "name": "Warp Home",
@@ -1004,6 +997,68 @@
       { "u_consume_item": "warp_waterwalking_stone", "count": 1 },
       { "u_message": "You feel somehow lighter.", "type": "good" },
       { "u_add_effect": "effect_warped_waterwalking", "duration": 180 }
+    ]
+  },
+  {
+    "id": "island_hostile_eviction",
+    "type": "SPELL",
+    "name": "Evict Hostile",
+    "description": "Designate a hostile for the island to banish.  Only works on the island.",
+    "//": "Intended to banish everything without exception.  When possible, add a way to make banish always work no matter the target's hp.",
+    "teachable": false,
+    "valid_targets": [ "hostile" ],
+    "spell_class": "NONE",
+    "flags": [ "NO_FAIL", "NO_LEGS", "NO_HANDS", "NON_MAGICAL", "IGNORE_WALLS", "NO_PROJECTILE" ],
+    "condition": { "not": { "u_has_trait": "awayfromhome" } },
+    "difficulty": 0,
+    "min_range": 100,
+    "max_range": 100,
+    "base_casting_time": 0,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_SKY_ISLAND_EVICT_HOSTILES",
+    "shape": "blast"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SKY_ISLAND_EVICT_HOSTILES",
+    "effect": [ { "u_die": { "remove_corpse": true, "supress_message": true, "remove_from_creature_tracker": true } } ]
+  },
+  {
+    "id": "island_close_tear_and_portal",
+    "type": "SPELL",
+    "name": "Close Breach",
+    "description": "Designate a tear in reality or a portal for the island to close.  Only works on the island.",
+    "teachable": false,
+    "valid_targets": [ "ground" ],
+    "spell_class": "NONE",
+    "flags": [ "NO_FAIL", "NO_LEGS", "NO_HANDS", "NON_MAGICAL", "IGNORE_WALLS", "NO_PROJECTILE" ],
+    "condition": { "not": { "u_has_trait": "awayfromhome" } },
+    "difficulty": 0,
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_range": 100,
+    "max_range": 100,
+    "base_casting_time": 0,
+    "effect": "ter_transform",
+    "effect_str": "ter_close_tears_and_portals",
+    "shape": "blast"
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_close_tears_and_portals",
+    "field": [
+      {
+        "result": [ "fd_null" ],
+        "valid_field": [ "fd_fatigue" ],
+        "message": "The tear in reality vanishes in a shower of sparks!"
+      }
+    ],
+    "trap": [
+      {
+        "result": [ "tr_glass" ],
+        "valid_trap": [ "tr_portal" ],
+        "message": "Sparks appear across the portal and it shatters into shards of glass!"
+      }
     ]
   },
   {

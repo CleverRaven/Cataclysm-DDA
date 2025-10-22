@@ -756,7 +756,7 @@
       "items": {
         "W": [
           { "item": "afs_experimental_combat_gear", "chance": 10, "repeat": [ 1, 2 ] },
-          { "item": "afs_general_armory", "chance": 50, "repeat": [ 1, 2 ] }
+          { "item": "afs_ruin_armory", "chance": 50, "repeat": [ 3, 6 ] }
         ],
         "C": [
           { "item": "afs_robotics_scrapgroup", "chance": 20, "repeat": [ 1, 2 ] },
@@ -791,7 +791,7 @@
       "furniture": { "C": "f_counter", "W": "f_rack" },
       "items": {
         "W": [
-          { "item": "afs_general_armory", "chance": 80, "repeat": [ 1, 2 ] },
+          { "item": "afs_ruin_armory", "chance": 80, "repeat": [ 3, 6 ] },
           { "item": "afs_any_energy_mag", "chance": 50, "repeat": [ 1, 2 ] }
         ],
         "C": [

@@ -59,7 +59,7 @@
       { "item": "radiocontrol", "prob": 25, "charges": [ 0, 50 ] },
       [ "omnicamera", 7 ],
       [ "chem_nitric_acid", 1 ],
-      [ "solarpack", 10 ]
+      [ "folding_solar_panel_v2", 10 ]
     ]
   },
   {

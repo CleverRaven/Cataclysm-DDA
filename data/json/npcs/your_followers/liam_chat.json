@@ -1047,13 +1047,13 @@
     "type": "talk_topic",
     "id": "TALK_Liam_Opinions_MISSION_RANCH_BARTENDER_2",
     "dynamic_line": "I think a supermarket might be the *yeast* likely place to find it!\"  He watches your expression for a moment, then shrugs.  \"Worth a shot.  Anyway, as far as I know, dry yeast lasts practically forever.  Should be able to find some of it anywhere people did baking or brewing.",
-    "responses": [ { "text": "Thanks, man.  I'd like your opinion on something else, actually.", "topic": "TALK_Liam_Opinions" } ]
+    "responses": [ { "text": "Thanks man.  I'd like your opinion on something else, actually.", "topic": "TALK_Liam_Opinions" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_Liam_Opinions_MISSION_RANCH_BARTENDER_3",
     "dynamic_line": "Those Tacoma folks really think about sustainability, hey?  I like that.  Buy local, you know?  I got no idea where to find sugar beet seeds though.  I don't remember having any stocked at the cabin.  Maybe a farm or farm supply store would have them?",
-    "responses": [ { "text": "Thanks, man.  I'd like your opinion on something else, actually.", "topic": "TALK_Liam_Opinions" } ]
+    "responses": [ { "text": "Thanks man.  I'd like your opinion on something else, actually.", "topic": "TALK_Liam_Opinions" } ]
   },
   {
     "type": "talk_topic",
@@ -1539,7 +1539,7 @@
     "type": "talk_topic",
     "id": "TALK_Liam_Opinions_MISSION_COWBOYT_SHOTGUN",
     "dynamic_line": "I'm not a great expert on guns, to be honest.  I know how to shoot a bit, but my focus was always on archery when I was a kid.  That sounds like a pretty rare gun though, I think maybe we should see if we can find some old collector rather than trying to raid a gun store?  Just a guess.",
-    "responses": [ { "text": "Thanks, man.  I'd like your opinion on something else, actually.", "topic": "TALK_Liam_Opinions" } ]
+    "responses": [ { "text": "Thanks man.  I'd like your opinion on something else, actually.", "topic": "TALK_Liam_Opinions" } ]
   },
   {
     "type": "talk_topic",

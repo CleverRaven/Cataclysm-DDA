@@ -129,8 +129,11 @@
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "id": "jumper_cable_debug",
-    "name": { "str": "shiny debug cable" },
-    "description": "This is the cable of the gods: 100 meters long, no power loss, light as a feather, and fits in a matchbook.  You're sure this wasn't supposed to exist, and the way it shimmers makes you uneasy.",
+    "name": { "str": "shiny debug cable", "//~": "NO_I18N" },
+    "description": {
+      "str": "This is the cable of the gods: 100 meters long, no power loss, light as a feather, and fits in a matchbook.  You're sure this wasn't supposed to exist, and the way it shimmers makes you uneasy.",
+      "//~": "NO_I18N"
+    },
     "copy-from": "jumper_cable",
     "weight": "1 g",
     "volume": "1 ml",

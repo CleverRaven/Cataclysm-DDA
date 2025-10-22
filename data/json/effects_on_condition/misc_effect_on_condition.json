@@ -304,7 +304,7 @@
             "u_add_morale": "morale_bile",
             "bonus": { "math": [ "MORALE_MULTIPLIER" ] },
             "max_bonus": { "math": [ "MORALE_MULTIPLIER * 2" ] },
-            "duration": { "global_val": "BILE_STINK_DURATION / 2" },
+            "duration": { "math": [ "BILE_STINK_DURATION / 2" ] },
             "decay_start": { "math": [ "BILE_STINK_DURATION / 4" ] }
           }
         ]
@@ -448,5 +448,44 @@
     "id": "EOC_CONDITION_XE_SUNSET_MORALE_OVERRIDES",
     "condition": { "math": [ "0 == 0" ] },
     "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "target_valid_drink",
+    "condition": {
+      "and": [
+        { "not": { "npc_has_flag": "BLEED_IMMUNE" } },
+        { "not": { "npc_has_trait": "ACIDBLOOD" } },
+        { "not": { "npc_has_trait": "THRESH_CRUSTACEAN" } },
+        { "not": { "npc_has_trait": "THRESH_INSECT" } },
+        { "not": { "npc_has_trait": "THRESH_CEPHALOPOD" } },
+        { "not": { "npc_has_trait": "THRESH_GASTROPOD" } },
+        { "not": { "npc_has_species": "ZOMBIE" } },
+        { "not": { "npc_has_species": "MAMMAL" } },
+        { "not": { "npc_has_species": "AMPHIBIAN" } },
+        { "not": { "npc_has_species": "BIRD" } },
+        { "not": { "npc_has_species": "CYBORG" } },
+        { "not": { "npc_has_species": "REPTILE" } },
+        { "not": { "npc_has_species": "FISH" } },
+        { "not": { "npc_has_species": "KRAKEN" } },
+        { "not": { "npc_has_species": "MUTANT" } },
+        { "not": { "npc_has_species": "NETHER" } },
+        { "not": { "npc_has_species": "MIGO" } },
+        { "not": { "npc_has_species": "FUNGUS" } },
+        { "not": { "npc_has_species": "SLIME" } },
+        { "not": { "npc_has_species": "LEECH_PLANT" } },
+        { "not": { "npc_has_species": "INSECT" } },
+        { "not": { "npc_has_species": "CENTIPEDE" } },
+        { "not": { "npc_has_species": "INSECT_FLYING" } },
+        { "not": { "npc_has_species": "SPIDER" } },
+        { "not": { "npc_has_species": "PLANT" } },
+        { "not": { "npc_has_species": "MOLLUSK" } },
+        { "not": { "npc_has_species": "WORM" } },
+        { "not": { "npc_has_species": "ROBOT" } },
+        { "not": { "npc_has_species": "HORROR" } },
+        { "not": { "npc_has_species": "PLANT" } },
+        { "not": { "npc_has_species": "ABERRATION" } }
+      ]
+    }
   }
 ]

@@ -186,7 +186,7 @@
           },
           {
             "collection": [
-              { "item": "afs_40g_plasma_civ", "prob": 100, "count": [ 1, 2 ] },
+              { "item": "afs_40g_plasma_civ", "ammo-item": "afs_shydrogen", "charges": [ 16, 40 ], "prob": 100, "count": [ 1, 2 ] },
               { "item": "afs_plasma_torch", "prob": 50, "count": [ 1, 2 ] }
             ],
             "prob": 40
@@ -328,7 +328,7 @@
       { "item": "electrohack", "prob": 100 },
       {
         "collection": [
-          { "item": "afs_40g_plasma_civ", "prob": 100, "count": [ 1, 2 ] },
+          { "item": "afs_40g_plasma_civ", "ammo-item": "afs_shydrogen", "charges": [ 16, 40 ], "prob": 100, "count": [ 1, 2 ] },
           { "item": "afs_plasma_torch", "prob": 50, "count": [ 1, 2 ] }
         ],
         "prob": 20

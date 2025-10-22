@@ -444,5 +444,34 @@
     "percent_spread": 20,
     "phase": "gas",
     "looks_like": "fd_dust"
+  },
+  {
+    "id": "fd_powder_of_revelation",
+    "type": "field_type",
+    "intensity_levels": [
+      {
+        "name": "floating powder",
+        "sym": "%",
+        "translucency": 1,
+        "concentration": 1,
+        "effects": [
+          {
+            "effect_id": "effect_xe_reveal_invisibility",
+            "min_duration": "2 minutes",
+            "max_duration": "2 minutes",
+            "immune_inside_vehicle": true,
+            "message": "The powder coats you.",
+            "message_type": "bad"
+          }
+        ]
+      }
+    ],
+    "percent_spread": 30,
+    "priority": 8,
+    "half_life": "30 seconds",
+    "phase": "gas",
+    "display_items": true,
+    "display_field": true,
+    "looks_like": "fd_dust"
   }
 ]

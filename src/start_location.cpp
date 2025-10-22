@@ -621,9 +621,6 @@ void start_locations::load( const JsonObject &jo, const std::string &src )
 void start_locations::finalize_all()
 {
     all_start_locations.finalize();
-    for( const start_location &start_loc : all_start_locations.get_all() ) {
-        const_cast<start_location &>( start_loc ).finalize();
-    }
 }
 
 void start_locations::check_consistency()

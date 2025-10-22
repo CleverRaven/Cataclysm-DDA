@@ -220,11 +220,14 @@ void scenario::reset()
     all_scenarios.reset();
 }
 
-void scenario::finalize()
+void scenario::check_all()
 {
-    for( const scenario &scen : all_scenarios.get_all() ) {
-        scen.check_definition();
-    }
+    all_scenarios.check();
+}
+
+void scenario::finalize_all()
+{
+    all_scenarios.finalize();
     sc_blacklist.finalize();
 }
 
@@ -237,7 +240,7 @@ static void check_traits( const std::set<trait_id> &traits, const string_id<scen
     }
 }
 
-void scenario::check_definition() const
+void scenario::check() const
 {
     for( const auto &p : professions ) {
         if( !p.is_valid() ) {

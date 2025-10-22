@@ -37,7 +37,6 @@
 #include "point.h"
 #include "popup.h"
 #include "ret_val.h"
-#include "string_formatter.h"
 #include "translations.h"
 #include "type_id.h"
 #include "uilist.h"

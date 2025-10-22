@@ -3,52 +3,52 @@
     "type": "item_group",
     "subtype": "distribution",
     "id": "dist_matrix_crystals",
-    "items": [
-      [ "matrix_crystal_biokinesis", 10 ],
-      [ "matrix_crystal_clairsentience", 10 ],
-      [ "matrix_crystal_electrokinesis", 10 ],
-      [ "matrix_crystal_photokinesis", 10 ],
-      [ "matrix_crystal_pyrokinesis", 10 ],
-      [ "matrix_crystal_telekinesis", 10 ],
-      [ "matrix_crystal_telepathy", 10 ],
-      [ "matrix_crystal_teleportation", 10 ],
-      [ "matrix_crystal_vitakinesis", 10 ],
-      [ "matrix_crystal_coruscating", 1 ]
+    "entries": [
+      { "group": "biokinetic_matrix_crystals_group", "prob": 10 },
+      { "group": "clairsentient_matrix_crystals_group", "prob": 10 },
+      { "group": "electrokinetic_matrix_crystals_group", "prob": 10 },
+      { "item": "matrix_crystal_photokinesis", "prob": 10 },
+      { "item": "matrix_crystal_pyrokinesis", "prob": 10 },
+      { "item": "matrix_crystal_telekinesis", "prob": 10 },
+      { "item": "matrix_crystal_telepathy", "prob": 10 },
+      { "item": "matrix_crystal_teleportation", "prob": 10 },
+      { "item": "matrix_crystal_vitakinesis", "prob": 10 },
+      { "item": "matrix_crystal_coruscating", "prob": 1 }
     ]
   },
   {
     "type": "item_group",
     "subtype": "distribution",
     "id": "dist_matrix_crystals_rare",
-    "items": [
-      [ "null", 100 ],
-      [ "matrix_crystal_biokinesis", 10 ],
-      [ "matrix_crystal_clairsentience", 10 ],
-      [ "matrix_crystal_electrokinesis", 10 ],
-      [ "matrix_crystal_photokinesis", 10 ],
-      [ "matrix_crystal_pyrokinesis", 10 ],
-      [ "matrix_crystal_telekinesis", 10 ],
-      [ "matrix_crystal_telepathy", 10 ],
-      [ "matrix_crystal_teleportation", 10 ],
-      [ "matrix_crystal_vitakinesis", 10 ],
-      [ "matrix_crystal_coruscating", 1 ]
+    "entries": [
+      { "item": "null", "prob": 100 },
+      { "group": "biokinetic_matrix_crystals_group", "prob": 10 },
+      { "group": "clairsentient_matrix_crystals_group", "prob": 10 },
+      { "group": "electrokinetic_matrix_crystals_group", "prob": 10 },
+      { "item": "matrix_crystal_photokinesis", "prob": 10 },
+      { "item": "matrix_crystal_pyrokinesis", "prob": 10 },
+      { "item": "matrix_crystal_telekinesis", "prob": 10 },
+      { "item": "matrix_crystal_telepathy", "prob": 10 },
+      { "item": "matrix_crystal_teleportation", "prob": 10 },
+      { "item": "matrix_crystal_vitakinesis", "prob": 10 },
+      { "item": "matrix_crystal_coruscating", "prob": 1 }
     ]
   },
   {
     "type": "item_group",
     "subtype": "distribution",
     "id": "dist_matrix_crystals_50_50",
-    "items": [
-      [ "matrix_crystal_drained", 9 ],
-      [ "matrix_crystal_biokinesis", 1 ],
-      [ "matrix_crystal_clairsentience", 1 ],
-      [ "matrix_crystal_electrokinesis", 1 ],
-      [ "matrix_crystal_photokinesis", 1 ],
-      [ "matrix_crystal_pyrokinesis", 1 ],
-      [ "matrix_crystal_telekinesis", 1 ],
-      [ "matrix_crystal_telepathy", 1 ],
-      [ "matrix_crystal_teleportation", 1 ],
-      [ "matrix_crystal_vitakinesis", 1 ]
+    "entries": [
+      { "item": "matrix_crystal_drained", "prob": 9 },
+      { "group": "biokinetic_matrix_crystals_group", "prob": 1 },
+      { "group": "clairsentient_matrix_crystals_group", "prob": 1 },
+      { "group": "electrokinetic_matrix_crystals_group", "prob": 1 },
+      { "item": "matrix_crystal_photokinesis", "prob": 1 },
+      { "item": "matrix_crystal_pyrokinesis", "prob": 1 },
+      { "item": "matrix_crystal_telekinesis", "prob": 1 },
+      { "item": "matrix_crystal_telepathy", "prob": 1 },
+      { "item": "matrix_crystal_teleportation", "prob": 1 },
+      { "item": "matrix_crystal_vitakinesis", "prob": 1 }
     ]
   },
   {
@@ -92,6 +92,33 @@
     "items": [
       { "item": "matrix_crystal_biokin_dust", "prob": 3, "container-item": "test_tube" },
       { "item": "matrix_crystal_biokin_dust_refined", "prob": 1, "container-item": "test_tube" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "biokinetic_matrix_crystals_group",
+    "entries": [
+      { "group": "biokinetic_crystal_awakening_artifact_procgen", "prob": 1 },
+      { "group": "biokinetic_crystal_artifact_procgen", "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "clairsentient_matrix_crystals_group",
+    "entries": [
+      { "group": "clairsentient_crystal_awakening_artifact_procgen", "prob": 1 },
+      { "group": "clairsentient_crystal_artifact_procgen", "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "electrokinetic_matrix_crystals_group",
+    "entries": [
+      { "group": "electrokinetic_crystal_awakening_artifact_procgen", "prob": 1 },
+      { "group": "electrokinetic_crystal_artifact_procgen", "prob": 1 }
     ]
   },
   {

@@ -289,7 +289,7 @@
   {
     "type": "furniture",
     "id": "f_anvil_scavenged",
-    "name": "scavenged anvil",
+    "name": "scavenger's anvil",
     "looks_like": "f_anvil",
     "description": "An old machinery part, cut and smoothed to make a serviceable anvil, and mounted to a heavy log stand.",
     "symbol": "^",
@@ -1224,7 +1224,7 @@
     "id": "f_compost_full",
     "name": "filled anaerobic digester",
     "looks_like": "f_standing_tank",
-    "description": "A 1000L anaerobic digester.",
+    "description": "A 1000 L anaerobic digester.",
     "symbol": "O",
     "color": "brown_cyan",
     "move_cost_mod": -1,
@@ -1690,5 +1690,29 @@
       "items": [ { "item": "chain", "count": 1 }, { "item": "block_and_tackle", "count": 1 }, { "item": "nuts_bolts", "charges": 2 } ]
     },
     "crafting_pseudo_item": "fake_lift_heavy"
+  },
+  {
+    "type": "furniture",
+    "id": "f_oil_press_industrial",
+    "name": "industrial oil press",
+    "looks_like": "f_machinery_light",
+    "description": "A heavy-duty press used to create vegetable oil from nuts or seeds.  You could take this down and use it for your own purposes if you wanted.",
+    "symbol": "Y",
+    "color": "green",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": 12,
+    "flags": [
+      "TRANSPARENT",
+      "FLAMMABLE_HARD",
+      "CONTAINER",
+      "PLACE_ITEM",
+      "BLOCKSDOOR",
+      "MOUNTABLE",
+      "LIQUIDCONT",
+      "EASY_DECONSTRUCT"
+    ],
+    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "oil_press_electric" },
+    "item": "oil_press_electric"
   }
 ]

@@ -8,7 +8,7 @@
     "weight": "500 mg",
     "volume": "1 ml",
     "price": "1 cent",
-    "price_postapoc": "5 cent",
+    "price_postapoc": "0 cent",
     "material": [ "cotton" ],
     "symbol": "=",
     "color": "dark_gray",
