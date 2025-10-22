@@ -322,6 +322,15 @@
     "category": [ "GRACKEN" ],
     "threshreq": [ "THRESH_SPECIES_GRACKEN" ],
     "flags": [ "CARNIVORE_DIET" ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "STRENGTH", "add": 1 },
+          { "value": "METABOLISM", "multiply": 0.8 },
+          { "value": "STOMACH_SIZE_MULTIPLIER", "add": 500 }
+        ]
+      }
+    ],
     "vitamin_rates": [ [ "vitC", -1200 ] ]
   },
   {
@@ -335,6 +344,16 @@
     "mixed_effect": true,
     "points": 1,
     "category": [ "GRACKEN" ],
+    "flags": "HERBIVORE_DIET",
+    "enchantments": [
+      {
+        "values": [
+          { "value": "KCAL", "multiply": 1.3 },
+          { "value": "DODGE_CHANCE", "add": 3 },
+          { "value": "STOMACH_SIZE_MULTIPLIER", "add": 1000 }
+        ]
+      }
+    ],
     "threshreq": [ "THRESH_SPECIES_GRACKEN" ]
   },
   {
