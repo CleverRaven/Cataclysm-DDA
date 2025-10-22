@@ -51,14 +51,53 @@
         },
         "then": [
           { "u_location_variable": { "u_val": "closetland_departure_point" }, "min_radius": 0, "max_radius": 0 },
+          { "u_add_effect": "blind", "duration": "0" }
           { "u_travel_to_dimension": "dimension_perk_closetland" },
           { "u_add_effect": "effect_perk_closetland_sleepiness", "duration": "PERMANENT" }
           { "if" { "not": { "math": [ "has_var(u_closetland_arrival_point)" ] } },
-            "then": { "run_eocs": "EOC_BOMBASTIC_PERKS_CLOSET_STORAGE_TRAVEL_TO_CLOSETLAND_INIITAL_ARRIVAL" }
+            "then": { "run_eocs": "EOC_BOMBASTIC_PERKS_CLOSET_STORAGE_TRAVEL_TO_CLOSETLAND_INIITAL_ARRIVAL" },
+            "else": [
+              { "u_teleport": { "u_val": "closetland_arrival_point" } },
+              { "u_lose_effect": "blind" }
+            ]
           }
         ],
-        "else": { "u_message": "You can only find the path to Closetland if in a closet." }
+        "else": [
+          { "u_message": "You can only find the path to Closetland if in a closet." },
+          { "run_eocs": "EOC_BOMBASTIC_PERKS_CLOSET_STORAGE_TRAVEL_TO_CLOSETLAND_DEACTIVATE_FUTURE", "time_in_future": 0 }
+        ]
       }     
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BOMBASTIC_PERKS_CLOSET_STORAGE_TRAVEL_TO_CLOSETLAND_DEACTIVATE_FUTURE",
+    "//": "This is necessary because calling u_deactivate_trait from within the trait EoC to deactivate that trait does not work",
+    "effect": { "u_deactivate_trait": "perk_secret_closet_storage" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BOMBASTIC_PERKS_CLOSET_STORAGE_TRAVEL_TO_CLOSETLAND_INIITAL_ARRIVAL",
+    "effect": [
+      { "mapgen_update": "perk_closetland_create_closet_area" }
+      { "u_location_variable": { "u_val": "closetland_arrival_point" },
+        "terrain": "t_perk_closetland_bare_bulb",
+        "min_radius": 24,
+        "max_radius": 24 
+      },
+      { "u_teleport": { "u_val": "closetland_arrival_point" } },
+      { "u_lose_effect": "blind" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BOMBASTIC_PERKS_CLOSET_STORAGE_TRAVEL_BACK_FROM_CLOSETLAND",
+    "condition": { "current_dimension": "dimension_perk_closetland" },
+    "effect": [
+      { "u_add_effect": "blind", "duration": "0" },
+      { "u_travel_to_dimension": "default" },
+      { "u_teleport": { "u_val": "closetland_departure_point" } },
+      { "u_lose_effect": "blind" }
     ]
   }
 ]
