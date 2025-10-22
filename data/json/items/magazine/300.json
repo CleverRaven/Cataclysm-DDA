@@ -26,7 +26,7 @@
     "type": "ITEM",
     "subtypes": [ "MAGAZINE" ],
     "name": { "str": "Ruger Precision Rifle 5-round magazine" },
-    "description": "A single-stack, 5-round, detachable magazine compatible with the Ruger Precision Rifle.  Holding five rounds of.300 Winchester Magnum, the magazine is styled along the lines of Accuracy International's magnum magazines, the latter of which has become the gold standard for precision weapon magazines.",
+    "description": "A single-stack, 5-round, detachable magazine compatible with the Ruger Precision Rifle.  Holding five rounds of .300 Winchester Magnum, the magazine is styled along the lines of Accuracy International's magnum magazines, the latter of which has become the gold standard for precision weapon magazines.",
     "weight": "188 g",
     "volume": "169 ml",
     "longest_side": "101 mm",

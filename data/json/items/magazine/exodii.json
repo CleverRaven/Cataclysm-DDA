@@ -118,8 +118,16 @@
     "looks_like": "exodiiminimag",
     "type": "ITEM",
     "subtypes": [ "MAGAZINE" ],
-    "name": { "str": "Sapra '36 magazine" },
+    "name": { "str": "Exodii grenade launcher magazine" },
     "description": "A large, five round single stack magazine for the Sapra '36.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "exodiisapramag5",
+        "name": { "str": "Sapra '36 magazine" },
+        "description": "A large, five round single stack magazine for the Sapra '36."
+      }
+    ],
     "weight": "710 g",
     "volume": "449 ml",
     "longest_side": "132 mm",
@@ -138,7 +146,7 @@
     "looks_like": "metal_tank_little",
     "type": "ITEM",
     "subtypes": [ "MAGAZINE" ],
-    "name": { "str": "ordnance cannon celebration canister" },
+    "name": { "str": "Exodii celebration canister" },
     "description": "A pressurized tank containing the original firework payload of the Exodii's own ordnance cannon.  This chemical payload contains two different compounds of copper, so that the projectiles burn a sharp blue and green to represent the united Earth it came from.  It isn't intended for combat, but getting hit by a massive firework is dangerous enough that it was brought along.  The tank capacity is larger than the other loads the Exodii created for it.",
     "weight": "1268 g",
     "volume": "1250 ml",
@@ -176,7 +184,7 @@
     "ammo_type": [ "khuunaofaai_payload_fire" ],
     "capacity": 4,
     "count": 4,
-    "name": { "str": "ordnance cannon incendiary canister" },
+    "name": { "str": "Exodii incendiary canister" },
     "type": "ITEM",
     "subtypes": [ "MAGAZINE" ],
     "description": "A pressurized tank containing one of the special payloads the Exodii made for their ordnance cannon, something akin to white phosphorous on your Earth.  Its simplicity and effectiveness against targets big and small makes it the cannon's most popular ammunition by far.",
@@ -206,7 +214,7 @@
     "ammo_type": [ "khuunaofaai_payload_acid" ],
     "capacity": 4,
     "count": 4,
-    "name": { "str": "ordnance cannon corrosive canister" },
+    "name": { "str": "Exodii corrosive canister" },
     "type": "ITEM",
     "subtypes": [ "MAGAZINE" ],
     "description": "A pressurized tank containing one of the special payloads the Exodii made for their ordnance cannon, a mixture of several acids and peroxides capable of rapidly breaking down the organic tissues of zombies and mutants alike.  Apparently developed for cases where the incendiary payload would fail, like low to zero oxygen environments and targets capable of self-extinguishing - It's somewhat alarming the Exodii run into those scenarios frequently enough to justify producing this.",
@@ -235,7 +243,7 @@
     "ammo_type": [ "khuunaofaai_payload_glue" ],
     "capacity": 4,
     "count": 4,
-    "name": { "str": "ordnance cannon adhesive canister" },
+    "name": { "str": "Exodii adhesive canister" },
     "type": "ITEM",
     "subtypes": [ "MAGAZINE" ],
     "description": "A pressurized tank containing one of the special payloads the Exodii made for their ordnance cannon, an industrial grade chemical that adheres to anything it touches and hardens into a concrete-like resin.  Invented on some alternate Earth for quickly fixing holes in zeppelin and high-altitude craft, the Exodii found the substance useful for area denial, cover creation, or encasing nasty things in when they couldn't be bothered to waste bullets on them.",
@@ -263,13 +271,13 @@
     "looks_like": "stanag30",
     "type": "ITEM",
     "subtypes": [ "MAGAZINE" ],
-    "name": { "str": "3.3 naval 4-round magazine" },
+    "name": { "str": "Exodii naval rifle 4-round magazine" },
     "description": "A bulky 4-round magazine for the Exodii naval rifle.  Grants some amount of portability, if the gun itself can be named portable.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "ree_33_4_mag",
-        "name": { "str": "3.3 naval 4-round magazine" },
+        "name": { "str": "Ree 3.3 4-round magazine" },
         "description": "A bulky 4-round magazine for the Exodii Ree 3.3 rifle.  Grants some amount of portability, if the gun itself can be named portable."
       }
     ],
@@ -289,13 +297,13 @@
     "looks_like": "stanag30",
     "type": "ITEM",
     "subtypes": [ "MAGAZINE" ],
-    "name": { "str": "3.3 naval 53-round box magazine" },
+    "name": { "str": "Exodii naval rifle 53-round box magazine" },
     "description": "Giant metal box with a belt, which allows it to be used as a high-capacity magazine for the Exodii naval rifle.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "ree_33_53_mag",
-        "name": { "str": "3.3 naval 53-round box magazine" },
+        "name": { "str": "Ree 3.3 53-round box magazine" },
         "description": "Giant metal box with a belt, which allows it to be used as a high-capacity magazine for the Exodii Ree 3.3 rifle."
       }
     ],

@@ -535,7 +535,7 @@
     "looks_like": "stanag10",
     "type": "ITEM",
     "subtypes": [ "MAGAZINE" ],
-    "name": { "str": "10 round SL8 magazine" },
+    "name": { "str": "SL8 10-round magazine" },
     "description": "A single stack magazine for the SL8 rifle, holding 10 rounds.",
     "weight": "70 g",
     "volume": "132 ml",
@@ -602,8 +602,8 @@
     "type": "ITEM",
     "subtypes": [ "MAGAZINE" ],
     "//": "Values copied from a STANAG magazine.",
-    "name": { "str": "ZPAP 85 30-round magazine" },
-    "description": "A 30-round box magazine for use with the ZPAP 85 and ZPAP M90 rifles.",
+    "name": { "str": "ZPAP M90 30-round magazine" },
+    "description": "A 30-round box magazine for use with the ZPAP M90 rifle.",
     "copy-from": "stanag30"
   },
   {

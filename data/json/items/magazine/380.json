@@ -84,8 +84,16 @@
     "looks_like": "hptcf380mag_10rd",
     "type": "ITEM",
     "subtypes": [ "MAGAZINE" ],
-    "name": { "str": "Hi-Point 3895 10-round magazine" },
-    "description": "A 10-round steel box magazine for use with the Hi-Point 3895 pistol-caliber carbine.  Does not fit the Hi-Point CF-380 pistol.",
+    "name": { "str": "pistol-caliber carbine 10-round magazine" },
+    "description": "A 10-round steel box magazine for use with the .380 carbine.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "hpt3895mag_10rd",
+        "name": { "str": "Hi-Point 3895 10-round magazine" },
+        "description": "A 10-round steel box magazine for use with the Hi-Point 3895 pistol-caliber carbine.  Does not fit the Hi-Point CF-380 pistol."
+      }
+    ],
     "copy-from": "hptcf380mag_10rd"
   },
   {

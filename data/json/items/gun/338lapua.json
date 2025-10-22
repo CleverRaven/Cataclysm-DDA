@@ -5,7 +5,7 @@
     "looks_like": "modular_ar15",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
-    "name": { "str": "AI bolt-action sniper rifle" },
+    "name": { "str": "Tac-338 sniper rifle" },
     "description": "A high-precision bolt-action sniper rifle, in service with special operations members of the US Navy prior to the Cataclysm.  Firing the powerful .338 Lapua cartridge, the weapon feeds from detachable five round Accuracy International magazines.",
     "variant_type": "gun",
     "variants": [
@@ -87,16 +87,8 @@
     "looks_like": "modular_ar15",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
-    "name": { "str": "Barrett precision rifle" },
-    "description": "A box magazine-fed bolt-action precision rifle developed by the Barrett Arms Company, firing the .338 Lapua cartridge.  A civilian copy of more versatile military weapons, this rifle is a remarkably well-crafted piece of anti-personnel engineering despite lacking the sheer modularity of its Marshal sister, and is still capable of engaging targets at extreme distances.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "mrad_smr",
-        "name": { "str": "Barrett MRAD SMR rifle" },
-        "description": "Chambered for the .338 Lapua cartridge, the Barrett MRAD SMR is a civilian variant of the MK22 MRAD sniper rifle, which was in service with elements of the US army and is often regarded as one of the finest bolt-action sniper rifles ever developed.  The primary differences that set this weapon apart from its Marshal sibling are the removal of the MRAD's caliber conversion capabilities and the installation of a fixed buttstock.  These changes have resulted in a lighter and slimmer rifle that, most importantly for the discerning pre-Cataclysmic precision shooter, didn't require a second mortgage to purchase."
-      }
-    ],
+    "name": { "str": "Barrett MRAD precision rifle" },
+    "description": "Chambered for the .338 Lapua cartridge, the Barrett MRAD SMR is a civilian variant of the MK22 MRAD sniper rifle, which was in service with elements of the US army and is often regarded as one of the finest bolt-action sniper rifles ever developed.  The primary differences that set this weapon apart from its Marshal sibling are the removal of the MRAD's caliber conversion capabilities and the installation of a fixed buttstock.  These changes have resulted in a lighter and slimmer rifle that, most importantly for the discerning pre-Cataclysmic precision shooter, didn't require a second mortgage to purchase.",
     "weight": "6305 g",
     "volume": "5500 ml",
     "longest_side": "1204 mm",
@@ -130,7 +122,7 @@
     "looks_like": "modular_ar15",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
-    "name": { "str": "modular sniper rifle" },
+    "name": { "str": "AXMC sniper rifle" },
     "description": "A weapon platform that prides itself on modularity and customizability, this highly accurate precision rifle may be configured with various caliber conversion kits that can allow it to fire either the .338 Lapua, .300 Win Mag, or .308 Winchester cartridges.  The rifle's size prevents it from being a particularly mobile piece of equipment, but the weapon's folding buttstock aids in portability.",
     "variant_type": "gun",
     "variants": [

@@ -5,7 +5,7 @@
     "looks_like": "modular_ar15",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
-    "name": { "str": "Belgian battle rifle" },
+    "name": { "str": "FAL battle rifle" },
     "description": "Originally designed during the Cold War, this gun is probably the most successful battle rifle ever designed.  Despite being labeled as obsolete, its tunable gas system ensures both reliability and low recoil, allowing the FAL to keep up even among modern competitors.  This is a semi-automatic clone built by a domestic manufacturer.",
     "variant_type": "gun",
     "variants": [
@@ -52,7 +52,7 @@
       {
         "id": "g3_ptr",
         "name": { "str": "PTR 91 rifle" },
-        "description": "A semi-automatic, domestically produced clone of an early battle rifle developed after the end of WWII.  The PTR 91 is a fantastically reliable, cheap to produce rifle that continues to serve in conflict regions.  Though the action is legendary, its handling characteristics and harsher recoil leave something to be desired."
+        "description": "A semi-automatic, domestically produced clone of an early battle rifle developed after the end of WWII.  Known as the PTR 91, it is a fantastically reliable, cheap to produce rifle that continues to serve in conflict regions.  Though the action is legendary, its handling characteristics and harsher recoil leave something to be desired."
       },
       {
         "id": "g3_cetme",
@@ -148,7 +148,7 @@
     "looks_like": "modular_ar15",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
-    "name": { "str": "American battle rifle" },
+    "name": { "str": "M14 civilian rifle" },
     "description": "This civilian variant of an American battle rifle is essentially a rifle from World War 2 with a detachable magazine stuck in it that was sold to the military as a cheap, do-all rifle that could replace many other weapon systems.  While it delivered none of those things, it was an acceptable rifle, if marginally inferior to its contemporaries.",
     "variant_type": "gun",
     "variants": [
@@ -262,8 +262,16 @@
     "looks_like": "modular_ar15",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
-    "name": { "str": "Savage 111F rifle" },
-    "description": "A very accurate rifle chambered for the powerful .308 round.  Its very low ammo capacity is offset by its accuracy and near-complete lack of recoil.",
+    "name": { "str": "hunting rifle" },
+    "description": "A very accurate rifle chambered for the powerful 7.62 round.  Its very low ammo capacity is offset by its accuracy and near-complete lack of recoil.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "savage_111f",
+        "name": { "str": "Savage 111F rifle" },
+        "description": "A very accurate rifle chambered for the powerful .308 round.  Its very low ammo capacity is offset by its accuracy and near-complete lack of recoil."
+      }
+    ],
     "weight": "3630 g",
     "volume": "2875 ml",
     "longest_side": "1041 mm",
@@ -293,7 +301,7 @@
     "looks_like": "modular_ar15",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
-    "name": { "str": "FN SCAR-H rifle" },
+    "name": { "str": "FN SCAR-H assault rifle" },
     "description": "A highly accurate and modular battle rifle specially designed for the United States Special Operations Command.  The 'H' in its name stands for heavy, as it uses the powerful .308 round.",
     "ascii_picture": "scar-H",
     "weight": "3630 g",
@@ -372,7 +380,7 @@
     "looks_like": "modular_ar15",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
-    "name": { "str": "M24 rifle" },
+    "name": { "str": "M24 sniper rifle" },
     "description": "The M24 Sniper is the military and police version of the Remington Model 700 rifle, M24 being the model name assigned by the United States Army after adoption as their standard sniper rifle in 1988.  The M24 is referred to as a 'weapon system' because it consists of not only a rifle, but also a detachable telescopic sight and other accessories.",
     "weight": "4990 g",
     "volume": "4084 ml",
@@ -467,7 +475,7 @@
     "looks_like": "modular_ar15",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
-    "name": { "str": "PAP AK-style rifle" },
+    "name": { "str": "PAP semi-auto rifle" },
     "description": "A civilian AK pattern rifle, chambered in 7.62x51mm NATO.",
     "variant_type": "gun",
     "variants": [
@@ -536,8 +544,8 @@
     "looks_like": "modular_ar15",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
-    "name": { "str": "7.62x51mm bullpup rifle" },
-    "description": "This is a semi-automatic bullpup rifle with a lightened body due to the use of polymers and aluminum, using standard magazines of the heavy automatic rifle and a 7.62x51mm cartridge.",
+    "name": { "str": "FAL bullpup rifle" },
+    "description": "This is a semi-automatic bullpup rifle with a lightened body due to the use of polymers and aluminum, using standard magazines of the FAL battle rifle and a 7.62x51mm cartridge.",
     "variant_type": "gun",
     "variants": [
       {
