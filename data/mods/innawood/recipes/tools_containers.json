@@ -100,5 +100,19 @@
     "autolearn": true,
     "using": [ [ "filament", 300 ], [ "cordage", 1 ] ],
     "components": [ [ [ "cotton_patchwork", 12 ], [ "fibercloth_patchwork", 12 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "leather_journal_innawood",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_CONTAINERS",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "90 m",
+    "autolearn": true,
+    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "LEATHER_AWL", "level": 1 }, { "id": "CUT", "level": 2 } ],
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic", "time_multiplier": 2 } ],
+    "components": [ [ [ "leather", 3 ], [ "tanned_hide", 1 ], [ "tanned_pelt", 1 ] ], [ [ "filament", 35, "LIST" ] ] ]
   }
 ]
