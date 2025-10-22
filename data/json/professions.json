@@ -4822,7 +4822,7 @@
     "type": "profession",
     "id": "c_priest",
     "name": { "male": "Catholic Priest", "female": "Nun" },
-    "description": "For your entire time as a servant of God, you helped, protected and listened to your parish faithful.  But the Rapture has come, and your parish turned against you.  Now all you can do is pray to the Holy Virgin, and prepare to maintain your wellbeing.",
+    "description": "For your entire time as a servant of God, you helped, protected and listened to your parish faithful.  But the Last Judgment has come, and your parish turned against you.  Now all you can do is pray to the Holy Virgin, and prepare to maintain your wellbeing.",
     "npc_background": "BG_survival_story_SPIRITUAL",
     "points": 0,
     "skills": [ { "level": 3, "name": "speech" } ],
