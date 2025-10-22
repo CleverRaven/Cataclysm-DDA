@@ -69,8 +69,20 @@
     "components": [
       [ [ "paper", 1 ] ],
       [ [ "box_small", 1 ], [ "plastic_shopping_bag", 1 ] ],
-      [ [ "button_wood", 3 ], [ "button_steel", 3 ], [ "button_bronze", 3 ], [ "button_plastic", 3 ] ],
-      [ [ "button_wood", 3 ], [ "button_steel", 3 ], [ "button_bronze", 3 ], [ "button_plastic", 3 ] ]
+      [
+        [ "button_wood", 3 ],
+        [ "button_steel", 3 ],
+        [ "button_bronze", 3 ],
+        [ "button_plastic", 3 ],
+        [ "button_bone", 3 ]
+      ],
+      [
+        [ "button_wood", 3 ],
+        [ "button_steel", 3 ],
+        [ "button_bronze", 3 ],
+        [ "button_plastic", 3 ],
+        [ "button_bone", 3 ]
+      ]
     ]
   },
   {
