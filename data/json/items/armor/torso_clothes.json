@@ -1999,6 +1999,13 @@
         "description": "This one is colored brown.",
         "append": true,
         "weight": 24
+      },
+      {
+        "id": "3dog_tshirt",
+        "name": { "str": "3 Wolf Moon t-shirt" },
+        "color": "magenta",
+        "description": "This magnificent piece of clothing contains not one, not two, but THREE WOLVES.  THREE WOLVES HOWLING AT THE MOON!  It is the most badass item of clothing ever produced.",
+        "weight": 1
       }
     ],
     "flags": [ "VARSIZE", "SKINTIGHT" ],
