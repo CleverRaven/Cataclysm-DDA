@@ -29,19 +29,163 @@
       "open_air",
       "open_air",
       "open_air",
-      "field",
-      "solid_earth",
-      "empty_rock",
-      "empty_rock",
-      "deep_rock",
-      "deep_rock",
-      "deep_rock",
-      "deep_rock",
-      "deep_rock",
-      "deep_rock",
-      "deep_rock"
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "nether_glass"
     ],
     "default_groundcover": [ [ "t_grass", 1 ] ],
     "feature_flag_settings": { "blacklist": [ "CLASSIC", "LAB", "MAN_MADE", "MILITARY", "URBAN", "FARM", "EXODII" ], "whitelist": [ ] }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "nether_glass" ],
+    "weight": 3,
+    "object": { "fill_ter": "t_nether_glass_floor" }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "perk_closetland_closet_area" ],
+    "object": {
+      "fill_ter": "t_open_air",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "         -----          ",
+        "         -...-          ",
+        "         -.O.-          ",
+        "         -...-          ",
+        "         -----          ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": {
+        "O": "t_closetland_floor_olight",
+        ".": "t_closetland_floor",
+        "-": "t_closetland_wall_wood"
+      }
+    }
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "perk_closetland_regenerate_light_if_broken",
+    "terrain": [
+      {
+        "result": [ "t_closetland_floor_olight" ],
+        "valid_terrain": [ "t_closetland_floor" ],
+        "message": ""
+      }
+    ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_closetland_floor_olight",
+    "looks_like": "t_floor_olight",
+    "name": "wooden floor, overhead light",
+    "description": "Interlocking wooden tiles covered in a thin layer of dust, with a single bare bulb swinging from a cord attached to the ceiling.",
+    "symbol": ".",
+    "color": "white",
+    "connect_groups": [ "INDOORFLOOR", "WOODFLOOR" ],
+    "connects_to": "WOODFLOOR",
+    "move_cost": 2,
+    "light_emitted": 120,
+    "roof": "t_closetland_wood_roof",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD" ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 1,2
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 10,
+      "ter_set": "t_closetland_floor",
+      "items": [ { "item": "glass_shard", "count": [ 8, 16 ] } ]
+    },
+    "shoot": { "chance_to_hit": 0, "reduce_damage": [ 0, 0 ], "reduce_damage_laser": [ 0, 0 ], "destroy_damage": [ 2, 8 ] }
+  },
+  {
+    "type": "terrain",
+    "id": "t_closetland_floor",
+    "looks_like": "t_floor",
+    "name": "wooden floor",
+    "description": "Interlocking wooden tiles covered in a thin layer of dust, with wooden posts and beams that can support a roof.",
+    "symbol": ".",
+    "color": "cyan",
+    "connect_groups": [ "INDOORFLOOR", "WOODFLOOR" ],
+    "connects_to": "WOODFLOOR",
+    "move_cost": 2,
+    "comfort": 1,
+    "roof": "t_closetland_wood_roof",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD" ],
+    "bash": {
+      "sound": "SMASH!",
+      "ter_set": "t_null",
+      "str_min": 6000,
+      "str_max": 6000,
+      "str_min_supported": 100,
+      "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_closetland_wall_wood",
+    "name": "wooden wall",
+    "looks_like": "t_wall_wood",
+    "description": "A shabby wall of planks and support beams, capable of supporting an upper level or roof.  Normally it'd be flammable but here you're not sure.",
+    "color": "light_red",
+    "roof": "t_closetland_wood_roof",
+    "bash": {
+      "str_min": 6000,
+      "str_max": 6000,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "ter_set": "t_wall_wood_chipped",
+      "items": [
+        { "item": "2x4", "count": [ 0, 3 ] },
+        { "item": "wood_panel", "count": [ 0, 2 ] },
+        { "item": "nail", "charges": [ 1, 5 ] },
+        { "item": "splinter", "count": [ 1, 4 ] }
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
+    },
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_closetland_wood_roof",
+    "looks_like": "t_wood_roof",
+    "name": "wooden roof",
+    "description": "A flat section of wooden rooftop.",
+    "looks_like": "t_floor",
+    "symbol": ".",
+    "color": "brown",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "FLAT" ],
+    "bash": { "str_min": 6000, "str_max": 6000, "sound": "crash!", "sound_fail": "whump!", "ter_set": "t_null", "bash_below": false }
   }
 ]
