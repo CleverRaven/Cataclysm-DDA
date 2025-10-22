@@ -3,12 +3,9 @@ from ..write_text import write_text
 
 
 def parse_vehicle_part_location(json, origin):
-    name = ""
-    if "name" in json:
-        name = get_singular_name(json["name"])
-        write_text(json["name"], origin,
-                   comment="Name of vehicle part location")
-    if "desc" in json:
-        write_text(json["desc"], origin,
-                   comment="Description of vehicle part location"
-                   " \"{}\"".format(name))
+    name = get_singular_name(json)
+
+    write_text(json.get("name"), origin,
+               comment="Name of vehicle part location")
+    write_text(json.get("desc"), origin,
+               comment=f"Description of vehicle part location '{name}'")

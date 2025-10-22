@@ -2,12 +2,9 @@ from ..write_text import write_text
 
 
 def parse_speech(json, origin):
-    speaker = ""
-    if "speaker" in json:
-        if type(json["speaker"]) is list:
-            speaker = ", ".join(json.get("speaker", []))
-        elif type(json["speaker"]) is str:
-            speaker = json["speaker"]
-    if "sound" in json:
-        write_text(json["sound"], origin,
-                   comment="Speech from speaker {}".format(speaker))
+    name = json.get("speaker", [])
+    if type(name) is list:
+        name = ", ".join(name) or "???"
+
+    write_text(json.get("sound"), origin,
+               comment=f"Speech from monsters: {name}")

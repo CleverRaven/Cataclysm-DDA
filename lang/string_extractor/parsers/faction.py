@@ -3,11 +3,10 @@ from ..write_text import write_text
 
 
 def parse_faction(json, origin):
-    name = ""
-    if "name" in json:
-        name = get_singular_name(json["name"])
-        write_text(json["name"], origin, comment="NPC faction name")
+    name = get_singular_name(json)
 
-    if "description" in json:
-        write_text(json["description"], origin,
-                   comment="Description of NPC faction \"{}\"".format(name))
+    write_text(json.get("name"), origin,
+               comment="NPC faction name")
+
+    write_text(json.get("description"), origin,
+               comment=f"Description of NPC faction '{name}'")
