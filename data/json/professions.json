@@ -4822,7 +4822,7 @@
     "type": "profession",
     "id": "c_priest",
     "name": { "male": "Catholic Priest", "female": "Nun" },
-    "description": "For your entire time as a servant of God, you helped, protected and listened to your parish faithful.  But these days, Revelations is starting to feel less metaphorical, and your parish turned against you.  Now all you can do is pray for the intercession of the saints.  Mary, Mother of God, pray for us!",
+    "description": "For your entire time as a servant of God, you helped, protected and listened to your parish faithful.  But these days, the Book of Revelation is starting to feel less metaphorical, and your parish turned against you.  Now all you can do is pray for the intercession of the saints.  Mary, Mother of God, pray for us!",
     "npc_background": "BG_survival_story_SPIRITUAL",
     "points": 0,
     "skills": [ { "level": 3, "name": "speech" } ],
