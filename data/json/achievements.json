@@ -2275,6 +2275,21 @@
     ]
   },
   {
+    "id": "achievement_reach_military_armory",
+    "type": "achievement",
+    "name": "Guns of the Patriots",
+    "requirements": [
+      {
+        "event_statistic": "last_overmap_special_avatar_entered",
+        "is": "==",
+        "target": [  ],
+        "visible": "when_achievement_completed",
+        "description": "Break into the armory of the military base"
+      }
+    ],
+    "hidden_by": [ "achievement_reach_military_base" ]
+  },
+  {
     "id": "achievement_reach_military_helipad",
     "type": "achievement",
     "name": "Get To Da Choppa",
@@ -2381,7 +2396,7 @@
     "description": "I'm tired of these motherfuckin' zombies on this motherfuckin' plane!",
     "requirements": [
       {
-        "event_statistic": "num_avatar_enters_prison",
+        "event_statistic": "num_avatar_enters_airport",
         "is": ">=",
         "target": 1,
         "visible": "when_achievement_completed",
@@ -2545,6 +2560,7 @@
     "id": "achievement_black_glass",
     "type": "achievement",
     "name": "I like you just the way you are",
+    "//": "Silent Homestead",
     "description": "-Fred Rogers",
     "manually_given": true,
     "requirements": [ 
@@ -2555,8 +2571,36 @@
     "id": "achievement_LIXA_finale",
     "type": "achievement",
     "name": { "str": "Trigintaduonion" },
+    "//": "LIXA Finale",
     "manually_given": true,
     "description": "Defeat a being from a higher dimension, and free the damned souls trapped inside",
     "requirements": [  ]
-  }
+  },
+  {
+    "id": "achievement_tcl_win",
+    "type": "achievement",
+    "name": { "str": "Ah Sweet. Manmade Horrors Beyond My Comprehension" },
+    "//": "I haven't decided if this will be for entering the black zone or killing the MTF",
+    "manually_given": true,
+    "description": "Discover something your eyes were never meant to see...",
+    "requirements": [  ]
+  },
+  {
+    "id": "achievement_vw_win",
+    "type": "achievement",
+    "name": { "str": "Blackest Widow" },
+    "//": "Void Weaver Killed",
+    "manually_given": true,
+    "description": "Kill the biggest spider",
+    "requirements": [  ]
+  },{
+
+    "id": "achievement_nem_scen_win",
+    "type": "achievement",
+    "name": { "str": "And stay down!" },
+    "//": "Killed relentless Hulk",
+    "manually_given": true,
+    "description": "Kill your nemesis! (Scenario Specific)",
+    "requirements": [  ]
+  },
 ]

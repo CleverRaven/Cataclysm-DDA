@@ -570,7 +570,7 @@
     "professions": [ "security", "labtech", "medic" ],
     "allowed_locs": [ "sloc_lab_concourse_area" ],
     "map_extra": "mx_lab_concourse_area",
-    "requirement": "achievement_reach_trans_coast_lab",
+    "requirement": "achievement_tcl_win",
     "flags": [ "CHALLENGE", "LONE_START" ]
   },
   {
@@ -795,6 +795,7 @@
       "CHITIN",
       "ELECTRORECEPTORS"
     ],
+    "requirement": "achievement_kill_mutant",
     "reveal_locale": false,
     "distance_initial_visibility": 0,
     "flags": [ "LONE_START" ]
@@ -878,6 +879,7 @@
       "combat-mechanic",
       "combat-engineer"
     ],
+    "requirement": "achievement_reach_military_helipad",
     "map_extra": "mx_helicopter",
     "distance_initial_visibility": 0,
     "flags": [ "HELI_CRASH", "LONE_START" ],
@@ -925,7 +927,7 @@
       "combat-mechanic",
       "combat-engineer"
     ],
-    "requirement": "achievement_reach_military_base",
+    "requirement": "achievement_reach_military_armory",
     "distance_initial_visibility": 25,
     "flags": [ "CHALLENGE", "LONE_START" ]
   },
@@ -967,6 +969,7 @@
       "hitman",
       "assassin"
     ],
+    "requirement": "achievement_beat_resort",
     "flags": [ "CHALLENGE", "LONE_START" ]
   },
   {
