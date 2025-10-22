@@ -1572,7 +1572,6 @@
       { "item": "cuffs", "prob": 30 },
       { "item": "collar_playboy", "prob": 30 },
       { "item": "bunny_ears_black", "prob": 30 },
-      { "item": "tail_bunny_playboy", "prob": 30 },
       [ "bondage_suit", 10 ],
       { "item": "bodysuit_lycra", "variant": "bondage_suit", "prob": 10 },
       [ "bodysuit_lycra", 5 ],

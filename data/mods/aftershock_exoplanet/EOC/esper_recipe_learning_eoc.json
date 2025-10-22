@@ -76,6 +76,66 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_AFS_PRECOG_RECIPE_TEACHER",
+    "eoc_type": "EVENT",
+    "required_event": "game_begin",
+    "condition": { "u_has_trait": "AFS_PRECOG" },
+    "effect": [ { "run_eocs": "EOC_TEACH_AFS_PRECOG_CONTEMPLATE_RECIPES" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TEACH_AFS_PRECOG_CONTEMPLATE_RECIPES",
+    "effect": [
+      {
+        "run_eocs": [
+          "EOC_CHECK_GAMEBEGIN_AFS_PRECOG_RECIPE_DANGER_SENSE",
+          "EOC_CHECK_GAMEBEGIN_AFS_PRECOG_RECIPE_DAMAGE_FORESEE",
+          "EOC_CHECK_GAMEBEGIN_AFS_PRECOG_RECIPE_RANGED_ENHANCE",
+          "EOC_CHECK_GAMEBEGIN_AFS_PRECOG_RECIPE_CRAFT_BONUS",
+          "EOC_CHECK_GAMEBEGIN_AFS_PRECOG_RECIPE_DODGE_BONUS",
+          "EOC_CHECK_GAMEBEGIN_AFS_PRECOG_RECIPE_MELEE_ENHANCE"
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_AFS_PRECOG_RECIPE_DANGER_SENSE",
+    "condition": { "and": [ { "u_has_trait": "AFS_PRECOG" }, { "math": [ "u_spell_level('afs_precog_danger_sense') >= 0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_afs_precog_danger_sense" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_AFS_PRECOG_RECIPE_DAMAGE_FORESEE",
+    "condition": { "and": [ { "u_has_trait": "AFS_PRECOG" }, { "math": [ "u_spell_level('afs_precog_damage_foresee') >= 0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_afs_precog_damage_foresee" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_AFS_PRECOG_RECIPE_RANGED_ENHANCE",
+    "condition": { "and": [ { "u_has_trait": "AFS_PRECOG" }, { "math": [ "u_spell_level('afs_precog_ranged_enhance') >= 0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_afs_precog_ranged_enhance" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_AFS_PRECOG_RECIPE_CRAFT_BONUS",
+    "condition": { "and": [ { "u_has_trait": "AFS_PRECOG" }, { "math": [ "u_spell_level('afs_precog_craft_bonus') >= 0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_afs_precog_craft_bonus" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_AFS_PRECOG_RECIPE_DODGE_BONUS",
+    "condition": { "and": [ { "u_has_trait": "AFS_PRECOG" }, { "math": [ "u_spell_level('afs_precog_dodge_bonus') >= 0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_afs_precog_dodge_bonus" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_AFS_PRECOG_RECIPE_MELEE_ENHANCE",
+    "condition": { "and": [ { "u_has_trait": "AFS_PRECOG" }, { "math": [ "u_spell_level('afs_precog_melee_enhance') >= 0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_afs_precog_melee_enhance" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_AFS_TELEKINETIC_RECIPE_TEACHER",
     "eoc_type": "EVENT",
     "required_event": "game_begin",

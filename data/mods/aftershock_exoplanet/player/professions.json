@@ -767,6 +767,43 @@
   },
   {
     "type": "profession",
+    "id": "afs_esper_precog",
+    "name": "Sibyl",
+    "description": "You are a precog, able to foresee the future.  You aren't entirely sure how you got your powers, but you seem to have an instinctive sense of how to use them.  That's not sinister at all, right?",
+    "points": 7,
+    "starting_cash": 1120000,
+    "traits": [ "AFS_PRECOG", "ESPER_STARTER_ADVANCEMENT_OKAY" ],
+    "flags": [ "SCEN_ONLY" ],
+    "skills": [ { "level": 4, "name": "metaphysics" } ],
+    "spells": [
+      { "id": "afs_precog_danger_sense", "level": 8 },
+      { "id": "afs_precog_damage_foresee", "level": 6 },
+      { "id": "afs_precog_ranged_enhance", "level": 6 },
+      { "id": "afs_precog_craft_bonus", "level": 5 },
+      { "id": "afs_precog_dodge_bonus", "level": 3 }
+    ],
+    "proficiencies": [ "prof_concentration_basic" ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "spacer_jumpsuit" },
+          { "item": "spacer_cap" },
+          { "item": "socks" },
+          { "item": "boots" },
+          { "item": "wristwatch" },
+          { "item": "cream_prot_cold" },
+          { "item": "cream_prot_cold" },
+          { "group": "charged_smart_phone" },
+          { "item": "XL_holster" },
+          { "item": "afs_cartridge", "ammo-item": "battery", "charges": [ 900, 1485 ], "container-item": "afs_v29" }
+        ]
+      },
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] }
+    }
+  },
+  {
+    "type": "profession",
     "id": "afs_esper_telekinetic",
     "name": "Geist",
     "description": "You are a telekinetic, able to move objects without touching them.  You aren't entirely sure how you got your powers, but you seem to have an instinctive sense of how to use them.  That's not sinister at all, right?",
