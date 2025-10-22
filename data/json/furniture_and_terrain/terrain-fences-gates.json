@@ -1327,6 +1327,38 @@
   },
   {
     "type": "terrain",
+    "id": "t_stone_fence",
+    "name": "cyclopean low wall",
+    "description": "A low wall made of large, roughly hewn stone blocks stacked without mortar.",
+    "symbol": "#",
+    "color": "cyan",
+    "looks_like": "t_metal_railing",
+    "move_cost": 3,
+    "flags": [
+      "TRANSPARENT",
+      "NOITEM",
+      "THIN_OBSTACLE",
+      "MOUNTABLE",
+      "SHORT",
+      "AUTO_WALL_SYMBOL",
+      "MINEABLE",
+      "CLIMBABLE",
+      "BURROWABLE",
+      "PERMEABLE"
+    ],
+    "connect_groups": "RAILING",
+    "connects_to": "RAILING",
+    "bash": {
+      "str_min": 100,
+      "str_max": 400,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_stone_floor",
+      "items": [ { "item": "rock", "count": [ 25, 40 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_guardrail_hw_air",
     "name": "guard rail",
     "description": "A section of metal railing, put in place to prevent people from falling or taking the easy way out.",

@@ -847,7 +847,7 @@
     ],
     "locations": [ "land" ],
     "city_distance": [ 0, -1 ],
-    "occurrences": [ 2, 4 ],
+    "occurrences": [ 0, 4 ],
     "flags": [ "WILDERNESS", "HIGHLANDS" ]
   },
   {
@@ -856,7 +856,7 @@
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "standing_stones_highlands" } ],
     "locations": [ "land" ],
     "city_distance": [ 0, -1 ],
-    "occurrences": [ 2, 4 ],
+    "occurrences": [ 0, 4 ],
     "rotate": false,
     "flags": [ "CLASSIC", "WILDERNESS", "HIGHLANDS" ]
   },
