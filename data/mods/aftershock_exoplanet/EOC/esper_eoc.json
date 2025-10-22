@@ -8,6 +8,7 @@
         {
           "or": [
             { "compare_string": [ "AFS_ELECTROKINETIC", { "context_val": "school" } ] },
+            { "compare_string": [ "AFS_PRECOG", { "context_val": "school" } ] },
             { "compare_string": [ "AFS_TELEKINETIC", { "context_val": "school" } ] },
             { "compare_string": [ "AFS_TELEPATH", { "context_val": "school" } ] }
           ]
@@ -24,6 +25,10 @@
         { "u_has_effect": "effect_afs_electrokin_see_electricity" },
         { "u_has_effect": "effect_afs_electrokin_hacking_interface" },
         { "u_has_effect": "effect_afs_electrokin_personal_battery" },
+        { "u_has_effect": "effect_afs_precog_premonition" },
+        { "u_has_effect": "effect_afs_precog_ranged_enhance" },
+        { "u_has_effect": "effect_afs_precog_craft_bonus" },
+        { "u_has_effect": "effect_afs_precog_melee_enhance" },
         { "u_has_effect": "effect_afs_telekinetic_momentum" },
         { "u_has_effect": "effect_afs_telepath_sense_minds" },
         { "u_has_effect": "effect_afs_telepathic_suggestion" },
@@ -187,6 +192,10 @@
           "EOC_AFS_ELECTROKIN_REMOVE_SEE_ELECTRICITY",
           "EOC_AFS_ELECTROKIN_REMOVE_HACKING_INTERFACE",
           "EOC_AFS_ELECTROKIN_REMOVE_PERSONAL_BATTERY",
+          "EOC_AFS_PRECOG_REMOVE_DANGER_SENSE",
+          "EOC_AFS_PRECOG_REMOVE_RANGED_ENHANCE",
+          "EOC_AFS_PRECOG_REMOVE_CRAFT_BONUS",
+          "EOC_AFS_PRECOG_REMOVE_MELEE_ENHANCE",
           "EOC_AFS_TELEKIN_REMOVE_MOMENTUM",
           "EOC_AFS_TELEPATH_REMOVE_TELEPATHIC_SHIELD",
           "EOC_AFS_TELEPATH_REMOVE_SENSE_MINDS",

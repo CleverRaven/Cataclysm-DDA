@@ -165,6 +165,199 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_afs_precog_danger_sense",
+    "name": [ "Premonition" ],
+    "desc": [ "You are preternaturally aware of nearby movement and possible dangers." ],
+    "apply_message": "",
+    "remove_message": "Your preternatural awareness fades.",
+    "rating": "good",
+    "max_duration": "7 days",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "MOTION_ALARM",
+            "add": {
+              "math": [
+                "max( ( ( 3 + ( u_spell_level('afs_precog_danger_sense') * 0.5  ) * (scaling_factor(u_val('intelligence') ) ) ) ), 25)"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_afs_precog_damage_foresee",
+    "name": [ "Forewarning" ],
+    "desc": [ "You are warned of any dangers that would strike you." ],
+    "rating": "good",
+    "remove_message": "This was it.  You avoided the attack, but can you avoid the next one?",
+    "max_duration": "30 minutes",
+    "//": "Needs to be FORCEFIELD because it has to check if you get hit to be removed, and if it's EVASION, you'll never get hit.",
+    "enchantments": [ { "values": [ { "value": "FORCEFIELD", "add": 1 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_afs_precog_ranged_enhance",
+    "name": [ "Dead Aim" ],
+    "desc": [ "By predicting your enemies' movements, aiming becomes much easier." ],
+    "apply_message": "",
+    "remove_message": "The possible futures all snap back into the present.",
+    "rating": "good",
+    "max_duration": "7 days",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "RANGE",
+            "add": { "math": [ "(1 + ( u_spell_level('afs_precog_ranged_enhance') * 0.25 ) * scaling_factor(u_val('intelligence') ) )" ] }
+          },
+          {
+            "value": "WEAPON_DISPERSION",
+            "multiply": {
+              "math": [ "max((( ( u_spell_level('afs_precog_ranged_enhance') * -0.025) * scaling_factor(u_val('intelligence') ) ) ),-0.6)" ]
+            }
+          },
+          { "value": "MOVE_COST", "multiply": 0.1 },
+          { "value": "DODGE_CHANCE", "add": -3 }
+        ]
+      },
+      {
+        "condition": {
+          "or": [
+            { "u_has_wielded_with_skill": "pistol" },
+            { "u_has_wielded_with_skill": "rifle" },
+            { "u_has_wielded_with_skill": "gun" }
+          ]
+        },
+        "values": [
+          {
+            "value": "WEAKPOINT_ACCURACY",
+            "multiply": {
+              "math": [
+                "min( ( ( ( u_spell_level('afs_precog_ranged_enhance') * 0.08) + 0.10 ) * scaling_factor(u_val('intelligence') ) ), 9 )"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_afs_precog_craft_bonus",
+    "name": [ "Intuitive Artistry" ],
+    "desc": [
+      "You just know what you need to do next.  It's harder for you to pay attention to anything else due to the shifting futures, however, and you will lose awareness of the outside world entirely when making something."
+    ],
+    "rating": "good",
+    "max_duration": "7 days",
+    "enchantments": [
+      {
+        "values": [
+          { "value": "MOVE_COST", "multiply": 3 },
+          {
+            "value": "CRAFTING_SPEED_MULTIPLIER",
+            "multiply": { "math": [ "( 0.04 + ( u_spell_level('afs_precog_craft_bonus') * 0.01 ) * scaling_factor(u_val('intelligence') ) )" ] }
+          }
+        ]
+      }
+    ],
+    "flags": [ "MYOPIC", "CRAFT_IN_DARKNESS" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_afs_precog_craft_bonus_blindness",
+    "//": "Hidden effect, blinds you while crafting.",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "BLIND" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_afs_precog_dodge_bonus",
+    "name": [ "Prescient Dodge" ],
+    "desc": [ "You can see your enemies' attacks in advance." ],
+    "apply_message": "",
+    "remove_message": "The fore-images of your enemies fade away.",
+    "rating": "good",
+    "max_duration": "7 days",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "RANGE_DODGE",
+            "add": {
+              "math": [ "min(((0.25 + ( u_spell_level('afs_precog_dodge_bonus') * 0.015) * scaling_factor(u_val('intelligence') ) ) ), 0.7)" ]
+            }
+          },
+          {
+            "value": "DODGE_CHANCE",
+            "add": {
+              "math": [ "min((( ( u_spell_level('afs_precog_dodge_bonus') * 0.5) * scaling_factor(u_val('intelligence') ) ) ), 10)" ]
+            }
+          }
+        ]
+      }
+    ],
+    "flags": [ "HARDTOHIT" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_afs_precog_melee_enhance",
+    "name": [ "Martial Trance" ],
+    "desc": [ "By predicting your enemies' movements, melee combat becomes much easier." ],
+    "apply_message": "",
+    "remove_message": "The possible futures all snap back into the present.",
+    "rating": "good",
+    "max_duration": "7 days",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "MELEE_TO_HIT",
+            "add": { "math": [ "(1 + ( u_spell_level('afs_precog_ranged_enhance') * 0.25 ) * scaling_factor(u_val('intelligence') ) )" ] }
+          },
+          {
+            "value": "DODGE_CHANCE",
+            "add": { "math": [ "(1 + ( u_spell_level('afs_precog_ranged_enhance') * 0.25 ) * scaling_factor(u_val('intelligence') ) )" ] }
+          },
+          {
+            "value": "MELEE_DAMAGE",
+            "add": {
+              "math": [ "(0.1 + ( u_spell_level('afs_precog_ranged_enhance') * 0.05 ) * scaling_factor(u_val('intelligence') ) )" ]
+            }
+          },
+          { "value": "BONUS_DODGE", "add": 1 }
+        ]
+      },
+      {
+        "condition": {
+          "or": [
+            { "u_has_wielded_with_skill": "melee" },
+            { "u_has_wielded_with_skill": "bashing" },
+            { "u_has_wielded_with_skill": "stabbing" },
+            { "u_has_wielded_with_skill": "cutting" }
+          ]
+        },
+        "values": [
+          {
+            "value": "WEAKPOINT_ACCURACY",
+            "multiply": {
+              "math": [
+                "min( ( ( ( u_spell_level('afs_precog_ranged_enhance') * 0.08) + 0.10 ) * scaling_factor(u_val('intelligence') ) ), 9 )"
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "flags": [ "MYOPIC_SUPERNATURAL" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_afs_telekinetic_momentum",
     "name": [ "Altered Momentum" ],
     "desc": [ "Your powers are affecting movement around you; dangerous objects are slowed and your own speed is increased." ],
