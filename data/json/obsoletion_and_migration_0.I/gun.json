@@ -393,7 +393,7 @@
   },
   {
     "id": "ksg-25",
-    "copy-from": "shotgun_pump",
+    "copy-from": "gun_base_shotgun_manual",
     "looks_like": "remington_870",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
@@ -465,7 +465,7 @@
   },
   {
     "id": "colt_lightning",
-    "copy-from": "rifle_manual",
+    "copy-from": "gun_base_rifle_manual",
     "looks_like": "modular_ar15",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
@@ -1130,7 +1130,7 @@
   },
   {
     "id": "saiga_410",
-    "copy-from": "shotgun_base",
+    "copy-from": "gun_base_shotgun_semi",
     "looks_like": "remington_870",
     "type": "ITEM",
     "subtypes": [ "GUN" ],

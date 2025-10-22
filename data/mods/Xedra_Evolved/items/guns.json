@@ -36,7 +36,7 @@
   },
   {
     "id": "aa_12",
-    "copy-from": "shotgun_base",
+    "copy-from": "gun_base_shotgun_semi",
     "looks_like": "remington_870",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
@@ -47,13 +47,11 @@
     "longest_side": "966 mm",
     "price": "1 kUSD 890 USD",
     "price_postapoc": "85 USD",
-    "to_hit": -1,
     "material": [ "lc_steel" ],
     "dispersion": 358,
     "durability": 7,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ], [ "AUTO", "auto", 5 ] ],
     "default_mods": [ "bars" ],
-    "min_cycle_recoil": 1250,
     "barrel_volume": "81 ml",
     "valid_mod_locations": [
       [ "sling", 1 ],
@@ -66,8 +64,7 @@
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "aa12_box_mag", "aa12_drum_mag" ] } ],
-    "melee_damage": { "bash": 14 }
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "aa12_box_mag", "aa12_drum_mag" ] } ]
   },
   {
     "id": "hammer_turret_system",

@@ -565,7 +565,7 @@
   },
   {
     "id": "mdrx",
-    "copy-from": "rifle_semi",
+    "copy-from": "gun_base_rifle_semi",
     "looks_like": "modular_ar15",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
@@ -585,13 +585,9 @@
     "//": "The length, weight, and volume numbers are assigned to, roughly, represent an MDRX without a protruding barrel. the difference will be made up for with the installable conversion kits.",
     "price": "1 kUSD 739 USD",
     "price_postapoc": "40 USD",
-    "to_hit": -1,
     "material": [ "aluminum", "steel", "plastic" ],
-    "symbol": "(",
-    "color": "dark_gray",
     "ammo": [ "NULL" ],
     "dispersion": 150,
-    "durability": 8,
     "min_cycle_recoil": 1250,
     "valid_mod_locations": [
       [ "bore", 1 ],
@@ -634,8 +630,7 @@
           "survivor223mag"
         ]
       }
-    ],
-    "melee_damage": { "bash": 10 }
+    ]
   },
   {
     "id": "bren2_556",
@@ -701,7 +696,7 @@
   },
   {
     "id": "cz600",
-    "copy-from": "rifle_manual",
+    "copy-from": "gun_base_rifle_manual",
     "looks_like": "modular_ar15",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
@@ -721,13 +716,11 @@
     "//": "The size calculations are taken from a CZ 600 with a half-extended buttstock, sitting at 790 mm, between the minimum and maximum of 690 and 890 mm. In addition, the length of a 16-inch barrel has been deducted and will be made up for by the installable barrel assemblies.",
     "price": "1 kUSD 155 USD",
     "price_postapoc": "40 USD",
-    "to_hit": -1,
     "material": [ "aluminum", "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
     "ammo": [ "NULL" ],
     "dispersion": 150,
-    "durability": 8,
     "built_in_mods": [ "adjustable_stock" ],
     "valid_mod_locations": [
       [ "bore", 1 ],
@@ -739,12 +732,11 @@
       [ "stock", 1 ]
     ],
     "flags": [ "NO_TURRET", "EASY_CLEAN" ],
-    "//2": "This should be removed once vehicle turrets are capable of mounting guns with mods attached. As it stands, trying to mount this style of weapon would require the player to remove the conversion kit, thus rendering it unusable anyhow.",
-    "melee_damage": { "bash": 10 }
+    "//2": "This should be removed once vehicle turrets are capable of mounting guns with mods attached. As it stands, trying to mount this style of weapon would require the player to remove the conversion kit, thus rendering it unusable anyhow."
   },
   {
     "id": "rdb_223",
-    "copy-from": "rifle_semi",
+    "copy-from": "gun_base_223_semi_rifle",
     "looks_like": "modular_ar15",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
@@ -765,13 +757,9 @@
     "price": "1 kUSD",
     "price_postapoc": "40 USD",
     "material": [ "steel", "aluminum", "plastic" ],
-    "symbol": "(",
-    "color": "dark_gray",
-    "ammo": [ "223" ],
     "dispersion": 180,
     "sight_dispersion": 500,
     "durability": 6,
-    "min_cycle_recoil": 1350,
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "brass catcher", 1 ],
@@ -807,8 +795,7 @@
           "survivor223mag"
         ]
       }
-    ],
-    "melee_damage": { "bash": 10 }
+    ]
   },
   {
     "id": "iwi_tavor_x95_300blk",
