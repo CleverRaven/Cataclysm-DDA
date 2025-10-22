@@ -524,7 +524,7 @@
   },
   {
     "id": "af2011a1_38super",
-    "copy-from": "pistol_base",
+    "copy-from": "gun_base_handgun_semi",
     "looks_like": "glock_17",
     "type": "ITEM",
     "subtypes": [ "GUN" ],

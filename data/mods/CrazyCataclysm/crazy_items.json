@@ -87,8 +87,8 @@
     "melee_damage": { "bash": 12 }
   },
   {
-    "id": "yeet_cannon",
-    "copy-from": "pistol_base",
+    "id": "gun_base_9mm_semi_pistol",
+    "copy-from": "gun_base_handgun_semi",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "name": { "str": "Yeet Cannon" },
@@ -97,8 +97,6 @@
     "volume": "539 ml",
     "price": "75 USD",
     "material": [ "plastic", "steel", "zinc" ],
-    "color": "dark_gray",
-    "ammo": [ "9mm" ],
     "dispersion": 480,
     "durability": 7,
     "pocket_data": [
@@ -109,8 +107,7 @@
         "max_contains_weight": "20 kg",
         "item_restriction": [ "hptc9mag_8rd", "hptc9mag_10rd", "hptc9mag_15rd" ]
       }
-    ],
-    "melee_damage": { "bash": 8 }
+    ]
   },
   {
     "id": "firekatana_off",

@@ -30,7 +30,7 @@
   },
   {
     "id": "modular_ar_pistol",
-    "copy-from": "pistol_base",
+    "copy-from": "gun_base_rifle_semi",
     "//": "Based on https://www.aeroprecisionusa.com/m4e1-carbine-complete-lower-a2-grip-no-stock-anodized",
     "looks_like": "modular_ar15",
     "type": "ITEM",
@@ -42,8 +42,6 @@
     "longest_side": "373 mm",
     "price": "245 USD",
     "price_postapoc": "35 USD",
-    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
-    "skill": "rifle",
     "material": [ "steel", "aluminum" ],
     "ammo": [ "NULL" ],
     "dispersion": 150,
@@ -57,8 +55,7 @@
       [ "stock accessory", 1 ],
       [ "stock", 1 ]
     ],
-    "flags": [ "NO_TURRET" ],
-    "melee_damage": { "bash": 9 }
+    "flags": [ "NO_TURRET" ]
   },
   {
     "//": "Groups all 'H&K416' related rifles together. Used M27 due to it being the most popular of the three in the US.",
