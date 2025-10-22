@@ -47,7 +47,18 @@
   {
     "type": "mapgen",
     "om_terrain": "highland_road_tee",
-    "object": { "fill_ter": "t_region_groundcover", "place_nested": [ { "chunks": [ "24x24_highland_road_tee" ], "x": 0, "y": 0 } ] }
+    "object": {
+      "fill_ter": "t_region_groundcover",
+      "place_nested": [
+        { "chunks": [ "24x24_highland_road_tee" ], "x": 0, "y": 0 },
+        {
+          "chunks": [ "24x24_highland_road_tee_temple" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": { "north": [ "highland_crossroads_temple" ] }
+        }
+      ]
+    }
   },
   {
     "type": "mapgen",
@@ -222,6 +233,43 @@
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "highland_road" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "24x24_highland_road_tee_temple",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        " I F     /  //  FF   F  ",
+        "  F FF    ///     F F   ",
+        "      F  |////|       I ",
+        "  F  F     ///  F FF    ",
+        "      I   // /       F  ",
+        "  I F     ///   I       ",
+        "        ///////////   I ",
+        "////////////////////////",
+        "////////////////////////",
+        "////////////////////////",
+        "//////////iiiiii////////",
+        "iiiii///iiiiiiiii///iiii",
+        "iiiii///iiiiiiii///iiiii",
+        "ii//////////////////////",
+        "////////////////////////",
+        "////////////////////////",
+        "//////////ii////////////",
+        "///  /////ii//////      ",
+        "      ////ii/////       ",
+        "       ////ii////       ",
+        "       ////ii////       ",
+        "       ////ii////       ",
+        "       ////ii////       ",
+        "       ////ii////       "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "highland_road" ],
+      "terrain": { "F": "t_highland_groundcover", "|": "t_rock_wall" },
+      "furniture": { "F": [ [ "f_slab", 2 ], [ "f_null", 1 ] ] }
     }
   },
   {

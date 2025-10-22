@@ -457,6 +457,14 @@
   },
   {
     "type": "terrain",
+    "id": "t_highland_mosaic",
+    "name": "mosaic floor",
+    "copy-from": "t_marble_floor",
+    "looks_like": "t_floor_blue",
+    "description": "A mosaic floor made of various stone tiles, each with unique patterns and colors. "
+  },
+  {
+    "type": "terrain",
     "id": "t_metal_floor",
     "name": "metal floor",
     "description": "High-quality and tough checkered metal flooring to reduce the risk of slips and falls.  Can support a roof.",
