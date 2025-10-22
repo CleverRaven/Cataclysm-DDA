@@ -1,8 +1,0 @@
-  {
-    "result": "tanned_hide",
-    "type": "uncraft",
-    "time": "2 m",
-    "activity_level": "LIGHT_EXERCISE",
-    "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "leather", 8 ] ] ]
-  },
