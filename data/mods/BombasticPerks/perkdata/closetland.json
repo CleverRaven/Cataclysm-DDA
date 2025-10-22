@@ -95,6 +95,11 @@
     "condition": { "current_dimension": "dimension_perk_closetland" },
     "effect": [
       { "u_add_effect": "blind", "duration": "0" },
+      { 
+        "u_transform_radius": 1,
+        "ter_furn_transform": "perk_closetland_regenerate_light_if_broken",
+        "target_var": { "u_val": "closetland_arrival_point" }
+      },
       { "u_travel_to_dimension": "default" },
       { "u_teleport": { "u_val": "closetland_departure_point" } },
       { "u_lose_effect": "blind" }
