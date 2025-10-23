@@ -332,10 +332,10 @@ void Item_factory::finalize_pre( itype &obj )
     // if variant omit it's name or description,
     // pick it from the item instead
     for( auto &var : obj.variants ) {
-        if( var.alt_name == translation() ) {
+        if( var.alt_name.empty() ) {
             var.alt_name = obj.name;
         };
-        if( var.alt_description == translation() ) {
+        if( var.alt_description.empty() ) {
             var.alt_description = obj.name;
         }
     }
@@ -2988,8 +2988,8 @@ void itype_variant_data::load( const JsonObject &jo )
 {
     alt_name.make_plural();
     mandatory( jo, false, "id", id );
-    optional( jo, false, "name", alt_name, translation() );
-    optional( jo, false, "description", alt_description, translation() );
+    optional( jo, false, "name", alt_name );
+    optional( jo, false, "description", alt_description );
     optional( jo, false, "symbol", alt_sym, std::nullopt );
     if( jo.has_string( "color" ) ) {
         alt_color = color_from_string( jo.get_string( "color" ) );
