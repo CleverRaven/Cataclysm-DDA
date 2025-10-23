@@ -1353,7 +1353,7 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "category": [ "perk" ]
+    "category": [ "perk" ],
     "active": true,
     "activated_is_setup": true,
     "activated_eocs": [ "EOC_BOMBASTIC_PERKS_CLOSET_STORAGE_TRAVEL_TO_CLOSETLAND" ],

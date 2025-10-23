@@ -2,7 +2,7 @@
   {
     "type": "region_settings",
     "//": "We only need one Overmap, if in the future that's possible",
-    "id": "perk_closetland_area",
+    "id": "dimension_perk_closetland_settings",
     "rivers": null,
     "lakes": null,
     "ocean": null,
@@ -28,6 +28,8 @@
       "open_air",
       "open_air",
       "open_air",
+      "perk_closetland_closet_area_roof",
+      "perk_closetland_closet_area",
       "open_air",
       "open_air",
       "open_air",
@@ -37,18 +39,33 @@
       "open_air",
       "open_air",
       "open_air",
-      "open_air",
-      "open_air",
-      "nether_glass"
+      "closetland_nether_glass"
     ],
     "default_groundcover": [ [ "t_grass", 1 ] ],
-    "feature_flag_settings": { "blacklist": [ "CLASSIC", "LAB", "MAN_MADE", "MILITARY", "URBAN", "FARM", "EXODII" ], "whitelist": [ ] }
+    "feature_flag_settings": { "blacklist": [ "CLASSIC", "LAB", "MAN_MADE", "MILITARY", "URBAN", "FARM", "EXODII" ], "whitelist": [  ] },
+    "connections": {
+      "intra_city_road_connection": "local_road",
+      "inter_city_road_connection": "local_road",
+      "trail_connection": "forest_trail",
+      "sewer_connection": "sewer_tunnel",
+      "subway_connection": "subway_tunnel",
+      "rail_connection": "local_railroad"
+    }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "nether_glass" ],
+    "om_terrain": [ "closetland_nether_glass" ],
     "weight": 3,
     "object": { "fill_ter": "t_nether_glass_floor" }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "closetland_nether_glass",
+    "name": "Endless crystal",
+    "sym": "T",
+    "color": "light_red",
+    "see_cost": "none",
+    "flags": [ "NO_ROTATE" ]
   },
   {
     "type": "mapgen",
@@ -81,23 +98,65 @@
         "                        ",
         "                        "
       ],
-      "terrain": {
-        "O": "t_closetland_floor_olight",
-        ".": "t_closetland_floor",
-        "-": "t_closetland_wall_wood"
-      }
+      "terrain": { "O": "t_closetland_floor_olight", ".": "t_closetland_floor", "-": "t_closetland_wall_wood" }
     }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "perk_closetland_closet_area",
+    "name": "Closetland",
+    "sym": "C",
+    "color": "light_red",
+    "see_cost": "none",
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "perk_closetland_closet_area_roof" ],
+    "object": {
+      "fill_ter": "t_open_air",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "         -----          ",
+        "         -----          ",
+        "         -----          ",
+        "         -----          ",
+        "         -----          ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { "O": "t_closetland_wood_roof", ".": "t_closetland_wood_roof", "-": "t_closetland_wood_roof" }
+    }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "perk_closetland_closet_area_roof",
+    "name": "The roof",
+    "sym": "T",
+    "color": "light_red",
+    "see_cost": "none",
+    "flags": [ "NO_ROTATE" ]
   },
   {
     "type": "ter_furn_transform",
     "id": "perk_closetland_regenerate_light_if_broken",
-    "terrain": [
-      {
-        "result": [ "t_closetland_floor_olight" ],
-        "valid_terrain": [ "t_closetland_floor" ],
-        "message": ""
-      }
-    ]
+    "terrain": [ { "result": [ "t_closetland_floor_olight" ], "valid_terrain": [ "t_closetland_floor" ], "message": "" } ]
   },
   {
     "type": "terrain",
@@ -115,7 +174,7 @@
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD" ],
     "bash": {
       "str_min": 4,
-      "str_max": 1,2
+      "str_max": 1,
       "sound": "glass breaking!",
       "sound_fail": "whack!",
       "sound_vol": 16,
@@ -156,6 +215,7 @@
     "name": "wooden wall",
     "looks_like": "t_wall_wood",
     "description": "A shabby wall of planks and support beams, capable of supporting an upper level or roof.  Normally it'd be flammable but here you're not sure.",
+    "symbol": "|",
     "color": "light_red",
     "roof": "t_closetland_wood_roof",
     "bash": {
@@ -181,11 +241,17 @@
     "looks_like": "t_wood_roof",
     "name": "wooden roof",
     "description": "A flat section of wooden rooftop.",
-    "looks_like": "t_floor",
     "symbol": ".",
     "color": "brown",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAMMABLE", "FLAT" ],
-    "bash": { "str_min": 6000, "str_max": 6000, "sound": "crash!", "sound_fail": "whump!", "ter_set": "t_null", "bash_below": false }
+    "bash": {
+      "str_min": 6000,
+      "str_max": 6000,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_null",
+      "bash_below": false
+    }
   }
 ]
