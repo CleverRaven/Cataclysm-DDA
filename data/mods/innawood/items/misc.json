@@ -1,16 +1,5 @@
 [
   {
-    "id": "leather_journal_innawood",
-    "copy-from": "leather_journal",
-    "type": "ITEM",
-    "subtypes": [ "TOOL" ],
-    "name": { "str": "leather nutrition journal" },
-    "description": "A leather journal for tracking calories and storing notes.",
-    "looks_like": "book_nonf_soft_psych_cggamers",
-    "use_action": [ "CALORIES_INTAKE_TRACKER" ],
-    "extend": { "flags": [ "TRADER_AVOID", "CALORIES_INTAKE" ] }
-  },
-  {
     "id": "light_battery_shell",
     "type": "ITEM",
     "category": "spare_parts",
