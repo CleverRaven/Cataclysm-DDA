@@ -2744,11 +2744,6 @@
   },
   {
     "type": "MIGRATION",
-    "id": "leather_journal_innawood",
-    "replace": "leather_journal"
-  },
-  {
-    "type": "MIGRATION",
     "id": "tail_bunny_playboy",
     "replace": "scrap_cotton"
   }
