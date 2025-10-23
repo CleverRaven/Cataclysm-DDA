@@ -1357,6 +1357,7 @@
     "active": true,
     "activated_is_setup": true,
     "activated_eocs": [ "EOC_BOMBASTIC_PERKS_CLOSET_STORAGE_TRAVEL_TO_CLOSETLAND" ],
+    "processed_eocs": [ "EOC_BOMBASTIC_PERKS_CLOSET_STORAGE_SLEEP_DEPRIVATION_COST_IN_CLOSETLAND" ],
     "deactivated_eocs": [ "EOC_BOMBASTIC_PERKS_CLOSET_STORAGE_TRAVEL_BACK_FROM_CLOSETLAND" ]
   }
 ]

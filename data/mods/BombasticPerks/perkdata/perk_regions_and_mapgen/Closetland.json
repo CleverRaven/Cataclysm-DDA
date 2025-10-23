@@ -268,7 +268,7 @@
     "connect_groups": "WALL",
     "connects_to": "WALL",
     "rotates_to": "INDOORFLOOR",
-    "lockpick_result": "t_closetland_door_c",
+    "lockpick_result": "t_closetland_door",
     "lockpick_message": "You spend a while tinkering with the lock and you hear a click…but when you try the door it still won't open.",
     "examine_action": "locked_object",
     "flags": [ "LOCKED", "NOITEM", "BARRICADABLE_DOOR", "REDUCE_SCENT", "PICKABLE", "BLOCK_WIND", "SUPPORTS_ROOF" ],
