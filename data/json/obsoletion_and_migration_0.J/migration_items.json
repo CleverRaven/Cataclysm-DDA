@@ -6,6 +6,11 @@
   },
   {
     "type": "MIGRATION",
+    "id": "leather_journal_innawood",
+    "replace": "leather_journal"
+  },
+  {
+    "type": "MIGRATION",
     "id": "hk_mp7",
     "replace": "fn_p90"
   },
