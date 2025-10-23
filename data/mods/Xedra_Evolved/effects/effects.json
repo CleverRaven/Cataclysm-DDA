@@ -1001,7 +1001,7 @@
       { "mutations": [ "WINTER_FEIGN_DEATH_TRAITS" ] },
       { "ench_effects": [ { "effect": "downed", "intensity": 1 } ] },
       {
-        "condition": { "u_has_trait": "TORPOR_REFINEMENT_FEIGN_DEATH" },
+        "condition": { "u_has_trait": "VAMPIRE_TORPOR_REFINEMENT_FEIGN_DEATH" },
         "values": [
           {
             "value": "REGEN_HP",

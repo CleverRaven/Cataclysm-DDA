@@ -554,7 +554,7 @@
       "and": [
         { "u_has_trait": "VAMPIRE_FEIGN_DEATH" },
         { "u_has_trait": "VAMPIRE_TORPOR" },
-        { "not": { "u_has_trait": "TORPOR_REFINEMENT_FEIGN_DEATH" } }
+        { "not": { "u_has_trait": "VAMPIRE_TORPOR_REFINEMENT_FEIGN_DEATH" } }
       ]
     },
     "effect": [

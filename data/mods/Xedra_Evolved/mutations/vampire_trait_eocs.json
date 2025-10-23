@@ -1760,7 +1760,10 @@
     "vitamins": [ { "vitamin": "human_blood_vitamin", "rate": [ [ 1, 1 ] ], "tick": [ "8 m" ] } ],
     "flags": [ "DEAF", "BLIND" ],
     "enchantments": [
-      { "condition": { "u_has_trait": "TORPOR_REFINEMENT_FEIGN_DEATH" }, "mutations": [ "WINTER_FEIGN_DEATH_TRAITS" ] },
+      {
+        "condition": { "u_has_trait": "VAMPIRE_TORPOR_REFINEMENT_FEIGN_DEATH" },
+        "mutations": [ "WINTER_FEIGN_DEATH_TRAITS" ]
+      },
       {
         "values": [
           {

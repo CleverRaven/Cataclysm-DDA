@@ -46,7 +46,7 @@
   },
   {
     "type": "mutation",
-    "id": "TORPOR_REFINEMENT_FEIGN_DEATH",
+    "id": "VAMPIRE_TORPOR_REFINEMENT_FEIGN_DEATH",
     "points": 3,
     "starting_trait": false,
     "purifiable": false,
