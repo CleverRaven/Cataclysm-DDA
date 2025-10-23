@@ -40,21 +40,21 @@ static const damage_type_id damage_pure( "pure" );
 
 static const efftype_id effect_grabbed( "grabbed" );
 
-static const itype_id itype_bodypillow( "bodypillow" );
 static const itype_id itype_corpse_fake_TEST( "corpse_fake_TEST" );
 static const itype_id itype_corpse_fake_TEST_NODMG( "corpse_fake_TEST_NODMG" );
 static const itype_id itype_debug_backpack( "debug_backpack" );
-static const itype_id itype_exodii_ingot_lc_steel( "exodii_ingot_lc_steel" );
 static const itype_id itype_folded_bicycle( "folded_bicycle" );
 static const itype_id itype_folded_inflatable_boat( "folded_inflatable_boat" );
 static const itype_id itype_folded_wheelchair_generic( "folded_wheelchair_generic" );
 static const itype_id itype_hand_pump( "hand_pump" );
 static const itype_id itype_jeans( "jeans" );
 static const itype_id itype_qt_steel_chunk( "qt_steel_chunk" );
+static const itype_id itype_test_bodypillow_cloth_item( "test_bodypillow_cloth_item" );
 static const itype_id itype_test_extension_cable( "test_extension_cable" );
+static const itype_id itype_test_guarantee_wheel_dmg( "test_guarantee_wheel_dmg" );
 static const itype_id itype_test_power_cord( "test_power_cord" );
+static const itype_id itype_test_squishy_fruit( "test_squishy_fruit" );
 static const itype_id itype_test_standing_lamp( "test_standing_lamp" );
-static const itype_id itype_watermelon( "watermelon" );
 
 static const vpart_id vpart_ap_test_standing_lamp( "ap_test_standing_lamp" );
 static const vpart_id vpart_bike_rack( "bike_rack" );
@@ -939,13 +939,13 @@ TEST_CASE( "vehicle_wheels_damaged_by_running_over_items", "[vehicle]" )
             // Dangerous scenario: A chunk of steel on the road. You wouldn't want to run this over.
             {itype_qt_steel_chunk, 1.0},
             // Unlikely scenario: An abandoned body pillow. (Do you know how expensive these things are?! Who would do this???)
-            {itype_bodypillow, 0.5625},
+            {itype_test_bodypillow_cloth_item, 0.5625},
             // Player scenario: Running over people in your car
             {itype_corpse_fake_TEST, 0.0625},
             // Final Destination: This thing is guaranteed to ruin your day if you run it over.
-            {itype_exodii_ingot_lc_steel, 1.0},
+            {itype_test_guarantee_wheel_dmg, 1.0},
             // Finally, something big that should be very squishable and not much of a threat to a normal wheel.
-            {itype_watermelon, 0.015625},
+            {itype_test_squishy_fruit, 0.015625},
             // And to be sure: An item without the flag allowing it to damage wheels.
             {itype_corpse_fake_TEST_NODMG, 0.0}
         };
@@ -960,10 +960,10 @@ TEST_CASE( "vehicle_wheels_damaged_by_running_over_items", "[vehicle]" )
 
         const std::map<itype_id, double> test_items = {
             {itype_qt_steel_chunk, 1.0},
-            {itype_bodypillow, 0.5625},
+            {itype_test_bodypillow_cloth_item, 0.5625},
             {itype_corpse_fake_TEST, 0.0625},
-            {itype_exodii_ingot_lc_steel, 1.0},
-            {itype_watermelon, 0.015625},
+            {itype_test_guarantee_wheel_dmg, 1.0},
+            {itype_test_squishy_fruit, 0.015625},
             {itype_corpse_fake_TEST_NODMG, 0.0}
         };
 
@@ -977,10 +977,10 @@ TEST_CASE( "vehicle_wheels_damaged_by_running_over_items", "[vehicle]" )
 
         const std::map<itype_id, double> test_items = {
             {itype_qt_steel_chunk, 0.25},
-            {itype_bodypillow, 0.0225},
+            {itype_test_bodypillow_cloth_item, 0.0225},
             {itype_corpse_fake_TEST, 0.0025},
-            {itype_exodii_ingot_lc_steel, 0.180625},
-            {itype_watermelon, 0.000625},
+            {itype_test_guarantee_wheel_dmg, 1.0},
+            {itype_test_squishy_fruit, 0.000625},
             {itype_corpse_fake_TEST_NODMG, 0.0}
         };
 

@@ -2853,7 +2853,7 @@
     "material": [ "cotton" ],
     "weight": "2317 g",
     "volume": "50 L",
-    "flags": [ "SLEEP_AID", "DAMAGE_VEHICLE_WHEELS" ],
+    "flags": [ "SLEEP_AID" ],
     "variant_type": "generic",
     "variants": [
       {

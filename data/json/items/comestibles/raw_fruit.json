@@ -745,7 +745,7 @@
     "price_postapoc": "2 USD",
     "material": [ "fruit" ],
     "volume": "7150 ml",
-    "flags": [ "EATEN_COLD", "FREEZERBURN", "INEDIBLE", "DAMAGE_VEHICLE_WHEELS" ],
+    "flags": [ "EATEN_COLD", "FREEZERBURN", "INEDIBLE" ],
     "vitamins": [ [ "vitC", "366 mg" ], [ "iron", "10800 μg" ], [ "calcium", "316300 μg" ], [ "fruit_allergen", 1 ] ],
     "melee_damage": { "bash": 2 }
   },
