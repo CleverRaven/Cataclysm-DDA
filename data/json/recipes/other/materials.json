@@ -1558,7 +1558,7 @@
     ],
     "tools": [ [ [ "water_boiling_heat", 1, "LIST" ] ], [ [ "water", -1 ], [ "water_clean", -1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.25, "skill_penalty": 0.125 } ],
-    "components": [ [ "bone", 1 ] ]
+    "components": [ [ "bone_sturdy", 1 ] ]
   },
   {
     "type": "recipe",
