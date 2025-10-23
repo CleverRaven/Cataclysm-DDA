@@ -387,7 +387,7 @@
     "entries": [
       {
         "distribution": [
-          { "item": "sextoy_anal", "prob": 46 },
+          { "distribution": [ { "item": "sextoy", "variant": "beads" }, { "item": "sextoy", "variant": "plug" } ], "prob": 46 },
           {
             "distribution": [
               { "item": "rope_6" },
@@ -399,16 +399,16 @@
             ],
             "prob": 27
           },
-          { "item": "dildo", "prob": 35 },
+          { "item": "sextoy", "variant": "dildo", "prob": 35 },
           {
             "distribution": [ { "item": "moisturizer", "variant": "lube", "entry-wrapper": "bottle_plastic_small", "count": 8 } ],
             "prob": 40
           },
-          { "item": "vibrator_egg", "charges": [ 0, 100 ], "prob": 29 },
+          { "item": "vibrator", "variant": "egg", "charges": [ 0, 100 ], "prob": 29 },
           {
             "distribution": [
-              { "item": "vibrator", "charges": [ 0, 100 ], "prob": 30 },
-              { "item": "vibrator_dildo", "charges": [ 0, 100 ], "prob": 60 }
+              { "item": "vibrator", "variant": "wand", "charges": [ 0, 100 ], "prob": 30 },
+              { "item": "vibrator", "variant": "dildo", "charges": [ 0, 100 ], "prob": 60 }
             ],
             "prob": 55
           }
@@ -425,7 +425,7 @@
     "entries": [
       {
         "distribution": [
-          { "item": "sextoy_anal", "prob": 46 },
+          { "distribution": [ { "item": "sextoy", "variant": "beads" }, { "item": "sextoy", "variant": "plug" } ], "prob": 46 },
           {
             "distribution": [
               { "item": "rope_6" },
@@ -437,14 +437,17 @@
             ],
             "prob": 27
           },
-          { "item": "dildo", "prob": 35 },
+          { "item": "sextoy", "variant": "dildo", "prob": 35 },
           {
             "distribution": [ { "item": "moisturizer", "variant": "lube", "entry-wrapper": "bottle_plastic_small", "count": 8 } ],
             "prob": 40
           },
-          { "item": "vibrator_egg", "charges": 100, "prob": 29 },
+          { "item": "vibrator", "variant": "egg", "charges": 100, "prob": 29 },
           {
-            "distribution": [ { "item": "vibrator", "charges": 100, "prob": 30 }, { "item": "vibrator_dildo", "charges": 100, "prob": 60 } ],
+            "distribution": [
+              { "item": "vibrator", "variant": "wand", "charges": 100, "prob": 30 },
+              { "item": "vibrator", "variant": "dildo", "charges": 100, "prob": 60 }
+            ],
             "prob": 55
           }
         ],

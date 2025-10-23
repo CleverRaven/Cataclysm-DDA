@@ -1141,11 +1141,11 @@
     "weapon_category": [ "SHIVS" ]
   },
   {
-    "id": "dildo",
+    "id": "sextoy",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
-    "name": { "str": "dildo", "str_pl": "dildoes" },
-    "description": "You know what this is.  Use it to take a break and unwind.",
+    "name": { "str": "sex toy" },
+    "description": "A sex toy.",
     "weight": "500 g",
     "volume": "500 ml",
     "longest_side": "20 cm",
@@ -1153,20 +1153,13 @@
     "material": [ "plastic" ],
     "symbol": "ï",
     "color": "pink",
-    "use_action": [ "VIBE" ]
-  },
-  {
-    "id": "sextoy_anal",
-    "copy-from": "dildo",
-    "type": "ITEM",
-    "subtypes": [ "TOOL" ],
-    "name": { "str": "anal sex toy" },
-    "description": "You know what this is.  Use it to take a break and unwind.",
-    "weight": "200 g",
-    "volume": "300 ml",
-    "longest_side": "15 cm",
-    "symbol": "†",
+    "use_action": [ "VIBE" ],
     "variants": [
+      {
+        "id": "dildo",
+        "name": { "str": "dildo", "str_pl": "dildoes" },
+        "description": "You know what this is.  Use it to take a break and unwind."
+      },
       {
         "id": "beads",
         "name": { "str_sp": "anal beads" },
@@ -1196,7 +1189,7 @@
     "id": "gag_ball",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
-    "name": { "str": "gag" },
+    "name": { "str": "ball gag" },
     "description": "A ball gag, make sure you're not keeping a katana nearby before using it.",
     "weight": "150 g",
     "volume": "150 ml",
