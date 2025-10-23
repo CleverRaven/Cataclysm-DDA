@@ -112,7 +112,7 @@
     "components": [
       [ [ "paper", 1 ] ],
       [ [ "box_small", 1 ], [ "plastic_shopping_bag", 1 ] ],
-      [ [ "button_wood", 24 ], [ "button_steel", 24 ], [ "button_bronze", 24 ], [ "button_plastic", 24 ] ]
+      [ [ "button_wood", 24 ], [ "button_steel", 24 ], [ "button_bronze", 24 ], [ "button_plastic", 24 ], [ "button_bone", 24 ] ]
     ]
   },
   {
