@@ -1,0 +1,97 @@
+[
+  {
+    "result": "quiver",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "skills_required": [ "archery", 1 ],
+    "time": "9 h",
+    "reversible": true,
+    "decomp_learn": 3,
+    "autolearn": true,
+    "book_learn": [ [ "recipe_arrows", 1 ] ],
+    "using": [ [ "tailoring_leather_patchwork_simple", 1 ], [ "fastener_large", 2 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_leatherworking_basic" }
+    ],
+    "components": [ [ [ "strap_large", 1, "LIST" ] ] ]
+  },
+  {
+    "result": "quiver_large",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "skills_required": [ "archery", 1 ],
+    "time": "30 h",
+    "reversible": true,
+    "decomp_learn": 3,
+    "autolearn": true,
+    "book_learn": [ [ "recipe_arrows", 2 ] ],
+    "using": [ [ "tailoring_leather_patchwork_simple", 3 ], [ "strap_large", 2 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "proficiencies": [
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_leatherworking_basic" }
+    ],
+    "components": [ [ [ "fastener_large", 3, "LIST" ] ] ]
+  },
+  {
+    "result": "javelin_bag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "skills_required": [ [ "throw", 1 ] ],
+    "difficulty": 2,
+    "time": "30 h",
+    "autolearn": true,
+    "reversible": true,
+    "using": [ [ "tailoring_leather_patchwork_simple", 3 ], [ "fastener_large", 2 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_leatherworking" },
+      { "proficiency": "prof_leatherworking_basic" }
+    ],
+    "components": [ [ [ "strap_large", 1, "LIST" ] ] ]
+  },
+  {
+    "result": "stone_pouch",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "skills_required": [ [ "throw", 1 ] ],
+    "time": "3 h",
+    "autolearn": true,
+    "reversible": true,
+    "using": [ [ "strap_large", 1 ], [ "tailoring_cotton_patchwork_simple", 1 ], [ "fastener_small", 2 ] ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ]
+  },
+  {
+    "result": "leather_stone_pouch",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "3 h",
+    "autolearn": true,
+    "reversible": true,
+    "using": [ [ "strap_large", 1 ], [ "tailoring_leather_patchwork_simple", 1 ], [ "fastener_small", 2 ] ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ]
+  }
+]
