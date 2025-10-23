@@ -64,7 +64,7 @@
           }
         ],
         "else": [
-          { "u_message": "You can only find the path to Closetland if in a closet." },
+          { "u_message": "You can only find the path to Closetland if enclosed in a closet." },
           {
             "run_eocs": "EOC_BOMBASTIC_PERKS_CLOSET_STORAGE_TRAVEL_TO_CLOSETLAND_DEACTIVATE_FUTURE",
             "time_in_future": 0
