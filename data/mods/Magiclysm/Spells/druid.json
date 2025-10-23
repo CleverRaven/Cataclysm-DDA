@@ -433,7 +433,6 @@
     "max_level": 10,
     "min_damage": { "math": [ "(u_spell_level('druidic_healing') * -1) - 2" ] },
     "max_damage": { "math": [ "(u_spell_level('druidic_healing') * -2) - 5" ] },
-    "damage_increment": -1.6,
     "min_aoe": 0,
     "max_aoe": 2,
     "aoe_increment": 0.2,
