@@ -161,6 +161,9 @@
           },
           { "math": [ "u_pain() += 30 + rand(30)" ] },
           { "u_lose_effect": "vampire_virus" },
+          { "u_lose_trait": "VAMPIRE" },
+          { "u_lose_trait": "VAMPIRE_TRUCE" },
+          { "u_lose_trait": "VAMPIRE_BLOOD_ARTS" },
           { "math": [ "u_vitamin('human_blood_vitamin') = 0" ] },
           { "u_add_morale": "morale_nightmare", "bonus": [ -15, -30 ], "max_bonus": -30 }
         ],
