@@ -2601,7 +2601,7 @@
   {
     "result": "leather_journal",
     "type": "uncraft",
-    "time": "2 m",
+    "time": "30 s",
     "activity_level": "LIGHT_EXERCISE",
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "leather", 3 ] ] ]
