@@ -46,14 +46,15 @@ def parse_generic(json, origin):
 
     if "variants" in json:
         for variant in json["variants"]:
-            variant_name = get_singular_name(variant["name"]) if "name" in variant else name
+            variant_name = get_singular_name(
+                variant["name"]) if "name" in variant else name
             if "name" in variant:
                 write_text(variant["name"], origin,
                            comment="Variant name of item \"{}\"".format(name),
                            plural=True)
             if "description" in variant:
-                write_text(variant["description"], origin,
-                           comment="Description of variant \"{1}\" of item \"{0}\""
+                write_text(variant["description"], origin, "",
+                           "Description of variant \"{1}\" of item \"{0}\""
                            .format(name, variant_name))
 
     if "snippet_category" in json and type(json["snippet_category"]) is list:

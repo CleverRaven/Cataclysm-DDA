@@ -331,7 +331,7 @@ void Item_factory::finalize_pre( itype &obj )
 
     // if variant omit it's name or description,
     // pick it from the item instead
-    for( auto &var : obj.variants ) {
+    for( itype_variant_data &var : obj.variants ) {
         if( var.alt_name.empty() ) {
             var.alt_name = obj.name;
         };
