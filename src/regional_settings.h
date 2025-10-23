@@ -87,6 +87,8 @@ struct region_settings_city {
     // We'll spread this out to the rest of the town.
     int park_sigma = 100 - park_radius;
 
+    std::string name_snippet = "<city_name>";
+
     building_bin houses;
     building_bin shops;
     building_bin parks;
