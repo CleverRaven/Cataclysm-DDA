@@ -333,7 +333,7 @@
             "then": [
               { "math": [ "_bleed_intensity = u_effect_intensity('bleed', 'bodypart': _id)" ] },
               { "u_message": "Bleed intensity for bodypart is <context_val:bleed_intensity>.", "type": "debug" },
-              { "math": [ "u_vitamin('human_blood_vitamin') -= u_effect_intensity('bleed', 'bodypart': _id) * 2" ] }
+              { "math": [ "u_vitamin('human_blood_vitamin') -= u_effect_intensity('bleed', 'bodypart': _id)" ] }
             ]
           }
         ]
