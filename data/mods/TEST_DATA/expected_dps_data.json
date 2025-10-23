@@ -1,0 +1,275 @@
+[
+  {
+    "type": "test_data",
+    "//": "battleaxes",
+    "expected_dps": { "lc_battleaxe": 25.88, "mc_battleaxe": 28.47, "hc_battleaxe": 29.72, "ch_battleaxe": 30.49, "qt_battleaxe": 31.37 }
+  },
+  {
+    "type": "test_data",
+    "//": "mace-like weapons",
+    "expected_dps": { "hc_mace": 24.89, "ch_mace": 25.38, "morningstar": 26.12, "qt_mace": 28.33 }
+  },
+  {
+    "type": "test_data",
+    "expected_dps": { "bio_claws_weapon": 16.5, "bagh_nakha": 14.0 }
+  },
+  {
+    "type": "test_data",
+    "//": "Integrated weapons, bionics, etc",
+    "expected_dps": { "integrated_giant_pincer": 9.78, "integrated_vampire_fangs": 10.69 }
+  },
+  {
+    "type": "test_data",
+    "//": "Uncategorized improvised weapons",
+    "expected_dps": {
+      "shock_epee": 8.6,
+      "shock_sabre": 7.4,
+      "pointy_stick_long": 5.83,
+      "pointy_stick": 5.89,
+      "fencing_sabre_sharpened": 8.03,
+      "sharpened_pipe": 8.8,
+      "fencing_epee_sharpened": 9.17
+    }
+  },
+  {
+    "type": "test_data",
+    "//": "Just junk items",
+    "expected_dps": {
+      "rock_sock": 5.63,
+      "2x4": 5.66,
+      "nailboard": 5.83,
+      "guitar_electric": 6.3,
+      "steel_chunk": 6.59,
+      "torch": 5.4,
+      "pipe": 8.09,
+      "makeshift_crowbar": 8.26,
+      "stick": 9.04,
+      "chain": 4.53
+    }
+  },
+  {
+    "type": "test_data",
+    "//": "one handed knives culminating in bio blade",
+    "expected_dps": {
+      "pockknife": 5.51,
+      "knife_small": 5.86,
+      "diveknife": 8.0,
+      "knife_folding": 8.67,
+      "knife_hunting": 8.83,
+      "knife_huge": 10,
+      "switchblade": 11.7,
+      "knife_combat": 16.489,
+      "knife_combat_marine": 17.02,
+      "knife_rm42": 17.58,
+      "kukri": 18.38,
+      "hc_kukri": 19.35,
+      "ch_kukri": 20.23,
+      "qt_kukri": 21.42,
+      "bio_blade_weapon": 24.5
+    }
+  },
+  {
+    "type": "test_data",
+    "//": "polearms",
+    "expected_dps": {
+      "pike": 23.0,
+      "makeshift_scythe_war": 24.5,
+      "bill_hook": 32.4,
+      "spear_dory": 28.0,
+      "qiang": 30.68,
+      "lucern_hammer": 31.5,
+      "glaive": 33.87,
+      "naginata": 33.97,
+      "poleaxe": 34.5,
+      "scythe_war": 34.59,
+      "ji": 35.82,
+      "halberd": 36.28
+    }
+  },
+  {
+    "type": "test_data",
+    "//": "small swords",
+    "expected_dps": {
+      "survivor_machete_qt": 22.6,
+      "sword_cane": 20.34,
+      "butterfly_swords": 29.74,
+      "hc_scimitar": 24.0,
+      "cavalry_sabre": 24.2,
+      "mc_cavalry_sabre": 24.233,
+      "khopesh": 24.26,
+      "hc_wakizashi": 24.6,
+      "ch_scimitar": 25.0,
+      "ch_cutlass": 25.4,
+      "qt_cutlass": 26.3,
+      "hc_cavalry_sabre": 26.5,
+      "ch_wakizashi": 26.64,
+      "qt_scimitar": 27.0,
+      "qt_wakizashi": 27.68,
+      "ch_cavalry_sabre": 27.7,
+      "ch_rapier": 28.3,
+      "qt_cavalry_sabre": 28.7,
+      "qt_rapier": 30.5
+    }
+  },
+  {
+    "type": "test_data",
+    "//": "spears",
+    "expected_dps": {
+      "javelin": 6.11,
+      "sharp_rebar": 10.73,
+      "spear_wood_simple": 11.44,
+      "javelin_iron": 12.3,
+      "spear_stone": 20.8,
+      "qt_aztec_spear": 23.5,
+      "spear_knife_proper": 24.59,
+      "art_trident": 25.5,
+      "spear_copper": 26.7,
+      "spear_bronze": 28.83,
+      "spear_steel": 30.58,
+      "art_spear": 30.7
+    }
+  },
+  {
+    "type": "test_data",
+    "//": "staffs",
+    "expected_dps": {
+      "pool_cue": 7.76,
+      "lc_steel_staff": 20.79,
+      "mc_steel_staff": 21.54,
+      "hc_steel_staff": 21.95,
+      "ch_steel_staff": 22.3,
+      "qt_steel_staff": 22.87
+    }
+  },
+  {
+    "type": "test_data",
+    "//": "bigger swords",
+    "expected_dps": {
+      "arming_sword_inferior": 24.156,
+      "hc_talwar": 24.6,
+      "broadsword": 24.6,
+      "arming_sword": 24.6,
+      "mc_broadsword": 24.605,
+      "mc_arming_sword": 24.648,
+      "jian": 25.2,
+      "mc_jian": 25.208,
+      "ch_talwar": 25.3,
+      "rapier": 25.3,
+      "mc_rapier": 25.302,
+      "hc_broadsword": 25.47,
+      "mc_kilij": 25.5,
+      "qt_talwar": 26.1,
+      "hc_arming_sword": 26.5,
+      "hc_kilij": 27.1,
+      "hc_jian": 27.3,
+      "hc_rapier": 27.4,
+      "ch_broadsword": 27.5,
+      "ch_arming_sword": 27.6,
+      "ch_kilij": 27.9,
+      "ch_jian": 28.3,
+      "qt_broadsword": 28.5,
+      "qt_kilij": 28.6,
+      "qt_arming_sword": 29.7,
+      "qt_jian": 30.8
+    }
+  },
+  {
+    "type": "test_data",
+    "//": "Test swords",
+    "expected_dps": {
+      "test_glaive": 34.52,
+      "test_clumsy_sword": 35.5,
+      "test_normal_sword": 46.66,
+      "test_balanced_sword": 56.85,
+      "mjolnir": 1935.9
+    }
+  },
+  {
+    "type": "test_data",
+    "//": "Conventional tools",
+    "expected_dps": { "heavy_flashlight": 5.66, "crutches": 13.49, "digging_stick": 5.58 }
+  },
+  {
+    "type": "test_data",
+    "//": "Powered tools",
+    "expected_dps": {
+      "polesaw_on": 2.72,
+      "trimmer_on": 1.64,
+      "elec_chainsaw_on": 3.85,
+      "masonrysaw_on": 3.07,
+      "electric_masonrysaw_on": 3.07,
+      "chainsaw_on": 4.38,
+      "circsaw_on": 3.84,
+      "chainsaw_off": 2.0,
+      "circsaw_off": 1.25
+    }
+  },
+  {
+    "type": "test_data",
+    "//": "Axe like tools/weapons",
+    "expected_dps": { "battleaxe": 28.47, "fire_ax": 21.2, "ax": 20.25, "brush_axe": 19.3 }
+  },
+  {
+    "type": "test_data",
+    "//": "misc bludegeons",
+    "expected_dps": {
+      "club_wooden_large": 6.55,
+      "stick_long": 8.0,
+      "halligan": 14.7,
+      "exodii_prybar": 15.9,
+      "exodii_digger": 12.9,
+      "pulverizer": 18.11,
+      "hammer_sledge": 20.0,
+      "2h_club_kanabo_studded": 25.16,
+      "2h_club_kanabo_spiked": 25.65,
+      "warhammer": 36.33
+    }
+  },
+  {
+    "type": "test_data",
+    "//": "flails",
+    "expected_dps": { "2h_flail_steel": 21.0, "2h_flail_wood": 20.4, "homewrecker": 13.0 }
+  },
+  {
+    "type": "test_data",
+    "//": "high quality swords",
+    "expected_dps": {
+      "katana": 26.0,
+      "mc_katana": 26.005,
+      "art_sword": 26.3,
+      "longsword": 26.3,
+      "mc_longsword": 26.329,
+      "estoc": 26.4,
+      "mc_estoc": 26.377,
+      "hc_longsword": 27.0,
+      "zweihander": 27.5,
+      "mc_zweihander": 27.512,
+      "mc_nodachi": 27.598,
+      "nodachi": 27.6,
+      "hc_katana": 28.0,
+      "hc_zweihander": 28.2,
+      "kriegsmesser": 28.2,
+      "mc_kriegsmesser": 28.2,
+      "ch_longsword": 28.6,
+      "hc_kriegsmesser": 28.9,
+      "hc_nodachi": 28.9,
+      "ch_katana": 29.0,
+      "hc_estoc": 29.5,
+      "ch_zweihander": 29.7,
+      "qt_katana": 29.8,
+      "ch_estoc": 30.2,
+      "qt_longsword": 30.2,
+      "ch_kriegsmesser": 30.4,
+      "ch_nodachi": 31.0,
+      "qt_zweihander": 31.4,
+      "qt_kriegsmesser": 31.9,
+      "qt_estoc": 32.4,
+      "qt_nodachi": 32.4
+    }
+  },
+  {
+    "type": "test_data",
+    "//": "'Unarmed' weapons",
+    "expected_dps": { "xl_knuckle_brass": 6.08, "knuckle_brass": 6.39, "xs_knuckle_brass": 6.86 }
+  }
+]

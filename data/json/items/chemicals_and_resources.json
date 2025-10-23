@@ -2224,6 +2224,9 @@
     "name": { "str_sp": "foul acidic blood" },
     "symbol": "~",
     "color": "red",
+    "//": "weight and freezing temp adjusted assuming the acid is diluted by essentially 50% water",
+    "weight": "352 g",
+    "freezing_point": -18,
     "description": "Blood mixed with acidic compounds, foul-smelling and extremely corrosive, a means of refining this could net some useful chemicals."
   },
   {

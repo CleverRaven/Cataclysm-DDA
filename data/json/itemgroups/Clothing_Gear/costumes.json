@@ -80,8 +80,7 @@
       { "item": "devil_tail", "prob": 15 },
       { "item": "angel_wings", "prob": 15 },
       { "item": "cuffs", "prob": 25 },
-      { "item": "collar_playboy", "prob": 25 },
-      { "item": "tail_bunny_playboy", "prob": 25 }
+      { "item": "collar_playboy", "prob": 25 }
     ]
   },
   {

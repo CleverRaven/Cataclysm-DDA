@@ -64,6 +64,19 @@
   },
   {
     "type": "mutation",
+    "id": "AFS_PRECOG",
+    "name": "Precognition",
+    "points": 0,
+    "description": "The ability to see the future.",
+    "types": [ "ESPER" ],
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "player_display": false,
+    "spells_learned": [ [ "afs_classless_toggleable_concentration_end", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "AFS_TELEKINETIC",
     "name": "Telekinesis",
     "points": 0,
@@ -87,5 +100,106 @@
     "valid": false,
     "player_display": false,
     "spells_learned": [ [ "afs_classless_toggleable_concentration_end", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "AFS_PRECOG_CRAFT_BONUS_01",
+    "name": { "str": "Intuitive Artistry" },
+    "points": 0,
+    "description": "Gazing into the near future lets you know what part goes where.",
+    "valid": false,
+    "craft_skill_bonus": [
+      [ "electronics", 1 ],
+      [ "tailor", 1 ],
+      [ "mechanics", 1 ],
+      [ "cooking", 1 ],
+      [ "chemistry", 1 ],
+      [ "fabrication", 1 ]
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "AFS_PRECOG_CRAFT_BONUS_02",
+    "name": { "str": "Intuitive Artistry" },
+    "points": 0,
+    "description": "Gazing into the near future lets you know what part goes where.",
+    "valid": false,
+    "player_display": false,
+    "craft_skill_bonus": [
+      [ "electronics", 2 ],
+      [ "tailor", 2 ],
+      [ "mechanics", 2 ],
+      [ "cooking", 2 ],
+      [ "chemistry", 2 ],
+      [ "fabrication", 2 ]
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "AFS_PRECOG_CRAFT_BONUS_03",
+    "name": { "str": "Intuitive Artistry" },
+    "points": 0,
+    "description": "Gazing into the near future lets you know what part goes where.",
+    "valid": false,
+    "player_display": false,
+    "craft_skill_bonus": [
+      [ "electronics", 3 ],
+      [ "tailor", 3 ],
+      [ "mechanics", 3 ],
+      [ "cooking", 3 ],
+      [ "chemistry", 3 ],
+      [ "fabrication", 3 ]
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "AFS_PRECOG_CRAFT_BONUS_04",
+    "name": { "str": "Intuitive Artistry" },
+    "points": 0,
+    "description": "Gazing into the near future lets you know what part goes where.",
+    "valid": false,
+    "player_display": false,
+    "craft_skill_bonus": [
+      [ "electronics", 4 ],
+      [ "tailor", 4 ],
+      [ "mechanics", 4 ],
+      [ "cooking", 4 ],
+      [ "chemistry", 4 ],
+      [ "fabrication", 4 ]
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "AFS_PRECOG_CRAFT_BONUS_05",
+    "name": { "str": "Intuitive Artistry" },
+    "points": 0,
+    "description": "Gazing into the near future lets you know what part goes where.",
+    "valid": false,
+    "player_display": false,
+    "craft_skill_bonus": [
+      [ "electronics", 5 ],
+      [ "tailor", 5 ],
+      [ "mechanics", 5 ],
+      [ "cooking", 5 ],
+      [ "chemistry", 5 ],
+      [ "fabrication", 5 ]
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "AFS_PRECOG_CRAFT_BONUS_06",
+    "name": { "str": "Intuitive Artistry" },
+    "points": 0,
+    "description": "Gazing into the near future lets you know what part goes where.",
+    "valid": false,
+    "player_display": false,
+    "craft_skill_bonus": [
+      [ "electronics", 6 ],
+      [ "tailor", 6 ],
+      [ "mechanics", 6 ],
+      [ "cooking", 6 ],
+      [ "chemistry", 6 ],
+      [ "fabrication", 6 ]
+    ]
   }
 ]

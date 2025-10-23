@@ -671,6 +671,7 @@ void region_settings_city::load( const JsonObject &jo, std::string_view )
     optional( jo, was_loaded, "shop_sigma", shop_sigma );
     optional( jo, was_loaded, "park_radius", park_radius );
     optional( jo, was_loaded, "park_sigma", park_sigma );
+    optional( jo, was_loaded, "name_snippet", name_snippet, "<city_name>" );
     optional( jo, was_loaded, "houses", houses.buildings, building_bin_reader );
     optional( jo, was_loaded, "shops", shops.buildings, building_bin_reader );
     optional( jo, was_loaded, "parks", parks.buildings, building_bin_reader );

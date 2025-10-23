@@ -2105,7 +2105,8 @@
       "enchant_windrun_monster",
       "effect_feral_animist_guardian_spirit",
       "effect_feral_animist_inner_voice",
-      "effect_migo_nether_shield_monster"
+      "effect_migo_nether_shield_monster",
+      "migo_fleshwarper_block_healing"
     ]
   },
   {
@@ -2264,6 +2265,7 @@
       "effect_feral_animist_inner_voice",
       "effect_migo_nether_shield_monster",
       "effect_feral_druid_thornskin",
+      "migo_fleshwarper_block_healing",
       "effect_clay_golem_unhealing"
     ]
   },
