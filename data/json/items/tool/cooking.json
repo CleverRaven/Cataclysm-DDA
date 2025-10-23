@@ -1187,7 +1187,7 @@
   {
     "id": "crystallizing_sugar",
     "type": "ITEM",
-    "subtypes": [ "TOOL" ],
+    "subtypes": [ "COMESTIBLE" ],
     "symbol": "*",
     "color": "white",
     "name": { "str": "crystallizing sugar" },
@@ -1197,6 +1197,7 @@
     "material": [ "sugar" ],
     "weight": "10 g",
     "volume": "10 ml",
+    "calories": 19,
     "use_action": {
       "type": "delayed_transform",
       "target": "sugar",
@@ -1206,6 +1207,6 @@
       "transform_age": 1209600,
       "//": "2 weeks for cristallizing sugar, based on the real-life example"
     },
-    "flags": [ "NO_SALVAGE" ]
+    "flags": [ "NO_SALVAGE", "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "WATER_DISSOLVE" ]
   }
 ]
