@@ -101,7 +101,27 @@
     "spell_class": "VAMPIRE_BLOOD_ARTS",
     "base_energy_cost": 100,
     "base_casting_time": 100,
-    "difficulty": 5
+    "difficulty": 5,
+    "extra_effects": [ { "id": "vampire_stamina_for_blood_cardio_bonus" } ]
+  },
+  {
+    "id": "vampire_stamina_for_blood_cardio_bonus",
+    "type": "SPELL",
+    "name": { "str": "Incarnadine relentlessness.", "//~": "NO_I18N" },
+    "description": { "str": "This applies the cardio boost if you have the refinement.", "//~": "NO_I18N" },
+    "teachable": false,
+    "magic_type": "xe_vampire_blood_powers",
+    "effect": "attack",
+    "effect_str": "effect_vampire_stamina_for_blood_cardio_bonus",
+    "condition": { "u_has_trait": "VAMPIRE_CARDIO_BONUS_REFINEMENT_STAMINAFORBLOOD" },
+    "shape": "blast",
+    "valid_targets": [ "self" ],
+    "min_duration": 60000,
+    "max_duration": 120000,
+    "flags": [ "NO_HANDS", "SILENT", "NO_FAIL", "RANDOM_DAMAGE", "NO_SFX" ],
+    "skill": "deduction",
+    "spell_class": "VAMPIRE_BLOOD_ARTS",
+    "difficulty": 0
   },
   {
     "id": "vampire_commune_with_night_spell",

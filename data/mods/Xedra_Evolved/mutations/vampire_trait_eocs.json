@@ -1761,6 +1761,10 @@
     "flags": [ "DEAF", "BLIND" ],
     "enchantments": [
       {
+        "condition": { "u_has_trait": "VAMPIRE_TORPOR_REFINEMENT_FEIGN_DEATH" },
+        "mutations": [ "WINTER_FEIGN_DEATH_TRAITS" ]
+      },
+      {
         "values": [
           {
             "value": "REGEN_HP",
@@ -1810,8 +1814,15 @@
               { "u_add_trait": "ECHOLOCATION" },
               { "math": [ "u_calories('dont_affect_weariness': true) /= 4" ] },
               {
-                "u_message": "Your fingers lengthen as flaps of skin grow between them and as your legs shorten, you take to the air.",
-                "type": "good"
+                "if": { "u_has_trait": "VAMPIRE_BAT_FORM_REFINEMENT_SWARM" },
+                "then": {
+                  "u_message": "Your body splits into a multitude of bats and as your transformation completes, you take to the air on many wings.",
+                  "type": "good"
+                },
+                "else": {
+                  "u_message": "Your fingers lengthen as flaps of skin grow between them and as your legs shorten, you take to the air.",
+                  "type": "good"
+                }
               }
             ],
             "false_effect": [

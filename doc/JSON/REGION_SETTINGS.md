@@ -542,6 +542,7 @@ relative placements of various classes of buildings.
 
 |       Identifier        |                            Description                             |
 | ----------------------- | ------------------------------------------------------------------ |
+| `name_snippet`          | Snippet used to generate city names. Default is `<city_name>`.     |
 | `shop_radius`           | Radial frequency of shop placement. Smaller number = more shops.   |
 | `park_radius`           | Radial frequency of park placement. Smaller number = more parks.   |
 | `houses`                | Weighted list of overmap terrains and specials used for houses.    |

@@ -67,6 +67,9 @@ Principles of Blood Arts:
 - Blood Arts do not have levels, and are not subject to failure based on power or skill level.
 - Blood Arts that turn on and remain on until turned off should be implemented as activatable mutations, so that there's a easy screen where the player can see what all is active and turn them on and off. Blood Arts which create an instant or temporary effect should be implemented as spells in the Supernatural Powers menu.
 - It is currently possible for a player to eventually learn every single available Blood Art, so be careful of unexpected synergies. 
+- Blood Art refinements are boosts to one or more Blood Arts.  They cannot be granted by the disease and must be gained through research.
+- They have their own research recipe and EOC, and are intended to be harder to research than regular Blood Arts.
+- When creating a refinement, there is more leeway to the "vampire-y" theme and scope than for regular Blood Arts.
 - New vampire powers need to be added to the vampire virus EoC (\Xedra_Evolved\effects\vampvirus.json) in order for vampires to learn them. If it's a power that a dhampir could also learn, they should also be added to the dhampir learning EoC (\Xedra_Evolved\mutations\dhampir_eocs.json)
 
 ### Vampire Anathema
