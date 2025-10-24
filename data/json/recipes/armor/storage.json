@@ -2145,28 +2145,6 @@
     "components": [ [ [ "strap_large", 1, "LIST" ] ] ]
   },
   {
-    "result": "javelin_bag_birchbark",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "tailor",
-    "difficulty": 4,
-    "skills_required": [ [ "survival", 2 ], [ "archery", 2 ] ],
-    "time": "15 h",
-    "reversible": true,
-    "decomp_learn": 4,
-    "autolearn": true,
-    "book_learn": [ [ "recipe_arrows", 3 ] ],
-    "qualities": [ { "id": "CUT", "level": 2 } ],
-    "proficiencies": [
-      { "proficiency": "prof_basketweaving" },
-      { "proficiency": "prof_closures" },
-      { "proficiency": "prof_closures_waterproofing" }
-    ],
-    "components": [ [ [ "birchbark", 18 ] ], [ [ "filament", 10, "LIST" ] ], [ [ "strap_large", 1, "LIST" ] ] ]
-  },
-  {
     "result": "grenadebandolier",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
