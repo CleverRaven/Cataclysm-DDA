@@ -66,7 +66,7 @@
     "components": [ [ [ "strap_large", 1, "LIST" ] ] ]
   },
   {
-    "result": "javelin_bag_large",
+    "result": "javelin_bag_birchbark",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
