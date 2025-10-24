@@ -69,5 +69,33 @@
     "use_action": { "type": "holster", "holster_prompt": "Stash javelins", "holster_msg": "You stash your %s." },
     "flags": [ "WATER_FRIENDLY", "OVERSIZE", "BELTED" ],
     "armor": [ { "encumbrance": 12, "coverage": 60, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+  },
+  {
+    "id": "quiver",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "quiver" },
+    "description": "A leather quiver worn at the waist that can hold 20 arrows or bolts.  Use insert to store arrows or bolts.",
+    "weight": "320 g",
+    "volume": "500 ml",
+    "price": "65 USD",
+    "price_postapoc": "10 USD",
+    "material": [ "leather" ],
+    "symbol": "[",
+    "looks_like": "bscabbard",
+    "color": "brown",
+    "sided": true,
+    "material_thickness": 1,
+    "pocket_data": [ { "ammo_restriction": { "arrow": 20, "bolt": 20 }, "moves": 20 } ],
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
+    "armor": [
+      {
+        "encumbrance": 3,
+        "coverage": 25,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ]
+      }
+    ],
+    "melee_damage": { "bash": 2 }
   }
 ]
