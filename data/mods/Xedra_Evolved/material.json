@@ -278,6 +278,23 @@
   },
   {
     "type": "material",
+    "id": "nether_energy",
+    "name": "Nether energy",
+    "density": 1,
+    "specific_heat_liquid": 0.52,
+    "specific_heat_solid": 0.52,
+    "latent_heat": 5200,
+    "chip_resist": 100,
+    "breathability": "SECOND_SKIN",
+    "dmg_adj": [ "wyrd", "acromatic", "hermetic", "orphic" ],
+    "bash_dmg_verb": "obfuscated",
+    "cut_dmg_verb": "obfuscated",
+    "soft": true,
+    "//": "Impenetrable to all damage types.  The material energy shields are made of in XE.",
+    "resist": { "bash": 1000, "cut": 1000, "acid": 1000, "heat": 1000, "bullet": 1000, "afs_plasma": 1000, "electric": 1000 }
+  },
+  {
+    "type": "material",
     "id": "elemental_water",
     "name": "elemental water",
     "//": "Trying to give it the resistances of frozen water in plastic jugs.",
