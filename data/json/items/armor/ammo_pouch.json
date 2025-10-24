@@ -534,6 +534,77 @@
     "melee_damage": { "bash": 4 }
   },
   {
+    "id": "javelin_bag_birchbark",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "javelin bag" },
+    "description": "An open medieval-looking bag made of birchbark, designed to store javelins within easy reach.",
+    "weight": "1380 g",
+    "volume": "1250 ml",
+    "price": "60 USD",
+    "price_postapoc": "12 USD",
+    "material": [ "wood" ],
+    "symbol": "[",
+    "looks_like": "quiver_birchbark",
+    "color": "light_gray",
+    "material_thickness": 1,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "min_item_volume": "250 ml",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 60,
+        "flag_restriction": [ "JAVELIN" ],
+        "max_item_length": "150 cm",
+        "volume_encumber_modifier": 0.3
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "min_item_volume": "250 ml",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 60,
+        "flag_restriction": [ "JAVELIN" ],
+        "max_item_length": "150 cm",
+        "volume_encumber_modifier": 0.3
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "min_item_volume": "250 ml",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 60,
+        "flag_restriction": [ "JAVELIN" ],
+        "max_item_length": "150 cm",
+        "volume_encumber_modifier": 0.3
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "min_item_volume": "250 ml",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 60,
+        "flag_restriction": [ "JAVELIN" ],
+        "max_item_length": "150 cm",
+        "volume_encumber_modifier": 0.3
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "min_item_volume": "250 ml",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 60,
+        "flag_restriction": [ "JAVELIN" ],
+        "max_item_length": "150 cm",
+        "volume_encumber_modifier": 0.3
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Stash javelins", "holster_msg": "You stash your %s." },
+    "flags": [ "WATER_FRIENDLY", "OVERSIZE", "VARSIZE", "BELTED" ],
+    "armor": [ { "encumbrance": 12, "coverage": 60, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+  },
+  {
     "id": "pipe_quiver_large",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
