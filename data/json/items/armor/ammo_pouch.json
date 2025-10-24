@@ -387,7 +387,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "quiver" },
     "description": "A leather quiver worn at the waist that can hold 20 arrows or bolts.  Use insert to store arrows or bolts.",
-    "weight": "260 g",
+    "weight": "320 g",
     "volume": "500 ml",
     "price": "65 USD",
     "price_postapoc": "10 USD",
