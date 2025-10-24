@@ -207,7 +207,7 @@
     },
     "effect": [
       {
-        "u_message": "You fall asleep for only a moment before being jerked awake.  The room is engufled in shadows, barely anything visible beyond the tip of your nose, but you feel a palpable sense of meance.  You scramble to your feet and, just as the shadows in the corner begin to grow even darker, frantically take the path away and out of Closetland.",
+        "u_message": "You fall asleep for only a moment before being jerked awake.  The room is engulfed in shadows, barely anything visible beyond the tip of your nose, but you feel a palpable sense of meance.  You scramble to your feet and, just as the shadows in the corner begin to grow even darker, frantically take the path away and out of Closetland.",
         "popup": true
       },
       "u_cancel_activity",
