@@ -23,7 +23,7 @@
     "mapping": {
       "*": {
         "terrain": [ [ "t_moss", 40 ], [ "t_dirt", 5 ] ],
-        "furniture": [ [ "f_boulder_large", 20 ], [ "f_null", 120 ], [ "f_boulder_small", 1 ] ]
+        "furniture": [ [ "f_boulder_large", 20 ], [ "f_boulder_small", 1 ] ]
       }
     }
   }

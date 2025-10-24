@@ -1353,7 +1353,7 @@
       "str_max": 400,
       "sound": "crash!",
       "sound_fail": "whump!",
-      "ter_set": "t_stone_floor",
+      "ter_set": "t_stone_masonry_floor",
       "items": [ { "item": "rock", "count": [ 25, 40 ] } ]
     }
   },

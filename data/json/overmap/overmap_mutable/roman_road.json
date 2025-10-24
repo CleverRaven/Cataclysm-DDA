@@ -33,7 +33,14 @@
       },
       "temple": { "overmap": "highland_crossroads_temple_north", "north": "crossroad_temple" },
       "temple_roof": { "overmap": "highland_crossroads_temple_above_north" },
-      "temple_roof_2": { "overmap": "highland_crossroads_temple_above2_north" }
+      "temple_roof_2": { "overmap": "highland_crossroads_temple_above2_north" },
+      "closing_chunk": {
+        "overmap": "highlands",
+        "north": { "id": "road_to_road", "alternatives": [ "invisible_road", "crossroad_temple" ], "type": "available" },
+        "east": { "id": "road_to_road", "alternatives": [ "invisible_road" ], "type": "available" },
+        "south": { "id": "road_to_road", "alternatives": [ "invisible_road" ], "type": "available" },
+        "west": { "id": "road_to_road", "alternatives": [ "invisible_road" ], "type": "available" }
+      }
     },
     "root": "road_straight",
     "phases": [
@@ -58,9 +65,10 @@
         { "overmap": "no_temple", "weight": 2 }
       ],
       [
-        { "overmap": "invisible_end", "weight": 1 },
-        { "overmap": "road_curve", "weight": 1 },
-        { "overmap": "road_tee", "weight": 1 },
+        { "overmap": "invisible_end", "weight": 100 },
+        { "overmap": "road_curve", "weight": 100 },
+        { "overmap": "road_tee", "weight": 100 },
+        { "overmap": "closing_chunk", "weight": 1 },
         { "overmap": "road_end", "weight": 100000 }
       ]
     ]

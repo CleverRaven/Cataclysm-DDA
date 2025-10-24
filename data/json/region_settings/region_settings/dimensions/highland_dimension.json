@@ -9,6 +9,12 @@
     "ravine_depth": -3
   },
   {
+    "type": "region_settings_terrain_furniture",
+    "id": "highland",
+    "copy-from": "default",
+    "ter_furn": [ "highland_t_region_groundcover", "default_t_region_groundcover" ]
+  },
+  {
     "type": "region_settings",
     "id": "highlands",
     "rivers": null,
@@ -21,7 +27,7 @@
     "cities": null,
     "forest_composition": "no_forests",
     "map_extras": "no_map_extras",
-    "terrain_furniture": "highlands_terrain_furniture",
+    "terrain_furniture": "highland",
     "weather": "highland_weather",
     "place_roads": false,
     "place_specials": true,
@@ -60,12 +66,6 @@
       "subway_connection": "subway_tunnel",
       "rail_connection": "local_railroad"
     }
-  },
-  {
-    "type": "region_settings_terrain_furniture",
-    "id": "highlands_terrain_furniture",
-    "copy-from": "default",
-    "ter_furn": [ "highland_t_region_groundcover", "default_t_region_groundcover" ]
   },
   {
     "type": "region_terrain_furniture",
