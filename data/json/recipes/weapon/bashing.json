@@ -476,10 +476,7 @@
       { "id": "GRIND", "level": 1 },
       { "id": "FILE", "level": 1 }
     ],
-    "components": [
-      [ [ "2x4", 2 ] ],
-      [ [ "leather", 3 ], [ "fur", 3 ], [ "faux_fur", 3 ] ]
-    ]
+    "components": [ [ [ "2x4", 2 ] ], [ [ "leather", 3 ], [ "fur", 3 ], [ "faux_fur", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -497,7 +494,7 @@
       { "proficiency": "prof_bladesmith" },
       { "proficiency": "prof_carving" }
     ],
-    "using": [ [ "blacksmithing_standard", 6 ], [ "lc_steel_standard", 3 ], [ "wood_sealant_any", 2] ],
+    "using": [ [ "blacksmithing_standard", 6 ], [ "lc_steel_standard", 3 ], [ "wood_sealant_any", 2 ] ],
     "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "qualities": [
       { "id": "CUT", "level": 2 },
@@ -505,10 +502,7 @@
       { "id": "GRIND", "level": 1 },
       { "id": "FILE", "level": 1 }
     ],
-    "components": [
-      [ [ "2x4", 2 ] ],
-      [ [ "leather", 3 ], [ "fur", 3 ], [ "faux_fur", 3 ] ]
-    ]
+    "components": [ [ [ "2x4", 2 ] ], [ [ "leather", 3 ], [ "fur", 3 ], [ "faux_fur", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -535,10 +529,7 @@
       { "id": "GRIND", "level": 1 },
       { "id": "FILE", "level": 1 }
     ],
-    "components": [
-      [ [ "2x4", 2 ] ],
-      [ [ "leather", 3 ], [ "scrap_kevlar", 3 ] ]
-    ]
+    "components": [ [ [ "2x4", 2 ] ], [ [ "leather", 3 ], [ "scrap_kevlar", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -565,10 +556,7 @@
       { "id": "GRIND", "level": 1 },
       { "id": "FILE", "level": 1 }
     ],
-    "components": [
-      [ [ "2x4", 2 ] ],
-      [ [ "leather", 3 ], [ "scrap_kevlar", 3 ] ]
-    ]
+    "components": [ [ [ "2x4", 2 ] ], [ [ "leather", 3 ], [ "scrap_kevlar", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -639,10 +627,7 @@
       { "id": "GRIND", "level": 1 },
       { "id": "FILE", "level": 1 }
     ],
-    "components": [
-      [ [ "spear_shaft", 1 ] ],
-      [ [ "2x4", 1 ] ]
-    ]
+    "components": [ [ [ "spear_shaft", 1 ] ], [ [ "2x4", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -661,7 +646,6 @@
       { "proficiency": "prof_carving" }
     ],
     "using": [ [ "blacksmithing_standard", 2 ], [ "mc_steel_standard", 1 ], [ "wood_sealant_any", 1 ] ],
-    
     "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "qualities": [
       { "id": "CUT", "level": 2 },
@@ -669,10 +653,7 @@
       { "id": "GRIND", "level": 1 },
       { "id": "FILE", "level": 1 }
     ],
-    "components": [
-      [ [ "spear_shaft", 1 ] ],
-      [ [ "2x4", 1 ] ]
-    ]
+    "components": [ [ [ "spear_shaft", 1 ] ], [ [ "2x4", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -698,10 +679,7 @@
       { "id": "GRIND", "level": 1 },
       { "id": "FILE", "level": 1 }
     ],
-    "components": [
-      [ [ "spear_shaft", 1 ] ],
-      [ [ "2x4", 1 ] ]
-    ]
+    "components": [ [ [ "spear_shaft", 1 ] ], [ [ "2x4", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -728,10 +706,7 @@
       { "id": "GRIND", "level": 1 },
       { "id": "FILE", "level": 1 }
     ],
-    "components": [
-      [ [ "spear_shaft", 1 ] ],
-      [ [ "2x4", 1 ] ]
-    ]
+    "components": [ [ [ "spear_shaft", 1 ] ], [ [ "2x4", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -758,10 +733,7 @@
       { "id": "GRIND", "level": 1 },
       { "id": "FILE", "level": 1 }
     ],
-    "components": [
-      [ [ "spear_shaft", 1 ] ],
-      [ [ "2x4", 1 ] ]
-    ]
+    "components": [ [ [ "spear_shaft", 1 ] ], [ [ "2x4", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1126,11 +1098,7 @@
     "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_carving", "skill_penalty": 0.5 } ],
     "//": "Bokken is a single piece of wood, and the stout branch just isn't large enough.",
-    "components": [
-      [ [ "stick_long", 1 ] ],
-      [ [ "fur", 2 ], [ "leather", 2 ] ],
-      [ [ "duct_tape", 20 ], [ "filament", 20, "LIST" ] ]
-    ]
+    "components": [ [ [ "stick_long", 1 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ], [ [ "duct_tape", 20 ], [ "filament", 20, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1424,13 +1392,11 @@
     "time": "5 h",
     "//1": "TODO: adjust crafting time down by 4 hours when it's possible to separate the oiling time from the crafting time easily.",
     "autolearn": true,
-    "using": [ [ "wood_sealant_any", 1 ] ]
+    "using": [ [ "wood_sealant_any", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "CUT_FINE", "level": 1 }, { "id": "FILE", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_carving", "max_experience": "60 m", "skill_penalty": 0.5 } ],
     "//2": "Max experience set because waiting for oil to soak in isn't really teaching you anything.  Remove this when crafting time reduced to only carving time.",
-    "components": [
-      [ [ "stick_long", 1 ] ]
-    ]
+    "components": [ [ [ "stick_long", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1445,13 +1411,11 @@
     "time": "270 m",
     "//1": "TODO: adjust crafting time down by 4 hours (240 minutes) when it's possible to separate the oiling time from the crafting time easily.",
     "autolearn": true,
-      "using": [ [ "wood_sealant_any", 1 ] ]
+    "using": [ [ "wood_sealant_any", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "CUT_FINE", "level": 1 }, { "id": "FILE", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_carving", "max_experience": "30 m", "skill_penalty": 0.2 } ],
     "//2": "Max experience set because waiting for oil to soak in isn't really teaching you anything.  Remove this when crafting time reduced to only carving time.",
-    "components": [
-      [ [ "q_staff", 1 ] ]
-    ]
+    "components": [ [ [ "q_staff", 1 ] ] ]
   },
   {
     "type": "recipe",
