@@ -1134,7 +1134,7 @@
     "//": "Bokken is a single piece of wood, and the stout branch just isn't large enough.",
     "components": [
       [ [ "stick_long", 1 ] ],
-      [ [ "wood_sealant_any", 1, "LIST" ] ],
+      [ [ "wood_sealant_any_small", 1, "LIST" ] ],
       [ [ "fur", 2 ], [ "leather", 2 ] ],
       [ [ "duct_tape", 20 ], [ "filament", 20, "LIST" ] ]
     ]
