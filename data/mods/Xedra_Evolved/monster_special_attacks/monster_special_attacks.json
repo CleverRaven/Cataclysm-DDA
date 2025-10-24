@@ -156,5 +156,79 @@
     "min_range": 48,
     "max_range": 48,
     "extra_effects": [ { "id": "ratking_summon_rats", "hit_self": true } ]
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "flickering_feral_stab",
+    "cooldown": 1,
+    "move_cost": 72,
+    "accuracy": 2,
+    "//": "Feral melee skill + weapon's to hit, so 3-1=2",
+    "damage_max_instance": [ { "damage_type": "bash", "amount": 2 }, { "damage_type": "stab", "amount": 14 } ],
+    "condition": { "test_eoc": "is_disarmed" },
+    "hit_dmg_u": "%1$s hits your %2$s with a knife!",
+    "hit_dmg_npc": "%1$s hits <npcname>'s %2$s with a knife!",
+    "miss_msg_u": "%1$s tries to hit you, but you dodge!",
+    "miss_msg_npc": "%1$s tries to hit <npcname>, but they dodge!",
+    "no_dmg_msg_u": "%1$s hits your %2$s without penetrating your armor.",
+    "no_dmg_msg_npc": "%1$s hits <npcname>'s %2$s without penetrating their armor.",
+    "eoc": [ "EOC_guilty_whispers_curse" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_guilty_whispers_curse",
+    "condition": { "and": [ { "math": [ "_proj_damage + _damage > 0" ] }, "has_beta", "npc_is_character" ] },
+    "effect": [
+      { "add_effect": "effect_haunting_whispers" },
+      { "run_eocs": "EOC_haunting_whispers_program" }
+      ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_haunting_whispers_program",
+    "recurrence": "45 seconds",
+    "condition": { "and": [ { "math": [ "u_mon_species_nearby( 'FERAL', 'radius': 25, 'attitude': 'both') > 0" ] }, [ "n_monsters_nearby('mon_whispering_stabber') < 1" ] "u_has_effect", "haunting_whispers" ] },
+    "effect": [
+      { "npc_cast_spell": "guilty_whispers_possession" },
+      { "run_eocs": "EOC_haunting_whispers_program2" }
+      ]
+  },
+  {
+    "id": "guilty_whispers_possession",
+    "type": "SPELL",
+    "name": { "str": "Possess a feral with guilty whispers", "//~": "NO_I18N" },
+    "description": { "str": "The curse passes on.", "//~": "NO_I18N" },
+    "valid_targets": [ "hostile" ],
+    "flags": [ "NO_LEGS", "NO_PROJECTILE" ],
+    "effect": "targeted_polymorph",
+    "effect_str": "mon_feral_whispering",
+    "shape": "blast",
+    "spell_class": "NONE",
+    "base_casting_time": 10,
+    "difficulty": 0,
+    "max_level": 1,
+    "min_damage": 9999,
+    "max_damage": 9999,
+    "damage_type": "pure",
+    "min_range": 30,
+    "max_range": 30
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "whispering_feral_stab",
+    "cooldown": 1,
+    "move_cost": 72,
+    "accuracy": 4,
+    "//": "Feral melee skill + weapon's to hit, so 3-1=2",
+    "damage_max_instance": [ { "damage_type": "bash", "amount": 4 }, { "damage_type": "stab", "amount": 20 } ],
+    "condition": { "test_eoc": "is_disarmed" },
+    "hit_dmg_u": "%1$s hits your %2$s with a knife!",
+    "hit_dmg_npc": "%1$s hits <npcname>'s %2$s with a knife!",
+    "miss_msg_u": "%1$s tries to hit you, but you dodge!",
+    "miss_msg_npc": "%1$s tries to hit <npcname>, but they dodge!",
+    "no_dmg_msg_u": "%1$s hits your %2$s without penetrating your armor.",
+    "no_dmg_msg_npc": "%1$s hits <npcname>'s %2$s without penetrating their armor."
   }
 ]
