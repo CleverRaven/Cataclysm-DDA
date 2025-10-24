@@ -6040,15 +6040,19 @@ void vehicle::idle( map &here, bool on_map )
 
     // FIXME/HACK: Always checks buckwheat seeds!
     // Returned string intentionally discarded!
-    ret_val<void>can_plant = warm_enough_to_plant( player_character.pos_bub(), itype_seed_buckwheat );
-    if( !can_plant.success() ) {
-        for( int i : planters ) {
-            vehicle_part &vp = parts[ i ];
-            if( vp.enabled ) {
-                add_msg_if_player_sees( pos_bub( here ),
-                                        _( "The %s's planter turns off due to unsuitable planting conditions." ),
-                                        name );
-                vp.enabled = false;
+    // TODO: move it to planter function that tries to plant, and maybe cache it there
+    // (warm_enough_to_plant() is very expensive)
+    if( !planters.empty() && calendar::once_every( 5_minutes ) ) {
+        ret_val<void>can_plant = warm_enough_to_plant( player_character.pos_bub(), itype_seed_buckwheat );
+        if( !can_plant.success() ) {
+            for( int i : planters ) {
+                vehicle_part &vp = parts[ i ];
+                if( vp.enabled ) {
+                    add_msg_if_player_sees( pos_bub( here ),
+                                            _( "The %s's planter turns off due to unsuitable planting conditions." ),
+                                            name );
+                    vp.enabled = false;
+                }
             }
         }
     }
