@@ -1529,6 +1529,7 @@
     "time": "2 h",
     "charges": 50,
     "autolearn": true,
+    "using": [ [ "wood_sealant_any_small", 1 ] ],
     "qualities": [
       { "id": "SAW_W", "level": 1 },
       [ { "id": "PUNCH", "level": 1 }, { "id": "DRILL", "level": 1 } ],
@@ -1536,7 +1537,7 @@
       { "id": "FILE", "level": 1 }
     ],
     "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.25, "skill_penalty": 0.125 } ],
-    "components": [ [ [ "mop", 1 ], [ "stick", 1 ], [ "broom", 1 ] ], [ [ "wood_sealant_any_small", 1, "LIST" ] ] ]
+    "components": [ [ [ "mop", 1 ], [ "stick", 1 ], [ "broom", 1 ] ] ]
   },
   {
     "type": "recipe",
