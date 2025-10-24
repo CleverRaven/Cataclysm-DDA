@@ -461,7 +461,7 @@
     "name": "mosaic floor",
     "copy-from": "t_marble_floor",
     "looks_like": "t_floor_blue",
-    "description": "A mosaic floor made of various stone tiles, each with unique patterns and colors. "
+    "description": "A mosaic floor made from colored stones arranged into fanciful patterns."
   },
   {
     "type": "terrain",
