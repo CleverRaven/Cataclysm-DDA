@@ -1536,10 +1536,7 @@
       { "id": "FILE", "level": 1 }
     ],
     "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.25, "skill_penalty": 0.125 } ],
-    "components": [
-      [ [ "mop", 1 ], [ "stick", 1 ], [ "broom", 1 ] ],
-      [ [ "wax_any", 1, "LIST" ], [ "rosin", 1 ], [ "any_tallow", 5, "LIST" ], [ "cooking_oil", 16 ] ]
-    ]
+    "components": [ [ [ "mop", 1 ], [ "stick", 1 ], [ "broom", 1 ] ], [ [ "wood_sealant_any_small", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
