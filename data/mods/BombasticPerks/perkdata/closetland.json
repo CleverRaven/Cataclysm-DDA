@@ -138,8 +138,7 @@
       {
         "if": {
           "and": [
-            { "math": [ "u_val('sleep_deprivation') >= 1000" ] },
-            { "math": [ "u_val('sleepiness') > 250" ] },
+            { "or": [ { "math": [ "u_val('sleep_deprivation') >= 1000" ] }, { "math": [ "u_val('sleepiness') > 250" ] } ] },
             { "one_in_chance": 450 }
           ]
         },
