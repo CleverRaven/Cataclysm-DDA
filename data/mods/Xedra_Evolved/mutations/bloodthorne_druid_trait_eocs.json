@@ -217,13 +217,38 @@
           { "u_add_effect": "formication", "duration": "10 minutes", "target_part": "RANDOM" },
           { "u_add_effect": "formication", "duration": "10 minutes", "target_part": "RANDOM" }
         ],
-        "else": {
-          "if": { "one_in_chance": 8 },
-          "then": [
-            { "u_message": "Your heartvines twitch in your sleep.", "type": "mixed" },
-            { "u_add_effect": "bleed", "intensity": 1, "duration": "PERMANENT", "target_part": "RANDOM" }
-          ]
-        }
+        "else": [
+          {
+            "if": { "u_has_trait": "VAMPIRE3" },
+            "then": {
+              "if": { "one_in_chance": 4 },
+              "then": [
+                { "u_message": "Your heartvines thrash in your sleep.", "type": "mixed" },
+                { "u_add_effect": "bleed", "intensity": 1, "duration": "PERMANENT", "target_part": "RANDOM" }
+              ]
+            }
+          },
+          {
+            "if": { "u_has_trait": "VAMPIRE2" },
+            "then": {
+              "if": { "one_in_chance": 8 },
+              "then": [
+                { "u_message": "Your heartvines twitch in your sleep.", "type": "mixed" },
+                { "u_add_effect": "bleed", "intensity": 1, "duration": "PERMANENT", "target_part": "RANDOM" }
+              ]
+            }
+          },
+          {
+            "if": { "u_has_effect": "vampire_virus" },
+            "then": {
+              "if": { "one_in_chance": 16 },
+              "then": [
+                { "u_message": "Your heartvines stir in your sleep.", "type": "mixed" },
+                { "u_add_effect": "bleed", "intensity": 1, "duration": "PERMANENT", "target_part": "RANDOM" }
+              ]
+            }
+          }
+        ]
       },
       {
         "if": { "math": [ "u_vitamin('human_blood_vitamin') >= 1" ] },
