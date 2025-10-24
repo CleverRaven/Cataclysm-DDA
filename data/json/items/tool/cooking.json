@@ -1189,6 +1189,7 @@
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "symbol": "*",
+    "category": "food",
     "color": "white",
     "comestible_type": "FOOD",
     "name": { "str": "crystallizing sugar" },
