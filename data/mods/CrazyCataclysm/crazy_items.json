@@ -645,16 +645,16 @@
     "copy-from": "pride_flag",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "description": "A large rainbow flag, The colors reflect the diversity of the LGBT community and the spectrum of human sexuality and gender.",
-    "variant_type": "generic",
-    "variants": [
-      {
-        "id": "newbrunswick_pride_flag",
-        "name": { "str": "NB flag" },
-        "description": "A yellow flag with a ship and lion, representing New Brunswick.  You have a feeling this might be the wrong NB flag.",
-        "weight": 5
-      }
-    ]
+    "extend": {
+      "variants": [
+        {
+          "id": "newbrunswick_pride_flag",
+          "name": { "str": "NB flag" },
+          "description": "A yellow flag with a ship and lion, representing New Brunswick.  You have a feeling this might be the wrong NB flag.",
+          "weight": 5
+        }
+      ]
+    }
   },
   {
     "id": "kitchen_gun",
