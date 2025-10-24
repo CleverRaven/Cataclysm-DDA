@@ -52,7 +52,7 @@
     "//": "Paraffin, motor oil, kerosene, tainted, rosin",
     "components": [
       [
-        [ "wood_sealant_nontoxic", 1, "LIST" ],
+        [ "wood_sealant_nontoxic_small", 1, "LIST" ],
         [ "any_tallow", 2, "LIST" ],
         [ "lamp_oil", 125 ],
         [ "motor_oil", 125 ],
