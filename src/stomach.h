@@ -62,6 +62,8 @@ struct nutrients {
         // Remove a vitamin completely from the data structure
         void remove_vitamin( const vitamin_id & );
 
+        // Returns true if any vitamin has a non-zero value, including a negative value
+        bool has_any_vitamin() const;
         int get_vitamin( const vitamin_id & ) const;
         int kcal() const;
 
