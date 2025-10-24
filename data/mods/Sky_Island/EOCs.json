@@ -19,13 +19,6 @@
     "effect": [
       { "math": [ "u_spell_level('island_hostile_eviction') = -1" ] },
       { "math": [ "u_spell_level('island_close_tear_and_portal') = -1" ] },
-      { "u_location_variable": { "global_val": "OM_HQ_origin" } },
-      {
-        "u_location_variable": { "global_val": "OM_HQ_origin_npc" },
-        "passable_only": true,
-        "min_radius": 2,
-        "max_radius": 10
-      },
       { "u_add_effect": "warpcloak", "intensity": 2, "duration": { "global_val": "invistime", "default": "3 s" } },
       {
         "run_eocs": [
@@ -87,6 +80,7 @@
             "effect": [
               {
                 "u_teleport": { "global_val": "OM_missionspot" },
+                "success_message": "Your followers teleport with you.",
                 "fail_message": "It seems some of your followers couldn't teleport with you.",
                 "force": true
               },
@@ -104,6 +98,7 @@
       },
       {
         "u_teleport": { "global_val": "OM_missionspot" },
+        "success_message": "You arrive on the raid.",
         "fail_message": "It seems the portal couldn't find a valid location.",
         "force": true
       },
@@ -158,6 +153,7 @@
         "npc_range": 10,
         "local": true
       },
+      { "u_teleport": { "global_val": "sky_dimension_teleport_departure" }, "force": true },
       { "u_travel_to_dimension": "default", "npc_travel_radius": 10, "region_type": "default" },
       {
         "u_run_npc_eocs": [
