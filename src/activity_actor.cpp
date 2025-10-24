@@ -2235,8 +2235,19 @@ void move_items_activity_actor::do_turn( player_activity &act, Character &who )
         // Make a copy to be put in the destination location
         item newit = leftovers;
 
-        if( newit.is_owned_by( who, true ) ) {
-            newit.set_owner( who );
+        Character &player_character = get_player_character();
+
+        if( newit.is_owned_by( who, true ) ||
+            ( who.getID() == player_character.getID() &&
+              player_character.get_value( "THIEF_MODE" ).str() == "THIEF_STEAL" ) ) {
+            // There are two distinct reasons we could get here:
+            //
+            //  1. This item was already owned by our 'who' at top level.
+            //  2. This item is NOT owned by 'who,' but 'who' is a player character with a THIEF_STEAL preference.
+            //     By setting the preference, the player is explicitly telling us to steal it, so we do.
+            //
+            // Either way, handle_pickup_ownership() will do the right thing.
+            newit.handle_pickup_ownership( who );
         } else {
             continue;
         }
