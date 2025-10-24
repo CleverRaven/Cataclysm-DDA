@@ -60,7 +60,7 @@
     "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_carving" } ],
     "tools": [ [ [ "char_smoker", 100 ] ] ],
-    "components": [ [ [ "log", 1 ] ], [ [ "butter", 30 ], [ "raw_butter", 30 ], [ "edible_tallow", 10, "LIST" ] ] ]
+    "components": [ [ [ "log", 1 ] ], [ [ "wood_sealant_any", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -449,7 +449,7 @@
       { "id": "GRIND", "level": 1 },
       { "id": "FILE", "level": 1 }
     ],
-    "components": [ [ [ "2x4", 2 ] ], [ [ "any_tallow", 10, "LIST" ], [ "cooking_oil", 48 ], [ "lamp_oil", 500 ], [ "motor_oil", 500 ] ] ]
+    "components": [ [ [ "2x4", 2 ] ], [ [ "wood_sealant_any", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -477,7 +477,7 @@
     ],
     "components": [
       [ [ "2x4", 2 ] ],
-      [ [ "any_tallow", 10, "LIST" ], [ "cooking_oil", 48 ], [ "lamp_oil", 500 ], [ "motor_oil", 500 ] ],
+      [ [ "wood_sealant_any", 2, "LIST" ] ],
       [ [ "leather", 3 ], [ "fur", 3 ], [ "faux_fur", 3 ] ]
     ]
   },
@@ -507,7 +507,7 @@
     ],
     "components": [
       [ [ "2x4", 2 ] ],
-      [ [ "any_tallow", 10, "LIST" ], [ "cooking_oil", 48 ], [ "lamp_oil", 500 ], [ "motor_oil", 500 ] ],
+      [ [ "wood_sealant_any", 2, "LIST" ] ],
       [ [ "leather", 3 ], [ "fur", 3 ], [ "faux_fur", 3 ] ]
     ]
   },
@@ -538,7 +538,7 @@
     ],
     "components": [
       [ [ "2x4", 2 ] ],
-      [ [ "any_tallow", 10, "LIST" ], [ "cooking_oil", 48 ], [ "lamp_oil", 500 ], [ "motor_oil", 500 ] ],
+      [ [ "wood_sealant_any", 2, "LIST" ] ],
       [ [ "leather", 3 ], [ "scrap_kevlar", 3 ] ]
     ]
   },
@@ -569,7 +569,7 @@
     ],
     "components": [
       [ [ "2x4", 2 ] ],
-      [ [ "any_tallow", 10, "LIST" ], [ "cooking_oil", 48 ], [ "lamp_oil", 500 ], [ "motor_oil", 500 ] ],
+      [ [ "wood_sealant_any", 2, "LIST" ] ],
       [ [ "leather", 3 ], [ "scrap_kevlar", 3 ] ]
     ]
   },
@@ -645,7 +645,7 @@
     "components": [
       [ [ "spear_shaft", 1 ] ],
       [ [ "2x4", 1 ] ],
-      [ [ "any_tallow", 2, "LIST" ], [ "cooking_oil", 8 ], [ "lamp_oil", 125 ], [ "motor_oil", 125 ] ]
+      [ [ "wood_sealant_any", 1, "LIST" ] ]
     ]
   },
   {
@@ -675,7 +675,7 @@
     "components": [
       [ [ "spear_shaft", 1 ] ],
       [ [ "2x4", 1 ] ],
-      [ [ "any_tallow", 2, "LIST" ], [ "cooking_oil", 8 ], [ "lamp_oil", 125 ], [ "motor_oil", 125 ] ]
+      [ [ "wood_sealant_any", 1, "LIST" ] ]
     ]
   },
   {
@@ -705,7 +705,7 @@
     "components": [
       [ [ "spear_shaft", 1 ] ],
       [ [ "2x4", 1 ] ],
-      [ [ "any_tallow", 2, "LIST" ], [ "cooking_oil", 8 ], [ "lamp_oil", 125 ], [ "motor_oil", 125 ] ]
+      [ [ "wood_sealant_any", 1, "LIST" ] ]
     ]
   },
   {
@@ -736,7 +736,7 @@
     "components": [
       [ [ "spear_shaft", 1 ] ],
       [ [ "2x4", 1 ] ],
-      [ [ "any_tallow", 2, "LIST" ], [ "cooking_oil", 8 ], [ "lamp_oil", 125 ], [ "motor_oil", 125 ] ]
+      [ [ "wood_sealant_any", 1, "LIST" ] ]
     ]
   },
   {
@@ -767,7 +767,7 @@
     "components": [
       [ [ "spear_shaft", 1 ] ],
       [ [ "2x4", 1 ] ],
-      [ [ "any_tallow", 2, "LIST" ], [ "cooking_oil", 8 ], [ "lamp_oil", 125 ], [ "motor_oil", 125 ] ]
+      [ [ "wood_sealant_any", 1, "LIST" ] ]
     ]
   },
   {
@@ -1134,7 +1134,7 @@
     "//": "Bokken is a single piece of wood, and the stout branch just isn't large enough.",
     "components": [
       [ [ "stick_long", 1 ] ],
-      [ [ "any_tallow", 5, "LIST" ], [ "cooking_oil", 16 ], [ "lamp_oil", 250 ], [ "motor_oil", 250 ] ],
+      [ [ "wood_sealant_any", 1, "LIST" ] ],
       [ [ "fur", 2 ], [ "leather", 2 ] ],
       [ [ "duct_tape", 20 ], [ "filament", 20, "LIST" ] ]
     ]
@@ -1436,7 +1436,7 @@
     "//2": "Max experience set because waiting for oil to soak in isn't really teaching you anything.  Remove this when crafting time reduced to only carving time.",
     "components": [
       [ [ "stick_long", 1 ] ],
-      [ [ "any_tallow", 5, "LIST" ], [ "cooking_oil", 16 ], [ "lamp_oil", 250 ], [ "motor_oil", 250 ] ]
+      [ [ "wood_sealant_any", 1, "LIST" ] ]
     ]
   },
   {
@@ -1457,7 +1457,7 @@
     "//2": "Max experience set because waiting for oil to soak in isn't really teaching you anything.  Remove this when crafting time reduced to only carving time.",
     "components": [
       [ [ "q_staff", 1 ] ],
-      [ [ "any_tallow", 5, "LIST" ], [ "cooking_oil", 16 ], [ "lamp_oil", 250 ], [ "motor_oil", 250 ] ]
+      [ [ "wood_sealant_any", 1, "LIST" ] ]
     ]
   },
   {
