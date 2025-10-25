@@ -66,6 +66,15 @@
     "material": [ "wood" ]
   },
   {
+    "id": "button_bone",
+    "copy-from": "button_plastic",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
+    "name": { "str": "bone button" },
+    "description": "A crude bone button, usually found on very old clothing.",
+    "material": [ "bone" ]
+  },
+  {
     "id": "snapfastener_steel",
     "copy-from": "button_steel",
     "type": "ITEM",

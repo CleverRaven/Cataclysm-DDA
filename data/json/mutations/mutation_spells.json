@@ -2,8 +2,8 @@
   {
     "id": "generic_blinding_spray_1",
     "type": "SPELL",
-    "name": { "str": "Blinding Spray" },
-    "description": "Blinds enemy for a short time.",
+    "name": { "str": "Blinding Spray", "//~": "NO_I18N" },
+    "description": { "str": "Blinds enemy for a short time.", "//~": "NO_I18N" },
     "effect": "attack",
     "effect_str": "blind",
     "shape": "blast",
@@ -137,8 +137,8 @@
   {
     "id": "ink_gland_spray_primer",
     "type": "SPELL",
-    "name": { "str": "Blinding spray primer" },
-    "description": "Blinds a random nearby enemy for a short duration and up an ink_gland_ink status charge.",
+    "name": { "str": "Blinding spray primer", "//~": "NO_I18N" },
+    "description": { "str": "Blinds a random nearby enemy for a short duration and up an ink_gland_ink status charge.", "//~": "NO_I18N" },
     "effect": "effect_on_condition",
     "effect_str": "EOC_ink_grand_spray",
     "shape": "blast",
@@ -155,8 +155,8 @@
   {
     "id": "ink_gland_spray",
     "type": "SPELL",
-    "name": { "str": "Blinding spray" },
-    "description": "Blinds enemy for a short time.",
+    "name": { "str": "Blinding spray", "//~": "NO_I18N" },
+    "description": { "str": "Blinds enemy for a short time.", "//~": "NO_I18N" },
     "effect": "attack",
     "effect_str": "blind",
     "shape": "blast",

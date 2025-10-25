@@ -1214,6 +1214,8 @@ class item : public visitable
             rot += val;
         }
 
+        bool is_smokable() const;
+
         /** Time for this item to be fully fermented. */
         time_duration brewing_time() const;
         /** The results of fermenting this item. */
@@ -3227,6 +3229,8 @@ class item : public visitable
          */
         void update_prefix_suffix_flags();
         void update_prefix_suffix_flags( const flag_id &flag );
+
+        void inherit_rot_from_components( item &it );
 
     public:
         enum class sizing : int {

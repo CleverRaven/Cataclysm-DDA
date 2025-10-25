@@ -2327,7 +2327,7 @@ bool talk_function::force_on_force( const std::vector<npc_ptr> &defender,
     faction *yours = player_character.get_faction();
     //Find out why your followers don't have your faction...
     popup( _( "Engagement between %d members of %s %s and %d %s%s!" ), defender.size(),
-           yours->name, def_desc, monsters_fighting.size(), att_desc, adv );
+           yours->get_name(), def_desc, monsters_fighting.size(), att_desc, adv );
     int defense = 0;
     int attack = 0;
     int att_init = 0;
@@ -2353,10 +2353,10 @@ bool talk_function::force_on_force( const std::vector<npc_ptr> &defender,
             attack_random( remaining_mon, remaining_def );
             if( defense == 0 || ( remaining_def.size() == 1 && remaining_def[0]->is_dead() ) ) {
                 //Here too...
-                popup( _( "%s forces are destroyed!" ), yours->name );
+                popup( _( "%s forces are destroyed!" ), yours->get_name() );
             } else {
                 //Again, no faction for your followers
-                popup( _( "%s forces retreat from combat!" ), yours->name );
+                popup( _( "%s forces retreat from combat!" ), yours->get_name() );
             }
             return false;
         } else if( attack * 3 < defense ) {
@@ -2392,8 +2392,8 @@ void talk_function::force_on_force( const std::vector<npc_ptr> &defender,
         adv = ", defender advantage";
     }
     popup( _( "Engagement between %d members of %s %s and %d members of %s %s%s!" ),
-           defender.size(), defender[0]->get_faction()->name, def_desc, attacker.size(),
-           attacker[0]->get_faction()->name, att_desc, adv );
+           defender.size(), defender[0]->get_faction()->get_name(), def_desc, attacker.size(),
+           attacker[0]->get_faction()->get_name(), att_desc, adv );
     int defense = 0;
     int attack = 0;
     int att_init = 0;
@@ -2418,18 +2418,18 @@ void talk_function::force_on_force( const std::vector<npc_ptr> &defender,
             attack_random( remaining_att, remaining_def );
             if( defense == 0 || ( remaining_def.size() == 1 &&
                                   remaining_def[0]->get_part_hp_cur( bodypart_id( "torso" ) ) == 0 ) ) {
-                popup( _( "%s forces are destroyed!" ), defender[0]->get_faction()->name );
+                popup( _( "%s forces are destroyed!" ), defender[0]->get_faction()->get_name() );
             } else {
-                popup( _( "%s forces retreat from combat!" ), defender[0]->get_faction()->name );
+                popup( _( "%s forces retreat from combat!" ), defender[0]->get_faction()->get_name() );
             }
             return;
         } else if( attack * 3 < defense ) {
             attack_random( remaining_def, remaining_att );
             if( attack == 0 || ( remaining_att.size() == 1 &&
                                  remaining_att[0]->get_part_hp_cur( bodypart_id( "torso" ) ) == 0 ) ) {
-                popup( _( "%s forces are destroyed!" ), attacker[0]->get_faction()->name );
+                popup( _( "%s forces are destroyed!" ), attacker[0]->get_faction()->get_name() );
             } else {
-                popup( _( "%s forces retreat from combat!" ), attacker[0]->get_faction()->name );
+                popup( _( "%s forces retreat from combat!" ), attacker[0]->get_faction()->get_name() );
             }
             return;
         } else {

@@ -761,6 +761,7 @@ class map
 
         // Vehicles: Common to 2D and 3D
         VehicleList get_vehicles();
+        bool place_vehicle( std::unique_ptr<vehicle> &&new_vehicle );
         void add_vehicle_to_cache( vehicle * );
         void clear_vehicle_point_from_cache( vehicle *veh, const tripoint_bub_ms &pt );
         // clears all vehicle level caches

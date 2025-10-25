@@ -23,6 +23,7 @@
 #include <vector>
 
 #include "basecamp.h"
+#include "catacharset.h"
 #include "cata_variant.h"
 #include "city.h"
 #include "colony.h"
@@ -30,6 +31,7 @@
 #include "coordinates.h"
 #include "cube_direction.h"
 #include "enums.h"
+#include "flat_set.h"
 #include "hash_utils.h"
 #include "horde_map.h"
 #include "map_scale_constants.h"
@@ -38,6 +40,8 @@
 #include "memory_fast.h"
 #include "mongroup.h"
 #include "omdata.h"
+#include "output.h"
+#include "overmap_location.h"
 #include "overmap_types.h" // IWYU pragma: keep
 #include "point.h"
 #include "rng.h"
@@ -69,6 +73,85 @@ struct om_map_extra {
     map_extra_id id;
     point_om_omt p;
 };
+
+
+namespace om_lines
+{
+struct type {
+    uint32_t symbol;
+    size_t mapgen;
+    MULTITILE_TYPE subtile;
+    int rotation;
+    std::string suffix;
+};
+
+const std::array<std::string, 5> mapgen_suffixes = { {
+        "_straight", "_curved", "_end", "_tee", "_four_way"
+    }
+};
+
+const std::array < type, 1 + om_direction::bits > all = { {
+        { UTF8_getch( LINE_XXXX_S ), 4, unconnected,  0, "_isolated"  }, // 0  ----
+        { UTF8_getch( LINE_XOXO_S ), 2, end_piece,    2, "_end_south" }, // 1  ---n
+        { UTF8_getch( LINE_OXOX_S ), 2, end_piece,    1, "_end_west"  }, // 2  --e-
+        { UTF8_getch( LINE_XXOO_S ), 1, corner,       1, "_ne"        }, // 3  --en
+        { UTF8_getch( LINE_XOXO_S ), 2, end_piece,    0, "_end_north" }, // 4  -s--
+        { UTF8_getch( LINE_XOXO_S ), 0, edge,         0, "_ns"        }, // 5  -s-n
+        { UTF8_getch( LINE_OXXO_S ), 1, corner,       0, "_es"        }, // 6  -se-
+        { UTF8_getch( LINE_XXXO_S ), 3, t_connection, 1, "_nes"       }, // 7  -sen
+        { UTF8_getch( LINE_OXOX_S ), 2, end_piece,    3, "_end_east"  }, // 8  w---
+        { UTF8_getch( LINE_XOOX_S ), 1, corner,       2, "_wn"        }, // 9  w--n
+        { UTF8_getch( LINE_OXOX_S ), 0, edge,         1, "_ew"        }, // 10 w-e-
+        { UTF8_getch( LINE_XXOX_S ), 3, t_connection, 2, "_new"       }, // 11 w-en
+        { UTF8_getch( LINE_OOXX_S ), 1, corner,       3, "_sw"        }, // 12 ws--
+        { UTF8_getch( LINE_XOXX_S ), 3, t_connection, 3, "_nsw"       }, // 13 ws-n
+        { UTF8_getch( LINE_OXXX_S ), 3, t_connection, 0, "_esw"       }, // 14 wse-
+        { UTF8_getch( LINE_XXXX_S ), 4, center,       0, "_nesw"      } // 15 wsen
+    }
+};
+
+const size_t size = all.size();
+const size_t invalid = 0;
+
+inline constexpr size_t rotate( size_t line, om_direction::type dir )
+{
+    if( dir == om_direction::type::invalid ) {
+        return line;
+    }
+    // Bitwise rotation to the left.
+    return ( ( line << static_cast<size_t>( dir ) ) |
+             ( line >> ( om_direction::size - static_cast<size_t>( dir ) ) ) ) & om_direction::bits;
+}
+
+inline constexpr size_t set_segment( size_t line, om_direction::type dir )
+{
+    if( dir == om_direction::type::invalid ) {
+        return line;
+    }
+    return line | 1 << static_cast<int>( dir );
+}
+
+inline constexpr bool has_segment( size_t line, om_direction::type dir )
+{
+    if( dir == om_direction::type::invalid ) {
+        return false;
+    }
+    return static_cast<bool>( line & 1 << static_cast<int>( dir ) );
+}
+
+inline constexpr bool is_straight( size_t line )
+{
+    return line == 1
+           || line == 2
+           || line == 4
+           || line == 5
+           || line == 8
+           || line == 10;
+}
+
+size_t from_dir( om_direction::type dir );
+
+} // namespace om_lines
 
 struct om_vehicle {
     tripoint_om_omt p; // overmap coordinates of tracked vehicle
@@ -764,6 +847,8 @@ class overmap
         //gets border OMT points of this overmap in cardinal direction
         std::vector<tripoint_om_omt> get_border( const point_rel_om &direction, int z,
                 int distance_corner );
+        std::vector<tripoint_om_omt> get_border( om_direction::type direction, int z,
+                int distance_corner );
         //gets border OMT points of the neighboring overmap in cardinal direction
         std::vector<tripoint_om_omt> get_neighbor_border( const point_rel_om &direction, int z,
                 int distance_corner );
@@ -775,6 +860,9 @@ class overmap
 
         om_direction::type random_special_rotation( const overmap_special &special,
                 const tripoint_om_omt &p, bool must_be_unexplored ) const;
+
+        static bool is_amongst_locations( const oter_id &oter,
+                                          const cata::flat_set<string_id<overmap_location>> &locations );
 
         bool can_place_special( const overmap_special &special, const tripoint_om_omt &p,
                                 om_direction::type dir, bool must_be_unexplored ) const;

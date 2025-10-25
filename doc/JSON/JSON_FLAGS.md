@@ -348,6 +348,7 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```BLEEDSLOW``` When bleeding, lose blood at 2/3 of the normal rate.
 - ```BLEEDSLOW2``` When bleeding, lose blood at 1/3 of the normal rate.
 - ```BLIND``` Makes you blind.
+- ```BLOCK_SUPERNATURAL_HEALING``` Blocks supernatural healing effects, like magical healing spells, from taking effect.  This flag does not block EoC-based healing like using the u_hp() effect.
 - ```BULLET_IMMUNE``` You are immune to bullet damage.
 - ```CANNIBAL``` Butcher humans, eat foods with the `CANNIBALISM` and `STRICT_HUMANITARIANISM` flags without a morale penalty.
 - ```CANNOT_ATTACK``` A creature with this flag cannot attack (includes spellcasting).
@@ -409,6 +410,7 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```MYOPIC_SUPERNATURAL``` You are nearsighted in such a way that glasses cannot fix it, such as by magic.
 - ```MYOPIC_IN_LIGHT_SUPERNATURAL``` You are nearsighted in light in such a way that glasses cannot fix it, such as by magic.
 - ```NIGHT_VISION``` You can see in the dark.
+- ```NO_BODY_HEAT``` Your temperature is indistinguishable from the surrounding environmental temperature, making you not show up on infrared.
 - ```NO_CBM_INSTALLATION``` You are unable to install any CBMs.
 - ```NO_DISEASE``` This mutation grants immunity to diseases.
 - ```NO_RADIATION``` This mutation grants immunity to radiations.
@@ -528,7 +530,6 @@ These branches are the valid `dreams` from [dreams.json](../data/json/dreams.jso
 - ```PKILL_L``` Slow-release painkiller.
 - ```RAD_STERILIZED``` Irradiated food that is safe to eat, but is not edible forever (such as MREs).
 - ```RAW``` Reduces kcal by 25%, until cooked (that is, used in a recipe that requires a heat source).  Should be added to *all* uncooked food, unless that food derives more than 50% of its calories from sugars (i.e. many fruits, some veggies) or fats (i.e. butchered fat, coconut).  TODO: Make a unit test for these criteria after fat/protein/carbs are added.
-- ```SMOKABLE``` Accepted by smoking rack.
 - ```SMOKED``` Not accepted by smoking rack (product of smoking).
 - ```USE_EAT_VERB``` "You drink your %s." or "You eat your %s."
 - ```USE_ON_NPC``` Can be used on NPCs (not necessarily by them).
@@ -805,6 +806,7 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 - ```CRUTCHES``` Item with this flag helps characters not to fall down if their legs are broken.
 - ```CUSTOM_EXPLOSION``` Flag, automatically applied to items that has defined `explosion` data in definition.  See `JSON_INFO.md`.
 - ```CUT_HARVEST``` You need a grass-cutting tool like sickle to harvest this plant.
+- ```DAMAGE_VEHICLE_WHEELS``` This item can damage a vehicle's wheels when it is run over.
 - ```DANGEROUS``` NPCs will not accept this item.  Explosion iuse actor implies this flag.  Implies `NPC_THROW_NOW`.
 - ```DETERGENT``` This item can be used as a detergent in a washing machine.
 - ```DISCOUNT_VALUE_1``` This item gives a small discount for fuel, bought in automated gas console.
@@ -1747,6 +1749,7 @@ Note: Vehicle parts requiring other parts is defined by setting a `requires_flag
 - ```REAPER``` Cuts down mature crops, depositing them on the square.
 - ```RECHARGE``` Recharge items with the same flag (currently only the rechargeable battery mod).
 - ```REMOTE_CONTROLS``` Once installed, allows using vehicle through remote controls.
+- ```RESIST_RUNOVER_DAMAGE``` For wheels, doubles effective hardness when calculating chance to be damaged when running over items. Only useful on WHEEL parts.
 - ```REVERSIBLE``` Removal has identical requirements to installation but is twice as quick.
 - ```ROOF``` Covers a section of the vehicle.  Areas of the vehicle that have a roof and roofs on surrounding sections, are considered inside.  Otherwise they're outside.
 - ```SCOOP``` Pulls items from underneath the vehicle to the cargo space of the part.  Also mops up liquids.

@@ -8,8 +8,9 @@
     "ugliness": 0,
     "description": "Your skin has turned pearlescent white, similar to antique dolls.  This has no gameplay effects.",
     "types": [ "skin_tone" ],
-    "leads_to": [ "HOMULLUS_SKIN_2" ],
-    "category": [ "HOMULLUS" ]
+    "category": [ "HOMULLUS" ],
+    "purifiable": false,
+    "leads_to": [ "HOMULLUS_SKIN_2" ]
   },
   {
     "type": "mutation",
@@ -21,6 +22,7 @@
     "description": "Your skin has smoothed and all your prior blemishes have faded away.  This somewhat reduces wet effects and leads to a more durable yet harder to heal body.",
     "types": [ "SKIN", "BODY_ARMOR" ],
     "category": [ "HOMULLUS" ],
+    "purifiable": false,
     "prereqs": [ "HOMULLUS_SKIN_1" ],
     "changes_to": [ "HOMULLUS_SKIN_3" ],
     "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": -0.1 } ] } ],
@@ -51,6 +53,7 @@
     "prereqs": [ "HOMULLUS_SKIN_2" ],
     "threshreq": [ "THRESH_HOMULLUS" ],
     "category": [ "HOMULLUS" ],
+    "purifiable": false,
     "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": -0.3 } ] } ],
     "wet_protection": [
       { "part": "head", "ignored": 5 },
@@ -76,6 +79,7 @@
     "description": "Upon gaining this ability the Homullus's eyes begin change to look like doll's eyes, always staring at the world.  Glare no longer impacts them.",
     "types": [ "EYES" ],
     "category": [ "HOMULLUS" ],
+    "purifiable": false,
     "integrated_armor": [ "integrated_homullus_eyes" ]
   },
   {
@@ -87,6 +91,7 @@
     "ugliness": 0,
     "description": " 'Men were deceivers ever,' as the quotation runs.  To be human is to be a liar.  You are much more successful at lying to people now.",
     "category": [ "HOMULLUS" ],
+    "purifiable": false,
     "social_modifiers": { "lie": 40 }
   },
   {
@@ -99,6 +104,7 @@
     "prereqs": [ "HOMULLUS_SKIN_1" ],
     "description": "From the dreams of mortals, you can spin remnants of fantasy into material substance.  When you sleep near mortals, you have a chance to awaken with some dreamdross nearby.",
     "category": [ "HOMULLUS" ],
+    "purifiable": false,
     "//": "Ideally this would detect even non-allied NPCs nearby instead of just a location where NPCs are likely to be"
   },
   {
@@ -111,6 +117,7 @@
     "description": "With this ability, the Homullus can reach out to a feral's fractured mind and twist it, convincing them to function as an ally.",
     "prereqs": [ "HOMULLUS_BETTER_AT_LYING" ],
     "category": [ "HOMULLUS" ],
+    "purifiable": false,
     "spells_learned": [ [ "homullus_charm_feral_spell", 1 ] ]
   },
   {
@@ -122,6 +129,7 @@
     "ugliness": 0,
     "description": "The Dollkin has resistance to attacks on its ability to act on it's choices.",
     "category": [ "HOMULLUS" ],
+    "purifiable": false,
     "flags": [ "PSYSHIELD_PARTIAL" ]
   },
   {
@@ -169,6 +177,7 @@
     "description": "The world crawls with the hungry dead and those who may as well be dead while they still live.  This allows the Homullus to call one of the latter to their side.",
     "prereqs": [ "HOMULLUS_CHARM_FERALS" ],
     "category": [ "HOMULLUS" ],
+    "purifiable": false,
     "spells_learned": [ [ "homullus_summon_feral_spell", 1 ] ]
   },
   {
@@ -180,6 +189,7 @@
     "ugliness": 0,
     "description": "A habit of lying is hard to break, even when, or especially when, talking to oneself.  This trait grants the Homullus a spell that allows them to smooth out any negative moods they experience.",
     "category": [ "HOMULLUS" ],
+    "purifiable": false,
     "prereqs": [ "HOMULLUS_BETTER_AT_LYING" ],
     "spells_learned": [ [ "homullus_self_deception_spell", 1 ] ]
   },
@@ -192,6 +202,7 @@
     "ugliness": 0,
     "description": "Upon gaining this ability the Homullus gains the ability to render themselves invisible to humans.",
     "category": [ "HOMULLUS" ],
+    "purifiable": false,
     "prereqs": [ "HOMULLUS_SKIN_1" ],
     "prereqs2": [ "HOMULLUS_BACKSTAGE" ],
     "spells_learned": [ [ "homullus_invisible_to_humans_spell", 1 ] ]
@@ -205,6 +216,7 @@
     "ugliness": 0,
     "description": "Upon gaining this ability the Homullus gains the ability to render one of their allies inconspicuous.",
     "category": [ "HOMULLUS" ],
+    "purifiable": false,
     "prereqs": [ "HOMULLUS_INVISIBLE_TO_HUMANS" ],
     "spells_learned": [ [ "homullus_reduced_visibility_ally_spell", 1 ] ]
   },
@@ -217,6 +229,7 @@
     "ugliness": 0,
     "description": "Upon gaining this ability the Homullus gains the ability to recharge vehicles or power grids.",
     "category": [ "HOMULLUS" ],
+    "purifiable": false,
     "prereqs": [ "HOMULLUS_PASSIVE_BIONIC_POWER" ],
     "spells_learned": [ [ "homullus_restore_power_spell", 1 ] ]
   },
@@ -229,6 +242,7 @@
     "ugliness": 0,
     "description": "Upon gaining this ability the Homullus gains the ability to focus their mind to increase their learning ability.",
     "category": [ "HOMULLUS" ],
+    "purifiable": false,
     "prereqs": [ "INT_UP_2", "INT_ALPHA" ],
     "spells_learned": [ [ "homullus_add_learning_focus_spell", 1 ] ]
   },
@@ -241,6 +255,7 @@
     "ugliness": 0,
     "description": "Upon gaining this ability the Homullus gains the ability to travel along a road to any bastion of civilization they have attuned to.",
     "category": [ "HOMULLUS" ],
+    "purifiable": false,
     "threshreq": [ "THRESH_HOMULLUS" ],
     "prereqs": [ "HOMULLUS_CITY_STRIDER" ],
     "prereqs2": [ "HOMULLUS_GAIN_BIONIC_POWER_AND_MANA" ],
@@ -255,6 +270,7 @@
     "ugliness": 0,
     "description": "Upon gaining this ability the Homullus gains the ability to find a goblin fruit when in the remnants of civilization.",
     "category": [ "HOMULLUS" ],
+    "purifiable": false,
     "spells_learned": [ [ "homullus_cultivate_goblin_fruit", 1 ] ]
   },
   {
@@ -266,6 +282,7 @@
     "ugliness": 0,
     "description": "The Homullus gains the ability to stop emitting scent at will.  They can use this to control when scent-tracking creatures will be able to find them.",
     "category": [ "HOMULLUS" ],
+    "purifiable": false,
     "types": [ "SCENT" ],
     "activated_is_setup": true,
     "active": true,
@@ -292,6 +309,7 @@
     "ugliness": 0,
     "description": "At will, you can recede from the foreground of people's perceptions.  They will still notice you if you make yourself known.  Conversation with actual humans will be harder while this trait is active.",
     "category": [ "HOMULLUS" ],
+    "purifiable": false,
     "prereqs": [ "NO_TRACE_YET_I_WISH" ],
     "activated_is_setup": true,
     "active": true,
@@ -327,6 +345,7 @@
     "ugliness": 0,
     "description": "Your flesh and bones can instinctively shift to allow manually installing cybernetics.  You no longer need external aid to install CBMs.",
     "category": [ "HOMULLUS" ],
+    "purifiable": false,
     "flags": [ "MANUAL_CBM_INSTALLATION" ]
   },
   {
@@ -364,6 +383,7 @@
     "ugliness": 0,
     "description": "You are capable of storing power directly in your flesh.  You gain 50 kJ of bionic power storage per Homullus trait you have.",
     "category": [ "HOMULLUS" ],
+    "purifiable": false,
     "prereqs": [ "HOMULLUS_CBM_MANA_1", "HOMULLUS_CBM_MANA_2" ],
     "enchantments": [
       {
@@ -381,6 +401,7 @@
     "description": "Humans are flimsy creatures compared to even natural animals, yet by crafting armor they obtain durability that unthinking creatures will never reach.  You draw on this legacy, increasing the strength of armor you wear by 20%",
     "changes_to": "HOMULLUS_ARMOR_MULT_2",
     "category": [ "HOMULLUS" ],
+    "purifiable": false,
     "enchantments": [ { "condition": { "u_has_worn_with_flag": "STURDY" }, "values": [ { "value": "ARMOR_ALL", "multiply": -0.2 } ] } ]
   },
   {
@@ -394,6 +415,7 @@
     "prereqs": [ "HOMULLUS_ARMOR_MULT_1" ],
     "threshreq": [ "THRESH_HOMULLUS" ],
     "category": [ "HOMULLUS" ],
+    "purifiable": false,
     "enchantments": [ { "condition": { "u_has_worn_with_flag": "STURDY" } }, { "values": [ { "value": "ARMOR_ALL", "multiply": -0.4 } ] } ]
   },
   {
@@ -406,6 +428,7 @@
     "description": "You conceptually harden your tools and armor, reducing the chance that they are damaged.",
     "changes_to": "HOMULLUS_DURABILITY_MULT_2",
     "category": [ "HOMULLUS" ],
+    "purifiable": false,
     "enchantments": [ { "values": [ { "value": "EQUIPMENT_DAMAGE_CHANCE", "multiply": -0.33 } ] } ]
   },
   {
@@ -419,6 +442,7 @@
     "prereqs": [ "HOMULLUS_DURABILITY_MULT_1" ],
     "threshreq": [ "THRESH_HOMULLUS" ],
     "category": [ "HOMULLUS" ],
+    "purifiable": false,
     "enchantments": [ { "values": [ { "value": "EQUIPMENT_DAMAGE_CHANCE", "multiply": -0.66 } ] } ]
   },
   {
@@ -444,6 +468,7 @@
     "description": "Though much of humanity has died, their echoes remain in the places they once called home.  The Homullus can draw on those echoes to restore their bionic power and mana.",
     "prereqs": [ "HOMULLUS_GAIN_BIONIC_POWER" ],
     "category": [ "HOMULLUS" ],
+    "purifiable": false,
     "threshreq": [ "THRESH_HOMULLUS" ],
     "enchantments": [
       {
@@ -461,6 +486,7 @@
     "ugliness": 0,
     "description": "You are at home in the artificial environments constructed by humanity.  You move slightly faster within.",
     "category": [ "HOMULLUS" ],
+    "purifiable": false,
     "enchantments": [
       {
         "condition": {
@@ -492,6 +518,7 @@
     "types": [ "CARDIO" ],
     "changes_to": [ "HOMULLUS_THE_HUNTER2" ],
     "category": [ "HOMULLUS" ],
+    "purifiable": false,
     "enchantments": [ { "values": [ { "value": "MAX_STAMINA", "multiply": 0.33 } ] } ]
   },
   {
@@ -502,6 +529,7 @@
     "description": "By standing together, humanity was able to overcome all threats, and it was only when they turned on each other that the Cataclysm grew out of control.  The Homullus regains Stamina 5% faster per ally within 30 meters (10% faster per ally if they have the Homullus trait).",
     "prereqs": [ "HOMULLUS_THE_HUNTER", "HOMULLUS_THE_HUNTER2" ],
     "category": [ "HOMULLUS" ],
+    "purifiable": false,
     "enchantments": [
       {
         "values": [
@@ -526,6 +554,7 @@
     "types": [ "DIET" ],
     "prereqs": [ "HOMULLUS_THE_HUNTER", "HOMULLUS_THE_HUNTER2" ],
     "category": [ "HOMULLUS" ],
+    "purifiable": false,
     "flags": [ "STRICT_HUMANITARIAN" ]
   },
   {
@@ -536,6 +565,7 @@
     "description": "Before the Cataclysm there were cities all across the world.  From above the Arctic Circle to directly on the equator, humanity built their dwellings.  You are more comfortable with temperature extremes.",
     "types": [ "ACCLIMATIZATION" ],
     "category": [ "HOMULLUS" ],
+    "purifiable": false,
     "enchantments": [
       {
         "condition": "ALWAYS",
@@ -553,6 +583,7 @@
     "description": "Though they had no claws or fangs or armored skin, humanity mastered the world through their tools.  When near civilization, your crafting speed is increased.",
     "changes_to": [ "HOMULLUS_CRAFTING_BONUS_2" ],
     "category": [ "HOMULLUS" ],
+    "purifiable": false,
     "enchantments": [
       {
         "condition": { "test_eoc": "EOC_HOMULLUS_IN_CIVILIZATION_CHECKER_CONDITION" },
@@ -571,6 +602,7 @@
     "prereqs": [ "HOMULLUS_CRAFTING_BONUS_1" ],
     "changes_to": [ "HOMULLUS_CRAFTING_BONUS_3" ],
     "category": [ "HOMULLUS" ],
+    "purifiable": false,
     "enchantments": [
       {
         "condition": { "test_eoc": "EOC_HOMULLUS_IN_CIVILIZATION_CHECKER_CONDITION" },
@@ -594,6 +626,7 @@
     "description": "Though they had no claws or fangs or armored skin, humanity mastered the world through their tools.  When near civilization, your crafting speed and ability are greatly increased.",
     "prereqs": [ "HOMULLUS_CRAFTING_BONUS_2" ],
     "category": [ "HOMULLUS" ],
+    "purifiable": false,
     "threshreq": [ "THRESH_HOMULLUS" ],
     "//": "This should also reduce Construction times once there's some way to do so.",
     "enchantments": [
@@ -620,6 +653,7 @@
     "leads_to": "HOMULLUS_GAIN_INTEGRATED_HACKER",
     "prereqs": [ "HOMULLUS_CRAFTING_BONUS_1", "HOMULLUS_CRAFTING_BONUS_2", "HOMULLUS_CRAFTING_BONUS_3" ],
     "category": [ "HOMULLUS" ],
+    "purifiable": false,
     "integrated_armor": [ "integrated_homullus_tools" ]
   },
   {
@@ -631,6 +665,7 @@
     "ugliness": 0,
     "description": "While some other animals use simple tools, complex machinery is humanity's legacy alone.  The Homullus can log into a computer or hack electronics with but a touch.",
     "category": [ "HOMULLUS" ],
+    "purifiable": false,
     "prereqs": [ "HOMULLUS_GAIN_INTEGRATED_TOOLS" ],
     "integrated_armor": [ "integrated_homullus_electrohack" ]
   },
@@ -714,6 +749,7 @@
     "types": [ "CARDIO", "RUNNING" ],
     "prereqs": [ "HOMULLUS_THE_HUNTER" ],
     "category": [ "HOMULLUS" ],
+    "purifiable": false,
     "threshreq": [ "THRESH_HOMULLUS" ],
     "enchantments": [ { "values": [ { "value": "MAX_STAMINA", "multiply": 0.33 } ] } ]
   },
@@ -726,6 +762,7 @@
     "ugliness": 0,
     "description": "One person may die, but their compatriots will carry their torch.  You too will have your legacy maintained if you die, but in a way far less metaphorical.  When you die, you will reincarnate within any nearby human, immediately shifting their form to match your own.  You will not be able to do this more than once per month.",
     "category": [ "HOMULLUS" ],
+    "purifiable": false,
     "threshreq": [ "THRESH_HOMULLUS" ],
     "//": "An ability that allows the Homullus to be reborn instantly upon death in a nearby feral monster or npc.  If one is not nearby the power will fail."
   },
@@ -738,6 +775,7 @@
     "prereqs": [ "BEAUTIFUL2", "BEAUTIFUL3" ],
     "prereqs2": [ "HOMULLUS_SKIN_3" ],
     "category": [ "HOMULLUS" ],
+    "purifiable": false,
     "threshreq": [ "THRESH_HOMULLUS" ],
     "active": true,
     "activated_is_setup": true,

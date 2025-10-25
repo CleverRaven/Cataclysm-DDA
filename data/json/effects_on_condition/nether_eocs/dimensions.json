@@ -1,0 +1,33 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ABYSS_DIMENSION_TELEPORT",
+    "global": true,
+    "effect": [
+      {
+        "u_travel_to_dimension": "abyss",
+        "npc_travel_radius": 0,
+        "region_type": "nether_abyss",
+        "npc_travel_filter": "none",
+        "fail_message": "Nothing happens.",
+        "success_message": "The abyss opens up around you."
+      },
+      { "u_spawn_item": "default_dimension_teleport_orb" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DEFAULT_DIMENSION_TELEPORT",
+    "global": true,
+    "effect": [
+      {
+        "u_travel_to_dimension": "",
+        "npc_travel_radius": 0,
+        "npc_travel_filter": "none",
+        "fail_message": "Nothing seems to change.",
+        "success_message": "The familiar world re-appears."
+      },
+      { "u_spawn_item": "abyss_teleport_orb" }
+    ]
+  }
+]

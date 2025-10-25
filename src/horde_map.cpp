@@ -142,9 +142,9 @@ std::unordered_map<tripoint_abs_ms, horde_entity>::iterator horde_map::spawn_ent
 {
     std::unordered_map <tripoint_om_sm, std::unordered_map<tripoint_abs_ms, horde_entity>> &target_map =
                 mon.type->has_flag( mon_flag_DORMANT ) ? dormant_monster_map :
+                !is_alert( *mon.type ) ? immobile_monster_map :
                 ( mon.has_dest() || mon.wandf > 0 ) ? active_monster_map :
-                is_alert( *mon.type ) ? idle_monster_map :
-                immobile_monster_map;
+                idle_monster_map;
     std::unordered_map<tripoint_abs_ms, horde_entity>::iterator result;
     point_abs_om omp;
     tripoint_om_sm sm;
@@ -156,7 +156,7 @@ std::unordered_map<tripoint_abs_ms, horde_entity>::iterator horde_map::spawn_ent
         result->second.monster_data->set_pos_abs_only( p );
     } else {
         debugmsg( "Attempted to insert a %s at %s, but there's already a %s there!",
-                  mon.name(), p.to_string(), result->second.get_type() );
+                  mon.name(), p.to_string(), result->second.get_type()->nname() );
     }
     return result;
 }

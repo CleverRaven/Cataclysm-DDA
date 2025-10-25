@@ -206,8 +206,6 @@ static const oter_str_id oter_tower_lab_stairs( "tower_lab_stairs" );
 static const oter_type_str_id oter_type_road( "road" );
 static const oter_type_str_id oter_type_sewer( "sewer" );
 
-static const region_settings_id region_settings_default( "default" );
-
 static const ter_str_id ter_t_bars( "t_bars" );
 static const ter_str_id ter_t_card_science( "t_card_science" );
 static const ter_str_id ter_t_concrete_wall( "t_concrete_wall" );
@@ -917,8 +915,7 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
 
         if( any_missing || !save_results ) {
             const region_settings_map_extras settings_mx =
-                region_settings_default->get_settings_map_extras();
-            // At some point, we should add region information so we can grab the appropriate extras
+                region_settings_id( get_option<std::string>( "DEFAULT_REGION" ) )->get_settings_map_extras();
             auto mx_iter = settings_mx.extras.find( map_extra_collection_id( terrain_type->get_extras() ) );
             if( mx_iter != settings_mx.extras.end() ) {
                 const map_extra_collection &this_ex = **mx_iter;

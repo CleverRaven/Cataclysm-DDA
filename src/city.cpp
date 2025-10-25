@@ -89,9 +89,14 @@ void city::check() const
 }
 
 city::city( const point_om_omt &P, int const S )
+    : city( SNIPPET.expand( "<city_name>" ), P, S )
+{
+}
+
+city::city( const std::string &N, const point_om_omt &P, int const S )
     : pos( P )
     , size( S )
-    , name( SNIPPET.expand( "<city_name>" ) )
+    , name( N )
 {
 }
 

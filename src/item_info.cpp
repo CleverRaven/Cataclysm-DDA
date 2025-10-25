@@ -283,7 +283,7 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     }
     if( parts->test( iteminfo_parts::BASE_OWNER ) && !owner.is_null() ) {
         info.emplace_back( "BASE", string_format( _( "Owner: %s" ),
-                           _( get_owner_name() ) ) );
+                           get_owner_name() ) );
     }
     if( parts->test( iteminfo_parts::BASE_CATEGORY ) ) {
         info.emplace_back( "BASE", _( "Category: " ),
@@ -394,7 +394,7 @@ void item::debug_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                typeId().str() ) );
             if( !old_owner.is_null() ) {
                 info.emplace_back( "BASE", string_format( _( "Old owner: %s" ),
-                                   _( get_old_owner_name() ) ) );
+                                   get_old_owner_name() ) );
             }
             info.emplace_back( "BASE", _( "age (hours): " ), "", iteminfo::lower_is_better,
                                to_hours<int>( age() ) );
@@ -479,6 +479,13 @@ void item::debug_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                     weight_percent ), has_fault( fault.first ) ? c_yellow : c_white );
             }
             info.emplace_back( "BASE", string_format( "faults: %s", faults ) );
+
+            units::mass sum_of_components_weight;
+            for( const item_comp &c : get_uncraft_components() ) {
+                sum_of_components_weight += c.type->weight * c.count;
+            }
+            info.emplace_back( "BASE", string_format( "weight of uncraft components: %s grams",
+                               to_gram( sum_of_components_weight ) ) );
         }
     }
 }
@@ -1733,14 +1740,19 @@ void item::armor_protection_info( std::vector<iteminfo> &info, const iteminfo_qu
         bool display_median = percent_best < 50 && percent_worst < 50;
 
         std::string protection_table;
+        const std::string worst_chance_string = string_format( _( "<bad>%d%%</bad> chance" ),
+                                                percent_worst );
+        const std::string median_chance = _( "<color_c_yellow>Median</color> chance" );
+        const std::string best_chance_string = string_format( _( "<good>%d%%</good> chance" ),
+                                               percent_best );
         if( display_median ) {
             protection_table +=
-                string_format( "<bold>%s</bold>;<bad>%d%%</bad> chance;<color_c_yellow>Median</color> chance;<good>%d%%</good> chance\n",
-                               _( "Protection" ), percent_worst, percent_best );
+                string_format( "<bold>%s</bold>;%s;%s;%s\n",
+                               _( "Protection" ), worst_chance_string, median_chance, best_chance_string );
         } else if( percent_worst > 0 ) {
             protection_table +=
-                string_format( "<bold>%s</bold>;<bad>%d%%</bad> chance;<good>%d%%</good> chance\n",
-                               _( "Protection" ), percent_worst, percent_best );
+                string_format( "<bold>%s</bold>;%s;%s\n",
+                               _( "Protection" ), worst_chance_string, best_chance_string );
         } else {
             protection_table += string_format( "<bold>%s</bold>\n", _( "Protection" ) );
         }
@@ -2715,7 +2727,7 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
     std::string &eport = type->tool->e_port;
     if( !eport.empty() ) {
         std::string compat;
-        compat += _( "* This device has electronic port type: " + colorize( eport, c_light_green ) );
+        compat += _( "* This device has electronic port type: " ) + colorize( _( eport ), c_light_green ) ;
         std::vector<std::string> &eport_banned = type->tool->e_ports_banned;
         if( !eport_banned.empty() ) {
             compat += _( "\n* This device does not support transfer to e-port types: " );

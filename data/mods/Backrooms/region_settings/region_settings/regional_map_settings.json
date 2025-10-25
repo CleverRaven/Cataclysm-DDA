@@ -13,7 +13,7 @@
   },
   {
     "type": "map_extra_collection",
-    "id": "backrooms_backrooms",
+    "id": "backrooms",
     "chance": 30,
     "extras": [
       [ "mx_teleporter_node", 5000 ],
@@ -41,7 +41,7 @@
     "type": "region_settings_map_extras",
     "id": "default_backrooms",
     "copy-from": "default",
-    "extras": [ "backrooms_backrooms" ]
+    "extras": [ "backrooms" ]
   },
   {
     "type": "region_terrain_furniture",
@@ -135,6 +135,8 @@
     "map_extras": "default_backrooms",
     "terrain_furniture": "default_backrooms",
     "weather": "default_backrooms",
+    "neighbor_connections": false,
+    "place_roads": false,
     "default_oter": [
       "backroom_border",
       "backroom_border",

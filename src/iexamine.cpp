@@ -2202,7 +2202,7 @@ void iexamine::bulletin_board( Character &you, const tripoint_bub_ms &examp )
                           temp_camp->camp_name() ) ) {
                 bool plunder = query_yn(
                                    _( "Take whatever you can find from the stores?  This may anger %s and their allies." ),
-                                   temp_camp->get_owner()->name );
+                                   temp_camp->get_owner()->get_name() );
                 temp_camp->handle_takeover_by( you.get_faction()->id, plunder );
                 return;
             }
@@ -3562,7 +3562,7 @@ void iexamine::stook_full( Character &, const tripoint_bub_ms &examp )
         return;
     }
     for( item &it : items ) {
-        if( it.has_flag( flag_SMOKABLE ) && it.get_comestible() ) {
+        if( it.is_smokable() ) {
             item result( it.get_comestible()->smoking_result, it.birthday() );
             recipe rec;
             result.inherit_flags( it, rec );
@@ -6572,7 +6572,7 @@ static std::pair<item *, units::volume> smoker_prep_internal(
     std::pair<item *, units::volume> data;
 
     for( item &it : items ) {
-        if( it.has_flag( flag_SMOKABLE ) ) {
+        if( it.is_smokable() ) {
             data.second += it.volume();
             continue;
         }
@@ -6602,12 +6602,12 @@ bool iexamine::smoker_prep( Character &you, const tripoint_bub_ms &examp )
     map_stack items = here.i_at( examp );
 
     for( item &it : items ) {
-        if( it.has_flag( flag_SMOKED ) && !it.has_flag( flag_SMOKABLE ) ) {
+        if( it.has_flag( flag_SMOKED ) && !it.is_smokable() ) {
             add_msg( _( "This rack already contains smoked food." ) );
             add_msg( _( "Remove it before firing the smoking rack again." ) );
             return false;
         }
-        if( it.typeId() != itype_charcoal && !it.has_flag( flag_SMOKABLE ) ) {
+        if( it.typeId() != itype_charcoal && !it.is_smokable() ) {
             add_msg( m_bad, _( "This rack contains %s, which can't be smoked!" ), it.tname( 1,
                      false ) );
             add_msg( _( "You remove %s from the rack." ), it.tname() );
@@ -6616,7 +6616,7 @@ bool iexamine::smoker_prep( Character &you, const tripoint_bub_ms &examp )
             here.i_rem( examp, &it );
             return false;
         }
-        if( it.has_flag( flag_SMOKED ) && it.has_flag( flag_SMOKABLE ) ) {
+        if( it.has_flag( flag_SMOKED ) && it.is_smokable() ) {
             add_msg( _( "This rack has some smoked food that might be dehydrated by smoking it again." ) );
         }
     }
@@ -6674,7 +6674,7 @@ bool iexamine::smoker_fire( Character &you, const tripoint_bub_ms &examp )
     }
 
     for( item &it : here.i_at( examp ) ) {
-        if( it.has_flag( flag_SMOKABLE ) ) {
+        if( it.is_smokable() ) {
             it.process_temperature_rot( 1, examp, here, nullptr );
             it.set_flag( flag_PROCESSING );
         }
@@ -6839,8 +6839,8 @@ static void smoker_finalize( Character &, const tripoint_bub_ms &examp,
     }
 
     for( item &it : items ) {
-        if( it.has_flag( flag_SMOKABLE ) && it.get_comestible() ) {
-            if( it.get_comestible()->smoking_result.is_empty() ) {
+        if( it.is_smokable() ) {
+            if( it.get_comestible()->smoking_result == itype_id::NULL_ID() ) {
                 it.unset_flag( flag_PROCESSING );
             } else {
                 it.calc_rot_while_processing( 6_hours );

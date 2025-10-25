@@ -544,7 +544,7 @@ void veh_interact::do_main_loop( map &here )
                 do_rename();
             } else {
                 if( owner_fac ) {
-                    popup( _( "You cannot rename this vehicle as it is owned by: %s." ), _( owner_fac->name ) );
+                    popup( _( "You cannot rename this vehicle as it is owned by: %s." ), owner_fac->get_name() );
                 }
             }
         } else if( action == "SIPHON" ) {
@@ -570,7 +570,7 @@ void veh_interact::do_main_loop( map &here )
             } else {
                 if( owner_fac ) {
                     popup( _( "You cannot assign crew on this vehicle as it is owned by: %s." ),
-                           _( owner_fac->name ) );
+                           owner_fac->get_name() );
                 }
             }
         } else if( action == "RELABEL" ) {
@@ -578,7 +578,7 @@ void veh_interact::do_main_loop( map &here )
                 do_relabel( here );
             } else {
                 if( owner_fac ) {
-                    popup( _( "You cannot relabel this vehicle as it is owned by: %s." ), _( owner_fac->name ) );
+                    popup( _( "You cannot relabel this vehicle as it is owned by: %s." ), owner_fac->get_name() );
                 }
             }
         } else if( action == "FUEL_LIST_DOWN" ) {
@@ -2043,7 +2043,8 @@ void veh_interact::do_rename()
 {
     std::string name = string_input_popup()
                        .title( _( "Enter new vehicle name:" ) )
-                       .width( 20 )
+                       .width( 60 )
+                       .text( veh->name )
                        .query_string();
     if( !name.empty() ) {
         veh->name = name;
@@ -2793,6 +2794,7 @@ void veh_interact::display_details( const vpart_info *part )
     int line = 0;
     bool small_mode = column_width < 20;
 
+    // TODO: show mod part comes from
     // line 0: part name
     fold_and_print( w_details, point( col_1, line ), details_w, c_light_green, part->name() );
 
@@ -3098,7 +3100,7 @@ void veh_interact::complete_vehicle( map &here, Character &you )
             for( const std::vector<item_comp> &e : reqs.get_components() ) {
                 for( item &obj : you.consume_items( e, 1, is_crafting_component, [&vpinfo]( const itype_id & itm ) {
                 return itm == vpinfo.base_item;
-            } ) ) {
+            }, false, true ) ) {
                     if( obj.typeId() == vpinfo.base_item ) {
                         base = obj;
                     } else {

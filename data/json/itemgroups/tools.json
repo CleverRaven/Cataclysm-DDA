@@ -835,7 +835,7 @@
       { "item": "UPS_OFF", "prob": 6, "charges": [ 0, 1000 ] },
       [ "file", 10 ],
       { "item": "smart_lamp", "prob": 2, "charges": [ 0, 100 ] },
-      [ "bot_manhack", 2 ],
+      [ "bot_grenade_hack", 2 ],
       [ "teleporter", 1 ],
       { "group": "used_laptops", "prob": 4, "contents-group": "efiles_science" },
       { "item": "plut_cell", "prob": 4, "charges": [ 1, 5 ] },

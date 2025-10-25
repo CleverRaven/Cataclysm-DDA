@@ -87,6 +87,8 @@ struct region_settings_city {
     // We'll spread this out to the rest of the town.
     int park_sigma = 100 - park_radius;
 
+    std::string name_snippet = "<city_name>";
+
     building_bin houses;
     building_bin shops;
     building_bin parks;
@@ -279,6 +281,11 @@ struct region_settings_forest {
     int river_floodplain_buffer_distance_min = 3;
     int river_floodplain_buffer_distance_max = 15;
 
+    // hard to generate cities above 0.4
+    float max_forest;
+    // increase nesw
+    std::array<float, 4> forest_increase;
+
     bool was_loaded = false;
     void load( const JsonObject &jo, std::string_view );
     void finalize();
@@ -319,8 +326,13 @@ struct region_settings_lake {
     double noise_threshold_lake = 0.25;
     int lake_size_min = 20;
     int lake_depth = -5;
+    oter_str_id surface;
+    oter_str_id shore;
+    oter_str_id interior;
+    oter_str_id bed;
     std::vector<oter_str_id> shore_extendable_overmap_terrain;
     std::vector<shore_extendable_overmap_terrain_alias> shore_extendable_overmap_terrain_aliases;
+    bool invert_lakes = false;
 
     bool was_loaded = false;
     void load( const JsonObject &jo, std::string_view );
@@ -328,7 +340,7 @@ struct region_settings_lake {
 
     static void load_region_settings_lake( const JsonObject &jo, const std::string &src );
     static void reset();
-    region_settings_lake() = default;
+    region_settings_lake();
 };
 
 struct region_settings_ocean {
@@ -546,6 +558,18 @@ struct region_settings {
     std::optional<region_settings_ravine_id> overmap_ravine;
     region_settings_overmap_connection overmap_connection;
     region_settings_terrain_furniture_id region_terrain_and_furniture;
+
+    bool place_swamps;
+    bool place_roads;
+    bool place_railroads;
+    bool place_railroads_before_roads;
+    bool place_specials;
+    bool neighbor_connections;
+
+    float max_urban;
+    // increase nesw
+    std::array<float, 4> urban_increase;
+
 
     region_settings_map_extras_id region_extras;
 

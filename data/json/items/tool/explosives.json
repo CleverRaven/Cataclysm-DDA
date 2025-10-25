@@ -562,6 +562,7 @@
     "name": { "str": "armed tear gas grenade" },
     "price_postapoc": "0 cent",
     "description": "This tear gas grenade has had its pin removed and is (or will shortly be) expelling highly noxious gas.",
+    "use_action": { "type": "message", "message": "You've already pulled the pin, try throwing it instead.", "name": "Pull pin" },
     "emits": [ "emit_tear_gas_stream" ],
     "revert_to": "canister_empty",
     "flags": [ "TRADER_AVOID", "DANGEROUS" ]
@@ -806,7 +807,14 @@
     "weight": "680 g",
     "price": "18 USD",
     "price_postapoc": "1 USD",
-    "use_action": { "need_wielding": true, "type": "transform", "target_timer": "100 seconds", "target": "smokebomb_act" }
+    "use_action": {
+      "need_wielding": true,
+      "menu_text": "Pull pin",
+      "msg": "You pull the pin on the %s.",
+      "type": "transform",
+      "target_timer": "100 seconds",
+      "target": "smokebomb_act"
+    }
   },
   {
     "id": "smokebomb_act",
@@ -816,6 +824,7 @@
     "description": "This smoke bomb has had its pin removed and is (or will shortly be) expelling thick smoke.",
     "emits": [ "emit_smoke_stream" ],
     "revert_to": "canister_empty",
+    "use_action": { "type": "message", "message": "You've already pulled the pin, try throwing it instead.", "name": "Pull pin" },
     "flags": [ "TRADER_AVOID" ]
   },
   {

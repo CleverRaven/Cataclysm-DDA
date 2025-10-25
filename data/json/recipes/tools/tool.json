@@ -718,7 +718,7 @@
     "difficulty": 4,
     "time": "30 m",
     "reversible": true,
-    "//1": "Item disassembly based on reversible craft and manually defined uncraft integration. Read ITEM_DISASSEMBLY.mb for more info.",
+    "//1": "Item disassembly based on reversible craft and manually defined uncraft integration. Read ITEM_CRAFT_AND_DISASSEMBLY.md for more info.",
     "autolearn": true,
     "//2": "50cm weld",
     "using": [ [ "welding_standard", 50 ], [ "blacksmithing_standard", 14 ] ],

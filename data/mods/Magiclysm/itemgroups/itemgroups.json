@@ -38,6 +38,7 @@
         { "group": "spellbook_tier_0", "prob": 80 },
         { "item": "magazine_augmentative_review", "prob": 10 },
         { "group": "spellbook_loot_0", "prob": 4 },
+        { "item": "alchemy_mana_processing", "prob": 2 },
         { "item": "history_botanical_enchantment", "prob": 2 }
       ]
     }
@@ -72,6 +73,7 @@
         { "group": "dragon_books", "prob": 3 },
         { "item": "spellcraft_theory", "prob": 2 },
         { "item": "caster_boosts_info", "prob": 2 },
+        { "item": "alchemy_mana_processing", "prob": 2 },
         { "item": "alchemy_illegal", "prob": 1 },
         { "item": "alchemy_master", "prob": 1 }
       ]
@@ -87,6 +89,7 @@
         { "group": "magic_recipe_basic", "prob": 6 },
         { "group": "magic_recipe_advanced", "prob": 2 },
         { "group": "dragon_books", "prob": 5 },
+        { "item": "alchemy_mana_processing", "prob": 5 },
         { "group": "spellcraft_books", "prob": 4 },
         { "item": "alchemy_illegal", "prob": 1 },
         { "item": "alchemy_master", "prob": 1 }
@@ -1656,7 +1659,10 @@
         "distribution": [ { "group": "enchanted_rings_common", "prob": 30 }, { "group": "enchanted_rings_uncommon", "prob": 10 } ],
         "prob": 40
       },
-      { "item": "crystallized_mana", "prob": 50, "charges": [ 1, 10 ] },
+      {
+        "distribution": [ { "item": "crystallized_mana_raw", "prob": 1 }, { "item": "crystallized_mana", "prob": 1, "charges": [ 1, 10 ] } ],
+        "prob": 50
+      },
       [ "copper_circlet", 10 ],
       [ "cauldron_orichalcum", 1 ],
       { "item": "small_mana_crystal", "prob": 40, "charges": [ 5, 50 ] }

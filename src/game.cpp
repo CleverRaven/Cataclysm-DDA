@@ -235,8 +235,6 @@ static const activity_id ACT_TRAIN( "ACT_TRAIN" );
 static const activity_id ACT_TRAIN_TEACHER( "ACT_TRAIN_TEACHER" );
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
 
-static const ascii_art_id ascii_art_ascii_tombstone( "ascii_tombstone" );
-
 static const bionic_id bio_jointservo( "bio_jointservo" );
 static const bionic_id bio_probability_travel( "bio_probability_travel" );
 static const bionic_id bio_remote( "bio_remote" );
@@ -254,7 +252,6 @@ static const damage_type_id damage_stab( "stab" );
 
 static const efftype_id effect_adrenaline_mycus( "adrenaline_mycus" );
 static const efftype_id effect_asked_to_train( "asked_to_train" );
-static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_contacts( "contacts" );
 static const efftype_id effect_cramped_space( "cramped_space" );
@@ -318,8 +315,6 @@ static const json_character_flag json_flag_VINE_RAPPEL( "VINE_RAPPEL" );
 static const json_character_flag json_flag_WALL_CLING( "WALL_CLING" );
 static const json_character_flag json_flag_WEB_RAPPEL( "WEB_RAPPEL" );
 
-static const mod_id MOD_INFORMATION_dda( "dda" );
-
 static const mongroup_id GROUP_BLACK_ROAD( "GROUP_BLACK_ROAD" );
 
 static const mtype_id mon_manhack( "mon_manhack" );
@@ -348,12 +343,9 @@ static const species_id species_PLANT( "PLANT" );
 static const string_id<npc_template> npc_template_cyborg_rescued( "cyborg_rescued" );
 
 static const ter_str_id ter_t_elevator( "t_elevator" );
-static const ter_str_id ter_t_grave_new( "t_grave_new" );
 static const ter_str_id ter_t_lava( "t_lava" );
 static const ter_str_id ter_t_manhole( "t_manhole" );
 static const ter_str_id ter_t_manhole_cover( "t_manhole_cover" );
-static const ter_str_id ter_t_pit( "t_pit" );
-static const ter_str_id ter_t_pit_shallow( "t_pit_shallow" );
 
 static const trait_id trait_BADKNEES( "BADKNEES" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
@@ -481,142 +473,6 @@ game::game() :
 }
 
 game::~game() = default;
-
-// Load everything that will not depend on any mods
-void game::load_static_data()
-{
-    // UI stuff, not mod-specific per definition
-    inp_mngr.init();            // Load input config JSON
-    // Init mappings for loading the json stuff
-    DynamicDataLoader::get_instance();
-    fullscreen = false;
-    was_fullscreen = false;
-    show_panel_adm = false;
-
-    // These functions do not load stuff from json.
-    // The content they load/initialize is hardcoded into the program.
-    // Therefore they can be loaded here.
-    // If this changes (if they load data from json), they have to
-    // be moved to game::load_mod or game::load_core_data
-
-    get_auto_pickup().load_global();
-    get_auto_notes_settings().load( false );
-    get_safemode().load_global();
-}
-
-bool game::check_mod_data( const std::vector<mod_id> &opts )
-{
-    dependency_tree &tree = world_generator->get_mod_manager().get_tree();
-
-    // deduplicated list of mods to check
-    std::set<mod_id> check( opts.begin(), opts.end() );
-
-    // if no specific mods specified check all non-obsolete mods
-    if( check.empty() ) {
-        for( const mod_id &e : world_generator->get_mod_manager().all_mods() ) {
-            if( !e->obsolete ) {
-                check.emplace( e );
-            }
-        }
-    }
-
-    if( check.empty() ) {
-        world_generator->set_active_world( nullptr );
-        world_generator->init();
-        const std::vector<mod_id> mods_empty;
-        WORLD *test_world = world_generator->make_new_world( mods_empty );
-        world_generator->set_active_world( test_world );
-
-        // if no loadable mods then test core data only
-        try {
-            load_core_data();
-            DynamicDataLoader::get_instance().finalize_loaded_data();
-        } catch( const std::exception &err ) {
-            std::cerr << "Error loading data from json: " << err.what() << std::endl;
-        }
-
-        std::string world_name = world_generator->active_world->world_name;
-        world_generator->delete_world( world_name, true );
-
-        MAPBUFFER.clear();
-        overmap_buffer.clear();
-    }
-
-    for( const auto &e : check ) {
-        world_generator->set_active_world( nullptr );
-        world_generator->init();
-        const std::vector<mod_id> mods_empty;
-        WORLD *test_world = world_generator->make_new_world( mods_empty );
-        world_generator->set_active_world( test_world );
-
-        if( !e.is_valid() ) {
-            std::cerr << "Unknown mod: " << e.str() << std::endl;
-            return false;
-        }
-
-        const MOD_INFORMATION &mod = *e;
-
-        if( !tree.is_available( mod.ident ) ) {
-            std::cerr << "Missing dependencies: " << mod.name() << "\n"
-                      << tree.get_node( mod.ident )->s_errors() << std::endl;
-            return false;
-        }
-
-        std::cout << "Checking mod " << mod.name() << " [" << mod.ident.str() << "]" << std::endl;
-
-        try {
-            load_core_data();
-
-            // Load any dependencies and de-duplicate them
-            std::vector<mod_id> dep_vector = tree.get_dependencies_of_X_as_strings( mod.ident );
-            std::set<mod_id> dep_set( dep_vector.begin(), dep_vector.end() );
-            for( const auto &dep : dep_set ) {
-                load_data_from_dir( dep->path, dep->ident.str() );
-            }
-
-            // Load mod itself
-            load_data_from_dir( mod.path, mod.ident.str() );
-            DynamicDataLoader::get_instance().finalize_loaded_data();
-        } catch( const std::exception &err ) {
-            std::cerr << "Error loading data: " << err.what() << std::endl;
-        }
-
-        std::string world_name = world_generator->active_world->world_name;
-        world_generator->delete_world( world_name, true );
-
-        MAPBUFFER.clear();
-        overmap_buffer.clear();
-    }
-    return true;
-}
-
-bool game::is_core_data_loaded() const
-{
-    return DynamicDataLoader::get_instance().is_data_finalized();
-}
-
-void game::load_core_data()
-{
-    // core data can be loaded only once and must be first
-    // anyway.
-    DynamicDataLoader::get_instance().unload_data();
-
-    load_data_from_dir( PATH_INFO::jsondir(), "core" );
-}
-
-void game::load_data_from_dir( const cata_path &path, const std::string &src )
-{
-    DynamicDataLoader::get_instance().load_data_from_path( path, src );
-}
-
-void game::load_mod_data_from_dir( const cata_path &path, const std::string &src )
-{
-    DynamicDataLoader::get_instance().load_mod_data_from_path( path, src );
-}
-void game::load_mod_interaction_data_from_dir( const cata_path &path, const std::string &src )
-{
-    DynamicDataLoader::get_instance().load_mod_interaction_files_from_path( path, src );
-}
 
 #if defined(TUI)
 // in ncurses_def.cpp
@@ -866,14 +722,6 @@ bool game::has_gametype() const
 special_game_type game::gametype() const
 {
     return gamemode ? gamemode->id() : special_game_type::NONE;
-}
-
-void game::load_map( const tripoint_abs_sm &pos_sm,
-                     const bool pump_events )
-{
-    map &here = get_map();
-
-    here.load( pos_sm, true, pump_events );
 }
 
 void game::legacy_migrate_npctalk_var_prefix( global_variables::impl_t &map_of_vars )
@@ -3018,103 +2866,6 @@ bool game::is_game_over()
     return false;
 }
 
-class end_screen_data;
-
-class end_screen_data
-{
-        friend class end_screen_ui_impl;
-    public:
-        void draw_end_screen_ui();
-};
-
-class end_screen_ui_impl : public cataimgui::window
-{
-    public:
-        std::string text;
-        explicit end_screen_ui_impl() : cataimgui::window( _( "The End" ) ) {
-        }
-    protected:
-        void draw_controls() override;
-};
-
-void end_screen_data::draw_end_screen_ui()
-{
-    input_context ctxt;
-    ctxt.register_action( "TEXT.CONFIRM" );
-#if defined(WIN32) || defined(TILES)
-    ctxt.set_timeout( 50 );
-#endif
-    end_screen_ui_impl p_impl;
-
-    while( true ) {
-        ui_manager::redraw_invalidated();
-        std::string action = ctxt.handle_input();
-        if( action == "TEXT.CONFIRM" || !p_impl.get_is_open() ) {
-            break;
-        }
-    }
-    avatar &u = get_avatar();
-    const bool is_suicide = g->uquit == QUIT_SUICIDE;
-    get_event_bus().send<event_type::game_avatar_death>( u.getID(), u.name, is_suicide, p_impl.text );
-}
-
-void end_screen_ui_impl::draw_controls()
-{
-    avatar &u = get_avatar();
-    ascii_art_id art = ascii_art_ascii_tombstone;
-    dialogue d( get_talker_for( u ), nullptr );
-    std::string input_label;
-    std::vector<std::pair<std::pair<int, int>, std::string>> added_info;
-
-    //Sort end_screens in order of decreasing priority
-    std::vector<end_screen> sorted_screens = end_screen::get_all();
-    std::sort( sorted_screens.begin(), sorted_screens.end(), []( end_screen const & a,
-    end_screen const & b ) {
-        return a.priority > b.priority;
-    } );
-
-    for( const end_screen &e_screen : sorted_screens ) {
-        if( e_screen.condition( d ) ) {
-            art = e_screen.picture_id;
-            if( !e_screen.added_info.empty() ) {
-                added_info = e_screen.added_info;
-            }
-            if( !e_screen.last_words_label.empty() ) {
-                input_label = e_screen.last_words_label;
-            }
-            break;
-        }
-    }
-
-    if( art.is_valid() ) {
-        cataimgui::PushMonoFont();
-        int row = 1;
-        for( const std::string &line : art->picture ) {
-            cataimgui::draw_colored_text( line );
-
-            for( std::pair<std::pair<int, int>, std::string> info : added_info ) {
-                if( row ==  info.first.second ) {
-                    parse_tags( info.second, u, u );
-                    ImGui::SameLine( str_width_to_pixels( info.first.first ), 0 );
-                    cataimgui::draw_colored_text( info.second );
-                }
-            }
-            row++;
-        }
-        ImGui::PopFont();
-    }
-
-    if( !input_label.empty() ) {
-        ImGui::NewLine();
-        ImGui::AlignTextToFramePadding();
-        cataimgui::draw_colored_text( input_label );
-        ImGui::SameLine( str_width_to_pixels( input_label.size() + 2 ), 0 );
-        ImGui::InputText( "##LAST_WORD_BOX", &text );
-        ImGui::SetKeyboardFocusHere( -1 );
-    }
-
-}
-
 void game::bury_screen() const
 {
     end_screen_data new_instance;
@@ -3142,327 +2893,12 @@ void game::death_screen()
 // Date format is a somewhat ISO-8601 compliant local time date (except we use '-' instead of ':' probably because of Windows file name rules).
 // XXX: removed the timezone suffix due to an mxe bug
 // See: https://github.com/mxe/mxe/issues/2749
-static std::string timestamp_now()
+std::string game::timestamp_now()
 {
     std::time_t time = std::time( nullptr );
     std::stringstream date_buffer;
     date_buffer << std::put_time( std::localtime( &time ), "%Y-%m-%dT%H-%M-%S" );
     return date_buffer.str();
-}
-
-void game::move_save_to_graveyard()
-{
-    const cata_path save_dir      = PATH_INFO::world_base_save_path();
-    const cata_path graveyard_dir = PATH_INFO::graveyarddir_path() / timestamp_now();
-    const std::string prefix      = base64_encode( u.get_save_id() ) + ".";
-
-    if( !assure_dir_exist( graveyard_dir ) ) {
-        debugmsg( "could not create graveyard path '%s'", graveyard_dir );
-    }
-
-    const auto save_files = get_files_from_path( prefix, save_dir );
-    if( save_files.empty() ) {
-        debugmsg( "could not find save files in '%s'", save_dir );
-    }
-
-    for( const cata_path &src_path : save_files ) {
-        const cata_path dst_path = graveyard_dir / src_path.get_relative_path().filename();
-
-        if( rename_file( src_path, dst_path ) ) {
-            continue;
-        }
-
-        debugmsg( "could not rename file '%s' to '%s'", src_path, dst_path );
-
-        if( remove_file( src_path ) ) {
-            continue;
-        }
-
-        debugmsg( "could not remove file '%s'", src_path );
-    }
-}
-
-void game::load_master()
-{
-    const cata_path datafile = PATH_INFO::world_base_save_path() / SAVE_MASTER;
-    read_from_file_optional( datafile, [this, &datafile]( std::istream & is ) {
-        unserialize_master( datafile, is );
-    } );
-}
-
-bool game::load_dimension_data()
-{
-    const cata_path datafile = PATH_INFO::current_dimension_save_path() / SAVE_DIMENSION_DATA;
-    // if for whatever reason the dimension data file doesn't have a set region_type, use the default one
-    overmap_buffer.current_region_type = "default";
-    // If dimension_data.gsav doesn't exist, return false
-    return read_from_file_optional( datafile, [this, &datafile]( std::istream & is ) {
-        unserialize_dimension_data( datafile, is );
-    } );
-}
-
-bool game::load( const std::string &world )
-{
-    world_generator->init();
-    WORLD *const wptr = world_generator->get_world( world );
-    if( !wptr ) {
-        return false;
-    }
-    if( wptr->world_saves.empty() ) {
-        debugmsg( "world '%s' contains no saves", world );
-        return false;
-    }
-
-    try {
-        world_generator->set_active_world( wptr );
-        g->setup();
-        g->load( wptr->world_saves.front() );
-    } catch( const std::exception &err ) {
-        debugmsg( "cannot load world '%s': %s", world, err.what() );
-        return false;
-    }
-
-    return true;
-}
-
-bool game::load( const save_t &name )
-{
-    map &here = get_map();
-
-    const cata_path worldpath = PATH_INFO::world_base_save_path();
-    const cata_path save_file_path = PATH_INFO::world_base_save_path() /
-                                     ( name.base_path() + SAVE_EXTENSION );
-
-    bool abort = false;
-
-    using named_entry = std::pair<std::string, std::function<void()>>;
-    const std::vector<named_entry> entries = {{
-            {
-                _( "Master save" ), [&]()
-                {
-                    // Now load up the master game data; factions (and more?)
-                    load_master();
-                }
-            },
-            {
-                _( "Dimension data" ), [&]()
-                {
-                    // Load up dimension specific data (ie; weather, overmapstate)
-                    load_dimension_data();
-                }
-            },
-            {
-                _( "Character save" ), [&]()
-                {
-
-                    u = avatar();
-                    u.set_save_id( name.decoded_name() );
-
-                    if( world_generator->active_world->has_compression_enabled() ) {
-                        std::optional<zzip> z = zzip::load( ( save_file_path + ".zzip" ).get_unrelative_path() );
-                        abort = !z.has_value() ||
-                        !read_from_zzip_optional( z.value(), save_file_path.get_unrelative_path().filename(),
-                        [this]( std::string_view sv ) {
-                            unserialize( std::string{ sv } );
-                        } );
-                    } else {
-                        abort = !read_from_file(
-                                    save_file_path,
-                        [this, &save_file_path]( std::istream & is ) {
-                            unserialize( is, save_file_path );
-                        } );
-                    }
-                }
-            },
-            {
-                _( "Map memory" ), [&]()
-                {
-                    u.load_map_memory();
-                }
-            },
-            {
-                _( "Diary" ), [&]()
-                {
-                    u.get_avatar_diary()->load();
-                }
-            },
-            {
-                _( "Memorial" ), [&]()
-                {
-                    const cata_path log_filename =
-                    worldpath / ( name.base_path() + SAVE_EXTENSION_LOG );
-                    read_from_file_optional(
-                        log_filename.get_unrelative_path(),
-                    [this]( std::istream & is ) {
-                        memorial().load( is );
-                    } );
-                }
-            },
-            {
-                _( "Finalizing" ), [&]()
-                {
-
-#if defined(__ANDROID__)
-                    const cata_path shortcuts_filename =
-                    worldpath / ( name.base_path() + SAVE_EXTENSION_SHORTCUTS );
-                    if( file_exist( shortcuts_filename ) ) {
-                        load_shortcuts( shortcuts_filename );
-                    }
-#endif
-
-                    // Now that the player's worn items are updated, their sight limits need to be
-                    // recalculated. (This would be cleaner if u.worn were private.)
-                    u.recalc_sight_limits();
-
-                    if( !gamemode ) {
-                        gamemode = std::make_unique<special_game>();
-                    }
-
-                    safe_mode = get_option<bool>( "SAFEMODE" ) ? SAFE_MODE_ON : SAFE_MODE_OFF;
-                    mostseen = 0; // ...and mostseen is 0, we haven't seen any monsters yet.
-
-                    init_autosave();
-                    get_auto_pickup().load_character(); // Load character auto pickup rules
-                    get_auto_notes_settings().load( true ); // Load character auto notes settings
-                    get_safemode().load_character(); // Load character safemode rules
-                    zone_manager::get_manager().load_zones(); // Load character world zones
-                    read_from_file_optional_json(
-                        PATH_INFO::world_base_save_path() / "uistate.json",
-                    []( const JsonValue & jsin ) {
-                        uistate.deserialize( jsin.get_object() );
-                    } );
-                    reload_npcs();
-                    validate_npc_followers();
-                    validate_mounted_npcs();
-                    validate_camps();
-                    validate_linked_vehicles();
-                    update_map( u );
-                    for( item *&e : u.inv_dump() ) {
-                        e->set_owner( get_player_character() );
-                    }
-                    // legacy, needs to be here as we access the map.
-                    if( !u.getID().is_valid() ) {
-                        // player does not have a real id, so assign a new one,
-                        u.setID( assign_npc_id() );
-                        // The vehicle stores the IDs of the boarded players, so update it, too.
-                        if( u.in_vehicle ) {
-                            if( const std::optional<vpart_reference> vp = here.veh_at(
-                                        u.pos_bub() ).part_with_feature( "BOARDABLE", true ) ) {
-                                vp->part().passenger_id = u.getID();
-                            }
-                        }
-                    }
-
-                    // populate calendar caches now, after active world is set, but before we do
-                    // anything else, to ensure they pick up the correct value from the save's
-                    // worldoptions
-                    calendar::set_eternal_season( ::get_option<bool>( "ETERNAL_SEASON" ) );
-                    calendar::set_season_length( ::get_option<int>( "SEASON_LENGTH" ) );
-
-                    calendar::set_eternal_night(
-                        ::get_option<std::string>( "ETERNAL_TIME_OF_DAY" ) == "night" );
-                    calendar::set_eternal_day(
-                        ::get_option<std::string>( "ETERNAL_TIME_OF_DAY" ) == "day" );
-
-                    u.reset();
-                    u.recalculate_enchantment_cache();
-                    u.enchantment_cache->activate_passive( u );
-                    events().send<event_type::game_load>( getVersionString() );
-                    time_of_last_load = std::chrono::steady_clock::now();
-                    time_played_at_last_load = std::chrono::seconds( 0 );
-                    std::optional<event_multiset::summaries_type::value_type> last_save =
-                        stats().get_events( event_type::game_save ).last();
-                    if( last_save ) {
-                        auto time_played_it = last_save->first.find( "total_time_played" );
-                        if( time_played_it != last_save->first.end() &&
-                            time_played_it->second.type() == cata_variant_type::chrono_seconds ) {
-                            time_played_at_last_load =
-                                time_played_it->second.get<std::chrono::seconds>();
-                        }
-                    }
-
-                    effect_on_conditions::load_existing_character( u );
-                    // recalculate light level for correctly resuming crafting and disassembly
-                    here.build_map_cache( here.get_abs_sub().z() );
-                }
-            },
-        }
-    };
-
-    for( const named_entry &e : entries ) {
-        loading_ui::show( _( "Loading the save…" ), e.first );
-        e.second();
-        if( abort ) {
-            loading_ui::done();
-            return false;
-        }
-    }
-
-    loading_ui::done();
-    return true;
-}
-
-void game::load_world_modfiles()
-{
-    auto &mods = world_generator->active_world->active_mod_order;
-
-    // remove any duplicates whilst preserving order (fixes #19385)
-    std::set<mod_id> found;
-    mods.erase( std::remove_if( mods.begin(), mods.end(), [&found]( const mod_id & e ) {
-        if( found.count( e ) ) {
-            return true;
-        } else {
-            found.insert( e );
-            return false;
-        }
-    } ), mods.end() );
-
-    // require at least one core mod (saves before version 6 may implicitly require dda pack)
-    if( std::none_of( mods.begin(), mods.end(), []( const mod_id & e ) {
-    return e->core;
-} ) ) {
-        mods.insert( mods.begin(), MOD_INFORMATION_dda );
-    }
-
-    // this code does not care about mod dependencies,
-    // it assumes that those dependencies are static and
-    // are resolved during the creation of the world.
-    // That means world->active_mod_order contains a list
-    // of mods in the correct order.
-    load_packs( _( "Loading files" ), mods );
-
-    // Load additional mods from that world-specific folder
-    load_mod_data_from_dir( PATH_INFO::world_base_save_path() / "mods", "custom" );
-    load_mod_interaction_data_from_dir( PATH_INFO::world_base_save_path() / "mods" /
-                                        "mod_interactions", "custom" );
-
-    DynamicDataLoader::get_instance().finalize_loaded_data();
-}
-
-void game::load_packs( const std::string &msg, const std::vector<mod_id> &packs )
-{
-    for( const auto &mod : packs ) {
-        // Suppress missing mods the player chose to leave in the modlist
-        if( !mod.is_valid() ) {
-            continue;
-        }
-        loading_ui::show( msg, mod->name() );
-        restore_on_out_of_scope restore_check_plural( check_plural );
-        if( mod.str() == "test_data" ) {
-            check_plural = check_plural_t::none;
-        }
-        cata_timer pack_timer( string_format( "%s pack load time:", mod->name() ) );
-        load_mod_data_from_dir( mod->path, mod.str() );
-    }
-    cata_timer::print_stats();
-
-    for( const auto &mod : packs ) {
-        if( !mod.is_valid() ) {
-            continue;
-        }
-        loading_ui::show( msg, mod->name() );
-        load_mod_interaction_data_from_dir( mod->path / "mod_interactions", mod.str() );
-    }
 }
 
 void game::reset_npc_dispositions()
@@ -3483,136 +2919,6 @@ void game::reset_npc_dispositions()
                                      npc_to_add->getID() ) );
 
     }
-
-}
-
-//Saves all factions and missions and npcs.
-bool game::save_factions_missions_npcs()
-{
-    cata_path masterfile = PATH_INFO::world_base_save_path() / SAVE_MASTER;
-    return write_to_file( masterfile, [&]( std::ostream & fout ) {
-        serialize_master( fout );
-    }, _( "factions data" ) );
-}
-//Saves per-dimension data like Weather and overmapbuffer state
-bool game::save_dimension_data()
-{
-    cata_path data_file = PATH_INFO::current_dimension_save_path() / SAVE_DIMENSION_DATA;
-    return write_to_file( data_file, [&]( std::ostream & fout ) {
-        serialize_dimension_data( fout );
-    }, _( "dimension data" ) );
-}
-bool game::save_maps()
-{
-    map &here = get_map();
-
-    try {
-        here.save();
-        overmap_buffer.save(); // can throw
-        MAPBUFFER.save(); // can throw
-        return true;
-    } catch( const std::exception &err ) {
-        popup( _( "Failed to save the maps: %s" ), err.what() );
-        return false;
-    }
-}
-
-bool game::save_player_data()
-{
-    const cata_path playerfile = PATH_INFO::player_base_save_path();
-
-    bool saved_data;
-    if( world_generator->active_world->has_compression_enabled() ) {
-        std::stringstream save;
-        serialize_json( save );
-        std::filesystem::path save_path = ( playerfile + SAVE_EXTENSION +
-                                            ".zzip" ).get_unrelative_path();
-        std::filesystem::path tmp_path = save_path;
-        tmp_path.concat( ".tmp" ); // NOLINT(cata-u8-path)
-        std::optional<zzip> z = zzip::load( save_path );
-        saved_data = z->add_file( ( playerfile + SAVE_EXTENSION ).get_unrelative_path().filename(),
-                                  save.str() );
-        if( saved_data && z->compact_to( tmp_path, 2.0 ) ) {
-            z.reset();
-            saved_data = rename_file( tmp_path, save_path );
-        }
-    } else {
-        saved_data = write_to_file( playerfile + SAVE_EXTENSION, [&]( std::ostream & fout ) {
-            serialize_json( fout );
-        }, _( "player data" ) );
-    }
-    const bool saved_map_memory = u.save_map_memory();
-    const bool saved_log = write_to_file( playerfile + SAVE_EXTENSION_LOG, [&](
-    std::ostream & fout ) {
-        memorial().save( fout );
-    }, _( "player memorial" ) );
-#if defined(__ANDROID__)
-    const bool saved_shortcuts = write_to_file( playerfile + SAVE_EXTENSION_SHORTCUTS, [&](
-    std::ostream & fout ) {
-        save_shortcuts( fout );
-    }, _( "quick shortcuts" ) );
-#endif
-    const bool saved_diary = u.get_avatar_diary()->store();
-    return saved_data && saved_map_memory && saved_log && saved_diary
-#if defined(__ANDROID__)
-           && saved_shortcuts
-#endif
-           ;
-}
-
-
-bool game::save_achievements()
-{
-    const std::string &achievement_dir = PATH_INFO::achievementdir();
-
-    //Check if achievement dir exists
-    if( !assure_dir_exist( achievement_dir ) ) {
-        dbg( D_ERROR ) << "game:save_achievements: Unable to make achievement directory.";
-        debugmsg( "Could not make '%s' directory", achievement_dir );
-        return false;
-    }
-
-    // This sets the maximum length for the filename
-    constexpr size_t suffix_len = 24 + 1;
-    constexpr size_t max_name_len = FILENAME_MAX - suffix_len;
-
-    const size_t name_len = u.name.size();
-    // Here -1 leaves space for the ~
-    const size_t truncated_name_len = ( name_len >= max_name_len ) ? ( max_name_len - 1 ) : name_len;
-
-    std::ostringstream achievement_file_path;
-
-    achievement_file_path << achievement_dir;
-
-    if( get_options().has_option( "ENCODING_CONV" ) && !get_option<bool>( "ENCODING_CONV" ) ) {
-        // Use the default locale to replace non-printable characters with _ in the player name.
-        std::locale locale{ "C" };
-        std::replace_copy_if( std::begin( u.name ), std::begin( u.name ) + truncated_name_len,
-                              std::ostream_iterator<char>( achievement_file_path ),
-        [&]( const char c ) {
-            return !std::isgraph( c, locale ) || !is_char_allowed( c );
-        }, '_' );
-    } else {
-        std::replace_copy_if( std::begin( u.name ), std::end( u.name ),
-                              std::ostream_iterator<char>( achievement_file_path ),
-        [&]( const char c ) {
-            return !is_char_allowed( c );
-        }, '_' );
-    }
-
-    // Add a ~ if the player name was actually truncated.
-    achievement_file_path << ( ( truncated_name_len != name_len ) ? "~-" : "-" );
-
-    // Add world timestamp to distinguish characters from different worlds with the same name
-    achievement_file_path << world_generator->active_world->timestamp << "-";
-
-    const int character_id = get_player_character().getID().get_value();
-    const std::string json_path_string = achievement_file_path.str() + std::to_string(
-            character_id ) + ".json";
-
-    return write_to_file( json_path_string, [&]( std::ostream & fout ) {
-        get_achievements().write_json_achievements( fout, u.name );
-    }, _( "player achievements" ) );
 
 }
 
@@ -3666,152 +2972,6 @@ spell_events &game::spell_events_subscriber()
     return *spell_events_ptr;
 }
 
-bool game::save()
-{
-    std::chrono::seconds time_since_load =
-        std::chrono::duration_cast<std::chrono::seconds>(
-            std::chrono::steady_clock::now() - time_of_last_load );
-    std::chrono::seconds total_time_played = time_played_at_last_load + time_since_load;
-    events().send<event_type::game_save>( time_since_load, total_time_played );
-    try {
-        if( !save_player_data() ||
-            !save_achievements() ||
-            !save_factions_missions_npcs() ||
-            !save_dimension_data() ||
-            !save_maps() ||
-            !get_auto_pickup().save_character() ||
-            !get_auto_notes_settings().save( true ) ||
-            !get_safemode().save_character() ||
-            !zone_manager::get_manager().save_zones() ||
-            !write_to_file( PATH_INFO::world_base_save_path() / "uistate.json", [&](
-        std::ostream & fout ) {
-        JsonOut jsout( fout );
-            uistate.serialize( jsout );
-        }, _( "uistate data" ) ) ) {
-            debugmsg( "game not saved" );
-            return false;
-        } else {
-            world_generator->last_world_name = world_generator->active_world->world_name;
-            world_generator->last_character_name = u.name;
-            world_generator->save_last_world_info();
-            world_generator->active_world->add_save( save_t::from_save_id( u.get_save_id() ) );
-            write_to_file( PATH_INFO::world_base_save_path() / ( base64_encode(
-            u.get_save_id() ) + ".pt" ), [&total_time_played]( std::ostream & fout ) {
-                fout.imbue( std::locale::classic() );
-                fout << total_time_played.count();
-            } );
-#if defined(EMSCRIPTEN)
-            // This will allow the window to be closed without a prompt, until do_turn()
-            // is called.
-            EM_ASM( window.game_unsaved = false; );
-#endif
-            return true;
-        }
-    } catch( std::ios::failure & ) {
-        popup( _( "Failed to save game data" ) );
-        return false;
-    }
-}
-
-std::vector<std::string> game::list_active_saves()
-{
-    std::vector<std::string> saves;
-    for( save_t &worldsave : world_generator->active_world->world_saves ) {
-        saves.push_back( worldsave.decoded_name() );
-    }
-    return saves;
-}
-
-/**
- * Writes information about the character out to a text file timestamped with
- * the time of the file was made. This serves as a record of the character's
- * state at the time the memorial was made (usually upon death) and
- * accomplishments in a human-readable format.
- */
-void game::write_memorial_file( std::string sLastWords )
-{
-    const std::string &memorial_dir = PATH_INFO::memorialdir();
-    const std::string &memorial_active_world_dir = memorial_dir +
-            world_generator->active_world->world_name + "/";
-
-    //Check if both dirs exist. Nested assure_dir_exist fails if the first dir of the nested dir does not exist.
-    if( !assure_dir_exist( memorial_dir ) ) {
-        dbg( D_ERROR ) << "game:write_memorial_file: Unable to make memorial directory.";
-        debugmsg( "Could not make '%s' directory", memorial_dir );
-        return;
-    }
-
-    if( !assure_dir_exist( memorial_active_world_dir ) ) {
-        dbg( D_ERROR ) <<
-                       "game:write_memorial_file: Unable to make active world directory in memorial directory.";
-        debugmsg( "Could not make '%s' directory", memorial_active_world_dir );
-        return;
-    }
-
-    // <name>-YYYY-MM-DD-HH-MM-SS.txt
-    //       123456789012345678901234 ~> 24 chars + a null
-    constexpr size_t suffix_len   = 24 + 1;
-    constexpr size_t max_name_len = FILENAME_MAX - suffix_len;
-
-    const size_t name_len = u.name.size();
-    // Here -1 leaves space for the ~
-    const size_t truncated_name_len = ( name_len >= max_name_len ) ? ( max_name_len - 1 ) : name_len;
-
-    std::ostringstream memorial_file_path;
-    memorial_file_path << memorial_active_world_dir;
-
-    if( get_options().has_option( "ENCODING_CONV" ) && !get_option<bool>( "ENCODING_CONV" ) ) {
-        // Use the default locale to replace non-printable characters with _ in the player name.
-        std::locale locale {"C"};
-        std::replace_copy_if( std::begin( u.name ), std::begin( u.name ) + truncated_name_len,
-                              std::ostream_iterator<char>( memorial_file_path ),
-        [&]( const char c ) {
-            return !std::isgraph( c, locale ) || !is_char_allowed( c );
-        }, '_' );
-    } else {
-        std::replace_copy_if( std::begin( u.name ), std::end( u.name ),
-                              std::ostream_iterator<char>( memorial_file_path ),
-        [&]( const char c ) {
-            return !is_char_allowed( c );
-        }, '_' );
-    }
-
-    // Add a ~ if the player name was actually truncated.
-    memorial_file_path << ( ( truncated_name_len != name_len ) ? "~-" : "-" );
-
-    // Add a timestamp for uniqueness.
-
-#if defined(_WIN32)
-    SYSTEMTIME current_time;
-    GetLocalTime( &current_time );
-    memorial_file_path << string_format( "%d-%02d-%02d-%02d-%02d-%02d",
-                                         current_time.wYear, current_time.wMonth, current_time.wDay,
-                                         current_time.wHour, current_time.wMinute, current_time.wSecond );
-#else
-    // NOLINTNEXTLINE(modernize-avoid-c-arrays)
-    char buffer[suffix_len] {};
-    std::time_t t = std::time( nullptr );
-    tm current_time;
-    localtime_r( &t, &current_time );
-    size_t result = std::strftime( buffer, suffix_len, "%Y-%m-%d-%H-%M-%S", &current_time );
-    if( result == 0 ) {
-        cata_fatal( "Could not construct filename" );
-    }
-    memorial_file_path << buffer;
-#endif
-
-    const std::string text_path_string = memorial_file_path.str() + ".txt";
-    const std::string json_path_string = memorial_file_path.str() + ".json";
-
-    write_to_file( text_path_string, [&]( std::ostream & fout ) {
-        memorial().write_text_memorial( fout, sLastWords );
-    }, _( "player memorial" ) );
-
-    write_to_file( json_path_string, [&]( std::ostream & fout ) {
-        memorial().write_json_memorial( fout );
-    }, _( "player memorial" ) );
-}
-
 void game::disp_NPC_epilogues()
 {
     // TODO: This search needs to be expanded to all NPCs
@@ -3840,7 +3000,7 @@ void game::display_faction_epilogues()
                                                point( std::max( 0, ( TERMX - FULL_SCREEN_WIDTH ) / 2 ),
                                                       std::max( 0, ( TERMY - FULL_SCREEN_HEIGHT ) / 2 ) ) );
                 };
-                scrollable_text( new_win, elem.second.name,
+                scrollable_text( new_win, elem.second.get_name(),
                                  std::accumulate( epilogue.begin() + 1, epilogue.end(), epilogue.front(),
                 []( std::string lhs, const std::string & rhs ) -> std::string {
                     return std::move( lhs ) + "\n" + rhs;
@@ -4545,7 +3705,8 @@ std::unordered_set<tripoint_bub_ms> game::get_fishable_locations_bub( int distan
     // to determine if any fishable monsters are in those locations.
     return ff::point_flood_fill_4_connected<std::unordered_set>( fish_pos, visited, [&here,
     &fishing_boundaries]( const tripoint_bub_ms & p ) {
-        return !fishing_boundaries.contains( p ) && here.has_flag( ter_furn_flag::TFLAG_FISHABLE, p );
+        return fishing_boundaries.contains( p ) && here.inbounds( p ) &&
+               here.has_flag( ter_furn_flag::TFLAG_FISHABLE, p );
     } );
 }
 
@@ -6210,7 +5371,7 @@ void game::examine( bool with_pickup )
     u.manual_examine = false;
 }
 
-static std::string get_fire_fuel_string( const tripoint_bub_ms &examp )
+std::string game::get_fire_fuel_string( const tripoint_bub_ms &examp ) const
 {
     map &here = get_map();
     if( here.has_flag( ter_furn_flag::TFLAG_FIRE_CONTAINER, examp ) ) {
@@ -6445,7 +5606,7 @@ bool game::warn_player_maybe_anger_local_faction( bool really_bad_offense,
     // Else there's a camp, and we're doing something we're not supposed to! Time to warn the player.
     if( !query_yn(
             _( "You're in the territory of %s, they probably won't appreciate your actions.  Continue anyway?" ),
-            actual_camp->get_owner()->name ) ) {
+            actual_camp->get_owner()->get_name() ) ) {
         return false;
     } else {
         faction *owner_fac_pointer = g->faction_manager_ptr->get( actual_camp->get_owner() );
@@ -6625,431 +5786,6 @@ void game::draw_look_around_cursor( const tripoint_bub_ms &lp, const visibility_
     }
 }
 
-void game::print_all_tile_info( const tripoint_bub_ms &lp, const catacurses::window &w_look,
-                                const std::string &area_name, int column,
-                                int &line,
-                                const int last_line,
-                                const visibility_variables &cache )
-{
-    map &here = get_map();
-
-    visibility_type visibility = visibility_type::HIDDEN;
-    const bool inbounds = here.inbounds( lp );
-    if( inbounds ) {
-        visibility = here.get_visibility( here.apparent_light_at( lp, cache ), cache );
-    }
-    const Creature *creature = get_creature_tracker().creature_at( lp, true );
-    switch( visibility ) {
-        case visibility_type::CLEAR: {
-            const optional_vpart_position vp = here.veh_at( lp );
-            print_terrain_info( lp, w_look, area_name, column, line );
-            print_fields_info( lp, w_look, column, line );
-            print_trap_info( lp, w_look, column, line );
-            print_part_con_info( lp, w_look, column, line );
-            print_creature_info( creature, w_look, column, line, last_line );
-            print_vehicle_info( veh_pointer_or_null( vp ), vp ? vp->part_index() : -1, w_look, column, line,
-                                last_line );
-            print_items_info( lp, w_look, column, line, last_line );
-            print_graffiti_info( lp, w_look, column, line, last_line );
-        }
-        break;
-        case visibility_type::BOOMER:
-        case visibility_type::BOOMER_DARK:
-        case visibility_type::DARK:
-        case visibility_type::LIT:
-        case visibility_type::HIDDEN:
-            print_visibility_info( w_look, column, line, visibility );
-
-            static std::string raw_description;
-            static std::string parsed_description;
-            if( creature != nullptr ) {
-                const_dialogue d( get_const_talker_for( u ), get_const_talker_for( *creature ) );
-                const enchant_cache::special_vision sees_with_special = u.enchantment_cache->get_vision( d );
-                if( !sees_with_special.is_empty() ) {
-                    // handling against re-evaluation and snippet replacement on redraw
-                    if( raw_description.empty() ) {
-                        const enchant_cache::special_vision_descriptions special_vis_desc =
-                            u.enchantment_cache->get_vision_description_struct( sees_with_special, d );
-                        raw_description = special_vis_desc.description.translated();
-                        parse_tags( raw_description, *u.as_character(), *creature );
-                        parsed_description = raw_description;
-                    }
-                    mvwprintw( w_look, point( 1, ++line ), parsed_description );
-                }
-            } else {
-                raw_description.clear();
-            }
-            break;
-    }
-    print_debug_info( lp, w_look, column, line );
-    if( !inbounds ) {
-        return;
-    }
-    const int max_width = getmaxx( w_look ) - column - 1;
-
-    std::string this_sound = sounds::sound_at( lp );
-    if( !this_sound.empty() ) {
-        const int lines = fold_and_print( w_look, point( 1, ++line ), max_width, c_light_gray,
-                                          _( "From here you heard %s" ),
-                                          this_sound );
-        line += lines - 1;
-    } else {
-        // Check other z-levels
-        tripoint_bub_ms tmp = lp;
-        for( tmp.z() = -OVERMAP_DEPTH; tmp.z() <= OVERMAP_HEIGHT; tmp.z()++ ) {
-            if( tmp.z() == lp.z() ) {
-                continue;
-            }
-
-            std::string zlev_sound = sounds::sound_at( tmp );
-            if( !zlev_sound.empty() ) {
-                const int lines = fold_and_print( w_look, point( 1, ++line ), max_width, c_light_gray,
-                                                  tmp.z() > lp.z() ?
-                                                  _( "From above you heard %s" ) : _( "From below you heard %s" ), zlev_sound );
-                line += lines - 1;
-            }
-        }
-    }
-}
-
-void game::print_visibility_info( const catacurses::window &w_look, int column, int &line,
-                                  visibility_type visibility )
-{
-    const char *visibility_message = nullptr;
-    switch( visibility ) {
-        case visibility_type::CLEAR:
-            visibility_message = _( "Clearly visible." );
-            break;
-        case visibility_type::BOOMER:
-            visibility_message = _( "A bright pink blur." );
-            break;
-        case visibility_type::BOOMER_DARK:
-            visibility_message = _( "A pink blur." );
-            break;
-        case visibility_type::DARK:
-            visibility_message = _( "Darkness." );
-            break;
-        case visibility_type::LIT:
-            visibility_message = _( "Bright light." );
-            break;
-        case visibility_type::HIDDEN:
-            visibility_message = _( "Unseen." );
-            break;
-    }
-
-    mvwprintz( w_look, point( line, column ), c_light_gray, visibility_message );
-    line += 2;
-}
-
-void game::print_terrain_info( const tripoint_bub_ms &lp, const catacurses::window &w_look,
-                               const std::string &area_name, int column, int &line )
-{
-    map &here = get_map();
-
-    const int max_width = getmaxx( w_look ) - column - 1;
-
-    // Print OMT type and terrain type on first two lines
-    // if can't fit in one line.
-    std::string tile = uppercase_first_letter( here.tername( lp ) );
-    std::string area = uppercase_first_letter( area_name );
-    if( const timed_event *e = get_timed_events().get( timed_event_type::OVERRIDE_PLACE ) ) {
-        area = e->string_id;
-    }
-    mvwprintz( w_look, point( column, line++ ), c_yellow, area );
-    mvwprintz( w_look, point( column, line++ ), c_white, tile );
-    std::string desc = string_format( here.ter( lp ).obj().description );
-    std::vector<std::string> lines = foldstring( desc, max_width );
-    int numlines = lines.size();
-    wattron( w_look, c_light_gray );
-    for( int i = 0; i < numlines; i++ ) {
-        mvwprintw( w_look, point( column, line++ ), lines[i] );
-    }
-    wattroff( w_look, c_light_gray );
-
-    // Furniture, if any
-    print_furniture_info( lp, w_look, column, line );
-
-    // Cover percentage from terrain and furniture next.
-    fold_and_print( w_look, point( column, ++line ), max_width, c_light_gray, _( "Concealment: %d%%" ),
-                    here.coverage( lp ) );
-
-    if( here.has_flag( ter_furn_flag::TFLAG_TREE, lp ) ) {
-        const int lines = fold_and_print( w_look, point( column, ++line ), max_width, c_light_gray,
-                                          _( "Can be <color_green>cut down</color> with the right tools." ) );
-        line += lines - 1;
-    }
-
-    // Terrain and furniture flags next. These can be several lines for some combinations of
-    // furnitures and terrains.
-    lines = foldstring( here.features( lp ), max_width );
-    numlines = lines.size();
-    wattron( w_look, c_light_gray );
-    for( int i = 0; i < numlines; i++ ) {
-        mvwprintw( w_look, point( column, ++line ), lines[i] );
-    }
-    wattroff( w_look, c_light_gray );
-
-    // Move cost from terrain and furniture and vehicle parts.
-    // Vehicle part information is printed in a different function.
-    if( here.impassable( lp ) ) {
-        mvwprintz( w_look, point( column, ++line ), c_light_red, _( "Impassable" ) );
-    } else {
-        mvwprintz( w_look, point( column, ++line ), c_light_gray, _( "Move cost: %d" ),
-                   here.move_cost( lp ) * 50 );
-    }
-
-    // Next print the string on any SIGN flagged furniture if any.
-    std::string signage = here.get_signage( lp );
-    if( !signage.empty() ) {
-        std::string sign_string = u.has_trait( trait_ILLITERATE ) ? "???" : signage;
-        const int lines = fold_and_print( w_look, point( column, ++line ), max_width, c_light_gray,
-                                          _( "Sign: %s" ), sign_string );
-        line += lines - 1;
-    }
-
-    // Print light level on the selected tile.
-    std::pair<std::string, nc_color> ll = get_light_level( std::max( 1.0,
-                                          LIGHT_AMBIENT_LIT - here.ambient_light_at( lp ) + 1.0 ) );
-    mvwprintz( w_look, point( column, ++line ), c_light_gray, _( "Lighting: " ) );
-    mvwprintz( w_look, point( column + utf8_width( _( "Lighting: " ) ), line ), ll.second, ll.first );
-
-    // Print the terrain and any furntiure on the tile below and whether it is walkable.
-    if( lp.z() > -OVERMAP_DEPTH && !here.has_floor( lp ) ) {
-        tripoint_bub_ms below( lp + tripoint::below );
-        std::string tile_below = here.tername( below );
-        if( here.has_furn( below ) ) {
-            tile_below += ", " + here.furnname( below );
-        }
-
-        if( !here.has_floor_or_support( lp ) ) {
-            fold_and_print( w_look, point( column, ++line ), max_width, c_dark_gray,
-                            _( "Below: %s; No support" ), tile_below );
-        } else {
-            fold_and_print( w_look, point( column, ++line ), max_width, c_dark_gray, _( "Below: %s; Walkable" ),
-                            tile_below );
-        }
-    }
-
-    ++line;
-}
-
-void game::print_furniture_info( const tripoint_bub_ms &lp, const catacurses::window &w_look,
-                                 int column,
-                                 int &line )
-{
-    map &here = get_map();
-
-    // Do nothing if there is no furniture here
-    if( !here.has_furn( lp ) ) {
-        return;
-    }
-    const int max_width = getmaxx( w_look ) - column - 1;
-
-    // Print furniture name in white
-    std::string desc = uppercase_first_letter( here.furnname( lp ) );
-    mvwprintz( w_look, point( column, line++ ), c_white, desc );
-
-    // Print each line of furniture description in gray
-    const furn_id &f = here.furn( lp );
-    desc = string_format( f.obj().description );
-    std::vector<std::string> lines = foldstring( desc, max_width );
-    int numlines = lines.size();
-    wattron( w_look, c_light_gray );
-    for( int i = 0; i < numlines; i++ ) {
-        mvwprintw( w_look, point( column, line++ ), lines[i] );
-    }
-    wattroff( w_look, c_light_gray );
-
-    // If this furniture has a crafting pseudo item, check for tool qualities and print them
-    if( !f->crafting_pseudo_item.is_empty() ) {
-        // Make a pseudo item instance so we can use qualities_info later
-        const item pseudo( f->crafting_pseudo_item );
-        // Set up iteminfo query to show qualities
-        std::vector<iteminfo_parts> quality_part = { iteminfo_parts::QUALITIES };
-        const iteminfo_query quality_query( quality_part );
-        // Render info into info_vec
-        std::vector<iteminfo> info_vec;
-        pseudo.qualities_info( info_vec, &quality_query, 1, false );
-        // Get a newline-separated string of quality info, then parse and print each line
-        std::string quality_string = format_item_info( info_vec, {} );
-        size_t strpos = 0;
-        while( ( strpos = quality_string.find( '\n' ) ) != std::string::npos ) {
-            trim_and_print( w_look, point( column, line++ ), max_width, c_light_gray,
-                            quality_string.substr( 0, strpos + 1 ) );
-            // Delete used token
-            quality_string.erase( 0, strpos + 1 );
-        }
-    }
-}
-
-void game::print_fields_info( const tripoint_bub_ms &lp, const catacurses::window &w_look,
-                              int column,
-                              int &line )
-{
-    map &here = get_map();
-
-    const field &tmpfield = here.field_at( lp );
-    for( const auto &fld : tmpfield ) {
-        const field_entry &cur = fld.second;
-        if( fld.first.obj().has_fire && ( here.has_flag( ter_furn_flag::TFLAG_FIRE_CONTAINER, lp ) ||
-                                          here.ter( lp ) == ter_t_pit_shallow || here.ter( lp ) == ter_t_pit ) ) {
-            const int max_width = getmaxx( w_look ) - column - 2;
-            int lines = fold_and_print( w_look, point( column, ++line ), max_width, cur.color(),
-                                        get_fire_fuel_string( lp ) ) - 1;
-            line += lines;
-        } else {
-            mvwprintz( w_look, point( column, ++line ), cur.color(), cur.name() );
-        }
-    }
-
-    int size = std::distance( tmpfield.begin(), tmpfield.end() );
-    if( size > 0 ) {
-        mvwprintz( w_look, point( column, ++line ), c_white, "\n" );
-    }
-}
-
-void game::print_trap_info( const tripoint_bub_ms &lp, const catacurses::window &w_look,
-                            const int column,
-                            int &line )
-{
-    map &here = get_map();
-
-    const trap &tr = here.tr_at( lp );
-    if( tr.can_see( lp, u ) ) {
-        std::string tr_name = tr.name();
-        mvwprintz( w_look, point( column, ++line ), tr.color, tr_name );
-    }
-
-    ++line;
-}
-
-void game::print_part_con_info( const tripoint_bub_ms &lp, const catacurses::window &w_look,
-                                const int column,
-                                int &line )
-{
-    map &here = get_map();
-
-    partial_con *pc = here.partial_con_at( lp );
-    std::string tr_name;
-    if( pc != nullptr ) {
-        const construction &built = pc->id.obj();
-        tr_name = string_format( _( "Unfinished task: %s, %d%% complete" ), built.group->name(),
-                                 pc->counter / 100000 );
-
-        int const width = getmaxx( w_look ) - column - 2;
-        fold_and_print( w_look, point( column, ++line ), width, c_white, tr_name );
-
-        ++line;
-    }
-}
-
-void game::print_creature_info( const Creature *creature, const catacurses::window &w_look,
-                                const int column, int &line, const int last_line )
-{
-    const map &here = get_map();
-
-    int vLines = last_line - line;
-    if( creature != nullptr && ( u.sees( here,  *creature ) || creature == &u ) ) {
-        line = creature->print_info( w_look, ++line, vLines, column );
-    }
-}
-
-void game::print_vehicle_info( const vehicle *veh, int veh_part, const catacurses::window &w_look,
-                               const int column, int &line, const int last_line )
-{
-    if( veh ) {
-        // Print the name of the vehicle.
-        mvwprintz( w_look, point( column, ++line ), c_light_gray, _( "Vehicle: " ) );
-        mvwprintz( w_look, point( column + utf8_width( _( "Vehicle: " ) ), line ), c_white, "%s",
-                   veh->name );
-        // Then the list of parts on that tile.
-        line = veh->print_part_list( w_look, ++line, last_line, getmaxx( w_look ), veh_part );
-    }
-}
-
-static void add_visible_items_recursive( std::map<std::string, std::pair<int, nc_color>>
-        &item_names, const item &it )
-{
-    ++item_names[it.tname()].first;
-    item_names[it.tname()].second = it.color_in_inventory();
-
-    for( const item *content : it.all_known_contents() ) {
-        add_visible_items_recursive( item_names, *content );
-    }
-}
-
-void game::print_items_info( const tripoint_bub_ms &lp, const catacurses::window &w_look,
-                             const int column,
-                             int &line,
-                             const int last_line )
-{
-    map &here = get_map();
-
-    if( !here.sees_some_items( lp, u ) ) {
-        return;
-    } else if( here.has_flag( ter_furn_flag::TFLAG_CONTAINER, lp ) && !here.could_see_items( lp, u ) ) {
-        mvwprintw( w_look, point( column, ++line ), _( "You cannot see what is inside of it." ) );
-    } else if( u.has_effect( effect_blind ) || u.worn_with_flag( flag_BLIND ) ) {
-        mvwprintz( w_look, point( column, ++line ), c_yellow,
-                   _( "There's something there, but you can't see what it is." ) );
-        return;
-    } else {
-        std::map<std::string, std::pair<int, nc_color>> item_names;
-        for( const item &it : here.i_at( lp ) ) {
-            add_visible_items_recursive( item_names, it );
-        }
-
-        const int max_width = getmaxx( w_look ) - column - 1;
-        for( auto it = item_names.begin(); it != item_names.end(); ++it ) {
-            // last line but not last item
-            if( line + 1 >= last_line && std::next( it ) != item_names.end() ) {
-                mvwprintz( w_look, point( column, ++line ), c_yellow, _( "More items here…" ) );
-                break;
-            }
-
-            if( it->second.first > 1 ) {
-                trim_and_print( w_look, point( column, ++line ), max_width, it->second.second,
-                                pgettext( "%s is the name of the item.  %d is the quantity of that item.", "%s [%d]" ),
-                                it->first.c_str(), it->second.first );
-            } else {
-                trim_and_print( w_look, point( column, ++line ), max_width, it->second.second, it->first );
-            }
-        }
-    }
-}
-
-void game::print_graffiti_info( const tripoint_bub_ms &lp, const catacurses::window &w_look,
-                                const int column, int &line,
-                                const int last_line )
-{
-    map &here = get_map();
-
-    if( line > last_line ) {
-        return;
-    }
-
-    const int max_width = getmaxx( w_look ) - column - 2;
-    if( here.has_graffiti_at( lp ) ) {
-        const int lines = fold_and_print( w_look, point( column, ++line ), max_width, c_light_gray,
-                                          here.ter( lp ) == ter_t_grave_new ? _( "Graffiti: %s" ) : _( "Inscription: %s" ),
-                                          here.graffiti_at( lp ) );
-        line += lines - 1;
-    }
-}
-
-void game::print_debug_info( const tripoint_bub_ms &lp, const catacurses::window &w_look,
-                             const int column, int &line )
-{
-    if( debug_mode ) {
-        const map &here = get_map();
-
-        mvwprintz( w_look, point( column, ++line ), c_white, "tripoint_bub_ms: %s",
-                   lp.to_string_writable() );
-        mvwprintz( w_look, point( column, ++line ), c_white, "tripoint_abs_ms: %s",
-                   here.get_abs( lp ).to_string_writable() );
-    }
-}
-
 bool game::check_zone( const zone_type_id &type, const tripoint_bub_ms &where ) const
 {
     map &here = get_map();
@@ -7067,21 +5803,6 @@ bool game::check_near_zone( const zone_type_id &type, const tripoint_bub_ms &whe
 bool game::is_zones_manager_open() const
 {
     return zones_manager_open;
-}
-
-void game::pre_print_all_tile_info( const tripoint_bub_ms &lp, const catacurses::window &w_info,
-                                    int &first_line, const int last_line,
-                                    const visibility_variables &cache )
-{
-    map &here = get_map();
-
-    // get global area info according to look_around caret position
-    tripoint_abs_omt omp( coords::project_to<coords::omt>( here.get_abs( lp ) ) );
-    const oter_id &cur_ter_m = overmap_buffer.ter( omp );
-    om_vision_level vision = overmap_buffer.seen( omp );
-    // we only need the area name and then pass it to print_all_tile_info() function below
-    const std::string area_name = cur_ter_m->get_name( vision );
-    print_all_tile_info( lp, w_info, area_name, 1, first_line, last_line, cache );
 }
 
 std::optional<std::vector<tripoint_bub_ms>> game::safe_route_to( Character &who,
@@ -9795,6 +8516,11 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint_bub_ms &dest_l
         return u.immune_to( bp, { damage_cut, 10 } );
     };
 
+    // For future reference... It turns out that 78 is exactly the dex required to avoid all damage at the function call used elsewhere.
+    // That function call is:
+    // x_in_y(1+u.dex_cur/2, 40)
+    const int magic_number_78 = 78;
+
     if( here.has_flag( ter_furn_flag::TFLAG_ROUGH, dest_loc ) &&
         !here.has_flag( ter_furn_flag::TFLAG_ROUGH, u.pos_bub() ) &&
         !u.has_flag( json_flag_ALL_TERRAIN_NAVIGATION ) &&
@@ -9806,7 +8532,7 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint_bub_ms &dest_l
                !here.has_flag( ter_furn_flag::TFLAG_SHARP, u.pos_bub() ) &&
                !u.has_flag( json_flag_ALL_TERRAIN_NAVIGATION ) &&
                !( u.in_vehicle || here.veh_at( dest_loc ) ) &&
-               u.dex_cur < 78 &&
+               u.dex_cur < magic_number_78 &&
                !( u.is_mounted() &&
                   u.mounted_creature->get_armor_type( damage_cut, bodypart_id( "torso" ) ) >= 10 ) &&
                !std::all_of( sharp_bps.begin(), sharp_bps.end(), sharp_bp_check ) ) {
@@ -11940,7 +10666,8 @@ void game::vertical_move( int movez, bool force, bool peeking )
 
 bool game::travel_to_dimension( const std::string &new_prefix,
                                 const std::string &region_type,
-                                const std::vector<npc *> &npc_travellers )
+                                const std::vector<npc *> &npc_travellers,
+                                vehicle *veh )
 {
     map &here = get_map();
     avatar &player = get_avatar();
@@ -11971,8 +10698,13 @@ bool game::travel_to_dimension( const std::string &new_prefix,
     for( monster &critter : all_monsters() ) {
         despawn_monster( critter );
     }
+    bool controlling_vehicle = player.controlling_vehicle;
     if( player.in_vehicle ) {
         here.unboard_vehicle( player.pos_bub() );
+    }
+    std::unique_ptr<vehicle> vehicle_ref;
+    if( veh != nullptr ) {
+        vehicle_ref = here.detach_vehicle( veh );
     }
     // Make sure we don't mess up savedata if for some reason maps can't be saved
     if( !save_maps() || !save_dimension_data() ) {
@@ -11985,6 +10717,7 @@ bool game::travel_to_dimension( const std::string &new_prefix,
     here.rebuild_vehicle_level_caches();
     // Inputting an empty string to the text input EOC fails
     // so i'm using 'default' as empty/main dimension
+    std::string old_prefix = dimension_prefix;
     if( new_prefix != "default" ) {
         dimension_prefix = new_prefix;
     } else {
@@ -12014,8 +10747,16 @@ bool game::travel_to_dimension( const std::string &new_prefix,
     here.load( tripoint_abs_sm( here.get_abs_sub() ), false );
 
     here.invalidate_visibility_cache();
-    //without this vehicles only load in after walking around a bit
+    bool undo_shift = false;
+    if( vehicle_ref ) {
+        undo_shift = here.place_vehicle( std::move( vehicle_ref ) );
+    }
+    // Without this vehicles only load in after walking around a bit
     here.reset_vehicles_sm_pos();
+    if( here.veh_at( player.pos_bub() ) ) {
+        here.board_vehicle( player.pos_bub(), &player );
+        player.controlling_vehicle = controlling_vehicle;
+    }
     load_npcs();
     // Handle static monsters
     here.spawn_monsters( true, true );
@@ -12023,6 +10764,9 @@ bool game::travel_to_dimension( const std::string &new_prefix,
     weather.weather_override = WEATHER_NULL;
     weather.set_nextweather( calendar::turn );
     update_overmap_seen();
+    if( undo_shift ) {
+        travel_to_dimension( old_prefix, region_type, npc_travellers, veh );
+    }
     return true;
 }
 
@@ -12768,71 +11512,6 @@ void game::display_lighting()
     }
 }
 
-void game::init_autosave()
-{
-    moves_since_last_save = 0;
-    last_save_timestamp = std::time( nullptr );
-}
-
-void game::quicksave()
-{
-    //Don't autosave if the player hasn't done anything since the last autosave/quicksave,
-    if( !moves_since_last_save && !world_generator->active_world->world_saves.empty() ) {
-        return;
-    }
-    add_msg( m_info, _( "Saving game, this may take a while." ) );
-
-    static_popup popup;
-    popup.message( "%s", _( "Saving game, this may take a while." ) );
-    ui_manager::redraw();
-    ui_manager::redraw();
-    refresh_display();
-
-    time_t now = std::time( nullptr ); //timestamp for start of saving procedure
-
-    //perform save
-    save();
-    //Now reset counters for autosaving, so we don't immediately autosave after a quicksave or autosave.
-    moves_since_last_save = 0;
-    last_save_timestamp = now;
-}
-
-void game::quickload()
-{
-    const WORLD *active_world = world_generator->active_world;
-    if( active_world == nullptr ) {
-        return;
-    }
-    std::string const world_name = active_world->world_name;
-    std::string const &save_id = u.get_save_id();
-
-    if( active_world->save_exists( save_t::from_save_id( save_id ) ) ) {
-        if( moves_since_last_save != 0 ) { // See if we need to reload anything
-            moves_since_last_save = 0;
-            last_save_timestamp = std::time( nullptr );
-
-            u.set_moves( 0 );
-            uquit = QUIT_NOSAVED;
-
-            main_menu::queued_world_to_load = world_name;
-            main_menu::queued_save_id_to_load = save_id;
-
-        }
-
-    } else {
-        popup_getkey( _( "No saves for current character yet." ) );
-    }
-}
-
-void game::autosave()
-{
-    //Don't autosave if the min-autosave interval has not passed since the last autosave/quicksave.
-    if( std::time( nullptr ) < last_save_timestamp + 60 * get_option<int>( "AUTOSAVE_MINUTES" ) ) {
-        return;
-    }
-    quicksave();    //Driving checks are handled by quicksave()
-}
-
 void game::start_calendar()
 {
     calendar::start_of_cataclysm = scen->start_of_cataclysm();
@@ -12990,39 +11669,6 @@ Creature *game::get_creature_if( const std::function<bool( const Creature & )> &
         }
     }
     return nullptr;
-}
-
-cata_path PATH_INFO::player_base_save_path()
-{
-    return PATH_INFO::world_base_save_path() / base64_encode( get_avatar().get_save_id() );
-}
-
-cata_path PATH_INFO::world_base_save_path()
-{
-    if( world_generator->active_world == nullptr ) {
-        return PATH_INFO::savedir_path();
-    }
-    return world_generator->active_world->folder_path();
-}
-
-cata_path PATH_INFO::dimensions_save_path()
-{
-    return PATH_INFO::world_base_save_path() / "dimensions";
-}
-
-cata_path PATH_INFO::current_dimension_save_path()
-{
-    std::string dimension_prefix = g->get_dimension_prefix();
-    if( !dimension_prefix.empty() ) {
-        return PATH_INFO::dimensions_save_path() / dimension_prefix;
-    }
-    return PATH_INFO::world_base_save_path();
-}
-
-
-cata_path PATH_INFO::current_dimension_player_save_path()
-{
-    return PATH_INFO::current_dimension_save_path() / base64_encode( get_avatar().get_save_id() );
 }
 
 void game::shift_destination_preview( const point_rel_ms &delta )

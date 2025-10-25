@@ -333,9 +333,10 @@ class game
          * Moves the player to an alternate dimension.
          * @param prefix identifies the dimension and its properties.
          * @param npc_travellers vector of NPCs that should be brought along when travelling to another dimension
+         * @param veh pointer to a vehicle to bring along.
          */
         bool travel_to_dimension( const std::string &prefix, const std::string &region_type,
-                                  const std::vector<npc *> &npc_travellers );
+                                  const std::vector<npc *> &npc_travellers, vehicle *veh = nullptr );
         /**
          * Retrieve the identifier of the current dimension.
          * TODO: this should be a dereferencable id that gives properties of the dimension.
@@ -960,6 +961,7 @@ class game
         // Examine nearby terrain 'e', with or without picking up items
         void examine( const tripoint_bub_ms &p, bool with_pickup = false );
         void examine( bool with_pickup = true );
+        std::string get_fire_fuel_string( const tripoint_bub_ms &examp ) const;
 
         // Pick up items from a single nearby tile (prompting first)
         void pickup();
@@ -1133,6 +1135,7 @@ class game
          */
         Creature *is_hostile_within( int distance, bool dangerous = false );
 
+        static std::string timestamp_now();
         void move_save_to_graveyard();
         bool save_player_data();
         bool save_achievements();

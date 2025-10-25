@@ -1597,6 +1597,28 @@ void npc::handle_sound( const sounds::sound_t spriority, const std::string &desc
     }
 }
 
+static std::string bye_message( const npc *npc_actor )
+{
+    // some dialogues do not have beta actor
+    if( !npc_actor ) {
+        return "";
+    }
+    const std::optional<std::string> bye_snippet = npc_actor->myclass->bye_message_override;
+    // if no bye_snippet, use default bye snippet
+    if( !bye_snippet.has_value() ) {
+        return npc_actor->chat_snippets().snip_bye.translated();
+    }
+    // if null, we want npc to mute bye message
+    // snippet categories do not have their own type,
+    // therefore do not have type::NULL_ID(), so check it against plain string
+    if( bye_snippet.value() == "null" ) {
+        return "";
+    }
+    const std::optional<translation> &bye_message = SNIPPET.random_from_category( bye_snippet.value() );
+    return bye_message.value_or( no_translation( string_format( "No snippet value for %s",
+                                 bye_snippet.value() ) ) ).translated();
+}
+
 void avatar::talk_to( std::unique_ptr<talker> talk_with, bool radio_contact,
                       bool is_computer, bool is_not_conversation, const std::string &debug_topic )
 {
@@ -1638,13 +1660,7 @@ void avatar::talk_to( std::unique_ptr<talker> talk_with, bool radio_contact,
             } while( cat != -1 && topic_category( d.topic_stack.back() ) == cat );
         }
         if( next.id == "TALK_DONE" || d.topic_stack.empty() ) {
-            npc *npc_actor = d.actor( true )->get_npc();
-            if( npc_actor->myclass->bye_message_override.empty() ) {
-                d.actor( true )->say( npc_actor->chat_snippets().snip_bye.translated() );
-            } else if( npc_actor->myclass->bye_message_override.translated() !=
-                       string_id<translation>::NULL_ID().str() ) {
-                d.actor( true )->say( npc_actor->myclass->bye_message_override.translated() );
-            }
+            d.actor( true )->say( bye_message( d.actor( true )->get_npc() ) );
             d.done = true;
         } else if( next.id != "TALK_NONE" ) {
             d.add_topic( next );
@@ -1765,12 +1781,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic )
     }
 
     if( topic == "TALK_NONE" || topic == "TALK_DONE" ) {
-        npc *guy = actor( true )->get_npc();
-        if( guy->myclass->bye_message_override.empty() ) {
-            return guy->chat_snippets().snip_bye.translated();
-        } else {
-            return guy->myclass->bye_message_override.translated();
-        }
+        return bye_message( actor( true )->get_npc() );
     } else if( topic == "TALK_TRAIN" ) {
         if( !player_character.backlog.empty() && player_character.backlog.front().id() == ACT_TRAIN ) {
             return _( "Shall we resume?" );
@@ -2334,8 +2345,7 @@ static std::string faction_or_fallback( const_talker const &guy )
     if( !fac ) {
         return guy.get_name();
     }
-    // Note: Check for translation, don't just return raw name.
-    return _( fac->name );
+    return fac->get_name();
 }
 
 void parse_tags( std::string &phrase, const Character &u, const Creature &me,
@@ -7694,8 +7704,11 @@ talk_effect_fun_t::func f_travel_to_dimension( const JsonObject &jo, std::string
     str_or_var region_type_var;
     optional( jo, false, "region_type", region_type_var, "default" );
 
+    bool take_vehicle = false;;
+    optional( jo, false, "take_vehicle", take_vehicle );
+
     return [fail_message, success_message, dimension_prefix, npc_travel_filter,
-                  npc_travel_radius, region_type_var]( dialogue const & d ) {
+                  npc_travel_radius, region_type_var, take_vehicle]( dialogue const & d ) {
         Creature *teleporter = d.actor( false )->get_creature();
         if( teleporter ) {
             std::string region_type = region_type_var.evaluate( d );
@@ -7723,8 +7736,17 @@ talk_effect_fun_t::func f_travel_to_dimension( const JsonObject &jo, std::string
                         }
                     } );
                 }
+                vehicle *veh = nullptr;
+                if( take_vehicle ) {
+                    const optional_vpart_position vp_here = get_map().veh_at( teleporter->pos_bub() );
+                    if( !vp_here ) {
+                        teleporter->add_msg_if_player( fail_message.evaluate( d ) );
+                        return;
+                    }
+                    veh = &vp_here->vehicle();
+                }
                 // returns False if fail
-                if( g->travel_to_dimension( prefix, region_type, travellers ) ) {
+                if( g->travel_to_dimension( prefix, region_type, travellers, veh ) ) {
                     teleporter->add_msg_if_player( success_message.evaluate( d ) );
                 } else {
                     teleporter->add_msg_if_player( fail_message.evaluate( d ) );

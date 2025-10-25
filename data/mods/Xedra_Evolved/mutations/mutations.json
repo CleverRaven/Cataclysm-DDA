@@ -1336,10 +1336,13 @@
     "player_display": false,
     "enchantments": [
       {
+        "condition": { "not": { "u_has_trait": "VAMPIRE_BAT_FORM_REFINEMENT_SWARM" } },
+        "values": [ { "value": "MAX_HP", "multiply": -0.85 } ]
+      },
+      {
         "condition": "ALWAYS",
         "values": [
           { "value": "SPEED", "multiply": 0.1 },
-          { "value": "MAX_HP", "multiply": -0.85 },
           { "value": "MELEE_DAMAGE", "multiply": -0.95 },
           { "value": "NIGHT_VIS", "add": 6 },
           { "value": "DEXTERITY", "add": 8 },
@@ -1455,7 +1458,7 @@
     "purifiable": false,
     "valid": false,
     "can_only_eat": [ "blood", "hblood", "fae_blood", "vampire_blood" ],
-    "flags": [ "CANNIBAL", "DAYFEAR", "NO_THIRST" ],
+    "flags": [ "CANNIBAL", "DAYFEAR", "NO_THIRST", "NO_BODY_HEAT" ],
     "vitamin_rates": [ [ "vitC", -500 ], [ "iron", -500 ], [ "calcium", -500 ] ],
     "//": "When weariness can be modified through Json, this mutation should make the player immune to it.",
     "enchantments": [
@@ -1729,7 +1732,8 @@
           { "value": "SPEED", "add": { "math": [ "temperature_speed_mod(65, 0.5)" ] } }
         ]
       }
-    ]
+    ],
+    "flags": [ "NO_BODY_HEAT" ]
   },
   {
     "type": "mutation",

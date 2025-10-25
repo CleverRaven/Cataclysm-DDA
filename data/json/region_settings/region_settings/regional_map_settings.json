@@ -14,6 +14,7 @@
     "map_extras": "default",
     "terrain_furniture": "default",
     "weather": "default",
+    "urbanity_increase": [ 0, 10, 5, 0 ],
     "default_oter": [
       "open_air",
       "open_air",
@@ -125,6 +126,7 @@
     "id": "default",
     "noise_threshold_forest": 0.2,
     "noise_threshold_forest_thick": 0.25,
+    "forest_threshold_increase": [ 0.04, 0, 0, 0.02 ],
     "noise_threshold_swamp_adjacent_water": 0.3,
     "noise_threshold_swamp_isolated": 0.6,
     "river_floodplain_buffer_distance_min": 3,

@@ -27,7 +27,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str": "titanium vest" },
-    "description": "A lightweight armor vest made of pieces of titanium sewn together, with cloth padding for comfort.  Brittle against blunt force, but highly resistant to cuts and corrosion.",
+    "description": "A lightweight armor vest made of pieces of titanium sewn together, with cloth padding for comfort.  Its not particularly effective in a real fight.",
     "weight": "939 g",
     "volume": "500 ml",
     "price": "10 USD",

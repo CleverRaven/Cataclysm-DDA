@@ -9,6 +9,8 @@
     "forests": null,
     "forest_trails": null,
     "cities": null,
+    "neighbor_connections": false,
+    "place_roads": false,
     "feature_flag_settings": { "blacklist": [  ], "whitelist": [ "TUTORIAL" ] }
   }
 ]

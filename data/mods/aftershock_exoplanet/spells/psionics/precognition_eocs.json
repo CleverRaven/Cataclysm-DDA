@@ -1,0 +1,53 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_PRECOG_FOREWARNING_REMOVE",
+    "eoc_type": "EVENT",
+    "required_event": "character_takes_damage",
+    "condition": { "u_has_effect": "effect_afs_precog_damage_foresee" },
+    "effect": [ { "u_lose_effect": "effect_afs_precog_damage_foresee" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_PRECOG_CRAFTING_ADD_BLINDNESS_WHEN_CRAFTING",
+    "eoc_type": "EVENT",
+    "required_event": "character_starts_activity",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_afs_precog_craft_bonus" },
+        {
+          "or": [
+            { "compare_string": [ "ACT_MULTIPLE_CRAFT", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_CRAFT", { "context_val": "activity" } ] }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      { "u_add_effect": "effect_afs_precog_craft_bonus_blindness", "duration": "12 hours" },
+      { "u_message": "You close your eyes as the visions overtake you.", "type": "mixed" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_PRECOG_CRAFTING_REMOVE_BLINDNESS_WHEN_DONE_CRAFTING",
+    "eoc_type": "EVENT",
+    "required_event": "character_finished_activity",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_afs_precog_craft_bonus" },
+        { "u_has_effect": "effect_afs_precog_craft_bonus_blindness" },
+        {
+          "or": [
+            { "compare_string": [ "ACT_MULTIPLE_CRAFT", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_CRAFT", { "context_val": "activity" } ] }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      { "u_lose_effect": "effect_afs_precog_craft_bonus_blindness" },
+      { "u_message": "You open your eyes as the visions fade.", "type": "neutral" }
+    ]
+  }
+]

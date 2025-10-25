@@ -2988,7 +2988,7 @@ std::vector<std::string> optional_vpart_position::extended_description() const
     ret.emplace_back( get_origin( v.type->src ) );
     ret.emplace_back( "--" );
 
-    ret.emplace_back( string_format( _( "%s (%s)" ), v.name, v.owner->name ) );
+    ret.emplace_back( string_format( _( "%s (%s)" ), v.name, v.owner->get_name() ) );
     ret.emplace_back( "--" );
 
     for( int idx : v.parts_at_relative( value().mount_pos(), true ) ) {
@@ -4991,7 +4991,7 @@ std::string vehicle::get_owner_name() const
         debugmsg( "vehicle::get_owner_name() vehicle %s has no valid nor null faction id ", disp_name() );
         return _( "no owner" );
     }
-    return _( g->faction_manager_ptr->get( owner )->name );
+    return g->faction_manager_ptr->get( owner )->get_name();
 }
 
 void vehicle::set_owner( const Character &c )
@@ -5044,7 +5044,7 @@ bool vehicle::handle_potential_theft( Character const &you, bool check_only, boo
     if( prompt ) {
         if( !you.query_yn(
                 _( "This vehicle belongs to: %s, there may be consequences if you are observed interacting with it, continue?" ),
-                _( get_owner_name() ) ) ) {
+                get_owner_name() ) ) {
             return false;
         }
     }
@@ -6040,15 +6040,19 @@ void vehicle::idle( map &here, bool on_map )
 
     // FIXME/HACK: Always checks buckwheat seeds!
     // Returned string intentionally discarded!
-    ret_val<void>can_plant = warm_enough_to_plant( player_character.pos_bub(), itype_seed_buckwheat );
-    if( !can_plant.success() ) {
-        for( int i : planters ) {
-            vehicle_part &vp = parts[ i ];
-            if( vp.enabled ) {
-                add_msg_if_player_sees( pos_bub( here ),
-                                        _( "The %s's planter turns off due to unsuitable planting conditions." ),
-                                        name );
-                vp.enabled = false;
+    // TODO: move it to planter function that tries to plant, and maybe cache it there
+    // (warm_enough_to_plant() is very expensive)
+    if( !planters.empty() && calendar::once_every( 5_minutes ) ) {
+        ret_val<void>can_plant = warm_enough_to_plant( player_character.pos_bub(), itype_seed_buckwheat );
+        if( !can_plant.success() ) {
+            for( int i : planters ) {
+                vehicle_part &vp = parts[ i ];
+                if( vp.enabled ) {
+                    add_msg_if_player_sees( pos_bub( here ),
+                                            _( "The %s's planter turns off due to unsuitable planting conditions." ),
+                                            name );
+                    vp.enabled = false;
+                }
             }
         }
     }

@@ -422,10 +422,10 @@ request](https://github.com/CleverRaven/Cataclysm-DDA/pull/36657) and the
 
 # Item disassembly
 
-# Introduction
+## Introduction
 This document describes various methods of taking apart items in the game, as well as how these work and how the approach should be balanced. For furniture/terrain ***DECONSTRUCTION*** you're out of luck because we don't have a guide for it.
 
-# The three methods
+## The three methods
 There are three* general methods of having items taken apart into other items:
 - Uncraft recipes
 - Reversible crafting recipes
@@ -435,7 +435,7 @@ The first two are able to be altered through JSON, while the other can only be e
 
 *Technically you could argue that butchery is a separate method as well, but given its highly unique nature, and the fact that it's not possible for it to violate the conservation of mass, it has been omitted for the purpose of this file.
 
-## Uncraft recipes
+### Uncraft recipes
 They are the most common and well known way of defining an item disassembly. With a syntax not unlike that of regular crafting recipes, they're fairly self-explanatory and easy to grasp.
 
 ```jsonc
@@ -482,7 +482,7 @@ Things to note:
 - it is technically possible to define proficiencies for uncraft recipes, but they currently have no effect
 - similarly, it is possible to define a ``skills_required`` field for uncraft recipes, but it has no effect either
 
-## Reversible crafting recipes
+### Reversible crafting recipes
 A reversible recipe and an uncraft recipe are almost indistinguishable in game, with the only potential way to tell them apart being items crafted by the player through a reversible crafting recipe may yield different items upon disassembly than items of the same ID found spawned in the world. Having said that, they are quite different from the JSON side.
 
 The first thing that comes to mind is - reversible crafting recipes are created through a singular field. Adding ``"reversible": "true`` to the recipe definition automatically creates a disassembly for the item the recipe is for. It is worth noting that unlike uncraft recipes, reversible crafting recipes support ingredient lists, **but only in regards to items crafted by the player**. If the item in question was crafted by the player, disassembling it will yield items used to craft it. If the item was spawned in the world, however, the disassembly will instead yield the first component combination the game reads off the recipe definition.
@@ -499,7 +499,7 @@ Things to note:
 - Either of those methods will work alone, but they also interact if both are defined
 - If a crafting recipe has ``reversible: true``, *and* the item has a manually defined uncraft recipe, what will happen is the uncraft recipe will be able to return components used to craft the specific item. In a case like this, the uncraft will supply all information exception for the components used to craft that item - this means that this combination can remember components (overcoming uncraft's weakness) **AND** avoid nonsensical tool requirements or difficulty levels (overcoming reversible crafting's weakness)
 
-## Salvaging / Cutting Up
+### Salvaging / Cutting Up
 This process is largely hardcoded, with the JSON side only consisting of defining whether a specific material is salvageable, and possible per-item salvaging disabling through flags. The only way to make an item that's normally salvageable not-salvageable is by either editing its material or adding the ``NO_SALVAGE`` flag.
 
 To salvage an item with **at least one salvageable material** you must have a tool with the ``CUTTING`` quality. This process can only grant a singular type of resource (per material), with the amount calculated from the item's weight. How long the process takes is calculated from the item's size as well.
@@ -512,7 +512,7 @@ Things to note:
 - It is the only listed here method of taking an item apart which cannot be done through the ``disassemble`` option or menu
 - It does not work with charges well. Multiple charge-based item will be treated as a singular bigger item for the purpose of salvaging. **100 charge-based items weighing 1g equals to 1 normal item weighing 100g**
 
-# Choosing the method
+## Choosing the method
 
 So you want to make a new disassembly recipe? First of all, I'm proud of you, but you probably should have some vague idea of which of the methods above you should pick, because they all have their pros and cons. Except salvaging, that's all cons - we're ignoring it for this part of the documentation.
 
@@ -523,7 +523,7 @@ You should use reversible crafting recipes if:
 
 If the following three are **NOT** true, you likely want a manually defined uncraft recipe, as you can omit skills and define tools required as you please.
 
-# Closing words (Or what you should remember when working with item disassembly in general)
+## Closing words (Or what you should remember when working with item disassembly in general)
 1. Conservation of mass is pretty damn important. You won't always be able to make sure there is no mass loss or generation - it is just not possible in more complex crafts due to our generic nature of resource items - but you should still try to minimize the amount of mass lost or generated whenever you're working on a recipe. After getting your recipe done, calculate the mass of the ingredients and compare it to the mass of the item to make sure you're not violating physics.
 2. Double check the syntax when it comes to uncraft recipes. They do not support lists, but the game doesn't realize that. You will not get an error, it is only on **YOU** to catch your missing brackets.
 3. It is not possible to have both an uncraft and a reversible recipe defined for the same item. The same goes for more than one uncraft. If this occurs, the game will only read one and ignore everything else altogether.

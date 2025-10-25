@@ -1614,20 +1614,20 @@
     "variants": [
       {
         "id": "black_leg_bag",
-        "name": { "str": "drop leg bag" },
+        "//": "inherit name from item",
         "description": "A black bag that can be worn on the thighs and hips using adjustable buckled straps.  Commonly used by motorcycle riders.",
         "weight": 50
       },
       {
         "id": "brown_leg_bag",
-        "name": { "str": "drop leg bag" },
+        "//": "inherit name from item",
         "description": "A khaki bag that can be worn on the thighs and hips using adjustable buckled straps.  Works nicely with a pair of khaki pants.",
         "color": "brown",
         "weight": 30
       },
       {
         "id": "purple_leg_bag",
-        "name": { "str": "drop leg bag" },
+        "//": "inherit name from item",
         "description": "A purple bag that can be worn on the thighs and hips using adjustable buckled straps.  Perfect for the ladies that want a cooler way of carrying their personal items.",
         "color": "magenta",
         "weight": 10

@@ -121,7 +121,7 @@
     "price_postapoc": "50 cent",
     "material": [ "veggy" ],
     "volume": "180 ml",
-    "flags": [ "EATEN_HOT", "SMOKABLE", "RAW", "CATTLE", "RABBIT", "MOUSE", "RAT" ],
+    "flags": [ "EATEN_HOT", "RAW", "CATTLE", "RABBIT", "MOUSE", "RAT" ],
     "smoking_result": "dry_veggy",
     "vitamins": [ [ "vitC", "134700 μg" ], [ "iron", "1100 μg" ], [ "calcium", "71 mg" ], [ "veggy_allergen", 1 ] ]
   },
@@ -144,8 +144,7 @@
     "volume": "1632 ml",
     "fun": -2,
     "//": "Actually, not recommended for rats and mice to eat in big quantities because gas but no way to implement that yet, very minor detail though",
-    "flags": [ "SMOKABLE", "RAW", "CATTLE", "RABBIT", "RAT", "MOUSE" ],
-    "smoking_result": "dry_veggy",
+    "flags": [ "RAW", "CATTLE", "RABBIT", "RAT", "MOUSE" ],
     "vitamins": [ [ "vitC", "332800 μg" ], [ "iron", "12900 μg" ], [ "calcium", "364 mg" ], [ "veggy_allergen", 1 ] ]
   },
   {
@@ -166,7 +165,7 @@
     "material": [ "veggy" ],
     "volume": "250 ml",
     "fun": -2,
-    "flags": [ "SMOKABLE", "RAW", "CATTLE", "RABBIT", "RAT", "MOUSE" ],
+    "flags": [ "RAW", "CATTLE", "RABBIT", "RAT", "MOUSE" ],
     "smoking_result": "dry_veggy",
     "vitamins": [ [ "vitC", "25600 μg" ], [ "iron", "300 μg" ], [ "calcium", "28 mg" ], [ "veggy_allergen", 1 ] ]
   },
@@ -186,7 +185,7 @@
     "price": "80 cent",
     "material": [ "veggy" ],
     "volume": "250 ml",
-    "flags": [ "FREEZERBURN", "SMOKABLE", "RAW", "CATTLE", "RABBIT", "RAT", "MOUSE" ],
+    "flags": [ "FREEZERBURN", "RAW", "CATTLE", "RABBIT", "RAT", "MOUSE" ],
     "smoking_result": "dry_veggy",
     "vitamins": [ [ "vitC", 2 ], [ "calcium", 4 ], [ "iron", 2 ], [ "veggy_allergen", 1 ] ]
   },
@@ -207,7 +206,8 @@
     "price_postapoc": "104 cent",
     "material": [ "veggy" ],
     "volume": "325 ml",
-    "flags": [ "SMOKABLE", "RAW" ],
+    "flags": [ "RAW" ],
+    "smoking_result": "dry_veggy",
     "vitamins": [ [ "veggy_allergen", 1 ], [ "vitC", "15 mg" ], [ "iron", "3 mg" ], [ "calcium", "25 mg" ] ]
   },
   {
@@ -228,7 +228,7 @@
     "material": [ "veggy" ],
     "volume": "250 ml",
     "fun": -2,
-    "flags": [ "SMOKABLE", "RAW", "CATTLE", "RABBIT", "RAT", "MOUSE" ],
+    "flags": [ "RAW", "CATTLE", "RABBIT", "RAT", "MOUSE" ],
     "smoking_result": "dry_veggy",
     "vitamins": [ [ "vitC", "8400 μg" ], [ "iron", "800 μg" ], [ "calcium", "29700 μg" ], [ "veggy_allergen", 1 ] ]
   },
@@ -251,7 +251,7 @@
     "longest_side": "19 cm",
     "fun": 1,
     "//": "Carrots are somewhat high in sugar and should only be eaten sparingly by rabbits but there is no way to implement that yet",
-    "flags": [ "SMOKABLE", "RAW", "CATTLE", "RABBIT", "RAT", "MOUSE" ],
+    "flags": [ "RAW", "CATTLE", "RABBIT", "RAT", "MOUSE" ],
     "smoking_result": "dry_veggy",
     "vitamins": [ [ "vitC", "4200 μg" ], [ "iron", "200 μg" ], [ "calcium", "23800 μg" ], [ "veggy_allergen", 1 ] ]
   },
@@ -291,7 +291,7 @@
     "price_postapoc": "10 cent",
     "material": [ "veggy" ],
     "volume": "500 ml",
-    "flags": [ "SMOKABLE", "FREEZERBURN", "RABBIT" ],
+    "flags": [ "FREEZERBURN", "RABBIT" ],
     "smoking_result": "dry_veggy",
     "vitamins": [ [ "vitC", 94 ], [ "calcium", 9 ], [ "iron", 12 ], [ "veggy_allergen", 1 ] ]
   },
@@ -312,7 +312,7 @@
     "material": [ "veggy" ],
     "volume": "250 ml",
     "fun": -8,
-    "flags": [ "SMOKABLE", "RAW", "RABBIT", "CATTLE" ],
+    "flags": [ "RAW", "RABBIT", "CATTLE" ],
     "smoking_result": "dry_veggy",
     "vitamins": [ [ "calcium", 5 ], [ "iron", 5 ], [ "veggy_allergen", 1 ] ]
   },
@@ -343,7 +343,7 @@
     "volume": "146 ml",
     "longest_side": "19 cm",
     "//": "It appears that celery is energy-negative for rodents",
-    "flags": [ "FREEZERBURN", "SMOKABLE", "RAW", "CATTLE", "RABBIT" ],
+    "flags": [ "FREEZERBURN", "RAW", "CATTLE", "RABBIT" ],
     "smoking_result": "dry_veggy",
     "vitamins": [ [ "vitC", "8400 μg" ], [ "iron", "800 μg" ], [ "calcium", "29700 μg" ], [ "veggy_allergen", 1 ] ]
   },
@@ -385,7 +385,7 @@
     "volume": "70 ml",
     "smoking_result": "dry_chili",
     "//": "Birds can eat spicy stuff easily due to their inability to taste spiciness",
-    "flags": [ "FREEZERBURN", "RAW", "SMOKABLE", "BIRD" ],
+    "flags": [ "FREEZERBURN", "RAW", "BIRD" ],
     "vitamins": [ [ "vitC", "64700 μg" ], [ "iron", "500 μg" ], [ "calcium", "6300 μg" ], [ "veggy_allergen", 1 ] ],
     "fun": -2
   },
@@ -420,7 +420,7 @@
     "volume": "275 ml",
     "longest_side": "22 cm",
     "//": "No data on cows finding cucumbers super tasty",
-    "flags": [ "FREEZERBURN", "SMOKABLE", "RAW", "RAT", "MOUSE" ],
+    "flags": [ "FREEZERBURN", "RAW", "RAT", "MOUSE" ],
     "smoking_result": "dry_veggy",
     "vitamins": [ [ "vitC", "8400 μg" ], [ "iron", "800 μg" ], [ "calcium", "48200 μg" ], [ "veggy_allergen", 1 ] ]
   },
@@ -456,7 +456,7 @@
     "material": [ "veggy" ],
     "volume": "60 ml",
     "longest_side": "10 cm",
-    "flags": [ "FREEZERBURN", "SMOKABLE", "RAW", "RAT", "MOUSE" ],
+    "flags": [ "FREEZERBURN", "RAW", "RAT", "MOUSE" ],
     "smoking_result": "dry_veggy",
     "vitamins": [ [ "vitC", "700 μg" ], [ "iron", "300 μg" ], [ "veggy_allergen", 1 ] ]
   },
@@ -512,7 +512,7 @@
     "volume": "250 ml",
     "fun": -2,
     "smoking_result": "dry_veggy",
-    "flags": [ "RAW", "SMOKABLE", "RAT", "MOUSE" ],
+    "flags": [ "RAW", "RAT", "MOUSE" ],
     "vitamins": [ [ "vitC", "10600 μg" ], [ "iron", "900 μg" ], [ "calcium", "79800 μg" ], [ "veggy_allergen", 1 ] ]
   },
   {
@@ -612,7 +612,6 @@
     "smoking_result": "dry_garlic",
     "fun": -3,
     "vitamins": [ [ "vitC", "900 μg" ], [ "iron", "100 μg" ], [ "calcium", "5400 μg" ], [ "veggy_allergen", 1 ] ],
-    "flags": [ "SMOKABLE" ],
     "plant_name": "garlic",
     "fruit": "garlic",
     "byproducts": [ "withered" ],
@@ -701,7 +700,7 @@
     "price_postapoc": "20 cent",
     "material": [ "veggy" ],
     "volume": "250 ml",
-    "flags": [ "FREEZERBURN", "SMOKABLE", "RAW", "CATTLE", "RABBIT", "RAT", "MOUSE" ],
+    "flags": [ "FREEZERBURN", "RAW", "CATTLE", "RABBIT", "RAT", "MOUSE" ],
     "smoking_result": "dry_veggy",
     "vitamins": [ [ "vitC", "2 mg" ], [ "iron", "300 μg" ], [ "calcium", "13 mg" ], [ "veggy_allergen", 1 ] ]
   },
@@ -742,7 +741,7 @@
     "material": [ "veggy" ],
     "volume": "135 ml",
     "fun": -1,
-    "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
+    "flags": [ "FREEZERBURN", "RAW" ],
     "smoking_result": "dry_veggy",
     "//": "Raw onions probably aren't all that tasty to most people.",
     "vitamins": [ [ "vitC", "8100 μg" ], [ "iron", "200 μg" ], [ "calcium", "25300 μg" ], [ "veggy_allergen", 1 ] ]
@@ -788,7 +787,7 @@
     "material": [ "veggy" ],
     "volume": "232 ml",
     "fun": -3,
-    "flags": [ "FREEZERBURN", "SMOKABLE", "RAW", "RAT", "MOUSE" ],
+    "flags": [ "FREEZERBURN", "RAW", "RAT", "MOUSE" ],
     "smoking_result": "dry_veggy",
     "vitamins": [ [ "vitC", "42 mg" ], [ "iron", "1700 μg" ], [ "calcium", "25600 μg" ], [ "veggy_allergen", 1 ] ]
   },
@@ -809,7 +808,7 @@
     "material": [ "veggy" ],
     "volume": "190 ml",
     "fun": -1,
-    "flags": [ "SMOKABLE", "RAW", "CATTLE", "RAT" ],
+    "flags": [ "RAW", "CATTLE", "RAT" ],
     "smoking_result": "dry_veggy",
     "vitamins": [ [ "vitC", "32900 μg" ], [ "iron", "1100 μg" ], [ "calcium", "5400 μg" ], [ "veggy_allergen", 1 ] ]
   },
@@ -849,7 +848,7 @@
     "weight": "283 g",
     "//": "Cutting it up makes it viable for rabbits, too.",
     "price_postapoc": "60 cent",
-    "flags": [ "SMOKABLE", "RAW", "RAT", "MOUSE", "CATTLE", "RABBIT" ],
+    "flags": [ "RAW", "RAT", "MOUSE", "CATTLE", "RABBIT" ],
     "smoking_result": "dry_veggy",
     "vitamins": [ [ "vitC", "25500 μg" ], [ "iron", "2300 μg" ], [ "calcium", "59400 μg" ] ],
     "melee_damage": { "bash": 0 }
@@ -871,7 +870,7 @@
     "volume": "140 ml",
     "fun": -2,
     "//": "Lots of negative results for cattle, apparently very much not good for them",
-    "flags": [ "FREEZERBURN", "SMOKABLE", "RAW", "RABBIT" ],
+    "flags": [ "FREEZERBURN", "RAW", "RABBIT" ],
     "smoking_result": "dry_veggy",
     "vitamins": [ [ "vitC", 30 ], [ "calcium", 2 ], [ "iron", 3 ], [ "veggy_allergen", 1 ] ]
   },
@@ -892,7 +891,7 @@
     "material": [ "veggy" ],
     "volume": "107 ml",
     "fun": -12,
-    "flags": [ "FREEZERBURN", "SMOKABLE", "RAW", "RABBIT", "CATTLE" ],
+    "flags": [ "FREEZERBURN", "RAW", "RABBIT", "CATTLE" ],
     "smoking_result": "dry_veggy",
     "vitamins": [ [ "vitC", 23 ], [ "calcium", 11 ], [ "iron", 10 ], [ "veggy_allergen", 1 ] ]
   },
@@ -914,7 +913,7 @@
     "volume": "117 ml",
     "fun": -12,
     "//": "Apparently toxic to rabbits",
-    "flags": [ "FREEZERBURN", "SMOKABLE", "RAW", "CATTLE" ],
+    "flags": [ "FREEZERBURN", "RAW", "CATTLE" ],
     "smoking_result": "dry_veggy",
     "vitamins": [ [ "vitC", 1 ], [ "calcium", 23 ], [ "iron", 10 ], [ "veggy_allergen", 1 ] ]
   },
@@ -936,7 +935,7 @@
     "material": [ "veggy" ],
     "volume": "250 ml",
     "fun": -12,
-    "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
+    "flags": [ "FREEZERBURN", "RAW" ],
     "smoking_result": "dry_veggy",
     "vitamins": [ [ "vitC", "6 mg" ], [ "iron", "1 mg" ], [ "calcium", "20 mg" ], [ "veggy_allergen", 1 ] ]
   },
@@ -958,7 +957,7 @@
     "material": [ "veggy" ],
     "volume": "186 ml",
     "longest_side": "19 cm",
-    "flags": [ "SMOKABLE", "RAW" ],
+    "flags": [ "RAW" ],
     "smoking_result": "dry_veggy",
     "vitamins": [ [ "vitC", "4100 μg" ], [ "iron", "100 μg" ], [ "calcium", "43900 μg" ], [ "veggy_allergen", 1 ] ]
   },
@@ -979,7 +978,7 @@
     "material": [ "veggy" ],
     "volume": "75 ml",
     "fun": -10,
-    "flags": [ "SMOKABLE", "RAT", "MOUSE" ],
+    "flags": [ "RAT", "MOUSE" ],
     "smoking_result": "dry_veggy",
     "vitamins": [ [ "vitC", "4 mg" ], [ "iron", "1 mg" ], [ "calcium", "13 mg" ], [ "veggy_allergen", 1 ] ]
   },
@@ -1060,7 +1059,7 @@
     "price_postapoc": "50 cent",
     "material": [ "tomato" ],
     "volume": "150 ml",
-    "flags": [ "SMOKABLE", "RABBIT", "CATTLE", "RAT", "MOUSE" ],
+    "flags": [ "RABBIT", "CATTLE", "RAT", "MOUSE" ],
     "smoking_result": "dry_veggy",
     "vitamins": [ [ "vitC", "16900 μg" ], [ "iron", "300 μg" ], [ "calcium", "12300 μg" ], [ "veggy_allergen", 1 ] ]
   },
@@ -1089,7 +1088,7 @@
     "price": "6 USD",
     "price_postapoc": "0 cent",
     "material": [ "veggy" ],
-    "flags": [ "TRADER_AVOID", "SMOKABLE", "RAW" ],
+    "flags": [ "TRADER_AVOID", "RAW" ],
     "fun": -3,
     "smoking_result": "dry_veggy",
     "volume": "250 ml",
@@ -1112,7 +1111,7 @@
     "price_postapoc": "0 cent",
     "fun": -10,
     "smoking_result": "dry_veggy_tainted",
-    "flags": [ "SMOKABLE", "FUNGAL_VECTOR" ]
+    "flags": [ "FUNGAL_VECTOR" ]
   },
   {
     "type": "ITEM",
@@ -1124,7 +1123,7 @@
     "//": "In real life many root vegetables are mildly toxic until cooked",
     "fun": -10,
     "price_postapoc": "10 cent",
-    "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ]
+    "flags": [ "FREEZERBURN", "RAW" ]
   },
   {
     "type": "ITEM",
@@ -1143,7 +1142,7 @@
     "material": [ "veggy" ],
     "volume": "180 ml",
     "longest_side": "22 cm",
-    "flags": [ "EATEN_HOT", "SMOKABLE", "CATTLE", "MOUSE", "RAT", "MOUSE" ],
+    "flags": [ "EATEN_HOT", "CATTLE", "MOUSE", "RAT", "MOUSE" ],
     "smoking_result": "dry_veggy",
     "vitamins": [ [ "vitC", "35100 μg" ], [ "iron", "700 μg" ], [ "calcium", "31400 μg" ], [ "veggy_allergen", 1 ] ]
   },
@@ -1177,7 +1176,7 @@
     "smoking_result": "dry_beans",
     "vitamins": [ [ "vitC", "71 mg" ], [ "iron", "1 mg" ], [ "calcium", "31 mg" ], [ "veggy_allergen", 1 ] ],
     "petfood": [ "CATTLEFOOD" ],
-    "flags": [ "EDIBLE_FROZEN", "SMOKABLE", "RAW", "INEDIBLE", "CATTLE", "PLANTABLE_SEED" ],
+    "flags": [ "EDIBLE_FROZEN", "RAW", "INEDIBLE", "CATTLE", "PLANTABLE_SEED" ],
     "plant_name": "beans",
     "fruit": "raw_beans",
     "seeds": false,
@@ -1284,7 +1283,7 @@
     "price_postapoc": "20 cent",
     "material": [ "veggy" ],
     "volume": "221 ml",
-    "flags": [ "SMOKABLE", "RAW", "CATTLE", "RABBIT", "RAT", "MOUSE" ],
+    "flags": [ "RAW", "CATTLE", "RABBIT", "RAT", "MOUSE" ],
     "smoking_result": "dry_veggy",
     "fun": -5,
     "vitamins": [ [ "vitC", "95700 μg" ], [ "iron", "400 μg" ], [ "calcium", "11900 μg" ], [ "veggy_allergen", 1 ] ]
@@ -1339,7 +1338,7 @@
     "fun": -5,
     "description": "A vegetable from the gourd family, bottle gourds were brought to the Americas by the first Native American settlers crossing the Bering strait.  It can be further prepared to produce a hard, watertight shell, usable as a biodegradable liquid container.  Eating it doesn't look worth it.",
     "volume": "4500 ml",
-    "flags": [ "FREEZERBURN", "SMOKABLE", "RAW", "CATTLE", "RABBIT", "RAT" ],
+    "flags": [ "FREEZERBURN", "RAW", "CATTLE", "RABBIT", "RAT" ],
     "smoking_result": "dry_bottle_gourd",
     "vitamins": [ [ "iron", "1 mg" ], [ "calcium", "95890 μg" ] ]
   },
@@ -1361,7 +1360,7 @@
     "description": "A normal and healthy purple eggplant.  Needs to be disassembled before being useful for cooking.",
     "healthy": -1,
     "symbol": "e",
-    "flags": [ "RAW", "SMOKABLE", "CATTLE", "RABBIT", "RAT", "MOUSE" ],
+    "flags": [ "RAW", "CATTLE", "RABBIT", "RAT", "MOUSE" ],
     "smoking_result": "dry_veggy",
     "vitamins": [ [ "vitC", "12100 μg" ], [ "iron", "1300 μg" ], [ "calcium", "49300 μg" ], [ "veggy_allergen", 1 ] ],
     "fun": -8
@@ -1384,7 +1383,7 @@
     "healthy": -1,
     "symbol": "e",
     "looks_like": "eggplant",
-    "flags": [ "RAW", "SMOKABLE" ],
+    "flags": [ "RAW" ],
     "smoking_result": "dry_veggy",
     "vitamins": [ [ "vitC", "60500 μg" ], [ "iron", "650 μg" ], [ "calcium", "24650 μg" ], [ "veggy_allergen", 1 ] ],
     "fun": -5
@@ -1402,7 +1401,7 @@
     "description": "A handful of slimy seaweed.  It doesn't look edible, but properly dried, it might make for decent kindling.",
     "material": [ "veggy" ],
     "volume": "30 ml",
-    "flags": [ "SMOKABLE", "INEDIBLE" ],
+    "flags": [ "INEDIBLE" ],
     "smoking_result": "dry_seaweed",
     "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
@@ -1419,7 +1418,7 @@
     "description": "A slimy heap of seaweed.  It doesn't look edible, but properly dried, it might make for decent kindling.",
     "material": [ "veggy" ],
     "volume": "600 ml",
-    "flags": [ "SMOKABLE", "INEDIBLE" ],
+    "flags": [ "INEDIBLE" ],
     "smoking_result": "dry_seaweed_pile",
     "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
@@ -1439,7 +1438,7 @@
     "price_postapoc": "10 cent",
     "material": [ "veggy" ],
     "volume": "250 ml",
-    "flags": [ "FREEZERBURN", "SMOKABLE", "CATTLE", "RABBIT" ],
+    "flags": [ "FREEZERBURN", "CATTLE", "RABBIT" ],
     "smoking_result": "dry_veggy",
     "vitamins": [ [ "calcium", 3 ], [ "iron", 3 ], [ "vitC", 1 ], [ "veggy_allergen", 1 ] ]
   },
@@ -1459,7 +1458,7 @@
     "price_postapoc": "10 cent",
     "material": [ "veggy" ],
     "volume": "250 ml",
-    "flags": [ "FREEZERBURN", "SMOKABLE", "CATTLE", "RABBIT" ],
+    "flags": [ "FREEZERBURN", "CATTLE", "RABBIT" ],
     "smoking_result": "kombu",
     "vitamins": [ [ "calcium", 3 ], [ "iron", 3 ], [ "vitC", 1 ], [ "veggy_allergen", 1 ] ]
   },
@@ -1479,7 +1478,7 @@
     "price_postapoc": "10 cent",
     "material": [ "veggy" ],
     "volume": "250 ml",
-    "flags": [ "FREEZERBURN", "SMOKABLE", "CATTLE", "RABBIT" ],
+    "flags": [ "FREEZERBURN", "CATTLE", "RABBIT" ],
     "smoking_result": "dry_veggy",
     "vitamins": [ [ "calcium", 2 ], [ "iron", 4 ], [ "vitC", 1 ], [ "veggy_allergen", 1 ] ]
   }

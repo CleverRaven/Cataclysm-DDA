@@ -1262,12 +1262,52 @@
         "then": { "u_learn_recipe": "practice_photokinetic_radio_knack" }
       },
       {
+        "if": { "math": [ "u_spell_level('pyrokinetic_flash_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_pyrokinetic_flash_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('pyrokinetic_eruption_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_pyrokinetic_eruption_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('pyrokinetic_call_flames_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_pyrokinetic_call_flames_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('pyrokinetic_cloak_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_pyrokinetic_cloak_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('pyrokinetic_flamethrower_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_pyrokinetic_flamethrower_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('pyrokinetic_aura_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_pyrokinetic_aura_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('pyrokinetic_blast_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_pyrokinetic_blast_knack" }
+      },
+      {
         "if": { "math": [ "u_spell_level('telekinetic_pull_knack') >= 1" ] },
         "then": { "u_learn_recipe": "practice_telekinetic_pull_knack" }
       },
       {
         "if": { "math": [ "u_spell_level('telekinetic_push_knack') >= 1" ] },
         "then": { "u_learn_recipe": "practice_telekinetic_push_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('telekinetic_slam_down_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_telekinetic_slam_down_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('telekinetic_wave_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_telekinetic_wave_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('telekinetic_wave_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_telekinetic_shield_knack" }
       }
     ]
   },

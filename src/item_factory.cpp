@@ -329,6 +329,17 @@ void Item_factory::finalize_pre( itype &obj )
                   obj.id.c_str() );
     }
 
+    // if variant omit it's name or description,
+    // pick it from the item instead
+    for( itype_variant_data &var : obj.variants ) {
+        if( var.alt_name.empty() ) {
+            var.alt_name = obj.name;
+        };
+        if( var.alt_description.empty() ) {
+            var.alt_description = obj.name;
+        }
+    }
+
     // add usage methods (with default values) based upon qualities
     // if a method was already set the specific values remain unchanged
     for( const auto &q : obj.qualities ) {
@@ -1740,10 +1751,7 @@ void Item_factory::load_item_blacklist( const JsonObject &json )
 
 Item_factory::~Item_factory() = default;
 
-Item_factory::Item_factory()
-{
-    init();
-}
+Item_factory::Item_factory() = default;
 
 class iuse_function_wrapper : public iuse_actor
 {
@@ -2980,8 +2988,8 @@ void itype_variant_data::load( const JsonObject &jo )
 {
     alt_name.make_plural();
     mandatory( jo, false, "id", id );
-    mandatory( jo, false, "name", alt_name );
-    mandatory( jo, false, "description", alt_description );
+    optional( jo, false, "name", alt_name );
+    optional( jo, false, "description", alt_description );
     optional( jo, false, "symbol", alt_sym, std::nullopt );
     if( jo.has_string( "color" ) ) {
         alt_color = color_from_string( jo.get_string( "color" ) );
@@ -3387,7 +3395,7 @@ void islot_comestible::deserialize( const JsonObject &jo )
     optional( jo, was_loaded, "freezing_point", freeze_point );
     optional( jo, was_loaded, "spoils_in", spoils, time_bound_reader{0_seconds} );
     optional( jo, was_loaded, "cooks_like", cooks_like );
-    optional( jo, was_loaded, "smoking_result", smoking_result );
+    optional( jo, was_loaded, "smoking_result", smoking_result, itype_id::NULL_ID() );
     optional( jo, was_loaded, "petfood", petfood, string_reader{} );
     optional( jo, was_loaded, "monotony_penalty", monotony_penalty, -1 );
     optional( jo, was_loaded, "calories", default_nutrition.calories );
@@ -3407,7 +3415,7 @@ void islot_comestible::deserialize( const JsonObject &jo )
     }
     optional( jo, was_loaded, "rot_spawn", rot_spawn );
 
-    if( !smoking_result.is_empty() && comesttype == "INVALID" ) {
+    if( smoking_result != itype_id::NULL_ID() && comesttype == "INVALID" ) {
         jo.throw_error( "comestible_type INVALID cannot have smoking_result" );
     }
 }

@@ -5,7 +5,12 @@
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
     "condition": { "and": [ { "u_has_trait": "SORCERER" }, { "compare_string": [ { "u_val": "power_source" }, "intelligence" ] } ] },
-    "effect": { "math": [ "u_spell_level_adjustment('null') += floor( u_val('intelligence') / 2 ) - 3" ] },
+    "effect": [
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'mod': 'magiclysm') = floor( u_val('intelligence') / 2 ) - 3" ] },
+      {
+        "math": [ "u_spellcasting_adjustment('caster_level', 'mod': 'sorcerer') = floor( u_val('intelligence') / 2 ) - 3" ]
+      }
+    ],
     "//": "A character with 14 int gets +4 caster level",
     "//2": "A default character has +1 caster level"
   }

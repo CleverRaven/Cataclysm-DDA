@@ -15,12 +15,10 @@ def parse_json_object(json, origin):
             try:
                 parsers[json_type](json, origin)
             except Exception as E:
-                print("Exception when parsing JSON data type \"{}\""
-                      .format(json_type))
+                print(f"Exception when parsing JSON data type '{json_type}'")
                 raise E
         else:
-            raise Exception("Unrecognized JSON data type \"{}\""
-                            .format(json_type))
+            raise Exception(f"Unrecognized JSON data type '{json_type}'")
 
 
 def parse_json_file(file_path):

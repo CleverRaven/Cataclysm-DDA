@@ -46,13 +46,16 @@ def parse_generic(json, origin):
 
     if "variants" in json:
         for variant in json["variants"]:
-            variant_name = get_singular_name(variant["name"])
-            write_text(variant["name"], origin,
-                       comment="Variant name of item \"{}\"".format(name),
-                       plural=True)
-            write_text(variant["description"], origin,
-                       comment="Description of variant \"{1}\" of item \"{0}\""
-                       .format(name, variant_name))
+            variant_name = get_singular_name(
+                variant["name"]) if "name" in variant else name
+            if "name" in variant:
+                write_text(variant["name"], origin,
+                           comment="Variant name of item \"{}\"".format(name),
+                           plural=True)
+            if "description" in variant:
+                write_text(variant["description"], origin, "",
+                           "Description of variant \"{1}\" of item \"{0}\""
+                           .format(name, variant_name))
 
     if "snippet_category" in json and type(json["snippet_category"]) is list:
         # snippet_category is either a simple string (the category ident)
@@ -87,3 +90,7 @@ def parse_generic(json, origin):
     if "relic_data" in json and "passive_effects" in json["relic_data"]:
         for enchantment in json["relic_data"]["passive_effects"]:
             parse_enchant(enchantment, origin)
+
+    write_text(json.get("e_port"), origin, comment="E-port name")
+    for e_port in json.get("e_ports_banned", []):
+        write_text(e_port, origin, comment="E-port name")

@@ -5,7 +5,10 @@
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
     "condition": { "and": [ { "u_has_trait": "SORCERER" }, { "compare_string": [ { "u_val": "power_source" }, "dodge" ] } ] },
-    "effect": { "math": [ "u_spell_level_adjustment('null') += floor( u_val('dodge') / 2 ) - 2" ] },
+    "effect": [
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'mod': 'magiclysm') = floor( u_val('dodge') / 2 ) - 2" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'mod': 'sorcerer') = floor( u_val('dodge') / 2 ) - 2" ] }
+    ],
     "//": "A freshly made min-maxed character using single pool can start with 11.9 dodge. (+3 caster level)",
     "//2": "A default character will start with 4.0 dodge. (+0 caster level)"
   }

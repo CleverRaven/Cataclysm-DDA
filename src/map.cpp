@@ -133,8 +133,10 @@ static const efftype_id effect_fake_flu( "fake_flu" );
 static const efftype_id effect_gliding( "gliding" );
 static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_pet( "pet" );
+static const efftype_id effect_psi_stunned( "psi_stunned" );
 static const efftype_id effect_slow_descent( "slow_descent" );
 static const efftype_id effect_strengthened_gravity( "strengthened_gravity" );
+static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_weakened_gravity( "weakened_gravity" );
 
 static const field_type_str_id field_fd_clairvoyant( "fd_clairvoyant" );
@@ -457,6 +459,30 @@ VehicleList map::get_vehicles()
 
     return get_vehicles( tripoint_bub_ms( 0, 0, -OVERMAP_DEPTH ),
                          tripoint_bub_ms( SEEX * my_MAPSIZE, SEEY * my_MAPSIZE, OVERMAP_HEIGHT ) );
+}
+
+bool map::place_vehicle( std::unique_ptr<vehicle> &&new_vehicle )
+{
+    bool collision = false;
+    // This works in the dimension shift case specifically because
+    // the old map origin and the new map origin are the same,
+    // if that is no longer the case something else will need to happen here.
+    tripoint_bub_ms vehicle_origin = new_vehicle->pos_bub( *this );
+    for( std::pair<const point_rel_ms, std::vector<int>> &mount_point : new_vehicle->relative_parts ) {
+        if( impassable( vehicle_origin + mount_point.first ) ) {
+            collision = true;
+            break;
+        }
+    }
+    submap *place_on_submap = get_submap_at_grid( new_vehicle->sm_pos - get_abs_sub().xy() );
+    if( place_on_submap == nullptr ) {
+        debugmsg( "Tried to add vehicle at %s but the submap is not loaded",
+                  new_vehicle->sm_pos.to_string() );
+    } else {
+        place_on_submap->ensure_nonuniform();
+        place_on_submap->vehicles.push_back( std::move( new_vehicle ) );
+    }
+    return collision;
 }
 
 void map::rebuild_vehicle_level_caches()
@@ -990,15 +1016,30 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint_rel_ms &dp, const tiler
             veh.handle_trap( this, wheel_p, vp_wheel );
             // dont use vp_wheel or vp_wheel_idx below this - handle_trap might've removed it from parts
 
-            if( !has_flag( ter_furn_flag::TFLAG_SEALED, wheel_p ) ) {
+            if( has_items( wheel_p ) && !has_flag( ter_furn_flag::TFLAG_SEALED, wheel_p ) ) {
                 // Damage is calculated based on the weight of the vehicle,
                 // The area of it's wheels, and the area of the wheel running over the items.
                 // This number is multiplied by weight_to_damage_factor to get reasonable results, damage-wise.
                 const int wheel_damage = vpi_wheel.wheel_info->contact_area / vehicle_grounded_wheel_area *
                                          vehicle_mass_kg * weight_to_damage_factor;
 
+                // We've already stored the damage the wheel will inflict, so now we can (possibly) damage the wheels from running stuff over.
+                // Also we stash the wheel messages so we can play them afterwards.
+                // This needs to happen before smashing the items on the ground so we can calculate wheel damage based on the properties of the items we ran over.
+                const std::vector<std::string> wheel_damage_messages = veh.handle_item_roadkill( this, wheel_p,
+                        vp_wheel );
+
                 //~ %1$s: vehicle name
                 smash_items( wheel_p, wheel_damage, string_format( _( "weight of %1$s" ), veh.disp_name() ) );
+
+                const bool player_is_driver = &get_player_character() == veh.get_driver( *this );
+                const bool player_sees_damage = get_player_character().sees( *this, wheel_p );
+                if( !wheel_damage_messages.empty() && ( player_is_driver || player_sees_damage ) ) {
+                    for( const std::string &msg : wheel_damage_messages ) {
+                        add_msg( m_bad, msg );
+                    }
+                }
+
             }
         }
     }
@@ -10203,7 +10244,8 @@ bool map::try_fall( const tripoint_bub_ms &p, Creature *c )
         return false;
     }
 
-    if( c->has_effect_with_flag( json_flag_LEVITATION ) && !c->has_effect( effect_slow_descent ) ) {
+    if( c->has_effect_with_flag( json_flag_LEVITATION ) && !c->has_effect( effect_slow_descent )
+        && !c->has_effect( effect_stunned ) && !c->has_effect( effect_psi_stunned ) ) {
         return false;
     }
 

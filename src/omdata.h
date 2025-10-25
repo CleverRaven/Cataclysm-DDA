@@ -9,7 +9,7 @@
 #include <cstdint>
 #include <list>
 #include <map>
-#include <memory>
+#include <memory> // IWYU pragma: keep
 #include <optional>
 #include <set>
 #include <string>

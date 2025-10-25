@@ -2527,7 +2527,7 @@ void known_magic::clear_opens_spellbook_data()
 void known_magic::evaluate_opens_spellbook_data()
 {
     for( spell *sp : get_spells() ) {
-        double raw_level_adjust = caster_level_adjustment;
+        double raw_level_adjust = caster_level_adjustment + sp->get_temp_level_adjustment();
         std::map<trait_id, double>::iterator school_it =
             caster_level_adjustment_by_school.find( sp->spell_class() );
         if( school_it != caster_level_adjustment_by_school.end() ) {
@@ -2870,7 +2870,7 @@ void spellcasting_callback::display_spell_info( size_t index )
     std::string target_ids;
     target_ids = sp.list_targeted_monster_names();
     if( !target_ids.empty() ) {
-        ImGui::TextWrapped( _( "Only affects the monsters: %1$s" ), target_ids.c_str() );
+        ImGui::TextWrapped( _( "Only affects the monsters: %s" ), target_ids.c_str() );
         ImGui::NewLine();
     }
 
