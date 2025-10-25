@@ -1,0 +1,13 @@
+[
+  {
+    "id": "nested_microscopic_samples",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "name": "microscope samples",
+    "description": "Recipes related to the production of microscope slides of various samples.",
+    "skill_used": "chemistry",
+    "nested_category_data": [ "microscope_slide_water_murky", "microscope_slide_soil" ]
+  }
+]
