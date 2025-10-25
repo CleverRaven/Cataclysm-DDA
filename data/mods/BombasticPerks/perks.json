@@ -1359,5 +1359,17 @@
     "activated_eocs": [ "EOC_BOMBASTIC_PERKS_CLOSET_STORAGE_TRAVEL_TO_CLOSETLAND" ],
     "processed_eocs": [ "EOC_BOMBASTIC_PERKS_CLOSET_STORAGE_SLEEP_DEPRIVATION_COST_IN_CLOSETLAND" ],
     "deactivated_eocs": [ "EOC_BOMBASTIC_PERKS_CLOSET_STORAGE_TRAVEL_BACK_FROM_CLOSETLAND" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_secret_closet_teleporter_paths",
+    "name": { "str": "Closetland Paths" },
+    "description": "Your experience with Closetland has grown and you think you can find your way back to other places you've been, not just the most recent place you left from\n\nWhen in a closet, you can memorize it and, when in Closetland, return there instead of the place you left from.",
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "category": [ "perk" ],
+    "active": true,
+    "activated_eocs": [ "EOC_BOMBASTIC_PERKS_CLOSET_STORAGE_DIFFERENT_PATHS_OF_CLOSETLAND" ]
   }
 ]
