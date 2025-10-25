@@ -5,7 +5,7 @@ on:
 
 jobs:
   pull-translations:
-    if: github.repository == 'CleverRaven/Cataclysm-DDA'
+    # if: github.repository == 'CleverRaven/Cataclysm-DDA'
     runs-on: ubuntu-22.04
     steps:
       - name: Install gettext
@@ -24,10 +24,10 @@ jobs:
             lang
           fetch-depth: 1
 
-      - name: Pull translations
-        env:
-          TX_TOKEN: ${{ secrets.TX_TOKEN }}
-        run: tx pull --force
+    #   - name: Pull translations
+    #     env:
+    #       TX_TOKEN: ${{ secrets.TX_TOKEN }}
+    #     run: tx pull --force
 
       - name: Discard invalid translations
         run: ./lang/discard_invalid_po.sh
