@@ -10,14 +10,10 @@ def parse_recipe_category(json, origin):
     write_text(cat_name, origin, comment="Crafting recipes category")
 
     for subcat in json.get("recipe_subcategories", []):
-        subcat_name = subcat.split('_')[-1]
-        write_text(subcat_name, origin,
-                   comment=f"Crafting recipes subcategory of '{cat_name}'")
-        # if subcat == 'CSC_ALL':
-        #     write_text("ALL", origin,
-        #                comment="Crafting recipes subcategory 'all'")
-        # else:
-        #     subcat_name = subcat.split('_')[2]
-        #     write_text(subcat_name, origin,
-        #                comment="Crafting recipes subcategory "
-        #                f"of '{cat_name}'.")
+        if subcat == 'CSC_ALL':
+            write_text("ALL", origin,
+                       comment="Crafting recipes subcategory 'all'")
+        else:
+            subcat_name = subcat.split('_')[-1]
+            write_text(subcat_name, origin,
+                       comment=f"Crafting recipes subcategory of '{cat_name}'")
