@@ -1133,9 +1133,7 @@
     "activity_level": "NO_EXERCISE",
     "verb": "recovering",
     "based_on": "time",
-    "interruptable": true,
     "can_resume": false,
-    "interruptable_with_kb": true,
     "completion_eoc": "EOC_SMARTPHONE_RECOVERY_BASIC_2"
   },
   {
@@ -1144,9 +1142,7 @@
     "activity_level": "NO_EXERCISE",
     "verb": "recovering",
     "based_on": "time",
-    "interruptable": true,
     "can_resume": false,
-    "interruptable_with_kb": true,
     "completion_eoc": "EOC_SMARTPHONE_RECOVERY_ADVANCED_2"
   },
   {
