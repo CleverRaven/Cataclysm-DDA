@@ -704,6 +704,7 @@
       [ "leather_cat_ears", 5 ],
       [ "leather_cat_tail", 5 ],
       [ "leather_collar", 5 ],
+      [ "priest_collar", 2 ],
       [ "rope_30", 5 ],
       { "item": "fog_machine", "prob": 5, "charges": [ 0, 56 ] },
       { "group": "costume_undergarments_women", "prob": 20 },
