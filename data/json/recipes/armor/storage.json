@@ -1109,7 +1109,7 @@
     "time": "1 h",
     "autolearn": true,
     "reversible": { "time": "10 m" },
-    "using": [ [ "tailoring_leather_small", 3 ], [ "fastener_small", 1 ] ],
+    "using": [ [ "tailoring_leather_small_simple", 3 ], [ "fastener_small", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
@@ -1611,7 +1611,7 @@
     "time": "1 h",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "tailoring_cotton_patchwork", 1 ] ]
+    "using": [ [ "tailoring_cotton_patchwork_simple", 1 ] ]
   },
   {
     "result": "scabbard",
