@@ -2099,7 +2099,7 @@
     "subtype": "collection",
     "//": "This group was created by a fool and may contain errors.",
     "container-item": "bag_paper_powder_50lb",
-    "entries": [ { "item": "salt", "container-item": "null", "count": [ 125, 6480  ] } ]
+    "entries": [ { "item": "salt", "container-item": "null", "count": [ 125, 6480 ] } ]
   },
   {
     "type": "item_group",
