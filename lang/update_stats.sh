@@ -26,6 +26,8 @@ do
         > lang/stats/${n}
 done
 
+ls lang/stats
+
 mkdir -p src
 
 cat lang/stats/* > src/lang_stats.inc
