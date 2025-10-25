@@ -419,8 +419,8 @@
       {
         "pocket_type": "CONTAINER",
         "magazine_well": "1000 ml",
-        "max_contains_volume": "44000 ml",
-        "max_contains_weight": "23 kg",
+        "max_contains_volume": "50L",
+        "max_contains_weight": "25 kg",
         "moves": 200
       }
     ],
