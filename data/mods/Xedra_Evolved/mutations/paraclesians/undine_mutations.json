@@ -327,7 +327,6 @@
     "description": "Allows the Undine to summon a minor water elemental to support them in the world for a short time.",
     "category": [ "UNDINE" ],
     "purifiable": false,
-    "purifiable": false,
     "spells_learned": [ [ "summon_water_sprite", 1 ] ],
     "//": "Eventually add further spells in this area with more powerful elementals."
   },
