@@ -2180,7 +2180,7 @@
   },
   {
     "type": "item_group",
-    "id": "seasoning_salt_bulk", 
+    "id": "seasoning_salt_bulk",
     "subtype": "distribution",
     "entries": [
       { "prob": 20, "group": "seasoning_salt_bottle_plastic" },
