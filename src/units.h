@@ -1348,7 +1348,7 @@ T read_from_json_string_common( const std::string_view s,
             // above always throws but lambdas cannot be marked [[noreturn]]
             throw std::string( "Exceptionally impossible" );
         }
-        int value = 0;
+        int64_t value = 0;
         for( ; i < s.size() && isdigit( s[ i ] ); ++i ) {
             value = value * 10 + ( s[ i ] - '0' );
         }
