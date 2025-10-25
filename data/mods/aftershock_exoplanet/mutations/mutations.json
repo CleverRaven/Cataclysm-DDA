@@ -20,6 +20,16 @@
   },
   {
     "type": "mutation",
+    "id": "BKGR_NOETIC_SCION",
+    "name": { "str": "Noetic Scion" },
+    "points": 0,
+    "description": "Your appearance and distinctive tattoos mark you as a noetic scion, a member of one of the powerful families who maintained and even strengthened their esper powers through and after the Discontinuity by means of careful breeding programs.  Others may react to you with caution or seek to use you, seeing only the power that your bloodline embodies.",
+    "valid": false,
+    "purifiable": false,
+    "profession": true
+  },
+  {
+    "type": "mutation",
     "id": "PROF_SYSTEM_SECURITY",
     "name": { "str": "Local System Security" },
     "points": 0,
