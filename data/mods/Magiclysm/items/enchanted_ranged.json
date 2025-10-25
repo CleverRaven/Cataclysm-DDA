@@ -41,7 +41,7 @@
   },
   {
     "id": "m47a1",
-    "copy-from": "pistol_revolver",
+    "copy-from": "gun_base_handgun_manual",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "name": { "str": "M47A1 Techno-Medusa", "str_pl": "M47A1 Techno-Medusae" },
@@ -50,10 +50,7 @@
     "volume": "450 ml",
     "longest_side": "25 cm",
     "price": "740 USD",
-    "to_hit": -1,
     "material": [ "steel", "wood" ],
-    "symbol": "(",
-    "color": "dark_gray",
     "ammo": [ "9mm", "380", "357mag", "38" ],
     "ranged_damage": { "damage_type": "bullet", "amount": 0 },
     "dispersion": 558,
@@ -70,9 +67,7 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "9mm": 6, "380": 6, "357mag": 6, "38": 6 } } ],
-    "melee_damage": { "bash": 10 }
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "9mm": 6, "380": 6, "357mag": 6, "38": 6 } } ]
   },
   {
     "id": "enchanted_blackpowder_pistol",

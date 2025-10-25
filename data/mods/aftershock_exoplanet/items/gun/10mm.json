@@ -1,7 +1,7 @@
 [
   {
     "id": "afs_seyfert_84K",
-    "copy-from": "pistol_base",
+    "copy-from": "gun_base_handgun_semi",
     "looks_like": "glock_17",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
@@ -26,12 +26,9 @@
     "longest_side": "205 mm",
     "price": "450 USD",
     "material": [ "plastic", "superalloy" ],
-    "symbol": "(",
-    "color": "dark_gray",
     "ammo": [ "afs_10mm" ],
     "ranged_damage": { "damage_type": "bullet", "amount": -5 },
     "dispersion": 480,
-    "durability": 8,
     "blackpowder_tolerance": 48,
     "min_cycle_recoil": 570,
     "pocket_data": [
@@ -56,13 +53,11 @@
       [ "stock", 1 ],
       [ "ETCfirmware", 1 ],
       [ "underbarrel", 1 ]
-    ],
-    "melee_damage": { "bash": 8 },
-    "weapon_category": [ "AUTOMATIC_PISTOLS" ]
+    ]
   },
   {
     "id": "afs_marsec_4",
-    "copy-from": "pistol_base",
+    "copy-from": "gun_base_handgun_semi",
     "looks_like": "glock_17",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
@@ -77,12 +72,9 @@
     "price": "1750 USD",
     "material": [ "steel", "superalloy" ],
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "DOUBLE", "2rd burst", 2 ] ],
-    "symbol": "(",
-    "color": "dark_gray",
     "ammo": [ "afs_10mm" ],
     "ranged_damage": { "damage_type": "bullet", "amount": 4 },
     "dispersion": 320,
-    "durability": 8,
     "blackpowder_tolerance": 48,
     "min_cycle_recoil": 570,
     "built_in_mods": [ "barrel_ported" ],
@@ -108,12 +100,11 @@
         "max_contains_weight": "20 kg",
         "item_restriction": [ "afs_marsec_14mag" ]
       }
-    ],
-    "melee_damage": { "bash": 8 }
+    ]
   },
   {
     "id": "afs_silvergram_pistol",
-    "copy-from": "pistol_base",
+    "copy-from": "gun_base_handgun_semi",
     "looks_like": "glock_17",
     "type": "ITEM",
     "subtypes": [ "ARTIFACT", "GUN" ],
@@ -126,8 +117,6 @@
     "material": [ "plastic", "superalloy" ],
     "built_in_mods": [ "afs_smart_scope" ],
     "skill": "smartgun",
-    "symbol": "(",
-    "color": "dark_gray",
     "ammo": [ "afs_10mm_smart" ],
     "dispersion": 0,
     "durability": 9,
@@ -158,8 +147,6 @@
     ],
     "valid_mod_locations": [  ],
     "flags": [ "NEVER_JAMS", "MUNDANE", "WONT_TRAIN_MARKSMANSHIP" ],
-    "melee_damage": { "bash": 8 },
-    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "passive_effects": [ { "id": "ench_smart_gun" } ]
   }
 ]

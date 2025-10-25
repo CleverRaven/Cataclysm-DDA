@@ -2479,7 +2479,7 @@
     "id": "test_glock_super_long",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
-    "copy-from": "pistol_base",
+    "copy-from": "gun_base_handgun_semi",
     "name": { "str": "Test Glock" },
     "description": "A handgun for testing barrel lengths, based on nothing.",
     "weight": "600 g",

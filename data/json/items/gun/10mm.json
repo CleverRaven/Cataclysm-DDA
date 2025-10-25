@@ -1,7 +1,7 @@
 [
   {
     "id": "sw_610",
-    "copy-from": "pistol_revolver",
+    "copy-from": "gun_base_handgun_manual",
     "looks_like": "sw_619",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
@@ -24,13 +24,9 @@
     "price": "740 USD",
     "price_postapoc": "22 USD 50 cent",
     "material": [ "steel", "wood" ],
-    "symbol": "(",
-    "color": "dark_gray",
     "ammo": [ "10mm", "40" ],
     "dispersion": 320,
     "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
-    "durability": 8,
-    "blackpowder_tolerance": 56,
     "clip_size": 6,
     "pocket_data": [
       {
@@ -39,8 +35,7 @@
         "ammo_restriction": { "10mm": 6, "40": 6 },
         "allowed_speedloaders": [ "40_speedloader6" ]
       }
-    ],
-    "melee_damage": { "bash": 10 }
+    ]
   },
   {
     "id": "glock_29",

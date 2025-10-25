@@ -1,7 +1,7 @@
 [
   {
     "id": "hk_g80",
-    "copy-from": "gun_base",
+    "copy-from": "gun_base_rifle_semi",
     "looks_like": "modular_ar15",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
@@ -12,15 +12,11 @@
     "longest_side": "1005 mm",
     "price": "19 kUSD 200 USD",
     "price_postapoc": "120 USD",
-    "to_hit": -1,
     "material": [ "steel" ],
     "ammo": [ "12mm" ],
-    "skill": "rifle",
     "range": 60,
     "dispersion": 45,
-    "durability": 8,
     "energy_drain": "5 kJ",
-    "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "valid_mod_locations": [
       [ "grip", 1 ],
       [ "mechanism", 2 ],
@@ -33,6 +29,6 @@
     ],
     "flags": [ "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE", "USE_UPS" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "magazine_well": "250 ml", "item_restriction": [ "hk_g80mag" ] } ],
-    "melee_damage": { "bash": 12 }
+    "faults": [  ]
   }
 ]

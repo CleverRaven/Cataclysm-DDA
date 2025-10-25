@@ -50,11 +50,11 @@
   },
   {
     "id": "modular_ump",
-    "copy-from": "smg_base",
     "looks_like": "hk_mp5",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "name": { "str": "UMP submachine gun" },
+    "skill": "smg",
     "description": "A modern polymer-body sub-machine gun, once quite popular with police departments until recently.  Can be configured in 9x19mm, .40 S&W, or .45 ACP using conversion kits and the appropriate UMP magazine.",
     "variant_type": "gun",
     "variants": [
@@ -104,6 +104,7 @@
       { "fault": "fault_stovepipe" },
       { "fault": "fault_double_feed" }
     ],
+    "handling": 20,
     "default_mods": [ "folding_stock" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ump45mag" ] } ],
     "melee_damage": { "bash": 11 }

@@ -126,7 +126,7 @@
   },
   {
     "id": "axmc",
-    "copy-from": "rifle_manual",
+    "copy-from": "gun_base_rifle_manual",
     "looks_like": "modular_ar15",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
@@ -147,13 +147,11 @@
     "//2": "Length and volume calculations have been adjusted to represent just the base chassis, without an installed barrel.",
     "price": "6 kUSD 750 USD",
     "price_postapoc": "40 USD",
-    "to_hit": -1,
     "material": [ "aluminum", "steel", "plastic" ],
     "color": "dark_gray",
     "ammo": [ "NULL" ],
     "dispersion": 50,
     "durability": 10,
-    "blackpowder_tolerance": 24,
     "default_mods": [ "match_trigger", "high_end_folding_stock" ],
     "valid_mod_locations": [
       [ "bore", 1 ],
@@ -166,7 +164,6 @@
       [ "stock", 1 ]
     ],
     "flags": [ "NO_TURRET", "EASY_CLEAN", "NO_TURRET" ],
-    "//3": "This should be removed once vehicle turrets are capable of mounting guns with mods attached. As it stands, trying to mount this style of weapon would require the player to remove the conversion kit, thus rendering it unusable anyhow.",
-    "melee_damage": { "bash": 12 }
+    "//3": "This should be removed once vehicle turrets are capable of mounting guns with mods attached. As it stands, trying to mount this style of weapon would require the player to remove the conversion kit, thus rendering it unusable anyhow."
   }
 ]

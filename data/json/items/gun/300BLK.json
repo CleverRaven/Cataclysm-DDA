@@ -1,7 +1,7 @@
 [
   {
     "id": "sig_mcx_rattler_sbr",
-    "copy-from": "rifle_semi",
+    "copy-from": "gun_base_rifle_semi",
     "looks_like": "modular_ar15",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
@@ -14,10 +14,8 @@
     "barrel_length": "140 mm",
     "price": "2 kUSD 719 USD",
     "price_postapoc": "35 USD",
-    "color": "dark_gray",
     "ammo": [ "300blk" ],
     "dispersion": 160,
-    "durability": 8,
     "min_cycle_recoil": 1700,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "built_in_mods": [ "folding_stock" ],
