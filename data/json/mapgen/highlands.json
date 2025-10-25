@@ -1,0 +1,1230 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": "highlands",
+    "copy-from": "generic_open_land",
+    "name": "highlands",
+    "sym": ".",
+    "travel_cost_type": "field",
+    "looks_like": "meadow_core",
+    "color": "green",
+    "see_cost": "none",
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "highlands" ],
+    "weight": 3,
+    "object": { "fill_ter": "t_highland_groundcover" }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "highlands",
+    "weight": 1,
+    "object": { "fill_ter": "t_highland_groundcover", "place_nested": [ { "chunks": [ "highlands_base_tile" ], "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "highlands_base_tile",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "           1            ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "   1                    ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "nested": {
+        "1": {
+          "chunks": [
+            [ "highland_1", 20 ],
+            [ "highland_2", 20 ],
+            [ "highland_3", 20 ],
+            [ "highland_4", 20 ],
+            [ "highland_5", 20 ],
+            [ "highland_6", 20 ],
+            [ "highland_7", 20 ],
+            [ "highland_8", 20 ]
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "highlands_base_tile",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "1                       ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "nested": { "1": { "chunks": [ [ "highland_oasis", 20 ] ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "highlands_base_tile",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "           1            ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "nested": {
+        "1": {
+          "chunks": [
+            [ "highland_1", 20 ],
+            [ "highland_2", 20 ],
+            [ "highland_3", 20 ],
+            [ "highland_4", 20 ],
+            [ "highland_5", 20 ],
+            [ "highland_6", 20 ],
+            [ "highland_7", 20 ]
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "highlands_base_tile",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "1                       ",
+        " 2                      ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "       2                ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "nested": {
+        "1": {
+          "chunks": [
+            [ "highland_large_1", 20 ],
+            [ "highland_large_2", 20 ],
+            [ "highland_large_3", 20 ],
+            [ "highland_large_4", 20 ],
+            [ "highland_large_5", 20 ],
+            [ "highland_large_6", 20 ],
+            [ "highland_large_7", 20 ],
+            [ "highland_large_8", 20 ]
+          ]
+        },
+        "2": {
+          "chunks": [
+            [ "highland_1", 10 ],
+            [ "highland_2", 10 ],
+            [ "highland_3", 10 ],
+            [ "highland_4", 10 ],
+            [ "highland_5", 10 ],
+            [ "highland_6", 10 ],
+            [ "highland_7", 10 ],
+            [ "null", 95 ]
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "highland_1",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "            ",
+        "            ",
+        "            ",
+        "  ,##  ##   ",
+        "  ##  ,###  ",
+        "    ,,ss,## ",
+        "  ##ss ,,## ",
+        "  ###  www# ",
+        "   ## ww### ",
+        "     #####  ",
+        "    ######  ",
+        "      ##    "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "highlands" ],
+      "place_nested": [ { "chunks": [ "highland_1_up" ], "x": 0, "y": 0, "z": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "highland_1_up",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "            ",
+        "            ",
+        "            ",
+        "   ..  ..   ",
+        "  ..   ...  ",
+        "         .. ",
+        "  ..     .. ",
+        "  ...     . ",
+        "   ..   ... ",
+        "     .oo..  ",
+        "    ..oo..  ",
+        "      ..    "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "highlands" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "highland_2",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "            ",
+        "  ###       ",
+        "  #####     ",
+        "  ,######   ",
+        "  ## #####  ",
+        "      ##### ",
+        "  ##    ### ",
+        "  ###       ",
+        "         oo ",
+        "     oo     ",
+        "    oo      ",
+        "            "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "highlands" ],
+      "place_nested": [ { "chunks": [ "highland_2_up" ], "x": 0, "y": 0, "z": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "highland_2_up",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "            ",
+        "  ...       ",
+        "  .o...     ",
+        "   ..oo..   ",
+        "  .. .oo..  ",
+        "      .oo.. ",
+        "  ..    ... ",
+        "  oo.       ",
+        "            ",
+        "            ",
+        "            ",
+        "            "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "highlands" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "highland_3",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "    oo    # ",
+        "   oo   ### ",
+        "       ##o  ",
+        "      ##o   ",
+        "    ####o   ",
+        "    o##     ",
+        "            "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "highlands" ],
+      "place_nested": [ { "chunks": [ "highland_3_up" ], "x": 0, "y": 0, "z": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "highland_3_up",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "          . ",
+        "        ... ",
+        "       ..   ",
+        "      ..    ",
+        "    ....    ",
+        "     ..     ",
+        "            "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "highlands" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "highland_4",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "            ",
+        "            ",
+        "   ##       ",
+        "  ##        ",
+        "        ### ",
+        "      ###   ",
+        "   ######## ",
+        "    ####    ",
+        "      #     ",
+        "            ",
+        "            ",
+        "            "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "highlands" ],
+      "place_nested": [ { "chunks": [ "highland_4_up" ], "x": 0, "y": 0, "z": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "highland_4_up",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "            ",
+        "            ",
+        "   ..       ",
+        "  .o        ",
+        "        ... ",
+        "      ...   ",
+        "   ....o... ",
+        "    ..o.    ",
+        "      .     ",
+        "            ",
+        "            ",
+        "            "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "highlands" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "highland_5",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "            ",
+        "            ",
+        "          ##",
+        "         ## ",
+        "     ,,,    ",
+        "  ,, ,###   ",
+        "  ss####    ",
+        "   ######   ",
+        "   ,s##     ",
+        "   ,,,#     ",
+        "  ###       ",
+        " ##         "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "highlands" ],
+      "place_nested": [ { "chunks": [ "highland_5_up" ], "x": 0, "y": 0, "z": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "highland_5_up",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "            ",
+        "            ",
+        "          ..",
+        "         .. ",
+        "            ",
+        "      ...   ",
+        "    ....    ",
+        "   ......   ",
+        "    ...     ",
+        "    ...     ",
+        "  ...       ",
+        " ..         "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "highlands" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "highland_6",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "            ",
+        "  o         ",
+        "         o  ",
+        "            ",
+        "            ",
+        "    ,,      ",
+        "  ,,,#      ",
+        "  ,,,#      ",
+        "   ###o     ",
+        "   ###o     ",
+        "  ####o     ",
+        "   ##       "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "highlands" ],
+      "place_nested": [ { "chunks": [ "highland_6_up" ], "x": 0, "y": 0, "z": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "highland_6_up",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "     .      ",
+        "     .      ",
+        "   ...      ",
+        "   .o.      ",
+        "  .oo.      ",
+        "   ..       "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "highlands" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "highland_7",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "        ## #",
+        "      o#####",
+        "    ,,s##   ",
+        "   ,,#,#    ",
+        "   ###      ",
+        "   ###      ",
+        "  ####      ",
+        "   ##       "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "highlands" ],
+      "place_nested": [ { "chunks": [ "highland_7_up" ], "x": 0, "y": 0, "z": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "highland_7_up",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "        .o .",
+        "       .ooo.",
+        "      .o.   ",
+        "     ...    ",
+        "   ...      ",
+        "   .o.      ",
+        "  .oo.      ",
+        "   o.       "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "highlands" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "highland_8",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "            ",
+        "   o     #  ",
+        "       ###  ",
+        "       ##   ",
+        "      ###   ",
+        "     ###    ",
+        "     #      ",
+        "   ##    o  ",
+        "  ss#       ",
+        "  #s        ",
+        "            ",
+        "            "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "highlands" ],
+      "place_nested": [ { "chunks": [ "highland_8_up" ], "x": 0, "y": 0, "z": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "highland_8_up",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "            ",
+        "         .  ",
+        "       ...  ",
+        "       ..   ",
+        "      ...   ",
+        "     .o.    ",
+        "     o      ",
+        "   ..       ",
+        "    .       ",
+        "  o         ",
+        "            ",
+        "            "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "highlands" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "highland_large_1",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                    ### ",
+        "                 #####  ",
+        "               ### #    ",
+        "            #####       ",
+        "          ######        ",
+        "       ##########    ## ",
+        "       ########    #### ",
+        "      ####   ###        ",
+        "             ####       ",
+        "          ########      ",
+        "       ,,,,s####        ",
+        "     ######,,W I, ##    ",
+        "   ######,,WWW,,,ss##   ",
+        "   ##### ,WWs ,,s,,,### ",
+        "   ## ,, WW ##,s,#####  ",
+        "      ,,,,,#####  ss    ",
+        "         ######         ",
+        "       ss s####         ",
+        "      ##########        ",
+        "        ######          ",
+        "           ##           ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "highlands" ],
+      "place_nested": [ { "chunks": [ "highland_7_up" ], "x": 0, "y": 0, "z": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "highland_large_1_up",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                    .o. ",
+        "                 ..oo.  ",
+        "               ... .    ",
+        "            .....       ",
+        "          ...oo.        ",
+        "       ...ooooo..    .. ",
+        "       ........    ..oo ",
+        "      ....   ...        ",
+        "             ....       ",
+        "          ...ooo..      ",
+        "            .o..        ",
+        "     ......       ..    ",
+        "   ..ooo.          ..   ",
+        "   .oo..            ... ",
+        "   ..       ..   ...o.  ",
+        "           .....        ",
+        "         ......         ",
+        "           ..oo         ",
+        "      ..........        ",
+        "        .ooo..          ",
+        "           ..           ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "highlands" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "highland_large_2",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                ###     ",
+        "     o        #######   ",
+        "           ##########   ",
+        " o        ###########   ",
+        "         ############   ",
+        "       #,###########    ",
+        "   o  ,,,###########    ",
+        "    #,,,F,#########     ",
+        "   ####,,#########      ",
+        "  ##############        ",
+        "  #############         ",
+        " ##########           o ",
+        " #####                  ",
+        " ###                    ",
+        "                        ",
+        "                        ",
+        "           o            ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "highlands" ],
+      "place_nested": [ { "chunks": [ "highland_large_2_up" ], "x": 0, "y": 0, "z": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "highland_large_2_up",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                ...     ",
+        "              .......   ",
+        "           .....o....   ",
+        "          ...........   ",
+        "         ....oo......   ",
+        "       . ...........    ",
+        "         ooooooo....    ",
+        "    .     ooo......     ",
+        "   ....  o........      ",
+        "  ........oo....        ",
+        "  ...oo........         ",
+        " ...o......             ",
+        " .....                  ",
+        " ...                    ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "highlands" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "highland_large_3",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "             o          ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                    ##  ",
+        "                   ##   ",
+        "                  ##    ",
+        "                 ###    ",
+        "               ####     ",
+        "              #####     ",
+        "            ######      ",
+        "         ########       ",
+        "       #########        ",
+        "       ########         ",
+        "        ######          ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "highlands" ],
+      "place_nested": [ { "chunks": [ "highland_large_3_up" ], "x": 0, "y": 0, "z": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "highland_large_3_up",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                    ..  ",
+        "                   ..   ",
+        "                  ..    ",
+        "                 ...    ",
+        "               ....     ",
+        "              .....     ",
+        "            ......      ",
+        "         .....o..       ",
+        "       ....o....        ",
+        "       ...ooo..         ",
+        "        ......          ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "highlands" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "highland_large_4",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                    ##  ",
+        "                    #   ",
+        "                  ###   ",
+        "                #####   ",
+        "            ########    ",
+        "        ############    ",
+        "        ###########     ",
+        "       ###########      ",
+        "      ###,#######       ",
+        "      #,Is,#####        ",
+        "      ,,,,I####         ",
+        "     ,s,o,,I###         ",
+        "     o,,,,,s##          ",
+        "    ,, ,,,s##           ",
+        "    o o,,###            ",
+        "      ,#####            ",
+        "      #####             ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "highlands" ],
+      "place_nested": [ { "chunks": [ "highland_large_4_up" ], "x": 0, "y": 0, "z": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "highland_large_4_up",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                    ..  ",
+        "                    .   ",
+        "                  ...   ",
+        "                .....   ",
+        "            ........    ",
+        "        ........o...    ",
+        "        ...........     ",
+        "       ....o......      ",
+        "      ... .......       ",
+        "      .    .o...        ",
+        "           ....         ",
+        "            ...         ",
+        "            ..          ",
+        "           ..           ",
+        "         .o.            ",
+        "       .ooo.            ",
+        "      .ooo.             ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "highlands" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "highland_large_5",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                    #   ",
+        "                  ###   ",
+        "            ########    ",
+        "       #############    ",
+        "     ##############     ",
+        "    ###############     ",
+        "          ###wwww##     ",
+        "         ###,wwsw##     ",
+        "          ,,,,wsw##     ",
+        "        ,,o,,,ww,##     ",
+        "        ,,,,,o,,###     ",
+        "           o,,,###      ",
+        "            ,,,###      ",
+        "            ,,,###      ",
+        "  #         ,  ###      ",
+        "  #       o    ###      ",
+        "  ##           ###      ",
+        " ####         ###       ",
+        "#####        ####       ",
+        " ##          #          ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "highlands" ],
+      "place_nested": [ { "chunks": [ "highland_large_5_up" ], "x": 0, "y": 0, "z": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "highland_large_5_up",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                    .   ",
+        "                  ...   ",
+        "            ....o...    ",
+        "       .......ooo...    ",
+        "     ........oFoo..     ",
+        "    ........ooo....     ",
+        "          ...    ..     ",
+        "         ...     ..     ",
+        "                 ..     ",
+        "                 ..     ",
+        "                ...     ",
+        "               ...      ",
+        "               ...      ",
+        "               .o.      ",
+        "  .            .o.      ",
+        "  .            .o.      ",
+        "  ..           ...      ",
+        " oo..         ...       ",
+        ".ooo.        ....       ",
+        " ..          .          ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "highlands" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "highland_large_6",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                 ####   ",
+        "             #######    ",
+        "            #######     ",
+        "            ##,,##      ",
+        "         ###,,,,#       ",
+        "         #  ,,,##       ",
+        "           ,,           ",
+        "                        ",
+        "        o #   ##        ",
+        "              ##        ",
+        "        ##    #         ",
+        "       ########         ",
+        "      ########          ",
+        "      #######           ",
+        "     #####              ",
+        "    ##                  ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "highlands" ],
+      "place_nested": [ { "chunks": [ "highland_large_6_up" ], "x": 0, "y": 0, "z": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "highland_large_6_up",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                 .o..   ",
+        "             ..oooo.    ",
+        "            ..oooo.     ",
+        "            ..  ..      ",
+        "         ...    .       ",
+        "         .     ..       ",
+        "                        ",
+        "                        ",
+        "          .   ..        ",
+        "              ..        ",
+        "        oo    .         ",
+        "       .ooooo..         ",
+        "      ...ooo..          ",
+        "      .oo....           ",
+        "     .o...              ",
+        "    ..                  ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "highlands" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "highland_large_7",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                 ###    ",
+        "              #####     ",
+        "              ###       ",
+        "            #####       ",
+        "           #####        ",
+        "         ######         ",
+        "        #####           ",
+        "       #####            ",
+        "      ###,,#            ",
+        "    ## ,,,,#            ",
+        "    ###,  ##            ",
+        "   ### I                ",
+        "  ####,   I             ",
+        " #####F,                ",
+        " ###,,,                 ",
+        "     ,  o               ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "highlands" ],
+      "place_nested": [ { "chunks": [ "highland_large_7_up" ], "x": 0, "y": 0, "z": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "highland_large_7_up",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                 ...    ",
+        "              .....     ",
+        "              ...       ",
+        "            .....       ",
+        "           .oo..        ",
+        "         ..oo..         ",
+        "        .ooo.           ",
+        "       ..oo.            ",
+        "      ...  o            ",
+        "    ..     o            ",
+        "    ...   .o            ",
+        "   .o.                  ",
+        "  .o..                  ",
+        " .o...                  ",
+        " ...                    ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "highlands" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "highland_large_8",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                     #  ",
+        "                     #  ",
+        "                   ###  ",
+        "                   ##   ",
+        "                  ##    ",
+        "          o      ###    ",
+        "      o        ####     ",
+        "             #####      ",
+        "      ##   #####        ",
+        "    ###   #,,##         ",
+        "  ###     ,,,#          ",
+        " ####    ,,,#           ",
+        " ###    ####            ",
+        " ##     ##              ",
+        "        #               ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "highlands" ],
+      "place_nested": [ { "chunks": [ "highland_large_8_up" ], "x": 0, "y": 0, "z": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "highland_large_8_up",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                     .  ",
+        "                     .  ",
+        "                   ...  ",
+        "                   ..   ",
+        "                  ..    ",
+        "                 ...    ",
+        "               ..o.     ",
+        "             ..oo.      ",
+        "      ..   ...o.        ",
+        "    ...   .  o.         ",
+        "  .o.        o          ",
+        " .o..       .           ",
+        " ...    oo..            ",
+        " ..     o.              ",
+        "        .               ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "highlands" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "highland_oasis",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "             o o        ",
+        "                        ",
+        "            o           ",
+        "                        ",
+        "            wwww        ",
+        "         I,,wwwww       ",
+        "        ,,,wwwwww       ",
+        "        ,, wwwwww       ",
+        "      ,,*,wwwwww        ",
+        "      I,,,wwwww         ",
+        "     ,,wwwww,,          ",
+        "      wwww ,            ",
+        "      www ,,,,          ",
+        "    F,   ,,             ",
+        "    ,,                  ",
+        "           o            ",
+        "            oo          ",
+        "          o             ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "highlands" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "highland_oasis",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "          o             ",
+        "                        ",
+        "                        ",
+        "                  www,  ",
+        "                 wwwww  ",
+        "                ,,,sww  ",
+        "        o      ,F,,sww  ",
+        "              ,,s,,ww   ",
+        "           ww,,,wwww    ",
+        "          , w,wwww,     ",
+        "            swwww,      ",
+        "           ,,,,, ,,     ",
+        "           F, ,,,       ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "      o                 ",
+        "  o                     ",
+        "                   o    ",
+        "                        ",
+        "   o                    ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "highlands" ]
+    }
+  }
+]

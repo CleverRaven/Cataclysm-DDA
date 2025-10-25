@@ -650,6 +650,6 @@
       "deep_rock"
     ],
     "default_groundcover": [ [ "t_region_groundcover", 1 ] ],
-    "feature_flag_settings": { "blacklist": [ "WASP", "BEE", "ANT", "FUNGAL", "TRIFFID", "FARM" ], "whitelist": [  ] }
+    "feature_flag_settings": { "blacklist": [ "WASP", "BEE", "ANT", "FUNGAL", "TRIFFID", "FARM", "HIGHLANDS" ], "whitelist": [  ] }
   }
 ]

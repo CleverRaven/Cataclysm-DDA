@@ -90,6 +90,26 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "standing_stones_highlands",
+    "name": "highlands",
+    "sym": "O",
+    "color": "dark_gray",
+    "vision_levels": "open_land",
+    "see_cost": "medium",
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "highland_crossroads_temple", "highland_crossroads_temple_above", "highland_crossroads_temple_above2" ],
+    "name": "crossroads temple",
+    "sym": "T",
+    "color": "magenta",
+    "travel_cost_type": "structure",
+    "vision_levels": "isolated_building",
+    "see_cost": "high"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "boat_rental", "boat_rental_1", "boat_rental_2" ],
     "name": "boat rental",
     "sym": "#",
