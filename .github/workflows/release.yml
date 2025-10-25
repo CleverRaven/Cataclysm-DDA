@@ -51,7 +51,7 @@ jobs:
           gh release create ${{ steps.generate_env_vars.outputs.tag_name }} --notes-file notes.txt --prerelease --title "${{ steps.generate_env_vars.outputs.release_name }}" --target "$(git log -1 --format='%H')"
 
   build-translations:
-    uses: ./.github/workflows/build-translations.yml
+    uses: .github/workflows/build-translations.yml
 
   builds:
     needs:
