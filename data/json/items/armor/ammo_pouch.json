@@ -140,7 +140,7 @@
     "variants": [
       {
         "id": "generic_chestrig",
-        "name": { "str": "chest rig" },
+        "//": "inherit name from item",
         "description": "Popularized during the Vietnam War, chest rigs like these are typically plain, barebones affairs consisting of three or more pouches in a row, with straps to secure them on your chest.  This one can hold four magazines in its pouches.",
         "weight": 30
       },
