@@ -18,7 +18,7 @@ jobs:
       - name: Checkout local repo
         uses: actions/checkout@v4
         with:
-          ref: master
+          ref: build_translations_in_repo
           sparse-checkout: |
             tools
             lang
