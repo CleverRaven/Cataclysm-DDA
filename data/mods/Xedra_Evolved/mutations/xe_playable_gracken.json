@@ -372,6 +372,7 @@
     "id": "RADIOTROPHIC",
     "name": { "str": "Radiotrophic" },
     "points": 3,
+    "purifiable": false,
     "vitamin_cost": 160,
     "description": "Your system has adapted to radiation.  While irradiated, you will convert the radiation into calories.",
     "category": [ "GRACKEN" ],

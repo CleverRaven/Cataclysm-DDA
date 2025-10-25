@@ -139,7 +139,8 @@
     "visibility": 0,
     "ugliness": 0,
     "description": "Upon gaining this ability the Undine learns how to convert salt water into freshwater and vice versa.",
-    "category": [ "UNDINE" ]
+    "category": [ "UNDINE" ],
+    "purifiable": false
   },
   {
     "type": "mutation",
@@ -161,7 +162,8 @@
     "visibility": 0,
     "ugliness": 0,
     "description": "Upon gaining this ability the Undine learns how to foul water, making it murky and possibly infested.  Conversely, the Undine can also cleanse water that is not already clean.",
-    "category": [ "UNDINE" ]
+    "category": [ "UNDINE" ],
+    "purifiable": false
   },
   {
     "type": "mutation",
@@ -171,7 +173,8 @@
     "visibility": 0,
     "ugliness": 0,
     "description": "Upon gaining this ability the Undine learns how to convert various liquids into freshwater.",
-    "category": [ "UNDINE" ]
+    "category": [ "UNDINE" ],
+    "purifiable": false
   },
   {
     "type": "mutation",
@@ -311,7 +314,8 @@
     "visibility": 2,
     "ugliness": 0,
     "description": "The Undine's ears are longer and pointed, like a stream of water poured into a glass from on high.  This is purely cosmetic.",
-    "category": [ "UNDINE" ]
+    "category": [ "UNDINE" ],
+    "purifiable": false
   },
   {
     "type": "mutation",
@@ -357,7 +361,8 @@
     "points": 4,
     "description": "Undines are born of the flowing waters and the waters provide for their children.  While submerged in fresh water, any thirst you have will be slaked.",
     "prereqs": [ "UNDINE_SLEEP_WATER" ],
-    "category": [ "UNDINE" ]
+    "category": [ "UNDINE" ],
+    "purifiable": false
   },
   {
     "type": "mutation",
@@ -399,7 +404,8 @@
     "ugliness": 0,
     "description": "The waters come to the Undine's defense.  When attacked, there is a chance that a burst of water will surge out and push their attackers back.",
     "prereqs": [ "UNDINE_ESCAPE_GRABS" ],
-    "category": [ "UNDINE" ]
+    "category": [ "UNDINE" ],
+    "purifiable": false
   },
   {
     "type": "mutation",
