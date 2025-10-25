@@ -6,10 +6,10 @@
 #include <cctype>
 #include <cmath>
 #include <cstddef>
+#include <cstdint>
 #include <limits>
 #include <map>
 #include <sstream>
-#include <stdint.h>
 #include <string>
 #include <string_view>
 #include <type_traits>
