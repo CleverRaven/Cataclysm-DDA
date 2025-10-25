@@ -10,7 +10,6 @@
     "types": [ "skin_tone" ],
     "leads_to": [ "UNDINE_SKIN_2" ],
     "category": [ "UNDINE" ],
-    "purifiable": false,
     "purifiable": false
   },
   {
@@ -23,7 +22,6 @@
     "description": "Your skin has become vaguely gelatinous.  Provides some extra bash defense and immunity to wet effects.",
     "types": [ "SKIN" ],
     "category": [ "UNDINE" ],
-    "purifiable": false,
     "purifiable": false,
     "prereqs": [ "UNDINE_SKIN_1" ],
     "changes_to": [ "UNDINE_SKIN_3" ],
@@ -56,7 +54,6 @@
     "threshreq": [ "THRESH_UNDINE" ],
     "category": [ "UNDINE" ],
     "purifiable": false,
-    "purifiable": false,
     "wet_protection": [
       { "part": "head", "good": 7 },
       { "part": "leg_l", "good": 21 },
@@ -81,7 +78,6 @@
     "description": "Upon gaining this ability the Undine gains the ability to create a cloud of fog.",
     "category": [ "UNDINE" ],
     "purifiable": false,
-    "purifiable": false,
     "spells_learned": [ [ "create_fog", 1 ] ]
   },
   {
@@ -94,7 +90,6 @@
     "description": "Upon gaining this ability the Undine gains the ability to grant one person the ability to float and swim.",
     "category": [ "UNDINE" ],
     "purifiable": false,
-    "purifiable": false,
     "spells_learned": [ [ "grant_buoyancy", 1 ] ]
   },
   {
@@ -106,7 +101,6 @@
     "ugliness": 0,
     "description": "Upon gaining this ability the Undine gains the ability to create an acidic mist that damages any creatures inside it.",
     "category": [ "UNDINE" ],
-    "purifiable": false,
     "purifiable": false,
     "spells_learned": [ [ "acidic_mist", 1 ] ]
   },
@@ -122,7 +116,6 @@
     "prereqs2": [ "RESIST_ACID" ],
     "category": [ "UNDINE" ],
     "purifiable": false,
-    "purifiable": false,
     "spells_learned": [ [ "undine_acid_resist_ally_spell", 1 ] ]
   },
   {
@@ -135,7 +128,6 @@
     "prereqs": [ "SALTWATER_TO_FRESHWATER" ],
     "description": "Upon gaining this ability the Undine gains the ability to grow a goblin fruit from a natural water source.",
     "category": [ "UNDINE" ],
-    "purifiable": false,
     "purifiable": false,
     "spells_learned": [ [ "undine_cultivate_goblin_fruit", 1 ] ]
   },
@@ -159,7 +151,6 @@
     "ugliness": 0,
     "description": "The Undine has gained the ability to breathe underwater.",
     "category": [ "UNDINE" ],
-    "purifiable": false,
     "purifiable": false,
     "flags": [ "GILLS" ]
   },
@@ -195,7 +186,6 @@
     "description": "You've gained a resistance to fire.",
     "category": [ "UNDINE" ],
     "purifiable": false,
-    "purifiable": false,
     "enchantments": [ "undine_resist_fire" ]
   },
   {
@@ -208,7 +198,6 @@
     "description": "You've gained a resistance to acid.",
     "category": [ "UNDINE" ],
     "purifiable": false,
-    "purifiable": false,
     "enchantments": [ "undine_resist_acid" ]
   },
   {
@@ -220,7 +209,6 @@
     "ugliness": 0,
     "description": "The waves themselves answer your call and support you, allowing you to walk on the surface of the water.  Activate to walk on water.",
     "category": [ "UNDINE" ],
-    "purifiable": false,
     "purifiable": false,
     "prereqs": [ "WATER_SEALED" ],
     "prereqs2": [ "UNDINE_DEX_UP_1" ],
@@ -238,7 +226,6 @@
     "description": "As the Undine is one with the waters, so too is anything they carry.  Their gear is immune to being dissolved or broken by water.",
     "category": [ "UNDINE" ],
     "purifiable": false,
-    "purifiable": false,
     "flags": [ "ITEM_WATERPROOFING" ]
   },
   {
@@ -252,7 +239,6 @@
     "description": "Allows the Undine to change the weather to rain.  (Currently not working)",
     "category": [ "UNDINE" ],
     "purifiable": false,
-    "purifiable": false,
     "//": "Make spell. Requires C++"
   },
   {
@@ -265,7 +251,6 @@
     "description": "Allows the Undine to summon fish and eventually charm them.  Practice this enough and you will be able to befriend sea monsters.",
     "category": [ "UNDINE" ],
     "purifiable": false,
-    "purifiable": false,
     "spells_learned": [ [ "summon_fish", 1 ] ]
   },
   {
@@ -277,7 +262,6 @@
     "ugliness": 0,
     "description": "Allows the Undine to slow and damage a single target, as though they were caught in the depths of the ocean.",
     "category": [ "UNDINE" ],
-    "purifiable": false,
     "purifiable": false,
     "prereqs": [ "WATER_SEALED" ],
     "spells_learned": [ [ "undine_bash_and_slow_spell", 1 ] ]
@@ -292,7 +276,6 @@
     "description": "Allows the Undine to force an entire group inward toward a central point, as though caught in a whirlpool.",
     "category": [ "UNDINE" ],
     "purifiable": false,
-    "purifiable": false,
     "prereqs": [ "UNDINE_BASH_AND_SLOW" ],
     "spells_learned": [ [ "undine_drag_inward_spell", 1 ] ]
   },
@@ -305,7 +288,6 @@
     "ugliness": 0,
     "description": "Allows the Undine to force an entire group inward toward a central point, as though caught in a whirlpool.",
     "category": [ "UNDINE" ],
-    "purifiable": false,
     "purifiable": false,
     "threshreq": [ "THRESH_UNDINE" ],
     "prereqs": [ "UNDINE_DRAG_INWARD" ],
@@ -320,7 +302,6 @@
     "ugliness": 0,
     "description": "Upon gaining this ability the Undine's eyes begin reflecting their mood with colors of the deep waters, pitch black when angry or sad and green-blue when pleased.  Glare no longer impacts them, and neither do light levels when trying to sleep.  They can also see without problem underwater.",
     "category": [ "UNDINE" ],
-    "purifiable": false,
     "purifiable": false,
     "integrated_armor": [ "integrated_undine_eyes" ],
     "flags": [ "SEESLEEP", "SWIM_GOGGLES" ]
@@ -360,7 +341,6 @@
     "prereqs2": [ "BREATH_UNDERWATER" ],
     "category": [ "UNDINE" ],
     "purifiable": false,
-    "purifiable": false,
     "enchantments": [ { "condition": "u_is_underwater", "values": [ { "value": "SLEEPY", "add": 40 } ] } ],
     "comfort": [
       {
@@ -396,7 +376,6 @@
     "prereqs": [ "UNDINE_SKIN_2", "UNDINE_SKIN_3" ],
     "category": [ "UNDINE" ],
     "purifiable": false,
-    "purifiable": false,
     "active": true,
     "activated_is_setup": false,
     "cost": 2,
@@ -413,7 +392,6 @@
     "description": "The Undines are born of the waters and water is their home.  This trait allows them to move much faster when in water.",
     "prereqs": [ "BREATH_UNDERWATER" ],
     "category": [ "UNDINE" ],
-    "purifiable": false,
     "purifiable": false,
     "flags": [ "WEBBED_FEET", "WEBBED_HANDS" ],
     "enchantments": [ { "values": [ { "value": "MOVECOST_SWIM_MOD", "multiply": -0.7 } ] } ]
@@ -441,7 +419,6 @@
     "prereqs": [ "UNDINE_WATER_PUSH_AWAY" ],
     "category": [ "UNDINE" ],
     "purifiable": false,
-    "purifiable": false,
     "active": true,
     "thirst": true,
     "cost": 1,
@@ -458,7 +435,6 @@
     "visibility": 0,
     "ugliness": 0,
     "category": [ "UNDINE" ],
-    "purifiable": false,
     "purifiable": false,
     "prereqs": [ "UNDINE_EYES" ],
     "prereqs2": [ "BREATH_UNDERWATER" ],
@@ -477,7 +453,6 @@
     "changes_to": [ "UNDINE_STR_UP_2" ],
     "category": [ "UNDINE" ],
     "purifiable": false,
-    "purifiable": false,
     "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 1 } ] } ]
   },
   {
@@ -490,7 +465,6 @@
     "description": "Year by year, meter by meter, the waves gradually erode the beaches.  +3 Strength.",
     "prereqs": [ "UNDINE_STR_UP_1" ],
     "category": [ "UNDINE" ],
-    "purifiable": false,
     "purifiable": false,
     "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 3 } ] } ]
   },
@@ -506,7 +480,6 @@
     "changes_to": [ "UNDINE_DEX_UP_2" ],
     "category": [ "UNDINE" ],
     "purifiable": false,
-    "purifiable": false,
     "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 2 } ] } ]
   },
   {
@@ -520,7 +493,6 @@
     "prereqs": [ "UNDINE_DEX_UP_1" ],
     "changes_to": [ "UNDINE_DEX_UP_3" ],
     "category": [ "UNDINE" ],
-    "purifiable": false,
     "purifiable": false,
     "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 4 }, { "value": "THIRST", "multiply": 0.15 } ] } ]
   },
@@ -536,7 +508,6 @@
     "prereqs2": [ "UNDINE_WATER_BODY" ],
     "category": [ "UNDINE" ],
     "purifiable": false,
-    "purifiable": false,
     "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 6 }, { "value": "THIRST", "multiply": 0.25 } ] } ]
   },
   {
@@ -549,7 +520,6 @@
     "description": "The Undine's senses take in their environment like a fisher gazing to the bottom of a clear pond.  +2 Perception.",
     "prereqs": [ "UNDINE_RIVER_MAPPING" ],
     "category": [ "UNDINE" ],
-    "purifiable": false,
     "purifiable": false,
     "enchantments": [ { "values": [ { "value": "PERCEPTION", "add": 2 } ] } ]
   },
@@ -564,7 +534,6 @@
     "description": "Though the ice over the top grows thick, the water below remains liquid.  The Undine is completely immune to cold temperatures when underwater.",
     "category": [ "UNDINE" ],
     "purifiable": false,
-    "purifiable": false,
     "enchantments": [ { "condition": "u_is_underwater", "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 1000 } ] } ]
   },
   {
@@ -577,7 +546,6 @@
     "description": "Even the Undine's internal organs are becoming more liquid.  Bashing and cutting damage is reduced even further, and ballistic damage is halved.  However, the Undine needs to drink more water.",
     "prereqs": [ "UNDINE_SKIN_2", "UNDINE_SKIN_3" ],
     "category": [ "UNDINE" ],
-    "purifiable": false,
     "purifiable": false,
     "enchantments": [ "ench_undine_water_body", { "values": [ { "value": "THIRST", "multiply": 0.25 } ] } ]
   },
@@ -592,7 +560,6 @@
     "changes_to": "UNDINE_MORE_MANA_REGEN_AND_MANA",
     "description": "Like the fountain continuously flowing with water, the Undine's mana regenerates 50% faster while standing in or under water.",
     "category": [ "UNDINE" ],
-    "purifiable": false,
     "purifiable": false,
     "enchantments": [
       {
@@ -614,7 +581,6 @@
     "description": "Like the fountain continuously flowing to the brim with water, the Undine's mana regenerates 50% faster and they have 50% more mana while standing in or under water.",
     "category": [ "UNDINE" ],
     "purifiable": false,
-    "purifiable": false,
     "enchantments": [
       {
         "condition": { "test_eoc": "EOC_CONDITION_CHECK_UNDINE_IN_WATER" },
@@ -632,7 +598,6 @@
     "prereqs": [ "UNDINE_MORE_MANA_REGEN_AND_MANA" ],
     "description": "Like the fountain overflowing with water, the Undine's mana regenerates 50% faster, they have 50% more mana, and their stamina regenerates 100% faster while standing in or under water.",
     "category": [ "UNDINE" ],
-    "purifiable": false,
     "purifiable": false,
     "threshreq": [ "THRESH_UNDINE" ],
     "enchantments": [
@@ -655,7 +620,6 @@
     "prereqs": [ "UNDINE_WATER_BODY" ],
     "prereqs2": [ "UNDINE_ABSORB_WATER" ],
     "category": [ "UNDINE" ],
-    "purifiable": false,
     "purifiable": false,
     "threshreq": [ "THRESH_UNDINE" ],
     "active": true,
@@ -691,7 +655,6 @@
     "description": "Being made entirely of water, it is easy for you to disguise yourself when underwater.",
     "category": [ "UNDINE" ],
     "purifiable": false,
-    "purifiable": false,
     "valid": false,
     "enchantments": [ "undine_water_form_hiding" ]
   },
@@ -706,7 +669,6 @@
     "prereqs": [ "UNDINE_SKIN_3" ],
     "prereqs2": [ "WATER_SEALED" ],
     "category": [ "UNDINE" ],
-    "purifiable": false,
     "purifiable": false,
     "threshreq": [ "THRESH_UNDINE" ],
     "integrated_armor": [ "item_undine_liquid_water_pocket" ]
