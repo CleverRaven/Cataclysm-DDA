@@ -252,7 +252,7 @@
             }
           },
           {
-            "if": { "u_has_trait": "VAMPIRE2" },
+            "if": { "and": [ { "u_has_trait": "VAMPIRE2" }, { "not": { "u_has_trait": "VAMPIRE3" } } ] },
             "then": {
               "if": { "one_in_chance": 8 },
               "then": [
@@ -262,7 +262,13 @@
             }
           },
           {
-            "if": { "u_has_effect": "vampire_virus" },
+            "if": {
+              "and": [
+                { "u_has_effect": "vampire_virus" },
+                { "not": { "u_has_trait": "VAMPIRE2" } },
+                { "not": { "u_has_trait": "VAMPIRE3" } }
+              ]
+            },
             "then": {
               "if": { "one_in_chance": 16 },
               "then": [
