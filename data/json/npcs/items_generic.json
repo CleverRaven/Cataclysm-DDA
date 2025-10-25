@@ -1103,7 +1103,7 @@
       [ "vac_sealer", 1 ],
       [ "vacutainer", 3 ],
       [ "veggy", 8 ],
-      [ "vibrator", 3 ],
+      { "group": "sex_accessories_domestic", "prob": 3 },
       [ "vinegar", 5 ],
       [ "vitamins", 10 ],
       [ "calcium_tablet", 10 ],

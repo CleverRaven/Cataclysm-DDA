@@ -131,7 +131,7 @@
       [ "mp3", 18 ],
       [ "portable_game", 12 ],
       [ "game_watch", 3 ],
-      [ "vibrator", 10 ],
+      { "group": "sex_accessories_domestic", "prob": 10 },
       [ "flashlight", 40 ],
       [ "heavy_flashlight", 10 ],
       [ "radio", 20 ],

@@ -4358,7 +4358,7 @@ std::optional<int> iuse::vibe( Character *p, item *it, const tripoint_bub_ms & )
         p->add_msg_if_player( m_info, _( "It might be waterproof, but your lungs aren't." ) );
         return std::nullopt;
     }
-    if( !it->ammo_sufficient( p ) ) {
+    if( it->uses_energy() && !it->ammo_sufficient( p ) ) {
         p->add_msg_if_player( m_info, _( "The %s's batteries are dead." ), it->tname() );
         return std::nullopt;
     }

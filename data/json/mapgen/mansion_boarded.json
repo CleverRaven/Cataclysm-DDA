@@ -231,7 +231,10 @@
           { "item": "snacks_fancy", "chance": 65, "repeat": [ 1, 2 ] },
           { "item": "table_sideboard", "chance": 40, "repeat": [ 2, 3 ] }
         ],
-        "D": [ { "item": "sex_lair", "chance": 75, "repeat": [ 2, 3 ] }, { "item": "ss_merch_1", "chance": 55, "repeat": [ 2, 3 ] } ],
+        "D": [
+          { "item": "sex_lair", "chance": 75, "repeat": [ 2, 3 ] },
+          { "item": "sex_accessories_domestic", "chance": 55, "repeat": [ 2, 3 ] }
+        ],
         "d": [
           { "item": "clothing_fancy", "chance": 75, "repeat": [ 2, 3 ] },
           { "item": "beauty", "chance": 75, "repeat": [ 2, 3 ] }

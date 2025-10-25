@@ -1600,7 +1600,7 @@
       [ "firecracker", 5 ],
       [ "fursuit", 5 ],
       [ "zentai", 5 ],
-      { "item": "vibrator", "prob": 5, "charges": [ 0, 100 ] },
+      { "group": "sex_accessories_domestic", "prob": 5 },
       { "item": "condom", "prob": 30, "count": [ 1, 5 ] },
       [ "snuggie", 5 ],
       [ "flyer", 10 ],
