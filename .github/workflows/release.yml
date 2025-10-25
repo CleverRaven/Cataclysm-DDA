@@ -50,8 +50,13 @@ jobs:
       - run: |
           gh release create ${{ steps.generate_env_vars.outputs.tag_name }} --notes-file notes.txt --prerelease --title "${{ steps.generate_env_vars.outputs.release_name }}" --target "$(git log -1 --format='%H')"
 
+  build-translations:
+    uses: .github/workflows/build-translations.yml
+
   builds:
-    needs: release
+    needs:
+      - release
+      - build-translations
     strategy:
       fail-fast: false
       matrix:
@@ -154,6 +159,10 @@ jobs:
         run: |
           git clone --depth=1 --shallow-submodules --recurse-submodules https://github.com/Fris0uman/CDDA-Soundpacks '${{ github.workspace }}/CDDA-Soundpacks'
           mv '${{ github.workspace }}/CDDA-Soundpacks/sound/CC-Sounds' '${{ github.workspace }}/data/sound'
+      - name: Fetch translations artifact into build
+        uses: actions/download-artifact@v4
+        with:
+          name: translations
       - name: Install dependencies (windows msvc) (0/4)
         if: runner.os == 'Windows'
         uses: lukka/get-cmake@latest
