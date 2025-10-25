@@ -1,10 +1,10 @@
-name: Pull translations
+name: Build translations
 on:
   workflow_dispatch:
   workflow_call:
 
 jobs:
-  pull-translations:
+  build-translations:
     # if: github.repository == 'CleverRaven/Cataclysm-DDA'
     runs-on: ubuntu-22.04
     steps:
