@@ -6,28 +6,28 @@
 <color_yellow>Whales</color> (<color_dark_gray>退休</color>)    <color_yellow>KevinGranade</color>
 
 <color_white>特別感謝：</color>
-<color_yellow>Standing-Storm</color> - Creator and maintainer of the enormous 'Mind over Matter' mod and numerous contributions to other mods (fair folk and espers and wizards, oh my!)
-<color_yellow>Maleclypse</color> - Xedra Evolved maintainer and merger, clocking in at over 2,000 (thousand!!!) merges this release cycle.
-<color_yellow>GuardianDll</color> - Merging, non-specific json and c++ changes, memorizing and quoting documentation for everyone needed.  "I don't remember making so many PRs, what the hell?" - GuardianDll
-<color_yellow>RenechCDDA</color> - Improvements to NPC factions, basecamps, and vehicles.
-<color_yellow>Procyonae</color> - Ludicrous amount of infrastructure PRs, mapgen code is thriving under their watch.
-<color_yellow>PatrikLundell</color> - An absurd amount of bugfixes and important safety changes to mapgen, tripoint infrastructure, and other critical systems.
-<color_yellow>Holli</color> - For their dedicated work on all things gun and gun related.
-<color_yellow>b3brodie</color> - Tons of infrastructure support for spells, bettering both mods and the base game.
-<color_yellow>Milopetilo</color> - Awesome work on new mapgen, parameters for existing mapgen, item group overhauls, and more.
-<color_yellow>ShnitzelX2</color> - Electronic storage for items and cleaning up 10 years of technical debt by moving items to be loaded with generic_factory. (Don't be jealous, but they're my favorite.)
-<color_yellow>alef</color> - Keeping the game building so we can keep developing and playing.
-<color_yellow>John Candlebury</color> - Aftershock. Did you know you can own and fly a colossal spaceship in Aftershock now? Yeah.
-<color_yellow>katemonster33</color> - Took the game by the storm with ImGuI and ImTui. Bringing us the UI we've always wanted.
-<color_yellow>Daniel Brooks 'db48x'</color> - For fundamental work on our beautiful new ImGui windows.
-<color_yellow>moxian</color> - Mission-critical work on build and IWYU infrastructure. They've made every developer's life easier.
-<color_yellow>akrieger</color> - Continued game speed improvements, keeping CI alive, and saving hard drives from Sky Islands games with compressed saves.
-<color_yellow>SariusSkelrets</color> - Expansion and polishing of Xedra Evolved's vampire content.
+<color_yellow>Standing-Storm</color> - 大型Mod 'Mind over Matter' 的创建者和维护者以及其他几个Mod的有力贡献者（平民、超能力者和巫师，哦我的天！）
+<color_yellow>Maleclypse</color> - Xedra Evolved的维护者和整合者，在这个发布周期整合了超过2000（是千！）个整合内容。
+<color_yellow>GuardianDll</color> - 整合，非特定json和c++改动，记录与引用所有人都需要的文件。  “我不记得我发布过这么多PR呀，什么鬼？” - GuardianDll
+<color_yellow>RenechCDDA</color> - NPC派系、基地和载具的改进。
+<color_yellow>Procyonae</color> - 数量多得可笑的基础PR和在其监督下快速发展的 Mapgen 代码。
+<color_yellow>PatrikLundell</color> - 地图、三点基础设施和其他关键系统中出现了大量的 bug 修复和重要的安全变更。
+<color_yellow>Holli</color> - 枪械以及枪械相关。
+<color_yellow>b3brodie</color> - 大魔法的游戏本体和Mod相关的大量基础支持。
+<color_yellow>Milopetilo</color> - 新地图生成、现有地图生成参数、物品组相关，和其他一些代码。
+<color_yellow>ShnitzelX2</color> - 物品储电和将物品与generic_factory相适应（还清10年技术欠账——别嫉妒，generic_factory是我的最爱。）
+<color_yellow>alef</color> - 保持游戏运营，保障大家开发和游玩。
+<color_yellow>John Candlebury</color> - Aftershock. 你知道在Aftershock模组里你可以拥有并驾驶一架巨大飞船吗？耶！
+<color_yellow>katemonster33</color> - 带给我们一直想要的ImGui和ImTui这些UI界面相关代码。
+<color_yellow>Daniel Brooks 'db48x'</color> - ImGui漂亮新界面的基础工作。
+<color_yellow>moxian</color> - 开发系统和IWYU基础代码的关键工作。让每个开发者都更加轻松。
+<color_yellow>akrieger</color> - 持续提高游戏速度，保持 CI 存活，并通过压缩存储从 Sky Islands 游戏中节省硬盘。
+<color_yellow>SariusSkelrets</color> - 扩展和润色 Xedra Evolution 的吸血鬼内容。
 <color_yellow>ehughsbaird</color>, <color_yellow>Karol1223</color>, and <color_yellow>mqrause</color>.
 
 <color_white>特別感謝藝術貢獻：</color>
-<color_yellow>hoasd1</color> - Most tileset contributions this cycle, they've chosen to ride off into the sunset with style. We wish them the best of luck with where life takes them, but Ultica will forever be shaped by their work!
-<color_yellow>gettingusedto</color> - MSX+ heavyweight and all around nice guy. We've gotten used to (heh) seeing them around!
+<color_yellow>hoasd1</color> - 大多数小瓷片都为这个循环做出了贡献，他们选择优雅地骑马奔向夕阳。我们祝愿他们在生活中一切顺利，但 Ultica 将永远被他们的作品所塑造！
+<color_yellow>gettingusedto</color> - MSX + 大量代码，到处都是好人。我们已经习惯了 (嘿嘿) 看到他们在周围！
 
 <color_white>所有貢獻者的完整清單請見：</color>
 <color_cyan>https://github.com/CleverRaven/Cataclysm-DDA/contributors</color>
