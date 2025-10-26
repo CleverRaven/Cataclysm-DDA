@@ -68,6 +68,7 @@ jobs:
             mxe: none
             ext: zip
             content: application/zip
+            tiles: 1
             sound: 0
           - name: Windows Tiles Sounds x64 MSVC
             artifact: windows-with-graphics-and-sounds-x64
@@ -76,6 +77,7 @@ jobs:
             mxe: none
             ext: zip
             content: application/zip
+            tiles: 1
             sound: 1
           - name: Linux Tiles x64
             os: ubuntu-22.04
@@ -126,6 +128,7 @@ jobs:
           - name: Android x64
             os: ubuntu-latest
             mxe: none
+            tiles: 1
             android: arm64
             artifact: android-x64
             ext: apk
@@ -133,6 +136,7 @@ jobs:
           - name: Android x32
             os: ubuntu-latest
             mxe: none
+            tiles: 1
             android: arm32
             artifact: android-x32
             ext: apk
@@ -143,6 +147,7 @@ jobs:
           #  artifact: wasm
           #  ext: zip
           #  content: application/zip
+          #  tiles: 1
           #  sound: 0
           #  wasm: true
     name: ${{ matrix.name }}
