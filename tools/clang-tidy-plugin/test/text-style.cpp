@@ -70,6 +70,9 @@ static void bar()
     foo( "..." );
     // CHECK-MESSAGES: [[@LINE-1]]:11: warning: ellipsis preferred over three dots.
     // CHECK-FIXES: foo( "\u2026" );
+    foo( "�" );
+    // CHECK-MESSAGES: [[@LINE-1]]:11: warning: ANYTHING preferred over replacement character.
+    // CHECK-FIXES: foo( "\u2026" );
     foo( "foo..." );
     // CHECK-MESSAGES: [[@LINE-1]]:14: warning: ellipsis preferred over three dots.
     // CHECK-FIXES: foo( "foo\u2026" );

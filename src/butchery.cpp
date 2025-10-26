@@ -657,7 +657,7 @@ bool butchery_drops_harvest( butchery_data bt, Character &you )
         if( action != butcher_type::FIELD_DRESS && action != butcher_type::SKIN &&
             action != butcher_type::DISSECT ) {
             you.add_msg_if_player( m_bad,
-                                   _( "The corpse looks a little underweight�" ) );
+                                   _( "The corpse looks a little underweight…" ) );
         }
     }
     if( corpse_item.has_flag( flag_SKINNED ) ) {
