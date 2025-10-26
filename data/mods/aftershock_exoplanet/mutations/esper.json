@@ -19,7 +19,7 @@
     "id": "ESPER_ADVANCEMENT_OKAY",
     "name": "Esper Legacy",
     "points": 2,
-    "description": "One of your ancestors received noetic treatments during the Hyperspace Era and that legacy has been passed down to you…but the powers have not.  Perhaps one of your relatives does, or perhaps they do not, but you were raised with the knowledge that it was always a possibility and to avoid receiving any genetech treatments that could damage your family's esper powers.",
+    "description": "One of your ancestors received noetic treatments during the Hyperspace Era and that legacy has been passed down to you…but the powers have not.  Nonetheless, you were raised with the knowledge that it was always a possibility and to avoid receiving any genetech treatments that could damage your family's esper powers.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,

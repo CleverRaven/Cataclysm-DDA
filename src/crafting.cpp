@@ -2070,7 +2070,7 @@ static void empty_buckets( Character &p )
 }
 
 std::list<item> Character::consume_items( const comp_selection<item_comp> &is, int batch,
-        const std::function<bool( const item & )> &filter, bool select_ind )
+        const std::function<bool( const item & )> &filter, bool select_ind, bool disable_preference )
 {
     map &m = get_map();
     std::list<item> ret;
@@ -2081,17 +2081,19 @@ std::list<item> Character::consume_items( const comp_selection<item_comp> &is, i
     // populate a grid of spots that can be reached
     const std::vector<tripoint_bub_ms> &reachable_pts = m.reachable_flood_steps( pos_bub(),
             PICKUP_RANGE, 1, 100 );
-    return consume_items( m, is, batch, filter, reachable_pts, select_ind );
+    return consume_items( m, is, batch, filter, reachable_pts, select_ind, disable_preference );
 }
 
 std::list<item> Character::consume_items( map &m, const comp_selection<item_comp> &is, int batch,
         const std::function<bool( const item & )> &filter,
         const std::vector<tripoint_bub_ms> &reachable_pts,
-        bool select_ind )
+        bool select_ind, bool disable_preference )
 {
-    auto preferred_filter = [&filter]( const item & it ) {
+    std::function<bool( const item & )> active_preferred_filter = [&filter]( const item & it ) {
         return filter( it ) && is_preferred_component( it );
     };
+    std::function<bool( const item & )> preferred_filter = disable_preference ? filter :
+            active_preferred_filter;
 
     std::list<item> ret;
 
@@ -2191,13 +2193,13 @@ to consume_items */
 std::list<item> Character::consume_items( const std::vector<item_comp> &components, int batch,
         const std::function<bool( const item & )> &filter,
         const std::function<bool( const itype_id & )> &select_ind,
-        const bool can_cancel )
+        const bool can_cancel, const bool disable_preference )
 {
     inventory map_inv;
     map_inv.form_from_map( pos_bub(), PICKUP_RANGE, this );
     comp_selection<item_comp> sel = select_item_component( components, batch, map_inv, can_cancel,
                                     filter );
-    return consume_items( sel, batch, filter, select_ind( sel.comp.type ) );
+    return consume_items( sel, batch, filter, select_ind( sel.comp.type ), disable_preference );
 }
 
 bool Character::consume_software_container( const itype_id &software_id )
