@@ -415,6 +415,7 @@
     "volume": "1000 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
+    "flags": [ "TARDIS" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -424,7 +425,6 @@
         "moves": 200,
       }
     ],
-    "flags": [ "TARDIS" ],
     "material": [ "paper" ],
     "symbol": ")",
     "color": "white"
