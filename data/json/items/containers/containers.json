@@ -422,9 +422,9 @@
         "max_contains_volume": "50L",
         "max_contains_weight": "25 kg",
         "moves": 200,
-        "rigid": false
       }
     ],
+    "flags": [ "TARDIS" ],
     "material": [ "paper" ],
     "symbol": ")",
     "color": "white"
