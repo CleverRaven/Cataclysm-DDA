@@ -670,7 +670,7 @@
     "items": [
       { "item": "candle", "prob": 50, "charges": [ 0, 100 ] },
       [ "rope_6", 50 ],
-      { "item": "vibrator", "prob": 40, "charges": [ 0, 100 ] },
+      { "group": "sex_accessories_domestic", "prob": 40 },
       [ "camisole", 40 ],
       [ "panties", 40 ],
       [ "bra", 40 ],
