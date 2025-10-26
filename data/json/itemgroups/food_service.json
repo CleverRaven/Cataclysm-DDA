@@ -1805,7 +1805,6 @@
     "type": "item_group",
     "id": "sugar_bag_paper_50lb",
     "subtype": "collection",
-    "//": "This group was created by a fool and may contain errors.",
     "container-item": "bag_paper_powder_50lb",
     "entries": [ { "item": "sugar", "container-item": "null", "count": [ 121, 4700 ] } ]
   },
