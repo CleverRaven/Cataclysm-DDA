@@ -395,9 +395,9 @@ int Character::book_fun_for( const item &book, const Character &p ) const
         fun_bonus = std::abs( fun_bonus * 3 );
     }
 
-    if( has_trait( trait_LOVES_BOOKS ) ) {
+    if( p.has_trait( trait_LOVES_BOOKS ) ) {
         fun_bonus++;
-    } else if( has_trait( trait_HATES_BOOKS ) ) {
+    } else if( p.has_trait( trait_HATES_BOOKS ) ) {
         if( book.type->book->fun > 0 ) {
             fun_bonus = 0;
         } else {
