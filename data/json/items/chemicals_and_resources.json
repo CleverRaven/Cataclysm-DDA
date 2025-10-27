@@ -2262,7 +2262,7 @@
     "count": 100,
     "price_postapoc": "5 cents",
     "phase": "liquid",
-    "flags": [ "UNRECOVERABLE" ]
+    "flags": [ "UNRECOVERABLE", "NO_SALVAGE" ]
   },
   {
     "id": "glue_strong",
