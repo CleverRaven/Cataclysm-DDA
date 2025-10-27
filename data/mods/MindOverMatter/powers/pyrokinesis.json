@@ -71,7 +71,11 @@
       ]
     },
     "min_range": 70,
-    "max_range": 70
+    "max_range": 70,
+    "field_id": "fd_fire",
+    "min_field_intensity": 1,
+    "max_field_intensity": 1,
+    "field_chance": 4
   },
   {
     "id": "pyrokinetic_eruption",

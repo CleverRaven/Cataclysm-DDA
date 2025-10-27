@@ -1,12 +1,5 @@
 [
   {
-    "id": "emit_pyrokin_intensify_flames",
-    "type": "emit",
-    "field": "fd_fire",
-    "intensity": 1,
-    "qty": 1
-  },
-  {
     "id": "emit_pyrokinetic_summon_heat_1",
     "type": "emit",
     "field": "fd_pyrokinetic_summon_heat_1",
