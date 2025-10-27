@@ -1,6 +1,27 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_PYROKIN_INTENSIFY_FLAMES",
+    "effect": [
+      {
+        "u_query_tile": "line_of_sight",
+        "range": {
+          "math": [
+            "clamp( ( ( ( (u_spell_level('pyrokinetic_intensify_flames') + u_spell_level('pyrokinetic_intensify_flames_knack') ) * 1.1) + 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 1, 70)"
+          ]
+        },
+        "message": "Choose target.",
+        "z_level": true,
+        "target_var": { "context_val": "pyrokin_intensify_flames_target" }
+      },
+      {
+        "if": { "map_field_id": "fd_fire", "loc": { "context_val": "pyrokin_intensify_flames_target" } },
+        "then": [ { "u_emit": "emit_pyrokin_intensify_flames", "target_var": { "context_val": "pyrokin_intensify_flames_target" } } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_PYROKIN_CAUTERIZE_SELECTOR",
     "effect": [
       {
