@@ -213,7 +213,7 @@
       { "proficiency": "prof_redsmithing_adv" },
       { "proficiency": "prof_intro_chemistry" }
     ],
-    "components": [ [ [ "scrap_bronze", 1 ] ], [ [ "detergent", 7 ] ] ]
+    "components": [ [ [ "scrap_bronze", 1 ] ], [ [ "detergent", 7 ], [ "chem_borax", 10 ] ] ]
   },
   {
     "type": "recipe",
