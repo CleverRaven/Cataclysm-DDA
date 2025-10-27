@@ -10,5 +10,17 @@
     "type": "requirement",
     "//": "This should contain all weak acids, based on pKa value.",
     "components": [ [ [ "chem_acetic_acid", 1 ], [ "formic_acid", 1 ] ] ]
+  },
+  {
+    "id": "any_weak_acid",
+    "type": "requirement",
+    "//": "This should contain all weak acids, based on pKa value.",
+    "components": [ [ [ "chem_acetic_acid", 1 ], [ "formic_acid", 1 ], [ "chem_citric_acid", 1 ] ] ]
+  },
+  {
+    "id": "flux",
+    "type": "requirement",
+    "//": "Borax flux and other common flux for use in Cu/Fe/Ag/Au brazing, welding, and forging, such as fluxing copper, iron, gold, or silver. This is equivalent to about a spoonful of flux, which should generally be more than enough for most projects when smelting premade ingots or objects. For brazing, ~15g per 100g of product should be used.",
+    "components": [ [ [ "chem_borax", 5 ], [ "detergent", 4 ] ] ]
   }
 ]
