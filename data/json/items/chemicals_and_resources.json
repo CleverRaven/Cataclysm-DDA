@@ -86,7 +86,7 @@
     "symbol": "=",
     "color": "white",
     "flags": [ "EDIBLE_FROZEN", "NO_INGEST", "DETERGENT" ],
-    "description": "A handful of borax powder.  It's a common household cleaner, laundry detergent, and insecticide. It's also useful for metalworking.",
+    "description": "A handful of borax powder.  It's a common household cleaner, laundry powder, and insecticide. It's also useful for metalworking.",
     "material": [ "powder" ],
     "volume": "1100 ml",
     "weight": "3810 mg",
