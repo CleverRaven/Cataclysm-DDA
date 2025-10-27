@@ -40,6 +40,7 @@
 #include "item_category.h"
 #include "item_components.h"
 #include "item_location.h"
+#include "item_tname.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
