@@ -12,10 +12,11 @@ def extract_eoc_id(json):
 
 
 def result_hint(json):
-    hint = json.get("result", json.get("result_eocs", None))
-    if hint is None:
-        raise Exception("no result hint for recipe translation,"
-                        " needs 'result' or 'result_eocs' defined")
+    hint = json.get("result", json.get("result_eocs"))
+
+    if not hint:
+        return False
+
     if type(hint) is str:
         return hint
     elif type(hint) is list:
@@ -25,26 +26,23 @@ def result_hint(json):
 
 
 def parse_recipe(json, origin):
-    if "book_learn" in json and type(json["book_learn"]) is dict:
-        for book in json["book_learn"]:
-            if "recipe_name" in json["book_learn"][book]:
-                write_text(json["book_learn"][book]["recipe_name"], origin,
-                           comment="Recipe name learnt from book")
-    if "description" in json:
-        write_text(json["description"], origin,
-                   comment="Description of recipe crafting \"{}\""
-                   .format(result_hint(json)))
-    if "name" in json:
-        write_text(json["name"], origin,
-                   comment="Custom name for recipe crafting \"{}\""
-                   .format(result_hint(json)))
-    if "blueprint_name" in json:
-        write_text(json["blueprint_name"], origin,
-                   comment="Blueprint name of recipe crafting \"{}\""
-                   .format(result_hint(json)))
-    if "result_eocs" in json:
-        for eoc in json["result_eocs"]:
-            if type(eoc) is dict:
-                parse_effect_on_condition(eoc, origin,
-                                          "result of recipe crafting \"{}\""
-                                          .format(result_hint(json)))
+    hint = result_hint(json)
+    if not hint:
+        return
+
+    write_text(json.get("name"), origin,
+               comment=f"Custom name for recipe crafting '{hint}'")
+    write_text(json.get("description"), origin,
+               comment="Description of crafting recipe")
+
+    write_text(json.get("blueprint_name"), origin,
+               comment="Blueprint name of crafting recipe")
+
+    if type(json.get("book_learn")) is dict:
+        for book in json["book_learn"].values():
+            write_text(book.get("recipe_name"), origin,
+                       comment="Recipe name learnt from book")
+
+    for eoc in json.get("result_eocs", []):
+        parse_effect_on_condition(eoc, origin,
+                                  f"result of recipe crafting '{hint}'")
