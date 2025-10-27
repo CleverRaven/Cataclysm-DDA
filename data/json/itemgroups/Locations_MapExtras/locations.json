@@ -1202,7 +1202,6 @@
       { "item": "ref_lighter", "prob": 2, "charges": [ 0, 50 ] },
       { "item": "matches", "prob": 60, "charges": [ 0, 20 ] },
       { "item": "ref_matches", "prob": 60, "charges": [ 0, 32 ] },
-      [ "sewage", 60 ],
       [ "pipebomb", 4 ],
       { "prob": 8, "group": "crack_bag_zipper_1_4" },
       [ "crackpipe", 37 ],
