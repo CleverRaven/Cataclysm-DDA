@@ -125,5 +125,18 @@
         "values": [ { "value": "WEAKPOINT_ACCURACY", "multiply": 2.5 } ]
       }
     ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_GRACKEN_FRIENDSHIP",
+    "name": { "str": "Grack Pack" },
+    "points": 0,
+    "description": "You've found a kinship with those strange shadowy creatures as long as you move your hands fast enough when you see them.  You can befriend gracken, causing them to come to your defense.",
+    "category": [ "perk" ],
+    "starting_trait": false,
+    "valid": false,
+    "purifiable": false,
+    "active": true,
+    "activated_eocs": [ "EOC_XE_PERK_GRACK_PACK" ]
   }
 ]
