@@ -586,6 +586,7 @@
     "effect": [
       {
         "run_eocs": [
+          "EOC_CHECK_GAMEBEGIN_PYROKIN_RECIPE_INTENSIFY_FLAMES",
           "EOC_CHECK_GAMEBEGIN_PYROKIN_RECIPE_ERUPTION",
           "EOC_CHECK_GAMEBEGIN_PYROKIN_RECIPE_FLASH",
           "EOC_CHECK_GAMEBEGIN_PYROKIN_RECIPE_CAUTERIZE",
@@ -603,6 +604,12 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_PYROKIN_RECIPE_INTENSIFY_FLAMES",
+    "condition": { "and": [ { "u_has_trait": "PYROKINETIC" }, { "math": [ "u_spell_level('pyrokinetic_intensify_flames') >= 0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_pyrokinetic_intensify_flames" } ]
   },
   {
     "type": "effect_on_condition",
@@ -1260,6 +1267,10 @@
       {
         "if": { "math": [ "u_spell_level('photokinetic_radio_knack') >= 1" ] },
         "then": { "u_learn_recipe": "practice_photokinetic_radio_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('pyrokinetic_intensify_flames_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_pyrokinetic_intensify_flames_knack" }
       },
       {
         "if": { "math": [ "u_spell_level('pyrokinetic_flash_knack') >= 1" ] },

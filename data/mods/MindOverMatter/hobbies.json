@@ -672,6 +672,16 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "knack_pyrokinetic_intensify_flames",
+    "name": "Psychic Knack (Intensify Flames)",
+    "description": "Before the Cataclysm you'd go camping sometimes, and while you were no better at starting a fire than anyone else, once you got a fire going it would always burn no matter what the conditions were.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
+    "points": 2,
+    "traits": [ "PSYCHIC_KNACK" ],
+    "spells": [ { "id": "pyrokinetic_intensify_flames_knack", "level": 6 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "knack_pyrokinetic_flash",
     "name": "Psychic Knack (Brilliant Flash)",
     "description": "Before the Cataclysm you always managed to make the other guy look away first, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
