@@ -163,6 +163,7 @@ Add another form of scaling for batch recipes, enabling creation of bulk recipes
 dimension npc travel filter expansion and other tweaks
 NPCs automatically select the best MA style for their weapon
 Custom region settings for dimensions
+Allow magazines in guns/tools to regenerate ammo
 
 
 
@@ -367,6 +368,8 @@ Begin moving faction mission definitions to JSON, starting with descriptions
 New book artifact types.
 Better feedback on planting failures + plants need sunlight
 Add NO_BODY_HEAT flag for characters who don't show up on infrared
+A few more snippets for each t-shirt type, as well as a very rare t-shirt variant.
+Increase sex toy variety
 
 
 ## Interface:
@@ -921,6 +924,21 @@ Aftershock: Replace remaining vanilla robots with more setting appropriate ones
 [Magiclysm] Add the rust monster
 Aftershock: Properly Ruin cities
 [Xedra Evolved] The holy light of the sun burns vampires' impure flesh
+Add BLOCK_SUPERNATURAL_HEALING flag, apply it to Clay Golem attacks in Magiclysm
+Aftershock: Fix a lot of mostly small bugs
+[Backrooms/MoM] MoM map extras spawn in the Backrooms
+[MoM] Fix Clairsentient hobby description
+[Magiclysm] Fleshwarper overhaul
+Innawoods progression fix
+[Aftershock] Add the Sibyl profession to the Esper scenario, add precognitive powers
+Aftershock: Fix a lot of mostly small bugs
+[Bombastic Perks] Add the Closetland playstyle perk
+[XE] New vampire blood art refinements
+[Bombastic Perks] Armor of Dreams/Closetland interaction
+[Bombastic Perks] Add Closetland Paths playstyle perk
+[Xedra Evolved] Adjust dhampir bleeding stolen blood EoC
+[Aftershock] Change the Esper Inheritance background into the Noetic Scion background
+Innawoods journal fix & journal uncraft
 
 
 ## Balance:
@@ -1025,6 +1043,9 @@ Fitness bands and smart watches are more common, while pocket watches and game w
 Tree bashing from being cut down is not a magic wand
 Star vampires have `PERMANENT_INVISIBILITY`, when they drink blood it applies `SUPPRESS_INVISIBILITY`
 Molotovs do not create walls of fire
+Monsters moving through SHARP terrain trample the terrain
+Make fragile armors degrade more frequently
+Running over large/hard objects in vehicles will damage your wheels
 
 
 ## Bugfixes:
@@ -1412,6 +1433,12 @@ Fix spawning map extras with non-default region settings
 Fix fishing on non river/lake/ocean tiles
 Fix roads going nowhere
 Prevent segfault when cancelling butchery
+Streamline ammo craft skill requirements
+[MoM] Fix Intuitive Artisan double-dipping
+[XE] Fix Bloodthorn gaining stolen blood when bleeding
+Fixing heatpack, heat_food and hotplate actions
+[Magiclysm] Fix Smite minimum damage
+XE Fix Gracken stomacks
 
 
 ## Performance:
@@ -1593,6 +1620,9 @@ region settings overhaul
 Consume_drug use actions can define intensity for their effect
 Allowing inverting lake generation for islands-style overmaps
 Add debug command to print overmap noise maps
+Updated string extractor
+Allow specifying city name lists in region settings
+Clang tidy rule to catch/reject unicode replacement character
 
 
 ## Build:
@@ -1619,6 +1649,8 @@ Improve ccache performance with age based eviction instead of coarse size limits
 Fix CMake Linux VCPKG build
 Initial support for GNU Make for Windows
 Move Android bundle generation to manually triggered workflow
+Fix Mac build (Bump up dmg size limit in macOS release build)
+Build tilesets in CI for releases, delete tilesets from repo
 
 
 ## I18N and A11Y:
