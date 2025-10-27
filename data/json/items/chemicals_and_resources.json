@@ -2256,7 +2256,7 @@
     "description": "A weak adhesive to use in arts & crafts or other low stress applications.  You can't eat it.",
     "symbol": "~",
     "color": "white",
-    "material": [ "plastic" ],
+    "material": [ "epoxy" ],
     "weight": "1 g",
     "volume": "100 ml",
     "count": 100,
