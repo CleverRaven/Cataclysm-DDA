@@ -1299,5 +1299,27 @@
       { "u_message": "The veiled butterfly's wings move in odd ways and a strange glow envelops you!", "type": "bad" },
       { "math": [ "u_val('rad') += 20" ] }
     ]
+  },
+  {
+    "type": "SPELL",
+    "id": "mon_zombie_summoner_summon_hordes_spell",
+    "name": { "str": "Summon Horde", "//~": "NO_I18N" },
+    "description": { "str": "Calls hordes to the player's location.", "//~": "NO_I18N" },
+    "flags": [ "NO_PROJECTILE", "SILENT", "NO_EXPLOSION_SFX" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_ZOMBIE_SUMMONER_SUMMON_HORDES",
+    "valid_targets": [ "hostile" ],
+    "min_range": 10,
+    "max_range": 10,
+    "shape": "blast"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ZOMBIE_SUMMONER_SUMMON_HORDES",
+    "effect": [
+      { "u_add_effect": "effect_zombie_summoner_avoid_hearing_damage", "duration": 0 },
+      { "u_make_sound": " ", "volume": 400, "type": "background" },
+      { "u_lose_effect": "deaf" }
+    ]
   }
 ]

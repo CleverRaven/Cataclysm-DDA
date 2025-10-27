@@ -5299,5 +5299,12 @@
     "name": [ "Sunscreen" ],
     "desc": [ "You applied sunscreen and should be protected from the sun rays for about two hours." ],
     "remove_message": "Your sunscreen has worn off."
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_zombie_summoner_avoid_hearing_damage",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "IMMUNE_HEARING_DAMAGE" ]
   }
 ]
