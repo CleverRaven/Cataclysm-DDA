@@ -121,7 +121,12 @@
         {
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_ONE_POWER_INSIGHT" },
-            { "or": [ { "math": [ "u_spell_level('pyrokinetic_call_flames') >= 5" ] } ] }
+            {
+              "and": [
+                { "math": [ "u_spell_level('pyrokinetic_call_flames') >= 5" ] },
+                { "math": [ "u_spell_level('pyrokinetic_intensify_flames') >= 6" ] }
+              ]
+            }
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
@@ -281,7 +286,12 @@
                     { "math": [ "u_spell_level('pyrokinetic_cloak') >= 6" ] }
                   ]
                 },
-                { "math": [ "u_spell_level('pyrokinetic_flash') >= 7" ] }
+                {
+                  "or": [
+                    { "math": [ "u_spell_level('pyrokinetic_flash') >= 7" ] },
+                    { "math": [ "u_spell_level('pyrokinetic_intensify_flames') >= 8" ] }
+                  ]
+                }
               ]
             }
           ]

@@ -917,7 +917,7 @@ Powers causing photokinetic damage have a 40% chance to blind the target for 3 s
 *Stamina Cost*: 3500, minus 120 per level to a minimum of 1000<br />
 *Channeling Time*: 125 moves, minus 7.5 moves per level to a minimum of 50 moves<br />
 *Effects*: As the psion can control fire, they can also extinguish it. Harmlessly disperses all flamees within the area of effect. The aftereffects of the fire (burned locations or people) are not reversed.<br />
-*Prerequisites*: Banked Flames 5<br />
+*Prerequisites*: Banked Flames 5 *and* Intensify Flames 6<br />
 </details>
 <details>
 <summary><h3>Cloak of Warmth (C)</h3></summary>
@@ -961,7 +961,7 @@ Powers causing photokinetic damage have a 40% chance to blind the target for 3 s
 *Stamina Cost*: 8000, minus 200 per level to a minimum of 4000<br />
 *Channeling Time*: 1500 moves, minus 10 moves per level to a minimum of 1200 moves<br />
 *Effects*: Heat nearby air to produce warmth. The spot chosen will shed heat for the duration of the power. Four different intensities are selectable: 6 degrees, 16 degrees, 40 degrees, and 75 degrees.<br />
-*Prerequisites*: Banked Flames 10 *or* Cloak of Warmth 6, Brilliant Flash 7<br />
+*Prerequisites*: Banked Flames 10 *or* Cloak of Warmth 6, Brilliant Flash 7 *or* Intensify Flames 8<br />
 </details>
 <details>
 <summary><h3>Blazing Aura (C)</h3></summary>

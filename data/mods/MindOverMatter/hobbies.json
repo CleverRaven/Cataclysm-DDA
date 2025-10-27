@@ -279,7 +279,8 @@
     "skills": [ { "level": 7, "name": "metaphysics" } ],
     "spells": [
       { "id": "pyrokinetic_flash", "level": 8 },
-      { "id": "pyrokinetic_eruption", "level": 7 },
+      { "id": "pyrokinetic_intensify_flames", "level": 8 },
+      { "id": "pyrokinetic_eruption", "level": 5 },
       { "id": "pyrokinetic_call_flames", "level": 8 },
       { "id": "pyrokinetic_quell_flames", "level": 5 },
       { "id": "pyrokinetic_cloak", "level": 6 },
@@ -299,7 +300,8 @@
     "skills": [ { "level": 4, "name": "metaphysics" } ],
     "spells": [
       { "id": "pyrokinetic_flash", "level": 8 },
-      { "id": "pyrokinetic_eruption", "level": 11 },
+      { "id": "pyrokinetic_intensify_flames", "level": 11 },
+      { "id": "pyrokinetic_eruption", "level": 7 },
       { "id": "pyrokinetic_call_flames", "level": 8 },
       { "id": "pyrokinetic_quell_flames", "level": 9 },
       { "id": "pyrokinetic_cloak", "level": 8 },
