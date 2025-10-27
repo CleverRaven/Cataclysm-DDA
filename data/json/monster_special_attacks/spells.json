@@ -1308,9 +1308,7 @@
     "flags": [ "NO_PROJECTILE", "SILENT", "NO_EXPLOSION_SFX" ],
     "effect": "effect_on_condition",
     "effect_str": "EOC_ZOMBIE_SUMMONER_SUMMON_HORDES",
-    "valid_targets": [ "hostile" ],
-    "min_range": 10,
-    "max_range": 10,
+    "valid_targets": [ "self" ],
     "shape": "blast"
   },
   {
