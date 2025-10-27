@@ -21,7 +21,7 @@
     "energy_increment": -55,
     "base_casting_time": 125,
     "final_casting_time": 35,
-    "casting_time_increment": -7
+    "casting_time_increment": -6
   },
   {
     "id": "pyrokinetic_intensify_flames_target_creature",
