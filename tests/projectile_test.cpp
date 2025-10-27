@@ -91,21 +91,28 @@ TEST_CASE( "projectiles_through_obstacles", "[projectile]" )
     CHECK( projectile_end_point( range, gun, 10, 3 ) == range[0] );
 }
 
-TEST_CASE( "liquid_projectiles_applies_effect", "[projectile_effect]" )
+static npc &liquid_projectiles_setup( Character &player )
 {
     clear_avatar();
     clear_npcs();
     clear_map();
 
-    map &here = get_map();
-
-    Character &player = get_player_character();
     arm_shooter( player, itype_boomer_head );
     const tripoint_bub_ms next_to = player.adjacent_tile();
-    const item hazmat( itype_hazmat_suit );
 
     npc &dummy = spawn_npc( next_to.xy(), "mi-go_prisoner" );
     dummy.clear_worn();
+    dummy.clear_mutations();
+
+    return dummy;
+}
+
+TEST_CASE( "liquid_projectiles_applies_effect", "[projectile_effect]" )
+{
+    map &here = get_map();
+    Character &player = get_player_character();
+    npc &dummy = liquid_projectiles_setup( player );
+    const item hazmat( itype_hazmat_suit );
 
     REQUIRE( dummy.top_items_loc().empty() );
 

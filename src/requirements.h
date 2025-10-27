@@ -58,6 +58,7 @@ struct quality {
 
     static void reset();
     static void load_static( const JsonObject &jo, const std::string &src );
+    static void finalize_all();
 };
 
 struct component {
@@ -294,7 +295,8 @@ struct requirement_data {
          */
         static void load_requirement( const JsonObject &jsobj,
                                       const requirement_id &id = requirement_id::NULL_ID(),
-                                      bool check_extend = false );
+                                      bool check_extend = false,
+                                      bool is_abstract = false );
 
         /**
          * Store requirement data for future lookup

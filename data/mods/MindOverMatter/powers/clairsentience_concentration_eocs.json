@@ -44,8 +44,8 @@
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       {
         "if": { "math": [ "u_spell_level('clair_better_senses') >= 1" ] },
-        "then": { "math": [ "u_spell_exp('clair_better_senses')", "+=", "psionic_power_experience_formula()" ] },
-        "else": { "math": [ "u_spell_exp('clair_better_senses_knack')", "+=", "psionic_power_experience_formula()" ] }
+        "then": { "math": [ "u_spell_exp('clair_better_senses') += psionic_power_experience_formula()" ] },
+        "else": { "math": [ "u_spell_exp('clair_better_senses_knack') += psionic_power_experience_formula()" ] }
       },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
@@ -120,7 +120,7 @@
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty = 1" ] },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
-      { "math": [ "u_spell_exp('clair_night_vision')", "+=", "psionic_power_experience_formula()" ] },
+      { "math": [ "u_spell_exp('clair_night_vision') += psionic_power_experience_formula()" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "run_eocs": "EOC_CLAIR_NIGHT_EYES_DRAIN",
@@ -183,7 +183,7 @@
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty = 2" ] },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
-      { "math": [ "u_spell_exp('clair_speed_reading')", "+=", "psionic_power_experience_formula()" ] },
+      { "math": [ "u_spell_exp('clair_speed_reading') += psionic_power_experience_formula()" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "run_eocs": "EOC_CLAIR_SPEED_READING_DRAIN",
@@ -242,7 +242,7 @@
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty = 3" ] },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
-      { "math": [ "u_spell_exp('clair_see_auras')", "+=", "psionic_power_experience_formula()" ] },
+      { "math": [ "u_spell_exp('clair_see_auras') += psionic_power_experience_formula()" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "run_eocs": "EOC_CLAIR_SEE_AURAS_DRAIN",
@@ -303,8 +303,8 @@
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       {
         "if": { "math": [ "u_spell_level('clair_danger_sense') >= 1" ] },
-        "then": { "math": [ "u_spell_exp('clair_danger_sense')", "+=", "psionic_power_experience_formula()" ] },
-        "else": { "math": [ "u_spell_exp('clair_danger_sense_knack')", "+=", "psionic_power_experience_formula()" ] }
+        "then": { "math": [ "u_spell_exp('clair_danger_sense') += psionic_power_experience_formula()" ] },
+        "else": { "math": [ "u_spell_exp('clair_danger_sense_knack') += psionic_power_experience_formula()" ] }
       },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
@@ -367,7 +367,7 @@
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty = 4" ] },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
-      { "math": [ "u_spell_exp('clair_ranged_enhance')", "+=", "psionic_power_experience_formula()" ] },
+      { "math": [ "u_spell_exp('clair_ranged_enhance') += psionic_power_experience_formula()" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "run_eocs": "EOC_CLAIR_RANGED_ENHANCE_DRAIN",
@@ -426,7 +426,7 @@
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty = 5" ] },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
-      { "math": [ "u_spell_exp('clair_sense_hostile_creatures')", "+=", "psionic_power_experience_formula()" ] },
+      { "math": [ "u_spell_exp('clair_sense_hostile_creatures') += psionic_power_experience_formula()" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "run_eocs": "EOC_CLAIR_SENSE_HOSTILE_CREATURES_DRAIN",
@@ -485,7 +485,7 @@
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty = 6" ] },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
-      { "math": [ "u_spell_exp('clair_dodge_power')", "+=", "psionic_power_experience_formula()" ] },
+      { "math": [ "u_spell_exp('clair_dodge_power') += psionic_power_experience_formula()" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "run_eocs": "EOC_CLAIR_DODGE_POWER_DRAIN",
@@ -553,6 +553,7 @@
     "effect": [
       { "run_eocs": "EOC_POWER_MAINTENANCE_MINUS_ONE" },
       { "u_lose_effect": "effect_clair_craft_bonus" },
+      { "u_lose_effect": "effect_clair_craft_bonus_blindness" },
       { "u_lose_trait": "CLAIR_CRAFT_BONUS_01" },
       { "u_lose_trait": "CLAIR_CRAFT_BONUS_02" },
       { "u_lose_trait": "CLAIR_CRAFT_BONUS_03" },
@@ -568,7 +569,7 @@
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty = 6" ] },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
-      { "math": [ "u_spell_exp('clair_craft_bonus')", "+=", "psionic_power_experience_formula()" ] },
+      { "math": [ "u_spell_exp('clair_craft_bonus') += psionic_power_experience_formula()" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "run_eocs": "EOC_CLAIR_CRAFT_BONUS_DRAIN",
@@ -627,7 +628,7 @@
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty = 8" ] },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
-      { "math": [ "u_spell_exp('clair_clear_sight')", "+=", "psionic_power_experience_formula()" ] },
+      { "math": [ "u_spell_exp('clair_clear_sight') += psionic_power_experience_formula()" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "run_eocs": "EOC_CLAIR_CLEAR_SIGHT_DRAIN",
@@ -692,7 +693,7 @@
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty = 9" ] },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
-      { "math": [ "u_spell_exp('clair_group_tactics')", "+=", "psionic_power_experience_formula()" ] },
+      { "math": [ "u_spell_exp('clair_group_tactics') += psionic_power_experience_formula()" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "run_eocs": "EOC_CLAIR_GROUP_TACTICS_DRAIN",

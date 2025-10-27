@@ -50,7 +50,7 @@
     "id": "mon_chickenbot",
     "type": "MONSTER",
     "name": { "str": "Wraitheon Pathfinder" },
-    "description": "The Wraitheon Pathfinder is a massive, house-height armored robot.  It is armed to the teeth with a 40mm anti-material grenade launcher, a 5.56 anti-personnel gun, and an electroshock capability to defend against melee strikes.  Manufactured by Wraitheon for the ESCA military, it was used along with infantry thanks to the flexibility of its reverse-jointed legs.",
+    "description": "The Wraitheon Pathfinder is a massive, house-height armored robot.  It is armed to the teeth with a 40mm anti-materiel grenade launcher, a 5.56 anti-personnel gun, and an electroshock capability to defend against melee strikes.  Manufactured by Wraitheon for the ESCA military, it was used along with infantry thanks to the flexibility of its reverse-jointed legs.",
     "default_faction": "WraitheonRobotics",
     "species": [ "ROBOT" ],
     "diff": 20,
@@ -70,7 +70,7 @@
     "vision_day": 50,
     "vision_night": 35,
     "revert_to_itype": "bot_chickenbot",
-    "starting_ammo": { "40x46mm_m433": 100, "556": 1000 },
+    "starting_ammo": { "40x46mm_m433": 100, "afs_7.50mm_caseless": 1000 },
     "path_settings": { "max_dist": 10 },
     "special_attacks": [
       [ "TAZER", 4 ],
@@ -99,12 +99,12 @@
         "id": "rifle",
         "cooldown": 2,
         "move_cost": 150,
-        "gun_type": "modular_m16_auto_rifle",
-        "ammo_type": "556",
+        "gun_type": "afs_sr77",
+        "ammo_type": "afs_7.50mm_caseless",
         "fake_skills": [ [ "gun", 5 ], [ "rifle", 5 ] ],
         "fake_dex": 10,
         "no_ammo_sound": "click!",
-        "ranges": [ [ 0, 4, "BURST" ], [ 5, 8, "AUTO" ], [ 9, 20, "DEFAULT" ] ],
+        "ranges": [ [ 0, 8, "AUTO" ], [ 9, 20, "DEFAULT" ] ],
         "require_targeting_player": true,
         "require_targeting_npc": true,
         "require_targeting_monster": true,
@@ -123,7 +123,7 @@
     "id": "mon_tankbot",
     "type": "MONSTER",
     "name": { "str": "Wraitheon Regulator" },
-    "description": "Designed by Wraitheon, the Regulator is effectively an automated battle tank designed for high-risk urban fighting.  Armed with an anti-material missile launcher, a 40mm grenade launcher, and several anti-personnel weapons, it's designed to match the fervor of freedom fighters with the industrial might of Earth.",
+    "description": "Designed by Wraitheon, the Regulator is effectively an automated battle tank designed for high-risk urban fighting.  Armed with an anti-materiel missile launcher, a 40mm grenade launcher, and several anti-personnel weapons, it's designed to match the fervor of freedom fighters with the industrial might of Earth.",
     "default_faction": "WraitheonRobotics",
     "species": [ "ROBOT" ],
     "diff": 30,
@@ -142,7 +142,7 @@
     "melee_dice_ap": 6,
     "vision_day": 50,
     "revert_to_itype": "bot_tankbot",
-    "starting_ammo": { "40x46mm_m433": 200, "556": 3000 },
+    "starting_ammo": { "40x46mm_m433": 200, "afs_7.50mm_caseless": 3000 },
     "path_settings": { "max_dist": 20 },
     "special_attacks": [
       {
@@ -170,8 +170,8 @@
         "id": "rifle",
         "cooldown": 2,
         "move_cost": 150,
-        "gun_type": "modular_m16_auto_rifle",
-        "ammo_type": "556",
+        "gun_type": "afs_sr77",
+        "ammo_type": "afs_7.50mm_caseless",
         "fake_skills": [ [ "gun", 5 ], [ "rifle", 5 ] ],
         "fake_dex": 10,
         "no_ammo_sound": "click!",
@@ -1185,5 +1185,67 @@
     "aggression": 0,
     "aggro_character": false,
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ]
+  },
+  {
+    "id": "mon_old_imaginifer",
+    "type": "MONSTER",
+    "copy-from": "mon_wraitheon_imaginifer",
+    "name": "Parallax-3A secutor",
+    "description": "Pitted steel and silicon will remain steadfast even after it's charge was long claimed by the unyielding cold.  Its single azure eye casts a cruel and calculating gaze upon the ruins of an universe made unfamiliar.",
+    "speed": 80,
+    "delete": { "flags": [ "DROPS_AMMO" ] },
+    "default_faction": "rampant_machine",
+    "special_attacks": [
+      { "id": "android_crush", "cooldown": 1 },
+      { "id": "android_crush_monster", "cooldown": 1 },
+      { "id": "android_drop", "cooldown": 3 },
+      {
+        "id": "smash",
+        "throw_strength": 48,
+        "cooldown": 5,
+        "condition": { "not": { "u_has_effect": "afs_android_crawling" } }
+      }
+    ],
+    "death_drops": { "groups": [ [ "dead_old_imaginifer", 1 ] ] }
+  },
+  {
+    "id": "mon_old_imaginifer_laser",
+    "type": "MONSTER",
+    "copy-from": "mon_wraitheon_imaginifer",
+    "name": { "str": "Parallax-3E veles", "str_pl": "velites" },
+    "description": "It walks heavily, each step resonating with the weight of its rust-bitten frame.  A single azure eye scans its surroundings with predatory hunger, and any movement is met by the destructive gaze of a grafted light-cannon.",
+    "speed": 60,
+    "delete": { "flags": [ "DROPS_AMMO" ] },
+    "default_faction": "rampant_machine",
+    "special_attacks": [
+      { "id": "android_crush", "cooldown": 1 },
+      {
+        "type": "gun",
+        "cooldown": 8,
+        "gun_type": "afs_light_cannon_mon",
+        "fake_skills": [ [ "gun", 5 ], [ "pistol", 3 ] ],
+        "fake_dex": 8,
+        "ranges": [ [ 5, 16, "DEFAULT" ] ],
+        "require_targeting_player": true,
+        "require_targeting_npc": true,
+        "require_targeting_monster": true,
+        "target_moving_vehicles": true,
+        "move_cost": 100,
+        "targeting_cost": 200,
+        "targeting_timeout": 10,
+        "targeting_timeout_extend": 0,
+        "targeting_sound": "\"Hostile Detected.\"",
+        "targeting_volume": 10
+      },
+      { "id": "android_crush_monster", "cooldown": 1 },
+      { "id": "android_drop", "cooldown": 5 },
+      {
+        "id": "smash",
+        "throw_strength": 48,
+        "cooldown": 3,
+        "condition": { "not": { "u_has_effect": "afs_android_crawling" } }
+      }
+    ],
+    "death_drops": { "groups": [ [ "dead_old_imaginifer_laser", 1 ] ] }
   }
 ]

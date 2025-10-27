@@ -401,7 +401,8 @@
       { "group": "jewelry_front", "count": [ 1, 4 ], "prob": 40 },
       { "group": "jewelry_safe", "count": [ 4, 12 ], "prob": 10 },
       { "group": "tampon_box_full", "prob": 20 },
-      { "group": "menstrual_pad_box_full", "prob": 20 }
+      { "group": "menstrual_pad_box_full", "prob": 20 },
+      { "item": "flyer_evac", "prob": 40 }
     ]
   },
   {

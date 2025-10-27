@@ -224,7 +224,7 @@
     "charges": 1,
     "phase": "liquid",
     "fun": -12,
-    "vitamins": [ [ "milk_allergen", 1 ] ]
+    "vitamins": [ [ "calcium", 32 ], [ "iron", 2 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "ITEM",
@@ -426,7 +426,6 @@
     "name": { "str_sp": "powdered milk" },
     "weight": "30 g",
     "color": "white",
-    "container": "bag_plastic_small",
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -1,

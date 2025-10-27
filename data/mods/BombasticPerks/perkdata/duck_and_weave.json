@@ -14,7 +14,7 @@
             "id": "EOC_perk_duck_and_weave_2",
             "condition": { "math": [ "u_duck_and_weave_counter >= 3" ] },
             "effect": [ { "u_add_effect": "effect_perk_duck_and_weave", "duration": 1 } ],
-            "false_effect": [ { "math": [ "u_duck_and_weave_counter", "+=", "1" ] } ]
+            "false_effect": [ { "math": [ "u_duck_and_weave_counter += 1" ] } ]
           }
         ]
       }

@@ -308,7 +308,7 @@
       "corpse_type": "NO_CORPSE",
       "message": "The %s shatters like pane of glass."
     },
-    "delete": { "flags": [ "ATTACKMON", "ALWAYS_SEES_YOU", "HIT_AND_RUN" ] },
+    "delete": { "flags": [ "ALWAYS_SEES_YOU" ] },
     "extend": { "flags": [ "SILENT_DISAPPEAR" ] }
   },
   {
@@ -331,7 +331,7 @@
       "corpse_type": "NO_CORPSE",
       "message": "The %s shatters like pane of glass."
     },
-    "delete": { "flags": [ "ATTACKMON", "ALWAYS_SEES_YOU", "HIT_AND_RUN" ] },
+    "delete": { "flags": [ "ALWAYS_SEES_YOU" ] },
     "extend": { "flags": [ "SILENT_DISAPPEAR" ] }
   },
   {
@@ -356,7 +356,7 @@
       { "id": "drag_followup", "grab_data": { "drag_distance": 1 } }
     ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s shatters like pane of glass." },
-    "delete": { "flags": [ "ATTACKMON", "ALWAYS_SEES_YOU", "HIT_AND_RUN" ] },
+    "delete": { "flags": [ "ALWAYS_SEES_YOU" ] },
     "extend": { "flags": [ "SILENT_DISAPPEAR" ] }
   },
   {
@@ -573,41 +573,7 @@
         "damage_max_instance": [ { "damage_type": "stab", "amount": 25, "armor_penetration": 15 } ],
         "infection_chance": 15,
         "//": "Bite for targets whose blood the star vampire does not want or cannot drink.  Should never target the player unless they can't bleed or have unappetizing blood.",
-        "condition": {
-          "or": [
-            { "npc_has_flag": "BLEED_IMMUNE" },
-            { "npc_has_trait": "ACIDBLOOD" },
-            { "npc_has_trait": "THRESH_CRUSTACEAN" },
-            { "npc_has_trait": "THRESH_INSECT" },
-            { "npc_has_trait": "THRESH_CEPHALOPOD" },
-            { "npc_has_trait": "THRESH_GASTROPOD" },
-            { "npc_has_species": "ZOMBIE" },
-            { "npc_has_species": "MAMMAL" },
-            { "npc_has_species": "AMPHIBIAN" },
-            { "npc_has_species": "BIRD" },
-            { "npc_has_species": "CYBORG" },
-            { "npc_has_species": "REPTILE" },
-            { "npc_has_species": "FISH" },
-            { "npc_has_species": "KRAKEN" },
-            { "npc_has_species": "MUTANT" },
-            { "npc_has_species": "NETHER" },
-            { "npc_has_species": "MIGO" },
-            { "npc_has_species": "FUNGUS" },
-            { "npc_has_species": "SLIME" },
-            { "npc_has_species": "LEECH_PLANT" },
-            { "npc_has_species": "INSECT" },
-            { "npc_has_species": "CENTIPEDE" },
-            { "npc_has_species": "INSECT_FLYING" },
-            { "npc_has_species": "SPIDER" },
-            { "npc_has_species": "PLANT" },
-            { "npc_has_species": "MOLLUSK" },
-            { "npc_has_species": "WORM" },
-            { "npc_has_species": "ROBOT" },
-            { "npc_has_species": "HORROR" },
-            { "npc_has_species": "PLANT" },
-            { "npc_has_species": "ABERRATION" }
-          ]
-        },
+        "condition": { "not": { "test_eoc": "target_valid_drink" } },
         "hit_dmg_u": "%1$s bites your %2$s with its fang-filled maw!",
         "hit_dmg_npc": "%1$s bites <npcname>'s %2$s with its fang-filled maw!",
         "miss_msg_u": "%1$s tries to bite you, but you dodge!",
@@ -620,48 +586,7 @@
         "attack_type": "melee",
         "id": "star_vampire_blood_drinking",
         "damage_max_instance": [ { "damage_type": "stab", "amount": 5, "armor_penetration": 5, "armor_multiplier": 0.5 } ],
-        "condition": {
-          "and": [
-            { "u_has_flag": "GRAB_FILTER" },
-            { "npc_has_flag": "GRAB" },
-            {
-              "and": [
-                { "not": { "npc_has_trait": "ACIDBLOOD" } },
-                { "not": { "npc_has_trait": "THRESH_CRUSTACEAN" } },
-                { "not": { "npc_has_trait": "THRESH_INSECT" } },
-                { "not": { "npc_has_trait": "THRESH_CEPHALOPOD" } },
-                { "not": { "npc_has_trait": "THRESH_GASTROPOD" } },
-                { "not": { "npc_has_flag": "BLEED_IMMUNE" } },
-                { "not": { "npc_has_species": "ZOMBIE" } },
-                { "not": { "npc_has_species": "MAMMAL" } },
-                { "not": { "npc_has_species": "AMPHIBIAN" } },
-                { "not": { "npc_has_species": "BIRD" } },
-                { "not": { "npc_has_species": "CYBORG" } },
-                { "not": { "npc_has_species": "REPTILE" } },
-                { "not": { "npc_has_species": "FISH" } },
-                { "not": { "npc_has_species": "KRAKEN" } },
-                { "not": { "npc_has_species": "MUTANT" } },
-                { "not": { "npc_has_species": "NETHER" } },
-                { "not": { "npc_has_species": "MIGO" } },
-                { "not": { "npc_has_species": "FUNGUS" } },
-                { "not": { "npc_has_species": "SLIME" } },
-                { "not": { "npc_has_species": "LEECH_PLANT" } },
-                { "not": { "npc_has_species": "INSECT" } },
-                { "not": { "npc_has_species": "CENTIPEDE" } },
-                { "not": { "npc_has_species": "INSECT_FLYING" } },
-                { "not": { "npc_has_species": "SPIDER" } },
-                { "not": { "npc_has_species": "PLANT" } },
-                { "not": { "npc_has_species": "MOLLUSK" } },
-                { "not": { "npc_has_species": "WORM" } },
-                { "not": { "npc_has_species": "ROBOT" } },
-                { "not": { "npc_has_species": "HORROR" } },
-                { "not": { "npc_has_species": "PLANT" } },
-                { "not": { "npc_has_species": "ABERRATION" } },
-                { "not": { "npc_has_species": "FERAL" } }
-              ]
-            }
-          ]
-        },
+        "condition": { "and": [ { "u_has_flag": "GRAB_FILTER" }, { "npc_has_flag": "GRAB" }, { "test_eoc": "target_valid_drink" } ] },
         "eoc": [ "EOC_STAR_VAMPIRE_FANGED_DRINK_BLOOD" ],
         "self_effects_ondmg": [ { "id": "star_vampire_blood_drank", "duration": 10 } ],
         "cooldown": 1,
@@ -690,15 +615,6 @@
         "miss_msg_npc": "%1$s tries to fasten onto <npcname>, but they dodge!",
         "no_dmg_msg_u": "%1$s tries to fasten onto your %2$s, but can't penetrate your armor.",
         "no_dmg_msg_npc": "%1$s tries to fasten onto <npcname>'s %2$s, but can't penetrate their armor."
-      },
-      {
-        "id": "star_vampire_invisibility",
-        "type": "spell",
-        "spell_data": { "id": "star_vampire_invisibility_spell", "min_level": 3 },
-        "cooldown": 1,
-        "allow_no_target": true,
-        "condition": { "or": [ { "not": { "u_has_effect": "invisibility" } }, { "not": { "u_has_effect": "star_vampire_blood_drank" } } ] },
-        "monster_message": ""
       }
     ],
     "bleed_rate": 40,
@@ -721,7 +637,8 @@
       "PLASTIC",
       "NO_BREATHE",
       "HARDTOSHOOT",
-      "NOGIB"
+      "NOGIB",
+      "PERMANENT_INVISIBILITY"
     ],
     "armor": { "bash": 8, "electric": 3 }
   },
@@ -734,18 +651,18 @@
       {
         "if": { "npc_has_flag": "BLEEDSLOW2" },
         "then": [
-          { "math": [ "n_vitamin('blood')", "-=", "_star_vampire_amount_drained / 3" ] },
-          { "math": [ "n_vitamin('redcells')", "-=", "_star_vampire_amount_drained / 3" ] }
+          { "math": [ "n_vitamin('blood') -= _star_vampire_amount_drained / 3" ] },
+          { "math": [ "n_vitamin('redcells') -= _star_vampire_amount_drained / 3" ] }
         ],
         "else": {
           "if": { "npc_has_flag": "BLEEDSLOW" },
           "then": [
-            { "math": [ "n_vitamin('blood')", "-=", "_star_vampire_amount_drained / 1.5" ] },
-            { "math": [ "n_vitamin('redcells')", "-=", "_star_vampire_amount_drained / 1.5" ] }
+            { "math": [ "n_vitamin('blood') -= _star_vampire_amount_drained / 1.5" ] },
+            { "math": [ "n_vitamin('redcells') -= _star_vampire_amount_drained / 1.5" ] }
           ],
           "else": [
-            { "math": [ "n_vitamin('blood')", "-=", "_star_vampire_amount_drained" ] },
-            { "math": [ "n_vitamin('redcells')", "-=", "_star_vampire_amount_drained" ] }
+            { "math": [ "n_vitamin('blood') -= _star_vampire_amount_drained" ] },
+            { "math": [ "n_vitamin('redcells') -= _star_vampire_amount_drained" ] }
           ]
         }
       }
@@ -769,41 +686,7 @@
         "damage_max_instance": [ { "damage_type": "stab", "amount": 13, "armor_penetration": 7 } ],
         "infection_chance": 15,
         "//": "Bite for targets whose blood the star vampire does not want or cannot drink.  Should never target the player unless they can't bleed or have unappetizing blood.",
-        "condition": {
-          "or": [
-            { "npc_has_flag": "BLEED_IMMUNE" },
-            { "npc_has_trait": "ACIDBLOOD" },
-            { "npc_has_trait": "THRESH_CRUSTACEAN" },
-            { "npc_has_trait": "THRESH_INSECT" },
-            { "npc_has_trait": "THRESH_CEPHALOPOD" },
-            { "npc_has_trait": "THRESH_GASTROPOD" },
-            { "npc_has_species": "ZOMBIE" },
-            { "npc_has_species": "MAMMAL" },
-            { "npc_has_species": "AMPHIBIAN" },
-            { "npc_has_species": "BIRD" },
-            { "npc_has_species": "CYBORG" },
-            { "npc_has_species": "REPTILE" },
-            { "npc_has_species": "FISH" },
-            { "npc_has_species": "KRAKEN" },
-            { "npc_has_species": "MUTANT" },
-            { "npc_has_species": "NETHER" },
-            { "npc_has_species": "MIGO" },
-            { "npc_has_species": "FUNGUS" },
-            { "npc_has_species": "SLIME" },
-            { "npc_has_species": "LEECH_PLANT" },
-            { "npc_has_species": "INSECT" },
-            { "npc_has_species": "CENTIPEDE" },
-            { "npc_has_species": "INSECT_FLYING" },
-            { "npc_has_species": "SPIDER" },
-            { "npc_has_species": "PLANT" },
-            { "npc_has_species": "MOLLUSK" },
-            { "npc_has_species": "WORM" },
-            { "npc_has_species": "ROBOT" },
-            { "npc_has_species": "HORROR" },
-            { "npc_has_species": "PLANT" },
-            { "npc_has_species": "ABERRATION" }
-          ]
-        },
+        "condition": { "not": { "test_eoc": "target_valid_drink" } },
         "hit_dmg_u": "%1$s bites your %2$s with its maw!",
         "hit_dmg_npc": "%1$s bites <npcname>'s %2$s with its maw!",
         "miss_msg_u": "%1$s tries to bite you, but you dodge!",
@@ -816,48 +699,7 @@
         "attack_type": "melee",
         "id": "star_vampire_blood_drinking",
         "damage_max_instance": [ { "damage_type": "stab", "amount": 3, "armor_penetration": 3, "armor_multiplier": 0.75 } ],
-        "condition": {
-          "and": [
-            { "u_has_flag": "GRAB_FILTER" },
-            { "npc_has_flag": "GRAB" },
-            {
-              "and": [
-                { "not": { "npc_has_trait": "ACIDBLOOD" } },
-                { "not": { "npc_has_trait": "THRESH_CRUSTACEAN" } },
-                { "not": { "npc_has_trait": "THRESH_INSECT" } },
-                { "not": { "npc_has_trait": "THRESH_CEPHALOPOD" } },
-                { "not": { "npc_has_trait": "THRESH_GASTROPOD" } },
-                { "not": { "npc_has_flag": "BLEED_IMMUNE" } },
-                { "not": { "npc_has_species": "ZOMBIE" } },
-                { "not": { "npc_has_species": "MAMMAL" } },
-                { "not": { "npc_has_species": "AMPHIBIAN" } },
-                { "not": { "npc_has_species": "BIRD" } },
-                { "not": { "npc_has_species": "CYBORG" } },
-                { "not": { "npc_has_species": "REPTILE" } },
-                { "not": { "npc_has_species": "FISH" } },
-                { "not": { "npc_has_species": "KRAKEN" } },
-                { "not": { "npc_has_species": "MUTANT" } },
-                { "not": { "npc_has_species": "NETHER" } },
-                { "not": { "npc_has_species": "MIGO" } },
-                { "not": { "npc_has_species": "FUNGUS" } },
-                { "not": { "npc_has_species": "SLIME" } },
-                { "not": { "npc_has_species": "LEECH_PLANT" } },
-                { "not": { "npc_has_species": "INSECT" } },
-                { "not": { "npc_has_species": "CENTIPEDE" } },
-                { "not": { "npc_has_species": "INSECT_FLYING" } },
-                { "not": { "npc_has_species": "SPIDER" } },
-                { "not": { "npc_has_species": "PLANT" } },
-                { "not": { "npc_has_species": "MOLLUSK" } },
-                { "not": { "npc_has_species": "WORM" } },
-                { "not": { "npc_has_species": "ROBOT" } },
-                { "not": { "npc_has_species": "HORROR" } },
-                { "not": { "npc_has_species": "PLANT" } },
-                { "not": { "npc_has_species": "ABERRATION" } },
-                { "not": { "npc_has_species": "FERAL" } }
-              ]
-            }
-          ]
-        },
+        "condition": { "and": [ { "u_has_flag": "GRAB_FILTER" }, { "npc_has_flag": "GRAB" }, { "test_eoc": "target_valid_drink" } ] },
         "eoc": [ "EOC_STAR_VAMPIRE_COILING_DRINK_BLOOD" ],
         "self_effects_ondmg": [ { "id": "star_vampire_blood_drank", "duration": 5 } ],
         "cooldown": 1,
@@ -886,15 +728,6 @@
         "miss_msg_npc": "%1$s tries to clutch onto you <npcname>, but they dodge!",
         "no_dmg_msg_u": "%1$s tries to clutch onto your %2$s, but can't penetrate your armor.",
         "no_dmg_msg_npc": "%1$s tries to clutch onto <npcname>'s %2$s, but can't penetrate their armor."
-      },
-      {
-        "id": "star_vampire_invisibility",
-        "type": "spell",
-        "spell_data": { "id": "star_vampire_invisibility_spell", "min_level": 3 },
-        "cooldown": 1,
-        "allow_no_target": true,
-        "condition": { "or": [ { "not": { "u_has_effect": "invisibility" } }, { "not": { "u_has_effect": "star_vampire_blood_drank" } } ] },
-        "monster_message": ""
       }
     ]
   },
@@ -907,18 +740,18 @@
       {
         "if": { "npc_has_flag": "BLEEDSLOW2" },
         "then": [
-          { "math": [ "n_vitamin('blood')", "-=", "_star_vampire_amount_drained / 3" ] },
-          { "math": [ "n_vitamin('redcells')", "-=", "_star_vampire_amount_drained / 3" ] }
+          { "math": [ "n_vitamin('blood') -= _star_vampire_amount_drained / 3" ] },
+          { "math": [ "n_vitamin('redcells') -= _star_vampire_amount_drained / 3" ] }
         ],
         "else": {
           "if": { "npc_has_flag": "BLEEDSLOW" },
           "then": [
-            { "math": [ "n_vitamin('blood')", "-=", "_star_vampire_amount_drained / 1.5" ] },
-            { "math": [ "n_vitamin('redcells')", "-=", "_star_vampire_amount_drained / 1.5" ] }
+            { "math": [ "n_vitamin('blood') -= _star_vampire_amount_drained / 1.5" ] },
+            { "math": [ "n_vitamin('redcells') -= _star_vampire_amount_drained / 1.5" ] }
           ],
           "else": [
-            { "math": [ "n_vitamin('blood')", "-=", "_star_vampire_amount_drained" ] },
-            { "math": [ "n_vitamin('redcells')", "-=", "_star_vampire_amount_drained" ] }
+            { "math": [ "n_vitamin('blood') -= _star_vampire_amount_drained" ] },
+            { "math": [ "n_vitamin('redcells') -= _star_vampire_amount_drained" ] }
           ]
         }
       }
@@ -2244,6 +2077,7 @@
       "PATH_AVOID_DANGER",
       "EATS",
       "DROPS_AMMO",
+      "TRUESIGHT",
       "CORNERED_FIGHTER",
       "RANGED_ATTACKER",
       "PRIORITIZE_TARGETS"
@@ -2420,16 +2254,16 @@
     "id": "mon_nether_cucumber",
     "type": "MONSTER",
     "name": { "str": "waterbed skulker" },
-    "description": "Pink and translucent, with all of its otherworldly organs visible through its skin, this meter-high conical creature creeps along the seabed with its stubby, furry legs.  It contracts some kind of retracted barbed filaments into an orifice at its rear as it aims it at potential prey.",
+    "description": "Pink and translucent, with all of its otherworldly organs visible through its skin, this meter-high conical creature creeps along the seabed with its stubby, furry legs.  It retracts some sort of barbed filaments into an orifice at its rear as it aims at potential prey.",
     "species": "NETHER",
-    "hp": 100,
+    "hp": 50,
     "diff": 15,
     "weight": "75 kg",
     "volume": "70 L",
     "symbol": "s",
     "color": "pink",
     "default_faction": "nether",
-    "speed": 100,
+    "speed": 80,
     "move_skills": { "swim": 2 },
     "melee_damage": [ { "damage_type": "bash", "amount": 0 } ],
     "special_attacks": [
@@ -2445,7 +2279,7 @@
     "bodytype": "snake",
     "harvest": "mutant_mollusk",
     "zombify_into": "mon_meat_cocoon_tiny",
-    "flags": [ "AQUATIC", "SMELLS", "SEES", "HEARS", "GRABS" ],
+    "flags": [ "AQUATIC", "SEES", "HEARS", "GRABS" ],
     "weakpoints": [
       {
         "name": "filaments",

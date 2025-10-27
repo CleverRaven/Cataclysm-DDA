@@ -637,6 +637,7 @@ bioblaster
 bioblasters
 biocompatibility
 biodiesel
+bioelectric
 bioelectricity
 bioforms
 biofuel
@@ -5524,6 +5525,7 @@ shantak
 Shaolin
 shapechangers
 shapeshift
+shapeshifted
 shapeshifting
 shapeshifts
 shapeshifter

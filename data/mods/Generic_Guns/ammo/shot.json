@@ -73,8 +73,7 @@
     "name": { "str": "shotshell, junk", "str_pl": "shotshells, junk" },
     "description": "A shotgun shell filled with whatever was lying around.  They are more damaging than birdshot, but fairly inaccurate.",
     "proportional": { "price": 0.4, "damage": { "damage_type": "bullet", "amount": 0.6 }, "dispersion": 1.2 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+    "extend": { "effects": [ "RECYCLED" ] }
   },
   {
     "id": "reloaded_shot_buck",
@@ -83,8 +82,7 @@
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+    "extend": { "effects": [ "RECYCLED" ] }
   },
   {
     "id": "reloaded_shot_fowl",
@@ -93,8 +91,7 @@
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+    "extend": { "effects": [ "RECYCLED" ] }
   },
   {
     "id": "reloaded_shot_foster",
@@ -103,8 +100,7 @@
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+    "extend": { "effects": [ "RECYCLED" ] }
   },
   {
     "id": "reloaded_shot_pyro",
@@ -113,8 +109,7 @@
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+    "extend": { "effects": [ "RECYCLED" ] }
   },
   {
     "id": "reloaded_shot_dart",
@@ -132,8 +127,7 @@
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
     "proportional": { "price": 0.6, "damage": { "damage_type": "bullet", "amount": 0.8 }, "dispersion": 1.2 },
-    "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+    "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] }
   },
   {
     "id": "bp_shot_fowl",
@@ -142,8 +136,7 @@
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
     "proportional": { "price": 0.6, "damage": { "damage_type": "bullet", "amount": 0.8 }, "dispersion": 1.2 },
-    "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+    "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] }
   },
   {
     "id": "bp_shot_foster",
@@ -152,8 +145,7 @@
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
     "proportional": { "price": 0.6, "damage": { "damage_type": "bullet", "amount": 0.8 }, "dispersion": 1.2 },
-    "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+    "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] }
   },
   {
     "id": "bp_shot_pyro",
@@ -162,8 +154,7 @@
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
     "proportional": { "price": 0.6, "damage": { "damage_type": "bullet", "amount": 0.8 }, "dispersion": 1.2 },
-    "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+    "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] }
   },
   {
     "id": "bp_shot_dart",

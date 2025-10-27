@@ -45,6 +45,7 @@
 #include "end_screen.h"
 #include "event_statistics.h"
 #include "faction.h"
+#include "faction_camp.h"
 #include "fault.h"
 #include "field_type.h"
 #include "filesystem.h"
@@ -66,6 +67,7 @@
 #include "magic_enchantment.h"
 #include "magic_ter_furn_transform.h"
 #include "magic_type.h"
+#include "map_accessories.h"
 #include "map_extras.h"
 #include "mapdata.h"
 #include "mapgen.h"
@@ -91,6 +93,7 @@
 #include "overmap.h"
 #include "overmap_connection.h"
 #include "overmap_location.h"
+#include "overmap_map_data_cache.h"
 #include "profession.h"
 #include "profession_group.h"
 #include "proficiency.h"
@@ -117,11 +120,14 @@
 #include "type_id.h"
 #include "veh_type.h"
 #include "vehicle_group.h"
+#include "vehicle_part_location.h"
 #include "vitamin.h"
 #include "weakpoint.h"
+#include "weather_gen.h"
 #include "weather_type.h"
 #include "widget.h"
 #include "worldfactory.h"
+#include "wound.h"
 
 #if defined(TILES)
 #include "sdltiles.h"
@@ -275,14 +281,16 @@ void DynamicDataLoader::initialize()
     add( "field_type", &field_types::load );
     add( "field_type_migration", &field_type_migrations::load );
     add( "weather_type", &weather_types::load );
+    add( "weather_generator", &weather_generator::load_weather_generator );
     add( "ammo_effect", &ammo_effects::load );
     add( "emit", &emit::load_emit );
     add( "help", &help::load );
-    add( "activity_type", &activity_type::load );
+    add( "activity_type", &activity_type::load_all );
     add( "addiction_type", &add_type::load_add_types );
     add( "movement_mode", &move_mode::load_move_mode );
     add( "vitamin", &vitamin::load_vitamin );
     add( "material", &materials::load );
+    add( "bash_damage_profile", &bash_damage_profile::load_all );
     add( "bionic", &bionic_data::load_bionic );
     add( "bionic_migration", &bionic_data::load_bionic_migration );
     add( "profession", &profession::load_profession );
@@ -335,7 +343,8 @@ void DynamicDataLoader::initialize()
     } );
 
     add( "vehicle_part",  &vehicles::parts::load );
-    add( "vehicle_part_category",  &vpart_category::load );
+    add( "vehicle_part_category",  &vpart_category::load_all );
+    add( "vehicle_part_location",  &vpart_location::load_vehicle_part_locations );
     add( "vehicle_part_migration", &vpart_migration::load );
     add( "vehicle", &vehicles::load_prototype );
     add( "vehicle_group",  &VehicleGroup::load );
@@ -399,9 +408,35 @@ void DynamicDataLoader::initialize()
     add( "overmap_special_migration", &overmap_special_migration::load_migrations );
     add( "city_building", &city_buildings::load );
     add( "map_extra", &MapExtras::load );
+    add( "omt_placeholder", &map_data_placeholders::load );
 
-    add( "region_settings", &load_region_settings );
-    add( "region_overlay", &load_region_overlay );
+    add( "region_settings_river", &region_settings_river::load_region_settings_river );
+    add( "region_settings_lake", &region_settings_lake::load_region_settings_lake );
+    add( "region_settings_ocean", &region_settings_ocean::load_region_settings_ocean );
+    add( "region_settings_ravine", &region_settings_ravine::load_region_settings_ravine );
+    add( "region_settings_forest", &region_settings_forest::load_region_settings_forest );
+    add( "region_settings_highway", &region_settings_highway::load_region_settings_highway );
+    add( "region_settings_forest_trail",
+         &region_settings_forest_trail::load_region_settings_forest_trail );
+    add( "region_settings_city",
+         &region_settings_city::load_region_settings_city );
+    add( "region_settings_terrain_furniture",
+         &region_settings_terrain_furniture::load_region_settings_terrain_furniture );
+    add( "region_terrain_furniture",
+         &region_terrain_furniture::load_region_terrain_furniture );
+    add( "region_settings_forest_mapgen",
+         &region_settings_forest_mapgen::load_region_settings_forest_mapgen );
+    add( "region_settings_map_extras",
+         &region_settings_map_extras::load_region_settings_map_extras );
+    add( "forest_biome_component",
+         &forest_biome_component::load_forest_biome_feature );
+    add( "forest_biome_mapgen",
+         &forest_biome_mapgen::load_forest_biome_mapgen );
+    add( "map_extra_collection",
+         &map_extra_collection::load_map_extra_collection );
+    add( "region_settings", &region_settings::load_region_settings );
+    add( "region_overlay", &region_overlay::load_region_overlay_new );
+
     add( "ITEM_BLACKLIST", []( const JsonObject & jo ) {
         item_controller->load_item_blacklist( jo );
     } );
@@ -463,7 +498,9 @@ void DynamicDataLoader::initialize()
     add( "weakpoint_set", &weakpoints::load_weakpoint_sets );
     add( "damage_type", &damage_type::load_damage_types );
     add( "damage_info_order", &damage_info_order::load_damage_info_orders );
+    add( "wound", &wound_type::load_wounds );
     add( "mod_migration", &mod_migrations::load );
+    add( "faction_mission", &faction_mission::load_faction_missions );
 #if defined(TILES)
     add( "mod_tileset", &load_mod_tileset );
 #else
@@ -605,6 +642,7 @@ void DynamicDataLoader::unload_data()
     ammunition_type::reset();
     anatomy::reset();
     ascii_art::reset();
+    bash_damage_profile::reset();
     behavior::reset();
     body_part_type::reset();
     butchery_requirements::reset();
@@ -627,6 +665,7 @@ void DynamicDataLoader::unload_data()
     event_statistic::reset();
     effect_on_conditions::reset();
     event_transformation::reset();
+    faction_mission::reset();
     faction_template::reset();
     faults::reset();
     field_types::reset();
@@ -666,6 +705,7 @@ void DynamicDataLoader::unload_data()
     overmap_terrains::reset();
     overmap::reset_oter_id_migrations();
     overmap::reset_oter_id_camp_migrations();
+    map_data_placeholders::reset();
     profession::reset();
     profession_blacklist::reset();
     proficiency::reset();
@@ -673,6 +713,23 @@ void DynamicDataLoader::unload_data()
     mood_face::reset();
     speed_description::reset();
     quality::reset();
+    region_settings_river::reset();
+    region_settings_lake::reset();
+    region_settings_ocean::reset();
+    region_settings_ravine::reset();
+    region_settings_forest::reset();
+    region_settings_highway::reset();
+    region_settings_forest_trail::reset();
+    region_settings_city::reset();
+    region_settings_terrain_furniture::reset();
+    region_terrain_furniture::reset();
+    region_settings_forest_mapgen::reset();
+    region_settings_map_extras::reset();
+    forest_biome_component::reset();
+    forest_biome_mapgen::reset();
+    map_extra_collection::reset();
+    region_settings::reset();
+    region_overlay::reset();
     reset_monster_adjustment();
     recipe_dictionary::reset();
     recipe_group::reset();
@@ -687,7 +744,6 @@ void DynamicDataLoader::unload_data()
     reset_mod_tileset();
     reset_overlay_ordering();
     reset_recipe_categories();
-    reset_region_settings();
     reset_scenarios_blacklist();
     reset_speech();
     rotatable_symbols::reset();
@@ -713,8 +769,10 @@ void DynamicDataLoader::unload_data()
     vitamin::reset();
     vehicles::parts::reset();
     vpart_category::reset();
+    vpart_location::reset();
     vpart_migration::reset();
     weakpoints::reset();
+    weather_generator::reset();
     weather_types::reset();
     widget::reset();
     zone_type::reset();
@@ -742,27 +800,48 @@ void DynamicDataLoader::finalize_loaded_data()
     const std::vector<named_entry> entries = {{
             { _( "Flags" ), &json_flag::finalize_all },
             { _( "Option sliders" ), &option_slider::finalize_all },
+            { _( "Addictions" ), &add_type::finalize_all },
+            { _( "ASCII Art" ), &ascii_art::finalize_all },
+            { _( "Bash damage profiles" ), &bash_damage_profile::finalize_all },
             { _( "Body parts" ), &body_part_type::finalize_all },
             { _( "Sub body parts" ), &sub_body_part_type::finalize_all },
             { _( "Body graphs" ), &bodygraph::finalize_all },
             { _( "Bionics" ), &bionic_data::finalize_bionic },
+            { _( "Butchery Requirements" ), &butchery_requirements::finalize_all },
+            { _( "Character Modifiers" ), &character_modifier::finalize_all },
+            { _( "Clothing Mods" ), &clothing_mod::finalize_all },
+            { _( "Construction Categories" ), &construction_categories::finalize },
+            { _( "Construction Groups" ), &construction_groups::finalize },
+            { _( "Crafting Categories" ), &crafting_category::finalize_all },
+            { _( "Damage Types" ), &damage_type::finalize_all },
+            { _( "Damage info orders" ), &damage_info_order::finalize_all },
+            { _( "Diseases" ), &disease_type::finalize_all },
             { _( "Weather types" ), &weather_types::finalize_all },
+            { _( "Weather generators" ), &weather_generator::finalize_all },
             { _( "Effect on conditions" ), &effect_on_conditions::finalize_all },
             { _( "Field types" ), &field_types::finalize_all },
             { _( "Ammo effects" ), &ammo_effects::finalize_all },
             { _( "Emissions" ), &emit::finalize },
-            { _( "Materials" ), &material_type::finalize_all },
+            { _( "Enchantments" ), &enchantment::finalize_all },
+            { _( "Event Statistics" ), &event_statistic::finalize_all },
+            { _( "Event Transformations" ), &event_transformation::finalize_all },
             { _( "Faults" ), &faults::finalize },
+            { _( "Furniture" ), &finalize_furniture },
+            { _( "Gates" ), &gates::finalize },
+            { _( "Harvest Drop Types" ), &harvest_drop_type::finalize_all },
+            { _( "Item Categories" ), &item_category::finalize_all },
+            { _( "Materials" ), &material_type::finalize_all },
             { _( "Items" ), &items::finalize_all },
+            { _( "Limb Scores" ), &limb_score::finalize_all },
             {
                 _( "Crafting requirements" ), []()
                 {
                     requirement_data::finalize();
                 }
             },
-            { _( "Vehicle part categories" ), &vpart_category::finalize },
+            { _( "Vehicle part categories" ), &vpart_category::finalize_all },
             { _( "Vehicle parts" ), &vehicles::parts::finalize },
-            { _( "Traps" ), &trap::finalize },
+            { _( "Traps" ), &trap::finalize_all },
             { _( "Terrain" ), &set_ter_ids },
             { _( "Furniture" ), &set_furn_ids },
             { _( "Overmap land use codes" ), &overmap_land_use_codes::finalize },
@@ -770,11 +849,19 @@ void DynamicDataLoader::finalize_loaded_data()
             { _( "Overmap connections" ), &overmap_connections::finalize },
             { _( "Overmap specials" ), &overmap_specials::finalize },
             { _( "Overmap locations" ), &overmap_locations::finalize },
-            { _( "Cities" ), &city::finalize },
-            { _( "Math functions" ), &jmath_func::finalize },
+            { _( "Cities" ), &city::finalize_all },
+            { _( "Math functions" ), &jmath_func::finalize_all },
             { _( "Start locations" ), &start_locations::finalize_all },
+            { _( "Vehicle part locations" ), &vpart_location::finalize_all },
             { _( "Vehicle part migrations" ), &vpart_migration::finalize },
             { _( "Vehicle prototypes" ), &vehicles::finalize_prototypes },
+            { _( "Map Extras" ), &map_extra::finalize_all },
+            { _( "Magic Types" ), &magic_type::finalize_all },
+            { _( "Martial Arts" ), &martialart::finalize_all },
+            { _( "Martial Art Techniques" ), &ma_technique::finalize_all },
+            { _( "Monster Flags" ), &mon_flag::finalize_all },
+            { _( "Mood Faces" ), &mood_face::finalize_all },
+            { _( "Morale Types" ), &morale_type_data::finalize_all },
             { _( "Mapgen weights" ), &calculate_mapgen_weights },
             { _( "Mapgen parameters" ), &overmap_specials::finalize_mapgen_parameters },
             { _( "Behaviors" ), &behavior::finalize },
@@ -788,22 +875,44 @@ void DynamicDataLoader::finalize_loaded_data()
             { _( "Monster groups" ), &MonsterGroupManager::FinalizeMonsterGroups },
             { _( "Monster factions" ), &monfactions::finalize },
             { _( "Factions" ), &npc_factions::finalize },
-            { _( "Move modes" ), &move_mode::finalize },
+            { _( "Move modes" ), &move_mode::finalize_all },
             { _( "Constructions" ), &finalize_constructions },
             { _( "Crafting recipes" ), &recipe_dictionary::finalize },
             { _( "Recipe groups" ), &recipe_group::check },
             { _( "Martial arts" ), &finalize_martial_arts },
-            { _( "Scenarios" ), &scenario::finalize },
+            { _( "Scenarios" ), &scenario::finalize_all },
             { _( "Spells" ), &spell_type::finalize_all },
-            { _( "Climbing aids" ), &climbing_aid::finalize },
+            { _( "Climbing aids" ), &climbing_aid::finalize_all },
             { _( "NPC classes" ), &npc_class::finalize_all },
-            { _( "Missions" ), &mission_type::finalize },
+            { _( "Overmap Vision Levels" ), &oter_vision::finalize_all },
+            { _( "Overmap Special Migrations" ), &overmap_special_migration::finalize_all },
+            { _( "Overmap placeholders" ), &map_data_placeholders::finalize },
+            { _( "Professions" ), &profession::finalize_all },
+            { _( "Proficiencies" ), &proficiency::finalize_all },
+            { _( "Proficiency Categories" ), &proficiency_category::finalize_all },
+            { _( "Qualities" ), &quality::finalize_all },
+            { _( "Recipe Groups" ), &recipe_group::finalize },
+            { _( "Region Overlays" ), &region_overlay::finalize_all },
+            { _( "Region Settings" ), &region_settings::finalize_all },
+            { _( "Relic Procedural Generations" ), &relic_procgen_data::finalize_all },
+            { _( "Speed Descriptions" ), &speed_description::finalize_all },
+            { _( "Species" ), &species_type::finalize_all },
+            { _( "Scent Types" ), &scent_type::finalize_all },
+            { _( "Scores" ), &score::finalize_all },
+            { _( "Shopkeeper Blacklists" ), &shopkeeper_blacklist::finalize_all },
+            { _( "Shopkeeper Consumption Rates" ), &shopkeeper_cons_rates::finalize_all },
+            { _( "Terrain" ), &finalize_terrain },
+            { _( "Terrain/Furniture Transforms" ), &ter_furn_transform::finalize_all },
+            { _( "Missions" ), &mission_type::finalize_all },
             { _( "Harvest lists" ), &harvest_list::finalize_all },
             { _( "Anatomies" ), &anatomy::finalize_all },
             { _( "Mutations" ), &mutation_branch::finalize_all },
-            { _( "Achievements" ), &achievement::finalize },
-            { _( "Damage info orders" ), &damage_info_order::finalize_all },
-            { _( "Widgets" ), &widget::finalize },
+            { _( "Achievements" ), &achievement::finalize_all },
+            { _( "Widgets" ), &widget::finalize_all },
+            { _( "Weakpoint Families" ), &weakpoints::finalize_all },
+            { _( "Weapon Categories" ), &weapon_category::finalize_all },
+            { _( "Wounds" ), &wound_type::finalize_all },
+            { _( "Zone Types" ), &zone_type::finalize_all },
 #if defined(TILES)
             { _( "Tileset" ), &load_tileset },
 #endif
@@ -845,10 +954,12 @@ void DynamicDataLoader::check_consistency()
             { _( "Effect types" ), &effect_type::check_consistency },
             { _( "Activities" ), &activity_type::check_consistency },
             { _( "Addiction types" ), &add_type::check_add_types },
+            { _( "Bash damage profiles" ), &bash_damage_profile::check_all },
             { _( "Items" ), &items::check_consistency },
             { _( "Materials" ), &materials::check },
             { _( "Faults" ), &faults::check_consistency },
             { _( "Vehicle parts" ), &vehicles::parts::check },
+            { _( "Vehicle part locations" ), &vpart_location::check_all },
             { _( "Vehicle part migrations" ), &vpart_migration::check },
             { _( "Mapgen definitions" ), &check_mapgen_definitions },
             { _( "Mapgen palettes" ), &mapgen_palette::check_definitions },
@@ -870,7 +981,6 @@ void DynamicDataLoader::check_consistency()
             { _( "Mutations" ), &mutation_branch::check_consistency },
             { _( "Mutation categories" ), &mutation_category_trait::check_consistency },
             { _( "Mod migrations" ), &mod_migrations::check },
-            { _( "Region settings" ), check_region_settings },
             { _( "Overmap land use codes" ), &overmap_land_use_codes::check_consistency },
             { _( "Overmap connections" ), &overmap_connections::check_consistency },
             { _( "Overmap terrain" ), &overmap_terrains::check_consistency },
@@ -879,6 +989,7 @@ void DynamicDataLoader::check_consistency()
             { _( "Cities" ), &city::check_consistency },
             { _( "Overmap specials" ), &overmap_specials::check_consistency },
             { _( "Map extras" ), &MapExtras::check_consistency },
+            { _( "Scenarios" ), &scenario::check_all },
             { _( "Shop rates" ), &shopkeeper_cons_rates::check_all },
             { _( "Start locations" ), &start_locations::check_consistency },
             { _( "Ammunition types" ), &ammunition_type::check_consistency },
@@ -908,7 +1019,9 @@ void DynamicDataLoader::check_consistency()
             { _( "Achievements" ), &achievement::check_consistency },
             { _( "Disease types" ), &disease_type::check_disease_consistency },
             { _( "Factions" ), &faction_template::check_consistency },
-            { _( "Damage types" ), &damage_type::check }
+            { _( "Damage types" ), &damage_type::check },
+            { _( "Wounds" ), &wound_type::check_consistency },
+            { _( "Faction missions" ), &faction_mission::check_consistency }
         }
     };
 

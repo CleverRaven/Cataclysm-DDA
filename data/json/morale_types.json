@@ -453,5 +453,10 @@
     "id": "morale_sunset",
     "type": "morale_type",
     "text": "Saw the sun set"
+  },
+  {
+    "id": "morale_applied_makeup",
+    "type": "morale_type",
+    "text": "Applied makeup"
   }
 ]

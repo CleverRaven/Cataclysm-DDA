@@ -45,10 +45,8 @@
 #include "itype.h"
 #include "localized_comparator.h"
 #include "magic_enchantment.h"
-#include "messages.h"
 #include "options.h"
 #include "output.h"
-#include "pimpl.h"
 #include "point.h"
 #include "popup.h"
 #include "recipe.h"
@@ -71,8 +69,6 @@ static const limb_score_id limb_score_manip( "manip" );
 static const std::string flag_AFFECTED_BY_PAIN( "AFFECTED_BY_PAIN" );
 static const std::string flag_BLIND_EASY( "BLIND_EASY" );
 static const std::string flag_BLIND_HARD( "BLIND_HARD" );
-static const std::string flag_NO_ENCHANTMENT( "NO_ENCHANTMENT" );
-static const std::string flag_NO_MANIP( "NO_MANIP" );
 
 enum TAB_MODE {
     NORMAL,
@@ -150,6 +146,11 @@ static std::string get_cat_unprefixed( std::string_view prefixed_name )
 void load_recipe_category( const JsonObject &jsobj, const std::string &src )
 {
     craft_cat_list.load( jsobj, src );
+}
+
+void crafting_category::finalize_all()
+{
+    craft_cat_list.finalize();
 }
 
 void crafting_category::load( const JsonObject &jo, std::string_view )
@@ -239,26 +240,28 @@ struct availability {
             std::string reason;
             add_msg_debug( debugmode::DF_CRAFTING,  _( "checking availability for %s" ),
                            rec->result_name() );
+            craft_flags flag = camp_crafting ? craft_flags::none : craft_flags::start_only;
+
             if( crafter.is_npc() && !r->npc_can_craft( reason ) && !camp_crafting ) {
                 can_craft = false;
             } else if( r->is_nested() ) {
                 can_craft = check_can_craft_nested( _crafter, *r );
             } else {
                 can_craft = ( !r->is_practice() || has_all_skills ) && has_proficiencies &&
-                            req.can_make_with_inventory( inv, all_items_filter, batch_size, craft_flags::start_only,
+                            req.can_make_with_inventory( inv, all_items_filter, batch_size, flag,
                                     &crafter.get_group_available_recipes() );
             }
 
             would_use_rotten = !req.can_make_with_inventory( inv, no_rotten_filter, batch_size,
-                               craft_flags::start_only, &crafter.get_group_available_recipes() );
+                               flag, &crafter.get_group_available_recipes() );
             would_use_favorite = !req.can_make_with_inventory( inv, no_favorite_filter, batch_size,
-                                 craft_flags::start_only, &crafter.get_group_available_recipes() );
+                                 flag, &crafter.get_group_available_recipes() );
             useless_practice = r->is_practice() && cannot_gain_skill_or_prof( crafter, *r );
             is_nested_category = r->is_nested();
             const requirement_data &simple_req = r->simple_requirements();
 
             apparently_craftable = ( !r->is_practice() || has_all_skills ) && has_proficiencies &&
-                                   simple_req.can_make_with_inventory( inv, all_items_filter, batch_size, craft_flags::start_only,
+                                   simple_req.can_make_with_inventory( inv, all_items_filter, batch_size, flag,
                                            true, &crafter.get_group_available_recipes() );
 
             required_component_crafting = apparently_craftable && simple_req.requires_comp_craft();
@@ -2390,11 +2393,8 @@ static void draw_hidden_amount( const catacurses::window &w, int amount, int num
 static void draw_can_craft_indicator( const catacurses::window &w, const recipe &rec,
                                       Character &crafter )
 {
-    int limb_modifier = rec.has_flag( flag_NO_MANIP ) ? 100 : crafter.get_limb_score(
-                            limb_score_manip ) * 100;
-    int mut_multi = rec.has_flag( flag_NO_ENCHANTMENT ) ? 100 : ( 1.0 +
-                    crafter.enchantment_cache->get_value_multiply( enchant_vals::mod::CRAFTING_SPEED_MULTIPLIER ) ) *
-                    100;
+    int limb_modifier = crafter.limb_score_crafting_speed_multiplier( rec ) * 100;
+    int mut_multi = crafter.mut_crafting_speed_multiplier( rec ) * 100;
 
     std::stringstream modifiers_list;
     if( limb_modifier != 100 ) {
@@ -2418,8 +2418,7 @@ static void draw_can_craft_indicator( const catacurses::window &w, const recipe 
     } else if( crafter.crafting_speed_multiplier( rec ) < 1.0f ) {
         int morale_modifier = crafter.morale_crafting_speed_multiplier( rec ) * 100;
         int lighting_modifier = crafter.lighting_craft_speed_multiplier( rec ) * 100;
-        int pain_multi = rec.has_flag( flag_AFFECTED_BY_PAIN ) ? 100 * std::max( 0.0f,
-                         1.0f - ( crafter.get_perceived_pain() / 100.0f ) ) : 100;
+        const int pain_multi = crafter.pain_crafting_speed_multiplier( rec ) * 100;
 
         if( morale_modifier < 100 ) {
             if( !modifiers_list.str().empty() ) {

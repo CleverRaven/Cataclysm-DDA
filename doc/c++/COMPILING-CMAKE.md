@@ -1,3 +1,28 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Compiling CMAKE](#compiling-cmake)
+- [Disclaimer](#disclaimer)
+- [Contents](#contents)
+- [Prerequisites](#prerequisites)
+- [Build Environment](#build-environment)
+  - [UNIX Environment](#unix-environment)
+  - [Windows Environment (MSYS2)](#windows-environment-msys2)
+- [CMake Build](#cmake-build)
+  - [CMake Build for MSYS2 (MinGW)](#cmake-build-for-msys2-mingw)
+  - [CMake Build for Visual Studio / MSBuild](#cmake-build-for-visual-studio--msbuild)
+    - [Get the tools](#get-the-tools)
+    - [Get the required libraries](#get-the-required-libraries)
+    - [Unpack the archives with the libraries](#unpack-the-archives-with-the-libraries)
+    - [Make a build directory and run CMake's configuration step](#make-a-build-directory-and-run-cmakes-configuration-step)
+    - [Build!](#build)
+- [Build Options](#build-options)
+  - [CMake-specific options](#cmake-specific-options)
+  - [CataclysmDDA-specific options](#cataclysmdda-specific-options)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Compiling CMAKE
 # Disclaimer
 

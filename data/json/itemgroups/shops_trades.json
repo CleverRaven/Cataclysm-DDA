@@ -3,7 +3,7 @@
     "id": "ceramics_workroom",
     "type": "item_group",
     "items": [
-      [ "cooking_oil", 15 ],
+      { "group": "vegetable_oil_bottle", "prob": 15 },
       [ "mag_fabrication", 5 ],
       [ "manual_fabrication", 5 ],
       [ "mag_survival", 10 ],

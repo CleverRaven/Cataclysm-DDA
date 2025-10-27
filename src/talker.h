@@ -152,6 +152,9 @@ class const_talker
             return false;
         }
         // stats, skills, traits, bionics, and magic
+        virtual int get_artifact_resonance() const {
+            return 0;
+        }
         virtual int str_cur() const {
             return 0;
         }

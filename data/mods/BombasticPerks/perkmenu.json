@@ -207,7 +207,7 @@
           },
           { "set_string_var": "perk_pantherish_grace", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Requires dexerity 13",
+            "set_string_var": "Requires dexterity 13",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
@@ -229,13 +229,41 @@
           },
           { "set_string_var": "perk_eagle_eyes", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Requires preception 13",
+            "set_string_var": "Requires perception 13",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
           {
             "set_condition": "perk_condition",
             "condition": { "math": [ "u_val('perception_base') + u_val('perception_bonus') >= 13" ] }
+          }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_percussive_entry" } },
+        "text": "Gain [<trait_name:perk_percussive_entry>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_percussive_entry>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_percussive_entry>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_percussive_entry", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires strength 12, the <trait_name:perk_STR_UP_2> perk, or the <trait_name:perk_way_closedfist> perk.",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          {
+            "set_condition": "perk_condition",
+            "condition": {
+              "or": [
+                { "math": [ "u_val('strength_base') + u_val('strength_bonus') >= 12" ] },
+                { "u_has_trait": "perk_STR_UP_2" },
+                { "u_has_trait": "perk_way_closedfist" }
+              ]
+            }
           }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
@@ -567,6 +595,25 @@
         "topic": "TALK_PERK_MENU_SELECT"
       },
       {
+        "condition": { "not": { "u_has_trait": "perk_animal_friend" } },
+        "text": "Gain [<trait_name:perk_animal_friend>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_animal_friend>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_animal_friend>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_animal_friend", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "No Requirements",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
         "condition": { "not": { "u_has_trait": "perk_quickdraw" } },
         "text": "Gain [<trait_name:perk_quickdraw>]",
         "effect": [
@@ -596,11 +643,30 @@
           },
           { "set_string_var": "perk_vengeful", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "No requirements",
+            "set_string_var": "Cannot have the Twice Shy perk",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
-          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
+          { "set_condition": "perk_condition", "condition": { "not": { "u_has_trait": "perk_twice_shy" } } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_twice_shy" } },
+        "text": "Gain [<trait_name:perk_twice_shy>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_twice_shy>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_twice_shy>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_twice_shy", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Cannot have the Vengeful perk",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "not": { "u_has_trait": "perk_vengeful" } } }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
       },
@@ -766,6 +832,30 @@
             "i18n": true
           },
           { "set_condition": "perk_condition", "condition": { "u_has_trait": "perk_tingly" } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_slippery_escape" } },
+        "text": "Gain [<trait_name:perk_slippery_escape>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_slippery_escape>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_slippery_escape>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_slippery_escape", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Must have the <trait_name:perk_DEX_UP_2> perk or dexterity 12",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          {
+            "set_condition": "perk_condition",
+            "condition": {
+              "or": [ { "math": [ "u_val('dexterity_base') + u_val('dexterity_bonus') >= 12" ] }, { "u_has_trait": "perk_DEX_UP_2" } ]
+            }
+          }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
       },
@@ -1563,6 +1653,25 @@
         "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
       },
       {
+        "condition": { "not": { "u_has_trait": "perk_second_chance" } },
+        "text": "Gain [<trait_name:perk_second_chance>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_second_chance>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_second_chance>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_second_chance", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "No Requirements",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
+      },
+      {
         "condition": { "not": { "u_has_trait": "perk_skeleton" } },
         "text": "Gain [<trait_name:perk_skeleton>]",
         "effect": [
@@ -1648,6 +1757,63 @@
             "target_var": { "context_val": "trait_description" }
           },
           { "set_string_var": "perk_forge_blood", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "No Requirements",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_secret_closet_storage" } },
+        "text": "Gain [<trait_name:perk_secret_closet_storage>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_secret_closet_storage>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_secret_closet_storage>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_secret_closet_storage", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "No Requirements",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_secret_closet_teleporter_paths" } },
+        "text": "Gain [<trait_name:perk_secret_closet_teleporter_paths>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_secret_closet_teleporter_paths>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_secret_closet_teleporter_paths>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_secret_closet_teleporter_paths", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Must have <trait_name:perk_secret_closet_storage>",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "u_has_trait": "perk_secret_closet_storage" } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_dexterous_speed" } },
+        "text": "Gain [<trait_name:perk_dexterous_speed>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_dexterous_speed>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_dexterous_speed>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_dexterous_speed", "target_var": { "context_val": "trait_id" } },
           {
             "set_string_var": "No Requirements",
             "target_var": { "context_val": "trait_requirement_description" },
@@ -2099,7 +2265,7 @@
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [
           { "u_mutate_towards": { "context_val": "trait_id" }, "category": "ANY", "use_vitamins": false },
-          { "math": [ "u_num_perks", "-=", "u_playstyle_cost + 1" ] }
+          { "math": [ "u_num_perks -= u_playstyle_cost + 1" ] }
         ]
       },
       {

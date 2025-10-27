@@ -11,7 +11,6 @@
     "price": "10 USD",
     "material": [ "cotton" ],
     "color": "white",
-    "delete": { "flags": [ "WATER_FRIENDLY" ] },
     "armor": [
       { "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ], "coverage": 100, "encumbrance": [ 1, 1 ] },
       {
@@ -26,7 +25,7 @@
     "variants": [
       {
         "id": "generic_apron_cotton",
-        "name": { "str": "long waist apron" },
+        "//": "inherit name and description from item",
         "description": "It's colored white, like the ones commonly used by chefs, professional or otherwise.",
         "weight": 50,
         "append": true
@@ -147,7 +146,6 @@
     "price": "25 USD",
     "material": [ "cotton" ],
     "color": "white",
-    "delete": { "flags": [ "WATER_FRIENDLY" ] },
     "armor": [
       { "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ], "coverage": 80, "encumbrance": [ 0, 0 ] },
       {
@@ -162,7 +160,7 @@
     "variants": [
       {
         "id": "generic_apron_cotton",
-        "name": { "str": "short waist apron" },
+        "//": "inherit name from item",
         "description": "It's colored white, like the ones commonly used by chefs, professional or otherwise.",
         "weight": 50,
         "append": true
@@ -289,7 +287,7 @@
     "variants": [
       {
         "id": "generic_apron_cotton",
-        "name": { "str": "cotton apron" },
+        "//": "inherit name from item",
         "description": "It's colored white, like the ones commonly used by chefs, professional or otherwise.",
         "weight": 50,
         "append": true
@@ -560,7 +558,7 @@
     "flags": [ "VARSIZE", "OUTER" ],
     "variant_type": "generic",
     "variants": [
-      { "id": "generic", "name": { "str": "blazer" }, "description": "A professional-looking wool blazer." },
+      { "id": "generic", "//": "inherit name and description from item" },
       {
         "id": "bostonchan",
         "name": { "str": "Boston-Chan blazer" },
@@ -777,6 +775,8 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "pocket shirt" },
     "description": "A white button-down shirt with long sleeves and a pocket on the front.  Looks professional!",
+    "//": "delete button shirt variants",
+    "variants": [  ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -793,7 +793,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "wedding dress", "str_pl": "wedding dresses" },
     "description": "A beautiful white wedding dress.  What good will it be now?",
-    "weight": "9333 g",
+    "weight": "9 kg",
     "volume": "18 L",
     "price": "590 USD",
     "price_postapoc": "50 cent",
@@ -1206,11 +1206,7 @@
     "armor": [ { "breathability": "SECOND_SKIN", "coverage": 90, "covers": [ "torso", "arm_l", "arm_r" ] } ],
     "variant_type": "generic",
     "variants": [
-      {
-        "id": "generic",
-        "name": { "str": "sports jersey" },
-        "description": "A lightweight, breathable shirt made from synthetic fabric, designed for athletic performance and team identification."
-      },
+      { "id": "generic", "//": "inherit name and description from item" },
       {
         "id": "sportsteam",
         "name": { "str": "sports team jersey" },
@@ -1263,7 +1259,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "French maid clothes" },
     "description": "The French maid dress, blue with a frilly white apron.",
-    "weight": "250 g",
+    "weight": "125 g",
     "volume": "250 ml",
     "price": "50 USD",
     "price_postapoc": "50 cent",
@@ -1321,7 +1317,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "short French maid clothes" },
     "description": "The French maid dress, black with a frilly white apron.  This version is much lighter and shorter than normal.",
-    "weight": "150 g",
+    "weight": "125 g",
     "volume": "250 ml",
     "price": "50 USD",
     "price_postapoc": "50 cent",
@@ -1543,16 +1539,8 @@
     ],
     "variant_type": "generic",
     "variants": [
-      {
-        "id": "generic",
-        "name": { "str": "mail carrier shirt" },
-        "description": "A light blue button down shirt with a couple of pockets in front and the US postal service logo embroidered on it."
-      },
-      {
-        "id": "sheriff",
-        "name": { "str": "mail carrier shirt" },
-        "description": "A tan button-down shirt with long sleeves."
-      },
+      { "id": "generic", "//": "inherit name and description from item" },
+      { "id": "sheriff", "//": "inherit name from item", "description": "A tan button-down shirt with long sleeves." },
       {
         "id": "swat",
         "name": { "str": "SWAT shirt" },
@@ -1882,7 +1870,7 @@
     "material_thickness": 0.1,
     "variant_type": "generic",
     "variants": [
-      { "id": "generic_tshirt", "name": { "str": "t-shirt" }, "description": "A short-sleeved cotton shirt.", "weight": 40 },
+      { "id": "generic_tshirt", "//": "inherit name and description from item", "weight": 40 },
       {
         "id": "baseball_fan_tshirt",
         "name": { "str": "baseball t-shirt" },
@@ -1999,6 +1987,13 @@
         "description": "This one is colored brown.",
         "append": true,
         "weight": 24
+      },
+      {
+        "id": "3dog_tshirt",
+        "name": { "str": "3 Wolf Moon t-shirt" },
+        "color": "magenta",
+        "description": "This magnificent piece of clothing contains not one, not two, but THREE WOLVES.  THREE WOLVES HOWLING AT THE MOON!  It is the most badass item of clothing ever produced.",
+        "weight": 1
       }
     ],
     "flags": [ "VARSIZE", "SKINTIGHT" ],
@@ -2031,12 +2026,7 @@
     ],
     "variant_type": "generic",
     "variants": [
-      {
-        "id": "generic_tshirt",
-        "name": { "str": "crop top" },
-        "description": "A short-sleeved cotton shirt, cropped to expose the stomach.",
-        "weight": 1
-      },
+      { "id": "generic_tshirt", "//": "inherit name and description from item", "weight": 1 },
       {
         "id": "red_tshirt",
         "name": { "str": "red crop top" },
@@ -2428,7 +2418,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str": "bunny suit" },
-    "description": "A bunny suit, still shiny despite the time it's likely spent in storage, or worse, on a corpse.  While not resembling a bunny without its accompanying tail and ears, it was a recognizable piece of clothing often found in clubs or in playboy magazines.",
+    "description": "A bunny suit, still shiny despite the time it's likely spent in storage, or worse, on a corpse.  It was a recognizable piece of clothing often found in clubs or in playboy magazines.",
     "weight": "136 g",
     "volume": "750 ml",
     "price": "50 USD",
@@ -2442,7 +2432,20 @@
       { "coverage": 75, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] }
     ],
     "material_thickness": 0.1,
-    "flags": [ "VARSIZE", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "SKINTIGHT" ],
+    "variants": [
+      {
+        "id": "tailless",
+        "name": { "str": "bunny suit" },
+        "description": "A bunny suit, still shiny despite the time it's likely spent in storage, or worse, on a corpse.  It was a recognizable piece of clothing often found in clubs or in playboy magazines."
+      },
+      {
+        "id": "tail",
+        "name": { "str": "bunny suit" },
+        "description": "This one comes with a white, fluffy tail",
+        "append": true
+      }
+    ]
   },
   {
     "id": "cheongsam",

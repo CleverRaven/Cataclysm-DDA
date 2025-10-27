@@ -802,7 +802,7 @@
     "to_hit": { "grip": "none", "length": "hand", "surface": "line", "balance": "good" },
     "flags": [ "SHEATH_KNIFE", "CONDUCTIVE", "FRAGILE_MELEE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "SHIVS" ],
-    "qualities": [ [ "BUTCHER", -18 ] ],
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -18 ] ],
     "melee_damage": { "cut": 6 }
   },
   {
@@ -2134,7 +2134,6 @@
     "description": "A ceremonial dagger carried by Sikh men.  This one is not particularly well-made.",
     "replace_materials": { "steel": "budget_steel" },
     "proportional": { "melee_damage": { "bash": 8, "stab": 0.24 }, "price": 0.1, "price_postapoc": 0.1 },
-    "delete": { "flags": [ "DURABLE_MELEE" ] },
     "extend": { "flags": [ "FRAGILE_MELEE" ] }
   },
   {

@@ -90,6 +90,26 @@
     "volume": "10ml"
   },
   {
+    "id": "3030_casing",
+    "copy-from": "casing",
+    "looks_like": "223_casing",
+    "type": "ITEM",
+    "name": { "str": ".30-30 Winchester casing" },
+    "description": "An empty casing from a .30-30 Winchester round.",
+    "weight": "7 g",
+    "volume": "10ml"
+  },
+  {
+    "id": "unprimed_3030_casing",
+    "copy-from": "casing",
+    "looks_like": "223_casing",
+    "type": "ITEM",
+    "name": { "str": "primerless .30-30 Winchester casing" },
+    "description": "An empty casing from a .30-30 Winchester round.",
+    "weight": "7 g",
+    "volume": "10ml"
+  },
+  {
     "id": "123ln_casing",
     "copy-from": "casing",
     "looks_like": "223_casing",
@@ -156,7 +176,7 @@
     "copy-from": "casing",
     "looks_like": "223_casing",
     "type": "ITEM",
-    "name": { "str": ".303 casing" },
+    "name": { "str": ".303 British casing" },
     "description": "An empty casing from a .303 round.",
     "weight": "7 g",
     "volume": "10ml"
@@ -176,7 +196,7 @@
     "copy-from": "casing",
     "looks_like": "223_casing",
     "type": "ITEM",
-    "name": { "str": ".300 Win Mag casing" },
+    "name": { "str": ".300 Winchester Magnum casing" },
     "description": "An empty casing from a .300 Winchester Magnum round.",
     "weight": "7 g",
     "volume": "10ml"
@@ -196,7 +216,7 @@
     "copy-from": "casing",
     "looks_like": "223_casing",
     "type": "ITEM",
-    "name": { "str": ".308 casing" },
+    "name": { "str": ".308 Winchester casing" },
     "description": "An empty casing from a .308 round.",
     "weight": "6 g",
     "volume": "9ml"
@@ -216,7 +236,7 @@
     "copy-from": "casing",
     "looks_like": "223_casing",
     "type": "ITEM",
-    "name": { "str": "7.62x51mm casing" },
+    "name": { "str": "7.62x51mm NATO casing" },
     "description": "An empty casing from a 7.62x51mm M80 round.",
     "weight": "6 g",
     "volume": "9ml"
@@ -667,8 +687,8 @@
     "copy-from": "casing",
     "looks_like": "223_casing",
     "type": "ITEM",
-    "name": { "str": "7.7mm Arisaka casing" },
-    "description": "An empty casing from a 7.7x58mm Japanese round.",
+    "name": { "str": "7.7x58mm Arisaka casing" },
+    "description": "An empty casing from a 7.7x58mm Arisaka round.",
     "weight": "5 g",
     "volume": "7ml",
     "longest_side": "58 mm"
@@ -729,7 +749,7 @@
     "copy-from": "casing",
     "looks_like": "50beowulf_casing",
     "type": "ITEM",
-    "name": { "str": ".458 WM casing" },
+    "name": { "str": ".458 Winchester Magnum casing" },
     "description": "An empty casing from a .458 Winchester Magnum round.",
     "weight": "13 g",
     "volume": "8ml"
@@ -789,7 +809,7 @@
     "copy-from": "casing",
     "looks_like": "9mm_casing",
     "type": "ITEM",
-    "name": { "str": "7.62x25mm casing" },
+    "name": { "str": "7.62x25mm Tokarev casing" },
     "description": "An empty casing from a 7.62x25mm round.",
     "weight": "4 g",
     "volume": "7ml"
@@ -847,8 +867,8 @@
     "copy-from": "casing",
     "looks_like": "9mm_casing",
     "type": "ITEM",
-    "name": { "str": ".357 magnum casing" },
-    "description": "An empty casing from a .357 magnum round.",
+    "name": { "str": ".357 Magnum casing" },
+    "description": "An empty casing from a .357 Magnum round.",
     "weight": "3 g",
     "volume": "5ml"
   },
@@ -867,7 +887,7 @@
     "copy-from": "casing",
     "looks_like": "9mm_casing",
     "type": "ITEM",
-    "name": { "str": "9x18mm casing" },
+    "name": { "str": "9x18mm Makarov casing" },
     "description": "An empty casing from a 9x18mm round.",
     "weight": "3 g",
     "volume": "5ml"
@@ -972,7 +992,7 @@
     "copy-from": "casing",
     "looks_like": "223_casing",
     "type": "ITEM",
-    "name": { "str": ".300BLK casing" },
+    "name": { "str": ".300 AAC Blackout casing" },
     "description": "An empty casing from a .300 AAC Blackout round.",
     "weight": "6 g",
     "volume": "9ml"

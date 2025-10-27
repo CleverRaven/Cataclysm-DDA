@@ -220,11 +220,14 @@ void scenario::reset()
     all_scenarios.reset();
 }
 
-void scenario::finalize()
+void scenario::check_all()
 {
-    for( const scenario &scen : all_scenarios.get_all() ) {
-        scen.check_definition();
-    }
+    all_scenarios.check();
+}
+
+void scenario::finalize_all()
+{
+    all_scenarios.finalize();
     sc_blacklist.finalize();
 }
 
@@ -237,7 +240,7 @@ static void check_traits( const std::set<trait_id> &traits, const string_id<scen
     }
 }
 
-void scenario::check_definition() const
+void scenario::check() const
 {
     for( const auto &p : professions ) {
         if( !p.is_valid() ) {
@@ -413,7 +416,7 @@ void reset_scenarios_blacklist()
     sc_blacklist.whitelist = false;
 }
 
-std::vector<string_id<profession>> scenario::permitted_professions() const
+std::vector<string_id<profession>> scenario::permitted_professions( bool is_npc ) const
 {
     if( !cached_permitted_professions.empty() ) {
         return cached_permitted_professions;
@@ -422,7 +425,7 @@ std::vector<string_id<profession>> scenario::permitted_professions() const
     const std::vector<profession> &all = profession::get_all();
     std::vector<string_id<profession>> &res = cached_permitted_professions;
     for( const profession &p : all ) {
-        if( p.is_hobby() || p.is_blacklisted() ) {
+        if( p.is_hobby() || p.is_blacklisted() || ( is_npc && !p.chargen_allow_npc() ) ) {
             continue;
         }
         const bool present = std::find( professions.begin(), professions.end(),
@@ -455,7 +458,7 @@ std::vector<string_id<profession>> scenario::permitted_professions() const
     return res;
 }
 
-std::vector<string_id<profession>> scenario::permitted_hobbies() const
+std::vector<string_id<profession>> scenario::permitted_hobbies( bool is_npc ) const
 {
     if( !cached_permitted_hobbies.empty() ) {
         return cached_permitted_hobbies;
@@ -474,6 +477,9 @@ std::vector<string_id<profession>> scenario::permitted_hobbies() const
             continue;
         }
         if( hobbies_whitelist && !hobby_exclusion.empty() && hobby_exclusion.count( hobby ) == 0 ) {
+            continue;
+        }
+        if( is_npc && !hobby->chargen_allow_npc() ) {
             continue;
         }
 
@@ -520,11 +526,11 @@ bool scenario::has_hard_requirement() const
     return hard_requirement;
 }
 
-const profession *scenario::weighted_random_profession() const
+const profession *scenario::weighted_random_profession( bool is_npc ) const
 {
     // Strategy: 1/3 of the time, return the generic profession (if it's permitted).
     // Otherwise, the weight of each permitted profession is 2 / ( |point cost| + 2 )
-    const auto choices = permitted_professions();
+    const auto choices = permitted_professions( is_npc );
     if( one_in( 3 ) && choices.front() == profession::generic()->ident() ) {
         return profession::generic();
     }

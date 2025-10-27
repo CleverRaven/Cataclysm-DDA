@@ -291,5 +291,8 @@ item_location make_mon_corpse( map *here, monster &z, int damageLvl )
     if( !z.has_eaten_enough() ) {
         corpse.set_flag( json_flag_UNDERFED );
     }
+    if( z.times_combatted_player ) {
+        corpse.set_var( "times_combatted", z.times_combatted_player );
+    }
     return here->add_item_or_charges_ret_loc( z.pos_bub( *here ), corpse );
 }

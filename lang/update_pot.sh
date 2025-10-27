@@ -43,10 +43,13 @@ if ! lang/extract_json_strings.py \
         -i data/json \
         -i data/mods \
         -x data/mods/TEST_DATA \
+        -X data/json/effects_on_condition/example_eocs.json \
         -X data/json/furniture_and_terrain/terrain-regional-pseudo.json \
         -X data/json/furniture_and_terrain/furniture-regional-pseudo.json \
         -X data/json/items/book/abstract.json \
+        -X data/json/items/tool/debug_tools.json \
         -X data/json/npcs/TALK_TEST.json \
+        -X data/json/recipes/basecamps/special_hardcoded.json \
         -X data/core/sentinels.json \
         -X data/raw/color_templates/no_bright_background.json \
         -X data/mods/Magiclysm/Spells/debug.json \

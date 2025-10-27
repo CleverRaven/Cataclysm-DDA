@@ -2258,6 +2258,19 @@
     ]
   },
   {
+    "id": "bus_rack",
+    "type": "vehicle",
+    "copy-from": "bus",
+    "name": "Bus with Bike Rack",
+    "parts": [
+      { "x": 2, "y": -1, "parts": [ "bike_rack" ] },
+      { "x": 2, "y": 0, "parts": [ "bike_rack" ] },
+      { "x": 2, "y": 1, "parts": [ "bike_rack" ] },
+      { "x": 2, "y": 2, "parts": [ "bike_rack" ] },
+      { "x": 2, "y": 3, "parts": [ "bike_rack" ] }
+    ]
+  },
+  {
     "id": "bus_tour",
     "type": "vehicle",
     "name": "Tour Bus",

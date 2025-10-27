@@ -6,6 +6,8 @@
     "subtypes": [ "GUN" ],
     "name": { "str_sp": "the Obrez" },
     "description": "A cut-down, modified Mosin-Nagant.  It has a short barrel and the stock has been cut down and fitted with a mace head, with new low profile front and rear sights added.  The sides of the firearm have been reinforced with metal to withstand a beating.",
+    "//": "remove mosin variants",
+    "variants": [  ],
     "weight": "3000 g",
     "volume": "2220 ml",
     "longest_side": "35 cm",

@@ -59,9 +59,9 @@
     "id": "GROUP_MLAB_ROBOT",
     "monsters": [
       { "monster": "mon_science_bot", "weight": 200 },
-      { "monster": "mon_manhack", "weight": 200 },
+      { "monster": "mon_grenade_hack", "weight": 200 },
       { "monster": "mon_tazer_hack", "weight": 200 },
-      { "monster": "mon_manhack", "weight": 150, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_grenade_hack", "weight": 150, "pack_size": [ 2, 3 ] },
       { "monster": "mon_skitterbot", "weight": 150 },
       { "monster": "mon_skitterbot", "weight": 150, "pack_size": [ 2, 3 ] },
       { "monster": "mon_secubot", "weight": 50 },

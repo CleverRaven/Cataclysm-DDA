@@ -17,6 +17,24 @@
   },
   {
     "type": "effect_type",
+    "id": "haste_vampire_water_running",
+    "//": "Hidden effect_lets you run on water using Zephyr",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "ITEM_WATERPROOFING", "WATERWALKING" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vampire_resilience_flesh_of_marble",
+    "name": [ "Flesh of Marble" ],
+    "desc": [ "You are invincible." ],
+    "rating": "good",
+    "show_in_info": true,
+    "remove_message": "Your undead flesh blunts the attack.",
+    "enchantments": [ { "values": [ { "value": "FORCEFIELD", "add": 1 } ] } ]
+  },
+  {
+    "type": "effect_type",
     "id": "buoyant",
     "name": [ "Buoyant" ],
     "desc": [ "You are more buoyant than before.  This will make swimming much easier." ],
@@ -152,7 +170,7 @@
     "rating": "mixed",
     "max_duration": "30 m",
     "base_mods": { "per_mod": [ 6 ], "dex_mod": [ -2 ], "speed_mod": [ -5 ] },
-    "blood_analysis_description": "Cross-dimensional Narcotic, unexpected physics encountered"
+    "blood_analysis_description": "Cross-dimensional narcotic, unexpected physics encountered"
   },
   {
     "type": "effect_type",
@@ -610,6 +628,21 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_dhampir_corpselike_pallor_pale",
+    "//": "Hidden--cosmetic to make dhampirs with Corpselike Pallor more pale",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "enchantments": [ { "mutations": [ "PALE" ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vampire_immune_to_classic_zombification",
+    "//": "Hidden--does nothing in base XE, used for DDotD interactions",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_dhampir_empowered_blood_indicator",
     "name": [ "Empowered Blood" ],
     "desc": [ "Your blood hums with power, allowing you to access more of your vampiric abilities." ]
@@ -754,6 +787,28 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_vampire_unholy_devastation",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "max_intensity": 20,
+    "int_add_val": 1,
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "STRENGTH",
+            "add": {
+              "math": [
+                "(1 + (vampire_total_tier_one_traits_plus_potency() * 0.25) + (vampire_total_tier_two_traits() * 0.33) + (vampire_total_tier_three_traits() * 0.5) + (vampire_total_tier_four_traits_plus_potence() * 0.75)  + (vampire_total_tier_five_traits_plus_cauldron() * 1) ) * (u_effect_intensity('effect_vampire_unholy_devastation') * 0.25 )"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_vampiric_resilience",
     "name": [ "Sanguine Resilience" ],
     "desc": [ "You have the fortitude of the grave." ],
@@ -807,6 +862,26 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_vampire_stamina_for_blood_cardio_bonus",
+    "//": "Hidden effect, boost cardio when using Unholy Endurance and possessing the Incarnadine Relentlessness refinement.",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "int_add_val": 1,
+    "max_intensity": 5,
+    "max_duration": "20 m",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "CARDIO_MULTIPLIER",
+            "multiply": { "math": [ "0.15 * u_effect_intensity('effect_vampire_stamina_for_blood_cardio_bonus')" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "blood_weave",
     "name": [ "Blood Weave" ],
     "desc": [ "Immunity to bleeding and bites, increased stamina regeneration, increased hunger and thirst gain." ],
@@ -839,6 +914,16 @@
           { "value": "STRENGTH", "add": { "math": [ "2 + u_has_trait('VAMPIRE4') + u_has_trait('BLOOD_DRINKER')" ] } },
           {
             "value": "DEXTERITY",
+            "add": { "math": [ "2 + u_has_trait('VAMPIRE4') + u_has_trait('BLOOD_DRINKER')" ] }
+          }
+        ]
+      },
+      {
+        "condition": { "u_has_trait": "VAMPIRE_BLOOD_TEMPORARY_BOOST_REFINEMENT_MIND_BOOST" },
+        "values": [
+          { "value": "INTELLIGENCE", "add": { "math": [ "2 + u_has_trait('VAMPIRE4') + u_has_trait('BLOOD_DRINKER')" ] } },
+          {
+            "value": "PERCEPTION",
             "add": { "math": [ "2 + u_has_trait('VAMPIRE4') + u_has_trait('BLOOD_DRINKER')" ] }
           }
         ]
@@ -912,8 +997,34 @@
     "desc": [ "Nothing here but a corpse." ],
     "remove_message": "You end your imitation of death.",
     "rating": "mixed",
-    "enchantments": [ { "mutations": [ "WINTER_FEIGN_DEATH_TRAITS" ], "ench_effects": [ { "effect": "downed", "intensity": 1 } ] } ],
-    "flags": [ "CANNOT_ATTACK", "CANNOT_MOVE" ]
+    "enchantments": [
+      { "mutations": [ "WINTER_FEIGN_DEATH_TRAITS" ] },
+      { "ench_effects": [ { "effect": "downed", "intensity": 1 } ] },
+      {
+        "condition": { "u_has_trait": "VAMPIRE_TORPOR_REFINEMENT_FEIGN_DEATH" },
+        "values": [
+          {
+            "value": "REGEN_HP",
+            "multiply": {
+              "math": [
+                "(u_vampire_total_tier_one_traits_plus_potency * 0.02) + (u_vampire_total_tier_two_traits * 0.03) + (u_vampire_total_tier_three_traits * 0.04) + (vampire_total_tier_four_traits_plus_potence() * 0.05) + (u_vampire_total_tier_five_traits_plus_cauldron * 0.06)"
+              ]
+            }
+          },
+          {
+            "value": "MENDING_MODIFIER",
+            "multiply": {
+              "math": [
+                "(u_vampire_total_tier_one_traits_plus_potency * 0.03) + (u_vampire_total_tier_two_traits * 0.04) + (u_vampire_total_tier_three_traits * 0.05) + (vampire_total_tier_four_traits_plus_potence() * 0.06) + (u_vampire_total_tier_five_traits_plus_cauldron * 0.07)"
+              ]
+            }
+          },
+          { "value": "REGEN_HP_AWAKE", "multiply": 1 },
+          { "value": "SLEEPINESS", "multiply": -0.5 }
+        ]
+      }
+    ],
+    "flags": [ "CANNOT_ATTACK", "CANNOT_MOVE", "NO_BODY_HEAT" ]
   },
   {
     "type": "effect_type",
@@ -1237,9 +1348,73 @@
   },
   {
     "type": "effect_type",
-    "id": "effect_arvore_sylph_undine_wearing_iron",
+    "id": "effect_xe_iron_intolerance_wearing_iron_tier_4",
     "name": [ "Touching Iron" ],
-    "desc": [ "You are in contact with iron, the ancient bane of the fae.  It will cause you pain and discomfort until removed." ],
+    "desc": [
+      "You are in contact with iron, the ancient bane of the fae.  It will cause you severe pain and damage until removed."
+    ],
+    "rating": "bad",
+    "apply_message": "As the iron touches you, your skin begins to bubble and sear!",
+    "remove_message": "The burning from the iron finally fades.",
+    "base_mods": {
+      "pain_amount": [ 15 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 4 ],
+      "pain_chance": [ 2 ],
+      "pain_max_val": [ 250 ],
+      "pain_tick": [ 75 ],
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_tick": [ 150 ]
+    },
+    "limb_score_mods": [
+      { "limb_score": "balance", "modifier": 0.5 },
+      { "limb_score": "breathing", "modifier": 0.5 },
+      { "limb_score": "lift", "modifier": 0.6 },
+      { "limb_score": "grip", "modifier": 0.6 },
+      { "limb_score": "reaction", "modifier": 0.7 }
+    ],
+    "removes_effects": [ "effect_iron_allergy_wearing_iron", "effect_iron_allergy_wearing_steel" ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD", "NO_FEY_MAGIC" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xe_iron_intolerance_wearing_steel_tier_4",
+    "name": [ "Touching Steel" ],
+    "desc": [
+      "You are in contact with steel, the closest material to iron, the ancient bane of the fae.  It will cause you severe pain and damage until removed."
+    ],
+    "rating": "bad",
+    "apply_message": "As the steel touches you, your skin begins to bubble and sear!",
+    "remove_message": "The burning from the steel finally fades.",
+    "base_mods": {
+      "pain_amount": [ 12 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 4 ],
+      "pain_chance": [ 2 ],
+      "pain_max_val": [ 125 ],
+      "pain_tick": [ 110 ],
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_tick": [ 300 ]
+    },
+    "limb_score_mods": [
+      { "limb_score": "balance", "modifier": 0.7 },
+      { "limb_score": "breathing", "modifier": 0.6 },
+      { "limb_score": "lift", "modifier": 0.7 },
+      { "limb_score": "grip", "modifier": 0.75 },
+      { "limb_score": "reaction", "modifier": 0.75 }
+    ],
+    "removes_effects": [ "effect_iron_allergy_wearing_iron", "effect_iron_allergy_wearing_steel" ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD", "NO_FEY_MAGIC" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xe_iron_intolerance_wearing_iron_tier_3",
+    "name": [ "Touching Iron" ],
+    "desc": [
+      "You are in contact with iron, the ancient bane of the fae.  It will cause you severe pain and discomfort until removed."
+    ],
     "rating": "bad",
     "apply_message": "As the iron touches you, your skin begins to burn.",
     "remove_message": "The burning from the iron finally fades.",
@@ -1258,14 +1433,15 @@
       { "limb_score": "grip", "modifier": 0.8 },
       { "limb_score": "reaction", "modifier": 0.8 }
     ],
+    "removes_effects": [ "effect_iron_allergy_wearing_iron", "effect_iron_allergy_wearing_steel" ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD", "NO_FEY_MAGIC" ]
   },
   {
     "type": "effect_type",
-    "id": "effect_arvore_sylph_undine_wearing_steel",
+    "id": "effect_xe_iron_intolerance_wearing_steel_tier_3",
     "name": [ "Touching Steel" ],
     "desc": [
-      "You are in contact with steel, the closest material to iron, the ancient bane of the fae.  It will cause you pain and discomfort until removed."
+      "You are in contact with steel, the closest material to iron, the ancient bane of the fae.  It will cause you severe pain and discomfort until removed."
     ],
     "rating": "bad",
     "apply_message": "As the steel touches you, your skin begins to burn.",
@@ -1285,11 +1461,12 @@
       { "limb_score": "grip", "modifier": 0.85 },
       { "limb_score": "reaction", "modifier": 0.85 }
     ],
+    "removes_effects": [ "effect_iron_allergy_wearing_iron", "effect_iron_allergy_wearing_steel" ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD", "NO_FEY_MAGIC" ]
   },
   {
     "type": "effect_type",
-    "id": "effect_ierde_salamander_wearing_iron",
+    "id": "effect_xe_iron_intolerance_wearing_iron_tier_2",
     "name": [ "Touching Iron" ],
     "desc": [ "You are in contact with iron, the ancient bane of the fae.  It will cause you pain and discomfort until removed." ],
     "rating": "bad",
@@ -1310,11 +1487,12 @@
       { "limb_score": "grip", "modifier": 0.9 },
       { "limb_score": "reaction", "modifier": 0.9 }
     ],
+    "removes_effects": [ "effect_iron_allergy_wearing_iron", "effect_iron_allergy_wearing_steel" ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD", "NO_FEY_MAGIC" ]
   },
   {
     "type": "effect_type",
-    "id": "effect_ierde_salamander_wearing_steel",
+    "id": "effect_xe_iron_intolerance_wearing_steel_tier_2",
     "name": [ "Touching Steel" ],
     "desc": [
       "You are in contact with steel, the closest material to iron, the ancient bane of the fae.  It will cause you pain and discomfort until removed."
@@ -1331,13 +1509,14 @@
       "pain_tick": [ 120 ]
     },
     "limb_score_mods": [ { "limb_score": "breathing", "modifier": 0.95 } ],
+    "removes_effects": [ "effect_iron_allergy_wearing_iron", "effect_iron_allergy_wearing_steel" ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
-    "id": "effect_changeling_wearing_iron",
+    "id": "effect_xe_iron_intolerance_wearing_iron_tier_1",
     "name": [ "Touching Iron" ],
-    "desc": [ "You are in contact with iron.  It will cause you pain and discomfort until removed." ],
+    "desc": [ "You are in contact with iron, the ancient bane of the fae.  It will cause you pain and discomfort until removed." ],
     "rating": "bad",
     "apply_message": "As the iron touches you, your skin begins to itch fiercely.",
     "remove_message": "The itch from the iron finally fades.",
@@ -1356,11 +1535,12 @@
       { "limb_score": "grip", "modifier": 0.9 },
       { "limb_score": "reaction", "modifier": 0.9 }
     ],
+    "removes_effects": [ "effect_iron_allergy_wearing_iron", "effect_iron_allergy_wearing_steel" ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD", "NO_FEY_MAGIC" ]
   },
   {
     "type": "effect_type",
-    "id": "effect_changeling_wearing_steel",
+    "id": "effect_xe_iron_intolerance_wearing_steel_tier_1",
     "name": [ "Touching Steel" ],
     "desc": [ "You are in contact with steel.  It will cause you pain and discomfort until removed." ],
     "rating": "bad",
@@ -1375,6 +1555,7 @@
       "pain_tick": [ 120 ]
     },
     "limb_score_mods": [ { "limb_score": "breathing", "modifier": 0.95 } ],
+    "removes_effects": [ "effect_iron_allergy_wearing_iron", "effect_iron_allergy_wearing_steel" ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
@@ -1868,7 +2049,9 @@
       "BULLET_IMMUNE",
       "BASH_IMMUNE",
       "ACID_IMMUNE",
-      "BIO_IMMUNE"
+      "BIO_IMMUNE",
+      "INHALED_TOXIN_IMMUNE",
+      "SUFFOCATION_IMMUNE"
     ],
     "//": "Deliberately vulnerable to electricity damage."
   },
@@ -1946,7 +2129,7 @@
     "remove_message": "Your body regains its solidity.",
     "rating": "good",
     "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": -0.8 }, { "value": "EVASION", "add": 1 } ] } ],
-    "flags": [ "ETHEREAL", "INVISIBLE", "LEVITATION", "CLIMB_FLYING" ]
+    "flags": [ "ETHEREAL", "INVISIBLE", "LEVITATION", "CLIMB_FLYING", "INHALED_TOXIN_IMMUNE", "MYCUS_IMMUNE" ]
   },
   {
     "type": "effect_type",
@@ -1972,7 +2155,7 @@
       { "limb_score": "crawl", "modifier": 1.5 }
     ],
     "enchantments": [ { "values": [ { "value": "FALL_DAMAGE", "multiply": -0.6 }, { "value": "EVASION", "add": 0.33 } ] } ],
-    "flags": [ "DOWNED_RECOVERY", "EFFECT_LIMB_SCORE_MOD" ]
+    "flags": [ "DOWNED_RECOVERY", "EFFECT_LIMB_SCORE_MOD", "ONE_STORY_FALL" ]
   },
   {
     "type": "effect_type",
@@ -2768,6 +2951,24 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_pooka_outdoors_tracker",
+    "//": "Hidden effect, used for pooka advancement",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good",
+    "max_intensity": 24,
+    "int_decay_step": 1,
+    "int_decay_tick": 3600
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_advancement_selkie_stand_in_rain_counter",
+    "//": "Hidden effect, used as a counter",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_selkie_fog_cloak",
     "name": [ "Cloak of Fog" ],
     "desc": [ "The fog shields you from sight." ],
@@ -3399,7 +3600,7 @@
     "id": "effect_xedra_chronomancer_stabilize_timeline",
     "name": [ "Stabilized Timeline" ],
     "desc": [ "You are protected from adverse changes in your personal timestream." ],
-    "apply_message": "You may not look any different, but you can tell that you're completely protected from harmful time magic",
+    "apply_message": "You may not look any different, but you can tell that you're completely protected from harmful time magic.",
     "remove_message": "You feel more vulnerable to manipulated time.",
     "rating": "good",
     "max_intensity": 1,
@@ -3504,6 +3705,23 @@
   },
   {
     "type": "effect_type",
+    "//": "Hidden, reveals invisible monsters",
+    "id": "effect_xe_reveal_invisibility",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "show_in_info": false,
+    "flags": [ "SUPPRESS_INVISIBILITY" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vampire_burn_to_death_in_sunlight",
+    "//": "Hidden effect, carries the flags so that vampires who blot out the sun with their powers don't burn in sunlight.",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "SUNBURN", "SUNBURN_SUPERNATURAL" ]
+  },
+  {
+    "type": "effect_type",
     "//": "Checks if you have every single vampiric power when trying to learn new ones.",
     "id": "effect_vampire_all_gift_check",
     "name": [ "" ],
@@ -3586,11 +3804,14 @@
     "id": "effect_slain_by_the_sun",
     "name": [ "Slain by the Sun" ],
     "desc": [ "The sun is burning you like a dry leaf in a wildfire." ],
-    "miss_messages": [ [ "The sun is burning you.", 2 ] ],
-    "rating": "bad",
-    "main_parts_only": true,
-    "base_mods": { "pain_min": [ 2 ], "pain_tick": [ 10 ], "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_tick": [ 10 ] },
-    "show_in_info": false
+    "rating": "bad"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_slain_by_the_sun_limiter",
+    "//": "Hidden effect, prevents the sun fire anathema EoC from firing new copies on every step.",
+    "name": [ "" ],
+    "desc": [ "" ]
   },
   {
     "type": "effect_type",
@@ -3616,7 +3837,7 @@
     "name": [ "Blood Craving" ],
     "//": "The description is intended to illustrate the ongoing craving.",
     "desc": [ "Need blood must have blood blood right now DRINK BLOOD NOW!" ],
-    "apply_message": "You are wracked with pain as your craving hits you.  You can only think about getting some of that delicious blood you so desesperately need.",
+    "apply_message": "You are wracked with pain as your craving hits you.  You can only think about getting some of that delicious blood you so desperately need.",
     "remove_message": "Your craving calms down.",
     "miss_messages": [ [ "Your craving distract you.", 1 ] ],
     "base_mods": {
@@ -3640,6 +3861,12 @@
     ],
     "rating": "bad",
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "vampire_attacked_vampire_or_renfield",
+    "name": [ "Broken Vampire's Truce" ],
+    "desc": [ "Your actions against the vampires and their servants have drawn their ire." ]
   },
   {
     "type": "effect_type",
@@ -3881,5 +4108,108 @@
     "show_in_info": true,
     "max_intensity": 300,
     "flags": [ "CANNOT_MOVE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_werewolf_gain_more_powers",
+    "name": [ "Gifts of the Moon" ],
+    "desc": [ "You can unlock a new Lunar Gift.  Do so at night under the moon." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xe_werewolf_illuminate_target",
+    "name": [ "Moon's Cold Glow" ],
+    "desc": [ "You are glowing slightly." ],
+    "apply_message": "A glow springs up around you!",
+    "remove_message": "The faint glow around you fades away.",
+    "rating": "bad",
+    "base_mods": { "dodge_mod": [ -1 ] },
+    "enchantments": [
+      { "condition": { "or": [ "is_day", { "not": "u_is_outside" } ] }, "values": [ { "value": "LUMINATION", "add": 20 } ] },
+      {
+        "condition": { "and": [ "u_is_outside", { "not": "is_day" } ] },
+        "values": [ { "value": "LUMINATION", "add": 45 } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xe_werewolf_primal_strength_human_form",
+    "//": "This is necessary because the ACTIVE condition can't be included with or/and statements",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "enchantments": [
+      {
+        "condition": { "not": { "u_has_any_trait": [ "WEREWOLF_HYBRID_FORM_TRAITS", "WEREWOLF_PRIMAL_FORM_TRAITS" ] } },
+        "values": [
+          {
+            "value": "STRENGTH",
+            "add": { "math": [ "min( (2 + (werewolf_tier_four_traits() * 0.2) + (werewolf_tier_five_traits() * 0.35) ), 8)" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xe_werewolf_climb_in_wolf_form",
+    "//": "Hidden effect, flags only apply in wolf form",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "CLIMB_NO_LADDER", "ONE_STORY_FALL" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xe_werewolf_camouflage_as_wolf",
+    "//": "Hidden effect, part of an activatable trait",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "enchantments": [
+      {
+        "condition": { "not": { "u_has_trait": "WOLF_VAMPIRE_WOLF_FORM_TRAITS" } },
+        "values": [ { "value": "STEALTH_MODIFIER", "add": 10 } ]
+      },
+      {
+        "condition": { "u_has_trait": "WOLF_VAMPIRE_WOLF_FORM_TRAITS" },
+        "values": [
+          {
+            "value": "STEALTH_MODIFIER",
+            "add": {
+              "math": [
+                "min( (25 + (werewolf_tier_three_traits() * 1) + (werewolf_tier_four_traits() * 2) + (werewolf_tier_five_traits() * 4) ), 50)"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xe_werewolf_redhanded_rage",
+    "//": "Hidden effect, part of an activatable trait",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "enchantments": [
+      {
+        "condition": { "not": "u_has_weapon" },
+        "values": [ { "value": "ATTACK_SPEED", "multiply": -0.1 }, { "value": "PAIN", "multiply": -0.25 } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xe_werewolf_walk_through_walls",
+    "//": "Hidden effect, used to make sure werewolves don't drink their items when Ghostwalking.",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "enchantments": [ { "values": [ { "value": "EVASION", "add": 1 }, { "value": "PHASE_DISTANCE", "add": 1 } ] } ],
+    "flags": [ "ETHEREAL", "INVISIBLE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xe_werewolf_summon_shadow_pack_limiter",
+    "name": [ "Summoned the Shadow Pack" ],
+    "desc": [ "You called on the aid of ancestral werewolves and must wait before seeking their aid again." ]
   }
 ]

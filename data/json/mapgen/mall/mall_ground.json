@@ -151,7 +151,7 @@
           { "item": "shoestore_shoes", "chance": 100 }
         ],
         "z": [
-          { "item": "pasta", "chance": 20, "repeat": [ 1, 2 ] },
+          { "item": "pasta_ingredients", "chance": 20, "repeat": [ 1, 2 ] },
           { "item": "allclothes", "chance": 50, "repeat": [ 1, 2 ] },
           { "item": "child_items", "chance": 20, "repeat": [ 1, 2 ] },
           { "item": "cannedfood", "chance": 20, "repeat": [ 1, 2 ] },

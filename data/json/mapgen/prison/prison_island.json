@@ -111,7 +111,8 @@
       ],
       "place_items": [
         { "item": "table_destruction", "x": 16, "y": 40, "chance": 100 },
-        { "item": "table_destruction", "x": 17, "y": 40, "chance": 100 }
+        { "item": "table_destruction", "x": 17, "y": 40, "chance": 100 },
+        { "item": "contraband", "x": 42, "y": 61, "chance": 100, "repeat": [ 3, 6 ] }
       ],
       "place_monster": [
         { "monster": "mon_zombie_brute_shocker", "x": 65, "y": 36, "name": "The Foreman" },

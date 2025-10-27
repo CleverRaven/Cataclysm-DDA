@@ -183,7 +183,7 @@
     "dynamic_line": "Always good to do a little trading.",
     "responses": [
       {
-        "text": "Actually I had a little more to trade still.",
+        "text": "Actually, I had a little more to trade still.",
         "topic": "TALK_CARAVAN_MERCHANT_Trade",
         "effect": "start_trade"
       },

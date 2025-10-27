@@ -114,40 +114,40 @@ TEST_CASE( "spell_type_handles_all_members", "[json]" )
         CHECK( test_spell.spell_tags.test( spell_flag::CONCENTRATE ) );
         CHECK( test_spell.field );
         CHECK( test_spell.field->id() == field_test_field );
-        CHECK( test_spell.field_chance.min.dbl_val.value() == 2 );
-        CHECK( test_spell.max_field_intensity.min.dbl_val.value() == 2 );
-        CHECK( test_spell.min_field_intensity.min.dbl_val.value() == 2 );
-        CHECK( test_spell.field_intensity_increment.min.dbl_val.value() == 1 );
-        CHECK( test_spell.field_intensity_variance.min.dbl_val.value() == 1 );
-        CHECK( test_spell.min_damage.min.dbl_val.value() == 1 );
-        CHECK( test_spell.max_damage.min.dbl_val.value() == 1 );
-        CHECK( test_spell.damage_increment.min.dbl_val.value() == 1.0f );
-        CHECK( test_spell.min_range.min.dbl_val.value() == 1 );
-        CHECK( test_spell.max_range.min.dbl_val.value() == 1 );
-        CHECK( test_spell.range_increment.min.dbl_val.value() == 1.0f );
-        CHECK( test_spell.min_aoe.min.dbl_val.value() == 1 );
-        CHECK( test_spell.max_aoe.min.dbl_val.value() == 1 );
-        CHECK( test_spell.aoe_increment.min.dbl_val.value() == 1.0f );
-        CHECK( test_spell.min_dot.min.dbl_val.value() == 1 );
-        CHECK( test_spell.max_dot.min.dbl_val.value() == 1 );
-        CHECK( test_spell.dot_increment.min.dbl_val.value() == 1.0f );
-        CHECK( test_spell.min_duration.min.dbl_val.value() == 1 );
-        CHECK( test_spell.max_duration.min.dbl_val.value() == 1 );
-        CHECK( test_spell.duration_increment.min.dbl_val.value() == 1 );
-        CHECK( test_spell.min_pierce.min.dbl_val.value() == 1 );
-        CHECK( test_spell.max_pierce.min.dbl_val.value() == 1 );
-        CHECK( test_spell.pierce_increment.min.dbl_val.value() == 1.0f );
-        CHECK( test_spell.base_energy_cost.min.dbl_val.value() == 1 );
-        CHECK( test_spell.final_energy_cost.min.dbl_val.value() == 2 );
-        CHECK( test_spell.energy_increment.min.dbl_val.value() == 1.0f );
+        CHECK( test_spell.field_chance.constant() == 2 );
+        CHECK( test_spell.max_field_intensity.constant() == 2 );
+        CHECK( test_spell.min_field_intensity.constant() == 2 );
+        CHECK( test_spell.field_intensity_increment.constant() == 1 );
+        CHECK( test_spell.field_intensity_variance.constant() == 1 );
+        CHECK( test_spell.min_damage.constant() == 1 );
+        CHECK( test_spell.max_damage.constant() == 1 );
+        CHECK( test_spell.damage_increment.constant() == 1.0f );
+        CHECK( test_spell.min_range.constant() == 1 );
+        CHECK( test_spell.max_range.constant() == 1 );
+        CHECK( test_spell.range_increment.constant() == 1.0f );
+        CHECK( test_spell.min_aoe.constant() == 1 );
+        CHECK( test_spell.max_aoe.constant() == 1 );
+        CHECK( test_spell.aoe_increment.constant() == 1.0f );
+        CHECK( test_spell.min_dot.constant() == 1 );
+        CHECK( test_spell.max_dot.constant() == 1 );
+        CHECK( test_spell.dot_increment.constant() == 1.0f );
+        CHECK( test_spell.min_duration.constant() == 1 );
+        CHECK( test_spell.max_duration.constant() == 1 );
+        CHECK( test_spell.duration_increment.constant() == 1 );
+        CHECK( test_spell.min_pierce.constant() == 1 );
+        CHECK( test_spell.max_pierce.constant() == 1 );
+        CHECK( test_spell.pierce_increment.constant() == 1.0f );
+        CHECK( test_spell.base_energy_cost.constant() == 1 );
+        CHECK( test_spell.final_energy_cost.constant() == 2 );
+        CHECK( test_spell.energy_increment.constant() == 1.0f );
         CHECK( test_spell.spell_class == trait_test_trait );
         CHECK( test_spell.get_energy_source() == magic_energy_type::mana );
         CHECK( test_spell.dmg_type == damage_pure );
-        CHECK( test_spell.difficulty.min.dbl_val.value() == 1 );
-        CHECK( test_spell.max_level.min.dbl_val.value() == 1 );
-        CHECK( test_spell.base_casting_time.min.dbl_val.value() == 1 );
-        CHECK( test_spell.final_casting_time.min.dbl_val.value() == 2 );
-        CHECK( test_spell.casting_time_increment.min.dbl_val.value() == 1.0f );
+        CHECK( test_spell.difficulty.constant() == 1 );
+        CHECK( test_spell.max_level.constant() == 1 );
+        CHECK( test_spell.base_casting_time.constant() == 1 );
+        CHECK( test_spell.final_casting_time.constant() == 2 );
+        CHECK( test_spell.casting_time_increment.constant() == 1.0f );
         CHECK( test_spell.learn_spells == test_learn_spell );
     }
 }
@@ -961,6 +961,60 @@ TEST_CASE( "item_colony_ser_deser", "[json][item]" )
         }
     }
 }
+
+TEST_CASE( "temperature_unit_serialize_round_trip", "[json]" )
+{
+    // TODO: remove the legacy "%f" format
+    // -4C + 50mC. Yes, it is confusing - the format is meant for 4C - 50mC, etc
+    const std::string input =
+        R"(["2.40000","283.15000","0.00000","-4 C 50 mC","-10 C","10 C","0 C","127500 mC"])";
+    // i love floats
+    const std::string output =
+        R"(["-270 C -749 mC","10 C","-273 C -149 mC","-3 C -950 mC","-10 C","10 C","0 mC","127 C 499 mC"])";
+    JsonValue jsin = json_loader::from_string( input );
+    std::ostringstream os;
+    JsonOut jsout( os );
+
+    std::vector<units::temperature> values;
+    std::vector<units::temperature> expected{
+        units::from_kelvin( 2.4 ),
+        units::from_kelvin( 283.15 ),
+        units::from_kelvin( 0 ),
+        units::from_celsius( -4.05 ),
+        units::from_celsius( -10 ),
+        units::from_celsius( 10 ),
+        units::from_celsius( 0 ),
+        units::from_celsius( 127.5 )
+    };
+
+    CAPTURE( input );
+    {
+        INFO( "Loaded values migrate and are correct" );
+        jsin.read( values );
+        REQUIRE( values.size() == expected.size() );
+        for( unsigned i = 0; i < values.size(); ++i ) {
+            CAPTURE( i );
+            CHECK( units::to_millikelvin<int>( expected[i] ) == units::to_millikelvin<int>( values[i] ) );
+        }
+    }
+    {
+        INFO( "Json write converts to mC format" );
+        jsout.write( values );
+        CHECK( os.str() == output );
+    }
+    {
+        INFO( "Read of written values yields same result" );
+        jsin = json_loader::from_string( output );
+        jsin.read( values );
+        REQUIRE( values.size() == expected.size() );
+        for( unsigned i = 0; i < values.size(); ++i ) {
+            CAPTURE( i );
+            CHECK( units::to_millikelvin<int>( expected[i] ) == units::to_millikelvin<int>( values[i] ) );
+        }
+    }
+}
+
+
 
 TEST_CASE( "serialize_map_with_point_key", "[json]" )
 {

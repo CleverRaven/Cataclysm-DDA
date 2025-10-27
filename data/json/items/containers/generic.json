@@ -294,5 +294,38 @@
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "40 L", "max_contains_weight": "13 kg", "moves": 500 } ],
     "symbol": ")",
     "color": "white"
+  },
+  {
+    "id": "blister_pack_small",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "drug blister pack" },
+    "looks_like": "bag_plastic",
+    "description": "This is a thin piece of plastic and foil, with tiny bubbles meant to hold onto individual pills.  Often used for anti-depressants or more dangerous drugs to reduce the likelihood of purposeful overdose by making taking the individual pills out a pain in the ass.",
+    "variants": [
+      {
+        "id": "blister_pack_bc",
+        "name": { "str": "birth control pack" },
+        "description": "A thin piece of plastic and foil, with tiny bubbles meant for pills.  This one is for birth control, with 28 sections for pills in it."
+      }
+    ],
+    "weight": "5 g",
+    "volume": "7 ml",
+    "longest_side": "102 mm",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "plastic", "aluminum" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "transparent": true,
+        "max_contains_volume": "50 ml",
+        "max_contains_weight": "50 g",
+        "moves": 400
+      }
+    ],
+    "symbol": ")",
+    "color": "light_gray",
+    "flags": [ "COLLAPSE_CONTENTS", "NO_RELOAD" ]
   }
 ]

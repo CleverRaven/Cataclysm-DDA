@@ -10,7 +10,7 @@
     "volume": "270 ml",
     "price": "40 USD",
     "price_postapoc": "1 USD 20 cent",
-    "material": [ "steel" ],
+    "material": [ "lc_steel" ],
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "9x21mm" ],

@@ -15,6 +15,7 @@
 
 #include "body_part_set.h"
 #include "bodypart.h"
+#include "color.h"
 #include "coordinates.h"
 #include "damage.h"
 #include "dialogue_helpers.h"
@@ -31,7 +32,6 @@ class Character;
 class Creature;
 class JsonObject;
 class JsonOut;
-class nc_color;
 class spell;
 class time_duration;
 struct const_dialogue;
@@ -84,6 +84,7 @@ enum class spell_flag : int {
     NON_MAGICAL, // ignores spell resistance
     PSIONIC, // psychic powers instead of traditional magic
     RECHARM, // charm_monster spell adds to duration of existing charm_monster effect
+    CHARM_PET, // Applies the pet friendliness adjustment to a monster when charming them
     EVOCATION_SPELL, // Evocation spell category, used for Magiclysm proficiencies
     CHANNELING_SPELL, // Channeling spell category, used for Magiclysm proficiencies
     CONJURATION_SPELL, // Conjuration spell category, used for Magiclysm proficiencies
@@ -188,6 +189,7 @@ class spell_events : public event_subscriber
         void notify( const cata::event & ) override;
 };
 
+// NOLINTNEXTLINE(clang-analyzer-optin.performance.Padding)
 class spell_type
 {
     public:
@@ -342,6 +344,12 @@ class spell_type
         // what energy do you use to cast this spell
         magic_energy_type get_energy_source() const;
 
+        // what energy do you use to cast this spell
+        vitamin_id vitamin_energy_source() const;
+
+        // if vitamin is used, specifies the color of an energy
+        nc_color energy_color() const;
+
         damage_type_id dmg_type = damage_type_id::NULL_ID();
 
         // list of valid targets enum
@@ -349,6 +357,8 @@ class spell_type
 
         std::function<bool( const_dialogue const & )> condition; // NOLINT(cata-serialize)
         bool has_condition = false; // NOLINT(cata-serialize)
+
+        translation condition_fail_message_; // NOLINT(cata-serialize)
 
         std::set<mtype_id> targeted_monster_ids;
 
@@ -366,7 +376,6 @@ class spell_type
 
         static void load_spell( const JsonObject &jo, const std::string &src );
         void load( const JsonObject &jo, std::string_view src );
-        void serialize( JsonOut &json ) const;
         /**
          * All spells in the game.
          */
@@ -441,6 +450,8 @@ class spell_type
         static const float casting_time_increment_default;
 
         std::optional<magic_energy_type> energy_source;
+        std::optional<vitamin_id> vitamin_energy_source_; // NOLINT(cata-serialize)
+        std::optional<nc_color> energy_color_; // NOLINT(cata-serialize)
         std::optional<jmath_func_id> get_level_formula_id;
         std::optional<jmath_func_id> exp_for_level_formula_id;
         std::optional<int> max_book_level;
@@ -568,7 +579,7 @@ class spell
         bool has_components() const;
         // can the Character cast this spell?
         bool can_cast( const Character &guy ) const;
-        bool can_cast( const Character &guy, std::set<std::string> &failure_messages );
+        bool can_cast( const Character &guy, std::map<magic_type_id, bool> &success_tracker );
         // can the Character learn this spell?
         bool can_learn( const Character &guy ) const;
         // if spell shoots more than one projectile
@@ -632,6 +643,8 @@ class spell
 
         // magic energy source enum
         magic_energy_type energy_source() const;
+        std::optional<vitamin_id> vitamin_energy_source() const;
+        nc_color energy_color() const;
         // the color that's representative of the damage type
         nc_color damage_type_color() const;
         std::string damage_type_string() const;
@@ -686,6 +699,8 @@ class spell
         bool ignore_by_species_id( const tripoint_bub_ms &p ) const;
         bool valid_by_condition( const Creature &caster, const Creature &target ) const;
         bool valid_by_condition( const Creature &caster ) const;
+
+        std::string failed_condition_message() const;
 
         // picks a random valid tripoint from @area
         std::optional<tripoint_bub_ms> random_valid_target( const Creature &caster,
@@ -858,6 +873,7 @@ void emit( const spell &sp, Creature &caster, const tripoint_bub_ms &target );
 void fungalize( const spell &sp, Creature &caster, const tripoint_bub_ms &target );
 void remove_field( const spell &sp, Creature &caster, const tripoint_bub_ms &center );
 void effect_on_condition( const spell &sp, Creature &caster, const tripoint_bub_ms &target );
+void pickup( const spell &sp, Creature &caster, const tripoint_bub_ms &target );
 void none( const spell &sp, Creature &, const tripoint_bub_ms &target );
 void slime_split_on_death( const spell &sp, Creature &, const tripoint_bub_ms &target );
 
@@ -909,6 +925,7 @@ effect_map{
     { "fungalize", spell_effect::fungalize },
     { "remove_field", spell_effect::remove_field },
     { "effect_on_condition", spell_effect::effect_on_condition },
+    { "pickup", spell_effect::pickup },
     { "slime_split", spell_effect::slime_split_on_death },
     { "none", spell_effect::none }
 };

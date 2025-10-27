@@ -2,8 +2,8 @@
   {
     "type": "SPELL",
     "id": "AO_FRIENDLY_VORTEX",
-    "name": { "str": "Artifact Vortex" },
-    "description": "Summon vortexes.",
+    "name": { "str": "Artifact Vortex", "//~": "NO_I18N" },
+    "description": { "str": "Summon vortexes.", "//~": "NO_I18N" },
     "valid_targets": [ "ground" ],
     "effect": "summon",
     "effect_str": "mon_vortex",
@@ -21,8 +21,8 @@
   {
     "type": "SPELL",
     "id": "AO_CALL_OF_TINDALOS",
-    "name": { "str": "Artifact Call of Tindalos" },
-    "description": "Summon hostile hounds of Tindalos.",
+    "name": { "str": "Artifact Call of Tindalos", "//~": "NO_I18N" },
+    "description": { "str": "Summon hostile hounds of Tindalos.", "//~": "NO_I18N" },
     "valid_targets": [ "ground" ],
     "effect": "summon",
     "effect_str": "mon_hound_tindalos",
@@ -40,8 +40,8 @@
   {
     "id": "AO_FORCE_PULL",
     "type": "SPELL",
-    "name": { "str": "Artifact Force Pull" },
-    "description": "Pull objects.",
+    "name": { "str": "Artifact Force Pull", "//~": "NO_I18N" },
+    "description": { "str": "Pull objects.", "//~": "NO_I18N" },
     "effect": "area_pull",
     "shape": "blast",
     "valid_targets": [ "self", "ally", "hostile", "ground", "item", "field" ],
@@ -56,8 +56,8 @@
   {
     "id": "AO_TELEPORTITIS",
     "type": "SPELL",
-    "name": { "str": "Artifact Teleportitis" },
-    "description": "Causes you to teleport uncontrollably.",
+    "name": { "str": "Artifact Teleportitis", "//~": "NO_I18N" },
+    "description": { "str": "Causes you to teleport uncontrollably.", "//~": "NO_I18N" },
     "message": "The world loses coherence, with images of nearby places forming and disappearing around you.",
     "valid_targets": [ "self" ],
     "effect": "attack",
@@ -71,8 +71,8 @@
   {
     "id": "AO_SLOW",
     "type": "SPELL",
-    "name": { "str": "Artifact Slow" },
-    "description": "Slows you for a few turns.",
+    "name": { "str": "Artifact Slow", "//~": "NO_I18N" },
+    "description": { "str": "Slows you for a few turns.", "//~": "NO_I18N" },
     "message": "The world shifts blue, and reality accelerates around you.",
     "valid_targets": [ "self" ],
     "effect": "attack",
@@ -86,8 +86,8 @@
   {
     "id": "AO_TIME_STOP",
     "type": "SPELL",
-    "name": { "str": "Artifact Time Stop" },
-    "description": "Grants you a few turns of super speed.",
+    "name": { "str": "Artifact Time Stop", "//~": "NO_I18N" },
+    "description": { "str": "Grants you a few turns of super speed.", "//~": "NO_I18N" },
     "message": "Stale golden light floods the world, and reality stands still.",
     "valid_targets": [ "self" ],
     "effect": "mod_moves",
@@ -98,10 +98,373 @@
     "base_casting_time": 100
   },
   {
+    "id": "AO_SPATIAL_ANCHOR",
+    "type": "SPELL",
+    "name": { "str": "Artifact anchor", "//~": "NO_I18N" },
+    "description": { "str": "Return to the spot where you cast this spell after a random amount of time.", "//~": "NO_I18N" },
+    "message": "You feel a deep sense of connection to this place.",
+    "valid_targets": [ "self" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "shape": "blast",
+    "min_range": 1,
+    "max_range": 1,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_AO_SPATIAL_ANCHOR"
+  },
+  {
+    "id": "AO_SPATIAL_ANCHOR_SLOW",
+    "type": "SPELL",
+    "name": { "str": "Artifact anchor (SLOW)", "//~": "NO_I18N" },
+    "description": { "str": "Return to the spot where you cast this spell after a random amount of time.", "//~": "NO_I18N" },
+    "message": "You feel a deep sense of connection to this place.",
+    "valid_targets": [ "self" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "shape": "blast",
+    "min_range": 1,
+    "max_range": 1,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_AO_SPATIAL_ANCHOR_SLOW"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AO_SPATIAL_ANCHOR_SLOW",
+    "effect": [
+      { "u_location_variable": { "u_val": "AO_ANCHOR" } },
+      { "run_eocs": "EOC_AO_SPATIAL_ANCHOR_TP", "time_in_future": [ "8 hours", "36 hours" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AO_SPATIAL_ANCHOR",
+    "effect": [
+      { "u_location_variable": { "u_val": "AO_ANCHOR" } },
+      { "run_eocs": "EOC_AO_SPATIAL_ANCHOR_TP", "time_in_future": [ "20 seconds", "15 seconds" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AO_SPATIAL_ANCHOR_TP",
+    "condition": { "not": "u_driving" },
+    "effect": { "u_teleport": { "u_val": "AO_ANCHOR" } }
+  },
+  {
+    "id": "AO_RESONANCE_BARRIER",
+    "type": "SPELL",
+    "name": { "str": "Artifact resonance barrier", "//~": "NO_I18N" },
+    "description": { "str": "Creates a low hp energy shield around you.", "//~": "NO_I18N" },
+    "message": "Your surroundings start shimmering.",
+    "valid_targets": [ "self" ],
+    "effect": "spawn_item",
+    "effect_str": "artifact_energy_shield",
+    "shape": "blast",
+    "flags": [ "NO_EXPLOSION_SFX" ],
+    "base_casting_time": 100,
+    "min_duration": 1200,
+    "max_duration": 1200
+  },
+  {
+    "id": "AO_SURFACE",
+    "type": "SPELL",
+    "name": { "str": "Artifact surfacing", "//~": "NO_I18N" },
+    "description": { "str": "Sends you to the surface.", "//~": "NO_I18N" },
+    "message": "You reel as your sense of balance falters, but you didn't fall anywhere.",
+    "valid_targets": [ "self" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "shape": "blast",
+    "min_range": 1,
+    "max_range": 1,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_AO_SURFACE"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AO_SURFACE",
+    "effect": [
+      { "u_location_variable": { "context_val": "surface" }, "z_adjust": 0, "z_override": true },
+      { "u_teleport": { "context_val": "surface" } }
+    ]
+  },
+  {
+    "id": "AO_BOOK_SNAP",
+    "type": "SPELL",
+    "name": { "str": "Grimoire Snap", "//~": "NO_I18N" },
+    "description": { "str": "Creates a shockwave that damages nearby enemies.", "//~": "NO_I18N" },
+    "message": "The tome snaps shut with tremendous force.",
+    "flags": [ "RANDOM_DAMAGE", "NO_EXPLOSION_SFX", "SILENT" ],
+    "valid_targets": [ "hostile", "ally", "ground" ],
+    "effect": "attack",
+    "shape": "blast",
+    "min_damage": { "math": [ "(u_artifact_resonance() / 20) + 10" ] },
+    "max_damage": { "math": [ "(u_artifact_resonance() / 15) + 30" ] },
+    "min_aoe": 5,
+    "max_aoe": 5,
+    "damage_type": "bash",
+    "sound_id": "thunder_near",
+    "sound_variant": "environment",
+    "sound_type": "combat",
+    "field_chance": 4,
+    "field_id": "fd_plasma",
+    "min_field_intensity": 1,
+    "max_field_intensity": 2,
+    "extra_effects": [ { "id": "AO_BOOK_SNAP_PUSH", "hit_self": true }, { "id": "AO_BOOK_SNAP_PUSH", "hit_self": true } ]
+  },
+  {
+    "id": "AO_BOOK_SNAP_PUSH",
+    "type": "SPELL",
+    "name": { "str": "Grimorie Snap Push", "//~": "NO_I18N" },
+    "description": { "str": "The push portion of the rock blast spell.", "//~": "NO_I18N" },
+    "valid_targets": [ "hostile", "ground", "ally", "item" ],
+    "flags": [ "RANDOM_DAMAGE", "SILENT" ],
+    "effect": "area_push",
+    "shape": "blast",
+    "min_aoe": 4,
+    "max_aoe": 4
+  },
+  {
+    "id": "AO_READ_GOOD",
+    "type": "SPELL",
+    "name": { "str": "Artifact fast reader", "//~": "NO_I18N" },
+    "description": { "str": "Makes you a fast reader.", "//~": "NO_I18N" },
+    "message": "You don't understand the book yet, but you feel like you are making progress.",
+    "effect": "mutate",
+    "shape": "blast",
+    "effect_str": "FASTREADER",
+    "min_damage": 10000,
+    "max_damage": 10000,
+    "flags": [ "SILENT", "MUTATE_TRAIT" ],
+    "valid_targets": [ "self", "ally" ]
+  },
+  {
+    "id": "AO_READ_BAD",
+    "type": "SPELL",
+    "name": { "str": "Artifact Nearsighted", "//~": "NO_I18N" },
+    "description": { "str": "Makes you nearsighted.", "//~": "NO_I18N" },
+    "message": "Your eyes hurt after focusing on the strange tome.",
+    "effect": "mutate",
+    "shape": "blast",
+    "effect_str": "MYOPIC",
+    "min_damage": 10000,
+    "max_damage": 10000,
+    "flags": [ "SILENT", "MUTATE_TRAIT" ],
+    "valid_targets": [ "self", "ally" ]
+  },
+  {
+    "id": "AO_READ_VERY_BAD",
+    "type": "SPELL",
+    "name": { "str": "Artifact Illiterate", "//~": "NO_I18N" },
+    "description": { "str": "Makes you illiterate.", "//~": "NO_I18N" },
+    "message": "You realize that staring at the scratches within is pointless, you don't know how to read.",
+    "effect": "mutate",
+    "shape": "blast",
+    "effect_str": "ILLITERATE",
+    "min_damage": 10000,
+    "max_damage": 10000,
+    "flags": [ "SILENT", "MUTATE_TRAIT" ],
+    "valid_targets": [ "self", "ally" ]
+  },
+  {
+    "id": "AO_BOOK_FAR_TP",
+    "type": "SPELL",
+    "name": { "str": "Book far tp", "//~": "NO_I18N" },
+    "description": { "str": "Teleports you to a distant location.", "//~": "NO_I18N" },
+    "message": "You find the description of a distance place.",
+    "valid_targets": [ "self" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_BOOK_FAR_TP",
+    "shape": "blast"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BOOK_FAR_TP",
+    "effect": [
+      { "u_location_variable": { "context_val": "tp_loc" }, "z_adjust": 0, "z_override": true },
+      {
+        "location_variable_adjust": { "context_val": "tp_loc" },
+        "overmap_tile": true,
+        "x_adjust": [ -40, 40 ],
+        "y_adjust": [ -40, 40 ]
+      },
+      { "u_teleport": { "context_val": "tp_loc" } }
+    ]
+  },
+  {
+    "id": "AO_BOOK_BLAST",
+    "type": "SPELL",
+    "name": { "str": "Book blast Attack", "//~": "NO_I18N" },
+    "description": { "str": "A cone AOE cut damage attack.", "//~": "NO_I18N" },
+    "message": "Razor sharp pages shoot out from the book when you open it.",
+    "valid_targets": [ "self" ],
+    "extra_effects": [ { "id": "AO_BOOK_BLAST_ATTACK" } ],
+    "effect": "attack",
+    "shape": "blast",
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "base_casting_time": 100
+  },
+  {
+    "id": "AO_BOOK_BLAST_ATTACK",
+    "type": "SPELL",
+    "name": { "str": "Book blast Attack", "//~": "NO_I18N" },
+    "description": { "str": "A cone AOE cut damage attack.", "//~": "NO_I18N" },
+    "message": "Razor sharp pages shoot out from the book when you open it.",
+    "valid_targets": [ "hostile", "ground", "ally" ],
+    "min_damage": { "math": [ "(u_artifact_resonance() / 60) + 5" ] },
+    "max_damage": { "math": [ "(u_artifact_resonance() / 40) + 15" ] },
+    "effect": "attack",
+    "shape": "cone",
+    "damage_type": "cut",
+    "flags": [ "SILENT", "RANDOM_TARGET", "RANDOM_CRITTER", "RANDOM_DAMAGE", "NO_PROJECTILE" ],
+    "base_casting_time": 100,
+    "min_aoe": 15,
+    "max_aoe": 15,
+    "min_range": 10,
+    "max_range": 10
+  },
+  {
+    "id": "AO_BOOK_COMBUSTION",
+    "type": "SPELL",
+    "name": { "str": "Book combustion", "//~": "NO_I18N" },
+    "description": { "str": "Causes other nearby books to explode.", "//~": "NO_I18N" },
+    "message": "The pages glint slightly as you flip through them.",
+    "valid_targets": [ "self" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_BOOK_COMBUSTION",
+    "shape": "blast",
+    "flags": [ "NO_EXPLOSION_SFX" ],
+    "base_casting_time": 100
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BOOK_COMBUSTION",
+    "effect": [
+      {
+        "u_map_run_item_eocs": "all",
+        "min_radius": 0,
+        "max_radius": 24,
+        "search_data": [ { "category": "books" } ],
+        "true_eocs": [
+          {
+            "id": "_BOOK_COMBUSTION_EXPLODE",
+            "effect": [
+              { "npc_location_variable": { "context_val": "explode_loc" } },
+              {
+                "run_eocs": "EOC_BOOK_COMBUSTION_EXPLODE",
+                "variables": { "explode_loc": { "context_val": "explode_loc" } },
+                "alpha_talker": "avatar"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "u_map_run_item_eocs": "all",
+        "min_radius": 0,
+        "max_radius": 24,
+        "search_data": [ { "category": "manuals" } ],
+        "true_eocs": [
+          {
+            "id": "_MANUALS_COMBUSTION_EXPLODE",
+            "effect": [
+              { "npc_location_variable": { "context_val": "explode_loc" } },
+              {
+                "run_eocs": "EOC_BOOK_COMBUSTION_EXPLODE",
+                "variables": { "explode_loc": { "context_val": "explode_loc" } },
+                "alpha_talker": "avatar"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BOOK_COMBUSTION_EXPLODE",
+    "condition": { "expects_vars": [ "explode_loc" ] },
+    "effect": [
+      {
+        "u_explosion": { "power": 50000, "max_noise": 35, "distance_factor": 0.1 },
+        "target_var": { "context_val": "explode_loc" }
+      }
+    ]
+  },
+  {
+    "id": "AO_MAGIC_CASCADE_START",
+    "type": "SPELL",
+    "name": { "str": "Artifact magic cascade", "//~": "NO_I18N" },
+    "description": { "str": "Fires bursts of low damage ranged attacks.", "//~": "NO_I18N" },
+    "message": "Burning ash whirls around you.",
+    "valid_targets": [ "self" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_MAGIC_CASCADE",
+    "shape": "blast",
+    "flags": [ "NO_EXPLOSION_SFX" ],
+    "base_casting_time": 100
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MAGIC_CASCADE",
+    "effect": [
+      {
+        "if": { "one_in_chance": 4 },
+        "then": [ { "u_cast_spell": { "id": "MAGIC_CASCADE" } } ],
+        "else": [ { "u_cast_spell": { "id": "MAGIC_CASCADE" } }, { "run_eocs": "EOC_MAGIC_CASCADE", "time_in_future": "1s" } ]
+      }
+    ]
+  },
+  {
+    "id": "MAGIC_CASCADE",
+    "type": "SPELL",
+    "name": { "str": "Artifact magic cascade", "//~": "NO_I18N" },
+    "description": { "str": "Fires bursts of low damage ranged attacks.", "//~": "NO_I18N" },
+    "message": "Burning ash whirls around you.",
+    "valid_targets": [ "self" ],
+    "extra_effects": [ { "id": "MAGIC_CASCADE_MISSILE" }, { "id": "MAGIC_CASCADE_MISSILE" }, { "id": "MAGIC_CASCADE_MISSILE" } ],
+    "effect": "attack",
+    "shape": "blast",
+    "flags": [ "NO_EXPLOSION_SFX" ],
+    "base_casting_time": 100
+  },
+  {
+    "type": "SPELL",
+    "id": "MAGIC_CASCADE_MISSILE",
+    "name": { "str": "Magic cascade Missile", "//~": "NO_I18N" },
+    "description": { "str": "A single attack from magic cascade.", "//~": "NO_I18N" },
+    "valid_targets": [ "hostile", "ally" ],
+    "effect": "attack",
+    "shape": "blast",
+    "message": "",
+    "damage_type": "bash",
+    "min_damage": { "math": [ "(u_artifact_resonance() / 200) + 2" ] },
+    "max_damage": { "math": [ "(u_artifact_resonance() / 100) + 8" ] },
+    "flags": [ "LOUD", "RANDOM_TARGET", "RANDOM_CRITTER", "RANDOM_DAMAGE" ],
+    "base_casting_time": 100,
+    "min_range": 40,
+    "max_range": 6,
+    "field_id": "fd_plasma",
+    "field_chance": 2,
+    "min_field_intensity": 3,
+    "max_field_intensity": 3
+  },
+  {
+    "type": "SPELL",
+    "id": "AO_TRUESIGHT_EFFECT",
+    "name": { "str": "Artifact Truesight", "//~": "NO_I18N" },
+    "description": { "str": "Grants you the TRUE_SEEING flag.", "//~": "NO_I18N" },
+    "message": "You see movement in the corners of your vision.",
+    "valid_targets": [ "self" ],
+    "flags": [ "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
+    "effect": "attack",
+    "effect_str": "effect_true_seeing",
+    "shape": "blast",
+    "min_duration": 6800,
+    "max_duration": 6800
+  },
+  {
     "type": "SPELL",
     "id": "AO_DARKNESS_EFFECT",
-    "name": { "str": "Artifact Darkness" },
-    "description": "Grants you the Darkness effect.",
+    "name": { "str": "Artifact Darkness", "//~": "NO_I18N" },
+    "description": { "str": "Grants you the Darkness effect.", "//~": "NO_I18N" },
     "message": "Persistent shadows invade your field of view.",
     "valid_targets": [ "self" ],
     "flags": [ "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
@@ -114,8 +477,8 @@
   {
     "type": "SPELL",
     "id": "AO_LIFE_DRAIN",
-    "name": { "str": "Artifact Hurtall" },
-    "description": "Hurts you for random damage.",
+    "name": { "str": "Artifact Hurtall", "//~": "NO_I18N" },
+    "description": { "str": "Hurts you for random damage.", "//~": "NO_I18N" },
     "message": "You feel hollow inside.",
     "min_damage": 0,
     "max_damage": 10,
@@ -127,8 +490,8 @@
   {
     "type": "SPELL",
     "id": "AO_CLOSE_TEAR",
-    "name": { "str": "Artifact Close Tear" },
-    "description": "Closes a tear in reality and transfers strange energy to the artifact user.",
+    "name": { "str": "Artifact Close Tear", "//~": "NO_I18N" },
+    "description": { "str": "Closes a tear in reality and transfers strange energy to the artifact user.", "//~": "NO_I18N" },
     "message": "",
     "min_aoe": 40,
     "max_aoe": 40,

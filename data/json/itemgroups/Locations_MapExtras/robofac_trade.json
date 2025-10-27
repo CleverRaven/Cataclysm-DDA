@@ -67,7 +67,7 @@
     "type": "item_group",
     "id": "robofac_basic_robots",
     "subtype": "distribution",
-    "items": [ [ "bot_tazer_hack", 40 ], [ "bot_manhack", 40 ], [ "bot_skitterbot", 25 ] ]
+    "items": [ [ "bot_tazer_hack", 40 ], [ "bot_grenade_hack", 40 ], [ "bot_skitterbot", 25 ] ]
   },
   {
     "type": "item_group",

@@ -23,15 +23,15 @@
 #include "calendar.h"
 #include "cata_assert.h"
 #include "cata_variant.h"
-#include "character_id.h"
 #include "debug.h"
 #include "enum_conversions.h"
+#include "horde_entity.h"
 #include "input_enums.h"
 #include "mapdata.h"
 #include "mapgen_parameter.h"
 #include "mapgendata.h"
-#include "memory_fast.h"
 #include "monster.h"
+#include "mtype.h"
 #include "simple_pathfinding.h"
 #include "translation.h"
 #include "cata_scope_helpers.h"
@@ -63,6 +63,7 @@
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
+#include "overmap_debug.h"
 #include "overmap_types.h"
 #include "overmapbuffer.h"
 #include "point.h"
@@ -90,6 +91,8 @@
 enum class cube_direction : int;
 
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
+
+static const flag_id json_flag_LEVITATION( "LEVITATION" );
 
 static const mongroup_id GROUP_FOREST( "GROUP_FOREST" );
 static const mongroup_id GROUP_NEMESIS( "GROUP_NEMESIS" );
@@ -122,6 +125,9 @@ namespace overmap_ui
 // returns true if a note was created or edited, false otherwise
 static bool create_note( const tripoint_abs_omt &curs,
                          std::optional<std::string> context = std::nullopt );
+
+// returns true if a point of interest was created, false otherwise
+static bool create_point_of_interest( const tripoint_abs_omt &curs );
 
 // {note symbol, note color, offset to text}
 std::tuple<char, nc_color, size_t> get_note_display_info( std::string_view note )
@@ -247,8 +253,8 @@ weather_type_id get_weather_at_point( const tripoint_abs_omt &pos )
     auto iter = weather_cache.find( pos );
     if( iter == weather_cache.end() ) {
         const tripoint_abs_ms abs_ms_pos = project_to<coords::ms>( pos );
-        const weather_generator &wgen = overmap_buffer.get_settings( pos ).weather;
-        const weather_type_id weather = wgen.get_weather_conditions( abs_ms_pos, calendar::turn,
+        const weather_generator_id &wgen = overmap_buffer.get_settings( pos ).weather;
+        const weather_type_id weather = wgen->get_weather_conditions( abs_ms_pos, calendar::turn,
                                         g->get_seed() );
         iter = weather_cache.insert( std::make_pair( pos, weather ) ).first;
     }
@@ -335,11 +341,11 @@ static void draw_camp_labels( const catacurses::window &w, const tripoint_abs_om
              project_to<coords::sm>( center ), sm_radius ) ) {
         const point_abs_omt camp_pos( element.camp->camp_omt_pos().xy() );
         const point screen_pos( ( camp_pos - center.xy() ).raw() + screen_center_pos );
-        const int text_width = utf8_width( element.camp->name, true );
+        const int text_width = utf8_width( element.camp->camp_name(), true );
         const int text_x_min = screen_pos.x - text_width / 2;
         const int text_x_max = text_x_min + text_width;
         const int text_y = screen_pos.y;
-        const std::string camp_name = element.camp->name;
+        const std::string camp_name = element.camp->camp_name();
         if( text_x_min < 0 ||
             text_x_max > win_x_max ||
             text_y < 0 ||
@@ -621,19 +627,6 @@ static void draw_ascii( const catacurses::window &w, overmap_draw_data_t &data )
                            zone.get_center_point() );
     }
 
-    // If we're debugging monster groups, find the monster group we've selected
-    const mongroup *mgroup = nullptr;
-    std::vector<mongroup *> mgroups;
-    if( uistate.overmap_debug_mongroup ) {
-        mgroups = overmap_buffer.monsters_at( cursor_pos );
-        for( mongroup * const &mgp : mgroups ) {
-            mgroup = mgp;
-            if( mgp->horde ) {
-                break;
-            }
-        }
-    }
-
     const tripoint_abs_omt corner = cursor_pos - point( om_half_width, om_half_height );
 
     // For use with place_special: cache the color and symbol of each submap
@@ -695,15 +688,7 @@ static void draw_ascii( const catacurses::window &w, overmap_draw_data_t &data )
             }
         }
         std::vector<npc *> followers;
-        // get friendly followers
-        for( const character_id &elem : g->get_follower_list() ) {
-            shared_ptr_fast<npc> npc_to_get = overmap_buffer.find_npc( elem );
-            if( !npc_to_get ) {
-                continue;
-            }
-            npc *npc_to_add = npc_to_get.get();
-            followers.push_back( npc_to_add );
-        }
+        overmap_buffer.populate_followers_vec( followers );
         if( !display_path.empty() ) {
             for( const tripoint_abs_omt &elem : display_path ) {
                 npc_path_route.insert( elem );
@@ -764,11 +749,11 @@ static void draw_ascii( const catacurses::window &w, overmap_draw_data_t &data )
 
             // Are we debugging monster groups?
             if( blink && uistate.overmap_debug_mongroup ) {
-                // Check if this tile is the target of the currently selected group
-
-                if( mgroup && project_to<coords::omt>( mgroup->target ) == omp.xy() ) {
-                    ter_color = c_red;
-                    ter_sym = "x";
+                // TODO Check if this tile is a target of the currently highlighted horde.
+                std::vector<std::unordered_map<tripoint_abs_ms, horde_entity>*> hordes = overmap_buffer.hordes_at(
+                            omp );
+                if( !hordes.empty() ) {
+                    ter_sym = "+";
                 } else {
                     const auto &groups = overmap_buffer.monsters_at( omp );
                     for( const mongroup *mgp : groups ) {
@@ -776,30 +761,22 @@ static void draw_ascii( const catacurses::window &w, overmap_draw_data_t &data )
                             // Don't flood the map with forest creatures.
                             continue;
                         }
-                        if( mgp->horde ) {
-                            // Hordes show as +
-                            ter_sym = "+";
-
-                            if( mgp->type == GROUP_NEMESIS ) {
-                                // nemesis horde shows as &
-                                ter_sym = "&";
-                                ter_color = c_red;
-                            }
-
+                        if( mgp->horde && mgp->type == GROUP_NEMESIS ) {
+                            // nemesis horde shows as &
+                            ter_sym = "&";
+                            ter_color = c_red;
                             break;
-
-                        } else {
-                            // Regular groups show as -
-                            ter_sym = "-";
                         }
+                        // Regular groups show as -
+                        ter_sym = "-";
                     }
-                    // Set the color only if we encountered an eligible group.
-                    if( ter_sym == "+" || ter_sym == "-" ) {
-                        if( get_and_assign_los( oter_args.los, player_character, omp, sight_points ) ) {
-                            ter_color = c_light_blue;
-                        } else {
-                            ter_color = c_blue;
-                        }
+                }
+                // Set the color only if we encountered an eligible group.
+                if( ter_sym == "+" || ter_sym == "-" ) {
+                    if( get_and_assign_los( oter_args.los, player_character, omp, sight_points ) ) {
+                        ter_color = c_light_blue;
+                    } else {
+                        ter_color = c_blue;
                     }
                 }
             }
@@ -984,15 +961,10 @@ static void draw_om_sidebar( ui_adaptor &ui,
     const bool has_target = !target.is_invalid();
     const bool viewing_weather = uistate.overmap_debug_weather || uistate.overmap_visible_weather;
 
-    // If we're debugging monster groups, find the monster group we've selected
-    std::vector<mongroup *> mgroups;
+    // If we're debugging hordes, find the monsters we've selected
+    std::vector<std::unordered_map<tripoint_abs_ms, horde_entity>*> hordes;
     if( uistate.overmap_debug_mongroup ) {
-        mgroups = overmap_buffer.monsters_at( cursor_pos );
-        for( mongroup * const &mgp : mgroups ) {
-            if( mgp->horde ) {
-                break;
-            }
-        }
+        hordes = overmap_buffer.hordes_at( cursor_pos );
     }
 
     // Draw the vertical line
@@ -1005,28 +977,31 @@ static void draw_om_sidebar( ui_adaptor &ui,
     // Draw text describing the overmap tile at the cursor position.
     int lines = 1;
     if( center_vision != om_vision_level::unseen ) {
-        if( !mgroups.empty() ) {
+        if( !hordes.empty() ) {
             const point desc_pos( 3, 6 );
             ui.set_cursor( wbar, desc_pos );
             int line_number = 0;
-            for( mongroup * const &mgroup : mgroups ) {
-                wattron( wbar, c_blue );
-                mvwprintw( wbar, desc_pos + point( 0, line_number++ ),
-                           "  Species: %s", mgroup->type.c_str() );
-                mvwprintw( wbar, desc_pos + point( 0, line_number++ ),
-                           "# monsters: %d", mgroup->population + mgroup->monsters.size() );
-                if( !mgroup->horde ) {
+            int horde_size = 0;
+            for( std::unordered_map<tripoint_abs_ms, horde_entity> *horde : hordes ) {
+                horde_size += horde->size();
+                // TODO: This overruns the sidebar, need to display better somehow, maybe a popup?
+#if 0
+                for( std::pair<const tripoint_abs_ms, horde_entity> &entity : *horde ) {
+                    wattron( wbar, c_blue );
+                    const mtype *horde_type = entity.second.get_type();
+                    mvwprintw( wbar, desc_pos + point( 0, line_number++ ),
+                               "  Species: %s", horde_type->nname() );
+                    mvwprintw( wbar, desc_pos + point( 0, line_number++ ),
+                               "  Interest: %d", entity.second.tracking_intensity );
+                    mvwprintw( wbar, desc_pos + point( 0, line_number++ ),
+                               "  Target: %s", entity.second.destination.to_string() );
                     wattroff( wbar, c_blue );
-                    continue;
+                    mvwprintz( wbar, desc_pos + point( 0, line_number++ ),
+                               c_red, "x" );
                 }
-                mvwprintw( wbar, desc_pos + point( 0, line_number++ ),
-                           "  Interest: %d", mgroup->interest );
-                mvwprintw( wbar, desc_pos + point( 0, line_number++ ),
-                           "  Target: %s", mgroup->target.to_string() );
-                wattroff( wbar, c_blue );
-                mvwprintz( wbar, desc_pos + point( 0, line_number++ ),
-                           c_red, "x" );
+#endif
             }
+            mvwprintw( wbar, desc_pos + point( 0, line_number++ ), "Horde, population: %d", horde_size );
         } else {
             const oter_t &ter = overmap_buffer.ter( cursor_pos ).obj();
             const auto sm_pos = project_to<coords::sm>( cursor_pos );
@@ -1136,6 +1111,22 @@ static void draw_om_sidebar( ui_adaptor &ui,
         wattroff( wbar, c_white );
 
         wattron( wbar, c_red );
+        int monster_count = 0;
+        std::set<std::string> monster_types;
+        for( std::unordered_map<tripoint_abs_ms, horde_entity> *horde : overmap_buffer.hordes_at(
+                 cursor_pos ) ) {
+            for( std::pair<const tripoint_abs_ms, horde_entity> &entity : *horde ) {
+                monster_count++;
+                const mtype *entity_type = entity.second.get_type();
+                monster_types.insert( entity_type->nname() );
+            }
+        }
+        if( monster_count ) {
+            mvwprintw( wbar, point( 1, ++lines ), "Spotted %d entities", monster_count );
+            for( const std::string &monster_name : monster_types ) {
+                mvwprintw( wbar, point( 1, ++lines ), "Type %s", monster_name );
+            }
+        }
         for( const mongroup *mg : overmap_buffer.monsters_at( cursor_pos ) ) {
             mvwprintw( wbar, point( 1, ++lines ), "mongroup %s (%zu/%u), %s %s%s",
                        mg->type.str(), mg->monsters.size(), mg->population,
@@ -1188,6 +1179,7 @@ static void draw_om_sidebar( ui_adaptor &ui,
         print_hint( "PLACE_TERRAIN", c_light_blue );
         print_hint( "SET_SPECIAL_ARGS", c_light_blue );
         print_hint( "MODIFY_HORDE", c_light_blue );
+        print_hint( "PRINT_NOISE_MAPS", c_light_blue );
         lines--;
     } else {
         lines = 11;
@@ -1215,11 +1207,14 @@ static void draw_om_sidebar( ui_adaptor &ui,
     print_hint( "DELETE_NOTE" );
     print_hint( "MARK_DANGER" );
     print_hint( "LIST_NOTES" );
+    print_hint( "CREATE_POINT_OF_INTEREST" );
     print_hint( "MISSIONS" );
     print_hint( "TOGGLE_MAP_NOTES", uistate.overmap_show_map_notes ? c_pink : c_magenta );
     print_hint( "TOGGLE_BLINKING", uistate.overmap_blinking ? c_pink : c_magenta );
     print_hint( "TOGGLE_OVERLAYS", show_overlays ? c_pink : c_magenta );
-    print_hint( "TOGGLE_LAND_USE_CODES", uistate.overmap_show_land_use_codes ? c_pink : c_magenta );
+    if( debug_mode ) {
+        print_hint( "TOGGLE_LAND_USE_CODES", uistate.overmap_show_land_use_codes ? c_pink : c_magenta );
+    }
     print_hint( "TOGGLE_CITY_LABELS", uistate.overmap_show_city_labels ? c_pink : c_magenta );
     print_hint( "TOGGLE_HORDES", uistate.overmap_show_hordes ? c_pink : c_magenta );
     print_hint( "TOGGLE_MAP_REVEALS", uistate.overmap_show_revealed_omts ? c_pink : c_magenta );
@@ -1355,8 +1350,66 @@ static bool create_note( const tripoint_abs_omt &curs, std::optional<std::string
     return false;
 }
 
+static bool create_point_of_interest( const tripoint_abs_omt &curs )
+{
+    std::string context = _( "Add a Point of Interest entry to the Mission UI" );
+    std::string title = _( "Description:" );
+    std::string new_note;
+
+    catacurses::window w_preview;
+    catacurses::window w_preview_title;
+    catacurses::window w_preview_map;
+    std::tuple<catacurses::window *, catacurses::window *, catacurses::window *> preview_windows;
+
+    ui_adaptor ui;
+    ui.on_screen_resize( [&]( ui_adaptor & ui ) {
+        w_preview = catacurses::newwin( npm_height + 2,
+                                        max_note_display_length - npm_width - 1,
+                                        point( npm_width + 2, 2 ) );
+        w_preview_title = catacurses::newwin( 2, max_note_display_length + 1,
+                                              point::zero );
+        w_preview_map = catacurses::newwin( npm_height + 2, npm_width + 2,
+                                            point( 0, 2 ) );
+        preview_windows = std::make_tuple( &w_preview, &w_preview_title, &w_preview_map );
+
+        ui.position( point::zero, point( max_note_display_length + 1, npm_height + 4 ) );
+    } );
+    ui.mark_resize();
+
+    bool esc_pressed = false;
+    string_input_popup input_popup;
+    input_popup
+    .title( title )
+    .width( max_note_length )
+    .text( new_note )
+    .description( context )
+    .title_color( c_white )
+    .desc_color( c_light_gray )
+    .string_color( c_yellow )
+    .identifier( "map_note" );
+
+    do {
+        new_note = input_popup.query_string( false );
+        if( input_popup.canceled() ) {
+            new_note = "";
+            esc_pressed = true;
+            break;
+        } else if( input_popup.confirmed() ) {
+            break;
+        }
+        ui.invalidate_ui();
+    } while( true );
+
+    if( !esc_pressed && !new_note.empty() ) {
+        get_avatar().add_point_of_interest( {curs, new_note} );
+        return true;
+    }
+    return false;
+}
+
 // if false, search yielded no results
-static bool search( const ui_adaptor &om_ui, tripoint_abs_omt &curs, const tripoint_abs_omt &orig )
+static bool search( const ui_adaptor &om_ui, tripoint_abs_omt &curs,
+                    const tripoint_abs_omt &orig )
 {
     input_context ctxt( "STRING_INPUT" );
     std::vector<std::string> act_descs;
@@ -1757,8 +1810,7 @@ static void modify_horde_func( tripoint_abs_omt &curs )
     switch( smenu.ret ) {
         case 0:
             new_value = chosen_group.interest;
-            if( query_int( new_value, false, _( "Set interest to what value?  Currently %d" ),
-                           chosen_group.interest ) ) {
+            if( query_int( new_value, true, _( "Set interest to what value?" ) ) ) {
                 chosen_group.set_interest( new_value );
             }
             break;
@@ -1772,8 +1824,7 @@ static void modify_horde_func( tripoint_abs_omt &curs )
             break;
         case 2:
             new_value = chosen_group.population;
-            if( query_int( new_value, false, _( "Set population to what value?  Currently %d" ),
-                           chosen_group.population ) ) {
+            if( query_int( new_value, true, _( "Set population to what value?" ) ) ) {
                 chosen_group.population = new_value;
             }
             break;
@@ -1783,9 +1834,8 @@ static void modify_horde_func( tripoint_abs_omt &curs )
         case 4:
             new_value = static_cast<int>( chosen_group.behaviour );
             // Screw it we hardcode a popup, if you really want to use this you're welcome to improve it
-            popup( _( "Set behavior to which enum value?  Currently %d.  \nAccepted values:\n0 = none,\n1 = city,\n2=roam,\n3=nemesis" ),
-                   static_cast<int>( chosen_group.behaviour ) );
-            query_int( new_value, false, "" );
+            query_int( new_value, true,
+                       _( "Set behavior to which enum value?\nAccepted values:\n0 = none,\n1 = city,\n2=roam,\n3=nemesis" ) );
             chosen_group.behaviour = static_cast<mongroup::horde_behaviour>( new_value );
             break;
         case 5:
@@ -1847,6 +1897,9 @@ static std::vector<tripoint_abs_omt> get_overmap_path_to( const tripoint_abs_omt
         if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, player_character.pos_bub() ) ||
             is_water_body( dest_ter ) ) {
             params.set_cost( oter_travel_cost_type::water, 100 );
+        }
+        if( player_character.has_flag( json_flag_LEVITATION ) ) {
+            params.set_cost( oter_travel_cost_type::air, 8 );
         }
     }
     // literal "edge" case: the vehicle may be in a different OMT than the player
@@ -1929,6 +1982,12 @@ static bool try_travel_to_destination( avatar &player_character, const tripoint_
 
 static tripoint_abs_omt display()
 {
+    // HACK: Remove saved land use code uistate for people who might have accidentally turned it on previously, before it was debug-only
+    // Remove after 0.J.
+    if( uistate.overmap_show_land_use_codes && !debug_mode ) {
+        uistate.overmap_show_land_use_codes = !uistate.overmap_show_land_use_codes;
+    }
+
     map &here = get_map();
 
     overmap_draw_data_t &data = g->overmap_data;
@@ -2000,6 +2059,7 @@ static tripoint_abs_omt display()
     ictxt.register_action( "MARK_DANGER" );
     ictxt.register_action( "SEARCH" );
     ictxt.register_action( "LIST_NOTES" );
+    ictxt.register_action( "CREATE_POINT_OF_INTEREST" );
     ictxt.register_action( "TOGGLE_MAP_NOTES" );
     ictxt.register_action( "TOGGLE_BLINKING" );
     ictxt.register_action( "TOGGLE_OVERLAYS" );
@@ -2017,6 +2077,7 @@ static tripoint_abs_omt display()
     if( data.debug_editor ) {
         ictxt.register_action( "PLACE_TERRAIN" );
         ictxt.register_action( "PLACE_SPECIAL" );
+        ictxt.register_action( "PRINT_NOISE_MAPS" );
         ictxt.register_action( "SET_SPECIAL_ARGS" );
         ictxt.register_action( "LONG_TELEPORT" );
         ictxt.register_action( "MODIFY_HORDE" );
@@ -2139,6 +2200,8 @@ static tripoint_abs_omt display()
                 curs.x() = p.x();
                 curs.y() = p.y();
             }
+        } else if( action == "CREATE_POINT_OF_INTEREST" ) {
+            create_point_of_interest( curs );
         } else if( action == "GO_TO_DESTINATION" ) {
             avatar &player_character = get_avatar();
             if( !player_character.omt_path.empty() ) {
@@ -2194,7 +2257,7 @@ static tripoint_abs_omt display()
                 uistate.overmap_show_overlays = !uistate.overmap_show_overlays;
                 data.show_explored = !data.show_explored;
             }
-        } else if( action == "TOGGLE_LAND_USE_CODES" ) {
+        } else if( action == "TOGGLE_LAND_USE_CODES" && debug_mode ) {
             uistate.overmap_show_land_use_codes = !uistate.overmap_show_land_use_codes;
         } else if( action == "TOGGLE_MAP_NOTES" ) {
             uistate.overmap_show_map_notes = !uistate.overmap_show_map_notes;
@@ -2230,6 +2293,8 @@ static tripoint_abs_omt display()
             action = "QUIT";
         } else if( action == "MODIFY_HORDE" ) {
             modify_horde_func( curs );
+        } else if( action == "PRINT_NOISE_MAPS" ) {
+            om_debug::print_noise_maps( curs );
         } else if( action == "REVEAL_MAP" ) {
             debug_menu::prompt_map_reveal( curs );
         } else if( action == "MISSIONS" ) {
@@ -2459,7 +2524,7 @@ std::pair<std::string, nc_color> oter_symbol_and_color( const tripoint_abs_omt &
                  uistate.overmap_debug_mongroup || player_character.has_trait( trait_DEBUG_CLAIRVOYANCE ) ) ) {
         // Display Hordes only when within player line-of-sight
         ret.second = c_green;
-        ret.first = overmap_buffer.get_horde_size( omp ) > HORDE_VISIBILITY_SIZE * 2 ? "Z" : "z";
+        ret.first = overmap_buffer.get_horde_size( omp ) > 16 ? "Z" : "z";
     } else if( blink && overmap_buffer.has_vehicle( omp ) ) {
         ret.second = c_cyan;
         ret.first = overmap_buffer.get_vehicle_ter_sym( omp );

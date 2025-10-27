@@ -491,5 +491,19 @@
     "city_sizes": [ 0, 20 ],
     "occurrences": [ 20, 100 ],
     "flags": [ "GLOBALLY_UNIQUE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "cabin_xe_nether_cult",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "cabin_nether_cult_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "cabin_nether_cult_roof_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "cabin_nether_cult_basement_north" }
+    ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "forest_trail", "connection": "forest_trail" } ],
+    "locations": [ "forest" ],
+    "city_distance": [ 25, -1 ],
+    "occurrences": [ 15, 100 ],
+    "flags": [ "WILDERNESS", "GLOBALLY_UNIQUE", "MAN_MADE" ]
   }
 ]

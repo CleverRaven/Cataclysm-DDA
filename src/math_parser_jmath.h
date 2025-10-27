@@ -24,9 +24,10 @@ struct jmath_func {
 
     void load( const JsonObject &jo, std::string_view src );
     static void load_func( const JsonObject &jo, std::string const &src );
-    static void finalize();
+    static void finalize_all();
     static void reset();
     static const std::vector<jmath_func> &get_all();
+    void finalize();
 
     mutable std::string _str;
     mutable math_exp _exp;

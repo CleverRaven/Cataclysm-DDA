@@ -22,7 +22,12 @@
         "type": "transform"
       },
       "CAMERA",
-      "MP3",
+      {
+        "type": "mp3",
+        "transform": "afs_atomic_smartphone_music",
+        "message": "You put in the earbuds and start listening to music.",
+        "activate": true
+      },
       "CALORIES_INTAKE_TRACKER",
       "PORTABLE_GAME",
       "E_FILE_DEVICE",
@@ -39,6 +44,53 @@
         "ememory_max": "1 TB"
       }
     ]
+  },
+  {
+    "id": "g_shovel",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "copy-from": "g_shovel",
+    "name": { "str": "trowel" },
+    "price": "6 USD",
+    "description": "A small, sharp shovel, perfect for breaking off chunks of ice.",
+    "material": [ "mc_steel", "plastic" ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "ammo_scale": 1,
+      "menu_text": "Harvest ice",
+      "effect_on_conditions": [ "EOC_SHOVEL_SNOW" ]
+    }
+  },
+  {
+    "id": "shovel",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "copy-from": "shovel",
+    "name": { "str": "shovel" },
+    "description": "A shovel with a steel blade.",
+    "material": [ "mc_steel", "plastic" ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "ammo_scale": 1,
+      "menu_text": "Harvest ice",
+      "effect_on_conditions": [ "EOC_SHOVEL_SNOW" ]
+    }
+  },
+  {
+    "id": "shovel_snow",
+    "looks_like": "shovel",
+    "type": "ITEM",
+    "copy-from": "shovel_snow",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "snow shovel" },
+    "description": "A sturdy metal shovel used for picking up snow and moving it somewhere else.",
+    "material": [ "mc_steel", "plastic" ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "ammo_scale": 1,
+      "menu_text": "Harvest ice",
+      "effect_on_conditions": [ "EOC_SHOVEL_SNOW" ]
+    }
   },
   {
     "id": "afs_imager",
@@ -140,7 +192,7 @@
     "symbol": ";",
     "color": "red",
     "qualities": [ [ "WELD", 2 ] ],
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE", "UNRECOVERABLE" ]
   },
   {
     "id": "afs_plasma_torch",
@@ -180,7 +232,17 @@
     "name": { "str": "atomic smartphone - music", "str_pl": "atomic smartphones - music" },
     "description": "This phone is playing music, steadily raising your morale.  You can't hear anything else while you're listening.",
     "revert_to": "afs_atomic_smartphone",
-    "use_action": [ "PORTABLE_GAME", "E_FILE_DEVICE", "EBOOKSAVE", "MP3_DEACTIVATE" ],
+    "use_action": [
+      "PORTABLE_GAME",
+      "E_FILE_DEVICE",
+      "EBOOKSAVE",
+      {
+        "type": "mp3",
+        "transform": "afs_atomic_smartphone_music",
+        "message": "The phone turns off.",
+        "activate": false
+      }
+    ],
     "tick_action": [ "MP3_ON" ],
     "extend": { "flags": [ "TRADER_AVOID" ] }
   },
@@ -202,7 +264,8 @@
         "type": "transform"
       }
     ],
-    "extend": { "flags": [ "TRADER_AVOID", "LIGHT_25" ] }
+    "light": 25,
+    "extend": { "flags": [ "TRADER_AVOID" ] }
   },
   {
     "id": "afs_wraitheon_smartphone",
@@ -222,7 +285,12 @@
         "type": "transform"
       },
       "CAMERA",
-      "MP3",
+      {
+        "type": "mp3",
+        "transform": "afs_atomic_wraitheon_music",
+        "message": "You put in the earbuds and start listening to music.",
+        "activate": true
+      },
       "ROBOTCONTROL",
       "CALORIES_INTAKE_TRACKER",
       "PORTABLE_GAME",
@@ -248,7 +316,12 @@
     "name": { "str": "Wraitheon executive's smartphone - music", "str_pl": "Wraitheon executive's smartphones - music" },
     "description": "This phone is playing music, steadily raising your morale.  You can't hear anything else while you're listening.",
     "revert_to": "afs_atomic_smartphone",
-    "use_action": [ "PORTABLE_GAME", "E_FILE_DEVICE", "EBOOKSAVE", "MP3_DEACTIVATE" ],
+    "use_action": [
+      "PORTABLE_GAME",
+      "E_FILE_DEVICE",
+      "EBOOKSAVE",
+      { "type": "mp3", "transform": "afs_wraitheon_smartphone", "message": "The phone turns off.", "activate": false }
+    ],
     "extend": { "flags": [ "TRADER_AVOID" ] },
     "tick_action": [ "MP3_ON" ]
   },
@@ -286,26 +359,6 @@
     "color": "light_green",
     "use_action": [ "HOTPLATE" ],
     "flags": [ "ALLOWS_REMOTE_USE" ]
-  },
-  {
-    "id": "atomic_coffeepot",
-    "type": "ITEM",
-    "category": "tools",
-    "name": { "str": "atomic coffeemaker" },
-    "looks_like": "coffeemaker",
-    "description": "A Curie-G coffeemaker, made by CuppaTech.  It famously uses a radioactive generator to heat water for coffee.  Normally the water is heated using energy stored in a capacitor, and makes ordinary coffee.  However, as a special feature, water from the RTG containment area can be used, giving the coffee a very special kick.  The Curie-G is illegal in most countries.",
-    "weight": "6000 g",
-    "volume": "1500 ml",
-    "longest_side": "20 cm",
-    "price": "1 kUSD",
-    "price_postapoc": "30 USD",
-    "material": [ "plastic", "aluminum" ],
-    "qualities": [ [ "BOIL", 1 ] ],
-    "symbol": ",",
-    "color": "light_green",
-    "use_action": [ "HOTPLATE_ATOMIC" ],
-    "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE" ],
-    "melee_damage": { "bash": 5 }
   },
   {
     "id": "afs_power_cutter",
@@ -540,7 +593,8 @@
       "menu_text": "Turn off",
       "type": "transform"
     },
-    "flags": [ "WATCH", "LIGHT_10", "TRADER_AVOID" ]
+    "light": 10,
+    "flags": [ "WATCH", "TRADER_AVOID" ]
   },
   {
     "id": "vr_laptop",
@@ -961,5 +1015,144 @@
     "use_action": { "type": "deploy_appliance", "base": "afs_survival_battery" },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 10000 } } ],
     "melee_damage": { "bash": 7 }
+  },
+  {
+    "id": "afs_atomic_lamp",
+    "type": "ITEM",
+    "category": "tools",
+    "name": { "str": "atomic lamp" },
+    "looks_like": "ap_standing_lamp",
+    "description": "A fairly hefty and frankly ugly lamp with a thick base and an odd spheroidal \"shade\".  While this is a commercial product, early versions were made from scavenged landing or spacecraft lights.  While the appeal of them there was to lower the maintence burden, as a lamp it's nothing more than a gimmick of infinite, albeit dim light.",
+    "weight": "6 kg",
+    "volume": "2 L",
+    "price": "1 kUSD 750 USD",
+    "price_postapoc": "40 USD",
+    "material": [ "plastic", "aluminum" ],
+    "symbol": ",",
+    "color": "light_green",
+    "use_action": {
+      "target": "afs_atomic_lamp_off",
+      "msg": "You close the lamp's cover.",
+      "menu_text": "Close cover",
+      "type": "transform"
+    },
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "ALLOWS_REMOTE_USE", "SPAWN_ACTIVE" ],
+    "light": 15,
+    "melee_damage": { "bash": 8 }
+  },
+  {
+    "id": "afs_atomic_lamp_off",
+    "copy-from": "afs_atomic_lamp",
+    "type": "ITEM",
+    "category": "tools",
+    "name": { "str": "atomic lamp (covered)", "str_pl": "atomic lamps (covered)" },
+    "description": "A fairly hefty and frankly ugly lamp with a thick base and an odd spheroidal \"shade\".  While this is a commercial product, early versions were made from scavenged landing or spacecraft lights.  While the appeal of them there was to lower the maintence burden, as a lamp it's nothing more than a gimmick of infinite, albeit dim light.  This one has been closed.",
+    "use_action": {
+      "target": "afs_atomic_lamp",
+      "active": true,
+      "msg": "You open the lamp's cover.",
+      "menu_text": "Open cover",
+      "type": "transform"
+    },
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "ALLOWS_REMOTE_USE" ]
+  },
+  {
+    "id": "afs_atomic_light",
+    "type": "ITEM",
+    "category": "tools",
+    "name": { "str": "atomic reading light" },
+    "description": "A commercially produced reading light, with the gimmick of never having to replace batteries thanks to its nuclear decay powered power source.  Instead of having an on/off switch, there is instead a cover you close over it.",
+    "weight": "214 g",
+    "volume": "250 ml",
+    "price": "1 kUSD 250 USD",
+    "price_postapoc": "40 USD",
+    "material": [ "plastic", "aluminum" ],
+    "symbol": ",",
+    "color": "light_green",
+    "use_action": {
+      "target": "afs_atomic_light_off",
+      "msg": "You close the nightlight's cover.",
+      "menu_text": "Close cover",
+      "type": "transform"
+    },
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "ALLOWS_REMOTE_USE", "SPAWN_ACTIVE" ],
+    "light": 10,
+    "melee_damage": { "bash": 4 }
+  },
+  {
+    "id": "afs_atomic_light_off",
+    "copy-from": "afs_atomic_light",
+    "type": "ITEM",
+    "category": "tools",
+    "name": { "str": "atomic reading light (covered)", "str_pl": "atomic reading lights (covered)" },
+    "description": "A commercially produced reading light, with the gimmick of never having to replace batteries thanks to its nuclear decay powered power source.  Instead of having an on/off switch, there is instead a cover you close over it.",
+    "use_action": {
+      "target": "afs_atomic_light",
+      "active": true,
+      "msg": "You open the nightlight's cover.",
+      "menu_text": "Open cover",
+      "type": "transform"
+    },
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "ALLOWS_REMOTE_USE" ]
+  },
+  {
+    "id": "afs_atomic_headlamp",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "category": "clothing",
+    "symbol": "[",
+    "color": "blue",
+    "looks_like": "wearable_light_on",
+    "name": { "str": "atomic headlamp" },
+    "description": "A custom-made headlamp, salvaged from an atomic lamp.  While the weight on your head is light, you had to awkwardly find a way to carry the base of the lamp, which provided the actual power.  The base now proudly sits strapped to your back.",
+    "price": "40 USD",
+    "price_postapoc": "15 USD",
+    "material": [ "aluminum", "nylon" ],
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "OVERSIZE", "PADDED", "ALLOWS_NATURAL_ATTACKS", "SPAWN_ACTIVE" ],
+    "light": 15,
+    "weight": "4 kg",
+    "volume": "1500 ml",
+    "use_action": {
+      "type": "transform",
+      "msg": "You close the headlamp's cover.",
+      "menu_text": "Close cover",
+      "target": "afs_atomic_headlamp_off"
+    },
+    "armor": [
+      {
+        "material": [ { "type": "nylon", "covered_by_mat": 100, "thickness": 2 } ],
+        "encumbrance": 1,
+        "layers": [ "BELTED" ],
+        "coverage": 50,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead" ]
+      },
+      {
+        "material": [ { "type": "aluminum", "covered_by_mat": 100, "thickness": 5 } ],
+        "encumbrance": 5,
+        "layers": [ "NORMAL" ],
+        "coverage": 50,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_back" ]
+      }
+    ],
+    "melee_damage": { "bash": 2 }
+  },
+  {
+    "id": "afs_atomic_headlamp_off",
+    "copy-from": "afs_atomic_headlamp",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "looks_like": "wearable_light",
+    "name": { "str": "atomic headlamp (covered)", "str_pl": "atomic headlamps (covered)" },
+    "description": "A custom-made headlamp, salvaged from an atomic lamp.  While the weight on your head is light, you had to awkwardly find a way to carry the base of the lamp, which provided the actual power.  The base now proudly sits strapped to your back.  It is now covered, concealing the light.",
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "OVERSIZE", "PADDED", "ALLOWS_NATURAL_ATTACKS" ],
+    "use_action": {
+      "type": "transform",
+      "msg": "You open the headlamp's cover.",
+      "menu_text": "Open cover",
+      "target": "afs_atomic_headlamp",
+      "active": true
+    }
   }
 ]

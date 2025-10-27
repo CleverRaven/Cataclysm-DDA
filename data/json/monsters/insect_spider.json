@@ -206,7 +206,7 @@
     "dissect": "dissect_troglobite_sample_single",
     "upgrades": { "age_grow": 30, "into": "mon_worm" },
     "extend": { "flags": [ "DIGS", "GOODHEARING", "SMALL_HIDER" ] },
-    "delete": { "flags": [ "SEES", "SMELLS" ], "move_skills": { "climb": 4 } }
+    "delete": { "flags": [ "SEES" ], "move_skills": { "climb": 2 } }
   },
   {
     "id": "mon_large_cockroach",
@@ -2370,7 +2370,7 @@
     "weakpoints": [ { "id": "abdomen", "name": "the abdomen", "coverage": 30 } ],
     "vision_night": 8,
     "zombify_into": "mon_meat_cocoon_tiny",
-    "delete": { "weakpoints": [ { "id": "stinger" } ], "flags": [ "FLIES" ], "special_attacks": [ "DERMATIK" ] }
+    "delete": { "weakpoints": [ { "id": "stinger" } ], "flags": [ "FLIES" ], "special_attacks": [ "dermatik_impale" ] }
   },
   {
     "id": "mon_dermatik_incubator_deer",

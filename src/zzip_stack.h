@@ -7,14 +7,14 @@
 #include <cstddef>
 #include <filesystem>
 #include <memory>
+#include <optional>
 #include <string_view>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
 
 #include "std_hash_fs_path.h"
-
-class zzip;
+#include "zzip.h"
 
 /**
  * A zzip_stack uses multiple zzips to handle frequent updates to only a small portion of the stored data.
@@ -49,6 +49,12 @@ class zzip_stack
         bool add_file( std::filesystem::path const &zzip_relative_path, std::string_view content );
 
         /**
+         * Directly copies the most recent version of the given files into the destination zzip.
+         */
+        bool copy_files_to( std::vector<std::filesystem::path> const &zzip_relative_paths,
+                            zzip &to );
+
+        /**
          * Returns true if the zzip contains the given path. Paths are checked through exact string
          * matches. Normalizing paths, and using generic u8 paths, is recommended.
          */
@@ -59,6 +65,11 @@ class zzip_stack
          * Returns 0 otherwise.
          */
         size_t get_file_size( std::filesystem::path const &zzip_relative_path ) const;
+
+        /**
+         * Returns a vector of filesystem paths of the contained entries.
+         */
+        std::vector<std::filesystem::path> get_entries() const;
 
         /**
          * Extracts the given file and returns it in a fresh std::vector<std::byte>.
@@ -118,9 +129,9 @@ class zzip_stack
                                        std::filesystem::path const &dictionary = {} );
 
     private:
-        std::shared_ptr<zzip> &hot() const;
-        std::shared_ptr<zzip> &warm() const;
-        std::shared_ptr<zzip> &cold() const;
+        zzip &hot() const;
+        zzip &warm() const;
+        zzip &cold() const;
 
         std::filesystem::path path_;
         std::filesystem::path dictionary_;
@@ -132,14 +143,14 @@ class zzip_stack
             hot,
         };
         // We use mutable members for lazy loading under const methods.
-        mutable std::shared_ptr<zzip> hot_;
-        mutable std::shared_ptr<zzip> warm_;
-        mutable std::shared_ptr<zzip> cold_;
+        mutable std::optional<zzip> hot_;
+        mutable std::optional<zzip> warm_;
+        mutable std::optional<zzip> cold_;
         mutable std::unordered_map<std::filesystem::path, file_temp, std_fs_path_hash> path_temp_map_;
         file_temp temp_of_file( std::filesystem::path const &zzip_relative_path ) const;
 
-        zzip *zzip_of_temp( file_temp temp ) const;
-        std::shared_ptr<zzip> load_temp( file_temp temp ) const;
+        zzip &zzip_of_temp( file_temp temp ) const;
+        std::optional<zzip> load_temp( file_temp temp ) const;
 };
 
 #endif // CATA_SRC_ZZIP_STACK_H

@@ -4,7 +4,7 @@
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".338 Lapua HPBT" },
-    "description": ".338 Lapua ammunition, loaded with a 300-grain hollow-point boat-tailed bullet.  Developed as a joint venture between Accuracy International, SAKO, and Lapua, the .338 round is a long-range sniping cartridge that boasts impressive accuracy and devastating terminal ballistics.  With burgeoning interest among military, law enforcement, and civilian circles before the Cataclysm, the .338 cartridge filled the gap between lighter infantry munitions and anti-material rounds, although its potential utility as a hunting cartridge was somewhat diminished due to its high cost.",
+    "description": ".338 Lapua ammunition, loaded with a 300-grain hollow-point boat-tailed bullet.  Developed as a joint venture between Accuracy International, SAKO, and Lapua, the .338 round is a long-range sniping cartridge that boasts impressive accuracy and devastating terminal ballistics.  With burgeoning interest among military, law enforcement, and civilian circles before the Cataclysm, the .338 cartridge filled the gap between lighter infantry munitions and anti-materiel rounds, although its potential utility as a hunting cartridge was somewhat diminished due to its high cost.",
     "weight": "16200 mg",
     "volume": "327 ml",
     "longest_side": "94 mm",

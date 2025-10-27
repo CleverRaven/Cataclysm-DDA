@@ -190,7 +190,7 @@
     "id": "denim_overalls",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "pair of denim overalls", "str_pl": "pairs of denim overalls" },
+    "name": { "str_sp": "denim overalls" },
     "description": "The basic denim overalls that is the symbol of the Proletariat (and some hipsters).  It covers the legs and a large portion of the torso, secured around the shoulders with straps.  It has many pockets and is relatively protective.",
     "//": "16.5 oz heavy denim overalls, modeled after the work overalls despite the description.",
     "weight": "1200 g",
@@ -261,6 +261,8 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "flag jumpsuit" },
     "description": "A jumpsuit embroidered with a pattern of the American flag.  Provides decent storage and is not very encumbering.",
+    "//": "delete jumpsuit variants",
+    "variants": [  ],
     "color": "light_red"
   },
   {
@@ -360,7 +362,8 @@
         "id": "robofac",
         "name": { "str": "Hub 01 jumpsuit" },
         "description": "A brown jumpsuit worn by the staff of Hub 01.",
-        "color": "brown"
+        "color": "brown",
+        "weight": 0
       }
     ]
   },
@@ -423,7 +426,9 @@
     "subtypes": [ "ARMOR" ],
     "copy-from": "jumpsuit",
     "name": { "str": "jumpsuit" },
-    "description": "A thin, short-sleeved jumpsuit; similar to those worn by prisoners.  Provides decent storage and is not very encumbering.",
+    "description": "A thin, short-sleeved jumpsuit similar to those worn by prisoners.  Provides decent storage and is not very encumbering.",
+    "//": "delete jumpsuit variants",
+    "variants": [  ],
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
@@ -434,6 +439,8 @@
     "copy-from": "jumpsuit",
     "name": { "str": "skeleton jumpsuit" },
     "description": "A black jumpsuit with a skeleton pattern printed on it.  It can be zipped all the way up to cover your head and face in a skull pattern too.  Use it to zip the head portion closed.",
+    "//": "delete jumpsuit variants",
+    "variants": [  ],
     "weight": "939 g",
     "volume": "3500 ml",
     "price": "95 USD",
@@ -609,7 +616,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "heavy work coveralls" },
     "description": "A thick, fully covering jumpsuit made of waterproof canvas lined with extra fabric for warmth in brisk weather.  Offers solid protection from everyday dangers on the job and plenty of storage pockets.",
-    "weight": "2436 g",
+    "weight": "2100 g",
     "volume": "2000 ml",
     "price": "120 USD",
     "price_postapoc": "12 USD 50 cent",
@@ -878,12 +885,7 @@
     "flags": [ "VARSIZE", "HOOD" ],
     "variant_type": "generic",
     "variants": [
-      {
-        "id": "devil_onesie",
-        "name": { "str": "devil onesie" },
-        "description": "An encumbering red wool suit with a hood adorned with cartoonish devil horns and a devil's tail on the back.  It's for those who want to feel devilishly warm in their sleep.",
-        "color": "red"
-      },
+      { "id": "devil_onesie", "//": "inherit name and description from item", "color": "red" },
       {
         "id": "bunny_onesie",
         "name": { "str": "bunny onesie" },

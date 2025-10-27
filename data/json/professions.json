@@ -711,6 +711,7 @@
   {
     "type": "profession",
     "id": "unemployed",
+    "//": "This profession is meant to convey an average person who has not prepared for the Cataclysm at all. Starting out unprepared is fully intentional, and this scenario is not meant to aid new players.",
     "name": "Survivor",
     "description": "Some would say that there's nothing particularly notable about you, but you've survived, and that's more than most could say right now.",
     "npc_background": "BG_survival_story_EVACUEE",
@@ -722,13 +723,8 @@
           { "item": "longshirt" },
           { "item": "socks" },
           { "item": "sneakers" },
-          { "item": "mbag" },
-          { "item": "pockknife" },
-          { "item": "water_clean" },
-          { "item": "wristwatch" },
           { "group": "charged_smart_phone", "contents-item": "guidebook" },
-          { "group": "starter_wallet_full" },
-          { "group": "charged_matches" }
+          { "group": "starter_wallet_full" }
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
@@ -1346,7 +1342,7 @@
     "type": "profession",
     "id": "major-general",
     "name": "Major General",
-    "requirement": "achievement_reach_military_bunker",
+    "requirement": [ "achievement_reach_military_bunker", "achievement_reach_military_base" ],
     "description": "You worked your way up through the ranks from a no-name private to a big shot Major General, respected and decorated.  On the downside, years of desk duty have left your shooting skills rusty, and all the medals in the world won't protect you now.",
     "npc_background": "BG_survival_story_SOLDIER",
     "points": 4,
@@ -4707,7 +4703,6 @@
       "both": {
         "entries": [
           { "item": "jumpsuit_pocketless", "variant": "orange" },
-          { "item": "striped_pants" },
           { "item": "sneakers" },
           { "item": "socks" },
           { "item": "gum" },
@@ -5164,45 +5159,6 @@
       },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "boy_shorts" } ] }
-    }
-  },
-  {
-    "type": "profession",
-    "id": "archaeologist",
-    "name": "Archaeologist",
-    "description": "Following a clue from your dead grandfather's journal, you made your way to a long-lost temple, but then the ground started to shake uncontrollably.  You had a bad feeling about that, so you got out of there quickly.",
-    "npc_background": "BG_survival_story_WORKER_COMMERCIAL",
-    "points": 2,
-    "skills": [
-      { "level": 4, "name": "survival" },
-      { "level": 2, "name": "gun" },
-      { "level": 2, "name": "pistol" },
-      { "level": 2, "name": "melee" },
-      { "level": 2, "name": "bashing" }
-    ],
-    "items": {
-      "both": {
-        "entries": [
-          { "item": "undershirt" },
-          { "item": "leather_belt" },
-          { "item": "socks" },
-          { "item": "boots" },
-          { "item": "jacket_leather" },
-          { "item": "knit_scarf" },
-          { "item": "bullwhip" },
-          { "item": "mbag" },
-          { "item": "fedora" },
-          { "item": "wristwatch" },
-          { "item": "spiral_stone" },
-          { "group": "charged_smart_phone", "contents-item": "novel_adventure" },
-          { "group": "starter_wallet_full" },
-          { "group": "speedloaders_s&w619_special" },
-          { "item": "sw_619", "ammo-item": "38_special", "charges": 7, "container-item": "holster" },
-          { "item": "pants", "variant": "generic_pants" }
-        ]
-      },
-      "male": { "entries": [ { "item": "briefs" } ] },
-      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     }
   },
   {

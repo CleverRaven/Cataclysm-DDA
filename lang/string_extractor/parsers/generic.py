@@ -16,7 +16,7 @@ def parse_generic(json, origin):
     if "name" in json:
         name = get_singular_name(json["name"])
         write_text(json["name"], origin, comment=comment + ["Item name"],
-                   plural=True, c_format=False)
+                   plural=True)
     elif "id" in json:
         name = json["id"]
 
@@ -30,7 +30,7 @@ def parse_generic(json, origin):
             parse_magazine(json, origin)
 
     if "description" in json:
-        write_text(json["description"], origin, c_format=False,
+        write_text(json["description"], origin,
                    comment=comment + ["Description of \"{}\"".format(name)])
 
     if "use_action" in json:
@@ -46,13 +46,16 @@ def parse_generic(json, origin):
 
     if "variants" in json:
         for variant in json["variants"]:
-            variant_name = get_singular_name(variant["name"])
-            write_text(variant["name"], origin,
-                       comment="Variant name of item \"{}\"".format(name),
-                       plural=True)
-            write_text(variant["description"], origin,
-                       comment="Description of variant \"{1}\" of item \"{0}\""
-                       .format(name, variant_name))
+            variant_name = get_singular_name(
+                variant["name"]) if "name" in variant else name
+            if "name" in variant:
+                write_text(variant["name"], origin,
+                           comment="Variant name of item \"{}\"".format(name),
+                           plural=True)
+            if "description" in variant:
+                write_text(variant["description"], origin, "",
+                           "Description of variant \"{1}\" of item \"{0}\""
+                           .format(name, variant_name))
 
     if "snippet_category" in json and type(json["snippet_category"]) is list:
         # snippet_category is either a simple string (the category ident)
@@ -65,8 +68,8 @@ def parse_generic(json, origin):
                 write_text(entry["text"], origin,
                            comment="Snippet of item \"{}\"".format(name))
 
-    if "seed_data" in json:
-        write_text(json["seed_data"]["plant_name"], origin,
+    if "plant_name" in json:
+        write_text(json["plant_name"], origin,
                    comment="Plant name of seed \"{}\"".format(name))
 
     if "revert_msg" in json:
@@ -87,3 +90,7 @@ def parse_generic(json, origin):
     if "relic_data" in json and "passive_effects" in json["relic_data"]:
         for enchantment in json["relic_data"]["passive_effects"]:
             parse_enchant(enchantment, origin)
+
+    write_text(json.get("e_port"), origin, comment="E-port name")
+    for e_port in json.get("e_ports_banned", []):
+        write_text(e_port, origin, comment="E-port name")

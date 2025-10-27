@@ -148,6 +148,11 @@ void zone_type::load_zones( const JsonObject &jo, const std::string &src )
     zone_type_factory.load( jo, src );
 }
 
+void zone_type::finalize_all()
+{
+    zone_type_factory.finalize();
+}
+
 void zone_type::reset()
 {
     zone_type_factory.reset();
@@ -1660,6 +1665,7 @@ void zone_data::serialize( JsonOut &json ) const
     json.member( "faction", faction );
     json.member( "invert", invert );
     json.member( "enabled", enabled );
+    json.member( "temporarily_disabled", temporarily_disabled );
     json.member( "is_vehicle", is_vehicle );
     json.member( "is_personal", is_personal );
     json.member( "cached_shift", cached_shift );
@@ -1695,6 +1701,7 @@ void zone_data::deserialize( const JsonObject &data )
     }
     data.read( "invert", invert );
     data.read( "enabled", enabled );
+    data.read( "temporarily_disabled", temporarily_disabled );
     //Legacy support
     if( data.has_member( "is_vehicle" ) ) {
         data.read( "is_vehicle", is_vehicle );

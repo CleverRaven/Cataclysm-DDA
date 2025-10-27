@@ -6,7 +6,7 @@
     "points": 0,
     "description": "Gazing into the near future lets you know what part goes where.",
     "valid": false,
-    "enchantments": [ { "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 0.04 } ] } ],
+    "player_display": false,
     "craft_skill_bonus": [
       [ "electronics", 1 ],
       [ "tailor", 1 ],
@@ -23,7 +23,7 @@
     "points": 0,
     "description": "Gazing into the near future lets you know what part goes where.",
     "valid": false,
-    "enchantments": [ { "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 0.08 } ] } ],
+    "player_display": false,
     "craft_skill_bonus": [
       [ "electronics", 2 ],
       [ "tailor", 2 ],
@@ -40,7 +40,7 @@
     "points": 0,
     "description": "Gazing into the near future lets you know what part goes where.",
     "valid": false,
-    "enchantments": [ { "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 0.12 } ] } ],
+    "player_display": false,
     "craft_skill_bonus": [
       [ "electronics", 3 ],
       [ "tailor", 3 ],
@@ -57,7 +57,7 @@
     "points": 0,
     "description": "Gazing into the near future lets you know what part goes where.",
     "valid": false,
-    "enchantments": [ { "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 0.16 } ] } ],
+    "player_display": false,
     "craft_skill_bonus": [
       [ "electronics", 4 ],
       [ "tailor", 4 ],
@@ -74,7 +74,7 @@
     "points": 0,
     "description": "Gazing into the near future lets you know what part goes where.",
     "valid": false,
-    "enchantments": [ { "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 0.2 } ] } ],
+    "player_display": false,
     "craft_skill_bonus": [
       [ "electronics", 5 ],
       [ "tailor", 5 ],
@@ -91,7 +91,7 @@
     "points": 0,
     "description": "Gazing into the near future lets you know what part goes where.",
     "valid": false,
-    "enchantments": [ { "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 0.24 } ] } ],
+    "player_display": false,
     "craft_skill_bonus": [
       [ "electronics", 6 ],
       [ "tailor", 6 ],
@@ -568,6 +568,7 @@
     "active": true,
     "player_display": true,
     "purifiable": false,
+    "valid": false,
     "cost": 0,
     "transform": {
       "target": "PHOTOLIXIR_LIGHT_active",

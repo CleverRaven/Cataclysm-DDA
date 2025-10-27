@@ -1099,7 +1099,7 @@
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "id": "plain_mead",
-    "name": { "str_sp": "plain mead" },
+    "name": { "str_sp": "mead" },
     "copy-from": "mead",
     "description": "Homebrewed honey wine, a smooth and silky golden beverage.",
     "fun": 10

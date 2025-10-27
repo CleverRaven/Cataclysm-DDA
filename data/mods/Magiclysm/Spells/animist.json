@@ -7,7 +7,6 @@
     "valid_targets": [ "hostile" ],
     "min_damage": { "math": [ "(u_spell_level('smite') * 5) + 5" ] },
     "max_damage": { "math": [ "(u_spell_level('smite') * 9) + 10" ] },
-    "damage_increment": 15,
     "min_range": 1,
     "max_range": 1,
     "effect": "attack",
@@ -1195,5 +1194,27 @@
     "magic_type": "magiclysm_generic_magic",
     "base_casting_time": 150,
     "base_energy_cost": 275
+  },
+  {
+    "id": "animist_see_invisibility",
+    "type": "SPELL",
+    "name": "Seeing the Unseen",
+    "description": "Rather than relying on your eyes, use your soul to also detect nearby beings, allowing you to see even creatures that are invisible to normal sight.",
+    "valid_targets": [ "self" ],
+    "spell_class": "ANIMIST",
+    "flags": [ "ENHANCEMENT_SPELL", "CONCENTRATE", "VERBAL", "SOMATIC", "NO_LEGS" ],
+    "effect": "attack",
+    "effect_str": "effect_animist_see_invisibility",
+    "shape": "blast",
+    "magic_type": "magiclysm_generic_magic",
+    "components": "spell_components_animist_see_invisibility",
+    "difficulty": 6,
+    "max_level": 15,
+    "base_energy_cost": 350,
+    "min_duration": 30000,
+    "max_duration": 480000,
+    "duration_increment": 30000,
+    "base_casting_time": 350,
+    "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ]
   }
 ]

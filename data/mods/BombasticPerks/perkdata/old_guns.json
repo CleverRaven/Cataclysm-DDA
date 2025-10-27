@@ -228,7 +228,7 @@
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "copy-from": "shotgun_d",
-    "name": { "str": "double barrel shotgun" },
+    "name": { "str": "double-barreled shotgun" },
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {

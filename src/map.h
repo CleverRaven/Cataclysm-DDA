@@ -138,7 +138,7 @@ struct visibility_variables {
 
 struct bash_params {
     // Initial strength
-    int strength = 0;
+    const std::map<damage_type_id, int> &strength;
     // Make a sound?
     bool silent = false;
     // Essentially infinite bash strength + some
@@ -154,6 +154,8 @@ struct bash_params {
     float roll = 0.0f;
     // Was anything hit?
     bool did_bash = false;
+    // can we keep damaging this tile (if not destroyed)
+    bool can_bash = false;
     // Was anything destroyed?
     bool success = false;
     // Did we bash furniture, terrain or vehicle
@@ -384,6 +386,7 @@ class map
                 field_proc_data & );
 
         // for testing
+        friend class map_meddler;
         friend void clear_fields( int zlevel );
 
     protected:
@@ -758,6 +761,7 @@ class map
 
         // Vehicles: Common to 2D and 3D
         VehicleList get_vehicles();
+        bool place_vehicle( std::unique_ptr<vehicle> &&new_vehicle );
         void add_vehicle_to_cache( vehicle * );
         void clear_vehicle_point_from_cache( vehicle *veh, const tripoint_bub_ms &pt );
         // clears all vehicle level caches
@@ -1045,7 +1049,8 @@ class map
         int bash_resistance( const tripoint_bub_ms &p, bool allow_floor = false ) const;
         /** Returns a success rating from -1 to 10 for a given tile based on a set strength, used for AI movement planning
         *  Values roughly correspond to 10% increment chances of success on a given bash, rounded down. -1 means the square is not bashable */
-        int bash_rating( int str, const tripoint_bub_ms &p, bool allow_floor = false ) const;
+        int bash_rating( const std::map<damage_type_id, int> &str, const tripoint_bub_ms &p,
+                         bool allow_floor = false ) const;
 
         // Rubble
         /** Generates rubble at the given location, if overwrite is true it just writes on top of what currently exists
@@ -1162,8 +1167,12 @@ class map
          * @param bash_floor Allow bashing the floor and the tile that supports it
          * @param bashing_vehicle Vehicle that should NOT be bashed (because it is doing the bashing)
          */
-        bash_params bash( const tripoint_bub_ms &p, int str, bool silent = false,
-                          bool destroy = false, bool bash_floor = false,
+        bash_params bash( const tripoint_bub_ms &p, const std::map<damage_type_id, int> &str,
+                          bool silent = false, bool destroy = false, bool bash_floor = false,
+                          const vehicle *bashing_vehicle = nullptr,
+                          bool repair_missing_ground = true );
+        bash_params bash( const tripoint_bub_ms &p, int str,
+                          bool silent = false, bool destroy = false, bool bash_floor = false,
                           const vehicle *bashing_vehicle = nullptr,
                           bool repair_missing_ground = true );
 
@@ -1609,7 +1618,6 @@ class map
                        bool need_validate = true );
         void remove_submap_camp( const tripoint_bub_ms & );
         basecamp hoist_submap_camp( const tripoint_bub_ms &p );
-        bool point_within_camp( const tripoint_abs_ms &point_check ) const;
         // Graffiti
         bool has_graffiti_at( const tripoint_bub_ms &p ) const;
         const std::string &graffiti_at( const tripoint_bub_ms &p ) const;
@@ -1891,6 +1899,7 @@ class map
          */
         void shift_traps( const point_rel_sm &shift );
 
+        void on_unload( const tripoint_rel_sm &loc );
         void copy_grid( const tripoint_rel_sm &to, const tripoint_rel_sm &from );
         void draw_map( mapgendata &dat );
 
@@ -1943,7 +1952,6 @@ class map
          */
         void set_abs_sub( const tripoint_abs_sm &p );
 
-    private:
         field &get_field( const tripoint_bub_ms &p );
 
         /**
@@ -1995,7 +2003,6 @@ class map
         }
         submap *get_submap_at_grid( const tripoint_rel_sm &gridp );
         const submap *get_submap_at_grid( const tripoint_rel_sm &gridp ) const;
-    protected:
         /**
          * Get the index of a submap pointer in the grid given by grid coordinates. The grid
          * coordinates must be valid: 0 <= x < my_MAPSIZE, same for y.
@@ -2030,9 +2037,9 @@ class map
          */
         int move_cost_internal( const furn_t &furniture, const ter_t &terrain, const field &field,
                                 const vehicle *veh, int vpart ) const;
-        int bash_rating_internal( int str, const furn_t &furniture,
-                                  const ter_t &terrain, bool allow_floor,
-                                  const vehicle *veh, int part ) const;
+        int bash_rating_internal( const std::map<damage_type_id, int> &str,
+                                  const furn_t &furniture, const ter_t &terrain,
+                                  bool allow_floor, const vehicle *veh, int part ) const;
 
         /**
          * Internal version of the drawsq. Keeps a cached maptile for less re-getting.
@@ -2171,6 +2178,7 @@ class map
         // !value || value->first != map::abs_sub means cache is invalid
         std::optional<std::pair<tripoint_abs_sm, int>> max_populated_zlev = std::nullopt;
 
+        bool mapgen_in_progress = false;
         // this is set for maps loaded in bounds of the main map (g->m)
         bool _main_requires_cleanup = false;
         std::optional<bool> _main_cleanup_override = std::nullopt;

@@ -4,15 +4,11 @@ from ..write_text import write_text
 
 
 def parse_bionic(json, origin):
-    name = ""
-    if "name" in json:
-        name = get_singular_name(json["name"])
-        write_text(json["name"], origin, comment="Name of a bionic")
+    name = get_singular_name(json)
 
-    if "description" in json:
-        write_text(json["description"], origin, c_format=False,
-                   comment="Description of bionic \"{}\"".format(name))
+    write_text(json.get("name"), origin, comment="Name of a bionic")
+    write_text(json.get("description"), origin,
+               comment=f"Description of bionic '{name}'")
 
-    if "enchantments" in json:
-        for enchantment in json["enchantments"]:
-            parse_enchant(enchantment, origin)
+    for enchantment in json.get("enchantments", []):
+        parse_enchant(enchantment, origin)

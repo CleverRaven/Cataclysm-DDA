@@ -1,3 +1,16 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Compilation guide for 64 bit Windows (using Cygwin)](#compilation-guide-for-64-bit-windows-using-cygwin)
+  - [Prerequisites:](#prerequisites)
+  - [Installation:](#installation)
+  - [Configuration:](#configuration)
+  - [Cloning and compilation:](#cloning-and-compilation)
+  - [Running:](#running)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Compilation guide for 64 bit Windows (using Cygwin)
 
 This guide contains instructions for compiling Cataclysm-DDA on Windows under Cygwin. **PLEASE NOTE:** These instructions *are not intended* to produce a redistributable copy of CDDA. Please download the official builds from the website or [cross-compile from Linux](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/COMPILING/COMPILING.md#cross-compile-to-windows-from-linux) if that is your intention.

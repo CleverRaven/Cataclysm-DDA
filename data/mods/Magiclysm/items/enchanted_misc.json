@@ -45,7 +45,8 @@
     "revert_to": "heat_cube",
     "use_action": { "target": "heat_cube", "msg": "The torch flame is extinguished.", "menu_text": "Turn off", "type": "transform" },
     "emits": [ "emit_hot_air2_stream" ],
-    "flags": [ "LIGHT_15", "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
+    "light": 15,
+    "flags": [ "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "mkey_opening",
@@ -109,7 +110,8 @@
     ],
     "techniques": [ "WBLOCK_1" ],
     "sub": "fire",
-    "extend": { "flags": [ "FIRE", "LIGHT_60", "FLAMING", "TRADER_AVOID", "WATER_EXTINGUISH" ] }
+    "light": 60,
+    "extend": { "flags": [ "FIRE", "FLAMING", "TRADER_AVOID", "WATER_EXTINGUISH" ] }
   },
   {
     "name": { "str": "endless flask" },

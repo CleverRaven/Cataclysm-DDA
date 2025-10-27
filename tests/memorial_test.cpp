@@ -335,7 +335,7 @@ TEST_CASE( "memorial_log_dumping", "[memorial]" )
     const std::string expected_output =
         "| Year 1, Spring, day 0 0800.00 | refugee center | "
         "Apolonia Trout began their journey into the Cataclysm." + eol +
-        "| Year 1, Spring, day 1 4:20:14 AM | forest | Used the debug menu (ENABLE_ACHIEVEMENTS)."
+        "| Year 1, Mar 21 4:20:14 AM | forest | Used the debug menu (ENABLE_ACHIEVEMENTS)."
         + eol;
 
     memorial_logger logger;

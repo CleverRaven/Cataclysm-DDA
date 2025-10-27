@@ -333,6 +333,10 @@ class Creature : public viewer
 
         /** Recreates the Creature from scratch. */
         virtual void normalize();
+    protected:
+        /** Processes effects and bonuses. */
+        void process_turn_no_moves();
+    public:
         /** Processes effects and bonuses and allocates move points based on speed. */
         virtual void process_turn();
         /** Resets the value of all bonus fields to 0. */
@@ -558,6 +562,7 @@ class Creature : public viewer
 
         virtual bool has_weapon() const = 0;
         virtual bool is_hallucination() const = 0;
+        bool hallucination_die( map *here, Creature *killer );
 
         // returns true if the creature has an electric field
         virtual bool is_electrical() const = 0;
@@ -804,8 +809,11 @@ class Creature : public viewer
     protected:
         // Sets the creature's position without any side-effects.
         void set_pos_bub_only( const map &here, const tripoint_bub_ms &p );
+
+    public:
         // Sets the creature's position without any side-effects.
         void set_pos_abs_only( const tripoint_abs_ms &loc );
+    protected:
         // Invoked when the creature's position changes.
         virtual void on_move( const tripoint_abs_ms &old_pos );
         /**anatomy is the plan of the creature's body*/
@@ -819,14 +827,13 @@ class Creature : public viewer
         bodypart_id get_random_body_part( bool main = false ) const;
         /**
          * Returns body parts this creature have.
-         * @param only_main If true, only displays parts that can have hit points
          */
         std::vector<bodypart_id> get_all_body_parts(
             get_body_part_flags = get_body_part_flags::none ) const;
         std::vector<bodypart_id> get_all_body_parts_of_type(
-            body_part_type::type part_type,
+            bp_type part_type,
             get_body_part_flags flags = get_body_part_flags::none ) const;
-        bodypart_id get_random_body_part_of_type( body_part_type::type part_type ) const;
+        bodypart_id get_random_body_part_of_type( bp_type part_type ) const;
         bodypart_id get_root_body_part() const;
         /* Returns all body parts with the given flag */
         std::vector<bodypart_id> get_all_body_parts_with_flag( const json_character_flag &flag ) const;
@@ -840,10 +847,10 @@ class Creature : public viewer
         std::string string_for_ground_contact_bodyparts( const std::vector<bodypart_id> &bps ) const;
 
         /* Returns the number of bodyparts of a given type*/
-        int get_num_body_parts_of_type( body_part_type::type part_type ) const;
+        int get_num_body_parts_of_type( bp_type part_type ) const;
 
         /* Returns the number of broken bodyparts of a given type */
-        int get_num_broken_body_parts_of_type( body_part_type::type part_type ) const;
+        int get_num_broken_body_parts_of_type( bp_type part_type ) const;
 
         const std::map<bodypart_str_id, bodypart> &get_body() const;
         void set_body();
@@ -1283,6 +1290,9 @@ class Creature : public viewer
         // Keep a count of moves passed in which resets every 100 turns as a result of practicing archery proficiency
         // This is done this way in order to not destroy focus since `do_aim` is on a per-move basis.
         int archery_aim_counter = 0;
+
+        // This tracks how many times the creature has trained any opponent's skill in melee/weapon skill/dodging in combat.
+        short times_combatted_player = 0;
 
         // Find the body part with the biggest hitsize - we will treat this as the center of mass for targeting
         bodypart_id get_max_hitsize_bodypart() const;

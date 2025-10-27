@@ -48,6 +48,7 @@
 #include "npctrade.h"
 #include "options.h"
 #include "output.h"
+#include "pickup.h"
 #include "pimpl.h"
 #include "player_activity.h"
 #include "pocket_type.h"
@@ -531,7 +532,7 @@ class pickup_inventory_preset : public inventory_selector_preset
                                           bool skip_wield_check = false, bool ignore_liquidcont = false ) : you( you ),
             skip_wield_check( skip_wield_check ), ignore_liquidcont( ignore_liquidcont ) {
             save_state = &pickup_sel_default_state;
-            _pk_type = pocket_type::LAST;
+            _pk_type = { pocket_type::LAST };
         }
 
         std::string get_denial( const item_location &loc ) const override {
@@ -562,10 +563,11 @@ class pickup_inventory_preset : public inventory_selector_preset
                                     item_copy, nullptr, false );
 
                         item_pocket *ip = pocke.second;
-                        if( ip == nullptr || ( ip &&
-                                               ( !ip->can_contain( item_copy ).success() ||
-                                                 !ip->front().can_combine( item_copy ) ||
-                                                 item_copy.typeId() != ip->front().typeId() ) ) ) {
+                        if( ip == nullptr ||
+                            !ip->can_contain( item_copy ).success() ||
+                            ( !ip->empty() &&
+                              ( !ip->front().can_combine( item_copy ) ||
+                                item_copy.typeId() != ip->front().typeId() ) ) ) {
                             return _( "Does not have any pocket for frozen liquids!" );
                         } else {
                             return std::string();
@@ -1118,6 +1120,10 @@ class activatable_inventory_preset : public pickup_inventory_preset
             const item &it = *loc;
             const auto &uses = it.type->use_methods;
 
+            if( it.has_relic_activation() && !it.can_use_relic( you ) ) {
+                return string_format( _( "The %s can't be used like that." ), it.tname() );
+            }
+
             const auto &comest = it.get_comestible();
             if( comest && !comest->tool.is_null() ) {
                 const bool has = item::count_by_charges( comest->tool )
@@ -1167,8 +1173,8 @@ class activatable_inventory_preset : public pickup_inventory_preset
             if( uses.size() == 1 &&
                 !it.ammo_sufficient( &you, uses.begin()->first ) ) {
                 return string_format(
-                           n_gettext( "Needs at least %d charge",
-                                      "Needs at least %d charges", loc->ammo_required() ),
+                           n_gettext( "Needs at least %d charge.",
+                                      "Needs at least %d charges.", loc->ammo_required() ),
                            loc->ammo_required() );
             }
 
@@ -1585,8 +1591,9 @@ class ebookread_inventory_preset : public read_inventory_preset
 
 item_location game_menus::inv::read( Character &you )
 {
-    const std::string msg = you.is_avatar() ? _( "You have nothing to read." ) :
-                            string_format( _( "%s has nothing to read." ), you.disp_name() );
+    const std::string msg = you.is_avatar() ?
+                            string_format( _( "%1$s have nothing to read." ), you.disp_name( false, true ) ) :
+                            string_format( _( "%1$s has nothing to read." ), you.disp_name( false, true ) );
     return inv_internal( you, read_inventory_preset( you ), _( "Read" ), 1, msg, "", item_location(),
                          true );
 }
@@ -2426,26 +2433,41 @@ drop_locations game_menus::inv::multidrop( Character &you )
     return inv_s.execute();
 }
 
-drop_locations game_menus::inv::pickup( const std::optional<tripoint_bub_ms> &target,
+drop_locations game_menus::inv::pickup( const std::set<tripoint_bub_ms> &targets )
+{
+    return pickup( targets, {} );
+}
+
+drop_locations game_menus::inv::pickup( const std::set<tripoint_bub_ms> &targets,
                                         const std::vector<drop_location> &selection )
+{
+    Pickup::pick_info pickup_info = Pickup::pick_info();
+    return pickup( targets, selection, pickup_info );
+}
+
+drop_locations game_menus::inv::pickup( const std::set<tripoint_bub_ms> &targets,
+                                        const std::vector<drop_location> &selection,
+                                        Pickup::pick_info &info )
 {
     avatar &you = get_avatar();
     pickup_inventory_preset preset( you, /*skip_wield_check=*/true, /*ignore_liquidcont=*/true );
     preset.save_state = &pickup_ui_default_state;
 
-    pickup_selector pick_s( you, preset, _( "ITEMS TO PICK UP" ), target );
+    pickup_selector pick_s( you, preset, _( "ITEMS TO PICK UP" ), targets );
 
     // Add items from the selected tile, or from current and all surrounding tiles
-    if( target ) {
-        pick_s.add_vehicle_items( *target );
-        pick_s.add_map_items( *target );
+    if( !targets.empty() ) {
+        for( tripoint_bub_ms target : targets ) {
+            pick_s.add_vehicle_items( target );
+            pick_s.add_map_items( target );
+        }
     } else {
         pick_s.add_nearby_items();
     }
     pick_s.set_title( _( "Pickup" ) );
 
     if( pick_s.empty() ) {
-        if( target ) {
+        if( !targets.empty() ) {
             add_msg( _( "There is nothing to pick up." ) );
         } else {
             add_msg( _( "There is nothing to pick up nearby." ) );
@@ -2457,6 +2479,12 @@ drop_locations game_menus::inv::pickup( const std::optional<tripoint_bub_ms> &ta
         pick_s.apply_selection( selection );
     }
 
+    if( info.max_volume != -1_ml ) {
+        pick_s.overriden_volume = info.max_volume;
+    }
+    if( info.max_mass != -1_gram ) {
+        pick_s.overriden_mass = info.max_mass;
+    }
     return pick_s.execute();
 }
 
@@ -2464,7 +2492,7 @@ class smokable_selector_preset : public inventory_selector_preset
 {
     public:
         bool is_shown( const item_location &location ) const override {
-            return !location->rotten() && location->has_flag( flag_SMOKABLE );
+            return !location->rotten() && location->is_smokable();
         }
 };
 
@@ -2498,7 +2526,7 @@ drop_locations game_menus::inv::smoke_food( Character &you, units::volume total_
     smoke_s.add_character_items( you );
 
     smoke_s.set_title( _( "Insert food into smoking rack" ) );
-    smoke_s.set_hint( _( "To select x items, type a number before selecting." ) );
+    smoke_s.set_hint( _( "To select items, type a number before selecting." ) );
     smoke_s.set_invlet_type( inventory_selector::selector_invlet_type::SELECTOR_INVLET_ALPHA );
 
     if( smoke_s.empty() ) {
@@ -2892,7 +2920,9 @@ class bionic_install_surgeon_preset : public inventory_selector_preset
                 ret_val<void> const refusal =
                     you.as_npc()->wants_to_sell( loc, price );
                 if( !refusal.success() ) {
-                    return you.replace_with_npc_name( refusal.str() );
+                    std::string refused_text = refusal.str();
+                    parse_tags( refused_text, you, pa );
+                    return refused_text;
                 }
             }
             const ret_val<void> installable = pa.is_installable( loc.get_item(), false );

@@ -1,3 +1,19 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Martial arts and Techniques](#martial-arts-and-techniques)
+  - [Martial arts](#martial-arts)
+    - [Martial art buffs](#martial-art-buffs)
+  - [Techniques](#techniques)
+    - [Technique effects](#technique-effects)
+  - [Bonuses](#bonuses)
+    - [Examples](#examples)
+  - [Attack vectors](#attack-vectors)
+  - [How to use](#how-to-use)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Martial arts and Techniques
 
 A Martial art (MA for short) just like in real life, is a set of physical practices, skills and stances for combat and sport.  In CDDA, these represent different combat styles of the survivor.

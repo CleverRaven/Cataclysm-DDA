@@ -52,10 +52,7 @@
         }
       ]
     },
-    "effect": [
-      { "math": [ "u_awakening_countup", "+=", "rand(8) + 1" ] },
-      { "math": [ "u_has_initial_awakening_countup_set = 1" ] }
-    ],
+    "effect": [ { "math": [ "u_awakening_countup += rand(8) + 1" ] }, { "math": [ "u_has_initial_awakening_countup_set = 1" ] } ],
     "false_effect": [ { "math": [ "u_has_initial_awakening_countup_set = 1" ] } ]
   },
   {
@@ -64,7 +61,7 @@
     "eoc_type": "EVENT",
     "required_event": "game_start",
     "condition": { "u_has_trait": "BIOKINETIC" },
-    "effect": [ { "math": [ "u_awakening_countup", "+=", "1" ] } ]
+    "effect": [ { "math": [ "u_awakening_countup += 1" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -72,7 +69,7 @@
     "eoc_type": "EVENT",
     "required_event": "game_start",
     "condition": { "u_has_trait": "CLAIRSENTIENT" },
-    "effect": [ { "math": [ "u_awakening_countup", "+=", "1" ] } ]
+    "effect": [ { "math": [ "u_awakening_countup += 1" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -80,7 +77,7 @@
     "eoc_type": "EVENT",
     "required_event": "game_start",
     "condition": { "u_has_trait": "ELECTROKINETIC" },
-    "effect": [ { "math": [ "u_awakening_countup", "+=", "1" ] } ]
+    "effect": [ { "math": [ "u_awakening_countup += 1" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -88,7 +85,7 @@
     "eoc_type": "EVENT",
     "required_event": "game_start",
     "condition": { "u_has_trait": "PHOTOKINETIC" },
-    "effect": [ { "math": [ "u_awakening_countup", "+=", "1" ] } ]
+    "effect": [ { "math": [ "u_awakening_countup += 1" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -96,7 +93,7 @@
     "eoc_type": "EVENT",
     "required_event": "game_start",
     "condition": { "u_has_trait": "PYROKINETIC" },
-    "effect": [ { "math": [ "u_awakening_countup", "+=", "1" ] } ]
+    "effect": [ { "math": [ "u_awakening_countup += 1" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -104,7 +101,7 @@
     "eoc_type": "EVENT",
     "required_event": "game_start",
     "condition": { "u_has_trait": "TELEKINETIC" },
-    "effect": [ { "math": [ "u_awakening_countup", "+=", "1" ] } ]
+    "effect": [ { "math": [ "u_awakening_countup += 1" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -112,7 +109,7 @@
     "eoc_type": "EVENT",
     "required_event": "game_start",
     "condition": { "u_has_trait": "TELEPATH" },
-    "effect": [ { "math": [ "u_awakening_countup", "+=", "1" ] } ]
+    "effect": [ { "math": [ "u_awakening_countup += 1" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -120,7 +117,7 @@
     "eoc_type": "EVENT",
     "required_event": "game_start",
     "condition": { "u_has_trait": "TELEPORTER" },
-    "effect": [ { "math": [ "u_awakening_countup", "+=", "1" ] } ]
+    "effect": [ { "math": [ "u_awakening_countup += 1" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -128,7 +125,7 @@
     "eoc_type": "EVENT",
     "required_event": "game_start",
     "condition": { "u_has_trait": "VITAKINETIC" },
-    "effect": [ { "math": [ "u_awakening_countup", "+=", "1" ] } ]
+    "effect": [ { "math": [ "u_awakening_countup += 1" ] } ]
   },
   {
     "type": "effect_on_condition",

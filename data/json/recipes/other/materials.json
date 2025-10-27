@@ -90,7 +90,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "chunk_rubber", 16 ] ], [ [ "rubber_cement", 1 ] ] ]
+    "components": [ [ [ "chunk_rubber", 16 ] ], [ [ "glue_weak", 250 ] ] ]
   },
   {
     "type": "recipe",
@@ -1399,6 +1399,66 @@
     "components": [ [ [ "wire_barbed", 1 ] ] ]
   },
   {
+    "result": "small_aluminum_bar_round",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "autolearn": true,
+    "time": "30 m",
+    "tools": [ [ [ "fake_lathe", 30 ] ] ],
+    "components": [ [ [ "aluminum_bar_round", 1 ] ] ],
+    "byproducts": [ [ "scrap_aluminum", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_machining_basic" } ]
+  },
+  {
+    "result": "small_lc_steel_bar_round",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "autolearn": true,
+    "time": "45 m",
+    "tools": [ [ [ "fake_lathe", 45 ] ] ],
+    "components": [ [ [ "lc_steel_bar_round", 1 ] ] ],
+    "byproducts": [ [ "scrap", 9 ] ],
+    "proficiencies": [ { "proficiency": "prof_machining_basic" } ]
+  },
+  {
+    "result": "small_mc_steel_bar_round",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "autolearn": true,
+    "time": "50 m",
+    "tools": [ [ [ "fake_lathe", 50 ] ] ],
+    "components": [ [ [ "mc_steel_bar_round", 1 ] ] ],
+    "byproducts": [ [ "scrap", 9 ] ],
+    "proficiencies": [ { "proficiency": "prof_machining_basic" } ]
+  },
+  {
+    "result": "small_hc_steel_bar_round",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "autolearn": true,
+    "time": "60 m",
+    "tools": [ [ [ "fake_lathe", 60 ] ] ],
+    "components": [ [ [ "hc_steel_bar_round", 1 ] ] ],
+    "byproducts": [ [ "scrap", 9 ] ],
+    "proficiencies": [ { "proficiency": "prof_machining_basic" } ]
+  },
+  {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "glass_shard",
@@ -1469,6 +1529,7 @@
     "time": "2 h",
     "charges": 50,
     "autolearn": true,
+    "using": [ [ "wood_sealant_any_small", 1 ] ],
     "qualities": [
       { "id": "SAW_W", "level": 1 },
       [ { "id": "PUNCH", "level": 1 }, { "id": "DRILL", "level": 1 } ],
@@ -1476,7 +1537,29 @@
       { "id": "FILE", "level": 1 }
     ],
     "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.25, "skill_penalty": 0.125 } ],
-    "components": [ [ [ "mop", 1 ], [ "stick", 1 ], [ "broom", 1 ] ], [ [ "wax_any", 1, "LIST" ], [ "rosin", 1 ] ] ]
+    "components": [ [ [ "mop", 1 ], [ "stick", 1 ], [ "broom", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "button_bone",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "2 h 10 m",
+    "charges": 50,
+    "autolearn": true,
+    "qualities": [
+      { "id": "SAW_W", "level": 1 },
+      [ { "id": "PUNCH", "level": 1 }, { "id": "DRILL", "level": 1 } ],
+      { "id": "CUT", "level": 2 },
+      { "id": "FILE", "level": 1 },
+      { "id": "BOIL", "level": 1 }
+    ],
+    "tools": [ [ [ "water_boiling_heat", 1, "LIST" ] ], [ [ "water", -1 ], [ "water_clean", -1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.25, "skill_penalty": 0.125 } ],
+    "components": [ [ [ "bone_sturdy", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",

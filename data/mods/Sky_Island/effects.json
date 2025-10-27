@@ -129,5 +129,20 @@
     "rating": "good",
     "show_intensity": false,
     "flags": [ "SUPER_CLAIRVOYANCE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_island_radblock",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good",
+    "flags": [ "NO_RADIATION" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_island_steady",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "STEADY" ]
   }
 ]

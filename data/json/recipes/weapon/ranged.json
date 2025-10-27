@@ -550,6 +550,37 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "sling_long",
+    "id_suffix": "cord",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "throw", 1 ] ],
+    "difficulty": 1,
+    "time": "45 m",
+    "reversible": true,
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_fibers", "skill_penalty": 0 } ],
+    "using": [ [ "cordage", 6 ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "sling_long",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "throw", 1 ], [ "tailor", 1 ] ],
+    "time": "20 m",
+    "reversible": true,
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "SEW", "level": 1 } ],
+    "components": [ [ [ "filament", 40, "LIST" ] ], [ [ "leather", 1 ], [ "fur", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "slingshot",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
@@ -734,7 +765,7 @@
     "components": [
       [ [ "shotgun_s", 1 ], [ "pipe_shotgun", 1 ] ],
       [ [ "pipe", 3 ] ],
-      [ [ "spring", 1 ] ],
+      [ [ "spring_medium", 2 ] ],
       [ [ "steel_chunk_any", 3, "LIST" ], [ "scrap", 9 ] ]
     ]
   },
@@ -779,7 +810,7 @@
     "components": [
       [ [ "2x4", 2 ], [ "stick", 3 ] ],
       [ [ "cordage_superior_short", 1, "LIST" ] ],
-      [ [ "spring", 1 ] ],
+      [ [ "spring_small", 1 ] ],
       [ [ "scrap", 4 ] ],
       [ [ "nails", 10, "LIST" ] ]
     ]
@@ -1096,7 +1127,7 @@
     "components": [
       [ [ "2x4", 14 ] ],
       [ [ "rope_superior_short", 2, "LIST" ] ],
-      [ [ "nail", 60 ], [ "bronze_nail", 60 ] ],
+      [ [ "nails", 60, "LIST" ] ],
       [ [ "nuts_bolts", 60 ] ],
       [ [ "simple_crank", 1 ], [ "foot_crank", 1 ] ],
       [ [ "spring", 4 ] ]
@@ -1132,7 +1163,7 @@
       [ [ "2x4", 8 ], [ "stick", 16 ] ],
       [ [ "rope_superior_short", 2, "LIST" ] ],
       [ [ "simple_crank", 1 ], [ "foot_crank", 1 ] ],
-      [ [ "spring", 4 ] ],
+      [ [ "spring_medium", 4 ] ],
       [ [ "steel_chunk_any", 4, "LIST" ], [ "scrap", 12 ] ],
       [ [ "nails", 60, "LIST" ] ]
     ]
@@ -1158,7 +1189,7 @@
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "SCREW", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "components": [
       [ [ "2x4", 4 ], [ "stick", 8 ] ],
-      [ [ "spring", 1 ] ],
+      [ [ "spring_medium", 1 ] ],
       [ [ "cordage_superior", 1, "LIST" ] ],
       [ [ "nails", 20, "LIST" ] ]
     ]
@@ -1368,6 +1399,6 @@
     ],
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
     "tools": [ [ [ "bench_vise", -1 ] ] ],
-    "components": [ [ [ "ruger_1022", 1 ] ], [ [ "qt_wire", 1 ] ], [ [ "sheet_metal_small", 2 ] ], [ [ "super_glue", 5 ] ] ]
+    "components": [ [ [ "ruger_1022", 1 ] ], [ [ "qt_wire", 1 ] ], [ [ "sheet_metal_small", 2 ] ], [ [ "glue_strong", 5 ] ] ]
   }
 ]

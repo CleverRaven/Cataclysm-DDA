@@ -75,105 +75,21 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "shelter", "shelter_vandal", "shelter_unfinished", "shelter_survivor" ],
+    "id": [ "shelter", "shelter_unfinished" ],
     "name": "evac shelter A-23",
     "copy-from": "shelter_abstract",
     "flags": [ "KNOWN_DOWN", "SOURCE_PEOPLE", "SOURCE_SAFETY" ]
   },
   {
     "type": "overmap_terrain",
-    "id": [ "shelter_infested" ],
-    "copy-from": "shelter",
-    "flags": [ "KNOWN_DOWN", "RISK_HIGH" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "shelter_1", "shelter_1_vandal", "shelter_1_unfinished", "shelter_1_survivor" ],
-    "name": "evac shelter B-05",
-    "copy-from": "shelter_abstract",
-    "flags": [ "KNOWN_DOWN", "SOURCE_PEOPLE", "SOURCE_SAFETY" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "shelter_1_infested" ],
-    "copy-from": "shelter_1",
-    "flags": [ "KNOWN_DOWN", "RISK_HIGH" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "shelter_1b", "shelter_1b_vandal", "shelter_1b_unfinished", "shelter_1b_survivor" ],
-    "copy-from": "shelter_abstract",
-    "name": "evac shelter B-19",
-    "flags": [ "KNOWN_DOWN", "SOURCE_PEOPLE", "SOURCE_SAFETY" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "shelter_1b_infested" ],
-    "copy-from": "shelter_1b",
-    "flags": [ "KNOWN_DOWN", "RISK_HIGH" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "shelter_2", "shelter_2_vandal", "shelter_2_unfinished", "shelter_2_survivor" ],
-    "name": "evac shelter C-41",
-    "copy-from": "shelter_abstract",
-    "flags": [ "KNOWN_DOWN", "SOURCE_PEOPLE", "SOURCE_SAFETY" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "shelter_2_infested" ],
-    "copy-from": "shelter_2",
-    "flags": [ "KNOWN_DOWN", "RISK_HIGH" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "shelter_roof" ],
+    "id": "shelter_roof",
     "name": "evac shelter roof A-23",
     "copy-from": "shelter_abstract"
   },
   {
     "type": "overmap_terrain",
-    "id": [ "shelter_roof_1" ],
-    "name": "evac shelter roof B-05",
-    "copy-from": "shelter_abstract"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "shelter_roof_1b" ],
-    "name": "evac shelter roof B-19",
-    "copy-from": "shelter_abstract"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "shelter_roof_2" ],
-    "name": "evac shelter roof C-41",
-    "copy-from": "shelter_abstract"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "shelter_under", "shelter_under_vandal", "shelter_under_unfinished", "shelter_under_infested" ],
+    "id": [ "shelter_under", "shelter_under_unfinished" ],
     "name": "evac shelter basement A-23",
-    "copy-from": "shelter_abstract",
-    "flags": [ "KNOWN_UP" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "shelter_under_1b", "shelter_under_1b_vandal", "shelter_under_1b_unfinished", "shelter_under_1b_infested" ],
-    "name": "evac shelter basement B-19",
-    "copy-from": "shelter_abstract",
-    "flags": [ "KNOWN_UP" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "shelter_under_2", "shelter_under_2_vandal", "shelter_under_2_unfinished", "shelter_under_2_infested" ],
-    "name": "evac shelter basement C-41",
-    "copy-from": "shelter_abstract",
-    "flags": [ "KNOWN_UP" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "shelter_under_1", "shelter_under_1_vandal", "shelter_under_1_unfinished", "shelter_under_1_infested" ],
-    "name": "evac shelter basement B-05",
     "copy-from": "shelter_abstract",
     "flags": [ "KNOWN_UP" ]
   },

@@ -427,7 +427,7 @@
       [ [ "sugar", 2 ] ],
       [ [ "salt", 2 ] ],
       [ [ "water_clean", 2 ] ],
-      [ [ "any_butter_or_oil", 4, "LIST" ], [ "edible_lard", 1, "LIST" ] ]
+      [ [ "any_butter_or_oil", 4, "LIST" ], [ "edible_tallow", 2, "LIST" ] ]
     ],
     "//": "I'm not sure whether this should also be rewritten to use a portion of charges, or scaled up so that the smallest component in the recipe becomes a single charge.",
     "//2": "Since milk is only used sparingly in the creation of hallula, to give it a glazed appearance, Cataclysm practicality suggests omitting it."

@@ -1,3 +1,40 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Item migration](#item-migration)
+- [Charge and temperature removal](#charge-and-temperature-removal)
+- [Vehicle migration](#vehicle-migration)
+- [Vehicle part migration](#vehicle-part-migration)
+- [Bionic migration](#bionic-migration)
+- [Trait migration](#trait-migration)
+- [Monster migration](#monster-migration)
+- [Recipe migration](#recipe-migration)
+- [Terrain and furniture migration](#terrain-and-furniture-migration)
+  - [Examples](#examples)
+- [Trap migration](#trap-migration)
+  - [Examples](#examples-1)
+- [Field migration](#field-migration)
+  - [Examples](#examples-2)
+- [Overmap terrain migration](#overmap-terrain-migration)
+- [Overmap specials migration](#overmap-specials-migration)
+- [Dialogue / EoC variable migration](#dialogue--eoc-variable-migration)
+- [Activity Migration](#activity-migration)
+- [Ammo types](#ammo-types)
+- [Spells](#spells)
+- [city_building](#city_building)
+- [Item groups](#item-groups)
+- [Monster groups](#monster-groups)
+- [body_part migration](#body_part-migration)
+- [Mods](#mods)
+  - [Obsoletion](#obsoletion)
+    - [Example](#example)
+  - [Migration](#migration)
+  - [Removal](#removal)
+    - [Example](#example-1)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 
 If you want to remove some item, it is rarely as straightforward as "remove the item json and call it a day". Everything that is stored in save file (like furniture, monsters or items, but not item or monstergroups) may cause harmless, but annoying errors when thing is removed. This document describe how to properly obsolete most `type`s of json we have in the game.
 

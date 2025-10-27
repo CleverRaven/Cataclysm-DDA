@@ -195,6 +195,17 @@ const use_function *itype::get_use( const std::string &iuse_name ) const
     return iter != use_methods.end() ? &iter->second : nullptr;
 }
 
+bool itype::has_tick( const std::string &iuse_name ) const
+{
+    return get_tick( iuse_name ) != nullptr;
+}
+
+const use_function *itype::get_tick( const std::string &iuse_name ) const
+{
+    const auto iter = tick_action.find( iuse_name );
+    return iter != tick_action.end() ? &iter->second : nullptr;
+}
+
 int itype::tick( Character *p, item &it, const tripoint_bub_ms &pos ) const
 {
     int charges_to_use = 0;
@@ -283,6 +294,16 @@ bool itype::is_basic_component() const
         }
     }
     return false;
+}
+
+const std::vector<std::pair<flag_id, time_duration>> &islot_seed::get_growth_stages() const
+{
+    return growth_stages;
+}
+
+units::temperature islot_seed::get_growth_temp() const
+{
+    return growth_temp;
 }
 
 int islot_armor::avg_env_resist() const
@@ -505,5 +526,8 @@ void item_melee_damage::deserialize( const JsonObject &jo )
 {
     damage_map = load_damage_map( jo );
     //we can do this because items are always loaded after damage types
+    // ^this is not true, objects are loaded as they are encountered, and in mod load order
+    // Being loaded in mod load order particularly is the risk here!
+    // FIXME: call finalize in the right place
     finalize();
 }

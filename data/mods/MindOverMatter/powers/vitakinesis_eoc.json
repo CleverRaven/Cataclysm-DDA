@@ -34,7 +34,7 @@
               ]
             },
             "effect": [
-              { "math": [ "u_vitamin('mutant_toxin')", "+=", "u_vitamin('dermatik_larva_size')" ] },
+              { "math": [ "u_vitamin('mutant_toxin') += u_vitamin('dermatik_larva_size')" ] },
               { "u_lose_effect": [ "dermatik", "dermatik_visible" ] },
               { "math": [ "u_vitamin('dermatik_larva_size') = 0" ] },
               { "u_message": "You feel a severe itching sensation.", "type": "mixed" }
@@ -225,8 +225,8 @@
     "id": "EOC_VITAKIN_SLEEP_EXPERIENCE",
     "condition": { "u_has_effect": "effect_vitakin_wakeful_resting" },
     "effect": [
-      { "if": { "math": [ "u_val('focus') >= 25" ] }, "then": { "math": [ "u_val('focus')", "-=", "rand(10) + 5" ] } },
-      { "math": [ "u_spell_exp('vita_sleeping_trance')", "+=", "psionic_power_experience_formula()" ] },
+      { "if": { "math": [ "u_val('focus') >= 25" ] }, "then": { "math": [ "u_val('focus') -= rand(10) + 5" ] } },
+      { "math": [ "u_spell_exp('vita_sleeping_trance') += psionic_power_experience_formula()" ] },
       {
         "run_eocs": "EOC_VITAKIN_SLEEP_EXPERIENCE",
         "time_in_future": [
@@ -271,13 +271,13 @@
         }
       ]
     },
-    "effect": [ { "math": [ "u_val('sleepiness')", "-=", "1" ] } ]
+    "effect": [ { "math": [ "u_val('sleepiness') -= 1" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_SLEEP_DEPRIVATION",
     "condition": { "math": [ "u_val('sleep_deprivation') >= 0" ] },
-    "effect": { "math": [ "u_val('sleep_deprivation')", "-=", "1" ] }
+    "effect": { "math": [ "u_val('sleep_deprivation') -= 1" ] }
   },
   {
     "type": "effect_on_condition",
@@ -329,7 +329,7 @@
     "id": "EOC_VITAKIN_HEALING_TRANCE_ONGOING_NETHER_ATTUNEMENT",
     "condition": { "u_has_effect": "effect_vitakin_healing_trance" },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(4)" ] },
+      { "math": [ "u_vitamin('vitamin_psionic_drain') += rand(4)" ] },
       {
         "run_eocs": "EOC_VITAKIN_HEALING_TRANCE_ONGOING_NETHER_ATTUNEMENT",
         "time_in_future": [
@@ -344,8 +344,8 @@
     "id": "EOC_VITAKIN_HEALING_TRANCE_EXPERIENCE",
     "condition": { "u_has_effect": "effect_vitakin_healing_trance" },
     "effect": [
-      { "if": { "math": [ "u_val('focus') >= 25" ] }, "then": { "math": [ "u_val('focus')", "-=", "rand(10) + 5" ] } },
-      { "math": [ "u_spell_exp('vita_healing_trance')", "+=", "psionic_power_experience_formula()" ] },
+      { "if": { "math": [ "u_val('focus') >= 25" ] }, "then": { "math": [ "u_val('focus') -= rand(10) + 5" ] } },
+      { "math": [ "u_spell_exp('vita_healing_trance') += psionic_power_experience_formula()" ] },
       {
         "run_eocs": "EOC_VITAKIN_HEALING_TRANCE_EXPERIENCE",
         "time_in_future": [
@@ -731,11 +731,11 @@
           "conjunctivitis_bacterial"
         ]
       },
-      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain') += rng( 15,30 )" ] }
     ],
     "false_effect": [
       { "u_message": "The ailment proved tenacious.  You'll have to try again.", "type": "bad" },
-      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain') += rng( 15,30 )" ] }
     ]
   },
   {
@@ -764,11 +764,11 @@
       { "u_message": "You breathe easily once again.", "type": "good" },
       { "u_lose_trait": "ASTHMA" },
       { "u_lose_effect": "effect_asthma_disease_absorbed" },
-      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,45 )" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain') += rng( 20,45 )" ] }
     ],
     "false_effect": [
       { "u_message": "The disease proved tenacious.  You'll have to try again.", "type": "bad" },
-      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,45 )" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain') += rng( 20,45 )" ] }
     ]
   },
   {
@@ -796,11 +796,11 @@
     "effect": [
       { "u_message": "You body feels more normal.", "type": "good" },
       { "u_lose_trait": "CHEMIMBALANCE" },
-      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,65 )" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain') += rng( 35,65 )" ] }
     ],
     "false_effect": [
       { "u_message": "The disease proved tenacious.  You'll have to try again.", "type": "bad" },
-      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,65 )" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain') += rng( 35,65 )" ] }
     ]
   },
   {
@@ -828,11 +828,11 @@
     "effect": [
       { "u_message": "You mind feels more normal.", "type": "good" },
       { "u_lose_trait": "SCHIZOPHRENIC" },
-      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 60,90 )" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain') += rng( 60,90 )" ] }
     ],
     "false_effect": [
       { "u_message": "The disease proved tenacious.  You'll have to try again.", "type": "bad" },
-      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 60,90 )" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain') += rng( 60,90 )" ] }
     ]
   },
   {
@@ -860,11 +860,11 @@
     "effect": [
       { "u_message": "You muscles stop trembling.", "type": "good" },
       { "u_lose_trait": "JITTERY" },
-      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,65 )" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain') += rng( 30,65 )" ] }
     ],
     "false_effect": [
       { "u_message": "The disease proved tenacious.  You'll have to try again.", "type": "bad" },
-      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,65 )" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain') += rng( 30,65 )" ] }
     ]
   },
   {
@@ -892,11 +892,11 @@
     "effect": [
       { "u_message": "You mood calms.", "type": "good" },
       { "u_lose_trait": "MOODSWINGS" },
-      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,65 )" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain') += rng( 30,65 )" ] }
     ],
     "false_effect": [
       { "u_message": "The disease proved tenacious.  You'll have to try again.", "type": "bad" },
-      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,65 )" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain') += rng( 30,65 )" ] }
     ]
   },
   {
@@ -924,11 +924,11 @@
     "effect": [
       { "u_message": "New vigor fills your body.", "type": "good" },
       { "u_lose_trait": "WEAKENING" },
-      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,75 )" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain') += rng( 45,75 )" ] }
     ],
     "false_effect": [
       { "u_message": "The disease proved tenacious.  You'll have to try again.", "type": "bad" },
-      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,75 )" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain') += rng( 45,75 )" ] }
     ]
   },
   {
@@ -956,11 +956,11 @@
     "effect": [
       { "u_message": "New vigor fills your body.", "type": "good" },
       { "u_lose_trait": "NARCOLEPTIC" },
-      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 50,100 )" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain') += rng( 50,100 )" ] }
     ],
     "false_effect": [
       { "u_message": "The disease proved tenacious.  You'll have to try again.", "type": "bad" },
-      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 50,100 )" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain') += rng( 50,100 )" ] }
     ]
   },
   {
@@ -988,11 +988,11 @@
     "effect": [
       { "u_message": "You take a deep breath and your nose and throat clears.", "type": "good" },
       { "u_lose_trait": "SEASONAL_ALLERGIES" },
-      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 40,80 )" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain') += rng( 40,80 )" ] }
     ],
     "false_effect": [
       { "u_message": "The disease proved tenacious.  You'll have to try again.", "type": "bad" },
-      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 40,80 )" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain') += rng( 40,80 )" ] }
     ]
   },
   {
@@ -1022,11 +1022,11 @@
     "effect": [
       { "u_message": "You genuinely smile for the first time in a while.  Maybe it won't be so bad.", "type": "good" },
       { "u_lose_trait": "SEASONAL_AFFECTIVE" },
-      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,90 )" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain') += rng( 45,90 )" ] }
     ],
     "false_effect": [
       { "u_message": "The disease proved tenacious.  You'll have to try again.", "type": "bad" },
-      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,90 )" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain') += rng( 45,90 )" ] }
     ]
   },
   {
@@ -1056,24 +1056,18 @@
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_SUPER_HEAL_EFFECTS",
     "effect": [
-      { "if": { "math": [ "u_vitamin('redcells') < 0" ] }, "then": { "math": [ "u_vitamin('redcells')", "+=", "150" ] } },
+      { "if": { "math": [ "u_vitamin('redcells') < 0" ] }, "then": { "math": [ "u_vitamin('redcells') += 150" ] } },
       {
         "if": { "math": [ "u_vitamin('redcells') < -1000" ] },
-        "then": { "math": [ "u_vitamin('redcells')", "+=", "500" ] }
+        "then": { "math": [ "u_vitamin('redcells') += 500" ] }
       },
       {
         "if": { "math": [ "u_vitamin('redcells') < -10000" ] },
-        "then": { "math": [ "u_vitamin('redcells')", "+=", "2500" ] }
+        "then": { "math": [ "u_vitamin('redcells') += 2500" ] }
       },
-      { "if": { "math": [ "u_vitamin('blood') < 0" ] }, "then": { "math": [ "u_vitamin('blood')", "+=", "150" ] } },
-      {
-        "if": { "math": [ "u_vitamin('blood') < -1000" ] },
-        "then": { "math": [ "u_vitamin('blood')", "+=", "500" ] }
-      },
-      {
-        "if": { "math": [ "u_vitamin('blood') < -10000" ] },
-        "then": { "math": [ "u_vitamin('blood')", "+=", "2500" ] }
-      },
+      { "if": { "math": [ "u_vitamin('blood') < 0" ] }, "then": { "math": [ "u_vitamin('blood') += 150" ] } },
+      { "if": { "math": [ "u_vitamin('blood') < -1000" ] }, "then": { "math": [ "u_vitamin('blood') += 500" ] } },
+      { "if": { "math": [ "u_vitamin('blood') < -10000" ] }, "then": { "math": [ "u_vitamin('blood') += 2500" ] } },
       {
         "if": {
           "or": [
@@ -1092,9 +1086,7 @@
           "effect": [
             {
               "if": { "math": [ "u_hp(_id) < u_hp_max(_id)" ] },
-              "then": {
-                "math": [ "u_hp(_id)", "+=", "max(( 1 * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling), 1)" ]
-              }
+              "then": { "math": [ "u_hp(_id) += max(( 1 * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling), 1)" ] }
             }
           ]
         }
@@ -1129,11 +1121,11 @@
     "type": "effect_on_condition",
     "id": "EOC_VITA_SUPER_HEAL_DRAIN",
     "effect": [
-      { "math": [ "u_calories('dont_affect_weariness': true)", "-=", "rng( 150,650 )" ] },
-      { "math": [ "u_vitamin('iron')", "-=", "rng( 50,200 )" ] },
-      { "math": [ "u_vitamin('calcium')", "-=", "rng( 100,200 )" ] },
-      { "math": [ "u_vitamin('vitC')", "-=", "rng( 20,60 )" ] },
-      { "math": [ "u_val('sleepiness')", "+=", "rng( 2,10 )" ] }
+      { "math": [ "u_calories('dont_affect_weariness': true) -= rng( 150,650 )" ] },
+      { "math": [ "u_vitamin('iron') -= rng( 50,200 )" ] },
+      { "math": [ "u_vitamin('calcium') -= rng( 100,200 )" ] },
+      { "math": [ "u_vitamin('vitC') -= rng( 20,60 )" ] },
+      { "math": [ "u_val('sleepiness') += rng( 2,10 )" ] }
     ]
   },
   {
@@ -1261,7 +1253,7 @@
           "EOC_VITA_SUPER_HEAL_DRAIN"
         ]
       },
-      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(10) + 2" ] },
+      { "math": [ "u_vitamin('vitamin_psionic_drain') += rand(10) + 2" ] },
       {
         "run_eocs": "EOC_VITAKIN_RETURN_FROM_DEATH_RUN_HEALING",
         "time_in_future": [

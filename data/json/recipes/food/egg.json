@@ -285,7 +285,7 @@
     "book_learn": [ [ "vacuum_sealing", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
     "proficiencies": [ { "proficiency": "prof_preservation" } ],
-    "using": [ [ "vacuum_sealing_standard", 1, "LIST" ] ],
+    "using": [ [ "vacuum_sealing_standard", 1 ] ],
     "components": [ [ [ "curing_roe", 2 ] ] ]
   },
   {

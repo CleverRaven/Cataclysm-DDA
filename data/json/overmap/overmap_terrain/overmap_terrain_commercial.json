@@ -1256,7 +1256,9 @@
     "copy-from": "generic_city_building",
     "name": "abandoned shopping plaza",
     "sym": "+",
-    "color": "red"
+    "color": "red",
+    "looks_like": "s_lot",
+    "vision_levels": "large_pavement"
   },
   {
     "type": "overmap_terrain",

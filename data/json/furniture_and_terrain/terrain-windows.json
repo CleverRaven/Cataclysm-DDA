@@ -728,9 +728,9 @@
   },
   {
     "type": "terrain",
-    "id": "t_window_empty",
+    "id": "t_window_empty_no_roof",
     "name": "empty window",
-    "roof": "t_flat_roof",
+    "looks_like": "t_window_empty",
     "description": "An empty window frame made of planks and nails.  You could install a sheet of glass, or board it up for protection.  You could also convert it into a solid wall if you took the time to construct it.",
     "symbol": "0",
     "color": "yellow",
@@ -745,11 +745,11 @@
       "FLAMMABLE",
       "SUPPORTS_ROOF",
       "MOUNTABLE",
+      "CONNECT_WITH_WALL",
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
       "PERMEABLE",
-      "WINDOW",
-      "SUPPORTS_ROOF"
+      "WINDOW"
     ],
     "bash": {
       "str_min": 10,
@@ -765,6 +765,12 @@
       "hit_field": [ "fd_dust", 2 ],
       "destroyed_field": [ "fd_splinters", 1 ]
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_window_empty",
+    "copy-from": "t_window_empty_no_roof",
+    "roof": "t_flat_roof"
   },
   {
     "type": "terrain",

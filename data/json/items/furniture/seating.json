@@ -75,7 +75,7 @@
     "type": "ITEM",
     "id": "barstool",
     "name": { "str": "bar stool" },
-    "description": "A bar stool with a leather seat on a steel support.  Not practical for sleeping at all but it does feel nicer than sitting on the ground.",
+    "description": "A bar stool with a leather seat on a steel support.  Not practical for sleeping at all, but it does feel nicer than sitting on the ground.",
     "category": "other",
     "symbol": "p",
     "color": "light_gray",

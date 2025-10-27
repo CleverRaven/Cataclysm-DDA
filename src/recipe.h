@@ -9,7 +9,9 @@
 #include <optional>
 #include <set>
 #include <string>
+#include <string_view>
 #include <utility>
+#include <variant>
 #include <vector>
 
 #include "build_reqs.h"
@@ -22,6 +24,7 @@
 
 class Character;
 class JsonObject;
+class JsonValue;
 class cata_variant;
 struct craft_step_data;
 class item;
@@ -85,6 +88,30 @@ struct practice_recipe_data {
     void deserialize( const JsonObject &jo );
 };
 
+struct batch_savings {
+    // Linear, time taken for recipe of time T and batch of N is:
+    // ((N/max_batch) * offset) + (N * (T - offset))
+    struct linear {
+        int64_t offset;
+        std::optional<int> max_batch;
+    };
+    struct logistic {
+        // maximum achievable time reduction, as percentage of the original time.
+        // if zero then the recipe has no batch crafting time reduction.
+        double rscale;
+        int rsize; // minimum batch size to needed to reach batch_rscale
+    };
+    struct none { };
+
+    std::variant<linear, logistic, none> data;
+    void deserialize( const JsonValue &jv );
+
+    double apply( double time, int batch_size ) const;
+    std::string savings_string() const;
+
+    batch_savings() : data( none{} ) {}
+};
+
 class recipe
 {
         friend class recipe_dictionary;
@@ -100,7 +127,7 @@ class recipe
         float exertion = 0.0f;
 
     public:
-        recipe();
+        recipe() = default;
 
         bool is_null() const {
             return id.is_null();
@@ -292,7 +319,7 @@ class recipe
             return reversible;
         }
 
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
         void finalize();
 
         /** Returns a non-empty string describing an inconsistency (if any) in the recipe. */
@@ -382,10 +409,7 @@ class recipe
         /** Item group representing byproducts **/
         std::optional<item_group_id> byproduct_group;
 
-        // maximum achievable time reduction, as percentage of the original time.
-        // if zero then the recipe has no batch crafting time reduction.
-        double batch_rscale = 0.0;
-        int batch_rsize = 0; // minimum batch size to needed to reach batch_rscale
+        batch_savings batch_info;
         int result_mult = 1; // used by certain batch recipes that create more than one stack of the result
         update_mapgen_id blueprint;
         translation bp_name;

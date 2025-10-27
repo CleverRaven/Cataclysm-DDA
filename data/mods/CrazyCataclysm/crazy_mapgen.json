@@ -33,12 +33,37 @@
   },
   {
     "type": "region_overlay",
-    "regions": [ "all" ],
-    "map_extras": {
-      "forest_thick": { "extras": { "mx_shia": 1 } },
-      "forest": { "extras": { "mx_shia": 1 } },
-      "field": { "extras": { "mx_shia": 1 } },
-      "road": { "extras": { "mx_jackson": 1 } }
-    }
+    "id": "default_crazy",
+    "apply_to_tags": [ "all" ],
+    "map_extras": "default_crazy"
+  },
+  {
+    "type": "region_settings_map_extras",
+    "id": "default_crazy",
+    "extras": [ "forest_crazy", "forest_thick_crazy", "field_crazy", "road_crazy" ]
+  },
+  {
+    "type": "map_extra_collection",
+    "id": "forest_crazy",
+    "overlay_id": "forest",
+    "extras": [ [ "mx_shia", 1 ] ]
+  },
+  {
+    "type": "map_extra_collection",
+    "id": "forest_thick_crazy",
+    "overlay_id": "forest_thick",
+    "extras": [ [ "mx_shia", 1 ] ]
+  },
+  {
+    "type": "map_extra_collection",
+    "id": "field_crazy",
+    "overlay_id": "field",
+    "extras": [ [ "mx_shia", 1 ] ]
+  },
+  {
+    "type": "map_extra_collection",
+    "id": "road_crazy",
+    "overlay_id": "road",
+    "extras": [ [ "mx_jackson", 1 ] ]
   }
 ]

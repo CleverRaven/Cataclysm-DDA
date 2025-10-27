@@ -49,7 +49,8 @@
       "target": "pyrokinetic_flashlight",
       "ammo_scale": 0
     },
-    "flags": [ "LIGHT_225", "CHARGEDIM", "TRADER_AVOID", "BELT_CLIP", "WATER_BREAK" ]
+    "light": 225,
+    "flags": [ "CHARGEDIM", "TRADER_AVOID", "BELT_CLIP", "WATER_BREAK" ]
   },
   {
     "id": "pyrokinetic_lamp",
@@ -93,7 +94,8 @@
     "description": "Powered by matrix technology, this lamp will shed a reddish light for far longer than a standard battery-powered lamp.  Activate to close the lid.",
     "power_draw": "250 mW",
     "use_action": { "type": "transform", "target": "pyrokinetic_lamp", "msg": "You close the lamp's cover.", "menu_text": "Close cover" },
-    "flags": [ "LIGHT_150", "LEAK_DAM", "ALLOWS_REMOTE_USE", "CHARGEDIM", "TRADER_AVOID", "WATER_BREAK" ]
+    "light": 150,
+    "flags": [ "LEAK_DAM", "ALLOWS_REMOTE_USE", "CHARGEDIM", "TRADER_AVOID", "WATER_BREAK" ]
   },
   {
     "type": "ITEM",

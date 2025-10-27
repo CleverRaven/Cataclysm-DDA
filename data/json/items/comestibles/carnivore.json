@@ -17,7 +17,7 @@
     "copy-from": "flesh",
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
-    "name": { "str": "pair of frog legs", "str_pl": "pairs of frog legs" },
+    "name": { "str_sp": "frog legs (pair)" },
     "description": "A raw pair of frog legs.  Tastes like chicken when cooked or smoked.",
     "//": "Nutrition information from USDA",
     "weight": "100 g",
@@ -25,7 +25,7 @@
     "price": "10 USD",
     "price_postapoc": "15 cent",
     "spoils_in": "12 hours",
-    "flags": [ "SMOKABLE", "RAW" ],
+    "flags": [ "RAW" ],
     "smoking_result": "froglegs_smoked",
     "vitamins": [ [ "calcium", 18 ], [ "iron", 1.5 ], [ "meat_allergen", 1 ] ],
     "calories": 73
@@ -35,7 +35,7 @@
     "copy-from": "froglegs",
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
-    "name": { "str": "pair of cooked frog legs", "str_pl": "pairs of cooked frog legs" },
+    "name": { "str_sp": "cooked frog legs (pair)" },
     "parasites": 0,
     "spoils_in": "1 day",
     "flags": [ "EATEN_HOT" ],
@@ -46,13 +46,13 @@
     "copy-from": "froglegs_cooked",
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
-    "name": { "str": "pair of smoked frog legs", "str_pl": "pairs of smoked frog legs" },
+    "name": { "str_sp": "smoked frog legs (pair)" },
     "color": "brown",
     "spoils_in": "42 days",
     "price_postapoc": "2 USD",
     "quench": -1,
     "fun": 5,
-    "flags": [ "EATEN_HOT", "SMOKED", "SMOKABLE" ],
+    "flags": [ "EATEN_HOT", "SMOKED" ],
     "smoking_result": "dry_froglegs"
   },
   {
@@ -68,7 +68,7 @@
     "price": "5 USD",
     "price_postapoc": "50 cent",
     "spoils_in": "12 hours",
-    "flags": [ "SMOKABLE", "RAW" ],
+    "flags": [ "RAW" ],
     "smoking_result": "fish_smoked",
     "vitamins": [ [ "vitC", 2 ], [ "calcium", 6 ], [ "iron", 14 ], [ "meat_allergen", 1 ] ],
     "calories": 260
@@ -82,7 +82,7 @@
     "description": "A tiny scrap of edible fish.  It's not much, but it'll do in a pinch.",
     "cooks_like": "fish_scrap_cooked",
     "proportional": { "weight": 0.1, "volume": 0.1, "price": 0.1, "calories": 0.1 },
-    "delete": { "flags": [ "SMOKABLE" ] },
+    "smoking_result": "null",
     "vitamins": [ [ "calcium", 1 ], [ "iron", 1 ], [ "meat_allergen", 1 ] ]
   },
   {
@@ -122,7 +122,7 @@
     "price": "5 USD",
     "price_postapoc": "50 cent",
     "spoils_in": "12 hours",
-    "flags": [ "SMOKABLE", "RAW" ],
+    "flags": [ "RAW" ],
     "smoking_result": "lobster_smoked",
     "vitamins": [ [ "vitC", 2 ], [ "calcium", 6 ], [ "iron", 14 ], [ "meat_allergen", 1 ] ],
     "calories": 250
@@ -153,7 +153,8 @@
     "price": "5 USD",
     "price_postapoc": "50 cent",
     "spoils_in": "12 hours",
-    "flags": [ "SMOKABLE", "RAW" ],
+    "flags": [ "RAW" ],
+    "smoking_result": "mollusk_smoked",
     "vitamins": [ [ "vitC", 0 ], [ "calcium", 6 ], [ "iron", 2 ], [ "meat_allergen", 1 ] ],
     "calories": 260
   },
@@ -243,14 +244,6 @@
     "vitamins": [ [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ]
   },
   {
-    "type": "ITEM",
-    "subtypes": [ "COMESTIBLE" ],
-    "id": "human_lard",
-    "name": { "str_sp": "human lard" },
-    "copy-from": "human_tallow",
-    "description": "A smooth, white block of dry-rendered human fat.  It will remain edible for a very long time, and can be used as an ingredient in many foods and projects."
-  },
-  {
     "id": "human_flesh",
     "copy-from": "meat",
     "type": "ITEM",
@@ -302,7 +295,7 @@
     "fun": -10,
     "cooks_like": "meat_cooked",
     "vitamins": [ [ "calcium", 2 ], [ "iron", 12 ], [ "meat_allergen", 1 ] ],
-    "flags": [ "SMOKABLE", "RAW", "PREDATOR_FUN" ],
+    "flags": [ "RAW", "PREDATOR_FUN" ],
     "smoking_result": "meat_smoked"
   },
   {
@@ -321,7 +314,7 @@
     "symbol": "~",
     "charges": 1,
     "phase": "liquid",
-    "delete": { "flags": [ "SMOKABLE" ] }
+    "smoking_result": "null"
   },
   {
     "id": "porkbelly",
@@ -338,7 +331,7 @@
     "calories": 1300,
     "fun": -10,
     "vitamins": [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ], [ "meat_allergen", 1 ] ],
-    "flags": [ "SMOKABLE", "RAW", "PREDATOR_FUN" ],
+    "flags": [ "RAW", "PREDATOR_FUN" ],
     "smoking_result": "meat_smoked"
   },
   {
@@ -355,7 +348,7 @@
     "price_postapoc": "3 USD",
     "spoils_in": "14 days",
     "vitamins": [ [ "vitC", 0 ], [ "calcium", 3 ], [ "iron", 22 ], [ "meat_allergen", 1 ] ],
-    "flags": [ "SMOKABLE", "RAW" ],
+    "flags": [ "RAW" ],
     "smoking_result": "bacon_uncut"
   },
   {
@@ -410,7 +403,7 @@
     "description": "A tiny scrap of raw meat.  It's not much, but it'll do in a pinch.",
     "cooks_like": "meat_scrap_cooked",
     "proportional": { "weight": 0.1, "volume": 0.1, "price_postapoc": 0.1, "calories": 0.1 },
-    "delete": { "flags": [ "SMOKABLE" ] },
+    "smoking_result": "null",
     "vitamins": [ [ "calcium", 0 ], [ "iron", 1 ], [ "meat_allergen", 1 ] ]
   },
   {
@@ -446,7 +439,7 @@
     "cooks_like": "mutant_meat_cooked",
     "proportional": { "price": 0.2, "calories": 0.5 },
     "vitamins": [ [ "vitC", 2 ], [ "calcium", 1 ], [ "iron", 6 ], [ "mutant_toxin", 25 ], [ "meat_allergen", 1 ] ],
-    "flags": [ "SMOKABLE", "BAD_TASTE", "RAW", "PREDATOR_FUN" ]
+    "flags": [ "BAD_TASTE", "RAW", "PREDATOR_FUN" ]
   },
   {
     "id": "mutant_blood",
@@ -464,7 +457,7 @@
     "material": "blood",
     "charges": 1,
     "phase": "liquid",
-    "delete": { "flags": [ "SMOKABLE" ] }
+    "smoking_result": "null"
   },
   {
     "id": "mutant_meat_scrap",
@@ -476,8 +469,7 @@
     "looks_like": "meat_scrap",
     "cooks_like": "mutant_meat_scrap_cooked",
     "proportional": { "price_postapoc": 0.2, "calories": 0.5 },
-    "vitamins": [ [ "mutant_toxin", 2 ], [ "meat_allergen", 1 ] ],
-    "delete": { "flags": [ "SMOKABLE" ] }
+    "vitamins": [ [ "mutant_toxin", 2 ], [ "meat_allergen", 1 ] ]
   },
   {
     "id": "mutant_human_flesh",
@@ -513,7 +505,7 @@
     "material": "hblood",
     "charges": 1,
     "phase": "liquid",
-    "delete": { "flags": [ "SMOKABLE" ] },
+    "smoking_result": "null",
     "vitamins": [ [ "calcium", 2 ], [ "iron", 12 ], [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ]
   },
   {
@@ -557,7 +549,7 @@
     "price": "0 cent",
     "price_postapoc": "5 cent",
     "fun": -15,
-    "flags": [ "TRADER_AVOID", "SMOKABLE", "BAD_TASTE", "RAW" ],
+    "flags": [ "TRADER_AVOID", "BAD_TASTE", "RAW" ],
     "smoking_result": "meat_mutant_tainted_smoked"
   },
   {
@@ -804,7 +796,7 @@
     "description": "A selection of uncooked internal organs and entrails.  Filled with essential vitamins, but most people consider it a bit gross unless it's very carefully prepared.",
     "proportional": { "parasites": 0.5 },
     "price_postapoc": "25 cent",
-    "delete": { "flags": [ "SMOKABLE" ] },
+    "smoking_result": "null",
     "vitamins": [ [ "calcium", 2 ], [ "iron", 16 ], [ "meat_allergen", 1 ] ],
     "relative": { "fun": -5 }
   },
@@ -857,7 +849,7 @@
     "description": "A selection of cooked mutant bug organs.  Looks awful, but if you give it a try, you'll find -- that it's worse than it looks.",
     "looks_like": "offal_cooked",
     "parasites": 0,
-    "delete": { "flags": [ "RAW", "NUTRIENT_OVERRIDE" ] }
+    "delete": { "flags": [ "RAW" ] }
   },
   {
     "id": "offal_pickled",
@@ -998,7 +990,7 @@
     "price_postapoc": "2 USD",
     "quench": -1,
     "fun": 5,
-    "flags": [ "EATEN_HOT", "SMOKED", "SMOKABLE" ],
+    "flags": [ "EATEN_HOT", "SMOKED" ],
     "smoking_result": "dry_meat"
   },
   {
@@ -1012,7 +1004,7 @@
     "spoils_in": "42 days",
     "price_postapoc": "2 USD",
     "fun": 6,
-    "flags": [ "EATEN_HOT", "SMOKED", "SMOKABLE" ],
+    "flags": [ "EATEN_HOT", "SMOKED" ],
     "smoking_result": "dry_fish"
   },
   {
@@ -1025,7 +1017,7 @@
     "color": "brown",
     "price_postapoc": "3 USD",
     "fun": 10,
-    "flags": [ "EATEN_HOT", "SMOKED", "SMOKABLE" ],
+    "flags": [ "EATEN_HOT", "SMOKED" ],
     "smoking_result": "dry_lobster"
   },
   {
@@ -1038,7 +1030,7 @@
     "color": "brown",
     "price_postapoc": "3 USD",
     "fun": 10,
-    "flags": [ "EATEN_HOT", "SMOKED", "SMOKABLE" ],
+    "flags": [ "EATEN_HOT" ],
     "smoking_result": "dry_mollusk"
   },
   {
@@ -1112,8 +1104,7 @@
     "subtypes": [ "COMESTIBLE" ],
     "copy-from": "lung_cooked",
     "name": { "str": "cooked piece of mutant lung", "str_pl": "cooked pieces of mutant lung" },
-    "snippet_category": "cooked_mutant_lung_desc",
-    "delete": { "flags": [ "RAW" ] }
+    "snippet_category": "cooked_mutant_lung_desc"
   },
   {
     "id": "heart",
@@ -1204,8 +1195,7 @@
     "subtypes": [ "COMESTIBLE" ],
     "copy-from": "heart_cooked",
     "name": { "str": "cooked piece of mutant heart", "str_pl": "cooked pieces of mutant heart" },
-    "snippet_category": "cooked_mutant_heart_desc",
-    "delete": { "flags": [ "RAW" ] }
+    "snippet_category": "cooked_mutant_heart_desc"
   },
   {
     "id": "mutant_bug_lungs",
@@ -1415,8 +1405,7 @@
     "copy-from": "brain_cooked",
     "name": { "str": "cooked piece of mutant brain", "str_pl": "cooked pieces of mutant brain" },
     "snippet_category": "cooked_mutant_brain_desc",
-    "fun": -12,
-    "delete": { "flags": [ "RAW" ] }
+    "fun": -12
   },
   {
     "id": "kidney",
@@ -1485,8 +1474,7 @@
     "copy-from": "kidney_cooked",
     "name": { "str": "cooked piece of mutant kidney", "str_pl": "cooked pieces of mutant kidney" },
     "snippet_category": "cooked_mutant_kidney_desc",
-    "fun": -12,
-    "delete": { "flags": [ "RAW" ] }
+    "fun": -12
   },
   {
     "id": "sweetbread",
@@ -1554,7 +1542,7 @@
     "volume": "250 ml",
     "charges": 1,
     "phase": "liquid",
-    "delete": { "flags": [ "SMOKABLE" ] },
+    "smoking_result": "null",
     "vitamins": [ [ "calcium", 2 ], [ "iron", 12 ], [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ]
   },
   {
@@ -1562,50 +1550,34 @@
     "subtypes": [ "COMESTIBLE" ],
     "id": "fat",
     "name": { "str": "chunk of fat", "str_pl": "chunks of fat" },
-    "weight": "220 g",
+    "weight": "22 g",
     "color": "pink",
     "spoils_in": "7 days",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "quench": -10,
-    "price_postapoc": "2 USD 50 cent",
-    "calories": 1923,
-    "description": "A chunk of raw fat.  You could eat it as-is, but it is better used as an ingredient in other foods or projects.",
+    "quench": -1,
     "price": "0 cent",
+    "price_postapoc": "25 cent",
+    "calories": 192,
+    "description": "A chunk of raw fat.  You could eat it as-is, but it is better used as an ingredient in other foods or projects.",
     "material": [ "flesh" ],
-    "volume": "250 ml",
-    "parasites": 32,
+    "volume": "25 ml",
+    "parasites": 3,
     "fun": -20,
     "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
-    "type": "ITEM",
-    "subtypes": [ "COMESTIBLE" ],
     "id": "tallow",
-    "name": { "str_sp": "tallow" },
-    "weight": "55 g",
-    "color": "white",
-    "spoils_in": "60 days",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "quench": -10,
-    "calories": 496,
-    "description": "A smooth, white block of cleaned and rendered animal fat.  It will remain edible for a very long time, and can be used as an ingredient in many foods and projects.",
-    "price": "125 cent",
-    "price_postapoc": "2 USD",
-    "//": "*May* have been commercially traded.",
-    "material": [ "flesh" ],
-    "volume": "62 ml",
-    "vitamins": [ [ "meat_allergen", 1 ] ],
-    "fun": -18
-  },
-  {
+    "copy-from": "fat",
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
-    "id": "lard",
-    "name": { "str_sp": "lard" },
-    "copy-from": "tallow",
-    "description": "A smooth, white block of dry-rendered animal fat.  It will remain edible for a very long time, and can be used as an ingredient in many foods and projects."
+    "comestible_type": "FOOD",
+    "spoils_in": "60 days",
+    "name": { "str_sp": "tallow" },
+    "description": "A smooth, white block of cleaned and rendered animal fat.  It will remain edible for a very long time, and can be used as an ingredient in many foods and projects.",
+    "color": "white",
+    "price": "125 cent",
+    "price_postapoc": "50 cent"
   },
   {
     "id": "mutant_fat",
@@ -1630,14 +1602,6 @@
     "vitamins": [ [ "mutant_toxin", 180 ], [ "meat_allergen", 1 ] ]
   },
   {
-    "id": "mutant_lard",
-    "type": "ITEM",
-    "subtypes": [ "COMESTIBLE" ],
-    "copy-from": "mutant_tallow",
-    "name": { "str_sp": "mutant lard" },
-    "description": "A smooth, white block of dry-rendered fat, sourced from a mutant animal.  It will remain edible for a very long time, and can be used as an ingredient in many foods and projects."
-  },
-  {
     "id": "mutant_human_fat",
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
@@ -1660,14 +1624,6 @@
   {
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
-    "id": "mutant_human_lard",
-    "name": { "str_sp": "mutant humanoid lard" },
-    "copy-from": "mutant_human_tallow",
-    "description": "A smooth, white block of dry-rendered fat, sourced from a mutant humanoid.  It won't rot for a very long time, and can be used as an ingredient in many foods and projects."
-  },
-  {
-    "type": "ITEM",
-    "subtypes": [ "COMESTIBLE" ],
     "id": "meat_tainted",
     "category": "other",
     "name": { "str": "chunk of tainted meat", "str_pl": "chunks of tainted meat" },
@@ -1684,7 +1640,7 @@
     "material": [ "flesh" ],
     "volume": "250 ml",
     "fun": -10,
-    "flags": [ "TRADER_AVOID", "SMOKABLE", "NUTRIENT_OVERRIDE", "RAW" ],
+    "flags": [ "TRADER_AVOID", "NUTRIENT_OVERRIDE", "RAW" ],
     "smoking_result": "dry_meat_tainted",
     "vitamins": [ [ "meat_allergen", 1 ] ]
   },
@@ -1749,7 +1705,7 @@
     "material": "blood",
     "charges": 1,
     "phase": "liquid",
-    "delete": { "flags": [ "SMOKABLE" ] }
+    "smoking_result": "null"
   },
   {
     "type": "ITEM",
@@ -2177,15 +2133,6 @@
     "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
-    "type": "ITEM",
-    "subtypes": [ "COMESTIBLE" ],
-    "id": "demihuman_lard",
-    "name": { "str_sp": "demihuman lard" },
-    "copy-from": "lard",
-    "description": "A smooth, white block of dry-rendered demihuman fat.  It will remain edible for a very long time, and can be used as an ingredient in many foods and projects.",
-    "extend": { "flags": [ "STRICT_HUMANITARIANISM" ] }
-  },
-  {
     "id": "demihuman_flesh",
     "copy-from": "meat",
     "type": "ITEM",
@@ -2214,7 +2161,7 @@
     "extend": { "flags": [ "STRICT_HUMANITARIANISM" ] },
     "charges": 1,
     "phase": "liquid",
-    "delete": { "flags": [ "SMOKABLE" ] }
+    "smoking_result": "null"
   },
   {
     "id": "demihuman_cooked",
@@ -2343,7 +2290,7 @@
     "fun": -18,
     "cooks_like": "meat_cooked",
     "vitamins": [ [ "calcium", "5 mg" ], [ "iron", "5 mg" ], [ "meat_allergen", 1 ] ],
-    "flags": [ "SMOKABLE", "RAW", "PREDATOR_FUN" ],
+    "flags": [ "RAW", "PREDATOR_FUN" ],
     "smoking_result": "poultry_smoked"
   },
   {
@@ -2355,7 +2302,7 @@
     "description": "A tiny scrap of raw meat from a bird.  You figure that one of these should be about one fifth of a portion.  Dangerous to eat as-is.",
     "cooks_like": "meat_scrap_cooked",
     "proportional": { "weight": 0.2, "volume": 0.2, "price_postapoc": 0.2, "calories": 0.2 },
-    "delete": { "flags": [ "SMOKABLE" ] },
+    "smoking_result": "null",
     "vitamins": [ [ "calcium", "1 mg" ], [ "iron", "1 mg" ], [ "meat_allergen", 1 ] ]
   },
   {
@@ -2431,7 +2378,7 @@
     "color": "brown",
     "calories": 220,
     "price_postapoc": "4 USD",
-    "flags": [ "EATEN_HOT", "SMOKED", "SMOKABLE" ],
+    "flags": [ "EATEN_HOT" ],
     "smoking_result": "dry_poultry"
   },
   {

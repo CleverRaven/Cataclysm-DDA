@@ -883,6 +883,7 @@
       { "group": "guns_rifle_common_boxed_3006", "prob": 149 },
       { "group": "guns_rifle_common_boxed_357", "prob": 108 },
       { "group": "guns_rifle_common_boxed_44", "prob": 81 },
+      { "group": "guns_rifle_common_boxed_3030", "prob": 74 },
       { "group": "guns_rifle_common_boxed_762R", "prob": 70 },
       { "group": "guns_rifle_common_boxed_270win", "prob": 57 },
       { "group": "guns_rifle_common_boxed_300winmag", "prob": 32 },
@@ -1232,6 +1233,16 @@
           { "item": "rossi_r92_44_20", "prob": 121 }
         ]
       }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "guns_rifle_common_boxed_3030",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "entries": [
+      { "group": "firearm_box_extras" },
+      { "distribution": [ { "item": "winchester_94_3030", "prob": 93 }, { "item": "marlin_336_3030", "prob": 100 } ] }
     ]
   },
   {

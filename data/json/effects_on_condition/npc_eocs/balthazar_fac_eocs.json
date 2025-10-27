@@ -24,13 +24,15 @@
     "type": "effect_on_condition",
     "id": "EOC_BALTHAZAR_CHECK_PROGRESS",
     "global": true,
+    "condition": { "math": [ "balthazar_destroyed != 1" ] },
     "effect": [
       { "if": { "math": [ "balthazar_power <= 0" ] }, "then": { "run_eocs": "EOC_BALTHAZAR_GONE" } },
       {
         "if": { "and": [ { "math": [ "balthazar_solar_power != 1" ] }, { "math": [ "balthazar_power >= 50" ] } ] },
         "then": { "run_eocs": "EOC_BALTHAZAR_SET_UP_SOLAR" }
       }
-    ]
+    ],
+    "deactivate_condition": { "math": [ "balthazar_destroyed == 1" ] }
   },
   {
     "type": "effect_on_condition",
@@ -51,6 +53,7 @@
     "effect": [
       { "mapgen_update": "remove_balthazar_intercom", "om_terrain": "balthazar_bunker_01" },
       { "math": [ "balthazar_power = 0" ] },
+      { "math": [ "balthazar_destroyed = 1" ] },
       { "math": [ "balthazar_daily_power_gain = 0" ] }
     ]
   },

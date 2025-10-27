@@ -772,6 +772,11 @@ bool vehicle::autodrive_controller::check_drivable( map &here, const tripoint_bu
         return false;
     }
 
+    // don't drive over junk which could damage our wheels, the player must always manually do that.
+    if( here.has_items( pt ) ) {
+        return false;
+    }
+
     // check for furniture that hinders movement; furniture with 0 move cost
     // can be driven on
     const furn_id &furniture = here.furn( pt );
@@ -860,8 +865,8 @@ void vehicle::autodrive_controller::compute_obstacles_from_enqueued_ramp_points(
     while( !ramp_points.to_check.empty() ) {
         const tripoint_bub_ms ramp_point = ramp_points.to_check.front();
         ramp_points.to_check.pop();
-        for( const tripoint_bub_ms &p : ff::point_flood_fill_4_connected( ramp_point, ramp_points.visited,
-                is_drivable ) ) {
+        for( const tripoint_bub_ms &p : ff::point_flood_fill_4_connected<std::vector>( ramp_point,
+                ramp_points.visited, is_drivable ) ) {
             const point pt_view = data.to_view( here, p );
             if( !data.view_bounds.contains( pt_view ) ) {
                 continue;
