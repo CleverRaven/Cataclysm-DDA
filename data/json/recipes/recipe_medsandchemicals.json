@@ -23,7 +23,7 @@
     "flags": [ "BLIND_HARD" ],
     "components": [
       [ [ "water_clean", 1 ], [ "water", 1 ] ],
-      [ [ "soap", 1 ], [ "soap_flakes", 15 ], [ "detergent", 1 ], [ "liquid_soap", 1 ], [ "chem_borax", 10 ] ]
+      [ [ "soap", 1 ], [ "soap_flakes", 15 ], [ "detergent", 1 ], [ "liquid_soap", 1 ], [ "chem_borax", 50 ] ]
     ]
   },
   {
