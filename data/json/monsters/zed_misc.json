@@ -609,7 +609,7 @@
       {
         "type": "spell",
         "id": "mon_zombie_summoner_summon_hordes",
-        "spell_data": { "id": "mon_zombie_summoner_summon_hordes_spell", "min_level": 1, "hit_self": true },
+        "spell_data": { "id": "mon_zombie_summoner_summon_hordes_spell", "min_level": 1 },
         "monster_message": "%1$s fixes %3$s with a stare.",
         "cooldown": 25
       }
