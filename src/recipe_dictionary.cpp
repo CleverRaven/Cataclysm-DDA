@@ -15,6 +15,7 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_algo.h"
+#include "cata_compiler_support.h"
 #include "cata_utility.h"
 #include "crafting_gui.h"
 #include "debug.h"
@@ -215,7 +216,8 @@ template<typename Unit>
 static Unit can_contain_filter( std::string_view hint, std::string_view txt, Unit max,
                                 std::vector<std::pair<std::string, Unit>> units )
 {
-    auto const error = [hint, txt]( char const *, size_t /* offset */ ) {
+    // TODO: LAMBDA_NORETURN_CLANG21x1 can be replaced with [[noreturn]] once we switch to C++23 on all compilers
+    auto const error = [hint, txt]( char const *, size_t /* offset */ ) LAMBDA_NORETURN_CLANG21x1 {
         throw math::runtime_error( _( string_format( hint, txt ) ) );
     };
     // Start at max. On convert failure: results are empty and user knows it is unusable.
