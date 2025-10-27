@@ -107,7 +107,7 @@ jobs:
             pch: 1
             archive-success: basic-build
             dont_skip_data_only_changes: 1
-            mods: magiclysm|xedra_evolved
+            mods: magiclysm|xedra_evolved,
             title: Basic Build and Test (Clang oldest supported, Ubuntu, Curses)
             ccache_limit: 4.5G
             ccache_key: linux-llvm-13
