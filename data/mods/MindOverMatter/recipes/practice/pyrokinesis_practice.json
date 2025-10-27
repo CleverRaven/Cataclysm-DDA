@@ -32,7 +32,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: brilliant flash",
     "id": "practice_pyrokinetic_flash",
-    "description": "Contemplate your powers and improve your ability to create light.\n\nPower Difficulty: 1",
+    "description": "Contemplate your powers and improve your ability to create a burst of light.\n\nPower Difficulty: 1",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
