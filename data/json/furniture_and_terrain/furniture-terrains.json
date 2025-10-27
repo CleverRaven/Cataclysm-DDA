@@ -1,3 +1,8 @@
+Cataclysm: Dark Days Ahead JSON Web Linting Tool
+This is a tool to help modders and editors of the open source game Cataclysm: Dark Days Ahead write JSON in the game's expected format.
+
+Paste some JSON into the field below and click "Lint" to run an autoformatter against it.
+
 [
   {
     "id": "f_tatami",
@@ -820,6 +825,30 @@
     "description": "A loose pile of rocks.  Useless?",
     "symbol": "^",
     "color": "dark_gray",
+    "move_cost_mod": 6,
+    "max_volume": "750 L",
+    "required_str": -1,
+    "flags": [
+      "TRANSPARENT",
+      "UNSTABLE",
+      "ROUGH",
+      "PLACE_ITEM",
+      "MOUNTABLE",
+      "CONTAINER",
+      "SEALED",
+      "ALLOW_FIELD_EFFECT",
+      "SHORT",
+      "RUBBLE"
+    ],
+    "examine_action": "rubble"
+  },
+  {
+    "type": "furniture",
+    "id": "f_rubble_volc",
+    "name": "pile of rocky rubble",
+    "description": "A loose pile of rocks. This one has bright chalky bits in it.",
+    "symbol": "^",
+    "color": "white",
     "move_cost_mod": 6,
     "max_volume": "750 L",
     "required_str": -1,
@@ -2337,3 +2366,4 @@
     }
   }
 ]
+
