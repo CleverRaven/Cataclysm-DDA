@@ -3,7 +3,7 @@
     "id": "emit_pyrokin_intensify_flames",
     "type": "emit",
     "field": "fd_fire",
-    "intensity": 2,
+    "intensity": 1,
     "qty": 1
   },
   {

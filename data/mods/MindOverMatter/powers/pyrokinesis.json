@@ -24,22 +24,52 @@
     "casting_time_increment": -7
   },
   {
-    "id": "pyrokinetic_intensify_flames_creature",
+    "id": "pyrokinetic_intensify_flames_target_creature",
     "type": "SPELL",
     "name": { "str": "[Ψ]Intensify Flames Creature Hit", "//~": "NO_I18N" },
     "description": { "str": "The part of Intensify Flames that does damage to a target on fire.", "//~": "NO_I18N" },
     "message": "",
     "teachable": false,
-    "valid_targets": [ "self" ],
+    "valid_targets": [ "ally", "hostile" ],
     "spell_class": "PYROKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "LOUD", "NO_PROJECTILE", "SPLIT_DAMAGE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
+    "flags": [ "PSIONIC", "NO_PROJECTILE", "SPLIT_DAMAGE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
     "difficulty": 1,
     "max_level": { "math": [ "int_to_level(1)" ] },
-    "effect": "effect_on_condition",
-    "effect_str": "EOC_PYROKIN_INTENSIFY_FLAMES",
+    "condition": {
+      "or": [
+        { "and": [ "npc_is_monster", { "npc_has_effect": "onfire" } ] },
+        {
+          "and": [
+            "npc_is_character",
+            {
+              "or": [
+                { "npc_has_effect": "onfire", "bodypart": "torso" },
+                { "npc_has_effect": "onfire", "bodypart": "head" },
+                { "npc_has_effect": "onfire", "bodypart": "arm_l" },
+                { "npc_has_effect": "onfire", "bodypart": "arm_r" },
+                { "npc_has_effect": "onfire", "bodypart": "leg_l" },
+                { "npc_has_effect": "onfire", "bodypart": "leg_r" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "effect": "attack",
+    "damage_type": "heat",
     "shape": "blast",
+    "min_damage": {
+      "math": [
+        "( ( (u_spell_level('pyrokinetic_intensify_flames') + u_spell_level('pyrokinetic_intensify_flames_knack') ) * 1.5) + 6) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_damage": {
+      "math": [
+        "( ( (u_spell_level('pyrokinetic_intensify_flames') + u_spell_level('pyrokinetic_intensify_flames_knack') ) * 3) + 26) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
     "min_range": 70,
     "max_range": 70
   },

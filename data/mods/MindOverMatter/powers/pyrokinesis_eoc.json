@@ -17,6 +17,10 @@
       {
         "if": { "map_field_id": "fd_fire", "loc": { "context_val": "pyrokin_intensify_flames_target" } },
         "then": [ { "u_emit": "emit_pyrokin_intensify_flames", "target_var": { "context_val": "pyrokin_intensify_flames_target" } } ]
+      },
+      {
+        "u_cast_spell": { "id": "pyrokinetic_intensify_flames_target_creature" },
+        "loc": { "context_val": "pyrokin_intensify_flames_target" }
       }
     ]
   },
