@@ -5302,9 +5302,10 @@
   },
   {
     "type": "effect_type",
-    "id": "effect_zombie_summoner_avoid_hearing_damage",
+    "id": "effect_zombie_summoner_increase_power",
+    "//": "Tracker effect, used for the zombie summoner to increase its summon range",
     "name": [ "" ],
     "desc": [ "" ],
-    "flags": [ "IMMUNE_HEARING_DAMAGE" ]
+    "max_intensity": 100
   }
 ]
