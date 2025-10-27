@@ -8,9 +8,7 @@
     "category": [ "perk" ],
     "starting_trait": false,
     "valid": false,
-    "purifiable": false,
-    "active": true,
-    "activated_eocs": [ "EOC_ALCHEMY1" ]
+    "purifiable": false
   },
   {
     "type": "mutation",
@@ -21,9 +19,7 @@
     "category": [ "perk" ],
     "starting_trait": false,
     "valid": false,
-    "purifiable": false,
-    "active": true,
-    "activated_eocs": [ "EOC_ALCHEMY2" ]
+    "purifiable": false
   },
   {
     "type": "mutation",
@@ -34,9 +30,7 @@
     "category": [ "perk" ],
     "starting_trait": false,
     "valid": false,
-    "purifiable": false,
-    "active": true,
-    "activated_eocs": [ "EOC_ALCHEMY3" ]
+    "purifiable": false
   },
   {
     "type": "mutation",
@@ -47,9 +41,7 @@
     "category": [ "perk" ],
     "starting_trait": false,
     "valid": false,
-    "purifiable": false,
-    "active": true,
-    "activated_eocs": [ "EOC_ALCHEMY3_COLD_IRON" ]
+    "purifiable": false
   },
   {
     "type": "mutation",
@@ -60,9 +52,7 @@
     "category": [ "perk" ],
     "starting_trait": false,
     "valid": false,
-    "purifiable": false,
-    "active": true,
-    "activated_eocs": [ "EOC_ALCHEMY4" ]
+    "purifiable": false
   },
   {
     "type": "mutation",
@@ -73,9 +63,7 @@
     "category": [ "perk" ],
     "starting_trait": false,
     "valid": false,
-    "purifiable": false,
-    "active": true,
-    "activated_eocs": [ "EOC_ALCHEMY5" ]
+    "purifiable": false
   },
   {
     "type": "mutation",
