@@ -2037,7 +2037,7 @@
       { "prob": 20, "group": "salt_bottle_glass" },
       { "prob": 5, "group": "salt_bag_plastic" },
       { "prob": 17, "group": "salt_bag_paper" },
-      { "prob": 9, "group": "salt_bag_paper_bulk" },
+      { "prob": 9, "group": "salt_bag_paper_bulk" }
       { "prob": 3, "group": "salt_bag_paper_50lb" }
     ]
   },
