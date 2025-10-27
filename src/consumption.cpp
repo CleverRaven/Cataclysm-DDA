@@ -1171,19 +1171,26 @@ static bool eat( item &food, Character &you, bool force )
         you.add_msg_player_or_npc( _( "You assimilate your %s." ), _( "<npcname> assimilates a %s." ),
                                    food.tname() );
     } else if( drinkable ) {
-        if( you.is_avatar() && you.schizo_symptoms( 50 ) && !spoiled && food.goes_bad() ) {
+        if( you.is_avatar() && you.schizo_symptoms( 50 ) && !spoiled && food.goes_bad() &&
+            !you.has_trait( trait_SAPROVORE ) ) {
+            const std::string tname = food.tname( 1,
+                                                  tname::segment_bitset( tname::default_tname_bits & ~( 1ULL << static_cast<size_t>
+                                                          ( tname::segments::FOOD_STATUS ) ) ) );
 
-            add_msg( m_bad, _( "Ick, this %s (rotten) doesn't taste so good…" ), food.tname() );
-            add_msg( _( "You drink your %s (rotten)." ), food.tname() );
+            add_msg( m_bad, _( "Ick, this %s (rotten) doesn't taste so good…" ), tname );
+            add_msg( _( "You drink your %s (rotten)." ), tname );
         } else {
             you.add_msg_player_or_npc( _( "You drink your %s." ), _( "<npcname> drinks a %s." ),
                                        food.tname() );
         }
     } else if( chew ) {
-        if( you.is_avatar() && you.schizo_symptoms( 50 ) && !spoiled && food.goes_bad() ) {
-
-            add_msg( m_bad, _( "Ick, this %s (rotten) doesn't taste so good…" ), food.tname() );
-            add_msg( _( "You eat your %s (rotten)." ), food.tname() );
+        if( you.is_avatar() && you.schizo_symptoms( 50 ) && !spoiled && food.goes_bad() &&
+            !you.has_trait( trait_SAPROVORE ) ) {
+            const std::string tname = food.tname( 1,
+                                                  tname::segment_bitset( tname::default_tname_bits & ~( 1ULL << static_cast<size_t>
+                                                          ( tname::segments::FOOD_STATUS ) ) ) );
+            add_msg( m_bad, _( "Ick, this %s (rotten) doesn't taste so good…" ), tname );
+            add_msg( _( "You eat your %s (rotten)." ), tname );
         } else {
             you.add_msg_player_or_npc( _( "You eat your %s." ), _( "<npcname> eats a %s." ),
                                        food.tname() );
