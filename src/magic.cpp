@@ -3471,7 +3471,7 @@ void spell_events::notify( const cata::event &e )
                 int learn_at_level = it->second;
                 const std::string learn_spell_id = it->first;
                 if( learn_at_level <= slvl && !get_player_character().magic->knows_spell( learn_spell_id ) ) {
-                    get_player_character().magic->learn_spell( learn_spell_id, get_player_character() );
+                    get_player_character().magic->learn_spell( learn_spell_id, get_player_character(), true );
                     spell_type spell_learned = spell_factory.obj( spell_id( learn_spell_id ) );
                     add_msg(
                         _( "Your experience and knowledge in creating and manipulating magical energies to cast %s have opened your eyes to new possibilities, you can now cast %s." ),
