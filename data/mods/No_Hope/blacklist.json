@@ -1,0 +1,10 @@
+[
+  {
+    "type": "ITEM_BLACKLIST",
+    "whitelist": false,
+    "items": [
+      "iv_purifier",
+      "purifier"
+    ]
+  }
+]
