@@ -587,7 +587,7 @@
   {
     "id": "mon_zombie_summoner",
     "type": "MONSTER",
-    "name": { "str": "zombie summoner" },
+    "name": { "str": "zombie summoner", "//~": "Summoner as in 'to request the presence of' not 'to conjure up by magic' " },
     "description": "This zombie stands straight up and moves with purposeful motions, its gaze sweeping its surrounding as it moves.  As it looks, nearby zombies also turn and look in the same direction for a moment.",
     "copy-from": "mon_zombie_base",
     "species": [ "ZOMBIE" ],
