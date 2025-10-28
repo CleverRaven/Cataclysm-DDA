@@ -2401,7 +2401,8 @@ void known_magic::set_spell_exp( const spell_id &sp, int new_exp, const Characte
     }
 }
 
-bool known_magic::can_learn_spell( const Character &guy, const spell_id &sp, bool improved_spell ) const
+bool known_magic::can_learn_spell( const Character &guy, const spell_id &sp,
+                                   bool improved_spell ) const
 {
     const spell_type &sp_t = sp.obj();
     if( sp_t.spell_class == trait_NONE ) {
