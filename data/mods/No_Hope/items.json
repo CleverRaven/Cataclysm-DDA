@@ -337,5 +337,56 @@
     "color": "light_cyan",
     "intelligence": 2,
     "time": "10 m"
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "purifier",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "chemistry",
+    "skills_required": [ "firstaid", 1 ],
+    "difficulty": 7,
+    "time": "45 m",
+    "batch_time_factors": [ 80, 20 ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_inorganic_chemistry" },
+      { "proficiency": "prof_organic_chemistry" },
+      { "proficiency": "prof_biochemistry" },
+      { "proficiency": "prof_intro_chem_synth" },
+      { "proficiency": "prof_chem_synth" }
+    ],
+    "using": [ [ "mutagen_production_standard", 25 ] ],
+    "//": "requires more human samples than comparable mutagen as you are trying to identify specific differences from your mutated anatomy than from baseline humans.",
+    "components": [
+      [ [ "mutagen", 2 ] ],
+      [ [ "bleach", 3 ], [ "oxy_powder", 300 ] ],
+      [ [ "human_sample", 2 ] ],
+      [ [ "ammonia_liquid", 2 ], [ "lye_powder", 200 ] ]
+    ],
+    "flags": [ "SECRET" ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "iv_purifier",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "chemistry",
+    "skills_required": [ "firstaid", 3 ],
+    "difficulty": 8,
+    "time": "2 h",
+    "batch_time_factors": [ 20, 5 ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_organic_chemistry" },
+      { "proficiency": "prof_biochemistry" },
+      { "proficiency": "prof_intro_chem_synth" },
+      { "proficiency": "prof_chem_synth" }
+    ],
+    "using": [ [ "serum_production_standard", 37 ] ],
+    "components": [ [ [ "purifier", 2 ] ], [ [ "human_sample", 2 ] ] ],
+    "flags": [ "SECRET" ]
   }
 ]
