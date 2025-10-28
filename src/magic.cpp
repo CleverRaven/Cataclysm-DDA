@@ -3479,7 +3479,9 @@ void spell_events::notify( const cata::event &e )
                  it != spell_cast.learn_spells.end(); ++it ) {
                 int learn_at_level = it->second;
                 const std::string learn_spell_id = it->first;
-                if( learn_at_level <= slvl && !get_player_character().magic->knows_spell( learn_spell_id ) && get_player_character().magic->can_learn_spell( get_player_character(), spell_id( learn_spell_id), true ) ) {
+                if( learn_at_level <= slvl && !get_player_character().magic->knows_spell( learn_spell_id ) &&
+                    get_player_character().magic->can_learn_spell( get_player_character(), spell_id( learn_spell_id ),
+                            true ) ) {
                     get_player_character().magic->learn_spell( learn_spell_id, get_player_character(), true );
                     spell_type spell_learned = spell_factory.obj( spell_id( learn_spell_id ) );
                     add_msg(
