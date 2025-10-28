@@ -85,7 +85,7 @@
     "name": { "str_sp": "borax powder" },
     "symbol": "=",
     "color": "white",
-    "flags": [ "EDIBLE_FROZEN", "NO_INGEST"],
+    "flags": [ "EDIBLE_FROZEN", "NO_INGEST" ],
     "description": "A handful of borax powder.  It's a common household cleaner, laundry powder, and insecticide. It's also useful for metalworking.",
     "material": [ "powder" ],
     "volume": "1100 ml",
@@ -1496,7 +1496,8 @@
     "color": "white",
     "description": "A handful of flakes shaved off a bar of soap, suitable for use in a washing machine.",
     "volume": "250 ml",
-    "weight": "1 g",
+    "weight": "4 g",
+    "//": "Realistic mass: 0.3 g/mL bulk density, for flakes 250mL = ~80g total.",
     "ammo_type": "components",
     "flags": [ "DETERGENT" ],
     "count": 20
