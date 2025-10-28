@@ -2411,9 +2411,9 @@ bool known_magic::can_learn_spell( const Character &guy, const spell_id &sp,
     if( sp_t.spell_tags[spell_flag::MUST_HAVE_CLASS_TO_LEARN] ) {
         return guy.has_trait( sp_t.spell_class );
     }
-    if ( improved_spell ) {
-        for ( trait_id trait : guy.get_opposite_traits( sp_t.spell_class ) ) {
-            if ( trait->flags.count( json_flag_ALLOW_ADVANCED_SPELLS ) == 0 ) {
+    if( improved_spell ) {
+        for( trait_id trait : guy.get_opposite_traits( sp_t.spell_class ) ) {
+            if( trait->flags.count( json_flag_ALLOW_ADVANCED_SPELLS ) == 0 ) {
                 return false;
             }
         }
