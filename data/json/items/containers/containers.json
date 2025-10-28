@@ -404,6 +404,32 @@
     "color": "white"
   },
   {
+    "id": "bag_paper_powder_50lb",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "50lb powder paper bag" },
+    "looks_like": "bag_plastic",
+    "description": "A very large paper bag, for bulk storage and transport of powdered goods.",
+    "ascii_picture": "bag_paper_powder",
+    "weight": "40 g",
+    "volume": "1000 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "flags": [ "TARDIS" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "magazine_well": "1000 ml",
+        "max_contains_volume": "50L",
+        "max_contains_weight": "25 kg",
+        "moves": 200
+      }
+    ],
+    "material": [ "paper" ],
+    "symbol": ")",
+    "color": "white"
+  },
+  {
     "id": "bag_zipper",
     "type": "ITEM",
     "category": "container",

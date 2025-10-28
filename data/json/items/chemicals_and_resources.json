@@ -560,27 +560,6 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "COMESTIBLE" ],
-    "id": "sewage",
-    "name": { "str_sp": "sewage sample" },
-    "weight": "280 g",
-    "color": "green",
-    "use_action": [ "SEWAGE" ],
-    "container": "bottle_plastic",
-    "sealed": false,
-    "symbol": "~",
-    "description": "A sample of sewage from a treatment plant.  Gross.",
-    "comestible_type": "INVALID",
-    "price": "0 cent",
-    "price_postapoc": "0 cent",
-    "volume": "250 ml",
-    "charges": 1,
-    "phase": "liquid",
-    "category": "chems",
-    "fun": -20
-  },
-  {
-    "type": "ITEM",
     "subtypes": [ "AMMO" ],
     "id": "chem_aluminium_powder",
     "category": "chems",
@@ -2294,13 +2273,13 @@
     "description": "A weak adhesive to use in arts & crafts or other low stress applications.  You can't eat it.",
     "symbol": "~",
     "color": "white",
-    "material": [ "plastic" ],
+    "material": [ "epoxy" ],
     "weight": "1 g",
     "volume": "100 ml",
     "count": 100,
     "price_postapoc": "5 cents",
     "phase": "liquid",
-    "flags": [ "UNRECOVERABLE" ]
+    "flags": [ "UNRECOVERABLE", "NO_SALVAGE" ]
   },
   {
     "id": "glue_strong",

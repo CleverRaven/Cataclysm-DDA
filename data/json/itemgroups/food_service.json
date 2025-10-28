@@ -1739,8 +1739,9 @@
       { "prob": 20, "group": "sugar_bottle_plastic" },
       { "prob": 20, "group": "sugar_bottle_glass" },
       { "prob": 5, "group": "sugar_bag_plastic" },
-      { "prob": 10, "group": "sugar_bag_paper" },
-      { "prob": 2, "group": "sugar_bag_paper_bulk" }
+      { "prob": 42, "group": "sugar_bag_paper" },
+      { "prob": 16, "group": "sugar_bag_paper_bulk" },
+      { "prob": 2, "group": "sugar_bag_paper_50lb" }
     ]
   },
   {
@@ -1802,6 +1803,13 @@
     "//": "one pound of sugar in a paper bag.",
     "container-item": "bag_paper_powder",
     "entries": [ { "item": "sugar", "container-item": "null", "count": 71 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "sugar_bag_paper_50lb",
+    "subtype": "collection",
+    "container-item": "bag_paper_powder_50lb",
+    "entries": [ { "item": "sugar", "container-item": "null", "count": [ 121, 4700 ] } ]
   },
   {
     "type": "item_group",
@@ -1883,7 +1891,8 @@
     "entries": [
       { "prob": 5, "group": "flour_bag_plastic" },
       { "prob": 20, "group": "flour_bag_paper" },
-      { "prob": 2, "group": "flour_bag_paper_bulk" }
+      { "prob": 12, "group": "flour_bag_paper_bulk" },
+      { "prob": 12, "group": "flour_bag_paper_50lb" }
     ]
   },
   {
@@ -1923,6 +1932,13 @@
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_plastic_small",
     "entries": [ { "item": "flour", "container-item": "null", "count": [ 2, 20 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "flour_bag_paper_50lb",
+    "subtype": "collection",
+    "container-item": "bag_paper_powder_50lb",
+    "entries": [ { "item": "flour", "container-item": "null", "count": [ 10, 1850 ] } ]
   },
   {
     "type": "item_group",
