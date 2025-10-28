@@ -23,8 +23,37 @@
     "flags": [ "BLIND_HARD" ],
     "components": [
       [ [ "water_clean", 1 ], [ "water", 1 ] ],
-      [ [ "soap", 1 ], [ "soap_flakes", 15 ], [ "detergent", 1 ], [ "liquid_soap", 1 ], [ "chem_borax", 50 ] ]
+      [ [ "soap", 1 ], [ "soap_flakes", 15 ], [ "detergent", 1 ], [ "liquid_soap", 1 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "soapy_water",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_OTHER",
+    "skill_used": "chemistry",
+    "time": "1 m",
+    "autolearn": true,
+    "flags": [ "BLIND_HARD" ],
+    "components": [
+      [ [ "water_clean", 1 ], [ "water", 1 ] ],
+      [ [ "soap", 1 ], [ "soap_flakes", 15 ], [ "detergent", 1 ], [ "liquid_soap", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "detergent",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_OTHER",
+    "skill_used": "chemistry",
+    "time": "1 m",
+    "charges": 6,
+    "autolearn": true,
+    "flags": [ "BLIND_HARD" ],
+    "//": "Cold mixing a 1:1:1 recipe for detergent using 25 ml each of soap, borax, and washing soda, produces ~75ml of detergent. ",
+    "components": [ [ [ "soap_flakes", 2 ] ], [ [ "chem_borax", 10 ] ], [ [ "chem_washing_soda", 25 ] ] ]
   },
   {
     "type": "recipe",
