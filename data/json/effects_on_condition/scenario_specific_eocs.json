@@ -304,5 +304,10 @@
       "next_weather",
       { "run_eocs": "EOC_deactivate_moonlit", "time_in_future": "4 hours" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MON_ZOMBIE_NEMESIS_DEATH",
+    "effect": { "give_achievement": "achievement_nem_scen_win" }
   }
 ]

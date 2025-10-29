@@ -2593,14 +2593,23 @@
     "manually_given": true,
     "description": "Kill the biggest spider",
     "requirements": [  ]
-  },{
+  },
+  {
 
     "id": "achievement_nem_scen_win",
     "type": "achievement",
     "name": { "str": "And stay down!" },
-    "//": "Killed relentless Hulk",
+    "//": "Killed Relentless Hulk",
     "manually_given": true,
-    "description": "Kill your nemesis! (Scenario Specific)",
+    "description": "Killed your pursuer (Scenario specific)",
     "requirements": [  ]
   },
+  {
+    "id": "achievement_true_food_person",
+    "type": "achievement",
+    "name": { "str": "Walk a mile in their shoes..." },
+    "manually_given": true,
+    "description": "Finish a shift at Foodplace™",
+    "requirements": [  ]
+  }
 ]

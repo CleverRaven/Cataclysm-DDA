@@ -276,6 +276,7 @@
     "name": "Challenge - Hunted Forever",
     "points": -5,
     "forced_traits": [ "HAS_NEMESIS" ],
+    "requirement": "achievement_nem_scen_win",
     "description": "Since the start of the Cataclysm, they have been hunting you relentlessly.  You can try to fight them, but each time one falls another takes its place.  The only escape is for you to die.",
     "allowed_locs": [
       "sloc_house",
