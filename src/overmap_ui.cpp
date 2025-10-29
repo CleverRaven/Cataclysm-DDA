@@ -2425,7 +2425,7 @@ static tripoint_abs_omt display()
         // If EDGE_SCROLL is disabled, it will have a value of -1.
         // blinking won't work if handle_input() is passed a negative integer.
         if( scroll_timeout < 0 ) {
-            scroll_timeout = get_option<int>( "BLINK_SPEED" );
+            scroll_timeout = 33;
         }
         action = ictxt.handle_input( scroll_timeout );
 #else
