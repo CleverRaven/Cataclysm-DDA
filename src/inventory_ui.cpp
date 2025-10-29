@@ -402,6 +402,9 @@ void uistatedata::serialize( JsonOut &json ) const
     json.member( "overmap_debug_mongroup", overmap_debug_mongroup );
     json.member( "overmap_fast_travel", overmap_fast_travel );
     json.member( "overmap_fast_scroll", overmap_fast_scroll );
+    json.member( "overmap_sidebar_quickref", overmap_sidebar_quickref );
+    json.member( "overmap_sidebar_layers", overmap_sidebar_layers );
+    json.member( "overmap_sidebar_debug", overmap_sidebar_debug );
     json.member( "distraction_noise", distraction_noise );
     json.member( "distraction_pain", distraction_pain );
     json.member( "distraction_attack", distraction_attack );
@@ -477,6 +480,9 @@ void uistatedata::deserialize( const JsonObject &jo )
     jo.read( "overmap_debug_mongroup", overmap_debug_mongroup );
     jo.read( "overmap_fast_travel", overmap_fast_travel );
     jo.read( "overmap_fast_scroll", overmap_fast_scroll );
+    jo.read( "overmap_sidebar_quickref", overmap_sidebar_quickref );
+    jo.read( "overmap_sidebar_layers", overmap_sidebar_layers );
+    jo.read( "overmap_sidebar_debug", overmap_sidebar_debug );
     jo.read( "distraction_noise", distraction_noise );
     jo.read( "distraction_pain", distraction_pain );
     jo.read( "distraction_attack", distraction_attack );

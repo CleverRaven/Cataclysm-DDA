@@ -143,6 +143,9 @@ class uistatedata
         bool overmap_debug_mongroup = false;
         bool overmap_fast_travel = false;
         bool overmap_fast_scroll = false;
+        bool overmap_sidebar_quickref = true;
+        bool overmap_sidebar_layers = true;
+        bool overmap_sidebar_debug = true;
 
         // Distraction manager stuff
         bool distraction_noise = true;

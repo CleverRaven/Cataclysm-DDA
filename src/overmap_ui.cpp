@@ -133,7 +133,6 @@ overmap_sidebar::overmap_sidebar( overmap_ui::overmap_draw_data_t &data ) :
                        ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoNav ),
     draw_data( data )
 {
-    this->ctxt = &draw_data.ictxt;
     init();
 }
 
@@ -146,29 +145,41 @@ void overmap_sidebar::init()
 
 void overmap_sidebar::draw_controls()
 {
+    // This info is always shown at the top of the sidebar
     draw_tile_info();
     ImGui::Separator();
     draw_settings_info();
     ImGui::Separator();
     draw_mission_info();
+    ImGui::Separator();
 
-    if( ImGui::CollapsingHeader( "Quick Reference" ) ) {
+    // This info can be scrolled through
+    ImGui::BeginChild( "Overmap Sidebar Scrolling Content", {0, 0}, 0, ImGuiWindowFlags_NoNav );
+    ImGui::SetNextItemOpen( uistate.overmap_sidebar_quickref );
+    uistate.overmap_sidebar_quickref = ImGui::CollapsingHeader( "Quick Reference" );
+    if( uistate.overmap_sidebar_quickref ) {
         draw_quick_reference();
     };
-    if( ImGui::CollapsingHeader( "Layers" ) ) {
+    ImGui::SetNextItemOpen( uistate.overmap_sidebar_layers );
+    uistate.overmap_sidebar_layers = ImGui::CollapsingHeader( "Layers" );
+    if( uistate.overmap_sidebar_layers ) {
         draw_layer_info();
     }
     if( debug_mode || draw_data.debug_editor ) {
-        if( ImGui::CollapsingHeader( "Debug" ) ) {
+        ImGui::SetNextItemOpen( uistate.overmap_sidebar_debug );
+        uistate.overmap_sidebar_debug = ImGui::CollapsingHeader( "Debug" );
+        if( uistate.overmap_sidebar_debug ) {
             draw_debug();
         }
     }
+    ImGui::EndChild();
 }
 
 void overmap_sidebar::print_hint( const std::string &action, nc_color color )
 {
+    const input_context &ctxt = draw_data.ictxt;
     draw_sidebar_text( string_format( _( "%s - %s" ),
-                                      ctxt->get_desc( action ), ctxt->get_action_name( action ) ), color );
+                                      ctxt.get_desc( action ), ctxt.get_action_name( action ) ), color );
 }
 
 void overmap_sidebar::draw_tile_info()
@@ -235,13 +246,15 @@ void overmap_sidebar::draw_tile_info()
         const bool weather_is_visible = uistate.overmap_debug_weather ||
                                         player_character.overmap_los( cursor_pos, sight_points * 2 );
         if( weather_is_visible ) {
+            draw_sidebar_text( _( "Weather: " ), c_white );
+            ImGui::SameLine();
             draw_sidebar_text( overmap_ui::get_weather_at_point( cursor_pos )->name.translated(),
                                overmap_ui::get_weather_at_point( cursor_pos )->color );
         } else {
             draw_sidebar_text( _( "# Weather unknown" ), c_dark_gray );
         }
     } else {
-        draw_sidebar_text( " ", c_white );
+        draw_sidebar_text( "Not viewing weather", c_dark_gray );
     }
 
     const std::string coords = display::overmap_position_text( cursor_pos );
@@ -256,9 +269,10 @@ void overmap_sidebar::draw_settings_info()
 
 void overmap_sidebar::draw_quick_reference()
 {
+    const input_context &ctxt = draw_data.ictxt;
     draw_sidebar_text( _( "Use movement keys to pan." ), c_magenta );
     draw_sidebar_text( string_format( _( "Press %s to preview route." ),
-                                      ctxt->get_desc( "CHOOSE_DESTINATION" ) ), c_magenta );
+                                      ctxt.get_desc( "CHOOSE_DESTINATION" ) ), c_magenta );
     draw_sidebar_text( _( "Press again to confirm." ), c_magenta );
     print_hint( "LEVEL_UP" );
     print_hint( "LEVEL_DOWN" );
@@ -414,13 +428,6 @@ void overmap_sidebar::draw_mission_info()
         }
     } else {
         draw_sidebar_text( _( "No mission selected." ), c_white );
-    }
-
-    //Show mission targets on this location
-    for( mission *&mission : player_character.get_active_missions() ) {
-        if( mission->get_target() == cursor_pos ) {
-            draw_sidebar_text( mission->name(), c_white );
-        }
     }
 }
 
@@ -1550,7 +1557,6 @@ static void draw( overmap_draw_data_t &data )
 {
     cata_assert( static_cast<bool>( data.ui ) );
     ui_adaptor *ui = data.ui.get();
-    //draw_om_sidebar( *ui, g->w_omlegend, data.ictxt, data );
 #if defined( TILES )
     if( use_tiles && use_tiles_overmap ) {
         redraw_info = tiles_redraw_info { data.cursor_pos, uistate.overmap_show_overlays };
@@ -2332,8 +2338,6 @@ static tripoint_abs_omt display()
 
         to_overmap_font_dimension( OVERMAP_WINDOW_WIDTH, OVERMAP_WINDOW_HEIGHT );
 
-        /*g->w_omlegend = catacurses::newwin( OVERMAP_WINDOW_TERM_HEIGHT, OVERMAP_LEGEND_WIDTH,
-                                            point( OVERMAP_WINDOW_TERM_WIDTH, 0 ) );*/
         g->w_overmap = catacurses::newwin( OVERMAP_WINDOW_HEIGHT, OVERMAP_WINDOW_WIDTH, point::zero );
 
         ui.position_from_window( catacurses::stdscr );
@@ -2382,6 +2386,9 @@ static tripoint_abs_omt display()
     ictxt.register_action( "TOGGLE_FAST_SCROLL" );
     ictxt.register_action( "TOGGLE_OVERMAP_WEATHER" );
     ictxt.register_action( "TOGGLE_FOREST_TRAILS" );
+    ictxt.register_action( "TOGGLE_FAST_TRAVEL" );
+    ictxt.register_action( "COLLAPSE_OVERMAP_SIDEBAR_HEADERS" );
+    ictxt.register_action( "EXPAND_OVERMAP_SIDEBAR_HEADERS" );
     ictxt.register_action( "TOGGLE_FAST_TRAVEL" );
     ictxt.register_action( "MISSIONS" );
 
@@ -2611,6 +2618,14 @@ static tripoint_abs_omt display()
             debug_menu::prompt_map_reveal( curs );
         } else if( action == "MISSIONS" ) {
             g->list_missions();
+        } else if( action == "COLLAPSE_OVERMAP_SIDEBAR_HEADERS" ) {
+            uistate.overmap_sidebar_quickref = false;
+            uistate.overmap_sidebar_layers = false;
+            uistate.overmap_sidebar_debug = false;
+        } else if( action == "EXPAND_OVERMAP_SIDEBAR_HEADERS" ) {
+            uistate.overmap_sidebar_quickref = true;
+            uistate.overmap_sidebar_layers = true;
+            uistate.overmap_sidebar_debug = true;
         }
 
         std::chrono::time_point<std::chrono::steady_clock> now = std::chrono::steady_clock::now();

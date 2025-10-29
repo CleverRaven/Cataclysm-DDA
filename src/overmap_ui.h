@@ -171,7 +171,6 @@ bool is_generated_omt( const point_abs_omt &omp );
 
 class overmap_sidebar : public cataimgui::window
 {
-        input_context *ctxt;
         overmap_ui::overmap_draw_data_t &draw_data;
         //uses input context to print a keybind hint
         void draw_sidebar_text( const std::string &original_text, const nc_color &color );
