@@ -44,6 +44,7 @@
   {
     "type": "terrain",
     "id": "t_pit_corpsed_flesh",
+    "looks_like": "t_pit_corpsed",
     "name": "corpse filled pit",
     "description": "A giant trench full of corpses, maybe even a mass graveyard.  The bodies seem to be fused together in some grotesque fashion.",
     "symbol": "#",
