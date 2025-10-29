@@ -205,7 +205,6 @@
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
     "result": "blade",
-    "id_suffix": "from steel",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
