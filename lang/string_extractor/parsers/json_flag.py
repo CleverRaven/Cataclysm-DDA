@@ -1,25 +1,23 @@
+from ..helper import get_singular_name
 from ..write_text import write_text
 
 
 def parse_json_flag(json, origin):
-    if "name" in json:
-        write_text(json["name"], origin,
-                   comment="Name of JSON flag \"{}\""
-                   .format(json["id"]))
-    if "info" in json:
-        write_text(json["info"], origin, comment=[
-            "Please leave anything in <angle brackets> unchanged.",
-            "Description of JSON flag \"{}\"".format(json["id"])
-        ])
-    if "restriction" in json:
-        write_text(json["restriction"], origin,
-                   comment="Description of restriction of JSON flag \"{}\""
-                   .format(json["id"]))
-    if "item_prefix" in json:
-        write_text(json["item_prefix"], origin,
-                   comment="This is custom prefix added to item name. \"{}\""
-                   .format(json["id"]))
-    if "item_suffix" in json:
-        write_text(json["item_suffix"], origin,
-                   comment="This is custom suffix added to item name. \"{}\""
-                   .format(json["id"]))
+    ident = json["id"]
+    name = get_singular_name(json)
+
+    write_text(json.get("name"), origin,
+               comment=f"Name of JSON flag '{ident}'")
+
+    write_text(json.get("info"), origin, comment=[
+        "Please leave anything in <angle_brackets> unchanged.",
+        f"Description of JSON flag '{name}'"])
+
+    write_text(json.get("restriction"), origin,
+               comment="Description of restriction "
+               f"of JSON flag '{name}'")
+
+    write_text(json.get("item_prefix"), origin,
+               comment="Custom prefix added to item name")
+    write_text(json.get("item_suffix"), origin,
+               comment="Custom suffix added to item name")

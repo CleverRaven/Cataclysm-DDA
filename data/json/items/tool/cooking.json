@@ -1190,6 +1190,7 @@
     "subtypes": [ "TOOL" ],
     "symbol": "*",
     "color": "white",
+    "category": "food",
     "name": { "str": "crystallizing sugar" },
     "description": "Sweet, sweet sugar in the process of crystallizing.  It needs two weeks to form solid crystals.",
     "price": "0 cent",
@@ -1206,6 +1207,6 @@
       "transform_age": 1209600,
       "//": "2 weeks for cristallizing sugar, based on the real-life example"
     },
-    "flags": [ "NO_SALVAGE" ]
+    "flags": [ "NO_SALVAGE", "WATER_DISSOLVE" ]
   }
 ]

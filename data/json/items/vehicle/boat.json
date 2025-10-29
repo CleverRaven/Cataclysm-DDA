@@ -4,7 +4,7 @@
     "id": "boat_board",
     "symbol": "o",
     "color": "brown",
-    "name": { "str": "wood boat hull" },
+    "name": { "str": "wooden boat hull" },
     "description": "A wooden board that keeps the boat afloat.  Add boat hulls to a vehicle until it floats, then attach oars or a motor to get the boat to move.",
     "price": "80 USD",
     "price_postapoc": "1 USD",

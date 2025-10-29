@@ -88,7 +88,7 @@
       { "item": "mp3", "prob": 6, "charges": [ 0, 100 ] },
       { "item": "portable_game", "prob": 12, "charges": [ 0, 100 ] },
       { "item": "game_watch", "prob": 3, "charges": [ 0, 50 ] },
-      { "item": "vibrator", "prob": 10, "charges": [ 0, 100 ] },
+      { "group": "sex_accessories_domestic", "prob": 10 },
       { "item": "flashlight", "prob": 40, "charges": [ 0, 300 ] },
       { "item": "heavy_flashlight", "prob": 10, "charges": [ 0, 300 ] },
       { "item": "radio", "prob": 20, "charges": [ 0, 100 ] },

@@ -862,6 +862,26 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_vampire_stamina_for_blood_cardio_bonus",
+    "//": "Hidden effect, boost cardio when using Unholy Endurance and possessing the Incarnadine Relentlessness refinement.",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "int_add_val": 1,
+    "max_intensity": 5,
+    "max_duration": "20 m",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "CARDIO_MULTIPLIER",
+            "multiply": { "math": [ "0.15 * u_effect_intensity('effect_vampire_stamina_for_blood_cardio_bonus')" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "blood_weave",
     "name": [ "Blood Weave" ],
     "desc": [ "Immunity to bleeding and bites, increased stamina regeneration, increased hunger and thirst gain." ],
@@ -894,6 +914,16 @@
           { "value": "STRENGTH", "add": { "math": [ "2 + u_has_trait('VAMPIRE4') + u_has_trait('BLOOD_DRINKER')" ] } },
           {
             "value": "DEXTERITY",
+            "add": { "math": [ "2 + u_has_trait('VAMPIRE4') + u_has_trait('BLOOD_DRINKER')" ] }
+          }
+        ]
+      },
+      {
+        "condition": { "u_has_trait": "VAMPIRE_BLOOD_TEMPORARY_BOOST_REFINEMENT_MIND_BOOST" },
+        "values": [
+          { "value": "INTELLIGENCE", "add": { "math": [ "2 + u_has_trait('VAMPIRE4') + u_has_trait('BLOOD_DRINKER')" ] } },
+          {
+            "value": "PERCEPTION",
             "add": { "math": [ "2 + u_has_trait('VAMPIRE4') + u_has_trait('BLOOD_DRINKER')" ] }
           }
         ]
@@ -967,7 +997,33 @@
     "desc": [ "Nothing here but a corpse." ],
     "remove_message": "You end your imitation of death.",
     "rating": "mixed",
-    "enchantments": [ { "mutations": [ "WINTER_FEIGN_DEATH_TRAITS" ], "ench_effects": [ { "effect": "downed", "intensity": 1 } ] } ],
+    "enchantments": [
+      { "mutations": [ "WINTER_FEIGN_DEATH_TRAITS" ] },
+      { "ench_effects": [ { "effect": "downed", "intensity": 1 } ] },
+      {
+        "condition": { "u_has_trait": "VAMPIRE_TORPOR_REFINEMENT_FEIGN_DEATH" },
+        "values": [
+          {
+            "value": "REGEN_HP",
+            "multiply": {
+              "math": [
+                "(u_vampire_total_tier_one_traits_plus_potency * 0.02) + (u_vampire_total_tier_two_traits * 0.03) + (u_vampire_total_tier_three_traits * 0.04) + (vampire_total_tier_four_traits_plus_potence() * 0.05) + (u_vampire_total_tier_five_traits_plus_cauldron * 0.06)"
+              ]
+            }
+          },
+          {
+            "value": "MENDING_MODIFIER",
+            "multiply": {
+              "math": [
+                "(u_vampire_total_tier_one_traits_plus_potency * 0.03) + (u_vampire_total_tier_two_traits * 0.04) + (u_vampire_total_tier_three_traits * 0.05) + (vampire_total_tier_four_traits_plus_potence() * 0.06) + (u_vampire_total_tier_five_traits_plus_cauldron * 0.07)"
+              ]
+            }
+          },
+          { "value": "REGEN_HP_AWAKE", "multiply": 1 },
+          { "value": "SLEEPINESS", "multiply": -0.5 }
+        ]
+      }
+    ],
     "flags": [ "CANNOT_ATTACK", "CANNOT_MOVE", "NO_BODY_HEAT" ]
   },
   {

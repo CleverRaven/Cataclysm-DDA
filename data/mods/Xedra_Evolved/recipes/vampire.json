@@ -448,6 +448,10 @@
             "EOC_REFINE_BLOOD_DRIVEN_SPEED_WATER_RUNNING",
             "EOC_REFINE_SANGUINE_RESILIENCE_INVINCIBILITY",
             "EOC_REFINE_HEIGHTENED_SENSES_SEE_INVISIBLE",
+            "EOC_REFINE_VAMPIRE_TORPOR_REFINEMENT_FEIGN_DEATH",
+            "EOC_REFINE_VAMPIRE_BLOOD_TEMPORARY_BOOST_REFINEMENT_MIND_BOOST",
+            "EOC_REFINE_VAMPIRE_BAT_FORM_REFINEMENT_SWARM",
+            "EOC_REFINE_VAMPIRE_CARDIO_BONUS_REFINEMENT_STAMINAFORBLOOD",
             "EOC_NONE"
           ],
           "allow_cancel": true,
@@ -456,6 +460,10 @@
             "Refine Blood-driven Speed: Zephyr",
             "Refine Sanguine Resilience: Flesh of Marble",
             "Refine Predator's Senses/Crimson Vision: Soulsight",
+            "Refine Corpse's Countenance/Torpor: Corpse's Torpor",
+            "Refine Carmine Vitality: Carmine Clarity",
+            "Refine Shape of the Night Flier: Shape of the Night Fliers' Swarm",
+            "Refine Incarnadine Energy/Unholy Endurance: Incarnadine Relentlessness",
             "Nothing"
           ],
           "title": "Your research uncovers…",
@@ -464,6 +472,10 @@
             "With your Blood-driven Speed, move so quickly that you can even run on water.",
             "Improve Sanguine Resilience so the first attack after activating it shatters on your undead flesh.",
             "Combine your Predator's Senses with your Crimson Vision and learn to see even invisible creatures.",
+            "Combine your Corpse's Countenance with your Torpor so that you gain some of each's benefits while using the other.",
+            "Refine your Carmine Vitality so it increases intelligence and perception as well.",
+            "Modify your Shape of the Night Flier to turn in a multitude of bats, making you as durable in this form as you are in your default form.",
+            "Expand your Incarnadine Energy so that each use of Unholy Endurance temporarily increases its effect.",
             "End your research."
           ]
         }
@@ -530,6 +542,72 @@
       { "u_add_trait": "VAMPIRE_HEIGHTENED_SENSES_REFINEMENT_SEE_INVISIBLE" },
       {
         "u_message": "You learned Soulsight, a new use for your Predator's Senses and Crimson Vision Blood Arts.",
+        "type": "good"
+      },
+      { "run_eocs": "EOC_XE_VAMPIRE_BLOOD_REFINEMENT_RESEARCH_SUCCESS" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_REFINE_VAMPIRE_TORPOR_REFINEMENT_FEIGN_DEATH",
+    "condition": {
+      "and": [
+        { "u_has_trait": "VAMPIRE_FEIGN_DEATH" },
+        { "u_has_trait": "VAMPIRE_TORPOR" },
+        { "not": { "u_has_trait": "VAMPIRE_TORPOR_REFINEMENT_FEIGN_DEATH" } }
+      ]
+    },
+    "effect": [
+      { "u_add_trait": "VAMPIRE_TORPOR_REFINEMENT_FEIGN_DEATH" },
+      {
+        "u_message": "You learned Corpse's Torpor, a new use for your Corpse's Countenance and Torpor Blood Arts.",
+        "type": "good"
+      },
+      { "run_eocs": "EOC_XE_VAMPIRE_BLOOD_REFINEMENT_RESEARCH_SUCCESS" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_REFINE_VAMPIRE_BLOOD_TEMPORARY_BOOST_REFINEMENT_MIND_BOOST",
+    "condition": {
+      "and": [
+        { "u_has_trait": "VAMPIRE_BLOOD_TEMPORARY_BOOST" },
+        { "not": { "u_has_trait": "VAMPIRE_BLOOD_TEMPORARY_BOOST_REFINEMENT_MIND_BOOST" } }
+      ]
+    },
+    "effect": [
+      { "u_add_trait": "VAMPIRE_BLOOD_TEMPORARY_BOOST_REFINEMENT_MIND_BOOST" },
+      { "u_message": "You learned Carmine Clarity, a new use for your Carmine Vitality Blood Art.", "type": "good" },
+      { "run_eocs": "EOC_XE_VAMPIRE_BLOOD_REFINEMENT_RESEARCH_SUCCESS" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_REFINE_VAMPIRE_BAT_FORM_REFINEMENT_SWARM",
+    "condition": { "and": [ { "u_has_trait": "VAMPIRE_BAT_FORM" }, { "not": { "u_has_trait": "VAMPIRE_BAT_FORM_REFINEMENT_SWARM" } } ] },
+    "effect": [
+      { "u_add_trait": "VAMPIRE_BAT_FORM_REFINEMENT_SWARM" },
+      {
+        "u_message": "You learned Shape of the Night Fliers' Swarm, a new use for your Shape of the Night Flier Blood Art.",
+        "type": "good"
+      },
+      { "run_eocs": "EOC_XE_VAMPIRE_BLOOD_REFINEMENT_RESEARCH_SUCCESS" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_REFINE_VAMPIRE_CARDIO_BONUS_REFINEMENT_STAMINAFORBLOOD",
+    "condition": {
+      "and": [
+        { "u_has_trait": "VAMPIRE_CARDIO_BONUS" },
+        { "u_has_trait": "STAMINAFORBLOOD" },
+        { "not": { "u_has_trait": "VAMPIRE_CARDIO_BONUS_REFINEMENT_STAMINAFORBLOOD" } }
+      ]
+    },
+    "effect": [
+      { "u_add_trait": "VAMPIRE_CARDIO_BONUS_REFINEMENT_STAMINAFORBLOOD" },
+      {
+        "u_message": "You learned Incarnadine Relentlessness, a new use for your Incarnadine Energy and Unholy Endurance Blood Arts.",
         "type": "good"
       },
       { "run_eocs": "EOC_XE_VAMPIRE_BLOOD_REFINEMENT_RESEARCH_SUCCESS" }

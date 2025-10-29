@@ -1,6 +1,6 @@
 [
   {
-    "id": "leather_journal_innawood",
+    "id": "leather_journal",
     "copy-from": "leather_journal",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],

@@ -597,5 +597,11 @@
       [ "wakizashi_inferior", 8 ],
       [ "kris_fake", 8 ]
     ]
+  },
+  {
+    "id": "pet_collars",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ [ "leather_collar", 2 ], [ "faux_fur_collar", 1 ], [ "fur_collar", 1 ] ]
   }
 ]
