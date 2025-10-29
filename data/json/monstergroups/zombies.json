@@ -1099,6 +1099,11 @@
     ]
   },
   {
+    "type": "monstergroup",
+    "id": "GROUP_MASS_GRAVE_JABBERWOCK",
+        "//": "The things that appeared at a jabberwock mass grave.",
+  },
+  {
     "id": "GROUP_FOOTBALL",
     "type": "monstergroup",
     "monsters": [

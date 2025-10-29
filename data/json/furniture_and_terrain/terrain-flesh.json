@@ -40,5 +40,16 @@
       "ter_set": "t_strconc_wall",
       "items": [ { "item": "meat_tainted", "count": [ 5, 10 ] } ]
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_pit_corpsed_flesh",
+    "name": "corpse filled pit",
+    "description": "A giant trench full of corpses, maybe even a mass graveyard.  The bodies seem to be fused together in some grotesque fashion.",
+    "symbol": "#",
+    "color": "green",
+    "move_cost": 5,
+    "flags": [ "TRANSPARENT", "DIGGABLE", "PIT_FILLABLE" ],
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
   }
 ]
