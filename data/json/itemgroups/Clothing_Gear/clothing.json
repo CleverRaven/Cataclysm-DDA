@@ -3877,6 +3877,7 @@
       { "item": "longshirt", "prob": 70 },
       { "item": "arm_warmers", "prob": 20 },
       { "item": "armguard_soft", "prob": 10 },
+      { "item": "armguard_hard", "prob": 3 },
       { "item": "dress_shirt", "prob": 50 },
       { "item": "denim_shirt", "prob": 15 },
       { "item": "jersey", "prob": 30 },
