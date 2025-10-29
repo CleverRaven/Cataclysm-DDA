@@ -8710,10 +8710,11 @@ bool assisted_pulp_activity_actor::calculate_corpses_in_area( Character &you )
     map &here = get_map();
     corpses = {};
     if( assist_type == assisted_pulp_type::SPELL ) {
-        const std::set<tripoint_bub_ms> area = spell_effect::spell_effect_area( (*sp), target, you );
+        spell &sp = you.magic->get_spell( sp_id );
+        const std::set<tripoint_bub_ms> area = spell_effect::spell_effect_area( sp, target, you );
 
         for( const tripoint_bub_ms &potential_target : area ) {
-            if( !(*sp).is_valid_target( you, potential_target ) ) {
+            if( !sp.is_valid_target( you, potential_target ) ) {
                 continue;
             }
             for( item &potential_corpse : here.i_at( potential_target ) ) {
@@ -8732,6 +8733,7 @@ void assisted_pulp_activity_actor::start( player_activity &act, Character &you )
     // we then end the activity manually
     act.moves_total = calendar::INDEFINITELY_LONG;
     act.moves_left = calendar::INDEFINITELY_LONG;
+    add_msg("assisted_pulp_activity_actor: start" );
 
     if( assist_type == assisted_pulp_type::SPELL) {
         if( !calculate_corpses_in_area( you ) ) { // Immediately stop activity if no corpses to pulp
@@ -8749,9 +8751,10 @@ void assisted_pulp_activity_actor::do_turn( player_activity &act, Character &you
 {
 
     if( assist_type == assisted_pulp_type::SPELL ) {
-        you.cast_spell( (*sp), false, target );
+        spell &sp = you.magic->get_spell( sp_id );
+        you.cast_spell( sp, false, target );
+        add_msg("assisted_pulp_activity_actor: do_turn: spell=%s", sp.id().c_str() );
     }
-    add_msg("assisted_pulp_activity_actor: spell=%s", (*sp).id().c_str() );
 
     // If nothing to pulp, stop the activity.
     // if( !calculate_corpses_in_area( you ) ) {
@@ -8765,6 +8768,7 @@ void assisted_pulp_activity_actor::finish( player_activity &act, Character &you 
 {
     act.moves_total = 0;
     act.moves_left = 0;
+    add_msg("assisted_pulp_activity_actor: finish" );
 
     act.set_to_null();
 }

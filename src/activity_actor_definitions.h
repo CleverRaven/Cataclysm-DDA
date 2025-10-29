@@ -2466,8 +2466,8 @@ class assisted_pulp_activity_actor : public activity_actor
 {
     public:
 
-        assisted_pulp_activity_actor() {};
-        assisted_pulp_activity_actor( const tripoint_bub_ms &target, spell *sp ) : assist_type( assisted_pulp_type::SPELL ), target( target ), sp( sp ) {}
+        assisted_pulp_activity_actor() = default;
+        assisted_pulp_activity_actor( const tripoint_bub_ms &target, spell_id sp_id ) : assist_type( assisted_pulp_type::SPELL ), target( target ), sp_id( sp_id ) {}
         const activity_id &get_type() const override {
             static const activity_id ACT_ASSISTED_PULP( "ACT_ASSISTED_PULP" );
             return ACT_ASSISTED_PULP;
@@ -2494,7 +2494,7 @@ class assisted_pulp_activity_actor : public activity_actor
         int num_corpses = 0;
 
         // spell pulping
-        spell *sp;
+        spell_id sp_id;
 };
 
 class pulp_activity_actor : public activity_actor

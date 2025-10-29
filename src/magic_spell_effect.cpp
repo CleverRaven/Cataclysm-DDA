@@ -711,11 +711,10 @@ static void spell_bash_area( const spell &sp, Creature &caster, const std::set<t
         }
         // Add query here before starting activity
         avatar *av = caster.as_avatar();
-        if( av != nullptr && unpulped_corpses_remaining ) {
+        if( av != nullptr && unpulped_corpses_remaining && !av->activity ) {
             add_msg("spell_bash_area: starting activity");
-            spell non_const_spell = av->magic->get_spell( sp.id() );
-            add_msg("spell=%s", non_const_spell.id().c_str() );
-            av->assign_activity( assisted_pulp_activity_actor( epicenter, &non_const_spell ) );
+            add_msg("spell=%s", sp.id().c_str() );
+            av->assign_activity( assisted_pulp_activity_actor( epicenter, sp.id() ) );
         }
     }
 }
