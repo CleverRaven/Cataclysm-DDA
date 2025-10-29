@@ -527,6 +527,35 @@
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "FINE_GRIND", "level": 1 } ],
     "components": [ [ [ "chunk_borax", 1 ] ] ]
   },
+    {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "chem_caco3",
+    "name": "%s from calcite",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "charges": 866,
+    "time": "10 m",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "FINE_GRIND", "level": 1 } ],
+    "components": [ [ [ "chunk_caco3", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "graphite",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "charges": 13750,
+    "time": "5 m",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "FINE_GRIND", "level": 1 } ],
+    "components": [ [ [ "chunk_graphite", 1 ] ] ]
+  },
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
