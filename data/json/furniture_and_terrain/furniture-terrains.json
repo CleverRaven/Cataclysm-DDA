@@ -1066,7 +1066,7 @@
       "items": [
         { "item": "rock", "count": [ 16, 32 ] },
         { "item": "sharp_rock", "count": [ 0, 6 ] },
-        { "item": "chunk_borax", "count": [ 1, 3 ], "prob": 10 },
+        { "item": "chunk_borax", "count": [ 1, -1 ], "prob": 3 },
         { "item": "material_shrd_limestone", "count": [ 1, 3 ], "prob": 10 },
         { "item": "chunk_sulfur", "count": [ 1, 3 ], "prob": 10 }
       ]
@@ -1092,9 +1092,9 @@
       "items": [
         { "item": "rock", "count": [ 35, 50 ] },
         { "item": "sharp_rock", "count": [ 3, 7 ] },
-        { "item": "chunk_borax", "count": [ 3, 5 ], "prob": 10 },
+        { "item": "chunk_borax", "count": [ 1, 5 ], "prob": 5 },
         { "item": "material_shrd_limestone", "count": [ 3, 5 ], "prob": 10 },
-        { "item": "chunk_sulfur", "count": [ 3, 5 ], "prob": 10 }
+        { "item": "chunk_sulfur", "count": [ 1, 5 ], "prob": 10 }
       ]
     }
   },
@@ -1117,9 +1117,9 @@
       "items": [
         { "item": "rock", "count": [ 65, 85 ] },
         { "item": "sharp_rock", "count": [ 5, 9 ] },
-        { "item": "chunk_borax", "count": [ 5, 9 ], "prob": 10 },
+        { "item": "chunk_borax", "count": [ 1, 9 ], "prob": 5 },
         { "item": "material_shrd_limestone", "count": [ 5, 9 ], "prob": 10 },
-        { "item": "chunk_sulfur", "count": [ 5, 9 ], "prob": 10 }
+        { "item": "chunk_sulfur", "count": [ 1, 9 ], "prob": 10 }
       ]
     }
   },
