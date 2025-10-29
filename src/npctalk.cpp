@@ -28,6 +28,7 @@
 #include "avatar.h"
 #include "bionics.h"
 #include "bodypart.h"
+#include "cached_options.h"
 #include "calendar.h"
 #include "cata_lazy.h"
 #include "cata_path.h"
@@ -6467,10 +6468,20 @@ talk_effect_fun_t::func f_run_eoc_selector( const JsonObject &jo, std::string_vi
             return;
         }
 
-        eoc_list.query();
+        if( test_mode ) {
+            if( eoc_list.allow_cancel ) {
+                eoc_list.ret = -1;
+            } else {
+                eoc_list.ret = 0;
+            }
+        } else {
+            eoc_list.query();
+        }
+
         if( eoc_list.ret < 0 ) {
             return;
         }
+
 
         // add context variables
         dialogue newDialog( d );
