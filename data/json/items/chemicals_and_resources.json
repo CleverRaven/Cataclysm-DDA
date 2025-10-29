@@ -83,16 +83,17 @@
     "price_postapoc": "1 USD",
     "name": { "str_sp": "graphite" },
     "symbol": "!",
-    "description": "Graphite powder, aka elemental carbon. Produces gray or black marks that are easily erased, but otherwise resistant to moisture, most chemicals, ultraviolet radiation, and natural aging. Useful as a lubricant for metalworking.",
+    "description": "Graphite powder, aka elemental carbon, mixed with a little clay. Produces gray or black marks that are easily erased, but otherwise resistant to moisture, most chemicals, ultraviolet radiation, and natural aging. Useful as a lubricant for metalworking.",
     "material": [ "powder" ],
     "volume": "6 ml",
-    "weight": "480 mg",
+    "weight": "40 mg",
     "color": "dark_gray",
     "looks_like": "charcoal",
-    "//": "Density of graphite: 2.2g/cm3.  NOTE: Weight for 1/25 mol(about 3 grams).  Weights are given for ONE UNIT.  Volume is for all units. This graphite volume accounts for packing density of powder. ",
+    "//": "Density of graphite: 2.2g/cm3.  NOTE: Weight for 1/300 mol.  Weights are given for ONE UNIT.  Volume is for all units. This graphite volume accounts for packing density of powder. ",
+    "//pencil": "used high ratios of graphite so that pencils could still work normally. 100 units is about 3 grams, which is a full pencil. Since it will be a lubricant as well, it's fine to be in small ammounts.",
     "flags": [ "TRADER_AVOID" ],
     "ammo_type": "graphite",
-    "count": 25
+    "count": 300
   },
   {
     "type": "ITEM",
