@@ -635,7 +635,7 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "As if the apocalypse itself wasn't enough, you are constantly looking for some trouble.  Zombies will sometimes appear out of nowhere to attack you.  Fortunately, they always appear at a good distance from you.  Activate to toggle.",
+    "description": "As if the apocalypse itself wasn't enough, you are constantly looking for some trouble.  Zombies somehow sometimes sense your presence and approach you.  Fortunately, they always appear at a good distance from you.  Activate to toggle.",
     "active": true,
     "activated_is_setup": true,
     "activated_eocs": [ "EOC_troubleseek_on" ],
