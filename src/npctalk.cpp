@@ -6436,6 +6436,25 @@ talk_effect_fun_t::func f_run_eoc_selector( const JsonObject &jo, std::string_vi
     translation title = to_translation( "Select an option." );
     jo.read( "title", title );
 
+    // Selector dialog can't be initialized in tests, so either cancel or activate first eoc
+    if( test_mode ) {
+        return [eocs, context, allow_cancel]( dialogue & d ) {
+            if( allow_cancel ) {
+                return;
+            }
+
+            dialogue newDialog( d );
+            if( !context.empty() ) {
+                for( const auto &val : context[0] ) {
+                    newDialog.set_value( val.first, val.second.evaluate( d ) );
+                }
+            }
+            const effect_on_condition_id first_eoc =
+                eocs[0].var ? effect_on_condition_id( eocs[0].var->evaluate( d ) ) : eocs[0].id;
+            first_eoc->activate( newDialog );
+        };
+    }
+
     return [eocs, context, title, eoc_names, eoc_keys, eoc_descriptions,
           hide_failing, allow_cancel, hilight_disabled]( dialogue & d ) {
         uilist eoc_list;
@@ -6499,20 +6518,10 @@ talk_effect_fun_t::func f_run_eoc_selector( const JsonObject &jo, std::string_vi
             return;
         }
 
-        if( test_mode ) {
-            if( eoc_list.allow_cancel ) {
-                eoc_list.ret = -1;
-            } else {
-                eoc_list.ret = 0;
-            }
-        } else {
-            eoc_list.query();
-        }
-
+        eoc_list.query();
         if( eoc_list.ret < 0 ) {
             return;
         }
-
 
         // add context variables
         dialogue newDialog( d );
