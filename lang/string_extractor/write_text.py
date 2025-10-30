@@ -4,12 +4,13 @@ from .message import Message, messages, occurrences
 
 
 def append_comment(comments, new_comment):
+    if not new_comment:
+        return comments
     if type(new_comment) is str:
         return comments + new_comment.split("\n")
     elif type(new_comment) is list:
         for comment in new_comment:
-            if comment:
-                comments = append_comment(comments, comment)
+            comments = append_comment(comments, comment)
         return comments
 
 
@@ -26,7 +27,7 @@ def write_text(json, origin, context="", comment="", plural=False):
         explicit_plural (bool): Whether the plural is specified
                                 explicitly in JSON
     """
-    if json is None or json == "":
+    if not json:
         return
 
     comments = append_comment([], comment)
@@ -37,16 +38,12 @@ def write_text(json, origin, context="", comment="", plural=False):
     if type(json) is str:
         text = json
         if plural:
-            text_plural = "{}s".format(text)
+            text_plural = f"{text}s"
     elif type(json) is dict:
         if "//~" in json:
-            if type(json["//~"]) is str and json["//~"]:
-                comments = append_comment(comments, json["//~"])
-        if "ctxt" in json:
-            if type(json["ctxt"]) is str:
-                context = json["ctxt"]
-        if "str" in json:
-            text = json["str"]
+            comments = append_comment(comments, json["//~"])
+        context = json.get("ctxt", "")
+        text = json.get("str", "")
         if plural:
             if "str_sp" in json:
                 text = json["str_sp"]
@@ -56,7 +53,7 @@ def write_text(json, origin, context="", comment="", plural=False):
                 text_plural = json["str_pl"]
                 explicit_plural = True
             else:
-                text_plural = "{}s".format(text)
+                text_plural = f"{text}s"
 
     if not text or "NO_I18N" in comments:
         return
@@ -75,12 +72,13 @@ def write_text(json, origin, context="", comment="", plural=False):
 
 
 # Used in parse_effect and parse_condition
-def write_translation_or_var(json, origin, context="", comment="",
-                             plural=False):
+def write_variable(json, origin, context="", comment="", plural=False):
+    if not json:
+        return
+
     if type(json) is dict and "default_str" in json:
         write_text(json["default_str"], origin, context=context,
-                   comment="default value for {}".format(comment),
-                   plural=plural)
+                   comment=f"default value for {comment}", plural=plural)
     else:
         write_text(json, origin, context=context, comment=comment,
                    plural=plural)
