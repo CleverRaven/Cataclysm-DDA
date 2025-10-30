@@ -47,5 +47,12 @@
     "//": "Drifts are used for punching for some reason in CDDA. This requirement reflects that a drift is required, and so is high temp metal lubricant.",
     "tool": [ [ [ "drift" ] ] ],
     "components": [ [ [ "metal_lube", 1 ] ] ]
+  },
+  {
+    "id": "bronze_punch",
+    "type": "requirement",
+    "//": "This punch recipe is for the nail punch and regular steel drift, for use on bronze items. A bronze punch/drift should be added here if ti becomes an item.",
+    "tool": [ [ [ "drift" ], [ "punch_nail" ] ] ],
+    "components": [ [ [ "metal_lube", 1 ] ] ]
   }
 ]
