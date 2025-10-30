@@ -40,5 +40,12 @@
     "type": "requirement",
     "//": "Hi-temp lubricant for metal chains and parts, such as flatjaw tongs. makes a very thin coating. 1mL is enough to cover 1ft^2 or .1m^2 of material.",
     "components": [ [ [ "graphite", 50 ] ] ]
+  },
+  {
+    "id": "metal_punch",
+    "type": "requirement",
+    "//": "Drifts are used for punching for some reason in CDDA. This requirement reflects that a drift is required, and so is high temp metal lubricant.",
+    "tool": [ [ [ "drift" ] ] ],
+    "components": [ [ [ "metal_lube", 1 ] ] ]
   }
 ]
