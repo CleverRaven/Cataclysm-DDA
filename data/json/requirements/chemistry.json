@@ -20,7 +20,25 @@
   {
     "id": "flux",
     "type": "requirement",
-    "//": "Borax flux and other common flux for use in Cu/Fe/Ag/Au brazing, welding, and forging, such as fluxing copper, iron, gold, or silver. This is equivalent to about a spoonful of flux, which should generally be more than enough for most projects when smelting premade ingots or objects. For brazing, ~15g per 100g of product should be used.",
+    "//": "Borax flux for use in Cu/Fe/Ag/Au brazing, welding, and forging, such as fluxing copper, iron, gold, or silver. One spoonful of flux covers 50cm^2 area of joining. For brazing, ~15g per 100g of product should be used.",
     "components": [ [ [ "chem_borax", 5 ], [ "detergent", 4 ] ] ]
+  },
+  {
+    "id": "flux_fe_forge",
+    "type": "requirement",
+    "//": "Iron/Steel forging flux. One spoonful of flux covers 50cm^2 area of joining.",
+    "components": [ [ [ "flux", 1 ], [ "flux_ash", 4 ] ] ]
+  },
+  {
+    "id": "flux_fe_smelt",
+    "type": "requirement",
+    "//": "Iron/Steel smelting flux. ",
+    "components": [ [ [ "flux", 1 ], [ "caco3", 50 ] ] ]
+  },
+  {
+    "id": "metal_lube",
+    "type": "requirement",
+    "//": "Hi-temp lubricant for metal chains and parts, such as flatjaw tongs. makes a very thin coating. 1mL is enough to cover 1ft^2 or .1m^2 of material.",
+    "components": [ [ [ "graphite", 50 ] ] ]
   }
 ]
