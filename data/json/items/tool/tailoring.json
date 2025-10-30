@@ -280,6 +280,9 @@
     "material": [ "flesh", "leather" ],
     "symbol": ",",
     "color": "brown",
+    "countdown_interval": "8 hours",
+    "revert_to": "tanned_hide",
+    "//1": "Remove the use_action below when all items spawned without the auto activation changes (2025-11-30) are no longer supported",
     "use_action": {
       "target": "tanned_hide",
       "msg": "You carefully unfold the tanning leather hide and shake it clean.",
@@ -287,9 +290,9 @@
       "type": "delayed_transform",
       "transform_age": 28800,
       "not_ready_msg": "The tanning leather hide isn't done yet.",
-      "//": "2 days"
+      "//": "8 hours"
     },
-    "flags": [ "NO_SALVAGE" ]
+    "flags": [ "NO_SALVAGE", "SPAWN_ACTIVE" ]
   },
   {
     "id": "tanning_pelt",
