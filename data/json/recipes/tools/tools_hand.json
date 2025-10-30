@@ -318,7 +318,7 @@
     "difficulty": 5,
     "time": "2 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ], ["metal_punch", 1] ],
+    "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ], [ "metal_punch", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -337,17 +337,14 @@
     "time": "2 h",
     "book_learn": [ [ "bronze_book", 4 ] ],
     "autolearn": true,
-    "using": [ [ "forging_standard", 4 ], ["bronze_punch", 1 ] ],
+    "using": [ [ "forging_standard", 4 ], [ "bronze_punch", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_redsmithing" },
       { "proficiency": "prof_redsmithing_adv" },
       { "proficiency": "prof_toolsmithing" }
     ],
-    "tools": [
-      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
-      [ [ "casting_mold_small", -1 ] ]
-    ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "casting_mold_small", -1 ] ] ],
     "qualities": [ { "id": "ANVIL", "level": 2 }, { "id": "HAMMER", "level": 2 } ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "scrap_bronze", 2 ] ] ]
   },
@@ -1092,7 +1089,7 @@
       { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
       { "proficiency": "prof_bladesmith" }
     ],
-    "using": [ [ "blacksmithing_standard", 24 ], [ "steel_standard", 6 ], ["metal_punch", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 24 ], [ "steel_standard", 6 ], [ "metal_punch", 1 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "components": [ [ [ "2x4", 2 ], [ "stick", 4 ] ] ]
   },
@@ -1202,7 +1199,7 @@
     "difficulty": 5,
     "time": "3 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ], ["metal_punch", 1 ],
+    "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ], [ "metal_punch", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -1584,7 +1581,7 @@
     "reversible": true,
     "autolearn": true,
     "book_learn": [ [ "textbook_carpentry", 5 ], [ "textbook_fabrication", 6 ] ],
-    "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 2 ], ["metal_punch", 1] ],
+    "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 2 ], [ "metal_punch", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
