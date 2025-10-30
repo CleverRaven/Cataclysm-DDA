@@ -1318,7 +1318,7 @@
     "id": "EOC_ZOMBIE_SUMMONER_SUMMON_HORDES",
     "effect": [
       { "npc_add_effect": "effect_zombie_summoner_increase_power", "duration": 900 },
-      { "math": [ "_summon_effect = 300 + (n_effect_intensity('effect_zombie_summoner_increase_power') * 50)" ] },
+      { "math": [ "_summon_effect = 200 + (n_effect_intensity('effect_zombie_summoner_increase_power') * 50)" ] },
       { "message": "Summoning power is <context_val:summon_effect>.", "type": "debug" },
       { "u_location_variable": { "context_val": "zombie_horde_target" } },
       { "signal_hordes": { "context_val": "zombie_horde_target" }, "signal_power": { "math": [ "_summon_effect" ] } }
