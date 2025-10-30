@@ -13,8 +13,8 @@
 
 #include "cata_imgui.h"
 #include "city.h"
+#include "color.h"
 #include "coordinates.h"
-#include "imgui/imgui.h"
 #include "input_context.h"
 #include "map_scale_constants.h"
 #include "point.h"
@@ -24,7 +24,6 @@ class ui_adaptor;
 
 constexpr int RANDOM_CITY_ENTRY = INT_MIN;
 
-class nc_color;
 class uilist;
 struct weather_type;
 
