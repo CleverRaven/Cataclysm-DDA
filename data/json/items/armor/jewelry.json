@@ -699,12 +699,7 @@
     "description": "A pair of cufflinks with inset rubies.",
     "variant_type": "generic",
     "variants": [
-      {
-        "id": "generic_ruby_silver_cufflinks",
-        "name": { "str_sp": "ruby and silver cufflinks" },
-        "description": "A pair of cufflinks with inset rubies.",
-        "weight": 99
-      },
+      { "id": "generic_ruby_silver_cufflinks", "//": "inherit name and description from item", "weight": 99 },
       {
         "id": "vampire_cufflinks",
         "name": { "str_sp": "vampire cufflinks" },
@@ -784,12 +779,7 @@
     "description": "A pair of cufflinks with inset onyx.",
     "variant_type": "generic",
     "variants": [
-      {
-        "id": "generic_onyx_silver_cufflinks",
-        "name": { "str_sp": "onyx and silver cufflinks" },
-        "description": "A pair of cufflinks with inset onyx.",
-        "weight": 99
-      },
+      { "id": "generic_onyx_silver_cufflinks", "//": "inherit name and description from item", "weight": 99 },
       {
         "id": "dark_cufflinks",
         "name": { "str_sp": "dark cufflinks" },
@@ -2066,12 +2056,7 @@
     "color": "pink",
     "variant_type": "generic",
     "variants": [
-      {
-        "id": "faux_fur_cat_ears",
-        "name": { "str_sp": "faux fur cat ears (pair)" },
-        "description": "A fuzzy pair of garishly colored cat ears on a headband.  It does nothing, but there's no reason not to look good even if no one's looking.",
-        "color": "pink"
-      },
+      { "id": "faux_fur_cat_ears", "//": "inherit name and description from item", "color": "pink" },
       {
         "id": "bunny_ears_white",
         "name": { "str_sp": "white bunny ears (pair)" },
@@ -2378,12 +2363,7 @@
     "description": "A pair of shiny ruby and silver earrings.",
     "variant_type": "generic",
     "variants": [
-      {
-        "id": "generic_ruby_silver_earring",
-        "name": { "str_sp": "ruby and silver earrings (pair)" },
-        "description": "A pair of shiny ruby and silver earrings.",
-        "weight": 99
-      },
+      { "id": "generic_ruby_silver_earring", "//": "inherit name and description from item", "weight": 99 },
       {
         "id": "vampire_earring",
         "name": { "str_sp": "vampire earrings (pair)" },
@@ -2463,12 +2443,7 @@
     "description": "A pair of shiny onyx and silver earrings.",
     "variant_type": "generic",
     "variants": [
-      {
-        "id": "generic_onyx_silver_earring",
-        "name": { "str_sp": "onyx and silver earrings (pair)" },
-        "description": "A pair of shiny onyx and silver earrings.",
-        "weight": 99
-      },
+      { "id": "generic_onyx_silver_earring", "//": "inherit name and description from item", "weight": 99 },
       {
         "id": "dark_earring",
         "name": { "str_sp": "dark earrings (pair)" },
@@ -2844,12 +2819,7 @@
     "description": "A silver ring with a ruby mounted on top of it.",
     "variant_type": "generic",
     "variants": [
-      {
-        "id": "generic_ruby_silver_ring",
-        "name": { "str": "ruby and silver ring" },
-        "description": "A silver ring with a ruby mounted on top of it.",
-        "weight": 99
-      },
+      { "id": "generic_ruby_silver_ring", "//": "inherit name and description from item", "weight": 99 },
       {
         "id": "vampire_ring",
         "name": { "str": "vampire ring" },
@@ -2929,12 +2899,7 @@
     "description": "A silver ring with an onyx mounted on top of it.",
     "variant_type": "generic",
     "variants": [
-      {
-        "id": "generic_onyx_silver_ring",
-        "name": { "str": "onyx and silver ring" },
-        "description": "A silver ring with an onyx mounted on top of it.",
-        "weight": 99
-      },
+      { "id": "generic_onyx_silver_ring", "//": "inherit name and description from item", "weight": 99 },
       {
         "id": "dark_ring",
         "name": { "str": "dark ring" },
@@ -3319,12 +3284,7 @@
     "description": "A silver bracelet with sparkling rubies.",
     "variant_type": "generic",
     "variants": [
-      {
-        "id": "generic_ruby_silver_bracelet",
-        "name": { "str": "ruby and silver bracelet" },
-        "description": "A silver bracelet with sparkling rubies.",
-        "weight": 99
-      },
+      { "id": "generic_ruby_silver_bracelet", "//": "inherit name and description from item", "weight": 99 },
       {
         "id": "vampire_bracelet",
         "name": { "str": "vampire bracelet" },
@@ -3404,12 +3364,7 @@
     "description": "A silver bracelet with striking onyx.",
     "variant_type": "generic",
     "variants": [
-      {
-        "id": "generic_onyx_silver_bracelet",
-        "name": { "str": "onyx and silver bracelet" },
-        "description": "A silver bracelet with striking onyx.",
-        "weight": 99
-      },
+      { "id": "generic_onyx_silver_bracelet", "//": "inherit name and description from item", "weight": 99 },
       {
         "id": "dark_bracelet",
         "name": { "str": "dark bracelet" },
@@ -3778,12 +3733,7 @@
     "description": "A shiny, silver necklace adorned with a ruby pendant.",
     "variant_type": "generic",
     "variants": [
-      {
-        "id": "generic_ruby_silver_pendant_necklace",
-        "name": { "str": "ruby and silver pendant necklace" },
-        "description": "A shiny, silver necklace adorned with a ruby pendant.",
-        "weight": 99
-      },
+      { "id": "generic_ruby_silver_pendant_necklace", "//": "inherit name and description from item", "weight": 99 },
       {
         "id": "vampire_necklace",
         "name": { "str": "vampire necklace" },
@@ -3863,12 +3813,7 @@
     "description": "A shiny, silver necklace adorned with an onyx pendant.",
     "variant_type": "generic",
     "variants": [
-      {
-        "id": "generic_onyx_silver_pendant_necklace",
-        "name": { "str": "onyx and silver pendant necklace" },
-        "description": "A shiny, silver necklace adorned with an onyx pendant.",
-        "weight": 99
-      },
+      { "id": "generic_onyx_silver_pendant_necklace", "//": "inherit name and description from item", "weight": 99 },
       {
         "id": "dark_necklace",
         "name": { "str": "dark necklace" },
@@ -4393,12 +4338,7 @@
     "description": "A shiny, silver tiara adorned with rubies.",
     "variant_type": "generic",
     "variants": [
-      {
-        "id": "generic_ruby_silver_tiara",
-        "name": { "str": "ruby and silver tiara" },
-        "description": "A shiny, silver tiara adorned with rubies.",
-        "weight": 99
-      },
+      { "id": "generic_ruby_silver_tiara", "//": "inherit name and description from item", "weight": 99 },
       {
         "id": "vampire_tiara",
         "name": { "str": "vampire tiara" },
@@ -4478,12 +4418,7 @@
     "description": "A shiny, silver tiara adorned with onyx.",
     "variant_type": "generic",
     "variants": [
-      {
-        "id": "generic_onyx_silver_tiara",
-        "name": { "str": "onyx and silver tiara" },
-        "description": "A shiny, silver tiara adorned with onyx.",
-        "weight": 99
-      },
+      { "id": "generic_onyx_silver_tiara", "//": "inherit name and description from item", "weight": 99 },
       { "id": "dark_tiara", "name": { "str": "dark tiara" }, "description": "A dark silver tiara adorned with onyx." }
     ],
     "color": "dark_gray"
@@ -5239,21 +5174,6 @@
     "material": [ "cotton", "plastic" ],
     "symbol": "^",
     "color": "dark_gray",
-    "flags": [ "NO_WEAR_EFFECT" ]
-  },
-  {
-    "id": "tail_bunny_playboy",
-    "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
-    "name": { "str": "bunny tail" },
-    "description": "A fluffy bunny tail ball, usually worn with a sexy one-piece bunny suit and bunny ears headband.",
-    "weight": "50 g",
-    "volume": "100 ml",
-    "price": "10 USD",
-    "price_postapoc": "10 cent",
-    "material": [ "cotton" ],
-    "symbol": "*",
-    "color": "light_gray",
     "flags": [ "NO_WEAR_EFFECT" ]
   },
   {

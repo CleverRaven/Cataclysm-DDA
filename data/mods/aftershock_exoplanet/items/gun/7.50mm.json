@@ -67,11 +67,11 @@
   },
   {
     "id": "afs_Accipitermg",
-    "copy-from": "rifle_auto",
     "looks_like": "modular_ar15",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "name": { "str": "Accipiter Hawk-00" },
+    "skill": "rifle",
     "description": "A light machine gun manufactured by Accipiter Firearms and distributed by Wraitheon.  The Hawk-00's high rate of fire makes it ideally suited to lay down suppressive fire; but also makes it exceedingly hard to control while unmounted.",
     "weight": "7500 g",
     "volume": "10610 ml",
@@ -85,6 +85,14 @@
     "dispersion": 200,
     "durability": 7,
     "min_cycle_recoil": 1350,
+    "faults": [
+      { "fault": "fault_gun_blackpowder" },
+      { "fault": "fault_gun_dirt" },
+      { "fault": "fault_gun_chamber_spent" },
+      { "fault": "fault_fail_to_feed" },
+      { "fault": "fault_stovepipe" },
+      { "fault": "fault_double_feed" }
+    ],
     "reload": 400,
     "modes": [ [ "DEFAULT", "burst", 4 ] ],
     "built_in_mods": [ "bipod" ],
@@ -115,7 +123,7 @@
   },
   {
     "id": "afs_gibrifle",
-    "copy-from": "rifle_semi",
+    "copy-from": "gun_base_rifle_semi",
     "looks_like": "modular_ar15",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
@@ -158,9 +166,7 @@
       [ "stock accessory", 2 ],
       [ "underbarrel", 1 ],
       [ "ETCfirmware", 1 ]
-    ],
-    "melee_damage": { "bash": 12 },
-    "weapon_category": [ "AUTOMATIC_RIFLES" ]
+    ]
   },
   {
     "id": "afs_sr77",
@@ -225,7 +231,7 @@
   },
   {
     "id": "afs_vahagn_smartgun",
-    "copy-from": "rifle_semi",
+    "copy-from": "gun_base_rifle_semi",
     "looks_like": "modular_ar15",
     "type": "ITEM",
     "subtypes": [ "ARTIFACT", "GUN" ],
@@ -235,7 +241,6 @@
     "volume": "4300 ml",
     "longest_side": "830 mm",
     "price": "2350 kUSD",
-    "to_hit": -1,
     "material": [ "superalloy", "plastic" ],
     "modes": [ [ "DEFAULT", "SMART TRACK", 2 ] ],
     "built_in_mods": [ "afs_smart_scope" ],
@@ -262,7 +267,6 @@
     "melee_damage": { "bash": 12 },
     "flags": [ "NEVER_JAMS", "MUNDANE", "WONT_TRAIN_MARKSMANSHIP" ],
     "ammo_effects": [ "VAHAGN" ],
-    "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "passive_effects": [ { "id": "ench_smart_gun" } ]
   }
 ]

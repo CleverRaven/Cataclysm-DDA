@@ -84,16 +84,12 @@
     "color": "pink",
     "variant_type": "generic",
     "variants": [
-      {
-        "id": "rainbow_pride_flag",
-        "name": { "str": "pride flag" },
-        "description": "A large rainbow flag, The colors reflect the diversity of the LGBT community and the spectrum of human sexuality and gender.",
-        "weight": 10
-      },
+      { "id": "rainbow_pride_flag", "//": "inherit name and description from item", "weight": 10 },
       {
         "id": "progress_pride_flag",
         "name": { "str": "progress pride flag" },
-        "description": "A large rainbow flag, The colors reflect the diversity of the LGBT community and the spectrum of human sexuality and gender.  On the left side you can see a chevron that features black, brown, light blue, pink, and white stripes to bring those communities to the forefront; \"the arrow points to the right to show forward movement, while being along the left edge shows that progress still needs to be made\".",
+        "description": "On the left side you can see a chevron that features black, brown, light blue, pink, and white stripes to bring those communities to the forefront; \"the arrow points to the right to show forward movement, while being along the left edge shows that progress still needs to be made\".",
+        "append": true,
         "weight": 10
       },
       {

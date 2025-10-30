@@ -148,5 +148,9 @@
     "type": "MIGRATION",
     "id": "zuchetto",
     "replace": "kippah"
+  },
+  {
+    "id": "sewage",
+    "replace": "water_sewage"
   }
 ]

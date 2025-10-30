@@ -380,7 +380,7 @@ int vehicle_part::ammo_consume( int qty, map *here, const tripoint_bub_ms &pos )
 
 units::energy vehicle_part::consume_energy( const itype_id &ftype, units::energy wanted_energy )
 {
-    if( !is_fuel_store() ) {
+    if( !is_fuel_store() || has_flag( vp_flag::carried_flag ) ) {
         return 0_J;
     }
 

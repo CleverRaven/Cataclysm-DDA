@@ -83,7 +83,7 @@
     "cancels": [ "PSYCHIC_KNACK" ],
     "flags": [ "ATTUNEMENT" ],
     "spells_learned": [
-      [ "pyrokinetic_eruption", 2 ],
+      [ "pyrokinetic_intensify_flames", 2 ],
       [ "pyrokinetic_flash", 2 ],
       [ "classless_toggleable_concentration_end", 1 ],
       [ "classless_specific_concentration_end", 1 ]
