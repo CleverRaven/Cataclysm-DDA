@@ -78,7 +78,7 @@ void minesweeper_game::new_level()
             const int area = new_level.x * new_level.y;
             int new_ibombs = area * 0.1;
 
-            set_num( _( "Number of bombs:" ), new_ibombs, new_ibombs, area * 0.6 );
+            set_num( _( "Number of bombs:" ), new_ibombs, 1, area * 0.6 );
 
             level = new_level;
             iBombs = new_ibombs;
