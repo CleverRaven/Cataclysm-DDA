@@ -97,6 +97,20 @@ struct advanced_inv_save_state {
 extern void save_inv_state( JsonOut &json );
 extern void load_inv_state( const JsonObject &jo );
 
+struct overmap_sidebar_uistate {
+    bool quickref_header = true;
+    bool layers_header = true;
+    bool debug_header = true;
+    //expands/collapses all sidebar headers
+    void set_all( bool state ) {
+        quickref_header = state;
+        layers_header = state;
+        debug_header = state;
+    }
+    void serialize( JsonOut &json ) const;
+    void deserialize( const JsonObject &jo );
+};
+
 /*
   centralized depot for trivial ui data such as sorting, string_input_popup history, etc.
   To use this, see the ****notes**** below
@@ -143,9 +157,8 @@ class uistatedata
         bool overmap_debug_mongroup = false;
         bool overmap_fast_travel = false;
         bool overmap_fast_scroll = false;
-        bool overmap_sidebar_quickref = true;
-        bool overmap_sidebar_layers = true;
-        bool overmap_sidebar_debug = true;
+
+        overmap_sidebar_uistate overmap_sidebar_state;
 
         // Distraction manager stuff
         bool distraction_noise = true;

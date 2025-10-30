@@ -26,9 +26,11 @@
 #include "cata_variant.h"
 #include "debug.h"
 #include "enum_conversions.h"
+#include "generic_factory.h"
 #include "horde_entity.h"
 #include "imgui/imgui.h"
 #include "input_enums.h"
+#include "json.h"
 #include "mapdata.h"
 #include "mapgen_parameter.h"
 #include "mapgendata.h"
@@ -58,6 +60,7 @@
 #include "mapbuffer.h"
 #include "messages.h"
 #include "mission.h"
+#include "mod_manager.h"
 #include "mongroup.h"
 #include "npc.h"
 #include "omdata.h"
@@ -73,6 +76,7 @@
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
+#include "text.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui_manager.h"
@@ -90,6 +94,7 @@
 #endif // TILES
 
 enum class cube_direction : int;
+class JsonObject;
 
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
 
@@ -122,9 +127,11 @@ static const int npm_width = 3;
 static const int npm_height = 3;
 
 //forwards to cataimgui::draw_colored_text with automatic wrapping
-void overmap_sidebar::draw_sidebar_text( const std::string &original_text, const nc_color &color )
+void overmap_sidebar::draw_sidebar_text( const std::string_view &original_text,
+        const nc_color &color )
 {
-    cataimgui::draw_colored_text( original_text, color, float( str_width_to_pixels( width - 1 ) ) );
+    cataimgui::TextColoredParagraph( color, original_text );
+    ImGui::NewLine();
 }
 
 overmap_sidebar::overmap_sidebar( overmap_ui::overmap_draw_data_t &data ) :
@@ -153,21 +160,25 @@ void overmap_sidebar::draw_controls()
     ImGui::Separator();
 
     // This info can be scrolled through
+    overmap_sidebar_uistate &om_sidebar_state = uistate.overmap_sidebar_state;
     ImGui::BeginChild( "Overmap Sidebar Scrolling Content", {0, 0}, 0, ImGuiWindowFlags_NoNav );
-    ImGui::SetNextItemOpen( uistate.overmap_sidebar_quickref );
-    uistate.overmap_sidebar_quickref = ImGui::CollapsingHeader( "Quick Reference" );
-    if( uistate.overmap_sidebar_quickref ) {
+    bool &quickref = om_sidebar_state.quickref_header;
+    ImGui::SetNextItemOpen( quickref );
+    quickref = ImGui::CollapsingHeader( "Quick Reference" );
+    if( quickref ) {
         draw_quick_reference();
     };
-    ImGui::SetNextItemOpen( uistate.overmap_sidebar_layers );
-    uistate.overmap_sidebar_layers = ImGui::CollapsingHeader( "Layers" );
-    if( uistate.overmap_sidebar_layers ) {
+    bool &layers = om_sidebar_state.layers_header;
+    ImGui::SetNextItemOpen( layers );
+    layers = ImGui::CollapsingHeader( "Layers" );
+    if( layers ) {
         draw_layer_info();
     }
     if( debug_mode || draw_data.debug_editor ) {
-        ImGui::SetNextItemOpen( uistate.overmap_sidebar_debug );
-        uistate.overmap_sidebar_debug = ImGui::CollapsingHeader( "Debug" );
-        if( uistate.overmap_sidebar_debug ) {
+        bool &debug_info = om_sidebar_state.debug_header;
+        ImGui::SetNextItemOpen( debug_info );
+        debug_info = ImGui::CollapsingHeader( "Debug" );
+        if( debug_info ) {
             draw_debug();
         }
     }
@@ -209,7 +220,9 @@ void overmap_sidebar::draw_tile_info()
         }
 
         ImGui::SameLine();
-        draw_sidebar_text( overmap_buffer.get_description_at( sm_pos ), c_light_gray );
+        overmap_buffer.display_description_at( sm_pos, false );
+        ImGui::NewLine();
+        draw_sidebar_text( get_origin( ter.get_type_id()->src ), c_light_gray );
         if( center_vision != om_vision_level::full ) {
             std::string vision_level_string;
             switch( center_vision ) {
@@ -382,11 +395,13 @@ void overmap_sidebar::draw_debug()
                 horde_size += horde->size();
                 for( std::pair<const tripoint_abs_ms, horde_entity> &entity : *horde ) {
                     const mtype *horde_type = entity.second.get_type();
-                    draw_sidebar_text( string_format( "  Species: %s", horde_type->nname() ), c_blue );
-                    draw_sidebar_text( string_format( "  Interest: %d", entity.second.tracking_intensity ),
+                    ImGui::Indent();
+                    draw_sidebar_text( string_format( "Species: %s", horde_type->nname() ), c_blue );
+                    draw_sidebar_text( string_format( "Interest: %d", entity.second.tracking_intensity ),
                                        c_blue );
-                    draw_sidebar_text( string_format( "  Target: %s",
+                    draw_sidebar_text( string_format( "Target: %s",
                                                       entity.second.destination.to_string() ), c_blue );
+                    ImGui::Unindent();
                     //mvwprintz(wbar, desc_pos + point(0, line_number++), c_red, "x"); ???
                 }
             }
@@ -430,6 +445,22 @@ void overmap_sidebar::draw_mission_info()
 cataimgui::bounds overmap_sidebar::get_bounds()
 {
     return { static_cast<float>( str_width_to_pixels( x_pos ) ), 0, float( str_width_to_pixels( width ) ), float( str_height_to_pixels( TERMY ) ) };
+}
+
+void overmap_sidebar_uistate::serialize( JsonOut &json ) const
+{
+    json.start_object();
+    json.member( "overmap_sidebar_quickref", quickref_header );
+    json.member( "overmap_sidebar_layers", layers_header );
+    json.member( "overmap_sidebar_debug", debug_header );
+    json.end_object();
+}
+
+void overmap_sidebar_uistate::deserialize( const JsonObject &jo )
+{
+    mandatory( jo, false, "overmap_sidebar_quickref", quickref_header );
+    mandatory( jo, false, "overmap_sidebar_layers", layers_header );
+    mandatory( jo, false, "overmap_sidebar_debug", debug_header );
 }
 
 namespace overmap_ui
@@ -2323,13 +2354,9 @@ static tripoint_abs_omt display()
         } else if( action == "MISSIONS" ) {
             g->list_missions();
         } else if( action == "COLLAPSE_OVERMAP_SIDEBAR_HEADERS" ) {
-            uistate.overmap_sidebar_quickref = false;
-            uistate.overmap_sidebar_layers = false;
-            uistate.overmap_sidebar_debug = false;
+            uistate.overmap_sidebar_state.set_all( false );
         } else if( action == "EXPAND_OVERMAP_SIDEBAR_HEADERS" ) {
-            uistate.overmap_sidebar_quickref = true;
-            uistate.overmap_sidebar_layers = true;
-            uistate.overmap_sidebar_debug = true;
+            uistate.overmap_sidebar_state.set_all( true );
         }
 
         std::chrono::time_point<std::chrono::steady_clock> now = std::chrono::steady_clock::now();

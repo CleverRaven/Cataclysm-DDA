@@ -172,7 +172,7 @@ class overmap_sidebar : public cataimgui::window
 {
         overmap_ui::overmap_draw_data_t &draw_data;
         //uses input context to print a keybind hint
-        void draw_sidebar_text( const std::string &original_text, const nc_color &color );
+        void draw_sidebar_text( const std::string_view &original_text, const nc_color &color );
         void print_hint( const std::string &action, nc_color color = c_magenta );
         void draw_tile_info();
         void draw_mission_info();
