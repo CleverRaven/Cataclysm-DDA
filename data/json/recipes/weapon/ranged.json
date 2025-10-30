@@ -1272,11 +1272,10 @@
     "difficulty": 3,
     "time": "25 m",
     "//": "20cm weld",
-    "using": [ [ "welding_standard", 20 ] ],
+    "using": [ [ "welding_standard", 20 ], [ "metal_punch", 1 ] ],
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_welding_basic" } ],
-    "tools": [ [ [ "drift", -1 ] ] ],
     "components": [ [ [ "scrap", 3 ] ], [ [ "pamd68", 1 ] ] ]
   },
   {
