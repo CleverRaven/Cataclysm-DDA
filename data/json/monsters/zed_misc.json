@@ -314,7 +314,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_NEMESIS_DIED",
-    "effect": [ { "math": [ "Nemesis_iteration += 1" ] } ]
+    "effect": [ { "math": [ "Nemesis_iteration += 1" ] }, { "give_achievement": "achievement_nem_scen_win" } ]
   },
   {
     "id": "mon_zombie_grabber",
