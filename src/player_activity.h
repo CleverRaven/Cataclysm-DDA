@@ -45,6 +45,8 @@ class player_activity
         int moves_total = 0;
         /** The number of moves remaining in this activity before it is complete. */
         int moves_left = calendar::INDEFINITELY_LONG;
+        /** Sets moves_left to moves_total and emits a debug message */
+        void set_moves_total_left();
         /** Controls whether this activity can be cancelled at all */
         bool interruptable = true;
         /** Controls whether this activity can be cancelled with 'pause' action */

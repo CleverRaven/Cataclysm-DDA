@@ -2213,11 +2213,9 @@ void construct::do_turn_deconstruct( const tripoint_bub_ms &p, Character &who )
 
 void construct::do_turn_shovel( const tripoint_bub_ms &p, Character &who )
 {
-    sfx::play_activity_sound( "tool", "shovel", sfx::get_heard_volume( p ) );
-    if( calendar::once_every( 1_minutes ) ) {
-        //~ Sound of a shovel digging a pit at work!
-        sounds::sound( p, 10, sounds::sound_t::activity, _( "hsh!" ) );
-    }
+    sfx::play_activity_sound_repeat( "tool", "shovel", p, 1_minutes, 10, sounds::sound_t::activity,
+                                     //~ Sound of a shovel digging a pit at work!
+                                     _( "hsh!" ) );
     if( !who.knows_trap( p ) ) {
         get_map().maybe_trigger_trap( p, who, true );
     }

@@ -94,6 +94,12 @@ player_activity::player_activity( const activity_actor &actor ) : type( actor.ge
     }
 }
 
+void player_activity::set_moves_total_left()
+{
+    add_msg_debug( debugmode::DF_ACTIVITY, "%s moves_total: %d", id().str(), moves_total );
+    moves_left = moves_total;
+}
+
 void player_activity::set_to_null()
 {
     type = activity_id::NULL_ID();
