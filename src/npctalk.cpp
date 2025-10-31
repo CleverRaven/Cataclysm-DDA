@@ -5532,6 +5532,19 @@ talk_effect_fun_t::func f_give_achievment( const JsonObject &jo, std::string_vie
     };
 }
 
+talk_effect_fun_t::func f_signal_hordes( const JsonObject &jo, std::string_view member,
+        std::string_view )
+{
+    var_info var = read_var_info( jo.get_object( member ) );
+    dbl_or_var signal_power = get_dbl_or_var( jo, "signal_power", true, 0 );
+    return [var, signal_power]( dialogue & d ) {
+        tripoint_abs_ms loc_ms = read_var_value( var, d ).tripoint();
+        tripoint_abs_sm loc_sm = project_to<coords::sm>( loc_ms );
+
+        overmap_buffer.signal_hordes( loc_sm, signal_power.evaluate( d ) );
+    };
+}
+
 talk_effect_fun_t::func f_cast_spell( const JsonObject &jo, std::string_view member,
                                       std::string_view src, bool is_npc )
 {
@@ -8022,6 +8035,7 @@ parsers = {
     { "u_set_talker", "npc_set_talker", jarg::member, &talk_effect_fun::f_set_talker },
     { "turn_cost", jarg::member, &talk_effect_fun::f_turn_cost },
     { "transform_item", jarg::member, &talk_effect_fun::f_transform_item },
+    { "signal_hordes", jarg::member, &talk_effect_fun::f_signal_hordes },
     // since parser checks all effects in order, having "message" field in any another effect (like in f_roll_remainder)
     // would cause parser to think it's a "message" effect
     { "message", "message", jarg::member, &talk_effect_fun::f_message },

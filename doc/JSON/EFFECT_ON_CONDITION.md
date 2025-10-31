@@ -2801,6 +2801,28 @@ Teleport player to `new_map`
 }
 ```
 
+#### `signal_hordes`
+Alert all hordes nearby to this location, akin to explosion
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- |
+| "signal_hordes" | **mandatory** | [variable object](#variable-object) | location variable that horde will try to reach |
+| "signal_power" | **mandatory** | int or [variable object](#variable-object) | default 0; the strength of a signal, ie how far it would propagate around the signal, in tiles |
+
+##### Examples
+
+Alert horde in 200 meter range
+```jsonc
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TEST",
+    "effect": [
+      { "u_location_variable": { "context_val": "your_pos" } },
+      { "signal_hordes": { "context_val": "your_pos" }, "signal_power": 200 }
+    ]
+  },
+```
+
 #### `reveal_map`
 Reveal the overmap area around specific location variable
 

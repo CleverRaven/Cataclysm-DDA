@@ -40,6 +40,7 @@
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "handle_liquid.h"
+#include "input_popup.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_components.h"
@@ -69,7 +70,6 @@
 #include "rng.h"
 #include "skill.h"
 #include "string_formatter.h"
-#include "string_input_popup.h"
 #include "talker.h"
 #include "translations.h"
 #include "type_id.h"
@@ -2631,6 +2631,17 @@ bool Character::disassemble()
     return disassemble( game_menus::inv::disassemble( *this ), false );
 }
 
+// returns 0 if cancelled
+static int query_disassemble_quantity( int num_dis, const item &obj )
+{
+    number_input_popup<int> popup_input( 0, num_dis );
+    const std::string title = string_format( _( "Disassemble how many %s [MAX: %d]: " ),
+                              obj.type_name( 1 ), obj.charges );
+    popup_input.set_label( title );
+    int result = popup_input.query();
+    return popup_input.cancelled() ? 0 : result;
+}
+
 bool Character::disassemble( item_location target, bool interactive, bool disassemble_all )
 {
     if( !target ) {
@@ -2695,11 +2706,8 @@ bool Character::disassemble( item_location target, bool interactive, bool disass
         int num_dis = 1;
         if( obj.count_by_charges() ) {
             if( !disassemble_all && obj.charges > 1 ) {
-                string_input_popup popup_input;
-                const std::string title = string_format( _( "Disassemble how many %s [MAX: %d]: " ),
-                                          obj.type_name( 1 ), obj.charges );
-                popup_input.title( title ).edit( num_dis );
-                if( popup_input.canceled() || num_dis <= 0 ) {
+                num_dis = query_disassemble_quantity( num_dis, obj );
+                if( num_dis <= 0 ) {
                     add_msg( _( "Never mind." ) );
                     return false;
                 }
@@ -2807,11 +2815,8 @@ void Character::complete_disassemble( item_location target )
     if( obj.count_by_charges() ) {
         // get_value( 0 ) is true if the player wants to disassemble all charges
         if( !activity.get_value( 0 ) && obj.charges > 1 ) {
-            string_input_popup popup_input;
-            const std::string title = string_format( _( "Disassemble how many %s [MAX: %d]: " ),
-                                      obj.type_name( 1 ), obj.charges );
-            popup_input.title( title ).edit( num_dis );
-            if( popup_input.canceled() || num_dis <= 0 ) {
+            num_dis = query_disassemble_quantity( num_dis, obj );
+            if( num_dis <= 0 ) {
                 add_msg( _( "Never mind." ) );
                 activity.set_to_null();
                 return;

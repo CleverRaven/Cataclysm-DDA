@@ -2055,8 +2055,9 @@
       { "prob": 20, "group": "salt_bottle_plastic" },
       { "prob": 20, "group": "salt_bottle_glass" },
       { "prob": 5, "group": "salt_bag_plastic" },
-      { "prob": 10, "group": "salt_bag_paper" },
-      { "prob": 2, "group": "salt_bag_paper_bulk" }
+      { "prob": 17, "group": "salt_bag_paper" },
+      { "prob": 9, "group": "salt_bag_paper_bulk" },
+      { "prob": 3, "group": "salt_bag_paper_50lb" }
     ]
   },
   {
@@ -2110,6 +2111,13 @@
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_paper_powder_bulk",
     "entries": [ { "item": "salt", "container-item": "null", "count": [ 25, 2000 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "salt_bag_paper_50lb",
+    "subtype": "collection",
+    "container-item": "bag_paper_powder_50lb",
+    "entries": [ { "item": "salt", "container-item": "null", "count": [ 125, 6480 ] } ]
   },
   {
     "type": "item_group",
