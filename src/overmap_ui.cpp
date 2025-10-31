@@ -60,7 +60,6 @@
 #include "mapbuffer.h"
 #include "messages.h"
 #include "mission.h"
-#include "mod_manager.h"
 #include "mongroup.h"
 #include "npc.h"
 #include "omdata.h"
@@ -220,9 +219,7 @@ void overmap_sidebar::draw_tile_info()
         }
 
         ImGui::SameLine();
-        overmap_buffer.display_description_at( sm_pos, false );
-        ImGui::NewLine();
-        draw_sidebar_text( get_origin( ter.get_type_id()->src ), c_light_gray );
+        overmap_buffer.display_description_at( sm_pos, true );
         if( center_vision != om_vision_level::full ) {
             std::string vision_level_string;
             switch( center_vision ) {

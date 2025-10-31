@@ -1984,10 +1984,11 @@ void overmapbuffer::display_description_at( const tripoint_abs_sm &where, bool d
     nc_color ter_color = oter->get_color( vision );
     std::string ter_name = colorize( oter->get_name( vision ), ter_color );
 
-    auto draw_origin_line = [&draw_origin, &ter_color, &oter]() {
+    auto draw_origin_line = [&draw_origin, &oter]() {
         if( draw_origin ) {
             ImGui::NewLine();
-            cataimgui::TextColoredParagraph( ter_color, get_origin( oter->get_type_id()->src ) );
+            cataimgui::TextColoredParagraph( c_light_gray, get_origin( oter->get_type_id()->src ) );
+            ImGui::NewLine();
         }
     };
 
