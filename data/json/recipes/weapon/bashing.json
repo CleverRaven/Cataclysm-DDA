@@ -217,7 +217,7 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" }
     ],
-    "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 3 ], ["metal_punch", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 3 ], [ "metal_punch", 1 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "components": [ [ [ "stick_long", 1 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
   },
@@ -860,7 +860,7 @@
     "time": "1 h",
     "autolearn": true,
     "book_learn": [ [ "recipe_melee", 2 ] ],
-    "using": [ [ "blacksmithing_standard", 1 ], ["metal_punch", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 1 ], [ "metal_punch", 1 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "components": [ [ [ "steel_chunk_any", 1, "LIST" ], [ "scrap", 5 ] ] ]
   },
@@ -869,7 +869,7 @@
     "type": "recipe",
     "copy-from": "knuckle_steel_forged",
     "time": "1 h",
-    "using": [ [ "blacksmithing_standard", 2 ], ["metal_punch", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 2 ], [ "metal_punch", 1 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "components": [ [ [ "steel_chunk_any", 2, "LIST" ], [ "scrap", 7 ] ] ]
   },
@@ -878,7 +878,7 @@
     "type": "recipe",
     "copy-from": "knuckle_steel_forged",
     "time": "1 h",
-    "using": [ [ "blacksmithing_standard", 1 ], ["metal_punch", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 1 ], [ "metal_punch", 1 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "components": [ [ [ "steel_chunk_any", 1, "LIST" ], [ "scrap", 3 ] ] ]
   },
@@ -900,7 +900,7 @@
     "time": "1 h",
     "autolearn": false,
     "book_learn": [ [ "recipe_melee", 2 ] ],
-    "using": [ [ "blacksmithing_standard", 4 ], [ "ppe_gas", 1 ], ["metal_punch", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ], [ "ppe_gas", 1 ], [ "metal_punch", 1 ] ],
     "components": [ [ [ "copper", 100 ] ], [ [ "chem_zinc_powder", 500 ] ] ]
   },
   {
@@ -908,7 +908,7 @@
     "type": "recipe",
     "copy-from": "knuckle_brass",
     "time": "1 h",
-    "using": [ [ "blacksmithing_standard", 4 ], [ "ppe_gas", 1 ], ["metal_punch", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ], [ "ppe_gas", 1 ], [ "metal_punch", 1 ] ],
     "components": [ [ [ "copper", 150 ] ], [ [ "chem_zinc_powder", 600 ] ] ]
   },
   {
@@ -916,7 +916,7 @@
     "type": "recipe",
     "copy-from": "knuckle_brass",
     "time": "1 h",
-    "using": [ [ "blacksmithing_standard", 4 ], [ "ppe_gas", 1 ], ["metal_punch", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ], [ "ppe_gas", 1 ], [ "metal_punch", 1 ] ],
     "components": [ [ [ "copper", 80 ] ], [ [ "chem_zinc_powder", 400 ] ] ]
   },
   {
@@ -1071,7 +1071,7 @@
       { "proficiency": "prof_toolsmithing" },
       { "proficiency": "prof_carving", "skill_penalty": 0 }
     ],
-    "using": [ [ "blacksmithing_standard", 5 ], [ "steel_standard", 2 ], ["metal_punch", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 5 ], [ "steel_standard", 2 ], [ "metal_punch", 1 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "components": [ [ [ "scrap", 24 ] ], [ [ "2x4", 1 ], [ "stick", 2 ] ] ]
   },
