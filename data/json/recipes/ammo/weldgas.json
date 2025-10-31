@@ -205,7 +205,7 @@
     "difficulty": 3,
     "time": "45 m",
     "autolearn": true,
-    "using": [ [ "flux", 2 ] ],
+    "using": [ [ "flux", 10 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "ANVIL", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "tools": [ [ [ "metalworking_tongs_any", 1, "LIST" ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 50 ] ] ],
     "proficiencies": [
