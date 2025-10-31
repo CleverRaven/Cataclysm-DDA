@@ -43,6 +43,7 @@
       { "monster": "mon_zombie_paramilitary", "weight": 1, "cost_multiplier": 25 },
       { "monster": "mon_zombie_survivor", "weight": 1, "cost_multiplier": 25 },
       { "monster": "mon_zombie_survivor_elite", "weight": 1, "cost_multiplier": 25, "starts": "240 days" },
+      { "monster": "mon_zombie_survivor_master", "weight": 1, "cost_multiplier": 25, "starts": "300 days" },
       { "monster": "mon_beekeeper", "weight": 1, "cost_multiplier": 5 },
       { "monster": "mon_zombie_technician", "weight": 1, "cost_multiplier": 12 },
       { "monster": "mon_feral_human_tool", "weight": 1, "cost_multiplier": 6 },
@@ -147,6 +148,7 @@
         "pack_size": [ 1, 3 ],
         "starts": "30 days"
       },
+      { "monster": "mon_zombie_survivor_master", "weight": 1, "cost_multiplier": 25, "starts": "60 days" },
       { "monster": "mon_zombie_technician", "weight": 100, "cost_multiplier": 2, "pack_size": [ 1, 2 ] },
       { "monster": "mon_zombie_shady", "weight": 200, "cost_multiplier": 2, "pack_size": [ 1, 3 ] }
     ]
@@ -482,6 +484,7 @@
       { "monster": "mon_zombie_kevlar_2" },
       { "monster": "mon_zombie_soldier_blackops_1" },
       { "monster": "mon_zombie_survivor_elite" },
+      { "monster": "mon_zombie_survivor_master" },
       { "monster": "mon_zombear" },
       { "monster": "mon_zoose" },
       { "monster": "mon_zombull" },

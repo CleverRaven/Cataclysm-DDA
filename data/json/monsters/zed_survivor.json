@@ -53,5 +53,27 @@
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_full_helmet" ],
     "death_drops": "mon_zombie_survivor_elite_death_drops",
     "armor": { "acid": 4, "bash": 15, "cut": 25, "stab": 18, "bullet": 20, "electric": 4 }
+  },
+  {
+    "id": "mon_zombie_survivor_master",
+    "type": "MONSTER",
+    "name": { "str": "prevailing survivor" },
+    "description": "Whoever this once was, they were definitely a legend of the apocalypse. Somehow they died, even with specialized armor & knowledge they obtained. They look at you with a knowing, but unnerving smile, as if they pity what is gonna happen to you.  You're better than them...  Right?",
+    "color": "light_red_green",
+    "copy-from": "mon_zombie_master",
+    "diff": 35,
+    "hp": 180,
+    "speed": 90,
+    "scents_tracked": [ "sc_human", "sc_fetid" ],
+    "aggression": 5,
+    "melee_dice_sides": 6,
+    "dodge": 4,
+    "bleed_rate": 0,
+    "vision_day": 50,
+    "vision_night": 5,
+    "melee_skill": 12,
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_full_helmet" ],
+    "death_drops": "mon_zombie_survivor_elite_death_drops",
+    "armor": { "acid": 4, "bash": 15, "cut": 25, "stab": 18, "bullet": 20, "electric": 4 }
   }
 ]

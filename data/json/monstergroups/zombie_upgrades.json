@@ -76,6 +76,7 @@
       { "monster": "mon_zombie_soldier_acid_2", "weight": 250 },
       { "monster": "mon_bestial_stalker", "weight": 250 },
       { "monster": "mon_zombie_kevlar_0", "weight": 200 },
+      { "monster": "mon_zombie_soldier_master", "weight": 100 },
       { "monster": "mon_boomer", "weight": 25 },
       { "monster": "mon_zombie_hollow", "weight": 25 },
       { "monster": "mon_skeleton", "weight": 50 }

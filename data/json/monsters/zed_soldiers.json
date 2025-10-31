@@ -21,6 +21,28 @@
     "delete": { "flags": [ "STUMBLES" ] }
   },
   {
+    "id": "mon_zombie_soldier_master",
+    "type": "MONSTER",
+    "name": { "str": "corpse commander" },
+    "description": "At first glance, you'd think this was a feral or even a survivor, with its clean uniform & straight posture. It leads its soldiers, even in death.",
+    "color": "light_green_green",
+    "diff": 30,
+    "hp": 200,
+    "speed": 90,
+    "scents_tracked": [ "sc_human", "sc_fetid" ],
+    "aggression": 5,
+    "melee_skill": 5,
+    "melee_dice_sides": 6,
+    "dodge": 4,
+    "bleed_rate": 0,
+    "vision_day": 50,
+    "vision_night": 5,
+    "copy-from": "mon_zombie_master",
+    "death_drops": "mon_zombie_soldier_death_drops",
+    "armor": { "bash": 12, "cut": 25, "bullet": 20, "electric": 3 },
+    "extend": { "weakpoint_sets": [ "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ], "families": [ "prof_wp_syn_armored" ] }
+  },
+  {
     "id": "mon_zombie_soldier_no_weakpoints",
     "type": "MONSTER",
     "name": { "str_sp": "zombie soldier test only" },
