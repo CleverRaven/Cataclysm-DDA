@@ -150,7 +150,7 @@
       { "item": "mummy_dress", "prob": 25 },
       { "item": "ninja_dress", "prob": 15 },
       { "item": "ninja_dress_sleeveless", "prob": 15 },
-      { "item": "sinister_dress", "prob": 35 },
+      { "item": "long_dress_sleeved", "variant": "sinister", "prob": 35 },
       { "item": "short_dress", "variant": "sinister", "prob": 25 },
       { "item": "gown_sleeved", "variant": "sinister", "prob": 15 },
       { "item": "dress_sleeved", "variant": "witch_black", "prob": 35 },

@@ -864,6 +864,11 @@
         "name": { "str": "long purple witch dress", "str_pl": "long purple witch dresses" },
         "append": true,
         "description": "A long dress with sleeves, typical of a witch.  It's colored dark purple."
+      },
+      {
+        "id": "sinister",
+        "name": { "str": "sinister dress", "str_pl": "sinister dresses" },
+        "description": "A long black and red dress with full sleeves, a collar, and embroidery reminiscent of a vampire duchess."
       }
     ]
   },
@@ -1930,28 +1935,6 @@
     "warmth": 5,
     "material_thickness": 0.5,
     "flags": [ "VARSIZE" ]
-  },
-  {
-    "id": "sinister_dress",
-    "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
-    "name": { "str": "sinister dress", "str_pl": "sinister dresses" },
-    "description": { "str": "A long black and red dress with full sleeves, a collar, and embroidery reminiscent of a vampire duchess." },
-    "weight": "800 g",
-    "volume": "3500 ml",
-    "price": "180 USD",
-    "price_postapoc": "60 cent",
-    "material": [ "cotton" ],
-    "symbol": "[",
-    "looks_like": "dress",
-    "color": "dark_gray",
-    "warmth": 10,
-    "material_thickness": 0.2,
-    "flags": [ "VARSIZE", "COLLAR" ],
-    "armor": [
-      { "covers": [ "torso", "arm_l", "arm_r" ], "coverage": 95, "encumbrance": 7 },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": 7 }
-    ]
   },
   {
     "id": "sundress",

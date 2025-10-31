@@ -1588,7 +1588,7 @@
       { "item": "short_dress", "variant": "sinister", "prob": 2 },
       { "item": "dress_sleeved", "variant": "witch_black", "prob": 5 },
       { "item": "short_dress_sleeved", "variant": "witch_black", "prob": 5 },
-      { "item": "bunny_suit_playboy", "prob": 30 }
+      { "item": "bunny_suit_playboy", "prob": 30 },
       { "group": "pet_collars", "prob": 10 }
     ]
   },

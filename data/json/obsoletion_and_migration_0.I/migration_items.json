@@ -2781,5 +2781,11 @@
     "type": "MIGRATION",
     "id": "tail_bunny_playboy",
     "replace": "scrap_cotton"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "sinister_dress",
+    "replace": "long_dress_sleeved",
+    "variant": "sinister"
   }
 ]
