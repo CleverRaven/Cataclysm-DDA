@@ -126,7 +126,7 @@
     "turns_per_charge": 25,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "glamour_charge": 360 } } ],
     "weight": "100 g",
-    "volume": "50 ml",
+    "volume": "150 ml",
     "price": "50 USD",
     "price_postapoc": "50 cent",
     "material": [ "leather", "veggy" ],
