@@ -278,7 +278,7 @@ Mods can add entries to item groups by specifying a group with the same id that 
 
 In some places one can define an item group directly instead of giving the id of a group.  One cannot refer to that group elsewhere - it has no visible id (it has an unspecific/random id internally).  This is most useful when the group is very specific to the place it is used and won't ever appear anywhere else.
 
-As an example: monster death drops (`death_drops` entry in the `MONSTER` object, see [MONSTERS.md](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/MONSTERS.md) can do this.  If the monster is very specific (e.g. a special robot, a unique endgame monster), the item spawned upon its death won't (in that form) appear in any other group.
+As an example: monster death drops (`death_drops` entry in the `MONSTER` object, see [MONSTERS.md](MONSTERS.md) can do this.  If the monster is very specific (e.g. a special robot, a unique endgame monster), the item spawned upon its death won't (in that form) appear in any other group.
 
 Therefore, this snippet:
 
