@@ -120,6 +120,25 @@
   },
   {
     "type": "furniture",
+    "id": "f_highlands_holy_statue",
+    "name": "statue",
+    "description": "All fine details have been eroded away by the passing of time, leaving only a rough humanoid shape carved from dark stone.",
+    "looks_like": "f_statue",
+    "copy-from": "f_statue",
+    "bash": {
+      "str_min": 16,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "items": [
+        { "item": "rock", "count": [ 10, 14 ] },
+        { "item": "skull_human", "count": 1 },
+        { "item": "bone_human", "count": [ 4, 8 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_mannequin",
     "name": "mannequin",
     "description": "A life-size wooden figure of a person, most commonly used to display clothing in stores, or for tailors to design outfits on.  Considering all that's happened, something about it is somewhat unnerving.",

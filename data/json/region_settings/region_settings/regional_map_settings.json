@@ -39,7 +39,7 @@
       "deep_rock"
     ],
     "default_groundcover": [ [ "t_region_groundcover", 1 ] ],
-    "feature_flag_settings": { "blacklist": [  ], "whitelist": [  ] },
+    "feature_flag_settings": { "blacklist": [ "HIGHLANDS" ], "whitelist": [  ] },
     "connections": {
       "intra_city_road_connection": "local_road",
       "inter_city_road_connection": "local_road",
