@@ -61,6 +61,7 @@
     "description": "Whoever this once was, they were definitely a legend of the apocalypse. Somehow they died, even with specialized armor & knowledge they obtained. They look at you with a knowing, but unnerving smile, as if they pity what is gonna happen to you.  You're better than them...  Right?",
     "color": "light_red_green",
     "copy-from": "mon_zombie_master",
+    "looks_like": "mon_zombie_survivor",
     "diff": 35,
     "hp": 180,
     "speed": 90,

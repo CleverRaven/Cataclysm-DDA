@@ -26,6 +26,7 @@
     "name": { "str": "corpse commander" },
     "description": "At first glance, you'd think this was a feral or even a survivor, with its clean uniform & straight posture. It leads its soldiers, even in death.",
     "color": "light_green_green",
+    "looks_like": "mon_zombie_milbase_personnel",
     "diff": 30,
     "hp": 200,
     "speed": 90,
