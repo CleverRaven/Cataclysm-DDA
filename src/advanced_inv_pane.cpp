@@ -27,7 +27,7 @@
 
 class item_category;
 
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
 #   include <SDL_keyboard.h>
 #endif
 
