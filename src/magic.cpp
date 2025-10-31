@@ -72,6 +72,7 @@ struct species_type;
 
 static const ammo_effect_str_id ammo_effect_MAGIC( "MAGIC" );
 
+static const json_character_flag json_flag_ALLOW_ADVANCED_SPELLS( "ALLOW_ADVANCED_SPELLS" );
 static const json_character_flag json_flag_CANNOT_ATTACK( "CANNOT_ATTACK" );
 static const json_character_flag json_flag_SILENT_SPELL( "SILENT_SPELL" );
 static const json_character_flag json_flag_SUBTLE_SPELL( "SUBTLE_SPELL" );
@@ -976,7 +977,7 @@ int spell::energy_cost( const Character &guy ) const
     if( !no_hands() && !guy.has_flag( json_flag_SUBTLE_SPELL ) ) {
         // the first 10 points of combined encumbrance is ignored, but quickly adds up
         const int hands_encumb = std::max( 0,
-                                           guy.avg_encumb_of_limb_type( body_part_type::type::hand ) - 5 );
+                                           guy.avg_encumb_of_limb_type( bp_type::hand ) - 5 );
         switch( type->get_energy_source() ) {
             default:
                 cost += 10 * hands_encumb * temp_somatic_difficulty_multiplyer;
@@ -1139,13 +1140,13 @@ int spell::casting_time( const Character &guy, bool ignore_encumb ) const
         if( !has_flag( spell_flag::NO_LEGS ) ) {
             // the first 20 points of encumbrance combined is ignored
             const int legs_encumb = std::max( 0,
-                                              guy.avg_encumb_of_limb_type( body_part_type::type::leg ) - 10 );
+                                              guy.avg_encumb_of_limb_type( bp_type::leg ) - 10 );
             casting_time += legs_encumb * 3 * temp_somatic_difficulty_multiplyer;
         }
         if( has_flag( spell_flag::SOMATIC ) && !guy.has_flag( json_flag_SUBTLE_SPELL ) ) {
             // the first 20 points of encumbrance combined is ignored
             const int arms_encumb = std::max( 0,
-                                              guy.avg_encumb_of_limb_type( body_part_type::type::arm ) - 10 );
+                                              guy.avg_encumb_of_limb_type( bp_type::arm ) - 10 );
             casting_time += arms_encumb * 2 * temp_somatic_difficulty_multiplyer;
         }
     }
@@ -1252,7 +1253,7 @@ float spell::spell_fail( const Character &guy ) const
             !guy.has_flag( json_flag_SUBTLE_SPELL ) && temp_somatic_difficulty_multiplyer > 0 ) {
             // the first 20 points of encumbrance combined is ignored
             const int arms_encumb = std::max( 0,
-                                              guy.avg_encumb_of_limb_type( body_part_type::type::arm ) - 10 );
+                                              guy.avg_encumb_of_limb_type( bp_type::arm ) - 10 );
             // each encumbrance point beyond the "gray" color counts as half an additional fail %
             fail_chance += ( arms_encumb / 200.0f ) * temp_somatic_difficulty_multiplyer;
         }
@@ -1260,7 +1261,7 @@ float spell::spell_fail( const Character &guy ) const
             !guy.has_flag( json_flag_SILENT_SPELL ) && temp_sound_multiplyer > 0 ) {
             // a little bit of mouth encumbrance is allowed, but not much
             const int mouth_encumb = std::max( 0,
-                                               guy.avg_encumb_of_limb_type( body_part_type::type::mouth ) - 5 );
+                                               guy.avg_encumb_of_limb_type( bp_type::mouth ) - 5 );
             fail_chance += ( mouth_encumb / 100.0f ) * temp_sound_multiplyer;
         }
     }
@@ -2400,7 +2401,8 @@ void known_magic::set_spell_exp( const spell_id &sp, int new_exp, const Characte
     }
 }
 
-bool known_magic::can_learn_spell( const Character &guy, const spell_id &sp ) const
+bool known_magic::can_learn_spell( const Character &guy, const spell_id &sp,
+                                   bool improved_spell ) const
 {
     const spell_type &sp_t = sp.obj();
     if( sp_t.spell_class == trait_NONE ) {
@@ -2408,9 +2410,16 @@ bool known_magic::can_learn_spell( const Character &guy, const spell_id &sp ) co
     }
     if( sp_t.spell_tags[spell_flag::MUST_HAVE_CLASS_TO_LEARN] ) {
         return guy.has_trait( sp_t.spell_class );
-    } else {
-        return !guy.has_opposite_trait( sp_t.spell_class );
     }
+    if( improved_spell ) {
+        for( trait_id trait : guy.get_opposite_traits( sp_t.spell_class ) ) {
+            if( trait->flags.count( json_flag_ALLOW_ADVANCED_SPELLS ) == 0 ) {
+                return false;
+            }
+        }
+        return true;
+    }
+    return !guy.has_opposite_trait( sp_t.spell_class );
 }
 
 spell &known_magic::get_spell( const spell_id &sp )
@@ -2527,7 +2536,7 @@ void known_magic::clear_opens_spellbook_data()
 void known_magic::evaluate_opens_spellbook_data()
 {
     for( spell *sp : get_spells() ) {
-        double raw_level_adjust = caster_level_adjustment;
+        double raw_level_adjust = caster_level_adjustment + sp->get_temp_level_adjustment();
         std::map<trait_id, double>::iterator school_it =
             caster_level_adjustment_by_school.find( sp->spell_class() );
         if( school_it != caster_level_adjustment_by_school.end() ) {
@@ -2688,12 +2697,12 @@ bool spell::casting_time_encumbered( const Character &guy ) const
     int encumb = 0;
     if( !has_flag( spell_flag::NO_LEGS ) && temp_somatic_difficulty_multiplyer > 0 ) {
         // the first 20 points of encumbrance combined is ignored
-        encumb += std::max( 0, guy.avg_encumb_of_limb_type( body_part_type::type::leg ) - 10 );
+        encumb += std::max( 0, guy.avg_encumb_of_limb_type( bp_type::leg ) - 10 );
     }
     if( has_flag( spell_flag::SOMATIC ) && !guy.has_flag( json_flag_SUBTLE_SPELL ) &&
         temp_somatic_difficulty_multiplyer > 0 ) {
         // the first 20 points of encumbrance combined is ignored
-        encumb += std::max( 0, guy.avg_encumb_of_limb_type( body_part_type::type::arm ) - 10 );
+        encumb += std::max( 0, guy.avg_encumb_of_limb_type( bp_type::arm ) - 10 );
     }
     return encumb > 0;
 }
@@ -2701,7 +2710,7 @@ bool spell::casting_time_encumbered( const Character &guy ) const
 bool spell::energy_cost_encumbered( const Character &guy ) const
 {
     if( !no_hands() && !guy.has_flag( json_flag_SUBTLE_SPELL ) ) {
-        return std::max( 0, guy.avg_encumb_of_limb_type( body_part_type::type:: hand ) - 5 ) >
+        return std::max( 0, guy.avg_encumb_of_limb_type( bp_type:: hand ) - 5 ) >
                0;
     }
     return false;
@@ -2765,7 +2774,7 @@ std::string spell::enumerate_spell_data( const Character &guy ) const
         has_flag( spell_flag::PSIONIC ) ) {
         spell_data.emplace_back( _( "can be channeled through walls" ) );
     }
-    return enumerate_as_string( spell_data );
+    return uppercase_first_letter( enumerate_as_string( spell_data ) );
 }
 
 void spellcasting_callback::display_spell_info( size_t index )
@@ -3470,8 +3479,10 @@ void spell_events::notify( const cata::event &e )
                  it != spell_cast.learn_spells.end(); ++it ) {
                 int learn_at_level = it->second;
                 const std::string learn_spell_id = it->first;
-                if( learn_at_level <= slvl && !get_player_character().magic->knows_spell( learn_spell_id ) ) {
-                    get_player_character().magic->learn_spell( learn_spell_id, get_player_character() );
+                if( learn_at_level <= slvl && !get_player_character().magic->knows_spell( learn_spell_id ) &&
+                    get_player_character().magic->can_learn_spell( get_player_character(), spell_id( learn_spell_id ),
+                            true ) ) {
+                    get_player_character().magic->learn_spell( learn_spell_id, get_player_character(), true );
                     spell_type spell_learned = spell_factory.obj( spell_id( learn_spell_id ) );
                     add_msg(
                         _( "Your experience and knowledge in creating and manipulating magical energies to cast %s have opened your eyes to new possibilities, you can now cast %s." ),

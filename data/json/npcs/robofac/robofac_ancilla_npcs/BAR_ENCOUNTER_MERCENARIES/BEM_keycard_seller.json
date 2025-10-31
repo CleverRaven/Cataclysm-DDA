@@ -28,10 +28,10 @@
   {
     "id": "TALK_KEYCARD_SELLER_DISCOUNT_BUY",
     "type": "talk_topic",
-    "dynamic_line": "Sure whatever, two coins and its all yours.",
+    "dynamic_line": "Sure whatever, two coins and it's all yours.",
     "responses": [
       {
-        "text": "[2 HGC] Its a deal then.",
+        "text": "[2 HGC] It's a deal then.",
         "condition": { "u_has_items": { "item": "RobofacCoin", "count": 2 } },
         "effect": [
           { "u_sell_item": "RobofacCoin", "count": 2 },

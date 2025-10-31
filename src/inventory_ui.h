@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_INVENTORY_UI_H
 #define CATA_SRC_INVENTORY_UI_H
 
+#include <algorithm>
 #include <array>
 #include <climits>
 #include <cstddef>
@@ -23,6 +24,7 @@
 #include "cursesdef.h"
 #include "debug.h"
 #include "input_context.h"
+#include "item.h"
 #include "item_location.h"
 #include "memory_fast.h"
 #include "pimpl.h"
@@ -36,7 +38,6 @@ class JsonObject;
 class JsonOut;
 class basecamp;
 class inventory_selector_preset;
-class item;
 class item_category;
 class item_stack;
 class string_input_popup;
@@ -238,9 +239,8 @@ class inventory_selector_preset
         virtual ~inventory_selector_preset() = default;
 
         /** Does this entry satisfy the basic preset conditions? */
-        virtual bool is_shown( const item_location & ) const {
-            return true;
-        }
+        virtual bool is_shown( const item_location &loc ) const;
+
 
         /**
          * The reason why this entry cannot be selected.
@@ -269,8 +269,12 @@ class inventory_selector_preset
             return check_components;
         }
 
-        pocket_type get_pocket_type() const {
+        std::vector<pocket_type> get_pocket_type() const {
             return _pk_type;
+        }
+
+        bool has_pocket_type( pocket_type pt ) const {
+            return std::find( _pk_type.begin(), _pk_type.end(), pt ) != _pk_type.end();
         }
 
         virtual std::function<bool( const inventory_entry & )> get_filter( const std::string &filter )
@@ -307,7 +311,7 @@ class inventory_selector_preset
         bool _indent_entries = true;
         bool _collate_entries = false;
 
-        pocket_type _pk_type = pocket_type::CONTAINER;
+        std::vector<pocket_type> _pk_type = { pocket_type::CONTAINER, pocket_type::MOD };
 
     private:
         class cell_t

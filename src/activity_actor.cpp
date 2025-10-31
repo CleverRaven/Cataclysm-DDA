@@ -290,6 +290,8 @@ static const ter_str_id ter_t_trunk( "t_trunk" );
 static const trait_id trait_NUMB( "NUMB" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 
+static const vpart_location_id vpart_location_structure( "structure" );
+
 static const vproto_id vehicle_prototype_none( "none" );
 
 static const zone_type_id zone_type_LOOT_IGNORE( "LOOT_IGNORE" );
@@ -721,7 +723,7 @@ void bash_activity_actor::do_turn( player_activity &, Character &who )
             who.cancel_activity();
             return;
         }
-        if( res.resistance < 0 || res.skill < res.resistance ) {
+        if( !res.can_smash ) {
             add_msg( m_info, _( "You're no longer able to make progress smashing here." ) );
             who.cancel_activity();
             return;
@@ -8075,7 +8077,7 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
         bool unload_mods = false;
         bool unload_molle = false;
         bool unload_sparse_only = false;
-        int unload_sparse_threshold = 20;
+        int unload_sparse_threshold = 0;
 
         std::vector<zone_data const *> const zones = mgr.get_zones_at( src, zone_type_UNLOAD_ALL,
                 fac_id );
@@ -8086,7 +8088,9 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
             unload_molle |= options.unload_molle();
             unload_mods |= options.unload_mods();
             unload_sparse_only |= options.unload_sparse_only();
-            unload_sparse_threshold |= options.unload_sparse_threshold();
+            if( options.unload_sparse_only() && options.unload_sparse_threshold() > unload_sparse_threshold ) {
+                unload_sparse_threshold = options.unload_sparse_threshold();
+            }
         }
 
         //Skip items that have already been processed
@@ -8368,7 +8372,7 @@ bool vehicle_unfolding_activity_actor::unfold_vehicle( Character &p, bool check_
 
     const inventory &inv = p.crafting_inventory();
     for( const vpart_reference &vp : veh->get_all_parts() ) {
-        if( vp.info().location != "structure" ) {
+        if( vp.info().location != vpart_location_structure ) {
             continue;
         }
         if( invalid_pos( vp.pos_bub( here ) ) ) {
@@ -8909,7 +8913,7 @@ void pulp_activity_actor::send_final_message( Character &you ) const
         } else if( pd.stomps_only ) {
             tools = string_format(
                         _( "It took you some time, stomping corpses with nothing but your %1$s, and occasionally cutting it with a %2$s." ),
-                        you.get_random_body_part_of_type( body_part_type::type::leg )->accusative_multiple, pd.cut_tool );
+                        you.get_random_body_part_of_type( bp_type::leg )->accusative_multiple, pd.cut_tool );
         } else if( pd.weapon_only ) {
             tools = string_format(
                         _( "It took you some time, bashing corpses with your %1$s, with occasional cuts with a %2$s." ),
@@ -8922,7 +8926,7 @@ void pulp_activity_actor::send_final_message( Character &you ) const
     } else {
         if( pd.stomps_only ) {
             tools = string_format( _( "It took you some time, stomping corpses with nothing but your %1$s." ),
-                                   you.get_random_body_part_of_type( body_part_type::type::leg )->accusative_multiple );
+                                   you.get_random_body_part_of_type( bp_type::leg )->accusative_multiple );
         } else if( pd.weapon_only ) {
             tools = string_format( _( "It took you some time, bashing corpses with just your %1$s." ),
                                    pd.bash_tool );
@@ -9055,7 +9059,9 @@ bool butchery_activity_actor::initiate_butchery( player_activity &act, Character
 
     if( !set_up_butchery( act, you, this_bd ) ) {
         return false;
-    };
+    }
+    act.moves_total = to_moves<int>( this_bd.time_to_butcher );
+    act.moves_left = to_moves<int>( this_bd.time_to_butcher - this_bd.progress );
     return true;
 }
 
@@ -9133,16 +9139,16 @@ void butchery_activity_actor::do_turn( player_activity &act, Character &you )
     }
 
     if( this_bd->progress >= this_bd->time_to_butcher ) {
+        const butchery_data bd_copy = *this_bd;
+        bd.pop_back();
         // this corpse is done
-        destroy_the_carcass( *this_bd, you );
-        if( bd.empty() ) {
-            act.moves_left = 0;
-            return;
-        } else {
-            bd.pop_back();
-        }
+        destroy_the_carcass( bd_copy, you );
+        // WARNING: destroy_the_carcass might spill acid, which gives the player the option to cancel this activity. If so, then `this` might be invalidated, along with all `butchery_data` elements. So here we need to be sure to not use either of those after this call.
     } else {
         this_bd->progress += 1_seconds;
+        // Uses max(1, ..) to prevent it going all the way to zero, which would stop the activity by the general `activity_actor` handling.
+        // Instead, the checks for `bd.empty()` will make sure to stop the activity by explicitly setting it to zero.
+        act.moves_left = std::max( 1, to_moves<int>( this_bd->time_to_butcher - this_bd->progress ) );
     }
 }
 

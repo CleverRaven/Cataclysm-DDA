@@ -1120,7 +1120,6 @@
     "points": 1,
     "vitamin_cost": 60,
     "description": "Peaceful animals will not run away from you, and even aggressive animals are less likely to attack.  This only applies to natural animals such as woodland creatures.",
-    "starting_trait": true,
     "types": [ "ANIMAL_EMPATHY" ],
     "category": [ "LUPINE", "ELFA" ],
     "changes_to": [ "ANIMALEMPATH2" ],
@@ -1205,7 +1204,7 @@
   {
     "type": "mutation",
     "id": "MASOCHIST",
-    "name": { "str": "Masochist" },
+    "name": { "str": "Pain Driven" },
     "points": 1,
     "vitamin_cost": 60,
     "description": "Although you still suffer the negative effects of pain, it also brings a unique pleasure to you.",
@@ -1924,7 +1923,6 @@
     "points": -1,
     "vitamin_cost": 60,
     "description": "Most animals don't like you, and aggressive animals are more likely to attack you.  This only applies to natural animals such as woodland creatures.",
-    "starting_trait": true,
     "types": [ "ANIMAL_EMPATHY" ],
     "changes_to": [ "ANIMALDISCORD2" ],
     "category": [ "BEAST", "RAPTOR", "INSECT", "MOUSE", "RABBIT" ],
@@ -2207,8 +2205,8 @@
     "cancels": [ "ROBUST", "RESTRICTED", "RESISTANT_GENETICS" ],
     "valid": false,
     "vitamin_rates": [ [ "instability", -60 ] ],
-    "category": [ "CHIMERA" ],
-    "threshreq": [ "THRESH_CHIMERA" ]
+    "prereqs": [ "CHAOTIC" ],
+    "category": [ "CHIMERA" ]
   },
   {
     "type": "mutation",
@@ -9737,7 +9735,12 @@
     "time": "1 s",
     "mana": true,
     "lumination": [ [ "torso", 8 ] ],
-    "transform": { "target": "DEBUG_MANA_FURNACE", "msg_transform": "You stop incinerate bugs with mana.", "active": false, "moves": 0 }
+    "transform": {
+      "target": "DEBUG_MANA_FURNACE",
+      "msg_transform": "You stop incinerating bugs with mana.",
+      "active": false,
+      "moves": 0
+    }
   },
   {
     "type": "mutation",
@@ -10712,8 +10715,9 @@
     "player_display": true,
     "points": -8,
     "starting_trait": true,
-    "valid": false,
-    "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+    "purifiable": false,
+    "cancels": [ "CBM_Interface" ],
+    "flags": [ "NO_CBM_INSTALLATION" ]
   },
   {
     "type": "mutation",

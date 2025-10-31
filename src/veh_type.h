@@ -334,6 +334,7 @@ class vpart_info
         std::optional<vpslot_terrain_transform> transform_terrain_info;
         //Enchantments
         std::vector<enchantment_id> enchantments;
+        std::optional<effect_on_condition_id> activatable_eoc;
 
         std::set<std::pair<itype_id, int>> get_pseudo_tools() const;
 
@@ -440,7 +441,7 @@ class vpart_info
         std::optional<itype_id> removed_item;
 
         /** What slot of the vehicle tile does this part occupy? */
-        std::string location;
+        vpart_location_id location = vpart_location_id::NULL_ID();
 
         /** Maximum damage part can sustain before being destroyed */
         int durability = 0;
@@ -489,10 +490,6 @@ class vpart_info
         units::temperature_delta floor_bedding_warmth = 0_C_delta;
         units::temperature_delta bonus_fire_warmth_feet = 0.6_C_delta;
 
-        // z-ordering, inferred from location, cached here
-        int z_order = 0;
-        // Display order in vehicle interact display
-        int list_order = 0;
     private:
         bool was_loaded = false; // used by generic_factory
         std::vector<std::pair<vpart_id, mod_id>> src;

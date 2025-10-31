@@ -561,6 +561,13 @@ bool avatar_action::move( avatar &you, map &m, const tripoint_rel_ms &d )
                 const look_around_result result = g->look_around( false, center, center, false, false, true );
                 if( result.peek_action != PA_MOVE ) {
                     g->walk_move( src_loc, via_ramp );
+                } else {
+                    add_msg( m_info, _( "Ignoring enemy!" ) );
+                    for( auto &elem : you.get_mon_visible().new_seen_mon ) {
+                        monster &critter = *elem;
+                        critter.ignoring = rl_dist( you.pos_bub(), critter.pos_bub() );
+                    }
+                    g->set_safe_mode( SAFE_MODE_ON );
                 }
                 return false; // cancel automove
             }
@@ -731,7 +738,7 @@ static float rate_critter( const Creature &c )
     }
 
     const monster *m = dynamic_cast<const monster *>( &c );
-    return m->type->difficulty;
+    return m->type->get_total_difficulty();
 }
 
 void avatar_action::autoattack( avatar &you, map &m )

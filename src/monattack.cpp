@@ -1514,8 +1514,8 @@ bool mattack::triffid_heartbeat( monster *z )
     const tripoint_bub_ms z_pos = z->pos_bub( here );
 
     creature_tracker &creatures = get_creature_tracker();
-    static pathfinding_settings root_pathfind( 10, 20, 50, 0, false, false, false, false, false,
-            false );
+    static pathfinding_settings root_pathfind( {{damage_bash, 10}}, 20, 50, 0, false, false, false,
+    false, false, false );
     const pathfinding_target pf_t = pathfinding_target::point( z_pos );
     if( rl_dist( z_pos, pos ) > 5 &&
         !here.route( pos, pf_t, root_pathfind ).empty() ) {
@@ -1636,7 +1636,7 @@ bool mattack::fungus_haze( monster *z )
 {
     //~ That spore sound again
     sounds::sound( z->pos_bub(), 10, sounds::sound_t::combat, _( "Pouf!" ), true, "misc", "puff" );
-    add_msg_if_player_sees( *z, m_info, _( "The %s pulses, and fresh fungal material bursts forth." ),
+    add_msg_if_player_sees( *z, m_info, _( "The %s pulses, and fresh fungal material bursts forth!" ),
                             z->name() );
     z->mod_moves( -to_moves<int>( 1_seconds ) * 1.5 );
     map &here = get_map();
@@ -4210,7 +4210,7 @@ bool mattack::bio_op_impale( monster *z )
         target->deal_damage( z, bodypart_id( "torso" ), damage_instance( damage_stab, dam ) );
         if( do_bleed ) {
             target->add_effect( effect_source( z ), effect_bleed, rng( 3_minutes, 10_minutes ),
-                                target->get_random_body_part_of_type( body_part_type::type::torso ) );
+                                target->get_random_body_part_of_type( bp_type::torso ) );
         }
         if( seen ) {
             add_msg( _( "The %1$s impales %2$s!" ), z->name(), target->disp_name() );

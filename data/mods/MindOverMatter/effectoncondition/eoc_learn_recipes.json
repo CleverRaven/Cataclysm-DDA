@@ -586,6 +586,7 @@
     "effect": [
       {
         "run_eocs": [
+          "EOC_CHECK_GAMEBEGIN_PYROKIN_RECIPE_INTENSIFY_FLAMES",
           "EOC_CHECK_GAMEBEGIN_PYROKIN_RECIPE_ERUPTION",
           "EOC_CHECK_GAMEBEGIN_PYROKIN_RECIPE_FLASH",
           "EOC_CHECK_GAMEBEGIN_PYROKIN_RECIPE_CAUTERIZE",
@@ -603,6 +604,12 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_PYROKIN_RECIPE_INTENSIFY_FLAMES",
+    "condition": { "and": [ { "u_has_trait": "PYROKINETIC" }, { "math": [ "u_spell_level('pyrokinetic_intensify_flames') >= 0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_pyrokinetic_intensify_flames" } ]
   },
   {
     "type": "effect_on_condition",
@@ -1200,6 +1207,120 @@
     "id": "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_RETURN_FROM_DEATH",
     "condition": { "and": [ { "u_has_trait": "VITAKINETIC" }, { "math": [ "u_spell_level('vita_return_from_death') >= 0" ] } ] },
     "effect": [ { "u_learn_recipe": "practice_vita_return_from_death" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TEACH_KNACK_RECIPES",
+    "eoc_type": "EVENT",
+    "required_event": "game_begin",
+    "condition": { "u_has_trait": "PSYCHIC_KNACK" },
+    "effect": [ { "run_eocs": "EOC_TEACH_KNACK_CONTEMPLATION_RECIPES" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TEACH_KNACK_CONTEMPLATION_RECIPES",
+    "effect": [
+      {
+        "if": { "math": [ "u_spell_level('biokin_flexibility_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_biokin_flexibility_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('biokin_adrenaline_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_biokin_adrenaline_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('clair_better_senses_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_clair_better_senses_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('clair_danger_sense_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_clair_danger_sense_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('clair_examine_item_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_clair_examine_item_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('clair_astral_projection_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_clair_astral_projection_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('electrokinetic_see_electric_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_electrokinetic_see_electric_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('electrokinetic_pain_immune_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_electrokinetic_pain_immune_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('electrokinetic_hacking_interface_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_electrokinetic_hacking_interface_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('photokinetic_camouflage_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_photokinetic_camouflage_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('photokinetic_hide_ugly_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_photokinetic_hide_ugly_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('photokinetic_radio_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_photokinetic_radio_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('pyrokinetic_intensify_flames_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_pyrokinetic_intensify_flames_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('pyrokinetic_flash_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_pyrokinetic_flash_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('pyrokinetic_eruption_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_pyrokinetic_eruption_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('pyrokinetic_call_flames_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_pyrokinetic_call_flames_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('pyrokinetic_cloak_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_pyrokinetic_cloak_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('pyrokinetic_flamethrower_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_pyrokinetic_flamethrower_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('pyrokinetic_aura_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_pyrokinetic_aura_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('pyrokinetic_blast_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_pyrokinetic_blast_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('telekinetic_pull_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_telekinetic_pull_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('telekinetic_push_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_telekinetic_push_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('telekinetic_slam_down_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_telekinetic_slam_down_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('telekinetic_wave_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_telekinetic_wave_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('telekinetic_wave_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_telekinetic_shield_knack" }
+      }
+    ]
   },
   {
     "type": "effect_on_condition",

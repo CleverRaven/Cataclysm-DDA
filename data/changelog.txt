@@ -156,6 +156,14 @@ Enable save compression by default for new worlds
 display item name and owner for stealing prompt
 Monsters can now see you if you're invisible and they have the TRUESIGHT monster flag
 Make player go back to previous position when safemode is triggered
+Initial implementation of wounds
+JSONize mission-related topic IDs (TALK_MISSION_INQUIRE / TALK_MISSION_DESCRIBE_URGENT)
+Plant-specific growth stages for agriculture
+Add another form of scaling for batch recipes, enabling creation of bulk recipes
+dimension npc travel filter expansion and other tweaks
+NPCs automatically select the best MA style for their weapon
+Custom region settings for dimensions
+Allow magazines in guns/tools to regenerate ammo
 
 
 
@@ -354,6 +362,12 @@ You can do your makeup
 Allow EOCs to read artifact resonance
 Add lathe functionality and industrial baseball bat production
 Chitin armor overhaul
+Add deep fryers
+Move vehicle part locations to JSON
+Begin moving faction mission definitions to JSON, starting with descriptions
+New book artifact types.
+Better feedback on planting failures + plants need sunlight
+Add NO_BODY_HEAT flag for characters who don't show up on infrared
 
 
 ## Interface:
@@ -477,6 +491,9 @@ Explain that degraded items are degraded
 Message to player when UPS equipment runs out of power.
 Construction interface shows prerequisite furniture/terrain flags
 Default android sidebar changed to sidebar-mobile
+Present dispersion as MOA in item UI
+Hide overmap display's 'land use code' behind debug mode
+Show progress percent when butchering
 
 
 ## Mods:
@@ -898,6 +915,17 @@ Aftershock: Vehicle bay City Building a mix between mechanic garage, gas station
 [Mods] Your gear doesn't protect you when you're shapeshifted
 [Mods] If you have a broken limb and are in a shapeshifted form, you can't fly
 [DDotD] Add drag down attack when you're grabbed and surrounded
+[Magiclysm] Add Aerial Assassin monster and `PERMANENT_INVISIBILITY` flag to go with it
+[XEDRA] Replace steel material in items with updated steel types to allow repairing
+[Magiclysm] Add Seeing the Unseen animist spell
+Aftershock: Replace remaining vanilla robots with more setting appropriate ones
+[Magiclysm] Add the rust monster
+Aftershock: Properly Ruin cities
+[Xedra Evolved] The holy light of the sun burns vampires' impure flesh
+Add BLOCK_SUPERNATURAL_HEALING flag, apply it to Clay Golem attacks in Magiclysm
+[Aftershock] Add the Sibyl profession to the Esper scenario, add precognitive powers
+[Bombastic Perks] Add the Closetland playstyle perk
+
 
 
 ## Balance:
@@ -1000,6 +1028,10 @@ Adjust Precise Strike melee tech so it also cant stun what other stun-causing te
 Adds cuvettes to analysis kit crafting recipe, increase analysis kit weight.
 Fitness bands and smart watches are more common, while pocket watches and game watches are rarer.
 Tree bashing from being cut down is not a magic wand
+Star vampires have `PERMANENT_INVISIBILITY`, when they drink blood it applies `SUPPRESS_INVISIBILITY`
+Molotovs do not create walls of fire
+Monsters moving through SHARP terrain trample the terrain
+Running over large/hard objects in vehicles will damage your wheels
 
 
 ## Bugfixes:
@@ -1380,6 +1412,13 @@ Fix deserialization error with power level
 Power grid deleted on ship movement
 AIM uilist submenu shaking violently.
 fix zones disabling on save/load
+Fix enchantment cache load issue (If your save didn't load right hopefully it will now)
+Fix being unable to place traps
+Fix terrain not being recognized in palettes based on loading order
+Fix spawning map extras with non-default region settings
+Fix fishing on non river/lake/ocean tiles
+Fix roads going nowhere
+Prevent segfault when cancelling butchery
 
 
 ## Performance:
@@ -1556,6 +1595,13 @@ Use optional/mandatory for weather type, trap, start location, scent map, profes
 Check for unused extend/delete/proportional/relative with mandatory
 Begin moving duplicated UI code to new helpers library
 zzip.exe: a tool for manipulating compressed save 'zzip' files.
+travel to seperate world instances within the same save file
+region settings overhaul
+Consume_drug use actions can define intensity for their effect
+Allowing inverting lake generation for islands-style overmaps
+Add debug command to print overmap noise maps
+Allow specifying city name lists in region settings
+Clang tidy rule to catch/reject unicode replacement character
 
 
 ## Build:
@@ -1582,6 +1628,8 @@ Improve ccache performance with age based eviction instead of coarse size limits
 Fix CMake Linux VCPKG build
 Initial support for GNU Make for Windows
 Move Android bundle generation to manually triggered workflow
+Fix Mac build (Bump up dmg size limit in macOS release build)
+Build tilesets in CI for releases, delete tilesets from repo
 
 
 ## I18N and A11Y:

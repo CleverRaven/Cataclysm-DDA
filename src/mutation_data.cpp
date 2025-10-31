@@ -532,8 +532,8 @@ void mutation_branch::load( const JsonObject &jo, std::string_view src )
             for( const body_part_type &bp : body_part_type::get_all() ) {
                 if( type_string == "ALL" ) {
                     armor[bp.id] += res;
-                } else if( bp.limbtypes.count( io::string_to_enum<body_part_type::type>( type_string ) ) > 0 ) {
-                    armor[bp.id] += res * bp.limbtypes.at( io::string_to_enum<body_part_type::type>( type_string ) );
+                } else if( bp.limbtypes.count( io::string_to_enum<bp_type>( type_string ) ) > 0 ) {
+                    armor[bp.id] += res * bp.limbtypes.at( io::string_to_enum<bp_type>( type_string ) );
                 }
             }
         }

@@ -53,7 +53,7 @@
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "name": { "str": "Glock 27 pistol" },
-    "description": "A diminutive pistol chambered in .40 S&W. Widely popular among concealed carriers, its popularity soared further in the months leading up to the Cataclysm, partly due to its ability to fit the higher cpacity magazines of its older brothers.",
+    "description": "A diminutive pistol chambered in .40 S&W.  Widely popular among concealed carriers, its popularity soared further in the months leading up to the Cataclysm, partly due to its ability to fit the higher capacity magazines of its older brothers.",
     "weight": "550 g",
     "volume": "349 ml",
     "longest_side": "165 mm",

@@ -130,7 +130,7 @@
     "id": "WEREWOLF_FRIEND_TO_ANIMALS",
     "name": { "str": "Among the Birds and Beasts" },
     "points": 2,
-    "description": "A werewolf is a hunter and the natural world knows that, even in human form.  However, it is possible to cloak your predator's mien and masquerade as a simple animal, drawing less negative.  While activate, this trait provides the effects of Animal Kinship.",
+    "description": "A werewolf is a hunter and the natural world knows that, even in human form.  However, it is possible to cloak your predator's mien and masquerade as a simple animal, drawing less negative attention.  While active, this trait provides the effects of Animal Kinship.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,

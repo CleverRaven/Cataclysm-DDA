@@ -559,7 +559,7 @@
     "type": "SPELL",
     "name": "X-ray Vision",
     "id": "x-ray",
-    "description": "You fire a cone of X-rays that magically allows you to see that area for a short time.",
+    "description": "You fire a cone of X-rays that magically allow you to see that area for a short time.",
     "valid_targets": [ "hostile", "ground", "ally" ],
     "flags": [ "EVOCATION_SPELL", "CONCENTRATE", "IGNORE_WALLS" ],
     "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],

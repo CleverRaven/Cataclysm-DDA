@@ -475,5 +475,29 @@
       { "monster": "mon_gozu", "weight": 25, "cost_multiplier": 0 },
       { "monster": "mon_nether_huntsman", "weight": 15, "cost_multiplier": 0 }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_TRIFFID",
+    "default": "mon_triffid",
+    "monsters": [ { "group": "GROUP_TRIFFID_MAGES", "weight": 25, "cost_multiplier": 5 } ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_TRIFFID_OUTER",
+    "default": "mon_triffid",
+    "monsters": [ { "group": "GROUP_TRIFFID_MAGES", "weight": 50, "cost_multiplier": 2 } ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_TRIFFID_HEARTGUARDS",
+    "default": "mon_triffid",
+    "monsters": [ { "group": "GROUP_TRIFFID_MAGES", "weight": 150, "cost_multiplier": 2 } ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_TRIFFID_MAGES",
+    "default": "mon_triffid",
+    "monsters": [ { "monster": "mon_triffid_greenseer", "weight": 1 } ]
   }
 ]

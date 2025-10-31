@@ -1095,11 +1095,11 @@ void projectile::apply_effects_damage( Creature &target, Creature *source,
         }
     }
 
-    if( dealt_dam.bp_hit->has_type( body_part_type::type::head ) &&
+    if( dealt_dam.bp_hit->has_type( bp_type::head ) &&
         proj_effects.count( ammo_effect_BLINDS_EYES ) ) {
         // TODO: Change this to require bp_eyes
         target.add_env_effect( effect_blind,
-                               target.get_random_body_part_of_type( body_part_type::type::sensor ), 5, rng( 3_turns, 10_turns ) );
+                               target.get_random_body_part_of_type( bp_type::sensor ), 5, rng( 3_turns, 10_turns ) );
     }
 
     if( proj_effects.count( ammo_effect_APPLY_SAP ) ) {
@@ -2485,7 +2485,7 @@ bodypart_id Creature::get_part_id( const bodypart_id &id,
     std::pair<bodypart_id, float> best = { bodypart_str_id::NULL_ID().id(), 0.0f };
     if( filter >= body_part_filter::next_best ) {
         for( const std::pair<const bodypart_str_id, bodypart> &bp : body ) {
-            for( const std::pair<const body_part_type::type, float> &mp : bp.first->limbtypes ) {
+            for( const std::pair<const bp_type, float> &mp : bp.first->limbtypes ) {
                 // if the secondary limb type matches and is better than the current
                 if( mp.first == id->primary_limb_type() && mp.second > best.second ) {
                     // give an inflated bonus if the part sides match
@@ -2912,7 +2912,7 @@ bodypart_id Creature::get_root_body_part() const
 }
 
 std::vector<bodypart_id> Creature::get_all_body_parts_of_type(
-    body_part_type::type part_type, get_body_part_flags flags ) const
+    bp_type part_type, get_body_part_flags flags ) const
 {
     const bool only_main( flags & get_body_part_flags::only_main );
     const bool primary( flags & get_body_part_flags::primary_type );
@@ -2938,7 +2938,7 @@ std::vector<bodypart_id> Creature::get_all_body_parts_of_type(
     return bodyparts;
 }
 
-bodypart_id Creature::get_random_body_part_of_type( body_part_type::type part_type ) const
+bodypart_id Creature::get_random_body_part_of_type( bp_type part_type ) const
 {
     return random_entry( get_all_body_parts_of_type( part_type ) );
 }
@@ -2986,10 +2986,10 @@ body_part_set Creature::get_drenching_body_parts( bool upper, bool mid, bool low
 
 std::vector<bodypart_id> Creature::get_ground_contact_bodyparts( bool arms_legs ) const
 {
-    std::vector<bodypart_id> arms = get_all_body_parts_of_type( body_part_type::type::arm );
-    std::vector<bodypart_id> legs = get_all_body_parts_of_type( body_part_type::type::leg );
-    std::vector<bodypart_id> hands = get_all_body_parts_of_type( body_part_type::type::hand );
-    std::vector<bodypart_id> feet = get_all_body_parts_of_type( body_part_type::type::foot );
+    std::vector<bodypart_id> arms = get_all_body_parts_of_type( bp_type::arm );
+    std::vector<bodypart_id> legs = get_all_body_parts_of_type( bp_type::leg );
+    std::vector<bodypart_id> hands = get_all_body_parts_of_type( bp_type::hand );
+    std::vector<bodypart_id> feet = get_all_body_parts_of_type( bp_type::foot );
 
     if( has_effect( effect_quadruped_full ) || has_effect( effect_quadruped_half ) ) {
         if( arms_legs == true ) {
@@ -3004,9 +3004,9 @@ std::vector<bodypart_id> Creature::get_ground_contact_bodyparts( bool arms_legs 
     } else {
         std::vector<bodypart_id> bodyparts;
         if( arms_legs == true ) {
-            bodyparts = get_all_body_parts_of_type( body_part_type::type::leg );
+            bodyparts = get_all_body_parts_of_type( bp_type::leg );
         } else {
-            bodyparts = get_all_body_parts_of_type( body_part_type::type::foot );
+            bodyparts = get_all_body_parts_of_type( bp_type::foot );
         }
         return bodyparts;
     }
@@ -3040,12 +3040,12 @@ const
     return enumerate_as_string( names );
 }
 
-int Creature::get_num_body_parts_of_type( body_part_type::type part_type ) const
+int Creature::get_num_body_parts_of_type( bp_type part_type ) const
 {
     return static_cast<int>( get_all_body_parts_of_type( part_type ).size() );
 }
 
-int Creature::get_num_broken_body_parts_of_type( body_part_type::type part_type ) const
+int Creature::get_num_broken_body_parts_of_type( bp_type part_type ) const
 {
     int ret = 0;
     for( const bodypart_id &bp : get_all_body_parts_of_type( part_type ) ) {

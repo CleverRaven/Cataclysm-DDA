@@ -83,7 +83,6 @@
     "price_postapoc": "20 USD",
     "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "steel" ],
-    "qualities": [ [ "ANVIL", 2 ] ],
     "symbol": ";",
     "color": "dark_gray",
     "flags": [ "DURABLE_MELEE" ],

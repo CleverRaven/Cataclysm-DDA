@@ -32,6 +32,7 @@
 #include "flexbuffer_json.h"
 #include "init.h"
 #include "int_id.h"
+#include "json.h"
 #include "mod_tracker.h"
 #include "string_formatter.h"
 #include "string_id.h"
@@ -1908,13 +1909,19 @@ public:
 
 /**
  * Loads std::pair of [K = string_id, V = int/float] values from JSON -- usually into an std::map
+ * It can load either an array, an object, or a single value
  * Accepted formats for elements in an array:
  * 1. A named key/value pair object: "addiction_type": [ { "addiction": "caffeine", "potential": 3 } ]
  * 2. A key/value pair array: "addiction_type": [ [ "caffeine", 3 ] ]
  * 3. A single value: "addiction_type": [ "caffeine" ]
- * A single value can also be provided outside of an array, e.g. "addiction_type": "caffeine"
+ * For an object, only the following format is supported
+ * 4. "addiction_type": { "caffeine": 3, "alcohol": 2 }
+ * A single value can be provided as follows:
+ * 5. "addiction_type": "caffeine"
  * For single values, weights are assigned default_weight
  */
+// TODO: format 1 is quite gross, and just accepts arbitrary keys. The only way it works is by limiting
+// the types of V, which is unfortunate
 template<typename K, typename V>
 class weighted_string_id_reader : public generic_typed_reader<weighted_string_id_reader<K, V>>
 {
@@ -1966,50 +1973,86 @@ public:
     }
 };
 
+// For loading pairs from a JSON object. { "a1": b1, "a2": b2 }, etc
+// Only supports JSON objects! Json objects are not ordered, so if you're using something where
+// the order matters, use pair_reader.
 template<typename K, typename V>
 class generic_map_reader : public generic_typed_reader<generic_map_reader<K, V>>
 {
 public:
     static constexpr bool read_objects = true;
 
+    static_assert( key_from_json_string<K>::valid, "Type K must have a known conversion from string" );
+
     std::pair<K, V> get_next( const JsonValue &jv ) const {
         const JsonMember *jm = dynamic_cast<const JsonMember *>( &jv );
         if( jm == nullptr ) {
             jv.throw_error( "not part of a JsonObject" );
         }
-        K key( jm->name() );
+        K key = key_from_json_string<K>()( jm->name() );
         V value;
         jv.read( value, true );
         return std::pair<K, V>( key, value );
     }
 };
 
-// Support shorthand for a single value.
-template<typename T>
-class pair_reader : public generic_typed_reader<pair_reader<T>>
+// Supports three formats:
+// 1. [ a, b ]
+// 2. { "a": b }, if there exists a key_from_json_string specialization for a
+// 3. a, if T = U and a is not represented in JSON as an array or object (iff the object format is valid)
+// This would load [ "a", [ "b", "c" ], { "d": "e" } ] into three pairs:
+// ("a", "a"), ("b", "c"), ("d", "e")
+//
+// If you only need format 1, you can also use json_read_reader<std::pair<T, U>>
+//
+// TODO: constructor argument to enable/disable the shorthand format?
+template<typename T, typename U = T>
+class pair_reader : public generic_typed_reader<pair_reader<T, U>>
 {
 public:
-    std::pair<T, T> get_next( const JsonValue &jv ) const {
-        if( jv.test_float() ) {
-            T val;
-            jv.read( val, true );
-            return std::make_pair( val, val );
+    std::pair<T, U> get_next( const JsonValue &jv ) const {
+        // elements of the pair to return
+        T a;
+        U b;
+        // [ a, b ]
+        if( jv.test_array() ) {
+            JsonArray ja = jv.get_array();
+            if( ja.size() != 2 ) {
+                ja.throw_error( "Must have 2 elements" );
+            }
+            ja[0].read( a, true );
+            ja[1].read( b, true );
+            return std::make_pair( a, b );
         }
-        if( !jv.test_array() ) {
-            jv.throw_error( "bad pair" );
+        // { "a": b }
+        if constexpr( key_from_json_string<T>::valid ) {
+            if( jv.test_object() ) {
+                JsonObject jo = jv.get_object();
+                if( jo.size() != 1 ) {
+                    jo.throw_error( "bad object pair, has too many elements" );
+                }
+                // gross - we need to get the name of the member, this just unwraps it
+                for( JsonMember jm : jo ) {
+                    a = key_from_json_string<T>()( jm.name() );
+                    jm.read( b, true );
+                    return std::make_pair( a, b );
+                }
+            }
         }
-        JsonArray ja = jv.get_array();
-        if( ja.size() != 2 ) {
-            ja.throw_error( "Must have 2 elements" );
+        // shorthand for a = b
+        if constexpr( std::is_same_v<T, U> ) {
+            jv.read( a, true );
+            b = a;
+            return std::make_pair( a, b );
         }
-        T l;
-        T h;
-        ja[0].read( l, true );
-        ja[1].read( h, true );
-        return std::make_pair( l, h );
+        jv.throw_error( "bad pair" );
+        return std::make_pair( a, b );
     }
 };
 
+// Loads pairs as objects { key1: t1, key2: t2 }, or just t1, which uses the default for the value of t2
+// e.g. named_pair_reader<string, int>( "a", "b", 3 ) loads
+// [ "1", { "a": "3", "b": 4 } ] -> ("1", 3), ("3", 4)
 template<typename T1, typename T2>
 class named_pair_reader : public generic_typed_reader<named_pair_reader<T1, T2>>
 {
@@ -2033,7 +2076,7 @@ public:
             jo.read( key2, ret.second, true );
             return ret;
         }
-        // TODO: support pair format?
+        // TODO: support pair format? Forward to pair_reader<T1, T2>?
         if( jv.test_array() ) {
             jv.throw_error( "invalid format" );
         }
@@ -2166,6 +2209,19 @@ public:
         bound_reader<T>::low = low;
         bound_reader<T>::high = high;
     };
+};
+
+struct percentile_reader : public generic_typed_reader<percentile_reader> {
+    double lower;
+    double upper;
+
+    explicit percentile_reader( double l = std::numeric_limits<double>::max(),
+                                double h = std::numeric_limits<double>::max() ) : lower( l ), upper( h ) {}
+
+    double get_next( const JsonValue &jv ) const {
+        double ret = jv.get_float() / 100.0;
+        return bound_check( lower, upper, jv, ret );
+    }
 };
 
 struct weakpoints;

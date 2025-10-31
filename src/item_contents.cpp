@@ -2179,6 +2179,20 @@ std::vector<item_pocket *> item_contents::get_all_ablative_pockets()
     } );
 }
 
+std::vector<const item_pocket *> item_contents::get_all_contained_and_mod_pockets() const
+{
+    return get_pockets( []( item_pocket const & pocket ) {
+        return pocket.is_type( pocket_type::CONTAINER ) || pocket.is_type( pocket_type::MOD );
+    } );
+}
+
+std::vector<item_pocket *> item_contents::get_all_contained_and_mod_pockets()
+{
+    return get_pockets( []( item_pocket const & pocket ) {
+        return pocket.is_type( pocket_type::CONTAINER ) || pocket.is_type( pocket_type::MOD );
+    } );
+}
+
 std::vector<const item *> item_contents::get_added_pockets() const
 {
     std::vector<const item *> items_added;
@@ -2585,7 +2599,8 @@ void item_contents::process( map &here, Character *carrier, const tripoint_bub_m
                              temperature_flag flag, float spoil_multiplier_parent, bool watertight_container )
 {
     for( item_pocket &pocket : contents ) {
-        if( pocket.is_type( pocket_type::CONTAINER ) ) {
+        if( pocket.is_type( pocket_type::CONTAINER ) || pocket.is_type( pocket_type::MOD ) ||
+            pocket.is_type( pocket_type::MAGAZINE_WELL ) )  {
             pocket.process( here, carrier, pos, insulation, flag, spoil_multiplier_parent,
                             watertight_container );
         }

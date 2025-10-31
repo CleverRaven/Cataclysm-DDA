@@ -4,7 +4,7 @@
     "type": "MONSTER",
     "copy-from": "mon_zombie_soldier",
     "looks_like": "mon_zombie_soldier",
-    "name": { "str": "zombie military police" },
+    "name": { "str": "military police zombie" },
     "description": "Once a soldier, it is dressed head to toe in combat gear and carries itself rather steadily for a zombie.  Over its uniform is a vest reading \"military police\".",
     "death_drops": "mon_zombie_soldier_lixa_police_death_drops"
   },

@@ -794,11 +794,11 @@
     "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str_sp": "scrap boots (pair)" },
-    "description": "Boots made of random metal scraps attached to simple cloth wraps.  They're uncomfortable, but provide decent protection.",
-    "weight": "1845 g",
-    "volume": "3 L",
-    "price": "120 USD",
-    "price_postapoc": "5 USD",
+    "description": "Boots made of random metal scraps attached to simple cloth wraps.  They're very uncomfortable, but provide some level of protection.",
+    "weight": "2400 g",
+    "volume": "2 L",
+    "price": "4 USD",
+    "price_postapoc": "2 USD",
     "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "budget_steel", "cotton" ],
     "symbol": "[",
@@ -820,20 +820,20 @@
           "foot_arch_l"
         ],
         "material": [
-          { "type": "budget_steel", "covered_by_mat": 75, "thickness": 1.5 },
+          { "type": "budget_steel", "covered_by_mat": 55, "thickness": 1.8 },
           { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 }
         ],
-        "encumbrance": 6,
-        "coverage": 80
+        "encumbrance": 24,
+        "coverage": 65
       },
       {
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
         "material": [
-          { "type": "budget_steel", "covered_by_mat": 75, "thickness": 1.5 },
+          { "type": "budget_steel", "covered_by_mat": 55, "thickness": 1.5 },
           { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 }
         ],
-        "coverage": 80
+        "coverage": 65
       }
     ],
     "melee_damage": { "bash": 2 }
@@ -1724,12 +1724,7 @@
     "melee_damage": { "bash": 1 },
     "variant_type": "generic",
     "variants": [
-      {
-        "id": "generic_knee_high_boots",
-        "name": { "str_sp": "knee-high boots (pair)" },
-        "description": "Very long leather boots that cover the lower legs, they are cumbersome to wear.",
-        "weight": 10
-      },
+      { "id": "generic_knee_high_boots", "//": "inherit name and description from item", "weight": 10 },
       {
         "id": "jackboots",
         "name": { "str_sp": "jackboots (pair)" },

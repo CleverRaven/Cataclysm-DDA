@@ -137,5 +137,15 @@
       { "u_lose_effect": "effect_changeling_wearing_iron" },
       { "u_lose_effect": "effect_changeling_wearing_steel" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SUN_BURN_CHECK",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_TORPOR_RECOVER",
+    "effect": [ { "math": [ "u_val('sleepiness') = 0" ] }, { "math": [ "u_val('sleep_deprivation') = 0" ] } ]
   }
 ]

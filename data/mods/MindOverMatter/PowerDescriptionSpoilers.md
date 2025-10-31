@@ -99,7 +99,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Stamina Cost*: 3500, minus 175 per level to a minimum of 1250<br />
 *Channeling Time*: 250 moves, minus 8.5 moves per level to a minimum of 150<br />
 *Effects*: Increases temperature tolerance in both directions by 15 degrees plus 7.5 degrees per level.<br />
-*Prerequisites*: Oxygen Absorption 5, Physical Enhancement 9 *or* Metabolic Hyperefficiency 6<br />
+*Prerequisites*: Overcome Pain 5, Physical Enhancement 9 *or* Metabolic Hyperefficiency 6<br />
 </details>
 <details>
 <summary><h3>Enhance Mobility (C)</h3></summary>
@@ -865,6 +865,16 @@ Powers causing photokinetic damage have a 40% chance to blind the target for 3 s
 *Effects*: Excite air molecules and unleash a flash of light, blinding nearby targets for the power's duration.<br />
 *Prerequisites*: Starting power<br />
 </details>
+<summary><h3>Intensify Flames</h3></summary>
+
+*Difficulty*: 1<br />
+*Target*: A location within 3 squares, plus 1.1 squares per power level<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 1500, minus 55 per level to a minimum of 500<br />
+*Channeling Time*: 125 moves, minus 6 moves per level to a minimum of 35<br />
+*Effects*: Target an existing fire and increase its intensity, from small fire to fire or from fire to raging fire.  Can also be used on a target that is on fire, which will spread the flames and cause them to take additional damage.<br />
+*Prerequisites*: Starting power<br />
+</details>
 <details>
 <summary><h3>Fountain of Flames</h3></summary>
 
@@ -874,7 +884,7 @@ Powers causing photokinetic damage have a 40% chance to blind the target for 3 s
 *Stamina Cost*: 1950, minus 75 per level to a minimum of 700<br />
 *Channeling Time*: 100 moves, minus 4 moves per level to a minimum of 35<br />
 *Effects*: The pyrokinetic unleashes a blast of flame at a close-range target, doing 6 to 26 heat damage plus 1.5 to 3 heat damage per power level. This power also has a 50% chance of leaving a fire field of intensity 1 to 2 in the target square.<br />
-*Prerequisites*: Starting power<br />
+*Prerequisites*: Intensify Flames 5<br />
 </details>
 <details>
 <summary><h3>Cauterize</h3></summary>
@@ -907,7 +917,7 @@ Powers causing photokinetic damage have a 40% chance to blind the target for 3 s
 *Stamina Cost*: 3500, minus 120 per level to a minimum of 1000<br />
 *Channeling Time*: 125 moves, minus 7.5 moves per level to a minimum of 50 moves<br />
 *Effects*: As the psion can control fire, they can also extinguish it. Harmlessly disperses all flamees within the area of effect. The aftereffects of the fire (burned locations or people) are not reversed.<br />
-*Prerequisites*: Banked Flames 5<br />
+*Prerequisites*: Banked Flames 5 *and* Intensify Flames 6<br />
 </details>
 <details>
 <summary><h3>Cloak of Warmth (C)</h3></summary>
@@ -951,7 +961,7 @@ Powers causing photokinetic damage have a 40% chance to blind the target for 3 s
 *Stamina Cost*: 8000, minus 200 per level to a minimum of 4000<br />
 *Channeling Time*: 1500 moves, minus 10 moves per level to a minimum of 1200 moves<br />
 *Effects*: Heat nearby air to produce warmth. The spot chosen will shed heat for the duration of the power. Four different intensities are selectable: 6 degrees, 16 degrees, 40 degrees, and 75 degrees.<br />
-*Prerequisites*: Banked Flames 10 *or* Cloak of Warmth 6, Brilliant Flash 7<br />
+*Prerequisites*: Banked Flames 10 *or* Cloak of Warmth 6, Brilliant Flash 7 *or* Intensify Flames 8<br />
 </details>
 <details>
 <summary><h3>Blazing Aura (C)</h3></summary>

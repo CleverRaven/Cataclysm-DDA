@@ -38,7 +38,7 @@
     "proficiencies": [ { "proficiency": "prof_elec_soldering", "skill_penalty": 0.125 }, { "proficiency": "prof_elec_circuits" } ],
     "components": [
       [ [ "e_scrap", 2 ], [ "glowplug", 1 ], [ "makeshift_transformer", 2 ] ],
-      [ [ "copper", 1 ], [ "nail", 1 ], [ "wire", 1 ] ],
+      [ [ "copper", 1 ], [ "nails", 1, "LIST" ], [ "wire", 1 ] ],
       [ [ "scrap", 1 ] ],
       [ [ "duct_tape", 10 ] ],
       [ [ "cable", 5 ] ]
@@ -61,7 +61,7 @@
     "proficiencies": [ { "proficiency": "prof_elec_soldering", "skill_penalty": 0.125 }, { "proficiency": "prof_elec_circuits" } ],
     "components": [
       [ [ "e_scrap", 2 ], [ "glowplug", 1 ], [ "makeshift_transformer", 2 ] ],
-      [ [ "copper", 1 ], [ "nail", 1 ], [ "wire", 1 ] ],
+      [ [ "copper", 1 ], [ "nails", 1, "LIST" ], [ "wire", 1 ] ],
       [ [ "scrap", 1 ] ],
       [ [ "duct_tape", 10 ] ],
       [ [ "cable", 5 ] ]
@@ -214,7 +214,7 @@
       [ [ "2x4", 4 ] ],
       [ [ "plastic_chunk", 2 ] ],
       [ [ "motor_micro", 1 ] ],
-      [ [ "nail", 16 ] ],
+      [ [ "nails", 16, "LIST" ] ],
       [ [ "wood_panel", 1 ] ],
       [ [ "hose", 1 ], [ "makeshift_hose", 1 ] ],
       [ [ "power_supply", 1 ] ]

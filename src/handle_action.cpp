@@ -365,8 +365,9 @@ input_context game::get_player_input( std::string &action )
                     const point map( iRand + offset );
 
                     const tripoint_bub_ms mapp( map.x, map.y, pos.z() );
-
+                    const bool no_roof_above = here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, mapp + tripoint::above );
                     if( here.inbounds( mapp ) && here.is_outside( mapp ) &&
+                        no_roof_above &&
                         here.get_visibility( visibility_cache[mapp.x()][mapp.y()], cache ) ==
                         visibility_type::CLEAR &&
                         !creatures.creature_at( mapp, true ) ) {
@@ -664,7 +665,7 @@ static void open()
             return;
         } else if( tid.obj().close ) {
             // if the following message appears unexpectedly, the prior check was for t_door_o
-            add_msg( m_info, _( "That door is already open." ) );
+            add_msg( m_info, _( "The door is already open." ) );
             player_character.mod_moves( to_moves<int>( 1_seconds ) );
             return;
         }
@@ -894,7 +895,7 @@ static void haul()
             selector.add_map_items( player_character.pos_bub() );
             selector.apply_selection( player_character.haul_list );
             selector.set_title( _( "Select items to haul" ) );
-            selector.set_hint( _( "To select x items, type a number before selecting." ) );
+            selector.set_hint( _( "To select items, type a number before selecting." ) );
             drop_locations result = selector.execute( true );
             haulable_items.clear();
             for( const drop_location &dl : result ) {
@@ -956,8 +957,7 @@ static void smash()
 
     avatar &player_character = get_avatar();
     avatar::smash_result res = player_character.smash( smashp );
-    if( res.did_smash && !res.success &&
-        res.resistance > 0 && res.skill >= res.resistance &&
+    if( res.did_smash && !res.success && res.can_smash &&
         query_yn( _( "Keep smashing until destroyed?" ) ) ) {
         player_character.assign_activity( bash_activity_actor( smashp ) );
     }
@@ -966,10 +966,9 @@ static void smash()
 avatar::smash_result avatar::smash( tripoint_bub_ms &smashp )
 {
     avatar::smash_result ret;
+    ret.can_smash = false;
     ret.did_smash = false;
     ret.success = false;
-    ret.skill = -1;
-    ret.resistance = -1;
 
     map &here = get_map();
     if( is_mounted() ) {
@@ -985,8 +984,6 @@ avatar::smash_result avatar::smash( tripoint_bub_ms &smashp )
     const int move_cost = !is_armed() ? 80 :
                           get_wielded_item()->attack_time( *this ) * 0.8;
     bool mech_smash = false;
-    int smashskill = smash_ability();
-    ret.skill = smashskill;
     if( is_mounted() ) {
         mech_smash = true;
     }
@@ -1010,15 +1007,17 @@ avatar::smash_result avatar::smash( tripoint_bub_ms &smashp )
             crit->use_mech_power( 3_kJ );
         }
     }
+    std::map<damage_type_id, int> smash_damage = smash_ability();
     for( std::pair<const field_type_id, field_entry> &fd_to_smsh : here.field_at( smashp ) ) {
         const std::optional<map_fd_bash_info> &bash_info = fd_to_smsh.first->bash_info;
         if( !bash_info ) {
             continue;
         }
-        if( ( smashskill < bash_info->str_min && one_in( 10 ) ) || fd_to_smsh.first->indestructible ) {
+        int damage = bash_info->damage_to( smash_damage );
+        if( ( damage <= 0 && one_in( 10 ) ) || fd_to_smsh.first->indestructible ) {
             add_msg( m_neutral, _( "You don't seem to be damaging the %s." ), fd_to_smsh.first->get_name() );
             ret.did_smash = true;
-        } else if( smashskill >= rng( bash_info->str_min, bash_info->str_max ) ) {
+        } else if( damage > 0 && x_in_y( damage, bash_info->hp() ) ) {
             sounds::sound( smashp, bash_info->sound_vol, sounds::sound_t::combat, bash_info->sound, true,
                            "smash",
                            "field" );
@@ -1036,7 +1035,7 @@ avatar::smash_result avatar::smash( tripoint_bub_ms &smashp )
                            true, "smash",
                            "field" );
 
-            ret.resistance = bash_info->str_min;
+            ret.can_smash = bash_info->damage_to( smash_damage ) > 0;
             ret.did_smash = true;
         }
         if( ret.did_smash && !bash_info->hit_field.first.is_null() ) {
@@ -1083,7 +1082,8 @@ avatar::smash_result avatar::smash( tripoint_bub_ms &smashp )
         }
     }
 
-    const bash_params bash_result = here.bash( smashp, smashskill, false, false, smash_floor );
+    const bash_params bash_result = here.bash( smashp, smash_damage, false, false, smash_floor );
+    ret.can_smash = bash_result.can_bash;
     // Weariness scaling
     float weary_mult = 1.0f;
     item_location weapon = used_weapon();
@@ -1132,9 +1132,8 @@ avatar::smash_result avatar::smash( tripoint_bub_ms &smashp )
             ret.success = true;
             // Bash results in destruction of target
             g->draw_async_anim( smashp, "bash_complete", "X", c_light_gray );
-        } else if( smashskill >= here.bash_resistance( smashp ) ) {
+        } else if( bash_result.did_bash ) {
             // Bash effective but target not yet destroyed
-            ret.resistance = here.bash_resistance( smashp );
             g->draw_async_anim( smashp, "bash_effective", "/", c_light_gray );
         } else {
             // Bash not effective
@@ -2614,7 +2613,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_ZONES:
-            zones_manager();
+            zone_manager_ui::display_zone_manager();
             break;
 
         case ACTION_LOOT:

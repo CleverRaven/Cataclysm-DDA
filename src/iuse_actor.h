@@ -169,6 +169,22 @@ class message_iuse : public iuse_actor
         std::string get_name() const override;
 };
 
+class mp3_iuse : public iuse_actor
+{
+        itype_id transform;
+        translation msg;
+        bool activate;
+    public:
+        explicit mp3_iuse( const std::string &type = "mp3" ) : iuse_actor( type ) {}
+
+        ~mp3_iuse() override = default;
+        void load( const JsonObject &jo, const std::string & ) override;
+        using iuse_actor::use;
+        std::optional<int> use( Character *, item &, map *, const tripoint_bub_ms & ) const override;
+        std::unique_ptr<iuse_actor> clone() const override;
+        std::string get_name() const override;
+};
+
 class sound_iuse : public iuse_actor
 {
     public:
@@ -240,6 +256,7 @@ struct effect_data {
     efftype_id id;
     time_duration duration = 0_seconds;
     bodypart_id bp = bodypart_id( "bp_null" );
+    int intensity;
     bool permanent = false;
 
     void deserialize( const JsonObject &jo );

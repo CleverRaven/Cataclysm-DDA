@@ -16,6 +16,7 @@
 
 #include "activity_actor_definitions.h"
 #include "avatar.h"
+#include "butchery.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
@@ -78,7 +79,6 @@
 #include "weather.h"
 
 static const activity_id ACT_BUILD( "ACT_BUILD" );
-static const activity_id ACT_BUTCHER_FULL( "ACT_BUTCHER_FULL" );
 static const activity_id ACT_FETCH_REQUIRED( "ACT_FETCH_REQUIRED" );
 static const activity_id ACT_FISH( "ACT_FISH" );
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
@@ -1209,7 +1209,8 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
         int small_count = 0;
         for( const item &i : here.i_at( src_loc ) ) {
             // make sure nobody else is working on that corpse right now
-            if( i.is_corpse() && !i.has_var( "activity_var" ) ) {
+            if( i.is_corpse() &&
+                ( !i.has_var( "activity_var" ) || i.get_var( "activity_var" ) == you.name ) ) {
                 const mtype corpse = *i.get_mtype();
                 if( corpse.size > creature_size::medium ) {
                     big_count += 1;
@@ -1218,6 +1219,9 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
                 }
                 corpses.push_back( i );
             }
+        }
+        if( corpses.empty() ) {
+            return activity_reason_info::fail( do_activity_reason::NO_COMPONENTS );
         }
         bool b_rack_present = false;
         for( const tripoint_bub_ms &pt : here.points_in_radius( src_loc, 2 ) ) {
@@ -1321,6 +1325,8 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
         for( const zone_data &zone : zones ) {
             const plot_options &options = dynamic_cast<const plot_options &>( zone.get_options() );
             const itype_id seed = options.get_seed();
+            ret_val<void>can_plant = !seed.is_empty() ?
+                                     warm_enough_to_plant( src_loc, seed ) : ret_val<void>::make_success();
 
             if( here.has_flag_furn( ter_furn_flag::TFLAG_GROWTH_OVERGROWN, src_loc ) ) {
                 return activity_reason_info::ok( do_activity_reason::NEEDS_CLEARING );
@@ -1358,7 +1364,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
                 // If its a farm zone with no specified seed, and we've checked for tilling and harvesting.
                 // then it means no further work can be done here
             } else if( !seed.is_empty() &&
-                       warm_enough_to_plant( src_loc, seed ) &&
+                       can_plant.success() &&
                        here.has_flag_ter_or_furn( seed->seed->required_terrain_flag, src_loc ) ) {
                 if( here.has_items( src_loc ) ) {
                     return activity_reason_info::fail( do_activity_reason::BLOCKING_TILE );
@@ -1374,6 +1380,10 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
                 }
 
             } else {
+                // Extra, specific messaging returned from warm_enough_to_plant()
+                if( !can_plant.success() ) {
+                    you.add_msg_if_player( can_plant.c_str() );
+                }
                 // can't plant, till or harvest
                 return activity_reason_info::fail( do_activity_reason::ALREADY_DONE );
             }
@@ -1970,20 +1980,22 @@ static bool butcher_corpse_activity( Character &you, const tripoint_bub_ms &src_
 {
     map &here = get_map();
     map_stack items = here.i_at( src_loc );
+    std::vector<butchery_data> bd;
     for( item &elem : items ) {
-        if( elem.is_corpse() && !elem.has_var( "activity_var" ) ) {
+        if( elem.is_corpse() &&
+            ( !elem.has_var( "activity_var" ) || elem.get_var( "activity_var" ) == you.name ) ) {
             const mtype corpse = *elem.get_mtype();
             if( corpse.size > creature_size::medium && reason != do_activity_reason::NEEDS_BIG_BUTCHERING ) {
                 continue;
             }
             elem.set_var( "activity_var", you.name );
-            you.assign_activity( ACT_BUTCHER_FULL, 0, true );
-            you.activity.targets.emplace_back( map_cursor( src_loc ), &elem );
-            you.activity.placement = here.get_abs( src_loc );
-            you.may_activity_occupancy_after_end_items_loc.emplace_back( map_cursor{here.get_abs( src_loc )},
-                    &elem );
-            return true;
+            item_location corpse_loc = item_location( map_cursor( src_loc ), &elem );
+            bd.emplace_back( corpse_loc, butcher_type::FULL );
         }
+    }
+    if( !bd.empty() ) {
+        you.assign_activity( butchery_activity_actor( bd ) );
+        return true;
     }
     return false;
 }
@@ -2314,7 +2326,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
         bool unload_mods = false;
         bool unload_molle = false;
         bool unload_sparse_only = false;
-        int unload_sparse_threshold = 20;
+        int unload_sparse_threshold = 0;
         bool unload_always = false;
 
         std::vector<zone_data const *> const zones = mgr.get_zones_at( src, zone_type_UNLOAD_ALL,
@@ -2326,7 +2338,9 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
             unload_molle |= options.unload_molle();
             unload_mods |= options.unload_mods();
             unload_sparse_only |= options.unload_sparse_only();
-            unload_sparse_threshold |= options.unload_sparse_threshold();
+            if( options.unload_sparse_only() && options.unload_sparse_threshold() > unload_sparse_threshold ) {
+                unload_sparse_threshold = options.unload_sparse_threshold();
+            }
             unload_always |= options.unload_always();
         }
 
@@ -3486,6 +3500,11 @@ bool generic_multi_activity_handler( player_activity &act, Character &you, bool 
         }
         // if we got here, we need to revert otherwise NPC will be stuck in AI Limbo and have a head explosion.
         if( you.backlog.empty() || src_set.empty() ) {
+            /**
+            * This should really be a debug message, but too many places rely on this broken behavior.
+            * debugmsg( "Reverting %s activity for %s, probable infinite loop", activity_to_restore.c_str(),
+            *           you.get_name() );
+            */
             check_npc_revert( you );
             if( player_activity( activity_to_restore ).is_multi_type() ) {
                 you.assign_activity( activity_id::NULL_ID() );

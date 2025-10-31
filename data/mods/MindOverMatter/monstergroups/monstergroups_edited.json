@@ -230,6 +230,15 @@
     "monsters": [ { "monster": "mon_bandersnatch", "weight": 20, "starts": "8 days", "cost_multiplier": 5 } ]
   },
   {
+    "id": "GROUP_DEERS",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_fear_deer", "weight": 20, "starts": "8 days", "cost_multiplier": 2 },
+      { "monster": "mon_fear_deer_fawn", "weight": 5, "cost_multiplier": 2 },
+      { "monster": "mon_fear_deer_fawn", "weight": 10, "starts": "360 days", "cost_multiplier": 2 }
+    ]
+  },
+  {
     "type": "monstergroup",
     "id": "GROUP_CAVE",
     "monsters": [ { "monster": "mon_hidebehind", "weight": 10, "starts": "8 days", "cost_multiplier": 5 } ]

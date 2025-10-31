@@ -151,6 +151,24 @@
     "max_range": 5
   },
   {
+    "id": "kill_summoned_creature_monster",
+    "type": "SPELL",
+    "name": { "str": "Summoned Dispel Monster", "//~": "NO_I18N" },
+    "description": { "str": "Destroys a summoned monster, cast by monsters.", "//~": "NO_I18N" },
+    "message": "",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "SILENT", "NO_PROJECTILE", "PERCENTAGE_DAMAGE", "NO_EXPLOSION_SFX" ],
+    "effect": "attack",
+    "damage_type": "pure",
+    "shape": "blast",
+    "min_damage": 300,
+    "max_damage": 300,
+    "min_range": 5,
+    "max_range": 25,
+    "range_increment": 1,
+    "targeted_monster_species": [ "SUMMONED_CREATURE" ]
+  },
+  {
     "id": "death_shadowman",
     "type": "SPELL",
     "name": { "str": "Shadowman Death", "//~": "NO_I18N" },
@@ -698,5 +716,120 @@
         ]
       }
     ]
+  },
+  {
+    "id": "summon_grass_field_monster",
+    "type": "SPELL",
+    "name": { "str": "Commanding the Grasses Monster", "//~": "NO_I18N" },
+    "description": { "str": "Grow grass in an instant, if you are a monster.", "//~": "NO_I18N" },
+    "valid_targets": [ "hostile", "ground" ],
+    "flags": [ "VERBAL", "SOMATIC", "NO_PROJECTILE", "NO_HANDS", "NO_LEGS" ],
+    "max_level": 20,
+    "skill": "deduction",
+    "teachable": false,
+    "difficulty": 1,
+    "effect": "ter_transform",
+    "effect_str": "ter_arvore_command_grasses",
+    "shape": "blast",
+    "min_range": 5,
+    "max_range": 25,
+    "range_increment": 1,
+    "min_aoe": 1,
+    "max_aoe": 10,
+    "aoe_increment": 0.25,
+    "magic_type": "xedra_arvore_magick"
+  },
+  {
+    "type": "SPELL",
+    "id": "summon_solar_spirit_triffid_monster",
+    "name": { "str": "Summon solar spirit", "//~": "NO_I18N" },
+    "description": { "str": "Summons a solar spirit if you are a triffid.", "//~": "NO_I18N" },
+    "flags": [ "HOSTILE_SUMMON", "RANDOM_DAMAGE", "NO_EXPLOSION_SFX" ],
+    "valid_targets": [ "ground", "self", "hostile" ],
+    "effect": "summon",
+    "effect_str": "mon_solar_spirit_triffid_summon",
+    "shape": "blast",
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_aoe": 4,
+    "max_aoe": 4,
+    "min_duration": 5000,
+    "max_duration": 5000
+  },
+  {
+    "type": "SPELL",
+    "id": "summon_vinebeast_triffid_monster",
+    "name": { "str": "Summon vinebeast", "//~": "NO_I18N" },
+    "description": { "str": "Summons a vinebeast if you are a triffid.", "//~": "NO_I18N" },
+    "flags": [ "HOSTILE_SUMMON", "NO_EXPLOSION_SFX" ],
+    "valid_targets": [ "ground", "self", "hostile" ],
+    "max_level": 20,
+    "effect": "summon",
+    "effect_str": "mon_vinebeast_summon",
+    "shape": "blast",
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_aoe": 4,
+    "max_aoe": 4,
+    "min_range": 5,
+    "max_range": 25,
+    "range_increment": 1,
+    "min_duration": 4000,
+    "max_duration": 4000
+  },
+  {
+    "type": "SPELL",
+    "id": "solar_spirit_flare_spell_monster",
+    "name": { "str": "Solar spirit flare", "//~": "NO_I18N" },
+    "description": { "str": "Unleashes a flare if you are a solar spirit.", "//~": "NO_I18N" },
+    "flags": [ "SILENT" ],
+    "valid_targets": [ "ground", "hostile" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_SOLAR_SPIRIT_AOE_FLARE",
+    "shape": "blast",
+    "min_aoe": 45,
+    "max_aoe": 45
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SOLAR_SPIRIT_AOE_FLARE",
+    "condition": "has_alpha",
+    "effect": [
+      {
+        "if": {
+          "and": [
+            { "not": { "u_has_species": "PLANT" } },
+            { "not": { "u_has_effect": "blind" } },
+            { "not": { "u_has_flag": "GLARE_RESIST" } },
+            { "not": { "u_has_worn_with_flag": "SUN_GLASSES" } }
+          ]
+        },
+        "then": { "u_add_effect": "blind", "duration": [ "5 seconds", "12 seconds" ] }
+      },
+      {
+        "if": { "or": [ { "u_has_flag": "SUNDEATH" }, { "u_has_flag": "SUNBURN" } ] },
+        "then": [ { "u_cast_spell": { "id": "solar_spirit_flare_spell_sundeath_hit_monster", "hit_self": true } } ]
+      }
+    ]
+  },
+  {
+    "id": "solar_spirit_flare_spell_sundeath_hit_monster",
+    "type": "SPELL",
+    "name": { "str": "Solar spirit flare Sundeath damage", "//~": "NO_I18N" },
+    "description": {
+      "str": "Used because auras are not currently possible.  Causes enemies with the SUNDEATH flag to burn.",
+      "//~": "NO_I18N"
+    },
+    "message": "",
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "NO_LEGS", "SPLIT_DAMAGE" ],
+    "valid_targets": [ "self" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "effect": "attack",
+    "damage_type": "pure",
+    "min_damage": 60,
+    "max_damage": 120
   }
 ]

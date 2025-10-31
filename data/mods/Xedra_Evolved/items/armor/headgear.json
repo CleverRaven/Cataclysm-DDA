@@ -78,7 +78,8 @@
     "//": "I added a helmet to the summon",
     "warmth": 0,
     "material_thickness": 2,
-    "flags": [ "OVERSIZE", "PERSONAL", "VARSIZE", "STURDY", "NO_REPAIR", "NO_SALVAGE", "LIGHT_2", "TRADER_AVOID" ],
+    "light": 2,
+    "flags": [ "OVERSIZE", "PERSONAL", "VARSIZE", "STURDY", "NO_REPAIR", "NO_SALVAGE", "TRADER_AVOID" ],
     "max_worn": 1,
     "armor": [
       {

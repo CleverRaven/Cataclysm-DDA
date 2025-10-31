@@ -1224,7 +1224,7 @@
     "id": "f_compost_full",
     "name": "filled anaerobic digester",
     "looks_like": "f_standing_tank",
-    "description": "A 1000L anaerobic digester.",
+    "description": "A 1000 L anaerobic digester.",
     "symbol": "O",
     "color": "brown_cyan",
     "move_cost_mod": -1,

@@ -1,0 +1,219 @@
+[
+  {
+    "type": "effect_type",
+    "id": "effect_perk_closetland_sleepiness",
+    "name": [ "Soporific Atmosphere" ],
+    "desc": [ "Being here is making you very sleepy, but you feel that falling asleep would be a very, very bad idea." ],
+    "apply_message": "You yawn as you step through the hidden path.  Best to make your stay here brief.",
+    "rating": "bad",
+    "enchantments": [ { "values": [ { "value": "SLEEPINESS", "multiply": 25 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_perk_closetland_temp_levitation",
+    "//": "Hidden effect, prevents you from dying by falling as soon as you shift to a new dimension",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "LEVITATION" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_bombastic_escaped_closetland",
+    "//": "Hidden effect, used as a tracker",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BOMBASTIC_PERKS_CLOSET_STORAGE_TRAVEL_TO_CLOSETLAND",
+    "//": "Searching for individual furniture IDs isn't great, but there's no obvious flag to check for.",
+    "condition": { "not": { "u_has_effect": "effect_bombastic_escaped_closetland" } },
+    "effect": [
+      { "math": [ "u_closetland_perk_nearby_walls = 0" ] },
+      { "math": [ "u_closetland_perk_nearby_doors = 0" ] },
+      {
+        "u_map_run_eocs": [
+          {
+            "id": "EOC_BOMBASTIC_PERKS_CLOSET_STORAGE_TRAVEL_TO_CLOSETLAND_WALL_CHECK",
+            "effect": [ { "math": [ "u_closetland_perk_nearby_walls += 1" ] } ]
+          }
+        ],
+        "range": 1,
+        "store_coordinates_in": { "context_val": "closetland_terrain_check" },
+        "stop_at_first": false,
+        "condition": {
+          "or": [
+            { "map_furniture_with_flag": "BLOCKSDOOR", "loc": { "context_val": "closetland_terrain_check" } },
+            { "map_terrain_with_flag": "WALL", "loc": { "context_val": "closetland_terrain_check" } },
+            { "map_furniture_id": "f_safe_l", "loc": { "context_val": "closetland_terrain_check" } },
+            { "map_furniture_id": "f_safe_c", "loc": { "context_val": "closetland_terrain_check" } }
+          ]
+        }
+      },
+      {
+        "u_map_run_eocs": [
+          {
+            "id": "EOC_BOMBASTIC_PERKS_CLOSET_STORAGE_TRAVEL_TO_CLOSETLAND_DOOR_CHECK",
+            "effect": [ { "math": [ "u_closetland_perk_nearby_doors += 1" ] } ]
+          }
+        ],
+        "range": 1,
+        "store_coordinates_in": { "context_val": "closetland_terrain_check" },
+        "stop_at_first": true,
+        "condition": {
+          "or": [
+            { "map_terrain_with_flag": "DOOR", "loc": { "context_val": "closetland_terrain_check" } },
+            { "map_terrain_with_flag": "LOCKED", "loc": { "context_val": "closetland_terrain_check" } }
+          ]
+        }
+      },
+      {
+        "if": {
+          "and": [ { "math": [ "u_closetland_perk_nearby_walls == 7" ] }, { "math": [ "u_closetland_perk_nearby_doors == 1" ] } ]
+        },
+        "then": [
+          { "u_location_variable": { "u_val": "closetland_departure_point" }, "min_radius": 0, "max_radius": 0 },
+          { "u_add_effect": "blind", "duration": 0 },
+          { "u_add_effect": "effect_perk_closetland_temp_levitation", "duration": 0 },
+          {
+            "u_travel_to_dimension": "dimension_perk_closetland",
+            "npc_travel_radius": 0,
+            "region_type": "dimension_perk_closetland_settings"
+          },
+          { "u_add_effect": "effect_perk_closetland_sleepiness", "duration": "PERMANENT" },
+          {
+            "if": { "not": { "math": [ "has_var(u_closetland_arrival_point)" ] } },
+            "then": { "run_eocs": "EOC_BOMBASTIC_PERKS_CLOSET_STORAGE_TRAVEL_TO_CLOSETLAND_INITIAL_ARRIVAL" },
+            "else": [ { "u_teleport": { "u_val": "closetland_arrival_point" } }, { "u_lose_effect": "blind" } ]
+          }
+        ],
+        "else": [
+          { "u_message": "You can only find the path to Closetland if enclosed in a closet." },
+          {
+            "run_eocs": "EOC_BOMBASTIC_PERKS_CLOSET_STORAGE_TRAVEL_TO_CLOSETLAND_DEACTIVATE_FUTURE",
+            "time_in_future": 0
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      {
+        "u_message": "After what just happened, going back there would be a terrible idea.  You'd better wait a bit for whatever that was to lose your trail.",
+        "type": "mixed"
+      },
+      { "run_eocs": "EOC_BOMBASTIC_PERKS_CLOSET_STORAGE_TRAVEL_TO_CLOSETLAND_DEACTIVATE_FUTURE", "time_in_future": 0 }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BOMBASTIC_PERKS_CLOSET_STORAGE_TRAVEL_TO_CLOSETLAND_DEACTIVATE_FUTURE",
+    "//": "This is necessary because calling u_deactivate_trait from within the trait EoC to deactivate that trait does not work",
+    "effect": { "u_deactivate_trait": "perk_secret_closet_storage" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BOMBASTIC_PERKS_CLOSET_STORAGE_TRAVEL_TO_CLOSETLAND_SLEEPINESS_COST",
+    "effect": [ { "math": [ "u_val('sleepiness') += 20" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BOMBASTIC_PERKS_CLOSET_STORAGE_TRAVEL_TO_CLOSETLAND_INITIAL_ARRIVAL",
+    "effect": [
+      {
+        "u_location_variable": { "u_val": "closetland_arrival_point" },
+        "terrain": "t_closetland_floor_olight",
+        "target_min_radius": 24,
+        "target_max_radius": 24
+      },
+      { "u_teleport": { "u_val": "closetland_arrival_point" } },
+      { "u_lose_effect": "blind" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BOMBASTIC_PERKS_CLOSET_STORAGE_SLEEP_DEPRIVATION_COST_IN_CLOSETLAND",
+    "condition": { "and": [ { "current_dimension": "dimension_perk_closetland" } ] },
+    "effect": [
+      { "if": { "one_in_chance": 8 }, "then": { "math": [ "u_val('sleep_deprivation') += 1" ] } },
+      {
+        "if": {
+          "and": [
+            { "or": [ { "math": [ "u_val('sleep_deprivation') >= 1000" ] }, { "math": [ "u_val('sleepiness') > 250" ] } ] },
+            { "one_in_chance": 450 }
+          ]
+        },
+        "then": { "u_message": "You let out another yawn.  Did the shadows get darker for just a moment?", "type": "mixed" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BOMBASTIC_PERKS_CLOSET_STORAGE_TRAVEL_BACK_FROM_CLOSETLAND",
+    "condition": { "current_dimension": "dimension_perk_closetland" },
+    "effect": [
+      { "u_add_effect": "blind", "duration": 0 },
+      {
+        "u_transform_radius": 0,
+        "ter_furn_transform": "perk_closetland_regenerate_light_if_broken",
+        "target_var": { "u_val": "closetland_arrival_point" }
+      },
+      { "u_travel_to_dimension": "default" },
+      { "u_teleport": { "u_val": "closetland_departure_point" } },
+      { "u_lose_effect": "blind" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PERK_CLOSETLAND_FALL_ASLEEP_IN_CLOSETLAND",
+    "eoc_type": "EVENT",
+    "required_event": "character_gains_effect",
+    "condition": {
+      "and": [
+        { "current_dimension": "dimension_perk_closetland" },
+        { "compare_string": [ "sleep", { "context_val": "effect" } ] },
+        {
+          "or": [
+            {
+              "and": [
+                { "u_has_trait": "perk_dream_armor" },
+                { "compare_string": [ "yes", { "u_val": "bombastic_closetland_dream_armor_warning" } ] }
+              ]
+            },
+            { "not": { "u_has_trait": "perk_dream_armor" } }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "You fall asleep and are almost immediately plagued by fitful dreams of being chased through seemingly-endless corridors by a shadowy form with two pale burning eyes, giving you just enough time to rest before resuming the chase.  But at some point, you realize that it's *not* a dream, and you cannot wake up, and you cannot find a way out.\n\nYou never find a way out.",
+        "popup": true
+      },
+      "u_die"
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PERK_CLOSETLAND_FALL_ASLEEP_IN_CLOSETLAND_BUT_HAS_DREAM_ARMOR",
+    "eoc_type": "EVENT",
+    "required_event": "character_gains_effect",
+    "condition": {
+      "and": [
+        { "current_dimension": "dimension_perk_closetland" },
+        { "compare_string": [ "sleep", { "context_val": "effect" } ] },
+        { "u_has_trait": "perk_dream_armor" },
+        { "not": { "compare_string": [ "yes", { "u_val": "bombastic_closetland_dream_armor_warning" } ] } }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "You fall asleep for only a moment before being jerked awake.  The room is engulfed in shadows, barely anything visible beyond the tip of your nose, but you feel a palpable sense of menace.  You scramble to your feet and, just as the shadows in the corner begin to grow even darker, frantically take the path away and out of Closetland.",
+        "popup": true
+      },
+      "u_cancel_activity",
+      { "u_add_effect": "effect_bombastic_escaped_closetland", "duration": "24 hours" },
+      { "u_add_var": "bombastic_closetland_dream_armor_warning", "value": "yes" },
+      { "u_deactivate_trait": "perk_secret_closet_storage" }
+    ]
+  }
+]

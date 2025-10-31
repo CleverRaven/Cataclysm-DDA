@@ -13,7 +13,7 @@
     "variants": [
       {
         "id": "us_ballistic_vest",
-        "name": { "str": "US ballistic vest" },
+        "//": "inherit name from item",
         "description": "This version is patterned in multi-environment camouflage, and was standard-issue for the US Army.",
         "append": true
       },

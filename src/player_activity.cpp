@@ -12,6 +12,7 @@
 #include "character.h"
 #include "construction.h"
 #include "creature.h"
+#include "debug.h"
 #include "dialogue.h"
 #include "effect_on_condition.h"
 #include "event.h"
@@ -22,6 +23,7 @@
 #include "itype.h"
 #include "magic.h"
 #include "map.h"
+#include "messages.h"
 #include "rng.h"
 #include "skill.h"
 #include "sounds.h"
@@ -382,6 +384,8 @@ void player_activity::do_turn( Character &you )
             dialogue d( get_talker_for( you ), nullptr );
             type->completion_EOC->activate_activation_only( d, "player activities" );
         }
+        add_msg_debug( debugmode::DF_ACTIVITY, "Setting activity %s to null for %s, no moves left.",
+                       type.c_str(), you.name );
         get_event_bus().send<event_type::character_finished_activity>( you.getID(), type, false );
         g->wait_popup_reset();
         if( actor ) {

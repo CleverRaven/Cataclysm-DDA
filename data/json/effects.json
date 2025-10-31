@@ -3774,6 +3774,12 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_bio_hydraulics_active",
+    "rating": "good",
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": { "math": [ "20 - u_bio_hydraulics_strength_adjustment" ] } } ] } ]
+  },
+  {
+    "type": "effect_type",
     "id": "crushed",
     "apply_message": "The ceiling collapses on you!",
     "rating": "bad"
@@ -5286,5 +5292,12 @@
       { "condition": "ALWAYS", "values": [ { "value": "THIRST", "multiply": 0.2 } ] }
     ],
     "rating": "bad"
+  },
+  {
+    "type": "effect_type",
+    "id": "sunscreen",
+    "name": [ "Sunscreen" ],
+    "desc": [ "You applied sunscreen and should be protected from the sun rays for about two hours." ],
+    "remove_message": "Your sunscreen has worn off."
   }
 ]

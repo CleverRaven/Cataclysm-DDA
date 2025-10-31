@@ -137,7 +137,7 @@ class relic_procgen_data
         void deserialize( const JsonObject &jobj );
 };
 
-enum class relic_recharge_has : int {
+enum class relic_has : int {
     WIELD,
     WORN,
     HELD,
@@ -161,7 +161,7 @@ struct relic_charge_template {
     std::pair<int, int> charges_per_use;
     std::pair<time_duration, time_duration> time;
     relic_recharge_type type = relic_recharge_type::NUM;
-    relic_recharge_has has = relic_recharge_has::NUM;
+    relic_has has = relic_has::NUM;
 
     int power_level = 0;
 
@@ -177,7 +177,7 @@ struct relic_charge_info {
     int charges_per_use = 0;
     int max_charges = 0;
     relic_recharge_type type = relic_recharge_type::NUM;
-    relic_recharge_has has = relic_recharge_has::NUM;
+    relic_has has = relic_has::NUM;
 
     time_duration activation_accumulator = 0_seconds;
     time_duration activation_time = 0_seconds;
@@ -211,15 +211,19 @@ class relic
 
         // activating an artifact overrides all spell casting costs
         int moves = 0;
+        relic_has activation_req = relic_has::NUM;
 
         // passive enchantments to add by id in finalize once we can guarantee that they have loaded
         std::vector<enchantment_id> passive_enchant_ids; // NOLINT(cata-serialize)
+
+        static bool satisfies_has( relic_has req, const item *parent, const Character *carrier );
     public:
         ~relic();
 
         std::string name() const;
         // returns number of charges that should be consumed
         int activate( Creature &caster, const tripoint_bub_ms &target );
+        bool can_activate( const item &parent, const Creature &caster ) const;
         int charges() const;
         int charges_per_use() const;
         int max_charges() const;
@@ -242,7 +246,7 @@ class relic
 
         void add_passive_effect( const enchant_cache &ench );
         void add_passive_effect( const enchantment &ench );
-        void add_active_effect( const fake_spell &sp );
+        void add_active_effect( const fake_spell &sp, enchantment::has req );
 
         std::vector<enchant_cache> get_proc_enchantments() const;
         std::vector<enchantment> get_defined_enchantments() const;
@@ -268,8 +272,8 @@ struct enum_traits<relic_recharge_type> {
 };
 
 template<>
-struct enum_traits<relic_recharge_has> {
-    static constexpr relic_recharge_has last = relic_recharge_has::NUM;
+struct enum_traits<relic_has> {
+    static constexpr relic_has last = relic_has::NUM;
 };
 
 #endif // CATA_SRC_RELIC_H

@@ -97,7 +97,7 @@
     "subtype": "hobby",
     "id": "newly_clairsentient",
     "name": "Newly-Awakened Clairsentient",
-    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You can read much faster and can see much better in the dark, and even in total darkness you no longer have any hesitation about moving.  At least once you avoided zombies on the other side of a wall that you didn't hear and couldn't see, but you, you just knew they were there.",
+    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You can read much faster and your senses are much sharper; you've been able to hear a zombie scratching at a front door from outside and across the street.  At least once you avoided zombies on the other side of a wall that you didn't hear and couldn't see, but you just knew they were there.  Maybe you felt the vibrations of their movement.",
     "points": 5,
     "traits": [ "CLAIRSENTIENT", "CLAIR_SENSES" ],
     "chargen_allow_npc": false
@@ -279,7 +279,8 @@
     "skills": [ { "level": 7, "name": "metaphysics" } ],
     "spells": [
       { "id": "pyrokinetic_flash", "level": 8 },
-      { "id": "pyrokinetic_eruption", "level": 7 },
+      { "id": "pyrokinetic_intensify_flames", "level": 8 },
+      { "id": "pyrokinetic_eruption", "level": 5 },
       { "id": "pyrokinetic_call_flames", "level": 8 },
       { "id": "pyrokinetic_quell_flames", "level": 5 },
       { "id": "pyrokinetic_cloak", "level": 6 },
@@ -294,12 +295,13 @@
     "id": "late_pyrokinetic",
     "name": "Ascended Pyrokinetic",
     "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You are one with the flames, and they come at your command and obey your every instruction.  Zombies, mutants, aliens, stranger things--no matter what is out there, you will incinerate it and survive.",
-    "points": 7,
+    "points": 11,
     "traits": [ "PYROKINETIC", "PYROKIN_ADAPTATION" ],
     "skills": [ { "level": 4, "name": "metaphysics" } ],
     "spells": [
       { "id": "pyrokinetic_flash", "level": 8 },
-      { "id": "pyrokinetic_eruption", "level": 11 },
+      { "id": "pyrokinetic_intensify_flames", "level": 11 },
+      { "id": "pyrokinetic_eruption", "level": 7 },
       { "id": "pyrokinetic_call_flames", "level": 8 },
       { "id": "pyrokinetic_quell_flames", "level": 9 },
       { "id": "pyrokinetic_cloak", "level": 8 },
@@ -672,6 +674,16 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "knack_pyrokinetic_intensify_flames",
+    "name": "Psychic Knack (Intensify Flames)",
+    "description": "Before the Cataclysm you'd go camping sometimes, and while you were no better at starting a fire than anyone else, once you got a fire going it would always burn no matter what the conditions were.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
+    "points": 2,
+    "traits": [ "PSYCHIC_KNACK" ],
+    "spells": [ { "id": "pyrokinetic_intensify_flames_knack", "level": 6 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "knack_pyrokinetic_flash",
     "name": "Psychic Knack (Brilliant Flash)",
     "description": "Before the Cataclysm you always managed to make the other guy look away first, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
@@ -682,9 +694,19 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "knack_pyrokinetic_eruption",
+    "name": "Psychic Knack (Fountain of Flames)",
+    "description": "Before the Cataclysm you had an easy time starting a fire no matter the conditions, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
+    "points": 4,
+    "traits": [ "PSYCHIC_KNACK" ],
+    "spells": [ { "id": "pyrokinetic_eruption_knack", "level": 6 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "knack_pyrokinetic_call_flames",
     "name": "Psychic Knack (Banked Flames)",
-    "description": "Before the Cataclysm you had an easy time starting a fire no matter the conditions, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
+    "description": "Before the Cataclysm your hands never really got cold even in the harshest winter, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
     "points": 3,
     "traits": [ "PSYCHIC_KNACK" ],
     "spells": [ { "id": "pyrokinetic_call_flames_knack", "level": 6 } ]
@@ -698,6 +720,16 @@
     "points": 3,
     "traits": [ "PSYCHIC_KNACK" ],
     "spells": [ { "id": "pyrokinetic_cloak_knack", "level": 6 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "knack_telekinetic_pull",
+    "name": "Psychic Knack (Far Hand)",
+    "description": "Before the Cataclysm you could basically always make a coin come up the way you needed to when it counted, and sometimes got lucky with autolocking doors not quite closing or things you dropped falling in just the perfect way to easily retrieve them, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
+    "points": 3,
+    "traits": [ "PSYCHIC_KNACK" ],
+    "spells": [ { "id": "telekinetic_pull_knack", "level": 6 } ]
   },
   {
     "type": "profession",

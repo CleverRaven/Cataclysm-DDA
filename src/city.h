@@ -37,6 +37,7 @@ struct city {
     std::string name;
 
     explicit city( const point_om_omt &P = point_om_omt(), int S = -1 );
+    explicit city( const std::string &N, const point_om_omt &P = point_om_omt(), int S = -1 );
 
     explicit operator bool() const {
         return size >= 0;

@@ -451,7 +451,6 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "item": "atomic_coffeepot", "prob": 1 },
       { "item": "bottle_glass", "prob": 15 },
       { "prob": 25, "group": "coffee_raw_bag_plastic_20" },
       { "item": "coffee_syrup", "charges": [ 1, -1 ], "prob": 25 },
@@ -1047,8 +1046,7 @@
       { "prob": 17, "group": "flour_bulk" },
       [ "soysauce", 25 ],
       [ "hot_sauce", 25 ],
-      [ "cooking_oil", 50 ],
-      [ "cooking_oil2", 50 ],
+      { "group": "vegetable_oil_bottle", "prob": 50 },
       [ "cookbook", 8 ],
       [ "cookbook_italian", 9 ],
       { "prob": 3, "item": "cornmeal", "count": [ 10, -1 ] },
@@ -1087,8 +1085,7 @@
       { "prob": 17, "group": "flour_bulk" },
       [ "soysauce", 25 ],
       [ "hot_sauce", 25 ],
-      [ "cooking_oil", 40 ],
-      [ "cooking_oil2", 40 ],
+      { "group": "vegetable_oil_bottle", "prob": 40 },
       [ "cookbook", 8 ],
       [ "cookbook_daintydishes", 9 ],
       { "prob": 3, "item": "cornmeal", "count": [ 10, -1 ] },
@@ -1441,7 +1438,7 @@
       [ "onion", 15 ],
       [ "potato", 15 ],
       [ "pineapple", 20 ],
-      [ "lard", 10 ],
+      [ "tallow", 25 ],
       [ "mushroom_morel", 8 ],
       [ "sausage_cooked", 8 ],
       [ "mushroom", 20 ],
@@ -1739,8 +1736,9 @@
       { "prob": 20, "group": "sugar_bottle_plastic" },
       { "prob": 20, "group": "sugar_bottle_glass" },
       { "prob": 5, "group": "sugar_bag_plastic" },
-      { "prob": 10, "group": "sugar_bag_paper" },
-      { "prob": 2, "group": "sugar_bag_paper_bulk" }
+      { "prob": 42, "group": "sugar_bag_paper" },
+      { "prob": 16, "group": "sugar_bag_paper_bulk" },
+      { "prob": 2, "group": "sugar_bag_paper_50lb" }
     ]
   },
   {
@@ -1802,6 +1800,13 @@
     "//": "one pound of sugar in a paper bag.",
     "container-item": "bag_paper_powder",
     "entries": [ { "item": "sugar", "container-item": "null", "count": 71 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "sugar_bag_paper_50lb",
+    "subtype": "collection",
+    "container-item": "bag_paper_powder_50lb",
+    "entries": [ { "item": "sugar", "container-item": "null", "count": [ 121, 4700 ] } ]
   },
   {
     "type": "item_group",
@@ -1883,7 +1888,8 @@
     "entries": [
       { "prob": 5, "group": "flour_bag_plastic" },
       { "prob": 20, "group": "flour_bag_paper" },
-      { "prob": 2, "group": "flour_bag_paper_bulk" }
+      { "prob": 12, "group": "flour_bag_paper_bulk" },
+      { "prob": 12, "group": "flour_bag_paper_50lb" }
     ]
   },
   {
@@ -1923,6 +1929,13 @@
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_plastic_small",
     "entries": [ { "item": "flour", "container-item": "null", "count": [ 2, 20 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "flour_bag_paper_50lb",
+    "subtype": "collection",
+    "container-item": "bag_paper_powder_50lb",
+    "entries": [ { "item": "flour", "container-item": "null", "count": [ 10, 1850 ] } ]
   },
   {
     "type": "item_group",
@@ -2039,8 +2052,9 @@
       { "prob": 20, "group": "salt_bottle_plastic" },
       { "prob": 20, "group": "salt_bottle_glass" },
       { "prob": 5, "group": "salt_bag_plastic" },
-      { "prob": 10, "group": "salt_bag_paper" },
-      { "prob": 2, "group": "salt_bag_paper_bulk" }
+      { "prob": 17, "group": "salt_bag_paper" },
+      { "prob": 9, "group": "salt_bag_paper_bulk" },
+      { "prob": 3, "group": "salt_bag_paper_50lb" }
     ]
   },
   {
@@ -2094,6 +2108,13 @@
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_paper_powder_bulk",
     "entries": [ { "item": "salt", "container-item": "null", "count": [ 25, 2000 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "salt_bag_paper_50lb",
+    "subtype": "collection",
+    "container-item": "bag_paper_powder_50lb",
+    "entries": [ { "item": "salt", "container-item": "null", "count": [ 125, 6480 ] } ]
   },
   {
     "type": "item_group",
@@ -2800,5 +2821,28 @@
     "subtype": "collection",
     "container-item": "jar_glass_sealed",
     "entries": [ { "item": "jam_fruit", "container-item": "null", "count": -1 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "vegetable_oil_bottle",
+    "subtype": "distribution",
+    "items": [
+      { "item": "cooking_oil", "container-item": "bottle_plastic", "charges": [ 0, 20 ] },
+      { "item": "cooking_oil", "container-item": "bottle_folding", "charges": [ 0, 20 ] },
+      { "item": "cooking_oil", "container-item": "bottle_twoliter", "charges": [ 0, 80 ] },
+      { "item": "cooking_oil", "container-item": "jug_plastic", "charges": [ 0, 150 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "oil_bottle_empty",
+    "subtype": "distribution",
+    "items": [ { "item": "bottle_plastic" }, { "item": "bottle_folding" }, { "item": "bottle_twoliter" }, { "item": "jug_plastic" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "vegetable_oil_bottle_full",
+    "subtype": "distribution",
+    "items": [ { "item": "cooking_oil", "container-group": "oil_bottle_empty" } ]
   }
 ]

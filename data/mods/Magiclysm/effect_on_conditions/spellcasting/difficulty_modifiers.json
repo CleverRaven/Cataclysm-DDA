@@ -183,5 +183,20 @@
       { "math": [ "u_spellcasting_adjustment('difficulty', 'mod': 'magiclysm',  'flag_blacklist': 'PSIONIC') = 999" ] },
       { "math": [ "u_spellcasting_adjustment('cost',  'mod': 'magiclysm', 'flag_blacklist': 'PSIONIC') = 999" ] }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MANA_OVERLOAD_MAKES_SPELLS_MORE_DIFFICULT",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": { "u_has_effect": "effect_mana_overload" },
+    "effect": [
+      {
+        "math": [ "u_spellcasting_adjustment('difficulty', 'mod': 'magiclysm')", "=", "(u_effect_intensity('effect_mana_overload') )" ]
+      },
+      {
+        "math": [ "u_spellcasting_adjustment('cost',  'mod': 'magiclysm')", "=", "(u_effect_intensity('effect_mana_overload') / 2)" ]
+      }
+    ]
   }
 ]

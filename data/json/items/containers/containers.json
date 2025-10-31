@@ -404,6 +404,32 @@
     "color": "white"
   },
   {
+    "id": "bag_paper_powder_50lb",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "50lb powder paper bag" },
+    "looks_like": "bag_plastic",
+    "description": "A very large paper bag, for bulk storage and transport of powdered goods.",
+    "ascii_picture": "bag_paper_powder",
+    "weight": "40 g",
+    "volume": "1000 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "flags": [ "TARDIS" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "magazine_well": "1000 ml",
+        "max_contains_volume": "50L",
+        "max_contains_weight": "25 kg",
+        "moves": 200
+      }
+    ],
+    "material": [ "paper" ],
+    "symbol": ")",
+    "color": "white"
+  },
+  {
     "id": "bag_zipper",
     "type": "ITEM",
     "category": "container",
@@ -671,8 +697,7 @@
         "max_contains_volume": "500 ml",
         "max_item_volume": "17 ml",
         "max_contains_weight": "1 kg",
-        "spoil_multiplier": 0.5,
-        "sealed_data": { "spoil_multiplier": 0.0 },
+        "sealed_data": { "spoil_multiplier": 0.5 },
         "moves": 400
       }
     ],
@@ -4857,7 +4882,7 @@
     "weight": "200 g",
     "volume": "1730 ml",
     "price": "9 USD",
-    "price_postapoc": "1 USD",
+    "price_postapoc": "5 cent",
     "material": [ "cotton" ],
     "symbol": "p",
     "color": "dark_gray",
@@ -4874,7 +4899,7 @@
   {
     "id": "cardboard_roll",
     "type": "ITEM",
-    "category": "other",
+    "category": "container",
     "name": { "str": "cardboard roll" },
     "description": "A small cardboard roll used to conveniently store materials such as tape or toilet paper.",
     "ascii_picture": "cardboard_roll",

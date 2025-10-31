@@ -310,6 +310,11 @@
     "monsters": [ { "monster": "mon_dog_pup", "weight": 80 }, { "monster": "mon_hellhound_pup", "weight": 20 } ]
   },
   {
+    "id": "GROUP_REPRODUCTION_FEAR_DEER_BABIES",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_deer_fawn", "weight": 80 }, { "monster": "mon_fear_deer_fawn", "weight": 20 } ]
+  },
+  {
     "id": "GROUP_EGG_COCKATRICE",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_cockatrice_chick", "weight": 100 } ]

@@ -602,15 +602,15 @@ bool read_from_file_optional_json( const cata_path &path,
     return file_exist( path.get_unrelative_path() ) && read_from_file_json( path, reader );
 }
 
-bool read_from_zzip_optional( const std::shared_ptr<zzip> &z,
+bool read_from_zzip_optional( const zzip &z,
                               const std::filesystem::path &file,
                               const std::function<void( std::string_view )> &reader )
 {
-    if( !z || !z->has_file( file ) ) {
+    if( !z.has_file( file ) ) {
         return false;
     }
     try {
-        std::vector<std::byte> file_data = z->get_file( file );
+        std::vector<std::byte> file_data = z.get_file( file );
         std::string_view sv{ reinterpret_cast<const char *>( file_data.data() ), file_data.size() };
         reader( sv );
         return true;
@@ -915,7 +915,7 @@ std::string io::enum_to_string<aggregate_type>( aggregate_type agg )
     cata_fatal( "Invalid aggregate type." );
 }
 
-std::optional<double> svtod( std::string_view token )
+std::optional<double> svtod( std::string_view token, bool debugmsg_on_fail )
 {
     char *pEnd = nullptr;
     double const val = std::strtod( token.data(), &pEnd );
@@ -929,7 +929,9 @@ std::optional<double> svtod( std::string_view token )
         unlocalized[pEnd - token.data()] = block == ',' ? '.' : ',';
         return svtod( unlocalized );
     }
-    debugmsg( R"(Failed to convert string value "%s" to double: %s)", token, std::strerror( errno ) );
+    if( debugmsg_on_fail ) {
+        debugmsg( R"(Failed to convert string value "%s" to double: %s)", token, std::strerror( errno ) );
+    }
 
     errno = 0;
 

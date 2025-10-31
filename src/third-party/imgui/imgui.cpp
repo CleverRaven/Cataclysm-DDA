@@ -3722,6 +3722,23 @@ void ImGui::RenderFrameBorder(ImVec2 p_min, ImVec2 p_max, float rounding)
     }
 }
 
+#ifdef IMTUI
+bool ImGui::ShouldRenderNavCursor(ImGuiID id, ImGuiNavRenderCursorFlags flags)
+{
+    ImGuiContext& g = *GImGui;
+    if (id != g.NavId)
+        return false;
+    if (!g.NavCursorVisible && !(flags & ImGuiNavRenderCursorFlags_AlwaysDraw))
+        return false;
+    if (id == g.LastItemData.ID && (g.LastItemData.ItemFlags & ImGuiItemFlags_NoNav))
+        return false;
+    ImGuiWindow* window = g.CurrentWindow;
+    if (window->DC.NavHideHighlightOneFrame)
+        return false;
+    return true;
+}
+#endif
+
 void ImGui::RenderNavCursor(const ImRect& bb, ImGuiID id, ImGuiNavRenderCursorFlags flags)
 {
     ImGuiContext& g = *GImGui;

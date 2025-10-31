@@ -15,7 +15,7 @@
       { "item": "cigar_punch", "prob": 8 },
       { "item": "sponge", "prob": 10 },
       { "group": "box_of_batteries_random", "prob": 50 },
-      { "item": "vibrator", "prob": 3, "charges": [ 0, 100 ] },
+      { "group": "sex_accessories_domestic", "prob": 3 },
       { "item": "condom", "prob": 5, "count": [ 1, 3 ] },
       { "item": "mag_porn", "prob": 20 },
       { "item": "lighter", "prob": 60, "charges": [ 95, 100 ] },
@@ -357,7 +357,7 @@
       { "item": "mp3", "prob": 12, "charges": [ 0, 100 ] },
       { "item": "game_watch", "prob": 2, "charges": [ 0, 50 ] },
       [ "deck_of_cards", 2 ],
-      { "item": "vibrator", "prob": 5, "charges": [ 0, 100 ] },
+      { "group": "sex_accessories_domestic", "prob": 5 },
       [ "hammer_sledge", 2 ],
       [ "hammer_sledge_short", 2 ],
       [ "hammer_sledge_engineer", 1 ],
@@ -522,9 +522,6 @@
       [ "knife_trench", 7 ],
       { "item": "sm_extinguisher", "prob": 10, "charges": 10 },
       [ "switchblade", 6 ],
-      [ "atomic_light", 1 ],
-      [ "atomic_lamp", 1 ],
-      [ "atomic_coffeepot", 1 ],
       [ "flaregun", 10 ],
       [ "signal_flare", 15 ],
       [ "knee_pads", 10 ],
@@ -861,7 +858,6 @@
       { "item": "portable_game", "prob": 60 },
       { "item": "game_watch", "prob": 15 },
       { "item": "deck_of_cards", "prob": 25 },
-      { "item": "atomic_light", "prob": 1 },
       { "item": "folded_inflatable_boat", "prob": 10 },
       { "item": "hand_pump", "prob": 15 },
       { "prob": 45, "group": "toastem_box_small_8" },
@@ -1273,7 +1269,7 @@
       [ "cocoa_powder_milk", 30 ],
       [ "powder_eggs", 10 ],
       { "group": "egg_bird_unfert_carton_egg_10" },
-      [ "cooking_oil", 20 ],
+      { "group": "vegetable_oil_bottle", "prob": 20 },
       { "item": "apple", "prob": 5, "custom-flags": [ "IRRADIATED" ] },
       { "item": "banana", "prob": 5, "custom-flags": [ "IRRADIATED" ] },
       { "item": "strawberries", "prob": 5, "custom-flags": [ "IRRADIATED" ] },
@@ -1528,8 +1524,12 @@
   },
   {
     "type": "item_group",
-    "id": "ss_merch_1",
-    "//": "for cs_sex_shop, mainly accessories or small clothing/underwear.",
+    "id": "porn_literature",
+    "items": [ [ "mag_porn", 70 ], [ "novel_erotic", 30 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "sex_clothes",
     "items": [
       [ "panties", 90 ],
       [ "bra", 30 ],
@@ -1539,7 +1539,6 @@
         "prob": 15
       },
       [ "flag_swimsuit", 10 ],
-      [ "rope_6", 30 ],
       [ "corset", 20 ],
       [ "corset_waist", 10 ],
       [ "apron_leather", 10 ],
@@ -1556,7 +1555,6 @@
       [ "hot_pants", 20 ],
       [ "hot_pants_leather", 20 ],
       [ "hot_pants_fur", 20 ],
-      { "item": "vibrator", "prob": 50, "charges": [ 0, 100 ] },
       [ "leather_cat_tail", 20 ],
       [ "leather_cat_ears", 20 ],
       [ "leather_collar", 20 ],
@@ -1571,26 +1569,9 @@
       [ "leggings", 5 ],
       [ "tights", 5 ],
       [ "garter_belt", 5 ],
-      [ "bullwhip", 20 ],
-      { "item": "candle", "prob": 20, "charges": [ 0, 100 ] },
-      [ "condom", 50 ],
       { "item": "cuffs", "prob": 30 },
       { "item": "collar_playboy", "prob": 30 },
       { "item": "bunny_ears_black", "prob": 30 },
-      { "item": "tail_bunny_playboy", "prob": 30 }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "ss_merch_2",
-    "//": "for cs_sex_shop bookcases",
-    "items": [ [ "mag_porn", 70 ], [ "novel_erotic", 30 ] ]
-  },
-  {
-    "type": "item_group",
-    "id": "ss_merch_3",
-    "//": "for cs_sex_shop, suits, dresses and large clothing",
-    "items": [
       [ "bondage_suit", 10 ],
       { "item": "bodysuit_lycra", "variant": "bondage_suit", "prob": 10 },
       [ "bodysuit_lycra", 5 ],
@@ -1608,6 +1589,7 @@
       { "item": "dress_sleeved", "variant": "witch_black", "prob": 5 },
       { "item": "short_dress_sleeved", "variant": "witch_black", "prob": 5 },
       { "item": "bunny_suit_playboy", "prob": 30 }
+      { "group": "pet_collars", "prob": 10 }
     ]
   },
   {
@@ -1679,8 +1661,7 @@
     "items": [
       { "item": "flashlight", "prob": 95, "charges": 300 },
       { "item": "wearable_light", "prob": 65, "charges": 100 },
-      [ "floodlight", 10 ],
-      [ "atomic_light", 1 ]
+      [ "floodlight", 10 ]
     ]
   },
   {
@@ -1714,7 +1695,7 @@
       { "group": "toy_makerspace_kit", "prob": 25 },
       { "group": "toy_robot_kit", "prob": 25 },
       { "group": "toy_engine_kit", "prob": 25 },
-      { "item": "vibrator", "prob": 1, "charges": 100 },
+      { "group": "sex_accessories_domestic", "prob": 10 },
       { "item": "electric_lighter", "prob": 20 },
       { "item": "ar_glasses_basic", "prob": 20, "charges": 150 },
       { "item": "ar_glasses_advanced", "prob": 10, "charges": 150 }
@@ -1738,8 +1719,7 @@
       { "item": "dehydrator", "prob": 30 },
       { "item": "vac_sealer", "prob": 45 },
       { "item": "waffleiron", "prob": 45 },
-      { "item": "forge", "prob": 5 },
-      { "item": "atomic_coffeepot", "prob": 2 }
+      { "item": "forge", "prob": 5 }
     ]
   },
   {

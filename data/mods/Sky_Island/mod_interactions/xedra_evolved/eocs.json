@@ -91,13 +91,22 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_SKY_ISLAND_VAMPIRE_TIER_4",
+    "condition": { "u_has_trait": "VAMPIRE3" },
     "effect": [
       { "u_remove_item_with": "upgradekey_vampire4" },
       { "u_forget_recipe": "upgradekey_vampire4" },
       { "u_add_trait": "VAMPIRE4" },
       { "run_eocs": "EOC_REMOVE_DREAM_MAGIC" },
+      { "run_eocs": [ "EOC_VAMPIRE_ADD_ONE_WEAKNESS" ] },
       { "u_add_effect": "vampire_virus_ascendant", "intensity": 1, "duration": "PERMANENT" },
       { "u_message": "Your eyes redden even more as you pass a point of no return.", "type": "mixed" }
+    ],
+    "false_effect": [
+      {
+        "if": { "u_has_effect": "vampire_virus" },
+        "then": { "u_message": "You lack the vampiric potency to use this.", "type": "bad" },
+        "else": { "u_message": "You cannot empower your vampirism without being a vampire.", "type": "bad" }
+      }
     ]
   },
   {
@@ -129,6 +138,8 @@
       { "u_remove_item_with": "upgradekey_vampire5" },
       { "u_forget_recipe": "upgradekey_vampire5" },
       { "u_add_trait": "BLOOD_DRINKER" },
+      { "run_eocs": [ "EOC_VAMPIRE_ADD_ONE_WEAKNESS" ] },
+      { "run_eocs": [ "EOC_VAMPIRE_ADD_ONE_WEAKNESS" ] },
       { "u_add_effect": "vampire_virus_post_mortal", "intensity": 1, "duration": "PERMANENT" },
       {
         "u_message": "Your thirst for blood grows, and so does your power, as you reach the final state of vampirism.",
@@ -164,5 +175,11 @@
       { "u_learn_recipe": "xe_vampire_blood_weaknesses_reshuffle" },
       { "u_message": "You can now reshuffle your weaknesses.", "type": "popup" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONDITION_IS_NOT_ON_SKY_ISLAND",
+    "condition": { "u_has_trait": "awayfromhome" },
+    "effect": [  ]
   }
 ]

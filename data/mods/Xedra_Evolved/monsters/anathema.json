@@ -252,6 +252,7 @@
     "//2": "Requires at least one warning to have been given before spawning can succeed. The warnings are global, not character-unique.",
     "condition": {
       "and": [
+        { "test_eoc": "EOC_CONDITION_IS_NOT_ON_SKY_ISLAND" },
         { "one_in_chance": 6 },
         { "not": "is_day" },
         { "not": { "u_has_effect": "sleep" } },
@@ -341,6 +342,7 @@
     "//1": "Same conditions as the above, minus the RNG check and the warnings check.",
     "condition": {
       "and": [
+        { "test_eoc": "EOC_CONDITION_IS_NOT_ON_SKY_ISLAND" },
         { "not": "is_day" },
         { "not": { "u_has_effect": "sleep" } },
         { "not": { "u_has_effect": "effect_vampire_torpor" } },
@@ -529,6 +531,12 @@
       { "run_eocs": "EOC_KILL_SHADOW", "beta_loc": { "global_val": "Vampire_Anathema" } },
       { "u_message": "…but they will come back.", "type": "bad" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONDITION_IS_NOT_ON_SKY_ISLAND",
+    "condition": { "math": [ "0 == 0" ] },
+    "effect": [  ]
   },
   {
     "type": "snippet",

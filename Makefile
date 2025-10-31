@@ -300,7 +300,7 @@ ifneq (,$(findstring mingw32,$(CROSS)))
   JSON_FORMATTER_BIN=tools/format/json_formatter.exe
 endif
 
-# Determine JSON formatter binary name
+# Determine zzip compression tool name
 ZZIP_BIN=zzip
 ifeq ($(MSYS2), 1)
   ZZIP_BIN=zzip.exe
@@ -1086,7 +1086,7 @@ endif
 
 LDFLAGS += -lz
 
-all: version prefix $(CHECKS) $(TARGET) $(L10N) $(TESTSTARGET)
+all: version prefix $(CHECKS) $(TARGET) $(L10N) $(TESTSTARGET) $(ZZIP_BIN)
 	@
 
 $(TARGET): $(OBJS)

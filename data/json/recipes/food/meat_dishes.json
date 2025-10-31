@@ -316,7 +316,7 @@
     ],
     "components": [
       [ [ "meat_red", 2, "LIST" ], [ "meat_liver", 10, "LIST" ] ],
-      [ [ "edible_fat", 1, "LIST" ], [ "edible_tallow_lard", 4, "LIST" ] ],
+      [ [ "edible_fat", 10, "LIST" ], [ "edible_tallow", 10, "LIST" ] ],
       [
         [ "salt", 4 ],
         [ "soysauce", 2 ],
@@ -347,7 +347,7 @@
     "components": [
       [ [ "meat_red", 1, "LIST" ] ],
       [ [ "edible_blood", 2, "LIST" ] ],
-      [ [ "edible_fat", 1, "LIST" ], [ "edible_tallow_lard", 4, "LIST" ] ],
+      [ [ "edible_fat", 10, "LIST" ], [ "edible_tallow", 10, "LIST" ] ],
       [
         [ "salt", 4 ],
         [ "soysauce", 2 ],
@@ -386,7 +386,7 @@
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" }, { "proficiency": "prof_preservation" } ],
     "components": [
       [ [ "meat_red", 2, "LIST" ], [ "can_chicken", 2 ] ],
-      [ [ "edible_fat", 1, "LIST" ], [ "edible_tallow_lard", 4, "LIST" ] ],
+      [ [ "edible_fat", 10, "LIST" ], [ "edible_tallow", 10, "LIST" ] ],
       [
         [ "salt", 4 ],
         [ "soysauce", 2 ],
@@ -423,7 +423,7 @@
     ],
     "components": [
       [ [ "meat_red", 2, "LIST" ], [ "meat_liver", 10, "LIST" ] ],
-      [ [ "edible_fat", 1, "LIST" ], [ "edible_tallow_lard", 4, "LIST" ] ],
+      [ [ "edible_fat", 10, "LIST" ], [ "edible_tallow", 10, "LIST" ] ],
       [
         [ "salt", 4 ],
         [ "soysauce", 2 ],
@@ -555,7 +555,7 @@
     "tools": [ [ [ "surface_heat", 30, "LIST" ] ] ],
     "//": "440g of fat cooked to a crisp instead of being boiled.  basing off chunk of meat use 30u of charge.",
     "proficiencies": [ { "proficiency": "prof_food_prep" } ],
-    "components": [ [ [ "edible_fat", 1, "LIST" ] ] ]
+    "components": [ [ [ "edible_fat", 10, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -575,7 +575,7 @@
     "//": "meat = 20u, fat = 15u, veggy/fruit = 4u, give or take",
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" } ],
     "components": [
-      [ [ "edible_tallow_lard", 2, "LIST" ], [ "ghee", 2 ] ],
+      [ [ "edible_tallow", 5, "LIST" ], [ "ghee", 2 ] ],
       [
         [ "jerky", 2 ],
         [ "dry_meat", 2 ],
@@ -616,7 +616,7 @@
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" } ],
     "components": [
-      [ [ "edible_tallow_lard", 2, "LIST" ], [ "ghee", 2 ] ],
+      [ [ "edible_tallow", 5, "LIST" ], [ "ghee", 2 ] ],
       [
         [ "jerky", 2 ],
         [ "dry_meat", 2 ],
@@ -647,7 +647,7 @@
     "//": "meat = 20u, fat = 15u, give or take",
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" } ],
     "components": [
-      [ [ "edible_tallow_lard", 2, "LIST" ], [ "ghee", 2 ] ],
+      [ [ "edible_tallow", 5, "LIST" ], [ "ghee", 2 ] ],
       [
         [ "jerky", 2 ],
         [ "dry_meat", 2 ],
@@ -770,7 +770,7 @@
     "components": [
       [ [ "syrup", 1 ], [ "syrup_corn", 1 ] ],
       [ [ "meat_red", 3, "LIST" ], [ "can_chicken", 3 ] ],
-      [ [ "edible_fat", 1, "LIST" ], [ "edible_tallow_lard", 4, "LIST" ] ],
+      [ [ "edible_fat", 10, "LIST" ], [ "edible_tallow", 10, "LIST" ] ],
       [
         [ "salt", 10 ],
         [ "soysauce", 1 ],
@@ -1173,7 +1173,7 @@
         [ "can_chicken", 1 ],
         [ "poultry_raw_any", 1, "LIST" ]
       ],
-      [ [ "edible_tallow_lard", 2, "LIST" ] ],
+      [ [ "edible_tallow", 5, "LIST" ] ],
       [ [ "flour_any", 2, "LIST" ], [ "cornmeal", 1 ] ],
       [ [ "mushroom", 2 ], [ "dry_mushroom", 2 ] ]
     ]
@@ -1631,7 +1631,7 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 50, "LIST" ] ] ],
     "components": [
-      [ [ "edible_tallow_lard", 1, "LIST" ], [ "any_butter", 5, "LIST" ] ],
+      [ [ "edible_tallow", 2, "LIST" ], [ "any_butter", 5, "LIST" ] ],
       [ [ "meat_red_raw", 1, "LIST" ], [ "fish", 1 ], [ "meat_offal", 1, "LIST" ] ],
       [ [ "salt_preservation", 1, "LIST" ] ]
     ]

@@ -528,7 +528,7 @@
   {
     "id": "mon_wild_hunt_hound",
     "type": "MONSTER",
-    "name": { "str": "hound of the wild hunt" },
+    "name": { "str": "hound of the wild hunt", "str_pl": "hounds of the wild hunt" },
     "description": "An enormous dog, a meter and a half high at the shoulder, with silvery fur and multicolored eyes.  It sniffs the air and looks around alertly.",
     "default_faction": "changeling",
     "bodytype": "dog",
@@ -1015,6 +1015,7 @@
     "id": "mon_changeling_wisp",
     "type": "MONSTER",
     "name": "will-o'-the-wisp",
+    "looks_like": "mon_wisp",
     "description": "Drifting lights in the distance, moving slowly, seeming to light the way.  But to what?",
     "default_faction": "changeling",
     "bodytype": "blob",

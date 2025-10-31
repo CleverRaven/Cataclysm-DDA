@@ -25,7 +25,7 @@
     "name": { "str_sp": "hackPRO" },
     "description": "A piece of hacking software.",
     "price": "8 USD",
-    "price_postapoc": "20 USD",
+    "price_postapoc": "50 cent",
     "ememory_size": "128 MB"
   },
   {

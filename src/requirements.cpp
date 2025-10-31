@@ -440,7 +440,7 @@ requirement_data requirement_data::operator+( const std::pair<requirement_id, in
 }
 
 void requirement_data::load_requirement( const JsonObject &jsobj, const requirement_id &id,
-        const bool check_extend )
+        const bool check_extend, const bool is_abstract )
 {
     requirement_data req;
     requirement_data ext;
@@ -460,12 +460,24 @@ void requirement_data::load_requirement( const JsonObject &jsobj, const requirem
 
     if( ext.components.empty() || jsobj.has_member( "components" ) ) {
         load_obj_list( jsobj.get_array( "components" ), req.components );
+        if( is_abstract && !req.components.empty() ) {
+            debugmsg( "Abstract recipe %s has components, which cannot be inherited.  "
+                      "This is probably an error.", id.str() );
+        }
     }
     if( ext.qualities.empty() || jsobj.has_member( "qualities" ) ) {
         load_obj_list( jsobj.get_array( "qualities" ), req.qualities );
+        if( is_abstract && !req.qualities.empty() ) {
+            debugmsg( "Abstract recipe %s has qualities, which cannot be inherited.  "
+                      "This is probably an error.", id.str() );
+        }
     }
     if( ext.tools.empty() || jsobj.has_member( "tools" ) ) {
         load_obj_list( jsobj.get_array( "tools" ), req.tools );
+        if( is_abstract && !req.tools.empty() ) {
+            debugmsg( "Abstract recipe %s has tools, which cannot be inherited.  "
+                      "This is probably an error.", id.str() );
+        }
     }
 
     if( !id.is_null() ) {
@@ -1702,8 +1714,8 @@ deduped_requirement_data::deduped_requirement_data( const requirement_data &in,
         // Because this algorithm is super-exponential in the worst case, add a
         // sanity check to prevent things getting too far out of control.
         // The worst case in the core game currently is boots_fur
-        // with 104 alternatives.
-        static constexpr size_t max_alternatives = 105;
+        // with 114 alternatives.
+        static constexpr size_t max_alternatives = 115;
         if( alternatives_.size() + pending.size() > max_alternatives ) {
             debugmsg( "Construction of deduped_requirement_data generated too many alternatives.  "
                       "The recipe %1s should be simplified.  See the Recipe section in "

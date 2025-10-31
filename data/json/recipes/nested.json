@@ -53,12 +53,13 @@
     "description": "Recipes related to constructing different types of staffs.",
     "skill_used": "fabrication",
     "nested_category_data": [
-      "shock_staff",
       "q_staff",
-      "bo_from long stick",
-      "bo_from quarterstaff",
       "i_staff",
       "i_staff_with sheet metal",
+      "shock_staff",
+      "bo_from long stick",
+      "bo_from quarterstaff",
+      "staff_pipe",
       "nested_steelshod"
     ],
     "difficulty": 1
@@ -4499,7 +4500,6 @@
     "description": "Recipes related to making mounts for attachments on older or makeshift guns.",
     "skill_used": "fabrication",
     "nested_category_data": [
-      "grip_mount",
       "rail_mount",
       "rail_bayonet_lug",
       "sights_mount",
@@ -4693,7 +4693,7 @@
     "name": "cutlasses",
     "description": "Recipes for making cutlasses.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "lc_cutlass", "mc_cutlass", "hc_cutlass", "ch_cutlass", "qt_cutlass" ],
+    "nested_category_data": [ "cutlass", "lc_cutlass", "mc_cutlass", "hc_cutlass", "ch_cutlass", "qt_cutlass" ],
     "difficulty": 7
   },
   {
@@ -4859,7 +4859,7 @@
     "name": "kukris",
     "description": "Recipes for making kukris.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "lc_kukri", "mc_kukri", "hc_kukri", "ch_kukri", "qt_kukri" ],
+    "nested_category_data": [ "kukri", "lc_kukri", "mc_kukri", "hc_kukri", "ch_kukri", "qt_kukri" ],
     "difficulty": 7
   },
   {
@@ -4895,7 +4895,7 @@
     "name": "battle axes",
     "description": "Recipes for making battle axes.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "lc_battleaxe", "mc_battleaxe", "hc_battleaxe", "ch_battleaxe", "qt_battleaxe" ],
+    "nested_category_data": [ "battleaxe", "lc_battleaxe", "mc_battleaxe", "hc_battleaxe", "ch_battleaxe", "qt_battleaxe", "ax_sheets_welded" ],
     "difficulty": 7
   },
   {
@@ -5367,7 +5367,6 @@
       "bot_science_bot",
       "bot_talon_m202a1",
       "bot_antimateriel",
-      "bot_manhack",
       "bot_dispatch",
       "bot_dispatch_military",
       "bot_turret_searchlight",
@@ -8342,5 +8341,130 @@
       "bp_40x53mm_slug_m169",
       "bp_40x53mm_flechette_m169"
     ]
+  },
+  {
+    "id": "nested_wood_sword",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "name": "wooden swords",
+    "description": "Recipes for making wooden swords with various purposes and levels of refinement.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "sword_wood", "sword_wood_large", "sword_nail", "bokken" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_warhammer",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "name": "warhammers",
+    "description": "Recipes for making hammers used as weapons instead of tools.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "warhammer", "lucern_hammer", "homemade_polehammer", "homewrecker" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_bat",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "name": "bats",
+    "description": "Recipes for making baseball bats and improving them with various materials.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "bat", "bat_with_lathe", "nailbat", "bwirebat", "nutboltbat" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_baton",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "name": "batons",
+    "description": "Recipes for making bashing sticks known variously as batons, tonfas or truncheons.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "tonfa", "tonfa_wood", "shocktonfa_off", "blackjack", "cudgel" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_club",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "name": "clubs",
+    "description": "Recipes for making wooden clubs of various levels of refinement.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "club_wooden",
+      "club_wooden_nails",
+      "club_wooden_bolted",
+      "club_wooden_large_nails",
+      "club_wooden_large_bolted",
+      "2H_club_kanabo_spiked",
+      "2H_club_kanabo_studded",
+      "shillelagh"
+    ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_machete",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "name": "machetes",
+    "description": "Recipes for making useful tools able to cut through both brush and zombie limbs.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "machete", "makeshift_machete", "survivor_machete", "survivor_machete_qt" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_makeshift_swords",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "name": "improvised swords",
+    "description": "Recipes for creating metal swords of dubious quality out of dubious materials.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "sword_metal",
+      "sword_metal_large",
+      "sword_crude",
+      "sword_crude_large",
+      "sword_sheets_welded",
+      "sword_sheets_welded_large"
+    ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_speedloader_chutes",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "name": "speedloader chutes",
+    "description": "Recipes for creating tools useful to reload high capacity shotguns faster.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "arredondo_chute_remington_870",
+      "arredondo_chute_remington_870_simple",
+      "arredondo_chute_remington_870_breacher",
+      "arredondo_chute_remington_870_breacher_simple",
+      "arredondo_chute_benelli_sa",
+      "arredondo_chute_benelli_sa_simple",
+      "arredondo_chute_mossberg_500",
+      "arredondo_chute_mossberg_500_simple",
+      "arredondo_chute_mossberg_930",
+      "arredondo_chute_mossberg_930_simple",
+      "arredondo_chute_mossberg_590",
+      "arredondo_chute_mossberg_590_simple"
+    ],
+    "difficulty": 1
   }
 ]

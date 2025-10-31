@@ -43,5 +43,49 @@
     "name": { "str": "Soulsight" },
     "description": "You can see invisible creatures.",
     "flags": [ "TRUE_SEEING" ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_TORPOR_REFINEMENT_FEIGN_DEATH",
+    "points": 3,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "player_display": false,
+    "name": { "str": "Corpse's Torpor" },
+    "description": "You gain some of Torpor's benefits while using Corpse's Countenance and benefit from the effects of Corpse's countenance while in torpor."
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_BLOOD_TEMPORARY_BOOST_REFINEMENT_MIND_BOOST",
+    "points": 3,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "player_display": false,
+    "name": { "str": "Carmine Clarity" },
+    "description": "The bonuses gained from Carmine Vitality also apply to your intelligence and perception."
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_BAT_FORM_REFINEMENT_SWARM",
+    "points": 3,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "player_display": false,
+    "name": { "str": "Shape of the Night Fliers' Swarm" },
+    "description": "Your hit points aren't reduced while in bat form."
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_CARDIO_BONUS_REFINEMENT_STAMINAFORBLOOD",
+    "points": 3,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "player_display": false,
+    "name": { "str": "Incarnadine Relentlessness" },
+    "description": "You gain a temporary stackable cardio boost when using Unholy Endurance."
   }
 ]

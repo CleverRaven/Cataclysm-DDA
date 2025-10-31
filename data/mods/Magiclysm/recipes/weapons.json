@@ -19,7 +19,7 @@
       [ [ "q_staff", 1 ] ],
       [ [ "jar_glass_sealed", 2 ] ],
       [ [ "rune_magus", 2 ] ],
-      [ [ "tallow", 2 ], [ "tallow_tainted", 2 ], [ "cooking_oil", 16 ], [ "cooking_oil2", 16 ], [ "lamp_oil", 250 ] ]
+      [ [ "any_tallow", 5, "LIST" ], [ "cooking_oil", 16 ], [ "lamp_oil", 250 ] ]
     ]
   },
   {
@@ -43,7 +43,7 @@
       [ [ "mana_pearl", 2 ] ],
       [ [ "leather", 4 ] ],
       [ [ "rune_magus", 2 ] ],
-      [ [ "tallow", 2 ], [ "tallow_tainted", 2 ], [ "cooking_oil", 16 ], [ "cooking_oil2", 16 ], [ "lamp_oil", 250 ] ]
+      [ [ "any_tallow", 5, "LIST" ], [ "cooking_oil", 16 ], [ "lamp_oil", 250 ] ]
     ]
   },
   {
@@ -87,7 +87,7 @@
     ],
     "components": [
       [ [ "stick_long", 1 ], [ "pool_cue", 1 ] ],
-      [ [ "fat", 1 ], [ "fat_tainted", 1 ], [ "mutant_fat", 1 ], [ "fur", 1 ] ],
+      [ [ "fat", 10 ], [ "fat_tainted", 1 ], [ "mutant_fat", 1 ], [ "fur", 1 ] ],
       [ [ "duct_tape", 20 ], [ "filament", 20, "LIST" ] ],
       [ [ "slime_scrap", 20 ] ],
       [ [ "bone", 3 ], [ "bone_human", 3 ], [ "bone_tainted", 6 ] ],

@@ -72,7 +72,7 @@
     "id": "TALK_SCIENCE_REP_NEW_NEWS",
     "type": "talk_topic",
     "dynamic_line": "Sightings of unusual living dead or new mutations.  The more we know about what's happening, the closer we can get to a treatment or maybe even a cure.  It's a long shot, but you have hope to survive.",
-    "responses": [ { "text": "Good luck with that…", "topic": "TALK_SCIENCE_REP" } ]
+    "responses": [ { "text": "Good luck with that.", "topic": "TALK_SCIENCE_REP" } ]
   },
   {
     "id": "TALK_SCIENCE_REP_WORLD",

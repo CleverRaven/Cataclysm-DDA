@@ -962,6 +962,60 @@ TEST_CASE( "item_colony_ser_deser", "[json][item]" )
     }
 }
 
+TEST_CASE( "temperature_unit_serialize_round_trip", "[json]" )
+{
+    // TODO: remove the legacy "%f" format
+    // -4C + 50mC. Yes, it is confusing - the format is meant for 4C - 50mC, etc
+    const std::string input =
+        R"(["2.40000","283.15000","0.00000","-4 C 50 mC","-10 C","10 C","0 C","127500 mC"])";
+    // i love floats
+    const std::string output =
+        R"(["-270 C -749 mC","10 C","-273 C -149 mC","-3 C -950 mC","-10 C","10 C","0 mC","127 C 499 mC"])";
+    JsonValue jsin = json_loader::from_string( input );
+    std::ostringstream os;
+    JsonOut jsout( os );
+
+    std::vector<units::temperature> values;
+    std::vector<units::temperature> expected{
+        units::from_kelvin( 2.4 ),
+        units::from_kelvin( 283.15 ),
+        units::from_kelvin( 0 ),
+        units::from_celsius( -4.05 ),
+        units::from_celsius( -10 ),
+        units::from_celsius( 10 ),
+        units::from_celsius( 0 ),
+        units::from_celsius( 127.5 )
+    };
+
+    CAPTURE( input );
+    {
+        INFO( "Loaded values migrate and are correct" );
+        jsin.read( values );
+        REQUIRE( values.size() == expected.size() );
+        for( unsigned i = 0; i < values.size(); ++i ) {
+            CAPTURE( i );
+            CHECK( units::to_millikelvin<int>( expected[i] ) == units::to_millikelvin<int>( values[i] ) );
+        }
+    }
+    {
+        INFO( "Json write converts to mC format" );
+        jsout.write( values );
+        CHECK( os.str() == output );
+    }
+    {
+        INFO( "Read of written values yields same result" );
+        jsin = json_loader::from_string( output );
+        jsin.read( values );
+        REQUIRE( values.size() == expected.size() );
+        for( unsigned i = 0; i < values.size(); ++i ) {
+            CAPTURE( i );
+            CHECK( units::to_millikelvin<int>( expected[i] ) == units::to_millikelvin<int>( values[i] ) );
+        }
+    }
+}
+
+
+
 TEST_CASE( "serialize_map_with_point_key", "[json]" )
 {
     SECTION( "empty map" ) {

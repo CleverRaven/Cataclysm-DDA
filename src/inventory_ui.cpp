@@ -58,6 +58,7 @@
 #include "uistate.h"
 #include "units.h"
 #include "units_utility.h"
+#include "value_ptr.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
 #include "vpart_position.h"
@@ -701,6 +702,18 @@ inventory_selector_preset::inventory_selector_preset()
     std::function<std::string( const inventory_entry & )>( [ this ]( const inventory_entry & entry ) {
         return get_caption( entry );
     } ) );
+}
+
+bool inventory_selector_preset::is_shown( const item_location &loc ) const
+{
+    if( loc->is_gunmod() ) {
+        item_location parent = loc.parent_item();
+        const bool installed = parent && parent->is_gun();
+        if( installed && !loc->type->gunmod->is_visible_when_installed ) {
+            return false;
+        }
+    }
+    return true;
 }
 
 bool inventory_selector_preset::sort_compare( const inventory_entry &lhs,
@@ -2049,9 +2062,14 @@ bool inventory_selector::add_contained_items( item_location &container, inventor
         return false;
     }
 
-    std::list<item *> const items = preset.get_pocket_type() == pocket_type::LAST
-                                    ? container->all_items_top()
-                                    : container->all_items_top( preset.get_pocket_type() );
+    std::list<item *> items;
+    if( preset.get_pocket_type().size() == 1 && preset.has_pocket_type( pocket_type::LAST ) ) {
+        items = container->all_items_top();
+    } else {
+        for( const pocket_type pt : preset.get_pocket_type() ) {
+            items.splice( items.begin(), container->all_items_top( pt ) );
+        }
+    }
 
     bool vis_top = false;
     inventory_column temp( preset );

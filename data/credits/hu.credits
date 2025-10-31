@@ -6,28 +6,28 @@
 <color_yellow>Whales</color> (<color_dark_gray>visszavonult</color>)    <color_yellow>KevinGranade</color>
 
 <color_white>Külön köszönet:</color>
-<color_yellow>Standing-Storm</color> - Creator and maintainer of the enormous 'Mind over Matter' mod and numerous contributions to other mods (fair folk and espers and wizards, oh my!)
-<color_yellow>Maleclypse</color> - Xedra Evolved maintainer and merger, clocking in at over 2,000 (thousand!!!) merges this release cycle.
-<color_yellow>GuardianDll</color> - Merging, non-specific json and c++ changes, memorizing and quoting documentation for everyone needed.  "I don't remember making so many PRs, what the hell?" - GuardianDll
-<color_yellow>RenechCDDA</color> - Improvements to NPC factions, basecamps, and vehicles.
-<color_yellow>Procyonae</color> - Ludicrous amount of infrastructure PRs, mapgen code is thriving under their watch.
-<color_yellow>PatrikLundell</color> - An absurd amount of bugfixes and important safety changes to mapgen, tripoint infrastructure, and other critical systems.
-<color_yellow>Holli</color> - For their dedicated work on all things gun and gun related.
-<color_yellow>b3brodie</color> - Tons of infrastructure support for spells, bettering both mods and the base game.
-<color_yellow>Milopetilo</color> - Awesome work on new mapgen, parameters for existing mapgen, item group overhauls, and more.
-<color_yellow>ShnitzelX2</color> - Electronic storage for items and cleaning up 10 years of technical debt by moving items to be loaded with generic_factory. (Don't be jealous, but they're my favorite.)
-<color_yellow>alef</color> - Keeping the game building so we can keep developing and playing.
-<color_yellow>John Candlebury</color> - Aftershock. Did you know you can own and fly a colossal spaceship in Aftershock now? Yeah.
-<color_yellow>katemonster33</color> - Took the game by the storm with ImGuI and ImTui. Bringing us the UI we've always wanted.
-<color_yellow>Daniel Brooks 'db48x'</color> - For fundamental work on our beautiful new ImGui windows.
-<color_yellow>moxian</color> - Mission-critical work on build and IWYU infrastructure. They've made every developer's life easier.
-<color_yellow>akrieger</color> - Continued game speed improvements, keeping CI alive, and saving hard drives from Sky Islands games with compressed saves.
-<color_yellow>SariusSkelrets</color> - Expansion and polishing of Xedra Evolved's vampire content.
-<color_yellow>ehughsbaird</color>, <color_yellow>Karol1223</color>, and <color_yellow>mqrause</color>.
+<color_yellow>Standing-Storm</color> - A hatalmas „Mind over Matter” mod alkotója és karbantartója, valamint számos más modhoz is hozzájárult (tündérek, telepaták és varázslók, ó, jaj!).
+<color_yellow>Maleclypse</color> - A Xedra Evolved mod karbantartója és összevonója, több mint 2000 (!) merge-et vitt véghez ebben a kiadási ciklusban.
+<color_yellow>GuardianDll</color> - Merge-elés, általános JSON- és C++-módosítások, valamint a dokumentáció bemagolása és idézgetése mindenkinek, akinek szüksége van rá. „Nem emlékszem, hogy ennyi PR-t csináltam volna, mi a franc?” – GuardianDll
+<color_yellow>RenechCDDA</color> - Fejlesztések az NPC-frakciók, a táborhelyek és a járművek terén.
+<color_yellow>Procyonae</color> - Őrült mennyiségű infrastruktúra PR, a térképgeneráló kód virágzik a keze alatt.
+<color_yellow>PatrikLundell</color> - Abszurd mennyiségű hibajavítás és fontos biztonsági módosítás a térképgenerálásban, a tripoint-infrastruktúrában és más kritikus rendszerekben.
+<color_yellow>Holli</color> - Elkötelezett munkájáért minden, fegyverrel és fegyverekkel kapcsolatos területen.
+<color_yellow>b3brodie</color> - Rengeteg infrastruktúra-támogatás a varázslatokhoz, amivel egyaránt fejlődtek a modok és az alapjáték.
+<color_yellow>Milopetilo</color> - Remek munka az új térképgeneráláson, a meglévő térképgenerálás paraméterein, a tárgycsoportok átdolgozásán és sok más téren.
+<color_yellow>ShnitzelX2</color> - Elektronikus tárolás a tárgyakhoz, valamint 10 évnyi technikai adósság felszámolása azzal, hogy a tárgyakat a generic_factory rendszerrel töltötte be. (Ne irigykedjetek, de ő a kedvencem.)
+<color_yellow>alef</color> - Gondoskodik róla, hogy a játék mindig fordítható maradjon, így mi is tovább fejleszthetjük és játszhatunk vele.
+<color_yellow>John Candlebury</color> - Aftershock. Tudtad, hogy most már birtokolhatsz és irányíthatsz egy hatalmas űrhajót az Aftershockban? Igen, tényleg.
+<color_yellow>katemonster33</color> - Letarolta a játékot az ImGui és ImTui bevezetésével. Elhozta nekünk a kezelőfelületet, amire mindig is vágytunk.
+<color_yellow>Daniel Brooks „db48x”</color> - Alapvető munkájáért az új, gyönyörű ImGui-ablakainkon.
+<color_yellow>moxian</color> - Létfontosságú munka a build- és IWYU-infrastruktúrán. Munkájával minden fejlesztő életét megkönnyítette.
+<color_yellow>akrieger</color> - A játékmenet sebességének folyamatos javítása, a CI életben tartása és a merevlemezek megóvása a Sky Islands játékoknál a tömörített mentések bevezetésével.
+<color_yellow>SariusSkelrets</color> - A Xedra Evolved vámpírtartalmának bővítése és csiszolása.
+<color_yellow>ehughsbaird</color>, <color_yellow>Karol1223</color>, <color_yellow>and mqrause</color>.
 
 <color_white>Külön köszönet a művészi hozzájárulásokért:</color>
-<color_yellow>hoasd1</color> - Most tileset contributions this cycle, they've chosen to ride off into the sunset with style. We wish them the best of luck with where life takes them, but Ultica will forever be shaped by their work!
-<color_yellow>gettingusedto</color> - MSX+ heavyweight and all around nice guy. We've gotten used to (heh) seeing them around!
+<color_yellow>hoasd1</color> - Ebben a kiadási ciklusban a legtöbb tileset-hozzájárulás az ő nevéhez fűződik, és stílusosan vágtázott el a naplementébe. Sok sikert kívánunk neki, bármerre is sodorja az élet, de az Ultica örökké magán viseli a munkája nyomát!
+<color_yellow>gettingusedto</color> - Az MSX+ nagyágyúja és általában is egy rendkívül szimpatikus alak. Már teljesen megszoktuk (hehe), hogy itt van közöttünk!
 
 <color_white>Az összes közreműködő listáját lásd itt:</color>
 <color_cyan>https://github.com/CleverRaven/Cataclysm-DDA/contributors</color>

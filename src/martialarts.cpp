@@ -1515,7 +1515,7 @@ std::optional<std::pair<attack_vector_id, sub_bodypart_str_id>>
         }
         // Check if we have the required limbs
         bool reqs = true;
-        for( const std::pair<body_part_type::type, int> &req : vec->limb_req ) {
+        for( const std::pair<bp_type, int> &req : vec->limb_req ) {
             int count = 0;
             for( const bodypart_id &bp : user.get_all_body_parts_of_type( req.first ) ) {
                 if( user.get_part_hp_cur( bp ) > bp->health_limit ) {
@@ -1681,13 +1681,13 @@ bool character_martial_arts::can_leg_block( const Character &owner ) const
     // Do we have boring human anatomy? Use the basic calculation
     // Legs are harder to block with, so the score thresholds stay the same
     if( !owner.has_flag( json_flag_NONSTANDARD_BLOCK ) ) {
-        return owner.get_limb_score( limb_score_block, body_part_type::type::leg ) >= 0.5f;
+        return owner.get_limb_score( limb_score_block, bp_type::leg ) >= 0.5f;
     } else {
         // Check all standard legs for the score threshold
-        for( const bodypart_id &bp : owner.get_all_body_parts_of_type( body_part_type::type::leg ) ) {
+        for( const bodypart_id &bp : owner.get_all_body_parts_of_type( bp_type::leg ) ) {
             if( !bp->has_flag( json_flag_NONSTANDARD_BLOCK ) &&
                 owner.get_part( bp )->get_limb_score( owner, limb_score_block ) * bp->limbtypes.at(
-                    body_part_type::type::leg ) >= 0.25f ) {
+                    bp_type::leg ) >= 0.25f ) {
                 return true;
             }
         }
@@ -1715,13 +1715,13 @@ bool character_martial_arts::can_arm_block( const Character &owner ) const
     // Success conditions.
     // Do we have boring human anatomy? Use the basic calculation
     if( !owner.has_flag( json_flag_NONSTANDARD_BLOCK ) ) {
-        return owner.get_limb_score( limb_score_block, body_part_type::type::arm ) >= 0.5f;
+        return owner.get_limb_score( limb_score_block, bp_type::arm ) >= 0.5f;
     } else {
         // Check all standard arms for the score threshold
-        for( const bodypart_id &bp : owner.get_all_body_parts_of_type( body_part_type::type::arm ) ) {
+        for( const bodypart_id &bp : owner.get_all_body_parts_of_type( bp_type::arm ) ) {
             if( !bp->has_flag( json_flag_NONSTANDARD_BLOCK ) &&
                 owner.get_part( bp )->get_limb_score( owner, limb_score_block ) * bp->limbtypes.at(
-                    body_part_type::type::arm ) >= 0.25f ) {
+                    bp_type::arm ) >= 0.25f ) {
                 return true;
             }
         }

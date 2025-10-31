@@ -670,7 +670,7 @@
     "items": [
       { "item": "candle", "prob": 50, "charges": [ 0, 100 ] },
       [ "rope_6", 50 ],
-      { "item": "vibrator", "prob": 40, "charges": [ 0, 100 ] },
+      { "group": "sex_accessories_domestic", "prob": 40 },
       [ "camisole", 40 ],
       [ "panties", 40 ],
       [ "bra", 40 ],
@@ -985,6 +985,7 @@
       [ "45_casing", 20 ],
       [ "bone_tainted", 1 ],
       [ "toothbrush_plain", 10 ],
+      { "group": "sunscreen_bottle", "prob": 10 },
       { "group": "corpse_mansion", "prob": 1 }
     ]
   },

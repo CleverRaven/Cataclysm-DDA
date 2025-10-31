@@ -342,8 +342,8 @@
     "ugliness": 3,
     "restricts_gear": [ "head" ],
     "attacks": {
-      "attack_text_u": "You headbutt %s with your horns",
-      "attack_text_npc": "%1$s headbutts %2$s with their horns",
+      "attack_text_u": "You headbutt %s with your horns!",
+      "attack_text_npc": "%1$s headbutts %2$s with their horns!",
       "chance": 20,
       "base_damage": [ { "damage_type": "bash", "amount": 20 } ]
     },

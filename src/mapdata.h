@@ -5,6 +5,7 @@
 #include <array>
 #include <bitset>
 #include <cstddef>
+#include <map>
 #include <optional>
 #include <set>
 #include <string>
@@ -59,16 +60,22 @@ struct map_common_bash_info { //TODO: Half of this shouldn't be common
         bool destroy_only = false;   // Only used for destroying, not normally bashable
         // This terrain is the roof of the tile below it, try to destroy that too
         bool bash_below = false;
+        bash_damage_profile_id damage_profile;
         item_group_id drop_group; // item group of items that are dropped when the object is bashed
         translation sound;      // sound made on success ('You hear a "smash!"')
         translation sound_fail; // sound made on fail
         std::vector<furn_str_id> tent_centers;
         std::pair<field_type_str_id, int> hit_field; // field spawned on any hit
         std::pair<field_type_str_id, int> destroyed_field; // field spawned on successful bash
+
         void load( const JsonObject &jo, bool was_loaded, const std::string &context );
         void check( const std::string &id ) const;
         // todo: move it to map_data_common_t
         std::string potential_bash_items( const map_data_common_t &ter_furn ) const;
+
+        int damage_to( const std::map<damage_type_id, int> &str,
+                       bool supported = false, bool blocked = false ) const;
+        int hp( bool supported = false, bool blocked = false ) const;
     public:
         virtual ~map_common_bash_info() = default;
 };
@@ -312,6 +319,7 @@ enum class ter_furn_flag : int {
     TFLAG_CAN_SIT,
     TFLAG_FLAT_SURF,
     TFLAG_BUTCHER_EQ,
+    TFLAG_GROWTH_SEED,
     TFLAG_GROWTH_SEEDLING,
     TFLAG_GROWTH_MATURE,
     TFLAG_WORKOUT_ARMS,

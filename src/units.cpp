@@ -1,8 +1,9 @@
 #include "units.h"
 
-#include <cstdint>
+#include <optional>
 
 #include "calendar.h"
+#include "cata_utility.h"
 #include "json.h"
 #include "string_formatter.h"
 #include "translations.h"
@@ -64,19 +65,34 @@ void specific_energy::serialize( JsonOut &jsout ) const
 template<>
 void specific_energy::deserialize( const JsonValue &jv )
 {
-    *this = units::from_joule_per_gram( std::stof( jv.get_string() ) );
+    std::optional<double> v = svtod( jv.get_string() );
+    if( !v.has_value() ) {
+        jv.throw_error( "Invalid double" );
+    }
+    *this = units::from_joule_per_gram( v.value() );
 }
 
+// both of these are gross, but they kind of need to be.
 template<>
 void temperature::serialize( JsonOut &jsout ) const
 {
-    jsout.write( string_format( "%f", value_ ) );
+    dump_to_json_string( *this - units::from_celsius( 0 ), jsout, units::temperature_delta_units );
 }
 
 template<>
 void temperature::deserialize( const JsonValue &jv )
 {
-    *this = from_kelvin( std::stof( jv.get_string() ) );
+    std::string str = jv.get_string();
+    // TODO: legacy format, remove after 0.J
+    if( isdigit( str.back() ) ) {
+        std::optional<double> v = svtod( str );
+        if( !v.has_value() ) {
+            jv.throw_error( "Invalid kelvin temperature" );
+        }
+        *this = from_kelvin( v.value() );
+    } else {
+        *this = units::from_celsius( 0 ) + read_from_json_string( jv, units::temperature_delta_units );
+    }
 }
 
 template<>
@@ -85,8 +101,12 @@ void temperature_delta::deserialize( const JsonValue &jv )
     if( jv.test_int() ) {
         *this = from_legacy_bodypart_temp_delta( jv.get_int() );
     } else {
-        // super gross
-        *this = from_kelvin_delta( std::stof( jv.get_string() ) );
+        // gross
+        std::optional<double> v = svtod( jv.get_string() );
+        if( !v.has_value() ) {
+            jv.throw_error( "Invalid double" );
+        }
+        *this = from_kelvin_delta( v.value() );
     }
 }
 

@@ -4,7 +4,6 @@
 #include <array>
 #include <cstring>
 #include <exception>
-#include <functional>
 #include <iosfwd>
 #include <memory>
 #include <optional>
@@ -23,7 +22,6 @@
 #include <zstd/common/mem.h>
 #include <zstd/common/xxhash.h>
 
-#include "cata_scope_helpers.h"
 #include "filesystem.h"
 #include "flexbuffer_cache.h"
 #include "flexbuffer_json.h"
@@ -159,6 +157,7 @@ constexpr size_t kDefaultFooterSize = 1024;
 constexpr size_t kFixedSizeOverhead = kFooterChecksumFrameSize + kDefaultFooterSize;
 
 constexpr uint64_t kCheckumSeed = 0x1337C0DE;
+constexpr uint64_t kDeletedChecksumTombstone = 0xDE1337ED;
 
 constexpr const std::string_view kEntriesKey = "entries";
 constexpr const std::string_view kEntryOffsetKey = "offset";
@@ -338,9 +337,8 @@ struct zzip::context {
     ZSTD_DCtx *dctx;
 };
 
-zzip::zzip( std::filesystem::path path, std::shared_ptr<mmap_file> file, JsonObject footer )
-    : path_{ std::move( path ) },
-      file_{ std::move( file ) },
+zzip::zzip( std::shared_ptr<mmap_file> file, JsonObject footer )
+    : file_{ std::move( file ) },
       footer_{ std::move( footer ) }
 {}
 
@@ -349,12 +347,20 @@ zzip::~zzip() noexcept
     footer_.allow_omitted_members();
 }
 
-std::shared_ptr<zzip> zzip::load( std::filesystem::path const &path,
-                                  std::filesystem::path const &dictionary_path )
+zzip::zzip( zzip && ) noexcept = default;
+zzip &zzip::operator=( zzip && ) noexcept = default;
+
+std::optional<zzip> zzip::load( std::filesystem::path const &path,
+                                std::filesystem::path const &dictionary_path )
 {
-    std::shared_ptr<zzip> zip;
     std::shared_ptr<mmap_file> file = mmap_file::map_writeable_file( path );
 
+    return load( std::move( file ), dictionary_path );
+}
+std::optional<zzip> zzip::load(
+    std::shared_ptr<mmap_file> file,
+    std::filesystem::path const &dictionary_path )
+{
     flexbuffers::Reference root;
     std::shared_ptr<parsed_flexbuffer> flexbuffer;
     JsonObject footer;
@@ -370,28 +376,27 @@ std::shared_ptr<zzip> zzip::load( std::filesystem::path const &path,
         uint64_t hash = XXH64( base + file->len() - footer_len, footer_len, kCheckumSeed );
         if( hash != footer_checksum ) {
             needs_footer = true;
-        }
-        try {
-            std::shared_ptr<zzip_flexbuffer_storage> storage{ std::make_shared<zzip_flexbuffer_storage>( file ) };
+        } else {
+            try {
+                std::shared_ptr<zzip_flexbuffer_storage> storage{ std::make_shared<zzip_flexbuffer_storage>( file ) };
 
-            root = flexbuffer_root_from_storage( storage );
-            flexbuffer = std::make_shared<zzip_flexbuffer>( std::move( storage ) );
-            footer = JsonValue( std::move( flexbuffer ), root, nullptr, 0 );
-        } catch( std::exception &e ) {
-            // Something went wrong. Try to recover the file.
-            needs_footer = true;
+                root = flexbuffer_root_from_storage( storage );
+                flexbuffer = std::make_shared<zzip_flexbuffer>( std::move( storage ) );
+                footer = JsonValue( std::move( flexbuffer ), root, nullptr, 0 );
+            } catch( std::exception &e ) {
+                // Something went wrong. Try to recover the file.
+                needs_footer = true;
+            }
         }
     }
 
-    zip = std::shared_ptr<zzip>( new zzip( path, std::move( file ), std::move( footer ) ) );
+    std::optional<zzip> ret{ std::in_place, zzip{std::move( file ), std::move( footer )} };
+    zzip &zip = ret.value();
 
     ZSTD_CCtx *cctx;
     ZSTD_DCtx *dctx;
-    if( dictionary_path.empty() ) {
-        cctx = ZSTD_createCCtx();
-        dctx = ZSTD_createDCtx();
-    } else if( auto it = cached_contexts.find( dictionary_path.generic_u8string() );
-               it != cached_contexts.end() ) {
+    if( auto it = cached_contexts.find( dictionary_path.generic_u8string() );
+        it != cached_contexts.end() ) {
         cctx = it->second.cctx;
         dctx = it->second.dctx;
     } else {
@@ -411,13 +416,13 @@ std::shared_ptr<zzip> zzip::load( std::filesystem::path const &path,
         cached_contexts.emplace( dictionary_path.generic_u8string(), cached_zstd_context{ std::move( dictionary ), cctx, dctx } );
     }
 
-    zip->ctx_ = std::make_unique<zzip::context>( cctx, dctx );
-
-    if( needs_footer && !zip->rewrite_footer() ) {
-        return nullptr;
+    if( needs_footer && !zip.rewrite_footer() ) {
+        ret.reset();
+        return ret;
     }
 
-    return zip;
+    zip.ctx_ = std::make_unique<zzip::context>( cctx, dctx );
+    return ret;
 }
 
 bool zzip::add_file( std::filesystem::path const &zzip_relative_path, std::string_view content )
@@ -467,13 +472,13 @@ bool zzip::add_file( std::filesystem::path const &zzip_relative_path, std::strin
 
 
 bool zzip::copy_files( std::vector<std::filesystem::path> const &zzip_relative_paths,
-                       std::shared_ptr<zzip> const &from )
+                       zzip const &from, bool shrink_to_fit )
 {
     if( zzip_relative_paths.empty() ) {
         return true;
     }
 
-    zzip_footer other_footer{ from->footer_ };
+    zzip_footer other_footer{ from.footer_ };
     JsonObject original_footer = copy_footer();
     original_footer.allow_omitted_members();
     std::vector<compressed_entry> other_entries = other_footer.get_entries();
@@ -496,12 +501,12 @@ bool zzip::copy_files( std::vector<std::filesystem::path> const &zzip_relative_p
     }
     ensure_capacity_for( new_content_end + required_size + kDefaultFooterSize );
     for( compressed_entry &entry_to_copy : entries_to_copy ) {
-        memcpy( file_base_plus( new_content_end ), from->file_base_plus( entry_to_copy.offset ),
+        memcpy( file_base_plus( new_content_end ), from.file_base_plus( entry_to_copy.offset ),
                 entry_to_copy.len );
         entry_to_copy.offset = new_content_end;
         new_content_end += entry_to_copy.len;
     }
-    return update_footer( original_footer, new_content_end, entries_to_copy );
+    return update_footer( original_footer, new_content_end, entries_to_copy, shrink_to_fit );
 }
 
 
@@ -598,11 +603,6 @@ size_t zzip::get_zzip_size() const
     return file_->len();
 }
 
-std::filesystem::path const &zzip::get_path() const
-{
-    return path_;
-}
-
 std::vector<std::filesystem::path> zzip::get_entries() const
 {
     zzip_footer footer{ footer_ };
@@ -613,6 +613,18 @@ std::vector<std::filesystem::path> zzip::get_entries() const
         entry_paths.emplace_back( std::filesystem::u8path( entry.path ) );
     }
     return entry_paths;
+}
+
+std::vector<zzip::entry_layout> zzip::get_layout() const
+{
+    zzip_footer footer{ footer_ };
+    std::vector<compressed_entry> entries = footer.get_entries();
+    std::vector<entry_layout> layout;
+    layout.reserve( entries.size() );
+    for( const compressed_entry &entry : entries ) {
+        layout.emplace_back( entry_layout{ std::filesystem::u8path( entry.path ), entry.offset, entry.len } );
+    }
+    return layout;
 }
 
 // Returns a copy of the footer json as a fresh independent object, not backed by the zzip.
@@ -646,14 +658,23 @@ JsonObject zzip::copy_footer() const
     }
 }
 
+namespace
+{
+size_t round_up_file_size( size_t bytes )
+{
+    // Round up to a whole page. Drives nowadays are all 4k pages.
+    size_t needed_pages = std::max( size_t{ 1 }, ( bytes + kAssumedPageSize - 1 ) / kAssumedPageSize );
+
+    return needed_pages * kAssumedPageSize;
+}
+} // namespace
+
 // Ensures the zzip file has room to write at least this many bytes.
 // Returns the guaranteed size of the file, which is at least bytes large.
 size_t zzip::ensure_capacity_for( size_t bytes )
 {
     // Round up to a whole page. Drives nowadays are all 4k pages.
-    size_t needed_pages = std::max( size_t{1}, ( bytes + kAssumedPageSize - 1 ) / kAssumedPageSize );
-
-    size_t new_size = needed_pages * kAssumedPageSize;
+    size_t new_size = round_up_file_size( bytes );
 
     if( file_->len() < new_size && !file_->resize_file( new_size ) ) {
         return 0;
@@ -662,7 +683,8 @@ size_t zzip::ensure_capacity_for( size_t bytes )
 }
 
 // Actually performs the compression and encoding of a file into the zzip.
-size_t zzip::write_file_at( std::string_view filename, std::string_view content, size_t offset )
+size_t zzip::write_file_at( std::string_view filename, std::string_view content, size_t offset,
+                            std::optional<uint64_t> force_checksum )
 {
     // The format of a compressed entry is a series of zstd frames.
     // There are an unbounded number of leading skippable frames of unspecified content.
@@ -700,7 +722,12 @@ size_t zzip::write_file_at( std::string_view filename, std::string_view content,
     if( ZSTD_isError( file_size ) ) {
         return file_size;
     }
-    uint64_t checksum = XXH64( file_base_plus( offset ), file_size, kCheckumSeed );
+    uint64_t checksum = 0;
+    if( force_checksum.has_value() ) {
+        checksum = force_checksum.value();
+    } else {
+        checksum = XXH64( file_base_plus( offset ), file_size, kCheckumSeed );
+    }
     uint64_t checksum_le = 0;
     MEM_writeLE64( &checksum_le, checksum );
     size_t checksum_size = ZSTD_writeSkippableFrame(
@@ -720,7 +747,8 @@ size_t zzip::write_file_at( std::string_view filename, std::string_view content,
 // original JsonObject and inserting the given new entries.
 // If shrink_to_fit is true, will shrink the file as needed to eliminate padding bytes
 // between the content and the footer.
-bool zzip::update_footer( JsonObject const &original_footer, size_t content_end,
+bool zzip::update_footer( JsonObject const &original_footer,
+                          size_t content_end,
                           const std::vector<compressed_entry> &entries, bool shrink_to_fit )
 {
     std::unordered_set<std::string> processed_files;
@@ -773,8 +801,8 @@ bool zzip::update_footer( JsonObject const &original_footer, size_t content_end,
             return false;
         }
     } else {
-        size_t guaranteed_capacity = ensure_capacity_for( content_end + buf.size() );
-        if( guaranteed_capacity == 0 ) {
+        size_t guaranteed_capacity = round_up_file_size( content_end + buf.size() );
+        if( guaranteed_capacity == 0 || !file_->resize_file( guaranteed_capacity ) ) {
             return false;
         }
     }
@@ -793,13 +821,13 @@ bool zzip::update_footer( JsonObject const &original_footer, size_t content_end,
     std::shared_ptr<parsed_flexbuffer> new_flexbuffer = std::make_shared<zzip_flexbuffer>(
                 std::move( new_storage )
             );
-    footer_ = JsonValue( std::move( new_flexbuffer ), new_root, nullptr, 0 );
 
+    footer_ = JsonValue( std::move( new_flexbuffer ), new_root, nullptr, 0 );
     return true;
 }
 
 // Scans the zzip to read what data we can validate and write a fresh footer.
-bool zzip::rewrite_footer()
+bool zzip::rewrite_footer( bool shrink_to_fit )
 {
     const size_t zzip_len = file_->len();
     size_t scan_offset = 0;
@@ -876,6 +904,13 @@ bool zzip::rewrite_footer()
             break;
         }
 
+        if( checksum_opt == kDeletedChecksumTombstone &&
+            ZSTD_findDecompressedSize( file_ptr, file_frame_size ) == 0 ) {
+            entries_map.erase( *filename_opt );
+            scan_offset = file_offset + file_frame_size;
+            continue;
+        }
+
         uint64_t checksum = XXH64( file_ptr, file_frame_size, kCheckumSeed );
         if( checksum != checksum_opt ) {
             // Corruption in the compressed frame. Don't try to recover it, assume
@@ -893,10 +928,10 @@ bool zzip::rewrite_footer()
         entries.emplace_back( std::move( entry ) );
     }
 
-    return update_footer( JsonObject{}, scan_offset, entries, /* shrink_to_fit = */ true );
+    return update_footer( JsonObject{}, scan_offset, entries, shrink_to_fit );
 }
 
-std::shared_ptr<zzip> zzip::create_from_folder( std::filesystem::path const &path,
+std::optional<zzip> zzip::create_from_folder( std::filesystem::path const &path,
         std::filesystem::path const &folder,
         std::filesystem::path const &dictionary )
 {
@@ -929,13 +964,16 @@ std::shared_ptr<zzip> zzip::create_from_folder( std::filesystem::path const &pat
                                           dictionary );
 }
 
-std::shared_ptr<zzip> zzip::create_from_folder_with_files( std::filesystem::path const &path,
+std::optional<zzip> zzip::create_from_folder_with_files( std::filesystem::path const &path,
         std::filesystem::path const &folder,
         const std::vector<std::filesystem::path> &files,
         uint64_t total_file_size,
         std::filesystem::path const &dictionary )
 {
-    std::shared_ptr<zzip> zip = zzip::load( path, dictionary );
+    std::optional<zzip> zip = zzip::load( path, dictionary );
+    if( !zip.has_value() ) {
+        return std::nullopt;
+    }
     JsonObject original_footer = zip->copy_footer();
     zzip_footer footer{ original_footer };
     std::optional<zzip_meta> meta_opt = footer.get_meta();
@@ -983,10 +1021,10 @@ std::shared_ptr<zzip> zzip::create_from_folder_with_files( std::filesystem::path
                     needed += total_file_size * ( input_consumed > 0 ? ( static_cast<double>
                                                   ( bytes_written ) / input_consumed ) : 1 );
                     if( !zip->ensure_capacity_for( content_end + needed + kFixedSizeOverhead ) ) {
-                        return nullptr;
+                        return std::nullopt;
                     }
                 } else {
-                    return nullptr;
+                    return std::nullopt;
                 }
             }
         } while( ZSTD_isError( compressed_size ) );
@@ -1005,18 +1043,23 @@ bool zzip::extract_to_folder( std::filesystem::path const &path,
                               std::filesystem::path const &folder,
                               std::filesystem::path const &dictionary )
 {
-    std::shared_ptr<zzip> zip = zzip::load( path, dictionary );
+    std::optional<zzip> zip = zzip::load( path, dictionary );
 
     if( !zip ) {
         return false;
     }
 
-    for( const JsonMember &entry : zip->footer_.get_object( kEntriesKey ) ) {
+    return zip->extract_to_folder( folder );
+}
+
+bool zzip::extract_to_folder( std::filesystem::path const &folder )
+{
+    for( const JsonMember &entry : footer_.get_object( kEntriesKey ) ) {
         if( entry.name().empty() ) {
             continue;
         }
         std::filesystem::path filename = std::filesystem::u8path( entry.name() );
-        size_t len = zip->get_file_size( filename );
+        size_t len = get_file_size( filename );
         std::filesystem::path destination_file_path = folder / filename;
         if( !assure_dir_exist( destination_file_path.parent_path() ) ) {
             return false;
@@ -1025,7 +1068,7 @@ bool zzip::extract_to_folder( std::filesystem::path const &path,
         if( !file || !file->resize_file( len ) ) {
             return false;
         }
-        if( zip->get_file_to( filename, static_cast<std::byte *>( file->base() ), file->len() ) != len ) {
+        if( get_file_to( filename, static_cast<std::byte *>( file->base() ), file->len() ) != len ) {
             return false;
         }
     }
@@ -1035,32 +1078,63 @@ bool zzip::extract_to_folder( std::filesystem::path const &path,
 bool zzip::delete_files( std::unordered_set<std::filesystem::path, std_fs_path_hash> const
                          &zzip_relative_paths )
 {
-    zzip_footer footer{ footer_ };
-    std::vector<compressed_entry> compressed_entries = footer.get_entries();
+    size_t empty_estimated_size = ZSTD_compressBound( 0 );
 
-    bool did_erase = false;
+    JsonObject footer_copy = copy_footer();
+    footer_copy.allow_omitted_members();
+    zzip_footer footer{ footer_copy };
+
+    std::optional<zzip_meta> meta_opt = footer.get_meta();
+    size_t content_end = 0;
+    if( meta_opt.has_value() ) {
+        content_end = meta_opt->content_end;
+    }
+
+    size_t filename_lengths = 0;
+    for( const std::filesystem::path &f : zzip_relative_paths ) {
+        filename_lengths += f.generic_u8string().size();
+    }
+
+    if( !ensure_capacity_for(
+            content_end +
+            filename_lengths +
+            zzip_relative_paths.size() * ( ZSTD_SKIPPABLEHEADERSIZE +
+                                           kEntryChecksumFrameSize +
+                                           empty_estimated_size ) +
+            kFixedSizeOverhead ) ) {
+        return false;
+    }
+
+    bool errored = false;
+    std::vector<compressed_entry> compressed_entries = footer.get_entries();
     compressed_entries.erase(
         std::remove_if(
             compressed_entries.begin(),
             compressed_entries.end(),
     [&]( const compressed_entry & entry ) {
-        bool found = zzip_relative_paths.count( entry.path ) != 0; // NOLINT(cata-u8-path)
-        did_erase = did_erase || found;
-        return found;
-    }
-        ),
-    compressed_entries.end()
-    );
+        if( !errored && zzip_relative_paths.count( std::filesystem::u8path( entry.path ) ) != 0 ) {
+            size_t tombstone_size = write_file_at( entry.path, "", content_end, kDeletedChecksumTombstone );
 
-    if( !did_erase ) {
+            if( ZSTD_isError( tombstone_size ) ) {
+                errored = true;
+            } else {
+                content_end += tombstone_size;
+            }
+            return !errored;
+        }
+        return false;
+    } ),
+    compressed_entries.end() );
+
+    // If we errored partway through we should still update the footer with what we did erase.
+    if( !update_footer( JsonObject{}, content_end, compressed_entries ) ) {
         return false;
     }
 
-    // Rewrite the footer from scratch, with all entries but the removed one.
-    return update_footer( JsonObject{}, 0, compressed_entries );
+    return !errored;
 }
 
-bool zzip::compact( double bloat_factor )
+bool zzip::compact_to( std::filesystem::path const &dest, double bloat_factor )
 {
     zzip_footer footer{ footer_ };
     std::optional<zzip_meta> meta_opt = footer.get_meta();
@@ -1084,69 +1158,26 @@ bool zzip::compact( double bloat_factor )
         }
     }
 
-    std::vector<compressed_entry> compressed_entries = footer.get_entries();
-
-    // If we were compacting in place, sorting left to right would ensure that we
-    // only move entries left that we need to move. Unchanged data would stay on the left.
-    // However that exposes us to data loss on power loss because zzip recovery
-    // relies on an intact sequence of zstd frames.
-    std::sort( compressed_entries.begin(), compressed_entries.end(), []( const compressed_entry & lhs,
-    const compressed_entry & rhs ) {
-        return lhs.offset < rhs.offset;
-    } );
-
-    std::filesystem::path tmp_path = path_;
-    tmp_path.replace_extension( ".zzip.tmp" ); // NOLINT(cata-u8-path)
-
-    std::shared_ptr<mmap_file> compacted_file = mmap_file::map_writeable_file( tmp_path );
-    if( !compacted_file ||
-        !compacted_file->resize_file( meta.total_content_size + kFixedSizeOverhead ) ) {
+    std::unique_ptr<mmap_file> compacted_file = mmap_file::map_writeable_file( dest );
+    if( !compacted_file ) {
         return false;
     }
 
-    size_t current_end = kFooterChecksumFrameSize;
-    for( compressed_entry &entry : compressed_entries ) {
-        memcpy( static_cast<char *>( compacted_file->base() ) + current_end,
-                file_base_plus( entry.offset ),
-                entry.len
-              );
-        entry.offset = current_end;
-        current_end += entry.len;
-    }
+    return compact_to( std::move( compacted_file ) );
+}
 
-    // We can swap the old mmap'd file with the new one
-    // and write a fresh footer directly into it.
-    JsonObject old_footer{ copy_footer() };
-    old_footer.allow_omitted_members();
-
-    file_ = compacted_file;
-    compacted_file = nullptr;
-
-    std::error_code ec;
-    on_out_of_scope reset_on_failure{ [&] {
-            file_ = mmap_file::map_writeable_file( path_ );
-            std::filesystem::remove( tmp_path, ec );
-        } };
-
-    if( !update_footer( old_footer, current_end, compressed_entries, /* shrink_to_fit = */ true ) ) {
+bool zzip::compact_to( std::shared_ptr<mmap_file> dest ) const
+{
+    std::optional<zzip> new_zip = zzip::load( std::move( dest ) );
+    if( !new_zip ) {
         return false;
     }
-
-    // Swap the tmp file over the real path. Give it a couple tries in case of filesystem races.
-    size_t attempts = 0;
-    do {
-        std::filesystem::rename( tmp_path, path_, ec );
-    } while( ec && ++attempts < 3 );
-    if( ec ) {
-        return false;
-    }
-    reset_on_failure.cancel();
-    return true;
+    return new_zip->copy_files( get_entries(), *this, /* shrink_to_fit = */ true );
 }
 
 bool zzip::clear()
 {
-    return file_->resize_file( 0 ) && rewrite_footer();
+    return file_->resize_file( 0 ) && rewrite_footer( /* shrink_to_fit = */ true );
 }
 
 // Can't directly increment void*, have to cast to char* first.

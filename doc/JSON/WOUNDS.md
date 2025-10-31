@@ -16,6 +16,8 @@ Wound is a type, that affects specific bodyparts. It's similar in this to effect
     "pain": [ 1, 10 ], // when wound is applied, it would give character this random amount of pain rolled between this two numbers. Default 0
     "healing_time": [ "2 hours", "25 days" ], // how long this wound need time to be fully healed. Rolled randomly when applied, supposed to be adjusted by wound_fix.
             // Default infinite duration
+    "whitelist_body_part_types": [ "leg", "arm" ], // if used, this wound can be applied only at bodyparts of this type. Possible values are: head, torso, sensor, mouth, arm, hand, leg, foot, wing, tail, other
+    "blacklist_body_part_types": [ "torso", "sensor" ], // if used, this wound cannot be applied on bodyparts of this type.
     "whitelist_bp_with_flag": "LIMB_UPPER", // only body parts with this flag can receive the wound.
     "blacklist_bp_with_flag": "CYBERNETIC_OR_WHATEVER_IT_DOESNT_EXIST_YET", // Bodyparts with this flag cannot receive this wound.
   }

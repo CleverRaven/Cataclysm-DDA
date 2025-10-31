@@ -740,6 +740,39 @@
   },
   {
     "type": "relic_procgen_data",
+    "id": "artifact_book",
+    "charge_types": [
+      {
+        "weight": 100,
+        "charges": { "range": [ 2, 10 ], "power": 25 },
+        "charges_per_use": { "range": [ 1, 2 ], "power": 25 },
+        "max_charges": { "range": [ 2, 10 ], "power": 25 },
+        "recharge_type": "periodic",
+        "time": [ "10 m", "1 h" ]
+      }
+    ],
+    "active_procgen_values": [
+      { "weight": 100, "spell_id": "AO_SURFACE", "base_power": 500 },
+      { "weight": 100, "spell_id": "AO_SPATIAL_ANCHOR", "base_power": 250 },
+      { "weight": 100, "spell_id": "AO_SPATIAL_ANCHOR_SLOW", "base_power": 250 },
+      { "weight": 100, "spell_id": "AO_RESONANCE_BARRIER", "base_power": 500 },
+      { "weight": 100, "spell_id": "AO_TRUESIGHT_EFFECT", "base_power": 250 },
+      { "weight": 100, "spell_id": "AO_READ_GOOD", "base_power": 250 },
+      { "weight": 100, "spell_id": "AO_READ_BAD", "base_power": -500 },
+      { "weight": 10, "spell_id": "AO_READ_VERY_BAD", "base_power": -1000 },
+      { "weight": 100, "spell_id": "AO_BOOK_SNAP", "base_power": 750 },
+      { "weight": 100, "spell_id": "AEA_MAP", "base_power": 250 },
+      { "weight": 100, "spell_id": "AEA_MUTATE", "base_power": 250 },
+      { "weight": 100, "spell_id": "AO_BOOK_COMBUSTION", "base_power": 500 },
+      { "weight": 100, "spell_id": "AO_BOOK_BLAST", "base_power": 500 },
+      { "weight": 100, "spell_id": "AO_BOOK_FAR_TP", "base_power": 500 },
+      { "weight": 100, "spell_id": "AO_MAGIC_CASCADE_START", "base_power": 750 }
+    ],
+    "type_weights": [ { "weight": 100, "value": "active_enchantment" } ],
+    "items": [ { "weight": 20, "item": "art_book" } ]
+  },
+  {
+    "type": "relic_procgen_data",
     "id": "altered_object",
     "charge_types": [
       {
@@ -753,6 +786,10 @@
     ],
     "active_procgen_values": [
       { "weight": 100, "spell_id": "AO_FRIENDLY_VORTEX", "base_power": 100 },
+      { "weight": 100, "spell_id": "AO_SPATIAL_ANCHOR", "base_power": 100 },
+      { "weight": 100, "spell_id": "AO_RESONANCE_BARRIER", "base_power": 400 },
+      { "weight": 100, "spell_id": "AO_SURFACE", "base_power": 400 },
+      { "weight": 100, "spell_id": "AO_SPATIAL_ANCHOR_SLOW", "base_power": 100 },
       { "weight": 100, "spell_id": "AO_CALL_OF_TINDALOS", "base_power": -500 },
       { "weight": 100, "spell_id": "AO_FORCE_PULL", "base_power": 200 },
       { "weight": 100, "spell_id": "AO_TELEPORTITIS", "base_power": -500 },

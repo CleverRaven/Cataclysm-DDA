@@ -992,7 +992,7 @@
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
     "tools": [ [ [ "surface_heat", 18, "LIST" ] ] ],
     "components": [
-      [ [ "edible_tallow_lard", 4, "LIST" ], [ "cooking_oil", 14 ], [ "cooking_oil2", 14 ] ],
+      [ [ "edible_tallow", 10, "LIST" ], [ "cooking_oil", 14 ], [ "edible_tallow", 7, "LIST" ] ],
       [ [ "lye", 1 ], [ "lye_powder", 11 ] ],
       [ [ "water", 2 ], [ "water_clean", 2 ], [ "salt_water", 2 ] ]
     ],
@@ -1015,7 +1015,7 @@
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
     "tools": [ [ [ "surface_heat", 18, "LIST" ] ] ],
     "components": [
-      [ [ "edible_tallow_lard", 4, "LIST" ], [ "cooking_oil", 14 ], [ "cooking_oil2", 14 ] ],
+      [ [ "edible_tallow", 10, "LIST" ], [ "cooking_oil", 14 ], [ "edible_tallow", 7, "LIST" ] ],
       [ [ "lye_potassium", 1 ], [ "chem_potassium_hydroxide", 55 ] ],
       [ [ "salt_water", 2 ] ]
     ],
@@ -1037,7 +1037,7 @@
     "tools": [ [ [ "surface_heat", 18, "LIST" ] ] ],
     "charges": 10,
     "components": [
-      [ [ "edible_tallow_lard", 4, "LIST" ], [ "cooking_oil", 14 ], [ "cooking_oil2", 14 ] ],
+      [ [ "edible_tallow", 10, "LIST" ], [ "cooking_oil", 14 ], [ "edible_tallow", 7, "LIST" ] ],
       [ [ "lye_potassium", 1 ], [ "chem_potassium_hydroxide", 55 ] ],
       [ [ "water", 2 ], [ "water_clean", 2 ] ]
     ],
@@ -2420,7 +2420,6 @@
     "result": "formic_acid",
     "id_suffix": "with_blood",
     "name": "%s with blood",
-    "charges": 40,
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "chemistry",
@@ -2453,7 +2452,6 @@
     "result": "formic_acid",
     "id_suffix": "with_blood_distill",
     "name": "distill %s with blood",
-    "charges": 40,
     "byproduct_group": [
       { "item": "water_clean", "container-item": "null", "charges": 1 },
       { "item": "chem_ethanol", "container-item": "null", "charges": [ 200, 250 ] }

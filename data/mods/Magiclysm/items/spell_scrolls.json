@@ -388,7 +388,7 @@
     "id": "spell_scroll_summon_wolf",
     "//": "Druid spell",
     "name": { "str": "Scroll of Summon Wolf", "str_pl": "Scrolls of Summon Wolf" },
-    "description": "Call to the wild for aid from some wolves.",
+    "description": "Call to the wilds for aid from some wolves.",
     "use_action": { "type": "learn_spell", "spells": [ "summon_wolf_druid" ] }
   },
   {
@@ -1361,7 +1361,7 @@
     "id": "spell_scroll_summon_wisps",
     "//": "Animist spell",
     "name": { "str": "Scroll of Ignus Fatuus", "str_pl": "Scrolls of Ignus Fatuus" },
-    "description": "Summons ghostly foxfire worked from living marsh vapor, to lead your enemies astray.  With more experience, this spell can conjure multiple ghost lights.",
+    "description": "Summons ghostly foxfire worked from living marsh vapor to lead your enemies astray.  With more experience, this spell can conjure multiple ghost lights.",
     "use_action": { "type": "learn_spell", "spells": [ "summon_wisps" ] }
   },
   {
@@ -2468,5 +2468,25 @@
     "name": { "str": "Scroll of Seeing the Unseen", "str_pl": "Scrolls of Seeing the Unseen" },
     "description": "Detect nearby beings with your soul rather than your eyes, allowing you to see invisible creatures.",
     "use_action": { "type": "learn_spell", "spells": [ "animist_see_invisibility" ] }
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_earthshaper_remove_corpses",
+    "//": "Earthshaper spell",
+    "name": { "str": "Scroll of The Last Embrace", "str_pl": "Scrolls of The Last Embrace" },
+    "description": "Target a corpse and cause it to sink beneath the living earth.  A staple of prehistoric funeral rites.",
+    "use_action": { "type": "learn_spell", "spells": [ "earthshaper_remove_corpses" ] }
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_biomancer_pull_items_from_distance",
+    "//": "Biomancer spell",
+    "name": { "str": "Scroll of Monstrous Grasp", "str_pl": "Scrolls of Monstrous Grasp" },
+    "description": "Extend a tentacle to grab an item and drag it back to you.  Disgusting but practical.",
+    "use_action": { "type": "learn_spell", "spells": [ "biomancer_pull_items_from_distance" ] }
   }
 ]

@@ -691,7 +691,7 @@
         ]
       }
     },
-    "traits": [ "ANIMIST", "ALBINO", "TROGLO2", "SLOWHEALER2" ]
+    "traits": [ "ANIMIST", "ALBINO", "TROGLO2", "SLOWHEALER2", "CBM_Interface" ]
   },
   {
     "type": "profession",

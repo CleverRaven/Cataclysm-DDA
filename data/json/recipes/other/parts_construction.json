@@ -352,16 +352,7 @@
     "autolearn": true,
     "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "//": "a long pole is a single piece of wood, and the stout branch just isn't large enough.",
-    "components": [
-      [ [ "wooden_post_long", 1 ] ],
-      [
-        [ "any_tallow", 4, "LIST" ],
-        [ "cooking_oil", 32 ],
-        [ "cooking_oil2", 32 ],
-        [ "lamp_oil", 500 ],
-        [ "motor_oil", 500 ]
-      ]
-    ]
+    "components": [ [ [ "wooden_post_long", 1 ] ], [ [ "wood_sealant_any", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -381,16 +372,7 @@
       { "id": "CUT_FINE", "level": 1 },
       { "id": "FILE", "level": 1 }
     ],
-    "components": [
-      [ [ "stick_long", 1 ] ],
-      [
-        [ "any_tallow", 2, "LIST" ],
-        [ "cooking_oil", 16 ],
-        [ "cooking_oil2", 16 ],
-        [ "lamp_oil", 250 ],
-        [ "motor_oil", 250 ]
-      ]
-    ]
+    "components": [ [ [ "stick_long", 1 ] ], [ [ "wood_sealant_any", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -690,6 +672,7 @@
     "type": "recipe",
     "copy-from": "nail",
     "result": "rivets",
-    "extend": { "tools": [ [ [ "monkey_tool", -1 ] ] ] }
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "nail_header", -1 ] ], [ [ "monkey_tool", -1 ] ] ],
+    "components": [ [ [ "lc_steel_chunk", 1 ] ] ]
   }
 ]

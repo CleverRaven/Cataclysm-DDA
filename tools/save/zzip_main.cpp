@@ -4,6 +4,7 @@
 #include <fstream>
 #include <iostream>
 #include <optional>
+#include <map>
 #include <string>
 #include <string_view>
 #include <thread>
@@ -32,6 +33,7 @@ constexpr unsigned int kEntryChecksumMagic = 1;
 constexpr unsigned int kFooterChecksumMagic = 15;
 
 constexpr uint64_t kCheckumSeed = 0x1337C0DE;
+constexpr uint64_t kDeletedChecksumTombstone = 0xDE1337ED;
 
 struct IDK : public std::runtime_error {
     IDK( std::filesystem::path file ) : runtime_error{ "Don't know what to do with " + file.generic_u8string() } {}
@@ -135,6 +137,14 @@ struct ExnPtr {
     template<typename E>
     ExnPtr( E &&e ) : ep{std::make_unique<ExnHolder<std::decay_t<E>>>( std::forward<E>( e ) )} {}
 
+    ExnPtr &operator=( ExnPtr &&e ) = default;
+
+    template<typename E>
+    ExnPtr &operator=( E &&e ) {
+        ep = std::make_unique<ExnHolder<std::decay_t<E>>>( std::forward<E>( e ) );
+        return *this;
+    }
+
     operator bool() const {
         return static_cast<bool>( ep );
     }
@@ -154,105 +164,138 @@ struct ExnPtr {
     std::unique_ptr<Exn> ep;
 };
 
-static std::pair<const char *, ExnPtr> for_each_zzip_entry(
-    std::filesystem::path zzip_path, const std::vector<char> &zzip_contents,
-    std::function<ExnPtr( const std::string &, uint64_t, const char *, size_t )>
-    fn )
-{
-    size_t remaining_len = zzip_contents.size();
-    const char *base = zzip_contents.data();
-    const char *end_of_last_entry = base;
+struct ZzipEntry {
+    std::string path;
+    uint64_t checksum;
+    const char *base;
+    size_t size;
+};
 
-#define RETURN_ERROR(e) return {end_of_last_entry, ExnPtr{e}}
+struct ZzipStream {
+    private:
+        std::filesystem::path zzip_path;
+        const std::vector<char> &zzip_contents;
+        const char *base;
+        ExnPtr err;
+    public:
 
-    // Skip the zzip header.
-    if( !ZSTD_isSkippableFrame( base, remaining_len ) ) {
-        RETURN_ERROR( ZzipError( zzip_path, 0, "Zzip does not start with skippable frame." ) );
-    }
+        ZzipStream( std::filesystem::path zzip_path, const std::vector<char> &zzip_contents ) : zzip_path{ zzip_path },
+            zzip_contents{ zzip_contents }, base{ zzip_contents.data() } {
+            size_t remaining_len = zzip_contents.size();
 
-    // The first frame of a zzip should be a skippable frame of two 64 bit ints
-    ZSTD_FrameHeader header;
-    size_t error_code = ZSTD_getFrameHeader( &header, base, remaining_len );
-    if( ZSTD_isError( error_code ) ||
-        header.dictID != kFooterChecksumMagic ||
-        header.frameContentSize != 2 * sizeof( uint64_t ) ) {
-        RETURN_ERROR( ZzipError( zzip_path, 0, "Error reading zzip header." ) );
-    }
-
-    base += ZSTD_SKIPPABLEHEADERSIZE + 2 * sizeof( uint64_t );
-    remaining_len -= ZSTD_SKIPPABLEHEADERSIZE + 2 * sizeof( uint64_t );
-
-    std::string filename;
-    uint64_t checksum = 0;
-
-    while( remaining_len > 0 && ZSTD_isFrame( base, remaining_len ) ) {
-        size_t offset = zzip_contents.size() - remaining_len;
-        size_t frame_size = ZSTD_findFrameCompressedSize( base, remaining_len );
-        if( ZSTD_isError( frame_size ) ) {
-            RETURN_ERROR( ZstdError( zzip_path, offset, frame_size, "Error reading frame size." ) );
-        }
-        if( frame_size > remaining_len ) {
-            RETURN_ERROR( ZzipError( zzip_path, offset, "Frame size exceeds remaining file" ) );
-        }
-        if( ZSTD_isSkippableFrame( base, remaining_len ) ) {
-            error_code = ZSTD_getFrameHeader( &header, base, remaining_len );
-            if( error_code ) {
-                RETURN_ERROR( ZstdError( zzip_path, offset, error_code, "Error reading frame header." ) );
+            // Skip the zzip header.
+            if( !ZSTD_isSkippableFrame( base, remaining_len ) ) {
+                err = ZzipError( zzip_path, 0, "Zzip does not start with skippable frame." );
+                return;
             }
-            if( header.dictID == kEntryFileNameMagic ) {
-                filename.resize( header.frameContentSize );
-                error_code = ZSTD_readSkippableFrame( filename.data(), filename.size(), nullptr, base,
-                                                      remaining_len );
-                if( ZSTD_isError( error_code ) || error_code != header.frameContentSize ) {
-                    RETURN_ERROR( ZstdError( zzip_path, offset, error_code, "Error reading filename header." ) );
+
+            // The first frame of a zzip should be a skippable frame of two 64 bit ints
+            ZSTD_FrameHeader header;
+            size_t error_code = ZSTD_getFrameHeader( &header, base, remaining_len );
+            if( ZSTD_isError( error_code ) ||
+                header.dictID != kFooterChecksumMagic ||
+                header.frameContentSize != 2 * sizeof( uint64_t ) ) {
+                err = ZzipError( zzip_path, 0, "Error reading zzip header." );
+                return;
+            }
+
+            base += ZSTD_SKIPPABLEHEADERSIZE + 2 * sizeof( uint64_t );
+        }
+
+        bool good() {
+            return !err;
+        }
+
+        ExnPtr &e() {
+            return err;
+        }
+
+        std::optional<ZzipEntry> next_entry() {
+            std::optional<ZzipEntry> entry;
+            if( err ) {
+                return entry;
+            }
+
+            size_t remaining_len = zzip_contents.size() - ( base - zzip_contents.data() );
+
+#define RETURN_ERROR(e) err = e; return entry
+
+            ZSTD_FrameHeader header;
+            size_t error_code = 0;
+
+            std::string filename;
+            uint64_t checksum = 0;
+
+            while( remaining_len > 0 && ZSTD_isFrame( base, remaining_len ) ) {
+                size_t offset = zzip_contents.size() - remaining_len;
+                size_t frame_size = ZSTD_findFrameCompressedSize( base, remaining_len );
+                if( ZSTD_isError( frame_size ) ) {
+                    RETURN_ERROR( ZstdError( zzip_path, offset, frame_size, "Error reading frame size." ) );
                 }
-            }
-            if( header.dictID == kEntryChecksumMagic ) {
-                uint64_t raw_checksum;
-                error_code = ZSTD_readSkippableFrame( &raw_checksum, sizeof( checksum ), nullptr, base,
-                                                      remaining_len );
-                if( ZSTD_isError( error_code ) || error_code != sizeof( uint64_t ) ) {
-                    RETURN_ERROR( ZstdError( zzip_path, offset, error_code, "Error reading checksum." ) );
+                if( frame_size > remaining_len ) {
+                    RETURN_ERROR( ZzipError( zzip_path, offset, "Frame size exceeds remaining file" ) );
                 }
-                checksum = MEM_readLE64( &raw_checksum );
+                if( ZSTD_isSkippableFrame( base, remaining_len ) ) {
+                    error_code = ZSTD_getFrameHeader( &header, base, remaining_len );
+                    if( error_code ) {
+                        RETURN_ERROR( ZstdError( zzip_path, offset, error_code, "Error reading frame header." ) );
+                    }
+                    if( header.dictID == kEntryFileNameMagic ) {
+                        filename.resize( header.frameContentSize );
+                        error_code = ZSTD_readSkippableFrame( filename.data(), filename.size(), nullptr, base,
+                                                              remaining_len );
+                        if( ZSTD_isError( error_code ) || error_code != header.frameContentSize ) {
+                            RETURN_ERROR( ZstdError( zzip_path, offset, error_code, "Error reading filename header." ) );
+                        }
+                    }
+                    if( header.dictID == kEntryChecksumMagic ) {
+                        uint64_t raw_checksum;
+                        error_code = ZSTD_readSkippableFrame( &raw_checksum, sizeof( checksum ), nullptr, base,
+                                                              remaining_len );
+                        if( ZSTD_isError( error_code ) || error_code != sizeof( uint64_t ) ) {
+                            RETURN_ERROR( ZstdError( zzip_path, offset, error_code, "Error reading checksum." ) );
+                        }
+                        checksum = MEM_readLE64( &raw_checksum );
+                    }
+                    base += frame_size;
+                    remaining_len -= frame_size;
+                    continue;
+                }
+
+                // At this point we should have read the filename and compressed frame checksums.
+                // If either is missing, the end of the zzip is corrupt.
+                if( filename.empty() || checksum == 0 ) {
+                    RETURN_ERROR( ZzipError( zzip_path, offset, "Entry metadata missing." ) );
+                }
+
+                if( frame_size > remaining_len ) {
+                    RETURN_ERROR( ZzipError( zzip_path, offset, filename + ": compressed contents truncated." ) );
+                }
+
+                uint64_t computed_checksum = XXH64( base, frame_size, kCheckumSeed );
+                if( checksum != computed_checksum && !( checksum == kDeletedChecksumTombstone &&
+                                                        ZSTD_findDecompressedSize( base, frame_size ) == 0 ) ) {
+                    RETURN_ERROR( ZzipError( zzip_path, offset, filename + ": compressed frame corrupted." ) );
+                }
+
+                entry.emplace();
+                entry->base = base;
+                entry->checksum = checksum;
+                entry->path = std::move( filename );
+                entry->size = frame_size;
+
+                base += frame_size;
+
+                return entry;
             }
-            base += frame_size;
-            remaining_len -= frame_size;
-            continue;
-        }
-
-        // At this point we should have read the filename and compressed frame checksums.
-        // If either is missing, the end of the zzip is corrupt.
-        if( filename.empty() || checksum == 0 ) {
-            RETURN_ERROR( ZzipError( zzip_path, offset, "Entry metadata missing." ) );
-        }
-
-        if( frame_size > remaining_len ) {
-            RETURN_ERROR( ZzipError( zzip_path, offset, filename + ": compressed contents truncated." ) );
-        }
-
-        uint64_t computed_checksum = XXH64( base, frame_size, kCheckumSeed );
-        if( checksum != computed_checksum ) {
-            RETURN_ERROR( ZzipError( zzip_path, offset, filename + ": compressed frame corrupted." ) );
-        }
-        ExnPtr err = fn( filename, checksum, base, frame_size );
-        if( err ) {
-            return { end_of_last_entry, std::move( err ) };
-        }
-
-        filename.clear();
-        checksum = 0;
-        base += frame_size;
-        remaining_len -= frame_size;
-        end_of_last_entry = base;
-    }
-    if( !filename.empty() || checksum != 0 ) {
-        RETURN_ERROR( ZzipError( zzip_path, zzip_contents.size() - remaining_len,
-                                 "Expected a compressed frame after entry metadata." ) );
-    }
-    return { end_of_last_entry, nullptr };
+            if( !filename.empty() || checksum != 0 ) {
+                RETURN_ERROR( ZzipError( zzip_path, zzip_contents.size() - remaining_len,
+                                         "Expected a compressed frame after entry metadata." ) );
+            }
+            return entry;
 #undef RETURN_ERROR
-}
+        }
+};
 
 static int decompress_to( std::filesystem::path const &zzip_path,
                           std::filesystem::path output_folder,
@@ -301,48 +344,53 @@ static int decompress_to( std::filesystem::path const &zzip_path,
         }
     }
 
-    // Iterate through the zstd frames extracting each file as we get to it.
-    auto [after_last_entry_ptr, err] = for_each_zzip_entry(
-                                           zzip_path,
-                                           zzip_contents,
-                                           [&](
-                                                   const std::string & filename,
-                                                   uint64_t /*checksum*/,
-                                                   const char *entry_base,
-                                                   size_t frame_size
-    ) -> ExnPtr {
-#define RETURN_ERROR(e) return ExnPtr{e}
-        std::cout << zzip_path_string << ": " << filename << " -> " << ( output_folder / filename ).generic_u8string() <<
+    // Iterate through the zstd frames indexing each file as we get to it.
+
+    std::map<std::string, ZzipEntry> entry_map;
+
+    ZzipStream zs( zzip_path, zzip_contents );
+    while( std::optional<ZzipEntry> entry = zs.next_entry() ) {
+        const std::string &filename = entry->path;
+        size_t checksum = entry->checksum;
+
+        if( checksum == kDeletedChecksumTombstone ) {
+            entry_map.erase( filename );
+        }
+
+        entry_map[filename] = std::move( *entry );
+    }
+
+    for( const std::pair<const std::string, ZzipEntry> &entry : entry_map ) {
+        const std::string &filename = entry.second.path;
+        const char *entry_base = entry.second.base;
+        size_t frame_size = entry.second.size;
+
+        std::cout << zzip_path_string << ": " << filename << " -> " << ( output_folder /
+                  filename ).generic_u8string() <<
                   std::endl;
 
         unsigned long long file_size = ZSTD_decompressBound( entry_base, frame_size );
         std::vector<char> buf;
         buf.resize( file_size );
         size_t actual = ZSTD_decompressDCtx( ctx, buf.data(), file_size, entry_base, frame_size );
-        if( ZSTD_isError( actual ) )
-        {
+        if( ZSTD_isError( actual ) ) {
             size_t offset = zzip_contents.data() - entry_base;
-            RETURN_ERROR( ZstdError( zzip_path, offset, actual, "Decompression error." ) );
+            throw ZstdError( zzip_path, offset, actual, "Decompression error." ) ;
         }
 
         std::filesystem::path output_file = output_folder / filename;
         std::ofstream out{ output_file, std::ios::binary };
-        if( !out )
-        {
-            RETURN_ERROR( FsError( output_file, {}, "Unable to open output file." ) );
+        if( !out ) {
+            throw FsError( output_file, {}, "Unable to open output file." );
         }
-        try
-        {
+        try {
             out.write( buf.data(), actual );
-        } catch( std::exception &e )
-        {
-            RETURN_ERROR( FsError( output_file, {}, std::string{ "Error writing output: " } + e.what() ) );
+        } catch( std::exception &e ) {
+            throw FsError( output_file, {}, std::string{ "Error writing output: " } + e.what() );
         }
-        return {};
-#undef RETURN_ERROR
-    } );
-    if( err ) {
-        err.throw_exception();
+    }
+    if( !zs.good() ) {
+        zs.e().throw_exception();
     }
 
     return 0;
@@ -413,19 +461,12 @@ static int compress_to( std::filesystem::path const &zzip_path,
         }
     }
 
-
-    auto [after_last_entry_ptr, err] = for_each_zzip_entry(
-                                           zzip_path,
-                                           zzip_contents,
-                                           [&](
-                                                   const std::string & entry_filename,
-                                                   uint64_t /*checksum*/,
-                                                   const char * /*entry_base*/,
-                                                   size_t /*zzip_remaining*/
-    ) -> ExnPtr {
-        std::cout << zzip_path.generic_u8string() << ":" << entry_filename << std::endl;
-        return {};
-    } );
+    const char *after_last_entry_ptr = zzip_contents.data();
+    ZzipStream zs( zzip_path, zzip_contents );
+    while( std::optional<ZzipEntry> entry = zs.next_entry() ) {
+        std::cout << zzip_path.generic_u8string() << ":" << entry->path << std::endl;
+        after_last_entry_ptr = entry->base + entry->size;
+    };
 
     size_t write_offset = after_last_entry_ptr - zzip_contents.data();
 

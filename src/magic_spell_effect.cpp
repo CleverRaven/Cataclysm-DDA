@@ -79,6 +79,8 @@ static const efftype_id effect_teleglow( "teleglow" );
 
 static const flag_id json_flag_FIT( "FIT" );
 
+static const json_character_flag
+json_flag_BLOCK_SUPERNATURAL_HEALING( "BLOCK_SUPERNATURAL_HEALING" );
 static const json_character_flag json_flag_PRED1( "PRED1" );
 static const json_character_flag json_flag_PRED2( "PRED2" );
 static const json_character_flag json_flag_PRED3( "PRED3" );
@@ -624,9 +626,13 @@ static void damage_targets( const spell &sp, Creature &caster,
                 cr->deal_projectile_attack( &here, &caster, atk, atk.missed_by, true );
             }
         } else if( sp.damage( caster ) < 0 ) {
-            sp.heal( target, caster );
-            add_msg_if_player_sees( cr->pos_bub(), m_good, _( "%s wounds are closing up!" ),
-                                    cr->disp_name( true ) );
+            if( !cr->has_flag( json_flag_BLOCK_SUPERNATURAL_HEALING ) ) {
+                sp.heal( target, caster );
+                add_msg_if_player_sees( cr->pos_bub(), m_good, _( "%s wounds are closing up!" ),
+                                        cr->disp_name( true ) );
+            } else {
+                caster.add_msg_if_player( m_bad, _( "Your healing spell has no effect!" ) );
+            }
         }
 
         // handling DOTs here
@@ -696,7 +702,7 @@ static void magical_polymorph( monster &victim, Creature &caster, const spell &s
 
     // if effect_str is empty, we become a random monster of close difficulty
     if( new_id.is_empty() ) {
-        int victim_diff = victim.type->difficulty;
+        int victim_diff = victim.type->get_total_difficulty();
         const std::vector<mtype> &mtypes = MonsterGenerator::generator().get_all_mtypes();
         for( int difficulty_variance = 1; difficulty_variance < 2048; difficulty_variance *= 2 ) {
             unsigned int random_entry = rng( 0, mtypes.size() );
@@ -705,8 +711,8 @@ static void magical_polymorph( monster &victim, Creature &caster, const spell &s
                 if( iter >= mtypes.size() ) {
                     iter = 0;
                 }
-                if( ( mtypes[iter].id != victim.type->id ) && ( std::abs( mtypes[iter].difficulty - victim_diff )
-                        <= difficulty_variance ) ) {
+                if( ( mtypes[iter].id != victim.type->id ) &&
+                    ( std::abs( mtypes[iter].get_total_difficulty() - victim_diff ) <= difficulty_variance ) ) {
                     if( !mtypes[iter].in_species( species_HALLUCINATION ) &&
                         mtypes[iter].id != mon_generator ) {
                         new_id = mtypes[iter].id;

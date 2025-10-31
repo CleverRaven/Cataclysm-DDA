@@ -558,7 +558,7 @@
     "subtypes": [ "ARMOR" ],
     "copy-from": "hc_chainmail_arms",
     "material": [ "moon_tears_fine_chain" ],
-    "name": { "str": "pair of moon tears chainmail sleeves", "str_pl": "pairs of moon tears chainmail sleeves" },
+    "name": { "str": "moon tears chainmail sleeves (pair)", "str_pl": "moon tears chainmail sleeves (pairs)" },
     "description": "Moon tears chainmail arms, found in places where changeling bannermen are numerous.  Each sleeve has straps to connect them with each other.  The lack of fingers makes them less cumbersome and allows them to be used with gloves.",
     "armor": [
       {
@@ -574,7 +574,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "mt_chainmail_arms",
-    "name": { "str": "pair of moon tears chainmail sleeves", "str_pl": "pairs of moon tears chainmail sleeves" },
+    "name": { "str": "moon tears chainmail sleeves (pair)", "str_pl": "moon tears chainmail sleeves (pairs)" },
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
@@ -583,7 +583,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "mt_chainmail_arms",
-    "name": { "str": "pair of moon tears chainmail sleeves", "str_pl": "pairs of moon tears chainmail sleeves" },
+    "name": { "str": "moon tears chainmail sleeves (pair)", "str_pl": "moon tears chainmail sleeves (pairs)" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
@@ -593,7 +593,7 @@
     "subtypes": [ "ARMOR" ],
     "copy-from": "hc_chainmail_feet",
     "material": [ "moon_tears_fine_chain" ],
-    "name": { "str": "pair of moon tears chainmail chausses", "str_pl": "pairs of moon tears chainmail chausses" },
+    "name": { "str": "moon tears chainmail chausses (pair)", "str_pl": "moon tears chainmail chausses (pairs)" },
     "description": "Moon tears chainmail chausses that cover the feet, like booties made of chainmail.  Found in places where changeling bannermen are numerous.",
     "armor": [
       {
@@ -609,7 +609,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "mt_chainmail_feet",
-    "name": { "str": "pair of moon tears chainmail chausses", "str_pl": "pairs of moon tears chainmail chausses" },
+    "name": { "str": "moon tears chainmail chausses (pair)", "str_pl": "moon tears chainmail chausses (pairs)" },
     "proportional": { "weight": 2, "volume": 2 },
     "description": "Moon tears chainmail chausses that cover the feet, like booties made of chainmail.  Found in places where redcap aspirants are numerous.",
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
@@ -619,7 +619,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "mt_chainmail_feet",
-    "name": { "str": "pair of moon tears chainmail chausses", "str_pl": "pairs of moon tears chainmail chausses" },
+    "name": { "str": "moon tears chainmail chausses (pair)", "str_pl": "moon tears chainmail chausses (pairs)" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "description": "Moon tears chainmail chausses that cover the feet, like booties made of chainmail.  Found in places where pooka aspirants are numerous.",
     "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
@@ -630,7 +630,7 @@
     "subtypes": [ "ARMOR" ],
     "copy-from": "hc_chainmail_hands",
     "material": [ "moon_tears_fine_chain" ],
-    "name": { "str": "pair of moon tears chainmail gloves", "str_pl": "pairs of moon tears chainmail gloves" },
+    "name": { "str": "moon tears chainmail gloves (pair)", "str_pl": "moon tears chainmail gloves (pairs)" },
     "description": "Moon tears chainmail gloves that fully enclose the hand.",
     "armor": [
       {
@@ -646,7 +646,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "mt_chainmail_hands",
-    "name": { "str": "pair of moon tears chainmail gloves", "str_pl": "pairs of moon tears chainmail gloves" },
+    "name": { "str": "moon tears chainmail gloves (pair)", "str_pl": "moon tears chainmail gloves (pairs)" },
     "proportional": { "weight": 1.5, "volume": 1.5 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
@@ -655,7 +655,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "mt_chainmail_hands",
-    "name": { "str": "pair of moon tears chainmail gloves", "str_pl": "pairs of moon tears chainmail gloves" },
+    "name": { "str": "moon tears chainmail gloves (pair)", "str_pl": "moon tears chainmail gloves (pairs)" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
@@ -884,7 +884,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "category": "armor",
-    "name": { "str_sp": "troll gauntlets" },
+    "name": { "str_sp": "troll gauntlets (pair)" },
     "description": "A pair of gigantic gauntlets with mail links of moon's tears protecting the fingers and palm, and plating over the back of the hand and wrist.  You could probably fit an entire child in one of these.",
     "weight": "3500 g",
     "volume": "2025 ml",

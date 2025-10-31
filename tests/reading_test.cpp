@@ -33,7 +33,6 @@ static const efftype_id effect_darkness( "darkness" );
 
 static const flag_id json_flag_INSPIRATIONAL( "INSPIRATIONAL" );
 
-static const itype_id itype_atomic_lamp( "atomic_lamp" );
 static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_child_book( "child_book" );
 static const itype_id itype_holybook_pastafarian( "holybook_pastafarian" );
@@ -43,6 +42,7 @@ static const itype_id itype_recipe_alpha( "recipe_alpha" );
 static const itype_id itype_sheet_cotton( "sheet_cotton" );
 static const itype_id itype_test_battery_disposable( "test_battery_disposable" );
 static const itype_id itype_test_ebook_reader( "test_ebook_reader" );
+static const itype_id itype_test_lamp( "test_lamp" );
 static const itype_id itype_test_textbook_fabrication( "test_textbook_fabrication" );
 
 static const limb_score_id limb_score_vision( "vision" );
@@ -249,7 +249,7 @@ TEST_CASE( "estimated_reading_time_for_a_book", "[reading][book][time]" )
         REQUIRE_FALSE( dummy.has_identified( western->typeId() ) );
 
         // Get some light
-        dummy.i_add( item( itype_atomic_lamp ) );
+        dummy.i_add( item( itype_test_lamp ) );
         REQUIRE( dummy.fine_detail_vision_mod() == 1 );
 
         THEN( "identifying books takes 1/10th of the normal reading time" ) {
@@ -268,7 +268,7 @@ TEST_CASE( "estimated_reading_time_for_a_book", "[reading][book][time]" )
         REQUIRE( dummy.has_identified( alpha->typeId() ) );
 
         // Get some light
-        dummy.i_add( item( itype_atomic_lamp ) );
+        dummy.i_add( item( itype_test_lamp ) );
         REQUIRE( dummy.fine_detail_vision_mod() == 1 );
 
         WHEN( "player has average intelligence" ) {
@@ -358,7 +358,7 @@ TEST_CASE( "reasons_for_not_being_able_to_read", "[reading][reasons]" )
         dummy.identify( *alpha );
 
         // Get some light
-        dummy.i_add( item( itype_atomic_lamp ) );
+        dummy.i_add( item( itype_test_lamp ) );
         REQUIRE( dummy.fine_detail_vision_mod() == 1 );
 
         THEN( "you cannot read while illiterate" ) {
@@ -562,7 +562,7 @@ TEST_CASE( "reading_a_book_with_an_ebook_reader", "[reading][book][ereader]" )
         REQUIRE( booklc );
 
         WHEN( "it is bright outside" ) {
-            dummy.i_add( item( itype_atomic_lamp ) );
+            dummy.i_add( item( itype_test_lamp ) );
             REQUIRE( dummy.fine_detail_vision_mod() == 1 );
             test_ebook_is_reading( dummy, ereader, booklc );
         }
@@ -578,7 +578,7 @@ TEST_CASE( "reading_a_book_with_an_ebook_reader", "[reading][book][ereader]" )
     GIVEN( "a book nearby" ) {
         map &here = get_map();
         tripoint_bub_ms pos = dummy.pos_bub();
-        dummy.i_add( item( itype_atomic_lamp ) );
+        dummy.i_add( item( itype_test_lamp ) );
         REQUIRE( dummy.fine_detail_vision_mod() == 1 );
 
         item_location ereader = here.add_item_or_charges_ret_loc( pos, item( itype_test_ebook_reader ) );

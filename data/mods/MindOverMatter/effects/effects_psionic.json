@@ -1342,7 +1342,7 @@
             "value": "PHASE_DISTANCE",
             "add": {
               "math": [
-                "( 1 + ( (u_spell_level('clair_astral_projection') + u_spell_level('clair_astral_projection_knack') ) * 0.15 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+                "max( ( ( 1 + ( (u_spell_level('clair_astral_projection') + u_spell_level('clair_astral_projection_knack') ) * 0.15 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 1)"
               ]
             }
           }

@@ -108,7 +108,7 @@
     "name": { "str": "aerial assassin" },
     "description": "A puff of wind, barely visible.  Only a few eddies in the air indicate that there is anything here at all.",
     "default_faction": "aerial_assassin",
-    "species": [ "WIND_SPIRIT" ],
+    "species": [ "WIND_SPIRIT", "SUMMONED_CREATURE" ],
     "diff": 2,
     "volume": "750 ml",
     "weight": "1 kg",

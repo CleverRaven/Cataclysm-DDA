@@ -636,7 +636,7 @@
     "eoc_type": "EVENT",
     "required_event": "gains_mutation",
     "condition": { "compare_string": [ "ANATHEMA_WEAKNESS_SUN_BURN", { "context_val": "trait" } ] },
-    "effect": [ { "u_message": "You know with certainty that standing under the sun is now a lethal threat.", "type": "bad" } ]
+    "effect": [ { "u_message": "You know with certainty that standing under the sun will slay you in moments.", "type": "bad" } ]
   },
   {
     "type": "effect_on_condition",
@@ -653,6 +653,83 @@
     "required_event": "gains_mutation",
     "condition": { "compare_string": [ "ANATHEMA_WEAKNESS_NEED_VAMPIRE_BLOOD", { "context_val": "trait" } ] },
     "effect": [ { "u_message": "You feel a growing thirst for the blood of vampires.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_ANATHEMA_BURN_IN_SUNLIGHT",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": {
+      "and": [
+        { "u_has_trait": "ANATHEMA_WEAKNESS_SUN_BURN" },
+        "is_day",
+        "u_is_outside",
+        { "not": { "is_weather": "blotted_sun" } }
+      ]
+    },
+    "effect": [
+      { "u_add_effect": "effect_slain_by_the_sun", "duration": "PERMANENT" },
+      {
+        "if": { "not": { "u_has_effect": "effect_slain_by_the_sun_limiter" } },
+        "then": [ { "run_eocs": "EOC_VAMPIRE_ANATHEMA_BURN_IN_SUNLIGHT_CONTINUAL" } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_ANATHEMA_BURN_IN_SUNLIGHT_GO_INDOORS",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": {
+      "and": [
+        { "u_has_trait": "ANATHEMA_WEAKNESS_SUN_BURN" },
+        { "or": [ { "not": "is_day" }, { "not": "u_is_outside" }, { "is_weather": "blotted_sun" } ] }
+      ]
+    },
+    "effect": [ { "u_lose_effect": "effect_slain_by_the_sun" }, { "u_lose_effect": "effect_slain_by_the_sun_limiter" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_ANATHEMA_BURN_IN_SUNLIGHT_CONTINUAL",
+    "condition": { "u_has_effect": "effect_slain_by_the_sun" },
+    "effect": [
+      { "u_add_effect": "effect_slain_by_the_sun_limiter", "duration": "PERMANENT" },
+      {
+        "math": [ "_vampire_burning_chance = (30 * (u_effect_intensity('effect_vampiric_resilience') > -1 ? 4 : 1) )" ]
+      },
+      {
+        "foreach": "array",
+        "target": [ "arm_l", "arm_r", "leg_l", "leg_r", "torso", "head" ],
+        "var": { "context_val": "id" },
+        "effect": [
+          {
+            "if": { "x_in_y_chance": { "x": 1, "y": { "math": [ "_vampire_burning_chance" ] } } },
+            "then": [ { "u_add_effect": "onfire", "duration": 30, "target_part": { "context_val": "id" } } ]
+          }
+        ]
+      },
+      {
+        "u_message": "You are burning in the sunlight!  Your burn chance is 1 in <context_val:vampire_burning_chance>.",
+        "type": "debug"
+      },
+      { "run_eocs": "EOC_VAMPIRE_ANATHEMA_BURN_IN_SUNLIGHT_CONTINUAL", "time_in_future": 1 }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_VAMPIRE_ANATHEMA_BURN_IN_SUNLIGHT_AT_SUNRISE",
+    "recurrence": { "math": [ "time_until('sunrise')" ] },
+    "global": true,
+    "run_for_npcs": false,
+    "condition": {
+      "and": [
+        { "u_has_trait": "ANATHEMA_WEAKNESS_SUN_BURN" },
+        "is_day",
+        "u_is_outside",
+        { "not": { "is_weather": "blotted_sun" } }
+      ]
+    },
+    "effect": [ { "run_eocs": "EOC_VAMPIRE_ANATHEMA_BURN_IN_SUNLIGHT_CONTINUAL" } ]
   },
   {
     "type": "effect_on_condition",
@@ -1647,6 +1724,8 @@
     "type": "effect_on_condition",
     "id": "EOC_VAMPIRE_TORPOR_activated",
     "effect": [
+      { "math": [ "u_val('sleepiness') = 0" ] },
+      { "math": [ "u_val('sleep_deprivation') = 0" ] },
       { "u_assign_activity": "ACT_VAMPIRE_TORPOR", "duration": "8 hours" },
       { "u_add_effect": "effect_vampire_torpor", "duration": "8 hours" }
     ]
@@ -1661,13 +1740,16 @@
     "interruptable": false,
     "interruptable_with_kb": false,
     "rooted": true,
-    "do_turn_eoc": "EOC_VAMPIRE_TORPOR_RECOVER",
-    "completion_eoc": "EOC_EARTH_SLEEP_CHECK_REAL"
+    "completion_eoc": "EOC_REGAIN_SLEEP_AND_EARTH_SLEEP_CHECK_REAL"
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_VAMPIRE_TORPOR_RECOVER",
-    "effect": [ { "math": [ "u_val('sleepiness') = 0" ] }, { "math": [ "u_val('sleep_deprivation') = 0" ] } ]
+    "id": "EOC_REGAIN_SLEEP_AND_EARTH_SLEEP_CHECK_REAL",
+    "effect": [
+      { "math": [ "u_val('sleepiness') = 0" ] },
+      { "math": [ "u_val('sleep_deprivation') = 0" ] },
+      { "run_eocs": "EOC_EARTH_SLEEP_CHECK_REAL" }
+    ]
   },
   {
     "type": "effect_type",
@@ -1678,6 +1760,10 @@
     "vitamins": [ { "vitamin": "human_blood_vitamin", "rate": [ [ 1, 1 ] ], "tick": [ "8 m" ] } ],
     "flags": [ "DEAF", "BLIND" ],
     "enchantments": [
+      {
+        "condition": { "u_has_trait": "VAMPIRE_TORPOR_REFINEMENT_FEIGN_DEATH" },
+        "mutations": [ "WINTER_FEIGN_DEATH_TRAITS" ]
+      },
       {
         "values": [
           {
@@ -1696,7 +1782,9 @@
               ]
             }
           },
-          { "value": "REGEN_HP_AWAKE", "multiply": 1 }
+          { "value": "REGEN_HP_AWAKE", "multiply": 1 },
+          { "value": "SLEEPINESS_REGEN", "multiply": 20 },
+          { "value": "SLEEPINESS", "multiply": -0.99 }
         ]
       }
     ]
@@ -1726,8 +1814,15 @@
               { "u_add_trait": "ECHOLOCATION" },
               { "math": [ "u_calories('dont_affect_weariness': true) /= 4" ] },
               {
-                "u_message": "Your fingers lengthen as flaps of skin grow between them and as your legs shorten, you take to the air.",
-                "type": "good"
+                "if": { "u_has_trait": "VAMPIRE_BAT_FORM_REFINEMENT_SWARM" },
+                "then": {
+                  "u_message": "Your body splits into a multitude of bats and as your transformation completes, you take to the air on many wings.",
+                  "type": "good"
+                },
+                "else": {
+                  "u_message": "Your fingers lengthen as flaps of skin grow between them and as your legs shorten, you take to the air.",
+                  "type": "good"
+                }
               }
             ],
             "false_effect": [
@@ -2210,11 +2305,19 @@
                 "rng(0.75,1.25) * (300 + (vampire_total_tier_one_traits_plus_potency() * 33) + (vampire_total_tier_two_traits() * 75) + (vampire_total_tier_three_traits() * 125) + (vampire_total_tier_four_traits_plus_potence() * 200) + (vampire_total_tier_five_traits_plus_cauldron() * 270))"
               ]
             },
+            { "if": { "u_has_trait": "ANATHEMA_WEAKNESS_SUN_BURN" }, "then": { "math": [ "sunless_time /= 100" ] } },
             { "run_eocs": [ "EOC_BLOT_THE_SUN" ] },
             { "run_eocs": "EOC_UNBLOT_THE_SUN", "time_in_future": { "math": [ "sunless_time" ] } },
             {
-              "u_message": "Using your mastery over the Shadowed Path, you blot out the sun, covering the region around you in darkness for a short period of time.",
-              "type": "good"
+              "if": { "u_has_trait": "ANATHEMA_WEAKNESS_SUN_BURN" },
+              "then": {
+                "u_message": "Using your mastery over the Shadowed Path, you blot out the sun, covering the region around you in darkness for a short period of time.  But you can already see the hateful sun burning through the shadows; you had better find shelter immediately.",
+                "type": "mixed"
+              },
+              "else": {
+                "u_message": "Using your mastery over the Shadowed Path, you blot out the sun, covering the region around you in darkness for a short period of time.",
+                "type": "good"
+              }
             }
           ]
         }
@@ -2671,62 +2774,6 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_SUN_BURN_CHECK",
-    "//": "Until the day a single effect can damage all bodyparts at once, Slain by the Sun will need this EOC to work.",
-    "recurrence": 1,
-    "condition": {
-      "and": [
-        { "u_has_trait": "ANATHEMA_WEAKNESS_SUN_BURN" },
-        "is_day",
-        "u_is_outside",
-        { "not": { "is_weather": "blotted_sun" } },
-        { "not": { "u_has_effect": "effect_sun_burn_grace_period" } }
-      ]
-    },
-    "deactivate_condition": { "not": { "u_has_trait": "ANATHEMA_WEAKNESS_SUN_BURN" } },
-    "effect": [
-      { "u_add_effect": "effect_slain_by_the_sun", "duration": 100, "target_part": "arm_l" },
-      { "u_add_effect": "effect_slain_by_the_sun", "duration": 100, "target_part": "arm_r" },
-      { "u_add_effect": "effect_slain_by_the_sun", "duration": 100, "target_part": "leg_l" },
-      { "u_add_effect": "effect_slain_by_the_sun", "duration": 100, "target_part": "leg_r" },
-      { "u_add_effect": "effect_slain_by_the_sun", "duration": 100, "target_part": "torso" },
-      { "u_add_effect": "effect_slain_by_the_sun", "duration": 100, "target_part": "head" },
-      { "u_message": "You are under the sun!  You must find shelter from its rays or you will die!", "type": "bad" }
-    ],
-    "false_effect": [
-      {
-        "run_eocs": [
-          {
-            "id": "EOC_SUN_BURN_CHECK_REMOVE",
-            "condition": {
-              "or": [
-                { "math": [ "u_effect_intensity('effect_slain_by_the_sun', 'bodypart': 'arm_l') >= 1" ] },
-                { "math": [ "u_effect_intensity('effect_slain_by_the_sun', 'bodypart': 'arm_r') >= 1" ] },
-                { "math": [ "u_effect_intensity('effect_slain_by_the_sun', 'bodypart': 'leg_l') >= 1" ] },
-                { "math": [ "u_effect_intensity('effect_slain_by_the_sun', 'bodypart': 'leg_r') >= 1" ] },
-                { "math": [ "u_effect_intensity('effect_slain_by_the_sun', 'bodypart': 'torso') >= 1" ] },
-                { "math": [ "u_effect_intensity('effect_slain_by_the_sun', 'bodypart': 'head') >= 1" ] }
-              ]
-            },
-            "effect": [
-              { "u_lose_effect": "effect_slain_by_the_sun", "target_part": "arm_l" },
-              { "u_lose_effect": "effect_slain_by_the_sun", "target_part": "arm_r" },
-              { "u_lose_effect": "effect_slain_by_the_sun", "target_part": "leg_l" },
-              { "u_lose_effect": "effect_slain_by_the_sun", "target_part": "leg_r" },
-              { "u_lose_effect": "effect_slain_by_the_sun", "target_part": "torso" },
-              { "u_lose_effect": "effect_slain_by_the_sun", "target_part": "head" },
-              {
-                "u_message": "The sun's rays cannot reach you anymore.  You no longer feel like you're burning alive.",
-                "type": "good"
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
     "id": "EOC_ANATHEMA_MIND_CHAOS",
     "//": "Checks the variable every time the player drinks vampire blood with the weakness.  If the effect triggers, it gives a random mental negative.  If if cannot give one, it gives a negative effect for a while.  If the effect doesn't trigger, it increments the variable.",
     "//2": "It doesn't give nyctophobia and pyromania for obvious reasons.",
@@ -2831,7 +2878,7 @@
     "condition": { "u_has_trait": "MENTOR_PEACE" },
     "effect": [
       { "u_die": { "remove_corpse": true, "supress_message": true, "remove_from_creature_tracker": true } },
-      { "npc_message": "%1$s's vanishes in a fine mist." }
+      { "npc_message": "%1$s vanishes in a fine mist." }
     ],
     "false_effect": [
       {

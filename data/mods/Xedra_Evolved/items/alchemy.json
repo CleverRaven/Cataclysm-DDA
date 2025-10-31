@@ -501,7 +501,8 @@
     "quench": 2,
     "healthy": 7,
     "fun": -30,
-    "flags": [ "LIGHT_5", "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
+    "light": 5,
+    "flags": [ "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "consumption_effect_on_conditions": [ "become_fire_fae" ]
   },
   {

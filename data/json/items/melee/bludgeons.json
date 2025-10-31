@@ -458,7 +458,8 @@
       "target": "wizard_cane_cheap",
       "ammo_scale": 0
     },
-    "extend": { "flags": [ "LIGHT_4", "CHARGEDIM", "TRADER_AVOID", "WATER_BREAK" ] },
+    "light": 4,
+    "extend": { "flags": [ "CHARGEDIM", "TRADER_AVOID", "WATER_BREAK" ] },
     "delete": { "flags": [ "WATER_BREAK_ACTIVE" ] }
   },
   {
@@ -511,7 +512,8 @@
       "target": "wizard_cane",
       "ammo_scale": 0
     },
-    "extend": { "flags": [ "LIGHT_300", "CHARGEDIM", "TRADER_AVOID", "WATER_BREAK" ] },
+    "light": 300,
+    "extend": { "flags": [ "CHARGEDIM", "TRADER_AVOID", "WATER_BREAK" ] },
     "delete": { "flags": [ "WATER_BREAK_ACTIVE" ] }
   },
   {
@@ -1846,7 +1848,8 @@
     "to_hit": { "grip": "weapon", "length": "short", "surface": "every", "balance": "good" },
     "revert_to": "shocktonfa_off",
     "use_action": [ "SHOCKTONFA_ON" ],
-    "flags": [ "LIGHT_450", "CHARGEDIM", "DURABLE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "BELT_CLIP" ],
+    "light": 450,
+    "flags": [ "CHARGEDIM", "DURABLE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "BELT_CLIP" ],
     "weapon_category": [ "BATONS" ]
   },
   {

@@ -640,6 +640,51 @@ std::string message_iuse::get_name() const
     return iuse_actor::get_name();
 }
 
+std::unique_ptr<iuse_actor> mp3_iuse::clone() const
+{
+    return std::make_unique<mp3_iuse>( *this );
+}
+
+void mp3_iuse::load( const JsonObject &jo, const std::string & )
+{
+    mandatory( jo, false, "transform", transform );
+    mandatory( jo, false, "activate", activate );
+    mandatory( jo, false, "message", msg );
+}
+
+std::optional<int> mp3_iuse::use( Character *p, item &it, map *, const tripoint_bub_ms & ) const
+{
+    if( !p ) {
+        return std::nullopt;
+    }
+    if( activate ) {
+        if( !it.ammo_sufficient( p ) ) {
+            p->add_msg_if_player( m_info, _( "The %s's batteries are dead." ), it.tname() );
+        } else if( p->cache_has_item_with( "active_MP3_ON", &item::is_active, []( const item & q ) {
+        return q.type->has_tick( "MP3_ON" );
+        } ) ) {
+            p->add_msg_if_player( m_info, _( "You are already listening to music!" ) );
+        } else {
+            p->add_msg_if_player( m_info, msg.translated() );
+            it.convert( transform, p ).active = true;
+            p->mod_moves( -200 );
+        }
+        return 1;
+    } else {
+        p->add_msg_if_player( msg.translated() );
+        it.convert( transform, p ).active = false;
+        p->mod_moves( -200 );
+        music::deactivate_music_id( music::music_id::mp3 );
+    }
+
+    return 0;
+}
+
+std::string mp3_iuse::get_name() const
+{
+    return activate ? _( "Play music" ) : _( "Turn off music" );
+}
+
 std::unique_ptr<iuse_actor> sound_iuse::clone() const
 {
     return std::make_unique<sound_iuse>( *this );
@@ -810,6 +855,7 @@ void effect_data::deserialize( const JsonObject &jo )
     optional( jo, false, "duration", duration, 0_seconds );
     optional( jo, false, "bp", bp, bodypart_str_id::NULL_ID() );
     optional( jo, false, "permanent", permanent, false );
+    optional( jo, false, "intensity", intensity, 0 );
 }
 
 } // namespace iuse
@@ -909,7 +955,7 @@ std::optional<int> consume_drug_iuse::use( Character *p, item &it, map *here,
         } else if( p->has_trait( trait_LIGHTWEIGHT ) ) {
             dur *= 1.2;
         }
-        p->add_effect( eff.id, dur, eff.bp, eff.permanent );
+        p->add_effect( eff.id, dur, eff.bp, eff.permanent, eff.intensity );
     }
     //Apply the various damage_over_time
     for( const damage_over_time_data &Dot : damage_over_time ) {
@@ -1036,7 +1082,7 @@ std::optional<int> place_monster_iuse::use( Character *p, item &it, map *here,
         }
         // place_critter_at returns the same pointer as its parameter (or null)
         if( !g->place_critter_at( newmon_ptr, *pnt_ ) ) {
-            p->add_msg_if_player( m_info, _( "You cannot place a %s there." ), newmon.name() );
+            p->add_msg_if_player( m_info, _( "You can't place a %s there." ), newmon.name() );
             return std::nullopt;
         }
     }
@@ -3165,7 +3211,7 @@ bool repair_item_actor::can_repair_target( Character &pl, const item &fix, bool 
     //  our `fix` can be a different item.
     if( fix.is_null() ) {
         if( print_msg ) {
-            pl.add_msg_if_player( m_info, _( "You do not have that item!" ) );
+            pl.add_msg_if_player( m_info, _( "You don't have that item!" ) );
         }
         return false;
     }
@@ -3213,7 +3259,7 @@ bool repair_item_actor::can_repair_target( Character &pl, const item &fix, bool 
     }
 
     if( print_msg ) {
-        pl.add_msg_if_player( m_info, _( "You cannot improve your %s any more this way." ), fix.tname() );
+        pl.add_msg_if_player( m_info, _( "You can't improve your %s any more this way." ), fix.tname() );
     }
     return false;
 }
@@ -3474,7 +3520,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( Character &pl, item &
         return AS_RETRY;
     }
 
-    pl.add_msg_if_player( m_info, _( "You cannot improve your %s any more this way." ), fix->tname() );
+    pl.add_msg_if_player( m_info, _( "You can't improve your %s any more this way." ), fix->tname() );
     return AS_CANT;
 }
 
@@ -3781,7 +3827,7 @@ int heal_actor::finish_using( Character &healer, Character &patient, item &it,
     }
 
     for( const iuse::effect_data &eff : effects ) {
-        patient.add_effect( eff.id, eff.duration, eff.bp, eff.permanent );
+        patient.add_effect( eff.id, eff.duration, eff.bp, eff.permanent, eff.intensity );
     }
 
     if( !used_up_item_id.is_empty() ) {
@@ -3979,7 +4025,7 @@ void heal_actor::info( const item &, std::vector<iteminfo> &dump ) const
 
     if( bandages_power > 0 ) {
         dump.emplace_back( "HEAL", _( "Base bandaging quality: " ),
-                           texitify_base_healing_power( static_cast<int>( bandages_power ) ) );
+                           texitify_base_healing_power( bandages_power ) );
         if( g != nullptr ) {
             dump.emplace_back( "HEAL", _( "Actual bandaging quality: " ),
                                texitify_healing_power( get_bandaged_level( player_character ) ) );
@@ -3988,7 +4034,7 @@ void heal_actor::info( const item &, std::vector<iteminfo> &dump ) const
 
     if( disinfectant_power > 0 ) {
         dump.emplace_back( "HEAL", _( "Base disinfecting quality: " ),
-                           texitify_base_healing_power( static_cast<int>( disinfectant_power ) ) );
+                           texitify_base_healing_power( disinfectant_power ) );
         if( g != nullptr ) {
             dump.emplace_back( "HEAL", _( "Actual disinfecting quality: " ),
                                texitify_healing_power( get_disinfected_level( player_character ) ) );
@@ -4023,7 +4069,7 @@ place_trap_actor::data::data() : trap( trap_str_id::NULL_ID() ) {}
 
 void place_trap_actor::data::load( const JsonObject &obj )
 {
-    optional( obj, false, "trap", trap );
+    optional( obj, false, "trap", trap, trap_str_id::NULL_ID() );
     optional( obj, false, "done_message", done_message );
     optional( obj, false, "practice", practice, 0 );
     optional( obj, false, "moves", moves, 100 );
@@ -4034,13 +4080,13 @@ void place_trap_actor::load( const JsonObject &obj, const std::string & )
     optional( obj, false, "allow_underwater", allow_underwater, false );
     optional( obj, false, "allow_under_player", allow_under_player, false );
     optional( obj, false, "needs_solid_neighbor", needs_solid_neighbor, false );
-    optional( obj, false, "needs_neighbor_terrain", needs_neighbor_terrain );
+    optional( obj, false, "needs_neighbor_terrain", needs_neighbor_terrain, ter_str_id::NULL_ID() );
     optional( obj, false, "bury_question", bury_question );
     if( !bury_question.empty() ) {
         optional( obj, false, "bury", buried_data );
     }
     unburied_data.load( obj );
-    optional( obj, false, "outer_layer_trap", outer_layer_trap );
+    optional( obj, false, "outer_layer_trap", outer_layer_trap, trap_str_id::NULL_ID() );
 }
 
 std::unique_ptr<iuse_actor> place_trap_actor::clone() const
@@ -5605,7 +5651,7 @@ std::optional<int> sew_advanced_actor::use( Character *p, item &it, map *here,
     item_location loc = game_menus::inv::titled_filter_menu(
                             filter, *p->as_avatar(), _( "Enhance which clothing?" ) );
     if( !loc ) {
-        p->add_msg_if_player( m_info, _( "You do not have that item!" ) );
+        p->add_msg_if_player( m_info, _( "You don't have that item!" ) );
         return std::nullopt;
     }
     item &mod = *loc;
@@ -5832,7 +5878,7 @@ std::optional<int> change_scent_iuse::use( Character *p, item &it, map *,
 
     // Apply the various effects.
     for( const iuse::effect_data &eff : effects ) {
-        p->add_effect( eff.id, eff.duration, eff.bp, eff.permanent );
+        p->add_effect( eff.id, eff.duration, eff.bp, eff.permanent, eff.intensity );
     }
     return charges_to_use;
 }

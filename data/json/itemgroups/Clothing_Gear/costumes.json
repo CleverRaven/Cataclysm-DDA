@@ -80,8 +80,7 @@
       { "item": "devil_tail", "prob": 15 },
       { "item": "angel_wings", "prob": 15 },
       { "item": "cuffs", "prob": 25 },
-      { "item": "collar_playboy", "prob": 25 },
-      { "item": "tail_bunny_playboy", "prob": 25 }
+      { "item": "collar_playboy", "prob": 25 }
     ]
   },
   {
@@ -598,5 +597,11 @@
       [ "wakizashi_inferior", 8 ],
       [ "kris_fake", 8 ]
     ]
+  },
+  {
+    "id": "pet_collars",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ [ "leather_collar", 2 ], [ "faux_fur_collar", 1 ], [ "fur_collar", 1 ] ]
   }
 ]

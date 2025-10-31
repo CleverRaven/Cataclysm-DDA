@@ -41,6 +41,8 @@
 
 struct itype;
 
+static const damage_type_id damage_bash( "bash" );
+
 static const harvest_id harvest_list_human( "human" );
 
 static const material_id material_flesh( "flesh" );
@@ -106,6 +108,24 @@ std::string enum_to_string<mdeath_type>( mdeath_type data )
 
 } // namespace io
 
+template<>
+const mtype &int_id<mtype>::obj() const
+{
+    return MonsterGenerator::generator().mon_templates->obj( *this );
+}
+
+template<>
+bool int_id<mtype>::is_valid() const
+{
+    return MonsterGenerator::generator().mon_templates->is_valid( *this );
+}
+
+template<>
+const string_id<mtype> &int_id<mtype>::id() const
+{
+    return MonsterGenerator::generator().mon_templates->convert( *this );
+}
+
 /** @relates string_id */
 template<>
 const mtype &string_id<mtype>::obj() const
@@ -118,6 +138,12 @@ template<>
 bool string_id<mtype>::is_valid() const
 {
     return MonsterGenerator::generator().mon_templates->is_valid( *this );
+}
+
+template<>
+int_id<mtype> string_id<mtype>::id() const
+{
+    return MonsterGenerator::generator().mon_templates->convert( *this, int_id<mtype>( 0 ) );
 }
 
 /** @relates string_id */
@@ -220,7 +246,7 @@ void MonsterGenerator::reset()
     init_attack();
 }
 
-static int calc_bash_skill( const mtype &t )
+static std::map<damage_type_id, int> calc_bash_skill( const mtype &t )
 {
     // IOW, the critter's max bashing damage
     int ret = t.melee_dice * t.melee_sides;
@@ -230,10 +256,10 @@ static int calc_bash_skill( const mtype &t )
     } else if( t.has_flag( mon_flag_DESTROYS ) ) {
         ret *= 2.5;
     } else if( !t.has_flag( mon_flag_BASHES ) ) {
-        ret = 0;
+        return {};
     }
 
-    return ret;
+    return {{{damage_bash, ret}}};
 }
 
 static creature_size volume_to_size( const units::volume &vol )
@@ -351,7 +377,7 @@ void MonsterGenerator::finalize_mtypes()
             adj.apply( mon );
         }
 
-        if( mon.bash_skill < 0 ) {
+        if( mon.bash_skill.empty() ) {
             mon.bash_skill = calc_bash_skill( mon );
         }
 
@@ -391,7 +417,7 @@ void MonsterGenerator::finalize_mtypes()
         }
         mon.difficulty = ( mon.melee_skill + 1 ) * mon.melee_dice * ( melee_dmg_total + mon.melee_sides ) *
                          0.04 + ( mon.sk_dodge + 1 ) * armor_diff * 0.04 +
-                         ( mon.difficulty_base + special_attacks_diff + 8 * mon.emit_fields.size() );
+                         ( mon.get_difficulty_adjustment() + special_attacks_diff + 8 * mon.emit_fields.size() );
         mon.difficulty *= ( mon.hp + mon.speed - mon.attack_cost + ( mon.morale + mon.agro ) * 0.1 ) * 0.01
                           + ( mon.vision_day + 2 * mon.vision_night ) * 0.01;
 
@@ -569,7 +595,7 @@ void MonsterGenerator::finalize_pathfinding_settings( mtype &mon )
         mon.path_settings.max_length = mon.path_settings.max_dist * 5;
     }
 
-    if( mon.path_settings.bash_strength < 0 ) {
+    if( mon.path_settings.bash_strength.empty() ) {
         mon.path_settings.bash_strength = mon.bash_skill;
     }
 
@@ -860,7 +886,7 @@ void mtype::load( const JsonObject &jo, const std::string_view src )
     optional( jo, was_loaded, "phase", phase, make_flag_reader( gen.phase_map, "phase id" ),
               phase_id::SOLID );
 
-    optional( jo, was_loaded, "diff", difficulty_base, numeric_bound_reader<int> {0}, 0 );
+    optional( jo, was_loaded, "diff", difficulty_adjustment, numeric_bound_reader<int> {0}, 0 );
     optional( jo, was_loaded, "hp", hp, numeric_bound_reader<int> {1} );
     optional( jo, was_loaded, "speed", speed, numeric_bound_reader<int> {0}, 0 );
     optional( jo, was_loaded, "aggression", agro, numeric_bound_reader<int> {-100, 100}, 0 );
@@ -1135,7 +1161,15 @@ void mtype::load( const JsonObject &jo, const std::string_view src )
     optional( jo, was_loaded, "flags", pre_flags_, string_id_reader<mon_flag> {} );
 
     // Can't calculate yet - we want all flags first
-    optional( jo, was_loaded, "bash_skill", bash_skill, -1 );
+    if( jo.has_int( "bash_skill" ) ) {
+        int skill;
+        optional( jo, false, "bash_skill", skill, -1 );
+        if( skill <= 0 ) {
+            bash_skill = {{{damage_bash, skill}}};
+        }
+    } else {
+        optional( jo, was_loaded, "bash_skill", bash_skill );
+    }
 
     const auto trigger_reader = enum_flags_reader<mon_trigger> { "monster trigger" };
     optional( jo, was_loaded, "anger_triggers", anger, trigger_reader );
@@ -1147,7 +1181,7 @@ void mtype::load( const JsonObject &jo, const std::string_view src )
         // Here rather than in pathfinding.cpp because we want monster-specific defaults and was_loaded
         optional( jop, was_loaded, "max_dist", path_settings.max_dist, 0 );
         optional( jop, was_loaded, "max_length", path_settings.max_length, -1 );
-        optional( jop, was_loaded, "bash_strength", path_settings.bash_strength, -1 );
+        optional( jop, was_loaded, "bash_strength", path_settings.bash_strength );
         optional( jop, was_loaded, "allow_open_doors", path_settings.allow_open_doors, false );
         optional( jop, was_loaded, "avoid_traps", path_settings.avoid_traps, false );
         optional( jop, was_loaded, "allow_climb_stairs", path_settings.allow_climb_stairs, true );

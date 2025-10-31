@@ -130,7 +130,7 @@
     "symbol": "(",
     "color": "brown",
     "name": { "ctxt": "weapon", "str": "long sling" },
-    "description": "A long sling, still easy to use and accurate.  It's length allows the user to launch pebbles with greate force and range",
+    "description": "A long sling, still easy to use and accurate.  It's length allows the user to launch pebbles with great force and range",
     "price": "1 USD 50 cent",
     "//": "It's little more than a piece of slightly shaped leather",
     "material": [ "leather" ],

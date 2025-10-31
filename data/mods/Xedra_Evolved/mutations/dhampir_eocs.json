@@ -137,7 +137,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_DHAMPIR_GAIN_NEW_WEAKNESS_MESSAGE",
-    "effect": [ { "u_message": "You use of your vampiric powers has caused you to gain a new frailty.", "type": "bad" } ]
+    "effect": [ { "u_message": "Your use of your vampiric powers has caused you to gain a new frailty.", "type": "bad" } ]
   },
   {
     "type": "effect_on_condition",
@@ -187,7 +187,8 @@
           "DHAMPIR_WEAKNESS_BLOODTHIRST",
           "DHAMPIR_WEAKNESS_OVERWHELMING_ARROGANCE",
           "DHAMPIR_WEAKNESS_SLOWER_BLOOD_GAIN",
-          "DHAMPIR_WEAKNESS_LOWER_KCAL_FROM_FOOD"
+          "DHAMPIR_WEAKNESS_LOWER_KCAL_FROM_FOOD",
+          "DHAMPIR_WEAKNESS_BURNED_BY_THE_SUN"
         ],
         "type": "mutation",
         "true_eocs": [ "EOC_DHAMPIR_GAIN_NEW_WEAKNESS_MESSAGE" ],
@@ -318,29 +319,25 @@
             { "math": [ "u_effect_intensity('bleed', 'bodypart': 'head') >= 1" ] }
           ]
         },
-        { "math": [ "u_vitamin('human_blood_vitamin') > 0" ] }
+        { "math": [ "u_vitamin('human_blood_vitamin') > -1000" ] }
       ]
     },
     "effect": [
-      { "math": [ "u_vitamin('blood') += u_effect_intensity('bleed', 'bodypart': 'arm_l') * 2" ] },
-      { "math": [ "u_vitamin('blood') += u_effect_intensity('bleed', 'bodypart': 'arm_r') * 2" ] },
-      { "math": [ "u_vitamin('blood') += u_effect_intensity('bleed', 'bodypart': 'leg_l') * 2" ] },
-      { "math": [ "u_vitamin('blood') += u_effect_intensity('bleed', 'bodypart': 'leg_r') * 2" ] },
-      { "math": [ "u_vitamin('blood') += u_effect_intensity('bleed', 'bodypart': 'torso') * 2" ] },
-      { "math": [ "u_vitamin('blood') += u_effect_intensity('bleed', 'bodypart': 'head') * 2" ] },
-      { "math": [ "u_vitamin('redcells') += u_effect_intensity('bleed', 'bodypart': 'arm_l') * 2" ] },
-      { "math": [ "u_vitamin('redcells') += u_effect_intensity('bleed', 'bodypart': 'arm_r') * 2" ] },
-      { "math": [ "u_vitamin('redcells') += u_effect_intensity('bleed', 'bodypart': 'leg_l') * 2" ] },
-      { "math": [ "u_vitamin('redcells') += u_effect_intensity('bleed', 'bodypart': 'leg_r') * 2" ] },
-      { "math": [ "u_vitamin('redcells') += u_effect_intensity('bleed', 'bodypart': 'torso') * 2" ] },
-      { "math": [ "u_vitamin('redcells') += u_effect_intensity('bleed', 'bodypart': 'head') * 2" ] },
-      { "math": [ "u_vitamin('human_blood_vitamin') -= u_effect_intensity('bleed', 'bodypart': 'arm_l') * 2" ] },
-      { "math": [ "u_vitamin('human_blood_vitamin') -= u_effect_intensity('bleed', 'bodypart': 'arm_r') * 2" ] },
-      { "math": [ "u_vitamin('human_blood_vitamin') -= u_effect_intensity('bleed', 'bodypart': 'leg_l') * 2" ] },
-      { "math": [ "u_vitamin('human_blood_vitamin') -= u_effect_intensity('bleed', 'bodypart': 'leg_r') * 2" ] },
-      { "math": [ "u_vitamin('human_blood_vitamin') -= u_effect_intensity('bleed', 'bodypart': 'torso') * 2" ] },
-      { "math": [ "u_vitamin('human_blood_vitamin') -= u_effect_intensity('bleed', 'bodypart': 'head') * 2" ] },
-      { "u_message": "Your empowered blood is falling to the ground!", "type": "bad" },
+      {
+        "foreach": "array",
+        "target": [ "arm_l", "arm_r", "leg_l", "leg_r", "torso", "head" ],
+        "var": { "context_val": "id" },
+        "effect": [
+          {
+            "if": { "math": [ "u_effect_intensity('bleed', 'bodypart': _id) >= 1" ] },
+            "then": [
+              { "math": [ "_bleed_intensity = u_effect_intensity('bleed', 'bodypart': _id)" ] },
+              { "u_message": "Bleed intensity for bodypart is <context_val:bleed_intensity>.", "type": "debug" },
+              { "math": [ "u_vitamin('human_blood_vitamin') -= (u_effect_intensity('bleed', 'bodypart': _id) / 2)" ] }
+            ]
+          }
+        ]
+      },
       { "run_eocs": "EOC_DHAMPIR_BLEED_STOLEN_BLOOD", "time_in_future": [ "10 s", "10 s" ] }
     ]
   }

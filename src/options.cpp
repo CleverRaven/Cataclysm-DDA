@@ -2810,11 +2810,6 @@ void options_manager::add_options_world_default()
     add_option_group( "world_default", Group( "misc_worlddef_opts", to_translation( "Misc options" ),
                       to_translation( "Miscellaneous options." ) ),
     [&]( const std::string & page_id ) {
-        add( "WANDER_SPAWNS", page_id, to_translation( "Wandering hordes" ),
-             to_translation( "If true, emulates zombie hordes.  Zombies can group together into hordes, which can wander around cities and will sometimes move towards noise.  Note: the current implementation does not properly respect obstacles, so hordes can appear to walk through walls under some circumstances.  Must reset world directory after changing for it to take effect." ),
-             false
-           );
-
         add( "BLACK_ROAD", page_id, to_translation( "Surrounded start" ),
              to_translation( "If true, spawn zombies at shelters.  Makes the starting game a lot harder." ),
              false
@@ -4014,7 +4009,7 @@ std::string options_manager::migrateOptionValue( const std::string &name,
 {
     //TODO: Remove after stable after world option reserialising is added
     if( name == "MONSTER_UPGRADE_FACTOR" ) {
-        const float new_value = std::stof( val ) / 4.0f;
+        const float new_value = svtod( val ).value_or( 4.0 ) / 4.0f;
         std::ostringstream ssTemp;
         ssTemp.imbue( std::locale::classic() );
         ssTemp.precision( 2 );
@@ -4037,6 +4032,21 @@ void options_manager::update_options_cache()
     // cache to global due to heavy usage.
     trigdist = ::get_option<bool>( "CIRCLEDIST" );
     use_tiles = ::get_option<bool>( "USE_TILES" );
+
+    // Since these are external options they aren't loaded before the first time
+    // update_options_cache is called, so they're conditionally loaded.
+    if( ::has_option( "PLAYER_MAX_STR_VALUE" ) ) {
+        character_max_str = ::get_option<int>( "PLAYER_MAX_STR_VALUE" );
+    }
+    if( ::has_option( "PLAYER_MAX_DEX_VALUE" ) ) {
+        character_max_dex = ::get_option<int>( "PLAYER_MAX_DEX_VALUE" );
+    }
+    if( ::has_option( "PLAYER_MAX_PER_VALUE" ) ) {
+        character_max_per = ::get_option<int>( "PLAYER_MAX_PER_VALUE" );
+    }
+    if( ::has_option( "PLAYER_MAX_INT_VALUE" ) ) {
+        character_max_int = ::get_option<int>( "PLAYER_MAX_INT_VALUE" );
+    }
 
     prevent_occlusion = ::get_option<int>( "PREVENT_OCCLUSION" );
     prevent_occlusion_retract = ::get_option<bool>( "PREVENT_OCCLUSION_RETRACT" );

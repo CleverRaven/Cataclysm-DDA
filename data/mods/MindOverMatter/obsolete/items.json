@@ -1,26 +1,6 @@
 [
   {
     "type": "MIGRATION",
-    "//": "remove after 0.I",
-    "id": [
-      "biokin_enhance_mobility_item_1",
-      "biokin_enhance_mobility_item_2",
-      "biokin_enhance_mobility_item_3",
-      "biokin_enhance_mobility_item_4",
-      "biokin_enhance_mobility_item_5",
-      "biokin_enhance_mobility_item_6",
-      "telepath_mind_shield_item",
-      "electrokinetic_ups_1",
-      "electrokinetic_ups_2",
-      "electrokinetic_ups_3",
-      "electrokinetic_ups_4",
-      "electrokinetic_ups_5",
-      "electrokinetic_ups_6"
-    ],
-    "replace": "manual_swimming"
-  },
-  {
-    "type": "MIGRATION",
     "//": "remove after 0.J",
     "id": [ "biokin_breathe_skin_item" ],
     "replace": "manual_swimming"

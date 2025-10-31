@@ -10,7 +10,6 @@
 #include <utility>
 #include <vector>
 
-#include "bodypart.h"
 #include "bonuses.h"
 #include "calendar.h"
 #include "flat_set.h"
@@ -26,6 +25,7 @@ class item_location;
 struct const_dialogue;
 struct itype;
 template <typename T> class generic_factory;
+enum class bp_type;
 
 const matec_id tec_none( "tec_none" );
 
@@ -81,7 +81,7 @@ struct attack_vector {
     // The actual contact area for unarmed damage calcs
     std::vector<sub_bodypart_str_id> contact_area;
     // If we have any bodypart count restrictions
-    std::vector<std::pair<body_part_type::type, int>> limb_req;
+    std::vector<std::pair<bp_type, int>> limb_req;
     // Do we care about armor damage bonuses
     bool armor_bonus = true;
 

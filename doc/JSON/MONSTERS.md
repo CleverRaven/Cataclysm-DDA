@@ -148,7 +148,7 @@ Property                 | Description
 `placate_triggers`       | (array of strings) Triggers that lower monster aggression (same flags as fear)
 `chat_topics`            | (array of strings) Conversation topics if dialog is opened with the monster
 `revert_to_itype`        | (string) Item monster can be converted to when friendly (ex. to deconstruct turrets)
-`broken_itype`           | (string) Item that will spawn when the monster dies with `corpse_type` set to `BROKEN`. Can be left empty to create a `broken_` item based on the monster's `id`. 
+`broken_itype`           | (string) Item that will spawn when the monster dies with `corpse_type` set to `BROKEN`. Can be left empty to create a `broken_` item based on the monster's `id`.
 `mech_weapon`            | (string) If this monster is a rideable mech with built-in weapons, this is the weapons id
 `mech_str_bonus`         | (integer) If this monster is a rideable mech with enhanced strength, this is the strength it gives to the player when ridden
 `mech_battery`           | (string) If this monster is a rideable mech, this is battery's id. Does not support objects or arrays (i.e. ONE battery id only)
@@ -176,7 +176,7 @@ Property                 | Description
 `absorb_material`        | (array of string) For monsters with the `ABSORB_ITEMS` special attack. Specifies the types of materials that the monster will seek to absorb. Items with multiple materials will be matched as long as it is made of at least one of the materials in this list. If not specified the monster will absorb all materials.
 `no_absorb_material`        | (array of string) For monsters with the `ABSORB_ITEMS` special attack. Specifies the types of materials that the monster is unable to absorb. This takes precedence over absorb_material; even if the monster is whitelisted for this material, it cannot do so if any of its materials are found here. If not specified, there are no limits placed on what was whitelisted.
 `split_move_cost`        | (int) For monsters with the `SPLIT` special attack. Determines the move cost when splitting into a copy of itself.
-`revive_forms`           | (array of objects) allows to define conditional monster 
+`revive_forms`           | (array of objects) allows to define conditional monster
 `move_skills`           | (object with optional members) allows to define how well the monster moves on difficult terrain. Skill can range from 0-10.
 
 Properties in the above tables are explained in more detail in the sections below.
@@ -316,7 +316,7 @@ Value | Description
 `10`  | a powerful ranged attack, like a spitters zombie's spit or an turret's 9mm SMG.
 `15`  | a powerful ranged attack with additional hazards, like a corrosive zombie's spit
 `20`  | a very powerful ranged attack, like a laser turret or military turret's 5.56mm rifle, or a powerful special ability, like a zombie necromancer's ability to raise other zombies.
-`30`  | a ranged attack that is deadly even for armored characters, like an anti-material turret's .50 BMG rifle.
+`30`  | a ranged attack that is deadly even for armored characters, like an anti-materiel turret's .50 BMG rifle.
 
 Most monsters should have ``diff`` of 0 - even dangerous monsters like a zombie hulk or razorclaw alpha.  This field should only be used for exceptional, ranged, special attacks.
 
@@ -501,6 +501,11 @@ Vision range in full daylight and in total darkness.  Defaults to 40 tiles for d
 (integer, optional)
 
 Amount of light passively output by monster. Ranges from 0 to 10.
+
+## "bash_skill"
+(object `{ damage_type_id: int }`, optional)
+
+Damage done bashing, of each type. If not specified, or specified as empty, it is autocalculated based on melee damage (and is only bash).
 
 ## "hp"
 (integer, required)

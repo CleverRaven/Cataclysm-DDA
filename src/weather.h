@@ -10,6 +10,7 @@
 #include "color.h"
 #include "coordinates.h"
 #include "pimpl.h"
+#include "ret_val.h"
 #include "type_id.h"
 #include "units.h"
 #include "weather_gen.h"
@@ -167,11 +168,9 @@ nc_color get_wind_color( double );
 
 /**
  * Is it warm enough to plant seeds? Will it be warm enough during the type's grow periods?
- *
- * The first overload is simply a forwarding helper.
+ * Also includes check for whether the tile is exposed to sunlight.
  */
-bool warm_enough_to_plant( const tripoint_bub_ms &pos, const itype_id &it );
-bool warm_enough_to_plant( const tripoint_abs_omt &pos, const itype_id &it );
+ret_val<void> warm_enough_to_plant( const tripoint_bub_ms &pos, const itype_id &it );
 
 bool is_wind_blocker( const tripoint_bub_ms &location );
 
@@ -220,10 +219,16 @@ class weather_manager
         time_point nextweather;
         /** temperature cache, cleared every turn, sparse map of map tripoints to temperatures */
         std::unordered_map< tripoint_bub_ms, units::temperature > temperature_cache;
-        // Returns outdoor or indoor temperature of given location
+        /*
+        * Returns current temperature of given tile. Includes temperature modifications from
+        * radiative and convective sources, such as fires or hot air from heaters.
+        */
         units::temperature get_temperature( const tripoint_bub_ms &location );
-        // Returns outdoor or indoor temperature of given location
-        units::temperature get_temperature( const tripoint_abs_omt &location ) const;
+        /*
+        * Returns temperature of given OMT. Does not include any modifications from local sourecs,
+        * this is essentially the "natural" temperature.
+        */
+        units::temperature get_area_temperature( const tripoint_abs_omt &location ) const;
         void clear_temp_cache();
         static void serialize_all( JsonOut &json );
         static void unserialize_all( const JsonObject &w );

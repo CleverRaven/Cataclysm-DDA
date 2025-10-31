@@ -195,7 +195,8 @@
       { "type": "link_up", "cable_length": 3, "charge_rate": "20 W" }
     ],
     "faults": [ { "fault_group": "electronic_general" } ],
-    "flags": [ "NO_UNLOAD", "NO_RELOAD", "WATCH", "LIGHT_8", "CHARGEDIM", "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC" ]
+    "light": 8,
+    "flags": [ "NO_UNLOAD", "NO_RELOAD", "WATCH", "CHARGEDIM", "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC" ]
   },
   {
     "id": "directional_antenna",
@@ -295,9 +296,10 @@
       },
       { "type": "link_up", "cable_length": 4, "charge_rate": "10 W" }
     ],
-    "//": "LIGHT_10 is the bare minimum for reading without penalties",
+    "//": "light 10 is the bare minimum for reading without penalties",
+    "light": 10,
     "faults": [ { "fault_group": "electronic_general" } ],
-    "flags": [ "NO_UNLOAD", "NO_RELOAD", "WATCH", "WATER_BREAK", "ELECTRONIC", "LIGHT_10", "TRADER_AVOID" ]
+    "flags": [ "NO_UNLOAD", "NO_RELOAD", "WATCH", "WATER_BREAK", "ELECTRONIC", "TRADER_AVOID" ]
   },
   {
     "id": "usb_drive",
@@ -650,7 +652,8 @@
       { "type": "link_up", "cable_length": 5, "charge_rate": "140 W" }
     ],
     "faults": [ { "fault_group": "electronic_general" } ],
-    "flags": [ "NO_UNLOAD", "NO_RELOAD", "WATCH", "LIGHT_10", "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC", "ALLOWS_REMOTE_USE" ]
+    "light": 10,
+    "flags": [ "NO_UNLOAD", "NO_RELOAD", "WATCH", "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "mp3",
@@ -667,7 +670,15 @@
     "ascii_picture": "mp3",
     "symbol": ";",
     "color": "dark_gray",
-    "use_action": [ "MP3", { "type": "link_up", "cable_length": 2, "charge_rate": "5 W" } ],
+    "use_action": [
+      {
+        "type": "mp3",
+        "transform": "mp3_on",
+        "message": "You put in the earbuds and start listening to music.",
+        "activate": true
+      },
+      { "type": "link_up", "cable_length": 2, "charge_rate": "5 W" }
+    ],
     "charges_per_use": 1,
     "flags": [ "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK_ACTIVE", "ELECTRONIC" ],
     "faults": [ { "fault_group": "electronic_general" } ],
@@ -684,7 +695,10 @@
     "power_draw": "1 W",
     "revert_to": "mp3",
     "tick_action": [ "MP3_ON" ],
-    "use_action": [ "MP3_DEACTIVATE", { "type": "link_up", "cable_length": 2, "charge_rate": "5 W" } ],
+    "use_action": [
+      { "type": "mp3", "transform": "mp3", "message": "The mp3 player turns off.", "activate": false },
+      { "type": "link_up", "cable_length": 2, "charge_rate": "5 W" }
+    ],
     "faults": [ { "fault_group": "electronic_general" } ],
     "flags": [ "NO_UNLOAD", "NO_RELOAD", "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC" ]
   },
@@ -840,7 +854,12 @@
       "E_FILE_DEVICE",
       "EBOOKSAVE",
       "CAMERA",
-      "MP3",
+      {
+        "type": "mp3",
+        "transform": "smartphone_music",
+        "message": "You put in the earbuds and start listening to music.",
+        "activate": true
+      },
       "CALORIES_INTAKE_TRACKER",
       "PORTABLE_GAME",
       {
@@ -880,7 +899,7 @@
       "E_FILE_DEVICE",
       "EBOOKSAVE",
       "PORTABLE_GAME",
-      "MP3_DEACTIVATE",
+      { "type": "mp3", "transform": "smart_phone", "message": "The phone turns off.", "activate": false },
       { "type": "link_up", "cable_length": 3, "charge_rate": "20 W" }
     ],
     "tick_action": [ "MP3_ON" ],
@@ -907,7 +926,8 @@
       },
       { "type": "link_up", "cable_length": 3, "charge_rate": "20 W" }
     ],
-    "extend": { "flags": [ "LIGHT_20", "CHARGEDIM", "TRADER_AVOID" ] }
+    "light": 20,
+    "extend": { "flags": [ "CHARGEDIM", "TRADER_AVOID" ] }
   },
   {
     "id": "smart_phone_locked",
@@ -969,7 +989,8 @@
       },
       { "type": "link_up", "cable_length": 3, "charge_rate": "20 W" }
     ],
-    "extend": { "flags": [ "LIGHT_20", "CHARGEDIM", "TRADER_AVOID" ] }
+    "light": 20,
+    "extend": { "flags": [ "CHARGEDIM", "TRADER_AVOID" ] }
   },
   {
     "id": "UPS_off",
@@ -1085,24 +1106,36 @@
   },
   {
     "id": "vibrator",
+    "copy-from": "sextoy",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "vibrator" },
-    "description": "This battery-devouring device is just the thing to knead the tension out and help you relax.  Use it to take a break and unwind.",
-    "weight": "181 g",
-    "volume": "327 ml",
-    "longest_side": "198 mm",
-    "price": "29 USD",
-    "price_postapoc": "3 cent",
-    "material": [ "aluminum", "plastic" ],
-    "symbol": ";",
-    "color": "dark_gray",
+    "description": "A vibrator.",
+    "material": [ { "type": "aluminum", "portion": 1 }, { "type": "plastic", "portion": 9 } ],
+    "relative": { "weight": "50 g" },
     "charges_per_use": 1,
     "use_action": [ "VIBE", { "type": "link_up", "cable_length": 3, "charge_rate": "10 W" } ],
     "flags": [ "WATER_BREAK", "NO_UNLOAD", "NO_RELOAD", "ELECTRONIC" ],
     "faults": [ { "fault_group": "electronic_general" } ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 58 } } ],
-    "tool_ammo": [ "battery" ]
+    "tool_ammo": [ "battery" ],
+    "variants": [
+      {
+        "id": "wand",
+        "name": { "str": "vibrating wand" },
+        "description": "This truly multipurpose massage tool is just the thing you need to relax.  Use it to take a break and unwind."
+      },
+      {
+        "id": "egg",
+        "name": { "str": "vibrating egg" },
+        "description": "This bulbous, u-shaped alien looking device will help you see the stars.  Use it to take a break and unwind."
+      },
+      {
+        "id": "dildo",
+        "name": { "str": "vibrating dildo" },
+        "description": "You know what this is.  There's a switch at the bottom, you know what it's for.  Use it to take a break and unwind."
+      }
+    ]
   },
   {
     "id": "gas_charger",

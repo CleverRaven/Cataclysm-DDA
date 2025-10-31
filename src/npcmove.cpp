@@ -494,7 +494,8 @@ float npc::evaluate_monster( const monster &target, int dist ) const
     float speed = target.speed_rating();
     float scaled_distance = std::max( 1.0f, dist * dist / ( speed * 250.0f ) );
     float hp_percent = static_cast<float>( target.get_hp() ) / target.get_hp_max();
-    float diff = std::max( static_cast<float>( target.type->difficulty ), NPC_DANGER_VERY_LOW );
+    float diff = std::max( static_cast<float>( target.type->get_total_difficulty() ),
+                           NPC_DANGER_VERY_LOW );
     add_msg_debug( debugmode::DF_NPC_COMBATAI,
                    "<color_yellow>evaluate_monster </color><color_dark_gray>%s thinks %s threat level is <color_light_gray>%1.2f</color><color_dark_gray> before considering situation.  Speed rating: %1.2f; dist: %i; scaled_distance: %1.0f; HP: %1.0f%%</color>",
                    name, target.type->nname(), diff, speed, dist, scaled_distance, hp_percent * 100 );
@@ -3170,7 +3171,7 @@ void npc::move_to( const tripoint_bub_ms &pt, bool no_bashing, std::set<tripoint
             mod_moves( ( -get_speed() * 5 ) - ( rng( 0, climb ) * 20 ) );
             moved = true;
         }
-    } else if( !no_bashing && smash_ability() > 0 && here.is_bashable( p ) &&
+    } else if( !no_bashing && !smash_ability().empty() && here.is_bashable( p ) &&
                here.bash_rating( smash_ability(), p ) > 0 ) {
         mod_moves( -get_speed() * 0.8 );
         here.bash( p, smash_ability() );
@@ -4139,7 +4140,7 @@ item *npc::evaluate_best_weapon() const
     double best_value = evaluate_weapon( weap );
 
     // To prevent changing to barely better stuff
-    best_value *= std::max<float>( 1.0f, ai_cache.danger_assessment / 10.0f );
+    best_value *= std::max<float>( 1.0f, std::min<float>( 2.0, ai_cache.danger_assessment / 10.0f ) );
 
     // Fists aren't checked below
     double fist_value = evaluate_weapon( null_item_reference() );

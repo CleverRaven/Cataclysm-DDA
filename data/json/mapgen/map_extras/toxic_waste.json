@@ -3,7 +3,6 @@
     "id": "toxic_waste_mx",
     "type": "item_group",
     "items": [
-      { "item": "sewage", "container-item": "55gal_drum", "charges": [ 26, 126 ], "prob": 40 },
       { "item": "water_sewage", "container-item": "55gal_drum", "charges": [ 26, 126 ], "prob": 40 },
       { "item": "fetid_goop", "entry-wrapper": "55gal_drum", "count": [ 26, 200 ], "prob": 30 },
       { "prob": 1, "group": "meat_mutant_tainted_55gal_drum_3_15" },

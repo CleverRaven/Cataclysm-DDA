@@ -73,23 +73,23 @@ std::string enum_to_string<side>( side data )
 }
 
 template<>
-std::string enum_to_string<body_part_type::type>( body_part_type::type data )
+std::string enum_to_string<bp_type>( bp_type data )
 {
     switch( data ) {
         // *INDENT-OFF*
-        case body_part_type::type::arm: return "arm";
-        case body_part_type::type::other: return "other";
-        case body_part_type::type::foot: return "foot";
-        case body_part_type::type::hand: return "hand";
-        case body_part_type::type::head: return "head";
-        case body_part_type::type::leg: return "leg";
-        case body_part_type::type::mouth: return "mouth";
-        case body_part_type::type::sensor: return "sensor";
-        case body_part_type::type::tail: return "tail";
-        case body_part_type::type::torso: return "torso";
-        case body_part_type::type::wing: return "wing";
+        case bp_type::arm: return "arm";
+        case bp_type::other: return "other";
+        case bp_type::foot: return "foot";
+        case bp_type::hand: return "hand";
+        case bp_type::head: return "head";
+        case bp_type::leg: return "leg";
+        case bp_type::mouth: return "mouth";
+        case bp_type::sensor: return "sensor";
+        case bp_type::tail: return "tail";
+        case bp_type::torso: return "torso";
+        case bp_type::wing: return "wing";
             // *INDENT-ON*
-        case body_part_type::type::num_types:
+        case bp_type::num_types:
             break;
     }
     cata_fatal( "Invalid body part type." );
@@ -249,12 +249,12 @@ void body_part_type::load_bp( const JsonObject &jo, const std::string &src )
     body_part_factory.load( jo, src );
 }
 
-body_part_type::type body_part_type::primary_limb_type() const
+bp_type body_part_type::primary_limb_type() const
 {
     return _primary_limb_type;
 }
 
-bool body_part_type::has_type( const body_part_type::type &type ) const
+bool body_part_type::has_type( const bp_type &type ) const
 {
     return limbtypes.count( type ) > 0;
 }
@@ -349,21 +349,21 @@ void body_part_type::load( const JsonObject &jo, std::string_view )
     optional( jo, was_loaded, "is_vital", is_vital, false );
     if( jo.has_array( "limb_types" ) ) {
         limbtypes.clear();
-        body_part_type::type first_type = body_part_type::type::num_types;
+        bp_type first_type = bp_type::num_types;
         bool set_first_type = true;
         for( JsonValue jval : jo.get_array( "limb_types" ) ) {
             float weight = 1.0f;
-            body_part_type::type limb_type;
+            bp_type limb_type;
             if( jval.test_array() ) {
                 JsonArray jarr = jval.get_array();
-                limb_type = io::string_to_enum<body_part_type::type>( jarr.get_string( 0 ) );
+                limb_type = io::string_to_enum<bp_type>( jarr.get_string( 0 ) );
                 weight = jarr.get_float( 1 );
                 set_first_type = false;
             } else {
-                limb_type = io::string_to_enum<body_part_type::type>( jval.get_string() );
+                limb_type = io::string_to_enum<bp_type>( jval.get_string() );
             }
             limbtypes.emplace( limb_type, weight );
-            if( first_type == body_part_type::type::num_types ) {
+            if( first_type == bp_type::num_types ) {
                 first_type = limb_type;
             }
         }
@@ -373,12 +373,12 @@ void body_part_type::load( const JsonObject &jo, std::string_view )
         }
     } else {
         limbtypes.clear();
-        body_part_type::type limb_type = {};
+        bp_type limb_type = {};
         mandatory( jo, was_loaded, "limb_type", limb_type );
         limbtypes.emplace( limb_type, 1.0f );
     }
 
-    if( _primary_limb_type == body_part_type::type::num_types ) {
+    if( _primary_limb_type == bp_type::num_types ) {
         float high = 0.f;
         for( auto &bp_type : limbtypes ) {
             if( high < bp_type.second ) {

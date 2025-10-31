@@ -7,6 +7,7 @@
 #include <cstddef>
 #include <filesystem>
 #include <memory>
+#include <optional>
 #include <string_view>
 #include <unordered_set>
 #include <vector>
@@ -49,10 +50,13 @@ struct std_fs_path_hash;
  */
 class zzip
 {
-        zzip( std::filesystem::path path, std::shared_ptr<mmap_file> file, JsonObject footer );
+        zzip( std::shared_ptr<mmap_file> file, JsonObject footer );
 
     public:
         ~zzip() noexcept;
+
+        zzip( zzip && ) noexcept /* = default */;
+        zzip &operator=( zzip && ) noexcept /* = default */;
 
         /**
          * Create a zzip at the given path, using the given dictionary to de/compress files in the zzip.
@@ -61,22 +65,34 @@ class zzip
          * See https://github.com/facebook/zstd/blob/dev/programs/README.md#dictionary-builder-in-command-line-interface
          * for more details.
          */
-        static std::shared_ptr<zzip> load( std::filesystem::path const &path,
-                                           std::filesystem::path const &dictionary = {} );
+        static std::optional<zzip> load( std::filesystem::path const &path,
+                                         std::filesystem::path const &dictionary = {} );
+
+        /**
+         * Loads a zzip from the given file, using the given dictionary to de/compress files in the zzip.
+         * The same dictionary must be used every time the zzip is loaded.
+         * A dictionary can either be arbitrary reference data or a dictionary created with the zstd cli.
+         * See https://github.com/facebook/zstd/blob/dev/programs/README.md#dictionary-builder-in-command-line-interface
+         * for more details.
+         */
+        static std::optional<zzip> load( std::shared_ptr<mmap_file> file,
+                                         std::filesystem::path const &dictionary = {} );
 
         /**
          * Writes the given file contents under the given file path into the zzip.
          * Returns true on success, false on any error.
+         *
+         * This should really take a std::range<const std::byte> instead of a std::string_view, but
+         * we can't until c++20.
          */
         bool add_file( std::filesystem::path const &zzip_relative_path, std::string_view content );
 
         /**
-         * Directly copies a compressed entry from one zzip to another. Both zzips
-         * must have been opened using the same dictionary. The relative path is
-         * preserved.
+         * Directly copies compressed entries from one zzip to another, keeping the same path.
+         * If `from` was not opened with the same dictionary, the copied files may not be readable.
          */
         bool copy_files( std::vector<std::filesystem::path> const &zzip_relative_paths,
-                         std::shared_ptr<zzip> const &from );
+                         zzip const &from, bool shrink_to_fit = false );
 
         /**
          * Returns true if the zzip contains the given path. Paths are checked through exact string
@@ -105,11 +121,6 @@ class zzip
          * Returns the compressed file size of the entry including metadata.
          */
         size_t get_entry_size( std::filesystem::path const &zzip_relative_path ) const;
-
-        /**
-         * Returns the path to this zzip.
-         */
-        std::filesystem::path const &get_path() const;
 
         /**
          * Returns a vector of filesystem paths of the contained entries.
@@ -142,13 +153,19 @@ class zzip
                            &zzip_relative_paths );
 
         /**
-         * Possibly shrink the zzip by eliminating orphaned data or padding bytes.
-         * If bloat_factor passed, only shrinks the zzip if the underlying file is
-         * larger than optimal than the given ratio.
-         * If bloat_factor is 0, forces a compaction even with no expected savings.
-         * Returns true if compaction occurred.
+         * Writes a copy of the live/most recent contents of this zzip into the given file.
+         * If bloat_factor passed, only writes the copy if the current file is larger than
+         * optimal than the given ratio.
+         * If bloat_factor is 0, forces a copy even with no expected savings.
+         * Returns true on success, false on error.
          */
-        bool compact( double bloat_factor = 1.0 );
+        bool compact_to( std::filesystem::path const &dest, double bloat_factor = 1.0 );
+
+        /**
+         * Writes a copy of the live/most recent contents of this zzip into the given file.
+         * Returns true on success, false on error.
+         */
+        bool compact_to( std::shared_ptr<mmap_file> dest ) const;
 
         /**
          * Removes all contents and resets to a default initialized empty zzip.
@@ -161,11 +178,11 @@ class zzip
          * The files in the zzip are indexed based on their relative path inside the folder.
          * See zzip::load for documentation about dictionaries.
          */
-        static std::shared_ptr<zzip> create_from_folder( std::filesystem::path const &path,
+        static std::optional<zzip> create_from_folder( std::filesystem::path const &path,
                 std::filesystem::path const &folder,
                 std::filesystem::path const &dictionary = {} );
 
-        static std::shared_ptr<zzip> create_from_folder_with_files( std::filesystem::path const &path,
+        static std::optional<zzip> create_from_folder_with_files( std::filesystem::path const &path,
                 std::filesystem::path const &folder,
                 const std::vector<std::filesystem::path> &files,
                 uint64_t total_file_size,
@@ -178,19 +195,34 @@ class zzip
         static bool extract_to_folder( std::filesystem::path const &path,
                                        std::filesystem::path const &folder,
                                        std::filesystem::path const &dictionary = {} );
+        bool extract_to_folder( std::filesystem::path const &folder );
 
         struct compressed_entry;
+
+        /**
+         * Returns an unsorted vector describing the live entries and their positions in the file.
+         * The internal layout of the entries is undefined.
+         * Only really useful for tests.
+         * { entry_path, offset, length }
+         */
+        struct entry_layout {
+            std::filesystem::path path;
+            size_t offset;
+            size_t len;
+        };
+        std::vector<entry_layout> get_layout() const;
+
     private:
         JsonObject copy_footer() const;
         size_t ensure_capacity_for( size_t bytes );
-        size_t write_file_at( std::string_view filename, std::string_view content, size_t offset );
+        size_t write_file_at( std::string_view filename, std::string_view content, size_t offset,
+                              std::optional<uint64_t> force_checksum = std::nullopt );
 
         bool update_footer( JsonObject const &original_footer, size_t content_end,
                             const std::vector<compressed_entry> &entries, bool shrink_to_fit = false );
 
-        bool rewrite_footer();
+        bool rewrite_footer( bool shrink_to_fit = false );
 
-        std::filesystem::path path_;
         std::shared_ptr<mmap_file> file_;
         JsonObject footer_;
 

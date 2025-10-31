@@ -355,7 +355,7 @@
   },
   {
     "id": "inventor_shotgun",
-    "copy-from": "shotgun_base",
+    "copy-from": "gun_base_shotgun_semi",
     "looks_like": "m134",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
@@ -365,11 +365,9 @@
     "volume": "11920 ml",
     "longest_side": "1266 mm",
     "barrel_length": "908 mm",
-    "melee_damage": { "bash": 12 },
     "material": [ "qt_steel" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": [ "shot" ],
     "dispersion": 200,
     "recoil": 300,
     "durability": 9,
@@ -378,7 +376,20 @@
     "reload": 400,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "double", 2 ], [ "AUTO", "auto", 4 ] ],
     "built_in_mods": [ "laser_sight" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 240 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 240 } } ],
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip mount", 1 ],
+      [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "stock mount", 1 ],
+      [ "stock accessory", 2 ],
+      [ "underbarrel mount", 1 ]
+    ]
   },
   {
     "id": "accelerator_gun",
@@ -415,11 +426,11 @@
   },
   {
     "id": "inventor_glauncher",
-    "copy-from": "rifle_semi",
     "looks_like": "modular_ar15",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "name": { "str": "inventor's grenade launcher" },
+    "skill": "launcher",
     "description": "Transformed from a tool, this weapon can emit giant clouds of energy, destroying everything on their path.",
     "weight": "2670 g",
     "volume": "3560 ml",
@@ -435,10 +446,11 @@
     "range": 1,
     "ammo": [ "battery" ],
     "ranged_damage": { "damage_type": "bullet", "amount": 1 },
-    "extend": { "flags": [ "NO_TURRET", "INVENTOR_CRAFTED" ] },
+    "flags": [ "NO_TURRET", "INVENTOR_CRAFTED" ],
     "modes": [  ],
     "dispersion": 150,
     "durability": 9,
+    "handling": 20,
     "default_mods": [ "inventor_glauncher_expl" ],
     "valid_mod_locations": [
       [ "underbarrel", 1 ],
@@ -459,7 +471,8 @@
         "max_contains_weight": "20 kg",
         "default_magazine": "medium_battery_cell"
       }
-    ]
+    ],
+    "weapon_category": [ "AUTOMATIC_RIFLES" ]
   },
   {
     "id": "inventor_glauncher_expl",
@@ -681,7 +694,7 @@
       "need_wielding": true,
       "target": "inventor_grenade_noise_fire_act",
       "menu_text": "Activate",
-      "msg": "You trigger the mechanism, and it start to whistle!",
+      "msg": "You trigger the mechanism, and it starts to whistle!",
       "target_timer": "70 seconds",
       "type": "transform"
     }
@@ -780,7 +793,7 @@
   },
   {
     "id": "inventor_pistol",
-    "copy-from": "pistol_revolver",
+    "copy-from": "gun_base_handgun_manual",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "name": { "str": "blocky pistol" },
@@ -789,13 +802,9 @@
     "volume": "970 ml",
     "longest_side": "30 cm",
     "barrel_length": "247 mm",
-    "to_hit": -1,
-    "melee_damage": { "bash": 10 },
     "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
     "range": 16,
     "material": [ "mc_steel" ],
-    "symbol": "(",
-    "color": "dark_gray",
     "ammo": [
       "10mm",
       "22",

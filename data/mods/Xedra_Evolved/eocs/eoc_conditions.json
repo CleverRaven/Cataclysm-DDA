@@ -65,5 +65,11 @@
       ]
     },
     "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONDITION_XE_VAMPIRE_AVOID_BURNING_IN_SUNLIGHT",
+    "condition": { "and": [ { "not": { "is_weather": "blotted_sun" } } ] },
+    "effect": [  ]
   }
 ]

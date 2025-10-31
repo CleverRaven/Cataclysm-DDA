@@ -126,7 +126,8 @@
       [ "jumper_cable", 30 ],
       [ "hand_pump", 30 ],
       [ "folding_solar_panel_v2", 2 ],
-      { "group": "bugout_bag", "prob": 3 }
+      { "group": "bugout_bag", "prob": 3 },
+      { "item": "manual_mechanics_car_owner", "prob": 90 }
     ]
   },
   {

@@ -472,7 +472,8 @@
     "result": "xs_bra",
     "type": "recipe",
     "copy-from": "bra",
-    "using": [ [ "tailoring_cotton_patchwork", 1 ], [ "fastener_small", 1 ] ]
+    "using": [ [ "tailoring_cotton_patchwork", 1 ], [ "fastener_small", 1 ] ],
+    "components": [ [ [ "lc_wire", 1 ] ] ]
   },
   {
     "result": "bellyband",
@@ -2768,7 +2769,6 @@
     "skill_used": "tailor",
     "difficulty": 6,
     "time": "20 h",
-    "reversible": true,
     "decomp_learn": 6,
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 2 } ],
@@ -2784,7 +2784,6 @@
     "skill_used": "tailor",
     "difficulty": 6,
     "time": "75 h",
-    "reversible": true,
     "decomp_learn": 6,
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 2 } ],
@@ -5333,14 +5332,16 @@
     "type": "recipe",
     "copy-from": "armor_chitin_vest",
     "time": "345 m",
-    "using": [ [ "armor_chitin", 26 ], [ "tailoring_leather_patchwork", 2 ] ]
+    "using": [ [ "armor_chitin", 26 ], [ "tailoring_leather_patchwork", 2 ] ],
+    "components": [ [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "police_belt", 1 ], [ "fireman_belt", 1 ] ] ]
   },
   {
     "result": "xl_armor_chitin_vest",
     "type": "recipe",
     "copy-from": "armor_chitin_vest",
     "time": "613 m",
-    "using": [ [ "armor_chitin", 45 ], [ "tailoring_leather_patchwork", 4 ] ]
+    "using": [ [ "armor_chitin", 45 ], [ "tailoring_leather_patchwork", 4 ] ],
+    "components": [ [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "police_belt", 1 ], [ "fireman_belt", 1 ] ] ]
   },
   {
     "copy-from": "sundress",

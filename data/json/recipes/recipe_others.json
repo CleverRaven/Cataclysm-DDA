@@ -200,6 +200,17 @@
     "components": [ [ [ "tarp", 2 ] ], [ [ "tent_pole", 2 ] ], [ [ "plastic_sheet", 1 ] ], [ [ "plastic_sheet_small", 1 ] ] ]
   },
   {
+    "result": "tent_kit",
+    "type": "recipe",
+    "copy-from": "tent_kit",
+    "id_suffix": "from_broken",
+    "activity_level": "LIGHT_EXERCISE",
+    "difficulty": 1,
+    "time": "14 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "broketent", 1 ] ], [ [ "plastic_sheet", 1 ] ], [ [ "plastic_sheet_small", 1 ] ] ]
+  },
+  {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "large_tent_kit",
@@ -215,6 +226,17 @@
     "autolearn": true,
     "using": [ [ "adhesive", 3 ] ],
     "components": [ [ [ "tarp", 6 ] ], [ [ "tent_pole", 6 ] ], [ [ "plastic_sheet", 3 ] ], [ [ "plastic_sheet_small", 3 ] ] ]
+  },
+  {
+    "result": "large_tent_kit",
+    "type": "recipe",
+    "copy-from": "large_tent_kit",
+    "id_suffix": "from_broken",
+    "activity_level": "LIGHT_EXERCISE",
+    "difficulty": 1,
+    "time": "16 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "largebroketent", 1 ] ], [ [ "tarp", 2 ] ], [ [ "plastic_sheet", 1 ] ], [ [ "plastic_sheet_small", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -2142,7 +2164,7 @@
       [ [ "water_clean", 2 ], [ "water", 2 ] ],
       [ [ "tanning_agent", 1, "LIST" ] ],
       [ [ "salt_water", 2 ], [ "saline", 10 ], [ "salt", 10 ] ],
-      [ [ "edible_tallow_lard", 1, "LIST" ], [ "tallow_tainted", 1 ] ],
+      [ [ "edible_tallow", 2, "LIST" ], [ "tallow_tainted", 1 ] ],
       [ [ "cured_hide", 6 ] ]
     ]
   },
@@ -2183,7 +2205,7 @@
       [ [ "water_clean", 2 ], [ "water", 2 ] ],
       [ [ "tanning_agent", 1, "LIST" ] ],
       [ [ "salt_water", 2 ], [ "saline", 10 ], [ "salt", 10 ] ],
-      [ [ "edible_tallow_lard", 1, "LIST" ], [ "tallow_tainted", 1 ] ],
+      [ [ "edible_tallow", 2, "LIST" ], [ "tallow_tainted", 1 ] ],
       [ [ "cured_pelt", 6 ] ]
     ]
   },

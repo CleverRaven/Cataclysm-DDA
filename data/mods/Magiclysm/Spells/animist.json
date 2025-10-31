@@ -7,7 +7,6 @@
     "valid_targets": [ "hostile" ],
     "min_damage": { "math": [ "(u_spell_level('smite') * 5) + 5" ] },
     "max_damage": { "math": [ "(u_spell_level('smite') * 9) + 10" ] },
-    "damage_increment": 15,
     "min_range": 1,
     "max_range": 1,
     "effect": "attack",
