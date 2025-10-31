@@ -20,14 +20,14 @@
   {
     "id": "flux",
     "type": "requirement",
-    "//": "Borax flux for use in Cu/Fe/Ag/Au brazing, welding, and forging, such as fluxing copper, iron, gold, or silver. One spoonful of flux covers 50cm^2 area of joining. For brazing, ~15g per 100g of product should be used.",
-    "components": [ [ [ "chem_borax", 5 ] ] ]
+    "//": "Borax flux for use in Cu/Fe/Ag/Au brazing, welding, and forging, such as fluxing copper, iron, gold, or silver. One unit of flux covers 10cm^2 area of joining. For brazing, ~15g per 100g of product should be used.",
+    "components": [ [ [ "chem_borax", 1 ] ] ]
   },
   {
     "id": "flux_fe_forge",
     "type": "requirement",
     "//": "Iron/Steel forging flux. One spoonful of flux covers 50cm^2 area of joining.",
-    "components": [ [ [ "flux", 1 ], [ "flux_ash", 4 ] ] ]
+    "components": [ [ [ "flux", 1 ], [ "flux_ash", 1 ] ] ]
   },
   {
     "id": "flux_fe_smelt",
