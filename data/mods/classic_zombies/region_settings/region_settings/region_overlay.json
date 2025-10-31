@@ -28,15 +28,8 @@
   },
   {
     "type": "region_settings_city",
-    "id": "default_classiczombies_temp",
-    "copy-from": "default",
-    "//": "extend is processed before delete, cannot overwrite a weighted list with extend",
-    "delete": { "shops": [ "s_hunting", "s_gun_a", "s_gun_b", "mil_surplus", "mil_surplus_1", "mil_surplus_2" ] }
-  },
-  {
-    "type": "region_settings_city",
     "id": "default_classiczombies",
-    "copy-from": "default_classiczombies_temp",
+    "copy-from": "default",
     "//": "Increased hunting store chance, decreased gun store/mil surplus chances.",
     "extend": {
       "shops": [
