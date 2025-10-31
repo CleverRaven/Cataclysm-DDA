@@ -1,7 +1,7 @@
 [
   {
     "type": "region_settings_lake",
-    "id": "default_classiczombies",
+    "id": "default",
     "copy-from": "default",
     "//": "Smaller less numerous lakes",
     "noise_threshold_lake": 0.35,
@@ -9,7 +9,7 @@
   },
   {
     "type": "region_settings_ocean",
-    "id": "default_classiczombies",
+    "id": "default",
     "copy-from": "default",
     "ocean_start_north": 250,
     "ocean_start_east": 900,
@@ -17,7 +17,7 @@
   },
   {
     "type": "region_settings_forest",
-    "id": "default_classiczombies",
+    "id": "default",
     "copy-from": "default",
     "noise_threshold_forest": 0.4,
     "noise_threshold_forest_thick": 0.45,
@@ -28,7 +28,7 @@
   },
   {
     "type": "region_settings_city",
-    "id": "default_classiczombies",
+    "id": "default",
     "copy-from": "default",
     "//": "Increased hunting store chance, decreased gun store/mil surplus chances.",
     "extend": {
@@ -44,7 +44,7 @@
   },
   {
     "type": "weather_generator",
-    "id": "default_classiczombies",
+    "id": "default",
     "copy-from": "default",
     "base_temperature": 5.5,
     "base_humidity": 50.0,
@@ -54,13 +54,8 @@
   },
   {
     "type": "region_settings",
-    "id": "default_classiczombies",
+    "id": "default",
     "copy-from": "default",
-    "lakes": "default_classiczombies",
-    "ocean": "default_classiczombies",
-    "forests": "default_classiczombies",
-    "cities": "default_classiczombies",
-    "weather": "default_classiczombies",
     "urbanity_increase": [ -1, 0, 0, -1 ],
     "feature_flag_settings": { "whitelist": [ "CLASSIC" ] }
   }
