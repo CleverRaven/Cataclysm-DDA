@@ -122,7 +122,7 @@
     "difficulty": 2,
     "time": "60 m",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 3 ], [ "bronze_tiny", 3 ] ],
+    "using": [ [ "blacksmithing_standard", 3 ], [ "bronze_tiny", 3 ], [ "bronze_punch", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking", "required": true },
       { "proficiency": "prof_redsmithing", "required": true },
@@ -157,7 +157,7 @@
     "difficulty": 2,
     "time": "60 m",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 3 ], [ "steel_chunk_any", 3 ] ],
+    "using": [ [ "blacksmithing_standard", 3 ], [ "steel_chunk_any", 3 ], [ "metal_punch", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
