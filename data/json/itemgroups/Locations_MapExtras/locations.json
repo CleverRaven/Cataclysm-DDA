@@ -2098,6 +2098,7 @@
       { "item": "melting_point", "prob": 5 },
       { "item": "vortex", "prob": 5 },
       { "item": "microscope", "prob": 5 },
+      { "item": "microscope_slide", "prob": 5, "count": [ 0, 20 ] },
       { "item": "microscope_dissecting", "prob": 5 },
       { "item": "funnel_separation", "prob": 3 },
       { "item": "burette", "prob": 3 },
