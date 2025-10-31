@@ -99,7 +99,7 @@ origin.
 ## Point types
 
 To work with these coordinate systems we have a variety of types.  These are
-defined in [`coordinates.h`](../src/coordinates.h).  For example, we have
+defined in [`coordinates.h`](/src/coordinates.h).  For example, we have
 `point_abs_ms` for absolute map-square coordinates.  The four parts of the
 type name are *dimension*`_`*origin*`_`*scale*(_ib).
 

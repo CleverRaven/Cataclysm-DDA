@@ -97,7 +97,7 @@ Obtain the packages listed above with your system package manager.
 
 ## Windows Environment (MSYS2)
 
-Please refer to `COMPILING-MSYS.md`
+Please refer to [`COMPILING-MSYS.md`](COMPILING-MSYS.md)
 
    **NOTE**: If you're trying to test with Jetbrains CLion, point to the CMake version in the msys32/mingw32 path instead of using the built in. This will let CMake detect the installed packages.
 
@@ -142,7 +142,7 @@ $ cmake-gui ..
 
 ## CMake Build for MSYS2 (MinGW)
 
-1. Follow [`COMPILING-MSYS.md`](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/COMPILING/COMPILING-MSYS.md)
+1. Follow [`COMPILING-MSYS.md`](COMPILING-MSYS.md)
 
 2. Run
 ```
