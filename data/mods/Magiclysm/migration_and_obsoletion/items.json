@@ -137,7 +137,7 @@
   },
   {
     "id": "shotcestus",
-    "copy-from": "shotgun_base",
+    "copy-from": "gun_base_shotgun_manual",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str": "shotcestus", "str_pl": "shotcestuses" },

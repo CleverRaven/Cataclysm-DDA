@@ -130,7 +130,6 @@
     "min_damage": { "math": [ "(u_spell_level('megablast') * 1.2) + 3" ] },
     "max_damage": { "math": [ "(u_spell_level('megablast') * 3) + 10" ] },
     "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
-    "damage_increment": 3.5,
     "min_range": 3,
     "max_range": 12,
     "range_increment": 0.45,

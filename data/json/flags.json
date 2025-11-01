@@ -499,6 +499,11 @@
     "//": "Like MYOPIC_IN_LIGHT, but can't be fixed by glasses."
   },
   {
+    "id": "BLOCK_SUPERNATURAL_HEALING",
+    "type": "json_flag",
+    "//": "Supernatural healing effects, like magical spells, do not work while you have this flag.  Does not block u_hp EoC effects"
+  },
+  {
     "id": "FILTHY",
     "type": "json_flag",
     "//": "Zombie-dropped clothing giving various penalties if Filthy mod is active.  Also CBMs harvested from zombies.",
@@ -2118,6 +2123,10 @@
   },
   {
     "id": "HARD",
+    "type": "json_flag"
+  },
+  {
+    "id": "DAMAGE_VEHICLE_WHEELS",
     "type": "json_flag"
   },
   {

@@ -161,6 +161,33 @@
           },
           { "math": [ "u_pain() += 30 + rand(30)" ] },
           { "u_lose_effect": "vampire_virus" },
+          { "u_lose_trait": "VAMPIRE" },
+          { "u_lose_trait": "VAMPIRE_TRUCE" },
+          { "u_lose_trait": "VAMPIRE_BLOOD_ARTS" },
+          { "u_lose_trait": "EYEGLEAM" },
+          { "u_lose_trait": "BLOOD_FUN" },
+          { "u_lose_trait": "VAMPIRIC_STRENGTH" },
+          { "u_lose_trait": "VAMPIRE_HEALTH_BONUS" },
+          { "u_lose_trait": "VAMPIRE_HEIGHTENED_S" },
+          { "u_lose_trait": "VAMPIRE_SILENT_MOVE" },
+          { "u_lose_trait": "BLOODBANK" },
+          { "u_lose_trait": "STAMINAFORBLOOD" },
+          { "u_lose_trait": "COMMUNE_NIGHT" },
+          { "u_lose_trait": "COAGULANTWEAVE" },
+          { "u_lose_trait": "VAMPIRE_SENSE_CHILDR" },
+          { "u_lose_trait": "VAMPIRE2" },
+          { "u_lose_trait": "BLOODHEAL" },
+          { "u_lose_trait": "VAMPIRIC_DODGE" },
+          { "u_lose_trait": "VAMPIRE_STEALTH_BON" },
+          { "u_lose_trait": "VAMPIRE_FEAR_GAZE" },
+          { "u_lose_trait": "VAMPIRE_FEIGN_DEATH" },
+          { "u_lose_trait": "VAMPIRE_WALK_ON_WALL" },
+          { "u_lose_trait": "VAMPIRE_BEAST_CLAWS" },
+          { "u_lose_trait": "VAMPIRE_BEAST_CLAWS_" },
+          { "u_lose_trait": "VAMPIRE_SEE_HEAT" },
+          { "u_lose_trait": "VAMPIRE_BLOOD_TEMPOR" },
+          { "u_lose_trait": "VAMPIRE3" },
+          { "math": [ "u_vitamin('human_blood_vitamin') = 0" ] },
           { "u_add_morale": "morale_nightmare", "bonus": [ -15, -30 ], "max_bonus": -30 }
         ],
         "else": [
@@ -213,13 +240,44 @@
           { "u_add_effect": "formication", "duration": "10 minutes", "target_part": "RANDOM" },
           { "u_add_effect": "formication", "duration": "10 minutes", "target_part": "RANDOM" }
         ],
-        "else": {
-          "if": { "one_in_chance": 8 },
-          "then": [
-            { "u_message": "Your heartvines twitch in your sleep.", "type": "mixed" },
-            { "u_add_effect": "bleed", "intensity": 1, "duration": "PERMANENT", "target_part": "RANDOM" }
-          ]
-        }
+        "else": [
+          {
+            "if": { "u_has_trait": "VAMPIRE3" },
+            "then": {
+              "if": { "one_in_chance": 4 },
+              "then": [
+                { "u_message": "Your heartvines thrash in your sleep.", "type": "mixed" },
+                { "u_add_effect": "bleed", "intensity": 1, "duration": "PERMANENT", "target_part": "RANDOM" }
+              ]
+            }
+          },
+          {
+            "if": { "and": [ { "u_has_trait": "VAMPIRE2" }, { "not": { "u_has_trait": "VAMPIRE3" } } ] },
+            "then": {
+              "if": { "one_in_chance": 8 },
+              "then": [
+                { "u_message": "Your heartvines twitch in your sleep.", "type": "mixed" },
+                { "u_add_effect": "bleed", "intensity": 1, "duration": "PERMANENT", "target_part": "RANDOM" }
+              ]
+            }
+          },
+          {
+            "if": {
+              "and": [
+                { "u_has_effect": "vampire_virus" },
+                { "not": { "u_has_trait": "VAMPIRE2" } },
+                { "not": { "u_has_trait": "VAMPIRE3" } }
+              ]
+            },
+            "then": {
+              "if": { "one_in_chance": 16 },
+              "then": [
+                { "u_message": "Your heartvines stir in your sleep.", "type": "mixed" },
+                { "u_add_effect": "bleed", "intensity": 1, "duration": "PERMANENT", "target_part": "RANDOM" }
+              ]
+            }
+          }
+        ]
       },
       {
         "if": { "math": [ "u_vitamin('human_blood_vitamin') >= 1" ] },

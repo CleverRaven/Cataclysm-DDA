@@ -164,7 +164,11 @@
     "type": "effect_on_condition",
     "id": "herbivorous_stomach",
     "condition": { "not": { "u_has_trait": "SHADE_HERBIVORE" } },
-    "effect": [ { "u_message": "You exchanged your previous stomach for this." }, { "u_add_trait": "SHADE_HERBIVORE" } ],
+    "effect": [
+      { "u_message": "You exchanged your previous stomach for this." },
+      { "u_add_trait": "SHADE_HERBIVORE" },
+      { "u_lose_trait": "RADIOTROPHIC" }
+    ],
     "false_effect": [ { "u_message": "You are already an herbivore.", "type": "neutral" } ]
   },
   {
@@ -172,7 +176,7 @@
     "copy-from": "gracken_improvement_general",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
-    "name": { "str_sp": "Gracken Dextrous Hands" },
+    "name": { "str_sp": "Gracken Omnivorous Stomach" },
     "looks_like": "offal",
     "description": "An organ that allows a mature Gracken to convert their diet to an omnivorous one.",
     "use_action": {
@@ -186,7 +190,11 @@
     "type": "effect_on_condition",
     "id": "omnivorous_stomach",
     "condition": { "not": { "u_has_trait": "SHADE_OMNIVORE" } },
-    "effect": [ { "u_message": "You exchanged your previous stomach for this." }, { "u_add_trait": "SHADE_OMNIVORE" } ],
+    "effect": [
+      { "u_message": "You exchanged your previous stomach for this." },
+      { "u_add_trait": "SHADE_OMNIVORE" },
+      { "u_lose_trait": "RADIOTROPHIC" }
+    ],
     "false_effect": [ { "u_message": "You are already an omnivore.", "type": "neutral" } ]
   },
   {
@@ -194,7 +202,7 @@
     "copy-from": "gracken_improvement_general",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
-    "name": { "str_sp": "Gracken Dextrous Hands" },
+    "name": { "str_sp": "Gracken Carnivorous Stomach" },
     "looks_like": "offal",
     "description": "An organ that allows a mature Gracken to convert their diet to an carnivorous one.",
     "use_action": {
@@ -208,7 +216,11 @@
     "type": "effect_on_condition",
     "id": "carnivorous_stomach",
     "condition": { "not": { "u_has_trait": "SHADE_CARNIVORE" } },
-    "effect": [ { "u_message": "You exchanged your previous stomach for this." }, { "u_add_trait": "SHADE_CARNIVORE" } ],
+    "effect": [
+      { "u_message": "You exchanged your previous stomach for this." },
+      { "u_add_trait": "SHADE_CARNIVORE" },
+      { "u_lose_trait": "RADIOTROPHIC" }
+    ],
     "false_effect": [ { "u_message": "You are already a carnivore.", "type": "neutral" } ]
   },
   {

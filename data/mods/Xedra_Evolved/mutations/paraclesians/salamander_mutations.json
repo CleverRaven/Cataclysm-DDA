@@ -9,7 +9,8 @@
     "description": "Your skin has turned the color of an autumnal bonfire.  Your skin is now an orange red with dark freckles.  This has no gameplay effects.",
     "types": [ "skin_tone" ],
     "leads_to": [ "SALAMANDER_SKIN_2" ],
-    "category": [ "SALAMANDER" ]
+    "category": [ "SALAMANDER" ],
+    "purifiable": false
   },
   {
     "type": "mutation",
@@ -21,6 +22,7 @@
     "description": "Your skin has magickal flames flaring out of it on occasion.  You can operate in warmer climates than normal humans but begin to take damage from getting wet, and you always smell of smoke and ashes.",
     "types": [ "SKIN" ],
     "category": [ "SALAMANDER" ],
+    "purifiable": false,
     "prereqs": [ "SALAMANDER_SKIN_1" ],
     "changes_to": [ "SALAMANDER_SKIN_3" ],
     "scent_intensity": 800,
@@ -44,6 +46,7 @@
     "prereqs": [ "SALAMANDER_SKIN_2" ],
     "threshreq": [ "THRESH_SALAMANDER" ],
     "category": [ "SALAMANDER" ],
+    "purifiable": false,
     "enchantments": [ { "values": [ { "value": "WEAKNESS_TO_WATER", "add": 4 }, { "value": "SWEAT_MULTIPLIER", "multiply": -1 } ] } ],
     "integrated_armor": [ "integrated_flameskin" ]
   },
@@ -56,6 +59,7 @@
     "ugliness": 0,
     "description": "Upon gaining this ability the Salamander gains the ability to set something nearby on fire.",
     "category": [ "SALAMANDER" ],
+    "purifiable": false,
     "spells_learned": [ [ "salamander_make_fire", 1 ] ]
   },
   {
@@ -68,6 +72,7 @@
     "description": "Upon gaining this ability the Salamander gains the ability to rush forward and cause an explosion at the place they land.",
     "prereqs": [ "SALAMANDER_MAKE_FIRE" ],
     "category": [ "SALAMANDER" ],
+    "purifiable": false,
     "spells_learned": [ [ "salamander_dash_boom_spell", 1 ] ]
   },
   {
@@ -80,6 +85,7 @@
     "description": "Upon gaining this ability the Salamander gains the ability to lay a fiery trap which will burst into searing flames when stepped on.",
     "prereqs": [ "SALAMANDER_DASH_BOOM" ],
     "category": [ "SALAMANDER" ],
+    "purifiable": false,
     "spells_learned": [ [ "salamander_explosion_trap_spell", 1 ] ]
   },
   {
@@ -92,6 +98,7 @@
     "description": "Upon gaining this ability the Salamander gains the ability to vanish in a burst of smoke and reappear somewhere nearby.",
     "prereqs": [ "SALAMANDER_DASH_BOOM" ],
     "category": [ "SALAMANDER" ],
+    "purifiable": false,
     "spells_learned": [ [ "salamander_smoke_teleport_spell", 1 ] ]
   },
   {
@@ -104,6 +111,7 @@
     "description": "Upon gaining this ability the Salamander gains the ability to punch a target with a fiery fist, causing damage and hurling them back.",
     "prereqs": [ "SALAMANDER_MAKE_FIRE" ],
     "category": [ "SALAMANDER" ],
+    "purifiable": false,
     "spells_learned": [ [ "salamander_flame_punch_spell", 1 ] ]
   },
   {
@@ -115,6 +123,7 @@
     "ugliness": 0,
     "description": "Upon gaining this ability the Salamander gains the ability to summon a fire spirit.",
     "category": [ "SALAMANDER" ],
+    "purifiable": false,
     "spells_learned": [ [ "salamander_summon_fire_spirit", 1 ] ]
   },
   {
@@ -127,6 +136,7 @@
     "description": "Upon gaining this ability the Salamander gains the ability to breathe out a cloud of thick smoke.",
     "prereqs": [ "SALAMANDER_NO_SMOKE_DAMAGE" ],
     "category": [ "SALAMANDER" ],
+    "purifiable": false,
     "spells_learned": [ [ "salamander_ash_breath_spell", 1 ] ]
   },
   {
@@ -139,6 +149,7 @@
     "description": "Upon gaining this ability the Salamander gains the ability to breathe a cone of flames.",
     "prereqs": [ "SALAMANDER_ASH_BREATH" ],
     "category": [ "SALAMANDER" ],
+    "purifiable": false,
     "spells_learned": [ [ "salamander_fire_breath", 1 ] ]
   },
   {
@@ -152,6 +163,7 @@
     "prereqs": [ "SALAMANDER_FLAME_BREATH" ],
     "prereqs2": [ "SALAMANDER_SUMMON_FIRE_SPIRIT" ],
     "category": [ "SALAMANDER" ],
+    "purifiable": false,
     "spells_learned": [ [ "salamander_summon_firebird_spell", 1 ] ]
   },
   {
@@ -165,6 +177,7 @@
     "prereqs": [ "SALAMANDER_ECTOTHERM" ],
     "prereqs2": [ "SALAMANDER_HEAT_HEAL" ],
     "category": [ "SALAMANDER" ],
+    "purifiable": false,
     "spells_learned": [ [ "salamander_increase_speed_spell", 1 ] ]
   },
   {
@@ -177,6 +190,7 @@
     "description": "Upon gaining this ability the Salamander gains the ability to summon a flaming whip to aid them in battle.",
     "prereqs": [ "SALAMANDER_SUMMON_FIRE_SPIRIT" ],
     "category": [ "SALAMANDER" ],
+    "purifiable": false,
     "spells_learned": [ [ "salamander_flaming_whip_spell", 1 ] ]
   },
   {
@@ -190,6 +204,7 @@
     "prereqs": [ "SALAMANDER_COOKING_HEAT" ],
     "prereqs2": [ "SALAMANDER_SLEEP_LESS2", "SALAMANDER_SLEEP_LESS3" ],
     "category": [ "SALAMANDER" ],
+    "purifiable": false,
     "spells_learned": [ [ "salamander_emit_heat", 1 ] ]
   },
   {
@@ -202,6 +217,7 @@
     "description": "Upon gaining this ability the Salamander gains the ability to cure deleterious conditions at the cost of damage.",
     "prereqs": [ "SALAMANDER_HEAT_HEAL" ],
     "category": [ "SALAMANDER" ],
+    "purifiable": false,
     "spells_learned": [ [ "salamander_cure_conditions", 1 ] ]
   },
   {
@@ -214,6 +230,7 @@
     "description": "Upon gaining this ability the Salamander gains the ability to pluck a goblin fruit from the flames.",
     "prereqs": [ "SALAMANDER_WATER_TO_BOOZE" ],
     "category": [ "SALAMANDER" ],
+    "purifiable": false,
     "spells_learned": [ [ "salamander_cultivate_goblin_fruit", 1 ] ]
   },
   {
@@ -221,6 +238,7 @@
     "id": "SALAMANDER_WATER_TO_BOOZE",
     "name": { "str": "Burning Water" },
     "points": 0,
+    "purifiable": false,
     "visibility": 0,
     "ugliness": 0,
     "description": "Upon gaining this ability the Salamander learns how to convert water into very strong alcohol.",
@@ -232,6 +250,7 @@
     "id": "SALAMANDER_WATER_TO_FUEL",
     "name": { "str": "Fire From Water" },
     "points": 6,
+    "purifiable": false,
     "visibility": 0,
     "ugliness": 0,
     "description": "Upon gaining this ability the Salamander learn how to convert water directly into fuel.  This is an intensely draining activity.",
@@ -248,6 +267,7 @@
     "description": "Upon gaining this ability the Salamander's eyes begin reflecting their mood, with warm yellows and deep reds when happy and blazing oranges, blues, and whites when angry.  Glare no longer impacts them and they can always see exactly what temperature it is.",
     "leads_to": [ "SALAMANDER_HEAT_EYES" ],
     "category": [ "SALAMANDER" ],
+    "purifiable": false,
     "integrated_armor": [ "integrated_salamander_eyes" ],
     "flags": [ "THERMOMETER" ]
   },
@@ -260,6 +280,7 @@
     "prereqs": [ "SALAMANDER_EYES" ],
     "changes_to": [ "SALAMANDER_HEAT_EYES2" ],
     "category": [ "SALAMANDER" ],
+    "purifiable": false,
     "enchantments": [ "THERMAL_VISION_GOOD_PASSIVE" ]
   },
   {
@@ -270,6 +291,7 @@
     "description": "The Salamander's ability to see heat has sharpened greatly, and they can pick out subtle change in a person's skin caused by blood flow.  This makes persuasion and lying easier.",
     "prereqs": [ "SALAMANDER_EYES" ],
     "category": [ "SALAMANDER" ],
+    "purifiable": false,
     "social_modifiers": { "persuade": 10, "lie": 10 },
     "enchantments": [ "THERMAL_VISION_GOOD_PASSIVE" ]
   },
@@ -278,6 +300,7 @@
     "id": "SALAMANDER_EARS",
     "name": { "str": "Salamander Ears" },
     "points": 1,
+    "purifiable": false,
     "visibility": 2,
     "ugliness": 0,
     "description": "The Salamander's ears narrow to a point, like tongues of leaping flame.  While distinctive, this has no gameplay effects.",
@@ -295,6 +318,7 @@
     "prereqs": [ "SALAMANDER_NO_WATER" ],
     "changes_to": [ "SALAMANDER_HEAT_HEAL" ],
     "category": [ "SALAMANDER" ],
+    "purifiable": false,
     "enchantments": [ { "values": [ { "value": "SPEED", "add": { "math": [ "temperature_speed_mod_salamander(65, 1)" ] } } ] } ]
   },
   {
@@ -307,6 +331,7 @@
     "prereqs": [ "SALAMANDER_ECTOTHERM" ],
     "description": "The Salamander gains strength from heat and becomes faster and heals much quicker in hot weather.  However, cold weather produces a corresponding slowing effect.",
     "category": [ "SALAMANDER" ],
+    "purifiable": false,
     "enchantments": [
       "ench_salamander_heat_healing",
       { "values": [ { "value": "SPEED", "add": { "math": [ "temperature_speed_mod_salamander(65, 1)" ] } } ] }
@@ -322,6 +347,7 @@
     "prereqs": [ "SALAMANDER_ECTOTHERM", "SALAMANDER_HEAT_HEAL" ],
     "description": "As fae spirits of fire, Salamanders also partake of the heat of the forge and the glow of white-hot iron.  Your crafting speed will increase while standing in fire or hot air.",
     "category": [ "SALAMANDER" ],
+    "purifiable": false,
     "enchantments": [ "ench_salamander_heat_crafting" ]
   },
   {
@@ -333,6 +359,7 @@
     "prereqs": [ "SALAMANDER_EMIT_HEAT" ],
     "prereqs2": [ "SALAMANDER_SKIN_2", "SALAMANDER_SKIN_3" ],
     "category": [ "SALAMANDER" ],
+    "purifiable": false,
     "active": true,
     "activated_is_setup": true,
     "activated_eocs": [ "EOC_SALAMANDER_FIRE_FOOSTEPS" ],
@@ -349,6 +376,7 @@
     "prereqs": [ "SALAMANDER_SUMMON_FIRE_SPIRIT" ],
     "prereqs2": [ "SALAMANDER_HEAT_EYES", "SALAMANDER_HEAT_EYES2" ],
     "category": [ "SALAMANDER" ],
+    "purifiable": false,
     "moncams": [ [ "mon_salamander_tiny", 50 ], [ "mon_smoke_mephit", 50 ] ]
   },
   {
@@ -360,6 +388,7 @@
     "prereqs": [ "SALAMANDER_EMIT_HEAT" ],
     "changes_to": "SALAMANDER_BIGGER_STOMACH2",
     "category": [ "SALAMANDER" ],
+    "purifiable": false,
     "enchantments": [ { "values": [ { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 1 } ] } ]
   },
   {
@@ -370,6 +399,7 @@
     "description": "Like a coal furnace, the Salamander devours food to keep functioning.  They may eat three times as much at once and eat food 50% faster.",
     "prereqs": [ "SALAMANDER_BIGGER_STOMACH" ],
     "category": [ "SALAMANDER" ],
+    "purifiable": false,
     "enchantments": [
       {
         "values": [ { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 2 }, { "value": "CONSUME_TIME_MOD", "multiply": -0.5 } ]
@@ -385,6 +415,7 @@
     "prereqs": [ "SALAMANDER_BIGGER_STOMACH", "SALAMANDER_BIGGER_STOMACH2" ],
     "prereqs2": [ "SALAMANDER_SKIN_1", "SALAMANDER_SKIN_2", "SALAMANDER_SKIN_3" ],
     "category": [ "SALAMANDER" ],
+    "purifiable": false,
     "active": true,
     "cost": 1000,
     "kcal": true,
@@ -399,6 +430,7 @@
     "changes_to": [ "SALAMANDER_SLEEP_LESS2" ],
     "types": [ "SLEEP" ],
     "category": [ "SALAMANDER" ],
+    "purifiable": false,
     "enchantments": [
       {
         "values": [
@@ -420,6 +452,7 @@
     "changes_to": [ "SALAMANDER_SLEEP_LESS3" ],
     "types": [ "SLEEP" ],
     "category": [ "SALAMANDER" ],
+    "purifiable": false,
     "enchantments": [
       {
         "values": [
@@ -442,6 +475,7 @@
     "active": true,
     "activated_is_setup": true,
     "category": [ "SALAMANDER" ],
+    "purifiable": false,
     "threshreq": [ "THRESH_SALAMANDER" ],
     "enchantments": [
       {
@@ -477,6 +511,7 @@
     "description": "Smoke is the breath of fire and a Salamander is born of flames.  You suffer no negative effects from smoke inhalation.",
     "prereqs": [ "SALAMANDER_NO_WATER" ],
     "category": [ "SALAMANDER" ],
+    "purifiable": false,
     "enchantments": [ { "condition": "ALWAYS", "ench_effects": [ { "effect": "effect_salamander_smoke_immunity", "intensity": 1 } ] } ]
   },
   {
@@ -489,6 +524,7 @@
     "changes_to": [ "SALAMANDER_STR_BONUS_2" ],
     "description": "Like a fire fueled with fresh wood, you have increased strength.  +1 Strength.",
     "category": [ "SALAMANDER" ],
+    "purifiable": false,
     "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 1 } ] } ]
   },
   {
@@ -502,6 +538,7 @@
     "prereqs2": [ "SALAMANDER_EMIT_HEAT" ],
     "description": "Like the bonfire that will burn through the night, you have greatly increased strength.  +3 Strength.",
     "category": [ "SALAMANDER" ],
+    "purifiable": false,
     "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 3 } ] } ]
   },
   {
@@ -514,6 +551,7 @@
     "changes_to": [ "SALAMANDER_DEX_BONUS_2" ],
     "description": "Like a fire sparks kindling in flame, you have increased speed.  +2 Dexterity.",
     "category": [ "SALAMANDER" ],
+    "purifiable": false,
     "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 2 } ] } ]
   },
   {
@@ -527,6 +565,7 @@
     "prereqs2": [ "SALAMANDER_ECTOTHERM" ],
     "description": "Like a forest fire moving faster than a running horse, you have greatly increased speed.  +5 Dexterity.",
     "category": [ "SALAMANDER" ],
+    "purifiable": false,
     "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 5 } ] } ]
   },
   {
@@ -539,6 +578,7 @@
     "prereqs": [ "SALAMANDER_DEX_BONUS_2" ],
     "description": "The Salamander can move even faster than a racing prairie fire.  -10% move and attack speed.",
     "category": [ "SALAMANDER" ],
+    "purifiable": false,
     "enchantments": [ "ench_salamander_reduced_move" ]
   },
   {
@@ -551,6 +591,7 @@
     "prereqs": [ "SALAMANDER_MAKE_FIRE" ],
     "description": "Your thoughts are as fast as a forest fire.  +2 Intelligence.",
     "category": [ "SALAMANDER" ],
+    "purifiable": false,
     "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": 2 } ] } ]
   },
   {
@@ -562,6 +603,7 @@
     "prereqs": [ "SALAMANDER_REDUCED_MOVE_COST" ],
     "active": true,
     "category": [ "SALAMANDER" ],
+    "purifiable": false,
     "activated_eocs": [ "EOC_SALAMANDER_REMOVE_STUN" ],
     "cost": 75,
     "kcal": true
@@ -574,6 +616,7 @@
     "description": "Instead of simply causing a burst of heat, the Salamander can emit heat from their hands at will, allowing them to use it to cook.",
     "prereqs": [ "SALAMANDER_MAKE_FIRE" ],
     "category": [ "SALAMANDER" ],
+    "purifiable": false,
     "cost": 1,
     "active": true,
     "kcal": true,
@@ -593,6 +636,7 @@
     "prereqs2": [ "SALAMANDER_NO_SMOKE_DAMAGE" ],
     "description": "A creature born and bred of fire, the Salamander is utterly immune to heat and flame of any kind.  However, they will take additional damage from cold.",
     "category": [ "SALAMANDER" ],
+    "purifiable": false,
     "threshreq": [ "THRESH_SALAMANDER" ],
     "enchantments": [
       {
@@ -611,6 +655,7 @@
     "description": "Upon gaining this ability the Salamander gains the ability to hurl themselves skyward while standing in a fire.",
     "prereqs": "SALAMANDER_FIRE_IMMUNE",
     "category": [ "SALAMANDER" ],
+    "purifiable": false,
     "threshreq": [ "THRESH_SALAMANDER" ],
     "spells_learned": [ [ "salamander_fire_fly", 1 ] ]
   },
@@ -623,6 +668,7 @@
     "prereqs": [ "SALAMANDER_INT_BONUS" ],
     "changes_to": "SALAMANDER_FAST_CAST",
     "category": [ "SALAMANDER" ],
+    "purifiable": false,
     "threshreq": [ "THRESH_SALAMANDER" ],
     "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 0.25 } ] } ]
   },
@@ -634,6 +680,7 @@
     "description": "The Salamander's mana surges within them, ready to burst out at the slightly opportunity.  25% extra mana and -15% spell casting speed.",
     "prereqs": [ "SALAMANDER_INT_BONUS" ],
     "category": [ "SALAMANDER" ],
+    "purifiable": false,
     "threshreq": [ "THRESH_SALAMANDER" ],
     "enchantments": [
       { "values": [ { "value": "CASTING_TIME_MULTIPLIER", "multiply": -0.15 }, { "value": "MAX_MANA", "multiply": 0.25 } ] }
@@ -649,6 +696,7 @@
     "description": "With an act of will, you can extend wings of flame from your back.  These aetherial wings are not hindered by clothing or armor, but also do not have enough substance to allow you to fly.  However, they can break a fall or be used in combat.",
     "prereqs": "SALAMANDER_FIRE_IMMUNE",
     "category": [ "SALAMANDER" ],
+    "purifiable": false,
     "threshreq": [ "THRESH_SALAMANDER" ],
     "active": true,
     "transform": {
@@ -667,6 +715,7 @@
     "ugliness": 0,
     "description": "You are extending wings of aetherial flame from your back.  You can attack enemies with them and will not take damage from falls.",
     "category": [ "SALAMANDER" ],
+    "purifiable": false,
     "active": true,
     "valid": false,
     "enchantments": [ "ench_salamander_wings_flame" ],
@@ -694,6 +743,7 @@
     "prereqs": "SALAMANDER_FIRE_IMMUNE",
     "prereqs2": "SALAMANDER_SMOKE_FORM",
     "category": [ "SALAMANDER" ],
+    "purifiable": false,
     "threshreq": [ "THRESH_SALAMANDER" ]
   },
   {
@@ -706,6 +756,7 @@
     "description": "Upon gaining this ability the Salamander gains the ability to make an ally immune to heat and flame.",
     "prereqs": [ "SALAMANDER_FIRE_IMMUNE" ],
     "category": [ "SALAMANDER" ],
+    "purifiable": false,
     "threshreq": [ "THRESH_SALAMANDER" ],
     "spells_learned": [ [ "salamander_ally_flame_immune_spell", 1 ] ]
   },
@@ -720,6 +771,7 @@
     "prereqs": [ "SALAMANDER_PREVENT_DEATH" ],
     "prereqs2": [ "SALAMANDER_SUMMON_FIREBIRD" ],
     "category": [ "SALAMANDER" ],
+    "purifiable": false,
     "threshreq": [ "THRESH_SALAMANDER" ],
     "spells_learned": [ [ "salamander_explosion_and_heal_spell", 1 ] ]
   },
@@ -731,6 +783,7 @@
     "description": "The Salamander may transform into smoke.  They will have only a dim awareness of their surroundings, but can freely move including through the air and will be nearly immune to attack.  They will be unable to attack anyone else themselves, however.",
     "prereqs": [ "SALAMANDER_SUMMON_WINGS", "SALAMANDER_SUMMON_WINGS_ON" ],
     "category": [ "SALAMANDER" ],
+    "purifiable": false,
     "threshreq": [ "THRESH_SALAMANDER" ],
     "active": true,
     "activated_is_setup": true,
@@ -753,6 +806,7 @@
     "player_display": false,
     "override_look": { "id": "fd_nuke_gas", "tile_category": "field" },
     "category": [ "SALAMANDER" ],
+    "purifiable": false,
     "threshreq": [ "THRESH_SALAMANDER" ]
   },
   {
@@ -762,6 +816,7 @@
     "points": 10,
     "description": "While in hot air or a fire, you may ascend upwards",
     "category": [ "SALAMANDER" ],
+    "purifiable": false,
     "threshreq": [ "THRESH_SALAMANDER" ],
     "active": true,
     "valid": false,
@@ -776,6 +831,7 @@
     "prereqs": "SALAMANDER_FIRE_IMMUNE",
     "prereqs2": "SALAMANDER_MANA_BONUS",
     "category": [ "SALAMANDER" ],
+    "purifiable": false,
     "threshreq": [ "THRESH_SALAMANDER" ],
     "flags": [ "NO_RADIATION" ]
   },
@@ -793,6 +849,7 @@
     "kcal": true,
     "time": 10,
     "category": [ "SALAMANDER" ],
+    "purifiable": false,
     "threshreq": [ "THRESH_SALAMANDER" ],
     "activated_eocs": [ "EOC_SALAMANDER_BERSERK_STANCE_ON" ],
     "deactivated_eocs": [ "EOC_SALAMANDER_BERSERK_STANCE_OFF" ]

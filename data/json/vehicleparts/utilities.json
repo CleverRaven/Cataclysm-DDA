@@ -17,7 +17,7 @@
     "item": "forgerig",
     "location": "center",
     "looks_like": "f_forge_rock",
-    "name": { "str": "mounted electric forge" },
+    "name": { "str": "vehicle electric forge" },
     "requirements": {
       "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -49,7 +49,7 @@
     "item": "kilnrig",
     "location": "center",
     "looks_like": "f_kiln_empty",
-    "name": { "str": "mounted electric kiln" },
+    "name": { "str": "vehicle electric kiln" },
     "requirements": {
       "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -67,7 +67,7 @@
     "id": "door_lock",
     "type": "ITEM",
     "name": { "str": "door lock set" },
-    "description": "Some wires and gears for connecting door handles and an unlocking knob to a latching mechanism, and a sturdy lock to go on the outer surface.  It is meant to be installed in a vehicle door or hatch.",
+    "description": "Some wires and gears for connecting door handles and an unlocking knob to a latching mechanism, and a sturdy lock to go on the outer surface.  If installed on a door or a hatch, this can be used to lock it.",
     "symbol": "+",
     "color": "dark_gray",
     "material": [ "steel" ],

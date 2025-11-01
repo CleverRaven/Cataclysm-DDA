@@ -2015,6 +2015,19 @@
     ]
   },
   {
+    "type": "effect_type",
+    "id": "effect_clay_golem_unhealing",
+    "name": [ "Clay-Covered Wounds" ],
+    "desc": [ "Bits of clay are stuck in your wounds and you can't seem to get them out." ],
+    "apply_message": "Some of the golem's clay remains behind after it hits you.",
+    "remove_message": "The clay on your wounds finally flakes off.",
+    "rating": "bad",
+    "max_duration": "48 hours",
+    "show_in_info": true,
+    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": -1 } ] } ],
+    "flags": [ "BLOCK_SUPERNATURAL_HEALING" ]
+  },
+  {
     "id": "effect_dispel_magic",
     "type": "effect_type",
     "name": [ "Dispel Magic" ],
@@ -2092,7 +2105,8 @@
       "enchant_windrun_monster",
       "effect_feral_animist_guardian_spirit",
       "effect_feral_animist_inner_voice",
-      "effect_migo_nether_shield_monster"
+      "effect_migo_nether_shield_monster",
+      "migo_fleshwarper_block_healing"
     ]
   },
   {
@@ -2250,7 +2264,9 @@
       "effect_feral_animist_guardian_spirit",
       "effect_feral_animist_inner_voice",
       "effect_migo_nether_shield_monster",
-      "effect_feral_druid_thornskin"
+      "effect_feral_druid_thornskin",
+      "migo_fleshwarper_block_healing",
+      "effect_clay_golem_unhealing"
     ]
   },
   {

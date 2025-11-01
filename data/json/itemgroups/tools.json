@@ -763,6 +763,7 @@
       [ "glasses_safety", 5 ],
       { "item": "UPS_OFF", "prob": 3, "charges": [ 0, 1000 ] },
       [ "microscope", 5 ],
+      { "item": "microscope_slide", "prob": 5, "count": [ 0, 20 ] },
       [ "microscope_dissecting", 5 ],
       [ "funnel_separation", 3 ],
       { "item": "filter_paper_qualitative", "prob": 3, "charges": [ 10, -1 ] },

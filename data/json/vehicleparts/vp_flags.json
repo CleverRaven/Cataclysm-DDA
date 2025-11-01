@@ -136,6 +136,10 @@
     "info": "Keeps the rain out of the interior of the vehicle."
   },
   {
+    "id": "RESIST_RUNOVER_DAMAGE",
+    "type": "json_flag"
+  },
+  {
     "id": "SEAT",
     "type": "json_flag",
     "info": "You need to be in a seat or saddle to operate vehicle controls."
@@ -247,12 +251,14 @@
   {
     "id": "CARGO_LOCKING",
     "type": "json_flag",
-    "requires_flag": "LOCKABLE_CARGO"
+    "requires_flag": "LOCKABLE_CARGO",
+    "info": "Attached to a suitable cargo space, it will prevent other people from accessing the cargo and taking your stuff."
   },
   {
     "id": "DOOR_LOCKING",
     "type": "json_flag",
-    "requires_flag": "LOCKABLE_DOOR"
+    "requires_flag": "LOCKABLE_DOOR",
+    "info": "Attached to a door or a hatch, it can be used to lock it."
   },
   {
     "id": "DOOR_MOTOR",
@@ -326,7 +332,8 @@
   },
   {
     "id": "CAPTURE_MONSTER_VEH",
-    "type": "json_flag"
+    "type": "json_flag",
+    "info": "You can 'e'xamine it to capture an animal next to you, or to release the animal currently contained.  When selecting an animal to capture, choose its tile relative to you, not the part."
   },
   {
     "id": "CHIMES",
@@ -334,11 +341,13 @@
   },
   {
     "id": "CIRCLE_LIGHT",
-    "type": "json_flag"
+    "type": "json_flag",
+    "info": "A bright light that <color_yellow>illuminates a circular area</color> outside the vehicle when turned on."
   },
   {
     "id": "CONE_LIGHT",
-    "type": "json_flag"
+    "type": "json_flag",
+    "info": "A bright, directed light that <color_yellow>illuminates a narrow cone</color> outside the vehicle when turned on.  During installation, you can choose what direction to point the light."
   },
   {
     "id": "CONTROL_ANIMAL",
@@ -386,7 +395,8 @@
   },
   {
     "id": "FLUIDTANK",
-    "type": "json_flag"
+    "type": "json_flag",
+    "info": "If filled with the <color_light_red>appropriate fuel</color> for the vehicle's engine, the engine will automatically draw fuel from the tank when the engine is on.  If filled with <color_light_blue>water</color>, you can access the water from a water faucet, if one is installed in the vehicle.  You can also use a rubber hose to siphon liquids out of a tank."
   },
   {
     "id": "GASTANK",
@@ -415,7 +425,8 @@
   },
   {
     "id": "HALF_CIRCLE_LIGHT",
-    "type": "json_flag"
+    "type": "json_flag",
+    "info": "A bright, directed light that <color_yellow>illuminates a half-circular area</color> outside the vehicle when turned on.  During installation, you can choose what direction to point the light."
   },
   {
     "id": "HARNESS_any",
@@ -427,11 +438,13 @@
   },
   {
     "id": "HEATED_TANK",
-    "type": "json_flag"
+    "type": "json_flag",
+    "info": "When turned on, it will <color_light_cyan>prevent the content from freezing</color>."
   },
   {
     "id": "HORN",
-    "type": "json_flag"
+    "type": "json_flag",
+    "info": "Use the vehicle controls and select the honk option to make noise."
   },
   {
     "id": "LOCKABLE_CARGO",
@@ -646,7 +659,8 @@
   },
   {
     "id": "WIDE_CONE_LIGHT",
-    "type": "json_flag"
+    "type": "json_flag",
+    "info": "A bright, directed light that <color_yellow>illuminates a wide cone</color> outside the vehicle when turned on.  During installation, you can choose what direction to point the light."
   },
   {
     "id": "WIND_POWERED",

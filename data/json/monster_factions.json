@@ -357,6 +357,7 @@
       "plant",
       "nether",
       "jabberwock",
+      "flesh_abberation",
       "insect",
       "mutant",
       "fungus",
@@ -796,6 +797,13 @@
     "friendly": [ "zombie_dusted" ],
     "neutral": [ "bot", "fish", "passive_machine", "yrax" ],
     "hate": [ "triffid" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "flesh_abberation",
+    "neutral": [ "fish", "flesh_abberation" ],
+    "by_mood": [ "jabberwock" ],
+    "hate": [ "zombie", "animal", "insect", "mutant", "human" ]
   },
   {
     "type": "MONSTER_FACTION",

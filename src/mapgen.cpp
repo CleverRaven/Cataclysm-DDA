@@ -206,8 +206,6 @@ static const oter_str_id oter_tower_lab_stairs( "tower_lab_stairs" );
 static const oter_type_str_id oter_type_road( "road" );
 static const oter_type_str_id oter_type_sewer( "sewer" );
 
-static const region_settings_id region_settings_default( "default" );
-
 static const ter_str_id ter_t_bars( "t_bars" );
 static const ter_str_id ter_t_card_science( "t_card_science" );
 static const ter_str_id ter_t_concrete_wall( "t_concrete_wall" );

@@ -1,0 +1,10 @@
+[
+  {
+    "type": "region_overlay",
+    "id": "default_xedraevolved",
+    "copy-from": "default_xedraevolved",
+    "apply_to_tags": [ "all" ],
+    "cities": null,
+    "map_extras": "default_xedraevolved"
+  }
+]
