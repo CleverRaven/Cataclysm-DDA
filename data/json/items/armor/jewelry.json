@@ -1270,6 +1270,13 @@
         "weight": 100
       },
       {
+        "id": "rosary",
+        "name": { "str": "rosary", "str_pl": "rosaries" },
+        "description": "A necklace made of a fine gold chain, with 59 beads and crucifix on the end.  The Rosary is a sort of ritual prayer primarily done by Roman Catholics.  It consists of 5 decades, each made up of 10 Hail Marys, each followed by one Lord's Prayer.  It is said that praying a whole Rosary sends 1000 souls to Heaven.",
+        "color": "yellow",
+        "weight": 15
+      },
+      {
         "id": "jewish_necklace",
         "name": { "str": "Star of David necklace" },
         "description": "A necklace made of a fine gold chain with the Star of David symbol as a pendant.  It is a symbol of the Jewish faith.  The Star of David became officially associated with Judaism when it was chosen as the symbol to appear on a flag at the First Zionist Congress in 1897.  At that time, it became the symbol of the Jewish people, Zionism, and the Jewish communities throughout the world.",
@@ -1280,6 +1287,14 @@
         "id": "muslim_necklace",
         "name": { "str": "Crescent Moon and Star necklace" },
         "description": "A necklace made of a fine gold chain with the Crescent Moon and Star symbol as a pendant.  It is a symbol of both the Sunni and Shia Islam faith.  The crescent of the new moon signifies the beginning and end of fasting during Ramadan.",
+        "color": "yellow",
+        "weight": 5
+      },
+      {
+        "id": "saint_necklace",
+        "expand_snippets": true,
+        "name": { "str": "Saint Medallion" },
+        "description": "A necklace made of a fine gold chain with a medallion bearing the image of a Catholic saint.  The back reads \"<catholic_saints>\".",
         "color": "yellow",
         "weight": 5
       },
@@ -1755,6 +1770,21 @@
     "material": [ "leather" ],
     "symbol": "-",
     "color": "dark_gray",
+    "flags": [ "NO_WEAR_EFFECT" ]
+  },
+  {
+    "id": "priest_collar",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "clerical collar" },
+    "description": "A white plastic collar worn by Christian clergymen (or women).  Although it is most commonly associated with Catholic Priests, it is also worn by Anglicans, Lutherans, Presbyterians, and Methodists.  It represents the belief that the wearer is eternally bound in service to God",
+    "weight": "100 g",
+    "volume": "100 ml",
+    "price": "0 USD",
+    "price_postapoc": "25 cent",
+    "material": [ "plastic" ],
+    "symbol": "-",
+    "color": "white",
     "flags": [ "NO_WEAR_EFFECT" ]
   },
   {

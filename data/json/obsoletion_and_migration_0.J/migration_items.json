@@ -141,6 +141,15 @@
   },
   {
     "type": "MIGRATION",
+    "id": "cape_catholic",
+    "replace": "cloak_vampire_red"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "zuchetto",
+    "replace": "kippah"
+  },
+  {
     "id": "sewage",
     "replace": "water_sewage"
   }
