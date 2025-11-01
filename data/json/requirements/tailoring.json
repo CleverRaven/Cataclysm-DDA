@@ -221,7 +221,7 @@
         [ "buckle_steel", 1 ],
         [ "touch_fastener", 2 ],
         [ "string_6", 2 ],
-        [ "cordage_6_leather", 2 ]
+        [ "cordage_6_leather", 2, "CRAFTABLE" ]
       ]
     ]
   },
