@@ -94,7 +94,7 @@ In addition to the usual means of creating a `tags` file via e.g. [`ctags`](http
 
 ## clang-tidy
 
-Cataclysm has a [clang-tidy configuration file](../.clang-tidy) and if you have
+Cataclysm has a [clang-tidy configuration file](../../.clang-tidy) and if you have
 `clang-tidy` available you can run it to perform static analysis of the
 codebase.  We test with `clang-tidy` from LLVM 18.0.0 with CI, so for the most
 consistent results, you might want to use that version.
@@ -141,7 +141,7 @@ here](https://apt.llvm.org/) to your `sources.list`, install the needed packages
 libclang-18-dev llvm-18-dev llvm-18-tools`), and build Cataclysm with CMake,
 adding `-DCATA_CLANG_TIDY_PLUGIN=ON`.
 
-[apt.llvm.org](apt.llvm.org) also has an automated install script.
+[apt.llvm.org](https://apt.llvm.org) also has an automated install script.
 
 #### Other Linux distributions
 

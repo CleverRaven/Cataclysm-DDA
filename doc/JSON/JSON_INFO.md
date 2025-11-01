@@ -628,7 +628,7 @@ This section describes each json file and their contents. Each json has their ow
     ]
   }
 ```
-For information about tools with option to export ASCII art in format ready to be pasted into `ascii_arts.json`, see [ASCII_ARTS.md](ASCII_ARTS.md).
+For information about tools with option to export ASCII art in format ready to be pasted into the appropriate JSON file, see [ASCII_ART.md](../ASCII_ART.md).
 
 ### Snippets 
 
@@ -812,7 +812,7 @@ Without specifying, the random snippet would be used
 
 ------
 
-Snippets can also be used in EoC, see [EFFECT_ON_CONDITION.md#u_message](EFFECT_ON_CONDITION.md#u_messagenpc_message)
+Snippets can also be used in EoC, see [`EFFECT_ON_CONDITION.md`](EFFECT_ON_CONDITION.md#u_messagenpc_messagemessage)
 
 ------
 
@@ -1379,7 +1379,7 @@ When adding a new bionic, if it's not included with another one, you must also a
 | `magic_color`       | _(optional)_ Determines which color identifies this damage type when used in spells. (defaults to "black")
 | `derived_from`      | _(optional)_ An array that determines how this damage type should be calculated in terms of armor protection and monster resistance values. The first value is the source damage type and the second value is the modifier applied to source damage type calculations.
 | `onhit_eocs`        | _(optional)_ An array of effect-on-conditions that activate when a monster or character hits another monster or character with this damage type. In this case, `u` refers to the damage source and `npc` refers to the damage target.
-| `ondamage_eocs`        | _(optional)_ An array of effect-on-conditions that activate when a monster or character takes damage from another monster or character with this damage type. In this case, `u` refers to the damage source and `npc` refers to the damage target. Also have access to some [context vals](EFFECT_ON_CONDITION#context-variables-for-other-eocs)
+| `ondamage_eocs`        | _(optional)_ An array of effect-on-conditions that activate when a monster or character takes damage from another monster or character with this damage type. In this case, `u` refers to the damage source and `npc` refers to the damage target. Also have access to some [context vals](EFFECT_ON_CONDITION.md#context-variables-for-other-eocs)
 
 ```jsonc
   {
@@ -2152,7 +2152,7 @@ The array of hobbies (listed as professions) is whitelisted to all characters.  
 ### Scores, Achievements, and Conducts
 
 Scores are defined in two or three steps based on *events*.  To see what events
-exist and what data they contain, read [`event.h`](../src/event.h).
+exist and what data they contain, read [`event.h`](/src/event.h).
 
 Each event contains a certain set of fields.  Each field has a string key and a
 `cata_variant` value.  The fields should provide all the relevant information
@@ -4322,7 +4322,7 @@ Setting of sprite sheets. Same as `tiles-new` field in `tile_config`. Sprite fil
 
 # Obsoletion and migration
 
-[OBSOLETION_AND_MIGRATION.md](#OBSOLETION_AND_MIGRATION.md)
+[OBSOLETION_AND_MIGRATION.md](OBSOLETION_AND_MIGRATION.md)
 
 
 # Field types

@@ -982,7 +982,7 @@ Condition | Type | Description
 `"has_available_mission" or "u_has_available_mission" or "npc_has_available_mission"` | simple string | `true` if u or the NPC has one job available for the player character.
 `"has_many_available_missions"` | simple string | `true` if the NPC has several jobs available for the player character.
 `"mission_goal" or "npc_mission_goal" or "u_mission_goal"` | string or [variable object](#variable-object) | `true` if u or the NPC's current mission has the same goal as `mission_goal`.
-`"u_has_activity" or "npc_has_activity" | simple string | `true` if the [selected talker](EFFECT_ON_CONDITION.md#alpha-and-beta-talkers) is currently performing an [activity](PLAYER_ACTIVITY.md).
+`"u_has_activity" or "npc_has_activity" | simple string | `true` if the [selected talker](EFFECT_ON_CONDITION.md#alpha-and-beta-talkers) is currently performing an [activity](/doc/PLAYER_ACTIVITY.md).
 `"u_is_travelling" or "npc_is_travelling" | simple string | `true` if the [selected talker](EFFECT_ON_CONDITION.md#alpha-and-beta-talkers) has a current destination. Note that this just checks the destination exists, not whether u or npc is actively moving to it.
 `"mission_complete" or "npc_mission_complete" or "u_mission_complete"` | simple string | `true` if u or the NPC has completed the other's current mission.
 `"mission_incomplete" or "npc_mission_incomplete" or "u_mission_incomplete"` | simple string | `true` if u or the NPC hasn't completed the other's current mission.
