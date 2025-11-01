@@ -1514,7 +1514,7 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_pottery" }, { "proficiency": "prof_pottery_glazing" } ],
     "using": [ [ "cordage_short", 1 ], [ "glazing", 1 ], [ "earthenware_firing", 40 ] ],
-    "components": [ [ [ "any_water", 1, "LIST" ] ], [ [ "clay_lump", 2 ] ] ]
+    "components": [ [ [ "any_water", 1, "LIST" ] ], [ [ "clay_kaolin", 2 ] ] ]
   },
   {
     "type": "recipe",

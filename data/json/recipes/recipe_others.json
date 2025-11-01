@@ -1255,7 +1255,7 @@
     "decomp_learn": 4,
     "autolearn": false,
     "book_learn": [ [ "glassblowing_book", 5 ] ],
-    "using": [ [ "welding_standard", 100 ] ],
+    "using": [ [ "welding_standard", 100 ], [ "clay_refractory", 10 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
       { "id": "SAW_M", "level": 1 },
@@ -1269,7 +1269,6 @@
       [ [ "cable", 4 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "fire_brick", 25 ] ],
-      [ [ "clay_lump", 10 ] ],
       [ [ "pipe", 8 ] ],
       [ [ "pipe_fittings", 4 ] ],
       [ [ "sheet_metal_small", 4 ] ],
@@ -1286,11 +1285,11 @@
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
     "difficulty": 2,
-    "time": "45 m",
+    "time": "10 h",
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_pottery" } ],
-    "using": [ [ "earthenware_firing", 90 ] ],
-    "components": [ [ [ "any_water", 1, "LIST" ] ], [ [ "clay_lump", 5 ] ] ]
+    "using": [ [ "earthenware_firing", 90 ], [ "clay_refractory", 5 ] ],
+    "components": [ [ [ "any_water", 1, "LIST" ] ], [ [ "graphite", 12500 ], [ "chunk_graphite", 1 ] ], [ [ "material_sand", 10 ] ] ]
   },
   {
     "type": "recipe",

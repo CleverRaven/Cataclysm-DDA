@@ -1372,8 +1372,7 @@
     "time": "10 m",
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_toolsmithing", "time_multiplier": 1.5 } ],
-    "using": [ [ "blacksmithing_standard", 1 ] ],
-    "tools": [ [ [ "drift", -1 ] ] ],
+    "using": [ [ "blacksmithing_standard", 1 ], [ "metal_punch", 1 ] ],
     "components": [ [ [ "mc_steel_chunk", 1 ], [ "hc_steel_chunk", 1 ] ] ]
   },
   {
@@ -1387,7 +1386,7 @@
     "time": "30 m",
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_redsmithing" } ],
-    "using": [ [ "forging_standard", 1 ], [ "bronzesmithing_tools", 1 ] ],
+    "using": [ [ "forging_standard", 1 ], [ "bronzesmithing_tools", 1 ], [ "bronze_punch", 1 ] ],
     "tools": [ [ [ "casting_mold_large", -1 ], [ "casting_mold_long", -1 ] ] ],
     "components": [ [ [ "bronze_tiny", 2, "LIST" ] ] ]
   }

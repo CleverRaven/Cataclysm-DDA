@@ -2469,6 +2469,20 @@
   },
   {
     "type": "ITEM",
+    "id": "clay_kaolin",
+    "symbol": ",",
+    "color": "white",
+    "looks_like": "clay_lump",
+    "name": { "str": "lump of kaolin clay", "str_pl": "lumps of kaolin clay" },
+    "category": "spare_parts",
+    "description": "A fresh soft lump of kaolin.  Useful for making ceramics like porcelain, or for high temperature applications as refractory.",
+    "price": "19 USD 99 cent",
+    "price_postapoc": "10 cent",
+    "weight": "660 g",
+    "volume": "250 ml"
+  },
+  {
+    "type": "ITEM",
     "id": "brick",
     "symbol": ",",
     "color": "brown",
