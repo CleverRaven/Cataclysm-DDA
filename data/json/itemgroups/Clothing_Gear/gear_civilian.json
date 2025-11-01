@@ -50,7 +50,7 @@
       { "item": "mp3", "prob": 20, "charges": [ 0, 100 ] },
       { "item": "portable_game", "prob": 50, "charges": [ 0, 100 ] },
       { "item": "vibrator", "prob": 5, "charges": [ 0, 100 ] },
-      { "item": "gum", "prob": 50, "count": [ 0, 10 ] },
+      { "group": "chewing_gum_used", "prob": 50 },
       { "group": "ammo_pocket_batteries", "prob": 50 },
       [ "wrapper", 50 ],
       [ "wrapper_foil", 5 ],
