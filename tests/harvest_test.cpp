@@ -6,6 +6,7 @@
 #include "character.h"
 #include "character_attire.h"
 #include "coordinates.h"
+#include "flag.h"
 #include "item.h"
 #include "item_group.h"
 #include "item_location.h"
@@ -13,6 +14,7 @@
 #include "map_scale_constants.h"
 #include "map_selector.h"
 #include "monster.h"
+#include "mtype.h"
 #include "player_activity.h"
 #include "player_helpers.h"
 #include "point.h"
@@ -32,6 +34,11 @@ static const itype_id itype_scalpel( "scalpel" );
 static const mtype_id mon_deer( "mon_deer" );
 static const mtype_id mon_test_CBM( "mon_test_CBM" );
 static const mtype_id mon_test_bovine( "mon_test_bovine" );
+
+static const proficiency_id proficiency_prof_butchering_adv( "prof_butchering_adv" );
+static const proficiency_id proficiency_prof_butchering_basic( "prof_butchering_basic" );
+static const proficiency_id proficiency_prof_skinning_adv( "prof_skinning_adv" );
+static const proficiency_id proficiency_prof_skinning_basic( "prof_skinning_basic" );
 
 static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_survival( "survival" );
@@ -99,7 +106,7 @@ TEST_CASE( "Harvest_drops_from_dissecting_corpse", "[harvest]" )
     }
 }
 
-static void do_butchery_timing( int expected_turns, butcher_type butchery_type,
+static void do_butchery_timing( time_duration expected_time, butcher_type butchery_type,
                                 int skill, mtype_id mon_type )
 {
     Character &u = get_player_character();
@@ -114,14 +121,26 @@ static void do_butchery_timing( int expected_turns, butcher_type butchery_type,
     u.i_add( item( itype_knife_combat ) );
     u.i_add( item( itype_plastic_sheet ) );
     u.i_add( item( itype_rope_30 ) );
+    u.add_proficiency( proficiency_prof_butchering_basic, true, true );
+    u.add_proficiency( proficiency_prof_butchering_adv, true, true );
+    u.add_proficiency( proficiency_prof_skinning_adv, true, true );
+    u.add_proficiency( proficiency_prof_skinning_basic, true, true );
+
     monster butcherable_animal( mon_type, mon_pos );
+    // Just in case they have well fed or starving effects...
+    butcherable_animal.clear_effects();
+    butcherable_animal.mod_amount_eaten( butcherable_animal.type->stomach_size );
     const tripoint_bub_ms animal_loc = butcherable_animal.pos_bub();
     const tripoint_abs_ms animal_loc_abs = butcherable_animal.pos_abs();
     here.i_clear( animal_loc );
     butcherable_animal.die( &here, nullptr );
+    const map_stack &corpse_items = here.i_at( animal_loc );
+    CAPTURE( corpse_items );
+    REQUIRE( corpse_items.size() == 1 );
+    REQUIRE( !corpse_items.begin()->has_flag( flag_UNDERFED ) );
+
     u.move_to( animal_loc_abs );
     REQUIRE( u.pos_abs() == animal_loc_abs );
-    CAPTURE( here.i_at( animal_loc ) );
     item_location loc = item_location( map_cursor( u.pos_abs() ), &*here.i_at( animal_loc ).begin() );
     butchery_data bd( loc, butchery_type );
     butchery_activity_actor act( bd );
@@ -131,13 +150,16 @@ static void do_butchery_timing( int expected_turns, butcher_type butchery_type,
         p_act.do_turn( u );
         turns_taken++;
     }
-    CHECK( turns_taken > expected_turns * 0.9 );
-    CHECK( turns_taken < expected_turns * 1.1 );
+    CHECK( p_act.moves_left <= 0 );
+    const time_duration time_taken = time_duration::from_turns( turns_taken );
+    CAPTURE( to_string( time_taken ) );
+    CHECK( time_taken > expected_time * 0.9 );
+    CHECK( time_taken < expected_time * 1.1 );
     here.i_clear( animal_loc );
     u.move_to( orig_pos );
 }
 
 TEST_CASE( "butchery_speed", "[harvest]" )
 {
-    do_butchery_timing( 8 * 60 * 60, butcher_type::FULL, 5, mon_deer );
+    do_butchery_timing( 8_hours, butcher_type::FULL, 5, mon_deer );
 }
