@@ -52,11 +52,14 @@ jobs:
 
   compose-tilesets:
     uses: ./.github/workflows/compose-tilesets.yml
+  build-translations:
+    uses: ./.github/workflows/build-translations.yml
 
   builds:
     needs:
       - release
       - compose-tilesets
+      - build-translations
     strategy:
       fail-fast: false
       matrix:
@@ -171,6 +174,10 @@ jobs:
           pattern: tileset-*
           path: gfx
           merge-multiple: true
+      - name: Fetch translations artifact into build
+        uses: actions/download-artifact@v4
+        with:
+          name: translations
       - name: Install dependencies (windows msvc) (0/4)
         if: runner.os == 'Windows'
         uses: lukka/get-cmake@latest

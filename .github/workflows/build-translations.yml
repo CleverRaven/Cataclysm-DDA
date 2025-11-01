@@ -1,0 +1,44 @@
+name: Build translations
+on:
+  workflow_dispatch:
+  workflow_call:
+
+jobs:
+  build-translations:
+    if: github.repository == 'CleverRaven/Cataclysm-DDA'
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Install gettext
+        run: sudo apt-get install gettext
+
+      - name: install Transifex CLI
+        run: |
+          curl -sL https://github.com/transifex/cli/releases/download/v1.6.17/tx-linux-amd64.tar.gz | sudo tar zxvf - -C /usr/bin tx
+
+      - name: Checkout local repo
+        uses: actions/checkout@v4
+        with:
+          ref: master
+          sparse-checkout: |
+            tools
+            lang
+          fetch-depth: 1
+
+      - name: Pull translations
+        env:
+          TX_TOKEN: ${{ secrets.TX_TOKEN }}
+        run: tx pull --force
+
+      - name: Discard invalid translations
+        run: ./lang/discard_invalid_po.sh
+
+      - name: Update translation statistics
+        run: ./lang/update_stats.sh
+
+      - name: Store translation artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: "translations"
+          path: |
+            lang/po
+            src/lang_stats.inc
