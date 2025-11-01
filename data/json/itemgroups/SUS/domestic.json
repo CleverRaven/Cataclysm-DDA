@@ -303,6 +303,7 @@
       { "item": "deck_of_cards", "prob": 30 },
       { "item": "glasses_reading", "prob": 30 },
       { "item": "button_wood", "prob": 30, "count": [ 1, 12 ], "charges": 1 },
+      { "item": "button_bone", "prob": 30, "count": [ 1, 12 ], "charges": 1 },
       { "item": "button_plastic", "prob": 30, "count": [ 2, 18 ], "charges": 1 },
       { "item": "bracelet_friendship", "count": [ 3, 6 ], "prob": 25 },
       { "item": "boxcutter", "prob": 20 },
@@ -684,7 +685,7 @@
       { "item": "peanutbutter", "charges": [ 1, -1 ], "prob": 80 },
       { "item": "marshmallow_fluff", "charges": [ 1, -1 ], "prob": 80 },
       { "item": "syrup", "charges": [ 1, -1 ], "prob": 50 },
-      { "item": "oatmeal", "count": [ 2, 16 ], "prob": 80 },
+      { "item": "oatmeal", "entry-wrapper": "box_small", "container-item": "null", "count": [ 2, 16 ], "prob": 80 },
       { "group": "box_cereal_any_opened" },
       { "group": "box_cereal_any_opened", "prob": 75 },
       {

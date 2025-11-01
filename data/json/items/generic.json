@@ -3406,6 +3406,21 @@
     "melee_damage": { "bash": 5 }
   },
   {
+    "id": "highland_censer",
+    "type": "ITEM",
+    "name": { "str": "censer" },
+    "description": "A small bronze vessel used to burn incense and other aromatic substances.  Its adorned with a variety of natural and knotwork designs.",
+    "looks_like": "oil_lamp",
+    "weight": "1720 g",
+    "volume": "1 L",
+    "price": "10 USD",
+    "price_postapoc": "1 USD",
+    "material": [ "bronze" ],
+    "symbol": ";",
+    "color": "yellow",
+    "melee_damage": { "bash": 5 }
+  },
+  {
     "type": "ITEM",
     "id": "lock",
     "category": "spare_parts",

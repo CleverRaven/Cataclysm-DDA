@@ -1,8 +1,8 @@
 [
   {
     "type": "effect_on_condition",
-    "id": "EOC_MAGICLYSM_GAME_START_HUMANS_ARE_HUMAN_MOM_CONDITIONS",
-    "//": "Bloodthorne druids and vampires should still show as human",
+    "id": "EOC_MAGICLYSM_GAME_START_HUMANS_ARE_HUMAN_XE_CONDITIONS",
+    "//": "Bloodthorne druids and vampires should still show as human.  Chronomancers need special handling.",
     "condition": {
       "u_has_any_trait": [
         "NATIVE_SHAPESHIFTER",
@@ -15,9 +15,18 @@
         "UNKNOWING_CHANGELING_COMMONER_SELKIE",
         "UNKNOWING_CHANGELING_COMMONER_TROW",
         "LILIN_TRAITS",
-        "GRACKEN"
+        "GRACKEN",
+        "XEDRA_CHRONOMANCER"
       ]
     },
     "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_MAGICLYSM_GAME_START_CHRONOMANCERS_ARE_HUMAN",
+    "recurrence": 1,
+    "condition": { "u_has_trait": "XEDRA_CHRONOMANCER" },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "XEDRA_CHRONOMANCER" } }, { "u_has_trait": "HUMAN_CHRONOMANCER_BUILD" } ] },
+    "effect": [ { "u_add_trait": "HUMAN_CHRONOMANCER_BUILD" } ]
   }
 ]

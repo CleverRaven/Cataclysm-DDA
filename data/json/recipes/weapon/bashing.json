@@ -57,10 +57,11 @@
     "difficulty": 3,
     "time": "360 m",
     "autolearn": true,
+    "using": [ [ "wood_sealant_any", 1 ] ],
     "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_carving" } ],
     "tools": [ [ [ "char_smoker", 100 ] ] ],
-    "components": [ [ [ "log", 1 ] ], [ [ "butter", 30 ], [ "raw_butter", 30 ], [ "edible_tallow", 10, "LIST" ] ] ]
+    "components": [ [ [ "log", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -428,7 +429,7 @@
       { "proficiency": "prof_bladesmith" },
       { "proficiency": "prof_carving" }
     ],
-    "using": [ [ "blacksmithing_standard", 6 ], [ "lc_steel_standard", 3 ] ],
+    "using": [ [ "blacksmithing_standard", 6 ], [ "lc_steel_standard", 3 ], [ "wood_sealant_any", 2 ] ],
     "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "qualities": [
       { "id": "CUT", "level": 2 },
@@ -436,7 +437,7 @@
       { "id": "GRIND", "level": 1 },
       { "id": "FILE", "level": 1 }
     ],
-    "components": [ [ [ "2x4", 2 ] ], [ [ "any_tallow", 10, "LIST" ], [ "cooking_oil", 48 ], [ "lamp_oil", 500 ], [ "motor_oil", 500 ] ] ]
+    "components": [ [ [ "2x4", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -454,7 +455,7 @@
       { "proficiency": "prof_bladesmith" },
       { "proficiency": "prof_carving" }
     ],
-    "using": [ [ "blacksmithing_standard", 6 ], [ "mc_steel_standard", 3 ] ],
+    "using": [ [ "blacksmithing_standard", 6 ], [ "mc_steel_standard", 3 ], [ "wood_sealant_any", 2 ] ],
     "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "qualities": [
       { "id": "CUT", "level": 2 },
@@ -462,11 +463,7 @@
       { "id": "GRIND", "level": 1 },
       { "id": "FILE", "level": 1 }
     ],
-    "components": [
-      [ [ "2x4", 2 ] ],
-      [ [ "any_tallow", 10, "LIST" ], [ "cooking_oil", 48 ], [ "lamp_oil", 500 ], [ "motor_oil", 500 ] ],
-      [ [ "leather", 3 ], [ "fur", 3 ], [ "faux_fur", 3 ] ]
-    ]
+    "components": [ [ [ "2x4", 2 ] ], [ [ "leather", 3 ], [ "fur", 3 ], [ "faux_fur", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -484,7 +481,7 @@
       { "proficiency": "prof_bladesmith" },
       { "proficiency": "prof_carving" }
     ],
-    "using": [ [ "blacksmithing_standard", 6 ], [ "lc_steel_standard", 3 ] ],
+    "using": [ [ "blacksmithing_standard", 6 ], [ "lc_steel_standard", 3 ], [ "wood_sealant_any", 2 ] ],
     "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "qualities": [
       { "id": "CUT", "level": 2 },
@@ -492,11 +489,7 @@
       { "id": "GRIND", "level": 1 },
       { "id": "FILE", "level": 1 }
     ],
-    "components": [
-      [ [ "2x4", 2 ] ],
-      [ [ "any_tallow", 10, "LIST" ], [ "cooking_oil", 48 ], [ "lamp_oil", 500 ], [ "motor_oil", 500 ] ],
-      [ [ "leather", 3 ], [ "fur", 3 ], [ "faux_fur", 3 ] ]
-    ]
+    "components": [ [ [ "2x4", 2 ] ], [ [ "leather", 3 ], [ "fur", 3 ], [ "faux_fur", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -515,7 +508,7 @@
       { "proficiency": "prof_carving" },
       { "proficiency": "prof_case_hardening" }
     ],
-    "using": [ [ "blacksmithing_standard", 6 ], [ "lc_steel_standard", 3 ], [ "carbon", 3 ] ],
+    "using": [ [ "blacksmithing_standard", 6 ], [ "lc_steel_standard", 3 ], [ "carbon", 3 ], [ "wood_sealant_any", 2 ] ],
     "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "qualities": [
       { "id": "CUT", "level": 2 },
@@ -523,11 +516,7 @@
       { "id": "GRIND", "level": 1 },
       { "id": "FILE", "level": 1 }
     ],
-    "components": [
-      [ [ "2x4", 2 ] ],
-      [ [ "any_tallow", 10, "LIST" ], [ "cooking_oil", 48 ], [ "lamp_oil", 500 ], [ "motor_oil", 500 ] ],
-      [ [ "leather", 3 ], [ "scrap_kevlar", 3 ] ]
-    ]
+    "components": [ [ [ "2x4", 2 ] ], [ [ "leather", 3 ], [ "scrap_kevlar", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -546,7 +535,7 @@
       { "proficiency": "prof_carving" },
       { "proficiency": "prof_quenching" }
     ],
-    "using": [ [ "blacksmithing_standard", 10 ], [ "mc_steel_standard", 3 ] ],
+    "using": [ [ "blacksmithing_standard", 10 ], [ "mc_steel_standard", 3 ], [ "wood_sealant_any", 2 ] ],
     "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ],
     "qualities": [
       { "id": "CUT", "level": 2 },
@@ -554,11 +543,7 @@
       { "id": "GRIND", "level": 1 },
       { "id": "FILE", "level": 1 }
     ],
-    "components": [
-      [ [ "2x4", 2 ] ],
-      [ [ "any_tallow", 10, "LIST" ], [ "cooking_oil", 48 ], [ "lamp_oil", 500 ], [ "motor_oil", 500 ] ],
-      [ [ "leather", 3 ], [ "scrap_kevlar", 3 ] ]
-    ]
+    "components": [ [ [ "2x4", 2 ] ], [ [ "leather", 3 ], [ "scrap_kevlar", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -621,7 +606,7 @@
       { "proficiency": "prof_bladesmith" },
       { "proficiency": "prof_carving" }
     ],
-    "using": [ [ "blacksmithing_standard", 2 ], [ "lc_steel_standard", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 2 ], [ "lc_steel_standard", 1 ], [ "wood_sealant_any", 1 ] ],
     "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "qualities": [
       { "id": "CUT", "level": 2 },
@@ -629,11 +614,7 @@
       { "id": "GRIND", "level": 1 },
       { "id": "FILE", "level": 1 }
     ],
-    "components": [
-      [ [ "spear_shaft", 1 ] ],
-      [ [ "2x4", 1 ] ],
-      [ [ "any_tallow", 2, "LIST" ], [ "cooking_oil", 8 ], [ "lamp_oil", 125 ], [ "motor_oil", 125 ] ]
-    ]
+    "components": [ [ [ "spear_shaft", 1 ] ], [ [ "2x4", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -651,7 +632,7 @@
       { "proficiency": "prof_bladesmith" },
       { "proficiency": "prof_carving" }
     ],
-    "using": [ [ "blacksmithing_standard", 2 ], [ "mc_steel_standard", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 2 ], [ "mc_steel_standard", 1 ], [ "wood_sealant_any", 1 ] ],
     "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "qualities": [
       { "id": "CUT", "level": 2 },
@@ -659,11 +640,7 @@
       { "id": "GRIND", "level": 1 },
       { "id": "FILE", "level": 1 }
     ],
-    "components": [
-      [ [ "spear_shaft", 1 ] ],
-      [ [ "2x4", 1 ] ],
-      [ [ "any_tallow", 2, "LIST" ], [ "cooking_oil", 8 ], [ "lamp_oil", 125 ], [ "motor_oil", 125 ] ]
-    ]
+    "components": [ [ [ "spear_shaft", 1 ] ], [ [ "2x4", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -681,7 +658,7 @@
       { "proficiency": "prof_bladesmith" },
       { "proficiency": "prof_carving" }
     ],
-    "using": [ [ "blacksmithing_standard", 2 ], [ "hc_steel_standard", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 2 ], [ "hc_steel_standard", 1 ], [ "wood_sealant_any", 1 ] ],
     "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "qualities": [
       { "id": "CUT", "level": 2 },
@@ -689,11 +666,7 @@
       { "id": "GRIND", "level": 1 },
       { "id": "FILE", "level": 1 }
     ],
-    "components": [
-      [ [ "spear_shaft", 1 ] ],
-      [ [ "2x4", 1 ] ],
-      [ [ "any_tallow", 2, "LIST" ], [ "cooking_oil", 8 ], [ "lamp_oil", 125 ], [ "motor_oil", 125 ] ]
-    ]
+    "components": [ [ [ "spear_shaft", 1 ] ], [ [ "2x4", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -712,7 +685,7 @@
       { "proficiency": "prof_carving" },
       { "proficiency": "prof_case_hardening" }
     ],
-    "using": [ [ "blacksmithing_standard", 2 ], [ "lc_steel_standard", 1 ], [ "carbon", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 2 ], [ "lc_steel_standard", 1 ], [ "carbon", 1 ], [ "wood_sealant_any", 1 ] ],
     "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "qualities": [
       { "id": "CUT", "level": 2 },
@@ -720,11 +693,7 @@
       { "id": "GRIND", "level": 1 },
       { "id": "FILE", "level": 1 }
     ],
-    "components": [
-      [ [ "spear_shaft", 1 ] ],
-      [ [ "2x4", 1 ] ],
-      [ [ "any_tallow", 2, "LIST" ], [ "cooking_oil", 8 ], [ "lamp_oil", 125 ], [ "motor_oil", 125 ] ]
-    ]
+    "components": [ [ [ "spear_shaft", 1 ] ], [ [ "2x4", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -743,7 +712,7 @@
       { "proficiency": "prof_carving" },
       { "proficiency": "prof_quenching" }
     ],
-    "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ], [ "wood_sealant_any", 1 ] ],
     "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ],
     "qualities": [
       { "id": "CUT", "level": 2 },
@@ -751,11 +720,7 @@
       { "id": "GRIND", "level": 1 },
       { "id": "FILE", "level": 1 }
     ],
-    "components": [
-      [ [ "spear_shaft", 1 ] ],
-      [ [ "2x4", 1 ] ],
-      [ [ "any_tallow", 2, "LIST" ], [ "cooking_oil", 8 ], [ "lamp_oil", 125 ], [ "motor_oil", 125 ] ]
-    ]
+    "components": [ [ [ "spear_shaft", 1 ] ], [ [ "2x4", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1116,15 +1081,11 @@
     "difficulty": 3,
     "time": "5 h 40 m",
     "book_learn": [ [ "textbook_weapeast", 2 ] ],
+    "using": [ [ "wood_sealant_any_small", 1 ] ],
     "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_carving", "skill_penalty": 0.5 } ],
     "//": "Bokken is a single piece of wood, and the stout branch just isn't large enough.",
-    "components": [
-      [ [ "stick_long", 1 ] ],
-      [ [ "any_tallow", 5, "LIST" ], [ "cooking_oil", 16 ], [ "lamp_oil", 250 ], [ "motor_oil", 250 ] ],
-      [ [ "fur", 2 ], [ "leather", 2 ] ],
-      [ [ "duct_tape", 20 ], [ "filament", 20, "LIST" ] ]
-    ]
+    "components": [ [ [ "stick_long", 1 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ], [ [ "duct_tape", 20 ], [ "filament", 20, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1418,13 +1379,11 @@
     "time": "5 h",
     "//1": "TODO: adjust crafting time down by 4 hours when it's possible to separate the oiling time from the crafting time easily.",
     "autolearn": true,
+    "using": [ [ "wood_sealant_any", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "CUT_FINE", "level": 1 }, { "id": "FILE", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_carving", "max_experience": "60 m", "skill_penalty": 0.5 } ],
     "//2": "Max experience set because waiting for oil to soak in isn't really teaching you anything.  Remove this when crafting time reduced to only carving time.",
-    "components": [
-      [ [ "stick_long", 1 ] ],
-      [ [ "any_tallow", 5, "LIST" ], [ "cooking_oil", 16 ], [ "lamp_oil", 250 ], [ "motor_oil", 250 ] ]
-    ]
+    "components": [ [ [ "stick_long", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1439,13 +1398,11 @@
     "time": "270 m",
     "//1": "TODO: adjust crafting time down by 4 hours (240 minutes) when it's possible to separate the oiling time from the crafting time easily.",
     "autolearn": true,
+    "using": [ [ "wood_sealant_any", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "CUT_FINE", "level": 1 }, { "id": "FILE", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_carving", "max_experience": "30 m", "skill_penalty": 0.2 } ],
     "//2": "Max experience set because waiting for oil to soak in isn't really teaching you anything.  Remove this when crafting time reduced to only carving time.",
-    "components": [
-      [ [ "q_staff", 1 ] ],
-      [ [ "any_tallow", 5, "LIST" ], [ "cooking_oil", 16 ], [ "lamp_oil", 250 ], [ "motor_oil", 250 ] ]
-    ]
+    "components": [ [ [ "q_staff", 1 ] ] ]
   },
   {
     "type": "recipe",

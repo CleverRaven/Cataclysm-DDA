@@ -143,5 +143,10 @@
     "type": "MIGRATION",
     "id": "homewrecker",
     "replace": "hammer_sledge"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "sewage",
+    "replace": "water_sewage"
   }
 ]

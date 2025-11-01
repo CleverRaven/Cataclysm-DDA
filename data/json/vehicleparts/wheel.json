@@ -265,7 +265,7 @@
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "20 m", "using": [ [ "vehicle_fasten", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "10 m", "using": [ [ "adhesive_rubber", 1 ], [ "tire_rubber", 1 ] ] }
     },
-    "flags": [ "WHEEL", "UNSTABLE_WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_HEAVY" ],
+    "flags": [ "WHEEL", "UNSTABLE_WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_HEAVY", "RESIST_RUNOVER_DAMAGE" ],
     "damage_reduction": { "all": 60, "cut": 30, "stab": 16 },
     "variants": [ { "symbols": "0", "symbols_broken": "x" } ]
   },

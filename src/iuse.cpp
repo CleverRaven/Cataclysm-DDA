@@ -138,7 +138,6 @@ static const activity_id ACT_FISH( "ACT_FISH" );
 static const activity_id ACT_GAME( "ACT_GAME" );
 static const activity_id ACT_GENERIC_GAME( "ACT_GENERIC_GAME" );
 static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
-static const activity_id ACT_HEATING( "ACT_HEATING" );
 static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
 static const activity_id ACT_ROBOT_CONTROL( "ACT_ROBOT_CONTROL" );
@@ -4359,7 +4358,7 @@ std::optional<int> iuse::vibe( Character *p, item *it, const tripoint_bub_ms & )
         p->add_msg_if_player( m_info, _( "It might be waterproof, but your lungs aren't." ) );
         return std::nullopt;
     }
-    if( !it->ammo_sufficient( p ) ) {
+    if( it->uses_energy() && !it->ammo_sufficient( p ) ) {
         p->add_msg_if_player( m_info, _( "The %s's batteries are dead." ), it->tname() );
         return std::nullopt;
     }
@@ -4963,42 +4962,9 @@ std::optional<int> iuse::handle_ground_graffiti( Character &p, item *it, const s
     }
 }
 
-/**
- * Heats up a food item.
- * @return 1 if an item was heated, false if nothing was heated.
- */
-static bool heat_item( Character &p )
-{
-    map &here = get_map();
-
-    item_location loc = g->inv_map_splice( [&here]( const item_location & itm ) {
-        return itm->has_temperature() && !itm->has_own_flag( flag_HOT ) &&
-               ( !itm->made_of_from_type( phase_id::LIQUID ) ||
-                 itm.where() == item_location::type::container ||
-                 here.has_flag_furn( ter_furn_flag::TFLAG_LIQUIDCONT, itm.pos_bub( here ) ) );
-    }, _( "Heat up what?" ), 1, _( "You don't have any appropriate food to heat up." ) );
-
-    item *heat = loc.get_item();
-    if( heat == nullptr ) {
-        add_msg( m_info, _( "Never mind." ) );
-        return false;
-    }
-    // simulates heat capacity of food, more weight = longer heating time
-    // this is x2 to simulate larger delta temperature of frozen food in relation to
-    // heating non-frozen food (x1); no real life physics here, only approximations
-    int duration = to_turns<int>( time_duration::from_seconds( to_gram( heat->weight() ) ) ) * 10;
-    if( heat->has_own_flag( flag_FROZEN ) && !heat->has_flag( flag_EATEN_COLD ) ) {
-        duration *= 2;
-    }
-    p.add_msg_if_player( m_info, _( "You start heating up the food." ) );
-    p.assign_activity( ACT_HEATING, duration );
-    p.activity.targets.emplace_back( p, heat );
-    return true;
-}
-
 std::optional<int> iuse::heatpack( Character *p, item *it, const tripoint_bub_ms & )
 {
-    if( heat_item( *p ) ) {
+    if( heat_solid_items( p, it, p->pos_bub() ) ) {
         it->convert( itype_heatpack_used, p );
     }
     return 0;
@@ -5007,11 +4973,11 @@ std::optional<int> iuse::heatpack( Character *p, item *it, const tripoint_bub_ms
 std::optional<int> iuse::heat_food( Character *p, item *it, const tripoint_bub_ms & )
 {
     if( get_map().has_nearby_fire( p->pos_bub() ) ) {
-        heat_item( *p );
+        heat_solid_items( p, it, p->pos_bub() );
         return 0;
     } else if( p->has_active_bionic( bio_tools ) && p->get_power_level() > 10_kJ &&
                query_yn( _( "There is no fire around; use your integrated toolset instead?" ) ) ) {
-        if( heat_item( *p ) ) {
+        if( heat_solid_items( p, it, p->pos_bub() ) ) {
             p->mod_power_level( -10_kJ );
             return 0;
         }
@@ -5033,7 +4999,7 @@ std::optional<int> iuse::hotplate( Character *p, item *it, const tripoint_bub_ms
         return std::nullopt;
     }
 
-    if( heat_item( *p ) ) {
+    if( heat_solid_items( p, it, p->pos_bub() ) ) {
         return 1;
     }
     return std::nullopt;
@@ -5045,7 +5011,7 @@ std::optional<int> iuse::hotplate_atomic( Character *p, item *it, const tripoint
         return std::nullopt;
     }
     if( it->typeId() == itype_atomic_coffeepot ) {
-        heat_item( *p );
+        heat_solid_items( p, it, p->pos_bub() );
     }
 
     return std::nullopt;

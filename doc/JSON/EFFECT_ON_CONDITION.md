@@ -1316,6 +1316,7 @@ Each time the avatar enters an OMT display a message as to whether or not they'r
       }
     ]
   },
+```
 
 ### `current_dimension`
 - type: string or [variable object](#variable-object)
@@ -2798,6 +2799,28 @@ Teleport player to `new_map`
     { "u_teleport": { "global_val": "new_map" }, "force": true }
   ]
 }
+```
+
+#### `signal_hordes`
+Alert all hordes nearby to this location, akin to explosion
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- |
+| "signal_hordes" | **mandatory** | [variable object](#variable-object) | location variable that horde will try to reach |
+| "signal_power" | **mandatory** | int or [variable object](#variable-object) | default 0; the strength of a signal, ie how far it would propagate around the signal, in tiles |
+
+##### Examples
+
+Alert horde in 200 meter range
+```jsonc
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TEST",
+    "effect": [
+      { "u_location_variable": { "context_val": "your_pos" } },
+      { "signal_hordes": { "context_val": "your_pos" }, "signal_power": 200 }
+    ]
+  },
 ```
 
 #### `reveal_map`
@@ -4375,6 +4398,9 @@ You teleport to `grass_place` with message `Yay!`; as `force` boolean is `true`,
 
 #### `u_travel_to_dimension`
 Unloads the current dimension and loads the dimension with the specific ID, optionally brings along NPCs.
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- |
 | "u_travel_to_dimension" | **mandatory** | string | Will teleport the player to a dimension with the ID. |
 | "npc_travel_radius" | optional | int or [variable object](#variable-object) | default 0; if a value above 0 is specified, the NPCs within that radius around the player will be transported with them when dimension hopping. |
 | "npc_travel_filter" | optional | string or [variable object](#variable-object) | default `all`; Acceps the following values: `all`, `follower`, `enemy`. Does nothing if `npc_travel_radius` is 0. |

@@ -36,6 +36,7 @@
     "count": 2,
     "stack_size": 10,
     "material": [ "steel" ],
+    "flags": [ "DAMAGE_VEHICLE_WHEELS" ],
     "symbol": ",",
     "color": "light_gray",
     "ammo_type": "components"
@@ -51,7 +52,7 @@
     "symbol": ";",
     "material": [ "steel" ],
     "volume": "250 ml",
-    "flags": [ "ALLOWS_BODY_BLOCK" ],
+    "flags": [ "ALLOWS_BODY_BLOCK", "DAMAGE_VEHICLE_WHEELS" ],
     "qualities": [ [ "BUTCHER", -42 ] ],
     "price_postapoc": "10 cent",
     "to_hit": { "grip": "bad", "length": "hand", "surface": "point", "balance": "neutral" },
@@ -312,6 +313,7 @@
     "price_postapoc": "10 cent",
     "stack_size": 4,
     "material": [ "steel" ],
+    "flags": [ "DAMAGE_VEHICLE_WHEELS" ],
     "symbol": ",",
     "color": "light_gray",
     "ammo_type": "components",
@@ -334,6 +336,7 @@
     "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
     "stack_size": 2,
     "material": [ "steel" ],
+    "flags": [ "DAMAGE_VEHICLE_WHEELS" ],
     "symbol": ",",
     "color": "light_gray",
     "ammo_type": "components",
@@ -413,6 +416,7 @@
     "price": "10 USD",
     "price_postapoc": "10 cent",
     "material": [ "copper" ],
+    "flags": [ "DAMAGE_VEHICLE_WHEELS" ],
     "volume": "30 ml",
     "weight": "250 g",
     "melee_damage": { "bash": 1 }
@@ -428,6 +432,7 @@
     "price": "1 USD 29 cent",
     "price_postapoc": "2 cent",
     "material": [ "tin" ],
+    "flags": [ "DAMAGE_VEHICLE_WHEELS" ],
     "//": "Density of 7.265g/cm³ => 50g/7.265g/cm³ ~ 7ml",
     "volume": "8 ml",
     "weight": "50 g"
@@ -1256,6 +1261,7 @@
     "price": "2 cent",
     "price_postapoc": "2 cent",
     "material": [ "aluminum" ],
+    "flags": [ "DAMAGE_VEHICLE_WHEELS" ],
     "volume": "20 ml",
     "weight": "50 g",
     "melee_damage": { "bash": 1 }
@@ -1307,6 +1313,7 @@
     "price": "75 cent",
     "price_postapoc": "2 cent",
     "material": [ "iron" ],
+    "flags": [ "DAMAGE_VEHICLE_WHEELS" ],
     "volume": "8 ml",
     "weight": "50 g",
     "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" }

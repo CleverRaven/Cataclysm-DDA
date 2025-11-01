@@ -1,0 +1,10 @@
+[
+  {
+    "type": "region_overlay",
+    "id": "default_dinomod",
+    "copy-from": "default_dinomod",
+    "apply_to_tags": [ "all" ],
+    "map_extras": "default_dinomod",
+    "cities": null
+  }
+]

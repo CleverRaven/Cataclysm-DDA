@@ -1106,24 +1106,36 @@
   },
   {
     "id": "vibrator",
+    "copy-from": "sextoy",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "vibrator" },
-    "description": "This battery-devouring device is just the thing to knead the tension out and help you relax.  Use it to take a break and unwind.",
-    "weight": "181 g",
-    "volume": "327 ml",
-    "longest_side": "198 mm",
-    "price": "29 USD",
-    "price_postapoc": "3 cent",
-    "material": [ "aluminum", "plastic" ],
-    "symbol": ";",
-    "color": "dark_gray",
+    "description": "A vibrator.",
+    "material": [ { "type": "aluminum", "portion": 1 }, { "type": "plastic", "portion": 9 } ],
+    "relative": { "weight": "50 g" },
     "charges_per_use": 1,
     "use_action": [ "VIBE", { "type": "link_up", "cable_length": 3, "charge_rate": "10 W" } ],
     "flags": [ "WATER_BREAK", "NO_UNLOAD", "NO_RELOAD", "ELECTRONIC" ],
     "faults": [ { "fault_group": "electronic_general" } ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 58 } } ],
-    "tool_ammo": [ "battery" ]
+    "tool_ammo": [ "battery" ],
+    "variants": [
+      {
+        "id": "wand",
+        "name": { "str": "vibrating wand" },
+        "description": "This truly multipurpose massage tool is just the thing you need to relax.  Use it to take a break and unwind."
+      },
+      {
+        "id": "egg",
+        "name": { "str": "vibrating egg" },
+        "description": "This bulbous, u-shaped alien looking device will help you see the stars.  Use it to take a break and unwind."
+      },
+      {
+        "id": "dildo",
+        "name": { "str": "vibrating dildo" },
+        "description": "You know what this is.  There's a switch at the bottom, you know what it's for.  Use it to take a break and unwind."
+      }
+    ]
   },
   {
     "id": "gas_charger",

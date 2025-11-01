@@ -30,6 +30,66 @@
     "components": [ [ [ "adhesive", 1, "LIST" ], [ "cordage", 1, "LIST" ] ] ]
   },
   {
+    "id": "wood_sealant_any",
+    "type": "requirement",
+    "//": "Any kind of wood, for handicrafts and staves etc. Includes toxic sealants like motor oil. Each unit is up to 1500cm^2 of coverage.",
+    "components": [
+      [
+        [ "wood_sealant_nontoxic", 1, "LIST" ],
+        [ "any_tallow", 5, "LIST" ],
+        [ "lamp_oil", 250 ],
+        [ "motor_oil", 250 ],
+        [ "wax_any", 1, "LIST" ],
+        [ "rosin", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "wood_sealant_any_small",
+    "type": "requirement",
+    "//": "Any kind of wood, for handicrafts and staves etc. Includes toxic sealants like motor oil. Each unit is up to 750cm^2 of coverage.",
+    "components": [
+      [
+        [ "wood_sealant_nontoxic_small", 1, "LIST" ],
+        [ "any_tallow", 2, "LIST" ],
+        [ "lamp_oil", 125 ],
+        [ "motor_oil", 125 ],
+        [ "wax_any", 1, "LIST" ],
+        [ "rosin", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "wood_sealant_nontoxic",
+    "type": "requirement",
+    "//": "Wood sealant, for handicrafts and staves etc. Only sealants that can be used on food surfaces allowed. Each unit is 1500cm^2 of coverage.",
+    "components": [
+      [
+        [ "cooking_oil", 16 ],
+        [ "edible_tallow", 5, "LIST" ],
+        [ "wax", 1 ],
+        [ "pine_resin", 1 ],
+        [ "raw_butter", 20 ],
+        [ "butter", 20 ]
+      ]
+    ]
+  },
+  {
+    "id": "wood_sealant_nontoxic_small",
+    "type": "requirement",
+    "//": "Wood sealant, for handicrafts and staves etc. Only sealants that can be used on food surfaces allowed. Each unit is 750cm^2 of coverage.",
+    "components": [
+      [
+        [ "cooking_oil", 8 ],
+        [ "edible_tallow", 2, "LIST" ],
+        [ "wax", 1 ],
+        [ "pine_resin", 1 ],
+        [ "raw_butter", 10 ],
+        [ "butter", 10 ]
+      ]
+    ]
+  },
+  {
     "id": "concrete_materials_dry",
     "type": "requirement",
     "//": "Materials, that are used in making concrete.  Adjusted for 1 unit of water with 1 cement / 0.6 water ratio per one requirement, and 3 cement/2 sand/1 aggregate ratio of ingredients by volume",

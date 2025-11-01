@@ -58,6 +58,7 @@
 #include "uistate.h"
 #include "units.h"
 #include "units_utility.h"
+#include "value_ptr.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
 #include "vpart_position.h"
@@ -419,6 +420,9 @@ void uistatedata::serialize( JsonOut &json ) const
     json.member( "distraction_withdrawal", distraction_withdrawal );
     json.member( "numpad_navigation", numpad_navigation );
 
+    json.member( "overmap_sidebar_uistate" );
+    overmap_sidebar_state.serialize( json );
+
     json.member( "input_history" );
     json.start_object();
     for( const auto &e : input_history ) {
@@ -477,6 +481,7 @@ void uistatedata::deserialize( const JsonObject &jo )
     jo.read( "overmap_debug_mongroup", overmap_debug_mongroup );
     jo.read( "overmap_fast_travel", overmap_fast_travel );
     jo.read( "overmap_fast_scroll", overmap_fast_scroll );
+    jo.read( "overmap_sidebar_uistate", overmap_sidebar_state );
     jo.read( "distraction_noise", distraction_noise );
     jo.read( "distraction_pain", distraction_pain );
     jo.read( "distraction_attack", distraction_attack );
@@ -701,6 +706,18 @@ inventory_selector_preset::inventory_selector_preset()
     std::function<std::string( const inventory_entry & )>( [ this ]( const inventory_entry & entry ) {
         return get_caption( entry );
     } ) );
+}
+
+bool inventory_selector_preset::is_shown( const item_location &loc ) const
+{
+    if( loc->is_gunmod() ) {
+        item_location parent = loc.parent_item();
+        const bool installed = parent && parent->is_gun();
+        if( installed && !loc->type->gunmod->is_visible_when_installed ) {
+            return false;
+        }
+    }
+    return true;
 }
 
 bool inventory_selector_preset::sort_compare( const inventory_entry &lhs,
