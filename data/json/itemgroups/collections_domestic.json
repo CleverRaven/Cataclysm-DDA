@@ -975,6 +975,7 @@
       { "item": "soldering_iron", "prob": 70 },
       { "item": "soldering_iron_portable", "prob": 70, "charges": [ 0, 50 ] },
       { "item": "solder_wire", "prob": 70 },
+      { "group": "plastic_welding_tools", "prob": 35 },
       { "item": "radio", "prob": 20, "charges": [ 0, 100 ] },
       { "item": "syringe", "prob": 8 },
       { "item": "mp3", "prob": 6, "charges": [ 0, 100 ] },

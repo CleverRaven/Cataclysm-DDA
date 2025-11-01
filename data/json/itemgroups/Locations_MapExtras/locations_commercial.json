@@ -1163,7 +1163,8 @@
       { "item": "manual_fabrication", "prob": 20 },
       { "group": "duct_tape_roll_part", "prob": 70 },
       { "item": "misc_repairkit", "prob": 15 },
-      { "group": "tools_toolbox", "prob": 2 }
+      { "group": "tools_toolbox", "prob": 2 },
+      { "group": "plastic_welding_tools", "prob": 10 }
     ]
   },
   {
@@ -1405,7 +1406,8 @@
       { "group": "glue_strong_professional", "prob": 5 },
       [ "hand_controls", 1 ],
       { "item": "polisher", "prob": 15, "charges": [ 0, 100 ] },
-      [ "solar_panel", 15 ]
+      [ "solar_panel", 15 ],
+      { "group": "plastic_welding_tools", "prob": 10 }
     ]
   },
   {
@@ -1468,7 +1470,8 @@
       { "item": "polisher", "prob": 15, "charges": [ 0, 100 ] },
       [ "solar_panel", 15 ],
       [ "spare_tire_carrier", 10 ],
-      [ "mounted_spare_tire", 10 ]
+      [ "mounted_spare_tire", 10 ],
+      { "group": "plastic_welding_tools", "prob": 10 }
     ]
   },
   {
@@ -1501,7 +1504,8 @@
       { "item": "polisher", "prob": 15, "charges": [ 0, 100 ] },
       [ "solar_panel", 15 ],
       [ "spare_tire_carrier", 10 ],
-      [ "mounted_spare_tire", 10 ]
+      [ "mounted_spare_tire", 10 ],
+      { "group": "plastic_welding_tools", "prob": 10 }
     ]
   },
   {

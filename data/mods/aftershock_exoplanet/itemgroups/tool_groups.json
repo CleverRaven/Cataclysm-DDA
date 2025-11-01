@@ -317,7 +317,8 @@
       [ "clamp", 5 ],
       [ "clamp", 5 ],
       [ "metal_file", 10 ],
-      [ "hacksaw", 5 ]
+      [ "hacksaw", 5 ],
+      { "group": "plastic_welding_tools", "prob": 15 }
     ]
   },
   {

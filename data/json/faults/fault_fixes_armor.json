@@ -277,5 +277,48 @@
       [ "rivet_replacement", 4 ],
       { "qualities": [ { "id": "FABRIC_CUT", "level": 2 }, { "id": "LEATHER_AWL", "level": 1 } ] }
     ]
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_armor_thermo_resin_weld",
+    "name": "Weld the tear.",
+    "//": "Drill the ends of the tear, staple them together then weld with a steel mesh backing.",
+    "faults_removed": [ "fault_armor_thermo_resin_tear" ],
+    "success_msg": "You weld %s tear.",
+    "time": "20 m",
+    "skills": { "fabrication": 3 },
+    "time_save_profs": { "prof_armorsmithing": 0.9, "prof_welding_basic": 0.9, "prof_welding": 0.8 },
+    "requirements": [ [ "welding_plastic", 1 ], { "qualities": [ { "id": "CUT", "level": 2 }, { "id": "DRILL", "level": 2 } ] } ]
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_armor_thermo_resin_weld_patch",
+    "name": "Weld the hole.",
+    "//": "Weld a piece of resin to patch the area that was torn off.",
+    "faults_removed": [ "fault_armor_thermo_resin_hole" ],
+    "success_msg": "You weld %s tear.",
+    "time": "40 m",
+    "skills": { "fabrication": 3 },
+    "time_save_profs": { "prof_armorsmithing": 0.9, "prof_welding_basic": 0.9, "prof_welding": 0.8 },
+    "requirements": [
+      { "qualities": [ { "id": "CUT", "level": 2 } ] },
+      [ "welding_plastic", 2 ],
+      { "components": [ [ [ "thermo_resin_chunk", 1 ] ] ] }
+    ]
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_armor_plastic_weld",
+    "copy-from": "mend_armor_thermo_resin_weld",
+    "name": "Weld the tear.",
+    "faults_removed": [ "fault_armor_plastic_tear" ]
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_armor_plastic_weld_patch",
+    "copy-from": "mend_armor_thermo_resin_weld_patch",
+    "name": "Weld the hole.",
+    "faults_removed": [ "fault_armor_plastic_hole" ],
+    "requirements": [ [ "welding_plastic", 2 ], { "components": [ [ [ "plastic_chunk", 1 ] ] ] } ]
   }
 ]
