@@ -76,6 +76,7 @@
     "//": "Changeling corpses.",
     "copy-from": "corpse",
     "name": { "str": "fae corpse" },
+    "volume": "810 L",
     "description": "The dead body of a changeling.  There are multiple bites across the body and numerous scratches.  It looks like blood loss might have brought them down.",
     "looks_like": "corpse_generic_human",
     "material": [ "fae_flesh" ],

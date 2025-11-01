@@ -62,6 +62,7 @@
     "type": "ITEM",
     "id": "body_astral_projection",
     "copy-from": "corpse",
+    "volume": "81 L",
     "name": { "str_sp": "your body" },
     "description": "Your body, lying on the ground while your spirit walks free.  Hopefully nothing happens to it while you're gone.",
     "looks_like": "corpse_generic_human",

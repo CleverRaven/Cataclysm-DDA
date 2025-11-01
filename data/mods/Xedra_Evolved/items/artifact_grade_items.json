@@ -78,7 +78,7 @@
     "name": { "str": "Boann's insignia" },
     "description": "A small silver disk featuring a cow standing next to a river on one of its sides.",
     "weight": "310 g",
-    "volume": "10 ml",
+    "volume": "400 ml",
     "price": "23 USD",
     "price_postapoc": "3 USD 10 cent",
     "material": [ "silver" ],
