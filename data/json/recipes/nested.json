@@ -8363,7 +8363,7 @@
     "name": "warhammers",
     "description": "Recipes for making hammers used as weapons instead of tools.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "warhammer", "lucern_hammer", "homemade_polehammer", "homewrecker" ],
+    "nested_category_data": [ "warhammer", "lucern_hammer", "homemade_polehammer" ],
     "difficulty": 1
   },
   {
