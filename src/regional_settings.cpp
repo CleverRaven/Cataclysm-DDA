@@ -420,14 +420,15 @@ void forest_biome_terrain_dependent_furniture_new::deserialize( const JsonObject
 
 void forest_biome_mapgen::load( const JsonObject &jo, std::string_view )
 {
+
     optional( jo, was_loaded, "overlay_id", overlay_id );
-    optional( jo, was_loaded, "terrains", terrains );
+    optional( jo, was_loaded, "terrains", terrains, string_id_reader<oter_type_t> {} );
     optional( jo, was_loaded, "sparseness_adjacency_factor", sparseness_adjacency_factor );
     optional( jo, was_loaded, "item_group", item_group );
     optional( jo, was_loaded, "item_group_chance", item_group_chance );
     optional( jo, was_loaded, "item_spawn_iterations", item_spawn_iterations );
 
-    optional( jo, was_loaded, "components", biome_components );
+    optional( jo, was_loaded, "components", biome_components, string_id_reader<forest_biome_component> {} );
     optional( jo, was_loaded, "groundcover", groundcover, ter_reader );
     optional( jo, was_loaded, "terrain_furniture", terrain_dependent_furniture );
 }

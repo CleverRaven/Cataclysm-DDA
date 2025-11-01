@@ -1,149 +1,148 @@
 [
   {
-    "type": "region_overlay",
-    "id": "default_mindovermatter",
-    "apply_to_tags": [ "all" ],
-    "cities": "default_mindovermatter",
-    "map_extras": "default_mindovermatter"
-  },
-  {
     "type": "region_settings_city",
-    "id": "default_mindovermatter",
-    "shops": [ [ "office_cubical_phavian", 175 ], [ "phavian_skyscraper_lab", 250 ] ]
+    "id": "default",
+    "copy-from": "default",
+    "extend": { "shops": [ [ "office_cubical_phavian", 175 ], [ "phavian_skyscraper_lab", 250 ] ] }
   },
   {
     "type": "region_settings_map_extras",
-    "id": "default_mindovermatter",
-    "extras": [
-      "forest_water_mindovermatter",
-      "forest_thick_mindovermatter",
-      "forest_mindovermatter",
-      "field_mindovermatter",
-      "agricultural_mindovermatter",
-      "road_mindovermatter",
-      "build_mindovermatter",
-      "subway_mindovermatter",
-      "lab_subway_mindovermatter",
-      "phavian_lab_lot",
-      "phavian_lab_interior"
-    ]
+    "id": "default",
+    "copy-from": "default",
+    "extend": { "extras": [ "phavian_lab_lot", "phavian_lab_interior" ] }
   },
   {
     "type": "map_extra_collection",
-    "id": "forest_water_mindovermatter",
-    "overlay_id": "forest_water",
-    "extras": [
-      [ "mx_alien_grass", 25 ],
-      [ "mx_alien_grass_2", 25 ],
-      [ "mx_alien_grass_3", 25 ],
-      [ "mx_alien_grass_4", 25 ],
-      [ "mx_alien_grass_5", 25 ],
-      [ "mx_alien_grove", 15 ],
-      [ "mx_fear_hawk_copse", 5 ],
-      [ "mx_glass_and_crystal", 30 ],
-      [ "mx_phavian_science", 5 ]
-    ]
+    "id": "forest_water",
+    "copy-from": "forest_water",
+    "extend": {
+      "extras": [
+        [ "mx_alien_grass", 25 ],
+        [ "mx_alien_grass_2", 25 ],
+        [ "mx_alien_grass_3", 25 ],
+        [ "mx_alien_grass_4", 25 ],
+        [ "mx_alien_grass_5", 25 ],
+        [ "mx_alien_grove", 15 ],
+        [ "mx_fear_hawk_copse", 5 ],
+        [ "mx_glass_and_crystal", 30 ],
+        [ "mx_phavian_science", 5 ]
+      ]
+    }
   },
   {
     "type": "map_extra_collection",
-    "id": "forest_thick_mindovermatter",
-    "overlay_id": "forest_thick",
-    "extras": [
-      [ "mx_alien_grass", 25 ],
-      [ "mx_alien_grass_2", 25 ],
-      [ "mx_alien_grass_3", 25 ],
-      [ "mx_alien_grass_4", 25 ],
-      [ "mx_alien_grass_5", 25 ],
-      [ "mx_alien_grove", 15 ],
-      [ "mx_fear_hawk_copse", 10 ],
-      [ "mx_nether_pond", 25 ],
-      [ "mx_glass_and_crystal", 30 ],
-      [ "mx_phavian_science", 3 ]
-    ]
+    "id": "forest_thick",
+    "copy-from": "forest_thick",
+    "extend": {
+      "extras": [
+        [ "mx_alien_grass", 25 ],
+        [ "mx_alien_grass_2", 25 ],
+        [ "mx_alien_grass_3", 25 ],
+        [ "mx_alien_grass_4", 25 ],
+        [ "mx_alien_grass_5", 25 ],
+        [ "mx_alien_grove", 15 ],
+        [ "mx_fear_hawk_copse", 10 ],
+        [ "mx_nether_pond", 25 ],
+        [ "mx_glass_and_crystal", 30 ],
+        [ "mx_phavian_science", 3 ]
+      ]
+    }
   },
   {
     "type": "map_extra_collection",
-    "id": "forest_mindovermatter",
-    "overlay_id": "forest",
-    "extras": [
-      [ "mx_alien_grass", 15 ],
-      [ "mx_alien_grass_2", 15 ],
-      [ "mx_alien_grass_3", 15 ],
-      [ "mx_alien_grass_4", 15 ],
-      [ "mx_alien_grass_5", 15 ],
-      [ "mx_alien_grove", 15 ],
-      [ "mx_fear_hawk_copse", 3 ],
-      [ "mx_nether_pond", 8 ],
-      [ "mx_glass_and_crystal", 20 ],
-      [ "mx_phavian_science", 3 ]
-    ]
+    "id": "forest",
+    "copy-from": "forest",
+    "extend": {
+      "extras": [
+        [ "mx_alien_grass", 15 ],
+        [ "mx_alien_grass_2", 15 ],
+        [ "mx_alien_grass_3", 15 ],
+        [ "mx_alien_grass_4", 15 ],
+        [ "mx_alien_grass_5", 15 ],
+        [ "mx_alien_grove", 15 ],
+        [ "mx_fear_hawk_copse", 3 ],
+        [ "mx_nether_pond", 8 ],
+        [ "mx_glass_and_crystal", 20 ],
+        [ "mx_phavian_science", 3 ]
+      ]
+    }
   },
   {
     "type": "map_extra_collection",
-    "id": "field_mindovermatter",
-    "overlay_id": "field",
-    "extras": [
-      [ "mx_alien_grass", 15 ],
-      [ "mx_alien_grass_2", 15 ],
-      [ "mx_alien_grass_3", 15 ],
-      [ "mx_alien_grass_4", 15 ],
-      [ "mx_alien_grass_5", 15 ],
-      [ "mx_alien_grove", 15 ],
-      [ "mx_fear_hawk_copse", 1 ],
-      [ "mx_nether_pond", 25 ],
-      [ "mx_glass_and_crystal", 25 ],
-      [ "mx_phavian_science", 6 ]
-    ]
+    "id": "field",
+    "copy-from": "field",
+    "extend": {
+      "extras": [
+        [ "mx_alien_grass", 15 ],
+        [ "mx_alien_grass_2", 15 ],
+        [ "mx_alien_grass_3", 15 ],
+        [ "mx_alien_grass_4", 15 ],
+        [ "mx_alien_grass_5", 15 ],
+        [ "mx_alien_grove", 15 ],
+        [ "mx_fear_hawk_copse", 1 ],
+        [ "mx_nether_pond", 25 ],
+        [ "mx_glass_and_crystal", 25 ],
+        [ "mx_phavian_science", 6 ]
+      ]
+    }
   },
   {
     "type": "map_extra_collection",
-    "id": "agricultural_mindovermatter",
-    "overlay_id": "agricultural",
-    "extras": [
-      [ "mx_alien_grass", 15 ],
-      [ "mx_alien_grass_2", 15 ],
-      [ "mx_alien_grass_3", 15 ],
-      [ "mx_alien_grass_4", 15 ],
-      [ "mx_alien_grass_5", 15 ],
-      [ "mx_alien_grove", 15 ],
-      [ "mx_nether_pond", 25 ],
-      [ "mx_glass_and_crystal", 25 ],
-      [ "mx_phavian_science", 3 ]
-    ]
+    "id": "agricultural",
+    "copy-from": "agricultural",
+    "extend": {
+      "extras": [
+        [ "mx_alien_grass", 15 ],
+        [ "mx_alien_grass_2", 15 ],
+        [ "mx_alien_grass_3", 15 ],
+        [ "mx_alien_grass_4", 15 ],
+        [ "mx_alien_grass_5", 15 ],
+        [ "mx_alien_grove", 15 ],
+        [ "mx_nether_pond", 25 ],
+        [ "mx_glass_and_crystal", 25 ],
+        [ "mx_phavian_science", 3 ]
+      ]
+    }
   },
   {
     "type": "map_extra_collection",
-    "id": "road_mindovermatter",
-    "overlay_id": "road",
-    "extras": [
-      [ "mx_alien_grass", 15 ],
-      [ "mx_alien_grass_2", 15 ],
-      [ "mx_alien_grass_3", 15 ],
-      [ "mx_alien_grass_4", 15 ],
-      [ "mx_alien_grass_5", 15 ],
-      [ "mx_alien_grove", 15 ],
-      [ "mx_nether_pond", 25 ],
-      [ "mx_glass_and_crystal", 25 ],
-      [ "mx_phavian_science", 30 ]
-    ]
+    "id": "road",
+    "copy-from": "road",
+    "extend": {
+      "extras": [
+        [ "mx_alien_grass", 15 ],
+        [ "mx_alien_grass_2", 15 ],
+        [ "mx_alien_grass_3", 15 ],
+        [ "mx_alien_grass_4", 15 ],
+        [ "mx_alien_grass_5", 15 ],
+        [ "mx_alien_grove", 15 ],
+        [ "mx_nether_pond", 25 ],
+        [ "mx_glass_and_crystal", 25 ],
+        [ "mx_phavian_science", 30 ]
+      ]
+    }
   },
   {
     "type": "map_extra_collection",
-    "id": "build_mindovermatter",
-    "overlay_id": "build",
-    "extras": [ [ "mx_phavian_science", 5 ] ]
+    "id": "build",
+    "copy-from": "build",
+    "extend": { "extras": [ [ "mx_phavian_science", 5 ] ] }
   },
   {
     "type": "map_extra_collection",
-    "id": "subway_mindovermatter",
-    "overlay_id": "subway",
-    "extras": [ [ "mx_alien_grass_3", 15 ], [ "mx_nether_pond", 25 ], [ "mx_glass_and_crystal", 25 ], [ "mx_phavian_science", 8 ] ]
+    "id": "subway",
+    "copy-from": "subway",
+    "extend": {
+      "extras": [ [ "mx_alien_grass_3", 15 ], [ "mx_nether_pond", 25 ], [ "mx_glass_and_crystal", 25 ], [ "mx_phavian_science", 8 ] ]
+    }
   },
   {
     "type": "map_extra_collection",
-    "id": "lab_subway_mindovermatter",
-    "overlay_id": "lab_subway",
-    "extras": [ [ "mx_alien_grass_3", 15 ], [ "mx_nether_pond", 25 ], [ "mx_glass_and_crystal", 25 ], [ "mx_phavian_science", 8 ] ]
+    "id": "lab_subway",
+    "copy-from": "lab_subway",
+    "extend": {
+      "extras": [ [ "mx_alien_grass_3", 15 ], [ "mx_nether_pond", 25 ], [ "mx_glass_and_crystal", 25 ], [ "mx_phavian_science", 8 ] ]
+    }
   },
   {
     "type": "map_extra_collection",

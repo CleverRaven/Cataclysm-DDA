@@ -1,15 +1,8 @@
 [
   {
-    "type": "region_overlay",
-    "id": "default_magiclysm",
-    "copy-from": "default_magiclysm",
-    "apply_to_tags": [ "all" ],
-    "cities": null
-  },
-  {
     "type": "forest_biome_mapgen",
-    "id": "biome_forest_thick_default_magiclysm",
-    "overlay_id": "biome_forest_thick_default",
-    "terrains": [ "druid_giant_tree_empty_z0" ]
+    "id": "biome_forest_thick_default",
+    "copy-from": "biome_forest_thick_default",
+    "extend": { "terrains": [ "druid_giant_tree_empty_z0" ] }
   }
 ]

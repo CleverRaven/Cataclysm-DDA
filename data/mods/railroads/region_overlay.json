@@ -3,14 +3,14 @@
     "type": "region_overlay",
     "id": "default_railroads",
     "apply_to_tags": [ "all" ],
-    "cities": "default_railroads",
     "highways": null,
     "place_railroads": true,
     "place_railroads_before_roads": true
   },
   {
     "type": "region_settings_city",
-    "id": "default_railroads",
-    "houses": [ [ "railroad_station_city", 5 ] ]
+    "id": "default",
+    "copy-from": "default",
+    "extend": { "houses": [ [ "railroad_station_city", 5 ] ] }
   }
 ]

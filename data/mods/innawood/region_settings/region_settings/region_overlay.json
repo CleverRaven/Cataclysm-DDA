@@ -1,40 +1,33 @@
 [
   {
     "type": "region_settings_forest_trail",
-    "id": "default_innawood",
+    "id": "default",
     "copy-from": "default",
     "trailheads": [ [ "trailhead_basic", 1 ] ]
   },
   {
     "type": "map_extra_collection",
-    "id": "forest_water_innawood",
+    "id": "forest_water",
     "copy-from": "forest_water",
     "extend": { "extras": [ [ "mx_pond_swamp", 240 ], [ "mx_pond_swamp_2", 240 ] ] }
   },
   {
-    "type": "region_settings_map_extras",
-    "id": "default_innawood",
-    "copy-from": "default",
-    "delete": { "extras": [ "forest_water" ] },
-    "extend": { "extras": [ "forest_water_innawood" ] }
-  },
-  {
     "type": "region_terrain_furniture",
-    "id": "default_t_region_groundcover_innawood",
+    "id": "default_t_region_groundcover",
     "copy-from": "default_t_region_groundcover",
     "ter_id": "t_region_groundcover",
     "extend": { "replace_with_terrain": [ [ "t_sand", 1 ] ] }
   },
   {
     "type": "region_terrain_furniture",
-    "id": "default_t_region_groundcover_swamp_innawood",
+    "id": "default_t_region_groundcover_swamp",
     "copy-from": "default_t_region_groundcover_swamp",
     "ter_id": "t_region_groundcover_swamp",
     "extend": { "replace_with_terrain": [ [ "t_bog_iron", 10 ] ] }
   },
   {
     "type": "region_terrain_furniture",
-    "id": "default_f_region_weed_innawood",
+    "id": "default_f_region_weed",
     "copy-from": "default_f_region_weed",
     "furn_id": "f_region_weed",
     "extend": {
@@ -50,7 +43,7 @@
   },
   {
     "type": "region_terrain_furniture",
-    "id": "default_f_region_plain_innawood",
+    "id": "default_f_region_plain",
     "copy-from": "default_f_region_plain",
     "furn_id": "f_region_plain",
     "extend": {
@@ -66,73 +59,37 @@
   },
   {
     "type": "region_terrain_furniture",
-    "id": "default_f_region_forest_innawood",
+    "id": "default_f_region_forest",
     "copy-from": "default_f_region_forest",
     "furn_id": "f_region_forest",
     "extend": { "replace_with_furniture": [ [ "f_wildweed", 40 ], [ "f_wildcorn", 40 ], [ "f_wildbeans", 40 ] ] }
   },
   {
     "type": "region_terrain_furniture",
-    "id": "default_f_region_forest_dense_innawood",
+    "id": "default_f_region_forest_dense",
     "copy-from": "default_f_region_forest_dense",
     "furn_id": "f_region_forest_dense",
     "extend": { "replace_with_furniture": [ [ "f_wildweed", 30 ], [ "f_wildcorn", 30 ], [ "f_wildbeans", 30 ] ] }
   },
   {
-    "type": "region_settings_terrain_furniture",
-    "id": "default_innawood",
-    "copy-from": "default",
-    "delete": {
-      "ter_furn": [
-        "default_t_region_groundcover",
-        "default_t_region_groundcover_swamp",
-        "default_f_region_weed",
-        "default_f_region_plain",
-        "default_f_region_forest",
-        "default_f_region_forest_dense"
-      ]
-    },
-    "extend": {
-      "ter_furn": [
-        "default_t_region_groundcover_innawood",
-        "default_t_region_groundcover_swamp_innawood",
-        "default_f_region_weed_innawood",
-        "default_f_region_plain_innawood",
-        "default_f_region_forest_innawood",
-        "default_f_region_forest_dense_innawood"
-      ]
-    }
-  },
-  {
     "type": "forest_biome_mapgen",
-    "id": "biome_forest_water_innawood",
+    "id": "biome_forest_water_default",
     "copy-from": "biome_forest_water_default",
     "terrains": [ "forest_water" ],
-    "components": [ "water_forest_water_innawood" ]
+    "components": [ "water_forest_water" ]
   },
   {
     "type": "forest_biome_component",
-    "id": "water_forest_water_innawood",
+    "id": "water_forest_water",
     "copy-from": "water_forest_water",
     "types": [ [ "t_swater_sh", 6 ], [ "t_swater_dp", 1 ], [ "t_water_murky", 12 ] ]
   },
   {
-    "type": "region_settings_forest_mapgen",
-    "id": "default_innawood",
-    "copy-from": "default",
-    "delete": { "biomes": [ "biome_forest_water_default" ] },
-    "extend": { "biomes": [ "biome_forest_water_innawood" ] }
-  },
-  {
     "type": "region_settings",
-    "id": "default_innawood",
+    "id": "default",
     "copy-from": "default",
     "cities": null,
     "highways": null,
-    "forest_trails": "default_innawood",
-    "forest_composition": "default_innawood",
-    "map_extras": "default_innawood",
-    "terrain_furniture": "default_innawood",
     "place_roads": false,
     "feature_flag_settings": { "blacklist": [ "LAB", "MAN_MADE", "MILITARY", "URBAN", "FARM", "EXODII", "HIGHLANDS" ], "whitelist": [  ] }
   }
