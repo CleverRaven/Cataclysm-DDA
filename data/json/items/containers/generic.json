@@ -306,7 +306,14 @@
       {
         "id": "blister_pack_bc",
         "name": { "str": "birth control pack" },
-        "description": "A thin piece of plastic and foil, with tiny bubbles meant for pills.  This one is for birth control, with 28 sections for pills in it."
+        "description": "A thin piece of plastic and foil, with tiny bubbles meant for pills.  This one is for birth control, with 28 sections for pills in it.",
+        "weight": 0
+      },
+      {
+        "id": "blister_pack_gum",
+        "name": { "str": "pack of chewing gum" },
+        "description": "A thin piece of plastic and foil, with tiny bubbles meant for chewing gum.",
+        "weight": 0
       }
     ],
     "weight": "5 g",
