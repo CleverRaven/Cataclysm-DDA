@@ -150,7 +150,15 @@
       "ammo_scale": 0
     },
     "light": 300,
-    "flags": [ "CHARGEDIM", "TRADER_AVOID", "BELT_CLIP", "WATER_BREAK", "HELMET_HEAD_ATTACHMENT", "HEAD_STRAP_MOUNT" ]
+    "flags": [
+      "CHARGEDIM",
+      "TRADER_AVOID",
+      "BELT_CLIP",
+      "WATER_BREAK",
+      "HELMET_HEAD_ATTACHMENT",
+      "HEAD_STRAP_MOUNT",
+      "SPAWN_ACTIVE"
+    ]
   },
   {
     "id": "diving_flashlight_small",
