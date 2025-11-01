@@ -79,6 +79,16 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "highland_road",
+    "vision_levels": "large_pavement",
+    "name": "cobblestone road",
+    "color": "dark_gray",
+    "see_cost": "none",
+    "travel_cost_type": "road",
+    "flags": [ "LINEAR" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "roadstop", "roadstop_roof" ],
     "vision_levels": "isolated_building",
     "see_cost": "high",

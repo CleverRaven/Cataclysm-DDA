@@ -3100,7 +3100,7 @@ void veh_interact::complete_vehicle( map &here, Character &you )
             for( const std::vector<item_comp> &e : reqs.get_components() ) {
                 for( item &obj : you.consume_items( e, 1, is_crafting_component, [&vpinfo]( const itype_id & itm ) {
                 return itm == vpinfo.base_item;
-            } ) ) {
+            }, false, true ) ) {
                     if( obj.typeId() == vpinfo.base_item ) {
                         base = obj;
                     } else {

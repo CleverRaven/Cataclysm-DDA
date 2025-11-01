@@ -1,11 +1,11 @@
 [
   {
     "id": "chemical_thrower",
-    "copy-from": "gun_base",
     "looks_like": "m79",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "reload_noise": "slosh.",
+    "reload_noise_volume": 10,
     "name": { "str": "makeshift chemical thrower" },
     "description": "A bulky, self-made chemical sprayer with an internal conversion mechanism that allows all sorts of chemicals to be dispersed to your surroundings.",
     "weight": "4588 g",
@@ -15,6 +15,8 @@
     "price_postapoc": "10 USD",
     "to_hit": -1,
     "material": [ "steel", "plastic" ],
+    "symbol": "(",
+    "color": "light_gray",
     "flags": [ "NEVER_JAMS", "NON_FOULING" ],
     "ammo_to_fire": 50,
     "skill": "launcher",

@@ -2118,7 +2118,7 @@
     "variants": [
       {
         "id": "leather_police_jacket",
-        "name": { "str": "motorcycle police jacket" },
+        "//": "inherit name from item",
         "description": "It is emblazoned with the insignia of the local police force.",
         "weight": 0,
         "append": true

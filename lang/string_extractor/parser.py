@@ -24,7 +24,7 @@ from .parsers.faction_mission import parse_faction_mission
 from .parsers.fault import parse_fault
 from .parsers.fault_fix import parse_fault_fix
 from .parsers.field_type import parse_field_type
-from .parsers.furniture import parse_furniture
+from .parsers.furniture_terrain import parse_furniture_terrain
 from .parsers.gate import parse_gate
 from .parsers.generic import parse_generic
 from .parsers.gun import parse_gun
@@ -54,7 +54,6 @@ from .parsers.proficiency_category import parse_proficiency_category
 from .parsers.recipe import parse_recipe
 from .parsers.recipe_category import parse_recipe_category
 from .parsers.recipe_group import parse_recipe_group
-from .parsers.magazine import parse_magazine
 from .parsers.material import parse_material
 from .parsers.martial_art import parse_martial_art
 from .parsers.mission_definition import parse_mission_definition
@@ -81,7 +80,6 @@ from .parsers.sub_body_part import parse_sub_body_part
 from .parsers.talk_topic import parse_talk_topic
 from .parsers.technique import parse_technique
 from .parsers.ter_furn_transform import parse_ter_furn_transform
-from .parsers.terrain import parse_terrain
 from .parsers.tool_quality import parse_tool_quality
 from .parsers.trap import parse_trap
 from .parsers.vehicle import parse_vehicle
@@ -147,7 +145,7 @@ parsers = {
     "fault_fix": parse_fault_fix,
     "fault_group": dummy_parser,
     "field_type": parse_field_type,
-    "furniture": parse_furniture,
+    "furniture": parse_furniture_terrain,
     "gate": parse_gate,
     "gun": parse_gun,
     "gunmod": parse_gunmod,
@@ -165,7 +163,6 @@ parsers = {
     "keybinding": parse_keybinding,
     "limb_score": parse_limb_score,
     "loot_zone": parse_loot_zone,
-    "magazine": parse_magazine,
     "magic_type": dummy_parser,
     "map_extra": parse_map_extra,
     "mapgen": parse_mapgen,
@@ -256,7 +253,7 @@ parsers = {
     "technique": parse_technique,
     "temperature_removal_blacklist": dummy_parser,
     "ter_furn_transform": parse_ter_furn_transform,
-    "terrain": parse_terrain,
+    "terrain": parse_furniture_terrain,
     "ter_furn_migration": dummy_parser,
     "trait_blacklist": dummy_parser,
     "trait_group": dummy_parser,

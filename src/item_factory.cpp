@@ -329,6 +329,17 @@ void Item_factory::finalize_pre( itype &obj )
                   obj.id.c_str() );
     }
 
+    // if variant omit it's name or description,
+    // pick it from the item instead
+    for( itype_variant_data &var : obj.variants ) {
+        if( var.alt_name.empty() ) {
+            var.alt_name = obj.name;
+        };
+        if( var.alt_description.empty() ) {
+            var.alt_description = obj.name;
+        }
+    }
+
     // add usage methods (with default values) based upon qualities
     // if a method was already set the specific values remain unchanged
     for( const auto &q : obj.qualities ) {
@@ -2977,8 +2988,8 @@ void itype_variant_data::load( const JsonObject &jo )
 {
     alt_name.make_plural();
     mandatory( jo, false, "id", id );
-    mandatory( jo, false, "name", alt_name );
-    mandatory( jo, false, "description", alt_description );
+    optional( jo, false, "name", alt_name );
+    optional( jo, false, "description", alt_description );
     optional( jo, false, "symbol", alt_sym, std::nullopt );
     if( jo.has_string( "color" ) ) {
         alt_color = color_from_string( jo.get_string( "color" ) );

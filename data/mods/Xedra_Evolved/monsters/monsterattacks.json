@@ -63,7 +63,7 @@
   },
   {
     "id": "renfield_glock",
-    "copy-from": "pistol_base",
+    "copy-from": "gun_base_9mm_semi_pistol",
     "looks_like": "glock_19",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
@@ -77,22 +77,16 @@
     "price_postapoc": "25 USD",
     "ranged_damage": { "damage_type": "bullet", "amount": -4 },
     "material": [ "steel", "aluminum" ],
-    "symbol": "(",
-    "color": "dark_gray",
-    "ammo": [ "9mm" ],
     "range": 1,
     "dispersion": 4800,
     "durability": 7,
-    "min_cycle_recoil": 450,
-    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [
       {
         "magazine_well": "250 ml",
         "pocket_type": "MAGAZINE_WELL",
         "item_restriction": [ "glockmag", "glockbigmag", "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd" ]
       }
-    ],
-    "melee_damage": { "bash": 8 }
+    ]
   },
   {
     "id": "renfield_remington",
@@ -118,7 +112,7 @@
   },
   {
     "id": "feral_57",
-    "copy-from": "pistol_base",
+    "copy-from": "gun_base_57_semi_pistol",
     "looks_like": "fn57",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
@@ -132,16 +126,10 @@
     "price_postapoc": "25 USD",
     "ranged_damage": { "damage_type": "bullet", "amount": -5 },
     "material": [ "steel", "aluminum" ],
-    "symbol": "(",
-    "color": "light_gray",
-    "ammo": [ "57" ],
     "range": 1,
     "dispersion": 4800,
     "durability": 7,
-    "min_cycle_recoil": 120,
-    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
-    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "fn57mag" ] } ],
-    "melee_damage": { "bash": 6 }
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "fn57mag" ] } ]
   },
   {
     "id": "feral_p90",
