@@ -13,6 +13,7 @@
 
 #include "bodypart.h"
 #include "calendar.h"
+#include "cata_compiler_support.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "character_id.h"
@@ -101,7 +102,8 @@ constexpr std::string_view _str_type_of()
 template <typename T>
 T _read_from_string( std::string_view s, const std::vector<std::pair<std::string, T>> &units )
 {
-    auto const error = [s]( char const * suffix, size_t /* offset */ ) {
+    // TODO: LAMBDA_NORETURN_CLANG21x1 can be replaced with [[noreturn]] once we switch to C++23 on all compilers
+    auto const error = [s]( char const * suffix, size_t /* offset */ ) LAMBDA_NORETURN_CLANG21x1 {
         throw math::runtime_error( R"(Failed to convert "%s" to a %s value: %s)", s,
                                    _str_type_of<T>(), suffix );
     };
