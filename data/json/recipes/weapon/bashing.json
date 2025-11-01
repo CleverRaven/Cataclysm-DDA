@@ -355,19 +355,6 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "homewrecker",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_BASHING",
-    "skill_used": "fabrication",
-    "time": "5 m",
-    "reversible": true,
-    "autolearn": true,
-    "using": [ [ "cordage", 8 ] ],
-    "components": [ [ [ "steel_chunk_any", 4, "LIST" ] ], [ [ "stick", 1 ], [ "2x4", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
     "result": "aztec_sword_scrap",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",

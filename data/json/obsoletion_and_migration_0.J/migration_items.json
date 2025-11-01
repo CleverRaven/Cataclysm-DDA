@@ -138,5 +138,10 @@
     "type": "MIGRATION",
     "id": "atomic_coffeepot",
     "replace": "coffeemaker"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "homewrecker",
+    "replace": "hammer_sledge"
   }
 ]
