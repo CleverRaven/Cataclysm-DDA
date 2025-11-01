@@ -4211,5 +4211,11 @@
     "id": "effect_xe_werewolf_summon_shadow_pack_limiter",
     "name": [ "Summoned the Shadow Pack" ],
     "desc": [ "You called on the aid of ancestral werewolves and must wait before seeking their aid again." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "march_baron",
+    "name": [ "March Baron" ],
+    "//": "Used to target a slightly different winning screen upon exiting the mortal realms as a Lord in Boann's court."
   }
 ]
