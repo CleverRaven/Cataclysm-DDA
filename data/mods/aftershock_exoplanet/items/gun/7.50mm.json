@@ -129,6 +129,22 @@
     "subtypes": [ "GUN" ],
     "name": { "str": "G&W SR-P9" },
     "description": "An eminently sturdy and reliable bullpup rifle issued by UICA's military during early reclamation expeditions.  Although it's been out of service for nearly two decades, many a private military and contractor has found a use for the SR-P9, and it remains common long past its initial introduction into service.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "military",
+        "name": { "str": "G&W SR-P9" },
+        "description": "An eminently sturdy and reliable bullpup rifle issued by UICA's military during early reclamation expeditions.  Although it's been out of service for nearly two decades, many a private military and contractor has found a use for the SR-P9, and it remains common long past its initial introduction into service.",
+        "variant_type": "gun",
+        "weight": 3
+      },
+      {
+        "id": "unique",
+        "name": { "str": "Soviet Prototype Bullpup" },
+        "description": "What appears to be a Soviet derivative of the G&W SR-P9, made of white polymer and possessing a strange recoil-reduction system.  You found it on your last job before being banished to Salus IV.",
+        "weight": 0
+      }
+    ],
     "weight": "3170 g",
     "volume": "3100 ml",
     "longest_side": "630 mm",
