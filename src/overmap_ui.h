@@ -11,7 +11,9 @@
 #include <tuple>
 #include <vector>
 
+#include "cata_imgui.h"
 #include "city.h"
+#include "color.h"
 #include "coordinates.h"
 #include "input_context.h"
 #include "map_scale_constants.h"
@@ -22,7 +24,6 @@ class ui_adaptor;
 
 constexpr int RANDOM_CITY_ENTRY = INT_MIN;
 
-class nc_color;
 class uilist;
 struct weather_type;
 
@@ -166,3 +167,29 @@ bool is_generated_omt( const point_abs_omt &omp );
 
 } // namespace overmap_ui
 #endif // CATA_SRC_OVERMAP_UI_H
+
+class overmap_sidebar : public cataimgui::window
+{
+        overmap_ui::overmap_draw_data_t &draw_data;
+        //uses input context to print a keybind hint
+        void draw_sidebar_text( const std::string_view &original_text, const nc_color &color );
+        void print_hint( const std::string &action, nc_color color = c_magenta );
+        void draw_tile_info();
+        void draw_mission_info();
+        void draw_settings_info();
+        void draw_quick_reference();
+        void draw_layer_info();
+        void draw_debug();
+    public:
+        int width = 0;
+        int x_pos = 0;
+        explicit overmap_sidebar( overmap_ui::overmap_draw_data_t &data );
+
+        void init();
+        void draw_controls() override;
+    protected:
+        cataimgui::bounds get_bounds() override;
+        void on_resized() override {
+            init();
+        };
+};
