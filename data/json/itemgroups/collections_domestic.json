@@ -292,7 +292,8 @@
       [ "curler_hair", 10 ],
       [ "hairbrush", 5 ],
       { "group": "pillbox_any_used", "prob": 10 },
-      { "item": "home_picture", "prob": 50 }
+      { "item": "home_picture", "prob": 50 },
+      { "group": "sex_accessories_domestic", "prob": 20 }
     ]
   },
   {
@@ -1018,9 +1019,9 @@
       { "item": "bodysuit_lycra", "variant": "bondage_suit", "prob": 5 },
       { "item": "bodysuit_lycra", "prob": 1 },
       { "item": "flask_hip", "prob": 5 },
-      { "item": "vibrator", "prob": 5, "charges": [ 0, 100 ] },
+      { "group": "sex_accessories_domestic", "prob": 5 },
       { "item": "tux", "prob": 1 },
-      { "item": "dress", "variant": "gown", "prob": 1 },
+      { "item": "gown", "prob": 1 },
       { "item": "cheongsam", "prob": 1 },
       { "item": "long_glove_white", "prob": 1 },
       { "item": "veil_wedding", "prob": 1 },

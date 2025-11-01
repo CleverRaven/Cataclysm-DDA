@@ -25,6 +25,7 @@
 #include "game.h"
 #include "horde_entity.h"
 #include "horde_map.h"
+#include "imgui/imgui.h"
 #include "line.h"
 #include "map.h"
 #include "mapgendata.h"
@@ -46,6 +47,7 @@
 #include "rng.h"
 #include "simple_pathfinding.h"
 #include "string_formatter.h"
+#include "text.h"
 #include "translations.h"
 #include "vehicle.h"
 
@@ -1907,7 +1909,7 @@ std::vector<point_abs_om> overmapbuffer::find_highway_intersection_bounds( const
 }
 
 
-std::string overmapbuffer::get_description_at( const tripoint_abs_sm &where )
+std::string overmapbuffer::get_description_at( const tripoint_abs_sm &where, bool draw_origin )
 {
     const oter_id oter = ter( project_to<coords::omt>( where ) );
     om_vision_level vision = seen( project_to<coords::omt>( where ) );
@@ -1927,7 +1929,11 @@ std::string overmapbuffer::get_description_at( const tripoint_abs_sm &where )
     const city_reference closest_cref = closest_known_city( where );
 
     if( !closest_cref ) {
-        return ter_name + "\n" + get_origin( oter->get_type_id()->src );
+        if( draw_origin ) {
+            return ter_name + "\n" + get_origin( oter->get_type_id()->src );
+        } else {
+            return ter_name;
+        }
     }
 
     const struct city &closest_city = *closest_cref.city;
@@ -1965,9 +1971,85 @@ std::string overmapbuffer::get_description_at( const tripoint_abs_sm &where )
         }
     }
 
-    format_string += "\n" + get_origin( oter->get_type_id()->src );
-
+    if( draw_origin ) {
+        format_string += "\n" + get_origin( oter->get_type_id()->src );
+    }
     return string_format( format_string, ter_name, dir_name, closest_city_name );
+}
+
+void overmapbuffer::display_description_at( const tripoint_abs_sm &where, bool draw_origin )
+{
+    const oter_id oter = ter( project_to<coords::omt>( where ) );
+    om_vision_level vision = seen( project_to<coords::omt>( where ) );
+    nc_color ter_color = oter->get_color( vision );
+    std::string ter_name = colorize( oter->get_name( vision ), ter_color );
+
+    auto draw_origin_line = [&draw_origin, &oter]() {
+        if( draw_origin ) {
+            ImGui::NewLine();
+            cataimgui::TextColoredParagraph( c_light_gray, get_origin( oter->get_type_id()->src ) );
+            ImGui::NewLine();
+        }
+    };
+
+    if( oter->blends_adjacent( vision ) ) {
+        oter_vision::blended_omt blended = oter_vision::get_blended_omt_info(
+                                               project_to<coords::omt>( where ), vision );
+        ter_color = blended.color;
+        ter_name = colorize( blended.name, ter_color );
+    }
+
+    if( where.z() != 0 ) {
+        cataimgui::TextColoredParagraph( ter_color, ter_name );
+        return;
+    }
+
+    const city_reference closest_cref = closest_known_city( where );
+
+    if( !closest_cref ) {
+        cataimgui::TextColoredParagraph( ter_color, ter_name );
+        draw_origin_line();
+        return;
+    }
+
+    const struct city &closest_city = *closest_cref.city;
+    const std::string closest_city_name = colorize( closest_city.name, c_yellow );
+    const direction dir = direction_from( closest_cref.abs_sm_pos, where );
+    const std::string dir_name = colorize( direction_name( dir ), c_light_gray );
+
+    const int sm_size = omt_to_sm_copy( closest_cref.city->size );
+    const int sm_dist = closest_cref.distance;
+
+    //~ First parameter is a terrain name, second parameter is a direction, and third parameter is a city name.
+    std::string format_string = pgettext( "terrain description", "%1$s %2$s from %3$s" );
+    if( sm_dist <= 3 * sm_size / 4 ) {
+        if( sm_size >= 16 ) {
+            // The city is big enough to be split in districts.
+            if( sm_dist <= sm_size / 4 ) {
+                //~ First parameter is a terrain name, second parameter is a direction, and third parameter is a city name.
+                format_string = pgettext( "terrain description", "%1$s in central %3$s" );
+            } else {
+                //~ First parameter is a terrain name, second parameter is a direction, and third parameter is a city name.
+                format_string = pgettext( "terrain description", "%1$s in %2$s %3$s" );
+            }
+        } else {
+            //~ First parameter is a terrain name, second parameter is a direction, and third parameter is a city name.
+            format_string = pgettext( "terrain description", "%1$s in %3$s" );
+        }
+    } else if( sm_dist <= sm_size ) {
+        if( sm_size >= 8 ) {
+            // The city is big enough to have outskirts.
+            //~ First parameter is a terrain name, second parameter is a direction, and third parameter is a city name.
+            format_string = pgettext( "terrain description", "%1$s on the %2$s outskirts of %3$s" );
+        } else {
+            //~ First parameter is a terrain name, second parameter is a direction, and third parameter is a city name.
+            format_string = pgettext( "terrain description", "%1$s in %3$s" );
+        }
+    }
+
+    cataimgui::TextColoredParagraph( ter_color, string_format( format_string, ter_name, dir_name,
+                                     closest_city_name ) );
+    draw_origin_line();
 }
 
 void overmapbuffer::spawn_monster( const tripoint_abs_sm &p, bool spawn_nonlocal )

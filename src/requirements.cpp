@@ -1714,8 +1714,8 @@ deduped_requirement_data::deduped_requirement_data( const requirement_data &in,
         // Because this algorithm is super-exponential in the worst case, add a
         // sanity check to prevent things getting too far out of control.
         // The worst case in the core game currently is boots_fur
-        // with 104 alternatives.
-        static constexpr size_t max_alternatives = 105;
+        // with 114 alternatives.
+        static constexpr size_t max_alternatives = 115;
         if( alternatives_.size() + pending.size() > max_alternatives ) {
             debugmsg( "Construction of deduped_requirement_data generated too many alternatives.  "
                       "The recipe %1s should be simplified.  See the Recipe section in "

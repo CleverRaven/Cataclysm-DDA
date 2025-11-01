@@ -169,7 +169,7 @@
     "id": "mosin_mods",
     "//": "Default mods for the EBR variants of the Mosin carbine and battle rifle",
     "subtype": "collection",
-    "entries": [ { "item": "grip_mount" }, { "item": "rail_mount" }, { "item": "stock_mount" } ]
+    "entries": [ { "item": "rail_mount" }, { "item": "stock_mount" } ]
   },
   {
     "type": "item_group",

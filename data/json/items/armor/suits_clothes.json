@@ -885,12 +885,7 @@
     "flags": [ "VARSIZE", "HOOD" ],
     "variant_type": "generic",
     "variants": [
-      {
-        "id": "devil_onesie",
-        "name": { "str": "devil onesie" },
-        "description": "An encumbering red wool suit with a hood adorned with cartoonish devil horns and a devil's tail on the back.  It's for those who want to feel devilishly warm in their sleep.",
-        "color": "red"
-      },
+      { "id": "devil_onesie", "//": "inherit name and description from item", "color": "red" },
       {
         "id": "bunny_onesie",
         "name": { "str": "bunny onesie" },

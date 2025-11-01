@@ -136,6 +136,10 @@
     "info": "Keeps the rain out of the interior of the vehicle."
   },
   {
+    "id": "RESIST_RUNOVER_DAMAGE",
+    "type": "json_flag"
+  },
+  {
     "id": "SEAT",
     "type": "json_flag",
     "info": "You need to be in a seat or saddle to operate vehicle controls."

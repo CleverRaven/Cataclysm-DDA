@@ -340,13 +340,7 @@
     "flags": [ "VARSIZE", "SKINTIGHT" ],
     "armor": [ { "coverage": 100, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] } ],
     "variants": [
-      {
-        "id": "boxer_brief_basic",
-        "name": { "str_sp": "boxer briefs" },
-        "description": "The age-old question, boxers or briefs?  Your answer?  Yes.",
-        "expand_snippets": true,
-        "weight": 100
-      },
+      { "id": "boxer_brief_basic", "//": "inherit name and description from item", "expand_snippets": true, "weight": 100 },
       {
         "id": "boxer_brief_makeshift",
         "name": { "str_sp": "homemade boxer briefs" },
@@ -408,12 +402,7 @@
     "description": "Men's boxer shorts.  More fashionable than briefs and just as comfortable.",
     "variant_type": "generic",
     "variants": [
-      {
-        "id": "generic_boxer_shorts",
-        "name": { "str_sp": "boxer shorts" },
-        "description": "Men's boxer shorts.  More fashionable than briefs and just as comfortable.",
-        "weight": 30
-      },
+      { "id": "generic_boxer_shorts", "//": "inherit name and description from item", "weight": 30 },
       {
         "id": "flag_boxer_shorts",
         "name": { "str_sp": "star-spangled boxer shorts" },
@@ -518,12 +507,7 @@
     "description": "Female underwear similar to men's boxer shorts, but much more close-fitting.",
     "variant_type": "generic",
     "variants": [
-      {
-        "id": "generic_boy_shorts",
-        "name": { "str_sp": "boy shorts" },
-        "description": "Female underwear similar to men's boxer shorts, but much more close-fitting.",
-        "weight": 30
-      },
+      { "id": "generic_boy_shorts", "//": "inherit name and description from item", "weight": 30 },
       {
         "id": "flag_boy_shorts",
         "name": { "str_sp": "star-spangled boy shorts" },

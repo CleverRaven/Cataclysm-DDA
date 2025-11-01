@@ -338,6 +338,7 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```ACID_IMMUNE``` You are immune to acid damage.
 - ```ALARMCLOCK``` You always can set alarms.
 - ```ALBINO``` Cause you to have painful sunburns.
+- ```ALLOW_ADVANCED_SPELLS``` Allows you to learn advanced versions of spells even if this mutation would normaly conflict with said spell.
 - ```ATTUNEMENT``` Turns a mutation with this flag green on the list.  Currently used in mods for mutations that grant spellcasting or other supernatural powers.
 - ```BARKY``` Makes you considered to be made of bark for the purposes of making blistering harder.
 - ```BASH_IMMUNE``` You are immune to bashing damage.
@@ -806,6 +807,7 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 - ```CRUTCHES``` Item with this flag helps characters not to fall down if their legs are broken.
 - ```CUSTOM_EXPLOSION``` Flag, automatically applied to items that has defined `explosion` data in definition.  See `JSON_INFO.md`.
 - ```CUT_HARVEST``` You need a grass-cutting tool like sickle to harvest this plant.
+- ```DAMAGE_VEHICLE_WHEELS``` This item can damage a vehicle's wheels when it is run over.
 - ```DANGEROUS``` NPCs will not accept this item.  Explosion iuse actor implies this flag.  Implies `NPC_THROW_NOW`.
 - ```DETERGENT``` This item can be used as a detergent in a washing machine.
 - ```DISCOUNT_VALUE_1``` This item gives a small discount for fuel, bought in automated gas console.
@@ -1748,6 +1750,7 @@ Note: Vehicle parts requiring other parts is defined by setting a `requires_flag
 - ```REAPER``` Cuts down mature crops, depositing them on the square.
 - ```RECHARGE``` Recharge items with the same flag (currently only the rechargeable battery mod).
 - ```REMOTE_CONTROLS``` Once installed, allows using vehicle through remote controls.
+- ```RESIST_RUNOVER_DAMAGE``` For wheels, doubles effective hardness when calculating chance to be damaged when running over items. Only useful on WHEEL parts.
 - ```REVERSIBLE``` Removal has identical requirements to installation but is twice as quick.
 - ```ROOF``` Covers a section of the vehicle.  Areas of the vehicle that have a roof and roofs on surrounding sections, are considered inside.  Otherwise they're outside.
 - ```SCOOP``` Pulls items from underneath the vehicle to the cargo space of the part.  Also mops up liquids.

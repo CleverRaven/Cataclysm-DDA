@@ -91,6 +91,13 @@
     "difficulty": { "math": [ "ceil(max( (u_spell_difficulty('pyrokinetic_flash') / 2), 1) )" ] }
   },
   {
+    "id": "pyrokinetic_intensify_flames_knack",
+    "copy-from": "pyrokinetic_intensify_flames",
+    "type": "SPELL",
+    "spell_class": "PSYCHIC_KNACK",
+    "difficulty": { "math": [ "ceil(max( (u_spell_difficulty('pyrokinetic_intensify_flames') / 2), 1) )" ] }
+  },
+  {
     "id": "pyrokinetic_eruption_knack",
     "copy-from": "pyrokinetic_eruption",
     "type": "SPELL",
