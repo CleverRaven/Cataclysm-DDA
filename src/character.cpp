@@ -5116,6 +5116,7 @@ void Character::assign_activity( const activity_actor &actor )
 
 void Character::assign_activity( const player_activity &act )
 {
+    add_msg("Character::assign_activity");
     bool resuming = false;
     if( !backlog.empty() && backlog.front().can_resume_with( act, *this ) ) {
         resuming = true;
