@@ -317,11 +317,7 @@
     "special_when_hit": [ "ZAPBACK", 100 ],
     "death_function": { "effect": { "id": "death_shock_blast", "hit_self": true } },
     "harvest": "zombie_amalgamation_electric",
-    "extend": {
-      "flags": [ "ELECTRIC", "PULP_PRYING" ],
-      "families": [ "prof_electromagnetics" ],
-      "weakpoint_sets": [ "wps_amalgamation_armor", "wps_amalgamation_electric" ]
-    }
+    "extend": { "flags": [ "ELECTRIC", "PULP_PRYING" ], "weakpoint_sets": [ "wps_amalgamation_armor", "wps_amalgamation_electric" ] }
   },
   {
     "type": "MONSTER",
