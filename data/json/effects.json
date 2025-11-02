@@ -5322,7 +5322,10 @@
       {
         "condition": "ALWAYS",
         "incoming_damage_mod": [
-          { "type": "cold", "add": { "math": [ "max( (2 + u_effect_intensity('effect_nether_shadow_unnatural_chill') ), 20)" ] } }
+          {
+            "type": "cold",
+            "add": { "math": [ "max( (1 + (u_effect_intensity('effect_nether_shadow_unnatural_chill') * 0.5) ), 10)" ] }
+          }
         ],
         "values": [
           {

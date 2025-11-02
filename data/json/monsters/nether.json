@@ -1213,6 +1213,7 @@
       "COLDPROOF",
       "ACIDPROOF",
       "HIT_AND_RUN",
+      "PATH_AVOID_FIRE",
       "NO_BREATHE",
       "NOGIB",
       "PHOTOPHOBIC"
