@@ -49,13 +49,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "termites_fungus",
-    "copy-from": "termites_food",
-    "name": "fungal farm",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "termites",
     "name": "termite tunnel",
     "color": "brown",
