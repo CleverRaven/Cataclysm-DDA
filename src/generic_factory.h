@@ -1262,8 +1262,7 @@ struct handler<weighted_int_list<T>> {
         container.clear();
     }
     bool insert( weighted_int_list<T> &container, const std::pair<T, int> &data ) const {
-        container.add( data );
-        return true;
+        return !!container.add_or_replace( data.first, data.second );
     }
     bool relative( weighted_int_list<T> &, const std::pair<T, int> & ) const {
         return false;
@@ -1298,8 +1297,7 @@ struct handler<weighted_list<T, W>> {
         container.clear();
     }
     bool insert( weighted_list<T, W> &container, const std::pair<T, W> &data ) const {
-        container.add( data );
-        return true;
+        return !!container.add_or_replace( data.first, data.second );
     }
     bool relative( weighted_list<T, W> &, const std::pair<T, W> & ) const {
         return false;
