@@ -858,7 +858,7 @@ static void layer_item( std::map<bodypart_id, encumbrance_data> &vals, const ite
             // do the sublayers of this armor conflict
             bool conflicts = false;
 
-            // check if we've already added conflict for the layer and body part since each sbp is check individually
+            // check if we've already added conflict for the layer and body part since each sbp is checked individually
             std::map<layer_level, bool> bpcovered;
 
             // add the sublocations to the overall body part layer and update if we are conflicting
@@ -2037,7 +2037,7 @@ std::unordered_set<bodypart_id> outfit::where_discomfort( const Character &guy )
             if( !i.is_bp_rigid_selective( sbp ) && !i.is_bp_comfortable( sbp ) &&
                 i.weight() > units::from_gram( 250 ) ) {
 
-                // need to go through each locations under location to check if its covered, since secondary locations can cover multiple underlying locations
+                // need to go through each locations under location to check if it's covered, since secondary locations can cover multiple underlying locations
                 for( const sub_bodypart_str_id &under_sbp : sbp->locations_under ) {
                     if( covered_sbps.count( under_sbp ) != 1 ) {
                         guy.add_msg_if_player(
@@ -2291,7 +2291,7 @@ void outfit::prepare_bodymap_info( bodygraph_info &info, const bodypart_id &bp,
         }
         info.avg_coverage += temp_coverage;
 
-        // need to do each sub part seperately and then average them if need be
+        // need to do each sub part separately and then average them if need be
         for( const sub_bodypart_id &sbp : sub_parts ) {
             int coverage = armor.get_coverage( sbp );
 
