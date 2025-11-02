@@ -320,7 +320,7 @@
     "recipes": [
       { "id": "cured_hide", "description": " Hideworking: Cured Hide" },
       { "id": "cured_pelt", "description": " Hideworking: Cured Pelt" },
-      { "id": "tanning_hide", "description": " Hideworking: Tanning Hide" },
+      { "id": "tanning_hide_active", "description": " Hideworking: Tanning Hide" },
       { "id": "tanning_pelt", "description": " Hideworking: Tanning Pelt" },
       { "id": "tanned_hide", "description": " Hideworking: Tanned Hide" },
       { "id": "leather", "description": " Hideworking: Leather" }
