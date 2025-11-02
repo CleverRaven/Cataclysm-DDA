@@ -24,7 +24,6 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "bleed_rate": 30,
     "weakpoint_sets": [ "wps_slime" ],
-    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_wp_slime_basic", "prof_wp_slime_advanced" ],
     "harvest": "exempt",
     "special_attacks": [ [ "FORMBLOB", 30 ] ],
     "death_function": {
@@ -60,7 +59,6 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "bleed_rate": 20,
     "weakpoint_sets": [ "wps_slime" ],
-    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_wp_slime_basic", "prof_wp_slime_advanced" ],
     "harvest": "exempt",
     "special_attacks": [ [ "CALLBLOBS", 0 ] ],
     "death_function": {
@@ -97,7 +95,6 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "bleed_rate": 30,
     "weakpoint_sets": [ "wps_slime" ],
-    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_wp_slime_basic", "prof_wp_slime_advanced" ],
     "harvest": "exempt",
     "special_attacks": [ [ "FORMBLOB", 20 ] ],
     "death_function": {
@@ -132,7 +129,6 @@
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "weakpoint_sets": [ "wps_slime" ],
-    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_wp_slime_basic", "prof_wp_slime_advanced" ],
     "harvest": "exempt",
     "death_function": { "message": "The %s's body melts away.", "corpse_type": "NO_CORPSE" },
     "death_drops": "mon_blob_small_deathdrops",
@@ -161,7 +157,6 @@
     "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "weakpoint_sets": [ "wps_slime" ],
-    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_wp_slime_basic", "prof_wp_slime_advanced" ],
     "harvest": "exempt",
     "death_drops": "slime_sample_small",
     "special_attacks": [ [ "FORMBLOB", 4 ] ],
@@ -196,7 +191,6 @@
     "vision_day": 16,
     "vision_night": 10,
     "weakpoint_sets": [ "wps_slime" ],
-    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_wp_slime_basic", "prof_wp_slime_advanced" ],
     "harvest": "exempt",
     "special_attacks": [ [ "SLIMESPRING", 15 ] ],
     "fear_triggers": [ "FIRE" ],
@@ -234,7 +228,6 @@
     "vision_day": 30,
     "vision_night": 10,
     "weakpoint_sets": [ "wps_slime" ],
-    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_wp_slime_basic", "prof_wp_slime_advanced" ],
     "harvest": "exempt",
     "special_attacks": [ { "id": "tentacle", "throw_strength": 10 } ],
     "death_function": {
