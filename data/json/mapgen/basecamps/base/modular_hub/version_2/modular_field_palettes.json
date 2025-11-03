@@ -65,6 +65,19 @@
   },
   {
     "type": "palette",
+    "id": "fbmh_2_adobe_palette",
+    "terrain": {
+      ";": "t_dirt",
+      ".": "t_floor_primitive",
+      "+": "t_door_c",
+      "r": "t_wood_roof",
+      "v": "t_window_no_curtains",
+      "w": "t_adobe_brick_wall"
+    },
+    "furniture": {  }
+  }, 
+  {
+    "type": "palette",
     "id": "fbmh_2_concrete_palette",
     "terrain": {
       ",": "t_dirtfloor",
