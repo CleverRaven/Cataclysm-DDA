@@ -2554,7 +2554,7 @@
     "flags": [ "NONCONDUCTIVE" ],
     "weight": "15000 g",
     "volume": "8000 ml",
-    "longest_side": "36 cm"
+    "longest_side": "36 cm",
     "price": "20 USD",
     "price_postapoc": "10 cent",
     "qualities": [ [ "HAMMER", 1 ] ],
