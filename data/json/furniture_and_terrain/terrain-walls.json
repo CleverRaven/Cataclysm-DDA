@@ -936,7 +936,7 @@
       "sound": "crash!",
       "sound_fail": "bash!",
       "ter_set": "t_null",
-      "items": [ { "item": "material_soil", "count": [ 4, 10 ] }, { "item": "adobe_brick", "count": [ 1, 3 ] } ]
+      "items": [ { "item": "material_soil", "count": [ 4, 10 ] }, { "item": "adobe_brick", "count": [ 5, 20 ] } ]
     }
   },
   {
@@ -952,7 +952,7 @@
       "sound": "crash!",
       "sound_fail": "bash!",
       "ter_set": "t_null",
-      "items": [ { "item": "material_soil", "count": [ 8, 20 ] }, { "item": "adobe_brick", "count": [ 2, 6 ] } ]
+      "items": [ { "item": "material_soil", "count": [ 8, 20 ] }, { "item": "adobe_brick", "count": [ 5, 40 ] } ]
     }
   },
   {
