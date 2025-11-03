@@ -2526,8 +2526,9 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "material": [ "soil" ],
-    "weight": "1750 g",
-    "volume": "2250 ml",
+    "weight": "17500 g",
+    "volume": "8000 ml",
+    "longest_side": "36 cm",
     "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "use_action": {
       "target": "adobe_brick",
@@ -2551,8 +2552,9 @@
     "description": "A compacted mass of soil and natural fibers, baked dry enough to harden into a brick.",
     "material": [ "soil" ],
     "flags": [ "NONCONDUCTIVE" ],
-    "weight": "1500 g",
-    "volume": "2250 ml",
+    "weight": "15000 g",
+    "volume": "8000 ml",
+    "longest_side": "36 cm"
     "price": "20 USD",
     "price_postapoc": "10 cent",
     "qualities": [ [ "HAMMER", 1 ] ],
