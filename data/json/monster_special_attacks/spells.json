@@ -1173,8 +1173,8 @@
     "flags": [ "SILENT", "NO_EXPLOSION_SFX", "HOSTILE_SUMMON" ],
     "min_damage": 1,
     "max_damage": 1,
-    "min_aoe": 3,
-    "max_aoe": 3,
+    "min_aoe": 2,
+    "max_aoe": 2,
     "min_duration": 30000,
     "max_duration": 30000
   },

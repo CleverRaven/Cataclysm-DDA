@@ -410,7 +410,7 @@
       },
       {
         "type": "spell",
-        "id": "wraith_summon_shadow_spell",
+        "id": "wraith_summon_shadow_spell_photophobia",
         "spell_data": { "id": "wraith_summon_shadow", "hit_self": true },
         "monster_message": "",
         "cooldown": 20,
