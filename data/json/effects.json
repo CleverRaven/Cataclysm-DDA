@@ -5308,5 +5308,32 @@
     "desc": [ "" ],
     "max_intensity": 100,
     "int_add_val": 1
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_nether_shadow_unnatural_chill",
+    "name": [ "Unnatural Chill" ],
+    "desc": [ "You are chilled to the bone." ],
+    "rating": "bad",
+    "remove_message": "The chill in your bones finally fades away.",
+    "max_intensity": 100,
+    "int_add_val": 1,
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "incoming_damage_mod": [
+          {
+            "type": "cold",
+            "add": { "math": [ "max( (1 + (u_effect_intensity('effect_nether_shadow_unnatural_chill') * 0.5) ), 10)" ] }
+          }
+        ],
+        "values": [
+          {
+            "value": "CLIMATE_CONTROL_HEAT",
+            "add": { "math": [ "max( (-2 * u_effect_intensity('effect_nether_shadow_unnatural_chill') ), -50)" ] }
+          }
+        ]
+      }
+    ]
   }
 ]
