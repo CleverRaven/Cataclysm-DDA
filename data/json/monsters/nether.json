@@ -378,7 +378,7 @@
     "diff": 2,
     "volume": "875000 ml",
     "weight": "200 kg",
-    "hp": 450,
+    "hp": 800,
     "speed": 140,
     "symbol": "S",
     "color": "dark_gray",
@@ -391,12 +391,39 @@
     "dodge": 3,
     "vision_day": 5,
     "vision_night": 40,
+    "regenerates": 25,
+    "regeneration_modifiers": [ [ "photophobia", -25 ], [ "onfire", -25 ] ],
     "families": [ "prof_wp_netherium_abomination" ],
     "weakpoint_sets": [ "wps_netherium_abomination" ],
     "harvest": "exempt",
+    "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
+    "fear_triggers": [ "FIRE" ],
     "special_attacks": [
-      { "type": "spell", "spell_data": { "id": "wraith_summon_shadow" }, "monster_message": "", "cooldown": 10 },
-      { "type": "spell", "spell_data": { "id": "wraith_apply_darkness" }, "monster_message": "", "cooldown": 15 },
+      {
+        "type": "spell",
+        "id": "wraith_summon_shadow_spell",
+        "spell_data": { "id": "wraith_summon_shadow", "hit_self": true },
+        "monster_message": "",
+        "cooldown": 10,
+        "condition": { "not": { "u_has_effect": "photophobia" } },
+        "allow_no_target": true
+      },
+      {
+        "type": "spell",
+        "id": "wraith_summon_shadow_spell",
+        "spell_data": { "id": "wraith_summon_shadow", "hit_self": true },
+        "monster_message": "",
+        "cooldown": 20,
+        "condition": { "u_has_effect": "photophobia" },
+        "allow_no_target": true
+      },
+      {
+        "type": "spell",
+        "id": "wraith_apply_darkness_spell",
+        "spell_data": { "id": "wraith_apply_darkness" },
+        "monster_message": "",
+        "cooldown": 15
+      },
       {
         "type": "monster_attack",
         "attack_type": "melee",
@@ -415,7 +442,6 @@
       }
     ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away.", "effect": { "id": "death_darkman" } },
-    "regenerates_in_dark": true,
     "flags": [
       "NOHEAD",
       "HARDTOSHOOT",
@@ -1209,6 +1235,8 @@
     "families": [ "prof_wp_netherium_abomination" ],
     "weakpoint_sets": [ "wps_netherium_abomination" ],
     "harvest": "exempt",
+    "anger_triggers": [ "HURT" ],
+    "fear_triggers": [ "FIRE" ],
     "special_attacks": [
       [ "DISAPPEAR", 200 ],
       {
