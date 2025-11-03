@@ -392,7 +392,7 @@ struct armor_portion_data {
     // if this item only conflicts with rigid items that share a direct layer with it
     bool rigid_layer_only = false;
 
-    // if this item is comfortable to wear without other items bellow it
+    // if this item is comfortable to wear without other items below it
     bool comfortable = false; // NOLINT(cata-serialize)
 
     /**

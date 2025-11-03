@@ -1712,7 +1712,7 @@ conditional_t::func f_map_in_city( const JsonObject &jo, std::string_view member
     return [target]( const_dialogue const & d ) {
         tripoint_abs_omt target_pos = project_to<coords::omt>( read_var_value( target, d ).tripoint() );
 
-        // TODO: Remove this in favour of a seperate condition for location z-level that can be used in conjunction with this map_in_city as needed
+        // TODO: Remove this in favour of a separate condition for location z-level that can be used in conjunction with this map_in_city as needed
         if( target_pos.z() < -1 ) {
             return false;
         }

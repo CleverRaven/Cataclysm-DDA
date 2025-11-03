@@ -93,7 +93,7 @@ Cataclysm creates buildings and terrain on discovery via 'mapgen'; functions spe
 you see in `[m]`ap are also determined by overmap terrain). Overmap terrains ("oter") are defined in
 `overmap_terrain.json`.
 
-By default, an oter has a single built-in mapgen function which matches the '"id"' in it's json entry (examples:
+By default, an oter has a single built-in mapgen function which matches the '"id"' in its json entry (examples:
 "house", "bank", etc). Multiple functions also possible. When a player moves into range of an area marked on the map as
 a house, the game chooses semi-randomly from a list of functions for "house", picks one, and runs it, laying down walls
 and adding items, monsters, rubber chickens and whatnot. This is all done in a fraction of a second (something to keep
@@ -532,7 +532,7 @@ See terrain.json, furniture.json, and trap.json for "id" strings.
 
 | Field  | Description
 | ---    | ---
-| point  | Allowed values: `"terrain"`, `"furniture"`, `"trap"`, `"trap_remove"`, `"item_remove"`, `"field_remove"`, `"radiation"`, `"variable"`, `"creature_remove"`, `"bash"` and `"burn"`. Bash does one guarenteed bash while burn destroys terrain/furniture with FLAMMABLE/FLAMMABLE_HARD/FLAMMABLE_ASH and flammable items.
+| point  | Allowed values: `"terrain"`, `"furniture"`, `"trap"`, `"trap_remove"`, `"item_remove"`, `"field_remove"`, `"radiation"`, `"variable"`, `"creature_remove"`, `"bash"` and `"burn"`. Bash does one guaranteed bash while burn destroys terrain/furniture with FLAMMABLE/FLAMMABLE_HARD/FLAMMABLE_ASH and flammable items.
 | id     | Terrain, furniture, trap ID or the variable's name. Examples: `"id": "f_counter"`, `"id": "tr_beartrap"`. Omit for "radiation", "item_remove", "creature_remove", and "field_remove". For `trap_remove` if tr_null is used any traps present will be removed.
 | x, y   | X, Y coordinates. Value from `0-23`, or range `[ 0-23, 0-23 ]` for a random value in that range. Example: `"x": 12, "y": [ 5, 15 ]`
 | z      | (optional) Z coordinate. Value from `-20 to 20`. The value is *relative* to the Z level nominally modified, cannot have a range, and can only be used for faction camps.

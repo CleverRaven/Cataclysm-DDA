@@ -774,7 +774,7 @@ void overmap::build_river_shores( const std::vector<const overmap *> &neighbor_o
         };
 
         if( mask == 15 ) {
-            // Trim corners if neccessary
+            // Trim corners if necessary
             // We assume if corner are not inbounds then we are placed because of neighbouring overmap river
             const std::array<oter_str_id, 4> trimmed_corner_ters = { oter_river_c_not_ne, oter_river_c_not_se, oter_river_c_not_sw, oter_river_c_not_nw };
             for( int i = 0; i < 4; i++ ) {

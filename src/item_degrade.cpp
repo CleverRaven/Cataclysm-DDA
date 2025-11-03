@@ -886,14 +886,14 @@ item::armor_status item::damage_armor_durability( damage_unit &du, damage_unit &
     }
     /*
     * Armor damage chance is calculated using the logistics function.
-    *  No matter the damage dealt, an armor piece has at at most 80% chance of being damaged.
+    *  No matter the damage dealt, an armor piece has at most 80% chance of being damaged.
     *  Chance of damage is 40% when the premitigation damage is equal to armor*1.333
     *  Sturdy items will not take damage if premitigation damage isn't higher than armor*1.333.
     *
     *  Non fragile items are considered to always have at least 10 points of armor, this is to prevent
     *  regular clothes from exploding into ribbons whenever you get punched.
     *
-    *  Fragile items have have a smaller growth rate for damage chance (k) and are more likely to be damaged
+    *  Fragile items have a smaller growth rate for damage chance (k) and are more likely to be damaged
     *  even at low damage absorbed.
     */
     armors_own_resist = has_flag( flag_FRAGILE ) ? armors_own_resist * 0.6666 : std::max( 10.0,
