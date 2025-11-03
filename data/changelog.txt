@@ -368,6 +368,11 @@ Begin moving faction mission definitions to JSON, starting with descriptions
 New book artifact types.
 Better feedback on planting failures + plants need sunlight
 Add NO_BODY_HEAT flag for characters who don't show up on infrared
+Add flesh aberration corpse pit map extra
+Implement microscope functionality
+Add the Zombie Summoner
+Highlands Dimension
+Dresses audit
 
 
 ## Interface:
@@ -494,6 +499,8 @@ Default android sidebar changed to sidebar-mobile
 Present dispersion as MOA in item UI
 Hide overmap display's 'land use code' behind debug mode
 Show progress percent when butchering
+Hide installed gunmods when installed, show loose gunmods in the inventory UI
+overmap sidebar ImGui conversion
 
 
 ## Mods:
@@ -925,6 +932,9 @@ Aftershock: Properly Ruin cities
 Add BLOCK_SUPERNATURAL_HEALING flag, apply it to Clay Golem attacks in Magiclysm
 [Aftershock] Add the Sibyl profession to the Esper scenario, add precognitive powers
 [Bombastic Perks] Add the Closetland playstyle perk
+[MoM] Add pyrokinetic power Intensify Flames
+[Bombastic Perks/XE] Alchemy perks activate automatically
+[Bombastic Perks/XE] Add Grack Pack perk
 
 
 
@@ -1032,6 +1042,7 @@ Star vampires have `PERMANENT_INVISIBILITY`, when they drink blood it applies `S
 Molotovs do not create walls of fire
 Monsters moving through SHARP terrain trample the terrain
 Running over large/hard objects in vehicles will damage your wheels
+Reduce (xl)kevlar vest uncraft times from 20/75 hours to 5/10 minutes
 
 
 ## Bugfixes:
@@ -1419,6 +1430,20 @@ Fix spawning map extras with non-default region settings
 Fix fishing on non river/lake/ocean tiles
 Fix roads going nowhere
 Prevent segfault when cancelling butchery
+Fixes vampiric traits remaining after bloodthorne cure and reduced bleed while sleeping lethality
+Fix book traits modifiers not being applied
+Fix .460 S&W description
+Fix oatmeal and armguard spawns in domestic palettes
+Fixes bottle issues with bugout_meds_prepper item group
+[Magiclysm/XE] Fix Paradox Survivor incompatibility
+[XE/Innawood] Fix cities spawning Innawood
+[MoM/Innawood] Fix cities spawning Innawood
+[Magiclysm/Innawood] Fix cities spawning Innawood
+[Sorcerer] Sorcerers can learn advanced versions of spells though having high enough spell level of the base spell
+[Dinomod/Innawood] Remove cities if using Dinomod/Innawood together
+Fix basic typos in comments
+Fix recipe + skill learn of sledges
+Fixes a few gunmod location issues
 
 
 ## Performance:
@@ -1602,6 +1627,7 @@ Allowing inverting lake generation for islands-style overmaps
 Add debug command to print overmap noise maps
 Allow specifying city name lists in region settings
 Clang tidy rule to catch/reject unicode replacement character
+Use copy-from for region settings instead of overlays
 
 
 ## Build:
