@@ -1161,6 +1161,38 @@
     ]
   },
   {
+    "id": "wraith_summon_shadow",
+    "type": "SPELL",
+    "name": { "str": "Wraith Summon Shadow", "//~": "NO_I18N" },
+    "description": { "str": "Summons hostile shadows.", "//~": "NO_I18N" },
+    "effect": "summon",
+    "effect_str": "mon_shadow",
+    "message": "",
+    "shape": "blast",
+    "valid_targets": [ "self", "hostile" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "HOSTILE_SUMMON" ],
+    "min_aoe": 3,
+    "max_aoe": 3,
+    "min_duration": 30000,
+    "max_duration": 30000
+  },
+  {
+    "id": "wraith_apply_darkness",
+    "type": "SPELL",
+    "name": { "str": "Wraith Apply Darkness", "//~": "NO_I18N" },
+    "description": { "str": "Applies the darkness effect", "//~": "NO_I18N" },
+    "effect": "attack",
+    "effect_str": "darkness",
+    "message": "",
+    "shape": "blast",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "min_range": 35,
+    "max_range": 35,
+    "min_duration": 6000,
+    "max_duration": 6000
+  },
+  {
     "id": "fear_paralyze",
     "type": "SPELL",
     "name": { "str": "Fear Paralyze", "//~": "NO_I18N" },

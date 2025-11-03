@@ -3467,56 +3467,6 @@ bool mattack::parrot_at_danger( monster *parrot )
     return false;
 }
 
-bool mattack::darkman( monster *z )
-{
-    const map &here = get_map();
-
-    if( z->friendly ) {
-        // TODO: handle friendly monsters
-        return false;
-    }
-    Character &player_character = get_player_character();
-    if( rl_dist( z->pos_abs(), player_character.pos_abs() ) > 40 ) {
-        return false;
-    }
-    if( monster *const shadow = g->place_critter_around( mon_shadow, z->pos_bub( here ), 1 ) ) {
-        z->mod_moves( -to_moves<int>( 1_seconds ) * 0.1 );
-        shadow->make_ally( *z );
-        add_msg_if_player_sees( *z, m_warning, _( "A shadow splits from the %s!" ), z->name() );
-    }
-    // Won't do the combat stuff unless it can see you
-    if( !z->sees( here, player_character ) ) {
-        return true;
-    }
-    // What do we say?
-    switch( rng( 1, 7 ) ) {
-        case 1:
-            add_msg( _( "\"Stop it please.\"" ) );
-            break;
-        case 2:
-            add_msg( _( "\"Let us help you.\"" ) );
-            break;
-        case 3:
-            add_msg( _( "\"We wish you no harm.\"" ) );
-            break;
-        case 4:
-            add_msg( _( "\"Do not fear.\"" ) );
-            break;
-        case 5:
-            add_msg( _( "\"We can help you.\"" ) );
-            break;
-        case 6:
-            add_msg( _( "\"We are friendly.\"" ) );
-            break;
-        case 7:
-            add_msg( _( "\"Please don't.\"" ) );
-            break;
-    }
-    player_character.add_effect( effect_darkness, 1_turns, true );
-
-    return true;
-}
-
 bool mattack::slimespring( monster *z )
 {
     const map &here = get_map();
