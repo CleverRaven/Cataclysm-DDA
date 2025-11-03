@@ -3495,7 +3495,7 @@ class Character : public Creature, public visitable
         double compute_effective_food_volume_ratio( const item &food ) const;
         /** Used to calculate water and dry volume of a chewed food **/
         std::pair<units::volume, units::volume> masticated_volume( const item &food ) const;
-        /** Used to to display how filling a food is. */
+        /** Used to display how filling a food is. */
         int compute_calories_per_effective_volume( const item &food,
                 const nutrients *nutrient = nullptr ) const;
         /** Handles the effects of consuming an item. Returns false if nothing was consumed */
