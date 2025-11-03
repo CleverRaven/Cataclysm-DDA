@@ -103,8 +103,8 @@ struct map_fd_bash_info : map_common_bash_info {
 };
 struct map_deconstruct_skill {
     skill_id id; // Id of skill to increase on successful deconstruction
-    int min; // Minimum level to recieve xp
-    int max; // Level cap after which no xp is recieved but practise still occurs delaying rust
+    int min; // Minimum level to receive xp
+    int max; // Level cap after which no xp is received but practise still occurs delaying rust
     double multiplier; // Multiplier of the base xp given that's calced using the mean of the min and max
 };
 struct map_common_deconstruct_info {

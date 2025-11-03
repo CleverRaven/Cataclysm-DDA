@@ -164,7 +164,7 @@ If you wanted to apply the overlay only for regions with a "default" tag:
 }
 ```
 
-Tags are arbitary strings and are only used to avoid referencing a likely-growing number
+Tags are arbitrary strings and are only used to avoid referencing a likely-growing number
 of region_settings ids.
 
 ## Region Terrain / Furniture

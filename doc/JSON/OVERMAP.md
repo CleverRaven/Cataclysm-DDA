@@ -741,9 +741,9 @@ symetrical while binomial can be skewed by altering p to result in most values b
 on the lower end of the range 0-n or vice versa useful to produce more consistent results
 with rarer chances of large or small values or just one kind respectively.  Hard bounds
 may be specified in addition to poisson or binomial to limit the range of possibilities,
-useful for guarenteeing a max of at least 1 or to prevent large values making overall
+useful for guaranteeing a max of at least 1 or to prevent large values making overall
 size management difficult.  To do this add an array `bounds` such as
-`"max": { "poisson": 5, "bounds": [ 1, -1 ] }` in this case guarenteeing at least a max
+`"max": { "poisson": 5, "bounds": [ 1, -1 ] }` in this case guaranteeing at least a max
 of 1 without bounding upper values.  Any value that would fall outside of these bounds
 becomes the relevant bound (as opposed to being rerolled).
 

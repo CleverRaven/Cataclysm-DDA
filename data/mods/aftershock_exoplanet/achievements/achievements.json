@@ -68,7 +68,7 @@
         "event_statistic": "avatar_max_damage",
         "is": ">=",
         "target": 2500,
-        "description": "Recieve 2500 damage in a single attack and survive (optional)."
+        "description": "Receive 2500 damage in a single attack and survive (optional)."
       }
     ]
   },

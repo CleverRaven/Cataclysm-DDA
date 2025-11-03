@@ -75,7 +75,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 <summary><h3>Hardened Skin (C)</h3></summary>
 
 *Difficulty*: 4
-*Duration*: 5 minutes and 56 seconds to 11 minutes and 33 seconds, plus 1 minute 26 seconds to to 4 minutes and 4 seconds per level.<br />
+*Duration*: 5 minutes and 56 seconds to 11 minutes and 33 seconds, plus 1 minute 26 seconds to 4 minutes and 4 seconds per level.<br />
 *Stamina Cost*: 2500, minus 125 per level to a minimum of 750<br />
 *Channeling Time*: 150 moves, minus 8.5 moves per level to a minimum of 50.<br />
 *Effects*: Increases piercing armor by 3, bashing armor by 6, and cutting armor by 4.  Also makes the psion immune to bleeding from wounds received during its duration (previous bleeding is unaffected) and reduces incoming pain by 2% per level.<br />

@@ -423,9 +423,9 @@
                           { "item": "dress", "prob": 75, "damage": [ 1, 4 ] },
                           { "item": "sundress", "prob": 15, "damage": [ 1, 4 ] },
                           { "item": "santa_dress_long", "prob": 5, "damage": [ 1, 4 ] },
-                          { "item": "sinister_dress", "prob": 5, "damage": [ 1, 4 ] },
-                          { "item": "sinister_gown", "prob": 5, "damage": [ 1, 4 ] },
-                          { "item": "witch_dress_long", "prob": 5, "damage": [ 1, 4 ] },
+                          { "item": "gown_sleeved", "variant": "sinister", "prob": 5, "damage": [ 1, 4 ] },
+                          { "item": "long_dress_sleeved", "variant": "witch_black", "prob": 5, "damage": [ 1, 4 ] },
+                          { "item": "long_dress_sleeved", "variant": "sinister", "prob": 5, "damage": [ 1, 4 ] },
                           {
                             "collection": [ { "item": "dress_wedding", "damage": [ 1, 4 ] }, { "item": "veil_wedding", "damage": [ 1, 4 ] } ],
                             "prob": 10

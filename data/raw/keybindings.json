@@ -1230,6 +1230,20 @@
   },
   {
     "type": "keybinding",
+    "id": "COLLAPSE_OVERMAP_SIDEBAR_HEADERS",
+    "category": "OVERMAP",
+    "name": "Collapse all overmap sidebar headers",
+    "bindings": [ { "input_method": "keyboard_char", "key": "{" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "EXPAND_OVERMAP_SIDEBAR_HEADERS",
+    "category": "OVERMAP",
+    "name": "Expand all overmap sidebar headers",
+    "bindings": [ { "input_method": "keyboard_char", "key": "}" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "TOGGLE_EXPLORED",
     "category": "OVERMAP",
     "name": "Toggle explored",

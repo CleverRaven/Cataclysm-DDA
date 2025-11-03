@@ -1586,7 +1586,7 @@ bool construct::check_support( const tripoint_bub_ms &p )
         }
     }
 
-    //TODO: This doesn't make any sense for the original purpose of check_support and should be seperated
+    //TODO: This doesn't make any sense for the original purpose of check_support and should be separated
 
     // We want to find "walls" below (including windows and doors), but not open rooms and the like.
     if( here.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, p + tripoint::below ) &&
