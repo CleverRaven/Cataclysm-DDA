@@ -1762,7 +1762,7 @@
     "price": "0 cent",
     "price_postapoc": "10 cent",
     "material": [ "flesh" ],
-    "volume": "50 ml",
+    "volume": "54 ml",
     "fun": -10,
     "flags": [ "TRADER_AVOID", "RAW" ],
     "vitamins": [ [ "meat_allergen", 1 ] ]
