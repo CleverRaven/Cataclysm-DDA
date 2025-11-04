@@ -2042,7 +2042,11 @@
         [ "3006_casing", 43 ],
         [ "308_casing", 50 ],
         [ "223_casing", 60 ],
-        [ "303_casing", 43 ]
+        [ "303_casing", 43 ],
+        [ "22_casing", 150 ],
+        [ "33_naval_casing", 4 ],
+        [ "273x110casing", 16 ],
+        [ "273x44casing", 30 ]
       ]
     ]
   }
