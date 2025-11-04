@@ -341,7 +341,7 @@
     "category": "container",
     "name": { "str": "primer tray" },
     "looks_like": "box_small",
-    "description": "A small, flat plastic tray meant to hold primers incased in a cardboard sleeve.",
+    "description": "A small, flat plastic tray meant to hold primers encased in a cardboard sleeve.",
     "weight": "2 g",
     "volume": "26 ml",
     "longest_side": "98 mm",

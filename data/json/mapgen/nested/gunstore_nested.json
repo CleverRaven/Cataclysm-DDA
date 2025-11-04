@@ -342,9 +342,7 @@
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "gunstore_palette_unlooted" ],
       "place_item": [ { "item": "press", "x": 1, "y": 3 }, { "item": "press", "x": 2, "y": 3 } ],
-      "place_loot": [
-        { "group": "boxed_primers_full", "x": [ 1, 2 ], "y": 3, "repeat": [ 16, 20 ] }
-      ]
+      "place_loot": [ { "group": "boxed_primers_full", "x": [ 1, 2 ], "y": 3, "repeat": [ 16, 20 ] } ]
     }
   },
   {
@@ -378,9 +376,7 @@
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "gunstore_palette_looted" ],
       "place_item": [ { "item": "press", "x": [ 1, 2 ], "y": 3, "chance": 20 } ],
-      "place_loot": [
-        { "group": "boxed_primers_full", "x": [ 1, 2 ], "y": 3, "repeat": [ 0, 6 ] }
-      ]
+      "place_loot": [ { "group": "boxed_primers_full", "x": [ 1, 2 ], "y": 3, "repeat": [ 0, 6 ] } ]
     }
   },
   {
