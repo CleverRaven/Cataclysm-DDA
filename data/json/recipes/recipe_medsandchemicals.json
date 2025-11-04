@@ -63,7 +63,7 @@
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "water_boiling_heat", 20, "LIST" ] ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
-    "components": [ [ [ "fat_tainted", 4 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ],
+    "components": [ [ [ "fat_tainted", 4 ], [ "fat_tainted_human", 4 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ],
     "charges": 2
   },
   {
