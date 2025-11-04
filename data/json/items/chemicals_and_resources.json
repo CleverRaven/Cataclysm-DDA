@@ -124,7 +124,7 @@
     "price": "50 cent",
     "price_postapoc": "1 USD",
     "looks_like": "rock",
-    "name": { "str": "calcite crystal", "str_pl": "calcite crystals" },
+    "name": { "str": "calcite crystal" },
     "symbol": "*",
     "color": "white",
     "description": "A chunk of calcium carbonate as calcite.  Break it up to use it.",
