@@ -1,5 +1,5 @@
 [
-{
+  {
     "id": "death_sap",
     "type": "SPELL",
     "name": { "str": "Death Sap" },
