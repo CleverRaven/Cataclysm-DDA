@@ -187,7 +187,7 @@
     "color": "dark_gray",
     "description": "A pinch of sand and wood ash.  This could be used as flux for iron forging, in a pinch.",
     "material": [ "powder" ],
-    "volume": "5 ml",
+    "volume": "7 ml",
     "weight": "6 g",
     "ammo_type": "components",
     "count": 1
