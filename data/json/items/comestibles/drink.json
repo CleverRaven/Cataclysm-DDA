@@ -2077,15 +2077,25 @@
   },
   {
     "id": "kvass",
-    "copy-from": "brew_kvass",
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "DRINK",
     "name": { "str_sp": "kvass" },
     "description": "A lightly fizzy drink popular in eastern Europe.  Very refreshing and slightly tangy.",
+    "looks_like": "juice",
+    "color": "yellow",
+    "symbol": "~",
     "price_postapoc": "50 cent",
-    "spoils_in": "42 days",
+    "material": [ { "type": "water", "portion": 9 }, { "type": "alcohol", "portion": 1 } ],
+    "weight": "250 g",
+    "volume": "250 ml",
+    "charges": 1,
+    "phase": "liquid",
+    "flags": [ "EATEN_COLD" ],
     "quench": 65,
-    "fun": 3
+    "calories": 34,
+    "vitamins": [ [ "iron", 1 ], [ "wheat_allergen", 1 ] ],
+    "fun": 3,
+    "spoils_in": "42 days"
   }
 ]
