@@ -113,7 +113,6 @@
     "type": "map_extra_collection",
     "id": "forest_thick",
     "copy-from": "forest_thick",
-    "overlay_id": "forest_thick",
     "extend": { "extras": [ [ "mx_catoblepas_lair", 1 ] ] }
   },
   {
