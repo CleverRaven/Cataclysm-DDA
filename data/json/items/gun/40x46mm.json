@@ -126,7 +126,7 @@
     "subtypes": [ "GUN" ],
     "name": { "str": "crude 40mm launcher" },
     "description": "A 40mm launcher, made by attaching an underbarrel grenade launcher to a stock.",
-    "weight": "3000 kg",
+    "weight": "3000 g",
     "volume": "2800 ml",
     "longest_side": "736 mm",
     "barrel_length": "305 mm",
