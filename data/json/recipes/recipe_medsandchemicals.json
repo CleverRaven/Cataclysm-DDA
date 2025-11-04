@@ -29,21 +29,6 @@
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
-    "result": "soapy_water",
-    "category": "CC_CHEM",
-    "subcategory": "CSC_CHEM_OTHER",
-    "skill_used": "chemistry",
-    "time": "1 m",
-    "autolearn": true,
-    "flags": [ "BLIND_HARD" ],
-    "components": [
-      [ [ "water_clean", 1 ], [ "water", 1 ] ],
-      [ [ "soap", 1 ], [ "soap_flakes", 15 ], [ "detergent", 1 ], [ "liquid_soap", 1 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "NO_EXERCISE",
     "result": "detergent",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_OTHER",
