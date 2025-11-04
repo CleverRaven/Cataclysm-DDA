@@ -554,7 +554,6 @@
     "autolearn": true,
     "qualities": [ { "id": "FINE_GRIND", "level": 1 } ],
     "components": [ [ [ "material_sand", 1 ] ], [ [ "ash", 6 ] ], [ [ "material_limestone", 1 ] ] ],
-    "batch_time_factors": [ 1, 0.8 ],
     "result_mult": 4
   },
   {
