@@ -27,13 +27,13 @@
     "id": "flux_fe_forge",
     "type": "requirement",
     "//": "Iron/Steel forging flux. One spoonful of flux covers 50cm^2 area of joining.",
-    "components": [ [ [ "flux", 1 ], [ "flux_ash", 1 ] ] ]
+    "components": [ [ [ "flux", 1, "LIST" ], [ "flux_ash", 1 ] ] ]
   },
   {
     "id": "flux_fe_smelt",
     "type": "requirement",
     "//": "Iron/Steel smelting flux. ",
-    "components": [ [ [ "flux", 1 ], [ "caco3", 50 ] ] ]
+    "components": [ [ [ "flux", 1, "LIST" ], [ "caco3", 50 ] ] ]
   },
   {
     "id": "metal_lube",
