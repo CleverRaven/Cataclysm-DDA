@@ -110,7 +110,7 @@ jobs:
             ext: tar.gz
             content: application/gzip
           - name: macOS Curses Universal Binary (x64 and arm64)
-            os: macos-13
+            os: macos-15
             mxe: none
             tiles: 0
             sound: 0
@@ -118,7 +118,7 @@ jobs:
             ext: dmg
             content: application/x-apple-diskimage
           - name: macOS Tiles Universal Binary (x64 and arm64)
-            os: macos-13
+            os: macos-15
             mxe: none
             tiles: 1
             sound: 0
