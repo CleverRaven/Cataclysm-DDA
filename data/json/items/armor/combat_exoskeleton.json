@@ -178,7 +178,7 @@
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "combat exoskeleton mk1 (on)", "str_pl": "combat exoskeletons mk1 (on)" },
-    "extend": { "flags": [ "GAS_PROOF", "WATCH", "PARTIAL_DEAF", "TWO_WAY_RADIO" ] },
+    "extend": { "flags": [ "GAS_PROOF", "WATCH", "PARTIAL_DEAF", "TWO_WAY_RADIO", "SPAWN_ACTIVE" ] },
     "power_draw": "200 W",
     "revert_to": "combat_exoskeleton_heavy",
     "use_action": {
@@ -286,7 +286,7 @@
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "combat exoskeleton mk2 (on)", "str_pl": "combat exoskeletons m2 (on)" },
-    "extend": { "flags": [ "GAS_PROOF", "WATCH", "PARTIAL_DEAF", "TWO_WAY_RADIO" ] },
+    "extend": { "flags": [ "GAS_PROOF", "WATCH", "PARTIAL_DEAF", "TWO_WAY_RADIO", "SPAWN_ACTIVE" ] },
     "power_draw": "175 W",
     "revert_to": "combat_exoskeleton_medium",
     "use_action": {
@@ -394,7 +394,7 @@
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "combat exoskeleton mk3 (on)", "str_pl": "combat exoskeletons mk3 (on)" },
-    "extend": { "flags": [ "GAS_PROOF", "WATCH", "PARTIAL_DEAF", "TWO_WAY_RADIO" ] },
+    "extend": { "flags": [ "GAS_PROOF", "WATCH", "PARTIAL_DEAF", "TWO_WAY_RADIO", "SPAWN_ACTIVE" ] },
     "power_draw": "150 W",
     "revert_to": "combat_exoskeleton_light",
     "use_action": {
