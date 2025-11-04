@@ -841,7 +841,7 @@
     "type": "furniture",
     "id": "f_rubble_volc",
     "name": "pile of rocky rubble",
-    "description": "A loose pile of rocks. This one has bright chalky bits in it.",
+    "description": "A loose pile of rocks.  This one has bright chalky bits in it.",
     "looks_like": "f_rubble_rock",
     "symbol": "^",
     "color": "white",
