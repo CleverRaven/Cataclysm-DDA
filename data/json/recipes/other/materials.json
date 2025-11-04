@@ -531,6 +531,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "chem_caco3",
+    "id_suffix": "from_calcite",
     "name": "%s from calcite",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
