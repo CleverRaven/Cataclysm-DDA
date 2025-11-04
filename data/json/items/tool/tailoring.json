@@ -267,7 +267,7 @@
     "melee_damage": { "bash": 2 }
   },
   {
-    "id": "tanning_hide",
+    "id": "tanning_hide_active",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "category": "spare_parts",
@@ -280,16 +280,9 @@
     "material": [ "flesh", "leather" ],
     "symbol": ",",
     "color": "brown",
-    "use_action": {
-      "target": "tanned_hide",
-      "msg": "You carefully unfold the tanning leather hide and shake it clean.",
-      "moves": 150,
-      "type": "delayed_transform",
-      "transform_age": 28800,
-      "not_ready_msg": "The tanning leather hide isn't done yet.",
-      "//": "2 days"
-    },
-    "flags": [ "NO_SALVAGE" ]
+    "countdown_interval": "8 hours",
+    "revert_to": "tanned_hide",
+    "flags": [ "NO_SALVAGE", "SPAWN_ACTIVE" ]
   },
   {
     "id": "tanning_pelt",
