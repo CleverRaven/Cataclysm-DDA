@@ -1390,13 +1390,14 @@
     "time": "5 m",
     "batch_time_factors": [ 75, 2 ],
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
     "components": [
       [ [ "bread", 8 ], [ "toast", 8 ] ],
       [ [ "water", 8 ] ],
       [ [ "sugar_standard", 1, "LIST" ] ],
       [ [ "sweet_fruit_like", 1, "LIST" ] ],
       [ [ "yeast", 1 ] ]
-    ]
+    ],
+    "charges": 16
   }
 ]

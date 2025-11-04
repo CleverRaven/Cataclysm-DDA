@@ -2065,7 +2065,6 @@
     "weight": "250 g",
     "volume": "250 ml",
     "charges": 1,
-    "container": "bottle_plastic",
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
     "quench": 65,

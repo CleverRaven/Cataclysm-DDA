@@ -1558,5 +1558,11 @@
       { "item": "chips", "variant": "mixed", "entry-wrapper": "bag_chips_medium", "count": 2, "prob": 5 },
       { "item": "chips", "variant": "mixed", "entry-wrapper": "bag_chips_large", "count": 3, "prob": 5 }
     ]
+  },
+  {
+    "id": "kvass_bottle",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "kvass", "container-item": "bottle_plastic" } ]
   }
 ]
