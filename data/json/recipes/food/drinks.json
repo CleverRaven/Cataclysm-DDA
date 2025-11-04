@@ -1055,8 +1055,8 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "cooking",
-    "skills_required": [ "survival", 5 ],
-    "difficulty": 4,
+    "skills_required": [ "survival", 1 ],
+    "difficulty": 1,
     "time": "12 m",
     "batch_time_factors": [ 80, 4 ],
     "book_learn": [
