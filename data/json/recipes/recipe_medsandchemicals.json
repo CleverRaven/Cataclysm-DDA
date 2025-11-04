@@ -429,6 +429,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "insecticide",
+    "id_suffix": "boric",
     "name": "%s from boric acid",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
