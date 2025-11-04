@@ -99,7 +99,7 @@
           {
             "collection": [
               { "item": "detergent", "count": [ 0, 2 ] },
-              { "item": "chem_borax", "prob": 40, "charges": [ 100, 500 ] },
+              { "item": "chem_borax", "prob": 15, "charges": [ 100, 500 ] },
               { "item": "brush", "prob": 85 },
               { "item": "bleach", "prob": 45 },
               { "item": "chem_washing_soda", "prob": 10 },
@@ -167,7 +167,7 @@
           {
             "collection": [
               { "item": "detergent", "count": [ 0, 2 ] },
-              { "item": "chem_borax", "prob": 40, "charges": [ 100, 500 ] },
+              { "item": "chem_borax", "prob": 15, "charges": [ 100, 500 ] },
               { "item": "brush", "prob": 85 },
               { "item": "bleach", "charges": [ 1, -1 ], "prob": 45 },
               { "item": "box_small", "prob": 5 },
