@@ -150,7 +150,7 @@ static const recipe_id recipe_2byarm_guard( "2byarm_guard" );
 static const recipe_id recipe_armguard_acidchitin( "armguard_acidchitin" );
 static const recipe_id recipe_armguard_chitin( "armguard_chitin" );
 static const recipe_id recipe_armguard_larmor( "armguard_larmor" );
-static const recipe_id recipe_armguard_lightplate( "armguard_lightplate" );
+static const recipe_id recipe_armor_hc_armguard( "armor_hc_armguard" );
 static const recipe_id recipe_armguard_metal( "armguard_metal" );
 static const recipe_id recipe_balclava( "balclava" );
 static const recipe_id recipe_blanket_blanket_makeshift( "blanket_blanket_makeshift" );
@@ -1360,13 +1360,13 @@ TEST_CASE( "crafting_skill_gain", "[skill],[crafting],[slow]" )
     }
     SECTION( "lvl 7 -> 8" ) {
         GIVEN( "nominal morale" ) {
-            test_skill_progression( recipe_armguard_lightplate, 52138, 0, true );
+            test_skill_progression( recipe_armor_hc_armguard, 595764, 0, true );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_armguard_lightplate, 42657, 50, true );
+            test_skill_progression( recipe_armor_hc_armguard, 487427, 50, true );
         }
         GIVEN( "very high morale" ) {
-            test_skill_progression( recipe_armguard_lightplate, 39079, 100, true );
+            test_skill_progression( recipe_armor_hc_armguard, 446543, 100, true );
         }
     }
     SECTION( "lvl 8 -> 9" ) {
