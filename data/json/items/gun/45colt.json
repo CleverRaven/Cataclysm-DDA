@@ -99,5 +99,33 @@
         "allowed_speedloaders": [ "454_speedloader5" ]
       }
     ]
+  },
+  {
+    "id": "rifle_45_410",
+    "looks_like": "modular_ar15",
+    "copy-from": "gun_base_rifle_manual",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str": ".45 Colt/410 pipe rifle" },
+    "description": "A home-made rifle.  It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.",
+    "ascii_picture": "sm_pipe_gun",
+    "weight": "2170 g",
+    "volume": "1610 ml",
+    "longest_side": "1000 mm",
+    "barrel_length": "610 mm",
+    "price": "100 USD",
+    "price_postapoc": "5 USD",
+    "material": [ "steel", "wood" ],
+    "ammo": [ "45colt", "410shot" ],
+    "dispersion": 550,
+    "durability": 6,
+    "blackpowder_tolerance": 60,
+    "loudness": 25,
+    "clip_size": 1,
+    "reload": 200,
+    "barrel_volume": "360 ml",
+    "valid_mod_locations": [ [ "sling", 1 ], [ "sights mount", 1 ] ],
+    "flags": [ "RELOAD_EJECT", "EASY_CLEAN" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45colt": 1, "410shot": 1 } } ]
   }
 ]
