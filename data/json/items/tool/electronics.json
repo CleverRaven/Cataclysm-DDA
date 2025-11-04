@@ -903,7 +903,7 @@
       { "type": "link_up", "cable_length": 3, "charge_rate": "20 W" }
     ],
     "tick_action": [ "MP3_ON" ],
-    "extend": { "flags": [ "TRADER_AVOID", "SPAWN_ACTIVE", "SPAWN_ACTIVE" ] }
+    "extend": { "flags": [ "TRADER_AVOID", "SPAWN_ACTIVE" ] }
   },
   {
     "id": "smart_phone_flashlight",
