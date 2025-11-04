@@ -387,18 +387,75 @@
     "melee_skill": 6,
     "melee_dice": 3,
     "melee_dice_sides": 8,
-    "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
+    "melee_damage": [ { "damage_type": "cold", "amount": 4 } ],
     "dodge": 3,
-    "vision_day": 50,
-    "luminance": 6,
+    "vision_day": 5,
+    "vision_night": 40,
+    "regenerates": 40,
+    "regeneration_modifiers": [ [ "photophobia", -40 ], [ "onfire", -40 ] ],
     "families": [ "prof_wp_netherium_abomination" ],
     "weakpoint_sets": [ "wps_netherium_abomination" ],
     "harvest": "exempt",
-    "special_attacks": [ [ "DARKMAN", 5 ], [ "scratch", 15 ] ],
+    "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
+    "fear_triggers": [ "FIRE" ],
+    "special_attacks": [
+      {
+        "type": "spell",
+        "id": "wraith_summon_shadow_spell",
+        "spell_data": { "id": "wraith_summon_shadow", "hit_self": true },
+        "monster_message": "",
+        "cooldown": 10,
+        "condition": { "not": { "u_has_effect": "photophobia" } },
+        "allow_no_target": true
+      },
+      {
+        "type": "spell",
+        "id": "wraith_summon_shadow_spell_photophobia",
+        "spell_data": { "id": "wraith_summon_shadow", "hit_self": true },
+        "monster_message": "",
+        "cooldown": 20,
+        "condition": { "u_has_effect": "photophobia" },
+        "allow_no_target": true
+      },
+      {
+        "type": "spell",
+        "id": "wraith_apply_darkness_spell",
+        "spell_data": { "id": "wraith_apply_darkness" },
+        "monster_message": "",
+        "cooldown": 15
+      },
+      {
+        "type": "monster_attack",
+        "attack_type": "melee",
+        "id": "wraith_chill_attack",
+        "damage_max_instance": [ { "damage_type": "cold", "amount": 15 } ],
+        "effects": [ { "id": "effect_nether_shadow_unnatural_chill", "duration": 900, "chance": 100 } ],
+        "blockable": false,
+        "cooldown": 15,
+        "move_cost": 100,
+        "hit_dmg_u": "%1$s touches your %2$s with a freezing-cold appendage!",
+        "hit_dmg_npc": "%1$s touches <npcname>'s %2$s!",
+        "miss_msg_u": "%1$s reaches for you, but you dodge!",
+        "miss_msg_npc": "%1$s reaches for <npcname>, but they dodge!",
+        "no_dmg_msg_u": "%1$s touches your %2$s, but can't penetrate your armor.",
+        "no_dmg_msg_npc": "%1$s touches <npcname>'s %2$s, but can't penetrate their armor."
+      }
+    ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away.", "effect": { "id": "death_darkman" } },
-    "regenerates_in_dark": true,
-    "flags": [ "NOHEAD", "HARDTOSHOOT", "WEBWALK", "FLIES", "PLASTIC", "ELECTRIC", "ACIDPROOF", "SUNDEATH", "NO_BREATHE" ],
-    "armor": { "bash": 12, "cut": 8, "bullet": 6, "electric": 3 }
+    "flags": [
+      "NOHEAD",
+      "HARDTOSHOOT",
+      "WEBWALK",
+      "FLIES",
+      "PLASTIC",
+      "COLDPROOF",
+      "ACIDPROOF",
+      "SUNDEATH",
+      "NO_BREATHE",
+      "PHOTOPHOBIC",
+      "PATH_AVOID_FIRE"
+    ],
+    "armor": { "bash": 12, "cut": 8, "bullet": 50, "electric": 3, "heat": -25 }
   },
   {
     "id": "mon_dementia",
@@ -1178,6 +1235,8 @@
     "families": [ "prof_wp_netherium_abomination" ],
     "weakpoint_sets": [ "wps_netherium_abomination" ],
     "harvest": "exempt",
+    "anger_triggers": [ "HURT" ],
+    "fear_triggers": [ "FIRE" ],
     "special_attacks": [
       [ "DISAPPEAR", 200 ],
       {

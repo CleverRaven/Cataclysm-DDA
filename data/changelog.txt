@@ -368,6 +368,10 @@ Begin moving faction mission definitions to JSON, starting with descriptions
 New book artifact types.
 Better feedback on planting failures + plants need sunlight
 Add NO_BODY_HEAT flag for characters who don't show up on infrared
+Add flesh aberration corpse pit map extra
+Implement microscope functionality
+Add the Zombie Summoner
+Highlands Dimension
 
 
 ## Interface:
@@ -494,6 +498,8 @@ Default android sidebar changed to sidebar-mobile
 Present dispersion as MOA in item UI
 Hide overmap display's 'land use code' behind debug mode
 Show progress percent when butchering
+Hide installed gunmods when installed, show loose gunmods in the inventory UI
+overmap sidebar ImGui conversion
 
 
 ## Mods:
@@ -1419,6 +1425,8 @@ Fix spawning map extras with non-default region settings
 Fix fishing on non river/lake/ocean tiles
 Fix roads going nowhere
 Prevent segfault when cancelling butchery
+[Sorcerer] Sorcerers can learn advanced versions of spells though having high enough spell level of the base spell
+[Dinomod/Innawood] Remove cities if using Dinomod/Innawood together
 
 
 ## Performance:
@@ -1602,6 +1610,7 @@ Allowing inverting lake generation for islands-style overmaps
 Add debug command to print overmap noise maps
 Allow specifying city name lists in region settings
 Clang tidy rule to catch/reject unicode replacement character
+Use copy-from for region settings instead of overlays
 
 
 ## Build:

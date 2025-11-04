@@ -108,7 +108,6 @@ static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_controlled( "controlled" );
 static const efftype_id effect_corroding( "corroding" );
 static const efftype_id effect_countdown( "countdown" );
-static const efftype_id effect_darkness( "darkness" );
 static const efftype_id effect_dazed( "dazed" );
 static const efftype_id effect_deaf( "deaf" );
 static const efftype_id effect_downed( "downed" );
@@ -194,7 +193,6 @@ static const mtype_id mon_leech_root_drone( "mon_leech_root_drone" );
 static const mtype_id mon_leech_root_runner( "mon_leech_root_runner" );
 static const mtype_id mon_leech_stalk( "mon_leech_stalk" );
 static const mtype_id mon_nursebot_defective( "mon_nursebot_defective" );
-static const mtype_id mon_shadow( "mon_shadow" );
 static const mtype_id mon_triffid( "mon_triffid" );
 static const mtype_id mon_turret_searchlight( "mon_turret_searchlight" );
 static const mtype_id mon_zombie_dancer( "mon_zombie_dancer" );
@@ -3465,56 +3463,6 @@ bool mattack::parrot_at_danger( monster *parrot )
     }
 
     return false;
-}
-
-bool mattack::darkman( monster *z )
-{
-    const map &here = get_map();
-
-    if( z->friendly ) {
-        // TODO: handle friendly monsters
-        return false;
-    }
-    Character &player_character = get_player_character();
-    if( rl_dist( z->pos_abs(), player_character.pos_abs() ) > 40 ) {
-        return false;
-    }
-    if( monster *const shadow = g->place_critter_around( mon_shadow, z->pos_bub( here ), 1 ) ) {
-        z->mod_moves( -to_moves<int>( 1_seconds ) * 0.1 );
-        shadow->make_ally( *z );
-        add_msg_if_player_sees( *z, m_warning, _( "A shadow splits from the %s!" ), z->name() );
-    }
-    // Won't do the combat stuff unless it can see you
-    if( !z->sees( here, player_character ) ) {
-        return true;
-    }
-    // What do we say?
-    switch( rng( 1, 7 ) ) {
-        case 1:
-            add_msg( _( "\"Stop it please.\"" ) );
-            break;
-        case 2:
-            add_msg( _( "\"Let us help you.\"" ) );
-            break;
-        case 3:
-            add_msg( _( "\"We wish you no harm.\"" ) );
-            break;
-        case 4:
-            add_msg( _( "\"Do not fear.\"" ) );
-            break;
-        case 5:
-            add_msg( _( "\"We can help you.\"" ) );
-            break;
-        case 6:
-            add_msg( _( "\"We are friendly.\"" ) );
-            break;
-        case 7:
-            add_msg( _( "\"Please don't.\"" ) );
-            break;
-    }
-    player_character.add_effect( effect_darkness, 1_turns, true );
-
-    return true;
 }
 
 bool mattack::slimespring( monster *z )

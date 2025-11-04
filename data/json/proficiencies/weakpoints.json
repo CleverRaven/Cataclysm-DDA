@@ -308,7 +308,7 @@
     "name": { "str": "Power leech basic anatomy" },
     "description": "Your observations of the power leech anatomy is starting to pay off.  You now have a basic idea of where their more sensitive structures are located.  These creatures exhibit traits that seem to be a mix between animal and plant ones.",
     "can_learn": true,
-    "required_proficiencies": [ "prof_gross_anatomy" ],
+    "required_proficiencies": [ "prof_intro_biology" ],
     "time_to_learn": "30 m",
     "default_weakpoint_bonus": 1,
     "default_weakpoint_penalty": -2
@@ -332,7 +332,7 @@
     "name": { "str": "Triffid basic anatomy" },
     "description": "Study of triffids has given you insights into their anatomy that allows you to aim for some weak spots.",
     "can_learn": true,
-    "required_proficiencies": [ "prof_gross_anatomy" ],
+    "required_proficiencies": [ "prof_intro_biology" ],
     "time_to_learn": "30 m",
     "default_weakpoint_bonus": 1,
     "default_weakpoint_penalty": -2
