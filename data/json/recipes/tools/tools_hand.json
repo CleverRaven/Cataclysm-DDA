@@ -982,6 +982,23 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "hammer_sledge_crude",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "2 h",
+    "byproducts": [ [ "splinter", 13 ] ],
+    "autolearn": true,
+    "using": [ [ "welding_standard", 120 ], [ "steel_lump_any", 4 ] ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_welding_basic" }, { "proficiency": "prof_carving" } ],
+    "qualities": [ { "id": "SAW_W", "level": 2 }, { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 2 } ],
+    "tools": [ [ [ "angle_grinder", 100 ] ], [ [ "drill_press_tool", 10 ] ] ],
+    "components": [ [ [ "2x4", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
     "result": "hatchet",
     "category": "CC_WEAPON",
