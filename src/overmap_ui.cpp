@@ -409,7 +409,6 @@ void overmap_sidebar::draw_debug()
 
 void overmap_sidebar::draw_mission_info()
 {
-
     const tripoint_abs_omt &cursor_pos = draw_data.cursor_pos;
     avatar &player_character = get_avatar();
     const tripoint_abs_omt target = player_character.get_active_mission_target();
@@ -417,9 +416,18 @@ void overmap_sidebar::draw_mission_info()
 
     if( has_target ) {
         const int distance = rl_dist( cursor_pos, target );
-        const std::string mission_name = player_character.get_active_mission()->name();
+        std::string mission_name;
+        mission *current_mission = player_character.get_active_mission();
 
-        draw_sidebar_text( _( "Current mission:" ), c_white );
+        if( current_mission != nullptr ) {
+            mission_name = player_character.get_active_mission()->name();
+
+            draw_sidebar_text( _( "Current mission:" ), c_white );
+        } else {
+            mission_name = player_character.get_active_point_of_interest().text;
+
+            draw_sidebar_text( _( "Current Point of Interest:" ), c_white );
+        }
         draw_sidebar_text( mission_name, c_light_blue );
         const int above_below = target.z() - cursor_pos.z();
         std::string msg;
