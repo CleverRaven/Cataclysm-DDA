@@ -60,6 +60,7 @@
     "longest_side": "7 cm",
     "price": "55 USD",
     "price_postapoc": "2 USD 50 cent",
+    "to_hit": 1,
     "material": [ "monolith" ],
     "symbol": "o",
     "color": "brown",

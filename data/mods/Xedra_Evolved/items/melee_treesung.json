@@ -30,7 +30,7 @@
     "description": "A weapon with a long wooden handle connected to a knobby wooden head, all formed from a single piece of wood, with twists and curves like it grew in place rather than being made.",
     "color": "green",
     "material": [ { "type": "wood", "portion": 1 } ],
-    "proportional": { "melee_damage": { "bash": 0.9 }, "weigh": 0.8 },
+    "proportional": { "melee_damage": { "bash": 0.9 } },
     "extend": { "flags": [ "WOODEN_WEAPON", "NO_REPAIR" ] }
   },
   {
@@ -42,7 +42,7 @@
     "description": "A sturdy staff all formed from a single piece of wood, with twists and curves like it grew in place rather than being carved.",
     "color": "green",
     "material": [ { "type": "wood", "portion": 1 } ],
-    "proportional": { "melee_damage": { "bash": 1.1 }, "weigh": 0.8 },
+    "proportional": { "melee_damage": { "bash": 1.1 } },
     "extend": { "flags": [ "WOODEN_WEAPON", "NO_REPAIR", "DURABLE_MELEE" ] }
   },
   {
@@ -54,7 +54,7 @@
     "description": "A long hammer with a spike on one end, all formed from a single piece of wood, with twists and curves like it grew in place rather than being carved.",
     "color": "green",
     "material": [ { "type": "wood", "portion": 1 } ],
-    "proportional": { "melee_damage": { "bash": 1.1, "stab": 0.9 }, "weigh": 0.8 },
+    "proportional": { "melee_damage": { "bash": 1.1, "stab": 0.9 } },
     "extend": { "flags": [ "WOODEN_WEAPON", "NO_REPAIR" ] }
   },
   {
@@ -79,7 +79,7 @@
     "description": "A large knife, all formed from a single piece of wood, with twists and curves like it grew in place rather than being carved.  You're not sure how long it will hold its edge, but it's surprisingly sharp.",
     "color": "green",
     "material": [ { "type": "wood", "portion": 1 } ],
-    "proportional": { "melee_damage": { "stab": 0.9 }, "weigh": 0.8 },
+    "proportional": { "melee_damage": { "stab": 0.9 } },
     "extend": { "flags": [ "WOODEN_WEAPON", "NO_REPAIR" ] }
   }
 ]
