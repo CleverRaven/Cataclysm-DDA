@@ -1447,7 +1447,7 @@
     "qualities": [
       { "id": "SAW_W", "level": 2 },
       { "id": "SAW_M_FINE", "level": 2 },
-      { "id": "DRILL", "level": 3 },
+      { "id": "DRILL", "level": 2 },
       { "id": "FILE", "level": 2 },
       { "id": "SCREW", "level": 1 }
     ],
