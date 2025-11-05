@@ -33,7 +33,7 @@
     "id": "flux_fe_smelt",
     "type": "requirement",
     "//": "Iron/Steel smelting flux. ",
-    "components": [ [ [ "flux", 1, "LIST" ], [ "caco3", 50 ] ] ]
+    "components": [ [ [ "flux", 1, "LIST" ], [ "chem_caco3", 50 ] ] ]
   },
   {
     "id": "metal_lube",
@@ -46,13 +46,13 @@
     "type": "requirement",
     "//": "Drifts are used for punching for some reason in CDDA. This requirement reflects that a drift is required, and so is high temp metal lubricant.",
     "tools": [ [ [ "drift", -1 ] ] ],
-    "components": [ [ [ "metal_lube", 1 ] ] ]
+    "components": [ [ [ "metal_lube", 1, "LIST" ] ] ]
   },
   {
     "id": "bronze_punch",
     "type": "requirement",
     "//": "This punch recipe is for the nail punch and regular steel drift, for use on bronze items. A bronze punch/drift should be added here if ti becomes an item.",
     "tools": [ [ [ "drift", -1 ], [ "punch_nail", -1 ] ] ],
-    "components": [ [ [ "metal_lube", 1 ] ] ]
+    "components": [ [ [ "metal_lube", 1, "LIST" ] ] ]
   }
 ]
