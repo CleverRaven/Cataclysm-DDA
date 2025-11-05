@@ -4,7 +4,7 @@
     "id": "EOC_troubleseeking",
     "effect": [
       { "u_location_variable": { "context_val": "zombie_horde_target" } },
-      { "signal_hordes": { "context_val": "zombie_horde_target" }, "signal_power": { "math": [ "rand(50) + 60" ] } },
+      { "signal_hordes": { "context_val": "zombie_horde_target" }, "signal_power": { "math": [ "rand(50) + 30" ] } },
       { "u_message": "You suddenly feel that you have found some trouble.", "type": "mixed" }
     ]
   },
