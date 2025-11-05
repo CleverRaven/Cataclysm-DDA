@@ -1389,7 +1389,7 @@
     "difficulty": 1,
     "time": "5 m",
     "batch_time_factors": [ 75, 2 ],
-    "autolearn": true,
+    "autolearn": [ [ "survival", 2 ], [ "fabrication", 3 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
     "components": [
       [ [ "bread", 8 ], [ "toast", 8 ] ],
