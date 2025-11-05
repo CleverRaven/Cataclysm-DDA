@@ -263,7 +263,6 @@
     "volume": "4 L",
     "price": "245 USD",
     "price_postapoc": "7 USD 50 cent",
-    "to_hit": -1,
     "material": [ "fur", "bone" ],
     "symbol": "[",
     "looks_like": "cloak_leather",

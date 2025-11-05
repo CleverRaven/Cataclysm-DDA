@@ -50,7 +50,6 @@
     "material": [ "qt_steel" ],
     "volume": "410 L",
     "weight": "498 kg",
-    "to_hit": -3,
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
     "melee_damage": { "bash": 20, "cut": 15 }
   },
@@ -66,7 +65,6 @@
     "material": [ "lc_steel", "dreamstuff" ],
     "volume": "210 L",
     "weight": "195 kg",
-    "to_hit": -2,
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
     "melee_damage": { "bash": 10 }
   },

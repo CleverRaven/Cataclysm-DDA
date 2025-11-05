@@ -970,7 +970,7 @@
     "color": "yellow",
     "calories": 5,
     "weight": "25 g",
-    "volume": "227 ml",
+    "volume": "257 ml",
     "material": [ "fruit_light" ],
     "consumption_effect_on_conditions": [ "EOC_GOBLIN_FRUIT_CARRY_BOOST" ]
   },
@@ -990,7 +990,7 @@
     "color": "brown",
     "fun": 0,
     "weight": "255 g",
-    "volume": "232 ml",
+    "volume": "262 ml",
     "consumption_effect_on_conditions": [ "EOC_GOBLIN_FRUIT_MOOD_CLEAR" ]
   },
   {
@@ -1022,7 +1022,7 @@
     "comestible_type": "FOOD",
     "color": "brown",
     "weight": "304 g",
-    "volume": "277 ml",
+    "volume": "377 ml",
     "consumption_effect_on_conditions": [ "EOC_GOBLIN_FRUIT_WILD_TRAVEL_BOOST" ]
   },
   {
@@ -1040,7 +1040,7 @@
     "comestible_type": "FOOD",
     "color": "brown",
     "weight": "304 g",
-    "volume": "277 ml",
+    "volume": "377 ml",
     "consumption_effect_on_conditions": [ "EOC_GOBLIN_FRUIT_SLOWING_ARMOR" ]
   },
   {
@@ -1058,7 +1058,7 @@
     "comestible_type": "FOOD",
     "color": "blue_red",
     "weight": "221 g",
-    "volume": "201 ml",
+    "volume": "221 ml",
     "consumption_effect_on_conditions": [ "EOC_GOBLIN_FRUIT_SOCIAL_BOOST" ]
   },
   {
@@ -1076,7 +1076,7 @@
     "comestible_type": "FOOD",
     "color": "red",
     "weight": "331 g",
-    "volume": "301 ml",
+    "volume": "341 ml",
     "consumption_effect_on_conditions": [ "EOC_GOBLIN_FRUIT_HEAT_BLAST" ]
   },
   {
@@ -1094,7 +1094,7 @@
     "comestible_type": "FOOD",
     "color": "white",
     "weight": "188 g",
-    "volume": "171 ml",
+    "volume": "191 ml",
     "consumption_effect_on_conditions": [ "EOC_GOBLIN_FRUIT_ALTITUDE_SPEED" ]
   },
   {
@@ -1112,7 +1112,7 @@
     "comestible_type": "FOOD",
     "color": "blue",
     "weight": "259 g",
-    "volume": "236 ml",
+    "volume": "266 ml",
     "consumption_effect_on_conditions": [ "EOC_GOBLIN_FRUIT_COLD_RESIST" ]
   },
   {
@@ -1130,7 +1130,7 @@
     "comestible_type": "FOOD",
     "color": "green",
     "weight": "302 g",
-    "volume": "275 ml",
+    "volume": "375 ml",
     "consumption_effect_on_conditions": [ "EOC_GOBLIN_CRAFT_SPEED_BOOST" ]
   },
   {
@@ -1148,7 +1148,7 @@
     "comestible_type": "FOOD",
     "color": "blue",
     "weight": "259 g",
-    "volume": "236 ml",
+    "volume": "276 ml",
     "consumption_effect_on_conditions": [ "EOC_GOBLIN_FRUIT_CALL_RAIN" ]
   },
   {
@@ -1191,7 +1191,7 @@
     "comestible_type": "FOOD",
     "color": "brown",
     "weight": "314 g",
-    "volume": "286 ml",
+    "volume": "386 ml",
     "fun": -3,
     "consumption_effect_on_conditions": [ "EOC_GOBLIN_FRUIT_ANIMAL_IGNORE" ]
   },
@@ -1283,7 +1283,7 @@
     "comestible_type": "FOOD",
     "color": "light_gray",
     "weight": "330 g",
-    "volume": "300 ml",
+    "volume": "330 ml",
     "consumption_effect_on_conditions": [ "EOC_GOBLIN_FRUIT_MEND_BONE" ]
   },
   {
@@ -1330,7 +1330,7 @@
     "comestible_type": "FOOD",
     "color": "light_blue",
     "weight": "220 g",
-    "volume": "200 ml",
+    "volume": "220 ml",
     "consumption_effect_on_conditions": [ "EOC_GOBLIN_FRUIT_CURE_DREAMLESS" ]
   },
   {
