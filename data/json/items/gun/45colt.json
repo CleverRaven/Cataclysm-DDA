@@ -109,7 +109,7 @@
     "name": { "str": ".45 Colt/410 pipe rifle" },
     "description": "A home-made rifle.  It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.",
     "ascii_picture": "sm_pipe_gun",
-    "weight": "2170 g",
+    "weight": "3200 g",
     "volume": "1610 ml",
     "longest_side": "1000 mm",
     "barrel_length": "610 mm",
