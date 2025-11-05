@@ -359,7 +359,7 @@
     "techniques": [ "WBLOCK_1", "BRUTAL", "WIDE", "SWEEP" ],
     "faults": [ { "fault_group": "handle_long", "weight_mult": 4 }, { "fault_group": "blade_general" } ],
     "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
-    "weapon_category": [ "POLEARMS" ],
+    "weapon_category": [ "SPEARS" ],
     "melee_damage": { "bash": 16, "cut": 28 }
   },
   {
