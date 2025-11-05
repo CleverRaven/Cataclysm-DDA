@@ -1033,7 +1033,7 @@
     "color": "white",
     "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY" ],
     "use_action": [ "MACE" ]
-  }
+  },
   {
     "id": "internal_mp3_fruit",
     "type": "ITEM",
