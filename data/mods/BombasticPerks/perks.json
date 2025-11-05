@@ -438,6 +438,21 @@
   },
   {
     "type": "mutation",
+    "id": "perk_situational_uncanny_dodge",
+    "name": { "str": "Evasion" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "You're so good at dodging that almost nothing can touch you as long as you're on your game. You have passive Uncanny Dodge until you take damage, after which it takes a few minutes for you to recover your poise.",
+    "enchantments": [
+      {
+        "condition": { "not": { "u_has_effect": "effect_perk_situational_uncanny_dodge_remover" } },
+        "ench_effects": [ { "effect": "effect_perk_situational_uncanny_dodge", "intensity": 1 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_bedtime_reader",
     "name": { "str": "Bedtime Stories" },
     "points": 0,

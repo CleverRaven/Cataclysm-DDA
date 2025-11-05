@@ -1220,6 +1220,25 @@
         "topic": "TALK_PERK_MENU_SELECT"
       },
       {
+        "condition": { "not": { "u_has_trait": "perk_situational_uncanny_dodge" } },
+        "text": "Gain [<trait_name:perk_situational_uncanny_dodge>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_situational_uncanny_dodge>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_situational_uncanny_dodge>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_situational_uncanny_dodge", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires Dodge 8.",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "u_skill('dodge') >= 8" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
         "condition": { "not": { "u_has_trait": "perk_bedtime_reader" } },
         "text": "Gain [<trait_name:perk_bedtime_reader>]",
         "effect": [
