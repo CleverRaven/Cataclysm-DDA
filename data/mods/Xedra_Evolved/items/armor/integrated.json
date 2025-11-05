@@ -1018,6 +1018,23 @@
     "passive_effects": [ { "id": "ench_trow_stone_fists" } ]
   },
   {
+    "id": "integrated_skunk_tail",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
+    "name": { "str_sp": "skunk tail" },
+    "description": "Thick black and white striped tail.",
+    "weight": "300 g",
+    "volume": "300 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "mut_fur" ],
+    "symbol": "x",
+    "color": "white",
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY" ],
+    "use_action": [ "MACE" ]
+  }
+  {
     "id": "internal_mp3_fruit",
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR" ],
