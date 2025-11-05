@@ -755,6 +755,30 @@
         "topic": "TALK_PERK_MENU_SELECT"
       },
       {
+        "condition": { "not": { "u_has_trait": "perk_reduced_falling_damage" } },
+        "text": "Gain [<trait_name:perk_reduced_falling_damage>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_reduced_falling_damage>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_reduced_falling_damage>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_reduced_falling_damage", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Must have <trait_name:perk_tuck_and_roll> or dexterity 13.",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          {
+            "set_condition": "perk_condition",
+            "condition": {
+              "or": [ { "u_has_trait": "perk_tuck_and_roll" }, { "math": [ "u_val('dexterity_base') + u_val('dexterity_bonus') >= 13" ] } ]
+            }
+          }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
         "condition": { "not": { "u_has_trait": "perk_grit_your_teeth" } },
         "text": "Gain [<trait_name:perk_grit_your_teeth>]",
         "effect": [

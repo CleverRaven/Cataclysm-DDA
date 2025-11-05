@@ -363,6 +363,16 @@
   },
   {
     "type": "mutation",
+    "id": "perk_reduced_falling_damage",
+    "name": { "str": "Catfall" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "You always land on your feet and look graceful when doing it.  Reduce the number of stories by 1 when calculating fall damage.",
+    "flags": [ "ONE_STORY_FALL" ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_grit_your_teeth",
     "name": { "str": "Grit Your Teeth" },
     "points": 0,
