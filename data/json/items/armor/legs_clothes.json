@@ -503,7 +503,7 @@
         "moves": 100
       }
     ],
-    "warmth": 10,
+    "warmth": 8,
     "material_thickness": 0.65,
     "flags": [ "VARSIZE", "POCKETS" ]
   },
