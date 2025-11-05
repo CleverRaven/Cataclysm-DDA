@@ -58,7 +58,7 @@
     "id": "mon_zombie_survivor_master",
     "type": "MONSTER",
     "name": { "str": "prevailing survivor" },
-    "description": "Whoever this once was, they were definitely a legend of the apocalypse.  Somehow they died, even with specialized armor & knowledge they obtained.  They look at you with a knowing, but unnerving smile, as if they pity what is going to happen to you.   You're better than them...  Right?",
+    "description": "Whoever this once was, they were definitely a legend of the apocalypse.  Somehow they died, even with specialized armor & knowledge they obtained.  They look at you with a knowing, but unnerving smile, as if they pity what is going to happen to you.   You're better than them…  Right?",
     "color": "light_red_green",
     "copy-from": "mon_zombie_master",
     "looks_like": "mon_zombie_survivor",
