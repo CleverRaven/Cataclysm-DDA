@@ -34,7 +34,7 @@
     "use_action": { "type": "message", "message": "You've already set the %s's timer, you might want to get away from it." },
     "countdown_action": { "type": "explosion", "explosion": { "power": 2000 } },
     "countdown_interval": "6 seconds",
-    "flags": [ "NPC_THROW_NOW" ]
+    "flags": [ "NPC_THROW_NOW", "SPAWN_ACTIVE" ]
   },
   {
     "id": "dynamite",
