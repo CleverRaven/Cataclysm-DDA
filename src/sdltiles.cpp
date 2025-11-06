@@ -3625,7 +3625,7 @@ int projected_window_height()
 }
 
 // Measures scaling factor for high-dpi displays
-static std::pair<float,float> get_display_scale( int display_index )
+static std::pair<float, float> get_display_scale( int display_index )
 {
     #if SDL_VERSION_ATLEAST(2,26,0)
     int x = SDL_WINDOWPOS_CENTERED_DISPLAY( display_index );
