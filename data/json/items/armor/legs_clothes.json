@@ -503,7 +503,7 @@
         "moves": 100
       }
     ],
-    "warmth": 10,
+    "warmth": 8,
     "material_thickness": 0.65,
     "flags": [ "VARSIZE", "POCKETS" ]
   },
@@ -539,14 +539,14 @@
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "1080 ml",
-        "max_contains_weight": "4 kg",
+        "max_contains_weight": "5 kg",
         "max_item_length": "165 mm",
         "moves": 100
       },
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "1080 ml",
-        "max_contains_weight": "4 kg",
+        "max_contains_weight": "5 kg",
         "max_item_length": "165 mm",
         "moves": 100
       }
@@ -580,7 +580,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "skinny jeans" },
-    "description": "A pair of skinny jeans with two pockets.",
+    "description": "A pair of skinny jeans with four pockets.",
     "weight": "500 g",
     "volume": "1300 ml",
     "price": "50 USD",
@@ -624,9 +624,9 @@
     "//": "Lightweight 8 oz denim jeans.",
     "flags": [ "VARSIZE", "POCKETS" ],
     "snippet_category": [
-      { "id": "jeans_skinny1", "text": "A pair of blue skinny jeans with two pockets." },
-      { "id": "jeans_skinny2", "text": "A pair of black skinny jeans with two pockets." },
-      { "id": "jeans_skinny3", "text": "A pair of red skinny jeans with two pockets." }
+      { "id": "jeans_skinny1", "text": "A pair of blue skinny jeans with four pockets." },
+      { "id": "jeans_skinny2", "text": "A pair of black skinny jeans with four pockets." },
+      { "id": "jeans_skinny3", "text": "A pair of red skinny jeans with four pockets." }
     ],
     "armor": [ { "encumbrance": [ 5, 7 ], "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
   },
@@ -2119,7 +2119,7 @@
     "warmth": 15,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE", "POCKETS" ],
-    "armor": [ { "encumbrance": [ 2, 5 ], "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
+   "armor": [ { "encumbrance": [ 7, 11 ], "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "technician_pants_gray",
