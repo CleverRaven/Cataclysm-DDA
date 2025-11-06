@@ -4101,7 +4101,7 @@ std::optional<tripoint_bub_ms> input_context::get_coordinates( const catacurses:
     point win_size = dim.window_size_pixel;
     point logical_coordinate = coordinate;
     const int scaling_factor = get_scaling_factor();
-    
+
     // convert window size and coordinate to logical if UI is scaled
     if( scaling_factor > 1 ) {
         logical_coordinate.x /= scaling_factor;
@@ -4114,7 +4114,7 @@ std::optional<tripoint_bub_ms> input_context::get_coordinates( const catacurses:
             win_size.y /= scaling_factor;
         }
     }
-    
+
     const point win_max = win_min + win_size;
 
     // Translate mouse coordinates to map coordinates based on tile size
@@ -4135,7 +4135,7 @@ std::optional<tripoint_bub_ms> input_context::get_coordinates( const catacurses:
         const bool is_terrain = use_tiles && g && capture_win == g->w_terrain;
         const bool is_overmap = use_tiles && use_tiles_overmap && g && capture_win == g->w_overmap;
 
-        if (is_terrain) {
+        if( is_terrain ) {
             logical_tile_size.x = tilecontext->get_tile_width();
             logical_tile_size.y = tilecontext->get_tile_height();
         } else if( is_overmap ) {

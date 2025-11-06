@@ -1203,7 +1203,7 @@ std::optional<point> input_context::get_coordinates_text( const catacurses::wind
     point logical_coordinate = coordinate;
     int fw = dim.scaled_font_size.x;
     int fh = dim.scaled_font_size.y;
-    
+
     // convert coordinate and font sizeto logical if UI is scaled
     if( scaling_factor > 1 ) {
         logical_coordinate.x /= scaling_factor;
@@ -1211,7 +1211,7 @@ std::optional<point> input_context::get_coordinates_text( const catacurses::wind
         fw /= scaling_factor;
         fh /= scaling_factor;
     }
-    
+
     const point &win_min = dim.window_pos_pixel;
     const point screen_pos = logical_coordinate - win_min;
     const point selected( divide_round_down( screen_pos.x, fw ),
