@@ -458,39 +458,6 @@ void overmap::unserialize( std::istream &fin )
     unserialize( jsin.get_object() );
 }
 
-// In global scope for testing
-// NOLINTNEXTLINE(cata-static-declarations)
-std::string base64_encode_bitset( const std::bitset<576> &bitset_to_encode );
-std::string base64_encode_bitset( const std::bitset<576> &bitset_to_encode )
-{
-    std::string raw_bitset_data( 72, '\0' );
-    for( uint64_t i = 0; i < 9; ++i ) {
-        uint64_t bits = 0;
-        for( size_t j = 0; j < sizeof( bits ) * 8; ++j ) {
-            if( bitset_to_encode[( i * 64 ) + j ] ) {
-                bits |= 1ULL << j;
-            }
-        }
-        memcpy( &raw_bitset_data[ i * 8 ], &bits, sizeof( bits ) );
-    }
-    return base64_encode( raw_bitset_data );
-}
-
-// In global scope for testing
-// NOLINTNEXTLINE(cata-static-declarations)
-void base64_decode_bitset( const std::string &packed_bitset, std::bitset<576> &destination_bitset );
-void base64_decode_bitset( const std::string &packed_bitset, std::bitset<576> &destination_bitset )
-{
-    std::string decoded_string = base64_decode( packed_bitset );
-    for( int i = 0; i < 9; i++ ) {
-        uint64_t bits;
-        memcpy( &bits, &decoded_string[( 8 - i ) * 8], sizeof( bits ) );
-        std::bitset<576> temp_bitset( bits );
-        destination_bitset <<= 64;
-        destination_bitset |= temp_bitset;
-    }
-}
-
 void overmap::unserialize( const JsonObject &jsobj )
 {
     // These must be read in this order.
