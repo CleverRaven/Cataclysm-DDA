@@ -1036,6 +1036,16 @@
   },
   {
     "type": "mutation",
+    "id": "perk_soup_healing",
+    "name": { "str": "Soup for the Soul" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": " Just like mama used to make and it tastes just as good too. When you eat chicken noodle soup, you heal a small amount of HP on all limbs and cure any cold, flu, and poisoning you're suffering from.",
+    "category": [ "perk" ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_nocturnal",
     "name": { "str": "Nocturnal" },
     "points": 0,
