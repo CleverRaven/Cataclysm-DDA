@@ -455,7 +455,7 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "You're so good at dodging that almost nothing can touch you as long as you're on your game. You have passive Uncanny Dodge until you take damage, after which it takes a few minutes for you to recover your poise.",
+    "description": "You're so good at dodging that almost nothing can touch you as long as you're on your game.  You have passive Uncanny Dodge until you take damage, after which it takes a few minutes for you to recover your poise.",
     "enchantments": [
       {
         "condition": { "not": { "u_has_effect": "effect_perk_situational_uncanny_dodge_remover" } },
@@ -1041,7 +1041,7 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "Just like mama used to make and it tastes just as good too. When you eat chicken noodle soup, you heal a small amount of HP on all limbs and cure any cold, flu, and poisoning you're suffering from.",
+    "description": "Just like mama used to make and it tastes just as good too.  When you eat chicken noodle soup, you heal a small amount of HP on all limbs and cure any cold, flu, and poisoning you're suffering from.",
     "category": [ "perk" ]
   },
   {
