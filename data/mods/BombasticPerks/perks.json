@@ -176,6 +176,18 @@
   },
   {
     "type": "mutation",
+    "id": "perk_thick_skin",
+    "name": { "str": "Thick Skin" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "All the beatings you've taken have toughened you up.  You can walk barefoot with no penalty, develop blisters in heat much more slowly, and take slightly less bash damage.",
+    "//": "The flesh material also protects against cut and bullets, so we need an enchant to do bash only",
+    "enchantments": [ { "condition": "ALWAYS", "incoming_damage_mod_post_absorbed": [ { "type": "bash", "add": -2 } ] } ],
+    "flags": [ "BARKY", "TOUGH_FEET" ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_hauler",
     "name": { "str": "Hauler" },
     "points": 0,
@@ -723,7 +735,7 @@
   {
     "type": "mutation",
     "id": "perk_lucky_dodge",
-    "name": { "str": "Lucky dodge" },
+    "name": { "str": "Lucky Dodge" },
     "points": 0,
     "purifiable": false,
     "valid": false,

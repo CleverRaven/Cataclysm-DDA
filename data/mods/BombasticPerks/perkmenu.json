@@ -307,6 +307,25 @@
         "topic": "TALK_PERK_MENU_SELECT"
       },
       {
+        "condition": { "not": { "u_has_trait": "perk_thick_skin" } },
+        "text": "Gain [<trait_name:perk_thick_skin>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_thick_skin>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_thick_skin>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_thick_skin", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Must have <trait_name:perk_built_tough>.",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "u_has_trait": "perk_built_tough" } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
         "condition": { "not": { "u_has_trait": "perk_hauler" } },
         "text": "Gain [<trait_name:perk_hauler>]",
         "effect": [
@@ -1230,11 +1249,14 @@
           },
           { "set_string_var": "perk_situational_uncanny_dodge", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Requires Dodge 8.",
+            "set_string_var": "Requires Dodge 8 and the Lucky Dodge perk.",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
-          { "set_condition": "perk_condition", "condition": { "math": [ "u_skill('dodge') >= 8" ] } }
+          {
+            "set_condition": "perk_condition",
+            "condition": { "and": [ { "math": [ "u_skill('dodge') >= 8" ] }, { "u_has_trait": "perk_lucky_dodge" } ] }
+          }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
       },
