@@ -2338,6 +2338,17 @@
     ]
   },
   {
+    "id": "achievement_reach_highlands",
+    "type": "achievement",
+    "name": "Things betwixt",
+    "manually_given": true,
+    "description": {
+      "//NOLINT(cata-text-style)": "the spaces imitate the formatting of the original poem",
+      "str": "Along the shore the cloud waves break,\nThe twin suns sink beneath the lake,\nThe shadows lengthen\n                       In Carcosa."
+    },
+    "requirements": [  ]
+  },
+  {
     "id": "achievement_LIXA_finale",
     "type": "achievement",
     "name": { "str": "Trigintaduonion" },

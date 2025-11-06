@@ -435,7 +435,6 @@ void DynamicDataLoader::initialize()
     add( "map_extra_collection",
          &map_extra_collection::load_map_extra_collection );
     add( "region_settings", &region_settings::load_region_settings );
-    add( "region_overlay", &region_overlay::load_region_overlay_new );
 
     add( "ITEM_BLACKLIST", []( const JsonObject & jo ) {
         item_controller->load_item_blacklist( jo );
@@ -729,7 +728,6 @@ void DynamicDataLoader::unload_data()
     forest_biome_mapgen::reset();
     map_extra_collection::reset();
     region_settings::reset();
-    region_overlay::reset();
     reset_monster_adjustment();
     recipe_dictionary::reset();
     recipe_group::reset();
@@ -892,7 +890,6 @@ void DynamicDataLoader::finalize_loaded_data()
             { _( "Proficiency Categories" ), &proficiency_category::finalize_all },
             { _( "Qualities" ), &quality::finalize_all },
             { _( "Recipe Groups" ), &recipe_group::finalize },
-            { _( "Region Overlays" ), &region_overlay::finalize_all },
             { _( "Region Settings" ), &region_settings::finalize_all },
             { _( "Relic Procedural Generations" ), &relic_procgen_data::finalize_all },
             { _( "Speed Descriptions" ), &speed_description::finalize_all },

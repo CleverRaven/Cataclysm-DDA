@@ -1558,5 +1558,87 @@
       { "item": "chips", "variant": "mixed", "entry-wrapper": "bag_chips_medium", "count": 2, "prob": 5 },
       { "item": "chips", "variant": "mixed", "entry-wrapper": "bag_chips_large", "count": 3, "prob": 5 }
     ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "chewing_gum_full",
+    "container-item": { "item": "blister_pack_small", "variant": "blister_pack_gum" },
+    "items": [
+      { "item": "gum", "variant": "gum_peppermint", "count": 12, "prob": 70 },
+      { "item": "gum", "variant": "gum_spearmint", "count": 12, "prob": 60 },
+      { "item": "gum", "variant": "gum_wintergreen", "count": 12, "prob": 60 },
+      { "item": "gum", "variant": "gum_bubblegum", "count": 12, "prob": 50 },
+      { "item": "gum", "variant": "gum_strawberry", "count": 12, "prob": 50 },
+      { "item": "gum", "variant": "gum_cherry", "count": 12, "prob": 50 },
+      { "item": "gum", "variant": "gum_orange", "count": 12, "prob": 50 },
+      { "item": "gum", "variant": "gum_watermelon", "count": 12, "prob": 50 },
+      { "item": "gum", "variant": "gum_blueberry", "count": 12, "prob": 50 },
+      { "item": "gum", "variant": "gum_pineapple", "count": 12, "prob": 30 },
+      { "item": "gum", "variant": "gum_greenapple", "count": 12, "prob": 30 },
+      { "item": "gum", "variant": "gum_mango", "count": 12, "prob": 17 },
+      { "item": "gum", "variant": "gum_lemonade", "count": 12, "prob": 40 },
+      { "item": "gum", "variant": "gum_pomegranate", "count": 12, "prob": 30 },
+      { "item": "gum", "variant": "gum_raspberry", "count": 12, "prob": 50 },
+      { "item": "gum", "variant": "gum_kiwi", "count": 12, "prob": 20 },
+      { "item": "gum", "variant": "gum_peach", "count": 12, "prob": 20 },
+      { "item": "gum", "variant": "gum_blackberry", "count": 12, "prob": 35 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "chewing_gum_full_caff",
+    "//": "Really ugly I know, unsure how better to do it",
+    "container-item": { "item": "blister_pack_small", "variant": "blister_pack_gum" },
+    "items": [ { "item": "caff_gum", "count": 12 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "chewing_gum_full_nic",
+    "container-item": { "item": "blister_pack_small", "variant": "blister_pack_gum" },
+    "items": [ { "item": "caff_gum", "count": 12 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "chewing_gum_used",
+    "container-item": { "item": "blister_pack_small", "variant": "blister_pack_gum" },
+    "items": [
+      { "item": "gum", "variant": "gum_peppermint", "count": [ 0, 12 ], "prob": 70 },
+      { "item": "gum", "variant": "gum_spearmint", "count": [ 0, 12 ], "prob": 60 },
+      { "item": "gum", "variant": "gum_wintergreen", "count": [ 0, 12 ], "prob": 60 },
+      { "item": "gum", "variant": "gum_bubblegum", "count": [ 0, 12 ], "prob": 50 },
+      { "item": "gum", "variant": "gum_strawberry", "count": [ 0, 12 ], "prob": 50 },
+      { "item": "gum", "variant": "gum_cherry", "count": [ 0, 12 ], "prob": 50 },
+      { "item": "gum", "variant": "gum_orange", "count": [ 0, 12 ], "prob": 50 },
+      { "item": "gum", "variant": "gum_watermelon", "count": [ 0, 12 ], "prob": 50 },
+      { "item": "gum", "variant": "gum_blueberry", "count": [ 0, 12 ], "prob": 50 },
+      { "item": "gum", "variant": "gum_pineapple", "count": [ 0, 12 ], "prob": 30 },
+      { "item": "gum", "variant": "gum_greenapple", "count": [ 0, 12 ], "prob": 30 },
+      { "item": "gum", "variant": "gum_mango", "count": [ 0, 12 ], "prob": 17 },
+      { "item": "gum", "variant": "gum_lemonade", "count": [ 0, 12 ], "prob": 40 },
+      { "item": "gum", "variant": "gum_pomegranate", "count": [ 0, 12 ], "prob": 30 },
+      { "item": "gum", "variant": "gum_raspberry", "count": [ 0, 12 ], "prob": 50 },
+      { "item": "gum", "variant": "gum_kiwi", "count": [ 0, 12 ], "prob": 20 },
+      { "item": "gum", "variant": "gum_peach", "count": [ 0, 12 ], "prob": 20 },
+      { "item": "gum", "variant": "gum_blackberry", "count": [ 0, 12 ], "prob": 35 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "chewing_gum_used_caff",
+    "//": "Really ugly I know, unsure how better to do it",
+    "container-item": { "item": "blister_pack_small", "variant": "blister_pack_gum" },
+    "items": [ { "item": "caff_gum", "count": [ 0, 12 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "chewing_gum_used_nic",
+    "container-item": { "item": "blister_pack_small", "variant": "blister_pack_gum" },
+    "items": [ { "item": "caff_gum", "count": [ 0, 12 ] } ]
   }
 ]

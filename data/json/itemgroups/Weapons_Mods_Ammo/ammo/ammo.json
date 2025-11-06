@@ -338,11 +338,7 @@
       { "item": "incendiary", "prob": 20 },
       { "item": "copper", "prob": 160 },
       { "item": "lead", "prob": 160 },
-      { "item": "shotgun_primer", "prob": 80 },
-      { "item": "smpistol_primer", "prob": 80 },
-      { "item": "smrifle_primer", "prob": 80 },
-      { "item": "lgpistol_primer", "prob": 40 },
-      { "item": "lgrifle_primer", "prob": 40 }
+      { "group": "boxed_primers_full", "prob": 320 }
     ]
   },
   {

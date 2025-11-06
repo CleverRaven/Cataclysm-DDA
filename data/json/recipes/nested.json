@@ -423,7 +423,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "name": "canvas dusters",
+    "name": "canvas trenchcoats",
     "description": "Recipes related to tailoring long coats from cotton, known as trenchcoats.",
     "skill_used": "tailor",
     "nested_category_data": [ "trenchcoat", "sleeveless_trenchcoat", "sleeveless_trenchcoat_from_trenchcoat" ],
@@ -8363,7 +8363,7 @@
     "name": "warhammers",
     "description": "Recipes for making hammers used as weapons instead of tools.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "warhammer", "lucern_hammer", "homemade_polehammer", "homewrecker" ],
+    "nested_category_data": [ "warhammer", "lucern_hammer", "homemade_polehammer" ],
     "difficulty": 1
   },
   {

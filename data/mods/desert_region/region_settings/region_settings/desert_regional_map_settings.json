@@ -1,7 +1,7 @@
 [
   {
     "type": "region_settings_river",
-    "id": "default_desert",
+    "id": "default",
     "copy-from": "default",
     "river_scale": 1.0,
     "river_frequency": 4.5,
@@ -11,7 +11,7 @@
   },
   {
     "type": "region_settings_lake",
-    "id": "default_desert",
+    "id": "default",
     "copy-from": "default",
     "noise_threshold_lake": 0.4,
     "lake_size_min": 4,
@@ -26,7 +26,7 @@
   },
   {
     "type": "region_settings_forest",
-    "id": "default_desert",
+    "id": "default",
     "copy-from": "default",
     "noise_threshold_forest": 0.29,
     "noise_threshold_forest_thick": 0.5,
@@ -37,7 +37,7 @@
   },
   {
     "type": "region_settings_forest_trail",
-    "id": "default_desert",
+    "id": "default",
     "copy-from": "default",
     "chance": 2,
     "border_point_chance": 2,
@@ -51,7 +51,7 @@
   },
   {
     "type": "weather_generator",
-    "id": "default_desert",
+    "id": "default",
     "copy-from": "default",
     "base_temperature": 11.0,
     "base_humidity": 20.0,
@@ -71,7 +71,7 @@
   },
   {
     "type": "map_extra_collection",
-    "id": "forest_desert",
+    "id": "forest",
     "chance": 120,
     "extras": [
       [ "mx_helicopter", 1 ],
@@ -97,7 +97,7 @@
   },
   {
     "type": "map_extra_collection",
-    "id": "forest_thick_desert",
+    "id": "forest_thick",
     "chance": 120,
     "extras": [
       [ "mx_clay_deposit", 6250 ],
@@ -121,7 +121,7 @@
   },
   {
     "type": "map_extra_collection",
-    "id": "forest_water_desert",
+    "id": "forest_water",
     "chance": 120,
     "extras": [
       [ "mx_helicopter", 5 ],
@@ -142,7 +142,7 @@
   },
   {
     "type": "map_extra_collection",
-    "id": "field_desert",
+    "id": "field",
     "chance": 140,
     "extras": [
       [ "mx_helicopter", 2 ],
@@ -165,7 +165,7 @@
   },
   {
     "type": "map_extra_collection",
-    "id": "road_desert",
+    "id": "road",
     "chance": 75,
     "extras": [
       [ "mx_helicopter", 10 ],
@@ -198,7 +198,7 @@
   },
   {
     "type": "map_extra_collection",
-    "id": "build_desert",
+    "id": "build",
     "chance": 90,
     "extras": [
       [ "mx_bugout", 20 ],
@@ -217,25 +217,25 @@
   },
   {
     "type": "map_extra_collection",
-    "id": "marloss_desert",
+    "id": "marloss",
     "chance": 20,
     "extras": [ [ "mx_marloss_pilgrimage", 100 ] ]
   },
   {
     "type": "map_extra_collection",
-    "id": "subway_desert",
+    "id": "subway",
     "chance": 75,
     "extras": [ [ "mx_military", 5 ], [ "mx_science", 12 ], [ "mx_drugdeal", 5 ], [ "mx_casings", 10 ] ]
   },
   {
     "type": "map_extra_collection",
-    "id": "lab_subway_desert",
+    "id": "lab_subway",
     "chance": 25,
     "extras": [ [ "mx_military", 5 ], [ "mx_science", 15 ], [ "mx_portal", 3 ], [ "mx_portal_in", 3 ] ]
   },
   {
     "type": "map_extra_collection",
-    "id": "research_facility_lot_desert",
+    "id": "research_facility_lot",
     "chance": 3,
     "extras": [
       [ "mx_helicopter", 15 ],
@@ -252,7 +252,7 @@
   },
   {
     "type": "map_extra_collection",
-    "id": "research_facility_interior_desert",
+    "id": "research_facility_interior",
     "chance": 2,
     "extras": [
       [ "mx_crater", 15000 ],
@@ -266,35 +266,35 @@
   },
   {
     "type": "map_extra_collection",
-    "id": "river_desert",
+    "id": "river",
     "chance": 3,
     "extras": [ [ "mx_reed", 100 ] ]
   },
   {
     "type": "map_extra_collection",
-    "id": "lake_shore_desert",
+    "id": "lake_shore",
     "chance": 2,
     "extras": [ [ "mx_reed", 100 ] ]
   },
   {
     "type": "region_settings_map_extras",
-    "id": "default_desert",
+    "id": "default",
     "copy-from": "default",
     "extras": [
-      "forest_desert",
-      "forest_thick_desert",
-      "forest_water_desert",
-      "field_desert",
-      "road_desert",
-      "road_nesw_manhole_desert",
-      "build_desert",
-      "marloss_desert",
-      "subway_desert",
-      "lab_subway_desert",
-      "research_facility_lot_desert",
-      "research_facility_interior_desert",
-      "river_desert",
-      "lake_shore_desert"
+      "forest",
+      "forest_thick",
+      "forest_water",
+      "field",
+      "road",
+      "road_nesw_manhole",
+      "build",
+      "marloss",
+      "subway",
+      "lab_subway",
+      "research_facility_lot",
+      "research_facility_interior",
+      "river",
+      "lake_shore"
     ]
   },
   {
@@ -419,7 +419,7 @@
   },
   {
     "type": "region_settings_terrain_furniture",
-    "id": "default_desert",
+    "id": "default",
     "copy-from": "default",
     "ter_furn": [
       "default_t_region_groundcover",
@@ -446,7 +446,7 @@
   },
   {
     "type": "forest_biome_mapgen",
-    "id": "biome_forest_desert",
+    "id": "biome_forest_default",
     "copy-from": "biome_forest_default",
     "terrains": [ "forest" ],
     "sparseness_adjacency_factor": 3,
@@ -454,26 +454,26 @@
     "item_group_chance": 60,
     "item_spawn_iterations": 1,
     "groundcover": { "t_region_groundcover_forest": 1 },
-    "components": [ "trees_forest_desert", "shrubs_and_flowers_forest_desert", "clutter_forest_desert", "water_forest_desert" ],
+    "components": [ "trees_forest", "shrubs_and_flowers_forest", "clutter_forest", "water_forest" ],
     "terrain_furniture": {  }
   },
   {
     "type": "forest_biome_component",
-    "id": "trees_forest_desert",
+    "id": "trees_forest",
     "copy-from": "trees_forest",
     "chance": 180,
     "types": [ [ "t_region_tree", 128 ] ]
   },
   {
     "type": "forest_biome_component",
-    "id": "shrubs_and_flowers_forest_desert",
+    "id": "shrubs_and_flowers_forest",
     "copy-from": "shrubs_and_flowers_forest",
     "chance": 100,
     "types": [ [ "t_region_shrub", 100 ], [ "f_region_weed", 20 ] ]
   },
   {
     "type": "forest_biome_component",
-    "id": "clutter_forest_desert",
+    "id": "clutter_forest",
     "copy-from": "clutter_forest",
     "chance": 800,
     "types": [
@@ -489,14 +489,14 @@
   },
   {
     "type": "forest_biome_component",
-    "id": "water_forest_desert",
+    "id": "water_forest",
     "copy-from": "water_forest",
     "chance": 5120,
     "types": [ [ "t_puddle", 1 ] ]
   },
   {
     "type": "forest_biome_mapgen",
-    "id": "biome_forest_thick_desert",
+    "id": "biome_forest_thick_default",
     "copy-from": "biome_forest_thick_default",
     "terrains": [ "forest_thick" ],
     "sparseness_adjacency_factor": 1,
@@ -504,31 +504,26 @@
     "item_group_chance": 60,
     "item_spawn_iterations": 1,
     "groundcover": { "t_region_groundcover_forest": 1 },
-    "components": [
-      "trees_forest_thick_desert",
-      "shrubs_and_flowers_forest_thick_desert",
-      "clutter_forest_thick_desert",
-      "water_forest_thick_desert"
-    ],
+    "components": [ "trees_forest_thick", "shrubs_and_flowers_forest_thick", "clutter_forest_thick", "water_forest_thick" ],
     "terrain_furniture": {  }
   },
   {
     "type": "forest_biome_component",
-    "id": "trees_forest_thick_desert",
+    "id": "trees_forest_thick",
     "copy-from": "trees_forest_thick",
     "chance": 750,
     "types": [ [ "t_region_tree", 100 ] ]
   },
   {
     "type": "forest_biome_component",
-    "id": "shrubs_and_flowers_forest_thick_desert",
+    "id": "shrubs_and_flowers_forest_thick",
     "copy-from": "shrubs_and_flowers_forest_thick",
     "chance": 50,
     "types": [ [ "t_region_shrub", 100 ], [ "f_region_weed", 20 ] ]
   },
   {
     "type": "forest_biome_component",
-    "id": "clutter_forest_thick_desert",
+    "id": "clutter_forest_thick",
     "copy-from": "clutter_forest_thick",
     "types": [
       [ "t_trunk", 64 ],
@@ -543,14 +538,14 @@
   },
   {
     "type": "forest_biome_component",
-    "id": "water_forest_thick_desert",
+    "id": "water_forest_thick",
     "copy-from": "water_forest_thick",
     "chance": 5120,
     "types": [ [ "t_puddle", 1 ] ]
   },
   {
     "type": "forest_biome_mapgen",
-    "id": "biome_forest_water_desert",
+    "id": "biome_forest_water_default",
     "copy-from": "biome_forest_water_default",
     "terrains": [ "forest_water" ],
     "sparseness_adjacency_factor": 3,
@@ -558,12 +553,7 @@
     "item_group_chance": 100,
     "item_spawn_iterations": 5,
     "groundcover": { "t_region_groundcover_swamp": 1 },
-    "components": [
-      "clutter_forest_water_desert",
-      "shrubs_and_flowers_forest_water_desert",
-      "trees_forest_water_desert",
-      "water_forest_water_desert"
-    ],
+    "components": [ "clutter_forest_water", "shrubs_and_flowers_forest_water", "trees_forest_water", "water_forest_water" ],
     "terrain_furniture": {
       "t_region_groundcover_swamp": {
         "chance": 125,
@@ -573,7 +563,7 @@
   },
   {
     "type": "forest_biome_component",
-    "id": "clutter_forest_water_desert",
+    "id": "clutter_forest_water",
     "copy-from": "clutter_forest_water",
     "chance": 10,
     "types": [
@@ -586,46 +576,31 @@
   },
   {
     "type": "forest_biome_component",
-    "id": "shrubs_and_flowers_forest_water_desert",
+    "id": "shrubs_and_flowers_forest_water",
     "copy-from": "shrubs_and_flowers_forest_water",
     "chance": 400,
     "types": [ [ "t_region_shrub", 80 ], [ "f_region_weed", 30 ] ]
   },
   {
     "type": "forest_biome_component",
-    "id": "trees_forest_water_desert",
+    "id": "trees_forest_water",
     "copy-from": "trees_forest_water",
     "chance": 6500,
     "types": [ [ "t_region_tree", 1 ] ]
   },
   {
     "type": "forest_biome_component",
-    "id": "water_forest_water_desert",
+    "id": "water_forest_water",
     "copy-from": "water_forest_water",
     "chance": 10,
     "types": [ [ "t_region_groundcover", 1 ] ]
   },
   {
-    "type": "region_settings_forest_mapgen",
-    "id": "default_desert",
-    "copy-from": "default",
-    "biomes": [ "biome_forest_desert", "biome_forest_thick_desert", "biome_forest_water_desert" ]
-  },
-  {
     "type": "region_settings",
-    "id": "default_desert",
+    "id": "default",
     "copy-from": "default",
-    "rivers": "default_desert",
-    "lakes": "default_desert",
     "ocean": null,
     "highways": null,
-    "forests": "default_desert",
-    "ravines": "default",
-    "forest_trails": "default_desert",
-    "forest_composition": "default_desert",
-    "map_extras": "default_desert",
-    "terrain_furniture": "default_desert",
-    "weather": "default_desert",
     "default_oter": [
       "open_air",
       "open_air",
@@ -650,6 +625,6 @@
       "deep_rock"
     ],
     "default_groundcover": [ [ "t_region_groundcover", 1 ] ],
-    "feature_flag_settings": { "blacklist": [ "WASP", "BEE", "ANT", "FUNGAL", "TRIFFID", "FARM" ], "whitelist": [  ] }
+    "feature_flag_settings": { "blacklist": [ "WASP", "BEE", "ANT", "FUNGAL", "TRIFFID", "FARM", "HIGHLANDS" ], "whitelist": [  ] }
   }
 ]
