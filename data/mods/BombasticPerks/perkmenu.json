@@ -1249,7 +1249,7 @@
           },
           { "set_string_var": "perk_situational_uncanny_dodge", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Requires Dodge 8 and the Lucky Dodge perk.",
+            "set_string_var": "Requires Dodging 8 and the Lucky Dodge perk.",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },

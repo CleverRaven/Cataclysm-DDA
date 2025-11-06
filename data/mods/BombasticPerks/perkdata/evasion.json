@@ -28,7 +28,7 @@
     "effect": [
       {
         "u_add_effect": "effect_perk_situational_uncanny_dodge_remover",
-        "duration": { "math": [ "180 + (rand(120) + ( (u_skill('dodge') - 8) * -30)" ] }
+        "duration": { "math": [ "180 + rand(120) + ( (u_skill('dodge') - 8) * -30)" ] }
       }
     ]
   }
