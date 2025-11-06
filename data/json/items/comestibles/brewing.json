@@ -774,7 +774,7 @@
     "id": "soaking_dandelion_active",
     "looks_like": "dandelion",
     "name": { "str_sp": "soaking dandelion" },
-    "weight": "308 g",
+    "weight": "274 g",
     "color": "brown",
     "comestible_type": "FOOD",
     "symbol": ",",
