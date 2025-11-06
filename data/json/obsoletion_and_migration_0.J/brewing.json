@@ -1,5 +1,5 @@
 [
-{
+  {
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "id": "malting_grain",
@@ -91,4 +91,4 @@
     },
     "vitamins": [ [ "milk_allergen", 1 ] ]
   }
-  ]
+]

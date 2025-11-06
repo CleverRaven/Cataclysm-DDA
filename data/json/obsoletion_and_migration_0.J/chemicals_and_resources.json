@@ -1,5 +1,5 @@
 [
-{
+  {
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "id": "fermentable_fish_mixture",
@@ -13,4 +13,4 @@
       "not_ready_msg": "The overpowering smell of the fermenting fish liquid makes it clear that it is not ready for use."
     }
   }
-  ]
+]
