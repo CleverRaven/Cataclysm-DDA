@@ -91,5 +91,14 @@
     "desc": [ "" ],
     "rating": "good",
     "enchantments": [ { "values": [ { "value": "LUMINATION", "add": 8000 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_mom_artifact_lambent_illumination",
+    "name": [ "Illuminated" ],
+    "desc": [ "You are glowing." ],
+    "rating": "bad",
+    "show_in_info": true,
+    "enchantments": [ { "values": [ { "value": "LUMINATION", "add": 5 } ] } ]
   }
 ]

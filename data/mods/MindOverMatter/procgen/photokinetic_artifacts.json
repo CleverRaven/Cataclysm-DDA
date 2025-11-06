@@ -13,6 +13,10 @@
       }
     ],
     "active_procgen_values": [
+      { "weight": 100, "spell_id": "MoM_AEA_DIM", "base_power": 100, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_ILLUMINATE_TARGETS", "base_power": 150, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_ILLUSIONARY_ARMY", "base_power": 450, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_STUN_ROBOT", "base_power": 650, "ench_has": "WIELD" },
       { "weight": 100, "spell_id": "MoM_AEA_ILLUMINATION_BURST", "base_power": 300, "ench_has": "WIELD" },
       { "weight": 100, "spell_id": "MoM_AEA_NETHER_ATTUNEMENT", "base_power": -100, "ench_has": "WIELD" },
       { "weight": 100, "spell_id": "MoM_AEA_STAMINA_EMPTY", "base_power": -250, "ench_has": "WIELD" },
