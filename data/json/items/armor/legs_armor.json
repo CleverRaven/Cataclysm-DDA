@@ -1515,7 +1515,7 @@
         "material": [
           { "type": "denim", "covered_by_mat": 100, "thickness": 0.65 },
           { "type": "cotton", "covered_by_mat": 100, "thickness": 1 },
-          { "type": "plastic", "covered_by_mat": 100, "thickness": 5 }
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 2.5 }
         ]
       }
     ]
