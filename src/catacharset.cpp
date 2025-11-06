@@ -229,8 +229,8 @@ static constexpr const std::array<char, 256> base64_decoding_table = build_base6
 
 static const std::array<int, 3> mod_table = {{0, 2, 1}};
 
-static std::string base64_encode_raw( std::string_view bits );
-static std::string base64_decode_raw( std::string_view bits );
+static std::string base64_encode_raw( std::string_view str );
+static std::string base64_decode_raw( std::string_view instr );
 
 std::string base64_encode_bitset( const std::bitset<576> &bitset_to_encode )
 {
