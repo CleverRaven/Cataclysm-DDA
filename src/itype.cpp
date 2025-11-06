@@ -139,9 +139,9 @@ bool itype::has_any_quality( std::string_view quality ) const
 
 int itype::charges_default() const
 {
-    if( tool && tool->def_charges > 0) {
+    if( tool && tool->def_charges > 0 ) {
         return tool->def_charges;
-    } else if( comestible && comestible->def_charges > 0) {
+    } else if( comestible && comestible->def_charges > 0 ) {
         return comestible->def_charges;
     } else if( ammo && ammo->def_charges > 0 ) {
         return ammo->def_charges;
