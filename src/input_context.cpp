@@ -31,6 +31,7 @@
 #include "point.h"
 #include "popup.h"
 #include "sdltiles.h" // IWYU pragma: keep
+#include "cursesport.h" // IWYU pragma: keep
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
@@ -1198,10 +1199,21 @@ std::optional<point> input_context::get_coordinates_text( const catacurses::wind
         return std::nullopt;
     }
     const window_dimensions dim = get_window_dimensions( capture_win );
-    const int &fw = dim.scaled_font_size.x;
-    const int &fh = dim.scaled_font_size.y;
+    const int scaling_factor = get_scaling_factor();
+    point logical_coordinate = coordinate;
+    int fw = dim.scaled_font_size.x;
+    int fh = dim.scaled_font_size.y;
+    
+    // convert coordinate and font sizeto logical if UI is scaled
+    if( scaling_factor > 1 ) {
+        logical_coordinate.x /= scaling_factor;
+        logical_coordinate.y /= scaling_factor;
+        fw /= scaling_factor;
+        fh /= scaling_factor;
+    }
+    
     const point &win_min = dim.window_pos_pixel;
-    const point screen_pos = coordinate - win_min;
+    const point screen_pos = logical_coordinate - win_min;
     const point selected( divide_round_down( screen_pos.x, fw ),
                           divide_round_down( screen_pos.y, fh ) );
     return selected;
