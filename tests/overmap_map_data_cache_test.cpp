@@ -3,6 +3,7 @@
 #include <string>
 
 #include "cata_catch.h"
+#include "catacharset.h"
 #include "coordinates.h"
 #include "overmap.h"
 #include "overmap_map_data_cache.h"
@@ -65,11 +66,6 @@ TEST_CASE( "check_placeholders_in_isolation", "[map_data]" )
         }
     }
 }
-
-// NOLINTNEXTLINE(cata-static-declarations)
-std::string base64_encode_bitset( const std::bitset<576> &bitset_to_encode );
-// NOLINTNEXTLINE(cata-static-declarations)
-void base64_decode_bitset( const std::string &packed_bitset, std::bitset<576> &destination_bitset );
 
 TEST_CASE( "round_trip_bitset_to_base64", "[map_data][hordes]" )
 {
