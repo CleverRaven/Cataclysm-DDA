@@ -19,132 +19,55 @@
       { "weight": 100, "spell_id": "MoM_AEA_ATTENTION", "base_power": -150, "ench_has": "WIELD" },
       { "weight": 100, "spell_id": "MoM_AEA_EXTRA_CALORIE_COST", "base_power": -150, "ench_has": "WIELD" }
     ],
-    "passive_mult_procgen_values": [
-      {
-        "weight": 50,
-        "min_value": -0.25,
-        "max_value": 0.25,
-        "type": "PAIN",
-        "increment": 0.025,
-        "power_per_increment": -25,
-        "ench_has": "HELD"
-      },
-      {
-        "weight": 50,
-        "min_value": -0.25,
-        "max_value": 0.25,
-        "type": "COMBAT_CATCHUP",
-        "increment": 0.025,
-        "power_per_increment": 25,
-        "ench_has": "HELD"
-      },
-      {
-        "weight": 40,
-        "min_value": -0.5,
-        "max_value": 0.25,
-        "type": "EXTRA_ELEC_PAIN",
-        "increment": 0.025,
-        "power_per_increment": -15,
-        "ench_has": "HELD"
-      },
-      {
-        "weight": 50,
-        "min_value": -0.25,
-        "max_value": 0.25,
-        "type": "PAIN_PENALTY_MOD_SPEED",
-        "increment": 0.025,
-        "power_per_increment": -15,
-        "ench_has": "HELD"
-      },
-      {
-        "weight": 50,
-        "min_value": -0.25,
-        "max_value": 0.25,
-        "type": "PAIN_PENALTY_MOD_DEX",
-        "increment": 0.025,
-        "power_per_increment": -15,
-        "ench_has": "HELD"
-      },
-      {
-        "weight": 50,
-        "min_value": -0.25,
-        "max_value": 0.25,
-        "type": "PAIN_PENALTY_MOD_STR",
-        "increment": 0.025,
-        "power_per_increment": -15,
-        "ench_has": "HELD"
-      },
-      {
-        "weight": 50,
-        "min_value": -0.25,
-        "max_value": 0.25,
-        "type": "PAIN_PENALTY_MOD_INT",
-        "increment": 0.025,
-        "power_per_increment": -15,
-        "ench_has": "HELD"
-      },
-      {
-        "weight": 50,
-        "min_value": -0.25,
-        "max_value": 0.25,
-        "type": "PAIN_PENALTY_MOD_PER",
-        "increment": 0.025,
-        "power_per_increment": -15,
-        "ench_has": "HELD"
-      },
-      {
-        "weight": 60,
-        "min_value": -0.25,
-        "max_value": 1,
-        "type": "PAIN_REMOVE",
-        "increment": 0.25,
-        "power_per_increment": 100,
-        "ench_has": "WIELD"
-      }
-    ],
+    "passive_mult_procgen_values": [  ],
     "passive_add_procgen_values": [
       {
         "weight": 100,
-        "min_value": -20,
-        "max_value": 20,
-        "type": "SPEED",
-        "increment": 5,
-        "power_per_increment": 250,
+        "min_value": 1,
+        "max_value": 4,
+        "type": "DODGE_CHANCE",
+        "increment": 1,
+        "power_per_increment": 1000,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 50,
+        "min_value": 0.01,
+        "max_value": 0.1,
+        "type": "EVASION",
+        "increment": 0.01,
+        "power_per_increment": 750,
         "ench_has": "HELD"
       },
       {
         "weight": 100,
-        "min_value": -20,
-        "max_value": 30,
-        "type": "LEARNING_FOCUS",
-        "increment": 5,
-        "power_per_increment": 100,
+        "min_value": 10,
+        "max_value": 2000,
+        "type": "LUMINATION",
+        "increment": 25,
+        "power_per_increment": 25,
+        "ench_has": "WIELD"
+      },
+      {
+        "weight": 50,
+        "min_value": 1,
+        "max_value": 3,
+        "type": "MELEE_TO_HIT",
+        "increment": 1,
+        "power_per_increment": 500,
         "ench_has": "HELD"
       },
       {
         "weight": 25,
-        "min_value": 0,
-        "max_value": 30,
-        "type": "LUMINATION",
-        "increment": 5,
-        "power_per_increment": 50,
-        "ench_has": "WIELD"
-      },
-      {
-        "weight": 35,
-        "min_value": 1,
-        "max_value": 10,
-        "type": "POWER_TRICKLE",
-        "increment": 1,
-        "power_per_increment": 50,
-        "ench_has": "WIELD"
+        "min_value": 0.02,
+        "max_value": 0.25,
+        "type": "RANGE_DODGE",
+        "increment": 0.02,
+        "power_per_increment": 750,
+        "ench_has": "HELD"
       }
     ],
-    "type_weights": [
-      { "weight": 100, "value": "passive_enchantment_add" },
-      { "weight": 100, "value": "active_enchantment" },
-      { "weight": 100, "value": "passive_enchantment_mult" }
-    ],
+    "type_weights": [ { "weight": 100, "value": "passive_enchantment_add" }, { "weight": 100, "value": "active_enchantment" } ],
     "items": [ { "weight": 100, "item": "matrix_crystal_photokinesis_artifact" } ]
   },
   {
@@ -166,128 +89,55 @@
         "time": [ "3 h", "24 h" ]
       }
     ],
-    "passive_mult_procgen_values": [
-      {
-        "weight": 50,
-        "min_value": -0.25,
-        "max_value": 0.25,
-        "type": "PAIN",
-        "increment": 0.025,
-        "power_per_increment": -25,
-        "ench_has": "HELD"
-      },
-      {
-        "weight": 50,
-        "min_value": -0.25,
-        "max_value": 0.25,
-        "type": "COMBAT_CATCHUP",
-        "increment": 0.025,
-        "power_per_increment": 25,
-        "ench_has": "HELD"
-      },
-      {
-        "weight": 40,
-        "min_value": -0.5,
-        "max_value": 0.25,
-        "type": "EXTRA_ELEC_PAIN",
-        "increment": 0.025,
-        "power_per_increment": -15,
-        "ench_has": "HELD"
-      },
-      {
-        "weight": 50,
-        "min_value": -0.25,
-        "max_value": 0.25,
-        "type": "PAIN_PENALTY_MOD_SPEED",
-        "increment": 0.025,
-        "power_per_increment": -15,
-        "ench_has": "HELD"
-      },
-      {
-        "weight": 50,
-        "min_value": -0.25,
-        "max_value": 0.25,
-        "type": "PAIN_PENALTY_MOD_DEX",
-        "increment": 0.025,
-        "power_per_increment": -15,
-        "ench_has": "HELD"
-      },
-      {
-        "weight": 50,
-        "min_value": -0.25,
-        "max_value": 0.25,
-        "type": "PAIN_PENALTY_MOD_STR",
-        "increment": 0.025,
-        "power_per_increment": -15,
-        "ench_has": "HELD"
-      },
-      {
-        "weight": 50,
-        "min_value": -0.25,
-        "max_value": 0.25,
-        "type": "PAIN_PENALTY_MOD_INT",
-        "increment": 0.025,
-        "power_per_increment": -15,
-        "ench_has": "HELD"
-      },
-      {
-        "weight": 50,
-        "min_value": -0.25,
-        "max_value": 0.25,
-        "type": "PAIN_PENALTY_MOD_PER",
-        "increment": 0.025,
-        "power_per_increment": -15,
-        "ench_has": "HELD"
-      },
-      {
-        "weight": 60,
-        "min_value": -0.25,
-        "max_value": 1,
-        "type": "PAIN_REMOVE",
-        "increment": 0.25,
-        "power_per_increment": 100,
-        "ench_has": "WIELD"
-      }
-    ],
+    "passive_mult_procgen_values": [  ],
     "passive_add_procgen_values": [
       {
         "weight": 100,
-        "min_value": -20,
-        "max_value": 20,
-        "type": "SPEED",
-        "increment": 5,
-        "power_per_increment": 250,
+        "min_value": 1,
+        "max_value": 4,
+        "type": "DODGE_CHANCE",
+        "increment": 1,
+        "power_per_increment": 1000,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 50,
+        "min_value": 0.01,
+        "max_value": 0.1,
+        "type": "EVASION",
+        "increment": 0.01,
+        "power_per_increment": 750,
         "ench_has": "HELD"
       },
       {
         "weight": 100,
-        "min_value": -20,
-        "max_value": 30,
-        "type": "LEARNING_FOCUS",
-        "increment": 5,
-        "power_per_increment": 100,
+        "min_value": 10,
+        "max_value": 2000,
+        "type": "LUMINATION",
+        "increment": 25,
+        "power_per_increment": 25,
+        "ench_has": "WIELD"
+      },
+      {
+        "weight": 50,
+        "min_value": 1,
+        "max_value": 3,
+        "type": "MELEE_TO_HIT",
+        "increment": 1,
+        "power_per_increment": 500,
         "ench_has": "HELD"
       },
       {
         "weight": 25,
-        "min_value": 0,
-        "max_value": 30,
-        "type": "LUMINATION",
-        "increment": 5,
-        "power_per_increment": 50,
-        "ench_has": "WIELD"
-      },
-      {
-        "weight": 35,
-        "min_value": 1,
-        "max_value": 10,
-        "type": "POWER_TRICKLE",
-        "increment": 1,
-        "power_per_increment": 50,
-        "ench_has": "WIELD"
+        "min_value": 0.02,
+        "max_value": 0.25,
+        "type": "RANGE_DODGE",
+        "increment": 0.02,
+        "power_per_increment": 750,
+        "ench_has": "HELD"
       }
     ],
-    "type_weights": [ { "weight": 100, "value": "passive_enchantment_add" }, { "weight": 100, "value": "passive_enchantment_mult" } ],
+    "type_weights": [ { "weight": 100, "value": "passive_enchantment_add" } ],
     "items": [ { "weight": 100, "item": "matrix_crystal_photokinesis" } ]
   },
   {
