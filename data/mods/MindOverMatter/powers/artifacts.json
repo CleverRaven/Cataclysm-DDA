@@ -429,5 +429,27 @@
     "min_duration": 151698,
     "max_duration": 290512,
     "extra_effects": [ { "id": "mom_aea_artifact_calorie_hit", "hit_self": true } ]
+  },
+  {
+    "id": "MoM_AEA_ILLUMINATION_BURST",
+    "type": "SPELL",
+    "name": { "str": "MoM AEA Illumination Burst", "//~": "NO_I18N" },
+    "description": { "str": "Blinds everyone in the light radius.", "//~": "NO_I18N" },
+    "message": "The crystal blazes with light!",
+    "valid_targets": [ "ally", "hostile" ],
+    "skill": "metaphysics",
+    "spell_class": "NONE",
+    "flags": [ "NO_LEGS", "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "effect": "attack",
+    "effect_str": "blind",
+    "shape": "blast",
+    "min_aoe": 45,
+    "max_aoe": 50,
+    "min_duration": 3685,
+    "max_duration": 6842,
+    "extra_effects": [
+      { "id": "mom_aea_artifact_calorie_hit", "hit_self": true },
+      { "id": "mom_aea_artifact_illumination_on_self", "hit_self": true }
+    ]
   }
 ]

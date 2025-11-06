@@ -67,5 +67,20 @@
     "required_event": "character_melee_attacks_monster",
     "condition": { "u_has_effect": "effect_mom_artifact_electrical_zap_attack" },
     "effect": [ { "u_lose_effect": "effect_mom_artifact_electrical_zap_attack" } ]
+  },
+  {
+    "id": "mom_aea_artifact_illumination_on_self",
+    "type": "SPELL",
+    "name": { "str": "MoM AEA Illumination On Self", "//~": "NO_I18N" },
+    "description": { "str": "Add a short-duration illumination for the crystal's light.", "//~": "NO_I18N" },
+    "message": "",
+    "valid_targets": [ "self" ],
+    "spell_class": "NONE",
+    "flags": [ "NO_LEGS", "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "effect": "attack",
+    "effect_str": "effect_mom_artifact_illumination_on_self",
+    "shape": "blast",
+    "min_duration": 2,
+    "max_duration": 3
   }
 ]

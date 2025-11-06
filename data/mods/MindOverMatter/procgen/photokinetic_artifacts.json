@@ -13,6 +13,7 @@
       }
     ],
     "active_procgen_values": [
+      { "weight": 100, "spell_id": "MoM_AEA_ILLUMINATION_BURST", "base_power": 300, "ench_has": "WIELD" },
       { "weight": 100, "spell_id": "MoM_AEA_NETHER_ATTUNEMENT", "base_power": -100, "ench_has": "WIELD" },
       { "weight": 100, "spell_id": "MoM_AEA_STAMINA_EMPTY", "base_power": -250, "ench_has": "WIELD" },
       { "weight": 100, "spell_id": "MoM_AEA_VOMIT", "base_power": -50, "ench_has": "WIELD" },
