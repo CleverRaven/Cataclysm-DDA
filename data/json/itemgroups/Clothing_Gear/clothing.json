@@ -3438,8 +3438,8 @@
       { "item": "boots_plate", "prob": 60, "damage": [ 2, 4 ] },
       { "item": "armor_junk_lightplate", "prob": 45, "damage": [ 2, 4 ] },
       { "item": "cuirass_lightplate", "prob": 45, "damage": [ 2, 4 ] },
-      { "item": "armguard_lightplate", "prob": 30, "damage": [ 2, 4 ] },
-      { "item": "legguard_lightplate", "prob": 30, "damage": [ 2, 4 ] },
+      { "item": "armor_lc_armguard", "prob": 30, "damage": [ 2, 4 ] },
+      { "item": "armor_lc_leg_guard", "prob": 30, "damage": [ 2, 4 ] },
       { "item": "helmet_barbute", "prob": 50, "damage": [ 2, 4 ] },
       { "item": "helmet_conical", "prob": 30, "damage": [ 2, 4 ] },
       { "item": "armor_lamellar", "prob": 20, "damage": [ 2, 4 ] },
@@ -3477,7 +3477,7 @@
     "type": "item_group",
     "id": "museum_armor_legs",
     "items": [
-      { "item": "legguard_lightplate", "prob": 30, "damage": [ 2, 4 ] },
+      { "item": "armor_lc_leg_guard", "prob": 30, "damage": [ 2, 4 ] },
       { "item": "legguard_metal", "prob": 10, "damage": [ 2, 4 ] },
       { "item": "legguard_bronze", "prob": 20, "damage": [ 2, 4 ] },
       { "item": "chainmail_junk_legs", "prob": 10, "damage": [ 2, 4 ] }
@@ -3507,7 +3507,7 @@
     "type": "item_group",
     "id": "museum_armor_arms",
     "items": [
-      { "item": "armguard_lightplate", "prob": 30, "damage": [ 2, 4 ] },
+      { "item": "armor_lc_armguard", "prob": 30, "damage": [ 2, 4 ] },
       { "item": "gloves_plate", "prob": 60, "damage": [ 2, 4 ] },
       { "item": "chainmail_junk_arms", "prob": 30, "damage": [ 2, 4 ] },
       { "item": "chainmail_junk_hands", "prob": 30, "damage": [ 2, 4 ] }
