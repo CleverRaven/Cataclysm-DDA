@@ -4,7 +4,7 @@
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "category": "spare_parts",
-    "name": { "str": "tanning leather hide" },
+    "name": { "str": "tanning leather hide (obsolete)" },
     "description": "A treated animal hide that is undergoing the chemical processes required to become leather.  You will be able to activate it to unroll and make use of it when it is done.",
     "weight": "600 g",
     "volume": "1 L",
