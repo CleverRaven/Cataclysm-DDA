@@ -458,6 +458,7 @@
     "name": { "str": "MoM AEA Dim", "//~": "NO_I18N" },
     "description": { "str": "Darkens the sky.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
+    "skill": "metaphysics",
     "effect": "timed_event",
     "effect_str": "dim",
     "shape": "blast",

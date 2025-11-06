@@ -80,7 +80,7 @@
     "effect": "attack",
     "effect_str": "effect_mom_artifact_illumination_on_self",
     "shape": "blast",
-    "min_duration": 2,
-    "max_duration": 3
+    "min_duration": 200,
+    "max_duration": 300
   }
 ]
