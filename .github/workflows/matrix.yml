@@ -121,7 +121,7 @@ jobs:
             sound: 1
             localize: 1
             title: macOS 13, Apple Clang 15, Tiles, Sound, x64 and arm64 Universal Binary
-            ccache_limit: 10G
+            ccache_limit: 12G
             ccache_key: macos-llvm-15-universal
 
           - title: Android x64 (build only)
