@@ -1,0 +1,299 @@
+[
+  {
+    "type": "relic_procgen_data",
+    "id": "photokinetic_crystal_procgen",
+    "charge_types": [
+      {
+        "weight": 100,
+        "charges": { "range": [ 0, 3 ], "power": 25 },
+        "charges_per_use": { "range": [ 1, 1 ], "power": 25 },
+        "max_charges": { "range": [ 1, 4 ], "power": 25 },
+        "recharge_type": "periodic",
+        "time": [ "3 h", "24 h" ]
+      }
+    ],
+    "active_procgen_values": [
+      { "weight": 100, "spell_id": "MoM_AEA_NETHER_ATTUNEMENT", "base_power": -100, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_STAMINA_EMPTY", "base_power": -250, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_VOMIT", "base_power": -50, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_ATTENTION", "base_power": -150, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_EXTRA_CALORIE_COST", "base_power": -150, "ench_has": "WIELD" }
+    ],
+    "passive_mult_procgen_values": [
+      {
+        "weight": 50,
+        "min_value": -0.25,
+        "max_value": 0.25,
+        "type": "PAIN",
+        "increment": 0.025,
+        "power_per_increment": -25,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 50,
+        "min_value": -0.25,
+        "max_value": 0.25,
+        "type": "COMBAT_CATCHUP",
+        "increment": 0.025,
+        "power_per_increment": 25,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 40,
+        "min_value": -0.5,
+        "max_value": 0.25,
+        "type": "EXTRA_ELEC_PAIN",
+        "increment": 0.025,
+        "power_per_increment": -15,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 50,
+        "min_value": -0.25,
+        "max_value": 0.25,
+        "type": "PAIN_PENALTY_MOD_SPEED",
+        "increment": 0.025,
+        "power_per_increment": -15,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 50,
+        "min_value": -0.25,
+        "max_value": 0.25,
+        "type": "PAIN_PENALTY_MOD_DEX",
+        "increment": 0.025,
+        "power_per_increment": -15,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 50,
+        "min_value": -0.25,
+        "max_value": 0.25,
+        "type": "PAIN_PENALTY_MOD_STR",
+        "increment": 0.025,
+        "power_per_increment": -15,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 50,
+        "min_value": -0.25,
+        "max_value": 0.25,
+        "type": "PAIN_PENALTY_MOD_INT",
+        "increment": 0.025,
+        "power_per_increment": -15,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 50,
+        "min_value": -0.25,
+        "max_value": 0.25,
+        "type": "PAIN_PENALTY_MOD_PER",
+        "increment": 0.025,
+        "power_per_increment": -15,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 60,
+        "min_value": -0.25,
+        "max_value": 1,
+        "type": "PAIN_REMOVE",
+        "increment": 0.25,
+        "power_per_increment": 100,
+        "ench_has": "WIELD"
+      }
+    ],
+    "passive_add_procgen_values": [
+      {
+        "weight": 100,
+        "min_value": -20,
+        "max_value": 20,
+        "type": "SPEED",
+        "increment": 5,
+        "power_per_increment": 250,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 100,
+        "min_value": -20,
+        "max_value": 30,
+        "type": "LEARNING_FOCUS",
+        "increment": 5,
+        "power_per_increment": 100,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 25,
+        "min_value": 0,
+        "max_value": 30,
+        "type": "LUMINATION",
+        "increment": 5,
+        "power_per_increment": 50,
+        "ench_has": "WIELD"
+      },
+      {
+        "weight": 35,
+        "min_value": 1,
+        "max_value": 10,
+        "type": "POWER_TRICKLE",
+        "increment": 1,
+        "power_per_increment": 50,
+        "ench_has": "WIELD"
+      }
+    ],
+    "type_weights": [
+      { "weight": 100, "value": "passive_enchantment_add" },
+      { "weight": 100, "value": "active_enchantment" },
+      { "weight": 100, "value": "passive_enchantment_mult" }
+    ],
+    "items": [ { "weight": 100, "item": "matrix_crystal_photokinesis_artifact" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "photokinetic_crystal_artifact_item",
+    "subtype": "distribution",
+    "items": [ [ "matrix_crystal_photokinesis_artifact", 100 ] ]
+  },
+  {
+    "type": "relic_procgen_data",
+    "id": "photokinetic_matrix_crystal_procgen",
+    "charge_types": [
+      {
+        "weight": 100,
+        "charges": { "range": [ 0, 3 ], "power": 25 },
+        "charges_per_use": { "range": [ 1, 1 ], "power": 25 },
+        "max_charges": { "range": [ 1, 4 ], "power": 25 },
+        "recharge_type": "periodic",
+        "time": [ "3 h", "24 h" ]
+      }
+    ],
+    "passive_mult_procgen_values": [
+      {
+        "weight": 50,
+        "min_value": -0.25,
+        "max_value": 0.25,
+        "type": "PAIN",
+        "increment": 0.025,
+        "power_per_increment": -25,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 50,
+        "min_value": -0.25,
+        "max_value": 0.25,
+        "type": "COMBAT_CATCHUP",
+        "increment": 0.025,
+        "power_per_increment": 25,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 40,
+        "min_value": -0.5,
+        "max_value": 0.25,
+        "type": "EXTRA_ELEC_PAIN",
+        "increment": 0.025,
+        "power_per_increment": -15,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 50,
+        "min_value": -0.25,
+        "max_value": 0.25,
+        "type": "PAIN_PENALTY_MOD_SPEED",
+        "increment": 0.025,
+        "power_per_increment": -15,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 50,
+        "min_value": -0.25,
+        "max_value": 0.25,
+        "type": "PAIN_PENALTY_MOD_DEX",
+        "increment": 0.025,
+        "power_per_increment": -15,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 50,
+        "min_value": -0.25,
+        "max_value": 0.25,
+        "type": "PAIN_PENALTY_MOD_STR",
+        "increment": 0.025,
+        "power_per_increment": -15,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 50,
+        "min_value": -0.25,
+        "max_value": 0.25,
+        "type": "PAIN_PENALTY_MOD_INT",
+        "increment": 0.025,
+        "power_per_increment": -15,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 50,
+        "min_value": -0.25,
+        "max_value": 0.25,
+        "type": "PAIN_PENALTY_MOD_PER",
+        "increment": 0.025,
+        "power_per_increment": -15,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 60,
+        "min_value": -0.25,
+        "max_value": 1,
+        "type": "PAIN_REMOVE",
+        "increment": 0.25,
+        "power_per_increment": 100,
+        "ench_has": "WIELD"
+      }
+    ],
+    "passive_add_procgen_values": [
+      {
+        "weight": 100,
+        "min_value": -20,
+        "max_value": 20,
+        "type": "SPEED",
+        "increment": 5,
+        "power_per_increment": 250,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 100,
+        "min_value": -20,
+        "max_value": 30,
+        "type": "LEARNING_FOCUS",
+        "increment": 5,
+        "power_per_increment": 100,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 25,
+        "min_value": 0,
+        "max_value": 30,
+        "type": "LUMINATION",
+        "increment": 5,
+        "power_per_increment": 50,
+        "ench_has": "WIELD"
+      },
+      {
+        "weight": 35,
+        "min_value": 1,
+        "max_value": 10,
+        "type": "POWER_TRICKLE",
+        "increment": 1,
+        "power_per_increment": 50,
+        "ench_has": "WIELD"
+      }
+    ],
+    "type_weights": [ { "weight": 100, "value": "passive_enchantment_add" }, { "weight": 100, "value": "passive_enchantment_mult" } ],
+    "items": [ { "weight": 100, "item": "matrix_crystal_photokinesis" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "photokinetic_crystal_awakening_artifact_item",
+    "subtype": "distribution",
+    "items": [ [ "matrix_crystal_photokinesis", 100 ] ]
+  }
+]
