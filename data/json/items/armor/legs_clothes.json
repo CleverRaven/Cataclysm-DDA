@@ -2145,7 +2145,7 @@
       },
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "1250 ml",
+        "max_contains_volume": "1500 ml",
         "max_contains_weight": "5 kg",
         "max_item_length": "19 cm",
         "moves": 80
