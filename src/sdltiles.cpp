@@ -3628,7 +3628,9 @@ int projected_window_height()
 static std::pair<float, float> get_display_scale( int display_index )
 {
 #if SDL_VERSION_ATLEAST(2,26,0)
+    // NOLINTNEXTLINE(cata-combine-locals-into-point)
     int x = SDL_WINDOWPOS_CENTERED_DISPLAY( display_index );
+    // NOLINTNEXTLINE(cata-combine-locals-into-point)
     int y = SDL_WINDOWPOS_CENTERED_DISPLAY( display_index );
 
     SDL_Window *w = SDL_CreateWindow(
@@ -3641,9 +3643,11 @@ static std::pair<float, float> get_display_scale( int display_index )
         return std::make_pair( 1.0f, 1.0f );
     }
 
-    int lw, lh;
+    int lw = 0;
+    int lh = 0;
     SDL_GetWindowSize( w, &lw, &lh );
-    int pw, ph;
+    int pw;
+    int ph;
     SDL_GetWindowSizeInPixels( w, &pw, &ph );
     SDL_DestroyWindow( w );
 
