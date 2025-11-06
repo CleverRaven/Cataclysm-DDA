@@ -2119,7 +2119,7 @@
     "warmth": 15,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE", "POCKETS" ],
-   "armor": [ { "encumbrance": [ 7, 11 ], "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [ { "encumbrance": [ 7, 11 ], "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "technician_pants_gray",
@@ -2325,7 +2325,7 @@
     ],
     "warmth": 5,
     "material_thickness": 0.25,
-    "flags": [ "VARSIZE", "POCKETS"],
+    "flags": [ "VARSIZE", "POCKETS" ],
     "armor": [ { "encumbrance": 1, "coverage": 100, "covers": [ "leg_l", "leg_r" ], "volume_encumber_modifier": 0.6 } ]
   },
   {
