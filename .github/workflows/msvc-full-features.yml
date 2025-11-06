@@ -40,7 +40,7 @@ env:
   # Enable pretty backtraces
   BACKTRACE: 1
   # Compressed size ~1GB based on observations
-  CCACHE_LIMIT: 9GB
+  CCACHE_LIMIT: 10GB
   CDDA_CCACHE_PATH: ${{ github.workspace }}\ccache\
   CDDA_USE_CCACHE: true
   # There's not enough disk space to build both release and debug versions of
