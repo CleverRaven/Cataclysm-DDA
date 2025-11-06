@@ -70,6 +70,15 @@
         "increment": 0.02,
         "power_per_increment": 750,
         "ench_has": "HELD"
+      },
+      {
+        "weight": 100,
+        "min_value": 10,
+        "max_value": 50,
+        "type": "STEALTH_MODIFIER",
+        "increment": 2,
+        "power_per_increment": 150,
+        "ench_has": "WIELD"
       }
     ],
     "type_weights": [ { "weight": 100, "value": "passive_enchantment_add" }, { "weight": 100, "value": "active_enchantment" } ],
@@ -140,6 +149,15 @@
         "increment": 0.02,
         "power_per_increment": 750,
         "ench_has": "HELD"
+      },
+      {
+        "weight": 100,
+        "min_value": 10,
+        "max_value": 50,
+        "type": "STEALTH_MODIFIER",
+        "increment": 2,
+        "power_per_increment": 150,
+        "ench_has": "WIELD"
       }
     ],
     "type_weights": [ { "weight": 100, "value": "passive_enchantment_add" } ],
