@@ -31,12 +31,6 @@ jobs:
           TX_TOKEN: ${{ secrets.TX_TOKEN }}
         run: tx pull --force
       
-      - name: Create placeholders for missing translation files
-        if: github.repository != 'CleverRaven/Cataclysm-DDA'
-        run: |
-            mkdir -p lang/mo
-            touch lang/po/placeholder.po
-
       - name: Discard invalid translations
         run: ./lang/discard_invalid_po.sh
 
