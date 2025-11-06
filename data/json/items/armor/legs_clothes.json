@@ -2163,6 +2163,20 @@
         "max_contains_weight": "4 kg",
         "max_item_length": "165 mm",
         "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "200 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "12 cm",
+        "moves": 120
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "200 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "12 cm",
+        "moves": 120
       }
     ],
     "warmth": 15,
@@ -2311,7 +2325,7 @@
     ],
     "warmth": 5,
     "material_thickness": 0.25,
-    "flags": [ "VARSIZE", "POCKETS", "WATERPROOF" ],
+    "flags": [ "VARSIZE", "POCKETS"],
     "armor": [ { "encumbrance": 1, "coverage": 100, "covers": [ "leg_l", "leg_r" ], "volume_encumber_modifier": 0.6 } ]
   },
   {
