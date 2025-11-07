@@ -1,4 +1,5 @@
 #include "activity_handlers.h" // IWYU pragma: associated
+#include "activity_item_handling.h" // IWYU pragma: associated
 
 #include <algorithm>
 #include <cmath>
@@ -685,28 +686,49 @@ static void move_item( Character &you, item &it, const int quantity, const tripo
 
 namespace zone_sorting
 {
-// the boolean in this pair being true indicates the item is from a vehicle storage space
-using zone_items = std::vector<std::pair<item *, bool>>;
 
-struct options {
-    bool unload_mods = false;
-    bool unload_molle = false;
-    bool unload_always = false;
-    bool ignore_favorite = false;
-    bool unload_all = false;
-    bool unload_corpses = false;
-    bool unload_sparse_only = false;
-    int unload_sparse_threshold = 0;
+bool sorter_out_of_bounds( Character &you )
+{
+    const map &here = get_map();
+    if( !here.inbounds( you.pos_bub() ) ) {
+        // p is implicitly an NPC that has been moved off the map, so reset the activity
+        // and unload them
+        you.cancel_activity();
+        you.assign_activity( ACT_MOVE_LOOT );
+        you.set_moves( 0 );
+        g->reload_npcs();
+        return true;
+    }
+    return false;
+}
+
+bool route_to_destination( Character &you, player_activity &act,
+                           const tripoint_bub_ms dest, zone_activity_stage &stage )
+{
+    const map &here = get_map();
+    //attempt to route to out-of-bubble position
+    std::vector<tripoint_bub_ms> route;
+    route = here.route( you, pathfinding_target::adjacent( dest ) );
+    if( route.empty() ) {
+        add_msg( m_info, _( "%s can't reach the source tile.  Try to sort out loot without a cart." ),
+                 you.disp_name() );
+        return false;
+    }
+    // set the destination and restart activity after player arrives there
+    // note: we don't need to check for safe mode,
+    // the activity will be restarted only if player arrives on destination tile
+    stage = DO;
+    you.set_destination( route, act );
+    you.activity.set_to_null();
+    return true;
 };
 
-/**
-* Returns true if the given item should be skipped while sorting
-*/
-static bool sort_skip_item( Character &you, const item *it,
-                            const std::vector<const item *> &other_activity_items,
-                            bool ignore_favorite, const tripoint_abs_ms &src )
+bool sort_skip_item( Character &you, const item *it,
+                     const std::vector<const item *> &other_activity_items,
+                     bool ignore_favorite, const tripoint_abs_ms &src )
 {
     const zone_manager &mgr = zone_manager::get_manager();
+
     // skip unpickable liquid
     if( !it->made_of_from_type( phase_id::SOLID ) ) {
         return true;
@@ -732,22 +754,24 @@ static bool sort_skip_item( Character &you, const item *it,
         return true;
     }
 
+    const faction_id fac_id = _fac_id( you );
     const zone_type_id zt_id = mgr.get_near_zone_type_for_item( *it, you.pos_abs(),
-                               MAX_VIEW_DISTANCE, _fac_id( you ) );
+                               MAX_VIEW_DISTANCE, fac_id );
     // skip items that are already where they should be in for non-UNSORTED/CUSTOM zones
-    if( zt_id != zone_type_LOOT_CUSTOM && mgr.has( zt_id, src, _fac_id( you ) ) ) {
+    if( zt_id != zone_type_LOOT_CUSTOM && mgr.has( zt_id, src, fac_id ) ) {
         return true;
     }
     // ...and then for CUSTOM zones
     if( zt_id == zone_type_LOOT_CUSTOM &&
-        mgr.custom_loot_has( src, it, zone_type_LOOT_CUSTOM, _fac_id( you ) ) ) {
+        mgr.custom_loot_has( src, it, zone_type_LOOT_CUSTOM, fac_id ) ) {
         return true;
     }
 
     return false;
 }
 
-static options set_sorting_options( Character &you, const tripoint_abs_ms &src, bool use_zone_type )
+options set_unload_options( Character &you, const tripoint_abs_ms &src,
+                            bool use_zone_type, bool unloading )
 {
     const zone_manager &mgr = zone_manager::get_manager();
     options zone_sort_options;
@@ -764,25 +788,23 @@ static options set_sorting_options( Character &you, const tripoint_abs_ms &src, 
         zone_sort_options.unload_molle |= options.unload_molle();
         zone_sort_options.unload_mods |= options.unload_mods();
         zone_sort_options.unload_always |= options.unload_always();
+
+        zone_sort_options.unload_sparse_only |= options.unload_sparse_only();
+        if( options.unload_sparse_only() &&
+            options.unload_sparse_threshold() > zone_sort_options.unload_sparse_threshold ) {
+            zone_sort_options.unload_sparse_threshold = options.unload_sparse_threshold();
+        }
+
         if( use_zone_type ) {
             zone_sort_options.ignore_favorite |= zone->get_type() == zone_type_LOOT_IGNORE_FAVORITES;
-
             zone_sort_options.unload_all |= zone->get_type() == zone_type_UNLOAD_ALL;
             zone_sort_options.unload_corpses |= zone->get_type() == zone_type_STRIP_CORPSES;
-        } else {
-            zone_sort_options.unload_sparse_only |= options.unload_sparse_only();
-            if( options.unload_sparse_only() &&
-                options.unload_sparse_threshold() > zone_sort_options.unload_sparse_threshold ) {
-                zone_sort_options.unload_sparse_threshold = options.unload_sparse_threshold();
-            }
         }
     }
     return zone_sort_options;
 }
 
-// return items at the given location from vehicle cargo and ground
-// TODO: build into map class
-static zone_items populate_items( const tripoint_bub_ms &src_bub )
+zone_items populate_items( const tripoint_bub_ms &src_bub )
 {
     map &here = get_map();
     const std::optional<vpart_reference> vp = here.veh_at( src_bub ).cargo();
@@ -802,9 +824,7 @@ static zone_items populate_items( const tripoint_bub_ms &src_bub )
     return items;
 }
 
-// returns whether to ignore the zones at `src`
-// if one zone is ignored, all will be
-static bool ignore_contents( Character &you, const tripoint_abs_ms &src )
+bool ignore_contents( Character &you, const tripoint_abs_ms &src )
 {
     const zone_manager &mgr = zone_manager::get_manager();
     // check ignorable zones for ignore_contents enabled
@@ -820,10 +840,8 @@ static bool ignore_contents( Character &you, const tripoint_abs_ms &src )
     return false;
 }
 
-// skip tiles in IGNORE zone or with ignore option,
-// tiles on fire (to prevent taking out wood off the lit brazier)
-// and inaccessible furniture, like filled charcoal kiln
-static bool ignore_zone_position( Character &you, const tripoint_abs_ms &src, bool ignore_contents )
+bool ignore_zone_position( Character &you, const tripoint_abs_ms &src,
+                           bool ignore_contents )
 {
     const zone_manager &mgr = zone_manager::get_manager();
     map &here = get_map();
@@ -836,27 +854,27 @@ static bool ignore_zone_position( Character &you, const tripoint_abs_ms &src, bo
            here.impassable_field_at( src_bub );
 }
 
-// of `items` at `src`, do any need to be sorted?
-static bool has_items_to_sort( Character &you, const tripoint_abs_ms &src,
-                               zone_sorting::options zone_sort_options,
-                               const std::vector<const item *> &other_activity_items,
-                               const zone_sorting::zone_items &items )
+bool has_items_to_sort( Character &you, const tripoint_abs_ms &src,
+                        options zone_sort_options,
+                        const std::vector<const item *> &other_activity_items,
+                        const zone_items &items )
 {
     const zone_manager &mgr = zone_manager::get_manager();
+    const faction_id fac_id = _fac_id( you );
     const tripoint_abs_ms &abspos = you.pos_abs();
 
     for( std::pair<item *, bool> it_pair : items ) {
         item *it = it_pair.first;
         const zone_type_id zone_type_id = mgr.get_near_zone_type_for_item( *it, abspos,
-                                          MAX_VIEW_DISTANCE, _fac_id( you ) );
+                                          MAX_VIEW_DISTANCE, fac_id );
 
-        if( zone_sorting::sort_skip_item( you, it, other_activity_items,
-                                          zone_sort_options.ignore_favorite, src ) ) {
+        if( sort_skip_item( you, it, other_activity_items,
+                            zone_sort_options.ignore_favorite, src ) ) {
             continue;
         }
 
         const std::unordered_set<tripoint_abs_ms> dest_set =
-            mgr.get_near( zone_type_id, abspos, MAX_VIEW_DISTANCE, it, _fac_id( you ) );
+            mgr.get_near( zone_type_id, abspos, MAX_VIEW_DISTANCE, it, fac_id );
 
         //if we're unloading all or a corpse
         if( zone_sort_options.unload_all || ( zone_sort_options.unload_corpses && it->is_corpse() ) ) {
@@ -894,13 +912,14 @@ static bool has_items_to_sort( Character &you, const tripoint_abs_ms &src,
     return false;
 }
 
-static bool can_unload( item *it )
+bool can_unload( item *it )
 {
     return it->made_of( phase_id::SOLID );
 }
 
-static void add_item( const std::optional<vpart_reference> vp, const tripoint_bub_ms &src_bub,
-                      const item &it )
+void add_item( const std::optional<vpart_reference> vp,
+               const tripoint_bub_ms &src_bub,
+               const item &it )
 {
     map &here = get_map();
     if( vp ) {
@@ -910,8 +929,9 @@ static void add_item( const std::optional<vpart_reference> vp, const tripoint_bu
     }
 }
 
-static void remove_item( const std::optional<vpart_reference> vp, const tripoint_bub_ms &src_bub,
-                         item *it )
+void remove_item( const std::optional<vpart_reference> vp,
+                  const tripoint_bub_ms &src_bub,
+                  item *it )
 {
     map &here = get_map();
     if( vp ) {
@@ -921,12 +941,13 @@ static void remove_item( const std::optional<vpart_reference> vp, const tripoint
     }
 }
 
-static std::optional<bool> unload_item( Character &you, const tripoint_abs_ms &src,
-                                        zone_sorting::options zone_sort_options, const std::optional<vpart_reference> &vpr_src,
-                                        item *it, const std::unordered_set<tripoint_abs_ms> &dest_set,
-                                        int &num_processed )
+std::optional<bool> unload_item( Character &you, const tripoint_abs_ms &src,
+                                 options zone_sort_options, const std::optional<vpart_reference> &vpr_src,
+                                 item *it, const std::unordered_set<tripoint_abs_ms> &dest_set,
+                                 int &num_processed )
 {
     const zone_manager &mgr = zone_manager::get_manager();
+    const faction_id fac_id = _fac_id( you );
     map &here = get_map();
     const tripoint_bub_ms src_bub = here.get_bub( src );
     const tripoint_abs_ms &abspos = you.pos_abs();
@@ -936,15 +957,15 @@ static std::optional<bool> unload_item( Character &you, const tripoint_abs_ms &s
     bool move_and_reset = false;
     bool moved_something = false;
 
-    // teleport an item to its zone destination
-    // TODO: remove this functionality
-    auto zone_teleport_item = [&you, &src_bub, &vpr_src, &it]( item * contained ) {
+    // teleport an item from container to ground
+    // TODO: less egregious than teleporting over a distance, but still not good
+    auto unload_teleport_item = [&you, &src_bub, &vpr_src, &it]( item * contained ) {
         move_item( you, *contained, contained->count(), src_bub, src_bub, vpr_src );
         it->remove_item( *contained );
     };
 
-    if( mgr.has_near( zone_type_UNLOAD_ALL, abspos, 1, _fac_id( you ) ) ||
-        ( mgr.has_near( zone_type_STRIP_CORPSES, abspos, 1, _fac_id( you ) ) && it->is_corpse() ) ) {
+    if( mgr.has_near( zone_type_UNLOAD_ALL, abspos, 1, fac_id ) ||
+        ( mgr.has_near( zone_type_STRIP_CORPSES, abspos, 1, fac_id ) && it->is_corpse() ) ) {
         if( dest_set.empty() || zone_sort_options.unload_always ) {
 
             if( you.rate_action_unload( *it ) == hint_rating::good &&
@@ -957,6 +978,9 @@ static std::optional<bool> unload_item( Character &you, const tripoint_abs_ms &s
                         if( zone_sorting::can_unload( contained ) ) {
                             item_counts[contained->typeId()]++;
                         }
+                        if( you.get_moves() <= 0 ) {
+                            return std::nullopt;
+                        }
                     }
                 }
 
@@ -968,7 +992,10 @@ static std::optional<bool> unload_item( Character &you, const tripoint_abs_ms &s
                             item_counts[contained->typeId()] > zone_sort_options.unload_sparse_threshold ) {
                             continue;
                         }
-                        zone_teleport_item( contained );
+                        unload_teleport_item( contained );
+                    }
+                    if( you.get_moves() <= 0 ) {
+                        return std::nullopt;
                     }
                 }
 
@@ -981,14 +1008,17 @@ static std::optional<bool> unload_item( Character &you, const tripoint_abs_ms &s
                                 zone_sorting::add_item( vpr_src, src_bub, link );
                             }
                         }
-                        zone_teleport_item( contained );
+                        unload_teleport_item( contained );
+                    }
+                    if( you.get_moves() <= 0 ) {
+                        return std::nullopt;
                     }
                 }
 
                 //unload all magazine wells
                 for( item *contained : it->all_items_top( pocket_type::MAGAZINE_WELL ) ) {
                     if( zone_sorting::can_unload( contained ) ) {
-                        zone_teleport_item( contained );
+                        unload_teleport_item( contained );
                     }
                 }
                 moved_something = true;
@@ -1003,7 +1033,7 @@ static std::optional<bool> unload_item( Character &you, const tripoint_abs_ms &s
                         continue;
                     }
                     you.gunmod_remove( *it, *mod );
-                    // need to return so the activity starts
+                    // need to return so the remove gunmod activity starts
                     return std::nullopt;
                 }
             }
@@ -1014,6 +1044,9 @@ static std::optional<bool> unload_item( Character &you, const tripoint_abs_ms &s
                     item removed = it->get_contents().remove_pocket( 0 );
                     move_item( you, removed, 1, src_bub, src_bub, vpr_src );
                     moved_something = true;
+                    if( you.get_moves() <= 0 ) {
+                        return std::nullopt;
+                    }
                 }
             }
 
@@ -1037,9 +1070,10 @@ static std::optional<bool> unload_item( Character &you, const tripoint_abs_ms &s
     return move_and_reset;
 }
 
-static void move_item( Character &you, const std::optional<vpart_reference> &vpr_src,
-                       const tripoint_bub_ms &src_bub, const std::unordered_set<tripoint_abs_ms> &dest_set,
-                       item &it, int &num_processed )
+//TODO: teleports item without picking it up; remove this behavior
+void move_item( Character &you, const std::optional<vpart_reference> &vpr_src,
+                const tripoint_bub_ms &src_bub, const std::unordered_set<tripoint_abs_ms> &dest_set,
+                item &it, int &num_processed )
 {
     map &here = get_map();
 
@@ -1072,7 +1106,7 @@ static void move_item( Character &you, const std::optional<vpart_reference> &vpr
         }
     }
 }
-} // namespace zone_sorting
+} //namespace zone_sorting
 
 std::vector<tripoint_bub_ms> route_adjacent( const Character &you, const tripoint_bub_ms &dest )
 {
@@ -2412,203 +2446,6 @@ static bool chop_plank_activity( Character &you, const tripoint_bub_ms &src_loc 
         }
     }
     return false;
-}
-
-void activity_on_turn_move_loot( player_activity &act, Character &you )
-{
-    enum activity_stage : int {
-        //Initial stage
-        INIT = 0,
-        //Think about what to do first: choose destination
-        THINK,
-        //Do activity
-        DO,
-    };
-
-    int &stage = act.index;
-    //Prepare activity stage
-    if( stage < 0 ) {
-        stage = INIT;
-        //num_processed
-        act.values.push_back( 0 );
-    }
-    int &num_processed = act.values[ 0 ];
-
-    map &here = get_map();
-    const tripoint_abs_ms abspos = you.pos_abs();
-    zone_manager &mgr = zone_manager::get_manager();
-
-    //returns true if route successfully found
-    auto route_to_destination = [&here, &you, &stage, &act]( const tripoint_bub_ms dest ) {
-        //attempt to route to out-of-bubble position
-        std::vector<tripoint_bub_ms> route;
-        route = here.route( you, pathfinding_target::adjacent( dest ) );
-        if( route.empty() ) {
-            // can't get there, can't do anything, skip to next position
-            return false;
-        }
-        // set the destination and restart activity after player arrives there
-        // note: we don't need to check for safe mode,
-        // the activity will be restarted only if player arrives on destination tile
-        stage = DO;
-        you.set_destination( route, act );
-        you.activity.set_to_null();
-        return true;
-    };
-
-    std::vector<const item *> other_activity_items;
-
-    //store other activity items so they aren't sorted later
-    for( const npc &guy : g->all_npcs() ) {
-        if( !guy.activity.targets.empty() ) {
-            for( const item_location &target : guy.activity.targets ) {
-                other_activity_items.push_back( target.get_item() );
-            }
-        }
-    }
-    for( const item_location &target : get_player_character().activity.targets ) {
-        other_activity_items.push_back( target.get_item() );
-    }
-
-    if( here.check_vehicle_zones( here.get_abs_sub().z() ) ) {
-        mgr.cache_vzones();
-    }
-
-    //store UNSORTED loot zone positions
-    if( stage == INIT ) {
-        act.coord_set.clear();
-        for( const tripoint_abs_ms &p :
-             mgr.get_near( zone_type_LOOT_UNSORTED, abspos, MAX_VIEW_DISTANCE, nullptr,
-                           _fac_id( you ) ) ) {
-            act.coord_set.insert( p );
-        }
-        stage = THINK;
-    }
-
-    if( stage == THINK ) {
-
-        num_processed = 0;
-
-        // copy remaining UNSORTED tile positions, sort by closest distance
-        std::vector<tripoint_abs_ms> src_set;
-        src_set.reserve( act.coord_set.size() );
-        for( const tripoint_abs_ms &p : act.coord_set ) {
-            src_set.emplace_back( p );
-        }
-        const auto &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
-
-        // iterate over UNSORTED tile positions and look for items to move
-        for( const tripoint_abs_ms &src : src_sorted ) {
-            act.placement = src;
-            act.coord_set.erase( src );
-
-            const tripoint_bub_ms src_bub = here.get_bub( src );
-            if( !here.inbounds( src_bub ) ) {
-                if( !here.inbounds( you.pos_bub() ) ) {
-                    // p is implicitly an NPC that has been moved off the map, so reset the activity
-                    // and unload them
-                    you.cancel_activity();
-                    you.assign_activity( ACT_MOVE_LOOT );
-                    you.set_moves( 0 );
-                    g->reload_npcs();
-                    return;
-                }
-                if( !route_to_destination( src_bub ) ) {
-                    continue;
-                }
-                return;
-            }
-
-            bool ignore_contents = zone_sorting::ignore_contents( you, src );
-
-            if( zone_sorting::ignore_zone_position( you, src, ignore_contents ) ) {
-                continue;
-            }
-
-            zone_sorting::options zone_sort_options = zone_sorting::set_sorting_options( you, src, true );
-
-            const zone_sorting::zone_items items = zone_sorting::populate_items( src_bub );
-
-            // check if there is valid destination for any item of the tile
-            bool has_items_to_work_on = has_items_to_sort( you, src, zone_sort_options,
-                                        other_activity_items, items );
-
-            bool is_adjacent_or_closer = square_dist( you.pos_bub(), src_bub ) <= 1;
-            // before we move any item, check if player is at or
-            // adjacent to the loot source tile
-            if( !is_adjacent_or_closer ) {
-                // check if we found path to source / adjacent tile
-                if( !route_to_destination( src_bub ) ) {
-                    add_msg( m_info, _( "%s can't reach the source tile.  Try to sort out loot without a cart." ),
-                             you.disp_name() );
-                    continue;
-                }
-                return;
-            }
-            stage = DO;
-            break;
-        }
-    }
-    if( stage == DO ) {
-        const tripoint_abs_ms src( act.placement );
-        const tripoint_bub_ms src_bub = here.get_bub( src );
-
-        bool is_adjacent_or_closer = square_dist( you.pos_bub(), src_bub ) <= 1;
-        // before we move any item, check if player is at or
-        // adjacent to the loot source tile
-        if( !is_adjacent_or_closer ) {
-            stage = THINK;
-            return;
-        }
-
-        zone_sorting::zone_items items = zone_sorting::populate_items( src_bub );
-
-        zone_sorting::options zone_sort_options = zone_sorting::set_sorting_options( you, src, false );
-
-        const std::optional<vpart_reference> vp = here.veh_at( src_bub ).cargo();
-        //Skip items that have already been processed
-        for( zone_sorting::zone_items::iterator it = items.begin() + num_processed; it < items.end();
-             ++it ) {
-            ++num_processed;
-            item &thisitem = *it->first;
-
-            if( zone_sorting::sort_skip_item( you, it->first, other_activity_items,
-                                              mgr.has( zone_type_LOOT_IGNORE_FAVORITES, src, _fac_id( you ) ), src ) ) {
-                continue;
-            }
-
-            // Only if it's from a vehicle do we use the vehicle source location information.
-            const std::optional<vpart_reference> vpr_src = it->second ? vp : std::nullopt;
-            const zone_type_id id = mgr.get_near_zone_type_for_item( thisitem, abspos,
-                                    MAX_VIEW_DISTANCE, _fac_id( you ) );
-
-            const std::unordered_set<tripoint_abs_ms> dest_set =
-                mgr.get_near( id, abspos, MAX_VIEW_DISTANCE, &thisitem, _fac_id( you ) );
-
-            std::optional<bool> move_and_reset = zone_sorting::unload_item( you, src,
-                                                 zone_sort_options, vp, it->first, dest_set, num_processed );
-            if( !move_and_reset ) {
-                return;
-            }
-
-            zone_sorting::move_item( you, vp, src_bub, dest_set, thisitem, num_processed );
-            if( you.get_moves() <= 0 || *move_and_reset ) {
-                return;
-            }
-        }
-
-        //this location is sorted
-        stage = THINK;
-        return;
-    }
-
-    // If we got here without restarting the activity, it means we're done
-    add_msg( m_info, _( "%s sorted out every item possible." ), you.disp_name( false, true ) );
-    if( you.is_npc() ) {
-        npc *guy = dynamic_cast<npc *>( &you );
-        guy->revert_after_activity();
-    }
-    you.activity.set_to_null();
 }
 
 static int chop_moves( Character &you, item &it )
