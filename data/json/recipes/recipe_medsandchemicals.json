@@ -888,7 +888,7 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "fermentable_fish_mixture",
+    "result": "fermentable_fish_mixture_active",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
     "skill_used": "survival",
