@@ -1,0 +1,28 @@
+[
+  {
+    "id": "curing_roe",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "copy-from": "egg_fish",
+    "name": { "str_sp": "curing roe (obsolete)" },
+    "description": "Roe in the process of becoming fully cured with salt, capable of becoming homemade caviar.  The flavor is slowly developing at this stage, and is currently significantly unpleasant due to the residual salt.  Activate it once completed to make use of the final product.",
+    "weight": "96 g",
+    "volume": "500ml",
+    "charges": 1,
+    "stack_size": 4,
+    "calories": 68,
+    "price": "5 USD",
+    "price_postapoc": "2 USD 50 cent",
+    "phase": "liquid",
+    "fun": -15,
+    "use_action": {
+      "target": "cured_roe",
+      "msg": "You remove the roe from the brine and now have post apocalypse caviar.",
+      "moves": 150,
+      "type": "delayed_transform",
+      "transform_age": 1800,
+      "not_ready_msg": "The roe isn't fully cured yet.",
+      "//": "30 minutes"
+    }
+  }
+]

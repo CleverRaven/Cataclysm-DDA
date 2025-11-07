@@ -286,7 +286,7 @@
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
     "proficiencies": [ { "proficiency": "prof_preservation" } ],
     "using": [ [ "vacuum_sealing_standard", 1 ] ],
-    "components": [ [ [ "curing_roe", 2 ] ] ]
+    "components": [ [ [ "curing_roe_active", 2 ] ] ]
   },
   {
     "type": "recipe",

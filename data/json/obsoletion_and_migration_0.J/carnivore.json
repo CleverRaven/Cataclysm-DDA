@@ -1,0 +1,28 @@
+[
+  {
+    "id": "raw_curing_fatty_meat",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "copy-from": "flesh",
+    "name": { "str": "slab of raw curing porkbelly (obsolete)", "str_pl": "slabs of raw curing porkbelly (obsolete)" },
+    "description": "Porkbelly in the process of becoming fully cured with salt and sugar, capable of becoming bacon.  The flavor is slowly developing at this stage, and is significantly unpleasant due to the residual salt.  Activate it once completed to make use of the final product.",
+    "weight": "275 g",
+    "volume": "250ml",
+    "calories": 1556,
+    "price": "5 USD",
+    "price_postapoc": "2 USD 50 cent",
+    "spoils_in": "14 days",
+    "fun": -15,
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ], [ "meat_allergen", 1 ] ],
+    "flags": [  ],
+    "use_action": {
+      "target": "raw_cured_fatty_meat",
+      "msg": "You pat off a bit of extra brine from the slice; this piece of meat is now fully cured.",
+      "moves": 150,
+      "type": "delayed_transform",
+      "transform_age": 28800,
+      "not_ready_msg": "The meat isn't fully cured yet.",
+      "//": "8 hours"
+    }
+  }
+]
