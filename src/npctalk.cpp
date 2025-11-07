@@ -6673,8 +6673,8 @@ talk_effect_fun_t::func f_run_fixed_zone_eocs(const JsonObject& jo,
         zone_range = jo.get_int("zone_range");
     }
     std::optional<int> z_min;
-    if (jo.has_int("z_min")) {
-        z_min = jo.get_int("z_min");
+    if( jo.has_int( "z_min" ) ) {
+        z_min = jo.get_int( "z_min" );
     }
     std::optional<int> z_max;
     if( jo.has_int( "z_max" ) ) {
