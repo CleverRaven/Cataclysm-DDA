@@ -72,7 +72,7 @@
     "category": "spare_parts",
     "symbol": ",",
     "color": "brown",
-    "name": { "str": "soft adobe brick (obsolete)" },
+    "name": { "str": "soft adobe brick (obsolete)", "str_pl": "soft adobe bricks (obsolete)" },
     "description": "A compacted mass of soil and natural fibers, still too wet to build with.  Load it onto a pallet and leave it to dry.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
