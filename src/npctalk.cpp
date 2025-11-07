@@ -6688,7 +6688,7 @@ talk_effect_fun_t::func f_run_fixed_zone_eocs(const JsonObject& jo,
                 continue;
             }
             auto pos_abs = zone.get_start_point();
-            if (z_min.has_value() && pos_abs.z() < z_min.value()) {
+            if( z_min.has_value() && pos_abs.z() < z_min.value() ) {
                 continue;
             }
             if (z_max.has_value() && pos_abs.z() > z_min.value()) {
