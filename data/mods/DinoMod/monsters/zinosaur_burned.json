@@ -140,8 +140,7 @@
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "hp": 350,
-    "fungalize_into": "mon_ziganotosaurus_fungus",
-    "description": "Heavily-burned zombie dinosaur predator that still reeks of charred meat.  Its flesh has mended into a leathery shell.",
+    "fungalize_into": "mon_ziganotosaurus_fungus"
     "armor": { "acid": 3, "heat": 15, "cut": 13, "bullet": 9, "bash": 6 }
   },
   {
@@ -165,8 +164,16 @@
     "copy-from": "mon_zappalachiosaurus_scorched",
     "looks_like": "mon_zryptosaurus",
     "hp": 100,
-    "fungalize_into": "mon_zryptosaurus_fungus",
-    "description": "Heavily-burned zombie dinosaur predator that still reeks of charred meat.  Its flesh has mended into a leathery shell."
+    "fungalize_into": "mon_zryptosaurus_fungus"
+  },
+    {
+    "type": "MONSTER",
+    "id": "mon_zanotyrannus_scorched",
+    "name": { "str": "scorched nanotyrannus zombie" },
+    "copy-from": "mon_zappalachiosaurus_scorched",
+    "looks_like": "mon_zanotyrannus",
+    "hp": 90,
+    "fungalize_into": "mon_zanotyrannus_fungus"
   },
   {
     "type": "MONSTER",
@@ -178,8 +185,7 @@
     "attack_cost": 85,
     "melee_damage": [ { "damage_type": "cut", "amount": 14 } ],
     "hp": 110,
-    "fungalize_into": "mon_zappalachiosaurus_fungus",
-    "description": "Heavily-burned zombie dinosaur predator that still reeks of charred meat.  Its flesh has mended into a leathery shell."
+    "fungalize_into": "mon_zappalachiosaurus_fungus"
   },
   {
     "type": "MONSTER",
@@ -191,8 +197,7 @@
     "attack_cost": 40,
     "melee_damage": [ { "damage_type": "cut", "amount": 13 } ],
     "hp": 125,
-    "fungalize_into": "mon_zorgosaurus_fungus",
-    "description": "Heavily-burned zombie dinosaur predator that still reeks of charred meat.  Its flesh has mended into a leathery shell."
+    "fungalize_into": "mon_zorgosaurus_fungus"
   },
   {
     "type": "MONSTER",
