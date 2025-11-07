@@ -6677,14 +6677,14 @@ talk_effect_fun_t::func f_run_fixed_zone_eocs(const JsonObject& jo,
         z_min = jo.get_int("z_min");
     }
     std::optional<int> z_max;
-    if (jo.has_int("z_max")) {
-        z_max = jo.get_int("z_max");
+    if( jo.has_int( "z_max" ) ) {
+        z_max = jo.get_int( "z_max" );
     }
-    return [eocs, zone_range, z_min, z_max, is_npc](dialogue const& d) {
-        zone_manager& mgr = zone_manager::get_manager();
-        tripoint_abs_ms actor_pos = d.actor(is_npc)->pos_abs();
-        for (zone_data& zone : mgr.get_zones()) {
-            if (zone.get_is_personal() || zone.get_is_vehicle()) {
+    return [eocs, zone_range, z_min, z_max, is_npc]( dialogue const & d ) {
+        zone_manager &mgr = zone_manager::get_manager();
+        tripoint_abs_ms actor_pos = d.actor( is_npc )->pos_abs();
+        for( zone_data &zone : mgr.get_zones() ) {
+            if( zone.get_is_personal() || zone.get_is_vehicle() ) {
                 continue;
             }
             auto pos_abs = zone.get_start_point();
