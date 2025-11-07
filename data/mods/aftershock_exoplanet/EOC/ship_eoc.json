@@ -175,7 +175,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_SHIP_veh",
-    "effect": [ { "u_run_vehicle_eocs": [ "EOC_SHIP_TP" ], "vehicle_range": 24, "z_min": 1} ]
+    "effect": [ { "u_run_vehicle_eocs": [ "EOC_SHIP_TP" ], "vehicle_range": 24, "z_min": 1 } ]
   },
   {
     "type": "effect_on_condition",
