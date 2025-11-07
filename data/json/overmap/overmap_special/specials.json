@@ -4202,7 +4202,7 @@
     "city_sizes": [ 6, -1 ],
     "occurrences": [ 70, 100 ],
     "//": "Inflated chance, effective rate ~40%",
-    "flags": [ "CLASSIC", "OVERMAP_UNIQUE", "MAN_MADE" ]
+    "flags": [ "CLASSIC", "GLOBALLY_UNIQUE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
