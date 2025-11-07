@@ -1023,6 +1023,14 @@
           "monster_message": "%1$s gestures and the ground bursts apart!"
         },
         {
+          "id": "psi_telekin3_aegis",
+          "type": "spell",
+          "spell_data": { "id": "telekinetic_aegis_monster", "min_level": 8 },
+          "cooldown": { "math": [ "25 + rand(50)" ] },
+          "condition": { "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "or": [ "npc_driving" ] } ] },
+          "monster_message": "%1$s throws their arms wide!"
+        },
+        {
           "id": "psi_telekin3_earthshake",
           "type": "spell",
           "spell_data": { "id": "telekinetic_earthshaker_monster", "min_level": 5 },
