@@ -1880,7 +1880,7 @@ void mapgen_place_zone( tripoint_abs_ms const &start, tripoint_abs_ms const &end
     mgr.add( name, type, fac, false, true, s_, e_, options, true, pmap );
 }
 
-std::unique_ptr<talker> get_talker_for(zone_data& me)
+std::unique_ptr<talker> get_talker_for( zone_data &me )
 {
     return std::make_unique<talker_zone>(&me);
 }
