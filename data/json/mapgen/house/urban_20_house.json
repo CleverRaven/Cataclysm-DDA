@@ -148,7 +148,8 @@
         "                                                ",
         "                                                "
       ],
-      "palettes": [ "roof_palette" ]
+      "palettes": [ "roof_palette" ],
+      "nested": { "0": { "chunks": [ [ "residential_6kW_solar", 125 ], [ "null", 873 ] ] } }
     }
   }
 ]

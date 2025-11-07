@@ -101,7 +101,8 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { ".": "t_shingle_flat_roof" }
+      "terrain": { ".": "t_shingle_flat_roof" },
+      "nested": { "0": { "chunks": [ [ "residential_6kW_solar", 125 ], [ "null", 873 ] ] } }
     }
   },
   {

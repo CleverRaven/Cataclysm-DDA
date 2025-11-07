@@ -61,10 +61,6 @@
       "W": { "liquid": "water_clean", "amount": [ 0, 100 ] }
     },
     "nested": {
-      "0": {
-        "//": "12.7% chance of solar, only 6kW.  This exists as not every roof can support a 7 or 8 kw installation.  Note it's not exactly 6, 7, or 8kW, it's just what was closest to a square grid of panels.",
-        "chunks": [ [ "residential_6kW_solar", 125 ], [ "null", 873 ] ]
-      },
       "1": {
         "//": "12.5% chance of solar, assuming 50% of solar is 7kW, 25% is 6kW and 8kW.",
         "chunks": [ [ "residential_6kW_solar", 31 ], [ "residential_7kW_solar", 63 ], [ "residential_8kW_solar", 31 ], [ "null", 873 ] ]
