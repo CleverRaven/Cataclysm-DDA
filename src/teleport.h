@@ -5,6 +5,7 @@
 
 class Creature;
 class vehicle;
+class zone_data;
 class teleport
 {
     public:
@@ -17,6 +18,7 @@ class teleport
         static bool teleport_to_point( Creature &critter, tripoint_bub_ms target, bool safe,
                                        bool add_teleglow, bool display_message = true, bool force = false, bool force_safe = false );
         static bool teleport_vehicle( vehicle &veh, const tripoint_abs_ms &dp );
+        static bool teleport_zone(zone_data& zone, const tripoint_abs_ms& dp);
 
 };
 

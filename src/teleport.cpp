@@ -489,3 +489,10 @@ bool teleport::teleport_vehicle( vehicle &veh, const tripoint_abs_ms &dp )
     CleanUpAfterVehicleTeleport( veh, here, dp, smzs, src );
     return true;
 }
+
+bool teleport::teleport_zone(zone_data& zone, const tripoint_abs_ms& dp)
+{
+    auto new_end_point = dp + (zone.get_end_point() - zone.get_start_point());
+    zone.set_position(std::make_pair(dp, new_end_point));
+    return true;
+}
