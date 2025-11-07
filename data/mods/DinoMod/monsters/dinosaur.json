@@ -353,7 +353,7 @@
     "id": "mon_nanotyrannus",
     "name": { "str_sp": "nanotyrannus" },
     "copy-from": "mon_appalachiosaurus",
-    "default_faction": "dryptosaurus",
+    "default_faction": "nanotyrannus",
     "volume": "700 L",
     "weight": "700 kg",
     "stomach_size": 20000,
