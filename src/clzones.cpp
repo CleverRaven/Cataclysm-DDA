@@ -1882,7 +1882,7 @@ void mapgen_place_zone( tripoint_abs_ms const &start, tripoint_abs_ms const &end
 
 std::unique_ptr<talker> get_talker_for( zone_data &me )
 {
-    return std::make_unique<talker_zone>(&me);
+    return std::make_unique<talker_zone>( &me );
 }
 
 std::unique_ptr<const_talker> get_talker_for(const zone_data& me)
