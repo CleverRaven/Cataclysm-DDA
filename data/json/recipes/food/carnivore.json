@@ -45,7 +45,7 @@
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "//": "same weight as chunk of meat, so same power cost",
     "proficiencies": [ { "proficiency": "prof_food_prep" } ],
-    "components": [ [ [ "porkbelly", 1 ], [ "raw_curing_fatty_meat", 1 ], [ "raw_cured_fatty_meat", 1 ] ] ]
+    "components": [ [ [ "porkbelly", 1 ], [ "raw_curing_fatty_meat_active", 1 ], [ "raw_cured_fatty_meat", 1 ] ] ]
   },
   {
     "type": "recipe",

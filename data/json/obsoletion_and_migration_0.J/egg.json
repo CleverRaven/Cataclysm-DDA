@@ -24,5 +24,26 @@
       "not_ready_msg": "The roe isn't fully cured yet.",
       "//": "30 minutes"
     }
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "cured_roe",
+    "id_suffix": "vacuum_packed_obsolete",
+    "name": "vacuum packed %s with obsolete ingredient",
+    "container": "plastic_bag_vac",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "charges": 2,
+    "time": "5 m",
+    "batch_time_factors": [ 10, 3 ],
+    "autolearn": true,
+    "book_learn": [ [ "vacuum_sealing", 1 ] ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
+    "proficiencies": [ { "proficiency": "prof_preservation" } ],
+    "using": [ [ "vacuum_sealing_standard", 1 ] ],
+    "components": [ [ [ "curing_roe", 2 ] ] ]
   }
 ]

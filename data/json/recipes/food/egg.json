@@ -273,6 +273,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "result": "cured_roe",
     "id_suffix": "vacuum_packed",
+    "name": "vacuum packed %s",
     "container": "plastic_bag_vac",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
