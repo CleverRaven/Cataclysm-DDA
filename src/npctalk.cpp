@@ -6694,11 +6694,11 @@ talk_effect_fun_t::func f_run_fixed_zone_eocs(const JsonObject& jo,
             if( z_max.has_value() && pos_abs.z() > z_min.value() ) {
                 continue;
             }
-            if (!zone_range.has_value() ||
-                rl_dist(actor_pos, zone.get_start_point()) <= zone_range.value()) {
-                for (const effect_on_condition_id& eoc : eocs) {
-                    dialogue newDialog( get_talker_for(zone), nullptr, d.get_conditionals(), d.get_context());
-                    eoc->activate(newDialog);
+            if( !zone_range.has_value() ||
+                rl_dist( actor_pos, zone.get_start_point() ) <= zone_range.value() ) {
+                for( const effect_on_condition_id &eoc : eocs ) {
+                    dialogue newDialog( get_talker_for( zone ), nullptr, d.get_conditionals(), d.get_context() );
+                    eoc->activate( newDialog );
                 }
             }
         }
