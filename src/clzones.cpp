@@ -1887,7 +1887,7 @@ std::unique_ptr<talker> get_talker_for( zone_data &me )
 
 std::unique_ptr<const_talker> get_talker_for( const zone_data &me )
 {
-    return std::make_unique<talker_zone_const>(&me);
+    return std::make_unique<talker_zone_const>( &me );
 }
 
 std::unique_ptr<talker> get_talker_for(zone_data* me)
