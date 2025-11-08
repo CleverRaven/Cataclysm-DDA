@@ -2194,6 +2194,7 @@ class vehicle
          * the map is just shifted (in the later case simply set smx/smy directly).
          */
         void set_submap_moved( map *here, const tripoint_bub_sm &p );
+        void translate_cables( const tripoint_rel_ms &offset );
         void use_autoclave( map &here, int p );
         void use_washing_machine( map &here, int p );
         void use_dishwasher( map &here, int p );
