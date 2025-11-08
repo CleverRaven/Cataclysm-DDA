@@ -147,6 +147,22 @@ A mutation migration can be used to migrate a mutation that formerly existed gra
   }
 ```
 
+# Proficiency migration
+
+Prof migration can be migrated to new prof (with progress being transferred) or to null
+
+```jsonc
+  {
+    "type": "proficiency_migration",
+    "from": "prof_wp_slime_basic",  // Mandatory. Id of the prof that has been removed.
+    "to": "prof_wp_mi-go_basic"     // Optional. Id of the new prof that will be set instead. can be omitted to remove the prof
+  },
+  {
+    "type": "proficiency_migration",
+    "from": "prof_wp_slime_advanced"
+  }
+```
+
 # Monster migration
 
 Monster can be removed without migration, the game replace all critters without matched monster id with mon_breather when loaded
