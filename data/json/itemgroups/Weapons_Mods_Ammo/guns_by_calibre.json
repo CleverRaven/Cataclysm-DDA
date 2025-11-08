@@ -154,10 +154,7 @@
   {
     "type": "item_group",
     "id": "guns_pistol_common_32",
-    "items": [
-      { "group": "nested_walther_ppk", "prob": 71 },
-      { "group": "nested_lws32", "prob": 2000 }
-    ]
+    "items": [ { "group": "nested_walther_ppk", "prob": 71 }, { "group": "nested_lws32", "prob": 2000 } ]
   },
   {
     "type": "item_group",
@@ -318,10 +315,7 @@
   {
     "type": "item_group",
     "id": "guns_pistol_common_everyday_carry_32",
-    "items": [
-      { "item": "walther_ppk", "prob": 1, "charges": [ 0, -1 ] },
-      { "item": "lws32", "prob": 200, "charges": [ 0, -1 ] }
-    ]
+    "items": [ { "item": "walther_ppk", "prob": 1, "charges": [ 0, -1 ] }, { "item": "lws32", "prob": 200, "charges": [ 0, -1 ] } ]
   },
   {
     "type": "item_group",
