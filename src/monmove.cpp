@@ -870,11 +870,6 @@ void monster::move()
 
     const bool pacified = has_effect( effect_pacified );
 
-
-
-
-
-
     // First, use the special attack, if we can!
     // The attack may change `monster::special_attacks` (e.g. by transforming
     // this into another monster type). Therefore we can not iterate over it
@@ -1323,7 +1318,6 @@ void monster::move()
             add_msg( m_info, _( "You lose hold of a leash." ) );
         }
     }
-
 }
 
 Character *monster::find_dragged_foe()
