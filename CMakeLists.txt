@@ -133,6 +133,11 @@ endif ()
 
 message(STATUS "${PROJECT_NAME} build options --")
 
+# Preset variables
+if (NOT LANGUAGES)
+    set(LANGUAGES "")
+endif ()
+
 if (GIT_BINARY)
     set(GIT_EXECUTABLE ${GIT_BINARY})
 else ()
