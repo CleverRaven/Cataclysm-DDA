@@ -29,7 +29,7 @@
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "category": "spare_parts",
-    "name": { "str": "tanning fur pelt (obsolete)", "str_pl": "tanning fur pelta (obsolete)" },
+    "name": { "str": "tanning fur pelt (obsolete)", "str_pl": "tanning fur pelts (obsolete)" },
     "description": "A treated animal pelt that is undergoing the chemical processes required to become fur.  You will be able to activate it to unroll and make use of it when it is done.",
     "weight": "684 g",
     "volume": "1 L",
