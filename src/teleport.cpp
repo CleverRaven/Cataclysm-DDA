@@ -40,6 +40,7 @@
 #include "ui_manager.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
+#include "clzones.h"
 
 static const efftype_id effect_teleglow( "teleglow" );
 
@@ -478,5 +479,12 @@ bool teleport::teleport_vehicle( vehicle &veh, const tripoint_abs_ms &dp )
         g->setremoteveh( &veh );
     }
     CleanUpAfterVehicleTeleport( veh, here, dp, smzs, src );
+    return true;
+}
+
+bool teleport::teleport_zone( zone_data &zone, const tripoint_abs_ms &dp )
+{
+    auto new_end_point = dp + ( zone.get_end_point() - zone.get_start_point() );
+    zone.set_position( std::make_pair( dp, new_end_point ) );
     return true;
 }
