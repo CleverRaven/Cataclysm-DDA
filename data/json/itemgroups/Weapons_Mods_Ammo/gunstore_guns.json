@@ -781,7 +781,11 @@
   {
     "type": "item_group",
     "id": "guns_pistol_common_boxed_32",
-    "items": [ { "group": "boxed_kp32", "prob": 100 }, { "group": "boxed_walther_ppk", "prob": 71 }, { "group": "boxed_lws32", "prob": 2000 } ]
+    "items": [
+      { "group": "boxed_kp32", "prob": 100 },
+      { "group": "boxed_walther_ppk", "prob": 71 },
+      { "group": "boxed_lws32", "prob": 2000 }
+    ]
   },
   {
     "type": "item_group",
