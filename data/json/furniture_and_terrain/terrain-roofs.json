@@ -182,7 +182,7 @@
     "color": "cyan",
     "move_cost": 2,
     "//": "TODO: Should break when you step on it if there's no supporting terrain below, might want some warning akin to examine_action ledge",
-    "flags": [ "TRANSPARENT", "TRANSPARENT_FLOOR" ],
+    "flags": [ "TRANSPARENT", "TRANSPARENT_FLOOR", "FRAGILE" ],
     "bash": {
       "str_min": 3,
       "str_max": 6,

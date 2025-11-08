@@ -870,6 +870,11 @@ void monster::move()
 
     const bool pacified = has_effect( effect_pacified );
 
+
+
+
+
+
     // First, use the special attack, if we can!
     // The attack may change `monster::special_attacks` (e.g. by transforming
     // this into another monster type). Therefore we can not iterate over it
@@ -913,6 +918,20 @@ void monster::move()
 
     // Give nursebots a chance to do surgery.
     nursebot_operate( dragged_foe );
+
+    //check if monster breaks through floor
+    if (!is_hallucination() && !flies() && get_weight() >= 5_kilogram) {
+        if (here.has_flag(ter_furn_flag::TFLAG_FRAGILE, pos_bub())) {
+            // static stress check, breaks fragile terrain like skylights
+            const int bash_strength = get_weight() / 10_kilogram;
+            const std::string old_name = here.ter(pos_bub())->name();
+            const auto res = here.bash(pos_bub(), bash_strength, true, false, false, nullptr, false);
+            if (res.success) {
+                add_msg(m_warning, _("The %s crashes through the %s!"),
+                    name(), old_name);
+            }
+        }
+    }
 
     // The monster can sometimes hang in air due to last fall being blocked
     gravity_check();
@@ -1304,6 +1323,7 @@ void monster::move()
             add_msg( m_info, _( "You lose hold of a leash." ) );
         }
     }
+
 }
 
 Character *monster::find_dragged_foe()
