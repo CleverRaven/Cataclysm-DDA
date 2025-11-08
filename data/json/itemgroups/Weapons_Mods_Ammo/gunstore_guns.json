@@ -1531,7 +1531,8 @@
           { "item": "ithaca37", "prob": 28 },
           { "item": "mossberg_590", "prob": 170 },
           { "item": "ksg", "prob": 78 },
-          { "item": "dp_12", "prob": 25 }
+          { "item": "dp_12", "prob": 25 },
+          { "item": "mossberg_590_shockwave", "prob": 12 }
         ]
       }
     ]
@@ -1561,6 +1562,6 @@
     "id": "boxed_410",
     "//": "Yes this is a bad name.  We only have one 410 shotgun right now anyways so it can be changed once there's more.",
     "container-item": { "item": "box_longarm", "variant": "box_longarm_shotgun" },
-    "items": [ { "item": "shotgun_410" }, { "group": "firearm_box_extras" } ]
+    "items": [ { "item": "mossberg_500_410" }, { "group": "firearm_box_extras" } ]
   }
 ]

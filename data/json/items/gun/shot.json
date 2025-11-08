@@ -1224,5 +1224,45 @@
     "built_in_mods": [ "m26_mass_stock" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m26_mass_mag_3", "m26_mass_mag_5" ] } ],
     "melee_damage": { "bash": 3 }
+  },
+  {
+    "id": "mossberg_590_shockwave",
+    "copy-from": "gun_base_shotgun_manual",
+    "looks_like": "mossberg_500",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str": "5-round pistol grip shotgun" },
+    "//": "Based on https://www.mossberg.com/590s-shockwave-51600.html",
+    "description": "This shotgun features no stock, and a sling on the pump to help you hold onto it.  While legally speaking it's not a shotgun, it acts and shoots just like one, minus the stock.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "mossberg_590_shockwave",
+        "name": { "str": "Mossberg 590S Shockwave" },
+        "description": "The Mossberg 590S Shockwave is legally speaking, not a shotgun.  This is in order to get around federal laws regarding sawn-off shotguns.  It is still in essence just a Mossberg 590 with the barrel and stock sawn off."
+      }
+    ],
+    "ascii_picture": "mossberg590",
+    "weight": "2495 g",
+    "volume": "1960 ml",
+    "longest_side": "1054 mm",
+    "barrel_length": "780 mm",
+    "price": "910 USD",
+    "material": [ "steel", "aluminum", "plastic" ],
+    "dispersion": 420,
+    "clip_size": 5,
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "loading port", 1 ],
+      [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "stock accessory", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 5 } } ]
   }
 ]

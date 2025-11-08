@@ -2362,6 +2362,22 @@
     "entries": [ { "item": "mossberg_930", "charges": [ 0, 6 ] }, { "group": "on_hand_shot" } ]
   },
   {
+    "id": "nested_mossberg_590_shockwave",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [ { "item": "mossberg_590_shockwave", "charges": [ 0, 5 ] }, { "group": "on_hand_shot" } ]
+  },
+  {
+    "id": "nested_mossberg_500_410",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [ { "item": "mossberg_500_410", "charges": [ 0, 5 ] }, { "group": "on_hand_410shot" } ]
+  },
+  {
     "id": "nested_shotgun_410",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
