@@ -1,8 +1,8 @@
 [
   {
-    "type": "region_overlay",
-    "id": "default_railroads",
-    "apply_to_tags": [ "all" ],
+    "type": "region_settings",
+    "id": "default",
+    "copy-from": "default",
     "highways": null,
     "place_railroads": true,
     "place_railroads_before_roads": true

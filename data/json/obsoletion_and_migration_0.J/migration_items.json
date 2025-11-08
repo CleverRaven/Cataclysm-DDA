@@ -226,6 +226,36 @@
   },
   {
     "type": "MIGRATION",
+    "id": "armguard_lightplate",
+    "replace": "armor_lc_armguard"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xl_armguard_lightplate",
+    "replace": "xl_armor_lc_armguard"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xs_armguard_lightplate",
+    "replace": "armor_lc_armguard"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "legguard_lightplate",
+    "replace": "armor_lc_leg_guard"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xl_legguard_lightplate",
+    "replace": "xl_armor_lc_leg_guard"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xs_legguard_lightplate",
+    "replace": "armor_lc_leg_guard"
+  },
+  {
+    "type": "MIGRATION",
     "id": "sewage",
     "replace": "water_sewage"
   }

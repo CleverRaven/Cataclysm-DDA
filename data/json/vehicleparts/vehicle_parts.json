@@ -1679,8 +1679,12 @@
     "item": "solar_panel",
     "location": "on_roof",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "install": {
+        "skills": [ [ "electronics", 2 ], [ "fabrication", 2 ] ],
+        "time": "30 m",
+        "using": [ [ "vehicle_wrench_2", 1 ], [ "drilling_standard", 20 ], [ "vehicle_bolt_install_simple", 1 ] ]
+      },
+      "removal": { "skills": [ [ "electronics", 1 ] ], "time": "10 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "repair": {
         "skills": [ [ "electronics", 6 ] ],
         "time": "50 m",
@@ -1801,8 +1805,12 @@
     "item": "solar_panel_v2",
     "proportional": { "epower": 2.0 },
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 6 ] ] },
-      "removal": { "skills": [ [ "mechanics", 4 ] ] },
+      "install": {
+        "skills": [ [ "electronics", 2 ], [ "fabrication", 2 ] ],
+        "time": "30 m",
+        "using": [ [ "vehicle_wrench_2", 1 ], [ "drilling_standard", 20 ], [ "vehicle_bolt_install_simple", 1 ] ]
+      },
+      "removal": { "skills": [ [ "electronics", 1 ] ], "time": "10 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "repair": {
         "skills": [ [ "electronics", 8 ] ],
         "time": "75 m",

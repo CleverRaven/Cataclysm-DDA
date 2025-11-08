@@ -1380,7 +1380,7 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "aquarium_medium_drying",
+    "result": "aquarium_medium_drying_active",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
     "skill_used": "fabrication",
@@ -1393,7 +1393,7 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "aquarium_small_drying",
+    "result": "aquarium_small_drying_active",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
     "skill_used": "fabrication",
@@ -1406,7 +1406,7 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "aquarium_large_drying",
+    "result": "aquarium_large_drying_active",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
     "skill_used": "fabrication",
@@ -1514,7 +1514,7 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_pottery" }, { "proficiency": "prof_pottery_glazing" } ],
     "using": [ [ "cordage_short", 1 ], [ "glazing", 1 ], [ "earthenware_firing", 40 ] ],
-    "components": [ [ [ "any_water", 1, "LIST" ] ], [ [ "clay_lump", 2 ] ] ]
+    "components": [ [ [ "any_water", 1, "LIST" ] ], [ [ "clay_kaolin", 2 ] ] ]
   },
   {
     "type": "recipe",

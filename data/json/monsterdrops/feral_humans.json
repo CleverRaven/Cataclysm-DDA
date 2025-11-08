@@ -484,8 +484,8 @@
               {
                 "collection": [
                   { "item": "cuirass_lightplate", "prob": 80, "damage": [ 2, 4 ] },
-                  { "item": "armguard_lightplate", "prob": 60, "damage": [ 1, 4 ] },
-                  { "item": "legguard_lightplate", "prob": 60, "damage": [ 1, 4 ] }
+                  { "item": "armor_lc_armguard", "prob": 60, "damage": [ 1, 4 ] },
+                  { "item": "armor_lc_leg_guard", "prob": 60, "damage": [ 1, 4 ] }
                 ],
                 "prob": 60
               }
