@@ -2,7 +2,9 @@
   {
     "type": "test_data",
     "known_bad": [
+      "artifact_anchor",
       "broken_mech_recon",
+      "cosmic_dagwood",
       "coffee_raw",
       "coffee_raw_kentucky",
       "marloss_berry",
