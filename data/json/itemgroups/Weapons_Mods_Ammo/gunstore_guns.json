@@ -259,12 +259,6 @@
         "contents-group": "firearm_box_extras",
         "contents-item": [ "mp40semi", "mp40mag_32rd" ],
         "prob": 1
-      },
-      {
-        "item": "box_pistol",
-        "contents-group": "firearm_box_extras",
-        "contents-item": [ "tec9", "tec9mag_10rd" ],
-        "prob": 1
       }
     ]
   },
@@ -781,14 +775,7 @@
   {
     "type": "item_group",
     "id": "guns_pistol_common_boxed_32",
-    "items": [ { "group": "boxed_kp32", "prob": 100 }, { "group": "boxed_walther_ppk", "prob": 71 } ]
-  },
-  {
-    "type": "item_group",
-    "subtype": "collection",
-    "id": "boxed_kp32",
-    "container-item": "box_pistol",
-    "items": [ { "item": "kp32" }, { "group": "firearm_box_extras" }, { "item": "kp32mag", "count": [ 1, 2 ] } ]
+    "items": [ { "group": "boxed_walther_ppk", "prob": 71 } ]
   },
   {
     "type": "item_group",

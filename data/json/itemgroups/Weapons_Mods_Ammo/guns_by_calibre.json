@@ -155,7 +155,6 @@
     "type": "item_group",
     "id": "guns_pistol_common_32",
     "items": [
-      { "group": "nested_kp32", "prob": 100 },
       { "group": "nested_walther_ppk", "prob": 71 },
       { "group": "nested_lws32", "prob": 2000 }
     ]
@@ -320,7 +319,6 @@
     "type": "item_group",
     "id": "guns_pistol_common_everyday_carry_32",
     "items": [
-      { "item": "kp32", "prob": 10, "charges": [ 0, -1 ] },
       { "item": "walther_ppk", "prob": 1, "charges": [ 0, -1 ] },
       { "item": "lws32", "prob": 200, "charges": [ 0, -1 ] }
     ]
@@ -499,7 +497,7 @@
   {
     "type": "item_group",
     "id": "guns_pistol_common_display_32",
-    "items": [ { "item": "kp32", "prob": 100 }, { "item": "walther_ppk", "prob": 71 }, { "item": "lws32", "prob": 2000 } ]
+    "items": [ { "item": "walther_ppk", "prob": 71 }, { "item": "lws32", "prob": 2000 } ]
   },
   {
     "type": "item_group",
@@ -526,8 +524,7 @@
       { "group": "nested_90two", "prob": 5 },
       { "group": "nested_p08", "prob": 13 },
       { "group": "nested_mauser_c96", "prob": 11 },
-      { "group": "nested_mp40semi", "prob": 1 },
-      { "group": "nested_tec9", "prob": 1 }
+      { "group": "nested_mp40semi", "prob": 1 }
     ]
   },
   {
@@ -537,8 +534,7 @@
       { "item": "m9", "variant": "90two", "prob": 5 },
       { "item": "p08", "prob": 13 },
       { "item": "mauser_c96", "prob": 11 },
-      { "item": "mp40semi", "prob": 1 },
-      { "item": "tec9", "prob": 1 }
+      { "item": "mp40semi", "prob": 1 }
     ]
   },
   {
