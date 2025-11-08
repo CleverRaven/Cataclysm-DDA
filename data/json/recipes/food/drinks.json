@@ -34,7 +34,7 @@
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
-    "result": "water_purifying",
+    "result": "water_purifying_active",
     "category": "CC_FOOD",
     "id_suffix": "using_tablets",
     "subcategory": "CSC_FOOD_DRINKS",

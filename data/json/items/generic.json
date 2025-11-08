@@ -2253,7 +2253,7 @@
   },
   {
     "type": "ITEM",
-    "id": "brew_sake_koji",
+    "id": "brew_sake_koji_active",
     "looks_like": "rice_cooked",
     "name": { "str_sp": "unfinished koji rice" },
     "description": "Some cooked rice mixed with yeast and koji mold fragments, set aside to let koji mold grow on it so that it can make a passable sake base.",
@@ -2261,19 +2261,13 @@
     "weight": "200 g",
     "color": "white",
     "container": "bottle_glass",
-    "flags": [ "TRADER_AVOID", "SOFT" ],
+    "flags": [ "TRADER_AVOID", "SOFT", "SPAWN_ACTIVE" ],
     "symbol": "%",
     "price": "0 cent",
     "volume": "250 ml",
     "category": "food",
-    "use_action": {
-      "target": "sake_koji_rice",
-      "msg": "The koji mold seems to have overtaken all the rice; this batch is usable now.",
-      "moves": 50,
-      "type": "delayed_transform",
-      "transform_age": 345600,
-      "not_ready_msg": "The koji mold is still growing."
-    }
+    "countdown_interval": "4 days",
+    "revert_to": "sake_koji_rice"
   },
   {
     "type": "ITEM",
@@ -2291,25 +2285,19 @@
   },
   {
     "type": "ITEM",
-    "id": "young_koji",
+    "id": "young_koji_active",
     "looks_like": "rice_cooked",
     "name": { "str_sp": "growing wild koji mold" },
     "description": "Some cooked rice sprinkled with ash and wrapped into a corn husk.  If left alone for a while, it will most likely grow koji mold.",
     "material": [ "veggy", "mold", "yeast" ],
     "weight": "200 g",
     "color": "white",
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID", "SPAWN_ACTIVE" ],
     "symbol": ",",
     "price": "0 cent",
     "volume": "250 ml",
-    "use_action": {
-      "target": "young_koji_done",
-      "msg": "Patches of koji mold have grown on the rice; you can now extract it.",
-      "moves": 50,
-      "type": "delayed_transform",
-      "transform_age": 345600,
-      "not_ready_msg": "The koji mold hasn't grown yet."
-    }
+    "countdown_interval": "4 days",
+    "revert_to": "young_koji_done"
   },
   {
     "type": "ITEM",
@@ -2326,24 +2314,18 @@
   },
   {
     "type": "ITEM",
-    "id": "soy_wheat_dough",
+    "id": "soy_wheat_dough_active",
     "looks_like": "flour",
     "name": { "str_sp": "soy and wheat dough" },
     "description": "Dough made from cooked and mashed soybeans and wheat flour, wrapped in wet paper.  If left to dry for some time, it'll grow koji mold, as necessary for making soy sauce.",
     "weight": "550 g",
     "color": "white",
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID", "SPAWN_ACTIVE" ],
     "symbol": "%",
     "price": "0 cent",
     "volume": "500 ml",
-    "use_action": {
-      "target": "soy_wheat_dough_done",
-      "msg": "The koji mold seems to have overtaken all the dough; this batch is usable now.",
-      "moves": 50,
-      "type": "delayed_transform",
-      "transform_age": 345600,
-      "not_ready_msg": "The koji mold hasn't grown yet."
-    }
+    "countdown_interval": "4 days",
+    "revert_to": "soy_wheat_dough_done"
   },
   {
     "type": "ITEM",
@@ -2531,10 +2513,11 @@
   },
   {
     "type": "ITEM",
-    "id": "soft_adobe_brick",
+    "id": "soft_adobe_brick_active",
     "category": "spare_parts",
     "symbol": ",",
     "color": "brown",
+    "flags": [ "SPAWN_ACTIVE" ],
     "name": { "str": "soft adobe brick" },
     "description": "A compacted mass of soil and natural fibers, still too wet to build with.  Load it onto a pallet and leave it to dry.",
     "price": "0 cent",
@@ -2544,15 +2527,8 @@
     "volume": "8000 ml",
     "longest_side": "36 cm",
     "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
-    "use_action": {
-      "target": "adobe_brick",
-      "msg": "You test the brick, and it seems solid enough to use.",
-      "moves": 50,
-      "type": "delayed_transform",
-      "transform_age": 604800,
-      "not_ready_msg": "The brick is still too damp to bear weight.",
-      "//": "Should be about a week. Irl it's ten days, so make big batches."
-    },
+    "countdown_interval": "7 days",
+    "revert_to": "adobe_brick",
     "melee_damage": { "bash": 1 }
   },
   {
