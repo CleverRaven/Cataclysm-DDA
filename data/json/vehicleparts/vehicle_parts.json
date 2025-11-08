@@ -1680,7 +1680,7 @@
     "location": "on_roof",
     "requirements": {
       "install": {
-        "skills": [ [ "electronics", 2 ] ],
+        "skills": [ [ "electronics", 2 ], [ "fabrication", 2 ] ],
         "time": "30 m",
         "using": [ [ "vehicle_wrench_2", 1 ], [ "drilling_standard", 20 ], [ "vehicle_bolt_install_simple", 1 ] ]
       },
@@ -1806,7 +1806,7 @@
     "proportional": { "epower": 2.0 },
     "requirements": {
       "install": {
-        "skills": [ [ "electronics", 2 ] ],
+        "skills": [ [ "electronics", 2 ], [ "fabrication", 2 ] ],
         "time": "30 m",
         "using": [ [ "vehicle_wrench_2", 1 ], [ "drilling_standard", 20 ], [ "vehicle_bolt_install_simple", 1 ] ]
       },
