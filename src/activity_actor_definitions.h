@@ -67,7 +67,7 @@ class zone_activity_actor : public activity_actor
 
         void start( player_activity &act, Character &who ) override;
         void do_turn( player_activity &act, Character &you ) override;
-        void finish( player_activity &act, Character &you ) override {};
+        void finish( player_activity &, Character & ) override;
 
         // INIT: determine types of zones to use, coordinates of those zones
         virtual void stage_init( player_activity &act, Character &you ) = 0;
@@ -79,7 +79,7 @@ class zone_activity_actor : public activity_actor
 
         void serialize( JsonOut &jsout ) const override;
 
-        virtual std::unique_ptr<activity_actor> clone() const = 0;
+        std::unique_ptr<activity_actor> clone() const override = 0;
 
         void update_vehicle_zone_cache();
 
@@ -1166,6 +1166,7 @@ class safecracking_activity_actor : public activity_actor
         }
 };
 
+// for unloading items from the inventory
 class unload_activity_actor : public activity_actor
 {
     private:
@@ -2475,6 +2476,7 @@ class mop_activity_actor : public activity_actor
         int moves;
 };
 
+// for unloading items from zones
 class unload_loot_activity_actor : public zone_activity_actor
 {
     public:
@@ -2485,9 +2487,9 @@ class unload_loot_activity_actor : public zone_activity_actor
             return ACT_UNLOAD_LOOT;
         }
 
-        void stage_init( player_activity &act, Character &you ) override;
+        void stage_init( player_activity &, Character &you ) override;
         bool stage_think( player_activity &act, Character &you ) override;
-        void stage_do( player_activity &act, Character &you ) override;
+        void stage_do( player_activity &, Character &you ) override;
 
         std::unique_ptr<activity_actor> clone() const override {
             return std::make_unique<unload_loot_activity_actor>( *this );
@@ -2657,16 +2659,17 @@ class zone_sort_activity_actor : public zone_activity_actor
 
         void do_turn( player_activity &act, Character &you ) override;
 
-        void stage_init( player_activity &act, Character &you ) override;
+        void stage_init( player_activity &, Character &you ) override;
         bool stage_think( player_activity &act, Character &you ) override;
-        void stage_do( player_activity &act, Character &you ) override;
+        void stage_do( player_activity &, Character &you ) override;
 
+        void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 
         void update_other_activity_items();
 
     private:
-        std::vector<const item *> other_activity_items;
+        std::vector<item_location> other_activity_items;
 };
 
 #endif // CATA_SRC_ACTIVITY_ACTOR_DEFINITIONS_H

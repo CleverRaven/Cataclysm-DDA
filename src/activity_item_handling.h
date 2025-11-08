@@ -1,12 +1,23 @@
-#include "activity_actor_definitions.h"
-#include "vpart_position.h"
+#include <optional>
+#include <unordered_set>
+#include <utility>
+#include <vector>
+
+#include "coords_fwd.h"
+#include "item.h"
+
+class Character;
+class item_location;
+class player_activity;
+class vpart_reference;
+enum zone_activity_stage : int;
 
 namespace zone_sorting
 {
 // the boolean in this pair being true indicates the item is from a vehicle storage space
 using zone_items = std::vector<std::pair<item *, bool>>;
 
-struct unload_options {
+struct unload_sort_options {
     bool unload_mods = false;
     bool unload_molle = false;
     bool unload_always = false;
@@ -21,12 +32,12 @@ bool sorter_out_of_bounds( Character &you );
 
 //returns true if successfully routed to destination
 bool route_to_destination( Character &you, player_activity &act,
-                           const tripoint_bub_ms dest, zone_activity_stage &stage );
+                           const tripoint_bub_ms &dest, zone_activity_stage &stage );
 /**
 * Returns true if the given item should be skipped while sorting
 */
 bool sort_skip_item( Character &you, const item *it,
-                     const std::vector<const item *> &other_activity_items,
+                     const std::vector<item_location> &other_activity_items,
                      bool ignore_favorite, const tripoint_abs_ms &src );
 
 /**
@@ -34,8 +45,8 @@ bool sort_skip_item( Character &you, const item *it,
 * @param use_zone_type - check for zone types other than UNLOAD_ALL
 * @param unloading - whether to set unload_always
 */
-unload_options set_unload_options( Character &you, const tripoint_abs_ms &src,
-                                   bool use_zone_type, bool unloading );
+unload_sort_options set_unload_options( Character &you, const tripoint_abs_ms &src,
+                                        bool use_zone_type );
 
 // return items at the given location from vehicle cargo and ground
 // TODO: build into map class
@@ -51,19 +62,20 @@ bool ignore_zone_position( Character &you, const tripoint_abs_ms &src, bool igno
 
 // of `items` at `src`, do any need to be sorted?
 bool has_items_to_sort( Character &you, const tripoint_abs_ms &src,
-                        zone_sorting::unload_options zone_unload_options,
-                        const std::vector<const item *> &other_activity_items,
+                        zone_sorting::unload_sort_options zone_unload_options,
+                        const std::vector<item_location> &other_activity_items,
                         const zone_sorting::zone_items &items );
 bool can_unload( item *it );
-void add_item( const std::optional<vpart_reference> vp, const tripoint_bub_ms &src_bub,
+void add_item( const std::optional<vpart_reference> &vp, const tripoint_bub_ms &src_bub,
                const item &it );
-void remove_item( const std::optional<vpart_reference> vp, const tripoint_bub_ms &src_bub,
+void remove_item( const std::optional<vpart_reference> &vp, const tripoint_bub_ms &src_bub,
                   item *it );
 std::optional<bool> unload_item( Character &you, const tripoint_abs_ms &src,
-                                 zone_sorting::unload_options zone_unload_options, const std::optional<vpart_reference> &vpr_src,
+                                 zone_sorting::unload_sort_options zone_unload_options,
+                                 const std::optional<vpart_reference> &vpr_src,
                                  item *it, const std::unordered_set<tripoint_abs_ms> &dest_set,
                                  int &num_processed );
 void move_item( Character &you, const std::optional<vpart_reference> &vpr_src,
                 const tripoint_bub_ms &src_bub, const std::unordered_set<tripoint_abs_ms> &dest_set,
                 item &it, int &num_processed );
-}
+} //namespace zone_sorting

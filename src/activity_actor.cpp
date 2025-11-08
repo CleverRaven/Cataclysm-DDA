@@ -44,7 +44,6 @@
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
-#include "faction.h"
 #include "fault.h"
 #include "field_type.h"
 #include "flag.h"
@@ -81,7 +80,6 @@
 #include "options.h"
 #include "output.h"
 #include "overmap_ui.h"
-#include "pathfinding.h"
 #include "pickup.h"
 #include "pimpl.h"
 #include "player_activity.h"
@@ -7896,50 +7894,7 @@ void zone_activity_actor::start( player_activity &act, Character & )
     act.moves_left = moves;
 }
 
-static void move_item( Character &you, item &it, const int quantity, const tripoint_bub_ms &src,
-                       const tripoint_bub_ms &dest, vehicle *src_veh, int src_part )
-{
-    item leftovers = it;
-
-    if( quantity != 0 && it.count_by_charges() ) {
-        // Reinserting leftovers happens after item removal to avoid stacking issues.
-        leftovers.charges = it.charges - quantity;
-        if( leftovers.charges > 0 ) {
-            it.charges = quantity;
-        }
-    } else {
-        leftovers.charges = 0;
-    }
-
-    map &here = get_map();
-    // Check that we can pick it up.
-    if( it.made_of_from_type( phase_id::SOLID ) ) {
-        you.mod_moves( -activity_handlers::move_cost( it, src, dest ) );
-
-        put_into_vehicle_or_drop( you, item_drop_reason::deliberate, { it }, &here, dest );
-        // Remove from map or vehicle.
-        if( src_veh ) {
-            vehicle_part &vp_src = src_veh->part( src_part );
-            src_veh->remove_item( vp_src, &it );
-        } else {
-            here.i_rem( src, &it );
-        }
-    }
-
-    // If we didn't pick up a whole stack, put the remainder back where it came from.
-    if( leftovers.charges > 0 ) {
-        if( src_veh ) {
-            vehicle_part &vp_src = src_veh->part( src_part );
-            if( !src_veh->add_item( here, vp_src, leftovers ) ) {
-                debugmsg( "SortLoot: Source vehicle failed to receive leftover charges." );
-            }
-        } else {
-            here.add_item_or_charges( src, leftovers );
-        }
-    }
-}
-
-void unload_loot_activity_actor::stage_init( player_activity &act, Character &you )
+void unload_loot_activity_actor::stage_init( player_activity &, Character &you )
 {
 
     const zone_manager &mgr = zone_manager::get_manager();
@@ -8020,7 +7975,7 @@ bool unload_loot_activity_actor::stage_think( player_activity &act, Character &y
     return true;
 }
 
-void unload_loot_activity_actor::stage_do( player_activity &act, Character &you )
+void unload_loot_activity_actor::stage_do( player_activity &, Character &you )
 {
 
     const zone_manager &mgr = zone_manager::get_manager();
@@ -8039,8 +7994,8 @@ void unload_loot_activity_actor::stage_do( player_activity &act, Character &you 
 
     zone_sorting::zone_items items = zone_sorting::populate_items( src_bub );
 
-    zone_sorting::unload_options zone_unload_options = zone_sorting::set_unload_options( you, src,
-            false, true );
+    zone_sorting::unload_sort_options zone_unload_options = zone_sorting::set_unload_options( you, src,
+            false );
 
     //Skip items that have already been processed
     for( auto it = items.begin() + num_processed; it < items.end(); ++it ) {
@@ -8072,7 +8027,6 @@ void unload_loot_activity_actor::stage_do( player_activity &act, Character &you 
 
     //this location is sorted
     stage = THINK;
-    return;
 }
 
 bool vehicle_folding_activity_actor::fold_vehicle( Character &p, bool check_only ) const
@@ -9163,7 +9117,6 @@ void zone_activity_actor::do_turn( player_activity &act, Character &you )
         stage_do( act, you );
         return;
     }
-
     // If we got here without restarting the activity, it means we're done
     add_msg( m_info, _( "%s sorted out every item possible." ), you.disp_name( false, true ) );
     if( you.is_npc() ) {
@@ -9171,6 +9124,11 @@ void zone_activity_actor::do_turn( player_activity &act, Character &you )
         guy->revert_after_activity();
     }
     act.set_to_null();
+}
+
+void zone_activity_actor::finish( player_activity &, Character & )
+{
+    //unused, zone activities do not have precalculated moves
 }
 
 void zone_activity_actor::update_vehicle_zone_cache()
@@ -9191,12 +9149,12 @@ void zone_sort_activity_actor::update_other_activity_items()
     for( const npc &guy : g->all_npcs() ) {
         if( !guy.activity.targets.empty() ) {
             for( const item_location &target : guy.activity.targets ) {
-                other_activity_items.push_back( target.get_item() );
+                other_activity_items.push_back( target );
             }
         }
     }
     for( const item_location &target : get_player_character().activity.targets ) {
-        other_activity_items.push_back( target.get_item() );
+        other_activity_items.push_back( target );
     }
 }
 
@@ -9206,7 +9164,7 @@ void zone_sort_activity_actor::do_turn( player_activity &act, Character &you )
     zone_activity_actor::do_turn( act, you );
 }
 
-void zone_sort_activity_actor::stage_init( player_activity &act, Character &you )
+void zone_sort_activity_actor::stage_init( player_activity &, Character &you )
 {
     const zone_manager &mgr = zone_manager::get_manager();
     coord_set.clear();
@@ -9255,8 +9213,8 @@ bool zone_sort_activity_actor::stage_think( player_activity &act, Character &you
             continue;
         }
 
-        zone_sorting::unload_options zone_unload_options = zone_sorting::set_unload_options( you, src, true,
-                false );
+        zone_sorting::unload_sort_options zone_unload_options = zone_sorting::set_unload_options( you, src,
+                true );
 
         const zone_sorting::zone_items items = zone_sorting::populate_items( src_bub );
 
@@ -9283,7 +9241,7 @@ bool zone_sort_activity_actor::stage_think( player_activity &act, Character &you
     return true;
 }
 
-void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
+void zone_sort_activity_actor::stage_do( player_activity &, Character &you )
 {
     const map &here = get_map();
     const zone_manager &mgr = zone_manager::get_manager();
@@ -9303,8 +9261,7 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
 
     zone_sorting::zone_items items = zone_sorting::populate_items( src_bub );
 
-    zone_sorting::unload_options zone_unload_options = zone_sorting::set_unload_options( you, src,
-            false,
+    zone_sorting::unload_sort_options zone_unload_options = zone_sorting::set_unload_options( you, src,
             false );
 
     const std::optional<vpart_reference> vp = here.veh_at( src_bub ).cargo();
@@ -9319,13 +9276,11 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
             continue;
         }
 
-        // Only if it's from a vehicle do we use the vehicle source location information.
-        const std::optional<vpart_reference> vpr_src = it->second ? vp : std::nullopt;
-        const zone_type_id id = mgr.get_near_zone_type_for_item( thisitem, abspos,
-                                MAX_VIEW_DISTANCE, fac_id );
+        const zone_type_id zt_id = mgr.get_near_zone_type_for_item( thisitem, abspos,
+                                   MAX_VIEW_DISTANCE, fac_id );
 
         const std::unordered_set<tripoint_abs_ms> dest_set =
-            mgr.get_near( id, abspos, MAX_VIEW_DISTANCE, &thisitem, fac_id );
+            mgr.get_near( zt_id, abspos, MAX_VIEW_DISTANCE, &thisitem, fac_id );
 
         std::optional<bool> move_and_reset = zone_sorting::unload_item( you, src,
                                              zone_unload_options, vp, it->first, dest_set, num_processed );
@@ -9343,7 +9298,20 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
 
     //this location is sorted
     stage = THINK;
-    return;
+}
+
+void zone_sort_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "moves", moves );
+    jsout.member( "num_processed", num_processed );
+    jsout.member( "stage", stage );
+    jsout.member( "coord_set", coord_set );
+    jsout.member( "placement", placement );
+    jsout.member( "other_activity_items", other_activity_items );
+
+    jsout.end_object();
 }
 
 std::unique_ptr<activity_actor> zone_sort_activity_actor::deserialize( JsonValue &jsin )
@@ -9357,6 +9325,7 @@ std::unique_ptr<activity_actor> zone_sort_activity_actor::deserialize( JsonValue
     data.read( "stage", actor.stage );
     data.read( "coord_set", actor.coord_set );
     data.read( "placement", actor.placement );
+    data.read( "other_activity_items", actor.other_activity_items );
 
     return actor.clone();
 }

@@ -694,7 +694,7 @@ bool sorter_out_of_bounds( Character &you )
         // p is implicitly an NPC that has been moved off the map, so reset the activity
         // and unload them
         you.cancel_activity();
-        you.assign_activity( ACT_MOVE_LOOT );
+        you.assign_activity( zone_sort_activity_actor() );
         you.set_moves( 0 );
         g->reload_npcs();
         return true;
@@ -703,7 +703,7 @@ bool sorter_out_of_bounds( Character &you )
 }
 
 bool route_to_destination( Character &you, player_activity &act,
-                           const tripoint_bub_ms dest, zone_activity_stage &stage )
+                           const tripoint_bub_ms &dest, zone_activity_stage &stage )
 {
     const map &here = get_map();
     //attempt to route to out-of-bubble position
@@ -724,7 +724,7 @@ bool route_to_destination( Character &you, player_activity &act,
 };
 
 bool sort_skip_item( Character &you, const item *it,
-                     const std::vector<const item *> &other_activity_items,
+                     const std::vector<item_location> &other_activity_items,
                      bool ignore_favorite, const tripoint_abs_ms &src )
 {
     const zone_manager &mgr = zone_manager::get_manager();
@@ -740,8 +740,10 @@ bool sort_skip_item( Character &you, const item *it,
     }
 
     // don't steal items from other activities, e.g. crafts in progress
-    if( std::find( other_activity_items.begin(), other_activity_items.end(),
-                   it ) != other_activity_items.end() ) {
+    if( std::find_if( other_activity_items.begin(), other_activity_items.end(),
+    [&it]( const item_location & activity_it ) {
+    return activity_it.get_item() == it;
+    } ) != other_activity_items.end() ) {
         return true;
     }
 
@@ -770,11 +772,11 @@ bool sort_skip_item( Character &you, const item *it,
     return false;
 }
 
-options set_unload_options( Character &you, const tripoint_abs_ms &src,
-                            bool use_zone_type, bool unloading )
+unload_sort_options set_unload_options( Character &you, const tripoint_abs_ms &src,
+                                        bool use_zone_type )
 {
     const zone_manager &mgr = zone_manager::get_manager();
-    options zone_sort_options;
+    unload_sort_options zone_sort_options;
 
     std::vector<zone_data const *> const zones = mgr.get_zones_at( src, zone_type_UNLOAD_ALL,
             _fac_id( you ) );
@@ -855,8 +857,8 @@ bool ignore_zone_position( Character &you, const tripoint_abs_ms &src,
 }
 
 bool has_items_to_sort( Character &you, const tripoint_abs_ms &src,
-                        options zone_sort_options,
-                        const std::vector<const item *> &other_activity_items,
+                        unload_sort_options zone_unload_options,
+                        const std::vector<item_location> &other_activity_items,
                         const zone_items &items )
 {
     const zone_manager &mgr = zone_manager::get_manager();
@@ -869,7 +871,7 @@ bool has_items_to_sort( Character &you, const tripoint_abs_ms &src,
                                           MAX_VIEW_DISTANCE, fac_id );
 
         if( sort_skip_item( you, it, other_activity_items,
-                            zone_sort_options.ignore_favorite, src ) ) {
+                            zone_unload_options.ignore_favorite, src ) ) {
             continue;
         }
 
@@ -877,8 +879,8 @@ bool has_items_to_sort( Character &you, const tripoint_abs_ms &src,
             mgr.get_near( zone_type_id, abspos, MAX_VIEW_DISTANCE, it, fac_id );
 
         //if we're unloading all or a corpse
-        if( zone_sort_options.unload_all || ( zone_sort_options.unload_corpses && it->is_corpse() ) ) {
-            if( dest_set.empty() || zone_sort_options.unload_always ) {
+        if( zone_unload_options.unload_all || ( zone_unload_options.unload_corpses && it->is_corpse() ) ) {
+            if( dest_set.empty() || zone_unload_options.unload_always ) {
                 if( you.rate_action_unload( *it ) == hint_rating::good &&
                     !it->any_pockets_sealed() ) {
                     //we can unload this item, so stop here
@@ -886,7 +888,7 @@ bool has_items_to_sort( Character &you, const tripoint_abs_ms &src,
                 }
 
                 // if unloading mods
-                if( zone_sort_options.unload_mods ) {
+                if( zone_unload_options.unload_mods ) {
                     // remove each mod, skip irremovable
                     for( const item *mod : it->gunmods() ) {
                         if( mod->is_irremovable() ) {
@@ -898,7 +900,7 @@ bool has_items_to_sort( Character &you, const tripoint_abs_ms &src,
                 }
 
                 // if unloading molle
-                if( zone_sort_options.unload_molle && !it->get_contents().get_added_pockets().empty() ) {
+                if( zone_unload_options.unload_molle && !it->get_contents().get_added_pockets().empty() ) {
                     // we can unload the MOLLE, so stop here
                     return true;
                 }
@@ -917,7 +919,7 @@ bool can_unload( item *it )
     return it->made_of( phase_id::SOLID );
 }
 
-void add_item( const std::optional<vpart_reference> vp,
+void add_item( const std::optional<vpart_reference> &vp,
                const tripoint_bub_ms &src_bub,
                const item &it )
 {
@@ -929,7 +931,7 @@ void add_item( const std::optional<vpart_reference> vp,
     }
 }
 
-void remove_item( const std::optional<vpart_reference> vp,
+void remove_item( const std::optional<vpart_reference> &vp,
                   const tripoint_bub_ms &src_bub,
                   item *it )
 {
@@ -942,7 +944,7 @@ void remove_item( const std::optional<vpart_reference> vp,
 }
 
 std::optional<bool> unload_item( Character &you, const tripoint_abs_ms &src,
-                                 options zone_sort_options, const std::optional<vpart_reference> &vpr_src,
+                                 unload_sort_options zone_unload_options, const std::optional<vpart_reference> &vpr_src,
                                  item *it, const std::unordered_set<tripoint_abs_ms> &dest_set,
                                  int &num_processed )
 {
@@ -966,14 +968,14 @@ std::optional<bool> unload_item( Character &you, const tripoint_abs_ms &src,
 
     if( mgr.has_near( zone_type_UNLOAD_ALL, abspos, 1, fac_id ) ||
         ( mgr.has_near( zone_type_STRIP_CORPSES, abspos, 1, fac_id ) && it->is_corpse() ) ) {
-        if( dest_set.empty() || zone_sort_options.unload_always ) {
+        if( dest_set.empty() || zone_unload_options.unload_always ) {
 
             if( you.rate_action_unload( *it ) == hint_rating::good &&
                 !it->any_pockets_sealed() ) {
 
                 //first, count items by type at top-level
                 std::unordered_map<itype_id, int> item_counts;
-                if( zone_sort_options.unload_sparse_only ) {
+                if( zone_unload_options.unload_sparse_only ) {
                     for( item *contained : it->all_items_top( pocket_type::CONTAINER ) ) {
                         if( zone_sorting::can_unload( contained ) ) {
                             item_counts[contained->typeId()]++;
@@ -988,8 +990,8 @@ std::optional<bool> unload_item( Character &you, const tripoint_abs_ms &src,
                 //if the item count is below the sparse threshold set above, don't unload
                 for( item *contained : it->all_items_top( pocket_type::CONTAINER ) ) {
                     if( zone_sorting::can_unload( contained ) ) {
-                        if( zone_sort_options.unload_sparse_only &&
-                            item_counts[contained->typeId()] > zone_sort_options.unload_sparse_threshold ) {
+                        if( zone_unload_options.unload_sparse_only &&
+                            item_counts[contained->typeId()] > zone_unload_options.unload_sparse_threshold ) {
                             continue;
                         }
                         unload_teleport_item( contained );
@@ -1010,6 +1012,14 @@ std::optional<bool> unload_item( Character &you, const tripoint_abs_ms &src,
                         }
                         unload_teleport_item( contained );
                     }
+
+                    // destroy fully unloaded magazines
+                    if( it->has_flag( flag_MAG_DESTROY ) && it->ammo_remaining() == 0 ) {
+                        zone_sorting::remove_item( vpr_src, src_bub, it );
+                        num_processed = std::max( num_processed - 1, 0 );
+                        return std::nullopt;
+                    }
+
                     if( you.get_moves() <= 0 ) {
                         return std::nullopt;
                     }
@@ -1026,7 +1036,7 @@ std::optional<bool> unload_item( Character &you, const tripoint_abs_ms &src,
             }
 
             // if unloading mods
-            if( zone_sort_options.unload_mods ) {
+            if( zone_unload_options.unload_mods ) {
                 // remove each mod, skip irremovable
                 for( item *mod : it->gunmods() ) {
                     if( mod->is_irremovable() ) {
@@ -1039,7 +1049,7 @@ std::optional<bool> unload_item( Character &you, const tripoint_abs_ms &src,
             }
 
             // if unloading molle
-            if( zone_sort_options.unload_molle ) {
+            if( zone_unload_options.unload_molle ) {
                 while( !it->get_contents().get_added_pockets().empty() ) {
                     item removed = it->get_contents().remove_pocket( 0 );
                     move_item( you, removed, 1, src_bub, src_bub, vpr_src );
@@ -1050,17 +1060,10 @@ std::optional<bool> unload_item( Character &you, const tripoint_abs_ms &src,
                 }
             }
 
-            // destroy fully unloaded magazines
-            if( it->has_flag( flag_MAG_DESTROY ) && it->ammo_remaining() == 0 ) {
-                zone_sorting::remove_item( vpr_src, src_bub, it );
-                num_processed = std::max( num_processed - 1, 0 );
-                return std::nullopt;
-            }
-
             // after dumping items go back to start of activity loop
             // so that can re-assess the items in the tile
             // perhaps move the last item first however
-            if( zone_sort_options.unload_always && moved_something ) {
+            if( zone_unload_options.unload_always && moved_something ) {
                 move_and_reset = true;
             } else if( moved_something ) {
                 return std::nullopt;
