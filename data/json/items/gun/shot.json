@@ -1251,6 +1251,7 @@
     "material": [ "steel", "aluminum", "plastic" ],
     "dispersion": 420,
     "clip_size": 5,
+    "handling": 10,
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "loading port", 1 ],
