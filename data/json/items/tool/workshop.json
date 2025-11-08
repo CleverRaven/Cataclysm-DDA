@@ -1,10 +1,10 @@
 [
   {
-    "id": "adobe_pallet_full",
+    "id": "adobe_pallet_full_active",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "pallet of wet adobe bricks", "str_pl": "pallets of wet adobe bricks" },
-    "description": "A pallet full of heavy mud bricks which need to dry slowly to be usable.",
+    "description": "A pallet full of heavy mud bricks which need to dry slowly to be usable, so it will transform after a week.",
     "weight": "220 kg",
     "volume": "220000 ml",
     "longest_side": "180 cm",
@@ -14,16 +14,9 @@
     "symbol": "#",
     "color": "brown",
     "looks_like": "frame_wood_light",
-    "flags": [ "NONCONDUCTIVE", "ALLOWS_REMOTE_USE" ],
-    "use_action": {
-      "target": "adobe_pallet_done",
-      "msg": "You test the bricks, and they're solid enough to use.",
-      "moves": 50,
-      "type": "delayed_transform",
-      "transform_age": 604800,
-      "not_ready_msg": "The bricks are still too damp to bear weight.",
-      "//": "Should be about a week. Irl it's ten days, so make big batches."
-    }
+    "flags": [ "NONCONDUCTIVE", "ALLOWS_REMOTE_USE", "SPAWN_ACTIVE" ],
+    "countdown_interval": "7 days",
+    "revert_to": "adobe_pallet_done"
   },
   {
     "id": "adobe_pallet_done",

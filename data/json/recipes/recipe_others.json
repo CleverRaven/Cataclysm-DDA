@@ -2184,7 +2184,7 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "tanning_pelt",
+    "result": "tanning_pelt_active",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "survival",
@@ -2236,7 +2236,7 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "tanning_pelt",
+    "result": "tanning_pelt_active",
     "id_suffix": "modern",
     "name": "%s using lye powder",
     "category": "CC_OTHER",

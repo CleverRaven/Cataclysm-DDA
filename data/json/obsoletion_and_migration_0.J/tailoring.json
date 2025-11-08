@@ -23,5 +23,30 @@
       "//": "2 days"
     },
     "flags": [ "NO_SALVAGE" ]
+  },
+  {
+    "id": "tanning_pelt",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "category": "spare_parts",
+    "name": { "str": "tanning fur pelt (obsolete)", "str_pl": "tanning fur pelta (obsolete)" },
+    "description": "A treated animal pelt that is undergoing the chemical processes required to become fur.  You will be able to activate it to unroll and make use of it when it is done.",
+    "weight": "684 g",
+    "volume": "1 L",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "fur", "flesh" ],
+    "symbol": ",",
+    "color": "brown",
+    "use_action": {
+      "target": "tanned_pelt",
+      "msg": "You carefully unfold the tanning fur pelt and shake it clean.",
+      "moves": 150,
+      "type": "delayed_transform",
+      "transform_age": 28800,
+      "not_ready_msg": "The tanning fur pelt isn't done yet.",
+      "//": "2 days"
+    },
+    "flags": [ "NO_SALVAGE" ]
   }
 ]
