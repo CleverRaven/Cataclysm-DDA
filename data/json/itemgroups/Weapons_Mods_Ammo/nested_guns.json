@@ -550,19 +550,6 @@
     ]
   },
   {
-    "id": "nested_kp32",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [
-      { "item": "kp32", "charges": [ 0, 7 ] },
-      { "item": "kp32mag" },
-      { "item": "kp32mag", "prob": 50 },
-      { "group": "on_hand_32" }
-    ]
-  },
-  {
     "id": "nested_lws32",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
@@ -1200,19 +1187,6 @@
     ]
   },
   {
-    "id": "nested_calico",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [
-      { "item": "calico", "charges": [ 0, 50 ] },
-      { "item": "calicomag" },
-      { "item": "calicomag", "prob": 50 },
-      { "group": "on_hand_9mm" }
-    ]
-  },
-  {
     "id": "nested_fn_p90",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
@@ -1391,19 +1365,6 @@
       { "item": "briefcase_smg", "charges": [ 0, 30 ] },
       { "item": "mp5mag_10rd" },
       { "item": "mp5mag_10rd", "prob": 50 },
-      { "group": "on_hand_9mm" }
-    ]
-  },
-  {
-    "id": "nested_tec9",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [
-      { "item": "tec9", "charges": [ 0, 30 ] },
-      { "item": "tec9mag" },
-      { "item": "tec9mag", "prob": 50 },
       { "group": "on_hand_9mm" }
     ]
   },
@@ -2251,14 +2212,6 @@
       { "item": "ak74mag", "prob": 50 },
       { "group": "on_hand_545x39" }
     ]
-  },
-  {
-    "id": "nested_bfg50",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [ { "item": "bfg50", "charges": [ 0, 1 ] }, { "group": "on_hand_50" } ]
   },
   {
     "id": "nested_carbine_flintlock",
