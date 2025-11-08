@@ -3,7 +3,7 @@
     "//": "Assumed to be ~0.5 m x 0.5 m to fit in a vehicle tile",
     "type": "ITEM",
     "id": "solar_panel",
-    "name": { "str": "small solar panel" },
+    "name": { "str": "vehicle solar panel" },
     "description": "An electronic device that can convert solar radiation into electric power.  Useful for a vehicle or a static power grid.",
     "//1": [
       "66 in x 40 in x 2 in = 68 L solar panels weigh 40 lbs, for density of ~210 g/L",
@@ -103,7 +103,7 @@
   {
     "type": "ITEM",
     "id": "reinforced_solar_panel",
-    "name": { "str": "small reinforced solar panel" },
+    "name": { "str": "vehicle reinforced solar panel" },
     "description": "A solar panel that has been covered with a pane of reinforced glass to protect the delicate solar cells from zombies or errant baseballs.  The glass causes this panel to produce slightly less power than a normal panel.",
     "weight": "24153 g",
     "color": "light_blue",
@@ -117,7 +117,7 @@
     "//": "Assumed to be ~0.5 m x 0.5 m to fit in a vehicle tile",
     "type": "ITEM",
     "id": "solar_panel_v2",
-    "name": { "str": "small advanced solar panel" },
+    "name": { "str": "vehicle advanced solar panel" },
     "description": "An electronic device that can convert solar radiation into electric power.  This one is a high-performance type made with monocrystalline silicon cells.",
     "price": "1 kUSD 900 USD",
     "price_postapoc": "30 USD",
@@ -135,7 +135,7 @@
   {
     "type": "ITEM",
     "id": "reinforced_solar_panel_v2",
-    "name": { "str": "small advanced reinforced solar panel" },
+    "name": { "str": "vehicle advanced reinforced solar panel" },
     "description": "An advanced solar panel that has been covered with a pane of reinforced glass to protect the delicate solar cells from zombies or errant baseballs.  The glass causes this panel to produce slightly less power than a normal advanced panel.",
     "price": "2 kUSD 400 USD",
     "price_postapoc": "35 USD",
