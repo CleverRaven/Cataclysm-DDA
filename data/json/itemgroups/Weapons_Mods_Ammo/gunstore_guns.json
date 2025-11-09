@@ -762,14 +762,14 @@
     "subtype": "collection",
     "id": "boxed_fn57",
     "container-item": "box_pistol",
-    "items": [ { "item": "fn57" }, { "group": "firearm_box_extras" }, { "item": "fn57mag", "count": [ 1, 2 ] } ]
+    "items": [ { "item": "fn57" }, { "group": "firearm_box_extras" }, { "item": "fn57mag_10rd", "count": [ 1, 2 ] } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "boxed_p50",
     "container-item": "box_pistol",
-    "items": [ { "item": "p50" }, { "group": "firearm_box_extras" }, { "item": "fnp90mag" } ]
+    "items": [ { "item": "p50" }, { "group": "firearm_box_extras" }, { "item": "fnp90mag_10rd" } ]
   },
   {
     "type": "item_group",
@@ -1012,7 +1012,7 @@
     "subtype": "collection",
     "id": "boxed_ak556",
     "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
-    "items": [ { "item": "ak556" }, { "group": "firearm_box_extras" }, { "item": "zpap85mag", "count": [ 1, 2 ] } ]
+    "items": [ { "item": "ak556" }, { "group": "firearm_box_extras" }, { "item": "zpap85mag_10rd", "count": [ 1, 2 ] } ]
   },
   {
     "type": "item_group",
@@ -1416,7 +1416,7 @@
     "subtype": "collection",
     "id": "boxed_fn_ps90",
     "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
-    "items": [ { "item": "fn_ps90" }, { "group": "firearm_box_extras" }, { "item": "fnp90mag", "count": [ 1, 2 ] } ]
+    "items": [ { "item": "fn_ps90" }, { "group": "firearm_box_extras" }, { "item": "fnp90mag_10rd", "count": [ 1, 2 ] } ]
   },
   {
     "type": "item_group",

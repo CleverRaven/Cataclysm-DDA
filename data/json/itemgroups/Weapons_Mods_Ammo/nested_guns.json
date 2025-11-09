@@ -2582,9 +2582,9 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "p50", "charges": [ 0, 50 ] },
-      { "item": "fnp90mag" },
-      { "item": "fnp90mag", "prob": 50 },
+      { "item": "p50", "charges": [ 0, 10 ] },
+      { "item": "fnp90mag_10rd" },
+      { "item": "fnp90mag_10rd", "prob": 50 },
       { "group": "on_hand_57" }
     ]
   },
@@ -2595,9 +2595,9 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "fn_ps90", "charges": [ 0, 50 ] },
-      { "item": "fnp90mag" },
-      { "item": "fnp90mag", "prob": 50 },
+      { "item": "fn_ps90", "charges": [ 0, 10 ] },
+      { "item": "fnp90mag_10rd" },
+      { "item": "fnp90mag_10rd", "prob": 50 },
       { "group": "on_hand_57" }
     ]
   },
@@ -2647,9 +2647,9 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "ak556", "charges": [ 0, 30 ] },
-      { "item": "zpap85mag" },
-      { "item": "zpap85mag", "prob": 50 },
+      { "item": "ak556", "charges": [ 0, 10 ] },
+      { "item": "zpap85mag_10rd" },
+      { "item": "zpap85mag_10rd", "prob": 50 },
       { "group": "on_hand_223" }
     ]
   },

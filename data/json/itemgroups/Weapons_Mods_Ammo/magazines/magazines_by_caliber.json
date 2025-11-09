@@ -225,8 +225,8 @@
     "//": "Collections of magazines for 5.7mm guns that can be found in gunstores, that are limited to 10 rounds or less.",
     "items": [
       { "item": "ruger_57_10_round_mag", "prob": 100 },
-      { "item": "fn57mag", "prob": 13 },
-      { "item": "fnp90mag", "prob": 115 }
+      { "item": "fn57mag_10rd", "prob": 13 },
+      { "item": "fnp90mag_10rd", "prob": 115 }
     ]
   },
   {
