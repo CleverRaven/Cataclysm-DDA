@@ -40,6 +40,7 @@
 #include "trap.h"
 #include "units.h"
 #include "units_utility.h"
+#include "value_ptr.h"
 #include "veh_type.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
