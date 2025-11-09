@@ -1,0 +1,40 @@
+[
+  {
+    "id": "mon_teke_mouse",
+    "copy-from": "mon_teke_mouse",
+    "type": "MONSTER",
+    "special_attacks": [
+      { "id": "teke_push" },
+      {
+        "id": "psi_teke_mouse_inertial_barrier",
+        "type": "spell",
+        "spell_data": { "id": "telekinetic_barrier_monster" },
+        "cooldown": 1,
+        "condition": {
+          "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_monster_inertial_barrier" } } ]
+        },
+        "monster_message": "The air around %1$s distorts."
+      },
+      {
+        "id": "smash",
+        "move_cost": 80,
+        "cooldown": { "math": [ "6 + rand(12)" ] },
+        "damage_max_instance": [ { "damage_type": "psi_telekinetic_damage", "amount": 0 } ],
+        "hitsize_min": 12,
+        "accuracy": 5,
+        "range": 5,
+        "throw_strength": 30,
+        "dodgeable": false,
+        "uncanny_dodgeable": true,
+        "blockable": false,
+        "condition": { "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "npc_has_flag": "TELEKIN_SHIELD" } } ] },
+        "hit_dmg_u": "%1$s stares at you and a powerful force hurls you through the air!",
+        "hit_dmg_npc": "%1$s stares at <npcname> and a powerful force hurls them through the air!",
+        "miss_msg_u": "%s stares at you, and you feel a crushing pressure for a moment before the feeling vanishes!",
+        "miss_msg_npc": "%s stares at <npcname> but nothing happens!"
+      },
+      [ "EAT_FOOD", 120 ],
+      [ "EAT_CARRION", 120 ]
+    ]
+  }
+]
