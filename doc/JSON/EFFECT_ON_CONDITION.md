@@ -2402,7 +2402,7 @@ NPC run EoCs, provided by this effect; can work outside of reality bubble
 | "u_run_npc_eocs"/ "npc_run_npc_eocs" | **mandatory** | array of eocs | EoCs that would be run by NPCs |
 | "unique_ids" | optional | string, [variable objects](#variable-object) or array | id of NPCs that would be affected; lack of ids make effect run EoC on every NPC in your reality bubble, if `"local": true`, and to every NPC in the world, if `"local": false`; unique ID of every npc is specified in mapgen, using `npcs` or `place_npcs` | 
 | "local" | optional | boolean | default false; if true, the effect is run for every NPC in the world; if false, effect is run only to NPC in your reality bubble |
-| "npc_range" | optional | int or [variable object](#variable-object) | if used, only NPC in this range are affected |
+| "npc_range" | optional | int or [variable object](#variable-object) | if used and neither 'z_min' nor 'z_max' is specified, only NPC having the same z position as the player in this range are affected |
 | "z_min" | optional | int or [variable object](#variable-object) | if used, only NPC'z position >= z_min are affected |
 | "z_max" | optional | int or [variable object](#variable-object) | if used, only NPC'z position <= z_max are affected |
 | "npc_must_see" | optional | boolean | default false; if true, only NPC you can see are affected |
@@ -2469,7 +2469,7 @@ Monsters run EoCs, provided by this effect; only works inside reality bubble
 | --- | --- | --- | --- | 
 | "u_run_monster_eocs"/ "npc_run_monster_eocs" | **mandatory** | array of eocs | EoCs that would be run by monsters |
 | "mtype_ids" | optional | array or [variable objects](#variable-object) | mtype_id(s) that should be affected |
-| "monster_range" | optional | int or [variable object](#variable-object) | if used, only monsters in this range are affected |
+| "monster_range" | optional | int or [variable object](#variable-object) | if used and neither 'z_min' nor 'z_max' is specified, only monsters having the same z position as the player in this range are affected |
 | "z_min" | optional | int or [variable object](#variable-object) | if used, only NPC'z position >= z_min are affected |
 | "z_max" | optional | int or [variable object](#variable-object) | if used, only NPC'z position <= z_max are affected |
 | "monster_must_see" | optional | boolean | default false; if true, only monsters you can see are affected |
