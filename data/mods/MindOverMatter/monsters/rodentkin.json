@@ -9,7 +9,7 @@
         "attack_type": "melee",
         "id": "teke_push_nema",
         "cooldown": 20,
-        "move_cost": 200,
+        "move_cost": 100,
         "range": 6,
         "damage_max_instance": [ { "damage_type": "psi_telekinetic_damage", "amount": 20 } ],
         "hit_dmg_u": "%1$s stares at you intently and a sudden wind buffets you!",
