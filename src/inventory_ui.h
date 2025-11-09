@@ -711,7 +711,10 @@ class inventory_selector
 
         // An array of cells for the stat lines. Example: ["Weight (kg)", "10", "/", "20"].
         using stat = std::array<std::string, 4>;
-        using stats = std::array<stat, 3>;
+        using stats = std::array<stat, 3>; // legacy
+        using header_stats_line = std::vector<std::string>;
+        using header_stats = std::vector<header_stats_line>;
+        static header_stats convert_stats_to_header_stats(const stats& old_stats);
 
     protected:
         Character &u;
@@ -768,22 +771,35 @@ class inventory_selector
         /** Tackles screen overflow */
         virtual void rearrange_columns( size_t client_width );
 
-        static stat get_weight_and_length_stat( units::mass weight_carried,
-                                                units::mass weight_capacity, const units::length &longest_length );
-        static stat get_volume_stat( const units::volume
-                                     &volume_carried, const units::volume &volume_capacity, const units::volume &largest_free_volume );
-        static stat get_holster_stat( const units::volume
-                                      &holster_volume, int used_holsters, int total_holsters );
-        static stats get_weight_and_volume_and_holster_stats(
+        static header_stats_line build_weight_and_volume_stats_line(
             units::mass weight_carried, units::mass weight_capacity,
-            const units::volume &volume_carried, const units::volume &volume_capacity,
-            const units::length &longest_length, const units::volume &largest_free_volume,
-            const units::volume &holster_volume, int used_holsters, int total_holsters );
+            const units::volume& volume_in_pockets, const units::volume& volume_of_pockets
+        );
+        static header_stats_line build_pocket_stats_line(
+            const std::string& prefix,
+            const units::volume& free_pocket_volume,
+            const units::length& free_pocket_length,
+            const units::volume& max_pocket_volume,
+            const units::length& max_pocket_length
+        );
+        static header_stats get_weight_and_volume_and_holster_stats(
+            const units::mass &weight_carried, const units::mass &weight_capacity,
+            const units::volume &volume_in_pockets, const units::volume &volume_of_pockets,
+            const units::volume &largest_free_pocket_volume, const units::length &largest_free_pocket_length,
+            const units::volume &largest_max_pocket_volume, const units::length &largest_max_pocket_length,
+            const units::volume &longest_free_pocket_volume, const units::length &longest_free_pocket_length,
+            const units::volume &longest_max_pocket_volume, const units::length &longest_max_pocket_length,
+            int used_holsters, int total_holsters,
+            const units::volume &longest_free_holster_volume, const units::length &longest_free_holster_length,
+            const units::volume &longest_max_holster_volume, const units::length &longest_max_holster_length
+        );
+        static constexpr const char* header_stats_tab_stop = "\t";
+        
 
         /** Get stats to display in top right.
          *
          * By default, computes volume/weight numbers for @c u */
-        virtual stats get_raw_stats() const;
+        virtual header_stats get_raw_stats() const;
 
         std::vector<std::string> get_stats() const;
         std::pair<std::string, nc_color> get_footer( navigation_mode m ) const;
@@ -980,7 +996,7 @@ class container_inventory_selector : public inventory_pick_selector
             inventory_pick_selector( p, preset ), loc( loc ) {}
 
     protected:
-        stats get_raw_stats() const override;
+        header_stats get_raw_stats() const override;
 
     private:
         item_location loc;
@@ -1006,7 +1022,7 @@ class ammo_inventory_selector : public inventory_selector
 class inventory_multiselector : public inventory_selector
 {
     public:
-        using GetStats = std::function<stats( const std::vector<std::pair<item_location, int>> )>;
+        using GetStats = std::function<header_stats( const std::vector<std::pair<item_location, int>> )>;
         explicit inventory_multiselector( Character &p,
                                           const inventory_selector_preset &preset = default_preset,
                                           const std::string &selection_column_title = "",
@@ -1026,7 +1042,7 @@ class inventory_multiselector : public inventory_selector
         virtual void on_toggle() {};
         void on_input( const inventory_input &input );
         int count = 0;
-        stats get_raw_stats() const override;
+        header_stats get_raw_stats() const override;
         void toggle_categorize_contained();
     private:
         std::unique_ptr<inventory_column> selection_col;
@@ -1068,7 +1084,7 @@ class inventory_drop_selector : public inventory_multiselector
             bool warn_liquid = true );
         drop_locations execute();
     protected:
-        stats get_raw_stats() const override;
+        header_stats get_raw_stats() const override;
 
     private:
         bool warn_liquid;
@@ -1083,7 +1099,7 @@ class inventory_insert_selector : public inventory_drop_selector
             const std::string &selection_column_title = _( "ITEMS TO INSERT" ),
             bool warn_liquid = true );
     protected:
-        stats get_raw_stats() const override;
+        header_stats get_raw_stats() const override;
 };
 
 class pickup_selector : public inventory_multiselector
@@ -1098,7 +1114,7 @@ class pickup_selector : public inventory_multiselector
         std::optional<units::volume> overriden_volume;
         std::optional<units::mass> overriden_mass;
     protected:
-        stats get_raw_stats() const override;
+        header_stats get_raw_stats() const override;
         void reassign_custom_invlets() override;
     private:
         bool wield( int &count );

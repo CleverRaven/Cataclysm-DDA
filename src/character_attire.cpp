@@ -424,7 +424,7 @@ void outfit::recalc_ablative_blocking( const Character *guy )
     for( item &w : worn ) {
         if( w.is_ablative() ) {
             should_warn = true;
-            for( item_pocket *p : w.get_all_ablative_pockets() ) {
+            for( item_pocket *p : w.get_ablative_pockets() ) {
                 p->set_no_rigid( rigid_locations );
             }
         }
@@ -1635,23 +1635,15 @@ bool outfit::covered_with_flag( const flag_id &f, const body_part_set &parts ) c
     return to_cover.none();
 }
 
-units::volume outfit::free_space() const
+units::volume outfit::remaining_volume_recursive(std::function<bool(const item_pocket&)> include_pocket,
+    std::function<bool(const item_pocket&)> check_pocket_tree) const
 {
-    units::volume volume_capacity = 0_ml;
-    for( const item &w : worn ) {
-        volume_capacity += w.get_total_capacity();
-        for( const item_pocket *pocket : w.get_all_contained_pockets() ) {
-            if( pocket->contains_phase( phase_id::SOLID ) ) {
-                for( const item *it : pocket->all_items_top() ) {
-                    volume_capacity -= it->volume();
-                }
-            } else if( !pocket->empty() ) {
-                volume_capacity -= pocket->volume_capacity();
-            }
-        }
-        volume_capacity += w.check_for_free_space();
+    units::volume result = 0_ml;
+    for (const item& w : worn) {
+        units::volume expansion = 0_ml; // discarded, currently don't care if a character's entire outfit gets bigger.
+        result += w.get_remaining_volume_recursive(include_pocket, check_pocket_tree, expansion);
     }
-    return volume_capacity;
+    return result;
 }
 
 units::mass outfit::free_weight_capacity() const
@@ -1663,61 +1655,12 @@ units::mass outfit::free_weight_capacity() const
     return weight_capacity;
 }
 
-units::volume outfit::holster_volume() const
-{
-    units::volume ret = 0_ml;
-    for( const item &w : worn ) {
-        if( w.is_holster() ) {
-            ret += w.get_total_capacity();
-        }
-    }
-    return ret;
-}
-
-int outfit::empty_holsters() const
-{
-    int e_holsters = 0;
-    for( const item &w : worn ) {
-        if( w.is_holster() && w.is_container_empty() ) {
-            e_holsters += 1;
-        }
-    }
-    return e_holsters;
-}
-
-int outfit::used_holsters() const
-{
-    int e_holsters = 0;
-    for( const item &w : worn ) {
-        e_holsters += w.get_used_holsters();
-    }
-    return e_holsters;
-}
-
-int outfit::total_holsters() const
-{
-    int e_holsters = 0;
-    for( const item &w : worn ) {
-        e_holsters += w.get_total_holsters();
-    }
-    return e_holsters;
-}
-
-units::volume outfit::free_holster_volume() const
-{
-    units::volume holster_volume = 0_ml;
-    for( const item &w : worn ) {
-        holster_volume += w.get_total_holster_volume() - w.get_used_holster_volume();
-    }
-    return holster_volume;
-}
-
 units::volume outfit::small_pocket_volume( const units::volume &threshold )  const
 {
     units::volume small_spaces = 0_ml;
     for( const item &w : worn ) {
         if( !w.is_holster() ) {
-            for( const item_pocket *pocket : w.get_all_contained_pockets() ) {
+            for( const item_pocket *pocket : w.get_container_pockets() ) {
                 if( pocket->volume_capacity() <= threshold ) {
                     small_spaces += pocket->volume_capacity();
                 }
@@ -1727,11 +1670,11 @@ units::volume outfit::small_pocket_volume( const units::volume &threshold )  con
     return small_spaces;
 }
 
-units::volume outfit::volume_capacity() const
+units::volume outfit::volume_capacity(std::function<bool(const item_pocket&)> include_pocket) const
 {
     units::volume cap = 0_ml;
     for( const item &w : worn ) {
-        cap += w.get_total_capacity();
+        cap += w.get_volume_capacity(include_pocket);
     }
     return cap;
 }
@@ -1742,7 +1685,7 @@ units::volume outfit::volume_capacity_with_tweaks(
     units::volume vol = 0_ml;
     for( const item &i : worn ) {
         if( !without.count( &i ) ) {
-            vol += i.get_total_capacity();
+            vol += i.get_volume_capacity();
         }
     }
     return vol;
@@ -2382,7 +2325,7 @@ static std::vector<pocket_data_with_parent> get_child_pocket_with_parent(
 
         for( const item *contained : pocket->all_items_top() ) {
             const item_location poc_loc = item_location( it, const_cast<item *>( contained ) );
-            for( const item_pocket *pocket_nest : contained->get_all_contained_pockets() ) {
+            for( const item_pocket *pocket_nest : contained->get_container_pockets() ) {
                 std::vector<pocket_data_with_parent> child =
                     get_child_pocket_with_parent( pocket_nest, new_parent,
                                                   poc_loc, nested_level + 1, filter );
@@ -2417,7 +2360,7 @@ std::vector<pocket_data_with_parent> Character::get_all_pocket_with_parent(
     }
 
     for( item_location &loc : locs ) {
-        for( const item_pocket *pocket : loc->get_all_contained_pockets() ) {
+        for( const item_pocket *pocket : loc->get_container_pockets() ) {
             std::vector<pocket_data_with_parent> child =
                 get_child_pocket_with_parent( pocket, item_location::nowhere, loc, 0, filter );
             ret.insert( ret.end(), child.begin(), child.end() );
@@ -2577,7 +2520,7 @@ int outfit::clatter_sound() const
     for( const item &i : worn ) {
         // if the item has noise making pockets we should check if they have clatered
         if( i.has_noisy_pockets() ) {
-            for( const item_pocket *pocket : i.get_all_contained_pockets() ) {
+            for( const item_pocket *pocket : i.get_container_pockets() ) {
                 int noise_chance = pocket->get_pocket_data()->activity_noise.chance;
                 int volume = pocket->get_pocket_data()->activity_noise.volume;
                 if( noise_chance > 0 && !pocket->empty() ) {
@@ -2622,7 +2565,7 @@ std::vector<item_pocket *> outfit::grab_drop_pockets()
     std::vector<item_pocket *> pd;
     for( item &i : worn ) {
         if( i.has_ripoff_pockets() ) {
-            for( item_pocket *pocket : i.get_all_contained_pockets() ) {
+            for( item_pocket *pocket : i.get_container_pockets() ) {
                 if( pocket->get_pocket_data()->ripoff > 0 && !pocket->empty() ) {
                     pd.push_back( pocket );
                 }
@@ -2641,7 +2584,7 @@ std::vector<item_pocket *> outfit::grab_drop_pockets( const bodypart_id &bp )
             continue;
         }
         if( i.has_ripoff_pockets() ) {
-            for( item_pocket *pocket : i.get_all_contained_pockets() ) {
+            for( item_pocket *pocket : i.get_container_pockets() ) {
                 if( pocket->get_pocket_data()->ripoff > 0 && !pocket->empty() ) {
                     pd.push_back( pocket );
                 }

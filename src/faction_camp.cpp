@@ -5089,7 +5089,7 @@ int om_carry_weight_to_trips( const units::mass &total_mass, const units::volume
 {
     units::mass max_m = comp ? comp->weight_capacity() - comp->weight_carried() : 60_kilogram;
     //Assume an additional pack will be carried in addition to normal gear
-    units::volume sack_v = item( itype_duffelbag ).get_total_capacity();
+    units::volume sack_v = item( itype_duffelbag ).get_volume_capacity(item_pocket::ok_like_old_default_behavior);
     units::volume max_v = comp ? comp->free_space() : sack_v;
     max_v += sack_v;
     return om_carry_weight_to_trips( total_mass, total_volume, max_m, max_v );
@@ -5205,10 +5205,10 @@ drop_locations basecamp::give_equipment( Character *pc, const inventory_filter_p
             return string_format( "%3d", val );
         };
         using stats = inventory_selector::stats;
-        return stats{ {
+        return inventory_selector::convert_stats_to_header_stats(stats{ {
                 display_stat( _( "Volume (L)" ), total_volume.value() / 1000, INT_MAX, to_string ),
                 display_stat( _( "Weight (kg)" ), total_mass.value() / 1000000, INT_MAX, to_string )
-            } };
+            } });
     };
 
     inventory_multiselector inv_s( *pc, preset, msg,
@@ -5254,10 +5254,10 @@ drop_locations basecamp::get_equipment( tinymap *target_bay, const tripoint_omt_
             return string_format( "%3d", val );
         };
         using stats = inventory_selector::stats;
-        return stats{ {
+        return inventory_selector::convert_stats_to_header_stats(stats{ {
                 display_stat( _( "Volume (L)" ), total_volume.value() / 1000, INT_MAX, to_string ),
                 display_stat( _( "Weight (kg)" ), total_mass.value() / 1000000, INT_MAX, to_string )
-            } };
+            } });
     };
 
     inventory_multiselector inv_s( *pc, preset, msg,

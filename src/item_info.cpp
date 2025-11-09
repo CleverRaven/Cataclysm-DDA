@@ -1967,7 +1967,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 // if ablative check if there are hard plates in locations
                 if( armor->ablative ) {
                     // if item has ablative armor we should check those too.
-                    for( const item_pocket *pocket : get_all_contained_pockets() ) {
+                    for( const item_pocket *pocket : get_container_pockets() ) {
                         // if the pocket is ablative and not empty we should use its values
                         if( pocket->get_pocket_data()->ablative && !pocket->empty() ) {
                             // get the contained plate

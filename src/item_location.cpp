@@ -634,7 +634,7 @@ class item_location::impl::item_in_container : public item_location::impl
 
         item_pocket *parent_pocket() const override {
             if( container_pkt == nullptr ) {
-                std::vector<item_pocket *> const pkts = parent_item()->get_all_standard_pockets();
+                std::vector<item_pocket *> const pkts = parent_item()->get_standard_pockets();
                 if( pkts.size() == 1 ) {
                     container_pkt = pkts.front();
                 } else {
@@ -947,7 +947,7 @@ ret_val<void> item_location::parents_can_contain_recursive( item *it ) const
     item_location current_location = *this;
     //item_location class cannot return current pocket so use first pocket for innermost container
     //Only used for weight and volume multipliers
-    const item_pocket *current_pocket = get_item()->get_all_standard_pockets().front();
+    const item_pocket *current_pocket = get_item()->get_standard_pockets().front();
     const pocket_data *current_pocket_data = current_pocket->get_pocket_data();
 
     //Repeat until top-most container reached
@@ -994,7 +994,7 @@ ret_val<int> item_location::max_charges_by_parent_recursive( const item &it ) co
     item_location current_location = *this;
     //item_location class cannot return current pocket so use first pocket for innermost container
     //Only used for weight and volume multipliers
-    const item_pocket *current_pocket = get_item()->get_all_standard_pockets().front();
+    const item_pocket *current_pocket = get_item()->get_standard_pockets().front();
     const pocket_data *current_pocket_data = current_pocket->get_pocket_data();
 
     //Repeat until top-most container reached

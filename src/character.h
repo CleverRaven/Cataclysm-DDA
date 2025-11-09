@@ -2296,11 +2296,15 @@ class Character : public Creature, public visitable
         std::vector<item *> inv_dump();
         std::vector<const item *> inv_dump() const;
 
+        // combined volume of the character's body and inventory
         // TODO: Cache this like weight carried?
         units::volume get_total_volume() const;
+        // volume of the character's body
         units::volume get_base_volume() const;
 
+        // weight of the character's inventory
         units::mass weight_carried() const;
+        // volume of the character's top-level items (and so their entire inventory as-packed).        
         units::volume volume_carried() const;
 
         units::length max_single_item_length() const;
@@ -2329,28 +2333,29 @@ class Character : public Creature, public visitable
                 &locations ) const;
         units::mass weight_capacity() const override;
 
-        /* maximum you should ever be able to pick up ( i.e. with DANGEROUS_PICKUPS enabled) */
-        units::mass max_pickup_capacity() const;
-        units::volume volume_capacity() const;
+        /* maximum you should ever be able to pick up ( i.e. with DANGEROUS_PICKUPS enabled) */        
+        units::mass max_pickup_capacity() const;        
+        // total capacity of pockets in the player's top level of inventory.
+        // bags-of-holding aside, this is the max volume the character can carry without changing what they're wearing/wielding.
+        units::volume volume_capacity(std::function<bool(const item_pocket&)> include_pocket) const;
         units::volume volume_capacity_with_tweaks( const item_tweaks &tweaks ) const;
         units::volume volume_capacity_with_tweaks( const std::vector<std::pair<item_location, int>>
                 &locations ) const;
-        units::volume free_space() const;
+        /** 
+        * Returns remaining, unfilled volume in pockets in the character's entire inventory that satisfies the check conditions.
+        * The default arguments, free_space(), gives a rough upper bound on remaining volume that could be filled with 
+        * generic packing peanuts, which is a reasonable estimate for many cases.        
+        * @param include_pocket pockets which pass this criteria to have their space included.
+        * @param check_pocket_tree pockets which fail this criteria are excluded, along with all nested pockets
+        * */
+        units::volume free_space(std::function<bool(const item_pocket&)> include_pocket = [](const item_pocket& pocket) {
+                return !pocket.is_restricted()
+                && (pocket.empty() || pocket.contains_phase(phase_id::SOLID)); 
+            },
+            std::function<bool(const item_pocket&)> check_pocket_tree = item_pocket::ok_like_old_default_behavior) const;
         units::mass free_weight_capacity() const;
-        /**
-         * Returns the total volume of all worn holsters.
-        */
-        units::volume holster_volume() const;
 
-        /**
-         * Used and total holsters
-        */
-        int used_holsters() const;
-        int total_holsters() const;
-        units::volume free_holster_volume() const;
 
-        // this is just used for pack rat maybe should be moved to the above more robust functions
-        int empty_holsters() const;
 
         /**
          * Returns the total volume of all pockets less than or equal to the volume passed in

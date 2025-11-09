@@ -2027,10 +2027,10 @@ class exosuit_interact
             ctxt.register_action( "MOUSE_MOVE" );
             ctxt.register_action( "SCROLL_UP" );
             ctxt.register_action( "SCROLL_DOWN" );
-            pocket_count = it->get_all_contained_pockets().size();
+            pocket_count = it->get_container_pockets().size();
             height = std::max( pocket_count, height_default ) + 2;
             width_menu = 30;
-            for( const item_pocket *pkt : it->get_all_contained_pockets() ) {
+            for( const item_pocket *pkt : it->get_container_pockets() ) {
                 int tmp = utf8_width( get_pocket_name( pkt ) );
                 if( tmp > width_menu ) {
                     width_menu = tmp;
@@ -2087,7 +2087,7 @@ class exosuit_interact
                              point( 2 + width_menu + width_info, height - 2 ) ) );
             werase( w_menu );
             int row = 0;
-            for( const item_pocket *pkt : suit->get_all_contained_pockets() ) {
+            for( const item_pocket *pkt : suit->get_container_pockets() ) {
                 nc_color colr = row == cur_pocket ? h_white : c_white;
                 std::string txt = get_pocket_name( pkt );
                 int remaining = width_menu - utf8_width( txt, true );
@@ -2104,7 +2104,7 @@ class exosuit_interact
         void draw_iteminfo() {
             std::vector<iteminfo> dummy;
             std::vector<iteminfo> suitinfo;
-            item_pocket *pkt = suit->get_all_contained_pockets()[cur_pocket];
+            item_pocket *pkt = suit->get_container_pockets()[cur_pocket];
             pkt->general_info( suitinfo, cur_pocket, true );
             pkt->contents_info( suitinfo, cur_pocket, true );
             item_info_data data( suit->tname(), suit->type_name(), suitinfo, dummy, scroll_pos );
@@ -2184,7 +2184,7 @@ class exosuit_interact
                 } else if( action == "CONFIRM" ) {
                     scroll_pos = 0;
                     int nmoves = insert_replace_activate_mod(
-                                     suit->get_all_contained_pockets()[cur_pocket], suit );
+                                     suit->get_container_pockets()[cur_pocket], suit );
                     moves = moves > nmoves ? moves : nmoves;
                     if( !get_player_character().activity.is_null() ) {
                         done = true;
@@ -2376,7 +2376,7 @@ std::optional<int> iuse::manage_exosuit( Character *p, item *it, const tripoint_
     if( !p->is_avatar() ) {
         return std::nullopt;
     }
-    if( it->get_all_contained_pockets().empty() ) {
+    if( it->get_container_pockets().empty() ) {
         add_msg( m_warning, _( "Your %s does not have any pockets to contain modules." ), it->tname() );
         return std::nullopt;
     }
@@ -8308,11 +8308,11 @@ static bool heat_items( Character *p, item *it, bool liquid_items, bool solid_it
                                                   h.available_heater,
                                                   to_string ), "" );
             using stats = inventory_selector::stats;
-            return stats{{
+            return inventory_selector::convert_stats_to_header_stats(stats{{
                     {{ _( "Container" ), volume }},
                     {{ _( "Fuel" ), ammo }},
                     {{ _( "Estimated time" ), time }}
-                }};
+                }});
         };
         inventory_multiselector inv_s( *p, preset, _( "ITEMS TO HEAT" ),
                                        make_raw_stats, /*allow_select_contained=*/true );
@@ -8435,7 +8435,7 @@ std::optional<int> iuse::wash_soft_items( Character *p, item *, const tripoint_b
     }
     // Check that player isn't over volume limit as this might cause it to break... this is a hack.
     // TODO: find a better solution.
-    if( p->volume_capacity() < p->volume_carried() ) {
+    if( p->free_space() <= 0_ml ) {
         p->add_msg_if_player( _( "You're carrying too much to clean anything." ) );
         return std::nullopt;
     }
@@ -8455,7 +8455,7 @@ std::optional<int> iuse::wash_hard_items( Character *p, item *, const tripoint_b
     }
     // Check that player isn't over volume limit as this might cause it to break... this is a hack.
     // TODO: find a better solution.
-    if( p->volume_capacity() < p->volume_carried() ) {
+    if( p->free_space() <= 0_ml ) {
         p->add_msg_if_player( _( "You're carrying too much to clean anything." ) );
         return std::nullopt;
     }
@@ -8473,7 +8473,7 @@ std::optional<int> iuse::wash_all_items( Character *p, item *, const tripoint_bu
 
     // Check that player isn't over volume limit as this might cause it to break... this is a hack.
     // TODO: find a better solution.
-    if( p->volume_capacity() < p->volume_carried() ) {
+    if( p->free_space() <= 0_ml ) {
         p->add_msg_if_player( _( "You're carrying too much to clean anything." ) );
         return std::nullopt;
     }
@@ -8527,11 +8527,11 @@ std::optional<int> iuse::wash_items( Character *p, bool soft_items, bool hard_it
         const std::string cleanser = string_join( display_stat( "", required.cleanser, available_cleanser,
                                      to_string ), "" );
         using stats = inventory_selector::stats;
-        return stats{{
+        return inventory_selector::convert_stats_to_header_stats(stats{{
                 {{ _( "Water" ), water }},
                 {{ _( "Cleanser" ), cleanser }},
                 {{ _( "Estimated time" ), time }}
-            }};
+            }});
     };
     inventory_multiselector inv_s( *p, preset, _( "ITEMS TO CLEAN" ),
                                    make_raw_stats, /*allow_select_contained=*/true );

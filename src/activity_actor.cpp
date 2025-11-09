@@ -4861,7 +4861,7 @@ std::unique_ptr<activity_actor> harvest_activity_actor::deserialize( JsonValue &
 
 static void stash_on_pet( const std::list<item> &items, monster &pet, Character &who )
 {
-    units::volume remaining_volume = pet.storage_item->get_total_capacity() - pet.get_carried_volume();
+    units::volume remaining_volume = pet.storage_item->get_volume_capacity() - pet.get_carried_volume();
     units::mass remaining_weight = pet.weight_capacity() - pet.get_carried_weight();
     map &here = get_map();
 

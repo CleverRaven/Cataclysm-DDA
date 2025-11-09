@@ -587,7 +587,7 @@ std::optional<int> unpack_actor::use( Character *p, item &it, map *here,
             last_armor = content;
         }
 
-        if( content.get_total_capacity() >= filthy_vol_threshold &&
+        if( content.get_volume_capacity() >= filthy_vol_threshold &&
             it.has_flag( flag_FILTHY ) ) {
             content.set_flag( flag_FILTHY );
         }

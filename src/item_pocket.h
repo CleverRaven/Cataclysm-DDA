@@ -209,18 +209,16 @@ class item_pocket
         units::length max_containable_length() const;
         units::length min_containable_length() const;
 
+        units::volume volume_capacity() const;
         // combined volume of contained items
-        units::volume contains_volume() const;
+        units::volume contents_volume() const;
         units::volume remaining_volume() const;
         // how many more of @it can this pocket hold?
-        int remaining_capacity_for_item( const item &it ) const;
-        units::volume volume_capacity() const;
+        int remaining_capacity_for_item( const item &it ) const;        
         // the amount of space this pocket can hold before it starts expanding
         units::volume magazine_well() const;
+
         units::mass weight_capacity() const;
-        // The largest volume of contents this pocket can have.  Different from
-        // volume_capacity because that doesn't take into account ammo containers.
-        units::volume max_contains_volume() const;
         // combined weight of contained items
         units::mass contains_weight() const;
         units::mass remaining_weight() const;
@@ -408,6 +406,12 @@ class item_pocket
 
         // should the name of this pocket be used as a description
         bool name_as_description = false; // NOLINT(cata-serialize)
+
+        // pocket filters, centralized for later de-duplication
+        static bool ok_container(const item_pocket&);
+        static bool ok_like_old_default_behavior(const item_pocket& pocket);
+        static bool ok_like_old_default_behavior_true(const item_pocket& pocket);
+        static bool ok_general_dry_container(const item_pocket&);
     private:
         // the type of pocket, saved to json
         pocket_type _saved_type = pocket_type::LAST; // NOLINT(cata-serialize)
@@ -471,8 +475,13 @@ class pocket_data
         static constexpr units::mass max_weight_for_container = 2000000_kilogram;
 
         pocket_type type = pocket_type::CONTAINER;
+        // max volume of stuff the pocket can hold, according to its data file.
+        // generally use volume_capacity() instead.
+        // this determines the volume capacity *if* it isn't derived from something else (i.e. ammo capacity).
+        // also used as a guess for the capacity if the derived value is not available yet.
+        units::volume raw_volume_capacity = max_volume_for_container;
         // max volume of stuff the pocket can hold
-        units::volume volume_capacity = max_volume_for_container;
+        units::volume volume_capacity() const;
         // max volume of item that can be contained, otherwise it spills
         std::optional<units::volume> max_item_volume = std::nullopt;
         // min volume of item that can be contained, otherwise it spills
@@ -561,14 +570,11 @@ class pocket_data
 
         bool operator==( const pocket_data &rhs ) const;
 
-        units::volume max_contains_volume() const;
-
         std::string check_definition() const;
 
         void load( const JsonObject &jo );
         void deserialize( const JsonObject &data );
-    private:
-
+    private:        
         FlagsSetType flag_restrictions;
 };
 

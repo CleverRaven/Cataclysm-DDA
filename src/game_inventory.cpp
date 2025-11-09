@@ -388,7 +388,7 @@ class armor_inventory_preset: public inventory_selector_preset
 
             // Show total storage capacity in user's preferred volume units, to 2 decimal places
             append_cell( [ this ]( const item_location & loc ) {
-                const int storage_ml = to_milliliter( loc->get_total_capacity() );
+                const int storage_ml = to_milliliter( loc->get_volume_capacity( item_pocket::ok_like_old_default_behavior ) );
                 return get_decimal_string( round_up( convert_volume( storage_ml ), 2 ) );
             }, string_format( _( "STORAGE (%s)" ), volume_units_abbr() ) );
         }
@@ -1665,10 +1665,10 @@ drop_locations game_menus::inv::ebooksave( Character &who, item_location &ereade
         const std::string time = colorize( to_string( required_time, true ),
                                            c_light_gray );
         using stats = inventory_selector::stats;
-        return stats{{
+        return inventory_selector::convert_stats_to_header_stats(stats{{
                 {{ _( "Charges" ), charges }},
                 {{ _( "Estimated time" ), time }}
-            }};
+            }});
     };
 
     inventory_multiselector inv_s( who, preset, _( "SELECT BOOKS TO SCAN" ),
@@ -1835,11 +1835,11 @@ drop_locations game_menus::inv::efile_select( Character &who, item_location &use
                                        colorize( _( "Estimated time (slow!):" ), c_yellow );
         const std::string time = colorize( to_string( required_time, true ),
                                            c_light_gray );
-        return inventory_selector::stats{ {
+        return inventory_selector::convert_stats_to_header_stats(inventory_selector::stats{ {
                 {{ _( "Processed / Available Memory: " ), ememory }},
                 {{ _( "Charges" ), charges }},
                 {{ time_label, time}}
-            } };
+            } });
     };
 
     std::string action_name = efile_activity_actor::efile_action_name( action );
@@ -2508,7 +2508,7 @@ drop_locations game_menus::inv::smoke_food( Character &you, units::volume total_
             added_volume += loc.first->volume() * loc.second / loc.first->count();
         }
         std::string volume_caption = string_format( _( "Volume (%s):" ), volume_units_abbr() );
-        return inventory_selector::stats{
+        return inventory_selector::convert_stats_to_header_stats(inventory_selector::stats{
             {
                 display_stat( volume_caption,
                               units::to_milliliter( used_capacity + added_volume ),
@@ -2517,7 +2517,7 @@ drop_locations game_menus::inv::smoke_food( Character &you, units::volume total_
                     return format_volume( units::from_milliliter( v ) );
                 } )
             }
-        };
+        });
     };
 
     inventory_multiselector smoke_s( you, preset, _( "FOOD TO SMOKE" ), make_raw_stats );

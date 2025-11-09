@@ -325,13 +325,13 @@ void advanced_inventory::print_items( side p, bool active )
         if( pane.get_area() == AIM_CONTAINER ) {
             weight_carried = convert_weight( pane.container->get_total_contained_weight() );
             weight_capacity = convert_weight( pane.container->get_total_weight_capacity() );
-            volume_carried = pane.container->get_total_contained_volume();
-            volume_capacity = pane.container->get_total_capacity();
+            volume_carried = pane.container->get_contents_volume(item_pocket::ok_like_old_default_behavior);
+            volume_capacity = pane.container->get_volume_capacity(item_pocket::ok_like_old_default_behavior);
         } else {
             weight_carried = convert_weight( player_character.weight_carried() );
             weight_capacity = convert_weight( player_character.weight_capacity() );
-            volume_carried = player_character.volume_carried();
-            volume_capacity = player_character.volume_capacity();
+            volume_carried = player_character.volume_capacity(item_pocket::ok_like_old_default_behavior) - player_character.free_space(item_pocket::ok_like_old_default_behavior);
+            volume_capacity = player_character.volume_capacity(item_pocket::ok_like_old_default_behavior);
         }
         // align right, so calculate formatted head length
         const std::string formatted_head = string_format( "%.1f/%.1f %s  %s/%s %s",
@@ -360,7 +360,7 @@ void advanced_inventory::print_items( side p, bool active )
             units::volume maxvolume = 0_ml;
             advanced_inv_area &s = squares[pane.get_area()];
             if( pane.get_area() == AIM_CONTAINER && pane.container ) {
-                maxvolume = pane.container->get_total_capacity();
+                maxvolume = pane.container->get_volume_capacity(item_pocket::ok_like_old_default_behavior);
             } else if( pane.in_vehicle() ) {
                 maxvolume = s.get_vehicle_stack().max_volume();
             } else {

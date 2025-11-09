@@ -111,18 +111,18 @@ std::string pocket_data::check_definition() const
                                   it->get_id().str() );
         }
     }
-    if( max_contains_volume() == 0_ml ) {
+    if( volume_capacity() == 0_ml ) {
         return "has zero max volume\n";
     }
     if( magazine_well > 0_ml && rigid ) {
         return "rigid overrides magazine_well\n";
     }
-    if( magazine_well >= max_contains_volume() ) {
+    if( magazine_well >= volume_capacity() ) {
         return string_format(
                    "magazine well (%s) larger than pocket volume (%s); "
                    "consider using rigid instead.\n",
                    quantity_to_string( magazine_well ),
-                   quantity_to_string( max_contains_volume() ) );
+                   quantity_to_string( volume_capacity() ) );
     }
     if( max_item_volume && *max_item_volume < min_item_volume ) {
         return "max_item_volume is greater than min_item_volume.  no item can fit.\n";
@@ -167,12 +167,12 @@ void pocket_data::load( const JsonObject &jo )
         if( temp != -1_ml ) {
             max_item_volume = temp;
         }
-        optional( jo, was_loaded, "max_contains_volume", volume_capacity, volume_reader(),
+        optional( jo, was_loaded, "max_contains_volume", raw_volume_capacity, volume_reader(),
                   max_volume_for_container );
         optional( jo, was_loaded, "max_contains_weight", max_contains_weight, mass_reader(),
                   max_weight_for_container );
         optional( jo, was_loaded, "max_item_length", max_item_length,
-                  units::default_length_from_volume( volume_capacity ) * M_SQRT2 );
+                  units::default_length_from_volume( raw_volume_capacity ) * M_SQRT2 );
         optional( jo, was_loaded, "min_item_length", min_item_length );
         optional( jo, was_loaded, "extra_encumbrance", extra_encumbrance, 0 );
         optional( jo, was_loaded, "volume_encumber_modifier", volume_encumber_modifier, 1 );
@@ -229,7 +229,7 @@ bool pocket_data::operator==( const pocket_data &rhs ) const
            item_id_restriction == rhs.item_id_restriction &&
            material_restriction == rhs.material_restriction &&
            type == rhs.type &&
-           volume_capacity == rhs.volume_capacity &&
+           volume_capacity() == rhs.volume_capacity() &&
            min_item_volume == rhs.min_item_volume &&
            max_contains_weight == rhs.max_contains_weight &&
            spoil_multiplier == rhs.spoil_multiplier &&
@@ -572,11 +572,6 @@ size_t item_pocket::size() const
     return contents.size();
 }
 
-units::volume item_pocket::volume_capacity() const
-{
-    return data->volume_capacity;
-}
-
 units::volume item_pocket::magazine_well() const
 {
     return data->magazine_well;
@@ -587,14 +582,14 @@ units::mass item_pocket::weight_capacity() const
     return data->max_contains_weight;
 }
 
-units::volume item_pocket::max_contains_volume() const
+units::volume item_pocket::volume_capacity() const
 {
-    return data->max_contains_volume();
+    return data->volume_capacity();
 }
 
 units::volume item_pocket::remaining_volume() const
 {
-    return volume_capacity() - contains_volume();
+    return volume_capacity() - contents_volume();
 }
 
 int item_pocket::remaining_capacity_for_item( const item &it ) const
@@ -1239,7 +1234,7 @@ void item_pocket::contents_info( std::vector<iteminfo> &info, int pocket_number,
     } else if( data->ammo_restriction.empty() ) {
         // With no ammo_restriction defined, show current volume/weight, and total capacity
         info.emplace_back( vol_to_info( cont_type_str, _( "Volume: " ),
-                                        contains_volume() ) );
+                                        contents_volume() ) );
         info.emplace_back( vol_to_info( cont_type_str, _( " of " ),
                                         volume_capacity() ) );
         info.back().bNewLine = true;
@@ -1251,7 +1246,7 @@ void item_pocket::contents_info( std::vector<iteminfo> &info, int pocket_number,
     } else {
         // With ammo_restriction, total capacity does not matter, but show current volume/weight
         info.emplace_back( vol_to_info( cont_type_str, _( "Volume: " ),
-                                        contains_volume() ) );
+                                        contents_volume() ) );
         info.back().bNewLine = true;
         info.emplace_back( weight_to_info( cont_type_str, _( "Weight: " ),
                                            contains_weight() ) );
@@ -2322,7 +2317,7 @@ units::length item_pocket::min_containable_length() const
     return 0_mm;
 }
 
-units::volume item_pocket::contains_volume() const
+units::volume item_pocket::contents_volume() const
 {
     units::volume vol = 0_ml;
     for( const item &it : contents ) {
@@ -2482,12 +2477,48 @@ void item_pocket::deserialize_presets( const JsonArray &ja )
     }
 }
 
-units::volume pocket_data::max_contains_volume() const
+bool item_pocket::ok_container(const item_pocket& pocket)
+{
+    // literally any Container, even weird ones.
+    // use this for determining how full something physically is
+    return pocket.is_type(pocket_type::CONTAINER);
+}
+
+bool item_pocket::ok_like_old_default_behavior(const item_pocket& pocket)
+{
+    // non-forbidden containers.
+    // should be used for most volume status-reporting, but not necessarily interactions.
+    // this is the old default behavior for most volume querying functions.
+    // (except total_container_capacity(), which was weird)    
+    return pocket.is_type(pocket_type::CONTAINER)
+        && !pocket.is_forbidden();
+}
+
+bool item_pocket::ok_like_old_default_behavior_true(const item_pocket& pocket)
+{
+    // non-forbidden, unrestricted containers.
+    // this is the old default behavior for most volume querying functions when passed 'true' (unrestricted_pockets_only)    
+    return pocket.is_type(pocket_type::CONTAINER)
+        && !pocket.is_forbidden()
+        && !pocket.is_restricted();
+}
+
+bool item_pocket::ok_general_dry_container(const item_pocket& pocket)
+{
+    // pocket is good for whatever dry materials can fit.
+    // free_space() and check_for_free_space() conditions.
+    return pocket.is_type(pocket_type::CONTAINER)
+        && !pocket.is_forbidden()
+        && !pocket.is_restricted()
+        && (pocket.empty() || pocket.contains_phase(phase_id::SOLID));
+}
+
+units::volume pocket_data::volume_capacity() const
 {
     if( ammo_restriction.empty() ) {
-        return volume_capacity;
+        return raw_volume_capacity;
     }
-
+    // If pocket is ammo-restricted, its volume capacity is derived from its ammo capacity.
     // Find all valid ammo itypes
     std::vector<const itype *> ammo_types = Item_factory::find( [&]( const itype & t ) {
         return t.ammo && ammo_restriction.count( t.ammo->type );

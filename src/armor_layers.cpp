@@ -783,7 +783,7 @@ void outfit::sort_armor( Character &guy )
 
             std::string worn_armor_name = tmp_worn[itemindex]->tname();
             // Get storage capacity in user's preferred units
-            units::volume worn_armor_capacity = tmp_worn[itemindex]->get_total_capacity();
+            units::volume worn_armor_capacity = tmp_worn[itemindex]->get_volume_capacity(item_pocket::ok_like_old_default_behavior);
             double worn_armor_storage = convert_volume( units::to_milliliter( worn_armor_capacity ) );
             std::string storage_string = string_format( "%.2f", worn_armor_storage );
             const int current_character_allowance = worn_armor_storage > 0 ? utf8_width( storage_string ) : 0;

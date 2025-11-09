@@ -1019,7 +1019,7 @@ void npc::starting_inv_passtime()
     int days_since_cata = std::min( to_days<int>( calendar::turn - calendar::start_of_cataclysm ),
                                     max_time );
     //give storage item if too little volume
-    if( worn.volume_capacity() < 10000_ml ) {
+    if( worn.volume_capacity(item_pocket::ok_like_old_default_behavior) < 10000_ml ) {
         item storage = random_item_from( found_good_item( days_since_cata ), "storage" );
         starting_inv_wear_item( this, storage );
     }

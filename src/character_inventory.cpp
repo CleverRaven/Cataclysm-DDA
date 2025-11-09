@@ -161,7 +161,7 @@ void Character::handle_contents_changed( const std::vector<item_location> &conta
         loc->on_contents_changed();
         const bool handle_drop = loc.where() != item_location::type::map && !is_wielding( *loc );
         bool drop_unhandled = false;
-        for( item_pocket *const pocket : loc->get_all_contained_pockets() ) {
+        for( item_pocket *const pocket : loc->get_container_pockets() ) {
             if( pocket && !pocket->sealed() ) {
                 // pockets are unsealed but on_contents_changed is not called
                 // in contents_change_handler::unseal_pocket_containing
@@ -1656,22 +1656,12 @@ bool Character::is_waterproof( const body_part_set &parts ) const
     return covered_with_flag( flag_WATERPROOF, parts );
 }
 
-units::volume Character::free_space() const
+units::volume Character::free_space(std::function<bool(const item_pocket&)> include_pocket, 
+    std::function<bool(const item_pocket&)> check_pocket_tree) const
 {
-    units::volume volume_capacity = 0_ml;
-    volume_capacity += weapon.get_total_capacity();
-    for( const item_pocket *pocket : weapon.get_all_contained_pockets() ) {
-        if( pocket->contains_phase( phase_id::SOLID ) ) {
-            for( const item *it : pocket->all_items_top() ) {
-                volume_capacity -= it->volume();
-            }
-        } else if( !pocket->empty() ) {
-            volume_capacity -= pocket->volume_capacity();
-        }
-    }
-    volume_capacity += weapon.check_for_free_space();
-    volume_capacity += worn.free_space();
-    return volume_capacity;
+    units::volume expansion = 0_ml; // discarded, currently don't care if the character's held item would need to get bigger
+    return weapon.get_remaining_volume_recursive(include_pocket, check_pocket_tree, expansion)
+            + worn.remaining_volume_recursive(include_pocket, check_pocket_tree);
 }
 
 units::mass Character::free_weight_capacity() const
@@ -1682,71 +1672,21 @@ units::mass Character::free_weight_capacity() const
     return weight_capacity;
 }
 
-units::volume Character::holster_volume() const
-{
-    units::volume holster_volume = 0_ml;
-    if( weapon.is_holster() ) {
-        holster_volume += weapon.get_total_capacity();
-    }
-    holster_volume += worn.holster_volume();
-    return holster_volume;
-}
-
-int Character::empty_holsters() const
-{
-    int e_holsters = 0;
-    if( weapon.is_holster() ) {
-        e_holsters += 1;
-    }
-    e_holsters += worn.empty_holsters();
-    return e_holsters;
-}
-
-int Character::used_holsters() const
-{
-    int e_holsters = 0;
-    if( weapon.is_holster() ) {
-        e_holsters += weapon.get_used_holsters();
-    }
-    e_holsters += worn.used_holsters();
-    return e_holsters;
-}
-
-int Character::total_holsters() const
-{
-    int e_holsters = 0;
-    if( weapon.is_holster() ) {
-        e_holsters += weapon.get_total_holsters();
-    }
-    e_holsters += worn.total_holsters();
-    return e_holsters;
-}
-
-units::volume Character::free_holster_volume() const
-{
-    units::volume holster_volume = 0_ml;
-    if( weapon.is_holster() ) {
-        holster_volume += weapon.get_total_holster_volume() - weapon.get_used_holster_volume();
-    }
-    holster_volume += worn.free_holster_volume();
-    return holster_volume;
-}
-
 units::volume Character::small_pocket_volume( const units::volume &threshold ) const
 {
     units::volume small_spaces = 0_ml;
-    if( weapon.get_total_capacity() <= threshold ) {
-        small_spaces += weapon.get_total_capacity();
+    if( weapon.get_volume_capacity(item_pocket::ok_like_old_default_behavior) <= threshold ) {
+        small_spaces += weapon.get_volume_capacity(item_pocket::ok_like_old_default_behavior);
     }
     small_spaces += worn.small_pocket_volume( threshold );
     return small_spaces;
 }
 
-units::volume Character::volume_capacity() const
+units::volume Character::volume_capacity(std::function<bool(const item_pocket&)> include_pocket) const
 {
     units::volume volume_capacity = 0_ml;
-    volume_capacity += weapon.get_total_capacity();
-    volume_capacity += worn.volume_capacity();
+    volume_capacity += weapon.get_volume_capacity(include_pocket);
+    volume_capacity += worn.volume_capacity(include_pocket);
     return volume_capacity;
 }
 
@@ -1770,7 +1710,7 @@ units::volume Character::volume_capacity_with_tweaks( const item_tweaks &tweaks 
     units::volume volume_capacity = 0_ml;
 
     if( !without.count( &weapon ) ) {
-        volume_capacity += weapon.get_total_capacity();
+        volume_capacity += weapon.get_volume_capacity();
     }
 
     volume_capacity += worn.volume_capacity_with_tweaks( without );
@@ -1779,8 +1719,14 @@ units::volume Character::volume_capacity_with_tweaks( const item_tweaks &tweaks 
 }
 
 units::volume Character::volume_carried() const
-{
-    return volume_capacity() - free_space();
+{   
+    units::volume volume = 0_ml;
+    volume += weapon.volume();
+    for (const auto& it : worn.worn)
+    {
+        volume += it.volume();
+    }    
+    return volume;
 }
 
 void Character::toggle_hauling()
@@ -2915,7 +2861,7 @@ void Character::store( item &container, item &put, bool penalties, int base_cost
 {
     mod_moves( -item_store_cost( put, container, penalties, base_cost ) );
     if( check_best_pkt && pk_type == pocket_type::CONTAINER &&
-        container.get_all_contained_pockets().size() > 1 ) {
+        container.get_container_pockets().size() > 1 ) {
         // Bypass pocket settings (assuming the item is manually stored)
         int charges = put.count_by_charges() ? put.charges : 1;
         container.fill_with( i_rem( &put ), charges, false, false, true );

@@ -53,9 +53,41 @@ void Character::update_morale()
 
 void Character::hoarder_morale_penalty()
 {
-    // For hoarders holsters count as a flat -1 penalty for being empty, we also give them a 25% allowence on their pockets below 1000_ml
-    int pen = ( ( free_space() - holster_volume() ) - ( small_pocket_volume() / 4 ) ) / 125_ml;
-    pen += empty_holsters();
+    // For hoarders holsters count as a flat -1 penalty for being empty, we also give them a 25% allowance on their pockets below 1000_ml
+    int empty_holsters = 0;
+    units::volume penalty_volume = 0_ml;
+
+    visit_items([&empty_holsters, &penalty_volume](item* visiting, item* parent) {
+        for(const item_pocket* pocket : visiting->get_container_pockets())
+        {
+            // skip pockets that don't contribute to free_space()
+            if (!item_pocket::ok_general_dry_container(*pocket)
+                || !(parent == nullptr || pocket->rigid())
+            ) {
+                continue;
+            }
+            if (pocket->is_holster())
+            {
+                if (pocket->empty())
+                {
+                    empty_holsters++;
+                }
+            }
+            else {
+                if (units::volume capacity = pocket->volume_capacity(); capacity <= 1000_ml)
+                {
+                    penalty_volume += std::max(0_ml, pocket->remaining_volume() - capacity / 4);
+                }
+                else
+                {
+                    penalty_volume += pocket->remaining_volume();
+                }
+            }
+        }
+        return VisitResponse::NEXT;
+    });
+    int pen = penalty_volume / 125_ml;
+    pen += empty_holsters;
     if( pen > 70 ) {
         pen = 70;
     }
