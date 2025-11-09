@@ -1025,7 +1025,7 @@
         {
           "id": "psi_telekin3_aegis",
           "type": "spell",
-          "spell_data": { "id": "telekinetic_aegis_monster", "min_level": 8 },
+          "spell_data": { "id": "telekinetic_aegis_monster" },
           "cooldown": { "math": [ "25 + rand(50)" ] },
           "condition": { "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "or": [ "npc_driving" ] } ] },
           "monster_message": "%1$s throws their arms wide!"

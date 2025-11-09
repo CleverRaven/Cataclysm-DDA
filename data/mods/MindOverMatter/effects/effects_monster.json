@@ -286,7 +286,7 @@
     "name": [ "Aegis" ],
     "desc": [ "An impenetrable barrier is protecting you." ],
     "show_in_info": true,
-    "flags": [ "TELEKIN_SHIELD", "CANNOT_MOVE", "CANNOT_ATTACK" ],
+    "flags": [ "TELEKIN_SHIELD", "CANNOT_MOVE", "CANNOT_ATTACK", "NO_PSIONICS" ],
     "enchantments": [
       {
         "incoming_damage_mod": [
