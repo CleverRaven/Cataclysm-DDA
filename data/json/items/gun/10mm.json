@@ -128,48 +128,6 @@
     "dispersion": 500
   },
   {
-    "id": "hk_mp5_10_semi",
-    "copy-from": "hk_mp5_semi_pistol",
-    "looks_like": "hk_mp5",
-    "type": "ITEM",
-    "subtypes": [ "GUN" ],
-    "name": { "str": "BA10 rifle" },
-    "description": "A semi-automatic carbine chambered in 10mm and accepting BA10 magazines.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "hk_mp5_10_semi",
-        "name": { "str": "BA10 rifle" },
-        "description": "The MP5/10 served the FBI briefly alongside their 10mm Auto pistols, adding to the caliber's overall mystique.  Though the gun's usage was short-lived, a handful of clones were made and sold occasionally.  This semi-automatic clone manufactured by Brethren Arms features a welded-on M1913 rail and a collapsible arm brace."
-      }
-    ],
-    "weight": "2667 g",
-    "volume": "2411 ml",
-    "longest_side": "498 mm",
-    "barrel_length": "225 mm",
-    "price": "3 kUSD 600 USD",
-    "price_postapoc": "23 USD",
-    "durability": 7,
-    "min_cycle_recoil": 675,
-    "ammo": [ "10mm" ],
-    "skill": "rifle",
-    "built_in_mods": [ "folding_stock" ],
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "brass catcher", 1 ],
-      [ "mechanism", 2 ],
-      [ "muzzle", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "stock accessory", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "magazine_well": "62 ml", "item_restriction": [ "mp5_10_mag" ] } ]
-  },
-  {
     "id": "m1911_10",
     "copy-from": "gun_base_10mm_semi_pistol",
     "looks_like": "m1911",

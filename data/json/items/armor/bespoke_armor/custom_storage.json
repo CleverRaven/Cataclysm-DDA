@@ -676,6 +676,6 @@
       "target": "nomad_rig"
     },
     "light": 500,
-    "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "USES_BIONIC_POWER" ]
+    "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "USES_BIONIC_POWER", "SPAWN_ACTIVE" ]
   }
 ]

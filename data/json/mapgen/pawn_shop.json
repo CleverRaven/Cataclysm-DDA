@@ -504,9 +504,9 @@
     "items": [
       [ "helmet_plate", 100 ],
       [ "boots_plate", 100 ],
-      [ "armguard_lightplate", 100 ],
+      [ "armor_lc_armguard", 100 ],
       [ "gloves_plate", 100 ],
-      [ "legguard_lightplate", 100 ],
+      [ "armor_lc_leg_guard", 100 ],
       [ "armor_junk_plate", 100 ],
       { "item": "chainmail_junk_hauberk", "prob": 1 }
     ]

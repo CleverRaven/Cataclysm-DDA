@@ -459,7 +459,7 @@
       "ammo_scale": 0
     },
     "light": 4,
-    "extend": { "flags": [ "CHARGEDIM", "TRADER_AVOID", "WATER_BREAK" ] },
+    "extend": { "flags": [ "CHARGEDIM", "TRADER_AVOID", "WATER_BREAK", "SPAWN_ACTIVE" ] },
     "delete": { "flags": [ "WATER_BREAK_ACTIVE" ] }
   },
   {
@@ -513,7 +513,7 @@
       "ammo_scale": 0
     },
     "light": 300,
-    "extend": { "flags": [ "CHARGEDIM", "TRADER_AVOID", "WATER_BREAK" ] },
+    "extend": { "flags": [ "CHARGEDIM", "TRADER_AVOID", "WATER_BREAK", "SPAWN_ACTIVE" ] },
     "delete": { "flags": [ "WATER_BREAK_ACTIVE" ] }
   },
   {
@@ -757,6 +757,28 @@
     "proportional": { "price_postapoc": 2, "price": 2 },
     "relative": { "melee_damage": { "bash": 30 }, "weight": "5250 g", "volume": "450 ml", "longest_side": "20 cm" },
     "thrown_damage": [ { "damage_type": "bash", "amount": 20 } ]
+  },
+  {
+    "type": "ITEM",
+    "id": "hammer_sledge_crude",
+    "name": { "str": "homewrecker" },
+    "description": "Chunks of steel welded together affixed to a wooden handle.  Not the most elegant and ugly as all hell, but still mostly works.",
+    "weight": "4500 g",
+    "color": "brown",
+    "symbol": "/",
+    "material": [ "wood", "steel" ],
+    "flags": [ "NONCONDUCTIVE", "ALWAYS_TWOHAND" ],
+    "faults": [ { "fault_group": "handle_long" } ],
+    "weapon_category": [ "GREAT_HAMMERS" ],
+    "techniques": [ "WBLOCK_1", "BRUTAL" ],
+    "volume": "1450 ml",
+    "longest_side": "80 cm",
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "uneven" },
+    "price": "5 USD",
+    "price_postapoc": "2 USD",
+    "qualities": [ [ "HAMMER", 1 ] ],
+    "melee_damage": { "bash": 40 },
+    "thrown_damage": [ { "damage_type": "bash", "amount": 12 } ]
   },
   {
     "type": "ITEM",

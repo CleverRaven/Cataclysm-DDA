@@ -2,7 +2,9 @@
   {
     "type": "test_data",
     "known_bad": [
+      "artifact_anchor",
       "broken_mech_recon",
+      "cosmic_dagwood",
       "coffee_raw",
       "coffee_raw_kentucky",
       "marloss_berry",
@@ -343,6 +345,7 @@
       "mutant_human_cracklins",
       "ammonia_liquid",
       "tainted_marrow",
+      "tainted_marrow_human",
       "shed_stick",
       "glasses_monocle",
       "broken_tazer_hack",

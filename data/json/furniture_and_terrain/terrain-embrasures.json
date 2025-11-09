@@ -61,7 +61,7 @@
       "sound": "crash!",
       "sound_fail": "bash!",
       "ter_set": "t_null",
-      "items": [ { "item": "material_soil", "count": [ 8, 20 ] }, { "item": "adobe_brick", "count": [ 2, 6 ] } ]
+      "items": [ { "item": "material_soil", "count": [ 8, 20 ] }, { "item": "adobe_brick", "count": [ 2, 30 ] } ]
     }
   },
   {

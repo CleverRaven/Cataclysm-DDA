@@ -572,9 +572,9 @@
     "faults": [ { "fault_group": "handle_long", "weight_mult": 4 }, { "fault_group": "blade_general" } ],
     "weapon_category": [ "HOOKING_WEAPONRY", "POLEARMS" ],
     "techniques": [ "WIDE", "WBLOCK_1" ],
-    "weight": "2100 g",
+    "weight": "2360 g",
     "volume": "2500 ml",
-    "longest_side": "180 cm",
+    "longest_side": "250 cm",
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
     "price_postapoc": "80 USD",
     "melee_damage": { "bash": 10, "cut": 40 }

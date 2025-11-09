@@ -1,0 +1,45 @@
+[
+  {
+    "id": "bfg50",
+    "copy-from": "gun_base_rifle_manual",
+    "looks_like": "m107a1",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str": "single-shot .50-caliber rifle" },
+    "description": "Relatively trim as far as .50-caliber rifles go, this single-shot firearm was a reasonably affordable entry-level gun for civilians wishing to play with some very large, very punchy toys.  Now, at the world's Armageddon, it would be wise to make that singular round-capacity count on some high-priority craniums.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "bfg50",
+        "name": { "str_sp": "Serbu BFG-50" },
+        "description": "A single-shot, bolt-action rifle made by Serbu Firearms, the BFG-50 was a very affordable firearm for those wishing to shoot .50 BMG."
+      }
+    ],
+    "weight": "8500 g",
+    "volume": "4000 ml",
+    "longest_side": "1315 mm",
+    "barrel_length": "749 mm",
+    "price": "2 kUSD 395 USD",
+    "price_postapoc": "90 USD",
+    "material": [ "steel" ],
+    "range": 45,
+    "ammo": [ "50" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": -5 },
+    "dispersion": 110,
+    "barrel_volume": "1250 ml",
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "mechanism", 2 ],
+      [ "rail mount", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock accessory", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "default_mods": [ "rifle_scope" ],
+    "built_in_mods": [ "bipod", "muzzle_brake" ],
+    "clip_size": 1,
+    "flags": [ "RELOAD_EJECT", "EASY_CLEAN", "NO_TURRET" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "50": 1 } } ]
+  }
+]

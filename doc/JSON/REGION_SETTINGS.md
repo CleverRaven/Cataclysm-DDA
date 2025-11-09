@@ -15,7 +15,6 @@ see their info later in this document.
 | ------------------------ | ----------------------------------- | --------------------------------------------------------------------- |
 | `type`                   |                                     | Type identifier. Must be "region_settings".                           |
 | `id`                     |                                     | Unique identifier for this region.                                    |
-| `tags`                   | array of string                     | An arbitrary list of tags for overlays to apply to.                   |
 | `place_swamps`           | boolean                             | Controls whether or not swamps will be placed (requires forests to be placed) |
 | `place_roads`            | boolean                             | Whether or not to generate road connections |
 | `place_railroads`        | boolean                             | Whether or not to generate railroad connections |
@@ -67,105 +66,11 @@ see their info later in this document.
   },
 ```
 
-# Region Overlay
+# Modifying a Region
 
-Loading `region_settings` poses an issue: what if we only want to add a map extra to 
-a set of regions instead of redefining the entire `region_settings` object? We can `copy-from`,
-but if more than one mod is loaded, we would have multiple separate `region_settings` objects
-but only one region available to use for the world.
+The region settings sub-objects and the top-level region settings object can be modified with copy-from. By convention, the 'default' id is used for regions that resemble the real world, and the objects with that id can be modified to change how the world generates.
 
-We get around these issues by using a `region_overlay`.
-
-A `region_overlay` is capable of extending the following types:
-- `region_settings_city`
-- `region_settings_highway`
-- `region_settings_forest_trail`
-- `region_settings_terrain_furniture`
-- `region_settings_map_extras`*
-- `region_settings_forest_composition`* 
-
-NOTE: the types with asterisks have collections of other types that must 
-be extended separately using "overlay_id". These types are:
-
-- `map_extra_collection`
-- `forest_biome`
-- `forest_biome_component`
-
-Study the below examples carefully; they are subtly different.
-
-The following example will append city building "dinozoo" to all 
-`region_settings_city` parks in all regions.
-
-### Example
-```jsonc
-{
-    "type": "region_overlay",
-    "id": "default_dinomod",
-	"apply_to_tags": [ "all" ],
-    "cities": "default_dinomod"
-},
-{
-    "type": "region_settings_city",
-    "id": "default_dinomod",
-    "parks": [ [ "dinozoo", 25 ] ]
-}
-```
-
-The following example will append the map extra *collections* in "default_crazy" 
-to map extra *collections* in all regions.
-### Example
-```jsonc
-{
-    "type": "region_overlay",
-    "id": "default_crazy",
-    "apply_to_tags": [ "all" ],
-    "map_extras": "default_crazy"
-},
-{
-    "type": "region_settings_map_extras",
-    "id": "default_crazy",
-    "extras": [ "forest_crazy" ]
-},
-{
-    "type": "map_extra_collection",
-    "id": "forest_crazy",
-    "extras": [ [ "mx_shia", 1 ] ]
-}
-```
-
-By adding "overlay_id": "forest" to the `map_extra_collection`, the above example would
-extend `map_extra_collection` "id": "forest", spawning "mx_shia" along with the
-other map extras in "forest".
-
-### Example
-```jsonc
-{
-    "type": "map_extra_collection",
-    "id": "forest_crazy",
-	"overlay_id": "forest",
-    "extras": [ [ "mx_shia", 1 ] ]
-}
-```
-
-### Tags
-
-The "apply_to_tags" field will apply the overlay to any `region_settings` with
-matching `tags`. Currently, using the tag "all" will apply the overlay to all regions:
-```jsonc
-{
-    "apply_to_tags": [ "all" ],
-}
-```
-
-If you wanted to apply the overlay only for regions with a "default" tag:
-```jsonc
-{
-    "apply_to_tags": [ "default" ],
-}
-```
-
-Tags are arbitrary strings and are only used to avoid referencing a likely-growing number
-of region_settings ids.
+Mods which aim to not be set in the real world (Aftershock, Isolation Protocol) use default region settings with different ids.
 
 ## Region Terrain / Furniture
 
