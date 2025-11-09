@@ -1560,6 +1560,12 @@
     ]
   },
   {
+    "id": "kvass_bottle",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "kvass", "container-item": "bottle_plastic" } ]
+  },
+  {
     "type": "item_group",
     "subtype": "distribution",
     "id": "chewing_gum_full",

@@ -3643,6 +3643,28 @@
   },
   {
     "type": "keybinding",
+    "id": "ENABLE_VEHICLE_ZONES",
+    "category": "ZONES_MANAGER",
+    "name": "Enable vehicle zones",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "c" },
+      { "input_method": "keyboard_char", "key": "C" },
+      { "input_method": "keyboard_code", "key": "c", "mod": [ "shift" ] }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "DISABLE_VEHICLE_ZONES",
+    "category": "ZONES_MANAGER",
+    "name": "Disable vehicle zones",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "v" },
+      { "input_method": "keyboard_char", "key": "V" },
+      { "input_method": "keyboard_code", "key": "v", "mod": [ "shift" ] }
+    ]
+  },
+  {
+    "type": "keybinding",
     "id": "SHOW_ALL_ZONES",
     "category": "ZONES_MANAGER",
     "name": "Show all zones / hide distant zones",

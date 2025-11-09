@@ -39,6 +39,7 @@
     "longest_side": "115 mm",
     "price": "1 USD 11 cent",
     "price_postapoc": "2 cent",
+    "flags": [ "DAMAGE_VEHICLE_WHEELS" ],
     "material": [ "lc_steel" ],
     "symbol": "=",
     "color": "cyan",

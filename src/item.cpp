@@ -2283,9 +2283,9 @@ time_duration item::brewing_time() const
     return is_brewable() ? type->brewable->time * calendar::season_from_default_ratio() : 0_turns;
 }
 
-const std::map<itype_id, int> &item::brewing_results() const
+const std::map<std::pair<itype_id, std::string>, int> &item::brewing_results() const
 {
-    static const std::map<itype_id, int> nulresult{};
+    static const std::map<std::pair<itype_id, std::string>, int> nulresult{};
     return is_brewable() ? type->brewable->results : nulresult;
 }
 
@@ -2294,9 +2294,9 @@ time_duration item::composting_time() const
     return is_compostable() ? type->compostable->time * calendar::season_from_default_ratio() : 0_turns;
 }
 
-const std::map<itype_id, int> &item::composting_results() const
+const std::map<std::pair<itype_id, std::string>, int> &item::composting_results() const
 {
-    static const std::map<itype_id, int> nulresult{};
+    static const std::map<std::pair<itype_id, std::string>, int> nulresult{};
     return is_compostable() ? type->compostable->results : nulresult;
 }
 

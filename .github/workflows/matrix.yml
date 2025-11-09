@@ -143,6 +143,7 @@ jobs:
             title: GCC 9, Curses, LTO
             ccache_limit: 7.5G
             ccache_key: linux-gcc-9-lto
+            extra_package: g++-9
 
           - compiler: clang++-18
             os: ubuntu-latest
@@ -182,6 +183,7 @@ jobs:
             title: GCC 9, Ubuntu, Tiles, Sound, CMake
             ccache_limit: 1G
             ccache_key: linux-gcc-9-cmake
+            extra_package: g++-9
 
     name: ${{ matrix.title }}
     runs-on: ${{ matrix.os }}
@@ -234,7 +236,7 @@ jobs:
       if: ${{ env.SKIP == 'false' && runner.os == 'Linux' }}
       run: |
           sudo apt-get update
-          sudo apt-get install libncursesw5-dev ccache gettext parallel
+          sudo apt-get install libncursesw5-dev ccache gettext parallel ${{ matrix.extra_package }}
           sudo locale-gen en_US.UTF-8 de_DE.UTF-8
     - name: install SDL2 dependencies (ubuntu)
       if: ${{ env.SKIP == 'false' && runner.os == 'Linux' && matrix.tiles == 1 }}
