@@ -704,7 +704,7 @@
     "price": "40 USD",
     "price_postapoc": "25 USD",
     "category": "weapons",
-    "melee_damage": { "bash": 3, "cut": 34 }
+    "melee_damage": { "bash": 3, "cut": 30 }
   },
   {
     "type": "ITEM",
@@ -715,7 +715,7 @@
     "price": "50 USD",
     "price_postapoc": "27 USD",
     "material": [ "qt_steel", "wood" ],
-    "melee_damage": { "bash": 3, "cut": 39 }
+    "melee_damage": { "bash": 3, "cut": 35 }
   },
   {
     "type": "ITEM",
