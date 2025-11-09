@@ -317,5 +317,28 @@
     "max_duration": { "math": [ "(u_spell_level('iso_eldritch_basic_attack') * 150) + 1200" ] },
     "base_energy_cost": 750,
     "base_casting_time": 75
+  },
+  {
+    "id": "iso_eldritch_mass_aoe_zombie_destruction",
+    "type": "SPELL",
+    "name": "The Most Excellent Obliteration of Blasphemies",
+    "description": "Concentrate the full force of reality on all creatures of the Outside, including Nether monsters, zombies, and all of their ilk, crushing them beneath its weight.",
+    "valid_targets": [ "hostile", "ground" ],
+    "flags": [ "EVOCATION_SPELL", "RANDOM_DAMAGE", "RANDOM_DURATION", "SPLIT_DAMAGE", "VERBAL", "SOMATIC", "NO_LEGS" ],
+    "spell_class": "iso_eldritch_sorcery",
+    "magic_type": "iso_eldritch_sorcery",
+    "difficulty": 15,
+    "max_level": 30,
+    "effect": "attack",
+    "shape": "blast",
+    "damage_type": "bash",
+    "min_damage": { "math": [ "(u_spell_level('iso_eldritch_mass_aoe_zombie_destruction') * 10) + 250" ] },
+    "max_damage": { "math": [ "(u_spell_level('iso_eldritch_mass_aoe_zombie_destruction') * 25) + 500" ] },
+    "min_aoe": 3,
+    "max_aoe": 18,
+    "aoe_increment": 0.5,
+    "base_energy_cost": 1500,
+    "base_casting_time": 500,
+    "targeted_monster_species": [ "NETHER", "MUTANT", "ZOMBIE" ]
   }
 ]

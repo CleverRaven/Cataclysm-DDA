@@ -145,6 +145,14 @@
               {
                 "if": { "math": [ "u_spell_level('iso_eldritch_imprisonment') > 0" ] },
                 "then": { "math": [ "u_iso_eldritch_imprisonment_stored_level = u_spell_level('iso_eldritch_imprisonment')" ] }
+              },
+              {
+                "if": { "math": [ "u_spell_level('iso_eldritch_mass_aoe_zombie_destruction') > 0" ] },
+                "then": {
+                  "math": [
+                    "u_iso_eldritch_mass_aoe_zombie_destruction_stored_level = u_spell_level('iso_eldritch_mass_aoe_zombie_destruction')"
+                  ]
+                }
               }
             ]
           }
@@ -360,7 +368,26 @@
       { "if": { "u_has_wielded_with_ammotype": "338lapua" }, "then": [  ] },
       { "if": { "u_has_wielded_with_ammotype": "357sig" }, "then": [  ] },
       { "if": { "u_has_wielded_with_ammotype": "50" }, "then": [  ] },
-      { "if": { "u_has_wielded_with_ammotype": "40x46mm" }, "then": [  ] },
+      {
+        "if": {
+          "and": [
+            { "u_has_wielded_with_ammotype": "40x46mm" },
+            { "math": [ "u_spell_level('iso_eldritch_mass_aoe_zombie_destruction') == -1" ] }
+          ]
+        },
+        "then": [
+          {
+            "set_string_var": "iso_eldritch_mass_aoe_zombie_destruction",
+            "target_var": { "global_val": "new_last_scion_spell_id" }
+          },
+          {
+            "set_string_var": "The Most Excellent Obliteration of Blasphemies",
+            "target_var": { "global_val": "new_last_scion_spell_name" }
+          },
+          { "math": [ "new_last_scion_spell_level = u_iso_eldritch_mass_aoe_zombie_destruction_stored_level" ] },
+          { "run_eocs": "EOC_ISO_LAST_SCION_SPELL_GAINING_CHOOSE_SLOT" }
+        ]
+      },
       {
         "run_eocs": [
           {
