@@ -7125,8 +7125,8 @@
     "name": "pikes",
     "description": "Recipes related to constructing pikes from various materials.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "pike", "pike_bronze", "pike_copper", "pike_wood" ],
-    "difficulty": 3
+    "nested_category_data": [ "pike", "pike_bronze", "pike_copper", "pike_wood", "simple_pike_pipe", "pike_pipe" ],
+    "difficulty": 1
   },
   {
     "id": "nested_throwing_weapons",
@@ -8363,7 +8363,7 @@
     "name": "warhammers",
     "description": "Recipes for making hammers used as weapons instead of tools.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "warhammer", "lucern_hammer", "homemade_polehammer" ],
+    "nested_category_data": [ "warhammer", "lucern_hammer", "homemade_polehammer", "crowbar_warhammer" ],
     "difficulty": 1
   },
   {
@@ -8375,7 +8375,7 @@
     "name": "bats",
     "description": "Recipes for making baseball bats and improving them with various materials.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "bat", "bat_with_lathe", "nailbat", "bwirebat", "nutboltbat" ],
+    "nested_category_data": [ "bat", "bat_with_lathe", "nailbat", "bwirebat", "nutboltbat", "bat_metal_bolt" ],
     "difficulty": 1
   },
   {
