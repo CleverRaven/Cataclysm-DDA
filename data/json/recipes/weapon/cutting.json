@@ -2555,7 +2555,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 }, { "id": "SAW_W", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0.15 } ],
-    "using": [ [ "strong_glue", 10 ] ],
+    "using": [ [ "glue_strong", 10 ] ],
     "components": [ [ [ "spear_shaft", 1 ] ], [ [ "fire_ax", 1 ], [ "ax", 1 ] ], [ [ "nails", 3, "LIST" ] ] ]
   },
   {
