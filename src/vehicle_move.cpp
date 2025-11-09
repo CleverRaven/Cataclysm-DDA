@@ -1257,6 +1257,15 @@ static std::pair<double, double> item_hardness_calc( const item &it )
     return std::make_pair( min_hardness, max_hardness );
 }
 
+static double hit_probability( const item &it, vehicle_part &vp_wheel )
+{
+    // We don't have item widths, so just go with length. This will cause long narrow items to cover the maximum
+    // extent at all times, rather than account for orientation.
+    const double item_coverage = std::min( to_millimeter( it.length() ), 1000 ) / 1000.0;
+    const double wheel_coverage = vp_wheel.get_base().type->wheel->width * 0.0254;
+    return std::min( wheel_coverage + item_coverage, 1.0 );
+}
+
 double vehicle::wheel_damage_chance_vs_item( const item &it, vehicle_part &vp_wheel ) const
 {
     if( !it.has_flag( json_flag_DAMAGE_VEHICLE_WHEELS ) ) {
@@ -1273,13 +1282,16 @@ double vehicle::wheel_damage_chance_vs_item( const item &it, vehicle_part &vp_wh
     double item_hardness = item_hardness_calc( it ).second;
     // It is exponentially more difficult for soft items to damage wheels, even if you're hitting a lot of them.
     const double chance_to_damage = std::min( std::pow( item_hardness / wheel_hardness, 2.0 ), 1.0 );
+    const double chance_to_hit = hit_probability( it, vp_wheel );
     add_msg_debug( debugmode::DF_VEHICLE_MOVE,
                    "Vehicle %s running over item %s."
                    "\n Chance to damage: %f%%."
+                   "\n Chance to hit: %f%%."
                    "\n Item hardness: %f"
                    "\n Wheel hardness: %f",
-                   disp_name(), it.tname(), chance_to_damage * 100.0, item_hardness, wheel_hardness );
-    return chance_to_damage;
+                   disp_name(), it.tname(), chance_to_damage * 100.0, chance_to_hit * 100.0, item_hardness,
+                   wheel_hardness );
+    return chance_to_damage * chance_to_hit;
 }
 
 std::vector<std::string> vehicle::handle_item_roadkill( map *here, const tripoint_bub_ms &p,
@@ -1298,13 +1310,18 @@ std::vector<std::string> vehicle::handle_item_roadkill( map *here, const tripoin
 
     for( const item &it : roadkill ) {
         const double chance_to_damage = wheel_damage_chance_vs_item( it, vp_wheel );
-        if( chance_to_damage > 0.0 && chance_to_damage >= rng_float( 0.0, 1.0 ) ) {
-            damage_to_deal += one_damage_level; // One 'level' worth of damage per successful damage roll
-            //~%1$s vehicle name, %1$s vehicle part name, %3$s name of item being run over
-            ret.emplace_back( string_format( _( "The %1$s's %2$s is damaged by running over %3$s!" ),
-                                             disp_name(), vp_wheel.info().name(), it.tname() ) );
+        if( chance_to_damage > 0.0 ) {
+            if( chance_to_damage >= rng_float( 0.0, 1.0 ) ) {
+                damage_to_deal += one_damage_level; // One 'level' worth of damage per successful damage roll
+                //~%1$s vehicle name, %1$s vehicle part name, %3$s name of item being run over
+                ret.emplace_back( string_format( _( "The %1$s's %2$s is damaged by running over %3$s!" ),
+                                                 disp_name(), vp_wheel.info().name(), it.tname() ) );
+            } else {
+                //~%1$s vehicle name, %1$s vehicle part name, %3$s name of item being run over
+                ret.emplace_back( string_format( _( "The %1$s's %2$s avoided damage from running over %3$s!" ),
+                                                 disp_name(), vp_wheel.info().name(), it.tname() ) );
+            }
         }
-
     }
 
     // We only damage the part once, to avoid having to check for/replace/abort early if the vehicle part is destroyed by damage. Makes things much simpler and safer.
