@@ -301,6 +301,13 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_monster_aegis_limiter",
+    "//": "Hidden effect, acts as a cooldown for Aegis",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
     "id": "eff_monster_immune_to_telepathy",
     "name": [ "Telepathic Shield" ],
     "desc": [ "You have a shield up to prevent telepathic detection and attack." ],

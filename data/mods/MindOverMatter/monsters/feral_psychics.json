@@ -1026,8 +1026,14 @@
           "id": "psi_telekin3_aegis",
           "type": "spell",
           "spell_data": { "id": "telekinetic_aegis_monster" },
-          "cooldown": { "math": [ "25 + rand(50)" ] },
-          "condition": { "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "or": [ "npc_driving" ] } ] },
+          "cooldown": 1,
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "NO_PSIONICS" } },
+              { "or": [ "npc_driving" ] },
+              { "not": { "u_has_effect": "effect_monster_aegis_limiter" } }
+            ]
+          },
           "monster_message": "%1$s throws their arms wide!"
         },
         {
