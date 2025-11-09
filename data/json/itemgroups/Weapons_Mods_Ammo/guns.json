@@ -348,7 +348,7 @@
       { "group": "12_gauge_semi", "prob": 48 },
       { "group": "12_gauge_pump", "prob": 34 },
       { "group": "12_gauge_break", "prob": 18 },
-      { "group": "nested_shotgun_410", "prob": 5 }
+      { "group": "nested_mossberg_500_410", "prob": 5 }
     ]
   },
   {
@@ -368,7 +368,7 @@
       { "group": "12_gauge_semi_display", "prob": 48 },
       { "group": "12_gauge_pump_display", "prob": 34 },
       { "group": "12_gauge_break_display", "prob": 18 },
-      { "item": "shotgun_410", "prob": 5 }
+      { "item": "mossberg_500_410", "prob": 5 }
     ]
   },
   {

@@ -925,7 +925,8 @@
       { "group": "nested_mossberg_590", "prob": 170 },
       { "group": "nested_mossberg_590m", "prob": 34 },
       { "group": "nested_ksg", "prob": 78 },
-      { "group": "nested_dp_12", "prob": 25 }
+      { "group": "nested_dp_12", "prob": 25 },
+      { "group": "nested_mossberg_590_shockwave", "prob": 12 }
     ]
   },
   {
@@ -967,7 +968,8 @@
       { "item": "mossberg_590", "prob": 170 },
       { "item": "mossberg_590m", "prob": 34 },
       { "item": "ksg", "prob": 78 },
-      { "item": "dp_12", "prob": 25 }
+      { "item": "dp_12", "prob": 25 },
+      { "item": "mossberg_590_shockwave", "prob": 25 }
     ]
   },
   {
