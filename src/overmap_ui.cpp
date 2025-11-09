@@ -447,12 +447,17 @@ void overmap_sidebar::draw_mission_info()
 
 cataimgui::bounds overmap_sidebar::get_bounds()
 {
+#ifdef TILES
+    float character_cell_width = static_cast<float>( fontwidth );
+#else
+    float character_cell_width = 1.0;
+#endif
     ImVec2 viewport = ImGui::GetMainViewport()->WorkSize;
     // OVERMAP_LEGEND_WIDTH is our width in character cells in the
     // old-school terminal emulation, even though the overmap tiles
     // are a different size entirely.
-    float width = static_cast<float>( OVERMAP_LEGEND_WIDTH ) * fontwidth;
-    return { viewport.x - width - 42,
+    float width = static_cast<float>( OVERMAP_LEGEND_WIDTH ) * character_cell_width;
+    return { viewport.x - width,
              0,
              viewport.x,
              viewport.y
