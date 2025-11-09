@@ -323,6 +323,7 @@ class Creature : public viewer
         }
         virtual void gravity_check();
         virtual void gravity_check( map *here );
+        void maybe_break_fragile_underfoot(Creature& cr, const tripoint_bub_ms& p);
         void setpos( map &here, const tripoint_bub_ms &p, bool check_gravity = true );
         void setpos( const tripoint_abs_ms &p, bool check_gravity = true );
 

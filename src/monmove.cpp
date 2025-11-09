@@ -914,20 +914,6 @@ void monster::move()
     // Give nursebots a chance to do surgery.
     nursebot_operate( dragged_foe );
 
-    //check if monster breaks through floor
-    if (!is_hallucination() && !flies() && get_weight() >= 5_kilogram) {
-        if (here.has_flag(ter_furn_flag::TFLAG_FRAGILE, pos_bub())) {
-            // static stress check, breaks fragile terrain like skylights
-            const int bash_strength = get_weight() / 10_kilogram;
-            const std::string old_name = here.ter(pos_bub())->name();
-            const auto res = here.bash(pos_bub(), bash_strength, true, false, false, nullptr, false);
-            if (res.success) {
-                add_msg(m_warning, _("The %s crashes through the %s!"),
-                    name(), old_name);
-            }
-        }
-    }
-
     // The monster can sometimes hang in air due to last fall being blocked
     gravity_check();
     if( is_dead() ) {
