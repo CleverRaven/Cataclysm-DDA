@@ -674,7 +674,9 @@
           "Attempt to cure your seasonal affective disorder.",
           "Attempt to cure your strange blood disorder.",
           "Do nothing for now."
-        ]
+        ],
+        "allow_cancel": true,
+        "hide_failing": true
       }
     ]
   },
