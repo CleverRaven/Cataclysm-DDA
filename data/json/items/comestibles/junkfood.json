@@ -1837,7 +1837,7 @@
     "comestible_type": "DRINK",
     "symbol": "~",
     "calories": 40,
-    "description": "Delicious and creamy delight, half of the famous Fluffernutter.",
+    "description": "Delicious and creamy delight, half of the famous fluffernutter.",
     "price": "2 USD 99 cent",
     "price_postapoc": "10 USD",
     "material": [ "junk", "egg" ],
