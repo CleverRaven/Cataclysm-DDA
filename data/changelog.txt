@@ -372,15 +372,9 @@ Add flesh aberration corpse pit map extra
 Implement microscope functionality
 Add the Zombie Summoner
 Highlands Dimension
-Add a crude sledgehammer
-Scrap brass from casings
-Rescale adobe construction, add adobe option to modular basecamp
-Primers spawn in greater amounts
 Add a few crude guns
 Add borax, expand graphite use, update some smithing recipes and rock spawning
-Add Kvass
 Houses have a realistic amount of solar power
-Fix wrong category name for chitinous vests
 410 Mossberg 500 and Mossberg Shockwave
 
 
@@ -942,9 +936,6 @@ Aftershock: Properly Ruin cities
 Add BLOCK_SUPERNATURAL_HEALING flag, apply it to Clay Golem attacks in Magiclysm
 [Aftershock] Add the Sibyl profession to the Esper scenario, add precognitive powers
 [Bombastic Perks] Add the Closetland playstyle perk
-[Bombastic Perks] More perks
-[MoM] Add Photokinetic matrix crystal artifacts
-[MoM] The `unstoppable force` can use Aegis
 
 
 
@@ -1052,9 +1043,6 @@ Star vampires have `PERMANENT_INVISIBILITY`, when they drink blood it applies `S
 Molotovs do not create walls of fire
 Monsters moving through SHARP terrain trample the terrain
 Running over large/hard objects in vehicles will damage your wheels
-Shadow (*not* `a shadow?`) overhaul
-Wraith overhaul
-Pants stats audit
 
 
 ## Bugfixes:
@@ -1444,20 +1432,9 @@ Fix roads going nowhere
 Prevent segfault when cancelling butchery
 [Sorcerer] Sorcerers can learn advanced versions of spells though having high enough spell level of the base spell
 [Dinomod/Innawood] Remove cities if using Dinomod/Innawood together
-Fix numerous basic typos in comments and documentation files
-Audit drugdealer itemgroup
 Eating human zombie flesh is cannibalism
-Update steel ballistic plate recipe times
-Fix Bill pole
-Blacklists evac flyer with Exoplanet loaded
-Remove old armor
-update melee practice recipes
 Fix rare overmap save corruption from specific horde metadata
 Audit solar panel installation/removal reqs for vehicles
-Fix typo
-Fix weight+length of glaive
-Vanishing Arc Teleport bugs
-Appliances' cable connection failure after Vanishing Arc teleport
 Fix the scaling factor for high-dpi displays.
 
 
