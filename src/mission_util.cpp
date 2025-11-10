@@ -203,7 +203,12 @@ static std::optional<tripoint_abs_omt> find_or_create_om_terrain(
         find_params.om_special = special_id;
 
         if( overmap_buffer.contains_unique_special( special_id ) ) {
-            return overmap_buffer.find_existing_globally_unique( origin_pos, find_params );
+            target_pos = overmap_buffer.find_existing_globally_unique( origin_pos, find_params );
+            if( target_pos.is_invalid() ) {
+                debugmsg( "Couldn't find placed overmap special %s???", special_id.str() );
+                return std::nullopt;
+            }
+            return target_pos;
         }
     }
     auto get_target_position = [&]() {

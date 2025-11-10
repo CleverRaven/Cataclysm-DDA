@@ -14,7 +14,8 @@
       [ "wax_paraffin", 30 ],
       [ "straw_pile", 15 ],
       { "group": "charcoal_bag_part", "prob": 25 },
-      [ "clay_lump", 100 ]
+      [ "clay_lump", 100 ],
+      [ "clay_kaolin", 40 ]
     ]
   },
   {

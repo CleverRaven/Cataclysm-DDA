@@ -130,7 +130,7 @@
     "subtype": "distribution",
     "id": "common_magazines_32",
     "//": "Collections of magazines for 32 ACP guns that are sold in gunstores, such as a PPK.",
-    "items": [ { "item": "ppkmag", "prob": 100 }, { "item": "kp32mag", "prob": 68 }, { "item": "lws32mag", "prob": 2000 } ]
+    "items": [ { "item": "ppkmag", "prob": 100 }, { "item": "lws32mag", "prob": 2000 } ]
   },
   {
     "type": "item_group",
@@ -378,13 +378,11 @@
     "type": "item_group",
     "subtype": "distribution",
     "id": "rare_magazines_9mm",
-    "//": "Collections of magazines for 9mm guns that are rare and should only be found in collections or gunshows, such as Calicos, Lugers.",
+    "//": "Collections of magazines for 9mm guns that are rare and should only be found in collections or gunshows, such as Lugers.",
     "items": [
-      { "group": "magazines_9mm_calico", "prob": 1 },
       { "group": "magazines_9mm_luger", "prob": 60 },
       { "group": "magazines_9mm_mp40", "prob": 60 },
       { "group": "magazines_9mm_sten", "prob": 40 },
-      { "group": "magazines_9mm_tec9", "prob": 60 },
       { "group": "magazines_9mm_uzi", "prob": 18 }
     ]
   },

@@ -177,7 +177,7 @@
     "replace": "pistol_pcc"
   },
   {
-    "id": [ "2_shot_special", "rifle_38", "smg_40", "surv_six_shooter", "smg_45", "surv_hand_cannon", "smg_9mm" ],
+    "id": [ "2_shot_special", "rifle_38", "smg_40", "surv_six_shooter", "smg_45", "surv_hand_cannon", "smg_9mm", "rifle_45_410" ],
     "type": "MIGRATION",
     "replace": "pistol_pipe_smg"
   },
@@ -473,6 +473,7 @@
   {
     "id": [
       "shotgun_410",
+      "mossberg_500_410",
       "benelli_sa",
       "ksg",
       "mossberg_500",
@@ -488,7 +489,7 @@
     "replace": "shot_pump"
   },
   {
-    "id": [ "remington_870_breacher" ],
+    "id": [ "remington_870_breacher", "mossberg_590_shockwave" ],
     "type": "MIGRATION",
     "replace": "shot_short_pump"
   },

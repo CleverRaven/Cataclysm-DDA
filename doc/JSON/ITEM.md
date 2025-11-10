@@ -1002,7 +1002,8 @@ If an item is BREWABLE, it can be placed in a vat and will ferment into a differ
 "name": { "str_sp": "whiskey wort" },
 "description": "Unfermented whiskey.  The base of a fine drink.  Not the traditional preparation, but you don't have the time.  You need to put it in a fermenting vat to brew it.",
 "brew_time": "7 days",  // A time duration: how long the fermentation will take.
-"brew_results": [ "wash_whiskey", "yeast" ], // IDs with a multiplier for the amount of results per charge of the brewable items.
+"brew_results": [ "wash_whiskey", { "item": "yeast", "variant": "foo", "count": 3 } ], // IDs with a multiplier for the amount of results per charge of the brewable items.
+"brew_results": { "wash_whiskey": 2, "yeast": 3 }, // Alternate format
 ...
 //comestible fields
 ```
@@ -1024,6 +1025,7 @@ If an item is BREWABLE, it can be placed in a vat and will ferment into a differ
 "charges": 1,
 "compost_time": "60 days", // the amount of time required to fully compost this item
 "compost_results": { "fermented_fertilizer_liquid": 1, "biogas": 250 }, //item IDs and quantities resulting from compost
+"compost_results": [ "fermented_fertilizer_liquid", { "item": "biogas", "variant": "foo", "count": "250" } ], // alternate format
 ...
 //COMESTIBLE fields
 ```

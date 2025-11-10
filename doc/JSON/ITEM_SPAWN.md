@@ -120,9 +120,9 @@ Each entry can have more values (shown above as `...`).  They allow further prop
 
 `contents` is added as contents of the created item.  It is not checked if they can be put into the item.  This allows water, that contains a book, that contains a steel frame, that contains a corpse.
 
-`count` makes the item spawn repeat, each time creating a new item.
+`count` makes the item spawn repeat, each time creating a new item. Setting to -1 fills the container if there's one and spawns 1 if not.
 
-`charges`: Setting only min and not max will make the game calculate the max charges based on container or ammo/magazine capacity. Setting max too high will decrease it to the maximum capacity. Not setting min will set it to 0 when max is set.
+`charges`: Setting only min and not max will make the game calculate the max charges based on container or ammo/magazine capacity. Setting max too high will decrease it to the maximum capacity. Setting to -1 fills the container if there's one and spawns the maximum of charges if not.
 
 `sealed`: If true, a container will be sealed when the item spawns.  Default is `true`.
 

@@ -294,7 +294,7 @@
     "revert_to": "arrow_field_point_fletched",
     "recovery_chance": 97,
     "effects": [ "IGNITE" ],
-    "extend": { "flags": [ "TRADER_AVOID" ] }
+    "extend": { "flags": [ "TRADER_AVOID", "SPAWN_ACTIVE" ] }
   },
   {
     "id": "selfbow",

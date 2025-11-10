@@ -420,7 +420,7 @@
     "power_draw": "1 kW",
     "emits": [ "emit_hot_air2_blast" ],
     "light": 2,
-    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "SPAWN_ACTIVE" ],
     "revert_to": "large_space_heater",
     "use_action": [
       {
@@ -632,7 +632,7 @@
     "power_draw": "500 W",
     "emits": [ "emit_hot_air2_stream" ],
     "light": 2,
-    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "SPAWN_ACTIVE" ],
     "revert_to": "small_space_heater",
     "use_action": [
       {
@@ -793,7 +793,7 @@
       "fields_min_intensity": 1,
       "fields_max_intensity": 3
     },
-    "flags": [ "TRADER_AVOID", "ZERO_WEIGHT" ]
+    "flags": [ "TRADER_AVOID", "ZERO_WEIGHT", "SPAWN_ACTIVE" ]
   },
   {
     "id": "teleumbrella",

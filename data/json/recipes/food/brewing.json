@@ -170,7 +170,7 @@
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
-    "result": "brew_sake_koji",
+    "result": "brew_sake_koji_active",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREW",
     "skill_used": "cooking",
@@ -568,7 +568,7 @@
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
-    "result": "malting_grain",
+    "result": "malting_grain_active",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREW",
     "skill_used": "cooking",
@@ -587,7 +587,7 @@
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
-    "result": "soaking_dandelion",
+    "result": "soaking_dandelion_active",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREW",
     "skill_used": "cooking",
@@ -637,7 +637,7 @@
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
-    "result": "fermenting_yogurt",
+    "result": "fermenting_yogurt_active",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREW",
     "skill_used": "cooking",

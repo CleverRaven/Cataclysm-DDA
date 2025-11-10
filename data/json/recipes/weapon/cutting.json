@@ -250,9 +250,9 @@
       { "proficiency": "prof_bladesmith" },
       { "proficiency": "prof_carving", "skill_penalty": 0 }
     ],
-    "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 3 ] ],
+    "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 3 ], [ "metal_punch", 1 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut_any", 1, "LIST" ], [ "drift", -1 ] ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "components": [ [ [ "spear_shaft", 1 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
   },
   {
@@ -322,9 +322,9 @@
       { "proficiency": "prof_bladesmith" },
       { "proficiency": "prof_carving", "skill_penalty": 0 }
     ],
-    "using": [ [ "blacksmithing_standard", 24 ], [ "steel_standard", 6 ] ],
+    "using": [ [ "blacksmithing_standard", 24 ], [ "steel_standard", 6 ], [ "metal_punch", 1 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut_any", 1, "LIST" ], [ "drift", -1 ] ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "components": [ [ [ "stick_long", 1 ] ] ]
   },
   {
@@ -997,9 +997,9 @@
       { "proficiency": "prof_bladesmith" },
       { "proficiency": "prof_carving", "time_multiplier": 1.2, "learning_time_multiplier": 0.2, "skill_penalty": 0 }
     ],
-    "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 3 ] ],
+    "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 3 ], [ "metal_punch", 1 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut_any", 1, "LIST" ], [ "drift", -1 ] ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "components": [ [ [ "2x4", 2 ], [ "stick", 4 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
   },
   {
@@ -1018,9 +1018,9 @@
       { "proficiency": "prof_bladesmith" },
       { "proficiency": "prof_carving", "time_multiplier": 1.2, "learning_time_multiplier": 0.2, "skill_penalty": 0 }
     ],
-    "using": [ [ "blacksmithing_standard", 12 ], [ "lc_steel_standard", 3 ] ],
+    "using": [ [ "blacksmithing_standard", 12 ], [ "lc_steel_standard", 3 ], [ "metal_punch", 1 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut_any", 1, "LIST" ], [ "drift", -1 ] ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "components": [ [ [ "2x4", 2 ], [ "stick", 4 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
   },
   {
@@ -1039,9 +1039,9 @@
       { "proficiency": "prof_bladesmith" },
       { "proficiency": "prof_carving", "time_multiplier": 1.2, "learning_time_multiplier": 0.2, "skill_penalty": 0 }
     ],
-    "using": [ [ "blacksmithing_standard", 12 ], [ "mc_steel_standard", 3 ] ],
+    "using": [ [ "blacksmithing_standard", 12 ], [ "mc_steel_standard", 3 ], [ "metal_punch", 1 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut_any", 1, "LIST" ], [ "drift", -1 ] ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "components": [ [ [ "2x4", 2 ], [ "stick", 4 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
   },
   {
@@ -1060,9 +1060,9 @@
       { "proficiency": "prof_bladesmith" },
       { "proficiency": "prof_carving", "time_multiplier": 1.2, "learning_time_multiplier": 0.2, "skill_penalty": 0 }
     ],
-    "using": [ [ "blacksmithing_standard", 12 ], [ "hc_steel_standard", 3 ] ],
+    "using": [ [ "blacksmithing_standard", 12 ], [ "hc_steel_standard", 3 ], [ "metal_punch", 1 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut_any", 1, "LIST" ], [ "drift", -1 ] ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "components": [ [ [ "2x4", 2 ], [ "stick", 4 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
   },
   {
@@ -1082,9 +1082,9 @@
       { "proficiency": "prof_carving", "time_multiplier": 1.2, "learning_time_multiplier": 0.2, "skill_penalty": 0 },
       { "proficiency": "prof_case_hardening" }
     ],
-    "using": [ [ "blacksmithing_standard", 12 ], [ "lc_steel_standard", 3 ] ],
+    "using": [ [ "blacksmithing_standard", 12 ], [ "lc_steel_standard", 3 ], [ "metal_punch", 1 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut_any", 1, "LIST" ], [ "drift", -1 ] ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "components": [ [ [ "2x4", 2 ], [ "stick", 4 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
   },
   {
@@ -1104,13 +1104,9 @@
       { "proficiency": "prof_carving", "time_multiplier": 1.2, "learning_time_multiplier": 0.2, "skill_penalty": 0 },
       { "proficiency": "prof_quenching" }
     ],
-    "using": [ [ "blacksmithing_standard", 12 ], [ "mc_steel_standard", 3 ] ],
+    "using": [ [ "blacksmithing_standard", 12 ], [ "mc_steel_standard", 3 ], [ "metal_punch", 1 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [
-      [ [ "hotcut_any", 1, "LIST" ], [ "drift", -1 ] ],
-      [ [ "metal_tank", -1 ] ],
-      [ [ "water", -120 ], [ "water_clean", -120 ] ]
-    ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ],
     "components": [ [ [ "2x4", 2 ], [ "stick", 4 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
   },
   {
@@ -2178,9 +2174,9 @@
       { "proficiency": "prof_bladesmith" },
       { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0 }
     ],
-    "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 3 ] ],
+    "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 3 ], [ "metal_punch", 1 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut_any", 1, "LIST" ], [ "drift", -1 ] ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "components": [ [ [ "spear_shaft", 1 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
   },
   {
