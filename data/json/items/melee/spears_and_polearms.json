@@ -430,7 +430,7 @@
     "price": "120 USD",
     "qualities": [ [ "COOK", 1 ] ],
     "use_action": [ "HEAT_SOLID_ITEMS" ],
-    "melee_damage": { "stab": 21 }
+    "melee_damage": { "stab": 17 }
   },
   {
     "type": "ITEM",
