@@ -721,7 +721,7 @@ bool route_to_destination( Character &you, player_activity &act,
     you.set_destination( route, act );
     you.activity.set_to_null();
     return true;
-};
+}
 
 bool sort_skip_item( Character &you, const item *it,
                      const std::vector<item_location> &other_activity_items,
