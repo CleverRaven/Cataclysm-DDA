@@ -109,6 +109,13 @@
     ]
   },
   {
+    "type": "effect_type",
+    "id": "effect_iso_eldritch_mass_aoe_zombie_destruction_preventer",
+    "//": "Hidden effects, blocks The Most Excellent Obliteration of Blasphemies from being instantly dispelled",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
     "type": "effect_on_condition",
     "id": "EOC_ISO_ELDRITCH_MASS_AOE_ZOMBIE_DESTRUCTION_ATTACK_MONSTER",
     "eoc_type": "EVENT",
@@ -129,7 +136,12 @@
     "id": "EOC_ISO_ELDRITCH_MASS_AOE_ZOMBIE_DESTRUCTION_CAST_OTHER_SPELL",
     "eoc_type": "EVENT",
     "required_event": "spellcasting_finish",
-    "condition": { "u_has_effect": "effect_iso_eldritch_mass_aoe_zombie_destruction" },
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_iso_eldritch_mass_aoe_zombie_destruction" },
+        { "not": { "u_has_effect": "effect_iso_eldritch_mass_aoe_zombie_destruction_preventer" } }
+      ]
+    },
     "effect": [ { "u_lose_effect": "effect_iso_eldritch_mass_aoe_zombie_destruction" } ]
   },
   {

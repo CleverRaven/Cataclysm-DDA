@@ -18,7 +18,7 @@
         "run_eocs": [
           {
             "id": "iso_backup_perk",
-            "condition": { "u_has_trait": "iso_backup" },
+            "condition": { "and": [ "has_alpha", { "u_has_trait": "iso_backup" } ] },
             "effect": [ { "u_add_effect": "iso_eff_backup", "duration": "2 seconds" } ]
           }
         ]
