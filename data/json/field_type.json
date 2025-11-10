@@ -607,7 +607,7 @@
             "max_duration": "2 minutes",
             "immune_inside_vehicle": true,
             "immunity_data": { "body_part_env_resistance": [ [ "sensor", 15 ] ] },
-            "message": "The hazy cloud makes your eyes hitch.",
+            "message": "The hazy cloud makes your eyes itch.",
             "message_type": "bad"
           },
           {
