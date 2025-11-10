@@ -81,20 +81,12 @@
     "type": "effect_on_condition",
     "id": "EOC_ISO_ELDRITCH_STUN_BLIND_DEAF",
     "effect": [
-      { "math": [ "u_iso_spell_lower_duration = ((u_spell_level('iso_eldritch_stun_blind_deaf') * 1.50) + 3.00)" ] },
-      { "math": [ "u_iso_spell_upper_duration = ((u_spell_level('iso_eldritch_stun_blind_deaf') * 3.75) + 9.00)" ] },
-      {
-        "u_add_effect": "blind",
-        "duration": { "math": [ "rng(u_iso_spell_lower_duration,u_iso_spell_upper_duration)" ] }
-      },
-      {
-        "u_add_effect": "deaf",
-        "duration": { "math": [ "rng(u_iso_spell_lower_duration,u_iso_spell_upper_duration)" ] }
-      },
-      {
-        "u_add_effect": "stunned",
-        "duration": { "math": [ "rng(u_iso_spell_lower_duration,u_iso_spell_upper_duration)" ] }
-      }
+      { "math": [ "_buff_duration_lower = ((u_spell_level('iso_eldritch_stun_blind_deaf') * 1.50) + 3.00)" ] },
+      { "math": [ "_buff_duration_upper = ((u_spell_level('iso_eldritch_stun_blind_deaf') * 3.75) + 9.00)" ] },
+      { "math": [ "_buff_duration = rng(_buff_duration_lower, _buff_duration_upper)" ] },
+      { "u_add_effect": "blind", "duration": { "math": [ "_buff_duration" ] } },
+      { "u_add_effect": "deaf", "duration": { "math": [ "_buff_duration" ] } },
+      { "u_add_effect": "stunned", "duration": { "math": [ "_buff_duration" ] } }
     ]
   },
   {
@@ -182,6 +174,32 @@
     "min_field_intensity": 1,
     "max_field_intensity": 2,
     "field_chance": 1
+  },
+  {
+    "id": "iso_eldritch_cold_damage_over_time",
+    "type": "SPELL",
+    "name": "Ebon Bands of Ynthyr",
+    "description": "Bind a single target in bands of shadow, causing cold damage over time.",
+    "valid_targets": [ "hostile", "ground" ],
+    "flags": [ "EVOCATION_SPELL", "RANDOM_DAMAGE", "RANDOM_DURATION", "VERBAL", "SOMATIC", "NO_LEGS", "LOUD" ],
+    "spell_class": "iso_eldritch_sorcery",
+    "magic_type": "iso_eldritch_sorcery",
+    "difficulty": 2,
+    "max_level": 30,
+    "effect": "attack",
+    "shape": "blast",
+    "damage_type": "cold",
+    "min_damage": { "math": [ "(u_spell_level('iso_eldritch_cold_damage_over_time') * 0.6) + 4" ] },
+    "max_damage": { "math": [ "(u_spell_level('iso_eldritch_cold_damage_over_time') * 1.1) + 9" ] },
+    "min_dot": { "math": [ "(u_spell_level('iso_eldritch_cold_damage_over_time') * 0.03) + 0.3" ] },
+    "max_dot": { "math": [ "(u_spell_level('iso_eldritch_cold_damage_over_time') * 0.06) + 0.8" ] },
+    "min_duration": { "math": [ "(u_spell_level('iso_eldritch_cold_damage_over_time') * 150) + 1000" ] },
+    "max_duration": { "math": [ "(u_spell_level('iso_eldritch_cold_damage_over_time') * 250) + 2500" ] },
+    "min_range": 6,
+    "range_increment": 0.5,
+    "max_range": 30,
+    "base_energy_cost": 100,
+    "base_casting_time": 75
   },
   {
     "id": "iso_eldritch_cold_damage_blast",

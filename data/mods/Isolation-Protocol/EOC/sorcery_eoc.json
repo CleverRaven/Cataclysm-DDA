@@ -131,9 +131,9 @@
                 "then": { "math": [ "u_iso_eldritch_cone_lightning_stored_level = u_spell_level('iso_eldritch_cone_lightning')" ] }
               },
               {
-                "if": { "math": [ "u_spell_level('iso_eldritch_immobilize_one_target') > 0" ] },
+                "if": { "math": [ "u_spell_level('iso_eldritch_cold_damage_over_time') > 0" ] },
                 "then": {
-                  "math": [ "u_iso_eldritch_immobilize_one_target_stored_level = u_spell_level('iso_eldritch_immobilize_one_target')" ]
+                  "math": [ "u_iso_eldritch_cold_damage_over_time_stored_level = u_spell_level('iso_eldritch_cold_damage_over_time')" ]
                 }
               },
               {
@@ -320,13 +320,13 @@
         "if": {
           "and": [
             { "u_has_wielded_with_ammotype": "380" },
-            { "math": [ "u_spell_level('iso_eldritch_immobilize_one_target') == -1" ] }
+            { "math": [ "u_spell_level('iso_eldritch_cold_damage_over_time') == -1" ] }
           ]
         },
         "then": [
-          { "set_string_var": "iso_eldritch_immobilize_one_target", "target_var": { "global_val": "new_last_scion_spell_id" } },
+          { "set_string_var": "iso_eldritch_cold_damage_over_time", "target_var": { "global_val": "new_last_scion_spell_id" } },
           { "set_string_var": "Ebon Bands of Ynthyr", "target_var": { "global_val": "new_last_scion_spell_name" } },
-          { "math": [ "new_last_scion_spell_level = u_iso_eldritch_immobilize_one_target_stored_level" ] },
+          { "math": [ "new_last_scion_spell_level = u_iso_eldritch_cold_damage_over_time_stored_level" ] },
           { "run_eocs": "EOC_ISO_LAST_SCION_SPELL_GAINING_CHOOSE_SLOT" }
         ]
       },
