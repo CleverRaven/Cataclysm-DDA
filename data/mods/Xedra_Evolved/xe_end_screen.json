@@ -21,9 +21,9 @@
     "picture_id": "ascii_rip_vampire",
     "condition": { "and": [ { "not": "u_is_alive" }, { "u_has_trait": "VAMPIRE" } ] },
     "added_info": [
-      [ [ 25, 14 ], "The night is over for you: <color_light_red><u_name></color>" ],
-      [ [ 26, 15 ], "Survived: <time_survived>" ],
-      [ [ 27, 16 ], "Kills: <total_kills>" ]
+      [ [ 25, 3 ], "The night is over for you: <color_light_red><u_name></color>" ],
+      [ [ 26, 4 ], "Survived: <time_survived>" ],
+      [ [ 27, 5 ], "Kills: <total_kills>" ]
     ],
     "last_words_label": "Last Words:"
   }
