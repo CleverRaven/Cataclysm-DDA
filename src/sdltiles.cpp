@@ -4139,22 +4139,60 @@ std::optional<tripoint_bub_ms> input_context::get_coordinates( const catacurses:
     const window_dimensions dim = get_window_dimensions( capture_win );
 
     const point &win_min = dim.window_pos_pixel;
-    const point &win_size = dim.window_size_pixel;
+    point win_size = dim.window_size_pixel;
+    point logical_coordinate = coordinate;
+    const int scaling_factor = get_scaling_factor();
+
+    // convert window size and coordinate to logical if UI is scaled
+    if( scaling_factor > 1 ) {
+        logical_coordinate.x /= scaling_factor;
+        logical_coordinate.y /= scaling_factor;
+
+        const bool is_terrain_or_overmap = ( use_tiles && g && capture_win == g->w_terrain ) ||
+                                           ( use_tiles && use_tiles_overmap && g && capture_win == g->w_overmap );
+        if( !is_terrain_or_overmap ) {
+            win_size.x /= scaling_factor;
+            win_size.y /= scaling_factor;
+        }
+    }
+
     const point win_max = win_min + win_size;
 
     // Translate mouse coordinates to map coordinates based on tile size
     // Check if click is within bounds of the window we care about
     const half_open_rectangle<point> win_bounds( win_min, win_max );
-    if( !win_bounds.contains( coordinate ) ) {
+    if( !win_bounds.contains( logical_coordinate ) ) {
         return std::nullopt;
     }
 
-    const point screen_pos = coordinate - win_min;
+    const point screen_pos = logical_coordinate - win_min;
+
     const bool use_isometric = g->w_overmap &&
                                capture_win == g->w_overmap ? false : g->is_tileset_isometric();
 
+    // convert tile size to logical if UI is scaled
+    point logical_tile_size;
+    if( scaling_factor > 1 ) {
+        const bool is_terrain = use_tiles && g && capture_win == g->w_terrain;
+        const bool is_overmap = use_tiles && use_tiles_overmap && g && capture_win == g->w_overmap;
+
+        if( is_terrain ) {
+            logical_tile_size.x = tilecontext->get_tile_width();
+            logical_tile_size.y = tilecontext->get_tile_height();
+        } else if( is_overmap ) {
+            logical_tile_size.x = overmap_tilecontext->get_tile_width();
+            logical_tile_size.y = overmap_tilecontext->get_tile_height();
+        } else {
+            logical_tile_size = dim.scaled_font_size;
+            logical_tile_size.x /= scaling_factor;
+            logical_tile_size.y /= scaling_factor;
+        }
+    } else {
+        logical_tile_size = dim.scaled_font_size;
+    }
+
     const point_bub_ms p = cata_tiles::screen_to_player(
-                               screen_pos, dim.scaled_font_size, win_size,
+                               screen_pos, logical_tile_size, win_size,
                                point_bub_ms( offset ), use_isometric );
 
     return tripoint_bub_ms( p, get_map().get_abs_sub().z() );
