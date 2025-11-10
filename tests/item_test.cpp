@@ -78,7 +78,6 @@ static const itype_id itype_jeans( "jeans" );
 static const itype_id itype_legrig( "legrig" );
 static const itype_id itype_money( "money" );
 static const itype_id itype_neccowafers( "neccowafers" );
-static const itype_id itype_pale_ale( "pale_ale" );
 static const itype_id itype_rocuronium( "rocuronium" );
 static const itype_id itype_shoulder_strap( "shoulder_strap" );
 static const itype_id itype_single_malt_whiskey( "single_malt_whiskey" );
@@ -365,7 +364,6 @@ TEST_CASE( "items_spawn_in_their_default_containers", "[item]" )
     check_spawning_in_container( itype_water );
     check_spawning_in_container( itype_ammonia_hydroxide );
     check_spawning_in_container( itype_detergent );
-    check_spawning_in_container( itype_pale_ale );
     check_spawning_in_container( itype_single_malt_whiskey );
     check_spawning_in_container( itype_rocuronium );
     check_spawning_in_container( itype_chem_muriatic_acid );
