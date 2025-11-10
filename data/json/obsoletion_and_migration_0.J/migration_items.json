@@ -150,6 +150,7 @@
     "replace": "kippah"
   },
   {
+    "type": "MIGRATION",
     "id": "homewrecker",
     "replace": "hammer_sledge"
   },
