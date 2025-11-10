@@ -21,6 +21,6 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "2 m",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 1 } ],
-    "components": [ [ [ "spear_shaft", 1 ] ], [ [ "blade", 1 ], [ [ "nuts_bolts", 2 ] ] ]
+    "components": [ [ [ "spear_shaft", 1 ] ], [ [ "blade", 1 ] ], [ [ "nuts_bolts", 2 ] ] ]
   }
 ]
