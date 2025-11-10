@@ -213,6 +213,43 @@
     "ignored_monster_species": [ "NETHER" ]
   },
   {
+    "id": "iso_eldritch_invisibile_and_intangible",
+    "type": "SPELL",
+    "name": "The Umbral Transfiguration",
+    "description": "Turn yourself into a living shadow, becoming intangible and imperceptible, allowing you slip past enemies with ease.  However, you cannot cast it in areas of bright light.",
+    "valid_targets": [ "self" ],
+    "flags": [ "TRANSFORMATION_SPELL", "VERBAL", "SOMATIC", "NO_LEGS" ],
+    "spell_class": "iso_eldritch_sorcery",
+    "magic_type": "iso_eldritch_sorcery",
+    "difficulty": 5,
+    "max_level": 30,
+    "condition": { "math": [ "u_val('fine_detail_vision_mod') >= 3" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_ISO_ELDRITCH_INVISIBLE_AND_INTANGIBLE",
+    "shape": "blast",
+    "min_duration": { "math": [ "(u_spell_level('iso_eldritch_invisibile_and_intangible') * 911) + 2851" ] },
+    "max_duration": { "math": [ "(u_spell_level('iso_eldritch_invisibile_and_intangible') * 2153) + 8435" ] },
+    "base_energy_cost": { "math": [ "u_effect_intensity('effect_iso_eldritch_invisibile_and_intangible') > -1 ? 0 : 450" ] },
+    "base_casting_time": { "math": [ "u_effect_intensity('effect_iso_eldritch_invisibile_and_intangible') > -1 ? 10 : 500" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ISO_ELDRITCH_INVISIBLE_AND_INTANGIBLE",
+    "condition": { "u_has_effect": "effect_iso_eldritch_invisibile_and_intangible" },
+    "effect": [
+      { "math": [ "_buff_duration_lower = ( (u_spell_level('iso_eldritch_invisibile_and_intangible') * 9.11) + 28.51 )" ] },
+      {
+        "math": [ "_buff_duration_upper = ( (u_spell_level('iso_eldritch_invisibile_and_intangible') * 21.53) + 84.35 )" ]
+      },
+      { "math": [ "_buff_duration = rng(_buff_duration_lower, _buff_duration_upper)" ] },
+      {
+        "u_add_effect": "effect_iso_eldritch_invisibile_and_intangible",
+        "duration": { "math": [ "_buff_duration" ] }
+      },
+      { "u_add_effect": "incorporeal", "duration": { "math": [ "_buff_duration" ] } }
+    ]
+  },
+  {
     "id": "iso_eldritch_blink",
     "type": "SPELL",
     "name": "The Transportations of Immenar",

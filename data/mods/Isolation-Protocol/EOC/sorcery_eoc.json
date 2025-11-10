@@ -135,6 +135,12 @@
                 "then": { "math": [ "u_iso_eldritch_cold_damage_blast_stored_level = u_spell_level('iso_eldritch_cold_damage_blast')" ] }
               },
               {
+                "if": { "math": [ "u_spell_level('iso_eldritch_invisibile_and_intangible') > 0" ] },
+                "then": {
+                  "math": [ "u_iso_eldritch_invisibile_and_intangible_stored_level = u_spell_level('iso_eldritch_invisibile_and_intangible')" ]
+                }
+              },
+              {
                 "if": { "math": [ "u_spell_level('iso_eldritch_polymorph') > 0" ] },
                 "then": { "math": [ "u_iso_eldritch_polymorph_stored_level = u_spell_level('iso_eldritch_polymorph')" ] }
               },
@@ -312,7 +318,26 @@
       },
       { "if": { "u_has_wielded_with_ammotype": "357mag" }, "then": [  ] },
       { "if": { "u_has_wielded_with_ammotype": "shot" }, "then": [  ] },
-      { "if": { "u_has_wielded_with_ammotype": "308" }, "then": [  ] },
+      {
+        "if": {
+          "and": [
+            { "u_has_wielded_with_ammotype": "308" },
+            { "math": [ "u_spell_level('iso_eldritch_invisibile_and_intangible') == -1" ] }
+          ]
+        },
+        "then": [
+          {
+            "set_string_var": "iso_eldritch_invisibile_and_intangible",
+            "target_var": { "global_val": "new_last_scion_spell_id" }
+          },
+          {
+            "set_string_var": "The Umbral Transfiguration",
+            "target_var": { "global_val": "new_last_scion_spell_name" }
+          },
+          { "math": [ "new_last_scion_spell_level = u_iso_eldritch_invisibile_and_intangible_stored_level" ] },
+          { "run_eocs": "EOC_ISO_LAST_SCION_SPELL_GAINING_CHOOSE_SLOT" }
+        ]
+      },
       { "if": { "u_has_wielded_with_ammotype": "38" }, "then": [  ] },
       { "if": { "u_has_wielded_with_ammotype": "44c" }, "then": [  ] },
       {

@@ -10,5 +10,16 @@
     "player_display": false,
     "purifiable": false,
     "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "ISO_ELDRITCH_INVISIBLE_AND_INTANGIBLE_GRAPHICS",
+    "name": { "str": "Wraith Appearance", "//~": "NO_I18N" },
+    "description": { "str": "Makes you look like a wraith.", "//~": "NO_I18N" },
+    "starting_trait": false,
+    "player_display": false,
+    "purifiable": false,
+    "valid": false,
+    "override_look": { "id": "mon_darkman", "tile_category": "monster" }
   }
 ]

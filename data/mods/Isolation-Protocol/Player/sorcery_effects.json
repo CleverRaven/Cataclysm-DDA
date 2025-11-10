@@ -44,6 +44,17 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_iso_eldritch_invisibile_and_intangible",
+    "name": [ "The Umbral Transfiguration" ],
+    "desc": [ "You are an animate shadow." ],
+    "rating": "good",
+    "enchantments": [
+      { "values": [ { "mutations": [ "ISO_ELDRITCH_INVISIBLE_AND_INTANGIBLE_GRAPHICS" ], "value": "SPEED", "multiply": 3 } ] }
+    ],
+    "flags": [ "ETHEREAL", "INVISIBLE" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_iso_eldritch_imprisonment",
     "name": [ "The Adamantine Gaol of Emthys" ],
     "desc": [ "You are totally immobile and invulnerable." ],
