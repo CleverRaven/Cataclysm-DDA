@@ -1129,7 +1129,7 @@
     "qualities": [ [ "PRY", 3 ], [ "HAMMER", 1 ] ],
     "use_action": [ "CROWBAR" ],
     "category": "weapons",
-    "melee_damage": { "bash": 46 }
+    "melee_damage": { "bash": 38 }
   },
   {
     "id": "homemade_polehammer",
