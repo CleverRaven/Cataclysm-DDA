@@ -141,6 +141,12 @@
                 }
               },
               {
+                "if": { "math": [ "u_spell_level('iso_eldritch_cure_poison_disease_gas') > 0" ] },
+                "then": {
+                  "math": [ "u_iso_eldritch_cure_poison_disease_gas_stored_level = u_spell_level('iso_eldritch_cure_poison_disease_gas')" ]
+                }
+              },
+              {
                 "if": { "math": [ "u_spell_level('iso_eldritch_polymorph') > 0" ] },
                 "then": { "math": [ "u_iso_eldritch_polymorph_stored_level = u_spell_level('iso_eldritch_polymorph')" ] }
               },
@@ -339,7 +345,20 @@
         ]
       },
       { "if": { "u_has_wielded_with_ammotype": "38" }, "then": [  ] },
-      { "if": { "u_has_wielded_with_ammotype": "44c" }, "then": [  ] },
+      {
+        "if": {
+          "and": [
+            { "u_has_wielded_with_ammotype": "44" },
+            { "math": [ "u_spell_level('iso_eldritch_cure_poison_disease_gas') == -1" ] }
+          ]
+        },
+        "then": [
+          { "set_string_var": "iso_eldritch_cure_poison_disease_gas", "target_var": { "global_val": "new_last_scion_spell_id" } },
+          { "set_string_var": "To Walk Amidst the Fens", "target_var": { "global_val": "new_last_scion_spell_name" } },
+          { "math": [ "new_last_scion_spell_level = u_iso_eldritch_cure_poison_disease_gas_stored_level" ] },
+          { "run_eocs": "EOC_ISO_LAST_SCION_SPELL_GAINING_CHOOSE_SLOT" }
+        ]
+      },
       {
         "if": {
           "and": [ { "u_has_wielded_with_ammotype": "3006" }, { "math": [ "u_spell_level('iso_eldritch_polymorph') == -1" ] } ]

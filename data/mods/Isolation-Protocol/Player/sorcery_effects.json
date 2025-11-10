@@ -55,6 +55,32 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_iso_eldritch_cure_poison_disease_gas",
+    "name": [ "To Walk Amidst the Fens" ],
+    "desc": [ "Your flesh is so full of venins that you are immune to any external miasmas." ],
+    "rating": "good",
+    "enchantments": [ { "values": [ { "mutations": [ "TOXICFLESH" ] } ] } ],
+    "removes_effects": [
+      "poison",
+      "badpoison",
+      "tpollen",
+      "venom_dmg",
+      "venom_weaken",
+      "venom_blind",
+      "venom_pain",
+      "paralyzepoison",
+      "nausea",
+      "smoke_eyes",
+      "teargas",
+      "boomered",
+      "fetid_goop",
+      "spores",
+      "dermatik"
+    ],
+    "flags": [ "INHALED_TOXIN_IMMUNE" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_iso_eldritch_imprisonment",
     "name": [ "The Adamantine Gaol of Emthys" ],
     "desc": [ "You are totally immobile and invulnerable." ],
