@@ -1586,7 +1586,7 @@ bool construct::check_support( const tripoint_bub_ms &p )
         }
     }
 
-    //TODO: This doesn't make any sense for the original purpose of check_support and should be seperated
+    //TODO: This doesn't make any sense for the original purpose of check_support and should be separated
 
     // We want to find "walls" below (including windows and doors), but not open rooms and the like.
     if( here.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, p + tripoint::below ) &&
@@ -1912,7 +1912,7 @@ void construct::done_deconstruct( const tripoint_bub_ms &p, Character &player_ch
             drop = here.spawn_items( p, item_group::items_from( f.deconstruct->drop_group, calendar::turn ) );
         }
 
-        if( f.deconstruct->skill.has_value() ) {
+        if( f.deconstruct && f.deconstruct->skill.has_value() ) {
             deconstruction_practice_skill( f.deconstruct->skill.value() );
         }
         // if furniture has liquid in it and deconstructs into watertight containers then fill them
@@ -2195,12 +2195,12 @@ void construct::do_turn_deconstruct( const tripoint_bub_ms &p, Character &who )
         std::string tname;
         if( here.has_furn( p ) ) {
             const furn_t &f = here.furn( p ).obj();
-            if( f.deconstruct || !f.base_item.is_null() ) {
+            if( f.deconstruct && !f.base_item.is_null() ) {
                 deconstruct_query( f.deconstruct->potential_deconstruct_items( f ) );
             }
         } else {
             const ter_t &t = here.ter( p ).obj();
-            if( t.deconstruct || !t.base_item.is_null() ) {
+            if( t.deconstruct && !t.base_item.is_null() ) {
                 deconstruct_query( t.deconstruct->potential_deconstruct_items( t ) );
             }
         }

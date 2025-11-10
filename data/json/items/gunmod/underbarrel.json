@@ -672,6 +672,6 @@
       "ammo_scale": 0
     },
     "light": 160,
-    "extend": { "flags": [ "CHARGEDIM", "TRADER_AVOID" ] }
+    "extend": { "flags": [ "CHARGEDIM", "TRADER_AVOID", "SPAWN_ACTIVE" ] }
   }
 ]

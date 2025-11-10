@@ -3828,11 +3828,12 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             }
         }
         if( parts->test( iteminfo_parts::DESCRIPTION_BREWABLE_PRODUCTS ) ) {
-            for( const std::pair<const itype_id, int> &res : brewed.brewing_results() ) {
+            for( const std::pair<const std::pair<itype_id, std::string>, int> &res :
+                 brewed.brewing_results() ) {
                 info.emplace_back( "DESCRIPTION",
                                    string_format( _( "* Fermenting this will produce "
                                                      "<neutral>%s</neutral>." ),
-                                                  res.first->nname( res.second ) ) );
+                                                  res.first.first->nname( res.second ) ) );
             }
         }
     }
@@ -3858,11 +3859,12 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             }
         }
         if( parts->test( iteminfo_parts::DESCRIPTION_COMPOSTABLE_PRODUCTS ) ) {
-            for( const std::pair<const itype_id, int> &res : composted.composting_results() ) {
+            for( const std::pair<const std::pair<itype_id, std::string>, int> &res :
+                 composted.composting_results() ) {
                 info.emplace_back( "DESCRIPTION",
                                    string_format( _( "* Fermenting this will produce "
                                                      "<neutral>%s</neutral>." ),
-                                                  res.first->nname( res.second ) ) );
+                                                  res.first.first->nname( res.second ) ) );
             }
         }
     }

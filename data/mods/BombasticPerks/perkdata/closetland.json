@@ -6,7 +6,12 @@
     "desc": [ "Being here is making you very sleepy, but you feel that falling asleep would be a very, very bad idea." ],
     "apply_message": "You yawn as you step through the hidden path.  Best to make your stay here brief.",
     "rating": "bad",
-    "enchantments": [ { "values": [ { "value": "SLEEPINESS", "multiply": 25 } ] } ]
+    "enchantments": [
+      {
+        "condition": { "current_dimension": "dimension_perk_closetland" },
+        "values": [ { "value": "SLEEPINESS", "multiply": 25 } ]
+      }
+    ]
   },
   {
     "type": "effect_type",
@@ -159,7 +164,8 @@
       },
       { "u_travel_to_dimension": "default" },
       { "u_teleport": { "u_val": "closetland_departure_point" } },
-      { "u_lose_effect": "blind" }
+      { "u_lose_effect": "blind" },
+      { "u_lose_effect": "effect_perk_closetland_sleepiness" }
     ]
   },
   {

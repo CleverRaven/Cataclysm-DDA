@@ -34,7 +34,7 @@
     "use_action": { "type": "message", "message": "You've already set the %s's timer, you might want to get away from it." },
     "countdown_action": { "type": "explosion", "explosion": { "power": 2000 } },
     "countdown_interval": "6 seconds",
-    "flags": [ "NPC_THROW_NOW" ]
+    "flags": [ "NPC_THROW_NOW", "SPAWN_ACTIVE" ]
   },
   {
     "id": "dynamite",
@@ -76,7 +76,7 @@
     "symbol": "*",
     "color": "red",
     "use_action": { "type": "message", "message": "You've already lit the %s, try throwing it instead.", "name": "Light fuse" },
-    "flags": [ "TRADER_AVOID", "BOMB" ],
+    "flags": [ "TRADER_AVOID", "BOMB", "SPAWN_ACTIVE" ],
     "countdown_action": { "type": "explosion", "explosion": { "power": 938 } }
   },
   {
@@ -118,7 +118,7 @@
     "symbol": "*",
     "color": "red",
     "use_action": { "type": "message", "message": "You've already lit the %s, try throwing it instead.", "name": "Pull pin" },
-    "flags": [ "TRADER_AVOID", "BOMB" ],
+    "flags": [ "TRADER_AVOID", "BOMB", "SPAWN_ACTIVE" ],
     "countdown_action": { "type": "explosion", "explosion": { "power": 938, "shrapnel": { "casing_mass": 1597, "fragment_mass": 0.5 } } }
   },
   {
@@ -174,7 +174,7 @@
       "emp_blast_radius": 10,
       "explosion": { "power": 600, "shrapnel": { "casing_mass": 3214, "fragment_mass": 0.5 } }
     },
-    "flags": [ "TRADER_AVOID", "WATER_BREAK" ],
+    "flags": [ "TRADER_AVOID", "WATER_BREAK", "SPAWN_ACTIVE" ],
     "melee_damage": { "bash": 12 }
   },
   {
@@ -207,7 +207,7 @@
     "color": "red",
     "tick_action": [ { "type": "sound", "sound_message": "ssss…", "sound_volume": 0, "sound_id": "misc", "sound_variant": "lit_fuse" } ],
     "countdown_action": { "type": "sound", "sound_message": "Bang!", "sound_volume": 20, "sound_id": "explosion", "sound_variant": "small" },
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "SPAWN_ACTIVE" ]
   },
   {
     "id": "firecracker_pack",
@@ -238,7 +238,7 @@
     "symbol": "*",
     "color": "red",
     "tick_action": [ "FIRECRACKER_PACK_ACT" ],
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "SPAWN_ACTIVE" ]
   },
   {
     "id": "flashbang",
@@ -279,7 +279,7 @@
     "price_postapoc": "0 cent",
     "use_action": { "type": "message", "message": "You've already pulled the %s's pin, try throwing it instead.", "name": "Pull pin" },
     "countdown_action": { "type": "explosion", "do_flashbang": true },
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "SPAWN_ACTIVE" ]
   },
   {
     "id": "fungicidalbomb",
@@ -375,7 +375,7 @@
       "fields_min_intensity": 1,
       "fields_max_intensity": 3
     },
-    "flags": [ "TRADER_AVOID", "DANGEROUS" ],
+    "flags": [ "TRADER_AVOID", "DANGEROUS", "SPAWN_ACTIVE" ],
     "melee_damage": { "bash": 6 }
   },
   {
@@ -424,7 +424,7 @@
     "use_action": { "type": "message", "message": "You've already pulled the %s's pin, try throwing it instead.", "name": "Pull pin" },
     "countdown_action": { "type": "explosion", "explosion": { "power": 240, "shrapnel": { "casing_mass": 217, "fragment_mass": 0.02 } } },
     "countdown_interval": "5 seconds",
-    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ],
+    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS", "SPAWN_ACTIVE" ],
     "melee_damage": { "bash": 2 }
   },
   {
@@ -479,7 +479,7 @@
       "fields_max_intensity": 10,
       "emp_blast_radius": 4
     },
-    "flags": [ "TRADER_AVOID", "WATER_BREAK" ],
+    "flags": [ "TRADER_AVOID", "WATER_BREAK", "SPAWN_ACTIVE" ],
     "melee_damage": { "bash": 2 }
   },
   {
@@ -525,7 +525,7 @@
     "color": "light_red",
     "revert_to": "canister_empty",
     "countdown_action": "GRENADE_INC_ACT",
-    "flags": [ "ACT_IN_FIRE", "BOMB", "TRADER_AVOID", "DANGEROUS" ],
+    "flags": [ "ACT_IN_FIRE", "BOMB", "TRADER_AVOID", "DANGEROUS", "SPAWN_ACTIVE" ],
     "melee_damage": { "bash": 1 }
   },
   {
@@ -565,7 +565,7 @@
     "use_action": { "type": "message", "message": "You've already pulled the pin, try throwing it instead.", "name": "Pull pin" },
     "emits": [ "emit_tear_gas_stream" ],
     "revert_to": "canister_empty",
-    "flags": [ "TRADER_AVOID", "DANGEROUS" ]
+    "flags": [ "TRADER_AVOID", "DANGEROUS", "SPAWN_ACTIVE" ]
   },
   {
     "id": "insecticidalbomb",
@@ -698,7 +698,7 @@
       "fields_max_intensity": 3,
       "explosion": { "power": 9000000 }
     },
-    "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID" ]
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID", "SPAWN_ACTIVE" ]
   },
   {
     "id": "molotov",
@@ -747,7 +747,7 @@
     "color": "light_gray",
     "tick_action": [ "MOLOTOV_LIT" ],
     "light": 15,
-    "flags": [ "TRADER_AVOID", "NPC_THROW_NOW", "NO_REPAIR", "WATER_EXTINGUISH", "DESTROY_ON_CHARGE_USE" ],
+    "flags": [ "TRADER_AVOID", "NPC_THROW_NOW", "NO_REPAIR", "WATER_EXTINGUISH", "DESTROY_ON_CHARGE_USE", "SPAWN_ACTIVE" ],
     "melee_damage": { "bash": 5 }
   },
   {
@@ -794,7 +794,7 @@
     "color": "yellow",
     "use_action": { "type": "message", "message": "You've already pulled the %s's pin, try throwing it instead.", "name": "Pull pin" },
     "countdown_action": { "type": "explosion", "draw_explosion_radius": 4, "draw_explosion_color": "cyan", "scrambler_blast_radius": 4 },
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID", "SPAWN_ACTIVE" ],
     "melee_damage": { "bash": 2 }
   },
   {
@@ -825,7 +825,7 @@
     "emits": [ "emit_smoke_stream" ],
     "revert_to": "canister_empty",
     "use_action": { "type": "message", "message": "You've already pulled the pin, try throwing it instead.", "name": "Pull pin" },
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "SPAWN_ACTIVE" ]
   },
   {
     "id": "tool_rocket_candy",
@@ -875,7 +875,7 @@
       "fields_max_intensity": 3,
       "explosion": { "power": 1 }
     },
-    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ],
+    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS", "SPAWN_ACTIVE" ],
     "melee_damage": { "bash": 1 }
   },
   {
@@ -915,7 +915,7 @@
     "price": "0 cent",
     "use_action": { "type": "message", "message": "You've already lit the %s's fuse, try throwing it instead.", "name": "Pull pin" },
     "countdown_action": { "type": "explosion", "explosion": { "power": 460, "shrapnel": { "casing_mass": 200, "fragment_mass": 0.4 } } },
-    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]
+    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS", "SPAWN_ACTIVE" ]
   },
   {
     "id": "military_explosive_grenade",
@@ -954,7 +954,7 @@
     "price": "0 cent",
     "use_action": { "type": "message", "message": "You've already lit the %s's fuse, try throwing it instead.", "name": "Pull pin" },
     "countdown_action": { "type": "explosion", "explosion": { "power": 920, "shrapnel": { "casing_mass": 400, "fragment_mass": 0.4 } } },
-    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]
+    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS", "SPAWN_ACTIVE" ]
   },
   {
     "id": "military_explosive_pipebomb",
@@ -997,7 +997,7 @@
     "color": "light_gray",
     "use_action": { "type": "message", "message": "You've already pulled the %s's pin, try throwing it instead.", "name": "Pull pin" },
     "countdown_action": { "type": "explosion", "explosion": { "power": 920, "shrapnel": { "casing_mass": 410, "fragment_mass": 0.5 } } },
-    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]
+    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS", "SPAWN_ACTIVE" ]
   },
   {
     "id": "military_explosive_bomb",
@@ -1038,7 +1038,7 @@
       "type": "explosion",
       "explosion": { "power": 6970, "shrapnel": { "casing_mass": 3000, "fragment_mass": 0.5, "drop": "scrap", "recovery": 20 } }
     },
-    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]
+    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS", "SPAWN_ACTIVE" ]
   },
   {
     "id": "military_explosive_half_barrel_bomb",
@@ -1086,7 +1086,7 @@
     "explode_in_fire": true,
     "explosion": { "power": 100000, "shrapnel": { "casing_mass": 12600, "fragment_mass": 600 } },
     "countdown_action": { "type": "explosion", "explosion": { "power": 100000, "shrapnel": { "casing_mass": 12600, "fragment_mass": 600 } } },
-    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ],
+    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS", "SPAWN_ACTIVE" ],
     "melee_damage": { "bash": 20 }
   },
   {
@@ -1133,7 +1133,7 @@
     "explode_in_fire": true,
     "explosion": { "power": 200000, "shrapnel": { "casing_mass": 12600, "fragment_mass": 600 } },
     "countdown_action": { "type": "explosion", "explosion": { "power": 200000, "shrapnel": { "casing_mass": 12600, "fragment_mass": 600 } } },
-    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ],
+    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS", "SPAWN_ACTIVE" ],
     "melee_damage": { "bash": 20 }
   },
   {
@@ -1173,7 +1173,7 @@
     "price": "0 cent",
     "use_action": { "type": "message", "message": "You've already lit the %s's fuse, try throwing it instead.", "name": "Pull pin" },
     "countdown_action": { "type": "explosion", "explosion": { "power": 150, "shrapnel": { "casing_mass": 200, "fragment_mass": 0.4 } } },
-    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]
+    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS", "SPAWN_ACTIVE" ]
   },
   {
     "id": "homemade_grenade",
@@ -1210,7 +1210,7 @@
     "price": "0 cent",
     "use_action": { "type": "message", "message": "You've already lit the %s's fuse, try throwing it instead.", "name": "Pull pin" },
     "countdown_action": { "type": "explosion", "explosion": { "power": 300, "shrapnel": { "casing_mass": 400, "fragment_mass": 0.4 } } },
-    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]
+    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS", "SPAWN_ACTIVE" ]
   },
   {
     "id": "pipebomb",
@@ -1263,7 +1263,7 @@
     "explode_in_fire": true,
     "explosion": { "power": 300, "shrapnel": { "casing_mass": 410, "fragment_mass": 0.5 } },
     "countdown_action": { "type": "explosion", "explosion": { "power": 300, "shrapnel": { "casing_mass": 410, "fragment_mass": 0.5 } } },
-    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ],
+    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS", "SPAWN_ACTIVE" ],
     "melee_damage": { "bash": 3 }
   },
   {
@@ -1311,7 +1311,7 @@
       "type": "explosion",
       "explosion": { "power": 2320, "shrapnel": { "casing_mass": 3000, "fragment_mass": 0.5, "drop": "scrap", "recovery": 20 } }
     },
-    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]
+    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS", "SPAWN_ACTIVE" ]
   },
   {
     "id": "homemade_demolition_charge",
@@ -1359,7 +1359,7 @@
     "explode_in_fire": true,
     "explosion": { "power": 2590 },
     "countdown_action": { "type": "explosion", "explosion": { "power": 2590 } },
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID", "SPAWN_ACTIVE" ],
     "melee_damage": { "bash": 4 }
   },
   {
@@ -1410,7 +1410,7 @@
     "explode_in_fire": true,
     "explosion": { "power": 34400, "shrapnel": { "casing_mass": 12600, "fragment_mass": 600 } },
     "countdown_action": { "type": "explosion", "explosion": { "power": 34400, "shrapnel": { "casing_mass": 12600, "fragment_mass": 600 } } },
-    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ],
+    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS", "SPAWN_ACTIVE" ],
     "melee_damage": { "bash": 20 }
   },
   {
@@ -1461,7 +1461,7 @@
     "explode_in_fire": true,
     "explosion": { "power": 69200, "shrapnel": { "casing_mass": 12000, "fragment_mass": 600 } },
     "countdown_action": { "type": "explosion", "explosion": { "power": 69200, "shrapnel": { "casing_mass": 12000, "fragment_mass": 600 } } },
-    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ],
+    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS", "SPAWN_ACTIVE" ],
     "melee_damage": { "bash": 20 }
   },
   {

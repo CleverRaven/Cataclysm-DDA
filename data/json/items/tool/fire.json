@@ -302,7 +302,7 @@
       }
     ],
     "light": 8,
-    "flags": [ "FIRE", "FIRESTARTER", "FLAMING", "TRADER_AVOID", "WATER_EXTINGUISH" ],
+    "flags": [ "FIRE", "FIRESTARTER", "FLAMING", "TRADER_AVOID", "WATER_EXTINGUISH", "SPAWN_ACTIVE" ],
     "tool_ammo": [ "lamp_oil" ]
   },
   {
@@ -379,7 +379,7 @@
         "type": "transform"
       }
     ],
-    "flags": [ "FIRESTARTER" ],
+    "flags": [ "FIRESTARTER", "SPAWN_ACTIVE" ],
     "tool_ammo": [ "tinder" ]
   },
   {

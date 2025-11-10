@@ -38,7 +38,7 @@
       [ "cola", 50 ],
       [ "lemonlime", 45 ],
       [ "V8", 15 ],
-      [ "gum", 15 ]
+      { "group": "chewing_gum_full", "prob": 15 }
     ]
   },
   {

@@ -144,7 +144,7 @@ class diary
 
         /*Uses editor window class to edit the text.*/
         void edit_page_ui( const std::function<catacurses::window()> &create_window );
-        /*set page to be be shown in ui*/
+        /*set page to be shown in ui*/
         int set_opened_page( int pagenum );
         /*create a new page and adds current character progression*/
         void new_page();
@@ -153,7 +153,7 @@ class diary
         /*delite current page*/
         void delete_page();
 
-        /*get opened page nummer*/
+        /*get opened page number*/
         int get_opened_page_num() const;
         /*returns a list with all pages by the its date*/
         std::vector<std::string> get_pages_list() const;
@@ -192,7 +192,7 @@ class diary
         void mission_changes();
         void spell_changes();
 
-        /*expots the diary to a readable .txt file. If its the lastexport, its exportet to memorial otherwise its exportet to the world folder*/
+        /*exports the diary to a readable .txt file. If it's the lastexport, it's exported to memorial otherwise it's exported to the world folder*/
         void export_to_txt( bool lastexport = false );
         /* add a change to the change list, with optional description. returns the index of the new entry.*/
         size_t add_to_change_list( const std::string &entry, const std::string &desc = "" );

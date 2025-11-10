@@ -150,6 +150,121 @@
     "replace": "kippah"
   },
   {
+    "id": "homewrecker",
+    "replace": "hammer_sledge"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "tec9",
+    "replace": "glock_17"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "tec9mag",
+    "replace": "glockbigmag"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "tec9mag_10rd",
+    "replace": "glock17_10"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "tec9mag_20rd",
+    "replace": "glock17_22"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "tec9mag_30rd",
+    "replace": "glockbigmag"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "tec9mag_36rd",
+    "replace": "glock_drum_50rd"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "tec9mag_50rd",
+    "replace": "glock_drum_50rd"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "tec9mag_72rd",
+    "replace": "glock_drum_100rd"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "tec9_auto_parts",
+    "replace": "glocksear"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "kp32",
+    "replace": "walther_ppk"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "kp32mag",
+    "replace": "ppkmag"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "calico",
+    "replace": "rugerpcc"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "calicomag",
+    "replace": "glock_drum_50rd"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "calicomag_100rd",
+    "replace": "glock_drum_100rd"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "hk_mp5_10_semi",
+    "replace": "TDI_10"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "mp5_10_mag",
+    "replace": "tdi_10mm_mag"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "armguard_lightplate",
+    "replace": "armor_lc_armguard"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xl_armguard_lightplate",
+    "replace": "xl_armor_lc_armguard"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xs_armguard_lightplate",
+    "replace": "armor_lc_armguard"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "legguard_lightplate",
+    "replace": "armor_lc_leg_guard"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xl_legguard_lightplate",
+    "replace": "xl_armor_lc_leg_guard"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xs_legguard_lightplate",
+    "replace": "armor_lc_leg_guard"
+  },
+  {
+    "type": "MIGRATION",
     "id": "sewage",
     "replace": "water_sewage"
   }

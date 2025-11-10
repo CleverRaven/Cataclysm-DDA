@@ -1718,6 +1718,20 @@
     "category": "weapons",
     "name": { "str": "khopesh", "str_pl": "khopeshes" },
     "description": "This ancient bronze weapon features a curved, sickle-like blade sharpened on the outside edge.  Associated with the New Kingdom period of Ancient Egypt, it was designed mainly to hack through the light armor common to the region.",
+    "variants": [
+      {
+        "id": "default",
+        "name": { "str": "khopesh", "str_pl": "khopeshes" },
+        "description": "This ancient bronze weapon features a curved, sickle-like blade sharpened on the outside edge.  Associated with the New Kingdom period of Ancient Egypt, it was designed mainly to hack through the light armor common to the region.",
+        "weight": 1
+      },
+      {
+        "id": "highlands_holy",
+        "name": { "str": "ceremonial tree sword" },
+        "description": "A curved and decorated sword fashioned from bronze, which you irreverently extracted from a holy tree.  Its been stained a deep green color from age, but it still looks sharp enough to put to use.",
+        "weight": 0
+      }
+    ],
     "weight": "750 g",
     "volume": "1750 ml",
     "longest_side": "50 cm",

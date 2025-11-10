@@ -78,7 +78,7 @@
       "spear_dory": 28.0,
       "qiang": 30.68,
       "lucern_hammer": 31.5,
-      "glaive": 33.87,
+      "glaive": 33.12,
       "naginata": 33.97,
       "poleaxe": 34.5,
       "scythe_war": 34.59,
@@ -228,7 +228,7 @@
   {
     "type": "test_data",
     "//": "flails",
-    "expected_dps": { "2h_flail_steel": 21.0, "2h_flail_wood": 20.4, "homewrecker": 13.0 }
+    "expected_dps": { "2h_flail_steel": 21.0, "2h_flail_wood": 20.4 }
   },
   {
     "type": "test_data",

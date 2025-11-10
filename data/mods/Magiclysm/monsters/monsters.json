@@ -62,7 +62,6 @@
     "path_settings": { "avoid_traps": true, "avoid_sharp": true },
     "dissect": "dissect_slime_sample_single",
     "weakpoint_sets": [ "wps_slime" ],
-    "families": [ "prof_wp_slime_basic", "prof_wp_slime_advanced" ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
     "special_attacks": [
       {

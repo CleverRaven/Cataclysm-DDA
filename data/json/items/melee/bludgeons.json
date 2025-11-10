@@ -459,7 +459,7 @@
       "ammo_scale": 0
     },
     "light": 4,
-    "extend": { "flags": [ "CHARGEDIM", "TRADER_AVOID", "WATER_BREAK" ] },
+    "extend": { "flags": [ "CHARGEDIM", "TRADER_AVOID", "WATER_BREAK", "SPAWN_ACTIVE" ] },
     "delete": { "flags": [ "WATER_BREAK_ACTIVE" ] }
   },
   {
@@ -513,7 +513,7 @@
       "ammo_scale": 0
     },
     "light": 300,
-    "extend": { "flags": [ "CHARGEDIM", "TRADER_AVOID", "WATER_BREAK" ] },
+    "extend": { "flags": [ "CHARGEDIM", "TRADER_AVOID", "WATER_BREAK", "SPAWN_ACTIVE" ] },
     "delete": { "flags": [ "WATER_BREAK_ACTIVE" ] }
   },
   {
@@ -760,6 +760,28 @@
   },
   {
     "type": "ITEM",
+    "id": "hammer_sledge_crude",
+    "name": { "str": "homewrecker" },
+    "description": "Chunks of steel welded together affixed to a wooden handle.  Not the most elegant and ugly as all hell, but still mostly works.",
+    "weight": "4500 g",
+    "color": "brown",
+    "symbol": "/",
+    "material": [ "wood", "steel" ],
+    "flags": [ "NONCONDUCTIVE", "ALWAYS_TWOHAND" ],
+    "faults": [ { "fault_group": "handle_long" } ],
+    "weapon_category": [ "GREAT_HAMMERS" ],
+    "techniques": [ "WBLOCK_1", "BRUTAL" ],
+    "volume": "1450 ml",
+    "longest_side": "80 cm",
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "uneven" },
+    "price": "5 USD",
+    "price_postapoc": "2 USD",
+    "qualities": [ [ "HAMMER", 1 ] ],
+    "melee_damage": { "bash": 40 },
+    "thrown_damage": [ { "damage_type": "bash", "amount": 12 } ]
+  },
+  {
+    "type": "ITEM",
     "id": "hockey_stick",
     "symbol": ";",
     "color": "white",
@@ -777,28 +799,6 @@
     "longest_side": "150 cm",
     "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "neutral" },
     "melee_damage": { "bash": 14, "stab": 1 }
-  },
-  {
-    "type": "ITEM",
-    "id": "homewrecker",
-    "name": { "str": "homewrecker" },
-    "description": "A long piece of wood with several chunks of steel firmly tied to it.  The resulting weapon is unwieldy and slow but very heavy hitting.",
-    "weight": "3024 g",
-    "color": "brown",
-    "symbol": "/",
-    "material": [ "wood", "steel" ],
-    "techniques": [ "WBLOCK_1" ],
-    "volume": "1250 ml",
-    "longest_side": "90 cm",
-    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "clumsy" },
-    "qualities": [ [ "HAMMER", 1 ] ],
-    "weapon_category": [ "GREAT_HAMMERS" ],
-    "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE" ],
-    "//": "todo: add specific fault for chunks falling off?",
-    "faults": [ { "fault_group": "staff_short" } ],
-    "price": "80 USD",
-    "price_postapoc": "50 cent",
-    "melee_damage": { "bash": 35, "stab": 2 }
   },
   {
     "type": "ITEM",

@@ -2490,9 +2490,17 @@ void Item_factory::check_definitions() const
                 msg += "empty product list\n";
             }
 
-            for( const std::pair<const itype_id, int> &b : type->brewable->results ) {
-                if( !has_template( b.first ) ) {
-                    msg += string_format( "invalid result id %s\n", b.first.c_str() );
+            for( const std::pair<const std::pair<itype_id, std::string>, int> &b : type->brewable->results ) {
+                if( !has_template( b.first.first ) ) {
+                    msg += string_format( "invalid result id %s\n", b.first.first.c_str() );
+                }
+                const std::vector<itype_variant_data> &variants = b.first.first->variants;
+                const auto has_variant = [&b]( const itype_variant_data & variant ) {
+                    return b.first.second == variant.id;
+                };
+                if( !b.first.second.empty() &&
+                    std::find_if( variants.begin(), variants.end(), has_variant ) == variants.end() ) {
+                    msg += string_format( "Invalid variant %s for result %s\n", b.first.second, b.first.first.c_str() );
                 }
             }
         }
@@ -2505,9 +2513,18 @@ void Item_factory::check_definitions() const
                 msg += "empty product list\n";
             }
 
-            for( const std::pair<const itype_id, int> &b : type->compostable->results ) {
-                if( !has_template( b.first ) ) {
-                    msg += string_format( "invalid result id %s\n", b.first.c_str() );
+            for( const std::pair<const std::pair<itype_id, std::string>, int> &b :
+                 type->compostable->results ) {
+                if( !has_template( b.first.first ) ) {
+                    msg += string_format( "invalid result id %s\n", b.first.first.c_str() );
+                }
+                const std::vector<itype_variant_data> &variants = b.first.first->variants;
+                const auto has_variant = [&b]( const itype_variant_data & variant ) {
+                    return b.first.second == variant.id;
+                };
+                if( !b.first.second.empty() &&
+                    std::find_if( variants.begin(), variants.end(), has_variant ) == variants.end() ) {
+                    msg += string_format( "Invalid variant %s for result %s\n", b.first.second, b.first.first.c_str() );
                 }
             }
         }
@@ -3420,28 +3437,41 @@ void islot_comestible::deserialize( const JsonObject &jo )
     }
 }
 
+struct generic_result_reader : generic_typed_reader<generic_result_reader> {
+    static constexpr bool read_objects = true;
+    std::pair<std::pair<itype_id, std::string>, int> get_next( const JsonValue &jv ) const {
+        std::pair<std::pair<itype_id, std::string>, int> ret;
+        // "yeast": 2,
+        if( const JsonMember *jm = dynamic_cast<const JsonMember *>( &jv ) ) {
+            ret.first.first = itype_id( jm->name() );
+            jm->read( ret.second );
+            return ret;
+        }
+        // "yeast"
+        if( jv.test_string() ) {
+            jv.read( ret.first.first );
+            ret.second = 1;
+            return ret;
+        }
+        // { "item": "yeast", "count": 2, "variant": "foo" }
+        JsonObject jo = jv.get_object();
+        mandatory( jo, false, "item", ret.first.first );
+        optional( jo, false, "variant", ret.first.second, "" );
+        optional( jo, false, "count", ret.second, 1 );
+        return ret;
+    }
+};
+
 void islot_brewable::deserialize( const JsonObject &jo )
 {
     optional( jo, was_loaded, "brew_time", time, 1_turns );
-    if( jo.has_array( "brew_results" ) ) {
-        for( std::string entry : jo.get_string_array( "brew_results" ) ) {
-            results[itype_id( entry )] = 1;
-        }
-    } else {
-        mandatory( jo, was_loaded, "brew_results", results );
-    }
+    mandatory( jo, was_loaded, "brew_results", results, generic_result_reader{} );
 }
 
 void islot_compostable::deserialize( const JsonObject &jo )
 {
     optional( jo, was_loaded, "compost_time", time, 1_turns );
-    if( jo.has_array( "compost_results" ) ) {
-        for( std::string entry : jo.get_string_array( "compost_results" ) ) {
-            results[itype_id( entry )] = 1;
-        }
-    } else {
-        mandatory( jo, was_loaded, "compost_results", results );
-    }
+    mandatory( jo, was_loaded, "compost_results", results, generic_result_reader{} );
 }
 
 void islot_seed::deserialize( const JsonObject &jo )
