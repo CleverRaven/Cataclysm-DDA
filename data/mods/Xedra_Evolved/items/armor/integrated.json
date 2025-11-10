@@ -212,7 +212,7 @@
     "name": { "str_sp": "barkskin" },
     "description": "A thin layer of bark covers your body.",
     "weight": "4 kg",
-    "volume": "3 L",
+    "volume": "5 L",
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "material": [ "mut_wood" ],
