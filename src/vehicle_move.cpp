@@ -1258,12 +1258,12 @@ static std::pair<double, double> item_hardness_calc( const item &it )
     return std::make_pair( min_hardness, max_hardness );
 }
 
-static double hit_probability( const item &it, vehicle_part &vp_wheel )
+double vehicle::hit_probability( const item &it, const vehicle_part *vp_wheel )
 {
     // We don't have item widths, so just go with length. This will cause long narrow items to cover the maximum
     // extent at all times, rather than account for orientation.
     const double item_coverage = std::min( to_millimeter( it.length() ), 1000 ) / 1000.0;
-    const double wheel_coverage = vp_wheel.get_base().type->wheel->width * 0.0254;
+    const double wheel_coverage = vp_wheel->get_base().type->wheel->width * 0.0254;
     return std::min( wheel_coverage + item_coverage, 1.0 );
 }
 
@@ -1283,7 +1283,7 @@ double vehicle::wheel_damage_chance_vs_item( const item &it, vehicle_part &vp_wh
     double item_hardness = item_hardness_calc( it ).second;
     // It is exponentially more difficult for soft items to damage wheels, even if you're hitting a lot of them.
     const double chance_to_damage = std::min( std::pow( item_hardness / wheel_hardness, 2.0 ), 1.0 );
-    const double chance_to_hit = hit_probability( it, vp_wheel );
+    const double chance_to_hit = hit_probability( it, &vp_wheel );
     add_msg_debug( debugmode::DF_VEHICLE_MOVE,
                    "Vehicle %s running over item %s."
                    "\n Chance to damage: %f%%."
@@ -1295,40 +1295,24 @@ double vehicle::wheel_damage_chance_vs_item( const item &it, vehicle_part &vp_wh
     return chance_to_damage * chance_to_hit;
 }
 
-std::vector<std::string> vehicle::handle_item_roadkill( map *here, const tripoint_bub_ms &p,
-        vehicle_part &vp_wheel )
+void vehicle::damage_wheel_on_item( vehicle_part *vp_wheel, const item &it, int *damage_levels,
+                                    std::vector<std::string> *messages )
 {
-    std::vector<std::string> ret;
-    const map_stack roadkill = here->i_at( p );
-
-    int damage_to_deal = 0;
-
     // bullshit to work around vehicle::damage_direct() --> vehicle::mod_hp() doing incorrect(??) calculations.
     // Each damage instance should be worth exactly one 'level' of vehicle part damage.
-    const int one_damage_level = vp_wheel.info().durability *
-                                 ( static_cast<double>( itype::damage_scale ) / vp_wheel.max_damage() );
+    const int one_damage_level = vp_wheel->info().durability *
+                                 ( static_cast<double>( itype::damage_scale ) / vp_wheel->max_damage() );
 
+    const double chance_to_damage = wheel_damage_chance_vs_item( it, *vp_wheel );
 
-    for( const item &it : roadkill ) {
-        const double chance_to_damage = wheel_damage_chance_vs_item( it, vp_wheel );
-        if( chance_to_damage > 0.0 ) {
-            if( chance_to_damage >= rng_float( 0.0, 1.0 ) ) {
-                damage_to_deal += one_damage_level; // One 'level' worth of damage per successful damage roll
-                //~%1$s vehicle name, %1$s vehicle part name, %3$s name of item being run over
-                ret.emplace_back( string_format( _( "The %1$s's %2$s is damaged by running over %3$s!" ),
-                                                 disp_name(), vp_wheel.info().name(), it.tname() ) );
-            } else {
-                //~%1$s vehicle name, %1$s vehicle part name, %3$s name of item being run over
-                ret.emplace_back( string_format( _( "The %1$s's %2$s avoided damage from running over %3$s!" ),
-                                                 disp_name(), vp_wheel.info().name(), it.tname() ) );
-            }
+    if( chance_to_damage > 0.0 ) {
+        if( chance_to_damage >= rng_float( 0.0, 1.0 ) ) {
+            *damage_levels += one_damage_level;
+            //~%1$s vehicle name, %1$s vehicle part name, %3$s name of item being run over
+            messages->emplace_back( string_format( _( "The %1$s's %2$s is damaged by running over the %3$s!" ),
+                                                   disp_name(), vp_wheel->info().name(), it.tname() ) );
         }
     }
-
-    // We only damage the part once, to avoid having to check for/replace/abort early if the vehicle part is destroyed by damage. Makes things much simpler and safer.
-    damage_direct( *here, vp_wheel, damage_to_deal );
-
-    return ret;
 }
 
 void vehicle::handle_trap( map *here, const tripoint_bub_ms &p, vehicle_part &vp_wheel )
