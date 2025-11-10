@@ -1868,7 +1868,7 @@ class vehicle
 
         // Calculates damage on the wheel from running over item and adds damage levels and messages to the vector if needed.
         void damage_wheel_on_item( vehicle_part *vp_wheel, const item &it, int *damage_levels,
-                                   std::vector<std::string> *messages );
+                                   std::vector<std::string> *messages ) const;
 
         // Process the trap beneath
         void handle_trap( map *here, const tripoint_bub_ms &p, vehicle_part &vp_wheel );

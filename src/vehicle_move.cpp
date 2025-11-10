@@ -1296,7 +1296,7 @@ double vehicle::wheel_damage_chance_vs_item( const item &it, vehicle_part &vp_wh
 }
 
 void vehicle::damage_wheel_on_item( vehicle_part *vp_wheel, const item &it, int *damage_levels,
-                                    std::vector<std::string> *messages )
+                                    std::vector<std::string> *messages ) const
 {
     // bullshit to work around vehicle::damage_direct() --> vehicle::mod_hp() doing incorrect(??) calculations.
     // Each damage instance should be worth exactly one 'level' of vehicle part damage.
