@@ -824,7 +824,7 @@
         ],
         "3": { "item": "beauty", "chance": 20, "repeat": [ 2, 4 ] },
         "Ŧ": { "item": "liquor_and_spirits", "chance": 20, "repeat": [ 1, 3 ] },
-        "m": { "item": "beer", "chance": 30, "repeat": [ 2, 4 ] },
+        "m": { "item": "beer_in_container", "chance": 30, "repeat": [ 2, 4 ] },
         "V": [
           { "item": "SUS_hair_drawer", "chance": 30, "repeat": [ 2, 4 ] },
           { "item": "beauty", "chance": 30, "repeat": [ 2, 4 ] }

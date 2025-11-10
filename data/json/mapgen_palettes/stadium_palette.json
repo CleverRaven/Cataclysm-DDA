@@ -125,7 +125,7 @@
     },
     "items": {
       "b": [
-        { "item": "beer", "chance": 1, "repeat": [ 1, 2 ] },
+        { "item": "beer_in_container", "chance": 1, "repeat": [ 1, 2 ] },
         { "item": "snacks", "chance": 1, "repeat": [ 1, 2 ] },
         { "item": "jackets", "chance": 1 }
       ],

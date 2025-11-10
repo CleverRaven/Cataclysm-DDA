@@ -292,7 +292,7 @@
         "r": { "item": "arcade_prizes", "chance": 80, "repeat": [ 1, 5 ] },
         "u": { "item": "SUS_coffee_cupboard", "chance": 80 },
         "É": { "item": "coffee_fridge", "chance": 45, "repeat": [ 1, 10 ] },
-        "E": { "item": "beer", "chance": 35, "repeat": [ 1, 20 ] },
+        "E": { "item": "beer_in_container", "chance": 35, "repeat": [ 1, 20 ] },
         "K": { "item": "snacks", "chance": 40, "repeat": [ 1, 20 ] },
         "e": { "item": "SUS_fridge_snacks", "chance": 45, "repeat": [ 1, 6 ] }
       },
@@ -450,7 +450,7 @@
         "e": { "item": "SUS_fridge_breakroom", "chance": 60 },
         "é": { "item": "hotdog_fridge", "chance": 70 },
         "É": { "item": "soda_in_small_container", "chance": 40, "repeat": [ 1, 20 ] },
-        "E": { "item": "beer", "chance": 35, "repeat": [ 1, 20 ] }
+        "E": { "item": "beer_in_container", "chance": 35, "repeat": [ 1, 20 ] }
       },
       "place_item": [
         { "item": "napkin", "x": 4, "y": 49, "chance": 70 },
