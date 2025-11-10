@@ -424,8 +424,8 @@
     "techniques": [ "WBLOCK_1" ],
     "volume": "4 L",
     "longest_side": "3 meter",
-    "to_hit": { "grip": "solid", "length": "long", "surface": "point", "balance": "neutral" },
-    "flags": [ "POLEARM", "SPEAR", "REACH_ATTACK", "REACH3" ],
+    "to_hit": { "grip": "solid", "length": "long", "surface": "point", "balance": "clumsy" },
+    "flags": [ "FRAGILE_MELEE", "POLEARM", "SPEAR", "REACH_ATTACK", "REACH3" ],
     "weapon_category": [ "SPEARS" ],
     "price": "120 USD",
     "qualities": [ [ "COOK", 1 ] ],
@@ -692,7 +692,7 @@
     "weight": "1840 g",
     "color": "light_gray",
     "symbol": "/",
-    "material": [ "mc_steel", "wood" ],
+    "material": [ { "type": "wood", "portion": 25 }, { "type": "mc_steel", "portion": 21 } ],
     "techniques": [ "WIDE", "WBLOCK_1" ],
     "volume": "2040 ml",
     "longest_side": "200 cm",
@@ -714,7 +714,7 @@
     "description": "This crude facsimile of a naginata was made by attaching a machete to the end of a spear.  This one uses a tempered machete, making it a bit more sharp and durable.",
     "price": "50 USD",
     "price_postapoc": "27 USD",
-    "material": [ "qt_steel", "wood" ],
+    "material": [ { "type": "wood", "portion": 25 }, { "type": "qt_steel", "portion": 21 } ],
     "melee_damage": { "bash": 3, "cut": 35 }
   },
   {
