@@ -1685,22 +1685,19 @@
     "id": "any_milk_standard",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ [ "milk", 20 ], [ "milk_UHT", 80 ] ],
-    "//": "https://www.tetrapak.com/insights/food-categories/dairy/kill-uht-milk-myth"
+    "items": [ [ "milk", 20 ], [ "milk_UHT", 80 ] ]
   },
   {
     "id": "any_milk_lactosefree",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ [ "soy_milk", 33 ], [ "almond_milk", 33 ], [ "oat_milk", 11 ], [ "hazelnut_milk", 11 ], [ "walnut_milk", 11 ] ],
-    "//": "https://www.grandviewresearch.com/industry-analysis/dairy-alternatives-market"
+    "items": [ [ "soy_milk", 33 ], [ "almond_milk", 33 ], [ "oat_milk", 11 ], [ "hazelnut_milk", 11 ], [ "walnut_milk", 11 ] ]
   },
   {
     "id": "any_milk",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ { "group": "any_milk_standard", "prob": 71 }, { "group": "any_milk_lactosefree", "prob": 5 } ],
-    "//": "https://www.mckinsey.com/industries/agriculture/our-insights/similar-yet-different-meet-todays-consumer-of-dairy-and-alternatives"
+    "items": [ { "group": "any_milk_standard", "prob": 71 }, { "group": "any_milk_lactosefree", "prob": 5 } ]
   },
   {
     "id": "milk_in_container_full",
