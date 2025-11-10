@@ -6535,8 +6535,9 @@ talk_effect_fun_t::func f_run_npc_eocs( const JsonObject &jo,
                         break;
                     }
                 }
-                return id_valid && ( !npc_range.has_value() || actor_pos.z() == guy.posz() ) && ( !npc_must_see ||
-                        guy.sees( here, actor_pos ) ) &&
+                bool is_z_filter_set = z_min.has_value() || z_max.has_value();
+                return id_valid && ( !npc_range.has_value() || is_z_filter_set || actor_pos.z() == guy.posz() ) &&
+                       ( !npc_must_see || guy.sees( here, actor_pos ) ) &&
                        ( !npc_range.has_value() || rl_dist( actor_pos, guy.pos_bub( here ) ) <= npc_range.value() ) &&
                        ( !z_min.has_value() || guy.posz() >= z_min.value() ) &&
                        ( !z_max.has_value() || guy.posz() <= z_max.value() );
@@ -6610,10 +6611,10 @@ talk_effect_fun_t::func f_run_monster_eocs( const JsonObject &jo,
                     }
                 }
             }
-            return creature_is_monster && id_valid && ( !monster_range.has_value() ||
-                    actor_pos.z() == critter.posz() ) &&
-                   ( !monster_must_see ||
-                     critter.sees( here, actor_pos ) ) &&
+            bool is_z_filter_set = z_min.has_value() || z_max.has_value();
+            return creature_is_monster && id_valid &&
+                   ( !monster_range.has_value() || is_z_filter_set || actor_pos.z() == critter.posz() ) &&
+                   ( !monster_must_see || critter.sees( here, actor_pos ) ) &&
                    ( !monster_range.has_value() ||
                      rl_dist( actor_pos, critter.pos_bub( here ) ) <= monster_range.value() ) &&
                    ( !z_min.has_value() || critter.posz() >= z_min.value() ) &&
@@ -6652,7 +6653,7 @@ talk_effect_fun_t::func f_run_vehicle_eocs( const JsonObject &jo,
             if( z_min.has_value() && pos_abs.z() < z_min.value() ) {
                 continue;
             }
-            if( z_max.has_value() && pos_abs.z() > z_min.value() ) {
+            if( z_max.has_value() && pos_abs.z() > z_max.value() ) {
                 continue;
             }
             if( !vehicle_range.has_value() ||
@@ -6693,7 +6694,7 @@ talk_effect_fun_t::func f_run_fixed_zone_eocs( const JsonObject &jo,
             if( z_min.has_value() && pos_abs.z() < z_min.value() ) {
                 continue;
             }
-            if( z_max.has_value() && pos_abs.z() > z_min.value() ) {
+            if( z_max.has_value() && pos_abs.z() > z_max.value() ) {
                 continue;
             }
             if( !zone_range.has_value() ||
