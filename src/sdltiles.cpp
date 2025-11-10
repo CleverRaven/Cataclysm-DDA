@@ -3602,30 +3602,32 @@ int projected_window_height()
 // Measures scaling factor for high-dpi displays
 static std::pair<float, float> get_display_scale( int display_index )
 {
-    #if SDL_VERSION_ATLEAST(2,26,0)
+#if SDL_VERSION_ATLEAST(2,26,0)
     int x = SDL_WINDOWPOS_CENTERED_DISPLAY( display_index );
     int y = SDL_WINDOWPOS_CENTERED_DISPLAY( display_index );
 
     SDL_Window *w = SDL_CreateWindow(
-        "probe",
-        x, y,
-        16, 16,
-        SDL_WINDOW_HIDDEN | SDL_WINDOW_ALLOW_HIGHDPI
-    );
+                        "probe",
+                        x, y,
+                        16, 16,
+                        SDL_WINDOW_HIDDEN | SDL_WINDOW_ALLOW_HIGHDPI
+                    );
     if( !w ) {
-      return std::make_pair( 1.0f, 1.0f );
+        return std::make_pair( 1.0f, 1.0f );
     }
 
-    int lw, lh; SDL_GetWindowSize( w, &lw, &lh );
-    int pw, ph; SDL_GetWindowSizeInPixels( w, &pw, &ph );
+    int lw, lh;
+    SDL_GetWindowSize( w, &lw, &lh );
+    int pw, ph;
+    SDL_GetWindowSizeInPixels( w, &pw, &ph );
     SDL_DestroyWindow( w );
 
     float scale_w = lw ? static_cast<float>( pw ) / static_cast<float>( lw ) : 1.0f;
     float scale_h = lh ? static_cast<float>( ph ) / static_cast<float>( lh ) : 1.0f;
     return std::make_pair( scale_w, scale_h );
-    #else
+#else
     return std::make_pair( 1.0f, 1.0f );
-    #endif
+#endif
 }
 
 static void init_term_size_and_scaling_factor()
@@ -3662,11 +3664,11 @@ static void init_term_size_and_scaling_factor()
                                                      SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_MAXIMIZED
                                                    ) );
 
-                #if SDL_VERSION_ATLEAST(2,26,0)
+#if SDL_VERSION_ATLEAST(2,26,0)
                 SDL_GetWindowSizeInPixels( test_window.get(), &max_width, &max_height );
-                #else
+#else
                 SDL_GetWindowSize( test_window.get(), &max_width, &max_height );
-                #endif
+#endif
 
                 // If the video subsystem isn't reset the test window messes things up later
                 test_window.reset();
