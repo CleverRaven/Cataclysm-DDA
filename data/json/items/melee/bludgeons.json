@@ -1120,6 +1120,7 @@
     "material": [ "wood", "steel" ],
     "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "SPEAR", "ALWAYS_TWOHAND" ],
     "faults": [ { "fault_group": "handle_long" } ],
+    "weapon_category": [ "HOOKING_WEAPONRY", "GREAT_HAMMERS" ],
     "techniques": [ "WBLOCK_1", "WIDE", "SWEEP" ],
     "weight": "3 kg",
     "volume": "3240 ml",

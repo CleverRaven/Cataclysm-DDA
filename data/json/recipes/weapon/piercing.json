@@ -316,7 +316,7 @@
     "skills_required": [ "melee", 1 ],
     "time": "10 m",
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
     "components": [ [ [ "pipe", 5 ] ], [ [ "pipe_fittings", 4 ] ] ]
   },
   {
@@ -333,7 +333,7 @@
     "//": "60cm weld",
     "using": [ [ "welding_standard", 60 ], [ "steel_chunk_any", 1 ], [ "cordage_superior", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_welding_basic" } ],
-    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 1 } ],
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 2 } ],
     "components": [ [ [ "pipe", 5 ] ] ]
   },
   {
