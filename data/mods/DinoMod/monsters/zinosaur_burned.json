@@ -166,7 +166,7 @@
     "hp": 100,
     "fungalize_into": "mon_zryptosaurus_fungus"
   },
-    {
+  {
     "type": "MONSTER",
     "id": "mon_zanotyrannus_scorched",
     "name": { "str": "scorched nanotyrannus zombie" },
