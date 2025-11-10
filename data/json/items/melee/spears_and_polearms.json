@@ -430,7 +430,7 @@
     "price": "120 USD",
     "qualities": [ [ "COOK", 1 ] ],
     "use_action": [ "HEAT_SOLID_ITEMS" ],
-    "melee_damage": { "bash": 8, "stab": 21 }
+    "melee_damage": { "stab": 21 }
   },
   {
     "type": "ITEM",
@@ -440,7 +440,7 @@
     "description": "Five pipes welded together to form a very crude pike.  Heavy, slow, and all around cumbersome to carry and fight with.",
     "weight": "3200 g",
     "price_postapoc": "1 USD 50 cent",
-    "melee_damage": { "bash": 6, "stab": 23 }
+    "melee_damage": { "stab": 23 }
   },
   {
     "type": "ITEM",
