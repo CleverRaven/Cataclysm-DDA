@@ -3941,6 +3941,8 @@ void Creature::load( const JsonObject &jsin )
         jsin.read( "effects", *effects );
     }
 
+    migrate_effects();
+
     // u/npc variables
     jsin.read( "values", values );
     // potentially migrate some values
