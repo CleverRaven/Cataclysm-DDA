@@ -3626,7 +3626,7 @@ static std::pair<float, float> get_display_scale( int display_index )
     float scale_h = lh ? static_cast<float>( ph ) / static_cast<float>( lh ) : 1.0f;
     return std::make_pair( scale_w, scale_h );
 #else
-    (void)display_index; // avoid unused parameter lint
+    ( void )display_index; // avoid unused parameter lint
     return std::make_pair( 1.0f, 1.0f );
 #endif
 }
