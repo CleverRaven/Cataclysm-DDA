@@ -334,7 +334,7 @@
     "using": [ [ "welding_standard", 60 ], [ "steel_chunk_any", 1 ], [ "cordage_superior", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_welding_basic" } ],
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "pipe", 5 ] ] ]
+    "components": [ [ [ "pipe", 5 ] ], [ [ "pipe_fittings", 4 ] ] ]
   },
   {
     "result": "grip_hook",

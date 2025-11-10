@@ -438,7 +438,6 @@
     "copy-from": "simple_pike_pipe",
     "name": { "str": "pipe pike" },
     "description": "Five pipes welded together to form a very crude pike.  Heavy, slow, and all around cumbersome to carry and fight with.",
-    "weight": "3200 g",
     "price_postapoc": "1 USD 50 cent",
     "melee_damage": { "stab": 23 }
   },

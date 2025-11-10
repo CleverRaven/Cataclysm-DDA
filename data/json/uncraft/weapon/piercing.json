@@ -44,6 +44,6 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "25 m",
     "qualities": [ { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "pipe", 4 ] ], [ [ "scrap", 12 ] ] ]
+    "components": [ [ [ "pipe", 4 ] ], [ [ "scrap", 12 ] ], [ [ "lump_cast_iron", 2 ] ] ]
   }
 ]
