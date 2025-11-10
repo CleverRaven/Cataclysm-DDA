@@ -61,6 +61,7 @@ class move_mode
 
         int _mech_power_use = 0;
         int _swim_speed_mod = 0;
+        int _bash_weight_modifier = 2;
 
         nc_color _panel_color;
         nc_color _symbol_color;
@@ -92,6 +93,7 @@ class move_mode
 
         units::energy mech_power_use() const;
         int swim_speed_mod() const;
+        int get_bash_weight_modifier() const;
 
         nc_color panel_color() const;
         nc_color symbol_color() const;

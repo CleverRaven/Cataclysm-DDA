@@ -211,16 +211,22 @@ tripoint_bub_ms Creature::pos_bub( const map &here ) const
     return here.get_bub( location );
 }
 
-void Creature::maybe_break_fragile_underfoot(Creature &cr, const tripoint_bub_ms &p)
+void Creature::maybe_break_fragile_underfoot( Creature &cr, const tripoint_bub_ms &p )
 {
-    map& here = get_map();
-    if (here.has_flag(ter_furn_flag::TFLAG_FRAGILE, p)) {
+    map &here = get_map();
+    if( here.has_flag( ter_furn_flag::TFLAG_FRAGILE, p ) ) {
+
+
+        /*
         bool can_fly = false;
         if (const monster* mon = dynamic_cast<const monster*>(&cr)) {
             can_fly = mon->flies();
         }
-        if (!cr.is_hallucination() && !can_fly && cr.get_weight() >= 5_kilogram) {
-            std::string who_name;
+        */
+
+        if( !cr.is_hallucination() && !cr.flies() && cr.get_weight() >= 5_kilogram ) {
+            std::string who_name = cr.disp_name();
+            /*
             int bash_strength = cr.get_weight() / 5_kilogram;
             //check if monster
             if (const monster* mon = dynamic_cast<const monster*>(&cr)) {
@@ -241,16 +247,18 @@ void Creature::maybe_break_fragile_underfoot(Creature &cr, const tripoint_bub_ms
             else {
                 who_name = _("something");
                 bash_strength = bash_strength / 2;
-            }
+            } */
+
+            int bash_strength = ( cr.get_weight() / 5_kilogram ) / cr.fragile_terrain_weight_modifier();
             //store terrain name for message
-            const std::string old_name = here.tername(p);
+            const std::string old_name = here.tername( p );
             //damage fragile terrain
-            const auto res = here.bash(p, bash_strength, true, false, false, nullptr, false);
+            const auto res = here.bash( p, bash_strength, true, false, false, nullptr, false );
             //if broken output message
-            if (res.success) {
-                add_msg(m_warning,
-                    string_format(_("The %s breaks under the weight of %s!"),
-                        old_name, who_name));
+            if( res.success ) {
+                add_msg( m_warning,
+                         string_format( _( "The %s breaks under the weight of %s!" ),
+                                        old_name, who_name ) );
             }
         }
     }
@@ -264,7 +272,7 @@ void Creature::setpos( map &here, const tripoint_bub_ms &p, bool check_gravity/*
     on_move( old_loc );
 
     if( check_gravity ) {
-        maybe_break_fragile_underfoot(*this, p);
+        maybe_break_fragile_underfoot( *this, p );
         gravity_check( &here );
     }
 }
@@ -275,9 +283,9 @@ void Creature::setpos( const tripoint_abs_ms &p, bool check_gravity/* = true*/ )
     set_pos_abs_only( p );
     on_move( old_loc );
     if( check_gravity ) {
-        map& here = get_map();
-        if (here.inbounds(p)) {
-            maybe_break_fragile_underfoot(*this, here.get_bub( p ));
+        map &here = get_map();
+        if( here.inbounds( p ) ) {
+            maybe_break_fragile_underfoot( *this, here.get_bub( p ) );
         }
         gravity_check();
     }

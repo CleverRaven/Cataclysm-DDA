@@ -1976,6 +1976,14 @@ move_mode_id Character::current_movement_mode() const
     return move_mode;
 }
 
+int Character::fragile_terrain_weight_modifier() const
+{
+    if( !move_mode.is_valid() ) {
+        return 2; // defaut if move_mode is invalid
+    }
+    return move_mode->get_bash_weight_modifier();
+}
+
 bool Character::movement_mode_is( const move_mode_id &mode ) const
 {
     return move_mode == mode;
@@ -7690,6 +7698,27 @@ int Character::impact( const int force, const tripoint_bub_ms &p )
 bool Character::can_fly()
 {
     if( !move_effects( false ) || has_effect( effect_stunned ) ) {
+        return false;
+    }
+    // GLIDE is for artifacts or things like jetpacks that don't care if you're tired or hurt.
+    if( has_flag( json_flag_GLIDE ) ) {
+        return true;
+    }
+    // TODO: Remove grandfathering traits in after Limb Stuff
+    if( has_flag( json_flag_WINGS_2 ) ||
+        has_flag( json_flag_WING_GLIDE ) || count_flag( json_flag_WING_ARMS ) >= 2 ) {
+
+        if( 100 * weight_carried() / weight_capacity() > 50 || !has_two_arms_lifting() ) {
+            return false;
+        }
+        return true;
+    }
+    return false;
+}
+
+bool Character::flies() const
+{
+    if( has_effect( effect_stunned ) ) {
         return false;
     }
     // GLIDE is for artifacts or things like jetpacks that don't care if you're tired or hurt.
