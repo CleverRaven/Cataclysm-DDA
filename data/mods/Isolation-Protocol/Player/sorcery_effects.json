@@ -49,7 +49,8 @@
     "desc": [ "You are an animate shadow." ],
     "rating": "good",
     "enchantments": [
-      { "values": [ { "mutations": [ "ISO_ELDRITCH_INVISIBLE_AND_INTANGIBLE_GRAPHICS" ], "value": "SPEED", "multiply": 3 } ] }
+      { "mutations": [ "ISO_ELDRITCH_INVISIBLE_AND_INTANGIBLE_GRAPHICS" ] },
+      { "values": [ { "value": "SPEED", "multiply": 3 } ] }
     ],
     "flags": [ "ETHEREAL", "INVISIBLE" ]
   },
@@ -59,7 +60,7 @@
     "name": [ "To Walk Amidst the Fens" ],
     "desc": [ "Your flesh is so full of venins that you are immune to any external miasmas." ],
     "rating": "good",
-    "enchantments": [ { "values": [ { "mutations": [ "TOXICFLESH" ] } ] } ],
+    "enchantments": [ { "mutations": [ "TOXICFLESH" ] } ],
     "removes_effects": [
       "poison",
       "badpoison",
