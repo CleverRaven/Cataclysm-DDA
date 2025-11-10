@@ -633,7 +633,7 @@
         ],
         "m": [
           { "item": "dessert", "chance": 30, "repeat": [ 2, 4 ] },
-          { "item": "softdrinks_canned", "chance": 30, "repeat": [ 2, 4 ] }
+          { "item": "soda_in_small_container", "chance": 30, "repeat": [ 2, 4 ] }
         ],
         "V": [
           { "item": "salty_snacks", "chance": 30, "repeat": [ 2, 4 ] },
@@ -999,7 +999,7 @@
         ],
         "m": [
           { "item": "dessert", "chance": 30, "repeat": [ 2, 4 ] },
-          { "item": "softdrinks_canned", "chance": 30, "repeat": [ 2, 4 ] }
+          { "item": "soda_in_small_container", "chance": 30, "repeat": [ 2, 4 ] }
         ],
         "V": [
           { "item": "salty_snacks", "chance": 30, "repeat": [ 2, 4 ] },
@@ -1307,7 +1307,7 @@
         "J": { "item": "snacks", "chance": 5 },
         "m": [
           { "item": "dessert", "chance": 30, "repeat": [ 2, 4 ] },
-          { "item": "softdrinks_canned", "chance": 30, "repeat": [ 2, 4 ] }
+          { "item": "soda_in_small_container", "chance": 30, "repeat": [ 2, 4 ] }
         ],
         "M": { "item": "jewelry_front", "chance": 30, "repeat": [ 1, 2 ] }
       },
@@ -1595,7 +1595,7 @@
         "±": { "item": "snacks", "chance": 30, "repeat": [ 1, 2 ] },
         "m": [
           { "item": "dessert", "chance": 30, "repeat": [ 2, 4 ] },
-          { "item": "softdrinks_canned", "chance": 30, "repeat": [ 2, 4 ] }
+          { "item": "soda_in_small_container", "chance": 30, "repeat": [ 2, 4 ] }
         ],
         "(": { "item": "dress_shop", "chance": 40, "repeat": [ 1, 2 ] },
         ")": { "item": "jackets", "chance": 40, "repeat": [ 1, 2 ] },

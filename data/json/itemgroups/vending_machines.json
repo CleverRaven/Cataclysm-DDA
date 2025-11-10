@@ -71,7 +71,7 @@
       [ "lemonade", 50 ],
       [ "energy_drink", 55 ],
       [ "energy_drink_atomic", 4 ],
-      { "group": "softdrinks_canned", "prob": 70 },
+      { "group": "soda_in_small_container", "prob": 70 },
       { "item": "cola", "prob": 70, "container-item": "bottle_plastic", "sealed": false },
       { "item": "rootbeer", "prob": 20, "container-item": "bottle_plastic", "sealed": false },
       { "item": "tonic_water", "prob": 5, "container-item": "bottle_plastic", "sealed": false },

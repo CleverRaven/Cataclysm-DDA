@@ -64,7 +64,7 @@
       { "item": "water_clean", "prob": 100, "count": [ 4, 8 ] },
       { "group": "beer", "prob": 100, "count": [ 4, 12 ] },
       { "group": "mixed_alcoholic_drinks", "prob": 100, "count": [ 2, 4 ] },
-      { "group": "softdrinks_canned", "prob": 100, "count": [ 2, 4 ] },
+      { "group": "soda_in_small_container", "prob": 100, "count": [ 2, 4 ] },
       { "group": "alcohol", "prob": 100, "count": [ 2, 10 ] },
       { "group": "salty_snacks", "prob": 100, "count": [ 2, 10 ] },
       { "group": "cannedfood", "prob": 100, "count": [ 4, 15 ] }

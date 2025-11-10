@@ -505,7 +505,7 @@
       },
       "furniture": { "H": "f_camp_chair", "M": "f_metal_bench", "/": "f_canvas_door" },
       "items": {
-        "E": { "item": "softdrinks_canned", "chance": 40, "repeat": [ 1, 10 ] },
+        "E": { "item": "soda_in_small_container", "chance": 40, "repeat": [ 1, 10 ] },
         "r": { "item": "football_souvenir", "chance": 80 },
         "q": { "item": "football_souvenir", "chance": 50 },
         "Y": { "item": "jackets", "chance": 33, "repeat": [ 1, 3 ] },
@@ -548,7 +548,7 @@
         { "group": "football_souvenir", "x": [ 72, 73 ], "y": [ 13, 14 ], "chance": 80, "repeat": [ 1, 3 ] },
         { "group": "SUS_fridge_breakroom", "x": 3, "y": 108, "chance": 40 },
         { "group": "SUS_fridge_breakroom", "x": 4, "y": 108, "chance": 40 },
-        { "group": "beer", "chance": 35, "x": [ 4, 6 ], "y": 37, "repeat": [ 1, 12 ] },
+        { "group": "beer_in_container", "chance": 35, "x": [ 4, 6 ], "y": 37, "repeat": [ 1, 12 ] },
         { "group": "bar_alcohol", "chance": 35, "x": [ 12, 14 ], "y": 37, "repeat": [ 1, 12 ] },
         { "group": "snacks", "chance": 50, "x": [ 146, 149 ], "y": 80, "repeat": [ 1, 12 ] },
         { "group": "hotdog_fridge", "x": 4, "y": 35, "chance": 40 },

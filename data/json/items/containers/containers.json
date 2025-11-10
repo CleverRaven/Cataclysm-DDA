@@ -645,7 +645,7 @@
     "type": "ITEM",
     "category": "container",
     "name": { "str": "small glass bottle" },
-    "description": "A watertight glass bottle, holds 500 mL of liquid.",
+    "description": "A watertight glass bottle, holds 330 mL of liquid.",
     "longest_side": "22 cm",
     "pocket_data": [
       {

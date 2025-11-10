@@ -172,7 +172,7 @@
     "items": [
       { "group": "candy_chocolate", "prob": 530 },
       { "prob": 15, "group": "licorice_bag_plastic_4" },
-      { "group": "softdrinks_canned", "prob": 470 },
+      { "group": "soda_in_small_container", "prob": 470 },
       { "group": "snacks", "prob": 560 },
       [ "coffee_raw", 70 ],
       [ "water_clean", 90 ],
@@ -776,7 +776,7 @@
     "items": [
       [ "water_clean", 30 ],
       [ "water_mineral", 15 ],
-      { "group": "softdrinks_canned", "prob": 121 },
+      { "group": "soda_in_small_container", "prob": 121 },
       { "item": "milk_UHT", "prob": 20, "charges": [ 1, 6 ], "sealed": false },
       [ "almond_milk", 10 ],
       [ "oat_milk", 20 ],
@@ -851,7 +851,7 @@
     "subtype": "distribution",
     "entries": [
       { "group": "candy_chocolate", "prob": 320 },
-      { "group": "softdrinks_canned", "prob": 244 },
+      { "group": "soda_in_small_container", "prob": 244 },
       { "item": "bbgun", "prob": 30 },
       { "item": "bb", "prob": 30 },
       { "item": "air_launcher", "prob": 5 },
@@ -1020,7 +1020,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "group": "beer", "prob": 373 },
+      { "group": "beer_in_container", "prob": 373 },
       { "group": "liquor_and_spirits", "prob": 80 },
       { "item": "drink_rumcola", "prob": 40 },
       { "item": "drink_screwdriver", "prob": 35 },
@@ -1041,7 +1041,7 @@
       { "item": "pineapple_juice", "prob": 35 },
       { "item": "juice", "prob": 35 },
       { "item": "cranberry_juice", "prob": 35 },
-      { "group": "softdrinks_canned", "prob": 95 },
+      { "group": "soda_in_small_container", "prob": 95 },
       { "item": "V8", "prob": 15 },
       { "group": "chewing_gum_full", "prob": 15 }
     ]
@@ -1057,7 +1057,7 @@
       { "item": "pineapple_juice", "prob": 35 },
       { "item": "juice", "prob": 35 },
       { "item": "cranberry_juice", "prob": 35 },
-      { "group": "softdrinks_canned", "prob": 95 },
+      { "group": "soda_in_small_container", "prob": 95 },
       { "item": "V8", "prob": 15 },
       { "item": "fries", "prob": 7 },
       { "item": "cheese_fries", "prob": 5 },
