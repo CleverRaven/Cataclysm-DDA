@@ -3678,8 +3678,9 @@ static void init_term_size_and_scaling_factor()
 
             } else {
                 // For fullscreen or window borderless maximum size is the display size
-                max_width = current_display.w;
-                max_height = current_display.h;
+                auto [ dpi_scale_w, dpi_scale_h ] = get_display_scale( current_display_id );
+                max_width = dpi_scale_w * current_display.w;
+                max_height = dpi_scale_h * current_display.h;
             }
         } else {
             dbg( D_WARNING ) << "Failed to get current Display Mode, assuming infinite display size.";
