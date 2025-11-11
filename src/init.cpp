@@ -299,6 +299,7 @@ void DynamicDataLoader::initialize()
     add( "profession_item_substitutions", &profession::load_item_substitutions );
     add( "proficiency", &proficiency::load_proficiencies );
     add( "proficiency_category", &proficiency_category::load_proficiency_categories );
+    add( "proficiency_migration", &proficiency_migration::load );
     add( "speed_description", &speed_description::load_speed_descriptions );
     add( "mood_face", &mood_face::load_mood_faces );
     add( "skill", &Skill::load_skill );
@@ -710,6 +711,7 @@ void DynamicDataLoader::unload_data()
     profession_blacklist::reset();
     proficiency::reset();
     proficiency_category::reset();
+    proficiency_migration::reset();
     mood_face::reset();
     speed_description::reset();
     quality::reset();
@@ -958,6 +960,7 @@ void DynamicDataLoader::check_consistency()
             { _( "Items" ), &items::check_consistency },
             { _( "Materials" ), &materials::check },
             { _( "Faults" ), &faults::check_consistency },
+            { _( "Proficiency migration" ), &proficiency_migration::check },
             { _( "Vehicle parts" ), &vehicles::parts::check },
             { _( "Vehicle part locations" ), &vpart_location::check_all },
             { _( "Vehicle part migrations" ), &vpart_migration::check },

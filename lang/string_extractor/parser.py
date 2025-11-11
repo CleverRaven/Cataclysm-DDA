@@ -210,6 +210,7 @@ parsers = {
     "profession_item_substitutions": dummy_parser,
     "proficiency": parse_proficiency,
     "proficiency_category": parse_proficiency_category,
+    "proficiency_migration": dummy_parser,
     "recipe": parse_recipe,
     "recipe_category": parse_recipe_category,
     "recipe_group": parse_recipe_group,
