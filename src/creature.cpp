@@ -214,34 +214,25 @@ tripoint_bub_ms Creature::pos_bub( const map &here ) const
 void Creature::maybe_break_fragile_underfoot( Creature &cr, const tripoint_bub_ms &p )
 {
     map &here = get_map();
-    if( here.has_flag( ter_furn_flag::TFLAG_FRAGILE, p ) ) {
-
-
-        /*
-        bool can_fly = false;
-        if (const monster* mon = dynamic_cast<const monster*>(&cr)) {
-            can_fly = mon->flies();
-        }
-        */
-
-        if( !cr.is_hallucination() && !cr.flies() && cr.get_weight() >= 5_kilogram ) {
-            std::string who_name = cr.disp_name();
-            const int weight_to_bash = std::max( 1, static_cast<int>( cr.get_weight() / 10_kilogram ) );
-            int bash_strength = static_cast<int>( weight_to_bash * cr.fragile_terrain_weight_modifier() );
-            //store terrain name for message
-            const std::string old_name = here.tername( p );
-            //damage fragile terrain
-            //damage fragile terrain
-            const auto res = here.bash( p, bash_strength, true, false, false, nullptr, false );
-            //if broken output message
-            if( res.success ) {
-                add_msg( m_warning,
-                         string_format( _( "The %s breaks under the weight of %s!" ),
-                                        old_name, who_name ) );
-            }
-        }
-    }
-    return;
+    if( !here.has_flag( ter_furn_flag::TFLAG_FRAGILE, p ) ) {
+         return;
+     }
+     if( cr.is_hallucination() || cr.flies() || cr.get_weight() < 5_kilogram ) {
+         return;
+     }
+     std::string who_name = cr.disp_name();
+     const int weight_to_bash = std::max( 1, static_cast<int>( cr.get_weight() / 10_kilogram ) );
+     int bash_strength = static_cast<int>( weight_to_bash * cr.fragile_terrain_weight_modifier() );
+     //store terrain name for message
+     const std::string old_name = here.tername( p );
+     //damage fragile terrain
+     const bash_params res = here.bash( p, bash_strength, true, false, false, nullptr, false );
+     // if broken output message
+     if( res.success ) {
+         add_msg( m_warning,
+                  string_format( _( "The %s breaks under the weight of %s!" ),
+                                 old_name, who_name ) );
+     }
 }
 
 void Creature::setpos( map &here, const tripoint_bub_ms &p, bool check_gravity/* = true*/ )
