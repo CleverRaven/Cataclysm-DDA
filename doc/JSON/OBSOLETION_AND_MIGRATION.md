@@ -178,6 +178,22 @@ Prof migration can be migrated to new prof (with progress being transferred) or 
   }
 ```
 
+# Spell migration
+
+The only spells that require migration are one that are actual spells that character/player learned, so this section is more applicable to magic mods, and not applicable to, for example, a monster spells (monsters do not store it anywhere, just picking it up fron definition when needed)
+
+```jsonc
+  {
+    "type": "spell_migration",
+    "from": "spell_foo",  // Mandatory. Id of the spell that has been removed.
+    "to": "spell_bar"     // Optional. Id of the new spell that will be set instead. Can be omitted to remove the spell completely. If character already has this spell learned, it will not be modified
+  },
+  {
+    "type": "spell_migration",
+    "from": "spell_bar",
+  },
+```
+
 # Monster migration
 
 Monster can be removed without migration, the game replace all critters without matched monster id with mon_breather when loaded
