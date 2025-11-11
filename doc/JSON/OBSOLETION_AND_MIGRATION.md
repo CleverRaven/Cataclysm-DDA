@@ -100,6 +100,21 @@ Vehicle part can be removed safely afterwards
   }
 ```
 
+# Effect migration
+For effects, `effect_migration` type should be used.
+
+```jsonc
+  {
+    "type": "effect_migration",
+    "from": "yrax_overcharged",   // effect that needs to be migrated
+    "to": "drunk"                 // old effect will be replaced with this one. Can be omitted, in which case effect will be deleted
+  }
+  {
+    "type": "effect_migration",
+    "from": "foobar_effect",
+  }
+```
+
 # Bionic migration
 For bionics, you should use `bionic_migration` type. The migration happens when character is loaded; if `to` is `null` or is not defined, the bionic is removed, if `to` is not null the id will be changed to the provided value.
 
