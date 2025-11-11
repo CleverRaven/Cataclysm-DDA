@@ -6491,6 +6491,13 @@ talk_effect_fun_t::func f_run_eoc_selector( const JsonObject &jo, std::string_vi
     };
 }
 
+struct span_param {
+    bool has_min;
+    dbl_or_var min;
+    bool has_max;
+    dbl_or_var max;
+};
+
 talk_effect_fun_t::func f_run_npc_eocs( const JsonObject &jo,
                                         std::string_view member, std::string_view src, bool is_npc )
 {
@@ -6507,17 +6514,16 @@ talk_effect_fun_t::func f_run_npc_eocs( const JsonObject &jo,
     if( jo.has_int( "npc_range" ) ) {
         npc_range = jo.get_int( "npc_range" );
     }
-    std::optional<int> z_min;
-    if( jo.has_int( "z_min" ) ) {
-        z_min = jo.get_int( "z_min" );
-    }
-    std::optional<int> z_max;
-    if( jo.has_int( "z_max" ) ) {
-        z_max = jo.get_int( "z_max" );
-    }
+
+    span_param z_span;
+    z_span.has_min = jo.has_member( "z_min" );
+    z_span.has_max = jo.has_member( "z_max" );
+    optional( jo, false, "z_min", z_span.min, 0 );
+    optional( jo, false, "z_max", z_span.max, 0 );
+
     bool npc_must_see = jo.get_bool( "npc_must_see", false );
     if( local ) {
-        return [eocs, unique_ids, npc_must_see, npc_range, z_min, z_max, is_npc,
+        return [eocs, unique_ids, npc_must_see, npc_range, z_span, is_npc,
               &here]( dialogue const & d ) {
             tripoint_bub_ms actor_pos = d.actor( is_npc )->pos_bub( here );
             std::vector<std::string> ids;
@@ -6525,7 +6531,11 @@ talk_effect_fun_t::func f_run_npc_eocs( const JsonObject &jo,
             for( const str_or_var &id : unique_ids ) {
                 ids.emplace_back( id.evaluate( d ) );
             }
-            const std::vector<npc *> available = g->get_npcs_if( [npc_must_see, npc_range, z_min, z_max,
+            // optimization: avoid repeat evaluations in loops
+            int z_min = z_span.min.evaluate( d );
+            int z_max = z_span.max.evaluate( d );
+            const std::vector<npc *> available = g->get_npcs_if( [npc_must_see, npc_range, z_span, z_min,
+                                                               z_max,
                                                                actor_pos,
                           ids, &here]( const npc & guy ) {
                 bool id_valid = ids.empty();
@@ -6535,12 +6545,12 @@ talk_effect_fun_t::func f_run_npc_eocs( const JsonObject &jo,
                         break;
                     }
                 }
-                bool is_z_filter_set = z_min.has_value() || z_max.has_value();
+                bool is_z_filter_set = z_span.has_min || z_span.has_max;
                 return id_valid && ( !npc_range.has_value() || is_z_filter_set || actor_pos.z() == guy.posz() ) &&
                        ( !npc_must_see || guy.sees( here, actor_pos ) ) &&
                        ( !npc_range.has_value() || rl_dist( actor_pos, guy.pos_bub( here ) ) <= npc_range.value() ) &&
-                       ( !z_min.has_value() || guy.posz() >= z_min.value() ) &&
-                       ( !z_max.has_value() || guy.posz() <= z_max.value() );
+                       ( !z_span.has_min || guy.posz() >= z_min ) &&
+                       ( !z_span.has_max || guy.posz() <= z_max );
             } );
             for( npc *target : available ) {
                 for( const effect_on_condition_id &eoc : eocs ) {
@@ -6582,16 +6592,15 @@ talk_effect_fun_t::func f_run_monster_eocs( const JsonObject &jo,
     if( jo.has_int( "monster_range" ) ) {
         monster_range = jo.get_int( "monster_range" );
     }
-    std::optional<int> z_min;
-    if( jo.has_int( "z_min" ) ) {
-        z_min = jo.get_int( "z_min" );
-    }
-    std::optional<int> z_max;
-    if( jo.has_int( "z_max" ) ) {
-        z_max = jo.get_int( "z_max" );
-    }
+
+    span_param z_span;
+    z_span.has_min = jo.has_member( "z_min" );
+    z_span.has_max = jo.has_member( "z_max" );
+    optional( jo, false, "z_min", z_span.min, 0 );
+    optional( jo, false, "z_max", z_span.max, 0 );
+
     bool monster_must_see = jo.get_bool( "monster_must_see", false );
-    return [eocs, mtype_ids, monster_must_see, monster_range, z_min, z_max, is_npc,
+    return [eocs, mtype_ids, monster_must_see, monster_range, z_span, is_npc,
           &here]( dialogue const & d ) {
         std::vector<mtype_id> ids;
         ids.reserve( mtype_ids.size() );
@@ -6599,8 +6608,11 @@ talk_effect_fun_t::func f_run_monster_eocs( const JsonObject &jo,
             ids.emplace_back( id.evaluate( d ) );
         }
         tripoint_bub_ms actor_pos = d.actor( is_npc )->pos_bub( here );
-        const std::vector<Creature *> available = g->get_creatures_if( [ ids, monster_must_see,
-             monster_range, z_min, z_max, actor_pos, &here ]( const Creature & critter ) {
+        // optimization: avoid repeat evaluations in loops
+        int z_min = z_span.min.evaluate( d );
+        int z_max = z_span.max.evaluate( d );
+        const std::vector<Creature *> available = g->get_creatures_if( [ids, monster_must_see,
+             monster_range, z_span, z_min, z_max, actor_pos, &here ]( const Creature & critter ) {
             bool id_valid = ids.empty();
             bool creature_is_monster = critter.is_monster();
             if( creature_is_monster ) {
@@ -6611,14 +6623,14 @@ talk_effect_fun_t::func f_run_monster_eocs( const JsonObject &jo,
                     }
                 }
             }
-            bool is_z_filter_set = z_min.has_value() || z_max.has_value();
+            bool is_z_filter_set = z_span.has_min || z_span.has_max;
             return creature_is_monster && id_valid &&
                    ( !monster_range.has_value() || is_z_filter_set || actor_pos.z() == critter.posz() ) &&
                    ( !monster_must_see || critter.sees( here, actor_pos ) ) &&
                    ( !monster_range.has_value() ||
                      rl_dist( actor_pos, critter.pos_bub( here ) ) <= monster_range.value() ) &&
-                   ( !z_min.has_value() || critter.posz() >= z_min.value() ) &&
-                   ( !z_max.has_value() || critter.posz() <= z_max.value() );
+                   ( !z_span.has_min || critter.posz() >= z_min ) &&
+                   ( !z_span.has_max || critter.posz() <= z_max );
         } );
         for( Creature *target : available ) {
             for( const effect_on_condition_id &eoc : eocs ) {
@@ -6637,23 +6649,23 @@ talk_effect_fun_t::func f_run_vehicle_eocs( const JsonObject &jo,
     if( jo.has_int( "vehicle_range" ) ) {
         vehicle_range = jo.get_int( "vehicle_range" );
     }
-    std::optional<int> z_min;
-    if( jo.has_int( "z_min" ) ) {
-        z_min = jo.get_int( "z_min" );
-    }
-    std::optional<int> z_max;
-    if( jo.has_int( "z_max" ) ) {
-        z_max = jo.get_int( "z_max" );
-    }
-    return [eocs, vehicle_range, z_min, z_max, is_npc]( dialogue const & d ) {
+    span_param z_span;
+    z_span.has_min = jo.has_member( "z_min" );
+    z_span.has_max = jo.has_member( "z_max" );
+    optional( jo, false, "z_min", z_span.min, 0 );
+    optional( jo, false, "z_max", z_span.max, 0 );
+
+    return [eocs, vehicle_range, z_span, is_npc]( dialogue const & d ) {
         tripoint_abs_ms actor_pos = d.actor( is_npc )->pos_abs();
+        int z_min = z_span.min.evaluate( d );
+        int z_max = z_span.max.evaluate( d );
         for( wrapped_vehicle &elem : get_map().get_vehicles() ) {
             vehicle &veh = *elem.v;
             const tripoint_abs_ms &pos_abs = veh.pos_abs();
-            if( z_min.has_value() && pos_abs.z() < z_min.value() ) {
+            if( z_span.has_min && pos_abs.z() < z_min ) {
                 continue;
             }
-            if( z_max.has_value() && pos_abs.z() > z_max.value() ) {
+            if( z_span.has_max && pos_abs.z() > z_max ) {
                 continue;
             }
             if( !vehicle_range.has_value() ||
@@ -6675,26 +6687,27 @@ talk_effect_fun_t::func f_run_fixed_zone_eocs( const JsonObject &jo,
     if( jo.has_int( "zone_range" ) ) {
         zone_range = jo.get_int( "zone_range" );
     }
-    std::optional<int> z_min;
-    if( jo.has_int( "z_min" ) ) {
-        z_min = jo.get_int( "z_min" );
-    }
-    std::optional<int> z_max;
-    if( jo.has_int( "z_max" ) ) {
-        z_max = jo.get_int( "z_max" );
-    }
-    return [eocs, zone_range, z_min, z_max, is_npc]( dialogue const & d ) {
+
+    span_param z_span;
+    z_span.has_min = jo.has_member( "z_min" );
+    z_span.has_max = jo.has_member( "z_max" );
+    optional( jo, false, "z_min", z_span.min, 0 );
+    optional( jo, false, "z_max", z_span.max, 0 );
+
+    return [eocs, zone_range, z_span, is_npc]( dialogue const & d ) {
         zone_manager &mgr = zone_manager::get_manager();
         tripoint_abs_ms actor_pos = d.actor( is_npc )->pos_abs();
+        int z_min = z_span.min.evaluate( d );
+        int z_max = z_span.max.evaluate( d );
         for( zone_data &zone : mgr.get_zones() ) {
             if( zone.get_is_personal() || zone.get_is_vehicle() ) {
                 continue;
             }
             const tripoint_abs_ms &pos_abs = zone.get_start_point();
-            if( z_min.has_value() && pos_abs.z() < z_min.value() ) {
+            if( z_span.has_min && pos_abs.z() < z_min ) {
                 continue;
             }
-            if( z_max.has_value() && pos_abs.z() > z_max.value() ) {
+            if( z_span.has_max && pos_abs.z() > z_max ) {
                 continue;
             }
             if( !zone_range.has_value() ||
