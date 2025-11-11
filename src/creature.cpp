@@ -3598,6 +3598,9 @@ std::unique_ptr<talker> get_talker_for( Creature *me )
 
 void Creature::migrate_effects()
 {
+    std::vector<efftype_id> removed_effects;
+    effects_map new_effects;
+
     for( const auto &[eff_id, bp_effect_map] : *effects ) {
         const effect_migration *em = effect_migration::find_migration( eff_id );
 
@@ -3611,12 +3614,19 @@ void Creature::migrate_effects()
                     new_bp_effect_map.emplace( bp_id, new_effect );
                 }
 
-                effects->erase( eff_id );
-                effects->emplace( em->id_new.value(), new_bp_effect_map );
+                removed_effects.emplace_back( eff_id );
+                new_effects.emplace( em->id_new.value(), new_bp_effect_map );
             } else {
                 // if no id_new, just nuke entire effect from character
-                effects->erase( eff_id );
+                removed_effects.emplace_back( eff_id );
             }
         }
     }
+
+    for( const efftype_id e : removed_effects ) {
+        effects->erase( e );
+    }
+
+    effects->merge( new_effects );
+
 }
