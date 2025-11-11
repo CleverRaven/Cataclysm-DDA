@@ -37,7 +37,7 @@ class save_t
         std::string base_path() const;
 
         static save_t from_save_id( const std::string &save_id );
-        static save_t from_base_path( const std::string &base_path );
+        static save_t from_base_path( std::string_view base_path );
 
         bool operator==( const save_t &rhs ) const {
             return name == rhs.name;
