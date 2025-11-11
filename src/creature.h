@@ -609,9 +609,9 @@ class Creature : public viewer
         virtual float fall_damage_mod() const = 0;
         /** Deals falling/collision damage with terrain/creature at pos */
         virtual int impact( int force, const tripoint_bub_ms &pos ) = 0;
-        // After dividing mass by 5kg, how much to further divide mass for use in breaking skylights/ice. 2 is default.
-        virtual int fragile_terrain_weight_modifier() const {
-            return 2;
+        // Used by maybe_break_fragile_underfoot;
+        virtual float fragile_terrain_weight_modifier() const {
+            return 1.0;
         }
         //virtual check for if creature flies
         virtual bool flies() const {

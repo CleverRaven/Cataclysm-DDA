@@ -226,30 +226,8 @@ void Creature::maybe_break_fragile_underfoot( Creature &cr, const tripoint_bub_m
 
         if( !cr.is_hallucination() && !cr.flies() && cr.get_weight() >= 5_kilogram ) {
             std::string who_name = cr.disp_name();
-            /*
-            int bash_strength = cr.get_weight() / 5_kilogram;
-            //check if monster
-            if (const monster* mon = dynamic_cast<const monster*>(&cr)) {
-                who_name = mon->disp_name();
-                bash_strength = bash_strength / 2;
-
-            } //check for character
-            else if (const Character* ch = dynamic_cast<const Character*>(&cr)) {
-                who_name = ch->disp_name();
-                //if char is prone, less likely to break glass
-                if (ch->is_prone()) {
-                    bash_strength = bash_strength / 8;
-                }
-                else {
-                    bash_strength = bash_strength / 2;
-                }
-            } //default case
-            else {
-                who_name = _("something");
-                bash_strength = bash_strength / 2;
-            } */
-
-            int bash_strength = ( cr.get_weight() / 5_kilogram ) / cr.fragile_terrain_weight_modifier();
+            const int weight_to_bash = std::max( 1, static_cast<int>( cr.get_weight() / 10_kilogram ) );
+            int bash_strength = weight_to_bash * cr.fragile_terrain_weight_modifier();
             //store terrain name for message
             const std::string old_name = here.tername( p );
             //damage fragile terrain

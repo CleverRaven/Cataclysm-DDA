@@ -75,7 +75,8 @@ void move_mode::load( const JsonObject &jo, std::string_view/*src*/ )
     optional( jo, was_loaded, "move_speed_multiplier", _move_speed_mult, 1.0 );
     optional( jo, was_loaded, "mech_power_use", _mech_power_use, 2 );
     optional( jo, was_loaded, "swim_speed_mod", _swim_speed_mod, 0 );
-    optional( jo, was_loaded, "bash_weight_modifier", _bash_weight_modifier, 2 );
+    //Make sure no json modders make 0 or negative bwm, this avoids divbyzeros
+    optional( jo, was_loaded, "bash_weight_modifier", _bash_weight_modifier, 1.0 );
 
     optional( jo, was_loaded, "stop_hauling", _stop_hauling );
 }
@@ -88,8 +89,6 @@ void move_mode::reset()
 
 void move_mode::finalize()
 {
-    //Make sure no json modders make 0 or negative bwm, this avoids divbyzeros
-    _bash_weight_modifier = std::max( 1, _bash_weight_modifier );
 }
 
 void move_mode::finalize_all()

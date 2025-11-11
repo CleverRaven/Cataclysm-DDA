@@ -1062,7 +1062,7 @@ class Character : public Creature, public visitable
         bool movement_mode_is( const move_mode_id &mode ) const;
         move_mode_id current_movement_mode() const;
 
-        int fragile_terrain_weight_modifier() const override;
+        float fragile_terrain_weight_modifier() const override;
 
         bool is_running() const;
         bool is_walking() const;
