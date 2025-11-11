@@ -137,6 +137,12 @@
   },
   {
     "type": "jmath_function",
+    "id": "portal_storm_awakening_chance",
+    "num_args": 0,
+    "return": "(450 * e^(-0.24 * ps_str) ) + 15"
+  },
+  {
+    "type": "jmath_function",
     "id": "concentration_trait_bonuses",
     "num_args": 0,
     "//": "Effects with an intelligence penalty have not been included below to avoid double counting",

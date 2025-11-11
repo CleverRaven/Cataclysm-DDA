@@ -722,7 +722,7 @@
       { "math": [ "u_awakening_reducer = (portal_storm_awakening_odds(u_awakening_countup))" ] },
       {
         "weighted_list_eocs": [
-          [ "EOC_PORTAL_NULL_AWAKENING", { "math": [ "147 * e^(-0.24 * ps_str) + 5" ] } ],
+          [ "EOC_PORTAL_NULL_AWAKENING", { "math": [ "portal_storm_awakening_odds()" ] } ],
           [ "EOC_PORTAL_BIOKIN_AWAKENING", 1 ],
           [ "EOC_PORTAL_CLAIR_AWAKENING", 1 ],
           [ "EOC_PORTAL_ELECTRO_AWAKENING", 1 ],
@@ -756,7 +756,7 @@
       { "math": [ "u_awakening_reducer = (portal_storm_awakening_odds(u_awakening_countup))" ] },
       {
         "weighted_list_eocs": [
-          [ "EOC_PORTAL_NULL_AWAKENING", { "math": [ "147 * e^(-0.24 * ps_str) + 5" ] } ],
+          [ "EOC_PORTAL_NULL_AWAKENING", { "math": [ "portal_storm_awakening_odds()" ] } ],
           [ "EOC_PORTAL_BIOKIN_AWAKENING", 1 ],
           [ "EOC_PORTAL_CLAIR_AWAKENING", 1 ],
           [ "EOC_PORTAL_ELECTRO_AWAKENING", 1 ],
@@ -790,7 +790,7 @@
       { "math": [ "u_awakening_reducer = (portal_storm_awakening_odds(u_awakening_countup))" ] },
       {
         "weighted_list_eocs": [
-          [ "EOC_PORTAL_NULL_AWAKENING", { "math": [ "147 * e^(-0.24 * ps_str) + 5" ] } ],
+          [ "EOC_PORTAL_NULL_AWAKENING", { "math": [ "portal_storm_awakening_odds()" ] } ],
           [ "EOC_PORTAL_BIOKIN_AWAKENING", 1 ],
           [ "EOC_PORTAL_CLAIR_AWAKENING", 1 ],
           [ "EOC_PORTAL_ELECTRO_AWAKENING", 1 ],
