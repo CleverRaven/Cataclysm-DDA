@@ -2,6 +2,9 @@ name: Build translations
 on:
   workflow_dispatch:
   workflow_call:
+    secrets:
+      TX_TOKEN:
+        required: true
 
 jobs:
   build-translations:
