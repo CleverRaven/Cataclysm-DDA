@@ -1007,7 +1007,6 @@ class spell_migration
 
         static void check();
 
-        /** Find the last migration entry of the given vpart_id */
         static const spell_migration *find_migration( const spell_id &original );
 };
 
