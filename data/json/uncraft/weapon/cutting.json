@@ -5,7 +5,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "2 m",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 1 } ],
-    "components": [ [ [ "spear_shaft", 1 ] ], [ [ "mc_steel_lump", 1 ] ] ]
+    "components": [ [ [ "spear_shaft", 1 ] ], [ [ "mc_steel_lump", 2 ] ] ]
   },
   {
     "result": "naginata_machete",
@@ -13,7 +13,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "2 m",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 1 } ],
-    "components": [ [ [ "spear_shaft", 1 ] ], [ [ "blade", 1 ] ], [ [ "nuts_bolts", 2 ] ] ]
+    "components": [ [ [ "spear_shaft", 1 ] ], [ [ "blade", 1 ] ], [ [ "nuts_bolts", 2 ] ], [ [ "splinter", 1 ] ], [ [ "scrap", 2 ] ] ]
   },
   {
     "result": "naginata_machete_temp",
@@ -21,6 +21,6 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "2 m",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 1 } ],
-    "components": [ [ [ "spear_shaft", 1 ] ], [ [ "blade", 1 ] ], [ [ "nuts_bolts", 2 ] ] ]
+    "components": [ [ [ "spear_shaft", 1 ] ], [ [ "blade", 1 ] ], [ [ "nuts_bolts", 2 ] ], [ [ "splinter", 1 ] ], [ [ "scrap", 2 ] ] ]
   }
 ]
