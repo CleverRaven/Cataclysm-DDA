@@ -94,7 +94,7 @@ class move_mode
 
         units::energy mech_power_use() const;
         int swim_speed_mod() const;
-        int get_bash_weight_modifier() const;
+        float get_bash_weight_modifier() const;
 
         nc_color panel_color() const;
         nc_color symbol_color() const;

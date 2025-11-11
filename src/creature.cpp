@@ -227,9 +227,10 @@ void Creature::maybe_break_fragile_underfoot( Creature &cr, const tripoint_bub_m
         if( !cr.is_hallucination() && !cr.flies() && cr.get_weight() >= 5_kilogram ) {
             std::string who_name = cr.disp_name();
             const int weight_to_bash = std::max( 1, static_cast<int>( cr.get_weight() / 10_kilogram ) );
-            int bash_strength = weight_to_bash * cr.fragile_terrain_weight_modifier();
+            int bash_strength = static_cast<int>( weight_to_bash * cr.fragile_terrain_weight_modifier() );
             //store terrain name for message
             const std::string old_name = here.tername( p );
+            //damage fragile terrain
             //damage fragile terrain
             const auto res = here.bash( p, bash_strength, true, false, false, nullptr, false );
             //if broken output message

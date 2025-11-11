@@ -1976,7 +1976,7 @@ move_mode_id Character::current_movement_mode() const
     return move_mode;
 }
 
-int Character::fragile_terrain_weight_modifier() const
+float Character::fragile_terrain_weight_modifier() const
 {
     return move_mode->get_bash_weight_modifier();
 }

@@ -72,6 +72,6 @@
     "sound_multiplier": 0.2,
     "move_speed_multiplier": 0.2,
     "swim_speed_mod": 50,
-    "bash_weight_modifier": 0.125
+    "bash_weight_modifier": 0.25
   }
 ]

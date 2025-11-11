@@ -193,7 +193,7 @@ int move_mode::swim_speed_mod() const
     return _swim_speed_mod;
 }
 
-int move_mode::get_bash_weight_modifier() const
+float move_mode::get_bash_weight_modifier() const
 {
     return _bash_weight_modifier;
 }
