@@ -1,6 +1,18 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_PORTAL_DUNGEON_REWARD_ITEM",
+    "effect": [
+      { "u_message": "A strange item comes back with you.", "popup": true },
+      {
+        "set_string_var": [ "unstable_rift", "calming_stone", "escape_stone", "chaos_stone", "matrix_crystal_coruscating" ],
+        "target_var": { "global_val": "item_type" }
+      },
+      { "u_spawn_item": { "global_val": "item_type" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_PORTAL_EFFECTS_ACTIVE",
     "//2": "Overwrite of data/json/effects_on_condition/nether_eocs/portal_storm_effects_on_condition.json",
     "//": "More dangerous portal effects, should cost IRE to do.",
