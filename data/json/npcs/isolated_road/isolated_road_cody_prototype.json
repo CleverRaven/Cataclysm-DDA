@@ -220,7 +220,7 @@
     "id": "TALK_BLACKSMITH_PRESSIN",
     "//": "Pressin Pistol Knife",
     "type": "talk_topic",
-    "dynamic_line": "The Pressin was a self defense weapon for politicians in Spain.  It was a small breach loaded handheld pistol that could fit in a glasses case and be fired subtly.  I figure that we can improve on the design by adding a retracting blade while keeping the surprise shots.  To get this working I'm gonna need a .32 gun like a Kel-Tec P-32, or a Walther PPK.  I'll also need a switchblade, 20 merch, and a week.",
+    "dynamic_line": "The Pressin was a self defense weapon for politicians in Spain.  It was a small breach loaded handheld pistol that could fit in a glasses case and be fired subtly.  I figure that we can improve on the design by adding a retracting blade while keeping the surprise shots.  To get this working I'm gonna need a .32 gun like a LWS Seecamp, or a Walther PPK.  I'll also need a switchblade, 20 merch, and a week.",
     "responses": [
       {
         "text": "[PPK, switchblade, 20 merch] See you in a week.",
@@ -243,7 +243,7 @@
         "topic": "TALK_BLACKSMITH_SERVICES"
       },
       {
-        "text": "[P-32, switchblade, 20 merch] See you in a week.",
+        "text": "[LWS, switchblade, 20 merch] See you in a week.",
         "condition": {
           "and": [
             { "u_has_items": { "item": "lws32", "count": 1 } },
