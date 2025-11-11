@@ -1283,16 +1283,14 @@ double vehicle::wheel_damage_chance_vs_item( const item &it, vehicle_part &vp_wh
     double item_hardness = item_hardness_calc( it ).second;
     // It is exponentially more difficult for soft items to damage wheels, even if you're hitting a lot of them.
     const double chance_to_damage = std::min( std::pow( item_hardness / wheel_hardness, 2.0 ), 1.0 );
-    const double chance_to_hit = hit_probability( it, &vp_wheel );
     add_msg_debug( debugmode::DF_VEHICLE_MOVE,
                    "Vehicle %s running over item %s."
                    "\n Chance to damage: %f%%."
-                   "\n Chance to hit: %f%%."
                    "\n Item hardness: %f"
                    "\n Wheel hardness: %f",
-                   disp_name(), it.tname(), chance_to_damage * 100.0, chance_to_hit * 100.0, item_hardness,
+                   disp_name(), it.tname(), chance_to_damage * 100.0, item_hardness,
                    wheel_hardness );
-    return chance_to_damage * chance_to_hit;
+    return chance_to_damage;
 }
 
 void vehicle::damage_wheel_on_item( vehicle_part *vp_wheel, const item &it, int *damage_levels,
