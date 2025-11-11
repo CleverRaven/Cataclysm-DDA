@@ -775,7 +775,7 @@
   {
     "type": "item_group",
     "id": "guns_pistol_common_boxed_32",
-    "items": [ { "group": "boxed_walther_ppk", "prob": 71 } ]
+    "items": [ { "group": "boxed_walther_ppk", "prob": 71 }, { "group": "boxed_lws32", "prob": 2000 } ]
   },
   {
     "type": "item_group",
@@ -783,6 +783,13 @@
     "id": "boxed_walther_ppk",
     "container-item": "box_pistol",
     "items": [ { "item": "walther_ppk" }, { "group": "firearm_box_extras" }, { "item": "ppkmag", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_lws32",
+    "container-item": "box_pistol",
+    "items": [ { "item": "lws32" }, { "group": "firearm_box_extras" }, { "item": "lws32mag", "count": [ 1, 2 ] } ]
   },
   {
     "type": "item_group",
@@ -1011,7 +1018,8 @@
       { "group": "boxed_falmag", "prob": 11 },
       { "group": "boxed_hk_g3", "prob": 1 },
       { "group": "boxed_ak308", "prob": 20 },
-      { "group": "boxed_steyr_scout", "prob": 6 }
+      { "group": "boxed_steyr_scout", "prob": 6 },
+      { "group": "boxed_remington_700", "prob": 78 }
     ]
   },
   {
@@ -1066,6 +1074,13 @@
     "id": "boxed_steyr_scout",
     "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
     "items": [ { "item": "steyr_scout" }, { "group": "firearm_box_extras" }, { "item": "steyr_scout_mag", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_remington_700",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "items": [ { "item": "remington_700" }, { "group": "firearm_box_extras" } ]
   },
   {
     "type": "item_group",
