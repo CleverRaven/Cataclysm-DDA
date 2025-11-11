@@ -141,23 +141,18 @@ jobs:
       run: |
           msbuild -m -p:Configuration=Release -p:Platform=x64 "-target:Cataclysm-vcpkg-static;Cataclysm-test-vcpkg-static;JsonFormatter-vcpkg-static;zzip" msvc-full-features/Cataclysm-vcpkg-static.sln
 
-    - name: Get ccache cache age cutoff
-      id: get-cache-age
-      run: |
-        NOW=`/bin/date +%s`
-        DELTA=$(( $NOW - ${{ steps.get-vars.outputs.datetime-seconds }} ))
-        echo "ccache-age=$(( $NOW - ${{ steps.get-vars.outputs.datetime-seconds }} ))" >> $GITHUB_OUTPUT
-      shell: bash
-
     - name: Post-build ccache manipulation
       if: ${{ !failure() }}
       run: |
-        ${{ env.CDDA_CCACHE_PATH }}\ccache.exe -s -v
-        ${{ env.CDDA_CCACHE_PATH }}\ccache.exe --evict-older-than ${{ steps.get-ccache-age.outputs.ccache-age }}
-        ${{ env.CDDA_CCACHE_PATH }}\ccache.exe -s -v
-        ${{ env.CDDA_CCACHE_PATH }}\ccache.exe -M ${{ env.CCACHE_LIMIT }}
-        ${{ env.CDDA_CCACHE_PATH }}\ccache.exe -c
-        ${{ env.CDDA_CCACHE_PATH }}\ccache.exe -s -v
+        '${{ env.CDDA_CCACHE_PATH }}ccache.exe' -s -v
+        NOW=`/bin/date +%s`
+        DELTA=$(( $NOW - ${{ steps.get-vars.outputs.datetime-seconds }} ))
+        '${{ env.CDDA_CCACHE_PATH }}ccache.exe' --evict-older-than ${DELTA}s
+        '${{ env.CDDA_CCACHE_PATH }}ccache.exe' -s -v
+        '${{ env.CDDA_CCACHE_PATH }}ccache.exe' -M ${{ env.CCACHE_LIMIT }}
+        '${{ env.CDDA_CCACHE_PATH }}ccache.exe' -c
+        '${{ env.CDDA_CCACHE_PATH }}ccache.exe' -s -v
+      shell: bash
 
     - name: clear ccache on PRs
       if: ${{ github.ref_name != 'master' }}
