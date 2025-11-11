@@ -351,5 +351,29 @@
     "reversible": true,
     "components": [ [ [ "paper", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "cigar",
+    "variant": "handrolled",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "4 m",
+    "activity_level": "LIGHT_EXERCISE",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "tobacco", 4 ] ] ]
+  },
+  {
+    "result": "cigar",
+    "copy-from": "cigar",
+    "id_suffix": "with_cutter_puncher",
+    "variant": "handrolled",
+    "type": "recipe",
+    "qualities": [  ],
+    "tools": [ [ [ "cigar_cutter", -1 ], [ "cigar_punch", -1 ] ] ],
+    "components": [ [ [ "tobacco", 4 ] ] ]
   }
 ]
