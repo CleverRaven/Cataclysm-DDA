@@ -276,7 +276,7 @@
   {
     "type": "talk_topic",
     "id": "LIXA_experiment_backup_data_no_drive",
-    "dynamic_line": "ERROR:  no external drive detected.",
+    "dynamic_line": "ERROR:  no secure USB drive detected!  Please insert an appropriately secured USB drive before attempting to copy files.",
     "responses": [ { "text": "Leave.", "topic": "TALK_DONE" } ]
   },
   {
