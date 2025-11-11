@@ -139,7 +139,7 @@
     "type": "jmath_function",
     "id": "portal_storm_awakening_chance",
     "num_args": 0,
-    "return": "(450 * e^(-0.24 * ps_str) ) + 15"
+    "return": "((450 * e^(-0.24 * ps_str) ) + 15) * (u_effect_intensity('psi_nether_attention') > 0 ? 0.5 : 1)"
   },
   {
     "type": "jmath_function",
