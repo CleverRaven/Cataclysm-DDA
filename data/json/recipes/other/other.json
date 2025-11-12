@@ -368,11 +368,16 @@
   },
   {
     "result": "cigar",
-    "copy-from": "cigar",
-    "id_suffix": "with_cutter_puncher",
     "variant": "handrolled",
+    "id_suffix": "with_cutter_puncher",
     "type": "recipe",
-    "qualities": [  ],
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "4 m",
+    "activity_level": "LIGHT_EXERCISE",
+    "autolearn": true,
     "tools": [ [ [ "cigar_cutter", -1 ], [ "cigar_punch", -1 ] ] ],
     "components": [ [ [ "tobacco", 4 ] ] ]
   }
