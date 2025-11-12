@@ -52,5 +52,23 @@
     "symbol": "@",
     "description": "This defies easy description, it feels solid but the surface is yielding.  Looking at it, static creeps in on the edges of your vision.",
     "flags": [ "SINGLE_USE" ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "id": "cascade_stone",
+    "name": { "str_sp": "energy locus" },
+    "color": "magenta",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "consume": true,
+      "description": "Seems like compressed power.",
+      "effect_on_conditions": [ "EOC_MOM_CASCADE_STONE_EFFECTS" ]
+    },
+    "volume": "250 ml",
+    "weight": "10 g",
+    "symbol": "@",
+    "description": "This defies easy description, it feels solid but the surface is yielding.  The skin on your entire body tingles when you touch it.",
+    "flags": [ "SINGLE_USE" ]
   }
 ]

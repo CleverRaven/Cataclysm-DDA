@@ -248,5 +248,21 @@
     "type": "effect_on_condition",
     "id": "EOC_MOM_ABJURATION_STONE_EFFECTS",
     "effect": { "u_cast_spell": { "id": "mom_abjuration_stone_effects" } }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MOM_CASCADE_STONE_EFFECTS",
+    "effect": [
+      { "u_add_effect": "effect_mom_cascade_stone", "duration": { "math": [ "180 + rand(3600)" ] } },
+      { "u_add_trait": "PSI_TORRENTIAL_CHANNELING_active" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MOM_CASCADE_STONE_WEAR_OFF",
+    "eoc_type": "EVENT",
+    "required_event": "character_loses_effect",
+    "condition": { "compare_string": [ "effect_mom_cascade_stone", { "context_val": "effect" } ] },
+    "effect": [ { "u_lose_trait": "PSI_TORRENTIAL_CHANNELING_active" }, { "u_deactivate_trait": "PSI_TORRENTIAL_CHANNELING" } ]
   }
 ]
