@@ -1,0 +1,18 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "no_wheel_damage_from_items",
+    "name": "No wheel damage from items",
+    "authors": [ "Maari" ],
+    "maintainers": [ "Maari" ],
+    "description": "Prevents wheels from being damaged by driving over items.",
+    "category": "rebalance",
+    "dependencies": [ "dda" ]
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "NO_ITEM_WHEEL_DAMAGE",
+    "stype": "bool",
+    "value": true
+  }
+]
