@@ -32,6 +32,7 @@
 /graveyard/
 /memorial/
 /mods/
+!/mods/folder_info.txt
 /obj/
 /objwin/
 /save/

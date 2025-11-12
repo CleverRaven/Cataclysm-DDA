@@ -1,0 +1,2 @@
+This folder is used to host third party and private mods, while data/mods contain the ones included with CDDA.
+
