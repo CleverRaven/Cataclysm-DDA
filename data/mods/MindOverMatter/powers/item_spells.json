@@ -31,5 +31,38 @@
     "valid_targets": [ "self" ],
     "effect": "translocate",
     "shape": "blast"
+  },
+  {
+    "id": "mom_abjuration_stone_effects",
+    "type": "SPELL",
+    "name": { "str": "Abjuration Stone Banishment", "//~": "NO_I18N" },
+    "description": { "str": "Part of the Abjuration Stone that banishes Nether monsters.  It's a bug if you have it.", "//~": "NO_I18N" },
+    "teachable": false,
+    "valid_targets": [ "hostile", "ally" ],
+    "flags": [ "SILENT", "RANDOM_DAMAGE", "RANDOM_AOE", "NO_EXPLOSION_SFX" ],
+    "extra_effects": [ { "id": "mom_abjuration_stone_effects_psi_disruption", "hit_self": true } ],
+    "effect": "banishment",
+    "shape": "blast",
+    "min_damage": 6000,
+    "max_damage": 6000,
+    "min_aoe": 15,
+    "max_aoe": 25,
+    "targeted_monster_species": [ "NETHER", "NETHER_EMANATION", "NETHER_BURROWING" ]
+  },
+  {
+    "id": "mom_abjuration_stone_effects_psi_disruption",
+    "type": "SPELL",
+    "name": { "str": "Abjuration Stone Psi Disruption", "//~": "NO_I18N" },
+    "description": { "str": "Part of the Abjuration Stone that disrupts psi powers.  It's a bug if you have it.", "//~": "NO_I18N" },
+    "teachable": false,
+    "valid_targets": [ "hostile", "ally" ],
+    "flags": [ "SILENT", "RANDOM_DURATION", "RANDOM_AOE", "NO_EXPLOSION_SFX" ],
+    "effect": "attack",
+    "effect_str": "effect_psi_neutralized",
+    "shape": "blast",
+    "min_duration": 600,
+    "max_duration": 1800,
+    "min_aoe": 20,
+    "max_aoe": 25
   }
 ]

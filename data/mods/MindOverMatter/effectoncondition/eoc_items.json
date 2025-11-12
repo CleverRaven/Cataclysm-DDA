@@ -243,5 +243,10 @@
     "id": "EOC_FIFTH_SUN_NEURAL_STUNGUN",
     "condition": "has_beta",
     "effect": [ { "npc_add_effect": "effect_electrokin_paralysis", "duration": { "math": [ "rng(15,60)" ] } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MOM_ABJURATION_STONE_EFFECTS",
+    "effect": { "u_cast_spell": { "id": "mom_abjuration_stone_effects" } }
   }
 ]

@@ -5,7 +5,15 @@
     "effect": [
       { "u_message": "A strange item comes back with you.", "popup": true },
       {
-        "set_string_var": [ "unstable_rift", "calming_stone", "escape_stone", "chaos_stone", "matrix_crystal_coruscating" ],
+        "set_string_var": [
+          "unstable_rift",
+          "calming_stone",
+          "escape_stone",
+          "chaos_stone",
+          "translation_stone",
+          "abjuration_stone",
+          "matrix_crystal_coruscating"
+        ],
         "target_var": { "global_val": "item_type" }
       },
       { "u_spawn_item": { "global_val": "item_type" } }

@@ -22,7 +22,7 @@
     "description": { "str": "A spell for the nether-void to try to banish nether monsters.  It's a bug if you have it.", "//~": "NO_I18N" },
     "teachable": false,
     "valid_targets": [ "hostile" ],
-    "targeted_monster_species": [ "NETHER" ],
+    "targeted_monster_species": [ "NETHER", "NETHER_EMANATION", "NETHER_BURROWING" ],
     "flags": [ "SILENT", "RANDOM_DAMAGE", "NO_EXPLOSION_SFX" ],
     "effect": "banishment",
     "shape": "blast",

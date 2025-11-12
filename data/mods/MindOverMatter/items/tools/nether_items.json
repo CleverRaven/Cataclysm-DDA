@@ -34,5 +34,23 @@
     "symbol": "@",
     "description": "This defies easy description, it feels solid but the surface is yielding.  Its edges blur when you look at it, but it feels perfectly still when you hold it.",
     "flags": [ "SINGLE_USE" ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "id": "abjuration_stone",
+    "name": { "str_sp": "inverted barrier" },
+    "color": "magenta",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "consume": true,
+      "description": "Seems like a localized disruption.",
+      "effect_on_conditions": [ "EOC_MOM_ABJURATION_STONE_EFFECTS" ]
+    },
+    "volume": "250 ml",
+    "weight": "10 g",
+    "symbol": "@",
+    "description": "This defies easy description, it feels solid but the surface is yielding.  Looking at it, static creeps in on the edges of your vision.",
+    "flags": [ "SINGLE_USE" ]
   }
 ]
