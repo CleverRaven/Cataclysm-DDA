@@ -33,7 +33,7 @@ jobs:
         if: github.repository == 'CleverRaven/Cataclysm-DDA'
         env:
           TX_TOKEN: ${{ secrets.TX_TOKEN }}
-        run: tx pull --force
+        run: tx pull -a --force
       
       - name: Discard invalid translations
         run: ./lang/discard_invalid_po.sh
