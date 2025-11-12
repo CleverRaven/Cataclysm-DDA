@@ -530,7 +530,8 @@ TEST_CASE( "food_allergies_and_intolerances", "[food][modify_morale][allergy]" )
         REQUIRE( dummy.has_trait( trait_LACTOSE ) );
 
         THEN( "they get a morale penalty for drinking milk" ) {
-            item_location milk_container = dummy.i_add( item( itype_milk ).in_container( itype_jug_plastic, 1 ) );
+            item_location milk_container = dummy.i_add( item( itype_milk ).in_container( itype_jug_plastic,
+                                           1 ) );
             item &milk = milk_container->only_item();
             REQUIRE( milk.has_flag( flag_ALLERGEN_MILK ) );
             dummy.clear_morale();
