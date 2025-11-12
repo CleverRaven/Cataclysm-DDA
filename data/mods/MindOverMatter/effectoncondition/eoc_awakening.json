@@ -720,19 +720,13 @@
     "deactivate_condition": { "not": { "is_weather": "distant_portal_storm" } },
     "effect": [
       { "math": [ "u_awakening_reducer = (portal_storm_awakening_odds(u_awakening_countup))" ] },
+      { "math": [ "_roll_chance = portal_storm_awakening_chance()" ] },
       {
-        "weighted_list_eocs": [
-          [ "EOC_PORTAL_NULL_AWAKENING", { "math": [ "portal_storm_awakening_odds()" ] } ],
-          [ "EOC_PORTAL_BIOKIN_AWAKENING", 1 ],
-          [ "EOC_PORTAL_CLAIR_AWAKENING", 1 ],
-          [ "EOC_PORTAL_ELECTRO_AWAKENING", 1 ],
-          [ "EOC_PORTAL_PHOTOKIN_AWAKENING", 1 ],
-          [ "EOC_PORTAL_PYRO_AWAKENING", 1 ],
-          [ "EOC_PORTAL_TELEKIN_AWAKENING", 1 ],
-          [ "EOC_PORTAL_TEEP_AWAKENING", 1 ],
-          [ "EOC_PORTAL_PORTER_AWAKENING", 1 ],
-          [ "EOC_PORTAL_VITA_AWAKENING", 1 ]
-        ]
+        "u_message": { "str": "Odds of awakening are 1 in <context_val:roll_chance>.", "//~": "NO_I18N" },
+        "type": "debug"
+      },
+      {
+        "weighted_list_eocs": [ [ "EOC_NONE", { "math": [ "_roll_chance" ] } ], [ "EOC_PORTAL_SUCCESSFUL_AWAKENING", 1 ] ]
       }
     ]
   },
@@ -754,19 +748,13 @@
     "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
     "effect": [
       { "math": [ "u_awakening_reducer = (portal_storm_awakening_odds(u_awakening_countup))" ] },
+      { "math": [ "_roll_chance = portal_storm_awakening_chance()" ] },
       {
-        "weighted_list_eocs": [
-          [ "EOC_PORTAL_NULL_AWAKENING", { "math": [ "portal_storm_awakening_odds()" ] } ],
-          [ "EOC_PORTAL_BIOKIN_AWAKENING", 1 ],
-          [ "EOC_PORTAL_CLAIR_AWAKENING", 1 ],
-          [ "EOC_PORTAL_ELECTRO_AWAKENING", 1 ],
-          [ "EOC_PORTAL_PHOTOKIN_AWAKENING", 1 ],
-          [ "EOC_PORTAL_PYRO_AWAKENING", 1 ],
-          [ "EOC_PORTAL_TELEKIN_AWAKENING", 1 ],
-          [ "EOC_PORTAL_TEEP_AWAKENING", 1 ],
-          [ "EOC_PORTAL_PORTER_AWAKENING", 1 ],
-          [ "EOC_PORTAL_VITA_AWAKENING", 1 ]
-        ]
+        "u_message": { "str": "Odds of awakening are 1 in <context_val:roll_chance>.", "//~": "NO_I18N" },
+        "type": "debug"
+      },
+      {
+        "weighted_list_eocs": [ [ "EOC_NONE", { "math": [ "_roll_chance" ] } ], [ "EOC_PORTAL_SUCCESSFUL_AWAKENING", 1 ] ]
       }
     ]
   },
@@ -788,26 +776,32 @@
     "deactivate_condition": { "not": { "is_weather": "close_portal_storm" } },
     "effect": [
       { "math": [ "u_awakening_reducer = (portal_storm_awakening_odds(u_awakening_countup))" ] },
+      { "math": [ "_roll_chance = portal_storm_awakening_chance()" ] },
       {
-        "weighted_list_eocs": [
-          [ "EOC_PORTAL_NULL_AWAKENING", { "math": [ "portal_storm_awakening_odds()" ] } ],
-          [ "EOC_PORTAL_BIOKIN_AWAKENING", 1 ],
-          [ "EOC_PORTAL_CLAIR_AWAKENING", 1 ],
-          [ "EOC_PORTAL_ELECTRO_AWAKENING", 1 ],
-          [ "EOC_PORTAL_PHOTOKIN_AWAKENING", 1 ],
-          [ "EOC_PORTAL_PYRO_AWAKENING", 1 ],
-          [ "EOC_PORTAL_TELEKIN_AWAKENING", 1 ],
-          [ "EOC_PORTAL_TEEP_AWAKENING", 1 ],
-          [ "EOC_PORTAL_PORTER_AWAKENING", 1 ],
-          [ "EOC_PORTAL_VITA_AWAKENING", 1 ]
-        ]
+        "u_message": { "str": "Odds of awakening are 1 in <context_val:roll_chance>.", "//~": "NO_I18N" },
+        "type": "debug"
+      },
+      {
+        "weighted_list_eocs": [ [ "EOC_NONE", { "math": [ "_roll_chance" ] } ], [ "EOC_PORTAL_SUCCESSFUL_AWAKENING", 1 ] ]
       }
     ]
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_PORTAL_NULL_AWAKENING",
-    "effect": [ { "u_message": "" } ]
+    "id": "EOC_PORTAL_SUCCESSFUL_AWAKENING",
+    "effect": {
+      "weighted_list_eocs": [
+        [ "EOC_PORTAL_BIOKIN_AWAKENING", 1 ],
+        [ "EOC_PORTAL_CLAIR_AWAKENING", 1 ],
+        [ "EOC_PORTAL_ELECTRO_AWAKENING", 1 ],
+        [ "EOC_PORTAL_PHOTOKIN_AWAKENING", 1 ],
+        [ "EOC_PORTAL_PYRO_AWAKENING", 1 ],
+        [ "EOC_PORTAL_TELEKIN_AWAKENING", 1 ],
+        [ "EOC_PORTAL_TEEP_AWAKENING", 1 ],
+        [ "EOC_PORTAL_PORTER_AWAKENING", 1 ],
+        [ "EOC_PORTAL_VITA_AWAKENING", 1 ]
+      ]
+    }
   },
   {
     "type": "effect_on_condition",
