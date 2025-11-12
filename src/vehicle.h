@@ -2179,6 +2179,7 @@ class vehicle
         vehicle *act_on_map( map &here );
         // check if the vehicle should be falling or is in water
         void check_falling_or_floating();
+        void damage_fragile_under_vehicle( map &here );
 
         /** Precalculate vehicle turn. Counts wheels that will land on ter_flag_to_check
          * new_turn_dir             - turn direction to calculate

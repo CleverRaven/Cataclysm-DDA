@@ -12,8 +12,7 @@
     "change_good_animal": "You nudge your steed into a steady trot.",
     "change_good_mech": "You set your mech's leg power to a loping fast walk.",
     "move_type": "walking",
-    "move_speed_multiplier": 1.0,
-    "bash_weight_modifier": 1
+    "move_speed_multiplier": 1.0
   },
   {
     "type": "movement_mode",
@@ -53,8 +52,7 @@
     "move_type": "crouching",
     "sound_multiplier": 0.5,
     "move_speed_multiplier": 0.5,
-    "swim_speed_mod": 50,
-    "bash_weight_modifier": 1
+    "swim_speed_mod": 50
   },
   {
     "type": "movement_mode",

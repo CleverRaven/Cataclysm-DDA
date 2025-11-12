@@ -2150,6 +2150,9 @@ void vehicle::check_falling_or_floating()
         return;
     }
 
+    //damage fragile terrain before doing other falling stuff
+    damage_fragile_under_vehicle( here );
+
     is_falling = true;
     is_flying = false;
 

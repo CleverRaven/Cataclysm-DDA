@@ -828,6 +828,101 @@ void vehicle::drive_to_local_target( map *here, const tripoint_abs_ms &target,
     selfdrive( *here, turn_x, accel_y );
 }
 
+void vehicle::damage_fragile_under_vehicle( map &here )
+{
+    // total weight
+    const int veh_weight = weight_on_wheels( here ) / 1_kilogram;
+    // wheel coords
+    std::vector<tripoint_bub_ms> wheel_contacts;
+    wheel_contacts.reserve( wheelcache.size() );
+    for( int i : wheelcache ) {
+        const vehicle_part &vp = part( i );
+        const tripoint_bub_ms p = bub_part_pos( here, i );
+        if( vp.is_broken() || here.has_flag_ter( ter_furn_flag::TFLAG_NO_FLOOR, p ) ) {
+            continue;
+        }
+        wheel_contacts.push_back( p );
+    }
+
+    add_msg( m_info, "vehicle '%s' total weight: %d kg, wheels: %d",
+             name, veh_weight, static_cast<int>( wheel_contacts.size() ) );
+
+    //if the vehicle has no wheel contacts, have it crush the tiles with its body
+    if( wheel_contacts.empty() ) {
+
+        // no duplicate body part positions
+        std::unordered_set<tripoint_bub_ms> unique_tiles;
+        unique_tiles.reserve( parts.size() );
+        int structural_parts = 0;
+        for( size_t i = 0; i < parts.size(); i++ ) {
+            const vehicle_part &vp = parts[i];
+            if( vp.removed || vp.is_broken() ) {
+                continue;
+            }
+
+            // count structural parts to compensate for decorative parts creating excess support
+            if( vp.info().location.str() == "structure" ) {
+                ++structural_parts;
+            }
+
+
+            unique_tiles.insert( bub_part_pos( here, static_cast<int>( i ) ) );
+        }
+        if( unique_tiles.empty() ) {
+            return; // No physical body tiles
+        }
+
+        if( structural_parts <= 0 ) {
+            structural_parts = 1;
+        }
+        //if a vehicle is supported by non-structural collision fields, compensate
+        // by multiplying the final damage by the total tiles "under" the vehicle
+        // over the number of actual structural tiles
+        const double stress_multiplier = static_cast<double>( unique_tiles.size() ) / structural_parts;
+
+        //to vector for iteration
+        std::vector<tripoint_bub_ms> body_contacts( unique_tiles.begin(), unique_tiles.end() );
+
+        //unsupported tiles of the vehicle should not count towards the divided weight of the vehicle
+        int supported_tiles = 0;
+        for( const tripoint_bub_ms &p : body_contacts ) {
+            if( !here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_NO_FLOOR, p ) ) {
+                ++supported_tiles;
+            }
+        }
+        if( supported_tiles <= 0 ) {
+            return;
+        }
+        const int kg_per_tile = static_cast<int>( ( veh_weight / supported_tiles ) * stress_multiplier );
+        //add_msg(m_info, "avg body load per tile: %d kg and %d supported tiles. %d sturctural parts and %d total parts", kg_per_tile,supported_tiles, structural_parts, unique_tiles.size());
+
+        for( const tripoint_bub_ms &p : body_contacts ) {
+            const int bash_strength = kg_per_tile / 10;
+            if( here.has_flag_ter( ter_furn_flag::TFLAG_FRAGILE, p ) && bash_strength > 0 ) {
+                //add_msg(m_info, "bashing fragile terrain at %s, strength=%d", p.to_string(), bash_strength);
+
+                here.bash( p, bash_strength, false, false, false, this, false );
+            } else if( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FRAGILE, p ) ) {
+                //add_msg(m_info, "bashing fragile terrain at %s, strength=%d", p.to_string(), bash_strength);
+            }
+        }
+        return;
+    } else {
+        //distribute load per wheel
+        const int bash_strength = ( veh_weight / wheel_contacts.size() ) / 10;
+        //bash to fragile tiles under each wheel
+        for( const tripoint_bub_ms &p : wheel_contacts ) {
+            if( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FRAGILE, p ) && bash_strength > 0 ) {
+                //add_msg(m_info, "bashing fragile terrain at %s, strength=%d", p.to_string(), bash_strength);
+                here.bash( p, bash_strength, false, false, false, this, false );
+            }
+        }
+    }
+    return;
+}
+
+
+
 bool vehicle::precollision_check( units::angle &angle, map &here, bool follow_protocol )
 {
     if( !precollision_on ) {
