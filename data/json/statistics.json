@@ -85,6 +85,12 @@
     "value_constraints": { "species": { "equals": [ "species_id", "ROBOT" ] } }
   },
   {
+    "id": "avatar_mutant_kills",
+    "type": "event_transformation",
+    "event_transformation": "avatar_species_kills",
+    "value_constraints": { "species": { "equals": [ "species_id", "MUTANT" ] } }
+  },
+  {
     "id": "num_avatar_monster_kills",
     "type": "event_statistic",
     "stat_type": "count",
@@ -139,6 +145,13 @@
     "stat_type": "count",
     "event_transformation": "avatar_robot_kills",
     "description": { "str": "robot killed", "str_pl": "robots killed" }
+  },
+  {
+    "id": "num_avatar_mutant_kills",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_mutant_kills",
+    "description": { "str": "mutant human killed", "str_pl": "mutant humans killed" }
   },
   {
     "id": "avatar_melee_attacks_monster",
@@ -697,20 +710,6 @@
     "field": "itype"
   },
   {
-    "id": "avatar_wields_crowbar",
-    "type": "event_transformation",
-    "event_transformation": "avatar_wields_item",
-    "value_constraints": { "itype": { "equals": [ "itype_id", "crowbar" ] } },
-    "drop_fields": [ "itype" ]
-  },
-  {
-    "id": "num_avatar_wields_crowbar",
-    "type": "event_statistic",
-    "stat_type": "count",
-    "event_transformation": "avatar_wields_crowbar",
-    "description": { "str": "time wielded crowbar", "str_pl": "times wielded crowbar" }
-  },
-  {
     "id": "avatar_wears_item",
     "type": "event_transformation",
     "event_type": "character_wears_item",
@@ -725,18 +724,25 @@
     "description": { "str": "time worn an item", "str_pl": "times worn an item" }
   },
   {
-    "id": "avatar_wears_power_armor_heavy",
+    "id": "avatar_last_item_worn",
+    "type": "event_statistic",
+    "stat_type": "last_value",
+    "event_transformation": "avatar_wears_item",
+    "field": "itype"
+  },
+  {
+    "id": "avatar_wears_power_armor",
     "type": "event_transformation",
     "event_transformation": "avatar_wears_item",
-    "value_constraints": { "itype": { "equals": [ "itype_id", "combat_exoskeleton_heavy" ] } },
+    "value_constraints":  { "itype": { "equals_any": [ "itype_id", [ "combat_exoskeleton_heavy", "combat_exoskeleton_light", "combat_exoskeleton_medium" ] ] } },
     "drop_fields": [ "itype" ]
   },
   {
-    "id": "num_avatar_wears_power_armor_heavy",
+    "id": "num_avatar_wears_power_armor",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "avatar_wears_power_armor_heavy",
-    "description": { "str": "time worn tank suit", "str_pl": "times worn tank suit" }
+    "event_transformation": "avatar_wears_power_armor_any",
+    "description": { "str": "time worn power armor", "str_pl": "times worn power armor" }
   },
   {
     "id": "avatar_eats_item",

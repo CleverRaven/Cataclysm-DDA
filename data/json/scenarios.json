@@ -276,6 +276,7 @@
     "name": "Challenge - Hunted Forever",
     "points": -5,
     "forced_traits": [ "HAS_NEMESIS" ],
+    "requirement": "achievement_nem_scen_win",
     "description": "Since the start of the Cataclysm, they have been hunting you relentlessly.  You can try to fight them, but each time one falls another takes its place.  The only escape is for you to die.",
     "allowed_locs": [
       "sloc_house",
@@ -570,7 +571,7 @@
     "professions": [ "security", "labtech", "medic" ],
     "allowed_locs": [ "sloc_lab_concourse_area" ],
     "map_extra": "mx_lab_concourse_area",
-    "requirement": "achievement_reach_trans_coast_lab",
+    "requirement": "achievement_tcl_win",
     "flags": [ "CHALLENGE", "LONE_START" ]
   },
   {
@@ -795,6 +796,7 @@
       "CHITIN",
       "ELECTRORECEPTORS"
     ],
+    "requirement": "achievement_kill_mutant",
     "reveal_locale": false,
     "distance_initial_visibility": 0,
     "flags": [ "LONE_START" ]
@@ -878,6 +880,7 @@
       "combat-mechanic",
       "combat-engineer"
     ],
+    "requirement": "achievement_reach_military_helipad",
     "map_extra": "mx_helicopter",
     "distance_initial_visibility": 0,
     "flags": [ "HELI_CRASH", "LONE_START" ],
@@ -925,7 +928,7 @@
       "combat-mechanic",
       "combat-engineer"
     ],
-    "requirement": "achievement_reach_military_base",
+    "requirement": "achievement_reach_military_armory",
     "distance_initial_visibility": 25,
     "flags": [ "CHALLENGE", "LONE_START" ]
   },
@@ -967,6 +970,7 @@
       "hitman",
       "assassin"
     ],
+    "requirement": "achievement_beat_resort",
     "flags": [ "CHALLENGE", "LONE_START" ]
   },
   {
