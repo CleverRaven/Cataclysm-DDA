@@ -53,11 +53,7 @@
         [ "hockey_stick", -1 ],
         [ "lucern_hammerfake", -1 ],
         [ "homemade_polehammer", -1 ],
-        [ "homemade_polehammer_makeshift", -1 ],
-        [ "hammer_sledge", -1 ],
-        [ "hammer_sledge_short", -1 ],
-        [ "hammer_sledge_heavy", -1 ],
-        [ "hammer_sledge_engineer", -1 ]
+        [ "homemade_polehammer_makeshift", -1 ]
       ]
     ]
   },
@@ -480,7 +476,6 @@
     "tools": [
       [
         [ "cudgel", -1 ],
-        [ "q_staff", -1 ],
         [ "bat", -1 ],
         [ "bat_metal", -1 ],
         [ "bat_nerf", -1 ],
@@ -642,8 +637,6 @@
         [ "makeshift_halberd", -1 ],
         [ "halberd_fake", -1 ],
         [ "makeshift_glaive", -1 ],
-        [ "pointed_rebar", -1 ],
-        [ "sharp_rebar", -1 ],
         [ "naginata_fake", -1 ],
         [ "naginata_inferior", -1 ],
         [ "makeshift_scythe_war", -1 ],

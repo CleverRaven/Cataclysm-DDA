@@ -50,7 +50,6 @@
     "material": [ "qt_steel" ],
     "volume": "410 L",
     "weight": "498 kg",
-    "to_hit": -3,
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
     "melee_damage": { "bash": 20, "cut": 15 }
   },
@@ -66,7 +65,6 @@
     "material": [ "lc_steel", "dreamstuff" ],
     "volume": "210 L",
     "weight": "195 kg",
-    "to_hit": -2,
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
     "melee_damage": { "bash": 10 }
   },
@@ -76,6 +74,7 @@
     "//": "Changeling corpses.",
     "copy-from": "corpse",
     "name": { "str": "fae corpse" },
+    "volume": "810 L",
     "description": "The dead body of a changeling.  There are multiple bites across the body and numerous scratches.  It looks like blood loss might have brought them down.",
     "looks_like": "corpse_generic_human",
     "material": [ "fae_flesh" ],

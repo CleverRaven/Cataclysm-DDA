@@ -1156,7 +1156,7 @@
   },
   {
     "id": "dreamforged_armguard_plate",
-    "copy-from": "armguard_lightplate",
+    "copy-from": "armor_lc_armguard",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of dreamforged arm guards", "str_pl": "pairs of dreamforged arm guards" },
@@ -1166,7 +1166,7 @@
     "price_postapoc": "0 cent",
     "material": [ "forged_dreamstuff" ],
     "symbol": "[",
-    "looks_like": "armguard_lightplate",
+    "looks_like": "armor_lc_armguard",
     "color": "dark_gray",
     "warmth": 10,
     "material_thickness": 1.2,

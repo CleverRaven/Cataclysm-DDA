@@ -433,7 +433,6 @@
   },
   {
     "id": "robofac60",
-    "looks_like": "calicomag",
     "type": "ITEM",
     "subtypes": [ "MAGAZINE" ],
     "name": { "str": "HWP 60-round 9mm helical magazine" },

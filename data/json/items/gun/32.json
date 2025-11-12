@@ -19,25 +19,6 @@
     "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ppkmag" ] } ]
   },
   {
-    "id": "kp32",
-    "looks_like": "glock_17",
-    "copy-from": "gun_base_32_semi_pistol",
-    "type": "ITEM",
-    "subtypes": [ "GUN" ],
-    "name": { "str": "Kel-Tec P-32 pistol" },
-    "description": "One of Kel-Tec's oldest designs, the P-32 is a popular option for deep concealment and backup usage.  Despite its extreme light weight and small size, its .32 ACP chambering makes for good handling and recoil control.",
-    "ascii_picture": "P3AT",
-    "weight": "186 g",
-    "volume": "138 ml",
-    "longest_side": "147 mm",
-    "barrel_length": "68 mm",
-    "price": "140 USD",
-    "material": [ "steel", "plastic", "aluminum" ],
-    "dispersion": 480,
-    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
-    "pocket_data": [ { "magazine_well": "41 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "kp32mag" ] } ]
-  },
-  {
     "id": "lws32",
     "looks_like": "glock_17",
     "copy-from": "gun_base_32_semi_pistol",

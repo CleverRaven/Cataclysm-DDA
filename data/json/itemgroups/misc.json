@@ -203,7 +203,10 @@
       { "item": "material_shrd_limestone", "count": [ 10, 25 ], "prob": 70 },
       { "item": "material_rocksalt", "count": [ 0, 1 ], "prob": 20 },
       { "item": "material_rhodonite", "count": [ 0, 1 ], "prob": 3 },
-      { "item": "material_zincite", "count": [ 0, 5 ], "prob": 5 }
+      { "item": "material_zincite", "count": [ 0, 5 ], "prob": 5 },
+      { "item": "chunk_feldspar", "count": [ 10, 25 ], "prob": 50 },
+      { "item": "chunk_graphite", "count": [ 0, 2 ], "prob": 2 },
+      { "item": "chunk_caco3", "count": [ 0, 2 ], "prob": 60 }
     ]
   },
   {

@@ -1147,7 +1147,7 @@ TEST_CASE( "uncraft_sanity_check", "[item]" )
         const bool is_within_tolerance = weight_difference <= weight_tolerance;
 
         if( !is_within_tolerance ) {
-            INFO( string_format( "Item %s weight %s gram, but it's uncrafting recipe has components with total weight of %s gram.  It should be within %.0f%%.",
+            INFO( string_format( "Item %s weight %s gram, but it's uncrafting recipe (including crafting with 'reversible: true') has components with total weight of %s gram.  It should be within %.0f%%.",
                                  target.typeId().str(), to_gram( item_weight ),
                                  to_gram( sum_of_components_weight ), tolerance * 100.f ) );
             CHECK( is_within_tolerance );

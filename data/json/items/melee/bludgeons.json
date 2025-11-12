@@ -114,6 +114,17 @@
   },
   {
     "type": "ITEM",
+    "id": "bat_metal_bolt",
+    "copy-from": "bat_metal",
+    "name": { "str": "bolt studded aluminum bat" },
+    "description": "An aluminum baseball bat with a selection of bolts threaded through the barrel.  Helps to concentrate the force of a blow, without adding much weight.",
+    "weight": "1138 g",
+    "price_postapoc": "14 USD",
+    "material": [ { "type": "aluminum", "portion": 6 }, { "type": "mc_steel", "portion": 1 } ],
+    "melee_damage": { "bash": 27 }
+  },
+  {
+    "type": "ITEM",
     "id": "bat_nerf",
     "name": { "str": "foam rubber bat" },
     "description": "A baseball bat made of foam rubber with a plastic handle.  Light and easy to wield, but almost completely ineffective if your goal is to hurt someone.",
@@ -459,7 +470,7 @@
       "ammo_scale": 0
     },
     "light": 4,
-    "extend": { "flags": [ "CHARGEDIM", "TRADER_AVOID", "WATER_BREAK" ] },
+    "extend": { "flags": [ "CHARGEDIM", "TRADER_AVOID", "WATER_BREAK", "SPAWN_ACTIVE" ] },
     "delete": { "flags": [ "WATER_BREAK_ACTIVE" ] }
   },
   {
@@ -513,7 +524,7 @@
       "ammo_scale": 0
     },
     "light": 300,
-    "extend": { "flags": [ "CHARGEDIM", "TRADER_AVOID", "WATER_BREAK" ] },
+    "extend": { "flags": [ "CHARGEDIM", "TRADER_AVOID", "WATER_BREAK", "SPAWN_ACTIVE" ] },
     "delete": { "flags": [ "WATER_BREAK_ACTIVE" ] }
   },
   {
@@ -1118,6 +1129,29 @@
     "weight": "2700 g",
     "price": "40 USD",
     "price_postapoc": "5 USD"
+  },
+  {
+    "id": "crowbar_warhammer",
+    "type": "ITEM",
+    "symbol": "/",
+    "color": "light_gray",
+    "name": { "str": "bec de crowbar" },
+    "description": "This weapon appears to be a warhammer, but instead of one end of the head being a spike, it's the flats of a crowbar.  While not as good of a weapon as a more traditional warhammer, and not as good as prying as a crowbar, it still does both jobs decently well.",
+    "weapon_category": [ "HOOKING_WEAPONRY", "POLEARMS", "GREAT_HAMMERS" ],
+    "price": "500 USD",
+    "material": [ { "type": "wood", "portion": 4 }, { "type": "mc_steel", "portion": 1 } ],
+    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "SPEAR", "ALWAYS_TWOHAND" ],
+    "faults": [ { "fault_group": "handle_long" } ],
+    "techniques": [ "WBLOCK_1", "WIDE", "SWEEP" ],
+    "weight": "3200 g",
+    "volume": "3240 ml",
+    "longest_side": "180 cm",
+    "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "uneven" },
+    "price_postapoc": "100 USD",
+    "qualities": [ [ "PRY", 2 ], [ "HAMMER", 1 ] ],
+    "use_action": [ "CROWBAR" ],
+    "category": "weapons",
+    "melee_damage": { "bash": 46 }
   },
   {
     "id": "homemade_polehammer",

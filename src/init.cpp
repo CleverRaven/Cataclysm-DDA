@@ -299,6 +299,7 @@ void DynamicDataLoader::initialize()
     add( "profession_item_substitutions", &profession::load_item_substitutions );
     add( "proficiency", &proficiency::load_proficiencies );
     add( "proficiency_category", &proficiency_category::load_proficiency_categories );
+    add( "proficiency_migration", &proficiency_migration::load );
     add( "speed_description", &speed_description::load_speed_descriptions );
     add( "mood_face", &mood_face::load_mood_faces );
     add( "skill", &Skill::load_skill );
@@ -392,6 +393,7 @@ void DynamicDataLoader::initialize()
     add( "climbing_aid", &climbing_aid::load_climbing_aid );
     add( "attack_vector", &attack_vector::load_attack_vectors );
     add( "effect_type", &load_effect_type );
+    add( "effect_migration", &effect_migration::load );
     add( "oter_id_migration", &overmap::load_oter_id_migration );
     add( "camp_migration", &overmap::load_oter_id_camp_migration );
     add( "overmap_terrain", &overmap_terrains::load );
@@ -709,6 +711,7 @@ void DynamicDataLoader::unload_data()
     profession_blacklist::reset();
     proficiency::reset();
     proficiency_category::reset();
+    proficiency_migration::reset();
     mood_face::reset();
     speed_description::reset();
     quality::reset();
@@ -736,6 +739,7 @@ void DynamicDataLoader::unload_data()
     reset_bionics();
     reset_constructions();
     reset_effect_types();
+    effect_migration::reset();
     reset_furn_ter();
     reset_mapgens();
     MapExtras::clear();
@@ -949,12 +953,14 @@ void DynamicDataLoader::check_consistency()
             { _( "Ammo effects" ), &ammo_effects::check_consistency },
             { _( "Emissions" ), &emit::check_consistency },
             { _( "Effect types" ), &effect_type::check_consistency },
+            { _( "Effect migration" ), &effect_migration::check },
             { _( "Activities" ), &activity_type::check_consistency },
             { _( "Addiction types" ), &add_type::check_add_types },
             { _( "Bash damage profiles" ), &bash_damage_profile::check_all },
             { _( "Items" ), &items::check_consistency },
             { _( "Materials" ), &materials::check },
             { _( "Faults" ), &faults::check_consistency },
+            { _( "Proficiency migration" ), &proficiency_migration::check },
             { _( "Vehicle parts" ), &vehicles::parts::check },
             { _( "Vehicle part locations" ), &vpart_location::check_all },
             { _( "Vehicle part migrations" ), &vpart_migration::check },

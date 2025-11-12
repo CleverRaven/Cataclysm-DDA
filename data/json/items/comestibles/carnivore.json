@@ -369,7 +369,7 @@
     "flags": [ "EATEN_HOT", "SMOKED" ]
   },
   {
-    "id": "raw_curing_fatty_meat",
+    "id": "raw_curing_fatty_meat_active",
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "copy-from": "flesh",
@@ -383,16 +383,9 @@
     "spoils_in": "14 days",
     "fun": -15,
     "vitamins": [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ], [ "meat_allergen", 1 ] ],
-    "flags": [  ],
-    "use_action": {
-      "target": "raw_cured_fatty_meat",
-      "msg": "You pat off a bit of extra brine from the slice; this piece of meat is now fully cured.",
-      "moves": 150,
-      "type": "delayed_transform",
-      "transform_age": 28800,
-      "not_ready_msg": "The meat isn't fully cured yet.",
-      "//": "8 hours"
-    }
+    "flags": [ "SPAWN_ACTIVE" ],
+    "countdown_interval": "8 hours",
+    "revert_to": "raw_cured_fatty_meat"
   },
   {
     "id": "meat_scrap",

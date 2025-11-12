@@ -801,6 +801,51 @@
   },
   {
     "type": "SPELL",
+    "id": "telekinetic_aegis_monster",
+    "name": { "str": "Aegis Monster Improved enemy check", "//~": "NO_I18N" },
+    "description": { "str": "Preps for using Aegis when a hostile target is found in a vehicle.", "//~": "NO_I18N" },
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
+    "valid_targets": [ "hostile" ],
+    "max_level": 1,
+    "effect": "attack",
+    "extra_effects": [
+      { "id": "telekinetic_aegis_monster_self", "hit_self": true },
+      { "id": "telekinetic_aegis_limiter_monster_self", "hit_self": true }
+    ],
+    "shape": "blast",
+    "min_range": 15,
+    "max_range": 15
+  },
+  {
+    "type": "SPELL",
+    "id": "telekinetic_aegis_monster_self",
+    "name": { "str": "Aegis Monster Effect", "//~": "NO_I18N" },
+    "description": { "str": "Grants the Aegis effect to a monster.", "//~": "NO_I18N" },
+    "flags": [ "NO_HANDS", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN", "RANDOM_DURATION" ],
+    "valid_targets": [ "self" ],
+    "max_level": 1,
+    "effect": "attack",
+    "effect_str": "effect_monster_telekinetic_aegis",
+    "shape": "blast",
+    "min_duration": 6,
+    "max_duration": 6
+  },
+  {
+    "type": "SPELL",
+    "id": "telekinetic_aegis_limiter_monster_self",
+    "name": { "str": "Aegis Limiter Monster Effect", "//~": "NO_I18N" },
+    "description": { "str": "Allows the monster to use Aegis immediately but applies a cooldown afterwards.", "//~": "NO_I18N" },
+    "flags": [ "NO_HANDS", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN", "RANDOM_DURATION" ],
+    "valid_targets": [ "self" ],
+    "max_level": 1,
+    "effect": "attack",
+    "effect_str": "effect_monster_aegis_limiter",
+    "shape": "blast",
+    "min_duration": 2500,
+    "max_duration": 7500
+  },
+  {
+    "type": "SPELL",
     "id": "telekinetic_earthshaker_monster",
     "name": { "str": "Earthshaker enemy check", "//~": "NO_I18N" },
     "description": { "str": "Makes sure the target is within range before using Earthshaker", "//~": "NO_I18N" },

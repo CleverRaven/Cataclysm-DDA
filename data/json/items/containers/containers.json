@@ -4321,7 +4321,7 @@
     "melee_damage": { "bash": 12 }
   },
   {
-    "id": "aquarium_medium_drying",
+    "id": "aquarium_medium_drying_active",
     "type": "ITEM",
     "category": "other",
     "name": { "str": "50 gallon aquarium (drying)", "str_pl": "50 gallon aquariums (drying)" },
@@ -4336,6 +4336,7 @@
     "material": [ "glass" ],
     "symbol": ")",
     "color": "light_cyan",
+    "flags": [ "SPAWN_ACTIVE" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -4347,15 +4348,8 @@
       }
     ],
     "qualities": [ [ "CONTAIN", 1 ] ],
-    "use_action": {
-      "target": "aquarium_medium",
-      "msg": "You check that the aquarium does indeed hold water, it is ready.",
-      "moves": 100,
-      "type": "delayed_transform",
-      "transform_age": 604800,
-      "not_ready_msg": "The silicone hasn't dried quite yet.",
-      "//": "The time it takes is a week and this appears to be the minimum time the internet says it takes."
-    },
+    "countdown_interval": "7 days",
+    "revert_to": "aquarium_medium",
     "melee_damage": { "bash": 12 }
   },
   {
@@ -4389,7 +4383,7 @@
     "melee_damage": { "bash": 8 }
   },
   {
-    "id": "aquarium_small_drying",
+    "id": "aquarium_small_drying_active",
     "type": "ITEM",
     "category": "other",
     "name": { "str": "30 gallon aquarium (drying)", "str_pl": "30 gallon aquariums (drying)" },
@@ -4405,6 +4399,7 @@
     "symbol": ")",
     "color": "light_cyan",
     "looks_like": "aquarium_medium",
+    "flags": [ "SPAWN_ACTIVE" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -4416,15 +4411,8 @@
       }
     ],
     "qualities": [ [ "CONTAIN", 1 ] ],
-    "use_action": {
-      "target": "aquarium_small",
-      "msg": "You check that the aquarium does indeed hold water, it is ready.",
-      "moves": 100,
-      "type": "delayed_transform",
-      "transform_age": 604800,
-      "not_ready_msg": "The silicone hasn't dried quite yet.",
-      "//": "The time it takes is a week and this appears to be the minimum time the internet says it takes."
-    },
+    "countdown_interval": "7 days",
+    "revert_to": "aquarium_small",
     "melee_damage": { "bash": 8 }
   },
   {
@@ -4458,7 +4446,7 @@
     "melee_damage": { "bash": 20 }
   },
   {
-    "id": "aquarium_large_drying",
+    "id": "aquarium_large_drying_active",
     "type": "ITEM",
     "category": "other",
     "name": { "str": "100 gallon aquarium (drying)", "str_pl": "100 gallon aquariums (drying)" },
@@ -4474,6 +4462,7 @@
     "symbol": ")",
     "color": "light_cyan",
     "looks_like": "aquarium_medium",
+    "flags": [ "SPAWN_ACTIVE" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -4485,15 +4474,8 @@
       }
     ],
     "qualities": [ [ "CONTAIN", 1 ] ],
-    "use_action": {
-      "target": "aquarium_large",
-      "msg": "You check that the aquarium does indeed hold water, it is ready.",
-      "moves": 100,
-      "type": "delayed_transform",
-      "transform_age": 604800,
-      "not_ready_msg": "The silicone hasn't dried quite yet.",
-      "//": "The time it takes is a week and this appears to be the minimum time the internet says it takes."
-    },
+    "countdown_interval": "7 days",
+    "revert_to": "aquarium_large",
     "melee_damage": { "bash": 20 }
   },
   {

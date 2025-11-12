@@ -139,11 +139,11 @@ bool itype::has_any_quality( std::string_view quality ) const
 
 int itype::charges_default() const
 {
-    if( tool ) {
+    if( tool && tool->def_charges > 0 ) {
         return tool->def_charges;
-    } else if( comestible ) {
+    } else if( comestible && comestible->def_charges > 0 ) {
         return comestible->def_charges;
-    } else if( ammo ) {
+    } else if( ammo && ammo->def_charges > 0 ) {
         return ammo->def_charges;
     }
     return count_by_charges() ? 1 : 0;
