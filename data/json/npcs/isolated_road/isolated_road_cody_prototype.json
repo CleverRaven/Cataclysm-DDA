@@ -246,13 +246,13 @@
         "text": "[P-32, switchblade, 20 merch] See you in a week.",
         "condition": {
           "and": [
-            { "u_has_items": { "item": "kp32", "count": 1 } },
+            { "u_has_items": { "item": "lws32", "count": 1 } },
             { "u_has_items": { "item": "switchblade", "count": 1 } },
             { "u_has_items": { "item": "FMCNote", "count": 20 } }
           ]
         },
         "effect": [
-          { "u_consume_item": "kp32", "count": 1, "popup": true },
+          { "u_consume_item": "lws32", "count": 1, "popup": true },
           { "u_consume_item": "switchblade", "count": 1, "popup": true },
           { "u_consume_item": "FMCNote", "count": 20, "popup": true },
           { "u_add_faction_trust": 1 },

@@ -783,6 +783,8 @@ class Character : public Creature, public visitable
         virtual faction *get_faction() const {
             return nullptr;
         }
+        /* returns the character's faction id, or an empty faction id if they have no faction */
+        faction_id get_faction_id() const;
         void set_fac_id( const std::string &my_fac_id );
         virtual bool is_ally( const Character &p ) const = 0;
         virtual bool is_obeying( const Character &p ) const = 0;

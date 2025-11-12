@@ -5879,6 +5879,19 @@ std::map<Vehicle *, float> vehicle::search_connected_vehicles( const map &here, 
     return distances;
 }
 
+void vehicle::translate_cables( const tripoint_rel_ms &offset )
+{
+    for( const int part_idx : loose_parts ) {
+        vehicle_part &vp = part( part_idx );
+        const vpart_info &vpi = vp.info();
+        if( !vpi.has_flag( VPFLAG_POWER_TRANSFER ) ) {
+            continue;
+        }
+        vp.target.first += offset;
+        vp.target.second += offset;
+    }
+}
+
 std::map<vehicle *, float> vehicle::search_connected_vehicles( const map &here )
 {
     return search_connected_vehicles( here, this );

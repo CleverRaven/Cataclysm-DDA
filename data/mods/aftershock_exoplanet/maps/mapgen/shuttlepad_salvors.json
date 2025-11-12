@@ -533,7 +533,7 @@
   },
   {
     "type": "mapgen",
-    "update_mapgen_id": "afs_shuttlepad_salvors_garage_open",
+    "update_mapgen_id": "afs_shuttlepad_salvors_garage_open_and_remove_lynx",
     "object": {
       "set": [
         { "point": "terrain", "id": "t_grate", "x": 1, "y": 3 },
@@ -544,8 +544,14 @@
         { "point": "terrain", "id": "t_grate", "x": 1, "y": 8 },
         { "point": "terrain", "id": "t_door_metal_c", "x": 10, "y": 8 },
         { "point": "terrain", "id": "t_door_metal_c", "x": 9, "y": 10 }
-      ]
+      ],
+      "remove_vehicles": [ { "vehicles": [ "uica_lynx_ex" ], "x": [ 3, 8 ], "y": [ 4, 7 ] } ]
     }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "afs_shuttlepad_salvors_garage_place_lynx",
+    "object": { "place_vehicles": [ { "vehicle": "uica_lynx_ex", "x": 6, "y": 5, "status": 0, "faction": "your_followers" } ] }
   },
   {
     "type": "mapgen",

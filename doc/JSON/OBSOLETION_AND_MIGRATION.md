@@ -100,6 +100,21 @@ Vehicle part can be removed safely afterwards
   }
 ```
 
+# Effect migration
+For effects, `effect_migration` type should be used.
+
+```jsonc
+  {
+    "type": "effect_migration",
+    "from": "yrax_overcharged",   // effect that needs to be migrated
+    "to": "drunk"                 // old effect will be replaced with this one. Can be omitted, in which case effect will be deleted
+  }
+  {
+    "type": "effect_migration",
+    "from": "foobar_effect",
+  }
+```
+
 # Bionic migration
 For bionics, you should use `bionic_migration` type. The migration happens when character is loaded; if `to` is `null` or is not defined, the bionic is removed, if `to` is not null the id will be changed to the provided value.
 
@@ -144,6 +159,22 @@ A mutation migration can be used to migrate a mutation that formerly existed gra
     "type": "TRAIT_MIGRATION",
     "id": "deleted_trait",
     "remove": true
+  }
+```
+
+# Proficiency migration
+
+Prof migration can be migrated to new prof (with progress being transferred) or to null
+
+```jsonc
+  {
+    "type": "proficiency_migration",
+    "from": "prof_wp_slime_basic",  // Mandatory. Id of the prof that has been removed.
+    "to": "prof_wp_mi-go_basic"     // Optional. Id of the new prof that will be set instead. can be omitted to remove the prof
+  },
+  {
+    "type": "proficiency_migration",
+    "from": "prof_wp_slime_advanced"
   }
 ```
 

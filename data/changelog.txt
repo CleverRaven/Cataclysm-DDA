@@ -372,6 +372,10 @@ Add flesh aberration corpse pit map extra
 Implement microscope functionality
 Add the Zombie Summoner
 Highlands Dimension
+Add a few crude guns
+Add borax, expand graphite use, update some smithing recipes and rock spawning
+Houses have a realistic amount of solar power
+410 Mossberg 500 and Mossberg Shockwave
 
 
 ## Interface:
@@ -500,6 +504,7 @@ Hide overmap display's 'land use code' behind debug mode
 Show progress percent when butchering
 Hide installed gunmods when installed, show loose gunmods in the inventory UI
 overmap sidebar ImGui conversion
+Add vehicle zone enable/disable keys to the zone manager UI
 
 
 ## Mods:
@@ -1427,6 +1432,10 @@ Fix roads going nowhere
 Prevent segfault when cancelling butchery
 [Sorcerer] Sorcerers can learn advanced versions of spells though having high enough spell level of the base spell
 [Dinomod/Innawood] Remove cities if using Dinomod/Innawood together
+Eating human zombie flesh is cannibalism
+Fix rare overmap save corruption from specific horde metadata
+Audit solar panel installation/removal reqs for vehicles
+Fix the scaling factor for high-dpi displays.
 
 
 ## Performance:
@@ -1611,6 +1620,7 @@ Add debug command to print overmap noise maps
 Allow specifying city name lists in region settings
 Clang tidy rule to catch/reject unicode replacement character
 Use copy-from for region settings instead of overlays
+Allow specifying variants for brewing and compost results
 
 
 ## Build:

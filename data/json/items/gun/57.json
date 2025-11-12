@@ -25,7 +25,7 @@
     "ranged_damage": { "damage_type": "bullet", "amount": -2 },
     "dispersion": 440,
     "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock mount", 1 ] ],
-    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "fn57mag" ] } ]
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "fn57mag", "fn57mag_10rd" ] } ]
   },
   {
     "id": "fn_p90",
@@ -62,7 +62,7 @@
       [ "sights", 1 ],
       [ "sling", 1 ]
     ],
-    "pocket_data": [ { "magazine_well": "500 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "fnp90mag" ] } ]
+    "pocket_data": [ { "magazine_well": "500 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "fnp90mag", "fnp90mag_10rd" ] } ]
   },
   {
     "id": "p50",
@@ -90,7 +90,7 @@
     "dispersion": 380,
     "reload": 500,
     "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ] ],
-    "pocket_data": [ { "magazine_well": "500 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "fnp90mag" ] } ]
+    "pocket_data": [ { "magazine_well": "500 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "fnp90mag", "fnp90mag_10rd" ] } ]
   },
   {
     "id": "ruger_57",

@@ -1191,6 +1191,7 @@ clean: clean-tests clean-pch clean-lang
 	rm -f $(SRC_DIR)/version.h $(SRC_DIR)/prefix.h
 	rm -f $(CHKJSON_BIN)
 	rm -f $(TEST_MO)
+	rm -f zzip zzip.*
 
 distclean:
 	rm -rf *$(BINDIST_DIR)

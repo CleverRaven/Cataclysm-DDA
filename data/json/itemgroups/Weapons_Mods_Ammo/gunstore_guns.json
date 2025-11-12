@@ -259,12 +259,6 @@
         "contents-group": "firearm_box_extras",
         "contents-item": [ "mp40semi", "mp40mag_32rd" ],
         "prob": 1
-      },
-      {
-        "item": "box_pistol",
-        "contents-group": "firearm_box_extras",
-        "contents-item": [ "tec9", "tec9mag_10rd" ],
-        "prob": 1
       }
     ]
   },
@@ -762,14 +756,14 @@
     "subtype": "collection",
     "id": "boxed_fn57",
     "container-item": "box_pistol",
-    "items": [ { "item": "fn57" }, { "group": "firearm_box_extras" }, { "item": "fn57mag", "count": [ 1, 2 ] } ]
+    "items": [ { "item": "fn57" }, { "group": "firearm_box_extras" }, { "item": "fn57mag_10rd", "count": [ 1, 2 ] } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "boxed_p50",
     "container-item": "box_pistol",
-    "items": [ { "item": "p50" }, { "group": "firearm_box_extras" }, { "item": "fnp90mag" } ]
+    "items": [ { "item": "p50" }, { "group": "firearm_box_extras" }, { "item": "fnp90mag_10rd" } ]
   },
   {
     "type": "item_group",
@@ -781,14 +775,7 @@
   {
     "type": "item_group",
     "id": "guns_pistol_common_boxed_32",
-    "items": [ { "group": "boxed_kp32", "prob": 100 }, { "group": "boxed_walther_ppk", "prob": 71 } ]
-  },
-  {
-    "type": "item_group",
-    "subtype": "collection",
-    "id": "boxed_kp32",
-    "container-item": "box_pistol",
-    "items": [ { "item": "kp32" }, { "group": "firearm_box_extras" }, { "item": "kp32mag", "count": [ 1, 2 ] } ]
+    "items": [ { "group": "boxed_walther_ppk", "prob": 71 }, { "group": "boxed_lws32", "prob": 2000 } ]
   },
   {
     "type": "item_group",
@@ -796,6 +783,13 @@
     "id": "boxed_walther_ppk",
     "container-item": "box_pistol",
     "items": [ { "item": "walther_ppk" }, { "group": "firearm_box_extras" }, { "item": "ppkmag", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_lws32",
+    "container-item": "box_pistol",
+    "items": [ { "item": "lws32" }, { "group": "firearm_box_extras" }, { "item": "lws32mag", "count": [ 1, 2 ] } ]
   },
   {
     "type": "item_group",
@@ -1012,7 +1006,7 @@
     "subtype": "collection",
     "id": "boxed_ak556",
     "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
-    "items": [ { "item": "ak556" }, { "group": "firearm_box_extras" }, { "item": "zpap85mag", "count": [ 1, 2 ] } ]
+    "items": [ { "item": "ak556" }, { "group": "firearm_box_extras" }, { "item": "zpap85mag_10rd", "count": [ 1, 2 ] } ]
   },
   {
     "type": "item_group",
@@ -1024,7 +1018,8 @@
       { "group": "boxed_falmag", "prob": 11 },
       { "group": "boxed_hk_g3", "prob": 1 },
       { "group": "boxed_ak308", "prob": 20 },
-      { "group": "boxed_steyr_scout", "prob": 6 }
+      { "group": "boxed_steyr_scout", "prob": 6 },
+      { "group": "boxed_remington_700", "prob": 78 }
     ]
   },
   {
@@ -1079,6 +1074,13 @@
     "id": "boxed_steyr_scout",
     "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
     "items": [ { "item": "steyr_scout" }, { "group": "firearm_box_extras" }, { "item": "steyr_scout_mag", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_remington_700",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "items": [ { "item": "remington_700" }, { "group": "firearm_box_extras" } ]
   },
   {
     "type": "item_group",
@@ -1416,7 +1418,7 @@
     "subtype": "collection",
     "id": "boxed_fn_ps90",
     "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
-    "items": [ { "item": "fn_ps90" }, { "group": "firearm_box_extras" }, { "item": "fnp90mag", "count": [ 1, 2 ] } ]
+    "items": [ { "item": "fn_ps90" }, { "group": "firearm_box_extras" }, { "item": "fnp90mag_10rd", "count": [ 1, 2 ] } ]
   },
   {
     "type": "item_group",
@@ -1531,7 +1533,8 @@
           { "item": "ithaca37", "prob": 28 },
           { "item": "mossberg_590", "prob": 170 },
           { "item": "ksg", "prob": 78 },
-          { "item": "dp_12", "prob": 25 }
+          { "item": "dp_12", "prob": 25 },
+          { "item": "mossberg_590_shockwave", "prob": 12 }
         ]
       }
     ]
@@ -1561,6 +1564,6 @@
     "id": "boxed_410",
     "//": "Yes this is a bad name.  We only have one 410 shotgun right now anyways so it can be changed once there's more.",
     "container-item": { "item": "box_longarm", "variant": "box_longarm_shotgun" },
-    "items": [ { "item": "shotgun_410" }, { "group": "firearm_box_extras" } ]
+    "items": [ { "item": "mossberg_500_410" }, { "group": "firearm_box_extras" } ]
   }
 ]

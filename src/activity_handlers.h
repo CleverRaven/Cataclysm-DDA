@@ -153,7 +153,6 @@ struct activity_reason_info {
 
 // activity_item_handling.cpp
 void activity_on_turn_drop();
-void activity_on_turn_move_loot( player_activity &act, Character &you );
 //return true if there is an activity that can be done potentially, return false if no work can be found.
 bool generic_multi_activity_handler( player_activity &act, Character &you,
                                      bool check_only = false );
@@ -209,7 +208,6 @@ void game_do_turn( player_activity *act, Character *you );
 void generic_game_do_turn( player_activity *act, Character *you );
 void hand_crank_do_turn( player_activity *act, Character *you );
 void jackhammer_do_turn( player_activity *act, Character *you );
-void move_loot_do_turn( player_activity *act, Character *you );
 void multiple_butcher_do_turn( player_activity *act, Character *you );
 void multiple_chop_planks_do_turn( player_activity *act, Character *you );
 void multiple_construction_do_turn( player_activity *act, Character *you );
