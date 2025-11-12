@@ -1259,7 +1259,8 @@ static std::pair<double, double> item_hardness_calc( const item &it )
 
 double vehicle::wheel_damage_chance_vs_item( const item &it, vehicle_part &vp_wheel ) const
 {
-    if( !it.has_flag( json_flag_DAMAGE_VEHICLE_WHEELS ) ) {
+    if( !it.has_flag( json_flag_DAMAGE_VEHICLE_WHEELS ) ||
+        get_option<bool>( "NO_ITEM_WHEEL_DAMAGE" ) ) {
         return 0.0;
     }
     // Wheels use the worst/softest possible value, the squishy parts. In other words, a wheel is damaged

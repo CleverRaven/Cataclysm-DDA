@@ -120,6 +120,13 @@
   },
   {
     "type": "EXTERNAL_OPTION",
+    "name": "NO_ITEM_WHEEL_DAMAGE",
+    "//": "If true, items with the DAMAGE_VEHICLE_WHEELS flag will not damage wheels when driving over them.",
+    "stype": "bool",
+    "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
     "name": "NO_VITAMINS",
     "//": "Disables tracking vitamins in food items.  If true, disables vitamin tracking and vitamin disorders.",
     "stype": "bool",
