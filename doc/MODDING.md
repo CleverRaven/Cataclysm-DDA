@@ -40,7 +40,7 @@ contributors](https://github.com/CleverRaven/Cataclysm-DDA/wiki/Guide-to-adding-
 ## The basics
 
 ### Creating a barebones mod
-Mods are placed in different places depending on whether they are part of CDDA or are third party/private ones. Included ones are found in `data/mods`, while third party/private ones are placed in the `mods` directory.
+Mods are placed in different places depending on whether they are part of CDDA or are third party/private ones. Included ones are found in `data/mods`, while the placement third party/private ones depends on the installation environment: They are placed either in `./mods`, i.e. within the game installation, or in `USER_DIR/mods`.
 A mod is created by creating a folder within the appropriate mod directory of Cataclysm. The mod's properties are set by the `modinfo.json` file that is present within that folder. In order for Cataclysm to recognize the folder as a mod, it **must** have a `modinfo.json` file present within it. <!--I know this isn't strictly true. A mod will function as long as there's a JSON file with a MOD_INFO structure in it. The file doesn't need to be called "modinfo.json"-->
 
 ### Modinfo.json

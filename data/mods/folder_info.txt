@@ -1,1 +1,2 @@
-The folders in this directory contain mods provided as part of CDDA. Third party and private mods are placed in the top level mods folder.
+The folders in this directory contain mods provided as part of CDDA. Third party and private mod placement
+is either in "./mods", or in "USER_DIR/mods", depending on the build environment.
