@@ -218,7 +218,7 @@
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "circular saw (off)", "str_pl": "circular saws (off)" },
-    "description": "A lightweight, handheld cordless circular saw.  Spins a circular blade fast enough to cut wood, zombies, or in an emergency, pizza.  The blade, while effective in combat, is hard to hit with due to its small size.",
+    "description": "A lightweight, handheld cordless circular saw.  Spins a circular blade fast enough to cut wood, or in an emergency, pizza.",
     "weight": "2940 g",
     "volume": "750 ml",
     "longest_side": "44 cm",
