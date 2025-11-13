@@ -502,8 +502,8 @@ bool check_recipe_produces_liquids( const recipe &rec )
     // We check byproducts
     for( const auto &bp : rec.get_byproducts() ) {
         const itype_id &bp_id = bp.first;
-        const itype *bp_itype = item_controller->find_template(bp_id);
-        if (bp_itype->phase == phase_id::LIQUID) {
+        const itype *bp_itype = item_controller->find_template( bp_id );
+        if( bp_itype->phase == phase_id::LIQUID ) {
             return true;  // We found the liquid in byproducts — we're leaving
         }
     }
