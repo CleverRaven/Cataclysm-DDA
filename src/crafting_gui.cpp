@@ -1932,18 +1932,24 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
             } else if( current[line]->is_nested() ) {
                 nested_toggle( current[line]->ident(), recalc, keepline );
             } else if( !available[line].can_craft ||
-                       !available[line].crafter_has_primary_skill ) {
+                    !available[line].crafter_has_primary_skill ) {
                 popup( _( "Crafter can't craft that!" ) );
-            } else if( available[line].inv_override == nullptr &&
-                       !crafter->check_eligible_containers_for_crafting( *current[line], batch ? line + 1 : 1 ) ) {
-                // popup is already inside check
-            } else if( crafter->lighting_craft_speed_multiplier( *current[line] ) <= 0.0f ) {
-                popup( _( "Crafter can't see!" ) );
             } else {
-                chosen = current[line];
-                batch_size_out = batch ? line + 1 : 1;
-                done = true;
-                uistate.read_recipes.insert( chosen->ident() );
+                if( check_recipe_produces_liquids( *current[line] ) ) {
+                    if( available[line].inv_override == nullptr &&
+                        !crafter->check_eligible_containers_for_crafting( *current[line], batch ? line + 1 : 1 ) ) {
+                        continue;
+                    }
+                }
+                // popup is already inside check
+                if( crafter->lighting_craft_speed_multiplier( *current[line] ) <= 0.0f ) {
+                    popup( _( "Crafter can't see!" ) );
+                } else {
+                    chosen = current[line];
+                    batch_size_out = batch ? line + 1 : 1;
+                    done = true;
+                    uistate.read_recipes.insert( chosen->ident() );
+                }
             }
         } else if( action == "HELP_RECIPE" && selection_ok( current, line, false ) ) {
             uistate.read_recipes.insert( current[line]->ident() );

@@ -45,6 +45,7 @@
 #include "item.h"
 #include "item_components.h"
 #include "item_location.h"
+#include "item_factory.h"
 #include "itype.h"
 #include "iuse.h"
 #include "line.h"
@@ -487,6 +488,27 @@ int64_t Character::expected_time_to_craft( const recipe &rec, int batch_size ) c
     const size_t assistants = available_assistant_count( rec );
     float modifier = crafting_speed_multiplier( rec );
     return rec.batch_time( *this, batch_size, modifier, assistants );
+}
+
+bool check_recipe_produces_liquids( const recipe &rec )
+{
+    // Checking the main result
+    const itype_id &main_result_id = rec.result();
+    const itype *main_itype = item_controller->find_template(main_result_id);
+    if ((main_itype && main_itype->phase == phase_id::LIQUID)) {
+        return true;  // We've already found the liquid — it's coming out.
+    }
+
+    // We check byproducts
+    for (const auto &bp : rec.get_byproducts()) {
+        const itype_id &bp_id = bp.first;
+        const itype *bp_itype = item_controller->find_template(bp_id);
+        if (bp_itype->phase == phase_id::LIQUID) {
+            return true;  // We found the liquid in byproducts — we're leaving
+        }
+    }
+
+    return false;  // No liquids found
 }
 
 bool Character::check_eligible_containers_for_crafting( const recipe &rec, int batch_size ) const
