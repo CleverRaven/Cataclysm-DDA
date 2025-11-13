@@ -86,6 +86,8 @@ static const skill_id skill_spellcraft( "spellcraft" );
 
 static const trait_id trait_NONE( "NONE" );
 
+static std::map<spell_id, spell_migration> spell_migrations;
+
 static std::string target_to_string( spell_target data )
 {
     switch( data ) {
@@ -3496,4 +3498,61 @@ void spell_events::notify( const cata::event &e )
             break;
 
     }
+}
+
+void spell_migration::load( const JsonObject &jo )
+{
+    spell_migration migration;
+    mandatory( jo, false, "from", migration.id_old );
+    optional( jo, false, "to", migration.id_new );
+    spell_migrations.emplace( migration.id_old, migration );
+}
+
+void spell_migration::reset()
+{
+    spell_migrations.clear();
+}
+
+void spell_migration::check()
+{
+    for( const auto &[from_id, pm] : spell_migrations ) {
+        if( pm.id_new.has_value() && !pm.id_new.value().is_valid() ) {
+            debugmsg( "spell migration specifies invalid id '%s'", pm.id_new.value().str() );
+            continue;
+        }
+    }
+}
+
+const spell_migration *spell_migration::find_migration( const spell_id &original )
+{
+    const auto migration_it = spell_migrations.find( original );
+    if( migration_it == spell_migrations.cend() ) {
+        return nullptr;
+    }
+    return &migration_it->second;
+}
+
+void known_magic::migrate_spells()
+{
+    std::vector<spell_id> removed_spells;
+    std::map<spell_id, spell> new_spellbook_spells;
+
+    for( auto &[sp_id, sp] : spellbook ) {
+        const spell_migration *m = spell_migration::find_migration( sp_id );
+        if( m != nullptr ) {
+            if( m->id_new.has_value() ) {
+                const spell new_spell( m->id_new.value(), sp.xp(), sp.get_temp_level_adjustment() );
+                removed_spells.emplace_back( sp_id );
+                new_spellbook_spells.emplace( m->id_new.value(), new_spell );
+            } else {
+                removed_spells.emplace_back( sp_id );
+            }
+        }
+    }
+
+    for( const spell_id s : removed_spells ) {
+        spellbook.erase( s );
+    }
+    spellbook.merge( new_spellbook_spells );
+
 }
