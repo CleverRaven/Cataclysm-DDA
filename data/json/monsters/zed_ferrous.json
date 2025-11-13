@@ -14,7 +14,7 @@
     "attack_effs": [ { "id": "tetanus", "duration": 300, "chance": 10 } ],
     "burn_into": "mon_zombie_scorched_rust",
     "upgrades": { "half_life": 120, "into_group": "GROUP_FERROUS_UPGRADE" },
-    "armor": { "bash": 1, "cut": 2, "stab": 1}
+    "armor": { "bash": 1, "cut": 2, "stab": 1 }
   },
   {
     "id": "mon_zombie_shell",
