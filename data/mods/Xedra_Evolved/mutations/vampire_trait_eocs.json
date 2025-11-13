@@ -841,7 +841,12 @@
         "run_eocs": [
           {
             "id": "EOC_EYEGLEAM_maintenance_2",
-            "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
+            "condition": {
+              "and": [
+                { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
+                { "not": { "u_has_any_effect": [ "sleep", "narcosis", "effect_vampire_torpor" ] } }
+              ]
+            },
             "effect": [
               { "math": [ "u_vitamin('human_blood_vitamin') -= 50" ] },
               {
@@ -858,7 +863,10 @@
               }
             ],
             "false_effect": [
-              { "u_message": "You don't have enough blood to maintain your gleaming eyes.", "type": "bad" },
+              {
+                "if": { "math": [ "u_vitamin('human_blood_vitamin') < -500" ] },
+                "then": { "u_message": "You don't have enough blood to maintain your gleaming eyes.", "type": "bad" }
+              },
               { "u_lose_effect": [ "eyegleam", "eyegleam_craft_in_darkness" ] },
               { "u_deactivate_trait": "EYEGLEAM" }
             ]
@@ -928,7 +936,12 @@
         "run_eocs": [
           {
             "id": "EOC_VAMPIRIC_STRENGTH_maintenance_2",
-            "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
+            "condition": {
+              "and": [
+                { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
+                { "not": { "u_has_any_effect": [ "sleep", "narcosis", "effect_vampire_torpor" ] } }
+              ]
+            },
             "effect": [
               { "math": [ "u_vitamin('human_blood_vitamin') -= 75" ] },
               {
@@ -945,7 +958,10 @@
               }
             ],
             "false_effect": [
-              { "u_message": "You don't have enough blood to maintain your vigor mortis.", "type": "bad" },
+              {
+                "if": { "math": [ "u_vitamin('human_blood_vitamin') < -500" ] },
+                "then": { "u_message": "You don't have enough blood to maintain your vigor mortis.", "type": "bad" }
+              },
               { "u_lose_effect": "effect_vampiric_strength" },
               { "u_deactivate_trait": "VAMPIRIC_STRENGTH" }
             ]
@@ -1021,7 +1037,12 @@
         "run_eocs": [
           {
             "id": "EOC_VAMPIRIC_RESILIENCE_maintenance_2",
-            "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
+            "condition": {
+              "and": [
+                { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
+                { "not": { "u_has_any_effect": [ "sleep", "narcosis", "effect_vampire_torpor" ] } }
+              ]
+            },
             "effect": [
               { "math": [ "u_vitamin('human_blood_vitamin') -= 75" ] },
               {
@@ -1038,7 +1059,10 @@
               }
             ],
             "false_effect": [
-              { "u_message": "You don't have enough blood to maintain your sanguine resilience.", "type": "bad" },
+              {
+                "if": { "math": [ "u_vitamin('human_blood_vitamin') < -500" ] },
+                "then": { "u_message": "You don't have enough blood to maintain your sanguine resilience.", "type": "bad" }
+              },
               { "u_lose_effect": "effect_vampiric_resilience" },
               { "u_deactivate_trait": "VAMPIRIC_RESILIENCE" }
             ]
@@ -1144,7 +1168,12 @@
         "run_eocs": [
           {
             "id": "EOC_COAGULANTWEAVE_maintenance_2",
-            "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
+            "condition": {
+              "and": [
+                { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
+                { "not": { "u_has_any_effect": [ "sleep", "narcosis", "effect_vampire_torpor" ] } }
+              ]
+            },
             "effect": [
               { "math": [ "u_vitamin('human_blood_vitamin') -= 250" ] },
               {
@@ -1161,7 +1190,10 @@
               }
             ],
             "false_effect": [
-              { "u_message": "You don't have enough blood to maintain your coagulant weave.", "type": "bad" },
+              {
+                "if": { "math": [ "u_vitamin('human_blood_vitamin') < -500" ] },
+                "then": { "u_message": "You don't have enough blood to maintain your coagulant weave.", "type": "bad" }
+              },
               { "u_lose_effect": "blood_weave" },
               { "u_deactivate_trait": "COAGULANTWEAVE" }
             ]
@@ -1296,7 +1328,12 @@
         "run_eocs": [
           {
             "id": "EOC_VAMPIRIC_DODGE_maintenance_2",
-            "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
+            "condition": {
+              "and": [
+                { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
+                { "not": { "u_has_any_effect": [ "sleep", "narcosis", "effect_vampire_torpor" ] } }
+              ]
+            },
             "effect": [
               { "math": [ "u_vitamin('human_blood_vitamin') -= 125" ] },
               {
@@ -1313,7 +1350,10 @@
               }
             ],
             "false_effect": [
-              { "u_message": "You don't have enough blood to maintain your flow like blood.", "type": "bad" },
+              {
+                "if": { "math": [ "u_vitamin('human_blood_vitamin') < -500" ] },
+                "then": { "u_message": "You don't have enough blood to maintain your flow like blood.", "type": "bad" }
+              },
               { "u_lose_effect": "effect_vampiric_dodge" },
               { "u_deactivate_trait": "VAMPIRIC_DODGE" }
             ]
@@ -1383,7 +1423,12 @@
         "run_eocs": [
           {
             "id": "EOC_VAMPIRIC_STEALTH_BONUS_maintenance_2",
-            "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
+            "condition": {
+              "and": [
+                { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
+                { "not": { "u_has_any_effect": [ "sleep", "narcosis", "effect_vampire_torpor" ] } }
+              ]
+            },
             "effect": [
               { "math": [ "u_vitamin('human_blood_vitamin') -= 50" ] },
               { "u_message": "You feel a momentary warmth as you maintain your cloak of shadows.", "type": "mixed" },
@@ -1397,7 +1442,10 @@
               }
             ],
             "false_effect": [
-              { "u_message": "You don't have enough blood to maintain your cloak of shadows.", "type": "bad" },
+              {
+                "if": { "math": [ "u_vitamin('human_blood_vitamin') < -500" ] },
+                "then": { "u_message": "You don't have enough blood to maintain your cloak of shadows.", "type": "bad" }
+              },
               { "u_lose_effect": "effect_vampiric_stealth_bonus" },
               { "u_deactivate_trait": "VAMPIRIC_STEALTH_BONUS" }
             ]
@@ -1528,7 +1576,12 @@
         "run_eocs": [
           {
             "id": "EOC_VAMPIRE_BEAST_CLAWS_maintenance_2",
-            "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
+            "condition": {
+              "and": [
+                { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
+                { "not": { "u_has_any_effect": [ "sleep", "narcosis", "effect_vampire_torpor" ] } }
+              ]
+            },
             "effect": [
               { "math": [ "u_vitamin('human_blood_vitamin') -= 62" ] },
               { "u_message": "You feel a momentary warmth as you maintain your sharp claws.", "type": "mixed" },
@@ -1542,7 +1595,10 @@
               }
             ],
             "false_effect": [
-              { "u_message": "You don't have enough blood to maintain your claws of the beast.", "type": "bad" },
+              {
+                "if": { "math": [ "u_vitamin('human_blood_vitamin') < -500" ] },
+                "then": { "u_message": "You don't have enough blood to maintain your claws of the beast.", "type": "bad" }
+              },
               { "u_lose_trait": "VAMPIRE_BEAST_CLAWS_active" },
               { "u_deactivate_trait": "VAMPIRE_BEAST_CLAWS" }
             ]
@@ -1654,7 +1710,12 @@
         "run_eocs": [
           {
             "id": "EOC_BLOODHASTE_maintenance_2",
-            "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
+            "condition": {
+              "and": [
+                { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
+                { "not": { "u_has_any_effect": [ "sleep", "narcosis", "effect_vampire_torpor" ] } }
+              ]
+            },
             "effect": [
               { "math": [ "u_vitamin('human_blood_vitamin') -= 375" ] },
               { "u_message": "You feel a momentary warmth as you maintain your superhuman speed.", "type": "mixed" },
@@ -1668,7 +1729,10 @@
               }
             ],
             "false_effect": [
-              { "u_message": "You don't have enough blood to maintain your blood-driven speed.", "type": "bad" },
+              {
+                "if": { "math": [ "u_vitamin('human_blood_vitamin') < -500" ] },
+                "then": { "u_message": "You don't have enough blood to maintain your blood-driven speed.", "type": "bad" }
+              },
               { "u_lose_effect": "haste_vampire" },
               { "u_lose_effect": "haste_vampire_water_running" },
               { "u_deactivate_trait": "BLOODHASTE" }
@@ -2167,10 +2231,18 @@
         "run_eocs": [
           {
             "id": "EOC_VAMPIRE_SHADOW_FORM_BLOOD_COST_2",
-            "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
+            "condition": {
+              "and": [
+                { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
+                { "not": { "u_has_any_effect": [ "sleep", "narcosis", "effect_vampire_torpor" ] } }
+              ]
+            },
             "effect": { "math": [ "u_vitamin('human_blood_vitamin') -= 5" ] },
             "false_effect": [
-              { "u_message": "You don't have enough blood to maintain the shadows surrounding you.", "type": "bad" },
+              {
+                "if": { "math": [ "u_vitamin('human_blood_vitamin') < -500" ] },
+                "then": { "u_message": "You don't have enough blood to maintain the shadows surrounding you.", "type": "bad" }
+              },
               { "run_eocs": "EOC_VAMPIRE_SHADOW_FORM_deactivated" },
               { "run_eocs": "EOC_VAMPIRE_SHADOW_FORM_deactivate_future", "time_in_future": 0 }
             ]
