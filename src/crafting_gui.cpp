@@ -1932,7 +1932,7 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
             } else if( current[line]->is_nested() ) {
                 nested_toggle( current[line]->ident(), recalc, keepline );
             } else if( !available[line].can_craft ||
-                    !available[line].crafter_has_primary_skill ) {
+                       !available[line].crafter_has_primary_skill ) {
                 popup( _( "Crafter can't craft that!" ) );
             } else {
                 if( check_recipe_produces_liquids( *current[line] ) ) {
