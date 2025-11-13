@@ -2299,7 +2299,7 @@
                 "math": [
                   "sunless_time",
                   "=",
-                  "rng(0.75,1.25) * (60 + (vampire_total_tier_one_traits_plus_potency() * 5) + (vampire_total_tier_two_traits() * 15) + (vampire_total_tier_three_traits() * 25) + (vampire_total_tier_four_traits_plus_potence() * 35) + (vampire_total_tier_five_traits_plus_cauldron() * 45))"
+                  "rng(0.75,1.25) * (20 + (vampire_total_tier_one_traits_plus_potency() * 2) + (vampire_total_tier_two_traits() * 5) + (vampire_total_tier_three_traits() * 8) + (vampire_total_tier_four_traits_plus_potence() * 12) + (vampire_total_tier_five_traits_plus_cauldron() * 15))"
                 ]
               },
               { "if": { "u_has_trait": "ANATHEMA_WEAKNESS_SUN_BURN" }, "then": { "math": [ "sunless_time /= 100" ] } },
@@ -2367,7 +2367,7 @@
                 "math": [
                   "sunless_time",
                   "=",
-                  "rng(0.75,1.25) * (60 + (vampire_total_tier_one_traits_plus_potency() * 5) + (vampire_total_tier_two_traits() * 15) + (vampire_total_tier_three_traits() * 25) + (vampire_total_tier_four_traits_plus_potence() * 35) + (vampire_total_tier_five_traits_plus_cauldron() * 45))"
+                  "rng(0.75,1.25) * (20 + (vampire_total_tier_one_traits_plus_potency() * 2) + (vampire_total_tier_two_traits() * 5) + (vampire_total_tier_three_traits() * 8) + (vampire_total_tier_four_traits_plus_potence() * 12) + (vampire_total_tier_five_traits_plus_cauldron() * 15))"
                 ]
               },
               { "if": { "u_has_trait": "ANATHEMA_WEAKNESS_SUN_BURN" }, "then": { "math": [ "sunless_time /= 100" ] } },
