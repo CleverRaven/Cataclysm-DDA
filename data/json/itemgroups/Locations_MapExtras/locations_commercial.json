@@ -1524,8 +1524,9 @@
   },
   {
     "type": "item_group",
-    "id": "porn_literature",
-    "items": [ [ "mag_porn", 70 ], [ "novel_erotic", 30 ] ]
+    "id": "SUS_commercial_shelf_porn_literature",
+    "subtype": "distribution",
+    "items": [ { "item": "mag_porn", "prob": 70, "count": [ 0, 40 ] }, { "item": "novel_erotic", "prob": 70, "count": [ 0, 20 ] } ]
   },
   {
     "type": "item_group",
@@ -2151,5 +2152,57 @@
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_canvas",
     "entries": [ { "item": "birdfood", "count": 60 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "SUS_sex_shop_stock",
+    "subtype": "collection",
+    "items": [
+      { "group": "SUS_sex_shop_shelf", "count": [ 0, 3 ] },
+      { "group": "SUS_commercial_shelf_porn_literature", "count": [ 0, 2 ] },
+      { "group": "sex_clothes", "count": [ 0, 20 ], "prob": 50 },
+      { "group": "underwear_womens", "count": [ 0, 20 ], "prob": 50 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "SUS_sex_shop_shelf",
+    "subtype": "distribution",
+    "items": [
+      {
+        "collection": [
+          { "item": "sextoy", "variant": "beads", "count": [ 0, 5 ] },
+          { "item": "sextoy", "variant": "plug", "count": [ 0, 5 ] },
+          { "item": "sextoy", "variant": "dildo", "count": [ 0, 5 ] }
+        ],
+        "prob": 40
+      },
+      {
+        "collection": [
+          { "item": "vibrator", "variant": "wand", "charges": 100, "count": [ 0, 5 ] },
+          { "item": "vibrator", "variant": "egg", "charges": 100, "count": [ 0, 5 ] },
+          { "item": "vibrator", "variant": "dildo", "charges": 100, "count": [ 0, 5 ] }
+        ],
+        "prob": 40
+      },
+      {
+        "collection": [
+          { "item": "rope_6", "count": [ 0, 3 ] },
+          { "item": "bullwhip", "count": [ 0, 3 ] },
+          { "item": "candle", "count": [ 0, 3 ] },
+          { "item": "handcuffs_leather", "count": [ 0, 3 ] },
+          { "item": "gag_ball", "count": [ 0, 3 ] },
+          { "item": "paddle_plastic", "count": [ 0, 3 ] }
+        ],
+        "prob": 10
+      },
+      {
+        "collection": [
+          { "item": "moisturizer", "variant": "lube", "container-item": "bottle_plastic_small", "count": [ 0, 15 ] },
+          { "item": "condom_sealed", "count": [ 0, 50 ] }
+        ],
+        "prob": 10
+      }
+    ]
   }
 ]

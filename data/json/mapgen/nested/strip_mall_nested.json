@@ -1448,8 +1448,8 @@
         "m": { "item": "underwear_womens", "chance": 100 },
         "C": { "item": "underwear_womens", "chance": 80, "repeat": [ 4, 8 ] },
         "k": { "item": "SUS_toilet", "chance": 100 },
-        "c": { "item": "sex_accessories_commercial", "chance": 65, "repeat": [ 3, 4 ] },
-        "b": { "item": "porn_literature", "chance": 70, "repeat": [ 3, 4 ] },
+        "c": { "item": "SUS_sex_shop_shelf", "chance": 65 },
+        "b": { "item": "SUS_commercial_shelf_porn_literature", "chance": 70, "repeat": [ 3, 4 ] },
         "t": { "item": "sex_clothes", "chance": 95 },
         "A": { "item": "cash_register_random", "chance": 100 }
       },
