@@ -15,7 +15,6 @@ jobs:
         run: sudo apt-get install gettext
 
       - name: Install Transifex CLI
-        if: github.repository == 'CleverRaven/Cataclysm-DDA'
         run: |
           curl -sL https://github.com/transifex/cli/releases/download/v1.6.17/tx-linux-amd64.tar.gz | sudo tar zxvf - -C /usr/bin tx
 
@@ -30,11 +29,16 @@ jobs:
           fetch-depth: 1
 
       - name: Pull translations
-        if: github.repository == 'CleverRaven/Cataclysm-DDA'
+        continue-on-error: true
         env:
           TX_TOKEN: ${{ secrets.TX_TOKEN }}
-        run: tx pull -a --force
-      
+        run: |
+          if [ -z "${TX_TOKEN}" ]; then
+          echo "No TX_TOKEN secret set in this repo, not pulling translations from Transifex"
+          exit 1
+          fi
+          tx pull -a --force
+
       - name: Discard invalid translations
         run: ./lang/discard_invalid_po.sh
 
