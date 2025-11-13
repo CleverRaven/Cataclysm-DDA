@@ -263,6 +263,6 @@
     "eoc_type": "EVENT",
     "required_event": "character_loses_effect",
     "condition": { "compare_string": [ "effect_mom_cascade_stone", { "context_val": "effect" } ] },
-    "effect": [ { "u_lose_trait": "PSI_TORRENTIAL_CHANNELING_active" }, { "u_deactivate_trait": "PSI_TORRENTIAL_CHANNELING" } ]
+    "effect": [ { "u_lose_trait": "PSI_TORRENTIAL_CHANNELING_active" } ]
   }
 ]
