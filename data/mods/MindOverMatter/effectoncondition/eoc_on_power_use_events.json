@@ -619,6 +619,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_CONCENTRATION_VS_LIMIT_CALCULATIONS",
+    "//": "This EoC checks the concentration limit vs the number of maintained powers for the purposes of the Intense Concentration effect",
     "condition": {
       "and": [
         { "math": [ "u_vitamin('vitamin_maintained_powers') > concentration_calculations()" ] },
