@@ -34,7 +34,7 @@
     "attack_effs": [ { "id": "tetanus", "duration": 300, "chance": 10 } ],
     "burn_into": "mon_zombie_scorched_rust",
     "upgrades": { "half_life": 120, "into": "mon_zombie_plated" },
-    "armor": { "bash": 14, "cut": 14, "stab": 14, "bullet": 14, "heat": 2 },
+    "armor": { "bash": 14, "cut": 14, "stab": 14, "bullet": 14 },
     "extend": { "weakpoint_sets": [ "wps_metal_shell_armor" ], "families": [ "prof_wp_nat_armored" ], "flags": [ "PULP_PRYING" ] }
   },
   {
@@ -59,7 +59,7 @@
     "attack_effs": [ { "id": "tetanus", "duration": 300, "chance": 10 } ],
     "burn_into": "mon_zombie_scorched_rust",
     "upgrades": false,
-    "armor": { "bash": 18, "cut": 18, "stab": 18, "bullet": 18, "heat": 6 },
+    "armor": { "bash": 18, "cut": 18, "stab": 18, "bullet": 18, "heat": 2 },
     "extend": {
       "flags": [ "SMELLS", "PULP_PRYING" ],
       "weakpoint_sets": [ "wps_metal_shell_armor" ],
