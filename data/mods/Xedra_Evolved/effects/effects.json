@@ -3721,6 +3721,22 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_vampire_albino",
+    "//": "Hidden effect, carries the flags so that vampires who blot out the sun with their powers don't burn in sunlight.",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "ALBINO" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vampire_burn_under_sunlight",
+    "//": "Hidden effect, carries the flags so that vampires who blot out the sun with their powers don't burn in sunlight.",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "SUNBURN", "ALBINO" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_vampire_burn_to_death_in_sunlight",
     "//": "Hidden effect, carries the flags so that vampires who blot out the sun with their powers don't burn in sunlight.",
     "name": [ "" ],

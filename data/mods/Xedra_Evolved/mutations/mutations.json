@@ -890,7 +890,13 @@
     "types": [ "TEETH" ],
     "valid": false,
     "vitamin_rates": [ [ "human_blood_vitamin", 720 ], [ "mutagen", 300 ], [ "mutagenic_slurry", 1 ] ],
-    "flags": [ "CANNIBAL", "ALBINO", "HEMOVORE" ],
+    "flags": [ "CANNIBAL", "HEMOVORE" ],
+    "enchantments": [
+      {
+        "condition": { "test_eoc": "EOC_CONDITION_XE_VAMPIRE_AVOID_BURNING_IN_SUNLIGHT" },
+        "ench_effects": [ { "effect": "effect_vampire_albino", "intensity": 1 } ]
+      }
+    ],
     "spells_learned": [ [ "vampire_drink_blood_with_fangs_spell", 1 ] ]
   },
   {
@@ -1064,10 +1070,14 @@
     "valid": false,
     "vitamins_absorb_multi": [ [ "all", [ [ "human_blood_vitamin", 1.25 ] ] ] ],
     "vitamin_rates": [ [ "human_blood_vitamin", 720 ], [ "mutagen", 300 ] ],
-    "flags": [ "CANNIBAL", "SUNBURN", "ALBINO", "DAYFEAR", "HEMOVORE" ],
+    "flags": [ "CANNIBAL", "DAYFEAR", "HEMOVORE" ],
     "enchantments": [
       { "condition": { "not": "is_day" }, "values": [ { "value": "OVERMAP_SIGHT", "add": 1 } ] },
-      { "values": [ { "value": "STAMINA_REGEN_MOD", "add": 0.2 }, { "value": "METABOLISM", "multiply": -0.2 } ] }
+      { "values": [ { "value": "STAMINA_REGEN_MOD", "add": 0.2 }, { "value": "METABOLISM", "multiply": -0.2 } ] },
+      {
+        "condition": { "test_eoc": "EOC_CONDITION_XE_VAMPIRE_AVOID_BURNING_IN_SUNLIGHT" },
+        "ench_effects": [ { "effect": "effect_vampire_burn_under_sunlight", "intensity": 1 } ]
+      }
     ]
   },
   {
