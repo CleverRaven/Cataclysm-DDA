@@ -3084,6 +3084,13 @@
   },
   {
     "type": "effect_type",
+    "id": "vampire_blind_the_sun",
+    "//": "Hidden effect.  Makes Blind the Sun protect against the sun.",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
     "id": "last_breath_mist_cooldown",
     "name": [ "Recovering from the last breath's mist" ],
     "desc": [

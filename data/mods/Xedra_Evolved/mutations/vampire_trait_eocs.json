@@ -2283,60 +2283,107 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_VAMPIRE_BLIND_THE_SUN",
-    "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= 2000" ] },
-    "effect": {
-      "run_eocs": [
-        {
-          "id": "EOC_BLIND_THE_SUN_CHECK_FOR_STORM",
-          "condition": { "or": [ { "is_weather": "portal_storm" }, { "is_weather": "early_portal_storm" } ] },
-          "effect": [
-            {
-              "u_message": "You feel that the anomalous energies of the storm would do quick work of any darkness you could summon, so you decide to not attempt to blot out the sun for now.",
-              "type": "bad"
-            }
-          ],
-          "false_effect": [
-            { "math": [ "u_vitamin('human_blood_vitamin') -= 3000" ] },
-            {
-              "math": [
-                "sunless_time",
-                "=",
-                "rng(0.75,1.25) * (300 + (vampire_total_tier_one_traits_plus_potency() * 33) + (vampire_total_tier_two_traits() * 75) + (vampire_total_tier_three_traits() * 125) + (vampire_total_tier_four_traits_plus_potence() * 200) + (vampire_total_tier_five_traits_plus_cauldron() * 270))"
+    "id": "EOC_BLIND_THE_SUN_activated",
+    "condition": { "not": { "u_has_effect": "eyegleam" } },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_BLIND_THE_SUN_activated_2",
+            "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= 0" ] },
+            "effect": [
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 1.25 },
+              { "math": [ "u_vitamin('human_blood_vitamin') -= 1000" ] },
+              { "u_add_effect": "vampire_blind_the_sun", "duration": "PERMANENT" },
+              {
+                "math": [
+                  "sunless_time",
+                  "=",
+                  "rng(0.75,1.25) * (60 + (vampire_total_tier_one_traits_plus_potency() * 5) + (vampire_total_tier_two_traits() * 15) + (vampire_total_tier_three_traits() * 25) + (vampire_total_tier_four_traits_plus_potence() * 35) + (vampire_total_tier_five_traits_plus_cauldron() * 45))"
+                ]
+              },
+              { "if": { "u_has_trait": "ANATHEMA_WEAKNESS_SUN_BURN" }, "then": { "math": [ "sunless_time /= 100" ] } },
+              {
+                "if": { "u_has_trait": "ANATHEMA_WEAKNESS_SUN_BURN" },
+                "then": {
+                  "u_message": "Using your mastery over the Shadowed Path, you form a sun-proof shield of darkness around you.  But you can already see the hateful sun burning through the darkness; you had better find shelter immediately.",
+                  "type": "mixed"
+                },
+                "else": {
+                  "u_message": "Using your mastery over the Shadowed Path, you form a sun-proof shield of darkness around you.",
+                  "type": "good"
+                }
+              },
+              { "run_eocs": [ "EOC_BLIND_THE_SUN_maintenance" ], "time_in_future": { "math": [ "sunless_time" ] } }
+            ],
+            "false_effect": [
+              { "u_message": "You don't have enough blood to shroud yourself from the sun.", "type": "bad" },
+              { "run_eocs": "EOC_BLIND_THE_SUN_deactivate_future", "time_in_future": 0 }
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_BLIND_THE_SUN_deactivated",
+            "condition": { "u_has_effect": "vampire_blind_the_sun" },
+            "effect": [
+              { "u_message": "The darkness shielding you fades.", "type": "neutral" },
+              { "u_lose_effect": "vampire_blind_the_sun" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BLIND_THE_SUN_deactivate_future",
+    "//": "This is necessary because calling u_deactivate_trait from within the trait EoC does not work",
+    "effect": { "u_deactivate_trait": "VAMPIRE_BLIND_THE_SUN" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BLIND_THE_SUN_maintenance",
+    "condition": { "u_has_effect": "vampire_blind_the_sun" },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_BLIND_THE_SUN_maintenance_2",
+            "condition": {
+              "and": [
+                { "math": [ "u_vitamin('human_blood_vitamin') >= 0" ] },
+                { "not": { "u_has_any_effect": [ "sleep", "narcosis", "effect_vampire_torpor" ] } }
               ]
             },
-            { "if": { "u_has_trait": "ANATHEMA_WEAKNESS_SUN_BURN" }, "then": { "math": [ "sunless_time /= 100" ] } },
-            { "run_eocs": [ "EOC_BLOT_THE_SUN" ] },
-            { "run_eocs": "EOC_UNBLOT_THE_SUN", "time_in_future": { "math": [ "sunless_time" ] } },
-            {
-              "if": { "u_has_trait": "ANATHEMA_WEAKNESS_SUN_BURN" },
-              "then": {
-                "u_message": "Using your mastery over the Shadowed Path, you blot out the sun, covering the region around you in darkness for a short period of time.  But you can already see the hateful sun burning through the shadows; you had better find shelter immediately.",
-                "type": "mixed"
+            "effect": [
+              { "math": [ "u_vitamin('human_blood_vitamin') -= 700" ] },
+              { "u_message": "You feel a momentary warmth as you maintain your shrouding shadows.", "type": "mixed" },
+              {
+                "math": [
+                  "sunless_time",
+                  "=",
+                  "rng(0.75,1.25) * (60 + (vampire_total_tier_one_traits_plus_potency() * 5) + (vampire_total_tier_two_traits() * 15) + (vampire_total_tier_three_traits() * 25) + (vampire_total_tier_four_traits_plus_potence() * 35) + (vampire_total_tier_five_traits_plus_cauldron() * 45))"
+                ]
               },
-              "else": {
-                "u_message": "Using your mastery over the Shadowed Path, you blot out the sun, covering the region around you in darkness for a short period of time.",
-                "type": "good"
-              }
-            }
-          ]
-        }
-      ]
-    },
-    "false_effect": [ { "u_message": "You don't have enough blood to blot out the sun.", "type": "bad" } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_BLOT_THE_SUN",
-    "effect": [ { "math": [ "blotted_sun = 1" ] }, "next_weather" ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_UNBLOT_THE_SUN",
-    "effect": [
-      { "math": [ "blotted_sun = 0" ] },
-      "next_weather",
-      { "u_message": "The darkness you summoned fades away, clearing the sky.", "type": "bad" }
+              { "if": { "u_has_trait": "ANATHEMA_WEAKNESS_SUN_BURN" }, "then": { "math": [ "sunless_time /= 100" ] } },
+              { "run_eocs": [ "EOC_BLIND_THE_SUN_maintenance" ], "time_in_future": { "math": [ "sunless_time" ] } }
+            ],
+            "false_effect": [
+              {
+                "if": { "math": [ "u_vitamin('human_blood_vitamin') < 0" ] },
+                "then": { "u_message": "You don't have enough blood to maintain your shrouding shadows.", "type": "bad" }
+              },
+              { "u_lose_effect": "vampire_blind_the_sun" },
+              { "u_deactivate_trait": "VAMPIRE_BLIND_THE_SUN" }
+            ]
+          }
+        ]
+      }
     ]
   },
   {

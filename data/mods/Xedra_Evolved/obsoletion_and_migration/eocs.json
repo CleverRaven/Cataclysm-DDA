@@ -147,5 +147,19 @@
     "type": "effect_on_condition",
     "id": "EOC_VAMPIRE_TORPOR_RECOVER",
     "effect": [ { "math": [ "u_val('sleepiness') = 0" ] }, { "math": [ "u_val('sleep_deprivation') = 0" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BLOT_THE_SUN",
+    "effect": [ { "math": [ "blotted_sun = 1" ] }, "next_weather" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_UNBLOT_THE_SUN",
+    "effect": [
+      { "math": [ "blotted_sun = 0" ] },
+      "next_weather",
+      { "u_message": "The darkness you summoned fades away, clearing the sky.", "type": "bad" }
+    ]
   }
 ]

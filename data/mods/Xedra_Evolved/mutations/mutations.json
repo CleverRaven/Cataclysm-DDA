@@ -1573,10 +1573,11 @@
     "purifiable": false,
     "valid": false,
     "name": { "str": "Blind the Sun" },
-    "description": "You mastery over the shadowed path of blood has become much more potent, allowing you to use your vampiric powers and a massive expense of blood to blot out the sun for a few dozen minutes.\n\n<color_light_red>Initial Blood Cost:</color> 3000 ml (<u_val:blood_amount_for_graph> ml current)",
+    "description": "You mastery over the shadowed path of blood has become much more potent, allowing you to use your vampiric powers and a massive expense of blood to shroud yourself from the sun for a short time.\n\n<color_light_red>Initial Blood Cost:</color> 1000 ml (<u_val:blood_amount_for_graph> ml current)\n<color_light_red>Periodic Blood Cost:</color> 700 ml",
     "active": true,
-    "activated_is_setup": false,
-    "activated_eocs": [ "EOC_VAMPIRE_BLIND_THE_SUN" ]
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_BLIND_THE_SUN_activated" ],
+    "deactivated_eocs": [ "EOC_BLIND_THE_SUN_deactivated" ]
   },
   {
     "type": "mutation",
@@ -2053,7 +2054,7 @@
     "id": "ANATHEMA_WEAKNESS_SUN_BURN",
     "name": { "str": "Anathema's Weakness: Slain by the Sun" },
     "points": -10,
-    "description": "Vampires burn under the sun, and becoming more of a vampire made you burn far more than any other vampire would.  While under the sun, you will take constant damage no matter how covered you are.",
+    "description": "Vampires burn under the sun, and becoming more of a vampire made you burn far more than any other vampire would.  Being under the sun will quickly ignite your flesh.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false
