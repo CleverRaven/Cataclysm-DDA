@@ -898,7 +898,6 @@
     "extend": { "flags": [ "HARDTOSHOOT", "RANGED_ATTACKER" ] },
     "delete": { "flags": [ "SMELLS" ] }
   },
-  },
   {
     "id": "mon_zombie_swimmer_base",
     "type": "MONSTER",
