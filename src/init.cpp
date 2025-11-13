@@ -487,6 +487,7 @@ void DynamicDataLoader::initialize()
     add( "anatomy", &anatomy::load_anatomy );
     add( "morale_type", &morale_type_data::load_type );
     add( "SPELL", &spell_type::load_spell );
+    add( "spell_migration", &spell_migration::load );
     add( "magic_type", &magic_type::load_magic_type );
     add( "clothing_mod", &clothing_mods::load );
     add( "ter_furn_transform", &ter_furn_transform::load_transform );
@@ -758,6 +759,7 @@ void DynamicDataLoader::unload_data()
     SNIPPET.clear_snippets();
     magic_type::reset_all();
     spell_type::reset_all();
+    spell_migration::reset();
     start_locations::reset();
     ter_furn_migrations::reset();
     ter_furn_transform::reset();
@@ -1015,6 +1017,7 @@ void DynamicDataLoader::check_consistency()
             { _( "Body graphs" ), &bodygraph::check_all },
             { _( "Anatomies" ), &anatomy::check_consistency },
             { _( "Spells" ), &spell_type::check_consistency },
+            { _( "Spell migration" ), &spell_migration::check },
             { _( "Transformations" ), &event_transformation::check_consistency },
             { _( "Statistics" ), &event_statistic::check_consistency },
             { _( "Scent types" ), &scent_type::check_scent_consistency },

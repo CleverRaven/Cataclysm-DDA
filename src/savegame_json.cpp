@@ -785,6 +785,7 @@ void Character::load( const JsonObject &data )
     data.read( "moncams", moncams );
 
     data.read( "magic", magic );
+    magic->migrate_spells();
 
     data.read( "traits", my_traits );
     // If a trait has been migrated, we'll need to add it.
@@ -1717,8 +1718,6 @@ void avatar::load( const JsonObject &data )
           object_type::NONE : static_cast<object_type>(
               std::distance( obj_type_name.begin(), iter ) ),
           grab_point );
-
-    data.read( "magic", magic );
 
     calc_mutation_levels();
     drench_mut_calc();

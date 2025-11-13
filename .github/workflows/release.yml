@@ -54,6 +54,8 @@ jobs:
     uses: ./.github/workflows/compose-tilesets.yml
   build-translations:
     uses: ./.github/workflows/build-translations.yml
+    secrets:
+      TX_TOKEN: ${{ secrets.TX_TOKEN }}
 
   builds:
     needs:
@@ -113,7 +115,7 @@ jobs:
             ext: tar.gz
             content: application/gzip
           - name: macOS Curses Universal Binary (x64 and arm64)
-            os: macos-13
+            os: macos-15
             mxe: none
             tiles: 0
             sound: 0
@@ -121,7 +123,7 @@ jobs:
             ext: dmg
             content: application/x-apple-diskimage
           - name: macOS Tiles Universal Binary (x64 and arm64)
-            os: macos-13
+            os: macos-15
             mxe: none
             tiles: 1
             sound: 0
@@ -250,7 +252,7 @@ jobs:
         if: runner.os == 'macOS'
         run: |
           HOMEBREW_NO_AUTO_UPDATE=yes HOMEBREW_NO_INSTALL_CLEANUP=yes brew install gettext ccache parallel dylibbundler
-          pip3 install dmgbuild biplist
+          pip3 install --break-system-packages dmgbuild biplist
       - name: install macports (mac)
         if: runner.os == 'macOS' && matrix.tiles == 1
         uses: melusina-org/setup-macports@v1
