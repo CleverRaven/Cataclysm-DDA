@@ -494,8 +494,8 @@ bool check_recipe_produces_liquids( const recipe &rec )
 {
     // Checking the main result
     const itype_id &main_result_id = rec.result();
-    const itype *main_itype = item_controller->find_template(main_result_id);
-    if ((main_itype && main_itype->phase == phase_id::LIQUID)) {
+    const itype *main_itype = item_controller->find_template( main_result_id );
+    if( ( main_itype && main_itype->phase == phase_id::LIQUID ) ) {
         return true;  // We've already found the liquid — it's coming out.
     }
 
