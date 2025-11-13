@@ -2657,7 +2657,17 @@ void activity_handlers::study_spell_do_turn( player_activity *act, Character *yo
         }
         const int old_level = studying.get_level();
         // Gain some experience from studying
-        const int xp = roll_remainder( studying.exp_modifier( *you ) / to_turns<float>( 6_seconds ) );
+        const float base_xp_per_tick = studying.exp_modifier( *you ) / to_turns<float>( 6_seconds );
+
+        float xp_multiplier = 1.0f;
+        if( old_level >= 9 ) {
+            xp_multiplier = 0.25f; // halved at 3, halved again at 9 -> 0.5 * 0.5 = 0.25
+        } else if( old_level >= 3 ) {
+            xp_multiplier = 0.5f;
+        }
+
+        const int xp = roll_remainder( base_xp_per_tick * xp_multiplier );
+
         act->values[0] += xp;
         studying.gain_exp( *you, xp );
         bool leveled_up = you->practice( studying.skill(), xp, studying.get_difficulty( *you ), true );
