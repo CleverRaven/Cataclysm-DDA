@@ -242,5 +242,18 @@
       { "monster": "mon_skeleton", "weight": 10 },
       { "monster": "mon_zombie_rust", "weight": 30 }
     ]
+  },
+  {
+    "id": "GROUP_ZOMBIE_COP_UPGRADE",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_zombie_static", "weight": 50 },
+      { "monster": "mon_zombie_kevlar_0", "weight": 40 },
+      { "monster": "mon_zombie_smoker", "weight": 10 },
+      { "monster": "mon_zombie_grabber", "weight": 60 },
+      { "monster": "mon_skeleton", "weight": 10 },
+      { "monster": "mon_boomer", "weight": 10 },
+      { "monster": "mon_zombie_regenerating", "weight": 10 }
+    ]
   }
 ]
