@@ -28,6 +28,8 @@ class JsonOut;
 class JsonValue;
 class item;
 class map;
+class talker;
+class const_talker;
 struct construction;
 
 inline const faction_id your_fac( "your_followers" );
@@ -676,5 +678,7 @@ void mapgen_place_zone( tripoint_abs_ms const &start, tripoint_abs_ms const &end
                         zone_type_id const &type,
                         faction_id const &fac = your_fac, std::string const &name = {},
                         std::string const &filter = {}, map *pmap = nullptr );
-
+std::unique_ptr<talker> get_talker_for( zone_data &me );
+std::unique_ptr<const_talker> get_talker_for( const zone_data &me );
+std::unique_ptr<talker> get_talker_for( zone_data *me );
 #endif // CATA_SRC_CLZONES_H
