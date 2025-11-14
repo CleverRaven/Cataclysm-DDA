@@ -23,6 +23,7 @@
 #include "map_scale_constants.h"
 #include "mapdata.h"
 #include "maptile_fwd.h"
+#include "monster.h"
 #include "point.h"
 #include "submap.h"
 #include "trap.h"
@@ -674,4 +675,54 @@ bool pathfinding_target::contains( const tripoint_bub_ms &p ) const
         return center == p;
     }
     return square_dist( center, p ) <= r;
+}
+
+bool should_avoid_fragile_tile( const Creature *who, const map &m, const tripoint_bub_ms &p )
+{
+    if( !who ) {
+        return false;
+    }
+
+    //early break if not fragile for some reason
+    if( !m.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FRAGILE, p ) ) {
+        return false;
+    }
+
+    //  if transparent floor or player made TODO add player made
+    if( !m.has_flag_ter_or_furn( ter_furn_flag::TFLAG_TRANSPARENT_FLOOR, p ) ) {
+        return false;
+    }
+
+    //NPCs and smart monsters avoid transparent
+    bool smart = false;
+    bool ally = false;
+
+    if( who->is_npc() ) {
+        smart = true;
+    } else if( who->is_monster() ) {
+        const monster *mon = static_cast<const monster *>( who );
+        if( mon->has_mind() ) {
+            smart = true;
+        }
+    }
+
+    if( !smart ) {
+        return false;
+    }
+
+    // if they cant see they will step on it
+    if( !who->sees( m, p ) ) {
+        return false;
+    }
+
+    // check if weight exceeds safe
+    const int effective_bash = who->get_weight() / 10_kilogram;
+    const int bash_max = m.bash_strength( p );
+
+    // will creature break
+    if( effective_bash > bash_max ) {
+        return true;
+    }
+
+    return false;
 }

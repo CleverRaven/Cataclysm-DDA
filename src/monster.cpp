@@ -4219,6 +4219,10 @@ std::function<bool( const tripoint_bub_ms & )> monster::get_path_avoid() const
         if( rl_dist( p, pos_bub() ) <= radius && get_creature_tracker().creature_at( p ) ) {
             return true;
         }
+        if( should_avoid_fragile_tile( this, here, p ) ) {
+            return true;
+        }
+
         return false;
     };
 }
