@@ -68,7 +68,7 @@
     "looks_like": "modular_ar15",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
-    "name": { "str": ".38 Special pipe rifle", "str_pl": ".38 Special pipe rifles" },
+    "name": { "str": ".38 Special pipe rifle" },
     "description": "A home-made rifle.  It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.",
     "ascii_picture": "ps_pipe_gun",
     "weight": "2114 g",
