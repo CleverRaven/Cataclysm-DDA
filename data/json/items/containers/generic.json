@@ -311,7 +311,7 @@
       },
       {
         "id": "blister_pack_gum",
-        "name": { "str": "pack of chewing gum" },
+        "name": { "str": "pack of chewing gum", "str_pl": "packs of chewing gum" },
         "description": "A thin piece of plastic and foil, with tiny bubbles meant for chewing gum.",
         "weight": 0
       }

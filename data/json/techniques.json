@@ -3082,7 +3082,7 @@
     "type": "technique",
     "id": "tec_taichi_precise",
     "name": "Double Palm Strike",
-    "messages": [ "You double-handed palm strikes %s", "<npcname>'s double-handed palm strikes %s" ],
+    "messages": [ "Your double-handed palm strikes %s", "<npcname>'s double-handed palm strikes %s" ],
     "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
     "unarmed_allowed": true,
     "crit_tec": true,

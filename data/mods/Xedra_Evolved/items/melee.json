@@ -565,7 +565,7 @@
     "id": "xe_troll_club",
     "name": { "str_sp": "gigantic club" },
     "description": "An enormous club, almost two and a half meters long, once wielded by a troll.",
-    "weight": "22600 g",
+    "weight": "21600 g",
     "longest_side": "250 cm",
     "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "clumsy" },
     "color": "brown",
