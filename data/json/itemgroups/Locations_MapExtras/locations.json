@@ -1944,7 +1944,7 @@
       [ "firecracker", 1 ],
       [ "fried_seeds", 10 ],
       [ "chips", 65 ],
-      { "group": "softdrinks_canned", "prob": 90 },
+      { "group": "soda_in_small_container", "prob": 90 },
       [ "choco_coffee_beans", 20 ],
       { "prob": 20, "group": "caffeine_bottle_plastic_pill_supplement_1_10" },
       [ "cola_meth", 1 ],
@@ -2172,7 +2172,7 @@
     "ammo": 75,
     "magazine": 100,
     "items": [
-      { "group": "softdrinks_canned", "prob": 370 },
+      { "group": "soda_in_small_container", "prob": 370 },
       [ "file", 90 ],
       { "group": "magazines", "prob": 130 },
       [ "survival_book", 1 ],
@@ -2229,7 +2229,7 @@
     "id": "cubical_office",
     "subtype": "distribution",
     "entries": [
-      { "group": "softdrinks_canned", "prob": 560 },
+      { "group": "soda_in_small_container", "prob": 560 },
       { "item": "file", "prob": 90 },
       { "group": "magazines", "prob": 365 },
       { "item": "glassblowing_book", "prob": 1 },
@@ -2303,7 +2303,7 @@
     "type": "item_group",
     "id": "office_breakroom",
     "items": [
-      { "group": "softdrinks_canned", "prob": 900 },
+      { "group": "soda_in_small_container", "prob": 900 },
       { "group": "candy_chocolate", "prob": 625 },
       [ "cookies", 60 ],
       [ "brownie", 60 ],

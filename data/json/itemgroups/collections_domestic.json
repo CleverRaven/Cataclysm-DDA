@@ -329,7 +329,7 @@
           {
             "collection": [
               { "item": "ceramic_mug", "prob": 50 },
-              { "group": "beer", "prob": 50 },
+              { "group": "beer_in_container", "prob": 50 },
               { "group": "liquor_and_spirits", "prob": 20 },
               { "group": "wines_worthy", "prob": 10 },
               { "item": "cigar", "prob": 20 },
@@ -415,7 +415,7 @@
           {
             "collection": [
               { "item": "ceramic_mug", "prob": 50 },
-              { "group": "beer", "prob": 50 },
+              { "group": "beer_in_container", "prob": 50 },
               { "group": "liquor_and_spirits", "prob": 20 },
               { "group": "wines_worthy", "prob": 10 },
               { "item": "cigar", "prob": 20 },
@@ -453,7 +453,7 @@
     "magazine": 100,
     "subtype": "distribution",
     "entries": [
-      { "group": "softdrinks_canned", "prob": 325 },
+      { "group": "soda_in_small_container", "prob": 325 },
       { "group": "magazines", "prob": 265 },
       { "item": "basket_laundry", "prob": 20 },
       { "item": "television", "prob": 30 },
@@ -987,7 +987,7 @@
       { "item": "firecracker", "prob": 5 },
       { "prob": 30, "group": "fried_seeds_bag_plastic_4" },
       { "prob": 65, "group": "bag_chips" },
-      { "group": "softdrinks_canned", "prob": 380 },
+      { "group": "soda_in_small_container", "prob": 380 },
       { "item": "picklocks", "prob": 10 },
       { "item": "fursuit", "prob": 6 },
       { "item": "zentai", "prob": 4 },
