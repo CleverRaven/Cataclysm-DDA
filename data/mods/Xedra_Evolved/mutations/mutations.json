@@ -1071,6 +1071,7 @@
     "vitamins_absorb_multi": [ [ "all", [ [ "human_blood_vitamin", 1.25 ] ] ] ],
     "vitamin_rates": [ [ "human_blood_vitamin", 720 ], [ "mutagen", 300 ] ],
     "flags": [ "CANNIBAL", "DAYFEAR", "HEMOVORE" ],
+    "no_empathize_with": [ "HUMAN" ],
     "enchantments": [
       { "condition": { "not": "is_day" }, "values": [ { "value": "OVERMAP_SIGHT", "add": 1 } ] },
       { "values": [ { "value": "STAMINA_REGEN_MOD", "add": 0.2 }, { "value": "METABOLISM", "multiply": -0.2 } ] },
