@@ -1372,6 +1372,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_plank",
+    "name": "Place Plank"
+  },
+  {
+    "type": "construction_group",
     "id": "place_jointer",
     "name": "Place Jointer"
   },

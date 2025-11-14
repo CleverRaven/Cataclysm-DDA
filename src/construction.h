@@ -81,6 +81,9 @@ struct construction {
         // Custom constructibility check
         bool ( *pre_special )( const tripoint_bub_ms & );
         std::vector<bool ( * )( const tripoint_bub_ms & )> pre_specials;
+        //optional: require an adjacent orthogonal terrain or furniture
+        std::string pre_terrain_orth;      // e.g., "t_rock_wall"
+        std::string pre_furniture_orth;   // e.g., "f_fireplace"
         // Custom while constructing effects
         void ( *do_turn_special )( const tripoint_bub_ms &, Character & );
         // Custom after-effects

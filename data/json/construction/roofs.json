@@ -167,5 +167,18 @@
     "pre_note": "Must be supported directly from below or on at least two sides.  May need a 'room' supporting a roof directly below.",
     "pre_special": [ "check_support", "check_unblocked" ],
     "post_terrain": "t_wood_roof"
+  },
+  {
+    "type": "construction",
+    "id": "constr_plank_over_gap",
+    "group": "place_plank",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "1 s",
+    "components": [ [ [ "2x4", 1 ] ] ],
+    "pre_terrain": "t_open_air",
+    "pre_note": "Must be supported on at least two opposite sides.",
+    "pre_special": [ "check_opposite_floor_pair" ],
+    "post_terrain": "t_plank_gap"
   }
 ]

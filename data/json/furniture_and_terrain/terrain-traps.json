@@ -12,6 +12,25 @@
   },
   {
     "type": "terrain",
+    "id": "t_plank_gap",
+    "name": "plank",
+    "description": "A 2x4 precariously positioned between two floors.  Mind the gap.",
+    "looks_like": "2x4",
+    "symbol": "l",
+    "color": "yellow",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "TRANSPARENT_FLOOR", "FRAGILE" ],
+    "bash": {
+      "sound": "thump",
+      "ter_set": "t_open_air",
+      "str_min": 12,
+      "str_max": 30,
+      "items": [ { "item": "plank_short", "count": [ 1, 2 ] } ]
+    },
+    "examine_action": "ledge"
+  },
+  {
+    "type": "terrain",
     "id": "t_pit",
     "name": "pit",
     "description": "A steep hole that could seriously injure something if it fell in, potentially fatal if it was filled with sharp and dangerous things.  Deep enough for more advanced construction projects, and possibly to reach groundwater if constructed properly.",

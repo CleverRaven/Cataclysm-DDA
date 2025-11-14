@@ -180,6 +180,7 @@ static bool check_support( const tripoint_bub_ms
                            & ); // at least two orthogonal supports or from below
 static bool check_support_below( const tripoint_bub_ms
                                  & ); // at least two orthogonal supports at the level below or from below
+static bool check_opposite_floor_pair( const tripoint_bub_ms &p );
 static bool check_single_support( const tripoint_bub_ms
                                   &p ); // Only support from directly below matters
 static bool check_stable( const tripoint_bub_ms & ); // tile below has a SUPPORTS_ROOF flag
@@ -1244,6 +1245,42 @@ static std::string has_pre_flags_colorize( const construction &con )
     return colorize( enumerate_as_string( flags_colorized ), color );
 }
 
+static bool has_pre_terrain_orth( const construction &con, const tripoint_bub_ms &p )
+{
+    if( con.pre_terrain_orth.empty() ) {
+        return true;
+    }
+
+    map &here = get_map();
+
+    for( const point &offset : four_adjacent_offsets ) {
+        const tripoint_bub_ms q = p + offset;
+        if( here.ter( q ) == ter_id( con.pre_terrain_orth ) ) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+static bool has_pre_furniture_orth( const construction &con, const tripoint_bub_ms &p )
+{
+    if( con.pre_furniture_orth.empty() ) {
+        return true;
+    }
+
+    map &here = get_map();
+
+    for( const point &offset : four_adjacent_offsets ) {
+        const tripoint_bub_ms q = p + offset;
+        if( here.furn( q ) == furn_id( con.pre_furniture_orth ) ) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 bool can_construct( const construction &con, const tripoint_bub_ms &p )
 {
     const map &here = get_map();
@@ -1258,8 +1295,10 @@ bool can_construct( const construction &con, const tripoint_bub_ms &p )
     } else if( !con.pre_special( p ) ) { // pre-function
         return false;
     }
-    if( !has_pre_terrain( con, p ) || // terrain type
-        !has_pre_flags( con, f, t ) ) { // flags
+    if( !has_pre_terrain( con, p ) ||         // terrain type at tile
+        !has_pre_flags( con, f, t ) ||        // flags at tile
+        !has_pre_terrain_orth( con, p ) ||    // require orth terr
+        !has_pre_furniture_orth( con, p ) ) { // require orth furn
         return false;
     }
     if( !con.post_terrain.empty() ) { // make sure the construction would actually do something
@@ -1631,6 +1670,50 @@ bool construct::check_support_below( const tripoint_bub_ms &p )
         num_supports += 2;
     }
     return num_supports >= 2;
+}
+
+static bool construct::check_opposite_floor_pair( const tripoint_bub_ms &p )
+{
+    map &here = get_map();
+
+    // floor is not no_floor
+    auto is_floor = [&]( const tripoint_bub_ms & q ) {
+        return !here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, q );
+    };
+
+    // Same-level neighbors (orthogonal + diagonal), expressed as point offsets
+    const point north( 0, -1 );
+    const point south( 0, 1 );
+    const point east( 1, 0 );
+    const point west( -1, 0 );
+
+    const point northeast( 1, -1 );
+    const point southeast( 1, 1 );
+    const point southwest( -1, 1 );
+    const point northwest( -1, -1 );
+
+    // Move in bubble coords by adding point offsets (this is what your original code does)
+    const tripoint_bub_ms N = p + north;
+    const tripoint_bub_ms S = p + south;
+    const tripoint_bub_ms E = p + east;
+    const tripoint_bub_ms W = p + west;
+
+    const tripoint_bub_ms NE = p + northeast;
+    const tripoint_bub_ms SW = p + southwest;
+    const tripoint_bub_ms NW = p + northwest;
+    const tripoint_bub_ms SE = p + southeast;
+
+    bool ns_ok = false;
+    bool ew_ok = false;
+    bool nesw_ok = false;
+    bool nwse_ok = false;
+
+    ns_ok = is_floor( N ) && is_floor( S );
+    ew_ok = is_floor( E ) && is_floor( W );
+    nesw_ok = is_floor( NE ) && is_floor( SW );
+    nwse_ok = is_floor( NW ) && is_floor( SE );
+
+    return ns_ok || ew_ok || nesw_ok || nwse_ok;
 }
 
 bool construct::check_single_support( const tripoint_bub_ms &p )
@@ -2363,6 +2446,17 @@ void load_construction( const JsonObject &jo )
             }
         }
     }
+    if( jo.has_string( "pre_furniture_orth" ) ) {
+        con.pre_furniture_orth = jo.get_string( "pre_furniture_orth" );
+    } else {
+        con.pre_furniture_orth = "";
+    }
+
+    if( jo.has_string( "pre_terrain_orth" ) ) {
+        con.pre_terrain_orth = jo.get_string( "pre_terrain_orth" );
+    } else {
+        con.pre_terrain_orth = "";
+    }
 
     con.post_flags = jo.get_tags( "post_flags" );
 
@@ -2379,6 +2473,7 @@ void load_construction( const JsonObject &jo )
             { "check_unblocked", construct::check_unblocked },
             { "check_support", construct::check_support },
             { "check_support_below", construct::check_support_below },
+            { "check_opposite_floor_pair", construct::check_opposite_floor_pair },
             { "check_single_support", construct::check_single_support },
             { "check_stable", construct::check_stable },
             { "check_floor_above", construct::check_floor_above },
