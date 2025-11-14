@@ -2,7 +2,6 @@
   {
     "type": "test_data",
     "known_bad": [
-      "artifact_anchor",
       "broken_mech_recon",
       "cosmic_dagwood",
       "coffee_raw",
@@ -18,6 +17,12 @@
       "mutant_cracklins",
       "venom_wasp",
       "cooked_marrow",
+      "cold_iron_ingot",
+      "corpse_fae",
+      "body_astral_projection",
+      "xe_troll_club",
+      "goblin_fruit_food",
+      "megachette_folded",
       "broken_mech_combat",
       "ruined_chunks",
       "soaking_dandelion",
