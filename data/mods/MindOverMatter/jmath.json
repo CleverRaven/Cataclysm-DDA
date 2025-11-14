@@ -171,7 +171,7 @@
     "type": "jmath_function",
     "id": "learn_new_power_difficulty_setting",
     "num_args": 0,
-    "return": "u_latest_studied_power_difficulty + 4"
+    "return": "u_latest_studied_power_difficulty + 10"
   },
   {
     "type": "jmath_function",
