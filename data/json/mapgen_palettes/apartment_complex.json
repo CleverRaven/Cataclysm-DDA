@@ -88,7 +88,7 @@
     },
     "furniture": {
       "Ŧ": {
-        "switch": { "param": "fencing_type", "fallback": "t_null" },
+        "switch": { "param": "fencing_type", "fallback": "t_region_soil" },
         "cases": {
           "t_region_shrub_decorative": "f_null",
           "t_region_soil": "f_hedge_short",
@@ -96,18 +96,16 @@
           "t_chainfence": "f_null",
           "t_fence": "f_null",
           "t_privacy_fence": "f_null",
-          "t_drystone_wall_half": "f_null",
-          "t_null": "f_null"
+          "t_drystone_wall_half": "f_null"
         }
       },
       "%": {
-        "switch": { "param": "shrubbery_type", "fallback": "t_null" },
+        "switch": { "param": "shrubbery_type", "fallback": "t_region_soil" },
         "cases": {
           "t_region_shrub_decorative": "f_null",
           "t_region_soil": "f_hedge_short",
           "t_region_groundcover_urban": "f_null",
-          "t_region_groundcover": "f_region_flower_decorative",
-          "t_null": "f_null"
+          "t_region_groundcover": "f_region_flower_decorative"
         }
       }
     }
