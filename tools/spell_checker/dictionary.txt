@@ -4174,6 +4174,7 @@ nanomesh
 nanoprinted
 nanoribbon
 nanoribbons
+nanos
 nanosaurus
 nanoskirt
 nanoskirts
