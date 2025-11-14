@@ -122,7 +122,8 @@
           "stunning_arg_trap",
           "inventor_fists_plus",
           "inventor_plasma_axe_off",
-          "inventor_research_energy_1"
+          "inventor_research_energy_1",
+          "inventor_research_bionic"
         ],
         "type": "recipe",
         "true_eocs": [ "EOC_INVENTOR_MESSAGE_GOOD" ],
@@ -130,6 +131,41 @@
           "id": "EOC_REMOVE_RESEARCH_BASE_3",
           "effect": [
             { "u_forget_recipe": "inventor_research_base_3" },
+            {
+              "u_message": "You reach the limit of what can be done at this level.  It is time to move forward.",
+              "type": "info"
+            }
+          ]
+        }
+      }
+    ],
+    "false_effect": [
+      { "u_message": "inventor_fail", "snippet": true, "type": "bad" },
+      { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
+      { "math": [ "u_vitamin('creative_spark_research') += 3" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_INVENTOR_RESEARCH_BIONIC",
+    "condition": {
+      "and": [
+        { "math": [ "u_vitamin('creative_spark_research') >= base_difficulty_3" ] },
+        { "test_eoc": "EOC_CONDITION_BANNED_DREAM_MAGIC_TRAITS" }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('creative_spark_research') -= base_difficulty_3" ] },
+      { "math": [ "base_difficulty_3 += 4" ] },
+      { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
+      {
+        "u_roll_remainder": [  ],
+        "type": "recipe",
+        "true_eocs": [ "EOC_INVENTOR_MESSAGE_GOOD" ],
+        "false_eocs": {
+          "id": "EOC_REMOVE_RESEARCH_BIONIC",
+          "effect": [
+            { "u_forget_recipe": "inventor_research_bionic" },
             {
               "u_message": "You reach the limit of what can be done at this level.  It is time to move forward.",
               "type": "info"
