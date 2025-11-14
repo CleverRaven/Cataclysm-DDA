@@ -169,9 +169,15 @@
   },
   {
     "type": "jmath_function",
+    "id": "learn_new_power_learn_roll",
+    "num_args": 0,
+    "return": "max( (rand(u_skill('metaphysics') ) ), ( u_skill('metaphysics') / 2 ) ) + rand(u_val('intelligence') / 2 ) + (u_has_proficiency(u_latest_studied_power_proficiency) * 5) + rng(-2,8) + rng(-2,8)"
+  },
+  {
+    "type": "jmath_function",
     "id": "learn_new_power_difficulty_setting",
     "num_args": 0,
-    "return": "u_latest_studied_power_difficulty + 10"
+    "return": "(u_latest_studied_power_difficulty * 1.5) + 7"
   },
   {
     "type": "jmath_function",

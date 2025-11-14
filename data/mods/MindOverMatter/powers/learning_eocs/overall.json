@@ -314,11 +314,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PRACTICE_PSIONICS_FINAL_LEARNING_CHECK",
-    "condition": {
-      "math": [
-        "( rand(u_skill('metaphysics') ) + rand(u_val('intelligence') / 2 ) + (u_has_proficiency(u_latest_studied_power_proficiency) * 5) + rng(-2,8) + rng(-2,8) ) >= learn_new_power_difficulty_setting() "
-      ]
-    },
+    "condition": { "math": [ "learn_new_power_learn_roll() >= learn_new_power_difficulty_setting() " ] },
     "effect": [
       {
         "u_message": "You are studying <spell_name:<u_val:latest_studied_power_name>> whose ID is <u_val:latest_studied_power_name> with Difficulty <u_val:latest_studied_power_difficulty> and requires the <u_val:latest_studied_power_proficiency> proficiency",
