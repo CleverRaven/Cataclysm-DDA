@@ -10,6 +10,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
+    "empathize_with": [ "GOBLIN", "RAVENFOLK", "LIZARDFOLK", "ELF", "DWARF", "HUMAN" ],
     "flags": [ "HERITAGE" ]
   }
 ]
