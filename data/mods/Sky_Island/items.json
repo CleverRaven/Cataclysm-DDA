@@ -468,7 +468,7 @@
     "id": "warp_healing_salve",
     "type": "ITEM",
     "category": "drugs",
-    "name": { "str": "healing salve" },
+    "name": { "str_sp": "healing salve" },
     "description": "A lump of purplish goo, smooth but yielding, sculptable like clay.  If you rub it on a wound, it will immediately heal some of the damage you have taken, but the air of the lower world destabilizes its structure and it will only last a single trip to the surface.",
     "price_postapoc": "6 USD",
     "weight": "5 g",

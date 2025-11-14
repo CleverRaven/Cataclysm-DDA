@@ -30,7 +30,7 @@
     "id": "artifact_energy_shield",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "distorted air" },
+    "name": { "str_sp": "distorted air" },
     "description": "The empty air around you vibrates faintly.",
     "weight": "10 g",
     "volume": "1 ml",
