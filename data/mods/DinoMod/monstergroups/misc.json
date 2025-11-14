@@ -237,7 +237,6 @@
       { "monster": "mon_ornithomimus", "weight": 20 },
       { "monster": "mon_falcarius", "weight": 5 },
       { "monster": "mon_anzu", "weight": 5 },
-      { "monster": "mon_nanotyrannus", "weight": 5 },
       { "monster": "mon_deinonychus", "weight": 3 },
       { "monster": "mon_stenonychosaurus", "weight": 3 },
       { "monster": "mon_sarahsaurus", "weight": 4 },
