@@ -288,8 +288,7 @@
       { "item": "radiocontrol", "prob": 15, "charges": [ 0, 100 ] },
       { "item": "thermometer", "prob": 10 },
       { "item": "hygrometer", "prob": 10 },
-      { "item": "barometer", "prob": 10 },
-      { "item": "weather_reader", "prob": 1 }
+      { "item": "barometer", "prob": 10 }
     ]
   },
   {

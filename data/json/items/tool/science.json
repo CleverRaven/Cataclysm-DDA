@@ -17,26 +17,6 @@
     "flags": [ "BAROMETER" ]
   },
   {
-    "id": "canister_goo",
-    "type": "ITEM",
-    "subtypes": [ "TOOL" ],
-    "name": { "str": "goo canister" },
-    "description": "A metal canister with a label reading: \"Warning: contains highly toxic and corrosive materials.  Contents may be sentient.  Open at your own risk.\" You think you can feel something moving inside it.",
-    "weight": "1596 g",
-    "volume": "270 ml",
-    "price": "350 USD",
-    "price_postapoc": "10 USD",
-    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
-    "material": [ "steel" ],
-    "symbol": ";",
-    "color": "dark_gray",
-    "initial_charges": 1,
-    "max_charges": 1,
-    "charges_per_use": 1,
-    "use_action": [ "CAN_GOO" ],
-    "melee_damage": { "bash": 2 }
-  },
-  {
     "id": "chemistry_set",
     "//": "To Do: Create a bunsen burner that uses a mix of electricity and LPG, then convert this to use that.  Will need multimag",
     "type": "ITEM",
@@ -772,36 +752,6 @@
     "charges_per_use": 1,
     "use_action": [ "TELEPORT" ],
     "melee_damage": { "bash": 2 }
-  },
-  {
-    "id": "weather_reader",
-    "type": "ITEM",
-    "subtypes": [ "TOOL" ],
-    "category": "tools",
-    "name": { "str": "Doppler Radar Turbo 2000" },
-    "description": "A briefcase with a built-in laptop that looks like it's from the 80s.  Its vintage monochrome monitor displays a plethora of meteorological data.  No sign of the FLDSMDFR, however.",
-    "weight": "1 kg",
-    "volume": "2500 ml",
-    "price": "2 USD",
-    "price_postapoc": "5 USD",
-    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
-    "material": [ "plastic", "aluminum" ],
-    "symbol": ";",
-    "color": "light_gray",
-    "charges_per_use": 5,
-    "use_action": [ "WEATHER_TOOL" ],
-    "flags": [ "THERMOMETER", "HYGROMETER", "BAROMETER", "WATER_BREAK", "ELECTRONIC" ],
-    "faults": [ { "fault_group": "electronic_general" } ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_battery_cell"
-      }
-    ],
-    "melee_damage": { "bash": 2 },
-    "tool_ammo": [ "battery" ]
   },
   {
     "id": "analytical_set_basic",

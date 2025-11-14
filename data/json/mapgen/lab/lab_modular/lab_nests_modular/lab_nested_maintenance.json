@@ -228,8 +228,7 @@
       "place_loot": [
         { "item": "record_patient", "x": 2, "y": [ 1, 3 ], "chance": 100 },
         { "item": "decoy_elfa", "x": 1, "y": 3, "chance": 100 },
-        { "item": "wrench", "x": 1, "y": 3, "chance": 100 },
-        { "item": "canister_goo", "x": [ 1, 3 ], "y": [ 1, 3 ], "chance": 100 }
+        { "item": "wrench", "x": 1, "y": 3, "chance": 100 }
       ]
     }
   },
