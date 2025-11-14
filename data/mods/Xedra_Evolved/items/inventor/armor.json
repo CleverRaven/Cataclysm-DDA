@@ -468,6 +468,33 @@
     ]
   },
   {
+    "id": "inventor_carry_hands",
+    "copy-from": "molle_medium_rucksack",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "Carry-Hands" },
+    "description": "A passive exoskeleton consisting of two metal arms ready to hold anything.  The arms refuse to hold more than a single thing at a time and won't make it easier to carry heavy items.",
+    "material": [ "steel" ],
+    "symbol": "[",
+    "looks_like": "clamp",
+    "color": "light_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "5000 L",
+        "max_contains_weight": "5000 kg",
+        "max_item_length": "5000 cm",
+        "//": "Contain a single big item.  No weight reduction.",
+        "moves": 100,
+        "holster": true
+      }
+    ],
+    "warmth": 0,
+    "material_thickness": 2,
+    "flags": [ "MORPHIC", "BELTED", "WATER_FRIENDLY", "MUNDANE", "INVENTOR_CRAFTED" ],
+    "armor": [ { "encumbrance": [ 2, 50 ], "coverage": 20, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+  },
+  {
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "id": "inventor_fists",
