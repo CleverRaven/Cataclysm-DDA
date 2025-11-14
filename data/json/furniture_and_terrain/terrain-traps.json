@@ -40,15 +40,21 @@
   {
     "type": "terrain",
     "id": "t_pit_covered",
-    "name": "covered pit",
+    "name": "board over a pit",
     "description": "A deep pit with a plank placed across it, looks sturdy enough to cross safely.  The plank could be removed to make it dangerous again.",
     "symbol": "#",
     "color": "light_red",
     "connect_groups": "PIT_DEEP",
     "connects_to": "PIT_DEEP",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "ROAD" ],
-    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true },
+    "flags": [ "TRANSPARENT", "ROAD", "OPEN_PIT", "FRAGILE" ],
+    "bash": {
+      "sound": "crack",
+      "ter_set": "t_pit",
+      "str_min": 12,
+      "str_max": 30,
+      "items": [ { "item": "plank_short", "count": [ 1, 2 ] } ]
+    },
     "examine_action": "pit_covered"
   },
   {
@@ -69,15 +75,21 @@
   {
     "type": "terrain",
     "id": "t_pit_spiked_covered",
-    "name": "covered spiked pit",
+    "name": "board over a spiked pit",
     "description": "Menacing with sharp spears along the bottom, this pit has a plank across it to allow someone or something to cross safely.  The plank could be removed to make it dangerous again.",
     "symbol": "#",
     "color": "light_red",
     "connect_groups": "PIT_DEEP",
     "connects_to": "PIT_DEEP",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "ROAD" ],
-    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true },
+    "flags": [ "TRANSPARENT", "ROAD", "OPEN_PIT", "FRAGILE" ],
+    "bash": {
+      "sound": "crack",
+      "ter_set": "t_pit_spiked",
+      "str_min": 12,
+      "str_max": 30,
+      "items": [ { "item": "plank_short", "count": [ 1, 2 ] } ]
+    },
     "examine_action": "pit_covered"
   },
   {
@@ -98,15 +110,21 @@
   {
     "type": "terrain",
     "id": "t_pit_glass_covered",
-    "name": "covered glass pit",
+    "name": "board over a glass pit",
     "description": "A plank has been placed carefully to allow traversal over this ditch full of large glass shards.  The plank could be removed to make it dangerous again.",
     "symbol": "#",
     "color": "light_cyan",
     "connect_groups": "PIT_DEEP",
     "connects_to": "PIT_DEEP",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "ROAD" ],
-    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true },
+    "flags": [ "TRANSPARENT", "ROAD", "OPEN_PIT", "FRAGILE" ],
+    "bash": {
+      "sound": "crack",
+      "ter_set": "t_pit_glass",
+      "str_min": 12,
+      "str_max": 30,
+      "items": [ { "item": "plank_short", "count": [ 1, 2 ] } ]
+    },
     "examine_action": "pit_covered"
   },
   {
