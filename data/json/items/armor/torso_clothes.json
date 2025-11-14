@@ -1002,8 +1002,36 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "pocket shirt" },
     "description": "A button-down shirt with long sleeves and a pocket on the front.  Looks professional!",
-    "//": "delete button shirt variants",
-    "variants": [ { "id": "black", "name": { "str": "black dress shirt" }, "append": true, "description": "This one is black" } ],
+    "variants": [
+        {
+          "id": "black",
+          "name": { "str": "black dress shirt" },
+          "color": "dark_gray",
+          "append": true,
+          "description": "This one is black."
+        },
+        {
+          "id": "white",
+          "name": { "str": "white dress shirt" },
+          "color": "light_gray",
+          "append": true,
+          "description": "This one is white."
+        },
+        {
+          "id": "blue",
+          "name": { "str": "blue dress shirt" },
+          "color": "blue",
+          "append": true,
+          "description": "This one is blue."
+        },
+        {
+          "id": "gray",
+          "name": { "str": "gray dress shirt" },
+          "color": "light_gray",
+          "append": true,
+          "description": "This one is gray."
+        }
+      ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
