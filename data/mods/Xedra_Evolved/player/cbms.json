@@ -1,0 +1,34 @@
+[
+  {
+    "id": "xe_bio_dataslot_knife_basic",
+    "type": "bionic",
+    "name": { "str": "Datashunt: Knives" },
+    "description": "A brain implant that grants instinctual knowledge about the operation of flying machines.",
+    "occupied_bodyparts": [ [ "data_slot", 1 ] ],
+    "learned_proficiencies": [ "prof_knives_familiar" ]
+  },
+  {
+    "id": "xe_bio_dataslot_knife_advanced",
+    "type": "bionic",
+    "name": { "str": "Datashunt: Knives, advanced" },
+    "description": "A brain implant that grants instinctual knowledge about the operation of flying machines.",
+    "occupied_bodyparts": [ [ "data_slot", 2 ] ],
+    "learned_proficiencies": [ "prof_knives_pro" ]
+  },
+  {
+    "id": "xe_bio_dataslot_knife_basic",
+    "type": "bionic",
+    "name": { "str": "Datashunt: Aeronautics" },
+    "description": "A brain implant that grants instinctual knowledge about the operation of flying machines.",
+    "occupied_bodyparts": [ [ "data_slot", 1 ] ],
+    "learned_proficiencies": [ "prof_batons_familiar" ]
+  },
+  {
+    "id": "xe_bio_dataslot_knife_basic",
+    "type": "bionic",
+    "name": { "str": "Datashunt: Aeronautics" },
+    "description": "A brain implant that grants instinctual knowledge about the operation of flying machines.",
+    "occupied_bodyparts": [ [ "data_slot", 2 ] ],
+    "learned_proficiencies": [ "prof_batons_pro" ]
+  },
+]
