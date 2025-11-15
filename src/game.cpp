@@ -3632,7 +3632,12 @@ Creature *game::is_hostile_within( int distance, bool dangerous )
                     return critter;
                 }
 
-                const pathfinding_settings pf_settings = pathfinding_settings{ {{{ damage_bash, 8}}}, distance, distance * 2, 4, true, true, false, true, false, false };
+                PathfindingSettings pf_settings;
+                pf_settings.set_bash_strength( damage_bash, 8 );
+                pf_settings.set_max_distance( distance );
+                pf_settings.set_max_cost( distance * 2 * 50 );
+                pf_settings.set_climb_cost( 4 );
+
                 const pathfinding_target pf_t = pathfinding_target::point( critter->pos_bub() );
                 if( !get_map().route( u.pos_bub(), pf_t, pf_settings ).empty() ) {
                     return critter;

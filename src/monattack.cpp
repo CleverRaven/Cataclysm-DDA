@@ -1512,8 +1512,15 @@ bool mattack::triffid_heartbeat( monster *z )
     const tripoint_bub_ms z_pos = z->pos_bub( here );
 
     creature_tracker &creatures = get_creature_tracker();
-    static pathfinding_settings root_pathfind( {{damage_bash, 10}}, 20, 50, 0, false, false, false,
-    false, false, false );
+    // TODO: Move this to a separate initialiser.
+    static PathfindingSettings root_pathfind;
+    root_pathfind.set_bash_strength( damage_bash, 10 );
+    root_pathfind.set_max_distance( 20 );
+    root_pathfind.set_max_cost( 50 * 50 );
+    root_pathfind.set_avoid_opening_doors( true );
+    root_pathfind.set_avoid_unlocking_doors( true );
+    root_pathfind.set_avoid_climb_stairway( true );
+
     const pathfinding_target pf_t = pathfinding_target::point( z_pos );
     if( rl_dist( z_pos, pos ) > 5 &&
         !here.route( pos, pf_t, root_pathfind ).empty() ) {
