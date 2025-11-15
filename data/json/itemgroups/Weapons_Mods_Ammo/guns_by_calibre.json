@@ -137,10 +137,7 @@
   {
     "type": "item_group",
     "id": "guns_pistol_common_57",
-    "items": [
-      { "group": "nested_ruger_57", "prob": 100 },
-      { "group": "nested_fn57", "prob": 13 }
-    ]
+    "items": [ { "group": "nested_ruger_57", "prob": 100 }, { "group": "nested_fn57", "prob": 13 } ]
   },
   {
     "type": "item_group",

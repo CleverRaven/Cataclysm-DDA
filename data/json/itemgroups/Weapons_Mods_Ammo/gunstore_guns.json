@@ -661,11 +661,7 @@
       { "item": "glock_20mag_10", "count": [ 1, 2 ] },
       { "group": "firearm_box_extras" },
       {
-        "distribution": [
-          { "item": "glock_40", "prob": 100 },
-          { "item": "glock_20", "prob": 121 },
-          { "item": "glock_29", "prob": 62 }
-        ]
+        "distribution": [ { "item": "glock_40", "prob": 100 }, { "item": "glock_20", "prob": 121 }, { "item": "glock_29", "prob": 62 } ]
       }
     ]
   },
@@ -722,10 +718,7 @@
   {
     "type": "item_group",
     "id": "guns_pistol_common_boxed_57",
-    "items": [
-      { "group": "boxed_ruger_57", "prob": 100 },
-      { "group": "boxed_fn57", "prob": 13 }
-    ]
+    "items": [ { "group": "boxed_ruger_57", "prob": 100 }, { "group": "boxed_fn57", "prob": 13 } ]
   },
   {
     "type": "item_group",
