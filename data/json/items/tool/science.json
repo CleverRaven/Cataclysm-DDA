@@ -17,6 +17,26 @@
     "flags": [ "BAROMETER" ]
   },
   {
+    "id": "canister_goo",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "goo canister" },
+    "description": "A metal canister with a label reading: \"Warning: contains highly toxic and corrosive materials.  Contents may be sentient.  Open at your own risk.\" You think you can feel something moving inside it.",
+    "weight": "1596 g",
+    "volume": "270 ml",
+    "price": "350 USD",
+    "price_postapoc": "10 USD",
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "dark_gray",
+    "initial_charges": 1,
+    "max_charges": 1,
+    "charges_per_use": 1,
+    "use_action": [ "CAN_GOO" ],
+    "melee_damage": { "bash": 2 }
+  },
+  {
     "id": "chemistry_set",
     "//": "To Do: Create a bunsen burner that uses a mix of electricity and LPG, then convert this to use that.  Will need multimag",
     "type": "ITEM",

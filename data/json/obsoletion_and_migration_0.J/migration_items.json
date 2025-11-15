@@ -256,11 +256,6 @@
   },
   {
     "type": "MIGRATION",
-    "id": "canister_goo",
-    "replace": "canister_empty"
-  },
-  {
-    "type": "MIGRATION",
     "id": "weather_reader",
     "replace": "geiger_off"
   },
