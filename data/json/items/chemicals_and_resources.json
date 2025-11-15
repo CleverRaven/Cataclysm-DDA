@@ -2388,6 +2388,6 @@
     "name": { "str_sp": "strong glue" },
     "description": "A strong adhesive to use for structural repairs or other high stress applications.  You can't sniff it. But, you can use it to close up wounds in a pinch.",
     "price_postapoc": "10 cents",
-    "use_action": { "type": "heal", "bandages_power": 2, "bleed": 5, "move_cost": 400 }
+    "use_action": { "type": "heal", "bandages_power": 1, "bleed": 5, "move_cost": 400 }
   }
 ]
