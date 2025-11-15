@@ -472,7 +472,7 @@
     "copy-from": "molle_medium_rucksack",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "Carry-Hands" },
+    "name": { "str_sp": "Carry-Hands" },
     "description": "A passive exoskeleton consisting of two metal arms ready to hold anything.  The arms refuse to hold more than a single thing at a time and won't make it easier to carry heavy items.",
     "material": [ "steel" ],
     "symbol": "[",
@@ -711,6 +711,63 @@
     "use_action": { "type": "holster" },
     "flags": [ "MORPHIC", "BELTED", "OVERSIZE", "MUNDANE", "INVENTOR_CRAFTED", "TARDIS" ],
     "armor": [ { "encumbrance": 1, "coverage": 5, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
+  },
+  {
+    "id": "crafting_assistant",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "category": "armor",
+    "name": { "str": "Crafting Assistant Robot" },
+    "description": "A bulky wearable robot that significantly helps with all crafting tasks while powered.  It has some strange obsession with frequently taking apart and reassembling its own arms and its programming is far too focused on creation and disassembly for it to have any combat or destructive use.",
+    "weight": "7500 g",
+    "volume": "5550 ml",
+    "looks_like": "bot_nursebot",
+    "material": [ "steel", "aluminum" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "use_action": [
+      {
+        "target": "crafting_assistant_on",
+        "need_charges": 1,
+        "active": true,
+        "msg": "The assistant deploys its new arms, ready to help with crafting.",
+        "type": "transform"
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "airtight": true,
+        "watertight": true,
+        "flag_restriction": [ "BATTERY_MEDIUM", "BATTERY_HEAVY" ],
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "default_magazine": "medium_battery_cell"
+      }
+    ],
+    "flags": [ "MORPHIC", "BELTED", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE", "ELECTRONIC", "INVENTOR_CRAFTED" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
+    "armor": [ { "coverage": 50, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ],
+    "tool_ammo": [ "battery" ]
+  },
+  {
+    "id": "crafting_assistant_on",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "copy-from": "crafting_assistant",
+    "name": { "str": "Crafting Assistant Robot (on)", "str_pl": "Crafting Assistant Robot (on)" },
+    "power_draw": "1550 W",
+    "revert_to": "crafting_assistant",
+    "use_action": [
+      {
+        "ammo_scale": 0,
+        "target": "crafting_assistant",
+        "msg": "The assistant retracts and recycles its arms.",
+        "type": "transform"
+      }
+    ],
+    "enchantments": [ { "mutations": [ "CRAFTING_ASSISTANT_ARMS" ] } ]
   },
   {
     "id": "xedra_inventor_damage_reversal_device",

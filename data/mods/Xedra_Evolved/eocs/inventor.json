@@ -346,7 +346,7 @@
       { "math": [ "AI_difficulty_1 += 5" ] },
       { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
       {
-        "u_roll_remainder": [ "bot_sniperbot", "bot_shotgunbot", "bot_meleebot" ],
+        "u_roll_remainder": [ "bot_sniperbot", "bot_shotgunbot", "bot_meleebot", "crafting_assistant" ],
         "type": "recipe",
         "true_eocs": [ "EOC_INVENTOR_MESSAGE_GOOD" ],
         "false_eocs": {
