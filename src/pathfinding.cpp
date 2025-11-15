@@ -210,37 +210,6 @@ void PathfindingSettings::set_size_restriction( std::optional<creature_size> siz
     size_restriction_ = size_restriction;
 }
 
-int PathfindingSettings::bash_rating_from_range( int min, int max ) const
-{
-    if( avoid_bashing_ ) {
-        return 0;
-    }
-    // TODO: Move all the bash stuff to map so this logic isn't duplicated.
-    ///\EFFECT_STR increases smashing damage
-    if( bash_strength_ < min ) {
-        return 0;
-    } else if( bash_strength_ >= max ) {
-        return 10;
-    }
-    const double ret = ( 10.0 * ( bash_strength_ - min ) ) / ( max - min );
-    // Round up to 1, so that desperate NPCs can try to bash down walls
-    return std::max( ret, 1.0 );
-}
-
-std::vector<tripoint> map::straight_route( const tripoint &f, const tripoint &t ) const
-{
-    const std::vector<tripoint_bub_ms> temp = map::straight_route( tripoint_bub_ms( f ),
-            tripoint_bub_ms( t ) );
-    std::vector<tripoint> result;
-    result.reserve( temp.size() );
-
-    for( const tripoint_bub_ms pt : temp ) {
-        result.push_back( pt.raw() );
-    }
-
-    return result;
-}
-
 std::vector<tripoint_bub_ms> map::straight_route( const tripoint_bub_ms &f,
         const tripoint_bub_ms &t ) const
 {
@@ -741,19 +710,6 @@ std::vector<tripoint_bub_ms> map::route( const tripoint_bub_ms &f,
     }
 
     return ret;
-}
-
-std::vector<tripoint_bub_ms> map::route( const tripoint_bub_ms &f, const tripoint_bub_ms &t,
-        const PathfindingSettings &settings,
-        const std::function<bool( const tripoint & )> &avoid ) const
-{
-    std::vector<tripoint> raw_result = route( f.raw(), t.raw(), settings, avoid );
-    std::vector<tripoint_bub_ms> result;
-    std::transform( raw_result.begin(), raw_result.end(), std::back_inserter( result ),
-    []( const tripoint & p ) {
-        return tripoint_bub_ms( p );
-    } );
-    return result;
 }
 
 bool pathfinding_target::contains( const tripoint_bub_ms &p ) const
