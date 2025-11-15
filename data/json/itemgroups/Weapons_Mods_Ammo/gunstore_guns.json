@@ -648,8 +648,7 @@
       { "group": "boxed_m1911_10", "prob": 30 },
       { "group": "boxed_p220_10", "prob": 35 },
       { "group": "boxed_xd_10", "prob": 85 },
-      { "group": "boxed_witness_10", "prob": 10 },
-      { "group": "boxed_sw_610", "prob": 34 }
+      { "group": "boxed_witness_10", "prob": 10 }
     ]
   },
   {
