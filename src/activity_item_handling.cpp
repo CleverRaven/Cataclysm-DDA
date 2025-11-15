@@ -3004,7 +3004,6 @@ static requirement_check_result generic_multi_activity_check_requirement(
         requirement_data::alter_item_comp_vector component_reqs_vector = reqs.get_components();
         requirement_data::alter_tool_comp_vector reduced_tool_reqs_vector;
         requirement_data::alter_quali_req_vector reduced_quality_reqs_vector;
-        requirement_data::alter_item_comp_vector reduced_component_reqs_vector;
 
         inventory inv = you.crafting_inventory();
 
@@ -3036,22 +3035,8 @@ static requirement_check_result generic_multi_activity_check_requirement(
             }
         }
 
-        for( std::vector<item_comp> &components : component_reqs_vector ) {
-            bool found = false;
-
-            for( item_comp &component : components ) {
-                if( inv.has_components( component.type, component.count ) ) {
-                    found = true;
-                }
-            }
-
-            if( !found ) {
-                reduced_component_reqs_vector.push_back( components );
-            }
-        }
-
         reduced_reqs = requirement_data( reduced_tool_reqs_vector, reduced_quality_reqs_vector,
-                                         reduced_component_reqs_vector );
+                                         component_reqs_vector );
         const requirement_id req_id( std::to_string( reduced_reqs.make_hash() ) );
         if( requirement_data::all().count( req_id ) == 0 ) {
             requirement_data::save_requirement( reduced_reqs, req_id );
