@@ -1373,7 +1373,17 @@
   {
     "type": "construction_group",
     "id": "place_plank",
-    "name": "Place Plank"
+    "name": "Place Plank Across Gap"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_cover_air",
+    "name": "Place Cover Over Gap"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_cover_pit",
+    "name": "Place Cover Over Pit"
   },
   {
     "type": "construction_group",

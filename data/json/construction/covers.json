@@ -1,0 +1,51 @@
+[
+  {
+    "type": "construction",
+    "id": "constr_plank_over_gap",
+    "group": "place_plank",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "1 s",
+    "components": [ [ [ "2x4", 1 ] ] ],
+    "pre_terrain": "t_open_air",
+    "pre_note": "Must be supported on at least two opposite sides.",
+    "pre_special": [ "check_opposite_floor_pair" ],
+    "post_terrain": "t_plank_gap"
+  },
+  {
+    "type": "construction",
+    "id": "cover_pit_grass",
+    "group": "place_cover_pit",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "survival", 2 ] ],
+    "time": "5 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 1 } ] ],
+    "components": [ [ [ "straw_pile", 12 ] ], [ [ "cordage", 8, "LIST" ] ], [ [ "splinter", 16 ], [ "nails", 16, "LIST" ] ] ],
+    "pre_terrain": "t_pit",
+    "post_terrain": "t_pit_conceal_grass"
+  },
+  {
+    "type": "construction",
+    "id": "cover_pit_spiked_grass",
+    "group": "place_cover_pit",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "survival", 2 ] ],
+    "time": "5 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 1 } ] ],
+    "components": [ [ [ "straw_pile", 12 ] ], [ [ "cordage", 8, "LIST" ] ], [ [ "splinter", 16 ], [ "nails", 16, "LIST" ] ] ],
+    "pre_terrain": "t_pit_spiked",
+    "post_terrain": "t_pit_spiked_conceal_grass"
+  },
+  {
+    "type": "construction",
+    "id": "cover_pit_glass_grass",
+    "group": "place_cover_pit",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "survival", 2 ] ],
+    "time": "5 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 1 } ] ],
+    "components": [ [ [ "straw_pile", 12 ] ], [ [ "cordage", 8, "LIST" ] ], [ [ "splinter", 16 ], [ "nails", 16, "LIST" ] ] ],
+    "pre_terrain": "t_pit_glass",
+    "post_terrain": "t_pit_glass_conceal_grass"
+  }
+]

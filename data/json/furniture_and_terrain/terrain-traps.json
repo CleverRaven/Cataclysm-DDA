@@ -14,7 +14,7 @@
     "type": "terrain",
     "id": "t_plank_gap",
     "name": "plank",
-    "description": "A 2x4 precariously positioned between two floors.  Mind the gap.",
+    "description": "A 2x4 precariously positioned.  Mind the gap.",
     "looks_like": "2x4",
     "symbol": "l",
     "color": "yellow",
@@ -145,6 +145,78 @@
       "items": [ { "item": "plank_short", "count": [ 1, 2 ] } ]
     },
     "examine_action": "pit_covered"
+  },
+  {
+    "type": "terrain",
+    "id": "t_pit_glass_conceal_grass",
+    "looks_like": "t_grass_dead",
+    "name": "concealed glass pit",
+    "description": "A cover of grass has been placed carefully over this ditch full of large glass shards.  Watch your step.",
+    "symbol": ".",
+    "color": "brown",
+    "connect_groups": "PIT_DEEP",
+    "connects_to": "PIT_DEEP",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "ROAD", "FRAGILE", "PLAYER_MADE" ],
+    "bash": {
+      "sound": "snap!",
+      "ter_set": "t_pit_glass",
+      "str_min": 1,
+      "str_max": 2,
+      "items": [
+        { "item": "straw_pile", "count": [ 6, 11 ] },
+        { "item": "cordage_6", "count": [ 0, 24 ] },
+        { "item": "cordage_36", "count": [ 0, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_pit_spiked_conceal_grass",
+    "looks_like": "t_grass_dead",
+    "name": "concealed glass pit",
+    "description": "A cover of grass has been placed carefully over this ditch full of upright spears.  Watch your step.",
+    "symbol": ".",
+    "color": "brown",
+    "connect_groups": "PIT_DEEP",
+    "connects_to": "PIT_DEEP",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "ROAD", "FRAGILE", "PLAYER_MADE" ],
+    "bash": {
+      "sound": "snap!",
+      "ter_set": "t_pit_spiked",
+      "str_min": 1,
+      "str_max": 2,
+      "items": [
+        { "item": "straw_pile", "count": [ 6, 11 ] },
+        { "item": "cordage_6", "count": [ 0, 24 ] },
+        { "item": "cordage_36", "count": [ 0, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_pit_conceal_grass",
+    "looks_like": "t_grass_dead",
+    "name": "concealed glass pit",
+    "description": "A cover of grass has been placed carefully over this ditch.  Watch your step.",
+    "symbol": ".",
+    "color": "brown",
+    "connect_groups": "PIT_DEEP",
+    "connects_to": "PIT_DEEP",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "ROAD", "FRAGILE", "PLAYER_MADE" ],
+    "bash": {
+      "sound": "snap!",
+      "ter_set": "t_pit",
+      "str_min": 1,
+      "str_max": 2,
+      "items": [
+        { "item": "straw_pile", "count": [ 6, 11 ] },
+        { "item": "cordage_6", "count": [ 0, 24 ] },
+        { "item": "cordage_36", "count": [ 0, 4 ] }
+      ]
+    }
   },
   {
     "type": "terrain",
