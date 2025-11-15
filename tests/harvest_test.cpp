@@ -153,8 +153,8 @@ static void do_butchery_timing( time_duration expected_time, butcher_type butche
     CHECK( p_act.moves_left <= 0 );
     const time_duration time_taken = time_duration::from_turns( turns_taken );
     CAPTURE( to_string( time_taken ) );
-    CHECK( time_taken > expected_time * 0.9 );
-    CHECK( time_taken < expected_time * 1.1 );
+    CHECK( time_taken > ( expected_time * 0.9 ) );
+    CHECK( time_taken < ( expected_time * 1.1 ) );
     here.i_clear( animal_loc );
     u.move_to( orig_pos );
 }
