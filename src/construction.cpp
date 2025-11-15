@@ -1245,17 +1245,64 @@ static std::string has_pre_flags_colorize( const construction &con )
     return colorize( enumerate_as_string( flags_colorized ), color );
 }
 
-static bool has_pre_terrain_orth( const construction &con, const tripoint_bub_ms &p )
+static bool has_pre_orth( const construction &con, const tripoint_bub_ms &p )
 {
-    if( con.pre_terrain_orth.empty() ) {
-        return true;
+    map &here = get_map();
+    // grouped format
+    if( !con.pre_orth_list.empty() ) {
+
+        // bracket and groups
+        for( const std::vector<std::string> &or_group : con.pre_orth_list ) {
+
+            bool group_passed = false;
+
+            // bracket logic or groups
+            for( const std::string &id : or_group ) {
+
+                bool is_terrain = id.rfind( "t_", 0 ) == 0;
+                bool is_furniture = id.rfind( "f_", 0 ) == 0;
+
+                for( const point &offset : four_adjacent_offsets ) {
+                    const tripoint_bub_ms q = p + offset;
+
+                    if( is_terrain && here.ter( q ) == ter_id( id ) ) {
+                        group_passed = true;
+                        break;
+                    }
+                    if( is_furniture && here.furn( q ) == furn_id( id ) ) {
+                        group_passed = true;
+                        break;
+                    }
+                }
+                if( group_passed ) {
+                    break;
+                }
+            }
+
+            if( !group_passed ) {
+                return false;  //bracket logic failed at this step, because one AND is not satisfied
+            }
+        }
+
+        return true; // all groups passed
     }
 
-    map &here = get_map();
+    // single-ID format ---
+    if( con.pre_orth.empty() ) {
+        return true;
+    } //default if empty
+
+    //else search orth adjacent terrain/furniture
+    const bool is_terrain = con.pre_orth.rfind( "t_", 0 ) == 0;
+    const bool is_furniture = con.pre_orth.rfind( "f_", 0 ) == 0;
 
     for( const point &offset : four_adjacent_offsets ) {
         const tripoint_bub_ms q = p + offset;
-        if( here.ter( q ) == ter_id( con.pre_terrain_orth ) ) {
+
+        if( is_terrain && here.ter( q ) == ter_id( con.pre_orth ) ) {
+            return true;
+        }
+        if( is_furniture && here.furn( q ) == furn_id( con.pre_orth ) ) {
             return true;
         }
     }
@@ -1263,23 +1310,6 @@ static bool has_pre_terrain_orth( const construction &con, const tripoint_bub_ms
     return false;
 }
 
-static bool has_pre_furniture_orth( const construction &con, const tripoint_bub_ms &p )
-{
-    if( con.pre_furniture_orth.empty() ) {
-        return true;
-    }
-
-    map &here = get_map();
-
-    for( const point &offset : four_adjacent_offsets ) {
-        const tripoint_bub_ms q = p + offset;
-        if( here.furn( q ) == furn_id( con.pre_furniture_orth ) ) {
-            return true;
-        }
-    }
-
-    return false;
-}
 
 bool can_construct( const construction &con, const tripoint_bub_ms &p )
 {
@@ -1297,8 +1327,7 @@ bool can_construct( const construction &con, const tripoint_bub_ms &p )
     }
     if( !has_pre_terrain( con, p ) ||         // terrain type at tile
         !has_pre_flags( con, f, t ) ||        // flags at tile
-        !has_pre_terrain_orth( con, p ) ||    // require orth terr
-        !has_pre_furniture_orth( con, p ) ) { // require orth furn
+        !has_pre_orth( con, p ) ) {  // require orth terr or furniture
         return false;
     }
     if( !con.post_terrain.empty() ) { // make sure the construction would actually do something
@@ -1681,7 +1710,7 @@ static bool construct::check_opposite_floor_pair( const tripoint_bub_ms &p )
         return !here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, q );
     };
 
-    // Same-level neighbors (orthogonal + diagonal), expressed as point offsets
+    // neighbors (orthogonal + diagonal), expressed as point offsets
     const point north( 0, -1 );
     const point south( 0, 1 );
     const point east( 1, 0 );
@@ -2446,17 +2475,25 @@ void load_construction( const JsonObject &jo )
             }
         }
     }
-    if( jo.has_string( "pre_furniture_orth" ) ) {
-        con.pre_furniture_orth = jo.get_string( "pre_furniture_orth" );
-    } else {
-        con.pre_furniture_orth = "";
+    if( jo.has_array( "pre_orth" ) ) {
+        for( const JsonArray &or_group : jo.get_array( "pre_orth" ) ) {
+
+            std::vector<std::string> group;
+
+            for( const JsonValue &v : or_group ) {
+                group.push_back( v.get_string() );
+            }
+
+            con.pre_orth_list.push_back( group );
+        }
+    } else if( jo.has_string( "pre_orth" ) ) {
+        con.pre_orth = jo.get_string( "pre_orth" );
+    }
+    // single-ID format
+    else if( jo.has_string( "pre_orth" ) ) {
+        con.pre_orth = jo.get_string( "pre_orth" );
     }
 
-    if( jo.has_string( "pre_terrain_orth" ) ) {
-        con.pre_terrain_orth = jo.get_string( "pre_terrain_orth" );
-    } else {
-        con.pre_terrain_orth = "";
-    }
 
     con.post_flags = jo.get_tags( "post_flags" );
 
