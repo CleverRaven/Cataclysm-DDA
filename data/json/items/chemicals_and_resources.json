@@ -2387,6 +2387,7 @@
     "//1": "1 charge of strong glue should cover an area of 5mm^2",
     "name": { "str_sp": "strong glue" },
     "description": "A strong adhesive to use for structural repairs or other high stress applications.  You can't sniff it.",
-    "price_postapoc": "10 cents"
+    "price_postapoc": "10 cents",
+    "use_action": { "type": "heal", "bandages_power": 1, "bleed": 5, "move_cost": 400 }
   }
 ]
