@@ -700,13 +700,6 @@
   {
     "type": "item_group",
     "subtype": "collection",
-    "id": "boxed_sw_610",
-    "container-item": "box_pistol",
-    "items": [ { "item": "sw_610" }, { "group": "firearm_box_extras" }, { "item": "40_speedloader6", "prob": 5 } ]
-  },
-  {
-    "type": "item_group",
-    "subtype": "collection",
     "id": "guns_pistol_common_boxed_223",
     "container-item": { "item": "box_longarm", "variant": "box_longarm_handgun" },
     "entries": [
