@@ -139,38 +139,6 @@ static bool vertical_move_destination( const map &m, ter_furn_flag flag, tripoin
     return false;
 }
 
-template<class Set1, class Set2>
-static bool is_disjoint( const Set1 &set1, const Set2 &set2 )
-{
-    if( set1.empty() || set2.empty() ) {
-        return true;
-    }
-
-    typename Set1::const_iterator it1 = set1.begin();
-    typename Set1::const_iterator it1_end = set1.end();
-
-    typename Set2::const_iterator it2 = set2.begin();
-    typename Set2::const_iterator it2_end = set2.end();
-
-    if( *set2.rbegin() < *it1 || *set1.rbegin() < *it2 ) {
-        return true;
-    }
-
-    while( it1 != it1_end && it2 != it2_end ) {
-        if( *it1 == *it2 ) {
-            return false;
-        }
-        if( *it1 < *it2 ) {
-            it1++;
-        } else {
-            it2++;
-        }
-    }
-
-    return true;
-}
-
-
 void PathfindingSettings::set_size_restriction( std::optional<creature_size> size_restriction )
 {
     size_restriction_mask_.clear();
