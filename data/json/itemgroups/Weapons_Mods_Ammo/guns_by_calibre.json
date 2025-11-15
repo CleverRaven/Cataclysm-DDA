@@ -41,7 +41,6 @@
       { "group": "nested_rough_rider_pistol", "prob": 61 },
       { "group": "nested_rough_rider_pistol_9", "prob": 14 },
       { "group": "nested_sig_mosquito", "prob": 65 },
-      { "group": "nested_cp33", "prob": 16 },
       { "group": "nested_ruger_mk4", "prob": 113 },
       { "group": "nested_1911_22", "prob": 100 },
       { "group": "nested_sw617", "prob": 46 },
@@ -121,10 +120,8 @@
       { "group": "nested_p220_10", "prob": 35 },
       { "group": "nested_xd_10", "prob": 85 },
       { "group": "nested_witness_10", "prob": 10 },
-      { "group": "nested_TDI_10", "prob": 183 },
       { "group": "nested_glock_20", "prob": 121 },
-      { "group": "nested_glock_29", "prob": 62 },
-      { "group": "nested_sw_610", "prob": 34 }
+      { "group": "nested_glock_29", "prob": 62 }
     ]
   },
   {
@@ -142,8 +139,7 @@
     "id": "guns_pistol_common_57",
     "items": [
       { "group": "nested_ruger_57", "prob": 100 },
-      { "group": "nested_fn57", "prob": 13 },
-      { "group": "nested_p50", "prob": 12 }
+      { "group": "nested_fn57", "prob": 13 }
     ]
   },
   {
@@ -224,7 +220,6 @@
       { "item": "ruger_lcr_22", "prob": 2, "charges": [ 0, -1 ] },
       { "item": "ruger_mk4", "prob": 16, "charges": [ 0, -1 ] },
       { "item": "1911_22", "prob": 20, "charges": [ 0, -1 ] },
-      { "item": "cp33", "prob": 3, "charges": [ 0, -1 ] },
       { "item": "glock_44", "prob": 13, "charges": [ 0, -1 ] },
       { "item": "sw617", "prob": 8, "charges": [ 0, -1 ] }
     ]
@@ -296,8 +291,6 @@
     "type": "item_group",
     "id": "guns_pistol_common_everyday_carry_10mm",
     "items": [
-      { "item": "sw_610", "prob": 3, "charges": [ 0, -1 ] },
-      { "item": "sw_610", "prob": 5, "charges": [ 0, -1 ] },
       { "item": "glock_40", "prob": 5, "charges": [ 0, -1 ] },
       { "item": "m1911_10", "prob": 3, "charges": [ 0, -1 ] },
       { "item": "p220_10", "prob": 4, "charges": [ 0, -1 ] },
@@ -370,7 +363,6 @@
       { "item": "rough_rider_pistol", "prob": 61 },
       { "item": "rough_rider_pistol_9", "prob": 14 },
       { "item": "sig_mosquito", "prob": 65 },
-      { "item": "cp33", "prob": 16 },
       { "item": "ruger_mk4", "prob": 113 },
       { "item": "1911_22", "prob": 100 },
       { "item": "sw617", "prob": 46 },
@@ -462,16 +454,14 @@
       { "item": "p220_10", "prob": 35 },
       { "item": "xd_10", "prob": 85 },
       { "item": "witness_10", "prob": 10 },
-      { "item": "TDI_10", "prob": 183 },
       { "item": "glock_20", "prob": 121 },
-      { "item": "glock_29", "prob": 62 },
-      { "item": "sw_610", "prob": 34 }
+      { "item": "glock_29", "prob": 62 }
     ]
   },
   {
     "type": "item_group",
     "id": "guns_pistol_common_display_57",
-    "items": [ { "item": "ruger_57", "prob": 100 }, { "item": "fn57", "prob": 13 }, { "item": "p50", "prob": 12 } ]
+    "items": [ { "item": "ruger_57", "prob": 100 }, { "item": "fn57", "prob": 13 } ]
   },
   {
     "type": "item_group",
@@ -556,7 +546,6 @@
       { "group": "nested_bren2_556", "prob": 4 },
       { "group": "nested_rdb_223", "prob": 44 },
       { "group": "nested_mdrx_retool_223rem_civilian", "prob": 9 },
-      { "group": "nested_cz600", "prob": 13 },
       { "group": "nested_sl8", "prob": 3 },
       { "group": "nested_sig_assault_rifle", "prob": 1 },
       { "group": "nested_scar_16s", "prob": 14 },
@@ -591,7 +580,6 @@
     "items": [
       { "group": "nested_sks", "prob": 34 },
       { "group": "nested_aksemi", "prob": 100 },
-      { "group": "nested_bren2_762", "prob": 1 },
       { "group": "nested_mk47", "prob": 26 },
       { "group": "nested_ar15_retool_762", "prob": 5 }
     ]
@@ -744,7 +732,6 @@
       { "item": "rdb_223", "prob": 44 },
       { "group": "mdrx_223", "prob": 4 },
       { "group": "mdrx", "prob": 5 },
-      { "group": "cz600", "prob": 13 },
       { "item": "sl8", "prob": 3 },
       { "item": "sig_assault_rifle", "prob": 1 },
       { "item": "scar_16s", "prob": 14 },
@@ -780,7 +767,6 @@
       { "item": "sks", "prob": 34 },
       { "item": "aksemi", "prob": 100 },
       { "item": "mk47", "prob": 26 },
-      { "item": "bren2_762", "prob": 1 },
       { "group": "ar15_762", "prob": 5 }
     ]
   },
