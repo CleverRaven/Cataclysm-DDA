@@ -7187,10 +7187,12 @@ talk_effect_fun_t::func f_knockback( const JsonObject &jo, std::string_view memb
             direction_pos = here.get_bub( abs_ms );
         } else {
             direction_pos = d.actor( is_npc )->pos_bub( here );
+        }
 
+        // if we pass target_pos == direction_pos to knockback()->continue_line() the game gonna crash
+        if( direction_pos == target_pos ) {
             point d2( rng( -1, 1 ), rng( -1, 1 ) );
 
-            // if we pass target_pos == direction_pos to knockback()->continue_line() the game gonna crash
             while( d2 == point::zero ) {
                 d2 = point( rng( -1, 1 ), rng( -1, 1 ) );
             }
