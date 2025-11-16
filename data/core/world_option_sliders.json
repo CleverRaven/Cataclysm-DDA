@@ -124,9 +124,7 @@
         "level": 2,
         "name": "Cataclysm",
         "description": "The default monster hunting and item collecting experience.",
-        "options": [
-          { "option": "ITEM_SPAWNRATE", "type": "float", "val": 1 }
-        ]
+        "options": [ { "option": "ITEM_SPAWNRATE", "type": "float", "val": 1 } ]
       },
       {
         "level": 3,
