@@ -398,7 +398,7 @@
     "skill_used": "survival",
     "time": "9 s",
     "//": "Intended to work on any non-ThirstTrouncer liquid whose name includes \"water\".",
-    "tools": [ [ [ "inventor_water_purifier", 14 ] ] ],
+    "tools": [ [ [ "inventor_water_purifier", 22 ] ] ],
     "components": [
       [
         [ "water", 1 ],
@@ -418,5 +418,58 @@
         [ "sparkling_pomegranate", 1 ]
       ]
     ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "inventor_oxygen_jelly_machine",
+    "flags": [ "SECRET" ],
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_TOOLS",
+    "skill_used": "deduction",
+    "difficulty": 6,
+    "skills_required": [ "electronics", 3 ],
+    "time": "7 h",
+    "using": [ [ "soldering_standard", 40 ], [ "welding_standard", 20 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_welding_basic", "time_multiplier": 3, "skill_penalty": 0 },
+      { "proficiency": "prof_welding", "time_multiplier": 2, "skill_penalty": 0 }
+    ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "pressure_cooker", 1 ] ],
+      [ [ "motor_small", 1 ] ],
+      [ [ "compressor", 5 ] ],
+      [ [ "hose", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "pipe_fittings", 2 ] ],
+      [ [ "pipe", 2 ] ],
+      [ [ "plastic_chunk", 10 ] ],
+      [ [ "cable", 50 ] ],
+      [ [ "pressure_tank", 1 ] ],
+      [ [ "pump_complex", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "oxygen_jelly_quick",
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_CONSUMABLES",
+    "skill_used": "survival",
+    "time": "30 s",
+    "tools": [ [ [ "inventor_oxygen_jelly_machine", 40 ] ] ],
+    "components": [ [ [ "oxygen", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "oxygen_jelly_long",
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_CONSUMABLES",
+    "skill_used": "survival",
+    "time": "30 s",
+    "tools": [ [ [ "inventor_oxygen_jelly_machine", 40 ] ] ],
+    "components": [ [ [ "oxygen", 1 ] ] ]
   }
 ]

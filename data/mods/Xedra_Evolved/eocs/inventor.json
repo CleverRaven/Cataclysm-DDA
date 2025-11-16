@@ -24,6 +24,7 @@
           "software_electronics_reference_inventor",
           "combatsaw_spear_off",
           "inventor_carry_hands",
+          "inventor_water_purifier",
           "inventor_research_base_2"
         ],
         "type": "recipe",
@@ -76,6 +77,7 @@
           "trinket_sound",
           "choke_wideshot",
           "mod_inv_pistol_booster",
+          "inventor_oxygen_jelly_machine",
           "inventor_research_base_3",
           "inventor_research_energy_1",
           "software_AI",

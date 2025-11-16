@@ -68,6 +68,45 @@
     "extend": { "flags": [ "INVENTOR_CRAFTED" ] }
   },
   {
+    "id": "oxygen_jelly_quick",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "comestible_type": "FOOD",
+    "name": { "str_sp": "Quick-release Oxyjelly" },
+    "description": "Oxyjelly made to cause a big burst of oxygen, helping against asthma and smoke inhalation.",
+    "category": "food",
+    "weight": "3 g",
+    "volume": "2 ml",
+    "price": "1 cent",
+    "price_postapoc": "1 cent",
+    "symbol": "*",
+    "color": "blue",
+    "flags": [ "INVENTOR_CRAFTED" ],
+    "use_action": [ "OXYGEN_BOTTLE" ]
+  },
+  {
+    "id": "oxygen_jelly_long",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "comestible_type": "FOOD",
+    "name": { "str_sp": "Long-release Oxyjelly" },
+    "description": "Oxyjelly made to slowly provide oxygen over a long timespan, allowing the user to breathe underwater.",
+    "category": "food",
+    "weight": "3 g",
+    "volume": "2 ml",
+    "price": "1 cent",
+    "price_postapoc": "1 cent",
+    "symbol": "*",
+    "color": "blue",
+    "flags": [ "INVENTOR_CRAFTED" ],
+    "consumption_effect_on_conditions": [ "EOC_OXYGEN_JELLY_LONG" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_OXYGEN_JELLY_LONG",
+    "effect": [ { "u_add_effect": "effect_oxygen_jelly_long", "duration": { "math": [ "600 + rand(600)" ] } } ]
+  },
+  {
     "id": "inventor_warp_grenade",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],

@@ -237,7 +237,7 @@
     "looks_like": "water_purifier",
     "description": "This turbocharged water purifier can turn any water into pure ThirstTrouncer.  Even sewage will be processed, purified and turned into the most hydrating substance ever made through clever application of the principes that rule the purification of water.  Warning: do not consume if hydrated.",
     "longest_side": "200 mm",
-    "material": [ "plastic", "lc_steel" ],
+    "material": [ "plastic", "steel" ],
     "symbol": ";",
     "volume": "4 l",
     "weight": "1.76 kg",
@@ -255,6 +255,38 @@
         "menu_text": "Plug in / Unplug",
         "ammo_scale": 0,
         "cable_length": 7,
+        "charge_rate": "500 W"
+      }
+    ],
+    "flags": [ "ELECTRONIC", "INVENTOR_CRAFTED" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
+    "tool_ammo": "battery"
+  },
+  {
+    "id": "inventor_oxygen_jelly_machine",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "Oxyjelly Machine" },
+    "looks_like": "pressure_cooker",
+    "description": "This high-pressure device creates the perfect environment to jellify oxygen, resulting in a compact and light jelly carrying all the benefits of pure oxygen.",
+    "material": [ "steel" ],
+    "symbol": ")",
+    "volume": "8000 ml",
+    "weight": "7 kg",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM", "BATTERY_HEAVY" ],
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "default_magazine": "inventor_heavy_cell"
+      },
+      {
+        "type": "link_up",
+        "menu_text": "Plug in / Unplug",
+        "ammo_scale": 0,
+        "cable_length": 10,
         "charge_rate": "500 W"
       }
     ],
