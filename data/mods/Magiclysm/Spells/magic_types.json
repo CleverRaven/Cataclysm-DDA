@@ -13,6 +13,15 @@
     "cannot_cast_flags": [ "NO_SPELLCASTING", "NO_CASTING_EVOCATION_SPELLS" ],
     "failure_cost_percent": 0.2,
     "failure_chance_formula_id": "magiclysm_spell_failure_evocation_formula",
-    "cannot_cast_message": "You can't cast any of the spells you know!"
+    "cannot_cast_message": "You can't cast that spell right now!"
+  },
+  {
+    "id": "magiclysm_channeling_magic",
+    "type": "magic_type",
+    "energy_source": "MANA",
+    "cannot_cast_flags": [ "NO_SPELLCASTING", "NO_CASTING_CHANNELING_SPELLS" ],
+    "failure_cost_percent": 0.2,
+    "failure_chance_formula_id": "magiclysm_spell_failure_channeling_formula",
+    "cannot_cast_message": "You can't cast that spell right now!"
   }
 ]

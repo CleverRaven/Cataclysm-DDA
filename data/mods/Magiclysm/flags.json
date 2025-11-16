@@ -13,5 +13,10 @@
     "id": "NO_CASTING_EVOCATION_SPELLS",
     "type": "json_flag",
     "//": "Used by the NO_CASTING_EVOCATION_SPELLS trait"
+  },
+  {
+    "id": "NO_CASTING_CHANNELING_SPELLS",
+    "type": "json_flag",
+    "//": "Used by the NO_CASTING_CHANNELING_SPELLS trait"
   }
 ]

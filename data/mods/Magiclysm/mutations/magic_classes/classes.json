@@ -1,6 +1,26 @@
 [
   {
     "type": "mutation",
+    "id": "SPELLCASTING_DEFAULT_TRAIT",
+    "name": { "str": "Default Spellcasting modifiers", "//~": "NO_I18N" },
+    "points": 0,
+    "description": {
+      "str": "Adds some default spellcasting modifiers to work around jmath limit.  Should not be player-visible",
+      "//~": "NO_I18N"
+    },
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "player_display": false,
+    "enchantments": [
+      {
+        "condition": { "u_has_wielded_with_flag": "SPELLCASTING_AID" },
+        "ench_effects": [ { "effect": "effect_magiclysm_spellcasting_aid_item_wielded", "intensity": 1 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "MAGUS",
     "name": "Magus",
     "points": 0,
@@ -10,12 +30,6 @@
     "valid": false,
     "cancels": [ "ANIMIST" ],
     "spells_learned": [ [ "create_rune_magus", 0 ] ],
-    "enchantments": [
-      {
-        "condition": { "u_has_wielded_with_flag": "SPELLCASTING_AID" },
-        "ench_effects": [ { "effect": "effect_magiclysm_spellcasting_aid_item_wielded", "intensity": 1 } ]
-      }
-    ],
     "flags": [ "ATTUNEMENT" ]
   },
   {
@@ -29,12 +43,6 @@
     "valid": false,
     "cancels": [ "MAGUS" ],
     "spells_learned": [ [ "create_rune_animist", 0 ] ],
-    "enchantments": [
-      {
-        "condition": { "u_has_wielded_with_flag": "SPELLCASTING_AID" },
-        "ench_effects": [ { "effect": "effect_magiclysm_spellcasting_aid_item_wielded", "intensity": 1 } ]
-      }
-    ],
     "moncams": [ [ "mon_watcher_spirit", 30 ] ],
     "flags": [ "ATTUNEMENT" ]
   },
@@ -49,13 +57,7 @@
     "valid": false,
     "cancels": [ "STORMSHAPER" ],
     "spells_learned": [ [ "create_rune_kelvinist", 0 ] ],
-    "enchantments": [
-      "KELVINIST",
-      {
-        "condition": { "u_has_wielded_with_flag": "SPELLCASTING_AID" },
-        "ench_effects": [ { "effect": "effect_magiclysm_spellcasting_aid_item_wielded", "intensity": 1 } ]
-      }
-    ],
+    "enchantments": [ "KELVINIST" ],
     "flags": [ "ATTUNEMENT" ]
   },
   {
@@ -69,13 +71,7 @@
     "valid": false,
     "cancels": [ "KELVINIST" ],
     "spells_learned": [ [ "create_rune_stormshaper", 0 ] ],
-    "enchantments": [
-      "STORMSHAPER",
-      {
-        "condition": { "u_has_wielded_with_flag": "SPELLCASTING_AID" },
-        "ench_effects": [ { "effect": "effect_magiclysm_spellcasting_aid_item_wielded", "intensity": 1 } ]
-      }
-    ],
+    "enchantments": [ "STORMSHAPER" ],
     "flags": [ "ATTUNEMENT" ]
   },
   {
@@ -89,12 +85,6 @@
     "valid": false,
     "cancels": [ "EARTHSHAPER" ],
     "spells_learned": [ [ "create_rune_technomancer", 0 ] ],
-    "enchantments": [
-      {
-        "condition": { "u_has_wielded_with_flag": "SPELLCASTING_AID" },
-        "ench_effects": [ { "effect": "effect_magiclysm_spellcasting_aid_item_wielded", "intensity": 1 } ]
-      }
-    ],
     "flags": [ "ATTUNEMENT" ]
   },
   {
@@ -108,12 +98,6 @@
     "valid": false,
     "cancels": [ "TECHNOMANCER" ],
     "spells_learned": [ [ "create_rune_earthshaper", 0 ] ],
-    "enchantments": [
-      {
-        "condition": { "u_has_wielded_with_flag": "SPELLCASTING_AID" },
-        "ench_effects": [ { "effect": "effect_magiclysm_spellcasting_aid_item_wielded", "intensity": 1 } ]
-      }
-    ],
     "flags": [ "ATTUNEMENT" ]
   },
   {
@@ -127,12 +111,6 @@
     "valid": false,
     "cancels": [ "DRUID" ],
     "spells_learned": [ [ "create_rune_biomancer", 0 ] ],
-    "enchantments": [
-      {
-        "condition": { "u_has_wielded_with_flag": "SPELLCASTING_AID" },
-        "ench_effects": [ { "effect": "effect_magiclysm_spellcasting_aid_item_wielded", "intensity": 1 } ]
-      }
-    ],
     "flags": [ "ATTUNEMENT" ]
   },
   {
@@ -146,12 +124,6 @@
     "valid": false,
     "cancels": [ "BIOMANCER" ],
     "spells_learned": [ [ "create_rune_druid", 0 ] ],
-    "enchantments": [
-      {
-        "condition": { "u_has_wielded_with_flag": "SPELLCASTING_AID" },
-        "ench_effects": [ { "effect": "effect_magiclysm_spellcasting_aid_item_wielded", "intensity": 1 } ]
-      }
-    ],
     "flags": [ "ATTUNEMENT", "TREE_COMMUNION_PLUS" ]
   }
 ]

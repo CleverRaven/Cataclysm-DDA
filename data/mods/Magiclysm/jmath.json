@@ -3,13 +3,13 @@
     "type": "jmath_function",
     "id": "magiclysm_standard_spell_failure_equation",
     "num_args": 0,
-    "return": "0.6 + (u_effect_intensity('effect_magiclysm_spellcasting_aid_item_wielded') > 0 ? -0.3 : 0)  + (u_val('intelligence') * -0.-03) + (u_spell_level(_spell_id) * -0.02) + clamp( ( (u_pain() / 100) - (u_spell_level(_spell_id) * -0.04) ), 0, 1) + magiclysm_spell_failure_spellcraft_adjustments()"
+    "return": "0.6 + (u_effect_intensity('effect_magiclysm_spellcasting_aid_item_wielded') > 0 ? -0.3 : 0) + (u_val('intelligence') * -0.03) + (u_spell_level(_spell_id) * -0.02) + clamp( ( (u_pain() / 100) + ( (u_pain() > 4) ? (u_spell_level(_spell_id) * -0.04) : 0) ), 0, 1) + magiclysm_spell_failure_spellcraft_adjustments()"
   },
   {
     "type": "jmath_function",
     "id": "magiclysm_spell_failure_spellcraft_adjustments",
     "num_args": 0,
-    "return": "(u_spell_difficulty(_spell_id) * 0.04) + (u_skill('spellcraft') * -0.08) + (u_spell_difficulty(_spell_id) > u_skill('spellcraft') ) ? ( (u_spell_difficulty(_spell_id) > u_skill('spellcraft') ) * 0.12 ) : 0"
+    "return": "(u_spell_difficulty(_spell_id) * 0.04) + (u_skill('spellcraft') * -0.08) + (u_spell_difficulty(_spell_id) > u_skill('spellcraft') ) ? ( (u_spell_difficulty(_spell_id) - u_skill('spellcraft') ) * 0.12 ) : 0"
   },
   {
     "type": "jmath_function",
@@ -22,6 +22,18 @@
     "id": "magiclysm_spell_failure_evocation_proficiency_adjustments",
     "num_args": 0,
     "return": "(u_has_proficiency('prof_magic_evocation_beginner') ? -0.1 : 0) + (u_has_proficiency('prof_magic_evocation_apprentice') ? -0.15 : 0) + (u_has_proficiency('prof_magic_evocation_master') ? -0.2 : 0)"
+  },
+  {
+    "type": "jmath_function",
+    "id": "magiclysm_spell_failure_channeling_formula",
+    "num_args": 0,
+    "return": "clamp( (magiclysm_standard_spell_failure_equation() + magiclysm_spell_failure_channeling_proficiency_adjustments() ), 0, 1)"
+  },
+  {
+    "type": "jmath_function",
+    "id": "magiclysm_spell_failure_channeling_proficiency_adjustments",
+    "num_args": 0,
+    "return": "(u_has_proficiency('prof_magic_channel_beginner') ? -0.1 : 0) + (u_has_proficiency('prof_magic_channel_apprentice') ? -0.15 : 0) + (u_has_proficiency('prof_magic_channel_master') ? -0.2 : 0)"
   },
   {
     "type": "jmath_function",
