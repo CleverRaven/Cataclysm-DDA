@@ -132,9 +132,7 @@
         "level": 3,
         "name": "Uncommon",
         "description": "Items are 25% less common than default.",
-        "options": [
-          { "option": "ITEM_SPAWNRATE", "type": "float", "val": 0.75 }
-        ]
+        "options": [ { "option": "ITEM_SPAWNRATE", "type": "float", "val": 0.75 } ]
       },
       {
         "level": 4,
