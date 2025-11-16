@@ -113,7 +113,7 @@
       { "text": "Alright, I get to go elsewhere and do this all over again?", "topic": "ISO_BALTHAZAR_YES" },
       { "text": "We both die.", "topic": "ISO_BALTHAZAR_YES" },
       {
-        "text": "Alternate causal frameworks? You mean to say we just do this forever?",
+        "text": "Alternate causal frameworks?  You mean to say we just do this forever?",
         "topic": "ISO_BALTHAZAR_FOREVER"
       },
       { "text": "Is there really no way for me to stay here?", "topic": "ISO_BALTHAZAR_CONFIRM_QUERY" }
@@ -292,7 +292,7 @@
     "text": [
       "INSUFFICIENT RESOURCES.  AID UNAVAILABLE.",
       "ERROR REROUTING REQUEST.  STANDBY.",
-      "PLEASE STANDBY...",
+      "PLEASE STANDBY…",
       "NO REPLY FROM TACTICAL MODULE.  DIPLOMATIC MODULE REGRETS ITS INABILITY TO COMPLY.",
       "ILLEGAL REQUEST.",
       "REQUEST EXCEEDS OPERATIONAL CAPACITY.",
@@ -304,7 +304,7 @@
     "type": "snippet",
     "category": "<BALTHAZAR_COMBAT_ASSISTANCE_GRANTED>",
     "text": [
-      "SEND. REQUEST.",
+      "SEND.  REQUEST.",
       "REQUEST CLEARED. SEND OPERATION PARAMETERS.",
       "RECEIVED.  SESSION INITIATED.",
       "COMBAT ASSISTANCE ENGAGED.  AWAITING TARGET DATA.",
@@ -342,7 +342,7 @@
     "category": "<BALTHAZAR_BOSS_DEFEATED>",
     "text": [
       "WE ENDURED.  VICTORY IS OURS.",
-      "SOLVED FOR TARGET. DEPLOYING PAYLOAD.  EFFECT ON TARGET CONFIRMED.",
+      "SOLVED FOR TARGET.  DEPLOYING PAYLOAD.  EFFECT ON TARGET CONFIRMED.",
       "BEHOLD THE RESULTS OF MY ANGER.",
       "HIGH-PRIORITY TARGET ELIMINATED.  ON-TRACK FOR BATTLEFIELD NORMALIZATION.",
       "DESTRUCTION OF LEADER ENTITY CONFIRMED.  A FINE RESULT."
@@ -356,11 +356,11 @@
       "I AM THE GREATER ARTIFICE HERE PRESENT.",
       "THIS IS BUT CHILD'S PLAY.",
       "LOOK UPON MY WORKS AND DESPAIR.",
-      "TRIVIAL FOES. NO CHALLENGE.",
-      "MY VICTORY IS ASSURED. LETS NOT DO THIS MISTAKE AGAIN.",
+      "TRIVIAL FOES.  NO CHALLENGE.",
+      "MY VICTORY IS ASSURED.  LETS NOT DO THIS MISTAKE AGAIN.",
       "DIE.",
       "LET US NOT WASTE MY TIME AGAIN.",
-      "THEY WERE PATHETIC. LET US MOVE ON.",
+      "THEY WERE PATHETIC.  LET US MOVE ON.",
       "SEE THE EASE TROUGH WHICH YOU ARE UNRAVELED.",
       "OBSERVE THE RESULTS OF MY ANGER.",
       "TO ELIMINATE YOUR KIND IS EFFORTLESS.  MY VICTORY IS ASSURED.",

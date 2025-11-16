@@ -2,6 +2,6 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_iso_chasm",
-    "effect": [ { "u_message": "You fell forever into the dark chasm...", "popup": true }, "u_die" ]
+    "effect": [ { "u_message": "You fell forever into the dark chasm…", "popup": true }, "u_die" ]
   }
 ]
