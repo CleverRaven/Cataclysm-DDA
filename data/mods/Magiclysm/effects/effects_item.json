@@ -1,7 +1,7 @@
 [
   {
     "type": "effect_type",
-    "id": "effect_magiclysm_magic_focus_item_wielded",
+    "id": "effect_magiclysm_spellcasting_aid_item_wielded",
     "//": "Hidden effect, used since item flags can't be detected by jmath",
     "name": [ "" ],
     "desc": [ "" ]

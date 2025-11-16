@@ -3,5 +3,10 @@
     "id": "MAGICAL_MIND_PROTECTION",
     "type": "json_flag",
     "info": "Your magic protects your mind against assault."
+  },
+  {
+    "id": "SPELLCASTING_AID",
+    "type": "json_flag",
+    "info": "This item makes it easier to cast spells."
   }
 ]

@@ -12,7 +12,7 @@
     "energy_source": "MANA",
     "cannot_cast_flags": "NO_SPELLCASTING",
     "failure_cost_percent": 0.2,
-    "failure_chance_formula_id": "",
+    "failure_chance_formula_id": "magiclysm_spell_failure_evocation_formula",
     "cannot_cast_message": "You can't cast any of the spells you know!"
   }
 ]
