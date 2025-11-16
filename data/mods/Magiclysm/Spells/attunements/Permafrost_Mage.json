@@ -75,7 +75,7 @@
     "min_duration": 500,
     "max_duration": 18000,
     "duration_increment": 500,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_evocation_magic",
     "difficulty": 7,
     "damage_type": "cold"
   }

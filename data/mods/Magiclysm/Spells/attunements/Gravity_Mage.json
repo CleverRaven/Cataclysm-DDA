@@ -30,7 +30,7 @@
     "shape": "blast",
     "base_casting_time": 600,
     "base_energy_cost": 450,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_evocation_magic",
     "difficulty": 10,
     "max_level": 35,
     "min_damage": { "math": [ "(u_spell_level('gravitymage_graviton') * 0.4) + 10" ] },

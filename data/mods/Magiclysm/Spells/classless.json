@@ -114,7 +114,7 @@
     "damage_type": "heat",
     "base_casting_time": 200,
     "base_energy_cost": 8000,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_evocation_magic",
     "energy_source": "STAMINA",
     "spell_class": "NONE",
     "flags": [ "EVOCATION_SPELL", "RANDOM_DAMAGE", "LOUD", "SOMATIC", "VERBAL", "SPLIT_DAMAGE" ],
@@ -181,7 +181,7 @@
     "flags": [ "EVOCATION_SPELL", "RANDOM_DAMAGE", "SOMATIC", "NO_LEGS", "NO_PROJECTILE" ],
     "base_casting_time": 200,
     "base_energy_cost": 150,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_evocation_magic",
     "difficulty": 3,
     "damage_type": "light"
   },
@@ -210,7 +210,7 @@
     "flags": [ "EVOCATION_SPELL", "SOMATIC", "NO_PROJECTILE" ],
     "base_casting_time": 200,
     "base_energy_cost": 400,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_evocation_magic",
     "difficulty": 3,
     "damage_type": "bash"
   },
@@ -461,7 +461,7 @@
     "max_field_intensity": 1,
     "field_chance": 1,
     "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
-    "magic_type": "magiclysm_generic_magic"
+    "magic_type": "magiclysm_evocation_magic"
   },
   {
     "id": "classless_watch_spell",

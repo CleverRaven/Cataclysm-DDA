@@ -23,7 +23,7 @@
     "damage_type": "light",
     "flags": [ "EVOCATION_SPELL", "VERBAL", "LOUD", "RANDOM_DAMAGE", "NO_HANDS", "SPLIT_DAMAGE" ],
     "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
-    "magic_type": "magiclysm_generic_magic"
+    "magic_type": "magiclysm_evocation_magic"
   },
   {
     "id": "recover_mana",
@@ -392,7 +392,7 @@
     "effect": "attack",
     "shape": "line",
     "spell_class": "ANIMIST",
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_evocation_magic",
     "flags": [
       "EVOCATION_SPELL",
       "NO_LEGS",
@@ -500,7 +500,7 @@
     "final_casting_time": 30,
     "casting_time_increment": -5,
     "base_energy_cost": 300,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_evocation_magic",
     "damage_type": "necrotic",
     "extra_effects": [ { "id": "life_detonation_explosion" }, { "id": "eoc_evocation_setup", "hit_self": true } ]
   },
@@ -598,7 +598,7 @@
     "difficulty": 3,
     "max_level": 20,
     "base_casting_time": 100,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_evocation_magic",
     "shape": "blast",
     "effect": "attack",
     "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
@@ -715,7 +715,7 @@
     "effect": "attack",
     "shape": "blast",
     "flags": [ "EVOCATION_SPELL", "VERBAL", "SOMATIC", "NO_LEGS", "NO_PROJECTILE", "NO_HANDS" ],
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_evocation_magic",
     "spell_class": "ANIMIST",
     "difficulty": 2,
     "base_casting_time": 100,
@@ -813,7 +813,7 @@
     "duration_increment": -60,
     "min_dot": 5,
     "max_dot": 5,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_evocation_magic",
     "difficulty": 3,
     "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
     "damage_type": "necrotic",
@@ -840,7 +840,7 @@
     "difficulty": 10,
     "max_level": 25,
     "base_casting_time": 100,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_evocation_magic",
     "extra_effects": [
       { "id": "devour_damage" },
       { "id": "devour_healing", "hit_self": true },
@@ -1111,7 +1111,7 @@
     "difficulty": 1,
     "max_level": 15,
     "base_casting_time": 100,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_evocation_magic",
     "shape": "blast",
     "effect": "attack"
   },
@@ -1170,7 +1170,7 @@
     "min_range": 3,
     "max_range": 15,
     "range_increment": 0.9,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_evocation_magic",
     "base_casting_time": 75,
     "base_energy_cost": 350
   },

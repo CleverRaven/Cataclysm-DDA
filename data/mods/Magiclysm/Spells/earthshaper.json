@@ -73,7 +73,7 @@
     "spell_class": "EARTHSHAPER",
     "base_casting_time": 100,
     "base_energy_cost": 250,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_evocation_magic",
     "difficulty": 2,
     "damage_type": "bash"
   },
@@ -113,7 +113,7 @@
     "effect": "attack",
     "shape": "cone",
     "spell_class": "EARTHSHAPER",
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_evocation_magic",
     "difficulty": 3,
     "base_casting_time": 100,
     "base_energy_cost": 100,
@@ -142,7 +142,7 @@
     "effect": "attack",
     "shape": "blast",
     "spell_class": "EARTHSHAPER",
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_evocation_magic",
     "base_casting_time": 100,
     "base_energy_cost": 115,
     "difficulty": 2,
@@ -174,7 +174,7 @@
     "difficulty": 4,
     "max_level": 20,
     "base_casting_time": 100,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_evocation_magic",
     "shape": "blast",
     "effect": "attack"
   },
@@ -197,7 +197,7 @@
     "difficulty": 1,
     "max_level": 20,
     "base_casting_time": 100,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_evocation_magic",
     "shape": "blast",
     "effect": "attack"
   },
@@ -392,7 +392,7 @@
     "final_casting_time": 40,
     "casting_time_increment": -6,
     "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_evocation_magic",
     "ignored_monster_species": [ "ROBOT", "ROBOT_FLYING", "NETHER_EMANATION" ]
   },
   {
@@ -422,7 +422,7 @@
     "base_energy_cost": 350,
     "final_energy_cost": 250,
     "energy_increment": -5,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_evocation_magic",
     "difficulty": 5,
     "damage_type": "stab"
   },
@@ -448,7 +448,7 @@
     "spell_class": "EARTHSHAPER",
     "base_casting_time": 200,
     "base_energy_cost": 300,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_evocation_magic",
     "difficulty": 5,
     "damage_type": "stab",
     "extra_effects": [ { "id": "eshaper_impalement_moves" }, { "id": "eoc_evocation_setup", "hit_self": true } ]

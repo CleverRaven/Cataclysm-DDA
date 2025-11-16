@@ -32,7 +32,7 @@
     "base_casting_time": 200,
     "final_casting_time": 160,
     "casting_time_increment": -10,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_evocation_magic",
     "base_energy_cost": 350
   },
   {
@@ -58,7 +58,7 @@
     "base_casting_time": 100,
     "final_casting_time": 64,
     "casting_time_increment": -9,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_evocation_magic",
     "base_energy_cost": 350,
     "extra_effects": [ { "id": "dragon_bite" }, { "id": "eoc_evocation_setup", "hit_self": true } ]
   },
@@ -226,7 +226,7 @@
     "base_casting_time": 200,
     "final_casting_time": 160,
     "casting_time_increment": -10,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_evocation_magic",
     "base_energy_cost": 100
   },
   {
@@ -252,7 +252,7 @@
     "field_chance": 2,
     "field_intensity_increment": 0.1,
     "base_casting_time": 200,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_evocation_magic",
     "base_energy_cost": 200,
     "flags": [ "EVOCATION_SPELL", "VERBAL", "NO_HANDS", "NO_LEGS", "LOUD", "SPLIT_DAMAGE" ]
   }

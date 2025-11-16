@@ -44,7 +44,7 @@
     "difficulty": 8,
     "max_level": 16,
     "base_casting_time": 300,
-    "magic_type": "magiclysm_generic_magic"
+    "magic_type": "magiclysm_evocation_magic"
   },
   {
     "id": "create_lighter",
@@ -92,7 +92,7 @@
     "difficulty": 6,
     "spell_class": "KELVINIST",
     "base_casting_time": 200,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_evocation_magic",
     "base_energy_cost": 100
   },
   {
@@ -117,7 +117,7 @@
     "spell_class": "KELVINIST",
     "base_casting_time": 200,
     "base_energy_cost": 350,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_evocation_magic",
     "difficulty": 4,
     "damage_type": "heat"
   },
@@ -143,7 +143,7 @@
     "spell_class": "KELVINIST",
     "base_casting_time": 200,
     "base_energy_cost": 350,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_evocation_magic",
     "difficulty": 4,
     "field_id": "fd_cold_air2",
     "min_field_intensity": 0,
@@ -173,7 +173,7 @@
     "spell_class": "KELVINIST",
     "base_casting_time": 100,
     "base_energy_cost": 150,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_evocation_magic",
     "difficulty": 2,
     "damage_type": "heat"
   },
@@ -201,7 +201,7 @@
     "spell_class": "KELVINIST",
     "base_casting_time": 100,
     "base_energy_cost": 100,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_evocation_magic",
     "difficulty": 2,
     "damage_type": "cold"
   },
@@ -227,7 +227,7 @@
     "difficulty": 1,
     "max_level": 10,
     "base_casting_time": 100,
-    "magic_type": "magiclysm_generic_magic"
+    "magic_type": "magiclysm_evocation_magic"
   },
   {
     "id": "glide_ice",
@@ -304,7 +304,7 @@
     "spell_class": "KELVINIST",
     "base_casting_time": 200,
     "base_energy_cost": 350,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_evocation_magic",
     "difficulty": 4,
     "damage_type": "cold"
   },
@@ -534,7 +534,7 @@
     "spell_class": "KELVINIST",
     "base_casting_time": 150,
     "base_energy_cost": 200,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_evocation_magic",
     "difficulty": 5,
     "damage_type": "heat"
   },
@@ -565,7 +565,7 @@
     "base_casting_time": 160,
     "final_casting_time": 40,
     "casting_time_increment": -6,
-    "magic_type": "magiclysm_generic_magic"
+    "magic_type": "magiclysm_evocation_magic"
   },
   {
     "id": "kelvinist_anti_cold",
@@ -741,7 +741,7 @@
     "min_range": 2,
     "max_range": 15,
     "range_increment": 1,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_evocation_magic",
     "base_energy_cost": 75,
     "base_casting_time": 100,
     "sound_type": "combat",
@@ -803,7 +803,7 @@
     "min_aoe": 2,
     "max_aoe": 12,
     "aoe_increment": 0.5,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_evocation_magic",
     "base_energy_cost": 1000,
     "base_casting_time": 500
   },

@@ -19,7 +19,7 @@
     "min_field_intensity": 2,
     "max_field_intensity": 2,
     "spell_class": "BIOTEK",
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_evocation_magic",
     "base_casting_time": 300,
     "base_energy_cost": 350,
     "max_level": 35,
