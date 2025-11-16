@@ -793,14 +793,7 @@
         {
           "type": "762",
           "weight": 34,
-          "items": {
-            "ak47": 1,
-            "sks": 1,
-            "aksemi": 1,
-            "mk47": 1,
-            "vz58_p": 1,
-            "retool_ar15_762": 1
-          }
+          "items": { "ak47": 1, "sks": 1, "aksemi": 1, "mk47": 1, "vz58_p": 1, "retool_ar15_762": 1 }
         },
         {
           "type": "357mag",
@@ -909,15 +902,7 @@
         {
           "type": "10mm",
           "weight": 1,
-          "items": {
-            "glock_20": 1,
-            "glock_29": 1,
-            "glock_40": 1,
-            "m1911_10": 1,
-            "p220_10": 1,
-            "witness_10": 1,
-            "xd_10": 1
-          }
+          "items": { "glock_20": 1, "glock_29": 1, "glock_40": 1, "m1911_10": 1, "p220_10": 1, "witness_10": 1, "xd_10": 1 }
         },
         {
           "type": "other",
