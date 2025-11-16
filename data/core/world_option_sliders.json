@@ -36,13 +36,12 @@
       {
         "level": 0,
         "name": "Cakewalk?",
-        "description": "Monsters are much easier to deal with, and plenty of items can be found.",
+        "description": "Monsters are much easier to deal with.",
         "options": [
           { "option": "MONSTER_SPEED", "type": "int", "val": 90 },
           { "option": "MONSTER_RESILIENCE", "type": "int", "val": 75 },
           { "option": "SPAWN_DENSITY", "type": "float", "val": 0.8 },
-          { "option": "EVOLUTION_INVERSE_MULTIPLIER", "type": "float", "val": 2 },
-          { "option": "ITEM_SPAWNRATE", "type": "float", "val": 1.5 }
+          { "option": "EVOLUTION_INVERSE_MULTIPLIER", "type": "float", "val": 2 }
         ]
       },
       {
@@ -53,20 +52,18 @@
           { "option": "MONSTER_SPEED", "type": "int", "val": 100 },
           { "option": "MONSTER_RESILIENCE", "type": "int", "val": 85 },
           { "option": "SPAWN_DENSITY", "type": "float", "val": 0.9 },
-          { "option": "EVOLUTION_INVERSE_MULTIPLIER", "type": "float", "val": 1.5 },
-          { "option": "ITEM_SPAWNRATE", "type": "float", "val": 1 }
+          { "option": "EVOLUTION_INVERSE_MULTIPLIER", "type": "float", "val": 1.5 }
         ]
       },
       {
         "level": 2,
         "name": "Cataclysm",
-        "description": "The default monster hunting and item collecting experience.",
+        "description": "The default monster hunting experience.",
         "options": [
           { "option": "MONSTER_SPEED", "type": "int", "val": 100 },
           { "option": "MONSTER_RESILIENCE", "type": "int", "val": 100 },
           { "option": "SPAWN_DENSITY", "type": "float", "val": 1 },
-          { "option": "EVOLUTION_INVERSE_MULTIPLIER", "type": "float", "val": 1 },
-          { "option": "ITEM_SPAWNRATE", "type": "float", "val": 1 }
+          { "option": "EVOLUTION_INVERSE_MULTIPLIER", "type": "float", "val": 1 }
         ]
       },
       {
@@ -77,31 +74,78 @@
           { "option": "MONSTER_SPEED", "type": "int", "val": 100 },
           { "option": "MONSTER_RESILIENCE", "type": "int", "val": 120 },
           { "option": "SPAWN_DENSITY", "type": "float", "val": 1.5 },
-          { "option": "EVOLUTION_INVERSE_MULTIPLIER", "type": "float", "val": 0.91 },
-          { "option": "ITEM_SPAWNRATE", "type": "float", "val": 1 }
+          { "option": "EVOLUTION_INVERSE_MULTIPLIER", "type": "float", "val": 0.91 }
         ]
       },
       {
         "level": 4,
         "name": "Punish me",
-        "description": "Monsters are significantly tougher and faster, spawn more, and evolve faster.  Items are a bit rarer too.",
+        "description": "Monsters are significantly tougher and faster, spawn more, and evolve faster.",
         "options": [
           { "option": "MONSTER_SPEED", "type": "int", "val": 110 },
           { "option": "MONSTER_RESILIENCE", "type": "int", "val": 150 },
           { "option": "SPAWN_DENSITY", "type": "float", "val": 2 },
-          { "option": "EVOLUTION_INVERSE_MULTIPLIER", "type": "float", "val": 0.88 },
-          { "option": "ITEM_SPAWNRATE", "type": "float", "val": 0.8 }
+          { "option": "EVOLUTION_INVERSE_MULTIPLIER", "type": "float", "val": 0.88 }
         ]
       },
       {
         "level": 5,
         "name": "Punish me more!",
-        "description": "Monsters are much tougher, extremely fast, and spawn 3x more.  Items are half as likely to spawn.",
+        "description": "Monsters are much tougher, extremely fast, and spawn 3x more.",
         "options": [
           { "option": "MONSTER_SPEED", "type": "int", "val": 120 },
           { "option": "MONSTER_RESILIENCE", "type": "int", "val": 200 },
           { "option": "SPAWN_DENSITY", "type": "float", "val": 3 },
-          { "option": "EVOLUTION_INVERSE_MULTIPLIER", "type": "float", "val": 0.75 },
+          { "option": "EVOLUTION_INVERSE_MULTIPLIER", "type": "float", "val": 0.75 }
+        ]
+      }
+    ]
+  },
+    {
+    "type": "option_slider",
+    "id": "world_item_rarity",
+    "context": "WORLDGEN",
+    "name": "Item Rarity",
+    "default": 2,
+    "levels": [
+      {
+        "level": 0,
+        "name": "Abundant",
+        "description": "Plenty of items can be found.",
+        "options": [
+          { "option": "ITEM_SPAWNRATE", "type": "float", "val": 1.5 }
+        ]
+      },
+      {
+        "level": 1,
+        "name": "Common",
+        "description": "Items spawn 25% more than default.",
+        "options": [
+          { "option": "ITEM_SPAWNRATE", "type": "float", "val": 1.25 }
+        ]
+      },
+      {
+        "level": 2,
+        "name": "Cataclysm",
+        "description": "The default monster hunting and item collecting experience.",
+        "options": [
+          { "option": "ITEM_SPAWNRATE", "type": "float", "val": 1 }
+        ]
+      },
+      {
+        "level": 3,
+        "name": "Uncommon",
+        "description": "Items are 25% less common than default.",
+        "options": [
+          { "option": "ITEM_SPAWNRATE", "type": "float", "val": 0.75 }
+        ]
+      },
+      {
+        "level": 4,
+        "name": "Rare loot",
+        "description": "Items are half as likely to spawn.",
+        "options": [
+
           { "option": "ITEM_SPAWNRATE", "type": "float", "val": 0.5 }
         ]
       }
