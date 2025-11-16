@@ -1,12 +1,5 @@
 [
   {
-    "id": "magiclysm_generic_magic",
-    "type": "magic_type",
-    "energy_source": "MANA",
-    "cannot_cast_flags": "NO_SPELLCASTING",
-    "cannot_cast_message": "You can't cast any of the spells you know!"
-  },
-  {
     "id": "crystallize_mana",
     "type": "SPELL",
     "name": "Crystallize Mana",

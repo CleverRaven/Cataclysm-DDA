@@ -1,0 +1,18 @@
+[
+  {
+    "id": "magiclysm_generic_magic",
+    "type": "magic_type",
+    "energy_source": "MANA",
+    "cannot_cast_flags": "NO_SPELLCASTING",
+    "cannot_cast_message": "You can't cast any of the spells you know!"
+  },
+  {
+    "id": "magiclysm_evocation_magic",
+    "type": "magic_type",
+    "energy_source": "MANA",
+    "cannot_cast_flags": "NO_SPELLCASTING",
+    "failure_cost_percent": 0.2,
+    "failure_chance_formula_id": "",
+    "cannot_cast_message": "You can't cast any of the spells you know!"
+  }
+]

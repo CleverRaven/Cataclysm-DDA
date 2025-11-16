@@ -10,6 +10,12 @@
     "valid": false,
     "cancels": [ "ANIMIST" ],
     "spells_learned": [ [ "create_rune_magus", 0 ] ],
+    "enchantments": [
+      {
+        "condition": { "u_has_wielded_with_flag": "MAGIC_FOCUS" },
+        "ench_effects": [ { "effect": "effect_magiclysm_magic_focus_item_wielded", "intensity": 1 } ]
+      }
+    ],
     "flags": [ "ATTUNEMENT" ]
   },
   {
@@ -23,6 +29,12 @@
     "valid": false,
     "cancels": [ "MAGUS" ],
     "spells_learned": [ [ "create_rune_animist", 0 ] ],
+    "enchantments": [
+      {
+        "condition": { "u_has_wielded_with_flag": "MAGIC_FOCUS" },
+        "ench_effects": [ { "effect": "effect_magiclysm_magic_focus_item_wielded", "intensity": 1 } ]
+      }
+    ],
     "moncams": [ [ "mon_watcher_spirit", 30 ] ],
     "flags": [ "ATTUNEMENT" ]
   },
@@ -35,9 +47,15 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "enchantments": [ "KELVINIST" ],
     "cancels": [ "STORMSHAPER" ],
     "spells_learned": [ [ "create_rune_kelvinist", 0 ] ],
+    "enchantments": [
+      "KELVINIST",
+      {
+        "condition": { "u_has_wielded_with_flag": "MAGIC_FOCUS" },
+        "ench_effects": [ { "effect": "effect_magiclysm_magic_focus_item_wielded", "intensity": 1 } ]
+      }
+    ],
     "flags": [ "ATTUNEMENT" ]
   },
   {
@@ -49,9 +67,15 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "enchantments": [ "STORMSHAPER" ],
     "cancels": [ "KELVINIST" ],
     "spells_learned": [ [ "create_rune_stormshaper", 0 ] ],
+    "enchantments": [
+      "STORMSHAPER",
+      {
+        "condition": { "u_has_wielded_with_flag": "MAGIC_FOCUS" },
+        "ench_effects": [ { "effect": "effect_magiclysm_magic_focus_item_wielded", "intensity": 1 } ]
+      }
+    ],
     "flags": [ "ATTUNEMENT" ]
   },
   {
@@ -65,6 +89,12 @@
     "valid": false,
     "cancels": [ "EARTHSHAPER" ],
     "spells_learned": [ [ "create_rune_technomancer", 0 ] ],
+    "enchantments": [
+      {
+        "condition": { "u_has_wielded_with_flag": "MAGIC_FOCUS" },
+        "ench_effects": [ { "effect": "effect_magiclysm_magic_focus_item_wielded", "intensity": 1 } ]
+      }
+    ],
     "flags": [ "ATTUNEMENT" ]
   },
   {
@@ -78,6 +108,12 @@
     "valid": false,
     "cancels": [ "TECHNOMANCER" ],
     "spells_learned": [ [ "create_rune_earthshaper", 0 ] ],
+    "enchantments": [
+      {
+        "condition": { "u_has_wielded_with_flag": "MAGIC_FOCUS" },
+        "ench_effects": [ { "effect": "effect_magiclysm_magic_focus_item_wielded", "intensity": 1 } ]
+      }
+    ],
     "flags": [ "ATTUNEMENT" ]
   },
   {
@@ -91,6 +127,12 @@
     "valid": false,
     "cancels": [ "DRUID" ],
     "spells_learned": [ [ "create_rune_biomancer", 0 ] ],
+    "enchantments": [
+      {
+        "condition": { "u_has_wielded_with_flag": "MAGIC_FOCUS" },
+        "ench_effects": [ { "effect": "effect_magiclysm_magic_focus_item_wielded", "intensity": 1 } ]
+      }
+    ],
     "flags": [ "ATTUNEMENT" ]
   },
   {
@@ -104,6 +146,12 @@
     "valid": false,
     "cancels": [ "BIOMANCER" ],
     "spells_learned": [ [ "create_rune_druid", 0 ] ],
+    "enchantments": [
+      {
+        "condition": { "u_has_wielded_with_flag": "MAGIC_FOCUS" },
+        "ench_effects": [ { "effect": "effect_magiclysm_magic_focus_item_wielded", "intensity": 1 } ]
+      }
+    ],
     "flags": [ "ATTUNEMENT", "TREE_COMMUNION_PLUS" ]
   }
 ]
