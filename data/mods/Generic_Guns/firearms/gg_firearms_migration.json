@@ -180,7 +180,7 @@
     "replace": "pistol_pipe_smg"
   },
   {
-    "id": [ "model_10_revolver", "ruger_lcr_38", "bond_410", "colt_saa", "m47a1", "taurus_judge", "sw642" ],
+    "id": [ "model_10_revolver", "ruger_lcr_38", "sw_610", "bond_410", "colt_saa", "m47a1", "taurus_judge", "sw642" ],
     "type": "MIGRATION",
     "replace": "pistol_revolver"
   },
@@ -300,6 +300,8 @@
       "ruger_m77",
       "ruger_arr",
       "ruger_pr",
+      "cz600",
+      "cz600_762",
       "axmc",
       "axmc_300",
       "axmc_308",
