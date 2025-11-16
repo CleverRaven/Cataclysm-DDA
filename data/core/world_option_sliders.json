@@ -118,9 +118,7 @@
         "level": 1,
         "name": "Common",
         "description": "Items spawn 25% more than default.",
-        "options": [
-          { "option": "ITEM_SPAWNRATE", "type": "float", "val": 1.25 }
-        ]
+        "options": [ { "option": "ITEM_SPAWNRATE", "type": "float", "val": 1.25 } ]
       },
       {
         "level": 2,
