@@ -112,9 +112,7 @@
         "level": 0,
         "name": "Abundant",
         "description": "Plenty of items can be found.",
-        "options": [
-          { "option": "ITEM_SPAWNRATE", "type": "float", "val": 1.5 }
-        ]
+        "options": [ { "option": "ITEM_SPAWNRATE", "type": "float", "val": 1.5 } ]
       },
       {
         "level": 1,
