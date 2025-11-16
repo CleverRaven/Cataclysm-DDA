@@ -283,5 +283,15 @@
     "opposite": "assist_hand",
     "name": "assistant's  hand",
     "name_multiple": "assistant's hands"
+  },
+  {
+    "id": "data_slot",
+    "type": "sub_body_part",
+    "parent": "bp_null",
+    "side": 1,
+    "name": "data shunt interface",
+    "name_multiple": "data shunt interfaces",
+    "//": "I need to make this come from a bionic, and then have expansions traits that increase the number of slots available via bionic_slot_bonus",
+    "bionic_slots": 3
   }
 ]

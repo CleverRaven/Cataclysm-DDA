@@ -4,6 +4,7 @@
     "type": "bionic",
     "name": { "str": "Datashunt: Knives" },
     "description": "A brain implant that grants instinctual knowledge about the operation of flying machines.",
+    "activate_remove_cbm": true,
     "occupied_bodyparts": [ [ "data_slot", 1 ] ],
     "learned_proficiencies": [ "prof_knives_familiar" ]
   },
@@ -12,23 +13,62 @@
     "type": "bionic",
     "name": { "str": "Datashunt: Knives, advanced" },
     "description": "A brain implant that grants instinctual knowledge about the operation of flying machines.",
+    "activate_remove_cbm": true,
     "occupied_bodyparts": [ [ "data_slot", 2 ] ],
     "learned_proficiencies": [ "prof_knives_pro" ]
   },
   {
-    "id": "xe_bio_dataslot_knife_basic",
+    "id": "xe_bio_dataslot_baton_basic",
     "type": "bionic",
-    "name": { "str": "Datashunt: Aeronautics" },
+    "name": { "str": "Datashunt: Batons" },
     "description": "A brain implant that grants instinctual knowledge about the operation of flying machines.",
+    "activate_remove_cbm": true,
     "occupied_bodyparts": [ [ "data_slot", 1 ] ],
     "learned_proficiencies": [ "prof_batons_familiar" ]
   },
   {
-    "id": "xe_bio_dataslot_knife_basic",
+    "id": "xe_bio_dataslot_baton_advanced",
     "type": "bionic",
-    "name": { "str": "Datashunt: Aeronautics" },
+    "name": { "str": "Datashunt: Batons, advanced" },
     "description": "A brain implant that grants instinctual knowledge about the operation of flying machines.",
+    "activate_remove_cbm": true,
     "occupied_bodyparts": [ [ "data_slot", 2 ] ],
     "learned_proficiencies": [ "prof_batons_pro" ]
   },
+  {
+    "id": "xe_bio_dataslot_med_swords_basic",
+    "type": "bionic",
+    "name": { "str": "Datashunt: Medium Swords," },
+    "description": "A brain implant that grants instinctual knowledge about the operation of flying machines.",
+    "activate_remove_cbm": true,
+    "occupied_bodyparts": [ [ "data_slot", 1 ] ],
+    "learned_proficiencies": [ "prof_medium_swords_familiar" ]
+  },
+  {
+    "id": "xe_bio_dataslot_med_swords_advanced",
+    "type": "bionic",
+    "name": { "str": "Datashunt: Medium Swords, advanced" },
+    "description": "A brain implant that grants instinctual knowledge about the operation of flying machines.",
+    "activate_remove_cbm": true,
+    "occupied_bodyparts": [ [ "data_slot", 2 ] ],
+    "learned_proficiencies": [ "prof_medium_swords_pro" ]
+  },
+  {
+    "id": "xe_bio_dataslot_short_swords_basic",
+    "type": "bionic",
+    "name": { "str": "Datashunt: Short Swords," },
+    "description": "A brain implant that grants instinctual knowledge about the operation of flying machines.",
+    "activate_remove_cbm": true,
+    "occupied_bodyparts": [ [ "data_slot", 1 ] ],
+    "learned_proficiencies": [ "prof_short_swords_familiar" ]
+  },
+  {
+    "id": "xe_bio_dataslot_short_swords_advanced",
+    "type": "bionic",
+    "name": { "str": "Datashunt: Short Swords, advanced" },
+    "description": "A brain implant that grants instinctual knowledge about the operation of flying machines.",
+    "activate_remove_cbm": true,
+    "occupied_bodyparts": [ [ "data_slot", 2 ] ],
+    "learned_proficiencies": [ "prof_short_swords_pro" ]
+  }
 ]
