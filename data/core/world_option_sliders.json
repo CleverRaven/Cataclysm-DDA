@@ -136,10 +136,7 @@
         "level": 4,
         "name": "Rare loot",
         "description": "Items are half as likely to spawn.",
-        "options": [
-
-          { "option": "ITEM_SPAWNRATE", "type": "float", "val": 0.5 }
-        ]
+        "options": [ { "option": "ITEM_SPAWNRATE", "type": "float", "val": 0.5 } ]
       }
     ]
   },
