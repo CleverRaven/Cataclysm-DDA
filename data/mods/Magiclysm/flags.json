@@ -8,5 +8,10 @@
     "id": "SPELLCASTING_AID",
     "type": "json_flag",
     "info": "This item makes it easier to cast spells."
+  },
+  {
+    "id": "NO_CASTING_EVOCATION_SPELLS",
+    "type": "json_flag",
+    "//": "Used by the NO_CASTING_EVOCATION_SPELLS trait"
   }
 ]
