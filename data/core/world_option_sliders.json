@@ -101,7 +101,7 @@
       }
     ]
   },
-    {
+  {
     "type": "option_slider",
     "id": "world_item_rarity",
     "context": "WORLDGEN",
