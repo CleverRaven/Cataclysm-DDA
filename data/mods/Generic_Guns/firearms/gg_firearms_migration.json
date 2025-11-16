@@ -122,7 +122,6 @@
       "fn57",
       "glock_17",
       "ruger_57",
-      "p50",
       "walther_ppq_9mm",
       "hptc9",
       "cz75",
@@ -143,7 +142,6 @@
       "sp2022",
       "ruger_charger",
       "hk_mp5_semi_pistol",
-      "TDI_10",
       "draco_9mm",
       "p365",
       "swbodyguard",
@@ -182,7 +180,7 @@
     "replace": "pistol_pipe_smg"
   },
   {
-    "id": [ "model_10_revolver", "ruger_lcr_38", "sw_610", "bond_410", "colt_saa", "m47a1", "taurus_judge", "sw642" ],
+    "id": [ "model_10_revolver", "ruger_lcr_38", "bond_410", "colt_saa", "m47a1", "taurus_judge", "sw642" ],
     "type": "MIGRATION",
     "replace": "pistol_revolver"
   },
@@ -224,7 +222,6 @@
       "walther_p22",
       "walther_ppk",
       "pressin",
-      "cp33",
       "ruger_mk4",
       "rough_rider_pistol",
       "rough_rider_pistol_9",
@@ -303,8 +300,6 @@
       "ruger_m77",
       "ruger_arr",
       "ruger_pr",
-      "cz600",
-      "cz600_762",
       "axmc",
       "axmc_300",
       "axmc_308",
@@ -316,7 +311,6 @@
       "win70",
       "browning_blr",
       "remington_700",
-      "savage_111f",
       "scar_17s",
       "steyr_scout",
       "M24",
@@ -383,7 +377,6 @@
       "mosin44",
       "famas",
       "aksemi",
-      "bren2_762",
       "805_bren",
       "bren2_556",
       "robofac_gun",
@@ -437,7 +430,7 @@
     "replace": "rocket_recoilless"
   },
   {
-    "id": [ "lever_shotgun", "shotgun_d", "shotgun_triple", "shotgun_s", "winchester_1887", "pipe_shotgun", "winchester_1897" ],
+    "id": [ "lever_shotgun", "shotgun_d", "shotgun_triple", "shotgun_s", "pipe_shotgun", "winchester_1897" ],
     "type": "MIGRATION",
     "replace": "shot_double"
   },
@@ -472,7 +465,6 @@
   },
   {
     "id": [
-      "shotgun_410",
       "mossberg_500_410",
       "benelli_sa",
       "ksg",
@@ -489,7 +481,7 @@
     "replace": "shot_pump"
   },
   {
-    "id": [ "remington_870_breacher", "mossberg_590_shockwave" ],
+    "id": [ "mossberg_590_shockwave" ],
     "type": "MIGRATION",
     "replace": "shot_short_pump"
   },

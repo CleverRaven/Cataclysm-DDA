@@ -5,7 +5,6 @@
     "items": [
       "llink",
       "dias",
-      "M6_shotgun",
       "ksg25_aux_shotgun",
       "combination_gun_shotgun",
       "belt_clip",
@@ -46,8 +45,6 @@
       "retool_axmc_338lapua",
       "retool_axmc_300win",
       "retool_axmc_308win",
-      "retool_cz600_223rem",
-      "retool_cz600_762",
       "retool_deagle_357",
       "retool_deagle_44",
       "retool_deagle_50"
