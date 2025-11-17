@@ -950,7 +950,19 @@ Gun mods can be defined like this:
 "initial_charges": 75,     // Charges when spawned
 "max_charges": 75,         // Maximum charges tool can hold
 "power_draw": "50 mW",     // Energy consumption per second
-"revert_to": "torch_done", // Transforms into item when charges are expended
+"revert_to": "torch_done", // Transforms into item when charges are expended. Intended to be replaced by transform_into, which it's mutually exclusive with
+"transform_into": {        // Extended transformation info. To replace "revert_to", with which it's mutually exclusive. Optional.
+  "target": "torch_done",  // Item to transform into.
+  "target_group": "?",     // Alternative to "target". No examples in the JSON at the time of this writing.
+  "variant_type": "<any>", // Variant to transform into. Optional.
+  "container": "jar_glass_sealed", // "Container for the transformed item". Optional
+  "sealed": true,          // Whether the container if present, or transformed item otherwise, should be sealed. Optional.
+  "target_charges": 2,     // How many items should the transformation result in. Only works with items transformed into a container. Optional.
+  "rand_target_charges": ?,// No current usages in the JSON. Optional and mutually exclusive with target_charges.
+  "target_ammo": 3,        // Number of charges (not count) the item should contain. Optional.
+  "target_timer": 1000,    // Set up a timer for the transformed object. Optional.
+  "active": true           // Set the transformed item to active. Optional.
+},
 "revert_msg": "The torch fades out.", // Message, that would be printed, when revert_to is used
 "sub": "hotplate",         // optional; this tool has the same functions as another tool
 "etransfer_rate": "30 MB"  // units::ememory, electronic transfer rate per second supported by this e-device
