@@ -1222,7 +1222,7 @@
     "shape": "blast",
     "difficulty": 4,
     "max_level": 20,
-    "magic_type": "magiclysm_channeling_magic ",
+    "magic_type": "magiclysm_channeling_magic",
     "base_energy_cost": 600,
     "base_casting_time": 360000,
     "final_casting_time": 90000,

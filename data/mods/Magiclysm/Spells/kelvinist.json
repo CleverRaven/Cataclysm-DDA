@@ -654,7 +654,7 @@
     "min_aoe": 1,
     "max_aoe": 10,
     "aoe_increment": 0.5,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_enervation_magic",
     "base_energy_cost": 250,
     "base_casting_time": 250
   },

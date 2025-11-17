@@ -907,7 +907,7 @@
     "max_range": 30,
     "range_increment": 1.67,
     "base_casting_time": 150,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_enervation_magic",
     "base_energy_cost": 900,
     "final_energy_cost": 600,
     "energy_increment": -20,

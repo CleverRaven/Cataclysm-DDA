@@ -25,15 +25,15 @@
   },
   {
     "type": "jmath_function",
-    "id": "magiclysm_spell_failure_enhancement_formula",
+    "id": "magiclysm_spell_failure_channeling_formula",
     "num_args": 0,
-    "return": "clamp( (magiclysm_standard_spell_failure_equation() + magiclysm_spell_failure_enhancement_proficiency_adjustments() ), 0, 1)"
+    "return": "clamp( (magiclysm_standard_spell_failure_equation() + magiclysm_spell_failure_channeling_proficiency_adjustments() ), 0, 1)"
   },
   {
     "type": "jmath_function",
-    "id": "magiclysm_spell_failure_enhancement_proficiency_adjustments",
+    "id": "magiclysm_spell_failure_channeling_proficiency_adjustments",
     "num_args": 0,
-    "return": "(u_has_proficiency('prof_magic_enhancement_beginner') ? -0.1 : 0) + (u_has_proficiency('prof_magic_enhancement_apprentice') ? -0.15 : 0) + (u_has_proficiency('prof_magic_enhancement_master') ? -0.2 : 0)"
+    "return": "(u_has_proficiency('prof_magic_channel_beginner') ? -0.1 : 0) + (u_has_proficiency('prof_magic_channel_apprentice') ? -0.15 : 0) + (u_has_proficiency('prof_magic_channel_master') ? -0.2 : 0)"
   },
   {
     "type": "jmath_function",
@@ -49,15 +49,27 @@
   },
   {
     "type": "jmath_function",
-    "id": "magiclysm_spell_failure_channeling_formula",
+    "id": "magiclysm_spell_failure_enhancement_formula",
     "num_args": 0,
-    "return": "clamp( (magiclysm_standard_spell_failure_equation() + magiclysm_spell_failure_channeling_proficiency_adjustments() ), 0, 1)"
+    "return": "clamp( (magiclysm_standard_spell_failure_equation() + magiclysm_spell_failure_enhancement_proficiency_adjustments() ), 0, 1)"
   },
   {
     "type": "jmath_function",
-    "id": "magiclysm_spell_failure_channeling_proficiency_adjustments",
+    "id": "magiclysm_spell_failure_enhancement_proficiency_adjustments",
     "num_args": 0,
-    "return": "(u_has_proficiency('prof_magic_channel_beginner') ? -0.1 : 0) + (u_has_proficiency('prof_magic_channel_apprentice') ? -0.15 : 0) + (u_has_proficiency('prof_magic_channel_master') ? -0.2 : 0)"
+    "return": "(u_has_proficiency('prof_magic_enhancement_beginner') ? -0.1 : 0) + (u_has_proficiency('prof_magic_enhancement_apprentice') ? -0.15 : 0) + (u_has_proficiency('prof_magic_enhancement_master') ? -0.2 : 0)"
+  },
+  {
+    "type": "jmath_function",
+    "id": "magiclysm_spell_failure_enervation_formula",
+    "num_args": 0,
+    "return": "clamp( (magiclysm_standard_spell_failure_equation() + magiclysm_spell_failure_enervation_proficiency_adjustments() ), 0, 1)"
+  },
+  {
+    "type": "jmath_function",
+    "id": "magiclysm_spell_failure_enervation_proficiency_adjustments",
+    "num_args": 0,
+    "return": "(u_has_proficiency('prof_magic_enervation_beginner') ? -0.1 : 0) + (u_has_proficiency('prof_magic_enervation_apprentice') ? -0.15 : 0) + (u_has_proficiency('prof_magic_enervation_master') ? -0.2 : 0)"
   },
   {
     "type": "jmath_function",

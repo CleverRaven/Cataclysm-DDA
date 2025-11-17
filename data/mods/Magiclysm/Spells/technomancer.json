@@ -706,7 +706,7 @@
     "range_increment": 1,
     "min_damage": { "math": [ "(u_spell_level('technomancer_robot_shutdown') * -15) * evocation_proficiency_modifier()" ] },
     "max_damage": { "math": [ "(u_spell_level('technomancer_robot_shutdown') * -25) * evocation_proficiency_modifier()" ] },
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_enervation_magic",
     "base_casting_time": 150,
     "base_energy_cost": 250,
     "targeted_monster_species": [ "GOLEM", "ROBOT", "CYBORG" ]

@@ -557,7 +557,7 @@
     "min_range": 3,
     "max_range": 20,
     "range_increment": 1.2,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_enervation_magic",
     "base_energy_cost": 350,
     "base_casting_time": 100
   },
@@ -578,7 +578,7 @@
     "min_range": 3,
     "max_range": 20,
     "range_increment": 1.2,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_enervation_magic",
     "extra_effects": [ { "id": "eoc_enervation_setup", "hit_self": true } ],
     "base_energy_cost": 1250,
     "final_energy_cost": 750,

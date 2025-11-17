@@ -145,7 +145,7 @@
     "duration_increment": 1000,
     "base_casting_time": 200,
     "base_energy_cost": 400,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_enervation_magic",
     "difficulty": 0,
     "extra_effects": [ { "id": "eoc_enervation_setup", "hit_self": true } ],
     "flags": [ "ENERVATION_SPELL", "LOUD", "NO_HANDS", "NO_LEGS" ]

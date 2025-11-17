@@ -211,7 +211,7 @@
     "effect_str": "magic_slowed",
     "shape": "blast",
     "spell_class": "MAGUS",
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_enervation_magic",
     "difficulty": 6,
     "base_casting_time": 200,
     "base_energy_cost": 400,
@@ -800,7 +800,7 @@
     "min_range": 3,
     "max_range": 35,
     "range_increment": 1.2,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_enervation_magic",
     "base_casting_time": 150,
     "base_energy_cost": 350
   },
@@ -827,7 +827,7 @@
     "min_aoe": 0,
     "max_aoe": 1,
     "aoe_increment": 0.05,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_enervation_magic",
     "base_casting_time": 100,
     "base_energy_cost": 75
   },

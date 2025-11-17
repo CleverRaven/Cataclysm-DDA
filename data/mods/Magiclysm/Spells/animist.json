@@ -476,7 +476,7 @@
     "final_casting_time": 30,
     "casting_time_increment": -14,
     "extra_effects": [ { "id": "eoc_enervation_setup", "hit_self": true } ],
-    "magic_type": "magiclysm_generic_magic"
+    "magic_type": "magiclysm_enervation_magic"
   },
   {
     "id": "life_detonation",
@@ -941,7 +941,7 @@
     "min_aoe": 5,
     "max_aoe": 25,
     "aoe_increment": 1,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_enervation_magic",
     "base_energy_cost": 1000,
     "base_casting_time": 250,
     "ignored_monster_species": [ "ROBOT", "NETHER_EMANATION" ]
