@@ -1463,12 +1463,14 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
         std::vector<int> already_working_indexes;
         vehicle *veh = veh_pointer_or_null( here.veh_at( src_loc ) );
         if( !veh || veh->is_appliance() ) {
-            return activity_reason_info::fail( do_activity_reason::NO_ZONE );
+            return activity_reason_info::fail( do_activity_reason::NO_VEHICLE );
         }
         // if the vehicle is moving or player is controlling it.
         if( std::abs( veh->velocity ) > 100 || veh->player_in_control( here, player_character ) ) {
-            return activity_reason_info::fail( do_activity_reason::NO_ZONE );
+            return activity_reason_info::fail( do_activity_reason::NO_VEHICLE );
         }
+        do_activity_reason result = do_activity_reason::NO_ZONE;
+
         for( const npc &guy : g->all_npcs() ) {
             if( &guy == &you ) {
                 continue;
@@ -1519,6 +1521,9 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
                 }
                 // don't have skill to remove it
                 if( !you.meets_skill_requirements( vpinfo.removal_skills ) ) {
+                    if( result == do_activity_reason::NO_ZONE ) {
+                        result = do_activity_reason::DONT_HAVE_SKILL;
+                    }
                     continue;
                 }
                 item base( vpinfo.base_item );
@@ -1526,6 +1531,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
                 const bool use_aid = max_lift >= base.weight();
                 const bool use_str = you.can_lift( base );
                 if( !( use_aid || use_str ) ) {
+                    result = do_activity_reason::NO_COMPONENTS;
                     continue;
                 }
                 const requirement_data &reqs = vpinfo.removal_requirements();
@@ -1562,6 +1568,9 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
                 // don't have skill to repair it
 
                 if( !you.meets_skill_requirements( vpinfo.repair_skills ) ) {
+                    if( result == do_activity_reason::NO_ZONE ) {
+                        result = do_activity_reason::DONT_HAVE_SKILL;
+                    }
                     continue;
                 }
                 const requirement_data &reqs = vpinfo.repair_requirements();
@@ -1579,7 +1588,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
             }
         }
         you.activity_vehicle_part_index = -1;
-        return activity_reason_info::fail( do_activity_reason::NO_ZONE );
+        return activity_reason_info::fail( result );
     }
     if( act == ACT_MULTIPLE_MINE ) {
         if( !here.has_flag( ter_furn_flag::TFLAG_MINEABLE, src_loc ) ) {
@@ -1889,7 +1898,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
             return activity_reason_info( do_activity_reason::NEEDS_DISASSEMBLE, false, req );
         } else {
             // nothing to disassemble
-            return activity_reason_info::fail( do_activity_reason::NO_ZONE );
+            return activity_reason_info::fail( do_activity_reason::NO_COMPONENTS );
         }
     }
     // Shouldn't get here because the zones were checked previously. if it does, set enum reason as "no zone"
@@ -2813,6 +2822,7 @@ static requirement_check_result generic_multi_activity_check_requirement(
     }
     if( reason == do_activity_reason::DONT_HAVE_SKILL ||
         reason == do_activity_reason::NO_ZONE ||
+        reason == do_activity_reason::NO_VEHICLE ||
         reason == do_activity_reason::ALREADY_DONE ||
         reason == do_activity_reason::BLOCKING_TILE ||
         reason == do_activity_reason::UNKNOWN_ACTIVITY ) {
@@ -2837,9 +2847,10 @@ static requirement_check_result generic_multi_activity_check_requirement(
         if( you.is_npc() ) {
             if( reason == do_activity_reason::DONT_HAVE_SKILL ) {
                 return requirement_check_result::SKIP_LOCATION_NO_SKILL;
-
             } else if( reason == do_activity_reason::NO_ZONE ) {
                 return requirement_check_result::SKIP_LOCATION_NO_ZONE;
+            } else if( reason == do_activity_reason::NO_VEHICLE ) {
+                return requirement_check_result::SKIP_LOCATION_NO_MATCH;
             } else if( reason == do_activity_reason::ALREADY_DONE ) {
                 return requirement_check_result::SKIP_LOCATION;
             } else if( reason == do_activity_reason::BLOCKING_TILE ) {
@@ -2984,6 +2995,54 @@ static requirement_check_result generic_multi_activity_check_requirement(
                            reason == do_activity_reason::NEEDS_VEH_DECONST ||
                            reason == do_activity_reason::NEEDS_VEH_REPAIR ||
                            reason == do_activity_reason::NEEDS_MINING;
+
+        // Remove the requirements already met
+        requirement_data reqs = what_we_need.obj();
+        requirement_data reduced_reqs;
+        requirement_data::alter_tool_comp_vector tool_reqs_vector = reqs.get_tools();
+        requirement_data::alter_quali_req_vector quality_reqs_vector = reqs.get_qualities();
+        requirement_data::alter_item_comp_vector component_reqs_vector = reqs.get_components();
+        requirement_data::alter_tool_comp_vector reduced_tool_reqs_vector;
+        requirement_data::alter_quali_req_vector reduced_quality_reqs_vector;
+
+        inventory inv = you.crafting_inventory();
+
+        for( std::vector<tool_comp> &tools : tool_reqs_vector ) {
+            bool found = false;
+
+            for( tool_comp &tool : tools ) {
+                if( inv.has_tools( tool.type, tool.count ) ) {
+                    found = true;
+                }
+            }
+
+            if( !found ) {
+                reduced_tool_reqs_vector.push_back( tools );
+            }
+        }
+
+        for( std::vector<quality_requirement> &qualities : quality_reqs_vector ) {
+            bool found = false;
+
+            for( quality_requirement &qual : qualities ) {
+                if( inv.has_quality( qual.type, qual.level ) ) {
+                    found = true;
+                }
+            }
+
+            if( !found ) {
+                reduced_quality_reqs_vector.push_back( qualities );
+            }
+        }
+
+        reduced_reqs = requirement_data( reduced_tool_reqs_vector, reduced_quality_reqs_vector,
+                                         component_reqs_vector );
+        const requirement_id req_id( std::to_string( reduced_reqs.make_hash() ) );
+        if( requirement_data::all().count( req_id ) == 0 ) {
+            requirement_data::save_requirement( reduced_reqs, req_id );
+        }
+        what_we_need = req_id;
+
         // is it even worth fetching anything if there isn't enough nearby?
         if( !are_requirements_nearby( tool_pickup ? loot_zone_spots : combined_spots, what_we_need, you,
                                       act_id, tool_pickup, src_loc ) ) {
@@ -3029,8 +3088,8 @@ static requirement_check_result generic_multi_activity_check_requirement(
                     for( const tripoint_bub_ms &point_elem :
                          here.points_in_radius( src_loc, /*radius=*/PICKUP_RANGE - 1, /*radiusz=*/0 ) ) {
                         // we don't want to place the components where they could interfere with our ( or someone else's ) construction spots
-                        if( !you.sees( here, point_elem ) || ( std::find( local_src_set.begin(), local_src_set.end(),
-                                                               point_elem ) != local_src_set.end() ) || !here.can_put_items_ter_furn( point_elem ) ) {
+                        if( ( std::find( local_src_set.begin(), local_src_set.end(),
+                                         point_elem ) != local_src_set.end() ) || !here.can_put_items_ter_furn( point_elem ) ) {
                             continue;
                         }
                         candidates.push_back( point_elem );
@@ -3385,7 +3444,9 @@ bool generic_multi_activity_handler( player_activity &act, Character &you, bool 
             activity_to_restore != ACT_MOVE_LOOT &&
             activity_to_restore != ACT_FETCH_REQUIRED &&
             you.fine_detail_vision_mod( you.pos_bub() ) > 4.0 ) {
-            you.add_msg_if_player( m_info, _( "It is too dark to work here." ) );
+            you.add_msg_player_or_npc( m_info, _( "It is too dark to work here." ),
+                                       _( "%s aborts the %s activity because it's too dark to continue." ), you.disp_name(),
+                                       activity_to_restore.c_str() );
             return false;
         }
         if( !check_only ) {
