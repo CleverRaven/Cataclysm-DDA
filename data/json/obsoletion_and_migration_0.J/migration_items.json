@@ -266,6 +266,16 @@
   },
   {
     "type": "MIGRATION",
+    "id": "weather_reader",
+    "replace": "geiger_off"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "survivor_machete",
+    "replace": "machete"
+  },
+  {
+    "type": "MIGRATION",
     "id": "sewage",
     "replace": "water_sewage"
   }

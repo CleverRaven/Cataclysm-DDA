@@ -3418,7 +3418,6 @@
       { "distribution": [ { "group": "full_survival_kit" }, { "group": "used_survival_kit" } ], "prob": 3 },
       { "group": "tools_toolbox", "prob": 1 },
       [ "survivor_belt_notools", 2 ],
-      [ "survivor_machete", 2 ],
       [ "survivor_mess_kit", 6 ],
       [ "acetylene_cooker", 12 ],
       [ "survivor_shavingkit", 3 ],

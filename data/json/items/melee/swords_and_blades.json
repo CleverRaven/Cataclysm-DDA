@@ -898,32 +898,17 @@
     "melee_damage": { "cut": 21 }
   },
   {
-    "id": "survivor_machete",
+    "id": "survivor_machete_qt",
     "copy-from": "machete",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
-    "name": { "str": "combat machete" },
-    "description": "This common gardening tool has been customized and rebalanced to improve its performance as a weapon.",
-    "extend": { "techniques": [ "RAPID" ] },
-    "relative": {
-      "melee_damage": { "bash": 1, "cut": 2 },
-      "qualities": [ [ "BUTCHER", -5 ] ],
-      "price_postapoc": "10 USD",
-      "weight": "27 g"
-    }
-  },
-  {
-    "id": "survivor_machete_qt",
-    "copy-from": "survivor_machete",
-    "type": "ITEM",
-    "subtypes": [ "TOOL" ],
     "name": { "str": "tempered steel combat machete" },
-    "description": "This common gardening tool has been customized, rebalanced and tempered to dramatically improve its performance as a weapon.",
+    "description": "This common gardening tool has been tempered to dramatically improve its performance as a weapon.",
     "variants": [
       {
         "id": "survivor_machete_qt_standard",
         "name": { "str": "tempered steel combat machete" },
-        "description": "This common gardening tool has been customized, rebalanced and tempered to dramatically improve its performance as a weapon.",
+        "description": "This common gardening tool has been tempered to dramatically improve its performance as a weapon.",
         "color": "dark_gray",
         "weight": 1,
         "append": false
@@ -931,16 +916,17 @@
       {
         "id": "xedra_machete",
         "name": { "str": "hazardous environment blade" },
-        "description": "This black tempered steel bushcraft machete has been reinforced for use in exotic environments.  \"HE Blade\" is engraved in the steel.",
+        "description": "This black tempered steel bushcraft machete has been designed for use in exotic environments.  \"HE Blade\" is engraved in the steel.",
         "color": "dark_gray",
         "weight": 0,
         "append": false
       }
     ],
-    "looks_like": "survivor_machete",
+    "extend": { "techniques": [ "RAPID" ] },
+    "looks_like": "machete",
     "replace_materials": { "steel": "qt_steel", "wood": "kevlar" },
     "proportional": { "price_postapoc": 1.15, "price": 1.15 },
-    "relative": { "melee_damage": { "cut": 5 }, "qualities": [ [ "BUTCHER", 4 ] ], "price_postapoc": "20 USD" }
+    "relative": { "melee_damage": { "cut": 7 }, "qualities": [ [ "BUTCHER", 4 ] ], "price_postapoc": "20 USD" }
   },
   {
     "id": "machete_gimmick",
