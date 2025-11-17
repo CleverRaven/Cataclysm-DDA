@@ -198,7 +198,7 @@
     "effect": "recover_energy",
     "effect_str": "BIONIC",
     "shape": "blast",
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_restoration_magic",
     "difficulty": 6,
     "base_casting_time": 1000
   },

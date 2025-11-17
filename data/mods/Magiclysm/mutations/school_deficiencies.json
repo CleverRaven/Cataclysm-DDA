@@ -73,7 +73,8 @@
     "description": "No matter how hard you try, you never managed to master restoration spells.  You are unable to cast any spell of the restoration school.",
     "starting_trait": true,
     "purifiable": false,
-    "valid": false
+    "valid": false,
+    "flags": [ "NO_CASTING_RESTORATION_SPELLS" ]
   },
   {
     "type": "mutation",

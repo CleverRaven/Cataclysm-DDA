@@ -602,7 +602,7 @@
     "max_level": 10,
     "min_damage": { "math": [ "(u_spell_level('classless_restore_crystal_mana') * 10) + 50" ] },
     "max_damage": { "math": [ "(u_spell_level('classless_restore_crystal_mana') * 30) + 150" ] },
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_restoration_magic",
     "extra_effects": [ { "id": "eoc_restoration_setup", "hit_self": true } ],
     "base_energy_cost": 0,
     "base_casting_time": 12000

@@ -33,7 +33,7 @@
     "flags": [ "RESTORATION_SPELL", "RANDOM_DAMAGE", "SOMATIC", "VERBAL", "NO_PROJECTILE" ],
     "spell_class": "BIOMANCER",
     "difficulty": 2,
-    "magic_type": "magiclysm_generic_magic"
+    "magic_type": "magiclysm_restoration_magic"
   },
   {
     "id": "pain_split",
@@ -622,7 +622,7 @@
     "max_duration": 60480000,
     "min_range": 1,
     "max_range": 1,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_restoration_magic",
     "base_energy_cost": 500,
     "extra_effects": [
       { "id": "eoc_restoration_setup", "hit_self": true },
@@ -667,7 +667,7 @@
     "min_duration": 3000,
     "max_duration": 13000,
     "duration_increment": 500,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_restoration_magic",
     "extra_effects": [ { "id": "eoc_restoration_setup", "hit_self": true } ],
     "base_energy_cost": 900,
     "base_casting_time": 150
@@ -802,7 +802,7 @@
     "shape": "blast",
     "difficulty": 5,
     "max_level": 15,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_restoration_magic",
     "base_energy_cost": 350,
     "extra_effects": [ { "id": "eoc_restoration_setup", "hit_self": true }, { "id": "biomantic_pain_caused_light", "hit_self": true } ],
     "base_casting_time": 1500
