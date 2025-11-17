@@ -109,5 +109,33 @@
     "flags": [ "SECRET" ],
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_WEAPONS"
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "inventor_coffee",
+    "qualities": [
+      { "id": "CHEM", "level": 3 },
+      { "id": "COOK", "level": 2 },
+      { "id": "DISTILL", "level": 2 },
+      { "id": "STRAIN", "level": 2 }
+    ],
+    "time": "30 m",
+    "skill_used": "deduction",
+    "difficulty": 5,
+    "skills_required": [ "cooking", 4 ],
+    "flags": [ "SECRET" ],
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_CONSUMABLES",
+    "batch_time_factors": [ 80, 4 ],
+    "tools": [ [ [ "water_boiling_heat", 4, "LIST" ] ], [ [ "coffeemaker", -1 ] ] ],
+    "//": "Very strong coffee, caffeine and components for the synthesis of caffeine.",
+    "components": [
+      [ [ "atomic_coffee", 2 ] ],
+      [ [ "caffeine", 2 ] ],
+      [ [ "lye_powder", 1 ], [ "chem_potassium_hydroxide", 5 ] ],
+      [ [ "feces_bird", 1 ] ],
+      [ [ "chem_methanol", 1 ] ]
+    ]
   }
 ]
