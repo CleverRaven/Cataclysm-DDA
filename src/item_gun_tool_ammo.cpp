@@ -46,6 +46,7 @@
 #include "item_factory.h"
 #include "item_location.h"
 #include "item_pocket.h"
+#include "item_transformation.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"

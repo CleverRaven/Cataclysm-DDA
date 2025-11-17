@@ -40,6 +40,7 @@
 #include "item_contents.h"
 #include "item_factory.h"
 #include "item_pocket.h"
+#include "item_transformation.h"
 #include "itype.h"
 #include "map.h"
 #include "material.h"

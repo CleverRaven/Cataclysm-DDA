@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_ITEM_TRANSFORMATION_H
 #define CATA_SRC_ITEM_TRANSFORMATION_H
 
+#include <string>
 #include <vector>
 
 #include "calendar.h"

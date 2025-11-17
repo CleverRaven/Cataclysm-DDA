@@ -1,9 +1,17 @@
 #include "item_transformation.h"
 
+#include <algorithm>
+
 #include "character.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
+#include "item.h"
 #include "item_group.h"
+#include "item_location.h"
 #include "itype.h"
+#include "pocket_type.h"
+#include "ret_val.h"
+#include "rng.h"
 
 static const flag_id flag_BOMB( "BOMB" );
 static const flag_id flag_RADIO_ACTIVATION( "RADIO_ACTIVATION" );

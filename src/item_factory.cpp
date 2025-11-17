@@ -41,6 +41,7 @@
 #include "item_contents.h"
 #include "item_group.h"
 #include "item_pocket.h"
+#include "item_transformation.h"
 #include "itype.h"
 #include "iuse_actor.h"
 #include "mapdata.h"

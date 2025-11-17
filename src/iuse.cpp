@@ -69,6 +69,7 @@
 #include "item_contents.h"
 #include "item_location.h"
 #include "item_pocket.h"
+#include "item_transformation.h"
 #include "iteminfo_query.h"
 #include "itype.h"
 #include "json.h"

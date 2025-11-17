@@ -44,6 +44,7 @@
 #include "harvest.h"
 #include "item.h"
 #include "item_location.h"
+#include "item_transformation.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"

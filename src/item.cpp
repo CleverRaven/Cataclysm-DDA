@@ -42,6 +42,7 @@
 #include "item_factory.h"
 #include "item_group.h"
 #include "item_tname.h"
+#include "item_transformation.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
