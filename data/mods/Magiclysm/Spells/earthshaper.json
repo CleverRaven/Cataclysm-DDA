@@ -1104,7 +1104,7 @@
     "min_range": 2,
     "max_range": 20,
     "range_increment": 1,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_transformation_magic",
     "base_energy_cost": 200,
     "base_casting_time": 1500
   },

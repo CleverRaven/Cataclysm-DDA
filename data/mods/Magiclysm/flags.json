@@ -43,5 +43,10 @@
     "id": "NO_CASTING_RESTORATION_SPELLS",
     "type": "json_flag",
     "//": "Used by the NO_CASTING_RESTORATION_SPELLS trait"
+  },
+  {
+    "id": "NO_CASTING_TRANSFORMATION_SPELLS",
+    "type": "json_flag",
+    "//": "Used by the NO_CASTING_TRANSFORMATION_SPELLS trait"
   }
 ]

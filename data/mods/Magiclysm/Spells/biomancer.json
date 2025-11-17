@@ -47,7 +47,7 @@
     "base_energy_cost": 800,
     "//": "This is transformation because it moves wounds around, it does not actually heal anything.",
     "extra_effects": [ { "id": "eoc_transformation_setup", "hit_self": true } ],
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_transformation_magic",
     "flags": [ "TRANSFORMATION_SPELL", "SOMATIC", "NO_LEGS", "CONCENTRATE" ],
     "spell_class": "BIOMANCER",
     "difficulty": 4,
@@ -75,7 +75,7 @@
     "flags": [ "TRANSFORMATION_SPELL", "SOMATIC", "LOUD" ],
     "spell_class": "BIOMANCER",
     "learn_spells": { "vicious_tentacle_plus": 15 },
-    "magic_type": "magiclysm_generic_magic"
+    "magic_type": "magiclysm_transformation_magic"
   },
   {
     "id": "vicious_tentacle_plus",
@@ -102,7 +102,7 @@
     "max_level": 25,
     "flags": [ "TRANSFORMATION_SPELL", "LOUD", "NO_FAIL" ],
     "spell_class": "BIOMANCER",
-    "magic_type": "magiclysm_generic_magic"
+    "magic_type": "magiclysm_transformation_magic"
   },
   {
     "id": "bio_grotesque",
@@ -120,7 +120,7 @@
     "base_energy_cost": 250,
     "energy_increment": -5.0,
     "final_energy_cost": 150,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_transformation_magic",
     "spell_class": "BIOMANCER",
     "difficulty": 6,
     "max_level": 20,
@@ -183,7 +183,7 @@
     "max_level": 20,
     "flags": [ "TRANSFORMATION_SPELL", "NO_HANDS", "NO_LEGS", "SOMATIC" ],
     "spell_class": "BIOMANCER",
-    "magic_type": "magiclysm_generic_magic"
+    "magic_type": "magiclysm_transformation_magic"
   },
   {
     "id": "bio_bonespear",
@@ -473,7 +473,7 @@
     "max_duration": 360000,
     "duration_increment": 24000,
     "extra_effects": [ { "id": "eoc_transformation_setup", "hit_self": true } ],
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_transformation_magic",
     "base_energy_cost": 200,
     "base_casting_time": 1000
   },
@@ -493,7 +493,7 @@
     "min_duration": 30000,
     "max_duration": 90000,
     "duration_increment": 4000,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_transformation_magic",
     "base_energy_cost": 500,
     "extra_effects": [ { "id": "eoc_transformation_setup", "hit_self": true } ],
     "base_casting_time": 100
@@ -602,7 +602,7 @@
     "max_duration": 30000,
     "duration_increment": 1533,
     "extra_effects": [ { "id": "eoc_transformation_setup", "hit_self": true } ],
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_transformation_magic",
     "base_energy_cost": 400,
     "base_casting_time": 500
   },
@@ -741,7 +741,7 @@
     "min_duration": 24000,
     "max_duration": 360000,
     "duration_increment": 24000,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_transformation_magic",
     "extra_effects": [ { "id": "eoc_transformation_setup", "hit_self": true } ],
     "base_energy_cost": 300,
     "base_casting_time": 500
@@ -860,7 +860,7 @@
     "min_range": 3,
     "max_range": 8,
     "range_increment": 0.5,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_transformation_magic",
     "base_energy_cost": 100,
     "base_casting_time": 150
   }

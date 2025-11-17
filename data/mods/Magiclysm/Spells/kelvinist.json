@@ -20,7 +20,7 @@
     "difficulty": 4,
     "max_level": 16,
     "base_casting_time": 300,
-    "magic_type": "magiclysm_generic_magic"
+    "magic_type": "magiclysm_evocation_magic"
   },
   {
     "id": "nova_flare",
@@ -427,7 +427,7 @@
     "min_duration": { "math": [ "100 + ( (u_spell_level('frost_armor') * 2) + (u_spell_level('frost_armor_plus') * 4 ) )" ] },
     "max_duration": { "math": [ "250 + ( (u_spell_level('frost_armor') * 5) + (u_spell_level('frost_armor_plus') * 8 ) )" ] },
     "spell_class": "KELVINIST",
-    "magic_type": "magiclysm_generic_magic"
+    "magic_type": "magiclysm_evocation_magic"
   },
   {
     "id": "create_rune_kelvinist",

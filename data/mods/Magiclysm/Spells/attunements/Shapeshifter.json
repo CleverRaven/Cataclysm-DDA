@@ -44,7 +44,7 @@
     "effect": "attack",
     "effect_str": "biomechanic",
     "shape": "blast",
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_transformation_magic",
     "spell_class": "SHAPESHIFTER",
     "difficulty": 8,
     "min_duration": 1440,

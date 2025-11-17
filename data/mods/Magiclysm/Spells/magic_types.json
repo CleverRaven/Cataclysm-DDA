@@ -68,5 +68,14 @@
     "failure_cost_percent": 0.2,
     "failure_chance_formula_id": "magiclysm_spell_failure_restoration_formula",
     "cannot_cast_message": "You can't cast that spell right now!"
+  },
+  {
+    "id": "magiclysm_transformation_magic",
+    "type": "magic_type",
+    "energy_source": "MANA",
+    "cannot_cast_flags": [ "NO_SPELLCASTING", "NO_CASTING_TRANSFORMATION_SPELLS" ],
+    "failure_cost_percent": 0.2,
+    "failure_chance_formula_id": "magiclysm_spell_failure_transformation_formula",
+    "cannot_cast_message": "You can't cast that spell right now!"
   }
 ]

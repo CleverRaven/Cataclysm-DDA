@@ -548,7 +548,7 @@
     "base_casting_time": 30000,
     "final_casting_time": 1000,
     "casting_time_increment": -200,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_transformation_magic",
     "damage_type": "pure",
     "extra_effects": [ { "id": "create_rune_animist", "hit_self": true }, { "id": "eoc_transformation_setup", "hit_self": true } ]
   },
@@ -1005,7 +1005,7 @@
     "min_duration": 3000,
     "max_duration": 9000,
     "duration_increment": 300,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_transformation_magic",
     "base_casting_time": 300,
     "base_energy_cost": 1200,
     "final_energy_cost": 850,

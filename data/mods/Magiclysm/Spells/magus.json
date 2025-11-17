@@ -235,7 +235,7 @@
     "extra_effects": [ { "id": "eoc_transformation_setup", "hit_self": true } ],
     "shape": "blast",
     "spell_class": "MAGUS",
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_transformation_magic",
     "base_casting_time": 150,
     "base_energy_cost": 150,
     "difficulty": 8,

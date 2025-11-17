@@ -1114,7 +1114,7 @@
     "min_duration": 15000,
     "max_duration": 90000,
     "duration_increment": 3750,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_transformation_magic",
     "base_energy_cost": 350,
     "base_casting_time": 150
   },

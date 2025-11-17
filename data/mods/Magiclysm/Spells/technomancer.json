@@ -545,7 +545,7 @@
     "base_energy_cost": 500,
     "final_energy_cost": 500,
     "spell_class": "TECHNOMANCER",
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_evocation_magic",
     "energy_source": "BIONIC",
     "damage_type": "light",
     "difficulty": 1,
@@ -1005,7 +1005,7 @@
     "min_duration": 360000,
     "max_duration": 1440000,
     "duration_increment": 72000,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_transformation_magic",
     "base_casting_time": 60000,
     "base_energy_cost": 600,
     "final_energy_cost": 300,
@@ -1033,7 +1033,7 @@
     "difficulty": 9,
     "max_level": 25,
     "spell_class": "TECHNOMANCER",
-    "magic_type": "magiclysm_generic_magic"
+    "magic_type": "magiclysm_transformation_magic"
   },
   {
     "id": "technomancer_pain_ignore",
