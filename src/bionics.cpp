@@ -143,6 +143,7 @@ static const json_character_flag json_flag_BIONIC_FAULTY( "BIONIC_FAULTY" );
 static const json_character_flag json_flag_BIONIC_GUN( "BIONIC_GUN" );
 static const json_character_flag json_flag_BIONIC_POWER_SOURCE( "BIONIC_POWER_SOURCE" );
 static const json_character_flag json_flag_BIONIC_TOGGLED( "BIONIC_TOGGLED" );
+static const json_character_flag json_flag_BIONIC_REMOVABLE( "BIONIC_REMOVABLE" );
 static const json_character_flag json_flag_BIONIC_WEAPON( "BIONIC_WEAPON" );
 static const json_character_flag json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
 static const json_character_flag json_flag_MANUAL_CBM_INSTALLATION( "MANUAL_CBM_INSTALLATION" );
@@ -422,6 +423,7 @@ void bionic_data::load( const JsonObject &jsobj, std::string_view src )
     }
 
     activated = has_flag( json_flag_BIONIC_TOGGLED ) ||
+                has_flag( json_flag_BIONIC_REMOVABLE ) ||
                 has_flag( json_flag_BIONIC_GUN ) ||
                 power_activate > 0_kJ ||
                 spell_on_activate ||
