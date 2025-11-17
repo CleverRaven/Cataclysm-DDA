@@ -5489,7 +5489,7 @@ item &map::add_item( const tripoint_bub_ms &p, item new_item, int copies )
         if( new_item.has_flag( flag_BOMB ) && new_item.is_transformable() ) {
             //Convert a bomb item into its transformable version, e.g. incendiary grenade -> active incendiary grenade
             new_item.convert( dynamic_cast<const iuse_transform *>
-                              ( new_item.type->get_use( "transform" )->get_actor_ptr() )->target );
+                              ( new_item.type->get_use( "transform" )->get_actor_ptr() )->transform.target );
         }
         new_item.active = true;
     }

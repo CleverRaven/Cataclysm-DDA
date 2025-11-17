@@ -604,7 +604,7 @@ bool item::process_decay_in_air( map &here, Character *carrier, const tripoint_b
         time_duration new_air_exposure = time_duration::from_seconds( item_counter ) + time_delta *
                                          rng_normal( 0.9, 1.1 ) * environment_multiplier;
         if( new_air_exposure >= time_duration::from_hours( max_air_exposure_hours ) ) {
-            convert( *type->revert_to, carrier );
+            type->transform_into.value().transform( carrier, *this, true );
             return true;
         }
         item_counter = to_seconds<int>( new_air_exposure );
@@ -1285,7 +1285,7 @@ bool item::process_temperature_rot( float insulation, const tripoint_bub_ms &pos
     item_internal::scoped_goes_bad_cache _cache( this );
     const bool process_rot = goes_bad() && spoil_modifier != 0;
     const bool decays_in_air = !watertight_container && has_flag( flag_DECAYS_IN_AIR ) &&
-                               type->revert_to;
+                               type->transform_into;
     int64_t max_air_exposure_hours = decays_in_air ? get_property_int64_t( "max_air_exposure_hours" ) :
                                      0;
 

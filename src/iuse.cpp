@@ -3958,11 +3958,11 @@ std::optional<int> iuse::dive_tank( Character *p, item *it, const tripoint_bub_m
         if( it->ammo_remaining( ) == 0 ) {
             p->add_msg_if_player( m_bad, _( "Air in your %s runs out." ), it->tname() );
             it->erase_var( "overwrite_env_resist" );
-            it->convert( *it->type->revert_to ).active = false;
+            it->type->transform_into.value().transform( p, *it, true );
         }
     } else { // not worn = off thanks to on-demand regulator
         it->erase_var( "overwrite_env_resist" );
-        it->convert( *it->type->revert_to ).active = false;
+        it->type->transform_into.value().transform( p, *it, true );
     }
 
     return 0;
@@ -3975,7 +3975,7 @@ std::optional<int> iuse::dive_tank_activate( Character *p, item *it, const tripo
     } else if( it->active ) { //off
         p->add_msg_if_player( _( "You turn off the regulator and close the air valve." ) );
         it->erase_var( "overwrite_env_resist" );
-        it->convert( *it->type->revert_to ).active = false;
+        it->type->transform_into.value().transform( p, *it, true );
     } else { //on
         if( !p->is_worn( *it ) ) {
             p->add_msg_if_player( _( "You should wear it first." ) );

@@ -4311,8 +4311,8 @@ bool mattack::kamikaze( monster *z )
         z->disable_special( "KAMIKAZE" );
         return true;
     }
-    act_bomb_type = item::find_type( actor->target );
-    int delay = to_seconds<int>( actor->target_timer );
+    act_bomb_type = item::find_type( actor->transform.target );
+    int delay = to_seconds<int>( actor->transform.target_timer );
 
     // HACK: HORRIBLE HACK ALERT! Remove the following code completely once we have working monster inventory processing
     if( z->has_effect( effect_countdown ) ) {

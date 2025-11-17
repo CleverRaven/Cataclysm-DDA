@@ -453,11 +453,11 @@ item &item::deactivate( Character *ch, bool alert )
         return *this; // no-op
     }
 
-    if( type->revert_to ) {
+    if( type->transform_into ) {
         if( ch && alert && !type->tool->revert_msg.empty() ) {
             ch->add_msg_if_player( m_info, type->tool->revert_msg.translated(), tname() );
         }
-        convert( *type->revert_to );
+        type->transform_into.value().transform( ch, *this, true );
         active = false;
 
         if( ch ) {
@@ -4149,8 +4149,8 @@ bool item::process_litcig( map &here, Character *carrier, const tripoint_bub_ms 
         if( carrier != nullptr ) {
             carrier->add_msg_if_player( m_neutral, _( "You finish your %s." ), type_name() );
         }
-        if( type->revert_to ) {
-            convert( *type->revert_to, carrier );
+        if( type->transform_into ) {
+            type->transform_into.value().transform( carrier, *this, true );
         } else {
             type->invoke( carrier, *this, pos, "transform" );
         }
@@ -4167,10 +4167,10 @@ bool item::process_litcig( map &here, Character *carrier, const tripoint_bub_ms 
         // No lit cigs in inventory, only in hands or in mouth
         // So if we're taking cig off or unwielding it, extinguish it first
         if( !carrier->is_worn( *this ) && !carrier->is_wielding( *this ) ) {
-            if( type->revert_to ) {
+            if( type->transform_into ) {
                 carrier->add_msg_if_player( m_neutral, _( "You extinguish your %s and put it away." ),
                                             type_name() );
-                convert( *type->revert_to, carrier );
+                type->transform_into.value().transform( carrier, *this, true );
             } else {
                 type->invoke( carrier, *this, pos, "transform" );
             }
@@ -4294,8 +4294,8 @@ bool item::process_extinguish( map &here, Character *carrier, const tripoint_bub
         }
     }
 
-    if( type->revert_to ) {
-        convert( *type->revert_to, carrier );
+    if( type->transform_into ) {
+        type->transform_into.value().transform( carrier, *this, true );
     } else {
         type->invoke( carrier, *this, pos, "transform" );
     }
@@ -4307,8 +4307,8 @@ bool item::process_extinguish( map &here, Character *carrier, const tripoint_bub
 bool item::process_wet( Character *carrier, const tripoint_bub_ms & /*pos*/ )
 {
     if( item_counter == 0 ) {
-        if( type->revert_to ) {
-            convert( *type->revert_to, carrier );
+        if( type->transform_into ) {
+            type->transform_into.value().transform( carrier, *this, true );
         }
         unset_flag( flag_WET );
         active = false;
@@ -4388,8 +4388,8 @@ bool item::process_internal( map &here, Character *carrier, const tripoint_bub_m
                 type->countdown_action.call( carrier, *this, pos );
             }
             countdown_point = calendar::turn_max;
-            if( type->revert_to ) {
-                convert( *type->revert_to, carrier );
+            if( type->transform_into ) {
+                type->transform_into.value().transform( carrier, *this, true );
 
                 active = needs_processing();
             } else {
