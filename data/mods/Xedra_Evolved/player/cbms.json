@@ -15,6 +15,7 @@
     "name": { "str": "Datacore: Knives" },
     "description": "A removable data core that can be slotted into a data core for temporary knowledge of a proficiency.",
     "activate_remove_cbm": true,
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "BIONIC_REMOVABLE" ],
     "installation_requirement": "data_core_install",
     "occupied_bodyparts": [ [ "data_shunt", 1 ] ],
     "learned_proficiencies": [ "prof_knives_familiar" ]
@@ -25,6 +26,7 @@
     "name": { "str": "Datacore: Knives, advanced" },
     "description": "A brain implant that grants instinctual knowledge about the operation of flying machines.",
     "activate_remove_cbm": true,
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "BIONIC_REMOVABLE" ],
     "installation_requirement": "data_core_install",
     "occupied_bodyparts": [ [ "data_shunt", 2 ] ],
     "learned_proficiencies": [ "prof_knives_pro" ]
@@ -35,7 +37,7 @@
     "name": { "str": "Datacore: Batons" },
     "description": "A brain implant that grants instinctual knowledge about the operation of flying machines.",
     "activate_remove_cbm": true,
-    "act_cost": "0 J",
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "BIONIC_REMOVABLE" ],
     "installation_requirement": "data_core_install",
     "occupied_bodyparts": [ [ "data_shunt", 1 ] ],
     "learned_proficiencies": [ "prof_batons_familiar" ]
