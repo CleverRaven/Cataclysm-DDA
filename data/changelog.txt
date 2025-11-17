@@ -164,6 +164,7 @@ dimension npc travel filter expansion and other tweaks
 NPCs automatically select the best MA style for their weapon
 Custom region settings for dimensions
 Allow magazines in guns/tools to regenerate ammo
+Honor theft preference inside the Advanced Inventory Management screens
 
 
 
@@ -376,6 +377,12 @@ Add a few crude guns
 Add borax, expand graphite use, update some smithing recipes and rock spawning
 Houses have a realistic amount of solar power
 410 Mossberg 500 and Mossberg Shockwave
+Add in machete naginatas, crude halberd, pipe pike, studded aluminum bat, and bec de crowbar
+Sanifies the Catholic Priest starting clothes, adds Clerical collars, removes ferraiolo and the Zuchetto, adds snippeted saint medals. 
+Update the sex shop mapgen and small related fixes
+Update drink containers
+Typos and other minor broken things fixed
+Add a few cigar variants and a recipe for making cigars
 
 
 ## Interface:
@@ -936,6 +943,16 @@ Aftershock: Properly Ruin cities
 Add BLOCK_SUPERNATURAL_HEALING flag, apply it to Clay Golem attacks in Magiclysm
 [Aftershock] Add the Sibyl profession to the Esper scenario, add precognitive powers
 [Bombastic Perks] Add the Closetland playstyle perk
+[MoM/XE] The Vitakinetic power Banish Illness can cure vampirism, if you're quick enough
+Fix Aftershock UICA vehicle purchase
+[MoM] Some monster edits
+[MoM] Reduce portal storm awakening odds
+[XE] Unconsciousness interrupts blood art maintenance.
+[Isolation Protocol] Add more spells for the Last Scion
+[XE] Blind the Sun Rework
+[AFS] Fix Kinetic Annulment System deafening the player while inactive
+[MoM] Add additional portal storm dungeon rewards
+[MoM] Power learning difficulty change
 
 
 
@@ -1043,6 +1060,8 @@ Star vampires have `PERMANENT_INVISIBILITY`, when they drink blood it applies `S
 Molotovs do not create walls of fire
 Monsters moving through SHARP terrain trample the terrain
 Running over large/hard objects in vehicles will damage your wheels
+Remove wheel damage chance from sharp rocks
+Separate toolsets for things embedded in wood and metal structures
 
 
 ## Bugfixes:
@@ -1436,6 +1455,21 @@ Eating human zombie flesh is cannibalism
 Fix rare overmap save corruption from specific horde metadata
 Audit solar panel installation/removal reqs for vehicles
 Fix the scaling factor for high-dpi displays.
+[Bombastic Perks] Fix Closetland soporific effect remaining
+Fix mouse positioning when UI is scaled
+Z axis filter params funtionality bug for u_run_xxx_eocs
+More restricted magazines for gunstores
+Add missing guns to gunstore storage
+Fix the scaling factor for high-dpi displays.
+Vanishing Arc Orbit Salus 4 teleportation bug
+Fix Cody referring to the wrong gun
+Fix circular saw description
+Remove solar panels from cars
+[MoM] Fix negative concentration limit problem
+calculate the width of the overmap sidebar correctly
+Vanishing Arc Teleport related bugs
+More items damage wheels
+[Magiclysm] Magiclysm butchering empathy fix
 
 
 ## Performance:
@@ -1621,6 +1655,7 @@ Allow specifying city name lists in region settings
 Clang tidy rule to catch/reject unicode replacement character
 Use copy-from for region settings instead of overlays
 Allow specifying variants for brewing and compost results
+zone sorting refactor
 
 
 ## Build:
@@ -1649,6 +1684,8 @@ Initial support for GNU Make for Windows
 Move Android bundle generation to manually triggered workflow
 Fix Mac build (Bump up dmg size limit in macOS release build)
 Build tilesets in CI for releases, delete tilesets from repo
+Build translations in CI for releases, delete translations from repo
+Fix clang 21 warnings
 
 
 ## I18N and A11Y:
