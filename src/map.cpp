@@ -3581,7 +3581,7 @@ bool map::has_nearby_fire( const tripoint_bub_ms &p, int radius ) const
         if( has_field_at( pt, fd_fire ) ) {
             return true;
         }
-        if( has_flag_ter_or_furn( ter_furn_flag::TFLAG_USABLE_FIRE, p ) ) {
+        if( has_flag_ter_or_furn( ter_furn_flag::TFLAG_USABLE_FIRE, pt ) ) {
             return true;
         }
     }
