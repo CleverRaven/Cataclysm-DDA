@@ -6,7 +6,7 @@
     "description": "Crystallizes mana into solid form.",
     "valid_targets": [ "self" ],
     "spell_class": "NONE",
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_channeling_magic",
     "flags": [ "CHANNELING_SPELL", "NO_LEGS", "CONCENTRATE" ],
     "difficulty": 3,
     "min_damage": 1,
@@ -496,7 +496,7 @@
     "shape": "blast",
     "difficulty": 2,
     "max_level": 15,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_channeling_magic",
     "base_energy_cost": 75,
     "extra_effects": [ { "id": "eoc_channeling_setup", "hit_self": true } ],
     "base_casting_time": 3000

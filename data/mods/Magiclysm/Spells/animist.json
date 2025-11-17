@@ -438,7 +438,7 @@
     "difficulty": 0,
     "max_level": 0,
     "spell_class": "ANIMIST",
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_channeling_magic",
     "energy_source": "HP",
     "//": "I'm not sure if this should train anything, since it's an innate ability.",
     "extra_effects": [ { "id": "eoc_channeling_setup", "hit_self": true } ],

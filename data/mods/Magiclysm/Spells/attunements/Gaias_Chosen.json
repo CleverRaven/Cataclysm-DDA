@@ -31,7 +31,7 @@
     "shape": "blast",
     "base_casting_time": 2160000,
     "base_energy_cost": 1000,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_channeling_magic",
     "flags": [ "CHANNELING_SPELL", "SOMATIC", "VERBAL", "CONCENTRATE", "MUST_HAVE_CLASS_TO_LEARN" ],
     "spell_class": "GAIAS_CHOSEN",
     "difficulty": 0,

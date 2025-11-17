@@ -256,7 +256,7 @@
     "difficulty": 0,
     "max_level": 0,
     "spell_class": "BIOMANCER",
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_channeling_magic",
     "flags": [ "CHANNELING_SPELL", "PERMANENT", "NO_LEGS", "CONCENTRATE" ]
   },
   {
@@ -555,7 +555,7 @@
     "shape": "blast",
     "difficulty": 10,
     "max_level": 15,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_channeling_magic",
     "min_range": 1,
     "base_energy_cost": 1500,
     "base_casting_time": 180000,

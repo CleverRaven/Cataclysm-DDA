@@ -30,7 +30,7 @@
     "difficulty": 3,
     "max_level": 35,
     "base_casting_time": 700,
-    "magic_type": "magiclysm_generic_magic"
+    "magic_type": "magiclysm_channeling_magic"
   },
   {
     "id": "artificer_toolkit",

@@ -235,7 +235,7 @@
     "difficulty": 0,
     "max_level": 0,
     "spell_class": "STORMSHAPER",
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_channeling_magic",
     "flags": [ "CHANNELING_SPELL", "PERMANENT", "NO_LEGS", "CONCENTRATE" ]
   },
   {

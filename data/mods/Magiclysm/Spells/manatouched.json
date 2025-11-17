@@ -37,7 +37,7 @@
     "min_range": 6,
     "max_range": 12,
     "range_increment": 0.5,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_channeling_magic",
     "base_energy_cost": 250,
     "base_casting_time": 85,
     "final_casting_time": 85,
