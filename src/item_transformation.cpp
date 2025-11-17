@@ -5,8 +5,8 @@
 #include "item_group.h"
 #include "itype.h"
 
-const flag_id flag_BOMB( "BOMB" );
-const flag_id flag_RADIO_ACTIVATION( "RADIO_ACTIVATION" );
+static const flag_id flag_BOMB( "BOMB" );
+static const flag_id flag_RADIO_ACTIVATION( "RADIO_ACTIVATION" );
 
 void item_transformation::deserialize( const JsonObject &jo )
 {
@@ -47,9 +47,9 @@ void item_transformation::transform( Character *carrier, item &it, bool dont_tak
 
     if( container.is_empty() ) {
         if( !target_group.is_empty() ) {
-            &it.convert( item_group::item_from( target_group ).typeId(), carrier );
+            it.convert( item_group::item_from( target_group ).typeId(), carrier );
         } else {
-            &it.convert( target );
+            it.convert( target );
             it.set_itype_variant( variant_type );
         }
         if( ammo_qty >= 0 || !random_ammo_qty.empty() ) {
