@@ -1194,5 +1194,29 @@
         "item_restriction": [ "changeling_dreamspark" ]
       }
     ]
+  },
+  {
+    "id": "data_core_slots",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "weight": "100 g",
+    "volume": "75 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "symbol": ",",
+    "color": "cyan",
+    "flags": [
+      "INTEGRATED",
+      "UNBREAKABLE",
+      "PERSONAL",
+      "WATER_FRIENDLY",
+      "SOFT",
+      "NO_REPAIR",
+      "ALLOWS_NATURAL_ATTACKS",
+      "TRADER_AVOID"
+    ],
+    "material": [ "superalloy", "copper" ],
+    "name": { "str_sp": "data core slots" },
+    "description": "Slots for data cores to be plugged in."
   }
 ]

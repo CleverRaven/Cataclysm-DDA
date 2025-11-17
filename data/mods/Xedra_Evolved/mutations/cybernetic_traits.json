@@ -21,6 +21,6 @@
     "valid": false,
     "purifiable": false,
     "types": [ "Cybernetic" ],
-    "bionic_slot_bonus": { "data_slots": 2 }
+    "bionic_slot_bonuses": { "data_slots": 2 }
   }
 ]
