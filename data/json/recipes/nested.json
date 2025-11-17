@@ -40,7 +40,7 @@
     "name": "pipe rifles",
     "description": "Recipes related to constructing pistol-caliber rifles using pipes.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "rifle_22", "rifle_38", "rifle_44" ],
+    "nested_category_data": [ "rifle_22", "rifle_38", "rifle_44", "rifle_45_410" ],
     "difficulty": 3
   },
   {
@@ -423,7 +423,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "name": "canvas dusters",
+    "name": "canvas trenchcoats",
     "description": "Recipes related to tailoring long coats from cotton, known as trenchcoats.",
     "skill_used": "tailor",
     "nested_category_data": [ "trenchcoat", "sleeveless_trenchcoat", "sleeveless_trenchcoat_from_trenchcoat" ],
@@ -614,9 +614,9 @@
     "type": "nested_category",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
-    "name": "chitinous helmets",
-    "description": "Recipes related to constructing durable helmets from chitin.",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "name": "chitinous vests",
+    "description": "Recipes related to constructing durable vests from chitin.",
     "skill_used": "tailor",
     "nested_category_data": [ "armor_chitin_vest", "xs_armor_chitin_vest", "xl_armor_chitin_vest" ],
     "difficulty": 6
@@ -4500,7 +4500,6 @@
     "description": "Recipes related to making mounts for attachments on older or makeshift guns.",
     "skill_used": "fabrication",
     "nested_category_data": [
-      "grip_mount",
       "rail_mount",
       "rail_bayonet_lug",
       "sights_mount",
@@ -7126,8 +7125,8 @@
     "name": "pikes",
     "description": "Recipes related to constructing pikes from various materials.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "pike", "pike_bronze", "pike_copper", "pike_wood" ],
-    "difficulty": 3
+    "nested_category_data": [ "pike", "pike_bronze", "pike_copper", "pike_wood", "simple_pike_pipe", "pike_pipe" ],
+    "difficulty": 1
   },
   {
     "id": "nested_throwing_weapons",
@@ -8364,7 +8363,7 @@
     "name": "warhammers",
     "description": "Recipes for making hammers used as weapons instead of tools.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "warhammer", "lucern_hammer", "homemade_polehammer", "homewrecker" ],
+    "nested_category_data": [ "warhammer", "lucern_hammer", "homemade_polehammer", "crowbar_warhammer" ],
     "difficulty": 1
   },
   {
@@ -8376,7 +8375,7 @@
     "name": "bats",
     "description": "Recipes for making baseball bats and improving them with various materials.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "bat", "bat_with_lathe", "nailbat", "bwirebat", "nutboltbat" ],
+    "nested_category_data": [ "bat", "bat_with_lathe", "nailbat", "bwirebat", "nutboltbat", "bat_metal_bolt" ],
     "difficulty": 1
   },
   {

@@ -680,8 +680,7 @@
       },
       "female": {
         "entries": [
-          { "item": "sinister_dress" },
-          { "item": "bra" },
+          { "item": "long_dress_sleeved", "variant": "sinister" },
           { "item": "panties" },
           { "item": "stockings" },
           { "item": "garter_belt" },

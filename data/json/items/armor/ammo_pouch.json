@@ -140,7 +140,7 @@
     "variants": [
       {
         "id": "generic_chestrig",
-        "name": { "str": "chest rig" },
+        "//": "inherit name from item",
         "description": "Popularized during the Vietnam War, chest rigs like these are typically plain, barebones affairs consisting of three or more pouches in a row, with straps to secure them on your chest.  This one can hold four magazines in its pouches.",
         "weight": 30
       },
@@ -387,7 +387,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "quiver" },
     "description": "A leather quiver worn at the waist that can hold 20 arrows or bolts.  Use insert to store arrows or bolts.",
-    "weight": "260 g",
+    "weight": "320 g",
     "volume": "500 ml",
     "price": "65 USD",
     "price_postapoc": "10 USD",
@@ -498,7 +498,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str": "large quiver" },
-    "description": "A large leather quiver trimmed with metal, worn on the back, that can hold 60 arrows or bolts.  Historically used by horse archers, rather than foot archers, but neither of THEM had to fight zombies.  Use insert to store arrows or bolts.",
+    "description": "A large leather quiver, worn on the back, that can hold 60 arrows or bolts.  Historically used by horse archers, rather than foot archers, but neither of THEM had to fight zombies.  Use insert to store arrows or bolts.",
     "weight": "920 g",
     "volume": "1500 ml",
     "price": "88 USD",

@@ -1494,7 +1494,7 @@
   },
   {
     "type": "recipe",
-    "result": "acorns_blanching",
+    "result": "acorns_blanching_active",
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",

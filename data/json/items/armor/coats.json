@@ -2118,7 +2118,7 @@
     "variants": [
       {
         "id": "leather_police_jacket",
-        "name": { "str": "motorcycle police jacket" },
+        "//": "inherit name from item",
         "description": "It is emblazoned with the insignia of the local police force.",
         "weight": 0,
         "append": true
@@ -3792,7 +3792,7 @@
       },
       {
         "id": "tacjacket_arctic",
-        "name": { "str": "poler-camo tactical jacket" },
+        "name": { "str": "polar-camo tactical jacket" },
         "description": "Fit for utility in light snowfall and in the colder months, this jacket, while not as insulating as thicker winter overcoats, is resplendent with a mixed camo palette of snowy white, gray, and a hint of light brown.",
         "color": "white",
         "weight": 5,

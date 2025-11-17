@@ -307,6 +307,25 @@
         "topic": "TALK_PERK_MENU_SELECT"
       },
       {
+        "condition": { "not": { "u_has_trait": "perk_thick_skin" } },
+        "text": "Gain [<trait_name:perk_thick_skin>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_thick_skin>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_thick_skin>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_thick_skin", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Must have <trait_name:perk_built_tough>.",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "u_has_trait": "perk_built_tough" } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
         "condition": { "not": { "u_has_trait": "perk_hauler" } },
         "text": "Gain [<trait_name:perk_hauler>]",
         "effect": [
@@ -755,6 +774,34 @@
         "topic": "TALK_PERK_MENU_SELECT"
       },
       {
+        "condition": { "not": { "u_has_trait": "perk_reduced_falling_damage" } },
+        "text": "Gain [<trait_name:perk_reduced_falling_damage>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_reduced_falling_damage>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_reduced_falling_damage>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_reduced_falling_damage", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Must have <trait_name:perk_tuck_and_roll>, the Parkour Expert proficiency, or dexterity 13.",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          {
+            "set_condition": "perk_condition",
+            "condition": {
+              "or": [
+                { "u_has_trait": "perk_tuck_and_roll" },
+                { "u_has_proficiency": "prof_parkour" },
+                { "math": [ "u_val('dexterity_base') + u_val('dexterity_bonus') >= 13" ] }
+              ]
+            }
+          }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
         "condition": { "not": { "u_has_trait": "perk_grit_your_teeth" } },
         "text": "Gain [<trait_name:perk_grit_your_teeth>]",
         "effect": [
@@ -1188,6 +1235,28 @@
             "i18n": true
           },
           { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_situational_uncanny_dodge" } },
+        "text": "Gain [<trait_name:perk_situational_uncanny_dodge>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_situational_uncanny_dodge>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_situational_uncanny_dodge>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_situational_uncanny_dodge", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires Dodging 8 and the Lucky Dodge perk.",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          {
+            "set_condition": "perk_condition",
+            "condition": { "and": [ { "math": [ "u_skill('dodge') >= 8" ] }, { "u_has_trait": "perk_lucky_dodge" } ] }
+          }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
       },
@@ -1634,6 +1703,25 @@
         "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
       },
       {
+        "condition": { "not": { "u_has_trait": "perk_soup_healing" } },
+        "text": "Gain [<trait_name:perk_soup_healing>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_soup_healing>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_soup_healing>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_soup_healing", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "No Requirements",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
+      },
+      {
         "condition": { "not": { "u_has_trait": "perk_nocturnal" } },
         "text": "Gain [<trait_name:perk_nocturnal>]",
         "effect": [
@@ -1763,6 +1851,44 @@
             "i18n": true
           },
           { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_secret_closet_storage" } },
+        "text": "Gain [<trait_name:perk_secret_closet_storage>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_secret_closet_storage>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_secret_closet_storage>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_secret_closet_storage", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "No Requirements",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_secret_closet_teleporter_paths" } },
+        "text": "Gain [<trait_name:perk_secret_closet_teleporter_paths>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_secret_closet_teleporter_paths>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_secret_closet_teleporter_paths>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_secret_closet_teleporter_paths", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Must have <trait_name:perk_secret_closet_storage>",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "u_has_trait": "perk_secret_closet_storage" } }
         ],
         "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
       },

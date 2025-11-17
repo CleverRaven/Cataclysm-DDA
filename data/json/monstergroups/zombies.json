@@ -793,36 +793,6 @@
     ]
   },
   {
-    "type": "monstergroup",
-    "id": "GROUP_ZOMBIE_SEXSHOP_A",
-    "monsters": [
-      { "monster": "mon_zombie_cop", "weight": 250, "cost_multiplier": 2 },
-      { "monster": "mon_feral_cop", "weight": 2, "cost_multiplier": 3 },
-      { "monster": "mon_zombie_swat", "weight": 25, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_medical", "weight": 50, "cost_multiplier": 2 },
-      { "monster": "mon_zombie", "weight": 325 },
-      {
-        "monster": "mon_zombie_swimmer_base",
-        "weight": 150,
-        "cost_multiplier": 0,
-        "ends": "660 days",
-        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
-      },
-      { "monster": "mon_feral_swimmer_kickboard", "weight": 20, "cost_multiplier": 0 },
-      { "monster": "mon_zombie_resort_dancer", "weight": 150, "cost_multiplier": 0 }
-    ]
-  },
-  {
-    "type": "monstergroup",
-    "id": "GROUP_ZOMBIE_SEXSHOP_B",
-    "default": "mon_zombie",
-    "monsters": [
-      { "monster": "mon_zombie", "weight": 250 },
-      { "monster": "mon_zombie_swimmer_base", "weight": 500 },
-      { "monster": "mon_zombie_resort_dancer", "weight": 500 }
-    ]
-  },
-  {
     "id": "GROUP_FIRE",
     "type": "monstergroup",
     "monsters": [
@@ -1096,6 +1066,17 @@
       { "monster": "mon_zombie_swimmer_base", "weight": 10, "cost_multiplier": 0 },
       { "monster": "mon_zombie_dog", "weight": 10, "cost_multiplier": 0 },
       { "monster": "mon_dog_zombie_rot", "weight": 5, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_MASS_GRAVE_JABBERWOCK",
+    "//": "The things that appeared at a jabberwock mass grave.",
+    "monsters": [
+      { "monster": "mon_fleshy_shambler", "weight": 250, "cost_multiplier": 0 },
+      { "monster": "mon_fleshy_shambler", "weight": 25, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_flesh_golem", "weight": 35, "cost_multiplier": 2, "starts": "17 days" },
+      { "monster": "mon_jabberwock", "weight": 4, "cost_multiplier": 3, "starts": "90 days" }
     ]
   },
   {

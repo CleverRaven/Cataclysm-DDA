@@ -20,7 +20,7 @@
   },
   {
     "id": "rifle_huge_double",
-    "copy-from": "bfg50",
+    "copy-from": "win70_458",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "name": { "str": "elephant rifle" },

@@ -11,11 +11,5 @@
     "dependencies": [ "dda" ],
     "loading_images": [ "innawoods1.png" ],
     "obsolete": false
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "DEFAULT_REGION",
-    "stype": "string_input",
-    "value": "default_innawood"
   }
 ]

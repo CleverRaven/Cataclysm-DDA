@@ -23,11 +23,5 @@
     "name": "LONGITUDE",
     "stype": "float",
     "value": -49.13
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "DEFAULT_REGION",
-    "stype": "string_input",
-    "value": "default_tropicataclysm"
   }
 ]

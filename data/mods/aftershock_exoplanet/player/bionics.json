@@ -322,7 +322,8 @@
     "act_cost": "1500 kJ",
     "react_cost": "100 kJ",
     "time": "1 s",
-    "flags": [ "BIONIC_TOGGLED", "DEAF" ],
+    "flags": [ "BIONIC_TOGGLED" ],
+    "enchantments": [ { "condition": "ACTIVE", "mutations": [ "DEAF" ] } ],
     "activated_eocs": [
       {
         "id": "bio_shield_heavy_activate",

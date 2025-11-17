@@ -359,7 +359,7 @@
     "techniques": [ "WBLOCK_1", "BRUTAL", "WIDE", "SWEEP" ],
     "faults": [ { "fault_group": "handle_long", "weight_mult": 4 }, { "fault_group": "blade_general" } ],
     "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
-    "weapon_category": [ "SPEAR" ],
+    "weapon_category": [ "SPEARS" ],
     "melee_damage": { "bash": 16, "cut": 28 }
   },
   {
@@ -440,7 +440,7 @@
       ]
     },
     "flags": [ "NONCONDUCTIVE" ],
-    "melee_damage": { "bash": 4, "cut": 8 },
+    "melee_damage": { "bash": 4, "cut": 5 },
     "tool_ammo": [ "gasoline" ]
   },
   {
@@ -483,6 +483,6 @@
     },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -60 ] ],
     "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ],
-    "melee_damage": { "bash": 4, "cut": 5 }
+    "melee_damage": { "bash": 4, "cut": 8 }
   }
 ]

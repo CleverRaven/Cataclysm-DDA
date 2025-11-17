@@ -299,6 +299,7 @@ void DynamicDataLoader::initialize()
     add( "profession_item_substitutions", &profession::load_item_substitutions );
     add( "proficiency", &proficiency::load_proficiencies );
     add( "proficiency_category", &proficiency_category::load_proficiency_categories );
+    add( "proficiency_migration", &proficiency_migration::load );
     add( "speed_description", &speed_description::load_speed_descriptions );
     add( "mood_face", &mood_face::load_mood_faces );
     add( "skill", &Skill::load_skill );
@@ -392,6 +393,7 @@ void DynamicDataLoader::initialize()
     add( "climbing_aid", &climbing_aid::load_climbing_aid );
     add( "attack_vector", &attack_vector::load_attack_vectors );
     add( "effect_type", &load_effect_type );
+    add( "effect_migration", &effect_migration::load );
     add( "oter_id_migration", &overmap::load_oter_id_migration );
     add( "camp_migration", &overmap::load_oter_id_camp_migration );
     add( "overmap_terrain", &overmap_terrains::load );
@@ -435,7 +437,6 @@ void DynamicDataLoader::initialize()
     add( "map_extra_collection",
          &map_extra_collection::load_map_extra_collection );
     add( "region_settings", &region_settings::load_region_settings );
-    add( "region_overlay", &region_overlay::load_region_overlay_new );
 
     add( "ITEM_BLACKLIST", []( const JsonObject & jo ) {
         item_controller->load_item_blacklist( jo );
@@ -486,6 +487,7 @@ void DynamicDataLoader::initialize()
     add( "anatomy", &anatomy::load_anatomy );
     add( "morale_type", &morale_type_data::load_type );
     add( "SPELL", &spell_type::load_spell );
+    add( "spell_migration", &spell_migration::load );
     add( "magic_type", &magic_type::load_magic_type );
     add( "clothing_mod", &clothing_mods::load );
     add( "ter_furn_transform", &ter_furn_transform::load_transform );
@@ -710,6 +712,7 @@ void DynamicDataLoader::unload_data()
     profession_blacklist::reset();
     proficiency::reset();
     proficiency_category::reset();
+    proficiency_migration::reset();
     mood_face::reset();
     speed_description::reset();
     quality::reset();
@@ -729,7 +732,6 @@ void DynamicDataLoader::unload_data()
     forest_biome_mapgen::reset();
     map_extra_collection::reset();
     region_settings::reset();
-    region_overlay::reset();
     reset_monster_adjustment();
     recipe_dictionary::reset();
     recipe_group::reset();
@@ -738,6 +740,7 @@ void DynamicDataLoader::unload_data()
     reset_bionics();
     reset_constructions();
     reset_effect_types();
+    effect_migration::reset();
     reset_furn_ter();
     reset_mapgens();
     MapExtras::clear();
@@ -756,6 +759,7 @@ void DynamicDataLoader::unload_data()
     SNIPPET.clear_snippets();
     magic_type::reset_all();
     spell_type::reset_all();
+    spell_migration::reset();
     start_locations::reset();
     ter_furn_migrations::reset();
     ter_furn_transform::reset();
@@ -892,7 +896,6 @@ void DynamicDataLoader::finalize_loaded_data()
             { _( "Proficiency Categories" ), &proficiency_category::finalize_all },
             { _( "Qualities" ), &quality::finalize_all },
             { _( "Recipe Groups" ), &recipe_group::finalize },
-            { _( "Region Overlays" ), &region_overlay::finalize_all },
             { _( "Region Settings" ), &region_settings::finalize_all },
             { _( "Relic Procedural Generations" ), &relic_procgen_data::finalize_all },
             { _( "Speed Descriptions" ), &speed_description::finalize_all },
@@ -952,12 +955,14 @@ void DynamicDataLoader::check_consistency()
             { _( "Ammo effects" ), &ammo_effects::check_consistency },
             { _( "Emissions" ), &emit::check_consistency },
             { _( "Effect types" ), &effect_type::check_consistency },
+            { _( "Effect migration" ), &effect_migration::check },
             { _( "Activities" ), &activity_type::check_consistency },
             { _( "Addiction types" ), &add_type::check_add_types },
             { _( "Bash damage profiles" ), &bash_damage_profile::check_all },
             { _( "Items" ), &items::check_consistency },
             { _( "Materials" ), &materials::check },
             { _( "Faults" ), &faults::check_consistency },
+            { _( "Proficiency migration" ), &proficiency_migration::check },
             { _( "Vehicle parts" ), &vehicles::parts::check },
             { _( "Vehicle part locations" ), &vpart_location::check_all },
             { _( "Vehicle part migrations" ), &vpart_migration::check },
@@ -1012,6 +1017,7 @@ void DynamicDataLoader::check_consistency()
             { _( "Body graphs" ), &bodygraph::check_all },
             { _( "Anatomies" ), &anatomy::check_consistency },
             { _( "Spells" ), &spell_type::check_consistency },
+            { _( "Spell migration" ), &spell_migration::check },
             { _( "Transformations" ), &event_transformation::check_consistency },
             { _( "Statistics" ), &event_statistic::check_consistency },
             { _( "Scent types" ), &scent_type::check_scent_consistency },

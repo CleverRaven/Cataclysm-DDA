@@ -6,7 +6,7 @@ list(APPEND CMAKE_MODULE_PATH
     ${CMAKE_SOURCE_DIR}/CMakeModules)
 include(GetGitRevisionDescription)
 
-git_describe(GIT_VERSION --tags --always --match "[0-9A-Z]*.[0-9A-Z]*")
+git_describe(GIT_VERSION --tags --always --match "cdda-*")
 
 if(EXISTS ${GIT_EXECUTABLE})
     execute_process(COMMAND ${GIT_EXECUTABLE} -c core.safecrlf=false diff --quiet

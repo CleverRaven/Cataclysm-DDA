@@ -533,12 +533,7 @@
     "armor": [ { "encumbrance": 8, "coverage": 95, "covers": [ "head", "mouth" ] } ],
     "variant_type": "generic",
     "variants": [
-      {
-        "id": "zombie_mask",
-        "name": { "str": "zombie mask" },
-        "description": "A flimsy leather zombie mask.  When zombies were still works of fiction.",
-        "weight": 100
-      },
+      { "id": "zombie_mask", "//": "inherit name and description from item", "weight": 100 },
       {
         "id": "chicken_mask",
         "name": { "str": "chicken mask" },

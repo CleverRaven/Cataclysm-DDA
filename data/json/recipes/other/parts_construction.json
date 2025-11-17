@@ -352,10 +352,7 @@
     "autolearn": true,
     "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "//": "a long pole is a single piece of wood, and the stout branch just isn't large enough.",
-    "components": [
-      [ [ "wooden_post_long", 1 ] ],
-      [ [ "any_tallow", 10, "LIST" ], [ "cooking_oil", 32 ], [ "lamp_oil", 500 ], [ "motor_oil", 500 ] ]
-    ]
+    "components": [ [ [ "wooden_post_long", 1 ] ], [ [ "wood_sealant_any", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -375,16 +372,7 @@
       { "id": "CUT_FINE", "level": 1 },
       { "id": "FILE", "level": 1 }
     ],
-    "components": [
-      [ [ "stick_long", 1 ] ],
-      [
-        [ "any_tallow", 5, "LIST" ],
-        [ "cooking_oil", 16 ],
-        [ "edible_tallow", 10, "LIST" ],
-        [ "lamp_oil", 250 ],
-        [ "motor_oil", 250 ]
-      ]
-    ]
+    "components": [ [ [ "stick_long", 1 ] ], [ [ "wood_sealant_any", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -592,7 +580,7 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "soft_adobe_brick",
+    "result": "soft_adobe_brick_active",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
@@ -612,7 +600,7 @@
   {
     "type": "recipe",
     "activity_level": "ACTIVE_EXERCISE",
-    "result": "adobe_pallet_full",
+    "result": "adobe_pallet_full_active",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
@@ -620,7 +608,7 @@
     "difficulty": 2,
     "time": "30 m",
     "autolearn": true,
-    "components": [ [ [ "soft_adobe_brick", 20 ] ], [ [ "frame_wood_light", 1 ] ] ]
+    "components": [ [ [ "soft_adobe_brick_active", 20 ] ], [ [ "frame_wood_light", 1 ] ] ]
   },
   {
     "type": "recipe",

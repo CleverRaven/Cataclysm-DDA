@@ -163,7 +163,7 @@
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
-    "result": "milk_cream_rising",
+    "result": "milk_cream_rising_active",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",

@@ -1230,6 +1230,20 @@
   },
   {
     "type": "keybinding",
+    "id": "COLLAPSE_OVERMAP_SIDEBAR_HEADERS",
+    "category": "OVERMAP",
+    "name": "Collapse all overmap sidebar headers",
+    "bindings": [ { "input_method": "keyboard_char", "key": "{" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "EXPAND_OVERMAP_SIDEBAR_HEADERS",
+    "category": "OVERMAP",
+    "name": "Expand all overmap sidebar headers",
+    "bindings": [ { "input_method": "keyboard_char", "key": "}" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "TOGGLE_EXPLORED",
     "category": "OVERMAP",
     "name": "Toggle explored",
@@ -3625,6 +3639,28 @@
       { "input_method": "keyboard_any", "key": "x" },
       { "input_method": "keyboard_char", "key": "X" },
       { "input_method": "keyboard_code", "key": "x", "mod": [ "shift" ] }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "ENABLE_VEHICLE_ZONES",
+    "category": "ZONES_MANAGER",
+    "name": "Enable vehicle zones",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "c" },
+      { "input_method": "keyboard_char", "key": "C" },
+      { "input_method": "keyboard_code", "key": "c", "mod": [ "shift" ] }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "DISABLE_VEHICLE_ZONES",
+    "category": "ZONES_MANAGER",
+    "name": "Disable vehicle zones",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "v" },
+      { "input_method": "keyboard_char", "key": "V" },
+      { "input_method": "keyboard_code", "key": "v", "mod": [ "shift" ] }
     ]
   },
   {

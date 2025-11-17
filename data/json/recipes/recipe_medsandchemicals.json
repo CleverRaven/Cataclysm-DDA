@@ -29,6 +29,20 @@
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
+    "result": "detergent",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_OTHER",
+    "skill_used": "chemistry",
+    "time": "1 m",
+    "charges": 6,
+    "autolearn": true,
+    "flags": [ "BLIND_HARD" ],
+    "//": "Cold mixing a 1:1:1 recipe for detergent using 25 ml each of soap, borax, and washing soda, produces ~75ml of detergent. ",
+    "components": [ [ [ "soap_flakes", 2 ] ], [ [ "chem_borax", 10 ] ], [ [ "chem_washing_soda", 25 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "result": "saline",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MEDICAL",
@@ -63,7 +77,7 @@
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "water_boiling_heat", 20, "LIST" ] ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
-    "components": [ [ [ "fat_tainted", 4 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ],
+    "components": [ [ [ "fat_tainted", 4 ], [ "fat_tainted_human", 4 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ],
     "charges": 2
   },
   {
@@ -410,6 +424,28 @@
       [ [ "lamp_oil", 1 ], [ "chem_sulphuric_acid", 1 ] ],
       [ [ "water_clean", 1 ], [ "water", 1 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "insecticide",
+    "id_suffix": "boric",
+    "name": "%s from boric acid",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_CHEMICALS",
+    "skill_used": "chemistry",
+    "difficulty": 4,
+    "time": "1 h",
+    "book_learn": [ [ "textbook_chemistry", 3 ], [ "adv_chemistry", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
+    "//forumla": "Na2​B4​O7​⋅10H2​O+2HA→4HBO2​+2NaA+5H2​O Boric acid precipitates. 4 moles of boric acid is produced(and 2 moles of some salt mostly remains in solution) when reacted completely with a strong acid.",
+    "//acid": "For the strong acids, they seem to be very pure as an item for some reason. sulfuric acid is 4.5 moles as an item, compared to nitric at 6 moles! 4 moles of Sulfuric acid was used as a base rate.",
+    "//yield": "Insecticide yield is purely based on ~80% yield boric acid precipitate. Trace salts have no effect on insecticide performance and negligible(2%) effect on precipitate mass. ",
+    "using": [ [ "any_strong_acid", 1 ] ],
+    "qualities": [ { "id": "CHEM", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+    "components": [ [ [ "chem_borax", 500 ] ], [ [ "water_clean", 40 ] ] ],
+    "result_mult": 20
   },
   {
     "type": "recipe",
@@ -888,7 +924,7 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "fermentable_fish_mixture",
+    "result": "fermentable_fish_mixture_active",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
     "skill_used": "survival",

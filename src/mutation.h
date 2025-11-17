@@ -256,13 +256,13 @@ struct mutation_branch {
         /**Species ignoring character with the mutation*/
         std::vector<species_id> ignored_by;
 
-        /**Map of angered species and there intensity*/
+        /**Map of angered species and their intensity*/
         std::map<species_id, int> anger_relations;
 
         std::vector<species_id> empathize_with;
         std::vector<species_id> no_empathize_with;
 
-        /**List of material required for food to be be edible*/
+        /**List of material required for food to be edible*/
         std::set<material_id> can_only_eat;
 
         /**List of healing items allowed*/

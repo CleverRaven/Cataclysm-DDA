@@ -4,7 +4,8 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str": "small backpack" },
-    "description": "A small simple backpack, probably sized for a kid.",
+    "description": "A little <color> backpack, probably sized for a kid.",
+    "expand_snippets": true,
     "weight": "333 g",
     "volume": "2 L",
     "price": "19 USD",
@@ -44,13 +45,7 @@
       }
     ],
     "variants": [
-      {
-        "id": "color",
-        "weight": 17,
-        "name": "small backpack",
-        "description": "A little <color> backpack, probably sized for a kid.",
-        "expand_snippets": true
-      },
+      { "id": "color", "weight": 17, "//": "inherit name and description from item" },
       {
         "id": "boy",
         "name": { "str": "boy's backpack" },

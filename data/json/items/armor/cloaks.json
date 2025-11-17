@@ -30,7 +30,7 @@
     "id": "artifact_energy_shield",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "distorted air" },
+    "name": { "str_sp": "distorted air" },
     "description": "The empty air around you vibrates faintly.",
     "weight": "10 g",
     "volume": "1 ml",
@@ -84,16 +84,12 @@
     "color": "pink",
     "variant_type": "generic",
     "variants": [
-      {
-        "id": "rainbow_pride_flag",
-        "name": { "str": "pride flag" },
-        "description": "A large rainbow flag, The colors reflect the diversity of the LGBT community and the spectrum of human sexuality and gender.",
-        "weight": 10
-      },
+      { "id": "rainbow_pride_flag", "//": "inherit name and description from item", "weight": 10 },
       {
         "id": "progress_pride_flag",
         "name": { "str": "progress pride flag" },
-        "description": "A large rainbow flag, The colors reflect the diversity of the LGBT community and the spectrum of human sexuality and gender.  On the left side you can see a chevron that features black, brown, light blue, pink, and white stripes to bring those communities to the forefront; \"the arrow points to the right to show forward movement, while being along the left edge shows that progress still needs to be made\".",
+        "description": "On the left side you can see a chevron that features black, brown, light blue, pink, and white stripes to bring those communities to the forefront; \"the arrow points to the right to show forward movement, while being along the left edge shows that progress still needs to be made\".",
+        "append": true,
         "weight": 10
       },
       {
@@ -1663,34 +1659,6 @@
     "color": "blue"
   },
   {
-    "id": "cape_catholic",
-    "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
-    "name": { "str": "ferraiolo" },
-    "description": "A long, crimson cape that reaches the ankles.  Worn by Catholic priests for ceremonious occasions.",
-    "weight": "1500 g",
-    "volume": "6 L",
-    "price": "500 USD",
-    "price_postapoc": "3 USD",
-    "material": [ "cotton" ],
-    "symbol": "]",
-    "looks_like": "cloak",
-    "color": "red",
-    "warmth": 15,
-    "material_thickness": 0.5,
-    "flags": [ "OVERSIZE", "BELTED" ],
-    "armor": [
-      { "encumbrance": 6, "coverage": 95, "covers": [ "torso", "arm_r", "arm_l" ] },
-      {
-        "covers": [ "leg_l", "leg_r" ],
-        "coverage": 95,
-        "encumbrance": 6,
-        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
-        "layers": [ "BELTED" ]
-      }
-    ]
-  },
-  {
     "id": "grass_cloak",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
@@ -2016,7 +1984,18 @@
     "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "FB51 optical cloak (on)", "str_pl": "FB51 optical cloaks (on)" },
     "description": "A plastic cloak embedded with cameras and LEDs that will render you fully invisible to normal vision when powered and worn.  It is turned on, and continually draining power from a UPS.  Use it to turn it off.",
-    "flags": [ "USE_UPS", "OVERSIZE", "HOOD", "BELTED", "ACTIVE_CLOAKING", "TRADER_AVOID", "SOFT", "NO_REPAIR", "RAINPROOF" ],
+    "flags": [
+      "USE_UPS",
+      "OVERSIZE",
+      "HOOD",
+      "BELTED",
+      "ACTIVE_CLOAKING",
+      "TRADER_AVOID",
+      "SOFT",
+      "NO_REPAIR",
+      "RAINPROOF",
+      "SPAWN_ACTIVE"
+    ],
     "power_draw": "20 kW",
     "revert_to": "optical_cloak",
     "use_action": {

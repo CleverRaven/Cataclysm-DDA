@@ -369,7 +369,7 @@
     "flags": [ "EATEN_HOT", "SMOKED" ]
   },
   {
-    "id": "raw_curing_fatty_meat",
+    "id": "raw_curing_fatty_meat_active",
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "copy-from": "flesh",
@@ -383,16 +383,9 @@
     "spoils_in": "14 days",
     "fun": -15,
     "vitamins": [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ], [ "meat_allergen", 1 ] ],
-    "flags": [  ],
-    "use_action": {
-      "target": "raw_cured_fatty_meat",
-      "msg": "You pat off a bit of extra brine from the slice; this piece of meat is now fully cured.",
-      "moves": 150,
-      "type": "delayed_transform",
-      "transform_age": 28800,
-      "not_ready_msg": "The meat isn't fully cured yet.",
-      "//": "8 hours"
-    }
+    "flags": [ "SPAWN_ACTIVE" ],
+    "countdown_interval": "8 hours",
+    "revert_to": "raw_cured_fatty_meat"
   },
   {
     "id": "meat_scrap",
@@ -824,6 +817,16 @@
     "use_action": [ "POISON" ],
     "price_postapoc": "0 cent",
     "fun": -25
+  },
+  {
+    "id": "tainted_innards_human",
+    "copy-from": "tainted_innards",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "name": { "str_sp": "tainted innards" },
+    "description": "An unidentifiable selection of rotted human innards that barely hold their form.  It is revolting and certainly no longer healthy to eat.",
+    "snippet_category": "tainted_innards_desc",
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 16 ], [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ]
   },
   {
     "id": "mutant_bug_organs",
@@ -1647,6 +1650,17 @@
   {
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
+    "id": "meat_tainted_human",
+    "copy-from": "meat_tainted",
+    "category": "other",
+    "name": { "str": "chunk of tainted human meat", "str_pl": "chunks of tainted human meat" },
+    "description": "A piece of rotted meat that has been harvested from something human, or at the very least something once human, as if cannibalism wasn't abhorrent enough.",
+    "material": [ "hflesh" ],
+    "vitamins": [ [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "arm_zed",
     "category": "other",
     "name": { "str": "tainted limb" },
@@ -1708,6 +1722,23 @@
     "smoking_result": "null"
   },
   {
+    "id": "blood_tainted_human",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "copy-from": "meat_tainted_human",
+    "name": { "str_sp": "tainted human blood" },
+    "description": "Blood that's obviously unhealthy, and from a human to boot.  You could drink it, but it will poison you.",
+    "weight": "262 g",
+    "volume": "250 ml",
+    "comestible_type": "DRINK",
+    "looks_like": "blood",
+    "symbol": "~",
+    "material": "hblood",
+    "charges": 1,
+    "phase": "liquid",
+    "smoking_result": "null"
+  },
+  {
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "id": "tainted_marrow",
@@ -1732,6 +1763,17 @@
   {
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
+    "id": "tainted_marrow_human",
+    "copy-from": "tainted_marrow",
+    "category": "other",
+    "name": { "str": "portion of tainted human bone marrow", "str_pl": "portions of tainted human bone marrow" },
+    "description": "A wet, green chunk of spongy goop extracted from a rotten human bone.  You could eat it, but it will poison you.",
+    "material": [ "hflesh" ],
+    "vitamins": [ [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "fat_tainted",
     "category": "other",
     "name": { "str": "chunk of tainted fat", "str_pl": "chunks of tainted fat" },
@@ -1751,6 +1793,18 @@
     "fun": -10,
     "flags": [ "RAW" ],
     "vitamins": [ [ "meat_allergen", 1 ] ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "id": "fat_tainted_human",
+    "copy-from": "fat_tainted",
+    "category": "other",
+    "name": { "str": "chunk of tainted human fat", "str_pl": "chunks of tainted human fat" },
+    "description": "A watery yellow glob of fat from some zombified human.  You could eat it, but it will poison you.",
+    "//": "Not for use in edible recipes, and should require ~200% as much as normal for applicable inedible recipes.",
+    "material": [ "hflesh" ],
+    "vitamins": [ [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ]
   },
   {
     "type": "ITEM",

@@ -270,7 +270,10 @@
     "type": "effect_on_condition",
     "effect": [
       { "npc_add_var": "player_has_bought_car", "value": "yes" },
-      { "mapgen_update": "afs_shuttlepad_salvors_garage_open", "om_terrain": "afs_shuttlepad_salvors_a1_1" }
+      {
+        "mapgen_update": [ "afs_shuttlepad_salvors_garage_open_and_remove_lynx", "afs_shuttlepad_salvors_garage_place_lynx" ],
+        "om_terrain": "afs_shuttlepad_salvors_a1_1"
+      }
     ]
   },
   {

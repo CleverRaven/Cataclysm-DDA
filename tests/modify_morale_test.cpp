@@ -34,6 +34,7 @@ static const itype_id itype_gum( "gum" );
 static const itype_id itype_heroin( "heroin" );
 static const itype_id itype_honeycomb( "honeycomb" );
 static const itype_id itype_joint( "joint" );
+static const itype_id itype_jug_plastic( "jug_plastic" );
 static const itype_id itype_lsd( "lsd" );
 static const itype_id itype_meat( "meat" );
 static const itype_id itype_meth( "meth" );
@@ -529,7 +530,8 @@ TEST_CASE( "food_allergies_and_intolerances", "[food][modify_morale][allergy]" )
         REQUIRE( dummy.has_trait( trait_LACTOSE ) );
 
         THEN( "they get a morale penalty for drinking milk" ) {
-            item_location milk_container = dummy.i_add( item( itype_milk ).in_its_container() );
+            item_location milk_container = dummy.i_add( item( itype_milk ).in_container( itype_jug_plastic,
+                                           1 ) );
             item &milk = milk_container->only_item();
             REQUIRE( milk.has_flag( flag_ALLERGEN_MILK ) );
             dummy.clear_morale();

@@ -637,7 +637,7 @@
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "name": { "str": "Glock 44 pistol" },
-    "description": "A Glock chambered in .22LR.  While effective against paper targets and rodents, it will struggle against the walking dead.",
+    "description": "A Glock chambered in .22 LR.  While effective against paper targets and rodents, it will struggle against the walking dead.",
     "weight": "358 g",
     "volume": "398 ml",
     "longest_side": "212 mm",

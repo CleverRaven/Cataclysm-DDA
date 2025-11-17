@@ -50,8 +50,18 @@ jobs:
       - run: |
           gh release create ${{ steps.generate_env_vars.outputs.tag_name }} --notes-file notes.txt --prerelease --title "${{ steps.generate_env_vars.outputs.release_name }}" --target "$(git log -1 --format='%H')"
 
+  compose-tilesets:
+    uses: ./.github/workflows/compose-tilesets.yml
+  build-translations:
+    uses: ./.github/workflows/build-translations.yml
+    secrets:
+      TX_TOKEN: ${{ secrets.TX_TOKEN }}
+
   builds:
-    needs: release
+    needs:
+      - release
+      - compose-tilesets
+      - build-translations
     strategy:
       fail-fast: false
       matrix:
@@ -63,6 +73,7 @@ jobs:
             mxe: none
             ext: zip
             content: application/zip
+            tiles: 1
             sound: 0
           - name: Windows Tiles Sounds x64 MSVC
             artifact: windows-with-graphics-and-sounds-x64
@@ -71,6 +82,7 @@ jobs:
             mxe: none
             ext: zip
             content: application/zip
+            tiles: 1
             sound: 1
           - name: Linux Tiles x64
             os: ubuntu-22.04
@@ -103,7 +115,7 @@ jobs:
             ext: tar.gz
             content: application/gzip
           - name: macOS Curses Universal Binary (x64 and arm64)
-            os: macos-13
+            os: macos-15
             mxe: none
             tiles: 0
             sound: 0
@@ -111,7 +123,7 @@ jobs:
             ext: dmg
             content: application/x-apple-diskimage
           - name: macOS Tiles Universal Binary (x64 and arm64)
-            os: macos-13
+            os: macos-15
             mxe: none
             tiles: 1
             sound: 0
@@ -121,6 +133,7 @@ jobs:
           - name: Android x64
             os: ubuntu-latest
             mxe: none
+            tiles: 1
             android: arm64
             artifact: android-x64
             ext: apk
@@ -128,6 +141,7 @@ jobs:
           - name: Android x32
             os: ubuntu-latest
             mxe: none
+            tiles: 1
             android: arm32
             artifact: android-x32
             ext: apk
@@ -138,6 +152,7 @@ jobs:
           #  artifact: wasm
           #  ext: zip
           #  content: application/zip
+          #  tiles: 1
           #  sound: 0
           #  wasm: true
     name: ${{ matrix.name }}
@@ -154,6 +169,17 @@ jobs:
         run: |
           git clone --depth=1 --shallow-submodules --recurse-submodules https://github.com/Fris0uman/CDDA-Soundpacks '${{ github.workspace }}/CDDA-Soundpacks'
           mv '${{ github.workspace }}/CDDA-Soundpacks/sound/CC-Sounds' '${{ github.workspace }}/data/sound'
+      - name: Fetch tileset artifact into build
+        if: matrix.tiles == 1
+        uses: actions/download-artifact@v4
+        with:
+          pattern: tileset-*
+          path: gfx
+          merge-multiple: true
+      - name: Fetch translations artifact into build
+        uses: actions/download-artifact@v4
+        with:
+          name: translations
       - name: Install dependencies (windows msvc) (0/4)
         if: runner.os == 'Windows'
         uses: lukka/get-cmake@latest
@@ -226,7 +252,7 @@ jobs:
         if: runner.os == 'macOS'
         run: |
           HOMEBREW_NO_AUTO_UPDATE=yes HOMEBREW_NO_INSTALL_CLEANUP=yes brew install gettext ccache parallel dylibbundler
-          pip3 install dmgbuild biplist
+          pip3 install --break-system-packages dmgbuild biplist
       - name: install macports (mac)
         if: runner.os == 'macOS' && matrix.tiles == 1
         uses: melusina-org/setup-macports@v1

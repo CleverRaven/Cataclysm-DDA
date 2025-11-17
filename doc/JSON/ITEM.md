@@ -154,8 +154,8 @@ These fields can be read by any ITEM regardless of subtypes:
 "variants": [              // Cosmetic variants this item can have
   {
     "id": "variant_a",                           // id used in spawning to spawn this variant specifically
-    "name": { "str": "Variant A" },             // The name used instead of the default name when this variant is selected
-    "description": "A fancy variant A",         // The description used instead of the default when this variant is selected
+    "name": { "str": "Variant A" },             // The name used instead of the default name when this variant is selected. Optional, can be omitted to inherit the description of an item.
+    "description": "A fancy variant A",         // The description used instead of the default when this variant is selected. Optional, can be omitted to inherit the description of an item.
     "ascii_picture": "valid_ascii_art_id",      // An ASCII art picture used when this variant is selected. If there is none, the default (if it exists) is used.
     "symbol": "/",                              // Valid unicode character to replace the item symbol. If not specified, no change will be made.
     "color": "red",                             // Replacement color of item symbol. If not specified, no change will be made.
@@ -1002,7 +1002,8 @@ If an item is BREWABLE, it can be placed in a vat and will ferment into a differ
 "name": { "str_sp": "whiskey wort" },
 "description": "Unfermented whiskey.  The base of a fine drink.  Not the traditional preparation, but you don't have the time.  You need to put it in a fermenting vat to brew it.",
 "brew_time": "7 days",  // A time duration: how long the fermentation will take.
-"brew_results": [ "wash_whiskey", "yeast" ], // IDs with a multiplier for the amount of results per charge of the brewable items.
+"brew_results": [ "wash_whiskey", { "item": "yeast", "variant": "foo", "count": 3 } ], // IDs with a multiplier for the amount of results per charge of the brewable items.
+"brew_results": { "wash_whiskey": 2, "yeast": 3 }, // Alternate format
 ...
 //comestible fields
 ```
@@ -1024,6 +1025,7 @@ If an item is BREWABLE, it can be placed in a vat and will ferment into a differ
 "charges": 1,
 "compost_time": "60 days", // the amount of time required to fully compost this item
 "compost_results": { "fermented_fertilizer_liquid": 1, "biogas": 250 }, //item IDs and quantities resulting from compost
+"compost_results": [ "fermented_fertilizer_liquid", { "item": "biogas", "variant": "foo", "count": "250" } ], // alternate format
 ...
 //COMESTIBLE fields
 ```

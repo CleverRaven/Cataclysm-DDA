@@ -203,7 +203,10 @@
       { "item": "material_shrd_limestone", "count": [ 10, 25 ], "prob": 70 },
       { "item": "material_rocksalt", "count": [ 0, 1 ], "prob": 20 },
       { "item": "material_rhodonite", "count": [ 0, 1 ], "prob": 3 },
-      { "item": "material_zincite", "count": [ 0, 5 ], "prob": 5 }
+      { "item": "material_zincite", "count": [ 0, 5 ], "prob": 5 },
+      { "item": "chunk_feldspar", "count": [ 10, 25 ], "prob": 50 },
+      { "item": "chunk_graphite", "count": [ 0, 2 ], "prob": 2 },
+      { "item": "chunk_caco3", "count": [ 0, 2 ], "prob": 60 }
     ]
   },
   {
@@ -378,6 +381,44 @@
       { "item": "egg_turtle_painted", "prob": 5 },
       { "item": "egg_wormsnake", "prob": 2 },
       { "item": "egg_skink_fivelined", "prob": 2 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "sex_accessories_domestic",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "distribution": [
+          { "distribution": [ { "item": "sextoy", "variant": "beads" }, { "item": "sextoy", "variant": "plug" } ], "prob": 46 },
+          {
+            "distribution": [
+              { "item": "rope_6" },
+              { "item": "bullwhip" },
+              { "item": "candle" },
+              { "item": "handcuffs_leather" },
+              { "item": "gag_ball" },
+              { "item": "paddle_plastic" }
+            ],
+            "prob": 27
+          },
+          { "item": "sextoy", "variant": "dildo", "prob": 35 },
+          {
+            "distribution": [ { "item": "moisturizer", "variant": "lube", "entry-wrapper": "bottle_plastic_small", "count": 8 } ],
+            "prob": 40
+          },
+          { "item": "vibrator", "variant": "egg", "charges": [ 0, 100 ], "prob": 29 },
+          {
+            "distribution": [
+              { "item": "vibrator", "variant": "wand", "charges": [ 0, 100 ], "prob": 30 },
+              { "item": "vibrator", "variant": "dildo", "charges": [ 0, 100 ], "prob": 60 }
+            ],
+            "prob": 55
+          }
+        ],
+        "prob": 90
+      },
+      { "item": "condom", "prob": 10 }
     ]
   }
 ]

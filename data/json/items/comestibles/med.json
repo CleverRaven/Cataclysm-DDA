@@ -443,7 +443,24 @@
     "addiction_potential": 60,
     "addiction_type": "nicotine",
     "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE", "NO_TEMP" ],
-    "use_action": [ "SMOKING" ]
+    "use_action": [ "SMOKING" ],
+    "variants": [
+      {
+        "id": "handrolled",
+        "name": { "str": "hand-rolled cigar" },
+        "description": "A proper cigar rolled by hand from loose tobacco and leaves."
+      },
+      {
+        "id": "premium",
+        "name": { "str": "premium cigar" },
+        "description": "Select long-filler tobacco hand-rolled by a professional with care.  Smooth draw and even burn.  Now THIS is a real cigar!"
+      },
+      {
+        "id": "cheap",
+        "name": { "str": "cheap cigar" },
+        "description": "Cheap, machine-made cigar.  While not as luxurious as hand-rolled cigars, it's still enjoyable."
+      }
+    ]
   },
   {
     "id": "debug_chloroform_rag",

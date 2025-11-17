@@ -398,6 +398,11 @@
         "name": { "str_sp": "day and night moisturizer" },
         "description": "A moisturizer that works all day and night.  A perfect fit for those that decide their own sleep schedule.",
         "weight": 5
+      },
+      {
+        "id": "lube",
+        "name": { "str_sp": "lube" },
+        "description": "Helps insertion of different medical tools in the body, among other things."
       }
     ]
   },
@@ -1693,20 +1698,6 @@
     "color": "white",
     "flags": [ "TRADER_AVOID" ],
     "ammo_type": "glowstick_juice"
-  },
-  {
-    "type": "ITEM",
-    "subtypes": [ "AMMO" ],
-    "id": "graphite",
-    "name": { "str_sp": "graphite" },
-    "symbol": "!",
-    "description": "Graphite powder mixed with a clay binder.  Produces gray or black marks that are easily erased, but otherwise resistant to moisture, most chemicals, ultraviolet radiation, and natural aging.",
-    "volume": "1 ml",
-    "weight": "1 mg",
-    "color": "dark_gray",
-    "looks_like": "charcoal",
-    "flags": [ "TRADER_AVOID" ],
-    "ammo_type": "graphite"
   },
   {
     "type": "ITEM",
