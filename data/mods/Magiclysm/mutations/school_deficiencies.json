@@ -29,7 +29,8 @@
     "description": "No matter how hard you try, you never managed to master conjuration spells.  You are unable to cast any spell of the conjuration school.",
     "starting_trait": true,
     "purifiable": false,
-    "valid": false
+    "valid": false,
+    "flags": [ "NO_CASTING_SUMMONING_SPELLS" ]
   },
   {
     "type": "mutation",

@@ -207,7 +207,7 @@
     "flags": [ "CONJURATION_SPELL", "LOUD", "SOMATIC" ],
     "spell_class": "BIOMANCER",
     "learn_spells": { "bio_bonespear_plus": 15 },
-    "magic_type": "magiclysm_generic_magic"
+    "magic_type": "magiclysm_conjuration_magic"
   },
   {
     "id": "bio_bonespear_plus",
@@ -234,7 +234,7 @@
     "max_level": 25,
     "flags": [ "CONJURATION_SPELL", "LOUD", "NO_FAIL" ],
     "spell_class": "BIOMANCER",
-    "magic_type": "magiclysm_generic_magic"
+    "magic_type": "magiclysm_conjuration_magic"
   },
   {
     "id": "create_rune_biomancer",

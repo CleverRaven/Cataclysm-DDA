@@ -25,6 +25,18 @@
   },
   {
     "type": "jmath_function",
+    "id": "magiclysm_spell_failure_summoning_formula",
+    "num_args": 0,
+    "return": "clamp( (magiclysm_standard_spell_failure_equation() + magiclysm_spell_failure_summoning_proficiency_adjustments() ), 0, 1)"
+  },
+  {
+    "type": "jmath_function",
+    "id": "magiclysm_spell_failure_summoning_proficiency_adjustments",
+    "num_args": 0,
+    "return": "(u_has_proficiency('prof_magic_summon_beginner') ? -0.1 : 0) + (u_has_proficiency('prof_magic_summon_apprentice') ? -0.15 : 0) + (u_has_proficiency('prof_magic_summon_master') ? -0.2 : 0)"
+  },
+  {
+    "type": "jmath_function",
     "id": "magiclysm_spell_failure_channeling_formula",
     "num_args": 0,
     "return": "clamp( (magiclysm_standard_spell_failure_equation() + magiclysm_spell_failure_channeling_proficiency_adjustments() ), 0, 1)"

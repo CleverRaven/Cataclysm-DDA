@@ -431,7 +431,7 @@
     "spell_class": "MAGUS",
     "base_casting_time": 400,
     "base_energy_cost": 350,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_conjuration_magic",
     "difficulty": 3
   },
   {
@@ -455,7 +455,7 @@
     "spell_class": "MAGUS",
     "base_casting_time": 400,
     "base_energy_cost": 350,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_conjuration_magic",
     "difficulty": 4,
     "learn_spells": { "magus_summon_impact_sling_plus": 15 }
   },
@@ -484,7 +484,7 @@
     "base_energy_cost": 350,
     "final_energy_cost": 100,
     "energy_increment": -10,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_conjuration_magic",
     "difficulty": 6
   },
   {
@@ -629,7 +629,7 @@
     "min_duration": 180000,
     "max_duration": 1380000,
     "duration_increment": 60000,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_conjuration_magic",
     "base_energy_cost": 200,
     "base_casting_time": 1500
   },
@@ -844,7 +844,7 @@
     "components": "spell_components_magus_permanent_light",
     "max_level": 15,
     "spell_class": "MAGUS",
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_conjuration_magic",
     "difficulty": 8,
     "min_range": 1,
     "max_range": 1,

@@ -132,7 +132,7 @@
     "difficulty": 5,
     "max_level": 15,
     "spell_class": "DRUID",
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_conjuration_magic",
     "learn_spells": { "druid_naturebow1_plus": 15 }
   },
   {
@@ -200,7 +200,7 @@
     "difficulty": 7,
     "max_level": 25,
     "spell_class": "DRUID",
-    "magic_type": "magiclysm_generic_magic"
+    "magic_type": "magiclysm_conjuration_magic"
   },
   {
     "id": "druid_naturequiver1_plus",
@@ -277,7 +277,7 @@
     "max_aoe": 3,
     "spell_class": "DRUID",
     "base_casting_time": 250,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_conjuration_magic",
     "max_level": 25,
     "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ],
     "min_duration": 6000,
@@ -302,7 +302,7 @@
     "range_increment": 0.1,
     "spell_class": "DRUID",
     "base_casting_time": 500,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_conjuration_magic",
     "max_level": 25,
     "difficulty": 10,
     "min_duration": 6000,
@@ -382,7 +382,7 @@
     "difficulty": 6,
     "max_level": 20,
     "spell_class": "DRUID",
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_conjuration_magic",
     "flags": [ "CONJURATION_SPELL", "NO_LEGS", "CONCENTRATE" ]
   },
   {
@@ -546,7 +546,7 @@
     "range_increment": 0.2,
     "spell_class": "DRUID",
     "base_casting_time": 500,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_conjuration_magic",
     "max_level": 30,
     "difficulty": 6,
     "min_duration": 36000,
@@ -632,7 +632,7 @@
     "base_energy_cost": 5,
     "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ],
     "energy_source": "HP",
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_conjuration_magic",
     "difficulty": 4,
     "max_level": 20,
     "min_damage": 5,
@@ -878,7 +878,7 @@
     "max_range": 15,
     "range_increment": 0.8,
     "base_casting_time": 250,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_conjuration_magic",
     "min_duration": 12000,
     "max_duration": 42000,
     "duration_increment": 2000,

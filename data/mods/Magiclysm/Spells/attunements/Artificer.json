@@ -107,6 +107,6 @@
     "final_casting_time": 500,
     "casting_time_increment": -30,
     "base_energy_cost": 100,
-    "magic_type": "magiclysm_generic_magic"
+    "magic_type": "magiclysm_conjuration_magic"
   }
 ]

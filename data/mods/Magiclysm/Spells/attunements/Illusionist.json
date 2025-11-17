@@ -41,7 +41,7 @@
     "flags": [ "CONJURATION_SPELL", "SILENT", "RANDOM_TARGET", "NO_EXPLOSION_SFX", "MUST_HAVE_CLASS_TO_LEARN" ],
     "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ],
     "spell_class": "ILLUSIONIST",
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_conjuration_magic",
     "min_range": 1,
     "max_range": 1,
     "min_damage": 5,
