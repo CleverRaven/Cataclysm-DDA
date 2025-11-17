@@ -3,7 +3,7 @@
     "type": "terrain",
     "id": "t_iso_chasm",
     "name": "chasm",
-    "description": "The surrounding walls drop into an abyss that sparkles with otherworldly light. Falling into it would likely mean certain death.",
+    "description": "The surrounding walls drop into an abyss that sparkles with otherworldly light.  Falling into it would likely mean certain death.",
     "symbol": "*",
     "looks_like": "t_open_air",
     "color": "dark_gray",
