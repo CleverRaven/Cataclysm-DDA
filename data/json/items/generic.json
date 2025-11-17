@@ -2988,7 +2988,7 @@
     ],
     "material": [ "paper" ],
     "light": 8,
-    "flags": [ "LITCIG", "TOBACCO", "TRADER_AVOID", "FIRESTARTER", "FRAGILE", "OVERSIZE" ],
+    "flags": [ "LITCIG", "TOBACCO", "TRADER_AVOID", "FIRESTARTER", "FRAGILE", "OVERSIZE", "SPAWN_ACTIVE" ],
     "warmth": 6,
     "armor": [
       {
@@ -3037,7 +3037,7 @@
     ],
     "material": [ "paper" ],
     "light": 2,
-    "flags": [ "LITCIG", "TOBACCO", "TRADER_AVOID", "FIRESTARTER", "FRAGILE", "OVERSIZE" ],
+    "flags": [ "LITCIG", "TOBACCO", "TRADER_AVOID", "FIRESTARTER", "FRAGILE", "OVERSIZE", "SPAWN_ACTIVE" ],
     "warmth": 3,
     "armor": [
       {
@@ -3086,7 +3086,7 @@
     ],
     "material": [ "paper" ],
     "light": 2,
-    "flags": [ "LITCIG", "TRADER_AVOID", "FIRESTARTER", "FRAGILE", "OVERSIZE" ],
+    "flags": [ "LITCIG", "TRADER_AVOID", "FIRESTARTER", "FRAGILE", "OVERSIZE", "SPAWN_ACTIVE" ],
     "warmth": 3,
     "armor": [
       {
