@@ -365,9 +365,6 @@
         }
       ]
     },
-    "effect": [
-      "u_cancel_activity",
-      { "u_message": "You can't perform that activity while in the form of an animal.", "type": "bad" }
-    ]
+    "effect": [ "u_cancel_activity", { "u_message": "You can't perform that activity while astrally projecting.", "type": "bad" } ]
   }
 ]
