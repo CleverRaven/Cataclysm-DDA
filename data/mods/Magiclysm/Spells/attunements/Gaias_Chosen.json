@@ -56,7 +56,7 @@
     "max_level": 35,
     "flags": [ "ENHANCEMENT_SPELL", "SOMATIC" ],
     "spell_class": "GAIAS_CHOSEN",
-    "magic_type": "magiclysm_generic_magic"
+    "magic_type": "magiclysm_enhancement_magic"
   },
   {
     "id": "effect_terra_armor",

@@ -172,7 +172,7 @@
     "duration_increment": 2000,
     "base_casting_time": 100,
     "base_energy_cost": 150,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_enhancement_magic",
     "difficulty": 0,
     "flags": [ "ENHANCEMENT_SPELL", "LOUD", "NO_HANDS", "NO_LEGS" ]
   },

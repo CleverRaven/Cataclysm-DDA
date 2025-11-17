@@ -118,7 +118,7 @@
     "flags": [ "ENHANCEMENT_SPELL", "NO_LEGS", "SILENT", "NO_EXPLOSION_SFX", "MUST_HAVE_CLASS_TO_LEARN" ],
     "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ],
     "spell_class": "GRAVITY_MAGE",
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_enhancement_magic",
     "difficulty": 7,
     "base_casting_time": 500,
     "final_casting_time": 150,

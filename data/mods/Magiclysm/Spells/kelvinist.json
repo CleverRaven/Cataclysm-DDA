@@ -584,7 +584,7 @@
     "min_duration": 180000,
     "max_duration": 2160000,
     "duration_increment": 99000,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_enhancement_magic",
     "base_energy_cost": 250,
     "base_casting_time": 1500
   },
@@ -605,7 +605,7 @@
     "min_duration": 180000,
     "max_duration": 2160000,
     "duration_increment": 99000,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_enhancement_magic",
     "base_energy_cost": 250,
     "base_casting_time": 1500
   },
@@ -627,7 +627,7 @@
     "min_duration": 90000,
     "max_duration": 990000,
     "duration_increment": 45000,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_enhancement_magic",
     "base_energy_cost": 350,
     "base_casting_time": 500
   },
@@ -718,7 +718,7 @@
     "min_duration": 60000,
     "max_duration": 960000,
     "duration_increment": 60000,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_enhancement_magic",
     "base_energy_cost": 650,
     "base_casting_time": 6000
   },
