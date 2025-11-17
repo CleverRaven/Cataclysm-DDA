@@ -1282,7 +1282,7 @@
     "spell_class": "EARTHSHAPER",
     "teachable": false,
     "max_level": 20,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_conveyance_magic",
     "base_energy_cost": 650,
     "base_casting_time": 250
   },

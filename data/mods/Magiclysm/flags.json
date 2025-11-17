@@ -33,5 +33,10 @@
     "id": "NO_CASTING_ENERVATION_SPELLS",
     "type": "json_flag",
     "//": "Used by the NO_CASTING_ENERVATION_SPELLS trait"
+  },
+  {
+    "id": "NO_CASTING_CONVEYANCE_SPELLS",
+    "type": "json_flag",
+    "//": "Used by the NO_CASTING_CONVEYANCE_SPELLS trait"
   }
 ]

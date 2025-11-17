@@ -73,7 +73,7 @@
     "effect": "attack",
     "shape": "blast",
     "spell_class": "ILLUSIONIST",
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_conveyance_magic",
     "difficulty": 8,
     "max_level": 35,
     "base_casting_time": 150,

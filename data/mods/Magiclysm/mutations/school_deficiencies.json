@@ -62,7 +62,8 @@
     "description": "No matter how hard you try, you never managed to master conveyance spells.  You are unable to cast any spell of the conveyance school.",
     "starting_trait": true,
     "purifiable": false,
-    "valid": false
+    "valid": false,
+    "flags": [ "NO_CASTING_CONVEYANCE_SPELLS" ]
   },
   {
     "type": "mutation",

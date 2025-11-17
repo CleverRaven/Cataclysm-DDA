@@ -641,7 +641,7 @@
     "effect": "attack",
     "shape": "blast",
     "spell_class": "ANIMIST",
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_conveyance_magic",
     "difficulty": 5,
     "max_level": 20,
     "base_casting_time": 100,
@@ -675,7 +675,7 @@
     "max_level": 25,
     "base_casting_time": 100,
     "extra_effects": [ { "id": "eoc_conveyance_setup", "hit_self": true } ],
-    "magic_type": "magiclysm_generic_magic"
+    "magic_type": "magiclysm_conveyance_magic"
   },
   {
     "id": "summon_wisps",

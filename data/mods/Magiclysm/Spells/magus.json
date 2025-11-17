@@ -70,7 +70,7 @@
     "difficulty": 2,
     "spell_class": "MAGUS",
     "base_casting_time": 100,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_conveyance_magic",
     "base_energy_cost": 100,
     "learn_spells": { "dimension_door": 10 }
   },
@@ -94,7 +94,7 @@
     "difficulty": 5,
     "spell_class": "MAGUS",
     "base_casting_time": 600,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_conveyance_magic",
     "base_energy_cost": 600,
     "energy_increment": -10,
     "final_energy_cost": 350
@@ -293,7 +293,7 @@
     "difficulty": 5,
     "spell_class": "MAGUS",
     "base_casting_time": 100,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_conveyance_magic",
     "base_energy_cost": 250
   },
   {
@@ -570,7 +570,7 @@
     "shape": "blast",
     "difficulty": 5,
     "max_level": 10,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_conveyance_magic",
     "base_energy_cost": 2000,
     "base_casting_time": 90000
   },
@@ -600,7 +600,7 @@
     "shape": "blast",
     "difficulty": 8,
     "max_level": 15,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_conveyance_magic",
     "base_energy_cost": 400,
     "base_casting_time": 100
   },

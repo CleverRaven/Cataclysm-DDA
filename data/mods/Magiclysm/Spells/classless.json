@@ -339,7 +339,7 @@
     "base_casting_time": 6000,
     "base_energy_cost": 675,
     "extra_effects": [ { "id": "eoc_conveyance_setup", "hit_self": true } ],
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_conveyance_magic",
     "spell_class": "NONE"
   },
   {

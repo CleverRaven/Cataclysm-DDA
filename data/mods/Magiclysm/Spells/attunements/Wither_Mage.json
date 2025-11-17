@@ -47,7 +47,7 @@
     "max_duration": 500,
     "spell_class": "WITHER_MAGE",
     "base_casting_time": 30,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_conveyance_magic",
     "base_energy_cost": 1200,
     "difficulty": 8,
     "extra_effects": [

@@ -763,7 +763,7 @@
     "final_energy_cost": 200,
     "energy_increment": -6,
     "max_level": 25,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_conveyance_magic",
     "extra_effects": [ { "id": "eoc_conveyance_setup", "hit_self": true } ],
     "learn_spells": { "shocking_teleport": 15 }
   },
@@ -788,7 +788,7 @@
     "final_energy_cost": 300,
     "energy_increment": -10,
     "max_level": 25,
-    "magic_type": "magiclysm_generic_magic"
+    "magic_type": "magiclysm_conveyance_magic"
   },
   {
     "id": "shocking_teleport_damage",
