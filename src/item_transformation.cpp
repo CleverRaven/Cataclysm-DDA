@@ -13,8 +13,8 @@
 #include "ret_val.h"
 #include "rng.h"
 
-static const flag_id flag_BOMB( "BOMB" );
-static const flag_id flag_RADIO_ACTIVATION( "RADIO_ACTIVATION" );
+static const flag_id json_flag_BOMB( "BOMB" );
+static const flag_id json_flag_RADIO_ACTIVATION( "RADIO_ACTIVATION" );
 
 void item_transformation::deserialize( const JsonObject &jo )
 {
@@ -74,7 +74,7 @@ void item_transformation::transform( Character *carrier, item &it, bool dont_tak
                 it.charges = qty;
             } else if( !it.ammo_current().is_null() ) {
                 it.ammo_set( it.ammo_current(), qty );
-            } else if( it.has_flag( flag_RADIO_ACTIVATION ) && it.has_flag( flag_BOMB ) ) {
+            } else if( it.has_flag( json_flag_RADIO_ACTIVATION ) && it.has_flag( json_flag_BOMB ) ) {
                 it.set_countdown( 1 );
             } else {
                 it.set_countdown( qty );
