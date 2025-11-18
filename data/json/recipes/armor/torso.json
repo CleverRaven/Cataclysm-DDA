@@ -5378,7 +5378,7 @@
     "autolearn": true,
     "using": [ [ "filament", 100 ] ],
     "components": [ [ [ "jeans", 2 ] ], [ [ "sheet_metal_small", 10 ] ] ],
-    "qualities": [ { "id": "SEW", "level": 2 }, { "id": "SAW_M", "level": 2 } ]
+    "qualities": [ { "id": "SEW", "level": 2 } ]
   },
   {
     "result": "crude_plastic_vest",
