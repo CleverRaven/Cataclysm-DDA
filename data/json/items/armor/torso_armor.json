@@ -238,6 +238,101 @@
     "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
+    "id": "armor_pipe_vest",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "pipe vest" },
+    "description": "A cuirass made of pipe sections tied firmly together.  Very ugly, not that protective, but beats having no armor at all.  Probably.",
+    "weight": "15300 g",
+    "volume": "9 L",
+    "price": "260 USD",
+    "price_postapoc": "25 USD",
+    "material": [ "lc_steel" ],
+    "symbol": "[",
+    "looks_like": "armor_lorica",
+    "color": "light_gray",
+    "longest_side": "60 cm",
+    "warmth": 10,
+    "flags": [ "OUTER" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "lc_steel", "covered_by_mat": 100, "thickness": 3.0 },
+          { "type": "cotton", "covered_by_mat": 7, "thickness": 3.0 }
+        ],
+        "encumbrance": 25,
+        "coverage": 70,
+        "cover_ranged": 70,
+        "cover_vitals": 90,
+        "covers": [ "torso" ]
+      }
+    ]
+  },
+  {
+    "id": "makeshift_metal_plate_vest",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "makeshift metal plate vest" },
+    "description": "This very crude armor is made from two pairs of jeans, filled with metal plates that are sewn in place.  One pair wraps around your waist, and the other over your shoulders.  It's very uncomfortable to wear, very ugly, but works kinda.",
+    "weight": "3700 g",
+    "volume": "9 L",
+    "price": "260 USD",
+    "price_postapoc": "25 USD",
+    "material": [ "lc_steel" ],
+    "symbol": "[",
+    "looks_like": "armor_lorica",
+    "color": "light_gray",
+    "longest_side": "45 cm",
+    "warmth": 10,
+    "flags": [ "OUTER" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "lc_steel", "covered_by_mat": 67, "thickness": 0.8 },
+          { "type": "denim", "covered_by_mat": 100, "thickness": 1.4 }
+        ],
+        "encumbrance": 19,
+        "coverage": 90,
+        "cover_ranged": 70,
+        "cover_vitals": 100,
+        "covers": [ "torso" ]
+      }
+    ]
+  },
+  {
+    "id": "crude_plastic_vest",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "crude plastic armor vest" },
+    "description": "This plastic vest is made from pieces of a large trash can, held together with string.",
+    "//": "Human torso is 6 700cm^2, 80% coverage is 5357cm^2.  Thickness of 0.31cm, plastic density of 1g/cm^3 leaves us with 1 661 grams.",
+    "//1": "Small section of overlaps rounding to an extra 8% of double layered plastic, or 166g.  288g of cordage, total weight of 2 115, rounding to 2 150 for error.",
+    "weight": "2150 g",
+    "volume": "3 L",
+    "price": "10 USD",
+    "price_postapoc": "5 USD",
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "looks_like": "apron_plastic",
+    "color": "light_gray",
+    "longest_side": "45 cm",
+    "warmth": 10,
+    "flags": [ "OUTER" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 3.1 },
+          { "type": "plastic", "covered_by_mat": 8, "thickness": 3.1 }
+        ],
+        "encumbrance": 16,
+        "coverage": 80,
+        "cover_ranged": 70,
+        "cover_vitals": 100,
+        "covers": [ "torso" ]
+      }
+    ]
+  },
+  {
     "id": "carpet_cuirass",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],

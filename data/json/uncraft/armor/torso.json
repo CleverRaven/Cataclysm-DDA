@@ -296,5 +296,14 @@
     "time": "10 m",
     "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [ [ [ "sheet_nylon", 30 ] ], [ [ "sheet_kevlar_layered", 12 ] ] ]
+  },
+  {
+    "result": "crude_plastic_vest",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "10 m",
+    "components": [ [ [ "plastic_chunk", 37 ] ], [ [ "string_36", 8 ] ] ]
   }
 ]
