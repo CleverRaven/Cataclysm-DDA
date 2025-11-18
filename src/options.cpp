@@ -1598,6 +1598,12 @@ void options_manager::add_options_general()
             { "ask", to_translation( "Ask" ) }
         }, "ask"
            );
+
+        add( "CONFIRM_DIG_OUT_PIT", page_id,
+             to_translation( "Confirm awareness of z-level digging" ),
+             to_translation( "When you dig out pits to new z-levels, you end up at the bottom. If true, you will be prompted for confirmation each time." ),
+             true
+           );
     } );
 
     add_empty_line();

@@ -160,6 +160,9 @@ static const vpart_id vpart_frame( "frame" );
 
 static const vproto_id vehicle_prototype_none( "none" );
 
+//helper function for clearing tiles
+static ter_id get_floor_for_cleared_tile( const tripoint_bub_ms &under );
+
 static const std::string flag_WIRING( "WIRING" );
 
 static bool finalized = false;
@@ -197,6 +200,7 @@ static bool check_no_wiring( const tripoint_bub_ms
                              & ); // tile doesn't contain appliances/vehicle parts with WIRING flag like ap_wall_wiring
 static bool check_matching_down_above( const tripoint_bub_ms
                                        &p ); // tile above has the same base name but with the "down suffix
+static bool check_solid_earth_below( const tripoint_bub_ms &p );
 
 // Special actions to be run post-terrain-mod
 static void done_nothing( const tripoint_bub_ms &, Character & ) {}
@@ -209,6 +213,7 @@ static void done_deconstruct( const tripoint_bub_ms &, Character & );
 static void done_digormine_stair( const tripoint_bub_ms &, bool, Character & );
 static void done_dig_grave( const tripoint_bub_ms &p, Character & );
 static void done_dig_grave_nospawn( const tripoint_bub_ms &p, Character & );
+static void done_open_air_pit( const tripoint_bub_ms &, Character & );
 static void done_dig_stair( const tripoint_bub_ms &, Character & );
 static void done_mine_downstair( const tripoint_bub_ms &, Character & );
 static void done_mine_upstair( const tripoint_bub_ms &, Character & );
@@ -226,6 +231,7 @@ static void add_roof( const tripoint_bub_ms &p, Character & );
 static void do_turn_deconstruct( const tripoint_bub_ms &, Character & );
 static void do_turn_shovel( const tripoint_bub_ms &, Character & );
 static void do_turn_exhume( const tripoint_bub_ms &, Character & );
+static void confirm_enter_pit( const tripoint_bub_ms &p, Character &who );
 
 static void failure_standard( const tripoint_bub_ms & );
 static void failure_deconstruct( const tripoint_bub_ms & );
@@ -1832,6 +1838,28 @@ bool construct::check_matching_down_above( const tripoint_bub_ms &p )
            ter_here.substr( 0, separation + 1 ) + "down" == ter_above;
 }
 
+bool construct::check_solid_earth_below( const tripoint_bub_ms &p )
+{
+    map &here = get_map();
+    const ter_id pit = ter_str_id( "t_pit" );
+
+
+    const tripoint_bub_ms below = p + tripoint::below;
+
+    if( !here.inbounds( below ) ) {
+        return false;
+    }
+
+    // need solid earth under the pit
+    if( here.ter( below ) != ter_str_id( "t_soil" ) ) {
+        add_msg( m_info,
+                 _( "Below the pit is %s; you can't dig further." ),
+                 here.ter( below ).obj().name() );
+        return false;
+    }
+
+    return true;
+}
 void construct::done_trunk_plank( const tripoint_bub_ms &/*p*/, Character &/*who*/ )
 {
     int num_logs = rng( 2, 3 );
@@ -2084,6 +2112,77 @@ static void unroll_digging( const int numer_of_2x4s )
     here.add_item_or_charges( avatar_pos, rope );
     // presuming 2x4 to conserve lumber.
     here.spawn_item( avatar_pos, itype_2x4, numer_of_2x4s );
+}
+
+void construct::done_open_air_pit( const tripoint_bub_ms &p, Character &who )
+{
+    map &here = get_map();
+
+    const tripoint_bub_ms below = p + tripoint::below;
+    const tripoint_bub_ms under = p + tripoint( 0, 0, -2 );
+
+    if( !here.inbounds( below ) || !here.inbounds( under ) ) {
+        return;
+    }
+
+    // Determine correct floor for the new lower tile
+    const ter_id new_floor = get_floor_for_cleared_tile( under );
+    here.ter_set( below, new_floor );
+
+    // move the player into the pit after clearing it
+    // only the player should be relocated
+    // the player has to enter the pit to throw the dirt etc out the top
+    // then the player needs to climb out
+    if( who.is_avatar() ) {
+        g->place_player( below );
+    }
+}
+static void construct::confirm_enter_pit( const tripoint_bub_ms &p, Character &who )
+{
+    do_turn_shovel( p, who );
+    map &here = get_map();
+    partial_con *pc = here.partial_con_at( p );
+    if( !pc ) {
+        return;
+    }
+
+    // This block runs ONLY on the very first turn of actual construction
+    if( pc->counter == 0 && who.is_avatar() ) {
+
+        // Optional user toggle
+        if( get_option<bool>( "CONFIRM_DIG_OUT_PIT" ) ) {
+            if( !query_yn( _( "You will fall into the pit when it is cleared. Continue?" ) ) ) {
+                add_msg( m_info, _( "You stop digging." ) );
+                here.partial_con_remove( p );
+                who.cancel_activity();
+                return;
+            }
+        }
+    }
+}
+
+static ter_id get_floor_for_cleared_tile( const tripoint_bub_ms &under )
+{
+    map &here = get_map();
+    const ter_id ter_under = here.ter( under );
+
+    // tile with explicit roof mapping
+    const ter_id roof = ter_under.obj().roof;
+    if( roof ) {
+        return roof;
+    }
+
+    // if natural dirt
+    if( here.ter( under ) == ter_str_id( "t_soil" ) ) {
+        return ter_t_dirt;
+    }
+    // stone layers
+    if( here.has_flag_ter( ter_furn_flag::TFLAG_MINEABLE, under ) ) {
+        return ter_t_rock_floor;
+    }
+
+    //  fallback
+    return ter_t_rock_floor;
 }
 
 void construct::done_digormine_stair( const tripoint_bub_ms &p, bool dig,
@@ -2521,7 +2620,8 @@ void load_construction( const JsonObject &jo )
             { "check_no_trap", construct::check_no_trap },
             { "check_ramp_high", construct::check_ramp_high },
             { "check_no_wiring", construct::check_no_wiring },
-            { "check_matching_down_above", construct::check_matching_down_above }
+            { "check_matching_down_above", construct::check_matching_down_above },
+            { "check_solid_earth_below", construct::check_solid_earth_below }
         }
     };
     static const std::map<std::string, void( * )( const tripoint_bub_ms &, Character & )>
@@ -2535,6 +2635,7 @@ void load_construction( const JsonObject &jo )
             { "done_deconstruct", construct::done_deconstruct },
             { "done_dig_grave", construct::done_dig_grave },
             { "done_dig_grave_nospawn", construct::done_dig_grave_nospawn },
+            { "done_open_air_pit", construct::done_open_air_pit },
             { "done_dig_stair", construct::done_dig_stair },
             { "done_mine_downstair", construct::done_mine_downstair },
             { "done_mine_upstair", construct::done_mine_upstair },
@@ -2557,6 +2658,7 @@ void load_construction( const JsonObject &jo )
             { "do_turn_deconstruct", construct::do_turn_deconstruct },
             { "do_turn_shovel", construct::do_turn_shovel },
             { "do_turn_exhume", construct::do_turn_exhume },
+            { "confirm_enter_pit", construct::confirm_enter_pit },
         }
     };
     static const std::map<std::string, void( * )( const tripoint_bub_ms & )>
