@@ -136,5 +136,7 @@ void item_transformation::transform( Character *carrier, item &it, bool dont_tak
         }
     }
 
-    carrier->clear_inventory_search_cache();
+    if( carrier ) {
+        carrier->clear_inventory_search_cache();
+    }
 }
