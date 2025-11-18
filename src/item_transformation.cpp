@@ -85,7 +85,7 @@ void item_transformation::transform( Character *carrier, item &it, bool dont_tak
             it.countdown_point = calendar::turn + target_timer;
         }
 
-        it.active = active || it.has_temperature() || target_timer > 0_seconds;
+        it.active = it.active || active || target_timer > 0_seconds;
 
     } else {
         item content = it;
