@@ -337,55 +337,6 @@
     "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
-    "id": "armguard_lightplate",
-    "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
-    "category": "armor",
-    "name": { "str_sp": "steel arm guards (pair)" },
-    "description": "A full assembly of medieval arm protection.  Rerebraces, couters, and vambraces, with leather straps to secure each piece and connect it as part of a set.",
-    "weight": "2720 g",
-    "volume": "5500 ml",
-    "price": "200 USD",
-    "price_postapoc": "120 USD",
-    "material": [ "steel", "leather" ],
-    "symbol": "[",
-    "looks_like": "armguard_metal",
-    "color": "light_gray",
-    "warmth": 20,
-    "material_thickness": 4,
-    "flags": [ "VARSIZE", "OUTER", "STURDY", "BLOCK_WHILE_WORN" ],
-    "armor": [
-      {
-        "covers": [ "arm_l", "arm_r" ],
-        "encumbrance": 16,
-        "coverage": 95,
-        "cover_melee": 95,
-        "cover_ranged": 95,
-        "cover_vitals": 90,
-        "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_elbow_r", "arm_elbow_l", "arm_upper_r", "arm_upper_l" ]
-      }
-    ]
-  },
-  {
-    "id": "xl_armguard_lightplate",
-    "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
-    "name": { "str_sp": "steel arm guards (pair)" },
-    "weight": "3243 g",
-    "volume": "7 L",
-    "copy-from": "armguard_lightplate",
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
-  },
-  {
-    "id": "xs_armguard_lightplate",
-    "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
-    "copy-from": "armguard_lightplate",
-    "name": { "str_sp": "steel arm guards (pair)" },
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
-  },
-  {
     "id": "armguard_metal",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
@@ -443,7 +394,7 @@
     "material": [ "lc_steel" ],
     "repairs_with": [ "steel" ],
     "symbol": "[",
-    "looks_like": "armguard_lightplate",
+    "looks_like": "armor_lc_armguard",
     "color": "light_gray",
     "warmth": 10,
     "material_thickness": 1.5,
@@ -1188,7 +1139,7 @@
     "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
     "material": [ "bronze", "leather" ],
     "symbol": "[",
-    "looks_like": "armguard_lightplate",
+    "looks_like": "armor_lc_armguard",
     "color": "yellow",
     "warmth": 15,
     "material_thickness": 4,

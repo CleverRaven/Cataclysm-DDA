@@ -537,11 +537,6 @@
   },
   {
     "type": "profession_item_substitutions",
-    "item": "gum",
-    "sub": [ { "present": [ "ANTIJUNK" ], "new": [ "nic_gum" ] } ]
-  },
-  {
-    "type": "profession_item_substitutions",
     "item": "sandwich_pbj",
     "sub": [
       { "present": [ "ANTIFRUIT" ], "absent": [ "ANTIWHEAT" ], "new": [ "sandwich_pbh" ] },
@@ -1193,7 +1188,7 @@
           { "item": "cleats" },
           { "item": "helmet_ball" },
           { "item": "sports_drink" },
-          { "item": "gum" },
+          { "group": "chewing_gum_used" },
           { "group": "charged_smart_phone", "contents-item": "book_fict_soft_sports_bunt" },
           { "group": "starter_wallet_full" },
           { "item": "bat", "custom-flags": [ "auto_wield" ] },
@@ -3162,7 +3157,7 @@
           { "item": "sunglasses" },
           { "item": "hat_boonie" },
           { "group": "charged_smart_watch_adv" },
-          { "item": "caff_gum" },
+          { "group": "chewing_gum_used_caff" },
           { "group": "charged_smart_phone", "contents-item": "book_archery" },
           { "group": "starter_wallet_full" },
           { "item": "rashguard", "variant": "black_rashguard_shirt" },
@@ -3953,7 +3948,7 @@
           { "item": "sneakers" },
           { "item": "mbag" },
           { "item": "caffeine", "count": 10, "container-item": "null", "entry-wrapper": "bottle_plastic_small" },
-          { "item": "caff_gum", "count": 3 },
+          { "group": "chewing_gum_used_caff" },
           { "item": "memory_card", "contents-item": "textbook_computer" },
           { "item": "usb_drive", "contents-item": "SICP" },
           { "item": "portable_game", "charges": 150 },
@@ -4705,7 +4700,7 @@
           { "item": "jumpsuit_pocketless", "variant": "orange" },
           { "item": "sneakers" },
           { "item": "socks" },
-          { "item": "gum" },
+          { "group": "chewing_gum_used" },
           { "group": "charged_cell_phone" }
         ]
       },
@@ -4822,7 +4817,7 @@
     "type": "profession",
     "id": "c_priest",
     "name": { "male": "Catholic Priest", "female": "Nun" },
-    "description": "For your entire time as a servant of God, you helped, protected and listened to your parish faithful.  But the Rapture has come, and your parish turned against you.  Now all you can do is pray to the Holy Virgin, and prepare to maintain your wellbeing.",
+    "description": "For your entire time as a servant of God, you helped, protected and listened to your parish faithful.  But these days, the Book of Revelation is starting to feel less metaphorical, and your parish turned against you.  Now all you can do is pray for the intercession of the saints.  Mary, Mother of God, pray for us!",
     "npc_background": "BG_survival_story_SPIRITUAL",
     "points": 0,
     "skills": [ { "level": 3, "name": "speech" } ],
@@ -4839,11 +4834,10 @@
       },
       "male": {
         "entries": [
-          { "item": "pants" },
-          { "item": "longshirt" },
-          { "item": "cassock" },
-          { "item": "cape_catholic" },
-          { "item": "zucchetto" },
+          { "item": "pants", "variant": "pants_black" },
+          { "item": "dress_shirt", "variant": "black" },
+          { "item": "gold_watch" },
+          { "item": "priest_collar" },
           { "item": "briefs" }
         ]
       },
@@ -4854,6 +4848,7 @@
           { "item": "dress_shirt" },
           { "item": "purse" },
           { "item": "bra" },
+          { "item": "holy_symbol", "variant": "rosary" },
           { "item": "panties" }
         ]
       }

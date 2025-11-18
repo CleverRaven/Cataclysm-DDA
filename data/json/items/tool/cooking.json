@@ -571,11 +571,11 @@
     "melee_damage": { "bash": 8 }
   },
   {
-    "id": "milk_cream_rising",
+    "id": "milk_cream_rising_active",
     "type": "ITEM",
     "category": "food",
     "name": { "str": "rising cream jar" },
-    "description": "This jar contains raw milk separating into cream.  You can seal up the jar once the process is completed.",
+    "description": "This jar contains raw milk separating into cream.  It transforms into a milk cream jar after 6 hours.",
     "weight": "3461 g",
     "volume": "3850 ml",
     "longest_side": "298 mm",
@@ -585,14 +585,9 @@
     "symbol": "%",
     "looks_like": "jar_glass_sealed",
     "color": "white",
-    "use_action": {
-      "target": "milk_cream_jar",
-      "msg": "You examine the batch and see that the cream has risen to the top, so you seal the jar up for storage.",
-      "moves": 50,
-      "type": "delayed_transform",
-      "transform_age": 21600,
-      "not_ready_msg": "The cream has not risen yet."
-    },
+    "countdown_interval": "6 hours",
+    "revert_to": "milk_cream_jar",
+    "flags": [ "SPAWN_ACTIVE" ],
     "melee_damage": { "bash": 8 }
   },
   {
@@ -1185,7 +1180,7 @@
     "tool_ammo": [ "battery" ]
   },
   {
-    "id": "crystallizing_sugar",
+    "id": "crystallizing_sugar_active",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "symbol": "*",
@@ -1198,15 +1193,8 @@
     "material": [ "sugar" ],
     "weight": "10 g",
     "volume": "10 ml",
-    "use_action": {
-      "type": "delayed_transform",
-      "target": "sugar",
-      "msg": "You break up the crystallized sugar into a coarse powder.",
-      "not_ready_msg": "The sugar is still crystallizing.",
-      "moves": 300,
-      "transform_age": 1209600,
-      "//": "2 weeks for cristallizing sugar, based on the real-life example"
-    },
-    "flags": [ "NO_SALVAGE", "WATER_DISSOLVE" ]
+    "countdown_interval": "14 days",
+    "revert_to": "sugar",
+    "flags": [ "NO_SALVAGE", "WATER_DISSOLVE", "SPAWN_ACTIVE" ]
   }
 ]

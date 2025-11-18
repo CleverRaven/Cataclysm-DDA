@@ -176,6 +176,18 @@
   },
   {
     "type": "mutation",
+    "id": "perk_thick_skin",
+    "name": { "str": "Thick Skin" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "All the beatings you've taken have toughened you up.  You can walk barefoot with no penalty, develop blisters in heat much more slowly, and take slightly less bash damage.",
+    "//": "The flesh material also protects against cut and bullets, so we need an enchant to do bash only",
+    "enchantments": [ { "condition": "ALWAYS", "incoming_damage_mod_post_absorbed": [ { "type": "bash", "add": -2 } ] } ],
+    "flags": [ "BARKY", "TOUGH_FEET" ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_hauler",
     "name": { "str": "Hauler" },
     "points": 0,
@@ -363,6 +375,16 @@
   },
   {
     "type": "mutation",
+    "id": "perk_reduced_falling_damage",
+    "name": { "str": "Catfall" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "You always land on your feet and look graceful when doing it.  Reduce the number of stories by 1 when calculating fall damage.",
+    "flags": [ "ONE_STORY_FALL" ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_grit_your_teeth",
     "name": { "str": "Grit Your Teeth" },
     "points": 0,
@@ -425,6 +447,21 @@
     "valid": false,
     "description": "You have a persistent sense of how to move around in sharp and rough terrain.  You'll never accidently snag or cut yourself on protrusions from the ground.",
     "flags": [ "ALL_TERRAIN_NAVIGATION" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_situational_uncanny_dodge",
+    "name": { "str": "Evasion" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "You're so good at dodging that almost nothing can touch you as long as you're on your game.  You have passive Uncanny Dodge until you take damage, after which it takes a few minutes for you to recover your poise.",
+    "enchantments": [
+      {
+        "condition": { "not": { "u_has_effect": "effect_perk_situational_uncanny_dodge_remover" } },
+        "ench_effects": [ { "effect": "effect_perk_situational_uncanny_dodge", "intensity": 1 } ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -635,7 +672,7 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "As if the apocalypse itself wasn't enough, you are constantly looking for some trouble.  Zombies will sometimes appear out of nowhere to attack you.  Fortunately, they always appear at a good distance from you.  Activate to toggle.",
+    "description": "As if the apocalypse itself wasn't enough, you are constantly looking for some trouble.  Zombies somehow sometimes sense your presence and approach you.  Fortunately, they always appear at a good distance from you.  Activate to toggle.",
     "active": true,
     "activated_is_setup": true,
     "activated_eocs": [ "EOC_troubleseek_on" ],
@@ -698,7 +735,7 @@
   {
     "type": "mutation",
     "id": "perk_lucky_dodge",
-    "name": { "str": "Lucky dodge" },
+    "name": { "str": "Lucky Dodge" },
     "points": 0,
     "purifiable": false,
     "valid": false,
@@ -996,6 +1033,16 @@
         "values": [ { "value": "MELEE_DAMAGE", "multiply": 0.35 }, { "value": "ARMOR_ALL", "multiply": -0.15 } ]
       }
     ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_soup_healing",
+    "name": { "str": "Soup for the Soul" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "Just like mama used to make and it tastes just as good too.  When you eat chicken noodle soup, you heal a small amount of HP on all limbs and cure any cold, flu, and poisoning you're suffering from.",
+    "category": [ "perk" ]
   },
   {
     "type": "mutation",

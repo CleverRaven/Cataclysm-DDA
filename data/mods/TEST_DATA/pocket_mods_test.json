@@ -30,7 +30,7 @@
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "name": { "str": "debug gun without mag well" },
-    "copy-from": "rifle_auto",
+    "skill": "rifle",
     "description": "Just a debug gun.",
     "weight": "902 g",
     "volume": "1550 ml",
@@ -47,7 +47,8 @@
     "min_cycle_recoil": 1350,
     "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "melee_damage": { "bash": 12 },
-    "flags": [ "NO_TURRET" ]
+    "flags": [ "NO_TURRET" ],
+    "valid_mod_locations": [ [ "bore", 1 ] ]
   },
   {
     "id": "debug_gun_with_mag_well",

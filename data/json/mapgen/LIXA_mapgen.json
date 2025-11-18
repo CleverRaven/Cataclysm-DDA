@@ -67,7 +67,7 @@
         "R": [
           { "item": "military_patrol_food", "chance": 40, "repeat": [ 5, 7 ] },
           { "item": "foodintincan", "chance": 40, "repeat": [ 2, 4 ] },
-          { "item": "softdrinks_canned", "chance": 40, "repeat": [ 3, 6 ] },
+          { "item": "soda_in_small_container", "chance": 40, "repeat": [ 3, 6 ] },
           { "item": "salty_snacks", "chance": 40, "repeat": [ 3, 6 ] },
           { "item": "alcohol_bottled_canned", "chance": 40, "repeat": [ 3, 6 ] }
         ],

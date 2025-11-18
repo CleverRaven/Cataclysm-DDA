@@ -101,13 +101,14 @@
   {
     "id": "blacksmithing_standard",
     "type": "requirement",
-    "//": "Includes forging resources as well as tools needed for most blacksmithing. Per forging_standard energy cost balanced for one steel chunk.",
+    "//": "Includes forging resources as well as tools needed for most blacksmithing. Per forging_standard energy cost balanced for one steel chunk. Flux ammount is equivalent to a small teaspoon.",
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
     "tools": [
       [ [ "forge", 20 ], [ "oxy_torch", 20 ] ],
       [ [ "metal_file_any", 1, "LIST" ] ],
       [ [ "metalworking_tongs_any", 1, "LIST" ] ]
-    ]
+    ],
+    "components": [ [ [ "flux_fe_forge", 1, "LIST" ] ] ]
   },
   {
     "id": "blacksmithing_standard_fileless",
@@ -402,7 +403,7 @@
   {
     "id": "wall_floor_glass_removal_standard",
     "type": "requirement",
-    "//": "Tools for removing a normal wall / floor / glass",
+    "//": "Tools for removing a wall, floor, or glass mounted in metal",
     "qualities": [
       { "id": "HAMMER", "level": 2 },
       { "id": "CHISEL", "level": 2 },
@@ -410,6 +411,19 @@
       { "id": "DIG", "level": 3 }
     ],
     "tools": [ [ [ "angle_grinder", 200 ] ] ]
+  },
+  {
+    "id": "wood_removal_standard",
+    "type": "requirement",
+    "//": "Tools for removing a wall, floor, or glass mounted in wood",
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "CHISEL", "level": 2 },
+      { "id": "PRY", "level": 1 },
+      { "id": "DIG", "level": 3 }
+    ],
+    "///": "The farrier's nail_puller can't be used with a hammer, but it probably has enough leverage on its own.",
+    "tools": [ [ [ "claw_bar", -1 ], [ "nail_puller_bronze", -1 ], [ "nail_puller", -1 ] ] ]
   },
   {
     "id": "linoleum_removal_standard",

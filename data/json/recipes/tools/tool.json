@@ -1197,64 +1197,6 @@
     "components": [ [ [ "leather", 2 ] ], [ [ "filament", 40, "LIST" ] ] ]
   },
   {
-    "result": "masonrysaw_off",
-    "type": "recipe",
-    "activity_level": "ACTIVE_EXERCISE",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "fabrication",
-    "difficulty": 5,
-    "skills_required": [ [ "mechanics", 5 ], [ "electronics", 3 ] ],
-    "time": "4 h",
-    "autolearn": [ [ "mechanics", 5 ], [ "electronics", 3 ] ],
-    "//": "130cm weld",
-    "book_learn": [
-      [ "manual_mechanics", 3 ],
-      [ "textbook_mechanics", 2 ],
-      [ "advanced_electronics", 4 ],
-      [ "textbook_electronics", 4 ],
-      [ "textbook_carpentry", 5 ]
-    ],
-    "using": [ [ "welding_standard", 130 ], [ "soldering_standard", 20 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_elec_soldering" },
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 },
-      { "proficiency": "prof_welding" }
-    ],
-    "qualities": [
-      { "id": "HAMMER", "level": 2 },
-      { "id": "SAW_M", "level": 1 },
-      { "id": "WRENCH", "level": 1 },
-      { "id": "SCREW", "level": 1 }
-    ],
-    "components": [
-      [ [ "circsaw_off", 1 ] ],
-      [ [ "1cyl_combustion_small", 1 ] ],
-      [ [ "metal_tank_little", 1 ] ],
-      [ [ "steel_chunk_any", 6, "LIST" ], [ "steel_lump_any", 2, "LIST" ] ]
-    ]
-  },
-  {
-    "result": "grinder_blade",
-    "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_PARTS",
-    "skill_used": "fabrication",
-    "difficulty": 6,
-    "time": "10 h",
-    "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_chunk_any", 2 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_toolsmithing" }
-    ],
-    "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "swage", -1 ] ] ]
-  },
-  {
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
     "result": "kevlar_shears",
@@ -1430,8 +1372,7 @@
     "time": "10 m",
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_toolsmithing", "time_multiplier": 1.5 } ],
-    "using": [ [ "blacksmithing_standard", 1 ] ],
-    "tools": [ [ [ "drift", -1 ] ] ],
+    "using": [ [ "blacksmithing_standard", 1 ], [ "metal_punch", 1 ] ],
     "components": [ [ [ "mc_steel_chunk", 1 ], [ "hc_steel_chunk", 1 ] ] ]
   },
   {
@@ -1445,7 +1386,7 @@
     "time": "30 m",
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_redsmithing" } ],
-    "using": [ [ "forging_standard", 1 ], [ "bronzesmithing_tools", 1 ] ],
+    "using": [ [ "forging_standard", 1 ], [ "bronzesmithing_tools", 1 ], [ "bronze_punch", 1 ] ],
     "tools": [ [ [ "casting_mold_large", -1 ], [ "casting_mold_long", -1 ] ] ],
     "components": [ [ [ "bronze_tiny", 2, "LIST" ] ] ]
   }

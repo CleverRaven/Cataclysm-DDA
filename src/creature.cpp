@@ -3595,3 +3595,38 @@ std::unique_ptr<talker> get_talker_for( Creature *me )
     }
     return get_talker_for( *me );
 }
+
+void Creature::migrate_effects()
+{
+    std::vector<efftype_id> removed_effects;
+    effects_map new_effects;
+
+    for( const auto &[eff_id, bp_effect_map] : *effects ) {
+        const effect_migration *em = effect_migration::find_migration( eff_id );
+
+        if( em != nullptr ) {
+            if( em->id_new.has_value() ) {
+                // if new id is presented, make new bp_effect_map, nuke old one, insert new one
+                std::map<bodypart_id, effect> new_bp_effect_map;
+                for( const auto &[bp_id, eff] : bp_effect_map ) {
+                    effect new_effect( eff.get_source(), &em->id_new.value().obj(), eff.get_duration(), bp_id.id(),
+                                       eff.is_permanent(), eff.get_intensity(), eff.get_start_time() );
+                    new_bp_effect_map.emplace( bp_id, new_effect );
+                }
+
+                removed_effects.emplace_back( eff_id );
+                new_effects.emplace( em->id_new.value(), new_bp_effect_map );
+            } else {
+                // if no id_new, just nuke entire effect from character
+                removed_effects.emplace_back( eff_id );
+            }
+        }
+    }
+
+    for( const efftype_id e : removed_effects ) {
+        effects->erase( e );
+    }
+
+    effects->merge( new_effects );
+
+}

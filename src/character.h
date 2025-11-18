@@ -782,6 +782,8 @@ class Character : public Creature, public visitable
         virtual faction *get_faction() const {
             return nullptr;
         }
+        /* returns the character's faction id, or an empty faction id if they have no faction */
+        faction_id get_faction_id() const;
         void set_fac_id( const std::string &my_fac_id );
         virtual bool is_ally( const Character &p ) const = 0;
         virtual bool is_obeying( const Character &p ) const = 0;
@@ -3495,7 +3497,7 @@ class Character : public Creature, public visitable
         double compute_effective_food_volume_ratio( const item &food ) const;
         /** Used to calculate water and dry volume of a chewed food **/
         std::pair<units::volume, units::volume> masticated_volume( const item &food ) const;
-        /** Used to to display how filling a food is. */
+        /** Used to display how filling a food is. */
         int compute_calories_per_effective_volume( const item &food,
                 const nutrients *nutrient = nullptr ) const;
         /** Handles the effects of consuming an item. Returns false if nothing was consumed */

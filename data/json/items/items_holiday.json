@@ -50,7 +50,7 @@
       "menu_text": "Extinguish"
     },
     "light": 6,
-    "extend": { "flags": [ "TRADER_AVOID" ] }
+    "extend": { "flags": [ "TRADER_AVOID", "SPAWN_ACTIVE" ] }
   },
   {
     "id": "jackolantern",
@@ -94,7 +94,7 @@
       "menu_text": "Extinguish"
     },
     "light": 8,
-    "extend": { "flags": [ "WATER_EXTINGUISH", "TRADER_AVOID", "WIND_EXTINGUISH" ] }
+    "extend": { "flags": [ "WATER_EXTINGUISH", "TRADER_AVOID", "WIND_EXTINGUISH", "SPAWN_ACTIVE" ] }
   },
   {
     "id": "decorative_wreath",

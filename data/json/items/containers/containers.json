@@ -404,6 +404,32 @@
     "color": "white"
   },
   {
+    "id": "bag_paper_powder_50lb",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "50lb powder paper bag" },
+    "looks_like": "bag_plastic",
+    "description": "A very large paper bag, for bulk storage and transport of powdered goods.",
+    "ascii_picture": "bag_paper_powder",
+    "weight": "40 g",
+    "volume": "1000 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "flags": [ "TARDIS" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "magazine_well": "1000 ml",
+        "max_contains_volume": "50L",
+        "max_contains_weight": "25 kg",
+        "moves": 200
+      }
+    ],
+    "material": [ "paper" ],
+    "symbol": ")",
+    "color": "white"
+  },
+  {
     "id": "bag_zipper",
     "type": "ITEM",
     "category": "container",
@@ -613,6 +639,28 @@
     "//2": "Based on https://www.amazon.com/dp/B09K2VQLZV"
   },
   {
+    "id": "bottle_glass_330ml",
+    "copy-from": "bottle_glass",
+    "proportional": { "weight": 0.44, "volume": 0.44 },
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "small glass bottle" },
+    "description": "A watertight glass bottle, holds 330 mL of liquid.",
+    "longest_side": "22 cm",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "transparent": true,
+        "max_contains_volume": "330 ml",
+        "max_item_volume": "17 ml",
+        "max_contains_weight": "1300 g",
+        "moves": 400
+      }
+    ]
+  },
+  {
     "id": "bottle_plastic",
     "type": "ITEM",
     "category": "container",
@@ -621,7 +669,7 @@
     "ascii_picture": "bottle_plastic",
     "weight": "13 g",
     "volume": "510 ml",
-    "longest_side": "18 cm",
+    "longest_side": "22 cm",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -650,6 +698,29 @@
     "name": { "str": "plastic glue bottle" },
     "description": "A watertight plastic bottle, holds 500 mL of glue.  Cannot be reused or refilled.",
     "extend": { "flags": [ "NO_RELOAD", "NO_UNLOAD" ] }
+  },
+  {
+    "id": "bottle_plastic_355ml",
+    "copy-from": "bottle_plastic",
+    "proportional": { "weight": 0.7, "volume": 0.7 },
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "small plastic bottle" },
+    "description": "A watertight plastic bottle, holds 355 mL of liquid.  Some may be factory-sealed to increase shelf life.",
+    "longest_side": "18 cm",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "transparent": true,
+        "max_contains_volume": "355 ml",
+        "max_item_volume": "17 ml",
+        "max_contains_weight": "875 g",
+        "sealed_data": { "spoil_multiplier": 0.5 },
+        "moves": 400
+      }
+    ]
   },
   {
     "id": "condiment_bottle_sealed",
@@ -686,7 +757,7 @@
     "id": "bottle_plastic_small",
     "type": "ITEM",
     "category": "container",
-    "name": { "str": "small plastic bottle" },
+    "name": { "str": "very small plastic bottle" },
     "looks_like": "bottle_plastic",
     "description": "A watertight plastic bottle, holds 250 mL of liquid.",
     "ascii_picture": "bottle_plastic_small",
@@ -1905,8 +1976,8 @@
     "name": { "str": "aluminum can" },
     "description": "An aluminum can, like what soda comes in.",
     "ascii_picture": "can_drink",
-    "weight": "13 g",
-    "volume": "262 ml",
+    "weight": "11 g",
+    "volume": "416 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "material": [ "aluminum" ],
@@ -1918,7 +1989,7 @@
         "rigid": true,
         "watertight": true,
         "open_container": true,
-        "max_contains_volume": "250 ml",
+        "max_contains_volume": "355 ml",
         "max_item_volume": "10 ml",
         "max_contains_weight": "1 kg",
         "sealed_data": { "spoil_multiplier": 0.0 }
@@ -1928,19 +1999,40 @@
     "use_action": [ "HEAT_LIQUID_ITEMS" ]
   },
   {
+    "id": "can_aluminum_250ml",
+    "copy-from": "can_drink",
+    "proportional": { "weight": 0.7, "volume": 0.7 },
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "small aluminum can" },
+    "description": "A small aluminum can, like what soda comes in.",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "open_container": true,
+        "max_contains_volume": "250 ml",
+        "max_item_volume": "10 ml",
+        "max_contains_weight": "1 kg",
+        "sealed_data": { "spoil_multiplier": 0.0 }
+      }
+    ]
+  },
+  {
     "id": "carton_sealed",
     "type": "ITEM",
     "category": "container",
-    "name": { "str": "paper carton" },
+    "name": { "str": "half gallon carton" },
     "looks_like": "box_small",
     "description": "A half-gallon carton constructed of a paper, aluminum, and plastic laminate.  It has a threaded cap to keep liquid from leaking out.",
     "ascii_picture": "carton_sealed",
     "weight": "28 g",
     "volume": "2003 ml",
-    "longest_side": "32 cm",
+    "longest_side": "13 cm",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "plastic", "aluminum", "paper" ],
+    "material": [ { "type": "paper", "portion": 75 }, { "type": "plastic", "portion": 20 }, { "type": "aluminum", "portion": 5 } ],
     "symbol": ")",
     "color": "light_cyan",
     "pocket_data": [
@@ -1958,27 +2050,50 @@
   },
   {
     "id": "carton_milk",
+    "copy-from": "carton_sealed",
     "type": "ITEM",
     "category": "container",
-    "name": { "str": "milk carton" },
-    "looks_like": "box_small",
-    "description": "A half-gallon carton constructed of thick, waterproof paper.  It has a threaded cap to keep the contents from leaking out.",
-    "ascii_picture": "carton_milk",
-    "weight": "28 g",
-    "volume": "2003 ml",
-    "price": "0 cent",
-    "price_postapoc": "0 cent",
-    "material": [ "paper" ],
-    "symbol": ")",
-    "color": "light_cyan",
+    "name": { "str": "half gallon paper carton" },
+    "description": "A half-gallon carton constructed of thick, waterproof paper.  It has a threaded cap to keep the contents from leaking out."
+  },
+  {
+    "id": "carton_946ml",
+    "copy-from": "carton_sealed",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "quart carton" },
+    "description": "A quart carton constructed of a paper, aluminum, and plastic laminate.  It has a threaded cap to keep liquid from leaking out.",
+    "weight": "14 g",
+    "volume": "974 ml",
+    "longest_side": "19 cm",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
-        "max_contains_volume": "2 L",
-        "max_contains_weight": "5 kg",
-        "sealed_data": { "spoil_multiplier": 0.5 }
+        "max_contains_volume": "946 ml",
+        "max_contains_weight": "2500 g",
+        "sealed_data": { "spoil_multiplier": 0.023 }
+      }
+    ]
+  },
+  {
+    "id": "carton_284ml",
+    "copy-from": "carton_946ml",
+    "proportional": { "weight": 0.5, "volume": 0.5 },
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "half pint carton" },
+    "description": "A half pint carton constructed of a paper, aluminum, and plastic laminate.  It has a threaded cap to keep liquid from leaking out.",
+    "longest_side": "7 cm",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "max_contains_volume": "284 ml",
+        "max_contains_weight": "625 g",
+        "sealed_data": { "spoil_multiplier": 0.023 }
       }
     ]
   },
@@ -2786,6 +2901,28 @@
     "looks_like": "bottle_plastic",
     "description": "A standard plastic jug that can hold 3750 mL of glue.  Cannot be reused or refilled.",
     "extend": { "flags": [ "NO_RELOAD", "NO_UNLOAD" ] }
+  },
+  {
+    "id": "jug_plastic_1892ml",
+    "copy-from": "jug_plastic",
+    "proportional": { "weight": 0.5, "volume": 0.5 },
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "half gallon jug" },
+    "description": "A half gallon plastic jug used for milk and household cleaning chemicals.  Some may be factory-sealed to increase shelf life.",
+    "longest_side": "25 cm",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "transparent": true,
+        "max_contains_volume": "1892 ml",
+        "max_item_volume": "32 ml",
+        "max_contains_weight": "4 kg",
+        "sealed_data": { "spoil_multiplier": 0.5 }
+      }
+    ]
   },
   {
     "id": "fuel_tin",
@@ -4184,7 +4321,7 @@
     "melee_damage": { "bash": 12 }
   },
   {
-    "id": "aquarium_medium_drying",
+    "id": "aquarium_medium_drying_active",
     "type": "ITEM",
     "category": "other",
     "name": { "str": "50 gallon aquarium (drying)", "str_pl": "50 gallon aquariums (drying)" },
@@ -4199,6 +4336,7 @@
     "material": [ "glass" ],
     "symbol": ")",
     "color": "light_cyan",
+    "flags": [ "SPAWN_ACTIVE" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -4210,15 +4348,8 @@
       }
     ],
     "qualities": [ [ "CONTAIN", 1 ] ],
-    "use_action": {
-      "target": "aquarium_medium",
-      "msg": "You check that the aquarium does indeed hold water, it is ready.",
-      "moves": 100,
-      "type": "delayed_transform",
-      "transform_age": 604800,
-      "not_ready_msg": "The silicone hasn't dried quite yet.",
-      "//": "The time it takes is a week and this appears to be the minimum time the internet says it takes."
-    },
+    "countdown_interval": "7 days",
+    "revert_to": "aquarium_medium",
     "melee_damage": { "bash": 12 }
   },
   {
@@ -4252,7 +4383,7 @@
     "melee_damage": { "bash": 8 }
   },
   {
-    "id": "aquarium_small_drying",
+    "id": "aquarium_small_drying_active",
     "type": "ITEM",
     "category": "other",
     "name": { "str": "30 gallon aquarium (drying)", "str_pl": "30 gallon aquariums (drying)" },
@@ -4268,6 +4399,7 @@
     "symbol": ")",
     "color": "light_cyan",
     "looks_like": "aquarium_medium",
+    "flags": [ "SPAWN_ACTIVE" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -4279,15 +4411,8 @@
       }
     ],
     "qualities": [ [ "CONTAIN", 1 ] ],
-    "use_action": {
-      "target": "aquarium_small",
-      "msg": "You check that the aquarium does indeed hold water, it is ready.",
-      "moves": 100,
-      "type": "delayed_transform",
-      "transform_age": 604800,
-      "not_ready_msg": "The silicone hasn't dried quite yet.",
-      "//": "The time it takes is a week and this appears to be the minimum time the internet says it takes."
-    },
+    "countdown_interval": "7 days",
+    "revert_to": "aquarium_small",
     "melee_damage": { "bash": 8 }
   },
   {
@@ -4321,7 +4446,7 @@
     "melee_damage": { "bash": 20 }
   },
   {
-    "id": "aquarium_large_drying",
+    "id": "aquarium_large_drying_active",
     "type": "ITEM",
     "category": "other",
     "name": { "str": "100 gallon aquarium (drying)", "str_pl": "100 gallon aquariums (drying)" },
@@ -4337,6 +4462,7 @@
     "symbol": ")",
     "color": "light_cyan",
     "looks_like": "aquarium_medium",
+    "flags": [ "SPAWN_ACTIVE" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -4348,15 +4474,8 @@
       }
     ],
     "qualities": [ [ "CONTAIN", 1 ] ],
-    "use_action": {
-      "target": "aquarium_large",
-      "msg": "You check that the aquarium does indeed hold water, it is ready.",
-      "moves": 100,
-      "type": "delayed_transform",
-      "transform_age": 604800,
-      "not_ready_msg": "The silicone hasn't dried quite yet.",
-      "//": "The time it takes is a week and this appears to be the minimum time the internet says it takes."
-    },
+    "countdown_interval": "7 days",
+    "revert_to": "aquarium_large",
     "melee_damage": { "bash": 20 }
   },
   {

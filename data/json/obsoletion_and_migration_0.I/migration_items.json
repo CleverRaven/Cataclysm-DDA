@@ -2540,9 +2540,44 @@
   },
   {
     "type": "MIGRATION",
-    "id": "gown",
-    "replace": "dress",
-    "variant": "gown"
+    "id": "dress",
+    "replace": "long_dress"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "witch_dress_short",
+    "replace": "short_dress_sleeved",
+    "variant": "witch_black"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "witch_dress_long",
+    "replace": "long_dress_sleeved",
+    "variant": "witch_black"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "witch_dress",
+    "replace": "dress_sleeved",
+    "variant": "witch_black"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "sinister_gown",
+    "replace": "gown_sleeved",
+    "variant": "sinister"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "sinister_dress_short",
+    "replace": "short_dress_sleeved",
+    "variant": "sinister"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "long_dress",
+    "from_variant": "gown",
+    "replace": "gown"
   },
   {
     "type": "MIGRATION",
@@ -2746,5 +2781,11 @@
     "type": "MIGRATION",
     "id": "tail_bunny_playboy",
     "replace": "scrap_cotton"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "sinister_dress",
+    "replace": "long_dress_sleeved",
+    "variant": "sinister"
   }
 ]

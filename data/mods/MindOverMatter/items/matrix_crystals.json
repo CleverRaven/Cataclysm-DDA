@@ -163,7 +163,7 @@
     "copy-from": "matrix_crystal_biokinesis",
     "description": "A strange-looking, surprisingly-heavy crystal with a faintly-glowing golden light in its depths.  Holding it, you feel radiant.",
     "color": "yellow",
-    "flags": [ "MATRIX_CRYSTAL_PHOTOKINESIS" ],
+    "flags": [ "MATRIX_CRYSTAL_PHOTOKINESIS", "RELIC_PINK" ],
     "use_action": {
       "type": "effect_on_conditions",
       "consume": true,
@@ -187,6 +187,20 @@
     "description": "Concentrated matrix crystal dust.  It glitters gold even in complete darkness.",
     "copy-from": "matrix_crystal_biokin_dust_refined",
     "color": "yellow"
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
+    "id": "matrix_crystal_photokinesis_artifact",
+    "name": { "str_sp": "strange crystal, golden" },
+    "description": "A strange-looking, surprisingly-heavy crystal with a faintly-glowing golden light in its depths.  Holding it, you feel radiant.",
+    "color": "dark_gray",
+    "symbol": "+",
+    "volume": "10 ml",
+    "weight": "150 g",
+    "longest_side": "21 mm",
+    "looks_like": "matrix_crystal_photokinesis",
+    "flags": [ "MATRIX_CRYSTAL_PHOTOKINESIS", "RELIC_PINK" ]
   },
   {
     "type": "ITEM",

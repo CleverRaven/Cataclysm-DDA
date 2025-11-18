@@ -1,46 +1,5 @@
 [
   {
-    "id": "calico",
-    "copy-from": "gun_base_9mm_semi_rifle",
-    "looks_like": "hk_mp5",
-    "type": "ITEM",
-    "subtypes": [ "GUN" ],
-    "name": { "str": "Calico automatic carbine" },
-    "description": "The Calico automatic carbine is a submachine gun with a unique circular magazine that allows for high capacities and reduced recoil.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "calico",
-        "name": { "str": "Calico M960 carbine" },
-        "//": "Automatic variant.  Cyclic fire rate: 750 rpm",
-        "description": "A compact submachine gun designed evidently under the 'spray and pray' mentality, this Calico M960 automatic carbine is not notably powerful, or dependable, or even particularly accurate to shoot.  Intended for military and law enforcement use, it never saw any noteworthy service due to its poor reliability and overall performance, and would be an unremarkable weapon in all respects, save for its enormous magazine capacity.  Making use of uniquely designed 50 or 100 round circular magazines, the Calico might not be a particularly good gun, but will throw an overwhelming amount of lead down range for a long time providing that it doesn't choke, jam, and die."
-      }
-    ],
-    "weight": "2270 g",
-    "volume": "2420 ml",
-    "longest_side": "655 mm",
-    "barrel_length": "152 mm",
-    "price": "2 kUSD 400 USD",
-    "price_postapoc": "50 USD",
-    "material": [ "steel" ],
-    "skill": "smg",
-    "range": 6,
-    "dispersion": 280,
-    "durability": 6,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "brass catcher", 1 ],
-      [ "mechanism", 2 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
-      [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "calicomag", "calicomag_100rd" ] } ]
-  },
-  {
     "id": "glock_19",
     "copy-from": "gun_base_9mm_semi_pistol",
     "looks_like": "glock_17",
@@ -662,37 +621,6 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "stenmag", "survivor9mm_mag" ] } ]
   },
   {
-    "id": "tec9",
-    "copy-from": "gun_base_9mm_semi_pistol",
-    "looks_like": "glock_17",
-    "type": "ITEM",
-    "subtypes": [ "GUN" ],
-    "name": { "str": "TEC-9 pistol" },
-    "description": "The TEC-9 is a semi-automatic 'pistol' made of cheap polymers and machine stamped parts.  Its rise in popularity among criminals is largely due to its intimidating looks, low cost and relative ease of converting to fully automatic.",
-    "weight": "1400 g",
-    "volume": "870 ml",
-    "longest_side": "345 mm",
-    "barrel_length": "127 mm",
-    "price": "1 kUSD 250 USD",
-    "material": [ "steel" ],
-    "dispersion": 520,
-    "durability": 6,
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "mechanism", 2 ],
-      [ "muzzle", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
-      [ "stock mount", 1 ]
-    ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [ "tec9mag", "tec9mag_10rd", "tec9mag_20rd", "tec9mag_30rd", "tec9mag_36rd", "tec9mag_50rd", "tec9mag_72rd" ]
-      }
-    ]
-  },
-  {
     "id": "usp_9mm",
     "copy-from": "gun_base_9mm_semi_pistol",
     "looks_like": "glock_17",
@@ -1122,7 +1050,6 @@
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "brass catcher", 1 ],
-      [ "loading port", 1 ],
       [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "rail", 1 ],

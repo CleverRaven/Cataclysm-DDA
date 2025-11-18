@@ -1023,23 +1023,9 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint_rel_ms &dp, const tiler
                 const int wheel_damage = vpi_wheel.wheel_info->contact_area / vehicle_grounded_wheel_area *
                                          vehicle_mass_kg * weight_to_damage_factor;
 
-                // We've already stored the damage the wheel will inflict, so now we can (possibly) damage the wheels from running stuff over.
-                // Also we stash the wheel messages so we can play them afterwards.
-                // This needs to happen before smashing the items on the ground so we can calculate wheel damage based on the properties of the items we ran over.
-                const std::vector<std::string> wheel_damage_messages = veh.handle_item_roadkill( this, wheel_p,
-                        vp_wheel );
-
                 //~ %1$s: vehicle name
-                smash_items( wheel_p, wheel_damage, string_format( _( "weight of %1$s" ), veh.disp_name() ) );
-
-                const bool player_is_driver = &get_player_character() == veh.get_driver( *this );
-                const bool player_sees_damage = get_player_character().sees( *this, wheel_p );
-                if( !wheel_damage_messages.empty() && ( player_is_driver || player_sees_damage ) ) {
-                    for( const std::string &msg : wheel_damage_messages ) {
-                        add_msg( m_bad, msg );
-                    }
-                }
-
+                smash_items( wheel_p, wheel_damage, string_format( _( "weight of %1$s" ), veh.disp_name() ),
+                             &vp_wheel, &veh );
             }
         }
     }
@@ -3595,7 +3581,7 @@ bool map::has_nearby_fire( const tripoint_bub_ms &p, int radius ) const
         if( has_field_at( pt, fd_fire ) ) {
             return true;
         }
-        if( has_flag_ter_or_furn( ter_furn_flag::TFLAG_USABLE_FIRE, p ) ) {
+        if( has_flag_ter_or_furn( ter_furn_flag::TFLAG_USABLE_FIRE, pt ) ) {
             return true;
         }
     }
@@ -3824,7 +3810,8 @@ void map::collapse_at( const tripoint_bub_ms &p, const bool silent, const bool w
     // that's not handled for now
 }
 
-void map::smash_items( const tripoint_bub_ms &p, int power, const std::string &cause_message )
+void map::smash_items( const tripoint_bub_ms &p, int power, const std::string &cause_message,
+                       vehicle_part *vp_wheel, vehicle *veh )
 {
     if( !has_items( p ) || has_flag_ter_or_furn( ter_furn_flag::TFLAG_PLANT, p ) ) {
         return;
@@ -3838,11 +3825,24 @@ void map::smash_items( const tripoint_bub_ms &p, int power, const std::string &c
 
     std::vector<item> contents;
     map_stack items = i_at( p );
+    std::vector<std::string> wheel_damage_messages;
+    int damage_levels = 0;
+
     for( auto i = items.begin(); i != items.end() && power > 0; ) {
         if( i->made_of( phase_id::LIQUID ) ) {
             i++;
             continue;
         }
+
+        if( vp_wheel != nullptr && vehicle::hit_probability( *i, vp_wheel ) < rng_float( 0.0, 1.0 ) ) {
+            // The wheel missed the item.
+            continue;
+        }
+
+        if( vp_wheel != nullptr ) {
+            veh->damage_wheel_on_item( vp_wheel, *i, &damage_levels, &wheel_damage_messages );
+        }
+
         if( i->active ) {
             // Get the explosion item actor
             if( i->type->get_use( "explosion" ) != nullptr ) {
@@ -3951,6 +3951,30 @@ void map::smash_items( const tripoint_bub_ms &p, int power, const std::string &c
                                 _( "The %1$s damages the %2$s." ),
                                 cause_message,
                                 damaged_item_name );
+    }
+
+    if( damage_levels > 0 ) {
+        veh->damage_direct( bubble_map, *vp_wheel, damage_levels );
+
+        const bool player_is_driver = veh != nullptr && &get_player_character() == veh->get_driver( *this );
+        const bool player_sees_damage = get_player_character().sees( *this, p );
+
+        if( !wheel_damage_messages.empty() && ( player_is_driver || player_sees_damage ) ) {
+            for( const std::string &msg : wheel_damage_messages ) {
+                add_msg( m_bad, msg );
+            }
+        }
+
+        bool existing = false;
+        for( int wheel : veh->wheelcache ) {
+            if( veh->bub_part_pos( *this, veh->part( wheel ) ) == p ) {
+                existing = true;
+                break;
+            }
+        }
+        if( existing ) {
+            add_msg( m_bad, _( "The %s has been degraded by the damage" ), vp_wheel->name() );
+        }
     }
 
     for( const item &it : contents ) {

@@ -6,7 +6,6 @@
     "monsters": [
       { "monster": "mon_ant_larva", "weight": 40, "cost_multiplier": 0 },
       { "monster": "mon_ant_soldier", "weight": 90, "cost_multiplier": 5 },
-      { "monster": "mon_ant_queen", "weight": 0, "cost_multiplier": 0 },
       { "monster": "mon_ant_small", "weight": 870, "cost_multiplier": 0 }
     ]
   },
@@ -30,7 +29,6 @@
     "monsters": [
       { "monster": "mon_ant_acid_larva", "weight": 35, "cost_multiplier": 0 },
       { "monster": "mon_ant_acid_soldier", "weight": 100, "cost_multiplier": 5 },
-      { "monster": "mon_ant_acid_queen", "weight": 0, "cost_multiplier": 0 },
       { "monster": "mon_ant_acid_small", "weight": 865, "cost_multiplier": 0 }
     ]
   },

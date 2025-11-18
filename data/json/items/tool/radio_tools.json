@@ -145,7 +145,7 @@
     ],
     "tick_action": [ "RADIO_TICK" ],
     "faults": [ { "fault_group": "electronic_general" } ],
-    "flags": [ "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC" ]
+    "flags": [ "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC", "SPAWN_ACTIVE" ]
   },
   {
     "id": "two_way_radio",

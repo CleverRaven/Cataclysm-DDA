@@ -21,9 +21,7 @@
       { "group": "fresh_produce", "count": [ 1, 8 ], "prob": 50 },
       {
         "distribution": [
-          { "item": "milk", "charges": [ 1, -1 ], "prob": 89, "container-item": "jug_plastic", "sealed": false },
-          { "item": "almond_milk", "charges": [ 1, -1 ], "prob": 3, "container-item": "carton_milk", "sealed": false },
-          { "item": "soy_milk", "charges": [ 1, -1 ], "prob": 3, "container-item": "carton_milk", "sealed": false },
+          { "group": "milk_in_container", "prob": 100 },
           { "item": "milk_choc", "charges": [ 1, -1 ], "prob": 5, "container-item": "jug_plastic", "sealed": false }
         ],
         "prob": 95
@@ -249,20 +247,7 @@
     "subtype": "collection",
     "entries": [
       { "group": "fresh_produce", "count": [ 1, 2 ], "prob": 20 },
-      {
-        "distribution": [
-          { "item": "milk", "charges": [ 1, 8 ], "prob": 60, "container-item": "jug_plastic", "sealed": false },
-          {
-            "item": "milk",
-            "prob": 40,
-            "charges": 1,
-            "count": [ 2, 3 ],
-            "container-item": "jug_plastic",
-            "sealed": false
-          }
-        ],
-        "prob": 75
-      },
+      { "group": "milk_in_container", "count": [ 1, 3 ], "prob": 75 },
       { "group": "ketchup_sealed_rng", "prob": 55 },
       { "group": "barbecue_sauce_sealed_rng", "prob": 50 },
       { "group": "honey_mustard_sealed_rng", "prob": 50 },
@@ -494,14 +479,7 @@
     "subtype": "collection",
     "entries": [
       { "group": "fresh_produce", "count": [ 1, 8 ], "prob": 20 },
-      {
-        "distribution": [
-          { "item": "milk", "charges": [ 1, -1 ], "prob": 94, "container-item": "jug_plastic", "sealed": false },
-          { "item": "almond_milk", "charges": [ 1, -1 ], "prob": 3, "container-item": "carton_milk", "sealed": false },
-          { "item": "soy_milk", "charges": [ 1, -1 ], "prob": 3, "container-item": "carton_milk", "sealed": false }
-        ],
-        "prob": 20
-      },
+      { "group": "milk_in_container", "prob": 20 },
       { "group": "ketchup_sealed_rng", "prob": 20 },
       { "group": "mustard_sealed_rng", "prob": 20 },
       { "group": "honey_mustard_sealed_rng", "prob": 5 },
@@ -975,11 +953,7 @@
       { "item": "watermelon", "prob": 2 },
       { "item": "melon", "prob": 2 },
       { "item": "kiwi", "prob": 2, "count": [ 1, 3 ] },
-      { "item": "milk", "charges": [ 1, -1 ], "prob": 20, "container-item": "jug_plastic", "sealed": false },
-      { "item": "milk", "charges": [ 1, -1 ], "prob": 55, "container-item": "carton_milk", "sealed": false },
-      { "item": "almond_milk", "charges": [ 1, -1 ], "prob": 12, "container-item": "carton_milk", "sealed": false },
-      { "item": "oat_milk", "charges": [ 1, -1 ], "prob": 8, "container-item": "carton_milk", "sealed": false },
-      { "item": "soy_milk", "charges": [ 1, -1 ], "prob": 6, "container-item": "carton_milk", "sealed": false },
+      { "group": "milk_in_container", "prob": 100 },
       { "item": "milk_choc", "charges": [ 1, -1 ], "prob": 2, "container-item": "jug_plastic", "sealed": false },
       { "item": "milk_choc", "charges": [ 1, -1 ], "prob": 6, "container-item": "carton_milk", "sealed": false },
       { "item": "horchata", "charges": [ 1, -1 ], "prob": 3, "container-item": "bottle_plastic", "sealed": false },
@@ -1003,7 +977,7 @@
       { "prob": 6, "group": "sandwich_pb_wrapper_1_inf" },
       { "prob": 6, "group": "sandwich_pbj_wrapper_1_inf" },
       { "prob": 6, "group": "fish_sandwich_wrapper_1_inf" },
-      { "group": "softdrinks_canned", "count": [ 1, 5 ], "prob": 75 },
+      { "group": "soda_in_small_container", "count": [ 1, 5 ], "prob": 75 },
       { "item": "water_clean", "container-item": "bottle_plastic", "prob": 65, "count": [ 1, 3 ] },
       { "item": "water_mineral", "container-item": "bottle_plastic", "prob": 35, "count": [ 1, 2 ] }
     ]
@@ -1020,7 +994,7 @@
       { "group": "foodintincan", "count": [ 4, 8 ], "prob": 80 },
       { "group": "condiments", "count": [ 1, 2 ], "prob": 25 },
       { "group": "preserved_food", "count": [ 3, 6 ], "prob": 40 },
-      { "group": "softdrinks_canned", "count": [ 3, 7 ], "prob": 75 },
+      { "group": "soda_in_small_container", "count": [ 3, 7 ], "prob": 75 },
       { "group": "alcohol_bottled_canned", "count": [ 2, 4 ], "prob": 30 },
       { "item": "water_clean", "container-item": "bottle_plastic", "prob": 65, "count": [ 2, 6 ] }
     ]
@@ -1032,7 +1006,7 @@
     "//2": "This group is for a refrigerator which is stocked with snacks and small meals.",
     "subtype": "collection",
     "entries": [
-      { "group": "softdrinks_canned", "count": [ 3, 7 ], "prob": 75 },
+      { "group": "soda_in_small_container", "count": [ 3, 7 ], "prob": 75 },
       { "group": "foodplace_food_box_small_4", "prob": 10 },
       { "group": "pie_box_small_8", "prob": 10 },
       { "group": "pie_veggy_box_small_8", "prob": 10 },

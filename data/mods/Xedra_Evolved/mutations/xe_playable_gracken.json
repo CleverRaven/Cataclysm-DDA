@@ -8,12 +8,18 @@
     "points": 4,
     "proficiencies": [ "prof_traps" ],
     "recipes": [
+      "gracken_shade_arms",
       "gracken_strong_arms",
       "gracken_long_arms",
-      "gracken_shade_arms",
       "gracken_shade_hands",
       "gracken_sharp_nails",
-      "gracken_dextrous_hands"
+      "gracken_dextrous_hands",
+      "gracken_carnivorous_stomach",
+      "gracken_herbivorous_stomach",
+      "gracken_omnivorous_stomach",
+      "gracken_shade_legs",
+      "gracken_short_legs",
+      "gracken_long_legs"
     ],
     "traits": [
       "THRESH_SPECIES_GRACKEN",
@@ -372,6 +378,7 @@
     "id": "RADIOTROPHIC",
     "name": { "str": "Radiotrophic" },
     "points": 3,
+    "purifiable": false,
     "vitamin_cost": 160,
     "description": "Your system has adapted to radiation.  While irradiated, you will convert the radiation into calories.",
     "category": [ "GRACKEN" ],

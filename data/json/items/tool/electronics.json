@@ -196,7 +196,7 @@
     ],
     "faults": [ { "fault_group": "electronic_general" } ],
     "light": 8,
-    "flags": [ "NO_UNLOAD", "NO_RELOAD", "WATCH", "CHARGEDIM", "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC" ]
+    "flags": [ "NO_UNLOAD", "NO_RELOAD", "WATCH", "CHARGEDIM", "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC", "SPAWN_ACTIVE" ]
   },
   {
     "id": "directional_antenna",
@@ -299,7 +299,7 @@
     "//": "light 10 is the bare minimum for reading without penalties",
     "light": 10,
     "faults": [ { "fault_group": "electronic_general" } ],
-    "flags": [ "NO_UNLOAD", "NO_RELOAD", "WATCH", "WATER_BREAK", "ELECTRONIC", "TRADER_AVOID" ]
+    "flags": [ "NO_UNLOAD", "NO_RELOAD", "WATCH", "WATER_BREAK", "ELECTRONIC", "TRADER_AVOID", "SPAWN_ACTIVE" ]
   },
   {
     "id": "usb_drive",
@@ -507,7 +507,7 @@
       "type": "transform"
     },
     "tick_action": [ "GEIGER_ACTIVE" ],
-    "flags": [ "TRADER_AVOID", "WATER_BREAK" ]
+    "flags": [ "TRADER_AVOID", "WATER_BREAK", "SPAWN_ACTIVE" ]
   },
   {
     "id": "resonance_measurement_device",
@@ -653,7 +653,7 @@
     ],
     "faults": [ { "fault_group": "electronic_general" } ],
     "light": 10,
-    "flags": [ "NO_UNLOAD", "NO_RELOAD", "WATCH", "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC", "ALLOWS_REMOTE_USE" ]
+    "flags": [ "NO_UNLOAD", "NO_RELOAD", "WATCH", "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC", "ALLOWS_REMOTE_USE", "SPAWN_ACTIVE" ]
   },
   {
     "id": "mp3",
@@ -700,7 +700,7 @@
       { "type": "link_up", "cable_length": 2, "charge_rate": "5 W" }
     ],
     "faults": [ { "fault_group": "electronic_general" } ],
-    "flags": [ "NO_UNLOAD", "NO_RELOAD", "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC" ]
+    "flags": [ "NO_UNLOAD", "NO_RELOAD", "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC", "SPAWN_ACTIVE" ]
   },
   {
     "id": "noise_emitter",
@@ -754,7 +754,7 @@
       "type": "transform"
     },
     "tick_action": [ "NOISE_EMITTER_ON" ],
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "TRADER_AVOID", "WATER_BREAK" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "TRADER_AVOID", "WATER_BREAK", "SPAWN_ACTIVE" ]
   },
   {
     "id": "emf_detector",
@@ -811,7 +811,7 @@
     },
     "tick_action": [ "EMF_PASSIVE_ON" ],
     "faults": [ { "fault_group": "electronic_general" } ],
-    "flags": [ "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC" ]
+    "flags": [ "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC", "SPAWN_ACTIVE" ]
   },
   {
     "id": "portable_game",
@@ -903,7 +903,7 @@
       { "type": "link_up", "cable_length": 3, "charge_rate": "20 W" }
     ],
     "tick_action": [ "MP3_ON" ],
-    "extend": { "flags": [ "TRADER_AVOID" ] }
+    "extend": { "flags": [ "TRADER_AVOID", "SPAWN_ACTIVE" ] }
   },
   {
     "id": "smart_phone_flashlight",
@@ -927,7 +927,7 @@
       { "type": "link_up", "cable_length": 3, "charge_rate": "20 W" }
     ],
     "light": 20,
-    "extend": { "flags": [ "CHARGEDIM", "TRADER_AVOID" ] }
+    "extend": { "flags": [ "CHARGEDIM", "TRADER_AVOID", "SPAWN_ACTIVE" ] }
   },
   {
     "id": "smart_phone_locked",
@@ -990,7 +990,7 @@
       { "type": "link_up", "cable_length": 3, "charge_rate": "20 W" }
     ],
     "light": 20,
-    "extend": { "flags": [ "CHARGEDIM", "TRADER_AVOID" ] }
+    "extend": { "flags": [ "CHARGEDIM", "TRADER_AVOID", "SPAWN_ACTIVE" ] }
   },
   {
     "id": "UPS_off",
@@ -1177,6 +1177,7 @@
     "copy-from": "gas_charger",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
+    "extend": { "flags": [ "TRADER_AVOID", "SPAWN_ACTIVE" ] },
     "name": { "str": "gas-powered UPS (on)", "str_pl": "gas-powered UPSes (on)" },
     "description": "A compact thermoelectric generator.  When connected to a propane tank, it will slowly charge UPS-compatible devices.",
     "power_draw": "60 mW",
@@ -1260,6 +1261,6 @@
         }
       ]
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "TRADER_AVOID", "WATER_BREAK", "POWERED" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "TRADER_AVOID", "WATER_BREAK", "POWERED", "SPAWN_ACTIVE" ]
   }
 ]

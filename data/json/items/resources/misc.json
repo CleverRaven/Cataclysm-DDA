@@ -169,7 +169,7 @@
     "longest_side": "8 cm",
     "to_hit": { "grip": "none", "length": "hand", "surface": "line", "balance": "neutral" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -50 ] ],
-    "flags": [ "ALLOWS_BODY_BLOCK", "DAMAGE_VEHICLE_WHEELS" ],
+    "flags": [ "ALLOWS_BODY_BLOCK" ],
     "melee_damage": { "bash": 5, "cut": 3 },
     "weapon_category": [ "SHIVS" ]
   },

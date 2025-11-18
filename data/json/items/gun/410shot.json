@@ -1,21 +1,43 @@
 [
   {
-    "id": "shotgun_410",
-    "copy-from": "shotgun_s",
-    "looks_like": "remington_870",
+    "id": "mossberg_500_410",
+    "copy-from": "gun_base_shotgun_manual",
+    "looks_like": "mossberg_500",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
-    "name": { "str": "Winchester M37 .410" },
-    "description": "A single-shot break-action shotgun, chambered in .410 bore.  Designed as a lower-recoil alternative to 12 gauge shotguns, it is light and easy to manufacture.",
-    "//": "remove shotgun variants",
-    "variants": [  ],
-    "weight": "2948 g",
-    "volume": "1748 ml",
-    "longest_side": "1152 mm",
-    "barrel_length": "660 mm",
-    "price_postapoc": "20 USD",
-    "blackpowder_tolerance": 80,
+    "name": { "str": "5-round small game shotgun" },
+    "//": "Based on https://www.mossberg.com/500-bantam-50112.html",
+    "description": "This shotgun is a bit leaner and smaller than the others, being in .410 instead of the usual 12 gauge.  While the small caliber is more intended for small game, it will still kill zombies a-okay.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "mossberg_500_410",
+        "name": { "str": "Mossberg 500" },
+        "description": "This Mossberg 500 is a bit slimmer and smaller than the others, being in .410 instead of the more common 12 gauge.  Still features a reliable pump-action, and despite the smaller caliber it will still no doubt kill."
+      }
+    ],
+    "ascii_picture": "mossberg590",
+    "weight": "2722 g",
+    "volume": "2191 ml",
+    "longest_side": "1086 mm",
+    "barrel_length": "610 mm",
+    "price": "910 USD",
+    "material": [ "steel", "aluminum", "plastic" ],
+    "dispersion": 320,
+    "clip_size": 5,
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "loading port", 1 ],
+      [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "stock accessory", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
     "ammo": [ "410shot" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "410shot": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "410shot": 5 } } ]
   }
 ]

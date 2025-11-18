@@ -774,36 +774,6 @@
     "melee_damage": { "bash": 2 }
   },
   {
-    "id": "weather_reader",
-    "type": "ITEM",
-    "subtypes": [ "TOOL" ],
-    "category": "tools",
-    "name": { "str": "Doppler Radar Turbo 2000" },
-    "description": "A briefcase with a built-in laptop that looks like it's from the 80s.  Its vintage monochrome monitor displays a plethora of meteorological data.  No sign of the FLDSMDFR, however.",
-    "weight": "1 kg",
-    "volume": "2500 ml",
-    "price": "2 USD",
-    "price_postapoc": "5 USD",
-    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
-    "material": [ "plastic", "aluminum" ],
-    "symbol": ";",
-    "color": "light_gray",
-    "charges_per_use": 5,
-    "use_action": [ "WEATHER_TOOL" ],
-    "flags": [ "THERMOMETER", "HYGROMETER", "BAROMETER", "WATER_BREAK", "ELECTRONIC" ],
-    "faults": [ { "fault_group": "electronic_general" } ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_battery_cell"
-      }
-    ],
-    "melee_damage": { "bash": 2 },
-    "tool_ammo": [ "battery" ]
-  },
-  {
     "id": "analytical_set_basic",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
@@ -1055,7 +1025,7 @@
     "subtypes": [ "TOOL" ],
     "category": "tools",
     "name": { "str": "microscope" },
-    "description": "A classic tool for the ages!  This hefty, durable piece of lab equipment makes small things look bigger.  Without electricity the light doesn't work, but the rest of it is surprisingly functional.  Unfortunately it's not useful for very much at the moment.",
+    "description": "A classic tool for the ages!  This hefty, durable piece of lab equipment makes small things look bigger.  When powered, it allows the user to observe various samples on a microscopic scale.",
     "weight": "2 kg",
     "volume": "3800 ml",
     "price": "30 USD",
@@ -1064,7 +1034,16 @@
     "material": [ "steel", "glass" ],
     "symbol": "G",
     "color": "white",
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 4 },
+    "charges_per_use": 1,
+    "use_action": [
+      { "type": "link_up", "cable_length": 2, "charge_rate": "10 W" },
+      {
+        "type": "effect_on_conditions",
+        "menu_text": "Observe samples",
+        "effect_on_conditions": [ "EOC_use_microscope" ]
+      }
+    ]
   },
   {
     "id": "microscope_dissecting",
@@ -1474,5 +1453,32 @@
     "color": "light_red",
     "use_action": [ "WEATHER_TOOL" ],
     "flags": [ "THERMOMETER" ]
+  },
+  {
+    "id": "microscope_slide",
+    "type": "ITEM",
+    "name": { "str": "microscope slide" },
+    "//": "Includes the glass cover.",
+    "description": "A tiny, thin rectangle of glass, used to observe samples through microscopes.",
+    "material": [ "glass" ],
+    "weight": "4125 mg",
+    "volume": "2 ml",
+    "price_postapoc": "0 USD",
+    "symbol": "-",
+    "color": "light_cyan"
+  },
+  {
+    "id": "microscope_slide_water_murky",
+    "copy-from": "microscope_slide",
+    "type": "ITEM",
+    "name": { "str": "microscope slide of murky water", "str_pl": "microscope slides of murky water" },
+    "description": "A microscope slide with a sample of murky water."
+  },
+  {
+    "id": "microscope_slide_soil",
+    "copy-from": "microscope_slide",
+    "type": "ITEM",
+    "name": { "str": "microscope slide of soil", "str_pl": "microscope slides of soil" },
+    "description": "A microscope slide with a sample of soil."
   }
 ]

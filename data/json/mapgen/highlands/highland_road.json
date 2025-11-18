@@ -1,0 +1,310 @@
+[
+  {
+    "type": "palette",
+    "id": "highland_road",
+    "terrain": {
+      " ": [ "t_highland_groundcover", 1 ],
+      "i": [ [ "t_stone_road", 10 ], [ "t_highland_groundcover", 1 ] ],
+      "I": [ [ "t_tree_dead_warped", 1 ], [ "t_highland_groundcover", 2 ] ],
+      "/": [ [ "t_stone_road", 4 ], [ "t_highland_groundcover", 1 ] ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "highland_road_end",
+    "object": { "fill_ter": "t_region_groundcover", "place_nested": [ { "chunks": [ "24x24_highland_road_end" ], "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "highland_road_straight",
+    "object": {
+      "fill_ter": "t_region_groundcover",
+      "place_nested": [
+        {
+          "chunks": [ "24x24_highland_road_straight_meander_east", "24x24_highland_road_straight_meander_west" ],
+          "x": 0,
+          "y": 0
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "highland_road_four_way",
+    "object": {
+      "fill_ter": "t_region_groundcover",
+      "place_nested": [ { "chunks": [ "24x24_highland_road_four_way" ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "highland_road_curved",
+    "object": {
+      "fill_ter": "t_region_groundcover",
+      "place_nested": [ { "chunks": [ "24x24_highland_road_curved" ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "highland_road_tee",
+    "object": {
+      "fill_ter": "t_region_groundcover",
+      "place_nested": [
+        { "chunks": [ "24x24_highland_road_tee" ], "x": 0, "y": 0 },
+        {
+          "chunks": [ "24x24_highland_road_tee_temple" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": { "north": [ "highland_crossroads_temple" ] }
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "24x24_highland_road_end",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "   I              I     ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                  I     ",
+        "   I                    ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "   I                    ",
+        "                        ",
+        "                        ",
+        "                  I     ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "    I                   ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "highland_road" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "24x24_highland_road_straight_meander_east",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "       ////ii////       ",
+        "       ////ii////       ",
+        "    I  ////ii////   I   ",
+        "       ////ii////       ",
+        "       ////ii////       ",
+        "        ////ii////  I   ",
+        "        ////ii////      ",
+        "        ////ii////      ",
+        "    I   ////ii////      ",
+        "        ////ii////  I   ",
+        "        ////ii////      ",
+        "         ////ii////     ",
+        "         ////ii////     ",
+        "    I    ////ii////     ",
+        "         ////ii////     ",
+        "        ////ii////      ",
+        "        ////ii////  I   ",
+        "        ////ii////      ",
+        "        ////ii////      ",
+        "    I  ////ii////       ",
+        "       ////ii////   I   ",
+        "       ////ii////       ",
+        "       ////ii////       ",
+        "       ////ii////       "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "highland_road" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "24x24_highland_road_straight_meander_west",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "       ////ii////       ",
+        "       ////ii////       ",
+        "       ////ii////   I   ",
+        "    I  ////ii////       ",
+        "       ////ii////       ",
+        "       ////ii////       ",
+        "    I  ////ii////       ",
+        "      /////ii////   I   ",
+        "      ////ii/////       ",
+        "    I ////ii////        ",
+        "      ////ii////        ",
+        "      ////ii////        ",
+        "      ////ii////    I   ",
+        "    I ////ii////        ",
+        "      ////ii////        ",
+        "      ////ii////        ",
+        "    I ////ii/////   I   ",
+        "      /////ii////       ",
+        "       ////ii////       ",
+        "       ////ii////       ",
+        "    I  ////ii////   I   ",
+        "       ////ii////       ",
+        "    I  ////ii////       ",
+        "       ////ii////       "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "highland_road" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "24x24_highland_road_curved",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                    I   ",
+        "                      I ",
+        "           I            ",
+        "       I       /////////",
+        "           /////////////",
+        "      I   //////////////",
+        "         ///////////////",
+        "        ////////iiiiiiii",
+        "    I   /////iiiiiiiiiii",
+        "        ////iiii////////",
+        "        ////ii//////////",
+        "        ////ii//////////",
+        "       /////ii//////////",
+        "       ////ii/////      ",
+        "    I  ////ii////      I",
+        "       ////ii////  I    ",
+        "       ////ii////       ",
+        "       ////ii////       ",
+        "    I  ////ii////  I    ",
+        "       ////ii////       "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "highland_road" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "24x24_highland_road_tee",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "        ///////////     ",
+        "////////////////////////",
+        "////////////////////////",
+        "////////////////////////",
+        "//////////iiiiii////////",
+        "iiiii///iiiiiiiii///iiii",
+        "iiiii///iiiiiiii///iiiii",
+        "ii//////////////////////",
+        "////////////////////////",
+        "////////////////////////",
+        "//////////ii////////////",
+        "///  /////ii//////      ",
+        "      ////ii/////       ",
+        "       ////ii////       ",
+        "       ////ii////       ",
+        "       ////ii////       ",
+        "       ////ii////       ",
+        "       ////ii////       "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "highland_road" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "24x24_highland_road_tee_temple",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        " I F     /  //  FF   F  ",
+        "  F FF    ///     F F   ",
+        "      F  |////|       I ",
+        "  F  F     ///  F FF    ",
+        "      I   // /       F  ",
+        "  I F     ///   I       ",
+        "        ///////////   I ",
+        "////////////////////////",
+        "////////////////////////",
+        "////////////////////////",
+        "//////////iiiiii////////",
+        "iiiii///iiiiiiiii///iiii",
+        "iiiii///iiiiiiii///iiiii",
+        "ii//////////////////////",
+        "////////////////////////",
+        "////////////////////////",
+        "//////////ii////////////",
+        "///  /////ii//////      ",
+        "      ////ii/////       ",
+        "       ////ii////       ",
+        "       ////ii////       ",
+        "       ////ii////       ",
+        "       ////ii////       ",
+        "       ////ii////       "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "highland_road" ],
+      "terrain": { "F": "t_highland_groundcover", "|": "t_rock_wall" },
+      "furniture": { "F": [ [ "f_slab", 2 ], [ "f_null", 1 ] ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "24x24_highland_road_four_way",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "      /////ii/////      ",
+        "     //////ii//////     ",
+        "    ///////ii///////    ",
+        "   ////////ii////////   ",
+        "  /////i///ii///i/////  ",
+        " /////ii///ii///ii///// ",
+        "/////iii///ii///iii/////",
+        "////iii////ii///iiii////",
+        "////////////////////////",
+        "////////////////////////",
+        "////////////////////////",
+        "iiiiiii///ii///iiiiiiiii",
+        "iiiiiii///ii///iiiiiiiii",
+        "////////////////////////",
+        "////////////////////////",
+        "////////////////////////",
+        "////iii///ii///iiiii////",
+        "/////ii///ii///iiii/////",
+        " /////ii//ii////ii///// ",
+        "  /////i///ii///i/////  ",
+        "   ////////ii////////   ",
+        "    ///////ii///////    ",
+        "     //////ii//////     ",
+        "      /////ii/////      "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "highland_road" ]
+    }
+  }
+]

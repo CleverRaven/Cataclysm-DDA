@@ -571,7 +571,7 @@
     "id": "WEREWOLF_WALK_THROUGH_WALLS",
     "name": { "str": "Ghostwalker" },
     "points": 4,
-    "description": "While in war form, transform your claws into silver, causing them to do additional damage to creatures of the Nether.",
+    "description": "You can concentrate for a moment and turn into a spirit form that allows you to walk through walls.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,

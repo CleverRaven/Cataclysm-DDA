@@ -271,6 +271,38 @@
   },
   {
     "type": "terrain",
+    "id": "t_highland_holy_tree",
+    "copy-from": "t_tree_dead",
+    "symbol": "G",
+    "name": " dead holy tree",
+    "description": "Censers and candlelamps hang from the twisted branches of this tree, which seems to have been revered in the past.  A sword is embedded in its trunk.",
+    "bash": {
+      "str_min": 70,
+      "str_max": 140,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "stick_long", "count": [ 2, 6 ] },
+        { "item": "splinter", "count": [ 10, 20 ] },
+        { "item": "khopesh", "variant": "highlands_holy" },
+        { "item": "highland_censer", "count": [ 6, 12 ] }
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_highland_flower_bed",
+    "copy-from": "t_grass_long",
+    "symbol": "G",
+    "name": "flower bed",
+    "looks_like": "f_alien_zapper",
+    "description": "Dozens of large blue flowers grow nearly parallel to the ground .  They retain a neat arrangement even when growing wild."
+  },
+  {
+    "type": "terrain",
     "id": "t_tree_young",
     "name": "young tree",
     "looks_like": "t_tree",

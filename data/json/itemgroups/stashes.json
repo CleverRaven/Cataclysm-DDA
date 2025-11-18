@@ -13,7 +13,7 @@
       { "group": "preserved_food", "prob": 30, "count": [ 1, 5 ] },
       { "item": "water_clean", "prob": 75, "count": [ 4, 12 ] },
       { "item": "water_mineral", "prob": 10, "count": [ 1, 4 ] },
-      { "group": "softdrinks_canned", "prob": 5, "count": [ 1, 4 ] },
+      { "group": "soda_in_small_container", "prob": 5, "count": [ 1, 4 ] },
       { "prob": 10, "group": "salt_various" },
       { "prob": 5, "group": "seasoning_salt_various" },
       { "item": "instant_coffee", "prob": 25, "count": [ 1, 12 ] },
@@ -217,16 +217,64 @@
       { "group": "adhesive_bandages_box_full", "count": 1, "prob": 80 },
       { "group": "alcohol_wipes_box_full", "count": 1, "prob": 50 },
       { "group": "cotton_ball_bag_full", "count": 1, "prob": 60 },
-      { "item": "liq_bandage_spray", "count": 1, "prob": 30 },
+      { "item": "liq_bandage_spray", "charges": [ 1, -1 ], "prob": 30 },
       { "group": "vitc_tablet_bottle_full", "count": 1, "prob": 30 },
-      { "item": "calcium_tablet", "count": [ 30, -1 ], "prob": 30 },
-      { "item": "gummy_vitamins", "count": [ 30, -1 ], "container-item": "bottle_plastic", "prob": 20 },
-      { "item": "antibiotics", "count": [ 30, -1 ], "prob": 30 },
-      { "item": "iodine", "count": [ 30, -1 ], "prob": 30 },
-      { "item": "prussian_blue", "count": [ 12, -1 ], "prob": 20 },
-      { "item": "antifungal", "count": [ 30, -1 ], "prob": 10 },
-      { "item": "antiparasitic", "count": [ 30, -1 ], "prob": 10 },
-      { "item": "homeopathic_pills", "count": [ 30, -1 ], "prob": 10 },
+      {
+        "item": "calcium_tablet",
+        "entry-wrapper": "bottle_plastic_pill_supplement",
+        "container-item": "null",
+        "count": [ 30, -1 ],
+        "prob": 30
+      },
+      {
+        "item": "gummy_vitamins",
+        "entry-wrapper": "bottle_plastic_pill_supplement",
+        "container-item": "null",
+        "count": [ 25, -1 ],
+        "prob": 20
+      },
+      {
+        "item": "antibiotics",
+        "entry-wrapper": "bottle_plastic_pill_supplement",
+        "container-item": "null",
+        "count": [ 30, -1 ],
+        "prob": 30
+      },
+      {
+        "item": "iodine",
+        "entry-wrapper": "bottle_plastic_pill_supplement",
+        "container-item": "null",
+        "count": [ 30, -1 ],
+        "prob": 30
+      },
+      {
+        "item": "prussian_blue",
+        "entry-wrapper": "bottle_plastic_pill_supplement",
+        "container-item": "null",
+        "count": [ 12, -1 ],
+        "prob": 20
+      },
+      {
+        "item": "antifungal",
+        "entry-wrapper": "bottle_plastic_pill_supplement",
+        "container-item": "null",
+        "count": [ 30, -1 ],
+        "prob": 10
+      },
+      {
+        "item": "antiparasitic",
+        "entry-wrapper": "bottle_plastic_pill_supplement",
+        "container-item": "null",
+        "count": [ 30, -1 ],
+        "prob": 10
+      },
+      {
+        "item": "homeopathic_pills",
+        "entry-wrapper": "bottle_plastic_pill_supplement",
+        "container-item": "null",
+        "count": [ 30, -1 ],
+        "prob": 10
+      },
       { "group": "drugs_analgesic", "count": [ 1, 2 ], "prob": 40 },
       { "group": "drugs_misc", "count": [ 1, 2 ], "prob": 5 },
       { "group": "drugs_rare", "count": [ 1, 2 ], "prob": 5 },
@@ -522,8 +570,8 @@
     "items": [
       { "group": "candy_chocolate", "prob": 75 },
       { "group": "salty_snacks", "prob": 75 },
-      { "group": "softdrinks_canned", "prob": 55 },
-      { "group": "softdrinks_bottled", "prob": 45 },
+      { "group": "soda_in_small_container", "prob": 55 },
+      { "group": "soda_in_container", "prob": 45 },
       { "prob": 30, "group": "cookies_box_snack_1_4" },
       { "group": "toastems", "prob": 15 }
     ]
