@@ -15,6 +15,7 @@
 
 static const flag_id json_flag_BOMB( "BOMB" );
 static const flag_id json_flag_RADIO_ACTIVATION( "RADIO_ACTIVATION" );
+static const flag_id json_flag_SPAWN_ACTIVE( "SPAWN_ACTIVE" );
 
 void item_transformation::deserialize( const JsonObject &jo )
 {
@@ -85,7 +86,8 @@ void item_transformation::transform( Character *carrier, item &it, bool dont_tak
             it.countdown_point = calendar::turn + target_timer;
         }
 
-        it.active = it.active || active || target_timer > 0_seconds;
+        it.active = active || it.has_temperature() || it.has_flag( json_flag_SPAWN_ACTIVE )  ||
+                    target_timer > 0_seconds;
 
     } else {
         item content = it;
