@@ -723,7 +723,6 @@
             "ruger_lcr_22": 1,
             "sig_mosquito": 1,
             "walther_p22": 1,
-            "cp33": 1,
             "rio_bravo": 1,
             "ruger_1022_auto": 1,
             "ruger_mk4": 1,
@@ -760,8 +759,7 @@
             "retool_ar15_223rem_pistol": 1,
             "retool_mdrx_223rem": 1,
             "retool_mdrx_223rem_short": 1,
-            "retool_mdrx_223rem_medium": 1,
-            "retool_cz600_223rem": 1
+            "retool_mdrx_223rem_medium": 1
           }
         },
         {
@@ -795,16 +793,7 @@
         {
           "type": "762",
           "weight": 34,
-          "items": {
-            "ak47": 1,
-            "sks": 1,
-            "aksemi": 1,
-            "mk47": 1,
-            "vz58_p": 1,
-            "bren2_762": 1,
-            "retool_ar15_762": 1,
-            "retool_cz600_762": 1
-          }
+          "items": { "ak47": 1, "sks": 1, "aksemi": 1, "mk47": 1, "vz58_p": 1, "retool_ar15_762": 1 }
         },
         {
           "type": "357mag",
@@ -838,14 +827,12 @@
             "remington_1100": 1,
             "browning_a5": 1,
             "ithaca37": 1,
-            "remington_870_breacher": 1,
             "remington_870_express": 1,
             "revolver_shotgun": 1,
             "saiga_12": 1,
             "shotgun_d": 1,
             "shotgun_s": 1,
             "tavor_12": 1,
-            "winchester_1887": 1,
             "winchester_1897": 1,
             "slamfire_shotgun": 1,
             "slamfire_shotgun_d": 1,
@@ -862,7 +849,6 @@
             "m1a": 1,
             "m240": 1,
             "m60": 1,
-            "savage_111f": 1,
             "scar_17s": 1,
             "scar_h": 1,
             "M24": 1,
@@ -900,7 +886,7 @@
         { "type": "3030", "weight": 5, "items": { "marlin_336_3030": 1, "winchester_94_3030": 1 } },
         { "type": "762R", "weight": 4, "items": { "mosin44": 1, "mosin91_30": 1, "psl": 1 } },
         { "type": "270win", "weight": 3, "items": { "remington700_270": 1 } },
-        { "type": "410shot", "weight": 3, "items": { "shotgun_410": 1, "mossberg_500_410": 1 } },
+        { "type": "410shot", "weight": 3, "items": { "mossberg_500_410": 1 } },
         {
           "type": "300blk",
           "weight": 2,
@@ -916,17 +902,7 @@
         {
           "type": "10mm",
           "weight": 1,
-          "items": {
-            "glock_20": 1,
-            "glock_29": 1,
-            "glock_40": 1,
-            "m1911_10": 1,
-            "p220_10": 1,
-            "sw_610": 1,
-            "TDI_10": 1,
-            "witness_10": 1,
-            "xd_10": 1
-          }
+          "items": { "glock_20": 1, "glock_29": 1, "glock_40": 1, "m1911_10": 1, "p220_10": 1, "witness_10": 1, "xd_10": 1 }
         },
         {
           "type": "other",
@@ -961,7 +937,6 @@
             "kord": 1,
             "fn57": 1,
             "fn_p90": 1,
-            "p50": 1,
             "ruger_57": 1,
             "tokarev": 1,
             "rm103a_pistol": 1,
@@ -1029,7 +1004,6 @@
             "p226_357sig": 1,
             "p226_9mm": 1,
             "p365": 1,
-            "p50": 1,
             "pistol_flintlock": 1,
             "pressin": 1,
             "px4": 1,
@@ -1048,13 +1022,11 @@
             "sp2022": 1,
             "sr22": 1,
             "sw_500": 1,
-            "sw_610": 1,
             "sw617": 1,
             "sw_619": 1,
             "sw629": 1,
             "sw642": 1,
             "swbodyguard": 1,
-            "TDI_10": 1,
             "tokarev": 1,
             "usp_45": 1,
             "usp_9mm": 1,
@@ -1066,7 +1038,6 @@
             "walther_ppk": 1,
             "walther_ppq_45": 1,
             "walther_ppq_9mm": 1,
-            "winchester_1887": 1,
             "witness_10": 1,
             "xd_10": 1
           }
@@ -1086,10 +1057,8 @@
             "axmc": 1,
             "bbgun": 1,
             "bren2_556": 1,
-            "bren2_762": 1,
             "browning_blr": 1,
             "combination_gun": 1,
-            "cz600": 1,
             "fn_fal": 1,
             "fn_ps90": 1,
             "garand": 1,
@@ -1171,7 +1140,6 @@
             "ruger_mini": 1,
             "rugerpcc": 1,
             "ruger_pr": 1,
-            "savage_111f": 1,
             "savage112": 1,
             "savage_rascal": 1,
             "scar_16s": 1,
@@ -1225,7 +1193,6 @@
             "m26_mass": 1,
             "m26_mass_mod": 1,
             "m26_mass_standalone": 1,
-            "M6_shotgun": 1,
             "masterkey": 1,
             "masterkey_mod": 1,
             "mossberg_500": 1,
@@ -1236,11 +1203,9 @@
             "pipe_double_shotgun": 1,
             "pipe_shotgun": 1,
             "remington_870": 1,
-            "remington_870_breacher": 1,
             "remington_870_express": 1,
             "revolver_shotgun": 1,
             "saiga_12": 1,
-            "shotgun_410": 1,
             "shotgun_d": 1,
             "shotgun_s": 1,
             "slamfire_shotgun": 1,
