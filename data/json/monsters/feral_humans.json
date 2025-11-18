@@ -145,7 +145,7 @@
   {
     "id": "mon_feral_human_axe",
     "type": "MONSTER",
-    "name": { "str": "deranged axe murderer", "str_pl": "deranged axe murderers" },
+    "name": { "str": "axe murderer",
     "description": "They stumble along dragging a large bloodstained axe.  Their face is twisted into a sadistic grin, and they walk among the dead as though already one of them.",
     "copy-from": "mon_feral_human_pipe",
     "special_attacks": [ { "id": "feral_weapon_axe" }, [ "PARROT_AT_DANGER", 0 ] ],
