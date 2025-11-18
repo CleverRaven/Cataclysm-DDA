@@ -35,7 +35,7 @@
     "volume": "1100 ml",
     "longest_side": "23 cm",
     "price": "19 USD 99 cent",
-    "price_postapoc": "1 USD",
+    "price_postapoc": "3 USD 50 cent",
     "material": [ "paper", "cardboard" ],
     "copy-from": "book_fict_tpl",
     "melee_damage": { "bash": 2 }
@@ -50,7 +50,7 @@
     "volume": "662 ml",
     "longest_side": "18 cm",
     "price": "7 USD 99 cent",
-    "price_postapoc": "50 cent",
+    "price_postapoc": "2 USD 50 cent",
     "material": [ "paper" ],
     "flags": [  ],
     "copy-from": "book_fict_tpl",
