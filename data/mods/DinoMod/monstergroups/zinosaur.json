@@ -131,7 +131,7 @@
       { "monster": "mon_zacrocanthosaurus_scorched", "weight": 80, "cost_multiplier": 60, "starts": "24 days" },
       { "monster": "mon_ziats_scorched", "weight": 80, "cost_multiplier": 60, "starts": "24 days" },
       { "monster": "mon_zryptosaurus_scorched", "weight": 40, "cost_multiplier": 70, "starts": "12 days" },
-      { "monster": "mon_zanotyrannus _scorched", "weight": 40, "cost_multiplier": 40, "starts": "12 days" },
+      { "monster": "mon_zanotyrannus_scorched", "weight": 40, "cost_multiplier": 40, "starts": "12 days" },
       { "monster": "mon_zappalachiosaurus_scorched", "weight": 40, "cost_multiplier": 70, "starts": "12 days" },
       { "monster": "mon_zorgosaurus_scorched", "weight": 40, "cost_multiplier": 70, "starts": "12 days" },
       { "monster": "mon_zalbertosaurus_scorched", "weight": 40, "cost_multiplier": 70, "starts": "12 days" },
