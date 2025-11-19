@@ -471,7 +471,7 @@ According to <https://leathersupreme.com/leather-hide-thickness-in-leather-jacke
 * Fashion leather clothes such as thin leather jackets, skirts, and thin vests are 1.0mm or less.
 * Heavy leather clothes such as motorcycle suits average 1.5mm.
 
-From [this site](https://cci.one/site/marine/design-tips-fabrication-overview/tables-of-weights-and-measures/), an equivalency guideline for fabric weight to mm:
+From [this site](https://www.cci.one/tables-of-weights-measurements), an equivalency guideline for fabric weight to mm:
 
 | Cloth                         | oz/yd2 | g/m2  | Inches | mm   |
 | -----                         | ------ | ----- | ------ | ---- |

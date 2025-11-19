@@ -45,7 +45,7 @@ Migration and obsoletion should happen in `\data\json\obsoletion_and_migration_<
 # Item migration
 
 Any of item types (AMMO, GUN, ARMOR, PET_ARMOR, TOOL, TOOLMOD, TOOL_ARMOR, BOOK, COMESTIBLE, ENGINE, WHEEL, GUNMOD, MAGAZINE, GENERIC, BIONIC_ITEM) should be migrated to another item, then it can be removed with no issues
-AMMO and COMESTIBLE types require additional handling, explained in [Charge and temperature removal](#Charge_and_temperature_removal)
+AMMO and COMESTIBLE types require additional handling, explained in [Charge and temperature removal](#Charge-and-temperature-removal)
 
 ```jsonc
 {
