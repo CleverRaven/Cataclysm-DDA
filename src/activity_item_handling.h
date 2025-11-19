@@ -87,7 +87,28 @@ void move_item( Character &you, const std::optional<vpart_reference> &vpr_src,
 
 namespace multi_activity_actor
 {
+
+//TODO: move to JSON flag?
+bool can_do_in_dark( const activity_id &act_id );
+
 /* begin TODO: move to activity actor */
+
+//general function for non-specific multi activities
+std::unordered_set<tripoint_abs_ms> generic_locations( Character &you, const activity_id &act_id );
+std::unordered_set<tripoint_abs_ms> construction_locations( Character &you,
+        const activity_id &act_id );
+std::unordered_set<tripoint_abs_ms> tidy_up_locations( Character &you, const activity_id & );
+std::unordered_set<tripoint_abs_ms> read_locations( Character &you, const activity_id &act_id );
+std::unordered_set<tripoint_abs_ms> craft_locations( Character &you, const activity_id &act_id );
+std::unordered_set<tripoint_abs_ms> fetch_locations( Character &you, const activity_id & );
+std::unordered_set<tripoint_abs_ms> fish_locations( Character &you, const activity_id &act_id );
+std::unordered_set<tripoint_abs_ms> mop_locations( Character &you, const activity_id &act_id );
+void prune_same_tile_locations( Character &you, std::unordered_set<tripoint_abs_ms> &src_set );
+void prune_dark_locations( Character &you, std::unordered_set<tripoint_abs_ms> &src_set,
+                           const activity_id &act_id );
+void prune_dangerous_field_locations( std::unordered_set<tripoint_abs_ms> &src_set );
+std::unordered_set<tripoint_abs_ms> no_same_tile_locations( Character &you,
+        const activity_id &act_id );
 
 //shared helper function for deconstruction/repair
 activity_reason_info vehicle_work_can_do( const activity_id &, Character &you,
