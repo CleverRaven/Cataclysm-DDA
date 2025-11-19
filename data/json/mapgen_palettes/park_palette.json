@@ -125,7 +125,7 @@
     },
     "furniture": {
       "Y": {
-        "switch": { "param": "walkway", "fallback": "f_null" },
+        "switch": { "param": "walkway", "fallback": "t_region_soil" },
         "cases": {
           "t_railroad_rubble": "f_null",
           "t_region_soil": "f_null",
