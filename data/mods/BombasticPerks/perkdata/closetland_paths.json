@@ -141,6 +141,7 @@
       { "u_travel_to_dimension": "default" },
       { "u_teleport": { "u_val": "perk_closetland_paths_destination_1" } },
       { "u_lose_effect": "blind" },
+      { "u_lose_effect": "effect_perk_closetland_sleepiness" },
       { "run_eocs": "EOC_BOMBASTIC_PERKS_CLOSET_STORAGE_TRAVEL_TO_CLOSETLAND_DEACTIVATE_FUTURE", "time_in_future": 0 }
     ]
   },
@@ -153,6 +154,7 @@
       { "u_travel_to_dimension": "default" },
       { "u_teleport": { "u_val": "perk_closetland_paths_destination_2" } },
       { "u_lose_effect": "blind" },
+      { "u_lose_effect": "effect_perk_closetland_sleepiness" },
       { "run_eocs": "EOC_BOMBASTIC_PERKS_CLOSET_STORAGE_TRAVEL_TO_CLOSETLAND_DEACTIVATE_FUTURE", "time_in_future": 0 }
     ]
   },
@@ -165,6 +167,7 @@
       { "u_travel_to_dimension": "default" },
       { "u_teleport": { "u_val": "perk_closetland_paths_destination_3" } },
       { "u_lose_effect": "blind" },
+      { "u_lose_effect": "effect_perk_closetland_sleepiness" },
       { "run_eocs": "EOC_BOMBASTIC_PERKS_CLOSET_STORAGE_TRAVEL_TO_CLOSETLAND_DEACTIVATE_FUTURE", "time_in_future": 0 }
     ]
   }
