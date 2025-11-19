@@ -2108,7 +2108,7 @@
     "looks_like": "homemade_burrito",
     "description": "",
     "price_postapoc": "40 cent",
-    "material": [ "flesh", "veggy"],
+    "material": [ "flesh", "veggy" ],
     "primary_material": "flesh",
     "color": "green",
     "weight": "110 g",
@@ -2118,6 +2118,6 @@
     "fun": 4,
     "quench": -8,
     "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "vitC", 8 ], ["iron", 12 ], [ "veggy_allergen", 1 ], [ "calcium", 4 ], [ "meat_allergen", 1 ]  ]
+    "vitamins": [ [ "vitC", 8 ], [ "iron", 12 ], [ "veggy_allergen", 1 ], [ "calcium", 4 ], [ "meat_allergen", 1 ] ]
   }
 ]
