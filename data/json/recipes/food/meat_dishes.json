@@ -1946,5 +1946,26 @@
       ],
       [ [ "corn", 1 ], [ "barley", 1 ], [ "buckwheat", 1 ], [ "oats", 1 ], [ "wheat", 1 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "dolmas",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "charges": 3,
+    "time": "30 m",
+    "autolearn": false,
+    "book_learn": [ [ "cookbook_turkish", 2 ] ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 12, "LIST" ] ] ],
+    "components": [
+      [ [ "meat_cooked", 1, "LIST" ], [ "dry_meat", 1 ], [ "can_chicken", 1 ], [ "meat_smoked", 1 ] ],
+      [ [ "rice_cooked", 1 ], [ "wild_rice_cooked", 1 ] ],
+      [ [ "burdock_cooked", 2 ], [ "grape_leaves", 2 ] ],
+      [ [ "broth", 1 ], [ "water_clean", 1 ], [ "broth_bone", 1 ], [ "broth_meat", 1 ] ]
+    ]
   }
 ]
