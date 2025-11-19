@@ -25,14 +25,13 @@
         "..#b         _tt_____#..",
         "..#buuuuuuuu _____bbb#..",
         "..#|||||||||||||x||||#..",
-        "..#         |     x T#..",
-        "..#         x |||||||#..",
-        "..#     uuu | x     s#..",
-        "..###########X#hLL  s#..",
+        "..#B B BBB  |     x T#..",
+        "..#BB       x |||||||#..",
+        "..#BBB  uuu | x     s#..",
+        "..###########X#hLLB s#..",
         "....4ooooooooo########.."
       ],
       "palettes": [ "parametrized_carpets_palette", "parametrized_walls_palette" ],
-      "place_nested": [ { "chunks": [ [ "sexshop_nest_legal", 9 ], [ "sexshop_nest_illegal", 1 ] ], "x": 0, "y": 0 } ],
       "terrain": {
         ".": "t_region_groundcover_urban",
         "_": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
@@ -53,7 +52,8 @@
         "L": "f_locker",
         "h": "f_armchair",
         "u": "f_rack",
-        "v": "f_displaycase"
+        "v": "f_displaycase",
+        "B": "f_cardboard_box"
       },
       "place_items": [
         { "item": "cash_register_random", "x": 7, "y": 7 },
@@ -71,9 +71,15 @@
         "b": { "item": "SUS_commercial_shelf_porn_literature" },
         "t": { "item": "sex_clothes", "repeat": [ 3, 5 ] },
         "L": { "item": "cleaning" },
+        "B": [ { "item": "SUS_sex_shop_stock" } ],
         "T": { "item": "SUS_toilet" }
       },
-      "toilets": { "T": {  } }
+      "toilets": { "T": {  } },
+      "place_vehicles": [
+        { "vehicle": "motorcycle", "x": 4, "y": 2, "rotation": 270, "chance": 25 },
+        { "vehicle": "motorcycle", "x": 6, "y": 2, "rotation": 90, "chance": 25 },
+        { "vehicle": "car", "x": 19, "y": 2, "rotation": 0, "chance": 10 }
+      ]
     }
   },
   {
@@ -122,87 +128,6 @@
           "x": [ 4, 13 ],
           "y": [ 9, 12 ]
         }
-      ]
-    }
-  },
-  {
-    "nested_mapgen_id": "sexshop_nest_legal",
-    "type": "mapgen",
-    "object": {
-      "mapgensize": [ 24, 24 ],
-      "rows": [
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "   B B  BBB             ",
-        "   BB                   ",
-        "   BBB                  ",
-        "                 B      ",
-        "                        "
-      ],
-      "furniture": { "B": "f_cardboard_box" },
-      "items": { "B": [ { "item": "SUS_sex_shop_stock" } ] },
-      "place_vehicles": [
-        { "vehicle": "motorcycle", "x": 4, "y": 2, "rotation": 270, "chance": 25 },
-        { "vehicle": "motorcycle", "x": 6, "y": 2, "rotation": 90, "chance": 25 },
-        { "vehicle": "car", "x": 19, "y": 2, "rotation": 0, "chance": 10 }
-      ]
-    }
-  },
-  {
-    "nested_mapgen_id": "sexshop_nest_illegal",
-    "type": "mapgen",
-    "object": {
-      "mapgensize": [ 24, 24 ],
-      "rows": [
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "   B B  BBB             ",
-        "   BB                   ",
-        "   BBB                  ",
-        "                 B      ",
-        "                        "
-      ],
-      "furniture": { "B": "f_cardboard_box" },
-      "items": { "B": [ { "item": "stash_drugs", "chance": 1, "repeat": [ 1, 20 ] }, { "item": "SUS_sex_shop_stock", "chance": 1 } ] },
-      "place_vehicles": [
-        { "vehicle": "motorcycle", "x": 4, "y": 2, "rotation": 270, "chance": 25 },
-        { "vehicle": "motorcycle", "x": 6, "y": 2, "rotation": 90, "chance": 25 },
-        { "vehicle": "policecar", "x": 12, "y": 2, "rotation": 180, "chance": 90 },
-        { "vehicle": "car", "x": 19, "y": 2, "rotation": 0, "chance": 10 }
       ]
     }
   }
