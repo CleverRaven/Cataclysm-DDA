@@ -74,7 +74,7 @@
     "comestible_type": "MED",
     "name": { "str_sp": "questionable blood treatment" },
     "description": "This homemade blood treatment purports to reduce the cravings brought on by vampirism and if applied often and early to even reverse some stages of the disease.  But vampires surely can't be real, can they?",
-    "weight": "11 g",
+    "weight": "6 g",
     "volume": "12ml",
     "price": "50 USD",
     "phase": "liquid",
