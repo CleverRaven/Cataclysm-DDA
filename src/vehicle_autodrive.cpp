@@ -1298,7 +1298,6 @@ std::optional<navigation_step> vehicle::autodrive_controller::compute_next_step(
             square_dist( first_step.pos.xy().raw(), second_step.pos.xy().raw() ) !=
             square_dist( first_step.pos.xy().raw(), veh_pos.xy().raw() ) &&
             first_step.steering_dir == second_step.steering_dir ) {
-            data.path.pop_back();
             maintain_speed = true;
             data.path.clear();
         } else {
@@ -1438,8 +1437,12 @@ autodrive_result vehicle::do_autodrive( map &here, Character &driver )
     const tripoint_abs_ms veh_pos = pos_abs();
     const tripoint_abs_omt veh_omt = project_to<coords::omt>( veh_pos );
     std::vector<tripoint_abs_omt> &omt_path = driver.omt_path;
-    while( !omt_path.empty() && veh_omt.xy() == omt_path.back().xy() ) {
-        omt_path.pop_back();
+    const auto veh_on_path = std::find_if( omt_path.rbegin(),
+    omt_path.rend(), [xy = veh_omt.xy()]( const auto & path ) {
+        return path.xy() == xy;
+    } );
+    if( veh_on_path != omt_path.rend() ) {
+        omt_path.erase( ( veh_on_path + 1 ).base(), omt_path.end() );
     }
     if( omt_path.empty() ) {
         stop_autodriving( false );
