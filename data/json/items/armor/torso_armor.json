@@ -319,9 +319,7 @@
     "flags": [ "OUTER" ],
     "armor": [
       {
-        "material": [
-          { "type": "plastic", "covered_by_mat": 100, "thickness": 3.1 }
-        ],
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 3.1 } ],
         "encumbrance": 16,
         "coverage": 80,
         "cover_ranged": 70,
