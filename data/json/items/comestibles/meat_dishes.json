@@ -2099,7 +2099,7 @@
     "vitamins": [ [ "vitC", 0 ], [ "calcium", 3 ], [ "iron", 8 ], [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
-    "id": "meat dolmas",
+    "id": "meat_dolmas",
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
