@@ -950,8 +950,20 @@ Gun mods can be defined like this:
 "initial_charges": 75,     // Charges when spawned
 "max_charges": 75,         // Maximum charges tool can hold
 "power_draw": "50 mW",     // Energy consumption per second
-"revert_to": "torch_done", // Transforms into item when charges are expended
-"revert_msg": "The torch fades out.", // Message, that would be printed, when revert_to is used
+"revert_to": "torch_done", // Transforms into item when charges are expended. Intended to be replaced by transform_into, which it's mutually exclusive with
+"transform_into": {        // Extended transformation info. To replace "revert_to", with which it's mutually exclusive. Optional.
+  "target": "torch_done",  // Item to transform into.
+  "target_group": "twisted_geometry", // If used, target is a random item from itemgroup
+  "variant_type": "condom_plain",     // (optional) Defaults to `<any>`. Specific variant type to set for the transformed item. Special string `<any>` will pick a random variant from all available variants, based on the variant's defined weight
+  "container": "jar_glass_sealed",    // "Container for the transformed item". Optional
+  "sealed": true,          // Whether the container if present, or transformed item otherwise, should be sealed. Optional.
+  "target_charges": 2,     // How many items should the transformation result in. Only works with items transformed into a container. Optional.
+  "rand_target_charges": [ 10, 15, 25 ], // Randomize the charges the transformed item has. This example has a 50% chance of rng(10, 15) charges and a 50% chance of rng(15, 25) (endpoints are included)
+  "target_ammo": 3,        // Number of charges (not count) the item should contain. Optional.
+  "target_timer": 1000,    // Set up a timer for the transformed object. Optional.
+  "active": true           // Set the transformed item to active. Optional.
+},
+"revert_msg": "The torch fades out.", // Message to be printed when revert_to or transform_into performs its transformation
 "sub": "hotplate",         // optional; this tool has the same functions as another tool
 "etransfer_rate": "30 MB"  // units::ememory, electronic transfer rate per second supported by this e-device
 "e_port": "USB-A",         // String defining connection type for fast file transfer; NOTE: if you want to use this for general connections, make a more general system, this is *only* for electronic devices that handle files

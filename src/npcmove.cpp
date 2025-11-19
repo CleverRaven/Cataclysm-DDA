@@ -58,6 +58,7 @@
 #include "item.h"
 #include "item_factory.h"
 #include "item_location.h"
+#include "item_transformation.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
@@ -2422,7 +2423,7 @@ void outfit::activate_combat_items( npc &guy )
             // Due to how UPS works, there can be no charges_needed for UPS items.
             // Energy consumption is thus not checked at activation.
             // To prevent "flickering", this is a hard check for UPS charges > 0.
-            if( transform->target->has_flag( flag_USE_UPS ) && guy.available_ups() == 0_kJ ) {
+            if( transform->transform.target->has_flag( flag_USE_UPS ) && guy.available_ups() == 0_kJ ) {
                 continue;
             }
             if( transform->can_use( guy, candidate, tripoint_bub_ms::zero ).success() ) {
