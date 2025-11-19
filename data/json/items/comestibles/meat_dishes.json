@@ -2106,7 +2106,7 @@
     "name": { "str_sp": "dolmas" },
     "symbol": "%",
     "looks_like": "homemade_burrito",
-    "description": "",
+    "description": "Grape leafed stuffed with rice, meat, vegetables, and spices. A popular dish in Mediterranean and Middle Eastern cuisines.",
     "price_postapoc": "40 cent",
     "material": [ "flesh", "veggy" ],
     "primary_material": "flesh",
@@ -2116,8 +2116,7 @@
     "spoils_in": "3 days",
     "calories": 220,
     "fun": 4,
-    "quench": -8,
-    "flags": [ "EATEN_HOT" ],
+    "quench": -2,
     "vitamins": [ [ "vitC", 8 ], [ "iron", 12 ], [ "veggy_allergen", 1 ], [ "calcium", 4 ], [ "meat_allergen", 1 ] ]
   }
 ]

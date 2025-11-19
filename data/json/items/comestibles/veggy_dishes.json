@@ -1800,7 +1800,7 @@
     "name": { "str_sp": "vegetarian dolmas" },
     "symbol": "%",
     "looks_like": "homemade_burrito",
-    "description": "",
+    "description": "Grape leafed stuffed with rice, vegetables, and spices. A popular dish in Mediterranean and Middle Eastern cuisines.",
     "price_postapoc": "40 cent",
     "material": [ "veggy" ],
     "primary_material": "veggy",
@@ -1810,8 +1810,7 @@
     "spoils_in": "5 days",
     "calories": 140,
     "fun": 4,
-    "quench": -8,
-    "flags": [ "EATEN_HOT" ],
+    "quench": -2,
     "vitamins": [ [ "vitC", 10 ], [ "iron", 10 ], [ "veggy_allergen", 1 ], [ "calcium", 4 ] ]
   }
 ]
