@@ -105,7 +105,7 @@
     "type": "MONSTER_FACTION",
     "name": "zombie",
     "copy-from": "zombie",
-    "extend": { "hate": [ "changeling", "vampire_anathema" ], "neutral": [ "vampire", "werewolves" ] }
+    "extend": { "hate": [ "changeling", "vampire_anathema", "werewolves" ], "neutral": [ "vampire" ] }
   },
   {
     "type": "MONSTER_FACTION",
@@ -117,13 +117,13 @@
     "type": "MONSTER_FACTION",
     "name": "fungus",
     "copy-from": "fungus",
-    "extend": { "hate": [ "changeling" ] }
+    "extend": { "hate": [ "changeling", "werewolves" ] }
   },
   {
     "type": "MONSTER_FACTION",
     "name": "nether",
     "copy-from": "nether",
-    "extend": { "hate": [ "werewolves" ] }
+    "extend": { "hate": [ "werewolves" ], "by_mood": [ "changeling", "arvore", "ierde", "sylph", "undine", "homullus", "salamander" ] }
   },
   {
     "type": "MONSTER_FACTION",
@@ -141,8 +141,9 @@
     "type": "MONSTER_FACTION",
     "name": "nightmares",
     "base_faction": "nether_hate_humans",
+    "friendly": "nether",
     "neutral": [ "fish", "small_animal", "slime" ],
-    "by_mood": [ "nether", "changeling", "vampire" ]
+    "by_mood": [ "changeling", "vampire" ]
   },
   {
     "type": "MONSTER_FACTION",
