@@ -1,0 +1,15 @@
+[
+  {
+    "//": "Fire extinguisher that may or may not be empty",
+    "type": "mapgen",
+    "nested_mapgen_id": "fire_extinguisher",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "+" ],
+      "items": {
+        "+": [ { "item": "extinguisher", "prob": 75, "charges": 100 }, { "item": "extinguisher", "prob": 25, "charges": [ 0, 1 ] } ]
+      },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  }
+]
