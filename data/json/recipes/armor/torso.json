@@ -5392,7 +5392,7 @@
     "autolearn": true,
     "using": [ [ "cordage", 8 ] ],
     "components": [ [ [ "trashcan_large", 1 ] ] ],
-    "byproducts": [ [ "plastic_chunk", 262 ] ],
+    "byproducts": [ [ "plastic_chunk", 266 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ]
   }
 ]

@@ -304,6 +304,6 @@
     "skill_used": "tailor",
     "difficulty": 1,
     "time": "10 m",
-    "components": [ [ [ "plastic_chunk", 37 ] ], [ [ "string_36", 8 ] ] ]
+    "components": [ [ [ "plastic_chunk", 33 ] ], [ [ "string_36", 8 ] ] ]
   }
 ]

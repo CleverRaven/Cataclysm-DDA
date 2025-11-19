@@ -305,9 +305,8 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "crude plastic armor vest" },
     "description": "This plastic vest is made from pieces of a large trash can, held together with string.",
-    "//": "Human torso is 6 700cm^2, 80% coverage is 5357cm^2.  Thickness of 0.31cm, plastic density of 1g/cm^3 leaves us with 1 661 grams.",
-    "//1": "Small section of overlaps rounding to an extra 8% of double layered plastic, or 166g.  288g of cordage, total weight of 2 115, rounding to 2 150 for error.",
-    "weight": "2150 g",
+    "//": "Human torso is 6 700cm^2, 80% coverage is 5357cm^2.  Thickness of 0.31cm, plastic density of 1g/cm^3 leaves us with 1 661 grams. 288g of cordage leaves us with 1 949 total, rounded up to 2 kg for error.",
+    "weight": "2000 g",
     "volume": "3 L",
     "price": "10 USD",
     "price_postapoc": "5 USD",
@@ -321,8 +320,7 @@
     "armor": [
       {
         "material": [
-          { "type": "plastic", "covered_by_mat": 100, "thickness": 3.1 },
-          { "type": "plastic", "covered_by_mat": 8, "thickness": 3.1 }
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 3.1 }
         ],
         "encumbrance": 16,
         "coverage": 80,
