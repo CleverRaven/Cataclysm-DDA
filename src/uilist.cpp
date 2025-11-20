@@ -944,7 +944,8 @@ void uilist::query( bool loop, int timeout, bool allow_unfiltered_hotkeys )
 
     input_context ctxt = create_main_input_context();
 
-    // Ensure we have a uilist to work on. Seems gross.
+    // Ensure we have a uilist to work on
+    // TODO: We don't even use the return value here, find a better solution
     shared_ptr_fast<uilist_impl> ui = create_or_get_ui();
 
 #if defined(__ANDROID__)
