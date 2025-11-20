@@ -869,15 +869,14 @@ bool uilist::scrollby( const uilist::scroll_amount scrollby )
 
 shared_ptr_fast<uilist_impl> uilist::create_or_get_ui()
 {
-    shared_ptr_fast<uilist_impl> current_ui = ui.lock();
-    if( !current_ui ) {
+    if( !ui ) {
         if( title.empty() ) {
-            ui = current_ui = make_shared_fast<uilist_impl>( *this );
+            ui = make_shared_fast<uilist_impl>( *this );
         } else {
-            ui = current_ui = make_shared_fast<uilist_impl>( *this, title );
+            ui =  make_shared_fast<uilist_impl>( *this, title );
         }
     }
-    return current_ui;
+    return ui;
 }
 
 /**
@@ -959,6 +958,7 @@ void uilist::query( bool loop, int timeout, bool allow_unfiltered_hotkeys )
 
     input_context ctxt = create_main_input_context();
 
+    // Ensure we have a uilist to work on. Seems gross.
     shared_ptr_fast<uilist_impl> ui = create_or_get_ui();
 
 #if defined(__ANDROID__)

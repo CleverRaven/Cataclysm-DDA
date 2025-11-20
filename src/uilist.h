@@ -488,7 +488,7 @@ class uilist // NOLINT(cata-xy)
         std::map<input_event, int, std::function<bool( const input_event &, const input_event & )>>
         keymap { input_event::compare_type_mod_code };
 
-        weak_ptr_fast<uilist_impl> ui;
+        shared_ptr_fast<uilist_impl> ui;
 
         std::unique_ptr<string_input_popup_imgui> filter_popup;
 
