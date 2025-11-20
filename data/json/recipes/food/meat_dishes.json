@@ -1962,7 +1962,7 @@
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
-      [ [ "meat_cooked", 1, "LIST" ], [ "dry_meat", 1 ], [ "can_chicken", 1 ], [ "meat_smoked", 1 ] ],
+      [ [ "meat_cooked", 1, "LIST" ], [ "dry_meat", 1 ] ],
       [ [ "rice_cooked", 1 ], [ "wild_rice_cooked", 1 ] ],
       [ [ "burdock_cooked", 4 ], [ "grape_leaves", 4 ] ],
       [ [ "broth", 1 ], [ "water_clean", 1 ], [ "broth_bone", 1 ], [ "broth_meat", 1 ] ],
