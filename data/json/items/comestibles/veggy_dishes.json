@@ -1800,7 +1800,7 @@
     "name": { "str_sp": "vegetarian dolmas" },
     "symbol": "%",
     "looks_like": "homemade_burrito",
-    "description": "Grape leafed stuffed with rice, vegetables, and spices. A popular dish in Mediterranean and Middle Eastern cuisines.",
+    "description": "Grape leaves stuffed with rice, vegetables, and spices.  A popular dish in Mediterranean and Middle Eastern cuisines.",
     "price_postapoc": "40 cent",
     "material": [ "veggy" ],
     "primary_material": "veggy",
