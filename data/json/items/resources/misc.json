@@ -134,7 +134,7 @@
       "trap": "tr_down_mattress",
       "moves": 1000,
       "practice": 0,
-      "done_message": "You lay the down mattress flat on the ground."
+      "done_message": "You lay the mattress flat on the ground."
     }
   },
   {

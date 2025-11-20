@@ -142,7 +142,7 @@
       "target": "EMPbomb_act",
       "msg": "You activate the EMP bomb.",
       "target_timer": "50 seconds",
-      "menu_text": "Activate bomb",
+      "menu_text": "Activate",
       "type": "transform"
     },
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE", "WATER_BREAK" ],
@@ -361,7 +361,7 @@
       "target": "gasbomb_makeshift_act",
       "msg": "You arm the makeshift gas canister.",
       "target_timer": "10 seconds",
-      "menu_text": "Arm",
+      "menu_text": "Arm canister",
       "type": "transform"
     },
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "CYLINDER_GRENADE" ]
@@ -659,7 +659,7 @@
       "msg": "You pull the activating lever, readying the LAW to fire.",
       "target_charges": 1,
       "target_ammo": "66mm_HEAT",
-      "menu_text": "Activate",
+      "menu_text": "Unpack",
       "need_wielding": true,
       "type": "transform"
     },
@@ -860,7 +860,7 @@
       "target": "tool_rocket_candy_act",
       "msg": "You light the rocket candy on fire.  Throw it!",
       "target_timer": "2 seconds",
-      "menu_text": "Light candy",
+      "menu_text": { "str": "Light", "ctxt": "verb" },
       "type": "transform"
     },
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ],
@@ -880,7 +880,11 @@
     "material": [ "steel", "plastic" ],
     "symbol": "*",
     "color": "green",
-    "use_action": { "type": "message", "message": "You've already lit the fuse - get rid of it immediately!", "name": "Pull pin" },
+    "use_action": {
+      "type": "message",
+      "message": "You've already lit the rocket candy, try throwing it instead.",
+      "name": { "str": "Light", "ctxt": "verb" }
+    },
     "countdown_action": {
       "type": "explosion",
       "fields_type": "fd_smoke",
@@ -1075,7 +1079,7 @@
       "target": "military_explosive_half_barrel_bomb_act",
       "msg": "You activate the fuse on the barrel bomb.  Clear the area!",
       "target_timer": "100 seconds",
-      "menu_text": "Activate fuze",
+      "menu_text": "Activate fuse",
       "type": "transform"
     },
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "ALLOWS_REMOTE_USE" ],
@@ -1123,7 +1127,7 @@
       "target": "military_explosive_full_barrel_bomb_act",
       "msg": "You activate the fuse on the barrel bomb.  Clear the area!",
       "target_timer": "100 seconds",
-      "menu_text": "Activate fuze",
+      "menu_text": "Activate fuse",
       "type": "transform"
     },
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "ALLOWS_REMOTE_USE" ],

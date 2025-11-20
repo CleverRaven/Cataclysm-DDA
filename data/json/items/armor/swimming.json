@@ -1491,7 +1491,12 @@
         "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
       }
     ],
-    "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "wetsuit_shorts_technical_loose", "menu_text": "Loosen" },
+    "use_action": {
+      "type": "transform",
+      "msg": "You loosen your shorts.",
+      "target": "wetsuit_shorts_technical_loose",
+      "menu_text": "Loosen"
+    },
     "warmth": 11,
     "environmental_protection": 8,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "WATERPROOF", "SKINTIGHT" ]
@@ -1505,7 +1510,7 @@
     "proportional": { "weight": 1.25, "volume": 1.25, "price": 1.25 },
     "use_action": {
       "type": "transform",
-      "msg": "You loosen your %s.",
+      "msg": "You loosen your shorts.",
       "target": "xl_wetsuit_shorts_technical_loose",
       "menu_text": "Loosen"
     },
@@ -1520,7 +1525,7 @@
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.75 },
     "use_action": {
       "type": "transform",
-      "msg": "You loosen your %s.",
+      "msg": "You loosen your shorts.",
       "target": "xs_wetsuit_shorts_technical_loose",
       "menu_text": "Loosen"
     },
@@ -1533,7 +1538,7 @@
     "name": { "str_sp": "wetsuit technical shorts (loose)" },
     "description": "A pair of stretchy neoprene shorts with large pockets.  Can be worn over a wetsuit or adjusted to be worn alone.",
     "copy-from": "wetsuit_shorts_technical",
-    "use_action": { "type": "transform", "msg": "You tighten your %s.", "target": "wetsuit_shorts_technical", "menu_text": "Tighten" },
+    "use_action": { "type": "transform", "msg": "You tighten your shorts.", "target": "wetsuit_shorts_technical", "menu_text": "Tighten" },
     "delete": { "flags": [ "SKINTIGHT" ] }
   },
   {
@@ -1542,7 +1547,12 @@
     "subtypes": [ "ARMOR" ],
     "copy-from": "xl_wetsuit_shorts_technical",
     "name": { "str_sp": "wetsuit technical shorts (loose)" },
-    "use_action": { "type": "transform", "msg": "You tighten your %s.", "target": "xl_wetsuit_shorts_technical", "menu_text": "Tighten" },
+    "use_action": {
+      "type": "transform",
+      "msg": "You tighten your shorts.",
+      "target": "xl_wetsuit_shorts_technical",
+      "menu_text": "Tighten"
+    },
     "delete": { "flags": [ "SKINTIGHT" ] }
   },
   {
@@ -1551,7 +1561,12 @@
     "subtypes": [ "ARMOR" ],
     "copy-from": "xs_wetsuit_shorts_technical",
     "name": { "str_sp": "wetsuit technical shorts (loose)" },
-    "use_action": { "type": "transform", "msg": "You tighten your %s.", "target": "xs_wetsuit_shorts_technical", "menu_text": "Tighten" },
+    "use_action": {
+      "type": "transform",
+      "msg": "You tighten your shorts.",
+      "target": "xs_wetsuit_shorts_technical",
+      "menu_text": "Tighten"
+    },
     "delete": { "flags": [ "SKINTIGHT" ] }
   },
   {

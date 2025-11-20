@@ -273,7 +273,7 @@
       {
         "target": "migo_skin_off",
         "msg": "The gorget hums and the liquid gets sucked back into it.",
-        "menu_text": "Deactivate the device",
+        "menu_text": "Deactivate",
         "type": "transform"
       }
     ],
@@ -300,7 +300,7 @@
       "need_worn": true,
       "target": "migo_skin",
       "msg": "Murky ooze begins to leak out of the gorget and engulf your body from the neck down!",
-      "menu_text": "Activate the device",
+      "menu_text": "Activate",
       "type": "transform"
     },
     "armor": [
