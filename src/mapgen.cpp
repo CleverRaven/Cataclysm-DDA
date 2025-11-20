@@ -102,6 +102,7 @@
 #include "vpart_range.h"
 #include "weighted_dbl_or_var_list.h"
 #include "weighted_list.h"
+#include "magic_teleporter_list.h"
 
 static const field_type_str_id field_fd_blood( "fd_blood" );
 static const field_type_str_id field_fd_fire( "fd_fire" );
@@ -8674,6 +8675,17 @@ ret_val<void> update_mapgen_function_json::update_map(
         // The loading of the Z level above is not necessary, but looks better.
         const tripoint_abs_omt omt_above = { omt_pos.x(), omt_pos.y(), omt_pos.z() + 1 };
         roof_smap.load( omt_above, false );
+    }
+
+    bool is_original_furn_removed = flags_.test( jmapgen_flags::dismantle_all_before_placing_terrain )
+                                    ||
+                                    flags_.test( jmapgen_flags::erase_all_before_placing_terrain ) ||
+                                    flags_.test( jmapgen_flags::dismantle_furniture_before_placing_terrain ) ||
+                                    flags_.test( jmapgen_flags::erase_furniture_before_placing_terrain );
+    if( is_original_furn_removed ) {
+        // Magic teleporters are special furniture. If furniture are deleted in mapgen, the corresponding translocator must also be deleted.
+        avatar &player_character = get_avatar();
+        player_character.translocators.remove_translocator( omt_pos );
     }
 
     return u;
