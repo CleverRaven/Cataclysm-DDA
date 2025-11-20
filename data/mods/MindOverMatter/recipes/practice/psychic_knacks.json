@@ -696,7 +696,7 @@
         "id": "EOC_PRACTICE_TELEKIN_BARRIER_KNACK",
         "condition": { "u_has_trait": "PSYCHIC_KNACK" },
         "effect": [
-          { "set_string_var": "telekinetic_wave_knack", "target_var": { "u_val": "latest_studied_power_name" } },
+          { "set_string_var": "telekinetic_shield_knack", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "run_eocs": [ "EOC_PSI_STUDYING_TELEKIN_POWER_SETUP", "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]
           }

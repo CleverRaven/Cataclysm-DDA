@@ -4011,22 +4011,24 @@ void iexamine::fvat_full( Character &you, const tripoint_bub_ms &examp )
         }
 
         if( query_yn( _( "Finish brewing?" ) ) ) {
-            const std::map<itype_id, int> results = brew_i.brewing_results();
+            const std::map<std::pair<itype_id, std::string>, int> &results = brew_i.brewing_results();
             const int count = brew_i.count();
             const time_point birthday = brew_i.birthday();
 
             here.i_clear( examp );
-            for( const std::pair<const itype_id, int> &result : results ) {
+            for( const std::pair<const std::pair<itype_id, std::string>, int> &result : results ) {
                 int amount = result.second * count;
+                const itype_id &item_type = result.first.first;
                 // TODO: Different age based on settings
-                item booze( result.first, birthday );
-                if( result.first->phase == phase_id::LIQUID ) {
+                item booze( item_type, birthday );
+                booze.set_itype_variant( result.first.second );
+                if( item_type->phase == phase_id::LIQUID ) {
                     booze.charges = amount;
                     here.add_item( examp, booze );
-                    add_msg( _( "The %s is now ready for bottling." ), result.first->nname( amount ) );
+                    add_msg( _( "The %s is now ready for bottling." ), item_type->nname( amount ) );
                 } else {
                     you.i_add_or_drop( booze, amount );
-                    add_msg( _( "You remove the %s from the vat." ), result.first->nname( amount ) );
+                    add_msg( _( "You remove the %s from the vat." ), item_type->nname( amount ) );
                 }
             }
 
@@ -4253,18 +4255,20 @@ void iexamine::compost_full( Character &you, const tripoint_bub_ms &examp )
             }
             if( to_days<int>( progress ) >= 30 && gas_gatherable >= 1 ) {
                 if( query_yn( _( "Gather biogas?  Can't stop once releasing started." ) ) ) {
-                    const std::map<itype_id, int> results = compost_i.composting_results();
+                    const std::map<std::pair<itype_id, std::string>, int> &results = compost_i.composting_results();
                     const int count = compost_i.count();
                     const time_point gas_birthday = compost_i.birthday();
                     if( !max_gas_gatherable ) {
                         add_msg( _( "No biogas gathered." ) );
                     } else {
-                        for( const std::pair<const itype_id, int> &result : results ) {
-                            item biogas( result.first, gas_birthday );
+                        for( const std::pair<const std::pair<itype_id, std::string>, int> &result : results ) {
+
+                            item biogas( result.first.first, gas_birthday );
+                            biogas.set_itype_variant( result.first.second );
                             // 40 L biogas for 1 KG of biomass over the whole anaerobic digestion process.
                             // 1 unit of biomass(0.5 KG) for 80 units(0.25 L for each unit) of biogas.
                             int gas_amount = count * max_gas_gatherable * 80 / 30;
-                            if( result.first->phase == phase_id::GAS ) {
+                            if( result.first.first->phase == phase_id::GAS ) {
                                 if( !you.can_pickVolume_partial( biogas ) ) {
                                     add_msg( _( "You released some biogas from the tank." ) );
                                 } else {
@@ -4285,20 +4289,22 @@ void iexamine::compost_full( Character &you, const tripoint_bub_ms &examp )
         }
 
         if( query_yn( _( "Finish fermenting?" ) ) ) {
-            const std::map<itype_id, int> results = compost_i.composting_results();
+            const std::map<std::pair<itype_id, std::string>, int> &results = compost_i.composting_results();
             const int count = compost_i.count();
             const time_point birthday = compost_i.birthday();
 
             here.i_clear( examp );
-            for( const std::pair<const itype_id, int> &result : results ) {
+            for( const std::pair<const std::pair<itype_id, std::string>, int> &result : results ) {
                 int amount = result.second * count;
                 // TODO: Different age based on settings
-                item compost( result.first, birthday );
-                if( result.first->phase == phase_id::LIQUID ) {
+                const itype_id &item_type = result.first.first;
+                item compost( item_type, birthday );
+                compost.set_itype_variant( result.first.second );
+                if( item_type->phase == phase_id::LIQUID ) {
                     compost.charges = amount;
                     here.add_item( examp, compost );
-                    add_msg( _( "The %s is now ready for use." ), result.first->nname( amount ) );
-                } else if( result.first->phase == phase_id::GAS ) {
+                    add_msg( _( "The %s is now ready for use." ), item_type->nname( amount ) );
+                } else if( item_type->phase == phase_id::GAS ) {
                     int gas_amount = count * max_gas_gatherable * 80 / 30;
                     if( !gas_amount || !you.can_pickVolume_partial( compost ) ) {
                         add_msg( _( "You released some biogas from the tank." ) );
@@ -4309,7 +4315,7 @@ void iexamine::compost_full( Character &you, const tripoint_bub_ms &examp )
                     }
                 } else {
                     you.i_add_or_drop( compost, amount );
-                    add_msg( _( "You removed the %s from the tank." ), result.first->nname( amount ) );
+                    add_msg( _( "You removed the %s from the tank." ), item_type->nname( amount ) );
                 }
             }
 

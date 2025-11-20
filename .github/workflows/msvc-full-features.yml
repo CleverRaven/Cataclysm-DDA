@@ -146,14 +146,14 @@ jobs:
       run: |
         NOW=`/bin/date +%s`
         DELTA=$(( $NOW - ${{ steps.get-vars.outputs.datetime-seconds }} ))
-        echo "ccache-age=$(( $NOW - ${{ steps.get-vars.outputs.datetime-seconds }} ))" >> $GITHUB_OUTPUT
+        echo "ccache-age=${DELTA}" >> $GITHUB_OUTPUT
       shell: bash
 
     - name: Post-build ccache manipulation
       if: ${{ !failure() }}
       run: |
         ${{ env.CDDA_CCACHE_PATH }}\ccache.exe -s -v
-        ${{ env.CDDA_CCACHE_PATH }}\ccache.exe --evict-older-than ${{ steps.get-ccache-age.outputs.ccache-age }}
+        ${{ env.CDDA_CCACHE_PATH }}\ccache.exe --evict-older-than ${{ steps.get-cache-age.outputs.ccache-age }}s
         ${{ env.CDDA_CCACHE_PATH }}\ccache.exe -s -v
         ${{ env.CDDA_CCACHE_PATH }}\ccache.exe -M ${{ env.CCACHE_LIMIT }}
         ${{ env.CDDA_CCACHE_PATH }}\ccache.exe -c

@@ -9,7 +9,6 @@
       { "prob": 2, "group": "veggy_tainted_55gal_drum_3_50" },
       { "group": "toxic_waste_mx_chems", "prob": 35 },
       { "item": "55gal_drum", "prob": 50 },
-      { "item": "canister_goo", "prob": 5 },
       { "item": "slime_scrap", "prob": 10 }
     ]
   },

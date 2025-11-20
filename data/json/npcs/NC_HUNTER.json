@@ -72,7 +72,7 @@
       { "item": "ruger_1022", "prob": 10 },
       { "item": "browning_blr", "prob": 10 },
       { "item": "remington_700", "prob": 10 },
-      { "item": "savage_111f", "prob": 5 },
+      { "item": "remington_700_308", "prob": 5 },
       { "item": "marlin_9a", "prob": 25 },
       { "item": "m1903", "prob": 5 }
     ]

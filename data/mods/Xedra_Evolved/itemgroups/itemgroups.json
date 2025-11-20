@@ -4,7 +4,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "group": "softdrinks_canned", "prob": 560 },
+      { "group": "soda_in_small_container", "prob": 560 },
       { "group": "zebra_pistol_cache", "prob": 60 },
       { "item": "file", "prob": 90 },
       { "group": "magazines", "prob": 365 },
@@ -89,7 +89,7 @@
     "ammo": 75,
     "magazine": 100,
     "items": [
-      { "group": "softdrinks_canned", "prob": 370 },
+      { "group": "soda_in_small_container", "prob": 370 },
       { "group": "zebra_pistol_cache", "prob": 10 },
       [ "file", 90 ],
       { "group": "magazines", "prob": 130 },
@@ -589,7 +589,7 @@
     "id": "nether_cabin_ritual_cult_meeting_room",
     "subtype": "distribution",
     "entries": [
-      { "group": "softdrinks_canned", "prob": 60 },
+      { "group": "soda_in_small_container", "prob": 60 },
       { "item": "file", "prob": 190 },
       { "item": "scrap_dreamdross", "prob": 50, "count": [ 1, 4 ] },
       { "item": "instant_coffee", "prob": 50 },

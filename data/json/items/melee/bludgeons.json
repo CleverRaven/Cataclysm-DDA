@@ -70,6 +70,7 @@
     "name": { "str_sp": "spiked kanabō" },
     "description": "A two-handed war club used in feudal Japan by samurai against armored opponents.  Made from hardwood with metal spike inlays.",
     "looks_like": "nailbat",
+    "flags": [ "DURABLE_MELEE", "SHEATH_SPEAR", "ALWAYS_TWOHAND", "NONCONDUCTIVE", "DAMAGE_VEHICLE_WHEELS" ],
     "relative": { "melee_damage": { "bash": -5, "stab": 7 } }
   },
   {
@@ -111,6 +112,17 @@
     "price": "160 USD",
     "melee_damage": { "bash": 22 },
     "weapon_category": [ "MACES" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "bat_metal_bolt",
+    "copy-from": "bat_metal",
+    "name": { "str": "bolt studded aluminum bat" },
+    "description": "An aluminum baseball bat with a selection of bolts threaded through the barrel.  Helps to concentrate the force of a blow, without adding much weight.",
+    "weight": "1138 g",
+    "price_postapoc": "14 USD",
+    "material": [ { "type": "aluminum", "portion": 6 }, { "type": "mc_steel", "portion": 1 } ],
+    "melee_damage": { "bash": 27 }
   },
   {
     "type": "ITEM",
@@ -1120,6 +1132,29 @@
     "price_postapoc": "5 USD"
   },
   {
+    "id": "crowbar_warhammer",
+    "type": "ITEM",
+    "symbol": "/",
+    "color": "light_gray",
+    "name": { "str": "bec de crowbar" },
+    "description": "This weapon appears to be a warhammer, but instead of one end of the head being a spike, it's the flats of a crowbar.  While not as good of a weapon as a more traditional warhammer, and not as good as prying as a crowbar, it still does both jobs decently well.",
+    "weapon_category": [ "HOOKING_WEAPONRY", "POLEARMS", "GREAT_HAMMERS" ],
+    "price": "500 USD",
+    "material": [ { "type": "wood", "portion": 4 }, { "type": "mc_steel", "portion": 1 } ],
+    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "SPEAR", "ALWAYS_TWOHAND" ],
+    "faults": [ { "fault_group": "handle_long" } ],
+    "techniques": [ "WBLOCK_1", "WIDE", "SWEEP" ],
+    "weight": "3200 g",
+    "volume": "3240 ml",
+    "longest_side": "180 cm",
+    "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "uneven" },
+    "price_postapoc": "100 USD",
+    "qualities": [ [ "PRY", 2 ], [ "HAMMER", 1 ] ],
+    "use_action": [ "CROWBAR" ],
+    "category": "weapons",
+    "melee_damage": { "bash": 46 }
+  },
+  {
     "id": "homemade_polehammer",
     "type": "ITEM",
     "symbol": "/",
@@ -1540,7 +1575,7 @@
     "description": "A baseball bat with several nails driven through it, a popular choice for all sorts of doomsday larpers.  The additional weight in the end and sharp spikes contribute to the increased damage, but the structural integrity of the wood is degraded, making this weapon live a very short life.",
     "price": "0 USD",
     "delete": { "flags": [ "DURABLE_MELEE" ] },
-    "extend": { "flags": [ "FRAGILE_MELEE" ] },
+    "extend": { "flags": [ "FRAGILE_MELEE", "DAMAGE_VEHICLE_WHEELS" ] },
     "//": "20 nails, 5 from each side",
     "relative": { "weight": "400 g", "volume": "150 ml", "melee_damage": { "bash": 1, "stab": 2 } }
   },
@@ -1558,7 +1593,7 @@
     "volume": "2200 ml",
     "longest_side": "65 cm",
     "to_hit": { "grip": "none", "length": "short", "surface": "line", "balance": "neutral" },
-    "flags": [  ],
+    "flags": [ "DAMAGE_VEHICLE_WHEELS" ],
     "faults": [ { "fault_group": "staff_short" } ],
     "price": "1 USD",
     "price_postapoc": "50 cent",

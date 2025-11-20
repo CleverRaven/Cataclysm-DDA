@@ -16,6 +16,7 @@
 #include "coords_fwd.h"
 #include "damage.h"
 #include "explosion.h"
+#include "item_transformation.h"
 #include "iuse.h"
 #include "ret_val.h"
 #include "translation.h"
@@ -46,38 +47,10 @@ enum class ot_match_type : int;
 class iuse_transform : public iuse_actor
 {
     public:
+        item_transformation transform;
+
         /** displayed if player sees transformation with %s replaced by item name */
         translation msg_transform;
-
-        /** type of the resulting item */
-        itype_id target;
-
-        /** or one of items from itemgroup */
-        item_group_id target_group;
-
-        /** if set transform item to container and place new item (of type @ref target) inside */
-        itype_id container;
-
-        /** if set choose this variant when transforming */
-        std::string variant_type = "<any>";
-
-        /** whether the transformed container is sealed */
-        bool sealed = true;
-
-        /** if zero or positive set remaining ammo of @ref target to this (after transformation) */
-        int ammo_qty = -1;
-
-        /** if this has values, set remaining ammo of @ref target to one of them chosen at random (after transformation) */
-        std::vector<int> random_ammo_qty;
-
-        /** if positive set transformed item active and start countdown for countdown_action*/
-        time_duration target_timer = 0_seconds;
-
-        /** if both this and ammo_qty are specified then set @ref target to this specific ammo */
-        itype_id ammo_type;
-
-        /** used to set the active property of the transformed @ref target */
-        bool active = false;
 
         /**does the item requires to be worn to be activable*/
         bool need_worn = false;
@@ -121,8 +94,6 @@ class iuse_transform : public iuse_actor
         std::string get_name() const override;
         void finalize( const itype_id &my_item_type ) override;
         void info( const item &, std::vector<iteminfo> & ) const override;
-    private:
-        void do_transform( Character *p, item &it, const std::string &variant_type ) const;
 };
 
 class unpack_actor : public iuse_actor

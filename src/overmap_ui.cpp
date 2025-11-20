@@ -72,6 +72,7 @@
 #include "point.h"
 #include "regional_settings.h"
 #include "rng.h"
+#include "sdltiles.h" // IWYU pragma: keep
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
@@ -143,9 +144,6 @@ overmap_sidebar::overmap_sidebar( overmap_ui::overmap_draw_data_t &data ) :
 
 void overmap_sidebar::init()
 {
-    //TODO: dedupe from overmap
-    width = clamp( TERMX / 5, 28, 55 );
-    x_pos = TERMX - width;
 }
 
 void overmap_sidebar::draw_controls()
@@ -449,7 +447,21 @@ void overmap_sidebar::draw_mission_info()
 
 cataimgui::bounds overmap_sidebar::get_bounds()
 {
-    return { static_cast<float>( str_width_to_pixels( x_pos ) ), 0, float( str_width_to_pixels( width ) ), float( str_height_to_pixels( TERMY ) ) };
+#ifdef TILES
+    float character_cell_width = static_cast<float>( fontwidth );
+#else
+    float character_cell_width = 1.0;
+#endif
+    ImVec2 viewport = ImGui::GetMainViewport()->WorkSize;
+    // OVERMAP_LEGEND_WIDTH is our width in character cells in the
+    // old-school terminal emulation, even though the overmap tiles
+    // are a different size entirely.
+    float width = static_cast<float>( OVERMAP_LEGEND_WIDTH ) * character_cell_width;
+    return { viewport.x - width,
+             0,
+             viewport.x,
+             viewport.y
+           };
 }
 
 void overmap_sidebar_uistate::serialize( JsonOut &json ) const

@@ -239,48 +239,6 @@
     "pocket_data": [ { "magazine_well": "126 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "wp22mag" ] } ]
   },
   {
-    "id": "cp33",
-    "copy-from": "gun_base_22_semi_pistol",
-    "looks_like": "modular_ar_pistol",
-    "type": "ITEM",
-    "subtypes": [ "GUN" ],
-    "name": { "str": "high capacity handgun" },
-    "description": "A large capacity handgun, chambered in .22 and feeding from quad stack magazines.  Used both recreationally and in competition.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "cp33",
-        "name": { "str": "CP33" },
-        "description": "The Kel-Tec CP33, standing for Competition Pistol 33, is a .22 semi automatic pistol targeted towards competition shooters and recreational shooters alike, with the ability to feed from 33 round quad stack magazines, or even 50 with an extension.  While in a fairly weak cartridge, the capacity makes it quite a formidable weapon in the right hands."
-      }
-    ],
-    "weight": "669 g",
-    "volume": "525 ml",
-    "price": "495 USD",
-    "longest_side": "273 mm",
-    "barrel_length": "140 mm",
-    "material": [ "steel", "plastic", "aluminum" ],
-    "dispersion": 480,
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "brass catcher", 1 ],
-      [ "mechanism", 2 ],
-      [ "muzzle", 1 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "stock mount", 1 ]
-    ],
-    "durability": 6,
-    "pocket_data": [
-      {
-        "rigid": false,
-        "magazine_well": "123 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [ "cp33_mag", "cp33_mag_50" ]
-      }
-    ]
-  },
-  {
     "id": "ruger_mk4",
     "//": "Stats are from the 5.5 inch target version https://ruger.com/products/markIVTarget/specSheets/40101.html",
     "copy-from": "gun_base_22_semi_pistol",
@@ -637,7 +595,7 @@
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "name": { "str": "Glock 44 pistol" },
-    "description": "A Glock chambered in .22LR.  While effective against paper targets and rodents, it will struggle against the walking dead.",
+    "description": "A Glock chambered in .22 LR.  While effective against paper targets and rodents, it will struggle against the walking dead.",
     "weight": "358 g",
     "volume": "398 ml",
     "longest_side": "212 mm",

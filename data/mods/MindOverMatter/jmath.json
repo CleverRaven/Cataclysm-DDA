@@ -137,6 +137,12 @@
   },
   {
     "type": "jmath_function",
+    "id": "portal_storm_awakening_chance",
+    "num_args": 0,
+    "return": "((450 * e^(-0.24 * ps_str) ) + 20) * (u_effect_intensity('psi_nether_attention') > 0 ? 0.5 : 1)"
+  },
+  {
+    "type": "jmath_function",
     "id": "concentration_trait_bonuses",
     "num_args": 0,
     "//": "Effects with an intelligence penalty have not been included below to avoid double counting",
@@ -163,9 +169,21 @@
   },
   {
     "type": "jmath_function",
+    "id": "learn_new_power_learn_roll",
+    "num_args": 0,
+    "return": "max( (rand(u_skill('metaphysics') ) ), ( u_skill('metaphysics') / 2 ) ) + rand(u_val('intelligence') / 2 ) + (u_has_proficiency(u_latest_studied_power_proficiency) * 5) + rng(-2,8) + rng(-2,8) + learn_new_power_additional_modifiers()"
+  },
+  {
+    "type": "jmath_function",
+    "id": "learn_new_power_additional_modifiers",
+    "num_args": 0,
+    "return": "(u_effect_intensity('effect_disease_psionic_drain') > 5 ? 1 : 0) + (u_effect_intensity('effect_disease_psionic_drain') > 10 ? 1 : 0) + (u_effect_intensity('psi_nether_attention') > 0 ? 2 : 0)"
+  },
+  {
+    "type": "jmath_function",
     "id": "learn_new_power_difficulty_setting",
     "num_args": 0,
-    "return": "u_latest_studied_power_difficulty + 4"
+    "return": "(u_latest_studied_power_difficulty * 1.5) + 7 + u_vitamin('vitamin_maintained_powers') + (concentration_calculations() < 0 ? ( concentration_calculations() * -1 ) : 0)"
   },
   {
     "type": "jmath_function",

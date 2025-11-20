@@ -57,6 +57,7 @@ enum class do_activity_reason : int {
     NO_COMPONENTS,          // can't do the activity there due to lack of components /tools
     DONT_HAVE_SKILL,        // don't have the required skill
     NO_ZONE,                // There is no required zone anymore
+    NO_VEHICLE,             // There is no vehicle or no accessible vehicle at this location
     ALREADY_DONE,           // the activity is done already ( maybe by someone else )
     UNKNOWN_ACTIVITY,       // This is probably an error - got to the end of function with no previous reason
     NEEDS_CLEARING,         // For farming - tile was neglected and became overgrown, can be cleared.
@@ -153,7 +154,6 @@ struct activity_reason_info {
 
 // activity_item_handling.cpp
 void activity_on_turn_drop();
-void activity_on_turn_move_loot( player_activity &act, Character &you );
 //return true if there is an activity that can be done potentially, return false if no work can be found.
 bool generic_multi_activity_handler( player_activity &act, Character &you,
                                      bool check_only = false );
@@ -209,7 +209,6 @@ void game_do_turn( player_activity *act, Character *you );
 void generic_game_do_turn( player_activity *act, Character *you );
 void hand_crank_do_turn( player_activity *act, Character *you );
 void jackhammer_do_turn( player_activity *act, Character *you );
-void move_loot_do_turn( player_activity *act, Character *you );
 void multiple_butcher_do_turn( player_activity *act, Character *you );
 void multiple_chop_planks_do_turn( player_activity *act, Character *you );
 void multiple_construction_do_turn( player_activity *act, Character *you );

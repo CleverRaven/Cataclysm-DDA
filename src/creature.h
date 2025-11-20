@@ -1225,6 +1225,8 @@ class Creature : public viewer
         void set_summoner( Creature *summoner );
         void set_summoner( character_id summoner );
         Creature *get_summoner() const;
+
+        void migrate_effects();
     protected:
         // How many moves do we have to work with
         int moves;

@@ -27,7 +27,7 @@
     "price_postapoc": "0 cent",
     "material": [ "paper" ],
     "flags": [ "TRADER_AVOID" ],
-    "weight": "3 g",
+    "weight": "1 g",
     "volume": "1 ml"
   },
   {
@@ -43,7 +43,7 @@
     "price_postapoc": "0 cent",
     "material": [ "paper" ],
     "flags": [ "TRADER_AVOID" ],
-    "weight": "3 g",
+    "weight": "1 g",
     "volume": "1 ml",
     "required_level": 1,
     "intelligence": 6,
@@ -218,7 +218,7 @@
     "price_postapoc": "0 cent",
     "material": [ "paper" ],
     "flags": [ "TRADER_AVOID" ],
-    "weight": "30 g",
+    "weight": "3 g",
     "volume": "10 ml"
   },
   {
@@ -230,7 +230,7 @@
     "description": "The map on which you wrote the cryptid's location.",
     "symbol": ",",
     "color": "white",
-    "weight": "30 g",
+    "weight": "3 g",
     "volume": "10 ml",
     "use_action": [
       {
@@ -268,7 +268,7 @@
     "price_postapoc": "0 cent",
     "material": [ "paper" ],
     "flags": [ "TRADER_AVOID" ],
-    "weight": "30 g",
+    "weight": "3 g",
     "volume": "10 ml"
   },
   {

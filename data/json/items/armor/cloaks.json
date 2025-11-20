@@ -30,7 +30,7 @@
     "id": "artifact_energy_shield",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "distorted air" },
+    "name": { "str_sp": "distorted air" },
     "description": "The empty air around you vibrates faintly.",
     "weight": "10 g",
     "volume": "1 ml",
@@ -1657,34 +1657,6 @@
     "material": [ "nanotubes" ],
     "material_thickness": 2.5,
     "color": "blue"
-  },
-  {
-    "id": "cape_catholic",
-    "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
-    "name": { "str": "ferraiolo" },
-    "description": "A long, crimson cape that reaches the ankles.  Worn by Catholic priests for ceremonious occasions.",
-    "weight": "1500 g",
-    "volume": "6 L",
-    "price": "500 USD",
-    "price_postapoc": "3 USD",
-    "material": [ "cotton" ],
-    "symbol": "]",
-    "looks_like": "cloak",
-    "color": "red",
-    "warmth": 15,
-    "material_thickness": 0.5,
-    "flags": [ "OVERSIZE", "BELTED" ],
-    "armor": [
-      { "encumbrance": 6, "coverage": 95, "covers": [ "torso", "arm_r", "arm_l" ] },
-      {
-        "covers": [ "leg_l", "leg_r" ],
-        "coverage": 95,
-        "encumbrance": 6,
-        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
-        "layers": [ "BELTED" ]
-      }
-    ]
   },
   {
     "id": "grass_cloak",
