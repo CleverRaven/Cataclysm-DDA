@@ -1809,7 +1809,7 @@
     "volume": "104 ml",
     "spoils_in": "6 days",
     "calories": 140,
-    "fun": 4,
+    "fun": 5,
     "flags": [ "FREEZERBURN" ],
     "quench": -2,
     "vitamins": [ [ "vitC", 10 ], [ "iron", 10 ], [ "veggy_allergen", 1 ], [ "calcium", 4 ] ]
