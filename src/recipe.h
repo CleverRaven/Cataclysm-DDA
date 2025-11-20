@@ -154,6 +154,8 @@ class recipe
         std::string subcategory;
 
         translation description;
+        // prefer calling this one if it's a description that player can see
+        std::string get_description( const Character &crafter ) const;
         // overrides the result name;
         translation name_;
 
