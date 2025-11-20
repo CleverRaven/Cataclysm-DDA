@@ -2116,6 +2116,7 @@
     "spoils_in": "3 days",
     "calories": 220,
     "fun": 4,
+    "flags": [ "FREEZERBURN" ],
     "quench": -2,
     "vitamins": [ [ "vitC", 8 ], [ "iron", 12 ], [ "veggy_allergen", 1 ], [ "calcium", 4 ], [ "meat_allergen", 1 ] ]
   }
