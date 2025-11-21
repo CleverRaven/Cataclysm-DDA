@@ -45,17 +45,7 @@
     "replace": "pistol_machine"
   },
   {
-    "id": [
-      "deagle_44",
-      "modular_deagle",
-      "modular_deagle_357",
-      "modular_deagle_44",
-      "modular_deagle_50",
-      "draco",
-      "draco_mini",
-      "draco_micro",
-      "modular_ar_pistol"
-    ],
+    "id": [ "deagle_44", "modular_deagle", "modular_deagle_357", "modular_deagle_44", "modular_deagle_50" ],
     "type": "MIGRATION",
     "replace": "pistol_magnum_automag"
   },
@@ -396,7 +386,8 @@
       "rdb_223",
       "scar_16s",
       "winchester_94_3030",
-      "marlin_336_3030"
+      "marlin_336_3030",
+      "modular_ar_pistol"
     ],
     "type": "MIGRATION",
     "replace": "rifle_sporter"
