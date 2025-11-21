@@ -49,6 +49,7 @@
         "weighted_list_eocs": [
           [ "EOC_PORTAL_TELEPORT_STUCK_START", 2 ],
           [ "EOC_PORTAL_PAIN", 2 ],
+          [ "EOC_PORTAL_HIGHLANDS", 1 ],
           [ "EOC_PORTAL_HALLUCINATOR", 2 ],
           [ "EOC_PORTAL_SMOKE", 2 ],
           [ "EOC_PORTAL_YRAX_ATTENTION", 1 ],
