@@ -2196,7 +2196,6 @@
         "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 0.5 } ]
       },
       {
-        "encumbrance": [ 4, 9 ],
         "coverage": 100,
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_knee_l", "leg_knee_r" ],
