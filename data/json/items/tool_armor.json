@@ -765,7 +765,6 @@
       "type": "transform",
       "msg": "You activate your %s.",
       "target": "thermal_socks_on",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "The %s's batteries are dead."
     },
@@ -821,7 +820,6 @@
       "type": "transform",
       "msg": "You activate your %s.",
       "target": "thermal_suit_on",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "The %s's batteries are dead."
     },
@@ -877,7 +875,6 @@
       "type": "transform",
       "msg": "You activate your %s.",
       "target": "thermal_gloves_on",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "The %s's batteries are dead."
     },
@@ -933,7 +930,6 @@
       "type": "transform",
       "msg": "You activate your %s.",
       "target": "thermal_mask_on",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "The %s's batteries are dead."
     },
@@ -1014,7 +1010,6 @@
       "type": "transform",
       "msg": "You turn the headlamp on.",
       "target": "wearable_light_on",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "The headlamp batteries are dead."
     },
@@ -1130,7 +1125,6 @@
       "type": "transform",
       "msg": "You turn the headlamp on.",
       "target": "wearable_big_light_on",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "The headlamp batteries are dead."
     },
@@ -1290,7 +1284,6 @@
       "menu_text": "Turn on headlamps",
       "msg": "\"Activating illumination.\"",
       "target": "helmet_eod_on",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "\"Illumination disabled, low power.\""
     },
@@ -1347,7 +1340,6 @@
       "type": "transform",
       "msg": "You activate your RM13 combat armor.\nRivtech Model 13 RivOS v2.19:   ONLINE.\nCBRN defense system:            ONLINE.\nAcoustic dampening system:      ONLINE.\nThermal regulation system:      ONLINE.\nVision enhancement system:      ONLINE.\nElectro-reactive armor system:  ONLINE.\nAll systems nominal.",
       "target": "rm13_armor_on",
-      "active": true,
       "need_worn": true,
       "need_charges": 1,
       "need_charges_msg": "The RM13 combat armor's battery is dead."
@@ -1535,7 +1527,6 @@
       "type": "transform",
       "msg": "An LED light in the %s flickers on.",
       "target": "dimensional_anchor_on",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "It seems like this device needs power."
     },
@@ -1599,7 +1590,6 @@
       "type": "transform",
       "msg": "Initiating\nRunning suit integrity diagnostics…\nAll systems operational.",
       "target": "phase_immersion_suit_on",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "Warning: Operating on minimal power.  Protection compromised."
     },
@@ -1624,8 +1614,7 @@
       "USE_UPS",
       "NO_UNLOAD",
       "COMBAT_TOGGLEABLE",
-      "UNBREAKABLE_MELEE",
-      "SPAWN_ACTIVE"
+      "UNBREAKABLE_MELEE"
     ],
     "armor": [
       {
@@ -1743,7 +1732,8 @@
       "USE_UPS",
       "NO_UNLOAD",
       "COMBAT_TOGGLEABLE",
-      "UNBREAKABLE_MELEE"
+      "UNBREAKABLE_MELEE",
+      "SPAWN_ACTIVE"
     ]
   },
   {
@@ -1774,7 +1764,6 @@
       "type": "transform",
       "msg": "You activate your %s.",
       "target": "rebreather_on",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "The %s's filter is used up."
     },
@@ -1827,7 +1816,6 @@
       "type": "transform",
       "msg": "You activate your %s.",
       "target": "rebreather_xl_on",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "The %s's filter is used up."
     },
@@ -1886,7 +1874,6 @@
       "type": "transform",
       "msg": "You activate your %s.",
       "target": "rebreather_xs_on",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "The %s's filter is used up."
     },
@@ -2445,7 +2432,6 @@
       "type": "transform",
       "msg": "You activate your %s.",
       "target": "goggles_nv_on",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "The %s's batteries are dead."
     },
@@ -2501,7 +2487,6 @@
       "type": "transform",
       "msg": "You activate your %s.",
       "target": "goggles_ir_on",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "The %s's batteries are dead."
     },
@@ -2605,7 +2590,6 @@
       "type": "transform",
       "msg": "You activate your %s.",
       "target": "mask_h20survivor_on",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "The %s's filter is used up."
     },
@@ -2670,7 +2654,6 @@
       "type": "transform",
       "msg": "You activate your %s.",
       "target": "mask_h20survivorxl_on",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "The %s's filter is used up."
     }
@@ -2688,7 +2671,6 @@
       "type": "transform",
       "msg": "You activate your %s.",
       "target": "mask_h20survivorxs_on",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "The %s's filter is used up."
     },
@@ -2891,7 +2873,6 @@
       "type": "transform",
       "msg": "You activate your %s.",
       "target": "thermal_outfit_on",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "The %s's batteries are dead."
     },
@@ -3166,7 +3147,6 @@
       "type": "transform",
       "msg": "You turn the earmuffs on.",
       "target": "powered_earmuffs_on",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "The earmuff's batteries are dead."
     },
@@ -3243,7 +3223,6 @@
       "type": "transform",
       "msg": "You turn the earplugs on.",
       "target": "powered_earplugs_on",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "The earplugs' batteries are dead."
     },
@@ -3652,7 +3631,6 @@
         "type": "transform",
         "msg": "You turn the blanket's heating elements on.",
         "target": "electric_blanket_on",
-        "active": true,
         "need_charges": 1,
         "need_charges_msg": "The blanket's batteries are dead."
       },
@@ -3718,7 +3696,6 @@
       "type": "transform",
       "msg": "Your HUD lights-up: \"Greetings Foodperson, your shift begins now.  Good luck!\"",
       "target": "foodperson_mask_on",
-      "active": true,
       "need_worn": true,
       "need_charges": 1,
       "need_charges_msg": "The mask's batteries are dead."
@@ -3844,7 +3821,6 @@
       "type": "transform",
       "msg": "You turn the flight helmet on.",
       "target": "flight_helmet_on",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "The helmet's batteries are dead."
     },
@@ -3945,7 +3921,7 @@
     "material_thickness": 8,
     "environmental_protection": 0,
     "charges_per_use": 1,
-    "use_action": { "type": "transform", "msg": "The %s engages.", "target": "utility_exoskeleton_on", "active": true },
+    "use_action": { "type": "transform", "msg": "The %s engages.", "target": "utility_exoskeleton_on" },
     "flags": [ "STURDY", "OVERSIZE", "BELTED", "WATER_FRIENDLY", "ELECTRONIC" ],
     "faults": [ { "fault_group": "electronic_general" } ],
     "armor": [
@@ -4005,7 +3981,7 @@
     "material_thickness": 8,
     "environmental_protection": 0,
     "charges_per_use": 1,
-    "use_action": { "type": "transform", "msg": "The %s engages.", "target": "ice_utility_exoskeleton_on", "active": true },
+    "use_action": { "type": "transform", "msg": "The %s engages.", "target": "ice_utility_exoskeleton_on" },
     "flags": [ "STURDY", "OVERSIZE", "BELTED", "WATER_FRIENDLY", "ELECTRONIC" ],
     "faults": [ { "fault_group": "electronic_general" } ],
     "armor": [

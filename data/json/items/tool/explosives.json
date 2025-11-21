@@ -58,7 +58,6 @@
       "target": "dynamite_act",
       "msg": "You light the dynamite.",
       "target_timer": "20 seconds",
-      "active": true,
       "need_fire": 1,
       "menu_text": "Light fuse",
       "type": "transform"
@@ -720,7 +719,6 @@
       "need_wielding": true,
       "target": "molotov_lit",
       "msg": "You light the Molotov cocktail!",
-      "active": true,
       "moves": 250,
       "need_fire": 1,
       "menu_text": "Light rag",
