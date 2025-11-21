@@ -730,8 +730,8 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "Your frequent handling of artifacts has allowed you to bleed off some of the side effects of their presence.  Your accumulated artifact resonance is reduced by 2000.",
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "ARTIFACT_RESONANCE", "add": -2000 } ] } ]
+    "description": "Your frequent handling of artifacts has allowed you to bleed off some of the side effects of their presence.  Your accumulated artifact resonance is reduced by 1500.",
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "ARTIFACT_RESONANCE", "add": -1500 } ] } ]
   },
   {
     "type": "mutation",
