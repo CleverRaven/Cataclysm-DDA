@@ -299,7 +299,7 @@ std::optional<int> iuse_transform::use( Character *p, item &it, map *,
         // TODO: Change to map aware operation when available
         p->i_add_or_drop( take_one );
     } else {
-        transform.transform( p, it );
+        transform.transform( p, it, true );
     }
 
     if( it.is_tool() ) {

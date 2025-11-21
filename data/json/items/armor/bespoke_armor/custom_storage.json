@@ -632,7 +632,6 @@
         "ammo_scale": 0,
         "msg": "You turn the shoulder mounted flashlight on.",
         "target": "nomad_rig_on",
-        "active": true,
         "need_charges": 1,
         "need_charges_msg": "Your internal reservoir is empty."
       },

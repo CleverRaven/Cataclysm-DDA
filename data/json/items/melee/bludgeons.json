@@ -439,7 +439,6 @@
       "type": "transform",
       "msg": "You turn the wizard cane on.",
       "target": "wizard_cane_cheap_on",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "The wizard cane's batteries are dead."
     },
@@ -493,7 +492,6 @@
       "type": "transform",
       "msg": "You turn the wizard cane on.",
       "target": "wizard_cane_on",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "The wizard cane's batteries are dead."
     },

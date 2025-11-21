@@ -26,7 +26,6 @@
     "use_action": {
       "target": "plastic_jack_o_lantern_lit",
       "msg": "You flip the switch in the jack-o'-lantern.",
-      "active": true,
       "menu_text": "Light",
       "type": "transform"
     },
@@ -70,7 +69,6 @@
     "use_action": {
       "target": "jackolantern_lit",
       "msg": "You light the jack-o'-lantern.",
-      "active": true,
       "need_fire": 1,
       "menu_text": "Light",
       "type": "transform"
