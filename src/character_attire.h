@@ -125,17 +125,13 @@ class outfit
         bool natural_attack_restricted_on( const sub_bodypart_id &bp ) const;
         units::mass weight_carried_with_tweaks( const std::map<const item *, int> &without ) const;
         units::mass weight() const;
-        units::volume contents_volume_with_tweaks( const std::map<const item *, int> &without ) const;
-        units::volume volume_capacity_with_tweaks( const std::map<const item *, int> &without ) const;
         units::volume remaining_volume_recursive(std::function<bool(const item_pocket&)> include_pocket,
             std::function<bool(const item_pocket&)> check_pocket_tree) const;
         units::mass free_weight_capacity() const;
         units::volume max_single_item_volume() const;
         units::length max_single_item_length() const;
-        // total volume
+        // total volume_capacity of pockets on items the character is directly wearing
         units::volume volume_capacity(std::function<bool(const item_pocket&)> include_pocket) const;
-        // volume of pockets under the threshold
-        units::volume small_pocket_volume( const units::volume &threshold )  const;
         int pocket_warmth() const;
         int hood_warmth() const;
         int collar_warmth() const;

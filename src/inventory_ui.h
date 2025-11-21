@@ -34,6 +34,7 @@
 #include "units.h"
 
 class Character;
+struct pocket_data_with_parent;
 class JsonObject;
 class JsonOut;
 class basecamp;
@@ -775,23 +776,29 @@ class inventory_selector
             units::mass weight_carried, units::mass weight_capacity,
             const units::volume& volume_in_pockets, const units::volume& volume_of_pockets
         );
+        static header_stats_line build_selection_stats_line(
+            units::volume volume, units::mass weight
+        );
         static header_stats_line build_pocket_stats_line(
             const std::string& prefix,
-            const units::volume& free_pocket_volume,
-            const units::length& free_pocket_length,
-            const units::volume& max_pocket_volume,
-            const units::length& max_pocket_length
+            const item_pocket* free_pocket,
+            units::volume free_pocket_volume,
+            units::length free_pocket_length,
+            const item_pocket* max_pocket,
+            units::volume max_pocket_volume,
+            units::length max_pocket_length
         );
-        static header_stats get_weight_and_volume_and_holster_stats(
+        typedef std::pair<const item_pocket*, pocket_constraint> pocket_with_constraint;
+        static std::tuple<std::string, std::string> build_pocket_stats(const item_pocket* pocket, units::volume volume, units::length length);
+        /** returns a multiline block with an overview of space available in the given pockets.
+        * Total volume and weight are given explicitly, as the desired value might not be a simple sum of contents/capacities of all pockets.
+        * @param pockets pockets, with their corresponding constrainsts from outer pockets, to consider for summary
+        * @param show_unconstrained_max_space if set, the "max size" summary will show the "true" max and not apply constraints from outer pockets.
+        */
+        static header_stats get_pocket_summary_header_stats(
             const units::mass &weight_carried, const units::mass &weight_capacity,
             const units::volume &volume_in_pockets, const units::volume &volume_of_pockets,
-            const units::volume &largest_free_pocket_volume, const units::length &largest_free_pocket_length,
-            const units::volume &largest_max_pocket_volume, const units::length &largest_max_pocket_length,
-            const units::volume &longest_free_pocket_volume, const units::length &longest_free_pocket_length,
-            const units::volume &longest_max_pocket_volume, const units::length &longest_max_pocket_length,
-            int used_holsters, int total_holsters,
-            const units::volume &longest_free_holster_volume, const units::length &longest_free_holster_length,
-            const units::volume &longest_max_holster_volume, const units::length &longest_max_holster_length
+            std::vector<pocket_with_constraint> pockets, bool show_unconstrained_max_space
         );
         static constexpr const char* header_stats_tab_stop = "\t";
         

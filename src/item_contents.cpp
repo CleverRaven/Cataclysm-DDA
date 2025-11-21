@@ -2400,39 +2400,43 @@ units::volume item_contents::volume_capacity( std::function<bool(const item_pock
     for (const item_pocket* pocket : get_pockets(include_pocket)) {
         total_vol += pocket->volume_capacity();
     }
-    /*
-        if( pocket.is_forbidden() ) {
-            continue;
+    return total_vol;
+}
+
+units::volume item_contents::volume_capacity_recursive(std::function<bool(const item_pocket&)> include_pocket,
+    std::function<bool(const item_pocket&)> check_pocket_tree,
+    units::volume& out_volume_expansion) const
+{
+    units::volume ret = 0_ml;
+    for (const item_pocket* pocket : get_pockets(check_pocket_tree))
+    {
+        units::volume pocket_capacity = pocket->volume_capacity();
+        units::volume pocket_adds_capacity = 0_ml;
+        if (include_pocket(*pocket))
+        {
+            pocket_adds_capacity = pocket_capacity;
+            // assume child pockets can't be larger than their parent pocket
+            ret += pocket_adds_capacity;
         }
-        bool restriction_condition = pocket.is_type( pocket_type::CONTAINER );
-        if( unrestricted_pockets_only ) {
-            restriction_condition = restriction_condition && !pocket.is_restricted();
-        }
-        if( restriction_condition ) {
-            // If the pocket is a holster with an item, return the volume when the contained item is full (not larger than capacity).
-            // If the pocket has default volume or is a pocket that has normal pickup disabled return the volume of things contained.
-            // Otherwise, return the capacity.
-            if( pocket.holster_full() ) {
-                units::volume add_volume = pocket.front().volume();
-                for( const item_pocket *it_pocket : pocket.front().get_container_pockets() ) {
-                    // Here, the case where the pocket is not empty for the holster is not considered, which will lead to higher results.
-                    // To obtain accurate results, a recursive function may be required. Since in the actual game,
-                    // the situation of holster nested in the holster is very rare, from a performance perspective, it seems not worth it to do so.
-                    if( it_pocket->is_valid() && !it_pocket->rigid() ) {
-                        add_volume += it_pocket->remaining_volume();
-                    }
-                }
-                total_vol += std::min( pocket.volume_capacity(), add_volume );
-            } else if( pocket.volume_capacity() >= pocket_data::max_volume_for_container ||
-                       pocket.settings.is_disabled() ) {
-                total_vol += pocket.contents_volume();
-            } else {
-                total_vol += pocket.volume_capacity();
+        else {
+            units::volume nested_capacity = 0_ml;
+            units::volume nested_expansion = 0_ml;
+            for (const auto* it : pocket->all_items_top())
+            {
+                nested_capacity += it->get_volume_capacity_recursive(include_pocket, check_pocket_tree, nested_expansion);
             }
+            units::volume rigid_child_capacity = nested_capacity - nested_expansion;
+            units::volume pocket_adds_capacity = std::min(pocket_capacity, nested_expansion); //the pocket can't be used directly, but it's children can expand into it
+            
+            ret += pocket_adds_capacity + rigid_child_capacity;
+        }
+        
+        if (!pocket->rigid())
+        {
+            out_volume_expansion += pocket_adds_capacity;
         }
     }
-    */
-    return total_vol;
+    return ret;
 }
 
 units::volume item_contents::biggest_pocket_capacity() const
@@ -2525,33 +2529,6 @@ units::mass item_contents::total_contained_weight( const bool unrestricted_pocke
         }
     }
     return total_weight;
-}
-
-units::volume item_contents::get_contents_volume_with_tweaks( const std::map<const item *, int>
-        &without ) const
-{
-    units::volume ret = 0_ml;
-
-    for( const item_pocket *pocket : get_container_pockets() ) {
-        if( !pocket->empty() && !pocket->contains_phase( phase_id::SOLID ) ) {
-            const item *it = &pocket->front();
-            auto stack = without.find( it );
-            if( ( stack == without.end() ) || ( stack->second != it->charges ) ) {
-                ret += pocket->volume_capacity();
-            }
-        } else {
-            for( const item *i : pocket->all_items_top() ) {
-                if( i->count_by_charges() ) {
-                    ret += i->volume() - i->get_selected_stack_volume( without );
-                } else if( !without.count( i ) ) {
-                    ret += i->volume();
-                    ret -= i->get_nested_content_volume_recursive( without );
-                }
-            }
-        }
-    }
-
-    return ret;
 }
 
 units::volume item_contents::get_nested_content_volume_recursive( const

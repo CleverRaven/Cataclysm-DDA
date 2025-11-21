@@ -57,35 +57,36 @@ void Character::hoarder_morale_penalty()
     int empty_holsters = 0;
     units::volume penalty_volume = 0_ml;
 
-    visit_items([&empty_holsters, &penalty_volume](item* visiting, item* parent) {
-        for(const item_pocket* pocket : visiting->get_container_pockets())
+    std::vector<item_pocket*> top_pockets = weapon.get_container_pockets();
+    for (auto& it : worn.worn)
+    {
+        std::vector<item_pocket*> worn_pockets = it.get_container_pockets();
+        top_pockets.insert(top_pockets.end(), worn_pockets.begin(), worn_pockets.end());
+    }
+    for(const item_pocket* pocket : top_pockets)
+    {
+        if (pocket->is_forbidden())
         {
-            // skip pockets that don't contribute to free_space()
-            if (!item_pocket::ok_general_dry_container(*pocket)
-                || !(parent == nullptr || pocket->rigid())
-            ) {
-                continue;
-            }
-            if (pocket->is_holster())
+            continue;
+        }
+        if (pocket->is_holster())
+        {
+            if (pocket->empty())
             {
-                if (pocket->empty())
-                {
-                    empty_holsters++;
-                }
-            }
-            else {
-                if (units::volume capacity = pocket->volume_capacity(); capacity <= 1000_ml)
-                {
-                    penalty_volume += std::max(0_ml, pocket->remaining_volume() - capacity / 4);
-                }
-                else
-                {
-                    penalty_volume += pocket->remaining_volume();
-                }
+                empty_holsters++;
             }
         }
-        return VisitResponse::NEXT;
-    });
+        else {
+            if (units::volume capacity = pocket->volume_capacity(); capacity <= 1000_ml)
+            {
+                penalty_volume += std::max(0_ml, pocket->remaining_volume() - capacity / 4);
+            }
+            else
+            {
+                penalty_volume += pocket->remaining_volume();
+            }
+        }
+    }
     int pen = penalty_volume / 125_ml;
     pen += empty_holsters;
     if( pen > 70 ) {

@@ -2304,7 +2304,7 @@ class Character : public Creature, public visitable
 
         // weight of the character's inventory
         units::mass weight_carried() const;
-        // volume of the character's top-level items (and so their entire inventory as-packed).        
+        // volume of the character's top-level items (and so their entire inventory as-packed).
         units::volume volume_carried() const;
 
         units::length max_single_item_length() const;
@@ -2328,9 +2328,6 @@ class Character : public Creature, public visitable
         units::mass weight_carried_with_tweaks( const item_tweaks &tweaks ) const;
         units::mass weight_carried_with_tweaks( const std::vector<std::pair<item_location, int>>
                                                 &locations ) const;
-        units::volume volume_carried_with_tweaks( const item_tweaks &tweaks ) const;
-        units::volume volume_carried_with_tweaks( const std::vector<std::pair<item_location, int>>
-                &locations ) const;
         units::mass weight_capacity() const override;
 
         /* maximum you should ever be able to pick up ( i.e. with DANGEROUS_PICKUPS enabled) */        
@@ -2338,9 +2335,8 @@ class Character : public Creature, public visitable
         // total capacity of pockets in the player's top level of inventory.
         // bags-of-holding aside, this is the max volume the character can carry without changing what they're wearing/wielding.
         units::volume volume_capacity(std::function<bool(const item_pocket&)> include_pocket) const;
-        units::volume volume_capacity_with_tweaks( const item_tweaks &tweaks ) const;
-        units::volume volume_capacity_with_tweaks( const std::vector<std::pair<item_location, int>>
-                &locations ) const;
+        // version of volume_capacity that considers nested pockets even if their parents are not included
+        units::volume volume_capacity_recursive(std::function<bool(const item_pocket&)> include_pocket, std::function<bool(const item_pocket&)> check_pocket_tree) const;
         /** 
         * Returns remaining, unfilled volume in pockets in the character's entire inventory that satisfies the check conditions.
         * The default arguments, free_space(), gives a rough upper bound on remaining volume that could be filled with 
@@ -2355,13 +2351,6 @@ class Character : public Creature, public visitable
             std::function<bool(const item_pocket&)> check_pocket_tree = item_pocket::ok_like_old_default_behavior) const;
         units::mass free_weight_capacity() const;
 
-
-
-        /**
-         * Returns the total volume of all pockets less than or equal to the volume passed in
-         * @param volume threshold for pockets to be considered
-        */
-        units::volume small_pocket_volume( const units::volume &threshold = 1000_ml ) const;
 
         /** Note that we've read a book at least once. **/
         virtual bool has_identified( const itype_id &item_id ) const = 0;
@@ -2390,6 +2379,17 @@ class Character : public Creature, public visitable
           */
         std::pair<item_location, item_pocket *> best_pocket( const item &it, const item *avoid = nullptr,
                 bool ignore_settings = false );
+
+        /**
+        * Collect all pockets that the character has along with their constraints due to their nesting situation.
+        * @param include_pocket only return pockets which pass this predicate
+        * @param check_pocket_tree pockets which fail this criteria are excluded, along with all nested pockets
+        */
+        typedef std::pair<const item_pocket*, pocket_constraint> pocket_with_constraints;
+        std::vector<pocket_with_constraints> get_all_pockets_with_constraints(
+            std::function<bool(const item_pocket&)> include_pocket,
+            std::function<bool(const item_pocket&)> check_pocket_tree
+        );
 
         /**
          * Collect all pocket data (with parent and nest levels added) that the character has.

@@ -1219,18 +1219,6 @@ units::mass outfit::weight_carried_with_tweaks( const std::map<const item *, int
     return ret;
 }
 
-units::volume outfit::contents_volume_with_tweaks( const std::map<const item *, int> &without )
-const
-{
-    units::volume ret = 0_ml;
-    for( const item &i : worn ) {
-        if( !without.count( &i ) ) {
-            ret += i.get_contents_volume_with_tweaks( without );
-        }
-    }
-    return ret;
-}
-
 ret_val<void> outfit::power_armor_conflicts( const item &clothing ) const
 {
     if( clothing.is_power_armor() ) {
@@ -1655,21 +1643,6 @@ units::mass outfit::free_weight_capacity() const
     return weight_capacity;
 }
 
-units::volume outfit::small_pocket_volume( const units::volume &threshold )  const
-{
-    units::volume small_spaces = 0_ml;
-    for( const item &w : worn ) {
-        if( !w.is_holster() ) {
-            for( const item_pocket *pocket : w.get_container_pockets() ) {
-                if( pocket->volume_capacity() <= threshold ) {
-                    small_spaces += pocket->volume_capacity();
-                }
-            }
-        }
-    }
-    return small_spaces;
-}
-
 units::volume outfit::volume_capacity(std::function<bool(const item_pocket&)> include_pocket) const
 {
     units::volume cap = 0_ml;
@@ -1677,18 +1650,6 @@ units::volume outfit::volume_capacity(std::function<bool(const item_pocket&)> in
         cap += w.get_volume_capacity(include_pocket);
     }
     return cap;
-}
-
-units::volume outfit::volume_capacity_with_tweaks(
-    const std::map<const item *, int> &without ) const
-{
-    units::volume vol = 0_ml;
-    for( const item &i : worn ) {
-        if( !without.count( &i ) ) {
-            vol += i.get_volume_capacity();
-        }
-    }
-    return vol;
 }
 
 int outfit::pocket_warmth() const
@@ -2333,6 +2294,55 @@ static std::vector<pocket_data_with_parent> get_child_pocket_with_parent(
             }
         }
     }
+    return ret;
+}
+
+typedef std::pair<const item_pocket*, pocket_constraint> pocket_with_constraint;
+std::vector<pocket_with_constraint> Character::get_all_pockets_with_constraints(
+    std::function<bool(const item_pocket&)> include_pocket,
+    std::function<bool(const item_pocket&)> check_pocket_tree
+)
+{
+    std::function<std::vector<pocket_with_constraint>(const item_pocket*)> recurse_on = [&](const item_pocket* pocket) {
+        std::vector<pocket_with_constraint> pwcs;
+        if (include_pocket(*pocket))
+        {
+            pwcs.push_back({pocket, pocket_constraint(pocket)});
+        }
+        for (const item* contained : pocket->all_items_top()) {
+            for (const item_pocket* inner_pocket : contained->get_pockets(check_pocket_tree)) {
+                std::vector<pocket_with_constraint> children = recurse_on(inner_pocket);
+                for (auto& c : children)
+                {
+                    c.second.constrain_by(pocket);
+                }
+                pwcs.insert(pwcs.end(), children.begin(), children.end());
+            }
+        }
+        return pwcs;
+    };
+
+    std::vector<pocket_with_constraint> ret;
+    
+    auto start_on = [&](const item_location& loc)
+    {
+        for (const item_pocket* pocket : loc->get_pockets(check_pocket_tree)) {
+            std::vector<pocket_with_constraint> children = recurse_on(pocket);
+            ret.insert(ret.end(), children.begin(), children.end());
+        }
+    };
+
+    std::list<item_location> locs;
+    item_location carried_item = get_wielded_item();
+    if (carried_item != item_location::nowhere) {
+        start_on(carried_item);
+    }
+    for (item_location& worn_loc : top_items_loc()) {
+        if (worn_loc != item_location::nowhere) {
+            start_on(worn_loc);
+        }
+    }
+
     return ret;
 }
 

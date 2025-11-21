@@ -1121,34 +1121,6 @@ units::mass Character::weight_carried_with_tweaks( const item_tweaks &tweaks ) c
     return ret;
 }
 
-units::volume Character::volume_carried_with_tweaks( const
-        std::vector<std::pair<item_location, int>>
-        &locations ) const
-{
-    std::map<const item *, int> dropping;
-    for( const std::pair<item_location, int> &location_pair : locations ) {
-        dropping.emplace( location_pair.first.get_item(), location_pair.second );
-    }
-    return volume_carried_with_tweaks( item_tweaks( { dropping } ) );
-}
-
-units::volume Character::volume_carried_with_tweaks( const item_tweaks &tweaks ) const
-{
-    const std::map<const item *, int> empty;
-    const std::map<const item *, int> &without = tweaks.without_items ? tweaks.without_items->get() :
-            empty;
-
-    // Worn items
-    units::volume ret = worn.contents_volume_with_tweaks( without );
-
-    // Wielded item
-    if( !without.count( &weapon ) ) {
-        ret += weapon.get_contents_volume_with_tweaks( without );
-    }
-
-    return ret;
-}
-
 bool Character::can_pickVolume( const item &it, bool, const item *avoid,
                                 const bool ignore_pkt_settings ) const
 {
@@ -1672,16 +1644,6 @@ units::mass Character::free_weight_capacity() const
     return weight_capacity;
 }
 
-units::volume Character::small_pocket_volume( const units::volume &threshold ) const
-{
-    units::volume small_spaces = 0_ml;
-    if( weapon.get_volume_capacity(item_pocket::ok_like_old_default_behavior) <= threshold ) {
-        small_spaces += weapon.get_volume_capacity(item_pocket::ok_like_old_default_behavior);
-    }
-    small_spaces += worn.small_pocket_volume( threshold );
-    return small_spaces;
-}
-
 units::volume Character::volume_capacity(std::function<bool(const item_pocket&)> include_pocket) const
 {
     units::volume volume_capacity = 0_ml;
@@ -1690,31 +1652,15 @@ units::volume Character::volume_capacity(std::function<bool(const item_pocket&)>
     return volume_capacity;
 }
 
-units::volume Character::volume_capacity_with_tweaks( const
-        std::vector<std::pair<item_location, int>>
-        &locations ) const
+units::volume Character::volume_capacity_recursive(std::function<bool(const item_pocket&)> include_pocket, std::function<bool(const item_pocket&)> check_pocket_tree) const
 {
-    std::map<const item *, int> dropping;
-    for( const std::pair<item_location, int> &location_pair : locations ) {
-        dropping.emplace( location_pair.first.get_item(), location_pair.second );
-    }
-    return volume_capacity_with_tweaks( item_tweaks( { dropping } ) );
-}
-
-units::volume Character::volume_capacity_with_tweaks( const item_tweaks &tweaks ) const
-{
-    const std::map<const item *, int> empty;
-    const std::map<const item *, int> &without = tweaks.without_items ? tweaks.without_items->get() :
-            empty;
-
     units::volume volume_capacity = 0_ml;
-
-    if( !without.count( &weapon ) ) {
-        volume_capacity += weapon.get_volume_capacity();
+    units::volume expansion = 0_ml; // discard, currently don't care if inventory has to grow in overall volume
+    volume_capacity += weapon.get_volume_capacity_recursive(include_pocket, check_pocket_tree, expansion);
+    for (auto it : worn.worn)
+    {
+        volume_capacity += it.get_volume_capacity_recursive(include_pocket, check_pocket_tree, expansion);
     }
-
-    volume_capacity += worn.volume_capacity_with_tweaks( without );
-
     return volume_capacity;
 }
 

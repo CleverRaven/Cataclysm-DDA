@@ -578,6 +578,33 @@ class pocket_data
         FlagsSetType flag_restrictions;
 };
 
+class pocket_constraint
+{
+public:
+    units::mass weight_capacity = pocket_data::max_weight_for_container;
+    units::length max_containable_length = 200000_meter;
+    units::volume volume_capacity = pocket_data::max_volume_for_container;
+    units::volume remaining_volume = pocket_data::max_volume_for_container;
+    units::volume max_item_volume = 0_ml; // literal bottlenecks; 0 = no limit
+
+    // pocket is rigid or constrained by a rigid pocket, volume won't be reduced by further constraints
+    bool in_rigid = false;
+    // pocket 'X' is dominated by pocket 'Y' if X is nested in Y, 
+    // any item that could be put into X could be put into Y,
+    // and X's volume expands into Y (no rigid pockets in the way).
+    // dominated pockets are redundant when describing available spaces.
+    bool is_dominated = false;
+
+    pocket_constraint() = default;
+    pocket_constraint(const item_pocket* init_pocket);
+
+    // apply the capacity constraints of an outer pocket
+    void constrain_by(const item_pocket* outer);
+    // apply the capacity constraints of another, outer constraint to this one.
+    // this never dominates the pocket.
+    void constrain_by(const pocket_constraint& outer);
+};
+
 template<>
 struct ret_val<item_pocket::contain_code>::default_success
     : public std::integral_constant<item_pocket::contain_code,

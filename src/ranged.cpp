@@ -1523,7 +1523,7 @@ dealt_projectile_attack Character::throw_item( const tripoint_bub_ms &target, co
     // Item will burst upon landing, destroying the item, and spilling its contents
     const bool burst = thrown.has_property( "burst_when_filled" ) && thrown.is_container() &&
                        thrown.get_property_int64_t( "burst_when_filled" ) <= static_cast<double>
-                       ( thrown.get_contents_volume().value() ) / thrown.get_volume_capacity().value() *
+                       ( thrown.get_contents_volume(item_pocket::ok_container).value() ) / thrown.get_volume_capacity(item_pocket::ok_container).value() *
                        100;
 
     // Add some flags to the projectile

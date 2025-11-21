@@ -199,6 +199,16 @@ class item_contents
 
         /** Get the total volume capacity of pockets belonging to this item. */
         units::volume volume_capacity( std::function<bool(const item_pocket&)> include_pocket ) const;
+        /** Get the total remaining volume of pockets belonging to or nested inside this item which pass the 'include' predicate.
+        * Accounts for limits applied by this item's pockets, but not pockets this item is stored in.
+        * @param include_pocket if a pocket is checked, whether to include its volume
+        * @param check_pocket_tree if this returns false for a pocket, it and all its nested pockets will be excluded.
+        * @param out_volume_expansion amount the item would need to increase in volume to actually provide all the returned capacity. will be <= the return value.
+        *       this arg is mostly for recursive bookkeeping.
+        */
+        units::volume volume_capacity_recursive(std::function<bool(const item_pocket&)> include_pocket,
+            std::function<bool(const item_pocket&)> check_pocket_tree,
+            units::volume& out_volume_expansion) const;
         /** Get the sum of volumes of items in pockets belonging to this item. */
         units::volume contents_volume(std::function<bool(const item_pocket&)> include_pocket) const;
         /** Get the remaining volume of pockets belonging to this item. This does not account for the 
@@ -222,7 +232,6 @@ class item_contents
         units::volume biggest_pocket_capacity() const;        
         units::mass remaining_container_capacity_weight( bool unrestricted_pockets_only = false ) const;
         units::mass total_contained_weight( bool unrestricted_pockets_only = false ) const;
-        units::volume get_contents_volume_with_tweaks( const std::map<const item *, int> &without ) const;
         units::volume get_nested_content_volume_recursive( const std::map<const item *, int> &without )
         const;
 

@@ -267,6 +267,16 @@ bool item::container_type_pockets_empty() const
     return contents.container_type_pockets_empty();
 }
 
+std::vector<item_pocket*> item::get_pockets(std::function<bool(const item_pocket& pocket)> include_pocket)
+{
+    return contents.get_pockets(include_pocket);
+}
+
+std::vector<const item_pocket*> item::get_pockets(std::function<bool(const item_pocket& pocket)> include_pocket) const
+{
+    return contents.get_pockets(include_pocket);
+}
+
 std::vector<const item_pocket *> item::get_container_pockets() const
 {
     return contents.get_container_pockets();
@@ -371,7 +381,7 @@ units::length item::min_containable_length() const
 
 units::volume item::max_containable_volume() const
 {
-    return contents.max_containable_volume();
+    return contents.max_containable_volume(); // TODO: Remove
 }
 
 ret_val<void> item::is_compatible( const item &it ) const
@@ -563,6 +573,14 @@ units::volume item::get_volume_capacity(std::function<bool(const item_pocket&)> 
 {
     return contents.volume_capacity(include_pocket);
 }
+
+units::volume item::get_volume_capacity_recursive(std::function<bool(const item_pocket&)> include_pocket, 
+    std::function<bool(const item_pocket&)> check_pocket_tree,
+    units::volume& out_volume_expansion) const
+{
+    return contents.volume_capacity_recursive(include_pocket, check_pocket_tree, out_volume_expansion);
+}
+
 
 units::mass item::get_total_weight_capacity( const bool unrestricted_pockets_only ) const
 {
@@ -812,12 +830,6 @@ bool item::can_attach_as_pocket() const
 bool item::has_unrestricted_pockets() const
 {
     return contents.has_unrestricted_pockets();
-}
-
-units::volume item::get_contents_volume_with_tweaks( const std::map<const item *, int> &without )
-const
-{
-    return contents.get_contents_volume_with_tweaks( without );
 }
 
 units::volume item::get_nested_content_volume_recursive( const std::map<const item *, int>

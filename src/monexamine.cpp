@@ -206,7 +206,7 @@ void attach_bag_to( monster &z )
     std::string pet_name = z.get_name();
 
     auto filter = []( const item & it ) {
-        return it.is_armor() && it.get_volume_capacity() > 0_ml && !it.has_flag( flag_INTEGRATED );
+        return it.is_armor() && it.get_volume_capacity(item_pocket::ok_like_old_default_behavior) > 0_ml && !it.has_flag( flag_INTEGRATED );
     };
 
     avatar &player_character = get_avatar();
@@ -283,7 +283,7 @@ bool give_items_to( monster &z )
 
     item &storage = *z.storage_item;
     units::mass max_weight = z.weight_capacity() - z.get_carried_weight();
-    units::volume max_volume = storage.get_volume_capacity() - z.get_carried_volume();
+    units::volume max_volume = storage.get_volume_capacity(item_pocket::ok_like_old_default_behavior) - z.get_carried_volume();
     units::length max_length = storage.max_containable_length();
     avatar &player_character = get_avatar();
     drop_locations items = game_menus::inv::multidrop( player_character );
@@ -541,7 +541,7 @@ void milk_source( monster &source_mon )
         switch( liquid_target.dest_opt ) {
             case LD_ITEM:
                 target_volume = liquid_target.item_loc.get_item()->max_containable_volume() -
-                                liquid_target.item_loc.get_item()->get_contents_volume();
+                                liquid_target.item_loc.get_item()->get_contents_volume(item_pocket::ok_like_old_default_behavior);
 
                 if( target_volume < milk.volume() ) {
                     const item single_unit( milked_item, calendar::turn, 1 );

@@ -878,6 +878,8 @@ class item : public visitable
 
         bool container_type_pockets_empty() const;
 
+        std::vector<item_pocket*> get_pockets(std::function<bool(const item_pocket& pocket)> include_pocket);
+        std::vector<const item_pocket*> get_pockets(std::function<bool(const item_pocket& pocket)> include_pocket) const;
         /** Get all CONTAINER/is_standard_type/ablative/etc pockets that are part of this item */
         std::vector<const item_pocket *> get_container_pockets() const;
         std::vector<item_pocket *> get_container_pockets();
@@ -949,10 +951,12 @@ class item : public visitable
                                                std::string *err = nullptr ) const;
 
         /**
-         * It returns the maximum volume of any contents, including liquids,
-         * ammo, magazines, weapons, etc.
+         * Returns total capacity of pockets belonging to this item
          */
         units::volume get_volume_capacity(std::function<bool(const item_pocket&)> include_pocket) const;
+        units::volume get_volume_capacity_recursive(std::function<bool(const item_pocket&)> include_pocket,
+            std::function<bool(const item_pocket&)> check_pocket_tree,
+            units::volume& out_volume_expansion) const;
         units::mass get_total_weight_capacity( bool unrestricted_pockets_only = false ) const;
         
         units::volume get_remaining_volume(std::function<bool(const item_pocket&)> include_pocket) const;
@@ -973,7 +977,6 @@ class item : public visitable
                 
         units::volume get_selected_stack_volume( const std::map<const item *, int> &without ) const;
         bool has_unrestricted_pockets() const;
-        units::volume get_contents_volume_with_tweaks( const std::map<const item *, int> &without ) const;
         units::volume get_nested_content_volume_recursive( const std::map<const item *, int> &without )
         const;
 
