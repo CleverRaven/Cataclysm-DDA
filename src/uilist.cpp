@@ -510,6 +510,10 @@ void uilist::init()
 
     input_category = "UILIST";
     additional_actions.clear();
+
+    if( ui ) {
+        ui.reset();
+    }
 }
 
 input_context uilist::create_main_input_context() const
