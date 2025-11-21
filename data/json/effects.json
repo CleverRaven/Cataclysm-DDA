@@ -1067,12 +1067,21 @@
     "blood_analysis_description": "Unknown Organic Toxin"
   },
   {
-	"id": "crowned_speaking",
-	"type": "effect_type",
-	"name": [ "Scrambled Thoughts" ],
-	"desc": [ "Your head still reels from the experience of an alien mind making contact with it." ],
-	"rating": "bad",
-	
+    "id": "crowned_speaking",
+    "type": "effect_type",
+    "name": [ "Overwhelmed" ],
+    "desc": [ "Your head throbs and your thoughts are scrambled." ],
+    "rating": "bad",
+    "base_mods": {
+      "vomit_chance": [ 250 ],
+      "int_mod": [ -4, -2 ],
+      "pain_min": [ 20 ],
+      "pain_max": [ 50 ],
+      "pain_max_val": [ 50 ],
+      "pain_amount": [ 5, 10 ],
+      "pain_chance": [ 50, 100 ],
+      "pain_tick": [ 10 ]
+    }
   },
   {
     "id": "venom_dmg",

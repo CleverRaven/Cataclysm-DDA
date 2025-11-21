@@ -498,7 +498,7 @@
     "category": "other",
     "price_postapoc": "0 cent",
     "description": "Some unidentified internal tissue composed of fibrous metallic wires and stalks.  It appears inorganic, but naturally formed.",
-    "material": [ "silver" ],
+    "material": [ "platinum" ],
     "weight": "45 g",
     "volume": "50 ml"
   }
