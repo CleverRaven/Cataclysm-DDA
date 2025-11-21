@@ -3,12 +3,16 @@
 #include <utility>
 #include <vector>
 
+#include "activity_handlers.h"
 #include "coords_fwd.h"
 #include "item.h"
+#include "map_scale_constants.h"
+#include "type_id.h"
 
 class Character;
 class item_location;
 class player_activity;
+class vehicle;
 class vpart_reference;
 enum zone_activity_stage : int;
 
@@ -79,3 +83,46 @@ void move_item( Character &you, const std::optional<vpart_reference> &vpr_src,
                 const tripoint_bub_ms &src_bub, const std::unordered_set<tripoint_abs_ms> &dest_set,
                 item &it, int &num_processed );
 } //namespace zone_sorting
+
+
+namespace multi_activity_actor
+{
+/* begin TODO: move to activity actor */
+
+//shared helper function for deconstruction/repair
+activity_reason_info vehicle_work_can_do( const activity_id &, Character &you,
+        const tripoint_bub_ms &src_loc, std::vector<int> &already_working_indexes,
+        vehicle *veh );
+activity_reason_info vehicle_deconstruction_can_do( const activity_id &act, Character &you,
+        const tripoint_bub_ms &src_loc );
+activity_reason_info vehicle_repair_can_do( const activity_id &act, Character &you,
+        const tripoint_bub_ms &src_loc );
+activity_reason_info mine_can_do( const activity_id &, Character &you,
+                                  const tripoint_bub_ms &src_loc );
+activity_reason_info mop_can_do( const activity_id &, Character &you,
+                                 const tripoint_bub_ms &src_loc );
+activity_reason_info fish_can_do( const activity_id &act, Character &you,
+                                  const tripoint_bub_ms &src_loc );
+activity_reason_info chop_trees_can_do( const activity_id &act, Character &you,
+                                        const tripoint_bub_ms &src_loc );
+activity_reason_info butcher_can_do( const activity_id &, Character &you,
+                                     const tripoint_bub_ms &src_loc );
+activity_reason_info read_can_do( const activity_id &, Character &you,
+                                  const tripoint_bub_ms & );
+activity_reason_info chop_planks_can_do( const activity_id &, Character &you,
+        const tripoint_bub_ms &src_loc );
+activity_reason_info tidy_up_can_do( const activity_id &, Character &you,
+                                     const tripoint_bub_ms &src_loc, int distance = MAX_VIEW_DISTANCE );
+activity_reason_info construction_can_do( const activity_id &, Character &you,
+        const tripoint_bub_ms &src_loc );
+activity_reason_info farm_can_do( const activity_id &, Character &you,
+                                  const tripoint_bub_ms &src_loc );
+activity_reason_info fetch_can_do( const activity_id &, Character &,
+                                   const tripoint_bub_ms & );
+activity_reason_info craft_can_do( const activity_id &, Character &you,
+                                   const tripoint_bub_ms &src_loc );
+activity_reason_info disassemble_can_do( const activity_id &, Character &you,
+        const tripoint_bub_ms &src_loc );
+
+/* end TODO: move to activity actor */
+} //namespace multi_activity_actor
