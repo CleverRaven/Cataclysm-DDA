@@ -2368,6 +2368,8 @@
     "melee_damage": [ { "damage_type": "bash", "amount": 3 } ],
     "special_attacks": [ { "id": "smash", "throw_strength": 60, "cooldown": 30 }, { "id": "grab" } ],
     "grab_strength": 30
+},
+{
     "id": "mon_nether_cucumber",
     "type": "MONSTER",
     "name": { "str": "waterbed skulker" },
