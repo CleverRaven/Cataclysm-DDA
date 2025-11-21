@@ -511,8 +511,7 @@ void uilist::init()
     input_category = "UILIST";
     additional_actions.clear();
 
-    if (ui)
-    {
+    if( ui ) {
         ui.reset();
     }
 }
