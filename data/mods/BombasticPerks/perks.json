@@ -713,6 +713,28 @@
   },
   {
     "type": "mutation",
+    "id": "perk_artifact_resonance_detection",
+    "name": { "str": "Nether Resonator" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "You get a tingling feeling when you hold the objects that the Cataclysm seems to have given anomalous properties to.  Activate to determine roughly how much resonance an artifact has.",
+    "active": true,
+    "activation_msg": "You close your eyes for a moment and look for the inner hum.",
+    "activated_eocs": [ "EOC_perk_artifact_resonance_detection" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_artifact_resonance_reduction",
+    "name": { "str": "Relic Wielder" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "Your frequent handling of artifacts has allowed you to bleed off some of the side effects of their presence.  Your accumulated artifact resonance is reduced by 1500.",
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "ARTIFACT_RESONANCE", "add": -1500 } ] } ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_frakenstein",
     "name": { "str": "Playing God" },
     "points": 0,

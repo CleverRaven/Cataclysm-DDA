@@ -970,6 +970,7 @@ The following is a list of possible enchantment `values`:
 Character status value  | Description
 ---                     |---
 `ARMOR_ALL`             | Gives this amount of protection against any damage type except one with "no_resist": true. For more precise changes use incoming_damage_mod or item_armor_bonus
+`ARTIFACT_RESONANCE`    | Affects the level of artifact resonance you have, which causes various hardcoded penalties as it rises (note: only add works, not multiply).
 `ATTACK_NOISE`          | Affects the amount of noise you make while melee attacking.
 `ATTACK_SPEED`          | Affects attack speed of item, even if it's not the one you're wielding, and throwing cost (capped at 25 moves). `"add": 10` adds 10 moves to each attack (makes it longer), `"add": -10` makes each attack faster for 10 moves; `"multiply": 1` doubles the speed of each attack
 `AVOID_FRIENDRY_FIRE`   | Flat chance for your character to avoid friendry fire if there is a friend in the line of fire. From 0.0 (no chance) to 1.0 (never frindly fire).
@@ -996,8 +997,6 @@ Character status value  | Description
 `EXTRA_ELEC_PAIN`       | Multiplier on electric damage received, the result is applied as extra pain.
 `EVASION`               | Flat chance for your character to dodge incoming attacks regardless of other modifiers.  From 0.0 (no evasion chance) to 1.0 (100% evasion chance).
 `FALL_DAMAGE`           | Affects the amount of fall damage you take.
-`SLEEPINESS`               | Affects how fast your sleepiness grows over time - bigger value makes you tired faster. Since it's a percent, using `multiply` is recommended.
-`SLEEPINESS_REGEN`         | Affects how much of your sleepiness and sleep deprivation drops when resting. Since it's a percent, using `multiply` is recommended.
 `FAT_TO_MAX_HP`         | Changes the amount of HP, that is given to you by your fat. Formula is `((your_calories/7716.17)/((your_height_in_cm/100)^2))*hitsize_of_all_non_bionic_bodyparts`. Using `add` works just as adding HP, so use `multiply` instead
 `FOOTSTEP_NOISE`        | 
 `FORCEFIELD`            | Chance your character reduces incoming damage to 0. From 0.0 (no chance), to 1.0 (100% chance to avoid attacks).
@@ -1058,6 +1057,8 @@ Character status value  | Description
 `SHOUT_NOISE`           | Changes how loud your shouts are (default 10)
 `SHOUT_NOISE_STR_MULT`  | Modifies the `shout_multiplier`, that affect how much your strength affects noise level (default 2, meaning one point of strength adds 2 units of noise )
 `SKILL_RUST_RESIST`     | when `add`, chance / 100 to resist skill rust; when `multiply`, multiplier for skill rust amount - the smaller, the less experience you will rust
+`SLEEPINESS`               | Affects how fast your sleepiness grows over time - bigger value makes you tired faster. Since it's a percent, using `multiply` is recommended.
+`SLEEPINESS_REGEN`         | Affects how much of your sleepiness and sleep deprivation drops when resting. Since it's a percent, using `multiply` is recommended.
 `SLEEPY`                | The higher this the easier you fall asleep.
 `SOCIAL_INTIMIDATE`     | Affects your ability to intimidate.
 `SOCIAL_LIE`            | Affects your ability to lie.
