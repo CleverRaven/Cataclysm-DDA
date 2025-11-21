@@ -1151,7 +1151,7 @@
           },
           { "set_string_var": "perk_artifact_resonance_reduction", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Must have <trait_name:perk_artifact_resonance_detection>.",
+            "set_string_var": "Must have <trait_name:perk_artifact_resonance_detection>",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
