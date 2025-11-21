@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "dump",
     "weight": 100,
     "object": {
@@ -37,7 +36,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "dump",
     "weight": 100,
     "object": {
@@ -73,7 +71,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "dump",
     "weight": 100,
     "object": {
@@ -109,7 +106,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "dump",
     "weight": 100,
     "object": {
@@ -145,7 +141,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "dump",
     "weight": 100,
     "object": {

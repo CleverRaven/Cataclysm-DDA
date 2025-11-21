@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cabin" ],
     "object": {
       "fill_ter": "t_floor",
@@ -38,7 +37,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "cabin_roof",
     "object": {
       "fill_ter": "t_tar_flat_roof",
@@ -74,7 +72,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cabin_1" ],
     "object": {
       "fill_ter": "t_floor",
@@ -126,7 +123,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "cabin_roof_1",
     "object": {
       "fill_ter": "t_tar_flat_roof",
@@ -162,7 +158,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cabin_2" ],
     "object": {
       "fill_ter": "t_floor",
@@ -201,7 +196,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "cabin_roof_2",
     "object": {
       "fill_ter": "t_tar_flat_roof",
@@ -236,7 +230,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "cabin_3",
     "type": "mapgen",
     "object": {
@@ -268,12 +261,12 @@
         "*************.~.********"
       ],
       "palettes": [ { "distribution": [ [ "cabin_palette", 1 ], [ "cabin_palette_abandoned", 1 ] ] } ],
-      "terrain": { "0": "t_region_soil", "b": "t_region_groundcover" }
+      "terrain": { "0": "t_region_soil", "b": "t_region_groundcover" },
+      "place_nested": [ { "chunks": [ [ "null", 2 ], [ "cabin_cellar_stairs", 1 ] ], "x": 12, "y": 7 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "cabin_roof_3",
     "object": {
       "fill_ter": "t_tar_flat_roof",
@@ -308,7 +301,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "cabin_4",
     "type": "mapgen",
     "object": {
@@ -340,12 +332,12 @@
         "************************"
       ],
       "palettes": [ { "distribution": [ [ "cabin_palette", 1 ], [ "cabin_palette_abandoned", 1 ] ] } ],
-      "terrain": { "0": "t_region_soil", "z": "t_region_soil" }
+      "terrain": { "0": "t_region_soil", "z": "t_region_soil" },
+      "place_nested": [ { "chunks": [ [ "null", 2 ], [ "cabin_cellar_stairs", 1 ] ], "x": 3, "y": 9 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "cabin_roof_4",
     "object": {
       "fill_ter": "t_tar_flat_roof",
@@ -380,7 +372,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "cabin_5",
     "type": "mapgen",
     "object": {
@@ -411,12 +402,12 @@
         "************************",
         "************************"
       ],
-      "palettes": [ { "distribution": [ [ "cabin_palette", 1 ], [ "cabin_palette_abandoned", 1 ] ] } ]
+      "palettes": [ { "distribution": [ [ "cabin_palette", 1 ], [ "cabin_palette_abandoned", 1 ] ] } ],
+      "place_nested": [ { "chunks": [ [ "null", 2 ], [ "cabin_cellar_stairs", 1 ] ], "x": 6, "y": 6 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "cabin_roof_5",
     "object": {
       "fill_ter": "t_tar_flat_roof",
@@ -451,7 +442,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "cabin_6",
     "type": "mapgen",
     "object": {
@@ -482,12 +472,12 @@
         "************************",
         "************************"
       ],
-      "palettes": [ { "distribution": [ [ "cabin_palette", 1 ], [ "cabin_palette_abandoned", 1 ] ] } ]
+      "palettes": [ { "distribution": [ [ "cabin_palette", 1 ], [ "cabin_palette_abandoned", 1 ] ] } ],
+      "place_nested": [ { "chunks": [ [ "null", 2 ], [ "cabin_cellar_stairs", 1 ] ], "x": 5, "y": 8 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "cabin_roof_6",
     "object": {
       "fill_ter": "t_tar_flat_roof",
@@ -522,7 +512,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "cabin_7",
     "type": "mapgen",
     "object": {
@@ -559,7 +548,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "cabin_roof_7",
     "object": {
       "fill_ter": "t_tar_flat_roof",
@@ -595,7 +583,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cabin_strange" ],
     "//": "Strange Cabin",
     "object": {
@@ -670,7 +657,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cabin_strange_b" ],
     "//": "Strange Cabin (basement)",
     "object": {
@@ -733,7 +719,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "cabin_strange_roof",
     "object": {
       "fill_ter": "t_tar_flat_roof",
@@ -768,7 +753,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "cabin_lapin",
     "type": "mapgen",
     "object": {
@@ -808,7 +792,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "cabin_roof_lapin",
     "object": {
       "fill_ter": "t_tar_flat_roof",
@@ -844,7 +827,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cabin_prepper" ],
     "object": {
       "fill_ter": "t_floor",
@@ -897,7 +879,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cabin_prepper_shelter" ],
     "//": "A lmoe shelter replica refitted for the cabin's dug-out basement.",
     "//2": "This particular 4-bed shelter is definitely homemade, mostly carved out of bare rock, and seems to be incomplete.",
@@ -940,6 +921,41 @@
         }
       ],
       "set": [ { "point": "trap", "id": "tr_beartrap", "x": 3, "y": 7 }, { "point": "trap", "id": "tr_shotgun_1", "x": 18, "y": 8 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "cabin_cellar" ],
+    "//": "Used to clear out space to allow cellars to spawn without problems.",
+    "object": {
+      "fill_ter": "t_soil",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { " ": "t_soil" }
     }
   }
 ]

@@ -136,11 +136,19 @@
     "description": "A large and sturdy sack, made out of some plastic material.  Popular choice to store sand, gravel, cement, or stop some local flood.",
     "//": "durasack woven polypropylene bags",
     "weight": "750 g",
-    "volume": "750 ml",
+    "volume": "1250 ml",
     "price": "85 cent",
     "price_postapoc": "5 cent",
     "material": [ "plastic" ],
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "18 L", "max_contains_weight": "22 kg", "moves": 500 } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "magazine_well": "750 ml",
+        "max_contains_volume": "18 L",
+        "max_contains_weight": "22 kg",
+        "moves": 500
+      }
+    ],
     "symbol": ")",
     "color": "white"
   },
@@ -169,7 +177,15 @@
     "price": "0 cent",
     "price_postapoc": "10 cent",
     "material": [ "canvas" ],
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "15 L", "max_contains_weight": "15 kg", "moves": 400 } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "magazine_well": "750 ml",
+        "max_contains_volume": "15 L",
+        "max_contains_weight": "15 kg",
+        "moves": 400
+      }
+    ],
     "symbol": ")",
     "color": "brown"
   },
@@ -182,11 +198,19 @@
     "description": "A small bag made of canvas.  Looks fine to store dried herbs in.",
     "ascii_picture": "bag_canvas_small",
     "weight": "20 g",
-    "volume": "14 ml",
+    "volume": "60 ml",
     "price": "0 cent",
     "price_postapoc": "10 cent",
     "material": [ "canvas" ],
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 400 } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "magazine_well": "45 ml",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "3 kg",
+        "moves": 400
+      }
+    ],
     "symbol": ")",
     "color": "brown"
   },
@@ -205,6 +229,7 @@
       {
         "pocket_type": "CONTAINER",
         "transparent": true,
+        "magazine_well": "8 ml",
         "max_contains_volume": "6 L",
         "max_contains_weight": "10 kg",
         "moves": 400
@@ -222,7 +247,7 @@
     "looks_like": "bag_plastic",
     "description": "A small, open plastic bag.  Essentially trash.",
     "weight": "1 g",
-    "volume": "2 ml",
+    "volume": "5 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "material": [ "plastic" ],
@@ -231,6 +256,7 @@
         "pocket_type": "CONTAINER",
         "watertight": true,
         "transparent": true,
+        "magazine_well": "4 ml",
         "max_contains_volume": "500 ml",
         "max_contains_weight": "1250 g",
         "moves": 400
@@ -297,6 +323,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
+        "magazine_well": "1 L",
         "max_contains_volume": "3 L",
         "max_contains_weight": "3 kg",
         "max_item_length": "22 cm",
@@ -335,10 +362,18 @@
     "description": "A small but sturdy paper bag.  Rock solid when packed full with powder.",
     "ascii_picture": "bag_paper_powder",
     "weight": "5 g",
-    "volume": "10 ml",
+    "volume": "20 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "2500 ml", "max_contains_weight": "2 kg", "moves": 200 } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "magazine_well": "15 ml",
+        "max_contains_volume": "2500 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 200
+      }
+    ],
     "material": [ "paper" ],
     "symbol": ")",
     "color": "white"
@@ -352,10 +387,44 @@
     "description": "A large paper bag, for bulk storage and transport of powdered goods.",
     "ascii_picture": "bag_paper_powder",
     "weight": "20 g",
-    "volume": "40 ml",
+    "volume": "60 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "10000 ml", "max_contains_weight": "15 kg", "moves": 200 } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "magazine_well": "45 ml",
+        "max_contains_volume": "10000 ml",
+        "max_contains_weight": "15 kg",
+        "moves": 200
+      }
+    ],
+    "material": [ "paper" ],
+    "symbol": ")",
+    "color": "white"
+  },
+  {
+    "id": "bag_paper_powder_50lb",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "50lb powder paper bag" },
+    "looks_like": "bag_plastic",
+    "description": "A very large paper bag, for bulk storage and transport of powdered goods.",
+    "ascii_picture": "bag_paper_powder",
+    "weight": "40 g",
+    "volume": "1000 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "flags": [ "TARDIS" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "magazine_well": "1000 ml",
+        "max_contains_volume": "50L",
+        "max_contains_weight": "25 kg",
+        "moves": 200
+      }
+    ],
     "material": [ "paper" ],
     "symbol": ")",
     "color": "white"
@@ -369,7 +438,7 @@
     "description": "A resealable, watertight transparent plastic bag roomy enough to hold a sandwich.  Known generically as a Ziploc bag, it can be sealed and opened with a press-together mechanism similar to a zipper.",
     "ascii_picture": "bag_zipper",
     "weight": "2 g",
-    "volume": "10 ml",
+    "volume": "20 ml",
     "price": "0 cent",
     "price_postapoc": "10 cent",
     "material": [ "plastic" ],
@@ -378,8 +447,10 @@
         "pocket_type": "CONTAINER",
         "watertight": true,
         "transparent": true,
-        "max_contains_volume": "250 ml",
+        "magazine_well": "10 ml",
+        "max_contains_volume": "500 ml",
         "max_contains_weight": "750 g",
+        "max_item_length": "14 cm",
         "spoil_multiplier": 0.8,
         "moves": 400
       }
@@ -402,8 +473,9 @@
         "pocket_type": "CONTAINER",
         "watertight": true,
         "transparent": true,
+        "magazine_well": "50 ml",
         "max_contains_volume": "4500 ml",
-        "max_contains_weight": "3000 g",
+        "max_contains_weight": "5000 g",
         "max_item_length": "29 cm",
         "spoil_multiplier": 0.8,
         "moves": 600
@@ -420,7 +492,7 @@
     "description": "A huge watertight bag made of strong plastic.  Commonly used in activities with high risk of wetting the equipment, such as kayaking.",
     "ascii_picture": "dry_bag_large",
     "weight": "1500 g",
-    "volume": "1500 ml",
+    "volume": "7500 ml",
     "longest_side": "35 cm",
     "price": "0 cent",
     "price_postapoc": "10 cent",
@@ -432,6 +504,7 @@
       {
         "pocket_type": "CONTAINER",
         "watertight": true,
+        "magazine_well": "6 L",
         "max_contains_volume": "80 L",
         "max_contains_weight": "100 kg",
         "max_item_length": "100 cm",
@@ -450,7 +523,7 @@
     "description": "A human-sized rectangular bag made of strong plastic, with a zipper in the middle.  Intended to hold a dead body.",
     "ascii_picture": "bag_body_bag",
     "weight": "1061 g",
-    "volume": "5500 ml",
+    "volume": "15 L",
     "//1": "This is ~85% of the package volume from the amazon listing, with the assumption that the player would be squishing it harder to condense the volume.",
     "price": "30 USD",
     "price_postapoc": "10 cent",
@@ -460,6 +533,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
+        "magazine_well": "10 L",
         "max_contains_volume": "100 L",
         "max_contains_weight": "100 kg",
         "max_item_length": "200 cm",
@@ -479,7 +553,7 @@
     "description": "A five-foot-long cylindrical leather sack, a foot in diameter, with attachment points at the top.  With some bags of sand, some chains, and a bunch of blankets, you could hang it from the ceiling as a heavy punching bag.",
     "ascii_picture": "heavy_punching_bag_sack",
     "weight": "2400g",
-    "volume": "2260 ml",
+    "volume": "12260 ml",
     "longest_side": "150 cm",
     "price": "0 cent",
     "price_postapoc": "10 cent",
@@ -490,6 +564,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
+        "magazine_well": "10 L",
         "max_contains_volume": "110 L",
         "max_contains_weight": "100 kg",
         "max_item_length": "150 cm",
@@ -519,6 +594,7 @@
         "pocket_type": "CONTAINER",
         "watertight": true,
         "transparent": true,
+        "magazine_well": "25 ml",
         "max_contains_volume": "500 ml",
         "max_contains_weight": "3 kg",
         "moves": 400
@@ -563,6 +639,28 @@
     "//2": "Based on https://www.amazon.com/dp/B09K2VQLZV"
   },
   {
+    "id": "bottle_glass_330ml",
+    "copy-from": "bottle_glass",
+    "proportional": { "weight": 0.44, "volume": 0.44 },
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "small glass bottle" },
+    "description": "A watertight glass bottle, holds 330 mL of liquid.",
+    "longest_side": "22 cm",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "transparent": true,
+        "max_contains_volume": "330 ml",
+        "max_item_volume": "17 ml",
+        "max_contains_weight": "1300 g",
+        "moves": 400
+      }
+    ]
+  },
+  {
     "id": "bottle_plastic",
     "type": "ITEM",
     "category": "container",
@@ -571,7 +669,7 @@
     "ascii_picture": "bottle_plastic",
     "weight": "13 g",
     "volume": "510 ml",
-    "longest_side": "18 cm",
+    "longest_side": "22 cm",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -593,6 +691,38 @@
     "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
+    "id": "bottle_plastic_glue",
+    "copy-from": "bottle_plastic",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "plastic glue bottle" },
+    "description": "A watertight plastic bottle, holds 500 mL of glue.  Cannot be reused or refilled.",
+    "extend": { "flags": [ "NO_RELOAD", "NO_UNLOAD" ] }
+  },
+  {
+    "id": "bottle_plastic_355ml",
+    "copy-from": "bottle_plastic",
+    "proportional": { "weight": 0.7, "volume": 0.7 },
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "small plastic bottle" },
+    "description": "A watertight plastic bottle, holds 355 mL of liquid.  Some may be factory-sealed to increase shelf life.",
+    "longest_side": "18 cm",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "transparent": true,
+        "max_contains_volume": "355 ml",
+        "max_item_volume": "17 ml",
+        "max_contains_weight": "875 g",
+        "sealed_data": { "spoil_multiplier": 0.5 },
+        "moves": 400
+      }
+    ]
+  },
+  {
     "id": "condiment_bottle_sealed",
     "type": "ITEM",
     "category": "container",
@@ -612,8 +742,7 @@
         "max_contains_volume": "500 ml",
         "max_item_volume": "17 ml",
         "max_contains_weight": "1 kg",
-        "spoil_multiplier": 0.5,
-        "sealed_data": { "spoil_multiplier": 0.0 },
+        "sealed_data": { "spoil_multiplier": 0.5 },
         "moves": 400
       }
     ],
@@ -628,7 +757,7 @@
     "id": "bottle_plastic_small",
     "type": "ITEM",
     "category": "container",
-    "name": { "str": "small plastic bottle" },
+    "name": { "str": "very small plastic bottle" },
     "looks_like": "bottle_plastic",
     "description": "A watertight plastic bottle, holds 250 mL of liquid.",
     "ascii_picture": "bottle_plastic_small",
@@ -653,6 +782,15 @@
     "symbol": ")",
     "color": "white",
     "flags": [ "COLLAPSE_CONTENTS" ]
+  },
+  {
+    "id": "bottle_plastic_small_glue",
+    "copy-from": "bottle_plastic_small",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "small plastic glue bottle" },
+    "description": "A watertight plastic bottle, holds 250 mL of glue.  Cannot be reused or refilled.",
+    "extend": { "flags": [ "NO_RELOAD", "NO_UNLOAD" ] }
   },
   {
     "id": "bottle_plastic_tiny",
@@ -690,26 +828,16 @@
     "type": "ITEM",
     "copy-from": "bottle_plastic_tiny",
     "name": { "str": "tiny plastic glue bottle" },
-    "description": "A watertight plastic bottle, holds 30 mL of liquid.  Due to the design of the tip, it cannot be refilled.",
+    "description": "A watertight plastic bottle, holds 30 mL of glue.  Cannot be reused or refilled.",
     "longest_side": "120 mm",
-    "extend": { "flags": [ "NO_RELOAD", "NO_UNLOAD" ] },
-    "variant_type": "generic",
-    "variants": [
-      {
-        "id": "bottle_plastic_tiny_superglue",
-        "name": { "str": "large superglue bottle" },
-        "description": "This one reads \"Super Glue - All Purpose!\", with directions and cautions below.",
-        "weight": 1,
-        "append": true
-      }
-    ]
+    "extend": { "flags": [ "NO_RELOAD", "NO_UNLOAD" ] }
   },
   {
     "id": "small_squeeze_tube",
     "type": "ITEM",
     "category": "container",
-    "name": { "str": "small squeeze tube" },
-    "description": "A small squeeze tube, holds 4 mL of liquid.  It cannot be refilled after it's empty.",
+    "name": { "str": "small glue squeeze tube" },
+    "description": "A small squeeze tube, holds 4 mL of glue.  Cannot be reused or refilled.",
     "ascii_picture": "bottle_plastic_small",
     "weight": "2 g",
     "volume": "11 ml",
@@ -731,17 +859,7 @@
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "white",
-    "flags": [ "NO_RELOAD", "NO_UNLOAD" ],
-    "variant_type": "generic",
-    "variants": [
-      {
-        "id": "small_squeeze_tube_superglue",
-        "name": { "str": "superglue tube" },
-        "description": "This one reads \"Super Glue - All Purpose!\", with directions and cautions below.",
-        "weight": 1,
-        "append": true
-      }
-    ]
+    "flags": [ "NO_RELOAD", "NO_UNLOAD" ]
   },
   {
     "id": "bottle_plastic_pill_prescription",
@@ -944,6 +1062,16 @@
     "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
+    "id": "bottle_twoliter_glue",
+    "copy-from": "bottle_twoliter",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "large plastic glue bottle" },
+    "looks_like": "bottle_plastic",
+    "description": "A two-liter plastic bottle that can hold 2 L of glue.  Cannot be reused or refilled.",
+    "extend": { "flags": [ "NO_RELOAD", "NO_UNLOAD" ] }
+  },
+  {
     "id": "bowl_clay",
     "type": "ITEM",
     "category": "container",
@@ -1135,7 +1263,7 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "max_contains_volume": "540 ml",
-        "max_contains_weight": "500 g",
+        "max_contains_weight": "800 g",
         "max_item_length": "11 cm"
       }
     ],
@@ -1673,7 +1801,7 @@
     "category": "container",
     "name": { "str": "large metal box", "str_pl": "large metal boxes" },
     "looks_like": "box_small_metal",
-    "description": "A small metal crate.  The slim profile makes storage a little bit easier.",
+    "description": "A large metal box.  It's big and strong enough to hold just about anything.",
     "ascii_picture": "box_large_metal",
     "weight": "48 kg",
     "volume": "330000 ml",
@@ -1811,7 +1939,7 @@
     "looks_like": "runner_bag",
     "description": "A slim and lightweight insulated plastic bladder worn on the back or within a hydration pouch in a backpack.  It has a large pocket and a capped mouth for filling with liquid, with a hose that allows the wearer to drink hands-free.",
     "ascii_picture": "camelbak",
-    "weight": "286 g",
+    "weight": "185 g",
     "volume": "250 ml",
     "price": "100 USD",
     "price_postapoc": "2 USD 50 cent",
@@ -1848,8 +1976,8 @@
     "name": { "str": "aluminum can" },
     "description": "An aluminum can, like what soda comes in.",
     "ascii_picture": "can_drink",
-    "weight": "13 g",
-    "volume": "262 ml",
+    "weight": "11 g",
+    "volume": "416 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "material": [ "aluminum" ],
@@ -1861,7 +1989,7 @@
         "rigid": true,
         "watertight": true,
         "open_container": true,
-        "max_contains_volume": "250 ml",
+        "max_contains_volume": "355 ml",
         "max_item_volume": "10 ml",
         "max_contains_weight": "1 kg",
         "sealed_data": { "spoil_multiplier": 0.0 }
@@ -1871,19 +1999,40 @@
     "use_action": [ "HEAT_LIQUID_ITEMS" ]
   },
   {
+    "id": "can_aluminum_250ml",
+    "copy-from": "can_drink",
+    "proportional": { "weight": 0.7, "volume": 0.7 },
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "small aluminum can" },
+    "description": "A small aluminum can, like what soda comes in.",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "open_container": true,
+        "max_contains_volume": "250 ml",
+        "max_item_volume": "10 ml",
+        "max_contains_weight": "1 kg",
+        "sealed_data": { "spoil_multiplier": 0.0 }
+      }
+    ]
+  },
+  {
     "id": "carton_sealed",
     "type": "ITEM",
     "category": "container",
-    "name": { "str": "paper carton" },
+    "name": { "str": "half gallon carton" },
     "looks_like": "box_small",
     "description": "A half-gallon carton constructed of a paper, aluminum, and plastic laminate.  It has a threaded cap to keep liquid from leaking out.",
     "ascii_picture": "carton_sealed",
     "weight": "28 g",
     "volume": "2003 ml",
-    "longest_side": "32 cm",
+    "longest_side": "13 cm",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "plastic", "aluminum", "paper" ],
+    "material": [ { "type": "paper", "portion": 75 }, { "type": "plastic", "portion": 20 }, { "type": "aluminum", "portion": 5 } ],
     "symbol": ")",
     "color": "light_cyan",
     "pocket_data": [
@@ -1901,27 +2050,50 @@
   },
   {
     "id": "carton_milk",
+    "copy-from": "carton_sealed",
     "type": "ITEM",
     "category": "container",
-    "name": { "str": "milk carton" },
-    "looks_like": "box_small",
-    "description": "A half-gallon carton constructed of thick, waterproof paper.  It has a threaded cap to keep the contents from leaking out.",
-    "ascii_picture": "carton_milk",
-    "weight": "28 g",
-    "volume": "2003 ml",
-    "price": "0 cent",
-    "price_postapoc": "0 cent",
-    "material": [ "paper" ],
-    "symbol": ")",
-    "color": "light_cyan",
+    "name": { "str": "half gallon paper carton" },
+    "description": "A half-gallon carton constructed of thick, waterproof paper.  It has a threaded cap to keep the contents from leaking out."
+  },
+  {
+    "id": "carton_946ml",
+    "copy-from": "carton_sealed",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "quart carton" },
+    "description": "A quart carton constructed of a paper, aluminum, and plastic laminate.  It has a threaded cap to keep liquid from leaking out.",
+    "weight": "14 g",
+    "volume": "974 ml",
+    "longest_side": "19 cm",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
-        "max_contains_volume": "2 L",
-        "max_contains_weight": "5 kg",
-        "sealed_data": { "spoil_multiplier": 0.5 }
+        "max_contains_volume": "946 ml",
+        "max_contains_weight": "2500 g",
+        "sealed_data": { "spoil_multiplier": 0.023 }
+      }
+    ]
+  },
+  {
+    "id": "carton_284ml",
+    "copy-from": "carton_946ml",
+    "proportional": { "weight": 0.5, "volume": 0.5 },
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "half pint carton" },
+    "description": "A half pint carton constructed of a paper, aluminum, and plastic laminate.  It has a threaded cap to keep liquid from leaking out.",
+    "longest_side": "7 cm",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "max_contains_volume": "284 ml",
+        "max_contains_weight": "625 g",
+        "sealed_data": { "spoil_multiplier": 0.023 }
       }
     ]
   },
@@ -1970,6 +2142,7 @@
       {
         "pocket_type": "CONTAINER",
         "watertight": true,
+        "magazine_well": "9 ml",
         "max_contains_volume": "500 ml",
         "max_contains_weight": "1 kg",
         "sealed_data": { "spoil_multiplier": 0.5 }
@@ -2108,8 +2281,8 @@
     "looks_like": "bowl_clay",
     "description": "A fragile clay vessel with a waterproofed hide lid.  It can be used to make crude impact grenades or to store liquid.",
     "ascii_picture": "clay_canister",
-    "weight": "268 g",
-    "volume": "295 ml",
+    "weight": "536 g",
+    "volume": "590 ml",
     "price": "10 USD",
     "price_postapoc": "10 cent",
     "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
@@ -2121,8 +2294,8 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
-        "max_contains_volume": "250 ml",
-        "max_contains_weight": "1 kg"
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "2 kg"
       }
     ],
     "use_action": [ "HEAT_LIQUID_ITEMS" ],
@@ -2720,6 +2893,38 @@
     "//2": "Based on https://www.amazon.com/dp/B07GC1VJ9T"
   },
   {
+    "id": "jug_plastic_glue",
+    "copy-from": "jug_plastic",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "gallon glue jug" },
+    "looks_like": "bottle_plastic",
+    "description": "A standard plastic jug that can hold 3750 mL of glue.  Cannot be reused or refilled.",
+    "extend": { "flags": [ "NO_RELOAD", "NO_UNLOAD" ] }
+  },
+  {
+    "id": "jug_plastic_1892ml",
+    "copy-from": "jug_plastic",
+    "proportional": { "weight": 0.5, "volume": 0.5 },
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "half gallon jug" },
+    "description": "A half gallon plastic jug used for milk and household cleaning chemicals.  Some may be factory-sealed to increase shelf life.",
+    "longest_side": "25 cm",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "transparent": true,
+        "max_contains_volume": "1892 ml",
+        "max_item_volume": "32 ml",
+        "max_contains_weight": "4 kg",
+        "sealed_data": { "spoil_multiplier": 0.5 }
+      }
+    ]
+  },
+  {
     "id": "fuel_tin",
     "type": "ITEM",
     "category": "container",
@@ -2831,6 +3036,7 @@
       {
         "pocket_type": "CONTAINER",
         "watertight": true,
+        "magazine_well": "250 ml",
         "max_contains_volume": "3 L",
         "max_item_volume": "17 ml",
         "max_contains_weight": "6 kg"
@@ -3331,13 +3537,20 @@
     "description": "Just a piece of butcher's paper.  Good for starting fires.",
     "ascii_picture": "wrapper",
     "weight": "3 g",
-    "volume": "5 ml",
+    "volume": "50 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "material": [ "paper" ],
     "symbol": ",",
     "color": "light_gray",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "2500 ml", "max_contains_weight": "6 kg" } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "magazine_well": "45 ml",
+        "max_contains_volume": "2500 ml",
+        "max_contains_weight": "6 kg"
+      }
+    ],
     "flags": [ "TINDER" ]
   },
   {
@@ -3355,7 +3568,7 @@
     "material": [ "aluminum" ],
     "symbol": ",",
     "color": "light_gray",
-    "//2": "mathematically perfect sprehe out of sheet is 2110 ml, but we are less than perfect",
+    "//2": "mathematically perfect sphere out of sheet is 2110 ml, but we are less than perfect",
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "6 kg" } ],
     "qualities": [ [ "COOK", 1 ] ],
     "use_action": [ "HEAT_SOLID_ITEMS" ],
@@ -3379,26 +3592,36 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "1 L",
+        "max_contains_volume": "480 ml",
         "max_contains_weight": "1 kg",
         "item_restriction": [ "wrapper_foil" ],
-        "volume_multiplier": 0.75
+        "volume_multiplier": 0.25
       }
     ],
     "flags": [ "NO_RELOAD" ]
   },
   {
+    "id": "wrapper_bar",
+    "type": "ITEM",
+    "name": { "str": "wrapper" },
+    "description": "A wrapper for some kind of snack bar.",
+    "copy-from": "wrapper",
+    "weight": "1 g",
+    "volume": "5 ml",
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "magazine_well": "4 ml", "max_contains_volume": "175 ml", "max_contains_weight": "1 kg" }
+    ]
+  },
+  {
     "id": "wrapper_pr",
     "type": "ITEM",
     "name": { "str": "wrapper" },
+    "copy-from": "wrapper_bar",
+    "ascii_picture": "wrapper_pr",
     "description": {
       "//~": "Daizu is Japanese for soy, hence DaiZoom",
       "str": "\"DaiZoom Protein Bar, brought to you by SoyPelusa\" is emblazoned proudly upon this greaseproof wrapper."
-    },
-    "ascii_picture": "wrapper_pr",
-    "copy-from": "wrapper",
-    "weight": "1 g",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "175 ml", "max_contains_weight": "1 kg" } ]
+    }
   },
   {
     "id": "styrofoam_cup",
@@ -3592,6 +3815,8 @@
     "looks_like": "condom",
     "name": { "str": "balloon" },
     "description": "A deflated balloon.  This could be used as a makeshift water container.",
+    "//": "delete condom variants",
+    "variants": [  ],
     "ascii_picture": "balloon",
     "copy-from": "condom"
   },
@@ -4096,7 +4321,7 @@
     "melee_damage": { "bash": 12 }
   },
   {
-    "id": "aquarium_medium_drying",
+    "id": "aquarium_medium_drying_active",
     "type": "ITEM",
     "category": "other",
     "name": { "str": "50 gallon aquarium (drying)", "str_pl": "50 gallon aquariums (drying)" },
@@ -4111,6 +4336,7 @@
     "material": [ "glass" ],
     "symbol": ")",
     "color": "light_cyan",
+    "flags": [ "SPAWN_ACTIVE" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -4122,15 +4348,8 @@
       }
     ],
     "qualities": [ [ "CONTAIN", 1 ] ],
-    "use_action": {
-      "target": "aquarium_medium",
-      "msg": "You check that the aquarium does indeed hold water, it is ready.",
-      "moves": 100,
-      "type": "delayed_transform",
-      "transform_age": 604800,
-      "not_ready_msg": "The silicone hasn't dried quite yet.",
-      "//": "The time it takes is a week and this appears to be the minimum time the internet says it takes."
-    },
+    "countdown_interval": "7 days",
+    "revert_to": "aquarium_medium",
     "melee_damage": { "bash": 12 }
   },
   {
@@ -4164,7 +4383,7 @@
     "melee_damage": { "bash": 8 }
   },
   {
-    "id": "aquarium_small_drying",
+    "id": "aquarium_small_drying_active",
     "type": "ITEM",
     "category": "other",
     "name": { "str": "30 gallon aquarium (drying)", "str_pl": "30 gallon aquariums (drying)" },
@@ -4180,6 +4399,7 @@
     "symbol": ")",
     "color": "light_cyan",
     "looks_like": "aquarium_medium",
+    "flags": [ "SPAWN_ACTIVE" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -4191,15 +4411,8 @@
       }
     ],
     "qualities": [ [ "CONTAIN", 1 ] ],
-    "use_action": {
-      "target": "aquarium_small",
-      "msg": "You check that the aquarium does indeed hold water, it is ready.",
-      "moves": 100,
-      "type": "delayed_transform",
-      "transform_age": 604800,
-      "not_ready_msg": "The silicone hasn't dried quite yet.",
-      "//": "The time it takes is a week and this appears to be the minimum time the internet says it takes."
-    },
+    "countdown_interval": "7 days",
+    "revert_to": "aquarium_small",
     "melee_damage": { "bash": 8 }
   },
   {
@@ -4233,7 +4446,7 @@
     "melee_damage": { "bash": 20 }
   },
   {
-    "id": "aquarium_large_drying",
+    "id": "aquarium_large_drying_active",
     "type": "ITEM",
     "category": "other",
     "name": { "str": "100 gallon aquarium (drying)", "str_pl": "100 gallon aquariums (drying)" },
@@ -4249,6 +4462,7 @@
     "symbol": ")",
     "color": "light_cyan",
     "looks_like": "aquarium_medium",
+    "flags": [ "SPAWN_ACTIVE" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -4260,15 +4474,8 @@
       }
     ],
     "qualities": [ [ "CONTAIN", 1 ] ],
-    "use_action": {
-      "target": "aquarium_large",
-      "msg": "You check that the aquarium does indeed hold water, it is ready.",
-      "moves": 100,
-      "type": "delayed_transform",
-      "transform_age": 604800,
-      "not_ready_msg": "The silicone hasn't dried quite yet.",
-      "//": "The time it takes is a week and this appears to be the minimum time the internet says it takes."
-    },
+    "countdown_interval": "7 days",
+    "revert_to": "aquarium_large",
     "melee_damage": { "bash": 20 }
   },
   {
@@ -4768,7 +4975,7 @@
     "weight": "200 g",
     "volume": "1730 ml",
     "price": "9 USD",
-    "price_postapoc": "1 USD",
+    "price_postapoc": "5 cent",
     "material": [ "cotton" ],
     "symbol": "p",
     "color": "dark_gray",
@@ -4785,7 +4992,7 @@
   {
     "id": "cardboard_roll",
     "type": "ITEM",
-    "category": "other",
+    "category": "container",
     "name": { "str": "cardboard roll" },
     "description": "A small cardboard roll used to conveniently store materials such as tape or toilet paper.",
     "ascii_picture": "cardboard_roll",
@@ -5087,5 +5294,53 @@
     "symbol": "o",
     "color": "white",
     "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "45 ml", "max_contains_weight": "30 g" } ]
+  },
+  {
+    "id": "bag_chips_small",
+    "copy-from": "bag_plastic_small",
+    "type": "ITEM",
+    "name": "small chips bag",
+    "description": "A small plastic bag made to contain chips.",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "max_contains_volume": "200 ml",
+        "max_contains_weight": "1 kg",
+        "moves": 400
+      }
+    ]
+  },
+  {
+    "id": "bag_chips_medium",
+    "copy-from": "bag_chips_small",
+    "type": "ITEM",
+    "name": { "str": "chips bag" },
+    "description": "A plastic bag made to contain chips.",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "max_contains_volume": "400 ml",
+        "max_contains_weight": "1 kg",
+        "moves": 400
+      }
+    ]
+  },
+  {
+    "id": "bag_chips_large",
+    "copy-from": "bag_chips_small",
+    "type": "ITEM",
+    "name": { "str": "large chips bag" },
+    "description": "A large plastic bag made to contain chips.",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "max_contains_volume": "600 ml",
+        "max_contains_weight": "1 kg",
+        "moves": 400
+      }
+    ]
   }
 ]

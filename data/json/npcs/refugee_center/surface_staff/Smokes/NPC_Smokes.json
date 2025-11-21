@@ -181,7 +181,7 @@
       [ "bandana", 20 ],
       [ "scarf", 15 ],
       [ "hat_boonie", 20 ],
-      [ "balclava", 10 ],
+      { "item": "balclava", "variant": "black", "prob": 10 },
       [ "pickaxe", 20 ],
       [ "makeshift_machete", 15 ],
       [ "fungicide", 20 ],

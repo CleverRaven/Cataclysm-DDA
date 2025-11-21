@@ -25,9 +25,9 @@
 #include "faction.h"
 #include "faction_camp.h"
 #include "game.h"
+#include "input_popup.h"
 #include "inventory.h"
 #include "item.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_scale_constants.h"
@@ -42,9 +42,10 @@
 #include "recipe_groups.h"
 #include "requirements.h"
 #include "string_formatter.h"
-#include "string_input_popup.h"
 #include "translations.h"
 #include "type_id.h"
+
+static const flag_id json_flag_PSEUDO( "PSEUDO" );
 
 static const zone_type_id zone_type_CAMP_STORAGE( "CAMP_STORAGE" );
 
@@ -132,6 +133,7 @@ basecamp_map &basecamp_map::operator=( const basecamp_map & )
 basecamp::basecamp( const std::string &name_, const tripoint_abs_omt &omt_pos_ ): name( name_ ),
     omt_pos( omt_pos_ )
 {
+    parse_tags( name, get_player_character(), get_player_character() );
 }
 
 basecamp::basecamp( const std::string &name_, const tripoint_abs_ms &bb_pos_,
@@ -139,6 +141,7 @@ basecamp::basecamp( const std::string &name_, const tripoint_abs_ms &bb_pos_,
                     const std::map<point_rel_omt, expansion_data> &expansions_ )
     : directions( directions_ ), name( name_ ), bb_pos( bb_pos_ ), expansions( expansions_ )
 {
+    parse_tags( name, get_player_character(), get_player_character() );
 }
 
 std::string basecamp::board_name() const
@@ -637,6 +640,10 @@ bool basecamp::is_hidden( ui_mission_id id )
         return false;
     }
 
+    if( !id.id.dir ) {
+        return false;
+    }
+
     const base_camps::direction_data &base_data = base_camps::all_directions.at( id.id.dir.value() );
     for( ui_mission_id &miss_id : hidden_missions[size_t( base_data.tab_order )] ) {
         if( is_equal( miss_id, id ) ) {
@@ -663,15 +670,15 @@ comp_list basecamp::get_mission_workers( const mission_id &miss_id, bool contain
 
 void basecamp::query_new_name( bool force )
 {
-    string_input_popup input_popup;
+    string_input_popup_imgui input_popup( 40 );
     bool done = false;
     bool need_input = true;
+    std::string text;
     do {
-        input_popup.title( _( "Name this camp" ) )
-        .width( 40 )
-        .max_length( 25 )
-        .query();
-        if( input_popup.canceled() || input_popup.text().empty() ) {
+        input_popup.set_description( _( "Name this camp" ) );
+        input_popup.set_max_input_length( 25 );
+        text = input_popup.query();
+        if( input_popup.cancelled() || text.empty() ) {
             if( name.empty() || force ) {
                 popup( _( "You need to input the base camp name." ) );
             } else {
@@ -682,13 +689,14 @@ void basecamp::query_new_name( bool force )
         }
     } while( !done && need_input );
     if( done ) {
-        name = input_popup.text();
+        name = text;
     }
 }
 
 void basecamp::set_name( const std::string &new_name )
 {
     name = new_name;
+    parse_tags( name, get_player_character(), get_player_character() );
 }
 
 /*
@@ -801,7 +809,7 @@ void basecamp::form_crafting_inventory( map &target_map )
     for( basecamp_resource &bcp_r : resources ) {
         bcp_r.consumed = 0;
         item camp_item( bcp_r.fake_id, calendar::turn_zero );
-        camp_item.set_flag( STATIC( flag_id( "PSEUDO" ) ) );
+        camp_item.set_flag( json_flag_PSEUDO );
         if( !bcp_r.ammo_id.is_null() ) {
             for( basecamp_fuel &bcp_f : fuels ) {
                 if( bcp_f.ammo_id == bcp_r.ammo_id ) {
@@ -878,7 +886,7 @@ void basecamp::handle_takeover_by( faction_id new_owner, bool violent_takeover )
     camp_workers.clear();
 
     add_msg_debug( debugmode::DF_CAMPS, "Camp %s owned by %s is being taken over by %s!",
-                   name, fac()->name, new_owner->name );
+                   name, fac()->id.c_str(), new_owner->id.c_str() );
 
     if( !violent_takeover ) {
         set_owner( new_owner );
@@ -905,7 +913,8 @@ void basecamp::handle_takeover_by( faction_id new_owner, bool violent_takeover )
         if( checked_camp->get_owner() == get_owner() ) {
             add_msg_debug( debugmode::DF_CAMPS,
                            "Camp %s at %s is owned by %s, adding it to plunder calculations.",
-                           checked_camp->name, checked_camp->camp_omt_pos().to_string_writable(), get_owner()->name );
+                           checked_camp->camp_name(), checked_camp->camp_omt_pos().to_string_writable(),
+                           get_owner()->id.c_str() );
             num_of_owned_camps++;
         }
     }
@@ -920,19 +929,22 @@ void basecamp::handle_takeover_by( faction_id new_owner, bool violent_takeover )
 
     // The faction taking over also seizes resources proportional to the number of camps the previous owner had
     // e.g. a single-camp faction has its entire stockpile plundered, a 10-camp faction has 10% transferred
-    nutrients captured_with_camp = fac()->food_supply / num_of_owned_camps;
+    nutrients captured_with_camp = fac()->food_supply() / num_of_owned_camps;
     nutrients taken_from_camp = -captured_with_camp;
     camp_food_supply( taken_from_camp );
     add_msg_debug( debugmode::DF_CAMPS,
                    "Food supplies of %s plundered by %d kilocalories!  Total food supply reduced to %d kilocalories after losing %.1f%% of their camps.",
-                   fac()->name, captured_with_camp.kcal(), fac()->food_supply.kcal(),
+                   fac()->id.c_str(), captured_with_camp.kcal(), fac()->food_supply().kcal(),
                    1.0 / static_cast<double>( num_of_owned_camps ) * 100.0 );
     set_owner( new_owner );
     int previous_days_of_food = camp_food_supply_days( MODERATE_EXERCISE );
-    camp_food_supply( captured_with_camp );
+    // kinda a bug - rot time is lost here
+    std::map<time_point, nutrients> added;
+    added[calendar::turn_zero] = captured_with_camp;
+    fac()->add_to_food_supply( added );
     add_msg_debug( debugmode::DF_CAMPS,
                    "Food supply of new owner %s has increased to %d kilocalories due to takeover of camp %s!",
-                   fac()->name, new_owner->food_supply.kcal(), name );
+                   fac()->id.c_str(), new_owner->food_supply().kcal(), name );
     if( new_owner == get_player_character().get_faction()->id ) {
         popup( _( "Through your looting of %s you found %d days worth of food and other resources." ),
                name, camp_food_supply_days( MODERATE_EXERCISE ) - previous_days_of_food );
@@ -959,7 +971,8 @@ std::string basecamp::expansion_tab( const point_rel_omt &dir ) const
         recipe_id id( base_camps::faction_encode_abs( e->second, 0 ) );
         const auto e_type = expansion_types.find( id );
         if( e_type != expansion_types.end() ) {
-            return e_type->second + _( "Expansion" );
+            //~ A particular faction camp / basecamp expansion
+            return string_format( _( "%s Expansion" ), e_type->second );
         }
     }
     return _( "Empty Expansion" );

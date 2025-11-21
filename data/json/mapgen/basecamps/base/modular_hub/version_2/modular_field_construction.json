@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmh_2_room_NE_1",
     "object": {
       "parameters": {
@@ -10,6 +9,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_2_adobe_palette",
               "fbmh_2_concrete_palette",
               "fbmh_2_log_palette",
               "fbmh_2_metal_palette",
@@ -37,7 +37,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmh_2_room_NE_1_roof",
     "object": {
       "parameters": {
@@ -46,6 +45,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_2_adobe_palette",
               "fbmh_2_concrete_palette",
               "fbmh_2_log_palette",
               "fbmh_2_metal_palette",
@@ -73,7 +73,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmh_2_room_NE_1",
-    "method": "json",
     "object": {
       "place_nested": [
         { "chunks": [ "fbmh_2_room_NE_1" ], "x": 18, "y": 0, "z": 0 },
@@ -83,7 +82,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmh_2_room_NE_2",
     "object": {
       "parameters": {
@@ -92,6 +90,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_2_adobe_palette",
               "fbmh_2_concrete_palette",
               "fbmh_2_log_palette",
               "fbmh_2_metal_palette",
@@ -119,7 +118,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmh_2_room_NE_2_roof",
     "object": {
       "parameters": {
@@ -128,6 +126,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_2_adobe_palette",
               "fbmh_2_concrete_palette",
               "fbmh_2_log_palette",
               "fbmh_2_metal_palette",
@@ -155,7 +154,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmh_2_room_NE_2",
-    "method": "json",
     "object": {
       "place_nested": [
         { "chunks": [ "fbmh_2_room_NE_2" ], "x": 18, "y": 0, "z": 0 },
@@ -165,7 +163,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmh_2_room_NE_3",
     "object": {
       "parameters": {
@@ -174,6 +171,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_2_adobe_palette",
               "fbmh_2_concrete_palette",
               "fbmh_2_log_palette",
               "fbmh_2_metal_palette",
@@ -201,7 +199,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmh_2_room_NE_3_roof",
     "object": {
       "parameters": {
@@ -210,6 +207,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_2_adobe_palette",
               "fbmh_2_concrete_palette",
               "fbmh_2_log_palette",
               "fbmh_2_metal_palette",
@@ -237,7 +235,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmh_2_room_NE_3",
-    "method": "json",
     "object": {
       "place_nested": [
         { "chunks": [ "fbmh_2_room_NE_3" ], "x": 18, "y": 0, "z": 0 },
@@ -247,7 +244,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmh_2_room_ENE",
     "object": {
       "parameters": {
@@ -256,6 +252,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_2_adobe_palette",
               "fbmh_2_concrete_palette",
               "fbmh_2_log_palette",
               "fbmh_2_metal_palette",
@@ -282,7 +279,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmh_2_room_roof",
     "object": {
       "parameters": {
@@ -291,6 +287,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_2_adobe_palette",
               "fbmh_2_concrete_palette",
               "fbmh_2_log_palette",
               "fbmh_2_metal_palette",
@@ -317,7 +314,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmh_2_room_ENE",
-    "method": "json",
     "object": {
       "place_nested": [
         { "chunks": [ "fbmh_2_room_ENE" ], "x": 19, "y": 6, "z": 0 },
@@ -327,7 +323,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmh_2_room_ESE",
     "object": {
       "parameters": {
@@ -336,6 +331,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_2_adobe_palette",
               "fbmh_2_concrete_palette",
               "fbmh_2_log_palette",
               "fbmh_2_metal_palette",
@@ -362,7 +358,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmh_2_room_ESE_roof",
     "object": {
       "parameters": {
@@ -371,6 +366,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_2_adobe_palette",
               "fbmh_2_concrete_palette",
               "fbmh_2_log_palette",
               "fbmh_2_metal_palette",
@@ -397,7 +393,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmh_2_room_ESE",
-    "method": "json",
     "object": {
       "place_nested": [
         { "chunks": [ "fbmh_2_room_ESE" ], "x": 19, "y": 14, "z": 0 },
@@ -407,7 +402,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmh_2_room_SE",
     "object": {
       "parameters": {
@@ -416,6 +410,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_2_adobe_palette",
               "fbmh_2_concrete_palette",
               "fbmh_2_log_palette",
               "fbmh_2_metal_palette",
@@ -443,7 +438,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmh_2_room_SE",
-    "method": "json",
     "object": {
       "place_nested": [
         { "chunks": [ "fbmh_2_room_SE" ], "x": 19, "y": 19, "z": 0 },
@@ -453,7 +447,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmh_2_room_SW",
     "object": {
       "parameters": {
@@ -462,6 +455,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_2_adobe_palette",
               "fbmh_2_concrete_palette",
               "fbmh_2_log_palette",
               "fbmh_2_metal_palette",
@@ -489,7 +483,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmh_2_room_SW",
-    "method": "json",
     "object": {
       "place_nested": [
         { "chunks": [ "fbmh_2_room_SW" ], "x": 0, "y": 19, "z": 0 },
@@ -499,7 +492,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmh_2_room_WSW",
     "object": {
       "parameters": {
@@ -508,6 +500,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_2_adobe_palette",
               "fbmh_2_concrete_palette",
               "fbmh_2_log_palette",
               "fbmh_2_metal_palette",
@@ -534,7 +527,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmh_2_room_WSW_roof",
     "object": {
       "parameters": {
@@ -543,6 +535,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_2_adobe_palette",
               "fbmh_2_concrete_palette",
               "fbmh_2_log_palette",
               "fbmh_2_metal_palette",
@@ -569,7 +562,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmh_2_room_WSW",
-    "method": "json",
     "object": {
       "place_nested": [
         { "chunks": [ "fbmh_2_room_WSW" ], "x": 0, "y": 14, "z": 0 },
@@ -579,7 +571,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmh_2_room_WNW",
     "object": {
       "parameters": {
@@ -588,6 +579,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_2_adobe_palette",
               "fbmh_2_concrete_palette",
               "fbmh_2_log_palette",
               "fbmh_2_metal_palette",
@@ -614,7 +606,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmh_2_room_WNW_roof",
     "object": {
       "parameters": {
@@ -623,6 +614,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_2_adobe_palette",
               "fbmh_2_concrete_palette",
               "fbmh_2_log_palette",
               "fbmh_2_metal_palette",
@@ -649,7 +641,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmh_2_room_WNW",
-    "method": "json",
     "object": {
       "place_nested": [
         { "chunks": [ "fbmh_2_room_WNW" ], "x": 0, "y": 5, "z": 0 },
@@ -659,7 +650,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmh_2_room_NW",
     "object": {
       "parameters": {
@@ -668,6 +658,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_2_adobe_palette",
               "fbmh_2_concrete_palette",
               "fbmh_2_log_palette",
               "fbmh_2_metal_palette",
@@ -695,7 +686,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmh_2_room_NW",
-    "method": "json",
     "object": {
       "place_nested": [
         { "chunks": [ "fbmh_2_room_NW" ], "x": 0, "y": 0, "z": 0 },
@@ -705,7 +695,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmh_2_center_east",
     "object": {
       "parameters": {
@@ -714,6 +703,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_2_adobe_palette",
               "fbmh_2_concrete_palette",
               "fbmh_2_log_palette",
               "fbmh_2_metal_palette",
@@ -741,7 +731,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmh_2_center_east_roof",
     "object": {
       "parameters": {
@@ -750,6 +739,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_2_adobe_palette",
               "fbmh_2_concrete_palette",
               "fbmh_2_log_palette",
               "fbmh_2_metal_palette",
@@ -777,7 +767,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmh_2_center_east",
-    "method": "json",
     "object": {
       "place_nested": [
         { "chunks": [ "fbmh_2_center_east" ], "x": 18, "y": 9, "z": 0 },
@@ -787,7 +776,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmh_2_center_mideast",
     "object": {
       "parameters": {
@@ -796,6 +784,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_2_adobe_palette",
               "fbmh_2_concrete_palette",
               "fbmh_2_log_palette",
               "fbmh_2_metal_palette",
@@ -823,7 +812,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmh_2_center_roof",
     "object": {
       "parameters": {
@@ -832,6 +820,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_2_adobe_palette",
               "fbmh_2_concrete_palette",
               "fbmh_2_log_palette",
               "fbmh_2_metal_palette",
@@ -859,7 +848,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmh_2_center_mideast",
-    "method": "json",
     "object": {
       "place_nested": [
         { "chunks": [ "fbmh_2_center_mideast" ], "x": 12, "y": 9, "z": 0 },
@@ -869,7 +857,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmh_2_center_midwest",
     "object": {
       "parameters": {
@@ -878,6 +865,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_2_adobe_palette",
               "fbmh_2_concrete_palette",
               "fbmh_2_log_palette",
               "fbmh_2_metal_palette",
@@ -906,7 +894,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmh_2_center_midwest",
-    "method": "json",
     "object": {
       "place_nested": [
         { "chunks": [ "fbmh_2_center_midwest" ], "x": 6, "y": 9, "z": 0 },
@@ -916,7 +903,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmh_2_center_west",
     "object": {
       "parameters": {
@@ -925,6 +911,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_2_adobe_palette",
               "fbmh_2_concrete_palette",
               "fbmh_2_log_palette",
               "fbmh_2_metal_palette",
@@ -952,7 +939,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmh_2_center_west_roof",
     "object": {
       "parameters": {
@@ -961,6 +947,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_2_adobe_palette",
               "fbmh_2_concrete_palette",
               "fbmh_2_log_palette",
               "fbmh_2_metal_palette",
@@ -988,7 +975,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmh_2_center_west",
-    "method": "json",
     "object": {
       "place_nested": [
         { "chunks": [ "fbmh_2_center_west" ], "x": 0, "y": 9, "z": 0 },
@@ -998,7 +984,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmh_2_courtyard_wall_north",
     "object": {
       "parameters": {
@@ -1007,6 +992,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_2_adobe_palette",
               "fbmh_2_concrete_palette",
               "fbmh_2_log_palette",
               "fbmh_2_metal_palette",
@@ -1042,7 +1028,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmh_2_courtyard_wall_north_roof",
     "object": {
       "parameters": {
@@ -1051,6 +1036,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_2_adobe_palette",
               "fbmh_2_concrete_palette",
               "fbmh_2_log_palette",
               "fbmh_2_metal_palette",
@@ -1086,7 +1072,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmh_2_courtyard_wall_north",
-    "method": "json",
     "object": {
       "place_nested": [
         { "chunks": [ "fbmh_2_courtyard_wall_north" ], "x": 5, "y": 0, "z": 0 },
@@ -1096,7 +1081,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmh_2_courtyard_wall_south",
     "object": {
       "parameters": {
@@ -1105,6 +1089,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_2_adobe_palette",
               "fbmh_2_concrete_palette",
               "fbmh_2_log_palette",
               "fbmh_2_metal_palette",
@@ -1140,7 +1125,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmh_2_courtyard_wall_south_roof",
     "object": {
       "parameters": {
@@ -1149,6 +1133,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_2_adobe_palette",
               "fbmh_2_concrete_palette",
               "fbmh_2_log_palette",
               "fbmh_2_metal_palette",
@@ -1184,7 +1169,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmh_2_courtyard_wall_south",
-    "method": "json",
     "object": {
       "place_nested": [
         { "chunks": [ "fbmh_2_courtyard_wall_south" ], "x": 5, "y": 10, "z": 0 },

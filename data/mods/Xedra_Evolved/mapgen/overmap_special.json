@@ -59,7 +59,7 @@
     "city_distance": [ 3, -1 ],
     "city_sizes": [ 4, 12 ],
     "occurrences": [ 15, 100 ],
-    "flags": [ "GLOBALLY_UNIQUE", "CLASSIC", "LAKE", "MAN_MADE" ]
+    "flags": [ "GLOBALLY_UNIQUE", "LAKE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -91,6 +91,7 @@
       { "point": [ 0, 0, 4 ], "overmap": "field_office_20_south" }
     ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" } ],
+    "flags": [ "OVERMAP_UNIQUE", "MAN_MADE" ],
     "locations": [ "land" ],
     "city_distance": [ 5, -1 ],
     "city_sizes": [ 10, -1 ],
@@ -162,7 +163,8 @@
       { "point": [ 0, 1, -1 ], "overmap": "cathedralv_b_SW_north" },
       { "point": [ 1, 1, -1 ], "overmap": "cathedralv_b_SE_north" }
     ],
-    "spawns": { "group": "GROUP_VAMPIRE_CATHEDRAL", "population": [ 10, 30 ], "radius": [ 1, 8 ] }
+    "spawns": { "group": "GROUP_VAMPIRE_CATHEDRAL", "population": [ 10, 30 ], "radius": [ 1, 8 ] },
+    "flags": [ "OVERMAP_UNIQUE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -305,7 +307,7 @@
     "city_distance": [ 20, -1 ],
     "city_sizes": [ 0, 20 ],
     "occurrences": [ 5, 100 ],
-    "flags": [ "GLOBALLY_UNIQUE" ]
+    "flags": [ "GLOBALLY_UNIQUE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -478,5 +480,32 @@
     "city_sizes": [ 0, 12 ],
     "occurrences": [ 66, 100 ],
     "flags": [ "CLASSIC", "OVERMAP_UNIQUE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "cabin",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "cabin_book_lies_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "cabin_roof_book_lies_north" }
+    ],
+    "locations": [ "forest" ],
+    "city_distance": [ 20, -1 ],
+    "city_sizes": [ 0, 20 ],
+    "occurrences": [ 20, 100 ],
+    "flags": [ "GLOBALLY_UNIQUE", "MAN_MADE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "cabin_xe_nether_cult",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "cabin_nether_cult_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "cabin_nether_cult_roof_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "cabin_nether_cult_basement_north" }
+    ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "forest_trail", "connection": "forest_trail" } ],
+    "locations": [ "forest" ],
+    "city_distance": [ 25, -1 ],
+    "occurrences": [ 15, 100 ],
+    "flags": [ "WILDERNESS", "GLOBALLY_UNIQUE", "MAN_MADE" ]
   }
 ]

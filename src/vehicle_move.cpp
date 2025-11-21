@@ -35,10 +35,12 @@
 #include "options.h"
 #include "rng.h"
 #include "sounds.h"
+#include "string_formatter.h"
 #include "translations.h"
 #include "trap.h"
 #include "units.h"
 #include "units_utility.h"
+#include "value_ptr.h"
 #include "veh_type.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
@@ -54,6 +56,7 @@ static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_stunned( "stunned" );
 
 static const flag_id json_flag_CANNOT_TAKE_DAMAGE( "CANNOT_TAKE_DAMAGE" );
+static const flag_id json_flag_DAMAGE_VEHICLE_WHEELS( "DAMAGE_VEHICLE_WHEELS" );
 
 static const itype_id fuel_type_animal( "animal" );
 static const itype_id fuel_type_battery( "battery" );
@@ -78,7 +81,7 @@ static const ter_str_id ter_t_railroad_track_v_on_tie( "t_railroad_track_v_on_ti
 static const trait_id trait_DEFT( "DEFT" );
 static const trait_id trait_PROF_SKATER( "PROF_SKATER" );
 
-static const std::string part_location_structure( "structure" );
+static const vpart_location_id vpart_location_structure( "structure" );
 
 // tile height in meters
 static const float tile_height = 4.0f;
@@ -750,7 +753,7 @@ bool vehicle::collision( map &here, std::vector<veh_collision> &colls,
         }
 
         const vpart_info &info = vp.info();
-        if( !vp.is_fake && info.location != part_location_structure && !info.has_flag( VPFLAG_ROTOR ) ) {
+        if( !vp.is_fake && info.location != vpart_location_structure && !info.has_flag( VPFLAG_ROTOR ) ) {
             continue;
         }
         empty = false;
@@ -1122,11 +1125,11 @@ veh_collision vehicle::part_collision( map &here, int part, const tripoint_abs_m
                 if( !critter->has_flag( json_flag_CANNOT_TAKE_DAMAGE ) ) {
                     if( vpi.has_flag( "SHARP" ) ) {
                         critter->add_effect( effect_source( driver ), effect_bleed, 1_minutes * rng( 1, dam ),
-                                             critter->get_random_body_part_of_type( body_part_type::type::torso ) );
+                                             critter->get_random_body_part_of_type( bp_type::torso ) );
                     } else if( dam > 18 && rng( 1, 20 ) > 15 ) {
                         //low chance of lighter bleed even with non sharp objects.
                         critter->add_effect( effect_source( driver ), effect_bleed, 1_minutes,
-                                             critter->get_random_body_part_of_type( body_part_type::type::torso ) );
+                                             critter->get_random_body_part_of_type( bp_type::torso ) );
                     }
                 }
                 add_msg_debug( debugmode::DF_VEHICLE_MOVE, "Critter collision damage: %d", dam );
@@ -1193,11 +1196,11 @@ veh_collision vehicle::part_collision( map &here, int part, const tripoint_abs_m
         if( player_is_driving_this_veh( &here ) ) {
             if( !snd.empty() ) {
                 //~ 1$s - vehicle name, 2$s - part name, 3$s - collision object name, 4$s - sound message
-                add_msg( m_warning, _( "Your %1$s's %2$s rams into %3$s with a %4$s" ),
+                add_msg( m_warning, _( "Your %1$s's %2$s rams into %3$s with a %4$s!" ),
                          name, vp.name(), ret.target_name, snd );
             } else {
                 //~ 1$s - vehicle name, 2$s - part name, 3$s - collision object name
-                add_msg( m_warning, _( "Your %1$s's %2$s rams into %3$s." ),
+                add_msg( m_warning, _( "Your %1$s's %2$s rams into %3$s!" ),
                          name, vp.name(), ret.target_name );
             }
         }
@@ -1229,6 +1232,86 @@ veh_collision vehicle::part_collision( map &here, int part, const tripoint_abs_m
 
     ret.imp = part_dmg;
     return ret;
+}
+
+// Simple boilerplate extracted to a static to re-use.
+static std::pair<double, double> item_hardness_calc( const item &it )
+{
+    // To prevent DBZ. A material's chip resist could well be 0!
+    const double min_value_clamp = 0.001;
+    const double max_value_clamp = 1000.0;
+    // These are intentionally "reversed".
+    double min_hardness = max_value_clamp;
+    double max_hardness = min_value_clamp;
+    const std::map<material_id, int> &mats = it.made_of();
+    if( mats.empty() ) {
+        // weird item, no defined materials. Just skip it.
+        return std::make_pair( min_value_clamp, max_value_clamp );
+    }
+    for( const std::pair<const material_id, int> &mat_pair : mats ) {
+        const double chip_resist = mat_pair.first->chip_resist();
+        min_hardness = std::min( min_hardness, chip_resist );
+        max_hardness = std::max( max_hardness, chip_resist );
+    }
+    min_hardness = std::clamp( min_hardness, min_value_clamp, max_value_clamp );
+    max_hardness = std::clamp( max_hardness, min_value_clamp, max_value_clamp );
+    return std::make_pair( min_hardness, max_hardness );
+}
+
+double vehicle::hit_probability( const item &it, const vehicle_part *vp_wheel )
+{
+    // We don't have item widths, so just go with length. This will cause long narrow items to cover the maximum
+    // extent at all times, rather than account for orientation.
+    const double item_coverage = to_millimeter( it.length() ) / 1000.0;
+    // wheel width is in inches, so this scales it to a meter, i.e. the nominal width of a tile.
+    const double wheel_coverage = vp_wheel->get_base().type->wheel->width * 0.0254;
+    return std::min( wheel_coverage + item_coverage, 1.0 );
+}
+
+double vehicle::wheel_damage_chance_vs_item( const item &it, vehicle_part &vp_wheel ) const
+{
+    if( !it.has_flag( json_flag_DAMAGE_VEHICLE_WHEELS ) ) {
+        return 0.0;
+    }
+    // Wheels use the worst/softest possible value, the squishy parts. In other words, a wheel is damaged
+    // if its rubber tire is punctured.
+    double wheel_hardness = item_hardness_calc( vp_wheel.get_base() ).first;
+    if( vp_wheel.info().has_flag( "RESIST_RUNOVER_DAMAGE" ) ) {
+        // Wheels with the flag have double effective hardness due to their design, etc.
+        wheel_hardness = wheel_hardness * 2.0;
+    }
+    // Items attempting to do damage use the best/hardest possible value, the pointy bits.
+    double item_hardness = item_hardness_calc( it ).second;
+    // It is exponentially more difficult for soft items to damage wheels, even if you're hitting a lot of them.
+    const double chance_to_damage = std::min( std::pow( item_hardness / wheel_hardness, 2.0 ), 1.0 );
+    add_msg_debug( debugmode::DF_VEHICLE_MOVE,
+                   "Vehicle %s running over item %s."
+                   "\n Chance to damage: %f%%."
+                   "\n Item hardness: %f"
+                   "\n Wheel hardness: %f",
+                   disp_name(), it.tname(), chance_to_damage * 100.0, item_hardness,
+                   wheel_hardness );
+    return chance_to_damage;
+}
+
+void vehicle::damage_wheel_on_item( vehicle_part *vp_wheel, const item &it, int *damage_levels,
+                                    std::vector<std::string> *messages ) const
+{
+    // bullshit to work around vehicle::damage_direct() --> vehicle::mod_hp() doing incorrect(??) calculations.
+    // Each damage instance should be worth exactly one 'level' of vehicle part damage.
+    const int one_damage_level = vp_wheel->info().durability *
+                                 ( static_cast<double>( itype::damage_scale ) / vp_wheel->max_damage() );
+
+    const double chance_to_damage = wheel_damage_chance_vs_item( it, *vp_wheel );
+
+    if( chance_to_damage > 0.0 ) {
+        if( chance_to_damage >= rng_float( 0.0, 1.0 ) ) {
+            *damage_levels += one_damage_level;
+            //~%1$s vehicle name, %1$s vehicle part name, %3$s name of item being run over
+            messages->emplace_back( string_format( _( "The %1$s's %2$s is damaged by running over the %3$s!" ),
+                                                   disp_name(), vp_wheel->info().name(), it.tname() ) );
+        }
+    }
 }
 
 void vehicle::handle_trap( map *here, const tripoint_bub_ms &p, vehicle_part &vp_wheel )
@@ -2010,7 +2093,7 @@ bool vehicle::level_vehicle( map &here )
     // make sure that all parts are either supported across levels or on the same level
     std::map<int, bool> no_support;
     for( vehicle_part &prt : parts ) {
-        if( prt.info().location != part_location_structure ) {
+        if( prt.info().location != vpart_location_structure ) {
             continue;
         }
         const tripoint_bub_ms part_pos = bub_part_pos( here, prt );

@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "afs_tunnel_sinkhole_surface" ],
     "object": {
       "fallback_predecessor_mapgen": "field",
@@ -39,7 +38,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "afs_tunnel_sinkhole" ],
     "object": {
       "fill_ter": "t_rock_floor",

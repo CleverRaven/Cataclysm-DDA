@@ -572,5 +572,18 @@
     "use_action": { "type": "holster", "holster_prompt": "Holster spear", "holster_msg": "You holster your %s." },
     "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY" ],
     "armor": [ { "encumbrance": 1, "coverage": 10, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+  },
+  {
+    "id": "spearsling_canvas",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "copy-from": "spearsling",
+    "name": { "str": "canvas spear strap" },
+    "description": "A canvas strap tied around the torso for toting spears while keeping your hands free.  You have to duck to get through doors while one's in it, though.  Activate to holster/draw a weapon.",
+    "material": [ "canvas" ],
+    "price": "25 USD",
+    "price_postapoc": "1 USD 50 cent",
+    "symbol": "[",
+    "color": "blue"
   }
 ]

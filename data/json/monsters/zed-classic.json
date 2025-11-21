@@ -29,7 +29,7 @@
     "special_attacks": [
       [ "PARROT", 400 ],
       [ "PARROT_AT_DANGER", 0 ],
-      { "id": "grab" },
+      { "id": "grab", "cooldown": 2 },
       { "id": "bite_humanoid", "cooldown": 5 },
       { "id": "scratch_humanoid" }
     ],
@@ -51,7 +51,10 @@
       "PUSH_MON",
       "FILTHY"
     ],
-    "armor": { "electric": 1 }
+    "armor": { "electric": 1 },
+    "revive_forms": [
+      { "condition": { "map_terrain_with_flag": "FUNGUS", "loc": { "context_val": "loc" } }, "monster": "mon_fungal_mound" }
+    ]
   },
   {
     "id": "mon_beekeeper",
@@ -84,7 +87,7 @@
     "description": "A human body covered by a weather-beaten and badly damaged set of police gear.",
     "copy-from": "mon_zombie",
     "color": "blue",
-    "melee_skill": 6,
+    "melee_skill": 5,
     "melee_dice_sides": 4,
     "vision_day": 30,
     "death_drops": "mon_zombie_cop_death_drops",

@@ -129,13 +129,6 @@
   },
   {
     "type": "ITEM",
-    "id": "spear_forked",
-    "copy-from": "spear_forked",
-    "name": { "str": "forked spear" },
-    "extend": { "flags": [ "WOODEN_WEAPON" ] }
-  },
-  {
-    "type": "ITEM",
     "id": "hockey_stick",
     "copy-from": "hockey_stick",
     "name": { "str": "hockey stick" },

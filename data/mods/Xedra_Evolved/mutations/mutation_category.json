@@ -37,6 +37,15 @@
   },
   {
     "type": "mutation_category",
+    "id": "ARVORE_ALCHEMY",
+    "name": "Arvorian Canker",
+    "threshold_mut": "THRESH_ARVORE",
+    "mutagen_message": "Gorged with verdant power.",
+    "vitamin": "mutagen_alchemical_plantkin",
+    "memorial_message": "Withered and rotted away."
+  },
+  {
+    "type": "mutation_category",
     "id": "SALAMANDER",
     "name": "Salamander",
     "threshold_mut": "THRESH_SALAMANDER",

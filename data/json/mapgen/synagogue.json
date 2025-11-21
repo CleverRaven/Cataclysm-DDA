@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "synagogue" ],
     "//": "New England Synagogue",
     "object": {
@@ -86,7 +85,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "synagogue_roof",
     "object": {
       "fill_ter": "t_open_air",
@@ -122,7 +120,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "synagogue_upper_roof",
     "object": {
       "fill_ter": "t_open_air",

@@ -1,6 +1,5 @@
 [
   {
-    "method": "json",
     "om_terrain": [ "lab_2x2_cargo_NW" ],
     "type": "mapgen",
     "object": {
@@ -69,7 +68,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": [ "lab_2x2_cargo_NE" ],
     "type": "mapgen",
     "object": {
@@ -124,7 +122,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": [ "lab_2x2_cargo_SW" ],
     "type": "mapgen",
     "object": {
@@ -170,7 +167,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": [ "lab_2x2_cargo_SE" ],
     "type": "mapgen",
     "object": {

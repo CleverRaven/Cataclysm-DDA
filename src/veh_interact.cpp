@@ -26,6 +26,7 @@
 #include "character.h"
 #include "character_id.h"
 #include "contents_change_handler.h"
+#include "crafting.h"
 #include "creature_tracker.h"
 #include "debug.h"
 #include "enums.h"
@@ -99,6 +100,8 @@ static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_STRONGBACK( "STRONGBACK" );
 
 static const vpart_id vpart_ap_wall_wiring( "ap_wall_wiring" );
+
+static const vpart_location_id vpart_location_structure( "structure" );
 
 static std::string status_color( bool status )
 {
@@ -360,7 +363,7 @@ bool veh_interact::format_reqs( std::string &msg, const requirement_data &reqs,
 {
     Character &player_character = get_player_character();
     const inventory &inv = player_character.crafting_inventory();
-    bool ok = reqs.can_make_with_inventory( inv, is_crafting_component );
+    bool ok = reqs.can_make_with_inventory( inv, is_crafting_component, 1, craft_flags::none, false );
 
     msg += _( "<color_white>Time required:</color>\n" );
     msg += "> " + to_string_approx( time ) + "\n";
@@ -541,7 +544,7 @@ void veh_interact::do_main_loop( map &here )
                 do_rename();
             } else {
                 if( owner_fac ) {
-                    popup( _( "You cannot rename this vehicle as it is owned by: %s." ), _( owner_fac->name ) );
+                    popup( _( "You cannot rename this vehicle as it is owned by: %s." ), owner_fac->get_name() );
                 }
             }
         } else if( action == "SIPHON" ) {
@@ -567,7 +570,7 @@ void veh_interact::do_main_loop( map &here )
             } else {
                 if( owner_fac ) {
                     popup( _( "You cannot assign crew on this vehicle as it is owned by: %s." ),
-                           _( owner_fac->name ) );
+                           owner_fac->get_name() );
                 }
             }
         } else if( action == "RELABEL" ) {
@@ -575,7 +578,7 @@ void veh_interact::do_main_loop( map &here )
                 do_relabel( here );
             } else {
                 if( owner_fac ) {
-                    popup( _( "You cannot relabel this vehicle as it is owned by: %s." ), _( owner_fac->name ) );
+                    popup( _( "You cannot relabel this vehicle as it is owned by: %s." ), owner_fac->get_name() );
                 }
             }
         } else if( action == "FUEL_LIST_DOWN" ) {
@@ -1142,7 +1145,7 @@ void veh_interact::do_repair( map &here )
                 msg = _( "You can't repair stuff while driving." );
                 return false;
             case task_reason::INVALID_TARGET:
-                msg = _( "There are no damaged parts on this vehicle." );
+                msg = _( "There are no parts which can be repaired on this vehicle." );
                 return false;
             default:
                 break;
@@ -1893,6 +1896,7 @@ void veh_interact::do_remove( map &here )
             move_in_list( pos, action, parts_here.size() );
         }
     }
+    veh->recalculate_enchantment_cache();
 }
 
 void veh_interact::do_siphon( map &here )
@@ -2039,7 +2043,8 @@ void veh_interact::do_rename()
 {
     std::string name = string_input_popup()
                        .title( _( "Enter new vehicle name:" ) )
-                       .width( 20 )
+                       .width( 60 )
+                       .text( veh->name )
                        .query_string();
     if( !name.empty() ) {
         veh->name = name;
@@ -2173,7 +2178,7 @@ bool veh_interact::can_potentially_install( const vpart_info &vpart )
 {
     bool engine_reqs_met = true;
     bool can_make = vpart.install_requirements().can_make_with_inventory( *crafting_inv,
-                    is_crafting_component );
+                    is_crafting_component, 1, craft_flags::none, false );
     bool hammerspace = get_player_character().has_trait( trait_DEBUG_HS );
 
     int engines = 0;
@@ -2342,7 +2347,7 @@ void veh_interact::display_veh( map &here )
     nc_color col_at_cursor = c_black;
     int sym_at_cursor = ' ';
     //Iterate over structural parts so we only hit each square once
-    for( const int structural_part_idx : veh->all_parts_at_location( "structure" ) ) {
+    for( const int structural_part_idx : veh->all_parts_at_location( vpart_location_structure ) ) {
         const vehicle_part &vp = veh->part( structural_part_idx );
         const vpart_display vd = veh->get_display_of_tile( vp.mount, false, false );
         const point_rel_ms q = ( vp.mount + dd ).rotate( 3 );
@@ -2462,36 +2467,36 @@ void veh_interact::display_stats( map &here ) const
     bool is_ground = !veh->wheelcache.empty() || !is_boat;
     bool is_aircraft = veh->is_rotorcraft( here ) && veh->is_flying_in_air();
 
-    const auto vel_to_int = []( const double vel ) {
-        return static_cast<int>( convert_velocity( vel, VU_VEHICLE ) );
+    const auto vel_to_str = []( const double vel ) {
+        return three_digit_display( convert_velocity( vel, VU_VEHICLE ) );
     };
 
     int i = 0;
     if( is_aircraft ) {
         fold_and_print( *win[i], point( 0, row[i] ), getmaxx( *win[i] ), c_light_gray,
-                        _( "Air Safe/Top speed: <color_light_green>%3d</color>/<color_light_red>%3d</color> %s" ),
-                        vel_to_int( veh->safe_rotor_velocity( here, false ) ),
-                        vel_to_int( veh->max_rotor_velocity( here, false ) ),
+                        _( "Air Safe/Top speed: <color_light_green>%3s</color>/<color_light_red>%3s</color> %s" ),
+                        vel_to_str( veh->safe_rotor_velocity( here, false ) ),
+                        vel_to_str( veh->max_rotor_velocity( here, false ) ),
                         velocity_units( VU_VEHICLE ) );
         i += 1;
         fold_and_print( *win[i], point( 0, row[i] ), getmaxx( *win[i] ), c_light_gray,
-                        _( "Air acceleration: <color_light_blue>%3d</color> %s/s" ),
-                        vel_to_int( veh->rotor_acceleration( here, false ) ),
+                        _( "Air acceleration: <color_light_blue>%3s</color> %s/s" ),
+                        vel_to_str( veh->rotor_acceleration( here, false ) ),
                         velocity_units( VU_VEHICLE ) );
         i += 1;
     } else {
         if( is_ground ) {
             fold_and_print( *win[i], point( 0, row[i] ), getmaxx( *win[i] ), c_light_gray,
-                            _( "Safe/Top speed: <color_light_green>%3d</color>/<color_light_red>%3d</color> %s" ),
-                            vel_to_int( veh->safe_ground_velocity( here, false ) ),
-                            vel_to_int( veh->max_ground_velocity( here, false ) ),
+                            _( "Safe/Top speed: <color_light_green>%3s</color>/<color_light_red>%3s</color> %s" ),
+                            vel_to_str( veh->safe_ground_velocity( here, false ) ),
+                            vel_to_str( veh->max_ground_velocity( here, false ) ),
                             velocity_units( VU_VEHICLE ) );
             i += 1;
             // TODO: extract accelerations units to its own function
             fold_and_print( *win[i], point( 0, row[i] ), getmaxx( *win[i] ), c_light_gray,
                             //~ /t means per turn
-                            _( "Acceleration: <color_light_blue>%3d</color> %s/s" ),
-                            vel_to_int( veh->ground_acceleration( here, false ) ),
+                            _( "Acceleration: <color_light_blue>%3s</color> %s/s" ),
+                            vel_to_str( veh->ground_acceleration( here, false ) ),
                             velocity_units( VU_VEHICLE ) );
             i += 1;
         } else {
@@ -2499,16 +2504,16 @@ void veh_interact::display_stats( map &here ) const
         }
         if( is_boat ) {
             fold_and_print( *win[i], point( 0, row[i] ), getmaxx( *win[i] ), c_light_gray,
-                            _( "Water Safe/Top speed: <color_light_green>%3d</color>/<color_light_red>%3d</color> %s" ),
-                            vel_to_int( veh->safe_water_velocity( here, false ) ),
-                            vel_to_int( veh->max_water_velocity( here, false ) ),
+                            _( "Water Safe/Top speed: <color_light_green>%3s</color>/<color_light_red>%3s</color> %s" ),
+                            vel_to_str( veh->safe_water_velocity( here, false ) ),
+                            vel_to_str( veh->max_water_velocity( here, false ) ),
                             velocity_units( VU_VEHICLE ) );
             i += 1;
             // TODO: extract accelerations units to its own function
             fold_and_print( *win[i], point( 0, row[i] ), getmaxx( *win[i] ), c_light_gray,
                             //~ /t means per turn
-                            _( "Water acceleration: <color_light_blue>%3d</color> %s/s" ),
-                            vel_to_int( veh->water_acceleration( here, false ) ),
+                            _( "Water acceleration: <color_light_blue>%3s</color> %s/s" ),
+                            vel_to_str( veh->water_acceleration( here, false ) ),
                             velocity_units( VU_VEHICLE ) );
             i += 1;
         } else {
@@ -2789,6 +2794,7 @@ void veh_interact::display_details( const vpart_info *part )
     int line = 0;
     bool small_mode = column_width < 20;
 
+    // TODO: show mod part comes from
     // line 0: part name
     fold_and_print( w_details, point( col_1, line ), details_w, c_light_green, part->name() );
 
@@ -3080,7 +3086,7 @@ void veh_interact::complete_vehicle( map &here, Character &you )
         case 'i': {
             const inventory &inv = you.crafting_inventory();
             const requirement_data reqs = vpinfo.install_requirements();
-            if( !reqs.can_make_with_inventory( inv, is_crafting_component ) ) {
+            if( !reqs.can_make_with_inventory( inv, is_crafting_component, 1, craft_flags::none, false ) ) {
                 you.add_msg_player_or_npc( m_info,
                                            _( "You don't meet the requirements to install the %s." ),
                                            _( "<npcname> doesn't meet the requirements to install the %s." ),
@@ -3094,7 +3100,7 @@ void veh_interact::complete_vehicle( map &here, Character &you )
             for( const std::vector<item_comp> &e : reqs.get_components() ) {
                 for( item &obj : you.consume_items( e, 1, is_crafting_component, [&vpinfo]( const itype_id & itm ) {
                 return itm == vpinfo.base_item;
-            } ) ) {
+            }, false, true ) ) {
                     if( obj.typeId() == vpinfo.base_item ) {
                         base = obj;
                     } else {
@@ -3344,7 +3350,7 @@ void veh_interact::complete_vehicle( map &here, Character &you )
 
             veh.unlink_cables( here, part_mount, you,
                                false, /* unneeded as items will be unlinked if the connected part is removed */
-                               appliance_removal || vpi.location == "structure",
+                               appliance_removal || vpi.location == vpart_location_structure,
                                appliance_removal || vpi.has_flag( VPFLAG_CABLE_PORTS ) || vpi.has_flag( VPFLAG_BATTERY ) );
 
             if( veh.part_count_real() <= 1 ) {

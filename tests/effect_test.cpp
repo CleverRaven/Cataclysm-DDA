@@ -57,29 +57,40 @@ static const vitamin_id vitamin_test_vitx( "test_vitx" );
 // effect::get_start_time
 //
 // Create an `effect` object with given parameters, and check they were initialized correctly.
-static void check_effect_init( const std::string &eff_name, const time_duration &dur,
-                               const std::string &bp_name, const bool permanent, const int intensity,
+static void check_effect_init( const std::string &eff_name,
+                               const time_duration &requested_dur, const time_duration &expected_dur,
+                               const std::string &bp_name, const bool permanent,
+                               const int requested_int, const int expected_int,
                                const time_point &start_time )
 {
     const efftype_id eff_id( eff_name );
     const effect_type &type = eff_id.obj();
     const bodypart_str_id bp( bp_name );
 
-    effect effect_obj( effect_source::empty(), &type, dur, bp, permanent, intensity, start_time );
+    effect effect_obj( effect_source::empty(), &type, requested_dur, bp, permanent, requested_int,
+                       start_time );
 
-    CHECK( dur == effect_obj.get_duration() );
+    CHECK( expected_dur == effect_obj.get_duration() );
     CHECK( bp.id() == effect_obj.get_bp() );
     CHECK( permanent == effect_obj.is_permanent() );
-    CHECK( intensity == effect_obj.get_intensity() );
+    CHECK( expected_int == effect_obj.get_intensity() );
     CHECK( start_time == effect_obj.get_start_time() );
 }
 
 TEST_CASE( "effect_initialization_test", "[effect][init]" )
 {
     // "debugged" effect is defined in data/mods/TEST_DATA/effects.json
-    check_effect_init( "debugged", 1_days, "head", false, 5, calendar::turn_zero );
-    check_effect_init( "bite", 1_minutes, "torso", true, 2, calendar::turn );
-    check_effect_init( "grabbed", 1_turns, "arm_r", false, 1, calendar::turn + 1_hours );
+    // "debugged" effect has max_duration 1 hour, so 1 day gets clamped
+    check_effect_init( "debugged", 1_days, 1_hours, "head", false, 5, 5, calendar::turn_zero );
+    check_effect_init( "debugged", 1_minutes, 1_minutes, "head", false, 5, 5, calendar::turn_zero );
+    // "bite" effect has int_dur_factor, so intensity is calculated from duration regardless of requested intensity
+    check_effect_init( "bite", 60_minutes, 60_minutes, "torso", true, 99, 2, calendar::turn );
+    check_effect_init( "bite", 30_minutes, 30_minutes, "torso", true, 99, 1, calendar::turn );
+    check_effect_init( "grabbed", 1_turns, 1_turns, "arm_r", false, 100, 100,
+                       calendar::turn + 1_hours );
+    check_effect_init( "grabbed", 100_turns, 100_turns, "arm_r", false, 1, 1,
+                       calendar::turn + 1_hours );
+    check_effect_init( "grabbed", 1_turns, 1_turns, "arm_r", false, 10, 10, calendar::turn + 1_hours );
 }
 
 // Effect duration

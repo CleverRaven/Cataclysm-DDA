@@ -1,25 +1,21 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "spider_webs",
     "object": { "mapgensize": [ 1, 1 ], "place_fields": [ { "field": "fd_web", "x": 0, "y": 0, "intensity": [ 1, 3 ] } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "spider_webs_weak",
     "object": { "mapgensize": [ 1, 1 ], "place_fields": [ { "field": "fd_web", "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "spider_webs_nostick",
     "object": { "mapgensize": [ 1, 1 ], "place_fields": [ { "field": "fd_web_nostick", "repeat": [ 0, 3 ], "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "spider_nest",
     "object": {
       "mapgensize": [ 17, 17 ],
@@ -57,7 +53,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_spider",
     "object": {
       "place_nested": [
@@ -69,7 +64,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_basement_spider",
     "object": {
       "rows": [

@@ -1,0 +1,65 @@
+[
+  {
+    "id": "bio_dangersight_eyes_non_fifth_sun",
+    "copy-from": "bionic_general",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
+    "name": { "str": "Strange Eye CBM" },
+    "description": "You can tell this CBM is meant to be installed around your eyes, but what exactly it will do, you have no idea.",
+    "price": "7 kUSD 500 USD",
+    "weight": "500 g",
+    "difficulty": 9
+  },
+  {
+    "id": "bio_dangersight_eyes_standard",
+    "copy-from": "bionic_general",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
+    "name": { "str": "Ohuicatlachiyaliztimeh CBM" },
+    "description": "A set of Ohuicatlachiyaliztimeh, this CBM uses matrix technology to detect hostility from nearby targets, acting as an infallible IFF.",
+    "price": "7 kUSD 500 USD",
+    "weight": "500 g",
+    "difficulty": 9
+  },
+  {
+    "id": "bio_power_storage_fifth_sun",
+    "copy-from": "bionic_general",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
+    "name": { "str": "Ikpitikayotecontli System CBM" },
+    "description": "An extremely-efficent form of bionic power storage, using integral matrix dust to increase the efficiency of possible storage multiple times.",
+    "price": "8 kUSD 500 USD",
+    "weight": "500 g",
+    "difficulty": 8
+  },
+  {
+    "id": "bio_metabolics_fifth_sun",
+    "copy-from": "bionic_general",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
+    "name": { "str": "Tlacuallichicahualiztli Transformer CBM" },
+    "description": "A connection between the user's metabolism and their power storage allows this CBM to convert burned calories into bionic energy.",
+    "price": "4 kUSD",
+    "difficulty": 9
+  },
+  {
+    "id": "bio_physical_buffs_fifth_sun",
+    "copy-from": "bionic_general",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
+    "name": { "str": "Teōchicāhualiztli Booster CBM" },
+    "description": "A series of implants along the skeleton and in major muscle groups allow a dramatic increase in the user's strength and agility.",
+    "price": "10 kUSD",
+    "difficulty": 9
+  },
+  {
+    "id": "bio_cameleoflage_fifth_sun",
+    "copy-from": "bionic_general",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
+    "name": { "str": "Tapayaxitilmàtli CBM" },
+    "description": "Implants under the skin throughout the body that bend light when activated, making it much harder to spot the user from a distance.",
+    "price": "9 kUSD",
+    "difficulty": 9
+  }
+]

@@ -3,5 +3,50 @@
     "id": "MAGICAL_MIND_PROTECTION",
     "type": "json_flag",
     "info": "Your magic protects your mind against assault."
+  },
+  {
+    "id": "SPELLCASTING_AID",
+    "type": "json_flag",
+    "info": "This item makes it easier to cast spells."
+  },
+  {
+    "id": "NO_CASTING_EVOCATION_SPELLS",
+    "type": "json_flag",
+    "//": "Used by the NO_CASTING_EVOCATION_SPELLS trait"
+  },
+  {
+    "id": "NO_CASTING_CHANNELING_SPELLS",
+    "type": "json_flag",
+    "//": "Used by the NO_CASTING_CHANNELING_SPELLS trait"
+  },
+  {
+    "id": "NO_CASTING_SUMMONING_SPELLS",
+    "type": "json_flag",
+    "//": "Used by the NO_CASTING_CONJURATION_SPELLS trait"
+  },
+  {
+    "id": "NO_CASTING_ENHANCEMENT_SPELLS",
+    "type": "json_flag",
+    "//": "Used by the NO_CASTING_ENHANCEMENT_SPELLS trait"
+  },
+  {
+    "id": "NO_CASTING_ENERVATION_SPELLS",
+    "type": "json_flag",
+    "//": "Used by the NO_CASTING_ENERVATION_SPELLS trait"
+  },
+  {
+    "id": "NO_CASTING_CONVEYANCE_SPELLS",
+    "type": "json_flag",
+    "//": "Used by the NO_CASTING_CONVEYANCE_SPELLS trait"
+  },
+  {
+    "id": "NO_CASTING_RESTORATION_SPELLS",
+    "type": "json_flag",
+    "//": "Used by the NO_CASTING_RESTORATION_SPELLS trait"
+  },
+  {
+    "id": "NO_CASTING_TRANSFORMATION_SPELLS",
+    "type": "json_flag",
+    "//": "Used by the NO_CASTING_TRANSFORMATION_SPELLS trait"
   }
 ]

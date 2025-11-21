@@ -6,7 +6,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "lake_dock_small" ],
     "weight": 1000,
     "object": {
@@ -43,7 +42,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "lake_dock_small" ],
     "weight": 750,
     "object": {
@@ -81,7 +79,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "lake_shore_dock_small" ],
     "object": {
       "predecessor_mapgen": "lake_shore",

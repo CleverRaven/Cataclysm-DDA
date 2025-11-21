@@ -109,5 +109,20 @@
     "to_hit": -3,
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
     "melee_damage": { "bash": 4, "cut": 4 }
+  },
+  {
+    "type": "ITEM",
+    "id": "broken_eshaper_golem_feral_earthshaper",
+    "symbol": "x",
+    "color": "light_gray",
+    "name": "broken stone golem",
+    "category": "other",
+    "description": "A broken earthshaper's golem, almost the same as it's natural stone counterpart.  Could be smashed for stone.",
+    "price": "100 USD",
+    "material": [ "stone" ],
+    "weight": "112 kg",
+    "volume": "80 L",
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
+    "melee_damage": { "bash": 4, "cut": 4 }
   }
 ]

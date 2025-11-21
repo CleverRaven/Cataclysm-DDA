@@ -5,14 +5,14 @@
     "responses": [
       {
         "text": "[Telepathy Check] What are you talking about?  This is mine.",
-        "condition": { "u_has_trait": "TELEPATH" },
+        "condition": { "or": [ { "u_has_trait": "TELEPATH" }, { "math": [ "jmath_telepathy_knacks_combined_level() > 10" ] } ] },
         "switch": true,
         "trial": {
           "type": "CONDITION",
           "condition": {
             "and": [
               {
-                "roll_contested": { "math": [ "u_school_level('TELEPATH')" ] },
+                "roll_contested": { "math": [ "u_school_level('TELEPATH') + ( jmath_telepathy_knacks_combined_level() - 5)" ] },
                 "difficulty": { "math": [ "n_val('intelligence')" ] },
                 "die_size": 5
               },
@@ -39,7 +39,11 @@
       {
         "text": "That's right.",
         "topic": "TALK_DONE",
-        "effect": [ "remove_stolen_status", { "math": [ "telepathically_stole_recently", "+=", "rand(5)" ] } ]
+        "effect": [
+          "remove_stolen_status",
+          { "math": [ "telepathically_stole_recently += rand(5)" ] },
+          { "give_achievement": "mom_use_telepathy_to_steal" }
+        ]
       }
     ]
   },
@@ -48,11 +52,11 @@
     "type": "talk_topic",
     "dynamic_line": {
       "npc_male": [
-        "*'s weapon flies out of his hands.\n\n\"<freaking> <name_b>!  You some kind of witch?",
+        "*'s weapon flies out of his hands.\n\n\"<freaking> <name_b>!  You some kind of witch?\"",
         "*'s weapon flies out of his hands and he lets out a startled yelp."
       ],
       "no": [
-        "*'s weapon flies out of her hands.\n\n\"<freaking> <name_b>!  You some kind of witch?",
+        "*'s weapon flies out of her hands.\n\n\"<freaking> <name_b>!  You some kind of witch?\"",
         "*'s weapon flies out of her hands and she lets out a startled yelp."
       ]
     },
@@ -111,12 +115,21 @@
       {
         "text": "[Mood Stablization Check] You don't want to hurt me.",
         "condition": {
-          "and": [ { "math": [ "u_spell_level('telepathic_morale') >= 1" ] }, { "not": { "npc_has_trait": "NPC_TELEPATHY_IMMUNE" } } ]
+          "and": [
+            {
+              "or": [
+                { "math": [ "u_spell_level('telepathic_morale') >= 1" ] },
+                { "math": [ "u_spell_level('telepathic_morale_knack') >= 1" ] }
+              ]
+            },
+            { "not": { "npc_has_trait": "NPC_TELEPATHY_IMMUNE" } },
+            { "not": { "npc_has_flag": "TEEPSHIELD" } }
+          ]
         },
         "trial": {
           "type": "CONDITION",
           "condition": {
-            "roll_contested": { "math": [ "u_spell_level('telepathic_morale')" ] },
+            "roll_contested": { "math": [ "u_spell_level('telepathic_morale') + u_spell_level('telepathic_morale_knack')" ] },
             "difficulty": { "math": [ "n_val('intelligence')" ] },
             "die_size": 10
           }
@@ -217,7 +230,12 @@
         "text": "[Mood Stablization Check] I'm not going to hurt you.",
         "condition": {
           "and": [
-            { "math": [ "u_spell_level('telepathic_morale') >= 1" ] },
+            {
+              "or": [
+                { "math": [ "u_spell_level('telepathic_morale') >= 1" ] },
+                { "math": [ "u_spell_level('telepathic_morale_knack') > 1" ] }
+              ]
+            },
             { "not": { "npc_has_trait": "NPC_TELEPATHY_IMMUNE" } },
             { "not": { "npc_has_flag": "TEEPSHIELD" } }
           ]
@@ -225,7 +243,7 @@
         "trial": {
           "type": "CONDITION",
           "condition": {
-            "roll_contested": { "math": [ "u_spell_level('telepathic_morale')" ] },
+            "roll_contested": { "math": [ "u_spell_level('telepathic_morale') + u_spell_level('telepathic_morale_knack')" ] },
             "difficulty": { "math": [ "n_val('intelligence')" ] },
             "die_size": 10
           }
@@ -243,7 +261,12 @@
         "text": "[Mood Stablization Check] I'm not going to hurt you.",
         "condition": {
           "and": [
-            { "math": [ "u_spell_level('telepathic_morale') >= 1" ] },
+            {
+              "or": [
+                { "math": [ "u_spell_level('telepathic_morale') >= 1" ] },
+                { "math": [ "u_spell_level('telepathic_morale_knack') > 1" ] }
+              ]
+            },
             { "not": { "npc_has_trait": "NPC_TELEPATHY_IMMUNE" } },
             { "not": { "npc_has_flag": "TEEPSHIELD" } }
           ]
@@ -251,7 +274,7 @@
         "trial": {
           "type": "CONDITION",
           "condition": {
-            "roll_contested": { "math": [ "u_spell_level('telepathic_morale')" ] },
+            "roll_contested": { "math": [ "u_spell_level('telepathic_morale') + u_spell_level('telepathic_morale_knack')" ] },
             "difficulty": { "math": [ "n_val('intelligence')" ] },
             "die_size": 10
           }

@@ -16,12 +16,10 @@
 #include "flag.h"
 #include "item.h"
 #include "item_search.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_selector.h"
 #include "options.h"
 #include "pocket_type.h"
-#include "type_id.h"
 #include "uistate.h"
 #include "units.h"
 #include "vehicle.h"
@@ -95,7 +93,7 @@ bool advanced_inventory_pane::is_filtered( const advanced_inv_listitem &it ) con
 
 bool advanced_inventory_pane::is_filtered( const item &it ) const
 {
-    if( it.has_flag( STATIC( flag_id( "HIDDEN_ITEM" ) ) ) ) {
+    if( it.has_flag( json_flag_HIDDEN_ITEM ) ) {
         return true;
     }
     if( filter.empty() ) {

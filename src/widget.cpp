@@ -421,30 +421,27 @@ nc_color widget_clause::get_color_for_id( const std::string &clause_id, const wi
 
 void widget_custom_var::deserialize( const JsonObject &jo )
 {
-    if( jo.has_member( "value" ) ) {
-        value = get_dbl_or_var_part( jo.get_member( "value" ) );
-    } else {
-        jo.throw_error( "missing mandatory member \"value\"" );
-    }
+    mandatory( jo, false, "value", value );
 
     if( jo.has_array( "range" ) ) {
         JsonArray range = jo.get_array( "range" );
         switch( range.size() ) {
             case 2:
-                min = get_dbl_or_var_part( range.next_value() );
-                norm = std::make_pair( dbl_or_var_part( INT_MIN ), dbl_or_var_part( INT_MAX ) );
-                max = get_dbl_or_var_part( range.next_value() );
+                min.deserialize( range.next_value() );
+                norm = std::make_pair( dbl_or_var::part_t( INT_MIN ), dbl_or_var::part_t( INT_MAX ) );
+                max.deserialize( range.next_value() );
                 break;
             case 3:
-                min = get_dbl_or_var_part( range.next_value() );
-                norm.first = norm.second = get_dbl_or_var_part( range.next_value() );
-                max = get_dbl_or_var_part( range.next_value() );
+                min.deserialize( range.next_value() );
+                norm.first.deserialize( range.next_value() );
+                norm.second = norm.first;
+                max.deserialize( range.next_value() );
                 break;
             case 4:
-                min = get_dbl_or_var_part( range.next_value() );
-                norm.first = get_dbl_or_var_part( range.next_value() );
-                norm.second = get_dbl_or_var_part( range.next_value() );
-                max = get_dbl_or_var_part( range.next_value() );
+                min.deserialize( range.next_value() );
+                norm.first.deserialize( range.next_value() );
+                norm.second.deserialize( range.next_value() );
+                max.deserialize( range.next_value() );
                 break;
             default:
                 jo.throw_error( "invalid number of elements in \"range\", must have 2~4" );
@@ -642,15 +639,19 @@ void widget::finalize_inherited_fields_recursive( const widget_id &id,
     }
 }
 
-void widget::finalize()
+void widget::finalize_all()
 {
     widget_factory.finalize();
+}
 
-    for( const widget &wgt : widget::get_all() ) {
-        if( wgt._style == "sidebar" ) {
-            widget::finalize_inherited_fields_recursive( wgt.getId(), wgt._separator, wgt._padding );
-            widget::finalize_label_width_recursive( wgt.getId() );
-        }
+// finalize functions are allowed to mutate data, even if this one doesn't
+// in fact, the functions below just do a const-cast inside, so it shouldn't be const
+// NOLINTNEXTLINE(readability-make-member-function-const)
+void widget::finalize()
+{
+    if( _style == "sidebar" ) {
+        widget::finalize_inherited_fields_recursive( getId(), _separator, _padding );
+        widget::finalize_label_width_recursive( getId() );
     }
 }
 

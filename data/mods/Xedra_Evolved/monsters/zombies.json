@@ -71,6 +71,7 @@
       {
         "id": "xedra_monster_erosion_buff_special",
         "type": "spell",
+        "cooldown": 0,
         "condition": { "not": { "u_has_effect": "effect_xedra_monster_erosion" } },
         "spell_data": { "id": "xedra_monster_erosion_buff" },
         "allow_no_target": true,
@@ -95,7 +96,7 @@
       "corpse_type": "NO_CORPSE"
     },
     "emit_fields": [ { "emit_id": "xedra_monochrome_boomer_frozen_time", "delay": "1 s" } ],
-    "delete": { "special_attacks": [ "BOOMER" ] },
+    "delete": { "special_attacks": [ "boomer_bile" ] },
     "extend": { "flags": [ "STABILIZED_TIMELINE" ] },
     "upgrades": false
   }

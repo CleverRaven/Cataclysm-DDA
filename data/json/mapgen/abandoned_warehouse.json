@@ -55,7 +55,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "abandonedwarehouse",
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -92,7 +91,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "abandonedwarehouse_roof",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -131,7 +129,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "abandonedwarehouse_1",
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -174,7 +171,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "abandonedwarehouse_1_roof",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -217,7 +213,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "abandonedwarehouse_2",
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -272,7 +267,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "abandonedwarehouse_2_roof",
     "object": {
       "fill_ter": "t_tar_flat_roof",
@@ -310,7 +304,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "abandonedwarehouse_3",
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -348,7 +341,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "abandonedwarehouse_3_roof",
     "object": {
       "fill_ter": "t_tile_flat_roof",
@@ -401,7 +393,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "abandonedwarehouse_4",
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -443,7 +434,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "abandonedwarehouse_4_roof",
     "object": {
       "fill_ter": "t_tile_flat_roof",

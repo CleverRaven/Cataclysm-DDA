@@ -48,7 +48,7 @@
     "subtype": "distribution",
     "items": [
       { "item": "bandana", "prob": 20 },
-      { "item": "balclava", "prob": 50 },
+      { "item": "balclava", "variant": "black", "prob": 50 },
       { "item": "headscarf", "prob": 10 },
       { "item": "afs_work_tie", "prob": 10 },
       { "item": "scarf_fur", "prob": 1 },

@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "apartment_complex_corner_ground" ],
     "object": {
       "fill_ter": "t_floor",
@@ -37,7 +36,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "apartment_complex_corner" ],
     "object": {
       "fill_ter": "t_floor",
@@ -73,7 +71,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "apartment_complex_corner_inner_ground" ],
     "object": {
       "fill_ter": "t_floor",
@@ -112,7 +109,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "apartment_complex_corner_inner" ],
     "object": {
       "fill_ter": "t_floor",
@@ -151,7 +147,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "apartment_complex_straight_ground" ],
     "object": {
       "fill_ter": "t_floor",
@@ -190,7 +185,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "apartment_complex_straight" ],
     "object": {
       "fill_ter": "t_floor",
@@ -229,7 +223,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "apartment_complex_straight_stairs_even_ground" ],
     "object": {
       "fill_ter": "t_floor",
@@ -268,7 +261,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "apartment_complex_straight_stairs_even" ],
     "object": {
       "fill_ter": "t_floor",
@@ -307,7 +299,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "apartment_complex_straight_stairs_odd" ],
     "object": {
       "fill_ter": "t_floor",

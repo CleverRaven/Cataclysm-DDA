@@ -21,7 +21,7 @@
     "duration_increment": 1400,
     "max_level": 30,
     "spell_class": "MAGUS",
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_evocation_magic",
     "base_energy_cost": 250,
     "base_casting_time": 100,
     "difficulty": 1,
@@ -46,7 +46,7 @@
     "difficulty": 1,
     "max_level": 15,
     "base_casting_time": 100,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_evocation_magic",
     "shape": "blast",
     "effect": "attack"
   },
@@ -70,7 +70,7 @@
     "difficulty": 2,
     "spell_class": "MAGUS",
     "base_casting_time": 100,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_conveyance_magic",
     "base_energy_cost": 100,
     "learn_spells": { "dimension_door": 10 }
   },
@@ -94,7 +94,7 @@
     "difficulty": 5,
     "spell_class": "MAGUS",
     "base_casting_time": 600,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_conveyance_magic",
     "base_energy_cost": 600,
     "energy_increment": -10,
     "final_energy_cost": 350
@@ -123,7 +123,7 @@
     "difficulty": 10,
     "spell_class": "MAGUS",
     "base_casting_time": 600,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_evocation_magic",
     "base_energy_cost": 350
   },
   {
@@ -136,7 +136,7 @@
     "effect": "attack",
     "shape": "blast",
     "spell_class": "MAGUS",
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_evocation_magic",
     "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
     "min_damage": { "math": [ "(u_spell_level('magus_mana_blast') * 1.1) + 12" ] },
     "max_damage": { "math": [ "(u_spell_level('magus_mana_blast') * 2.4) + 18" ] },
@@ -165,7 +165,7 @@
     "min_damage": { "math": [ "(u_spell_level('magus_mana_bolt') * 2) + 12" ] },
     "max_damage": { "math": [ "(u_spell_level('magus_mana_bolt') * 4.1) + 24" ] },
     "spell_class": "MAGUS",
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_evocation_magic",
     "base_casting_time": 100,
     "base_energy_cost": 150,
     "difficulty": 5,
@@ -187,7 +187,7 @@
     "effect_str": "haste",
     "shape": "blast",
     "spell_class": "MAGUS",
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_enhancement_magic",
     "components": "spell_components_haste",
     "difficulty": 8,
     "base_casting_time": 400,
@@ -211,7 +211,7 @@
     "effect_str": "magic_slowed",
     "shape": "blast",
     "spell_class": "MAGUS",
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_enervation_magic",
     "difficulty": 6,
     "base_casting_time": 200,
     "base_energy_cost": 400,
@@ -235,7 +235,7 @@
     "extra_effects": [ { "id": "eoc_transformation_setup", "hit_self": true } ],
     "shape": "blast",
     "spell_class": "MAGUS",
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_transformation_magic",
     "base_casting_time": 150,
     "base_energy_cost": 150,
     "difficulty": 8,
@@ -259,7 +259,7 @@
     "effect": "attack",
     "shape": "line",
     "spell_class": "MAGUS",
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_evocation_magic",
     "min_damage": { "math": [ "(u_spell_level('magus_mana_beam') * 1.2) + 6" ] },
     "max_damage": { "math": [ "(u_spell_level('magus_mana_beam') * 2) + 11" ] },
     "base_casting_time": 150,
@@ -293,7 +293,7 @@
     "difficulty": 5,
     "spell_class": "MAGUS",
     "base_casting_time": 100,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_conveyance_magic",
     "base_energy_cost": 250
   },
   {
@@ -316,7 +316,7 @@
     "difficulty": 0,
     "max_level": 0,
     "spell_class": "MAGUS",
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_channeling_magic",
     "flags": [ "CHANNELING_SPELL", "PERMANENT", "NO_LEGS", "CONCENTRATE" ]
   },
   {
@@ -331,7 +331,7 @@
     "duration_increment": 17700,
     "max_level": 20,
     "spell_class": "MAGUS",
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_enhancement_magic",
     "base_energy_cost": 400,
     "energy_increment": -5.0,
     "final_energy_cost": 300,
@@ -354,7 +354,7 @@
     "duration_increment": 17700,
     "max_level": 20,
     "spell_class": "MAGUS",
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_enhancement_magic",
     "base_energy_cost": 400,
     "energy_increment": -5.0,
     "final_energy_cost": 300,
@@ -377,7 +377,7 @@
     "duration_increment": 17700,
     "max_level": 20,
     "spell_class": "MAGUS",
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_enhancement_magic",
     "base_energy_cost": 400,
     "energy_increment": -5.0,
     "final_energy_cost": 300,
@@ -400,7 +400,7 @@
     "duration_increment": 17700,
     "max_level": 20,
     "spell_class": "MAGUS",
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_enhancement_magic",
     "base_energy_cost": 400,
     "energy_increment": -5.0,
     "final_energy_cost": 300,
@@ -431,7 +431,7 @@
     "spell_class": "MAGUS",
     "base_casting_time": 400,
     "base_energy_cost": 350,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_conjuration_magic",
     "difficulty": 3
   },
   {
@@ -455,7 +455,7 @@
     "spell_class": "MAGUS",
     "base_casting_time": 400,
     "base_energy_cost": 350,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_conjuration_magic",
     "difficulty": 4,
     "learn_spells": { "magus_summon_impact_sling_plus": 15 }
   },
@@ -484,7 +484,7 @@
     "base_energy_cost": 350,
     "final_energy_cost": 100,
     "energy_increment": -10,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_conjuration_magic",
     "difficulty": 6
   },
   {
@@ -510,7 +510,7 @@
     "spell_class": "MAGUS",
     "base_casting_time": 500,
     "base_energy_cost": 400,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_evocation_magic",
     "difficulty": 8
   },
   {
@@ -530,7 +530,7 @@
     "min_duration": 6000,
     "max_duration": 30000,
     "duration_increment": 2400,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_enhancement_magic",
     "base_energy_cost": 150,
     "base_casting_time": 150
   },
@@ -551,7 +551,7 @@
     "min_duration": 30000,
     "max_duration": 120000,
     "duration_increment": 6000,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_enhancement_magic",
     "base_energy_cost": 250,
     "base_casting_time": 250
   },
@@ -570,7 +570,7 @@
     "shape": "blast",
     "difficulty": 5,
     "max_level": 10,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_conveyance_magic",
     "base_energy_cost": 2000,
     "base_casting_time": 90000
   },
@@ -600,7 +600,7 @@
     "shape": "blast",
     "difficulty": 8,
     "max_level": 15,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_conveyance_magic",
     "base_energy_cost": 400,
     "base_casting_time": 100
   },
@@ -629,7 +629,7 @@
     "min_duration": 180000,
     "max_duration": 1380000,
     "duration_increment": 60000,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_conjuration_magic",
     "base_energy_cost": 200,
     "base_casting_time": 1500
   },
@@ -646,27 +646,81 @@
     "type": "SPELL",
     "name": "Sorcerer's Hand",
     "description": "Pull a target or set of items to you.",
-    "valid_targets": [ "ally", "hostile", "item", "ground" ],
+    "valid_targets": [ "self" ],
     "spell_class": "MAGUS",
     "flags": [ "EVOCATION_SPELL", "CONCENTRATE", "VERBAL", "SOMATIC", "NO_HANDS" ],
     "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
     "difficulty": 2,
     "max_level": 10,
-    "effect": "directed_push",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_MAGUS_FAR_HAND_PULL",
     "shape": "blast",
-    "min_damage": -1,
-    "max_damage": -10,
-    "damage_increment": -1,
-    "min_range": 1,
-    "max_range": 10,
-    "range_increment": 1,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_evocation_magic",
     "base_energy_cost": 200,
     "final_energy_cost": 50,
     "energy_increment": -10,
     "base_casting_time": 150,
     "final_casting_time": 50,
     "casting_time_increment": -10
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MAGUS_FAR_HAND_PULL",
+    "effect": [
+      {
+        "run_eoc_selector": [ "EOC_MAGUS_FAR_HAND_PULL_ITEM", "EOC_MAGUS_FAR_HAND_PULL_CREATURE" ],
+        "names": [ "Grab Item", "Pull Creature" ],
+        "keys": [ "a", "b" ],
+        "allow_cancel": true,
+        "descriptions": [ "Pick up an item and pull it to you", "Target a creature and pull it toward you" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MAGUS_FAR_HAND_PULL_ITEM",
+    "effect": [ { "u_cast_spell": { "id": "magus_far_hand_pull_items" }, "targeted": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MAGUS_FAR_HAND_PULL_CREATURE",
+    "effect": [ { "u_cast_spell": { "id": "magus_far_hand_pull_creatures" }, "targeted": true } ]
+  },
+  {
+    "id": "magus_far_hand_pull_creatures",
+    "type": "SPELL",
+    "name": { "str": "Sorcerer's Hand Creature", "//~": "NO_I18N" },
+    "description": { "str": "Pull a target to you.", "//~": "NO_I18N" },
+    "valid_targets": [ "ally", "hostile" ],
+    "spell_class": "MAGUS",
+    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC", "NO_HANDS" ],
+    "difficulty": 2,
+    "max_level": 10,
+    "effect": "directed_push",
+    "shape": "blast",
+    "min_damage": { "math": [ "u_spell_level('magus_far_hand_pull') * -1" ] },
+    "max_damage": { "math": [ "u_spell_level('magus_far_hand_pull') * -1" ] },
+    "min_range": { "math": [ "(u_spell_level('magus_far_hand_pull') * 1) + 3" ] },
+    "max_range": { "math": [ "(u_spell_level('magus_far_hand_pull') * 1) + 3" ] },
+    "magic_type": "magiclysm_generic_magic"
+  },
+  {
+    "id": "magus_far_hand_pull_items",
+    "type": "SPELL",
+    "name": { "str": "Sorcerer's Hand Items", "//~": "NO_I18N" },
+    "description": { "str": "Pull an items to you.", "//~": "NO_I18N" },
+    "valid_targets": [ "ally", "hostile", "item", "ground" ],
+    "spell_class": "MAGUS",
+    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC", "NO_HANDS" ],
+    "difficulty": 2,
+    "max_level": 10,
+    "effect": "pickup",
+    "shape": "blast",
+    "min_damage": { "math": [ "250 - (u_spell_level('magus_far_hand_pull') * 10)" ] },
+    "max_damage": { "math": [ "250 - (u_spell_level('magus_far_hand_pull') * 10)" ] },
+    "min_range": { "math": [ "(u_spell_level('magus_far_hand_pull') * 1) + 3" ] },
+    "max_range": { "math": [ "(u_spell_level('magus_far_hand_pull') * 1) + 3" ] },
+    "magic_type": "magiclysm_generic_magic"
   },
   {
     "id": "magus_ranged_increase",
@@ -687,7 +741,7 @@
     "min_duration": 36000,
     "max_duration": 576000,
     "duration_increment": 36000,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_enhancement_magic",
     "base_energy_cost": 350,
     "base_casting_time": 300
   },
@@ -706,7 +760,7 @@
     "shape": "blast",
     "difficulty": 8,
     "max_level": 15,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_enhancement_magic",
     "base_energy_cost": 900,
     "base_casting_time": 180000
   },
@@ -746,7 +800,7 @@
     "min_range": 3,
     "max_range": 35,
     "range_increment": 1.2,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_enervation_magic",
     "base_casting_time": 150,
     "base_energy_cost": 350
   },
@@ -773,7 +827,7 @@
     "min_aoe": 0,
     "max_aoe": 1,
     "aoe_increment": 0.05,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_enervation_magic",
     "base_casting_time": 100,
     "base_energy_cost": 75
   },
@@ -790,7 +844,7 @@
     "components": "spell_components_magus_permanent_light",
     "max_level": 15,
     "spell_class": "MAGUS",
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_conjuration_magic",
     "difficulty": 8,
     "min_range": 1,
     "max_range": 1,
@@ -812,7 +866,7 @@
     "effect_str": "effect_magus_cannot_move_attack_or_damage_target",
     "shape": "blast",
     "spell_class": "MAGUS",
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_evocation_magic",
     "difficulty": 10,
     "base_casting_time": 75,
     "base_energy_cost": 750,
@@ -823,5 +877,54 @@
     "min_duration": 600,
     "max_duration": 2500,
     "duration_increment": 100
+  },
+  {
+    "id": "magus_push_nearby_enemies_back",
+    "type": "SPELL",
+    "name": "Repulsion Wave",
+    "description": "Unleash a wave of force, hurling all nearby targets away from you.  Heavier targets are harder to affect.",
+    "valid_targets": [ "ally", "hostile" ],
+    "flags": [ "EVOCATION_SPELL", "VERBAL", "SOMATIC" ],
+    "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_MAGUS_PUSH_NEARBY_ENEMIES_BACK",
+    "shape": "blast",
+    "spell_class": "MAGUS",
+    "magic_type": "magiclysm_evocation_magic",
+    "difficulty": 5,
+    "base_casting_time": 75,
+    "base_energy_cost": 350,
+    "max_level": 20,
+    "min_aoe": 1,
+    "max_aoe": 3,
+    "aoe_increment": 0.2
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MAGUS_PUSH_NEARBY_ENEMIES_BACK",
+    "condition": "has_alpha",
+    "effect": [
+      { "npc_location_variable": { "context_val": "player_position" } },
+      { "math": [ "_push_nearby_enemies_power_level = n_spell_level('magus_push_nearby_enemies_back')" ] },
+      { "math": [ "_telekinesis_weight_ratio = 55" ] },
+      {
+        "math": [
+          "_weight_ratio",
+          "=",
+          "( (_push_nearby_enemies_power_level * _telekinesis_weight_ratio) + (_telekinesis_weight_ratio / 2) ) / (u_weight() / 1000000)"
+        ]
+      },
+      { "math": [ "_telekinesis_shove_spell_level = clamp( ( (_weight_ratio - 1) * 1.5), 0, 20)" ] },
+      {
+        "if": { "x_in_y_chance": { "x": { "math": [ "_weight_ratio * 1000" ] }, "y": 1000 } },
+        "then": [ { "u_add_effect": "downed", "duration": 2 } ]
+      },
+      {
+        "u_knockback": { "math": [ "_telekinesis_shove_spell_level" ] },
+        "stun": 2,
+        "dam_mult": { "math": [ "1 + (_telekinesis_shove_spell_level * 0.4)" ] },
+        "direction_var": { "context_val": "player_position" }
+      }
+    ]
   }
 ]

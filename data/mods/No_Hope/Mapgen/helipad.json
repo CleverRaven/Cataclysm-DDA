@@ -1,6 +1,5 @@
 [
   {
-    "method": "json",
     "om_terrain": [ [ "helipad_nw", "helipad_ne" ], [ "helipad_sw", "helipad_se" ] ],
     "//": "Adds turrets back, should probably be done by changing the vanilla version to a group and overriding that instead to avoid the duped map",
     "type": "mapgen",

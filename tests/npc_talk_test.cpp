@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <cstdio>
 #include <functional>
+#include <iterator>
 #include <memory>
 #include <optional>
 #include <string>
@@ -42,6 +43,7 @@
 #include "pimpl.h"
 #include "player_helpers.h"
 #include "point.h"
+#include "string_formatter.h"
 #include "type_id.h"
 #include "units.h"
 #include "weather.h"
@@ -1177,64 +1179,81 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     player_character.per_cur = 8;
     player_character.magic->set_mana( 25 );
 
-    expected_answers = 50;
-    gen_response_lines( d, expected_answers );
-    CHECK( d.responses[ 0 ].text == "This is a math test response that increments by 1." );
-    CHECK( d.responses[ 1 ].text == "This is an math test response that increments by 2." );
-    CHECK( d.responses[ 2 ].text == "PC strength is five." );
-    CHECK( d.responses[ 3 ].text == "PC dexterity is six." );
-    CHECK( d.responses[ 4 ].text == "PC intelligence is seven." );
-    CHECK( d.responses[ 5 ].text == "PC perception is eight." );
-    CHECK( d.responses[ 6 ].text == "NPC strength is nine." );
-    CHECK( d.responses[ 7 ].text == "NPC dexterity is ten." );
-    CHECK( d.responses[ 8 ].text == "NPC intelligence is eleven." );
-    CHECK( d.responses[ 9 ].text == "NPC perception is twelve." );
-    CHECK( d.responses[ 10 ].text == "PC Custom var is one." );
-    CHECK( d.responses[ 11 ].text == "NPC Custom var is two." );
-    CHECK( d.responses[ 12 ].text == "This is a u_var time test response for > 3_days." );
-    CHECK( d.responses[ 13 ].text == "time_since_cataclysm > 3_days." );
-    CHECK( d.responses[ 14 ].text == "time_since_cataclysm in days > 3" );
-    CHECK( d.responses[ 15 ].text == "Allies equals 1" );
-    CHECK( d.responses[ 16 ].text == "Cash equals 13" );
-    CHECK( d.responses[ 17 ].text == "Owed amount equals 14" );
-    CHECK( d.responses[ 18 ].text == "Driving skill more than or equal to 5" );
+    // Each response is separated out into a single line for easier browsing.
     // TODO: Reliably test the random number generator.
-    CHECK( d.responses[ 19 ].text == "Temperature is 21." );
-    CHECK( d.responses[ 20 ].text == "Windpower is 15." );
-    CHECK( d.responses[ 21 ].text == "Humidity is 16." );
-    CHECK( d.responses[ 22 ].text == "Pressure is 17." );
-    CHECK( d.responses[ 23 ].text == "Pos_x is -1." );
-    CHECK( d.responses[ 24 ].text == "Pos_y is -2." );
-    CHECK( d.responses[ 25 ].text == "Pos_z is -3." );
-    CHECK( d.responses[ 26 ].text == "Pain level is 21." );
-    CHECK( d.responses[ 27 ].text == "Bionic power is 22." );
-    CHECK( d.responses[ 28 ].text == "Bionic power max is 44." );
-    CHECK( d.responses[ 29 ].text == "Bionic power is at 50%." );
-    CHECK( d.responses[ 30 ].text == "Morale is 23." );
-    CHECK( d.responses[ 31 ].text == "Focus is 24." );
-    CHECK( d.responses[ 32 ].text == "Mana is 25." );
-    CHECK( d.responses[ 33 ].text == "Mana max is 900." );
-    CHECK( d.responses[ 34 ].text == "Mana is at 2%." );
-    CHECK( d.responses[ 35 ].text == "Hunger is 26." );
-    CHECK( d.responses[ 36 ].text == "Thirst is 27." );
-    CHECK( d.responses[ 37 ].text == "Stored kcal is 118'169." );
-    CHECK( d.responses[ 38 ].text == "Has 3 glass bottles." );
-    CHECK( d.responses[ 39 ].text == "Has more or equal to 35 experience." );
-    CHECK( d.responses[ 40 ].text == "Highest spell level in school test_trait is 1." );
-    CHECK( d.responses[ 41 ].text == "Spell level of Pew, Pew is 4." );
-    CHECK( d.responses[ 42 ].text == "Spell level of highest spell is 12." );
-    CHECK( d.responses[ 43 ].text == "Exp of Pew, Pew is 11006." );
-    CHECK( d.responses[ 44 ].text == "Test Proficiency learning is 50% out of 100%." );
-    CHECK( d.responses[ 45 ].text == "Test Proficiency learning done is 12 hours total." );
-    CHECK( d.responses[ 46 ].text == "Test Proficiency learning is 50% learnt." );
-    CHECK( d.responses[ 47 ].text == "Test Proficiency learning is 500 permille learnt." );
-    CHECK( d.responses[ 48 ].text == "Test Proficiency total learning time is 24 hours." );
-    CHECK( d.responses[ 49 ].text == "Test Proficiency time lest to learn is 12h." );
+    std::vector<std::string> expected_responses = {
+        "This is a math test response that increments by 1.",
+        "This is an math test response that increments by 2.",
+        "PC strength is five.",
+        "PC dexterity is six.",
+        "PC intelligence is seven.",
+        "PC perception is eight.",
+        "NPC strength is nine.",
+        "NPC dexterity is ten.",
+        "NPC intelligence is eleven.",
+        "NPC perception is twelve.",
+        "PC Custom var is one.",
+        "NPC Custom var is two.",
+        "This is a u_var time test response for > 3_days.",
+        "time_since_cataclysm > 3_days.",
+        "time_since_cataclysm in days > 3", //NOTE: Extra conditional response inserted after this for next part of test, ctrl+f "insert" if reordering/removing this element!
+        "Allies equals 1",
+        "Cash equals 13",
+        "Owed amount equals 14",
+        "Driving skill more than or equal to 5",
+        "Temperature is 21.",
+        "Windpower is 15.",
+        "Humidity is 16.",
+        "Pressure is 17.",
+        "Pos_x is -1.",
+        "Pos_y is -2.",
+        "Pos_z is -3.",
+        "Pain level is 21.",
+        "Bionic power is 22.",
+        "Bionic power max is 44.",
+        "Bionic power is at 50%.",
+        "Morale is 23.",
+        "Focus is 24.",
+        "Mana is 25.",
+        "Mana max is 900.",
+        "Mana is at 2%.",
+        "Hunger is 26.",
+        "Thirst is 27.",
+        "Stored kcal is 118'169.",
+        "Has 3 glass bottles.",
+        "Has more or equal to 35 experience.",
+        "Highest spell level in school test_trait is 1.",
+        "Spell level of Pew, Pew is 4.",
+        "Spell level of highest spell is 12.",
+        "Exp of Pew, Pew is 11006.",
+        "Test Proficiency learning is 50% out of 100%.",
+        "Test Proficiency learning done is 12 hours total.",
+        "Test Proficiency learning is 50% learnt.",
+        "Test Proficiency learning is 500 permille learnt.",
+        "Test Proficiency total learning time is 24 hours.",
+        "Test Proficiency time lest to learn is 12h."
+    };
 
-    calendar::turn = calendar::turn + time_duration( 4_days );
-    expected_answers++;
+    expected_answers = expected_responses.size();
     gen_response_lines( d, expected_answers );
-    CHECK( d.responses[ 15 ].text == "This is a time since u_var test response for > 3_days." );
+    for( int i = 0; i < expected_answers; i++ ) {
+        // Offset by one here for human ease-of-use. Vectors count from 0, people don't.
+        const std::string TEST_INFO = string_format( "Response # %d of %d", i + 1, expected_answers );
+        CAPTURE( TEST_INFO );
+        CHECK( d.responses[ i ].text == expected_responses[i] );
+    }
+
+    // This activates a new response, so we add it to the container and check again.
+    calendar::turn = calendar::turn + time_duration( 4_days );
+    const std::string extra_test_response = "This is a time since u_var test response for > 3_days.";
+
+    const int extra_response_pos = std::distance( expected_responses.begin(),
+                                   std::find( expected_responses.begin(), expected_responses.end(),
+                                           "time_since_cataclysm in days > 3" ) ) + 1;
+    expected_responses.insert( expected_responses.begin() + extra_response_pos, extra_test_response );
+    expected_answers = expected_responses.size();
+    gen_response_lines( d, expected_answers );
+    CHECK( d.responses[ extra_response_pos ].text == expected_responses[extra_response_pos] );
 
     // Teardown
     player_character.remove_value( "test_var_time_test_test" );

@@ -3,14 +3,12 @@
     "id": "toxic_waste_mx",
     "type": "item_group",
     "items": [
-      { "item": "sewage", "container-item": "55gal_drum", "charges": [ 26, 126 ], "prob": 40 },
       { "item": "water_sewage", "container-item": "55gal_drum", "charges": [ 26, 126 ], "prob": 40 },
       { "item": "fetid_goop", "entry-wrapper": "55gal_drum", "count": [ 26, 200 ], "prob": 30 },
       { "prob": 1, "group": "meat_mutant_tainted_55gal_drum_3_15" },
       { "prob": 2, "group": "veggy_tainted_55gal_drum_3_50" },
       { "group": "toxic_waste_mx_chems", "prob": 35 },
       { "item": "55gal_drum", "prob": 50 },
-      { "item": "canister_goo", "prob": 5 },
       { "item": "slime_scrap", "prob": 10 }
     ]
   },
@@ -46,7 +44,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "toxic_gas_vent",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -58,7 +55,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "toxic_waste_fence_radioactive",
     "object": {
       "mapgensize": [ 11, 11 ],
@@ -87,7 +83,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "toxic_waste_lab_corpses",
     "//": "Lore. Lab folks may dump their now dead, useless and perhaps incriminating experiments there to get rid of them.",
     "object": {
@@ -116,7 +111,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_toxic_waste",
     "object": {
       "rows": [

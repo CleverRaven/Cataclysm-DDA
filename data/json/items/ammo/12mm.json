@@ -3,7 +3,7 @@
     "id": "12mm",
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
-    "name": { "str_sp": "H&K 12mm" },
+    "name": { "str": "H&K 12mm slug" },
     "description": "A Heckler & Koch 12mm projectile, to be used in H&K railguns.  It's made of ferromagnetic metal, probably cobalt.",
     "ascii_picture": "12mm",
     "weight": "11 g",

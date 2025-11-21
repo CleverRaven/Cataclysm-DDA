@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "campus_media_0_0_1", "campus_media_1_0_1" ], [ "campus_media_0_1_1", "campus_media_1_1_1" ] ],
     "object": {
       "fill_ter": "t_open_air",

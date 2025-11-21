@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "warehouse" ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -78,7 +77,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "warehouse_roof" ],
     "object": {
       "fill_ter": "t_tar_flat_roof",

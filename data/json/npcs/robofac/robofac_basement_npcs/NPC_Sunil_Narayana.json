@@ -39,7 +39,7 @@
     "entries": [
       { "item": "boxer_briefs" },
       { "item": "socks" },
-      { "item": "robofac_jumpsuit" },
+      { "item": "jumpsuit", "variant": "robofac" },
       { "item": "boots" },
       { "item": "hat_ball" },
       { "item": "gloves_work" }

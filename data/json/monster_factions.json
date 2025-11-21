@@ -357,6 +357,7 @@
       "plant",
       "nether",
       "jabberwock",
+      "flesh_abberation",
       "insect",
       "mutant",
       "fungus",
@@ -799,10 +800,22 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "flesh_abberation",
+    "neutral": [ "fish", "flesh_abberation" ],
+    "by_mood": [ "jabberwock" ],
+    "hate": [ "zombie", "animal", "insect", "mutant", "human" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "jabberwock",
     "neutral": [ "fish" ],
     "by_mood": [ "jabberwock" ],
     "hate": [ "zombie", "animal", "insect", "mutant", "human" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "balthazar",
+    "hate": [ "zombie" ]
   },
   {
     "type": "MONSTER_FACTION",

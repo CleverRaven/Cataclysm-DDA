@@ -214,11 +214,11 @@
     "id": "TALK_REFUGEE_BEGGAR_2_JOBSDONE",
     "dynamic_line": {
       "concatenate": [
-        "Well… I had it all pretty together,\u0020",
+        "Well… I had it all pretty together, ",
         {
           "compare_string": [ "yes", { "u_val": "general_recruit_beggars_recruited" } ],
-          "yes": "but the others have left, and\u0020",
-          "no": "and I feel bad with all the help you've given me already, but\u0020"
+          "yes": "but the others have left, and ",
+          "no": "and I feel bad with all the help you've given me already, but "
         },
         "now the masters won't let me build my sanctuary.  I know I can't build it in here, they wouldn't allow it.  They won't listen to me when I ask for a safe place.  They just want me to disappear, like the others.  Can you help me figure them out?"
       ]
@@ -418,7 +418,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "cardboard_castle_1_main",
-    "method": "json",
     "object": {
       "place_ter_furn_transforms": [ { "transform": "unlock_door", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "place_nested": [ { "chunks": [ "cardboard_castle_1_main" ], "x": 0, "y": 17 } ],
@@ -427,7 +426,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "cardboard_castle_1_main",
     "//": "First iteration of Dino Dave's cardboard castle - main floor.",
     "object": {
@@ -452,7 +450,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "cardboard_castle_1_roof",
     "//": "First iteration of Dino Dave's cardboard castle - roof.",
     "object": {
@@ -471,7 +468,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "refcenter_unlock_roofstairs",
-    "method": "json",
     "object": {
       "set": [
         { "point": "terrain", "id": "t_door_metal_c", "x": 1, "y": 14 },
@@ -482,7 +478,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "beggar_2_remove_lobbycardboard",
-    "method": "json",
     "object": { "set": [ { "line": "furniture", "id": "f_clear", "x": 6, "y": 1, "x2": 8, "y2": 1 } ] }
   }
 ]

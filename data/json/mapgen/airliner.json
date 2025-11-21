@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "airliner_1a", "airliner_2a", "airliner_3a" ],
       [ "airliner_1b", "airliner_2b", "airliner_3b" ],
@@ -286,7 +285,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "airliner_2a_1" ], [ "airliner_2b_1" ], [ "airliner_2c_1" ] ],
     "object": {
       "rows": [
@@ -368,7 +366,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "airliner_2b_-1" ], [ "airliner_2c_-1" ] ],
     "object": {
       "fill_ter": "t_metal_floor",

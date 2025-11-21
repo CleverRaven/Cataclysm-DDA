@@ -362,60 +362,6 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 10 } } ]
   },
   {
-    "id": "cp33_mag",
-    "looks_like": "glock17_17",
-    "type": "ITEM",
-    "subtypes": [ "MAGAZINE" ],
-    "name": { "str": "high capacity 33 round magazine" },
-    "description": "A 33-round capacity magazine for .22 ammunition, for use in a high capacity handgun.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "cp33_mag",
-        "name": { "str": "CP33 33-round magazine" },
-        "description": "The CP33's magazine is a polymer body quad stack with 4 rows of .22 rounds, which gives it the ability to cram in 33 rounds into the magazine."
-      }
-    ],
-    "weight": "48 g",
-    "volume": "123 ml",
-    "longest_side": "126 mm",
-    "price": "51 USD 50 cent",
-    "price_postapoc": "2 USD",
-    "material": [ "plastic" ],
-    "symbol": "#",
-    "color": "light_gray",
-    "ammo_type": [ "22" ],
-    "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 33 } } ]
-  },
-  {
-    "id": "cp33_mag_50",
-    "looks_like": "glock17_17",
-    "type": "ITEM",
-    "subtypes": [ "MAGAZINE" ],
-    "name": { "str": "high capacity 50 round magazine" },
-    "description": "A 50-round capacity magazine for .22 ammunition, for use in a high capacity handgun.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "cp33_mag_50",
-        "name": { "str": "CP33 50-round magazine" },
-        "description": "CP33 33-round magazine has the ability to accept extensions, and this one has a 17-round extension to bring the total up to a staggering 50 rounds of .22 ammunition."
-      }
-    ],
-    "weight": "84 g",
-    "volume": "186 ml",
-    "longest_side": "211 mm",
-    "price": "83 USD",
-    "price_postapoc": "3 USD",
-    "material": [ "plastic" ],
-    "symbol": "#",
-    "color": "light_gray",
-    "ammo_type": [ "22" ],
-    "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 50 } } ]
-  },
-  {
     "id": "ruger_mk4_mag",
     "looks_like": "glock17_17",
     "type": "ITEM",
@@ -511,6 +457,32 @@
     "price": "25 USD",
     "price_postapoc": "1 USD",
     "material": [ "plastic", "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "22" ],
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 10 } } ]
+  },
+  {
+    "id": "mp1522_mag",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
+    "name": { "str": ".22 10-round modern varmint rifle magazine" },
+    "description": "A black, 10-round polymer magazine for the modern varmint rifle.  It unfortunately is not compatible with AR-15 .22 conversion magazines.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "mp1522_mag",
+        "name": { "str": "M&P 15-22 magazine" },
+        "description": "A black, 10-round polymer magazine for the M&P 15-22 rifle.  It unfortunately is not compatible with AR-15 .22 conversion magazines."
+      }
+    ],
+    "weight": "130 g",
+    "volume": "187 ml",
+    "longest_side": "110 mm",
+    "price": "22 USD 99 cent",
+    "price_postapoc": "50 cent",
+    "material": [ "plastic" ],
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "22" ],

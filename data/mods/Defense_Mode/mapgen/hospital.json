@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "dm_hospital_3", "dm_hospital_2", "dm_hospital_1" ],
       [ "dm_hospital_6", "dm_hospital_5", "dm_hospital_4" ],

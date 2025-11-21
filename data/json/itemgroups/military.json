@@ -225,7 +225,7 @@
           {
             "item": "heavy_load_bearing_vest_breacher",
             "contents-group": "custom_light_lbv",
-            "contents-item": "remington_870_breacher"
+            "contents-item": "mossberg_590_shockwave"
           }
         ],
         "prob": 1
@@ -408,7 +408,7 @@
     "id": "military_standard_shotguns",
     "subtype": "distribution",
     "entries": [
-      { "item": "mossberg_930", "variant": "m1014", "prob": 60, "charges": [ 0, 8 ] },
+      { "item": "m1014", "charges": [ 0, 5 ] },
       { "item": "mossberg_590", "prob": 40, "charges": [ 0, 9 ] },
       { "item": "m26_mass_standalone", "prob": 5, "charges": [ 0, 3 ] }
     ]
@@ -463,6 +463,7 @@
       { "item": "e_tool", "prob": 60 },
       { "group": "gasmask_bag_full", "prob": 20 },
       { "item": "two_way_radio", "prob": 60, "charges": [ 0, 100 ] },
+      { "item": "balthazar_radio", "prob": 1 },
       { "group": "infantry_knives", "prob": 80 }
     ]
   },
@@ -591,7 +592,7 @@
       { "item": "winter_gloves_army", "prob": 20 },
       { "item": "tank_top", "variant": "tank_top_camo", "prob": 70 },
       { "group": "eod_armor", "prob": 15 },
-      { "group": "ammo_pocket_batteries_full", "prob": 40 },
+      { "group": "box_of_batteries_random", "prob": 40 },
       { "item": "radio", "prob": 10, "charges": [ 10, 95 ] },
       { "item": "boots_combat", "prob": 50 },
       { "item": "bandages", "prob": 10, "count": [ 1, 3 ] },
@@ -618,7 +619,8 @@
       { "group": "molle_backpacks_and_accessories", "prob": 15 },
       { "item": "heatpack", "prob": 30 },
       { "item": "sleeping_bag_roll", "prob": 20 },
-      { "item": "duffelbag", "prob": 25 },
+      { "item": "duffelbag", "prob": 15 },
+      { "item": "seabag", "prob": 10 },
       { "item": "mess_kit", "prob": 50 },
       { "item": "flashlight", "prob": 50, "charges": [ 0, 300 ] },
       { "item": "heavy_flashlight", "prob": 10, "charges": [ 0, 300 ] },
@@ -691,7 +693,8 @@
       { "item": "instant_coffee", "prob": 25 },
       { "item": "con_milk", "prob": 10 },
       { "item": "milk_UHT", "prob": 25 },
-      { "prob": 20, "group": "cereal_box_small_4" },
+      { "prob": 20, "group": "box_cereal2" },
+      { "prob": 20, "group": "box_cereal3" },
       { "item": "sports_drink", "prob": 40 },
       { "item": "water_clean", "prob": 90 }
     ]
@@ -746,7 +749,7 @@
       { "group": "gasmask_bag_full", "prob": 10 },
       { "item": "helmet_army", "prob": 40 },
       { "item": "helmet_liner", "prob": 10 },
-      { "group": "ammo_pocket_batteries_full", "prob": 50 },
+      { "group": "box_of_batteries_random", "prob": 50 },
       { "item": "m249", "prob": 1, "charges": [ 0, 30 ] },
       { "item": "m240", "prob": 1, "charges": [ 0, 200 ] },
       { "item": "m134", "prob": 1, "charges": [ 0, 200 ] },
@@ -775,7 +778,6 @@
       { "item": "grapnel", "prob": 1 },
       { "item": "briefcase", "prob": 5 },
       { "item": "survnote", "prob": 2 },
-      { "item": "solarpack", "prob": 1 },
       { "item": "flight_helmet", "prob": 20, "ammo-item": "light_battery_cell", "charges": [ 0, 150 ] },
       { "item": "mil_flight_suit", "prob": 20 }
     ]
@@ -790,7 +792,6 @@
       [ "bot_gasbomb_hack", 50 ],
       [ "bot_grenade_hack", 50 ],
       [ "bot_antimateriel", 5 ],
-      [ "bot_manhack", 100 ],
       [ "bot_rifleturret", 10 ],
       [ "bot_crows_m240", 10 ],
       [ "bot_talon_m202a1", 10 ],
@@ -817,7 +818,7 @@
       [ "motor", 2 ],
       [ "wheel", 10 ],
       { "item": "polycarbonate_sheet", "prob": 4, "count": [ 1, 3 ] },
-      { "item": "rubber_cement", "prob": 15, "count": [ 3, 9 ] },
+      { "group": "glue_weak_professional" },
       [ "vac_mold", 1 ],
       [ "wheel_wide", 10 ],
       [ "wheel_small", 10 ],

@@ -56,7 +56,23 @@
     "name": { "str_sp": "water" },
     "copy-from": "water",
     "calories": 0,
-    "extend": { "flags": [ "NUTRIENT_OVERRIDE" ] }
+    "extend": {
+      "flags": [ "NUTRIENT_OVERRIDE" ],
+      "contamination": [ { "disease": "xe_hydrating_gout_incubation", "probability": 0.1 } ]
+    }
+  },
+  {
+    "id": "water_murky",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "comestible_type": "DRINK",
+    "name": { "str_sp": "murky water" },
+    "copy-from": "water_murky",
+    "calories": 0,
+    "extend": {
+      "flags": [ "NUTRIENT_OVERRIDE" ],
+      "contamination": [ { "disease": "xe_hydrating_gout_incubation", "probability": 10 } ]
+    }
   },
   {
     "id": "scrap_shadowstuff",
@@ -65,13 +81,12 @@
     "category": "spare_parts",
     "name": { "str": "scrap shadowstuff", "str_pl": "scraps of shadowstuff" },
     "description": "A bulky assortment of small bits of scrap shadowstuff, possibly useful in ephemeral crafting.",
-    "weight": "5 g",
+    "weight": "1600 mg",
     "volume": "25 ml",
     "price": "5 USD",
     "price_postapoc": "10 cent",
     "count": 2,
     "stack_size": 10,
-    "//": "Density .5g/ml.",
     "material": [ "shadowstuff" ],
     "ammo_type": "scrap_shadowstuff",
     "symbol": ",",
@@ -84,13 +99,12 @@
     "category": "spare_parts",
     "name": { "str": "chunk shadowstuff", "str_pl": "scraps of shadowstuff" },
     "description": "A bulky assortment of larger bits of scrap shadowstuff, possibly useful in ephemeral crafting.",
-    "weight": "5 g",
-    "volume": "25 ml",
+    "weight": "2000 mg",
+    "volume": "250 ml",
     "price": "5 USD",
     "price_postapoc": "10 cent",
     "count": 2,
     "stack_size": 10,
-    "//": "Density .5g/ml.",
     "material": [ "shadowstuff" ],
     "ammo_type": "components",
     "symbol": ",",
@@ -358,14 +372,13 @@
     "material": [ "obsidian" ],
     "ammo_type": "rock",
     "flags": [ "TRADER_AVOID", "NPC_THROWN" ],
-    "weight": "657 g",
+    "weight": "637 g",
     "volume": "250 ml",
     "longest_side": "8 cm",
     "damage": { "damage_type": "stab", "amount": 5 },
     "range": 10,
     "dispersion": 14,
     "loudness": 0,
-    "to_hit": -1,
     "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_60" ],
     "melee_damage": { "stab": 3 }
   },
@@ -390,6 +403,7 @@
     "id": "stormwrought_blood_itert",
     "copy-from": "rock",
     "name": { "str": "inert stormwrought blood", "str_pl": "doses of inert stormwrought blood" },
+    "weight": "5 g",
     "color": "red",
     "material": [ "hblood" ],
     "looks_like": "blood",
@@ -401,6 +415,7 @@
     "copy-from": "rock",
     "name": { "str": "simmering stormwrought blood", "str_pl": "doses of simmering stormwrought blood" },
     "color": "red",
+    "weight": "5 g",
     "material": [ "hblood" ],
     "looks_like": "blood",
     "description": "A ball of almost-solid blood with ripples across its surface.  It has been exposed to the energies of the portal storms enough to be used in the ritual."

@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "afs_tunnel_river_start",
     "object": {
       "fill_ter": "t_rock_floor",
@@ -14,7 +13,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "afs_tunnel_river_end",
     "object": {
       "fill_ter": "t_rock_floor",
@@ -27,7 +25,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "afs_tunnel_river_straight",
     "object": {
       "fill_ter": "t_rock_floor",
@@ -40,7 +37,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "afs_tunnel_river_curved",
     "object": {
       "fill_ter": "t_rock_floor",
@@ -53,7 +49,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "afs_tunnel_river_tee",
     "object": {
       "fill_ter": "t_rock_floor",
@@ -62,7 +57,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "afs_tunnel_river_four_way",
     "object": {
       "fill_ter": "t_rock_floor",
@@ -76,7 +70,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "afs_tunnel_river_start_tile",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -112,7 +105,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "afs_tunnel_river_straight_tile",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -148,7 +140,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "afs_tunnel_river_straight_tile",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -184,7 +175,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "afs_tunnel_river_curved_tile",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -220,7 +210,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "afs_tunnel_river_end_tile",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -255,7 +244,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "afs_tunnel_lake1", "afs_tunnel_lake2", "afs_tunnel_lake3" ],
       [ "afs_tunnel_lake4", "afs_tunnel_lake5", "afs_tunnel_lake6" ]
@@ -321,7 +309,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "afs_tunnel_river_con",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [

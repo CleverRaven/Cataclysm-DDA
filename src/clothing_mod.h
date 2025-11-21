@@ -43,6 +43,7 @@ struct mod_value {
 
 struct clothing_mod {
     void load( const JsonObject &jo, std::string_view src );
+    static void finalize_all();
     float get_mod_val( const clothing_mod_type &type, const item &it ) const;
     bool has_mod_type( const clothing_mod_type &type ) const;
 

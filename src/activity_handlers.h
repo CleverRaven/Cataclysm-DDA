@@ -51,24 +51,13 @@ enum class requirement_check_result : int {
     RETURN_EARLY       //another activity like a fetch activity has been started.
 };
 
-enum class butcher_type : int {
-    BLEED,          // bleeding a corpse
-    QUICK,          // quick butchery
-    FULL,           // full workshop butchery
-    FIELD_DRESS,    // field dressing a corpse
-    SKIN,           // skinning a corpse
-    QUARTER,        // quarter a corpse
-    DISMEMBER,      // destroy a corpse
-    DISSECT,        // dissect a corpse for CBMs
-    NUM_TYPES       // always keep at the end, number of butchery types
-};
-
 enum class do_activity_reason : int {
     CAN_DO_CONSTRUCTION,    // Can do construction.
     CAN_DO_FETCH,           // Can do fetch - this is usually the default result for fetch task
     NO_COMPONENTS,          // can't do the activity there due to lack of components /tools
     DONT_HAVE_SKILL,        // don't have the required skill
     NO_ZONE,                // There is no required zone anymore
+    NO_VEHICLE,             // There is no vehicle or no accessible vehicle at this location
     ALREADY_DONE,           // the activity is done already ( maybe by someone else )
     UNKNOWN_ACTIVITY,       // This is probably an error - got to the end of function with no previous reason
     NEEDS_CLEARING,         // For farming - tile was neglected and became overgrown, can be cleared.
@@ -163,18 +152,14 @@ struct activity_reason_info {
     }
 };
 
-int butcher_time_to_cut( Character &you, const item &corpse_item, butcher_type action );
-
 // activity_item_handling.cpp
 void activity_on_turn_drop();
-void activity_on_turn_move_loot( player_activity &act, Character &you );
 //return true if there is an activity that can be done potentially, return false if no work can be found.
 bool generic_multi_activity_handler( player_activity &act, Character &you,
                                      bool check_only = false );
 void activity_on_turn_fetch( player_activity &, Character *you );
 int get_auto_consume_moves( Character &you, bool food );
 bool try_fuel_fire( player_activity &act, Character &you, bool starting_fire = false );
-double butcher_get_progress( const item &corpse_item, butcher_type action );
 
 enum class item_drop_reason : int {
     deliberate,
@@ -209,7 +194,6 @@ void adv_inventory_do_turn( player_activity *act, Character *you );
 void armor_layers_do_turn( player_activity *act, Character *you );
 void atm_do_turn( player_activity *act, Character *you );
 void build_do_turn( player_activity *act, Character *you );
-void butcher_do_turn( player_activity *act, Character *you );
 void dismember_do_turn( player_activity *act, Character *you );
 void chop_trees_do_turn( player_activity *act, Character *you );
 void consume_drink_menu_do_turn( player_activity *act, Character *you );
@@ -225,7 +209,6 @@ void game_do_turn( player_activity *act, Character *you );
 void generic_game_do_turn( player_activity *act, Character *you );
 void hand_crank_do_turn( player_activity *act, Character *you );
 void jackhammer_do_turn( player_activity *act, Character *you );
-void move_loot_do_turn( player_activity *act, Character *you );
 void multiple_butcher_do_turn( player_activity *act, Character *you );
 void multiple_chop_planks_do_turn( player_activity *act, Character *you );
 void multiple_construction_do_turn( player_activity *act, Character *you );
@@ -255,7 +238,6 @@ do_turn_functions;
 
 /** activity_finish functions: */
 void atm_finish( player_activity *act, Character *you );
-void butcher_finish( player_activity *act, Character *you );
 void eat_menu_finish( player_activity *act, Character *you );
 void fish_finish( player_activity *act, Character *you );
 void generic_game_finish( player_activity *act, Character *you );

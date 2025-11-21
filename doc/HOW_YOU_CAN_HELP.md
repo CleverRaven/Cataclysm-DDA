@@ -1,3 +1,17 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [How You Can Help](#how-you-can-help)
+  - [Other ways to help](#other-ways-to-help)
+  - [Issue labels](#issue-labels)
+    - [Languages](#languages)
+    - [Issue Types](#issue-types)
+    - [Gameplay Categories](#gameplay-categories)
+    - [Flags](#flags)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # How You Can Help
 
 CDDA is maintained by thousands of volunteers, organized by a core development team. There are many
@@ -5,7 +19,7 @@ ways you can help, both through direct participation in the game's code and cont
 by finding or reproducing bugs, locating causes, and testing the proposed fixes.
 
 - See [ISSUES.md](../ISSUES.md) for how to report bugs or request new features
-- See [CONTRIBUTING.md](CONTRIBUTING.md) for how to make and and submit changes to the
+- See [CONTRIBUTING.md](CONTRIBUTING.md) for how to make and submit changes to the
   game with pull requests
 - See the [Guide to adding new content to CDDA for first time
 contributors](https://github.com/CleverRaven/Cataclysm-DDA/wiki/Guide-to-adding-new-content-to-CDDA-for-first-time-contributors)

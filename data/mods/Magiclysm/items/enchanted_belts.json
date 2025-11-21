@@ -279,6 +279,7 @@
       "moves": 20,
       "msg": "You loop the whip in your hand and it coils back into a belt form in an instant."
     },
-    "melee_damage": { "bash": 8, "cut": 16 }
+    "melee_damage": { "bash": 8, "cut": 16 },
+    "weapon_category": [ "WHIPS" ]
   }
 ]

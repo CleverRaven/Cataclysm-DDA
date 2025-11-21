@@ -7,7 +7,7 @@
     "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
       [ [ "lead", 4 ] ],
-      [ [ "40_casing", 1 ] ],
+      [ [ "unprimed_40_casing", 1 ] ],
       [ [ "smpistol_primer", 1 ] ],
       [ [ "gunpowder_pistol", 3 ] ],
       [ [ "copper", 1 ] ]
@@ -21,10 +21,18 @@
     "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
       [ [ "lead", 4 ] ],
-      [ [ "40_casing", 1 ] ],
+      [ [ "unprimed_40_casing", 1 ] ],
       [ [ "smpistol_primer", 1 ] ],
       [ [ "gunpowder_pistol", 6 ] ],
       [ [ "copper", 1 ] ]
     ]
+  },
+  {
+    "result": "40_casing",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "5 s",
+    "qualities": [ { "id": "PULL", "level": 1 } ],
+    "components": [ [ [ "unprimed_40_casing", 1 ] ], [ [ "spent_smpistol_primer", 1 ] ] ]
   }
 ]

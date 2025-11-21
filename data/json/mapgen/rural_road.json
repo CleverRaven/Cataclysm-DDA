@@ -31,7 +31,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "rural_road_end",
     "object": {
       "predecessor_mapgen": "field",
@@ -41,7 +40,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "rural_road_forest_end",
     "object": {
       "predecessor_mapgen": "forest",
@@ -51,7 +49,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_rural_road_end",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -117,7 +114,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "rural_road_straight",
     "object": {
       "predecessor_mapgen": "field",
@@ -127,7 +123,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "rural_road_forest_straight",
     "object": {
       "predecessor_mapgen": "forest",
@@ -137,7 +132,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_rural_road_straight_meander_east",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -173,7 +167,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_rural_road_straight_meander_west",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -209,7 +202,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "rural_road_curved",
     "object": {
       "predecessor_mapgen": "field",
@@ -219,7 +211,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "rural_road_forest_curved",
     "object": {
       "predecessor_mapgen": "forest",
@@ -229,7 +220,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_rural_road_curved",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -266,7 +256,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "rural_road_tee",
     "object": {
       "predecessor_mapgen": "field",
@@ -276,7 +265,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "rural_road_forest_tee",
     "object": {
       "predecessor_mapgen": "forest",
@@ -286,7 +274,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_rural_road_tee",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -332,7 +319,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "rural_road_four_way",
     "object": {
       "predecessor_mapgen": "field",
@@ -342,7 +328,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "rural_road_forest_four_way",
     "object": {
       "predecessor_mapgen": "forest",
@@ -352,7 +337,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_rural_road_four_way",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -388,7 +372,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "dirt_road_farm_parking",
     "object": {
       "predecessor_mapgen": "field",

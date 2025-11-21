@@ -22,6 +22,7 @@
     "copy-from": "potion_starter_superior",
     "result": "potion_starter",
     "book_learn": [ [ "alchemy_basic", 1 ], [ "necro_basic", 2 ], [ "alchemy_master", 1 ] ],
+    "qualities": [ { "id": "CHEM", "level": 1 }, { "id": "CONCENTRATE", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
     "skills_required": [ "spellcraft", 2 ],
     "difficulty": 3,
     "tools": [ [ [ "surface_heat", 15, "LIST" ] ] ],
@@ -57,6 +58,12 @@
     "copy-from": "flask_illumination",
     "result": "flask_rebreather",
     "book_learn": [ [ "alchemy_basic", 2 ], [ "alchemy_master", 2 ] ],
+    "qualities": [
+      { "id": "CONTAIN", "level": 1 },
+      { "id": "MANA_INFUSE", "level": 1 },
+      { "id": "DISTILL", "level": 1 },
+      { "id": "CONCENTRATE", "level": 1 }
+    ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "mortar_pestle", -1 ] ] ],
     "components": [
       [ [ "potion_starter", 2 ] ],
@@ -71,6 +78,12 @@
     "copy-from": "flask_illumination",
     "result": "mana_potion_lesser",
     "book_learn": [ [ "alchemy_basic", 2 ], [ "alchemy_master", 2 ] ],
+    "qualities": [
+      { "id": "CONTAIN", "level": 1 },
+      { "id": "MANA_INFUSE", "level": 1 },
+      { "id": "DISTILL", "level": 1 },
+      { "id": "CONCENTRATE", "level": 1 }
+    ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "mortar_pestle", -1 ] ] ],
     "using": [ [ "mana_energy_weak", 2 ] ],
     "components": [ [ [ "potion_starter", 1 ] ] ],
@@ -108,6 +121,12 @@
     "type": "recipe",
     "copy-from": "cats_grace_potion",
     "result": "ogres_strength_potion",
+    "qualities": [
+      { "id": "CONTAIN", "level": 1 },
+      { "id": "MANA_INFUSE", "level": 2 },
+      { "id": "CONCENTRATE", "level": 1 },
+      { "id": "DISTILL", "level": 1 }
+    ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ], [ [ "mortar_pestle", -2 ] ] ],
     "components": [ [ [ "potion_starter_superior", 1 ] ], [ [ "fern_flower", 2 ] ], [ [ "olieribos", 4 ] ], [ [ "wood_barnacle", 4 ] ] ]
   },
@@ -115,6 +134,12 @@
     "type": "recipe",
     "copy-from": "cats_grace_potion",
     "result": "eagles_sight_potion",
+    "qualities": [
+      { "id": "CONTAIN", "level": 1 },
+      { "id": "MANA_INFUSE", "level": 2 },
+      { "id": "CONCENTRATE", "level": 1 },
+      { "id": "DISTILL", "level": 1 }
+    ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ], [ [ "mortar_pestle", -2 ] ] ],
     "components": [ [ [ "potion_starter_superior", 1 ] ], [ [ "fern_flower", 2 ] ], [ [ "dragon_nail", 4 ] ], [ [ "wood_barnacle", 4 ] ] ]
   },
@@ -122,6 +147,12 @@
     "type": "recipe",
     "copy-from": "cats_grace_potion",
     "result": "foxs_cunning_potion",
+    "qualities": [
+      { "id": "CONTAIN", "level": 1 },
+      { "id": "MANA_INFUSE", "level": 2 },
+      { "id": "CONCENTRATE", "level": 1 },
+      { "id": "DISTILL", "level": 1 }
+    ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ], [ [ "mortar_pestle", -2 ] ] ],
     "components": [
       [ [ "potion_starter_superior", 1 ] ],
@@ -134,6 +165,12 @@
     "type": "recipe",
     "copy-from": "cats_grace_potion",
     "result": "flask_resistance",
+    "qualities": [
+      { "id": "CONTAIN", "level": 1 },
+      { "id": "MANA_INFUSE", "level": 2 },
+      { "id": "CONCENTRATE", "level": 1 },
+      { "id": "DISTILL", "level": 1 }
+    ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ], [ [ "mortar_pestle", -2 ] ] ],
     "components": [ [ [ "potion_starter", 4 ] ], [ [ "wood_barnacle", 2 ] ], [ [ "olieribos", 2 ] ], [ [ "moly_tuber", 2 ] ] ]
   },
@@ -141,6 +178,12 @@
     "type": "recipe",
     "copy-from": "cats_grace_potion",
     "result": "flask_max_mana",
+    "qualities": [
+      { "id": "CONTAIN", "level": 1 },
+      { "id": "MANA_INFUSE", "level": 2 },
+      { "id": "CONCENTRATE", "level": 1 },
+      { "id": "DISTILL", "level": 1 }
+    ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ], [ [ "mortar_pestle", -2 ] ] ],
     "components": [ [ [ "potion_starter", 2 ] ], [ [ "golden_reed_stalk", 2 ] ], [ [ "funnelcap_chunk", 6 ] ] ]
   },
@@ -148,6 +191,12 @@
     "type": "recipe",
     "copy-from": "cats_grace_potion",
     "result": "flask_fireball",
+    "qualities": [
+      { "id": "CONTAIN", "level": 1 },
+      { "id": "MANA_INFUSE", "level": 2 },
+      { "id": "CONCENTRATE", "level": 1 },
+      { "id": "DISTILL", "level": 1 }
+    ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ], [ [ "mortar_pestle", -2 ] ] ],
     "components": [ [ [ "potion_starter", 2 ] ], [ [ "dragon_nail", 2 ] ], [ [ "glowing_mushroom", 4 ] ], [ [ "funnelcap_chunk", 6 ] ] ]
   },
@@ -157,6 +206,12 @@
     "book_learn": [ [ "alchemy_illegal", 5 ] ],
     "//": "if you read this, ping me to remind me to check does inheritance rewrite book_learn, or does it summarise the values. thank you",
     "result": "flask_confusion",
+    "qualities": [
+      { "id": "CONTAIN", "level": 1 },
+      { "id": "MANA_INFUSE", "level": 2 },
+      { "id": "CONCENTRATE", "level": 1 },
+      { "id": "DISTILL", "level": 1 }
+    ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ], [ [ "mortar_pestle", -2 ] ] ],
     "components": [ [ [ "potion_starter", 2 ] ], [ [ "funnelcap_chunk", 6 ] ], [ [ "glowing_mushroom", 2 ] ], [ [ "kampuch", 1 ] ] ]
   },
@@ -164,6 +219,12 @@
     "type": "recipe",
     "copy-from": "cats_grace_potion",
     "result": "flask_spear",
+    "qualities": [
+      { "id": "CONTAIN", "level": 1 },
+      { "id": "MANA_INFUSE", "level": 2 },
+      { "id": "CONCENTRATE", "level": 1 },
+      { "id": "DISTILL", "level": 1 }
+    ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ], [ [ "mortar_pestle", -2 ] ] ],
     "components": [ [ [ "potion_starter", 2 ] ], [ [ "dragon_nail", 3 ] ], [ [ "funnelcap_chunk", 5 ] ], [ [ "moly_tuber", 1 ] ] ]
   },
@@ -171,6 +232,12 @@
     "type": "recipe",
     "copy-from": "cats_grace_potion",
     "result": "flask_shadow_field",
+    "qualities": [
+      { "id": "CONTAIN", "level": 1 },
+      { "id": "MANA_INFUSE", "level": 2 },
+      { "id": "CONCENTRATE", "level": 1 },
+      { "id": "DISTILL", "level": 1 }
+    ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ], [ [ "mortar_pestle", -2 ] ] ],
     "components": [ [ [ "potion_starter", 2 ] ], [ [ "glowing_mushroom", 3 ] ], [ [ "moly_tuber", 2 ] ], [ [ "golden_reed_stalk", 2 ] ] ]
   },
@@ -178,6 +245,12 @@
     "type": "recipe",
     "copy-from": "cats_grace_potion",
     "result": "flask_sludge_field",
+    "qualities": [
+      { "id": "CONTAIN", "level": 1 },
+      { "id": "MANA_INFUSE", "level": 2 },
+      { "id": "CONCENTRATE", "level": 1 },
+      { "id": "DISTILL", "level": 1 }
+    ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ], [ [ "mortar_pestle", -2 ] ] ],
     "components": [ [ [ "potion_starter", 2 ] ], [ [ "kampuch", 2 ] ], [ [ "golden_reed_stalk", 1 ] ], [ [ "funnelcap_chunk", 8 ] ] ]
   },
@@ -187,6 +260,12 @@
     "result": "alchemist_bomb",
     "book_learn": [ [ "alchemy_basic", 4 ], [ "alchemy_master", 4 ] ],
     "using": [ [ "mana_energy_weak", 3 ] ],
+    "qualities": [
+      { "id": "CONTAIN", "level": 1 },
+      { "id": "MANA_INFUSE", "level": 2 },
+      { "id": "CONCENTRATE", "level": 1 },
+      { "id": "DISTILL", "level": 1 }
+    ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ], [ [ "mortar_pestle", -2 ] ] ],
     "components": [ [ [ "potion_starter", 3 ] ] ]
   },
@@ -195,6 +274,12 @@
     "copy-from": "cats_grace_potion",
     "result": "mana_potion",
     "using": [ [ "mana_energy_weak", 3 ] ],
+    "qualities": [
+      { "id": "CONTAIN", "level": 1 },
+      { "id": "MANA_INFUSE", "level": 2 },
+      { "id": "CONCENTRATE", "level": 1 },
+      { "id": "DISTILL", "level": 1 }
+    ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ], [ [ "mortar_pestle", -2 ] ] ],
     "components": [ [ [ "potion_starter", 1 ] ] ],
     "autolearn": true
@@ -204,6 +289,12 @@
     "copy-from": "cats_grace_potion",
     "result": "twisted_restore_potion",
     "book_learn": [ [ "necro_basic", 3 ] ],
+    "qualities": [
+      { "id": "CONTAIN", "level": 1 },
+      { "id": "MANA_INFUSE", "level": 2 },
+      { "id": "CONCENTRATE", "level": 1 },
+      { "id": "DISTILL", "level": 1 }
+    ],
     "tools": [
       [ [ "surface_heat", 20, "LIST" ] ],
       [
@@ -250,6 +341,13 @@
     "copy-from": "flask_healing",
     "result": "flask_stamina",
     "tools": [ [ [ "surface_heat", 30, "LIST" ] ], [ [ "mortar_pestle", -3 ] ] ],
+    "qualities": [
+      { "id": "CONTAIN", "level": 1 },
+      { "id": "MANA_INFUSE", "level": 2 },
+      { "id": "CONCENTRATE", "level": 1 },
+      { "id": "MANA_FOCUS", "level": 1 },
+      { "id": "FINE_DISTILL", "level": 1 }
+    ],
     "components": [
       [ [ "potion_starter_superior", 2 ] ],
       [ [ "glowing_mushroom", 2 ] ],
@@ -263,6 +361,13 @@
     "copy-from": "flask_healing",
     "result": "flask_excitement",
     "using": [ [ "mana_energy_weak", 2 ] ],
+    "qualities": [
+      { "id": "CONTAIN", "level": 1 },
+      { "id": "MANA_INFUSE", "level": 2 },
+      { "id": "CONCENTRATE", "level": 1 },
+      { "id": "MANA_FOCUS", "level": 1 },
+      { "id": "FINE_DISTILL", "level": 1 }
+    ],
     "tools": [ [ [ "surface_heat", 30, "LIST" ] ], [ [ "mortar_pestle", -3 ] ] ],
     "components": [ [ [ "potion_starter_superior", 2 ] ], [ [ "wood_barnacle", 2 ] ], [ [ "olieribos", 2 ] ], [ [ "moonflowers", 1 ] ] ]
   },
@@ -271,6 +376,13 @@
     "copy-from": "flask_healing",
     "result": "flask_regeneration",
     "tools": [ [ [ "surface_heat", 30, "LIST" ] ], [ [ "mortar_pestle", -3 ] ] ],
+    "qualities": [
+      { "id": "CONTAIN", "level": 1 },
+      { "id": "MANA_INFUSE", "level": 2 },
+      { "id": "CONCENTRATE", "level": 1 },
+      { "id": "MANA_FOCUS", "level": 1 },
+      { "id": "FINE_DISTILL", "level": 1 }
+    ],
     "components": [
       [ [ "potion_starter_superior", 3 ] ],
       [ [ "wood_barnacle", 4 ], [ "bracken_eye", 1 ] ],
@@ -283,6 +395,13 @@
     "copy-from": "flask_healing",
     "result": "flask_mana_regen",
     "tools": [ [ [ "surface_heat", 30, "LIST" ] ], [ [ "mortar_pestle", -3 ] ] ],
+    "qualities": [
+      { "id": "CONTAIN", "level": 1 },
+      { "id": "MANA_INFUSE", "level": 2 },
+      { "id": "CONCENTRATE", "level": 1 },
+      { "id": "MANA_FOCUS", "level": 1 },
+      { "id": "FINE_DISTILL", "level": 1 }
+    ],
     "using": [ [ "mana_energy_weak", 1 ] ],
     "components": [ [ [ "potion_starter_superior", 2 ] ], [ [ "wood_barnacle", 4 ] ], [ [ "golden_reed_stalk", 2 ] ] ]
   },
@@ -291,6 +410,13 @@
     "copy-from": "flask_healing",
     "result": "flask_mood",
     "book_learn": [ [ "alchemy_illegal", 5 ] ],
+    "qualities": [
+      { "id": "CONTAIN", "level": 1 },
+      { "id": "MANA_INFUSE", "level": 2 },
+      { "id": "CONCENTRATE", "level": 1 },
+      { "id": "MANA_FOCUS", "level": 1 },
+      { "id": "FINE_DISTILL", "level": 1 }
+    ],
     "tools": [ [ [ "surface_heat", 30, "LIST" ] ], [ [ "mortar_pestle", -3 ] ] ],
     "components": [ [ [ "potion_starter_superior", 1 ] ], [ [ "whiskflower", 4 ] ], [ [ "wood_barnacle", 3 ] ], [ [ "moonflowers", 1 ] ] ]
   },
@@ -299,6 +425,13 @@
     "copy-from": "flask_healing",
     "result": "flask_charm",
     "book_learn": [ [ "alchemy_illegal", 5 ] ],
+    "qualities": [
+      { "id": "CONTAIN", "level": 1 },
+      { "id": "MANA_INFUSE", "level": 2 },
+      { "id": "CONCENTRATE", "level": 1 },
+      { "id": "MANA_FOCUS", "level": 1 },
+      { "id": "FINE_DISTILL", "level": 1 }
+    ],
     "tools": [ [ [ "surface_heat", 30, "LIST" ] ], [ [ "mortar_pestle", -3 ] ] ],
     "components": [ [ [ "potion_starter_superior", 2 ] ], [ [ "moonflowers", 2 ] ], [ [ "moly_tuber", 4 ] ] ]
   },
@@ -308,6 +441,13 @@
     "result": "flask_night_vision",
     "book_learn": [ [ "alchemy_master", 5 ] ],
     "using": [ [ "mana_energy_weak", 1 ] ],
+    "qualities": [
+      { "id": "CONTAIN", "level": 1 },
+      { "id": "MANA_INFUSE", "level": 2 },
+      { "id": "CONCENTRATE", "level": 1 },
+      { "id": "MANA_FOCUS", "level": 1 },
+      { "id": "FINE_DISTILL", "level": 1 }
+    ],
     "tools": [ [ [ "surface_heat", 30, "LIST" ] ], [ [ "mortar_pestle", -3 ] ] ],
     "components": [
       [ [ "potion_starter_superior", 2 ] ],
@@ -322,6 +462,13 @@
     "copy-from": "flask_healing",
     "result": "flask_toxin",
     "book_learn": [ [ "alchemy_illegal", 5 ], [ "necro_basic", 5 ] ],
+    "qualities": [
+      { "id": "CONTAIN", "level": 1 },
+      { "id": "MANA_INFUSE", "level": 2 },
+      { "id": "CONCENTRATE", "level": 1 },
+      { "id": "MANA_FOCUS", "level": 1 },
+      { "id": "FINE_DISTILL", "level": 1 }
+    ],
     "tools": [ [ [ "surface_heat", 30, "LIST" ] ], [ [ "mortar_pestle", -3 ] ] ],
     "components": [
       [ [ "potion_starter_superior", 1 ] ],
@@ -336,6 +483,13 @@
     "copy-from": "flask_healing",
     "result": "flask_venom",
     "book_learn": [ [ "alchemy_illegal", 5 ], [ "necro_basic", 5 ] ],
+    "qualities": [
+      { "id": "CONTAIN", "level": 1 },
+      { "id": "MANA_INFUSE", "level": 2 },
+      { "id": "CONCENTRATE", "level": 1 },
+      { "id": "MANA_FOCUS", "level": 1 },
+      { "id": "FINE_DISTILL", "level": 1 }
+    ],
     "tools": [ [ [ "surface_heat", 30, "LIST" ] ], [ [ "mortar_pestle", -3 ] ] ],
     "components": [
       [ [ "potion_starter_superior", 1 ] ],
@@ -349,6 +503,13 @@
     "type": "recipe",
     "copy-from": "flask_healing",
     "result": "mana_potion_greater",
+    "qualities": [
+      { "id": "CONTAIN", "level": 1 },
+      { "id": "MANA_INFUSE", "level": 2 },
+      { "id": "CONCENTRATE", "level": 1 },
+      { "id": "MANA_FOCUS", "level": 1 },
+      { "id": "FINE_DISTILL", "level": 1 }
+    ],
     "tools": [ [ [ "surface_heat", 30, "LIST" ] ], [ [ "rune_alchemist", -1 ] ] ],
     "using": [ [ "mana_energy_strong", 1 ], [ "mana_energy_weak", 3 ] ],
     "components": [ [ [ "potion_starter_superior", 1 ] ] ],
@@ -409,6 +570,14 @@
     "copy-from": "flask_speed",
     "result": "flask_teleport_rand",
     "book_learn": [ [ "alchemy_illegal", 6 ] ],
+    "qualities": [
+      { "id": "CONTAIN", "level": 1 },
+      { "id": "MANA_INFUSE", "level": 2 },
+      { "id": "CONCENTRATE", "level": 1 },
+      { "id": "MANA_FOCUS", "level": 1 },
+      { "id": "FINE_DISTILL", "level": 1 },
+      { "id": "MAGIC_CAULDRON", "level": 1 }
+    ],
     "tools": [ [ [ "surface_heat", 40, "LIST" ] ], [ [ "mortar_pestle", -4 ] ] ],
     "using": [ [ "mana_energy_strong", 1 ] ],
     "components": [ [ [ "potion_starter_superior", 3 ] ], [ [ "sojourners_flower", 2 ] ], [ [ "dragon_nail", 4 ] ] ]
@@ -418,6 +587,14 @@
     "copy-from": "flask_speed",
     "result": "flask_teleport",
     "book_learn": [ [ "alchemy_illegal", 6 ] ],
+    "qualities": [
+      { "id": "CONTAIN", "level": 1 },
+      { "id": "MANA_INFUSE", "level": 2 },
+      { "id": "CONCENTRATE", "level": 1 },
+      { "id": "MANA_FOCUS", "level": 1 },
+      { "id": "FINE_DISTILL", "level": 1 },
+      { "id": "MAGIC_CAULDRON", "level": 1 }
+    ],
     "tools": [ [ [ "surface_heat", 40, "LIST" ] ], [ [ "mortar_pestle", -4 ] ] ],
     "using": [ [ "mana_energy_strong", 2 ] ],
     "components": [
@@ -431,6 +608,14 @@
     "type": "recipe",
     "copy-from": "flask_speed",
     "result": "flask_clairvoyance",
+    "qualities": [
+      { "id": "CONTAIN", "level": 1 },
+      { "id": "MANA_INFUSE", "level": 2 },
+      { "id": "CONCENTRATE", "level": 1 },
+      { "id": "MANA_FOCUS", "level": 1 },
+      { "id": "FINE_DISTILL", "level": 1 },
+      { "id": "MAGIC_CAULDRON", "level": 1 }
+    ],
     "tools": [ [ [ "surface_heat", 40, "LIST" ] ], [ [ "mortar_pestle", -4 ] ] ],
     "components": [
       [ [ "potion_starter_superior", 3 ] ],
@@ -445,6 +630,14 @@
     "copy-from": "flask_speed",
     "result": "flask_invisibility",
     "book_learn": [ [ "alchemy_illegal", 6 ] ],
+    "qualities": [
+      { "id": "CONTAIN", "level": 1 },
+      { "id": "MANA_INFUSE", "level": 2 },
+      { "id": "CONCENTRATE", "level": 1 },
+      { "id": "MANA_FOCUS", "level": 1 },
+      { "id": "FINE_DISTILL", "level": 1 },
+      { "id": "MAGIC_CAULDRON", "level": 1 }
+    ],
     "tools": [ [ [ "surface_heat", 40, "LIST" ] ], [ [ "mortar_pestle", -4 ] ] ],
     "components": [
       [ [ "potion_starter_superior", 3 ] ],
@@ -458,6 +651,14 @@
     "type": "recipe",
     "copy-from": "flask_speed",
     "result": "flask_feather",
+    "qualities": [
+      { "id": "CONTAIN", "level": 1 },
+      { "id": "MANA_INFUSE", "level": 2 },
+      { "id": "CONCENTRATE", "level": 1 },
+      { "id": "MANA_FOCUS", "level": 1 },
+      { "id": "FINE_DISTILL", "level": 1 },
+      { "id": "MAGIC_CAULDRON", "level": 1 }
+    ],
     "tools": [ [ [ "surface_heat", 40, "LIST" ] ], [ [ "mortar_pestle", -4 ] ] ],
     "components": [
       [ [ "potion_starter_superior", 2 ] ],

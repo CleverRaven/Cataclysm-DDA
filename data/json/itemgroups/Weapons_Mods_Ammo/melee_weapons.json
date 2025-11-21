@@ -14,7 +14,6 @@
       { "item": "baton", "prob": 8 },
       { "item": "PR24-retracted", "prob": 8 },
       { "item": "blackjack", "prob": 8 },
-      { "item": "bowling_axe", "prob": 2 },
       { "item": "bowling_pin", "prob": 4 },
       { "item": "club_wooden", "prob": 8 },
       { "item": "club_wooden_large", "prob": 4 },
@@ -23,7 +22,6 @@
       { "item": "cudgel", "prob": 8 },
       { "item": "golf_club", "prob": 8 },
       { "item": "hockey_stick", "prob": 8 },
-      { "item": "homewrecker", "prob": 1 },
       { "item": "homemade_polehammer", "prob": 1 },
       { "item": "homemade_polehammer_makeshift", "prob": 1 },
       { "item": "mace_trench", "prob": 4 },
@@ -49,7 +47,9 @@
       { "item": "shovel", "prob": 8 },
       { "item": "rake", "prob": 8 },
       { "item": "crowbar", "prob": 8 },
-      { "item": "makeshift_crowbar", "prob": 16 }
+      { "item": "makeshift_crowbar", "prob": 16 },
+      { "item": "knuckle_brass", "prob": 2 },
+      { "item": "knuckle_steel_forged", "prob": 1 }
     ]
   },
   {
@@ -152,7 +152,6 @@
       { "item": "sword_metal_large", "prob": 4 },
       { "item": "knife_hunting", "prob": 16 },
       { "item": "machete", "prob": 16 },
-      { "item": "survivor_machete", "prob": 4 },
       { "item": "survivor_machete_qt", "prob": 1 },
       { "item": "sword_xiphos", "prob": 1 },
       { "item": "khopesh", "prob": 1 },
@@ -172,7 +171,6 @@
     "subtype": "distribution",
     "entries": [
       { "group": "melee_stabbing_rare_weak", "prob": 1 },
-      { "item": "bowling_axe", "prob": 4 },
       { "item": "pitchfork", "prob": 8 },
       { "item": "pointy_stick", "prob": 16 },
       { "item": "pointy_stick_long", "prob": 16 },
@@ -182,7 +180,6 @@
       { "item": "spear_knife", "prob": 1 },
       { "item": "spear_homemade_halfpike", "prob": 4 },
       { "item": "spear_steel_crude", "prob": 4 },
-      { "item": "spear_forked", "prob": 1 },
       { "item": "sharpened_pipe", "prob": 16 },
       { "item": "simple_spear_pipe", "prob": 8 },
       { "item": "spear_pipe", "prob": 1 },

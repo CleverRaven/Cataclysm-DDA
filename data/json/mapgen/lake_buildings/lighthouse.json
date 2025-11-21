@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "lighthouse_ground",
     "object": {
       "fill_ter": "t_floor",
@@ -74,8 +73,8 @@
         "7": { "item": "fishing_items", "chance": 20, "repeat": [ 2, 4 ] },
         "b": { "item": "homebooks", "chance": 20, "repeat": [ 2, 4 ] },
         "v": { "item": "home_hw", "chance": 20, "repeat": [ 2, 4 ] },
-        "I": { "item": "office", "chance": 20, "repeat": [ 2, 4 ] },
-        "R": { "item": "SUS_trash_trashcan", "chance": 25, "repeat": [ 1, 2 ] },
+        "I": { "item": "SUS_office_desk", "chance": 20, "repeat": [ 1, 2 ] },
+        "R": { "item": "SUS_trash_trashcan", "chance": 25 },
         "W": { "item": "stash_wood", "chance": 25, "repeat": [ 1, 2 ] },
         "t": { "item": "livingroom", "chance": 25, "repeat": [ 1, 2 ] },
         "a": { "item": "jackets", "chance": 25, "repeat": [ 1, 2 ] },
@@ -92,7 +91,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "lighthouse_z1",
     "object": {
       "fill_ter": "t_floor",
@@ -157,7 +155,7 @@
         "o": { "item": "SUS_oven", "chance": 25, "repeat": [ 1, 2 ] },
         "f": { "item": "SUS_fridge", "chance": 25, "repeat": [ 1, 2 ] },
         "S": { "item": "shower", "chance": 25, "repeat": [ 1, 2 ] },
-        "R": { "item": "SUS_trash_trashcan", "chance": 25, "repeat": [ 1, 2 ] },
+        "R": { "item": "SUS_trash_trashcan", "chance": 25 },
         "W": { "item": "stash_wood", "chance": 25, "repeat": [ 1, 2 ] },
         "t": { "item": "livingroom", "chance": 25, "repeat": [ 1, 2 ] },
         "a": { "item": "jackets", "chance": 25, "repeat": [ 1, 2 ] },
@@ -176,7 +174,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "lighthouse_z2",
     "object": {
       "fill_ter": "t_floor",
@@ -239,7 +236,7 @@
         "D": { "item": "allclothes", "chance": 50, "repeat": [ 2, 3 ] },
         "S": { "item": "shower", "chance": 25, "repeat": [ 1, 2 ] },
         "s": { "item": "softdrugs", "chance": 25, "repeat": [ 1, 2 ] },
-        "R": { "item": "SUS_trash_trashcan", "chance": 25, "repeat": [ 1, 2 ] },
+        "R": { "item": "SUS_trash_trashcan", "chance": 25 },
         "W": { "item": "stash_wood", "chance": 25, "repeat": [ 1, 2 ] },
         "t": { "item": "bedroom", "chance": 25, "repeat": [ 1, 2 ] },
         "a": { "item": "jackets", "chance": 25, "repeat": [ 1, 2 ] },
@@ -249,7 +246,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "lighthouse_z3",
     "object": {
       "fill_ter": "t_floor",
@@ -297,7 +293,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "lighthouse_z4",
     "object": {
       "fill_ter": "t_floor",
@@ -359,7 +354,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "lighthouse_z5",
     "object": {
       "fill_ter": "t_floor",
@@ -404,7 +398,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "lighthouse_roof",
     "object": {
       "fill_ter": "t_flat_roof",

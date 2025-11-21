@@ -113,6 +113,10 @@ void set_season_length( int dur );
 
 void set_location( float latitude, float longitude );
 
+// time from the start of the year to calendar::turn_zero
+time_duration turn_zero_offset();
+int years_since_cataclysm( time_point );
+
 /// @returns relative length of game season to real life season.
 float season_ratio();
 
@@ -239,7 +243,7 @@ class time_duration
         /**@}*/
 
         /**
-         * Converts the duration to an amount of the given units. The conversions is
+         * Converts the duration to an amount of the given units. The conversions are
          * done with values of the given template type. That means using an integer
          * type (e.g. `int`) will return a truncated value (amount of *full* minutes
          * that make up the duration, discarding the remainder).
@@ -351,7 +355,7 @@ class time_duration
 bool x_in_y( const time_duration &a, const time_duration &b );
 
 /**
- * Convert the given number into an duration by calling the matching
+ * Convert the given number into a duration by calling the matching
  * `time_duration::from_*` function.
  */
 /**@{*/
@@ -444,7 +448,7 @@ std::string to_string_writable( const time_duration &dur );
  * This can be compared with the usual comparison operators.
  * It can be (de)serialized via JSON.
  *
- * Note that is does not handle variable sized season length. Changing the
+ * Note that it does not handle variable sized season length. Changing the
  * season length has no effect on it.
  */
 class time_point
@@ -511,6 +515,20 @@ class time_point
             return lhs = time_point::from_turn( to_turn<int>( lhs ) - to_turns<int>( rhs ) );
         }
 
+        // kinda gross
+        friend constexpr inline time_point operator/( const time_point &lhs, const time_duration &rhs ) {
+            return time_point::from_turn( to_turn<int>( lhs ) / to_turns<int>( rhs ) );
+        }
+        friend constexpr inline time_point operator*( const time_point &lhs, const time_duration &rhs ) {
+            return time_point::from_turn( to_turn<int>( lhs ) * to_turns<int>( rhs ) );
+        }
+        friend time_point inline &operator/=( time_point &lhs, const time_duration &rhs ) {
+            return lhs = time_point::from_turn( to_turn<int>( lhs ) / to_turns<int>( rhs ) );
+        }
+        friend time_point inline &operator*=( time_point &lhs, const time_duration &rhs ) {
+            return lhs = time_point::from_turn( to_turn<int>( lhs ) * to_turns<int>( rhs ) );
+        }
+
         // TODO: implement minutes_of_hour and so on and use it.
 };
 
@@ -556,7 +574,7 @@ inline time_duration time_past_midnight( const time_point &p )
 
 inline time_duration time_past_new_year( const time_point &p )
 {
-    return ( p - calendar::turn_zero ) % calendar::year_length();
+    return ( p - calendar::turn_zero + calendar::turn_zero_offset() ) % calendar::year_length();
 }
 
 template<typename T>
@@ -588,7 +606,8 @@ std::string to_string_time_of_day( const time_point &p );
 /** Time approximation based on the player's timekeeping capability, formatted for diary pages **/
 std::string get_diary_time_str( const time_point &turn, time_accuracy acc );
 /** Time approximation based on the player's timekeeping capability, formatted for diary pages **/
-std::string get_diary_time_since_str( const time_duration &turn_diff, time_accuracy acc );
+std::string get_diary_time_since_str( const time_duration &turn_diff, time_accuracy acc,
+                                      bool include_postfix = true );
 /** Returns the default duration of a lunar month (duration between syzygies) */
 time_duration lunar_month();
 /** Returns the current phase of the moon. */
@@ -607,7 +626,7 @@ time_point noon( const time_point &p );
 bool is_night( const time_point &p );
 /** Returns true if it's currently day time - after dawn and before dusk. */
 bool is_day( const time_point &p );
-/** Returns true if it's currently dusk - between sunset and and twilight_duration after sunset. */
+/** Returns true if it's currently dusk - between sunset and twilight_duration after sunset. */
 bool is_dusk( const time_point &p );
 /** Returns true if it's currently dawn - between sunrise and twilight_duration after sunrise. */
 bool is_dawn( const time_point &p );
@@ -650,6 +669,27 @@ enum class weekdays : int {
 };
 
 weekdays day_of_week( const time_point &p );
+std::string to_string( const weekdays &d );
+
+enum class month : int {
+    JANUARY = 0,
+    FEBRUARY,
+    MARCH,
+    APRIL,
+    MAY,
+    JUNE,
+    JULY,
+    AUGUST,
+    SEPTEMBER,
+    OCTOBER,
+    NOVEMBER,
+    DECEMBER,
+    UNKNOWN
+};
+
+std::pair<month, int> month_and_day( time_point );
+std::string to_string( month m );
+
 
 // To support the eternal season option we create a strong typedef of timepoint
 // which is a season_effective_time.  This converts a regular time to a time

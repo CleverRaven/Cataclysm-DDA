@@ -1,0 +1,16 @@
+[
+  {
+    "id": "TALK_EXODII_MERCHANT_Alphatest",
+    "type": "talk_topic",
+    "dynamic_line": "[v0.1 info] Okay I'm just gonna drop my dialect for this, it's way too much for Anglic.  The Labyrinthine Structure (LS) is planned to be a sprawling procedurally generated dungeon where you can fight advanced monsters and loot cybernetics, both regular and weird artifact versions.  It is currently far from that state.  Playtest information on the general layout and the monster balance would be helpful.\n\nIn the long run, the goal is to have a number of 'biomes' that you can reach as you travel further from the origin point.  When you leave and return, the dungeon resets, although in the future the devs want to have a stable 'home base' you can upgrade.\n\nIn its final form, if it ever gets there, it would have enough content that you could spend an entire playthrough just exploring the labyrinth and getting weird unique items that only work down there, something like the backrooms mod but for mainline.",
+    "responses": [
+      {
+        "text": "[PLAYTEST] Send me to the Labyrinthine Structure alpha test 0.1, I know it's low on content and lacking combat balance, but I still want to check it out!",
+        "effect": { "run_eocs": "EOC_LS_Teleport_to_labyrinth" },
+        "condition": { "u_has_trait": "LS_Alphatest" },
+        "topic": "TALK_DONE"
+      },
+      { "text": "Let's stop breaking the fourth wall and get back to the normal conversation.", "topic": "TALK_NONE" }
+    ]
+  }
+]

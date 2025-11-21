@@ -179,7 +179,7 @@
     "color": "light_red",
     "emits": [ "emit_extinguisher_burst" ],
     "revert_to": "canister_empty",
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID", "SPAWN_ACTIVE" ],
     "melee_damage": { "bash": 2 }
   },
   {

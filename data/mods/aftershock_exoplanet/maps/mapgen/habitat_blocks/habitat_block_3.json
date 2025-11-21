@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "afs_habblock_3_ground" ],
     "object": {
       "fill_ter": "t_metal_floor",
@@ -57,7 +56,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "afs_habblock_3_floor_2" ],
     "object": {
       "fill_ter": "t_metal_floor",
@@ -96,7 +94,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "afs_habblock_3_floor_3" ],
     "object": {
       "fill_ter": "t_metal_floor",
@@ -135,7 +132,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "afs_habblock_3_floor_4" ],
     "object": {
       "fill_ter": "t_metal_floor",
@@ -190,7 +186,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "afs_habblock_3_roof" ],
     "object": {
       "fill_ter": "t_metal_floor",

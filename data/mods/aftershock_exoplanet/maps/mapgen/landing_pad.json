@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "land_pad_outpost_a1", "land_pad_outpost_a2" ] ],
     "object": {
       "fill_ter": "t_strconc_floor_heated",
@@ -57,7 +56,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "land_pad_outpost_a1_roof", "land_pad_outpost_a2_roof" ] ],
     "object": {
       "fill_ter": "t_flat_roof",
@@ -93,7 +91,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "land_pad_outpost_basement_a1", "land_pad_outpost_basement_a2" ] ],
     "object": {
       "fill_ter": "t_flat_roof",
@@ -134,7 +131,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "land_pad_tunnel_a1", "land_pad_tunnel_a2" ] ],
     "object": {
       "fill_ter": "t_strconc_floor_no_roof",
@@ -169,7 +165,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "land_pad_a1", "land_pad_a2" ], [ "land_pad_b1", "land_pad_b2" ] ],
     "object": {
       "fill_ter": "t_strconc_floor_no_roof",
@@ -228,7 +223,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "land_pad_a1_above", "land_pad_a2_above" ], [ "land_pad_b1_above", "land_pad_b2_above" ] ],
     "object": {
       "fill_ter": "t_flat_roof",

@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "robofac_hq_surface_freemerchant_camp_roof",
     "object": {
       "faction_owner": [ { "id": "free_merchants", "x": [ 0, 14 ], "y": [ 0, 14 ] } ],
@@ -28,7 +27,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "robofac_hq_surface_freemerchant_camp",
     "object": {
       "faction_owner": [ { "id": "free_merchants", "x": [ 0, 14 ], "y": [ 0, 14 ] } ],
@@ -96,7 +94,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "robofac_hq_surface_merc_1",
     "object": {
       "faction_owner": [ { "id": "robofac_auxiliaries", "x": [ 0, 4 ], "y": [ 0, 4 ] } ],
@@ -106,13 +103,11 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "robofachqy_window_sand_wall",
     "object": { "mapgensize": [ 8, 8 ], "set": [ { "line": "furniture", "id": "f_sandbag_wall", "x": 0, "y": 0, "x2": 7, "y2": 0 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "robofachq_window_sand_wall_l",
     "object": {
       "mapgensize": [ 11, 11 ],
@@ -121,7 +116,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "window_sandbags_meteorology1",
     "object": {
       "place_nested": [
@@ -134,7 +128,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "window_sandbags_meteorology2",
     "object": {
       "place_nested": [
@@ -146,13 +139,11 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "window_sandbags_surface_road2",
     "object": { "place_nested": [ { "chunks": [ "robofachq_window_sand_wall_l" ], "x": 13, "y": 0 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "robofachq_ancilla_fortress_basic",
     "object": {
       "rows": [
@@ -206,7 +197,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "robofachq_ancilla_bar_basic",
     "object": {
       "rows": [
@@ -251,7 +241,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "nest_ancilla_bar_place_BEMs",
     "//": "remove the null chunks once there's enough BEM npcs.",
     "object": {
@@ -291,7 +280,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "robofachq_ancilla_bar_autodoc",
     "//": "Spawns by itself at the moment, spawning should be triggered by missions later on.",
     "object": {
@@ -335,7 +323,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "BEM_hireable",
     "object": {
       "faction_owner": [ { "id": "robofac_auxiliaries", "x": [ 0, 0 ], "y": [ 0, 0 ] } ],
@@ -345,7 +332,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "BEM_human_sample",
     "object": {
       "faction_owner": [ { "id": "robofac_auxiliaries", "x": [ 0, 0 ], "y": [ 0, 0 ] } ],
@@ -355,7 +341,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "BEM_anchor_seller",
     "object": {
       "faction_owner": [ { "id": "robofac_auxiliaries", "x": [ 0, 0 ], "y": [ 0, 0 ] } ],
@@ -365,7 +350,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "BEM_keycard_seller",
     "object": {
       "faction_owner": [ { "id": "robofac_auxiliaries", "x": [ 0, 0 ], "y": [ 0, 0 ] } ],
@@ -375,7 +359,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "BEM_template_seller",
     "object": {
       "faction_owner": [ { "id": "robofac_auxiliaries", "x": [ 0, 0 ], "y": [ 0, 0 ] } ],
@@ -385,7 +368,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "BEM_gunrunner",
     "object": {
       "faction_owner": [ { "id": "robofac_auxiliaries", "x": [ 0, 0 ], "y": [ 0, 0 ] } ],
@@ -395,7 +377,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "BEM_chatting_veterans",
     "object": {
       "faction_owner": [ { "id": "robofac_auxiliaries", "x": [ 0, 0 ], "y": [ 0, 0 ] } ],
@@ -405,7 +386,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "BEM_drugrunner",
     "object": {
       "faction_owner": [ { "id": "robofac_auxiliaries", "x": [ 0, 0 ], "y": [ 0, 0 ] } ],
@@ -415,7 +395,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "BEM_jabberwock",
     "object": {
       "faction_owner": [ { "id": "robofac_auxiliaries", "x": [ 0, 0 ], "y": [ 0, 0 ] } ],
@@ -425,7 +404,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "nest_ancilla_bar_remove_BEMs",
     "object": {
       "remove_npcs": [

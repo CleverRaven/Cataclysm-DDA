@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_teashop" ],
     "object": {
       "fill_ter": "t_floor",
@@ -92,7 +91,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_teashop_roof",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -135,7 +133,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_teashop_1" ],
     "object": {
       "fill_ter": "t_floor",
@@ -224,7 +221,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_teashop_roof_1",
     "object": {
       "fill_ter": "t_tile_flat_roof",
@@ -276,7 +272,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_teashop_upper_roof_1",
     "object": {
       "fill_ter": "t_tar_flat_roof",

@@ -1,0 +1,62 @@
+[
+  {
+    "type": "region_settings_lake",
+    "id": "default",
+    "copy-from": "default",
+    "//": "Smaller less numerous lakes",
+    "noise_threshold_lake": 0.35,
+    "lake_size_min": 15
+  },
+  {
+    "type": "region_settings_ocean",
+    "id": "default",
+    "copy-from": "default",
+    "ocean_start_north": 250,
+    "ocean_start_east": 900,
+    "ocean_start_west": 200
+  },
+  {
+    "type": "region_settings_forest",
+    "id": "default",
+    "copy-from": "default",
+    "noise_threshold_forest": 0.4,
+    "noise_threshold_forest_thick": 0.45,
+    "noise_threshold_swamp_adjacent_water": 0.5,
+    "noise_threshold_swamp_isolated": 0.7,
+    "forest_threshold_increase": [ 0.1, 0, 0, 0.1 ],
+    "forest_threshold_limit": 0.6
+  },
+  {
+    "type": "region_settings_city",
+    "id": "default",
+    "copy-from": "default",
+    "//": "Increased hunting store chance, decreased gun store/mil surplus chances.",
+    "extend": {
+      "shops": [
+        [ "s_hunting", 300 ],
+        [ "s_gun_a", 350 ],
+        [ "s_gun_b", 150 ],
+        [ "mil_surplus", 20 ],
+        [ "mil_surplus_1", 20 ],
+        [ "mil_surplus_2", 20 ]
+      ]
+    }
+  },
+  {
+    "type": "weather_generator",
+    "id": "default",
+    "copy-from": "default",
+    "base_temperature": 5.5,
+    "base_humidity": 50.0,
+    "base_pressure": 1000,
+    "base_wind": 4.4,
+    "weather_black_list": [ "early_portal_storm", "portal_storm" ]
+  },
+  {
+    "type": "region_settings",
+    "id": "default",
+    "copy-from": "default",
+    "urbanity_increase": [ -1, 0, 0, -1 ],
+    "feature_flag_settings": { "whitelist": [ "CLASSIC" ] }
+  }
+]

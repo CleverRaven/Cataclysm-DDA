@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "church" ],
     "//": "New England Church",
     "weight": 1000,
@@ -43,7 +42,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "church_roof",
     "object": {
       "fill_ter": "t_open_air",
@@ -79,7 +77,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "church_steeple",
     "object": {
       "fill_ter": "t_floor",
@@ -115,7 +112,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "church_steeple_end",
     "object": {
       "fill_ter": "t_floor",
@@ -151,7 +147,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "church_steeple_roof",
     "object": {
       "rows": [
@@ -186,7 +181,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "church_1" ],
     "//": "Gothic Church",
     "object": {
@@ -238,7 +232,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "church_2ndfloor_1",
     "object": {
       "fill_ter": "t_floor",
@@ -302,7 +295,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "church_3rdfloor_1",
     "object": {
       "fill_ter": "t_floor",
@@ -371,7 +363,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "church_roof_1",
     "object": {
       "fill_ter": "t_concrete",

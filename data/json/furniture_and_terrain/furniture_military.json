@@ -10,8 +10,8 @@
     "coverage": 15,
     "required_str": 10,
     "flags": [ "SHORT", "FLAT_SURF" ],
-    "bash": { "str_min": 1, "str_max": 1, "items": [ { "item": "mortar_m224", "count": 1 } ] },
-    "deconstruct": { "items": [ { "item": "mortar_m224", "count": 1 } ] },
+    "bash": { "str_min": 40, "str_max": 70 },
+    "item": "mortar_m224",
     "//range": [
       "charge; muzzle velocity; min range, max range",
       "0, 210, 70,  400 ",

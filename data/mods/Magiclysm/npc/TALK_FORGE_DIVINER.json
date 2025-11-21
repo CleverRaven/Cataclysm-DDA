@@ -310,7 +310,7 @@
       { "text": "A tower.", "topic": "TALK_FORGE_LORD_DIVINER_FUNGAL_TOWER" },
       { "text": "Some flowers.", "topic": "TALK_FORGE_LORD_DIVINER_FUNGAL_FLOWERS" },
       { "text": "On second thought, maybe I'll go for something else…", "topic": "TALK_NONE" },
-      { "text": "You know what?  Nevermind.", "topic": "TALK_DONE" }
+      { "text": "You know what?  Never mind.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -585,7 +585,7 @@
       { "text": "An ice lab.", "topic": "TALK_FORGE_LORD_DIVINER_LAB_ICE" },
       { "text": "A nether lab.", "topic": "TALK_FORGE_LORD_DIVINER_LAB_NETHER" },
       { "text": "On second thought, maybe I'll go for something else…", "topic": "TALK_NONE" },
-      { "text": "You know what?  Nevermind.", "topic": "TALK_DONE" }
+      { "text": "You know what?  Never mind.", "topic": "TALK_DONE" }
     ]
   },
   {

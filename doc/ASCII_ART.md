@@ -1,3 +1,15 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Making ASCII art for CDDA](#making-ascii-art-for-cdda)
+  - [ASCII art Editors](#ascii-art-editors)
+  - [Installing REXPaint](#installing-rexpaint)
+  - [Drawing](#drawing)
+  - [Exporting](#exporting)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## Making ASCII art for CDDA
 ### ASCII art Editors
 ASCII art can be made using any text editor, such as Notepad, but it's more convenient to use an editor created for making ASCII art. There are many ASCII art editors on the internet, but this guide focuses on REXPaint because aside from many useful features like drawing ellipses, rectangles, lines and other shapes, it's the only editor with the option to export images to a format readable by CDDA. Note that this is not a comprehensive REXPaint manual, you can find the full manual [here](https://github.com/Lucide/REXPaint-manual/blob/master/manual.md) or in your REXPaint folder.

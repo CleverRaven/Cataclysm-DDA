@@ -1,6 +1,26 @@
 [
   {
     "type": "mutation",
+    "id": "SPELLCASTING_DEFAULT_TRAIT",
+    "name": { "str": "Default Spellcasting modifiers", "//~": "NO_I18N" },
+    "points": 0,
+    "description": {
+      "str": "Adds some default spellcasting modifiers to work around jmath limit.  Should not be player-visible",
+      "//~": "NO_I18N"
+    },
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "player_display": false,
+    "enchantments": [
+      {
+        "condition": { "u_has_wielded_with_flag": "SPELLCASTING_AID" },
+        "ench_effects": [ { "effect": "effect_magiclysm_spellcasting_aid_item_wielded", "intensity": 1 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "MAGUS",
     "name": "Magus",
     "points": 0,
@@ -9,7 +29,8 @@
     "purifiable": false,
     "valid": false,
     "cancels": [ "ANIMIST" ],
-    "spells_learned": [ [ "create_rune_magus", 0 ] ]
+    "spells_learned": [ [ "create_rune_magus", 0 ] ],
+    "flags": [ "ATTUNEMENT" ]
   },
   {
     "type": "mutation",
@@ -22,7 +43,8 @@
     "valid": false,
     "cancels": [ "MAGUS" ],
     "spells_learned": [ [ "create_rune_animist", 0 ] ],
-    "moncams": [ [ "mon_watcher_spirit", 30 ] ]
+    "moncams": [ [ "mon_watcher_spirit", 30 ] ],
+    "flags": [ "ATTUNEMENT" ]
   },
   {
     "type": "mutation",
@@ -33,9 +55,10 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "enchantments": [ "KELVINIST" ],
     "cancels": [ "STORMSHAPER" ],
-    "spells_learned": [ [ "create_rune_kelvinist", 0 ] ]
+    "spells_learned": [ [ "create_rune_kelvinist", 0 ] ],
+    "enchantments": [ "KELVINIST" ],
+    "flags": [ "ATTUNEMENT" ]
   },
   {
     "type": "mutation",
@@ -46,9 +69,10 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "enchantments": [ "STORMSHAPER" ],
     "cancels": [ "KELVINIST" ],
-    "spells_learned": [ [ "create_rune_stormshaper", 0 ] ]
+    "spells_learned": [ [ "create_rune_stormshaper", 0 ] ],
+    "enchantments": [ "STORMSHAPER" ],
+    "flags": [ "ATTUNEMENT" ]
   },
   {
     "type": "mutation",
@@ -60,7 +84,8 @@
     "purifiable": false,
     "valid": false,
     "cancels": [ "EARTHSHAPER" ],
-    "spells_learned": [ [ "create_rune_technomancer", 0 ] ]
+    "spells_learned": [ [ "create_rune_technomancer", 0 ] ],
+    "flags": [ "ATTUNEMENT" ]
   },
   {
     "type": "mutation",
@@ -72,7 +97,8 @@
     "purifiable": false,
     "valid": false,
     "cancels": [ "TECHNOMANCER" ],
-    "spells_learned": [ [ "create_rune_earthshaper", 0 ] ]
+    "spells_learned": [ [ "create_rune_earthshaper", 0 ] ],
+    "flags": [ "ATTUNEMENT" ]
   },
   {
     "type": "mutation",
@@ -84,7 +110,8 @@
     "purifiable": false,
     "valid": false,
     "cancels": [ "DRUID" ],
-    "spells_learned": [ [ "create_rune_biomancer", 0 ] ]
+    "spells_learned": [ [ "create_rune_biomancer", 0 ] ],
+    "flags": [ "ATTUNEMENT" ]
   },
   {
     "type": "mutation",
@@ -96,7 +123,7 @@
     "purifiable": false,
     "valid": false,
     "cancels": [ "BIOMANCER" ],
-    "flags": [ "TREE_COMMUNION_PLUS" ],
-    "spells_learned": [ [ "create_rune_druid", 0 ] ]
+    "spells_learned": [ [ "create_rune_druid", 0 ] ],
+    "flags": [ "ATTUNEMENT", "TREE_COMMUNION_PLUS" ]
   }
 ]

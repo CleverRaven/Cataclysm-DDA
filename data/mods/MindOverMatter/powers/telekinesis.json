@@ -4,14 +4,14 @@
     "//": "power ID exists for legacy reasons",
     "type": "SPELL",
     "name": "[Ψ]Far Hand",
-    "description": "Move a set of items towards or away from you.",
+    "description": "Pickup items at a distance or push them away from you.",
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "TELEKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "difficulty": 1,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
@@ -32,31 +32,41 @@
     "description": { "str": "The actual effect that causes the far hand.  It's a bug if you have it.", "//~": "NO_I18N" },
     "message": "",
     "teachable": false,
-    "valid_targets": [ "item", "ground" ],
+    "valid_targets": [ "item", "ground", "self", "ally", "hostile" ],
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "difficulty": 1,
     "max_level": { "math": [ "int_to_level(1)" ] },
-    "effect": "directed_push",
+    "effect": "pickup",
     "shape": "blast",
     "min_damage": {
       "math": [
-        "min( (( (u_spell_level('telekinetic_pull') * 0.4) + 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling * -1), 40)"
+        "max( 50 - ( ( (u_spell_level('telekinetic_pull') + u_spell_level('telekinetic_pull_knack') ) * 3 ) * ( scaling_factor( u_val('intelligence') ) ) * u_nether_attunement_power_scaling ), 0 )"
       ]
     },
     "max_damage": {
       "math": [
-        "min( (( (u_spell_level('telekinetic_pull') * 0.9) + 4) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling * -1), 40)"
+        "max( 100 - ( ( (u_spell_level('telekinetic_pull') + u_spell_level('telekinetic_pull_knack') ) * 4 ) * ( scaling_factor( u_val('intelligence') ) ) * u_nether_attunement_power_scaling ), 0 )"
+      ]
+    },
+    "min_aoe": {
+      "math": [
+        "( (u_spell_level('telekinetic_pull') + u_spell_level('telekinetic_pull_knack') ) * 0.2 ) * ( scaling_factor( u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_aoe": {
+      "math": [
+        "( (u_spell_level('telekinetic_pull') + u_spell_level('telekinetic_pull_knack') ) * 0.2 ) * ( scaling_factor( u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "min_range": {
       "math": [
-        "min( (( (u_spell_level('telekinetic_pull') * 0.9) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 40)"
+        "min( ( ( ( (u_spell_level('telekinetic_pull') + u_spell_level('telekinetic_pull_knack') ) * 0.9 ) + 2 ) * ( scaling_factor( u_val('intelligence') ) ) * u_nether_attunement_power_scaling ), 40 )"
       ]
     },
     "max_range": {
       "math": [
-        "min( (( (u_spell_level('telekinetic_pull') * 0.9) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 40)"
+        "min( ( ( ( (u_spell_level('telekinetic_pull') + u_spell_level('telekinetic_pull_knack') ) * 0.9 ) + 2 ) * ( scaling_factor( u_val('intelligence') ) ) * u_nether_attunement_power_scaling ), 40 )"
       ]
     }
   },
@@ -69,29 +79,29 @@
     "teachable": false,
     "valid_targets": [ "item", "ground" ],
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "difficulty": 1,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "directed_push",
     "shape": "blast",
     "min_damage": {
       "math": [
-        "min( (( (u_spell_level('telekinetic_pull') * 0.4) + 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 40)"
+        "min( ( ( ( (u_spell_level('telekinetic_pull') + u_spell_level('telekinetic_pull_knack') ) * 0.4) + 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 40)"
       ]
     },
     "max_damage": {
       "math": [
-        "min( (( (u_spell_level('telekinetic_pull') * 0.9) + 4) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 40)"
+        "min( ( ( ( (u_spell_level('telekinetic_pull') + u_spell_level('telekinetic_pull_knack') ) * 0.9) + 4) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 40)"
       ]
     },
     "min_range": {
       "math": [
-        "min( (( (u_spell_level('telekinetic_pull') * 0.9) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling ), 40)"
+        "min( ( ( ( (u_spell_level('telekinetic_pull') + u_spell_level('telekinetic_pull_knack') ) * 0.9) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling ), 40)"
       ]
     },
     "max_range": {
       "math": [
-        "min( (( (u_spell_level('telekinetic_pull') * 0.9) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 40)"
+        "min( ( ( ( (u_spell_level('telekinetic_pull') + u_spell_level('telekinetic_pull_knack') ) * 0.9) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 40)"
       ]
     }
   },
@@ -107,7 +117,7 @@
     "spell_class": "TELEKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
     "difficulty": 1,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
@@ -115,7 +125,7 @@
     "shape": "blast",
     "min_range": {
       "math": [
-        "min( ( ( (u_spell_level('telekinetic_push') * 0.9) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 40)"
+        "min( ( ( ( (u_spell_level('telekinetic_push') + u_spell_level('telekinetic_push_knack') ) * 0.9) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 40)"
       ]
     },
     "max_range": 40,
@@ -136,7 +146,7 @@
     "teachable": false,
     "valid_targets": [ "ally", "hostile" ],
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "difficulty": 1,
     "max_level": 30,
     "effect": "directed_push",
@@ -156,7 +166,7 @@
     "spell_class": "TELEKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "RANDOM_DAMAGE", "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "RANDOM_DAMAGE", "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "difficulty": 2,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "noise",
@@ -197,7 +207,7 @@
     "spell_class": "TELEKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "difficulty": 2,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
@@ -206,27 +216,27 @@
     "damage_type": "psi_telekinetic_damage",
     "min_damage": {
       "math": [
-        "( (u_spell_level('telekinetic_slam_down') * 0.5) + 5) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( ( (u_spell_level('telekinetic_slam_down') + u_spell_level('telekinetic_slam_down_knack') ) * 0.5) + 5) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_damage": {
       "math": [
-        "( (u_spell_level('telekinetic_slam_down') * 1.2) + 15) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( ( (u_spell_level('telekinetic_slam_down') + u_spell_level('telekinetic_slam_down_knack') ) * 1.2) + 15) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "min_duration": {
       "math": [
-        "( (u_spell_level('telekinetic_slam_down') * 25) + 100) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( ( (u_spell_level('telekinetic_slam_down') + u_spell_level('telekinetic_slam_down_knack') ) * 25) + 100) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_spell_level('telekinetic_slam_down') * 95) + 400) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( ( (u_spell_level('telekinetic_slam_down') + u_spell_level('telekinetic_slam_down_knack') ) * 95) + 400) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "min_range": {
       "math": [
-        "min( (( (u_spell_level('telekinetic_slam_down') * 0.5) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 40)"
+        "min( ( ( ( (u_spell_level('telekinetic_slam_down') + u_spell_level('telekinetic_slam_down_knack') ) * 0.5) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 40)"
       ]
     },
     "max_range": 40,
@@ -249,7 +259,7 @@
     "spell_class": "TELEKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
     "difficulty": 3,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
@@ -287,7 +297,7 @@
     "spell_class": "TELEKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
     "difficulty": 3,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
@@ -317,51 +327,32 @@
     "description": "Unleash a telekinetic wave around you that indiscriminately knocks everything back.",
     "message": "You knock everything nearby backwards!",
     "teachable": false,
-    "valid_targets": [ "self" ],
+    "valid_targets": [ "hostile", "ally" ],
     "spell_class": "TELEKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "WONDER", "NO_HANDS", "NO_LEGS" ],
+    "flags": [ "PSIONIC", "NO_HANDS", "NO_LEGS" ],
     "difficulty": 4,
     "max_level": { "math": [ "int_to_level(1)" ] },
-    "effect": "attack",
-    "extra_effects": [ { "id": "telekinetic_wavepush", "hit_self": true } ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEKIN_WAVE_TARGETS",
     "shape": "blast",
-    "min_damage": 12,
-    "max_damage": 12,
+    "min_aoe": {
+      "math": [
+        "min( ( ( (u_spell_level('telekinetic_wave') * 0.2) + 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 4)"
+      ]
+    },
+    "max_aoe": {
+      "math": [
+        "min( ( ( (u_spell_level('telekinetic_wave') * 0.2) + 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 4)"
+      ]
+    },
     "base_energy_cost": 4500,
     "final_energy_cost": 2250,
     "energy_increment": -125,
     "base_casting_time": 50,
     "final_casting_time": 20,
     "casting_time_increment": -4
-  },
-  {
-    "id": "telekinetic_wavepush",
-    "type": "SPELL",
-    "name": { "str": "[Ψ]Telekinetic Wave Push", "//~": "NO_I18N" },
-    "description": { "str": "Part of Wave of Force.  If you see this it's a bug.", "//~": "NO_I18N" },
-    "message": "",
-    "valid_targets": [ "ally", "hostile", "item" ],
-    "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "RANDOM_TARGET", "NO_EXPLOSION_SFX" ],
-    "effect": "directed_push",
-    "shape": "blast",
-    "max_level": { "math": [ "int_to_level(1)" ] },
-    "damage_type": "psi_telekinetic_damage",
-    "min_damage": {
-      "math": [
-        "min( (( (u_spell_level('telekinetic_wave') * 0.1) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 15)"
-      ]
-    },
-    "max_damage": {
-      "math": [
-        "( (u_spell_level('telekinetic_wave') * 0.25) + 6) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
-    "min_range": 1,
-    "max_range": 1,
-    "ignored_monster_species": [ "PSI_NULL", "TELEKIN_PUSHPULL_NULL" ]
   },
   {
     "id": "telekinetic_water_walk",
@@ -374,7 +365,7 @@
     "spell_class": "TELEKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
     "difficulty": 4,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
@@ -412,7 +403,7 @@
     "spell_class": "TELEKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
     "difficulty": 4,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
@@ -450,7 +441,7 @@
     "spell_class": "TELEKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "difficulty": 5,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
@@ -484,7 +475,7 @@
     "spell_class": "TELEKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "NO_PROJECTILE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
+    "flags": [ "PSIONIC", "NO_PROJECTILE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
     "difficulty": 5,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "damage_type": "psi_telekinetic_damage",
@@ -529,7 +520,7 @@
     "spell_class": "TELEKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 6,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
@@ -567,7 +558,7 @@
     "spell_class": "TELEKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
     "difficulty": 6,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
@@ -607,7 +598,6 @@
     "skill": "metaphysics",
     "flags": [
       "PSIONIC",
-      "CONCENTRATE",
       "LOUD",
       "NO_PROJECTILE",
       "EXTRA_EFFECTS_FIRST",
@@ -667,7 +657,7 @@
     "spell_class": "TELEKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
     "difficulty": 7,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
@@ -705,7 +695,7 @@
     "spell_class": "TELEKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
     "difficulty": 8,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
@@ -735,7 +725,7 @@
     "spell_class": "TELEKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
     "difficulty": 9,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
@@ -765,7 +755,7 @@
     "spell_class": "TELEKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "LOUD", "NO_HANDS", "NO_LEGS", "NO_PROJECTILE", "IGNORE_WALLS", "RANDOM_DURATION" ],
+    "flags": [ "PSIONIC", "LOUD", "NO_HANDS", "NO_LEGS", "NO_PROJECTILE", "IGNORE_WALLS", "RANDOM_DURATION" ],
     "difficulty": 10,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",

@@ -24,6 +24,7 @@ enum class debug_menu_index : int {
     SHORT_TELEPORT,
     LONG_TELEPORT,
     SPAWN_NPC,
+    SPAWN_NPC_FOLLOWER,
     SPAWN_NAMED_NPC,
     SPAWN_OM_NPC,
     SPAWN_MON,
@@ -68,10 +69,12 @@ enum class debug_menu_index : int {
     OM_TELEPORT,
     OM_TELEPORT_COORDINATES,
     OM_TELEPORT_CITY,
+    PRINT_OVERMAPS,
     TRAIT_GROUP,
     ENABLE_ACHIEVEMENTS,
     SHOW_MSG,
     CRASH_GAME,
+    TEST_END_SCREEN,
     MAP_EXTRA,
     DISPLAY_NPC_PATH,
     DISPLAY_NPC_ATTACK,
@@ -115,6 +118,7 @@ enum class debug_menu_index : int {
     WRITE_CITY_LIST,
     TALK_TOPIC,
     IMGUI_DEMO,
+    VEHICLE_EFFECTS,
     last
 };
 

@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "afs_cafe_a1_floor_1",
     "object": {
       "fill_ter": "t_metal_floor",
@@ -52,7 +51,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "afs_cafe_a1_floor_2",
     "object": {
       "fill_ter": "t_metal_floor",

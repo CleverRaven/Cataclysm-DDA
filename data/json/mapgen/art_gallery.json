@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "art_gallery" ],
     "weight": 100,
     "object": {
@@ -76,7 +75,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "art_gallery" ],
     "weight": 100,
     "object": {
@@ -151,7 +149,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "art_gallery_roof" ],
     "object": {
       "fill_ter": "t_tile_flat_roof",

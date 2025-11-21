@@ -58,7 +58,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "dispensary",
     "object": {
       "fill_ter": "t_floor",
@@ -95,7 +94,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "dispensary_roof" ],
     "object": {
       "fill_ter": "t_tile_flat_roof",
@@ -139,7 +137,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "dispensary_1",
     "object": {
       "fill_ter": "t_floor",
@@ -188,7 +185,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "dispensary_roof_1" ],
     "object": {
       "fill_ter": "t_tile_flat_roof",
@@ -232,7 +228,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "dispensary_2" ],
     "object": {
       "fill_ter": "t_floor",
@@ -272,7 +267,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "dispensary_roof_2" ],
     "object": {
       "fill_ter": "t_tile_flat_roof",

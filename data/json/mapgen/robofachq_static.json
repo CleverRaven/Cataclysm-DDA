@@ -12,7 +12,6 @@
       [ "robofachq_roof_a0", "robofachq_roof_a1", "robofachq_roof_a2", "robofachq_roof_a3" ],
       [ "robofachq_roof_e", "robofachq_roof_e", "robofachq_roof_e", "robofachq_roof_e" ]
     ],
-    "method": "json",
     "object": {
       "fill_ter": "t_concrete",
       "rows": [
@@ -130,7 +129,6 @@
       ],
       [ "robofachq_surface_b0", "robofachq_surface_b1", "robofachq_surface_b2", "robofachq_surface_b3" ]
     ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -267,7 +265,6 @@
       [ "robofachq_rock", "robofachq_foyer1", "robofachq_foyer2", "robofachq_rock" ],
       [ "robofachq_rock", "robofachq_rock", "robofachq_foyer4", "robofachq_rock" ]
     ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor_no_roof",
       "rows": [
@@ -393,7 +390,6 @@
       [ "robofachq_exe_a0", "robofachq_exe_a1", "robofachq_exe_a2", "robofachq_exe_a3" ],
       [ "robofachq_exe_b0", "robofachq_exe_b1", "robofachq_exe_b2", "robofachq_exe_b3" ]
     ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor_no_roof",
       "rows": [
@@ -506,7 +502,6 @@
       [ "robofachq_hab_a0", "robofachq_hab_a1", "robofachq_hab_a2", "robofachq_hab_a3" ],
       [ "robofachq_hab_b0", "robofachq_hab_b1", "robofachq_hab_b2", "robofachq_hab_b3" ]
     ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor_no_roof",
       "rows": [
@@ -625,7 +620,6 @@
       [ "robofachq_res_a0", "robofachq_res_a1", "robofachq_res_a2", "robofachq_res_a3" ],
       [ "robofachq_res_b0", "robofachq_res_b1", "robofachq_res_b2", "robofachq_res_b3" ]
     ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor_no_roof",
       "rows": [
@@ -727,7 +721,6 @@
       [ "robofachq_subline_a0", "robofachq_subline_a1", "robofachq_subline_a2", "robofachq_subline_a3" ],
       [ "robofachq_sub_a0", "robofachq_sub_a1", "robofachq_sub_a2", "robofachq_sub_a3" ]
     ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor_no_roof",
       "rows": [
@@ -812,7 +805,6 @@
       [ "robofachq_ai_a0", "robofachq_ai_a1", "robofachq_ai_a2", "robofachq_ai_a3" ],
       [ "robofachq_ai_b0", "robofachq_ai_b1", "robofachq_ai_b2", "robofachq_ai_b3" ]
     ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor_no_roof",
       "rows": [
@@ -877,7 +869,6 @@
       [ "robofachq_aiutl_a0", "robofachq_aiutl_a1", "robofachq_aiutl_a2", "robofachq_aiutl_a3" ],
       [ "robofachq_aiutl_b0", "robofachq_aiutl_b1", "robofachq_aiutl_b2", "robofachq_aiutl_b3" ]
     ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor_no_roof",
       "rows": [

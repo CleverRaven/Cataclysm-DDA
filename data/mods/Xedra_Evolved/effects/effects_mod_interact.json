@@ -1,0 +1,15 @@
+[
+  {
+    "//": "These are overriden in mod interactions",
+    "type": "effect_type",
+    "id": "effect_iron_allergy_wearing_iron",
+    "name": [ "Touching Iron" ],
+    "desc": [ "You are in contact with iron.  It will cause you pain and discomfort until removed." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_iron_allergy_wearing_steel",
+    "name": [ "Touching Steel" ],
+    "desc": [ "You are in contact with steel.  It will cause you pain and discomfort until removed." ]
+  }
+]

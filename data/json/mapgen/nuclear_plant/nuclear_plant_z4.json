@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [
         "nuclear_plant_5_2_4",
@@ -109,7 +108,7 @@
       ],
       "terrain": {  },
       "furniture": {  },
-      "set": [ { "square": "radiation", "amount": [ 1, 10 ], "x": 0, "y": 0, "x2": 23, "y2": 23 } ],
+      "set": [ { "square": "radiation", "amount": [ 0, 10 ], "x": 0, "y": 0, "x2": 23, "y2": 23 } ],
       "palettes": [ "nuclear_plant_palette" ]
     }
   }
