@@ -314,7 +314,7 @@ class uilist // NOLINT(cata-xy)
             };
         };
         bool scrollby( uilist::scroll_amount scrollby );
-        void query( bool loop = true, int timeout = 50, bool allow_unfiltered_hotkeys = false );
+        shared_ptr_fast<uilist_impl> query( bool loop = true, int timeout = 50, bool allow_unfiltered_hotkeys = false );
         void filterlist();
         // In add_entry/add_entry_desc/add_entry_col, int k only support letters
         // (a-z, A-Z) and digits (0-9), MENU_AUTOASSIGN, and 0 or ' ' (disable
@@ -488,7 +488,7 @@ class uilist // NOLINT(cata-xy)
         std::map<input_event, int, std::function<bool( const input_event &, const input_event & )>>
         keymap { input_event::compare_type_mod_code };
 
-        shared_ptr_fast<uilist_impl> ui;
+        weak_ptr_fast<uilist_impl> ui;
 
         std::unique_ptr<string_input_popup_imgui> filter_popup;
 
