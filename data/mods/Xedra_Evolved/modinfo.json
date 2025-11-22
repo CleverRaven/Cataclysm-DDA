@@ -9,7 +9,7 @@
     "category": "content",
     "conflicts": [ "sorcerer" ],
     "dependencies": [ "dda" ],
-    "loading_images": [ "xedra1.png", "xedra2.png", "xedra3.png", "xedra4.png", "xedra5.png" ]
+    "loading_images": [ "xedra1.png", "xedra2.png", "xedra3.png", "xedra4.png", "xedra5.png", "xedra6.png" ]
   },
   {
     "type": "EXTERNAL_OPTION",
