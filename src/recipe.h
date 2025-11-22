@@ -16,6 +16,7 @@
 
 #include "build_reqs.h"
 #include "calendar.h"
+#include "recipe_dictionary.h"
 #include "requirements.h"
 #include "translation.h"
 #include "type_id.h"
@@ -25,6 +26,7 @@ class Character;
 class JsonObject;
 class JsonValue;
 class cata_variant;
+struct craft_step_data;
 class item;
 class item_components;
 template <typename E> struct enum_traits;
@@ -196,6 +198,27 @@ class recipe
 
         bool npc_can_craft( std::string &reason ) const;
 
+        bool is_craftable( const read_only_visitable &crafting_inv,
+                           int batch, const recipe_subset *learned_recipes, const std::function<bool ( const item & )> &filter,
+                           bool force = false ) const;
+
+        /**
+         * @return a list of recursive recipes required to craft this recipe. If all components are present only this recipe is in the list.
+         * If multiple alternative conponents are craftable, show a selector menu to select which component to craft.
+         */
+        // std::vector<std::pair<const recipe *, int>> to_craft( const read_only_visitable
+        //         &crafting_inv, int batch, Character *crafter ) const;
+
+        // std::vector<std::pair<const recipe *, int>> to_craft( const read_only_visitable
+        //         &crafting_inv, int batch, Character *crafter, const requirement_data *reqs ) const;
+
+        /**
+         * adds self to @ref lst if craftable and call @ref recursive_comp_crafts for components that are craftable
+         * If multiple alternative conponents are craftable, show a selector menu to select which component to craft.
+         */
+        ret_val<void> recursive_comp_crafts( std::vector<craft_step_data> &queue,
+                                             const read_only_visitable &crafting_inv,
+                                             int batch, Character *crafter ) const;
         /** Prevent this recipe from ever being added to the player's learned recipes ( used for special NPC crafting ) */
         bool never_learn = false;
 
@@ -330,6 +353,8 @@ class recipe
         // Return the amount the recipe will produce (be it charges, or whole items).
         int makes_amount() const;
 
+
+
     private:
         void incorporate_build_reqs();
         void add_requirements( const std::vector<std::pair<requirement_id, int>> &reqs );
@@ -404,6 +429,12 @@ class recipe
         bool bp_autocalc = false;
         bool check_blueprint_needs = false;
         cata::value_ptr<parameterized_build_reqs> bp_build_reqs;
+
+        /* cached check craftability for recursive crafting.
+         * saved here for performance. re-check only on different turns
+        */
+        mutable bool cached_is_craftable;
+        mutable time_point cached_is_craftable_turn;
 };
 
 #endif // CATA_SRC_RECIPE_H

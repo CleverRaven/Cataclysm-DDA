@@ -25,6 +25,7 @@
 #include "color.h"
 #include "coordinates.h"
 #include "craft_command.h"
+#include "crafting.h"
 #include "creature.h"
 #include "debug.h"
 #include "effect.h" // for weed_msg

@@ -3627,23 +3627,27 @@ class Character : public Creature, public visitable
         const recipe_subset &get_learned_recipes() const;
         recipe_subset get_available_nested( const recipe_subset & ) const;
         /** Returns all recipes that are known from the books (either in inventory or nearby). */
-        recipe_subset get_recipes_from_books( const inventory &crafting_inv ) const;
+        recipe_subset get_recipes_from_books( const inventory &crafting_inv,
+                                              bool require_skill = false ) const;
         /** Returns all recipes that are known from the books inside ereaders (either in inventory or nearby). */
-        recipe_subset get_recipes_from_ebooks( const inventory &crafting_inv ) const;
+        recipe_subset get_recipes_from_ebooks( const inventory &crafting_inv,
+                                               bool require_skill = false ) const;
     protected:
         /**
           * Return all available recipes (from books and companions)
           * @param crafting_inv Current available items to craft
           * @param helpers List of Characters that could help with crafting.
+          * @param require_skill Only list recipes you/helpers have the skill to craft.
           */
         recipe_subset get_available_recipes( const inventory &crafting_inv,
-                                             const std::vector<Character *> *helpers = nullptr ) const;
+                                             const std::vector<Character *> *helpers = nullptr, bool require_skill = false ) const;
     public:
         /**
           * Return all available recipes for any member of `this` crafter's group. Using `this` inventory.
           * If a valid inventory pointer is passed as an argument then returns early with only 'this' crafter using the passed inventory.
           */
-        recipe_subset &get_group_available_recipes( inventory *inventory_override = nullptr ) const;
+        recipe_subset &get_group_available_recipes( inventory *inventory_override = nullptr,
+                bool require_skill = false ) const;
         /**
           * Returns the set of book types in crafting_inv that provide the
           * given recipe.
@@ -3679,6 +3683,7 @@ class Character : public Creature, public visitable
         std::vector<const item *> get_eligible_containers_for_crafting() const;
         bool check_eligible_containers_for_crafting( const recipe &rec, int batch_size = 1 ) const;
         bool can_make( const recipe *r, int batch_size = 1 ) const;  // have components?
+        inventory get_crafting_inv();
         /**
          * Returns true if the player can start crafting the recipe with the given batch size
          * The player is not required to have enough tool charges to finish crafting, only to
@@ -3701,7 +3706,8 @@ class Character : public Creature, public visitable
                          const std::optional<tripoint_bub_ms> &loc = std::nullopt );
         void make_all_craft( const recipe_id &id, int batch_size,
                              const std::optional<tripoint_bub_ms> &loc );
-        /** consume components and create an active, in progress craft containing them */
+        /** consume components and create an active, in progress craft containing them
+         */
         void start_craft( craft_command &command, const std::optional<tripoint_bub_ms> &loc );
 
         struct craft_roll_data {
@@ -3783,6 +3789,14 @@ class Character : public Creature, public visitable
                                int batch, read_only_visitable &map_inv, bool can_cancel = false,
                                const std::function<bool( const item & )> &filter = return_true<item>, bool player_inv = true,
                                bool npc_query = false, const recipe *rec = nullptr );
+        craft_selection select_component_to_craft(
+            const recipe *result,
+            std::vector<std::pair<const recipe *, item_comp>>
+            &components,
+            int batch,
+            const std::function<bool( const item & )> &filter = return_true<item>,
+            bool npc_query = false ) const;
+
         std::list<item> consume_items( const comp_selection<item_comp> &is, int batch,
                                        const std::function<bool( const item & )> &filter = return_true<item>, bool select_ind = false,
                                        bool disable_preference = false );

@@ -1481,7 +1481,7 @@
     "id": "flour_any",
     "type": "requirement",
     "//": "Flour, irrespective of whether it's wheat-free or wheat-full.",
-    "components": [ [ [ "flour", 1 ], [ "flour_wheat_free", 1 ], [ "bread_flour", 1 ] ] ]
+    "components": [ [ [ "flour", 1, "CRAFTABLE" ], [ "flour_wheat_free", 1, "CRAFTABLE" ], [ "bread_flour", 1, "CRAFTABLE" ] ] ]
   },
   {
     "id": "tortilla_any",

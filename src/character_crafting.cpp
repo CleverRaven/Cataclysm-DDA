@@ -121,7 +121,8 @@ recipe_subset Character::get_available_nested( const recipe_subset &res ) const
     return nested_recipes;
 }
 
-recipe_subset Character::get_recipes_from_books( const inventory &crafting_inv ) const
+recipe_subset Character::get_recipes_from_books( const inventory &crafting_inv,
+        bool require_skill ) const
 {
     recipe_subset res;
 
@@ -130,14 +131,17 @@ recipe_subset Character::get_recipes_from_books( const inventory &crafting_inv )
 
         for( std::pair<const recipe *, int> recipe_entry :
              candidate.get_available_recipes( *this ) ) {
-            res.include( recipe_entry.first, recipe_entry.second );
+            if( !require_skill || recipe_entry.first->character_has_required_proficiencies( *this ) ) {
+                res.include( recipe_entry.first, recipe_entry.second );
+            }
         }
     }
 
     return res;
 }
 
-recipe_subset Character::get_recipes_from_ebooks( const inventory &crafting_inv ) const
+recipe_subset Character::get_recipes_from_ebooks( const inventory &crafting_inv,
+        bool require_skill ) const
 {
     recipe_subset res;
 
@@ -151,7 +155,10 @@ recipe_subset Character::get_recipes_from_ebooks( const inventory &crafting_inv 
         for( const item *it : ereader.get_contents().ebooks() ) {
             for( std::pair<const recipe *, int> recipe_entry :
                  it->get_available_recipes( *this ) ) {
-                res.include( recipe_entry.first, recipe_entry.second );
+                if( !require_skill || recipe_entry.first->character_has_required_proficiencies( *this ) ) {
+                    res.include( recipe_entry.first, recipe_entry.second );
+                }
+
             }
         }
     }
@@ -160,16 +167,17 @@ recipe_subset Character::get_recipes_from_ebooks( const inventory &crafting_inv 
 }
 
 recipe_subset Character::get_available_recipes( const inventory &crafting_inv,
-        const std::vector<Character *> *helpers ) const
+        const std::vector<Character *> *helpers,
+        bool require_skill ) const
 {
     recipe_subset res( get_learned_recipes() );
-    res.include( get_recipes_from_books( crafting_inv ) );
-    res.include( get_recipes_from_ebooks( crafting_inv ) );
+    res.include( get_recipes_from_books( crafting_inv, require_skill ) );
+    res.include( get_recipes_from_ebooks( crafting_inv, require_skill ) );
 
     if( helpers != nullptr ) {
         for( Character *guy : *helpers ) {
             // Directly form the helper's inventory
-            res.include( get_recipes_from_books( *guy->inv ) );
+            res.include( get_recipes_from_books( *guy->inv, require_skill ) );
             // Being told what to do
             res.include_if( guy->get_learned_recipes(), [ this ]( const recipe & r ) {
                 return get_knowledge_level( r.skill_used ) >= static_cast<int>( r.get_difficulty(
@@ -183,7 +191,8 @@ recipe_subset Character::get_available_recipes( const inventory &crafting_inv,
     return res;
 }
 
-recipe_subset &Character::get_group_available_recipes( inventory *inventory_override ) const
+recipe_subset &Character::get_group_available_recipes( inventory *inventory_override,
+        bool require_skill ) const
 {
     if( !test_mode && calendar::turn == cached_recipe_turn && cached_recipe_subset->size() > 0 ) {
         return *cached_recipe_subset;
@@ -193,12 +202,14 @@ recipe_subset &Character::get_group_available_recipes( inventory *inventory_over
     cached_recipe_subset->clear();
 
     if( inventory_override ) {
-        cached_recipe_subset->include( get_available_recipes( *inventory_override ) );
+        cached_recipe_subset->include( get_available_recipes( *inventory_override, nullptr,
+                                       require_skill ) );
         return *cached_recipe_subset;
     }
 
     for( const Character *guy : get_crafting_group() ) {
-        cached_recipe_subset->include( guy->get_available_recipes( crafting_inventory() ) );
+        cached_recipe_subset->include( guy->get_available_recipes( crafting_inventory(), nullptr,
+                                       require_skill ) );
     }
 
     return *cached_recipe_subset;

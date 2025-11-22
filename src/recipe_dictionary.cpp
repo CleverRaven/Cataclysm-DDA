@@ -496,7 +496,18 @@ std::vector<const recipe *> recipe_subset::recipes_that_produce( const itype_id 
     std::vector<const recipe *> res;
 
     std::copy_if( recipes.begin(), recipes.end(), std::back_inserter( res ), [&]( const recipe * r ) {
-        return !r->obsolete && ( item == r->result() || r->in_byproducts( item ) );
+        return !r->obsolete && !r->is_practice() && ( item == r->result() || r->in_byproducts( item ) );
+    } );
+
+    return res;
+}
+
+std::vector<const recipe *> recipe_subset::recipes_that_result( const itype_id &item ) const
+{
+    std::vector<const recipe *> res;
+
+    std::copy_if( recipes.begin(), recipes.end(), std::back_inserter( res ), [&]( const recipe * r ) {
+        return !r->obsolete && !r->is_practice() && ( item == r->result() );
     } );
 
     return res;
@@ -911,6 +922,13 @@ void recipe_subset::include( const recipe *r, int custom_difficulty )
 void recipe_subset::remove( const recipe *r )
 {
     recipes.erase( r );
+}
+
+bool recipe_subset::contains( const recipe *r ) const
+{
+    return std::any_of( recipes.begin(), recipes.end(), [r]( const recipe * elem ) {
+        return elem->ident() == r->ident();
+    } );
 }
 
 void recipe_subset::include( const recipe_subset &subset )

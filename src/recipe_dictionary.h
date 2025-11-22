@@ -13,12 +13,13 @@
 #include <vector>
 
 #include "input_context.h"
-#include "recipe.h"
+// #include "recipe.h"      // avoid circular dep
 #include "type_id.h"
 
 class JsonArray;
 class JsonObject;
 class JsonOut;
+class recipe;
 
 class recipe_dictionary
 {
@@ -116,11 +117,7 @@ class recipe_subset
         }
 
         /** Check if the subset contains a recipe with the specified id. */
-        bool contains( const recipe *r ) const {
-            return std::any_of( recipes.begin(), recipes.end(), [r]( const recipe * elem ) {
-                return elem->ident() == r->ident();
-            } );
-        }
+        bool contains( const recipe *r ) const;
 
         /**
          * Get custom difficulty for the recipe.
@@ -187,9 +184,15 @@ class recipe_subset
         recipe_subset difference( const std::set<const recipe *> &recipe_set ) const;
         /** Find recipes producing the item */
         std::vector<const recipe *> recipes_that_produce( const itype_id &item ) const;
+        /** Same as @ref recipes_that_produce, but only forresult, not for byproducts */
+        std::vector<const recipe *> recipes_that_result( const itype_id &item ) const;
 
         size_t size() const {
             return recipes.size();
+        }
+
+        bool empty() const {
+            return recipes.empty();
         }
 
         void clear() {
