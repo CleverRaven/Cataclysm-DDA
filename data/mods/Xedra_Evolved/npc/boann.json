@@ -146,7 +146,7 @@
         "text": "I've completed all your quests and am ready to join your court.",
         "topic": "TALK_JOIN_COURT_SUCCESS",
         "condition": { "math": [ "Boann_Quests_Completed >= 10" ] },
-        "effect": { "u_add_effect": "march_baron", "duration": "PERMANENT" },
+        "effect": { "u_add_effect": "march_baron", "duration": "PERMANENT" }
       },
       {
         "text": "I am ready to leave this world for yours.",
