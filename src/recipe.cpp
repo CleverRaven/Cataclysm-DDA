@@ -36,6 +36,7 @@
 #include "mapgen_parameter.h"
 #include "mapgendata.h"
 #include "math_defines.h"
+#include "npc.h"
 #include "output.h"
 #include "proficiency.h"
 #include "recipe_dictionary.h"
@@ -53,6 +54,13 @@ static const itype_id itype_hotplate( "hotplate" );
 
 static const std::string flag_FULL_MAGAZINE( "FULL_MAGAZINE" );
 
+
+std::string recipe::get_description( const Character &crafter ) const
+{
+    std::string desc = description.translated();
+    parse_tags( desc, crafter, crafter );
+    return desc;
+}
 
 int recipe::get_difficulty( const Character &crafter ) const
 {
