@@ -947,7 +947,7 @@ shared_ptr_fast<uilist_impl> uilist::query( bool loop, int timeout, bool allow_u
         } else {
             ret = UILIST_ERROR;
         }
-        return;
+        return nullptr;
     }
 #endif
     ret_evt = input_event();
