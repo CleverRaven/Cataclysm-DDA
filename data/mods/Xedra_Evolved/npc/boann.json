@@ -143,9 +143,15 @@
         "condition": { "math": [ "Boann_Quests_Completed < 10" ] }
       },
       {
+        "text": "I've completed all your quests and am ready to join your court.",
+        "topic": "TALK_JOIN_COURT_SUCCESS",
+        "condition": { "math": [ "Boann_Quests_Completed >= 10" ] },
+        "effect": { "u_add_effect": "march_baron", "duration": "PERMANENT" },
+      },
+      {
         "text": "I am ready to leave this world for yours.",
         "topic": "TALK_OUTWORLD_CONFIRM",
-        "condition": { "math": [ "Boann_Quests_Completed >= 10" ] }
+        "condition": { "u_has_effect": "march_baron" }
       },
       {
         "text": "I'd like some advice about the Jabberwock.",
@@ -1012,12 +1018,20 @@
     ]
   },
   {
+    "id": [ "TALK_JOIN_COURT_SUCCESS" ],
+    "type": "talk_topic",
+    "dynamic_line": "You are now officially a member of my court and can leave this place for the summer lands.  You will be assigned a territory to guard in my name in the Marches and troops to help you hold it.  But only when you leave here and there is no return from there to here so anyone you wish to take must come with you when you leave.",
+    "responses": [
+      { "text": "Thank you my liege.  I will let you know when I am ready to make the journey.", "topic": "TALK_DONE" },
+      { "text": "I wish to leave now.  (This will end the game)", "topic": "TALK_OUTWORLD_CONFIRM" }
+    ]
+  },
+  {
     "id": [ "TALK_OUTWORLD_CONFIRM" ],
     "type": "talk_topic",
-    "//": "TODO: add custom tombstone as the player don't actually die",
     "dynamic_line": "Are you certain?  Leaving this world is a one-way trip.  There is still a very long time before it becomes urgent to do so and many things to gain from staying here a little longer.",
     "responses": [
-      { "text": "I changed my mind.  I'll stay for now", "topic": "TALK_DONE" },
+      { "text": "I changed my mind.  I'll stay for now.", "topic": "TALK_DONE" },
       { "text": "I am sure.  Bring me out of here.  (This will end the game)", "topic": "TALK_LEAVE_THIS_WORLD" },
       {
         "text": "I am sure.  Bring me and my followers out of here.  (This will end the game)",
@@ -1032,8 +1046,8 @@
     "id": "TALK_LEAVE_THIS_WORLD",
     "dynamic_line": {
       "compare_string": [ "yes", { "u_val": "u_has_followers" } ],
-      "yes": "(Boann lead you and your followers to a hidden ritual circle) This is the exit point.  After the ritual, you will all go through the decontamination process before you are allowed to claim your own barony, as fit for a member of my court.  Your followers will then claim a small part of it for their homes.",
-      "no": "(Boann lead you to a hidden ritual circle) This is the exit point.  After the ritual, you'll go through the decontamination process before being allowed to claim your own barony, as fit for a member of my court."
+      "yes": "(Boann leads you and your followers to a hidden ritual circle) This is the exit point.  After the ritual, you will all go through the decontamination process before you are allowed to claim your own barony, as fit for a member of my court.  Your followers will then claim a small part of it for their homes.",
+      "no": "(Boann leads you to a hidden ritual circle) This is the exit point.  After the ritual, you'll go through the decontamination process before being allowed to claim your own barony, as fit for a member of my court."
     },
     "responses": [
       {
