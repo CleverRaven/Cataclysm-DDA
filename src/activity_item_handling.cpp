@@ -46,6 +46,7 @@
 #include "item_stack.h"
 #include "itype.h"
 #include "iuse.h"
+#include "lightmap.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_scale_constants.h"
@@ -2010,6 +2011,14 @@ activity_reason_info disassemble_can_do( const activity_id &, Character &you,
         return activity_reason_info::fail( do_activity_reason::NO_COMPONENTS );
     }
 }
+
+bool can_do_in_dark( const activity_id &act_id )
+{
+    return act_id == ACT_TIDY_UP ||
+           act_id == ACT_MULTIPLE_MOP ||
+           act_id == ACT_MOVE_LOOT ||
+           act_id == ACT_FETCH_REQUIRED;
+}
 } //namespace multi_activity_actor
 
 
@@ -2759,168 +2768,292 @@ static zone_type_id get_zone_for_act( const tripoint_bub_ms &src_loc, const zone
     return ret;
 }
 
+namespace multi_activity_actor
+{
+void prune_same_tile_locations( Character &you, std::unordered_set<tripoint_abs_ms> &src_set )
+{
+
+    for( auto src_set_iter = src_set.begin(); src_set_iter != src_set.end(); ) {
+        bool skip = false;
+
+        for( const npc &guy : g->all_npcs() ) {
+            if( &guy == &you ) {
+                continue;
+            }
+            if( guy.has_player_activity() && guy.activity.placement == *src_set_iter ) {
+                src_set_iter = src_set.erase( src_set_iter );
+                skip = true;
+                break;
+            }
+        }
+        if( skip ) {
+            continue;
+        } else {
+            ++src_set_iter;
+        }
+    }
+}
+
+void prune_dark_locations( Character &you, std::unordered_set<tripoint_abs_ms> &src_set,
+                           const activity_id &act_id )
+{
+    map &here = get_map();
+    bool src_set_empty = src_set.empty();
+
+    for( auto src_set_iter = src_set.begin(); src_set_iter != src_set.end(); ) {
+        const tripoint_bub_ms set_pt = here.get_bub( *src_set_iter );
+        if( you.fine_detail_vision_mod( set_pt ) > LIGHT_AMBIENT_DIM ) {
+            src_set_iter = src_set.erase( src_set_iter );
+            continue;
+        }
+        ++src_set_iter;
+    }
+
+    // if all pruned locations were too dark
+    if( !src_set_empty && src_set.empty() ) {
+        you.add_msg_if_player( m_info, _( "It is too dark to do the %s activity." ), act_id.c_str() );
+    }
+}
+
+void prune_dangerous_field_locations( std::unordered_set<tripoint_abs_ms> &src_set )
+{
+
+    map &here = get_map();
+
+    for( auto src_set_iter = src_set.begin(); src_set_iter != src_set.end(); ) {
+        // remove dangerous tiles
+        const tripoint_bub_ms set_pt = here.get_bub( *src_set_iter );
+        if( here.dangerous_field_at( set_pt ) ) {
+            src_set_iter = src_set.erase( src_set_iter );
+            continue;
+        }
+        ++src_set_iter;
+    }
+}
+
+// for any multi activity without a specified function below
+std::unordered_set<tripoint_abs_ms> generic_locations( Character &you, const activity_id &act_id )
+{
+
+    zone_manager &mgr = zone_manager::get_manager();
+    std::unordered_set<tripoint_abs_ms> src_set;
+
+    zone_type_id zone_type = get_zone_for_act( tripoint_bub_ms::zero, mgr, act_id, _fac_id( you ) );
+    src_set = mgr.get_near( zone_type, you.pos_abs(), MAX_VIEW_DISTANCE, nullptr, _fac_id( you ) );
+
+    // prune the set to remove tiles that are never gonna work out.
+    multi_activity_actor::prune_dangerous_field_locations( src_set );
+    if( !can_do_in_dark( act_id ) ) {
+        multi_activity_actor::prune_dark_locations( you, src_set, act_id );
+    }
+    return src_set;
+}
+
+std::unordered_set<tripoint_abs_ms> no_same_tile_locations( Character &you,
+        const activity_id &act_id )
+{
+    std::unordered_set<tripoint_abs_ms> src_set = generic_locations( you, act_id );
+    prune_same_tile_locations( you, src_set );
+
+    return src_set;
+}
+
+std::unordered_set<tripoint_abs_ms> construction_locations( Character &you,
+        const activity_id &act_id )
+{
+
+    map &here = get_map();
+
+    // multiple construction will form a list of targets based on blueprint zones and unfinished constructions
+    std::unordered_set<tripoint_abs_ms> src_set = generic_locations( you, act_id );
+    for( const tripoint_bub_ms &elem : here.points_in_radius( you.pos_bub(), MAX_VIEW_DISTANCE ) ) {
+        partial_con *pc = here.partial_con_at( elem );
+        if( pc ) {
+            src_set.insert( here.get_abs( elem ) );
+        }
+    }
+    multi_activity_actor::prune_dangerous_field_locations( src_set );
+    multi_activity_actor::prune_same_tile_locations( you, src_set );
+    multi_activity_actor::prune_dark_locations( you, src_set, act_id );
+
+    return src_set;
+}
+
+std::unordered_set<tripoint_abs_ms> tidy_up_locations( Character &you, const activity_id & )
+{
+
+    map &here = get_map();
+    std::unordered_set<tripoint_abs_ms> src_set;
+
+    tripoint_bub_ms unsorted_spot;
+    std::unordered_set<tripoint_abs_ms> unsorted_set =
+        zone_manager::get_manager().get_near( zone_type_LOOT_UNSORTED, you.pos_abs(), MAX_VIEW_DISTANCE,
+                nullptr, _fac_id( you ) );
+    if( !unsorted_set.empty() ) {
+        unsorted_spot = here.get_bub( random_entry( unsorted_set ) );
+    }
+    bool found_one_point = false;
+    bool found_route = true;
+    for( const tripoint_bub_ms &elem : here.points_in_radius( you.pos_bub(),
+            MAX_VIEW_DISTANCE ) ) {
+        // There's no point getting the entire list of all items to tidy up now.
+        // the activity will run again after pathing to the first tile anyway.
+        // tidy up activity has no requirements that will discount a square and
+        // have the requirement to skip and scan the next one, ( other than checking path )
+        // shortcircuiting the need to scan the entire map continuously can improve performance
+        // especially if NPCs have a backlog of moves or there is a lot of them
+        if( !found_route ) {
+            found_route = true;
+            continue;
+        }
+        if( found_one_point ) {
+            break;
+        }
+        for( const item &stack_elem : here.i_at( elem ) ) {
+            if( stack_elem.has_var( "activity_var" ) && stack_elem.get_var( "activity_var", "" ) == you.name ) {
+                const furn_t &f = here.furn( elem ).obj();
+                if( !f.has_flag( ter_furn_flag::TFLAG_PLANT ) ) {
+                    src_set.insert( here.get_abs( elem ) );
+                    found_one_point = true;
+                    // only check for a valid path, as that is all that is needed to tidy something up.
+                    if( square_dist( you.pos_bub(), elem ) > 1 ) {
+                        std::vector<tripoint_bub_ms> route = route_adjacent( you, elem );
+                        if( route.empty() ) {
+                            found_route = false;
+                        }
+                    }
+                    break;
+                }
+            }
+        }
+    }
+    if( src_set.empty() && unsorted_spot != tripoint_bub_ms::zero ) {
+        for( const item *inv_elem : you.inv_dump() ) {
+            if( inv_elem->has_var( "activity_var" ) ) {
+                // we've gone to tidy up all the things lying around, now tidy up the things we picked up.
+                src_set.insert( here.get_abs( unsorted_spot ) );
+                break;
+            }
+        }
+    }
+    multi_activity_actor::prune_dangerous_field_locations( src_set );
+
+    return src_set;
+}
+
+std::unordered_set<tripoint_abs_ms> read_locations( Character &you, const activity_id &act_id )
+{
+
+    map &here = get_map();
+    const tripoint_bub_ms localpos = you.pos_bub();
+    std::unordered_set<tripoint_abs_ms> src_set;
+
+    // anywhere well lit
+    for( const tripoint_bub_ms &elem : here.points_in_radius( localpos, MAX_VIEW_DISTANCE ) ) {
+        src_set.insert( here.get_abs( elem ) );
+    }
+    multi_activity_actor::prune_dangerous_field_locations( src_set );
+    multi_activity_actor::prune_dark_locations( you, src_set, act_id );
+    return src_set;
+}
+std::unordered_set<tripoint_abs_ms> craft_locations( Character &you, const activity_id &act_id )
+{
+
+    map &here = get_map();
+    const tripoint_bub_ms localpos = you.pos_bub();
+    std::unordered_set<tripoint_abs_ms> src_set;
+
+    // Craft only with what is on the spot
+    // TODO: add zone type like zone_type_CRAFT?
+    src_set.insert( here.get_abs( localpos ) );
+    multi_activity_actor::prune_dangerous_field_locations( src_set );
+    multi_activity_actor::prune_dark_locations( you, src_set, act_id );
+
+    return src_set;
+}
+
+std::unordered_set<tripoint_abs_ms> fetch_locations( Character &you, const activity_id & )
+{
+
+    map &here = get_map();
+    std::unordered_set<tripoint_abs_ms> src_set;
+
+    // get the right zones for the items in the requirements.
+    // we previously checked if the items are nearby before we set the fetch task
+    // but we will check again later, to be sure nothings changed.
+    std::vector<std::tuple<tripoint_bub_ms, itype_id, int>> mental_map =
+                requirements_map( you, MAX_VIEW_DISTANCE );
+    for( const auto &elem : mental_map ) {
+        const tripoint_bub_ms &elem_point = std::get<0>( elem );
+        src_set.insert( here.get_abs( elem_point ) );
+    }
+    multi_activity_actor::prune_dangerous_field_locations( src_set );
+
+    return src_set;
+}
+
+std::unordered_set<tripoint_abs_ms> fish_locations( Character &you, const activity_id &act_id )
+{
+
+    map &here = get_map();
+    std::unordered_set<tripoint_abs_ms> src_set = generic_locations( you, act_id );
+
+    for( auto src_set_iter = src_set.begin(); src_set_iter != src_set.end(); ) {
+        const tripoint_bub_ms set_pt = here.get_bub( *src_set_iter );
+        const ter_id &terrain_id = here.ter( set_pt );
+        if( !terrain_id.obj().has_flag( ter_furn_flag::TFLAG_DEEP_WATER ) ) {
+            src_set_iter = src_set.erase( src_set_iter );
+        } else {
+            ++src_set_iter;
+        }
+    }
+    return src_set;
+}
+
+std::unordered_set<tripoint_abs_ms> mop_locations( Character &you, const activity_id &act_id )
+{
+
+    map &here = get_map();
+    std::unordered_set<tripoint_abs_ms> src_set = generic_locations( you, act_id );
+    for( auto src_set_iter = src_set.begin(); src_set_iter != src_set.end(); ) {
+        const tripoint_bub_ms set_pt = here.get_bub( *src_set_iter );
+        if( !here.mopsafe_field_at( set_pt ) ) {
+            src_set_iter = src_set.erase( src_set_iter );
+            continue;
+        }
+        ++src_set_iter;
+    }
+    return src_set;
+}
+
+} //namespace multi_activity_actor
+
 /** Determine all locations for this generic activity */
 /** Returns locations */
 static std::unordered_set<tripoint_abs_ms> generic_multi_activity_locations(
     Character &you, const activity_id &act_id )
 {
-    bool dark_capable = false;
     std::unordered_set<tripoint_abs_ms> src_set;
-
-    zone_manager &mgr = zone_manager::get_manager();
-    const tripoint_bub_ms localpos = you.pos_bub();
-    map &here = get_map();
-    const tripoint_abs_ms abspos = here.get_abs( localpos );
+    //TODO: move to individual activity actors
     if( act_id == ACT_TIDY_UP ) {
-        dark_capable = true;
-        tripoint_bub_ms unsorted_spot;
-        std::unordered_set<tripoint_abs_ms> unsorted_set =
-            mgr.get_near( zone_type_LOOT_UNSORTED, abspos, MAX_VIEW_DISTANCE, nullptr, _fac_id( you ) );
-        if( !unsorted_set.empty() ) {
-            unsorted_spot = here.get_bub( random_entry( unsorted_set ) );
-        }
-        bool found_one_point = false;
-        bool found_route = true;
-        for( const tripoint_bub_ms &elem : here.points_in_radius( localpos,
-                MAX_VIEW_DISTANCE ) ) {
-            // There's no point getting the entire list of all items to tidy up now.
-            // the activity will run again after pathing to the first tile anyway.
-            // tidy up activity has no requirements that will discount a square and
-            // have the requirement to skip and scan the next one, ( other than checking path )
-            // shortcircuiting the need to scan the entire map continuously can improve performance
-            // especially if NPCs have a backlog of moves or there is a lot of them
-            if( !found_route ) {
-                found_route = true;
-                continue;
-            }
-            if( found_one_point ) {
-                break;
-            }
-            for( const item &stack_elem : here.i_at( elem ) ) {
-                if( stack_elem.has_var( "activity_var" ) && stack_elem.get_var( "activity_var", "" ) == you.name ) {
-                    const furn_t &f = here.furn( elem ).obj();
-                    if( !f.has_flag( ter_furn_flag::TFLAG_PLANT ) ) {
-                        src_set.insert( here.get_abs( elem ) );
-                        found_one_point = true;
-                        // only check for a valid path, as that is all that is needed to tidy something up.
-                        if( square_dist( you.pos_bub(), elem ) > 1 ) {
-                            std::vector<tripoint_bub_ms> route = route_adjacent( you, elem );
-                            if( route.empty() ) {
-                                found_route = false;
-                            }
-                        }
-                        break;
-                    }
-                }
-            }
-        }
-        if( src_set.empty() && unsorted_spot != tripoint_bub_ms::zero ) {
-            for( const item *inv_elem : you.inv_dump() ) {
-                if( inv_elem->has_var( "activity_var" ) ) {
-                    // we've gone to tidy up all the things lying around, now tidy up the things we picked up.
-                    src_set.insert( here.get_abs( unsorted_spot ) );
-                    break;
-                }
-            }
-        }
+        src_set = multi_activity_actor::tidy_up_locations( you, act_id );
     } else if( act_id == ACT_MULTIPLE_READ ) {
-        // anywhere well lit
-        for( const tripoint_bub_ms &elem : here.points_in_radius( localpos, MAX_VIEW_DISTANCE ) ) {
-            src_set.insert( here.get_abs( elem ) );
-        }
+        src_set = multi_activity_actor::read_locations( you, act_id );
     } else if( act_id == ACT_MULTIPLE_CRAFT ) {
-        // Craft only with what is on the spot
-        // TODO: add zone type like zone_type_CRAFT?
-        src_set.insert( here.get_abs( localpos ) );
-    } else if( act_id != ACT_FETCH_REQUIRED ) {
-        zone_type_id zone_type = get_zone_for_act( tripoint_bub_ms::zero, mgr, act_id, _fac_id( you ) );
-        src_set = mgr.get_near( zone_type, abspos, MAX_VIEW_DISTANCE, nullptr, _fac_id( you ) );
-        // multiple construction will form a list of targets based on blueprint zones and unfinished constructions
-        if( act_id == ACT_MULTIPLE_CONSTRUCTION ) {
-            for( const tripoint_bub_ms &elem : here.points_in_radius( localpos, MAX_VIEW_DISTANCE ) ) {
-                partial_con *pc = here.partial_con_at( elem );
-                if( pc ) {
-                    src_set.insert( here.get_abs( elem ) );
-                }
-            }
-            // farming activities encompass tilling, planting, harvesting.
-        } else if( act_id == ACT_MULTIPLE_FARM ) {
-            dark_capable = true;
-        }
+        src_set = multi_activity_actor::craft_locations( you, act_id );
+    } else if( act_id == ACT_FETCH_REQUIRED ) {
+        src_set = multi_activity_actor::fetch_locations( you, act_id );
+    } else if( act_id == ACT_MULTIPLE_MOP ) {
+        src_set = multi_activity_actor::mop_locations( you, act_id );
+    } else if( act_id == ACT_MULTIPLE_CONSTRUCTION ) {
+        src_set = multi_activity_actor::construction_locations( you, act_id );
+    } else if( act_id == ACT_MULTIPLE_CHOP_TREES ||
+               act_id == ACT_MULTIPLE_MINE ) {
+        src_set = multi_activity_actor::no_same_tile_locations( you, act_id );
     } else {
-        dark_capable = true;
-        // get the right zones for the items in the requirements.
-        // we previously checked if the items are nearby before we set the fetch task
-        // but we will check again later, to be sure nothings changed.
-        std::vector<std::tuple<tripoint_bub_ms, itype_id, int>> mental_map =
-                    requirements_map( you, MAX_VIEW_DISTANCE );
-        for( const auto &elem : mental_map ) {
-            const tripoint_bub_ms &elem_point = std::get<0>( elem );
-            src_set.insert( here.get_abs( elem_point ) );
-        }
-    }
-    // prune the set to remove tiles that are never gonna work out.
-    const bool pre_dark_check = src_set.empty();
-    const bool MOP_ACTIVITY = act_id == ACT_MULTIPLE_MOP;
-    if( MOP_ACTIVITY ) {
-        dark_capable = true;
+        src_set = multi_activity_actor::generic_locations( you, act_id );
     }
 
-    for( auto it2 = src_set.begin(); it2 != src_set.end(); ) {
-        // remove dangerous tiles
-        const tripoint_bub_ms set_pt = here.get_bub( *it2 );
-        if( MOP_ACTIVITY ) {
-            if( !here.mopsafe_field_at( set_pt ) ) {
-                it2 = src_set.erase( it2 );
-                continue;
-            }
-        } else {
-            if( here.dangerous_field_at( set_pt ) ) {
-                it2 = src_set.erase( it2 );
-                continue;
-            }
-        }
-        // remove tiles in darkness, if we aren't lit-up ourselves
-        if( !dark_capable && you.fine_detail_vision_mod( set_pt ) > 4.0 ) {
-            it2 = src_set.erase( it2 );
-            continue;
-        }
-        if( act_id == ACT_MULTIPLE_FISH ) {
-            const ter_id &terrain_id = here.ter( set_pt );
-            if( !terrain_id.obj().has_flag( ter_furn_flag::TFLAG_DEEP_WATER ) ) {
-                it2 = src_set.erase( it2 );
-            } else {
-                ++it2;
-            }
-        } else //  Exclude activities that can't have multiple characters working on the same tile.
-            if( act_id == ACT_MULTIPLE_CHOP_TREES ||
-                act_id == ACT_MULTIPLE_CONSTRUCTION ||
-                act_id == ACT_MULTIPLE_MINE ) {
-                bool skip = false;
-
-                for( const npc &guy : g->all_npcs() ) {
-                    if( &guy == &you ) {
-                        continue;
-                    }
-                    if( guy.has_player_activity() && guy.activity.placement == *it2 ) {
-                        it2 = src_set.erase( it2 );
-                        skip = true;
-                        break;
-                    }
-                }
-                if( skip ) {
-                    continue;
-                } else {
-                    ++it2;
-                }
-            } else {
-                ++it2;
-            }
-    }
-    const bool post_dark_check = src_set.empty();
-    if( !pre_dark_check && post_dark_check && !MOP_ACTIVITY ) {
-        you.add_msg_if_player( m_info, _( "It is too dark to do the %s activity." ), act_id.c_str() );
-    }
     return src_set;
 }
 
@@ -3588,11 +3721,8 @@ bool generic_multi_activity_handler( player_activity &act, Character &you, bool 
         // this can create infinite loops
         // and we can't check player.pos() for darkness before they've traveled to where they are going to be.
         // but now we are here, we check
-        if( activity_to_restore != ACT_TIDY_UP &&
-            activity_to_restore != ACT_MULTIPLE_MOP &&
-            activity_to_restore != ACT_MOVE_LOOT &&
-            activity_to_restore != ACT_FETCH_REQUIRED &&
-            you.fine_detail_vision_mod( you.pos_bub() ) > 4.0 ) {
+        if( !multi_activity_actor::can_do_in_dark( activity_to_restore ) &&
+            you.fine_detail_vision_mod( you.pos_bub() ) > LIGHT_AMBIENT_DIM ) {
             you.add_msg_player_or_npc( m_info, _( "It is too dark to work here." ),
                                        _( "%s aborts the %s activity because it's too dark to continue." ), you.disp_name(),
                                        activity_to_restore.c_str() );
