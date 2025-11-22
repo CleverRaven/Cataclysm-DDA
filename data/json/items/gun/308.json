@@ -582,7 +582,7 @@
     "variants": [
       {
         "id": "remington_700_308",
-        "name": { "str": "Remington Model 700" },
+        "name": { "str": "Remington 700 .308 rifle" },
         "description": "An ubiquitous bolt action rifle, the Model 700 is used by police agencies, militaries, and civilians alike around the globe.  Simple, accurate, and cheap."
       }
     ],
