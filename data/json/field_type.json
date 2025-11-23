@@ -1784,16 +1784,19 @@
     "display_field": true
   },
   {
-	"id": "fd_crowned_pain",
-	"type": "field_type",
-	"priority": -1,
-	"linear_half_life": true,
-	"half_life": "2 seconds",
-	"effect": [
-		{
-			"effect_id": "crowned_speaking"
-		}
-	]
+    "id": "fd_crowned_pain",
+    "type": "field_type",
+    "priority": -1,
+    "linear_half_life": true,
+    "half_life": "2 seconds",
+    "intensity_levels": [
+      {
+        "name": "warping air",
+        "sym": "&",
+        "concentration": 1,
+        "effects": [ { "effect_id": "crowned_speaking", "intensity": 1, "min_duration": "10 seconds", "max_duration": "20 seconds" } ]
+      }
+    ]
   },
   {
     "id": "fd_migo_atmosphere",
