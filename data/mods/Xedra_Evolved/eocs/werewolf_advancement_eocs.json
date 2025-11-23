@@ -134,7 +134,6 @@
     "condition": { "not": { "u_has_trait": "WEREWOLF_SMELL_NEARBY_ENEMIES" } },
     "effect": [
       { "set_string_var": "WEREWOLF_SMELL_NEARBY_ENEMIES", "target_var": { "u_val": "xe_werewolf_power_to_gain" } },
-      { "u_add_trait": { "u_val": "xe_werewolf_power_to_gain" } },
       { "u_assign_activity": "ACT_WEREWOLF_LEARNING_MOON_GIFT", "duration": [ "1 hours", "1 hours 30 minutes" ] }
     ]
   },
@@ -144,7 +143,6 @@
     "condition": { "not": { "u_has_trait": "WEREWOLF_NO_SCENT" } },
     "effect": [
       { "set_string_var": "WEREWOLF_NO_SCENT", "target_var": { "u_val": "xe_werewolf_power_to_gain" } },
-      { "u_add_trait": { "u_val": "xe_werewolf_power_to_gain" } },
       { "u_assign_activity": "ACT_WEREWOLF_LEARNING_MOON_GIFT", "duration": [ "1 hours", "1 hours 30 minutes" ] }
     ]
   },
@@ -154,7 +152,6 @@
     "condition": { "not": { "u_has_trait": "WEREWOLF_ILLUMINATE_TARGET" } },
     "effect": [
       { "set_string_var": "WEREWOLF_ILLUMINATE_TARGET", "target_var": { "u_val": "xe_werewolf_power_to_gain" } },
-      { "u_add_trait": { "u_val": "xe_werewolf_power_to_gain" } },
       { "u_assign_activity": "ACT_WEREWOLF_LEARNING_MOON_GIFT", "duration": [ "1 hours", "1 hours 30 minutes" ] }
     ]
   },
@@ -164,7 +161,6 @@
     "condition": { "not": { "u_has_trait": "WEREWOLF_FRIEND_TO_ANIMALS" } },
     "effect": [
       { "set_string_var": "WEREWOLF_FRIEND_TO_ANIMALS", "target_var": { "u_val": "xe_werewolf_power_to_gain" } },
-      { "u_add_trait": { "u_val": "xe_werewolf_power_to_gain" } },
       { "u_assign_activity": "ACT_WEREWOLF_LEARNING_MOON_GIFT", "duration": [ "1 hours", "1 hours 30 minutes" ] }
     ]
   },
@@ -174,7 +170,6 @@
     "condition": { "not": { "u_has_trait": "WEREWOLF_SMASH_TERRAIN" } },
     "effect": [
       { "set_string_var": "WEREWOLF_SMASH_TERRAIN", "target_var": { "u_val": "xe_werewolf_power_to_gain" } },
-      { "u_add_trait": { "u_val": "xe_werewolf_power_to_gain" } },
       { "u_assign_activity": "ACT_WEREWOLF_LEARNING_MOON_GIFT", "duration": [ "1 hours", "1 hours 30 minutes" ] }
     ]
   },
@@ -184,7 +179,6 @@
     "condition": { "not": { "u_has_trait": "WEREWOLF_CLIMB_IN_WOLF_FORM" } },
     "effect": [
       { "set_string_var": "WEREWOLF_CLIMB_IN_WOLF_FORM", "target_var": { "u_val": "xe_werewolf_power_to_gain" } },
-      { "u_add_trait": { "u_val": "xe_werewolf_power_to_gain" } },
       { "u_assign_activity": "ACT_WEREWOLF_LEARNING_MOON_GIFT", "duration": [ "1 hours", "1 hours 30 minutes" ] }
     ]
   },
@@ -229,7 +223,6 @@
     "condition": { "not": { "u_has_trait": "WEREWOLF_SENSE_SPIRITS_AND_ALIENS" } },
     "effect": [
       { "set_string_var": "WEREWOLF_SENSE_SPIRITS_AND_ALIENS", "target_var": { "u_val": "xe_werewolf_power_to_gain" } },
-      { "u_add_trait": { "u_val": "xe_werewolf_power_to_gain" } },
       { "u_assign_activity": "ACT_WEREWOLF_LEARNING_MOON_GIFT", "duration": [ "2 hours", "3 hours" ] }
     ]
   },
@@ -239,7 +232,6 @@
     "condition": { "not": { "u_has_trait": "WEREWOLF_STUN_MACHINE" } },
     "effect": [
       { "set_string_var": "WEREWOLF_STUN_MACHINE", "target_var": { "u_val": "xe_werewolf_power_to_gain" } },
-      { "u_add_trait": { "u_val": "xe_werewolf_power_to_gain" } },
       { "u_assign_activity": "ACT_WEREWOLF_LEARNING_MOON_GIFT", "duration": [ "2 hours", "3 hours" ] }
     ]
   },
@@ -249,7 +241,6 @@
     "condition": { "not": { "u_has_trait": "WEREWOLF_EXTRA_WEAKPOINT_HITS" } },
     "effect": [
       { "set_string_var": "WEREWOLF_EXTRA_WEAKPOINT_HITS", "target_var": { "u_val": "xe_werewolf_power_to_gain" } },
-      { "u_add_trait": { "u_val": "xe_werewolf_power_to_gain" } },
       { "u_assign_activity": "ACT_WEREWOLF_LEARNING_MOON_GIFT", "duration": [ "2 hours", "3 hours" ] }
     ]
   },
@@ -259,7 +250,6 @@
     "condition": { "not": { "u_has_trait": "WEREWOLF_FAR_JUMP" } },
     "effect": [
       { "set_string_var": "WEREWOLF_FAR_JUMP", "target_var": { "u_val": "xe_werewolf_power_to_gain" } },
-      { "u_add_trait": { "u_val": "xe_werewolf_power_to_gain" } },
       { "u_assign_activity": "ACT_WEREWOLF_LEARNING_MOON_GIFT", "duration": [ "2 hours", "3 hours" ] }
     ]
   },
@@ -269,7 +259,6 @@
     "condition": { "not": { "u_has_trait": "WEREWOLF_CAMOUFLAGE_COAT" } },
     "effect": [
       { "set_string_var": "WEREWOLF_CAMOUFLAGE_COAT", "target_var": { "u_val": "xe_werewolf_power_to_gain" } },
-      { "u_add_trait": { "u_val": "xe_werewolf_power_to_gain" } },
       { "u_assign_activity": "ACT_WEREWOLF_LEARNING_MOON_GIFT", "duration": [ "2 hours", "3 hours" ] }
     ]
   },
@@ -311,7 +300,6 @@
     "condition": { "not": { "u_has_trait": "WEREWOLF_SILVER_CLAWS" } },
     "effect": [
       { "set_string_var": "WEREWOLF_SILVER_CLAWS", "target_var": { "u_val": "xe_werewolf_power_to_gain" } },
-      { "u_add_trait": { "u_val": "xe_werewolf_power_to_gain" } },
       { "u_assign_activity": "ACT_WEREWOLF_LEARNING_MOON_GIFT", "duration": [ "3 hours", "4 hours 30 minutes" ] }
     ]
   },
@@ -321,7 +309,6 @@
     "condition": { "not": { "u_has_trait": "WEREWOLF_MANA_BONUS_AFTER_KILL" } },
     "effect": [
       { "set_string_var": "WEREWOLF_MANA_BONUS_AFTER_KILL", "target_var": { "u_val": "xe_werewolf_power_to_gain" } },
-      { "u_add_trait": { "u_val": "xe_werewolf_power_to_gain" } },
       { "u_assign_activity": "ACT_WEREWOLF_LEARNING_MOON_GIFT", "duration": [ "3 hours", "4 hours 30 minutes" ] }
     ]
   },
@@ -331,7 +318,6 @@
     "condition": { "not": { "u_has_trait": "WEREWOLF_STRENGTH_BONUS" } },
     "effect": [
       { "set_string_var": "WEREWOLF_STRENGTH_BONUS", "target_var": { "u_val": "xe_werewolf_power_to_gain" } },
-      { "u_add_trait": { "u_val": "xe_werewolf_power_to_gain" } },
       { "u_assign_activity": "ACT_WEREWOLF_LEARNING_MOON_GIFT", "duration": [ "3 hours", "4 hours 30 minutes" ] }
     ]
   },
@@ -341,7 +327,6 @@
     "condition": { "not": { "u_has_trait": "WEREWOLF_BATTLE_FURY" } },
     "effect": [
       { "set_string_var": "WEREWOLF_BATTLE_FURY", "target_var": { "u_val": "xe_werewolf_power_to_gain" } },
-      { "u_add_trait": { "u_val": "xe_werewolf_power_to_gain" } },
       { "u_assign_activity": "ACT_WEREWOLF_LEARNING_MOON_GIFT", "duration": [ "3 hours", "4 hours 30 minutes" ] }
     ]
   },
@@ -380,7 +365,6 @@
     "condition": { "not": { "u_has_trait": "WEREWOLF_SUPER_FAST_REGENERATION" } },
     "effect": [
       { "set_string_var": "WEREWOLF_SUPER_FAST_REGENERATION", "target_var": { "u_val": "xe_werewolf_power_to_gain" } },
-      { "u_add_trait": { "u_val": "xe_werewolf_power_to_gain" } },
       { "u_assign_activity": "ACT_WEREWOLF_LEARNING_MOON_GIFT", "duration": [ "4 hours", "6 hours" ] }
     ]
   },
@@ -390,7 +374,6 @@
     "condition": { "not": { "u_has_trait": "WEREWOLF_SUMMON_FOG" } },
     "effect": [
       { "set_string_var": "WEREWOLF_SUMMON_FOG", "target_var": { "u_val": "xe_werewolf_power_to_gain" } },
-      { "u_add_trait": { "u_val": "xe_werewolf_power_to_gain" } },
       { "u_assign_activity": "ACT_WEREWOLF_LEARNING_MOON_GIFT", "duration": [ "4 hours", "6 hours" ] }
     ]
   },
@@ -400,7 +383,6 @@
     "condition": { "not": { "u_has_trait": "WEREWOLF_MOON_ARMOR" } },
     "effect": [
       { "set_string_var": "WEREWOLF_MOON_ARMOR", "target_var": { "u_val": "xe_werewolf_power_to_gain" } },
-      { "u_add_trait": { "u_val": "xe_werewolf_power_to_gain" } },
       { "u_assign_activity": "ACT_WEREWOLF_LEARNING_MOON_GIFT", "duration": [ "4 hours", "6 hours" ] }
     ]
   },
@@ -442,7 +424,6 @@
     "condition": { "not": { "u_has_trait": "WEREWOLF_TRANSFORM_INTO_PRIMAL_FORM" } },
     "effect": [
       { "set_string_var": "WEREWOLF_TRANSFORM_INTO_PRIMAL_FORM", "target_var": { "u_val": "xe_werewolf_power_to_gain" } },
-      { "u_add_trait": { "u_val": "xe_werewolf_power_to_gain" } },
       { "u_assign_activity": "ACT_WEREWOLF_LEARNING_MOON_GIFT", "duration": [ "5 hours", "7 hours 30 minutes" ] }
     ]
   },
@@ -452,7 +433,6 @@
     "condition": { "not": { "u_has_trait": "WEREWOLF_CLOSE_TEAR_IN_REALITY" } },
     "effect": [
       { "set_string_var": "WEREWOLF_CLOSE_TEAR_IN_REALITY", "target_var": { "u_val": "xe_werewolf_power_to_gain" } },
-      { "u_add_trait": { "u_val": "xe_werewolf_power_to_gain" } },
       { "u_assign_activity": "ACT_WEREWOLF_LEARNING_MOON_GIFT", "duration": [ "5 hours", "7 hours 30 minutes" ] }
     ]
   },
@@ -462,7 +442,6 @@
     "condition": { "not": { "u_has_trait": "WEREWOLF_WALK_THROUGH_WALLS" } },
     "effect": [
       { "set_string_var": "WEREWOLF_WALK_THROUGH_WALLS", "target_var": { "u_val": "xe_werewolf_power_to_gain" } },
-      { "u_add_trait": { "u_val": "xe_werewolf_power_to_gain" } },
       { "u_assign_activity": "ACT_WEREWOLF_LEARNING_MOON_GIFT", "duration": [ "5 hours", "7 hours 30 minutes" ] }
     ]
   },
@@ -472,7 +451,6 @@
     "condition": { "not": { "u_has_trait": "WEREWOLF_SUMMON_SHADOW_PACK" } },
     "effect": [
       { "set_string_var": "WEREWOLF_SUMMON_SHADOW_PACK", "target_var": { "u_val": "xe_werewolf_power_to_gain" } },
-      { "u_add_trait": { "u_val": "xe_werewolf_power_to_gain" } },
       { "u_assign_activity": "ACT_WEREWOLF_LEARNING_MOON_GIFT", "duration": [ "5 hours", "7 hours 30 minutes" ] }
     ]
   }
