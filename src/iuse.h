@@ -83,12 +83,9 @@ std::optional<int> camera( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> can_goo( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> capture_monster_act( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> efiledevice( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> heat_solid_items( Character *p, item *it, const tripoint_bub_ms &,
-                                     bool force_use_it = false );
-std::optional<int> heat_liquid_items( Character *p, item *it, const tripoint_bub_ms &,
-                                      bool force_use_it = false );
-std::optional<int> heat_all_items( Character *p, item *it, const tripoint_bub_ms &,
-                                   bool force_use_it = false );
+std::optional<int> heat_solid_items( Character *p, item *it, const tripoint_bub_ms & );
+std::optional<int> heat_liquid_items( Character *p, item *it, const tripoint_bub_ms & );
+std::optional<int> heat_all_items( Character *p, item *it, const tripoint_bub_ms & );
 std::optional<int> capture_monster_veh( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> change_eyes( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> change_skin( Character *, item *, const tripoint_bub_ms & );

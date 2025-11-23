@@ -4963,14 +4963,6 @@ std::optional<int> iuse::handle_ground_graffiti( Character &p, item *it, const s
     }
 }
 
-std::optional<int> iuse::heatpack( Character *p, item *it, const tripoint_bub_ms & )
-{
-    if( heat_solid_items( p, it, p->pos_bub(), true ) ) {
-        it->convert( itype_heatpack_used, p );
-    }
-    return 0;
-}
-
 std::optional<int> iuse::heat_food( Character *p, item *it, const tripoint_bub_ms & )
 {
     if( get_map().has_nearby_fire( p->pos_bub() ) ) {
@@ -8358,8 +8350,23 @@ static bool heat_items( Character *p, item *it, bool liquid_items, bool solid_it
     return true;
 }
 
-std::optional<int> iuse::heat_solid_items( Character *p, item *it, const tripoint_bub_ms &,
-        bool force_use_it )
+std::optional<int> iuse::heatpack( Character *p, item *it, const tripoint_bub_ms & )
+{
+    if( p->fine_detail_vision_mod() > 4 ) {
+        p->add_msg_if_player( _( "You can't see to do that!" ) );
+        return std::nullopt;
+    }
+    if( p->cant_do_mounted() ) {
+        return std::nullopt;
+    }
+
+    if( heat_items( p, it, false, true, true ) ) {
+        it->convert( itype_heatpack_used, p );
+    }
+    return 0;
+}
+
+std::optional<int> iuse::heat_solid_items( Character *p, item *it, const tripoint_bub_ms & )
 {
     if( p->fine_detail_vision_mod() > 4 ) {
         p->add_msg_if_player( _( "You can't see to do that!" ) );
@@ -8373,14 +8380,13 @@ std::optional<int> iuse::heat_solid_items( Character *p, item *it, const tripoin
         return std::nullopt;
     }
     //If *it don't have container,such like COOK level 1 tools(tongs,spear), you can only heat one solid item a time(and can't be liquid), but no volume limit on each batch.
-    if( heat_items( p, it, false, true, force_use_it ) ) {
+    if( heat_items( p, it, false, true ) ) {
         return 0;
     }
     return std::nullopt;
 }
 
-std::optional<int> iuse::heat_liquid_items( Character *p, item *it, const tripoint_bub_ms &,
-        bool force_use_it )
+std::optional<int> iuse::heat_liquid_items( Character *p, item *it, const tripoint_bub_ms & )
 {
     if( p->fine_detail_vision_mod() > 4 ) {
         p->add_msg_if_player( _( "You can't see to do that!" ) );
@@ -8394,14 +8400,13 @@ std::optional<int> iuse::heat_liquid_items( Character *p, item *it, const tripoi
         return std::nullopt;
     }
     //If *it don't have container,such like COOK level 1 tools(tongs,spear), you can only heat one solid item a time(and can't be liquid), but no volume limit on each batch.
-    if( heat_items( p, it, true, false, force_use_it ) ) {
+    if( heat_items( p, it, true, false ) ) {
         return 0;
     }
     return std::nullopt;
 }
 
-std::optional<int> iuse::heat_all_items( Character *p, item *it, const tripoint_bub_ms &,
-        bool force_use_it )
+std::optional<int> iuse::heat_all_items( Character *p, item *it, const tripoint_bub_ms & )
 {
     if( p->fine_detail_vision_mod() > 4 ) {
         p->add_msg_if_player( _( "You can't see to do that!" ) );
@@ -8415,7 +8420,7 @@ std::optional<int> iuse::heat_all_items( Character *p, item *it, const tripoint_
         return std::nullopt;
     }
     //If *it don't have container,such like COOK level 1 tools(tongs,spear), you can only heat one solid item a time(and can't be liquid), but no volume limit on each batch.
-    if( heat_items( p, it, true, true, force_use_it ) ) {
+    if( heat_items( p, it, true, true ) ) {
         return 0;
     }
     return std::nullopt;
