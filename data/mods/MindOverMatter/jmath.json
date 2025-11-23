@@ -183,7 +183,7 @@
     "type": "jmath_function",
     "id": "learn_new_power_difficulty_setting",
     "num_args": 0,
-    "return": "(u_latest_studied_power_difficulty * 1.5) + 7 + u_vitamin('vitamin_maintained_powers') + (concentration_calculations() < 0 ? ( concentration_calculations() * -1 ) : 0)"
+    "return": "(u_latest_studied_power_difficulty * 1.5) + 7 + clamp( ( (u_vitamin('vitamin_maintained_powers') * 2) - 1 ), 0, 10) + (concentration_calculations() < 0 ? ( concentration_calculations() * -1 ) : 0)"
   },
   {
     "type": "jmath_function",
