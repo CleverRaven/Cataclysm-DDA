@@ -194,7 +194,7 @@
           "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_TWO_WEREWOLF_EXTRA_WEAKPOINT_HITS",
           "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_TWO_WEREWOLF_FAR_JUMP",
           "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_TWO_WEREWOLF_CAMOUFLAGE_COAT",
-          "Go Back."
+          "EOC_WEREWOLF_LUNAR_GIFT_GO_BACK"
         ],
         "names": [
           "Learn <trait_name:WEREWOLF_SENSE_SPIRITS_AND_ALIENS>",
@@ -211,7 +211,7 @@
           "<trait_name:WEREWOLF_EXTRA_WEAKPOINT_HITS>\n<trait_description:WEREWOLF_EXTRA_WEAKPOINT_HITS>",
           "<trait_name:WEREWOLF_FAR_JUMP>\n<trait_description:WEREWOLF_FAR_JUMP>",
           "<trait_name:WEREWOLF_CAMOUFLAGE_COAT>\n<trait_description:WEREWOLF_CAMOUFLAGE_COAT>",
-          "Go Back."
+          "Go back to the Gift level selection."
         ],
         "allow_cancel": true
       }
@@ -273,7 +273,7 @@
           "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_THREE_WEREWOLF_MANA_BONUS_AFTER_KILL",
           "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_THREE_WEREWOLF_STRENGTH_BONUS",
           "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_THREE_WEREWOLF_BATTLE_FURY",
-          "Go Back."
+          "EOC_WEREWOLF_LUNAR_GIFT_GO_BACK"
         ],
         "names": [
           "Learn <trait_name:WEREWOLF_SILVER_CLAWS>",
@@ -288,7 +288,7 @@
           "<trait_name:WEREWOLF_MANA_BONUS_AFTER_KILL>\n<trait_description:WEREWOLF_MANA_BONUS_AFTER_KILL>",
           "<trait_name:WEREWOLF_STRENGTH_BONUS>\n<trait_description:WEREWOLF_STRENGTH_BONUS>",
           "<trait_name:WEREWOLF_BATTLE_FURY>\n<trait_description:WEREWOLF_BATTLE_FURY>",
-          "Go Back."
+          "Go back to the Gift level selection."
         ],
         "allow_cancel": true
       }
@@ -340,7 +340,7 @@
           "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_FOUR_WEREWOLF_SUPER_FAST_REGENERATION",
           "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_FOUR_WEREWOLF_SUMMON_FOG",
           "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_FOUR_WEREWOLF_MOON_ARMOR",
-          "Go Back."
+          "EOC_WEREWOLF_LUNAR_GIFT_GO_BACK"
         ],
         "names": [
           "Learn <trait_name:WEREWOLF_SUPER_FAST_REGENERATION>",
@@ -353,7 +353,7 @@
           "<trait_name:WEREWOLF_SUPER_FAST_REGENERATION>\n<trait_description:WEREWOLF_SUPER_FAST_REGENERATION>",
           "<trait_name:WEREWOLF_SUMMON_FOG>\n<trait_description:WEREWOLF_SUMMON_FOG>",
           "<trait_name:WEREWOLF_MOON_ARMOR>\n<trait_description:WEREWOLF_MOON_ARMOR>",
-          "Go Back."
+          "Go back to the Gift level selection."
         ],
         "allow_cancel": true
       }
@@ -397,7 +397,7 @@
           "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_FIVE_WEREWOLF_CLOSE_TEAR_IN_REALITY",
           "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_FIVE_WEREWOLF_WALK_THROUGH_WALLS",
           "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_FIVE_WEREWOLF_SUMMON_SHADOW_PACK",
-          "Go Back."
+          "EOC_WEREWOLF_LUNAR_GIFT_GO_BACK"
         ],
         "names": [
           "Learn <trait_name:WEREWOLF_TRANSFORM_INTO_PRIMAL_FORM>",
@@ -412,7 +412,7 @@
           "<trait_name:WEREWOLF_CLOSE_TEAR_IN_REALITY>\n<trait_description:WEREWOLF_CLOSE_TEAR_IN_REALITY>",
           "<trait_name:WEREWOLF_WALK_THROUGH_WALLS>\n<trait_description:WEREWOLF_WALK_THROUGH_WALLS>",
           "<trait_name:WEREWOLF_SUMMON_SHADOW_PACK>\n<trait_description:WEREWOLF_SUMMON_SHADOW_PACK>",
-          "Go Back."
+          "Go back to the Gift level selection."
         ],
         "allow_cancel": true
       }
