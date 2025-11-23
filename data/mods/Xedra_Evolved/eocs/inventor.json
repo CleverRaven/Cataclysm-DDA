@@ -26,6 +26,7 @@
           "inventor_carry_hands",
           "inventor_water_purifier",
           "inventor_coffee",
+          "inventor_gaming_rig",
           "inventor_research_base_2"
         ],
         "type": "recipe",
@@ -471,5 +472,40 @@
         }
       ]
     }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_INVENTOR_SLEEP_GAMING",
+    "eoc_type": "EVENT",
+    "required_event": "character_falls_asleep",
+    "condition": { "u_has_item": "inventor_gaming_rig_on" },
+    "effect": [
+      { "math": [ "morale_game_inventor = 3 * u_skill('deduction')" ] },
+      {
+        "u_add_morale": "morale_game_inventor",
+        "bonus": { "math": [ "morale_game_inventor" ] },
+        "max_bonus": { "math": [ "morale_game_inventor" ] },
+        "duration": "24 hours",
+        "decay_start": "24 hours"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_INVENTOR_SLEEP_GAMING_END",
+    "eoc_type": "EVENT",
+    "required_event": "character_wakes_up",
+    "condition": { "u_has_item": "inventor_gaming_rig_on" },
+    "effect": [
+      { "u_lose_morale": "morale_game_inventor" },
+      { "math": [ "morale_game_inventor = 3 * u_skill('deduction')" ] },
+      {
+        "u_add_morale": "morale_game",
+        "bonus": { "math": [ "morale_game_inventor" ] },
+        "max_bonus": { "math": [ "morale_game_inventor" ] },
+        "duration": "30 minutes",
+        "decay_start": "15 minutes"
+      }
+    ]
   }
 ]

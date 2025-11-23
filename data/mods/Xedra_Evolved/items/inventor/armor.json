@@ -756,7 +756,7 @@
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "crafting_assistant",
-    "name": { "str": "Crafting Assistant Robot (on)", "str_pl": "Crafting Assistant Robot (on)" },
+    "name": { "str": "Crafting Assistant Robot (on)" },
     "power_draw": "1550 W",
     "revert_to": "crafting_assistant",
     "use_action": [
