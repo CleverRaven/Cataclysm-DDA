@@ -1791,7 +1791,8 @@
     "half_life": "2 seconds",
     "intensity_levels": [
       {
-        "name": "warping air",
+        "name": " ",
+        "//": "It's supposed to be invisible but if I left it without a name the game would complain.  If this is still here when this guy ships I didn't find another workaround.",
         "sym": "&",
         "concentration": 1,
         "effects": [ { "effect_id": "crowned_speaking", "intensity": 1, "min_duration": "10 seconds", "max_duration": "20 seconds" } ]
