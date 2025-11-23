@@ -165,7 +165,7 @@
     "id": "contemplation_factor",
     "num_args": 0,
     "//": "This equates to about 400 XP per hour of contemplation when at minimum focus, modified by Nether Attunement.  Maintaining powers reduces the XP by a lot.",
-    "return": "(u_val('focus_effective') * 0.004) * u_nether_attunement_power_scaling * clamp( ( u_vitamin('vitamin_maintained_powers') > 0 ) ? ( (1 + u_has_proficiency('prof_concentration_master') ) / ( 1 + u_vitamin('vitamin_maintained_powers') ) ) : 1), 0.1,1)"
+    "return": "(u_val('focus_effective') * 0.004) * u_nether_attunement_power_scaling * clamp( ( ( u_vitamin('vitamin_maintained_powers') > 0 ) ? ( (1 + u_has_proficiency('prof_concentration_master') ) / ( 1 + u_vitamin('vitamin_maintained_powers') ) ) : 1), 0.1,1)"
   },
   {
     "type": "jmath_function",
@@ -214,7 +214,7 @@
     "id": "jmath_psi_learning_counter_time_low",
     "num_args": 1,
     "//": "Reduces time between insight moments by 3% per point of Intelligence above 10 (increase by 3% per point below 10), to a max of 60% faster from intelligence, and by 5% per point of Metaphysics skill above 5.",
-    "return": "_0 * max(( 1 - ( ( ( u_val('intelligence') + 23.33) / 33.33 ) ) + 1 ),0.4) * clamp(( 1 - (((u_skill('metaphysics') - 4) + 20 ) / 21) + 1),0.75,1)"
+    "return": "_0 * max(( 1 - ( ( ( u_val('intelligence') + 23.33) / 33.33 ) ) + 1 ),0.4) * clamp( ( 1 - ( ( (u_skill('metaphysics') - 4) + 20 ) / 21) + 1),0.75,1)"
   },
   {
     "type": "jmath_function",
