@@ -68,14 +68,13 @@
       {
         "target": "torch",
         "msg": "The torch is extinguished.",
-        "active": false,
         "menu_text": "Extinguish",
         "type": "transform"
       }
     ],
     "techniques": [ "WBLOCK_1" ],
     "light": 60,
-    "flags": [ "FIRE", "CHARGEDIM", "FLAMING", "TRADER_AVOID", "WATER_EXTINGUISH", "BURNOUT" ],
+    "flags": [ "FIRE", "CHARGEDIM", "FLAMING", "TRADER_AVOID", "WATER_EXTINGUISH", "BURNOUT", "SPAWN_ACTIVE" ],
     "melee_damage": { "bash": 8 }
   }
 ]
