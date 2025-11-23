@@ -794,6 +794,7 @@ class inventory_selector
         * Total volume and weight are given explicitly, as the desired value might not be a simple sum of contents/capacities of all pockets.
         * @param pockets pockets, with their corresponding constrainsts from outer pockets, to consider for summary
         * @param show_unconstrained_max_space if set, the "max size" summary will show the "true" max and not apply constraints from outer pockets.
+        *   this is useful when reporting on a particular item rather than the inventory as a whole.
         */
         static header_stats get_pocket_summary_header_stats(
             const units::mass &weight_carried, const units::mass &weight_capacity,

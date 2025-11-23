@@ -790,12 +790,16 @@ std::string inventory_selector_preset::get_cell_text( const inventory_entry &ent
                                            is_worn_id( entry.get_category_ptr()->get_id() ) &&
                                            actual_item.is_worn_by_player() ) ) {
                 if( cell_index == 0 && !text.empty() &&
-                    actual_item.is_container() && actual_item.has_unrestricted_pockets() ) {
-                    const units::volume total_capacity = actual_item.get_volume_capacity( item_pocket::ok_like_old_default_behavior_true );
+                    actual_item.is_container() && actual_item.has_unrestricted_pockets() )
+                {
+                    auto ok_unrestricted_container = [](const item_pocket& pocket) {
+                        return item_pocket::ok_default_containers(pocket) && !pocket.is_restricted();
+                    };
+                    const units::volume total_capacity = actual_item.get_volume_capacity( ok_unrestricted_container );
                     const units::mass total_capacity_weight = actual_item.get_total_weight_capacity( true );
                     const units::length max_containable_length = actual_item.max_containable_length( true );
 
-                    const units::volume actual_capacity = actual_item.get_contents_volume(item_pocket::ok_like_old_default_behavior_true);
+                    const units::volume actual_capacity = actual_item.get_contents_volume( ok_unrestricted_container );
                     const units::mass actual_capacity_weight = actual_item.get_total_contained_weight( true );
 
                     container_data container_data = {
@@ -2613,49 +2617,53 @@ inventory_selector::header_stats inventory_selector::get_pocket_summary_header_s
                 && !p.first->holster_full();
             });
 
+        // largest / longest currently available spaces.
         if (pockets_with_space.size() > 0)
         {
             std::sort(pockets_with_space.begin(), pockets_with_space.end(), [](const pocket_with_constraint& a, const pocket_with_constraint& b) {
                 return std::tuple(a.first->is_restricted(), b.second.max_containable_length, b.second.remaining_volume)
-                    < std::tuple(b.first->is_restricted(), a.second.max_containable_length, a.second.remaining_volume);
+                    <  std::tuple(b.first->is_restricted(), a.second.max_containable_length, a.second.remaining_volume);
                 });
             long_free_space = pockets_with_space[0];
 
-            // do a sort by free space last so we can re-use for other-pockets-with-space list
+            // leave pockets_with_space sorted by free space so we can re-use that later
             std::sort(pockets_with_space.begin(), pockets_with_space.end(), [](const pocket_with_constraint& a, const pocket_with_constraint& b) {
                 return std::tuple(a.first->is_restricted(), b.second.remaining_volume)
-                    < std::tuple(b.first->is_restricted(), a.second.remaining_volume);
+                    <  std::tuple(b.first->is_restricted(), a.second.remaining_volume);
                 });
             large_free_space = pockets_with_space[0];
         }
 
+        // largest / longest pockets we have.
+        // 'ignore_restrict' check makes it so we don't report a smaller 'max' space than 'free' space if we selected a restricted pocket for that.
         if (show_unconstrained_max_space) {
-            std::sort(pockets.begin(), pockets.end(), [](const pocket_with_constraint& a, const pocket_with_constraint& b) {
-                return std::tuple(a.first->is_restricted(), b.first->volume_capacity())
-                    < std::tuple(b.first->is_restricted(), a.first->volume_capacity());
+            std::sort(pockets.begin(), pockets.end(), [ignore_restrict = large_free_space.first->is_restricted()](const pocket_with_constraint& a, const pocket_with_constraint& b) {
+                return std::tuple(ignore_restrict || a.first->is_restricted(), b.first->volume_capacity())
+                    <  std::tuple(ignore_restrict || b.first->is_restricted(), a.first->volume_capacity());
                 });
             large_max_space = pockets[0];
 
-            std::sort(pockets.begin(), pockets.end(), [](const pocket_with_constraint& a, const pocket_with_constraint& b) {
-                return std::tuple(a.first->is_restricted(), b.first->max_containable_length(), b.first->volume_capacity())
-                    < std::tuple(b.first->is_restricted(), a.first->max_containable_length(), a.first->volume_capacity());
+            std::sort(pockets.begin(), pockets.end(), [ignore_restrict = long_free_space.first->is_restricted()](const pocket_with_constraint& a, const pocket_with_constraint& b) {
+                return std::tuple(ignore_restrict || a.first->is_restricted(), b.first->max_containable_length(), b.first->volume_capacity())
+                    <  std::tuple(ignore_restrict || b.first->is_restricted(), a.first->max_containable_length(), a.first->volume_capacity());
                 });
             long_max_space = pockets[0];
         }
         else{
-            std::sort(pockets.begin(), pockets.end(), [](const pocket_with_constraint& a, const pocket_with_constraint& b) {
-                return std::tuple(a.first->is_restricted(), b.second.volume_capacity)
-                    < std::tuple(b.first->is_restricted(), a.second.volume_capacity);
+            std::sort(pockets.begin(), pockets.end(), [ignore_restrict = large_free_space.first->is_restricted()](const pocket_with_constraint& a, const pocket_with_constraint& b) {
+                return std::tuple(ignore_restrict || a.first->is_restricted(), b.second.volume_capacity)
+                    <  std::tuple(ignore_restrict || b.first->is_restricted(), a.second.volume_capacity);
                     });
             large_max_space = pockets[0];
 
-            std::sort(pockets.begin(), pockets.end(), [](const pocket_with_constraint& a, const pocket_with_constraint& b) {
-                return std::tuple(a.first->is_restricted(), b.second.max_containable_length, b.second.volume_capacity)
-                    < std::tuple(b.first->is_restricted(), a.second.max_containable_length, a.second.volume_capacity);
+            std::sort(pockets.begin(), pockets.end(), [ignore_restrict = long_free_space.first->is_restricted()](const pocket_with_constraint& a, const pocket_with_constraint& b) {
+                return std::tuple(ignore_restrict || a.first->is_restricted(), b.second.max_containable_length, b.second.volume_capacity)
+                    <  std::tuple(ignore_restrict || b.first->is_restricted(), a.second.max_containable_length, a.second.volume_capacity);
                 });
             long_max_space = pockets[0];
         }
 
+        // assume pockets_with_space was left sorted by free space earlier
         std::copy_if(pockets_with_space.begin(), pockets_with_space.end(), std::back_inserter(largest_other_spaces), [&](const pocket_with_constraint& p) {
             return p.first != large_free_space.first
                 && p.first != long_free_space.first;
@@ -2739,10 +2747,10 @@ std::tuple<std::string, std::string> inventory_selector::build_pocket_stats(cons
     }
     auto color_units = c_light_gray;
     auto color_numeric = c_light_gray;
-    std::string vol_str = string_format("%s%s %s",
-        colorize(format_volume(volume), color_numeric),
-        pocket->is_restricted() ? "*" : "", // possible try to give more info on the restriction(s)?
-        colorize(volume_units_abbr(), color_units)
+    std::string vol_str = string_format("%s %s%s",
+        colorize(format_volume(volume), color_numeric),        
+        colorize(volume_units_abbr(), color_units),
+        pocket->is_restricted() ? "*": "" // possibly try to give more info on the restriction(s)?        
     );
     units::length min_length = pocket->min_containable_length();
     if (min_length > length) //you need a weird object for this, but it's not illegal
@@ -2803,6 +2811,7 @@ inventory_selector::header_stats inventory_selector::get_raw_stats() const
             && !pocket.is_holster()
             && !pocket.is_ablative()
             && pocket.min_containable_length() == 0_mm
+            && pocket.get_pocket_data()->min_item_volume == 0_ml
             && pocket.settings.get_category_whitelist().empty()
             && pocket.settings.get_item_whitelist().empty();
         };
@@ -2810,7 +2819,7 @@ inventory_selector::header_stats inventory_selector::get_raw_stats() const
     // space check has extra criteria to make pockets report as 'full' when they can't be used for storing most items.
     std::function<bool(const item_pocket&)> include_pocket_space = [&](const item_pocket& pocket) {
         return include_pocket_capacity(pocket)            
-            && (pocket.empty() || pocket.contains_phase(phase_id::SOLID))
+            && item_pocket::ok_for_solids(pocket)
             && !pocket.sealed();
         };
     units::volume free_space = u.free_space(include_pocket_space, check_pocket_tree);
@@ -2823,7 +2832,7 @@ inventory_selector::header_stats inventory_selector::get_raw_stats() const
                 && !pocket.sealed()
                 && pocket.settings.get_category_whitelist().empty()
                 && pocket.settings.get_item_whitelist().empty()
-                && (pocket.empty() || pocket.contains_phase(phase_id::SOLID));
+                && item_pocket::ok_for_solids(pocket);
         },
         check_pocket_tree
     );
@@ -3722,7 +3731,7 @@ inventory_selector::header_stats container_inventory_selector::get_raw_stats() c
     return get_pocket_summary_header_stats(
         loc->get_total_contained_weight(),
         std::min(loc->get_total_weight_capacity(), container_constraints.weight_capacity),
-        loc->get_contents_volume(item_pocket::ok_like_old_default_behavior),
+        loc->get_contents_volume(),
         rigid_capacity + flex_contents + std::min(container_constraints.remaining_volume, flex_capacity),
         pockets,
         true
@@ -4503,7 +4512,7 @@ inventory_selector::header_stats inventory_insert_selector::get_raw_stats() cons
     header_stats stats = get_pocket_summary_header_stats(
         loc->get_total_contained_weight(),
         std::min(loc->get_total_weight_capacity(), container_constraints.weight_capacity),
-        loc->get_contents_volume(item_pocket::ok_like_old_default_behavior),
+        loc->get_contents_volume(),
         rigid_capacity + flex_contents + std::min(container_constraints.remaining_volume, flex_capacity),
         pockets,
         true

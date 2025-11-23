@@ -363,7 +363,7 @@ bool item::contains_no_solids() const
 
 bool item::is_funnel_container( units::volume &bigger_than ) const
 {
-    if( get_volume_capacity(item_pocket::ok_container) <= bigger_than ) {
+    if( get_volume_capacity(item_pocket::ok_all_containers) <= bigger_than ) {
         return false; // skip contents check, performance
     }
     return contents.is_funnel_container( bigger_than );
@@ -786,29 +786,6 @@ bool item::leak( map &here, Character *carrier, const tripoint_bub_ms &pos, item
     }
     return false;
 }
-
-/*
-units::volume item::check_for_free_space() const
-{
-    units::volume volume;
-
-    for( const item *container : contents.all_items_top( pocket_type::CONTAINER ) ) {
-        std::vector<const item_pocket *> containedPockets =
-            container->contents.get_container_pockets();
-        if( !containedPockets.empty() ) {
-            volume += container->check_for_free_space();
-
-            for( const item_pocket *pocket : containedPockets ) {
-                if( pocket->rigid() && ( pocket->empty() || pocket->contains_phase( phase_id::SOLID ) ) &&
-                    pocket->get_pocket_data()->ammo_restriction.empty() ) {
-                    volume += pocket->remaining_volume();
-                }
-            }
-        }
-    }
-    return volume;
-}
-*/
 
 int item::get_pocket_size() const
 {

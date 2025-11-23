@@ -2334,21 +2334,21 @@ class Character : public Creature, public visitable
         units::mass max_pickup_capacity() const;        
         // total capacity of pockets in the player's top level of inventory.
         // bags-of-holding aside, this is the max volume the character can carry without changing what they're wearing/wielding.
-        units::volume volume_capacity(std::function<bool(const item_pocket&)> include_pocket) const;
+        units::volume volume_capacity(std::function<bool(const item_pocket&)> include_pocket = item_pocket::ok_default_containers) const;
         // version of volume_capacity that considers nested pockets even if their parents are not included
         units::volume volume_capacity_recursive(std::function<bool(const item_pocket&)> include_pocket, std::function<bool(const item_pocket&)> check_pocket_tree) const;
         /** 
         * Returns remaining, unfilled volume in pockets in the character's entire inventory that satisfies the check conditions.
         * The default arguments, free_space(), gives a rough upper bound on remaining volume that could be filled with 
-        * generic packing peanuts, which is a reasonable estimate for many cases.        
-        * @param include_pocket pockets which pass this criteria to have their space included.
-        * @param check_pocket_tree pockets which fail this criteria are excluded, along with all nested pockets
+        * dry goods, which is a reasonable estimate for many cases.
+        * @param include_pocket pockets which pass this criteria have their space included (unless they fail check_pocket_tree).
+        * @param check_pocket_tree pockets which fail this criteria are excluded, along with all nested pockets.
         * */
         units::volume free_space(std::function<bool(const item_pocket&)> include_pocket = [](const item_pocket& pocket) {
                 return !pocket.is_restricted()
-                && (pocket.empty() || pocket.contains_phase(phase_id::SOLID)); 
+                && item_pocket::ok_for_solids(pocket); 
             },
-            std::function<bool(const item_pocket&)> check_pocket_tree = item_pocket::ok_like_old_default_behavior) const;
+            std::function<bool(const item_pocket&)> check_pocket_tree = item_pocket::ok_default_containers) const;
         units::mass free_weight_capacity() const;
 
 

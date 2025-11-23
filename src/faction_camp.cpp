@@ -5089,7 +5089,7 @@ int om_carry_weight_to_trips( const units::mass &total_mass, const units::volume
 {
     units::mass max_m = comp ? comp->weight_capacity() - comp->weight_carried() : 60_kilogram;
     //Assume an additional pack will be carried in addition to normal gear
-    units::volume sack_v = item( itype_duffelbag ).get_volume_capacity(item_pocket::ok_like_old_default_behavior);
+    units::volume sack_v = item( itype_duffelbag ).get_volume_capacity();
     units::volume max_v = comp ? comp->free_space() : sack_v;
     max_v += sack_v;
     return om_carry_weight_to_trips( total_mass, total_volume, max_m, max_v );

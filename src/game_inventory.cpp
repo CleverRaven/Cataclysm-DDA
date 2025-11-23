@@ -388,7 +388,7 @@ class armor_inventory_preset: public inventory_selector_preset
 
             // Show total storage capacity in user's preferred volume units, to 2 decimal places
             append_cell( [ this ]( const item_location & loc ) {
-                const int storage_ml = to_milliliter( loc->get_volume_capacity( item_pocket::ok_like_old_default_behavior ) );
+                const int storage_ml = to_milliliter( loc->get_volume_capacity( item_pocket::ok_default_containers ) );
                 return get_decimal_string( round_up( convert_volume( storage_ml ), 2 ) );
             }, string_format( _( "STORAGE (%s)" ), volume_units_abbr() ) );
         }

@@ -451,7 +451,7 @@ units::volume advanced_inventory_pane::free_volume( const advanced_inv_area &squ
         if( !container ) {
             return 0_ml;
         }
-        return container->get_remaining_volume(item_pocket::ok_like_old_default_behavior);
+        return container->get_remaining_volume();
     } else if( area == AIM_INVENTORY || area == AIM_WORN ) {
         return get_player_character().free_space();
     } else if( in_vehicle() ) {

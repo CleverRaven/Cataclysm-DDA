@@ -406,11 +406,15 @@ class item_pocket
         // should the name of this pocket be used as a description
         bool name_as_description = false; // NOLINT(cata-serialize)
 
-        // pocket filters, centralized for later de-duplication
-        static bool ok_container(const item_pocket&);
-        static bool ok_like_old_default_behavior(const item_pocket& pocket);
-        static bool ok_like_old_default_behavior_true(const item_pocket& pocket);
-        static bool ok_general_dry_container(const item_pocket&);
+        // pocket predicates
+        // non-forbidden, container-type pockets. The most common use-case.
+        static bool ok_default_containers(const item_pocket& pocket);
+        // *any* container-type pocket, even restricted ones.
+        // appropriate for determining how physically full something is.
+        static bool ok_all_containers(const item_pocket&);
+        
+        // pocket is currently OK with taking on solid (as opposed to liquid/gaseous) items
+        static bool ok_for_solids(const item_pocket& pocket);
     private:
         // the type of pocket, saved to json
         pocket_type _saved_type = pocket_type::LAST; // NOLINT(cata-serialize)

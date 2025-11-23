@@ -566,9 +566,9 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
             ( new_item.made_of( phase_id::LIQUID ) ||
               ( !new_item.is_tool() && !new_item.is_gun() && !new_item.is_magazine() ) ) ) {
             if( new_item.type->weight == 0_gram ) {
-                max_capacity = new_item.charges_per_volume( cont->get_volume_capacity(item_pocket::ok_like_old_default_behavior) );
+                max_capacity = new_item.charges_per_volume( cont->get_volume_capacity() );
             } else {
-                max_capacity = std::min( new_item.charges_per_volume( cont->get_volume_capacity(item_pocket::ok_like_old_default_behavior) ),
+                max_capacity = std::min( new_item.charges_per_volume( cont->get_volume_capacity() ),
                                          new_item.charges_per_weight( cont->get_total_weight_capacity() ) );
             }
         }

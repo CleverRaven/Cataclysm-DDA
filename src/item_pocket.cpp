@@ -2472,40 +2472,20 @@ void item_pocket::deserialize_presets( const JsonArray &ja )
     }
 }
 
-bool item_pocket::ok_container(const item_pocket& pocket)
+bool item_pocket::ok_all_containers(const item_pocket& pocket)
 {
-    // literally any Container, even weird ones.
-    // use this for determining how full something physically is
     return pocket.is_type(pocket_type::CONTAINER);
 }
 
-bool item_pocket::ok_like_old_default_behavior(const item_pocket& pocket)
+bool item_pocket::ok_default_containers(const item_pocket& pocket)
 {
-    // non-forbidden containers.
-    // should be used for most volume status-reporting, but not necessarily interactions.
-    // this is the old default behavior for most volume querying functions.
-    // (except total_container_capacity(), which was weird)    
     return pocket.is_type(pocket_type::CONTAINER)
         && !pocket.is_forbidden();
 }
 
-bool item_pocket::ok_like_old_default_behavior_true(const item_pocket& pocket)
+bool item_pocket::ok_for_solids(const item_pocket& pocket)
 {
-    // non-forbidden, unrestricted containers.
-    // this is the old default behavior for most volume querying functions when passed 'true' (unrestricted_pockets_only)    
-    return pocket.is_type(pocket_type::CONTAINER)
-        && !pocket.is_forbidden()
-        && !pocket.is_restricted();
-}
-
-bool item_pocket::ok_general_dry_container(const item_pocket& pocket)
-{
-    // pocket is good for whatever dry materials can fit.
-    // free_space() and check_for_free_space() conditions.
-    return pocket.is_type(pocket_type::CONTAINER)
-        && !pocket.is_forbidden()
-        && !pocket.is_restricted()
-        && (pocket.empty() || pocket.contains_phase(phase_id::SOLID));
+    return pocket.empty() || pocket.contains_phase(phase_id::SOLID);
 }
 
 units::volume pocket_data::volume_capacity() const

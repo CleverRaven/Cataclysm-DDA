@@ -2714,7 +2714,7 @@ void item_contents::info( std::vector<iteminfo> &info, const iteminfo_query *par
         }
 
         // If multiple pockets and/or multiple kinds of pocket, show total capacity section
-        units::volume capacity = volume_capacity(item_pocket::ok_like_old_default_behavior);
+        units::volume capacity = volume_capacity();
         units::mass weight = total_container_weight_capacity();
         if( ( found_pockets.size() > 1 || pocket_num[0] > 1 ) && capacity > 0_ml && weight > 0_gram ) {
             insert_separation_line( info );
