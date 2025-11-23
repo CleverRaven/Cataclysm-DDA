@@ -832,13 +832,6 @@ bool item::has_unrestricted_pockets() const
     return contents.has_unrestricted_pockets();
 }
 
-units::volume item::get_nested_content_volume_recursive( const std::map<const item *, int>
-        &without )
-const
-{
-    return contents.get_nested_content_volume_recursive( without );
-}
-
 void item::remove_internal( const std::function<bool( item & )> &filter,
                             int &count, std::list<item> &res )
 {

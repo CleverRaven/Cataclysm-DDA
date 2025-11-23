@@ -2531,38 +2531,6 @@ units::mass item_contents::total_contained_weight( const bool unrestricted_pocke
     return total_weight;
 }
 
-units::volume item_contents::get_nested_content_volume_recursive( const
-        std::map<const item *, int> &without ) const
-{
-    units::volume ret = 0_ml;
-
-    for( const item_pocket *pocket : get_container_pockets() ) {
-        if( pocket->rigid() && !pocket->empty() && !pocket->contains_phase( phase_id::SOLID ) ) {
-            const item *it = &pocket->front();
-            auto stack = without.find( it );
-            if( ( stack != without.end() ) && ( stack->second == it->charges ) ) {
-                ret += pocket->volume_capacity();
-            }
-        } else {
-            for( const item *i : pocket->all_items_top() ) {
-                if( i->count_by_charges() ) {
-                    ret += i->get_selected_stack_volume( without );
-                } else if( without.count( i ) ) {
-                    ret += i->volume();
-                } else {
-                    ret += i->get_nested_content_volume_recursive( without );
-                }
-            }
-
-            if( pocket->rigid() ) {
-                ret += pocket->remaining_volume();
-            }
-        }
-    }
-
-    return ret;
-}
-
 void item_contents::remove_internal( const std::function<bool( item & )> &filter,
                                      int &count, std::list<item> &res )
 {

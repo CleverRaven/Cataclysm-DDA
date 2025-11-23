@@ -975,10 +975,7 @@ class item : public visitable
          */
         units::volume get_biggest_pocket_capacity() const;
                 
-        units::volume get_selected_stack_volume( const std::map<const item *, int> &without ) const;
         bool has_unrestricted_pockets() const;
-        units::volume get_nested_content_volume_recursive( const std::map<const item *, int> &without )
-        const;
 
         /**
          * Return the abstract 'size' of the pocket.

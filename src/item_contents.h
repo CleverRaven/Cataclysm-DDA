@@ -232,8 +232,6 @@ class item_contents
         units::volume biggest_pocket_capacity() const;        
         units::mass remaining_container_capacity_weight( bool unrestricted_pockets_only = false ) const;
         units::mass total_contained_weight( bool unrestricted_pockets_only = false ) const;
-        units::volume get_nested_content_volume_recursive( const std::map<const item *, int> &without )
-        const;
 
         /** Get all holsters. */
         int get_used_holsters() const;

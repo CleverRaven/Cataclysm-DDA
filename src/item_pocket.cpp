@@ -2296,11 +2296,6 @@ bool item_pocket::holster_full() const
     return p_data->holster && !all_items_top().empty();
 }
 
-bool item_pocket::is_valid() const
-{
-    return data != nullptr;
-}
-
 units::length item_pocket::max_containable_length() const
 {
     if( data ) {

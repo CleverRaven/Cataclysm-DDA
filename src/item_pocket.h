@@ -134,7 +134,6 @@ class item_pocket
         bool is_restricted() const;
         bool has_any_with( const std::function<bool( const item & )> &filter ) const;
 
-        bool is_valid() const;
         bool is_type( pocket_type ptype ) const;
         bool is_ablative() const;
         bool is_holster() const;
