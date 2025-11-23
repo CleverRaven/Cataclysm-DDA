@@ -8348,8 +8348,7 @@ void heat_activity_actor::finish( player_activity &act, Character &p )
         if( cold_item->count_by_charges() ) {
             item copy( *cold_item );
             copy.charges = ait.second;
-            copy.unset_flag( flag_FROZEN );
-            copy.set_flag( flag_HOT );
+            copy.heat_up();
             cold_item->charges -= ait.second;
             if( cold_item->charges <= 0 ) {
                 cold_item.remove_item();
@@ -8360,8 +8359,7 @@ void heat_activity_actor::finish( player_activity &act, Character &p )
                 p.i_add_or_drop( copy );
             }
         } else {
-            cold_item->unset_flag( flag_FROZEN );
-            cold_item->set_flag( flag_HOT );
+            cold_item->heat_up();
             if( cold_item.get_item()->made_of( phase_id::LIQUID ) ) {
                 liquid_handler::handle_all_liquid( *cold_item, PICKUP_RANGE );
             } else {
