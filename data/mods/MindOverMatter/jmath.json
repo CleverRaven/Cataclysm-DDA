@@ -163,9 +163,9 @@
   {
     "type": "jmath_function",
     "id": "contemplation_factor",
-    "num_args": 1,
-    "//": "This equates to about 400 XP per hour of contemplation when at minimum focus, modified by Nether Attunement",
-    "return": "(u_val('focus_effective') * 0.004) * (_0) * u_nether_attunement_power_scaling"
+    "num_args": 0,
+    "//": "This equates to about 400 XP per hour of contemplation when at minimum focus, modified by Nether Attunement.  Maintaining powers reduces the XP by a lot.",
+    "return": "(u_val('focus_effective') * 0.004) * u_nether_attunement_power_scaling * ( u_vitamin('vitamin_maintained_powers') > 0 ) ? ( 1 / ( 1 + u_vitamin('vitamin_maintained_powers') ) ) : 1"
   },
   {
     "type": "jmath_function",
