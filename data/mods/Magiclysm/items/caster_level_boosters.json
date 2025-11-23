@@ -73,7 +73,7 @@
     "use_action": {
       "target": "magus_booster_2_active",
       "msg": "You wind up the device and it starts making a ticking noise.",
-       "menu_text": "Activate",
+      "menu_text": "Activate",
       "type": "transform",
       "target_charges": 400,
       "target_ammo": "elastic_potential_energy",

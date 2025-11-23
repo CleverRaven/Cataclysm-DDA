@@ -81,12 +81,7 @@
     "color": "brown",
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "DURABLE_MELEE" ],
-    "use_action": {
-      "target": "mtorch_everburning_lit",
-      "msg": "You light the torch.",
-      "menu_text": "Light torch",
-      "type": "transform"
-    },
+    "use_action": { "target": "mtorch_everburning_lit", "msg": "You light the torch.", "menu_text": "Light torch", "type": "transform" },
     "melee_damage": { "bash": 8 }
   },
   {
