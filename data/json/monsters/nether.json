@@ -2365,6 +2365,7 @@
     "armor": { "bash": 2, "cut": 6, "bullet": 6, "electric": 1 },
     "vision_day": 20,
     "vision_night": 20,
+    "emit_fields": [ { "emit_id": "emit_pain_field", "delay": "1 s" } ],
     "melee_damage": [ { "damage_type": "bash", "amount": 3 } ],
     "special_attacks": [ { "id": "smash", "throw_strength": 60, "cooldown": 30 }, { "id": "grab" } ],
     "grab_strength": 30
