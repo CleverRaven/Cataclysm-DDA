@@ -146,7 +146,7 @@
   },
   {
     "type": "MIGRATION",
-    "id": "zuchetto",
+    "id": "zucchetto",
     "replace": "kippah"
   },
   {
@@ -341,7 +341,17 @@
   },
   {
     "type": "MIGRATION",
-    "id": "sewage",
-    "replace": "water_sewage"
+    "id": "toastem2",
+    "replace": "toastem"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "toastem3",
+    "replace": "toastem"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "toastem4",
+    "replace": "toastem"
   }
 ]
