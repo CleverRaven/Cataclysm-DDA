@@ -232,7 +232,7 @@
       {
         "u_location_variable": { "global_val": "OM_missionspot" },
         "target_params": {
-          "om_terrain": "microlab_sub_station",
+          "om_terrain": "microlab_generic_hallway",
           "om_terrain_match_type": "CONTAINS",
           "search_range": 1200,
           "min_distance": 200,
@@ -240,7 +240,7 @@
           "z": -2,
           "random": true
         },
-        "terrain": "t_thconc_floor",
+        "terrain": "t_carpet_concrete_red",
         "target_max_radius": 20
       },
       { "math": [ "goingtolabs = 1" ] },
@@ -257,7 +257,6 @@
         "u_location_variable": { "global_val": "OM_missionspot" },
         "target_params": {
           "om_terrain": "lab_surface_parking_blockC1",
-          "om_terrain_match_type": "CONTAINS",
           "search_range": 1200,
           "min_distance": 200,
           "reveal_radius": { "global_val": "scoutingdistancelanding", "default": 0 },
