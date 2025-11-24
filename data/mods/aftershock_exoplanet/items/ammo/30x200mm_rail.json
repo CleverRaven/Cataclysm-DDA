@@ -1,0 +1,25 @@
+[
+  {
+    "id": "afs_30x200mm",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
+    "name": { "str": "30x200mm FSAP" },
+    "description": "Conventional anti-spacecraft kinetic penetration rounds, each containing a depleted uranium slug within a steel launch armature.  Its better to never be on the receiving end of one of these.",
+    "weight": "2200 g",
+    "longest_side": "20 cm",
+    "volume": "1 L",
+    "price": "2 kUSD",
+    "price_postapoc": "2 kUSD",
+    "material": [ "lc_steel" ],
+    "symbol": "=",
+    "color": "light_gray",
+    "casing": "afs_30x200mm_armature",
+    "count": 1,
+    "ammo_type": "30x200mm",
+    "range": 200,
+    "damage": { "damage_type": "bullet", "amount": 800, "armor_penetration": 90 },
+    "dispersion": 10,
+    "effects": [ "NON_FOULING" ],
+    "melee_damage": { "bash": 10 }
+  }
+]

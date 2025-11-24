@@ -431,7 +431,7 @@ bool aim_activity_actor::check_gun_ability_to_shoot( Character &who, item &it )
 
     if( it.has_fault_flag( "OVERHEATED_GUN" ) ) {
         who.add_msg_if_player( m_warning,
-                               _( "Your %s is too hot, and little screen signalizes the gun is inoperable." ), it.tname() );
+                               _( "Your %s status screen indicates the gun is venting." ), it.tname() );
         return false;
     }
 
