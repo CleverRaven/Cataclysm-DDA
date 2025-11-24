@@ -144,6 +144,8 @@
           "EOC_clearmissions",
           "EOC_clearmissions",
           "EOC_clearmissions",
+          "EOC_clearmissions",
+          "EOC_clearmissions",
           "EOC_progressgate1",
           "EOC_progressgate2",
           "EOC_award_material_tokens",
@@ -774,7 +776,7 @@
       { "math": [ "totalstarts = 1 + basementsunlocked + roofsunlocked + labsunlocked" ] },
       { "math": [ "totalexits = 1 + bonusexits" ] },
       {
-        "u_message": "Island Rank: <global_val:islandrank_readable> of 2\nExpedition Lengths: <global_val:longerraids> of 2\nExpedition Starts: <global_val:totalstarts> of 4\nBonus Pulses: <global_val:bonuspulses> of 4\nTarget reveal distance: <global_val:scoutingdistancetargets> of 10\nLanding reveal distance: <global_val:scoutingdistancelanding> of 24\nWarpcloak duration in seconds: <global_val:invistime> of 120\nSlaughter missions unlocked: <global_val:slaughterunlocked> of 1\nExits per expedition: <global_val:totalexits> of 3\nMissions per expedition: <global_val:bonusmissions> of 3\nMission tiers unlocked: <global_val:hardmissions_readable> of 3",
+        "u_message": "Island Rank: <global_val:islandrank_readable> of 2\nExpedition Lengths: <global_val:longerraids> of 2\nExpedition Starts: <global_val:totalstarts> of 4\nBonus Pulses: <global_val:bonuspulses> of 7\nTarget reveal distance: <global_val:scoutingdistancetargets> of 22\nLanding reveal distance: <global_val:scoutingdistancelanding> of 48\nWarpcloak duration in seconds: <global_val:invistime> of 150\nSlaughter missions unlocked: <global_val:slaughterunlocked> of 1\nExits per expedition: <global_val:totalexits> of 5\nMissions per expedition: <global_val:bonusmissions> of 5\nMission tiers unlocked: <global_val:hardmissions_readable> of 3",
         "popup": true
       }
     ]
