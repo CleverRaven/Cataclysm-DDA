@@ -820,9 +820,10 @@ zone_items populate_items( const tripoint_bub_ms &src_bub )
         for( item &it : vp->items() ) {
             items.emplace_back( &it, true );
         }
-    }
-    for( item &it : here.i_at( src_bub ) ) {
-        items.emplace_back( &it, false );
+    } else {
+        for( item &it : here.i_at( src_bub ) ) {
+            items.emplace_back( &it, false );
+        }
     }
     return items;
 }
