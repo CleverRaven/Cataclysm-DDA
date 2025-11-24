@@ -180,7 +180,13 @@
       { "proficiency": "prof_welding_basic", "time_multiplier": 3, "skill_penalty": 0 },
       { "proficiency": "prof_welding", "time_multiplier": 2, "skill_penalty": 0 }
     ],
-    "components": [ [ [ "pipe", 6 ] ], [ [ "spring", 2 ] ], [ [ "scrap", 10 ] ], [ [ "rope_30", 2 ] ], [ [ "gloves_cut_resistant", 1 ] ] ],
+    "components": [
+      [ [ "pipe", 6 ] ],
+      [ [ "spring_small", 6 ] ],
+      [ [ "scrap", 10 ] ],
+      [ [ "rope_30", 2 ] ],
+      [ [ "gloves_cut_resistant", 1 ] ]
+    ],
     "time": "5 h",
     "skill_used": "deduction",
     "difficulty": 3,

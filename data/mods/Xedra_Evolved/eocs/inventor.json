@@ -350,7 +350,7 @@
       { "math": [ "AI_difficulty_1 += 5" ] },
       { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
       {
-        "u_roll_remainder": [ "bot_sniperbot", "bot_shotgunbot", "bot_meleebot", "crafting_assistant" ],
+        "u_roll_remainder": [ "bot_sniperbot", "bot_shotgunbot", "bot_meleebot", "crafting_assistant", "bot_bitebot" ],
         "type": "recipe",
         "true_eocs": [ "EOC_INVENTOR_MESSAGE_GOOD" ],
         "false_eocs": {
@@ -477,27 +477,9 @@
     "type": "effect_on_condition",
     "id": "EOC_INVENTOR_SLEEP_GAMING",
     "eoc_type": "EVENT",
-    "required_event": "character_falls_asleep",
-    "condition": { "u_has_item": "inventor_gaming_rig_on" },
-    "effect": [
-      { "math": [ "morale_game_inventor = 3 * u_skill('deduction')" ] },
-      {
-        "u_add_morale": "morale_game_inventor",
-        "bonus": { "math": [ "morale_game_inventor" ] },
-        "max_bonus": { "math": [ "morale_game_inventor" ] },
-        "duration": "24 hours",
-        "decay_start": "24 hours"
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_INVENTOR_SLEEP_GAMING_END",
-    "eoc_type": "EVENT",
     "required_event": "character_wakes_up",
     "condition": { "u_has_item": "inventor_gaming_rig_on" },
     "effect": [
-      { "u_lose_morale": "morale_game_inventor" },
       { "math": [ "morale_game_inventor = 3 * u_skill('deduction')" ] },
       {
         "u_add_morale": "morale_game",
