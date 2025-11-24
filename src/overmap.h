@@ -637,7 +637,7 @@ class overmap
          * When monsters despawn during map-shifting they will also be added here.
          * map::spawn_monsters will load them and place them into the reality bubble
          * (adding it to the creature tracker and putting it onto the map).
-         * This stores each submap worth of monsters in a seperate tree.
+         * This stores each submap worth of monsters in a separate tree.
          */
         horde_map hordes;
 
@@ -953,12 +953,12 @@ struct oter_display_options {
     bool hilite_mission = false;
     // Draw the PC location with `hilite()` (blue bg-ish) on terrain at loc instead of '@'
     bool hilite_pc = false;
-    // If false, and there is a mission, draw an an indicator towards the mission target on an edge
+    // If false, and there is a mission, draw an indicator towards the mission target on an edge
     bool mission_inbounds = true;
     // Darken explored tiles
     bool show_explored = true;
     bool showhordes = true;
-    // Hilight oters revealed by map use
+    //Highlight others revealed by map use
     bool show_map_revealed = false;
     // Draw anything for the PC (assumed to be at center)
     bool show_pc = true;

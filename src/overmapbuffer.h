@@ -584,7 +584,10 @@ class overmapbuffer
 
         city_reference closest_known_city( const tripoint_abs_sm &center );
 
-        std::string get_description_at( const tripoint_abs_sm &where );
+        //TODO: use display_description_at when converting UIs to ImGui
+        std::string get_description_at( const tripoint_abs_sm &where, bool draw_origin = true );
+
+        void display_description_at( const tripoint_abs_sm &where, bool draw_origin = true );
 
         /**
          * Place the specified overmap special directly on the map using the provided location and rotation.

@@ -5,7 +5,7 @@
     "subtypes": [ "TOOL" ],
     "category": "MED",
     "name": { "str": "abstract gracken improvement", "//~": "NO_I18N" },
-    "weight": "2041 g",
+    "weight": "1900 g",
     "volume": "2500 ml",
     "material": [ "flesh", "shadowstuff" ],
     "symbol": "!",

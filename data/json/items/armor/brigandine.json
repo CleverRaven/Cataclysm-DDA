@@ -897,7 +897,7 @@
     "price_postapoc": "10 USD",
     "material": [ "lc_steel", "canvas" ],
     "symbol": "[",
-    "looks_like": "legguard_lightplate",
+    "looks_like": "armor_lc_leg_guard",
     "color": "light_gray",
     "environmental_protection": 1,
     "flags": [ "OUTER", "STURDY", "ABLATIVE_CHAINMAIL_LEGS", "VARSIZE" ],

@@ -1133,5 +1133,15 @@
     "type": "recipe",
     "result": "reloaded_460sw_jhp",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "crude_40mm",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "rifle_45_410",
+    "obsolete": true
   }
 ]

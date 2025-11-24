@@ -276,5 +276,34 @@
     "time": "40 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "leather_belt", 1 ] ], [ [ "chitin_piece", 45 ] ], [ [ "sheet_leather_patchwork", 4 ] ] ]
+  },
+  {
+    "result": "kevlar",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "5 m",
+    "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_nylon", 12 ] ], [ [ "sheet_kevlar_layered", 4 ] ] ]
+  },
+  {
+    "result": "xlkevlar",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "10 m",
+    "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_nylon", 30 ] ], [ [ "sheet_kevlar_layered", 12 ] ] ]
+  },
+  {
+    "result": "crude_plastic_vest",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "10 m",
+    "components": [ [ [ "plastic_chunk", 33 ] ], [ [ "string_36", 8 ] ] ]
   }
 ]

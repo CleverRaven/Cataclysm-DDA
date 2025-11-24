@@ -22,8 +22,6 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
-static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
-
 static const faction_id faction_your_followers( "your_followers" );
 
 static const itype_id itype_556( "556" );
@@ -117,7 +115,7 @@ TEST_CASE( "zone_unloading_ammo_belts", "[zones][items][ammo_belt][activities][u
             here.add_item_or_charges( tripoint_bub_ms( tripoint::east ), ammo_belt );
         }
         if( move_act ) {
-            dummy.assign_activity( player_activity( ACT_MOVE_LOOT ) );
+            dummy.assign_activity( zone_sort_activity_actor() );
         } else {
             dummy.assign_activity( unload_loot_activity_actor() );
         }

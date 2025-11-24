@@ -18,6 +18,7 @@
 #include <unordered_set>
 #include <vector>
 
+#include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "basecamp.h"
 #include "build_reqs.h"
@@ -102,8 +103,6 @@
 #include "visitable.h"
 #include "vpart_position.h"
 #include "weather.h"
-
-static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 
 static const addiction_id addiction_alcohol( "alcohol" );
 
@@ -2319,7 +2318,7 @@ void basecamp::start_menial_labor()
     }
     validate_sort_points();
 
-    comp->assign_activity( ACT_MOVE_LOOT );
+    comp->assign_activity( zone_sort_activity_actor() );
     popup( _( "%s goes off to clean toilets and sort loot." ), comp->disp_name() );
 }
 

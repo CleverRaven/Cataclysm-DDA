@@ -3084,6 +3084,13 @@
   },
   {
     "type": "effect_type",
+    "id": "vampire_blind_the_sun",
+    "//": "Hidden effect.  Makes Blind the Sun protect against the sun.",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
     "id": "last_breath_mist_cooldown",
     "name": [ "Recovering from the last breath's mist" ],
     "desc": [
@@ -3711,6 +3718,22 @@
     "desc": [ "" ],
     "show_in_info": false,
     "flags": [ "SUPPRESS_INVISIBILITY" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vampire_albino",
+    "//": "Hidden effect, carries the flags so that vampires who blot out the sun with their powers don't burn in sunlight.",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "ALBINO" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vampire_burn_under_sunlight",
+    "//": "Hidden effect, carries the flags so that vampires who blot out the sun with their powers don't burn in sunlight.",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "SUNBURN", "ALBINO" ]
   },
   {
     "type": "effect_type",

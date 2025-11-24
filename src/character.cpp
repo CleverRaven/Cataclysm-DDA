@@ -4565,6 +4565,12 @@ tripoint_bub_ms Character::adjacent_tile() const
     return random_entry( ret, pos_bub() ); // player position if no valid adjacent tiles
 }
 
+faction_id Character::get_faction_id() const
+{
+    const faction *fac = get_faction();
+    return fac == nullptr ? faction_id() : fac->id;
+}
+
 void Character::set_fac_id( const std::string &my_fac_id )
 {
     fac_id = faction_id( my_fac_id );

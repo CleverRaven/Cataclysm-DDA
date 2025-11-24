@@ -108,7 +108,7 @@ See [CODE_STYLE](../doc/c++/CODE_STYLE.md) for details.
 ## Translations
 
 The translation of Cataclysm: DDA is done using Transifex.
-Look at the [translation project](https://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/) for an up-to-date list of supported languages.
+Look at the [translation project](https://explore.transifex.com/cataclysm-dda-translators/cataclysm-dda/) for an up-to-date list of supported languages.
 
 See [TRANSLATING.md](../doc/TRANSLATING.md) for more information:
 

@@ -591,47 +591,38 @@
                         },
                         { "u_cast_spell": { "id": "psionic_drained_difficulty_four", "hit_self": true } }
                       ],
-                      "false_effect": {
-                        "run_eocs": [
-                          {
-                            "id": "EOC_VITAKIN_RAD_PURGE_5",
-                            "condition": { "and": [ { "math": [ "u_val('rad') >= 30" ] }, { "math": [ "u_val('rad') <= 59" ] } ] },
-                            "effect": [
-                              { "u_add_effect": "effect_vitakin_purge_rads", "duration": "15 minutes" },
-                              {
-                                "u_add_effect": "effect_vitakin_purge_rads_sideeffects",
-                                "duration": "15 minutes",
-                                "intensity": 2
-                              },
-                              { "u_cast_spell": { "id": "psionic_drained_difficulty_three", "hit_self": true } }
-                            ],
-                            "false_effect": {
-                              "run_eocs": [
-                                {
-                                  "id": "EOC_VITAKIN_RAD_PURGE_6",
-                                  "condition": { "and": [ { "math": [ "u_val('rad') >= 1" ] }, { "math": [ "u_val('rad') <= 29" ] } ] },
-                                  "effect": [
-                                    { "u_add_effect": "effect_vitakin_purge_rads", "duration": "7 minutes" },
-                                    {
-                                      "u_add_effect": "effect_vitakin_purge_rads_sideeffects",
-                                      "duration": "7 minutes",
-                                      "intensity": 1
-                                    },
-                                    { "u_cast_spell": { "id": "psionic_drained_difficulty_two", "hit_self": true } }
-                                  ],
-                                  "false_effect": [ { "u_message": "You have no radiation in your body, and so no need to do anything.", "type": "good" } ]
-                                }
-                              ]
-                            }
-                          }
-                        ]
-                      }
+                      "false_effect": { "run_eocs": "EOC_VITAKIN_RAD_PURGE_5" }
                     }
                   ]
                 }
               }
             ]
           }
+        }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "//": "Chain split here because the formatting script was choking",
+    "id": "EOC_VITAKIN_RAD_PURGE_5",
+    "condition": { "and": [ { "math": [ "u_val('rad') >= 30" ] }, { "math": [ "u_val('rad') <= 59" ] } ] },
+    "effect": [
+      { "u_add_effect": "effect_vitakin_purge_rads", "duration": "15 minutes" },
+      { "u_add_effect": "effect_vitakin_purge_rads_sideeffects", "duration": "15 minutes", "intensity": 2 },
+      { "u_cast_spell": { "id": "psionic_drained_difficulty_three", "hit_self": true } }
+    ],
+    "false_effect": {
+      "run_eocs": [
+        {
+          "id": "EOC_VITAKIN_RAD_PURGE_6",
+          "condition": { "and": [ { "math": [ "u_val('rad') >= 1" ] }, { "math": [ "u_val('rad') <= 29" ] } ] },
+          "effect": [
+            { "u_add_effect": "effect_vitakin_purge_rads", "duration": "7 minutes" },
+            { "u_add_effect": "effect_vitakin_purge_rads_sideeffects", "duration": "7 minutes", "intensity": 1 },
+            { "u_cast_spell": { "id": "psionic_drained_difficulty_two", "hit_self": true } }
+          ],
+          "false_effect": [ { "u_message": "You have no radiation in your body, and so no need to do anything.", "type": "good" } ]
         }
       ]
     }
@@ -652,6 +643,7 @@
           "EOC_VITAKIN_BANISH_ILLNESS_NARCOLEPTIC",
           "EOC_VITAKIN_BANISH_ILLNESS_SEASONAL_ALLERGIES",
           "EOC_VITAKIN_BANISH_ILLNESS_SEASONAL_AFFECTIVE",
+          "EOC_VITAKIN_BANISH_ILLNESS_XE_VAMPIRISM",
           "EOC_PORTAL_NULL_AWAKENING"
         ],
         "names": [
@@ -665,9 +657,10 @@
           "Purge Narcolepsy",
           "Purge Seasonal Allergies",
           "Purge Seasonal Affective Disorder",
+          "Purge Strange Blood Disorder",
           "Nevermind"
         ],
-        "keys": [ "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "a" ],
+        "keys": [ "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "A", "B" ],
         "descriptions": [
           "Attempt to cure your minor illnesses.",
           "Attempt to cure your asthma.",
@@ -679,8 +672,11 @@
           "Attempt to cure your narcolepsy.  This meditation is extremely intensive, and is correspondingly more draining.",
           "Attempt to cure your seasonal allergies.",
           "Attempt to cure your seasonal affective disorder.",
+          "Attempt to cure your strange blood disorder.",
           "Do nothing for now."
-        ]
+        ],
+        "allow_cancel": true,
+        "hide_failing": true
       }
     ]
   },
@@ -692,11 +688,7 @@
         { "u_has_effect": "pre_common_cold" },
         { "u_has_effect": "common_cold" },
         { "u_has_effect": "pre_flu" },
-        { "u_has_effect": "flu" },
-        { "u_has_effect": "pre_conjunctivitis_viral" },
-        { "u_has_effect": "conjunctivitis_viral" },
-        { "u_has_effect": "pre_conjunctivitis_bacterial" },
-        { "u_has_effect": "conjunctivitis_bacterial" }
+        { "u_has_effect": "flu" }
       ]
     },
     "effect": [ { "u_assign_activity": "ACT_VITAKIN_BANISH_ILLNESS_MINOR_AILMENT", "duration": "120 minutes" } ],
@@ -719,18 +711,7 @@
     },
     "effect": [
       { "u_message": "You feel much better.", "type": "good" },
-      {
-        "u_lose_effect": [
-          "pre_common_cold",
-          "common_cold",
-          "pre_flu",
-          "flu",
-          "pre_conjunctivitis_viral",
-          "conjunctivitis_viral",
-          "pre_conjunctivitis_bacterial",
-          "conjunctivitis_bacterial"
-        ]
-      },
+      { "u_lose_effect": [ "pre_common_cold", "common_cold", "pre_flu", "flu" ] },
       { "math": [ "u_vitamin('vitamin_psionic_drain') += rng( 15,30 )" ] }
     ],
     "false_effect": [
@@ -1028,6 +1009,13 @@
       { "u_message": "The disease proved tenacious.  You'll have to try again.", "type": "bad" },
       { "math": [ "u_vitamin('vitamin_psionic_drain') += rng( 45,90 )" ] }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_BANISH_ILLNESS_XE_VAMPIRISM",
+    "condition": { "mod_is_loaded": "xedra_evolved" },
+    "//": "Does nothing, is overridden in mod_interactions since you can't select it without XE loaded anyway",
+    "effect": [  ]
   },
   {
     "type": "effect_on_condition",

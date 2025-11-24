@@ -607,7 +607,7 @@
             "max_duration": "2 minutes",
             "immune_inside_vehicle": true,
             "immunity_data": { "body_part_env_resistance": [ [ "sensor", 15 ] ] },
-            "message": "Your eyes itching from hazy cloud.",
+            "message": "The hazy cloud makes your eyes itch.",
             "message_type": "bad"
           },
           {
@@ -638,7 +638,7 @@
             "max_duration": "3 minutes",
             "immune_inside_vehicle": true,
             "immunity_data": { "body_part_env_resistance": [ [ "sensor", 15 ] ] },
-            "message": "Your eyes burn from toxic gas.",
+            "message": "The toxic gas makes your eyes burn.",
             "message_type": "bad"
           },
           {

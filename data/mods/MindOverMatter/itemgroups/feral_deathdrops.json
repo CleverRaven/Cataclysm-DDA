@@ -164,7 +164,11 @@
     "type": "item_group",
     "subtype": "distribution",
     "id": "feral_humans_crystal_drops_photo",
-    "entries": [ { "item": "matrix_crystal_drained", "prob": 70 }, { "item": "matrix_crystal_photokinesis", "prob": 30 } ]
+    "entries": [
+      { "item": "matrix_crystal_drained", "prob": 70 },
+      { "group": "photokinetic_crystal_awakening_artifact_procgen", "prob": 30 },
+      { "group": "photokinetic_crystal_artifact_procgen", "prob": 15 }
+    ]
   },
   {
     "type": "item_group",

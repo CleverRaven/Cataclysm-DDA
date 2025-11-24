@@ -83,7 +83,7 @@
       ]
     },
     "mult_bonuses": [ { "stat": "movecost", "scale": 0.75 }, { "stat": "damage", "type": "bash", "scale": 0.8 } ],
-    "condition_desc": "* Only works on a <info>non-downed humanoid</info> target of <info>similar or smaller</info> size incapable of flight. Requires <info>momentum(3)</info> or higher to trigger.",
+    "condition_desc": "* Only works on a <info>non-downed humanoid</info> target of <info>similar or smaller</info> size incapable of flight.  Requires <info>momentum(3)</info> or higher to trigger.",
     "down_dur": 2,
     "eocs": [ "EOC_CLEAR_MOMENTUM" ],
     "attack_vectors": [ "vector_shoulder" ]

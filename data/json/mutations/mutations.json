@@ -10620,6 +10620,8 @@
     "description": "You are the natural leader of any group.  It's just part of who you are, groups naturally form around you and you need these groups to energize you.  Sometimes however, you give in to your worst impulses and this trait will flip.",
     "flags": [ "SOCIAL2" ],
     "category": [ "ALPHA" ],
+    "prereqs": [ "INT_ALPHA", "PER_ALPHA", "STR_ALPHA", "DEX_ALPHA" ],
+    "threshreq": [ "THRESH_ALPHA" ],
     "social_modifiers": { "intimidate": 5, "persuade": 15, "lie": 10 },
     "triggers": [
       [

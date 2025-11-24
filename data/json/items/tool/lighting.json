@@ -46,7 +46,7 @@
       }
     ],
     "light": 8,
-    "extend": { "flags": [ "WATER_EXTINGUISH", "TRADER_AVOID", "WIND_EXTINGUISH", "FIRESTARTER" ] }
+    "extend": { "flags": [ "WATER_EXTINGUISH", "TRADER_AVOID", "WIND_EXTINGUISH", "FIRESTARTER", "SPAWN_ACTIVE" ] }
   },
   {
     "id": "electric_lantern",
@@ -97,7 +97,7 @@
       { "type": "link_up", "cable_length": 2, "charge_rate": "20 W" }
     ],
     "light": 15,
-    "flags": [ "NO_UNLOAD", "NO_RELOAD", "RADIO_MODABLE", "RADIO_INVOKE_PROC", "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
+    "flags": [ "NO_UNLOAD", "NO_RELOAD", "RADIO_MODABLE", "RADIO_INVOKE_PROC", "TRADER_AVOID", "ALLOWS_REMOTE_USE", "SPAWN_ACTIVE" ]
   },
   {
     "id": "flashlight",
@@ -150,7 +150,15 @@
       "ammo_scale": 0
     },
     "light": 300,
-    "flags": [ "CHARGEDIM", "TRADER_AVOID", "BELT_CLIP", "WATER_BREAK", "HELMET_HEAD_ATTACHMENT", "HEAD_STRAP_MOUNT" ]
+    "flags": [
+      "CHARGEDIM",
+      "TRADER_AVOID",
+      "BELT_CLIP",
+      "WATER_BREAK",
+      "HELMET_HEAD_ATTACHMENT",
+      "HEAD_STRAP_MOUNT",
+      "SPAWN_ACTIVE"
+    ]
   },
   {
     "id": "diving_flashlight_small",
@@ -205,7 +213,7 @@
       "ammo_scale": 0
     },
     "light": 170,
-    "flags": [ "CHARGEDIM", "TRADER_AVOID", "BELT_CLIP", "HELMET_HEAD_ATTACHMENT", "HEAD_STRAP_MOUNT" ]
+    "flags": [ "CHARGEDIM", "TRADER_AVOID", "BELT_CLIP", "HELMET_HEAD_ATTACHMENT", "HEAD_STRAP_MOUNT", "SPAWN_ACTIVE" ]
   },
   {
     "id": "diving_flashlight_small_hipower",
@@ -260,13 +268,13 @@
       "ammo_scale": 0
     },
     "light": 450,
-    "flags": [ "CHARGEDIM", "TRADER_AVOID", "BELT_CLIP", "HELMET_HEAD_ATTACHMENT", "HEAD_STRAP_MOUNT" ]
+    "flags": [ "CHARGEDIM", "TRADER_AVOID", "BELT_CLIP", "HELMET_HEAD_ATTACHMENT", "HEAD_STRAP_MOUNT", "SPAWN_ACTIVE" ]
   },
   {
     "id": "diving_flashlight_variable",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
-    "name": { "str": "high-power mini diving flashlight (off)", "str_pl": "high-power mini diving flashlights (off)" },
+    "name": { "str": "variable power diving flashlight (off)", "str_pl": "variable power diving flashlights (off)" },
     "description": "A waterproof variable power flashlight with a plastic handle, powered by batteries.  Can be attached to some diving masks and hoods and onto a proprietary wrist mount.",
     "//": "Based on this: https://www.amazon.com/dp/B00DI5GMOM",
     "material": [ "plastic" ],
@@ -327,7 +335,16 @@
         "charge_rate": "20 W"
       }
     ],
-    "flags": [ "NO_UNLOAD", "NO_RELOAD", "CHARGEDIM", "TRADER_AVOID", "BELT_CLIP", "HELMET_HEAD_ATTACHMENT", "HEAD_STRAP_MOUNT" ]
+    "flags": [
+      "NO_UNLOAD",
+      "NO_RELOAD",
+      "CHARGEDIM",
+      "TRADER_AVOID",
+      "BELT_CLIP",
+      "HELMET_HEAD_ATTACHMENT",
+      "HEAD_STRAP_MOUNT",
+      "SPAWN_ACTIVE"
+    ]
   },
   {
     "id": "diving_flashlight_variable_on_med",
@@ -359,7 +376,16 @@
       }
     ],
     "light": 200,
-    "flags": [ "NO_UNLOAD", "NO_RELOAD", "CHARGEDIM", "TRADER_AVOID", "BELT_CLIP", "HELMET_HEAD_ATTACHMENT", "HEAD_STRAP_MOUNT" ]
+    "flags": [
+      "NO_UNLOAD",
+      "NO_RELOAD",
+      "CHARGEDIM",
+      "TRADER_AVOID",
+      "BELT_CLIP",
+      "HELMET_HEAD_ATTACHMENT",
+      "HEAD_STRAP_MOUNT",
+      "SPAWN_ACTIVE"
+    ]
   },
   {
     "id": "diving_flashlight_variable_on_low",
@@ -388,7 +414,16 @@
       }
     ],
     "light": 80,
-    "flags": [ "NO_UNLOAD", "NO_RELOAD", "CHARGEDIM", "TRADER_AVOID", "BELT_CLIP", "HELMET_HEAD_ATTACHMENT", "HEAD_STRAP_MOUNT" ]
+    "flags": [
+      "NO_UNLOAD",
+      "NO_RELOAD",
+      "CHARGEDIM",
+      "TRADER_AVOID",
+      "BELT_CLIP",
+      "HELMET_HEAD_ATTACHMENT",
+      "HEAD_STRAP_MOUNT",
+      "SPAWN_ACTIVE"
+    ]
   },
   {
     "id": "gasoline_lantern",
@@ -439,7 +474,7 @@
       { "type": "firestarter", "moves": 500, "moves_slow": 6000 }
     ],
     "light": 15,
-    "flags": [ "TRADER_AVOID", "ALLOWS_REMOTE_USE", "FIRESTARTER", "FIRE" ]
+    "flags": [ "TRADER_AVOID", "ALLOWS_REMOTE_USE", "FIRESTARTER", "FIRE", "SPAWN_ACTIVE" ]
   },
   {
     "id": "glowstick",
@@ -498,7 +533,7 @@
     "revert_to": "glowstick_dead",
     "revert_msg": "The glowstick fades out.",
     "light": 8,
-    "flags": [ "TRADER_AVOID", "SLEEP_IGNORE", "NO_UNLOAD", "NO_RELOAD" ]
+    "flags": [ "TRADER_AVOID", "SLEEP_IGNORE", "NO_UNLOAD", "NO_RELOAD", "SPAWN_ACTIVE" ]
   },
   {
     "id": "handflare",
@@ -538,7 +573,7 @@
     "//COMMENT": "Open flame or effectively so. ~5 seconds to transfer flame assuming optimal conditions, a minute at worst.",
     "use_action": { "type": "firestarter", "moves": 500, "moves_slow": 6000 },
     "light": 240,
-    "flags": [ "FIRE", "CHARGEDIM", "FLAMING", "TRADER_AVOID", "FIRESTARTER", "NO_UNLOAD", "NO_RELOAD" ]
+    "flags": [ "FIRE", "CHARGEDIM", "FLAMING", "TRADER_AVOID", "FIRESTARTER", "NO_UNLOAD", "NO_RELOAD", "SPAWN_ACTIVE" ]
   },
   {
     "id": "sigflare_lit",
@@ -616,7 +651,7 @@
       { "type": "link_up", "cable_length": 3, "charge_rate": "20 W" }
     ],
     "light": 650,
-    "flags": [ "NO_UNLOAD", "NO_RELOAD", "CHARGEDIM", "BELT_CLIP", "BELTED" ]
+    "flags": [ "NO_UNLOAD", "NO_RELOAD", "CHARGEDIM", "BELT_CLIP", "BELTED", "SPAWN_ACTIVE" ]
   },
   {
     "id": "lightstrip",
@@ -711,7 +746,7 @@
       { "type": "firestarter", "moves": 500, "moves_slow": 6000 }
     ],
     "light": 10,
-    "flags": [ "TRADER_AVOID", "FIRE", "ALLOWS_REMOTE_USE", "WATER_EXTINGUISH", "FIRESTARTER" ]
+    "flags": [ "TRADER_AVOID", "FIRE", "ALLOWS_REMOTE_USE", "WATER_EXTINGUISH", "FIRESTARTER", "SPAWN_ACTIVE" ]
   },
   {
     "id": "oil_lamp_clay",
@@ -764,7 +799,7 @@
       { "type": "firestarter", "moves": 500, "moves_slow": 6000 }
     ],
     "light": 10,
-    "flags": [ "TRADER_AVOID", "FIRE", "ALLOWS_REMOTE_USE", "WATER_EXTINGUISH", "WIND_EXTINGUISH", "FIRESTARTER" ]
+    "flags": [ "TRADER_AVOID", "FIRE", "ALLOWS_REMOTE_USE", "WATER_EXTINGUISH", "WIND_EXTINGUISH", "FIRESTARTER", "SPAWN_ACTIVE" ]
   },
   {
     "id": "oxylamp",
@@ -805,7 +840,7 @@
       { "type": "firestarter", "moves": 500, "moves_slow": 6000 }
     ],
     "light": 30,
-    "flags": [ "FIRESTARTER", "TRADER_AVOID", "FIRE", "ALLOWS_REMOTE_USE" ]
+    "flags": [ "FIRESTARTER", "TRADER_AVOID", "FIRE", "ALLOWS_REMOTE_USE", "SPAWN_ACTIVE" ]
   },
   {
     "id": "reading_light",
@@ -851,7 +886,7 @@
       "type": "transform"
     },
     "light": 15,
-    "flags": [ "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK", "CHARGEDIM" ]
+    "flags": [ "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK", "CHARGEDIM", "SPAWN_ACTIVE" ]
   },
   {
     "id": "smart_lamp",
@@ -923,7 +958,8 @@
       "RADIO_INVOKE_PROC",
       "RADIOSIGNAL_2",
       "CHARGEDIM",
-      "TRADER_AVOID"
+      "TRADER_AVOID",
+      "SPAWN_ACTIVE"
     ]
   },
   {
@@ -989,7 +1025,7 @@
     ],
     "techniques": [ "WBLOCK_1" ],
     "light": 60,
-    "flags": [ "FIRE", "CHARGEDIM", "FLAMING", "TRADER_AVOID", "WATER_EXTINGUISH", "BURNOUT" ],
+    "flags": [ "FIRE", "CHARGEDIM", "FLAMING", "TRADER_AVOID", "WATER_EXTINGUISH", "BURNOUT", "SPAWN_ACTIVE" ],
     "melee_damage": { "bash": 8 }
   },
   {
@@ -1040,7 +1076,7 @@
       { "type": "firestarter", "moves": 500, "moves_slow": 6000 }
     ],
     "light": 15,
-    "flags": [ "TRADER_AVOID", "ALLOWS_REMOTE_USE", "FIRESTARTER", "FIRE" ]
+    "flags": [ "TRADER_AVOID", "ALLOWS_REMOTE_USE", "FIRESTARTER", "FIRE", "SPAWN_ACTIVE" ]
   },
   {
     "id": "candle_small",
@@ -1088,7 +1124,7 @@
       }
     ],
     "light": 6,
-    "extend": { "flags": [ "WATER_EXTINGUISH", "TRADER_AVOID", "WIND_EXTINGUISH", "FIRESTARTER" ] }
+    "extend": { "flags": [ "WATER_EXTINGUISH", "TRADER_AVOID", "WIND_EXTINGUISH", "FIRESTARTER", "SPAWN_ACTIVE" ] }
   },
   {
     "id": "menorah",

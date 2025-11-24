@@ -65,7 +65,7 @@ save_t save_t::from_save_id( const std::string &save_id )
     return save_t( save_id );
 }
 
-save_t save_t::from_base_path( const std::string &base_path )
+save_t save_t::from_base_path( const std::string_view base_path )
 {
     return save_t( base64_decode( base_path ) );
 }

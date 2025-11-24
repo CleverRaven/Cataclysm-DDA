@@ -2481,7 +2481,9 @@ NPC run EoCs, provided by this effect; can work outside of reality bubble
 | "u_run_npc_eocs"/ "npc_run_npc_eocs" | **mandatory** | array of eocs | EoCs that would be run by NPCs |
 | "unique_ids" | optional | string, [variable objects](#variable-object) or array | id of NPCs that would be affected; lack of ids make effect run EoC on every NPC in your reality bubble, if `"local": true`, and to every NPC in the world, if `"local": false`; unique ID of every npc is specified in mapgen, using `npcs` or `place_npcs` |
 | "local" | optional | boolean | default false; if true, the effect is run for every NPC in the world; if false, effect is run only to NPC in your reality bubble |
-| "npc_range" | optional | int or [variable object](#variable-object) | if used, only NPC in this range are affected |
+| "npc_range" | optional | int or [variable object](#variable-object) | if used and neither 'z_min' nor 'z_max' is specified, only NPC having the same z position as the player in this range are affected |
+| "z_min" | optional | int or [variable object](#variable-object) | if used, only NPC'z position >= z_min are affected |
+| "z_max" | optional | int or [variable object](#variable-object) | if used, only NPC'z position <= z_max are affected |
 | "npc_must_see" | optional | boolean | default false; if true, only NPC you can see are affected |
 
 example of specifying `unique_id` in mapgen using `npcs`:
@@ -2546,7 +2548,9 @@ Monsters run EoCs, provided by this effect; only works inside reality bubble
 | --- | --- | --- | --- |
 | "u_run_monster_eocs"/ "npc_run_monster_eocs" | **mandatory** | array of eocs | EoCs that would be run by monsters |
 | "mtype_ids" | optional | array or [variable objects](#variable-object) | mtype_id(s) that should be affected |
-| "monster_range" | optional | int or [variable object](#variable-object) | if used, only monsters in this range are affected |
+| "monster_range" | optional | int or [variable object](#variable-object) | if used and neither 'z_min' nor 'z_max' is specified, only monsters having the same z position as the player in this range are affected |
+| "z_min" | optional | int or [variable object](#variable-object) | if used, only NPC'z position >= z_min are affected |
+| "z_max" | optional | int or [variable object](#variable-object) | if used, only NPC'z position <= z_max are affected |
 | "monster_must_see" | optional | boolean | default false; if true, only monsters you can see are affected |
 
 ##### Valid talkers:
@@ -2645,6 +2649,50 @@ Pick all items with `RECHARGE` _or_ `ELECTRONIC` flags, and run `EOC_PRINT_ITEM_
     }
   ]
 }
+```
+
+#### `u_run_fixed_zone_eocs`, `npc_run_fixed_zone_eocs`
+Fix zones run EoCs, provided by this effect; can work outside of reality bubble
+
+Note: current version only supports run EoC "u_location_variable" "u_teleport" to move fix zones.
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- |
+| "u_run_fixed_zone_eocs"/ "npc_run_fixed_zone_eocs" | **mandatory** | array of eocs | EoCs that would be run by fixed zones |
+| "zone_range" | optional | int or [variable object](#variable-object) | if used, only fixed zone in this range are affected |
+| "z_min" | optional | int or [variable object](#variable-object) | if used, only fixed zone'z position >= z_min are affected |
+| "z_max" | optional | int or [variable object](#variable-object) | if used, only fixed zone'z position <= z_max are affected |
+
+##### Valid talkers:
+
+| Avatar | NPC | Monster | Furniture | Item | Vehicle | Fixed Zone|
+| ------ | --------- | ---- | ------- | --- | ---- | ----|
+| ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✔️ |
+
+##### Examples
+
+All fixed zones in range 24, z position >= 1, that you can see, run `u_location_variable` and `u_teleport`, we move fix zones in this example
+```jsonc
+{
+    "type": "effect_on_condition",
+    "id": "EOC_SHIP_zone",
+    "effect": [
+      { 
+        "u_run_fixed_zone_eocs": [ "EOC_SHIP_TP" ],
+        "zone_range": 24, 
+        "z_min": 1
+      } 
+    ]
+},
+{
+  "type": "effect_on_condition",
+  "id": "EOC_SHIP_TP",
+  "effect": [
+    { "u_location_variable": { "context_val": "my_pos" } },
+    { "u_teleport": { "context_val": "my_pos" }, "force": true }
+  ]
+},
+
 ```
 
 #### `u_map_run_eocs`, `npc_map_run_eocs`
@@ -2799,6 +2847,28 @@ Teleport player to `new_map`
     { "u_teleport": { "global_val": "new_map" }, "force": true }
   ]
 }
+```
+
+#### `signal_hordes`
+Alert all hordes nearby to this location, akin to explosion
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- |
+| "signal_hordes" | **mandatory** | [variable object](#variable-object) | location variable that horde will try to reach |
+| "signal_power" | **mandatory** | int or [variable object](#variable-object) | default 0; the strength of a signal, ie how far it would propagate around the signal, in tiles |
+
+##### Examples
+
+Alert horde in 200 meter range
+```jsonc
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TEST",
+    "effect": [
+      { "u_location_variable": { "context_val": "your_pos" } },
+      { "signal_hordes": { "context_val": "your_pos" }, "signal_power": 200 }
+    ]
+  },
 ```
 
 #### `reveal_map`

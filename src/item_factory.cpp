@@ -41,6 +41,7 @@
 #include "item_contents.h"
 #include "item_group.h"
 #include "item_pocket.h"
+#include "item_transformation.h"
 #include "itype.h"
 #include "iuse_actor.h"
 #include "mapdata.h"
@@ -2490,9 +2491,17 @@ void Item_factory::check_definitions() const
                 msg += "empty product list\n";
             }
 
-            for( const std::pair<const itype_id, int> &b : type->brewable->results ) {
-                if( !has_template( b.first ) ) {
-                    msg += string_format( "invalid result id %s\n", b.first.c_str() );
+            for( const std::pair<const std::pair<itype_id, std::string>, int> &b : type->brewable->results ) {
+                if( !has_template( b.first.first ) ) {
+                    msg += string_format( "invalid result id %s\n", b.first.first.c_str() );
+                }
+                const std::vector<itype_variant_data> &variants = b.first.first->variants;
+                const auto has_variant = [&b]( const itype_variant_data & variant ) {
+                    return b.first.second == variant.id;
+                };
+                if( !b.first.second.empty() &&
+                    std::find_if( variants.begin(), variants.end(), has_variant ) == variants.end() ) {
+                    msg += string_format( "Invalid variant %s for result %s\n", b.first.second, b.first.first.c_str() );
                 }
             }
         }
@@ -2505,9 +2514,18 @@ void Item_factory::check_definitions() const
                 msg += "empty product list\n";
             }
 
-            for( const std::pair<const itype_id, int> &b : type->compostable->results ) {
-                if( !has_template( b.first ) ) {
-                    msg += string_format( "invalid result id %s\n", b.first.c_str() );
+            for( const std::pair<const std::pair<itype_id, std::string>, int> &b :
+                 type->compostable->results ) {
+                if( !has_template( b.first.first ) ) {
+                    msg += string_format( "invalid result id %s\n", b.first.first.c_str() );
+                }
+                const std::vector<itype_variant_data> &variants = b.first.first->variants;
+                const auto has_variant = [&b]( const itype_variant_data & variant ) {
+                    return b.first.second == variant.id;
+                };
+                if( !b.first.second.empty() &&
+                    std::find_if( variants.begin(), variants.end(), has_variant ) == variants.end() ) {
+                    msg += string_format( "Invalid variant %s for result %s\n", b.first.second, b.first.first.c_str() );
                 }
             }
         }
@@ -2716,7 +2734,7 @@ void Item_factory::check_definitions() const
             for( const ammotype &at : type->tool->ammo_id ) {
                 check_ammo_type( msg, at );
             }
-            if( !type->tool->revert_msg.empty() && !type->revert_to ) {
+            if( !type->tool->revert_msg.empty() && !type->transform_into ) {
                 msg += "cannot specify revert_msg without revert_to\n";
             }
             if( !type->tool->subtype.is_empty() && !has_template( type->tool->subtype ) ) {
@@ -2748,9 +2766,10 @@ void Item_factory::check_definitions() const
             }
         }
 
-        if( type->revert_to && ( !has_template( *type->revert_to ) ||
-                                 type->revert_to->is_null() ) ) {
-            msg += string_format( "invalid revert_to property %s\n does not exist", type->revert_to->c_str() );
+        if( type->transform_into && ( !has_template( type->transform_into.value().target ) ||
+                                      type->transform_into.value().target.is_null() ) ) {
+            msg += string_format( "invalid revert_to property %s\n does not exist",
+                                  type->transform_into.value().target.c_str() );
         }
 
         if( msg.empty() ) {
@@ -3420,28 +3439,41 @@ void islot_comestible::deserialize( const JsonObject &jo )
     }
 }
 
+struct generic_result_reader : generic_typed_reader<generic_result_reader> {
+    static constexpr bool read_objects = true;
+    std::pair<std::pair<itype_id, std::string>, int> get_next( const JsonValue &jv ) const {
+        std::pair<std::pair<itype_id, std::string>, int> ret;
+        // "yeast": 2,
+        if( const JsonMember *jm = dynamic_cast<const JsonMember *>( &jv ) ) {
+            ret.first.first = itype_id( jm->name() );
+            jm->read( ret.second );
+            return ret;
+        }
+        // "yeast"
+        if( jv.test_string() ) {
+            jv.read( ret.first.first );
+            ret.second = 1;
+            return ret;
+        }
+        // { "item": "yeast", "count": 2, "variant": "foo" }
+        JsonObject jo = jv.get_object();
+        mandatory( jo, false, "item", ret.first.first );
+        optional( jo, false, "variant", ret.first.second, "" );
+        optional( jo, false, "count", ret.second, 1 );
+        return ret;
+    }
+};
+
 void islot_brewable::deserialize( const JsonObject &jo )
 {
     optional( jo, was_loaded, "brew_time", time, 1_turns );
-    if( jo.has_array( "brew_results" ) ) {
-        for( std::string entry : jo.get_string_array( "brew_results" ) ) {
-            results[itype_id( entry )] = 1;
-        }
-    } else {
-        mandatory( jo, was_loaded, "brew_results", results );
-    }
+    mandatory( jo, was_loaded, "brew_results", results, generic_result_reader{} );
 }
 
 void islot_compostable::deserialize( const JsonObject &jo )
 {
     optional( jo, was_loaded, "compost_time", time, 1_turns );
-    if( jo.has_array( "compost_results" ) ) {
-        for( std::string entry : jo.get_string_array( "compost_results" ) ) {
-            results[itype_id( entry )] = 1;
-        }
-    } else {
-        mandatory( jo, was_loaded, "compost_results", results );
-    }
+    mandatory( jo, was_loaded, "compost_results", results, generic_result_reader{} );
 }
 
 void islot_seed::deserialize( const JsonObject &jo )
@@ -4179,7 +4211,19 @@ void itype::load( const JsonObject &jo, std::string_view src )
     optional( jo, was_loaded, "techniques", techniques, auto_flags_reader<matec_id> {} );
 
     optional( jo, was_loaded, "countdown_interval", countdown_interval );
-    optional( jo, was_loaded, "revert_to", revert_to );
+
+    optional( jo, was_loaded, "transform_into", transform_into );
+
+    if( jo.has_member( "revert_to" ) ) {
+        item_transformation default_transformation;
+        transform_into = default_transformation;
+        mandatory( jo, was_loaded, "revert_to", transform_into.value().target );
+    }
+
+    if( jo.has_member( "revert_to" ) && jo.has_member( "transform_into" ) ) {
+        jo.throw_error_at( "transform_into",
+                           "Item specified both transform_into and revert_to: they're mutually exclusive" );
+    }
 
     //First, check for copy-from
     if( jo.has_member( "copy-from" ) ) {

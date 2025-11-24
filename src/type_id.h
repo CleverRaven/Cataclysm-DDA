@@ -286,9 +286,6 @@ using region_settings_map_extras_id = string_id<region_settings_map_extras>;
 struct region_settings;
 using region_settings_id = string_id<region_settings>;
 
-struct region_overlay;
-using region_overlay_id = string_id<region_overlay>;
-
 struct requirement_data;
 using requirement_id = string_id<requirement_data>;
 

@@ -714,7 +714,7 @@ int advanced_inventory::print_header( advanced_inventory_pane &pane, aim_locatio
                             data_location <= AIM_NORTHEAST );
         nc_color bcolor = c_red;
         nc_color kcolor = c_red;
-        // Highlight location [#] if it can recieve items,
+        // Highlight location [#] if it can receive items,
         // or highlight container [C] if container mode is active.
         if( can_put_items ) {
             bcolor = in_vehicle ? c_light_blue :

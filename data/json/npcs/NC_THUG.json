@@ -11,8 +11,7 @@
       { "item": "crowbar", "prob": 20 },
       { "item": "q_staff", "prob": 20 },
       { "item": "bwirebat", "prob": 20 },
-      { "item": "bat_metal", "prob": 20 },
-      { "item": "homewrecker", "prob": 5 }
+      { "item": "bat_metal", "prob": 20 }
     ]
   }
 ]

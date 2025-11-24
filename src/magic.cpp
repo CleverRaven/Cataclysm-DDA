@@ -72,6 +72,7 @@ struct species_type;
 
 static const ammo_effect_str_id ammo_effect_MAGIC( "MAGIC" );
 
+static const json_character_flag json_flag_ALLOW_ADVANCED_SPELLS( "ALLOW_ADVANCED_SPELLS" );
 static const json_character_flag json_flag_CANNOT_ATTACK( "CANNOT_ATTACK" );
 static const json_character_flag json_flag_SILENT_SPELL( "SILENT_SPELL" );
 static const json_character_flag json_flag_SUBTLE_SPELL( "SUBTLE_SPELL" );
@@ -84,6 +85,8 @@ static const proficiency_id proficiency_prof_concentration_master( "prof_concent
 static const skill_id skill_spellcraft( "spellcraft" );
 
 static const trait_id trait_NONE( "NONE" );
+
+static std::map<spell_id, spell_migration> spell_migrations;
 
 static std::string target_to_string( spell_target data )
 {
@@ -2400,7 +2403,8 @@ void known_magic::set_spell_exp( const spell_id &sp, int new_exp, const Characte
     }
 }
 
-bool known_magic::can_learn_spell( const Character &guy, const spell_id &sp ) const
+bool known_magic::can_learn_spell( const Character &guy, const spell_id &sp,
+                                   bool improved_spell ) const
 {
     const spell_type &sp_t = sp.obj();
     if( sp_t.spell_class == trait_NONE ) {
@@ -2408,9 +2412,16 @@ bool known_magic::can_learn_spell( const Character &guy, const spell_id &sp ) co
     }
     if( sp_t.spell_tags[spell_flag::MUST_HAVE_CLASS_TO_LEARN] ) {
         return guy.has_trait( sp_t.spell_class );
-    } else {
-        return !guy.has_opposite_trait( sp_t.spell_class );
     }
+    if( improved_spell ) {
+        for( trait_id trait : guy.get_opposite_traits( sp_t.spell_class ) ) {
+            if( trait->flags.count( json_flag_ALLOW_ADVANCED_SPELLS ) == 0 ) {
+                return false;
+            }
+        }
+        return true;
+    }
+    return !guy.has_opposite_trait( sp_t.spell_class );
 }
 
 spell &known_magic::get_spell( const spell_id &sp )
@@ -3470,8 +3481,10 @@ void spell_events::notify( const cata::event &e )
                  it != spell_cast.learn_spells.end(); ++it ) {
                 int learn_at_level = it->second;
                 const std::string learn_spell_id = it->first;
-                if( learn_at_level <= slvl && !get_player_character().magic->knows_spell( learn_spell_id ) ) {
-                    get_player_character().magic->learn_spell( learn_spell_id, get_player_character() );
+                if( learn_at_level <= slvl && !get_player_character().magic->knows_spell( learn_spell_id ) &&
+                    get_player_character().magic->can_learn_spell( get_player_character(), spell_id( learn_spell_id ),
+                            true ) ) {
+                    get_player_character().magic->learn_spell( learn_spell_id, get_player_character(), true );
                     spell_type spell_learned = spell_factory.obj( spell_id( learn_spell_id ) );
                     add_msg(
                         _( "Your experience and knowledge in creating and manipulating magical energies to cast %s have opened your eyes to new possibilities, you can now cast %s." ),
@@ -3485,4 +3498,61 @@ void spell_events::notify( const cata::event &e )
             break;
 
     }
+}
+
+void spell_migration::load( const JsonObject &jo )
+{
+    spell_migration migration;
+    mandatory( jo, false, "from", migration.id_old );
+    optional( jo, false, "to", migration.id_new );
+    spell_migrations.emplace( migration.id_old, migration );
+}
+
+void spell_migration::reset()
+{
+    spell_migrations.clear();
+}
+
+void spell_migration::check()
+{
+    for( const auto &[from_id, pm] : spell_migrations ) {
+        if( pm.id_new.has_value() && !pm.id_new.value().is_valid() ) {
+            debugmsg( "spell migration specifies invalid id '%s'", pm.id_new.value().str() );
+            continue;
+        }
+    }
+}
+
+const spell_migration *spell_migration::find_migration( const spell_id &original )
+{
+    const auto migration_it = spell_migrations.find( original );
+    if( migration_it == spell_migrations.cend() ) {
+        return nullptr;
+    }
+    return &migration_it->second;
+}
+
+void known_magic::migrate_spells()
+{
+    std::vector<spell_id> removed_spells;
+    std::map<spell_id, spell> new_spellbook_spells;
+
+    for( auto &[sp_id, sp] : spellbook ) {
+        const spell_migration *m = spell_migration::find_migration( sp_id );
+        if( m != nullptr ) {
+            if( m->id_new.has_value() ) {
+                const spell new_spell( m->id_new.value(), sp.xp(), sp.get_temp_level_adjustment() );
+                removed_spells.emplace_back( sp_id );
+                new_spellbook_spells.emplace( m->id_new.value(), new_spell );
+            } else {
+                removed_spells.emplace_back( sp_id );
+            }
+        }
+    }
+
+    for( const spell_id s : removed_spells ) {
+        spellbook.erase( s );
+    }
+    spellbook.merge( new_spellbook_spells );
+
 }

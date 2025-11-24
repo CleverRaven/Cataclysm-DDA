@@ -90,7 +90,7 @@ Property          | Description
 ---               | ---
 `name`            | (string or object) Monster name, and optional plural name and translation context. Three words maximum.
 `description`     | (string) In-game description of the monster, in one or two sentences
-`hp`              | (integer) Hit points. Also see [monster HP scaling in GAME_BALANCE.md](GAME_BALANCE.md#monster-hp-scaling)
+`hp`              | (integer) Hit points. Also see [monster HP scaling in GAME_BALANCE.md](/doc/design-balance-lore/GAME_BALANCE.md#monster-hp-scaling)
 `volume`          | (string) Volume of the creature's body, as an integer with metric units, ex. `"35 L"` or `"1500 ml"`. Used to calculate monster size, size influences melee hit chances on different-sized targets.
 `weight`          | (string) Monster weight, as an integer with metric units, ex. `"12 kg"` or `"7500 g"`
 `symbol`          | (string) UTF-8 single-character string representing the monster in-game
@@ -106,10 +106,10 @@ Property                 | Description
 `copy-from`              | (string) Inherit monster attributes from another. See [JSON_INHERITANCE.md](JSON_INHERITANCE.md)
 `categories`             | (array of strings) Monster categories (NULL, CLASSIC, or WILDLIFE). Important for mods who black or whitelist monsters.
 `ascii_picture`          | (string) Id of the `ascii_art` used for this monster
-`species`                | (array of strings) Species IDs, ex. HUMAN, ROBOT, ZOMBIE, BIRD, MUTANT, etc. Defined in [`species.json`](../data/json/species.json)
-`scents_tracked`         | (array of strings) Monster tracks these scents. Defined [`scent_types.json`](../data/json/scent_types.json)
+`species`                | (array of strings) Species IDs, ex. HUMAN, ROBOT, ZOMBIE, BIRD, MUTANT, etc. Defined in [`species.json`](/data/json/species.json)
+`scents_tracked`         | (array of strings) Monster tracks these scents. Defined [`scent_types.json`](/data/json/scent_types.json)
 `scents_ignored`         | (array of strings) Monster ignores these scents
-`material`               | (array of strings) Materials the monster is made of. Defined in [`materials.json`](../data/json/materials.json)
+`material`               | (array of strings) Materials the monster is made of. Defined in [`materials.json`](/data/json/materials.json)
 `phase`                  | (string) Monster's body matter state, ex. SOLID, LIQUID, GAS, PLASMA, NULL
 `attack_cost`            | (integer) Number of moves per regular attack. If not defined defaults to `100`.
 `diff`                   | (integer) Displayed monster difficulty, e.g affects how the monster name is colored, e.g red for very nasty critters. Also see [monster difficulty scaling in GAME_BALANCE.md](/doc/design-balance-lore/GAME_BALANCE.md#monster-difficulty-scaling)
@@ -126,7 +126,7 @@ Property                 | Description
 `melee_training_cap`     | (integer) The maximum melee skill levels learnable by fighting this monster. If not defined defaults to `melee_skill + 2`.
 `armor`                  | (object) Monster's protection from different types of damage
 `weakpoints`             | (array of objects) Weakpoints in the monster's protection
-`weakpoint_sets`         | (array of strings) Weakpoint sets to apply to the monster. Defined in [`monster_weakpoints`](../data/json/monster_weakpoints)
+`weakpoint_sets`         | (array of strings) Weakpoint sets to apply to the monster. Defined in [`monster_weakpoints`](/data/json/monster_weakpoints)
 `status_chance_multiplier`| (float) Multiplier to chance to apply zapped when electric damage is dealt (no other effects are implemented at this time)
 `families`               | (array of objects or strings) Weakpoint families that the monster belongs to
 `vision_day`             | (integer) Vision range in full daylight, with `50` being the typical maximum
@@ -348,7 +348,7 @@ Used as the acceptable rider vs. mount weight percentage ratio. Defaults to "0.2
 ## "melee_skill"
 (integer, optional)
 
-Monster melee skill, ranges from 0 - 10, with 4 being an average mob. See [GAME_BALANCE.md](/doc/design-balance-lore/GAME_BALANCE.md) for more examples
+Monster melee skill, ranges from 0 - 10, with 4 being an average mob. See [GAME_BALANCE.md](/doc/design-balance-lore/GAME_BALANCE.md#monster-melee-skill-scaling) for more examples
 
 ## "dodge"
 (integer, optional)

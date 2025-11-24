@@ -739,7 +739,7 @@ class known_magic
         // time in moves for the Character to memorize the spell
         int time_to_learn_spell( const Character &guy, const spell_id &sp ) const;
         int time_to_learn_spell( const Character &guy, const std::string &str ) const;
-        bool can_learn_spell( const Character &guy, const spell_id &sp ) const;
+        bool can_learn_spell( const Character &guy, const spell_id &sp, bool improved_spell = false ) const;
         bool knows_spell( const std::string &sp ) const;
         bool knows_spell( const spell_id &sp ) const;
         // does the Character know a spell?
@@ -796,6 +796,8 @@ class known_magic
 
         void toggle_favorite( const spell_id &sp );
         bool is_favorite( const spell_id &sp );
+
+        void migrate_spells();
     private:
         // gets length of longest spell name
         int get_spellname_max_width();
@@ -991,6 +993,21 @@ struct area_expander {
     void sort_ascending();
 
     void sort_descending();
+};
+
+class spell_migration
+{
+    public:
+        spell_id id_old;
+        std::optional<spell_id> id_new;
+
+        static void load( const JsonObject &jo );
+
+        static void reset();
+
+        static void check();
+
+        static const spell_migration *find_migration( const spell_id &original );
 };
 
 #endif // CATA_SRC_MAGIC_H

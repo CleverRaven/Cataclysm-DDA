@@ -24,9 +24,9 @@
 /doxygen_doc/html/*
 /doxygen_doc/latex/*
 /font/
-/gfx/
+/gfx/*
 !/gfx/ASCIITileset
-!/gfx/cdda.png
+!/gfx/loading_screens
 !/gfx/Larwick_Overmap
 !/gfx/tile_config_template.json
 /graveyard/

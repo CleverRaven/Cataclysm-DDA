@@ -1436,7 +1436,7 @@ void talk_function::caravan_return( npc &p, const std::string &dest, const missi
     for( const auto &elem : caravan_party ) {
         //Scrub temporary party members and the dead
         if( elem->get_part_hp_cur( bodypart_id( "torso" ) ) == 0 && elem->has_companion_mission() ) {
-            overmap_buffer.remove_npc( comp->getID() );
+            overmap_buffer.remove_npc( elem->getID() );
             merch_amount += ( time / 600 ) * 4;
         } else if( elem->has_companion_mission() ) {
             merch_amount += ( time / 600 ) * 7;

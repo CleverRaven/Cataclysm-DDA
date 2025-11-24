@@ -88,7 +88,7 @@ When an item is crafted, it can inherit flags from the components that were used
 
 ## Ammo
 
-These are handled through [ammo types](../data/json/items/ammo_types.json).  You can tag a weapon with these to have it chamber existing ammo, or make your own ammo there.  The first column in this list is the tag's "id", the internal identifier DDA uses to track the tag, and the second is a brief description of the ammo tagged.  Use the id to search for ammo listings, as ids are constant throughout DDA's code.  Happy chambering!  :-)
+These are handled through [ammo types](/data/json/items/ammo_types.json).  You can tag a weapon with these to have it chamber existing ammo, or make your own ammo there.  The first column in this list is the tag's "id", the internal identifier DDA uses to track the tag, and the second is a brief description of the ammo tagged.  Use the id to search for ammo listings, as ids are constant throughout DDA's code.  Happy chambering!  :-)
 
 - ```120mm``` 120mm HEAT
 - ```12mm``` 12mm
@@ -332,12 +332,13 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 
 ## Character
 
-Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these are hardcored, others can be edited and created via JSON.  The current trait/mutation list is at [mutations.json](../data/json/mutations/mutations.json).  For further information, see also [MUTATIONS.doc](#MUTATIONS.md#mutations).
+Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these are hardcored, others can be edited and created via JSON.  The current trait/mutation list is at [mutations.json](/data/json/mutations/mutations.json).  For further information, see also [MUTATIONS.doc](MUTATIONS.md#mutations).
 
 - ```ACIDBLOOD``` Drip acid from wounds instead of blood
 - ```ACID_IMMUNE``` You are immune to acid damage.
 - ```ALARMCLOCK``` You always can set alarms.
 - ```ALBINO``` Cause you to have painful sunburns.
+- ```ALLOW_ADVANCED_SPELLS``` Allows you to learn advanced versions of spells even if this mutation would normaly conflict with said spell.
 - ```ATTUNEMENT``` Turns a mutation with this flag green on the list.  Currently used in mods for mutations that grant spellcasting or other supernatural powers.
 - ```BARKY``` Makes you considered to be made of bark for the purposes of making blistering harder.
 - ```BASH_IMMUNE``` You are immune to bashing damage.
@@ -478,7 +479,7 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 
 ### Mutation Categories
 
-These branches are the valid `dreams` from [dreams.json](../data/json/dreams.json).
+These branches are the valid `dreams` from [dreams.json](/data/json/dreams.json).
 
 - ```MUTCAT_ALPHA``` "You feel... better.  Somehow."
 - ```MUTCAT_BEAST``` "Your heart races and you see blood for a moment."
@@ -1488,8 +1489,8 @@ These are added programatically when the game is running, not by JSON.  These ar
 
 Techniques may be used by tools, armors, weapons and anything else that can be wielded.
 
-- See contents of [techniques.json](../data/json/techniques.json).
-- Techniques are also used with martial arts styles, see [martialarts.json](../data/json/martialarts.json).
+- See contents of [techniques.json](/data/json/techniques.json).
+- Techniques are also used with martial arts styles, see [martialarts.json](/data/json/martialarts.json).
 
 
 ## Tools

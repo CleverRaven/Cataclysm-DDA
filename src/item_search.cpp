@@ -10,6 +10,7 @@
 
 #include "avatar.h"
 #include "bodypart.h"
+#include "cata_compiler_support.h"
 #include "cata_utility.h"
 #include "enums.h"
 #include "flag.h"
@@ -37,7 +38,8 @@ static std::function< bool( const item & )> can_contain_filter( std::string_view
         std::string_view filter, Unit max, std::vector<std::pair<std::string, Unit>> units,
         std::function<item( itype *, Unit u )> set_function )
 {
-    auto const error = [hint, filter]( char const *, size_t /* offset */ ) {
+    // TODO: LAMBDA_NORETURN_CLANG21x1 can be replaced with [[noreturn]] once we switch to C++23 on all compilers
+    auto const error = [hint, filter]( char const *, size_t /* offset */ ) LAMBDA_NORETURN_CLANG21x1 {
         throw math::runtime_error( _( string_format( hint, filter ) ) );
     };
     // Start at max. On convert failure: results are empty and user knows it is unusable.

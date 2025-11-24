@@ -53,6 +53,8 @@ static const trait_id trait_VEGETARIAN( "VEGETARIAN" );
 
 std::array<double, static_cast<size_t>( mod_type::MAX )> default_modifier_values = { 0, 0 };
 
+static std::map<efftype_id, effect_migration> effect_migrations;
+
 namespace
 {
 std::map<efftype_id, effect_type> effect_types;
@@ -1724,6 +1726,38 @@ void effect::deserialize( const JsonObject &jo )
     start_time = calendar::turn_zero;
     jo.read( "start_turn", start_time );
     jo.read( "source", source );
+}
+
+void effect_migration::load( const JsonObject &jo )
+{
+    effect_migration migration;
+    mandatory( jo, false, "from", migration.id_old );
+    optional( jo, false, "to", migration.id_new );
+    effect_migrations.emplace( migration.id_old, migration );
+}
+
+void effect_migration::reset()
+{
+    effect_migrations.clear();
+}
+
+void effect_migration::check()
+{
+    for( const auto &[from_id, pm] : effect_migrations ) {
+        if( pm.id_new.has_value() && !pm.id_new.value().is_valid() ) {
+            debugmsg( "effect migration specifies invalid id '%s'", pm.id_new.value().str() );
+            continue;
+        }
+    }
+}
+
+const effect_migration *effect_migration::find_migration( const efftype_id &original )
+{
+    const auto migration_it = effect_migrations.find( original );
+    if( migration_it == effect_migrations.cend() ) {
+        return nullptr;
+    }
+    return &migration_it->second;
 }
 
 std::string texitify_base_healing_power( const float power )

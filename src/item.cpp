@@ -42,6 +42,7 @@
 #include "item_factory.h"
 #include "item_group.h"
 #include "item_tname.h"
+#include "item_transformation.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
@@ -453,11 +454,11 @@ item &item::deactivate( Character *ch, bool alert )
         return *this; // no-op
     }
 
-    if( type->revert_to ) {
+    if( type->transform_into ) {
         if( ch && alert && !type->tool->revert_msg.empty() ) {
             ch->add_msg_if_player( m_info, type->tool->revert_msg.translated(), tname() );
         }
-        convert( *type->revert_to );
+        type->transform_into.value().transform( ch, *this, true );
         active = false;
 
         if( ch ) {
@@ -2283,9 +2284,9 @@ time_duration item::brewing_time() const
     return is_brewable() ? type->brewable->time * calendar::season_from_default_ratio() : 0_turns;
 }
 
-const std::map<itype_id, int> &item::brewing_results() const
+const std::map<std::pair<itype_id, std::string>, int> &item::brewing_results() const
 {
-    static const std::map<itype_id, int> nulresult{};
+    static const std::map<std::pair<itype_id, std::string>, int> nulresult{};
     return is_brewable() ? type->brewable->results : nulresult;
 }
 
@@ -2294,9 +2295,9 @@ time_duration item::composting_time() const
     return is_compostable() ? type->compostable->time * calendar::season_from_default_ratio() : 0_turns;
 }
 
-const std::map<itype_id, int> &item::composting_results() const
+const std::map<std::pair<itype_id, std::string>, int> &item::composting_results() const
 {
-    static const std::map<itype_id, int> nulresult{};
+    static const std::map<std::pair<itype_id, std::string>, int> nulresult{};
     return is_compostable() ? type->compostable->results : nulresult;
 }
 
@@ -4149,8 +4150,8 @@ bool item::process_litcig( map &here, Character *carrier, const tripoint_bub_ms 
         if( carrier != nullptr ) {
             carrier->add_msg_if_player( m_neutral, _( "You finish your %s." ), type_name() );
         }
-        if( type->revert_to ) {
-            convert( *type->revert_to, carrier );
+        if( type->transform_into ) {
+            type->transform_into.value().transform( carrier, *this, true );
         } else {
             type->invoke( carrier, *this, pos, "transform" );
         }
@@ -4167,10 +4168,10 @@ bool item::process_litcig( map &here, Character *carrier, const tripoint_bub_ms 
         // No lit cigs in inventory, only in hands or in mouth
         // So if we're taking cig off or unwielding it, extinguish it first
         if( !carrier->is_worn( *this ) && !carrier->is_wielding( *this ) ) {
-            if( type->revert_to ) {
+            if( type->transform_into ) {
                 carrier->add_msg_if_player( m_neutral, _( "You extinguish your %s and put it away." ),
                                             type_name() );
-                convert( *type->revert_to, carrier );
+                type->transform_into.value().transform( carrier, *this, true );
             } else {
                 type->invoke( carrier, *this, pos, "transform" );
             }
@@ -4294,8 +4295,8 @@ bool item::process_extinguish( map &here, Character *carrier, const tripoint_bub
         }
     }
 
-    if( type->revert_to ) {
-        convert( *type->revert_to, carrier );
+    if( type->transform_into ) {
+        type->transform_into.value().transform( carrier, *this, true );
     } else {
         type->invoke( carrier, *this, pos, "transform" );
     }
@@ -4307,8 +4308,8 @@ bool item::process_extinguish( map &here, Character *carrier, const tripoint_bub
 bool item::process_wet( Character *carrier, const tripoint_bub_ms & /*pos*/ )
 {
     if( item_counter == 0 ) {
-        if( type->revert_to ) {
-            convert( *type->revert_to, carrier );
+        if( type->transform_into ) {
+            type->transform_into.value().transform( carrier, *this, true );
         }
         unset_flag( flag_WET );
         active = false;
@@ -4388,8 +4389,8 @@ bool item::process_internal( map &here, Character *carrier, const tripoint_bub_m
                 type->countdown_action.call( carrier, *this, pos );
             }
             countdown_point = calendar::turn_max;
-            if( type->revert_to ) {
-                convert( *type->revert_to, carrier );
+            if( type->transform_into ) {
+                type->transform_into.value().transform( carrier, *this, true );
 
                 active = needs_processing();
             } else {

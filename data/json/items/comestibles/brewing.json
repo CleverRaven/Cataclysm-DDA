@@ -725,8 +725,8 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "COMESTIBLE" ],
-    "id": "malting_grain",
+    "subtypes": [ "COMESTIBLE", "TOOL" ],
+    "id": "malting_grain_active",
     "looks_like": "malted_grain",
     "name": { "str_sp": "malting grain" },
     "weight": "336 g",
@@ -741,17 +741,11 @@
     "price_postapoc": "2 USD 50 cent",
     "material": [ "veggy" ],
     "volume": "1 L",
-    "flags": [ "EDIBLE_FROZEN", "RAW" ],
+    "flags": [ "EDIBLE_FROZEN", "RAW", "SPAWN_ACTIVE" ],
     "vitamins": [ [ "calcium", 6 ], [ "iron", 29 ], [ "veggy_allergen", 1 ] ],
     "fun": -15,
-    "use_action": {
-      "target": "malted_grain",
-      "msg": "After soaking the grain and waiting, it has finished malting.",
-      "moves": 50,
-      "type": "delayed_transform",
-      "transform_age": 345600,
-      "not_ready_msg": "The grain has not malted yet."
-    }
+    "countdown_interval": "4 days",
+    "revert_to": "malted_grain"
   },
   {
     "type": "ITEM",
@@ -776,11 +770,11 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "COMESTIBLE" ],
-    "id": "soaking_dandelion",
+    "subtypes": [ "COMESTIBLE", "TOOL" ],
+    "id": "soaking_dandelion_active",
     "looks_like": "dandelion",
     "name": { "str_sp": "soaking dandelion" },
-    "weight": "308 g",
+    "weight": "274 g",
     "color": "brown",
     "comestible_type": "FOOD",
     "symbol": ",",
@@ -791,17 +785,11 @@
     "price_postapoc": "2 USD 50 cent",
     "material": [ "veggy" ],
     "volume": "250 ml",
-    "flags": [ "EDIBLE_FROZEN", "RAW" ],
+    "flags": [ "EDIBLE_FROZEN", "RAW", "SPAWN_ACTIVE" ],
     "vitamins": [ [ "calcium", 6 ], [ "iron", 29 ], [ "veggy_allergen", 1 ] ],
     "fun": -15,
-    "use_action": {
-      "target": "soaked_dandelion",
-      "msg": "After soaking the dandelions in boiling water, the juice can be used for making wine.",
-      "moves": 50,
-      "type": "delayed_transform",
-      "transform_age": 7200,
-      "not_ready_msg": "The dandelions need more time."
-    }
+    "countdown_interval": "2 hours",
+    "revert_to": "soaked_dandelion"
   },
   {
     "type": "ITEM",
@@ -827,8 +815,8 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "COMESTIBLE" ],
-    "id": "fermenting_yogurt",
+    "subtypes": [ "COMESTIBLE", "TOOL" ],
+    "id": "fermenting_yogurt_active",
     "looks_like": "milk",
     "name": { "str_sp": "fermenting yogurt" },
     "weight": "236 g",
@@ -847,15 +835,9 @@
     "price_postapoc": "20 cent",
     "phase": "liquid",
     "fun": -12,
-    "flags": [ "NUTRIENT_OVERRIDE" ],
-    "use_action": {
-      "target": "yoghurt",
-      "msg": "The milk has finished fermenting and turned into a slightly clumpy yogurt.",
-      "moves": 50,
-      "type": "delayed_transform",
-      "transform_age": 28800,
-      "not_ready_msg": "The yogurt is still fermenting."
-    },
+    "flags": [ "NUTRIENT_OVERRIDE", "SPAWN_ACTIVE" ],
+    "countdown_interval": "8 hours",
+    "revert_to": "yoghurt",
     "vitamins": [ [ "milk_allergen", 1 ] ]
   },
   {

@@ -3522,7 +3522,6 @@
       "type": "transform",
       "msg": "You turn the climate control on.",
       "target": "armor_nomad_plate_on",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "Your internal reservoir is empty."
     },
@@ -3534,6 +3533,7 @@
     "copy-from": "armor_nomad_plate",
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR" ],
+    "extend": { "flags": [ "SPAWN_ACTIVE" ] },
     "name": { "str": "nomad plate armor (on)", "str_pl": "nomad plate armors (on)" },
     "revert_to": "armor_nomad_plate",
     "power_draw": "100 W",
@@ -3591,7 +3591,6 @@
       "type": "transform",
       "msg": "You turn the climate control on.",
       "target": "armor_nomad_lightplate_on",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "Your internal reservoir is empty."
     },
@@ -3603,6 +3602,7 @@
     "copy-from": "armor_nomad_lightplate",
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR" ],
+    "extend": { "flags": [ "SPAWN_ACTIVE" ] },
     "name": { "str": "nomad light plate armor (on)", "str_pl": "nomad light plate armors (on)" },
     "revert_to": "armor_nomad_lightplate",
     "power_draw": "100 W",
@@ -3661,7 +3661,6 @@
       "msg": "You turn the climate control on.",
       "target": "armor_nomad_heavyplate_on",
       "active": true,
-      "need_charges": 1,
       "need_charges_msg": "Your internal reservoir is empty."
     },
     "tool_ammo": "battery",
@@ -3672,6 +3671,7 @@
     "copy-from": "armor_nomad_heavyplate",
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR" ],
+    "extend": { "flags": [ "SPAWN_ACTIVE" ] },
     "name": { "str": "nomad heavy plate armor (on)", "str_pl": "nomad heavy plate armors (on)" },
     "revert_to": "armor_nomad_heavyplate",
     "power_draw": "100 W",
@@ -3728,7 +3728,6 @@
       "type": "transform",
       "msg": "You turn the climate control on.",
       "target": "armor_nomad_chainmail_on",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "Your internal reservoir is empty."
     },
@@ -3739,6 +3738,7 @@
     "copy-from": "armor_nomad_chainmail",
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR" ],
+    "extend": { "flags": [ "SPAWN_ACTIVE" ] },
     "name": { "str": "nomad chainmail (on)", "str_pl": "suits of nomad chainmail (on)" },
     "revert_to": "armor_nomad_chainmail",
     "power_draw": "100 W",
