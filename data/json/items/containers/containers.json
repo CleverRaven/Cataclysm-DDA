@@ -757,7 +757,7 @@
     "id": "bottle_plastic_small",
     "type": "ITEM",
     "category": "container",
-    "name": { "str": "small plastic bottle" },
+    "name": { "str": "very small plastic bottle" },
     "looks_like": "bottle_plastic",
     "description": "A watertight plastic bottle, holds 250 mL of liquid.",
     "ascii_picture": "bottle_plastic_small",

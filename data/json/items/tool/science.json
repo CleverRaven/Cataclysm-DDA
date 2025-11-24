@@ -774,36 +774,6 @@
     "melee_damage": { "bash": 2 }
   },
   {
-    "id": "weather_reader",
-    "type": "ITEM",
-    "subtypes": [ "TOOL" ],
-    "category": "tools",
-    "name": { "str": "Doppler Radar Turbo 2000" },
-    "description": "A briefcase with a built-in laptop that looks like it's from the 80s.  Its vintage monochrome monitor displays a plethora of meteorological data.  No sign of the FLDSMDFR, however.",
-    "weight": "1 kg",
-    "volume": "2500 ml",
-    "price": "2 USD",
-    "price_postapoc": "5 USD",
-    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
-    "material": [ "plastic", "aluminum" ],
-    "symbol": ";",
-    "color": "light_gray",
-    "charges_per_use": 5,
-    "use_action": [ "WEATHER_TOOL" ],
-    "flags": [ "THERMOMETER", "HYGROMETER", "BAROMETER", "WATER_BREAK", "ELECTRONIC" ],
-    "faults": [ { "fault_group": "electronic_general" } ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_battery_cell"
-      }
-    ],
-    "melee_damage": { "bash": 2 },
-    "tool_ammo": [ "battery" ]
-  },
-  {
     "id": "analytical_set_basic",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],

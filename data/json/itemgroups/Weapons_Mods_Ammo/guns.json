@@ -378,7 +378,7 @@
     "//2": "Making the assumption any loaded gun will have additional ammo and mags with it.",
     "items": [
       { "group": "nested_remington_870_express", "prob": 50 },
-      { "group": "nested_remington_870_breacher", "prob": 20 },
+      { "group": "nested_mossberg_590_shockwave", "prob": 20 },
       { "group": "nested_mossberg_590", "prob": 50 },
       { "group": "nested_m1014", "prob": 100 }
     ]

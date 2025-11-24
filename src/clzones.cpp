@@ -1149,6 +1149,10 @@ bool zone_manager::custom_loot_has( const tripoint_abs_ms &where, const item *it
     }
     item const *const check_it = it->this_or_single_content();
     for( zone_data const *zone : zones ) {
+        if( !zone->get_enabled() ) {
+            continue;
+        }
+
         loot_options const &options = dynamic_cast<const loot_options &>( zone->get_options() );
         std::string const filter_string = options.get_mark();
         bool has = false;

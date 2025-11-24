@@ -45,17 +45,7 @@
     "replace": "pistol_machine"
   },
   {
-    "id": [
-      "deagle_44",
-      "modular_deagle",
-      "modular_deagle_357",
-      "modular_deagle_44",
-      "modular_deagle_50",
-      "draco",
-      "draco_mini",
-      "draco_micro",
-      "modular_ar_pistol"
-    ],
+    "id": [ "deagle_44", "modular_deagle", "modular_deagle_357", "modular_deagle_44", "modular_deagle_50" ],
     "type": "MIGRATION",
     "replace": "pistol_magnum_automag"
   },
@@ -122,7 +112,6 @@
       "fn57",
       "glock_17",
       "ruger_57",
-      "p50",
       "walther_ppq_9mm",
       "hptc9",
       "cz75",
@@ -143,7 +132,6 @@
       "sp2022",
       "ruger_charger",
       "hk_mp5_semi_pistol",
-      "TDI_10",
       "draco_9mm",
       "p365",
       "swbodyguard",
@@ -224,7 +212,6 @@
       "walther_p22",
       "walther_ppk",
       "pressin",
-      "cp33",
       "ruger_mk4",
       "rough_rider_pistol",
       "rough_rider_pistol_9",
@@ -316,7 +303,6 @@
       "win70",
       "browning_blr",
       "remington_700",
-      "savage_111f",
       "scar_17s",
       "steyr_scout",
       "M24",
@@ -383,7 +369,6 @@
       "mosin44",
       "famas",
       "aksemi",
-      "bren2_762",
       "805_bren",
       "bren2_556",
       "robofac_gun",
@@ -401,7 +386,8 @@
       "rdb_223",
       "scar_16s",
       "winchester_94_3030",
-      "marlin_336_3030"
+      "marlin_336_3030",
+      "modular_ar_pistol"
     ],
     "type": "MIGRATION",
     "replace": "rifle_sporter"
@@ -437,7 +423,7 @@
     "replace": "rocket_recoilless"
   },
   {
-    "id": [ "lever_shotgun", "shotgun_d", "shotgun_triple", "shotgun_s", "winchester_1887", "pipe_shotgun", "winchester_1897" ],
+    "id": [ "lever_shotgun", "shotgun_d", "shotgun_triple", "shotgun_s", "pipe_shotgun", "winchester_1897" ],
     "type": "MIGRATION",
     "replace": "shot_double"
   },
@@ -472,7 +458,6 @@
   },
   {
     "id": [
-      "shotgun_410",
       "mossberg_500_410",
       "benelli_sa",
       "ksg",
@@ -489,7 +474,7 @@
     "replace": "shot_pump"
   },
   {
-    "id": [ "remington_870_breacher", "mossberg_590_shockwave" ],
+    "id": [ "mossberg_590_shockwave" ],
     "type": "MIGRATION",
     "replace": "shot_short_pump"
   },

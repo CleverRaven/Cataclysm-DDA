@@ -41,6 +41,7 @@
 #include "item_contents.h"
 #include "item_group.h"
 #include "item_pocket.h"
+#include "item_transformation.h"
 #include "itype.h"
 #include "iuse_actor.h"
 #include "mapdata.h"
@@ -2733,7 +2734,7 @@ void Item_factory::check_definitions() const
             for( const ammotype &at : type->tool->ammo_id ) {
                 check_ammo_type( msg, at );
             }
-            if( !type->tool->revert_msg.empty() && !type->revert_to ) {
+            if( !type->tool->revert_msg.empty() && !type->transform_into ) {
                 msg += "cannot specify revert_msg without revert_to\n";
             }
             if( !type->tool->subtype.is_empty() && !has_template( type->tool->subtype ) ) {
@@ -2765,9 +2766,10 @@ void Item_factory::check_definitions() const
             }
         }
 
-        if( type->revert_to && ( !has_template( *type->revert_to ) ||
-                                 type->revert_to->is_null() ) ) {
-            msg += string_format( "invalid revert_to property %s\n does not exist", type->revert_to->c_str() );
+        if( type->transform_into && ( !has_template( type->transform_into.value().target ) ||
+                                      type->transform_into.value().target.is_null() ) ) {
+            msg += string_format( "invalid revert_to property %s\n does not exist",
+                                  type->transform_into.value().target.c_str() );
         }
 
         if( msg.empty() ) {
@@ -4209,7 +4211,19 @@ void itype::load( const JsonObject &jo, std::string_view src )
     optional( jo, was_loaded, "techniques", techniques, auto_flags_reader<matec_id> {} );
 
     optional( jo, was_loaded, "countdown_interval", countdown_interval );
-    optional( jo, was_loaded, "revert_to", revert_to );
+
+    optional( jo, was_loaded, "transform_into", transform_into );
+
+    if( jo.has_member( "revert_to" ) ) {
+        item_transformation default_transformation;
+        transform_into = default_transformation;
+        mandatory( jo, was_loaded, "revert_to", transform_into.value().target );
+    }
+
+    if( jo.has_member( "revert_to" ) && jo.has_member( "transform_into" ) ) {
+        jo.throw_error_at( "transform_into",
+                           "Item specified both transform_into and revert_to: they're mutually exclusive" );
+    }
 
     //First, check for copy-from
     if( jo.has_member( "copy-from" ) ) {

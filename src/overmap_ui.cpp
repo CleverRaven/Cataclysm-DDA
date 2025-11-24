@@ -72,7 +72,7 @@
 #include "point.h"
 #include "regional_settings.h"
 #include "rng.h"
-#include "sdltiles.h"
+#include "sdltiles.h" // IWYU pragma: keep
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
@@ -420,7 +420,7 @@ void overmap_sidebar::draw_mission_info()
         if( current_mission != nullptr ) {
             mission_name = player_character.get_active_mission()->name();
 
-            draw_sidebar_text( _( "Current mission:" ), c_white );
+            draw_sidebar_text( _( "Current objective:" ), c_white );
         } else {
             mission_name = player_character.get_active_point_of_interest().text;
 
@@ -942,7 +942,7 @@ static void draw_ascii( const catacurses::window &w, overmap_draw_data_t &data )
     const int om_half_height = om_map_height / 2;
 
     avatar &player_character = get_avatar();
-    // Target of current mission
+    // Target of current objective
     const tripoint_abs_omt target = player_character.get_active_mission_target();
     const bool has_target = !target.is_invalid();
     oter_id ccur_ter = oter_str_id::NULL_ID();

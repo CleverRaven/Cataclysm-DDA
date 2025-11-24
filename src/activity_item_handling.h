@@ -3,12 +3,16 @@
 #include <utility>
 #include <vector>
 
+#include "activity_handlers.h"
 #include "coords_fwd.h"
 #include "item.h"
+#include "map_scale_constants.h"
+#include "type_id.h"
 
 class Character;
 class item_location;
 class player_activity;
+class vehicle;
 class vpart_reference;
 enum zone_activity_stage : int;
 
@@ -79,3 +83,67 @@ void move_item( Character &you, const std::optional<vpart_reference> &vpr_src,
                 const tripoint_bub_ms &src_bub, const std::unordered_set<tripoint_abs_ms> &dest_set,
                 item &it, int &num_processed );
 } //namespace zone_sorting
+
+
+namespace multi_activity_actor
+{
+
+//TODO: move to JSON flag?
+bool can_do_in_dark( const activity_id &act_id );
+
+/* begin TODO: move to activity actor */
+
+//general function for non-specific multi activities
+std::unordered_set<tripoint_abs_ms> generic_locations( Character &you, const activity_id &act_id );
+std::unordered_set<tripoint_abs_ms> construction_locations( Character &you,
+        const activity_id &act_id );
+std::unordered_set<tripoint_abs_ms> tidy_up_locations( Character &you, const activity_id & );
+std::unordered_set<tripoint_abs_ms> read_locations( Character &you, const activity_id &act_id );
+std::unordered_set<tripoint_abs_ms> craft_locations( Character &you, const activity_id &act_id );
+std::unordered_set<tripoint_abs_ms> fetch_locations( Character &you, const activity_id & );
+std::unordered_set<tripoint_abs_ms> fish_locations( Character &you, const activity_id &act_id );
+std::unordered_set<tripoint_abs_ms> mop_locations( Character &you, const activity_id &act_id );
+void prune_same_tile_locations( Character &you, std::unordered_set<tripoint_abs_ms> &src_set );
+void prune_dark_locations( Character &you, std::unordered_set<tripoint_abs_ms> &src_set,
+                           const activity_id &act_id );
+void prune_dangerous_field_locations( std::unordered_set<tripoint_abs_ms> &src_set );
+std::unordered_set<tripoint_abs_ms> no_same_tile_locations( Character &you,
+        const activity_id &act_id );
+
+//shared helper function for deconstruction/repair
+activity_reason_info vehicle_work_can_do( const activity_id &, Character &you,
+        const tripoint_bub_ms &src_loc, std::vector<int> &already_working_indexes,
+        vehicle *veh );
+activity_reason_info vehicle_deconstruction_can_do( const activity_id &act, Character &you,
+        const tripoint_bub_ms &src_loc );
+activity_reason_info vehicle_repair_can_do( const activity_id &act, Character &you,
+        const tripoint_bub_ms &src_loc );
+activity_reason_info mine_can_do( const activity_id &, Character &you,
+                                  const tripoint_bub_ms &src_loc );
+activity_reason_info mop_can_do( const activity_id &, Character &you,
+                                 const tripoint_bub_ms &src_loc );
+activity_reason_info fish_can_do( const activity_id &act, Character &you,
+                                  const tripoint_bub_ms &src_loc );
+activity_reason_info chop_trees_can_do( const activity_id &act, Character &you,
+                                        const tripoint_bub_ms &src_loc );
+activity_reason_info butcher_can_do( const activity_id &, Character &you,
+                                     const tripoint_bub_ms &src_loc );
+activity_reason_info read_can_do( const activity_id &, Character &you,
+                                  const tripoint_bub_ms & );
+activity_reason_info chop_planks_can_do( const activity_id &, Character &you,
+        const tripoint_bub_ms &src_loc );
+activity_reason_info tidy_up_can_do( const activity_id &, Character &you,
+                                     const tripoint_bub_ms &src_loc, int distance = MAX_VIEW_DISTANCE );
+activity_reason_info construction_can_do( const activity_id &, Character &you,
+        const tripoint_bub_ms &src_loc );
+activity_reason_info farm_can_do( const activity_id &, Character &you,
+                                  const tripoint_bub_ms &src_loc );
+activity_reason_info fetch_can_do( const activity_id &, Character &,
+                                   const tripoint_bub_ms & );
+activity_reason_info craft_can_do( const activity_id &, Character &you,
+                                   const tripoint_bub_ms &src_loc );
+activity_reason_info disassemble_can_do( const activity_id &, Character &you,
+        const tripoint_bub_ms &src_loc );
+
+/* end TODO: move to activity actor */
+} //namespace multi_activity_actor

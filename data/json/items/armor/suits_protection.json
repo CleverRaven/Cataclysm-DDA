@@ -3522,7 +3522,6 @@
       "type": "transform",
       "msg": "You turn the climate control on.",
       "target": "armor_nomad_plate_on",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "Your internal reservoir is empty."
     },
@@ -3592,7 +3591,6 @@
       "type": "transform",
       "msg": "You turn the climate control on.",
       "target": "armor_nomad_lightplate_on",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "Your internal reservoir is empty."
     },
@@ -3663,7 +3661,6 @@
       "msg": "You turn the climate control on.",
       "target": "armor_nomad_heavyplate_on",
       "active": true,
-      "need_charges": 1,
       "need_charges_msg": "Your internal reservoir is empty."
     },
     "tool_ammo": "battery",
@@ -3731,7 +3728,6 @@
       "type": "transform",
       "msg": "You turn the climate control on.",
       "target": "armor_nomad_chainmail_on",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "Your internal reservoir is empty."
     },

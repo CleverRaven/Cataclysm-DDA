@@ -164,6 +164,7 @@ dimension npc travel filter expansion and other tweaks
 NPCs automatically select the best MA style for their weapon
 Custom region settings for dimensions
 Allow magazines in guns/tools to regenerate ammo
+Honor theft preference inside the Advanced Inventory Management screens
 
 
 
@@ -376,6 +377,7 @@ Add a few crude guns
 Add borax, expand graphite use, update some smithing recipes and rock spawning
 Houses have a realistic amount of solar power
 410 Mossberg 500 and Mossberg Shockwave
+Add a few cigar variants and a recipe for making cigars
 
 
 ## Interface:
@@ -1043,6 +1045,7 @@ Star vampires have `PERMANENT_INVISIBILITY`, when they drink blood it applies `S
 Molotovs do not create walls of fire
 Monsters moving through SHARP terrain trample the terrain
 Running over large/hard objects in vehicles will damage your wheels
+Separate toolsets for things embedded in wood and metal structures
 
 
 ## Bugfixes:
@@ -1436,6 +1439,7 @@ Eating human zombie flesh is cannibalism
 Fix rare overmap save corruption from specific horde metadata
 Audit solar panel installation/removal reqs for vehicles
 Fix the scaling factor for high-dpi displays.
+calculate the width of the overmap sidebar correctly
 
 
 ## Performance:
@@ -1621,6 +1625,7 @@ Allow specifying city name lists in region settings
 Clang tidy rule to catch/reject unicode replacement character
 Use copy-from for region settings instead of overlays
 Allow specifying variants for brewing and compost results
+zone sorting refactor
 
 
 ## Build:
@@ -1649,6 +1654,8 @@ Initial support for GNU Make for Windows
 Move Android bundle generation to manually triggered workflow
 Fix Mac build (Bump up dmg size limit in macOS release build)
 Build tilesets in CI for releases, delete tilesets from repo
+Build translations in CI for releases, delete translations from repo
+Fix clang 21 warnings
 
 
 ## I18N and A11Y:

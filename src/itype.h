@@ -28,6 +28,7 @@
 #include "global_vars.h"
 #include "item.h"
 #include "item_pocket.h"
+#include "item_transformation.h"
 #include "iuse.h" // use_function
 #include "mapdata.h"
 #include "proficiency.h"
@@ -1484,10 +1485,10 @@ struct itype {
         time_duration countdown_interval = 0_seconds;
 
         /**
-        * If set the item will revert to this after countdown. If not set the item is deleted.
+        * If set the item will transform to this after countdown. If not set the item is deleted.
         * Tools revert to this when they run out of charges
         */
-        std::optional<itype_id> revert_to;
+        std::optional<item_transformation> transform_into;
 
         /**
         * Space occupied by items of this type

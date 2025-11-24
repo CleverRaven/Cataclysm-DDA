@@ -57,6 +57,7 @@ enum class do_activity_reason : int {
     NO_COMPONENTS,          // can't do the activity there due to lack of components /tools
     DONT_HAVE_SKILL,        // don't have the required skill
     NO_ZONE,                // There is no required zone anymore
+    NO_VEHICLE,             // There is no vehicle or no accessible vehicle at this location
     ALREADY_DONE,           // the activity is done already ( maybe by someone else )
     UNKNOWN_ACTIVITY,       // This is probably an error - got to the end of function with no previous reason
     NEEDS_CLEARING,         // For farming - tile was neglected and became overgrown, can be cleared.
