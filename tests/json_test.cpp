@@ -855,7 +855,8 @@ TEST_CASE( "item_colony_ser_deser", "[json][item]" )
 {
     // calculates the number of substring (needle) occurrences within the target string (haystack)
     // doesn't include overlaps
-    const auto count_occurrences= []( const std::string_view haystack, const std::string_view needle ) {
+    const auto count_occurrences = []( const std::string_view haystack,
+    const std::string_view needle ) {
         int occurrences = 0;
         std::string::size_type pos = 0;
         while( ( pos = haystack.find( needle, pos ) ) != std::string::npos ) {
