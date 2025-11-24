@@ -2266,11 +2266,11 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
+        "insulation": 10,
         "max_contains_volume": "1 L",
         "max_contains_weight": "4 kg"
       }
     ],
-    "insulation": 10,
     "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
