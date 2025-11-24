@@ -59,7 +59,6 @@
       "type": "transform",
       "msg": "You activate your %s.",
       "target": "psionic_mindsight_glasses_on",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "The %s's batteries are dead."
     },
@@ -106,6 +105,7 @@
       "msg": "Your %s deactivates.",
       "target": "psionic_mindsight_glasses"
     },
+    "extend": { "flags": [ "SPAWN_ACTIVE" ] },
     "power_draw": "3500 mW"
   }
 ]
