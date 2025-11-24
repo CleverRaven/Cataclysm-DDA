@@ -853,7 +853,7 @@ TEST_CASE( "jsonin_get_string", "[json]" )
 
 TEST_CASE( "item_colony_ser_deser", "[json][item]" )
 {
-    // calculates the number of substring (needle) occurrences withing the target string (haystack)
+    // calculates the number of substring (needle) occurrences within the target string (haystack)
     // doesn't include overlaps
     const auto count_occurences = []( const std::string_view haystack, const std::string_view needle ) {
         int occurrences = 0;
@@ -890,7 +890,7 @@ TEST_CASE( "item_colony_ser_deser", "[json][item]" )
         CAPTURE( json );
         {
             INFO( "should be compressed into the single item" );
-            CHECK( count_occurences( json, "\"typeid\":\"test_rag\"" ) == 1 );
+            CHECK( count_occurrences( json, "\"typeid\":\"test_rag\"" ) == 1 );
         }
         {
             INFO( "should contain the number of items" );
@@ -926,7 +926,7 @@ TEST_CASE( "item_colony_ser_deser", "[json][item]" )
         CAPTURE( json );
         {
             INFO( "should not be compressed" );
-            CHECK( count_occurences( json, "\"typeid\":\"test_rag" ) == 2 );
+            CHECK( count_occurrences( json, "\"typeid\":\"test_rag" ) == 2 );
         }
         JsonValue jsin = json_loader::from_string( json );
         cata::colony<item> read_val;
