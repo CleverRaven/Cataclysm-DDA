@@ -877,9 +877,9 @@
     "flags": [ "ELECTRONIC", "ALLOWS_REMOTE_USE", "BELT_CLIP" ],
     "faults": [ { "fault_group": "electronic_general" } ],
     "power_draw": "100 W",
-    "qualities": [ [ "CONTAIN", 1 ] ],
+    "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "HOTPLATE", 2 ], [ "CHEM", 1 ] ],
     "tick_action": "MULTICOOKER_TICK",
-    "use_action": [ "MULTICOOKER", "HOTPLATE", { "type": "link_up", "cable_length": 2, "charge_rate": "1000 W" } ],
+    "use_action": [ "MULTICOOKER", { "type": "link_up", "cable_length": 2, "charge_rate": "1000 W" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
