@@ -237,6 +237,8 @@ class item_pocket
         /** gets the spoilage multiplier depending on sealed data */
         float spoil_multiplier() const;
 
+        float insulation() const;
+
         int moves() const;
 
         int best_quality( const quality_id &id ) const;
@@ -498,6 +500,8 @@ class pocket_data
         pocket_noise activity_noise;
         // multiplier for spoilage rate of contained items
         float spoil_multiplier = 1.0f;
+        // insulation of contained items.
+        float insulation = 1.0f;
         // items' weight in this pocket are modified by this number
         float weight_multiplier = 1.0f;
         // items' volume in this pocket are modified by this number for calculation of the containing object
