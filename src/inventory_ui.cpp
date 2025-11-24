@@ -2637,26 +2637,26 @@ inventory_selector::header_stats inventory_selector::get_pocket_summary_header_s
         // largest / longest pockets we have.
         // 'ignore_restrict' check makes it so we don't report a smaller 'max' space than 'free' space if we selected a restricted pocket for that.
         if (show_unconstrained_max_space) {
-            std::sort(pockets.begin(), pockets.end(), [ignore_restrict = large_free_space.first->is_restricted()](const pocket_with_constraint& a, const pocket_with_constraint& b) {
+            std::sort(pockets.begin(), pockets.end(), [ignore_restrict = large_free_space.first && large_free_space.first->is_restricted()](const pocket_with_constraint& a, const pocket_with_constraint& b) {
                 return std::tuple(ignore_restrict || a.first->is_restricted(), b.first->volume_capacity())
                     <  std::tuple(ignore_restrict || b.first->is_restricted(), a.first->volume_capacity());
                 });
             large_max_space = pockets[0];
 
-            std::sort(pockets.begin(), pockets.end(), [ignore_restrict = long_free_space.first->is_restricted()](const pocket_with_constraint& a, const pocket_with_constraint& b) {
+            std::sort(pockets.begin(), pockets.end(), [ignore_restrict = long_free_space.first && long_free_space.first->is_restricted()](const pocket_with_constraint& a, const pocket_with_constraint& b) {
                 return std::tuple(ignore_restrict || a.first->is_restricted(), b.first->max_containable_length(), b.first->volume_capacity())
                     <  std::tuple(ignore_restrict || b.first->is_restricted(), a.first->max_containable_length(), a.first->volume_capacity());
                 });
             long_max_space = pockets[0];
         }
         else{
-            std::sort(pockets.begin(), pockets.end(), [ignore_restrict = large_free_space.first->is_restricted()](const pocket_with_constraint& a, const pocket_with_constraint& b) {
+            std::sort(pockets.begin(), pockets.end(), [ignore_restrict = large_free_space.first && large_free_space.first->is_restricted()](const pocket_with_constraint& a, const pocket_with_constraint& b) {
                 return std::tuple(ignore_restrict || a.first->is_restricted(), b.second.volume_capacity)
                     <  std::tuple(ignore_restrict || b.first->is_restricted(), a.second.volume_capacity);
                     });
             large_max_space = pockets[0];
 
-            std::sort(pockets.begin(), pockets.end(), [ignore_restrict = long_free_space.first->is_restricted()](const pocket_with_constraint& a, const pocket_with_constraint& b) {
+            std::sort(pockets.begin(), pockets.end(), [ignore_restrict = long_free_space.first && long_free_space.first->is_restricted()](const pocket_with_constraint& a, const pocket_with_constraint& b) {
                 return std::tuple(ignore_restrict || a.first->is_restricted(), b.second.max_containable_length, b.second.volume_capacity)
                     <  std::tuple(ignore_restrict || b.first->is_restricted(), a.second.max_containable_length, a.second.volume_capacity);
                 });
