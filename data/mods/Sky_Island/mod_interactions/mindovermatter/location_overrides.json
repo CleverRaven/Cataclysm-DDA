@@ -9,11 +9,10 @@
         "u_location_variable": { "global_val": "OM_missionspot" },
         "target_params": {
           "om_terrain": "psi_phavian_lab_blockC1",
-          "om_terrain_match_type": "CONTAINS",
           "search_range": 1200,
           "min_distance": 200,
           "reveal_radius": { "global_val": "scoutingdistancelanding", "default": 0 },
-          "z": -2,
+          "z": 0,
           "random": true
         },
         "terrain": "t_pavement",
