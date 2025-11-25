@@ -24,6 +24,10 @@
       [ "arm_r", 1 ],
       [ "hand_l", 1 ],
       [ "hand_r", 1 ]
+    ],
+    "enchantments": [
+      { "value": "BIONIC_MANA_PENALTY", "multiply": -1 },
+      { "values": [ { "value": "BIONIC_POWER", "add": { "math": [ "u_val('mana') * -1000000" ] } } ] }
     ]
   },
   {
