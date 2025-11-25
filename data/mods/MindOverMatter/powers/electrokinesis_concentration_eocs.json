@@ -229,7 +229,9 @@
     "id": "EOC_ELECTROKIN_HACKING_INTERFACE_SWITCHER",
     "effect": {
       "switch": {
-        "math": [ "u_spell_level('electrokinetic_hacking_interface') + u_spell_level('electrokinetic_hacking_interface_knack')" ]
+        "math": [
+          "(u_spell_level('electrokinetic_hacking_interface') + u_spell_level('electrokinetic_hacking_interface_knack') ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
+        ]
       },
       "cases": [
         {
