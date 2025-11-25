@@ -133,7 +133,7 @@
     "type": "oter_vision",
     "levels": [
       { "name": "field", "sym": ".", "color": "brown", "looks_like": "field" },
-      { "name": "farm field", "sym": "#", "color": "i_brown" }
+      { "name": "farm field", "sym": "#", "color": "brown" }
     ]
   },
   {
