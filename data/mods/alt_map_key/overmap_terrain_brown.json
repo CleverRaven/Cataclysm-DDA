@@ -374,6 +374,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "cabin_cellar",
+    "name": "cabin cellar",
+    "copy-from": "cabin_cellar",
+    "sym": "C",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "cabin_lakeside", "cabin_lakeside1", "cabin_lakeside2", "cabin_lakeside3", "cabin_lakeside4", "cabin_lakeside5" ],
     "copy-from": "cabin_lakeside",
     "name": "lakeside cabin",
