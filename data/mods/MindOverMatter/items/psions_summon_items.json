@@ -213,6 +213,24 @@
     "qualities": [ [ "HACK", 9 ] ]
   },
   {
+    "id": "electrokinetic_electrohack_11",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "name": { "str": "[Ψ]hacking interface" },
+    "description": "You can hack nearby devices.",
+    "copy-from": "electrokinetic_electrohack_1",
+    "qualities": [ [ "HACK", 10 ] ]
+  },
+  {
+    "id": "electrokinetic_electrohack_12",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "name": { "str": "[Ψ]hacking interface" },
+    "description": "You can hack nearby devices.",
+    "copy-from": "electrokinetic_electrohack_1",
+    "qualities": [ [ "HACK", 11 ] ]
+  },
+  {
     "id": "item_photokinetic_radio",
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR" ],

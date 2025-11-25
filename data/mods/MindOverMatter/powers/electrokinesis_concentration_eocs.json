@@ -269,6 +269,14 @@
         {
           "case": 36,
           "effect": [ { "u_spawn_item": "electrokinetic_electrohack_10", "suppress_message": true, "force_equip": true } ]
+        },
+        {
+          "case": 40,
+          "effect": [ { "u_spawn_item": "electrokinetic_electrohack_11", "suppress_message": true, "force_equip": true } ]
+        },
+        {
+          "case": 44,
+          "effect": [ { "u_spawn_item": "electrokinetic_electrohack_12", "suppress_message": true, "force_equip": true } ]
         }
       ]
     }
@@ -296,7 +304,9 @@
       { "u_remove_item_with": "electrokinetic_electrohack_7" },
       { "u_remove_item_with": "electrokinetic_electrohack_8" },
       { "u_remove_item_with": "electrokinetic_electrohack_9" },
-      { "u_remove_item_with": "electrokinetic_electrohack_10" }
+      { "u_remove_item_with": "electrokinetic_electrohack_10" },
+      { "u_remove_item_with": "electrokinetic_electrohack_11" },
+      { "u_remove_item_with": "electrokinetic_electrohack_12" }
     ]
   },
   {
