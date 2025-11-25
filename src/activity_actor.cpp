@@ -749,6 +749,16 @@ std::unique_ptr<activity_actor> bash_activity_actor::deserialize( JsonValue &jsi
     return actor.clone();
 }
 
+void bleed_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.write_null();
+}
+
+std::unique_ptr<activity_actor> bleed_activity_actor::deserialize( JsonValue & )
+{
+    return bleed_activity_actor().clone();
+}
+
 void gunmod_remove_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_total = moves_total;
@@ -9348,6 +9358,7 @@ deserialize_functions = {
     { ACT_AIM, &aim_activity_actor::deserialize },
     { ACT_AUTODRIVE, &autodrive_activity_actor::deserialize },
     { ACT_BASH, &bash_activity_actor::deserialize },
+       { ACT_BLEED, &bleed_activity_actor::deserialize },
     { ACT_BIKERACK_RACKING, &bikerack_racking_activity_actor::deserialize },
     { ACT_BIKERACK_UNRACKING, &bikerack_unracking_activity_actor::deserialize },
     { ACT_BINDER_COPY_RECIPE, &bookbinder_copy_activity_actor::deserialize },
