@@ -168,6 +168,15 @@
     "qualities": [ [ "HACK", 4 ] ]
   },
   {
+    "id": "electrokinetic_electrohack_6",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "name": { "str": "[Ψ]hacking interface" },
+    "description": "You can hack nearby devices.",
+    "copy-from": "electrokinetic_electrohack_1",
+    "qualities": [ [ "HACK", 5 ] ]
+  },
+  {
     "id": "item_photokinetic_radio",
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR" ],
