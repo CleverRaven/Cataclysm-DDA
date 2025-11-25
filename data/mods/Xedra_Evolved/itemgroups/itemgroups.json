@@ -261,15 +261,15 @@
   {
     "type": "item_group",
     "id": "bannerman_armor",
-    "subtype": "distribution",
+    "subtype": "collection",
     "entries": [
-      { "item": "mt_chainmail_arms", "prob": 20 },
+      { "item": "mt_chainmail_arms", "prob": 50 },
       { "group": "banner_group", "prob": 20 },
-      { "item": "mt_chainmail_hood", "prob": 20 },
-      { "item": "mt_chainmail_hands", "prob": 20 },
-      { "item": "mt_chainmail_legs", "prob": 20 },
-      { "item": "mt_chainmail_vest", "prob": 20 },
-      { "item": "mt_chainmail_feet", "prob": 20 }
+      { "item": "mt_chainmail_hood", "prob": 50 },
+      { "item": "mt_chainmail_hands", "prob": 50 },
+      { "item": "mt_chainmail_legs", "prob": 50 },
+      { "item": "mt_chainmail_vest", "prob": 50 },
+      { "item": "mt_chainmail_feet", "prob": 50 }
     ]
   },
   {
