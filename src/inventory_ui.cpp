@@ -2602,7 +2602,7 @@ inventory_selector::header_stats inventory_selector::get_pocket_summary_header_s
     const units::mass& weight_carried, const units::mass& weight_capacity,
     const units::volume& volume_in_pockets, const units::volume& volume_of_pockets,
     std::vector<pocket_with_constraint> pockets,
-    bool show_unconstrained_max_space
+    bool show_unconstrained_max_space, const std::string* volume_label_override
 )
 {   
     pocket_with_constraint large_free_space = { nullptr, {} };
@@ -2679,7 +2679,11 @@ inventory_selector::header_stats inventory_selector::get_pocket_summary_header_s
         std::vector<std::string> other_space_strings;
         for (int i = 0; i < 3 && i < largest_other_spaces.size(); i++)
         {
-            auto [str1, str2] = build_pocket_stats(largest_other_spaces[i].first, largest_other_spaces[i].second.remaining_volume, largest_other_spaces[i].second.max_containable_length);
+            auto [str1, str2] = build_space_stats(largest_other_spaces[i].second.remaining_volume, 
+                largest_other_spaces[i].first->min_containable_length(),
+                largest_other_spaces[i].second.max_containable_length,
+                largest_other_spaces[i].first->is_restricted()
+            );
             other_space_strings.push_back(str1 + " " + str2);
         }
         other_spaces_str += string_join(other_space_strings, ", ");
@@ -2687,7 +2691,7 @@ inventory_selector::header_stats inventory_selector::get_pocket_summary_header_s
 
     inventory_selector::header_stats ret = 
     {
-        build_weight_and_volume_stats_line(weight_carried, weight_capacity, volume_in_pockets, volume_of_pockets),
+        build_weight_and_volume_stats_line(weight_carried, weight_capacity, volume_label_override ? *volume_label_override : _("Total Volume:"), volume_in_pockets, volume_of_pockets),
         build_pocket_stats_line(_("Largest Space"), 
             large_free_space.first, 
             large_free_space.second.remaining_volume,
@@ -2714,17 +2718,20 @@ inventory_selector::header_stats inventory_selector::get_pocket_summary_header_s
 
 inventory_selector::header_stats_line inventory_selector::build_weight_and_volume_stats_line(
     units::mass weight_carried, units::mass weight_capacity,
-    const units::volume& volume_in_pockets, const units::volume& volume_of_pockets
+    const std::string& volume_label, const units::volume& volume_in_pockets, const units::volume& volume_of_pockets
 )
 {
+    const nc_color& numeric_color = c_light_gray;
+    const nc_color& label_color = c_dark_gray;
+    const nc_color  weight_color = weight_carried > weight_capacity ? c_red : numeric_color;
     return { string_format("%s %s/%s %s %s %s/%s %s",
-        colorize(_("Pocket Volume:"), c_dark_gray),
+        colorize(volume_label, label_color),
         format_volume(volume_in_pockets),
         format_volume(volume_of_pockets),
         volume_units_abbr(),
-        colorize(_("Total Weight:"), c_dark_gray),
-        string_format("%.1f", round_up(convert_weight(weight_carried), 1)), // TODO: color red when overcap
-        string_format("%.1f", round_up(convert_weight(weight_capacity), 1)),
+        colorize(_("Total Weight:"), label_color),
+        colorize(string_format("%.1f", round_up(convert_weight(weight_carried), 1)), weight_color),
+        colorize(string_format("%.1f", round_up(convert_weight(weight_capacity), 1)), numeric_color),
         weight_units()
     ) };
 }
@@ -2743,29 +2750,29 @@ inventory_selector::header_stats_line inventory_selector::build_selection_stats_
     ) };
 }
 
-std::tuple<std::string, std::string> inventory_selector::build_pocket_stats(const item_pocket* pocket, units::volume volume, units::length length)
+std::tuple<std::string, std::string> inventory_selector::build_invalid_space_stats()
 {
-    if (pocket == nullptr)
-    {
-        return { "", _("None") };
-    }
+    return { "", _("None") };
+}
+
+std::tuple<std::string, std::string> inventory_selector::build_space_stats(units::volume size, units::length min_length, units::length max_length, bool is_restricted)
+{
     auto color_units = c_light_gray;
     auto color_numeric = c_light_gray;
     std::string vol_str = string_format("%s %s%s",
-        colorize(format_volume(volume), color_numeric),        
+        colorize(format_volume(size), color_numeric),
         colorize(volume_units_abbr(), color_units),
-        pocket->is_restricted() ? "*": "" // possibly try to give more info on the restriction(s)?        
+        is_restricted ? "*": "" // possibly try to give more info on the restriction(s)?
     );
-    units::length min_length = pocket->min_containable_length();
-    if (min_length > length) //you need a weird object for this, but it's not illegal
+    if (min_length > max_length) //you need a weird object for this, but it's not illegal
     {
-        length = 0_mm;
+        max_length = 0_mm;
         min_length = 0_mm;
     }
-    std::string length_str = colorize(std::to_string(convert_length(length)), color_numeric) + " " + colorize(length_units(length), color_units);
+    std::string length_str = colorize(std::to_string(convert_length(max_length)), color_numeric) + " " + colorize(length_units(max_length), color_units);
     if (min_length > 0_mm)
     {
-        length_str = colorize(std::to_string(convert_length(pocket->min_containable_length())), color_numeric) + " " + colorize(length_units(pocket->min_containable_length()), color_units) + "-" + length_str;
+        length_str = colorize(std::to_string(convert_length(min_length)), color_numeric) + " " + colorize(length_units(min_length), color_units) + "-" + length_str;
     }
     return { vol_str, length_str };
 }
@@ -2782,8 +2789,8 @@ inventory_selector::header_stats_line inventory_selector::build_pocket_stats_lin
     const auto color_numeric = c_light_gray;
     const auto color_units = c_light_gray;
     const auto color_labels = c_dark_gray;
-    auto [free_pocket_str1, free_pocket_str2] = build_pocket_stats(free_pocket, free_pocket_volume, free_pocket_length);
-    auto [max_pocket_str1, max_pocket_str2] = build_pocket_stats(max_pocket, max_pocket_volume, max_pocket_length);
+    auto [free_pocket_str1, free_pocket_str2] = free_pocket ? build_space_stats(free_pocket_volume, free_pocket->min_containable_length(), free_pocket_length, free_pocket->is_restricted()) : build_invalid_space_stats();
+    auto [max_pocket_str1, max_pocket_str2] = max_pocket ? build_space_stats(max_pocket_volume, max_pocket->min_containable_length(), max_pocket_length, max_pocket->is_restricted()) : build_invalid_space_stats();
     return {
         prefix.empty() ? "" : (prefix + " ") + colorize(_("Free: "), color_labels),
         header_stats_tab_stop,
@@ -2841,10 +2848,11 @@ inventory_selector::header_stats inventory_selector::get_raw_stats() const
         check_pocket_tree
     );
     
+    std::string volume_label_override = _("Bulk Volume:");
     return get_pocket_summary_header_stats(
         u.weight_carried(), u.weight_capacity(),
         capacity - free_space, capacity,
-        pockets, false
+        pockets, false, &volume_label_override
     );
 }
 
