@@ -275,7 +275,7 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_ELECTROKIN_REMOVE_HACKING_INTERFACE_REMOVE_ITEM",
+    "id": "EOC_ELECTROKIN_HACKING_INTERFACE_UPDATER",
     "condition": { "u_has_effect": "effect_electrokin_hacking_interface" },
     "effect": [
       { "run_eocs": [ "EOC_ELECTROKIN_REMOVE_HACKING_INTERFACE_REMOVE_ITEM", "EOC_ELECTROKIN_HACKING_INTERFACE_SWITCHER" ] },
