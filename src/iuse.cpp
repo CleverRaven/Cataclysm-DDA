@@ -8309,11 +8309,11 @@ static bool heat_items( Character *p, item *it, bool liquid_items, bool solid_it
                                                   h.available_heater,
                                                   to_string ), "" );
             using stats = inventory_selector::stats;
-            return inventory_selector::convert_stats_to_header_stats(stats{{
+            return inventory_selector::convert_stats_to_header_stats( stats{{
                     {{ _( "Container" ), volume }},
                     {{ _( "Fuel" ), ammo }},
                     {{ _( "Estimated time" ), time }}
-                }});
+                }} );
         };
         inventory_multiselector inv_s( *p, preset, _( "ITEMS TO HEAT" ),
                                        make_raw_stats, /*allow_select_contained=*/true );
@@ -8528,11 +8528,11 @@ std::optional<int> iuse::wash_items( Character *p, bool soft_items, bool hard_it
         const std::string cleanser = string_join( display_stat( "", required.cleanser, available_cleanser,
                                      to_string ), "" );
         using stats = inventory_selector::stats;
-        return inventory_selector::convert_stats_to_header_stats(stats{{
+        return inventory_selector::convert_stats_to_header_stats( stats{{
                 {{ _( "Water" ), water }},
                 {{ _( "Cleanser" ), cleanser }},
                 {{ _( "Estimated time" ), time }}
-            }});
+            }} );
     };
     inventory_multiselector inv_s( *p, preset, _( "ITEMS TO CLEAN" ),
                                    make_raw_stats, /*allow_select_contained=*/true );

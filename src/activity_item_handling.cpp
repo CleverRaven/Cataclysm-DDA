@@ -521,7 +521,7 @@ int activity_handlers::move_cost_inv( const item &it, const tripoint_bub_ms &src
 
     Character &player_character = get_player_character();
     // only free inventory capacity
-    const int inventory_capacity = units::to_milliliter(player_character.free_space());
+    const int inventory_capacity = units::to_milliliter( player_character.free_space() );
 
     const int item_volume = units::to_milliliter( it.volume() );
 

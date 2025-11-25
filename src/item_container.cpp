@@ -267,14 +267,16 @@ bool item::container_type_pockets_empty() const
     return contents.container_type_pockets_empty();
 }
 
-std::vector<item_pocket*> item::get_pockets(std::function<bool(const item_pocket& pocket)> include_pocket)
+std::vector<item_pocket *> item::get_pockets( std::function<bool( const item_pocket &pocket )>
+        include_pocket )
 {
-    return contents.get_pockets(include_pocket);
+    return contents.get_pockets( include_pocket );
 }
 
-std::vector<const item_pocket*> item::get_pockets(std::function<bool(const item_pocket& pocket)> include_pocket) const
+std::vector<const item_pocket *> item::get_pockets( std::function<bool( const item_pocket &pocket )>
+        include_pocket ) const
 {
-    return contents.get_pockets(include_pocket);
+    return contents.get_pockets( include_pocket );
 }
 
 std::vector<const item_pocket *> item::get_container_pockets() const
@@ -363,7 +365,7 @@ bool item::contains_no_solids() const
 
 bool item::is_funnel_container( units::volume &bigger_than ) const
 {
-    if( get_volume_capacity(item_pocket::ok_all_containers) <= bigger_than ) {
+    if( get_volume_capacity( item_pocket::ok_all_containers ) <= bigger_than ) {
         return false; // skip contents check, performance
     }
     return contents.is_funnel_container( bigger_than );
@@ -569,16 +571,19 @@ void item::handle_liquid_or_spill( Character &guy, const item *avoid )
     contents.handle_liquid_or_spill( guy, avoid );
 }
 
-units::volume item::get_volume_capacity(std::function<bool(const item_pocket&)> include_pocket) const
+units::volume item::get_volume_capacity( std::function<bool( const item_pocket & )> include_pocket )
+const
 {
-    return contents.volume_capacity(include_pocket);
+    return contents.volume_capacity( include_pocket );
 }
 
-units::volume item::get_volume_capacity_recursive(std::function<bool(const item_pocket&)> include_pocket, 
-    std::function<bool(const item_pocket&)> check_pocket_tree,
-    units::volume& out_volume_expansion) const
+units::volume item::get_volume_capacity_recursive( std::function<bool( const item_pocket & )>
+        include_pocket,
+        std::function<bool( const item_pocket & )> check_pocket_tree,
+        units::volume &out_volume_expansion ) const
 {
-    return contents.volume_capacity_recursive(include_pocket, check_pocket_tree, out_volume_expansion);
+    return contents.volume_capacity_recursive( include_pocket, check_pocket_tree,
+            out_volume_expansion );
 }
 
 
@@ -587,16 +592,19 @@ units::mass item::get_total_weight_capacity( const bool unrestricted_pockets_onl
     return contents.total_container_weight_capacity( unrestricted_pockets_only );
 }
 
-units::volume item::get_remaining_volume(std::function<bool(const item_pocket&)> include_pocket) const
+units::volume item::get_remaining_volume( std::function<bool( const item_pocket & )>
+        include_pocket ) const
 {
-    return contents.remaining_volume(include_pocket);
+    return contents.remaining_volume( include_pocket );
 }
 
-units::volume item::get_remaining_volume_recursive(std::function<bool(const item_pocket&)> include_pocket,
-    std::function<bool(const item_pocket&)> check_pocket_tree,
-    units::volume& out_volume_expansion) const
+units::volume item::get_remaining_volume_recursive( std::function<bool( const item_pocket & )>
+        include_pocket,
+        std::function<bool( const item_pocket & )> check_pocket_tree,
+        units::volume &out_volume_expansion ) const
 {
-    return contents.remaining_volume_recursive(include_pocket, check_pocket_tree, out_volume_expansion);
+    return contents.remaining_volume_recursive( include_pocket, check_pocket_tree,
+            out_volume_expansion );
 }
 
 units::mass item::get_remaining_weight_capacity( const bool unrestricted_pockets_only ) const
@@ -604,9 +612,10 @@ units::mass item::get_remaining_weight_capacity( const bool unrestricted_pockets
     return contents.remaining_container_capacity_weight( unrestricted_pockets_only );
 }
 
-units::volume item::get_contents_volume(std::function<bool(const item_pocket&)> include_pocket) const
+units::volume item::get_contents_volume( std::function<bool( const item_pocket & )> include_pocket )
+const
 {
-    return contents.contents_volume(include_pocket);
+    return contents.contents_volume( include_pocket );
 }
 
 units::mass item::get_total_contained_weight( const bool unrestricted_pockets_only ) const

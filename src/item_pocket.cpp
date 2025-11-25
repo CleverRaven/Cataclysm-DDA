@@ -2472,20 +2472,20 @@ void item_pocket::deserialize_presets( const JsonArray &ja )
     }
 }
 
-bool item_pocket::ok_all_containers(const item_pocket& pocket)
+bool item_pocket::ok_all_containers( const item_pocket &pocket )
 {
-    return pocket.is_type(pocket_type::CONTAINER);
+    return pocket.is_type( pocket_type::CONTAINER );
 }
 
-bool item_pocket::ok_default_containers(const item_pocket& pocket)
+bool item_pocket::ok_default_containers( const item_pocket &pocket )
 {
-    return pocket.is_type(pocket_type::CONTAINER)
-        && !pocket.is_forbidden();
+    return pocket.is_type( pocket_type::CONTAINER )
+           && !pocket.is_forbidden();
 }
 
-bool item_pocket::ok_for_solids(const item_pocket& pocket)
+bool item_pocket::ok_for_solids( const item_pocket &pocket )
 {
-    return pocket.empty() || pocket.contains_phase(phase_id::SOLID);
+    return pocket.empty() || pocket.contains_phase( phase_id::SOLID );
 }
 
 units::volume pocket_data::volume_capacity() const
@@ -2779,51 +2779,48 @@ void item_pocket::favorite_settings::info( std::vector<iteminfo> &info ) const
                        category_blacklist.empty() ? _( "(empty)" ) : enumerate( category_blacklist ) ) );
 }
 
-void pocket_constraint::constrain_by(const item_pocket* outer)
+void pocket_constraint::constrain_by( const item_pocket *outer )
 {
-    if (!in_rigid)
-    {
-        volume_capacity = std::min(volume_capacity, outer->volume_capacity());
+    if( !in_rigid ) {
+        volume_capacity = std::min( volume_capacity, outer->volume_capacity() );
         units::volume rem_vol = outer->remaining_volume();
-        remaining_volume = std::min(remaining_volume, rem_vol);
-        is_dominated = is_dominated || (remaining_volume <= rem_vol)
-            && !outer->is_restricted()
-            && !outer->is_holster() //if we're in a holster, the holster can't contain anything else, so can't dominate
-            // NB: we could check if white/blacklists allow a superset of items, but this seems reasonable
-            && outer->settings.get_category_blacklist().empty() 
-            && outer->settings.get_item_blacklist().empty()
-            && outer->settings.get_category_whitelist().empty()
-            && outer->settings.get_item_whitelist().empty();
+        remaining_volume = std::min( remaining_volume, rem_vol );
+        is_dominated = is_dominated || ( remaining_volume <= rem_vol )
+                       && !outer->is_restricted()
+                       && !outer->is_holster() //if we're in a holster, the holster can't contain anything else, so can't dominate
+                       // NB: we could check if white/blacklists allow a superset of items, but this seems reasonable
+                       && outer->settings.get_category_blacklist().empty()
+                       && outer->settings.get_item_blacklist().empty()
+                       && outer->settings.get_category_whitelist().empty()
+                       && outer->settings.get_item_whitelist().empty();
     }
     in_rigid |= outer->rigid();
-    max_containable_length = std::min(max_containable_length, outer->max_containable_length());
-    if (outer->get_pocket_data()->max_item_volume.has_value())
-    {
-        max_item_volume = (max_item_volume == 0_ml) ? outer->get_pocket_data()->max_item_volume.value() : std::min(outer->get_pocket_data()->max_item_volume.value(), max_item_volume);
+    max_containable_length = std::min( max_containable_length, outer->max_containable_length() );
+    if( outer->get_pocket_data()->max_item_volume.has_value() ) {
+        max_item_volume = ( max_item_volume == 0_ml ) ? outer->get_pocket_data()->max_item_volume.value() :
+                          std::min( outer->get_pocket_data()->max_item_volume.value(), max_item_volume );
     }
 }
 
-void pocket_constraint::constrain_by(const pocket_constraint& outer)
+void pocket_constraint::constrain_by( const pocket_constraint &outer )
 {
-    if (!in_rigid)
-    {
-        volume_capacity = std::min(volume_capacity, outer.volume_capacity);
+    if( !in_rigid ) {
+        volume_capacity = std::min( volume_capacity, outer.volume_capacity );
         units::volume rem_vol = outer.remaining_volume;
-        remaining_volume = std::min(remaining_volume, rem_vol);
+        remaining_volume = std::min( remaining_volume, rem_vol );
     }
     in_rigid |= outer.in_rigid;
-    max_containable_length = std::min(max_containable_length, outer.max_containable_length);
-    if (outer.max_item_volume > 0_ml)
-    {
-        max_item_volume = (max_item_volume == 0_ml) ? outer.max_item_volume : std::min(outer.max_item_volume, max_item_volume);
+    max_containable_length = std::min( max_containable_length, outer.max_containable_length );
+    if( outer.max_item_volume > 0_ml ) {
+        max_item_volume = ( max_item_volume == 0_ml ) ? outer.max_item_volume : std::min(
+                              outer.max_item_volume, max_item_volume );
     }
 }
 
-pocket_constraint::pocket_constraint(const item_pocket* pocket) : pocket_constraint{}
+pocket_constraint::pocket_constraint( const item_pocket *pocket ) : pocket_constraint{}
 {
-    if (pocket != nullptr)
-    {
-        constrain_by(pocket);
+    if( pocket != nullptr ) {
+        constrain_by( pocket );
     }
     is_dominated = false;
 }

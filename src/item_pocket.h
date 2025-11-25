@@ -213,7 +213,7 @@ class item_pocket
         units::volume contents_volume() const;
         units::volume remaining_volume() const;
         // how many more of @it can this pocket hold?
-        int remaining_capacity_for_item( const item &it ) const;        
+        int remaining_capacity_for_item( const item &it ) const;
         // the amount of space this pocket can hold before it starts expanding
         units::volume magazine_well() const;
 
@@ -408,13 +408,13 @@ class item_pocket
 
         // pocket predicates
         // non-forbidden, container-type pockets. The most common use-case.
-        static bool ok_default_containers(const item_pocket& pocket);
+        static bool ok_default_containers( const item_pocket &pocket );
         // *any* container-type pocket, even restricted ones.
         // appropriate for determining how physically full something is.
-        static bool ok_all_containers(const item_pocket&);
-        
+        static bool ok_all_containers( const item_pocket & );
+
         // pocket is currently OK with taking on solid (as opposed to liquid/gaseous) items
-        static bool ok_for_solids(const item_pocket& pocket);
+        static bool ok_for_solids( const item_pocket &pocket );
     private:
         // the type of pocket, saved to json
         pocket_type _saved_type = pocket_type::LAST; // NOLINT(cata-serialize)
@@ -577,35 +577,35 @@ class pocket_data
 
         void load( const JsonObject &jo );
         void deserialize( const JsonObject &data );
-    private:        
+    private:
         FlagsSetType flag_restrictions;
 };
 
 class pocket_constraint
 {
-public:
-    units::mass weight_capacity = pocket_data::max_weight_for_container;
-    units::length max_containable_length = 200000_meter;
-    units::volume volume_capacity = pocket_data::max_volume_for_container;
-    units::volume remaining_volume = pocket_data::max_volume_for_container;
-    units::volume max_item_volume = 0_ml; // literal bottlenecks; 0 = no limit
+    public:
+        units::mass weight_capacity = pocket_data::max_weight_for_container;
+        units::length max_containable_length = 200000_meter;
+        units::volume volume_capacity = pocket_data::max_volume_for_container;
+        units::volume remaining_volume = pocket_data::max_volume_for_container;
+        units::volume max_item_volume = 0_ml; // literal bottlenecks; 0 = no limit
 
-    // pocket is rigid or constrained by a rigid pocket, volume won't be reduced by further constraints
-    bool in_rigid = false;
-    // pocket 'X' is dominated by pocket 'Y' if X is nested in Y, 
-    // any item that could be put into X could be put into Y,
-    // and X's volume expands into Y (no rigid pockets in the way).
-    // dominated pockets are redundant when describing available spaces.
-    bool is_dominated = false;
+        // pocket is rigid or constrained by a rigid pocket, volume won't be reduced by further constraints
+        bool in_rigid = false;
+        // pocket 'X' is dominated by pocket 'Y' if X is nested in Y,
+        // any item that could be put into X could be put into Y,
+        // and X's volume expands into Y (no rigid pockets in the way).
+        // dominated pockets are redundant when describing available spaces.
+        bool is_dominated = false;
 
-    pocket_constraint() = default;
-    pocket_constraint(const item_pocket* init_pocket);
+        pocket_constraint() = default;
+        pocket_constraint( const item_pocket *init_pocket );
 
-    // apply the capacity constraints of an outer pocket
-    void constrain_by(const item_pocket* outer);
-    // apply the capacity constraints of another, outer constraint to this one.
-    // this never dominates the pocket.
-    void constrain_by(const pocket_constraint& outer);
+        // apply the capacity constraints of an outer pocket
+        void constrain_by( const item_pocket *outer );
+        // apply the capacity constraints of another, outer constraint to this one.
+        // this never dominates the pocket.
+        void constrain_by( const pocket_constraint &outer );
 };
 
 template<>

@@ -1628,12 +1628,13 @@ bool Character::is_waterproof( const body_part_set &parts ) const
     return covered_with_flag( flag_WATERPROOF, parts );
 }
 
-units::volume Character::free_space(std::function<bool(const item_pocket&)> include_pocket, 
-    std::function<bool(const item_pocket&)> check_pocket_tree) const
+units::volume Character::free_space( std::function<bool( const item_pocket & )> include_pocket,
+                                     std::function<bool( const item_pocket & )> check_pocket_tree ) const
 {
-    units::volume expansion = 0_ml; // discarded, currently don't care if the character's held item would need to get bigger
-    return weapon.get_remaining_volume_recursive(include_pocket, check_pocket_tree, expansion)
-            + worn.remaining_volume_recursive(include_pocket, check_pocket_tree);
+    units::volume expansion =
+        0_ml; // discarded, currently don't care if the character's held item would need to get bigger
+    return weapon.get_remaining_volume_recursive( include_pocket, check_pocket_tree, expansion )
+           + worn.remaining_volume_recursive( include_pocket, check_pocket_tree );
 }
 
 units::mass Character::free_weight_capacity() const
@@ -1644,34 +1645,41 @@ units::mass Character::free_weight_capacity() const
     return weight_capacity;
 }
 
-units::volume Character::volume_capacity(std::function<bool(const item_pocket&)> include_pocket) const
+units::volume Character::volume_capacity( std::function<bool( const item_pocket & )>
+        include_pocket ) const
 {
     units::volume volume_capacity = 0_ml;
-    volume_capacity += weapon.get_volume_capacity(include_pocket);
-    volume_capacity += worn.volume_capacity(include_pocket);
+    volume_capacity += weapon.get_volume_capacity( include_pocket );
+    volume_capacity += worn.volume_capacity( include_pocket );
     return volume_capacity;
 }
 
-units::volume Character::volume_capacity_recursive(std::function<bool(const item_pocket&)> include_pocket, std::function<bool(const item_pocket&)> check_pocket_tree) const
+units::volume Character::volume_capacity_recursive( std::function<bool( const item_pocket & )>
+        include_pocket, std::function<bool( const item_pocket & )> check_pocket_tree ) const
 {
     units::volume volume_capacity = 0_ml;
-    units::volume expansion = 0_ml; // discard, currently don't care if inventory has to grow in overall volume
-    volume_capacity += weapon.get_volume_capacity_recursive(include_pocket, check_pocket_tree, expansion);
-    for (auto it : worn.worn)
-    {
-        volume_capacity += it.get_volume_capacity_recursive(include_pocket, check_pocket_tree, expansion);
+    // discard, currently don't care if inventory has to grow in overall volume
+    units::volume expansion = 0_ml;
+    volume_capacity += weapon.get_volume_capacity_recursive( include_pocket,
+                       check_pocket_tree,
+                       expansion
+                                                           );
+    for( auto it : worn.worn ) {
+        volume_capacity += it.get_volume_capacity_recursive( include_pocket,
+                           check_pocket_tree,
+                           expansion
+                                                           );
     }
     return volume_capacity;
 }
 
 units::volume Character::volume_carried() const
-{   
+{
     units::volume volume = 0_ml;
     volume += weapon.volume();
-    for (const auto& it : worn.worn)
-    {
+    for( const auto &it : worn.worn ) {
         volume += it.volume();
-    }    
+    }
     return volume;
 }
 

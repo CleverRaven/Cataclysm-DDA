@@ -794,10 +794,9 @@ std::string inventory_selector_preset::get_cell_text( const inventory_entry &ent
                                            is_worn_id( entry.get_category_ptr()->get_id() ) &&
                                            actual_item.is_worn_by_player() ) ) {
                 if( cell_index == 0 && !text.empty() &&
-                    actual_item.is_container() && actual_item.has_unrestricted_pockets() )
-                {
-                    auto ok_unrestricted_container = [](const item_pocket& pocket) {
-                        return item_pocket::ok_default_containers(pocket) && !pocket.is_restricted();
+                    actual_item.is_container() && actual_item.has_unrestricted_pockets() ) {
+                    auto ok_unrestricted_container = []( const item_pocket & pocket ) {
+                        return item_pocket::ok_default_containers( pocket ) && !pocket.is_restricted();
                     };
                     const units::volume total_capacity = actual_item.get_volume_capacity( ok_unrestricted_container );
                     const units::mass total_capacity_weight = actual_item.get_total_weight_capacity( true );
@@ -2531,10 +2530,10 @@ size_t inventory_selector::get_layout_height() const
 
 size_t inventory_selector::get_header_height() const
 {
-    return std::max<size_t>({ 1,
-        display_stats ? get_stats().size() : 0,
-        !hint.empty() ? 2 + (size_t)std::count(hint.begin(), hint.end(), '\n') : 0 }
-    );
+    return std::max<size_t>( { 1,
+                               display_stats ? get_stats().size() : 0,
+                               !hint.empty() ? 2 + ( size_t )std::count( hint.begin(), hint.end(), '\n' ) : 0 }
+                           );
 }
 
 size_t inventory_selector::get_header_min_width() const
@@ -2599,207 +2598,233 @@ inventory_selector::stat display_stat( const std::string &caption, int cur_value
 }
 
 inventory_selector::header_stats inventory_selector::get_pocket_summary_header_stats(
-    const units::mass& weight_carried, const units::mass& weight_capacity,
-    const units::volume& volume_in_pockets, const units::volume& volume_of_pockets,
+    const units::mass &weight_carried, const units::mass &weight_capacity,
+    const units::volume &volume_in_pockets, const units::volume &volume_of_pockets,
     std::vector<pocket_with_constraint> pockets,
-    bool show_unconstrained_max_space, const std::string* volume_label_override
+    bool show_unconstrained_max_space, const std::string *volume_label_override
 )
-{   
+{
     pocket_with_constraint large_free_space = { nullptr, {} };
     pocket_with_constraint large_max_space = { nullptr, {} };
     pocket_with_constraint long_free_space = { nullptr, {} };
     pocket_with_constraint long_max_space = { nullptr, {} };
     std::vector<pocket_with_constraint> largest_other_spaces;
 
-    pockets.erase(std::remove_if(pockets.begin(), pockets.end(), [](pocket_with_constraint& p) {return p.second.is_dominated; }), pockets.end());
-    
-    if (pockets.size() > 0)
-    {
+    pockets.erase(
+        std::remove_if( pockets.begin(), pockets.end(),
+    []( pocket_with_constraint & p ) {
+        return p.second.is_dominated;
+    }
+                      ),
+    pockets.end()
+    );
+
+    if( pockets.size() > 0 ) {
         std::vector<pocket_with_constraint> pockets_with_space;
-        std::copy_if(pockets.begin(), pockets.end(), std::back_inserter(pockets_with_space), [](const pocket_with_constraint& p) {
-            return p.second.remaining_volume > 0_ml
-                && !p.first->holster_full();
-            });
+        std::copy_if( pockets.begin(), pockets.end(), std::back_inserter( pockets_with_space ),
+        []( const pocket_with_constraint & p ) {
+            return p.second.remaining_volume > 0_ml && !p.first->holster_full();
+        }
+                    );
 
         // largest / longest currently available spaces.
-        if (pockets_with_space.size() > 0)
-        {
-            std::sort(pockets_with_space.begin(), pockets_with_space.end(), [](const pocket_with_constraint& a, const pocket_with_constraint& b) {
-                return std::tuple(a.first->is_restricted(), b.second.max_containable_length, b.second.remaining_volume)
-                    <  std::tuple(b.first->is_restricted(), a.second.max_containable_length, a.second.remaining_volume);
-                });
+        if( pockets_with_space.size() > 0 ) {
+            std::sort( pockets_with_space.begin(),
+            pockets_with_space.end(), []( const pocket_with_constraint & a, const pocket_with_constraint & b ) {
+                return std::tuple( a.first->is_restricted(), b.second.max_containable_length,
+                                   b.second.remaining_volume )
+                       <  std::tuple( b.first->is_restricted(), a.second.max_containable_length,
+                                      a.second.remaining_volume );
+            } );
             long_free_space = pockets_with_space[0];
 
             // leave pockets_with_space sorted by free space so we can re-use that later
-            std::sort(pockets_with_space.begin(), pockets_with_space.end(), [](const pocket_with_constraint& a, const pocket_with_constraint& b) {
-                return std::tuple(a.first->is_restricted(), b.second.remaining_volume)
-                    <  std::tuple(b.first->is_restricted(), a.second.remaining_volume);
-                });
+            std::sort( pockets_with_space.begin(),
+            pockets_with_space.end(), []( const pocket_with_constraint & a, const pocket_with_constraint & b ) {
+                return std::tuple( a.first->is_restricted(), b.second.remaining_volume )
+                       <  std::tuple( b.first->is_restricted(), a.second.remaining_volume );
+            } );
             large_free_space = pockets_with_space[0];
         }
 
         // largest / longest pockets we have.
         // 'ignore_restrict' check makes it so we don't report a smaller 'max' space than 'free' space if we selected a restricted pocket for that.
-        if (show_unconstrained_max_space) {
-            std::sort(pockets.begin(), pockets.end(), [ignore_restrict = large_free_space.first && large_free_space.first->is_restricted()](const pocket_with_constraint& a, const pocket_with_constraint& b) {
-                return std::tuple(ignore_restrict || a.first->is_restricted(), b.first->volume_capacity())
-                    <  std::tuple(ignore_restrict || b.first->is_restricted(), a.first->volume_capacity());
-                });
+        if( show_unconstrained_max_space ) {
+            std::sort( pockets.begin(), pockets.end(), [ignore_restrict = large_free_space.first &&
+                                       large_free_space.first->is_restricted()]( const pocket_with_constraint & a,
+            const pocket_with_constraint & b ) {
+                return std::tuple( ignore_restrict || a.first->is_restricted(), b.first->volume_capacity() )
+                       <  std::tuple( ignore_restrict || b.first->is_restricted(), a.first->volume_capacity() );
+            } );
             large_max_space = pockets[0];
 
-            std::sort(pockets.begin(), pockets.end(), [ignore_restrict = long_free_space.first && long_free_space.first->is_restricted()](const pocket_with_constraint& a, const pocket_with_constraint& b) {
-                return std::tuple(ignore_restrict || a.first->is_restricted(), b.first->max_containable_length(), b.first->volume_capacity())
-                    <  std::tuple(ignore_restrict || b.first->is_restricted(), a.first->max_containable_length(), a.first->volume_capacity());
-                });
+            std::sort( pockets.begin(), pockets.end(), [ignore_restrict = long_free_space.first &&
+                                       long_free_space.first->is_restricted()]( const pocket_with_constraint & a,
+            const pocket_with_constraint & b ) {
+                return std::tuple( ignore_restrict ||
+                                   a.first->is_restricted(), b.first->max_containable_length(), b.first->volume_capacity() )
+                       <  std::tuple( ignore_restrict ||
+                                      b.first->is_restricted(), a.first->max_containable_length(), a.first->volume_capacity() );
+            } );
             long_max_space = pockets[0];
-        }
-        else{
-            std::sort(pockets.begin(), pockets.end(), [ignore_restrict = large_free_space.first && large_free_space.first->is_restricted()](const pocket_with_constraint& a, const pocket_with_constraint& b) {
-                return std::tuple(ignore_restrict || a.first->is_restricted(), b.second.volume_capacity)
-                    <  std::tuple(ignore_restrict || b.first->is_restricted(), a.second.volume_capacity);
-                    });
+        } else {
+            std::sort( pockets.begin(), pockets.end(), [ignore_restrict = large_free_space.first &&
+                                       large_free_space.first->is_restricted()]( const pocket_with_constraint & a,
+            const pocket_with_constraint & b ) {
+                return std::tuple( ignore_restrict || a.first->is_restricted(), b.second.volume_capacity )
+                       <  std::tuple( ignore_restrict || b.first->is_restricted(), a.second.volume_capacity );
+            } );
             large_max_space = pockets[0];
 
-            std::sort(pockets.begin(), pockets.end(), [ignore_restrict = long_free_space.first && long_free_space.first->is_restricted()](const pocket_with_constraint& a, const pocket_with_constraint& b) {
-                return std::tuple(ignore_restrict || a.first->is_restricted(), b.second.max_containable_length, b.second.volume_capacity)
-                    <  std::tuple(ignore_restrict || b.first->is_restricted(), a.second.max_containable_length, a.second.volume_capacity);
-                });
+            std::sort( pockets.begin(), pockets.end(), [ignore_restrict = long_free_space.first &&
+                                       long_free_space.first->is_restricted()]( const pocket_with_constraint & a,
+            const pocket_with_constraint & b ) {
+                return std::tuple( ignore_restrict ||
+                                   a.first->is_restricted(), b.second.max_containable_length, b.second.volume_capacity )
+                       <  std::tuple( ignore_restrict ||
+                                      b.first->is_restricted(), a.second.max_containable_length, a.second.volume_capacity );
+            } );
             long_max_space = pockets[0];
         }
 
         // assume pockets_with_space was left sorted by free space earlier
-        std::copy_if(pockets_with_space.begin(), pockets_with_space.end(), std::back_inserter(largest_other_spaces), [&](const pocket_with_constraint& p) {
+        std::copy_if( pockets_with_space.begin(), pockets_with_space.end(),
+        std::back_inserter( largest_other_spaces ), [&]( const pocket_with_constraint & p ) {
             return p.first != large_free_space.first
-                && p.first != long_free_space.first;
-            });
+                   && p.first != long_free_space.first;
+        } );
     }
 
-    std::string other_spaces_str = _("Other: ");
-    if (largest_other_spaces.size() > 0) {
+    std::string other_spaces_str = _( "Other: " );
+    if( largest_other_spaces.size() > 0 ) {
         std::vector<std::string> other_space_strings;
-        for (int i = 0; i < 3 && i < largest_other_spaces.size(); i++)
-        {
-            auto [str1, str2] = build_space_stats(largest_other_spaces[i].second.remaining_volume, 
-                largest_other_spaces[i].first->min_containable_length(),
-                largest_other_spaces[i].second.max_containable_length,
-                largest_other_spaces[i].first->is_restricted()
-            );
-            other_space_strings.push_back(str1 + " " + str2);
+        for( int i = 0; i < 3 && i < largest_other_spaces.size(); i++ ) {
+            auto [str1, str2] = build_space_stats( largest_other_spaces[i].second.remaining_volume,
+                                                   largest_other_spaces[i].first->min_containable_length(),
+                                                   largest_other_spaces[i].second.max_containable_length,
+                                                   largest_other_spaces[i].first->is_restricted()
+                                                 );
+            other_space_strings.push_back( str1 + " " + str2 );
         }
-        other_spaces_str += string_join(other_space_strings, ", ");
+        other_spaces_str += string_join( other_space_strings, ", " );
     }
 
-    inventory_selector::header_stats ret = 
-    {
-        build_weight_and_volume_stats_line(weight_carried, weight_capacity, volume_label_override ? *volume_label_override : _("Total Volume:"), volume_in_pockets, volume_of_pockets),
-        build_pocket_stats_line(_("Largest Space"), 
-            large_free_space.first, 
-            large_free_space.second.remaining_volume,
-            large_free_space.second.max_containable_length,
-            large_max_space.first,
-            show_unconstrained_max_space ? large_max_space.first->volume_capacity() : large_max_space.second.volume_capacity,
-            show_unconstrained_max_space ? large_max_space.first->max_containable_length() : large_max_space.second.max_containable_length
-        ),
-        build_pocket_stats_line(_("Longest Space"), //maybe omit this line if longest spaces == largest spaces?
-            long_free_space.first,
-            long_free_space.second.remaining_volume,
-            long_free_space.second.max_containable_length,
-            long_max_space.first,
-            show_unconstrained_max_space ? long_max_space.first->volume_capacity() : long_max_space.second.volume_capacity,
-            show_unconstrained_max_space ? long_max_space.first->max_containable_length() : long_max_space.second.max_containable_length
-        )
+    inventory_selector::header_stats ret = {
+        build_weight_and_volume_stats_line( weight_carried, weight_capacity, volume_label_override ? *volume_label_override : _( "Total Volume:" ), volume_in_pockets, volume_of_pockets ),
+        build_pocket_stats_line( _( "Largest Space" ),
+                                 large_free_space.first,
+                                 large_free_space.second.remaining_volume,
+                                 large_free_space.second.max_containable_length,
+                                 large_max_space.first,
+                                 show_unconstrained_max_space ? large_max_space.first->volume_capacity() : large_max_space.second.volume_capacity,
+                                 show_unconstrained_max_space ? large_max_space.first->max_containable_length() : large_max_space.second.max_containable_length
+                               ),
+        build_pocket_stats_line( _( "Longest Space" ), //maybe omit this line if longest spaces == largest spaces?
+                                 long_free_space.first,
+                                 long_free_space.second.remaining_volume,
+                                 long_free_space.second.max_containable_length,
+                                 long_max_space.first,
+                                 show_unconstrained_max_space ? long_max_space.first->volume_capacity() : long_max_space.second.volume_capacity,
+                                 show_unconstrained_max_space ? long_max_space.first->max_containable_length() : long_max_space.second.max_containable_length
+                               )
     };
-    if (largest_other_spaces.size() > 0)
-    {
-        ret.push_back({ other_spaces_str });
+    if( largest_other_spaces.size() > 0 ) {
+        ret.push_back( { other_spaces_str } );
     }
     return ret;
 }
 
 inventory_selector::header_stats_line inventory_selector::build_weight_and_volume_stats_line(
     units::mass weight_carried, units::mass weight_capacity,
-    const std::string& volume_label, const units::volume& volume_in_pockets, const units::volume& volume_of_pockets
+    const std::string &volume_label, const units::volume &volume_in_pockets,
+    const units::volume &volume_of_pockets
 )
 {
-    const nc_color& numeric_color = c_light_gray;
-    const nc_color& label_color = c_dark_gray;
-    const nc_color  weight_color = weight_carried > weight_capacity ? c_red : numeric_color;
-    return { string_format("%s %s/%s %s %s %s/%s %s",
-        colorize(volume_label, label_color),
-        format_volume(volume_in_pockets),
-        format_volume(volume_of_pockets),
-        volume_units_abbr(),
-        colorize(_("Total Weight:"), label_color),
-        colorize(string_format("%.1f", round_up(convert_weight(weight_carried), 1)), weight_color),
-        colorize(string_format("%.1f", round_up(convert_weight(weight_capacity), 1)), numeric_color),
-        weight_units()
-    ) };
+    const nc_color &numeric_color = c_light_gray;
+    const nc_color &label_color = c_dark_gray;
+    const nc_color &weight_color = weight_carried > weight_capacity ? c_red : numeric_color;
+    return { string_format( "%s %s/%s %s %s %s/%s %s",
+                            colorize( volume_label, label_color ),
+                            colorize( format_volume( volume_in_pockets ), numeric_color ),
+                            colorize( format_volume( volume_of_pockets ), numeric_color ),
+                            volume_units_abbr(),
+                            colorize( _( "Total Weight:" ), label_color ),
+                            colorize( string_format( "%.1f", round_up( convert_weight( weight_carried ), 1 ) ), weight_color ),
+                            colorize( string_format( "%.1f", round_up( convert_weight( weight_capacity ), 1 ) ), numeric_color ),
+                            weight_units()
+                          ) };
 }
 
 inventory_selector::header_stats_line inventory_selector::build_selection_stats_line(
     units::volume volume, units::mass weight
 )
 {
-    auto number_color = (volume > 0_ml || weight > 0_gram) ? c_yellow : c_dark_gray;    
-    return { string_format("%s %s %s %s %s",
-        colorize(_("Selected"), c_dark_gray),
-        colorize(format_volume(volume), number_color),
-        volume_units_abbr(),
-        colorize(string_format("%.1f", round_up(convert_weight(weight), 1)), number_color),
-        weight_units()
-    ) };
+    auto number_color = ( volume > 0_ml || weight > 0_gram ) ? c_yellow : c_dark_gray;
+    return { string_format( "%s %s %s %s %s",
+                            colorize( _( "Selected" ), c_dark_gray ),
+                            colorize( format_volume( volume ), number_color ),
+                            volume_units_abbr(),
+                            colorize( string_format( "%.1f", round_up( convert_weight( weight ), 1 ) ), number_color ),
+                            weight_units()
+                          ) };
 }
 
 std::tuple<std::string, std::string> inventory_selector::build_invalid_space_stats()
 {
-    return { "", _("None") };
+    return { "", _( "None" ) };
 }
 
-std::tuple<std::string, std::string> inventory_selector::build_space_stats(units::volume size, units::length min_length, units::length max_length, bool is_restricted)
+std::tuple<std::string, std::string> inventory_selector::build_space_stats( units::volume size,
+        units::length min_length, units::length max_length, bool is_restricted )
 {
     auto color_units = c_light_gray;
     auto color_numeric = c_light_gray;
-    std::string vol_str = string_format("%s %s%s",
-        colorize(format_volume(size), color_numeric),
-        colorize(volume_units_abbr(), color_units),
-        is_restricted ? "*": "" // possibly try to give more info on the restriction(s)?
-    );
-    if (min_length > max_length) //you need a weird object for this, but it's not illegal
-    {
+    std::string vol_str = string_format( "%s %s%s",
+                                         colorize( format_volume( size ), color_numeric ),
+                                         colorize( volume_units_abbr(), color_units ),
+                                         is_restricted ? "*" : "" // possibly try to give more info on the restriction(s)?
+                                       );
+    if( min_length > max_length ) { //you need a weird object for this, but it's not illegal
         max_length = 0_mm;
         min_length = 0_mm;
     }
-    std::string length_str = colorize(std::to_string(convert_length(max_length)), color_numeric) + " " + colorize(length_units(max_length), color_units);
-    if (min_length > 0_mm)
-    {
-        length_str = colorize(std::to_string(convert_length(min_length)), color_numeric) + " " + colorize(length_units(min_length), color_units) + "-" + length_str;
+    std::string length_str = colorize( std::to_string( convert_length( max_length ) ),
+                                       color_numeric ) + " " + colorize( length_units( max_length ), color_units );
+    if( min_length > 0_mm ) {
+        length_str = colorize( std::to_string( convert_length( min_length ) ),
+                               color_numeric ) + " " + colorize( length_units( min_length ), color_units ) + "-" + length_str;
     }
     return { vol_str, length_str };
 }
 
 inventory_selector::header_stats_line inventory_selector::build_pocket_stats_line(
-    const std::string& prefix,
-    const item_pocket* free_pocket,
+    const std::string &prefix,
+    const item_pocket *free_pocket,
     units::volume free_pocket_volume,
     units::length free_pocket_length,
-    const item_pocket* max_pocket,
+    const item_pocket *max_pocket,
     units::volume max_pocket_volume,
     units::length max_pocket_length
-) {
+)
+{
     const auto color_numeric = c_light_gray;
     const auto color_units = c_light_gray;
     const auto color_labels = c_dark_gray;
-    auto [free_pocket_str1, free_pocket_str2] = free_pocket ? build_space_stats(free_pocket_volume, free_pocket->min_containable_length(), free_pocket_length, free_pocket->is_restricted()) : build_invalid_space_stats();
-    auto [max_pocket_str1, max_pocket_str2] = max_pocket ? build_space_stats(max_pocket_volume, max_pocket->min_containable_length(), max_pocket_length, max_pocket->is_restricted()) : build_invalid_space_stats();
+    auto [free_pocket_str1, free_pocket_str2] = free_pocket ? build_space_stats( free_pocket_volume,
+            free_pocket->min_containable_length(), free_pocket_length,
+            free_pocket->is_restricted() ) : build_invalid_space_stats();
+    auto [max_pocket_str1, max_pocket_str2] = max_pocket ? build_space_stats( max_pocket_volume,
+            max_pocket->min_containable_length(), max_pocket_length,
+            max_pocket->is_restricted() ) : build_invalid_space_stats();
     return {
-        prefix.empty() ? "" : (prefix + " ") + colorize(_("Free: "), color_labels),
+        prefix.empty() ? "" : ( prefix + " " ) + colorize( _( "Free: " ), color_labels ),
         header_stats_tab_stop,
         free_pocket_str1 + " ",
         header_stats_tab_stop,
         free_pocket_str2,
         header_stats_tab_stop,
         " | ",
-        colorize(_("Max: "), color_labels),
+        colorize( _( "Max: " ), color_labels ),
         header_stats_tab_stop,
         max_pocket_str1 + " ",
         header_stats_tab_stop,
@@ -2810,131 +2835,130 @@ inventory_selector::header_stats_line inventory_selector::build_pocket_stats_lin
 inventory_selector::header_stats inventory_selector::get_raw_stats() const
 {
     // pockets it's okay to insert items into
-    std::function<bool(const item_pocket&)> check_pocket_tree = [](const item_pocket& pocket) {
-        return pocket.is_type(pocket_type::CONTAINER)
-            && !pocket.is_forbidden()
-            && !pocket.settings.is_disabled();
-        };
-    
+    std::function<bool( const item_pocket & )> check_pocket_tree = []( const item_pocket & pocket ) {
+        return pocket.is_type( pocket_type::CONTAINER )
+               && !pocket.is_forbidden()
+               && !pocket.settings.is_disabled();
+    };
+
     // general-purpose bulk pocket criteria
-    std::function<bool(const item_pocket&)> include_pocket_capacity = [](const item_pocket& pocket) {
-        return !pocket.is_restricted()            
-            && !pocket.is_holster()
-            && !pocket.is_ablative()
-            && pocket.min_containable_length() == 0_mm
-            && pocket.get_pocket_data()->min_item_volume == 0_ml
-            && pocket.settings.get_category_whitelist().empty()
-            && pocket.settings.get_item_whitelist().empty();
-        };
+    std::function<bool( const item_pocket & )> include_pocket_capacity = [](
+    const item_pocket & pocket ) {
+        return !pocket.is_restricted()
+               && !pocket.is_holster()
+               && !pocket.is_ablative()
+               && pocket.min_containable_length() == 0_mm
+               && pocket.get_pocket_data()->min_item_volume == 0_ml
+               && pocket.settings.get_category_whitelist().empty()
+               && pocket.settings.get_item_whitelist().empty();
+    };
 
     // space check has extra criteria to make pockets report as 'full' when they can't be used for storing most items.
-    std::function<bool(const item_pocket&)> include_pocket_space = [&](const item_pocket& pocket) {
-        return include_pocket_capacity(pocket)            
-            && item_pocket::ok_for_solids(pocket)
-            && !pocket.sealed();
-        };
-    units::volume free_space = u.free_space(include_pocket_space, check_pocket_tree);
-    units::volume capacity = u.volume_capacity_recursive(include_pocket_capacity, check_pocket_tree);
+    std::function<bool( const item_pocket & )> include_pocket_space = [&](
+    const item_pocket & pocket ) {
+        return include_pocket_capacity( pocket )
+               && item_pocket::ok_for_solids( pocket )
+               && !pocket.sealed();
+    };
+    units::volume free_space = u.free_space( include_pocket_space, check_pocket_tree );
+    units::volume capacity = u.volume_capacity_recursive( include_pocket_capacity, check_pocket_tree );
 
     // pockets we want individual detail on
     std::vector<pocket_with_constraint> pockets = u.get_all_pockets_with_constraints(
-        [](const item_pocket& pocket) {
-            return pocket.is_type(pocket_type::CONTAINER)
-                && !pocket.sealed()
-                && pocket.settings.get_category_whitelist().empty()
-                && pocket.settings.get_item_whitelist().empty()
-                && item_pocket::ok_for_solids(pocket);
-        },
-        check_pocket_tree
-    );
-    
-    std::string volume_label_override = _("Bulk Volume:");
+    []( const item_pocket & pocket ) {
+        return pocket.is_type( pocket_type::CONTAINER )
+               && !pocket.sealed()
+               && pocket.settings.get_category_whitelist().empty()
+               && pocket.settings.get_item_whitelist().empty()
+               && item_pocket::ok_for_solids( pocket );
+    },
+    check_pocket_tree
+            );
+
+    std::string volume_label_override = _( "Bulk Volume:" );
     return get_pocket_summary_header_stats(
-        u.weight_carried(), u.weight_capacity(),
-        capacity - free_space, capacity,
-        pockets, false, &volume_label_override
-    );
+               u.weight_carried(), u.weight_capacity(),
+               capacity - free_space, capacity,
+               pockets, false, &volume_label_override
+           );
 }
 
 std::vector<std::string> inventory_selector::get_stats() const
 {
     header_stats stats = get_raw_stats();
-    std::vector<std::string> lines(stats.size());
-    std::vector<int> line_rindex(stats.size());
+    std::vector<std::string> lines( stats.size() );
+    std::vector<int> line_rindex( stats.size() );
     int blockStart = 0;
     int blockEnd = 0;
-    for (int blockStart = 0; blockStart < stats.size(); blockStart = blockEnd)
-    {
-        ptrdiff_t num_stops = std::count_if(stats[blockStart].begin(), stats[blockStart].end(), [](const auto& x){return x == header_stats_tab_stop; });
+    for( int blockStart = 0; blockStart < stats.size(); blockStart = blockEnd ) {
+        ptrdiff_t num_stops = std::count_if( stats[blockStart].begin(),
+        stats[blockStart].end(), []( const auto & x ) {
+            return x == header_stats_tab_stop;
+        } );
         blockEnd = stats.size();
-        for (int i = blockStart + 1; i < stats.size(); i++)
-        {
-            if (std::count_if(stats[i].begin(), stats[i].end(), [](const auto& x){ return x == header_stats_tab_stop; }) != num_stops)
-            {
+        for( int i = blockStart + 1; i < stats.size(); i++ ) {
+            if( std::count_if( stats[i].begin(), stats[i].end(), []( const auto & x ) {
+            return x == header_stats_tab_stop;
+        } ) != num_stops ) {
                 blockEnd = i;
                 break;
             }
         }
-        
-        for (int tab_stop = 0; tab_stop < num_stops; tab_stop++)
-        {
+
+        for( int tab_stop = 0; tab_stop < num_stops; tab_stop++ ) {
             // each line in the block writes out its parts until its next tab stop
-            for (int i = blockStart; i < blockEnd; i++)
-            {
-                for (; line_rindex[i] < stats[i].size(); line_rindex[i]++) {
+            for( int i = blockStart; i < blockEnd; i++ ) {
+                for( ; line_rindex[i] < stats[i].size(); line_rindex[i]++ ) {
                     int line_index = stats[i].size() - 1 - line_rindex[i];
-                    if(stats[i][line_index] != header_stats_tab_stop)
-                    {                        
+                    if( stats[i][line_index] != header_stats_tab_stop ) {
                         lines[i] = stats[i][line_index] + lines[i];
-                    }
-                    else
-                    {
+                    } else {
                         line_rindex[i]++; // eat the tab-stop
                         break;
                     }
                 }
             }
             // Determine current max width of the block
-            std::vector<size_t> widths(blockEnd - blockStart);
-            std::transform(lines.begin() + blockStart, lines.begin() + blockEnd, widths.begin(),
-                [](const std::string& part) {
-                    return utf8_width(part, true);
-                });            
-            size_t max_width = *std::max_element(widths.begin(), widths.end());
+            std::vector<size_t> widths( blockEnd - blockStart );
+            std::transform( lines.begin() + blockStart, lines.begin() + blockEnd, widths.begin(),
+            []( const std::string & part ) {
+                return utf8_width( part, true );
+            } );
+            size_t max_width = *std::max_element( widths.begin(), widths.end() );
             // leftpad all lines in block to the same length
-            for (size_t i = blockStart; i < blockEnd; i++) {
-                if (max_width > widths[i - blockStart]) {
-                    lines[i] = std::string(max_width - widths[i - blockStart], ' ') + lines[i];
+            for( size_t i = blockStart; i < blockEnd; i++ ) {
+                if( max_width > widths[i - blockStart] ) {
+                    lines[i] = std::string( max_width - widths[i - blockStart], ' ' ) + lines[i];
                 }
             }
         }
     }
 
     // add remaining elements
-    for (int i = 0; i < lines.size(); i++)
-    {
-        for (int line_index = stats[i].size() - 1 - line_rindex[i]; line_index >= 0; line_index--) {
+    for( int i = 0; i < lines.size(); i++ ) {
+        for( int line_index = stats[i].size() - 1 - line_rindex[i]; line_index >= 0; line_index-- ) {
             lines[i] = stats[i][line_index] + lines[i];
         }
     }
     // Determine max width of the whole header
-    std::vector<size_t> widths(lines.size());
-    std::transform(lines.begin(), lines.end(), widths.begin(),
-        [](const std::string& part) {
-            return utf8_width(part, true);
-        });
-    size_t max_width = *std::max_element(widths.begin(), widths.end());
+    std::vector<size_t> widths( lines.size() );
+    std::transform( lines.begin(), lines.end(), widths.begin(),
+    []( const std::string & part ) {
+        return utf8_width( part, true );
+    } );
+    size_t max_width = *std::max_element( widths.begin(), widths.end() );
     // leftpad all lines to the same length, right-justifying the block
-    for (size_t i = 0; i < lines.size(); i++) {
-        if (max_width > widths[i]) {
-            lines[i] = std::string(max_width - widths[i], ' ') + lines[i];
+    for( size_t i = 0; i < lines.size(); i++ ) {
+        if( max_width > widths[i] ) {
+            lines[i] = std::string( max_width - widths[i], ' ' ) + lines[i];
         }
     }
 
     return lines;
 }
 
-inventory_selector::header_stats inventory_selector::convert_stats_to_header_stats(const stats& old_stats)
+inventory_selector::header_stats inventory_selector::convert_stats_to_header_stats(
+    const stats &old_stats )
 {
     header_stats new_stats;
     // Stats consist of arrays of cells.
@@ -2943,15 +2967,14 @@ inventory_selector::header_stats inventory_selector::convert_stats_to_header_sta
     std::array<std::string, num_stats> lines;
     std::array<size_t, num_stats> widths;
     // Add first cells and spaces after them.
-    for (size_t i = 0; i < old_stats.size(); ++i) {
+    for( size_t i = 0; i < old_stats.size(); ++i ) {
         header_stats_line line;
-        line.push_back(old_stats[i][0] + " "); //First cell gets a space inserted after it
-        for (size_t j = 1; j < old_stats[i].size(); j++)
-        {
-            line.push_back(header_stats_tab_stop); //The rest get put in columns
-            line.push_back(old_stats[i][j]);
+        line.push_back( old_stats[i][0] + " " ); //First cell gets a space inserted after it
+        for( size_t j = 1; j < old_stats[i].size(); j++ ) {
+            line.push_back( header_stats_tab_stop ); //The rest get put in columns
+            line.push_back( old_stats[i][j] );
         }
-        new_stats.push_back(line);
+        new_stats.push_back( line );
     }
     return new_stats;
 }
@@ -3717,37 +3740,33 @@ item_location inventory_pick_selector::execute()
 }
 
 inventory_selector::header_stats container_inventory_selector::get_raw_stats() const
-{   
+{
     pocket_constraint container_constraints = loc.get_pocket_constraints_recursive();
     std::vector<pocket_with_constraint> pockets;
     units::volume rigid_capacity = 0_ml;
     units::volume flex_capacity = 0_ml;
     units::volume flex_contents = 0_ml;
-    for (const auto p : loc->get_container_pockets())
-    {
-        pocket_constraint pc(p);
-        pc.constrain_by(container_constraints);
-        pockets.push_back({ p, pc });
+    for( const auto p : loc->get_container_pockets() ) {
+        pocket_constraint pc( p );
+        pc.constrain_by( container_constraints );
+        pockets.push_back( { p, pc } );
 
-        if (p->rigid())
-        {
+        if( p->rigid() ) {
             rigid_capacity += p->volume_capacity();
-        }
-        else
-        {
+        } else {
             flex_capacity += p->volume_capacity();
             flex_contents += p->contents_volume();
         }
-    }    
+    }
 
     return get_pocket_summary_header_stats(
-        loc->get_total_contained_weight(),
-        std::min(loc->get_total_weight_capacity(), container_constraints.weight_capacity),
-        loc->get_contents_volume(),
-        rigid_capacity + flex_contents + std::min(container_constraints.remaining_volume, flex_capacity),
-        pockets,
-        true
-    );
+               loc->get_total_contained_weight(),
+               std::min( loc->get_total_weight_capacity(), container_constraints.weight_capacity ),
+               loc->get_contents_volume(),
+               rigid_capacity + std::min( container_constraints.remaining_volume + flex_contents, flex_capacity ),
+               pockets,
+               true
+           );
 }
 
 ammo_inventory_selector::ammo_inventory_selector( Character &you,
@@ -4214,7 +4233,7 @@ void inventory_compare_selector::toggle_entry( inventory_entry *entry )
 }
 
 inventory_selector::header_stats inventory_multiselector::get_raw_stats() const
-{   
+{
     if( get_stats ) {
         return get_stats( to_use );
     }
@@ -4461,21 +4480,20 @@ inventory_selector::header_stats inventory_drop_selector::get_raw_stats() const
     units::volume volume;
 
     // sum selected items; this assumes that you can't have an item selected at the same time as its ancestor
-    for (const drop_location& loc : to_use) {
-        if (loc.first->count_by_charges()) {
-            item copy(*loc.first.get_item());
+    for( const drop_location &loc : to_use ) {
+        if( loc.first->count_by_charges() ) {
+            item copy( *loc.first.get_item() );
             copy.charges = loc.second;
             weight += copy.weight();
             volume += copy.volume();
-        }
-        else {
+        } else {
             weight += loc.first->weight() * loc.second;
             volume += loc.first->volume() * loc.second;
         }
     }
 
     header_stats stats = inventory_selector::get_raw_stats();
-    stats.push_back(build_selection_stats_line(volume, weight));
+    stats.push_back( build_selection_stats_line( volume, weight ) );
     return stats;
 }
 
@@ -4485,16 +4503,15 @@ inventory_selector::header_stats inventory_insert_selector::get_raw_stats() cons
 {
     units::mass weight;
     units::volume volume;
-    const item_location& loc = static_cast<const inventory_holster_preset&>(preset).get_holster();
+    const item_location &loc = static_cast<const inventory_holster_preset &>( preset ).get_holster();
     // sum selected items; this assumes that you can't have an item selected at the same time as its ancestor
-    for (const drop_location& loc : to_use) {
-        if (loc.first->count_by_charges()) {
-            item copy(*loc.first.get_item());
+    for( const drop_location &loc : to_use ) {
+        if( loc.first->count_by_charges() ) {
+            item copy( *loc.first.get_item() );
             copy.charges = loc.second;
             weight += copy.weight();
             volume += copy.volume();
-        }
-        else {
+        } else {
             weight += loc.first->weight() * loc.second;
             volume += loc.first->volume() * loc.second;
         }
@@ -4505,34 +4522,30 @@ inventory_selector::header_stats inventory_insert_selector::get_raw_stats() cons
     units::volume rigid_capacity = 0_ml;
     units::volume flex_capacity = 0_ml;
     units::volume flex_contents = 0_ml;
-    for (const auto p : loc->get_container_pockets())
-    {
-        pocket_constraint pc(p);
-        pc.constrain_by(container_constraints);
-        pockets.push_back({ p, pc });
-        if (p->rigid())
-        {
+    for( const auto p : loc->get_container_pockets() ) {
+        pocket_constraint pc( p );
+        pc.constrain_by( container_constraints );
+        pockets.push_back( { p, pc } );
+        if( p->rigid() ) {
             rigid_capacity += p->volume_capacity();
-        }
-        else
-        {
+        } else {
             flex_capacity += p->volume_capacity();
             flex_contents += p->contents_volume();
         }
     }
 
     header_stats stats = get_pocket_summary_header_stats(
-        loc->get_total_contained_weight(),
-        std::min(loc->get_total_weight_capacity(), container_constraints.weight_capacity),
-        loc->get_contents_volume(),
-        rigid_capacity + flex_contents + std::min(container_constraints.remaining_volume, flex_capacity),
-        pockets,
-        true
-    );
+                             loc->get_total_contained_weight(),
+                             std::min( loc->get_total_weight_capacity(), container_constraints.weight_capacity ),
+                             loc->get_contents_volume(),
+                             rigid_capacity + std::min( container_constraints.remaining_volume + flex_contents, flex_capacity ),
+                             pockets,
+                             true
+                         );
 
-    stats.push_back(build_selection_stats_line(volume, weight));
+    stats.push_back( build_selection_stats_line( volume, weight ) );
     return stats;
-            
+
 }
 
 pickup_selector::pickup_selector( Character &p, const inventory_selector_preset &preset,
@@ -4702,7 +4715,7 @@ inventory_selector::header_stats pickup_selector::get_raw_stats() const
     }
 
     header_stats stats = inventory_selector::get_raw_stats();
-    stats.push_back(build_selection_stats_line(volume, weight));
+    stats.push_back( build_selection_stats_line( volume, weight ) );
     return stats;
 }
 

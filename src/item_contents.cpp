@@ -2394,45 +2394,44 @@ units::mass item_contents::get_total_holster_weight() const
     return holster_weight;
 }
 
-units::volume item_contents::volume_capacity( std::function<bool(const item_pocket&)> include_pocket ) const
+units::volume item_contents::volume_capacity( std::function<bool( const item_pocket & )>
+        include_pocket ) const
 {
     units::volume total_vol = 0_ml;
-    for (const item_pocket* pocket : get_pockets(include_pocket)) {
+    for( const item_pocket *pocket : get_pockets( include_pocket ) ) {
         total_vol += pocket->volume_capacity();
     }
     return total_vol;
 }
 
-units::volume item_contents::volume_capacity_recursive(std::function<bool(const item_pocket&)> include_pocket,
-    std::function<bool(const item_pocket&)> check_pocket_tree,
-    units::volume& out_volume_expansion) const
+units::volume item_contents::volume_capacity_recursive( std::function<bool( const item_pocket & )>
+        include_pocket,
+        std::function<bool( const item_pocket & )> check_pocket_tree,
+        units::volume &out_volume_expansion ) const
 {
     units::volume ret = 0_ml;
-    for (const item_pocket* pocket : get_pockets(check_pocket_tree))
-    {
+    for( const item_pocket *pocket : get_pockets( check_pocket_tree ) ) {
         units::volume pocket_capacity = pocket->volume_capacity();
         units::volume pocket_adds_capacity = 0_ml;
-        if (include_pocket(*pocket))
-        {
+        if( include_pocket( *pocket ) ) {
             pocket_adds_capacity = pocket_capacity;
             // assume child pockets can't be larger than their parent pocket
             ret += pocket_adds_capacity;
-        }
-        else {
+        } else {
             units::volume nested_capacity = 0_ml;
             units::volume nested_expansion = 0_ml;
-            for (const auto* it : pocket->all_items_top())
-            {
-                nested_capacity += it->get_volume_capacity_recursive(include_pocket, check_pocket_tree, nested_expansion);
+            for( const auto *it : pocket->all_items_top() ) {
+                nested_capacity += it->get_volume_capacity_recursive( include_pocket, check_pocket_tree,
+                                   nested_expansion );
             }
             units::volume rigid_child_capacity = nested_capacity - nested_expansion;
-            units::volume pocket_adds_capacity = std::min(pocket_capacity, nested_expansion); //the pocket can't be used directly, but it's children can expand into it
-            
+            units::volume pocket_adds_capacity = std::min( pocket_capacity,
+                                                 nested_expansion ); //the pocket can't be used directly, but it's children can expand into it
+
             ret += pocket_adds_capacity + rigid_child_capacity;
         }
-        
-        if (!pocket->rigid())
-        {
+
+        if( !pocket->rigid() ) {
             out_volume_expansion += pocket_adds_capacity;
         }
     }
@@ -2450,48 +2449,50 @@ units::volume item_contents::biggest_pocket_capacity() const
     return max_vol;
 }
 
-units::volume item_contents::remaining_volume(std::function<bool(const item_pocket&)> include_pocket) const
+units::volume item_contents::remaining_volume( std::function<bool( const item_pocket & )>
+        include_pocket ) const
 {
     units::volume total_vol = 0_ml;
-    for (const item_pocket* pocket : get_pockets(include_pocket)) {
+    for( const item_pocket *pocket : get_pockets( include_pocket ) ) {
         total_vol += pocket->remaining_volume();
     }
     return total_vol;
 }
 
-units::volume item_contents::remaining_volume_recursive(std::function<bool(const item_pocket&)> include_pocket,
-    std::function<bool(const item_pocket&)> check_pocket_tree,
-    units::volume& out_volume_expansion) const
+units::volume item_contents::remaining_volume_recursive( std::function<bool( const item_pocket & )>
+        include_pocket,
+        std::function<bool( const item_pocket & )> check_pocket_tree,
+        units::volume &out_volume_expansion ) const
 {
     units::volume ret = 0_ml;
-    for (const item_pocket* pocket : get_pockets(check_pocket_tree))
-    {
+    for( const item_pocket *pocket : get_pockets( check_pocket_tree ) ) {
         units::volume pocket_remaining_space = pocket->remaining_volume();
         units::volume nested_remaining_space = 0_ml;
         units::volume nested_expansion = 0_ml;
-        for (const auto* it : pocket->all_items_top())
-        {
-            nested_remaining_space += it->get_remaining_volume_recursive(include_pocket, check_pocket_tree, nested_expansion);
+        for( const auto *it : pocket->all_items_top() ) {
+            nested_remaining_space += it->get_remaining_volume_recursive( include_pocket, check_pocket_tree,
+                                      nested_expansion );
         }
-        units::volume nested_void_space = nested_remaining_space - nested_expansion; // free space 'trapped' in rigid pockets
+        units::volume nested_void_space = nested_remaining_space -
+                                          nested_expansion; // free space 'trapped' in rigid pockets
         units::volume this_pocket_space = std::max(
-            include_pocket(*pocket) ? pocket_remaining_space : 0_ml, //the pocket counts directly, or
-            std::min(pocket_remaining_space, nested_expansion) //the pocket's children can expand into it
-        );
+                                              include_pocket( *pocket ) ? pocket_remaining_space : 0_ml, //the pocket counts directly, or
+                                              std::min( pocket_remaining_space, nested_expansion ) //the pocket's children can expand into it
+                                          );
 
         ret += this_pocket_space + nested_void_space;
-        if (!pocket->rigid())
-        {
+        if( !pocket->rigid() ) {
             out_volume_expansion += this_pocket_space;
         }
     }
     return ret;
 }
 
-units::volume item_contents::contents_volume( std::function<bool(const item_pocket&)> include_pocket) const
+units::volume item_contents::contents_volume( std::function<bool( const item_pocket & )>
+        include_pocket ) const
 {
     units::volume total_vol = 0_ml;
-    for( const item_pocket *pocket : get_pockets(include_pocket)) {
+    for( const item_pocket *pocket : get_pockets( include_pocket ) ) {
         total_vol += pocket->contents_volume();
     }
     return total_vol;

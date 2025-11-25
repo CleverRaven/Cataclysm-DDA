@@ -715,7 +715,7 @@ class inventory_selector
         using stats = std::array<stat, 3>; // legacy
         using header_stats_line = std::vector<std::string>;
         using header_stats = std::vector<header_stats_line>;
-        static header_stats convert_stats_to_header_stats(const stats& old_stats);
+        static header_stats convert_stats_to_header_stats( const stats &old_stats );
 
     protected:
         Character &u;
@@ -774,23 +774,25 @@ class inventory_selector
 
         static header_stats_line build_weight_and_volume_stats_line(
             units::mass weight_carried, units::mass weight_capacity,
-            const std::string& volume_label, const units::volume& volume_in_pockets, const units::volume& volume_of_pockets
+            const std::string &volume_label, const units::volume &volume_in_pockets,
+            const units::volume &volume_of_pockets
         );
         static header_stats_line build_selection_stats_line(
             units::volume volume, units::mass weight
         );
         static header_stats_line build_pocket_stats_line(
-            const std::string& prefix,
-            const item_pocket* free_pocket,
+            const std::string &prefix,
+            const item_pocket *free_pocket,
             units::volume free_pocket_volume,
             units::length free_pocket_length,
-            const item_pocket* max_pocket,
+            const item_pocket *max_pocket,
             units::volume max_pocket_volume,
             units::length max_pocket_length
         );
-        typedef std::pair<const item_pocket*, pocket_constraint> pocket_with_constraint;
+        typedef std::pair<const item_pocket *, pocket_constraint> pocket_with_constraint;
         // returns strings describing the volume and length of a given space (volume)
-        static std::tuple<std::string, std::string> build_space_stats(units::volume size, units::length min_length, units::length max_length, bool is_restricted);
+        static std::tuple<std::string, std::string> build_space_stats( units::volume size,
+                units::length min_length, units::length max_length, bool is_restricted );
         // returns build_space_stats to use when such a space doesn't exist
         static std::tuple<std::string, std::string> build_invalid_space_stats();
         /** returns a multiline block with an overview of space available in the given pockets.
@@ -803,10 +805,10 @@ class inventory_selector
             const units::mass &weight_carried, const units::mass &weight_capacity,
             const units::volume &volume_in_pockets, const units::volume &volume_of_pockets,
             std::vector<pocket_with_constraint> pockets, bool show_unconstrained_max_space,
-            const std::string* volume_label_override = nullptr
+            const std::string *volume_label_override = nullptr
         );
-        static constexpr const char* header_stats_tab_stop = "\t";
-        
+        static constexpr const char *header_stats_tab_stop = "\t";
+
 
         /** Get stats to display in top right.
          *

@@ -198,7 +198,8 @@ class item_contents
         units::mass total_container_weight_capacity( bool unrestricted_pockets_only = false ) const;
 
         /** Get the total volume capacity of pockets belonging to this item. */
-        units::volume volume_capacity( std::function<bool(const item_pocket&)> include_pocket = item_pocket::ok_default_containers) const;
+        units::volume volume_capacity( std::function<bool( const item_pocket & )> include_pocket =
+                                           item_pocket::ok_default_containers ) const;
         /** Get the total remaining volume of pockets belonging to or nested inside this item which pass the 'include' predicate.
         * Accounts for limits applied by this item's pockets, but not pockets this item is stored in.
         * @param include_pocket if a pocket is checked, whether to include its volume
@@ -206,14 +207,16 @@ class item_contents
         * @param out_volume_expansion amount the item would need to increase in volume to actually provide all the returned capacity. will be <= the return value.
         *       this arg is mostly for recursive bookkeeping.
         */
-        units::volume volume_capacity_recursive(std::function<bool(const item_pocket&)> include_pocket,
-            std::function<bool(const item_pocket&)> check_pocket_tree,
-            units::volume& out_volume_expansion) const;
+        units::volume volume_capacity_recursive( std::function<bool( const item_pocket & )> include_pocket,
+                std::function<bool( const item_pocket & )> check_pocket_tree,
+                units::volume &out_volume_expansion ) const;
         /** Get the sum of volumes of items in pockets belonging to this item. */
-        units::volume contents_volume(std::function<bool(const item_pocket&)> include_pocket = item_pocket::ok_default_containers) const;
-        /** Get the remaining volume of pockets belonging to this item. This does not account for the 
+        units::volume contents_volume( std::function<bool( const item_pocket & )> include_pocket =
+                                           item_pocket::ok_default_containers ) const;
+        /** Get the remaining volume of pockets belonging to this item. This does not account for the
             that possibility the pockets cannot actually be expanded that much due to a parent pocket.*/
-        units::volume remaining_volume( std::function<bool(const item_pocket&)> include_pocket = item_pocket::ok_default_containers) const;
+        units::volume remaining_volume( std::function<bool( const item_pocket & )> include_pocket =
+                                            item_pocket::ok_default_containers ) const;
         /** Get the total remaining volume of pockets belonging to or nested inside this item which pass the 'include' predicate.
         * Accounts for limits applied by this item's pockets, but not pockets this item is stored in.
         * @param include_pocket if a pocket is checked, whether to include its volume
@@ -221,15 +224,15 @@ class item_contents
         * @param out_volume_expansion amount the item would need to increase in volume to use all the returned remaining volume. will be <= the return value.
         *       this arg is mostly for recursive bookkeeping.
         */
-        units::volume remaining_volume_recursive(std::function<bool(const item_pocket&)> include_pocket,
-            std::function<bool(const item_pocket&)> check_pocket_tree,
-            units::volume& out_volume_expansion) const;
+        units::volume remaining_volume_recursive( std::function<bool( const item_pocket & )> include_pocket,
+                std::function<bool( const item_pocket & )> check_pocket_tree,
+                units::volume &out_volume_expansion ) const;
         /**
          * Return capacity of the biggest pocket. Ignore blacklist restrictions etc.
          *
          * Useful for quick can_contain rejection.
          */
-        units::volume biggest_pocket_capacity() const;        
+        units::volume biggest_pocket_capacity() const;
         units::mass remaining_container_capacity_weight( bool unrestricted_pockets_only = false ) const;
         units::mass total_contained_weight( bool unrestricted_pockets_only = false ) const;
 
