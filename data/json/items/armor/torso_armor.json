@@ -87,14 +87,17 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "leather lamellar cuirass", "str_pl": "leather lamellar cuirasses" },
     "description": "A cuirass made of multiple pieces of tough leather, laced together for durable yet flexible protection.",
-    "weight": "2108 g",
+    "weight": "4537 g",
     "volume": "9250 ml",
+    "//": "Human surface area is roughly 18600 cm^2, based off of rules of 9 the torso is 36% leaving us with 6696 cm^2, and arms are 18% leaving us with 3348 cm^2.",
+    "//1": "Leather has a density of 1.1g/cm^3, thickness of 0.4 cm, coverage of 100% leaves us with 3 741 grams.",
+    "//2": "Leather has a density of 1.1g/cm^3, thickness of 0.4 cm, coverage of 54% leaves us with 795 grams.",
+    "//3": "Totalled up this is 4 537 grams with some rounding",
     "price": "260 USD",
     "price_postapoc": "25 USD",
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "vest_leather",
-    "copy-from": "armor_chitin",
     "color": "brown",
     "longest_side": "60 cm",
     "warmth": 20,
@@ -235,6 +238,97 @@
     "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
+    "id": "armor_pipe_vest",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "pipe vest" },
+    "description": "A cuirass made of pipe sections tied firmly together.  Very ugly, not that protective, but beats having no armor at all.  Probably.",
+    "weight": "15300 g",
+    "volume": "9 L",
+    "price": "260 USD",
+    "price_postapoc": "25 USD",
+    "material": [ "lc_steel" ],
+    "symbol": "[",
+    "looks_like": "armor_lorica",
+    "color": "light_gray",
+    "longest_side": "60 cm",
+    "warmth": 10,
+    "flags": [ "OUTER" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "lc_steel", "covered_by_mat": 100, "thickness": 3.0 },
+          { "type": "cotton", "covered_by_mat": 7, "thickness": 3.0 }
+        ],
+        "encumbrance": 25,
+        "coverage": 70,
+        "cover_ranged": 70,
+        "cover_vitals": 90,
+        "covers": [ "torso" ]
+      }
+    ]
+  },
+  {
+    "id": "makeshift_metal_plate_vest",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "makeshift metal plate vest" },
+    "description": "This very crude armor is made from two pairs of jeans, filled with metal plates that are sewn in place.  One pair wraps around your waist, and the other over your shoulders.  It's very uncomfortable to wear, very ugly, but works kinda.",
+    "weight": "3700 g",
+    "volume": "9 L",
+    "price": "260 USD",
+    "price_postapoc": "25 USD",
+    "material": [ "lc_steel" ],
+    "symbol": "[",
+    "looks_like": "armor_lorica",
+    "color": "light_gray",
+    "longest_side": "45 cm",
+    "warmth": 10,
+    "flags": [ "OUTER" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "lc_steel", "covered_by_mat": 67, "thickness": 0.8 },
+          { "type": "denim", "covered_by_mat": 100, "thickness": 1.4 }
+        ],
+        "encumbrance": 19,
+        "coverage": 90,
+        "cover_ranged": 70,
+        "cover_vitals": 100,
+        "covers": [ "torso" ]
+      }
+    ]
+  },
+  {
+    "id": "crude_plastic_vest",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "crude plastic armor vest" },
+    "description": "This plastic vest is made from pieces of a large trash can, held together with string.",
+    "//": "Human torso is 6 700cm^2, 80% coverage is 5357cm^2.  Thickness of 0.31cm, plastic density of 1g/cm^3 leaves us with 1 661 grams. 288g of cordage leaves us with 1 949 total, rounded up to 2 kg for error.",
+    "weight": "2000 g",
+    "volume": "3 L",
+    "price": "10 USD",
+    "price_postapoc": "5 USD",
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "looks_like": "apron_plastic",
+    "color": "light_gray",
+    "longest_side": "45 cm",
+    "warmth": 10,
+    "flags": [ "OUTER" ],
+    "armor": [
+      {
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 3.1 } ],
+        "encumbrance": 16,
+        "coverage": 80,
+        "cover_ranged": 70,
+        "cover_vitals": 100,
+        "covers": [ "torso" ]
+      }
+    ]
+  },
+  {
     "id": "carpet_cuirass",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
@@ -299,7 +393,7 @@
     "name": { "str": "ichcahuipilli" },
     "description": "A Mesoamerican armor of Nahuatl origin, somewhat similar to a European gambeson.  It is made of unspun cotton between two layers of quilted cotton crystalized by brine, edged with leather around its holes.  It is extremely thick and offers superb protection, but is also heavy.  This bad boy once stopped Spanish bullets and Aztec missiles alike, now its time has come to stop zombie bites.",
     "//": "Reasoning for weight and volume parts are within the recipe.",
-    "weight": "16800 g",
+    "weight": "8150 g",
     "volume": "16300 ml",
     "symbol": "[",
     "color": "light_gray",
@@ -947,11 +1041,11 @@
     "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "scrap cuirass", "str_pl": "scrap cuirasses" },
-    "description": "A cuirass made from scraps of metal secured by simple strings.",
-    "weight": "3366 g",
+    "description": "Jagged metal scraps crudely lashed to your torso with frayed cords.  Gaps leave skin exposed and movement feels really awkward.",
+    "weight": "6200 g",
     "volume": "5750 ml",
-    "price": "200 USD",
-    "price_postapoc": "50 cent",
+    "price": "4 USD",
+    "price_postapoc": "2 USD",
     "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "budget_steel", "cotton" ],
     "repairs_with": [ "budget_steel" ],
@@ -964,12 +1058,12 @@
     "armor": [
       {
         "material": [
-          { "type": "budget_steel", "covered_by_mat": 75, "thickness": 2 },
+          { "type": "budget_steel", "covered_by_mat": 60, "thickness": 2.2 },
           { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 }
         ],
         "covers": [ "torso" ],
-        "coverage": 95,
-        "encumbrance": 18
+        "coverage": 70,
+        "encumbrance": 22
       }
     ],
     "melee_damage": { "bash": 2, "cut": 3 }
@@ -2134,8 +2228,12 @@
     "category": "armor",
     "name": { "str": "leather armor cuirass", "str_pl": "leather armor cuirasses" },
     "description": "A leather chest plate with attached shoulder guards.",
-    "weight": "3250 g",
+    "weight": "3414 g",
     "volume": "3500 ml",
+    "//": "Human surface area is roughly 18600 cm^2, based off of rules of 9 the torso is 36% leaving us with 6696 cm^2, and arms are 18% leaving us with 3348 cm^2.",
+    "//1": "Leather has a density of 1.1g/cm^3, thickness of 0.45 cm, coverage of 95% leaves us with 3 149 grams.",
+    "//2": "Leather has a density of 1.1g/cm^3, thickness of 0.4 cm, coverage of 18% leaves us with 265 grams.",
+    "//3": "Totalled up this is 3 414 grams with some rounding",
     "price": "60 USD",
     "price_postapoc": "12 USD 50 cent",
     "material": [ "leather" ],
@@ -2336,5 +2434,58 @@
     "name": { "str": "tempered steel mirror armor", "str_pl": "sets of tempered steel mirror armor" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+  },
+  {
+    "id": "armor_chitin_vest",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
+    "name": { "str": "chitinous scale mail vest" },
+    "description": "A vest of chitin sections overlapping with each other, secured to a leather backing.  The odd irregular shapes make full coverage impossible, not helped by how poor of a material chitin is.  Seems to be made more out of desperation than anything, and would benefit greatly from some underlying armor.",
+    "weight": "3624 g",
+    "volume": "4 L",
+    "//": "Human surface area is roughly 18600 cm^2, based off of rules of 9 the torso is 36% leaving us with 6696 cm^2.",
+    "//1": "Chitin has a density of 1.45g/cm^3, thickness of 0.32 cm, coverage of 80% leaves us with 3 107 grams.",
+    "//2": "Leather has a density of 1.1g/cm^3, thickness of 0.07 cm, coverage of 100% leaves us with 516 grams.",
+    "//3": "Totalled up this is 3 624 grams with some rounding",
+    "price": "460 USD",
+    "price_postapoc": "2 USD",
+    "material": [ { "type": "chitin", "portion": 35 }, { "type": "leather", "portion": 1 } ],
+    "symbol": "[",
+    "looks_like": "armor_larmor",
+    "color": "green",
+    "warmth": 20,
+    "longest_side": "30 cm",
+    "flags": [ "OUTER" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "chitin", "covered_by_mat": 80, "thickness": 3.2 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 0.7 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 13
+      }
+    ]
+  },
+  {
+    "id": "xl_armor_chitin_vest",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "chitinous scale mail vest" },
+    "copy-from": "armor_chitin_vest",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+  },
+  {
+    "id": "xs_armor_chitin_vest",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "copy-from": "armor_chitin_vest",
+    "looks_like": "armor_chitin_vest",
+    "name": { "str": "chitinous scale mail vest" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "STURDY", "OUTER", "UNDERSIZE", "PREFIX_XS" ]
   }
 ]

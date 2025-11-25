@@ -995,7 +995,7 @@
   {
     "id": "MISSION_RANCH_FOREMAN_16",
     "type": "mission_definition",
-    "name": { "str": "Gather 80lb (10000 units) of Sugar" },
+    "name": { "str": "Gather 110lb (10000 units) of Sugar" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -1006,7 +1006,7 @@
     "followup": "MISSION_RANCH_FOREMAN_17",
     "dialogue": {
       "describe": "We need help…",
-      "offer": "Just flipping through the book, I can tell that one ingredient in most of the alcoholic drinks that we don't have a large supply of is sugar.  What alcohol we have been able to loot isn't going to last us long, so starting our first large batch is a priority.  Could you bring in 80 lbs of sugar?  That should last us until we can start producing our own supply.",
+      "offer": "Just flipping through the book, I can tell that one ingredient in most of the alcoholic drinks that we don't have a large supply of is sugar.  What alcohol we have been able to loot isn't going to last us long, so starting our first large batch is a priority.  Could you bring in 110 lbs of sugar?  That should last us until we can start producing our own supply.",
       "accepted": "I'm counting on you.",
       "rejected": "Come back when you get a chance.  We need skilled survivors.",
       "advice": "You might get lucky finding it, but you could always boil it out of fruit if you are familiar with the process.  Or go into the cities and look in restaurants and bakeries.",

@@ -472,7 +472,8 @@
     "result": "xs_bra",
     "type": "recipe",
     "copy-from": "bra",
-    "using": [ [ "tailoring_cotton_patchwork", 1 ], [ "fastener_small", 1 ] ]
+    "using": [ [ "tailoring_cotton_patchwork", 1 ], [ "fastener_small", 1 ] ],
+    "components": [ [ [ "lc_wire", 1 ] ] ]
   },
   {
     "result": "bellyband",
@@ -1802,7 +1803,7 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 5,
-    "time": "4 d",
+    "time": "6 h",
     "autolearn": true,
     "book_learn": [ [ "recipe_melee", 6 ] ],
     "using": [ [ "tailoring_nylon_patchwork", 1 ], [ "blacksmithing_standard", 16 ], [ "lc_steel_standard", 4 ] ],
@@ -1822,7 +1823,7 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 5,
-    "time": "4 d",
+    "time": "6 h",
     "autolearn": true,
     "book_learn": [ [ "recipe_melee", 6 ] ],
     "using": [ [ "tailoring_nylon_patchwork", 1 ], [ "blacksmithing_standard", 16 ], [ "mc_steel_standard", 4 ] ],
@@ -1842,7 +1843,7 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 5,
-    "time": "4 d",
+    "time": "7 h",
     "autolearn": true,
     "book_learn": [ [ "recipe_melee", 6 ] ],
     "using": [ [ "tailoring_nylon_patchwork", 1 ], [ "blacksmithing_standard", 16 ], [ "hc_steel_standard", 4 ] ],
@@ -1862,7 +1863,7 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 6,
-    "time": "5 d",
+    "time": "7 h",
     "autolearn": true,
     "book_learn": [ [ "recipe_melee", 6 ] ],
     "using": [ [ "tailoring_nylon_patchwork", 1 ], [ "blacksmithing_standard", 16 ], [ "lc_steel_standard", 4 ], [ "carbon", 4 ] ],
@@ -1883,7 +1884,7 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 7,
-    "time": "5 d 12 h",
+    "time": "8 h",
     "autolearn": true,
     "book_learn": [ [ "recipe_melee", 6 ] ],
     "using": [ [ "tailoring_nylon_patchwork", 1 ], [ "blacksmithing_standard", 16 ], [ "mc_steel_standard", 4 ] ],
@@ -2768,7 +2769,6 @@
     "skill_used": "tailor",
     "difficulty": 6,
     "time": "20 h",
-    "reversible": true,
     "decomp_learn": 6,
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 2 } ],
@@ -2784,7 +2784,6 @@
     "skill_used": "tailor",
     "difficulty": 6,
     "time": "75 h",
-    "reversible": true,
     "decomp_learn": 6,
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 2 } ],
@@ -3196,7 +3195,11 @@
     "book_learn": [ [ "bronze_book", 5 ], [ "textbook_armwest", 8 ] ],
     "using": [ [ "forging_standard", 14 ], [ "bronzesmithing_tools", 1 ] ],
     "components": [ [ [ "scrap_bronze", 28 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_armorsmithing" }, { "proficiency": "prof_redsmithing", "required": true } ]
+    "proficiencies": [
+      { "proficiency": "prof_armorsmithing" },
+      { "proficiency": "prof_redsmithing", "required": true },
+      { "proficiency": "prof_redsmithing_adv" }
+    ]
   },
   {
     "result": "xs_armor_cuirass",
@@ -3227,7 +3230,11 @@
     "book_learn": [ [ "bronze_book", 4 ], [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
     "using": [ [ "forging_standard", 12 ], [ "bronzesmithing_tools", 1 ] ],
     "components": [ [ [ "scrap_bronze", 22 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_armorsmithing" }, { "proficiency": "prof_redsmithing", "required": true } ]
+    "proficiencies": [
+      { "proficiency": "prof_armorsmithing" },
+      { "proficiency": "prof_redsmithing", "required": true },
+      { "proficiency": "prof_redsmithing_adv" }
+    ]
   },
   {
     "result": "xs_cuirass_bronze",
@@ -5298,5 +5305,94 @@
       [ [ "sheet_kevlar_layered", 24 ] ],
       [ [ "ballistic_vest_esapi", 1 ] ]
     ]
+  },
+  {
+    "result": "armor_chitin_vest",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "tailor",
+    "difficulty": 7,
+    "skills_required": [ [ "fabrication", 3 ] ],
+    "time": "440 m",
+    "autolearn": true,
+    "book_learn": [ [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ], [ "textbook_arthropod", 6 ] ],
+    "byproducts": [ [ "scrap_leather", 7 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_chitinworking" },
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_leatherworking_basic" }
+    ],
+    "using": [ [ "armor_chitin", 35 ], [ "tailoring_leather_patchwork", 2 ] ],
+    "components": [ [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "police_belt", 1 ], [ "fireman_belt", 1 ] ] ]
+  },
+  {
+    "result": "xs_armor_chitin_vest",
+    "type": "recipe",
+    "copy-from": "armor_chitin_vest",
+    "time": "345 m",
+    "using": [ [ "armor_chitin", 26 ], [ "tailoring_leather_patchwork", 2 ] ],
+    "components": [ [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "police_belt", 1 ], [ "fireman_belt", 1 ] ] ]
+  },
+  {
+    "result": "xl_armor_chitin_vest",
+    "type": "recipe",
+    "copy-from": "armor_chitin_vest",
+    "time": "613 m",
+    "using": [ [ "armor_chitin", 45 ], [ "tailoring_leather_patchwork", 4 ] ],
+    "components": [ [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "police_belt", 1 ], [ "fireman_belt", 1 ] ] ]
+  },
+  {
+    "copy-from": "sundress",
+    "result": "cheongsam",
+    "type": "recipe",
+    "time": "5 h",
+    "using": [ [ "tailoring_cotton_patchwork", 7 ] ]
+  },
+  {
+    "result": "armor_pipe_vest",
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "2 h",
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "rope_natural", 3 ] ],
+    "components": [ [ [ "pipe", 21 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "SAW_M", "level": 2 } ]
+  },
+  {
+    "result": "makeshift_metal_plate_vest",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "3 h",
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "filament", 100 ] ],
+    "components": [ [ [ "jeans", 2 ] ], [ [ "sheet_metal_small", 10 ] ] ],
+    "qualities": [ { "id": "SEW", "level": 2 } ]
+  },
+  {
+    "result": "crude_plastic_vest",
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "1 h 30 m",
+    "autolearn": true,
+    "using": [ [ "cordage", 8 ] ],
+    "components": [ [ [ "trashcan_large", 1 ] ] ],
+    "byproducts": [ [ "plastic_chunk", 266 ] ],
+    "qualities": [ { "id": "CUT", "level": 2 } ]
   }
 ]

@@ -256,7 +256,7 @@
     "eoc_type": "EVENT",
     "required_event": "character_takes_damage",
     "condition": { "u_has_trait": "UNDINE_WATER_FORM_TRAITS" },
-    "effect": [ { "math": [ "u_val('thirst')", "+=", "4" ] } ]
+    "effect": [ { "math": [ "u_val('thirst') += 4" ] } ]
   },
   {
     "type": "effect_on_condition",

@@ -84,7 +84,7 @@
       "P": { "item": "SUS_office_filing_cabinet", "chance": 33 },
       "d": { "item": "SUS_office_desk", "chance": 33 },
       "l": { "item": "SUS_janitors_closet", "chance": 100 },
-      "a": { "item": "SUS_trash_trashcan", "chance": 33 },
+      "a": { "item": "SUS_trash_trashcan_public", "chance": 33 },
       "A": { "item": "SUS_trash_dumpster", "chance": 75 },
       "t": { "item": "SUS_toilet", "chance": 50 }
     },
@@ -181,6 +181,6 @@
       "a": "f_trashcan",
       "X": "f_cardboard_box"
     },
-    "items": { "a": { "item": "SUS_trash_trashcan", "chance": 33 } }
+    "items": { "a": { "item": "SUS_trash_trashcan_public", "chance": 33 } }
   }
 ]

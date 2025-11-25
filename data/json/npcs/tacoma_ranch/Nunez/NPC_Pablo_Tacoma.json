@@ -99,7 +99,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_TACOMA_Pablo_2",
-    "dynamic_line": "Can't complain,\" he stretches his neck and pops his shoulder.  \"No, really, I can't.  The work is hard, but people here really want to *do* something, not just hide inside and hope someone saves us.  I've been helping doing general labor a bit, but also working out an inventory system for our supplies.  It's already helped us get a few important bits in earlier than we'd have noticed otherwise.  Post-apocalyptic accounting, ha!  Who'd have thought?\"",
+    "dynamic_line": "Can't complain,\" he stretches his neck and pops his shoulder.  \"No, really, I can't.  The work is hard, but people here really want to *do* something, not just hide inside and hope someone saves us.  I've been helping doing general labor a bit, but also working out an inventory system for our supplies.  It's already helped us get a few important bits in earlier than we'd have noticed otherwise.  Post-apocalyptic accounting, ha!  Who'd have thought?",
     "responses": [
       { "text": "Keeping inventory is similar to accounting?  Really?", "topic": "TALK_TACOMA_Pablo_Accounting1" },
       { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
@@ -109,7 +109,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_TACOMA_Pablo_Accounting1",
-    "dynamic_line": "If you want the honest truth, only a bit.  It's not much like filing income tax.  Still, I know my way around a spreadsheet and I don't mind staring at numbers all day.  I think people were dubious at first, but now that it's starting to show real value they're coming around.\"",
+    "dynamic_line": "If you want the honest truth, only a bit.  It's not much like filing income tax.  Still, I know my way around a spreadsheet and I don't mind staring at numbers all day.  I think people were dubious at first, but now that it's starting to show real value they're coming around.",
     "responses": [
       { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
       { "text": "<end_talking_leave>", "topic": "TALK_DONE" }

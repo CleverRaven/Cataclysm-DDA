@@ -11,7 +11,7 @@
           {
             "id": "EOC_NETHER_CONDUIT_VALUE_INCREASER_2",
             "condition": { "math": [ "u_nether_conduit_repeated_channeling_value < 25" ] },
-            "effect": [ { "math": [ "u_nether_conduit_repeated_channeling_value", "+=", "rng(1,2.4)" ] } ]
+            "effect": [ { "math": [ "u_nether_conduit_repeated_channeling_value += rng(1,2.4)" ] } ]
           }
         ]
       }
@@ -82,13 +82,13 @@
     "effect": [
       { "u_message": "As you unleash your powers, you feel a strange tingling sensation.", "type": "mixed" },
       {
-        "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(1) + (rand(u_vitamin('vitamin_maintained_powers')) / 2)" ]
+        "math": [ "u_vitamin('vitamin_psionic_drain') += rand(1) + (rand(u_vitamin('vitamin_maintained_powers')) / 2)" ]
       }
     ],
     "false_effect": [
       { "u_message": "As you unleash your powers, you feel a strange tingling sensation.", "type": "mixed" },
       {
-        "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(3) + (rand(u_vitamin('vitamin_maintained_powers')) / 2)" ]
+        "math": [ "u_vitamin('vitamin_psionic_drain') += rand(3) + (rand(u_vitamin('vitamin_maintained_powers')) / 2)" ]
       }
     ]
   },
@@ -176,13 +176,13 @@
     "effect": [
       { "u_message": "As you concentrate on your powers, you feel a strange tingling sensation.", "type": "mixed" },
       {
-        "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(1) + (rand(u_vitamin('vitamin_maintained_powers')) / 2)" ]
+        "math": [ "u_vitamin('vitamin_psionic_drain') += rand(1) + (rand(u_vitamin('vitamin_maintained_powers')) / 2)" ]
       }
     ],
     "false_effect": [
       { "u_message": "As you concentrate on your powers, you feel a strange tingling sensation.", "type": "mixed" },
       {
-        "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(3) + (rand(u_vitamin('vitamin_maintained_powers')) / 2)" ]
+        "math": [ "u_vitamin('vitamin_psionic_drain') += rand(3) + (rand(u_vitamin('vitamin_maintained_powers')) / 2)" ]
       }
     ]
   },
@@ -218,7 +218,7 @@
     "global": true,
     "run_for_npcs": true,
     "condition": { "math": [ "u_nether_conduit_repeated_channeling_value > 0" ] },
-    "effect": [ { "math": [ "u_nether_conduit_repeated_channeling_value", "-=", "1" ] } ],
+    "effect": [ { "math": [ "u_nether_conduit_repeated_channeling_value -= 1" ] } ],
     "false_effect": [ { "math": [ "u_nether_conduit_repeated_channeling_value = 0" ] } ]
   },
   {
@@ -232,17 +232,13 @@
         { "u_has_trait": "PSI_TORRENTIAL_CHANNELING_active" }
       ]
     },
-    "effect": [
-      {
-        "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(3 + (u_nether_conduit_repeated_channeling_value / 5 ) )" ]
-      }
-    ]
+    "effect": [ { "math": [ "u_vitamin('vitamin_psionic_drain') += rand(3 + (u_nether_conduit_repeated_channeling_value / 5 ) )" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_TORRENTIAL_maintenance",
     "condition": { "u_has_trait": "PSI_TORRENTIAL_CHANNELING_active" },
-    "effect": [ { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(6) + 1" ] } ]
+    "effect": [ { "math": [ "u_vitamin('vitamin_psionic_drain') += rand(6) + 1" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -278,11 +274,20 @@
             "false_effect": {
               "switch": { "math": [ "u_vitamin('vitamin_psionic_drain')" ] },
               "cases": [
-                { "case": 0, "effect": { "math": [ "u_nether_attunement_power_scaling = 1.6" ] } },
-                { "case": 195, "effect": { "math": [ "u_nether_attunement_power_scaling = 1.8" ] } },
-                { "case": 215, "effect": { "math": [ "u_nether_attunement_power_scaling = 2.1" ] } },
-                { "case": 235, "effect": { "math": [ "u_nether_attunement_power_scaling = 3" ] } },
-                { "case": 245, "effect": { "math": [ "u_nether_attunement_power_scaling = 4" ] } }
+                { "case": 0, "effect": { "math": [ "u_nether_attunement_power_scaling = 1" ] } },
+                { "case": 15, "effect": { "math": [ "u_nether_attunement_power_scaling = 1.15" ] } },
+                { "case": 35, "effect": { "math": [ "u_nether_attunement_power_scaling = 1.3" ] } },
+                { "case": 55, "effect": { "math": [ "u_nether_attunement_power_scaling = 1.45" ] } },
+                { "case": 75, "effect": { "math": [ "u_nether_attunement_power_scaling = 1.6" ] } },
+                { "case": 95, "effect": { "math": [ "u_nether_attunement_power_scaling = 1.8" ] } },
+                { "case": 115, "effect": { "math": [ "u_nether_attunement_power_scaling = 2" ] } },
+                { "case": 135, "effect": { "math": [ "u_nether_attunement_power_scaling = 2.25" ] } },
+                { "case": 155, "effect": { "math": [ "u_nether_attunement_power_scaling = 2.6" ] } },
+                { "case": 175, "effect": { "math": [ "u_nether_attunement_power_scaling = 3.0" ] } },
+                { "case": 195, "effect": { "math": [ "u_nether_attunement_power_scaling = 3.5" ] } },
+                { "case": 215, "effect": { "math": [ "u_nether_attunement_power_scaling = 4" ] } },
+                { "case": 235, "effect": { "math": [ "u_nether_attunement_power_scaling = 4.8" ] } },
+                { "case": 245, "effect": { "math": [ "u_nether_attunement_power_scaling = 6.5" ] } }
               ]
             }
           }
@@ -337,17 +342,22 @@
         [ "EOC_NETHER_EFFECT_CHECK_VOMIT", 9 ],
         [ "EOC_DRAIN_EFFECT_CHECK_NOSEBLEED", 12 ],
         [ "EOC_DRAIN_EFFECT_CHECK_STAMINA_LOSS", 8 ],
+        [ "EOC_NETHER_EFFECT_CHECK_CLAIR_BLURRED_SIGHT", 6 ],
         [ "EOC_DRAIN_EFFECT_CHECK_POWER_SURGE", 5 ],
         [ "EOC_DRAIN_EFFECT_CHECK_SLEEPINESS", 5 ],
         [ "EOC_NETHER_EFFECT_CHECK_ATTUNEMENT_RAISING_EFFECT", 9 ],
+        [ "EOC_NETHER_EFFECT_CHECK_WEARINESS_EXTRA_CALORIE_EFFECT", 7 ],
         [ "EOC_NETHER_EFFECT_CHECK_FEEDBACK", 9 ],
         [ "EOC_NETHER_EFFECT_CHECK_OBSERVED", 6 ],
+        [ "EOC_NETHER_EFFECT_CHECK_PYROKINETIC_FEVER", 7 ],
         [ "EOC_NETHER_EFFECT_CHECK_TELEPORTATION_INCORPOREALITY", 4 ],
         [ "EOC_DRAIN_EFFECT_CHECK_TELEPORT_LOCK", 5 ],
         [ "EOC_NETHER_EFFECT_CHECK_BIOKIN_METABOLIC_INVERSION", 5 ],
         [ "EOC_NETHER_EFFECT_CHECK_ELECTROKINETIC_POWER_DRAIN", 5 ],
         [ "EOC_DRAIN_EFFECT_CHECK_WEAKNESS", 5 ],
+        [ "EOC_NETHER_EFFECT_CHECK_PYROKINETIC_FOG", 4 ],
         [ "EOC_NETHER_EFFECT_CHECK_EXTRA_KCAL", 6 ],
+        [ "EOC_NETHER_EFFECT_CHECK_MINDSHOCK_STUN", 6 ],
         [ "EOC_NETHER_EFFECT_CHECK_ATTENUATION", 8 ],
         [ "EOC_NETHER_EFFECT_CHECK_BREATHING", 5 ],
         [ "EOC_NETHER_EFFECT_CHECK_FORCE_WAVE", 5 ],
@@ -403,7 +413,7 @@
           "x_in_y_chance": {
             "x": {
               "math": [
-                "( clamp( (u_vitamin('vitamin_psionic_drain') - 50), 0, 80) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 130) * 2.5 ), 0, 375) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 30)"
+                "( clamp( (u_vitamin('vitamin_psionic_drain') - 50), 0, 80) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 130) * 2.5 ), 0, 375) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 30) + nether_attune_torrential_channeling_influence()"
               ]
             },
             "y": 1000
@@ -428,7 +438,7 @@
           "x_in_y_chance": {
             "x": {
               "math": [
-                "clamp( ( u_vitamin('vitamin_psionic_drain') - 75), 0, 75) + clamp( ( ( u_vitamin('vitamin_psionic_drain') * 2) - 150), 0, 145) + clamp( ( ( u_vitamin('vitamin_psionic_drain') * 3) - 225), 0, 75) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 20"
+                "clamp( ( u_vitamin('vitamin_psionic_drain') - 75), 0, 75) + clamp( ( ( u_vitamin('vitamin_psionic_drain') * 2) - 150), 0, 145) + clamp( ( ( u_vitamin('vitamin_psionic_drain') * 3) - 225), 0, 75) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 20 + nether_attune_torrential_channeling_influence()"
               ]
             },
             "y": 1000
@@ -436,7 +446,7 @@
         },
         "then": [
           { "u_message": "You feel a strange tingling sensation.", "type": "mixed" },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(5) + 2" ] }
+          { "math": [ "u_vitamin('vitamin_psionic_drain') += rand(5) + 2" ] }
         ]
       }
     ],
@@ -453,7 +463,7 @@
           "x_in_y_chance": {
             "x": {
               "math": [
-                "( clamp( ( u_vitamin('vitamin_psionic_drain') - 70), 0, 50) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 120) * 2 ), 0, 310) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 15)"
+                "( clamp( ( u_vitamin('vitamin_psionic_drain') - 70), 0, 50) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 120) * 2 ), 0, 310) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 15) + nether_attune_torrential_channeling_influence()"
               ]
             },
             "y": 1000
@@ -481,7 +491,7 @@
           "x_in_y_chance": {
             "x": {
               "math": [
-                "( clamp( ( (u_vitamin('vitamin_psionic_drain') - 80) * 1.25 ), 0, 87.5) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 150) * 2.5 ), 0, 300) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 20)"
+                "( clamp( ( (u_vitamin('vitamin_psionic_drain') - 80) * 1.25 ), 0, 87.5) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 150) * 2.5 ), 0, 300) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 20) + nether_attune_torrential_channeling_influence()"
               ]
             },
             "y": 1000
@@ -506,7 +516,7 @@
           "x_in_y_chance": {
             "x": {
               "math": [
-                "( clamp( ( ( u_vitamin('vitamin_psionic_drain') - 60) * 1.25), 0, 112.5) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 150) * 2.5 ), 0, 372.5) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 10)"
+                "( clamp( ( ( u_vitamin('vitamin_psionic_drain') - 60) * 1.25), 0, 112.5) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 150) * 2.5 ), 0, 372.5) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 10) + nether_attune_torrential_channeling_influence()"
               ]
             },
             "y": 1000
@@ -515,7 +525,7 @@
         "then": [
           { "u_message": "Blood drips from your nose.", "type": "bad" },
           { "u_add_effect": "bleed", "intensity": 1, "target_part": "head", "duration": "5 minutes" },
-          { "math": [ "u_hp('head')", "-=", "1" ] }
+          { "math": [ "u_hp('head') -= 1" ] }
         ]
       }
     ],
@@ -532,7 +542,7 @@
           "x_in_y_chance": {
             "x": {
               "math": [
-                "( clamp( (u_vitamin('vitamin_psionic_drain') - 100), 0, 60) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 160) * 2 ), 0, 80) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 200) * 3 ), 0, 150) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 20)"
+                "( clamp( (u_vitamin('vitamin_psionic_drain') - 100), 0, 60) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 160) * 2 ), 0, 80) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 200) * 3 ), 0, 150) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 20) + nether_attune_torrential_channeling_influence()"
               ]
             },
             "y": 1000
@@ -540,7 +550,42 @@
         },
         "then": [
           { "u_message": "You feel a sudden wave of fatigue.", "type": "bad" },
-          { "math": [ "u_val('stamina')", "-=", "rng(3000,9000)" ] }
+          { "math": [ "u_val('stamina') -= rng(3000,9000)" ] }
+        ]
+      }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_PSIONICS_NETHER_ATTUNEMENT_CONSEQUENCES" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NETHER_EFFECT_CHECK_CLAIR_BLURRED_SIGHT",
+    "//": "Base is 3% chance from 55 attunement to 95 attunement, then scaling up 0.15% per attunement up to 12% chance at 155 attunement, then scaling up 0.25% chance per attunement up to 35.75% chance at max, plus 1/10th the Difficulty squared.",
+    "condition": {
+      "and": [
+        { "compare_string": [ "CLAIRSENTIENT", { "context_val": "school" } ] },
+        { "math": [ "u_vitamin('vitamin_psionic_drain') >= 55" ] }
+      ]
+    },
+    "effect": [
+      {
+        "if": {
+          "x_in_y_chance": {
+            "x": {
+              "math": [
+                "( clamp( ( (u_vitamin('vitamin_psionic_drain') - 95) * 1.5 ), 0, 90) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 155) * 2.5 ), 0, 300) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 30) + nether_attune_torrential_channeling_influence()"
+              ]
+            },
+            "y": 1000
+          }
+        },
+        "then": [
+          { "u_message": "As you unleash your powers, your vision blurs!", "type": "bad" },
+          {
+            "u_add_effect": "effect_nether_attunement_clair_blurred_sight",
+            "duration": {
+              "math": [ "time(' 20 m') * rng( ( u_vitamin('vitamin_psionic_drain') / 2 ), ( u_vitamin('vitamin_psionic_drain') * 2 ) )" ]
+            }
+          }
         ]
       }
     ],
@@ -557,7 +602,7 @@
           "x_in_y_chance": {
             "x": {
               "math": [
-                "( clamp( (( u_vitamin('vitamin_psionic_drain') * 1.5 ) - 125), 0, 75) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 175) * 4.5 ), 0, 225) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 225) * 6.5 ), 0, 300) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 20)"
+                "( clamp( (( u_vitamin('vitamin_psionic_drain') * 1.5 ) - 125), 0, 75) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 175) * 4.5 ), 0, 225) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 225) * 6.5 ), 0, 300) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 20) + nether_attune_torrential_channeling_influence()"
               ]
             },
             "y": 1000
@@ -565,7 +610,7 @@
         },
         "then": [
           { "u_message": "You feel a sudden wave of exhaustion and stifle a yawn.", "type": "bad" },
-          { "math": [ "u_val('sleepiness')", "+=", "rng(30,90)" ] }
+          { "math": [ "u_val('sleepiness') += rng(30,90)" ] }
         ]
       }
     ],
@@ -582,7 +627,7 @@
           "x_in_y_chance": {
             "x": {
               "math": [
-                "( clamp( ( (u_vitamin('vitamin_psionic_drain') - 90) * 1.5), 0, 127.5) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 175) * 3 ), 0, 375) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 30)"
+                "( clamp( ( (u_vitamin('vitamin_psionic_drain') - 90) * 1.5), 0, 127.5) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 175) * 3 ), 0, 375) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 30) + nether_attune_torrential_channeling_influence()"
               ]
             },
             "y": 1000
@@ -603,6 +648,35 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_NETHER_EFFECT_CHECK_WEARINESS_EXTRA_CALORIE_EFFECT",
+    "//": "Base is 3% chance from 70 attunement to 90 attunement, then scaling up 0.15% per attunement up to 15.75% chance at 175 attunement, then scaling up 0.3% chance per attunement up to 38.25% chance at max, plus 1/10th the Difficulty squared.",
+    "condition": {
+      "or": [ { "math": [ "u_vitamin('vitamin_psionic_drain') >= 70" ] }, { "u_has_trait": "PSI_TORRENTIAL_CHANNELING_active" } ]
+    },
+    "effect": [
+      {
+        "if": {
+          "x_in_y_chance": {
+            "x": {
+              "math": [
+                "( clamp( ( (u_vitamin('vitamin_psionic_drain') - 90) * 1.5), 0, 127.5) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 175) * 3 ), 0, 375) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 30) + nether_attune_torrential_channeling_influence()"
+              ]
+            },
+            "y": 1000
+          }
+        },
+        "then": [
+          { "u_message": "You feel a wave of bone-deep weariness.", "type": "bad" },
+          {
+            "math": [ "u_calories() -= rng( ( u_vitamin('vitamin_psionic_drain') * 4), ( u_vitamin('vitamin_psionic_drain') * 10) )" ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_PSIONICS_NETHER_ATTUNEMENT_CONSEQUENCES" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_NETHER_EFFECT_CHECK_FEEDBACK",
     "//": "Base is 3% chance from 100 attunement to 135 attunement, then scaling up 0.15% per attunement up to 9% chance at 175 attunement, then scaling up 0.25% chance per attunement up to 17.75% chance at 210 attunement, then scaling up 0.5% to 39.5% chance at max, plus 1/10th the Difficulty squared.",
     "condition": { "math": [ "u_vitamin('vitamin_psionic_drain') >= 100" ] },
@@ -612,7 +686,7 @@
           "x_in_y_chance": {
             "x": {
               "math": [
-                "( clamp( ( (u_vitamin('vitamin_psionic_drain') - 135 ) * 1.5), 0, 60) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 175) * 2.5 ), 0, 87.5) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 210) * 5 ), 0, 300) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 30)"
+                "( clamp( ( (u_vitamin('vitamin_psionic_drain') - 135 ) * 1.5), 0, 60) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 175) * 2.5 ), 0, 87.5) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 210) * 5 ), 0, 300) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 30) + nether_attune_torrential_channeling_influence()"
               ]
             },
             "y": 1000
@@ -620,7 +694,7 @@
         },
         "then": [
           { "u_message": "You feel a stabbing pain!", "type": "good" },
-          { "math": [ "u_pain()", "+=", "rand(7) + 3" ] },
+          { "math": [ "u_pain() += rand(7) + 3" ] },
           {
             "u_add_effect": "effect_nether_attunement_feedback",
             "duration": {
@@ -645,7 +719,7 @@
           "x_in_y_chance": {
             "x": {
               "math": [
-                "( clamp( ( (u_vitamin('vitamin_psionic_drain') - 120) * 2), 0, 120) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 180) * 3.5 ), 0, 250) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 15)"
+                "( clamp( ( (u_vitamin('vitamin_psionic_drain') - 120) * 2), 0, 120) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 180) * 3.5 ), 0, 250) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 15) + nether_attune_torrential_channeling_influence()"
               ]
             },
             "y": 1000
@@ -680,7 +754,7 @@
           "x_in_y_chance": {
             "x": {
               "math": [
-                "( clamp( ( (u_vitamin('vitamin_psionic_drain') - 130) * 1.5), 0, 90) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 190) * 3 ), 0, 250) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 20)"
+                "( clamp( ( (u_vitamin('vitamin_psionic_drain') - 130) * 1.5), 0, 90) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 190) * 3 ), 0, 250) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 20) + nether_attune_torrential_channeling_influence()"
               ]
             },
             "y": 1000
@@ -691,6 +765,41 @@
           {
             "u_add_effect": "psi_nether_attention",
             "duration": { "math": [ "(u_vitamin('vitamin_psionic_drain') * rng(150,600)) + 86400" ] }
+          }
+        ]
+      }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_PSIONICS_NETHER_ATTUNEMENT_CONSEQUENCES" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NETHER_EFFECT_CHECK_PYROKINETIC_FEVER",
+    "//": "Base is 2.5% chance from 75 attunement to 120 attunement, then scaling up 0.15% per attunement up to 11.5% chance at 180 attunement, then scaling up 0.3% chance per attunement up to 32.5% chance at max, plus 1/10th the Difficulty squared.",
+    "condition": {
+      "and": [
+        { "compare_string": [ "PYROKINETIC", { "context_val": "school" } ] },
+        { "math": [ "u_vitamin('vitamin_psionic_drain') >= 75" ] }
+      ]
+    },
+    "effect": [
+      {
+        "if": {
+          "x_in_y_chance": {
+            "x": {
+              "math": [
+                "( clamp( ( (u_vitamin('vitamin_psionic_drain') - 120) * 1.5), 0, 105) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 180) * 3 ), 0, 375) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 25) + nether_attune_torrential_channeling_influence()"
+              ]
+            },
+            "y": 1000
+          }
+        },
+        "then": [
+          { "u_message": "You feel feverish and weak.", "type": "bad" },
+          {
+            "u_add_effect": "effect_nether_attunement_pyrokinetic_fever",
+            "duration": {
+              "math": [ "time(' 10 m') * rng( ( u_vitamin('vitamin_psionic_drain') / 2 ), ( u_vitamin('vitamin_psionic_drain') * 2 ) )" ]
+            }
           }
         ]
       }
@@ -713,7 +822,7 @@
           "x_in_y_chance": {
             "x": {
               "math": [
-                "( clamp( ( (u_vitamin('vitamin_psionic_drain') - 125) * 1.5), 0, 75) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 175) * 3 ), 0, 180) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 235) * 5 ), 0, 300) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 40)"
+                "( clamp( ( (u_vitamin('vitamin_psionic_drain') - 125) * 1.5), 0, 75) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 175) * 3 ), 0, 180) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 235) * 5 ), 0, 300) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 40) + nether_attune_torrential_channeling_influence()"
               ]
             },
             "y": 1000
@@ -748,7 +857,7 @@
           "x_in_y_chance": {
             "x": {
               "math": [
-                "( clamp( ( (u_vitamin('vitamin_psionic_drain') - 120) * 1.5 ), 0, 105) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 190) * 3.5 ), 0, 375) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 20)"
+                "( clamp( ( (u_vitamin('vitamin_psionic_drain') - 120) * 1.5 ), 0, 105) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 190) * 3.5 ), 0, 375) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 20) + nether_attune_torrential_channeling_influence()"
               ]
             },
             "y": 1000
@@ -783,7 +892,7 @@
           "x_in_y_chance": {
             "x": {
               "math": [
-                "( clamp( (u_vitamin('vitamin_psionic_drain') - 120), 0, 70) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 190) * 2.5 ), 0, 375) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 10)"
+                "( clamp( (u_vitamin('vitamin_psionic_drain') - 120), 0, 70) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 190) * 2.5 ), 0, 375) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 10) + nether_attune_torrential_channeling_influence()"
               ]
             },
             "y": 1000
@@ -818,7 +927,7 @@
           "x_in_y_chance": {
             "x": {
               "math": [
-                "( clamp( (u_vitamin('vitamin_psionic_drain') - 120), 0, 70) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 190) * 3.5 ), 0, 375) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 10)"
+                "( clamp( (u_vitamin('vitamin_psionic_drain') - 120), 0, 70) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 190) * 3.5 ), 0, 375) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 10) + nether_attune_torrential_channeling_influence()"
               ]
             },
             "y": 1000
@@ -849,7 +958,7 @@
           "x_in_y_chance": {
             "x": {
               "math": [
-                "( clamp( ( ( u_vitamin('vitamin_psionic_drain') - 150) * 2), 0, 140) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 220) * 5 ), 0, 300) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 20)"
+                "( clamp( ( ( u_vitamin('vitamin_psionic_drain') - 150) * 2), 0, 140) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 220) * 5 ), 0, 300) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 20) + nether_attune_torrential_channeling_influence()"
               ]
             },
             "y": 1000
@@ -884,7 +993,7 @@
           "x_in_y_chance": {
             "x": {
               "math": [
-                "( clamp( (u_vitamin('vitamin_psionic_drain') - 120), 0, 70) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 190) * 2.5 ), 0, 375) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 10)"
+                "( clamp( (u_vitamin('vitamin_psionic_drain') - 120), 0, 70) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 190) * 2.5 ), 0, 375) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 10) + nether_attune_torrential_channeling_influence()"
               ]
             },
             "y": 1000
@@ -898,7 +1007,7 @@
           {
             "u_add_effect": "effect_nether_attunement_pyrokinetic_fog",
             "duration": {
-              "math": [ "time(' 15 m') * rng( ( u_vitamin('vitamin_psionic_drain') / 2 ), ( u_vitamin('vitamin_psionic_drain') * 2 ) )" ]
+              "math": [ "time(' 4 m') * rng( ( u_vitamin('vitamin_psionic_drain') / 2 ), ( u_vitamin('vitamin_psionic_drain') * 2 ) )" ]
             }
           }
         ]
@@ -917,7 +1026,7 @@
           "x_in_y_chance": {
             "x": {
               "math": [
-                "( clamp( (( u_vitamin('vitamin_psionic_drain') - 150 ) * 2), 0, 60) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 180) * 4 ), 0, 300) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 40)"
+                "( clamp( (( u_vitamin('vitamin_psionic_drain') - 150 ) * 2), 0, 60) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 180) * 4 ), 0, 300) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 40) + nether_attune_torrential_channeling_influence()"
               ]
             },
             "y": 1000
@@ -926,6 +1035,40 @@
         "then": [
           { "u_message": "As you unleash your powers, your stomach rumbles!", "type": "bad" },
           { "u_add_effect": "effect_nether_attunement_extra_kcal", "duration": { "math": [ "7200 + rand(86400)" ] } }
+        ]
+      }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_PSIONICS_NETHER_ATTUNEMENT_CONSEQUENCES" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NETHER_EFFECT_CHECK_MINDSHOCK_STUN",
+    "//": "Base is 3% chance from 115 attunement to 150 attunement, then scaling up 0.2% per attunement up to 9% chance at 180 attunement, then scaling up 0.35% chance per attunement up to 33.5% chance at max, plus 1/10th the Difficulty squared.",
+    "condition": {
+      "or": [ { "math": [ "u_vitamin('vitamin_psionic_drain') >= 115" ] }, { "u_has_trait": "PSI_TORRENTIAL_CHANNELING_active" } ]
+    },
+    "effect": [
+      {
+        "if": {
+          "x_in_y_chance": {
+            "x": {
+              "math": [
+                "( clamp( (( u_vitamin('vitamin_psionic_drain') - 150 ) * 2), 0, 60) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 180) * 3.5 ), 0, 300) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 30) + nether_attune_torrential_channeling_influence()"
+              ]
+            },
+            "y": 1000
+          }
+        },
+        "then": [
+          { "u_message": "Power floods into your mind, washing away all other thought!", "type": "bad" },
+          {
+            "u_add_effect": "stunned",
+            "duration": { "math": [ "2 + rand( (u_vitamin('vitamin_psionic_drain') / 50 ) )" ] }
+          },
+          {
+            "u_add_effect": "psi_stunned",
+            "duration": { "math": [ "2 + rand( (u_vitamin('vitamin_psionic_drain') / 50 ) )" ] }
+          }
         ]
       }
     ],
@@ -944,7 +1087,7 @@
           "x_in_y_chance": {
             "x": {
               "math": [
-                "( clamp( (( u_vitamin('vitamin_psionic_drain') - 160) * 1.5), 0, 75) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 210) * 3.5 ), 0, 300) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 40)"
+                "( clamp( (( u_vitamin('vitamin_psionic_drain') - 160) * 1.5), 0, 75) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 210) * 3.5 ), 0, 300) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 40) + nether_attune_torrential_channeling_influence()"
               ]
             },
             "y": 1000
@@ -974,7 +1117,7 @@
           "x_in_y_chance": {
             "x": {
               "math": [
-                "( clamp( ( ( u_vitamin('vitamin_psionic_drain') - 150) * 1.5), 0, 105) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 220) * 4 ), 0, 300) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 30)"
+                "( clamp( ( ( u_vitamin('vitamin_psionic_drain') - 150) * 1.5), 0, 105) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 220) * 4 ), 0, 300) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 30) + nether_attune_torrential_channeling_influence()"
               ]
             },
             "y": 1000
@@ -1004,7 +1147,7 @@
           "x_in_y_chance": {
             "x": {
               "math": [
-                "( clamp( ( u_vitamin('vitamin_psionic_drain')  - 160), 0, 50) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 210) * 3.5 ), 0, 160) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 10)"
+                "( clamp( ( u_vitamin('vitamin_psionic_drain')  - 160), 0, 50) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 210) * 3.5 ), 0, 160) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 10) + nether_attune_torrential_channeling_influence()"
               ]
             },
             "y": 1000
@@ -1039,7 +1182,7 @@
           "x_in_y_chance": {
             "x": {
               "math": [
-                "( clamp( ( (u_vitamin('vitamin_psionic_drain') * 1.5) - 160), 0, 67.5) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 205) * 4.5 ), 0, 300) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 30)"
+                "( clamp( ( (u_vitamin('vitamin_psionic_drain') * 1.5) - 160), 0, 67.5) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 205) * 4.5 ), 0, 300) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 30) + nether_attune_torrential_channeling_influence()"
               ]
             },
             "y": 1000
@@ -1064,7 +1207,7 @@
           "x_in_y_chance": {
             "x": {
               "math": [
-                "( clamp( (( u_vitamin('vitamin_psionic_drain') * 1.5) - 200), 0, 37.5) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 225) * 5 ), 0, 300) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 20)"
+                "( clamp( (( u_vitamin('vitamin_psionic_drain') * 1.5) - 200), 0, 37.5) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 225) * 5 ), 0, 300) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 20) + nether_attune_torrential_channeling_influence()"
               ]
             },
             "y": 1000
@@ -1112,7 +1255,7 @@
           "x_in_y_chance": {
             "x": {
               "math": [
-                "( clamp( ((u_vitamin('vitamin_psionic_drain') - 190) * 2), 0, 60) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 220) * 4 ), 0, 375) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 30)"
+                "( clamp( ((u_vitamin('vitamin_psionic_drain') - 190) * 2), 0, 60) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 220) * 4 ), 0, 375) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 30) + nether_attune_torrential_channeling_influence()"
               ]
             },
             "y": 1000
@@ -1120,62 +1263,86 @@
         },
         "then": [
           {
-            "switch": { "math": [ "rand(2)" ] },
-            "cases": [
+            "run_eocs": [
               {
-                "case": 0,
+                "id": "EOC_NETHER_EFFECT_APPLY_TELEPORT_MISJUMP",
                 "effect": [
                   {
-                    "u_location_variable": { "context_val": "teleport_mishap_location" },
-                    "target_params": {
-                      "om_terrain": "field",
-                      "om_terrain_match_type": "CONTAINS",
-                      "search_range": { "math": [ "300 + (50 * clamp( ( (u_vitamin('vitamin_psionic_drain') - 149 ) / 10 ), 1, 15) )" ] },
-                      "min_distance": { "math": [ "100 + (10 * clamp( ( (u_vitamin('vitamin_psionic_drain') - 149 ) / 10 ), 1, 15) )" ] },
-                      "z": 0,
-                      "random": true
-                    }
-                  }
-                ]
-              },
-              {
-                "case": 1,
-                "effect": [
+                    "switch": { "math": [ "rand(30)" ] },
+                    "cases": [
+                      {
+                        "case": 0,
+                        "effect": [
+                          {
+                            "u_location_variable": { "context_val": "teleport_mishap_location" },
+                            "target_params": {
+                              "om_terrain": "field",
+                              "om_terrain_match_type": "CONTAINS",
+                              "search_range": { "math": [ "300 + (50 * clamp( ( (u_vitamin('vitamin_psionic_drain') - 149 ) / 10 ), 1, 15) )" ] },
+                              "min_distance": { "math": [ "100 + (10 * clamp( ( (u_vitamin('vitamin_psionic_drain') - 149 ) / 10 ), 1, 15) )" ] },
+                              "z": 0,
+                              "random": true
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "case": 10,
+                        "effect": [
+                          {
+                            "u_location_variable": { "context_val": "teleport_mishap_location" },
+                            "target_params": {
+                              "om_terrain": "forest",
+                              "om_terrain_match_type": "CONTAINS",
+                              "search_range": { "math": [ "300 + (50 * clamp( ( (u_vitamin('vitamin_psionic_drain') - 149 ) / 10 ), 1, 15) )" ] },
+                              "min_distance": { "math": [ "100 + (10 * clamp( ( (u_vitamin('vitamin_psionic_drain') - 149 ) / 10 ), 1, 15) )" ] },
+                              "z": 0,
+                              "random": true
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "case": 20,
+                        "effect": [
+                          {
+                            "u_location_variable": { "context_val": "teleport_mishap_location" },
+                            "target_params": {
+                              "om_terrain": "house",
+                              "om_terrain_match_type": "CONTAINS",
+                              "search_range": { "math": [ "300 + (50 * clamp( ( (u_vitamin('vitamin_psionic_drain') - 149 ) / 10 ), 1, 15) )" ] },
+                              "min_distance": { "math": [ "100 + (10 * clamp( ( (u_vitamin('vitamin_psionic_drain') - 149 ) / 10 ), 1, 15) )" ] },
+                              "z": 0,
+                              "random": true
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "case": 30,
+                        "effect": [
+                          {
+                            "u_location_variable": { "context_val": "teleport_mishap_location" },
+                            "target_params": {
+                              "om_terrain": "nether_glass_deep",
+                              "search_range": { "math": [ "300 + (50 * clamp( ( (u_vitamin('vitamin_psionic_drain') - 149 ) / 10 ), 1, 15) )" ] },
+                              "min_distance": 1,
+                              "z": -10,
+                              "random": true
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  { "u_teleport": { "context_val": "teleport_mishap_location" }, "force_safe": true },
                   {
-                    "u_location_variable": { "context_val": "teleport_mishap_location" },
-                    "target_params": {
-                      "om_terrain": "forest",
-                      "om_terrain_match_type": "CONTAINS",
-                      "search_range": { "math": [ "300 + (50 * clamp( ( (u_vitamin('vitamin_psionic_drain') - 149 ) / 10 ), 1, 15) )" ] },
-                      "min_distance": { "math": [ "100 + (10 * clamp( ( (u_vitamin('vitamin_psionic_drain') - 149 ) / 10 ), 1, 15) )" ] },
-                      "z": 0,
-                      "random": true
-                    }
-                  }
-                ]
-              },
-              {
-                "case": 2,
-                "effect": [
-                  {
-                    "u_location_variable": { "context_val": "teleport_mishap_location" },
-                    "target_params": {
-                      "om_terrain": "house",
-                      "om_terrain_match_type": "CONTAINS",
-                      "search_range": { "math": [ "300 + (50 * clamp( ( (u_vitamin('vitamin_psionic_drain') - 149 ) / 10 ), 1, 15) )" ] },
-                      "min_distance": { "math": [ "100 + (10 * clamp( ( (u_vitamin('vitamin_psionic_drain') - 149 ) / 10 ), 1, 15) )" ] },
-                      "z": 0,
-                      "random": true
-                    }
+                    "u_message": "The world around you abruptly vanishes, and you careen wildly through a darkness so cold you feel like your bones will freeze before abruptly emerging somewhere unfamiliar.",
+                    "type": "mixed"
                   }
                 ]
               }
             ]
-          },
-          { "u_teleport": { "context_val": "teleport_mishap_location" }, "force_safe": true },
-          {
-            "u_message": "The world around you abruptly vanishes, and you careen wildly through a darkness so cold you feel like your bones will freeze before abruptly emerging somewhere unfamiliar.",
-            "type": "bad"
           },
           {
             "run_eocs": [
@@ -1216,7 +1383,7 @@
           "x_in_y_chance": {
             "x": {
               "math": [
-                "( clamp( ( (u_vitamin('vitamin_psionic_drain') - 195) * 2.5), 0, 87.5) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 230) * 4 ), 0, 375) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 20)"
+                "( clamp( ( (u_vitamin('vitamin_psionic_drain') - 195) * 2.5), 0, 87.5) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 230) * 4 ), 0, 375) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 20) + nether_attune_torrential_channeling_influence()"
               ]
             },
             "y": 1000
@@ -1243,7 +1410,7 @@
           "x_in_y_chance": {
             "x": {
               "math": [
-                "( clamp( ( (u_vitamin('vitamin_psionic_drain') - 200) * 2), 0, 50) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 225) * 4.5 ), 0, 375) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 30)"
+                "( clamp( ( (u_vitamin('vitamin_psionic_drain') - 200) * 2), 0, 50) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 225) * 4.5 ), 0, 375) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 30) + nether_attune_torrential_channeling_influence()"
               ]
             },
             "y": 1000
@@ -1270,7 +1437,7 @@
           "x_in_y_chance": {
             "x": {
               "math": [
-                "( clamp( ( (u_vitamin('vitamin_psionic_drain') - 200) * 1), 0, 25) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 225) * 2 ), 0, 375) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 20)"
+                "( clamp( ( (u_vitamin('vitamin_psionic_drain') - 200) * 1), 0, 25) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 225) * 2 ), 0, 375) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 20) + nether_attune_torrential_channeling_influence()"
               ]
             },
             "y": 1000
@@ -1306,7 +1473,7 @@
           "x_in_y_chance": {
             "x": {
               "math": [
-                "(clamp( (u_vitamin('vitamin_psionic_drain') - 200), 0, 50) ) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 30"
+                "(clamp( (u_vitamin('vitamin_psionic_drain') - 200), 0, 50) ) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty) ) + 30 + nether_attune_torrential_channeling_influence()"
               ]
             },
             "y": 1000
@@ -1314,7 +1481,8 @@
         },
         "then": [
           { "u_add_effect": "tindrift", "duration": "1 day" },
-          { "u_message": "You feel a horrible sensation of watching eyes.", "type": "bad" }
+          { "u_message": "You feel a horrible sensation of watching eyes.", "type": "bad" },
+          { "give_achievement": "mom_get_the_hounds_on_your_trail" }
         ]
       }
     ],
@@ -1331,7 +1499,7 @@
           "x_in_y_chance": {
             "x": {
               "math": [
-                "(clamp( ((u_vitamin('vitamin_psionic_drain') - 235) * 2), 0, 30) ) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 30"
+                "(clamp( ((u_vitamin('vitamin_psionic_drain') - 235) * 2), 0, 30) ) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 30 + nether_attune_torrential_channeling_influence()"
               ]
             },
             "y": 1000
@@ -1361,7 +1529,7 @@
           "x_in_y_chance": {
             "x": {
               "math": [
-                "(clamp( (u_vitamin('vitamin_psionic_drain') - 235), 0, 15) ) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 20"
+                "(clamp( (u_vitamin('vitamin_psionic_drain') - 235), 0, 15) ) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 20 + nether_attune_torrential_channeling_influence()"
               ]
             },
             "y": 1000
@@ -1389,7 +1557,7 @@
     },
     "effect": [
       { "u_message": "As you unleash your powers, you feel a burning sensation in your veins!", "type": "bad" },
-      { "math": [ "u_pain()", "+=", "rand(4) + 1" ] }
+      { "math": [ "u_pain() += rand(4) + 1" ] }
     ]
   },
   {
@@ -1411,7 +1579,7 @@
     },
     "effect": [
       { "u_message": "As you concentrate on your powers, you feel a burning sensation in your veins!", "type": "bad" },
-      { "math": [ "u_pain()", "+=", "rand(4) + 1" ] }
+      { "math": [ "u_pain() += rand(4) + 1" ] }
     ]
   },
   {
@@ -1718,8 +1886,8 @@
                   {
                     "id": "EOC_POWERS_IN_NETHER_LOCATION_CHECKER_NEAR_NETHER_3",
                     "condition": { "math": [ "u_using_appropriate_matrix_crystal_for_dissipation != 1" ] },
-                    "effect": [ { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(4)" ] } ],
-                    "false_effect": [ { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(1)" ] } ]
+                    "effect": [ { "math": [ "u_vitamin('vitamin_psionic_drain') += rand(4)" ] } ],
+                    "false_effect": [ { "math": [ "u_vitamin('vitamin_psionic_drain') += rand(1)" ] } ]
                   }
                 ]
               }
@@ -1740,8 +1908,8 @@
                   {
                     "id": "EOC_POWERS_IN_NETHER_LOCATION_CHECKER_IN_NETHER_3",
                     "condition": { "math": [ "u_using_appropriate_matrix_crystal_for_dissipation != 1" ] },
-                    "effect": [ { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(7) + 1" ] } ],
-                    "false_effect": [ { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(2)" ] } ]
+                    "effect": [ { "math": [ "u_vitamin('vitamin_psionic_drain') += rand(7) + 1" ] } ],
+                    "false_effect": [ { "math": [ "u_vitamin('vitamin_psionic_drain') += rand(2)" ] } ]
                   }
                 ]
               }
@@ -1788,7 +1956,7 @@
         { "test_eoc": "EOC_CONDITION_YOU_ARE_IN_NETHER_LOCATION" }
       ]
     },
-    "effect": [ { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(2) + 1" ] } ]
+    "effect": [ { "math": [ "u_vitamin('vitamin_psionic_drain') += rand(2) + 1" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -1832,7 +2000,7 @@
         "true_eocs": [
           {
             "id": "EOC_NETHER_EFFECT_ELECTROKINETIC_POWER_DRAIN_ACTIVE",
-            "effect": [ { "math": [ "n_val('power')", "-=", "rand(2) + 1" ] } ]
+            "effect": [ { "math": [ "n_val('power') -= rand(2) + 1" ] } ]
           }
         ]
       }

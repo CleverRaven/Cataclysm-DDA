@@ -50,8 +50,8 @@
             "effect": [
               { "u_message": "You feel a deep, churning sensation fill your body.", "type": "mixed" },
               { "u_mutate": 0 },
-              { "math": [ "u_vitamin('mutagen')", "-=", "60" ] },
-              { "math": [ "u_vitamin('mutagen')", "-=", "rand(80)" ] }
+              { "math": [ "u_vitamin('mutagen') -= 60" ] },
+              { "math": [ "u_vitamin('mutagen') -= rand(80)" ] }
             ],
             "false_effect": [ { "run_eocs": [ "changing_reqs_not_met" ] } ]
           }

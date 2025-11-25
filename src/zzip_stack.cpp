@@ -3,7 +3,6 @@
 #include <algorithm>
 #include <array>
 #include <memory>
-#include <system_error>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
@@ -37,11 +36,27 @@ std::shared_ptr<zzip_stack> zzip_stack::load( std::filesystem::path const &path,
 bool zzip_stack::add_file( std::filesystem::path const &zzip_relative_path,
                            std::string_view content )
 {
-    bool ret = hot()->add_file( zzip_relative_path, content );
+    bool ret = hot().add_file( zzip_relative_path, content );
     if( ret ) {
         path_temp_map_[zzip_relative_path] = file_temp::hot;
     }
     return ret;
+}
+
+bool zzip_stack::copy_files_to( std::vector<std::filesystem::path> const &zzip_relative_paths,
+                                zzip &to )
+{
+    std::unordered_map<file_temp, std::vector<std::filesystem::path>> temp_to_paths;
+    for( std::filesystem::path const &zzip_relative_path : zzip_relative_paths ) {
+        file_temp temp = temp_of_file( zzip_relative_path );
+        if( temp == file_temp::unknown ) {
+            continue;
+        }
+        temp_to_paths[temp].emplace_back( zzip_relative_path );
+    }
+    return to.copy_files( temp_to_paths[file_temp::cold], cold() ) &&
+           to.copy_files( temp_to_paths[file_temp::warm], warm() ) &&
+           to.copy_files( temp_to_paths[file_temp::hot], hot() );
 }
 
 bool zzip_stack::has_file( std::filesystem::path const &zzip_relative_path ) const
@@ -55,7 +70,20 @@ size_t zzip_stack::get_file_size( std::filesystem::path const &zzip_relative_pat
     if( temp == file_temp::unknown ) {
         return 0;
     }
-    return zzip_of_temp( temp )->get_file_size( zzip_relative_path );
+    return zzip_of_temp( temp ).get_file_size( zzip_relative_path );
+}
+
+std::vector<std::filesystem::path> zzip_stack::get_entries() const
+{
+    std::vector<std::filesystem::path> entries;
+    cold();
+    warm();
+    hot();
+    entries.reserve( path_temp_map_.size() );
+    for( const auto& [entry_path, temp] : path_temp_map_ ) {
+        entries.emplace_back( entry_path );
+    }
+    return entries;
 }
 
 std::vector<std::byte> zzip_stack::get_file( std::filesystem::path const &zzip_relative_path ) const
@@ -64,7 +92,7 @@ std::vector<std::byte> zzip_stack::get_file( std::filesystem::path const &zzip_r
     if( temp == file_temp::unknown ) {
         return std::vector<std::byte> {};
     }
-    return zzip_of_temp( temp )->get_file( zzip_relative_path );
+    return zzip_of_temp( temp ).get_file( zzip_relative_path );
 }
 
 size_t zzip_stack::get_file_to( std::filesystem::path const &zzip_relative_path, std::byte *dest,
@@ -74,7 +102,7 @@ size_t zzip_stack::get_file_to( std::filesystem::path const &zzip_relative_path,
     if( temp == file_temp::unknown ) {
         return 0;
     }
-    return zzip_of_temp( temp )->get_file_to( zzip_relative_path, dest, dest_len );
+    return zzip_of_temp( temp ).get_file_to( zzip_relative_path, dest, dest_len );
 }
 
 std::shared_ptr<zzip_stack> zzip_stack::create_from_folder( std::filesystem::path const &path,
@@ -87,7 +115,7 @@ std::shared_ptr<zzip_stack> zzip_stack::create_from_folder( std::filesystem::pat
     std::filesystem::path zzip_filename = path.filename();
     // Default everything to cold.
     zzip_filename += kColdSuffix; // NOLINT(cata-u8-path)
-    std::shared_ptr<zzip> z = zzip::create_from_folder( path / zzip_filename, folder, dictionary );
+    std::optional<zzip> z = zzip::create_from_folder( path / zzip_filename, folder, dictionary );
     if( !z ) {
         return nullptr;
     }
@@ -106,8 +134,8 @@ std::shared_ptr<zzip_stack> zzip_stack::create_from_folder_with_files(
     }
     std::filesystem::path zzip_filename = path.filename();
     zzip_filename += kColdSuffix; // NOLINT(cata-u8-path)
-    std::shared_ptr<zzip> z = zzip::create_from_folder_with_files( path / zzip_filename, folder, files,
-                              total_file_size, dictionary );
+    std::optional<zzip> z = zzip::create_from_folder_with_files( path / zzip_filename, folder, files,
+                            total_file_size, dictionary );
     if( !z ) {
         return nullptr;
     }
@@ -119,13 +147,13 @@ bool zzip_stack::extract_to_folder( std::filesystem::path const &path,
                                     std::filesystem::path const &dictionary )
 {
     std::shared_ptr<zzip_stack> stack = zzip_stack::load( path, dictionary );
-    if( !zzip::extract_to_folder( stack->cold()->get_path(), folder, dictionary ) ) {
+    if( !stack->cold().extract_to_folder( folder ) ) {
         return false;
     }
-    if( !zzip::extract_to_folder( stack->warm()->get_path(), folder, dictionary ) ) {
+    if( !stack->warm().extract_to_folder( folder ) ) {
         return false;
     }
-    if( !zzip::extract_to_folder( stack->hot()->get_path(), folder, dictionary ) ) {
+    if( !stack->hot().extract_to_folder( folder ) ) {
         return false;
     }
     return true;
@@ -170,7 +198,7 @@ bool zzip_stack::compact( double bloat_factor )
 
     size_t content_size = 0;
     for( const auto& [file, temp] : path_temp_map_ ) {
-        content_size += zzip_of_temp( temp )->get_entry_size( file );
+        content_size += zzip_of_temp( temp ).get_entry_size( file );
     }
 
     // Allocate approximately 1/2 of the bloat to the cold file.
@@ -190,64 +218,54 @@ bool zzip_stack::compact( double bloat_factor )
                 files_to_demote.emplace_back( entry );
             }
         }
-        cold_->copy_files( files_to_demote, warm_ );
-        std::filesystem::path warm_path = warm_->get_path();
-        warm_.reset();
-        std::error_code ec;
-        size_t attempts = 0;
-        do {
-            std::filesystem::remove( warm_path, ec );
-        } while( ec && ++attempts < 3 );
-        if( ec ) {
+        if( !( cold_->copy_files( files_to_demote, *warm_ ) && warm_->clear() ) ) {
             return false;
         }
-        // Recreate an empty zzip to copy entries from hot.
-        warm();
-        files_to_demote.clear();
+        for( std::filesystem::path const &entry : files_to_demote ) {
+            path_temp_map_[entry] = file_temp::cold;
+        }
     }
 
     // Then copy hot to warm.
     if( hot_->get_content_size() > warm_hot_max_size ) {
         // Definitionally, all hot files are the most recent versions.
-        warm_->copy_files( hot_->get_entries(), hot_ );
-        std::filesystem::path hot_path = hot_->get_path();
-        hot_.reset();
-        std::error_code ec;
-        size_t attempts = 0;
-        do {
-            std::filesystem::remove( hot_path, ec );
-        } while( ec && ++attempts < 3 );
-        if( ec ) {
+        files_to_demote = hot_->get_entries();
+        if( !( warm_->copy_files( files_to_demote, *hot_ ) && hot_->clear() ) ) {
             return false;
         }
-        // Recreate an empty zzip to copy entries from hot.
-        hot();
+        for( std::filesystem::path const &entry : files_to_demote ) {
+            path_temp_map_[entry] = file_temp::warm;
+        }
     }
 
     // Finally normal compact on cold.
-    return cold_->compact( std::max( bloat_factor / 2.0, 1.0 ) );
+    std::filesystem::path tmp_path = path_ / "cold.zzip.tmp"; // NOLINT(cata-u8-path)
+    if( cold_->compact_to( tmp_path, std::max( bloat_factor / 2.0, 1.0 ) ) ) {
+        return rename_file( tmp_path, path_ / "cold.zzip" ); // NOLINT(cata-u8-path)
+    }
+    return true;
 }
 
-std::shared_ptr<zzip> &zzip_stack::cold() const
+zzip &zzip_stack::cold() const
 {
     if( !cold_ ) {
         cold_ = load_temp( file_temp::cold );
     }
-    return cold_;
+    return *cold_;
 }
-std::shared_ptr<zzip> &zzip_stack::warm() const
+zzip &zzip_stack::warm() const
 {
     if( !warm_ ) {
         warm_ = load_temp( file_temp::warm );
     }
-    return warm_;
+    return *warm_;
 }
-std::shared_ptr<zzip> &zzip_stack::hot() const
+zzip &zzip_stack::hot() const
 {
     if( !hot_ ) {
         hot_ = load_temp( file_temp::hot );
     }
-    return hot_;
+    return *hot_;
 }
 
 zzip_stack::file_temp zzip_stack::temp_of_file( std::filesystem::path const &zzip_relative_path )
@@ -275,23 +293,23 @@ const
     return file_temp::unknown;
 }
 
-zzip *zzip_stack::zzip_of_temp( zzip_stack::file_temp temp ) const
+zzip &zzip_stack::zzip_of_temp( zzip_stack::file_temp temp ) const
 {
     switch( temp ) {
         case file_temp::cold: {
-            return cold().get();
+            return cold();
         }
         case file_temp::warm: {
-            return warm().get();
+            return warm();
         }
         default: {
             // default unknown to hot
-            return hot().get();
+            return hot();
         }
     }
 }
 
-std::shared_ptr<zzip> zzip_stack::load_temp( file_temp temp ) const
+std::optional<zzip> zzip_stack::load_temp( file_temp temp ) const
 {
     if( temp == file_temp::unknown ) {
         // default unknown to hot
@@ -313,7 +331,7 @@ std::shared_ptr<zzip> zzip_stack::load_temp( file_temp temp ) const
 
     }
     zzip_path += file_suffix; // NOLINT(cata-u8-path)
-    std::shared_ptr<zzip> z = zzip::load( path_ / zzip_path, dictionary_ );
+    std::optional<zzip> z = zzip::load( path_ / zzip_path, dictionary_ );
     if( !z ) {
         return z;
     }

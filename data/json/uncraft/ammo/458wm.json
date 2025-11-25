@@ -1,5 +1,19 @@
 [
   {
+    "result": "458wm",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "5 s",
+    "qualities": [ { "id": "PULL", "level": 1 } ],
+    "components": [
+      [ [ "lead", 44 ] ],
+      [ [ "unprimed_458wm_casing", 1 ] ],
+      [ [ "lgrifle_primer", 1 ] ],
+      [ [ "gunpowder_large_rifle", 43 ] ],
+      [ [ "copper", 1 ] ]
+    ]
+  },
+  {
     "result": "458wm_casing",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",

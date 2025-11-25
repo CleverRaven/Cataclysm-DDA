@@ -1,0 +1,153 @@
+[
+  {
+    "type": "item_group",
+    "id": "LS_Rewardroom_Scatter_Passcode0",
+    "//": "Scattered reward items in passcode 0 room, 'thief's pass', themed around cheating/infiltration",
+    "subtype": "distribution",
+    "items": [
+      [ "bio_power_storage", 10 ],
+      [ "bio_batteries", 10 ],
+      [ "bio_lockpick", 10 ],
+      [ "bio_watch", 10 ],
+      [ "bio_alarm", 10 ],
+      [ "bio_sunglasses", 10 ],
+      [ "bio_meteorologist", 10 ],
+      [ "bio_pitch_perfect", 10 ],
+      [ "bio_fitnessband", 10 ],
+      [ "bio_radio", 10 ],
+      [ "bio_torsionratchet", 10 ],
+      [ "bio_fingerhack", 10 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "LS_Rewardroom_Primary_Passcode0",
+    "//": "Special primary reward items in passcode 0 room, 'thief's pass', themed around cheating/infiltration",
+    "subtype": "distribution",
+    "items": [
+      [ "bio_scent_mask", 10 ],
+      [ "bio_remote", 10 ],
+      [ "bio_gills", 10 ],
+      [ "bio_taste_blocker", 10 ],
+      [ "bio_speed", 1 ],
+      [ "bio_membrane", 10 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "LS_Rewardroom_Scatter_Passcode1",
+    "//": "Scattered reward items in passcode 1 room, 'circle of wings', themed around healing/movement",
+    "subtype": "distribution",
+    "items": [
+      [ "bio_power_storage", 10 ],
+      [ "bio_power_storage_mkII", 3 ],
+      [ "bio_batteries", 10 ],
+      [ "bio_lockpick", 10 ],
+      [ "bio_watch", 10 ],
+      [ "bio_alarm", 10 ],
+      [ "bio_sunglasses", 10 ],
+      [ "bio_meteorologist", 10 ],
+      [ "bio_pitch_perfect", 10 ],
+      [ "bio_fitnessband", 10 ],
+      [ "bio_radio", 10 ],
+      [ "bio_syringe", 10 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "LS_Rewardroom_Primary_Passcode1",
+    "//": "Special primary reward items in passcode 1 room, 'circle of wings', themed around healing/movement",
+    "subtype": "distribution",
+    "items": [
+      [ "bio_jointservo", 10 ],
+      [ "bio_heatsink", 10 ],
+      [ "bio_painkiller", 10 ],
+      [ "bio_digestion", 10 ],
+      [ "bio_water_extractor", 10 ],
+      [ "bio_ads", 1 ],
+      [ "bio_synlungs", 2 ],
+      [ "bio_recycler", 3 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "LS_Rewardroom_Scatter_Passcode2",
+    "//": "Scattered reward items in passcode 2 room, 'hard nails', themed around damage/armour",
+    "subtype": "distribution",
+    "items": [
+      [ "bio_power_storage", 10 ],
+      [ "bio_batteries", 10 ],
+      [ "bio_lockpick", 10 ],
+      [ "bio_watch", 10 ],
+      [ "bio_alarm", 10 ],
+      [ "bio_sunglasses", 10 ],
+      [ "bio_meteorologist", 10 ],
+      [ "bio_pitch_perfect", 10 ],
+      [ "bio_fitnessband", 10 ],
+      [ "bio_radio", 10 ],
+      [ "bio_geiger", 5 ],
+      [ "bio_flashlight", 10 ],
+      [ "bio_radscrubber", 10 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "LS_Rewardroom_Primary_Passcode2",
+    "//": "Special primary reward items in passcode 2 room, 'hard nails', themed around damage/armour",
+    "subtype": "distribution",
+    "items": [
+      [ "bio_armor_arms", 8 ],
+      [ "bio_armor_eyes", 5 ],
+      [ "bio_armor_head", 8 ],
+      [ "bio_armor_legs", 8 ],
+      [ "bio_armor_torso", 5 ],
+      [ "bio_blade", 10 ],
+      [ "bio_claws", 15 ],
+      [ "bio_cqb", 10 ],
+      [ "bio_flashbang", 10 ],
+      [ "bio_razors", 15 ],
+      [ "bio_resonator", 5 ],
+      [ "bio_targeting", 7 ],
+      [ "bio_shotgun", 10 ],
+      [ "bio_laser", 2 ],
+      [ "bio_shock", 5 ],
+      [ "bio_recoil", 7 ],
+      [ "bio_taser", 2 ],
+      [ "bio_ods", 1 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "LS_Rewardroom_Scatter_Passcode3",
+    "//": "Scattered reward items in passcode 3 room, 'laughing man', themed around manipulation/perception",
+    "subtype": "distribution",
+    "items": [
+      [ "bio_batteries", 10 ],
+      [ "bio_lockpick", 10 ],
+      [ "bio_watch", 10 ],
+      [ "bio_alarm", 10 ],
+      [ "bio_sunglasses", 10 ],
+      [ "bio_meteorologist", 10 ],
+      [ "bio_pitch_perfect", 10 ],
+      [ "bio_fitnessband", 10 ],
+      [ "bio_radio", 10 ],
+      [ "bio_geiger", 5 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "LS_Rewardroom_Primary_Passcode3",
+    "//": "Special primary items in passcode 3 room, 'laughing man', themed around manipulation/perception",
+    "subtype": "distribution",
+    "items": [
+      [ "bio_eye_optic", 10 ],
+      [ "bio_eye_enhancer", 10 ],
+      [ "bio_dex_enhancer", 10 ],
+      [ "bio_str_enhancer", 10 ],
+      [ "bio_int_enhancer", 10 ],
+      [ "bio_night_vision", 10 ],
+      [ "bio_infrared", 10 ],
+      [ "bio_ground_sonar", 10 ]
+    ]
+  }
+]

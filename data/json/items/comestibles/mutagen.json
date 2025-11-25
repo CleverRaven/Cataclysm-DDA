@@ -494,7 +494,7 @@
     "copy-from": "mutagen_flavor",
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
-    "name": { "str_sp": "mutagen" },
+    "name": { "str_sp": "mutagenic slurry" },
     "description": "A slurry of organic chemicals and compounds, used as the foundation for making primers and mutagenic catalyst.  In this baseline form, it is highly toxic, and dangerous to consume on its own.",
     "addiction_potential": 6,
     "use_action": { "type": "consume_drug", "activation_message": "You drink the %s.", "vitamins": [ [ "mutagenic_slurry", 25 ] ] }

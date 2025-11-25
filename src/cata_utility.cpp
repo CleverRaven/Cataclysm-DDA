@@ -476,6 +476,17 @@ std::unique_ptr<std::istream> read_maybe_compressed_file( const std::string &pat
     return read_maybe_compressed_file( std::filesystem::u8path( path ) );
 }
 
+static bool is_gzipped( std::ifstream &fin )
+{
+    // (byte1 == 0x1f) && (byte2 == 0x8b)
+    std::array<char, 2> header;
+    fin.read( header.data(), 2 );
+    fin.clear();
+    fin.seekg( 0, std::ios::beg ); // reset read position
+
+    return ( header[0] == '\x1f' ) && ( header[1] == '\x8b' );
+}
+
 std::unique_ptr<std::istream> read_maybe_compressed_file( const std::filesystem::path &path )
 {
     try {
@@ -484,14 +495,7 @@ std::unique_ptr<std::istream> read_maybe_compressed_file( const std::filesystem:
             throw std::runtime_error( "opening file failed" );
         }
 
-        // check if file is gzipped
-        // (byte1 == 0x1f) && (byte2 == 0x8b)
-        std::array<char, 2> header;
-        fin.read( header.data(), 2 );
-        fin.clear();
-        fin.seekg( 0, std::ios::beg ); // reset read position
-
-        if( ( header[0] == '\x1f' ) && ( header[1] == '\x8b' ) ) {
+        if( is_gzipped( fin ) ) {
             std::string outstring = read_compressed_file_to_string( fin );
             std::stringstream inflated_contents_stream;
             inflated_contents_stream.write( outstring.data(), outstring.size() );
@@ -528,14 +532,7 @@ std::optional<std::string> read_whole_file( const std::filesystem::path &path )
             throw std::runtime_error( "opening file failed" );
         }
 
-        // check if file is gzipped
-        // (byte1 == 0x1f) && (byte2 == 0x8b)
-        std::array<char, 2> header;
-        fin.read( header.data(), 2 );
-        fin.clear();
-        fin.seekg( 0, std::ios::beg ); // reset read position
-
-        if( ( header[0] == '\x1f' ) && ( header[1] == '\x8b' ) ) {
+        if( is_gzipped( fin ) ) {
             outstring = read_compressed_file_to_string( fin );
         } else {
             fin.seekg( 0, std::ios_base::end );
@@ -605,15 +602,15 @@ bool read_from_file_optional_json( const cata_path &path,
     return file_exist( path.get_unrelative_path() ) && read_from_file_json( path, reader );
 }
 
-bool read_from_zzip_optional( const std::shared_ptr<zzip> &z,
+bool read_from_zzip_optional( const zzip &z,
                               const std::filesystem::path &file,
                               const std::function<void( std::string_view )> &reader )
 {
-    if( !z || !z->has_file( file ) ) {
+    if( !z.has_file( file ) ) {
         return false;
     }
     try {
-        std::vector<std::byte> file_data = z->get_file( file );
+        std::vector<std::byte> file_data = z.get_file( file );
         std::string_view sv{ reinterpret_cast<const char *>( file_data.data() ), file_data.size() };
         reader( sv );
         return true;
@@ -918,7 +915,7 @@ std::string io::enum_to_string<aggregate_type>( aggregate_type agg )
     cata_fatal( "Invalid aggregate type." );
 }
 
-std::optional<double> svtod( std::string_view token )
+std::optional<double> svtod( std::string_view token, bool debugmsg_on_fail )
 {
     char *pEnd = nullptr;
     double const val = std::strtod( token.data(), &pEnd );
@@ -932,7 +929,9 @@ std::optional<double> svtod( std::string_view token )
         unlocalized[pEnd - token.data()] = block == ',' ? '.' : ',';
         return svtod( unlocalized );
     }
-    debugmsg( R"(Failed to convert string value "%s" to double: %s)", token, std::strerror( errno ) );
+    if( debugmsg_on_fail ) {
+        debugmsg( R"(Failed to convert string value "%s" to double: %s)", token, std::strerror( errno ) );
+    }
 
     errno = 0;
 

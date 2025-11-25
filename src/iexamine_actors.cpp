@@ -428,9 +428,9 @@ void mortar_examine_actor::load( const JsonObject &jo, const std::string &src )
     optional( jo, false, "condition_fail_msg", condition_fail_msg,
               to_translation( "You can't use this mortar." ) );
 
-    aim_deviation = get_dbl_or_var( jo, "aim_deviation", false, 0.0f );
-    aim_duration = get_duration_or_var( jo, "aim_duration", false, 0_seconds );
-    flight_time = get_duration_or_var( jo, "flight_time", false, 0_seconds );
+    optional( jo, false, "aim_deviation", aim_deviation, 0.0f );
+    optional( jo, false, "aim_duration", aim_duration, 0_seconds );
+    optional( jo, false, "flight_time", flight_time, 0_seconds );
 
     for( JsonValue jv : jo.get_array( "effect_on_conditions" ) ) {
         eocs.emplace_back( effect_on_conditions::load_inline_eoc( jv, src ) );

@@ -277,6 +277,23 @@
   {
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
+    "id": "alchemy_recipe_powder_of_revelation",
+    "copy-from": "schematics_generic",
+    "looks_like": "spell_scroll",
+    "name": { "str_sp": "scribbled notes (powder of revelation)" },
+    "description": "An handwritten set of notes detailing an alchemical recipe for creating some sort of powder that it claims will \"Reveal that which is hidden\".",
+    "required_level": 3,
+    "max_level": 3,
+    "intelligence": 10,
+    "time": "45 m",
+    "symbol": "ç",
+    "color": "light_green",
+    "read_skill": "fabrication"
+  },
+  {
+    "//": "Tier 4 begins here",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "id": "alchemy_recipe_life_extension_potion",
     "copy-from": "schematics_generic",
     "looks_like": "spell_scroll",
@@ -355,6 +372,7 @@
     "read_skill": "fabrication"
   },
   {
+    "//": "Tier 5 begins here",
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
     "id": "alchemy_recipe_plant_imbuement",

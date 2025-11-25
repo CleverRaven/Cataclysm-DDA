@@ -8,19 +8,29 @@
     "type": "effect_on_condition",
     "id": "scenario_lilin_starting_ruach",
     "//": "Starts you off with some ruach so you don't begin starving immediately",
-    "effect": [ { "math": [ "u_vitamin('lilin_ruach_vitamin')", "+=", "rng(550,850) " ] } ]
+    "effect": [ { "math": [ "u_vitamin('lilin_ruach_vitamin') += rng(550,850) " ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "scenario_paraclesian_birth",
     "effect": [
-      { "math": [ "u_vitamin('mutagen')", "+=", "550" ] },
-      { "if": { "u_has_trait": "IERDE" }, "then": { "math": [ "u_vitamin('mutagen_earthkin')", "+=", "550 " ] } },
-      { "if": { "u_has_trait": "UNDINE" }, "then": { "math": [ "u_vitamin('mutagen_waterkin')", "+=", "550 " ] } },
-      { "if": { "u_has_trait": "SALAMANDER" }, "then": { "math": [ "u_vitamin('mutagen_flamekin')", "+=", "550 " ] } },
-      { "if": { "u_has_trait": "SYLPH" }, "then": { "math": [ "u_vitamin('mutagen_airkin')", "+=", "550 " ] } },
-      { "if": { "u_has_trait": "HOMULLUS" }, "then": { "math": [ "u_vitamin('mutagen_dollkin')", "+=", "550 " ] } },
-      { "if": { "u_has_trait": "ARVORE" }, "then": { "math": [ "u_vitamin('mutagen_plantkin')", "+=", "550 " ] } }
+      { "math": [ "u_vitamin('mutagen') += 550" ] },
+      { "if": { "u_has_trait": "IERDE" }, "then": { "math": [ "u_vitamin('mutagen_earthkin') += 550 " ] } },
+      { "if": { "u_has_trait": "UNDINE" }, "then": { "math": [ "u_vitamin('mutagen_waterkin') += 550 " ] } },
+      { "if": { "u_has_trait": "SALAMANDER" }, "then": { "math": [ "u_vitamin('mutagen_flamekin') += 550 " ] } },
+      { "if": { "u_has_trait": "SYLPH" }, "then": { "math": [ "u_vitamin('mutagen_airkin') += 550 " ] } },
+      { "if": { "u_has_trait": "HOMULLUS" }, "then": { "math": [ "u_vitamin('mutagen_dollkin') += 550 " ] } },
+      { "if": { "u_has_trait": "ARVORE" }, "then": { "math": [ "u_vitamin('mutagen_plantkin') += 550 " ] } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "scenario_werewolf_variables",
+    "effect": [
+      { "math": [ "u_werewolf_xp_threshold = 100" ] },
+      { "math": [ "u_werewolf_xp_threshold_updater = 250" ] },
+      { "math": [ "u_werewolf_give_xp_value = 1" ] },
+      { "math": [ "u_werewolf_give_xp_updater_value = 1" ] }
     ]
   }
 ]

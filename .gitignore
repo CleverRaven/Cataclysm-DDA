@@ -24,6 +24,11 @@
 /doxygen_doc/html/*
 /doxygen_doc/latex/*
 /font/
+/gfx/*
+!/gfx/ASCIITileset
+!/gfx/loading_screens
+!/gfx/Larwick_Overmap
+!/gfx/tile_config_template.json
 /graveyard/
 /memorial/
 /mods/
@@ -51,6 +56,7 @@ logg.txt
 json_formatter
 *.output
 .cache/
+zzip
 
 # Visual Studio files
 *.code-workspace
@@ -95,9 +101,6 @@ Cataclysm.exe.lastcodeanalysissucceeded
 
 # Visual Studio 2019
 **/enc_temp_folder/*
-
-#vcpkg
-/msvc-object_creator/vcpkg_installed
 
 # PVS Studio
 /msvc-full-features/*PVS-Studio*

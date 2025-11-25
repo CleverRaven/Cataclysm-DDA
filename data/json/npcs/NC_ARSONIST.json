@@ -184,7 +184,7 @@
     "type": "item_group",
     "id": "NC_ARSONIST_smg",
     "subtype": "distribution",
-    "entries": [ { "item": "uzi", "prob": 50 }, { "item": "tec9", "prob": 50 }, { "item": "sten", "prob": 10 } ]
+    "entries": [ { "item": "uzi", "prob": 50 }, { "item": "sten", "prob": 10 } ]
   },
   {
     "type": "item_group",

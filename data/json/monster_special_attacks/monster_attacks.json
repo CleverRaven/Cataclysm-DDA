@@ -665,7 +665,7 @@
     "condition": { "and": [ { "one_in_chance": 2 }, { "not": { "npc_has_effect": "downed" } } ] },
     "hit_dmg_u": "%1$s kicks your %2$s and slams you to the ground!",
     "hit_dmg_npc": "%1$s kicks <npcname> and slams them to the ground!",
-    "no_dmg_msg_u": "%1$s tries to kick %2$s and knock you down, but your armor protects you.",
+    "no_dmg_msg_u": "%1$s tries to kick your %2$s and knock you down, but your armor protects you.",
     "no_dmg_msg_npc": "%1$s tries to kick and knock <npcname> down, but their armor protects them.",
     "miss_msg_u": "%1$s tries to kick your %2$s but you dodge!",
     "miss_msg_npc": "%s tries to kick and knock down <npcname>, but they dodge!",
@@ -704,11 +704,108 @@
     "effects": [ { "id": "dermatik", "duration": 86400, "affect_hit_bp": true } ],
     "cooldown": 25,
     "move_cost": 300,
-    "hit_dmg_u": "The %1$s sinks its ovipositor into your %2$s!",
-    "hit_dmg_npc": "The %1$s sinks its ovipositor into <npcname>'s %2$s!",
-    "miss_msg_u": "The %s tries to land on you, but you dodge!",
-    "miss_msg_npc": "The %1$s tries to land on <npcname>, but they dodge!",
-    "no_dmg_msg_u": "The %1$s lands on your %2$s, but can't penetrate your armor!",
-    "no_dmg_msg_npc": "The %1$s lands on <npcname>'s %2$s, but can't penetrate their armor!"
+    "hit_dmg_u": "%1$s sinks its ovipositor into your %2$s!",
+    "hit_dmg_npc": "%1$s sinks its ovipositor into <npcname>'s %2$s!",
+    "miss_msg_u": "%s tries to land on you, but you dodge!",
+    "miss_msg_npc": "%s tries to land on <npcname>, but they dodge!",
+    "no_dmg_msg_u": "%1$s lands on your %2$s, but can't penetrate your armor!",
+    "no_dmg_msg_npc": "%1$s lands on <npcname>'s %2$s, but can't penetrate their armor!"
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "nether_cucumber_pull",
+    "cooldown": 1,
+    "move_cost": 200,
+    "accuracy": 6,
+    "range": 3,
+    "damage_max_instance": [ { "damage_type": "cut", "amount": 5 } ],
+    "min_mul": 0.5,
+    "max_mul": 1.5,
+    "grab": true,
+    "grab_data": { "exclusive_grab": true, "pull_chance": 100, "pull_weight_ratio": 1.5 },
+    "condition": {
+      "and": [
+        { "not": { "u_has_flag": "GRAB_FILTER" } },
+        { "not": { "npc_has_flag": "GRAB" } },
+        { "not": { "u_has_effect": "sectioned_filaments" } }
+      ]
+    },
+    "effects": [ { "id": "venom_pain", "duration": 54000, "affect_hit_bp": true } ],
+    "hit_dmg_u": "%s pulls you close using its filaments.",
+    "hit_dmg_npc": "%s pulls <npcname> close using its filaments.",
+    "miss_msg_u": "%s spews filaments at you but misses.",
+    "miss_msg_npc": "%s spews filaments at <npcname> but misses.",
+    "no_dmg_msg_u": "%s pulls you close using its filaments, but can't penetrate your armor.",
+    "no_dmg_msg_npc": "%s pulls <npcname> close using its filaments, but can't penetrate their armor."
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "nether_cucumber_lash",
+    "cooldown": 2,
+    "move_cost": 100,
+    "accuracy": 6,
+    "range": 3,
+    "damage_max_instance": [ { "damage_type": "cut", "amount": 5 } ],
+    "min_mul": 0.5,
+    "max_mul": 1.5,
+    "condition": { "not": { "u_has_effect": "sectioned_filaments" } },
+    "effects": [ { "id": "venom_pain", "duration": 54000, "affect_hit_bp": true } ],
+    "hit_dmg_u": "%1$s lashes at your %2$s.",
+    "hit_dmg_npc": "%1$s lashes at <npcname>'s %2$s.",
+    "miss_msg_u": "%1$s lashes at your %2$s but misses.",
+    "miss_msg_npc": "%1$s lashes at <npcname>'s %2$s but misses.",
+    "no_dmg_msg_u": "%1$s lashes at your %2$s, but can't penetrate your armor.",
+    "no_dmg_msg_npc": "%1$s lashes at <npcname>'s %2$s, but can't penetrate their armor."
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "nether_cucumber_grab",
+    "cooldown": 1,
+    "move_cost": 100,
+    "accuracy": 6,
+    "damage_max_instance": [ { "damage_type": "cut", "amount": 5 } ],
+    "min_mul": 0.5,
+    "max_mul": 1.5,
+    "body_parts": [ [ "leg_l", 1 ], [ "leg_r", 1 ], [ "head", 1 ], [ "arm_l", 1 ], [ "arm_r", 1 ] ],
+    "grab": true,
+    "condition": {
+      "and": [
+        { "not": { "u_has_flag": "GRAB_FILTER" } },
+        { "not": { "npc_has_flag": "GRAB" } },
+        { "not": { "u_has_effect": "sectioned_filaments" } }
+      ]
+    },
+    "effects": [ { "id": "venom_pain", "duration": 54000, "affect_hit_bp": true } ],
+    "hit_dmg_u": "%1$s wraps its filaments around your %2$s.",
+    "hit_dmg_npc": "%1$s wraps its filaments around <npcname>'s %2$s.",
+    "miss_msg_u": "%1$s tries to wrap its filaments around your %2$s but misses.",
+    "miss_msg_npc": "%1$s tries to wrap its filaments around <npcname>'s %2$s but misses.",
+    "no_dmg_msg_u": "%1$s wraps its filaments around your %2$s, but can't penetrate your armor.",
+    "no_dmg_msg_npc": "%1$s wraps its filaments around <npcname>'s %2$s, but can't penetrate their armor."
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "nether_cucumber_grab_followup",
+    "cooldown": 5,
+    "move_cost": 200,
+    "accuracy": 8,
+    "damage_max_instance": [ { "damage_type": "bash", "amount": 30 } ],
+    "min_mul": 0.5,
+    "max_mul": 1.5,
+    "body_parts": [ [ "leg_l", 1 ], [ "leg_r", 1 ], [ "head", 1 ], [ "arm_l", 1 ], [ "arm_r", 1 ] ],
+    "grab": true,
+    "condition": {
+      "and": [ { "u_has_flag": "GRAB_FILTER" }, { "npc_has_flag": "GRAB" }, { "not": { "u_has_effect": "sectioned_filaments" } } ]
+    },
+    "hit_dmg_u": "%1$s pulls your %2$s in its orifice and starts crushing it.",
+    "hit_dmg_npc": "%1$s pulls <npcname>'s %2$s in its orifice and starts crushing it.",
+    "miss_msg_u": "%1$s tries to pulls your %2$s in its orifice but misses.",
+    "miss_msg_npc": "%1$s tries to pulls <npcname>'s %2$s in its orifice but misses.",
+    "no_dmg_msg_u": "%1$s pulls your %2$s in its orifice and starts crushing it, but can't penetrate your armor.",
+    "no_dmg_msg_npc": "%1$s pulls <npcname>'s %2$s in its orifice and starts crushing it, but can't penetrate their armor."
   }
 ]

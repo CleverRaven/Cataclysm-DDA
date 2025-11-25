@@ -19,8 +19,8 @@
                     "effect": [
                       { "npc_set_flag": "DURABLE_MELEE" },
                       { "npc_set_flag": "NO_REPAIR" },
-                      { "math": [ "u_vitamin('blood')", "-=", "2000" ] },
-                      { "math": [ "u_vitamin('redcells')", "-=", "2000" ] },
+                      { "math": [ "u_vitamin('blood') -= 2000" ] },
+                      { "math": [ "u_vitamin('redcells') -= 2000" ] },
                       {
                         "u_message": "You pour some of your blood on the object, imbuing it with durability.",
                         "type": "good"

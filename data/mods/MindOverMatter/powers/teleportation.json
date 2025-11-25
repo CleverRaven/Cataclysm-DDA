@@ -285,8 +285,8 @@
   {
     "id": "teleport_reactive_displacement_teleport",
     "type": "SPELL",
-    "name": "[Ψ]Reactive Displacement (C) - Teleport",
-    "description": "The actual teleport effect of reactive displacement.  Having this spell is a bug.",
+    "name": { "str": "[Ψ]Reactive Displacement (C) - Teleport", "//~": "NO_I18N" },
+    "description": { "str": "The actual teleport effect of reactive displacement.  Having this spell is a bug.", "//~": "NO_I18N" },
     "teachable": false,
     "valid_targets": [ "ally", "hostile" ],
     "spell_class": "TELEPORTER",
@@ -732,11 +732,8 @@
   {
     "id": "teleport_farstep_real",
     "type": "SPELL",
-    "name": { "str": "[Ψ]Farstep Real", "//": "NO_I18N" },
-    "description": {
-      "str": "The actual farstep power, after checking the volume of your goods.  You shouldn't see this.",
-      "//~": "NO_I18N"
-    },
+    "name": "[Ψ]Farstep",
+    "description": "Skating along the void between dimensions, move to a specific place nearby.\n\nThe power <color_red>will fail</color> if the volume of your carried gear is too great.",
     "message": "",
     "teachable": false,
     "valid_targets": [ "ground" ],
@@ -910,8 +907,11 @@
   {
     "id": "teleport_dilated_gateway_teleport_others",
     "type": "SPELL",
-    "name": "[Ψ]Dilated Gateway - Teleport Others",
-    "description": "The spell that actually teleports the adjacent targets.  Should only be casted via teleport_gateway_other's EOC.",
+    "name": { "str": "[Ψ]Dilated Gateway - Teleport Others", "//~": "NO_I18N" },
+    "description": {
+      "str": "The spell that actually teleports the adjacent targets.  Should only be casted via teleport_gateway_other's EOC.",
+      "//~": "NO_I18N"
+    },
     "message": "",
     "teachable": false,
     "valid_targets": [ "ally", "hostile" ],
@@ -929,8 +929,11 @@
   {
     "id": "teleport_dilated_gateway_teleport_self",
     "type": "SPELL",
-    "name": "[Ψ]Dilated Gateway - Teleport Self",
-    "description": "The spell that actually teleports the player.  Should only be casted via teleport_gateway_other's EOC.",
+    "name": { "str": "[Ψ]Dilated Gateway - Teleport Self", "//~": "NO_I18N" },
+    "description": {
+      "str": "The spell that actually teleports the player.  Should only be casted via teleport_gateway_other's EOC.",
+      "//~": "NO_I18N"
+    },
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],

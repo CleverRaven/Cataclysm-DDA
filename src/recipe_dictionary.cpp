@@ -15,6 +15,7 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_algo.h"
+#include "cata_compiler_support.h"
 #include "cata_utility.h"
 #include "crafting_gui.h"
 #include "debug.h"
@@ -27,7 +28,6 @@
 #include "item.h"
 #include "item_factory.h"
 #include "itype.h"
-#include "make_static.h"
 #include "mapgen.h"
 #include "math_parser_type.h"
 #include "mod_tracker.h"
@@ -42,6 +42,10 @@
 #include "uistate.h"
 #include "units.h"
 #include "value_ptr.h"
+
+static const flag_id json_flag_NUTRIENT_OVERRIDE( "NUTRIENT_OVERRIDE" );
+
+static const itype_id itype_debug_item_search( "debug_item_search" );
 
 static const requirement_id requirement_data_uncraft_book( "uncraft_book" );
 
@@ -212,7 +216,8 @@ template<typename Unit>
 static Unit can_contain_filter( std::string_view hint, std::string_view txt, Unit max,
                                 std::vector<std::pair<std::string, Unit>> units )
 {
-    auto const error = [hint, txt]( char const *, size_t /* offset */ ) {
+    // TODO: LAMBDA_NORETURN_CLANG21x1 can be replaced with [[noreturn]] once we switch to C++23 on all compilers
+    auto const error = [hint, txt]( char const *, size_t /* offset */ ) LAMBDA_NORETURN_CLANG21x1 {
         throw math::runtime_error( _( string_format( hint, txt ) ) );
     };
     // Start at max. On convert failure: results are empty and user knows it is unusable.
@@ -223,8 +228,7 @@ static Unit can_contain_filter( std::string_view hint, std::string_view txt, Uni
         popup( err.what() );
     }
     // copy the debug item template (itype)
-    filtered_fake_itype = itype( *item_controller->find_template( STATIC(
-                                     itype_id( "debug_item_search" ) ) ) );
+    filtered_fake_itype = itype( *item_controller->find_template( itype_debug_item_search ) );
     return uni;
 }
 
@@ -677,7 +681,7 @@ void recipe_dictionary::find_items_on_loops()
     items_on_loops.clear();
     std::unordered_map<itype_id, std::vector<itype_id>> potential_components_of;
     for( const itype *i : item_controller->all() ) {
-        if( !i->comestible || i->has_flag( STATIC( flag_id( "NUTRIENT_OVERRIDE" ) ) ) ) {
+        if( !i->comestible || i->has_flag( json_flag_NUTRIENT_OVERRIDE ) ) {
             continue;
         }
         std::vector<itype_id> &potential_components = potential_components_of[i->get_id()];

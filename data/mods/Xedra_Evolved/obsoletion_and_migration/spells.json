@@ -682,5 +682,83 @@
     "final_energy_cost": 400,
     "energy_increment": -12,
     "base_casting_time": 150
+  },
+  {
+    "id": "vampire_command_beast_spell_real",
+    "type": "SPELL",
+    "name": { "str": "Cowing the Beast Real", "//~": "NO_I18N" },
+    "description": { "str": "The actual power that lets you command a beast.  If you see this, it's a bug.", "//~": "NO_I18N" },
+    "message": "",
+    "teachable": false,
+    "magic_type": "xe_vampire_blood_powers",
+    "valid_targets": [ "hostile" ],
+    "effect": "charm_monster",
+    "shape": "blast",
+    "flags": [ "NO_HANDS", "SILENT", "NO_FAIL" ],
+    "spell_class": "VAMPIRE_BLOOD_ARTS",
+    "difficulty": 7,
+    "max_level": 1,
+    "min_range": 60,
+    "max_range": 60,
+    "min_damage": {
+      "math": [
+        "rng (0.75,1.25) * (50 + (vampire_total_tier_one_traits()  * 5) + (vampire_total_tier_two_traits() * 12) + (vampire_total_tier_three_traits() * 20) + (vampire_total_tier_three_traits() * 35))"
+      ]
+    },
+    "max_damage": {
+      "math": [
+        "rng (0.75,1.25) * (50 + (vampire_total_tier_one_traits()  * 5) + (vampire_total_tier_two_traits() * 12) + (vampire_total_tier_three_traits() * 20) + (vampire_total_tier_three_traits() * 35))"
+      ]
+    },
+    "min_duration": {
+      "math": [
+        "rng (0.75,1.25) * (6000 + (vampire_total_tier_one_traits()  * 1000) + (vampire_total_tier_two_traits() * 1800) + (vampire_total_tier_three_traits() * 2700) + (vampire_total_tier_three_traits() * 4500))"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "rng (0.75,1.25) * (6000 + (vampire_total_tier_one_traits()  * 1000) + (vampire_total_tier_two_traits() * 1800) + (vampire_total_tier_three_traits() * 2700) + (vampire_total_tier_three_traits() * 4500))"
+      ]
+    }
+  },
+  {
+    "id": "vampire_dominate_real",
+    "type": "SPELL",
+    "name": { "str": "Dominating Gaze real", "//~": "NO_I18N" },
+    "description": { "str": "The actual power that lets you take over a mind.  If you see this, it's a bug.", "//~": "NO_I18N" },
+    "message": "",
+    "teachable": false,
+    "magic_type": "xe_vampire_blood_powers",
+    "valid_targets": [ "hostile" ],
+    "effect": "charm_monster",
+    "shape": "blast",
+    "flags": [ "NO_HANDS", "SILENT", "NO_FAIL" ],
+    "spell_class": "VAMPIRE_BLOOD_ARTS",
+    "skill": "deduction",
+    "difficulty": 8,
+    "max_level": 1,
+    "min_range": 60,
+    "max_range": 60,
+    "min_damage": {
+      "math": [
+        "rng (0.75,1.25) * (20 + (vampire_total_tier_one_traits()  * 4) + (vampire_total_tier_two_traits() * 10) + (vampire_total_tier_three_traits() * 16) + (vampire_total_tier_four_traits() * 30))"
+      ]
+    },
+    "max_damage": {
+      "math": [
+        "rng (0.75,1.25) * (20 + (vampire_total_tier_one_traits()  * 4) + (vampire_total_tier_two_traits() * 10) + (vampire_total_tier_three_traits() * 16) + (vampire_total_tier_four_traits() * 30))"
+      ]
+    },
+    "min_duration": {
+      "math": [
+        "rng (0.75,1.25) * (2500 + (vampire_total_tier_one_traits()  * 400) + (vampire_total_tier_two_traits() * 800) + (vampire_total_tier_three_traits() * 1150) + (vampire_total_tier_four_traits() * 2050))"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "rng (0.75,1.25) * (2500 + (vampire_total_tier_one_traits()  * 400) + (vampire_total_tier_two_traits() * 800) + (vampire_total_tier_three_traits() * 1150) + (vampire_total_tier_four_traits() * 2050))"
+      ]
+    },
+    "targeted_monster_species": [ "HUMAN", "FERAL", "CYBORG" ]
   }
 ]

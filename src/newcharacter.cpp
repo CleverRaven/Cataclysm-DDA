@@ -43,7 +43,6 @@
 #include "localized_comparator.h"
 #include "magic.h"
 #include "magic_enchantment.h"
-#include "make_static.h"
 #include "mapsharing.h"
 #include "martialarts.h"
 #include "mission.h"
@@ -86,6 +85,7 @@ static const std::string flag_CITY_START( "CITY_START" );
 static const std::string flag_SECRET( "SECRET" );
 static const std::string flag_SKIP_DEFAULT_BACKGROUND( "SKIP_DEFAULT_BACKGROUND" );
 
+static const flag_id json_flag_WET( "WET" );
 static const flag_id json_flag_auto_wield( "auto_wield" );
 static const flag_id json_flag_no_auto_equip( "no_auto_equip" );
 
@@ -460,7 +460,7 @@ void Character::randomize( const bool random_scenario, bool play_now )
     }
 
     const scenario *scenario_from = is_avatar() ? get_scenario() : scenario::generic();
-    prof = scenario_from->weighted_random_profession();
+    prof = scenario_from->weighted_random_profession( is_npc() );
     play_name_suffix = prof->gender_appropriate_name( male );
     zero_all_skills();
 
@@ -476,9 +476,11 @@ void Character::randomize( const bool random_scenario, bool play_now )
 
     set_body();
     randomize_hobbies();
-    const trait_id background = prof->pick_background();
-    if( !background.is_empty() ) {
-        set_mutation( background );
+    if( is_npc() ) {
+        const trait_id background = prof->pick_background();
+        if( !background.is_empty() ) {
+            set_mutation( background );
+        }
     }
 
     int num_gtraits = 0;
@@ -629,7 +631,7 @@ void Character::add_profession_items()
 
     auto attempt_add_items = [this]( std::list<item> &prof_items, std::list<item> &failed_to_add ) {
         for( item &it : prof_items ) {
-            if( it.has_flag( STATIC( flag_id( "WET" ) ) ) ) {
+            if( it.has_flag( json_flag_WET ) ) {
                 it.active = true;
                 it.item_counter = 450; // Give it some time to dry off
             }
@@ -695,7 +697,7 @@ void Character::add_profession_items()
 void Character::randomize_hobbies()
 {
     hobbies.clear();
-    std::vector<profession_id> choices = get_scenario()->permitted_hobbies();
+    std::vector<profession_id> choices = get_scenario()->permitted_hobbies( is_npc() );
     choices.erase( std::remove_if( choices.begin(), choices.end(),
     [this]( const string_id<profession> &hobby ) {
         return !prof->allows_hobby( hobby );
@@ -803,8 +805,7 @@ bool avatar::create( character_type type, const std::string &tempname )
             tabs.position.last();
             break;
     }
-
-    // Don't apply the default backgrounds on a template
+    // Don't apply the default backgrounds on a template or scenario with SKIP_DEFAULT_BACKGROUND
     if( type != character_type::TEMPLATE &&
         !get_scenario()->has_flag( flag_SKIP_DEFAULT_BACKGROUND ) ) {
         add_default_background();
@@ -2275,10 +2276,21 @@ static std::string assemble_profession_details( const avatar &u, const input_con
                                 profession_name ) + "\n";
     assembled += string_format( dress_switch_msg(), ctxt.get_desc( "CHANGE_OUTFIT" ) ) + "\n";
 
-    if( sorted_profs[cur_id]->get_requirement().has_value() ) {
+    if( !sorted_profs[cur_id]->get_requirements().empty() ) {
         assembled += "\n" + colorize( _( "Profession requirements:" ), COL_HEADER ) + "\n";
-        assembled += string_format( _( "Complete \"%s\"\n" ),
-                                    sorted_profs[cur_id]->get_requirement().value()->name() );
+        ret_val<void> can_pick_prof = sorted_profs[cur_id]->can_pick();
+        if( can_pick_prof.success() ) {
+            std::vector<std::string> req_names;
+            for( const auto &req : sorted_profs[cur_id]->get_requirements() ) {
+                req_names.emplace_back( req->name().translated() );
+            }
+            assembled += colorize( string_format( n_gettext( _( "Completed \"%s\"\n" ), _( "Completed: %s\n" ),
+                                                  req_names.size() ),
+                                                  enumerate_as_string( req_names ) ),
+                                   c_green ) + "\n";
+        } else { // fail, can't pick so display ret_val's reason
+            assembled += colorize( can_pick_prof.str(), c_red ) + "\n";
+        }
     }
     //Profession story
     assembled += "\n" + colorize( _( "Profession story:" ), COL_HEADER ) + "\n";
@@ -3043,12 +3055,21 @@ void set_hobbies( tab_manager &tabs, avatar &u, pool_type pool )
             // Do not allow selection of hobby if there's a trait conflict
             const profession *hobb = &sorted_hobbies[cur_id].obj();
             bool conflict_found = false;
+            bool conflict_reason_found = false;
             for( const trait_and_var &new_trait : hobb->get_locked_traits() ) {
                 if( u.has_conflicting_trait( new_trait.trait ) ) {
+                    conflict_found = true;
+                    for( const trait_and_var &suspect : u.prof->get_locked_traits() ) {
+                        if( are_conflicting_traits( new_trait.trait, suspect.trait ) ) {
+                            conflict_reason_found = true;
+                            popup( _( "The trait [%1$s] conflicts with profession [%2$s]'s trait [%3$s]." ), new_trait.name(),
+                                   u.prof->gender_appropriate_name( u.male ), suspect.name() );
+                        }
+                    }
                     for( const profession *hobby : u.hobbies ) {
                         for( const trait_and_var &suspect : hobby->get_locked_traits() ) {
                             if( are_conflicting_traits( new_trait.trait, suspect.trait ) ) {
-                                conflict_found = true;
+                                conflict_reason_found = true;
                                 popup( _( "The trait [%1$s] conflicts with background [%2$s]'s trait [%3$s]." ), new_trait.name(),
                                        hobby->gender_appropriate_name( u.male ), suspect.name() );
                             }
@@ -3057,6 +3078,10 @@ void set_hobbies( tab_manager &tabs, avatar &u, pool_type pool )
                 }
             }
             if( conflict_found ) {
+                if( !conflict_reason_found ) {
+                    popup( _( "A conflicting trait is preventing you from taking %s" ),
+                           hobb->gender_appropriate_name( u.male ) );
+                }
                 continue;
             }
 
@@ -3507,12 +3532,13 @@ static std::string assemble_scenario_details( const avatar &u, const input_conte
             assembled += colorize( scenUnavailable, c_red ) + "\n";
         }
         if( scenRequirement.has_value() ) {
-            nc_color requirement_color = c_red;
-            if( current_scenario->can_pick().success() ) {
-                requirement_color = c_green;
+            ret_val<void> can_pick_scenario = current_scenario->can_pick();
+            if( can_pick_scenario.success() ) {
+                assembled += colorize( string_format( _( "Completed \"%s\"" ), scenRequirement.value()->name() ),
+                                       c_green ) + "\n";
+            } else { // fail, can't pick so display ret_val's reason
+                assembled += colorize( can_pick_scenario.str(), c_red ) + "\n";
             }
-            assembled += colorize( string_format( _( "Complete \"%s\"" ), scenRequirement.value()->name() ),
-                                   requirement_color ) + "\n";
         }
     }
 
@@ -4005,8 +4031,8 @@ static std::string assemble_description_help( const input_context &ctxt, const b
                             "<color_light_green>%s</color> to randomize all description values." ),
                          ctxt.get_desc( "RANDOMIZE_CHAR_NAME" ), ctxt.get_desc( "RANDOMIZE_CHAR_DESCRIPTION" ) );
     }
-    help_text += string_format(
-                     _( "\nPress <color_light_green>%1$s</color> to change cataclysm start date, "
+    help_text += "\n" + string_format(
+                     _( "Press <color_light_green>%1$s</color> to change cataclysm start date, "
                         "<color_light_green>%2$s</color> to change game start date, "
                         "<color_light_green>%3$s</color> to reset calendar." ),
                      ctxt.get_desc( "CHANGE_START_OF_CATACLYSM" ), ctxt.get_desc( "CHANGE_START_OF_GAME" ),
@@ -4744,14 +4770,14 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
                 }
                 case char_creation::AGE: {
                     int result = you.base_age();
-                    if( query_int( result, false, _( "Enter age in years.  Minimum 16, maximum 55" ) ) && result > 0 ) {
+                    if( query_int( result, true, _( "Enter age in years.  Minimum 16, maximum 55" ) ) && result > 0 ) {
                         you.set_base_age( clamp( result, 16, 55 ) );
                     }
                     break;
                 }
                 case char_creation::HEIGHT: {
                     int result = you.base_height();
-                    if( query_int( result, false, _( "Enter height in centimeters.  Minimum %d, maximum %d" ),
+                    if( query_int( result, true, _( "Enter height in centimeters.  Minimum %d, maximum %d" ),
                                    min_allowed_height, max_allowed_height ) && result > 0 ) {
                         you.set_base_height( clamp( result, min_allowed_height, max_allowed_height ) );
                     }
@@ -4930,30 +4956,32 @@ void Character::empty_skills()
 
 void Character::add_traits()
 {
-    // TODO: get rid of using get_avatar() here, use `this` instead
-    for( const trait_and_var &tr : get_avatar().prof->get_locked_traits() ) {
-        if( !has_trait( tr.trait ) ) {
-            toggle_trait_deps( tr.trait );
+    //TODO: NPCs already get profession stuff assigned at least twice elsewhere causing issues and it all wants unifying (if not here this should be made an avatar::add_traits()
+    if( !is_npc() ) {
+        for( const trait_and_var &tr : prof->get_locked_traits() ) {
+            if( !has_trait( tr.trait ) ) {
+                toggle_trait_deps( tr.trait );
+            }
         }
-    }
-    for( const trait_id &tr : get_scenario()->get_locked_traits() ) {
-        if( !has_trait( tr ) ) {
-            toggle_trait_deps( tr );
+        for( const trait_id &tr : get_scenario()->get_locked_traits() ) {
+            if( !has_trait( tr ) ) {
+                toggle_trait_deps( tr );
+            }
         }
     }
 }
 
 trait_id Character::random_good_trait()
 {
-    return get_random_trait( []( const mutation_branch & mb ) {
-        return mb.points > 0 && mb.random_at_chargen;
+    return get_random_trait( [this]( const mutation_branch & mb ) {
+        return mb.points > 0 && ( mb.chargen_allow_npc || is_avatar() );
     } );
 }
 
 trait_id Character::random_bad_trait()
 {
-    return get_random_trait( []( const mutation_branch & mb ) {
-        return mb.points < 0 && mb.random_at_chargen;
+    return get_random_trait( [this]( const mutation_branch & mb ) {
+        return mb.points < 0 && ( mb.chargen_allow_npc || is_avatar() );
     } );
 }
 
@@ -5125,7 +5153,9 @@ void reset_scenario( avatar &u, const scenario *scen )
     u.prof = &default_prof.obj();
 
     u.hobbies.clear();
-    u.add_default_background();
+    if( !scen->has_flag( flag_SKIP_DEFAULT_BACKGROUND ) ) {
+        u.add_default_background();
+    };
     u.clear_mutations();
     u.recalc_hp();
     u.empty_skills();

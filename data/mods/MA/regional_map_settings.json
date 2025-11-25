@@ -1,0 +1,13 @@
+[
+  {
+    "type": "region_settings",
+    "id": "default",
+    "copy-from": "default",
+    "rivers": null,
+    "lakes": null,
+    "ocean": null,
+    "ravines": null,
+    "forests": null,
+    "highways": null
+  }
+]

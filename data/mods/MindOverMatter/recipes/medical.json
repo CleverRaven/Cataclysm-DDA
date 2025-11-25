@@ -82,7 +82,7 @@
       { "proficiency": "prof_psionic_containment", "required": false },
       { "proficiency": "prof_psionic_warping", "required": false }
     ],
-    "using": [ [ "serum_production_standard", 25 ], [ "matrix_dust_refined", 4, "LIST" ] ],
+    "using": [ [ "serum_production_standard", 25 ], [ "matrix_dust_refined", 4 ] ],
     "qualities": [ { "id": "MATRIX_CHANNEL", "level": 1 }, { "id": "MATRIX_FOCUS", "level": 1 } ],
     "components": [ [ [ "psionic_serum_base", 3 ] ], [ [ "thorazine", 2 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ]

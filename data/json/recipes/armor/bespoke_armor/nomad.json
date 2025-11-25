@@ -31,6 +31,7 @@
     "copy-from": "helmet_nomad",
     "time": "2 h",
     "using": [ [ "filament_canvas", 60 ], [ "fastener_small", 4 ] ],
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 1 } ],
     "components": [
       [ [ "hat_ball", 1 ], [ "hat_boonie", 1 ], [ "hat_golf", 1 ] ],
       [ [ "glasses_safety", 1 ], [ "glasses_bal", 1 ], [ "goggles_ski", 1 ], [ "face_shield_plastic", 1 ] ],
@@ -203,7 +204,7 @@
     ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_elastics" } ],
-    "components": [ [ [ "chunk_rubber", 2 ] ], [ [ "rubber_cement", 2 ] ] ],
+    "components": [ [ [ "chunk_rubber", 2 ] ], [ [ "glue_weak", 500 ] ] ],
     "flags": [ "SECRET" ],
     "byproducts": [ [ "scrap_cotton", 5 ], [ "scrap_lycra", 4 ] ]
   },
@@ -225,7 +226,7 @@
     ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_elastics" }, { "proficiency": "prof_polymerworking" } ],
-    "components": [ [ [ "chunk_rubber", 2 ] ], [ [ "thread_kevlar", 20 ] ], [ [ "rubber_cement", 2 ] ] ],
+    "components": [ [ [ "chunk_rubber", 2 ] ], [ [ "thread_kevlar", 20 ] ], [ [ "glue_weak", 500 ] ] ],
     "flags": [ "SECRET" ],
     "byproducts": [ [ "scrap_cotton", 5 ], [ "scrap_lycra", 4 ] ]
   }

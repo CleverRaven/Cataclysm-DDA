@@ -57,6 +57,11 @@ void add_type::load_add_types( const JsonObject &jo, const std::string &src )
     add_type_factory.load( jo, src );
 }
 
+void add_type::finalize_all()
+{
+    add_type_factory.finalize();
+}
+
 void add_type::reset()
 {
     add_type_factory.reset();

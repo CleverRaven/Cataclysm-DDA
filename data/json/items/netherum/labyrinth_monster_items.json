@@ -1,0 +1,28 @@
+[
+  {
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
+    "id": "bone_dart",
+    "copy-from": "rock",
+    "looks_like": "bee_sting",
+    "color": "white",
+    "name": { "str": "bone dart" },
+    "description": "A naturally fletched projectile made of bone and cartilage.  It feels denser than you'd expect.",
+    "material": [ "cyber_bone" ],
+    "weight": "250 g"
+  },
+  {
+    "type": "ITEM",
+    "id": "broken_stiltwalker_1_1",
+    "symbol": ",",
+    "color": "light_gray",
+    "name": { "str": "broken stiltwalker" },
+    "category": "other",
+    "description": "A broken stiltwalker.  You think it might be possible to disassemble it into parts, someday, but not now.",
+    "price": "10 USD",
+    "material": [ "qt_steel" ],
+    "volume": "100 L",
+    "weight": "317 kg",
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+  }
+]

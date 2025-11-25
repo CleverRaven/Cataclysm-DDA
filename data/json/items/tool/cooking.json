@@ -1,28 +1,5 @@
 [
   {
-    "id": "atomic_coffeepot",
-    "type": "ITEM",
-    "subtypes": [ "TOOL" ],
-    "category": "tools",
-    "name": { "str": "atomic coffeemaker" },
-    "looks_like": "coffeemaker",
-    "description": "This is a Curie-G coffeemaker, by CuppaTech.  It famously uses a radioactive generator to heat water for coffee, reducing the amount of total electricity it consumes.  Consumer safety concerns led to it being banned in the EU as well as many other countries, but don't let that stop you from brewing your morning Joe with the power of the atom™!",
-    "weight": "6102 g",
-    "volume": "1500 ml",
-    "longest_side": "20 cm",
-    "price": "1 kUSD",
-    "price_postapoc": "30 USD",
-    "material": [ "plastic", "aluminum", "lead", "steel" ],
-    "qualities": [ [ "BOIL", 1 ] ],
-    "symbol": ",",
-    "color": "light_green",
-    "use_action": [ "HOTPLATE_ATOMIC", { "type": "link_up", "cable_length": 2, "charge_rate": "1 kW" } ],
-    "//": "This now uses energy to heat food, the RTG is just a minor cost-saving element.  However in a pinch you could use just the RTG to unfreeze water",
-    "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE", "WATER_BREAK", "ALLOWS_REMOTE_USE" ],
-    "melee_damage": { "bash": 5 },
-    "tool_ammo": [ "battery" ]
-  },
-  {
     "id": "butchering_kit",
     "name": { "str": "butchering kit" },
     "type": "ITEM",
@@ -96,10 +73,10 @@
             "effect": {
               "run_eocs": "EOC_toolweapon_activate",
               "variables": {
-                "turn_cost": "0.8",
+                "turn_cost": 0.8,
                 "transform_target": "carver_on",
                 "success_message": { "i18n": true, "str": "The electric carver's serrated blades start buzzing!" },
-                "volume": "20",
+                "volume": 20,
                 "failure_message": { "i18n": true, "str": "You pull the trigger, but nothing happens." }
               }
             }
@@ -145,9 +122,9 @@
           "effect": {
             "run_eocs": "EOC_toolweapon_running",
             "variables": {
-              "sound_chance": "10",
+              "sound_chance": 10,
               "sound_message": { "i18n": true, "str": "Your electric carver buzzes." },
-              "volume": "8",
+              "volume": 8,
               "revert_to": "carver_off"
             }
           }
@@ -342,7 +319,7 @@
     "tool_ammo": [ "battery" ]
   },
   {
-    "id": "eggs_ferment",
+    "id": "eggs_ferment_active",
     "type": "ITEM",
     "category": "food",
     "name": { "str": "fermenting eggs jar" },
@@ -355,16 +332,9 @@
     "material": [ "glass", "egg" ],
     "symbol": "%",
     "color": "white",
-    "use_action": {
-      "target": "pickled_egg",
-      "container": "jar_glass_sealed",
-      "target_charges": 10,
-      "msg": "You examine the batch and see that the pickling solution has done its job, so you seal the jar up for storage.",
-      "moves": 50,
-      "type": "delayed_transform",
-      "transform_age": 201600,
-      "not_ready_msg": "The eggs are not done yet."
-    },
+    "countdown_interval": "56 hours",
+    "transform_into": { "target": "pickled_egg", "container": "jar_glass_sealed", "target_charges": 10 },
+    "flags": [ "SPAWN_ACTIVE" ],
     "melee_damage": { "bash": 8 }
   },
   {
@@ -388,7 +358,7 @@
     "tool_ammo": [ "esbit" ]
   },
   {
-    "id": "flask_yeast",
+    "id": "flask_yeast_active",
     "type": "ITEM",
     "category": "food",
     "name": { "str_sp": "sealed yeast culture" },
@@ -401,18 +371,9 @@
     "material": [ "glass", "powder" ],
     "symbol": "%",
     "color": "white",
-    "use_action": {
-      "target": "yeast",
-      "msg": "You open the jar and harvest the culture.",
-      "container": "jar_glass_sealed",
-      "target_charges": 50,
-      "moves": 50,
-      "type": "delayed_transform",
-      "transform_age": 43200,
-      "not_ready_msg": "The yeast isn't done culturing yet.",
-      "//": "12 hours"
-    },
-    "flags": [ "TRADER_AVOID" ],
+    "countdown_interval": "12 hours",
+    "transform_into": { "target": "yeast", "container": "jar_glass_sealed", "target_charges": 50 },
+    "flags": [ "TRADER_AVOID", "SPAWN_ACTIVE" ],
     "melee_damage": { "bash": 8 }
   },
   {
@@ -594,11 +555,11 @@
     "melee_damage": { "bash": 8 }
   },
   {
-    "id": "milk_cream_rising",
+    "id": "milk_cream_rising_active",
     "type": "ITEM",
     "category": "food",
     "name": { "str": "rising cream jar" },
-    "description": "This jar contains raw milk separating into cream.  You can seal up the jar once the process is completed.",
+    "description": "This jar contains raw milk separating into cream.  It transforms into a milk cream jar after 6 hours.",
     "weight": "3461 g",
     "volume": "3850 ml",
     "longest_side": "298 mm",
@@ -608,14 +569,9 @@
     "symbol": "%",
     "looks_like": "jar_glass_sealed",
     "color": "white",
-    "use_action": {
-      "target": "milk_cream_jar",
-      "msg": "You examine the batch and see that the cream has risen to the top, so you seal the jar up for storage.",
-      "moves": 50,
-      "type": "delayed_transform",
-      "transform_age": 21600,
-      "not_ready_msg": "The cream has not risen yet."
-    },
+    "countdown_interval": "6 hours",
+    "revert_to": "milk_cream_jar",
+    "flags": [ "SPAWN_ACTIVE" ],
     "melee_damage": { "bash": 8 }
   },
   {
@@ -752,7 +708,7 @@
     "melee_damage": { "bash": 10 }
   },
   {
-    "id": "pickles_ferment",
+    "id": "pickles_ferment_active",
     "type": "ITEM",
     "category": "food",
     "name": { "str": "fermenting pickle jar" },
@@ -765,17 +721,9 @@
     "material": [ "glass", "veggy" ],
     "symbol": "%",
     "color": "white",
-    "use_action": {
-      "target": "pickle",
-      "container": "jar_glass_sealed",
-      "target_charges": 2,
-      "msg": "You test the batch, and it tastes good, so you seal the jar up for storage.",
-      "moves": 50,
-      "type": "delayed_transform",
-      "transform_age": 201600,
-      "not_ready_msg": "The pickles are not done fermenting yet.",
-      "//": "2 1/3 days, from the suggested recipe of 1 rl week"
-    },
+    "countdown_interval": "56 hours",
+    "transform_into": { "target": "pickle", "container": "jar_glass_sealed", "target_charges": 8 },
+    "flags": [ "SPAWN_ACTIVE" ],
     "melee_damage": { "bash": 8 }
   },
   {
@@ -838,7 +786,7 @@
     "melee_damage": { "bash": 5 }
   },
   {
-    "id": "sauerkraut_ferment",
+    "id": "sauerkraut_ferment_active",
     "type": "ITEM",
     "category": "food",
     "name": { "str": "fermenting sauerkraut jar" },
@@ -851,17 +799,9 @@
     "material": [ "glass", "veggy" ],
     "symbol": "%",
     "color": "white",
-    "use_action": {
-      "target": "sauerkraut",
-      "container": "jar_glass_sealed",
-      "target_charges": 2,
-      "msg": "You test the batch, and it tastes good, so you seal the jar up for storage.",
-      "moves": 50,
-      "type": "delayed_transform",
-      "transform_age": 201600,
-      "not_ready_msg": "The sauerkraut isn't done fermenting yet.",
-      "//": "2 1/3 days, from the suggested recipe of 1 rl week"
-    },
+    "countdown_interval": "56 hours",
+    "transform_into": { "target": "sauerkraut", "container": "jar_glass_sealed", "target_charges": 2 },
+    "flags": [ "SPAWN_ACTIVE" ],
     "melee_damage": { "bash": 4 }
   },
   {
@@ -1093,7 +1033,8 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "GAS_TANK" ], "default_magazine": "small_propane_tank" } ],
     "charges_per_use": 2,
     "qualities": [ [ "HOTPLATE", 2 ] ],
-    "use_action": [ "HEAT_SOLID_ITEMS", { "type": "firestarter", "moves": 100, "moves_slow": 1000 } ],
+    "//COMMENT": "Open flame or effectively so. ~5 seconds to transfer flame assuming optimal conditions, a minute at worst.",
+    "use_action": [ "HEAT_SOLID_ITEMS", { "type": "firestarter", "moves": 500, "moves_slow": 6000 } ],
     "flags": [ "FIRESTARTER" ],
     "melee_damage": { "bash": 4 },
     "tool_ammo": [ "propane" ]
@@ -1115,7 +1056,8 @@
       }
     ],
     "charges_per_use": 8,
-    "use_action": [ "HOTPLATE", "HEAT_FOOD", { "type": "firestarter", "moves": 100, "moves_slow": 1000 } ],
+    "//COMMENT": "Open flame or effectively so. ~5 seconds to transfer flame assuming optimal conditions, a minute at worst.",
+    "use_action": [ "HOTPLATE", "HEAT_FOOD", { "type": "firestarter", "moves": 500, "moves_slow": 6000 } ],
     "tool_ammo": [ "biogas" ]
   },
   {
@@ -1141,7 +1083,8 @@
     ],
     "qualities": [ [ "HOTPLATE", 2 ] ],
     "charges_per_use": 1,
-    "use_action": [ "HEAT_SOLID_ITEMS", { "type": "firestarter", "moves": 100, "moves_slow": 1000 } ],
+    "//COMMENT": "Open flame or effectively so. ~5 seconds to transfer flame assuming optimal conditions, a minute at worst.",
+    "use_action": [ "HEAT_SOLID_ITEMS", { "type": "firestarter", "moves": 500, "moves_slow": 6000 } ],
     "flags": [ "FIRESTARTER" ],
     "melee_damage": { "bash": 4 },
     "tool_ammo": [ "weldgas" ]
@@ -1205,11 +1148,12 @@
     "tool_ammo": [ "battery" ]
   },
   {
-    "id": "crystallizing_sugar",
+    "id": "crystallizing_sugar_active",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "symbol": "*",
     "color": "white",
+    "category": "food",
     "name": { "str": "crystallizing sugar" },
     "description": "Sweet, sweet sugar in the process of crystallizing.  It needs two weeks to form solid crystals.",
     "price": "0 cent",
@@ -1217,15 +1161,8 @@
     "material": [ "sugar" ],
     "weight": "10 g",
     "volume": "10 ml",
-    "use_action": {
-      "type": "delayed_transform",
-      "target": "sugar",
-      "msg": "You break up the crystallized sugar into a coarse powder.",
-      "not_ready_msg": "The sugar is still crystallizing.",
-      "moves": 300,
-      "transform_age": 1209600,
-      "//": "2 weeks for cristallizing sugar, based on the real-life example"
-    },
-    "flags": [ "NO_SALVAGE" ]
+    "countdown_interval": "14 days",
+    "revert_to": "sugar",
+    "flags": [ "NO_SALVAGE", "WATER_DISSOLVE", "SPAWN_ACTIVE" ]
   }
 ]

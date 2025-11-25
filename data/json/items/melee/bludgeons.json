@@ -70,6 +70,7 @@
     "name": { "str_sp": "spiked kanabō" },
     "description": "A two-handed war club used in feudal Japan by samurai against armored opponents.  Made from hardwood with metal spike inlays.",
     "looks_like": "nailbat",
+    "flags": [ "DURABLE_MELEE", "SHEATH_SPEAR", "ALWAYS_TWOHAND", "NONCONDUCTIVE", "DAMAGE_VEHICLE_WHEELS" ],
     "relative": { "melee_damage": { "bash": -5, "stab": 7 } }
   },
   {
@@ -77,10 +78,10 @@
     "id": "bat",
     "name": { "str": "baseball bat" },
     "description": "A sturdy wooden bat used to play the great American pastime.  Makes for a great melee weapon too.",
-    "weight": "1133 g",
-    "longest_side": "90 cm",
+    "weight": "940 g",
+    "longest_side": "864 mm",
     "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "good" },
-    "price_postapoc": "7 USD 50 cent",
+    "price_postapoc": "1 USD 50 cent",
     "color": "brown",
     "symbol": "/",
     "material": [ "wood" ],
@@ -111,6 +112,17 @@
     "price": "160 USD",
     "melee_damage": { "bash": 22 },
     "weapon_category": [ "MACES" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "bat_metal_bolt",
+    "copy-from": "bat_metal",
+    "name": { "str": "bolt studded aluminum bat" },
+    "description": "An aluminum baseball bat with a selection of bolts threaded through the barrel.  Helps to concentrate the force of a blow, without adding much weight.",
+    "weight": "1138 g",
+    "price_postapoc": "14 USD",
+    "material": [ { "type": "aluminum", "portion": 6 }, { "type": "mc_steel", "portion": 1 } ],
+    "melee_damage": { "bash": 27 }
   },
   {
     "type": "ITEM",
@@ -371,9 +383,7 @@
     "looks_like": "nailbat",
     "name": { "str": "bolt studded bat" },
     "description": "A baseball bat with bolts drilled into it, concentrating the force of an impact onto a smaller point like a real mace.",
-    "material": [ "wood", "steel" ],
-    "extend": { "flags": [ "NONCONDUCTIVE" ] },
-    "relative": { "melee_damage": { "bash": 5 }, "weight": "48 g", "volume": "250 ml", "price_postapoc": "5 USD" }
+    "relative": { "melee_damage": { "bash": 5 }, "weight": "400 g", "volume": "50 ml", "price_postapoc": "10 cent" }
   },
   {
     "type": "ITEM",
@@ -429,7 +439,6 @@
       "type": "transform",
       "msg": "You turn the wizard cane on.",
       "target": "wizard_cane_cheap_on",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "The wizard cane's batteries are dead."
     },
@@ -460,7 +469,8 @@
       "target": "wizard_cane_cheap",
       "ammo_scale": 0
     },
-    "extend": { "flags": [ "LIGHT_4", "CHARGEDIM", "TRADER_AVOID", "WATER_BREAK" ] },
+    "light": 4,
+    "extend": { "flags": [ "CHARGEDIM", "TRADER_AVOID", "WATER_BREAK", "SPAWN_ACTIVE" ] },
     "delete": { "flags": [ "WATER_BREAK_ACTIVE" ] }
   },
   {
@@ -482,7 +492,6 @@
       "type": "transform",
       "msg": "You turn the wizard cane on.",
       "target": "wizard_cane_on",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "The wizard cane's batteries are dead."
     },
@@ -513,7 +522,8 @@
       "target": "wizard_cane",
       "ammo_scale": 0
     },
-    "extend": { "flags": [ "LIGHT_300", "CHARGEDIM", "TRADER_AVOID", "WATER_BREAK" ] },
+    "light": 300,
+    "extend": { "flags": [ "CHARGEDIM", "TRADER_AVOID", "WATER_BREAK", "SPAWN_ACTIVE" ] },
     "delete": { "flags": [ "WATER_BREAK_ACTIVE" ] }
   },
   {
@@ -551,13 +561,33 @@
   },
   {
     "type": "ITEM",
+    "id": "club_wooden_nails",
+    "copy-from": "club_wooden",
+    "name": { "str": "wooden club with nails", "str_pl": "wooden clubs with nails" },
+    "description": "A wooden club, carved out of a 2x4 plank of wood, with a bunch of nails driven into it.  The additional weight in the end and sharp spikes contribute to the increased damage, but the structural integrity of the wood is degraded, making this weapon live a very short life.",
+    "//": "30 nails, 5+10+5+10 in each direction, +600 g.  A bit of wood is carved off so make the thing a bit more evenly distributed (-300 g), but spikes negate this for volume almost completely.",
+    "extend": { "flags": [ "FRAGILE_MELEE" ] },
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "good" },
+    "relative": { "price_postapoc": "2 cent", "weight": "400 g", "melee_damage": { "bash": 4, "stab": 2 } }
+  },
+  {
+    "type": "ITEM",
+    "id": "club_wooden_bolted",
+    "copy-from": "club_wooden",
+    "name": { "str": "wooden club with bolts", "str_pl": "wooden clubs with bolts" },
+    "description": "A wooden club, carved out of a 2x4 plank of wood, with a bunch of bolts drilled into it, distributing its weight and balance closer to the head, like proper maces do.",
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "good" },
+    "//": "30 bolts, 5+10+5+10 in each direction, +600 g +50 ml.  A bit of wood is carved off so make the thing a bit more evenly distributed, -300 g -250 ml.",
+    "relative": { "price_postapoc": "10 cent", "weight": "300 g", "volume": "-200 ml", "melee_damage": { "bash": 5 } }
+  },
+  {
+    "type": "ITEM",
     "id": "club_wooden_large",
     "copy-from": "club_wooden",
     "name": { "str": "large wooden club" },
     "description": "A long plank of wood with a crude handle whittled into one end.  It's barely an improvement, but at least it is slightly easier to wield than just the plank on its own.",
     "weight": "2400 g",
     "looks_like": "2x4",
-    "extend": { "flags": [ "FRAGILE_MELEE" ] },
     "weapon_category": [ "GREAT_HAMMERS" ],
     "techniques": [ "BRUTAL", "SWEEP" ],
     "volume": "4300 ml",
@@ -566,11 +596,32 @@
     "relative": { "melee_damage": { "bash": 4 } }
   },
   {
+    "type": "ITEM",
+    "id": "club_wooden_large_nails",
+    "copy-from": "club_wooden_large",
+    "name": { "str": "large wooden club with nails", "str_pl": "large wooden clubs with nails" },
+    "description": "A large wooden club, carved out of a 2x4 plank of wood, with a bunch of nails driven into it.  The additional weight in the end and sharp spikes contribute to the increased damage, but the structural integrity of the wood is degraded, making this weapon live a very short life.",
+    "//": "30 nails, 5+10+5+10 in each direction, +600 g.  A bit of wood is carved off to make the thing a bit more evenly distributed (-400 g), but spikes negate this for volume almost completely.",
+    "extend": { "flags": [ "FRAGILE_MELEE" ] },
+    "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "good" },
+    "relative": { "price_postapoc": "2 cent", "weight": "200 g", "melee_damage": { "bash": 4, "stab": 2 } }
+  },
+  {
+    "type": "ITEM",
+    "id": "club_wooden_large_bolted",
+    "copy-from": "club_wooden_large",
+    "name": { "str": "large wooden club with bolts", "str_pl": "large wooden clubs with bolts" },
+    "description": "A large wooden club, carved out of a 2x4 plank of wood, with a bunch of bolts drilled into it, concentrating the force of an impact onto a smaller point like a real mace.",
+    "//": "30 bolts, 5+10+5+10 in each direction, +600 g +50 ml. A bit of wood is carved off to make the thing a bit more evenly distributed, -400 g -250 ml.",
+    "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "good" },
+    "relative": { "price_postapoc": "5 cent", "weight": "200 g", "volume": "-200 ml", "melee_damage": { "bash": 5 } }
+  },
+  {
     "id": "crutches",
     "type": "ITEM",
     "symbol": "/",
     "color": "dark_gray",
-    "name": { "str": "crutches", "str_pl": "pairs of crutches" },
+    "name": { "str_sp": "crutches (pair)" },
     "description": "A pair of crutches.",
     "price": "25 USD",
     "material": [ "aluminum" ],
@@ -590,7 +641,7 @@
     "type": "ITEM",
     "symbol": "/",
     "color": "dark_gray",
-    "name": { "str": "makeshift crutches", "str_pl": "pairs of makeshift crutches" },
+    "name": { "str_sp": "makeshift crutches (pair)" },
     "description": "A pair of wooden makeshift crutches.",
     "price": "2 USD 50 cent",
     "material": [ "wood" ],
@@ -719,6 +770,28 @@
   },
   {
     "type": "ITEM",
+    "id": "hammer_sledge_crude",
+    "name": { "str": "homewrecker" },
+    "description": "Chunks of steel welded together affixed to a wooden handle.  Not the most elegant and ugly as all hell, but still mostly works.",
+    "weight": "4500 g",
+    "color": "brown",
+    "symbol": "/",
+    "material": [ "wood", "steel" ],
+    "flags": [ "NONCONDUCTIVE", "ALWAYS_TWOHAND" ],
+    "faults": [ { "fault_group": "handle_long" } ],
+    "weapon_category": [ "GREAT_HAMMERS" ],
+    "techniques": [ "WBLOCK_1", "BRUTAL" ],
+    "volume": "1450 ml",
+    "longest_side": "80 cm",
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "uneven" },
+    "price": "5 USD",
+    "price_postapoc": "2 USD",
+    "qualities": [ [ "HAMMER", 1 ] ],
+    "melee_damage": { "bash": 40 },
+    "thrown_damage": [ { "damage_type": "bash", "amount": 12 } ]
+  },
+  {
+    "type": "ITEM",
     "id": "hockey_stick",
     "symbol": ";",
     "color": "white",
@@ -736,28 +809,6 @@
     "longest_side": "150 cm",
     "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "neutral" },
     "melee_damage": { "bash": 14, "stab": 1 }
-  },
-  {
-    "type": "ITEM",
-    "id": "homewrecker",
-    "name": { "str": "homewrecker" },
-    "description": "A long piece of wood with several chunks of steel firmly tied to it.  The resulting weapon is unwieldy and slow but very heavy hitting.",
-    "weight": "3024 g",
-    "color": "brown",
-    "symbol": "/",
-    "material": [ "wood", "steel" ],
-    "techniques": [ "WBLOCK_1" ],
-    "volume": "1250 ml",
-    "longest_side": "90 cm",
-    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "clumsy" },
-    "qualities": [ [ "HAMMER", 1 ] ],
-    "weapon_category": [ "GREAT_HAMMERS" ],
-    "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE" ],
-    "//": "todo: add specific fault for chunks falling off?",
-    "faults": [ { "fault_group": "staff_short" } ],
-    "price": "80 USD",
-    "price_postapoc": "50 cent",
-    "melee_damage": { "bash": 35, "stab": 2 }
   },
   {
     "type": "ITEM",
@@ -1077,6 +1128,29 @@
     "weight": "2700 g",
     "price": "40 USD",
     "price_postapoc": "5 USD"
+  },
+  {
+    "id": "crowbar_warhammer",
+    "type": "ITEM",
+    "symbol": "/",
+    "color": "light_gray",
+    "name": { "str": "bec de crowbar" },
+    "description": "This weapon appears to be a warhammer, but instead of one end of the head being a spike, it's the flats of a crowbar.  While not as good of a weapon as a more traditional warhammer, and not as good as prying as a crowbar, it still does both jobs decently well.",
+    "weapon_category": [ "HOOKING_WEAPONRY", "POLEARMS", "GREAT_HAMMERS" ],
+    "price": "500 USD",
+    "material": [ { "type": "wood", "portion": 4 }, { "type": "mc_steel", "portion": 1 } ],
+    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "SPEAR", "ALWAYS_TWOHAND" ],
+    "faults": [ { "fault_group": "handle_long" } ],
+    "techniques": [ "WBLOCK_1", "WIDE", "SWEEP" ],
+    "weight": "3200 g",
+    "volume": "3240 ml",
+    "longest_side": "180 cm",
+    "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "uneven" },
+    "price_postapoc": "100 USD",
+    "qualities": [ [ "PRY", 2 ], [ "HAMMER", 1 ] ],
+    "use_action": [ "CROWBAR" ],
+    "category": "weapons",
+    "melee_damage": { "bash": 46 }
   },
   {
     "id": "homemade_polehammer",
@@ -1494,22 +1568,14 @@
   {
     "type": "ITEM",
     "id": "nailbat",
+    "copy-from": "bat",
     "name": { "str": "nail bat" },
-    "description": "A baseball bat with several nails driven through it, an excellent melee weapon.",
-    "weight": "1159 g",
-    "color": "brown",
-    "symbol": "/",
-    "material": [ "wood" ],
-    "techniques": [ "WBLOCK_1", "BRUTAL" ],
-    "volume": "1750 ml",
-    "longest_side": "90 cm",
-    "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "good" },
-    "flags": [ "BELT_CLIP", "NONCONDUCTIVE" ],
-    "faults": [ { "fault_group": "staff_short" } ],
-    "price": "160 USD",
-    "price_postapoc": "17 USD 50 cent",
-    "melee_damage": { "bash": 22, "stab": 4 },
-    "weapon_category": [ "MACES" ]
+    "description": "A baseball bat with several nails driven through it, a popular choice for all sorts of doomsday larpers.  The additional weight in the end and sharp spikes contribute to the increased damage, but the structural integrity of the wood is degraded, making this weapon live a very short life.",
+    "price": "0 USD",
+    "delete": { "flags": [ "DURABLE_MELEE" ] },
+    "extend": { "flags": [ "FRAGILE_MELEE", "DAMAGE_VEHICLE_WHEELS" ] },
+    "//": "20 nails, 5 from each side",
+    "relative": { "weight": "400 g", "volume": "150 ml", "melee_damage": { "bash": 1, "stab": 2 } }
   },
   {
     "type": "ITEM",
@@ -1525,7 +1591,7 @@
     "volume": "2200 ml",
     "longest_side": "65 cm",
     "to_hit": { "grip": "none", "length": "short", "surface": "line", "balance": "neutral" },
-    "flags": [  ],
+    "flags": [ "DAMAGE_VEHICLE_WHEELS" ],
     "faults": [ { "fault_group": "staff_short" } ],
     "price": "1 USD",
     "price_postapoc": "50 cent",
@@ -1647,7 +1713,7 @@
     "price": "10 USD",
     "price_postapoc": "10 cent",
     "material": [ "cotton", "stone" ],
-    "weight": "1007 g",
+    "weight": "825 g",
     "volume": "500 ml",
     "longest_side": "10 cm",
     "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "neutral" },
@@ -1815,7 +1881,8 @@
     "to_hit": { "grip": "weapon", "length": "short", "surface": "every", "balance": "good" },
     "revert_to": "shocktonfa_off",
     "use_action": [ "SHOCKTONFA_ON" ],
-    "flags": [ "LIGHT_450", "CHARGEDIM", "DURABLE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "BELT_CLIP" ],
+    "light": 450,
+    "flags": [ "CHARGEDIM", "DURABLE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "BELT_CLIP" ],
     "weapon_category": [ "BATONS" ]
   },
   {

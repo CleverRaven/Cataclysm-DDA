@@ -1,3 +1,43 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Design - User Experience](#design---user-experience)
+    - [User Experience Table of Contents](#user-experience-table-of-contents)
+  - [Overview](#overview)
+  - [Deployment](#deployment)
+  - [Background](#background)
+    - [Games to emulate](#games-to-emulate)
+      - [Ultima, especially Ultima III and IV.](#ultima-especially-ultima-iii-and-iv)
+      - [Fallout Series.](#fallout-series)
+      - [X-Com 1 and 2.](#x-com-1-and-2)
+      - [Dwarf Fortress](#dwarf-fortress)
+    - [Games to avoid](#games-to-avoid)
+      - [JRPGs](#jrpgs)
+      - [Minecraft](#minecraft)
+      - [Dwarf Fortress](#dwarf-fortress-1)
+  - [Key Features](#key-features)
+    - [Senses](#senses)
+    - [Combat](#combat)
+    - [Scavenging](#scavenging)
+    - [Crafting](#crafting)
+    - [Structures](#structures)
+    - [Vehicles](#vehicles)
+    - [Bionics](#bionics)
+    - [Mutations](#mutations)
+  - [Reward System](#reward-system)
+  - [Meaningfulness](#meaningfulness)
+  - [World](#world)
+    - [Locations](#locations)
+      - [Cities](#cities)
+      - [Towns](#towns)
+      - [Fields](#fields)
+      - [Hills](#hills)
+      - [Forests](#forests)
+      - [Rivers/Lakes](#riverslakes)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Design - User Experience
 
 Explore, fight and survive in an expansive post-apocalyptic game world.

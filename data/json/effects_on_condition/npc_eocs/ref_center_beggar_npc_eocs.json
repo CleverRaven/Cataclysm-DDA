@@ -23,10 +23,10 @@
             "id": "EOC_GAVE_BEGGAR_FOOD",
             "effect": [
               { "npc_add_effect": "beggar_has_eaten", "duration": 3600 },
-              { "math": [ "n_npc_trust()", "+=", "1" ] },
-              { "math": [ "n_npc_value()", "+=", "1" ] },
-              { "math": [ "n_npc_fear()", "+=", "-1" ] },
-              { "math": [ "n_npc_anger()", "+=", "-1" ] }
+              { "math": [ "n_npc_trust() += 1" ] },
+              { "math": [ "n_npc_value() += 1" ] },
+              { "math": [ "n_npc_fear() += -1" ] },
+              { "math": [ "n_npc_anger() += -1" ] }
             ]
           }
         ]

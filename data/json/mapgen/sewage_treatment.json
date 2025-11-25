@@ -25,8 +25,11 @@
       "$": "t_thconc_floor",
       "{": "t_thconc_floor",
       "R": "t_thconc_floor",
+      "/": "t_metal_floor",
       "G": "t_thconc_floor",
-      "6": "t_thconc_floor",
+      "L": "t_thconc_floor",
+      "6": "t_floor",
+      "à": "t_thconc_floor",
       "H": "t_sconc_wall",
       "z": "t_concrete",
       "9": "t_gutter_downspout",
@@ -49,7 +52,13 @@
       "g": "t_metal_floor",
       "Y": "t_switchgear_s"
     },
-    "furniture": { "%": "f_machinery_heavy", "$": "f_machinery_light", "G": "f_generator_broken", "6": "f_console_broken" }
+    "furniture": {
+      "%": "f_machinery_heavy",
+      "$": "f_machinery_light",
+      "G": "f_generator_broken",
+      "6": "f_console_broken",
+      "à": "f_console_broken"
+    }
   },
   {
     "type": "palette",
@@ -59,7 +68,7 @@
       "l": "t_thconc_floor",
       "L": "t_thconc_floor",
       "n": "t_thconc_floor",
-      "{": "t_thconc_floor",
+      "{": "t_metal_floor",
       "f": "t_thconc_floor",
       ";": "t_thconc_floor",
       "q": "t_thconc_floor",
@@ -122,7 +131,7 @@
     "id": "sewage_samples",
     "type": "item_group",
     "items": [
-      { "item": "sewage", "container-item": "flask_glass", "charges": 1, "prob": 50 },
+      { "item": "water_sewage", "container-item": "flask_glass", "charges": 1, "prob": 50 },
       { "item": "water", "container-item": "flask_glass", "charges": 1, "prob": 50 },
       { "item": "water_clean", "container-item": "flask_glass", "charges": 1, "prob": 30 },
       { "prob": 10, "group": "slime_scrap_flask_glass_1" }
@@ -177,10 +186,10 @@
         "|  zzzzzzz  1111111111               ______OOO |",
         "| zzwwwwwzz 1HHHHHHH1 ?  ? HHHHHHHH  __ --b--- |",
         "|zzwwwwwwwzz1H11&%RH0      HJJFUYYH  __ -&m$&- |",
-        "|zwwwwwwwwwz H1ttttH  ?  ? WgttttgW  __ -%mm%- |",
-        "|zwwwwwwwwwz H|||C|H       H6ttttGH  __ W&mm&W |",
+        "|zwwwwwwwwwz H1ttttH  ?  ? WLttttLW  __ -%mm%- |",
+        "|zwwwwwwwwwz H|||C|H       HàttttGH  __ W&mm&W |",
         "|zwww!!!wwwz     _    ?  ? |||CC|||  __ -Mmm%- |",
-        "|zwww!@!wwwz OO  _            __     __ -Rmm&- |",
+        "|zwww!@!wwwz OO  _            __     __ -/mm&- |",
         "|zwww!@!wwwz OO  _     _________________bmmm%W |",
         "|zzww!@!wwzz____________________________-&%$&- |",
         "| zzw!@!wzz_____________             __ --W--- |",
@@ -210,9 +219,11 @@
         "A": "f_dumpster",
         "c": "f_counter",
         "R": "f_rack",
+        "/": "f_rack",
         "d": "f_desk",
         "f": "f_fridge",
         "g": "f_workbench",
+        "L": "f_workbench",
         "q": "f_indoor_plant_y",
         "l": "f_locker",
         "r": "f_trashcan",
@@ -224,12 +235,14 @@
         { "signage": "<city> sewage treatment plant", "x": 2, "y": 1 }
       ],
       "place_liquids": [
-        { "liquid": "sewage", "chance": 1, "amount": [ 2, 3 ], "x": [ 43, 45 ], "y": 25, "repeat": [ 1, 3 ] },
+        { "liquid": "water_sewage", "chance": 1, "amount": [ 2, 3 ], "x": [ 43, 45 ], "y": 25, "repeat": [ 1, 3 ] },
         { "liquid": "water", "chance": 1, "amount": [ 40, 60 ], "x": [ 13, 14 ], "y": [ 31, 32 ], "repeat": [ 2, 4 ] }
       ],
       "items": {
         "g": { "item": "supplies_hardware", "chance": 40 },
+        "L": { "item": "supplies_hardware", "chance": 40 },
         "R": { "item": "tools_plumbing", "chance": 60 },
+        "/": { "item": "tools_plumbing", "chance": 60 },
         "M": { "item": "treatment_chemicals", "chance": 80 },
         "A": { "item": "SUS_trash_dumpster", "chance": 80 },
         "{": [ { "item": "sewage_plant", "chance": 30 }, { "item": "supplies_plumbing", "chance": 20 } ],
@@ -237,7 +250,6 @@
         "c": { "item": "office_breakroom", "chance": 60, "repeat": [ 1, 2 ] },
         "l": { "item": "clothing_work_set", "chance": 40 },
         "d": { "item": "SUS_office_desk", "chance": 60 },
-        "a": { "item": "SUS_trash_trashcan", "chance": 30 },
         "r": { "item": "SUS_trash_trashcan", "chance": 30 },
         "[": { "item": "SUS_office_desk", "chance": 50, "repeat": [ 1, 3 ] },
         "T": { "item": "SUS_toilet", "chance": 50 }
@@ -474,7 +486,7 @@
         "8": {
           "name": "EnviroCom OS v2.03",
           "security": 1,
-          "options": [ { "name": "Download Sewer Maps", "action": "map_sewer" }, { "name": "Divert sample", "action": "sample" } ],
+          "options": [ { "name": "Download Sewer Maps", "action": "map_sewer" } ],
           "failures": [ { "action": "shutdown" }, { "action": "alarm" } ]
         }
       },

@@ -1,0 +1,104 @@
+[
+  {
+    "type": "effect_type",
+    "id": "effect_mom_artifact_speed_boost",
+    "name": [ "Preternatural Speed" ],
+    "desc": [ "You are moving much faster than anything nearby." ],
+    "apply_message": "",
+    "remove_message": "The world speeds up again.",
+    "rating": "good",
+    "enchantments": [ { "values": [ { "value": "SPEED", "add": 200 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_mom_artifact_physical_boost",
+    "name": [ "Enhanced Prowess" ],
+    "desc": [ "Your physical abilities are enhanced." ],
+    "apply_message": "",
+    "remove_message": "Your prowess fades away.",
+    "rating": "good",
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 2 }, { "value": "DEXTERITY", "add": 2 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_mom_artifact_increase_pain",
+    "name": [ "Sensitive" ],
+    "desc": [ "Your skin prickles." ],
+    "apply_message": "",
+    "remove_message": "The prickling sensation of your skin disappears.",
+    "rating": "bad",
+    "enchantments": [ { "values": [ { "value": "PAIN", "multiply": 0.2 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_mom_artifact_movement_exertion",
+    "name": [ "Fatigue" ],
+    "desc": [ "Moving seems to take more effort than usual." ],
+    "apply_message": "",
+    "remove_message": "Movement becomes slightly easier.",
+    "rating": "bad",
+    "enchantments": [ { "values": [ { "value": "MOVEMENT_EXERTION_MODIFIER", "multiply": 0.3 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_mom_artifact_hardened_skin",
+    "name": [ "Hardened Skin" ],
+    "desc": [ "Your skin is more resilient." ],
+    "apply_message": "",
+    "remove_message": "The slight itching and waxiness in your skin fades away.",
+    "rating": "good",
+    "blocks_effects": [ "bleed", "hypovolemia", "dermatik" ],
+    "enchantments": [
+      {
+        "incoming_damage_mod": [ { "type": "bash", "add": -6 }, { "type": "stab", "add": -3 }, { "type": "cut", "add": -4 } ],
+        "values": [ { "value": "PAIN", "multiply": -0.2 } ]
+      }
+    ],
+    "flags": [ "TOUGH_FEET" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_mom_artifact_perception_boost",
+    "name": [ "Enhanced Perception" ],
+    "desc": [ "Your senses are enhanced." ],
+    "apply_message": "All your senses suddenly sharpen.",
+    "remove_message": "Your enhanced senses fade away.",
+    "rating": "good",
+    "enchantments": [ { "values": [ { "value": "PERCEPTION", "add": 3 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_mom_artifact_lightning_immune",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good",
+    "enchantments": [ { "incoming_damage_mod": [ { "type": "electric", "multiply": -1 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_mom_artifact_electrical_zap_attack",
+    "name": [ "Horripilation" ],
+    "desc": [ "Your hair is standing on end." ],
+    "rating": "good",
+    "apply_message": "Your hair stands on end.",
+    "remove_message": "Your skin crackles as lightning discharges into your target!",
+    "enchantments": [ { "melee_damage_bonus": [ { "type": "electric", "add": { "math": [ "rand(40) + 40" ] } } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_mom_artifact_illumination_on_self",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good",
+    "enchantments": [ { "values": [ { "value": "LUMINATION", "add": 8000 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_mom_artifact_lambent_illumination",
+    "name": [ "Illuminated" ],
+    "desc": [ "You are glowing." ],
+    "rating": "bad",
+    "show_in_info": true,
+    "enchantments": [ { "values": [ { "value": "LUMINATION", "add": 5 } ] } ]
+  }
+]

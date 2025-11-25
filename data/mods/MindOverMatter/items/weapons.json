@@ -210,7 +210,8 @@
       "fields_max_intensity": 3
     },
     "countdown_interval": "5 seconds",
-    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS", "LIGHT_20" ],
+    "light": 20,
+    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ],
     "melee_damage": { "bash": 6 }
   },
   {

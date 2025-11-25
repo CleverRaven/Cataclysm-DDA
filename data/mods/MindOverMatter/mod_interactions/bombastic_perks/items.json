@@ -1,0 +1,9 @@
+[
+  {
+    "id": "holy_symbol_fifth_sun",
+    "copy-from": "holy_symbol_fifth_sun",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "extend": { "flags": [ "ANTI_EVIL_EYE_GEAR" ] }
+  }
+]

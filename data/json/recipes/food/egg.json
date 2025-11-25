@@ -273,6 +273,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "result": "cured_roe",
     "id_suffix": "vacuum_packed",
+    "name": "vacuum packed %s",
     "container": "plastic_bag_vac",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -285,8 +286,8 @@
     "book_learn": [ [ "vacuum_sealing", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
     "proficiencies": [ { "proficiency": "prof_preservation" } ],
-    "using": [ [ "vacuum_sealing_standard", 1, "LIST" ] ],
-    "components": [ [ [ "curing_roe", 2 ] ] ]
+    "using": [ [ "vacuum_sealing_standard", 1 ] ],
+    "components": [ [ [ "curing_roe_active", 2 ] ] ]
   },
   {
     "type": "recipe",

@@ -637,6 +637,7 @@ bioblaster
 bioblasters
 biocompatibility
 biodiesel
+bioelectric
 bioelectricity
 bioforms
 biofuel
@@ -705,6 +706,7 @@ bloodhunting
 bloodletter
 bloodlust
 bloodthirst
+Bloodthorne
 bloomeries
 blowback
 BLR
@@ -1074,6 +1076,8 @@ Chelmsford
 Chelsea
 chemtrails
 Chen
+cheongsam
+cheongsams
 Cherokee
 Cheshire
 Chester
@@ -1578,6 +1582,7 @@ dokie
 Dolichovespula
 dollkin
 dolm
+dolmas
 domestica
 Donatello
 donburi
@@ -2054,6 +2059,8 @@ FLDSMDFR
 flechette
 flechettes
 flensing
+fleshborg
+fleshborgs
 Fleshmender
 fleshmonger
 fleshwarp
@@ -2559,6 +2566,9 @@ Heartfires
 heartlike
 Heartseed
 Heartseeds
+heartvine
+heartvines
+heartwhip
 Heathrow
 heatsink
 heatsinks
@@ -4165,11 +4175,13 @@ nanomesh
 nanoprinted
 nanoribbon
 nanoribbons
+nanos
 nanosaurus
 nanoskirt
 nanoskirts
 nanotech
 nanotubes
+nanotyrannus
 nanowire
 Nantucket
 nanuqsaurus
@@ -4484,6 +4496,7 @@ Orleans
 Orley
 ornithomimid
 ornithomimus
+ouroboros
 Orpheus
 Orphic
 Orson
@@ -4940,6 +4953,7 @@ Qatari
 QDSS
 qiang
 qianzhousaurus
+qipao
 QOL
 Qolastā
 QR
@@ -5514,6 +5528,7 @@ shantak
 Shaolin
 shapechangers
 shapeshift
+shapeshifted
 shapeshifting
 shapeshifts
 shapeshifter
@@ -5889,6 +5904,8 @@ Steyr
 STI
 Stig
 Stillwater
+stiltwalker
+stiltwalkers
 stim
 stimpack
 stims
@@ -6376,6 +6393,7 @@ travelpack
 travelpacks
 Travers
 travois
+treaded
 treecutting
 treefrog
 treefrogs

@@ -275,7 +275,7 @@
     "base_casting_time": 150,
     "final_casting_time": 75,
     "casting_time_increment": -5,
-    "ignored_monster_species": [ "ROBOT", "NETHER", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "PLANT", "FUNGUS", "SLIME", "PSI_NULL" ]
+    "ignored_monster_species": [ "ROBOT", "ROBOT_FLYING", "NETHER", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "PLANT", "FUNGUS", "SLIME", "PSI_NULL" ]
   },
   {
     "id": "electrokinetic_reduce_pain",
@@ -479,7 +479,7 @@
     "spell_class": "ELECTROKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "PERCENTAGE_DAMAGE" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "PERCENTAGE_DAMAGE", "NO_PROJECTILE" ],
     "difficulty": 7,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",

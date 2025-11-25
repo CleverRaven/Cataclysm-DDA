@@ -40,6 +40,34 @@
   },
   {
     "type": "construction",
+    "id": "constr_anvil_ingot",
+    "group": "place_anvil_ingot",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": "60 m",
+    "qualities": [ [ { "id": "SAW_W", "level": 1 } ] ],
+    "components": [ [ [ "10l_steel", 1 ] ], [ [ "spike", 5 ] ], [ [ "log", 1 ] ] ],
+    "pre_note": "Can be deconstructed without tools.",
+    "pre_special": "check_empty",
+    "post_terrain": "f_anvil_ingot",
+    "activity_level": "MODERATE_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_anvil_scavenged",
+    "group": "place_anvil_scavenged",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": "60 m",
+    "qualities": [ [ { "id": "SAW_W", "level": 1 } ] ],
+    "components": [ [ [ "anvil_scavenged", 1 ] ], [ [ "log", 1 ] ] ],
+    "pre_note": "Can be deconstructed without tools.",
+    "pre_special": "check_empty",
+    "post_terrain": "f_anvil_scavenged",
+    "activity_level": "MODERATE_EXERCISE"
+  },
+  {
+    "type": "construction",
     "id": "constr_anvil_heavy",
     "group": "place_anvil_heavy",
     "category": "FURN",
@@ -325,6 +353,7 @@
       [ [ "rock_large", 2 ], [ "rock", 40 ] ],
       [ [ "wood_panel", 1 ], [ "sheet_metal", 1 ] ]
     ],
+    "pre_special": "check_empty",
     "post_terrain": "f_screw_press"
   },
   {
@@ -363,7 +392,7 @@
     "pre_note": "Must be built indoors.",
     "qualities": [ [ { "id": "HAMMER", "level": 1 } ] ],
     "components": [ [ [ "rope_30", 1 ] ], [ [ "nails", 6, "LIST" ] ], [ [ "2x4", 2 ] ] ],
-    "pre_flags": [ "SUPPORTS_ROOF", "INDOORS" ],
+    "pre_special": [ "check_empty", "check_floor_above" ],
     "post_terrain": "f_hoist_rope"
   },
   {
@@ -388,7 +417,7 @@
     "pre_note": "Must be built indoors.",
     "qualities": [ [ { "id": "HAMMER", "level": 1 } ] ],
     "components": [ [ [ "rope_30", 1 ] ], [ [ "block_and_tackle", 1 ] ], [ [ "spike", 1 ] ] ],
-    "pre_flags": [ "SUPPORTS_ROOF", "INDOORS" ],
+    "pre_special": [ "check_empty", "check_floor_above" ],
     "post_terrain": "f_hoist_pulley"
   },
   {

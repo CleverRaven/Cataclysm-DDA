@@ -1,24 +1,12 @@
 {
-    "name": "cdda-vcpkg-dependencies",
-    "version-string": "0.I",
-    "dependencies": [
-        {
-          "name": "sdl2",
-          "version>=": "2.26.4#0"
-        },
-        {
-          "name": "sdl2-image",
-          "features": [ "libjpeg-turbo" ]
-        },
-        {
-          "name": "sdl2-mixer",
-          "features": [ "libflac", "mpg123", "libmodplug" ]
-        },
-        "sdl2-ttf",
-        {
-          "name": "pdcurses",
-          "version>=": "3.9#4"
-        }
-    ],
-    "builtin-baseline": "3acb7541e854452d33f71037a8f63a88899e63d3"
+  "name": "cdda-vcpkg-dependencies",
+  "version-string": "0.J",
+  "dependencies": [
+    { "name": "sdl2", "version>=": "2.26.4#0" },
+    { "name": "sdl2-image", "features": [ "libjpeg-turbo" ] },
+    { "name": "sdl2-mixer", "features": [ "libflac", "mpg123", "libmodplug" ] },
+    "sdl2-ttf",
+    { "name": "pdcurses", "version>=": "3.9#4" }
+  ],
+  "builtin-baseline": "3acb7541e854452d33f71037a8f63a88899e63d3"
 }
