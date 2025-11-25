@@ -379,7 +379,7 @@
     "type": "overmap_terrain",
     "id": [ "cs_car_dealership_roof", "s_cardealer_roof" ],
     "copy-from": "cs_car_dealership_roof",
-    "name": "car dealership",
+    "name": "car dealership roof",
     "sym": "C",
     "color": "light_blue"
   },
@@ -529,18 +529,17 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [
-      "marina_11",
-      "marina_12",
-      "marina_13",
-      "marina_14",
-      "marina_15",
-      "marina_11_roof",
-      "marina_12_roof",
-      "marina_15_roof"
-    ],
+    "id": [ "marina_11", "marina_12", "marina_13", "marina_14", "marina_15" ],
     "copy-from": "marina_11",
     "name": "marina",
+    "sym": "M",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "marina_11_roof", "marina_12_roof", "marina_15_roof" ],
+    "copy-from": "marina_11_roof",
+    "name": "marina roof",
     "sym": "M",
     "color": "light_blue"
   },

@@ -57,9 +57,17 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "s_diner_2ndfloor", "s_diner_roof" ],
+    "id": [ "s_diner_2ndfloor" ],
     "copy-from": "s_diner_2ndfloor",
     "name": "diner",
+    "sym": "D",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_diner_roof" ],
+    "copy-from": "s_diner_roof",
+    "name": "diner roof",
     "sym": "D",
     "color": "green"
   },

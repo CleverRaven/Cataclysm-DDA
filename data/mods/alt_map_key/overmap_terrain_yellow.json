@@ -682,18 +682,22 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "robofachq_meteorology0", "robofachq_meteorology1", "robofachq_meteorology2", "robofachq_meteorology3" ],
+    "copy-from": "robofachq_meteorology0",
+    "name": "meteorology station",
+    "sym": "M",
+    "color": "yellow"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [
-      "robofachq_meteorology0",
-      "robofachq_meteorology1",
-      "robofachq_meteorology2",
-      "robofachq_meteorology3",
       "robofachq_meteorology_roof0",
       "robofachq_meteorology_roof1",
       "robofachq_meteorology_roof2",
       "robofachq_meteorology_roof3"
     ],
-    "copy-from": "robofachq_meteorology0",
-    "name": "meteorology station",
+    "copy-from": "robofachq_meteorology_roof0",
+    "name": "meteorology station roof",
     "sym": "M",
     "color": "yellow"
   },
@@ -1007,9 +1011,17 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "lighthouse_z1", "lighthouse_z2", "lighthouse_z4", "lighthouse_z5", "lighthouse_roof" ],
+    "id": [ "lighthouse_z1", "lighthouse_z2", "lighthouse_z4", "lighthouse_z5" ],
     "copy-from": "lighthouse_z1",
     "name": "lighthouse",
+    "sym": "L",
+    "color": "yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "lighthouse_roof" ],
+    "copy-from": "lighthouse_roof",
+    "name": "lighthouse roof",
     "sym": "L",
     "color": "yellow"
   },
@@ -1031,9 +1043,17 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "lighthouse_small_z1", "lighthouse_small_z2", "lighthouse_small_z3", "lighthouse_small_z4", "lighthouse_small_roof" ],
+    "id": [ "lighthouse_small_z1", "lighthouse_small_z2", "lighthouse_small_z3", "lighthouse_small_z4" ],
     "copy-from": "lighthouse_small_z1",
     "name": "lighthouse",
+    "sym": "L",
+    "color": "yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "lighthouse_small_roof" ],
+    "copy-from": "lighthouse_small_roof",
+    "name": "lighthouse roof",
     "sym": "L",
     "color": "yellow"
   },
