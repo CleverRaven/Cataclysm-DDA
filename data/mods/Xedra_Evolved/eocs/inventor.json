@@ -164,7 +164,13 @@
       { "math": [ "base_difficulty_3 += 4" ] },
       { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
       {
-        "u_roll_remainder": [  ],
+        "u_roll_remainder": [
+          "bio_inventor_rad_boost",
+          "bio_inventor_mana_kj_penalty_switch",
+          "bio_inventor_calorie_storage",
+          "bio_inventor_creative_fuel",
+          "bio_inventor_book_burn_boost"
+        ],
         "type": "recipe",
         "true_eocs": [ "EOC_INVENTOR_MESSAGE_GOOD" ],
         "false_eocs": {
