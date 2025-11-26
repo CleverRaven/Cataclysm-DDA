@@ -19,9 +19,9 @@
         "topic": "TALK_Liam_Mission_Bury_Chris_1_assign"
       },
       {
-        "text": "Actually, I already have two shovels.",
-        "condition": { "u_has_items": { "item": "shovel", "count": 2 } },
-        "effect": { "math": [ "Chris_bury_progress = 12" ] },
+        "text": "Actually, I already have a shovel.",
+        "condition": { "u_has_item": "shovel" },
+        "effect": [ { "math": [ "Chris_bury_progress = 12" ] }, { "u_sell_item": "shovel" } ],
         "topic": "TALK_Liam_Mission_Bury_Chris_1_return"
       },
       { "text": "Wait.  I wanted to talk about something else first.", "topic": "TALK_FRIEND_Liam" }
