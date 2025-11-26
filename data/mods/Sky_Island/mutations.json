@@ -21,7 +21,7 @@
         { "math": [ "u_val('pos_z') == 6" ] }
       ]
     },
-    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "mut_skyisland_temperature_adaptation" } } ] },
+    "deactivate_condition": { "not": { "u_has_trait": "mut_skyisland_temperature_adaptation" } },
     "effect": [ { "math": [ "weather('temperature') = from_fahrenheit( 70 )" ] } ]
   },
   {
