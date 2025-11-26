@@ -23,5 +23,31 @@
     "type": "fault_group",
     "id": "plate_qt",
     "group": [ { "fault": "fault_armor_qt_dented", "weight": 100 }, { "fault": "fault_armor_qt_punctured", "weight": 5 } ]
+  },
+  {
+    "type": "fault_group",
+    "id": "thermoplastic_resin",
+    "group": [
+      { "fault": "fault_armor_thermo_resin_tear", "weight": 100 },
+      { "fault": "fault_armor_thermo_resin_hole", "weight": 5 }
+    ]
+  },
+  {
+    "type": "fault_group",
+    "id": "plastic",
+    "group": [ { "fault": "fault_armor_plastic_tear", "weight": 100 }, { "fault": "fault_armor_plastic_hole", "weight": 5 } ]
+  },
+  {
+    "type": "fault_group",
+    "id": "plastic",
+    "group": [ { "fault": "fault_armor_epoxy_tear", "weight": 100 }, { "fault": "fault_armor_epoxy_shattered", "weight": 5 } ]
+  },
+  {
+    "type": "fault_group",
+    "id": "plastic",
+    "group": [
+      { "fault": "fault_armor_hard_plastic_transp_torn", "weight": 100 },
+      { "fault": "fault_armor_hard_plastic_transp_hole", "weight": 5 }
+    ]
   }
 ]

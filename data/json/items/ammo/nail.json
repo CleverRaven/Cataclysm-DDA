@@ -94,5 +94,22 @@
     "color": "cyan",
     "count": 100,
     "stack_size": 100
+  },
+  {
+    "id": "hot_staple",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
+    "ammo_type": "hot_staple",
+    "category": "spare_parts",
+    "name": { "str": "hot staple" },
+    "description": "A wave-shaped staple used with a hot stapler to repair plastic.",
+    "weight": "4 g",
+    "volume": "250 ml",
+    "price_postapoc": "1 USD 50 cent",
+    "material": [ "lc_steel" ],
+    "symbol": "=",
+    "color": "cyan",
+    "count": 100,
+    "stack_size": 100
   }
 ]

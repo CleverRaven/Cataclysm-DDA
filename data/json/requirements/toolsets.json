@@ -596,5 +596,13 @@
     "type": "requirement",
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "FILE", "level": 2 } ],
     "components": [ [ [ "rivets", 1 ] ] ]
+  },
+  {
+    "id": "welding_plastic",
+    "type": "requirement",
+    "//": "Strictly welding, no additional material, the plastic welding rods are abstracted as chunks of either plastic.",
+    "//1": "20cm of welding. 10 minutes of 60W welding, 5 minutes of 75W stapling.",
+    "tools": [ [ [ "pliers", -1 ] ], [ [ "plastic_welder", 36 ] ], [ [ "hot_stapler", 22 ] ] ],
+    "components": [ [ [ "hot_staple", 10 ] ], [ [ "wire_mesh", 1 ] ], [ [ "thermo_resin_chunk", 1 ], [ "plastic_chunk", 1 ] ] ]
   }
 ]
