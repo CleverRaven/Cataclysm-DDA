@@ -3,7 +3,7 @@
     "id": "mon_civilian_panic",
     "type": "MONSTER",
     "name": { "str": "panicked person" },
-    "description": "This hysterical individual has a faint, yet fading, glint of intelligence in their bloodshot eyes.  They sometimes scream in fear and behave clearly irrationally, being deadly afraid of anything that can move, friendly or not.  This will quite likely cause their demise at the hands of the undead horde rather quickly.",
+    "description": "This hysterical individual has a faint, yet fading, glint of intelligence in their bloodshot eyes.  They sometimes scream in fear and behave clearly irrationally, being deathly afraid of anything that can move, friendly or not.  This will quite likely cause their demise at the hands of the undead horde rather quickly.",
     "looks_like": "mon_dementia",
     "default_faction": "human",
     "bodytype": "human",
