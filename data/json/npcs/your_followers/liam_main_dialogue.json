@@ -11,9 +11,10 @@
         "condition": { "math": [ "Chris_bury_progress < 11" ] }
       },
       {
-        "text": "[MISSION] I've got the shovels.",
+        "text": "[MISSION] Here's your shovel.",
         "topic": "TALK_Liam_Mission_Bury_Chris_1_return",
-        "condition": { "and": [ { "u_has_assigned_mission": "MISSION_Liam_Bury_Chris_1" }, { "u_has_items": { "item": "shovel", "count": 2 } } ] },
+        "condition": { "and": [ { "u_has_assigned_mission": "MISSION_Liam_Bury_Chris_1" }, { "u_has_item": "shovel" } ] },
+        "effect": { "u_sell_item": "shovel" }
       },
       {
         "text": "I'd like to know a bit more about your abilities.",
