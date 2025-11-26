@@ -192,6 +192,7 @@
       { "u_message": "You now have the ability to hack into nearby electronics.", "type": "good" },
       { "run_eocs": [ "EOC_POWER_MAINTENANCE_PLUS_ONE", "EOC_ELECTROKIN_HACKING_INTERFACE_SWITCHER" ] },
       { "u_add_effect": "effect_electrokin_hacking_interface", "duration": "PERMANENT" },
+      { "run_eocs": "EOC_ELECTROKIN_HACKING_INTERFACE_UPDATER", "time_in_future": "15 seconds" },
       {
         "run_eocs": "EOC_ELECTROKIN_HACKING_INTERFACE_DRAIN",
         "time_in_future": [
@@ -215,14 +216,8 @@
     "id": "EOC_ELECTROKIN_REMOVE_HACKING_INTERFACE",
     "condition": { "u_has_effect": "effect_electrokin_hacking_interface" },
     "effect": [
-      { "u_remove_item_with": "electrokinetic_electrohack_1" },
-      { "u_remove_item_with": "electrokinetic_electrohack_2" },
-      { "u_remove_item_with": "electrokinetic_electrohack_3" },
-      { "u_remove_item_with": "electrokinetic_electrohack_4" },
-      { "u_remove_item_with": "electrokinetic_electrohack_5" },
-      { "u_remove_item_with": "electrokinetic_electrohack_6" },
-      { "u_lose_effect": "effect_electrokin_hacking_interface" },
-      { "run_eocs": "EOC_POWER_MAINTENANCE_MINUS_ONE" }
+      { "run_eocs": [ "EOC_POWER_MAINTENANCE_MINUS_ONE", "EOC_ELECTROKIN_REMOVE_HACKING_INTERFACE_REMOVE_ITEM" ] },
+      { "u_lose_effect": "effect_electrokin_hacking_interface" }
     ]
   },
   {
@@ -256,11 +251,63 @@
           "effect": [ { "u_spawn_item": "electrokinetic_electrohack_5", "suppress_message": true, "force_equip": true } ]
         },
         {
-          "case": 16,
+          "case": 20,
           "effect": [ { "u_spawn_item": "electrokinetic_electrohack_6", "suppress_message": true, "force_equip": true } ]
+        },
+        {
+          "case": 24,
+          "effect": [ { "u_spawn_item": "electrokinetic_electrohack_7", "suppress_message": true, "force_equip": true } ]
+        },
+        {
+          "case": 28,
+          "effect": [ { "u_spawn_item": "electrokinetic_electrohack_8", "suppress_message": true, "force_equip": true } ]
+        },
+        {
+          "case": 32,
+          "effect": [ { "u_spawn_item": "electrokinetic_electrohack_9", "suppress_message": true, "force_equip": true } ]
+        },
+        {
+          "case": 36,
+          "effect": [ { "u_spawn_item": "electrokinetic_electrohack_10", "suppress_message": true, "force_equip": true } ]
+        },
+        {
+          "case": 40,
+          "effect": [ { "u_spawn_item": "electrokinetic_electrohack_11", "suppress_message": true, "force_equip": true } ]
+        },
+        {
+          "case": 44,
+          "effect": [ { "u_spawn_item": "electrokinetic_electrohack_12", "suppress_message": true, "force_equip": true } ]
         }
       ]
     }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ELECTROKIN_HACKING_INTERFACE_UPDATER",
+    "condition": { "u_has_effect": "effect_electrokin_hacking_interface" },
+    "effect": [
+      { "run_eocs": [ "EOC_ELECTROKIN_REMOVE_HACKING_INTERFACE_REMOVE_ITEM", "EOC_ELECTROKIN_HACKING_INTERFACE_SWITCHER" ] },
+      { "run_eocs": "EOC_ELECTROKIN_HACKING_INTERFACE_UPDATER", "time_in_future": "15 seconds" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ELECTROKIN_REMOVE_HACKING_INTERFACE_REMOVE_ITEM",
+    "condition": { "u_has_effect": "effect_electrokin_hacking_interface" },
+    "effect": [
+      { "u_remove_item_with": "electrokinetic_electrohack_1" },
+      { "u_remove_item_with": "electrokinetic_electrohack_2" },
+      { "u_remove_item_with": "electrokinetic_electrohack_3" },
+      { "u_remove_item_with": "electrokinetic_electrohack_4" },
+      { "u_remove_item_with": "electrokinetic_electrohack_5" },
+      { "u_remove_item_with": "electrokinetic_electrohack_6" },
+      { "u_remove_item_with": "electrokinetic_electrohack_7" },
+      { "u_remove_item_with": "electrokinetic_electrohack_8" },
+      { "u_remove_item_with": "electrokinetic_electrohack_9" },
+      { "u_remove_item_with": "electrokinetic_electrohack_10" },
+      { "u_remove_item_with": "electrokinetic_electrohack_11" },
+      { "u_remove_item_with": "electrokinetic_electrohack_12" }
+    ]
   },
   {
     "type": "effect_on_condition",
