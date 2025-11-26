@@ -23,7 +23,7 @@
     "difficulty": 1,
     "time": "45 m",
     "autolearn": true,
-    "tools": [ [ [ "brick_kiln", 10 ], [ "kiln", 10 ], [ "surface_heat", 10, "LIST" ] ] ],
+    "tools": [ [ [ "fake_clay_kiln", 10 ], [ "kiln", 10 ], [ "surface_heat", 10, "LIST" ] ] ],
     "components": [ [ [ "any_water", 1, "LIST" ] ], [ [ "clay_lump", 1 ] ] ]
   },
   {
