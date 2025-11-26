@@ -4,7 +4,7 @@
     "id": "f_bed",
     "name": "bed",
     "symbol": "#",
-    "description": "A standard mattress on a sturdy wooden frame.  Even without blankets or pillows, and despite being a completely ordinary mattress, it's a sight for sore, tired eyes.",
+    "description": "A standard mattress on a sturdy wooden frame.  Even without blankets or pillows, and despite being a completely ordinary mattress, it's a sweet and welcoming sight for sore and tired eyes.",
     "color": "magenta",
     "move_cost_mod": 3,
     "coverage": 40,
