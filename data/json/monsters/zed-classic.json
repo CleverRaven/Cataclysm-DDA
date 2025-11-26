@@ -213,7 +213,7 @@
     "id": "mon_zombie_tough",
     "type": "MONSTER",
     "name": { "str": "tough zombie" },
-    "description": "This was once an athletic human, now a brutal monster.  Its facial features and black eyes are twisted into an exaggerated expression of pure rage.  Its muscular arms are covered in calloused tissue and flesh wounds, although it does not seem to bother that much.  Nonetheless, this creature's sheer size still remain frightening to most.",
+    "description": "This was once an athletic human, now a brutal monster.  Its facial features and black eyes are twisted into an exaggerated expression of pure rage.  Its muscular arms are covered in calloused tissue and flesh wounds, although it does not seem to bother that much.  Nonetheless, this creature's sheer size still remains frightening to most.",
     "copy-from": "mon_zombie_base",
     "hp": 100,
     "speed": 85,
