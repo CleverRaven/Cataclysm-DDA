@@ -169,7 +169,7 @@
     "copy-from": "gun_base_handgun_manual",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
-    "name": { "str_sp": "7-shots .357 revolver" },
+    "name": { "str_sp": "7-shot .357 revolver" },
     "description": "A revolver chambered in .357, with a 6 inch barrel and 7 shots.",
     "ascii_picture": "sw_610",
     "weight": "1280 g",
