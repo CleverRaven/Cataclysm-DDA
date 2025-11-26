@@ -262,8 +262,6 @@
     "material": [ "plastic" ],
     "symbol": "!",
     "flags": [ "TRADER_AVOID", "UNBREAKABLE" ],
-    "freezing_point": -1000,
-    "spoils_in": "10 days",
     "color": "red"
   },
   {

@@ -179,7 +179,8 @@
         "u_message": "You've proved you can survive a few excursions to the world below.  Something in the warp pulls at you, quickening your pulse and turning your vision red.  The sensation is indescribable.  You feel… powerful.\nThe Heart of the Island may have further use for you.\n\nHealing at the Heart of the Island is no longer free.  Be cautious in your future endeavors.",
         "popup": true
       },
-      { "math": [ "islandrank = 1" ] }
+      { "math": [ "islandrank = 1" ] },
+      { "u_learn_recipe": "warpextender" }
     ]
   },
   {
