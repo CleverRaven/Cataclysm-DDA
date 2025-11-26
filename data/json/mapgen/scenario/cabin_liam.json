@@ -52,7 +52,7 @@
       },
       "furniture": { "9": "f_floor_mattress", "ť": "f_table", "Ŕ": "f_rack", "Ŗ": "f_utility_shelf" },
       "terrain": {
-        "¨": [ [ "t_grass", 19 ], "t_grass_dead" ] ],
+        "¨": [ [ "t_grass", 19 ], "t_grass_dead" ],
         "¯": "t_dirt",
 		"Ŧ": "t_tree_elm",
         "-": "t_railing",
