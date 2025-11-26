@@ -343,5 +343,10 @@
     "type": "MIGRATION",
     "id": "sewage",
     "replace": "water_sewage"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "brick_kiln",
+    "replace": "kiln"
   }
 ]
