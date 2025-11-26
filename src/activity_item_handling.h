@@ -192,5 +192,36 @@ activity_reason_info craft_can_do( const activity_id &, Character &you,
 activity_reason_info disassemble_can_do( const activity_id &, Character &you,
         const tripoint_bub_ms &src_loc );
 
+bool mine_do( Character &you, const activity_reason_info &act_info,
+              const tripoint_abs_ms &, const tripoint_bub_ms &src_loc );
+bool mop_do( Character &you, const activity_reason_info &act_info,
+             const tripoint_abs_ms &, const tripoint_bub_ms &src_loc );
+bool fish_do( Character &you, const activity_reason_info &act_info,
+              const tripoint_abs_ms &, const tripoint_bub_ms &src_loc );
+bool chop_trees_do( Character &you, const activity_reason_info &act_info,
+                    const tripoint_abs_ms &, const tripoint_bub_ms &src_loc );
+bool butcher_do( Character &you, const activity_reason_info &act_info,
+                 const tripoint_abs_ms &, const tripoint_bub_ms &src_loc );
+bool read_do( Character &you, const activity_reason_info &act_info,
+              const tripoint_abs_ms &, const tripoint_bub_ms & );
+bool chop_planks_do( Character &you, const activity_reason_info &act_info,
+                     const tripoint_abs_ms &, const tripoint_bub_ms &src_loc );
+bool tidy_up_do( Character &you, const activity_reason_info &act_info,
+                 const tripoint_abs_ms &, const tripoint_bub_ms &src_loc );
+bool construction_do( Character &you, const activity_reason_info &act_info,
+                      const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc );
+bool farm_do( Character &you, const activity_reason_info &act_info,
+              const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc );
+bool fetch_do( Character &you, const activity_reason_info &act_info,
+               const tripoint_abs_ms &, const tripoint_bub_ms &src_loc );
+bool craft_do( Character &you, const activity_reason_info &act_info,
+               const tripoint_abs_ms &, const tripoint_bub_ms & );
+bool disassemble_do( Character &you, const activity_reason_info &act_info,
+                     const tripoint_abs_ms &, const tripoint_bub_ms &src_loc );
+bool vehicle_deconstruction_do( Character &you, const activity_reason_info &act_info,
+                                const tripoint_abs_ms &, const tripoint_bub_ms &src_loc );
+bool vehicle_repair_do( Character &you, const activity_reason_info &act_info,
+                        const tripoint_abs_ms &, const tripoint_bub_ms &src_loc );
+
 /* end TODO: move to activity actor */
 } //namespace multi_activity_actor
