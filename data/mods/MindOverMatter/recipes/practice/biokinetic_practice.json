@@ -874,7 +874,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: combat dance",
     "id": "practice_biokin_combat_dance",
-    "description": "Contemplate your powers and improve your combat prowess.\n\nPower Difficulty: 8\n\nCurrent Power Level: <u_spell_level:biokin_combat_dance>",
+    "description": "Contemplate your powers and improve your overall combat prowess.\n\nPower Difficulty: 8\n\nCurrent Power Level: <u_spell_level:biokin_combat_dance>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
