@@ -108,7 +108,7 @@
   {
     "type": "mapgen",
     "om_terrain": [ "ws_survivor_bunker_f-1" ],
-    "weight": 40000,
+    "weight": 400,
     "//": "A bunker that's come a bit further along",
     "object": {
       "fill_ter": "t_dirt_underground",
