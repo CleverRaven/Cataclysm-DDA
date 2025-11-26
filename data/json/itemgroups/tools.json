@@ -58,8 +58,7 @@
     "type": "item_group",
     "//": "Industrial machinery used for construction",
     "items": [
-      { "item": "brick_kiln", "prob": 80, "charges": [ 0, 1000 ] },
-      { "item": "kiln", "prob": 40 },
+      { "item": "kiln", "prob": 80 },
       { "item": "con_mix_foldable", "prob": 120 },
       { "item": "elec_jackhammer", "prob": 40, "charges": [ 0, 6600 ] },
       { "item": "reciprocating_saw", "prob": 80, "charges": [ 0, 500 ] },
