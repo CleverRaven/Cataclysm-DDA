@@ -18,6 +18,12 @@
         "effect": [ { "add_mission": "MISSION_Liam_Bury_Chris_1" }, { "math": [ "Chris_bury_progress = 11" ] } ],
         "topic": "TALK_Liam_Mission_Bury_Chris_1_assign"
       },
+      {
+        "text": "Actually, I already have two shovels.",
+        "condition": { "u_has_items": { "item": "shovel", "count": 2 } },
+        "effect": { "math": [ "Chris_bury_progress = 12" ] },
+        "topic": "TALK_Liam_Mission_Bury_Chris_1_return"
+      },
       { "text": "Wait.  I wanted to talk about something else first.", "topic": "TALK_FRIEND_Liam" }
     ]
   },
