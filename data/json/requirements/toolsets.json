@@ -84,7 +84,7 @@
     "id": "earthenware_firing",
     "type": "requirement",
     "//": "Firing various clay shapes to make earthenware",
-    "tools": [ [ [ "fire", -1 ], [ "brick_kiln", 1 ], [ "kiln", 1 ] ] ]
+    "tools": [ [ [ "fire", -1 ], [ "fake_clay_kiln", 1 ], [ "kiln", 1 ] ] ]
   },
   {
     "id": "forging_standard",
