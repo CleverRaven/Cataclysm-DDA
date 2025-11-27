@@ -918,6 +918,7 @@ class game
         //private save functions.
         // returns false if saving failed for whatever reason
         bool save_factions_missions_npcs();
+        bool save_external_options_record();
         bool save_dimension_data();
         bool load_dimension_data();
         void reset_npc_dispositions();
