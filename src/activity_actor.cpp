@@ -1662,10 +1662,9 @@ static bool is_valid_book( const item_location &book )
 }
 
 static bool cancel_if_book_invalid(
-    player_activity &act, item_location &book, const Character &who )
+    player_activity &act, const item_location &book, const Character &who )
 {
     if( !is_valid_book( book ) ) {
-        // Cleanup will be handled by the activity cleanup system
         who.add_msg_player_or_npc(
             _( "You no longer have the book!" ),
             _( "<npcname> no longer has the book!" ) );
@@ -2162,10 +2161,6 @@ void read_activity_actor::finish( player_activity &act, Character &who )
     }
 
     act.set_to_null();
-}
-
-void read_activity_actor::canceled( player_activity &, Character & )
-{
 }
 
 bool read_activity_actor::can_resume_with_internal( const activity_actor &other,

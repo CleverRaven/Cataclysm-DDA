@@ -510,7 +510,6 @@ class read_activity_actor : public activity_actor
         void start( player_activity &act, Character &who ) override;
         void do_turn( player_activity &act, Character &who ) override;
         void finish( player_activity &act, Character &who ) override;
-        void canceled( player_activity &act, Character &who ) override;
 
         std::string get_progress_message( const player_activity & ) const override;
 
