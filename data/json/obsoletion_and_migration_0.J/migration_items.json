@@ -355,7 +355,7 @@
     "replace": "toastem"
   },
   {
-  "type": "MIGRATION",
+    "type": "MIGRATION",
     "id": "sewage",
     "replace": "water_sewage"
   },
