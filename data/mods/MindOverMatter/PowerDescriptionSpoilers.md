@@ -294,7 +294,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Duration*: Instant or 30 minutes to 1 hour 15 minutes<br />
 *Stamina Cost*: 4500, minus 125 per level to a minimum of 2000<br />
 *Channeling Time*: 250 moves, minus 4.5 moves per level to a minimum of 100<br />
-*Effects*: Sense nearby radiation, either on the psion themselves (instant duration) or in their surrounding environment.  Radiation sense on the psion provides an idea of how much radiation they are suffering from; radiation sense on the environment reveals only its presence or absense.<br />
+*Effects*: Sense nearby radiation, either on the psion themselves (instant duration) or in their surrounding environment.  Radiation sense on the psion provides an idea of how much radiation they are suffering from; radiation sense on the environment reveals only its presence or absence.<br />
 *Prerequisites*: Special (must be studied from notes)<br />
 </details>
 <details>
