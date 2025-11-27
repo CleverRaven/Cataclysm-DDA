@@ -33,22 +33,17 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [
-      "pool",
-      "pool_roof",
-      "pool_1",
-      "pool_roof_1",
-      "pool_2",
-      "pool_roof_2",
-      "pool_3",
-      "pool_roof_3",
-      "pool_4",
-      "pool_roof_4",
-      "pool_5",
-      "pool_6"
-    ],
+    "id": [ "pool", "pool_1", "pool_2", "pool_3", "pool_4", "pool_5", "pool_6" ],
     "copy-from": "pool",
     "name": "pool",
+    "sym": "P",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "pool_roof", "pool_roof_1", "pool_roof_2", "pool_roof_3", "pool_roof_4" ],
+    "copy-from": "pool_roof",
+    "name": "pool roof",
     "sym": "P",
     "color": "blue"
   },
