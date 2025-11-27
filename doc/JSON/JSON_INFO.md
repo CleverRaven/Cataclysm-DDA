@@ -427,6 +427,37 @@ The string extractor will extract all encountered strings from JSON for translat
 
 The extractor will skip these two specified strings and only these, extracting the remaining unmarked strings from the same JSON object.
 
+You can also mark the entire JSON object as non-translatable by adding a `"//I18N": false` comment at the top level:
+
+```jsonc
+{
+  "id": "zweifire_on",
+  "type": "ITEM",
+  "subtypes": [ "TOOL" ],
+  "name": { "str": "flammenschwert", "str_pl": "flammenschwerter" },
+  "//": "All of this is SUPPOSED to be in German.",
+  "//I18N": false,
+  ...
+}
+```
+
+Some objects may be non-translatable by default. For example, mutations, if `player_display` is `false` and no `starting_trait` or `initial_ma_styles` fields are specified. In this case, to enable translation, you must explicitly add the `"//I18N": true` comment if this mutation is still visible to the player somewhere during normal gameplay, for instance, during character creation:
+
+```jsonc
+{
+  "type": "mutation",
+  "id": "BLOODTHORNE_SORCERY",
+  "name": "Thornwitchery",
+  "description": "This is the school trait for Bloodthorne Druids.  You shouldn't see it directly.",
+  "points": 0,
+  "//I18N": true,
+  "starting_trait": false,
+  "purifiable": false,
+  "valid": false,
+  "player_display": false
+}
+```
+
 ## Comments
 
 JSON has no intrinsic support for comments.  However, by convention in CDDA
