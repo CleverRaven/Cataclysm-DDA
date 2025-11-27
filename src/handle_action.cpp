@@ -2923,6 +2923,10 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                 if( save() ) {
                     player_character.set_moves( 0 );
                     uquit = QUIT_SAVED;
+                } else if( save_is_dirty && query_yn( _( "Unable to save, quit anyway?" ) ) ) {
+                    // Game refused to save because of unsupported game state. But we don't want to trap them here, so at least let give them the option.
+                    player_character.set_moves( 0 );
+                    uquit = QUIT_NOSAVED;
                 }
             }
             break;
@@ -2933,6 +2937,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
         case ACTION_QUICKLOAD:
             quickload();
+            g->save_is_dirty = true;
             return false;
 
         case ACTION_PL_INFO:

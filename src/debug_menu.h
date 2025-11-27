@@ -111,6 +111,7 @@ enum class debug_menu_index : int {
     EXPORT_FOLLOWER,
     EXPORT_SELF,
     QUICK_SETUP,
+    QUICK_SETUP_FLAG_DIRTY,
     TOGGLE_SETUP_MUTATION,
     NORMALIZE_BODY_STAT,
     SIX_MILLION_DOLLAR_SURVIVOR,
@@ -144,7 +145,7 @@ void wishproficiency( Character *you );
 
 void debug();
 
-void do_debug_quick_setup();
+void do_debug_quick_setup( bool flag_dirty = false );
 
 /* Splits a string by @param delimiter and push_back's the elements into _Container */
 template<typename Container>
