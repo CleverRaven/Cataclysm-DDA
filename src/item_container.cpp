@@ -383,7 +383,7 @@ units::length item::min_containable_length() const
 
 units::volume item::max_containable_volume() const
 {
-    return contents.max_containable_volume(); // TODO: Remove
+    return contents.max_containable_volume();
 }
 
 ret_val<void> item::is_compatible( const item &it ) const
