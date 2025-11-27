@@ -573,7 +573,7 @@
     "id": "smart_watch_adv",
     "name": { "str": "advanced smart watch", "str_pl": "advanced smart watches" },
     "copy-from": "smart_watch",
-    "description": "A touchscreen watch that comes with many uses, such as a calendar, alarm, and even a fitness app, for when you want to check your health on the go!  This is more expensive model, featuring shock-resistant and waterproof case and a bunch of additional sensors.",
+    "description": "A touchscreen watch that comes with many uses, such as a calendar, alarm, and even a fitness app, for when you want to check your health on the go!  This is a more expensive model, featuring a shock-resistant and waterproof case and a bunch of additional sensors.",
     "price": "700 USD",
     "price_postapoc": "10 USD",
     "etransfer_rate": "30 MB",
