@@ -4963,14 +4963,6 @@ std::optional<int> iuse::handle_ground_graffiti( Character &p, item *it, const s
     }
 }
 
-std::optional<int> iuse::heatpack( Character *p, item *it, const tripoint_bub_ms & )
-{
-    if( heat_solid_items( p, it, p->pos_bub() ) ) {
-        it->convert( itype_heatpack_used, p );
-    }
-    return 0;
-}
-
 std::optional<int> iuse::heat_food( Character *p, item *it, const tripoint_bub_ms & )
 {
     if( get_map().has_nearby_fire( p->pos_bub() ) ) {
@@ -8158,7 +8150,7 @@ static std::optional<std::pair<tripoint_bub_ms, itype_id>> appliance_heater_sele
 
 }
 
-heater find_heater( Character *p, item *it )
+heater find_heater( Character *p, item *it, bool force_use_it )
 {
     map &here = get_map();
 
@@ -8174,7 +8166,7 @@ heater find_heater( Character *p, item *it )
     if( here.has_nearby_fire( p->pos_bub( here ) ) && !it->has_quality( qual_HOTPLATE ) ) {
         p->add_msg_if_player( m_info, _( "You put %1$s on fire to start heating." ), it->tname() );
         return {loc, false, 1, 0, vpt, pseudo_flag};
-    } else if( it->has_quality( qual_HOTPLATE ) ) {
+    } else if( it->has_quality( qual_HOTPLATE ) || force_use_it ) {
         if( it->ammo_remaining( ) >= it->type->charges_to_use() ) {
             p->add_msg_if_player( m_info, _( "You use %1$s to start heating." ), loc->tname() );
         } else if( !it->has_no_links() ) {
@@ -8241,12 +8233,13 @@ heater find_heater( Character *p, item *it )
 }
 
 
-static bool heat_items( Character *p, item *it, bool liquid_items, bool solid_items )
+static bool heat_items( Character *p, item *it, bool liquid_items, bool solid_items,
+                        bool force_use_it = false )
 {
     map &here = get_map();
 
     p->inv->restack( *p );
-    heater h = find_heater( p, it );
+    heater h = find_heater( p, it, force_use_it );
     if( h.available_heater == -1 ) {
         add_msg( m_info, _( "Never mind." ) );
         return false;
@@ -8355,6 +8348,22 @@ static bool heat_items( Character *p, item *it, bool liquid_items, bool solid_it
     }
     p->assign_activity( heat_activity_actor( to_heat, required, h ) );
     return true;
+}
+
+std::optional<int> iuse::heatpack( Character *p, item *it, const tripoint_bub_ms & )
+{
+    if( p->fine_detail_vision_mod() > 4 ) {
+        p->add_msg_if_player( _( "You can't see to do that!" ) );
+        return std::nullopt;
+    }
+    if( p->cant_do_mounted() ) {
+        return std::nullopt;
+    }
+
+    if( heat_items( p, it, false, true, true ) ) {
+        it->convert( itype_heatpack_used, p );
+    }
+    return 0;
 }
 
 std::optional<int> iuse::heat_solid_items( Character *p, item *it, const tripoint_bub_ms & )
