@@ -354,8 +354,8 @@
   {
     "type": "mutation",
     "id": "LILIN_ATTRIBUTE_BONUSES_STRENGTH",
-    "name": { "str": "The Cedars of Lebanon", "//~": "NO_I18N" },
-    "description": { "str": "Adds a Strength Bonus to Might of the Nephilim.  Should not be player-visible.", "//~": "NO_I18N" },
+    "name": { "str": "The Cedars of Lebanon" },
+    "description": "Adds a Strength Bonus to Might of the Nephilim.  Should not be player-visible.",
     "points": 2,
     "purifiable": false,
     "player_display": false,
@@ -459,8 +459,8 @@
   {
     "type": "mutation",
     "id": "LILIN_ATTRIBUTE_BONUSES_DEXTERITY",
-    "name": { "str": "The Leaping Faun", "//~": "NO_I18N" },
-    "description": { "str": "Adds a Dexterity/Dodge Bonus to Might of the Nephilim.  Should not be player-visible.", "//~": "NO_I18N" },
+    "name": { "str": "The Leaping Faun" },
+    "description": "Adds a Dexterity/Dodge Bonus to Might of the Nephilim.  Should not be player-visible.",
     "points": 2,
     "purifiable": false,
     "player_display": false,
@@ -495,8 +495,8 @@
   {
     "type": "mutation",
     "id": "LILIN_ATTRIBUTE_BONUSES_PERCEPTION",
-    "name": { "str": "And All the People Saw the Sounds", "//~": "NO_I18N" },
-    "description": { "str": "Adds a Perception Bonus to Might of the Nephilim.  Should not be player-visible.", "//~": "NO_I18N" },
+    "name": { "str": "And All the People Saw the Sounds" },
+    "description": "Adds a Perception Bonus to Might of the Nephilim.  Should not be player-visible.",
     "points": 2,
     "purifiable": false,
     "player_display": false,
