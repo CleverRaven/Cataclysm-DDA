@@ -117,6 +117,7 @@ static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" 
 static const activity_id ACT_MULTIPLE_DIS( "ACT_MULTIPLE_DIS" );
 static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
 static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
+static const activity_id ACT_MULTIPLE_STUDY( "ACT_MULTIPLE_STUDY" );
 static const activity_id ACT_MULTIPLE_MOP( "ACT_MULTIPLE_MOP" );
 static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
@@ -177,6 +178,7 @@ static const zone_type_id zone_type_LOOT_UNSORTED( "LOOT_UNSORTED" );
 static const zone_type_id zone_type_LOOT_WOOD( "LOOT_WOOD" );
 static const zone_type_id zone_type_MINING( "MINING" );
 static const zone_type_id zone_type_MOPPING( "MOPPING" );
+static const zone_type_id zone_type_STUDY_ZONE( "STUDY_ZONE" );
 static const zone_type_id zone_type_STRIP_CORPSES( "STRIP_CORPSES" );
 static const zone_type_id zone_type_UNLOAD_ALL( "UNLOAD_ALL" );
 static const zone_type_id zone_type_VEHICLE_DECONSTRUCT( "VEHICLE_DECONSTRUCT" );
@@ -1496,6 +1498,7 @@ static void loot()
         MultiMining = 8192,
         MultiDis = 16384,
         MultiMopping = 32768,
+        MultiStudy = 131072,
         UnloadLoot = 65536
     };
 
@@ -1542,6 +1545,7 @@ static void loot()
     flags |= g->check_near_zone( zone_type_DISASSEMBLE,
                                  player_character.pos_bub() ) ? MultiDis : 0;
     flags |= g->check_near_zone( zone_type_MOPPING, player_character.pos_bub() ) ? MultiMopping : 0;
+    flags |= g->check_near_zone( zone_type_STUDY_ZONE, player_character.pos_bub() ) ? MultiStudy : 0;
     if( flags == 0 ) {
         add_msg( m_info, _( "There is no compatible zone nearby." ) );
         add_msg( m_info, _( "Compatible zones are %s and %s" ),
@@ -1617,6 +1621,10 @@ static void loot()
     }
     if( flags & MultiMopping ) {
         menu.addentry_desc( MultiMopping, true, 'p', _( "Mop area" ), _( "Mop clean the area." ) );
+    }
+    if( flags & MultiStudy ) {
+        menu.addentry_desc( MultiStudy, true, 's', _( "Study from books in study zones" ),
+                            wrap60( _( "Find and read books from study zones." ) ) );
     }
 
     menu.query();
@@ -1695,6 +1703,9 @@ static void loot()
             break;
         case MultiMopping:
             player_character.assign_activity( ACT_MULTIPLE_MOP );
+            break;
+        case MultiStudy:
+            player_character.assign_activity( ACT_MULTIPLE_STUDY );
             break;
         default:
             debugmsg( "Unsupported flag" );

@@ -95,6 +95,7 @@ static const activity_id ACT_MULTIPLE_FISH( "ACT_MULTIPLE_FISH" );
 static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
 static const activity_id ACT_MULTIPLE_MOP( "ACT_MULTIPLE_MOP" );
 static const activity_id ACT_MULTIPLE_READ( "ACT_MULTIPLE_READ" );
+static const activity_id ACT_MULTIPLE_STUDY( "ACT_MULTIPLE_STUDY" );
 static const activity_id ACT_TIDY_UP( "ACT_TIDY_UP" );
 static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
@@ -158,6 +159,7 @@ static const zone_type_id zone_type_MINING( "MINING" );
 static const zone_type_id zone_type_MOPPING( "MOPPING" );
 static const zone_type_id zone_type_SOURCE_FIREWOOD( "SOURCE_FIREWOOD" );
 static const zone_type_id zone_type_STRIP_CORPSES( "STRIP_CORPSES" );
+static const zone_type_id zone_type_STUDY_ZONE( "STUDY_ZONE" );
 static const zone_type_id zone_type_UNLOAD_ALL( "UNLOAD_ALL" );
 static const zone_type_id zone_type_VEHICLE_DECONSTRUCT( "VEHICLE_DECONSTRUCT" );
 static const zone_type_id zone_type_VEHICLE_REPAIR( "VEHICLE_REPAIR" );
@@ -1798,6 +1800,58 @@ activity_reason_info read_can_do( const activity_id &, Character &you,
     return activity_reason_info::fail( do_activity_reason::ALREADY_DONE );
 }
 
+activity_reason_info study_can_do( const activity_id &, Character &you,
+                                   const tripoint_bub_ms &src_loc )
+{
+    map &here = get_map();
+    zone_manager &mgr = zone_manager::get_manager();
+    const tripoint_abs_ms abspos = here.get_abs( src_loc );
+    if( !mgr.has( zone_type_STUDY_ZONE, abspos, _fac_id( you ) ) ) {
+        return activity_reason_info::fail( do_activity_reason::NO_ZONE );
+    }
+    // Get zone options for skill filtering
+    const zone_data *zone = mgr.get_zone_at( abspos, zone_type_STUDY_ZONE, _fac_id( you ) );
+    const std::set<skill_id> *skill_prefs = nullptr;
+    if( zone && zone->has_options() ) {
+        const study_zone_options *options = dynamic_cast<const study_zone_options *>
+                                            ( &zone->get_options() );
+        if( options ) {
+            skill_prefs = options->get_skill_preferences( you.name );
+        }
+    }
+
+    const item_filter filter = [&you, skill_prefs]( const item & i ) {
+        read_condition_result condition = you.check_read_condition( i );
+        if( condition != read_condition_result::SUCCESS ) {
+            return false;
+        }
+        // If zone has skill preferences, filter by them
+        if( skill_prefs && i.is_book() && i.type->book ) {
+            const skill_id &book_skill = i.type->book->skill;
+            if( book_skill == skill_id::NULL_ID() ) {
+                return false;
+            }
+            if( skill_prefs->count( book_skill ) == 0 ) {
+                return false;
+            }
+        }
+        return true;
+    };
+
+    for( item &it : here.i_at( src_loc ) ) {
+        if( it.has_var( "activity_var" ) && it.get_var( "activity_var" ) != you.name ) {
+            continue;
+        }
+
+        if( filter( it ) ) {
+            it.set_var( "activity_var", you.name );
+            return activity_reason_info::ok( do_activity_reason::NEEDS_BOOK_TO_LEARN );
+        }
+    }
+
+    return activity_reason_info::fail( do_activity_reason::ALREADY_DONE );
+}
+
 activity_reason_info chop_planks_can_do( const activity_id &, Character &you,
         const tripoint_bub_ms &src_loc )
 {
@@ -2097,6 +2151,7 @@ bool activity_must_be_in_zone( activity_id act_id, const tripoint_bub_ms &src_lo
         act_id == ACT_MULTIPLE_FISH ||
         act_id == ACT_MULTIPLE_MINE ||
         act_id == ACT_MULTIPLE_DIS ||
+        act_id == ACT_MULTIPLE_STUDY ||
         ( act_id == ACT_MULTIPLE_CONSTRUCTION &&
           !here.partial_con_at( src_loc ) );
 }
@@ -2436,6 +2491,8 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
         return multi_activity_actor::craft_can_do( act, you, src_loc );
     } else if( act == ACT_MULTIPLE_DIS ) {
         return multi_activity_actor::disassemble_can_do( act, you, src_loc );
+    } else if( act == ACT_MULTIPLE_STUDY ) {
+        return multi_activity_actor::study_can_do( act, you, src_loc );
     }
     // Shouldn't get here because the zones were checked previously. if it does, set enum reason as "no zone"
     return activity_reason_info::fail( do_activity_reason::NO_ZONE );
@@ -3127,6 +3184,9 @@ static zone_type_id get_zone_for_act( const tripoint_bub_ms &src_loc, const zone
     if( act_id == ACT_MULTIPLE_DIS ) {
         ret = zone_type_DISASSEMBLE;
     }
+    if( act_id == ACT_MULTIPLE_STUDY ) {
+        ret = zone_type_STUDY_ZONE;
+    }
     if( src_loc != tripoint_bub_ms() && act_id == ACT_FETCH_REQUIRED ) {
         const zone_data *zd = mgr.get_zone_at( get_map().get_abs( src_loc ), false, fac_id );
         if( zd ) {
@@ -3324,6 +3384,64 @@ std::unordered_set<tripoint_abs_ms> read_locations( Character &you, const activi
     multi_activity_actor::prune_dark_locations( you, src_set, act_id );
     return src_set;
 }
+
+std::unordered_set<tripoint_abs_ms> study_locations( Character &you, const activity_id &act_id )
+{
+    map &here = get_map();
+    zone_manager &mgr = zone_manager::get_manager();
+    const tripoint_abs_ms abspos = here.get_abs( you.pos_bub() );
+    std::unordered_set<tripoint_abs_ms> src_set;
+
+    std::unordered_set<tripoint_abs_ms> all_zone_tiles = mgr.get_near( zone_type_STUDY_ZONE, abspos,
+            MAX_VIEW_DISTANCE, nullptr, _fac_id( you ) );
+    for( const tripoint_abs_ms &zone_pos : all_zone_tiles ) {
+        const zone_data *zone = mgr.get_zone_at( zone_pos, zone_type_STUDY_ZONE, _fac_id( you ) );
+        const std::set<skill_id> *skill_prefs = nullptr;
+        if( zone && zone->has_options() ) {
+            const study_zone_options *options = dynamic_cast<const study_zone_options *>
+                                                ( &zone->get_options() );
+            if( options ) {
+                skill_prefs = options->get_skill_preferences( you.name );
+            }
+        }
+
+        const item_filter filter = [&you, skill_prefs]( const item & i ) {
+            read_condition_result condition = you.check_read_condition( i );
+            if( condition != read_condition_result::SUCCESS ) {
+                return false;
+            }
+            if( skill_prefs && i.is_book() && i.type->book ) {
+                const skill_id &book_skill = i.type->book->skill;
+                if( book_skill == skill_id::NULL_ID() ) {
+                    return false;
+                }
+                if( skill_prefs->count( book_skill ) == 0 ) {
+                    return false;
+                }
+            }
+            return true;
+        };
+
+        const tripoint_bub_ms zone_loc = here.get_bub( zone_pos );
+        bool found_unmarked_book = false;
+        for( const item &it : here.i_at( zone_loc ) ) {
+            if( filter( it ) ) {
+                if( it.has_var( "activity_var" ) && it.get_var( "activity_var" ) != you.name ) {
+                    continue;
+                }
+                found_unmarked_book = true;
+                break;
+            }
+        }
+        if( found_unmarked_book ) {
+            src_set.insert( zone_pos );
+        }
+    }
+    multi_activity_actor::prune_dangerous_field_locations( src_set );
+    multi_activity_actor::prune_dark_locations( you, src_set, act_id );
+    return src_set;
+}
+
 std::unordered_set<tripoint_abs_ms> craft_locations( Character &you, const activity_id &act_id )
 {
 
@@ -3407,6 +3525,8 @@ static std::unordered_set<tripoint_abs_ms> generic_multi_activity_locations(
         src_set = multi_activity_actor::tidy_up_locations( you, act_id );
     } else if( act_id == ACT_MULTIPLE_READ ) {
         src_set = multi_activity_actor::read_locations( you, act_id );
+    } else if( act_id == ACT_MULTIPLE_STUDY ) {
+        src_set = multi_activity_actor::study_locations( you, act_id );
     } else if( act_id == ACT_MULTIPLE_CRAFT ) {
         src_set = multi_activity_actor::craft_locations( you, act_id );
     } else if( act_id == ACT_FETCH_REQUIRED ) {
@@ -3618,17 +3738,77 @@ static bool generic_multi_activity_do(
             return false;
         }
     } else if( reason == do_activity_reason::NEEDS_BOOK_TO_LEARN ) {
-        const item_filter filter = [ &you ]( const item & i ) {
-            read_condition_result condition = you.check_read_condition( i );
-            return condition == read_condition_result::SUCCESS;
-        };
-        std::vector<item *> books = you.items_with( filter );
-        if( !books.empty() && books[0] ) {
-            const time_duration time_taken = you.time_to_read( *books[0], you );
-            item_location book = item_location( you, books[0] );
+        item *book_to_read = nullptr;
+        item_location book_loc;
+
+        if( act_id == ACT_MULTIPLE_STUDY ) {
+            const zone_data *zone = mgr.get_zone_at( here.get_abs( src_loc ), zone_type_STUDY_ZONE,
+                                    _fac_id( you ) );
+            const std::set<skill_id> *skill_prefs = nullptr;
+            if( zone && zone->has_options() ) {
+                const study_zone_options *options = dynamic_cast<const study_zone_options *>
+                                                    ( &zone->get_options() );
+                if( options ) {
+                    skill_prefs = options->get_skill_preferences( you.name );
+                }
+            }
+
+            const item_filter filter = [ &you, skill_prefs ]( const item & i ) {
+                read_condition_result condition = you.check_read_condition( i );
+                if( condition != read_condition_result::SUCCESS ) {
+                    return false;
+                }
+                // filter by zone skill preferences
+                if( skill_prefs && i.is_book() && i.type->book ) {
+                    const skill_id &book_skill = i.type->book->skill;
+                    if( book_skill == skill_id::NULL_ID() ) {
+                        return false;
+                    }
+                    if( skill_prefs->count( book_skill ) == 0 ) {
+                        return false;
+                    }
+                }
+                return true;
+            };
+
+            for( item &it : here.i_at( src_loc ) ) {
+                if( it.has_var( "activity_var" ) && it.get_var( "activity_var" ) != you.name ) {
+                    continue;
+                }
+                if( filter( it ) ) {
+                    book_to_read = &it;
+                    book_loc = item_location( map_cursor( src_loc ), book_to_read );
+                    it.set_var( "activity_var", you.name );
+                    you.may_activity_occupancy_after_end_items_loc.push_back( book_loc );
+                    break;
+                }
+            }
+            if( !book_to_read && you.is_npc() ) {
+                add_msg_if_player_sees( you, m_info, _( "%s found no readable books at this location." ),
+                                        you.disp_name() );
+            }
+        } else {
+            // For regular read activity, look in inventory
+            const item_filter filter = [ &you ]( const item & i ) {
+                read_condition_result condition = you.check_read_condition( i );
+                return condition == read_condition_result::SUCCESS;
+            };
+            std::vector<item *> books = you.items_with( filter );
+            if( !books.empty() && books[0] ) {
+                book_to_read = books[0];
+                book_loc = item_location( you, book_to_read );
+            }
+        }
+
+        if( book_to_read ) {
+            const time_duration time_taken = you.time_to_read( *book_to_read, you );
             item_location ereader;
             you.backlog.emplace_front( act_id );
-            you.assign_activity( read_activity_actor( time_taken, book, ereader, true ) );
+            if( act_id == ACT_MULTIPLE_STUDY ) {
+                // set auto_resume so backlog will automatically restart when reading finishes
+                you.backlog.front().auto_resume = true;
+            }
+            you.assign_activity( read_activity_actor( time_taken, book_loc, ereader, true ) );
             return false;
         }
     } else if( reason == do_activity_reason::CAN_DO_CONSTRUCTION ) {
