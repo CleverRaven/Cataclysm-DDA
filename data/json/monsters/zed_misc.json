@@ -128,6 +128,8 @@
     "diff": 2,
     "hp": 120,
     "speed": 105,
+    "volume": "100 L",
+    "weight": "135 kg",
     "color": "red",
     "scents_tracked": [ "sc_human", "sc_fetid" ],
     "melee_dice": 3,
