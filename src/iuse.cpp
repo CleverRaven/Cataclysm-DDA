@@ -598,7 +598,7 @@ std::optional<int> iuse::smoking( Character *p, item *it, const tripoint_bub_ms 
         p->mod_thirst( 2 );
     } else if( it->typeId() == itype_cigar ) {
         cig = item( itype_cigar_lit, calendar::turn );
-        cig.item_counter = to_turns<int>( 12_minutes );
+        cig.item_counter = to_turns<int>( 30_minutes );
         p->mod_thirst( 3 );
         p->mod_hunger( -4 );
     } else if( it->typeId() == itype_joint ) {

@@ -136,11 +136,14 @@
       { "u_teleport": { "global_val": "OM_HQ_origin" }, "force": true },
       { "u_remove_item_with": "warphome" },
       { "u_remove_item_with": "warp_healing_salve" },
+      { "u_remove_item_with": "warpextender" },
       { "math": [ "raidstotal++" ] },
       { "u_lose_trait": "awayfromhome" },
       { "u_lose_effect": [ "warpsickness", "warpdisintegration" ] },
       {
         "run_eocs": [
+          "EOC_clearmissions",
+          "EOC_clearmissions",
           "EOC_clearmissions",
           "EOC_clearmissions",
           "EOC_clearmissions",
@@ -179,7 +182,8 @@
         "u_message": "You've proved you can survive a few excursions to the world below.  Something in the warp pulls at you, quickening your pulse and turning your vision red.  The sensation is indescribable.  You feel… powerful.\nThe Heart of the Island may have further use for you.\n\nHealing at the Heart of the Island is no longer free.  Be cautious in your future endeavors.",
         "popup": true
       },
-      { "math": [ "islandrank = 1" ] }
+      { "math": [ "islandrank = 1" ] },
+      { "u_learn_recipe": "warpextender" }
     ]
   },
   {
@@ -774,7 +778,7 @@
       { "math": [ "totalstarts = 1 + basementsunlocked + roofsunlocked + labsunlocked" ] },
       { "math": [ "totalexits = 1 + bonusexits" ] },
       {
-        "u_message": "Island Rank: <global_val:islandrank_readable> of 2\nExpedition Lengths: <global_val:longerraids> of 2\nExpedition Starts: <global_val:totalstarts> of 4\nBonus Pulses: <global_val:bonuspulses> of 4\nTarget reveal distance: <global_val:scoutingdistancetargets> of 10\nLanding reveal distance: <global_val:scoutingdistancelanding> of 24\nWarpcloak duration in seconds: <global_val:invistime> of 120\nSlaughter missions unlocked: <global_val:slaughterunlocked> of 1\nExits per expedition: <global_val:totalexits> of 3\nMissions per expedition: <global_val:bonusmissions> of 3\nMission tiers unlocked: <global_val:hardmissions_readable> of 3",
+        "u_message": "Island Rank: <global_val:islandrank_readable> of 2\nExpedition Lengths: <global_val:longerraids> of 2\nExpedition Starts: <global_val:totalstarts> of 4\nBonus Pulses: <global_val:bonuspulses> of 7\nTarget reveal distance: <global_val:scoutingdistancetargets> of 22\nLanding reveal distance: <global_val:scoutingdistancelanding> of 48\nWarpcloak duration in seconds: <global_val:invistime> of 150\nSlaughter missions unlocked: <global_val:slaughterunlocked> of 1\nExits per expedition: <global_val:totalexits> of 5\nMissions per expedition: <global_val:bonusmissions> of 5\nMission tiers unlocked: <global_val:hardmissions_readable> of 3",
         "popup": true
       }
     ]

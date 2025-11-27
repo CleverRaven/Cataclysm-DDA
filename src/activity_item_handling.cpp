@@ -122,6 +122,14 @@ static const quality_id qual_SAW_W( "SAW_W" );
 static const quality_id qual_WELD( "WELD" );
 
 static const requirement_id requirement_data_mining_standard( "mining_standard" );
+static const requirement_id requirement_data_multi_butcher( "multi_butcher" );
+static const requirement_id requirement_data_multi_butcher_big( "multi_butcher_big" );
+static const requirement_id requirement_data_multi_chopping_planks( "multi_chopping_planks" );
+static const requirement_id requirement_data_multi_chopping_trees( "multi_chopping_trees" );
+static const requirement_id
+requirement_data_multi_farm_cut_harvesting( "multi_farm_cut_harvesting" );
+static const requirement_id requirement_data_multi_farm_tilling( "multi_farm_tilling" );
+static const requirement_id requirement_data_multi_fishing( "multi_fishing" );
 
 static const ter_str_id ter_t_stump( "t_stump" );
 static const ter_str_id ter_t_trunk( "t_trunk" );
@@ -177,6 +185,16 @@ struct act_item {
           count( count ),
           consumed_moves( consumed_moves ) {}
 };
+
+static void check_npc_revert( Character &you )
+{
+    if( you.is_npc() ) {
+        npc *guy = dynamic_cast<npc *>( &you );
+        if( guy ) {
+            guy->revert_after_activity();
+        }
+    }
+}
 
 // TODO: Deliberately unified with multidrop. Unify further.
 static bool same_type( const std::list<item> &items )
@@ -819,9 +837,10 @@ zone_items populate_items( const tripoint_bub_ms &src_bub )
         for( item &it : vp->items() ) {
             items.emplace_back( &it, true );
         }
-    }
-    for( item &it : here.i_at( src_bub ) ) {
-        items.emplace_back( &it, false );
+    } else {
+        for( item &it : here.i_at( src_bub ) ) {
+            items.emplace_back( &it, false );
+        }
     }
     return items;
 }
@@ -2018,6 +2037,365 @@ bool can_do_in_dark( const activity_id &act_id )
            act_id == ACT_MOVE_LOOT ||
            act_id == ACT_FETCH_REQUIRED;
 }
+
+bool activity_reason_quit( do_activity_reason reason )
+{
+    return reason == do_activity_reason::DONT_HAVE_SKILL ||
+           reason == do_activity_reason::NO_ZONE ||
+           reason == do_activity_reason::NO_VEHICLE ||
+           reason == do_activity_reason::ALREADY_DONE ||
+           reason == do_activity_reason::BLOCKING_TILE ||
+           reason == do_activity_reason::UNKNOWN_ACTIVITY;
+}
+
+bool activity_reason_continue( do_activity_reason reason )
+{
+    return
+        reason == do_activity_reason::NO_COMPONENTS ||
+        reason == do_activity_reason::NEEDS_CUT_HARVESTING ||
+        reason == do_activity_reason::NEEDS_PLANTING ||
+        reason == do_activity_reason::NEEDS_TILLING ||
+        reason == do_activity_reason::NEEDS_CHOPPING ||
+        reason == do_activity_reason::NEEDS_BUTCHERING ||
+        reason == do_activity_reason::NEEDS_BIG_BUTCHERING ||
+        reason == do_activity_reason::NEEDS_VEH_DECONST ||
+        reason == do_activity_reason::NEEDS_VEH_REPAIR ||
+        reason == do_activity_reason::NEEDS_TREE_CHOPPING ||
+        reason == do_activity_reason::NEEDS_FISHING ||
+        reason == do_activity_reason::NEEDS_MINING ||
+        reason == do_activity_reason::NEEDS_CRAFT ||
+        reason == do_activity_reason::NEEDS_DISASSEMBLE;
+}
+
+bool activity_reason_picks_up_tools( do_activity_reason reason )
+{
+    return
+        reason == do_activity_reason::NEEDS_CUT_HARVESTING ||
+        reason == do_activity_reason::NEEDS_PLANTING ||
+        reason == do_activity_reason::NEEDS_TILLING ||
+        reason == do_activity_reason::NEEDS_CHOPPING ||
+        reason == do_activity_reason::NEEDS_BUTCHERING ||
+        reason == do_activity_reason::NEEDS_BIG_BUTCHERING ||
+        reason == do_activity_reason::NEEDS_VEH_DECONST ||
+        reason == do_activity_reason::NEEDS_VEH_REPAIR ||
+        reason == do_activity_reason::NEEDS_TREE_CHOPPING ||
+        reason == do_activity_reason::NEEDS_MINING;
+}
+
+bool activity_must_be_in_zone( activity_id act_id, const tripoint_bub_ms &src_loc )
+{
+    map &here = get_map();
+    return
+        act_id == ACT_FETCH_REQUIRED ||
+        act_id == ACT_MULTIPLE_FARM ||
+        act_id == ACT_MULTIPLE_BUTCHER ||
+        act_id == ACT_MULTIPLE_CHOP_PLANKS ||
+        act_id == ACT_MULTIPLE_CHOP_TREES ||
+        act_id == ACT_VEHICLE_DECONSTRUCTION ||
+        act_id == ACT_VEHICLE_REPAIR ||
+        act_id == ACT_MULTIPLE_FISH ||
+        act_id == ACT_MULTIPLE_MINE ||
+        act_id == ACT_MULTIPLE_DIS ||
+        ( act_id == ACT_MULTIPLE_CONSTRUCTION &&
+          !here.partial_con_at( src_loc ) );
+}
+
+requirement_check_result fetch_requirements( Character &you, requirement_id what_we_need,
+        const activity_id &act_id,
+        activity_reason_info &act_info, const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc,
+        const std::unordered_set<tripoint_abs_ms> &src_set )
+{
+
+    map &here = get_map();
+
+    if( you.as_npc() && you.as_npc()->job.fetch_history.count( what_we_need.str() ) != 0 &&
+        you.as_npc()->job.fetch_history[what_we_need.str()] == calendar::turn ) {
+        // this may be faild fetch already. give up task for a while to avoid infinite loop.
+        you.activity = player_activity();
+        you.backlog.clear();
+        check_npc_revert( you );
+        return requirement_check_result::SKIP_LOCATION;
+    }
+    you.backlog.emplace_front( act_id );
+    you.assign_activity( ACT_FETCH_REQUIRED );
+    player_activity &act_prev = you.backlog.front();
+    act_prev.str_values.push_back( what_we_need.str() );
+    act_prev.values.push_back( static_cast<int>( act_info.reason ) );
+    // come back here after successfully fetching your stuff
+    if( act_prev.coords.empty() ) {
+        std::vector<tripoint_bub_ms> local_src_set;
+        local_src_set.reserve( src_set.size() );
+        for( const tripoint_abs_ms &elem : src_set ) {
+            local_src_set.push_back( here.get_bub( elem ) );
+        }
+        std::vector<tripoint_bub_ms> candidates;
+        for( const tripoint_bub_ms &point_elem :
+             here.points_in_radius( src_loc, PICKUP_RANGE - 1, 0 ) ) {
+            // we don't want to place the components where they could interfere with our ( or someone else's ) construction spots
+            if( ( std::find( local_src_set.begin(), local_src_set.end(),
+                             point_elem ) != local_src_set.end() ) || !here.can_put_items_ter_furn( point_elem ) ) {
+                continue;
+            }
+            candidates.push_back( point_elem );
+        }
+        if( candidates.empty() ) {
+            you.activity = player_activity();
+            you.backlog.clear();
+            check_npc_revert( you );
+            return requirement_check_result::SKIP_LOCATION_NO_LOCATION;
+        }
+        act_prev.coords.push_back(
+            here.get_abs(
+                candidates[std::max( 0, static_cast<int>( candidates.size() / 2 ) )] )
+        );
+    }
+    act_prev.placement = src;
+    return requirement_check_result::RETURN_EARLY;
+}
+
+requirement_check_result requirement_fail( Character &you, const do_activity_reason &reason,
+        const activity_id &act_id, const zone_data *zone )
+{
+    // we can discount this tile, the work can't be done.
+    if( reason == do_activity_reason::DONT_HAVE_SKILL ) {
+        if( zone ) {
+            you.add_msg_if_player( m_info, _( "You don't have the skill for the %1$s task at zone %2$s." ),
+                                   act_id.c_str(), zone->get_name() );
+        } else {
+            you.add_msg_if_player( m_info, _( "You don't have the skill for the %s task." ), act_id.c_str() );
+        }
+    } else if( reason == do_activity_reason::BLOCKING_TILE ) {
+        if( zone ) {
+            you.add_msg_if_player( m_info,
+                                   _( "There is something blocking the location for the %1$s task at zone %2$s." ), act_id.c_str(),
+                                   zone->get_name() );
+        } else {
+            you.add_msg_if_player( m_info, _( "There is something blocking the location for the %s task." ),
+                                   act_id.c_str() );
+        }
+    }
+    if( you.is_npc() ) {
+        if( reason == do_activity_reason::DONT_HAVE_SKILL ) {
+            return requirement_check_result::SKIP_LOCATION_NO_SKILL;
+        } else if( reason == do_activity_reason::NO_ZONE ) {
+            return requirement_check_result::SKIP_LOCATION_NO_ZONE;
+        } else if( reason == do_activity_reason::NO_VEHICLE ) {
+            return requirement_check_result::SKIP_LOCATION_NO_MATCH;
+        } else if( reason == do_activity_reason::ALREADY_DONE ) {
+            return requirement_check_result::SKIP_LOCATION;
+        } else if( reason == do_activity_reason::BLOCKING_TILE ) {
+            return requirement_check_result::SKIP_LOCATION_BLOCKING;
+        } else if( reason == do_activity_reason::UNKNOWN_ACTIVITY ) {
+            return requirement_check_result::SKIP_LOCATION_UNKNOWN_ACTIVITY;
+        }
+    } else {
+        return requirement_check_result::SKIP_LOCATION;
+    }
+    return requirement_check_result::SKIP_LOCATION_NO_MATCH;
+}
+
+requirement_id hash_and_cache_requirement_data( const requirement_data &reqs_data )
+{
+    const requirement_id req_id( std::to_string( reqs_data.make_hash() ) );
+    if( requirement_data::all().count( req_id ) == 0 ) {
+        requirement_data::save_requirement( reqs_data, req_id );
+    }
+    return req_id;
+}
+
+requirement_id synthesize_requirements(
+    const requirement_data::alter_item_comp_vector &requirement_comp_vector,
+    const requirement_data::alter_quali_req_vector &quality_comp_vector,
+    const requirement_data::alter_tool_comp_vector &tool_comp_vector )
+{
+
+    requirement_data reqs_data = requirement_data( tool_comp_vector, quality_comp_vector,
+                                 requirement_comp_vector );
+
+    return hash_and_cache_requirement_data( reqs_data );
+}
+
+requirement_id remove_met_requirements( requirement_id base_req_id, Character &you )
+{
+
+    requirement_data reqs = base_req_id.obj();
+    // Remove the requirements already met
+    requirement_data::alter_tool_comp_vector tool_reqs_vector = reqs.get_tools();
+    requirement_data::alter_quali_req_vector quality_reqs_vector = reqs.get_qualities();
+    requirement_data::alter_item_comp_vector component_reqs_vector = reqs.get_components();
+    requirement_data::alter_tool_comp_vector reduced_tool_reqs_vector;
+    requirement_data::alter_quali_req_vector reduced_quality_reqs_vector;
+
+    const inventory &inv = you.crafting_inventory();
+
+    for( std::vector<tool_comp> &tools : tool_reqs_vector ) {
+        bool found = false;
+        for( tool_comp &tool : tools ) {
+            if( inv.has_tools( tool.type, tool.count ) ) {
+                found = true;
+            }
+        }
+        if( !found ) {
+            reduced_tool_reqs_vector.push_back( tools );
+        }
+    }
+
+    for( std::vector<quality_requirement> &qualities : quality_reqs_vector ) {
+        bool found = false;
+        for( quality_requirement &qual : qualities ) {
+            if( inv.has_quality( qual.type, qual.level ) ) {
+                found = true;
+            }
+        }
+        if( !found ) {
+            reduced_quality_reqs_vector.push_back( qualities );
+        }
+    }
+
+    requirement_data reduced_reqs = requirement_data( reduced_tool_reqs_vector,
+                                    reduced_quality_reqs_vector,
+                                    component_reqs_vector );
+    return hash_and_cache_requirement_data( reduced_reqs );
+}
+
+// returns nullopt if src_loc should be skipped
+std::optional<requirement_id> construction_requirements( Character &,
+        activity_reason_info &act_info, const tripoint_bub_ms & )
+{
+    if( act_info.reason == do_activity_reason::NO_COMPONENTS ) {
+        if( !act_info.con_idx ) {
+            debugmsg( "no construction selected" );
+            return std::nullopt;
+        }
+        // its a construction and we need the components.
+        const construction &built_chosen = act_info.con_idx->obj();
+        return built_chosen.requirements;
+    }
+    return requirement_id::NULL_ID();
+}
+
+std::optional<requirement_id> vehicle_work_requirements( Character &you,
+        activity_reason_info &act_info, const tripoint_bub_ms &src_loc )
+{
+
+    const do_activity_reason &reason = act_info.reason;
+    if( reason == do_activity_reason::NEEDS_VEH_DECONST ||
+        reason == do_activity_reason::NEEDS_VEH_REPAIR ) {
+
+        map &here = get_map();
+        const vehicle *veh = veh_pointer_or_null( here.veh_at( src_loc ) );
+        // we already checked this in can_do_activity() but check again just incase.
+        if( !veh ) {
+            you.activity_vehicle_part_index = 1;
+            return std::nullopt;
+        }
+        requirement_data reqs;
+        if( you.activity_vehicle_part_index >= 0 &&
+            you.activity_vehicle_part_index < static_cast<int>( veh->part_count() ) ) {
+            const vpart_info &vpi = veh->part( you.activity_vehicle_part_index ).info();
+            if( reason == do_activity_reason::NEEDS_VEH_DECONST ) {
+                reqs = vpi.removal_requirements();
+            } else if( reason == do_activity_reason::NEEDS_VEH_REPAIR ) {
+                reqs = vpi.repair_requirements();
+            }
+        }
+        return hash_and_cache_requirement_data( reqs );
+    }
+    return requirement_id::NULL_ID();
+}
+
+std::optional<requirement_id> mining_requirements( Character &,
+        activity_reason_info &act_info, const tripoint_bub_ms & )
+{
+    if( act_info.reason == do_activity_reason::NEEDS_MINING ) {
+        return requirement_data_mining_standard;
+    }
+    return requirement_id::NULL_ID();
+}
+
+std::optional<requirement_id> farm_requirements( Character &,
+        activity_reason_info &act_info, const tripoint_bub_ms &, const zone_data *zone )
+{
+
+    const do_activity_reason &reason = act_info.reason;
+
+    if( reason == do_activity_reason::NEEDS_TILLING ) {
+        return requirement_data_multi_farm_tilling;
+    } else if( reason == do_activity_reason::NEEDS_PLANTING ) {
+        // we can't hardcode individual seed types in JSON, so make a custom requirement
+        requirement_data::alter_item_comp_vector requirement_comp_vector = { {
+                item_comp( itype_id( dynamic_cast<const plot_options &>
+                                     ( zone->get_options() ).get_seed() ), 1 )
+            }
+        };
+        requirement_data::alter_quali_req_vector quality_comp_vector; //no qualities required
+        requirement_data::alter_tool_comp_vector tool_comp_vector; //no tools required
+        return synthesize_requirements( requirement_comp_vector, quality_comp_vector, tool_comp_vector );
+    } else if( reason == do_activity_reason::NEEDS_CUT_HARVESTING ) {
+        return requirement_data_multi_farm_cut_harvesting;
+    }
+    return requirement_id::NULL_ID();
+}
+
+std::optional<requirement_id> chop_planks_requirements( Character &,
+        activity_reason_info &act_info, const tripoint_bub_ms & )
+{
+    if( act_info.reason == do_activity_reason::NEEDS_CHOPPING ) {
+        return requirement_data_multi_chopping_planks;
+    }
+    return requirement_id::NULL_ID();
+}
+
+std::optional<requirement_id> chop_trees_requirements( Character &,
+        activity_reason_info &act_info, const tripoint_bub_ms & )
+{
+    if( act_info.reason == do_activity_reason::NEEDS_TREE_CHOPPING ) {
+        return requirement_data_multi_chopping_trees;
+    }
+    return requirement_id::NULL_ID();
+}
+
+std::optional<requirement_id> butcher_requirements( Character &,
+        activity_reason_info &act_info, const tripoint_bub_ms & )
+{
+    if( act_info.reason == do_activity_reason::NEEDS_BUTCHERING ) {
+        return requirement_data_multi_butcher;
+    } else if( act_info.reason == do_activity_reason::NEEDS_BIG_BUTCHERING ) {
+        return requirement_data_multi_butcher_big;
+    }
+    return requirement_id::NULL_ID();
+}
+
+std::optional<requirement_id> fish_requirements( Character &,
+        activity_reason_info &act_info, const tripoint_bub_ms & )
+{
+    if( act_info.reason == do_activity_reason::NEEDS_FISHING ) {
+        return requirement_data_multi_fishing;
+    }
+    return requirement_id::NULL_ID();
+}
+
+std::optional<requirement_id> craft_requirements( Character &,
+        activity_reason_info &act_info, const tripoint_bub_ms & )
+{
+    if( act_info.reason == do_activity_reason::NEEDS_CRAFT ) {
+        return synthesize_requirements( act_info.req.get_components(),
+                                        act_info.req.get_qualities(), act_info.req.get_tools() );
+    }
+    return requirement_id::NULL_ID();
+}
+
+std::optional<requirement_id> disassemble_requirements( Character &,
+        activity_reason_info &act_info, const tripoint_bub_ms & )
+{
+    if( act_info.reason == do_activity_reason::NEEDS_DISASSEMBLE ) {
+        requirement_data::alter_item_comp_vector requirement_comp_vector; //no items required
+        return synthesize_requirements( requirement_comp_vector,
+                                        act_info.req.get_qualities(), act_info.req.get_tools() );
+    }
+    return requirement_id::NULL_ID();
+}
+
 } //namespace multi_activity_actor
 
 
@@ -2711,16 +3089,6 @@ static bool chop_tree_activity( Character &you, const tripoint_bub_ms &src_loc )
     return false;
 }
 
-static void check_npc_revert( Character &you )
-{
-    if( you.is_npc() ) {
-        npc *guy = dynamic_cast<npc *>( &you );
-        if( guy ) {
-            guy->revert_after_activity();
-        }
-    }
-}
-
 static zone_type_id get_zone_for_act( const tripoint_bub_ms &src_loc, const zone_manager &mgr,
                                       const activity_id &act_id, const faction_id &fac_id )
 {
@@ -3063,7 +3431,6 @@ static requirement_check_result generic_multi_activity_check_requirement(
     const std::unordered_set<tripoint_abs_ms> &src_set, const bool check_only = false )
 {
     map &here = get_map();
-    const tripoint_abs_ms abspos = here.get_abs( you.pos_bub() );
     zone_manager &mgr = zone_manager::get_manager();
 
     bool &can_do_it = act_info.can_do;
@@ -3072,24 +3439,14 @@ static requirement_check_result generic_multi_activity_check_requirement(
         mgr.get_zone_at( src, get_zone_for_act( src_loc, mgr, act_id, _fac_id( you ) ),
                          _fac_id( you ) );
 
-    const bool needs_to_be_in_zone = act_id == ACT_FETCH_REQUIRED ||
-                                     act_id == ACT_MULTIPLE_FARM ||
-                                     act_id == ACT_MULTIPLE_BUTCHER ||
-                                     act_id == ACT_MULTIPLE_CHOP_PLANKS ||
-                                     act_id == ACT_MULTIPLE_CHOP_TREES ||
-                                     act_id == ACT_VEHICLE_DECONSTRUCTION ||
-                                     act_id == ACT_VEHICLE_REPAIR ||
-                                     act_id == ACT_MULTIPLE_FISH ||
-                                     act_id == ACT_MULTIPLE_MINE ||
-                                     act_id == ACT_MULTIPLE_DIS ||
-                                     ( act_id == ACT_MULTIPLE_CONSTRUCTION &&
-                                       !here.partial_con_at( src_loc ) );
+    const bool needs_to_be_in_zone = multi_activity_actor::activity_must_be_in_zone( act_id, src_loc );
     // some activities require the target tile to be part of a zone.
     // tidy up activity doesn't - it wants things that may not be in a zone already - things that may have been left lying around.
     if( needs_to_be_in_zone && !zone ) {
         can_do_it = false;
         return requirement_check_result::SKIP_LOCATION_NO_ZONE;
     }
+    // requirements were pre-satisfied
     if( can_do_it ) {
         return requirement_check_result::CAN_DO_LOCATION;
     }
@@ -3101,60 +3458,10 @@ static requirement_check_result generic_multi_activity_check_requirement(
                                     you.disp_name() );
         }
     }
-    if( reason == do_activity_reason::DONT_HAVE_SKILL ||
-        reason == do_activity_reason::NO_ZONE ||
-        reason == do_activity_reason::NO_VEHICLE ||
-        reason == do_activity_reason::ALREADY_DONE ||
-        reason == do_activity_reason::BLOCKING_TILE ||
-        reason == do_activity_reason::UNKNOWN_ACTIVITY ) {
-        // we can discount this tile, the work can't be done.
-        if( reason == do_activity_reason::DONT_HAVE_SKILL ) {
-            if( zone ) {
-                you.add_msg_if_player( m_info, _( "You don't have the skill for the %1$s task at zone %2$s." ),
-                                       act_id.c_str(), zone->get_name() );
-            } else {
-                you.add_msg_if_player( m_info, _( "You don't have the skill for the %s task." ), act_id.c_str() );
-            }
-        } else if( reason == do_activity_reason::BLOCKING_TILE ) {
-            if( zone ) {
-                you.add_msg_if_player( m_info,
-                                       _( "There is something blocking the location for the %1$s task at zone %2$s." ), act_id.c_str(),
-                                       zone->get_name() );
-            } else {
-                you.add_msg_if_player( m_info, _( "There is something blocking the location for the %s task." ),
-                                       act_id.c_str() );
-            }
-        }
-        if( you.is_npc() ) {
-            if( reason == do_activity_reason::DONT_HAVE_SKILL ) {
-                return requirement_check_result::SKIP_LOCATION_NO_SKILL;
-            } else if( reason == do_activity_reason::NO_ZONE ) {
-                return requirement_check_result::SKIP_LOCATION_NO_ZONE;
-            } else if( reason == do_activity_reason::NO_VEHICLE ) {
-                return requirement_check_result::SKIP_LOCATION_NO_MATCH;
-            } else if( reason == do_activity_reason::ALREADY_DONE ) {
-                return requirement_check_result::SKIP_LOCATION;
-            } else if( reason == do_activity_reason::BLOCKING_TILE ) {
-                return requirement_check_result::SKIP_LOCATION_BLOCKING;
-            } else if( reason == do_activity_reason::UNKNOWN_ACTIVITY ) {
-                return requirement_check_result::SKIP_LOCATION_UNKNOWN_ACTIVITY;
-            }
-        } else {
-            return requirement_check_result::SKIP_LOCATION;
-        }
-    } else if( reason == do_activity_reason::NO_COMPONENTS ||
-               reason == do_activity_reason::NEEDS_CUT_HARVESTING ||
-               reason == do_activity_reason::NEEDS_PLANTING ||
-               reason == do_activity_reason::NEEDS_TILLING ||
-               reason == do_activity_reason::NEEDS_CHOPPING ||
-               reason == do_activity_reason::NEEDS_BUTCHERING ||
-               reason == do_activity_reason::NEEDS_BIG_BUTCHERING ||
-               reason == do_activity_reason::NEEDS_VEH_DECONST ||
-               reason == do_activity_reason::NEEDS_VEH_REPAIR ||
-               reason == do_activity_reason::NEEDS_TREE_CHOPPING ||
-               reason == do_activity_reason::NEEDS_FISHING || reason == do_activity_reason::NEEDS_MINING ||
-               reason == do_activity_reason::NEEDS_CRAFT ||
-               reason == do_activity_reason::NEEDS_DISASSEMBLE ) {
+
+    if( multi_activity_actor::activity_reason_quit( reason ) ) {
+        return multi_activity_actor::requirement_fail( you, reason, act_id, zone );
+    } else if( multi_activity_actor::activity_reason_continue( reason ) ) {
         // we can do it, but we need to fetch some stuff first
         // before we set the task to fetch components - is it even worth it? are the components anywhere?
         if( you.is_npc() ) {
@@ -3168,11 +3475,12 @@ static requirement_check_result generic_multi_activity_check_requirement(
                                         you.disp_name(), act_id.c_str(), do_activity_reason_string[int( reason )] );
             }
         }
-        requirement_id what_we_need;
+
+        //set up loot and in-range locations
         std::vector<tripoint_bub_ms> loot_zone_spots;
         std::vector<tripoint_bub_ms> combined_spots;
         for( const tripoint_bub_ms &elem : mgr.get_point_set_loot(
-                 abspos, MAX_VIEW_DISTANCE, you.is_npc(), _fac_id( you ) ) ) {
+                 you.pos_abs(), MAX_VIEW_DISTANCE, you.is_npc(), _fac_id( you ) ) ) {
             loot_zone_spots.emplace_back( elem );
             combined_spots.emplace_back( elem );
         }
@@ -3182,148 +3490,41 @@ static requirement_check_result generic_multi_activity_check_requirement(
         }
         add_basecamp_storage_to_loot_zone_list( mgr, src_loc, you, loot_zone_spots, combined_spots );
 
-        if( reason == do_activity_reason::NO_COMPONENTS && act_id == ACT_MULTIPLE_CONSTRUCTION ) {
-            if( !act_info.con_idx ) {
-                debugmsg( "no construction selected" );
-                return requirement_check_result::SKIP_LOCATION;
-            }
-            // its a construction and we need the components.
-            const construction &built_chosen = act_info.con_idx->obj();
-            what_we_need = built_chosen.requirements;
-        } else if( reason == do_activity_reason::NEEDS_VEH_DECONST ||
-                   reason == do_activity_reason::NEEDS_VEH_REPAIR ) {
-            const vehicle *veh = veh_pointer_or_null( here.veh_at( src_loc ) );
-            // we already checked this in can_do_activity() but check again just incase.
-            if( !veh ) {
-                you.activity_vehicle_part_index = 1;
-                return requirement_check_result::SKIP_LOCATION;
-            }
-            requirement_data reqs;
-            if( you.activity_vehicle_part_index >= 0 &&
-                you.activity_vehicle_part_index < static_cast<int>( veh->part_count() ) ) {
-                const vpart_info &vpi = veh->part( you.activity_vehicle_part_index ).info();
-                if( reason == do_activity_reason::NEEDS_VEH_DECONST ) {
-                    reqs = vpi.removal_requirements();
-                } else if( reason == do_activity_reason::NEEDS_VEH_REPAIR ) {
-                    reqs = vpi.repair_requirements();
-                }
-            }
-            const requirement_id req_id( std::to_string( reqs.make_hash() ) );
-            if( requirement_data::all().count( req_id )  == 0 ) {
-                requirement_data::save_requirement( reqs, req_id );
-            }
-            what_we_need = req_id;
-        } else if( reason == do_activity_reason::NEEDS_MINING ) {
-            what_we_need = requirement_data_mining_standard;
-        } else if( reason == do_activity_reason::NEEDS_TILLING ||
-                   reason == do_activity_reason::NEEDS_PLANTING ||
-                   reason == do_activity_reason::NEEDS_CHOPPING ||
-                   reason == do_activity_reason::NEEDS_CUT_HARVESTING ||
-                   reason == do_activity_reason::NEEDS_BUTCHERING ||
-                   reason == do_activity_reason::NEEDS_BIG_BUTCHERING ||
-                   reason == do_activity_reason::NEEDS_TREE_CHOPPING ||
-                   reason == do_activity_reason::NEEDS_FISHING ||
-                   reason == do_activity_reason::NEEDS_CRAFT ||
-                   reason == do_activity_reason::NEEDS_DISASSEMBLE ) {
-            std::vector<std::vector<item_comp>> requirement_comp_vector;
-            std::vector<std::vector<quality_requirement>> quality_comp_vector;
-            std::vector<std::vector<tool_comp>> tool_comp_vector;
-            if( reason == do_activity_reason::NEEDS_TILLING ) {
-                quality_comp_vector.push_back( std::vector<quality_requirement> { quality_requirement( qual_DIG, 1, 1 ) } );
-            } else if( reason == do_activity_reason::NEEDS_CHOPPING ||
-                       reason == do_activity_reason::NEEDS_TREE_CHOPPING ) {
-                quality_comp_vector.push_back( std::vector<quality_requirement> { quality_requirement( qual_AXE, 1, 1 ) } );
-            } else if( reason == do_activity_reason::NEEDS_PLANTING ) {
-                requirement_comp_vector.push_back( std::vector<item_comp> { item_comp( itype_id( dynamic_cast<const plot_options &>
-                                                   ( zone->get_options() ).get_seed() ), 1 )
-                                                                          } );
-            } else if( reason == do_activity_reason::NEEDS_CUT_HARVESTING ) {
-                quality_comp_vector.push_back( std::vector<quality_requirement> { quality_requirement( qual_GRASS_CUT, 1, 1 ) } );
-            } else if( reason == do_activity_reason::NEEDS_BUTCHERING ||
-                       reason == do_activity_reason::NEEDS_BIG_BUTCHERING ) {
-                quality_comp_vector.push_back( std::vector<quality_requirement> { quality_requirement( qual_BUTCHER, 1, 1 ) } );
-                if( reason == do_activity_reason::NEEDS_BIG_BUTCHERING ) {
-                    quality_comp_vector.push_back( std::vector<quality_requirement> { quality_requirement( qual_SAW_M, 1, 1 ), quality_requirement( qual_SAW_W, 1, 1 ) } );
-                }
-
-            } else if( reason == do_activity_reason::NEEDS_FISHING ) {
-                quality_comp_vector.push_back( std::vector<quality_requirement> {quality_requirement( qual_FISHING_ROD, 1, 1 )} );
-            } else if( reason == do_activity_reason::NEEDS_CRAFT ) {
-                requirement_comp_vector = act_info.req.get_components();
-                quality_comp_vector = act_info.req.get_qualities();
-                tool_comp_vector = act_info.req.get_tools();
-            } else if( reason == do_activity_reason::NEEDS_DISASSEMBLE ) {
-                quality_comp_vector = act_info.req.get_qualities();
-                tool_comp_vector = act_info.req.get_tools();
-            }
-            // ok, we need a shovel/hoe/axe/etc.
-            // this is an activity that only requires this one tool, so we will fetch and wield it.
-            requirement_data reqs_data = requirement_data( tool_comp_vector, quality_comp_vector,
-                                         requirement_comp_vector );
-            const requirement_id req_id( std::to_string( reqs_data.make_hash() ) );
-            if( requirement_data::all().count( req_id )  == 0 ) {
-                requirement_data::save_requirement( reqs_data, req_id );
-            }
-            what_we_need = req_id;
+        //begin requirements
+        std::optional<requirement_id> activity_requirements;
+        if( act_id == ACT_MULTIPLE_CONSTRUCTION ) {
+            activity_requirements = multi_activity_actor::construction_requirements( you, act_info, src_loc );
+        } else if( act_id == ACT_VEHICLE_REPAIR ||
+                   act_id == ACT_VEHICLE_DECONSTRUCTION ) {
+            activity_requirements = multi_activity_actor::vehicle_work_requirements( you, act_info, src_loc );
+        } else if( act_id == ACT_MULTIPLE_MINE ) {
+            activity_requirements = multi_activity_actor::mining_requirements( you, act_info, src_loc );
+        } else if( act_id == ACT_MULTIPLE_FARM ) {
+            activity_requirements = multi_activity_actor::farm_requirements( you, act_info, src_loc, zone );
+        } else if( act_id == ACT_MULTIPLE_CHOP_TREES ) {
+            activity_requirements = multi_activity_actor::chop_trees_requirements( you, act_info, src_loc );
+        } else if( act_id == ACT_MULTIPLE_CHOP_PLANKS ) {
+            activity_requirements = multi_activity_actor::chop_planks_requirements( you, act_info, src_loc );
+        } else if( act_id == ACT_MULTIPLE_BUTCHER ) {
+            activity_requirements = multi_activity_actor::butcher_requirements( you, act_info, src_loc );
+        } else if( act_id == ACT_MULTIPLE_FISH ) {
+            activity_requirements = multi_activity_actor::fish_requirements( you, act_info, src_loc );
+        } else if( act_id == ACT_MULTIPLE_CRAFT ) {
+            activity_requirements = multi_activity_actor::craft_requirements( you, act_info, src_loc );
+        } else if( act_id == ACT_MULTIPLE_DIS ) {
+            activity_requirements = multi_activity_actor::disassemble_requirements( you, act_info, src_loc );
         }
-        bool tool_pickup = reason == do_activity_reason::NEEDS_TILLING ||
-                           reason == do_activity_reason::NEEDS_PLANTING ||
-                           reason == do_activity_reason::NEEDS_CHOPPING ||
-                           reason == do_activity_reason::NEEDS_CUT_HARVESTING ||
-                           reason == do_activity_reason::NEEDS_BUTCHERING ||
-                           reason == do_activity_reason::NEEDS_BIG_BUTCHERING ||
-                           reason == do_activity_reason::NEEDS_TREE_CHOPPING ||
-                           reason == do_activity_reason::NEEDS_VEH_DECONST ||
-                           reason == do_activity_reason::NEEDS_VEH_REPAIR ||
-                           reason == do_activity_reason::NEEDS_MINING;
+        //end requirements
 
+        // requirement check was invalid, skip this location
+        if( !activity_requirements || *activity_requirements == requirement_id::NULL_ID() ) {
+            return requirement_check_result::SKIP_LOCATION;
+        }
         // Remove the requirements already met
-        requirement_data reqs = what_we_need.obj();
-        requirement_data reduced_reqs;
-        requirement_data::alter_tool_comp_vector tool_reqs_vector = reqs.get_tools();
-        requirement_data::alter_quali_req_vector quality_reqs_vector = reqs.get_qualities();
-        requirement_data::alter_item_comp_vector component_reqs_vector = reqs.get_components();
-        requirement_data::alter_tool_comp_vector reduced_tool_reqs_vector;
-        requirement_data::alter_quali_req_vector reduced_quality_reqs_vector;
+        requirement_id what_we_need = multi_activity_actor::remove_met_requirements( *activity_requirements,
+                                      you );
 
-        inventory inv = you.crafting_inventory();
-
-        for( std::vector<tool_comp> &tools : tool_reqs_vector ) {
-            bool found = false;
-
-            for( tool_comp &tool : tools ) {
-                if( inv.has_tools( tool.type, tool.count ) ) {
-                    found = true;
-                }
-            }
-
-            if( !found ) {
-                reduced_tool_reqs_vector.push_back( tools );
-            }
-        }
-
-        for( std::vector<quality_requirement> &qualities : quality_reqs_vector ) {
-            bool found = false;
-
-            for( quality_requirement &qual : qualities ) {
-                if( inv.has_quality( qual.type, qual.level ) ) {
-                    found = true;
-                }
-            }
-
-            if( !found ) {
-                reduced_quality_reqs_vector.push_back( qualities );
-            }
-        }
-
-        reduced_reqs = requirement_data( reduced_tool_reqs_vector, reduced_quality_reqs_vector,
-                                         component_reqs_vector );
-        const requirement_id req_id( std::to_string( reduced_reqs.make_hash() ) );
-        if( requirement_data::all().count( req_id ) == 0 ) {
-            requirement_data::save_requirement( reduced_reqs, req_id );
-        }
-        what_we_need = req_id;
-
+        bool tool_pickup = multi_activity_actor::activity_reason_picks_up_tools( reason );
         // is it even worth fetching anything if there isn't enough nearby?
         if( !are_requirements_nearby( tool_pickup ? loot_zone_spots : combined_spots, what_we_need, you,
                                       act_id, tool_pickup, src_loc ) ) {
@@ -3338,6 +3539,7 @@ static requirement_check_result generic_multi_activity_check_requirement(
                                            _( "The required items are not available to complete the %s task." ), act_id.c_str(),
                                            _( "The required items are not available to complete the %s task." ), act_id.c_str() );
             }
+            //TODO: this is hacky, move it
             if( reason == do_activity_reason::NEEDS_VEH_DECONST ||
                 reason == do_activity_reason::NEEDS_VEH_REPAIR ) {
                 you.activity_vehicle_part_index = -1;
@@ -3345,48 +3547,8 @@ static requirement_check_result generic_multi_activity_check_requirement(
             return requirement_check_result::SKIP_LOCATION;
         } else {
             if( !check_only ) {
-                if( you.as_npc() && you.as_npc()->job.fetch_history.count( what_we_need.str() ) != 0 &&
-                    you.as_npc()->job.fetch_history[what_we_need.str()] == calendar::turn ) {
-                    // this may be faild fetch already. give up task for a while to avoid infinite loop.
-                    you.activity = player_activity();
-                    you.backlog.clear();
-                    check_npc_revert( you );
-                    return requirement_check_result::SKIP_LOCATION;
-                }
-                you.backlog.emplace_front( act_id );
-                you.assign_activity( ACT_FETCH_REQUIRED );
-                player_activity &act_prev = you.backlog.front();
-                act_prev.str_values.push_back( what_we_need.str() );
-                act_prev.values.push_back( static_cast<int>( reason ) );
-                // come back here after successfully fetching your stuff
-                if( act_prev.coords.empty() ) {
-                    std::vector<tripoint_bub_ms> local_src_set;
-                    local_src_set.reserve( src_set.size() );
-                    for( const tripoint_abs_ms &elem : src_set ) {
-                        local_src_set.push_back( here.get_bub( elem ) );
-                    }
-                    std::vector<tripoint_bub_ms> candidates;
-                    for( const tripoint_bub_ms &point_elem :
-                         here.points_in_radius( src_loc, /*radius=*/PICKUP_RANGE - 1, /*radiusz=*/0 ) ) {
-                        // we don't want to place the components where they could interfere with our ( or someone else's ) construction spots
-                        if( ( std::find( local_src_set.begin(), local_src_set.end(),
-                                         point_elem ) != local_src_set.end() ) || !here.can_put_items_ter_furn( point_elem ) ) {
-                            continue;
-                        }
-                        candidates.push_back( point_elem );
-                    }
-                    if( candidates.empty() ) {
-                        you.activity = player_activity();
-                        you.backlog.clear();
-                        check_npc_revert( you );
-                        return requirement_check_result::SKIP_LOCATION_NO_LOCATION;
-                    }
-                    act_prev.coords.push_back(
-                        here.get_abs(
-                            candidates[std::max( 0, static_cast<int>( candidates.size() / 2 ) )] )
-                    );
-                }
-                act_prev.placement = src;
+                return multi_activity_actor::fetch_requirements( you, what_we_need, act_id,
+                        act_info, src, src_loc, src_set );
             }
             return requirement_check_result::RETURN_EARLY;
         }

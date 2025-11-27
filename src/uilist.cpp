@@ -510,10 +510,6 @@ void uilist::init()
 
     input_category = "UILIST";
     additional_actions.clear();
-
-    if( ui ) {
-        ui.reset();
-    }
 }
 
 input_context uilist::create_main_input_context() const
@@ -873,21 +869,22 @@ bool uilist::scrollby( const uilist::scroll_amount scrollby )
 
 shared_ptr_fast<uilist_impl> uilist::create_or_get_ui()
 {
-    if( !ui ) {
+    shared_ptr_fast<uilist_impl> current_ui = ui.lock();
+    if( !current_ui ) {
         if( title.empty() ) {
-            ui = make_shared_fast<uilist_impl>( *this );
+            ui = current_ui = make_shared_fast<uilist_impl>( *this );
         } else {
-            ui =  make_shared_fast<uilist_impl>( *this, title );
+            ui = current_ui = make_shared_fast<uilist_impl>( *this, title );
         }
     }
-    return ui;
+    return current_ui;
 }
 
 /**
  * Handle input and update display
  *
  */
-void uilist::query( bool loop, int timeout, bool allow_unfiltered_hotkeys )
+shared_ptr_fast<uilist_impl> uilist::query( bool loop, int timeout, bool allow_unfiltered_hotkeys )
 {
 #if defined(__ANDROID__)
     if( get_option<bool>( "ANDROID_NATIVE_UI" ) && !entries.empty() && !desired_bounds ) {
@@ -950,20 +947,18 @@ void uilist::query( bool loop, int timeout, bool allow_unfiltered_hotkeys )
         } else {
             ret = UILIST_ERROR;
         }
-        return;
+        return nullptr;
     }
 #endif
     ret_evt = input_event();
     if( entries.empty() ) {
         ret = UILIST_ERROR;
-        return;
+        return nullptr;
     }
     ret = UILIST_WAIT_INPUT;
 
     input_context ctxt = create_main_input_context();
 
-    // Ensure we have a uilist to work on
-    // TODO: We don't even use the return value here, find a better solution
     shared_ptr_fast<uilist_impl> ui = create_or_get_ui();
 
 #if defined(__ANDROID__)
@@ -1041,6 +1036,8 @@ void uilist::query( bool loop, int timeout, bool allow_unfiltered_hotkeys )
             }
         }
     } while( loop && ret == UILIST_WAIT_INPUT );
+
+    return ui;
 }
 
 ///@}

@@ -255,15 +255,13 @@
     "comestible_type": "MED",
     "consumption_effect_on_conditions": [ "EOC_warpextender" ],
     "name": { "str": "earthbound pill" },
-    "description": "This pseudomagical pill extends the amount of time you can stay earthside by 4 pulses, or about 50% of a normal trip.  They're precious, but should help buy time for a difficult extract.",
+    "description": "This pseudomagical pill extends the amount of time you can stay earthside by 4 pulses, or about 50% of a normal trip.  They're precious, but should help buy time for a difficult extract.  However, the air of the lower world destabilizes its structure and it will only last a single trip to the surface",
     "weight": "15 g",
     "volume": "5 ml",
     "looks_like": "panacea",
     "material": [ "plastic" ],
     "symbol": "!",
     "flags": [ "TRADER_AVOID", "UNBREAKABLE" ],
-    "freezing_point": -1000,
-    "spoils_in": "10 days",
     "color": "red"
   },
   {
