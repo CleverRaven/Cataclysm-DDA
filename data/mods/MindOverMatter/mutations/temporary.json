@@ -104,8 +104,8 @@
   {
     "type": "mutation",
     "id": "CLAIR_ASTRAL_PROJECTION_APPEARANCE",
-    "name": { "str": "Astral Form", "//~": "NO_I18N" },
-    "description": { "str": "You're a disembodied mind so you're all glowy and blue.  Spooky!", "//~": "NO_I18N" },
+    "name": { "str": "Astral Form" },
+    "description": "You're a disembodied mind so you're all glowy and blue.  Spooky!",
     "points": 0,
     "valid": false,
     "player_display": false,
@@ -444,8 +444,8 @@
   {
     "type": "mutation",
     "id": "GENERIC_UNCANNY_DODGE_TRAIT",
-    "name": { "str": "The Trait That Gives you Uncanny Dodge", "//~": "NO_I18N" },
-    "description": { "str": "Uncanny Dodge now works for effect flags, but preserve this for conditional logic.", "//~": "NO_I18N" },
+    "name": { "str": "The Trait That Gives you Uncanny Dodge" },
+    "description": "Uncanny Dodge now works for effect flags, but preserve this for conditional logic.",
     "points": 1,
     "starting_trait": false,
     "purifiable": false,
