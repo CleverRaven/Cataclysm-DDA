@@ -29,6 +29,19 @@
   },
   {
     "type": "talk_topic",
+    "id": "TALK_Liam_Mission_Bury_Chris_1_return",
+    "dynamic_line": "*takes the shovel with a nod.  \"Thanks.  OK.  Make sure you've got your own shovel, and then let's get to work.\"",
+    "responses": [
+      {
+        "text": "What's next?",
+        "effect": { "math": [ "Chris_bury_progress = 21" ] },
+        "topic": "TALK_Liam_Mission_Bury_Chris_2_describe"
+      },
+      { "text": "There's other stuff to do.  Let's talk about this later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
     "id": "TALK_Liam_Mission_Bury_Chris_2_describe",
     "dynamic_line": "*inhales slowly, grasping the handle of the shovel tight.  \"I've thought about this.  Behind the cabin, there's a big old elm tree.  Chris came out here one summer when we were thirteen, we put a tire swing up in there.  There's a patch of ground out there that still doesn't have much grass on it.  Dad took the tire down a few years ago though.  That's as good a spot as any, right?  I hope Chris looks back on that summer like I do.\"  He wipes his nose with his sleeve, looking at you self-consciously.",
     "responses": [
@@ -40,11 +53,11 @@
     "type": "talk_topic",
     "id": "TALK_Liam_Mission_Bury_Chris_2_assign",
     "dynamic_line": "*nods.  \"Do you need me to give you any tips?  I've dug a few holes in my day.\"",
+    "speaker_effect": { "effect": [ { "add_mission": "MISSION_Liam_Bury_Chris_2" }, { "math": [ "Chris_bury_progress = 22" ] } ] },
     "responses": [
       {
-        "text": "I know how to dig a hole, Liam.",
-        "effect": [ { "add_mission": "MISSION_Liam_Bury_Chris_1" }, { "math": [ "Chris_bury_progress = 11" ] } ],
-        "topic": "TALK_Liam_Mission_Bury_Chris_1_assign"
+        "text": "I know how to dig a hole.  Let's go.",
+        "topic": "TALK_DONE"
       },
       {
         "text": "[TUTORIAL] Sure, give me some pointers.",
@@ -56,18 +69,13 @@
   {
     "type": "talk_topic",
     "id": "TALK_Liam_Tutorial_Construction",
-    "dynamic_line": "You're going to want to head North to the backyard of my cabin, and look for a single patch of dirt just south of an elm tree.  You can identify the type of tree by <color=yellow>moving your mouse over it</color> or <color=yellow>pressing <press_examine></color> to examine it, but there's only one tree out there.  Once you've identified the spot, stand next to it and press <press_construct> to open the construction menu.  Choose 'dig a shallow pit', and select the dirt.  I'll help dig of course.  When we're done, go back to the construction menu and select 'dig a pit', and select our shallow pit.  That should get us a deep enough pit.",
+    "dynamic_line": "You're going to want to head North to the backyard of my cabin, and look for a single patch of dirt just south of an elm tree.  You can identify the type of tree by <color=yellow>moving your mouse over it</color> or <color=yellow>pressing <press_examine></color> to examine it, but there's only one tree out there.  Once you've identified the spot, stand next to it and <color=yellow>press <press_construct></color> to open the construction menu.  Choose <color=yellow>'dig a shallow pit'</color>, and select the dirt.  I'll help dig of course, as long as <color=yellow>I am following and nearby</color>.  When we're done, go back to the construction menu and select 'dig a pit', and select our shallow pit.  That should get us a deep enough pit.",
     "responses": [
       {
-        "text": "I know how to dig a hole, Liam.",
-        "effect": [ { "add_mission": "MISSION_Liam_Bury_Chris_1" }, { "math": [ "Chris_bury_progress = 11" ] } ],
-        "topic": "TALK_Liam_Mission_Bury_Chris_1_assign"
+        "text": "Thanks for breaking the fourth wall on my account.  Let's go.",
+        "topic": "TALK_DONE"
       },
-      {
-        "text": "[TUTORIAL] Sure, give me some pointers.",
-        "topic": "TALK_Liam_Tutorial_Construction"
-      },
-      { "text": "Wait.  I wanted to talk about something else first.", "topic": "TALK_FRIEND_Liam" }
+      { "text": "I wanted to talk about something else before we get started.", "topic": "TALK_FRIEND_Liam" }
     ]
   },
   {
