@@ -640,6 +640,20 @@ void study_zone_options::deserialize( const JsonObject &jo_zone )
     npc_prefs_value.read( npc_skill_preferences );
 }
 
+const std::set<skill_id> *study_zone_options::get_skill_preferences( const std::string &npc_name )
+const
+{
+    std::map<std::string, std::set<skill_id>>::const_iterator it = npc_skill_preferences.find(
+            npc_name );
+    if( it == npc_skill_preferences.end() ) {
+        return nullptr;
+    }
+    if( it->second.empty() ) {
+        return nullptr;
+    }
+    return &it->second;
+}
+
 std::optional<std::string> zone_manager::query_name( const std::string &default_name ) const
 {
     string_input_popup_imgui popup( 55, default_name );

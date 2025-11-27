@@ -365,16 +365,7 @@ class study_zone_options : public zone_options
 
     public:
         // get skill preferences for a specific NPC, return nullptr if NPC should read all books.
-        const std::set<skill_id> *get_skill_preferences( const std::string &npc_name ) const {
-            auto it = npc_skill_preferences.find( npc_name );
-            if( it == npc_skill_preferences.end() ) {
-                return nullptr;
-            }
-            if( it->second.empty() ) {
-                return nullptr;
-            }
-            return &it->second;
-        }
+        const std::set<skill_id> *get_skill_preferences( const std::string &npc_name ) const;
 
         bool has_options() const override {
             return true;

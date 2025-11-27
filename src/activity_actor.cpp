@@ -158,6 +158,7 @@ static const activity_id ACT_MOP( "ACT_MOP" );
 static const activity_id ACT_MOVE_ITEMS( "ACT_MOVE_ITEMS" );
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
+static const activity_id ACT_MULTIPLE_STUDY( "ACT_MULTIPLE_STUDY" );
 static const activity_id ACT_OPEN_GATE( "ACT_OPEN_GATE" );
 static const activity_id ACT_OXYTORCH( "ACT_OXYTORCH" );
 static const activity_id ACT_PICKUP( "ACT_PICKUP" );
@@ -1676,7 +1677,7 @@ static bool cancel_if_book_invalid(
 
 static bool handle_study_zone_resume( player_activity &act, Character &who, const item *book )
 {
-    if( who.backlog.empty() || who.backlog.front().id() != activity_id( "ACT_MULTIPLE_STUDY" ) ) {
+    if( who.backlog.empty() || who.backlog.front().id() != ACT_MULTIPLE_STUDY ) {
         return false;
     }
 

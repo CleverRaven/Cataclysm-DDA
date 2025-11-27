@@ -1,6 +1,7 @@
 #include "study_zone_ui.h"
 
 #include <algorithm>
+#include <array>
 #include <cctype>
 #include <cstring>
 #include <set>
@@ -34,7 +35,7 @@ static int filter_skill_input_callback( ImGuiInputTextCallbackData *data )
 class study_zone_window : public cataimgui::window
 {
     public:
-        study_zone_window( std::map<std::string, std::set<skill_id>> &npc_skill_preferences ) :
+        explicit study_zone_window( std::map<std::string, std::set<skill_id>> &npc_skill_preferences ) :
             cataimgui::window( _( "Study Zone Skill Preferences" ), ImGuiWindowFlags_NoNavInputs ),
             npc_skill_preferences( npc_skill_preferences ) {
             ctxt = input_context( "STUDY_ZONE_UI" );
@@ -151,12 +152,12 @@ class study_zone_window : public cataimgui::window
             }
 
             ImGui::SetNextItemWidth( 300.0f );
-            char filter_buffer[256] = {0};
-            strncpy( filter_buffer, skill_filter.c_str(), sizeof( filter_buffer ) - 1 );
-            ImGui::InputText( filter_input_id.c_str(), filter_buffer, sizeof( filter_buffer ),
+            std::array<char, 256> filter_buffer = {0};
+            strncpy( filter_buffer.data(), skill_filter.c_str(), filter_buffer.size() - 1 );
+            ImGui::InputText( filter_input_id.c_str(), filter_buffer.data(), filter_buffer.size(),
                               ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_CallbackCharFilter,
                               filter_skill_input_callback );
-            skill_filter = filter_buffer;
+            skill_filter = filter_buffer.data();
 
             ImGui::SameLine();
             if( ImGui::Button( _( "Check All" ) ) ) {
