@@ -123,7 +123,7 @@
       "destroyed_field": [ "fd_splinters", 1 ]
     },
     "examine_action": "workbench",
-    "workbench": { "multiplier": 1.1, "mass": 200000, "volume": "75L" }
+    "workbench": { "multiplier": 1.1, "mass": "200 kg", "volume": "75L" }
   },
   {
     "type": "furniture",
@@ -173,7 +173,7 @@
       "destroyed_field": [ "fd_splinters", 1 ]
     },
     "examine_action": "workbench",
-    "workbench": { "multiplier": 1.1, "mass": 200000, "volume": "75L" }
+    "workbench": { "multiplier": 1.1, "mass": "200 kg", "volume": "75L" }
   },
   {
     "type": "furniture",
@@ -256,7 +256,7 @@
       "destroyed_field": [ "fd_splinters", 1 ]
     },
     "examine_action": "workbench",
-    "workbench": { "multiplier": 1.1, "mass": 200000, "volume": "75 L" }
+    "workbench": { "multiplier": 1.1, "mass": "200 kg", "volume": "75 L" }
   },
   {
     "id": "wildwood_weaver_shelter",

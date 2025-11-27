@@ -595,7 +595,7 @@
       "//~": "NO_I18N"
     },
     "message": "",
-    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "NO_LEGS" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "NO_LEGS", "SPLIT_DAMAGE" ],
     "magic_type": "xe_fey_seasonal_magick_summer",
     "spell_class": "CHANGELING_SEASONAL_MAGIC_SUMMER",
     "valid_targets": [ "self" ],

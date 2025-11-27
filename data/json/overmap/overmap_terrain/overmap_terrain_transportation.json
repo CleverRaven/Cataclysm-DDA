@@ -79,6 +79,16 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "highland_road",
+    "vision_levels": "large_pavement",
+    "name": "cobblestone road",
+    "color": "dark_gray",
+    "see_cost": "none",
+    "travel_cost_type": "road",
+    "flags": [ "LINEAR" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "roadstop", "roadstop_roof" ],
     "vision_levels": "isolated_building",
     "see_cost": "high",
@@ -490,9 +500,11 @@
     ],
     "copy-from": "generic_city_building",
     "vision_levels": "large_pavement",
+    "travel_cost_type": "road",
     "name": "parking lot",
     "sym": "O",
     "color": "dark_gray",
+    "looks_like": "s_lot",
     "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
   },
   {
@@ -559,7 +571,8 @@
     "sym": "│",
     "color": "light_gray",
     "//": "SHOULD_NOT_SPAWN is to temporarily avoid overmap_test failures",
-    "flags": [ "HIGHWAY" ]
+    "flags": [ "HIGHWAY" ],
+    "vision_levels": "blends_till_outlines"
   },
   {
     "type": "overmap_terrain",
@@ -695,7 +708,11 @@
       "hw_trumpet_bridge_1_1",
       "hw_bend_3_0",
       "hw_bend_4_0",
-      "hw_bend_4_1"
+      "hw_bend_4_1",
+      "hw_fallback_four_way_0_0_1",
+      "hw_fallback_four_way_1_0_1",
+      "hw_fallback_four_way_0_1_1",
+      "hw_fallback_four_way_1_1_1"
     ],
     "copy-from": "generic_highway_road_r",
     "extend": { "flags": [ "HIGHWAY_SPECIAL", "REQUIRES_PREDECESSOR" ] }
@@ -797,7 +814,11 @@
       "hw_three_lane_merge_w",
       "hw_merge_to_road_w",
       "hw_merge_to_road_e",
-      "hw_bend_0_3"
+      "hw_bend_0_3",
+      "hw_fallback_four_way_0_0_0",
+      "hw_fallback_four_way_1_0_0",
+      "hw_fallback_four_way_0_1_0",
+      "hw_fallback_four_way_1_1_0"
     ],
     "copy-from": "generic_highway_road",
     "extend": { "flags": [ "HIGHWAY_SPECIAL", "REQUIRES_PREDECESSOR" ] }

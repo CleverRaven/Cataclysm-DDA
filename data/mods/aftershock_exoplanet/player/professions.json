@@ -18,7 +18,7 @@
           { "item": "longshirt" },
           { "item": "afs_leather_jacket" },
           { "item": "copper_necklace" },
-          { "item": "afs_combat_cryo" },
+          { "item": "afs_combat_cryo", "ammo-item": "afs_heavy_suit_battery_cell", "charges": 1000 },
           { "item": "pants", "variant": "pants_blue" },
           { "item": "afs_cartridge", "ammo-item": "battery", "charges": 1500, "container-item": "afs_graf337" },
           { "item": "XL_holster" }
@@ -33,6 +33,7 @@
     "description": "A skilled ship technician, turned to independent salvage work.",
     "points": 4,
     "starting_cash": 1120000,
+    "traits": [ "CBM_Interface" ],
     "CBMs": [ "bio_weight", "bn_bio_solar", "bio_power_storage_mkII", "bio_flashlight", "bio_tools", "bio_sunglasses" ],
     "skills": [ { "level": 4, "name": "electronics" }, { "level": 2, "name": "launcher" } ],
     "items": {
@@ -88,6 +89,7 @@
     "starting_cash": 1120000,
     "flags": [ "SCEN_ONLY" ],
     "copy-from": "specops",
+    "traits": [ "CBM_Interface" ],
     "CBMs": [ "bio_targeting", "bio_purifier", "bio_geiger", "bio_adrenaline", "bio_ethanol", "bio_power_storage_mkII" ],
     "skills": [
       { "level": 4, "name": "gun" },
@@ -165,13 +167,13 @@
       { "level": 3, "name": "swimming" },
       { "level": 4, "name": "survival" }
     ],
-    "traits": [ "STR_UP_3", "UPLIFTED", "THRESH_URSINE", "URSINE_FUR", "CANNIBAL", "HUGE_OK" ],
+    "traits": [ "STR_UP_3", "UPLIFTED", "THRESH_URSINE", "URSINE_FUR", "CANNIBAL", "HUGE_OK", "CBM_Interface" ],
     "items": {
       "both": {
         "entries": [
           { "item": "xlboots_combat" },
           { "item": "xlgloves_tactical" },
-          { "item": "afs_combat_cryo_xl" },
+          { "item": "afs_combat_cryo_xl", "ammo-item": "afs_heavy_suit_battery_cell", "charges": 1000 },
           { "item": "wristwatch" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "sheath", "contents-item": "kukri" },
@@ -198,7 +200,9 @@
     "points": 2,
     "starting_cash": 1120000,
     "traits": [ "AFS_CRYOADAPTATION" ],
-    "items": { "both": { "entries": [ { "item": "afs_cryopod_bodyglove", "ammo-item": "medium_battery_cell", "charges": 5000 } ] } }
+    "items": {
+      "both": { "entries": [ { "item": "afs_cryopod_bodyglove", "ammo-item": "afs_heavy_suit_battery_cell", "charges": 1000 } ] }
+    }
   },
   {
     "type": "profession",
@@ -217,9 +221,8 @@
           { "item": "socks" },
           { "item": "mbag" },
           { "item": "afs_atomic_smartphone" },
-          { "item": "atomic_light_off" },
-          { "item": "atomic_coffeepot" },
-          { "item": "atomic_lamp_off" },
+          { "item": "afs_atomic_light_off" },
+          { "item": "afs_atomic_lamp_off" },
           { "item": "afs_atompot" },
           { "item": "energy_drink_atomic" }
         ]
@@ -303,7 +306,7 @@
     "points": 8,
     "starting_cash": 200000000,
     "CBMs": [ "bio_batteries", "bio_power_storage_mkII", "bio_eye_enhancer", "bio_int_enhancer", "bio_memory", "bio_cable" ],
-    "traits": [ "FLIMSY3", "SLOWHEALER3", "AFS_MENTAL_CAPABILITY_GENEMOD", "AFS_RECOVERY_CAPABILITY_GENEMOD" ],
+    "traits": [ "FLIMSY3", "SLOWHEALER3", "AFS_MENTAL_CAPABILITY_GENEMOD", "AFS_RECOVERY_CAPABILITY_GENEMOD", "CBM_Interface" ],
     "pets": [ { "name": "afs_mon_sentinel_lx", "amount": 2 } ],
     "skills": [ { "level": 6, "name": "speech" }, { "level": 6, "name": "computer" } ],
     "items": {
@@ -461,6 +464,7 @@
     "description": "You worked as a mercenary across six continents for a dozen corps.  A VP at the last corp decided he wanted to put you on retainer and you agreed to a three month gig in return for some additional bionics.  You woke up with an extra bionic, a cranial bomb that needed to be reset every month or so or it blows up.  Now you have days until the bomb goes off.  Maybe you'll find someone who can remove it.  Can you even sleep, for fear of death?",
     "points": 2,
     "starting_cash": 1120000,
+    "traits": [ "CBM_Interface" ],
     "CBMs": [
       "bio_carbon",
       "bio_targeting",
@@ -694,7 +698,7 @@
     "description": "You are a telepath, able to sense minds and influence thoughts.  You aren't entirely sure how you got your powers, but you seem to have an instinctive sense of how to use them.  That's not sinister at all, right?",
     "points": 7,
     "starting_cash": 1120000,
-    "traits": [ "AFS_TELEPATH" ],
+    "traits": [ "AFS_TELEPATH", "ESPER_STARTER_ADVANCEMENT_OKAY" ],
     "flags": [ "SCEN_ONLY" ],
     "skills": [ { "level": 4, "name": "metaphysics" } ],
     "spells": [
@@ -731,7 +735,7 @@
     "description": "You are an electrokinetic, able to control electricity with your mind.  You aren't entirely sure how you got your powers, but you seem to have an instinctive sense of how to use them.  That's not sinister at all, right?",
     "points": 7,
     "starting_cash": 1120000,
-    "traits": [ "AFS_ELECTROKINETIC" ],
+    "traits": [ "AFS_ELECTROKINETIC", "ESPER_STARTER_ADVANCEMENT_OKAY" ],
     "flags": [ "SCEN_ONLY" ],
     "skills": [ { "level": 4, "name": "metaphysics" } ],
     "spells": [
@@ -763,12 +767,49 @@
   },
   {
     "type": "profession",
+    "id": "afs_esper_precog",
+    "name": "Sibyl",
+    "description": "You are a precog, able to foresee the future.  You aren't entirely sure how you got your powers, but you seem to have an instinctive sense of how to use them.  That's not sinister at all, right?",
+    "points": 7,
+    "starting_cash": 1120000,
+    "traits": [ "AFS_PRECOG", "ESPER_STARTER_ADVANCEMENT_OKAY" ],
+    "flags": [ "SCEN_ONLY" ],
+    "skills": [ { "level": 4, "name": "metaphysics" } ],
+    "spells": [
+      { "id": "afs_precog_danger_sense", "level": 8 },
+      { "id": "afs_precog_damage_foresee", "level": 6 },
+      { "id": "afs_precog_ranged_enhance", "level": 6 },
+      { "id": "afs_precog_craft_bonus", "level": 5 },
+      { "id": "afs_precog_dodge_bonus", "level": 3 }
+    ],
+    "proficiencies": [ "prof_concentration_basic" ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "spacer_jumpsuit" },
+          { "item": "spacer_cap" },
+          { "item": "socks" },
+          { "item": "boots" },
+          { "item": "wristwatch" },
+          { "item": "cream_prot_cold" },
+          { "item": "cream_prot_cold" },
+          { "group": "charged_smart_phone" },
+          { "item": "XL_holster" },
+          { "item": "afs_cartridge", "ammo-item": "battery", "charges": [ 900, 1485 ], "container-item": "afs_v29" }
+        ]
+      },
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] }
+    }
+  },
+  {
+    "type": "profession",
     "id": "afs_esper_telekinetic",
     "name": "Geist",
     "description": "You are a telekinetic, able to move objects without touching them.  You aren't entirely sure how you got your powers, but you seem to have an instinctive sense of how to use them.  That's not sinister at all, right?",
     "points": 7,
     "starting_cash": 1120000,
-    "traits": [ "AFS_TELEKINETIC" ],
+    "traits": [ "AFS_TELEKINETIC", "ESPER_STARTER_ADVANCEMENT_OKAY" ],
     "flags": [ "SCEN_ONLY" ],
     "skills": [ { "level": 4, "name": "metaphysics" } ],
     "spells": [

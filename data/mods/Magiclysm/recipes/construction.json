@@ -10,7 +10,7 @@
     "components": [
       [ [ "wood_sheet", 2 ], [ "wood_panel", 4 ] ],
       [ [ "2x4", 4 ] ],
-      [ [ "nail", 24 ] ],
+      [ [ "nails", 24, "LIST" ] ],
       [ [ "teleporter", 1 ] ],
       [ [ "sheet", 2 ] ]
     ],
@@ -27,7 +27,7 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 2 } ], [ { "id": "GLARE", "level": 1 } ] ],
     "components": [
       [ [ "frame", 4 ] ],
-      [ [ "nail", 48 ] ],
+      [ [ "nails", 48, "LIST" ] ],
       [ [ "teleporter", 2 ] ],
       [ [ "sheet_metal", 4 ] ],
       [ [ "crystallized_mana", 250 ] ]

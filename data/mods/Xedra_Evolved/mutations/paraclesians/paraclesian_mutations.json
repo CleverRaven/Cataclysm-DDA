@@ -8,7 +8,6 @@
     "starting_trait": false,
     "valid": false,
     "purifiable": false,
-    "profession": true,
     "points": 2,
     "ignored_by": [ "IERDE" ],
     "cancels": [
@@ -47,7 +46,8 @@
     "vitamin_rates": [ [ "mutagen_human", 1 ] ],
     "empathize_with": [ "IERDE" ],
     "no_empathize_with": [ "HUMAN" ],
-    "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+    "flags": [ "HERITAGE", "NO_CBM_INSTALLATION" ],
+    "chargen_allow_npc": false
   },
   {
     "type": "mutation",
@@ -58,7 +58,6 @@
     "valid": false,
     "starting_trait": false,
     "purifiable": false,
-    "profession": true,
     "points": 2,
     "ignored_by": [ "ARVORE" ],
     "cancels": [
@@ -97,8 +96,8 @@
     "vitamin_rates": [ [ "mutagen_human", 1 ] ],
     "empathize_with": [ "ARVORE" ],
     "no_empathize_with": [ "HUMAN" ],
-    "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
-    "flags": [ "TREE_COMMUNION_PLUS", "ARVORE_POLLEN_IMMUNE" ],
+    "flags": [ "TREE_COMMUNION_PLUS", "ARVORE_POLLEN_IMMUNE", "HERITAGE", "NO_CBM_INSTALLATION" ],
+    "chargen_allow_npc": false,
     "enchantments": [
       {
         "condition": {
@@ -131,7 +130,6 @@
     "valid": false,
     "starting_trait": false,
     "purifiable": false,
-    "profession": true,
     "points": 2,
     "ignored_by": [ "SALAMANDER" ],
     "cancels": [
@@ -170,7 +168,8 @@
     "vitamin_rates": [ [ "mutagen_human", 1 ] ],
     "empathize_with": [ "SALAMANDER" ],
     "no_empathize_with": [ "HUMAN" ],
-    "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+    "flags": [ "HERITAGE", "NO_CBM_INSTALLATION" ],
+    "chargen_allow_npc": false
   },
   {
     "type": "mutation",
@@ -181,7 +180,6 @@
     "valid": false,
     "starting_trait": false,
     "purifiable": false,
-    "profession": true,
     "points": 2,
     "enchantments": [
       {
@@ -230,7 +228,8 @@
     "vitamin_rates": [ [ "mutagen_human", 1 ] ],
     "empathize_with": [ "UNDINE" ],
     "no_empathize_with": [ "HUMAN" ],
-    "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+    "flags": [ "HERITAGE", "NO_CBM_INSTALLATION" ],
+    "chargen_allow_npc": false
   },
   {
     "type": "mutation",
@@ -241,7 +240,6 @@
     "valid": false,
     "starting_trait": false,
     "purifiable": false,
-    "profession": true,
     "points": 2,
     "ignored_by": [ "HOMULLUS" ],
     "cancels": [
@@ -277,7 +275,9 @@
     "vitamin_rates": [ [ "mutagen_human", 1 ] ],
     "description": "A spirit of the image of humans given life.",
     "empathize_with": [ "HOMULLUS" ],
-    "anger_relations": [ [ "HOMULLUS", -20 ], [ "ARVORE", 20 ] ]
+    "anger_relations": [ [ "HOMULLUS", -20 ], [ "ARVORE", 20 ] ],
+    "flags": [ "HERITAGE" ],
+    "chargen_allow_npc": false
   },
   {
     "type": "mutation",
@@ -288,7 +288,6 @@
     "valid": false,
     "starting_trait": false,
     "purifiable": false,
-    "profession": true,
     "points": 2,
     "ignored_by": [ "SYLPH" ],
     "cancels": [
@@ -327,13 +326,15 @@
     "vitamin_rates": [ [ "mutagen_human", 1 ] ],
     "empathize_with": [ "SYLPH" ],
     "no_empathize_with": [ "HUMAN" ],
-    "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+    "flags": [ "HERITAGE", "NO_CBM_INSTALLATION" ],
+    "chargen_allow_npc": false
   },
   {
     "type": "mutation",
     "id": "PARACLESIAN_STR_DEX_1",
     "name": { "str": "Fae Prowess" },
     "points": 1,
+    "purifiable": false,
     "visibility": 0,
     "ugliness": 0,
     "changes_to": [ "PARACLESIAN_STR_DEX_2" ],
@@ -371,6 +372,7 @@
     "id": "PARACLESIAN_STR_DEX_2",
     "name": { "str": "Fae Puissance" },
     "points": 1,
+    "purifiable": false,
     "visibility": 0,
     "ugliness": 0,
     "prereqs": [ "PARACLESIAN_STR_DEX_1" ],
@@ -421,6 +423,7 @@
     "id": "PARACLESIAN_INT_PER_1",
     "name": { "str": "Fae Discernment" },
     "points": 1,
+    "purifiable": false,
     "visibility": 0,
     "ugliness": 0,
     "changes_to": [ "PARACLESIAN_INT_PER_2" ],
@@ -458,6 +461,7 @@
     "id": "PARACLESIAN_INT_PER_2",
     "name": { "str": "Fae Acumen" },
     "points": 1,
+    "purifiable": false,
     "visibility": 0,
     "ugliness": 0,
     "prereqs": [ "PARACLESIAN_INT_PER_1" ],
@@ -508,6 +512,7 @@
     "id": "PARACLESIAN_FAE_SIGHT_1",
     "name": { "str": "Fae Sight" },
     "points": 1,
+    "purifiable": false,
     "visibility": 0,
     "ugliness": 0,
     "changes_to": [ "PARACLESIAN_FAE_SIGHT_2" ],
@@ -550,6 +555,7 @@
     "id": "PARACLESIAN_FAE_SIGHT_2",
     "name": { "str": "Wyrd Sight" },
     "points": 1,
+    "purifiable": false,
     "visibility": 0,
     "ugliness": 0,
     "prereqs": [ "PARACLESIAN_FAE_SIGHT_1" ],
@@ -590,6 +596,7 @@
     "id": "CLOUD_OF_STEAM_SYLPH",
     "name": { "str": "Cloud of Steam" },
     "points": 3,
+    "purifiable": false,
     "visibility": 0,
     "ugliness": 0,
     "description": "Upon gaining this ability the Sylph gains the ability to create a cloud of damaging steam.",
@@ -601,6 +608,7 @@
     "id": "CLOUD_OF_STEAM_UNDINE",
     "name": { "str": "Cloud of Steam" },
     "points": 3,
+    "purifiable": false,
     "visibility": 0,
     "ugliness": 0,
     "description": "Upon gaining this ability the Undine gains the ability to create a cloud of damaging steam.",
@@ -612,6 +620,7 @@
     "id": "CREATE_LIGHT_SYLPH",
     "name": { "str": "Create Light" },
     "points": 3,
+    "purifiable": false,
     "visibility": 0,
     "ugliness": 0,
     "description": "Upon gaining this ability the Sylph gains the ability to create light.",
@@ -623,6 +632,7 @@
     "id": "CREATE_LIGHT",
     "name": { "str": "Create Light" },
     "points": 3,
+    "purifiable": false,
     "visibility": 0,
     "ugliness": 0,
     "description": "Upon gaining this ability the Salamander gains the ability to create light.",
@@ -634,6 +644,7 @@
     "id": "ELEMENTAL_MANA1",
     "name": "Born of the Elements",
     "points": 1,
+    "purifiable": false,
     "description": "Your connection to this world is deep and rewards you with additional mana.",
     "changes_to": [ "ELEMENTAL_MANA2" ],
     "types": [ "MANA_ADD" ],
@@ -646,6 +657,7 @@
     "id": "ELEMENTAL_MANA2",
     "name": "Change with the Seasons",
     "points": 3,
+    "purifiable": false,
     "description": "You are able to store more mana in your body than usual.",
     "changes_to": [ "ELEMENTAL_MANA3" ],
     "types": [ "MANA_ADD" ],
@@ -659,6 +671,7 @@
     "id": "ELEMENTAL_MANA3",
     "name": "Walking Ley Line",
     "points": 8,
+    "purifiable": false,
     "description": "You are able to store a lot more mana in your body than usual.",
     "types": [ "MANA_ADD" ],
     "category": [ "UNDINE", "SALAMANDER", "ARVORE", "IERDE", "HOMULLUS", "SYLPH" ],
@@ -671,6 +684,7 @@
     "id": "WIND_BLOWS_WILLOW_BENDS_ARVORE",
     "name": { "str": "The Wind Blows, the Willow Bends" },
     "points": 4,
+    "purifiable": false,
     "visibility": 0,
     "ugliness": 0,
     "description": "Upon gaining this ability, you gain the ability to enhance your dodge capabilities.",
@@ -683,6 +697,7 @@
     "id": "WIND_BLOWS_WILLOW_BENDS_SYLPH",
     "name": { "str": "The Wind Blows, the Willow Bends" },
     "points": 4,
+    "purifiable": false,
     "visibility": 0,
     "ugliness": 0,
     "description": "Upon gaining this ability, you gain the ability to enhance your dodge capabilities.",
@@ -694,6 +709,7 @@
     "id": "PARACLESIAN_LEARN_GOSSAMER_RECIPES",
     "name": { "str": "Gossamer Artisan" },
     "points": 4,
+    "purifiable": false,
     "visibility": 0,
     "ugliness": 0,
     "description": "Like your fae ancestors, you can turn gossamer into clothing and armor.  Activate this trait to learn a gossamer recipe (once per week).",
@@ -716,6 +732,7 @@
     "id": "PARACLESIAN_MAKE_GOSSAMER",
     "name": { "str": "Gossamerwright" },
     "points": 6,
+    "purifiable": false,
     "visibility": 0,
     "ugliness": 0,
     "description": "Your manipulation of gossamer has advanced to the point where you can make it yourself out of mundane cotton and moonlight.",
@@ -787,6 +804,7 @@
     "id": "HOMULLUS_WISHES_TO_CONVERSE",
     "name": { "str": "Desire for Conversation" },
     "points": 0,
+    "purifiable": false,
     "visibility": 0,
     "ugliness": 0,
     "description": "The Dollkin casts this spell to force a conversation with anyone, once.  If they've heard the Dollkin out and decided they wish not to speak again it will not work.",

@@ -395,7 +395,6 @@
     "id": "hazardous_waste",
     "type": "item_group",
     "items": [
-      { "item": "sewage", "container-item": "55gal_drum", "charges": [ 26, 126 ], "prob": 40 },
       { "item": "water_sewage", "container-item": "55gal_drum", "charges": [ 26, 126 ], "prob": 40 },
       { "prob": 2, "group": "meat_tainted_55gal_drum_3_20" },
       { "group": "toxic_waste_mx_chems", "prob": 35 },

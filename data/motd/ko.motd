@@ -10,9 +10,9 @@
 <color_light_gray>* 깃허브: </color><color_light_cyan>https://github.com/CleverRaven/Cataclysm-DDA/issues</color>
 <color_light_gray>* 이메일: </color><color_light_cyan>kevin.granade@gmail.com</color>
 
-<color_white>포럼 및 대화에 대한 토론 참여:</color>
+<color_white>포럼과 챗에서 토론하기:</color>
 
-<color_light_gray>* 디스코스 (Discourse):                 </color><color_cyan>https://discourse.cataclysmdda.org/</color>
+<color_light_gray>* 디스코스:                 </color><color_cyan>https://discourse.cataclysmdda.org/</color>
 <color_light_gray>* 디스코드:                   </color><color_cyan>https://discord.gg/jFEc7Yp</color>
 <color_light_gray>* IRC:                       </color><color_cyan>libera.chat 채널이름 #CataclysmDDA</color>
 
@@ -26,15 +26,15 @@
 
 <color_white>Q: </color><color_yellow>실험판 빌드는 무엇인가요?</color>
 
-<color_white>A: </color><color_light_gray>실험판 빌드는 품질관리의 두번째 단계가 되는 것입니다. 초기 품질관리 후 새로운 콘텐츠의 테스트나 밸런스 조정을 실시하기 위한 버전입니다. 최신 실험판를 플레이하는것은 말 그대로 새로운 콘텐츠의 테스트 플레이를 수행하여 개발 프로세스에 참여한다는 것입니다. 버그나 기능 오류가 발생하기 쉬운 빌드임을 알아두세요.</color>
+<color_white>A: </color><color_light_gray>실험판 빌드는 품질관리의 두 번째 단계가 되는 것입니다. 초기 품질관리 후 새로운 콘텐츠의 테스트나 밸런스 조정을 실시하기 위한 버전입니다. 최신 실험판를 플레이하는 것은 말 그대로 새로운 콘텐츠의 테스트 플레이를 수행하여 개발 프로세스에 참여한다는 것입니다. 버그나 기능 오류가 발생하기 쉬운 빌드임을 알아두세요.</color>
 
 <color_white>Q: </color><color_yellow>실험판은 정확히 뭔가요?</color>
 
-<color_white>A: </color><color_light_gray>알파버전이나 베타버전이랑 비슷하다고 보시면 됩니다. 버그랑 기능오류가 일상이거든요. 지속적인 통합은 기술적으로 어렵기에 실험판은 항상 개발중인 상태로 있는겁니다. 컨텐츠를 추가하고 버그를 잡는 샌드박스라고 생각하시면 됩니다. 전반적인 안정성과 밸런스를 점검하기 위해 크고 작은 기능들은 실험판에 지속적으로 릴리즈되어집니다. 결론적으로 실험판에서는 아무것도 보장할 수 없습니다.</color>
+<color_white>A: </color><color_light_gray>알파/베타버전이랑 비슷하다고 보시면 됩니다. 버그랑 기능오류가 일상이거든요. 지속적인 통합은 기술적으로 어렵기에 실험판은 항상 개발 중인 상태로 있는 겁니다. 컨텐츠를 추가하고 버그를 잡는 샌드박스라고 생각하시면 됩니다. 전반적인 안정성과 밸런스를 점검하기 위해 크고 작은 기능들은 실험판에 지속적으로 릴리즈 됩니다. 결론적으로 실험판에서는 아무것도 보장할 수 없습니다.</color>
 
 <color_white>Q: </color><color_yellow>그러면 실험판은 플레이가 가능하긴 한가요?</color>
 
-<color_white>A: </color><color_light_gray>네. 그러나 실험판는 전반적으로 안정적이지만, 부분적인 기능이 미완성 상태로 도입될 수 있고 게임을 중단시키거나 저장데이터를 손상시킬 수 있는 심각한 오류를 포함한 여러 버그를 발생시킬 수 있기 때문에 안정적인 플레이는 보장되지 않습니다. 드문 경우이지만 게임데이터의 복잡성 때문에 실험판와 병합하기 전 초기 품질관리가 부적절할 수 있으며 언제나 사람의 실수가 발생할 수 있습니다. 이것이 실험판이 존재하는 이유입니다.</color>
+<color_white>A: </color><color_light_gray>네. 그러나 실험판은 전반적으로 안정적이지만, 부분적인 기능이 미완성 상태로 도입될 수 있고 게임을 중단시키거나 저장 데이터를 손상시킬 수 있는 심각한 오류를 포함한 여러 버그를 발생시킬 수 있기 때문에 안정적인 플레이는 보장되지 않습니다. 드문 경우이지만 게임데이터의 복잡성 때문에 실험판과 병합하기 전 초기 품질관리가 부적절할 수 있으며 언제나 사람의 실수가 발생할 수 있습니다. 이것이 실험판이 존재하는 이유입니다.</color>
 
 <color_white>Q: </color><color_yellow>그렇다면 실험판와 안정판 중 어느 쪽을 플레이해야 할까요?</color>
 

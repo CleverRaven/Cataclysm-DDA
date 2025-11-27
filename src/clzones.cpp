@@ -21,6 +21,7 @@
 #include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "iexamine.h"
+#include "input_popup.h"
 #include "item.h"
 #include "item_category.h"
 #include "item_group.h"
@@ -29,22 +30,24 @@
 #include "itype.h"
 #include "json.h"
 #include "localized_comparator.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "memory_fast.h"
 #include "output.h"
 #include "path_info.h"
 #include "string_formatter.h"
-#include "string_input_popup.h"
 #include "translations.h"
 #include "uilist.h"
 #include "value_ptr.h"
 #include "vehicle.h"
 #include "visitable.h"
 #include "vpart_position.h"
+#include "talker.h"
+#include "talker_zone.h"
 
 static const faction_id faction_your_followers( "your_followers" );
+
+static const flag_id json_flag_FIREWOOD( "FIREWOOD" );
 
 static const item_category_id item_category_food( "food" );
 
@@ -145,6 +148,11 @@ const std::vector<zone_type> &zone_type::get_all()
 void zone_type::load_zones( const JsonObject &jo, const std::string &src )
 {
     zone_type_factory.load( jo, src );
+}
+
+void zone_type::finalize_all()
+{
+    zone_type_factory.finalize();
 }
 
 void zone_type::reset()
@@ -259,14 +267,12 @@ ignorable_options::query_ignorable_result ignorable_options::query_ignorable()
 
 loot_options::query_loot_result loot_options::query_loot()
 {
-    string_input_popup()
-    .title( _( "Filter:" ) )
-    .description( item_filter_rule_string( item_filter_type::FILTER ) + "\n\n" )
-    .desc_color( c_white )
-    .width( 55 )
-    .identifier( "item_filter" )
-    .max_length( 256 )
-    .edit( mark );
+    string_input_popup_imgui input_popup( 55, mark );
+    input_popup.set_label( _( "Filter:" ) );
+    input_popup.set_description( item_filter_rule_string( item_filter_type::FILTER ) + "\n\n",
+                                 c_white, /*monofont=*/ true );
+    input_popup.set_identifier( "item_filter" );
+    mark = input_popup.query();
     return changed;
 }
 
@@ -565,16 +571,13 @@ void unload_options::deserialize( const JsonObject &jo_zone )
 
 std::optional<std::string> zone_manager::query_name( const std::string &default_name ) const
 {
-    string_input_popup popup;
-    popup
-    .title( _( "Zone name:" ) )
-    .width( 55 )
-    .text( default_name )
-    .query();
-    if( popup.canceled() ) {
+    string_input_popup_imgui popup( 55, default_name );
+    popup.set_label( _( "Zone name:" ) );
+    std::string text = popup.query();
+    if( popup.cancelled() ) {
         return {};
     } else {
-        return popup.text();
+        return text;
     }
 }
 
@@ -1146,6 +1149,10 @@ bool zone_manager::custom_loot_has( const tripoint_abs_ms &where, const item *it
     }
     item const *const check_it = it->this_or_single_content();
     for( zone_data const *zone : zones ) {
+        if( !zone->get_enabled() ) {
+            continue;
+        }
+
         loot_options const &options = dynamic_cast<const loot_options &>( zone->get_options() );
         std::string const filter_string = options.get_mark();
         bool has = false;
@@ -1250,7 +1257,7 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
             return zone_type_LOOT_ITEM_GROUP;
         }
     }
-    if( it.has_flag( STATIC( flag_id( "FIREWOOD" ) ) ) ) {
+    if( it.has_flag( json_flag_FIREWOOD ) ) {
         if( has_near( zone_type_LOOT_WOOD, where, range, fac ) ) {
             return zone_type_LOOT_WOOD;
         }
@@ -1659,6 +1666,7 @@ void zone_data::serialize( JsonOut &json ) const
     json.member( "faction", faction );
     json.member( "invert", invert );
     json.member( "enabled", enabled );
+    json.member( "temporarily_disabled", temporarily_disabled );
     json.member( "is_vehicle", is_vehicle );
     json.member( "is_personal", is_personal );
     json.member( "cached_shift", cached_shift );
@@ -1694,6 +1702,7 @@ void zone_data::deserialize( const JsonObject &data )
     }
     data.read( "invert", invert );
     data.read( "enabled", enabled );
+    data.read( "temporarily_disabled", temporarily_disabled );
     //Legacy support
     if( data.has_member( "is_vehicle" ) ) {
         data.read( "is_vehicle", is_vehicle );
@@ -1874,4 +1883,19 @@ void mapgen_place_zone( tripoint_abs_ms const &start, tripoint_abs_ms const &end
         }
     }
     mgr.add( name, type, fac, false, true, s_, e_, options, true, pmap );
+}
+
+std::unique_ptr<talker> get_talker_for( zone_data &me )
+{
+    return std::make_unique<talker_zone>( &me );
+}
+
+std::unique_ptr<const_talker> get_talker_for( const zone_data &me )
+{
+    return std::make_unique<talker_zone_const>( &me );
+}
+
+std::unique_ptr<talker> get_talker_for( zone_data *me )
+{
+    return std::make_unique<talker_zone>( me );
 }

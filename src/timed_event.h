@@ -118,5 +118,6 @@ class timed_event_manager
 };
 
 timed_event_manager &get_timed_events();
+bool you_know_where_you_are();
 
 #endif // CATA_SRC_TIMED_EVENT_H

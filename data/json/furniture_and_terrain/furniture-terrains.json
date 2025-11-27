@@ -65,7 +65,7 @@
     "coverage": 95,
     "comfort": 4,
     "floor_bedding_warmth": 700,
-    "required_str": 3,
+    "required_str": -1,
     "deconstruct": {
       "items": [
         { "item": "box_large", "count": 1 },
@@ -301,7 +301,7 @@
     "bash": {
       "str_min": 1,
       "str_max": 1,
-      "sound": "clickity clack… clack… clack",
+      "sound": "clickity clack… clack… clack!",
       "sound_fail": "clickity clack… clack",
       "sound_vol": 15,
       "items": [
@@ -839,6 +839,31 @@
   },
   {
     "type": "furniture",
+    "id": "f_rubble_volc",
+    "name": "pile of rocky rubble",
+    "description": "A loose pile of rocks.  This one has bright chalky bits in it.",
+    "looks_like": "f_rubble_rock",
+    "symbol": "^",
+    "color": "white",
+    "move_cost_mod": 6,
+    "max_volume": "750 L",
+    "required_str": -1,
+    "flags": [
+      "TRANSPARENT",
+      "UNSTABLE",
+      "ROUGH",
+      "PLACE_ITEM",
+      "MOUNTABLE",
+      "CONTAINER",
+      "SEALED",
+      "ALLOW_FIELD_EFFECT",
+      "SHORT",
+      "RUBBLE"
+    ],
+    "examine_action": "rubble"
+  },
+  {
+    "type": "furniture",
     "id": "f_rubble_landfill",
     "name": "pile of trashy rubble",
     "description": "A pile of trash topped with dirt and grass.  It smells gross, but one man's trash…",
@@ -1018,7 +1043,90 @@
         { "item": "material_limestone", "charges": [ 2, 5 ], "prob": 30 },
         { "item": "material_rocksalt", "count": [ 0, 1 ], "prob": 10 },
         { "item": "material_rhodonite", "count": [ 0, 1 ], "prob": 1 },
-        { "item": "material_zincite", "count": [ 0, 5 ], "prob": 2 }
+        { "item": "material_zincite", "count": [ 0, 5 ], "prob": 2 },
+        { "item": "chunk_feldspar", "count": [ 2, 5 ], "prob": 25 },
+        { "item": "chunk_graphite", "count": [ 0, 1 ], "prob": 1 },
+        { "item": "chunk_caco3", "count": [ 0, 1 ], "prob": 30 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_boulder_small_volc",
+    "name": "small volcanic boulder",
+    "description": "A big rock.  Should be easy to roll around, but too heavy to carry with you.  This one has efflorescent streaks and might contain volcanic elements.",
+    "looks_like": "f_boulder_small",
+    "symbol": "o",
+    "color": "light_gray",
+    "move_cost_mod": 3,
+    "coverage": 30,
+    "required_str": 10,
+    "crafting_pseudo_item": "boulder_anvil",
+    "flags": [ "TRANSPARENT", "MINEABLE", "UNSTABLE", "MOUNTABLE", "TINY" ],
+    "bash": {
+      "str_min": 16,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "items": [
+        { "item": "rock", "count": [ 16, 32 ] },
+        { "item": "sharp_rock", "count": [ 0, 6 ] },
+        { "item": "chunk_borax", "count": [ 1, -1 ], "prob": 3 },
+        { "item": "material_shrd_limestone", "count": [ 1, 3 ], "prob": 10 },
+        { "item": "chunk_sulfur", "count": [ 1, 3 ], "prob": 10 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_boulder_medium_volc",
+    "name": "medium boulder",
+    "description": "A pretty big boulder, but still small enough to see and climb over.  This one has efflorescent streaks and might contain volcanic elements.",
+    "looks_like": "f_boulder_medium",
+    "symbol": "0",
+    "color": "light_gray",
+    "move_cost_mod": 6,
+    "coverage": 45,
+    "required_str": 16,
+    "crafting_pseudo_item": "boulder_anvil",
+    "flags": [ "NOITEM", "TRANSPARENT", "MINEABLE", "UNSTABLE", "MOUNTABLE", "SHORT" ],
+    "bash": {
+      "str_min": 32,
+      "str_max": 80,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "items": [
+        { "item": "rock", "count": [ 35, 50 ] },
+        { "item": "sharp_rock", "count": [ 3, 7 ] },
+        { "item": "chunk_borax", "count": [ 1, 5 ], "prob": 5 },
+        { "item": "material_shrd_limestone", "count": [ 3, 5 ], "prob": 10 },
+        { "item": "chunk_sulfur", "count": [ 1, 5 ], "prob": 10 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_boulder_large_volc",
+    "name": "large boulder",
+    "description": "A boulder that's taller than you.  Now how are you going to move this?  This one has efflorescent streaks and might contain volcanic elements.",
+    "looks_like": "f_boulder_large",
+    "symbol": "O",
+    "color": "light_gray",
+    "move_cost_mod": -1,
+    "coverage": 65,
+    "required_str": 32,
+    "flags": [ "NOITEM", "MINEABLE", "BLOCK_WIND" ],
+    "bash": {
+      "str_min": 64,
+      "str_max": 160,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "items": [
+        { "item": "rock", "count": [ 65, 85 ] },
+        { "item": "sharp_rock", "count": [ 5, 9 ] },
+        { "item": "chunk_borax", "count": [ 1, 9 ], "prob": 5 },
+        { "item": "material_shrd_limestone", "count": [ 5, 9 ], "prob": 10 },
+        { "item": "chunk_sulfur", "count": [ 1, 9 ], "prob": 10 }
       ]
     }
   },
@@ -1245,9 +1353,9 @@
     "looks_like": "t_dirtmound",
     "move_cost_mod": 3,
     "coverage": 40,
-    "description": "An area of heaped dirt, not easily traversable.  If examined more closely, it's quite favorable for planting seeds and the like.",
+    "description": "An area of heaped dirt, not easily traversable.",
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT", "THIN_OBSTACLE", "PERMEABLE", "PLANTABLE" ],
+    "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT", "THIN_OBSTACLE", "PERMEABLE" ],
     "deconstruct": { "items": [ { "item": "material_soil", "count": 200 } ] },
     "bash": {
       "str_min": 50,
@@ -1259,166 +1367,6 @@
   },
   {
     "type": "furniture",
-    "id": "f_dirtmound_shallow_seed",
-    "name": "short mound of dirt with seed",
-    "symbol": "^",
-    "color": "brown",
-    "looks_like": "f_dirtmound_shallow_seed",
-    "move_cost_mod": 3,
-    "coverage": 40,
-    "description": "An area of heaped dirt, not easily traversable.  Someone has planted a seed here.",
-    "required_str": -1,
-    "flags": [
-      "PLANT",
-      "TRANSPARENT",
-      "EASY_DECONSTRUCT",
-      "NOITEM",
-      "THIN_OBSTACLE",
-      "PERMEABLE",
-      "TINY",
-      "DONT_REMOVE ROTTEN",
-      "SEALED",
-      "CONTAINER"
-    ],
-    "examine_action": "aggie_plant",
-    "deconstruct": { "items": [ { "item": "material_soil", "count": 200 } ] },
-    "bash": {
-      "str_min": 2,
-      "str_max": 6,
-      "sound": "rrrrip!",
-      "sound_fail": "brush.",
-      "sound_vol": 4,
-      "furn_set": "f_dirtmound_shallow",
-      "items": [ { "item": "withered", "count": [ 1, 2 ] }, { "item": "leaves", "count": [ 1, 2 ] } ]
-    },
-    "plant_data": { "transform": "f_dirtmound_shallow_seedling", "base": "f_dirtmound_shallow" },
-    "//": "Needs planting support"
-  },
-  {
-    "type": "furniture",
-    "id": "f_dirtmound_shallow_seedling",
-    "name": "short mound of dirt with seedling",
-    "symbol": "^",
-    "color": "green",
-    "looks_like": "f_dirtmound_shallow_seed",
-    "move_cost_mod": 3,
-    "coverage": 40,
-    "description": "An area of heaped dirt, not easily traversable.  There is a seed here, that has just begun to sprout its first roots.",
-    "required_str": -1,
-    "flags": [
-      "PLANT",
-      "TRANSPARENT",
-      "EASY_DECONSTRUCT",
-      "NOITEM",
-      "THIN_OBSTACLE",
-      "PERMEABLE",
-      "TINY",
-      "DONT_REMOVE ROTTEN",
-      "SEALED",
-      "CONTAINER",
-      "GROWTH_SEEDLING"
-    ],
-    "examine_action": "aggie_plant",
-    "deconstruct": { "items": [ { "item": "material_soil", "count": 200 } ] },
-    "bash": {
-      "str_min": 2,
-      "str_max": 6,
-      "sound": "rrrrip!",
-      "sound_fail": "brush.",
-      "sound_vol": 4,
-      "furn_set": "f_dirtmound_shallow",
-      "items": [ { "item": "withered", "count": [ 1, 2 ] }, { "item": "leaves", "count": [ 1, 2 ] } ]
-    },
-    "plant_data": { "transform": "f_dirtmound_shallow_mature", "base": "f_dirtmound_shallow" },
-    "//": "Needs planting support"
-  },
-  {
-    "type": "furniture",
-    "id": "f_dirtmound_shallow_mature",
-    "name": "short mound of dirt with mature plant",
-    "symbol": "#",
-    "color": "green",
-    "looks_like": "f_dirtmound_shallow_seed",
-    "move_cost_mod": 3,
-    "coverage": 40,
-    "description": "An area of heaped dirt, not easily traversable.  There is a matured plant here, that should be ready for harvest before long.",
-    "required_str": -1,
-    "flags": [
-      "PLANT",
-      "TRANSPARENT",
-      "EASY_DECONSTRUCT",
-      "NOITEM",
-      "THIN_OBSTACLE",
-      "PERMEABLE",
-      "TINY",
-      "DONT_REMOVE ROTTEN",
-      "SEALED",
-      "CONTAINER",
-      "GROWTH_MATURE",
-      "SMALL_HIDE"
-    ],
-    "examine_action": "aggie_plant",
-    "deconstruct": { "items": [ { "item": "material_soil", "count": 200 } ] },
-    "bash": {
-      "str_min": 2,
-      "str_max": 6,
-      "sound": "rrrrip!",
-      "sound_fail": "brush.",
-      "sound_vol": 4,
-      "furn_set": "f_dirtmound_shallow",
-      "items": [
-        { "item": "withered", "count": [ 2, 8 ] },
-        { "item": "leaves", "count": [ 4, 16 ] },
-        { "item": "twig", "count": [ 1, 5 ] }
-      ]
-    },
-    "plant_data": { "transform": "f_dirtmound_shallow_harvest", "base": "f_dirtmound_shallow" },
-    "//": "Needs planting support"
-  },
-  {
-    "type": "furniture",
-    "id": "f_dirtmound_shallow_harvest",
-    "name": "short mound of dirt with harvestable plant",
-    "symbol": "#",
-    "color": "light_green",
-    "looks_like": "f_dirtmound_shallow_seed",
-    "move_cost_mod": 3,
-    "coverage": 40,
-    "description": "An area of heaped dirt, not easily traversable.  There is a fully grown plant, and will need closer examination to harvest.",
-    "required_str": -1,
-    "flags": [
-      "PLANT",
-      "TRANSPARENT",
-      "EASY_DECONSTRUCT",
-      "NOITEM",
-      "THIN_OBSTACLE",
-      "PERMEABLE",
-      "TINY",
-      "DONT_REMOVE ROTTEN",
-      "SEALED",
-      "CONTAINER",
-      "GROWTH_HARVEST",
-      "SMALL_HIDE"
-    ],
-    "deconstruct": { "items": [ { "item": "material_soil", "count": 200 } ] },
-    "bash": {
-      "str_min": 2,
-      "str_max": 6,
-      "sound": "rrrrip!",
-      "sound_fail": "brush.",
-      "sound_vol": 4,
-      "furn_set": "f_dirtmound_shallow",
-      "items": [
-        { "item": "withered", "count": [ 2, 8 ] },
-        { "item": "leaves", "count": [ 4, 1 ] },
-        { "item": "twig", "count": [ 1, 5 ] }
-      ]
-    },
-    "plant_data": { "transform": "f_plant_unharvested_overgrown", "base": "f_dirtmound_shallow" },
-    "examine_action": "harvest_plant_ex"
-  },
-  {
-    "type": "furniture",
     "id": "f_dirtmound_pile",
     "name": "mound of dirt",
     "symbol": "#",
@@ -1426,9 +1374,9 @@
     "looks_like": "t_dirtmound",
     "move_cost_mod": 5,
     "coverage": 60,
-    "description": "An area of dirt heaped up to your shoulders, not easily traversable.  If examined more closely, it's quite favorable for planting seeds and the like.",
+    "description": "An area of dirt heaped up to your shoulders, not easily traversable.",
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT", "THIN_OBSTACLE", "PERMEABLE", "PLANTABLE" ],
+    "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT", "THIN_OBSTACLE", "PERMEABLE" ],
     "deconstruct": { "items": [ { "item": "material_soil", "count": 200 } ], "furn_set": "f_dirtmound_shallow" },
     "bash": {
       "str_min": 50,
@@ -1438,166 +1386,6 @@
       "items": [ { "item": "material_soil", "count": [ 170, 200 ] } ],
       "furn_set": "f_dirtmound_shallow"
     }
-  },
-  {
-    "type": "furniture",
-    "id": "f_dirtmound_pile_seed",
-    "name": "mound of dirt with seed",
-    "symbol": "^",
-    "color": "brown",
-    "looks_like": "f_dirtmound_pile_seed",
-    "move_cost_mod": 5,
-    "coverage": 40,
-    "description": "An area of dirt heaped up to your shoulders, not easily traversable.  Someone has planted a seed here.",
-    "required_str": -1,
-    "flags": [
-      "PLANT",
-      "TRANSPARENT",
-      "EASY_DECONSTRUCT",
-      "NOITEM",
-      "THIN_OBSTACLE",
-      "PERMEABLE",
-      "TINY",
-      "DONT_REMOVE ROTTEN",
-      "SEALED",
-      "CONTAINER"
-    ],
-    "examine_action": "aggie_plant",
-    "deconstruct": { "items": [ { "item": "material_soil", "count": 200 } ] },
-    "bash": {
-      "str_min": 2,
-      "str_max": 6,
-      "sound": "rrrrip!",
-      "sound_fail": "brush.",
-      "sound_vol": 4,
-      "furn_set": "f_dirtmound_pile",
-      "items": [ { "item": "withered", "count": [ 1, 2 ] }, { "item": "leaves", "count": [ 1, 2 ] } ]
-    },
-    "plant_data": { "transform": "f_dirtmound_pile_seedling", "base": "f_dirtmound_pile" },
-    "//": "Needs planting support"
-  },
-  {
-    "type": "furniture",
-    "id": "f_dirtmound_pile_seedling",
-    "name": "mound of dirt with seedling",
-    "symbol": "^",
-    "color": "green",
-    "looks_like": "f_dirtmound_pile_seed",
-    "move_cost_mod": 5,
-    "coverage": 40,
-    "description": "An area of dirt heaped up to your shoulders, not easily traversable.  There is a seed here, that has just begun to sprout its first roots.",
-    "required_str": -1,
-    "flags": [
-      "PLANT",
-      "TRANSPARENT",
-      "EASY_DECONSTRUCT",
-      "NOITEM",
-      "THIN_OBSTACLE",
-      "PERMEABLE",
-      "TINY",
-      "DONT_REMOVE ROTTEN",
-      "SEALED",
-      "CONTAINER",
-      "GROWTH_SEEDLING"
-    ],
-    "examine_action": "aggie_plant",
-    "deconstruct": { "items": [ { "item": "material_soil", "count": 200 } ] },
-    "bash": {
-      "str_min": 2,
-      "str_max": 6,
-      "sound": "rrrrip!",
-      "sound_fail": "brush.",
-      "sound_vol": 4,
-      "furn_set": "f_dirtmound_pile",
-      "items": [ { "item": "withered", "count": [ 1, 2 ] }, { "item": "leaves", "count": [ 1, 2 ] } ]
-    },
-    "plant_data": { "transform": "f_dirtmound_pile_mature", "base": "f_dirtmound_pile" },
-    "//": "Needs planting support"
-  },
-  {
-    "type": "furniture",
-    "id": "f_dirtmound_pile_mature",
-    "name": "mound of dirt with mature plant",
-    "symbol": "#",
-    "color": "green",
-    "looks_like": "f_dirtmound_pile_seed",
-    "move_cost_mod": 5,
-    "coverage": 40,
-    "description": "An area of dirt heaped up to your shoulders, not easily traversable.  There is a matured plant here, that should be ready for harvest before long.",
-    "required_str": -1,
-    "flags": [
-      "PLANT",
-      "TRANSPARENT",
-      "EASY_DECONSTRUCT",
-      "NOITEM",
-      "THIN_OBSTACLE",
-      "PERMEABLE",
-      "TINY",
-      "DONT_REMOVE ROTTEN",
-      "SEALED",
-      "CONTAINER",
-      "GROWTH_MATURE",
-      "SMALL_HIDE"
-    ],
-    "examine_action": "aggie_plant",
-    "deconstruct": { "items": [ { "item": "material_soil", "count": 200 } ] },
-    "bash": {
-      "str_min": 2,
-      "str_max": 6,
-      "sound": "rrrrip!",
-      "sound_fail": "brush.",
-      "sound_vol": 4,
-      "furn_set": "f_dirtmound_pile",
-      "items": [
-        { "item": "withered", "count": [ 2, 8 ] },
-        { "item": "leaves", "count": [ 4, 16 ] },
-        { "item": "twig", "count": [ 1, 5 ] }
-      ]
-    },
-    "plant_data": { "transform": "f_dirtmound_pile_harvest", "base": "f_dirtmound_pile" },
-    "//": "Needs planting support"
-  },
-  {
-    "type": "furniture",
-    "id": "f_dirtmound_pile_harvest",
-    "name": "mound of dirt with harvestable plant",
-    "symbol": "#",
-    "color": "light_green",
-    "looks_like": "f_dirtmound_pile_seed",
-    "move_cost_mod": 5,
-    "coverage": 40,
-    "description": "An area of dirt heaped up to your shoulders, not easily traversable.  There is a fully grown plant, and will need closer examination to harvest.",
-    "required_str": -1,
-    "flags": [
-      "PLANT",
-      "TRANSPARENT",
-      "EASY_DECONSTRUCT",
-      "NOITEM",
-      "THIN_OBSTACLE",
-      "PERMEABLE",
-      "TINY",
-      "DONT_REMOVE ROTTEN",
-      "SEALED",
-      "CONTAINER",
-      "GROWTH_HARVEST",
-      "SMALL_HIDE"
-    ],
-    "deconstruct": { "items": [ { "item": "material_soil", "count": 200 } ] },
-    "bash": {
-      "str_min": 2,
-      "str_max": 6,
-      "sound": "rrrrip!",
-      "sound_fail": "brush.",
-      "sound_vol": 4,
-      "furn_set": "f_dirtmound_pile",
-      "items": [
-        { "item": "withered", "count": [ 2, 8 ] },
-        { "item": "leaves", "count": [ 4, 1 ] },
-        { "item": "twig", "count": [ 1, 5 ] }
-      ]
-    },
-    "plant_data": { "transform": "f_plant_unharvested_overgrown", "base": "f_dirtmound_pile" },
-    "examine_action": "harvest_plant_ex"
   },
   {
     "type": "furniture",

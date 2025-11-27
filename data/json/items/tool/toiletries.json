@@ -43,7 +43,7 @@
     "category": "other",
     "name": { "str": "dish towel" },
     "description": "A dish towel, useful for cleaning hard surfaces.",
-    "weight": "65600 mg",
+    "weight": "21 g",
     "volume": "43 ml",
     "//1": "Calculated from cotton density because if I took exact product dimensions you'd have <2ml of volume BUT no way in hell is the player folding the towel so neatly.",
     "price": "1 USD 27 cent",
@@ -137,7 +137,7 @@
     "category": "spare_parts",
     "name": { "str": "cotton patch", "str_pl": "cotton patches" },
     "description": "A 6-inch square cotton patch, suitable for repairing and tailoring clothing.",
-    "weight": "5 g",
+    "weight": "3 g",
     "volume": "6 ml",
     "//": "This is calculated from medium weight cotton at 203 GSM, with a size of 6 inches square",
     "price": "2 USD",
@@ -308,5 +308,19 @@
     "symbol": ")",
     "color": "brown",
     "use_action": { "type": "effect_on_conditions", "description": "Dye your hair", "effect_on_conditions": [ "use_hair_dye_kit" ] }
+  },
+  {
+    "id": "makeup_kit",
+    "copy-from": "hair_dye_kit",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "makeup kit" },
+    "description": "A kit containing all the essential tools and products for makeup, it even includes nail polish.",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "menu_text": "Apply makeup",
+      "description": "Apply makeup",
+      "effect_on_conditions": [ "EOC_apply_makeup" ]
+    }
   }
 ]

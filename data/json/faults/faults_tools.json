@@ -13,14 +13,14 @@
     "fault_type": "mechanical_damage",
     "name": { "str": "Cracked handle" },
     "degradation_mod": 50,
-    "description": "There is a nasty crack on a handle.  Better to fix it before the entire shaft snaps in half!"
+    "description": "There is a nasty crack on a handle.  Better fix it before the entire shaft snaps in half!"
   },
   {
     "type": "fault",
     "id": "fault_handle_broken",
     "fault_type": "mechanical_damage",
     "name": { "str": "Broken handle" },
-    "description": "Instead of a handle, there is just a small piece of wood that was left.",
+    "description": "Instead of a handle, there is just a small piece of wood that is left.",
     "item_suffix": "no handle",
     "block_faults": [ "fault_handle_chipping", "fault_handle_cracked", "fault_handle_off" ],
     "melee_damage_mod": [
@@ -59,14 +59,14 @@
     "fault_type": "mechanical_damage",
     "name": { "str": "Cracked handle" },
     "degradation_mod": 50,
-    "description": "There is a nasty crack on a handle.  Better to fix it before the entire shaft snaps in half!"
+    "description": "There is a nasty crack on a handle.  Better fix it before the entire shaft snaps in half!"
   },
   {
     "type": "fault",
     "id": "fault_handle_long_broken_half",
     "fault_type": "mechanical_damage",
     "name": { "str": "Broken handle" },
-    "description": "The handle is snapped in half.  You still can use it, albeit less effectively.",
+    "description": "The handle is snapped in half.  You can still use it, albeit less effectively.",
     "block_faults": [ "fault_handle_long_chipping", "fault_handle_long_cracked", "fault_handle_long_broken", "fault_handle_long_off" ],
     "item_suffix": "snapped",
     "melee_damage_mod": [
@@ -96,7 +96,7 @@
     "id": "fault_handle_long_off",
     "fault_type": "mechanical_damage",
     "name": { "str": "No handle" },
-    "description": "The head of the tool completely separated off the shaft.",
+    "description": "The head of the tool completely separated from the shaft.",
     "block_faults": [
       "fault_handle_long_chipping",
       "fault_handle_long_cracked",

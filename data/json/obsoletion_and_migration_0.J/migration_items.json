@@ -1,0 +1,352 @@
+[
+  {
+    "type": "MIGRATION",
+    "id": "shot_he",
+    "replace": "shot_dragon"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "hk_mp7",
+    "replace": "fn_p90"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "hk46bigmag",
+    "replace": "fnp90mag"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "hk46mag",
+    "replace": "fnp90mag"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "reloaded_46mm",
+    "replace": "reloaded_57mm"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "46mm",
+    "replace": "57mm"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "bp_46mm",
+    "replace": "bp_57mm"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "robofac_gun_46",
+    "replace": "robofac_gun_57"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "unprimed_46mm_casing",
+    "replace": "unprimed_57mm_casing"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "46mm_casing",
+    "replace": "57mm_casing"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "combatsaw_off",
+    "replace": "chainsaw_off"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "combatsaw_on",
+    "replace": "chainsaw_on"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "e_combatsaw_off",
+    "replace": "elec_chainsaw_off"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "e_combatsaw_on",
+    "replace": "elec_chainsaw_on"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "long_duffelbag",
+    "replace": "duffelbag"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "helmet_chitin_light",
+    "replace": "helmet_chitin"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xl_helmet_chitin_light",
+    "replace": "xl_helmet_chitin"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "helmet_chitin_light_xs",
+    "replace": "helmet_chitin_xs"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "helmet_acidchitin_light",
+    "replace": "helmet_acidchitin"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xl_helmet_acidchitin_light",
+    "replace": "xl_helmet_acidchitin"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "helmet_acidchitin_light_xs",
+    "replace": "helmet_acidchitin_xs"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "atomic_lamp",
+    "replace": "reading_light_on"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "atomic_lamp_off",
+    "replace": "electric_lantern"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "atomic_light",
+    "replace": "reading_light_on"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "atomic_light_off",
+    "replace": "reading_light"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "wearable_atomic_light",
+    "replace": "wearable_big_light"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "wearable_atomic_light_off",
+    "replace": "wearable_big_light"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "atomic_coffeepot",
+    "replace": "coffeemaker"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "cape_catholic",
+    "replace": "cloak_vampire_red"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "zucchetto",
+    "replace": "kippah"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "homewrecker",
+    "replace": "hammer_sledge"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "tec9",
+    "replace": "glock_17"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "tec9mag",
+    "replace": "glockbigmag"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "tec9mag_10rd",
+    "replace": "glock17_10"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "tec9mag_20rd",
+    "replace": "glock17_22"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "tec9mag_30rd",
+    "replace": "glockbigmag"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "tec9mag_36rd",
+    "replace": "glock_drum_50rd"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "tec9mag_50rd",
+    "replace": "glock_drum_50rd"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "tec9mag_72rd",
+    "replace": "glock_drum_100rd"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "tec9_auto_parts",
+    "replace": "glocksear"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "kp32",
+    "replace": "walther_ppk"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "kp32mag",
+    "replace": "ppkmag"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "calico",
+    "replace": "rugerpcc"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "calicomag",
+    "replace": "glock_drum_50rd"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "calicomag_100rd",
+    "replace": "glock_drum_100rd"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "hk_mp5_10_semi",
+    "replace": "glock_40"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "mp5_10_mag",
+    "replace": "tdi_10mm_mag"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "TDI_10",
+    "replace": "glock_40"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "cp33",
+    "replace": "ruger_1022"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "cp33_mag",
+    "replace": "ruger1022mag_55"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "cp33_mag_50",
+    "replace": "ruger1022mag_55"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "p50",
+    "replace": "fn_ps90"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "M6_shotgun",
+    "replace": "u_shotgun"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "savage_111f",
+    "replace": "remington_700_308"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "shotgun_410",
+    "replace": "mossberg_500_410"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "winchester_1887",
+    "replace": "winchester_1897"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "remington_870_breacher",
+    "replace": "mossberg_590_shockwave"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "bren2_762",
+    "replace": "aksemi"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "bren2_762mag10",
+    "replace": "akmag10"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "bren2_762mag30",
+    "replace": "akmag30"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "armguard_lightplate",
+    "replace": "armor_lc_armguard"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xl_armguard_lightplate",
+    "replace": "xl_armor_lc_armguard"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xs_armguard_lightplate",
+    "replace": "armor_lc_armguard"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "legguard_lightplate",
+    "replace": "armor_lc_leg_guard"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xl_legguard_lightplate",
+    "replace": "xl_armor_lc_leg_guard"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xs_legguard_lightplate",
+    "replace": "armor_lc_leg_guard"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "weather_reader",
+    "replace": "geiger_off"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "survivor_machete",
+    "replace": "machete"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "sewage",
+    "replace": "water_sewage"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "brick_kiln",
+    "replace": "kiln"
+  }
+]

@@ -5,6 +5,7 @@
     "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".50 AE FMJ" },
     "description": ".50 Action Express ammunition loaded with a 325-grain jacketed flat-nose bullet, primarily for use in the Desert Eagle pistol.",
+    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "weight": "35 g",
     "volume": "102 ml",
     "price": "40 USD",

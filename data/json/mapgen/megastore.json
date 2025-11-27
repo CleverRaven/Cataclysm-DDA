@@ -117,7 +117,7 @@
       "f": { "item": "SUS_fridge", "chance": 65, "repeat": [ 2, 10 ] },
       "F": { "item": "produce", "chance": 65, "repeat": [ 1, 4 ] },
       "k": { "item": "cannedfood", "chance": 65, "repeat": [ 2, 10 ] },
-      "K": { "item": "pasta", "chance": 65, "repeat": [ 2, 10 ] },
+      "K": { "item": "pasta_ingredients", "chance": 65, "repeat": [ 2, 10 ] },
       "r": { "item": "hardware", "chance": 65, "repeat": [ 1, 4 ] },
       "R": { "item": "cleaning", "chance": 65, "repeat": [ 1, 4 ] },
       "x": { "item": "shoes", "chance": 65, "repeat": [ 1, 8 ] },
@@ -131,12 +131,12 @@
       "b": { "item": "waitingroom", "chance": 65, "repeat": [ 1, 4 ] },
       "f": { "item": "vending_food_items", "chance": 65, "repeat": [ 4, 12 ] },
       "F": { "item": "kitchen", "chance": 65, "repeat": [ 1, 4 ] },
-      "k": { "item": "pasta", "chance": 65, "repeat": [ 2, 10 ] },
+      "k": { "item": "pasta_ingredients", "chance": 65, "repeat": [ 2, 10 ] },
       "K": { "item": "winter", "chance": 65, "repeat": [ 1, 4 ] },
       "r": { "item": "sports", "chance": 65, "repeat": [ 1, 4 ] },
       "R": { "item": "camping", "chance": 65, "repeat": [ 1, 4 ] },
       "x": { "item": "cleaning", "chance": 65, "repeat": [ 1, 4 ] },
-      "X": { "item": "pasta", "chance": 65, "repeat": [ 2, 10 ] }
+      "X": { "item": "pasta_ingredients", "chance": 65, "repeat": [ 2, 10 ] }
     }
   },
   {

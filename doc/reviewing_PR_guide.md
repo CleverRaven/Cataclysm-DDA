@@ -1,3 +1,23 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Guide to Reviewing PRs](#guide-to-reviewing-prs)
+  - [Background & Introduction](#background--introduction)
+  - [How to use this document](#how-to-use-this-document)
+- [PR Review Checklist](#pr-review-checklist)
+  - [1. Focused on a single area](#1-focused-on-a-single-area)
+  - [2. Length restrictions](#2-length-restrictions)
+  - [3. Outside sourced material](#3-outside-sourced-material)
+  - [4. Changes consistent with the description](#4-changes-consistent-with-the-description)
+  - [5. Maintainable and extendible](#5-maintainable-and-extendible)
+  - [6. Balance changes have been justified](#6-balance-changes-have-been-justified)
+  - [7. Failing CI tests aren't related](#7-failing-ci-tests-arent-related)
+- [Indicators to call for a second opinion](#indicators-to-call-for-a-second-opinion)
+- [The role of Discord and the Discord roles](#the-role-of-discord-and-the-discord-roles)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Guide to Reviewing PRs
 
 ## Background & Introduction

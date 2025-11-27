@@ -7,7 +7,6 @@
 #include "debug.h"
 #include "enums.h"
 #include "filesystem.h" // IWYU pragma: keep
-#include "make_static.h"
 #include "options.h"
 #include "rng.h"
 #include "system_locale.h"
@@ -32,6 +31,7 @@ static std::string find_translated_file( const std::string &path, const std::str
 static cata_path find_translated_file( const cata_path &base_path, const std::string &extension,
                                        const cata_path &fallback );
 
+static const std::string empty_path;
 static std::string motd_value;
 static std::string gfxdir_value;
 static std::string config_dir_value;
@@ -608,9 +608,8 @@ std::filesystem::path cata_path::get_logical_root_path() const
             case cata_path::root_path::user:
                 return user_dir_value;
             case cata_path::root_path::unknown:
-            default: {
-                return STATIC( std::string() );
-            }
+            default:
+                return empty_path;
         }
     } )( logical_root_ );
     return std::filesystem::u8path( path_value );

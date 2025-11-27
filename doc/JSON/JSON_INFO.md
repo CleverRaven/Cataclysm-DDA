@@ -4,7 +4,7 @@ Use the `Home` key to return to the top.
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**
+*Contents*
 
 - [Introduction](#introduction)
   - [Overall structure](#overall-structure)
@@ -199,6 +199,7 @@ Use the `Home` key to return to the top.
   - [`whitelist_hobbies`](#whitelist_hobbies-1)
   - [`map_special`](#map_special)
   - [`requirement`](#requirement)
+  - [`hard_requirement`](#hard_requirement)
   - [`reveal_locale`](#reveal_locale)
   - [`distance_initial_visibility`](#distance_initial_visibility)
   - [`eoc`](#eoc)
@@ -520,6 +521,7 @@ Here's a quick summary of what each of the JSON files contain, broken down by fo
 | `tutorial.json`               | messages for the tutorial (that is out of date)
 | `vehicle_groups.json`         | vehicle spawn groups
 | `vehicle_parts.json`          | vehicle parts, does NOT affect flag effects
+| `vehicle_part_locations.json` | locations on vehicles where parts are installed
 | `vitamin.json`                | vitamins and their deficiencies
 
 selected subfolders
@@ -626,7 +628,7 @@ This section describes each json file and their contents. Each json has their ow
     ]
   }
 ```
-For information about tools with option to export ASCII art in format ready to be pasted into `ascii_arts.json`, see [ASCII_ARTS.md](ASCII_ARTS.md).
+For information about tools with option to export ASCII art in format ready to be pasted into the appropriate JSON file, see [ASCII_ART.md](../ASCII_ART.md).
 
 ### Snippets 
 
@@ -810,7 +812,7 @@ Without specifying, the random snippet would be used
 
 ------
 
-Snippets can also be used in EoC, see [EFFECT_ON_CONDITION.md#u_message](EFFECT_ON_CONDITION.md#u_messagenpc_message)
+Snippets can also be used in EoC, see [`EFFECT_ON_CONDITION.md`](EFFECT_ON_CONDITION.md#u_messagenpc_messagemessage)
 
 ------
 
@@ -892,7 +894,7 @@ Each turn, the player's addictions are processed using either the given `effect_
     "effect": [
       { "u_add_morale": "morale_craving_marloss", "bonus": -5, "max_bonus": -30 },
       { "u_message": "You daydream about luscious pink berries as big as your fist.", "type": "info" },
-      { "if": { "math": [ "u_val('focus') > 40" ] }, "then": { "math": [ "u_val('focus')", "--" ] } }
+      { "if": { "math": [ "u_val('focus') > 40" ] }, "then": { "math": [ "u_val('focus')--" ] } }
     ]
   },
 ```
@@ -1370,13 +1372,14 @@ When adding a new bionic, if it's not included with another one, you must also a
 | `edged`             | _(optional)_ Identifies this damage type as originating from a sharp or pointy weapon or implement. (defaults to false)
 | `environmental`     | _(optional)_ This damage type corresponds to environmental sources. Currently influences whether an item or piece of armor includes environmental resistance against this damage type. (defaults to false)
 | `material_required` | _(optional)_ Determines whether materials must defined a resistance for this damage type. (defaults to false)
+| `bash_conversion_factor` | _(optional)_ The rate at which damage of this type will be converted into damage to objects on the map (terrain/furniture/fields). Defaults to 0.
 | `mon_difficulty`    | _(optional)_ Determines whether this damage type should contribute to a monster's difficulty rating. (defaults to false)
 | `no_resist`         | _(optional)_ Identifies this damage type as being impossible to resist against (ie. "pure" damage). (defaults to false)
 | `immune_flags`      | _(optional)_ An object with two optional fields: `"character"` and `"monster"`. Both inner fields list an array of character flags and monster flags, respectively, that would make the character or monster immune to this damage type.
 | `magic_color`       | _(optional)_ Determines which color identifies this damage type when used in spells. (defaults to "black")
 | `derived_from`      | _(optional)_ An array that determines how this damage type should be calculated in terms of armor protection and monster resistance values. The first value is the source damage type and the second value is the modifier applied to source damage type calculations.
 | `onhit_eocs`        | _(optional)_ An array of effect-on-conditions that activate when a monster or character hits another monster or character with this damage type. In this case, `u` refers to the damage source and `npc` refers to the damage target.
-| `ondamage_eocs`        | _(optional)_ An array of effect-on-conditions that activate when a monster or character takes damage from another monster or character with this damage type. In this case, `u` refers to the damage source and `npc` refers to the damage target. Also have access to some [context vals](EFFECT_ON_CONDITION#context-variables-for-other-eocs)
+| `ondamage_eocs`        | _(optional)_ An array of effect-on-conditions that activate when a monster or character takes damage from another monster or character with this damage type. In this case, `u` refers to the damage source and `npc` refers to the damage target. Also have access to some [context vals](EFFECT_ON_CONDITION.md#context-variables-for-other-eocs)
 
 ```jsonc
   {
@@ -1387,6 +1390,7 @@ When adding a new bionic, if it's not included with another one, you must also a
     "physical": true,
     "edged": true,
     "magic_color": "light_red",
+    "bash_conversion_factor": 0.1,
     "name": "pierce",
     "skill": "stabbing",
     "//2": "derived from cut only for monster defs",
@@ -1635,7 +1639,7 @@ Fault fixes are methods to fix faults, the fixes can optionally add other faults
   "requirements": [ [ "gun_cleaning", 1 ] ], // requirements array, see below
   "mod_damage": 1000, // damage to modify on item when fix is applied, can be negative to repair
   "mod_degradation": 50, // degradation to modify on item when fix is applied, can be negative to reduce degradation
-  "time_save_profs": { "prof_gun_cleaning": 0.5 }, // this prof change how fast you fix the item
+  "time_save_profs": { "prof_gun_cleaning": 0.5, "prof_welding": 0.5, }, // those proficiencies change how fast you fix the item
   "time_save_flags": { "EASY_CLEAN": 0.5 } // This flag on the item change how fast you fix this item
 }
 ```
@@ -1935,6 +1939,7 @@ The following properties (mandatory, except if noted otherwise) are supported:
     "points": 0,                                               // Point cost of profession. Positive values cost points and negative values grant points. Has no effect as of 0.G
     "starting_cash": 500000,                                   // (optional) Int value for the starting bank balance.
     "npc_background": "BG_survival_story_LAB",                 // (optional) BG_trait_group ID, provides list of background stories. (see BG_trait_groups.json)
+	"chargen_allow_npc": false,                                // (optional) when false, removes this profession as an option for generated NPCs (default: true)
     "addictions": [ { "intensity": 10, "type": "nicotine" } ], // (optional) Array of addictions. Requires "type" as the string ID of the addiction (see JSON_FLAGS.md) and "intensity"
     "skills": [ { "name": "archery", "level": 2 } ],           // (optional) Array of starting skills. Requires "name" as the string ID of the skill (see skills.json) and "level", which is a value added to the skill level after character creation
     "missions": [ "MISSION_LAST_DELIVERY" ],                   // (optional) Array of starting mission IDs
@@ -1963,7 +1968,8 @@ The following properties (mandatory, except if noted otherwise) are supported:
     "flags": [ "SCEN_ONLY", "NO_BONUS_ITEMS" ],                // (optional) Array of flags applied to the character, for character creation purposes
     "CBMs": [ "bio_fuel_cell_blood" ],                         // (optional) Array of starting implanted CMBs
     "traits": [ "PROF_CHURL", "ILLITERATE" ],                  // (optional) Array of starting traits/mutations. For further information, see mutations.json and MUTATIONS.md. Note: "trait" is also supported, used for a single trait/mutation ID (legacy!)
-    "requirement": "achievement_survive_28_days",              // (optional) String of an achievement ID required to unlock this profession
+    "requirement": "achievement_survive_28_days",              // (optional) String or Array of String of achievement ID(s) required to unlock this profession
+    "hard_requirement": true,                                  // (optional) Defaults false. Whether or not the requirement ignores the metaprogression setting and is always required. Intended for use by mods.
     "effect_on_conditions": [ "scenario_assassin_conv" ],      // (optional) eoc id, inline eoc, or multiple of them, that would run when scenario starts
     "spells": [                                                // (optional) Array of starting spell IDs the character knows upon creation. For further information, see MAGIC.md
       { "id": "magic_missile", "level": 4 },
@@ -2072,7 +2078,7 @@ The array of hobbies (listed as professions) is whitelisted to all characters.  
 "components": [ [ [ "spear_wood", 4 ], [ "pointy_stick", 4 ] ] ],   // Items used in construction
 "pre_special": [ "check_empty", "check_up_OK" ],                    // Required something that isn't terrain. The syntax also allows for a square bracket enclosed list of specials which all have to be fulfilled
 "pre_terrain": "t_pit",                                             // Alternative to pre_special; Required terrain to build on
-"pre_flags": [ "WALL", { "flag": "DIGGABLE", "force_terrain": true } ], // Flags beginning furniture/terrain must have. force_ter forces the flag to apply to the underlying terrain
+"pre_flags": [ "WALL", { "flag": "DIGGABLE", "force_terrain": true } ], // Flags beginning furniture/terrain must have. force_ter forces the flag to apply to the underlying terrain. Must be defined in flags.json
 "post_terrain": "t_pit_spiked",                                     // Terrain type after construction is complete
 "post_special": "done_mine_upstairs",                               // Required to do something beyond setting the post terrain. The syntax also allows for a square bracket enclosed list of specials which all have to be fulfilled
 "pre_note": "Build a spikes on a diggable terrain",                 // Create an annotation to this recipe
@@ -2146,7 +2152,7 @@ The array of hobbies (listed as professions) is whitelisted to all characters.  
 ### Scores, Achievements, and Conducts
 
 Scores are defined in two or three steps based on *events*.  To see what events
-exist and what data they contain, read [`event.h`](../src/event.h).
+exist and what data they contain, read [`event.h`](/src/event.h).
 
 Each event contains a certain set of fields.  Each field has a string key and a
 `cata_variant` value.  The fields should provide all the relevant information
@@ -2157,9 +2163,11 @@ specification for it in `event.h`:
 
 <!-- {% raw %} -->
 ```cpp
+using event_field = std::pair<const char *, cata_variant_type>;
+//...
 template<>
 struct event_spec<event_type::gains_skill_level> {
-    static constexpr std::array<std::pair<const char *, cata_variant_type>, 3> fields = {{
+    static constexpr std::array<event_field, 3> fields = {{
             { "character", cata_variant_type::character_id },
             { "skill", cata_variant_type::skill_id },
             { "new_level", cata_variant_type::int_ },
@@ -2696,6 +2704,7 @@ Vehicle components when installed on a vehicle.
 "location": "fuel_source",    // Optional. One of the checks used when determining if a part 
                               // can be installed on a given tile. A part cannot be installed
                               // if any existing part occupies the same location.
+                              // See "Vehicle Part Locations" below.
 "damage_modifier": 50,        // (Optional, default = 100) Dealt damage multiplier when this
                               // part hits something, as a percentage. Higher = more damage to
                               // creature struck
@@ -2888,6 +2897,21 @@ It also has a hotplate that can be activated by examining it with `e` then `h` o
   { "id": "hotplate", "hotkey": "h" },
   { "id": "pot" }
 ],
+```
+
+### Vehicle Part Locations
+
+The `"location"` field for a Vehicle Part must be a `vehicle_part_location` defined in [data/json/vehicle_part_locations.json](../../data/json/vehicle_part_locations.json)
+
+```jsonc
+  {
+    "type": "vehicle_part_location",
+    "id": "structure",        // Unique identifier
+    "name": "Structure",      // Displayed name
+    "desc": "Frames etc",     // Description of the location and what goes in it
+    "z_order": 5,             // The highest Z part on a tile gets drawn, -1 never gets drawn, default 0
+    "list_order": 1           // Sort order for part lists, lowest first, default 5
+  },
 ```
 
 ### Part Resistance
@@ -3146,33 +3170,13 @@ Harvest drop types are used in harvest drop entries to control how the drop is p
 
 Connect groups can be used by id in terrain and furniture `connect_groups`, `connects_to` and `rotates_to` properties.
 
-Examples from the actual definitions:
-
-**`group_flags`**: Flags that imply that terrain or furniture is added to this group.
-
-**`connects_to_flags`**: Flags that imply that terrain or furniture connects to this group.
-
-**`rotates_to_flags`**: Flags that imply that terrain or furniture rotates to this group.
+Example
 
 ```jsonc
-[
   {
     "type": "connect_group",
-    "id": "WALL",
-    "group_flags": [ "WALL", "CONNECT_WITH_WALL" ],
-    "connects_to_flags": [ "WALL", "CONNECT_WITH_WALL" ]
-  },
-  {
-    "type": "connect_group",
-    "id": "CHAINFENCE"
-  },
-  {
-    "type": "connect_group",
-    "id": "INDOORFLOOR",
-    "group_flags": [ "INDOORS" ],
-    "rotates_to_flags": [ "WINDOW", "DOOR" ]
+    "id": "WALL"
   }
-]
 ```
 
 ### Furniture
@@ -3689,8 +3693,6 @@ MARBLEFLOOR          BEACH_FORMATIONS
 GRAVELPILE           LIXATUBE
 ```
 
-`WALL` is implied by the flags `WALL` and `CONNECT_WITH_WALL`.
-`INDOORFLOOR` is implied by the flag `INDOORS`.
 Implicit groups can be removed be using tilde `~` as prefix of the group name.
 
 #### `connects_to`
@@ -3805,7 +3807,7 @@ Defines the various things that happen when the player or something else bashes 
     "destroy_only": true,
     "bash_below": true,
     "tent_centers": ["f_groundsheet", "f_fema_groundsheet", "f_skin_groundsheet"],
-    "items": "bashed_item_result_group"
+    "items": "bashed_item_result_group" // if terrain or furniture uses `item`, you can omit this field, the game would pick the bash from item uncraft recipe, with some items bashed down to it's components. Alternatively, the game would pick it from the item deconstruction, with, again, some items bashed down to it's components.
 }
 ```
 
@@ -3855,7 +3857,7 @@ This terrain is the roof of the tile below it, try to destroy that too. Further 
     "furn_set": "f_safe",
     "ter_set": "t_dirt",
     "skill": { "skill": "electronics", "multiplier": 0.5, "min": 1, "max": 8 },
-    "items": "deconstructed_item_result_group"
+    "items": "deconstructed_item_result_group" // if terrain or furniture uses `item`, you can omit this field, the game would then assign the base item to drop for deconstruction
 }
 ```
 
@@ -4058,6 +4060,12 @@ Add a map special to the starting location, see JSON_FLAGS for the possible spec
 (optional, an achievement ID)
 
 The achievement you need to do to access this scenario
+
+## `hard_requirement`
+
+(optional, bool)
+
+Defaults false. Whether or not the requirement ignores the metaprogression setting and is always required. Intended for use by mods.
 
 ## `reveal_locale`
 
@@ -4314,7 +4322,7 @@ Setting of sprite sheets. Same as `tiles-new` field in `tile_config`. Sprite fil
 
 # Obsoletion and migration
 
-[OBSOLETION_AND_MIGRATION.md](#OBSOLETION_AND_MIGRATION.md)
+[OBSOLETION_AND_MIGRATION.md](OBSOLETION_AND_MIGRATION.md)
 
 
 # Field types
@@ -4402,8 +4410,9 @@ Fields can exist on top of terrain/furniture, and support different intensity le
     "decrease_intensity_on_contact": true, // Decrease the field intensity by one each time a character walk on it.
     "mopsafe": false, // field is safe to use in a mopping zone
     "bash": {
-      "str_min": 1, // lower bracket of bashing damage required to bash
-      "str_max": 3, // higher bracket
+      "str_min": 1, // minimum damage required to bash - e.g. 2 damage is required here
+      "str_max": 3, // defines "bash hp", minus str_min - how many minimum damage hits must be dealt to destroy
+      "profile": "wooden_door", // describes how different damage types will be applied as bash damage
       "sound_vol": 2, // noise made when successfully bashing the field
       "sound_fail_vol": 2, // noise made when failing to bash the field
       "sound": "shwip", // sound on success

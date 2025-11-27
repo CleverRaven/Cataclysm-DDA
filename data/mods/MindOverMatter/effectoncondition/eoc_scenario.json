@@ -9,7 +9,7 @@
       { "math": [ "u_spell_level('pyrokinetic_aura_knack') = 5" ] },
       { "math": [ "u_spell_level('pyrokinetic_blast_knack') = 5" ] },
       { "u_learn_recipe": "psi_centering_meditation_drain_reduce_heart_of_fire" },
-      { "math": [ "u_awakening_countup", "+=", "50" ] }
+      { "math": [ "u_awakening_countup += 50" ] }
     ]
   },
   {

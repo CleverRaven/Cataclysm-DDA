@@ -9,7 +9,6 @@
 #include <unordered_map>
 #include <utility>
 
-#include "active_item_cache.h"
 #include "bionics.h"
 #include "character.h"
 #include "character_attire.h"
@@ -22,7 +21,6 @@
 #include "item_contents.h"
 #include "item_pocket.h"
 #include "itype.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_selector.h"
 #include "mapdata.h"
@@ -40,7 +38,13 @@
 
 static const bionic_id bio_ups( "bio_ups" );
 
+static const flag_id json_flag_ITEM_BROKEN( "ITEM_BROKEN" );
+static const flag_id json_flag_PSEUDO( "PSEUDO" );
+static const flag_id json_flag_USES_BIONIC_POWER( "USES_BIONIC_POWER" );
+static const flag_id json_flag_USE_UPS( "USE_UPS" );
+
 static const itype_id itype_UPS( "UPS" );
+static const itype_id itype_any( "any" );
 static const itype_id itype_apparatus( "apparatus" );
 
 static const quality_id qual_BUTCHER( "BUTCHER" );
@@ -837,9 +841,9 @@ static int charges_of_internal( const T &self, const M &main, const itype_id &id
                 } else {
                     qty = sum_no_wrap( qty, e->ammo_remaining_linked( here, nullptr ) );
                 }
-                if( e->has_flag( STATIC( flag_id( "USE_UPS" ) ) ) ) {
+                if( e->has_flag( json_flag_USE_UPS ) ) {
                     found_tool_with_UPS = true;
-                } else if( e->has_flag( STATIC( flag_id( "USES_BIONIC_POWER" ) ) ) ) {
+                } else if( e->has_flag( json_flag_USES_BIONIC_POWER ) ) {
                     found_bionic_tool = true;
                 }
             } else if( id == itype_UPS && e->has_flag( flag_IS_UPS ) ) {
@@ -966,9 +970,9 @@ static int amount_of_internal( const T &self, const itype_id &id, bool pseudo, i
 {
     int qty = 0;
     self.visit_items( [&qty, &id, &pseudo, &limit, &filter]( const item * e, item * ) {
-        if( !e->has_flag( STATIC( flag_id( "ITEM_BROKEN" ) ) ) &&
-            ( id == STATIC( itype_id( "any" ) ) || e->typeId() == id ) && filter( *e ) &&
-            ( pseudo || !e->has_flag( STATIC( flag_id( "PSEUDO" ) ) ) ) ) {
+        if( !e->has_flag( json_flag_ITEM_BROKEN ) &&
+            ( id == itype_any || e->typeId() == id ) && filter( *e ) &&
+            ( pseudo || !e->has_flag( json_flag_PSEUDO ) ) ) {
             qty = sum_no_wrap( qty, 1 );
         }
         return qty != limit ? VisitResponse::NEXT : VisitResponse::ABORT;
@@ -989,12 +993,12 @@ int inventory::amount_of( const itype_id &what, bool pseudo, int limit,
 {
     const itype_bin &binned = get_binned_items();
     const auto iter = binned.find( what );
-    if( iter == binned.end() && what != STATIC( itype_id( "any" ) ) ) {
+    if( iter == binned.end() && what != itype_any ) {
         return 0;
     }
 
     int res = 0;
-    if( what.str() == "any" ) {
+    if( what == itype_any ) {
         for( const auto &kv : binned ) {
             for( const item *it : kv.second ) {
                 res = sum_no_wrap( res, it->amount_of( what, pseudo, limit, filter ) );

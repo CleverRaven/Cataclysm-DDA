@@ -39,12 +39,18 @@
     "smoking_result": "dry_corn",
     "vitamins": [ [ "vitC", 12 ], [ "iron", 4 ], [ "veggy_allergen", 1 ] ],
     "petfood": [ "CATTLEFOOD" ],
-    "flags": [ "EDIBLE_FROZEN", "EATEN_HOT", "SMOKABLE", "RAW", "INEDIBLE", "CATTLE", "PLANTABLE_SEED", "BIRD", "RAT", "MOUSE" ],
+    "flags": [ "EDIBLE_FROZEN", "EATEN_HOT", "RAW", "INEDIBLE", "CATTLE", "PLANTABLE_SEED", "BIRD", "RAT", "MOUSE" ],
     "plant_name": "corn",
     "fruit": "corn",
     "seeds": false,
     "byproducts": [ "withered" ],
-    "grow": "80 days"
+    "growth_stages": [
+      { "GROWTH_SEED": "20 days" },
+      { "GROWTH_SEEDLING": "20 days" },
+      { "GROWTH_MATURE": "20 days" },
+      { "GROWTH_HARVEST": "20 days" },
+      { "GROWTH_OVERGROWN": "1 hour" }
+    ]
   },
   {
     "type": "ITEM",
@@ -90,12 +96,18 @@
     "fun": -2,
     "smoking_result": "kernels",
     "petfood": [ "CATTLEFOOD", "BIRDFOOD" ],
-    "flags": [ "NUTRIENT_OVERRIDE", "EATEN_HOT", "SMOKABLE", "RAW", "PLANTABLE_SEED", "CATTLE", "BIRD", "RAT", "MOUSE" ],
+    "flags": [ "NUTRIENT_OVERRIDE", "EATEN_HOT", "RAW", "PLANTABLE_SEED", "CATTLE", "BIRD", "RAT", "MOUSE" ],
     "plant_name": "popcorn",
     "fruit": "popcorn_cob",
     "seeds": false,
     "byproducts": [ "withered" ],
-    "grow": "91 days"
+    "growth_stages": [
+      { "GROWTH_SEED": "23 days" },
+      { "GROWTH_SEEDLING": "23 days" },
+      { "GROWTH_MATURE": "23 days" },
+      { "GROWTH_HARVEST": "22 days" },
+      { "GROWTH_OVERGROWN": "1 hour" }
+    ]
   },
   {
     "type": "ITEM",
@@ -121,7 +133,13 @@
     "fruit": "popcorn_cob",
     "seeds": false,
     "byproducts": [ "withered" ],
-    "grow": "91 days"
+    "growth_stages": [
+      { "GROWTH_SEED": "23 days" },
+      { "GROWTH_SEEDLING": "23 days" },
+      { "GROWTH_MATURE": "23 days" },
+      { "GROWTH_HARVEST": "22 days" },
+      { "GROWTH_OVERGROWN": "1 hour" }
+    ]
   },
   {
     "type": "ITEM",
@@ -187,7 +205,7 @@
     "//": "Wheatstraw has about 4410 kcal/kg, about 30 kcal will be lost when the wheat is threshed, and another 10 when it's winnowed. Humans can't digest wheatstraw, but many herbivores can.",
     "price_postapoc": "20 cent",
     "material": [ "veggy" ],
-    "flags": [ "SMOKABLE", "FRESH_GRAIN", "INEDIBLE", "CATTLE" ],
+    "flags": [ "FRESH_GRAIN", "INEDIBLE", "CATTLE" ],
     "petfood": [ "CATTLEFOOD" ],
     "smoking_result": "dry_wheat_stalks",
     "volume": "1 L",
@@ -278,7 +296,13 @@
     "plant_name": "wheat",
     "fruit": "wheat_stalks",
     "seeds": false,
-    "grow": "120 days",
+    "growth_stages": [
+      { "GROWTH_SEED": "30 days" },
+      { "GROWTH_SEEDLING": "30 days" },
+      { "GROWTH_MATURE": "30 days" },
+      { "GROWTH_HARVEST": "30 days" },
+      { "GROWTH_OVERGROWN": "1 hour" }
+    ],
     "into": "flour",
     "recipe": "flour_mill_1_15"
   },
@@ -332,7 +356,13 @@
     "plant_name": "barley",
     "fruit": "barley_stalks",
     "seeds": false,
-    "grow": "70 days",
+    "growth_stages": [
+      { "GROWTH_SEED": "18 days" },
+      { "GROWTH_SEEDLING": "18 days" },
+      { "GROWTH_MATURE": "17 days" },
+      { "GROWTH_HARVEST": "17 days" },
+      { "GROWTH_OVERGROWN": "1 hour" }
+    ],
     "into": "flour",
     "recipe": "flour_mill_1_15"
   },
@@ -405,7 +435,13 @@
     "plant_name": "oats",
     "fruit": "oat_stalks",
     "seeds": false,
-    "grow": "65 days",
+    "growth_stages": [
+      { "GROWTH_SEED": "17 days" },
+      { "GROWTH_SEEDLING": "16 days" },
+      { "GROWTH_MATURE": "16 days" },
+      { "GROWTH_HARVEST": "16 days" },
+      { "GROWTH_OVERGROWN": "1 hour" }
+    ],
     "into": "flour_wheat_free",
     "recipe": "flour_wheat_free_mill_4_15"
   },
@@ -449,7 +485,13 @@
     "plant_name": "wild rice",
     "fruit": "wild_rice_stalks",
     "seeds": false,
-    "grow": "91 days",
+    "growth_stages": [
+      { "GROWTH_SEED": "23 days" },
+      { "GROWTH_SEEDLING": "23 days" },
+      { "GROWTH_MATURE": "23 days" },
+      { "GROWTH_HARVEST": "22 days" },
+      { "GROWTH_OVERGROWN": "1 hour" }
+    ],
     "into": "dry_wild_rice",
     "recipe": "dry_wild_rice_mill_1_5"
   },
@@ -475,7 +517,13 @@
     "plant_name": "buckwheat",
     "fruit": "buckwheat_stalks",
     "seeds": false,
-    "grow": "91 days",
+    "growth_stages": [
+      { "GROWTH_SEED": "23 days" },
+      { "GROWTH_SEEDLING": "23 days" },
+      { "GROWTH_MATURE": "23 days" },
+      { "GROWTH_HARVEST": "22 days" },
+      { "GROWTH_OVERGROWN": "1 hour" }
+    ],
     "into": "flour_wheat_free",
     "recipe": "flour_wheat_free_mill_1_15"
   },
@@ -556,7 +604,13 @@
     "plant_name": "canola",
     "fruit": "canola_stalks",
     "seeds": false,
-    "grow": "91 days",
+    "growth_stages": [
+      { "GROWTH_SEED": "23 days" },
+      { "GROWTH_SEEDLING": "23 days" },
+      { "GROWTH_MATURE": "23 days" },
+      { "GROWTH_HARVEST": "22 days" },
+      { "GROWTH_OVERGROWN": "1 hour" }
+    ],
     "into": "paste_seed",
     "recipe": "paste_seed_mill_1_1"
   },
@@ -611,7 +665,13 @@
     "plant_name": "lentils",
     "fruit": "dry_lentil_stalks",
     "seeds": false,
-    "grow": "91 days"
+    "growth_stages": [
+      { "GROWTH_SEED": "23 days" },
+      { "GROWTH_SEEDLING": "23 days" },
+      { "GROWTH_MATURE": "23 days" },
+      { "GROWTH_HARVEST": "22 days" },
+      { "GROWTH_OVERGROWN": "1 hour" }
+    ]
   },
   {
     "type": "ITEM",
@@ -628,7 +688,7 @@
     "calories": 679,
     "price_postapoc": "20 cent",
     "material": [ "veggy" ],
-    "flags": [ "SMOKABLE", "FRESH_GRAIN", "INEDIBLE", "CATTLE" ],
+    "flags": [ "FRESH_GRAIN", "INEDIBLE", "CATTLE" ],
     "petfood": [ "CATTLEFOOD" ],
     "smoking_result": "dry_buckwheat_stalks",
     "volume": "315 ml",

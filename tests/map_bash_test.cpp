@@ -98,8 +98,7 @@ static void test_bash_set( const bash_test_set &set )
             if( it == test.furn_tries.end() ) {
                 CHECK( tries == max_tries );
             } else {
-                CHECK( tries >= it->second.first );
-                CHECK( tries <= it->second.second );
+                CHECK( tries == it->second );
             }
         }
         for( const ter_id &ter : set.tested_ter ) {
@@ -115,8 +114,7 @@ static void test_bash_set( const bash_test_set &set )
             if( it == test.ter_tries.end() ) {
                 CHECK( tries == max_tries );
             } else {
-                CHECK( tries >= it->second.first );
-                CHECK( tries <= it->second.second );
+                CHECK( tries == it->second );
             }
         }
     }
@@ -196,7 +194,7 @@ static void test_bash_fields( const std::function<void( map &, const tripoint_bu
 
     // destroying hit
     {
-        here.bash( pt_3, bash_limits().second + 1 );
+        here.bash( pt_3, bash_limits().second * 2 );
 
         CHECK_FALSE( present( here, pt_3 ) );
         const field &fields = here.field_at( pt_3 );
@@ -360,7 +358,6 @@ TEST_CASE( "map_bash_ephemeral_persistence", "[map][bash]" )
         CHECK( here.get_map_damage( test_pt ) > 0 );
         // Bash it again to destroy it
         here.bash( test_pt, 999 );
-        CHECK( here.furn( test_pt ) != furn_test_f_bash_persist );
         // Then, it is gone and there is no map damage
         CHECK( here.furn( test_pt ) != furn_test_f_bash_persist );
         CHECK( here.get_map_damage( test_pt ) == 0 );
@@ -378,7 +375,6 @@ TEST_CASE( "map_bash_ephemeral_persistence", "[map][bash]" )
         CHECK( here.get_map_damage( test_pt ) > 0 );
         // Bash it again to destroy it
         here.bash( test_pt, 999 );
-        CHECK( here.ter( test_pt ) != ter_test_t_bash_persist );
         // Then, it is gone and there is no map damage
         CHECK( here.ter( test_pt ) != ter_test_t_bash_persist );
         CHECK( here.get_map_damage( test_pt ) == 0 );

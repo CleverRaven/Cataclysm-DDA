@@ -135,9 +135,6 @@ void overmap_connections::load( const JsonObject &jo, const std::string &src )
 void overmap_connections::finalize()
 {
     connections.finalize();
-    for( const overmap_connection &elem : connections.get_all() ) {
-        const_cast<overmap_connection &>( elem ).finalize(); // This cast is ugly, but safe.
-    }
 }
 
 void overmap_connections::check_consistency()

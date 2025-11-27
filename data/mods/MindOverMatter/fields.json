@@ -930,5 +930,22 @@
     "display_items": true,
     "display_field": true,
     "looks_like": "fd_fatigue"
+  },
+  {
+    "id": "fd_radiation_aura",
+    "type": "field_type",
+    "intensity_levels": [
+      {
+        "name": "glow",
+        "color": "light_cyan",
+        "sym": "*",
+        "dangerous": true,
+        "extra_radiation_min": 2,
+        "extra_radiation_max": 4
+      }
+    ],
+    "half_life": "2 seconds",
+    "linear_half_life": true,
+    "display_field": false
   }
 ]

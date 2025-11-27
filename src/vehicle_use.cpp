@@ -19,6 +19,8 @@
 #include "creature.h"
 #include "creature_tracker.h"
 #include "debug.h"
+#include "dialogue.h"
+#include "effect_on_condition.h"
 #include "enums.h"
 #include "game.h"
 #include "game_inventory.h"
@@ -29,7 +31,6 @@
 #include "item.h"
 #include "itype.h"
 #include "iuse.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_scale_constants.h"
@@ -72,10 +73,15 @@ static const efftype_id effect_tied( "tied" );
 
 static const fault_id fault_engine_starter( "fault_engine_starter" );
 
+static const flag_id json_flag_DETERGENT( "DETERGENT" );
 static const flag_id json_flag_FILTHY( "FILTHY" );
+static const flag_id json_flag_IRREMOVABLE( "IRREMOVABLE" );
+static const flag_id json_flag_NO_PACKED( "NO_PACKED" );
+static const flag_id json_flag_PSEUDO( "PSEUDO" );
 
 static const furn_str_id furn_f_plant_harvest( "f_plant_harvest" );
 static const furn_str_id furn_f_plant_seed( "f_plant_seed" );
+static const furn_str_id furn_f_plant_unharvested_overgrown( "f_plant_unharvested_overgrown" );
 
 static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_muscle( "muscle" );
@@ -491,7 +497,7 @@ void vehicle::autopilot_patrol_check( map &here )
     if( mgr.has_near( zone_type_VEHICLE_PATROL, pos_abs(), MAX_VIEW_DISTANCE ) ) {
         enable_patrol( here );
     } else {
-        g->zones_manager();
+        zone_manager_ui::display_zone_manager();
     }
 }
 
@@ -686,7 +692,8 @@ bool vehicle::start_engine( map &here, vehicle_part &vp )
     const time_duration start_time = engine_start_time( here, vp );
     const tripoint_bub_ms pos = bub_part_pos( here, vp );
 
-    if( ( 1 - dmg ) < vpi.engine_info->backfire_threshold &&
+    if( !is_engine_type( vp, fuel_type_battery ) &&
+        ( 1 - dmg ) < vpi.engine_info->backfire_threshold &&
         one_in( vpi.engine_info->backfire_freq ) ) {
         backfire( &here, vp );
     } else {
@@ -903,8 +910,8 @@ void vehicle::reload_seeds( map *here, const tripoint_bub_ms &pos )
 
     if( seed_index > 0 && seed_index < static_cast<int>( seed_entries.size() ) ) {
         const int count = std::get<2>( seed_entries[seed_index] );
-        int amount = 0;
-        query_int( amount, false, _( "Move how many?  [Have %d] (0 to cancel)" ), count );
+        int amount = count;
+        query_int( amount, true, _( "Move how many?  (0 to cancel)" ) );
 
         if( amount > 0 ) {
             int actual_amount = std::min( amount, count );
@@ -1041,10 +1048,13 @@ void vehicle::operate_reaper( map &here )
 {
     for( const vpart_reference &vp : get_enabled_parts( "REAPER" ) ) {
         const tripoint_bub_ms reaper_pos = vp.pos_bub( here );
-        const int plant_produced = rng( 1, vp.info().bonus );
-        const int seed_produced = rng( 1, 3 );
+        int plant_produced = rng( 1, vp.info().bonus );
+        int seed_produced = rng( 1, 3 );
         const units::volume max_pickup_volume = vp.info().size / 20;
-        if( here.furn( reaper_pos ) != furn_f_plant_harvest ) {
+        if( here.furn( reaper_pos ) == furn_f_plant_unharvested_overgrown ) {
+            plant_produced = 0;
+            seed_produced = 0;
+        } else if( here.furn( reaper_pos ) != furn_f_plant_harvest ) {
             continue;
         }
         // Can't use item_stack::only_item() since there might be fertilizer
@@ -1271,7 +1281,6 @@ void vehicle::lock( int part_index )
 
 bool vehicle::can_close( int part_index, Character &who )
 {
-    creature_tracker &creatures = get_creature_tracker();
     part_index = get_non_fake_part( part_index );
     std::vector<std::vector<int>> openable_parts = find_lines_of_parts( part_index, "OPENABLE" );
     if( openable_parts.empty() ) {
@@ -1283,16 +1292,7 @@ bool vehicle::can_close( int part_index, Character &who )
         for( int partID : vec ) {
             // Check the part for collisions, then if there's a fake part present check that too.
             while( partID >= 0 ) {
-                const Creature *const mon = creatures.creature_at( abs_part_pos( parts[partID] ) );
-                if( mon ) {
-                    if( mon->is_avatar() ) {
-                        who.add_msg_if_player( m_info, _( "There's some buffoon in the way!" ) );
-                    } else if( mon->is_monster() ) {
-                        // TODO: Houseflies, mosquitoes, etc shouldn't count
-                        who.add_msg_if_player( m_info, _( "The %s is in the way!" ), mon->get_name() );
-                    } else {
-                        who.add_msg_if_player( m_info, _( "%s is in the way!" ), mon->disp_name() );
-                    }
+                if( doors::check_mon_blocking_door( who, abs_part_pos( parts[partID] ) ) ) {
                     return false;
                 }
                 if( parts[partID].has_fake && parts[parts[partID].fake_part_at].is_active_fake ) {
@@ -1395,7 +1395,7 @@ void vehicle::use_autoclave( map &here, int p )
     } );
 
     bool unpacked_items = std::any_of( items.begin(), items.end(), []( const item & i ) {
-        return i.has_flag( STATIC( flag_id( "NO_PACKED" ) ) );
+        return i.has_flag( json_flag_NO_PACKED );
     } );
 
     bool cbms = std::all_of( items.begin(), items.end(), []( const item & i ) {
@@ -1442,7 +1442,7 @@ void vehicle::use_washing_machine( map &here, int p )
     // Get all the items that can be used as detergent
     const inventory &inv = player_character.crafting_inventory();
     std::vector<const item *> detergents = inv.items_with( [inv]( const item & it ) {
-        return it.has_flag( STATIC( flag_id( "DETERGENT" ) ) ) && inv.has_charges( it.typeId(), 5 );
+        return it.has_flag( json_flag_DETERGENT ) && inv.has_charges( it.typeId(), 5 );
     } );
 
     vehicle_stack items = get_items( vp );
@@ -1882,14 +1882,14 @@ std::pair<const itype_id &, int> vehicle::tool_ammo_available( map &here,
 
 int vehicle::prepare_tool( map &here, item &tool ) const
 {
-    tool.set_flag( STATIC( flag_id( "PSEUDO" ) ) );
+    tool.set_flag( json_flag_PSEUDO );
 
     const auto &[ammo_itype_id, ammo_amount] = tool_ammo_available( here, tool.typeId() );
     if( ammo_itype_id.is_null() ) {
         return 0; // likely tool needs no ammo
     }
     item mag_mod( itype_pseudo_magazine_mod );
-    mag_mod.set_flag( STATIC( flag_id( "IRREMOVABLE" ) ) );
+    mag_mod.set_flag( json_flag_IRREMOVABLE );
     if( !tool.put_in( mag_mod, pocket_type::MOD ).success() ) {
         debugmsg( "tool %s has no space for a %s, this is likely a bug",
                   tool.typeId().str(), mag_mod.type->nname( 1 ) );
@@ -2055,7 +2055,7 @@ void vehicle::build_interact_menu( veh_menu &menu, map *here, const tripoint_bub
             .hotkey( "TOGGLE_ALARM" )
             .on_submit( [this] {
                 is_alarm_on = true;
-                add_msg( _( "You trigger the alarm" ) );
+                add_msg( _( "You trigger the alarm!" ) );
             } );
         }
     }
@@ -2066,6 +2066,15 @@ void vehicle::build_interact_menu( veh_menu &menu, map *here, const tripoint_bub
         .hotkey( "TOGGLE_ALARM" )
         .on_submit( [this, here] { smash_security_system( *here ); } );
     }
+    for( const vpart_reference &vp : this->get_avail_parts( "EOC_ACTIVATION" ) ) {
+        vehicle_part &part = vp.part();
+        menu.add( string_format( _( "Activate  %s" ), vp.part().name() ) )
+        .on_submit( [&part] {
+            dialogue newDialog( get_talker_for( get_player_character() ), nullptr );
+            part.info().activatable_eoc.value()->activate( newDialog );
+        } );
+    }
+
 
     if( remote ) {
         menu.add( _( "Stop controlling" ) )
@@ -2418,7 +2427,7 @@ void vehicle::build_interact_menu( veh_menu &menu, map *here, const tripoint_bub
         .enable( fuel_left( *here, itype_water ) &&
                  fuel_left( *here, itype_battery ) >= itype_water_purifier->charges_to_use() )
         .hotkey( "PURIFY_WATER" )
-        .on_submit( [this, &here] {
+        .on_submit( [this, here] {
             const auto sel = []( const map &, const vehicle_part & pt )
             {
                 return pt.is_tank() && pt.ammo_current() == itype_water;

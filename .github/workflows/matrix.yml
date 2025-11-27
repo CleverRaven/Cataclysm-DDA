@@ -38,19 +38,16 @@ concurrency:
 # For github provided runners: https://github.com/actions/runner-images
 # See also our publicized docs about compiler support: https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/c++/COMPILER_SUPPORT.md
 #
-# At the time of writing (Jan 2025), the feature matrix for the above criteria looks like this:
+# At the time of writing (June 2025), the feature matrix for the above criteria looks like this:
 # | name                                 | OS       | compiler | newest/ oldest | tiles | sound | localize | cmake | backtrace | lto | sanitize | mods |
 # | ------------------------------------ | -------- | -------- | -------------- | ----- | ----- | -------- | ----- | --------- | --- | -------- | ---- |
 # | Basic Build and Test                 | ubuntu   | clang-13 | oldest (clang) |       |       | yes      |       |           |     |          | yes  |
 # | Clang 18, Ubuntu, Tiles, ASan        | ubuntu   | clang-18 | newest (clang) | yes   |       | yes      |       | yes       |     | address  |      |
 # | GCC 9, Curses, LTO                   | ubuntu   | gcc-9    | oldest   (gcc) |       |       | yes      |       | yes       | yes |          |      |
-# | GCC 12, Ubuntu, Curses, ASan         | ubuntu   | gcc-12   | newest*  (gcc) |       |       | yes      |       |           |     | address  |      |
+# | GCC 14, Ubuntu, Curses               | ubuntu   | gcc-14   | newest   (gcc) |       |       | yes      |       |           |     |          |      |
 # | GCC 9, Ubuntu, Tiles, Sound, CMake   | ubuntu   | gcc-9    | oldest   (gcc) | yes   | yes   |          | yes   |           |     |          |      |
 # | macOS 13, Apple Clang 15             | macOS 13 | apple clang-15  |  N/A    | yes   | yes   | yes      |       |           |     |          |      |
 # | Windows (in msvc-full-features.yml)  | windows  | msvc     |     N/A        | yes   | yes   | yes      |       | yes?      |     |          |      |
-#
-# gcc-12 is not actually newest. gcc-14 exists, but it's failing the asan tests on newer (24.04) ubuntu runners for whatever reason.
-# See https://github.com/CleverRaven/Cataclysm-DDA/pull/79517#issuecomment-2635790180 for a tiny bit more context
 
 jobs:
   skip-duplicates-code:
@@ -64,7 +61,7 @@ jobs:
         uses: fkirc/skip-duplicate-actions@master
         with:
           skip_after_successful_duplicate: 'false'
-          paths_ignore: '["android/**", "build-data/osx/**", "doc/**", "doxygen_doc/**", "lgtm/**", "msvc-**", "object_creator/**", "tools/**", "utilities/**", "data/**", "lang/**"]'
+          paths_ignore: '["android/**", "build-data/osx/**", "doc/**", "doxygen_doc/**", "lgtm/**", "msvc-**", "tools/**", "utilities/**", "data/**", "lang/**"]'
   skip-duplicates-data:
     continue-on-error: true
     runs-on: ubuntu-latest
@@ -76,7 +73,7 @@ jobs:
         uses: fkirc/skip-duplicate-actions@master
         with:
           skip_after_successful_duplicate: 'false'
-          paths_ignore: '["android/**", "build-data/osx/**", "doc/**", "doxygen_doc/**", "lgtm/**", "msvc-**", "object_creator/**", "tools/**", "utilities/**"]'
+          paths_ignore: '["android/**", "build-data/osx/**", "doc/**", "doxygen_doc/**", "lgtm/**", "msvc-**", "tools/**", "utilities/**"]'
   matrix-variables:
     permissions:
       contents: none
@@ -116,15 +113,15 @@ jobs:
             ccache_key: linux-llvm-13
 
           - compiler: clang++
-            os: macos-13
+            os: macos-15
             cmake: 0
             native: osx
             pch: 0
             tiles: 1
             sound: 1
             localize: 1
-            title: macOS 13, Apple Clang 15, Tiles, Sound, x64 and arm64 Universal Binary
-            ccache_limit: 10G
+            title: macOS 15, Apple Clang 18, Tiles, Sound, x64 and arm64 Universal Binary
+            ccache_limit: 12G
             ccache_key: macos-llvm-15-universal
 
           - title: Android x64 (build only)
@@ -146,6 +143,7 @@ jobs:
             title: GCC 9, Curses, LTO
             ccache_limit: 7.5G
             ccache_key: linux-gcc-9-lto
+            extra_package: g++-9
 
           - compiler: clang++-18
             os: ubuntu-latest
@@ -161,18 +159,17 @@ jobs:
             ccache_limit: 6G
             ccache_key: linux-llvm-18-asan
 
-          - compiler: g++-12
-            os: ubuntu-22.04
+          - compiler: g++-14
+            os: ubuntu-latest
             cmake: 0
             tiles: 0
             sound: 0
             localize: 1
             native: linux64
             pch: 1
-            sanitize: address
-            title: GCC 12, Ubuntu, Curses, ASan
+            title: GCC 14, Ubuntu, Curses
             ccache_limit: 6.5G
-            ccache_key: linux-gcc-12-asan
+            ccache_key: linux-gcc-14
 
           - compiler: g++-9
             os: ubuntu-22.04
@@ -186,6 +183,7 @@ jobs:
             title: GCC 9, Ubuntu, Tiles, Sound, CMake
             ccache_limit: 1G
             ccache_key: linux-gcc-9-cmake
+            extra_package: g++-9
 
     name: ${{ matrix.title }}
     runs-on: ${{ matrix.os }}
@@ -238,7 +236,7 @@ jobs:
       if: ${{ env.SKIP == 'false' && runner.os == 'Linux' }}
       run: |
           sudo apt-get update
-          sudo apt-get install libncursesw5-dev ccache gettext parallel
+          sudo apt-get install libncursesw5-dev ccache gettext parallel ${{ matrix.extra_package }}
           sudo locale-gen en_US.UTF-8 de_DE.UTF-8
     - name: install SDL2 dependencies (ubuntu)
       if: ${{ env.SKIP == 'false' && runner.os == 'Linux' && matrix.tiles == 1 }}
@@ -346,8 +344,8 @@ jobs:
         path: tests/cata_test*
         if-no-files-found: ignore
         retention-days: 9
-  emscripten:
-    needs: [ skip-duplicates-code, varied_builds ]
-    uses: ./.github/workflows/emscripten.yml
-    if: ${{ needs.skip-duplicates.outputs.should_skip_code != 'true' && success() && github.event.pull_request.draft == false }}
-    secrets: inherit
+  #emscripten:
+  #  needs: [ skip-duplicates-code, varied_builds ]
+  #  uses: ./.github/workflows/emscripten.yml
+  #  if: ${{ needs.skip-duplicates.outputs.should_skip_code != 'true' && success() && github.event.pull_request.draft == false }}
+  #  secrets: inherit

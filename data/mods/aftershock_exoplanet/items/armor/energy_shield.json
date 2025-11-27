@@ -78,10 +78,10 @@
             "run_eocs": "EOC_start_shield",
             "variables": {
               "transform_target": "afs_backpack_shieldgen_on",
-              "shield_max_hp": "600",
-              "shield_regen": "2",
-              "shield_regen_rate": "1",
-              "turn_cost": "1",
+              "shield_max_hp": 600,
+              "shield_regen": 2,
+              "shield_regen_rate": 1,
+              "turn_cost": 1,
               "success_message": "a",
               "failure_message": "b"
             }
@@ -226,7 +226,7 @@
             },
             "then": [
               { "math": [ "n_shield_turn = 0" ] },
-              { "math": [ "n_ENERGY_SHIELD_HP", "+=", "n_SHIELD_REGEN" ] },
+              { "math": [ "n_ENERGY_SHIELD_HP += n_SHIELD_REGEN" ] },
               {
                 "math": [
                   "n_ENERGY_SHIELD_HP",

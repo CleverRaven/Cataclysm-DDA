@@ -1,0 +1,172 @@
+[
+  {
+    "type": "relic_procgen_data",
+    "id": "photokinetic_crystal_procgen",
+    "charge_types": [
+      {
+        "weight": 100,
+        "charges": { "range": [ 0, 3 ], "power": 25 },
+        "charges_per_use": { "range": [ 1, 1 ], "power": 25 },
+        "max_charges": { "range": [ 1, 4 ], "power": 25 },
+        "recharge_type": "periodic",
+        "time": [ "3 h", "24 h" ]
+      }
+    ],
+    "active_procgen_values": [
+      { "weight": 100, "spell_id": "MoM_AEA_DIM", "base_power": 100, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_ILLUMINATE_TARGETS", "base_power": 150, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_ILLUSIONARY_ARMY", "base_power": 450, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_STUN_ROBOT", "base_power": 650, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_ILLUMINATION_BURST", "base_power": 300, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_NETHER_ATTUNEMENT", "base_power": -100, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_STAMINA_EMPTY", "base_power": -250, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_VOMIT", "base_power": -50, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_ATTENTION", "base_power": -150, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_EXTRA_CALORIE_COST", "base_power": -150, "ench_has": "WIELD" }
+    ],
+    "passive_mult_procgen_values": [  ],
+    "passive_add_procgen_values": [
+      {
+        "weight": 100,
+        "min_value": 1,
+        "max_value": 4,
+        "type": "DODGE_CHANCE",
+        "increment": 1,
+        "power_per_increment": 1000,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 50,
+        "min_value": 0.01,
+        "max_value": 0.1,
+        "type": "EVASION",
+        "increment": 0.01,
+        "power_per_increment": 750,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 100,
+        "min_value": 10,
+        "max_value": 2000,
+        "type": "LUMINATION",
+        "increment": 25,
+        "power_per_increment": 25,
+        "ench_has": "WIELD"
+      },
+      {
+        "weight": 50,
+        "min_value": 1,
+        "max_value": 3,
+        "type": "MELEE_TO_HIT",
+        "increment": 1,
+        "power_per_increment": 500,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 25,
+        "min_value": 0.02,
+        "max_value": 0.25,
+        "type": "RANGE_DODGE",
+        "increment": 0.02,
+        "power_per_increment": 750,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 100,
+        "min_value": 10,
+        "max_value": 50,
+        "type": "STEALTH_MODIFIER",
+        "increment": 2,
+        "power_per_increment": 150,
+        "ench_has": "WIELD"
+      }
+    ],
+    "type_weights": [ { "weight": 100, "value": "passive_enchantment_add" }, { "weight": 100, "value": "active_enchantment" } ],
+    "items": [ { "weight": 100, "item": "matrix_crystal_photokinesis_artifact" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "photokinetic_crystal_artifact_item",
+    "subtype": "distribution",
+    "items": [ [ "matrix_crystal_photokinesis_artifact", 100 ] ]
+  },
+  {
+    "type": "relic_procgen_data",
+    "id": "photokinetic_matrix_crystal_procgen",
+    "charge_types": [
+      {
+        "weight": 100,
+        "charges": { "range": [ 0, 3 ], "power": 25 },
+        "charges_per_use": { "range": [ 1, 1 ], "power": 25 },
+        "max_charges": { "range": [ 1, 4 ], "power": 25 },
+        "recharge_type": "periodic",
+        "time": [ "3 h", "24 h" ]
+      }
+    ],
+    "passive_mult_procgen_values": [  ],
+    "passive_add_procgen_values": [
+      {
+        "weight": 100,
+        "min_value": 1,
+        "max_value": 4,
+        "type": "DODGE_CHANCE",
+        "increment": 1,
+        "power_per_increment": 1000,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 50,
+        "min_value": 0.01,
+        "max_value": 0.1,
+        "type": "EVASION",
+        "increment": 0.01,
+        "power_per_increment": 750,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 100,
+        "min_value": 10,
+        "max_value": 2000,
+        "type": "LUMINATION",
+        "increment": 25,
+        "power_per_increment": 25,
+        "ench_has": "WIELD"
+      },
+      {
+        "weight": 50,
+        "min_value": 1,
+        "max_value": 3,
+        "type": "MELEE_TO_HIT",
+        "increment": 1,
+        "power_per_increment": 500,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 25,
+        "min_value": 0.02,
+        "max_value": 0.25,
+        "type": "RANGE_DODGE",
+        "increment": 0.02,
+        "power_per_increment": 750,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 100,
+        "min_value": 10,
+        "max_value": 50,
+        "type": "STEALTH_MODIFIER",
+        "increment": 2,
+        "power_per_increment": 150,
+        "ench_has": "WIELD"
+      }
+    ],
+    "type_weights": [ { "weight": 100, "value": "passive_enchantment_add" } ],
+    "items": [ { "weight": 100, "item": "matrix_crystal_photokinesis" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "photokinetic_crystal_awakening_artifact_item",
+    "subtype": "distribution",
+    "items": [ [ "matrix_crystal_photokinesis", 100 ] ]
+  }
+]

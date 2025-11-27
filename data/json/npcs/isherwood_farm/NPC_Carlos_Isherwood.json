@@ -246,7 +246,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_CARLOS_FORGE2",
-    "dynamic_line": "*gestures around the workspace, which looks more set up.  \"I'm figuring things out, getting it worked out.  It's been a while since I did this kind of metalwork.",
+    "dynamic_line": "*gestures around the workspace, which looks more set up.  \"I'm figuring things out, getting it worked out.  It's been a while since I did this kind of metalwork.\"",
     "responses": [
       { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_CARLOS_TOPICS" },
       { "text": "<end_talking_leave>", "topic": "TALK_DONE" }

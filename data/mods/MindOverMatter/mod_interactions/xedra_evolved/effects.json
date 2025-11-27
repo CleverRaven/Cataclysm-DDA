@@ -1,0 +1,10 @@
+[
+  {
+    "type": "effect_type",
+    "id": "effect_ench_bio_psi_range_increaser",
+    "//": "Hidden effect, used to indicate whether a bionic is active",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good"
+  }
+]

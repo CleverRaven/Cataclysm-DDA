@@ -143,7 +143,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_NPC_CABIN_CHEMIST_ASK_INTERVAL",
-    "dynamic_line": "Unfortunately, I'm still gathering resources and cooking new stuff.  Maybe ask again after <interval>.",
+    "dynamic_line": "Unfortunately, I'm still gathering resources and cooking new stuff.  Maybe ask again after <restock_time_point>.",
     "responses": [ { "text": "Alright.  thanks nonetheless.", "topic": "TALK_NPC_CABIN_CHEMIST_INTRO" } ]
   },
   {

@@ -185,5 +185,12 @@
       { "item": "akmag90", "prob": 20 },
       { "group": "on_hand_762" }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "SUS_junk_drawer",
+    "copy-from": "SUS_junk_drawer",
+    "subtype": "collection",
+    "extend": { "entries": [ { "item": "kitchen_gun", "charges": [ 1, 3 ], "prob": 5 } ] }
   }
 ]

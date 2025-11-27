@@ -81,7 +81,8 @@
       }
     ],
     "faults": [ { "fault_group": "electronic_general" } ],
-    "flags": [ "LIGHT_15", "RADIO_CONTAINER", "TRADER_AVOID", "RADIOCAR", "WATER_BREAK", "ELECTRONIC" ]
+    "light": 15,
+    "flags": [ "RADIO_CONTAINER", "TRADER_AVOID", "RADIOCAR", "WATER_BREAK", "ELECTRONIC" ]
   },
   {
     "id": "radio_mod",
@@ -144,7 +145,7 @@
     ],
     "tick_action": [ "RADIO_TICK" ],
     "faults": [ { "fault_group": "electronic_general" } ],
-    "flags": [ "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC" ]
+    "flags": [ "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC", "SPAWN_ACTIVE" ]
   },
   {
     "id": "two_way_radio",

@@ -62,7 +62,7 @@
         "topic": "TALK_HYPNOTIC_GAZE_USED",
         "condition": { "and": [ { "u_has_trait": "HYPNOTIC_GAZE" }, { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "-500" ] } ] },
         "effect": [
-          { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "150" ] },
+          { "math": [ "u_vitamin('human_blood_vitamin') -= 150" ] },
           {
             "math": [
               "_vampire_hypnotic_gaze_power_level",
@@ -115,7 +115,7 @@
         "topic": "TALK_HYPNOTIC_GAZE_USED",
         "condition": { "and": [ { "u_has_trait": "HYPNOTIC_GAZE" }, { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "-500" ] } ] },
         "effect": [
-          { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "150" ] },
+          { "math": [ "u_vitamin('human_blood_vitamin') -= 150" ] },
           {
             "math": [
               "_vampire_hypnotic_gaze_power_level",

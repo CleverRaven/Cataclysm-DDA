@@ -46,7 +46,6 @@
 #include "itype.h"
 #include "magic.h"
 #include "magic_enchantment.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_scale_constants.h"
@@ -156,6 +155,7 @@ static const emit_id emit_emit_shock_cloud_big( "emit_shock_cloud_big" );
 static const flag_id json_flag_CANNOT_MOVE( "CANNOT_MOVE" );
 static const flag_id json_flag_CANNOT_TAKE_DAMAGE( "CANNOT_TAKE_DAMAGE" );
 static const flag_id json_flag_DISABLE_FLIGHT( "DISABLE_FLIGHT" );
+static const flag_id json_flag_FILTHY( "FILTHY" );
 static const flag_id json_flag_GRAB( "GRAB" );
 static const flag_id json_flag_GRAB_FILTER( "GRAB_FILTER" );
 
@@ -240,33 +240,18 @@ static const std::map<monster_attitude, std::pair<std::string, color_id>> attitu
 
 static int compute_kill_xp( const mtype_id &mon_type )
 {
-    return mon_type->difficulty + mon_type->difficulty_base;
+    return mon_type->get_total_difficulty() + mon_type->get_difficulty_adjustment();
 }
 
 monster::monster()
 {
     unset_dest();
-    wandf = 0;
-    hp = 60;
     moves = 0;
-    friendly = 0;
-    anger = 0;
-    morale = 2;
     faction = mfaction_id( 0 );
-    no_extra_death_drops = false;
-    dead = false;
-    death_drops = true;
-    made_footstep = false;
-    hallucination = false;
-    ignoring = 0;
-    upgrades = false;
-    upgrade_time = -1;
     stomach_timer = calendar::turn;
     last_updated = calendar::turn_zero;
     biosig_timer = calendar::before_time_starts;
     udder_timer = calendar::turn;
-    horde_attraction = MHA_NULL;
-    aggro_character = true;
     set_anatomy( anatomy_default_anatomy );
     set_body();
 }
@@ -1133,17 +1118,17 @@ std::vector<std::string> monster::extended_description() const
 
     std::string difficulty_str;
     if( debug_mode ) {
-        difficulty_str = _( "Difficulty " ) + std::to_string( type->difficulty );
+        difficulty_str = _( "Difficulty " ) + std::to_string( type->get_total_difficulty() );
     } else {
-        if( type->difficulty < 3 ) {
+        if( type->get_total_difficulty() < 3 ) {
             difficulty_str = _( "<color_light_gray>Minimal threat.</color>" );
-        } else if( type->difficulty < 10 ) {
+        } else if( type->get_total_difficulty() < 10 ) {
             difficulty_str = _( "<color_light_gray>Mildly dangerous.</color>" );
-        } else if( type->difficulty < 20 ) {
+        } else if( type->get_total_difficulty() < 20 ) {
             difficulty_str = _( "<color_light_red>Dangerous.</color>" );
-        } else if( type->difficulty < 30 ) {
+        } else if( type->get_total_difficulty() < 30 ) {
             difficulty_str = _( "<color_red>Very dangerous.</color>" );
-        } else if( type->difficulty < 50 ) {
+        } else if( type->get_total_difficulty() < 50 ) {
             difficulty_str = _( "<color_red>Extremely dangerous.</color>" );
         } else {
             difficulty_str = _( "<color_red>Fatally dangerous!</color>" );
@@ -3309,7 +3294,7 @@ void monster::generate_inventory( bool disableDrops )
         if( has_flag( mon_flag_FILTHY ) ) {
             if( ( it.is_armor() || it.is_pet_armor() ) && !it.is_gun() ) {
                 // handle wearable guns as a special case
-                it.set_flag( STATIC( flag_id( "FILTHY" ) ) );
+                it.set_flag( json_flag_FILTHY );
             }
         }
         inv.push_back( it );
@@ -3347,7 +3332,7 @@ void monster::drop_items_on_death( map *here, item *corpse )
         if( has_flag( mon_flag_FILTHY ) ) {
             if( ( it.is_armor() || it.is_pet_armor() ) && !it.is_gun() ) {
                 // handle wearable guns as a special case
-                it.set_flag( STATIC( flag_id( "FILTHY" ) ) );
+                it.set_flag( json_flag_FILTHY );
             }
         }
 
@@ -3853,10 +3838,10 @@ void monster::init_from_item( item &itm )
             hp = type->hp;
             set_speed_base( type->speed );
         }
-        upgrade_time = itm.get_var( "upgrade_time", 0 );
+        upgrade_time = itm.get_var( "upgrade_time", -1 );
         for( item *it : itm.all_items_top( pocket_type::CONTAINER ) ) {
             if( it->is_armor() ) {
-                it->set_flag( STATIC( flag_id( "FILTHY" ) ) );
+                it->set_flag( json_flag_FILTHY );
             }
             inv.push_back( *it );
             itm.remove_item( *it );
@@ -4218,7 +4203,7 @@ std::function<bool( const tripoint_bub_ms & )> monster::get_path_avoid() const
     return [this]( const tripoint_bub_ms & p ) {
         map &here = get_map();
         // If we can't move there and can't bash it, don't path through it.
-        if( !can_move_to( p ) && ( bash_skill() <= 0 || !here.is_bashable( p ) ) ) {
+        if( !can_move_to( p ) && ( !bash_skill().empty() || !here.is_bashable( p ) ) ) {
             return true;
         }
 

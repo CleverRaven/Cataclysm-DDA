@@ -61,7 +61,6 @@
 #include "viewer.h"
 
 static const activity_id ACT_FIND_MOUNT( "ACT_FIND_MOUNT" );
-static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
 static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
 static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
@@ -247,7 +246,7 @@ void talk_function::start_trade( npc &p )
 
 void talk_function::sort_loot( npc &p )
 {
-    p.assign_activity( ACT_MOVE_LOOT );
+    p.assign_activity( zone_sort_activity_actor() );
 }
 
 void talk_function::do_construction( npc &p )
@@ -659,7 +658,7 @@ void talk_function::give_equipment_allowance( npc &p, int allowance )
     }
     item it = *giving[chosen].loc.get_item();
     giving[chosen].loc.remove_item();
-    popup( _( "%1$s gives you a %2$s" ), p.get_name(), it.tname() );
+    popup( _( "%1$s gives you a %2$s." ), p.get_name(), it.tname() );
     Character &player_character = get_player_character();
     it.set_owner( player_character );
     player_character.i_add( it );

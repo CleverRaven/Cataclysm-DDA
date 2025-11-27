@@ -268,9 +268,9 @@
         "effect": {
           "run_eocs": "EOC_bio_start_shield",
           "variables": {
-            "shield_max_hp": "120",
-            "shield_regen": "1",
-            "shield_regen_rate": "2",
+            "shield_max_hp": 120,
+            "shield_regen": 1,
+            "shield_regen_rate": 2,
             "success_message": "The shield activates.",
             "failure_message": "Your implant vibrates uncomfortably as the shield fails to activate."
           }
@@ -299,9 +299,9 @@
         "effect": {
           "run_eocs": "EOC_bio_start_shield",
           "variables": {
-            "shield_max_hp": "550",
-            "shield_regen": "2",
-            "shield_regen_rate": "1",
+            "shield_max_hp": 550,
+            "shield_regen": 2,
+            "shield_regen_rate": 1,
             "success_message": "The shield activates.",
             "failure_message": "Your implant vibrates uncomfortably as the shield fails to activate."
           }
@@ -322,16 +322,17 @@
     "act_cost": "1500 kJ",
     "react_cost": "100 kJ",
     "time": "1 s",
-    "flags": [ "BIONIC_TOGGLED", "DEAF" ],
+    "flags": [ "BIONIC_TOGGLED" ],
+    "enchantments": [ { "condition": "ACTIVE", "mutations": [ "DEAF" ] } ],
     "activated_eocs": [
       {
         "id": "bio_shield_heavy_activate",
         "effect": {
           "run_eocs": "EOC_bio_start_shield",
           "variables": {
-            "shield_max_hp": "10000",
-            "shield_regen": "20",
-            "shield_regen_rate": "1",
+            "shield_max_hp": 10000,
+            "shield_regen": 20,
+            "shield_regen_rate": 1,
             "success_message": "All surrounding noise is muted as the barrier coalesces.",
             "failure_message": "Your implant vibrates uncomfortably as the shield fails to activate."
           }

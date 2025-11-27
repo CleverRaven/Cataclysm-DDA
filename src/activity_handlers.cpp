@@ -54,7 +54,6 @@
 #include "iuse.h"
 #include "iuse_actor.h"
 #include "magic.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -117,7 +116,6 @@ static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
 static const activity_id ACT_HEATING( "ACT_HEATING" );
 static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
 static const activity_id ACT_MEND_ITEM( "ACT_MEND_ITEM" );
-static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
 static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
 static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
@@ -168,6 +166,9 @@ static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_social_dissatisfied( "social_dissatisfied" );
 static const efftype_id effect_social_satisfied( "social_satisfied" );
 static const efftype_id effect_under_operation( "under_operation" );
+
+static const flag_id json_flag_IRREMOVABLE( "IRREMOVABLE" );
+static const flag_id json_flag_PSEUDO( "PSEUDO" );
 
 static const furn_str_id furn_f_compost_empty( "f_compost_empty" );
 static const furn_str_id furn_f_compost_full( "f_compost_full" );
@@ -240,7 +241,6 @@ activity_handlers::do_turn_functions = {
     { ACT_CONSUME_FOOD_MENU, consume_food_menu_do_turn },
     { ACT_CONSUME_DRINK_MENU, consume_drink_menu_do_turn },
     { ACT_CONSUME_MEDS_MENU, consume_meds_menu_do_turn },
-    { ACT_MOVE_LOOT, move_loot_do_turn },
     { ACT_ARMOR_LAYERS, armor_layers_do_turn },
     { ACT_ATM, atm_do_turn },
     { ACT_FISH, fish_do_turn },
@@ -1164,9 +1164,9 @@ struct weldrig_hack {
             // null item should be handled just fine
             return null_item_reference();
         }
-        pseudo.set_flag( STATIC( flag_id( "PSEUDO" ) ) );
+        pseudo.set_flag( json_flag_PSEUDO );
         item mag_mod( itype_pseudo_magazine_mod );
-        mag_mod.set_flag( STATIC( flag_id( "IRREMOVABLE" ) ) );
+        mag_mod.set_flag( json_flag_IRREMOVABLE );
         if( !pseudo.put_in( mag_mod, pocket_type::MOD ).success() ) {
             debugmsg( "tool %s has no space for a %s, this is likely a bug",
                       pseudo.typeId().str(), mag_mod.type->nname( 1 ) );
@@ -1288,7 +1288,7 @@ void repair_item_finish( player_activity *act, Character *you, bool no_menu )
         // TODO: Allow setting this in the actor
         // TODO: Don't use charges_to_use: welder has 50 charges per use, soldering iron has 1
         if( !used_tool->ammo_sufficient( you ) ) {
-            you->add_msg_if_player( _( "Your %s ran out of charges." ), used_tool->tname() );
+            you->add_msg_if_player( _( "Your %1$s ran out of charges." ), used_tool->tname() );
             act->set_to_null();
             return;
         }
@@ -1610,11 +1610,6 @@ void activity_handlers::consume_meds_menu_do_turn( player_activity *, Character 
 {
     avatar &player_character = get_avatar();
     avatar_action::eat_or_use( player_character, game_menus::inv::consume_meds() );
-}
-
-void activity_handlers::move_loot_do_turn( player_activity *act, Character *you )
-{
-    activity_on_turn_move_loot( *act, *you );
 }
 
 void activity_handlers::travel_do_turn( player_activity *act, Character *you )
@@ -2061,8 +2056,9 @@ void activity_handlers::plant_seed_finish( player_activity *act, Character *you 
         }
         used_seed.front().set_flag( json_flag_HIDDEN_ITEM );
         here.add_item_or_charges( examp, used_seed.front() );
-        if( here.has_flag_furn( seed_id->seed->required_terrain_flag, examp ) ) {
-            here.furn_set( examp, furn_str_id( here.furn( examp )->plant->transform ) );
+        if( here.has_flag_furn( seed_id->seed->required_terrain_flag, examp ) &&
+            here.furn( examp )->plant != nullptr ) {
+            here.furn_set( examp, here.furn( examp )->plant->transform );
         } else if( seed_id->seed->required_terrain_flag == ter_furn_flag::TFLAG_PLANTABLE ) {
             here.set( examp, ter_t_dirt, furn_f_plant_seed );
         } else {
@@ -2417,7 +2413,7 @@ void activity_handlers::robot_control_finish( player_activity *act, Character *y
     /** @EFFECT_COMPUTER increases chance of successful robot reprogramming, vs difficulty */
     const float computer_skill = you->get_skill_level( skill_computer );
     const float randomized_skill = rng( 2, you->int_cur ) + computer_skill;
-    float success = computer_skill - 3 * z->type->difficulty / randomized_skill;
+    float success = computer_skill - 3 * z->type->get_total_difficulty() / randomized_skill;
     if( z->has_flag( mon_flag_RIDEABLE_MECH ) ) {
         success = randomized_skill - rng( 1, 11 );
     }
@@ -2603,7 +2599,10 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
 
             if( !act->targets.empty() ) {
                 item *it = act->targets.front().get_item();
-                if( it && !it->has_flag( flag_USE_PLAYER_ENERGY ) ) {
+                if( it != nullptr && it->has_flag( flag_SINGLE_USE ) ) {
+                    you->i_rem( it );
+                    act->targets.erase( act->targets.end() - 1 );
+                } else if( it && !it->has_flag( flag_USE_PLAYER_ENERGY ) ) {
                     you->consume_charges( *it, it->type->charges_to_use() );
                 }
             }
@@ -2658,7 +2657,17 @@ void activity_handlers::study_spell_do_turn( player_activity *act, Character *yo
         }
         const int old_level = studying.get_level();
         // Gain some experience from studying
-        const int xp = roll_remainder( studying.exp_modifier( *you ) / to_turns<float>( 6_seconds ) );
+        const float base_xp_per_tick = studying.exp_modifier( *you ) / to_turns<float>( 6_seconds );
+
+        float xp_multiplier = 1.0f;
+        if( old_level >= 9 ) {
+            xp_multiplier = 0.25f; // halved at 3, halved again at 9 -> 0.5 * 0.5 = 0.25
+        } else if( old_level >= 3 ) {
+            xp_multiplier = 0.5f;
+        }
+
+        const int xp = roll_remainder( base_xp_per_tick * xp_multiplier );
+
         act->values[0] += xp;
         studying.gain_exp( *you, xp );
         bool leveled_up = you->practice( studying.skill(), xp, studying.get_difficulty( *you ), true );

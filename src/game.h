@@ -108,6 +108,7 @@ using item_location_filter = std::function<bool ( const item_location & )>;
 enum peek_act : int {
     PA_BLIND_THROW,
     PA_BLIND_THROW_WIELDED,
+    PA_MOVE,
     // obvious future additional value is PA_BLIND_FIRE
 };
 
@@ -240,6 +241,8 @@ class game
         void serialize_json( std::ostream &fout ); // for save
         void unserialize( std::istream &fin, const cata_path &path ); // for load
         void unserialize( std::string fin ); // for load
+        void unserialize_dimension_data( const cata_path &file_name, std::istream &fin ); // for load
+        void unserialize_dimension_data( const JsonValue &jv ); // for load
         void unserialize_master( const cata_path &file_name, std::istream &fin ); // for load
         void unserialize_master( const JsonValue &jv ); // for load
     private:
@@ -325,6 +328,23 @@ class game
          */
         void vertical_move( int z, bool force, bool peeking = false );
         void start_hauling( const tripoint_bub_ms &pos );
+
+        /**
+         * Moves the player to an alternate dimension.
+         * @param prefix identifies the dimension and its properties.
+         * @param npc_travellers vector of NPCs that should be brought along when travelling to another dimension
+         * @param veh pointer to a vehicle to bring along.
+         */
+        bool travel_to_dimension( const std::string &prefix, const std::string &region_type,
+                                  const std::vector<npc *> &npc_travellers, vehicle *veh = nullptr );
+        /**
+         * Retrieve the identifier of the current dimension.
+         * TODO: this should be a dereferencable id that gives properties of the dimension.
+         */
+        std::string get_dimension_prefix() {
+            return dimension_prefix;
+        }
+
         /** Returns the other end of the stairs (if any). May query, affect u etc.
         * @param pos Disable queries and msgs if not the same position as player.
         */
@@ -674,7 +694,9 @@ class game
         /** Checks whether or not there is a zone of particular type nearby */
         bool check_near_zone( const zone_type_id &type, const tripoint_bub_ms &where ) const;
         bool is_zones_manager_open() const;
-        void zones_manager();
+        void set_zones_manager_open( bool zm_open ) {
+            zones_manager_open = zm_open;
+        };
 
         /// @brief attempt to find a safe route (avoids tiles dangerous to '@ref who').
         /// @param who character to use for evaluating danger tiles and pathfinding start position
@@ -853,7 +875,6 @@ class game
                                  bool hilite );
         void draw_vpart_override( const tripoint_bub_ms &p, const vpart_id &id, int part_mod,
                                   const units::angle &veh_dir, bool hilite, const point_rel_ms &mount );
-        void draw_below_override( const tripoint_bub_ms &p, bool draw );
         void draw_monster_override( const tripoint_bub_ms &p, const mtype_id &id, int count,
                                     bool more, Creature::Attitude att );
 
@@ -897,7 +918,10 @@ class game
         //private save functions.
         // returns false if saving failed for whatever reason
         bool save_factions_missions_npcs();
+        bool save_dimension_data();
+        bool load_dimension_data();
         void reset_npc_dispositions();
+        void serialize_dimension_data( std::ostream &fout );
         void serialize_master( std::ostream &fout );
         // returns false if saving failed for whatever reason
         bool save_maps();
@@ -937,6 +961,7 @@ class game
         // Examine nearby terrain 'e', with or without picking up items
         void examine( const tripoint_bub_ms &p, bool with_pickup = false );
         void examine( bool with_pickup = true );
+        std::string get_fire_fuel_string( const tripoint_bub_ms &examp ) const;
 
         // Pick up items from a single nearby tile (prompting first)
         void pickup();
@@ -1081,17 +1106,15 @@ class game
         void display_faction_epilogues();
         void disp_NPC_epilogues();  // Display NPC endings
 
+    public:
         /* Debug functions */
         // currently displayed overlay (none is displayed if empty)
         std::optional<action_id> displaying_overlays; // NOLINT(cata-serialize)
         void display_scent();   // Displays the scent map
-        void display_temperature();    // Displays temperature map
-        void display_vehicle_ai(); // Displays vehicle autopilot AI overlay
         void display_visibility(); // Displays visibility map
         void display_lighting(); // Displays lighting conditions heat map
-        void display_radiation(); // Displays radiation map
-        void display_transparency(); // Displays transparency map
 
+    private:
         // prints the IRL time in ms of the last full in-game hour
         class debug_hour_timer
         {
@@ -1112,6 +1135,7 @@ class game
          */
         Creature *is_hostile_within( int distance, bool dangerous = false );
 
+        static std::string timestamp_now();
         void move_save_to_graveyard();
         bool save_player_data();
         bool save_achievements();
@@ -1352,6 +1376,13 @@ class game
         bool can_pulp_corpse( const Character &you, const mtype &corpse_mtype );
         bool can_pulp_corpse( const pulp_data &pd );
         bool can_pulp_acid_corpse( const Character &you, const mtype &corpse_mtype );
+
+        //currently used as a hacky workaround for dimension swapping
+        bool swapping_dimensions = false; // NOLINT (cata-serialize)
+    private:
+        // Stores the currently occupied dimension.
+        // TODO: should be an id instead of a string.
+        std::string dimension_prefix;
 };
 
 // Returns temperature modifier from direct heat radiation of nearby sources

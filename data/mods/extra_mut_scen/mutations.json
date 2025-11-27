@@ -121,8 +121,7 @@
     "id": "MUTAGEN_GLAND_FELINE",
     "copy-from": "MUTAGEN_GLAND_ABSTRACT",
     "name": { "str": "Mutagen Gland - Feline" },
-    "description": "You were unwittingly subject to next gen CRISPR experimentation that has resulted in you growing a small gland out of your pancreas that gradually mutates you with feline traits.",
-    "delete": { "cancels": [ "MUTAGEN" ] }
+    "description": "You were unwittingly subject to next gen CRISPR experimentation that has resulted in you growing a small gland out of your pancreas that gradually mutates you with feline traits."
   },
   {
     "type": "mutation",

@@ -208,6 +208,7 @@ bool debug_has_error_been_observed()
     return error_observed;
 }
 
+// saved in game::serialize
 bool debug_mode = false;
 
 namespace debugmode

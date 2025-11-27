@@ -1,3 +1,28 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Lore - Setting](#lore---setting)
+      - [Seriously, spoiler alert.](#seriously-spoiler-alert)
+  - [Table of Contents](#table-of-contents)
+    - [Supporting Documents](#supporting-documents)
+- [Story](#story)
+  - [Style and Structure](#style-and-structure)
+  - [Background Information](#background-information)
+  - [XEDRA](#xedra)
+- [Basic Setting Lore](#basic-setting-lore)
+  - [General Changes to the World](#general-changes-to-the-world)
+    - [Pre-Cataclysm Tech Changes](#pre-cataclysm-tech-changes)
+    - [Effects of Blob Infection](#effects-of-blob-infection)
+      - [Cognition after the Cataclysm](#cognition-after-the-cataclysm)
+    - [Human Factions and Organizations](#human-factions-and-organizations)
+      - [General Philosophy](#general-philosophy)
+      - [Major Factions](#major-factions)
+      - [Micro Factions](#micro-factions)
+    - [Extradimensional and Alien Forces](#extradimensional-and-alien-forces)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Lore - Setting
 
 #### Seriously, spoiler alert.
@@ -114,7 +139,7 @@ When creating a faction in Cataclysm, consider the following:
 
 *    All factions were part of the same overall culture only a few months ago.  We're not at a Mad Max: Fury Road stage yet, and if anyone's acting that way they're probably basing it on a major motion picture.
 *    No faction should be "good".  Everyone is in this for themselves, everyone is scared, everyone's first goal is not being eaten by zombies and their second goal is making it to the next winter.  There is no time for altruism.
-*    No faction should be "evil".  No one is the villain of their own story.  Raiders may not be nice, but they believe they're doing what they need to to survive in this harsh world.
+*    No faction should be "evil".  No one is the villain of their own story.  Raiders may not be nice, but they believe they're doing what they need to do to survive in this harsh world.
 *    Factions should avoid having a single "schtick".  The Free Merchants are merchants who believe in a free market, but that's by far not everything they stand for.  Think about what the average member of your faction does in their day to day life, and remember they can't spend all their time just thinking about how much they like the free market, or cannibalism, or whatever your cool initial idea was.  Expand.
 
 #### Major Factions

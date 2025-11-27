@@ -146,6 +146,9 @@ struct iteminfo {
         /** info is ASCII art (prefer monospaced font) */
         bool bIsArt;
 
+        /** info is displayed as a table */
+        bool isTable;
+
         enum flags {
             no_flags = 0,
             is_decimal = 1 << 0, ///< Print as decimal rather than integer
@@ -155,6 +158,7 @@ struct iteminfo {
             no_name = 1 << 4, ///< Do not print the name
             show_plus = 1 << 5, ///< Use a + sign for positive values
             is_art = 1 << 6, ///< is ascii art (prefer monospaced font)
+            is_table = 1 << 7, ///< is displayed as table
         };
 
         /**
@@ -358,6 +362,7 @@ class item : public visitable
         /** Above, along with checks for power, browsed, use action */
         bool is_estorage_usable( const Character &who ) const;
         bool is_estorable() const;
+        bool is_estorable_exclusive() const;
         bool is_browsed() const;
         void set_browsed( bool browsed );
         /** @return if item can be copied as an e-file */
@@ -703,6 +708,7 @@ class item : public visitable
 
         units::length length() const;
         units::length barrel_length() const;
+        units::length sawn_off_reduction() const;
 
         /**
          * Simplified, faster volume check for when processing time is important and exact volume is not.
@@ -879,6 +885,8 @@ class item : public visitable
         std::vector<item_pocket *> get_all_standard_pockets();
         std::vector<item_pocket *> get_all_ablative_pockets();
         std::vector<const item_pocket *> get_all_ablative_pockets() const;
+        std::vector<const item_pocket *> get_all_contained_and_mod_pockets() const;
+        std::vector<item_pocket *> get_all_contained_and_mod_pockets();
         /**
          * Updates the pockets of this item to be correct based on the mods that are installed.
          * Pockets which are modified that contain an item will be spilled
@@ -1059,6 +1067,13 @@ class item : public visitable
         bool count_by_charges() const;
 
         /**
+         * Compress liquids and counted-by-charges items into one item.
+         * They are added together on the map anyway and handle_liquid
+         * should only be called once to put it all into a container at once.
+         */
+        void compress_charges_or_liquid( int &compcount );
+
+        /**
          * If count_by_charges(), returns charges, otherwise 1
          */
         int count() const;
@@ -1199,15 +1214,17 @@ class item : public visitable
             rot += val;
         }
 
+        bool is_smokable() const;
+
         /** Time for this item to be fully fermented. */
         time_duration brewing_time() const;
         /** The results of fermenting this item. */
-        const std::map<itype_id, int> &brewing_results() const;
+        const std::map<std::pair<itype_id, std::string>, int> &brewing_results() const;
 
         /** Time for this item to be fully fermented. */
         time_duration composting_time() const;
         /** The results of fermenting this item. */
-        const std::map<itype_id, int> &composting_results() const;
+        const std::map<std::pair<itype_id, std::string>, int> &composting_results() const;
 
         /**
          * Detonates the item and adds remains (if any) to drops.
@@ -1928,9 +1945,9 @@ class item : public visitable
          * Callback when a player starts wielding the item. The item is already in the weapon
          * slot and is called from there.
          * @param p player that has started wielding item
-         * @param mv number of moves *already* spent wielding the weapon
+         * @param combat wielding for combat purposes
          */
-        void on_wield( Character &you );
+        void on_wield( Character &you, bool combat = true );
         /**
          * Callback when a player starts carrying the item. The item is already in the inventory
          * and is called from there. This is not called when the item is added to the inventory
@@ -1942,6 +1959,7 @@ class item : public visitable
          */
         void on_contents_changed();
 
+        bool can_use_relic( const Character &guy ) const;
         bool use_relic( Character &guy, const tripoint_bub_ms &pos );
         bool has_relic_recharge() const;
         bool has_relic_activation() const;
@@ -2151,11 +2169,6 @@ class item : public visitable
          * Whether this is actually a seed, the seed functions won't be of much use for non-seeds.
          */
         bool is_seed() const;
-        /**
-         * Time it takes to grow from one stage to another. There are normally 4 plant stages:
-         * seed, seedling, mature and harvest. Non-seed items return 0.
-         */
-        time_duration get_plant_epoch( int num_epochs = 3 ) const;
         /**
          * The name of the plant as it appears in the various informational menus. This should be
          * translated. Returns an empty string for non-seed items.
@@ -3217,6 +3230,8 @@ class item : public visitable
         void update_prefix_suffix_flags();
         void update_prefix_suffix_flags( const flag_id &flag );
 
+        void inherit_rot_from_components( item &it );
+
     public:
         enum class sizing : int {
             human_sized_human_char = 0,
@@ -3405,6 +3420,10 @@ class item : public visitable
     public:
         char invlet = 0;      // Inventory letter
         bool active = false; // If true, it has active effects to be processed
+        // for item cache
+        bool is_active() const {
+            return active;
+        }
         bool is_favorite = false;
 
         void set_favorite( bool favorite );

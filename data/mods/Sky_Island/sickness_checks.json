@@ -124,12 +124,12 @@
     "type": "effect_on_condition",
     "id": "EOC_warpextender",
     "//": "Triggers when you eat a warp extender.  Reduces your warp buildup.",
-    "effect": [ { "math": [ "timeawayfromhome", "-=", "5" ] }, { "run_eocs": [ "EOC_constantticking" ] } ]
+    "effect": [ { "math": [ "timeawayfromhome -= 5" ] }, { "run_eocs": [ "EOC_constantticking" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_bonuspulse",
     "//": "Triggers mostly when finishing a mission.  Immediately gives you +1 pulse for this raid as a reward..",
-    "effect": [ { "math": [ "timeawayfromhome", "-=", "2" ] }, { "run_eocs": [ "EOC_constantticking" ] } ]
+    "effect": [ { "math": [ "timeawayfromhome -= 2" ] }, { "run_eocs": [ "EOC_constantticking" ] } ]
   }
 ]

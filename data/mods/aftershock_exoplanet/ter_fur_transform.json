@@ -33,7 +33,7 @@
       {
         "result": "t_afs_security_door_frame",
         "valid_terrain": [ "t_afs_security_gate_closed" ],
-        "message": "The security gate recedes into the cieling.",
+        "message": "The security gate recedes into the ceiling.",
         "message_good": true
       }
     ]

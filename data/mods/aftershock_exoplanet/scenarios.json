@@ -7,6 +7,8 @@
     "description": "During the riots and chaos, you hid in a robot dispatch center hoping the robots would protect you, but they may prove more dangerous than the zombies.",
     "allowed_locs": [ "sloc_robot_dispatch" ],
     "flags": [ "CITY_START" ],
+    "requirement": "afs_achievement_many_ruins",
+    "hard_requirement": true,
     "start_name": "Robot Dispatch"
   },
   {
@@ -24,6 +26,7 @@
       "afs_spacer",
       "afs_leadership",
       "afs_earthling",
+      "afs_noetic_scion_inheritance",
       "afs_physical_stat_genemod",
       "afs_mental_stat_genemod",
       "afs_health_genemod",
@@ -65,6 +68,7 @@
       "afs_spacer",
       "afs_leadership",
       "afs_earthling",
+      "afs_noetic_scion_inheritance",
       "afs_physical_stat_genemod",
       "afs_mental_stat_genemod",
       "afs_health_genemod",
@@ -72,6 +76,8 @@
       "afs_beauty_genemod"
     ],
     "surround_groups": [ [ "GROUP_PIRATE__BOT_AMBUSH", 70.0 ] ],
+    "requirement": "afs_achievement_crashed_spaceship",
+    "hard_requirement": true,
     "flags": [ "LONE_START" ]
   },
   {
@@ -145,6 +151,8 @@
     "points": -2,
     "description": "You've already been modified mutagenically but now you were all ready for a bionic implant or three - the bill footed by the corp, of course - when everything went pear-shaped and all you could hear from the other rooms was screaming.  For a few hours, at least.  Now all you can hear is shuffling, crackling, the occasional gurgling, burbling moan, and heavy, wet thumps.  Hopefully your surgery was registered as an elective because you've elected to get the heck out of here!",
     "forced_traits": [ "ELECTRORECEPTORS", "NIGHTVISION3", "LIGHTSTEP" ],
+    "requirement": "afs_achievement_chimera",
+    "hard_requirement": true,
     "allowed_locs": [ "sloc_afs_augmentation_clinic_n3" ]
   },
   {
@@ -158,7 +166,16 @@
     "flags": [ "LONE_START", "HELI_CRASH" ],
     "start_name": "Crashing Ship",
     "whitelist_hobbies": true,
-    "hobbies": [ "afs_speed_freak", "afs_armament_license", "afs_spacer", "afs_leadership", "afs_earthling" ],
+    "requirement": "afs_achievement_crashed_spaceship",
+    "hard_requirement": true,
+    "hobbies": [
+      "afs_speed_freak",
+      "afs_armament_license",
+      "afs_spacer",
+      "afs_leadership",
+      "afs_earthling",
+      "afs_noetic_scion_inheritance"
+    ],
     "eoc": [ "EOC_CRASHING_SHIP_SETUP" ]
   },
   {
@@ -166,10 +183,10 @@
     "id": "afs_esper_start",
     "name": "Esper",
     "points": 1,
-    "description": "There are stories that before the Discontinuity, scientists had developed secret treatments unlock the powers of the human mind.  To read thoughts, move objects at a distance, control computers by the power of will alone, were just a few of the rumored abilities that laid dormant and at the edge of human potential.  But all knowledge of these treatments was lost when the Discontinuity shattered interstellar civilization.\n\nOr so you thought, until you had heard some tantalizing rumors about espers, centered on a backwater planet on the edge of known civilization.  You remember buying passage to the Salus system, arriving at Port Augustmoon, buying supplies, and descending to the surface, but after that things get hazy…  You're not entirely sure where you are, and you've clearly been through it, but somehow you've rediscovered that lost secret.  Now you just need to make it back alive.",
-    "forced_traits": [ "ESPER" ],
+    "description": "There are stories that before the Discontinuity, scientists had developed secret treatments to unlock the powers of the human mind.  To read thoughts, move objects at a distance, control computers by the power of will alone, and even see the future, these were just a few of the rumored abilities that laid dormant and at the edge of human potential.  But all knowledge of these treatments was lost when the Discontinuity shattered interstellar civilization, their only heirs the handful of families who jealously guarded their powers and interbred to maintain their noetic gifts.\n\nOr so you thought, until you had heard some tantalizing rumors about new espers, centered on a backwater planet on the edge of known civilization.  You remember buying passage to the Salus system, arriving at Port Augustmoon, buying supplies, and descending to the surface, but after that things get hazy…  You're not entirely sure where you are, and you've clearly been through it, but somehow you've rediscovered that lost secret.  Now you just need to make it back alive.",
+    "forced_traits": [ "ESPER", "ESPER_STARTER_ADVANCEMENT_OKAY" ],
     "allowed_locs": [ "sloc_afs_glacial_tunnels" ],
-    "professions": [ "afs_esper_electrokinetic", "afs_esper_telepath", "afs_esper_telekinetic" ],
+    "professions": [ "afs_esper_electrokinetic", "afs_esper_precog", "afs_esper_telepath", "afs_esper_telekinetic" ],
     "flags": [ "LONE_START" ],
     "start_name": "Lost on the Surface",
     "reveal_locale": false,
@@ -185,6 +202,8 @@
       "afs_efficiency_genemod",
       "afs_beauty_genemod"
     ],
+    "requirement": "afs_achievement_chimera",
+    "hard_requirement": true,
     "eoc": [ "EOC_ESPER_SCENARIO_SETUP" ]
   },
   {
@@ -202,6 +221,7 @@
       "afs_spacer",
       "afs_leadership",
       "afs_earthling",
+      "afs_noetic_scion_inheritance",
       "afs_physical_stat_genemod",
       "afs_mental_stat_genemod",
       "afs_health_genemod",
@@ -209,6 +229,8 @@
       "afs_beauty_genemod"
     ],
     "flags": [ "LONE_START" ],
+    "requirement": "afs_achievement_crashed_spaceship",
+    "hard_requirement": true,
     "start_name": "Escape Pod"
   }
 ]

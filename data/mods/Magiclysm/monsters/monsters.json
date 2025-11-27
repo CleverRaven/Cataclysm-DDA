@@ -62,7 +62,6 @@
     "path_settings": { "avoid_traps": true, "avoid_sharp": true },
     "dissect": "dissect_slime_sample_single",
     "weakpoint_sets": [ "wps_slime" ],
-    "families": [ "prof_wp_slime_basic", "prof_wp_slime_advanced" ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
     "special_attacks": [
       {
@@ -265,6 +264,7 @@
     "species": [ "MAGICAL_BEAST" ],
     "volume": "1500 ml",
     "weight": "136 g",
+    "diff": 5,
     "hp": 20,
     "speed": 160,
     "luminance": 16,
@@ -296,7 +296,6 @@
         "monster_message": "%1$s glitters in an eerie pattern."
       }
     ],
-    "armor": { "bullet": 9999 },
     "flags": [
       "SEES",
       "HEARS",
@@ -304,6 +303,7 @@
       "KEEP_DISTANCE",
       "PATH_AVOID_DANGER",
       "ELECTRIC",
+      "BULLETPROOF",
       "BIOLOGICALPROOF",
       "HARDTOSHOOT",
       "PLASTIC",
@@ -958,5 +958,147 @@
     "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "REVIVES", "PATH_AVOID_DANGER", "PATH_AVOID_FIRE", "WARM" ],
     "zombify_into": "mon_catoblepas_zombie",
     "armor": { "bash": 4, "cut": 2, "necrotic": 25, "poison": 30 }
+  },
+  {
+    "id": "mon_rust_monster",
+    "type": "MONSTER",
+    "name": { "str": "rust monster" },
+    "description": "A strange creature, like a cross between a crustacean and an armadillo, with a long tail that ends in a paddle-like club.  It walks on four insectile legs, occasionally stopping and seeming to sniff the air.  Two long, feather-like antennae extend from either side of its mouth.",
+    "default_faction": "magical_beast",
+    "bodytype": "dog",
+    "species": [ "MAGICAL_BEAST" ],
+    "volume": "55 L",
+    "weight": "65 kg",
+    "hp": 65,
+    "speed": 140,
+    "material": [ "flesh" ],
+    "symbol": "R",
+    "color": "light_red",
+    "aggression": -10,
+    "morale": 70,
+    "melee_skill": 4,
+    "melee_dice": 1,
+    "melee_dice_sides": 6,
+    "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
+    "dodge": 3,
+    "vision_night": 15,
+    "harvest": "mammal_fur",
+    "path_settings": { "max_dist": 10 },
+    "special_attacks": [
+      {
+        "id": "rust_monster_detect_metal",
+        "type": "spell",
+        "spell_data": { "id": "rust_monster_detect_metal_spell", "hit_self": true },
+        "cooldown": { "math": [ "3" ] },
+        "allow_no_target": true,
+        "monster_message": "The rust monster's feelers twitch."
+      },
+      {
+        "type": "monster_attack",
+        "attack_type": "melee",
+        "id": "rust_monster_kill_iron_golem",
+        "accuracy": 6,
+        "damage_max_instance": [ { "damage_type": "bash", "amount": 9999 } ],
+        "cooldown": 4,
+        "move_cost": 100,
+        "blockable": false,
+        "condition": { "npc_has_species": "IRON_GOLEM" },
+        "hit_dmg_u": "",
+        "hit_dmg_npc": "%1$s antennae touch <npcname>",
+        "miss_msg_u": "",
+        "miss_msg_npc": "%1$s antennae bend toward <npcname>, but they dodge!",
+        "no_dmg_msg_u": "",
+        "no_dmg_msg_npc": "%1$s antennae touch <npcname>"
+      }
+    ],
+    "anger_triggers": [ "HURT" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM" ],
+    "armor": { "bash": 3, "cut": 5, "stab": 6 }
+  },
+  {
+    "id": "mon_rust_monster_aggressive",
+    "copy-from": "mon_rust_monster",
+    "type": "MONSTER",
+    "name": { "str": "rust monster" },
+    "aggression": 50,
+    "aggro_character": true,
+    "special_attacks": [
+      {
+        "type": "monster_attack",
+        "attack_type": "melee",
+        "id": "rust_monster_kill_iron_golem",
+        "accuracy": 6,
+        "damage_max_instance": [ { "damage_type": "bash", "amount": 9999 } ],
+        "cooldown": 4,
+        "move_cost": 100,
+        "blockable": false,
+        "condition": { "npc_has_species": "IRON_GOLEM" },
+        "hit_dmg_u": "",
+        "hit_dmg_npc": "%1$s antennae touch <npcname>",
+        "miss_msg_u": "",
+        "miss_msg_npc": "%1$s antennae bend toward <npcname>, but they dodge!",
+        "no_dmg_msg_u": "",
+        "no_dmg_msg_npc": "%1$s antennae touch <npcname>"
+      },
+      {
+        "type": "monster_attack",
+        "attack_type": "melee",
+        "id": "rest_monster_rusting",
+        "accuracy": 6,
+        "damage_max_instance": [ { "damage_type": "bash", "amount": 0 } ],
+        "eoc": [ "EOC_RUST_MONSTER_RUSTING" ],
+        "cooldown": 4,
+        "move_cost": 100,
+        "blockable": false,
+        "hit_dmg_u": "%1$s's antennae touch you!",
+        "hit_dmg_npc": "%1$s antennae touch <npcname>",
+        "miss_msg_u": "%1$s antennae bend toward you, but you dodge!",
+        "miss_msg_npc": "%1$s antennae bend toward <npcname>, but they dodge!",
+        "no_dmg_msg_u": "%1$s's antennae touch you!",
+        "no_dmg_msg_npc": "%1$s antennae touch <npcname>"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RUST_MONSTER_RUSTING",
+    "effect": [
+      {
+        "npc_run_inv_eocs": "random",
+        "search_data": [
+          { "material": "iron", "worn_only": true },
+          { "material": "steel", "worn_only": true },
+          { "material": "lc_steel", "worn_only": true },
+          { "material": "mc_steel", "worn_only": true },
+          { "material": "hc_steel", "worn_only": true },
+          { "material": "ch_steel", "worn_only": true },
+          { "material": "qt_steel_", "worn_only": true },
+          { "material": "lc_steel_chain", "worn_only": true },
+          { "material": "mc_steel_chain", "worn_only": true },
+          { "material": "hc_steel_chain", "worn_only": true },
+          { "material": "ch_steel_chain", "worn_only": true },
+          { "material": "qt_steel_chain", "worn_only": true },
+          { "material": "iron", "wielded_only": true },
+          { "material": "steel", "wielded_only": true },
+          { "material": "lc_steel", "wielded_only": true },
+          { "material": "mc_steel", "wielded_only": true },
+          { "material": "hc_steel", "wielded_only": true },
+          { "material": "ch_steel", "wielded_only": true },
+          { "material": "qt_steel", "wielded_only": true },
+          { "material": "lc_steel_chain", "wielded_only": true },
+          { "material": "mc_steel_chain", "wielded_only": true },
+          { "material": "hc_steel_chain", "wielded_only": true },
+          { "material": "ch_steel_chain", "wielded_only": true },
+          { "material": "qt_steel_chain", "wielded_only": true }
+        ],
+        "true_eocs": [
+          {
+            "id": "EOC_RUST_MONSTER_RUSTING_TRUE",
+            "effect": [ { "message": "Your <npc_name> rusts away to dust!", "type": "bad" }, "npc_die" ]
+          }
+        ],
+        "false_eocs": [ { "id": "EOC_RUST_MONSTER_RUSTING_FALSE", "effect": [ { "math": [ "u_val('anger')", "=", "0" ] } ] } ]
+      }
+    ]
   }
 ]

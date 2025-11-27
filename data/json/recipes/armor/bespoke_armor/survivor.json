@@ -74,12 +74,7 @@
       { "proficiency": "prof_polymerworking" },
       { "proficiency": "prof_elastics" }
     ],
-    "components": [
-      [ [ "wetsuit", 1 ] ],
-      [ [ "rubber_cement", 14 ] ],
-      [ [ "zipper_long_plastic", 1 ] ],
-      [ [ "zipper_short_plastic", 8 ] ]
-    ]
+    "components": [ [ [ "wetsuit", 1 ] ], [ [ "glue_weak", 3500 ] ], [ [ "zipper_long_plastic", 1 ] ], [ [ "zipper_short_plastic", 8 ] ] ]
   },
   {
     "result": "xs_h20survivor_jumpsuit",
@@ -88,7 +83,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "11 h",
     "using": [ [ "tailoring_kevlar_fabric", 150 ], [ "tailoring_neoprene_patchwork", 9 ], [ "fastener_large", 1 ], [ "clasps", 8 ] ],
-    "components": [ [ [ "wetsuit", 1 ] ], [ [ "rubber_cement", 3 ] ] ]
+    "components": [ [ [ "wetsuit", 1 ] ], [ [ "glue_weak", 750 ] ] ]
   },
   {
     "result": "xl_h20survivor_jumpsuit",
@@ -97,7 +92,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "14 h",
     "using": [ [ "tailoring_kevlar_fabric", 300 ], [ "tailoring_neoprene_patchwork", 18 ], [ "fastener_large", 1 ], [ "clasps", 8 ] ],
-    "components": [ [ [ "wetsuit", 1 ] ], [ [ "rubber_cement", 4 ] ] ]
+    "components": [ [ [ "wetsuit", 1 ] ], [ [ "glue_weak", 1000 ] ] ]
   },
   {
     "result": "h20survivor_jumpsuit_light",
@@ -105,12 +100,7 @@
     "copy-from": "h20survivor_jumpsuit",
     "time": "8 h",
     "using": [ [ "tailoring_kevlar_fabric", 200 ], [ "tailoring_neoprene_patchwork", 2 ], [ "tailoring_nylon_patchwork", 10 ] ],
-    "components": [
-      [ [ "wetsuit", 1 ] ],
-      [ [ "rubber_cement", 12 ] ],
-      [ [ "zipper_long_plastic", 1 ] ],
-      [ [ "zipper_short_plastic", 8 ] ]
-    ]
+    "components": [ [ [ "wetsuit", 1 ] ], [ [ "glue_weak", 3000 ] ], [ [ "zipper_long_plastic", 1 ] ], [ [ "zipper_short_plastic", 8 ] ] ]
   },
   {
     "result": "xs_h20survivor_jumpsuit_light",
@@ -119,7 +109,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "6 h",
     "using": [ [ "tailoring_kevlar_fabric", 150 ], [ "tailoring_neoprene_patchwork", 2 ], [ "fastener_large", 1 ], [ "clasps", 8 ] ],
-    "components": [ [ [ "wetsuit", 1 ] ], [ [ "rubber_cement", 1 ] ] ]
+    "components": [ [ [ "wetsuit", 1 ] ], [ [ "glue_weak", 250 ] ] ]
   },
   {
     "result": "xl_h20survivor_jumpsuit_light",
@@ -128,7 +118,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "12 h",
     "using": [ [ "tailoring_kevlar_fabric", 300 ], [ "tailoring_neoprene_patchwork", 3 ], [ "fastener_large", 1 ], [ "clasps", 8 ] ],
-    "components": [ [ [ "wetsuit", 1 ] ], [ [ "rubber_cement", 2 ] ] ]
+    "components": [ [ [ "wetsuit", 1 ] ], [ [ "glue_weak", 500 ] ] ]
   },
   {
     "result": "thick_h20survivor_jumpsuit",
@@ -152,7 +142,7 @@
       { "proficiency": "prof_polymerworking" },
       { "proficiency": "prof_elastics" }
     ],
-    "components": [ [ [ "wetsuit_thick", 1 ] ], [ [ "rubber_cement", 4 ] ] ]
+    "components": [ [ [ "wetsuit_thick", 1 ] ], [ [ "glue_weak", 1000 ] ] ]
   },
   {
     "result": "xs_thick_h20survivor_jumpsuit",
@@ -161,7 +151,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "11 h",
     "using": [ [ "tailoring_kevlar_fabric", 300 ], [ "tailoring_neoprene_patchwork", 9 ], [ "fastener_large", 2 ], [ "clasps", 12 ] ],
-    "components": [ [ [ "wetsuit_thick", 1 ] ], [ [ "rubber_cement", 3 ] ] ]
+    "components": [ [ [ "wetsuit_thick", 1 ] ], [ [ "glue_weak", 750 ] ] ]
   },
   {
     "result": "xl_thick_h20survivor_jumpsuit",
@@ -175,7 +165,7 @@
       [ "fastener_large", 2 ],
       [ "clasps", 12 ]
     ],
-    "components": [ [ [ "wetsuit_thick", 1 ] ], [ [ "rubber_cement", 6 ] ] ]
+    "components": [ [ [ "wetsuit_thick", 1 ] ], [ [ "glue_weak", 1500 ] ] ]
   },
   {
     "result": "lsurvivor_jumpsuit",

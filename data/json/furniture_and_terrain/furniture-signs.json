@@ -97,7 +97,7 @@
         { "item": "2x4", "count": [ 0, 3 ] },
         { "item": "nail", "charges": [ 4, 6 ] },
         { "item": "splinter", "count": [ 1, 4 ] },
-        { "item": "paper", "count": [ 1, 4 ] }
+        { "item": "flyer_evac", "count": [ 1, 4 ] }
       ],
       "hit_field": [ "fd_dust", 2 ],
       "destroyed_field": [ "fd_splinters", 1 ]
@@ -106,25 +106,30 @@
       "type": "effect_on_condition",
       "effect_on_conditions": [
         {
-          "id": "EOC_EVAC_BOARD_FALSE",
-          "condition": { "u_has_mission": "MISSION_REACH_REFUGEE_CENTER" },
-          "effect": [
-            {
+          "id": "EOC_EVAC_BOARD",
+          "condition": {
+            "and": [
+              "u_can_see",
+              {
+                "or": [ { "u_has_flag": "READ_IN_DARKNESS" }, { "math": [ "u_val('fine_detail_vision_mod') <= 4" ] } ]
+              }
+            ]
+          },
+          "effect": {
+            "if": { "u_has_mission": "MISSION_REACH_REFUGEE_CENTER" },
+            "then": {
               "u_message": "You study the board.  It shows a similar set of directions to the ones you already have.  You cross-reference them and don't learn anything new.",
               "popup": true
-            }
-          ]
-        },
-        {
-          "id": "EOC_EVAC_BOARD",
-          "condition": { "not": { "u_has_mission": "MISSION_REACH_REFUGEE_CENTER" } },
-          "effect": [
-            {
-              "u_message": "You study the board.  One of the pages has a map and address for a nearby refugee center alongside minutia you no longer need trouble yourself with now that society has collapsed, like 'operating hours' and 'acceptable forms of ID'.  You take careful note of the map on the board and mark down the coordinates.",
-              "popup": true
             },
-            { "assign_mission": "MISSION_REACH_REFUGEE_CENTER" }
-          ]
+            "else": [
+              {
+                "u_message": "You study the board.  One of the pages has a map and address for a nearby refugee center alongside minutia you no longer need trouble yourself with now that society has collapsed, like 'operating hours' and 'acceptable forms of ID'.  You take careful note of the map on the board and mark down the coordinates.",
+                "popup": true
+              },
+              { "assign_mission": "MISSION_REACH_REFUGEE_CENTER" }
+            ]
+          },
+          "false_effect": { "u_message": "It's too dark to read." }
         }
       ]
     }
@@ -142,15 +147,10 @@
     "rotates_to": "PAVEMENT",
     "required_str": -1,
     "flags": [ "TRANSPARENT", "NO_SELF_CONNECT" ],
+    "//": "36x36 inch aluminum sign on 7 feet U-channel post (post weight is 3 pound per foot, but we don't really have any sort of beams, so pipe is used instead), mounted using 2 bolts",
     "deconstruct": {
-      "items": [ { "item": "pipe", "count": 1 }, { "item": "sheet_metal", "count": 1 }, { "item": "nuts_bolts", "charges": [ 4, 8 ] } ]
+      "items": [ { "item": "sheet_aluminum", "count": 2 }, { "item": "pipe", "count": 4 }, { "item": "nuts_bolts", "charges": 2 } ]
     },
-    "bash": {
-      "str_min": 10,
-      "str_max": 20,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "items": [ { "item": "scrap", "count": [ 4, 6 ] } ]
-    }
+    "bash": { "str_min": 10, "str_max": 20, "sound": "metal screeching!", "sound_fail": "clang!" }
   }
 ]

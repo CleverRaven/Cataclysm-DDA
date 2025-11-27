@@ -46,7 +46,7 @@
     },
     "furniture": {
       "c": "f_console_broken",
-      "m": "f_machinery_light",
+      "m": [ [ "f_machinery_light", 80 ], [ "f_mill_vertical", 10 ], [ "f_heavy_lathe", 10 ] ],
       "M": "f_machinery_heavy",
       "E": "f_machinery_electronic",
       "g": [

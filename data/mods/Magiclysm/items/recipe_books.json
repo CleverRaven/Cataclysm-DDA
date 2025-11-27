@@ -126,6 +126,27 @@
     "read_fun": -2
   },
   {
+    "id": "alchemy_mana_processing",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "category": "manuals",
+    "name": { "str": "Quintessential Refinement", "str_pl": "copies of Quintessential Refinement" },
+    "description": "A reference manual for the process needed to turn raw mana crystals into useful crystallized mana, for those who prefer to source their mana from nature instead of the time-consuming and extremely fatiguing process of condensing the mana using thaumaturgy.",
+    "weight": "425 g",
+    "volume": "450 ml",
+    "price": "50 USD",
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "white",
+    "required_level": 6,
+    "max_level": 9,
+    "intelligence": 12,
+    "time": "20 m",
+    "melee_damage": { "bash": 6 },
+    "read_skill": "chemistry",
+    "read_fun": -2
+  },
+  {
     "id": "techno_basic",
     "type": "ITEM",
     "subtypes": [ "BOOK" ],

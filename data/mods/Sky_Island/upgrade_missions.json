@@ -188,7 +188,7 @@
       [ [ "camera", 1 ], [ "camera_pro", 1 ], [ "wearable_camera", 1 ], [ "wearable_camera_pro", 1 ], [ "omnicamera", 1 ] ],
       [ [ "warptoken", 5 ] ],
       [ [ "scrap_aluminum", 12 ] ],
-      [ [ "super_glue", 10 ], [ "bone_glue", 1 ] ],
+      [ [ "glue_strong", 10 ], [ "glue_weak", 150 ] ],
       [ [ "medium_battery_cell", 6 ] ],
       [ [ "extension_cable", 1 ], [ "long_extension_cable", 1 ], [ "jumper_cable", 1 ] ]
     ]
@@ -1680,7 +1680,7 @@
     "name": "Upgrade: Stability 5",
     "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft the Explorer's Ward from things helping to withstand harsh conditions.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: You will begin every expedition with the ability to withstand 13 pulses instead of the default 8, allowing you to stay out 62.5% longer before warpsickness takes over.",
     "goal": "MGOAL_FIND_ITEM",
-    "item": "upgradekey_stability4",
+    "item": "upgradekey_stability5",
     "count": 1,
     "difficulty": 0,
     "value": 0,
@@ -2186,7 +2186,7 @@
       [ [ "warptoken", 5 ] ],
       [ [ "carpentry_book", 1 ], [ "textbook_carpentry", 1 ] ],
       [ [ "hinge", 20 ] ],
-      [ [ "remington_870_breacher", 1 ], [ "shotgun_d", 3 ] ]
+      [ [ "mossberg_590_shockwave", 1 ], [ "shotgun_d", 3 ] ]
     ]
   },
   {
@@ -3539,7 +3539,7 @@
       [ [ "2x4", 4 ] ],
       [ [ "glass_shard", 150 ] ],
       [ [ "chunk_rubber", 5 ] ],
-      [ [ "super_glue", 20 ] ],
+      [ [ "glue_strong", 20 ] ],
       [ [ "cordage", 5, "LIST" ] ]
     ]
   },
@@ -3602,7 +3602,7 @@
       [ [ "aquamarine", 4 ], [ "citrine", 4 ], [ "garnet", 4 ], [ "peridot", 4 ], [ "tourmaline", 4 ], [ "blue_topaz", 4 ] ],
       [ [ "glass_sheet", 3 ] ],
       [ [ "mirror", 1 ] ],
-      [ [ "super_glue", 40 ] ],
+      [ [ "glue_strong", 40 ] ],
       [ [ "frame_wood", 2 ] ],
       [ [ "cordage", 1, "LIST" ] ]
     ]
@@ -3666,7 +3666,7 @@
       [ [ "bigmirror", 1 ] ],
       [ [ "tempered_glass_sheet", 4 ] ],
       [ [ "frame", 4 ] ],
-      [ [ "rubber_cement", 8 ] ],
+      [ [ "glue_weak", 8 ] ],
       [ [ "diamond", 8 ], [ "ruby", 8 ], [ "emerald", 8 ], [ "sapphire", 8 ] ],
       [ [ "cordage", 1, "LIST" ] ]
     ]
@@ -4558,7 +4558,7 @@
     "components": [
       [ [ "shovel", 1 ], [ "shovel_snow", 1 ] ],
       [ [ "glass_sheet", 4 ] ],
-      [ [ "rubber_cement", 4 ] ],
+      [ [ "glue_weak", 4 ] ],
       [ [ "frame", 2 ] ],
       [ [ "cordage", 1, "LIST" ] ]
     ]
@@ -5096,6 +5096,70 @@
     ]
   },
   {
+    "id": "SKYISLAND_UPGRADE_radblock",
+    "type": "mission_definition",
+    "name": "Upgrade: Personal Radiation Shield",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft a Focused Scrubber from janitor supplies.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: Radiation cannot affect you while on the island.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "upgradekey_radblock",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "upgradekey_radblock" },
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: Radiation cannot affect you while on the island.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "u_add_trait": "mut_skyisland_radblock" },
+        { "u_forget_recipe": "upgradekey_radblock" },
+        {
+          "u_message": "The light shifts a little.  As long as you are on the island, radiation won't hurt you.",
+          "type": "mixed"
+        }
+      ]
+    }
+  },
+  {
+    "id": "upgradekey_radblock",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str": "Focused Scrubber" },
+    "description": "This strange metaphysical artifact will make the island protect you from radiation while you are on it.  There might never be a single source of radiation on the island, but better prepared than sorry.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: personal radiation shield.",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "upgradekey_radblock",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "//": "Intended to be a very early-game craft, as island-side radiation immunity is a very niche effect.",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [
+      [ [ "bleach", 30 ], [ "ammonia_hydroxide", 30 ] ],
+      [ [ "broom", 1 ] ],
+      [ [ "mop", 1 ], [ "mop_folded", 1 ] ],
+      [ [ "soap", 10 ], [ "detergent", 10 ] ]
+    ]
+  },
+  {
     "id": "SKYISLAND_UPGRADE_windblock",
     "type": "mission_definition",
     "name": "Upgrade: Personal windblock",
@@ -5157,7 +5221,69 @@
       [ [ "jacket_windbreaker", 3 ] ],
       [ [ "survival_book", 1 ] ],
       [ [ "milk_cream", 5 ], [ "moisturizer", 5 ], [ "bristol_sherry", 5 ] ],
-      [ [ "any_tallow", 24, "LIST" ] ]
+      [ [ "any_tallow", 60, "LIST" ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_UPGRADE_island_steady",
+    "type": "mission_definition",
+    "name": "Upgrade: Island-Side Resilience",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft an Unyielding Sinew from fibers and cables.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: Your speed cannot be below its default while on the island.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "upgradekey_island_steady",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "upgradekey_island_steady" },
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: Your speed cannot be below its default while on the island.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "u_add_trait": "mut_skyisland_island_steady" },
+        { "u_forget_recipe": "upgradekey_island_steady" },
+        {
+          "u_message": "Your sinews tingle for a second.  As long as you are on the island, your speed won't be lower than its default.",
+          "type": "mixed"
+        }
+      ]
+    }
+  },
+  {
+    "id": "upgradekey_island_steady",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str": "Unyielding Sinew" },
+    "description": "This strange metaphysical artifact will make the island maintain your speed while you are not earthside.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: island-side resilience.",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "upgradekey_island_steady",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [
+      [ [ "jumper_cable", 3 ], [ "jumper_cable_heavy", 3 ], [ "hd_tow_cable", 3 ] ],
+      [ [ "hc_chain_link", 11 ], [ "qt_chain_link", 11 ], [ "ch_chain_link", 11 ] ],
+      [ [ "plant_fibre", 500 ], [ "sinew", 500 ] ]
     ]
   },
   {
@@ -5166,7 +5292,7 @@
     "name": "Upgrade: Personal temperature adjustement",
     "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft a Climate Self-Injector from temperature-controlling devices and various parts.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: Temperature cannot affect you while on the island.",
     "goal": "MGOAL_FIND_ITEM",
-    "item": "upgradekey_windblock",
+    "item": "upgradekey_temperature_control",
     "count": 1,
     "difficulty": 0,
     "value": 0,

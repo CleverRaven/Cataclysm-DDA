@@ -5,7 +5,7 @@
     "object": {
       "place_monster": [
         { "monster": "mon_vampire_strigoi", "x": 12, "y": 12, "spawn_data": { "patrol": [ { "x": 12, "y": 12 } ] } },
-        { "monster": "mon_vampire_moroi", "x": 4, "y": 4, "repeat": [ 6, 10 ] }
+        { "group": "GROUP_VAMPIRE_MOROI_TYPES", "x": 4, "y": 4, "repeat": [ 6, 10 ] }
       ]
     }
   },
@@ -32,7 +32,7 @@
       ],
       "place_monster": [
         { "monster": "mon_vampire_strigoi", "x": [ 0, 4 ], "y": [ 0, 4 ], "chance": 8 },
-        { "monster": "mon_vampire_moroi", "x": [ 0, 4 ], "y": [ 0, 4 ], "chance": 16 }
+        { "group": "GROUP_VAMPIRE_MOROI_TYPES", "x": [ 0, 4 ], "y": [ 0, 4 ], "chance": 16 }
       ]
     }
   },

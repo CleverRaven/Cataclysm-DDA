@@ -127,7 +127,7 @@ The current ballistic ammo calibres currently exist in the mod:
 | Rail Rod   | Steel rail     |              90   |            40 | Cleanly defeats heavy armor, deals with vehicle armor at a  disadvantage.                                                 |
 
 To balance specialty rounds use the following rule:
-- AP ammo recieves +15 ballistic armor piercing at the cost of -10 damage.
+- AP ammo receives +15 ballistic armor piercing at the cost of -10 damage.
 - Specialty ammo has the damage of AP ammo and the armor piercing capability of the default round + whatever special effect is granted. If the specialty effect is a strong AOE AP might be reduced further.
 
 ### Lasers

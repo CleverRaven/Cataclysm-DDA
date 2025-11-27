@@ -255,15 +255,13 @@
     "comestible_type": "MED",
     "consumption_effect_on_conditions": [ "EOC_warpextender" ],
     "name": { "str": "earthbound pill" },
-    "description": "This pseudomagical pill extends the amount of time you can stay earthside by 4 pulses, or about 50% of a normal trip.  They're precious, but should help buy time for a difficult extract.",
+    "description": "This pseudomagical pill extends the amount of time you can stay earthside by 4 pulses, or about 50% of a normal trip.  They're precious, but should help buy time for a difficult extract.  However, the air of the lower world destabilizes its structure and it will only last a single trip to the surface",
     "weight": "15 g",
     "volume": "5 ml",
     "looks_like": "panacea",
     "material": [ "plastic" ],
     "symbol": "!",
     "flags": [ "TRADER_AVOID", "UNBREAKABLE" ],
-    "freezing_point": -1000,
-    "spoils_in": "10 days",
     "color": "red"
   },
   {
@@ -271,7 +269,12 @@
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "homeward mote" },
-    "use_action": { "type": "effect_on_conditions", "description": "A hasty escape.", "effect_on_conditions": [ "EOC_homewardmote" ] },
+    "use_action": {
+      "type": "effect_on_conditions",
+      "consume": true,
+      "description": "A hasty escape.",
+      "effect_on_conditions": [ "EOC_homewardmote" ]
+    },
     "description": "Though visibly little more than a glowing dustbunny, this strange ethereal mote of warp essence reveals, on closer inspection, something more.  A tiny, twisting, half-visible thread of shimmering bluish-purple trails away into the sky and far out of sight, unimpeded by any obstacles.\n\nTaking this rare and valuable artifact with you on an expedition is essentially buying life insurance.  If you die with this mote in your inventory, you will instead be restored to full health and brought home, WITH all items and equipment carried.  But this effect will only last for a single expedition.  Even if you extract safely, any and all motes carried on your person when you return home will be DESTROYED.",
     "weight": "15 g",
     "volume": "5 ml",
@@ -454,6 +457,7 @@
     "ammo_type": "components",
     "use_action": {
       "type": "effect_on_conditions",
+      "consume": true,
       "description": "Return to the sky.",
       "effect_on_conditions": [ "EOC_WARPED_ENEMY_CHECK_RETURN" ]
     }
@@ -462,7 +466,7 @@
     "id": "warp_healing_salve",
     "type": "ITEM",
     "category": "drugs",
-    "name": { "str": "healing salve" },
+    "name": { "str_sp": "healing salve" },
     "description": "A lump of purplish goo, smooth but yielding, sculptable like clay.  If you rub it on a wound, it will immediately heal some of the damage you have taken, but the air of the lower world destabilizes its structure and it will only last a single trip to the surface.",
     "price_postapoc": "6 USD",
     "weight": "5 g",
@@ -493,6 +497,7 @@
     "ammo_type": "components",
     "use_action": {
       "type": "effect_on_conditions",
+      "consume": true,
       "description": "Cross the waters.",
       "effect_on_conditions": [ "EOC_WARPED_WATERWALKING" ]
     }

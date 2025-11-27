@@ -42,7 +42,8 @@
     "color": "red",
     "use_action": [ { "type": "firestarter", "moves": 20 } ],
     "drop_action": { "type": "emit_actor", "emits": [ "emit_tiny_fire" ] },
-    "flags": [ "TRADER_AVOID", "FIRESTARTER", "LIGHT_8", "FLAMING", "WATER_EXTINGUISH" ]
+    "light": 8,
+    "flags": [ "TRADER_AVOID", "FIRESTARTER", "FLAMING", "WATER_EXTINGUISH" ]
   },
   {
     "id": "electric_lighter",
@@ -57,7 +58,8 @@
     "color": "yellow",
     "use_action": [ { "type": "firestarter", "moves": 20 } ],
     "drop_action": { "type": "emit_actor", "emits": [ "emit_tiny_fire" ] },
-    "flags": [ "TRADER_AVOID", "FIRESTARTER", "LIGHT_8" ]
+    "light": 8,
+    "flags": [ "TRADER_AVOID", "FIRESTARTER" ]
   },
   {
     "id": "magic_lamp",
@@ -72,7 +74,8 @@
     "price": "1 cent",
     "symbol": ",",
     "color": "light_green",
-    "flags": [ "LIGHT_300", "AURA", "SEMITANGIBLE", "UNBREAKABLE", "ALLOWS_NATURAL_ATTACKS" ],
+    "light": 300,
+    "flags": [ "AURA", "SEMITANGIBLE", "UNBREAKABLE", "ALLOWS_NATURAL_ATTACKS" ],
     "armor": [ { "covers": [ "head" ] } ],
     "melee_damage": { "bash": 8 }
   },
@@ -89,7 +92,8 @@
     "symbol": ",",
     "color": "light_green",
     "material": [ "magical_material" ],
-    "flags": [ "LIGHT_8", "AURA", "SEMITANGIBLE", "UNBREAKABLE", "ALLOWS_NATURAL_ATTACKS" ],
+    "light": 8,
+    "flags": [ "AURA", "SEMITANGIBLE", "UNBREAKABLE", "ALLOWS_NATURAL_ATTACKS" ],
     "armor": [ { "covers": [ "head" ] } ]
   },
   {
@@ -151,16 +155,8 @@
     "material": [ "concentrated_mana" ],
     "techniques": [ "WBLOCK_2", "BRUTAL", "SWEEP" ],
     "copy-from": "warhammer",
-    "flags": [
-      "NONCONDUCTIVE",
-      "BELT_CLIP",
-      "LIGHT_15",
-      "TRADER_AVOID",
-      "UNBREAKABLE_MELEE",
-      "NO_REPAIR",
-      "NO_SALVAGE",
-      "MAGIC_FOCUS"
-    ],
+    "light": 15,
+    "flags": [ "NONCONDUCTIVE", "BELT_CLIP", "TRADER_AVOID", "UNBREAKABLE_MELEE", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS" ],
     "volume": "1250 ml",
     "qualities": [ [ "HAMMER", 1 ] ],
     "melee_damage": { "bash": 30 },
@@ -179,16 +175,8 @@
     "volume": "155 ml",
     "weight": "300 g",
     "longest_side": "25 cm",
-    "flags": [
-      "UNBREAKABLE_MELEE",
-      "NONCONDUCTIVE",
-      "LIGHT_5",
-      "TRADER_AVOID",
-      "NO_REPAIR",
-      "NO_SALVAGE",
-      "MAGIC_FOCUS",
-      "UNRESTRICTED"
-    ],
+    "light": 5,
+    "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "TRADER_AVOID", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS", "UNRESTRICTED" ],
     "max_worn": 1,
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "any", "balance": "neutral" },
     "material_thickness": 0.3,
@@ -249,6 +237,7 @@
     "longest_side": "40 cm",
     "material": [ "concentrated_mana" ],
     "techniques": [ "PRECISE", "WIDE", "SWEEP" ],
+    "light": 8,
     "flags": [
       "REACH_ATTACK",
       "REACH3",
@@ -260,7 +249,6 @@
       "NO_SALVAGE",
       "MAGIC_FOCUS",
       "FIRESTARTER",
-      "LIGHT_8",
       "FLAMING",
       "FIRE",
       "RELIC_PINK"
@@ -590,7 +578,7 @@
     "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": { "str": "overcharge burn" },
     "description": "Ouch, this really smarts!  It'll go away soon, maybe?",
-    "weight": "1 g",
+    "weight": "500 mg",
     "volume": "1 ml",
     "symbol": "~",
     "color": "light_red",
@@ -605,7 +593,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "aura of protection", "str_pl": "auras of protection" },
     "description": "An all-encompassing, invisible layer of magical aura that protects you from the environment.",
-    "weight": "1 g",
+    "weight": "500 mg",
     "volume": "1 ml",
     "symbol": "o",
     "color": "blue",
@@ -637,7 +625,7 @@
     "name": "feral aura",
     "//": "Needs to remain an item instead of an effect until enchantment mutations from effects are fixed.",
     "description": "The manifestation of your rage.  It won't disappear until you calm down.",
-    "weight": "1 g",
+    "weight": "500 mg",
     "volume": "1 ml",
     "price": "36 USD 46 cent",
     "symbol": "o",
@@ -654,7 +642,7 @@
     "name": "enhanced feral aura",
     "//": "Needs to remain an item instead of an effect until enchantment mutations from effects are fixed.",
     "description": "The manifestation of your rage.  It won't disappear until you calm down.",
-    "weight": "1 g",
+    "weight": "500 mg",
     "volume": "1 ml",
     "price": "36 USD 46 cent",
     "symbol": "o",
@@ -674,13 +662,13 @@
     "description": "This wooden sword is ablaze!  It seems to be safe-ish to hold, but will burn up soon.",
     "material": [ "wood" ],
     "weapon_category": [ "MEDIUM_SWORDS" ],
+    "light": 10,
     "flags": [
       "UNBREAKABLE_MELEE",
       "NONCONDUCTIVE",
       "NO_REPAIR",
       "NO_SALVAGE",
       "MAGIC_FOCUS",
-      "LIGHT_10",
       "FIRESTARTER",
       "FIRE",
       "TRADER_AVOID"
@@ -753,7 +741,7 @@
     "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": "werewolf aura",
     "description": "You have become the werewolf.  Boys becoming men, men becoming wolves.",
-    "weight": "1 g",
+    "weight": "500 mg",
     "volume": "1 ml",
     "price": "36 USD 46 cent",
     "symbol": "o",
@@ -975,7 +963,8 @@
       },
       { "type": "firestarter", "moves": 10, "moves_slow": 100 }
     ],
-    "flags": [ "FIRE", "LIGHT_700", "TRADER_AVOID" ]
+    "light": 700,
+    "flags": [ "FIRE", "TRADER_AVOID" ]
   },
   {
     "id": "pocket_sun_cover",
@@ -1809,12 +1798,12 @@
     "id": "EOC_DRUID_EAT_THE_GOODBERRY",
     "//": "Will not unbreak your limbs, but heals you.",
     "effect": [
-      { "if": { "math": [ "u_hp('head') > 0" ] }, "then": { "math": [ "u_hp('head')", "+=", "3" ] } },
-      { "if": { "math": [ "u_hp('torso') > 0" ] }, "then": { "math": [ "u_hp('torso')", "+=", "3" ] } },
-      { "if": { "math": [ "u_hp('arm_l') > 0" ] }, "then": { "math": [ "u_hp('arm_l')", "+=", "3" ] } },
-      { "if": { "math": [ "u_hp('arm_r') > 0" ] }, "then": { "math": [ "u_hp('arm_r')", "+=", "3" ] } },
-      { "if": { "math": [ "u_hp('leg_l') > 0" ] }, "then": { "math": [ "u_hp('leg_l')", "+=", "3" ] } },
-      { "if": { "math": [ "u_hp('leg_r') > 0" ] }, "then": { "math": [ "u_hp('leg_r')", "+=", "3" ] } }
+      { "if": { "math": [ "u_hp('head') > 0" ] }, "then": { "math": [ "u_hp('head') += 3" ] } },
+      { "if": { "math": [ "u_hp('torso') > 0" ] }, "then": { "math": [ "u_hp('torso') += 3" ] } },
+      { "if": { "math": [ "u_hp('arm_l') > 0" ] }, "then": { "math": [ "u_hp('arm_l') += 3" ] } },
+      { "if": { "math": [ "u_hp('arm_r') > 0" ] }, "then": { "math": [ "u_hp('arm_r') += 3" ] } },
+      { "if": { "math": [ "u_hp('leg_l') > 0" ] }, "then": { "math": [ "u_hp('leg_l') += 3" ] } },
+      { "if": { "math": [ "u_hp('leg_r') > 0" ] }, "then": { "math": [ "u_hp('leg_r') += 3" ] } }
     ]
   }
 ]

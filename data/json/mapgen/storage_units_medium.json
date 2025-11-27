@@ -67,7 +67,7 @@
         { "item": "vending_drink", "x": [ 1, 5 ], "y": [ 18, 22 ], "chance": 5, "repeat": [ 1, 3 ] },
         { "item": "cannedfood", "x": [ 1, 5 ], "y": [ 18, 22 ], "chance": 5, "repeat": [ 1, 3 ] },
         { "item": "snacks", "x": [ 1, 5 ], "y": [ 18, 22 ], "chance": 5, "repeat": [ 1, 3 ] },
-        { "item": "pasta", "x": [ 1, 5 ], "y": [ 18, 22 ], "chance": 5, "repeat": [ 1, 3 ] },
+        { "item": "pasta_ingredients", "x": [ 1, 5 ], "y": [ 18, 22 ], "chance": 5, "repeat": [ 1, 3 ] },
         { "item": "snacks_fancy", "x": [ 1, 5 ], "y": [ 18, 22 ], "chance": 5, "repeat": [ 1, 3 ] },
         { "item": "coffee_shop", "x": [ 1, 5 ], "y": [ 18, 22 ], "chance": 5, "repeat": [ 1, 3 ] },
         { "item": "alcohol", "x": [ 1, 5 ], "y": [ 18, 22 ], "chance": 5, "repeat": [ 1, 3 ] },

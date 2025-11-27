@@ -6,5 +6,13 @@
     "time": "2 m",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "scrap", 4 ] ], [ [ "cotton_patchwork", 4 ] ] ]
+  },
+  {
+    "result": "bat_metal_bolt",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "2 m",
+    "qualities": [ { "id": "WRENCH", "level": 1 } ],
+    "components": [ [ [ "material_aluminium_ingot", 3 ] ], [ [ "nuts_bolts", 20 ] ] ]
   }
 ]

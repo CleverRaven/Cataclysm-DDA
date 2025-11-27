@@ -221,10 +221,7 @@
           "t_forestfloor",
           "t_moss",
           "t_underbrush",
-          "t_underbrush_harvested_spring",
-          "t_underbrush_harvested_summer",
-          "t_underbrush_harvested_autumn",
-          "t_underbrush_harvested_winter",
+          "t_underbrush_harvested",
           "t_fern",
           "t_fern_harvested",
           "t_tree_young"
@@ -397,7 +394,7 @@
     "type": "effect_on_condition",
     "id": "EOC_LIEUTENANT_SPAWN_SHADOW_NOW",
     "effect": [
-      { "math": [ "Shadow_Lurking", "-=", "1" ] },
+      { "math": [ "Shadow_Lurking -= 1" ] },
       { "u_spawn_monster": "mon_lieutenant_shadow", "real_count": 1, "min_radius": 10, "max_radius": 15 },
       { "u_location_variable": { "global_val": "shadow_encounter_XYZ_pos" }, "min_radius": 1, "max_radius": 1 },
       { "run_eocs": "EOC_LIEUTENANT_SPAWN_SHADOW_MESSAGE", "time_in_future": 1 }
@@ -426,7 +423,7 @@
       ]
     },
     "effect": [
-      { "math": [ "Shadow_Warnings", "+=", "1" ] },
+      { "math": [ "Shadow_Warnings += 1" ] },
       {
         "if": { "math": [ "time_since('cataclysm', 'unit':'days') >= 7" ] },
         "then": {

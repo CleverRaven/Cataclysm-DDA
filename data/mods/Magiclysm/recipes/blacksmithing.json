@@ -40,6 +40,29 @@
     "components": [ [ [ "scrap_bronze", 9 ] ], [ [ "mercury", 400 ] ] ]
   },
   {
+    "result": "demon_chitin_flux",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "chemistry",
+    "difficulty": 1,
+    "skills_required": [ "chemistry", 1 ],
+    "time": "60 m",
+    "batch_time_factors": [ 70, 5 ],
+    "autolearn": true,
+    "using": [ [ "surface_heat", 50 ] ],
+    "charges": 50,
+    "qualities": [ { "id": "MANA_INFUSE", "level": 1 }, { "id": "COOK", "level": 3 }, { "id": "DISTILL", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_alchemy", "required": false, "time_multiplier": 1.5, "skill_penalty": 0.5 } ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+    "components": [
+      [ [ "charcoal", 50 ] ],
+      [ [ "crystallized_mana", 1 ] ],
+      [ [ "any_strong_acid", 4, "LIST" ], [ "demon_chitin_piece", 1 ] ]
+    ]
+  },
+  {
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
     "result": "fireproof_mortar",

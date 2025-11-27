@@ -15,6 +15,7 @@
     "recurrence": [ "3 seconds", "3 seconds" ],
     "condition": {
       "and": [
+        { "not": { "u_has_trait": "mut_skyisland_personal_temperature_adaptation" } },
         { "u_has_trait": "mut_skyisland_temperature_adaptation" },
         { "or": [ { "u_at_om_location": "open_air" }, { "u_near_om_location": "sky_island_subcore", "range": 1 } ] },
         { "math": [ "u_val('pos_z') == 6" ] }
@@ -94,6 +95,38 @@
       {
         "condition": { "not": { "u_has_trait": "awayfromhome" } },
         "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 999 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 999 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "mut_skyisland_radblock",
+    "name": { "str": "Personal Radiation Shield", "//~": "NO_I18N" },
+    "description": { "str": "As long as you are on the island, radiation cannot affect you.", "//~": "NO_I18N" },
+    "points": 0,
+    "valid": false,
+    "player_display": false,
+    "purifiable": false,
+    "enchantments": [
+      {
+        "condition": { "not": { "u_has_trait": "awayfromhome" } },
+        "ench_effects": [ { "effect": "effect_island_radblock", "intensity": 1 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "mut_skyisland_island_steady",
+    "name": { "str": "Island-Side Resilience", "//~": "NO_I18N" },
+    "description": { "str": "As long as you are on the island, your speed cannot be lower than its default.", "//~": "NO_I18N" },
+    "points": 0,
+    "valid": false,
+    "player_display": false,
+    "purifiable": false,
+    "enchantments": [
+      {
+        "condition": { "not": { "u_has_trait": "awayfromhome" } },
+        "ench_effects": [ { "effect": "effect_island_steady", "intensity": 1 } ]
       }
     ]
   }

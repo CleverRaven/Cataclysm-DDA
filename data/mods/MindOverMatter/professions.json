@@ -37,6 +37,8 @@
       "knack_photokinetic_hide_ugly",
       "knack_photokinetic_radio",
       "knack_pyrokinetic_flash",
+      "knack_pyrokinetic_intensify_flames",
+      "knack_pyrokinetic_eruption",
       "knack_pyrokinetic_call_flames",
       "knack_pyrokinetic_cloak",
       "knack_telekinetic_push",
@@ -52,7 +54,8 @@
       "knack_vita_concentrated_healing",
       "knack_vita_remove_poison",
       "knack_vita_cure_disease"
-    ]
+    ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -112,6 +115,8 @@
       "knack_photokinetic_hide_ugly",
       "knack_photokinetic_radio",
       "knack_pyrokinetic_flash",
+      "knack_pyrokinetic_intensify_flames",
+      "knack_pyrokinetic_eruption",
       "knack_pyrokinetic_call_flames",
       "knack_pyrokinetic_cloak",
       "knack_telekinetic_push",
@@ -127,7 +132,8 @@
       "knack_vita_concentrated_healing",
       "knack_vita_remove_poison",
       "knack_vita_cure_disease"
-    ]
+    ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -160,7 +166,7 @@
           { "item": "socks" },
           { "item": "robe" },
           { "item": "lowtops" },
-          { "item": "matrix_crystal_clairsentience" },
+          { "group": "clairsentient_matrix_crystals_group" },
           { "item": "newest_newspaper" },
           { "item": "weeks_old_newspaper" },
           { "item": "months_old_newspaper" },
@@ -184,6 +190,8 @@
       "knack_photokinetic_hide_ugly",
       "knack_photokinetic_radio",
       "knack_pyrokinetic_flash",
+      "knack_pyrokinetic_intensify_flames",
+      "knack_pyrokinetic_eruption",
       "knack_pyrokinetic_call_flames",
       "knack_pyrokinetic_cloak",
       "knack_telekinetic_push",
@@ -199,7 +207,8 @@
       "knack_vita_concentrated_healing",
       "knack_vita_remove_poison",
       "knack_vita_cure_disease"
-    ]
+    ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -264,6 +273,8 @@
       "knack_photokinetic_hide_ugly",
       "knack_photokinetic_radio",
       "knack_pyrokinetic_flash",
+      "knack_pyrokinetic_intensify_flames",
+      "knack_pyrokinetic_eruption",
       "knack_pyrokinetic_call_flames",
       "knack_pyrokinetic_cloak",
       "knack_telekinetic_push",
@@ -279,7 +290,8 @@
       "knack_vita_concentrated_healing",
       "knack_vita_remove_poison",
       "knack_vita_cure_disease"
-    ]
+    ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -333,6 +345,8 @@
       "knack_photokinetic_hide_ugly",
       "knack_photokinetic_radio",
       "knack_pyrokinetic_flash",
+      "knack_pyrokinetic_intensify_flames",
+      "knack_pyrokinetic_eruption",
       "knack_pyrokinetic_call_flames",
       "knack_pyrokinetic_cloak",
       "knack_telekinetic_push",
@@ -348,7 +362,8 @@
       "knack_vita_concentrated_healing",
       "knack_vita_remove_poison",
       "knack_vita_cure_disease"
-    ]
+    ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -359,7 +374,8 @@
     "skills": [ { "level": 2, "name": "cooking" }, { "level": 1, "name": "driving" }, { "level": 2, "name": "metaphysics" } ],
     "traits": [ "PYROMANIA", "PYROKINETIC", "PYROKIN_ADAPTATION" ],
     "spells": [
-      { "id": "pyrokinetic_eruption", "level": 8 },
+      { "id": "pyrokinetic_intensify_flames", "level": 8 },
+      { "id": "pyrokinetic_eruption", "level": 5 },
       { "id": "pyrokinetic_call_flames", "level": 4 },
       { "id": "pyrokinetic_flamethrower", "level": 3 },
       { "id": "pyrokinetic_cloak", "level": 7 },
@@ -394,6 +410,8 @@
       "knack_photokinetic_hide_ugly",
       "knack_photokinetic_radio",
       "knack_pyrokinetic_flash",
+      "knack_pyrokinetic_intensify_flames",
+      "knack_pyrokinetic_eruption",
       "knack_pyrokinetic_call_flames",
       "knack_pyrokinetic_cloak",
       "knack_telekinetic_push",
@@ -409,7 +427,8 @@
       "knack_vita_concentrated_healing",
       "knack_vita_remove_poison",
       "knack_vita_cure_disease"
-    ]
+    ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -490,6 +509,8 @@
       "knack_photokinetic_hide_ugly",
       "knack_photokinetic_radio",
       "knack_pyrokinetic_flash",
+      "knack_pyrokinetic_intensify_flames",
+      "knack_pyrokinetic_eruption",
       "knack_pyrokinetic_call_flames",
       "knack_pyrokinetic_cloak",
       "knack_telekinetic_push",
@@ -505,7 +526,8 @@
       "knack_vita_concentrated_healing",
       "knack_vita_remove_poison",
       "knack_vita_cure_disease"
-    ]
+    ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -561,6 +583,8 @@
       "knack_photokinetic_hide_ugly",
       "knack_photokinetic_radio",
       "knack_pyrokinetic_flash",
+      "knack_pyrokinetic_intensify_flames",
+      "knack_pyrokinetic_eruption",
       "knack_pyrokinetic_call_flames",
       "knack_pyrokinetic_cloak",
       "knack_telekinetic_push",
@@ -576,7 +600,8 @@
       "knack_vita_concentrated_healing",
       "knack_vita_remove_poison",
       "knack_vita_cure_disease"
-    ]
+    ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -640,7 +665,6 @@
     },
     "whitelist_hobbies": false,
     "hobbies": [
-      "gateway_teleporter",
       "knack_flexibility",
       "knack_adrenaline",
       "knack_clair_better_senses",
@@ -652,6 +676,8 @@
       "knack_photokinetic_hide_ugly",
       "knack_photokinetic_radio",
       "knack_pyrokinetic_flash",
+      "knack_pyrokinetic_intensify_flames",
+      "knack_pyrokinetic_eruption",
       "knack_pyrokinetic_call_flames",
       "knack_pyrokinetic_cloak",
       "knack_telekinetic_push",
@@ -668,7 +694,8 @@
       "knack_vita_remove_poison",
       "knack_vita_cure_disease"
     ],
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY" ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -719,6 +746,8 @@
       "knack_photokinetic_hide_ugly",
       "knack_photokinetic_radio",
       "knack_pyrokinetic_flash",
+      "knack_pyrokinetic_intensify_flames",
+      "knack_pyrokinetic_eruption",
       "knack_pyrokinetic_call_flames",
       "knack_pyrokinetic_cloak",
       "knack_telekinetic_push",
@@ -734,7 +763,8 @@
       "knack_vita_concentrated_healing",
       "knack_vita_remove_poison",
       "knack_vita_cure_disease"
-    ]
+    ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -845,6 +875,8 @@
       "knack_photokinetic_hide_ugly",
       "knack_photokinetic_radio",
       "knack_pyrokinetic_flash",
+      "knack_pyrokinetic_intensify_flames",
+      "knack_pyrokinetic_eruption",
       "knack_pyrokinetic_call_flames",
       "knack_pyrokinetic_cloak",
       "knack_telekinetic_push",
@@ -860,7 +892,8 @@
       "knack_vita_concentrated_healing",
       "knack_vita_remove_poison",
       "knack_vita_cure_disease"
-    ]
+    ],
+    "chargen_allow_npc": false
   },
   {
     "type": "item_group",

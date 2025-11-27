@@ -367,6 +367,42 @@
   },
   {
     "type": "mapgen",
+    "om_terrain": [ "druid_ritual_home_z4" ],
+    "//": "Roof over top",
+    "object": {
+      "fill_ter": "t_barkfloor",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "         ##    #####    ",
+        "   #############~~~##   ",
+        "   #~~~~~~~~~~~~~~~~#   ",
+        "   #~~~~~~~~~~~~~~~##   ",
+        "   #~~~~~~~~~~~~~~~#    ",
+        "   #~~~~~~~~~~~~~~~#    ",
+        "   #~~~~~~~~~~~~~~~##   ",
+        "   ##~~~~~~~~~~~~~~~#   ",
+        "    #~~~~~~~~~~~~~~~##  ",
+        "   ##~~~~~~~~~~~~~~##   ",
+        "    #~~~~~~~~~~~~~~#    ",
+        "   ##~~~~~~~~~~~~~~#    ",
+        "   #~~~~~~~~~~~~~~~##   ",
+        "   #~~~~~~~~~~~~~~~##   ",
+        "   #~~~~~~~~~~~~~~~#    ",
+        "   ######~~~~~~~~~~#    ",
+        "     #  ############    ",
+        "            ##   ##     ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "druid_ritual_home" ],
+      "terrain": { " ": "t_open_air", ">": "t_triffid_slope_down" }
+    }
+  },
+  {
+    "type": "mapgen",
     "om_terrain": [
       [ "druid_ritual_home_crown_nw", "druid_ritual_home_crown_n", "druid_ritual_home_crown_ne" ],
       [ "druid_ritual_home_crown_w", "druid_ritual_home_crown", "druid_ritual_home_crown_e" ],

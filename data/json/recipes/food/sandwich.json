@@ -422,7 +422,7 @@
       [ [ "bread_sandwich", 2, "LIST" ] ],
       [
         [ "cooking_oil", 1 ],
-        [ "cooking_oil2", 1 ],
+        [ "edible_tallow", 2, "LIST" ],
         [ "mayonnaise", 1 ],
         [ "ketchup", 1 ],
         [ "barbecue_sauce", 1 ],
