@@ -1841,7 +1841,10 @@ void map::monster_in_field( monster &z )
     }
     field &curfield = get_field( get_bub( z.pos_abs() ) );
 
-    int dam = 0;
+    const auto apply_field_dmg = [&]( monster & z, int &dam ) {
+
+    };
+
     // Iterate through all field effects on this tile.
     // Do not remove the field with remove_field, instead set it's intensity to 0. It will be removed
     // later by the field processing, which will also adjust field_count accordingly.
@@ -1850,6 +1853,10 @@ void map::monster_in_field( monster &z )
         if( !cur.is_field_alive() ) {
             continue;
         }
+
+        // How much damage does this field do?
+        // Resets on every iteration through the list, otherwise the damage stacks.
+        int dam = 0;
         const field_type_id cur_field_type = cur.get_field_type();
         if( cur_field_type == fd_acid ) {
             if( !z.flies() ) {
@@ -1873,7 +1880,7 @@ void map::monster_in_field( monster &z )
         if( cur_field_type == fd_fire ) {
             // TODO: MATERIALS Use fire resistance
             if( z.has_flag( mon_flag_FIREPROOF ) || z.has_flag( mon_flag_FIREY ) ) {
-                return;
+                continue; // Fireproof monsters aren't affected by fire
             }
             // TODO: Replace the section below with proper json values
             if( z.made_of_any( Creature::cmat_flesh ) ) {
@@ -1882,16 +1889,16 @@ void map::monster_in_field( monster &z )
             if( z.made_of( material_veggy ) ) {
                 dam += 12;
             }
-            if( z.made_of( phase_id::LIQUID ) || z.made_of_any( Creature::cmat_flammable ) ) {
+            if( z.made_of_any( Creature::cmat_flammable ) ) {
                 dam += 20;
             }
             if( z.made_of_any( Creature::cmat_flameres ) ) {
-                dam += -20;
+                dam -= 20;
             }
             if( z.flies() ) {
                 dam -= 15;
             }
-            dam -= z.get_armor_type( damage_heat, bodypart_id( "torso" ) );
+            dam -= z.get_armor_type( damage_heat, z.get_random_body_part_of_type( bp_type::torso ) );
 
             if( cur.get_field_intensity() == 1 ) {
                 dam += rng( 2, 6 );
@@ -2070,11 +2077,12 @@ void map::monster_in_field( monster &z )
                 dam += rng( 4, 7 * intensity );
             }
         }
-    }
 
-    if( dam > 0 ) {
-        z.apply_damage( nullptr, bodypart_id( "torso" ), dam, true );
-        z.check_dead_state( this );
+        // Finally, apply damage
+        if( dam > 0 ) {
+            z.apply_damage( nullptr, z.get_random_body_part_of_type( bp_type::torso ), dam, true );
+            z.check_dead_state( this );
+        }
     }
 }
 
