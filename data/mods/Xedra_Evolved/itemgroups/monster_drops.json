@@ -72,10 +72,10 @@
           }
         ]
       },
-      { "group": "bannerman_armor", "prob": 20, "damage": [ 0, 5 ] },
+      { "group": "bannerman_armor", "prob": 100, "damage": [ 2, 5 ] },
       { "group": "pendant_necklaces_silver", "prob": 5 },
       { "group": "clothing_watch", "prob": 5 },
-      { "group": "bannerman_weapons", "prob": 50, "damage": [ 0, 5 ] },
+      { "group": "bannerman_weapons", "prob": 100, "damage": [ 2, 5 ] },
       { "item": "baldric", "prob": 100 },
       { "item": "scrap_dreamdross", "prob": 75, "count": [ 1, 4 ] }
     ]
@@ -219,9 +219,9 @@
           }
         ]
       },
-      { "group": "bannerman_armor", "prob": 20, "damage": [ 0, 4 ] },
+      { "group": "bannerman_armor", "prob": 100, "damage": [ 0, 4 ] },
       { "group": "pendant_necklaces_silver", "prob": 5 },
-      { "item": "winter_lord_estoc", "prob": 25, "damage": [ 0, 5 ] },
+      { "item": "winter_lord_estoc", "prob": 100, "damage": [ 1, 5 ] },
       { "item": "baldric", "prob": 100 },
       { "item": "purity_crackers", "prob": 10 },
       { "item": "golden_bridle", "prob": 5 },

@@ -305,18 +305,17 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [
-      "s_lightindustry_00",
-      "s_lightindustry_00_roof",
-      "s_lightindustry_01",
-      "s_lightindustry_01_roof",
-      "s_lightindustry_10",
-      "s_lightindustry_10_roof",
-      "s_lightindustry_11",
-      "s_lightindustry_11_roof"
-    ],
+    "id": [ "s_lightindustry_00", "s_lightindustry_01", "s_lightindustry_10", "s_lightindustry_11" ],
     "name": "light industry",
     "copy-from": "s_lightindustry_00",
+    "sym": "L",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_lightindustry_00_roof", "s_lightindustry_01_roof", "s_lightindustry_10_roof", "s_lightindustry_11_roof" ],
+    "name": "light industry roof",
+    "copy-from": "s_lightindustry_00_roof",
     "sym": "L",
     "color": "light_gray"
   },
@@ -383,15 +382,24 @@
       "office_tower_2_b1_2",
       "office_tower_2_b2_2",
       "office_tower_2_b3_2",
-      "office_tower_2_a1_roof",
-      "office_tower_2_a2_roof",
-      "office_tower_2_b1_roof",
-      "office_tower_2_b2_roof",
-      "office_tower_2_b3_roof",
       "office_tower_2_a1_tower_lab"
     ],
     "copy-from": "office_tower_2_a1",
     "name": "office tower",
+    "sym": "O",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "office_tower_2_a1_roof",
+      "office_tower_2_a2_roof",
+      "office_tower_2_b1_roof",
+      "office_tower_2_b2_roof",
+      "office_tower_2_b3_roof"
+    ],
+    "copy-from": "office_tower_2_a1_roof",
+    "name": "office tower roof",
     "sym": "O",
     "color": "light_gray"
   },
@@ -661,18 +669,17 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [
-      "junkyard_1a",
-      "junkyard_roof_1a",
-      "junkyard_1b",
-      "junkyard_roof_1b",
-      "junkyard_2a",
-      "junkyard_roof_2a",
-      "junkyard_2b",
-      "junkyard_roof_2b"
-    ],
+    "id": [ "junkyard_1a", "junkyard_1b", "junkyard_2a", "junkyard_2b" ],
     "copy-from": "junkyard_1a",
     "name": "junkyard",
+    "sym": "J",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "junkyard_roof_1a", "junkyard_roof_1b", "junkyard_roof_2a", "junkyard_roof_2b" ],
+    "copy-from": "junkyard_roof_1a",
+    "name": "junkyard roof",
     "sym": "J",
     "color": "light_gray"
   },
@@ -683,7 +690,6 @@
       "ws_regional_dump_1_0",
       "ws_regional_dump_2_0",
       "ws_regional_dump_3_0",
-      "ws_regional_dump_3_0_roof",
       "ws_regional_dump_0_1",
       "ws_regional_dump_1_1",
       "ws_regional_dump_2_1",
@@ -700,7 +706,6 @@
       "ws_biker_dump_1_0",
       "ws_biker_dump_2_0",
       "ws_biker_dump_3_0",
-      "ws_biker_dump_3_0_roof",
       "ws_biker_dump_0_1",
       "ws_biker_dump_1_1",
       "ws_biker_dump_2_1",
@@ -708,7 +713,6 @@
       "ws_biker_dump_0_2",
       "ws_biker_dump_1_2",
       "ws_biker_dump_2_2",
-      "ws_biker_dump_2_2_roof",
       "ws_biker_dump_3_2",
       "ws_biker_dump_0_3",
       "ws_biker_dump_1_3",
@@ -717,6 +721,14 @@
     ],
     "copy-from": "ws_regional_dump_0_0",
     "name": "regional dump",
+    "sym": "R",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "ws_regional_dump_3_0_roof", "ws_biker_dump_3_0_roof", "ws_biker_dump_2_2_roof" ],
+    "copy-from": "ws_regional_dump_3_0_roof",
+    "name": "regional dump roof",
     "sym": "R",
     "color": "light_gray"
   },

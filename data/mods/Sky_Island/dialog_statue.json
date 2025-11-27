@@ -457,7 +457,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "SKYISLAND_UPGRADE_scouting6" } },
-            { "math": [ "scoutingdistancetargets == 7" ] },
+            { "math": [ "scoutingdistancetargets == 10" ] },
             { "math": [ "islandrank >= 4" ] }
           ]
         },
@@ -469,7 +469,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "SKYISLAND_UPGRADE_scouting7" } },
-            { "math": [ "scoutingdistancetargets == 8" ] },
+            { "math": [ "scoutingdistancetargets == 14" ] },
             { "math": [ "islandrank >= 4" ] }
           ]
         },
@@ -481,7 +481,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "SKYISLAND_UPGRADE_scouting8" } },
-            { "math": [ "scoutingdistancetargets == 7" ] },
+            { "math": [ "scoutingdistancetargets == 18" ] },
             { "math": [ "islandrank >= 4" ] }
           ]
         },
@@ -565,7 +565,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "SKYISLAND_UPGRADE_landing6" } },
-            { "math": [ "scoutingdistancelanding == 20" ] },
+            { "math": [ "scoutingdistancelanding == 24" ] },
             { "math": [ "islandrank >= 4" ] }
           ]
         },
@@ -577,7 +577,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "SKYISLAND_UPGRADE_landing7" } },
-            { "math": [ "scoutingdistancelanding == 24" ] },
+            { "math": [ "scoutingdistancelanding == 32" ] },
             { "math": [ "islandrank >= 4" ] }
           ]
         },
@@ -589,7 +589,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "SKYISLAND_UPGRADE_landing8" } },
-            { "math": [ "scoutingdistancelanding == 28" ] },
+            { "math": [ "scoutingdistancelanding == 40" ] },
             { "math": [ "islandrank >= 4" ] }
           ]
         },
@@ -721,7 +721,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "SKYISLAND_UPGRADE_bonusmissions5" } },
-            { "math": [ "bonusmissions == 2" ] },
+            { "math": [ "bonusmissions == 4" ] },
             { "math": [ "islandrank >= 4" ] }
           ]
         },

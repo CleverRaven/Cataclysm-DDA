@@ -103,6 +103,20 @@
     "flags": [ "SECRET", "BLIND_EASY" ]
   },
   {
+    "result": "warpextender",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_ITEMS",
+    "skill_used": "survival",
+    "time": "1 m",
+    "autolearn": false,
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [ [ [ "warptoken", 3 ] ], [ [ "clay_lump", 3 ] ], [ [ "rock", 1 ] ] ],
+    "flags": [ "SECRET", "BLIND_EASY" ]
+  },
+  {
     "result": "warp_healing_salve",
     "type": "recipe",
     "activity_level": "NO_EXERCISE",

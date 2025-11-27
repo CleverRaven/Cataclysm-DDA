@@ -360,7 +360,7 @@
         "R": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         ";": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         "'": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
-        "|": "t_wall_log",
+        "|": "t_wall",
         ".": "t_region_groundcover_urban",
         "0": [ "t_curtains", "t_window_domestic" ],
         "3": "t_door_c",

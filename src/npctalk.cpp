@@ -83,6 +83,7 @@
 #include "itype.h"
 #include "kill_tracker.h"
 #include "magic.h"
+#include "magic_teleporter_list.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_scale_constants.h"
@@ -2521,52 +2522,49 @@ void parse_tags( std::string &phrase, const_talker const &u, const_talker const 
             // attempt to cast as an item
             phrase.replace( fa, l, itype_id( var )->nname( 1 ) );
         } else if( tag.find( "<item_description:" ) == 0 ) {
-            //embedding an items name in the string
             std::string var = tag.substr( tag.find( ':' ) + 1 );
             // remove the trailing >
             var.pop_back();
             // resolve nest
             parse_tags( var, u, me, d, item_type );
-            // attempt to cast as an item
             phrase.replace( fa, l, itype_id( var )->description.translated() );
         } else if( tag.find( "<trait_name:" ) == 0 ) {
-            //embedding an items name in the string
             std::string var = tag.substr( tag.find( ':' ) + 1 );
             // remove the trailing >
             var.pop_back();
             // resolve nest
             parse_tags( var, u, me, d, item_type );
-            // attempt to cast as an item
             phrase.replace( fa, l, trait_id( var )->name() );
         } else if( tag.find( "<trait_description:" ) == 0 ) {
-            //embedding an items name in the string
             std::string var = tag.substr( tag.find( ':' ) + 1 );
             // remove the trailing >
             var.pop_back();
             // resolve nest
             parse_tags( var, u, me, d, item_type );
-            // attempt to cast as an item
+            // this probably will benefit from grabbing alpha/beta talker instead of avatar
             phrase.replace( fa, l, me_chr->mutation_desc( trait_id( var ) ) );
         } else if( tag.find( "<spell_name:" ) == 0 ) {
-            //embedding an items name in the string
             std::string var = tag.substr( tag.find( ':' ) + 1 );
             // remove the trailing >
             var.pop_back();
             // resolve nest
             parse_tags( var, u, me, d, item_type );
-            // attempt to cast as an item
             phrase.replace( fa, l, spell_id( var )->name.translated() );
         } else if( tag.find( "<spell_description:" ) == 0 ) {
-            //embedding an items name in the string
             std::string var = tag.substr( tag.find( ':' ) + 1 );
             // remove the trailing >
             var.pop_back();
             // resolve nest
             parse_tags( var, u, me, d, item_type );
-            // attempt to cast as an item
             phrase.replace( fa, l, spell_id( var )->description.translated() );
+        } else if( tag.find( "<u_spell_level:" ) == 0 ) {
+            std::string var = tag.substr( tag.find( ':' ) + 1 );
+            // remove the trailing >
+            var.pop_back();
+            // resolve nest
+            parse_tags( var, u, me, d, item_type );
+            phrase.replace( fa, l, std::to_string( u.get_spell_level( spell_id( var ) ) ) );
         } else if( tag.find( "<keybind:" ) == 0 ) {
-            //embedding an items name in the string
             std::string var = tag.substr( tag.find( ':' ) + 1 );
             // remove the trailing >
             var.pop_back();
@@ -4931,6 +4929,9 @@ talk_effect_fun_t::func f_copy_location( const JsonObject &jo, std::string_view 
                                         sm->get_revert_submap(), key.evaluate( d ) );
             }
         }
+        // We need to copy the translocator to target omt pos if it exists
+        avatar &player_character = get_avatar();
+        player_character.translocators.copy_translocator( omt_pos, omt_pos_new );
         reality_bubble().invalidate_map_cache( omt_pos_new.z() );
     };
 }
