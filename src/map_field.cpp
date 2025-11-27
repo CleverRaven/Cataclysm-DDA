@@ -1841,10 +1841,6 @@ void map::monster_in_field( monster &z )
     }
     field &curfield = get_field( get_bub( z.pos_abs() ) );
 
-    const auto apply_field_dmg = [&]( monster & z, int &dam ) {
-
-    };
-
     // Iterate through all field effects on this tile.
     // Do not remove the field with remove_field, instead set it's intensity to 0. It will be removed
     // later by the field processing, which will also adjust field_count accordingly.
@@ -1882,6 +1878,17 @@ void map::monster_in_field( monster &z )
             if( z.has_flag( mon_flag_FIREPROOF ) || z.has_flag( mon_flag_FIREY ) ) {
                 continue; // Fireproof monsters aren't affected by fire
             }
+            if( has_flag_ter_or_furn( ter_furn_flag::TFLAG_FIRE_CONTAINER, get_bub( z.pos_abs() ) ) ) {
+                continue; // Fire is contained and not really part of the walkable space. (e.g. a torch on the wall, fire inside a bucket brazier)
+            }
+            if( cur.get_field_intensity() == 1 ) {
+                continue; // Small piddly fire cannot hurt anything
+            }
+
+            if( cur.get_field_intensity() == 2 && !one_in( 10 ) ) {
+                continue; // Active fire can barely hurt anything walking through, 10% chance
+            }
+
             // TODO: Replace the section below with proper json values
             if( z.made_of_any( Creature::cmat_flesh ) ) {
                 dam += 3;
@@ -1898,26 +1905,24 @@ void map::monster_in_field( monster &z )
             if( z.flies() ) {
                 dam -= 15;
             }
+            // FIXME: Hardcoded damage type!
+            // Put the associated damage type into the field type's json definition
             dam -= z.get_armor_type( damage_heat, z.get_random_body_part_of_type( bp_type::torso ) );
 
-            if( cur.get_field_intensity() == 1 ) {
-                dam += rng( 2, 6 );
-            } else if( cur.get_field_intensity() == 2 ) {
-                dam += rng( 6, 12 );
-                if( !z.flies() ) {
-                    z.mod_moves( -to_moves<int>( 1_seconds ) * 0.2 );
-                    if( dam > 0 ) {
-                        z.add_effect( effect_onfire, 1_turns * rng( dam / 2, dam * 2 ) );
-                    }
+            dam += rng( cur.get_field_intensity(), cur.get_field_intensity() * 2 );
+            const bool affected_by_fire = !z.flies() || one_in( 3 );
+            if( dam > 0 && affected_by_fire ) {
+                z.mod_moves( -to_moves<int>( 1_seconds ) * 0.4 );
+                // dam/100 % chance to set onfire effect
+                if( x_in_y( dam, 100 ) ) {
+                    // This effect is hilariously, stupidly lethal, representing the creature being entirely engulfed in a self-perpetuating conflagration.
+                    // So it should not be very frequent.
+                    z.add_effect( effect_onfire, 1_turns * rng( dam / 2, dam * 2 ) );
                 }
-            } else if( cur.get_field_intensity() == 3 ) {
-                dam += rng( 10, 20 );
-                if( !z.flies() || one_in( 3 ) ) {
-                    z.mod_moves( -to_moves<int>( 1_seconds ) * 0.4 );
-                    if( dam > 0 ) {
-                        z.add_effect( effect_onfire, 1_turns * rng( dam / 2, dam * 2 ) );
-                    }
-                }
+
+                // Remove some lifetime from the fire, to simulate the monster trampling it and spreading/destroying some of the fuel.
+                // Prevents one fire from killing an infinite amount of zombies.
+                cur.mod_field_age( 1_minutes * dam );
             }
         }
         if( cur_field_type == fd_smoke ) {
