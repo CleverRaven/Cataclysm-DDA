@@ -2055,15 +2055,6 @@ static void handle_debug_mode()
         }
     };
 
-    static bool first_time = true;
-    if( first_time ) {
-        first_time = false;
-        debugmode::enabled_filters.clear();
-        for( int i = 0; i < debugmode::DF_LAST; ++i ) {
-            debugmode::enabled_filters.emplace( static_cast<debugmode::debug_filter>( i ) );
-        }
-    }
-
     input_context ctxt( "DEFAULTMODE" );
     ctxt.register_action( "debug_mode" );
 

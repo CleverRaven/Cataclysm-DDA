@@ -4073,12 +4073,9 @@ static void write_global_vars()
 
 void do_debug_quick_setup()
 {
-    if( !debug_mode ) {
-        // Turn on debug mode if not already on, but without any filters enabled (to prevent log spam).
-        // Save a few keypresses.
-        debug_mode = true;
-        debugmode::enabled_filters.clear();
-    }
+    // Turn on debug mode. Some debug information displays require just this to be on, so we want it on. Save a few keypresses.
+    debug_mode = true;
+
     Character &u = get_avatar();
     normalize_body( u );
     // Specifically only adds mutations instead of toggling them.
