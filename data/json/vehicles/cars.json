@@ -926,7 +926,7 @@
     "type": "vehicle",
     "copy-from": "car_hatch_abstract",
     "name": "Rusty Duck",
-    "//": "Specific to the Friends to the End scenario, Liam's old hatchback doesn't have a security system nor a working heater.",
+    "//": "Specific to the Friends to the End scenario, Liam's old hatchback doesn't have a security system nor a working heater.  One of the quarterpanels is made of plywood.  Later, it would be nice to have that instead be a janky panel repaired with duct tape.",
     "parts": [
       { "x": 0, "y": 0, "parts": [ "frame#cross", "seat#windshield_front", "seatbelt", "controls", "stereo" ] },
       { "x": 0, "y": 0, "parts": [ "dashboard", "horn_car" ] },
@@ -958,7 +958,7 @@
         "y": -1,
         "parts": [ "frame#sw", "wheel_mount_medium", "wheel", { "part": "tank_medium", "fuel": "gasoline" } ]
       },
-      { "x": -2, "y": -1, "parts": [ "halfboard#hatch_wheel_left" ] },
+      { "x": -2, "y": -1, "parts": [ "woodhalfboard#hatch_wheel_left" ] },
       { "x": -2, "y": 0, "parts": [ "frame#horizontal_rear", "hatch", "muffler" ] },
       { "x": -2, "y": 1, "parts": [ "frame#horizontal_rear", "hatch" ] },
       { "x": -2, "y": 2, "parts": [ "frame#se", "wheel_mount_medium", "wheel" ] },
