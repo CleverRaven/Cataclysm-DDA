@@ -96,6 +96,15 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "benzos_addict",
+    "name": "Sedative Dependence",
+    "description": "You got hooked on dangerous sedative medication.  Or, maybe a prescription spiraled out of control.  Either way, it's time to face the music.  Maybe you can wean yourself off, assuming a zombie doesn't get you first…",
+    "points": -2,
+    "addictions": [ { "intensity": 30, "type": "diazepam" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "tweaker",
     "name": "Amphetamine Dependence",
     "description": "You're not entirely sure what happened last night, but you woke up on the floor and everything has completely gone to shit.  The only thing running through your head, though, is where you're gonna find your next hit.",
