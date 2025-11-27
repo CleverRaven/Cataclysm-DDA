@@ -107,8 +107,6 @@ std::optional<int> ehandcuffs_tick( Character *, item *, const tripoint_bub_ms &
 std::optional<int> emf_passive_on( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> extinguisher( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> fill_pit( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> firecracker( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> firecracker_pack( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> firecracker_pack_act( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> fish_trap( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> fish_trap_tick( Character *, item *, const tripoint_bub_ms & );
@@ -163,7 +161,6 @@ std::optional<int> portable_game( Character *, item *, const tripoint_bub_ms & )
 std::optional<int> portal( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> radglove( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> radio_mod( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> radio_off( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> radio_on( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> radio_tick( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> remove_all_mods( Character *, item *, const tripoint_bub_ms & );
@@ -208,7 +205,6 @@ std::optional<int> calories_intake_tracker( Character *p, item *, const tripoint
 // MACGUFFINS
 
 std::optional<int> radiocar( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> radiocaron( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> radiocontrol( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> radiocontrol_tick( Character *, item *, const tripoint_bub_ms & );
 
