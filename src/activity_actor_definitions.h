@@ -225,24 +225,30 @@ class bleed_activity_actor : public activity_actor
 {
 public:
     bleed_activity_actor() = default;
+    explicit bleed_activity_actor( butchery_data bd ) : bd( { std::move( bd ) } ) {}
+    explicit bleed_activity_actor( std::vector<butchery_data> bd ) : bd( std::move( bd ) ) {}
 
     const activity_id &get_type() const override {
         static const activity_id ACT_BLEED( "ACT_BLEED" );
         return ACT_BLEED;
     }
 
-    void start( player_activity &, Character & ) override {}
-    void do_turn( player_activity &act, Character & ) override {
-        act.set_to_null();
-    }
-    void finish( player_activity &, Character & ) override {}
+    void start( player_activity &, Character & ) override {};
+    bool initiate_butchery(player_activity& act, Character& you, butchery_data& this_bd);
+    void do_turn( player_activity &act, Character &you ) override;
+    void finish( player_activity &act, Character & ) override;
+    void canceled( player_activity &act, Character &you ) override;
 
     std::unique_ptr<activity_actor> clone() const override {
         return std::make_unique<bleed_activity_actor>( *this );
     }
 
     void serialize( JsonOut &jsout ) const override;
-    static std::unique_ptr<activity_actor> deserialize( JsonValue & );
+    static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+    void calculate_butchery_data(Character& you, butchery_data& this_bd);
+
+private:
+    std::vector<butchery_data> bd;
 };
 
 class gunmod_remove_activity_actor : public activity_actor
