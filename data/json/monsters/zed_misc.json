@@ -124,6 +124,7 @@
     "type": "MONSTER",
     "name": { "str": "zombie brute" },
     "description": "This zombie's entire body bulges with distended muscles and swollen, festering wounds.",
+    "species": [ "ZOMBIE" ],
     "copy-from": "mon_zombie_base",
     "diff": 2,
     "hp": 120,
