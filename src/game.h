@@ -1185,6 +1185,8 @@ class game
 
         /** Used in main.cpp to determine what type of quit is being performed. */
         quit_status uquit; // NOLINT(cata-serialize)
+        /** Flags if the game is currently in an unsupported state and cannot be saved. */
+        bool save_is_dirty; // NOLINT(cata-serialize)
         /** True if the game has just started or loaded, else false. */
         bool new_game = false; // NOLINT(cata-serialize)
 

@@ -284,6 +284,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::EXPORT_FOLLOWER: return "EXPORT_FOLLOWER";
         case debug_menu::debug_menu_index::EXPORT_SELF: return "EXPORT_SELF";
 		case debug_menu::debug_menu_index::QUICK_SETUP: return "QUICK_SETUP";
+		case debug_menu::debug_menu_index::QUICK_SETUP_FLAG_DIRTY: return "QUICK_SETUP_FLAG_DIRTY";
 		case debug_menu::debug_menu_index::TOGGLE_SETUP_MUTATION: return "TOGGLE_SETUP_MUTATION";
 		case debug_menu::debug_menu_index::NORMALIZE_BODY_STAT: return "NORMALIZE_BODY_STAT";
 		case debug_menu::debug_menu_index::SIX_MILLION_DOLLAR_SURVIVOR: return "SIX_MILLION_DOLLAR_SURVIVOR";
@@ -1095,6 +1096,7 @@ static int quick_setup_uilist()
 {
     const std::vector<uilist_entry> uilist_initializer = {
         { uilist_entry( debug_menu_index::QUICK_SETUP, true, 'Q', _( "Quick setup…" ) ) },
+        { uilist_entry( debug_menu_index::QUICK_SETUP_FLAG_DIRTY, true, 'D', _( "Quick setup and flag save as dirty" ) ) },
         { uilist_entry( debug_menu_index::TOGGLE_SETUP_MUTATION, true, 't', _( "Toggle debug mutations" ) ) },
         { uilist_entry( debug_menu_index::NORMALIZE_BODY_STAT, true, 'n', _( "Normalize body stats" ) ) },
         { uilist_entry( debug_menu_index::SIX_MILLION_DOLLAR_SURVIVOR, true, 'B', _( "Install ALL bionics" ) ) },
@@ -4071,7 +4073,7 @@ static void write_global_vars()
     popup( _( "Var list written to var_list.output" ) );
 }
 
-void do_debug_quick_setup()
+void do_debug_quick_setup( bool flag_dirty )
 {
     if( !debug_mode ) {
         // Turn on debug mode if not already on, but without any filters enabled (to prevent log spam).
@@ -4091,6 +4093,9 @@ void do_debug_quick_setup()
         u.set_skill_level( pair.first, 10 );
     }
     map_reveal( static_cast<int>( om_vision_level::full ) );
+    if( flag_dirty ) {
+        g->save_is_dirty = true;
+    }
 }
 
 void debug()
@@ -4465,12 +4470,14 @@ void debug()
                     _( "Quit without saving?  This may cause issues such as duplicated or missing items and vehicles!" ) ) ) {
                 player_character.set_moves( 0 );
                 g->uquit = QUIT_NOSAVED;
+                g->save_is_dirty = true;
             }
             break;
         case debug_menu_index::QUICKLOAD:
             if( query_yn(
                     _( "Quickload without saving?  This may cause issues such as duplicated or missing items and vehicles!" ) ) ) {
                 g->quickload();
+                g->save_is_dirty = true;
             }
             break;
         case debug_menu_index::TEST_WEATHER: {
@@ -4580,6 +4587,11 @@ void debug()
 
         case debug_menu_index::QUICK_SETUP: {
             do_debug_quick_setup();
+            break;
+        }
+
+        case debug_menu_index::QUICK_SETUP_FLAG_DIRTY: {
+            do_debug_quick_setup( true );
             break;
         }
 

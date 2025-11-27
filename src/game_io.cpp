@@ -686,6 +686,10 @@ bool game::save_achievements()
 
 bool game::save()
 {
+    if( save_is_dirty ) {
+        popup( _( "The game is in an unsupported state after using debug tools and cannot be saved." ) );
+        return false;
+    }
     std::chrono::seconds time_since_load =
         std::chrono::duration_cast<std::chrono::seconds>(
             std::chrono::steady_clock::now() - time_of_last_load );
