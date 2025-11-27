@@ -601,6 +601,10 @@ class pocket_constraint
         pocket_constraint() = default;
         pocket_constraint( const item_pocket *init_pocket );
 
+        // returns whether the constraint is equally severe as 'other'. not a strict field-wise equality.
+        bool operator==( const pocket_constraint & ) const;
+        bool operator!=( const pocket_constraint & ) const;
+
         // apply the capacity constraints of an outer pocket
         void constrain_by( const item_pocket *outer );
         // apply the capacity constraints of another, outer constraint to this one.

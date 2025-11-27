@@ -773,9 +773,9 @@ class inventory_selector
         virtual void rearrange_columns( size_t client_width );
 
         static header_stats_line build_weight_and_volume_stats_line(
-            units::mass weight_carried, units::mass weight_capacity,
-            const std::string &volume_label, const units::volume &volume_in_pockets,
-            const units::volume &volume_of_pockets
+            units::mass weight_carried, units::mass weight_capacity, const std::string &weight_label,
+            const units::volume &volume_in_pockets, const units::volume &volume_of_pockets,
+            const std::string &volume_label
         );
         static header_stats_line build_selection_stats_line(
             units::volume volume, units::mass weight
@@ -785,11 +785,13 @@ class inventory_selector
             const item_pocket *free_pocket,
             units::volume free_pocket_volume,
             units::length free_pocket_length,
+            int free_pocket_copies,
             const item_pocket *max_pocket,
             units::volume max_pocket_volume,
             units::length max_pocket_length
         );
         typedef std::pair<const item_pocket *, pocket_constraint> pocket_with_constraint;
+        static bool pockets_match( const pocket_with_constraint &a, const pocket_with_constraint &b );
         // returns strings describing the volume and length of a given space (volume)
         static std::tuple<std::string, std::string> build_space_stats( units::volume size,
                 units::length min_length, units::length max_length, bool is_restricted );
@@ -805,6 +807,7 @@ class inventory_selector
             const units::mass &weight_carried, const units::mass &weight_capacity,
             const units::volume &volume_in_pockets, const units::volume &volume_of_pockets,
             std::vector<pocket_with_constraint> pockets, bool show_unconstrained_max_space,
+            const std::string *weight_label_override = nullptr,
             const std::string *volume_label_override = nullptr
         );
         static constexpr const char *header_stats_tab_stop = "\t";

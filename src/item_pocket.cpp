@@ -2824,3 +2824,17 @@ pocket_constraint::pocket_constraint( const item_pocket *pocket ) : pocket_const
     }
     is_dominated = false;
 }
+
+bool pocket_constraint::operator==( const pocket_constraint &o ) const
+{
+    return weight_capacity == o.weight_capacity
+           && max_containable_length == o.max_containable_length
+           && volume_capacity == o.volume_capacity
+           && remaining_volume == o.remaining_volume
+           && max_item_volume == o.max_item_volume;
+}
+
+bool pocket_constraint::operator!=( const pocket_constraint &o ) const
+{
+    return !( *this == o );
+}
