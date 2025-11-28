@@ -215,6 +215,8 @@ static const trait_id trait_PHEROMONE_MAMMAL( "PHEROMONE_MAMMAL" );
 static const trait_id trait_TERRIFYING( "TERRIFYING" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 
+class PathfindingSettings;
+
 // Limit the number of iterations for next upgrade_time calculations.
 // This also sets the percentage of monsters that will never upgrade.
 // The rough formula is 2^(-x), e.g. for x = 5 it's 0.03125 (~ 3%).
@@ -1562,8 +1564,8 @@ bool monster::has_intelligence() const
            has_flag( mon_flag_PATH_AVOID_FIRE ) ||
            has_flag( mon_flag_PATH_AVOID_DANGER ) ||
            has_flag( mon_flag_PRIORITIZE_TARGETS ) ||
-           get_pathfinding_settings().avoid_sharp ||
-           get_pathfinding_settings().avoid_traps;
+           type->path_settings.avoid_sharp() ||
+           type->path_settings.avoid_dangerous_traps();
 }
 
 std::vector<material_id> monster::get_absorb_material() const
@@ -4193,7 +4195,7 @@ void monster::on_load()
                    name(), to_turns<int>( dt ), healed, healed_speed );
 }
 
-const pathfinding_settings &monster::get_pathfinding_settings() const
+const PathfindingSettings &monster::get_pathfinding_settings() const
 {
     return type->path_settings;
 }
