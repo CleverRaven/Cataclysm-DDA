@@ -75,7 +75,20 @@ class study_zone_window : public cataimgui::window
                     for( const skill_id &skill : all_skills ) {
                         npc_skills.insert( skill );
                     }
-                    changed = true;
+                    preferences_changed = true;
+                }
+            }
+
+            ImVec2 char_size = ImGui::CalcTextSize( "W" );
+            // 16 is max skill name length in English
+            max_skill_name_width = char_size.x * 16.0f + ImGui::GetStyle().FramePadding.x * 2.0f;
+
+            max_npc_name_width = 0.0f;
+            for( const std::string &npc_name : npc_names ) {
+                ImVec2 text_size = ImGui::CalcTextSize( npc_name.c_str() );
+                float width = text_size.x + ImGui::GetStyle().FramePadding.x * 2.0f;
+                if( width > max_npc_name_width ) {
+                    max_npc_name_width = width;
                 }
             }
         }
@@ -103,7 +116,7 @@ class study_zone_window : public cataimgui::window
             if( canceled_result ) {
                 return study_zone_ui_result::canceled;
             }
-            return changed ? study_zone_ui_result::changed : study_zone_ui_result::successful;
+            return preferences_changed ? study_zone_ui_result::changed : study_zone_ui_result::successful;
         }
 
     protected:
@@ -113,17 +126,23 @@ class study_zone_window : public cataimgui::window
             ImGui::AlignTextToFramePadding();
             ImGui::Text( "%s", skill->name().c_str() );
 
-            for( const std::string &npc_name : npc_names ) {
+            for( size_t i = 0; i < npc_names.size(); i++ ) {
                 ImGui::TableNextColumn();
 
-                std::set<skill_id> &npc_skills = npc_skill_preferences[npc_name];
+                std::set<skill_id> &npc_skills = npc_skill_preferences[npc_names[i]];
 
                 bool is_selected = npc_skills.count( skill ) > 0;
                 bool was_selected = is_selected;
-                std::string checkbox_id = "##" + skill.str() + "_" + npc_name;
-                if( ImGui::Checkbox( checkbox_id.c_str(), &is_selected ) ) {
-                    changed = true;
+
+                // center the checkbox
+                float offset = ( ImGui::GetColumnWidth() - ImGui::GetFrameHeight() ) * 0.5f;
+                ImGui::SetCursorPosX( ImGui::GetCursorPosX() + offset );
+
+                ImGui::PushID( checkbox_id_counter++ );
+                if( ImGui::Checkbox( "##checkbox", &is_selected ) ) {
+                    preferences_changed = true;
                 }
+                ImGui::PopID();
                 if( is_selected != was_selected ) {
                     if( is_selected ) {
                         npc_skills.insert( skill );
@@ -131,7 +150,7 @@ class study_zone_window : public cataimgui::window
                         npc_skills.erase( skill );
                     }
                     if( npc_skills.empty() ) {
-                        npc_skill_preferences.erase( npc_name );
+                        npc_skill_preferences.erase( npc_names[i] );
                     }
                 }
             }
@@ -139,13 +158,10 @@ class study_zone_window : public cataimgui::window
 
         void draw_footer( const std::vector<skill_id> &filtered_skills ) {
             // filter input, buttons, and Done button
-            ImGui::Separator();
-
             std::string filter_label = _( "Filter skills: " );
-            ImGui::Text( "%s", filter_label.c_str() );
+            ImGui::TextUnformatted( filter_label.c_str() );
             ImGui::SameLine();
 
-            std::string filter_input_id = "##skill_filter";
             if( filter_just_focused ) {
                 ImGui::SetKeyboardFocusHere();
                 filter_just_focused = false;
@@ -154,7 +170,7 @@ class study_zone_window : public cataimgui::window
             ImGui::SetNextItemWidth( 300.0f );
             std::array<char, 256> filter_buffer = {0};
             strncpy( filter_buffer.data(), skill_filter.c_str(), filter_buffer.size() - 1 );
-            ImGui::InputText( filter_input_id.c_str(), filter_buffer.data(), filter_buffer.size(),
+            ImGui::InputText( "##skill_filter", filter_buffer.data(), filter_buffer.size(),
                               ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_CallbackCharFilter,
                               filter_skill_input_callback );
             skill_filter = filter_buffer.data();
@@ -167,7 +183,7 @@ class study_zone_window : public cataimgui::window
                         npc_skills.insert( skill );
                     }
                 }
-                changed = true;
+                preferences_changed = true;
             }
 
             ImGui::SameLine();
@@ -181,7 +197,7 @@ class study_zone_window : public cataimgui::window
                         npc_skill_preferences.erase( npc_name );
                     }
                 }
-                changed = true;
+                preferences_changed = true;
             }
 
             ImGui::SameLine();
@@ -192,12 +208,13 @@ class study_zone_window : public cataimgui::window
 
         cataimgui::bounds get_bounds() override {
             ImVec2 viewport_size = ImGui::GetMainViewport()->Size;
-            float width = std::min( 800.0f, viewport_size.x * 0.8f );
+            float width = std::min( 1200.0f, viewport_size.x * 0.9f );
             float height = viewport_size.y;
             return { -1.f, -1.f, width, height };
         }
 
         void draw_controls() override {
+            checkbox_id_counter = 0;
             std::vector<skill_id> filtered_skills;
             if( skill_filter.empty() ) {
                 filtered_skills = all_skills;
@@ -209,8 +226,7 @@ class study_zone_window : public cataimgui::window
                 }
             }
 
-            const float footer_height_to_reserve = ImGui::GetStyle().ItemSpacing.y * 2 +
-                                                   ImGui::GetFrameHeightWithSpacing() * 3;
+            const float footer_height_to_reserve = ImGui::GetFrameHeightWithSpacing() * 3;
 
             // inner scroll
             if( ImGui::BeginChild( "table_scroll_region", ImVec2( 0, -footer_height_to_reserve ), false,
@@ -221,9 +237,10 @@ class study_zone_window : public cataimgui::window
                                        ImGuiTableFlags_RowBg ) ) {
                     // table header row
                     ImGui::TableSetupColumn( "Skill", ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoHide,
-                                             150.0f );
+                                             max_skill_name_width );
                     for( const std::string &npc_name : npc_names ) {
-                        ImGui::TableSetupColumn( npc_name.c_str(), ImGuiTableColumnFlags_WidthFixed, 100.0f );
+                        ImGui::TableSetupColumn( npc_name.c_str(), ImGuiTableColumnFlags_WidthFixed,
+                                                 max_npc_name_width );
                     }
                     // freeze skill column horizontally and header vertically
                     ImGui::TableSetupScrollFreeze( 1, 1 );
@@ -252,7 +269,10 @@ class study_zone_window : public cataimgui::window
         std::vector<std::string> npc_names;
         std::string skill_filter;
         bool filter_just_focused = false;
-        bool changed = false;
+        bool preferences_changed = false;
+        int checkbox_id_counter = 0;
+        float max_skill_name_width = 0.0f;
+        float max_npc_name_width = 0.0f;
         input_context ctxt;
 };
 
