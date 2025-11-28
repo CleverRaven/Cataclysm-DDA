@@ -1098,13 +1098,9 @@ class activatable_inventory_preset : public pickup_inventory_preset
         }
 
         bool is_shown( const item_location &loc ) const override {
-<<<<<<< HEAD
-            return !loc.is_invisible_installed_gunmod( )
-                   && ( loc->type->has_use() || loc->has_relic_activation() );
-=======
-            return ( loc->type->has_use() || loc->has_relic_activation() ) && !loc->is_medical_tool() &&
+            return !loc.is_invisible_installed_gunmod() && ( loc->type->has_use() ||
+                    loc->has_relic_activation() ) && !loc->is_medical_tool() &&
                    !loc->is_medication();
->>>>>>> 99131ab702 (meds move to consume menu and out of activate)
         }
 
         std::string get_denial( const item_location &loc ) const override {
