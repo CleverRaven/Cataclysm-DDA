@@ -173,30 +173,6 @@ faction_id _fac_id( Character &you )
 }
 } // namespace
 
-static bool is_suitable_study_book( const Character &you, const std::set<skill_id> *skill_prefs,
-                                    const item &it )
-{
-    // Skip items already assigned to another character
-    if( it.has_var( "activity_var" ) && it.get_var( "activity_var" ) != you.name ) {
-        return false;
-    }
-    read_condition_result condition = you.check_read_condition( it );
-    if( condition != read_condition_result::SUCCESS ) {
-        return false;
-    }
-    // If zone has skill preferences, filter by them
-    if( skill_prefs && it.is_book() && it.type->book ) {
-        const skill_id &book_skill = it.type->book->skill;
-        if( book_skill == skill_id::NULL_ID() ) {
-            return false;
-        }
-        if( skill_prefs->count( book_skill ) == 0 ) {
-            return false;
-        }
-    }
-    return true;
-}
-
 static item *find_study_book( const tripoint_abs_ms &zone_pos, Character &you )
 {
     map &here = get_map();
@@ -212,9 +188,24 @@ static item *find_study_book( const tripoint_abs_ms &zone_pos, Character &you )
     }
     const tripoint_bub_ms zone_loc = here.get_bub( zone_pos );
     for( item &it : here.i_at( zone_loc ) ) {
-        if( is_suitable_study_book( you, skill_prefs, it ) ) {
-            return &it;
+        // Skip items already assigned to another character
+        if( it.has_var( "activity_var" ) && it.get_var( "activity_var" ) != you.name ) {
+            continue;
         }
+        if( you.check_read_condition( it ) != read_condition_result::SUCCESS ) {
+            continue;
+        }
+        // If zone has skill preferences, filter by them
+        if( skill_prefs && it.is_book() && it.type->book ) {
+            const skill_id &book_skill = it.type->book->skill;
+            if( book_skill == skill_id::NULL_ID() ) {
+                continue;
+            }
+            if( skill_prefs->count( book_skill ) == 0 ) {
+                continue;
+            }
+        }
+        return &it;
     }
     return nullptr;
 }
