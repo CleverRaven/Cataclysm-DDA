@@ -176,6 +176,10 @@ faction_id _fac_id( Character &you )
 static bool is_suitable_study_book( const Character &you, const std::set<skill_id> *skill_prefs,
                                     const item &it )
 {
+    // Skip items already assigned to another character
+    if( it.has_var( "activity_var" ) && it.get_var( "activity_var" ) != you.name ) {
+        return false;
+    }
     read_condition_result condition = you.check_read_condition( it );
     if( condition != read_condition_result::SUCCESS ) {
         return false;
@@ -1842,10 +1846,6 @@ activity_reason_info study_can_do( const activity_id &, Character &you,
 
 
     for( item &it : here.i_at( src_loc ) ) {
-        if( it.has_var( "activity_var" ) && it.get_var( "activity_var" ) != you.name ) {
-            continue;
-        }
-
         if( is_suitable_study_book( you, skill_prefs, it ) ) {
             it.set_var( "activity_var", you.name );
             return activity_reason_info::ok( do_activity_reason::NEEDS_BOOK_TO_LEARN );
@@ -3412,9 +3412,6 @@ std::unordered_set<tripoint_abs_ms> study_locations( Character &you, const activ
         bool found_unmarked_book = false;
         for( const item &it : here.i_at( zone_loc ) ) {
             if( is_suitable_study_book( you, skill_prefs, it ) ) {
-                if( it.has_var( "activity_var" ) && it.get_var( "activity_var" ) != you.name ) {
-                    continue;
-                }
                 found_unmarked_book = true;
                 break;
             }
@@ -3740,9 +3737,6 @@ static bool generic_multi_activity_do(
             }
 
             for( item &it : here.i_at( src_loc ) ) {
-                if( it.has_var( "activity_var" ) && it.get_var( "activity_var" ) != you.name ) {
-                    continue;
-                }
                 if( is_suitable_study_book( you, skill_prefs, it ) ) {
                     book_to_read = &it;
                     book_loc = item_location( map_cursor( src_loc ), book_to_read );
