@@ -407,7 +407,7 @@
     "variants": [
       {
         "id": "sw642",
-        "name": { "str": "S&W 642 revolver" },
+        "name": { "str": "S&W 642" },
         "description": "A modern version of the Airweight, the 642 is a lightweight .38 caliber revolver, made with an aluminum frame."
       }
     ],
