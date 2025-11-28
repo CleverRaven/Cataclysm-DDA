@@ -1,5 +1,6 @@
 #include "input_popup.h"
 
+#include <algorithm>
 #include <cstddef>
 
 #include "imgui/imgui.h"
@@ -296,7 +297,7 @@ void string_input_popup_imgui::update_input_history( ImGuiInputTextCallbackData 
         if( history_index >= static_cast<int>( hist.size() ) ) {
             return;
         } else if( history_index == 0 ) {
-            session_input = text;
+            session_input.assign( data->Buf, data->BufTextLen );
 
             //avoid showing the same result twice (after reopen filter window without reset)
             if( hist.size() > 1 && session_input == hist.back() ) {
@@ -305,8 +306,7 @@ void string_input_popup_imgui::update_input_history( ImGuiInputTextCallbackData 
         }
     } else {
         if( history_index == 1 ) {
-            text = session_input;
-            ::set_text( data, text );
+            ::set_text( data, session_input );
             //show initial string entered and 'return'
             history_index = 0;
             return;
@@ -316,8 +316,8 @@ void string_input_popup_imgui::update_input_history( ImGuiInputTextCallbackData 
     }
 
     history_index += up ? 1 : -1;
-    text = hist[hist.size() - history_index];
-    ::set_text( data, text );
+    const std::string &new_text = hist[hist.size() - history_index];
+    ::set_text( data, new_text );
 }
 
 void string_input_popup_imgui::add_to_history( const std::string &value ) const
