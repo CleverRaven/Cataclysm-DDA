@@ -173,7 +173,7 @@ faction_id _fac_id( Character &you )
 }
 } // namespace
 
-static item *find_study_book( const tripoint_abs_ms &zone_pos, Character &you )
+static item_location find_study_book( const tripoint_abs_ms &zone_pos, Character &you )
 {
     map &here = get_map();
     zone_manager &mgr = zone_manager::get_manager();
@@ -205,9 +205,9 @@ static item *find_study_book( const tripoint_abs_ms &zone_pos, Character &you )
                 continue;
             }
         }
-        return &it;
+        return item_location( map_cursor( zone_loc ), &it );
     }
-    return nullptr;
+    return item_location();
 }
 
 /** Activity-associated item */
@@ -1847,7 +1847,7 @@ activity_reason_info study_can_do( const activity_id &, Character &you,
         return activity_reason_info::fail( do_activity_reason::NO_ZONE );
     }
 
-    item *book = find_study_book( abspos, you );
+    item_location book = find_study_book( abspos, you );
     if( book ) {
         book->set_var( "activity_var", you.name );
         return activity_reason_info::ok( do_activity_reason::NEEDS_BOOK_TO_LEARN );
@@ -3704,17 +3704,15 @@ static bool generic_multi_activity_do(
             return false;
         }
     } else if( reason == do_activity_reason::NEEDS_BOOK_TO_LEARN ) {
-        item *book_to_read = nullptr;
         item_location book_loc;
 
         if( act_id == ACT_MULTIPLE_STUDY ) {
-            book_to_read = find_study_book( here.get_abs( src_loc ), you );
-            if( book_to_read ) {
-                book_loc = item_location( map_cursor( src_loc ), book_to_read );
-                book_to_read->set_var( "activity_var", you.name );
+            book_loc = find_study_book( here.get_abs( src_loc ), you );
+            if( book_loc ) {
+                book_loc->set_var( "activity_var", you.name );
                 you.may_activity_occupancy_after_end_items_loc.push_back( book_loc );
             }
-            if( !book_to_read && you.is_npc() ) {
+            if( !book_loc && you.is_npc() ) {
                 add_msg_if_player_sees( you, m_info, _( "%s found no readable books at this location." ),
                                         you.disp_name() );
             }
@@ -3726,13 +3724,12 @@ static bool generic_multi_activity_do(
             };
             std::vector<item *> books = you.items_with( filter );
             if( !books.empty() && books[0] ) {
-                book_to_read = books[0];
-                book_loc = item_location( you, book_to_read );
+                book_loc = item_location( you, books[0] );
             }
         }
 
-        if( book_to_read ) {
-            const time_duration time_taken = you.time_to_read( *book_to_read, you );
+        if( book_loc ) {
+            const time_duration time_taken = you.time_to_read( *book_loc, you );
             item_location ereader;
             you.backlog.emplace_front( act_id );
             if( act_id == ACT_MULTIPLE_STUDY ) {
