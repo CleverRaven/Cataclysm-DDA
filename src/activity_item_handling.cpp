@@ -3732,10 +3732,6 @@ static bool generic_multi_activity_do(
             const time_duration time_taken = you.time_to_read( *book_loc, you );
             item_location ereader;
             you.backlog.emplace_front( act_id );
-            if( act_id == ACT_MULTIPLE_STUDY ) {
-                // set auto_resume so backlog will automatically restart when reading finishes
-                you.backlog.front().auto_resume = true;
-            }
             you.assign_activity( read_activity_actor( time_taken, book_loc, ereader, true ) );
             return false;
         }
