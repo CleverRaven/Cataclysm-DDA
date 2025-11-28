@@ -197,6 +197,28 @@ static bool is_suitable_study_book( const Character &you, const std::set<skill_i
     return true;
 }
 
+static item *find_study_book( const tripoint_abs_ms &zone_pos, Character &you )
+{
+    map &here = get_map();
+    zone_manager &mgr = zone_manager::get_manager();
+    const zone_data *zone = mgr.get_zone_at( zone_pos, zone_type_STUDY_ZONE, _fac_id( you ) );
+    const std::set<skill_id> *skill_prefs = nullptr;
+    if( zone && zone->has_options() ) {
+        const study_zone_options *options = dynamic_cast<const study_zone_options *>
+                                            ( &zone->get_options() );
+        if( options ) {
+            skill_prefs = options->get_skill_preferences( you.name );
+        }
+    }
+    const tripoint_bub_ms zone_loc = here.get_bub( zone_pos );
+    for( item &it : here.i_at( zone_loc ) ) {
+        if( is_suitable_study_book( you, skill_prefs, it ) ) {
+            return &it;
+        }
+    }
+    return nullptr;
+}
+
 /** Activity-associated item */
 struct act_item {
     /// inventory item
@@ -1833,23 +1855,11 @@ activity_reason_info study_can_do( const activity_id &, Character &you,
     if( !mgr.has( zone_type_STUDY_ZONE, abspos, _fac_id( you ) ) ) {
         return activity_reason_info::fail( do_activity_reason::NO_ZONE );
     }
-    // Get zone options for skill filtering
-    const zone_data *zone = mgr.get_zone_at( abspos, zone_type_STUDY_ZONE, _fac_id( you ) );
-    const std::set<skill_id> *skill_prefs = nullptr;
-    if( zone && zone->has_options() ) {
-        const study_zone_options *options = dynamic_cast<const study_zone_options *>
-                                            ( &zone->get_options() );
-        if( options ) {
-            skill_prefs = options->get_skill_preferences( you.name );
-        }
-    }
 
-
-    for( item &it : here.i_at( src_loc ) ) {
-        if( is_suitable_study_book( you, skill_prefs, it ) ) {
-            it.set_var( "activity_var", you.name );
-            return activity_reason_info::ok( do_activity_reason::NEEDS_BOOK_TO_LEARN );
-        }
+    item *book = find_study_book( abspos, you );
+    if( book ) {
+        book->set_var( "activity_var", you.name );
+        return activity_reason_info::ok( do_activity_reason::NEEDS_BOOK_TO_LEARN );
     }
 
     return activity_reason_info::fail( do_activity_reason::ALREADY_DONE );
@@ -3398,25 +3408,7 @@ std::unordered_set<tripoint_abs_ms> study_locations( Character &you, const activ
     std::unordered_set<tripoint_abs_ms> all_zone_tiles = mgr.get_near( zone_type_STUDY_ZONE, abspos,
             MAX_VIEW_DISTANCE, nullptr, _fac_id( you ) );
     for( const tripoint_abs_ms &zone_pos : all_zone_tiles ) {
-        const zone_data *zone = mgr.get_zone_at( zone_pos, zone_type_STUDY_ZONE, _fac_id( you ) );
-        const std::set<skill_id> *skill_prefs = nullptr;
-        if( zone && zone->has_options() ) {
-            const study_zone_options *options = dynamic_cast<const study_zone_options *>
-                                                ( &zone->get_options() );
-            if( options ) {
-                skill_prefs = options->get_skill_preferences( you.name );
-            }
-        }
-
-        const tripoint_bub_ms zone_loc = here.get_bub( zone_pos );
-        bool found_unmarked_book = false;
-        for( const item &it : here.i_at( zone_loc ) ) {
-            if( is_suitable_study_book( you, skill_prefs, it ) ) {
-                found_unmarked_book = true;
-                break;
-            }
-        }
-        if( found_unmarked_book ) {
+        if( find_study_book( zone_pos, you ) ) {
             src_set.insert( zone_pos );
         }
     }
@@ -3725,25 +3717,11 @@ static bool generic_multi_activity_do(
         item_location book_loc;
 
         if( act_id == ACT_MULTIPLE_STUDY ) {
-            const zone_data *zone = mgr.get_zone_at( here.get_abs( src_loc ), zone_type_STUDY_ZONE,
-                                    _fac_id( you ) );
-            const std::set<skill_id> *skill_prefs = nullptr;
-            if( zone && zone->has_options() ) {
-                const study_zone_options *options = dynamic_cast<const study_zone_options *>
-                                                    ( &zone->get_options() );
-                if( options ) {
-                    skill_prefs = options->get_skill_preferences( you.name );
-                }
-            }
-
-            for( item &it : here.i_at( src_loc ) ) {
-                if( is_suitable_study_book( you, skill_prefs, it ) ) {
-                    book_to_read = &it;
-                    book_loc = item_location( map_cursor( src_loc ), book_to_read );
-                    it.set_var( "activity_var", you.name );
-                    you.may_activity_occupancy_after_end_items_loc.push_back( book_loc );
-                    break;
-                }
+            book_to_read = find_study_book( here.get_abs( src_loc ), you );
+            if( book_to_read ) {
+                book_loc = item_location( map_cursor( src_loc ), book_to_read );
+                book_to_read->set_var( "activity_var", you.name );
+                you.may_activity_occupancy_after_end_items_loc.push_back( book_loc );
             }
             if( !book_to_read && you.is_npc() ) {
                 add_msg_if_player_sees( you, m_info, _( "%s found no readable books at this location." ),

@@ -1675,17 +1675,10 @@ static bool cancel_if_book_invalid(
     return false;
 }
 
-static bool handle_study_zone_resume( player_activity &act, Character &who, const item *book )
+static bool handle_study_zone_resume( player_activity &act, Character &who )
 {
     if( who.backlog.empty() || who.backlog.front().id() != ACT_MULTIPLE_STUDY ) {
         return false;
-    }
-
-    if( who.is_npc() ) {
-        add_msg_if_player_sees( who, m_info, _( "%s finishes reading %s and looks for the next book." ),
-                                who.disp_name(), book->tname() );
-    } else {
-        add_msg( m_info, _( "You finish reading %s and will look for the next book." ), book->tname() );
     }
     // Set auto_resume so the backlog will automatically restart
     who.backlog.front().auto_resume = true;
@@ -2143,7 +2136,7 @@ void read_activity_actor::finish( player_activity &act, Character &who )
 
         // For study zone activity, we want to go back to the multi-activity handler to find the next book
         // So we set activity to null to let the backlog restart ACT_MULTIPLE_STUDY
-        if( handle_study_zone_resume( act, who, book.get_item() ) ) {
+        if( handle_study_zone_resume( act, who ) ) {
             return;
         }
 
@@ -2156,7 +2149,7 @@ void read_activity_actor::finish( player_activity &act, Character &who )
         who.add_msg_if_player( m_info, _( "You finish reading." ) );
         // For study zone activity, we want to continue looking for more books
         // So we set activity to null to let the backlog restart the multi-activity handler
-        if( handle_study_zone_resume( act, who, book.get_item() ) ) {
+        if( handle_study_zone_resume( act, who ) ) {
             return;
         }
     }
