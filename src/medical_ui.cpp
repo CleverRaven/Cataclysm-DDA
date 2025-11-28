@@ -28,6 +28,7 @@
 #include "game_inventory.h"
 #include "input_context.h"
 #include "input_enums.h"
+#include "item_location.h"
 #include "output.h"
 #include "point.h"
 #include "string_formatter.h"
