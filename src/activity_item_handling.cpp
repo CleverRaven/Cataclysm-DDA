@@ -173,6 +173,28 @@ faction_id _fac_id( Character &you )
 }
 } // namespace
 
+static bool is_valid_study_book( const item &it, const Character &you,
+                                 const std::set<skill_id> *skill_prefs )
+{
+    if( it.has_var( "activity_var" ) && it.get_var( "activity_var" ) != you.name ) {
+        return false;
+    }
+    if( you.check_read_condition( it ) != read_condition_result::SUCCESS ) {
+        return false;
+    }
+    // if zone has skill preferences, filter by them
+    if( skill_prefs && it.is_book() && it.type->book ) {
+        const skill_id &book_skill = it.type->book->skill;
+        if( book_skill == skill_id::NULL_ID() ) {
+            return false;
+        }
+        if( skill_prefs->count( book_skill ) == 0 ) {
+            return false;
+        }
+    }
+    return true;
+}
+
 static item_location find_study_book( const tripoint_abs_ms &zone_pos, Character &you )
 {
     map &here = get_map();
@@ -187,25 +209,22 @@ static item_location find_study_book( const tripoint_abs_ms &zone_pos, Character
         }
     }
     const tripoint_bub_ms zone_loc = here.get_bub( zone_pos );
+
+    // items on the ground
     for( item &it : here.i_at( zone_loc ) ) {
-        // Skip items already assigned to another character
-        if( it.has_var( "activity_var" ) && it.get_var( "activity_var" ) != you.name ) {
-            continue;
+        if( is_valid_study_book( it, you, skill_prefs ) ) {
+            return item_location( map_cursor( zone_loc ), &it );
         }
-        if( you.check_read_condition( it ) != read_condition_result::SUCCESS ) {
-            continue;
-        }
-        // If zone has skill preferences, filter by them
-        if( skill_prefs && it.is_book() && it.type->book ) {
-            const skill_id &book_skill = it.type->book->skill;
-            if( book_skill == skill_id::NULL_ID() ) {
-                continue;
-            }
-            if( skill_prefs->count( book_skill ) == 0 ) {
-                continue;
+
+        // books in containers
+        if( it.has_pocket_type( pocket_type::CONTAINER ) ) {
+            for( item *contained : it.all_items_container_top() ) {
+                if( is_valid_study_book( *contained, you, skill_prefs ) ) {
+                    item_location container_loc( map_cursor( zone_loc ), &it );
+                    return item_location( container_loc, contained );
+                }
             }
         }
-        return item_location( map_cursor( zone_loc ), &it );
     }
     return item_location();
 }
