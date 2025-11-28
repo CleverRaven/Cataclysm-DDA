@@ -2340,8 +2340,8 @@
     "type": "keybinding",
     "id": "APPLY",
     "category": "MEDICAL",
-    "name": "Use drug",
-    "bindings": [ { "input_method": "keyboard_char", "key": "u" } ]
+    "name": "Use item",
+    "bindings": [ { "input_method": "keyboard_char", "key": "A" }, { "input_method": "keyboard_code", "key": "a", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
