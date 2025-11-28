@@ -79,9 +79,12 @@ class study_zone_window : public cataimgui::window
                 }
             }
 
-            ImVec2 char_size = ImGui::CalcTextSize( "W" );
-            // 16 is max skill name length in English
-            max_skill_name_width = char_size.x * 16.0f + ImGui::GetStyle().FramePadding.x * 2.0f;
+            max_skill_name_width = 0.0f;
+            for( const skill_id &skill : all_skills ) {
+                ImVec2 text_size = ImGui::CalcTextSize( skill->name().c_str() );
+                float width = text_size.x + ImGui::GetStyle().FramePadding.x * 2.0f;
+                max_skill_name_width = std::max( max_skill_name_width, width );
+            }
 
             max_npc_name_width = 0.0f;
             for( const std::string &npc_name : npc_names ) {
