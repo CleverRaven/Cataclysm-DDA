@@ -442,7 +442,7 @@
     "variants": [
       {
         "id": "papm77",
-        "name": { "str": "PAP M77 rifle" },
+        "name": { "str": "Zastava PAP M77" },
         "description": "A Serbian-made AK pattern rifle made by Zastava in 7.62x51mm NATO.  To avoid import restrictions, Zastava USA has added a number of American-made parts."
       }
     ],
