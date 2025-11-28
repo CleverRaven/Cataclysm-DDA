@@ -302,8 +302,6 @@ static const itype_id itype_radio_mod( "radio_mod" );
 static const itype_id itype_radio_on( "radio_on" );
 static const itype_id itype_rebreather_on( "rebreather_on" );
 static const itype_id itype_rebreather_xl_on( "rebreather_xl_on" );
-static const itype_id itype_shocktonfa_off( "shocktonfa_off" );
-static const itype_id itype_shocktonfa_on( "shocktonfa_on" );
 static const itype_id itype_soap( "soap" );
 static const itype_id itype_soldering_iron( "soldering_iron" );
 static const itype_id itype_spiral_stone( "spiral_stone" );
@@ -3696,79 +3694,6 @@ std::optional<int> iuse::tazer( Character *p, item *it, const tripoint_bub_ms &p
     }
 
     return 1;
-}
-
-std::optional<int> iuse::tazer2( Character *p, item *it, const tripoint_bub_ms &pos )
-{
-    map &here = get_map();
-
-    if( it->ammo_remaining_linked( here, p ) >= 2 ) {
-        // Instead of having a ctrl+c+v of the function above, spawn a fake tazer and use it
-        // Ugly, but less so than copied blocks
-        item fake( itype_tazer, calendar::turn_zero );
-        fake.charges = 2;
-        return tazer( p, &fake, pos );
-    } else {
-        p->add_msg_if_player( m_info, _( "Insufficient power" ) );
-    }
-
-    return std::nullopt;
-}
-
-std::optional<int> iuse::shocktonfa_off( Character *p, item *it, const tripoint_bub_ms &pos )
-{
-    if( !p ) {
-        debugmsg( "%s called action shocktonfa_off that requires character but no character is present",
-                  it->typeId().str() );
-    }
-    int choice = uilist( _( "tactical tonfa" ), {
-        _( "Zap something" ), _( "Turn on light" )
-    } );
-
-    switch( choice ) {
-        case 0: {
-            return iuse::tazer2( p, it, pos );
-        }
-        case 1: {
-            if( !it->ammo_sufficient( p ) ) {
-                p->add_msg_if_player( m_info, _( "The batteries are dead." ) );
-                return std::nullopt;
-            } else {
-                p->add_msg_if_player( _( "You turn the light on." ) );
-                it->convert( itype_shocktonfa_on, p ).active = true;
-                return 1;
-            }
-        }
-    }
-    return 0;
-}
-
-std::optional<int> iuse::shocktonfa_on( Character *p, item *it, const tripoint_bub_ms &pos )
-{
-    if( !p ) { // Effects while simply on
-        debugmsg( "%s called action shocktonfa_on that requires character but no character is present",
-                  it->typeId().str() );
-    } else {
-        if( !it->ammo_sufficient( p ) ) {
-            p->add_msg_if_player( m_info, _( "Your tactical tonfa is out of power." ) );
-            it->convert( itype_shocktonfa_off, p ).active = false;
-        } else {
-            int choice = uilist( _( "tactical tonfa" ), {
-                _( "Zap something" ), _( "Turn off light" )
-            } );
-
-            switch( choice ) {
-                case 0: {
-                    return iuse::tazer2( p, it, pos );
-                }
-                case 1: {
-                    p->add_msg_if_player( _( "You turn off the light." ) );
-                    it->convert( itype_shocktonfa_off, p ).active = false;
-                }
-            }
-        }
-    }
-    return 0;
 }
 
 static std::string get_music_description()

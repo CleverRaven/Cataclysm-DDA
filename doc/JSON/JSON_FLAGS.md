@@ -1596,8 +1596,6 @@ These flags apply to the `use_action` field, instead of the `flags` field.
 - ```SEED``` Asks if you are sure that you want to eat the seed.  As it is better to plant seeds.
 - ```SEW``` Sew clothing.
 - ```SHELTER``` Put up a full-blown shelter.
-- ```SHOCKTONFA_OFF``` Turn the shocktonfa on.
-- ```SHOCKTONFA_ON``` Turn the shocktonfa off.
 - ```SIPHON``` Siphon liquids out of vehicle.
 - ```SMOKEBOMB_ACT``` This may be a good way to hide as a smoker.
 - ```SMOKEBOMB``` Pull the pin on a smoke bomb.
