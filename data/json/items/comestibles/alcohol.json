@@ -231,7 +231,6 @@
     "charges": 5,
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME", "ALCOHOL" ],
     "vitamins": [ [ "ethanol", 9 ] ],
-
     "fun": 15,
     "freezing_point": -8
   },
