@@ -211,12 +211,47 @@ tripoint_bub_ms Creature::pos_bub( const map &here ) const
     return here.get_bub( location );
 }
 
+void Creature::maybe_break_fragile_underfoot( Creature &cr, const tripoint_bub_ms &p )
+{
+    map &here = get_map();
+    if( const optional_vpart_position vp = here.veh_at( p ) ) {
+        return;
+    }
+    if( const Character *person = cr.as_character() ) {
+        if( person->in_vehicle ) {
+            return;
+        }
+    }
+    if( !here.has_flag( ter_furn_flag::TFLAG_FRAGILE, p ) ) {
+        return;
+    }
+    if( cr.is_hallucination() || cr.flies() || cr.get_weight() < 5_kilogram ) {
+        return;
+    }
+    std::string who_name = cr.disp_name();
+    const int weight_to_bash = std::max( 1, static_cast<int>( cr.get_weight() / 10_kilogram ) );
+    int bash_strength = static_cast<int>( weight_to_bash * cr.fragile_terrain_weight_modifier() );
+    //store terrain name for message
+    const std::string old_name = here.tername( p );
+    //damage fragile terrain
+    const bash_params res = here.bash( p, bash_strength, false, false, false, nullptr, false );
+    // if broken output message
+    if( res.success ) {
+        add_msg( m_warning,
+                 string_format( _( "The %s breaks under the weight of %s!" ),
+                                old_name, who_name ) );
+    }
+    return;
+}
+
 void Creature::setpos( map &here, const tripoint_bub_ms &p, bool check_gravity/* = true*/ )
 {
     const tripoint_abs_ms old_loc = pos_abs();
     set_pos_abs_only( here.get_abs( p ) );
     on_move( old_loc );
+
     if( check_gravity ) {
+        maybe_break_fragile_underfoot( *this, p );
         gravity_check( &here );
     }
 }
@@ -227,6 +262,10 @@ void Creature::setpos( const tripoint_abs_ms &p, bool check_gravity/* = true*/ )
     set_pos_abs_only( p );
     on_move( old_loc );
     if( check_gravity ) {
+        map &here = get_map();
+        if( here.inbounds( p ) ) {
+            maybe_break_fragile_underfoot( *this, here.get_bub( p ) );
+        }
         gravity_check();
     }
 }

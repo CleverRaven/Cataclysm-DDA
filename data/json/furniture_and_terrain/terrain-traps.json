@@ -12,6 +12,25 @@
   },
   {
     "type": "terrain",
+    "id": "t_plank_gap",
+    "name": "plank",
+    "description": "A 2x4 precariously positioned.  Mind the gap.",
+    "looks_like": "2x4",
+    "symbol": "l",
+    "color": "yellow",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "TRANSPARENT_FLOOR", "FRAGILE" ],
+    "bash": {
+      "sound": "thump",
+      "ter_set": "t_open_air",
+      "str_min": 12,
+      "str_max": 30,
+      "items": [ { "item": "plank_short", "count": [ 1, 2 ] } ]
+    },
+    "examine_action": "ledge"
+  },
+  {
+    "type": "terrain",
     "id": "t_pit",
     "name": "pit",
     "description": "A steep hole that could seriously injure something if it fell in, potentially fatal if it was filled with sharp and dangerous things.  Deep enough for more advanced construction projects, and possibly to reach groundwater if constructed properly.",
@@ -40,15 +59,21 @@
   {
     "type": "terrain",
     "id": "t_pit_covered",
-    "name": "covered pit",
+    "name": "board over a pit",
     "description": "A deep pit with a plank placed across it, looks sturdy enough to cross safely.  The plank could be removed to make it dangerous again.",
     "symbol": "#",
     "color": "light_red",
     "connect_groups": "PIT_DEEP",
     "connects_to": "PIT_DEEP",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "ROAD" ],
-    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true },
+    "flags": [ "TRANSPARENT", "ROAD", "OPEN_PIT", "FRAGILE" ],
+    "bash": {
+      "sound": "crack",
+      "ter_set": "t_pit",
+      "str_min": 12,
+      "str_max": 30,
+      "items": [ { "item": "plank_short", "count": [ 1, 2 ] } ]
+    },
     "examine_action": "pit_covered"
   },
   {
@@ -69,15 +94,21 @@
   {
     "type": "terrain",
     "id": "t_pit_spiked_covered",
-    "name": "covered spiked pit",
+    "name": "board over a spiked pit",
     "description": "Menacing with sharp spears along the bottom, this pit has a plank across it to allow someone or something to cross safely.  The plank could be removed to make it dangerous again.",
     "symbol": "#",
     "color": "light_red",
     "connect_groups": "PIT_DEEP",
     "connects_to": "PIT_DEEP",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "ROAD" ],
-    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true },
+    "flags": [ "TRANSPARENT", "ROAD", "OPEN_PIT", "FRAGILE" ],
+    "bash": {
+      "sound": "crack",
+      "ter_set": "t_pit_spiked",
+      "str_min": 12,
+      "str_max": 30,
+      "items": [ { "item": "plank_short", "count": [ 1, 2 ] } ]
+    },
     "examine_action": "pit_covered"
   },
   {
@@ -98,16 +129,118 @@
   {
     "type": "terrain",
     "id": "t_pit_glass_covered",
-    "name": "covered glass pit",
+    "name": "board over a glass pit",
     "description": "A plank has been placed carefully to allow traversal over this ditch full of large glass shards.  The plank could be removed to make it dangerous again.",
     "symbol": "#",
     "color": "light_cyan",
     "connect_groups": "PIT_DEEP",
     "connects_to": "PIT_DEEP",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "ROAD" ],
-    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true },
+    "flags": [ "TRANSPARENT", "ROAD", "OPEN_PIT", "FRAGILE" ],
+    "bash": {
+      "sound": "crack",
+      "ter_set": "t_pit_glass",
+      "str_min": 12,
+      "str_max": 30,
+      "items": [ { "item": "plank_short", "count": [ 1, 2 ] } ]
+    },
     "examine_action": "pit_covered"
+  },
+  {
+    "type": "terrain",
+    "id": "t_pit_glass_conceal_grass",
+    "looks_like": "t_grass_dead",
+    "name": "concealed glass pit",
+    "description": "A cover of grass has been placed carefully over this ditch full of large glass shards.  Watch your step.",
+    "symbol": ".",
+    "color": "brown",
+    "connect_groups": "PIT_DEEP",
+    "connects_to": "PIT_DEEP",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "ROAD", "FRAGILE", "PLAYER_MADE" ],
+    "bash": {
+      "sound": "snap!",
+      "ter_set": "t_pit_glass",
+      "str_min": 1,
+      "str_max": 2,
+      "items": [
+        { "item": "straw_pile", "count": [ 6, 11 ] },
+        { "item": "cordage_6", "count": [ 0, 24 ] },
+        { "item": "cordage_36", "count": [ 0, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_pit_spiked_conceal_grass",
+    "looks_like": "t_grass_dead",
+    "name": "concealed spike pit",
+    "description": "A cover of grass has been placed carefully over this ditch full of upright spears.  Watch your step.",
+    "symbol": ".",
+    "color": "brown",
+    "connect_groups": "PIT_DEEP",
+    "connects_to": "PIT_DEEP",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "ROAD", "FRAGILE", "PLAYER_MADE" ],
+    "bash": {
+      "sound": "snap!",
+      "ter_set": "t_pit_spiked",
+      "str_min": 1,
+      "str_max": 2,
+      "items": [
+        { "item": "straw_pile", "count": [ 6, 11 ] },
+        { "item": "cordage_6", "count": [ 0, 24 ] },
+        { "item": "cordage_36", "count": [ 0, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_pit_conceal_grass",
+    "looks_like": "t_grass_dead",
+    "name": "concealed pit",
+    "description": "A cover of grass has been placed carefully over this ditch.  Watch your step.",
+    "symbol": ".",
+    "color": "brown",
+    "connect_groups": "PIT_DEEP",
+    "connects_to": "PIT_DEEP",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "ROAD", "FRAGILE", "PLAYER_MADE" ],
+    "bash": {
+      "sound": "snap!",
+      "ter_set": "t_pit",
+      "str_min": 1,
+      "str_max": 2,
+      "items": [
+        { "item": "straw_pile", "count": [ 6, 11 ] },
+        { "item": "cordage_6", "count": [ 0, 24 ] },
+        { "item": "cordage_36", "count": [ 0, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_air_cover_grass",
+    "looks_like": "t_grass_dead",
+    "name": "concealed gap",
+    "description": "A cover of grass has been placed carefully over this gap.  Watch your step.",
+    "symbol": ".",
+    "color": "brown",
+    "connect_groups": "PIT_DEEP",
+    "connects_to": "PIT_DEEP",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FRAGILE", "PLAYER_MADE" ],
+    "bash": {
+      "sound": "snap!",
+      "ter_set": "t_open_air",
+      "str_min": 1,
+      "str_max": 2,
+      "items": [
+        { "item": "straw_pile", "count": [ 6, 11 ] },
+        { "item": "cordage_6", "count": [ 0, 24 ] },
+        { "item": "cordage_36", "count": [ 0, 4 ] }
+      ]
+    }
   },
   {
     "type": "terrain",
