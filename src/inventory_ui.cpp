@@ -2532,7 +2532,7 @@ size_t inventory_selector::get_header_height() const
 {
     return std::max<size_t>( { 1,
                                display_stats ? get_stats().size() : 0,
-                               !hint.empty() ? 2 + ( size_t )std::count( hint.begin(), hint.end(), '\n' ) : 0 }
+                               !hint.empty() ? 2 + static_cast<size_t>( std::count( hint.begin(), hint.end(), '\n' ) ) : 0 }
                            );
 }
 
@@ -2634,14 +2634,14 @@ inventory_selector::header_stats inventory_selector::get_pocket_summary_header_s
 
     std::vector<std::string> other_space_strings;
 
-    if( pockets.size() > 0 ) {
+    if( !pockets.empty() ) {
         std::copy_if( pockets.begin(), pockets.end(), std::back_inserter( pockets_with_space ),
         []( const pocket_with_constraint & p ) {
             return p.second.remaining_volume > 0_ml && !p.first->holster_full();
         }
                     );
 
-        if( pockets_with_space.size() > 0 ) {
+        if( !pockets_with_space.empty() ) {
             // determine largest space
             std::sort( pockets_with_space.begin(),
             pockets_with_space.end(), []( const pocket_with_constraint & a, const pocket_with_constraint & b ) {
@@ -2676,7 +2676,7 @@ inventory_selector::header_stats inventory_selector::get_pocket_summary_header_s
             bool other_spaces_display_truncated = false;
             for( const auto &pwc : pockets_with_space ) {
                 if( !pockets_match( pwc, large_free_space ) && !pockets_match( pwc, long_free_space ) ) {
-                    if( other_spaces.size() == 0 || !pockets_match( pwc, other_spaces.back() ) ) {
+                    if( other_spaces.empty() || !pockets_match( pwc, other_spaces.back() ) ) {
                         if( other_spaces.size() < other_spaces_display_limit ) {
                             other_spaces.push_back( pwc );
                             other_spaces_copies.push_back( 1 );
@@ -2690,17 +2690,18 @@ inventory_selector::header_stats inventory_selector::get_pocket_summary_header_s
                 }
             }
 
-            for( int i = 0; i < other_spaces.size(); i++ ) {
+            for( size_t i = 0; i < other_spaces.size(); i++ ) {
                 auto [str1, str2] = build_space_stats( other_spaces[i].second.remaining_volume,
                                                        other_spaces[i].first->min_containable_length(),
                                                        other_spaces[i].second.max_containable_length,
                                                        other_spaces[i].first->is_restricted()
                                                      );
-                other_space_strings.push_back( str1 + " " + str2 + ( other_spaces_copies[i] > 1 ?
-                                               string_format( " (%s)", other_spaces_copies[i] ) : "" ) );
+                other_space_strings.push_back( string_format( "%s %s%s", str1,  str2,
+                                               ( other_spaces_copies[i] > 1 ? string_format( " (%s)", other_spaces_copies[i] ) : "" ) )
+                                             );
             }
             if( other_spaces_display_truncated ) {
-                other_space_strings.push_back( "..." );
+                other_space_strings.emplace_back( "…" );
             }
         }
 
@@ -2772,7 +2773,7 @@ inventory_selector::header_stats inventory_selector::get_pocket_summary_header_s
                                  show_unconstrained_max_space ? long_max_space.first->max_containable_length() : long_max_space.second.max_containable_length
                                )
     };
-    if( other_space_strings.size() > 0 ) {
+    if( !other_space_strings.empty() ) {
         ret.push_back( { _( "Other: " ) + string_join( other_space_strings, ", " ) } );
     }
     return ret;
@@ -2784,19 +2785,19 @@ inventory_selector::header_stats_line inventory_selector::build_weight_and_volum
     const std::string &volume_label
 )
 {
-    const nc_color &numeric_color = c_light_gray;
-    const nc_color &units_color = c_light_gray;
-    const nc_color &label_color = c_dark_gray;
-    const nc_color &weight_color = weight_carried > weight_capacity ? c_red : numeric_color;
+    const nc_color &color_numeral = c_light_gray;
+    const nc_color &color_unit = c_light_gray;
+    const nc_color &color_label = c_dark_gray;
+    const nc_color &color_weight = weight_carried > weight_capacity ? c_red : color_numeral;
     return { string_format( "%s %s/%s %s %s %s/%s %s",
-                            colorize( volume_label, label_color ),
-                            colorize( format_volume( volume_in_pockets ), numeric_color ),
-                            colorize( format_volume( volume_of_pockets ), numeric_color ),
-                            colorize( volume_units_abbr(), units_color ),
-                            colorize( weight_label, label_color ),
-                            colorize( string_format( "%.1f", round_up( convert_weight( weight_carried ), 1 ) ), weight_color ),
-                            colorize( string_format( "%.1f", round_up( convert_weight( weight_capacity ), 1 ) ), numeric_color ),
-                            colorize( weight_units(), units_color )
+                            colorize( volume_label, color_label ),
+                            colorize( format_volume( volume_in_pockets ), color_numeral ),
+                            colorize( format_volume( volume_of_pockets ), color_numeral ),
+                            colorize( volume_units_abbr(), color_unit ),
+                            colorize( weight_label, color_label ),
+                            colorize( string_format( "%.1f", round_up( convert_weight( weight_carried ), 1 ) ), color_weight ),
+                            colorize( string_format( "%.1f", round_up( convert_weight( weight_capacity ), 1 ) ), color_numeral ),
+                            colorize( weight_units(), color_unit )
                           ) };
 }
 
@@ -2804,12 +2805,12 @@ inventory_selector::header_stats_line inventory_selector::build_selection_stats_
     units::volume volume, units::mass weight
 )
 {
-    auto number_color = ( volume > 0_ml || weight > 0_gram ) ? c_yellow : c_dark_gray;
+    const nc_color &color_numeral = ( volume > 0_ml || weight > 0_gram ) ? c_yellow : c_dark_gray;
     return { string_format( "%s %s %s %s %s",
                             colorize( _( "Selected" ), c_dark_gray ),
-                            colorize( format_volume( volume ), number_color ),
+                            colorize( format_volume( volume ), color_numeral ),
                             volume_units_abbr(),
-                            colorize( string_format( "%.1f", round_up( convert_weight( weight ), 1 ) ), number_color ),
+                            colorize( string_format( "%.1f", round_up( convert_weight( weight ), 1 ) ), color_numeral ),
                             weight_units()
                           ) };
 }
@@ -2822,11 +2823,11 @@ std::tuple<std::string, std::string> inventory_selector::build_invalid_space_sta
 std::tuple<std::string, std::string> inventory_selector::build_space_stats( units::volume size,
         units::length min_length, units::length max_length, bool is_restricted )
 {
-    auto color_units = c_light_gray;
-    auto color_numeric = c_light_gray;
+    const nc_color &color_unit = c_light_gray;
+    const nc_color &color_numeral = c_light_gray;
     std::string vol_str = string_format( "%s %s%s",
-                                         colorize( format_volume( size ), color_numeric ),
-                                         colorize( volume_units_abbr(), color_units ),
+                                         colorize( format_volume( size ), color_numeral ),
+                                         colorize( volume_units_abbr(), color_unit ),
                                          is_restricted ? "*" : "" // possibly try to give more info on the restriction(s)?
                                        );
     if( min_length > max_length ) { //you need a weird object for this, but it's not illegal
@@ -2834,10 +2835,10 @@ std::tuple<std::string, std::string> inventory_selector::build_space_stats( unit
         min_length = 0_mm;
     }
     std::string length_str = colorize( std::to_string( convert_length( max_length ) ),
-                                       color_numeric ) + " " + colorize( length_units( max_length ), color_units );
+                                       color_numeral ) + " " + colorize( length_units( max_length ), color_unit );
     if( min_length > 0_mm ) {
         length_str = colorize( std::to_string( convert_length( min_length ) ),
-                               color_numeric ) + " " + colorize( length_units( min_length ), color_units ) + "-" + length_str;
+                               color_numeral ) + " " + colorize( length_units( min_length ), color_unit ) + "-" + length_str;
     }
     return { vol_str, length_str };
 }
@@ -2853,9 +2854,7 @@ inventory_selector::header_stats_line inventory_selector::build_pocket_stats_lin
     units::length max_pocket_length
 )
 {
-    const auto color_numeric = c_light_gray;
-    const auto color_units = c_light_gray;
-    const auto color_labels = c_dark_gray;
+    const nc_color &color_label = c_dark_gray;
     auto [free_pocket_str1, free_pocket_str2] = free_pocket ? build_space_stats( free_pocket_volume,
             free_pocket->min_containable_length(), free_pocket_length,
             free_pocket->is_restricted() ) : build_invalid_space_stats();
@@ -2863,7 +2862,7 @@ inventory_selector::header_stats_line inventory_selector::build_pocket_stats_lin
             max_pocket->min_containable_length(), max_pocket_length,
             max_pocket->is_restricted() ) : build_invalid_space_stats();
     return {
-        prefix.empty() ? "" : ( prefix + " " ) + colorize( _( "Free: " ), color_labels ),
+        prefix.empty() ? "" : ( prefix + " " ) + colorize( _( "Free: " ), color_label ),
         header_stats_tab_stop,
         free_pocket_str1 + " ",
         header_stats_tab_stop,
@@ -2872,7 +2871,7 @@ inventory_selector::header_stats_line inventory_selector::build_pocket_stats_lin
         ( free_pocket_copies > 1 ? string_format( " (%s)", free_pocket_copies ) : "" ),
         header_stats_tab_stop,
         " | ",
-        colorize( _( "Max: " ), color_labels ),
+        colorize( _( "Max: " ), color_label ),
         header_stats_tab_stop,
         max_pocket_str1 + " ",
         header_stats_tab_stop,
@@ -2937,16 +2936,15 @@ std::vector<std::string> inventory_selector::get_stats() const
 {
     header_stats stats = get_raw_stats();
     std::vector<std::string> lines( stats.size() );
-    std::vector<int> line_rindex( stats.size() );
-    int blockStart = 0;
-    int blockEnd = 0;
-    for( int blockStart = 0; blockStart < stats.size(); blockStart = blockEnd ) {
+    std::vector<size_t> line_rindex( stats.size() );
+    size_t blockEnd = 0;
+    for( size_t blockStart = 0; blockStart < stats.size(); blockStart = blockEnd ) {
         ptrdiff_t num_stops = std::count_if( stats[blockStart].begin(),
         stats[blockStart].end(), []( const auto & x ) {
             return x == header_stats_tab_stop;
         } );
         blockEnd = stats.size();
-        for( int i = blockStart + 1; i < stats.size(); i++ ) {
+        for( size_t i = blockStart + 1; i < stats.size(); i++ ) {
             if( std::count_if( stats[i].begin(), stats[i].end(), []( const auto & x ) {
             return x == header_stats_tab_stop;
         } ) != num_stops ) {
@@ -2971,7 +2969,7 @@ std::vector<std::string> inventory_selector::get_stats() const
             // Determine current max width of the block
             std::vector<size_t> widths( blockEnd - blockStart );
             std::transform( lines.begin() + blockStart, lines.begin() + blockEnd, widths.begin(),
-            []( const std::string & part ) {
+            []( const std::string_view part ) {
                 return utf8_width( part, true );
             } );
             size_t max_width = *std::max_element( widths.begin(), widths.end() );
@@ -2985,7 +2983,7 @@ std::vector<std::string> inventory_selector::get_stats() const
     }
 
     // add remaining elements
-    for( int i = 0; i < lines.size(); i++ ) {
+    for( size_t i = 0; i < lines.size(); i++ ) {
         for( int line_index = stats[i].size() - 1 - line_rindex[i]; line_index >= 0; line_index-- ) {
             lines[i] = stats[i][line_index] + lines[i];
         }
@@ -2993,7 +2991,7 @@ std::vector<std::string> inventory_selector::get_stats() const
     // Determine max width of the whole header
     std::vector<size_t> widths( lines.size() );
     std::transform( lines.begin(), lines.end(), widths.begin(),
-    []( const std::string & part ) {
+    []( const std::string_view part ) {
         return utf8_width( part, true );
     } );
     size_t max_width = *std::max_element( widths.begin(), widths.end() );
@@ -3015,14 +3013,13 @@ inventory_selector::header_stats inventory_selector::convert_stats_to_header_sta
     constexpr size_t num_stats = 3;
     // Streams for every stat.
     std::array<std::string, num_stats> lines;
-    std::array<size_t, num_stats> widths;
     // Add first cells and spaces after them.
-    for( size_t i = 0; i < old_stats.size(); ++i ) {
+    for( const inventory_selector::stat &old_stat : old_stats ) {
         header_stats_line line;
-        line.push_back( old_stats[i][0] + " " ); //First cell gets a space inserted after it
-        for( size_t j = 1; j < old_stats[i].size(); j++ ) {
-            line.push_back( header_stats_tab_stop ); //The rest get put in columns
-            line.push_back( old_stats[i][j] );
+        line.push_back( old_stat[0] + " " ); //First cell gets a space inserted after it
+        for( size_t i = 1; i < old_stat.size(); i++ ) {
+            line.emplace_back( header_stats_tab_stop ); //The rest get put in columns
+            line.push_back( old_stat[i] );
         }
         new_stats.push_back( line );
     }
@@ -3796,10 +3793,10 @@ inventory_selector::header_stats container_inventory_selector::get_raw_stats() c
     units::volume rigid_capacity = 0_ml;
     units::volume flex_capacity = 0_ml;
     units::volume flex_contents = 0_ml;
-    for( const auto p : loc->get_container_pockets() ) {
+    for( const item_pocket *p : loc->get_container_pockets() ) {
         pocket_constraint pc( p );
         pc.constrain_by( container_constraints );
-        pockets.push_back( { p, pc } );
+        pockets.emplace_back( p, pc );
 
         if( p->rigid() ) {
             rigid_capacity += p->volume_capacity();
@@ -4543,12 +4540,11 @@ inventory_selector::header_stats inventory_drop_selector::get_raw_stats() const
         }
     }
 
+    // NOLINTNEXTLINE(bugprone-parent-virtual-call): yes, we do actually want the grandparent class' version of the func
     header_stats stats = inventory_selector::get_raw_stats();
     stats.push_back( build_selection_stats_line( volume, weight ) );
     return stats;
 }
-
-
 
 inventory_selector::header_stats inventory_insert_selector::get_raw_stats() const
 {
@@ -4573,10 +4569,10 @@ inventory_selector::header_stats inventory_insert_selector::get_raw_stats() cons
     units::volume rigid_capacity = 0_ml;
     units::volume flex_capacity = 0_ml;
     units::volume flex_contents = 0_ml;
-    for( const auto p : loc->get_container_pockets() ) {
+    for( const item_pocket *p : loc->get_container_pockets() ) {
         pocket_constraint pc( p );
         pc.constrain_by( container_constraints );
-        pockets.push_back( { p, pc } );
+        pockets.emplace_back( p, pc );
         if( p->rigid() ) {
             rigid_capacity += p->volume_capacity();
         } else {
@@ -4768,6 +4764,7 @@ inventory_selector::header_stats pickup_selector::get_raw_stats() const
         }
     }
 
+    // NOLINTNEXTLINE(bugprone-parent-virtual-call): yes, we do actually want the grandparent class' version of the func
     header_stats stats = inventory_selector::get_raw_stats();
     stats.push_back( build_selection_stats_line( volume, weight ) );
     return stats;

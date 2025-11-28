@@ -2785,14 +2785,16 @@ void pocket_constraint::constrain_by( const item_pocket *outer )
         volume_capacity = std::min( volume_capacity, outer->volume_capacity() );
         units::volume rem_vol = outer->remaining_volume();
         remaining_volume = std::min( remaining_volume, rem_vol );
-        is_dominated = is_dominated || ( remaining_volume <= rem_vol )
-                       && !outer->is_restricted()
-                       && !outer->is_holster() //if we're in a holster, the holster can't contain anything else, so can't dominate
-                       // NB: we could check if white/blacklists allow a superset of items, but this seems reasonable
-                       && outer->settings.get_category_blacklist().empty()
-                       && outer->settings.get_item_blacklist().empty()
-                       && outer->settings.get_category_whitelist().empty()
-                       && outer->settings.get_item_whitelist().empty();
+        is_dominated = is_dominated || (
+                           remaining_volume <= rem_vol
+                           && !outer->is_restricted()
+                           && !outer->is_holster() //if we're in a holster, the holster can't contain anything else, so can't dominate
+                           // NB: we could check if white/blacklists allow a superset of items, but this seems reasonable
+                           && outer->settings.get_category_blacklist().empty()
+                           && outer->settings.get_item_blacklist().empty()
+                           && outer->settings.get_category_whitelist().empty()
+                           && outer->settings.get_item_whitelist().empty()
+                       );
     }
     in_rigid |= outer->rigid();
     max_containable_length = std::min( max_containable_length, outer->max_containable_length() );

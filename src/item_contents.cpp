@@ -2112,7 +2112,7 @@ const
 }
 
 std::vector<const item_pocket *> item_contents::get_pockets( const
-        std::function<bool( item_pocket const & )> &filter ) const
+        std::function<bool( const item_pocket & )> &filter ) const
 {
     std::vector<const item_pocket *> pockets;
 
@@ -2125,7 +2125,7 @@ std::vector<const item_pocket *> item_contents::get_pockets( const
 }
 
 std::vector<item_pocket *> item_contents::get_pockets( const
-        std::function<bool( item_pocket const & )> &filter )
+        std::function<bool( const item_pocket & )> &filter )
 {
     std::vector<item_pocket *> pockets;
 
@@ -2394,7 +2394,7 @@ units::mass item_contents::get_total_holster_weight() const
     return holster_weight;
 }
 
-units::volume item_contents::volume_capacity( std::function<bool( const item_pocket & )>
+units::volume item_contents::volume_capacity( const std::function<bool( const item_pocket & )> &
         include_pocket ) const
 {
     units::volume total_vol = 0_ml;
@@ -2404,9 +2404,10 @@ units::volume item_contents::volume_capacity( std::function<bool( const item_poc
     return total_vol;
 }
 
-units::volume item_contents::volume_capacity_recursive( std::function<bool( const item_pocket & )>
+units::volume item_contents::volume_capacity_recursive( const
+        std::function<bool( const item_pocket & )> &
         include_pocket,
-        std::function<bool( const item_pocket & )> check_pocket_tree,
+        const std::function<bool( const item_pocket & )> &check_pocket_tree,
         units::volume &out_volume_expansion ) const
 {
     units::volume ret = 0_ml;
@@ -2449,7 +2450,7 @@ units::volume item_contents::biggest_pocket_capacity() const
     return max_vol;
 }
 
-units::volume item_contents::remaining_volume( std::function<bool( const item_pocket & )>
+units::volume item_contents::remaining_volume( const std::function<bool( const item_pocket & )> &
         include_pocket ) const
 {
     units::volume total_vol = 0_ml;
@@ -2459,9 +2460,10 @@ units::volume item_contents::remaining_volume( std::function<bool( const item_po
     return total_vol;
 }
 
-units::volume item_contents::remaining_volume_recursive( std::function<bool( const item_pocket & )>
+units::volume item_contents::remaining_volume_recursive( const
+        std::function<bool( const item_pocket & )> &
         include_pocket,
-        std::function<bool( const item_pocket & )> check_pocket_tree,
+        const std::function<bool( const item_pocket & )> &check_pocket_tree,
         units::volume &out_volume_expansion ) const
 {
     units::volume ret = 0_ml;
@@ -2488,8 +2490,8 @@ units::volume item_contents::remaining_volume_recursive( std::function<bool( con
     return ret;
 }
 
-units::volume item_contents::contents_volume( std::function<bool( const item_pocket & )>
-        include_pocket ) const
+units::volume item_contents::contents_volume( const std::function<bool( const item_pocket & )>
+        &include_pocket ) const
 {
     units::volume total_vol = 0_ml;
     for( const item_pocket *pocket : get_pockets( include_pocket ) ) {

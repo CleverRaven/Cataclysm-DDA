@@ -1623,9 +1623,9 @@ bool outfit::covered_with_flag( const flag_id &f, const body_part_set &parts ) c
     return to_cover.none();
 }
 
-units::volume outfit::remaining_volume_recursive( std::function<bool( const item_pocket & )>
+units::volume outfit::remaining_volume_recursive( const std::function<bool( const item_pocket & )> &
         include_pocket,
-        std::function<bool( const item_pocket & )> check_pocket_tree ) const
+        const std::function<bool( const item_pocket & )> &check_pocket_tree ) const
 {
     units::volume result = 0_ml;
     for( const item &w : worn ) {
@@ -1645,7 +1645,8 @@ units::mass outfit::free_weight_capacity() const
     return weight_capacity;
 }
 
-units::volume outfit::volume_capacity( std::function<bool( const item_pocket & )> include_pocket )
+units::volume outfit::volume_capacity( const std::function<bool( const item_pocket & )>
+                                       &include_pocket )
 const
 {
     units::volume cap = 0_ml;
@@ -2300,16 +2301,16 @@ static std::vector<pocket_data_with_parent> get_child_pocket_with_parent(
     return ret;
 }
 
-typedef std::pair<const item_pocket *, pocket_constraint> pocket_with_constraint;
+using pocket_with_constraint = std::pair<const item_pocket *, pocket_constraint>;
 
-std::vector<pocket_with_constraint> get_all_pockets_with_constraints_recursive(
+static std::vector<pocket_with_constraint> get_all_pockets_with_constraints_recursive(
     const item_pocket *pocket,
-    std::function<bool( const item_pocket & )> include_pocket,
-    std::function<bool( const item_pocket & )> check_pocket_tree )
+    const std::function<bool( const item_pocket & )> &include_pocket,
+    const std::function<bool( const item_pocket & )> &check_pocket_tree )
 {
     std::vector<pocket_with_constraint> pwcs;
     if( include_pocket( *pocket ) ) {
-        pwcs.push_back( { pocket, pocket_constraint( pocket ) } );
+        pwcs.emplace_back( pocket, pocket_constraint( pocket ) );
     }
     for( const item *contained : pocket->all_items_top() ) {
         for( const item_pocket *inner_pocket : contained->get_pockets( check_pocket_tree ) ) {
@@ -2327,9 +2328,9 @@ std::vector<pocket_with_constraint> get_all_pockets_with_constraints_recursive(
     return pwcs;
 };
 
-void get_all_pockets_with_constraints_in_loc_recursive( const item_location &loc,
-        std::function<bool( const item_pocket & )> include_pocket,
-        std::function<bool( const item_pocket & )> check_pocket_tree,
+static void get_all_pockets_with_constraints_in_loc_recursive( const item_location &loc,
+        const std::function<bool( const item_pocket & )> &include_pocket,
+        const std::function<bool( const item_pocket & )> &check_pocket_tree,
         std::vector<pocket_with_constraint> &insert_in )
 {
     for( const item_pocket *pocket : loc->get_pockets( check_pocket_tree ) ) {
@@ -2340,8 +2341,8 @@ void get_all_pockets_with_constraints_in_loc_recursive( const item_location &loc
 };
 
 std::vector<pocket_with_constraint> Character::get_all_pockets_with_constraints(
-    std::function<bool( const item_pocket & )> include_pocket,
-    std::function<bool( const item_pocket & )> check_pocket_tree
+    const std::function<bool( const item_pocket & )> &include_pocket,
+    const std::function<bool( const item_pocket & )> &check_pocket_tree
 )
 {
     std::vector<pocket_with_constraint> ret;

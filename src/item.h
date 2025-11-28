@@ -878,9 +878,10 @@ class item : public visitable
 
         bool container_type_pockets_empty() const;
 
-        std::vector<item_pocket *> get_pockets( std::function<bool( const item_pocket &pocket )>
+        std::vector<item_pocket *> get_pockets( const std::function<bool( const item_pocket &pocket )> &
                                                 include_pocket );
-        std::vector<const item_pocket *> get_pockets( std::function<bool( const item_pocket &pocket )>
+        std::vector<const item_pocket *> get_pockets( const
+                std::function<bool( const item_pocket &pocket )> &
                 include_pocket ) const;
         /** Get all CONTAINER/is_standard_type/ablative/etc pockets that are part of this item */
         std::vector<const item_pocket *> get_container_pockets() const;
@@ -955,23 +956,26 @@ class item : public visitable
         /**
          * Returns total capacity of pockets belonging to this item
          */
-        units::volume get_volume_capacity( std::function<bool( const item_pocket & )> include_pocket =
+        units::volume get_volume_capacity( const std::function<bool( const item_pocket & )> &include_pocket
+                                           =
                                                item_pocket::ok_default_containers ) const;
-        units::volume get_volume_capacity_recursive( std::function<bool( const item_pocket & )>
+        units::volume get_volume_capacity_recursive( const std::function<bool( const item_pocket & )> &
                 include_pocket,
-                std::function<bool( const item_pocket & )> check_pocket_tree,
+                const std::function<bool( const item_pocket & )> &check_pocket_tree,
                 units::volume &out_volume_expansion ) const;
         units::mass get_total_weight_capacity( bool unrestricted_pockets_only = false ) const;
 
-        units::volume get_remaining_volume( std::function<bool( const item_pocket & )> include_pocket =
+        units::volume get_remaining_volume( const std::function<bool( const item_pocket & )> &include_pocket
+                                            =
                                                 item_pocket::ok_default_containers ) const;
-        units::volume get_remaining_volume_recursive( std::function<bool( const item_pocket & )>
+        units::volume get_remaining_volume_recursive( const std::function<bool( const item_pocket & )> &
                 include_pocket,
                 std::function<bool( const item_pocket & )> check_pocket_tree,
                 units::volume &out_volume_expansion ) const;
         units::mass get_remaining_weight_capacity( bool unrestricted_pockets_only = false ) const;
 
-        units::volume get_contents_volume( std::function<bool( const item_pocket & )> include_pocket =
+        units::volume get_contents_volume( const std::function<bool( const item_pocket & )> &include_pocket
+                                           =
                                                item_pocket::ok_default_containers ) const;
         units::mass get_total_contained_weight( bool unrestricted_pockets_only = false ) const;
 

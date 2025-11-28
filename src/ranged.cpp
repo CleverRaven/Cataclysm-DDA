@@ -48,6 +48,7 @@
 #include "item.h"
 #include "item_contents.h"
 #include "item_location.h"
+#include "item_pocket.h"
 #include "item_tname.h"
 #include "itype.h"
 #include "line.h"

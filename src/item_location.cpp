@@ -938,12 +938,11 @@ bool item_location::is_efile() const
     return parent_item() && parent_item()->is_estorage();
 }
 
-pocket_constraint item_location::get_pocket_constraints_recursive( const item_pocket *init ) const
+pocket_constraint item_location::get_pocket_constraints_recursive( const item_pocket *pocket ) const
 {
-    pocket_constraint ret = pocket_constraint( init );
+    pocket_constraint ret = pocket_constraint( pocket );
 
     item_pocket *parent_pocket;
-    bool marked_rigid = false;
     item_location current_location = *this;
 
     while( current_location.has_parent() ) {

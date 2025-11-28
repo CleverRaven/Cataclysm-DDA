@@ -15,6 +15,7 @@
 #include <set>
 #include <string>
 #include <string_view>
+#include <tuple>
 #include <utility>
 #include <vector>
 
@@ -26,6 +27,7 @@
 #include "input_context.h"
 #include "item.h"
 #include "item_location.h"
+#include "item_pocket.h"
 #include "memory_fast.h"
 #include "pimpl.h"
 #include "pocket_type.h"
@@ -34,7 +36,6 @@
 #include "units.h"
 
 class Character;
-struct pocket_data_with_parent;
 class JsonObject;
 class JsonOut;
 class basecamp;
@@ -790,7 +791,7 @@ class inventory_selector
             units::volume max_pocket_volume,
             units::length max_pocket_length
         );
-        typedef std::pair<const item_pocket *, pocket_constraint> pocket_with_constraint;
+        using pocket_with_constraint = std::pair<const item_pocket *, pocket_constraint>;
         static bool pockets_match( const pocket_with_constraint &a, const pocket_with_constraint &b );
         // returns strings describing the volume and length of a given space (volume)
         static std::tuple<std::string, std::string> build_space_stats( units::volume size,
@@ -810,6 +811,8 @@ class inventory_selector
             const std::string *weight_label_override = nullptr,
             const std::string *volume_label_override = nullptr
         );
+        // this string is detected to indicate text rows must be aligned at this point.
+        // NOLINTNEXTLINE(cata-text-style): the tab is not printed.
         static constexpr const char *header_stats_tab_stop = "\t";
 
 

@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <cmath>
 #include <list>
 #include <map>
@@ -15,6 +16,8 @@
 #include "coordinates.h"
 #include "debug.h"
 #include "effect.h"
+#include "item.h"
+#include "item_pocket.h"
 #include "map_iterator.h"
 #include "messages.h"
 #include "morale.h"
@@ -23,7 +26,6 @@
 #include "type_id.h"
 #include "units.h"
 
-class item;
 struct itype;
 
 static const efftype_id effect_took_prozac( "took_prozac" );
