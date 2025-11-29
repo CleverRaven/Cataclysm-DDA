@@ -2119,6 +2119,23 @@
     ]
   },
   {
+    "id": "nether_crowned",
+    "type": "harvest",
+    "//": "A strange organless creature with inorganic components seemingly grown into it.  Despite being demihuman it has a regular pelt instead of a human pelt, since its fur is more animal than human.",
+    "entries": [
+      { "drop": "demihuman_flesh", "type": "flesh", "mass_ratio": 0.3 },
+      { "drop": "demihuman_meat_scrap", "type": "flesh", "mass_ratio": 0.03 },
+      { "drop": "demihuman_blood", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "crowned_organ", "type": "flesh", "mass_ratio": 0.004 },
+      { "drop": "crowned_monolith", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
+      { "drop": "demihuman_fat", "type": "flesh", "mass_ratio": 0.1 },
+      { "drop": "bone_demihuman", "type": "bone", "mass_ratio": 0.12 },
+      { "drop": "demihuman_marrow", "type": "bone", "mass_ratio": 0.005 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.005 },
+      { "drop": "raw_fur", "type": "skin", "mass_ratio": 0.009 }
+    ]
+  },
+  {
     "id": "fungaloid",
     "type": "harvest",
     "message": "<fungaloid_harvest>",
