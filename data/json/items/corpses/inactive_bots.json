@@ -738,7 +738,7 @@
     "use_action": {
       "type": "place_monster",
       "monster_id": "mon_yrax_trifacet",
-      "difficulty": 10000,
+      "difficulty": -1,
       "hostile_msg": "The hostile trifacet violently unfolds just clear of your hand!",
       "place_randomly": true,
       "moves": 1,
@@ -763,7 +763,7 @@
     "use_action": {
       "type": "place_monster",
       "monster_id": "mon_yrax_triakis",
-      "difficulty": 10000,
+      "difficulty": -1,
       "hostile_msg": "The hostile triakis violently unfolds just clear of your hand!",
       "place_randomly": true,
       "moves": 1,
@@ -788,7 +788,7 @@
     "use_action": {
       "type": "place_monster",
       "monster_id": "mon_golden_monolith",
-      "difficulty": 10000,
+      "difficulty": -1,
       "hostile_msg": "You notice a brief lull in the ambient noise around you, but its otherwise impossible to know if you allowed something to happen.",
       "place_randomly": true,
       "moves": 1,
@@ -818,7 +818,7 @@
     "use_action": {
       "type": "place_monster",
       "monster_id": "mon_yrax_delta",
-      "difficulty": 10000,
+      "difficulty": -1,
       "hostile_msg": "The hostile delta starts flying just as you release it!",
       "place_randomly": true,
       "moves": 1,
