@@ -110,5 +110,36 @@
     "path_settings": { "max_dist": 9, "avoid_dangerous_fields": true, "avoid_traps": true },
     "death_function": { "corpse_type": "BROKEN" },
     "flags": [ "SEES", "HEARS", "GOODHEARING", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "PATH_AVOID_DANGER", "STUN_IMMUNE" ]
+  },
+  {
+    "id": "mon_bitebot",
+    "type": "MONSTER",
+    "name": { "str": "bitebot" },
+    "description": "A small doglike bot with bot with a primed bear trap for a head.  It's like a regular dog but made of metal and with a stronger bite.",
+    "copy-from": "mon_meleebot",
+    "default_faction": "player",
+    "species": [ "ROBOT" ],
+    "material": [ "steel" ],
+    "symbol": "d",
+    "melee_skill": 8,
+    "melee_dice": 3,
+    "melee_dice_sides": 3,
+    "//": "A bear trap attached to something that writhes and pulls.  Should be hard to get the bot to stop grabbing without something breaking or tearing.  It does little damage with the rest of its body.",
+    "//2": "Freeing yourself from an animated bear trap by pulling should be damaging, but that's not there yet.  Lower the grab strength when it's applied to this bot.",
+    "grab_strength": 250,
+    "revert_to_itype": "bot_bitebot",
+    "special_attacks": [
+      {
+        "id": "bite_grab",
+        "cooldown": 2,
+        "accuracy": 3,
+        "damage_max_instance": [
+          { "damage_type": "cut", "amount": 18, "armor_multiplier": 0.5 },
+          { "damage_type": "bash", "amount": 12, "armor_multiplier": 0.5 }
+        ]
+      },
+      { "id": "drag_followup" }
+    ],
+    "extend": { "flags": [ "GRABS", "CANPLAY" ] }
   }
 ]
