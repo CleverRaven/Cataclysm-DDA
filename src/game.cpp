@@ -5142,7 +5142,7 @@ void game::control_vehicle()
             if( !temp ) {
                 return;
             }
-            vehicle_position = *temp;
+            vehicle_position = temp.value();
             const optional_vpart_position vp = here.veh_at( *vehicle_position );
             if( vp ) {
                 vehicle_controls = vp.value().part_with_feature( "CONTROLS", true );
