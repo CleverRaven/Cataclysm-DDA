@@ -129,10 +129,10 @@ class study_zone_window : public cataimgui::window
             ImGui::AlignTextToFramePadding();
             ImGui::Text( "%s", skill->name().c_str() );
 
-            for( size_t i = 0; i < npc_names.size(); i++ ) {
+            for( const std::string &npc_name : npc_names ) {
                 ImGui::TableNextColumn();
 
-                std::set<skill_id> &npc_skills = npc_skill_preferences[npc_names[i]];
+                std::set<skill_id> &npc_skills = npc_skill_preferences[npc_name];
 
                 bool is_selected = npc_skills.count( skill ) > 0;
                 bool was_selected = is_selected;
@@ -153,7 +153,7 @@ class study_zone_window : public cataimgui::window
                         npc_skills.erase( skill );
                     }
                     if( npc_skills.empty() ) {
-                        npc_skill_preferences.erase( npc_names[i] );
+                        npc_skill_preferences.erase( npc_name );
                     }
                 }
             }
