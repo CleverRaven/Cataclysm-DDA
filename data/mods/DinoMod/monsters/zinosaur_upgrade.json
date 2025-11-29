@@ -1807,7 +1807,7 @@
     "copy-from": "mon_zescelosaurus",
     "description": "The shuffling corpse of a beaked bipedal dinosaur covered with tattered feathers and black, putrid liquid.  Its entire body bulges with distended muscles and swollen, festering wounds.",
     "diff": 2,
-    "volume": "3003 L",
+    "volume": "300 L",
     "weight": "300 kg",
     "color": "red",
     "proportional": { "hp": 1.5, "speed": 1.5 },
