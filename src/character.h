@@ -2057,7 +2057,7 @@ class Character : public Creature, public visitable
                              int base_cost = INVENTORY_HANDLING_PENALTY ) const;
 
         /**
-         * Calculate (but do not deduct) the number of moves required when drawing a weapon from an holster or sheathe
+         * Calculate (but do not deduct) the number of moves required when drawing a weapon from a holster or sheath
          * @param it Item to calculate retrieve cost for
          * @param container Container where the item is
          * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered.
@@ -4147,7 +4147,7 @@ class Character : public Creature, public visitable
         /** Current quantity for each vitamin today first value is expected second value is actual (digested) in vitamin units*/
         std::map<vitamin_id, std::pair<int, int>> daily_vitamins;
         /** Returns the % of your RDA that amount of vitamin represents */
-        int vitamin_RDA( const vitamin_id &vitamin, int ammount ) const;
+        int vitamin_RDA( const vitamin_id &vitamin, int amount ) const;
 
         pimpl<player_morale> morale;
         /** Processes human-specific effects of an effect. */
