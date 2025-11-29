@@ -5139,11 +5139,10 @@ void game::control_vehicle()
             return;
         } else if( num_valid_controls > 1 ) {
             const std::optional<tripoint_bub_ms> temp = choose_adjacent( _( "Control vehicle where?" ) );
-            if( !vehicle_position ) {
+            if( !temp ) {
                 return;
-            } else {
-                vehicle_position.value() = temp.value();
             }
+            vehicle_position = *temp;
             const optional_vpart_position vp = here.veh_at( *vehicle_position );
             if( vp ) {
                 vehicle_controls = vp.value().part_with_feature( "CONTROLS", true );
