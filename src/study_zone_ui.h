@@ -6,7 +6,6 @@
 #include <set>
 #include <string>
 
-#include "cata_imgui.h"
 #include "type_id.h"
 
 enum class study_zone_ui_result {

@@ -4,16 +4,19 @@
 #include <array>
 #include <cctype>
 #include <cstring>
+#include <memory>
 #include <set>
 #include <string>
+#include <utility>
 #include <vector>
 
-#include "avatar.h"
 #include "cata_imgui.h"
+#include "character_id.h"
 #include "game.h"
 #include "imgui/imgui.h"
 #include "input_context.h"
 #include "localized_comparator.h"
+#include "memory_fast.h"
 #include "npc.h"
 #include "overmapbuffer.h"
 #include "skill.h"

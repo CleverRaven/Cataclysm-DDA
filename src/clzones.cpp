@@ -44,7 +44,6 @@
 #include "vpart_position.h"
 #include "talker.h"
 #include "talker_zone.h"
-#include "skill.h"
 #include "study_zone_ui.h"
 
 static const faction_id faction_your_followers( "your_followers" );
