@@ -1179,6 +1179,8 @@ The contents of `use_action` fields can either be a string indicating a built-in
   "active": true,                           // Whether the item is active once transformed
   "ammo_scale": 0,                          // For use when an item automatically transforms into another when its ammo drops to 0, or to allow guns to transform with 0 ammo
   "msg": "You turn the lamp on.",           // Message to display when activated
+  "target_timer": 0,                        // (Optional) Set timer on transformed item. Mutually exclusive with set_timer.
+  "set_timer": false,                       // (optional) When true, asks PC to set a timer. An NPC uses the default of the transformed item.
   "need_fire": 1,                           // Whether fire is needed to activate
   "need_fire_msg": "You need a lighter!",   // Message to display if there is no fire
   "need_charges": 1,                        // Number of charges the item needs to transform

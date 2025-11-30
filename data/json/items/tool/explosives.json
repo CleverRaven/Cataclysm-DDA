@@ -14,7 +14,7 @@
     "material": [ "rdx" ],
     "symbol": ";",
     "color": "light_gray",
-    "use_action": [ "C4" ],
+    "use_action": { "target": "c4armed", "set_timer": true, "menu_text": "Activate", "type": "transform" },
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "ALLOWS_REMOTE_USE" ]
   },
   {

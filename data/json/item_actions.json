@@ -281,11 +281,6 @@
   },
   {
     "type": "item_action",
-    "id": "C4",
-    "name": { "str": "Activate" }
-  },
-  {
-    "type": "item_action",
     "id": "CAMERA",
     "name": { "str": "Use camera" }
   },

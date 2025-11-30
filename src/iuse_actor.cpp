@@ -230,6 +230,12 @@ void iuse_transform::load( const JsonObject &obj, const std::string & )
 
     optional( obj, false, "moves", moves, numeric_bound_reader<int> { 0 }, 0 );
 
+    optional( obj, false, "set_timer", set_timer, false );
+
+    if( set_timer && transform.target_timer != 0_seconds ) {
+        obj.throw_error_at( "set_timer", "Cannot use both set_timer and target_timer at once" );
+    }
+
     optional( obj, false, "need_fire", need_fire, numeric_bound_reader<int> { 0 }, 0 );
     optional( obj, false, "need_charges_msg", need_charges_msg, to_translation( "The %s is empty!" ) );
 
@@ -275,6 +281,21 @@ std::optional<int> iuse_transform::use( Character *p, item &it, map *,
         }
     }
 
+    int timer_time = 0;
+    bool got_timer_value = false;
+
+    if( set_timer && p->is_avatar() ) {
+        got_timer_value = query_int( timer_time, false,
+                                     _( "Set the timer to how many seconds (0 to cancel)?" ) );
+        if( !got_timer_value || timer_time <= 0 ) {
+            p->add_msg_if_player( _( "Never mind." ) );
+            return std::nullopt;
+        }
+    }
+
+    p->add_msg_if_player( n_gettext( "You set the timer to %d second.",
+                                     "You set the timer to %d seconds.", timer_time ), timer_time );
+
     if( !msg_transform.empty() ) {
         p->add_msg_if_player( m_neutral, msg_transform, it.tname() );
     }
@@ -300,6 +321,15 @@ std::optional<int> iuse_transform::use( Character *p, item &it, map *,
         p->i_add_or_drop( take_one );
     } else {
         transform.transform( p, it, true );
+    }
+
+    if( set_timer ) {
+        if( got_timer_value ) {
+            it.countdown_point = calendar::turn + time_duration::from_seconds( timer_time );
+        } else {
+            // Uses value from the converted type
+            it.countdown_point = calendar::turn + it.type->countdown_interval;
+        }
     }
 
     if( it.is_tool() ) {

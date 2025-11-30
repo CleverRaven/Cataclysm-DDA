@@ -64,6 +64,9 @@ class iuse_transform : public iuse_actor
         /** subtracted from @ref Creature::moves when transformation is successful */
         int moves = 0;
 
+        /** Asks you to set a timer for a countdown */
+        bool set_timer = false;
+
         /** minimum number of fire charges required (if any) for transformation */
         int need_fire = 0;
 
