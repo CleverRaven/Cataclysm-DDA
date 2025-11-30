@@ -106,7 +106,7 @@
     "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "FISHABLE", "CURRENT", "SHALLOW_WATER" ],
     "connect_groups": "WATER",
     "connects_to": "WATER",
-    "liquid_source": { "id": "water" },
+    "liquid_source": { "id": "water", "min_temp": 2.2 },
     "examine_action": "water_source"
   },
   {
@@ -123,7 +123,7 @@
     "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "FISHABLE", "CURRENT", "INDOORS", "SHALLOW_WATER" ],
     "connect_groups": [ "INDOORFLOOR", "WATER" ],
     "connects_to": "WATER",
-    "liquid_source": { "id": "water" },
+    "liquid_source": { "id": "water", "min_temp": 2.2 },
     "examine_action": "water_source"
   },
   {
@@ -138,7 +138,7 @@
     "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "FISHABLE", "CURRENT", "EMPTY_SPACE" ],
     "connect_groups": "WATER",
     "connects_to": "WATER",
-    "liquid_source": { "id": "water" },
+    "liquid_source": { "id": "water", "min_temp": 2.2 },
     "examine_action": "water_source"
   },
   {
@@ -155,7 +155,7 @@
     "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "FISHABLE", "CURRENT", "INDOORS", "EMPTY_SPACE" ],
     "connect_groups": [ "INDOORFLOOR", "WATER" ],
     "connects_to": "WATER",
-    "liquid_source": { "id": "water" },
+    "liquid_source": { "id": "water", "min_temp": 2.2 },
     "examine_action": "water_source"
   },
   {
