@@ -420,6 +420,7 @@ class overmap
         // ter_unsafe is UB when out of bounds.
         const oter_id &ter_unsafe( const tripoint_om_omt &p ) const;
         std::optional<mapgen_arguments> *mapgen_args( const tripoint_om_omt & );
+        std::vector<generator_instance> get_applied_generators( const tripoint_om_omt & );
         std::string *join_used_at( const om_pos_dir & );
         std::vector<oter_id> predecessors( const tripoint_om_omt & );
         void set_seen( const tripoint_om_omt &p, om_vision_level val, bool force = false );
@@ -609,6 +610,9 @@ class overmap
         std::unordered_map<tripoint_om_omt, std::optional<mapgen_arguments> *> mapgen_args_index;
         // Records mapgen parameters required at the omt level, fixed at the same values vertically
         std::unordered_map<point_abs_omt, mapgen_arguments> omt_stack_arguments_map;
+
+        // list of generators applied to this map, and corresponding data
+        std::vector<generator_instance> applied_generators;
 
         // Records the joins that were chosen during placement of a mutable
         // special, so that it can be queried later by mapgen

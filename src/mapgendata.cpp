@@ -2,22 +2,26 @@
 
 #include <algorithm>
 #include <iterator>
+#include <map>
 #include <optional>
 
 #include "all_enum_values.h"
 #include "coordinates.h"
 #include "cube_direction.h"
 #include "debug.h"
+#include "dialogue.h"
 #include "enum_conversions.h"
 #include "flexbuffer_json.h"
 #include "hash_utils.h"
 #include "json.h"
 #include "line.h"
 #include "map.h"
+#include "mapgen_post_process_generators.h"
 #include "omdata.h"
 #include "overmapbuffer.h"
 #include "point.h"
 #include "regional_settings.h"
+#include "rng.h"
 
 void mapgen_arguments::merge( const mapgen_arguments &other )
 {
@@ -111,8 +115,29 @@ mapgendata::mapgendata( const tripoint_abs_omt &over, map &mp, const float densi
                 debugmsg( "mapgen params expected but no overmap special found for terrain %s",
                           terrain_type_.id().str() );
             }
+
+            const std::vector<pp_generator_id> &possible_pps = terrain_type_->get_type_id()->post_processors;
+            // set post-processors that will be applied to map
+            for( const pp_generator_id &pp_possible : possible_pps ) {
+                add_msg_debug( debugmode::DF_OVERMAP, "terrain: %s, amt of possible post-processors: %s",
+                               terrain_type_.id().c_str(), possible_pps.size() );
+
+                // roll a chance for each map_generator and bake it into the special
+                // if hospital is burned, it is generally burned fully
+                for( const generator_instance &gi : pp_possible.obj().all_generators ) {
+                    // TODO make it work! i don't remember what is needed to make dialogue with access to global vars
+                    const int chance = gi.chance();
+                    const bool roll = x_in_y( chance, 100 );
+                    add_msg_debug( debugmode::DF_OVERMAP, "PP type: %s, chance: %s, %s",
+                                   io::enum_to_string( gi.type ), chance, roll ? "Applied" : "Failed" );
+                    if( roll ) {
+                        post_generators_applied_.emplace_back( gi );
+                    }
+                }
+            }
         }
     }
+
     for( cube_direction dir : all_enum_values<cube_direction>() ) {
         if( std::string *join = overmap_buffer.join_used_at( { over, dir } ) ) {
             cube_direction rotated_dir = dir - rotation;

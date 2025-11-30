@@ -414,6 +414,11 @@ std::optional<mapgen_arguments> *overmap::mapgen_args( const tripoint_om_omt &p 
     return it->second;
 }
 
+std::vector<generator_instance> overmap::get_applied_generators( const tripoint_om_omt & )
+{
+    return applied_generators;
+}
+
 std::string *overmap::join_used_at( const om_pos_dir &p )
 {
     auto it = joins_used.find( p );

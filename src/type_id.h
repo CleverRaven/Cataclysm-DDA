@@ -415,4 +415,7 @@ using wound_type_id = string_id<wound_type>;
 struct connect_group;
 using connect_group_id = string_id<connect_group>;
 
+class pp_generator;
+using pp_generator_id = string_id<pp_generator>;
+
 #endif // CATA_SRC_TYPE_ID_H

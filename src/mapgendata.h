@@ -17,6 +17,7 @@
 #include "debug.h"
 #include "enum_bitset.h"
 #include "jmapgen_flags.h"
+#include "mapgen_post_process_generators.h"
 #include "point.h"
 #include "type_id.h"
 #include "weighted_list.h"
@@ -123,6 +124,7 @@ class mapgendata
         mapgen_arguments mapgen_args_;
         enum_bitset<jmapgen_flags> mapgen_flags_;
         std::vector<oter_id> predecessors_;
+        std::vector<generator_instance> post_generators_applied_;
 
     public:
         std::array<oter_id, 8> t_nesw;
@@ -206,6 +208,9 @@ class mapgendata
         }
         std::vector<oter_id> get_predecessors() const {
             return predecessors_;
+        }
+        std::vector<generator_instance> get_applied_post_generators() const {
+            return  post_generators_applied_;
         }
 
         void set_dir( int dir_in, int val );
