@@ -524,9 +524,6 @@ void region_settings_ocean::load( const JsonObject &jo, std::string_view )
 
 void region_settings_highway::load( const JsonObject &jo, std::string_view )
 {
-    optional( jo, was_loaded, "grid_column_seperation", grid_column_seperation );
-    optional( jo, was_loaded, "grid_row_seperation", grid_row_seperation );
-    optional( jo, was_loaded, "intersection_max_radius", intersection_max_radius );
     optional( jo, was_loaded, "width_of_segments", width_of_segments );
     optional( jo, was_loaded, "straightness_chance", straightness_chance );
     optional( jo, was_loaded, "reserved_terrain_id", reserved_terrain_id );

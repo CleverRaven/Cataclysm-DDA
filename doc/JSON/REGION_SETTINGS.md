@@ -388,15 +388,14 @@ The **overmap_connection_settings** section defines the `overmap_connection_id`s
 The **overmap_highway_settings** section defines the attributes used in generating highways
 on the overmap including the specials containing the maps used.
 
+Basic overmap settings can be found in external options.
+
 ### Fields
 
 |               Identifier          |                              Description                               
 | --------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `grid_column_seperation`          | The distance between north-south highways in overmaps, with the whole overmap gap being `grid_column_seperation` - 1.                                                                                                                        |
-| `grid_row_seperation`             | The distance between east-west highways in overmaps, with the whole overmap gap being `grid_row_seperation` - 1.                                                                                                                             |
 | `width_of_segments`               | The width of the segments defined below in `om_terrain`s. Used to tell the C++ what width the segments provided are, not to change the width placed.                                                                                         |
 | `straightness_chance`             | For one overmap, the chance for a highway's end points to (mostly) line up.                                                                                                                                                                  |
-| `intersection_max_radius`         | The maximum number of overmaps that an intersection can deviate from its gridded position. Cannot be greater than or equal to row / 2 or column / 2, may cause bugs for > row / 4, column / 4.                                               |
 | `reserved_terrain_id`             | The `om_terrain` used to reserve land and air for highways before their actual `om_terrain` placement.                                                                                                                                       |
 | `reserved_terrain_water_id`       | The `om_terrain` used to reserve water for highways before their actual `om_terrain` placement.                                                                                                                                              |
 | `four_way_intersections`          | An object with a list of specials and their respective weights to place at four way highway intersections. The [0,0,0] point should be the NW corner of the intersection formed before placement.                                            |
