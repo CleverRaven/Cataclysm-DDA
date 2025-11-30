@@ -349,6 +349,39 @@ class unload_options : public zone_options, public mark_option
         void deserialize( const JsonObject &jo_zone ) override;
 };
 
+class study_zone_options : public zone_options
+{
+    private:
+        // skill preferences. Key is NPC name, value is set of skills.
+        std::map<std::string, std::set<skill_id>> npc_skill_preferences;
+
+        enum query_study_result {
+            canceled,
+            successful,
+            changed,
+        };
+
+        query_study_result query_study_skills();
+
+    public:
+        // get skill preferences for a specific NPC, return nullptr if NPC should read all books.
+        const std::set<skill_id> *get_skill_preferences( const std::string &npc_name ) const;
+
+        bool has_options() const override {
+            return true;
+        }
+
+        bool query_at_creation() override;
+        bool query() override;
+
+        std::string get_zone_name_suggestion() const override;
+
+        std::vector<std::pair<std::string, std::string>> get_descriptions() const override;
+
+        void serialize( JsonOut &json ) const override;
+        void deserialize( const JsonObject &jo_zone ) override;
+};
+
 /**
  * These are zones the player can designate.
  */

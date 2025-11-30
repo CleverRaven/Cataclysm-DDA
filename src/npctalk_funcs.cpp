@@ -71,6 +71,7 @@ static const activity_id ACT_MULTIPLE_FISH( "ACT_MULTIPLE_FISH" );
 static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
 static const activity_id ACT_MULTIPLE_MOP( "ACT_MULTIPLE_MOP" );
 static const activity_id ACT_MULTIPLE_READ( "ACT_MULTIPLE_READ" );
+static const activity_id ACT_MULTIPLE_STUDY( "ACT_MULTIPLE_STUDY" );
 static const activity_id ACT_SOCIALIZE( "ACT_SOCIALIZE" );
 static const activity_id ACT_TRAIN( "ACT_TRAIN" );
 static const activity_id ACT_TRAIN_TEACHER( "ACT_TRAIN_TEACHER" );
@@ -277,6 +278,11 @@ void talk_function::do_eread( npc &p )
 void talk_function::do_read_repeatedly( npc &p )
 {
     p.assign_activity( ACT_MULTIPLE_READ );
+}
+
+void talk_function::do_study( npc &p )
+{
+    p.assign_activity( ACT_MULTIPLE_STUDY );
 }
 
 void talk_function::dismount( npc &p )

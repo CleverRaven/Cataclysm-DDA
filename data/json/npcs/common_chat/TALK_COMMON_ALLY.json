@@ -348,6 +348,12 @@
         "effect": "do_read_repeatedly"
       },
       {
+        "text": "Please study from books in study zones.",
+        "topic": "TALK_DONE",
+        "condition": { "and": [ { "not": "npc_has_activity" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
+        "effect": "do_study"
+      },
+      {
         "text": "Please start deconstructing any vehicles in a deconstruction zone.",
         "topic": "TALK_DONE",
         "condition": { "and": [ { "not": "npc_has_activity" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
