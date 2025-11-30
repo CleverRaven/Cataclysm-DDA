@@ -3947,6 +3947,10 @@ void item::calc_temp( const units::temperature &temp, const float insulation,
                               new_specific_energy ) /
                             units::to_joule_per_gram( completely_liquid_specific_energy - completely_frozen_specific_energy );
     }
+    //Debug mode message for reporting insulation in objects
+    add_msg_debug( debugmode::DF_FOOD, "Insulation for %s: %.2f  New temp: %.2f Old temp: %.2f",
+                   tname(),
+                   insulation, new_item_temperature, old_temperature );
 
     temperature = units::from_kelvin( new_item_temperature );
     specific_energy = units::from_joule_per_gram( new_specific_energy );
@@ -4323,7 +4327,7 @@ bool item::process( map &here, Character *carrier, const tripoint_bub_ms &pos, f
 {
     process_relic( carrier, pos );
     if( recursive ) {
-        contents.process( here, carrier, pos, type->insulation_factor * insulation, flag,
+        contents.process( here, carrier, pos, insulation, flag,
                           spoil_multiplier_parent, watertight_container );
     }
     return process_internal( here, carrier, pos, insulation, flag, spoil_multiplier_parent,

@@ -2601,7 +2601,8 @@ void item_contents::process( map &here, Character *carrier, const tripoint_bub_m
     for( item_pocket &pocket : contents ) {
         if( pocket.is_type( pocket_type::CONTAINER ) || pocket.is_type( pocket_type::MOD ) ||
             pocket.is_type( pocket_type::MAGAZINE_WELL ) )  {
-            pocket.process( here, carrier, pos, insulation, flag, spoil_multiplier_parent,
+            pocket.process( here, carrier, pos, std::max( pocket.insulation(), insulation ), flag,
+                            spoil_multiplier_parent,
                             watertight_container );
         }
     }

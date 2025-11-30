@@ -27,6 +27,15 @@ bool item_reference::has_watertight_container() const
     } );
 }
 
+float item_reference::insulation() const
+{
+    return std::accumulate(
+               pocket_chain.begin(), pocket_chain.end(), 1.0F,
+    []( float a, item_pocket const * pk ) {
+        return a * pk->get_pocket_data()->insulation;
+    } );
+}
+
 bool active_item_cache::add( item &it, point_sm_ms location, item *parent,
                              std::vector<item_pocket const *> const &pocket_chain )
 {

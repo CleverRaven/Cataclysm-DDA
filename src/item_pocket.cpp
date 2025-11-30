@@ -180,6 +180,7 @@ void pocket_data::load( const JsonObject &jo )
         optional( jo, was_loaded, "activity_noise", activity_noise );
     }
     optional( jo, was_loaded, "spoil_multiplier", spoil_multiplier, 1.0f );
+    optional( jo, was_loaded, "insulation", insulation, 1.0f );
     optional( jo, was_loaded, "weight_multiplier", weight_multiplier, 1.0f );
     optional( jo, was_loaded, "volume_multiplier", volume_multiplier, 1.0f );
     optional( jo, was_loaded, "magazine_well", magazine_well, volume_reader(), 0_ml );
@@ -669,6 +670,11 @@ float item_pocket::spoil_multiplier() const
     } else {
         return data->spoil_multiplier;
     }
+}
+
+float item_pocket::insulation() const
+{
+    return data->insulation;
 }
 
 int item_pocket::moves() const
