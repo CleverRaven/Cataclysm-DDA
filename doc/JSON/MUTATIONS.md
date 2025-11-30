@@ -98,8 +98,9 @@ Finally, there are some sources of true-random mutations that can be inflicted b
 
 ### Further reading and relevant files
 
-`data/json/mutations/changing_eocs.json` - contains the EOCs that power the mutation system
-`data/json/mutations/mutations.json` - type definitions for every mutation in the game
+[changing_eocs.json](/data/json/effects_on_condition/mutation_eocs/changing_eocs.json) - contains the EOCs that power the mutation system
+
+[mutations/](/data/json/mutations/) - type definitions for every mutation in the game
 
 # Syntax documentation
 
