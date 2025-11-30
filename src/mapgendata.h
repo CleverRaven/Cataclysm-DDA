@@ -29,6 +29,7 @@ class map;
 class mission;
 enum class direction : unsigned int;
 enum class mapgen_phase;
+struct generator_instance;
 struct region_settings;
 
 namespace om_direction
@@ -123,6 +124,7 @@ class mapgendata
         mapgen_arguments mapgen_args_;
         enum_bitset<jmapgen_flags> mapgen_flags_;
         std::vector<oter_id> predecessors_;
+        std::vector<generator_instance> post_generators_applied_;
 
     public:
         std::array<oter_id, 8> t_nesw;
