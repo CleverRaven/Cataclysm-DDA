@@ -77,7 +77,6 @@ std::optional<int> bell( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> blood_draw( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> boltcutters( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> break_stick( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> c4( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> call_of_tindalos( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> camera( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> can_goo( Character *, item *, const tripoint_bub_ms & );
