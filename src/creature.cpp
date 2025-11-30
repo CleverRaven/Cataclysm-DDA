@@ -505,12 +505,6 @@ bool Creature::sees( const map &here, const Creature &critter ) const
         return true;
     }
 
-    bool char_has_mindshield = ch && ch->has_flag( json_flag_TEEPSHIELD );
-    bool has_eff_flag_seer_protection = critter.has_effect( effect_eff_monster_immune_to_telepathy ) ||
-                                        critter.has_flag( mon_flag_TEEP_IMMUNE );
-    bool seen_by_mindseers = critter.has_mind() && !char_has_mindshield &&
-                             !has_eff_flag_seer_protection;
-
     if( std::abs( posz() - critter.posz() ) > fov_3d_z_range ) {
         return false;
     }
@@ -530,12 +524,20 @@ bool Creature::sees( const map &here, const Creature &critter ) const
         return target_range <= std::max( m->type->vision_day, m->type->vision_night );
     }
 
-    if( this->has_flag( mon_flag_MIND_SEEING ) && seen_by_mindseers ) {
-        int mindsight_bonus_range = ( has_effect( effect_eff_mind_seeing_bonus_5 ) * 5 ) + ( has_effect(
-                                        effect_eff_mind_seeing_bonus_10 ) * 10 ) + ( has_effect( effect_eff_mind_seeing_bonus_20 ) * 20 )
-                                    + ( has_effect( effect_eff_mind_seeing_bonus_30 ) * 30 );
-        int mindsight_vision = 5 + mindsight_bonus_range;
-        return target_range <= mindsight_vision;
+    if( this->has_flag( mon_flag_MIND_SEEING ) ) {
+        bool char_has_mindshield = ch && ch->has_flag( json_flag_TEEPSHIELD );
+        bool has_eff_flag_seer_protection = critter.has_effect( effect_eff_monster_immune_to_telepathy ) ||
+                                            critter.has_flag( mon_flag_TEEP_IMMUNE );
+        bool seen_by_mindseers = critter.has_mind() && !char_has_mindshield &&
+                                 !has_eff_flag_seer_protection;
+
+        if( seen_by_mindseers ) {
+            int mindsight_bonus_range = ( has_effect( effect_eff_mind_seeing_bonus_5 ) * 5 ) + ( has_effect(
+                                            effect_eff_mind_seeing_bonus_10 ) * 10 ) + ( has_effect( effect_eff_mind_seeing_bonus_20 ) * 20 )
+                                        + ( has_effect( effect_eff_mind_seeing_bonus_30 ) * 30 );
+            int mindsight_vision = 5 + mindsight_bonus_range;
+            return target_range <= mindsight_vision;
+        }
     }
 
     if( critter.is_hallucination() && !is_avatar() ) {
