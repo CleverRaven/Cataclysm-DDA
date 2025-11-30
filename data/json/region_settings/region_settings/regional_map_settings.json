@@ -87,11 +87,8 @@
   {
     "type": "region_settings_highway",
     "id": "default",
-    "grid_column_seperation": 10,
-    "grid_row_seperation": 8,
     "width_of_segments": 2,
     "straightness_chance": 0.6,
-    "intersection_max_radius": 2,
     "reserved_terrain_id": "hw_reserved",
     "reserved_terrain_water_id": "hw_reserved_water",
     "segment_ramp_special": "highway_segment_ramp",
