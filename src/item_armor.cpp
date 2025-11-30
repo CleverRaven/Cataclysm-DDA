@@ -214,7 +214,7 @@ void item::iterate_covered_sub_body_parts_internal( const side s,
 
     //check for ablative armor too
     if( check_ablative_armor && is_ablative() ) {
-        for( const item_pocket *pocket : get_all_ablative_pockets() ) {
+        for( const item_pocket *pocket : get_ablative_pockets() ) {
             if( !pocket->empty() ) {
                 // get the contained plate
                 const item &ablative_armor = pocket->front();
@@ -263,7 +263,7 @@ void item::iterate_covered_body_parts_internal( const side s,
 
     //check for ablative armor too
     if( check_ablative_armor && is_ablative() ) {
-        for( const item_pocket *pocket : get_all_ablative_pockets() ) {
+        for( const item_pocket *pocket : get_ablative_pockets() ) {
             if( !pocket->empty() ) {
                 // get the contained plate
                 const item &ablative_armor = pocket->front();
@@ -472,7 +472,7 @@ void item::on_takeoff( Character &p )
     }
     // reset any pockets to not have restrictions
     if( is_ablative() ) {
-        for( item_pocket *pocket : get_all_standard_pockets() ) {
+        for( item_pocket *pocket : get_standard_pockets() ) {
             pocket->set_no_rigid( {} );
         }
     }
@@ -563,7 +563,7 @@ int item::get_encumber( const Character &p, const bodypart_id &bodypart,
 
         // add the encumbrance values of any ablative plates and additional encumbrance pockets
         if( has_additional_encumbrance() ) {
-            for( const item_pocket *pocket : contents.get_all_contained_pockets() ) {
+            for( const item_pocket *pocket : contents.get_container_pockets() ) {
                 if( pocket->get_pocket_data()->extra_encumbrance > 0 && !pocket->empty() ) {
                     encumber += pocket->get_pocket_data()->extra_encumbrance;
                 }
@@ -573,7 +573,7 @@ int item::get_encumber( const Character &p, const bodypart_id &bodypart,
 
     // even if we don't have data we might have ablative armor draped over it
     if( is_ablative() ) {
-        for( const item_pocket *pocket : contents.get_all_ablative_pockets() ) {
+        for( const item_pocket *pocket : contents.get_ablative_pockets() ) {
             if( !pocket->empty() ) {
                 // get the contained plate
                 const item &ablative_armor = pocket->front();
@@ -656,7 +656,7 @@ std::vector<layer_level> item::get_layer( bodypart_id bp ) const
 
     //get layers for ablative armor too
     if( is_ablative() ) {
-        for( const item_pocket *pocket : get_all_ablative_pockets() ) {
+        for( const item_pocket *pocket : get_ablative_pockets() ) {
             if( !pocket->empty() ) {
                 // get the contained plate
                 const item &ablative_armor = pocket->front();
@@ -813,7 +813,7 @@ int item::get_coverage( const bodypart_id &bodypart, const cover_type &type ) co
         }
     }
     if( is_ablative() ) {
-        for( const item_pocket *pocket : contents.get_all_ablative_pockets() ) {
+        for( const item_pocket *pocket : contents.get_ablative_pockets() ) {
             if( !pocket->empty() ) {
                 // get the contained plate
                 const item &ablative_armor = pocket->front();
@@ -851,7 +851,7 @@ int item::get_coverage( const sub_bodypart_id &bodypart, const cover_type &type 
         }
     }
     if( is_ablative() ) {
-        for( const item_pocket *pocket : contents.get_all_ablative_pockets() ) {
+        for( const item_pocket *pocket : contents.get_ablative_pockets() ) {
             if( !pocket->empty() ) {
                 // get the contained plate
                 const item &ablative_armor = pocket->front();
@@ -939,7 +939,7 @@ float item::get_thickness( const bodypart_id &bp ) const
     if( is_ablative() ) {
         int ablatives = 0;
         float ablative_thickness = 0.0;
-        for( const item_pocket *pocket : contents.get_all_ablative_pockets() ) {
+        for( const item_pocket *pocket : contents.get_ablative_pockets() ) {
             if( !pocket->empty() ) {
                 // get the contained plate
                 const item &ablative_armor = pocket->front();
@@ -1004,7 +1004,7 @@ int item::get_warmth( const bodypart_id &bp ) const
     int warmth = std::round( warmth_val * limb_coverage / 100.0f );
 
     if( is_ablative() ) {
-        for( const item_pocket *pocket : contents.get_all_ablative_pockets() ) {
+        for( const item_pocket *pocket : contents.get_ablative_pockets() ) {
             if( !pocket->empty() ) {
                 // get the contained plate
                 const item &ablative_armor = pocket->front();
@@ -1061,7 +1061,7 @@ int item::breathability( const bodypart_id &bp ) const
         //This body part might still be covered by attachments of this armor (for example face shield).
         //Check their breathability.
         if( is_ablative() ) {
-            for( const item_pocket *pocket : contents.get_all_ablative_pockets() ) {
+            for( const item_pocket *pocket : contents.get_ablative_pockets() ) {
                 if( !pocket->empty() ) {
                     // get the contained plate
                     const item &ablative_armor = pocket->front();
@@ -1185,7 +1185,7 @@ std::vector<const part_material *> item::armor_made_of( const bodypart_id &bp ) 
         }
     }
     if( is_ablative() ) {
-        for( const item_pocket *pocket : contents.get_all_ablative_pockets() ) {
+        for( const item_pocket *pocket : contents.get_ablative_pockets() ) {
             if( !pocket->empty() ) {
                 // get the contained plate
                 const item &ablative_armor = pocket->front();
@@ -1230,7 +1230,7 @@ std::vector<const part_material *> item::armor_made_of( const sub_bodypart_id &b
         }
     }
     if( is_ablative() ) {
-        for( const item_pocket *pocket : contents.get_all_ablative_pockets() ) {
+        for( const item_pocket *pocket : contents.get_ablative_pockets() ) {
             if( !pocket->empty() ) {
                 // get the contained plate
                 const item &ablative_armor = pocket->front();
@@ -1339,7 +1339,7 @@ bool item::is_rigid() const
 
     // check if ablative pieces are rigid too
     if( is_ablative() ) {
-        for( const item_pocket *pocket : contents.get_all_ablative_pockets() ) {
+        for( const item_pocket *pocket : contents.get_ablative_pockets() ) {
             if( !pocket->empty() ) {
                 // get the contained plate
                 const item &ablative_armor = pocket->front();
@@ -1396,7 +1396,7 @@ bool item::is_bp_rigid( const T &bp ) const
 
     // check if ablative pieces are rigid too
     if( is_ablative() ) {
-        for( const item_pocket *pocket : contents.get_all_ablative_pockets() ) {
+        for( const item_pocket *pocket : contents.get_ablative_pockets() ) {
             if( !pocket->empty() ) {
                 // get the contained plate
                 const item &ablative_armor = pocket->front();

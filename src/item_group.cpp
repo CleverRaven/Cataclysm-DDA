@@ -566,9 +566,9 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
             ( new_item.made_of( phase_id::LIQUID ) ||
               ( !new_item.is_tool() && !new_item.is_gun() && !new_item.is_magazine() ) ) ) {
             if( new_item.type->weight == 0_gram ) {
-                max_capacity = new_item.charges_per_volume( cont->get_total_capacity() );
+                max_capacity = new_item.charges_per_volume( cont->get_volume_capacity() );
             } else {
-                max_capacity = std::min( new_item.charges_per_volume( cont->get_total_capacity() ),
+                max_capacity = std::min( new_item.charges_per_volume( cont->get_volume_capacity() ),
                                          new_item.charges_per_weight( cont->get_total_weight_capacity() ) );
             }
         }
@@ -709,7 +709,7 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
             // but i do not see where to fit it elsewhere
 
             bool any_sealed = false;
-            for( const item_pocket *pocket : new_item.get_contents().get_all_contained_pockets() ) {
+            for( const item_pocket *pocket : new_item.get_contents().get_container_pockets() ) {
                 if( pocket->sealable() ) {
                     any_sealed = true;
                     break;

@@ -266,7 +266,7 @@ int vehicle_part::ammo_capacity( const ammotype &ammo ) const
 {
     if( is_tank() ) {
         const itype *ammo_type = item::find_type( ammo->default_ammotype() );
-        const int max_charges_volume = ammo_type->charges_per_volume( base.get_total_capacity() );
+        const int max_charges_volume = ammo_type->charges_per_volume( base.get_volume_capacity() );
         const int max_charges_weight = ammo_type->weight == 0_gram ? INT_MAX :
                                        static_cast<int>( base.get_total_weight_capacity() / ammo_type->weight );
         return std::min( max_charges_volume, max_charges_weight );
@@ -291,9 +291,9 @@ int vehicle_part::item_capacity( const itype_id &stuffing_id ) const
                             static_cast<int>( base.get_total_weight_capacity() / stuffing->weight );
 
     if( stuffing->count_by_charges() ) {
-        max_amount_volume = stuffing->charges_per_volume( base.get_total_capacity() );
+        max_amount_volume = stuffing->charges_per_volume( base.get_volume_capacity() );
     } else {
-        max_amount_volume = base.get_total_capacity() / stuffing->volume;
+        max_amount_volume = base.get_volume_capacity() / stuffing->volume;
     }
 
     return std::min( max_amount_volume, max_amount_weight );
