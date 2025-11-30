@@ -499,5 +499,26 @@
     "stub": true,
     "stype": "string_input",
     "value": "normal"
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "HIGHWAY_GRID_ROW_SEPARATION",
+    "//": "The distance between east-west highways in overmaps, with the whole overmap gap being `grid_row_seperation` - 1.",
+    "stype": "int",
+    "value": 8
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "HIGHWAY_GRID_COLUMN_SEPARATION",
+    "//": "The distance between north-south highways in overmaps, with the whole overmap gap being `grid_column_seperation` - 1.",
+    "stype": "int",
+    "value": 10
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "HIGHWAY_GRID_VARIANCE",
+    "//": "The maximum number of overmaps that an intersection can deviate from its gridded position. Cannot be greater than or equal to row / 2 or column / 2, may cause bugs for > row / 4, column / 4.",
+    "stype": "int",
+    "value": 2
   }
 ]

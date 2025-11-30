@@ -339,10 +339,7 @@ struct region_settings_overmap_connection {
 struct region_settings_highway {
     region_settings_highway_id id = region_settings_highway_id::NULL_ID();
 
-    int grid_column_seperation = 10;
-    int grid_row_seperation = 8;
     int width_of_segments = 2;
-    int intersection_max_radius = 3;
     double straightness_chance = 0.6;
     oter_type_str_id reserved_terrain_id;
     oter_type_str_id reserved_terrain_water_id;
