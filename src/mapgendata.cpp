@@ -2,22 +2,26 @@
 
 #include <algorithm>
 #include <iterator>
+#include <map>
 #include <optional>
 
 #include "all_enum_values.h"
 #include "coordinates.h"
 #include "cube_direction.h"
 #include "debug.h"
+#include "dialogue.h"
 #include "enum_conversions.h"
 #include "flexbuffer_json.h"
 #include "hash_utils.h"
 #include "json.h"
 #include "line.h"
 #include "map.h"
+#include "mapgen_post_process_generators.h"
 #include "omdata.h"
 #include "overmapbuffer.h"
 #include "point.h"
 #include "regional_settings.h"
+#include "rng.h"
 
 void mapgen_arguments::merge( const mapgen_arguments &other )
 {
@@ -111,8 +115,22 @@ mapgendata::mapgendata( const tripoint_abs_omt &over, map &mp, const float densi
                 debugmsg( "mapgen params expected but no overmap special found for terrain %s",
                           terrain_type_.id().str() );
             }
+
+            // set post-processors that will be applied to map
+            for( const auto &pp_possible : terrain_type_->get_type_id()->post_processors ) {
+                // roll a chance for each map_generator and bake it into the special
+                // if hospital is burned, it is generally burned fully
+                for( const auto &gen_instance : pp_possible.all_generators ) {
+                    // TODO make it work! i don't remember what is needed to make dialogue with access to global vars
+                    const dialogue d;
+                    if( gen_instance.percent_chance.evaluate( d ) ) {
+                        post_generators_applied_.emplace_back( gen_instance );
+                    }
+                }
+            }
         }
     }
+
     for( cube_direction dir : all_enum_values<cube_direction>() ) {
         if( std::string *join = overmap_buffer.join_used_at( { over, dir } ) ) {
             cube_direction rotated_dir = dir - rotation;
