@@ -4137,6 +4137,11 @@ options_manager::cOpt &options_manager::get_option( const std::string &name )
     return wopt->second;
 }
 
+options_manager::options_container options_manager::get_raw_options()
+{
+    return options;
+}
+
 options_manager::options_container options_manager::get_world_defaults() const
 {
     std::unordered_map<std::string, cOpt> result;
