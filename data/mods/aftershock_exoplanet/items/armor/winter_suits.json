@@ -17,7 +17,6 @@
       "type": "transform",
       "msg": "You activate your %s.",
       "target": "afs_magellan_suit_on",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "The %s's batteries are dead."
     },
@@ -75,7 +74,7 @@
     "copy-from": "afs_magellan_suit",
     "repairs_like": "afs_magellan_suit",
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "name": { "str": "Magellan exosuit (on)", "str_pl": "Magellan exosuits (on)" },
     "looks_like": "afs_cryopod_bodyglove",
     "description": "The temperature control units of this high-tech garment are currently active, and continuously draining battery power.  Use it to turn them off.",
@@ -89,7 +88,7 @@
       "msg": "Your %s deactivates.",
       "target": "afs_magellan_suit"
     },
-    "extend": { "flags": [ "ACTIVE_CRYOSUIT" ] }
+    "extend": { "flags": [ "ACTIVE_CRYOSUIT", "SPAWN_ACTIVE" ] }
   },
   {
     "id": "afs_frontier_cryo",
@@ -109,7 +108,6 @@
       "type": "transform",
       "msg": "You activate your %s.",
       "target": "afs_frontier_cryo_on",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "The %s's batteries are dead."
     },
@@ -163,14 +161,14 @@
     "copy-from": "afs_frontier_cryo",
     "repairs_like": "afs_frontier_cryo",
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "name": { "str": "frontier cryo suit (on)", "str_pl": "frontier cryo suits (on)" },
     "looks_like": "robofac_enviro_suit",
     "description": "The temperature control units of this high-tech garment are currently active, and continuously draining battery power.  Use it to turn them off.",
     "power_draw": "6944 mW",
     "warmth": 150,
     "revert_to": "afs_frontier_cryo",
-    "extend": { "flags": [ "ACTIVE_CRYOSUIT" ] },
+    "extend": { "flags": [ "ACTIVE_CRYOSUIT", "SPAWN_ACTIVE" ] },
     "use_action": {
       "type": "transform",
       "ammo_scale": 0,
@@ -198,7 +196,6 @@
       "type": "transform",
       "msg": "You activate your %s.",
       "target": "afs_combat_cryo_on",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "The %s's batteries are dead."
     },
@@ -241,7 +238,7 @@
     "copy-from": "afs_combat_cryo",
     "repairs_like": "afs_frontier_cryo",
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "name": { "str": "combat cryo suit (on)", "str_pl": "combat cryo suits (on)" },
     "looks_like": "afs_cryopod_bodyglove",
     "description": "The temperature control units of this high-tech garment are currently active, and continuously draining battery power.  Use it to turn them off.",
@@ -255,7 +252,7 @@
       "msg": "Your %s deactivates.",
       "target": "afs_combat_cryo"
     },
-    "extend": { "flags": [ "ACTIVE_CRYOSUIT" ] }
+    "extend": { "flags": [ "ACTIVE_CRYOSUIT", "SPAWN_ACTIVE" ] }
   },
   {
     "id": "afs_combat_cryo_xl",
@@ -269,7 +266,6 @@
       "type": "transform",
       "msg": "You activate your %s.",
       "target": "afs_combat_cryo_on_xl",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "The %s's batteries are dead."
     },
@@ -290,7 +286,7 @@
       "msg": "Your %s deactivates.",
       "target": "afs_combat_cryo_xl"
     },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL", "ACTIVE_CRYOSUIT" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL", "ACTIVE_CRYOSUIT", "SPAWN_ACTIVE" ] }
   },
   {
     "id": "afs_cryopod_bodyglove",
@@ -320,7 +316,6 @@
       "type": "transform",
       "msg": "You activate your %s.",
       "target": "afs_cryopod_bodyglove_on",
-      "active": true,
       "need_charges": 5,
       "need_charges_msg": "The %s's batteries are dead."
     },
@@ -355,7 +350,7 @@
     "copy-from": "afs_cryopod_bodyglove",
     "repairs_like": "afs_cryopod_bodyglove",
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "name": { "str": "cryopod bodyglove (on)", "str_pl": "cryopod bodygloves (on)" },
     "looks_like": "afs_cryopod_bodyglove",
     "description": "A dark orange bodyglove, hundreds of tubes curl over its surface, tracing the contours of human musculature.  Meant to control body temperature during prolonged cryopreservation, it could easily keep you comfortable in any earthly climate.  The temperature control units of this high-tech garment are currently active, and continuously draining battery power.  Use it to turn them off.",
@@ -378,7 +373,8 @@
       "PADDED",
       "THERMOMETER",
       "HYGROMETER",
-      "ACTIVE_CRYOSUIT"
+      "ACTIVE_CRYOSUIT",
+      "SPAWN_ACTIVE"
     ]
   }
 ]
