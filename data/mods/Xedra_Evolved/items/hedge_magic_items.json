@@ -136,7 +136,6 @@
     "use_action": {
       "type": "transform",
       "need_charges": 1,
-      "active": true,
       "target": "item_hedge_see_fae_necklace_on",
       "msg": "You recite that last part of the charm.",
       "need_worn": true
@@ -169,7 +168,7 @@
     "material": [ "leather", "veggy" ],
     "color": "green",
     "symbol": ",",
-    "flags": [ "ONE_PER_LAYER", "SKINTIGHT", "NO_UNLOAD", "NO_RELOAD", "HEDGE_ENCHANTED" ],
+    "flags": [ "ONE_PER_LAYER", "SKINTIGHT", "NO_UNLOAD", "NO_RELOAD", "HEDGE_ENCHANTED", "SPAWN_ACTIVE" ],
     "revert_to": "item_hedge_see_fae_necklace_done",
     "revert_msg": "Your otherworldly senses fade.",
     "tool_ammo": "glamour_charge",

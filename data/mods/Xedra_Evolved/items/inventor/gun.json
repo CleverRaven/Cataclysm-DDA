@@ -651,7 +651,6 @@
       "menu_text": "Activate",
       "msg": "You trigger the mechanism, and it starts to whistle!",
       "target_timer": "70 seconds",
-      "active": true,
       "type": "transform"
     }
   },
@@ -668,6 +667,7 @@
     "symbol": "*",
     "color": "blue",
     "tick_action": [ { "type": "sound", "sound_message": "whistle", "sound_volume": 35, "sound_variant": "bomb_ticking" } ],
+    "countdown_interval": "70 seconds",
     "countdown_action": {
       "type": "explosion",
       "fields_type": "fd_electricity",
@@ -676,7 +676,7 @@
       "fields_max_intensity": 10,
       "emp_blast_radius": 12
     },
-    "flags": [ "TRADER_AVOID", "BOMB", "INVENTOR_CRAFTED" ]
+    "flags": [ "TRADER_AVOID", "BOMB", "INVENTOR_CRAFTED", "SPAWN_ACTIVE" ]
   },
   {
     "id": "inventor_grenade_noise_fire",
