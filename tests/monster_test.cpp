@@ -347,14 +347,14 @@ TEST_CASE( "check_mon_id" )
             continue;
         }
         std::string mon_id = mon.id.str();
-        std::string suffix_id = mon_id.substr( 0, mon_id.find( '_' );
-                                               INFO( "Now checking the id of " << mon.id.str() );
-                                               CHECK( ( suffix_id == "mon"  || suffix_id == "pseudo" ) );
+        std::string suffix_id = mon_id.substr( 0, mon_id.find( '_' ) );
+        INFO( "Now checking the id of " << mon.id.str() );
+        CHECK( ( suffix_id == "mon"  || suffix_id == "pseudo" ) );
     }
 }
 
 // Write out a map of slope at which monster is moving to time required to reach their destination.
-TEST_CASE( "write_slope_to_speed_map_trig", "[."] )
+TEST_CASE( "write_slope_to_speed_map_trig", "[.]" )
 {
     clear_map_and_put_player_underground();
     restore_on_out_of_scope restore_trigdist( trigdist );
@@ -364,7 +364,7 @@ TEST_CASE( "write_slope_to_speed_map_trig", "[."] )
     test_moves_to_squares( "mon_pig", true );
 }
 
-TEST_CASE( "write_slope_to_speed_map_square", "[."] )
+TEST_CASE( "write_slope_to_speed_map_square", "[.]" )
 {
     clear_map_and_put_player_underground();
     restore_on_out_of_scope restore_trigdist( trigdist );
@@ -984,7 +984,6 @@ static void walk_toward_monster_off_the_map( tripoint_abs_omt origin, point offs
     overmap_buffer.spawn_monster( monster_pos, id );
     REQUIRE( nullptr != overmap_buffer.entity_at( monster_pos ) );
 
-    tripoint_bub_ms monster_location;
     // move player toward monster, triggering map shifts
     int num_steps = 0;
     while( !here.inbounds( monster_pos ) ) {
