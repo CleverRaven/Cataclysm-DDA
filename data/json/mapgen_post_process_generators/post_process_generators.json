@@ -1,0 +1,26 @@
+[
+  {
+    "id": "riot_damage",
+    "type": "pp_generator",
+    "generators": [
+      { "type": "bash_damage", "attempts": 250, "chance": 100, "min_intensity": 6, "max_intensity": 60 },
+      { "type": "move_items", "attempts": 250, "chance": 10, "min_intensity": 0, "max_intensity": 3 },
+      {
+        "type": "add_fire",
+        "attempts": 2,
+        "chance": { "math": [ "max( 14 - time_since('cataclysm', 'unit':'days'), 0 )" ] },
+        "min_intensity": 1,
+        "max_intensity": 3
+      },
+      {
+        "type": "pre_burn",
+        "attempts": 1,
+        "//chance": { "math": [ "lerp( 6, 28, ( ( time_since('cataclysm', 'unit':'days' ) - 3 ) / ( 14 - 3 ) ) )" ] },
+        "chance": 20,
+        "min_intensity": 1,
+        "max_intensity": 100
+      },
+      { "type": "place_blood", "chance": 1 }
+    ]
+  }
+]

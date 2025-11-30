@@ -71,6 +71,7 @@
 #include "map_extras.h"
 #include "mapdata.h"
 #include "mapgen.h"
+#include "mapgen_post_process_generators.h"
 #include "martialarts.h"
 #include "material.h"
 #include "math_parser_jmath.h"
@@ -401,6 +402,7 @@ void DynamicDataLoader::initialize()
     add( "construction_category", &construction_categories::load );
     add( "construction_group", &construction_groups::load );
     add( "construction", &load_construction );
+    add( "pp_generator", &pp_generator::load_pp_generator );
     add( "mapgen", &load_mapgen );
     add( "overmap_land_use_code", &overmap_land_use_codes::load );
     add( "overmap_connection", &overmap_connections::load );

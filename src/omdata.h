@@ -33,6 +33,7 @@
 #include "flexbuffer_json.h"
 #include "json.h"
 #include "mapgen_parameter.h"
+#include "mapgen_post_process_generators.h"
 #include "memory_fast.h"
 #include "overmap_location.h"
 #include "point.h"
@@ -53,6 +54,7 @@ using overmap_land_use_code_id = string_id<overmap_land_use_code>;
 class overmap;
 class overmap_connection;
 class overmap_special_batch;
+class pp_generator;
 enum class om_vision_level : int8_t;
 struct map_data_summary;
 struct mapgen_arguments;
@@ -433,6 +435,10 @@ struct oter_type_t {
         int mondensity = 0;
         effect_on_condition_id entry_EOC;
         effect_on_condition_id exit_EOC;
+
+        // list of possible post_processors that can be applied to this map, and corresponding data
+        std::vector<pp_generator_id> post_processors;
+
         // Spawns are added to the submaps *once* upon mapgen of the submaps
         overmap_static_spawns static_spawns;
         bool was_loaded = false;
@@ -483,6 +489,8 @@ struct oter_type_t {
         bool connects_to( const oter_type_id &other ) const {
             return has_connections() && connect_group == other->connect_group;
         }
+
+        pp_generator get_generator_var( const map_generator &mg ) const;
 
     private:
         enum_bitset<oter_flags> flags;

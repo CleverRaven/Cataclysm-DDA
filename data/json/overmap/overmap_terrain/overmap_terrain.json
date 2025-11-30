@@ -49,6 +49,7 @@
     "type": "overmap_terrain",
     "abstract": "generic_city_building",
     "copy-from": "generic_city_building_no_sidewalk",
+    "post_process_generators": [ "riot_damage" ],
     "extend": { "flags": [ "SIDEWALK" ] }
   },
   {

@@ -1,0 +1,15 @@
+[
+  {
+    "type": "jmath_function",
+    "id": "lerp",
+    "//": [
+      "Linear interpolation: returns first argument if interpolation is 0, second if interpolation is 1, otherwise proportional to interpolation.",
+      "Does not clamp interpolation, meaning it can return values lower than min (if interpolation<0) or higher than max (if interpolation>1).",
+      "_0 = min",
+      "_1 = max",
+      "_2 = interpolation"
+    ],
+    "num_args": 3,
+    "return": "( 1 - _2 ) * _0 + _2 * _1"
+  }
+]
