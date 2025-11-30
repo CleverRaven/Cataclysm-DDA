@@ -585,6 +585,8 @@ study_zone_options::query_study_result study_zone_options::query_study_skills()
             return query_study_result::changed;
         case study_zone_ui_result::successful:
             return query_study_result::successful;
+        default:
+            return query_study_result::canceled;
     }
 }
 
