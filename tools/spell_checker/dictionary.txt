@@ -1582,6 +1582,7 @@ dokie
 Dolichovespula
 dollkin
 dolm
+dolmas
 domestica
 Donatello
 donburi
@@ -4174,11 +4175,13 @@ nanomesh
 nanoprinted
 nanoribbon
 nanoribbons
+nanos
 nanosaurus
 nanoskirt
 nanoskirts
 nanotech
 nanotubes
+nanotyrannus
 nanowire
 Nantucket
 nanuqsaurus

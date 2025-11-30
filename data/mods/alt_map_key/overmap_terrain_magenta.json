@@ -1,6 +1,14 @@
 [
   {
     "type": "overmap_terrain",
+    "id": "cs_market_small",
+    "name": "market, small",
+    "copy-from": "cs_market_small",
+    "sym": "M",
+    "color": "magenta"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [
       "farm_supply_1",
       "farm_supply_2",

@@ -20,7 +20,6 @@
         "type": "transform",
         "msg": "You flip the switch on the box and a red LED lights up.",
         "target": "psionic_shield_belt_on",
-        "active": true,
         "need_charges": 1,
         "need_charges_msg": "The switch clicks but nothing happens.",
         "need_worn": true,
@@ -78,7 +77,7 @@
         "type": "transform"
       }
     ],
-    "extend": { "flags": [ "NO_TAKEOFF" ] }
+    "extend": { "flags": [ "NO_TAKEOFF", "SPAWN_ACTIVE" ] }
   },
   {
     "id": "psionic_shield_belt_broken",
@@ -126,7 +125,6 @@
         "type": "transform",
         "msg": "You flip the switch on the box and a red LED lights up.",
         "target": "psionic_fire_shield_belt_on",
-        "active": true,
         "need_charges": 1,
         "need_charges_msg": "The switch clicks but nothing happens.",
         "need_worn": true,
@@ -173,7 +171,7 @@
         "type": "transform"
       }
     ],
-    "extend": { "flags": [ "NO_TAKEOFF" ] }
+    "extend": { "flags": [ "NO_TAKEOFF", "SPAWN_ACTIVE" ] }
   },
   {
     "id": "psionic_fire_shield_belt_broken",

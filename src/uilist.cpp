@@ -884,7 +884,7 @@ shared_ptr_fast<uilist_impl> uilist::create_or_get_ui()
  * Handle input and update display
  *
  */
-void uilist::query( bool loop, int timeout, bool allow_unfiltered_hotkeys )
+shared_ptr_fast<uilist_impl> uilist::query( bool loop, int timeout, bool allow_unfiltered_hotkeys )
 {
 #if defined(__ANDROID__)
     if( get_option<bool>( "ANDROID_NATIVE_UI" ) && !entries.empty() && !desired_bounds ) {
@@ -947,13 +947,13 @@ void uilist::query( bool loop, int timeout, bool allow_unfiltered_hotkeys )
         } else {
             ret = UILIST_ERROR;
         }
-        return;
+        return nullptr;
     }
 #endif
     ret_evt = input_event();
     if( entries.empty() ) {
         ret = UILIST_ERROR;
-        return;
+        return nullptr;
     }
     ret = UILIST_WAIT_INPUT;
 
@@ -1036,6 +1036,8 @@ void uilist::query( bool loop, int timeout, bool allow_unfiltered_hotkeys )
             }
         }
     } while( loop && ret == UILIST_WAIT_INPUT );
+
+    return ui;
 }
 
 ///@}

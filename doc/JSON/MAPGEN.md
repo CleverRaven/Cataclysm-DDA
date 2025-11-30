@@ -251,7 +251,7 @@ When defining the JSON mapgen for such terrain, you must define several
 instances, for each type of connection that might exist.  Each gets a suffix
 added to the `overmap_terrain` id.  The suffixes are: `_end`, `_straight`,
 `_curved`, `_tee`, `_four_way`.  For an example, see the definitions for `ants`
-in [`ants.json`](../data/json/mapgen/bugs/ants.json).
+in [`ants.json`](/data/json/mapgen/bugs/ants.json).
 
 ### Define mapgen "weight"
 
@@ -1324,7 +1324,7 @@ Each such key should have an associated JSON object with the following fields:
 
 | Field   | Description
 | ------- | -----------
-| type    | (mandatory, string) a `cata_variant` type listed in [cata_variant.h](../src/cata_variant.h#L37-L84).  Dictates the type of value the parameter has.
+| type    | (mandatory, string) a `cata_variant` type listed in [cata_variant.h](/src/cata_variant.h#L37-L84).  Dictates the type of value the parameter has.
 | default | (mandatory, mapgen value) can currently only be a distribution array that contains either possible values that will all have equal weight or arrays of pairs of possible values and their associated weights
 | scope   | (optional, string, defaults to `"overmap_special"`) the scope at which the chosen value will stay the same. Possible values are `"overmap_special"`, `"omt"`, `"nest"` or `"omt_stack"` which is the same for an omt and all omts vertical to it. There's no enforcement that nest scoped parameters have to be used inside of nested mapgen to allow them to be used in reusable palettes.
 
@@ -1455,7 +1455,7 @@ Here we define a parameter with key "variant" that picks a nest which is used to
 ```
 
 ### Common parameters
-There are various reusable parameters in palettes at [common_parameters.json](../data/json/mapgen_palettes/common_parameters.json) and as part of the domestic palettes in [house_general_palette.json](../data/json/mapgen_palettes/house_general_palette.json)
+There are various reusable parameters in palettes at [common_parameters.json](/data/json/mapgen_palettes/common_parameters.json) and as part of the domestic palettes in [house_general_palette.json](/data/json/mapgen_palettes/house_general_palette.json)
 which are all overmap_special scoped and can be used without need to specify mapgen values of your own by using the symbols provided while also allowing you to use the values where needed.
 For example this map uses the symbols found in the `"standard_domestic_palette"` and `"standard_domestic_lino_kitchen"` palettes which allows it to have random but consistent exterior and interior walls as well as kitchen flooring but also defines an
 additional furniture symbol using the value set by linoleum_color_kitchen for the terrain under it.

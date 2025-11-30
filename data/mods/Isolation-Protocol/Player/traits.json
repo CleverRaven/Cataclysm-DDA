@@ -10,5 +10,31 @@
     "player_display": false,
     "purifiable": false,
     "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "ISO_ELDRITCH_INVISIBLE_AND_INTANGIBLE_GRAPHICS",
+    "name": { "str": "Wraith Appearance", "//~": "NO_I18N" },
+    "description": { "str": "Makes you look like a wraith.", "//~": "NO_I18N" },
+    "points": 0,
+    "starting_trait": false,
+    "player_display": false,
+    "purifiable": false,
+    "valid": false,
+    "override_look": { "id": "mon_darkman", "tile_category": "monster" }
+  },
+  {
+    "type": "mutation",
+    "id": "iso_trait_balthazar_uplink",
+    "name": "Balthazar Uplink",
+    "points": 0,
+    "description": "A foreign segment of within your mind, it feels like handful of blades floating in the edge of your unconscious.  You could talk to Balthazar if you focused on it.",
+    "active": true,
+    "activated_is_setup": false,
+    "enchantments": [ "iso_ench_balthazar_control" ],
+    "activated_eocs": [ "EOC_talk_balthazar" ],
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false
   }
 ]

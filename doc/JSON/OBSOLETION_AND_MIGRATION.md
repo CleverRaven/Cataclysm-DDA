@@ -45,7 +45,7 @@ Migration and obsoletion should happen in `\data\json\obsoletion_and_migration_<
 # Item migration
 
 Any of item types (AMMO, GUN, ARMOR, PET_ARMOR, TOOL, TOOLMOD, TOOL_ARMOR, BOOK, COMESTIBLE, ENGINE, WHEEL, GUNMOD, MAGAZINE, GENERIC, BIONIC_ITEM) should be migrated to another item, then it can be removed with no issues
-AMMO and COMESTIBLE types require additional handling, explained in [Charge and temperature removal](#Charge_and_temperature_removal)
+AMMO and COMESTIBLE types require additional handling, explained in [Charge and temperature removal](#Charge-and-temperature-removal)
 
 ```jsonc
 {
@@ -100,6 +100,21 @@ Vehicle part can be removed safely afterwards
   }
 ```
 
+# Effect migration
+For effects, `effect_migration` type should be used.
+
+```jsonc
+  {
+    "type": "effect_migration",
+    "from": "yrax_overcharged",   // effect that needs to be migrated
+    "to": "drunk"                 // old effect will be replaced with this one. Can be omitted, in which case effect will be deleted
+  }
+  {
+    "type": "effect_migration",
+    "from": "foobar_effect",
+  }
+```
+
 # Bionic migration
 For bionics, you should use `bionic_migration` type. The migration happens when character is loaded; if `to` is `null` or is not defined, the bionic is removed, if `to` is not null the id will be changed to the provided value.
 
@@ -145,6 +160,38 @@ A mutation migration can be used to migrate a mutation that formerly existed gra
     "id": "deleted_trait",
     "remove": true
   }
+```
+
+# Proficiency migration
+
+Prof migration can be migrated to new prof (with progress being transferred) or to null
+
+```jsonc
+  {
+    "type": "proficiency_migration",
+    "from": "prof_wp_slime_basic",  // Mandatory. Id of the prof that has been removed.
+    "to": "prof_wp_mi-go_basic"     // Optional. Id of the new prof that will be set instead. can be omitted to remove the prof
+  },
+  {
+    "type": "proficiency_migration",
+    "from": "prof_wp_slime_advanced"
+  }
+```
+
+# Spell migration
+
+The only spells that require migration are one that are actual spells that character/player learned, so this section is more applicable to magic mods, and not applicable to, for example, a monster spells (monsters do not store it anywhere, just picking it up fron definition when needed)
+
+```jsonc
+  {
+    "type": "spell_migration",
+    "from": "spell_foo",  // Mandatory. Id of the spell that has been removed.
+    "to": "spell_bar"     // Optional. Id of the new spell that will be set instead. Can be omitted to remove the spell completely. If character already has this spell learned, it will not be modified
+  },
+  {
+    "type": "spell_migration",
+    "from": "spell_bar",
+  },
 ```
 
 # Monster migration

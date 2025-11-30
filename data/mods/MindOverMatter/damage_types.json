@@ -132,7 +132,7 @@
             "false_effect": [
               { "npc_lose_effect": "effect_psyshield_protection" },
               { "npc_cast_spell": { "id": "telepathic_self_damage", "hit_self": true } },
-              { "npc_message": "Your minds reels!", "type": "bad" }
+              { "npc_message": "Your mind reels!", "type": "bad" }
             ]
           }
         ]

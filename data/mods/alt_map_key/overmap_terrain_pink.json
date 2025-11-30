@@ -145,7 +145,6 @@
   {
     "type": "overmap_terrain",
     "id": [
-      "sealab_small_roof",
       "sealab_small_surface",
       "sealab_small_-1",
       "sealab_small_-2",
@@ -153,8 +152,16 @@
       "sealab_small_-4",
       "sealab_small_-5"
     ],
-    "copy-from": "sealab_small_roof",
+    "copy-from": "sealab_small_surface",
     "name": "freshwater research station",
+    "sym": "F",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "sealab_small_roof" ],
+    "copy-from": "sealab_small_roof",
+    "name": "freshwater research station roof",
     "sym": "F",
     "color": "pink"
   },

@@ -125,8 +125,7 @@
     "id": "EOC_SMARTPHONE_RECOVERY_ADVANCED",
     "condition": {
       "and": [
-        { "u_has_item": "software_hacking" },
-        { "u_has_items": { "item": "laptop", "charges": 20 } },
+        { "u_has_software": { "item": "software_hacking", "charges": 20, "device": "laptop" } },
         { "math": [ "u_skill('computer') >= 4" ] }
       ]
     },

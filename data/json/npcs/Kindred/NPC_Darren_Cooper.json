@@ -62,7 +62,7 @@
     "type": "item_group",
     "id": "KINDRED_COOPER_wield",
     "subtype": "collection",
-    "entries": [ { "item": "survivor_machete" } ]
+    "entries": [ { "item": "machete" } ]
   },
   {
     "type": "item_group",

@@ -282,6 +282,32 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_monster_telekinetic_aegis",
+    "name": [ "Aegis" ],
+    "desc": [ "An impenetrable barrier is protecting you." ],
+    "show_in_info": true,
+    "flags": [ "TELEKIN_SHIELD", "CANNOT_MOVE", "CANNOT_ATTACK", "NO_PSIONICS" ],
+    "enchantments": [
+      {
+        "incoming_damage_mod": [
+          { "type": "bash", "add": -100000 },
+          { "type": "stab", "add": -100000 },
+          { "type": "cut", "add": -100000 },
+          { "type": "bullet", "add": -100000 }
+        ],
+        "values": [ { "value": "TOTAL_WEIGHT", "multiply": 10000 } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_monster_aegis_limiter",
+    "//": "Hidden effect, acts as a cooldown for Aegis",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
     "id": "eff_monster_immune_to_telepathy",
     "name": [ "Telepathic Shield" ],
     "desc": [ "You have a shield up to prevent telepathic detection and attack." ],

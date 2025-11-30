@@ -110,7 +110,6 @@ enum class direction : unsigned int;
 #endif
 
 static const activity_id ACT_FERTILIZE_PLOT( "ACT_FERTILIZE_PLOT" );
-static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
 static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
 static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
@@ -1514,7 +1513,7 @@ static void loot()
     }
 
     // Manually update vehicle cache.
-    // In theory this would be handled by the related activity (activity_on_turn_move_loot())
+    // In theory this would be handled by the related activity (zone_sort_activity_actor())
     // but with a stale cache we never get that far.
     mgr.cache_vzones();
 
@@ -1629,7 +1628,7 @@ static void loot()
             add_msg( _( "Never mind." ) );
             break;
         case SortLoot:
-            player_character.assign_activity( ACT_MOVE_LOOT );
+            player_character.assign_activity( zone_sort_activity_actor() );
             break;
         case SortLootStatic:
             //temporarily disable personal zones
@@ -1644,7 +1643,7 @@ static void loot()
             if( recache ) {
                 mgr.cache_data();
             }
-            player_character.assign_activity( ACT_MOVE_LOOT );
+            player_character.assign_activity( zone_sort_activity_actor() );
             break;
         case SortLootPersonal:
             //temporarily disable non personal zones
@@ -1659,7 +1658,7 @@ static void loot()
             if( recache ) {
                 mgr.cache_data();
             }
-            player_character.assign_activity( ACT_MOVE_LOOT );
+            player_character.assign_activity( zone_sort_activity_actor() );
             break;
         case UnloadLoot:
             player_character.assign_activity( unload_loot_activity_actor() );
@@ -2253,6 +2252,8 @@ static const std::set<action_id> actions_disabled_in_incorporeal {
     ACTION_ADVANCEDINV,
     ACTION_PICKUP,
     ACTION_PICKUP_ALL,
+    ACTION_DROP,
+    ACTION_DIR_DROP,
     ACTION_GRAB,
     ACTION_HAUL,
     ACTION_HAUL_TOGGLE,
@@ -2278,6 +2279,7 @@ static std::map<action_id, std::string> get_actions_disabled_in_handless_tempora
         { ACTION_HAUL_TOGGLE,        _( "You can't haul things while shapeshifted." ) },
         { ACTION_BUTCHER,            _( "You can't butcher while shapeshifted." ) },
         { ACTION_DROP,               _( "You can't drop things while shapeshifted." ) },
+        { ACTION_DIR_DROP,           _( "You can't drop things while shapeshifted." ) },
         { ACTION_CRAFT,              _( "You can't craft while shapeshifted." ) },
         { ACTION_RECRAFT,            _( "You can't craft while shapeshifted." ) },
         { ACTION_LONGCRAFT,          _( "You can't craft while shapeshifted." ) },

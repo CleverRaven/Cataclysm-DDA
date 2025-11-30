@@ -268,7 +268,7 @@ struct heater {
     tripoint_abs_ms vpt;
     bool pseudo_flag;
 };
-heater find_heater( Character *, item * );
+heater find_heater( Character *, item *, bool force_use_it );
 heating_requirements heating_requirements_for_weight( const units::mass &,
         const units::mass &, const units::volume & );
 

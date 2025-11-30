@@ -78,6 +78,7 @@ static const itype_id itype_black_box( "black_box" );
 static const itype_id itype_black_box_transcript( "black_box_transcript" );
 static const itype_id itype_blood( "blood" );
 static const itype_id itype_blood_tainted( "blood_tainted" );
+static const itype_id itype_blood_tainted_human( "blood_tainted_human" );
 static const itype_id itype_c4( "c4" );
 static const itype_id itype_cobalt_60( "cobalt_60" );
 static const itype_id itype_mininuke( "mininuke" );
@@ -1720,7 +1721,8 @@ void computer_session::failure_destroy_blood()
             } else if( items.only_item().empty() ) {
                 print_error( _( "ERROR: Blood draw kit, empty." ) );
             } else if( items.only_item().legacy_front().typeId() != itype_blood &&
-                       items.only_item().legacy_front().typeId() != itype_blood_tainted ) {
+                       items.only_item().legacy_front().typeId() != itype_blood_tainted &&
+                       items.only_item().legacy_front().typeId() != itype_blood_tainted_human ) {
                 print_error( _( "ERROR: Please only use blood samples." ) );
             } else {
                 print_error( _( "ERROR: Blood sample destroyed." ) );

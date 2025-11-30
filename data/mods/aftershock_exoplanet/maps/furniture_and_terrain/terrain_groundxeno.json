@@ -493,7 +493,7 @@
     "emissions": [ "weak_toxic_dust" ],
     "color": "light_red",
     "move_cost": 6,
-    "liquid_source": { "id": "water_sewage" },
+    "liquid_source": { "id": "water_sewage", "min_temp": 18 },
     "flags": [ "TRANSPARENT", "SWIMMABLE", "SHALLOW_WATER" ],
     "examine_action": "water_source"
   }

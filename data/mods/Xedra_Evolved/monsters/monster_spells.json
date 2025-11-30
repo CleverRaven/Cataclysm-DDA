@@ -807,7 +807,7 @@
         "then": { "u_add_effect": "blind", "duration": [ "5 seconds", "12 seconds" ] }
       },
       {
-        "if": { "or": [ { "u_has_flag": "SUNDEATH" }, { "u_has_flag": "SUNBURN" } ] },
+        "if": { "or": [ { "u_has_flag": "SUNDEATH" }, { "u_has_flag": "SUNBURN_SUPERNATURAL" } ] },
         "then": [ { "u_cast_spell": { "id": "solar_spirit_flare_spell_sundeath_hit_monster", "hit_self": true } } ]
       }
     ]

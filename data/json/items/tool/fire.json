@@ -254,7 +254,6 @@
       {
         "target": "ref_lighter_on",
         "msg": "You flick the lighter.",
-        "active": true,
         "need_charges": 1,
         "need_charges_msg": "Nothing happens.",
         "menu_text": "Light up",
@@ -296,13 +295,12 @@
       {
         "target": "ref_lighter",
         "msg": "You extinguish the lighter.",
-        "active": false,
         "menu_text": "Extinguish",
         "type": "transform"
       }
     ],
     "light": 8,
-    "flags": [ "FIRE", "FIRESTARTER", "FLAMING", "TRADER_AVOID", "WATER_EXTINGUISH" ],
+    "flags": [ "FIRE", "FIRESTARTER", "FLAMING", "TRADER_AVOID", "WATER_EXTINGUISH", "SPAWN_ACTIVE" ],
     "tool_ammo": [ "lamp_oil" ]
   },
   {
@@ -343,7 +341,6 @@
     "use_action": {
       "target": "tinderbox_on",
       "msg": "You light the tinder.",
-      "active": true,
       "need_fire": 1,
       "need_fire_msg": "You need a lighter or fire to light this.",
       "need_charges": 1,
@@ -371,15 +368,9 @@
     "//COMMENT": "~30 seconds to get the tinder out and spreading under optimal conditions.",
     "use_action": [
       { "type": "firestarter", "moves": 3000, "moves_slow": 30000 },
-      {
-        "target": "tinderbox",
-        "msg": "The ember is extinguished.",
-        "active": false,
-        "menu_text": "Extinguish",
-        "type": "transform"
-      }
+      { "target": "tinderbox", "msg": "The ember is extinguished.", "menu_text": "Extinguish", "type": "transform" }
     ],
-    "flags": [ "FIRESTARTER" ],
+    "flags": [ "FIRESTARTER", "SPAWN_ACTIVE" ],
     "tool_ammo": [ "tinder" ]
   },
   {

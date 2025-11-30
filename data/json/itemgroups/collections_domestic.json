@@ -202,6 +202,7 @@
       { "item": "chem_calcium_chloride", "prob": 2 },
       { "item": "chem_washing_soda", "prob": 20, "charges": [ 1, -1 ] },
       { "item": "chem_baking_soda", "prob": 20, "charges": [ 1, -1 ] },
+      { "item": "chunk_borax", "prob": 10, "charges": [ 1, -1 ] },
       { "item": "ammonia_hydroxide", "prob": 24, "charges": [ 1, -1 ] },
       { "prob": 2, "group": "yeast_bag_plastic" },
       { "prob": 1, "group": "yogurt_starter_culture_bag_plastic_4" },
@@ -328,7 +329,7 @@
           {
             "collection": [
               { "item": "ceramic_mug", "prob": 50 },
-              { "group": "beer", "prob": 50 },
+              { "group": "beer_in_container", "prob": 50 },
               { "group": "liquor_and_spirits", "prob": 20 },
               { "group": "wines_worthy", "prob": 10 },
               { "item": "cigar", "prob": 20 },
@@ -414,7 +415,7 @@
           {
             "collection": [
               { "item": "ceramic_mug", "prob": 50 },
-              { "group": "beer", "prob": 50 },
+              { "group": "beer_in_container", "prob": 50 },
               { "group": "liquor_and_spirits", "prob": 20 },
               { "group": "wines_worthy", "prob": 10 },
               { "item": "cigar", "prob": 20 },
@@ -452,7 +453,7 @@
     "magazine": 100,
     "subtype": "distribution",
     "entries": [
-      { "group": "softdrinks_canned", "prob": 325 },
+      { "group": "soda_in_small_container", "prob": 325 },
       { "group": "magazines", "prob": 265 },
       { "item": "basket_laundry", "prob": 20 },
       { "item": "television", "prob": 30 },
@@ -820,7 +821,8 @@
       { "prob": 5, "item": "catfood_dry", "count": [ 2, -1 ] },
       { "group": "charcoal_bag_part", "prob": 5, "charges": [ 25, 50 ] },
       { "item": "soap", "prob": 70, "charges": [ 1, 10 ] },
-      { "item": "detergent", "prob": 50, "charges": [ 1, 20 ] },
+      { "item": "detergent", "prob": 25, "charges": [ 1, 20 ] },
+      { "item": "chem_borax", "prob": 15, "charges": [ 50, 500 ] },
       { "item": "survnote", "prob": 1 },
       { "item": "cookbook_sushi", "prob": 5 },
       { "item": "scots_cookbook", "prob": 6 },
@@ -985,7 +987,7 @@
       { "item": "firecracker", "prob": 5 },
       { "prob": 30, "group": "fried_seeds_bag_plastic_4" },
       { "prob": 65, "group": "bag_chips" },
-      { "group": "softdrinks_canned", "prob": 380 },
+      { "group": "soda_in_small_container", "prob": 380 },
       { "item": "picklocks", "prob": 10 },
       { "item": "fursuit", "prob": 6 },
       { "item": "zentai", "prob": 4 },
@@ -1125,6 +1127,7 @@
       { "group": "insecticide_bag_plastic", "prob": 2 },
       { "item": "soap", "prob": 80 },
       { "item": "detergent", "prob": 80 },
+      { "item": "chem_borax", "prob": 15, "charges": [ 50, 500 ] },
       { "item": "chem_hydrogen_peroxide", "prob": 20 },
       { "item": "plunger_toilet", "prob": 30 },
       { "item": "plunger_futuristic", "prob": 15 },

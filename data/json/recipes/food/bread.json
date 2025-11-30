@@ -320,7 +320,7 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "sourdough_young_uncovered",
+    "result": "sourdough_young_uncovered_active",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
     "skill_used": "cooking",
@@ -335,7 +335,7 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "sourdough_split_uncovered",
+    "result": "sourdough_split_uncovered_active",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
     "skill_used": "cooking",

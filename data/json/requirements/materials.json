@@ -633,6 +633,12 @@
     ]
   },
   {
+    "id": "clay_refractory",
+    "type": "requirement",
+    "//": "High temp resistant clay, either kaolin alone or clay+feldspar",
+    "components": [ [ [ "clay_lump", 1 ] ], [ [ "clay_kaolin", 1 ], [ "chunk_feldspar", 1 ] ] ]
+  },
+  {
     "id": "organic_waste",
     "type": "requirement",
     "//": "Materials for anaerobic digestion",

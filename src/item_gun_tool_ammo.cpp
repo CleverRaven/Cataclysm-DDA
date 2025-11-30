@@ -46,6 +46,7 @@
 #include "item_factory.h"
 #include "item_location.h"
 #include "item_pocket.h"
+#include "item_transformation.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
@@ -3070,7 +3071,7 @@ bool item::process_tool( Character *carrier, const tripoint_bub_ms &pos )
         if( carrier ) {
             carrier->add_msg_if_player( m_info, _( "The %s ran out of energy!" ), tname() );
         }
-        if( type->revert_to.has_value() ) {
+        if( type->transform_into.has_value() ) {
             deactivate( carrier );
             return false;
         } else {

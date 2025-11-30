@@ -13,6 +13,7 @@
     "points": 1,
     "visibility": 2,
     "description": "Elves might say you are short-lived, and goblins might say you are strong, but the one thing humans really are is tenacious.  Hopefully that will serve you well after the Cataclysm.",
+    "empathize_with": [ "GOBLIN", "RAVENFOLK", "LIZARDFOLK", "ELF", "DWARF", "HUMAN" ],
     "flags": [ "HERITAGE" ]
   },
   {
@@ -183,6 +184,7 @@
     "ugliness": 0,
     "description": "Dwarves are smaller than humans, the better to deal with confined spaces underground, but as solid as the mountains (+2 STR, -1 DEX).",
     "category": [ "SPECIES_DWARF" ],
+    "empathize_with": [ "GOBLIN", "RAVENFOLK", "LIZARDFOLK", "ELF", "DWARF", "HUMAN" ],
     "enchantments": [
       {
         "values": [
@@ -328,6 +330,7 @@
     "description": "Elves are more lithe and frail than humans, but possess an almost otherworldly grace (-1 STR, +2 DEX).",
     "category": [ "SPECIES_ELF" ],
     "threshreq": [ "THRESH_SPECIES_ELF" ],
+    "empathize_with": [ "GOBLIN", "RAVENFOLK", "LIZARDFOLK", "ELF", "DWARF", "HUMAN" ],
     "enchantments": [
       {
         "condition": "ALWAYS",
@@ -552,6 +555,7 @@
     "category": [ "SPECIES_GOBLIN" ],
     "anger_relations": [ [ "WARG", -90 ] ],
     "spells_learned": [ [ "goblin_tame_warg_spell", 1 ] ],
+    "empathize_with": [ "GOBLIN", "RAVENFOLK", "LIZARDFOLK", "ELF", "DWARF", "HUMAN" ],
     "enchantments": [
       {
         "values": [
@@ -653,6 +657,7 @@
     "ugliness": 0,
     "description": "Lizardfolk are taller and stronger than humans but not much thicker and are surprisingly fast for their size (+1 STR, +1 DEX).",
     "category": [ "SPECIES_LIZARDFOLK" ],
+    "empathize_with": [ "GOBLIN", "RAVENFOLK", "LIZARDFOLK", "ELF", "DWARF", "HUMAN" ],
     "enchantments": [
       { "condition": { "u_has_trait": "SLIT_NOSTRILS" }, "encumbrance_modifier": [ { "part": "mouth", "add": -10 } ] },
       { "condition": { "u_has_trait": "SCALES" }, "encumbrance_modifier": [ { "part": "mouth", "add": -1 } ] },
@@ -788,6 +793,7 @@
     "description": "Ravenfolk are about the same size as humans, though their feathers and wings obviously set them apart.",
     "category": [ "SPECIES_RAVENFOLK" ],
     "enchantments": [ { "values": [ { "value": "WEIGHT", "multiply": -0.25 } ] } ],
+    "empathize_with": [ "GOBLIN", "RAVENFOLK", "LIZARDFOLK", "ELF", "DWARF", "HUMAN" ],
     "flags": [ "HERITAGE" ]
   },
   {

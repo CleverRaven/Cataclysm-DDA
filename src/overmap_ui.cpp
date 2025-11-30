@@ -72,6 +72,7 @@
 #include "point.h"
 #include "regional_settings.h"
 #include "rng.h"
+#include "sdltiles.h" // IWYU pragma: keep
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
@@ -143,9 +144,6 @@ overmap_sidebar::overmap_sidebar( overmap_ui::overmap_draw_data_t &data ) :
 
 void overmap_sidebar::init()
 {
-    //TODO: dedupe from overmap
-    width = clamp( TERMX / 5, 28, 55 );
-    x_pos = TERMX - width;
 }
 
 void overmap_sidebar::draw_controls()
@@ -409,7 +407,6 @@ void overmap_sidebar::draw_debug()
 
 void overmap_sidebar::draw_mission_info()
 {
-
     const tripoint_abs_omt &cursor_pos = draw_data.cursor_pos;
     avatar &player_character = get_avatar();
     const tripoint_abs_omt target = player_character.get_active_mission_target();
@@ -417,9 +414,18 @@ void overmap_sidebar::draw_mission_info()
 
     if( has_target ) {
         const int distance = rl_dist( cursor_pos, target );
-        const std::string mission_name = player_character.get_active_mission()->name();
+        std::string mission_name;
+        mission *current_mission = player_character.get_active_mission();
 
-        draw_sidebar_text( _( "Current mission:" ), c_white );
+        if( current_mission != nullptr ) {
+            mission_name = player_character.get_active_mission()->name();
+
+            draw_sidebar_text( _( "Current objective:" ), c_white );
+        } else {
+            mission_name = player_character.get_active_point_of_interest().text;
+
+            draw_sidebar_text( _( "Current Point of Interest:" ), c_white );
+        }
         draw_sidebar_text( mission_name, c_light_blue );
         const int above_below = target.z() - cursor_pos.z();
         std::string msg;
@@ -441,7 +447,21 @@ void overmap_sidebar::draw_mission_info()
 
 cataimgui::bounds overmap_sidebar::get_bounds()
 {
-    return { static_cast<float>( str_width_to_pixels( x_pos ) ), 0, float( str_width_to_pixels( width ) ), float( str_height_to_pixels( TERMY ) ) };
+#ifdef TILES
+    float character_cell_width = static_cast<float>( fontwidth );
+#else
+    float character_cell_width = 1.0;
+#endif
+    ImVec2 viewport = ImGui::GetMainViewport()->WorkSize;
+    // OVERMAP_LEGEND_WIDTH is our width in character cells in the
+    // old-school terminal emulation, even though the overmap tiles
+    // are a different size entirely.
+    float width = static_cast<float>( OVERMAP_LEGEND_WIDTH ) * character_cell_width;
+    return { viewport.x - width,
+             0,
+             viewport.x,
+             viewport.y
+           };
 }
 
 void overmap_sidebar_uistate::serialize( JsonOut &json ) const
@@ -922,7 +942,7 @@ static void draw_ascii( const catacurses::window &w, overmap_draw_data_t &data )
     const int om_half_height = om_map_height / 2;
 
     avatar &player_character = get_avatar();
-    // Target of current mission
+    // Target of current objective
     const tripoint_abs_omt target = player_character.get_active_mission_target();
     const bool has_target = !target.is_invalid();
     oter_id ccur_ter = oter_str_id::NULL_ID();

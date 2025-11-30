@@ -2,7 +2,9 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_CONDITION_XE_VAMPIRE_AVOID_BURNING_IN_SUNLIGHT",
-    "condition": { "and": [ { "not": { "is_weather": "blotted_sun" } }, { "not": { "u_has_trait": "mut_skyisland_sunblock_real" } } ] },
+    "condition": {
+      "and": [ { "not": { "u_has_effect": "vampire_blind_the_sun" } }, { "not": { "u_has_trait": "mut_skyisland_sunblock_real" } } ]
+    },
     "effect": [  ]
   }
 ]

@@ -42,6 +42,8 @@
 #include "vehicle.h"
 #include "visitable.h"
 #include "vpart_position.h"
+#include "talker.h"
+#include "talker_zone.h"
 
 static const faction_id faction_your_followers( "your_followers" );
 
@@ -1147,6 +1149,10 @@ bool zone_manager::custom_loot_has( const tripoint_abs_ms &where, const item *it
     }
     item const *const check_it = it->this_or_single_content();
     for( zone_data const *zone : zones ) {
+        if( !zone->get_enabled() ) {
+            continue;
+        }
+
         loot_options const &options = dynamic_cast<const loot_options &>( zone->get_options() );
         std::string const filter_string = options.get_mark();
         bool has = false;
@@ -1877,4 +1883,19 @@ void mapgen_place_zone( tripoint_abs_ms const &start, tripoint_abs_ms const &end
         }
     }
     mgr.add( name, type, fac, false, true, s_, e_, options, true, pmap );
+}
+
+std::unique_ptr<talker> get_talker_for( zone_data &me )
+{
+    return std::make_unique<talker_zone>( &me );
+}
+
+std::unique_ptr<const_talker> get_talker_for( const zone_data &me )
+{
+    return std::make_unique<talker_zone_const>( &me );
+}
+
+std::unique_ptr<talker> get_talker_for( zone_data *me )
+{
+    return std::make_unique<talker_zone>( me );
 }

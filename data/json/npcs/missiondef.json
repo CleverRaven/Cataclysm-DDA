@@ -811,7 +811,7 @@
     "id": "MISSION_LEARN_ABOUT_CATTAIL_JELLY",
     "type": "mission_definition",
     "name": { "str": "Gather cattail stalks to create cattail jelly" },
-    "description": "Gather <color_light_blue>60 cattail stalks</color> from the swamp and bring them back to <color_light_red>learn how to craft cattail jelly</color>.  Raise your <color_light_blue>survival skill to at least 1</color> by harvesting cattail stalks.  <color_light_blue>Bring back the provided bag with the 60 cattail stalks in them</color> as well.",
+    "description": "Gather <color_yellow>60 cattail stalks</color> from the swamp and bring them back to <color_light_red>learn how to craft cattail jelly</color>.  Raise your <color_yellow>survival skill to at least 1</color> by harvesting cattail stalks.  <color_yellow>Bring back the provided bag with the 60 cattail stalks in them</color> as well.",
     "goal": "MGOAL_CONDITION",
     "goal_condition": {
       "and": [

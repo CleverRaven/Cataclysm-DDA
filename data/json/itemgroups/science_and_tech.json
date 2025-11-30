@@ -316,6 +316,7 @@
         ]
       },
       { "item": "iv_mutagen", "prob": 100, "count": 1 },
+      { "item": "mutagen_chelator", "prob": 80, "count": [ 1, 2 ] },
       { "item": "syringe", "prob": 100, "count": 2 },
       { "item": "bubblewrap", "prob": 100, "count": [ 2, 5 ] },
       { "item": "lab_file_mutagen_guide", "prob": 100 },
@@ -329,6 +330,7 @@
     "subtype": "collection",
     "items": [
       { "item": "iv_mutagen", "prob": 100, "count": 5 },
+      { "item": "mutagen_chelator", "prob": 100, "count": 3 },
       { "item": "bubblewrap", "prob": 100, "count": [ 2, 5 ] },
       { "item": "lab_file_mutagen_guide", "prob": 100 },
       { "item": "lab_file_mutation_testing", "prob": 100 }
@@ -372,6 +374,7 @@
         ]
       },
       { "item": "bubblewrap", "prob": 100, "count": [ 2, 5 ] },
+      { "item": "mutagen_chelator", "prob": 80, "count": [ 1, 2 ] },
       { "item": "lab_file_mutagen_guide", "prob": 100 },
       { "item": "lab_file_mutation_testing", "prob": 100 }
     ]
@@ -411,6 +414,7 @@
           { "item": "mutagen_crustacean", "count": [ 7, 11 ], "prob": 2 }
         ]
       },
+      { "item": "mutagen_chelator", "prob": 50, "count": 1 },
       { "item": "bubblewrap", "prob": 100, "count": [ 2, 5 ] },
       { "item": "lab_file_mutagen_guide", "prob": 100 },
       { "item": "lab_file_mutation_testing", "prob": 100 }
@@ -479,8 +483,7 @@
       { "item": "lighter", "prob": 60, "charges": [ 0, 100 ] },
       [ "boots_rubber", 20 ],
       [ "recipe_medicalmut", 2 ],
-      [ "canister_goo", 8 ],
-      [ "canister_goo", 8 ],
+      [ "canister_goo", 16 ],
       [ "recipe_labchem", 2 ],
       [ "recipe_creepy", 2 ],
       [ "recipe_animal", 1 ],
