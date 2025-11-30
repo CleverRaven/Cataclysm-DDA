@@ -450,6 +450,7 @@ game::game() :
     scent( *scent_ptr ),
     timed_events( *timed_event_manager_ptr ),
     uquit( QUIT_NO ),
+    save_is_dirty( false ),
     safe_mode( SAFE_MODE_ON ),
     u_shared_ptr( &u, null_deleter{} ),
     next_npc_id( 1 ),
