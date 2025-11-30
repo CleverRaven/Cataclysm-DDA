@@ -1554,7 +1554,7 @@ int monster::calc_movecost( const map &here, const tripoint_bub_ms &from,
     // I'm sure you can optimize this
     auto get_filtered_fieldcost = [&]( const field & field ) {
         int cost = 0;
-        // filter fields wethere they are ignored
+        // filter fields whether they are ignored
         for( const auto [field_id, field_entry] : field ) {
             if( !is_immune_field( field_id ) ) {
                 const int mc = field_entry.get_intensity_level().move_cost;

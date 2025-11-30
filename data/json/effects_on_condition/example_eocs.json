@@ -496,7 +496,7 @@
         "run_eocs": { "id": "_EOC_hello_world_msg", "effect": { "message": "hello world" } },
         "alpha_talker": "",
         "beta_talker": "",
-        "false_eocs": { "id": "_EOC_null_talker_msg", "effect": { "message": "Constructed a EOC with no talkers!" } }
+        "false_eocs": { "id": "_EOC_null_talker_msg", "effect": { "message": "Constructed an EOC with no talkers!" } }
       }
     ]
   },

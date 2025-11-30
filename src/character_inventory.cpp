@@ -1439,14 +1439,14 @@ int Character::item_store_cost( const item &it, const item & /* container */, bo
 int Character::item_retrieve_cost( const item &it, const item &container, bool penalties,
                                    int base_cost ) const
 {
-    // Drawing from an holster use the same formula as storing an item for now
+    // Drawing from a holster use the same formula as storing an item for now
     /**
          * @EFFECT_PISTOL decreases time taken to draw pistols from holsters
          * @EFFECT_SMG decreases time taken to draw smgs from holsters
          * @EFFECT_RIFLE decreases time taken to draw rifles from holsters
          * @EFFECT_SHOTGUN decreases time taken to draw shotguns from holsters
          * @EFFECT_LAUNCHER decreases time taken to draw launchers from holsters
-         * @EFFECT_STABBING decreases time taken to draw stabbing weapons from sheathes
+         * @EFFECT_STABBING decreases time taken to draw stabbing weapons from sheaths
          * @EFFECT_CUTTING decreases time taken to draw cutting weapons from scabbards
          * @EFFECT_BASHING decreases time taken to draw bashing weapons from holsters
          */
