@@ -6,7 +6,7 @@
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "name": { "str": "Belgian battle rifle" },
-    "description": "Originally designed during the Cold War, this gun is probably the most successful battle rifle ever designed.  Despite being labeled as obsolete, its tunable gas system ensures both reliability and low recoil, allowing the FAL to keep up even among modern competitors.  This is a semi-automatic clone built by a domestic manufacturer.",
+    "description": "Originally designed during the Cold War, this gun is probably the most successful battle rifle ever designed.  Despite being labeled as obsolete, its tunable gas system ensures both reliability and low recoil, allowing it to keep up even among modern competitors.  This is a semi-automatic clone built by a domestic manufacturer.",
     "variant_type": "gun",
     "variants": [
       {
@@ -442,7 +442,7 @@
     "variants": [
       {
         "id": "papm77",
-        "name": { "str": "PAP M77 rifle" },
+        "name": { "str": "Zastava PAP M77" },
         "description": "A Serbian-made AK pattern rifle made by Zastava in 7.62x51mm NATO.  To avoid import restrictions, Zastava USA has added a number of American-made parts."
       }
     ],
@@ -582,7 +582,7 @@
     "variants": [
       {
         "id": "remington_700_308",
-        "name": { "str": "Remington Model 700" },
+        "name": { "str": "Remington 700 .308 rifle" },
         "description": "An ubiquitous bolt action rifle, the Model 700 is used by police agencies, militaries, and civilians alike around the globe.  Simple, accurate, and cheap."
       }
     ],

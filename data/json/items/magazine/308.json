@@ -504,14 +504,14 @@
     "copy-from": "steyr_scout_mag",
     "type": "ITEM",
     "subtypes": [ "MAGAZINE" ],
-    "name": { "str": "makeshift scout rifle 3-round magazine" },
-    "description": "A makeshift 3-round steel box magazine for the scouting rifle, held together by duct tape and hope.  You could probably fit this inside its stock!",
+    "name": { "str": "Scout rifle 3-round makeshift magazine" },
+    "description": "A improvised 3-round steel box magazine held together by duct tape and hope, for use with the scouting rifle.  You could probably fit this inside its stock!",
     "variant_type": "gun",
     "variants": [
       {
         "id": "steyr_scout_mag_makeshift",
-        "name": { "str": "makeshift Steyr Scout 3-round magazine" },
-        "description": "A makeshift 3-round steel box magazine for the Steyr Scout rifle, held together by duct tape and hope.  You could probably fit this inside its stock!"
+        "name": { "str": "Steyr Scout 3-round makeshift magazine" },
+        "description": "A improvised 3-round steel box magazine held together by duct tape and hope, for use with the Steyr Scout rifle.  You could probably fit this inside its stock!"
       }
     ],
     "weight": "50 g",

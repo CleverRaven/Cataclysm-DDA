@@ -6,7 +6,7 @@
     "//": "Based off https://www.winchesterguns.com/products/rifles/model-94/model-94-sporter.html",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
-    "name": { "str": "lever-action rifle" },
+    "name": { "str": "8-shot lever-action rifle" },
     "description": "A lever action rifle, chambered for 8 rounds of 30-30 Winchester.  Ideally used with a cowboy hat and six-shooter.",
     "variant_type": "gun",
     "variants": [
@@ -44,7 +44,7 @@
     "//": "Based off https://www.marlinfirearms.com/s/model_336Classic",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
-    "name": { "str": "lever-action rifle" },
+    "name": { "str": "6-shot lever-action rifle" },
     "description": "A lever action rifle, chambered for 6 rounds of 30-30 Winchester.  Ideally used with a cowboy hat and six-shooter.",
     "variant_type": "gun",
     "variants": [

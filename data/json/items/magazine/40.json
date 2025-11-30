@@ -131,7 +131,7 @@
     "variants": [
       {
         "id": "smg_40_mag",
-        "name": { "str": "makeshift .40 20-round magazine" },
+        "name": { "str": ".40 20-round makeshift magazine" },
         "description": "An improvised magazine that is mostly compatible with a homemade 'Luty' submachine gun, with a simplified feed system.  It looks like it might feed 20 rounds of .40 S&W."
       }
     ],
