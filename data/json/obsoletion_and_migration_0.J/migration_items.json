@@ -341,6 +341,21 @@
   },
   {
     "type": "MIGRATION",
+    "id": "toastem2",
+    "replace": "toastem"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "toastem3",
+    "replace": "toastem"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "toastem4",
+    "replace": "toastem"
+  },
+  {
+    "type": "MIGRATION",
     "id": "sewage",
     "replace": "water_sewage"
   },

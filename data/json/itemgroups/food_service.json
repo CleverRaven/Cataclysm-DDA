@@ -668,9 +668,7 @@
       { "prob": 25, "item": "cereal_fp5", "count": -1 },
       { "prob": 25, "item": "cereal_fp6", "count": -1 },
       { "prob": 25, "item": "cereal_fp7", "count": -1 },
-      { "prob": 40, "group": "toastem_box_small_8" },
-      { "prob": 32, "group": "toastem2_box_small_8" },
-      { "prob": 25, "group": "toastem3_box_small_8" }
+      { "prob": 100, "group": "toastem_box_small_8" }
     ]
   },
   {

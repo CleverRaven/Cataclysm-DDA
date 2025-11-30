@@ -659,26 +659,7 @@
             ],
             "prob": 80
           },
-          {
-            "distribution": [
-              { "item": "toastem", "count": [ 1, 8 ], "prob": 40, "container-item": "null", "entry-wrapper": "box_small" },
-              {
-                "item": "toastem2",
-                "count": [ 1, 8 ],
-                "prob": 30,
-                "container-item": "null",
-                "entry-wrapper": "box_small"
-              },
-              {
-                "item": "toastem3",
-                "count": [ 1, 8 ],
-                "prob": 30,
-                "container-item": "null",
-                "entry-wrapper": "box_small"
-              }
-            ],
-            "prob": 60
-          }
+          { "item": "toastem", "count": [ 1, 8 ], "prob": 60, "container-item": "null", "entry-wrapper": "box_small" }
         ],
         "prob": 80
       },
