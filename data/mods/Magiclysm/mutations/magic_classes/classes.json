@@ -2,12 +2,9 @@
   {
     "type": "mutation",
     "id": "SPELLCASTING_DEFAULT_TRAIT",
-    "name": { "str": "Default Spellcasting modifiers", "//~": "NO_I18N" },
+    "name": "Default Spellcasting modifiers",
     "points": 0,
-    "description": {
-      "str": "Adds some default spellcasting modifiers to work around jmath limit.  Should not be player-visible",
-      "//~": "NO_I18N"
-    },
+    "description": "Adds some default spellcasting modifiers to work around jmath limit.  Should not be player-visible",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,

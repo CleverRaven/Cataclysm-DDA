@@ -2,10 +2,10 @@
   {
     "type": "mutation",
     "id": "perk_sight_beyond_sight_active",
-    "name": { "str": "Sight Beyond Sight Active", "//~": "NO_I18N" },
+    "name": { "str": "Sight Beyond Sight Active" },
     "points": 0,
     "player_display": false,
-    "description": { "str": "Your Sight Beyond Sight is active.  You should never see this.", "//~": "NO_I18N" },
+    "description": "Your Sight Beyond Sight is active.  You should never see this.",
     "enchantments": [
       {
         "special_vision": [

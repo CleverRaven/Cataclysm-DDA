@@ -13,7 +13,8 @@ def parse_json_object(json, origin):
         json_type = json["type"].lower()
         if json_type in parsers:
             try:
-                parsers[json_type](json, origin)
+                if json.get("//I18N", True):
+                    parsers[json_type](json, origin)
             except Exception as E:
                 print(f"Exception when parsing JSON data type '{json_type}'")
                 raise E

@@ -14,8 +14,8 @@
   {
     "type": "mutation",
     "id": "ISO_ELDRITCH_INVISIBLE_AND_INTANGIBLE_GRAPHICS",
-    "name": { "str": "Wraith Appearance", "//~": "NO_I18N" },
-    "description": { "str": "Makes you look like a wraith.", "//~": "NO_I18N" },
+    "name": "Wraith Appearance",
+    "description": "Makes you look like a wraith.",
     "points": 0,
     "starting_trait": false,
     "player_display": false,

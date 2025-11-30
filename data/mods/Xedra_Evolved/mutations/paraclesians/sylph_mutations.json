@@ -481,11 +481,11 @@
   {
     "type": "mutation",
     "id": "SYLPH_LIGHTNING_MELEE_ATTACKS_ACTIVE",
-    "name": { "str": "Fulgurating Strikes Active", "//~": "NO_I18N" },
+    "name": { "str": "Fulgurating Strikes Active" },
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
-    "description": { "str": "The actual trait that grants you fulgurating strikes.  It's a bug if you have it.", "//~": "NO_I18N" },
+    "description": "The actual trait that grants you fulgurating strikes.  It's a bug if you have it.",
     "category": [ "SYLPH" ],
     "purifiable": false,
     "valid": false,
@@ -635,12 +635,9 @@
   {
     "type": "mutation",
     "id": "SYLPH_CLOUD_FORM_APPEARANCE",
-    "name": { "str": "Body of Cloud Appearance", "//~": "NO_I18N" },
+    "name": { "str": "Body of Cloud Appearance" },
     "points": 1,
-    "description": {
-      "str": "This mutation carries the sprite override info for Body of Cloud.  You shouldn't be able to see it in game.",
-      "//~": "NO_I18N"
-    },
+    "description": "This mutation carries the sprite override info for Body of Cloud.  You shouldn't be able to see it in game.",
     "valid": false,
     "player_display": false,
     "override_look": { "id": "fd_extinguisher", "tile_category": "field" },
