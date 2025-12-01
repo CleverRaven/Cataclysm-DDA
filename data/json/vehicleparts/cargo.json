@@ -304,8 +304,10 @@
     "flags": [ "BOARDABLE", "CARGO", "CARGO_PASSABLE", "FURNITURE_TIEDOWN" ],
     "//": "https://www.magliner.com/extruded-aluminum-nose-flush-mount-300248",
     "//1": "Rated for up to 500 lbs but LIFT/JACK don't go that low.  Volume of the nose plate's bounding box is about 12.5L.",
-    "install": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": [ [ "vehicle_screw", 1 ] ] },
-    "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "vehicle_screw", 1 ] ] },
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": [ [ "vehicle_screw", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "vehicle_screw", 1 ] ] },
+    },
     "description": "A hefty aluminum plate for transporting things too big to pick up.  Unfortunately Jevons' Paradox also applies to throwing your back out.",
     "breaks_into": [ { "item": "sheet_aluminum_small", "count": [ 2, 4 ] } ],
     "qualities": [ [ "LIFT", 2 ], [ "JACK", 2 ] ],
