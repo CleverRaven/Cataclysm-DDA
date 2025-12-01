@@ -378,9 +378,6 @@ Add borax, expand graphite use, update some smithing recipes and rock spawning
 Houses have a realistic amount of solar power
 410 Mossberg 500 and Mossberg Shockwave
 Add a few cigar variants and a recipe for making cigars
-Diazepam addict hobby
-Add more-completed survivor bunker variant
-Add `lab_notes` terminals to microlabs
 
 
 ## Interface:
@@ -941,19 +938,7 @@ Aftershock: Properly Ruin cities
 Add BLOCK_SUPERNATURAL_HEALING flag, apply it to Clay Golem attacks in Magiclysm
 [Aftershock] Add the Sibyl profession to the Esper scenario, add precognitive powers
 [Bombastic Perks] Add the Closetland playstyle perk
-[MoM] Neural Spasms works through walls (and fences)
-[alt-map-key] Tile Updates
-[alt-map-key] Vision level changes
-[MoM] Hacking Interface affected by Intelligence/Nether Attunement
-[Sky Island] Allow choosing different lab types on a lab drop
-[MoM] More hacking interface updates
 Martial Mastery Stat Widget
-[Sky Island] Add Earthbound Pill recipe
-[alt-map-key] Updating alt-map-key for travel_cost_type changes
-[Sky Island] Mission/Upgrade Fixes
-[MoM] Show power levels in contemplation recipes
-[Sky Island] Revert 82597
-[Sky Island] Bunker Climate Control
 
 
 
@@ -1062,9 +1047,6 @@ Molotovs do not create walls of fire
 Monsters moving through SHARP terrain trample the terrain
 Running over large/hard objects in vehicles will damage your wheels
 Separate toolsets for things embedded in wood and metal structures
-Drastically nerf the value of fiction books
-Dehumanize brutes
-Bigger bulging beast brutes
 
 
 ## Bugfixes:
@@ -1461,15 +1443,8 @@ Fix the scaling factor for high-dpi displays.
 calculate the width of the overmap sidebar correctly
 Various UI problems caused by shared_ptr change
 Heating items now changes temperature, properly resets temp flags
-add missing else block to zone_sorting::populate_items()
 Magic teleporters expire after copy_location EOC run
 Fixing heatpack requiring appliances or fire to work
-Fix basic typos in code and comments
-Smartphone advanced recovery fix
-Make the rivers flow again (in winter)
-Fix NPC error when auto performing loot sorting job at basecamp
-Spearfisher's description.
-Fix crafting menu history navigation crash
 
 
 ## Performance:
