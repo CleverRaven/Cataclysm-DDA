@@ -207,6 +207,7 @@
     "zombify_into": "mon_zombie_survivor",
     "upgrades": { "half_life": 180, "into": "mon_feral_human_clair2" },
     "extend": {
+      "flags": [ "GOODHEARING", "WIELDED_WEAPON" ],
       "special_attacks": [
         { "id": "feral_weapon_pipe" },
         {
@@ -220,8 +221,7 @@
           },
           "monster_message": "%1$s closes their eyes for a moment."
         }
-      ],
-      "flags": [ "GOODHEARING", "HARDTOSHOOT", "WIELDED_WEAPON" ]
+      ]
     }
   },
   {
@@ -241,6 +241,7 @@
     "starting_ammo": { "rock": 6 },
     "upgrades": { "half_life": 180, "into": "mon_feral_human_clair3" },
     "extend": {
+      "flags": [ "GOODHEARING", "HARDTOSHOOT", "WIELDED_WEAPON" ],
       "special_attacks": [
         {
           "type": "gun",
@@ -268,8 +269,7 @@
           "monster_message": "%1$s closes their eyes for a moment."
         },
         { "id": "feral_weapon_pipe" }
-      ],
-      "flags": [ "GOODHEARING", "HARDTOSHOOT", "WIELDED_WEAPON", "DROPS_AMMO" ]
+      ]
     }
   },
   {
@@ -288,6 +288,7 @@
     "zombify_into": "mon_zombie_survivor",
     "starting_ammo": { "rock": 6 },
     "extend": {
+      "flags": [ "GOODHEARING", "HARDTOSHOOT", "WIELDED_WEAPON" ],
       "special_attacks": [
         {
           "type": "gun",
@@ -313,6 +314,15 @@
           "condition": {
             "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_feral_heightened_senses_3" } } ]
           },
+          "monster_message": "%1$s closes their eyes for a moment."
+        },
+        {
+          "id": "psi_clair3_clear_sight",
+          "type": "spell",
+          "spell_data": { "id": "clair_clarity_monster_spell" },
+          "cooldown": { "math": [ "20 + rand(40)" ] },
+          "allow_no_target": true,
+          "condition": { "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_clair_clear_sight" } } ] },
           "monster_message": "%1$s closes their eyes for a moment."
         },
         {

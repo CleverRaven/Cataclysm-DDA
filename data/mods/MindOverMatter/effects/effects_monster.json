@@ -140,6 +140,7 @@
     "id": "effect_feral_heightened_senses",
     "name": [ "Heightened Senses" ],
     "desc": [ "Your base senses are heightened." ],
+    "show_in_info": true,
     "enchantments": [ { "values": [ { "value": "VISION_RANGE", "multiply": 0.1 } ] } ]
   },
   {
@@ -147,6 +148,7 @@
     "id": "effect_feral_heightened_senses_2",
     "name": [ "Heightened Senses" ],
     "desc": [ "Your base senses are heightened." ],
+    "show_in_info": true,
     "enchantments": [ { "values": [ { "value": "VISION_RANGE", "multiply": 0.25 } ] } ]
   },
   {
@@ -154,6 +156,7 @@
     "id": "effect_feral_heightened_senses_3",
     "name": [ "Heightened Senses" ],
     "desc": [ "Your base senses are heightened." ],
+    "show_in_info": true,
     "enchantments": [ { "values": [ { "value": "VISION_RANGE", "multiply": 0.4 } ] } ]
   },
   {

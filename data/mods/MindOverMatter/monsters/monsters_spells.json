@@ -105,7 +105,7 @@
   },
   {
     "type": "SPELL",
-    "id": "effect_feral_heightened_senses",
+    "id": "clair_heightened_senses_monster_1",
     "name": { "str": "Heightened Senses Tier 1 Monster Effect", "//~": "NO_I18N" },
     "description": { "str": "Grants Heightened Senses to a clairsentient feral.", "//~": "NO_I18N" },
     "flags": [ "NO_HANDS", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN", "RANDOM_DURATION" ],
@@ -144,6 +144,20 @@
     "shape": "blast",
     "min_duration": 72000,
     "max_duration": 216000
+  },
+  {
+    "type": "SPELL",
+    "id": "clair_clarity_monster_spell",
+    "name": { "str": "Heightened Clarity Monster Effect", "//~": "NO_I18N" },
+    "description": { "str": "Grants Heightened Senses to a clairsentient feral.", "//~": "NO_I18N" },
+    "flags": [ "NO_HANDS", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN", "RANDOM_DURATION" ],
+    "valid_targets": [ "self" ],
+    "max_level": 1,
+    "effect": "attack",
+    "effect_str": "effect_clair_clear_sight",
+    "shape": "blast",
+    "min_duration": 36000,
+    "max_duration": 108000
   },
   {
     "type": "SPELL",
