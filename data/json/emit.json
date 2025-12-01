@@ -471,6 +471,6 @@
     "//": "used exclusively by the crowned ones.",
     "type": "emit",
     "field": "fd_crowned_pain",
-    "qty": 90
+    "qty": 120
   }
 ]
