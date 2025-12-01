@@ -138,5 +138,23 @@
     "weight": "10000 g",
     "volume": "31250 ml",
     "properties": { "creature_size_capacity": "MEDIUM" }
+  },
+  {
+    "type": "ITEM",
+    "id": "nose_plate",
+    "name": { "str": "nose plate" },
+    "description": "A nose plate and skid runners for a hand truck.  If attached to a sturdy frame, you could use these to move furniture.",
+    "color": "light_gray",
+    "symbol": "]",
+    "material": [ "aluminum" ],
+    "//": "https://www.magliner.com/extruded-aluminum-nose-flush-mount-300248",
+    "//1": "The linked item weighs about 4kg, added another 2kg for skid runners.",
+    "weight": "6000 g",
+    "volume": "7 L",
+    "longest_side" : "50 cm",
+    "category": "veh_parts",
+    "price": "20 USD",
+    "price_postapoc": "1 USD",
+    "melee_damage": { "bash": 2 }
   }
 ]
