@@ -2032,7 +2032,7 @@
     "id": "mon_nether_spearfisher",
     "type": "MONSTER",
     "name": { "str": "spearfisher" },
-    "description": "A strange quadrupedal creature with long, lanky limbs and a gaping maw.  A long sharp spike protrudes from it's back, which occasionally launches from its' joint to stab prey before slinking back in.",
+    "description": "A strange quadrupedal creature with long, lanky limbs and a gaping maw.  A long sharp spike protrudes from its back, which occasionally launches from its joint to stab prey before slinking back in.",
     "default_faction": "spearfisher",
     "bodytype": "dog",
     "volume": "45 L",

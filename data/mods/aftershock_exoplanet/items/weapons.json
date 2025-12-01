@@ -23,8 +23,7 @@
       "target": "afs_energy_saber_on",
       "msg": "You activate the claw, and its bludgeoning surface slowly flattens into an edge as it begins to glow red-hot",
       "need_charges": 1,
-      "need_charges_msg": "The claw is out of charge.",
-      "active": true
+      "need_charges_msg": "The claw is out of charge."
     },
     "flags": [ "BELT_CLIP", "DURABLE_MELEE" ],
     "pocket_data": [
@@ -52,7 +51,7 @@
     "color": "light_blue",
     "looks_like": "arming_sword",
     "turns_per_charge": 4,
-    "flags": [ "DURABLE_MELEE" ],
+    "flags": [ "DURABLE_MELEE", "SPAWN_ACTIVE" ],
     "techniques": [ "WBLOCK_2" ],
     "revert_to": "afs_energy_saber_off",
     "use_action": {

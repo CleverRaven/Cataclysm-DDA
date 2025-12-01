@@ -720,9 +720,7 @@
       { "item": "nachosc", "prob": 10 },
       { "item": "nachosm", "prob": 10 },
       { "item": "nachosmc", "prob": 2 },
-      { "prob": 30, "group": "toastem_box_small_8" },
-      { "prob": 30, "group": "toastem2_box_small_8" },
-      { "prob": 35, "group": "toastem3_box_small_8" },
+      { "prob": 95, "group": "toastem_box_small_8" },
       { "prob": 20, "group": "toasterpastryfrozen_box_snack_2" },
       { "prob": 30, "group": "brownie_box_small_4" },
       { "prob": 15, "group": "lemonade_powder_bottle_plastic_small_10" },
@@ -1678,22 +1676,6 @@
     "//": "This group was created automatically and may contain errors.",
     "container-item": "box_small",
     "entries": [ { "item": "toastem", "container-item": "null", "count": 8 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "toastem2_box_small_8",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "box_small",
-    "entries": [ { "item": "toastem2", "container-item": "null", "count": 8 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "toastem3_box_small_8",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "box_small",
-    "entries": [ { "item": "toastem3", "container-item": "null", "count": 8 } ]
   },
   {
     "type": "item_group",

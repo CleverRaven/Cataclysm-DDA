@@ -3497,6 +3497,341 @@ std::unordered_set<tripoint_abs_ms> mop_locations( Character &you, const activit
     return src_set;
 }
 
+
+bool farm_do( Character &you, const activity_reason_info &act_info,
+              const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc )
+{
+
+    const map &here = get_map();
+    const zone_manager &mgr = zone_manager::get_manager();
+    const do_activity_reason &reason = act_info.reason;
+
+    // it was here earlier, in the space of one turn, maybe it got harvested by someone else.
+    if( ( ( reason == do_activity_reason::NEEDS_HARVESTING ) ||
+          ( reason == do_activity_reason::NEEDS_CUT_HARVESTING ) ) &&
+        here.has_flag_furn( ter_furn_flag::TFLAG_GROWTH_HARVEST, src_loc ) ) {
+        iexamine::harvest_plant( you, src_loc, true );
+    } else if( ( reason == do_activity_reason::NEEDS_CLEARING ) &&
+               here.has_flag_furn( ter_furn_flag::TFLAG_GROWTH_OVERGROWN, src_loc ) ) {
+        iexamine::clear_overgrown( you, src_loc );
+    } else if( reason == do_activity_reason::NEEDS_TILLING &&
+               here.has_flag( ter_furn_flag::TFLAG_PLOWABLE, src_loc ) &&
+               you.has_quality( qual_DIG, 1 ) && !here.has_furn( src_loc ) ) {
+        you.assign_activity( churn_activity_actor( 18000, item_location() ) );
+        you.backlog.emplace_front( ACT_MULTIPLE_FARM );
+        you.activity.placement = src;
+        return false;
+    } else if( reason == do_activity_reason::NEEDS_PLANTING ) {
+        std::vector<zone_data> zones = mgr.get_zones( zone_type_FARM_PLOT, src, _fac_id( you ) );
+        for( const zone_data &zone : zones ) {
+            const itype_id seed =
+                dynamic_cast<const plot_options &>( zone.get_options() ).get_seed();
+            std::vector<item *> seed_inv = you.cache_get_items_with( "is_seed", itype_id( seed ), {},
+                                           &item::is_seed );
+            if( seed_inv.empty() ) {
+                // we don't have the required seed, even though we should at this point.
+                // move onto the next tile, and if need be that will prompt a fetch seeds activity.
+                continue;
+            }
+            if( !here.has_flag_ter_or_furn( seed->seed->required_terrain_flag, src_loc ) ) {
+                continue;
+            }
+            iexamine::plant_seed( you, src_loc, itype_id( seed ) );
+            you.backlog.emplace_front( ACT_MULTIPLE_FARM );
+            return false;
+        }
+    }
+    return true;
+}
+
+bool chop_planks_do( Character &you, const activity_reason_info &act_info,
+                     const tripoint_abs_ms &, const tripoint_bub_ms &src_loc )
+{
+
+    const do_activity_reason &reason = act_info.reason;
+
+    if( reason == do_activity_reason::NEEDS_CHOPPING && you.has_quality( qual_AXE, 1 ) ) {
+        if( chop_plank_activity( you, src_loc ) ) {
+            you.backlog.emplace_front( ACT_MULTIPLE_CHOP_PLANKS );
+            return false;
+        }
+    }
+    return true;
+}
+
+bool butcher_do( Character &you, const activity_reason_info &act_info,
+                 const tripoint_abs_ms &, const tripoint_bub_ms &src_loc )
+{
+
+    const do_activity_reason &reason = act_info.reason;
+
+    if( reason == do_activity_reason::NEEDS_BUTCHERING ||
+        reason == do_activity_reason::NEEDS_BIG_BUTCHERING ) {
+        if( butcher_corpse_activity( you, src_loc, reason ) ) {
+            you.backlog.emplace_front( ACT_MULTIPLE_BUTCHER );
+            return false;
+        }
+    }
+    return true;
+}
+
+bool read_do( Character &you, const activity_reason_info &act_info,
+              const tripoint_abs_ms &, const tripoint_bub_ms & )
+{
+    const do_activity_reason &reason = act_info.reason;
+
+    if( reason == do_activity_reason::NEEDS_BOOK_TO_LEARN ) {
+        const item_filter filter = [&you]( const item & i ) {
+            read_condition_result condition = you.check_read_condition( i );
+            return condition == read_condition_result::SUCCESS;
+        };
+        std::vector<item *> books = you.items_with( filter );
+        if( !books.empty() && books[0] ) {
+            const time_duration time_taken = you.time_to_read( *books[0], you );
+            item_location book = item_location( you, books[0] );
+            item_location ereader;
+            you.backlog.emplace_front( ACT_MULTIPLE_READ );
+            you.assign_activity( read_activity_actor( time_taken, book, ereader, true ) );
+            return false;
+        }
+    }
+    return true;
+}
+
+bool study_do( Character &you, const activity_reason_info &act_info,
+               const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc )
+{
+    const do_activity_reason &reason = act_info.reason;
+
+    if( reason == do_activity_reason::NEEDS_BOOK_TO_LEARN ) {
+        map &here = get_map();
+        item_location book_loc = find_study_book( src, you );
+        if( book_loc ) {
+            book_loc->set_var( "activity_var", you.name );
+            you.may_activity_occupancy_after_end_items_loc.push_back( book_loc );
+            const time_duration time_taken = you.time_to_read( *book_loc, you );
+            item_location ereader;
+            you.backlog.emplace_front( ACT_MULTIPLE_STUDY );
+            you.assign_activity( read_activity_actor( time_taken, book_loc, ereader, true ) );
+            return false;
+        }
+        if( !book_loc && you.is_npc() ) {
+            add_msg_if_player_sees( you, m_info, _( "%s found no readable books at this location." ),
+                                    you.disp_name() );
+        }
+    }
+    return true;
+}
+
+bool construction_do( Character &you, const activity_reason_info &act_info,
+                      const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc )
+{
+    map &here = get_map();
+    const do_activity_reason &reason = act_info.reason;
+    const zone_manager &mgr = zone_manager::get_manager();
+    const zone_data *zone =
+        mgr.get_zone_at( src, get_zone_for_act( src_loc, mgr, ACT_MULTIPLE_CONSTRUCTION, _fac_id( you ) ),
+                         _fac_id( you ) );
+
+    if( reason == do_activity_reason::CAN_DO_CONSTRUCTION ) {
+        if( here.partial_con_at( src_loc ) ) {
+            you.backlog.emplace_front( ACT_MULTIPLE_CONSTRUCTION );
+            you.assign_activity( ACT_BUILD );
+            you.activity.placement = src;
+            return false;
+        }
+        if( construction_activity( you, zone, src_loc, act_info, ACT_MULTIPLE_CONSTRUCTION ) ) {
+            return false;
+        }
+    }
+    return true;
+}
+
+bool tidy_up_do( Character &you, const activity_reason_info &act_info,
+                 const tripoint_abs_ms &, const tripoint_bub_ms &src_loc )
+{
+    const do_activity_reason &reason = act_info.reason;
+
+    if( reason == do_activity_reason::CAN_DO_FETCH ) {
+        if( !tidy_activity( you, src_loc, ACT_TIDY_UP, MAX_VIEW_DISTANCE ) ) {
+            return false;
+        }
+    }
+    return true;
+}
+
+bool fetch_do( Character &you, const activity_reason_info &act_info,
+               const tripoint_abs_ms &, const tripoint_bub_ms &src_loc )
+{
+    const do_activity_reason &reason = act_info.reason;
+
+    if( reason == do_activity_reason::CAN_DO_FETCH ) {
+        if( fetch_activity( you, src_loc, ACT_FETCH_REQUIRED, MAX_VIEW_DISTANCE ) ) {
+            if( !you.is_npc() ) {
+                // Npcs will automatically start the next thing in the backlog, players need to be manually prompted
+                // Because some player activities are necessarily not marked as auto-resume.
+                activity_handlers::resume_for_multi_activities( you );
+            }
+            return false;
+        }
+    }
+    return true;
+}
+
+
+bool chop_trees_do( Character &you, const activity_reason_info &act_info,
+                    const tripoint_abs_ms &, const tripoint_bub_ms &src_loc )
+{
+    const do_activity_reason &reason = act_info.reason;
+
+    if( reason == do_activity_reason::NEEDS_TREE_CHOPPING && you.has_quality( qual_AXE, 1 ) ) {
+        if( chop_tree_activity( you, src_loc ) ) {
+            you.backlog.emplace_front( ACT_MULTIPLE_CHOP_TREES );
+            return false;
+        }
+    }
+    return true;
+}
+
+bool fish_do( Character &you, const activity_reason_info &act_info,
+              const tripoint_abs_ms &, const tripoint_bub_ms &src_loc )
+{
+    const do_activity_reason &reason = act_info.reason;
+
+    if( reason == do_activity_reason::NEEDS_FISHING && you.has_quality( qual_FISHING_ROD, 1 ) ) {
+        you.backlog.emplace_front( ACT_MULTIPLE_FISH );
+        // we don't want to keep repeating the fishing activity, just piggybacking on this functions structure to find requirements.
+        you.activity = player_activity();
+        item &best_rod = you.best_item_with_quality( qual_FISHING_ROD );
+        you.assign_activity( ACT_FISH, to_moves<int>( 5_hours ), 0,
+                             0, best_rod.tname() );
+        you.activity.targets.emplace_back( you, &best_rod );
+        you.activity.coord_set =
+            g->get_fishable_locations_abs( MAX_VIEW_DISTANCE, src_loc );
+        return false;
+    }
+    return true;
+}
+
+bool mine_do( Character &you, const activity_reason_info &act_info,
+              const tripoint_abs_ms &, const tripoint_bub_ms &src_loc )
+{
+    const do_activity_reason &reason = act_info.reason;
+
+    if( reason == do_activity_reason::NEEDS_MINING ) {
+        // if have enough batteries to continue etc.
+        you.backlog.emplace_front( ACT_MULTIPLE_MINE );
+        if( mine_activity( you, src_loc ) ) {
+            return false;
+        }
+    }
+    return true;
+}
+
+bool mop_do( Character &you, const activity_reason_info &act_info,
+             const tripoint_abs_ms &, const tripoint_bub_ms &src_loc )
+{
+    const do_activity_reason &reason = act_info.reason;
+
+    if( reason == do_activity_reason::NEEDS_MOP ) {
+        if( mop_activity( you, src_loc ) ) {
+            you.backlog.emplace_front( ACT_MULTIPLE_MOP );
+            return false;
+        }
+    }
+    return true;
+}
+
+bool vehicle_deconstruction_do( Character &you, const activity_reason_info &act_info,
+                                const tripoint_abs_ms &, const tripoint_bub_ms &src_loc )
+{
+    const do_activity_reason &reason = act_info.reason;
+
+    if( reason == do_activity_reason::NEEDS_VEH_DECONST ) {
+        if( vehicle_activity( you, src_loc, you.activity_vehicle_part_index, 'o' ) ) {
+            you.backlog.emplace_front( ACT_VEHICLE_DECONSTRUCTION );
+            return false;
+        }
+        you.activity_vehicle_part_index = -1;
+    }
+    return true;
+}
+
+bool vehicle_repair_do( Character &you, const activity_reason_info &act_info,
+                        const tripoint_abs_ms &, const tripoint_bub_ms &src_loc )
+{
+    const do_activity_reason &reason = act_info.reason;
+
+    if( reason == do_activity_reason::NEEDS_VEH_REPAIR ) {
+        if( vehicle_activity( you, src_loc, you.activity_vehicle_part_index, 'r' ) ) {
+            you.backlog.emplace_front( ACT_VEHICLE_REPAIR );
+            return false;
+        }
+
+        you.activity_vehicle_part_index = -1;
+    }
+    return true;
+}
+
+bool craft_do( Character &you, const activity_reason_info &act_info,
+               const tripoint_abs_ms &, const tripoint_bub_ms & )
+{
+    const do_activity_reason &reason = act_info.reason;
+
+    if( reason == do_activity_reason::NEEDS_CRAFT ) {
+        // only npc is supported
+        npc *p = you.as_npc();
+        if( p ) {
+            item_location to_craft = p->get_item_to_craft();
+            if( to_craft && to_craft->is_craft() &&
+                you.lighting_craft_speed_multiplier( to_craft->get_making() ) > 0 ) {
+                player_activity act = player_activity( craft_activity_actor( to_craft, false ) );
+                you.assign_activity( act );
+                you.backlog.emplace_front( ACT_MULTIPLE_CRAFT );
+                you.backlog.front().auto_resume = true;
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+bool disassemble_do( Character &you, const activity_reason_info &act_info,
+                     const tripoint_abs_ms &, const tripoint_bub_ms &src_loc )
+{
+    const do_activity_reason &reason = act_info.reason;
+    map &here = get_map();
+
+    if( reason == do_activity_reason::NEEDS_DISASSEMBLE ) {
+        map_stack items = here.i_at( src_loc );
+        for( item &elem : items ) {
+            if( elem.is_disassemblable() ) {
+                // Disassemble the checked one.
+                if( elem.get_var( "activity_var" ) == you.name ) {
+                    const recipe &r = ( elem.typeId() == itype_disassembly ) ? elem.get_making() :
+                                      recipe_dictionary::get_uncraft( elem.typeId() );
+                    int const qty = std::max( 1, elem.typeId() == itype_disassembly ? elem.get_making_batch_size() :
+                                              elem.charges );
+                    player_activity act = player_activity( disassemble_activity_actor( r.time_to_craft_moves( you,
+                                                           recipe_time_flag::ignore_proficiencies ) * qty ) );
+                    act.targets.emplace_back( map_cursor( src_loc ), &elem );
+                    act.placement = here.get_abs( src_loc );
+                    act.position = qty;
+                    act.index = false;
+                    you.assign_activity( act );
+                    // Keep doing
+                    // After assignment of disassemble activity (not multitype anymore)
+                    // the backlog will not be nuked in do_player_activity()
+                    you.backlog.emplace_back( ACT_MULTIPLE_DIS );
+                    break;
+                }
+            }
+        }
+        return false;
+    }
+    return true;
+}
+
 } //namespace multi_activity_actor
 
 /** Determine all locations for this generic activity */
@@ -3670,193 +4005,41 @@ static bool generic_multi_activity_do(
 {
     // If any of the following activities return without processing
     // then they MUST return true here, to stop infinite loops.
-    zone_manager &mgr = zone_manager::get_manager();
-
-    const do_activity_reason &reason = act_info.reason;
-    const zone_data *zone =
-        mgr.get_zone_at( src, get_zone_for_act( src_loc, mgr, act_id, _fac_id( you ) ), _fac_id( you ) );
-    map &here = get_map();
     // something needs to be done, now we are there.
-    // it was here earlier, in the space of one turn, maybe it got harvested by someone else.
-    if( ( ( reason == do_activity_reason::NEEDS_HARVESTING ) ||
-          ( reason == do_activity_reason::NEEDS_CUT_HARVESTING ) ) &&
-        here.has_flag_furn( ter_furn_flag::TFLAG_GROWTH_HARVEST, src_loc ) ) {
-        iexamine::harvest_plant( you, src_loc, true );
-    } else if( ( reason == do_activity_reason::NEEDS_CLEARING ) &&
-               here.has_flag_furn( ter_furn_flag::TFLAG_GROWTH_OVERGROWN, src_loc ) ) {
-        iexamine::clear_overgrown( you, src_loc );
-    } else if( reason == do_activity_reason::NEEDS_TILLING &&
-               here.has_flag( ter_furn_flag::TFLAG_PLOWABLE, src_loc ) &&
-               you.has_quality( qual_DIG, 1 ) && !here.has_furn( src_loc ) ) {
-        you.assign_activity( churn_activity_actor( 18000, item_location() ) );
-        you.backlog.emplace_front( act_id );
-        you.activity.placement = src;
-        return false;
-    } else if( reason == do_activity_reason::NEEDS_PLANTING ) {
-        std::vector<zone_data> zones = mgr.get_zones( zone_type_FARM_PLOT, src, _fac_id( you ) );
-        for( const zone_data &zone : zones ) {
-            const itype_id seed =
-                dynamic_cast<const plot_options &>( zone.get_options() ).get_seed();
-            std::vector<item *> seed_inv = you.cache_get_items_with( "is_seed", itype_id( seed ), {},
-                                           &item::is_seed );
-            if( seed_inv.empty() ) {
-                // we don't have the required seed, even though we should at this point.
-                // move onto the next tile, and if need be that will prompt a fetch seeds activity.
-                continue;
-            }
-            if( !here.has_flag_ter_or_furn( seed->seed->required_terrain_flag, src_loc ) ) {
-                continue;
-            }
-            iexamine::plant_seed( you, src_loc, itype_id( seed ) );
-            you.backlog.emplace_front( act_id );
-            return false;
-        }
-    } else if( reason == do_activity_reason::NEEDS_CHOPPING && you.has_quality( qual_AXE, 1 ) ) {
-        if( chop_plank_activity( you, src_loc ) ) {
-            you.backlog.emplace_front( act_id );
-            return false;
-        }
-    } else if( reason == do_activity_reason::NEEDS_BUTCHERING ||
-               reason == do_activity_reason::NEEDS_BIG_BUTCHERING ) {
-        if( butcher_corpse_activity( you, src_loc, reason ) ) {
-            you.backlog.emplace_front( act_id );
-            return false;
-        }
-    } else if( reason == do_activity_reason::NEEDS_BOOK_TO_LEARN ) {
-        item_location book_loc;
 
-        if( act_id == ACT_MULTIPLE_STUDY ) {
-            book_loc = find_study_book( here.get_abs( src_loc ), you );
-            if( book_loc ) {
-                book_loc->set_var( "activity_var", you.name );
-                you.may_activity_occupancy_after_end_items_loc.push_back( book_loc );
-            }
-            if( !book_loc && you.is_npc() ) {
-                add_msg_if_player_sees( you, m_info, _( "%s found no readable books at this location." ),
-                                        you.disp_name() );
-            }
-        } else {
-            // For regular read activity, look in inventory
-            const item_filter filter = [ &you ]( const item & i ) {
-                read_condition_result condition = you.check_read_condition( i );
-                return condition == read_condition_result::SUCCESS;
-            };
-            std::vector<item *> books = you.items_with( filter );
-            if( !books.empty() && books[0] ) {
-                book_loc = item_location( you, books[0] );
-            }
-        }
-
-        if( book_loc ) {
-            const time_duration time_taken = you.time_to_read( *book_loc, you );
-            item_location ereader;
-            you.backlog.emplace_front( act_id );
-            you.assign_activity( read_activity_actor( time_taken, book_loc, ereader, true ) );
-            return false;
-        }
-    } else if( reason == do_activity_reason::CAN_DO_CONSTRUCTION ) {
-        if( here.partial_con_at( src_loc ) ) {
-            you.backlog.emplace_front( act_id );
-            you.assign_activity( ACT_BUILD );
-            you.activity.placement = src;
-            return false;
-        }
-        if( construction_activity( you, zone, src_loc, act_info, act_id ) ) {
-            return false;
-        }
-    } else if( reason == do_activity_reason::CAN_DO_FETCH && act_id == ACT_TIDY_UP ) {
-        if( !tidy_activity( you, src_loc, act_id, MAX_VIEW_DISTANCE ) ) {
-            return false;
-        }
-    } else if( reason == do_activity_reason::CAN_DO_FETCH && act_id == ACT_FETCH_REQUIRED ) {
-        if( fetch_activity( you, src_loc, act_id, MAX_VIEW_DISTANCE ) ) {
-            if( !you.is_npc() ) {
-                // Npcs will automatically start the next thing in the backlog, players need to be manually prompted
-                // Because some player activities are necessarily not marked as auto-resume.
-                activity_handlers::resume_for_multi_activities( you );
-            }
-            return false;
-        }
-    } else if( reason == do_activity_reason::NEEDS_TREE_CHOPPING && you.has_quality( qual_AXE, 1 ) ) {
-        if( chop_tree_activity( you, src_loc ) ) {
-            you.backlog.emplace_front( act_id );
-            return false;
-        }
-    } else if( reason == do_activity_reason::NEEDS_FISHING && you.has_quality( qual_FISHING_ROD, 1 ) ) {
-        you.backlog.emplace_front( act_id );
-        // we don't want to keep repeating the fishing activity, just piggybacking on this functions structure to find requirements.
-        you.activity = player_activity();
-        item &best_rod = you.best_item_with_quality( qual_FISHING_ROD );
-        you.assign_activity( ACT_FISH, to_moves<int>( 5_hours ), 0,
-                             0, best_rod.tname() );
-        you.activity.targets.emplace_back( you, &best_rod );
-        you.activity.coord_set =
-            g->get_fishable_locations_abs( MAX_VIEW_DISTANCE, src_loc );
-        return false;
-    } else if( reason == do_activity_reason::NEEDS_MINING ) {
-        // if have enough batteries to continue etc.
-        you.backlog.emplace_front( act_id );
-        if( mine_activity( you, src_loc ) ) {
-            return false;
-        }
-    } else if( reason == do_activity_reason::NEEDS_MOP ) {
-        if( mop_activity( you, src_loc ) ) {
-            you.backlog.emplace_front( act_id );
-            return false;
-        }
-    } else if( reason == do_activity_reason::NEEDS_VEH_DECONST ) {
-        if( vehicle_activity( you, src_loc, you.activity_vehicle_part_index, 'o' ) ) {
-            you.backlog.emplace_front( act_id );
-            return false;
-        }
-        you.activity_vehicle_part_index = -1;
-    } else if( reason == do_activity_reason::NEEDS_VEH_REPAIR ) {
-        if( vehicle_activity( you, src_loc, you.activity_vehicle_part_index, 'r' ) ) {
-            you.backlog.emplace_front( act_id );
-            return false;
-        }
-
-        you.activity_vehicle_part_index = -1;
-    } else if( reason == do_activity_reason::NEEDS_CRAFT ) {
-        // only npc is supported
-        npc *p = you.as_npc();
-        if( p ) {
-            item_location to_craft = p->get_item_to_craft();
-            if( to_craft && to_craft->is_craft() &&
-                you.lighting_craft_speed_multiplier( to_craft->get_making() ) > 0 ) {
-                player_activity act = player_activity( craft_activity_actor( to_craft, false ) );
-                you.assign_activity( act );
-                you.backlog.emplace_front( ACT_MULTIPLE_CRAFT );
-                you.backlog.front().auto_resume = true;
-                return false;
-            }
-        }
-    } else if( reason == do_activity_reason::NEEDS_DISASSEMBLE ) {
-        map_stack items = here.i_at( src_loc );
-        for( item &elem : items ) {
-            if( elem.is_disassemblable() ) {
-                // Disassemble the checked one.
-                if( elem.get_var( "activity_var" ) == you.name ) {
-                    const recipe &r = ( elem.typeId() == itype_disassembly ) ? elem.get_making() :
-                                      recipe_dictionary::get_uncraft( elem.typeId() );
-                    int const qty = std::max( 1, elem.typeId() == itype_disassembly ? elem.get_making_batch_size() :
-                                              elem.charges );
-                    player_activity act = player_activity( disassemble_activity_actor( r.time_to_craft_moves( you,
-                                                           recipe_time_flag::ignore_proficiencies ) * qty ) );
-                    act.targets.emplace_back( map_cursor( src_loc ), &elem );
-                    act.placement = here.get_abs( src_loc );
-                    act.position = qty;
-                    act.index = false;
-                    you.assign_activity( act );
-                    // Keep doing
-                    // After assignment of disassemble activity (not multitype anymore)
-                    // the backlog will not be nuked in do_player_activity()
-                    you.backlog.emplace_back( ACT_MULTIPLE_DIS );
-                    break;
-                }
-            }
-        }
-        return false;
+    //TODO: move to individual activity actors
+    if( act_id == ACT_VEHICLE_DECONSTRUCTION ) {
+        return multi_activity_actor::vehicle_deconstruction_do( you, act_info, src, src_loc );
+    } else if( act_id == ACT_VEHICLE_REPAIR ) {
+        return multi_activity_actor::vehicle_repair_do( you, act_info, src, src_loc );
+    } else if( act_id == ACT_MULTIPLE_MINE ) {
+        return multi_activity_actor::mine_do( you, act_info, src, src_loc );
+    } else if( act_id == ACT_MULTIPLE_MOP ) {
+        return multi_activity_actor::mop_do( you, act_info, src, src_loc );
+    } else if( act_id == ACT_MULTIPLE_FISH ) {
+        return multi_activity_actor::fish_do( you, act_info, src, src_loc );
+    } else if( act_id == ACT_MULTIPLE_CHOP_TREES ) {
+        return multi_activity_actor::chop_trees_do( you, act_info, src, src_loc );
+    } else if( act_id == ACT_MULTIPLE_BUTCHER ) {
+        return multi_activity_actor::butcher_do( you, act_info, src, src_loc );
+    } else if( act_id == ACT_MULTIPLE_READ ) {
+        return multi_activity_actor::read_do( you, act_info, src, src_loc );
+    } else if( act_id == ACT_MULTIPLE_STUDY ) {
+        return multi_activity_actor::study_do( you, act_info, src, src_loc );
+    } else if( act_id == ACT_MULTIPLE_CHOP_PLANKS ) {
+        return multi_activity_actor::chop_planks_do( you, act_info, src, src_loc );
+    } else if( act_id == ACT_TIDY_UP ) {
+        return multi_activity_actor::tidy_up_do( you, act_info, src, src_loc );
+    } else if( act_id == ACT_MULTIPLE_CONSTRUCTION ) {
+        return multi_activity_actor::construction_do( you, act_info, src, src_loc );
+    } else if( act_id == ACT_MULTIPLE_FARM ) {
+        return multi_activity_actor::farm_do( you, act_info, src, src_loc );
+    } else if( act_id == ACT_FETCH_REQUIRED ) {
+        return multi_activity_actor::fetch_do( you, act_info, src, src_loc );
+    } else if( act_id == ACT_MULTIPLE_CRAFT ) {
+        return multi_activity_actor::craft_do( you, act_info, src, src_loc );
+    } else if( act_id == ACT_MULTIPLE_DIS ) {
+        return multi_activity_actor::disassemble_do( you, act_info, src, src_loc );
     }
     return true;
 }

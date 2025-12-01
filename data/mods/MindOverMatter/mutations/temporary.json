@@ -450,6 +450,7 @@
     "starting_trait": false,
     "purifiable": false,
     "player_display": false,
+    "valid": false,
     "flags": [ "UNCANNY_DODGE" ]
   },
   {
