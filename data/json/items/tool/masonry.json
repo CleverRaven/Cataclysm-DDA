@@ -55,17 +55,7 @@
     "revert_to": "masonrysaw_off",
     "techniques": [ "SWEEP" ],
     "qualities": [ [ "AXE", 3 ], [ "BUTCHER", -100 ] ],
-    "use_action": {
-      "type": "effect_on_conditions",
-      "menu_text": "Turn off",
-      "ammo_scale": 0,
-      "effect_on_conditions": [
-        {
-          "id": "EOC_toolweapon_deactivate__masonrysaw",
-          "effect": { "run_eocs": "EOC_toolweapon_deactivate", "variables": { "transform_target": "masonrysaw_off" } }
-        }
-      ]
-    },
+    "use_action": { "target": "masonrysaw_off", "msg": "Your %s goes quiet.", "menu_text": "Turn off", "type": "transform" },
     "tick_action": {
       "type": "effect_on_conditions",
       "effect_on_conditions": [
@@ -135,17 +125,7 @@
     "techniques": [ "SWEEP" ],
     "qualities": [ [ "AXE", 3 ], [ "BUTCHER", -100 ] ],
     "use_action": [
-      {
-        "type": "effect_on_conditions",
-        "menu_text": "Turn off",
-        "ammo_scale": 0,
-        "effect_on_conditions": [
-          {
-            "id": "EOC_toolweapon_deactivate__electric_masonrysaw",
-            "effect": { "run_eocs": "EOC_toolweapon_deactivate", "variables": { "transform_target": "electric_masonrysaw_off" } }
-          }
-        ]
-      },
+      { "target": "electric_masonrysaw_off", "msg": "Your %s goes quiet.", "menu_text": "Turn off", "type": "transform" },
       {
         "type": "link_up",
         "menu_text": "Plug in / Unplug",
