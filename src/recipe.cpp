@@ -51,6 +51,9 @@
 static const itype_id itype_atomic_coffeepot( "atomic_coffeepot" );
 static const itype_id itype_hotplate( "hotplate" );
 
+static const morale_type morale_fun_craft( "morale_fun_craft" );
+static const morale_type morale_shitty_craft( "morale_shitty_craft" );
+
 static const std::string flag_FULL_MAGAZINE( "FULL_MAGAZINE" );
 
 
@@ -290,6 +293,8 @@ void recipe::load( const JsonObject &jo, const std::string_view src )
             autolearn_requirements[skill_id( arr.get_string( 0 ) )] = arr.get_int( 1 );
         }
     }
+
+    optional( jo, was_loaded, "morale_modifier", morale_modifier, {0, 0_seconds} );
 
     // Mandatory: This recipe's exertion level
     mandatory( jo, was_loaded, "activity_level", exertion, activity_level_reader{} );
@@ -1357,6 +1362,32 @@ std::function<bool( const item & )> recipe::get_component_filter(
                frozen_filter( component ) &&
                magazine_filter( component );
     };
+}
+
+void recipe::apply_all_morale_mods( Character &guy ) const
+{
+    apply_positive_morale_mods( guy );
+    apply_negative_morale_mods( guy );
+}
+
+void recipe::apply_negative_morale_mods( Character &guy ) const
+{
+    const int &morale_bonus = morale_modifier.first;
+    if( morale_bonus < 0 ) {
+        const time_duration &morale_timer = morale_modifier.second;
+        guy.add_morale( morale_shitty_craft, morale_bonus, morale_bonus * 100, morale_timer / 2,
+                        morale_timer );
+    }
+}
+
+void recipe::apply_positive_morale_mods( Character &guy ) const
+{
+    const int &morale_bonus = morale_modifier.first;
+    if( morale_bonus > 0 ) {
+        const time_duration &morale_timer = morale_modifier.second;
+        guy.add_morale( morale_fun_craft, morale_bonus, morale_bonus * 10, morale_timer / 2,
+                        morale_timer );
+    }
 }
 
 bool recipe::npc_can_craft( std::string & ) const
