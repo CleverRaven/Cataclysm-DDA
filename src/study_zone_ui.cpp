@@ -44,6 +44,7 @@ class study_zone_window : public cataimgui::window
             ctxt = input_context( "STUDY_ZONE_UI" );
             ctxt.register_action( "CONFIRM" );
             ctxt.register_action( "FILTER" );
+            ctxt.register_action( "QUIT" );
             ctxt.set_timeout( 10 );
 
             // Get all skills
@@ -101,22 +102,35 @@ class study_zone_window : public cataimgui::window
 
         study_zone_ui_result execute() {
             bool canceled_result = false;
+            bool confirmed = false;
             while( get_is_open() ) {
                 ui_manager::redraw();
                 std::string action = ctxt.handle_input();
 
                 if( action == "CONFIRM" ) {
+                    confirmed = true;
                     break;
                 }
 
                 if( action == "QUIT" ) {
-                    canceled_result = true;
-                    break;
+                    if( !skill_filter.empty() ) {
+                        skill_filter.clear();
+                    } else {
+                        canceled_result = true;
+                        break;
+                    }
                 }
                 if( action == "FILTER" ) {
                     filter_just_focused = true;
                 }
+            }
 
+            if( done_clicked ) {
+                confirmed = true;
+            }
+
+            if( !get_is_open() && !confirmed && !canceled_result ) {
+                canceled_result = true;
             }
 
             if( canceled_result ) {
@@ -208,6 +222,7 @@ class study_zone_window : public cataimgui::window
 
             ImGui::SameLine();
             if( ImGui::Button( _( "Done" ) ) ) {
+                done_clicked = true;
                 is_open = false;
             }
         }
@@ -276,6 +291,7 @@ class study_zone_window : public cataimgui::window
         std::string skill_filter;
         bool filter_just_focused = false;
         bool preferences_changed = false;
+        bool done_clicked = false;
         int checkbox_id_counter = 0;
         float max_skill_name_width = 0.0f;
         float max_npc_name_width = 0.0f;

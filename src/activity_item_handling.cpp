@@ -3599,12 +3599,11 @@ bool read_do( Character &you, const activity_reason_info &act_info,
 }
 
 bool study_do( Character &you, const activity_reason_info &act_info,
-               const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc )
+               const tripoint_abs_ms &src, const tripoint_bub_ms & )
 {
     const do_activity_reason &reason = act_info.reason;
 
     if( reason == do_activity_reason::NEEDS_BOOK_TO_LEARN ) {
-        map &here = get_map();
         item_location book_loc = find_study_book( src, you );
         if( book_loc ) {
             book_loc->set_var( "activity_var", you.name );

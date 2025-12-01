@@ -208,7 +208,7 @@ bool butcher_do( Character &you, const activity_reason_info &act_info,
 bool read_do( Character &you, const activity_reason_info &act_info,
               const tripoint_abs_ms &, const tripoint_bub_ms & );
 bool study_do( Character &you, const activity_reason_info &act_info,
-               const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc );
+               const tripoint_abs_ms &src, const tripoint_bub_ms & );
 bool chop_planks_do( Character &you, const activity_reason_info &act_info,
                      const tripoint_abs_ms &, const tripoint_bub_ms &src_loc );
 bool tidy_up_do( Character &you, const activity_reason_info &act_info,
