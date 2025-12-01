@@ -402,6 +402,10 @@ class const_talker
         virtual int cash_to_favor( int ) const {
             return 0;
         }
+        virtual bool has_software( const itype_id &, int = 0,
+                                   const itype_id & = itype_id::NULL_ID() ) const {
+            return false;
+        }
 
         // missions
         virtual std::vector<mission *> available_missions() const {

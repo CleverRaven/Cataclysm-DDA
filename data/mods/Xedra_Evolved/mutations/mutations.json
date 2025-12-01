@@ -157,6 +157,7 @@
     "points": 1,
     "starting_trait": false,
     "purifiable": false,
+    "valid": false,
     "player_display": false,
     "flags": [ "UNCANNY_DODGE" ]
   },

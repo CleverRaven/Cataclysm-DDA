@@ -256,9 +256,7 @@
       { "item": "dry_corn", "prob": 1 },
       { "item": "dry_fruit", "prob": 10 },
       { "prob": 40, "group": "oatmeal_box_1lb" },
-      { "prob": 30, "group": "toastem_box_small_8" },
-      { "prob": 30, "group": "toastem2_box_small_8" },
-      { "prob": 35, "group": "toastem3_box_small_8" },
+      { "prob": 90, "group": "toastem_box_small_8" },
       { "prob": 20, "group": "toasterpastryfrozen_box_snack_2" },
       { "prob": 20, "group": "sugar_various" },
       { "prob": 5, "group": "artificial_sweetener_box_small_71" },
@@ -554,7 +552,7 @@
     "type": "item_group",
     "id": "toastems",
     "subtype": "distribution",
-    "entries": [ { "group": "toastem_box_small_8" }, { "group": "toastem2_box_small_8" }, { "group": "toastem3_box_small_8" } ]
+    "entries": [ { "group": "toastem_box_small_8" } ]
   },
   {
     "type": "item_group",

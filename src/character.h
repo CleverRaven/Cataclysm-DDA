@@ -2084,6 +2084,10 @@ class Character : public Creature, public visitable
         /** Returns the amount of software `type' that are in the inventory */
         int count_softwares( const itype_id &id );
 
+        /** Returns whether the character has software on a device with a desired number of charges */
+        bool has_software( const itype_id &software_id, int min_charges = 0,
+                           const itype_id &device_id = itype_id::NULL_ID() ) const;
+
         /** Returns nearby items which match the provided predicate */
         std::vector<item_location> nearby( const std::function<bool( const item *, const item * )> &func,
                                            int radius = 1 ) const;

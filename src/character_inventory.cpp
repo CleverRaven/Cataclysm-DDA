@@ -230,6 +230,47 @@ int Character::count_softwares( const itype_id &id )
     return count;
 }
 
+bool Character::has_software( const itype_id &software_id, int min_charges,
+                              const itype_id &device_id ) const
+{
+    map &here = get_map();
+
+    for( const item_location &it_loc : const_cast<Character *>( this )->all_items_loc() ) {
+        if( !it_loc->is_estorage() ) {
+            continue;
+        }
+
+        if( !device_id.is_null() && it_loc->typeId() != device_id ) {
+            continue;
+        }
+
+        bool has_software = false;
+        for( const item *software : it_loc->softwares() ) {
+            if( software->typeId() == software_id ) {
+                has_software = true;
+                break;
+            }
+        }
+
+        if( !has_software ) {
+            continue;
+        }
+
+        if( min_charges <= 0 ) {
+            return true;
+        }
+
+        if( it_loc->is_tool() ) {
+            const int device_charges = it_loc->ammo_remaining_linked( here, this );
+            if( device_charges >= min_charges ) {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
 units::length Character::max_single_item_length() const
 {
     return std::max( weapon.max_containable_length(), worn.max_single_item_length() );
