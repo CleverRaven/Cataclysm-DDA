@@ -786,6 +786,13 @@ class inventory_selector
             const item_pocket *free_pocket,
             units::volume free_pocket_volume,
             units::length free_pocket_length,
+            int free_pocket_copies
+        );
+        static header_stats_line build_pocket_stats_line(
+            const std::string &prefix,
+            const item_pocket *free_pocket,
+            units::volume free_pocket_volume,
+            units::length free_pocket_length,
             int free_pocket_copies,
             const item_pocket *max_pocket,
             units::volume max_pocket_volume,

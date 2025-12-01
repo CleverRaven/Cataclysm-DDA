@@ -970,7 +970,7 @@ class item : public visitable
                                                 item_pocket::ok_default_containers ) const;
         units::volume get_remaining_volume_recursive( const std::function<bool( const item_pocket & )> &
                 include_pocket,
-                std::function<bool( const item_pocket & )> check_pocket_tree,
+                const std::function<bool( const item_pocket & )> &check_pocket_tree,
                 units::volume &out_volume_expansion ) const;
         units::mass get_remaining_weight_capacity( bool unrestricted_pockets_only = false ) const;
 

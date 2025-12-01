@@ -2623,6 +2623,9 @@ inventory_selector::header_stats inventory_selector::get_pocket_summary_header_s
     pocket_with_constraint long_max_space = { nullptr, {} };
     std::vector<pocket_with_constraint> pockets_with_space;
 
+    bool show_max_space_opt = get_option<bool>( "SHOW_MAX_SPACE" );
+    int show_other_spaces_opt = get_option<int>( "SHOW_OTHER_SPACES" );
+
     pockets.erase(
         std::remove_if( pockets.begin(), pockets.end(),
     []( pocket_with_constraint & p ) {
@@ -2647,8 +2650,8 @@ inventory_selector::header_stats inventory_selector::get_pocket_summary_header_s
             pockets_with_space.end(), []( const pocket_with_constraint & a, const pocket_with_constraint & b ) {
                 return std::tuple( a.first->is_restricted(), b.second.remaining_volume,
                                    b.second.max_containable_length )
-                       <  std::tuple( b.first->is_restricted(), a.second.remaining_volume,
-                                      a.second.max_containable_length );
+                       < std::tuple( b.first->is_restricted(), a.second.remaining_volume,
+                                     a.second.max_containable_length );
             } );
             large_free_space = pockets_with_space[0];
 
@@ -2669,80 +2672,84 @@ inventory_selector::header_stats inventory_selector::get_pocket_summary_header_s
                 }
             }
 
-            // count other spaces
-            std::vector<pocket_with_constraint> other_spaces;
-            std::vector<int> other_spaces_copies;
-            const int other_spaces_display_limit = 3;
-            bool other_spaces_display_truncated = false;
-            for( const auto &pwc : pockets_with_space ) {
-                if( !pockets_match( pwc, large_free_space ) && !pockets_match( pwc, long_free_space ) ) {
-                    if( other_spaces.empty() || !pockets_match( pwc, other_spaces.back() ) ) {
-                        if( other_spaces.size() < other_spaces_display_limit ) {
-                            other_spaces.push_back( pwc );
-                            other_spaces_copies.push_back( 1 );
+            if( show_other_spaces_opt > 0 ) {
+                // count other spaces
+                std::vector<pocket_with_constraint> other_spaces;
+                std::vector<int> other_spaces_copies;
+                bool other_spaces_display_truncated = false;
+                for( const auto &pwc : pockets_with_space ) {
+                    if( !pockets_match( pwc, large_free_space ) && !pockets_match( pwc, long_free_space ) ) {
+                        if( other_spaces.empty() || !pockets_match( pwc, other_spaces.back() ) ) {
+                            if( other_spaces.size() < show_other_spaces_opt ) {
+                                other_spaces.push_back( pwc );
+                                other_spaces_copies.push_back( 1 );
+                            } else {
+                                other_spaces_display_truncated = true;
+                                break;
+                            }
                         } else {
-                            other_spaces_display_truncated = true;
-                            break;
+                            other_spaces_copies.back()++;
                         }
-                    } else {
-                        other_spaces_copies.back()++;
                     }
                 }
-            }
 
-            for( size_t i = 0; i < other_spaces.size(); i++ ) {
-                auto [str1, str2] = build_space_stats( other_spaces[i].second.remaining_volume,
-                                                       other_spaces[i].first->min_containable_length(),
-                                                       other_spaces[i].second.max_containable_length,
-                                                       other_spaces[i].first->is_restricted()
-                                                     );
-                other_space_strings.push_back( string_format( "%s %s%s", str1,  str2,
-                                               ( other_spaces_copies[i] > 1 ? string_format( " (%s)", other_spaces_copies[i] ) : "" ) )
-                                             );
-            }
-            if( other_spaces_display_truncated ) {
-                other_space_strings.emplace_back( "…" );
+                for( size_t i = 0; i < other_spaces.size(); i++ ) {
+                    auto [str1, str2] = build_space_stats( other_spaces[i].second.remaining_volume,
+                                                           other_spaces[i].first->min_containable_length(),
+                                                           other_spaces[i].second.max_containable_length,
+                                                           other_spaces[i].first->is_restricted()
+                                                         );
+                    other_space_strings.push_back( string_format( "%s %s%s", str1, str2,
+                                                   ( other_spaces_copies[i] > 1 ? string_format( " (%s)", other_spaces_copies[i] ) : "" ) )
+                                                 );
+                }
+                if( other_spaces_display_truncated ) {
+                    other_space_strings.emplace_back( "…" );
+                }
             }
         }
 
-        // largest / longest pockets [not spaces] we have.
-        // 'ignore_restrict' check makes it so we don't report a smaller 'max' space than 'free' space if we selected a restricted pocket for that.
-        if( show_unconstrained_max_space ) {
-            std::sort( pockets.begin(), pockets.end(), [ignore_restrict = large_free_space.first &&
-                                       large_free_space.first->is_restricted()]( const pocket_with_constraint & a,
-            const pocket_with_constraint & b ) {
-                return std::tuple( ignore_restrict || a.first->is_restricted(), b.first->volume_capacity() )
-                       <  std::tuple( ignore_restrict || b.first->is_restricted(), a.first->volume_capacity() );
-            } );
-            large_max_space = pockets[0];
 
-            std::sort( pockets.begin(), pockets.end(), [ignore_restrict = long_free_space.first &&
-                                       long_free_space.first->is_restricted()]( const pocket_with_constraint & a,
-            const pocket_with_constraint & b ) {
-                return std::tuple( ignore_restrict ||
-                                   a.first->is_restricted(), b.first->max_containable_length(), b.first->volume_capacity() )
-                       <  std::tuple( ignore_restrict ||
-                                      b.first->is_restricted(), a.first->max_containable_length(), a.first->volume_capacity() );
-            } );
-            long_max_space = pockets[0];
-        } else {
-            std::sort( pockets.begin(), pockets.end(), [ignore_restrict = large_free_space.first &&
-                                       large_free_space.first->is_restricted()]( const pocket_with_constraint & a,
-            const pocket_with_constraint & b ) {
-                return std::tuple( ignore_restrict || a.first->is_restricted(), b.second.volume_capacity )
-                       <  std::tuple( ignore_restrict || b.first->is_restricted(), a.second.volume_capacity );
-            } );
-            large_max_space = pockets[0];
+        if( show_max_space_opt ) {
+            // largest / longest pockets [not spaces] we have.
+            // 'ignore_restrict' check makes it so we don't report a smaller 'max' space than 'free' space if we selected a restricted pocket for that.
+            if( show_unconstrained_max_space ) {
+                std::sort( pockets.begin(), pockets.end(), [ignore_restrict = large_free_space.first &&
+                                           large_free_space.first->is_restricted()]( const pocket_with_constraint & a,
+                const pocket_with_constraint & b ) {
+                    return std::tuple( ignore_restrict || a.first->is_restricted(), b.first->volume_capacity() )
+                           < std::tuple( ignore_restrict || b.first->is_restricted(), a.first->volume_capacity() );
+                } );
+                large_max_space = pockets[0];
 
-            std::sort( pockets.begin(), pockets.end(), [ignore_restrict = long_free_space.first &&
-                                       long_free_space.first->is_restricted()]( const pocket_with_constraint & a,
-            const pocket_with_constraint & b ) {
-                return std::tuple( ignore_restrict ||
-                                   a.first->is_restricted(), b.second.max_containable_length, b.second.volume_capacity )
-                       <  std::tuple( ignore_restrict ||
-                                      b.first->is_restricted(), a.second.max_containable_length, a.second.volume_capacity );
-            } );
-            long_max_space = pockets[0];
+                std::sort( pockets.begin(), pockets.end(), [ignore_restrict = long_free_space.first &&
+                                           long_free_space.first->is_restricted()]( const pocket_with_constraint & a,
+                const pocket_with_constraint & b ) {
+                    return std::tuple( ignore_restrict ||
+                                       a.first->is_restricted(), b.first->max_containable_length(), b.first->volume_capacity() )
+                           < std::tuple( ignore_restrict ||
+                                         b.first->is_restricted(), a.first->max_containable_length(), a.first->volume_capacity() );
+                } );
+                long_max_space = pockets[0];
+            } else {
+                std::sort( pockets.begin(), pockets.end(), [ignore_restrict = large_free_space.first &&
+                                           large_free_space.first->is_restricted()]( const pocket_with_constraint & a,
+                const pocket_with_constraint & b ) {
+                    return std::tuple( ignore_restrict || a.first->is_restricted(), b.second.volume_capacity )
+                           < std::tuple( ignore_restrict || b.first->is_restricted(), a.second.volume_capacity );
+                } );
+                large_max_space = pockets[0];
+
+                std::sort( pockets.begin(), pockets.end(), [ignore_restrict = long_free_space.first &&
+                                           long_free_space.first->is_restricted()]( const pocket_with_constraint & a,
+                const pocket_with_constraint & b ) {
+                    return std::tuple( ignore_restrict ||
+                                       a.first->is_restricted(), b.second.max_containable_length, b.second.volume_capacity )
+                           < std::tuple( ignore_restrict ||
+                                         b.first->is_restricted(), a.second.max_containable_length, a.second.volume_capacity );
+                } );
+                long_max_space = pockets[0];
+            }
         }
     }
 
@@ -2753,27 +2760,57 @@ inventory_selector::header_stats inventory_selector::get_pocket_summary_header_s
                                             volume_in_pockets,
                                             volume_of_pockets,
                                             volume_label_override ? *volume_label_override : _( "Total Volume:" )
-                                          ),
-        build_pocket_stats_line( _( "Largest Space" ),
-                                 large_free_space.first,
-                                 large_free_space.second.remaining_volume,
-                                 large_free_space.second.max_containable_length,
-                                 large_free_space_copies,
-                                 large_max_space.first,
-                                 show_unconstrained_max_space ? large_max_space.first->volume_capacity() : large_max_space.second.volume_capacity,
-                                 show_unconstrained_max_space ? large_max_space.first->max_containable_length() : large_max_space.second.max_containable_length
-                               ),
-        build_pocket_stats_line( _( "Longest Space" ),
-                                 long_free_space.first,
-                                 long_free_space.second.remaining_volume,
-                                 long_free_space.second.max_containable_length,
-                                 long_free_space_copies,
-                                 long_max_space.first,
-                                 show_unconstrained_max_space ? long_max_space.first->volume_capacity() : long_max_space.second.volume_capacity,
-                                 show_unconstrained_max_space ? long_max_space.first->max_containable_length() : long_max_space.second.max_containable_length
-                               )
+                                          )
     };
-    if( !other_space_strings.empty() ) {
+    bool show_large_max = show_max_space_opt &&
+                          large_free_space.second.remaining_volume != large_max_space.second.volume_capacity;
+    bool show_long_max = show_max_space_opt &&
+                         long_free_space.second.remaining_volume != long_max_space.second.volume_capacity;
+    if( !show_large_max ) {
+        ret.push_back( build_pocket_stats_line( _( "Largest Space" ),
+                                                large_free_space.first,
+                                                large_free_space.second.remaining_volume,
+                                                large_free_space.second.max_containable_length,
+                                                ( show_other_spaces_opt > 0 ) ? large_free_space_copies : 1
+                                              ) );
+    } else {
+        ret.push_back( build_pocket_stats_line( _( "Largest Space" ),
+                                                large_free_space.first,
+                                                large_free_space.second.remaining_volume,
+                                                large_free_space.second.max_containable_length,
+                                                ( show_other_spaces_opt > 0 ) ? large_free_space_copies : 1,
+                                                large_max_space.first,
+                                                show_unconstrained_max_space ? large_max_space.first->volume_capacity() :
+                                                large_max_space.second.volume_capacity,
+                                                show_unconstrained_max_space ? large_max_space.first->max_containable_length() :
+                                                large_max_space.second.max_containable_length
+                                              ) );
+    }
+    if( large_free_space.first != long_free_space.first || ( show_long_max != show_large_max ) ) {
+        if( !show_long_max ) {
+            ret.push_back( build_pocket_stats_line( _( "Longest Space" ),
+                                                    long_free_space.first,
+                                                    long_free_space.second.remaining_volume,
+                                                    long_free_space.second.max_containable_length,
+                                                    ( show_other_spaces_opt > 0 ) ? long_free_space_copies : 1
+                                                  )
+                         );
+        } else {
+            ret.push_back( build_pocket_stats_line( _( "Longest Space" ),
+                                                    long_free_space.first,
+                                                    long_free_space.second.remaining_volume,
+                                                    long_free_space.second.max_containable_length,
+                                                    ( show_other_spaces_opt > 0 ) ? long_free_space_copies : 1,
+                                                    long_max_space.first,
+                                                    show_unconstrained_max_space ? long_max_space.first->volume_capacity() :
+                                                    long_max_space.second.volume_capacity,
+                                                    show_unconstrained_max_space ? long_max_space.first->max_containable_length() :
+                                                    long_max_space.second.max_containable_length
+                                                  )
+                         );
+        }
+    }
+    if( ( show_other_spaces_opt > 0 ) && !other_space_strings.empty() ) {
         ret.push_back( { _( "Other: " ) + string_join( other_space_strings, ", " ) } );
     }
     return ret;
@@ -2841,6 +2878,32 @@ std::tuple<std::string, std::string> inventory_selector::build_space_stats( unit
                                color_numeral ) + " " + colorize( length_units( min_length ), color_unit ) + "-" + length_str;
     }
     return { vol_str, length_str };
+}
+
+inventory_selector::header_stats_line inventory_selector::build_pocket_stats_line(
+    const std::string &prefix,
+    const item_pocket *free_pocket,
+    units::volume free_pocket_volume,
+    units::length free_pocket_length,
+    int free_pocket_copies
+)
+{
+    const nc_color &color_label = c_dark_gray;
+    auto [free_pocket_str1, free_pocket_str2] = free_pocket ? build_space_stats( free_pocket_volume,
+            free_pocket->min_containable_length(), free_pocket_length,
+            free_pocket->is_restricted() ) : build_invalid_space_stats();
+    return {
+        prefix.empty() ? "" : ( prefix + " " ) + colorize( _( "Free: " ), color_label ),
+        header_stats_tab_stop,
+        free_pocket_str1 + " ",
+        header_stats_tab_stop,
+        free_pocket_str2,
+        header_stats_tab_stop,
+        ( free_pocket_copies > 1 ? string_format( " (%s)", free_pocket_copies ) : "" ),
+        header_stats_tab_stop, // extra stops to align with the max-space printing version
+        header_stats_tab_stop,
+        header_stats_tab_stop
+    };
 }
 
 inventory_selector::header_stats_line inventory_selector::build_pocket_stats_line(
@@ -2955,7 +3018,7 @@ std::vector<std::string> inventory_selector::get_stats() const
 
         for( int tab_stop = 0; tab_stop < num_stops; tab_stop++ ) {
             // each line in the block writes out its parts until its next tab stop
-            for( int i = blockStart; i < blockEnd; i++ ) {
+            for( size_t i = blockStart; i < blockEnd; i++ ) {
                 for( ; line_rindex[i] < stats[i].size(); line_rindex[i]++ ) {
                     int line_index = stats[i].size() - 1 - line_rindex[i];
                     if( stats[i][line_index] != header_stats_tab_stop ) {

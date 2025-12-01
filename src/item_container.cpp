@@ -602,9 +602,8 @@ units::volume item::get_remaining_volume( const std::function<bool( const item_p
 }
 
 units::volume item::get_remaining_volume_recursive( const std::function<bool( const item_pocket & )>
-        &
-        include_pocket,
-        std::function<bool( const item_pocket & )> check_pocket_tree,
+        &include_pocket,
+        const std::function<bool( const item_pocket & )> &check_pocket_tree,
         units::volume &out_volume_expansion ) const
 {
     return contents.remaining_volume_recursive( include_pocket, check_pocket_tree,

@@ -1679,7 +1679,7 @@ units::volume Character::volume_carried() const
 {
     units::volume volume = 0_ml;
     volume += weapon.volume();
-    for( const auto &it : worn.worn ) {
+    for( const item &it : worn.worn ) {
         volume += it.volume();
     }
     return volume;

@@ -60,7 +60,7 @@ void Character::hoarder_morale_penalty()
     units::volume penalty_volume = 0_ml;
 
     std::vector<item_pocket *> top_pockets = weapon.get_container_pockets();
-    for( auto &it : worn.worn ) {
+    for( item &it : worn.worn ) {
         std::vector<item_pocket *> worn_pockets = it.get_container_pockets();
         top_pockets.insert( top_pockets.end(), worn_pockets.begin(), worn_pockets.end() );
     }
