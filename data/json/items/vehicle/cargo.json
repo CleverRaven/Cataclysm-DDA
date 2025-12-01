@@ -151,7 +151,7 @@
     "//1": "The linked item weighs about 4kg, added another 2kg for skid runners.",
     "weight": "6000 g",
     "volume": "7 L",
-    "longest_side" : "50 cm",
+    "longest_side": "50 cm",
     "category": "veh_parts",
     "price": "20 USD",
     "price_postapoc": "1 USD",
