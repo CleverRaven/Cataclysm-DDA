@@ -268,12 +268,7 @@
     "price_postapoc": "2 kUSD 500 USD",
     "material": [ "superalloy", "aluminum" ],
     "use_action": [
-      {
-        "target": "afs_atomic_wraitheon_flashlight",
-        "msg": "You activate the flashlight app.",
-        "active": true,
-        "type": "transform"
-      },
+      { "target": "afs_atomic_wraitheon_flashlight", "msg": "You activate the flashlight app.", "type": "transform" },
       "CAMERA",
       {
         "type": "mp3",
