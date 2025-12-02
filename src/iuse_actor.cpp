@@ -227,6 +227,7 @@ void iuse_transform::load( const JsonObject &obj, const std::string & )
     transform.deserialize( obj );
 
     optional( obj, false, "msg", msg_transform );
+    optional( obj, false, "sound_volume", sound_volume );
 
     optional( obj, false, "moves", moves, numeric_bound_reader<int> { 0 }, 0 );
 
@@ -254,7 +255,7 @@ void iuse_transform::load( const JsonObject &obj, const std::string & )
 }
 
 std::optional<int> iuse_transform::use( Character *p, item &it, map *,
-                                        const tripoint_bub_ms & ) const
+                                        const tripoint_bub_ms &pos ) const
 {
     int scale = 1;
     auto iter = it.type->ammo_scale.find( type );
@@ -291,13 +292,17 @@ std::optional<int> iuse_transform::use( Character *p, item &it, map *,
             p->add_msg_if_player( _( "Never mind." ) );
             return std::nullopt;
         }
-    }
 
-    p->add_msg_if_player( n_gettext( "You set the timer to %d second.",
-                                     "You set the timer to %d seconds.", timer_time ), timer_time );
+        p->add_msg_if_player( n_gettext( "You set the timer to %d second.",
+                                         "You set the timer to %d seconds.", timer_time ), timer_time );
+    }
 
     if( !msg_transform.empty() ) {
         p->add_msg_if_player( m_neutral, msg_transform, it.tname() );
+
+        if( sound_volume > 0 ) {
+            sounds::sound( pos, sound_volume, sounds::sound_t::combat, msg_transform );
+        }
     }
 
     // Uses the moves specified by iuse_actor's definition
