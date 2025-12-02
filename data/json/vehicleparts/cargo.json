@@ -303,14 +303,14 @@
     "variants": [ { "symbols": "L", "symbols_broken": "#" } ],
     "flags": [ "BOARDABLE", "CARGO", "CARGO_PASSABLE", "FURNITURE_TIEDOWN" ],
     "//": "https://www.magliner.com/extruded-aluminum-nose-flush-mount-300248",
-    "//1": "Rated for up to 500 lbs but LIFT/JACK don't go that low.  Volume of the nose plate's bounding box is about 12.5L.",
+    "//1": "Rated for 500 lbs but LIFT/JACK 1 is 1000kg.  Volume of the nose plate's bounding box is about 12.5L.",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": [ [ "vehicle_screw", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "vehicle_screw", 1 ] ] }
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "vehicle_wrench_2", 1 ] ] }
     },
-    "description": "A hefty aluminum plate for transporting things too big to pick up.  Unfortunately Jevons' Paradox also applies to throwing your back out.",
-    "breaks_into": [ { "item": "sheet_aluminum_small", "count": [ 2, 4 ] } ],
-    "qualities": [ [ "LIFT", 2 ], [ "JACK", 2 ] ],
+    "description": "An L-shaped aluminum plate with straps and skid runners.  This could help you move furniture or appliances more safely, but Jevons' Paradox also applies to throwing your back out.",
+    "breaks_into": [ { "item": "sheet_aluminum_small", "count": [ 2, 4 ] }, { "item": "seatbelt", "count": [ 0, 2 ] } ],
+    "qualities": [ [ "LIFT", 1 ], [ "JACK", 1 ] ],
     "folded_volume": "7 L",
     "size": "15000 ml"
   }

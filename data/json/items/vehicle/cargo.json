@@ -143,7 +143,7 @@
     "type": "ITEM",
     "id": "nose_plate",
     "name": { "str": "nose plate" },
-    "description": "A nose plate and skid runners for a hand truck.  If attached to a sturdy frame, you could use these to move furniture.",
+    "description": "An L-shaped aluminum plate with straps and skid runners for a hand truck.  If attached to a sturdy frame, you could use these to move furniture.",
     "color": "light_gray",
     "symbol": "]",
     "material": [ "aluminum" ],
@@ -155,6 +155,6 @@
     "category": "veh_parts",
     "price": "20 USD",
     "price_postapoc": "1 USD",
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 4 }
   }
 ]
