@@ -1302,7 +1302,7 @@ int item_contents::ammo_consume( int qty, map *here, const tripoint_bub_ms &pos,
                                              static_cast<float>( pocket.front().fuel_energy().value() ) * fuel_efficiency ) );
 
                 const int res = pocket.ammo_consume( charges_used );
-                //calculate the ammount of energy generated
+                //calculate the amount of energy generated
                 int energy_generated = res * units::to_kilojoule( pocket.front().fuel_energy() );
                 consumed += energy_generated;
                 qty -= energy_generated;

@@ -2462,10 +2462,10 @@ weighted_int_list<mutation_category_id> Character::get_vitamin_weighted_categori
     return weighted_output;
 }
 
-int Character::vitamin_RDA( const vitamin_id &vitamin, int ammount ) const
+int Character::vitamin_RDA( const vitamin_id &vitamin, int amount ) const
 {
     const double multiplier = vitamin_rate( vitamin ) * 100 / 1_days;
-    return std::lround( ammount * multiplier );
+    return std::lround( amount * multiplier );
 }
 
 void Character::apply_wound( bodypart_id bp, wound_type_id wd )
