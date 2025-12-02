@@ -145,5 +145,12 @@
     "name": "Vehicle Repair Zone",
     "display_field": "fd_vehicle_repair_zone",
     "description": "Any vehicles in this area are marked for repair work."
+  },
+  {
+    "id": "STUDY_ZONE",
+    "type": "LOOT_ZONE",
+    "name": "Study Zone",
+    "display_field": "fd_study_zone",
+    "description": "NPCs will find and read books from this zone until no more books can be learned from."
   }
 ]

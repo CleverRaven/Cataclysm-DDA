@@ -146,6 +146,7 @@ std::unordered_set<tripoint_abs_ms> construction_locations( Character &you,
         const activity_id &act_id );
 std::unordered_set<tripoint_abs_ms> tidy_up_locations( Character &you, const activity_id & );
 std::unordered_set<tripoint_abs_ms> read_locations( Character &you, const activity_id &act_id );
+std::unordered_set<tripoint_abs_ms> study_locations( Character &you, const activity_id &act_id );
 std::unordered_set<tripoint_abs_ms> craft_locations( Character &you, const activity_id &act_id );
 std::unordered_set<tripoint_abs_ms> fetch_locations( Character &you, const activity_id & );
 std::unordered_set<tripoint_abs_ms> fish_locations( Character &you, const activity_id &act_id );
@@ -177,6 +178,8 @@ activity_reason_info butcher_can_do( const activity_id &, Character &you,
                                      const tripoint_bub_ms &src_loc );
 activity_reason_info read_can_do( const activity_id &, Character &you,
                                   const tripoint_bub_ms & );
+activity_reason_info study_can_do( const activity_id &, Character &you,
+                                   const tripoint_bub_ms &src_loc );
 activity_reason_info chop_planks_can_do( const activity_id &, Character &you,
         const tripoint_bub_ms &src_loc );
 activity_reason_info tidy_up_can_do( const activity_id &, Character &you,
@@ -204,6 +207,8 @@ bool butcher_do( Character &you, const activity_reason_info &act_info,
                  const tripoint_abs_ms &, const tripoint_bub_ms &src_loc );
 bool read_do( Character &you, const activity_reason_info &act_info,
               const tripoint_abs_ms &, const tripoint_bub_ms & );
+bool study_do( Character &you, const activity_reason_info &act_info,
+               const tripoint_abs_ms &src, const tripoint_bub_ms & );
 bool chop_planks_do( Character &you, const activity_reason_info &act_info,
                      const tripoint_abs_ms &, const tripoint_bub_ms &src_loc );
 bool tidy_up_do( Character &you, const activity_reason_info &act_info,

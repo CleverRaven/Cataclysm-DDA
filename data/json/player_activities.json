@@ -82,6 +82,16 @@
     "auto_needs": true
   },
   {
+    "id": "ACT_MULTIPLE_STUDY",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "studying",
+    "based_on": "neither",
+    "can_resume": false,
+    "multi_activity": true,
+    "auto_needs": true
+  },
+  {
     "id": "ACT_MOP",
     "type": "activity_type",
     "activity_level": "LIGHT_EXERCISE",

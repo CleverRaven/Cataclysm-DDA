@@ -219,6 +219,7 @@ void multiple_dis_do_turn( player_activity *act, Character *you );
 void multiple_farm_do_turn( player_activity *act, Character *you );
 void multiple_fish_do_turn( player_activity *act, Character *you );
 void multiple_read_do_turn( player_activity *act, Character *you );
+void multiple_study_do_turn( player_activity *act, Character *you );
 void multiple_mine_do_turn( player_activity *act, Character *you );
 void multiple_mop_do_turn( player_activity *act, Character *you );
 void operation_do_turn( player_activity *act, Character *you );
