@@ -1035,7 +1035,7 @@ FastDistanceApproximation trig_dist_fast( const tripoint_bub_ms &loc1, const tri
     return FastDistanceApproximation(
                ( loc1.x() - loc2.x() ) * ( loc1.x() - loc2.x() ) +
                ( loc1.y() - loc2.y() ) * ( loc1.y() - loc2.y() ) +
-               ( loc1.z() - loc2.z() ) * ( loc1.z() - loc2.z() ) );
+               ( ( loc1.z() - loc2.z() ) * 4 ) * ( ( loc1.z() - loc2.z() ) * 4 ) );
 }
 
 FastDistanceApproximation square_dist_fast( const tripoint_bub_ms &loc1,
