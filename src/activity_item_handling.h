@@ -1,22 +1,40 @@
+#include <memory>
 #include <optional>
 #include <unordered_set>
 #include <utility>
 #include <vector>
 
 #include "activity_handlers.h"
-#include "coords_fwd.h"
+#include "character.h"
+#include "coordinates.h"
+#include "game.h"
 #include "item.h"
+#include "map.h"
 #include "map_scale_constants.h"
 #include "requirements.h"
 #include "type_id.h"
 
-class Character;
 class item_location;
 class player_activity;
 class vehicle;
 class vpart_reference;
 class zone_data;
 enum zone_activity_stage : int;
+
+struct requirement_failure_reasons {
+    void convert_requirement_check_result( requirement_check_result req_res );
+    bool check_skip_location() const;
+
+    bool no_path = false;
+    bool skip_location_no_zone = false;
+    bool skip_location_blocking = false;
+    bool skip_location_no_skill = false;
+    bool skip_location_unknown_activity = false;
+    bool skip_location_no_location = false;
+    bool skip_location_no_match = false;
+    bool skip_location = false;
+    bool no_craft_disassembly_location_route_found = false;
+};
 
 namespace zone_sorting
 {
@@ -34,9 +52,23 @@ struct unload_sort_options {
     int unload_sparse_threshold = 0;
 };
 
-bool sorter_out_of_bounds( Character &you );
+template <typename T>
+bool sorter_out_of_bounds( Character &you, const T &act )
+{
+    const map &here = get_map();
+    if( !here.inbounds( you.pos_bub() ) ) {
+        // p is implicitly an NPC that has been moved off the map, so reset the activity
+        // and unload them
+        you.cancel_activity();
+        you.assign_activity( act );
+        you.set_moves( 0 );
+        g->reload_npcs();
+        return true;
+    }
+    return false;
+}
 
-//returns true if successfully routed to destination
+//returns true if there's an existing route to destination
 bool route_to_destination( Character &you, player_activity &act,
                            const tripoint_bub_ms &dest, zone_activity_stage &stage );
 /**
@@ -224,4 +256,11 @@ bool vehicle_repair_do( Character &you, const activity_reason_info &act_info,
                         const tripoint_abs_ms &, const tripoint_bub_ms &src_loc );
 
 /* end TODO: move to activity actor */
+
+void revert_npc_post_activity( Character &you, activity_id act_id, bool no_locations );
+bool out_of_moves( Character &you, activity_id act_id );
+std::optional<bool> route( Character &you, const tripoint_bub_ms &src_bub, activity_id act_id,
+                           requirement_failure_reasons &fail_reason, bool check_only );
+void activity_failure_message( Character &you, activity_id new_activity,
+                               const requirement_failure_reasons &fail_reason, bool no_locations );
 } //namespace multi_activity_actor
