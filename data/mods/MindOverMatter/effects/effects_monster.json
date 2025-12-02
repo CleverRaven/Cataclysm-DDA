@@ -137,6 +137,30 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_feral_heightened_senses",
+    "name": [ "Heightened Senses" ],
+    "desc": [ "Your base senses are heightened." ],
+    "show_in_info": true,
+    "enchantments": [ { "values": [ { "value": "VISION_RANGE", "multiply": 0.1 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_feral_heightened_senses_2",
+    "name": [ "Heightened Senses" ],
+    "desc": [ "Your base senses are heightened." ],
+    "show_in_info": true,
+    "enchantments": [ { "values": [ { "value": "VISION_RANGE", "multiply": 0.25 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_feral_heightened_senses_3",
+    "name": [ "Heightened Senses" ],
+    "desc": [ "Your base senses are heightened." ],
+    "show_in_info": true,
+    "enchantments": [ { "values": [ { "value": "VISION_RANGE", "multiply": 0.4 } ] } ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_pattern_screamer_rock_thrower",
     "name": [ { "str": "One Perfect Rock", "//~": "NO_I18N" } ],
     "desc": [ { "str": "You are prepared to ruin the player's day with an inhumanly accurate thrown rock.", "//~": "NO_I18N" } ]
