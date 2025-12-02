@@ -3402,5 +3402,17 @@
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "stick", 1 ] ], [ [ "sheet_canvas", 1 ], [ "sheet_canvas_patchwork", 1 ] ] ],
     "byproducts": [ [ "splinter", 8 ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "razor_blade_taped",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "survival",
+    "time": "1 m",
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "razor_blade", 1 ], [ "duct_tape", 5 ]  ] ]
   }
 ]
