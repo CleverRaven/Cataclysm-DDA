@@ -903,6 +903,34 @@ void Item_factory::finalize_post( itype &obj )
                           obj.id.str(), dtype.str() );
             }
         }
+
+        const use_function *consume_drug = obj.get_use( "consume_drug" );
+        if( consume_drug ) {
+            const consume_drug_iuse *consume_drug_use = dynamic_cast<const consume_drug_iuse *>
+                    ( consume_drug->get_actor_ptr() );
+
+            // We compare the vitamins to make sure they're equal...
+            const auto &LHS_vitmap = consume_drug_use->vitamins;
+            const auto &RHS_vitmap = obj.comestible->default_nutrition_read_only().vitamins();
+            for( const std::pair<const vitamin_id, vitamin> &vit_pair : vitamin::all() ) {
+                const vitamin_id &vit = vit_pair.first;
+                // Bounds check. Stupid juggling because LHS is a range, we want the midpoint.
+                const auto LHS_range = LHS_vitmap.find( vit );
+                const bool LHS_has_vit = LHS_vitmap.find( vit ) != LHS_vitmap.end();
+                const bool RHS_has_vit = RHS_vitmap.find( vit ) != RHS_vitmap.end();
+
+                const int LHS_vit_amt = LHS_has_vit ?
+                                        ( LHS_range->second.first + LHS_range->second.second ) / 2 :
+                                        0;
+                const int RHS_vit_amt = RHS_has_vit ?
+                                        RHS_vitmap.find( vit )->second :
+                                        0;
+                if( LHS_vit_amt != RHS_vit_amt ) {
+                    debugmsg( "Error in item definition %s.  Food vitamins and consume_drug vitamins have different vitamin amounts for %s.",
+                              obj.id.c_str(), vit.c_str() );
+                }
+            }
+        }
     }
 
     // weight_override, weight_add, weight_mult, group_id
