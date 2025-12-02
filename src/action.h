@@ -298,6 +298,9 @@ enum action_id : int {
     ACTION_DISTRACTION_MANAGER,
     /**@}*/
 
+    /** Exports save archive and game report for github bug reports. No associated hotkey. */
+    ACTION_EXPORT_BUG_REPORT_ARCHIVE,
+
     // Debug Functions
     /**@{*/
     /** Toggle full-screen mode */
