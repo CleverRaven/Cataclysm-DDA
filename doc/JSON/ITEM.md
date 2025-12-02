@@ -960,8 +960,7 @@ Gun mods can be defined like this:
   "target_charges": 2,     // How many items should the transformation result in. Only works with items transformed into a container. Optional.
   "rand_target_charges": [ 10, 15, 25 ], // Randomize the charges the transformed item has. This example has a 50% chance of rng(10, 15) charges and a 50% chance of rng(15, 25) (endpoints are included)
   "target_ammo": 3,        // Number of charges (not count) the item should contain. Optional.
-  "target_timer": 1000,    // Set up a timer for the transformed object. Optional.
-  "active": true           // Set the transformed item to active. Optional.
+  "target_timer": 1000     // Set up a timer for the transformed object. Optional.
 },
 "revert_msg": "The torch fades out.", // Message to be printed when revert_to or transform_into performs its transformation
 "sub": "hotplate",         // optional; this tool has the same functions as another tool
@@ -1176,7 +1175,6 @@ The contents of `use_action` fields can either be a string indicating a built-in
   "target": "gasoline_lantern_on",          // The item to transform to
   "target_group": "twisted_geometry",       // If used, target is a random item from itemgroup
   "variant_type": "condom_plain",           // (optional) Defaults to `<any>`. Specific variant type to set for the transformed item. Special string `<any>` will pick a random variant from all available variants, based on the variant's defined weight
-  "active": true,                           // Whether the item is active once transformed
   "ammo_scale": 0,                          // For use when an item automatically transforms into another when its ammo drops to 0, or to allow guns to transform with 0 ammo
   "msg": "You turn the lamp on.",           // Message to display when activated
   "target_timer": 0,                        // (Optional) Set timer on transformed item. Mutually exclusive with set_timer.

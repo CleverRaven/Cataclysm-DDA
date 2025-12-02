@@ -46,8 +46,6 @@ void item_transformation::deserialize( const JsonObject &jo )
     if( !ammo_type.is_empty() && !container.is_empty() ) {
         jo.throw_error_at( "target_ammo", "Transform actor specified both ammo type and container type" );
     }
-
-    optional( jo, false, "active", active, false );
 }
 
 void item_transformation::transform( Character *carrier, item &it, bool dont_take_off ) const
@@ -86,7 +84,7 @@ void item_transformation::transform( Character *carrier, item &it, bool dont_tak
             it.countdown_point = calendar::turn + target_timer;
         }
 
-        it.active = active || it.has_temperature() || it.has_flag( json_flag_SPAWN_ACTIVE )  ||
+        it.active = it.has_temperature() || it.has_flag( json_flag_SPAWN_ACTIVE )  ||
                     target_timer > 0_seconds;
 
     } else {
@@ -111,7 +109,8 @@ void item_transformation::transform( Character *carrier, item &it, bool dont_tak
             content.countdown_point = calendar::turn + target_timer;
         }
 
-        content.active = active || content.has_temperature() || target_timer > 0_seconds;
+        content.active = content.has_temperature() || content.has_flag( json_flag_SPAWN_ACTIVE ) ||
+                         target_timer > 0_seconds;
 
         for( int i = 0; i < count; i++ ) {
             if( !it.put_in( content, pocket_type::CONTAINER ).success() ) {
