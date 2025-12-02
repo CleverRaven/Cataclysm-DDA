@@ -458,20 +458,19 @@
     "using": [ [ "tailoring_cotton_small", 16 ], [ "cordage", 2 ] ]
   },
   {
-  "result": "helmet_army",
-  "type": "recipe",
-  "activity_level": "LIGHT_EXERCISE",
-  "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_HEAD",
-  "skill_used": "fabrication",
-  "difficulty": 1,
-  "time": "5 m",
-  "autolearn": true,
-  "components": [ [ "helmet_mounting_brackets", 1 ], [ "helmet_army_stripped", 1 ] ],
-  "qualities": [
-    { "id": "SCREW", "level": 1 } ]
-},
-{
+    "result": "helmet_army",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "5 m",
+    "autolearn": true,
+    "components": [ [ "helmet_mounting_brackets", 1 ], [ "helmet_army_stripped", 1 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ]
+  },
+  {
     "result": "helmet_aztec",
     "//": "A log is required in this recipe, as I don't think you can bend 2x4s into the shape of an eagle.",
     "type": "recipe",
