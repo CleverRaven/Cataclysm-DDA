@@ -2,24 +2,24 @@
   {
     "type": "mutation",
     "id": "EGGSAC_SURVIVABLE",
-    "name": { "str": "Spider egg host", "//~": "NO_I18N" },
+    "name": { "str": "Spider egg host" },
     "points": 0,
     "player_display": false,
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": { "str": "You don't feel very well.  On an existential level.", "//~": "NO_I18N" }
+    "description": "You don't feel very well.  On an existential level."
   },
   {
     "type": "mutation",
     "id": "EGGSAC_FATAL",
-    "name": { "str": "Spider egg host", "//~": "NO_I18N" },
+    "name": { "str": "Spider egg host" },
     "points": 0,
     "player_display": false,
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": { "str": "You don't feel very well.  On an existential level.", "//~": "NO_I18N" }
+    "description": "You don't feel very well.  On an existential level."
   },
   {
     "type": "mutation",
@@ -34,13 +34,13 @@
   {
     "type": "mutation",
     "id": "MANIFEST_DESTINY_GOBLIN",
-    "name": { "str": "Transforming into Goblin", "//~": "NO_I18N" },
+    "name": { "str": "Transforming into Goblin" },
     "points": 0,
     "player_display": false,
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": { "str": "You don't feel very well.  On an existential level.", "//~": "NO_I18N" }
+    "description": "You don't feel very well.  On an existential level."
   },
   {
     "type": "mutation",
@@ -55,13 +55,13 @@
   {
     "type": "mutation",
     "id": "MANIFEST_DESTINY_SPIDER",
-    "name": { "str": "Transforming into Spider", "//~": "NO_I18N" },
+    "name": { "str": "Transforming into Spider" },
     "points": 0,
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
     "player_display": false,
-    "description": { "str": "You don't feel very well.  On an existential level.", "//~": "NO_I18N" }
+    "description": "You don't feel very well.  On an existential level."
   },
   {
     "type": "mutation",
@@ -107,25 +107,25 @@
   {
     "type": "mutation",
     "id": "NIGHTMARE_CHIMERAS",
-    "name": { "str": "Haunted by your dreams made flesh", "//~": "NO_I18N" },
+    "name": { "str": "Haunted by your dreams made flesh" },
     "points": 0,
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
     "player_display": false,
-    "description": { "str": "Your dreams can change reality.", "//~": "NO_I18N" },
+    "description": "Your dreams can change reality.",
     "vitamin_rates": [ [ "dream", -8640000 ] ]
   },
   {
     "type": "mutation",
     "id": "FRIENDLY_CHIMERAS",
-    "name": { "str": "Accompanied by your dreams made flesh", "//~": "NO_I18N" },
+    "name": { "str": "Accompanied by your dreams made flesh" },
     "points": 0,
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
     "player_display": false,
-    "description": { "str": "Your dreams can change reality.", "//~": "NO_I18N" },
+    "description": "Your dreams can change reality.",
     "vitamin_rates": [ [ "dream", -8640000 ] ]
   },
   {
@@ -149,11 +149,8 @@
   {
     "type": "mutation",
     "id": "GENERIC_UNCANNY_DODGE_TRAIT",
-    "name": { "str": "The Trait That Gives you Uncanny Dodge", "//~": "NO_I18N" },
-    "description": {
-      "str": "The uncanny dodge flag now works in effects, but preserve this trait for conditional logic such as with lilin.",
-      "//~": "NO_I18N"
-    },
+    "name": { "str": "The Trait That Gives you Uncanny Dodge" },
+    "description": "The uncanny dodge flag now works in effects, but preserve this trait for conditional logic such as with lilin.",
     "points": 1,
     "starting_trait": false,
     "purifiable": false,
@@ -264,11 +261,11 @@
   {
     "type": "mutation",
     "id": "DHAMPIR_FANGS_ACTIVE",
-    "name": { "str": "Dhampir Fangs on", "//~": "NO_I18N" },
+    "name": { "str": "Dhampir Fangs on" },
     "points": 0,
     "visibility": 1,
     "ugliness": 2,
-    "description": { "str": "Fang on!", "//~": "NO_I18N" },
+    "description": "Fang on!",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
@@ -594,8 +591,8 @@
   {
     "type": "mutation",
     "id": "VAMPIRE_TRUCE",
-    "name": { "str": "Vampire's Truce", "//~": "NO_I18N" },
-    "description": { "str": "The hidden trait that makes other vampires not attack you first.  It should be hidden.", "//~": "NO_I18N" },
+    "name": { "str": "Vampire's Truce" },
+    "description": "The hidden trait that makes other vampires not attack you first.  It should be hidden.",
     "points": 1,
     "valid": false,
     "purifiable": false,
@@ -608,6 +605,7 @@
     "name": { "str": "Blood Arts" },
     "points": 1,
     "description": "This provides the school trait for vampire blood powers.  It should not be visible.",
+    "//I18N": true,
     "valid": false,
     "purifiable": false,
     "player_display": false
@@ -1024,14 +1022,11 @@
   {
     "type": "mutation",
     "id": "VAMPIRE_BEAST_CLAWS_active",
-    "name": { "str": "Claws of the Beast Extended", "//~": "NO_I18N" },
+    "name": { "str": "Claws of the Beast Extended" },
     "points": 0,
     "visibility": 3,
     "ugliness": 2,
-    "description": {
-      "str": "Your fingers are transformed into sharp claws.  You can use them to attack, but performing mundane tasks will be harder.",
-      "//~": "NO_I18N"
-    },
+    "description": "Your fingers are transformed into sharp claws.  You can use them to attack, but performing mundane tasks will be harder.",
     "types": [ "CLAWS" ],
     "cost": 0,
     "player_display": false,
@@ -1335,12 +1330,9 @@
   {
     "type": "mutation",
     "id": "VAMPIRE_BAT_FORM_TRAITS",
-    "name": { "str": "Bat Form", "//~": "NO_I18N" },
+    "name": { "str": "Bat Form" },
     "points": 0,
-    "description": {
-      "str": "You are a bat.  This provides the actual effects of bat form.  Should not be player-visible.",
-      "//~": "NO_I18N"
-    },
+    "description": "You are a bat.  This provides the actual effects of bat form.  Should not be player-visible.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
@@ -1397,12 +1389,9 @@
   {
     "type": "mutation",
     "id": "VAMPIRE_WOLF_FORM_TRAITS",
-    "name": { "str": "Wolf Form", "//~": "NO_I18N" },
+    "name": { "str": "Wolf Form" },
     "points": 0,
-    "description": {
-      "str": "You are a wolf.  This provides the actual effects of wolf form.  Should not be player-visible.",
-      "//~": "NO_I18N"
-    },
+    "description": "You are a wolf.  This provides the actual effects of wolf form.  Should not be player-visible.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
@@ -1451,9 +1440,9 @@
   {
     "type": "mutation",
     "id": "VAMPIRE_MIST_FORM_TRAITS",
-    "name": { "str": "Mist form traits", "//~": "NO_I18N" },
+    "name": { "str": "Mist form traits" },
     "points": 1,
-    "description": { "str": "This mutation carries the traits for mist form.  You shouldn't be able to see it in-game.", "//~": "NO_I18N" },
+    "description": "This mutation carries the traits for mist form.  You shouldn't be able to see it in-game.",
     "valid": false,
     "player_display": false,
     "enchantments": [ { "ench_effects": [ { "effect": "effect_vampire_mist_form", "intensity": 1 } ] } ],
@@ -1527,12 +1516,9 @@
   {
     "type": "mutation",
     "id": "VAMPIRE_SHADOW_FORM_TRAITS",
-    "name": { "str": "Shadow Form", "//~": "NO_I18N" },
+    "name": { "str": "Shadow Form" },
     "points": 0,
-    "description": {
-      "str": "You are shrouded in shadows.  This provides the actual effects of Shadow form.  Should not be player-visible.",
-      "//~": "NO_I18N"
-    },
+    "description": "You are shrouded in shadows.  This provides the actual effects of Shadow form.  Should not be player-visible.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
@@ -1608,12 +1594,9 @@
   {
     "type": "mutation",
     "id": "MENTOR_PEACE",
-    "name": { "str": "Mentor's peace", "//~": "NO_I18N" },
+    "name": { "str": "Mentor's peace" },
     "points": 0,
-    "description": {
-      "str": "Intended to be hidden.  Prevent the mentor from being killed by vampires and renfields and makes them react to attacks by vanishing in mist.",
-      "//~": "NO_I18N"
-    },
+    "description": "Intended to be hidden.  Prevent the mentor from being killed by vampires and renfields and makes them react to attacks by vanishing in mist.",
     "//": "Until NPC_DEATH can work, I'm using a forcefield so they can't perma-die before vanishing forever.  I tried to use an evasion effect so the message would be more fitting but it interfered with the hit_me.",
     "//2": "<npcname> and %1$s both failed to work for dialogue-based vanishing, so until it is fixed these messages will refer to the mentor's title.",
     "starting_trait": false,
@@ -1990,7 +1973,7 @@
   {
     "type": "mutation",
     "id": "VAMPIRE_BLOOD_FOR_POTENCY_REAL",
-    "name": { "str": "Boiling Crimson Cauldron Real", "//~": "NO_I18N" },
+    "name": { "str": "Boiling Crimson Cauldron Real" },
     "points": 10,
     "description": "Increases blood potency and drain while the player-visible version is active and has enough blood.  You should never see this.",
     "starting_trait": false,
@@ -2193,12 +2176,9 @@
   {
     "type": "mutation",
     "id": "BOANN_RETALIATION",
-    "name": { "str": "Boann's retaliation", "//~": "NO_I18N" },
+    "name": { "str": "Boann's retaliation" },
     "points": 0,
-    "description": {
-      "str": "Intended to be hidden.  Makes Boann teleport the player away, spawns some huntsmen and hounds then cure all her ailments and injuries if she survives being hit by the player.",
-      "//~": "NO_I18N"
-    },
+    "description": "Intended to be hidden.  Makes Boann teleport the player away, spawns some huntsmen and hounds then cure all her ailments and injuries if she survives being hit by the player.",
     "starting_trait": false,
     "player_display": false,
     "purifiable": false,
@@ -2224,9 +2204,9 @@
   {
     "type": "mutation",
     "id": "XE_FACTION_CAMP_BROWNIE_BLESSING",
-    "name": { "str": "Brownie's Blessing", "//~": "NO_I18N" },
+    "name": { "str": "Brownie's Blessing" },
     "points": 1,
-    "description": { "str": "You are blessed by a brownie.  This should not be visible.", "//~": "NO_I18N" },
+    "description": "You are blessed by a brownie.  This should not be visible.",
     "purifiable": false,
     "valid": false,
     "player_display": false,
