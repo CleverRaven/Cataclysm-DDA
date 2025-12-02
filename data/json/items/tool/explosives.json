@@ -189,7 +189,15 @@
     "material": [ "paper" ],
     "symbol": ";",
     "color": "red",
-    "use_action": [ "FIRECRACKER" ]
+    "use_action": {
+      "type": "transform",
+      "need_fire_msg": "You need a source of fire!",
+      "target": "firecracker_act",
+      "target_timer": "2 seconds",
+      "msg": "You light the firecracker.",
+      "need_fire": 1,
+      "menu_text": "Light up"
+    }
   },
   {
     "id": "firecracker_act",
@@ -221,7 +229,15 @@
     "material": [ "paper" ],
     "symbol": "*",
     "color": "red",
-    "use_action": [ "FIRECRACKER_PACK" ]
+    "use_action": {
+      "type": "transform",
+      "need_fire_msg": "You need a source of fire!",
+      "target": "firecracker_pack_act",
+      "target_timer": "27 seconds",
+      "msg": "You light the pack of firecrackers.",
+      "need_fire": 1,
+      "menu_text": "Light up"
+    }
   },
   {
     "id": "firecracker_pack_act",
