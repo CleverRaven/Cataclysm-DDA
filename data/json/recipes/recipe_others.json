@@ -3410,9 +3410,10 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "survival",
+    "difficulty": 0,
     "time": "1 m",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "razor_blade", 1 ], [ "duct_tape", 5 ]  ] ]
+    "components": [ [ "razor_blade", 1 ], [ [ "duct_tape", 5 ], [ "medical_tape", 10 ] ] ]
   }
 ]
