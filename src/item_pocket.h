@@ -405,7 +405,7 @@ class item_pocket
         static void delete_preset( std::vector<item_pocket::favorite_settings>::iterator iter );
         static std::vector<item_pocket::favorite_settings> pocket_presets;
 
-        // Set wether rigid items are blocked in the pocket
+        // Set whether rigid items are blocked in the pocket
         void set_no_rigid( const std::set<sub_bodypart_id> &is_no_rigid );
 
         // should the name of this pocket be used as a description
