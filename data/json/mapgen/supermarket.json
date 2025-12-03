@@ -879,15 +879,6 @@
     }
   },
   {
-    "nested_mapgen_id": "shelf_commercial_special_seasonal",
-    "type": "mapgen",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "place_furniture": [ { "furn": "f_warehouse_shelf", "x": 0, "y": 0 } ],
-      "place_items": [ { "item": "SUS_shelf_commercial_special_seasonal", "x": 0, "y": 0 } ]
-    }
-  },
-  {
     "nested_mapgen_id": "shelf_commercial_bread_specialty",
     "type": "mapgen",
     "object": {

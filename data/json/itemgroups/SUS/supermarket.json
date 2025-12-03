@@ -1072,8 +1072,7 @@
       { "group": "SUS_shelf_commercial_bread_sweet", "prob": 1 },
       { "group": "SUS_shelf_commercial_bread", "prob": 1 },
       { "group": "SUS_shelf_commercial_frozen_meals", "prob": 1 },
-      { "group": "SUS_shelf_commercial_frozen_vegetables", "prob": 1 },
-      { "group": "SUS_shelf_commercial_special_seasonal", "prob": 1 }
+      { "group": "SUS_shelf_commercial_frozen_vegetables", "prob": 1 }
     ]
   },
   {
