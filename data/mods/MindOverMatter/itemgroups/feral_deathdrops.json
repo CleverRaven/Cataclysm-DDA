@@ -254,7 +254,7 @@
         "distribution": [ { "item": "grenade_anti_psi", "prob": 50 }, { "item": "grenade_anti_psi_expended", "prob": 50 } ],
         "prob": 25
       },
-      { "group": "dist_shield_belts", "prob": 25, "damage": [ 1, 4 ] }
+      { "group": "dist_shield_belts", "prob": 25, "damage": [ 1, 5 ] }
     ]
   },
   {
@@ -275,7 +275,7 @@
       { "group": "feral_humans_crystal_drops_clair", "prob": 40 },
       { "group": "feral_humans_crystal_drops_vita", "prob": 25 },
       { "item": "phavian_psionic_martial_power_book", "prob": 8 },
-      { "group": "dist_psionic_shield_belts", "prob": 60, "damage": [ 1, 4 ] },
+      { "group": "dist_psionic_shield_belts", "prob": 60, "damage": [ 1, 5 ] },
       {
         "distribution": [ { "item": "grenade_anti_psi", "prob": 50 }, { "item": "grenade_anti_psi_expended", "prob": 50 } ],
         "prob": 25
