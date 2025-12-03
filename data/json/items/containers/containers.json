@@ -5347,7 +5347,7 @@
     "id": "six_pack_rings",
     "type": "ITEM",
     "category": "container",
-    "name": { "str": "six-pack rings" },
+    "name": { "str_sp": "six-pack rings" },
     "description": "A set of plastic rings meant to hold aluminum cans.",
     "symbol": "8",
     "color": "light_cyan",
