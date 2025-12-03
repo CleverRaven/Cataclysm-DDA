@@ -1,7 +1,8 @@
 #include "cata_catch.h"
 #include "cata_utility.h"
 
-TEST_CASE( "match_include_exclude basic includes", "[cata_utility]" ) {
+TEST_CASE( "match_include_exclude basic includes", "[cata_utility]" )
+{
     CHECK( match_include_exclude( "tank bank", "tank,bank" ) );
     CHECK( match_include_exclude( "hello tank", "tank" ) );
     CHECK( !match_include_exclude( "hello", "tank" ) );
