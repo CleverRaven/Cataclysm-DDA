@@ -13,15 +13,11 @@
     "extend": { "widgets": [ "martial_mastery" ] }
   },
   {
+    "//": "Extend with the danger widget",
+    "copy-from": "sidebar-mobile",
+    "type": "widget",
     "id": "sidebar-mobile",
-    "width": 43,
-    "style": "sidebar",
-    "description": "This one intended for mobile use where every symbol counts. Fixed data takes 22 lines and 43 symbols width. ",
-    "separator": ": ",
-    "padding": 0,
-    "label": { "str": "mobile", "ctxt": "UI sidebar" },
-    "widgets": [ "martial_mastery" ],
-    "type": "widget"
+    "extend": { "widgets": [ "martial_mastery" ] }
   },
   {
     "//": "Extend with the danger widget",
