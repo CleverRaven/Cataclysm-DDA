@@ -2680,7 +2680,7 @@ inventory_selector::header_stats inventory_selector::get_pocket_summary_header_s
                 for( const auto &pwc : pockets_with_space ) {
                     if( !pockets_match( pwc, large_free_space ) && !pockets_match( pwc, long_free_space ) ) {
                         if( other_spaces.empty() || !pockets_match( pwc, other_spaces.back() ) ) {
-                            if( other_spaces.size() < show_other_spaces_opt ) {
+                            if( other_spaces.size() < static_cast<size_t>( show_other_spaces_opt ) ) {
                                 other_spaces.push_back( pwc );
                                 other_spaces_copies.push_back( 1 );
                             } else {
