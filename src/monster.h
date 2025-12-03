@@ -34,6 +34,7 @@ class JsonOut;
 class effect_source;
 class item;
 class map;
+class PathfindingSettings;
 enum class mon_trigger : int;
 enum class phase_id : int;
 struct monster_plan;
@@ -631,7 +632,7 @@ class monster : public Creature
          */
         void on_load();
 
-        const pathfinding_settings &get_pathfinding_settings() const override;
+        const PathfindingSettings &get_pathfinding_settings() const override;
         std::function<bool( const tripoint_bub_ms & )> get_path_avoid() const override;
         std::vector<std::pair<std::string, std::string>> get_overlay_ids() const;
     private:
