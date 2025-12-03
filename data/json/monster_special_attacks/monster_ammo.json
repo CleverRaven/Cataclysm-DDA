@@ -82,5 +82,17 @@
     "id": "BILE_BLIND",
     "type": "ammo_effect",
     "on_hit_effects": [ { "effect": "boomered", "duration": "30 s", "intensity": 1, "need_touch_skin": true } ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
+    "id": "bone_dart",
+    "copy-from": "rock",
+    "looks_like": "bee_sting",
+    "color": "white",
+    "name": { "str": "bone dart" },
+    "description": "A naturally fletched projectile made of bone and cartilage.  It feels denser than you'd expect.",
+    "material": [ "bone" ],
+    "weight": "250 g"
   }
 ]
