@@ -128,8 +128,6 @@ static const efftype_id effect_recover( "recover" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_stunned( "stunned" );
 
-static const flag_id json_flag_SPAWN_ACTIVE( "SPAWN_ACTIVE" );
-
 static const fault_id fault_bionic_salvaged( "fault_bionic_salvaged" );
 
 static const furn_str_id furn_f_kiln_empty( "f_kiln_empty" );
@@ -176,8 +174,6 @@ static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_survival( "survival" );
 static const skill_id skill_traps( "traps" );
-
-static const std::string fault_type_shorted = "shorted";
 
 static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
