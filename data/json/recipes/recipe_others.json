@@ -3414,6 +3414,6 @@
     "time": "1 m",
     "reversible": false,
     "autolearn": true,
-    "components": [ [ "razor_blade", 1 ], [ [ "duct_tape", 5 ], [ "medical_tape", 10 ] ] ]
+    "components": [ [ [ "razor_blade", 1 ] ], [ [ "duct_tape", 5 ], [ "medical_tape", 10 ] ] ]
   }
 ]
