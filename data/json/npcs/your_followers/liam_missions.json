@@ -96,7 +96,7 @@
     "id": "MISSION_Liam_Bury_Chris_2",
     "type": "mission_definition",
     "name": { "str": "Dig a pit in the bare patch of dirt under the elm tree in Liam's back yard." },
-    "goal": "MGOAL_FIND_ITEM",
+    "goal": "MGOAL_CONDITION",
     "difficulty": 0,
     "value": 0,
     "start": {
@@ -108,6 +108,7 @@
       },
       "assign_mission_target": { "var": "chris_gravesite" }
     },
+    "goal_condition": { "math": [ "Chris_bury_progress = 12" ] },
     "end": { "effect": { "math": [ "Chris_bury_progress = 12" ] } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
