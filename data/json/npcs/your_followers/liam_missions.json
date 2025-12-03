@@ -55,14 +55,8 @@
     "dynamic_line": "*nods.  \"Do you need me to give you any tips?  I've dug a few holes in my day.\"",
     "speaker_effect": { "effect": [ { "add_mission": "MISSION_Liam_Bury_Chris_2" }, { "math": [ "Chris_bury_progress = 22" ] } ] },
     "responses": [
-      {
-        "text": "I know how to dig a hole.  Let's go.",
-        "topic": "TALK_DONE"
-      },
-      {
-        "text": "[TUTORIAL] Sure, give me some pointers.",
-        "topic": "TALK_Liam_Tutorial_Construction"
-      },
+      { "text": "I know how to dig a hole.  Let's go.", "topic": "TALK_DONE" },
+      { "text": "[TUTORIAL] Sure, give me some pointers.", "topic": "TALK_Liam_Tutorial_Construction" },
       { "text": "Wait.  I wanted to talk about something else first.", "topic": "TALK_FRIEND_Liam" }
     ]
   },
@@ -71,10 +65,7 @@
     "id": "TALK_Liam_Tutorial_Construction",
     "dynamic_line": "You're going to want to head North to the backyard of my cabin, and look for a single patch of dirt just south of an elm tree.  You can identify the type of tree by <color=yellow>moving your mouse over it</color> or <color=yellow>pressing <press_examine></color> to examine it, but there's only one tree out there.  Once you've identified the spot, stand next to it and <color=yellow>press <press_construct></color> to open the construction menu.  Choose <color=yellow>'dig a shallow pit'</color>, and select the dirt.  I'll help dig of course, as long as <color=yellow>I am following and nearby</color>.  When we're done, go back to the construction menu and select 'dig a pit', and select our shallow pit.  That should get us a deep enough pit.",
     "responses": [
-      {
-        "text": "Thanks for breaking the fourth wall on my account.  Let's go.",
-        "topic": "TALK_DONE"
-      },
+      { "text": "Thanks for breaking the fourth wall on my account.  Let's go.", "topic": "TALK_DONE" },
       { "text": "I wanted to talk about something else before we get started.", "topic": "TALK_FRIEND_Liam" }
     ]
   },
@@ -86,9 +77,7 @@
     "difficulty": 0,
     "value": 0,
     "item": "shovel",
-	"end": {
-		"effect": { "math": [ "Chris_bury_progress = 12" ] }
-	},
+    "end": { "effect": { "math": [ "Chris_bury_progress = 12" ] } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "dialogue": {
@@ -110,10 +99,16 @@
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 0,
     "value": 0,
-    "item": "shovel",
-	"end": {
-		"effect": { "math": [ "Chris_bury_progress = 12" ] }
-	},
+    "start": {
+      "effect": {
+        "u_location_variable": { "u_val": "chris_gravesite" },
+        "target_params": { "om_terrain": "cabin_liam", "z": 0 },
+        "terrain": "t_dirt",
+        "target_max_radius": 24
+      },
+      "assign_mission_target": { "var": "chris_gravesite" }
+    },
+    "end": { "effect": { "math": [ "Chris_bury_progress = 12" ] } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "dialogue": {
