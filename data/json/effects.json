@@ -2343,16 +2343,6 @@
   },
   {
     "type": "effect_type",
-    "id": "phase_goo_coated",
-    "name": [ "Coated in phase goo" ],
-    "//": "Intended for monsters, has no effect except to create a new weak point.",
-    "desc": [ "A shimmering unreal goo covers you, making your armor oddly squishy and permeable." ],
-    "apply_message": "Your armor is softened by strange goo.",
-    "rating": "bad",
-    "show_in_info": true
-  },
-  {
-    "type": "effect_type",
     "id": "skunk_spray",
     "name": [ "Skunk Spray" ],
     "desc": [ "You were sprayed by a skunk!" ],
