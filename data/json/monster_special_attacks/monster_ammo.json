@@ -121,6 +121,17 @@
   {
     "id": "PHASE_GOO_COAT",
     "type": "ammo_effect",
-    "on_hit_effects": [ { "effect": "phase_goo_coated", "duration": "5 s", "intensity": 1 } ]
+    "spell_data": { "id": "phase_goo_coated" },
+    "always_cast_spell ": true
+  },
+  {
+    "id": "phase_goo_coated",
+    "type": "SPELL",
+    "name": { "str": "Coated in phase goo", "//~": "NO_I18N" },
+    "description": { "str": "Weird nether-goo is making your armor fade in and out of reality.", "//~": "NO_I18N" },
+    "valid_targets": [ "hostile" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "max_level": 3,
+    "shape": "blast"
   }
 ]
