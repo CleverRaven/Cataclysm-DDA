@@ -374,9 +374,10 @@ Certain entries like the snippets above are taken from the game state as opposed
 | `<item_name:ID>`                              | N/A            | gets replaced with the name of the item from ID
 | `<item_description:ID>`                       | N/A            | gets replaced with the description of the item from ID
 | `<trait_name:ID>`                             | N/A            | gets replaced with the name of the trait from ID
-| `<trait_description:ID>`                      | beta           | gets replaced with the description of the trait from ID (uses beta talker to grab the description)
-| `<spell_name:ID>`                             | N/A            | gets replaced with the description of the name from ID
-| `<spell_description:ID>`                      | N/A            | gets replaced with the description of the trait from ID
+| `<trait_description:ID>`                      | N/A            | gets replaced with the description of the trait from ID (avatar variant of trait is used, if avatar has such trait)
+| `<spell_name:ID>`                             | N/A            | gets replaced with the name of the spell from ID
+| `<spell_description:ID>`                      | N/A            | gets replaced with the description of the spell from id
+| `<u_spell_level:ID>`                          | alpha          | gets replaced with the spell level of corresponding spell alpha talker has. If alpha talker has no such spell, it returns -1
 | `<keybind:ID>` and `<keybind:CATEGORY_ID:ID>` | N/A            | gets replaced with the keys bound to a specific `"type": "keybind"` found in data/raw or "Unbound globally/locally! (<keybind_name> in keybind category CATEGORY_ID)" if unbound.
 | `<city>`                                      | N/A            | gets replaced with the name of the closest city to the avatar
 | `<time_survived>`                             | N/A            | gets replaced with time since start of the game

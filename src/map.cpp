@@ -5859,9 +5859,8 @@ void map::process_items_in_submap( submap &current_submap, const tripoint_rel_sm
         bool furniture_is_sealed = has_flag( ter_furn_flag::TFLAG_SEALED, map_location );
 
         map_stack items = i_at( map_location );
-
         process_map_items( *this, items, active_item_ref.item_ref, active_item_ref.parent,
-                           map_location, 1, flag,
+                           map_location, active_item_ref.insulation(), flag,
                            spoil_multiplier * active_item_ref.spoil_multiplier(),
                            furniture_is_sealed || active_item_ref.has_watertight_container() );
     }

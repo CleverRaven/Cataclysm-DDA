@@ -938,6 +938,7 @@ Aftershock: Properly Ruin cities
 Add BLOCK_SUPERNATURAL_HEALING flag, apply it to Clay Golem attacks in Magiclysm
 [Aftershock] Add the Sibyl profession to the Esper scenario, add precognitive powers
 [Bombastic Perks] Add the Closetland playstyle perk
+Martial Mastery Stat Widget
 
 
 
@@ -1440,6 +1441,10 @@ Fix rare overmap save corruption from specific horde metadata
 Audit solar panel installation/removal reqs for vehicles
 Fix the scaling factor for high-dpi displays.
 calculate the width of the overmap sidebar correctly
+Various UI problems caused by shared_ptr change
+Heating items now changes temperature, properly resets temp flags
+Magic teleporters expire after copy_location EOC run
+Fixing heatpack requiring appliances or fire to work
 
 
 ## Performance:
@@ -1626,6 +1631,7 @@ Clang tidy rule to catch/reject unicode replacement character
 Use copy-from for region settings instead of overlays
 Allow specifying variants for brewing and compost results
 zone sorting refactor
+multi-activity overhaul, part 3: split up generic_multi_activity_check_requirement()
 
 
 ## Build:

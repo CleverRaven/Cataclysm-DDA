@@ -165,7 +165,6 @@
       {
         "target": "mag_adult_weaver",
         "msg": "The %s matures.  Another pair of legs sharpen into blades for cutting fabric.  It still has some room to grow.",
-        "active": true,
         "moves": 50,
         "need_charges": 350,
         "need_charges_msg": "The weaver does not have enough liquid.",
@@ -208,13 +207,12 @@
     "sub": "sewing_kit",
     "copy-from": "mag_immature_weaver",
     "description": "This weaver is fully grown.  There's no light behind its eyes, yet.",
-    "extend": { "qualities": [ [ "CUT", 2 ], [ "FABRIC_CUT", 2 ] ] },
+    "extend": { "qualities": [ [ "CUT", 2 ], [ "FABRIC_CUT", 2 ] ], "flags": [ "SPAWN_ACTIVE" ] },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "watertight": true, "ammo_restriction": { "mag_awakened_water": 300 } } ],
     "use_action": [
       {
         "target": "mag_awoken_weaver",
         "msg": "The %s awakens.  It gazes at you with its many eyes, ready to serve you.",
-        "active": true,
         "moves": 50,
         "need_charges": 300,
         "need_charges_msg": "The weaver does not have enough liquid.",
@@ -321,7 +319,6 @@
       {
         "target": "mag_large_wildwood_beetle_ball",
         "msg": "The %s surges in size.  It shudders and rolls around as the relief begins to move on its own.",
-        "active": true,
         "need_charges": 400,
         "need_charges_msg": "The beetle does not have enough liquid to grow.",
         "type": "delayed_transform",
@@ -340,6 +337,7 @@
     "weight": "850 g",
     "volume": "1000 ml",
     "copy-from": "mag_wildwood",
+    "extend": { "flags": [ "SPAWN_ACTIVE" ] },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "watertight": true, "ammo_restriction": { "mag_awakened_water": 300 } } ],
     "charges_per_use": 100,
     "use_action": [ { "type": "cast_spell", "spell_id": "mag_open_beetle_ball_large", "no_fail": true, "level": 1 } ]

@@ -9,7 +9,7 @@
     "padding": 1,
     "widgets": [
       "spacebar_separator",
-      "enviroment_conditions_block",
+      "environment_conditions_block",
       "spacebar_separator",
       "player_health_and_stasistik_block",
       "player_health_and_stasistik_block_sa",

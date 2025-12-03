@@ -1129,6 +1129,9 @@ void editmap::edit_feature()
 
     blink = true;
     bool quit = false;
+
+    // Hold list till end
+    shared_ptr_fast<uilist_impl> ui_impl;
     do {
         const T_id override( emenu.selected );
         if( override ) {
@@ -1152,7 +1155,7 @@ void editmap::edit_feature()
         info_title_curr = info_title<T_t>();
         do_ui_invalidation();
 
-        emenu.query( false, get_option<int>( "BLINK_SPEED" ) );
+        ui_impl = emenu.query( false, get_option<int>( "BLINK_SPEED" ) );
         if( emenu.ret == UILIST_CANCEL ) {
             quit = true;
         } else if( ( emenu.ret >= 0 && static_cast<size_t>( emenu.ret ) < T_t::count() ) ||
@@ -1252,6 +1255,7 @@ void editmap::edit_fld()
     restore_on_out_of_scope info_title_prev( info_title_curr );
     map &here = get_map();
 
+    shared_ptr_fast<uilist_impl> ui_impl;
     blink = true;
     do {
         const field_type_id override( fmenu.selected );
@@ -1278,7 +1282,7 @@ void editmap::edit_fld()
         info_title_curr = pgettext( "Map editor: Editing field effects", "Field effects" );
         do_ui_invalidation();
 
-        fmenu.query( false, get_option<int>( "BLINK_SPEED" ) );
+        ui_impl = fmenu.query( false, get_option<int>( "BLINK_SPEED" ) );
         if( ( fmenu.ret > 0 && static_cast<size_t>( fmenu.ret ) < field_type::count() ) ||
             ( fmenu.ret == UILIST_ADDITIONAL && ( fmenu.ret_act == "LEFT" || fmenu.ret_act == "RIGHT" ) ) ) {
 

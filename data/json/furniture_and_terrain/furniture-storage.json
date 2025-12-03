@@ -1694,7 +1694,7 @@
     "id": "f_exodii_kiln",
     "name": "Exodii kiln",
     "looks_like": "f_heavy_duty_freezer",
-    "description": "An imposing kiln produced by the Exodii, used to produce their ceramic armor",
+    "description": "An imposing kiln produced by the Exodii, used to produce their ceramic armor.",
     "symbol": "H",
     "color": "brown",
     "move_cost_mod": -1,

@@ -84,10 +84,11 @@
         "rigid": true,
         "watertight": true,
         "max_contains_volume": "1 L",
+        "insulation": 3000,
         "max_contains_weight": "4 kg"
       }
     ],
-    "insulation": 1600,
+    "use_action": "HEAT_LIQUID_ITEMS",
     "flags": [ "COLLAPSE_CONTENTS", "BELT_CLIP" ]
   },
   {

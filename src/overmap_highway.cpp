@@ -22,6 +22,7 @@
 #include "map_scale_constants.h"
 #include "messages.h"
 #include "omdata.h"
+#include "options.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "point.h"
@@ -736,14 +737,13 @@ bool overmap::highway_select_end_points( const std::vector<const overmap *> &nei
 std::vector<Highway_path> overmap::place_highways(
     const std::vector<const overmap *> &neighbor_overmaps )
 {
+    highway_intersection_grid &highway_grid =
+        overmap_buffer.global_state.highway_intersections;
+
     std::vector<Highway_path> paths;
     const int base_z = RIVER_Z;
 
     const region_settings_highway &highway_settings = settings->get_settings_highway();
-    // Base distance in overmaps between vertical highways ( whole overmap gap of column_seperation - 1 )
-    const int c_seperation = highway_settings.grid_column_seperation;
-    // Base distance in overmaps between horizontal highways ( whole overmap gap of row_seperation - 1 )
-    const int r_seperation = highway_settings.grid_row_seperation;
     const int HIGHWAY_MAX_DEVIANCE = highway_settings.HIGHWAY_MAX_DEVIANCE;
 
     std::pair<bool, std::bitset<HIGHWAY_MAX_CONNECTIONS>> handle_oceans = highway_handle_oceans();
@@ -754,15 +754,13 @@ std::vector<Highway_path> overmap::place_highways(
         return paths;
     }
 
-    if( c_seperation == 0 && r_seperation == 0 ) {
-        debugmsg( "Use regional map settings to disable highways instead" );
-        return paths;
-    }
-
+    highway_grid.set_options();
     // guaranteed intersection close to (but not at) avatar start location
-    if( overmap_buffer.global_state.highway_global_offset.is_invalid() ) {
-        overmap_buffer.set_highway_global_offset();
-        overmap_buffer.generate_highway_intersection_point( overmap_buffer.get_highway_global_offset() );
+    if( highway_grid.get_grid_origin().is_invalid() ) {
+        //this only happens exactly once, upon generation of the first overmap
+        //TODO: there should be an intersection around the avatar's start location, not 0,0
+        highway_grid.set_grid_origin( point_abs_om::zero );
+        highway_grid.generate_feature_point( highway_grid.get_grid_origin() );
     }
 
     //resolve connection points, and generate new connection points
@@ -976,17 +974,20 @@ void overmap::finalize_highways( std::vector<Highway_path> &paths )
 
 std::optional<std::bitset<HIGHWAY_MAX_CONNECTIONS>> overmap::is_highway_overmap() const
 {
+    highway_intersection_grid &highway_grid =
+        overmap_buffer.global_state.highway_intersections;
+
     point_abs_om pos = this->pos();
     std::optional<std::bitset<HIGHWAY_MAX_CONNECTIONS>> result;
 
     // first, get the offset for every interhighway_node bounding this overmap
     // generate points if needed
-    const std::vector<point_abs_om> bounds = overmap_buffer.find_highway_intersection_bounds( pos );
+    const std::vector<point_abs_om> bounds = highway_grid.find_feature_point_bounds( pos );
 
     // if we're on one of those intersection OMs, return immediately with all cardinal connection points
     for( int i = 0; i < HIGHWAY_MAX_CONNECTIONS; i++ ) {
         point_abs_om intersection_grid = bounds[i];
-        if( overmap_buffer.get_overmap_highway_intersection_point( intersection_grid ).offset_pos == pos ) {
+        if( highway_grid.get_feature_point( intersection_grid ).get_offset_pos() == pos ) {
             return result.emplace( "1111" );
         }
     }
@@ -1029,11 +1030,12 @@ std::optional<std::bitset<HIGHWAY_MAX_CONNECTIONS>> overmap::is_highway_overmap(
 
     std::vector<std::optional<std::vector<point_abs_om>>> highway_oms;
     for( const point_abs_om &bound_point : bounds ) {
-        interhighway_node bound_intersection =
-            overmap_buffer.get_overmap_highway_intersection_point( bound_point );
-        for( const interhighway_node &intersection : overmap_buffer.find_highway_adjacent_intersections(
-                 bound_intersection.grid_pos ) ) {
-            highway_oms.emplace_back( check_on_path( bound_intersection.offset_pos, intersection.offset_pos ) );
+        overmap_feature_grid_node bound_intersection =
+            highway_grid.get_feature_point( bound_point );
+        for( const overmap_feature_grid_node &intersection : highway_grid.find_grid_adjacent_features(
+                 bound_intersection.get_grid_pos() ) ) {
+            highway_oms.emplace_back( check_on_path( bound_intersection.get_offset_pos(),
+                                      intersection.get_offset_pos() ) );
         }
     }
 
@@ -1053,20 +1055,28 @@ std::optional<std::bitset<HIGHWAY_MAX_CONNECTIONS>> overmap::is_highway_overmap(
     return result;
 }
 
-void interhighway_node::generate_offset( int intersection_max_radius )
+void highway_intersection_grid::set_options()
 {
+    row_separation = get_option<int>( "HIGHWAY_GRID_ROW_SEPARATION" );
+    column_separation = get_option<int>( "HIGHWAY_GRID_COLUMN_SEPARATION" );
+    max_offset_variance = get_option<int>( "HIGHWAY_GRID_VARIANCE" );
+}
+
+void highway_intersection_grid::generate_offset( overmap_feature_grid_node &node )
+{
+    const int max_offset_variance = this->max_offset_variance;
     auto no_lakes = []( const point_abs_om & pt ) {
         const region_settings &settings = overmap_buffer.get_default_settings( pt );
         if( !settings.overmap_lake ) {
             return true;
         }
-        //TODO: this can't be correct usage of default region settings...
         const region_settings_lake &lake_settings = settings.get_settings_lake();
         return !overmap::guess_has_lake( pt, lake_settings.noise_threshold_lake,
                                          lake_settings.lake_size_min );
     };
+    const point_abs_om grid_pos = node.get_grid_pos();
     tripoint_abs_om as_tripoint( grid_pos, 0 );
-    tripoint_range radius = points_in_radius( as_tripoint, intersection_max_radius );
+    tripoint_range radius = points_in_radius( as_tripoint, max_offset_variance );
     std::vector<point_abs_om> intersection_candidates;
 
     for( const tripoint_abs_om &p : radius ) {
@@ -1076,25 +1086,25 @@ void interhighway_node::generate_offset( int intersection_max_radius )
     }
     if( intersection_candidates.empty() ) {
         debugmsg( "no highway intersections could be generated in overmap radius of %d at overmap %s; reduce lake frequency",
-                  intersection_max_radius, grid_pos.to_string() );
+                  max_offset_variance, grid_pos.to_string() );
     }
-    offset_pos = random_entry( intersection_candidates );
+    node.set_offset_pos( random_entry( intersection_candidates ) );
 }
 
-void interhighway_node::serialize( JsonOut &out ) const
+void overmap_feature_grid_node::serialize( JsonOut &out ) const
 {
     out.start_object();
     out.member( "grid_pos", grid_pos );
     out.member( "offset_pos", offset_pos );
-    out.member( "adjacent_intersections", adjacent_intersections );
+    out.member( "adjacent_intersections", adjacent_features );
     out.end_object();
 }
 
-void interhighway_node::deserialize( const JsonObject &obj )
+void overmap_feature_grid_node::deserialize( const JsonObject &obj )
 {
     obj.read( "grid_pos", grid_pos );
     obj.read( "offset_pos", offset_pos );
-    obj.read( "adjacent_intersections", adjacent_intersections );
+    obj.read( "adjacent_intersections", adjacent_features );
 }
 
 void overmap::place_highway_supported_special( const overmap_special_id &special,

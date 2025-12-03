@@ -14,7 +14,7 @@
     "material": [ "rdx" ],
     "symbol": ";",
     "color": "light_gray",
-    "use_action": [ "C4" ],
+    "use_action": { "target": "c4armed", "set_timer": true, "menu_text": "Activate", "type": "transform" },
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -58,7 +58,6 @@
       "target": "dynamite_act",
       "msg": "You light the dynamite.",
       "target_timer": "20 seconds",
-      "active": true,
       "need_fire": 1,
       "menu_text": "Light fuse",
       "type": "transform"
@@ -190,7 +189,15 @@
     "material": [ "paper" ],
     "symbol": ";",
     "color": "red",
-    "use_action": [ "FIRECRACKER" ]
+    "use_action": {
+      "type": "transform",
+      "need_fire_msg": "You need a source of fire!",
+      "target": "firecracker_act",
+      "target_timer": "2 seconds",
+      "msg": "You light the firecracker.",
+      "need_fire": 1,
+      "menu_text": "Light up"
+    }
   },
   {
     "id": "firecracker_act",
@@ -222,7 +229,15 @@
     "material": [ "paper" ],
     "symbol": "*",
     "color": "red",
-    "use_action": [ "FIRECRACKER_PACK" ]
+    "use_action": {
+      "type": "transform",
+      "need_fire_msg": "You need a source of fire!",
+      "target": "firecracker_pack_act",
+      "target_timer": "27 seconds",
+      "msg": "You light the pack of firecrackers.",
+      "need_fire": 1,
+      "menu_text": "Light up"
+    }
   },
   {
     "id": "firecracker_pack_act",
@@ -720,7 +735,6 @@
       "need_wielding": true,
       "target": "molotov_lit",
       "msg": "You light the Molotov cocktail!",
-      "active": true,
       "moves": 250,
       "need_fire": 1,
       "menu_text": "Light rag",

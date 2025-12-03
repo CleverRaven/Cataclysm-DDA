@@ -520,7 +520,7 @@ float npc::evaluate_character( const Character &candidate, bool my_gun, bool ene
     float speed = std::max( 0.25f, candidate.get_speed() / 100.0f );
     bool is_fleeing = candidate.has_effect( effect_npc_run_away );
     int perception_inverted = std::max( ( 20 - get_per() ), 0 );
-    if( has_effect( effect_bleed ) ) {
+    if( candidate.has_effect( effect_bleed ) ) {
         int bleed_intensity = 0;
         for( const bodypart_id &bp : candidate.get_all_body_parts() ) {
             const effect &bleediness = candidate.get_effect( effect_bleed, bp );
@@ -3378,7 +3378,8 @@ bool npc::find_job_to_perform()
         }
         player_activity scan_act = player_activity( elem );
         if( elem == ACT_MOVE_LOOT ) {
-            assign_activity( elem );
+            assign_activity( zone_sort_activity_actor() );
+            return true;
         } else if( generic_multi_activity_handler( scan_act, *this->as_character(), true ) ) {
             assign_activity( elem );
             return true;

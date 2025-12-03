@@ -450,6 +450,7 @@ game::game() :
     scent( *scent_ptr ),
     timed_events( *timed_event_manager_ptr ),
     uquit( QUIT_NO ),
+    save_is_dirty( false ),
     safe_mode( SAFE_MODE_ON ),
     u_shared_ptr( &u, null_deleter{} ),
     next_npc_id( 1 ),
@@ -2108,6 +2109,7 @@ int game::inventory_item_menu( item_location locThisItem,
         bool first_execution = true;
         static int lang_version = detail::get_current_language_version();
         catacurses::window w_info;
+        shared_ptr_fast<uilist_impl> ui_impl;
         do {
             //lang check here is needed to redraw the menu when using "Toggle language to English" option
             if( first_execution || lang_version != detail::get_current_language_version() ) {
@@ -2222,7 +2224,7 @@ int game::inventory_item_menu( item_location locThisItem,
             }
 
             const int prev_selected = action_menu.selected;
-            action_menu.query( false );
+            ui_impl = action_menu.query( false );
             if( action_menu.ret >= 0 ) {
                 cMenu = action_menu.ret; /* Remember: hotkey == retval, see addentry above. */
             } else if( action_menu.ret == UILIST_UNBOUND && action_menu.ret_act == "RIGHT" ) {
@@ -5138,11 +5140,10 @@ void game::control_vehicle()
             return;
         } else if( num_valid_controls > 1 ) {
             const std::optional<tripoint_bub_ms> temp = choose_adjacent( _( "Control vehicle where?" ) );
-            if( !vehicle_position ) {
+            if( !temp ) {
                 return;
-            } else {
-                vehicle_position.value() = temp.value();
             }
+            vehicle_position = temp.value();
             const optional_vpart_position vp = here.veh_at( *vehicle_position );
             if( vp ) {
                 vehicle_controls = vp.value().part_with_feature( "CONTROLS", true );

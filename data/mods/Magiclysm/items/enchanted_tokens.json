@@ -21,7 +21,6 @@
       "type": "transform",
       "menu_text": "Whisper command",
       "target": "longsword",
-      "active": false,
       "moves": 200,
       "msg": "You say the command word engraved on the token, and it rapidly grows and morphs into a shiny pristine longsword!"
     }
@@ -36,7 +35,6 @@
       "type": "transform",
       "menu_text": "Whisper command",
       "target": "arming_sword",
-      "active": false,
       "moves": 200,
       "msg": "You say the command word engraved on the token, and it rapidly grows and morphs into a shiny pristine arming sword!"
     }
@@ -51,7 +49,6 @@
       "type": "transform",
       "menu_text": "Whisper command",
       "target": "broadsword",
-      "active": false,
       "moves": 200,
       "msg": "You say the command word engraved on the token, and it rapidly grows and morphs into a shiny pristine broadsword!"
     }
@@ -66,7 +63,6 @@
       "type": "transform",
       "menu_text": "Whisper command",
       "target": "battleaxe",
-      "active": false,
       "moves": 200,
       "msg": "You say the command word engraved on the token, and it rapidly grows and morphs into a shiny pristine battle axe!"
     }
@@ -81,7 +77,6 @@
       "type": "transform",
       "menu_text": "Whisper command",
       "target": "pike",
-      "active": false,
       "moves": 200,
       "msg": "You say the command word engraved on the token, and it rapidly grows and morphs into a shiny pristine pike!"
     }
@@ -96,7 +91,6 @@
       "type": "transform",
       "menu_text": "Whisper command",
       "target": "mace",
-      "active": false,
       "moves": 200,
       "msg": "You say the command word engraved on the token, and it rapidly grows and morphs into a shiny pristine mace!"
     }
@@ -111,7 +105,6 @@
       "type": "transform",
       "menu_text": "Whisper command",
       "target": "q_staff",
-      "active": false,
       "moves": 200,
       "msg": "You say the command word engraved on the token, and it rapidly grows and morphs into a pristine quarterstaff!"
     }
@@ -126,7 +119,6 @@
       "type": "transform",
       "menu_text": "Whisper command",
       "target": "hammer",
-      "active": false,
       "moves": 200,
       "msg": "You say the command word engraved on the token, and it rapidly grows and morphs into a shiny pristine hammer!"
     }
@@ -141,7 +133,6 @@
       "type": "transform",
       "menu_text": "Whisper command",
       "target": "screwdriver_set",
-      "active": false,
       "moves": 200,
       "msg": "You say the command word engraved on the token, and it rapidly grows and morphs into a shiny pristine screwdriver set!"
     }
@@ -156,7 +147,6 @@
       "type": "transform",
       "menu_text": "Whisper command",
       "target": "crowbar",
-      "active": false,
       "moves": 200,
       "msg": "You say the command word engraved on the token, and it rapidly grows and morphs into a shiny pristine crowbar!"
     }

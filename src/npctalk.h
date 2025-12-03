@@ -60,6 +60,7 @@ void do_mopping( npc & );
 void do_read( npc & );
 void do_eread( npc & );
 void do_read_repeatedly( npc & );
+void do_study( npc & );
 void do_chop_plank( npc & );
 void do_vehicle_deconstruct( npc & );
 void do_vehicle_repair( npc & );
