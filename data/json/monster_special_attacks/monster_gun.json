@@ -223,6 +223,7 @@
         "max_item_length": "2000 m",
         "ammo_restriction": { "bone_dart": 15 }
       }
+    ],
     "melee_damage": { "bash": 2 }
   },
   {
