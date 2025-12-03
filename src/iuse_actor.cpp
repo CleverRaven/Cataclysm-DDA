@@ -128,6 +128,8 @@ static const efftype_id effect_recover( "recover" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_stunned( "stunned" );
 
+static const flag_id json_flag_SPAWN_ACTIVE( "SPAWN_ACTIVE" );
+
 static const fault_id fault_bionic_salvaged( "fault_bionic_salvaged" );
 
 static const furn_str_id furn_f_kiln_empty( "f_kiln_empty" );
@@ -174,6 +176,8 @@ static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_survival( "survival" );
 static const skill_id skill_traps( "traps" );
+
+static const std::string fault_type_shorted = "shorted";
 
 static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
@@ -237,6 +241,9 @@ void iuse_transform::load( const JsonObject &obj, const std::string & )
         obj.throw_error_at( "set_timer", "Cannot use both set_timer and target_timer at once" );
     }
 
+    optional( obj, false, "damage_failure_msg", damage_failure_msg,
+              to_translation( "Activation of your damaged %s fails." ) );
+
     optional( obj, false, "need_fire", need_fire, numeric_bound_reader<int> { 0 }, 0 );
     optional( obj, false, "need_charges_msg", need_charges_msg, to_translation( "The %s is empty!" ) );
 
@@ -280,6 +287,12 @@ std::optional<int> iuse_transform::use( Character *p, item &it, map *,
         if( p->cant_do_underwater() ) {
             return std::nullopt;
         }
+    }
+
+    if( !it.activation_success() ) {
+        p->add_msg_if_player( m_bad,
+                              damage_failure_msg, it.tname() );
+        return std::nullopt;
     }
 
     int timer_time = 0;
