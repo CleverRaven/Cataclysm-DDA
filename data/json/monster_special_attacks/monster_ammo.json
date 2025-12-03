@@ -94,5 +94,33 @@
     "description": "A naturally fletched projectile made of bone and cartilage.  It feels denser than you'd expect.",
     "material": [ "bone" ],
     "weight": "250 g"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "nether_goo",
+    "name": "nether goo",
+    "default": "phase_goo_1"
+  },
+  {
+    "id": "phase_goo_1",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
+    "name": { "str": "phase goo", "//~": "NO_I18N" },
+    "description": { "str": "Netherum phase goo, if you see this it's a bug.", "//~": "NO_I18N" },
+    "weight": "3 g",
+    "volume": "250 ml",
+    "material": [ "water" ],
+    "symbol": "=",
+    "color": "blue",
+    "phase": "liquid",
+    "ammo_type": "nether_goo",
+    "range": 40,
+    "count": 1,
+    "effects": [ "NEVER_MISFIRES", "PHASE_GOO_COAT" ]
+  },
+  {
+    "id": "PHASE_GOO_COAT",
+    "type": "ammo_effect",
+    "on_hit_effects": [ { "effect": "phase_goo_coated", "duration": "5 s", "intensity": 1 } ]
   }
 ]
