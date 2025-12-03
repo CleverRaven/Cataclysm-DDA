@@ -966,7 +966,15 @@
     "id": "commercial_frozen_meals",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ [ "chili", 1 ] ]
+    "items": [
+      [ "chili", 1 ],
+      [ "ravioli", 1 ],
+      [ "veggy_salad", 1 ],
+      [ "sushi_veggyroll", 1 ],
+      [ "sauerkraut", 1 ],
+      [ "onion_rings", 1 ],
+      [ "chicken_fried", 1 ]
+    ]
   },
   {
     "id": "SUS_shelf_commercial_frozen_meals",
@@ -1000,28 +1008,6 @@
     "type": "item_group",
     "subtype": "collection",
     "entries": [ { "group": "commercial_frozen_vegetables", "count": [ 1, 60 ] } ]
-  },
-  {
-    "id": "commercial_special",
-    "type": "item_group",
-    "subtype": "distribution",
-    "items": [
-      [ "bread_garlic", 1 ],
-      [ "bread_garlic", 1 ],
-      [ "bread_garlic", 1 ],
-      [ "bread_garlic", 1 ],
-      [ "bread_garlic", 1 ],
-      [ "bread_garlic", 1 ],
-      [ "bread_garlic", 1 ],
-      [ "bread_garlic", 1 ]
-    ]
-  },
-  {
-    "id": "SUS_shelf_commercial_special_seasonal",
-    "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
-    "type": "item_group",
-    "subtype": "collection",
-    "entries": [ { "group": "commercial_special", "count": [ 1, 60 ] } ]
   },
   {
     "id": "any_supermarket_SUS",

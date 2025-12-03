@@ -290,9 +290,9 @@
         "Ẃ": { "chance": 33, "vehicle": "truck_trailer" },
         "Ẅ": { "chance": 33, "vehicle": "semi_truck" },
         "M": { "chance": 50, "vehicle": "forklift", "rotation": 90 },
-        "$": { "chance": 33, "vehicle": "shopping_cart" },
-        "£": { "chance": 33, "vehicle": "shopping_cart" },
-        "¢": { "chance": 33, "vehicle": "shopping_cart", "rotation": 90 }
+        "$": { "vehicle": "shopping_cart" },
+        "£": { "vehicle": "shopping_cart" },
+        "¢": { "vehicle": "shopping_cart", "rotation": 90 }
       }
     }
   },
