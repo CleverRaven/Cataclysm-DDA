@@ -21,7 +21,8 @@ TEST_CASE( "match_include_exclude mixed rules", "[cata_utility]" )
     CHECK( !match_include_exclude( "big house with bank", "bank,-house,tank,-car" ) );
 }
 
-TEST_CASE( "match_include_exclude case insensitive", "[cata_utility]" ) {
+TEST_CASE( "match_include_exclude case insensitive", "[cata_utility]" )
+{
     CHECK( match_include_exclude( "TaNk", "tank" ) );
     CHECK( !match_include_exclude( "Car", "-car" ) );
 }
