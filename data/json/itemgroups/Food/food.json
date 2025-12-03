@@ -779,8 +779,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "item": "beer", "prob": 15 },
-      { "item": "drink_hard_seltzer", "prob": 15 },
+      { "group": "beer_in_container_full", "prob": 30 },
       { "item": "meat", "prob": 65 },
       { "item": "glazed_tenderloin", "prob": 55, "count": 3 },
       { "item": "fish", "prob": 10 },
