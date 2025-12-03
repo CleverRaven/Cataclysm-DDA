@@ -1,5 +1,6 @@
 #include "cata_catch.h"
 #include "cata_utility.h"
+#include <string>
 
 TEST_CASE( "match_include_exclude basic includes", "[cata_utility]" )
 {
