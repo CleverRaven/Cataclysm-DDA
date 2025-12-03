@@ -14,7 +14,8 @@ TEST_CASE( "match_include_exclude excludes only", "[cata_utility]" )
     CHECK( match_include_exclude( "garden", "-house" ) );
 }
 
-TEST_CASE( "match_include_exclude mixed rules", "[cata_utility]" ) {
+TEST_CASE( "match_include_exclude mixed rules", "[cata_utility]" )
+{
     CHECK( match_include_exclude( "drive a tank", "bank,-house,tank,-car" ) );
     CHECK( !match_include_exclude( "drive a car", "bank,-house,tank,-car" ) );
     CHECK( !match_include_exclude( "big house with bank", "bank,-house,tank,-car" ) );
