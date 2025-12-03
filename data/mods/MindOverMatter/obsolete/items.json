@@ -4,5 +4,17 @@
     "//": "remove after 0.J",
     "id": [ "biokin_breathe_skin_item" ],
     "replace": "manual_swimming"
+  },
+  {
+    "type": "MIGRATION",
+    "//": "remove after 0.J",
+    "id": [ "psionic_shield_belt_broken" ],
+    "replace": "psionic_shield_belt"
+  },
+  {
+    "type": "MIGRATION",
+    "//": "remove after 0.J",
+    "id": [ "psionic_fire_shield_belt_broken" ],
+    "replace": "psionic_fire_shield_belt"
   }
 ]
