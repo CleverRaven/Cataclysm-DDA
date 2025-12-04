@@ -1036,6 +1036,63 @@ class migration_cancel_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 };
 
+class mine_activity_actor : public activity_actor
+{
+    public:
+        mine_activity_actor() = default;
+        mine_activity_actor( const item_location &mining_tool,
+                             const tripoint_abs_ms &mined_location, time_duration mining_duration ) :
+            mining_tool( mining_tool ), mined_location( mined_location ), mining_duration( mining_duration ) {};
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &, Character & ) override = 0;
+        void finish( player_activity &act, Character &who ) override;
+
+        //TODO: This is only for pickaxes and shouldn't be handled so specifically here
+        virtual void mining_strain( Character & ) {};
+
+        std::unique_ptr<activity_actor> clone() const override = 0;
+        void serialize( JsonOut &jsout ) const override;
+        // extending classes must implement static deserialize
+        JsonObject deserialize_base( JsonValue &jsin );
+
+    protected:
+        item_location mining_tool;
+        tripoint_abs_ms mined_location;
+        time_duration mining_duration;
+};
+
+class pickaxe_activity_actor : public mine_activity_actor
+{
+    public:
+        using mine_activity_actor::mine_activity_actor;
+        const activity_id &get_type() const override {
+            static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
+            return ACT_PICKAXE;
+        }
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<pickaxe_activity_actor>( *this );
+        }
+        void mining_strain( Character &who ) override;
+        void do_turn( player_activity &, Character & ) override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+};
+
+class jackhammer_activity_actor : public mine_activity_actor
+{
+    public:
+        using mine_activity_actor::mine_activity_actor;
+        const activity_id &get_type() const override {
+            static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
+            return ACT_JACKHAMMER;
+        }
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<jackhammer_activity_actor>( *this );
+        }
+        void do_turn( player_activity &, Character & ) override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+};
+
 class open_gate_activity_actor : public activity_actor
 {
     private:

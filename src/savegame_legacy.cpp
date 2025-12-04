@@ -24,7 +24,6 @@ static const activity_id ACT_MEDITATE( "ACT_MEDITATE" );
 static const activity_id ACT_MEND_ITEM( "ACT_MEND_ITEM" );
 static const activity_id ACT_MOVE_ITEMS( "ACT_MOVE_ITEMS" );
 static const activity_id ACT_OPEN_GATE( "ACT_OPEN_GATE" );
-static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
 static const activity_id ACT_PICKUP( "ACT_PICKUP" );
 static const activity_id ACT_PULP( "ACT_PULP" );
 static const activity_id ACT_RELOAD( "ACT_RELOAD" );
@@ -222,7 +221,7 @@ void player_activity::deserialize_legacy_type( int legacy_type, activity_id &des
         ACT_WAIT_WEATHER,
         activity_id::NULL_ID(), // ACT_FIRSTAID is an actor now
         activity_id::NULL_ID(), //ACT_FISH is an actor now
-        ACT_PICKAXE,
+        activity_id::NULL_ID(), //ACT_PICKAXE is an actor now
         ACT_BURROW,
         ACT_PULP,
         ACT_VIBE,
