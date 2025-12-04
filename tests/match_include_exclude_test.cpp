@@ -8,7 +8,8 @@ TEST_CASE( "match_include_exclude_basic_includes", "[cata_utility]" ) {
     CHECK( !match_include_exclude( "hello", "tank" ) );
 }
 
-TEST_CASE( "match_include_exclude_excludes_only", "[cata_utility]" ) {
+TEST_CASE( "match_include_exclude_excludes_only", "[cata_utility]" )
+{
     CHECK( !match_include_exclude( "house", "-house" ) );
     CHECK( !match_include_exclude( "garden", "-house" ) );
 }
