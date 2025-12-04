@@ -89,6 +89,12 @@ constexpr int MAX_SKILL = 10;
 // Maximum (effective) level for a stat.
 constexpr int MAX_STAT = 14;
 
+// Maximum bashing damage for many regular actions.
+// This number is somewhat arbitrary and meant to be 1 less than the minimum bash damage to destroy a concrete wall.
+// Intended for use in "regular" actions within the scope of expected gameplay. i.e. tree felling uses this, because a tree bursting through a concrete wall is absurd
+// It is also used to cap vehicle bash damage (vs terrain only) for the same reason.
+constexpr int MAX_REGULAR_BASH = 69;
+
 // Accuracy levels which a shots tangent must be below.
 constexpr double accuracy_headshot = 0.1;
 constexpr double accuracy_critical = 0.2;
