@@ -2326,7 +2326,7 @@ static std::vector<pocket_with_constraint> get_all_pockets_with_constraints_recu
         }
     }
     return pwcs;
-};
+}
 
 static void get_all_pockets_with_constraints_in_loc_recursive( const item_location &loc,
         const std::function<bool( const item_pocket & )> &include_pocket,
@@ -2338,7 +2338,7 @@ static void get_all_pockets_with_constraints_in_loc_recursive( const item_locati
                 include_pocket, check_pocket_tree );
         insert_in.insert( insert_in.end(), children.begin(), children.end() );
     }
-};
+}
 
 std::vector<pocket_with_constraint> Character::get_all_pockets_with_constraints(
     const std::function<bool( const item_pocket & )> &include_pocket,
