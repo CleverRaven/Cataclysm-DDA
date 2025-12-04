@@ -276,7 +276,7 @@
   {
     "id": "TALK_CAMP_TUTORIAL_MANSION",
     "type": "talk_topic",
-    "dynamic_line": "You can build a faction camp in a mansion.  You have four different starting positions available, namely the Fountain Garden, Dance Floor Room, Basketball Room, and Garden with Columns.  Depending on where you set up your base, the following site specific expansions may become available: Entrance 1, Entrance 2, Swimming Pool 1, Bedrooms 1, Unidentified Room, Kitchen 2, Library, Bedrooms 2, Swimming Pool 2, Bar, Living Rooms, Bedroom 3, and Kitchen 2.  The Entrances and Swimming Pool 1 provide farming, the Library a limited set of cooking, the Bar a different set, and the Kitchens an extended set of cooking recipes.",
+    "dynamic_line": "You can build a faction camp in a mansion.  You have four different starting positions available, namely the Fountain Garden, Dance Floor Room, Basketball Room, and Garden with Columns.  Depending on where you set up your base, the following site specific expansions may become available: 2 Entrances, 2 Swimming Pools, 3 Bedrooms, 1 Unidentified Room, 2 Kitchens, 1 Library, 1 Bar and 1 Living Room.  The Entrances and Swimming Pool provide farming, the Library, Bar and Kitchens a group of different sets of cooking recipes.",
     "responses": [
       { "text": "I want to go back to the list of possible camps.", "topic": "TALK_CAMP_TUTORIAL_BUILDING" },
       { "text": "Got it.  Tell me about expansions.", "topic": "TALK_CAMP_TUTORIAL_EXPANSIONS" },
