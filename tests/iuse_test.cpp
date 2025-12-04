@@ -995,7 +995,7 @@ TEST_CASE( "water_tablet_purification_test", "[iuse][pur_tablets]" )
 
         SECTION( "Still purifying at ten minutes" ) {
             calendar::turn += 10_minutes;
-            dummy.invoke_item( water_location.get_item() );
+            water_location.get_item()->process( get_map(), dummy.as_character(), test_origin );
 
             CHECK( dummy.crafting_inventory().charges_of( itype_water_clean ) == 0 );
             CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying_active ) == 4 );
@@ -1003,7 +1003,7 @@ TEST_CASE( "water_tablet_purification_test", "[iuse][pur_tablets]" )
 
         SECTION( "Still purifying at thirty minutes" ) {
             calendar::turn += 30_minutes;
-            dummy.invoke_item( water_location.get_item() );
+            water_location.get_item()->process( get_map(), dummy.as_character(), test_origin );
 
             CHECK( dummy.crafting_inventory().charges_of( itype_water_clean ) == 0 );
             CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying_active ) == 4 );
@@ -1011,7 +1011,7 @@ TEST_CASE( "water_tablet_purification_test", "[iuse][pur_tablets]" )
 
         SECTION( "Clean water at forty minutes" ) {
             calendar::turn += 40_minutes;
-            dummy.invoke_item( water_location.get_item() );
+            water_location.get_item()->process( get_map(), dummy.as_character(), test_origin );
 
             CHECK( dummy.crafting_inventory().charges_of( itype_water_clean ) == 4 );
             CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying_active ) == 0 );
@@ -1028,7 +1028,7 @@ TEST_CASE( "water_tablet_purification_test", "[iuse][pur_tablets]" )
 
         SECTION( "Still purifying ten minutes later" ) {
             calendar::turn += 10_minutes;
-            dummy.invoke_item( water_location.get_item() );
+            water_location.get_item()->process( get_map(), dummy.as_character(), test_origin );
 
             CHECK( dummy.crafting_inventory().charges_of( itype_water_clean ) == 0 );
             CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying_active ) == 4 );
@@ -1036,7 +1036,7 @@ TEST_CASE( "water_tablet_purification_test", "[iuse][pur_tablets]" )
 
         SECTION( "Still purifying thirty minutes later" ) {
             calendar::turn += 30_minutes;
-            dummy.invoke_item( water_location.get_item() );
+            water_location.get_item()->process( get_map(), dummy.as_character(), test_origin );
 
             CHECK( dummy.crafting_inventory().charges_of( itype_water_clean ) == 0 );
             CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying_active ) == 4 );
@@ -1044,7 +1044,7 @@ TEST_CASE( "water_tablet_purification_test", "[iuse][pur_tablets]" )
 
         SECTION( "Clean water forty minutes later" ) {
             calendar::turn += 40_minutes;
-            dummy.invoke_item( water_location.get_item() );
+            water_location.get_item()->process( get_map(), dummy.as_character(), test_origin );
 
             CHECK( dummy.crafting_inventory().charges_of( itype_water_clean ) == 4 );
             CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying_active ) == 0 );
@@ -1067,8 +1067,10 @@ TEST_CASE( "water_tablet_purification_test", "[iuse][pur_tablets]" )
             item_location tablet = give_tablets( dummy, 1, true );
             iuse::purify_water( &dummy, tablet.get_item(), water_location );
             calendar::turn += 40_minutes;
-            dummy.invoke_item( water_location.get_item() );
+            water_location.get_item()->process( get_map(), dummy.as_character(), test_origin );
             REQUIRE( dummy.crafting_inventory().charges_of( itype_water_clean ) == 4 );
+            // Make sure it's not frozen.
+            water_location.get_item()->set_item_temperature( 20_C );
             dummy.consume( water_location, true );
             REQUIRE( water_location.get_item()->charges == 3 );
 
