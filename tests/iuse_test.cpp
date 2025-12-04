@@ -24,6 +24,7 @@
 #include "point.h"
 #include "ret_val.h"
 #include "type_id.h"
+#include "units.h"
 #include "value_ptr.h"
 
 static const efftype_id effect_antifungal( "antifungal" );
