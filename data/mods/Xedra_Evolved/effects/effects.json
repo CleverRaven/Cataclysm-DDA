@@ -4246,5 +4246,37 @@
     "max_intensity": 120,
     "int_dur_factor": "1 m",
     "flags": [ "GILLS", "EYE_MEMBRANE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_bio_inventor_rad_boost",
+    "name": [ "Engineered Hero" ],
+    "desc": [ [ "New powers awaken in you as the engine starts!", "mixed" ] ],
+    "remove_message": [ [ "Your new powers vanish as the engine powers down.", "mixed" ] ],
+    "//": "This uses the bat form flight enchant instead of making an identical version of a hidden effect.",
+    "enchantments": [
+      {
+        "condition": { "not": { "u_has_flag": "NO_RADIATION" } },
+        "values": [ { "value": "ARMOR_ALL", "add": { "math": [ "u_val('rad') / 10" ] } } ]
+      },
+      {
+        "condition": { "not": { "u_has_flag": "NO_RADIATION" } },
+        "melee_damage_bonus": [ { "type": "bash", "add": { "math": [ "u_val('rad') / 15" ] } } ]
+      },
+      {
+        "condition": { "not": { "u_has_flag": "NO_RADIATION" } },
+        "values": [ { "value": "STAMINA_REGEN_MOD", "add": { "math": [ "u_val('rad') / 50" ] } } ]
+      },
+      { "value": "PAIN_PENALTY_MOD_STR", "multiply": { "math": [ "(u_val('rad') * -0.02)" ] } },
+      { "value": "PAIN_PENALTY_MOD_DEX", "multiply": { "math": [ "(u_val('rad') * -0.02)" ] } },
+      { "value": "PAIN_PENALTY_MOD_INT", "multiply": { "math": [ "(u_val('rad') * -0.02)" ] } },
+      { "value": "PAIN_PENALTY_MOD_PER", "multiply": { "math": [ "(u_val('rad') * -0.02)" ] } },
+      { "value": "PAIN_PENALTY_MOD_SPEED", "multiply": { "math": [ "(u_val('rad') * -0.02)" ] } },
+      { "value": "KNOCKBACK_RESIST", "add": { "math": [ "( u_val('rad') * 0.1)" ] } },
+      {
+        "condition": { "and": [ { "not": { "u_has_flag": "NO_RADIATION" } }, { "math": [ "u_val('rad') >= 500" ] } ] },
+        "ench_effects": [ { "effect": "effect_vampire_bat_form_levitation", "intensity": 1 } ]
+      }
+    ]
   }
 ]
