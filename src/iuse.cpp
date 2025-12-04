@@ -3068,8 +3068,8 @@ std::optional<int> iuse::change_skin( Character *p, item *, const tripoint_bub_m
 }
 
 static std::optional<int> dig_tool( Character *p, item *it, const tripoint_bub_ms &target,
-                                    const activity_id activity,
-                                    const std::string &prompt, const std::string &fail, const std::string &success )
+                                    activity_id activity, const std::string &prompt,
+                                    const std::string &fail, const std::string &success )
 {
     if( !p || !it ) {
         debugmsg( "Misconfigured call to dig_tool, invalid character or item pointer" );
@@ -3127,9 +3127,13 @@ static std::optional<int> dig_tool( Character *p, item *it, const tripoint_bub_m
         digging_time /= 2;
     }
 
-    p->assign_activity( activity, to_moves<int>( digging_time ) );
-    p->activity.targets.emplace_back( *p, it );
-    p->activity.placement = here.get_abs( pnt );
+    const item_location mining_tool( *p, it );
+    const tripoint_abs_ms pnt_abs = here.get_abs( pnt );
+    if( activity == ACT_JACKHAMMER ) {
+        p->assign_activity( jackhammer_activity_actor( mining_tool, pnt_abs, digging_time ) );
+    } else if( activity == ACT_PICKAXE ) {
+        p->assign_activity( pickaxe_activity_actor( mining_tool, pnt_abs, digging_time ) );
+    }
 
     // You can mine either furniture or terrain, and furniture goes first,
     // according to @ref map::bash_ter_furn()
