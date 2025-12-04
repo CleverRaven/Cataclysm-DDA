@@ -10554,7 +10554,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
         if( crit->has_flag( mon_flag_RIDEABLE_MECH ) ) {
             crit->use_mech_power( u.current_movement_mode()->mech_power_use() + 1_kJ );
         }
-    } else {
+    } else if( !u.in_vehicle ) {
         u.mod_moves( -move_cost );
         u.burn_energy_all( -move_cost );
     }
