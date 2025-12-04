@@ -121,17 +121,25 @@
   {
     "id": "PHASE_GOO_COAT",
     "type": "ammo_effect",
-    "spell_data": { "id": "phase_goo_coated" },
-    "always_cast_spell ": true
+    "on_hit_effects": [ { "effect": "phase_goo_coated", "duration": "2 s", "intensity": 1 } ]
   },
   {
+    "type": "effect_type",
     "id": "phase_goo_coated",
-    "type": "SPELL",
-    "name": { "str": "Coated in phase goo", "//~": "NO_I18N" },
-    "description": { "str": "Weird nether-goo is making your armor fade in and out of reality.", "//~": "NO_I18N" },
-    "valid_targets": [ "hostile" ],
-    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "max_level": 3,
-    "shape": "blast"
+    "name": [ "Coated in phase goo" ],
+    "desc": [ "Weird nether-goo is making your protection less effective." ],
+    "apply_message": "You're coated in phase goo!",
+    "remove_message": "The phase goo phases away.",
+    "rating": "bad",
+    "max_duration": "5 seconds",
+    "max_intensity": 1,
+    "enchantments": [
+      {
+        "incoming_damage_mod_post_absorbed": [
+          { "type": "stab", "add": { "math": [ "rand(3)" ] }, "multiply": 1.2 },
+          { "type": "cut", "add": { "math": [ "rand(3)" ] }, "multiply": 1.1 }
+        ]
+      }
+    ]
   }
 ]
