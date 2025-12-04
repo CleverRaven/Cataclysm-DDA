@@ -2272,7 +2272,7 @@ void options_manager::add_options_interface()
            );
         add( "SHOW_OTHER_SPACES", page_id, to_translation( "Show 'other' spaces" ),
              to_translation( "Display up to this many entries in the list of 'other' (not largest/longest) spaces.  0 will disable the list completely." ),
-             0, 5, 3
+             0, 5, 0
            );
     } );
 }
