@@ -229,6 +229,9 @@ class options_manager
          */
         options_container get_world_defaults() const;
 
+        // Return a bare copy of all options in raw form, for debugging use only.
+        options_container get_raw_options();
+
         void set_world_options( options_container *options );
 
         /** Check if an option exists? */

@@ -101,7 +101,7 @@
   {
     "id": "blacksmithing_standard",
     "type": "requirement",
-    "//": "Includes forging resources as well as tools needed for most blacksmithing. Per forging_standard energy cost balanced for one steel chunk. Flux ammount is equivalent to a small teaspoon.",
+    "//": "Includes forging resources as well as tools needed for most blacksmithing. Per forging_standard energy cost balanced for one steel chunk. Flux amount is equivalent to a small teaspoon.",
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
     "tools": [
       [ [ "forge", 20 ], [ "oxy_torch", 20 ] ],
@@ -573,7 +573,7 @@
   {
     "id": "tool_rope_long",
     "type": "requirement",
-    "//": "Long rope used as a tool, in constuction process and so on",
+    "//": "Long rope used as a tool, in construction process and so on",
     "tools": [
       [
         [ "rope_30", -1 ],

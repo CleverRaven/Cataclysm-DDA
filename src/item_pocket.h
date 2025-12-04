@@ -237,6 +237,8 @@ class item_pocket
         /** gets the spoilage multiplier depending on sealed data */
         float spoil_multiplier() const;
 
+        float insulation() const;
+
         int moves() const;
 
         int best_quality( const quality_id &id ) const;
@@ -403,7 +405,7 @@ class item_pocket
         static void delete_preset( std::vector<item_pocket::favorite_settings>::iterator iter );
         static std::vector<item_pocket::favorite_settings> pocket_presets;
 
-        // Set wether rigid items are blocked in the pocket
+        // Set whether rigid items are blocked in the pocket
         void set_no_rigid( const std::set<sub_bodypart_id> &is_no_rigid );
 
         // should the name of this pocket be used as a description
@@ -498,6 +500,8 @@ class pocket_data
         pocket_noise activity_noise;
         // multiplier for spoilage rate of contained items
         float spoil_multiplier = 1.0f;
+        // insulation of contained items.
+        float insulation = 1.0f;
         // items' weight in this pocket are modified by this number
         float weight_multiplier = 1.0f;
         // items' volume in this pocket are modified by this number for calculation of the containing object

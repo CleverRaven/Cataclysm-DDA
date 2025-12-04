@@ -268,7 +268,6 @@ static const itype_id itype_barometer( "barometer" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_blood( "blood" );
 static const itype_id itype_blood_acid( "blood_acid" );
-static const itype_id itype_c4armed( "c4armed" );
 static const itype_id itype_canister_empty( "canister_empty" );
 static const itype_id itype_cig( "cig" );
 static const itype_id itype_cig_lit( "cig_lit" );
@@ -279,8 +278,6 @@ static const itype_id itype_detergent( "detergent" );
 static const itype_id itype_ecig( "ecig" );
 static const itype_id itype_efile_photos( "efile_photos" );
 static const itype_id itype_fire( "fire" );
-static const itype_id itype_firecracker_act( "firecracker_act" );
-static const itype_id itype_firecracker_pack_act( "firecracker_pack_act" );
 static const itype_id itype_geiger_on( "geiger_on" );
 static const itype_id itype_hammer( "hammer" );
 static const itype_id itype_handrolled_cig( "handrolled_cig" );
@@ -300,21 +297,17 @@ static const itype_id itype_nicotine_liquid( "nicotine_liquid" );
 static const itype_id itype_paper( "paper" );
 static const itype_id itype_pot( "pot" );
 static const itype_id itype_pur_tablets( "pur_tablets" );
-static const itype_id itype_radio_car( "radio_car" );
 static const itype_id itype_radio_car_on( "radio_car_on" );
 static const itype_id itype_radio_mod( "radio_mod" );
 static const itype_id itype_radio_on( "radio_on" );
 static const itype_id itype_rebreather_on( "rebreather_on" );
 static const itype_id itype_rebreather_xl_on( "rebreather_xl_on" );
-static const itype_id itype_shocktonfa_off( "shocktonfa_off" );
-static const itype_id itype_shocktonfa_on( "shocktonfa_on" );
 static const itype_id itype_soap( "soap" );
 static const itype_id itype_soldering_iron( "soldering_iron" );
 static const itype_id itype_spiral_stone( "spiral_stone" );
 static const itype_id itype_splinter( "splinter" );
 static const itype_id itype_stick( "stick" );
 static const itype_id itype_syringe( "syringe" );
-static const itype_id itype_tazer( "tazer" );
 static const itype_id itype_tongs( "tongs" );
 static const itype_id itype_toolset( "toolset" );
 static const itype_id itype_towel( "towel" );
@@ -2573,17 +2566,6 @@ std::optional<int> iuse::water_tablets( Character *p, item *it, const tripoint_b
     return purify_water( p, it, obj );
 }
 
-std::optional<int> iuse::radio_off( Character *p, item *it, const tripoint_bub_ms & )
-{
-    if( !it->ammo_sufficient( p ) ) {
-        p->add_msg_if_player( _( "It's dead." ) );
-    } else {
-        p->add_msg_if_player( _( "You turn the radio on." ) );
-        it->convert( itype_radio_on, p ).active = true;
-    }
-    return 1;
-}
-
 std::optional<int> iuse::directional_antenna( Character *p, item *, const tripoint_bub_ms & )
 {
     // Find out if we have an active radio
@@ -3505,30 +3487,6 @@ std::optional<int> iuse::granade_act( Character *, item *it, const tripoint_bub_
     return 1;
 }
 
-std::optional<int> iuse::c4( Character *p, item *it, const tripoint_bub_ms & )
-{
-    int time = 0;
-    bool got_value = false;
-    if( p->is_avatar() ) {
-        got_value = query_int( time, false, _( "Set the timer to how many seconds (0 to cancel)?" ) );
-        if( !got_value || time <= 0 ) {
-            p->add_msg_if_player( _( "Never mind." ) );
-            return std::nullopt;
-        }
-    }
-    p->add_msg_if_player( n_gettext( "You set the timer to %d second.",
-                                     "You set the timer to %d seconds.", time ), time );
-    it->convert( itype_c4armed );
-    if( got_value ) {
-        it->countdown_point = calendar::turn + time_duration::from_seconds( time );
-    } else {
-        // Uses value from the converted type (e.g. currently hardcoded c4armed)
-        it->countdown_point = calendar::turn + it->type->countdown_interval;
-    }
-    it->active = true;
-    return 1;
-}
-
 std::optional<int> iuse::acidbomb_act( Character *p, item *it, const tripoint_bub_ms &pos )
 {
     if( !p ) {
@@ -3606,57 +3564,29 @@ std::optional<int> iuse::molotov_lit( Character *p, item *it, const tripoint_bub
     return 0;
 }
 
-std::optional<int> iuse::firecracker_pack( Character *p, item *it, const tripoint_bub_ms & )
-{
-    if( p->cant_do_underwater() ) {
-        return std::nullopt;
-    }
-    if( !p->has_charges( itype_fire, 1 ) ) {
-        p->add_msg_if_player( m_info, _( "You need a source of fire!" ) );
-        return std::nullopt;
-    }
-    p->add_msg_if_player( _( "You light the pack of firecrackers." ) );
-    it->convert( itype_firecracker_pack_act, p );
-    it->countdown_point = calendar::turn + 27_seconds;
-    it->set_age( 0_turns );
-    it->active = true;
-    return 0; // don't use any charges at all. it has became a new item
-}
-
 std::optional<int> iuse::firecracker_pack_act( Character *, item *it, const tripoint_bub_ms &pos )
 {
+    int seconds_left = to_seconds<int>( it->countdown_point - calendar::turn );
+
     // Two seconds of lit fuse burning
     // Followed by random number of explosions (4-6) per turn until 25 epxlosions have happened
     // Finally item despawns since countdown has ended
-    if( it->age() < 2_seconds ) {
+    if( seconds_left > 25 ) {
         sounds::sound( pos, 0, sounds::sound_t::alarm, _( "ssss…" ), true, "misc", "lit_fuse" );
     } else {
         // Time left to countdown_point is used to track of number of explosions
         int explosions = rng( 4, 6 );
         int i = 0;
-        explosions = std::min( explosions, to_seconds<int>( it->countdown_point - calendar::turn ) );
+        explosions = std::min( explosions, seconds_left );
+
         for( i = 0; i < explosions; i++ ) {
             sounds::sound( pos, 20, sounds::sound_t::combat, _( "Bang!" ), false, "explosion", "small" );
         }
+
         it->countdown_point -= ( explosions - 1 ) * 1_seconds;
     }
-    return 0;
-}
 
-std::optional<int> iuse::firecracker( Character *p, item *it, const tripoint_bub_ms & )
-{
-    if( p->cant_do_underwater() ) {
-        return std::nullopt;
-    }
-    if( !p->use_charges_if_avail( itype_fire, 1 ) ) {
-        p->add_msg_if_player( m_info, _( "You need a source of fire!" ) );
-        return std::nullopt;
-    }
-    p->add_msg_if_player( _( "You light the firecracker." ) );
-    it->convert( itype_firecracker_act, p );
-    it->countdown_point = calendar::turn + 2_seconds;
-    it->active = true;
-    return 1;
+    return 0;
 }
 
 std::optional<int> iuse::mininuke( Character *p, item *it, const tripoint_bub_ms & )
@@ -3763,79 +3693,6 @@ std::optional<int> iuse::tazer( Character *p, item *it, const tripoint_bub_ms &p
     }
 
     return 1;
-}
-
-std::optional<int> iuse::tazer2( Character *p, item *it, const tripoint_bub_ms &pos )
-{
-    map &here = get_map();
-
-    if( it->ammo_remaining_linked( here, p ) >= 2 ) {
-        // Instead of having a ctrl+c+v of the function above, spawn a fake tazer and use it
-        // Ugly, but less so than copied blocks
-        item fake( itype_tazer, calendar::turn_zero );
-        fake.charges = 2;
-        return tazer( p, &fake, pos );
-    } else {
-        p->add_msg_if_player( m_info, _( "Insufficient power" ) );
-    }
-
-    return std::nullopt;
-}
-
-std::optional<int> iuse::shocktonfa_off( Character *p, item *it, const tripoint_bub_ms &pos )
-{
-    if( !p ) {
-        debugmsg( "%s called action shocktonfa_off that requires character but no character is present",
-                  it->typeId().str() );
-    }
-    int choice = uilist( _( "tactical tonfa" ), {
-        _( "Zap something" ), _( "Turn on light" )
-    } );
-
-    switch( choice ) {
-        case 0: {
-            return iuse::tazer2( p, it, pos );
-        }
-        case 1: {
-            if( !it->ammo_sufficient( p ) ) {
-                p->add_msg_if_player( m_info, _( "The batteries are dead." ) );
-                return std::nullopt;
-            } else {
-                p->add_msg_if_player( _( "You turn the light on." ) );
-                it->convert( itype_shocktonfa_on, p ).active = true;
-                return 1;
-            }
-        }
-    }
-    return 0;
-}
-
-std::optional<int> iuse::shocktonfa_on( Character *p, item *it, const tripoint_bub_ms &pos )
-{
-    if( !p ) { // Effects while simply on
-        debugmsg( "%s called action shocktonfa_on that requires character but no character is present",
-                  it->typeId().str() );
-    } else {
-        if( !it->ammo_sufficient( p ) ) {
-            p->add_msg_if_player( m_info, _( "Your tactical tonfa is out of power." ) );
-            it->convert( itype_shocktonfa_off, p ).active = false;
-        } else {
-            int choice = uilist( _( "tactical tonfa" ), {
-                _( "Zap something" ), _( "Turn off light" )
-            } );
-
-            switch( choice ) {
-                case 0: {
-                    return iuse::tazer2( p, it, pos );
-                }
-                case 1: {
-                    p->add_msg_if_player( _( "You turn off the light." ) );
-                    it->convert( itype_shocktonfa_off, p ).active = false;
-                }
-            }
-        }
-    }
-    return 0;
 }
 
 static std::string get_music_description()
@@ -7004,32 +6861,6 @@ std::optional<int> iuse::radiocar( Character *p, item *it, const tripoint_bub_ms
 
             p->add_msg_if_player( _( "You disarmed your RC car." ) );
         }
-    }
-
-    return 1;
-}
-
-std::optional<int> iuse::radiocaron( Character *p, item *it, const tripoint_bub_ms & )
-{
-    if( !it->ammo_sufficient( p ) ) {
-        // Deactivate since other mode has an iuse too.
-        it->convert( itype_radio_car, p ).active = false;
-        return 0;
-    }
-
-    int choice = uilist( _( "What to do with your activated RC car?" ), {
-        _( "Turn off" )
-    } );
-
-    if( choice < 0 ) {
-        return 1;
-    }
-
-    if( choice == 0 ) {
-        it->convert( itype_radio_car, p ).active = false;
-
-        p->add_msg_if_player( _( "You turned off your RC car." ) );
-        return 1;
     }
 
     return 1;

@@ -1555,8 +1555,6 @@ These flags apply to the `use_action` field, instead of the `flags` field.
 - ```EXTINGUISHER``` Put out fires.
 - ```FIRECRACKER_ACT``` The saddest Fourth of July.
 - ```FIRECRACKER_PACK_ACT``` Keep the change you filthy animal.
-- ```FIRECRACKER_PACK``` Light an entire packet of firecrackers.
-- ```FIRECRACKER``` Light a singular firecracker.
 - ```FLASHBANG``` Pull the pin on a flashbang.
 - ```GEIGER``` Detect local radiation levels.
 - ```GRANADE_ACT``` Assaults enemies with source code fixes?
@@ -1590,7 +1588,6 @@ These flags apply to the `use_action` field, instead of the `flags` field.
 - ```PLACE_RANDOMLY``` This is very much like the flag in the `manhack` iuse, it prevents the item from querying the player as to where they want the monster unloaded to, and instead chooses randomly.
 - ```PORTABLE_GAME``` Play games.
 - ```PORTAL``` Create portal traps.
-- ```RADIO_OFF``` Turn the radio on.
 - ```RADIO_ON``` Turn the radio off.
 - ```RAG``` Stop the bleeding.
 - ```RESTAURANTMAP``` Learn of local eateries, and show roads.
@@ -1599,8 +1596,6 @@ These flags apply to the `use_action` field, instead of the `flags` field.
 - ```SEED``` Asks if you are sure that you want to eat the seed.  As it is better to plant seeds.
 - ```SEW``` Sew clothing.
 - ```SHELTER``` Put up a full-blown shelter.
-- ```SHOCKTONFA_OFF``` Turn the shocktonfa on.
-- ```SHOCKTONFA_ON``` Turn the shocktonfa off.
 - ```SIPHON``` Siphon liquids out of vehicle.
 - ```SMOKEBOMB_ACT``` This may be a good way to hide as a smoker.
 - ```SMOKEBOMB``` Pull the pin on a smoke bomb.

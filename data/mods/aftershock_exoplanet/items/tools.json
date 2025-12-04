@@ -15,12 +15,7 @@
     "symbol": ";",
     "color": "light_green",
     "use_action": [
-      {
-        "target": "afs_atomic_smartphone_flashlight",
-        "msg": "You activate the flashlight app.",
-        "active": true,
-        "type": "transform"
-      },
+      { "target": "afs_atomic_smartphone_flashlight", "msg": "You activate the flashlight app.", "type": "transform" },
       "CAMERA",
       {
         "type": "mp3",
@@ -147,7 +142,6 @@
       "type": "transform",
       "target": "afs_motion_sensor_on",
       "need_charges": 1,
-      "active": true,
       "msg": "The %s screen flashes on."
     },
     "melee_damage": { "bash": 6 },
@@ -176,7 +170,8 @@
       "type": "transform",
       "target": "afs_motion_sensor",
       "msg": "The %s screen flashes briefly before fading out."
-    }
+    },
+    "extend": { "flags": [ "SPAWN_ACTIVE" ] }
   },
   {
     "id": "afs_welding_paste",
@@ -236,15 +231,10 @@
       "PORTABLE_GAME",
       "E_FILE_DEVICE",
       "EBOOKSAVE",
-      {
-        "type": "mp3",
-        "transform": "afs_atomic_smartphone_music",
-        "message": "The phone turns off.",
-        "activate": false
-      }
+      { "type": "mp3", "transform": "afs_atomic_smartphone", "message": "The phone turns off.", "activate": false }
     ],
     "tick_action": [ "MP3_ON" ],
-    "extend": { "flags": [ "TRADER_AVOID" ] }
+    "extend": { "flags": [ "TRADER_AVOID", "SPAWN_ACTIVE" ] }
   },
   {
     "id": "afs_atomic_smartphone_flashlight",
@@ -265,7 +255,7 @@
       }
     ],
     "light": 25,
-    "extend": { "flags": [ "TRADER_AVOID" ] }
+    "extend": { "flags": [ "TRADER_AVOID", "SPAWN_ACTIVE" ] }
   },
   {
     "id": "afs_wraitheon_smartphone",
@@ -278,12 +268,7 @@
     "price_postapoc": "2 kUSD 500 USD",
     "material": [ "superalloy", "aluminum" ],
     "use_action": [
-      {
-        "target": "afs_atomic_wraitheon_flashlight",
-        "msg": "You activate the flashlight app.",
-        "active": true,
-        "type": "transform"
-      },
+      { "target": "afs_atomic_wraitheon_flashlight", "msg": "You activate the flashlight app.", "type": "transform" },
       "CAMERA",
       {
         "type": "mp3",
@@ -322,7 +307,7 @@
       "EBOOKSAVE",
       { "type": "mp3", "transform": "afs_wraitheon_smartphone", "message": "The phone turns off.", "activate": false }
     ],
-    "extend": { "flags": [ "TRADER_AVOID" ] },
+    "extend": { "flags": [ "TRADER_AVOID", "SPAWN_ACTIVE" ] },
     "tick_action": [ "MP3_ON" ]
   },
   {
@@ -330,7 +315,7 @@
     "copy-from": "afs_atomic_smartphone_flashlight",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
-    "name": { "str": "Executive's smartphone - Flashlight", "str_pl": "Executive's smartphones - Flashlight" },
+    "name": { "str": "Wraitheon executive's smartphone - Flashlight", "str_pl": "Executive's smartphones - Flashlight" },
     "revert_to": "afs_atomic_smartphone",
     "use_action": [
       "PORTABLE_GAME",
@@ -342,7 +327,8 @@
         "menu_text": "Turn off flashlight",
         "type": "transform"
       }
-    ]
+    ],
+    "extend": { "flags": [ "SPAWN_ACTIVE" ] }
   },
   {
     "id": "afs_atompot",
@@ -377,7 +363,7 @@
     "color": "light_red",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "watertight": true, "ammo_restriction": { "gasoline": 500 } } ],
     "charges_per_use": 1,
-    "use_action": { "target": "afs_power_cutter_on", "msg": "You rev up the power cutter!", "active": true, "type": "transform" },
+    "use_action": { "target": "afs_power_cutter_on", "msg": "You rev up the power cutter!", "type": "transform" },
     "flags": [ "ALWAYS_TWOHAND", "NONCONDUCTIVE" ],
     "melee_damage": { "bash": 7, "cut": 3 },
     "tool_ammo": [ "gasoline" ]
@@ -399,7 +385,7 @@
       "type": "transform"
     },
     "qualities": [ [ "CUT", 2 ], [ "SAW_M", 20 ], [ "SAW_M_FINE", 1 ], [ "BUTCHER", -70 ] ],
-    "flags": [ "ALWAYS_TWOHAND", "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ],
+    "flags": [ "ALWAYS_TWOHAND", "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "SPAWN_ACTIVE" ],
     "melee_damage": { "bash": 7, "cut": 80 }
   },
   {
@@ -419,7 +405,7 @@
     "color": "yellow",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "watertight": true, "ammo_restriction": { "gasoline": 500 } } ],
     "charges_per_use": 1,
-    "use_action": { "target": "afs_murdersaw_on", "msg": "You rev up the murdersaw!", "active": true, "type": "transform" },
+    "use_action": { "target": "afs_murdersaw_on", "msg": "You rev up the murdersaw!", "type": "transform" },
     "flags": [ "ALWAYS_TWOHAND", "NONCONDUCTIVE" ],
     "melee_damage": { "bash": 6, "cut": 3 },
     "tool_ammo": [ "gasoline" ]
@@ -441,7 +427,7 @@
       "type": "transform"
     },
     "qualities": [ [ "CUT", 2 ], [ "SAW_M", 10 ], [ "BUTCHER", -50 ] ],
-    "flags": [ "ALWAYS_TWOHAND", "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ],
+    "flags": [ "ALWAYS_TWOHAND", "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "SPAWN_ACTIVE" ],
     "melee_damage": { "bash": 6, "cut": 80 }
   },
   {
@@ -553,7 +539,6 @@
         "target": "control_laptop_screen_lit",
         "msg": "You light up the screen.",
         "menu_text": "Light up the screen",
-        "active": true,
         "need_charges": 1,
         "need_charges_msg": "The laptop's batteries need more charge.",
         "type": "transform"
@@ -594,7 +579,7 @@
       "type": "transform"
     },
     "light": 10,
-    "flags": [ "WATCH", "TRADER_AVOID" ]
+    "flags": [ "WATCH", "TRADER_AVOID", "SPAWN_ACTIVE" ]
   },
   {
     "id": "vr_laptop",
@@ -616,7 +601,6 @@
         "target": "vr_laptop_holosuite",
         "msg": "The holosuite comes to life around you.",
         "menu_text": "power on holosuite",
-        "active": true,
         "need_charges": 1,
         "need_charges_msg": "The laptop's batteries need more charge.",
         "type": "transform"
@@ -682,7 +666,7 @@
       "menu_text": "Turn off",
       "type": "transform"
     },
-    "flags": [ "WATCH", "TRADER_AVOID" ],
+    "flags": [ "WATCH", "TRADER_AVOID", "SPAWN_ACTIVE" ],
     "passive_effects": [
       {
         "has": "WORN",
@@ -1047,13 +1031,7 @@
     "category": "tools",
     "name": { "str": "atomic lamp (covered)", "str_pl": "atomic lamps (covered)" },
     "description": "A fairly hefty and frankly ugly lamp with a thick base and an odd spheroidal \"shade\".  While this is a commercial product, early versions were made from scavenged landing or spacecraft lights.  While the appeal of them there was to lower the maintence burden, as a lamp it's nothing more than a gimmick of infinite, albeit dim light.  This one has been closed.",
-    "use_action": {
-      "target": "afs_atomic_lamp",
-      "active": true,
-      "msg": "You open the lamp's cover.",
-      "menu_text": "Open cover",
-      "type": "transform"
-    },
+    "use_action": { "target": "afs_atomic_lamp", "msg": "You open the lamp's cover.", "menu_text": "Open cover", "type": "transform" },
     "flags": [ "LEAK_DAM", "RADIOACTIVE", "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -1088,7 +1066,6 @@
     "description": "A commercially produced reading light, with the gimmick of never having to replace batteries thanks to its nuclear decay powered power source.  Instead of having an on/off switch, there is instead a cover you close over it.",
     "use_action": {
       "target": "afs_atomic_light",
-      "active": true,
       "msg": "You open the nightlight's cover.",
       "menu_text": "Open cover",
       "type": "transform"
@@ -1151,8 +1128,7 @@
       "type": "transform",
       "msg": "You open the headlamp's cover.",
       "menu_text": "Open cover",
-      "target": "afs_atomic_headlamp",
-      "active": true
+      "target": "afs_atomic_headlamp"
     }
   }
 ]

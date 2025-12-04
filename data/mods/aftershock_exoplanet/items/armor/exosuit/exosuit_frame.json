@@ -305,7 +305,6 @@
       {
         "target": "modular_exosuit_on",
         "msg": "The %s engages.",
-        "active": true,
         "need_charges": 1,
         "need_charges_msg": "The suit does not have enough charge.",
         "type": "transform"
@@ -337,7 +336,8 @@
       "SUN_GLASSES",
       "FLASH_PROTECTION",
       "TARDIS",
-      "MODULE_HOLDER"
+      "MODULE_HOLDER",
+      "SPAWN_ACTIVE"
     ],
     "power_draw": "6460 mW",
     "revert_to": "modular_exosuit",
@@ -535,7 +535,6 @@
       {
         "target": "modular_exosuit_light_on",
         "msg": "The %s engages.",
-        "active": true,
         "need_charges": 1,
         "need_charges_msg": "The suit does not have enough charge.",
         "type": "transform"
@@ -565,7 +564,8 @@
       "SUN_GLASSES",
       "FLASH_PROTECTION",
       "TARDIS",
-      "MODULE_HOLDER"
+      "MODULE_HOLDER",
+      "SPAWN_ACTIVE"
     ],
     "power_draw": "5787 mW",
     "revert_to": "modular_exosuit_light",

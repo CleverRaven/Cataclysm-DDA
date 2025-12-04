@@ -1302,7 +1302,7 @@ int item_contents::ammo_consume( int qty, map *here, const tripoint_bub_ms &pos,
                                              static_cast<float>( pocket.front().fuel_energy().value() ) * fuel_efficiency ) );
 
                 const int res = pocket.ammo_consume( charges_used );
-                //calculate the ammount of energy generated
+                //calculate the amount of energy generated
                 int energy_generated = res * units::to_kilojoule( pocket.front().fuel_energy() );
                 consumed += energy_generated;
                 qty -= energy_generated;
@@ -2601,7 +2601,8 @@ void item_contents::process( map &here, Character *carrier, const tripoint_bub_m
     for( item_pocket &pocket : contents ) {
         if( pocket.is_type( pocket_type::CONTAINER ) || pocket.is_type( pocket_type::MOD ) ||
             pocket.is_type( pocket_type::MAGAZINE_WELL ) )  {
-            pocket.process( here, carrier, pos, insulation, flag, spoil_multiplier_parent,
+            pocket.process( here, carrier, pos, std::max( pocket.insulation(), insulation ), flag,
+                            spoil_multiplier_parent,
                             watertight_container );
         }
     }

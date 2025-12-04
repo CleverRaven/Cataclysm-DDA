@@ -103,12 +103,9 @@
   {
     "type": "mutation",
     "id": "XE_NO_NETHER_SORCERY",
-    "name": { "str": "Not a Nether Sorcerer", "//~": "NO_I18N" },
+    "name": "Not a Nether Sorcerer",
     "points": 0,
-    "description": {
-      "str": "You can't use Nether Sorcery, which makes you pretty much the same as anyone else, to be honest.  This trait blocks using Nether Sorcery grimoires as spellbooks and is not player-visible.",
-      "//~": "NO_I18N"
-    },
+    "description": "You can't use Nether Sorcery, which makes you pretty much the same as anyone else, to be honest.  This trait blocks using Nether Sorcery grimoires as spellbooks and is not player-visible.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
