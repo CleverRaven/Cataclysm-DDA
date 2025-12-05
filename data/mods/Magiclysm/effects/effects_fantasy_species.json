@@ -78,5 +78,29 @@
     "scaling_mods": { "str_mod": [ 0, -2.5 ], "per_mod": [ 0, -2.5 ], "dex_mod": [ 0, -2.5 ], "int_mod": [ 0, -2.5 ] },
     "rating": "bad",
     "blood_analysis_description": "Ravenfolk Primer Contamination"
+  },
+  {
+    "type": "effect_type",
+    "id": "vitamin_elven_wilderness",
+    "name": [ "The Longing", "The Longing", "The Longing", "The Longing" ],
+    "desc": [
+      "You miss the wind through the trees.",
+      "You're dragging; all this civilization is getting you down.",
+      "You feel run down and achy.  You need to get out to the forests.",
+      "Every movement is an effort.  Every time you close your eyes you imagine yourself walking beneath the boughs of ancient trees."
+    ],
+    "max_intensity": 4,
+    "base_mods": { "health_min": [ -1 ], "health_chance": [ 8 ], "health_tick": [ 3600 ] },
+    "scaling_mods": { "health_chance": [ -1 ], "health_tick": [ -300 ] },
+    "rating": "bad"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vitamin_elven_wilderness_bonus",
+    "name": [ "Under the Boughs" ],
+    "desc": [ "Your time in the wilderess is rejuvenating you." ],
+    "max_intensity": 1,
+    "base_mods": { "health_min": [ 1 ], "health_chance": [ 5 ], "health_tick": [ 3600 ] },
+    "rating": "good"
   }
 ]

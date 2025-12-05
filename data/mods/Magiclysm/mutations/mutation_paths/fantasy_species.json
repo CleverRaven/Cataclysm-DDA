@@ -459,6 +459,17 @@
   },
   {
     "type": "mutation",
+    "id": "ELVEN_NEED_FOR_WILDERNESS",
+    "name": { "str": "The Longing" },
+    "points": -4,
+    "description": "Elves are tied to the wilderness in a literal sense, and being away from the wilds too long makes them weak and frail.  Spending too long underground or in the remnants of the cities will reduce your health stat; spending time in the wilderness will restore it.",
+    "purifiable": false,
+    "types": [ "SLEEP" ],
+    "category": [ "SPECIES_ELF" ],
+    "enchantments": [ { "values": [ { "value": "SLEEPINESS_REGEN", "multiply": 1 }, { "value": "SLEEPINESS", "multiply": -0.166667 } ] } ]
+  },
+  {
+    "type": "mutation",
     "id": "LIGHTEATER",
     "copy-from": "LIGHTEATER",
     "extend": { "category": [ "SPECIES_ELF" ] }
