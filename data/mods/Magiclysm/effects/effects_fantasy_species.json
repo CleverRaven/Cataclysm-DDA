@@ -95,10 +95,17 @@
     "rating": "bad",
     "enchantments": [
       {
-        "values": [ { "value": "REGEN_STAMINA", "add": { "math": [ "u_effect_intensity('effect_vitamin_elven_wilderness') * -0.05" ] } } ]
+        "values": [
+          {
+            "value": "REGEN_STAMINA",
+            "multiply": { "math": [ "u_effect_intensity('effect_vitamin_elven_wilderness') * -0.05" ] }
+          }
+        ]
       },
       {
-        "values": [ { "value": "MAX_STAMINA", "add": { "math": [ "u_effect_intensity('effect_vitamin_elven_wilderness') * -0.05" ] } } ]
+        "values": [
+          { "value": "MAX_STAMINA", "multiply": { "math": [ "u_effect_intensity('effect_vitamin_elven_wilderness') * -0.05" ] } }
+        ]
       }
     ]
   },
