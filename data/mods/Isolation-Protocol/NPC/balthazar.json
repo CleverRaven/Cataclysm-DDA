@@ -157,7 +157,7 @@
     "responses": [
       {
         "condition": { "math": [ "iso_balthazar_aid_value > 11" ] },
-        "text": "Ask for increased combat abilities.",
+        "text": "Ask for increasing combat abilities.",
         "topic": "TALK_DONE",
         "show_always": true,
         "show_reason": "Insufficient power.",
@@ -186,7 +186,7 @@
     "type": "talk_topic",
     "id": "ISO_BALTHAZAR_HOW_ARE_YOU",
     "dynamic_line": "<BALTHAZAR_HOW_ARE_YOU>",
-    "responses": [ { "text": "Thats great.", "topic": "TALK_NONE" } ]
+    "responses": [ { "text": "That's great.", "topic": "TALK_NONE" } ]
   },
   {
     "type": "snippet",
