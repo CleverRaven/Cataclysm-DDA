@@ -314,7 +314,8 @@ static const itype_id itype_towel( "towel" );
 static const itype_id itype_towel_wet( "towel_wet" );
 static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
-static const itype_id itype_water_purifying( "water_purifying" );
+static const itype_id itype_water_murky( "water_murky" );
+static const itype_id itype_water_purifying_active( "water_purifying_active" );
 static const itype_id itype_wax( "wax" );
 static const itype_id itype_weather_reader( "weather_reader" );
 
@@ -2503,7 +2504,7 @@ std::optional<int> iuse::purify_water( Character *p, item *purifier, item_locati
     }
 
     const std::vector<item *> liquids = water->items_with( []( const item & it ) {
-        return it.typeId() == itype_water;
+        return it.typeId() == itype_water || it.typeId() == itype_water_murky;
     } );
     int charges_of_water = 0;
     for( const item *water : liquids ) {
@@ -2536,7 +2537,7 @@ std::optional<int> iuse::purify_water( Character *p, item *purifier, item_locati
     p->mod_moves( -req_moves );
 
     for( item *water : liquids ) {
-        water->convert( itype_water_purifying, p ).poison = 0;
+        water->convert( itype_water_purifying_active, p ).poison = 0;
         water->set_birthday( calendar::turn );
     }
     // We've already consumed the tablets, so don't try to consume them again
@@ -2553,8 +2554,8 @@ std::optional<int> iuse::water_tablets( Character *p, item *it, const tripoint_b
 
     item_location obj = g->inv_map_splice( [&here]( const item_location & e ) {
         return ( !e->empty() && e->has_item_with( []( const item & it ) {
-            return it.typeId() == itype_water;
-        } ) ) || ( e->typeId() == itype_water &&
+            return it.typeId() == itype_water || it.typeId() == itype_water_murky;
+        } ) ) || ( ( e->typeId() == itype_water || e->typeId() == itype_water_murky ) &&
                    here.has_flag_furn( ter_furn_flag::TFLAG_LIQUIDCONT, e.pos_bub( here ) ) );
     }, _( "Purify what?" ), 1, _( "You don't have water to purify." ) );
 
