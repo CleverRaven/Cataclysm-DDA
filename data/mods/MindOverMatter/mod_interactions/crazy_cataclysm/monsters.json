@@ -1,0 +1,31 @@
+[
+  {
+    "id": "mon_feral_human_vita2",
+    "copy-from": "mon_feral_human_vita2",
+    "type": "MONSTER",
+    "extend": {
+      "special_attacks": [
+        { "id": "feral_weapon_pipe" },
+        {
+          "type": "monster_attack",
+          "attack_type": "melee",
+          "id": "mon_vitakinetic_ligma_infection",
+          "cooldown": { "math": [ "18 + rand(36)" ] },
+          "accuracy": 6,
+          "move_cost": 60,
+          "damage_max_instance": [ { "damage_type": "biological", "amount": 5 } ],
+          "effects": [ { "id": "effect_mom_crazy_feral_ligma", "duration": [ 3600, 10800 ], "chance": 100 } ],
+          "dodgeable": true,
+          "blockable": true,
+          "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
+          "hit_dmg_u": "%1$s touches you and you feel a moment of acute terror!",
+          "hit_dmg_npc": "%1$s touches <npcname> and an expression of horror passes across their face!",
+          "miss_msg_u": "%1$s tries to touch you, but you dodge!",
+          "miss_msg_npc": "%1$s tries to touch <npcname>, but they dodge!",
+          "no_dmg_msg_u": "%1$s touches you but only hits your armor.",
+          "no_dmg_msg_npc": "%1$s touches <npcname> but only hits their armor."
+        }
+      ]
+    }
+  }
+]
