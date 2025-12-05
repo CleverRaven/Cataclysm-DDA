@@ -890,7 +890,6 @@ void mtype::load( const JsonObject &jo, const std::string_view src )
     optional( jo, was_loaded, "speed", speed, numeric_bound_reader<int> {0}, 0 );
     optional( jo, was_loaded, "aggression", agro, numeric_bound_reader<int> {-100, 100}, 0 );
     optional( jo, was_loaded, "morale", morale, 0 );
-    optional( jo, was_loaded, "stomach_size", stomach_size, 0 );
 
     optional( jo, was_loaded, "tracking_distance", tracking_distance, numeric_bound_reader<int> {3},
               8 );
