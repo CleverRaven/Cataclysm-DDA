@@ -34,6 +34,7 @@
 #include "event_bus.h"
 #include "explosion.h"
 #include "faction.h"
+#include "field.h"
 #include "field_type.h"
 #include "flat_set.h"
 #include "game.h"
@@ -3998,7 +3999,10 @@ void monster::hear_sound( const tripoint_bub_ms &source, const int vol, const in
     bool probably_a_fire = false;
     map &here = get_map();
     for( const tripoint_bub_ms &pt : here.points_in_radius( source, 1, 1 ) ) {
-        if( here.get_field( pt, fd_fire ) ) {
+        const field_entry *fire_fld = here.get_field( pt, fd_fire );
+        // Only large, uncontained fires cause sounds to be ignored.
+        if( fire_fld && fire_fld->get_field_intensity() > 1 &&
+            !here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FIRE_CONTAINER, pt ) ) {
             probably_a_fire = true;
             break;
         }

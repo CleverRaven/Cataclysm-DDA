@@ -44,7 +44,7 @@
     "charges": 4,
     "//": "See pur_tablets item definition for documentation and discussion",
     "autolearn": true,
-    "components": [ [ [ "water_murky", 4 ] ], [ [ "pur_tablets", 1 ] ] ]
+    "components": [ [ [ "water", 4 ], [ "water_murky", 4 ] ], [ [ "pur_tablets", 1 ] ] ]
   },
   {
     "type": "recipe",
