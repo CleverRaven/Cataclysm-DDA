@@ -4134,10 +4134,7 @@ void itype::load( const JsonObject &jo, std::string_view src )
         degrade_increments_ = std::isnan( adjusted_inc ) ? 0 : std::round( adjusted_inc );
     }
 
-    if( !was_loaded ) {
-        name = translation( translation::plural_tag() );
-    }
-
+    name.make_plural();
     mandatory( jo, was_loaded, "name", name );
     optional( jo, was_loaded, "conditional_names", conditional_names );
     optional( jo, was_loaded, "description", description );
