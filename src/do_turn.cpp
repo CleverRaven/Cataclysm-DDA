@@ -319,7 +319,6 @@ void monmove()
             }
             critter.try_biosignature();
             critter.try_reproduce();
-            critter.digest_food();
         }
         while( critter.get_moves() > 0 && !critter.is_dead() && !critter.has_effect( effect_ridden ) ) {
             critter.made_footstep = false;
