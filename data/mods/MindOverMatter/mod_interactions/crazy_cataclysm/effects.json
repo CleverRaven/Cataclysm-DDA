@@ -2,7 +2,7 @@
   {
     "type": "effect_type",
     "id": "effect_mom_crazy_feral_ligma",
-    "name": [ "Ligma" ],
+    "name": [ { "str": "Ligma", "//~": "joke based on the fact that Ligma when spoken sounds like 'lick my' " } ],
     "desc": [ "Ligma.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nBalls." ],
     "rating": "bad"
   }
