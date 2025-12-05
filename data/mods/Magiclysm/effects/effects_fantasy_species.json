@@ -102,5 +102,26 @@
     "max_intensity": 1,
     "base_mods": { "health_min": [ 1 ], "health_chance": [ 5 ], "health_tick": [ 3600 ] },
     "rating": "good"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_elven_wilderness_bonus_lose_vitamin",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "vitamins": [ { "vitamin": "vitamin_psionic_drain", "rate": [ -1, -2 ], "tick": [ "1 h" ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_elven_wilderness_bonus_gain_vitamin",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "vitamins": [ { "vitamin": "vitamin_psionic_drain", "rate": [ [ 1, 2 ] ], "tick": [ "2 h" ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_elven_wilderness_bonus_steady_state",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "removes_effects": [ "effect_elven_wilderness_bonus_lose_vitamin", "effect_elven_wilderness_bonus_gain_vitamin" ]
   }
 ]
