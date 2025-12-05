@@ -113,7 +113,7 @@
     "type": "effect_type",
     "id": "effect_vitamin_elven_wilderness_bonus",
     "name": [ "Under the Boughs" ],
-    "desc": [ "Your time in the wilderess is rejuvenating you." ],
+    "desc": [ "Your time in the wilderness is rejuvenating you." ],
     "max_intensity": 1,
     "base_mods": { "health_min": [ 1 ], "health_chance": [ 5 ], "health_tick": [ 3600 ] },
     "rating": "good"
