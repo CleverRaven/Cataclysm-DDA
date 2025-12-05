@@ -340,6 +340,10 @@
           { "value": "DEXTERITY", "add": 2 },
           { "value": "WEIGHT", "multiply": -0.15 }
         ]
+      },
+      {
+        "condition": { "math": [ "u_effect_intensity('effect_vitamin_elven_wilderness') <= 3" ] },
+        "mutations": [ "DISIMMUNE" ]
       }
     ],
     "flags": [ "HERITAGE" ]

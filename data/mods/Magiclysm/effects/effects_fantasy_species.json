@@ -92,7 +92,15 @@
     "max_intensity": 4,
     "base_mods": { "health_min": [ -1 ], "health_chance": [ 8 ], "health_tick": [ 3600 ] },
     "scaling_mods": { "health_chance": [ -1 ], "health_tick": [ -300 ] },
-    "rating": "bad"
+    "rating": "bad",
+    "enchantments": [
+      {
+        "values": [ { "value": "REGEN_STAMINA", "add": { "math": [ "u_effect_intensity('effect_vitamin_elven_wilderness') * -0.05" ] } } ]
+      },
+      {
+        "values": [ { "value": "MAX_STAMINA", "add": { "math": [ "u_effect_intensity('effect_vitamin_elven_wilderness') * -0.05" ] } } ]
+      }
+    ]
   },
   {
     "type": "effect_type",
