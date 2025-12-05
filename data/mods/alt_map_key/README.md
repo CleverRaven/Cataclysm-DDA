@@ -26,7 +26,7 @@ Colors mark the (loose) thematic category
   - Cave, campsite, farm, orchard, hydroponics farm, mushroom cave, dairy farm
 
 - Cyan - Magical (This is primarily modded tiles)
-  - Magic shops, magaic academy, attunement altar, forge of wonders
+  - Magic shops, magic academy, attunement altar, forge of wonders
 
 - Green - Food, Booze, and Restaurants
   - Grocery store, bar, restaurant, coffee shop, brewery, candy shop
