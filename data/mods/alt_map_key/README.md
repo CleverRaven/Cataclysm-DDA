@@ -7,16 +7,13 @@ It will still replace the symbols used in the overmap in your sidebar.
 Land features are symbols. They're in big chunks so you don't really need a letter to tell you what each space is. 
 For the same reason, houses are left as they were.  
 
-Buildings will be represented by the first letter of their name. P for Pizza not Parlor. 
+Buildings will be represented by the first letter of their English name. P for Pizza not Parlor. 
+All letters are upper case.
 
-### Single Tile Buildings
-Letters are all lower case.  
-Colors are non-inverted.
-
-### Multi Tile Buildings
-Letters are all lower case.  
-Colors are inverted. 
-Parking lots are treated as single tile buildings so will be non-inverted colors.
+### Vision Levels
+Land feature tiles with less than full visibility are lighter shades of the full visbility tiles.
+- Full vision forest is a green #, low visibility forest like tiles are a light green #
+Building tiles with less than full visibility are lower case letters with the same colors of their relevant category. 
 
 ### Colors
 Colors mark the (loose) thematic category
