@@ -4472,7 +4472,7 @@ void debug()
             break;
         case debug_menu_index::QUICKLOAD:
             if( query_yn(
-                    _( "Quickload without saving?  This may cause issues such as duplicated or missing items and vehicles!" ) ) ) {
+                    _( "Quickload without saving?  This will mark save as 'dirty' and disable future saving to prevent accidental overwriting save. Also this may cause issues such as duplicated or missing items and vehicles!" ) ) ) {
                 g->quickload();
                 g->save_is_dirty = true;
             }
