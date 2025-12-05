@@ -462,7 +462,7 @@
     "id": "ELVEN_NEED_FOR_WILDERNESS",
     "name": { "str": "The Longing" },
     "points": -4,
-    "description": "Elves are tied to the wilderness in a literal sense, and being away from the wilds too long makes them weak and frail.  Spending too long underground or in the remnants of the cities will reduce your health stat; spending time in the wilderness will restore it.",
+    "description": "Elves are tied to the wilderness in a literal sense, and being away from the wilds too long makes them weak and frail.  Spending too long underground, indoors, or in the remnants of the cities will reduce your health stat; spending time in the wilderness will restore it.  Being indoors in magically-created natural buildings or in public parks can hold the Longing at bay, but it is no substitute for the wilderness.",
     "purifiable": false,
     "category": [ "SPECIES_ELF" ],
     "enchantments": [
@@ -486,7 +486,9 @@
         "condition": {
           "and": [
             { "math": [ "u_magiclysm_elf_is_in_wilderness == 0" ] },
-            { "test_eoc": "EOC_CONDITION_MAGICLYSM_ELF_WILDERNESS_EQUIVALENTS" }
+            {
+              "or": [ { "test_eoc": "EOC_CONDITION_MAGICLYSM_ELF_WILDERNESS_EQUIVALENTS" }, { "u_has_effect": "natures_commune" } ]
+            }
           ]
         },
         "ench_effects": [ { "effect": "effect_elven_wilderness_bonus_steady_state", "intensity": 1 } ]

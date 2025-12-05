@@ -81,7 +81,7 @@
   },
   {
     "type": "effect_type",
-    "id": "vitamin_elven_wilderness",
+    "id": "effect_vitamin_elven_wilderness",
     "name": [ "The Longing", "The Longing", "The Longing", "The Longing" ],
     "desc": [
       "You miss the wind through the trees.",
@@ -108,14 +108,14 @@
     "id": "effect_elven_wilderness_bonus_lose_vitamin",
     "name": [ "" ],
     "desc": [ "" ],
-    "vitamins": [ { "vitamin": "vitamin_psionic_drain", "rate": [ -1, -2 ], "tick": [ "1 h" ] } ]
+    "vitamins": [ { "vitamin": "vitamin_elven_wilderness", "rate": [ [ -1, -2 ] ], "tick": [ "1 h" ] } ]
   },
   {
     "type": "effect_type",
     "id": "effect_elven_wilderness_bonus_gain_vitamin",
     "name": [ "" ],
     "desc": [ "" ],
-    "vitamins": [ { "vitamin": "vitamin_psionic_drain", "rate": [ [ 1, 2 ] ], "tick": [ "2 h" ] } ]
+    "vitamins": [ { "vitamin": "vitamin_elven_wilderness", "rate": [ [ 1, 2 ] ], "tick": [ "2 h" ] } ]
   },
   {
     "type": "effect_type",
