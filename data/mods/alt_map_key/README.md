@@ -13,7 +13,8 @@ All letters are upper case.
 ### Vision Levels
 Land feature tiles with less than full visibility are lighter shades of the full visbility tiles.
 - Full vision forest is a green #, low visibility forest like tiles are a light green #
-Building tiles with less than full visibility are lower case letters with the same colors of their relevant category. 
+
+Building tiles with less than full visibility are lower case letters with the same colors of their relevant category.  
 
 ### Colors
 Colors mark the (loose) thematic category
