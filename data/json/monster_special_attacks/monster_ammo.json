@@ -82,5 +82,64 @@
     "id": "BILE_BLIND",
     "type": "ammo_effect",
     "on_hit_effects": [ { "effect": "boomered", "duration": "30 s", "intensity": 1, "need_touch_skin": true } ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
+    "id": "bone_dart",
+    "copy-from": "rock",
+    "looks_like": "bee_sting",
+    "color": "white",
+    "name": { "str": "bone dart" },
+    "description": "A naturally fletched projectile made of bone and cartilage.  It feels denser than you'd expect.",
+    "material": [ "bone" ],
+    "weight": "250 g"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "nether_goo",
+    "name": "nether goo",
+    "default": "phase_goo_1"
+  },
+  {
+    "id": "phase_goo_1",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
+    "name": { "str": "phase goo", "//~": "NO_I18N" },
+    "description": { "str": "Netherum phase goo, if you see this it's a bug.", "//~": "NO_I18N" },
+    "weight": "3 g",
+    "volume": "250 ml",
+    "material": [ "water" ],
+    "symbol": "=",
+    "color": "blue",
+    "phase": "liquid",
+    "ammo_type": "nether_goo",
+    "range": 40,
+    "count": 1,
+    "effects": [ "NEVER_MISFIRES", "PHASE_GOO_COAT" ]
+  },
+  {
+    "id": "PHASE_GOO_COAT",
+    "type": "ammo_effect",
+    "on_hit_effects": [ { "effect": "phase_goo_coated", "duration": "2 s", "intensity": 1 } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "phase_goo_coated",
+    "name": [ "Coated in phase goo" ],
+    "desc": [ "Weird nether-goo is making your protection less effective." ],
+    "apply_message": "You're coated in phase goo!",
+    "remove_message": "The phase goo phases away.",
+    "rating": "bad",
+    "max_duration": "5 seconds",
+    "max_intensity": 1,
+    "enchantments": [
+      {
+        "incoming_damage_mod_post_absorbed": [
+          { "type": "stab", "add": { "math": [ "rand(3)" ] }, "multiply": 1.2 },
+          { "type": "cut", "add": { "math": [ "rand(3)" ] }, "multiply": 1.1 }
+        ]
+      }
+    ]
   }
 ]
