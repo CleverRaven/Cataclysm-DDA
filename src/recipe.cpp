@@ -27,6 +27,7 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_components.h"
+#include "item_contents.h"
 #include "item_group.h"
 #include "item_tname.h"
 #include "itype.h"
