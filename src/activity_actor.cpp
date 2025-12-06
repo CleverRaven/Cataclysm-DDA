@@ -151,6 +151,7 @@ static const activity_id ACT_HEATING( "ACT_HEATING" );
 static const activity_id ACT_HOTWIRE_CAR( "ACT_HOTWIRE_CAR" );
 static const activity_id ACT_INSERT_ITEM( "ACT_INSERT_ITEM" );
 static const activity_id ACT_INVOKE_ITEM( "ACT_INVOKE_ITEM" );
+static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
 static const activity_id ACT_LOCKPICK( "ACT_LOCKPICK" );
 static const activity_id ACT_LONGSALVAGE( "ACT_LONGSALVAGE" );
 static const activity_id ACT_MEDITATE( "ACT_MEDITATE" );
@@ -164,6 +165,7 @@ static const activity_id ACT_MULTIPLE_FISH( "ACT_MULTIPLE_FISH" );
 static const activity_id ACT_MULTIPLE_STUDY( "ACT_MULTIPLE_STUDY" );
 static const activity_id ACT_OPEN_GATE( "ACT_OPEN_GATE" );
 static const activity_id ACT_OXYTORCH( "ACT_OXYTORCH" );
+static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
 static const activity_id ACT_PICKUP( "ACT_PICKUP" );
 static const activity_id ACT_PLAY_WITH_PET( "ACT_PLAY_WITH_PET" );
 static const activity_id ACT_PRYING( "ACT_PRYING" );
@@ -293,10 +295,12 @@ static const ter_str_id ter_t_door_locked_alarm( "t_door_locked_alarm" );
 static const ter_str_id ter_t_door_metal_c( "t_door_metal_c" );
 static const ter_str_id ter_t_door_metal_locked( "t_door_metal_locked" );
 static const ter_str_id ter_t_stump( "t_stump" );
+static const ter_str_id ter_t_tree( "t_tree" );
 static const ter_str_id ter_t_trunk( "t_trunk" );
 
 static const trait_id trait_NUMB( "NUMB" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
+static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
 
 static const vpart_location_id vpart_location_structure( "structure" );
 
@@ -7982,6 +7986,115 @@ std::unique_ptr<activity_actor> longsalvage_activity_actor::deserialize( JsonVal
     return actor.clone();
 }
 
+void pickaxe_activity_actor::do_turn( player_activity &, Character & )
+{
+    const tripoint_bub_ms &pos = get_map().get_bub( mined_location );
+    sfx::play_activity_sound( "tool", "pickaxe", sfx::get_heard_volume( pos ) );
+    // each turn is too much
+    if( calendar::once_every( 1_minutes ) ) {
+        //~ Sound of a Pickaxe at work!
+        sounds::sound( pos, 30, sounds::sound_t::destructive_activity, _( "CHNK!  CHNK!  CHNK!" ) );
+    }
+}
+
+void jackhammer_activity_actor::do_turn( player_activity &, Character & )
+{
+    const tripoint_bub_ms &pos = get_map().get_bub( mined_location );
+    sfx::play_activity_sound( "tool", "pickaxe", sfx::get_heard_volume( pos ) );
+    // each turn is too much
+    if( calendar::once_every( 1_minutes ) ) {
+        //~ Sound of a Pickaxe at work!
+        sounds::sound( pos, 30, sounds::sound_t::destructive_activity, _( "CHNK!  CHNK!  CHNK!" ) );
+    }
+}
+
+void pickaxe_activity_actor::mining_strain( Character &who )
+{
+    if( who.is_avatar() ) {
+        map &here = get_map();
+        const tripoint_bub_ms mined_location_bub = here.get_bub( mined_location );
+        const int helpersize = get_player_character().get_num_crafting_helpers( 3 );
+        if( here.is_bashable( mined_location_bub ) &&
+            here.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, mined_location_bub ) &&
+            here.ter( mined_location_bub ) != ter_t_tree ) {
+            // Tunneling through solid rock is sweaty, backbreaking work
+            // Betcha wish you'd opted for the J-Hammer
+            if( who.has_trait( trait_STOCKY_TROGLO ) ) {
+                who.mod_pain( std::max( 0, ( 1 * static_cast<int>( rng( 0, 3 ) ) ) - helpersize ) );
+            } else {
+                who.mod_pain( std::max( 0, ( 2 * static_cast<int>( rng( 1, 3 ) ) ) - helpersize ) );
+            }
+        }
+    }
+}
+
+void mine_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_left = to_moves<int>( mining_duration );
+}
+
+void mine_activity_actor::finish( player_activity &act, Character &who )
+{
+    map &here = get_map();
+    const tripoint_bub_ms &pos = here.get_bub( mined_location );
+
+    here.destroy( pos, true );
+
+    who.add_msg_player_or_npc( m_good,
+                               _( "You finish digging." ),
+                               _( "<npcname> finishes digging." ) );
+    mining_strain( who );
+
+    if( mining_tool && mining_tool->ammo_required() > 0 ) {
+        mining_tool->ammo_consume( mining_tool->ammo_required(), tripoint_bub_ms::zero, &who );
+    }
+
+    act.set_to_null();
+    if( activity_handlers::resume_for_multi_activities( who ) ) {
+        for( item &elem : here.i_at( pos ) ) {
+            elem.set_var( "activity_var", who.name );
+            who.may_activity_occupancy_after_end_items_loc.emplace_back( map_cursor{ here.get_abs( pos ) },
+                    &elem );
+        }
+    }
+}
+
+void mine_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "mining_tool", mining_tool );
+    jsout.member( "mined_location", mined_location );
+    jsout.member( "mining_duration", mining_duration );
+
+    jsout.end_object();
+}
+
+JsonObject mine_activity_actor::deserialize_base( JsonValue &jsin )
+{
+    JsonObject data = jsin.get_object();
+
+    data.read( "mining_tool", mining_tool );
+    data.read( "mined_location", mined_location );
+    data.read( "mining_duration", mining_duration );
+
+    return data;
+}
+
+std::unique_ptr<activity_actor> pickaxe_activity_actor::deserialize( JsonValue &jsin )
+{
+    pickaxe_activity_actor actor;
+    actor.deserialize_base( jsin );
+    return actor.clone();
+}
+
+std::unique_ptr<activity_actor> jackhammer_activity_actor::deserialize( JsonValue &jsin )
+{
+    jackhammer_activity_actor actor;
+    actor.deserialize_base( jsin );
+    return actor.clone();
+}
+
 void mop_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_total = moves;
@@ -9533,6 +9646,7 @@ deserialize_functions = {
     { ACT_HOTWIRE_CAR, &hotwire_car_activity_actor::deserialize },
     { ACT_INSERT_ITEM, &insert_item_activity_actor::deserialize },
     { ACT_INVOKE_ITEM, &invoke_item_activity_actor::deserialize },
+    { ACT_JACKHAMMER, &jackhammer_activity_actor::deserialize },
     { ACT_LOCKPICK, &lockpick_activity_actor::deserialize },
     { ACT_LONGSALVAGE, &longsalvage_activity_actor::deserialize },
     { ACT_MEDITATE, &meditate_activity_actor::deserialize },
@@ -9543,6 +9657,7 @@ deserialize_functions = {
     { ACT_MOVE_LOOT, &zone_sort_activity_actor::deserialize },
     { ACT_OPEN_GATE, &open_gate_activity_actor::deserialize },
     { ACT_OXYTORCH, &oxytorch_activity_actor::deserialize },
+    { ACT_PICKAXE, &pickaxe_activity_actor::deserialize },
     { ACT_PICKUP, &pickup_activity_actor::deserialize },
     { ACT_PLAY_WITH_PET, &play_with_pet_activity_actor::deserialize },
     { ACT_PRYING, &prying_activity_actor::deserialize },
