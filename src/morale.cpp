@@ -189,7 +189,9 @@ void player_morale::morale_point::add( const int new_bonus, const int new_max_bo
     }
 
     int sqrt_of_sum_of_squares;
-    if( new_cap || !same_sign ) {
+    if( new_duration == 0_turns ) {
+        sqrt_of_sum_of_squares = new_bonus;
+    } else if( new_cap || !same_sign ) {
         // If the morale bonus is capped apply the full bonus
         // This is because some morale types build up slowly to a cap over time (e.g. morale_wet)
         // If the new bonus is opposing apply the full bonus
