@@ -1417,6 +1417,12 @@ class item : public visitable
         /** @see itype::damage_level(). */
         int damage_level( bool precise = false ) const;
 
+        /** Whether activation of an item should be successful based on it's damage level and chance
+        * Note that it does not perform any activation: that's up to the caller. Also, it's based
+        * on damage only, without any considerations for faults.
+        */
+        bool activation_success() const;
+
         /** Modifiy melee weapon damage to account for item's damage. */
         float damage_adjusted_melee_weapon_damage( float value, const damage_type_id &dt ) const;
         /** Modifiy gun damage to account for item's damage. */

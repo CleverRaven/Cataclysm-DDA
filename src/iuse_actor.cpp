@@ -237,6 +237,9 @@ void iuse_transform::load( const JsonObject &obj, const std::string & )
         obj.throw_error_at( "set_timer", "Cannot use both set_timer and target_timer at once" );
     }
 
+    optional( obj, false, "damage_failure_msg", damage_failure_msg,
+              to_translation( "Activation of your damaged %s fails." ) );
+
     optional( obj, false, "need_fire", need_fire, numeric_bound_reader<int> { 0 }, 0 );
     optional( obj, false, "need_charges_msg", need_charges_msg, to_translation( "The %s is empty!" ) );
 
@@ -280,6 +283,12 @@ std::optional<int> iuse_transform::use( Character *p, item &it, map *,
         if( p->cant_do_underwater() ) {
             return std::nullopt;
         }
+    }
+
+    if( !it.activation_success() ) {
+        p->add_msg_if_player( m_bad,
+                              damage_failure_msg, it.tname() );
+        return std::nullopt;
     }
 
     int timer_time = 0;
