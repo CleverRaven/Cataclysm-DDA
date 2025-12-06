@@ -207,7 +207,6 @@ void fertilize_plot_do_turn( player_activity *act, Character *you );
 void fetch_do_turn( player_activity *act, Character *you );
 void fill_liquid_do_turn( player_activity *act, Character *you );
 void find_mount_do_turn( player_activity *act, Character *you );
-void fish_do_turn( player_activity *act, Character *you );
 void game_do_turn( player_activity *act, Character *you );
 void generic_game_do_turn( player_activity *act, Character *you );
 void hand_crank_do_turn( player_activity *act, Character *you );
@@ -243,7 +242,6 @@ do_turn_functions;
 /** activity_finish functions: */
 void atm_finish( player_activity *act, Character *you );
 void eat_menu_finish( player_activity *act, Character *you );
-void fish_finish( player_activity *act, Character *you );
 void generic_game_finish( player_activity *act, Character *you );
 void gunmod_add_finish( player_activity *act, Character *you );
 void heat_item_finish( player_activity *act, Character *you );

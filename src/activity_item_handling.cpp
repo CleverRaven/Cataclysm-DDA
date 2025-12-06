@@ -82,7 +82,6 @@
 
 static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_FETCH_REQUIRED( "ACT_FETCH_REQUIRED" );
-static const activity_id ACT_FISH( "ACT_FISH" );
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
 static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
@@ -3684,12 +3683,9 @@ bool fish_do( Character &you, const activity_reason_info &act_info,
         you.backlog.emplace_front( ACT_MULTIPLE_FISH );
         // we don't want to keep repeating the fishing activity, just piggybacking on this functions structure to find requirements.
         you.activity = player_activity();
-        item &best_rod = you.best_item_with_quality( qual_FISHING_ROD );
-        you.assign_activity( ACT_FISH, to_moves<int>( 5_hours ), 0,
-                             0, best_rod.tname() );
-        you.activity.targets.emplace_back( you, &best_rod );
-        you.activity.coord_set =
-            g->get_fishable_locations_abs( MAX_VIEW_DISTANCE, src_loc );
+        item_location best_rod_loc( you, &you.best_item_with_quality( qual_FISHING_ROD ) );
+        you.assign_activity( fish_activity_actor( best_rod_loc,
+                             g->get_fishable_locations_abs( MAX_VIEW_DISTANCE, src_loc ), 5_hours ) );
         return false;
     }
     return true;
