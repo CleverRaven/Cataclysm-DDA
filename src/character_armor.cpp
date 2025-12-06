@@ -306,7 +306,7 @@ bool Character::ablative_armor_absorb( damage_unit &du, item &armor, const sub_b
 
     item::cover_type ctype = item::get_cover_type( du.type );
 
-    for( item_pocket *const pocket : armor.get_all_ablative_pockets() ) {
+    for( item_pocket *const pocket : armor.get_ablative_pockets() ) {
         // if the pocket is ablative and not empty we should use its values
         if( !pocket->empty() ) {
             // get the contained plate

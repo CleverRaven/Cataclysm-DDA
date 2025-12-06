@@ -218,7 +218,7 @@ TEST_CASE( "zone_sorting_comestibles_", "[zones][items][food][activities]" )
                 item container( itype_test_watertight_open_sealed_container_250ml );
                 REQUIRE( container.put_in( nonperishable_food, pocket_type::CONTAINER ).success() );
                 REQUIRE( container.seal() );
-                REQUIRE( container.get_all_contained_pockets().front()->spoil_multiplier() ==
+                REQUIRE( container.get_container_pockets().front()->spoil_multiplier() ==
                          0.0f );
                 REQUIRE( container.all_pockets_sealed() );
 
@@ -252,7 +252,7 @@ TEST_CASE( "zone_sorting_comestibles_", "[zones][items][food][activities]" )
                 item container( itype_test_watertight_open_sealed_container_250ml );
                 REQUIRE( container.put_in( nonperishable_drink, pocket_type::CONTAINER ).success() );
                 REQUIRE( container.seal() );
-                REQUIRE( container.get_all_contained_pockets().front()->spoil_multiplier() ==
+                REQUIRE( container.get_container_pockets().front()->spoil_multiplier() ==
                          0.0f );
                 REQUIRE( container.all_pockets_sealed() );
 
@@ -286,7 +286,7 @@ TEST_CASE( "zone_sorting_comestibles_", "[zones][items][food][activities]" )
                 item container( itype_test_watertight_open_sealed_container_250ml );
                 REQUIRE( container.put_in( perishable_food, pocket_type::CONTAINER ).success() );
                 REQUIRE( container.seal() );
-                REQUIRE( container.get_all_contained_pockets().front()->spoil_multiplier() ==
+                REQUIRE( container.get_container_pockets().front()->spoil_multiplier() ==
                          0.0f );
                 REQUIRE( container.all_pockets_sealed() );
 
@@ -320,7 +320,7 @@ TEST_CASE( "zone_sorting_comestibles_", "[zones][items][food][activities]" )
                 item container( itype_test_watertight_open_sealed_container_250ml );
                 REQUIRE( container.put_in( perishable_drink, pocket_type::CONTAINER ).success() );
                 REQUIRE( container.seal() );
-                REQUIRE( container.get_all_contained_pockets().front()->spoil_multiplier() ==
+                REQUIRE( container.get_container_pockets().front()->spoil_multiplier() ==
                          0.0f );
                 REQUIRE( container.all_pockets_sealed() );
 

@@ -2261,6 +2261,20 @@ void options_manager::add_options_interface()
         get_option( "EDGE_SCROLL" ).setPrerequisite( "ENABLE_MOUSE" );
     } );
 
+    add_empty_line();
+    add_option_group( "interface", Group( "inventory_stats_opts",
+                                          to_translation( "Inventory stats options" ),
+                                          to_translation( "Options regarding the status summary shown in the header of many inventory screens." ) ),
+    [&]( const std::string & page_id ) {
+        add( "SHOW_MAX_SPACE", page_id, to_translation( "Show max-sized spaces" ),
+             to_translation( "Display the max-sized pocket space when different from the current free space." ),
+             true
+           );
+        add( "SHOW_OTHER_SPACES", page_id, to_translation( "Show 'other' spaces" ),
+             to_translation( "Display up to this many entries in the list of 'other' (not largest/longest) spaces.  0 will disable the list completely." ),
+             0, 5, 0
+           );
+    } );
 }
 
 void options_manager::add_options_graphics()

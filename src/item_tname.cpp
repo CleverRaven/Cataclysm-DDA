@@ -230,7 +230,7 @@ std::string craft( item const &it, unsigned int /* quantity */,
 std::string wbl_mark( item const &it, unsigned int /* quantity */,
                       segment_bitset const &/* segments */ )
 {
-    std::vector<const item_pocket *> pkts = it.get_all_contained_pockets();
+    std::vector<const item_pocket *> pkts = it.get_container_pockets();
     bool wl = false;
     bool bl = false;
     bool player_wbl = false;
