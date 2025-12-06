@@ -76,7 +76,7 @@
     "style": "layout",
     "label": "Movement",
     "arrange": "rows",
-    "widgets": [ "sound_mood_focus_layout", "ll_stamina_speed_move_layout" ]
+    "widgets": [ "sound_mood_layout", "ll_stamina_speed_move_layout" ]
   },
   {
     "id": "ll_str_dex_power_layout",

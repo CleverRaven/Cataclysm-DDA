@@ -725,8 +725,8 @@ void player_morale::display( int focus_eq, int pain_penalty, int sleepiness_pena
         );
     }
     bottom_lines.emplace_back(
-        _( "Focus trends towards:" ), focus_eq,
-        morale_line::number_format::normal,
+        _( "Focus (rate of learning) trends towards:" ), focus_eq,
+        morale_line::number_format::percent,
         morale_line::line_color::normal
     );
     bottom_lines.emplace_back();
