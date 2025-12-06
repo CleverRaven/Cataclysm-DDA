@@ -384,7 +384,9 @@
       { "item": "barometer", "prob": 3 },
       { "item": "smart_lamp", "prob": 3 },
       { "item": "nuts_bolts", "prob": 95, "charges": [ 10, 20 ] },
-      { "group": "sunscreen_bottle", "prob": 5 }
+      { "group": "sunscreen_bottle", "prob": 5 },
+      { "group": "plastic_welding_tools", "prob": 10 },
+      { "group": "plastic_welding_tools", "prob": 15 }
     ]
   },
   {

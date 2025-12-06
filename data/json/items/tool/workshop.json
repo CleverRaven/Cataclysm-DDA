@@ -1915,5 +1915,24 @@
     "proportional": { "weight": 1.1 },
     "material": [ "bronze" ],
     "color": "yellow"
+  },
+  {
+    "id": "plastic_welder",
+    "copy-from": "soldering_iron",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "plastic welder" },
+    "description": "A soldering iron with a triangle shaped head specialized for melting and spreading polymers.  Has a short cable that you can plug to your grid.",
+    "use_action": { "type": "link_up", "cable_length": 3, "charge_rate": "70 W" }
+  },
+  {
+    "id": "hot_stapler",
+    "copy-from": "corded_powerdrill",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "hot stapler" },
+    "description": "This tool is shaped like a drill but has two empty prongs at the end which curve slightly downward.  It's used to heat special staples then drive them in plastic materials to join the sides of a tear.  Warning: do not apply to rectum.",
+    "qualities": [  ],
+    "charged_qualities": [  ]
   }
 ]

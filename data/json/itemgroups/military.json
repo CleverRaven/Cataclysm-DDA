@@ -852,6 +852,7 @@
       [ "soldering_iron", 1 ],
       { "item": "soldering_iron", "prob": 1 },
       { "item": "soldering_iron_portable", "prob": 1, "charges": [ 0, 50 ] },
+      { "group": "plastic_welding_tools", "prob": 1 },
       [ "solar_cell", 1 ],
       [ "bearing", 1 ],
       [ "headlight_reinforced", 10 ],

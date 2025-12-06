@@ -129,7 +129,8 @@
       [ "clamp", 10 ],
       [ "sandpaper", 80 ],
       { "group": "writing_utensils", "prob": 5 },
-      { "group": "soldering_supplies", "prob": 50 }
+      { "group": "soldering_supplies", "prob": 50 },
+      { "group": "plastic_welding_tools", "prob": 25 }
     ]
   },
   {
@@ -893,7 +894,8 @@
       [ "wrench", 10 ],
       [ "socket_wrench_set", 10 ],
       [ "bench_vise", 15 ],
-      { "group": "writing_utensils", "prob": 5 }
+      { "group": "writing_utensils", "prob": 5 },
+      { "group": "plastic_welding_tools", "prob": 10 }
     ]
   },
   {
@@ -1158,6 +1160,19 @@
       { "item": "glue_strong", "container-item": "bottle_plastic_glue", "charges": 1000 },
       { "item": "glue_strong", "container-item": "bottle_twoliter_glue", "charges": 2000 },
       { "item": "glue_strong", "container-item": "jug_plastic_glue", "charges": 3750 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "plastic_welding_tools",
+    "items": [
+      [ "knife_folding", 90 ],
+      [ "pliers", 90 ],
+      [ "hot_stapler", 90 ],
+      { "item": "hot_staple", "count": [ 0, 100 ], "prob": 90 },
+      [ "plastic_welder", 90 ],
+      { "item": "thermo_resin_chunk", "count": [ 0, 10 ], "prob": 90 }
     ]
   }
 ]
