@@ -1431,7 +1431,8 @@ ret_val<item_pocket::contain_code> item_pocket::is_compatible( const item &it ) 
                    contain_code::ERR_TOO_SMALL, _( "item is too short" ) );
     }
 
-    if( it.volume() < data->min_item_volume ) {
+    if( ( it.count_by_charges() ? it.volume( false, false, 1 ) : it.volume() )
+        < data->min_item_volume ) {
         return ret_val<item_pocket::contain_code>::make_failure(
                    contain_code::ERR_TOO_SMALL, _( "item is too small" ) );
     }
