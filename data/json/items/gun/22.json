@@ -557,7 +557,7 @@
     "variants": [
       {
         "id": "sw617",
-        "name": { "str": "S&W 617" },
+        "name": { "str": "S&W 617 revolver" },
         "description": "The S&W 617 is a fine revolver, chambered in .22 LR.  However, instead of more common 6 rounds revolvers come in, this revolver has a 10 round capacity cylinder.  While still a revolver, and to boot a revolver in .22 LR, 10 is still bigger than 6."
       }
     ]
