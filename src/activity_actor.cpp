@@ -167,6 +167,7 @@ static const activity_id ACT_OPEN_GATE( "ACT_OPEN_GATE" );
 static const activity_id ACT_OXYTORCH( "ACT_OXYTORCH" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
 static const activity_id ACT_PICKUP( "ACT_PICKUP" );
+static const activity_id ACT_PLANT_SEED( "ACT_PLANT_SEED" );
 static const activity_id ACT_PLAY_WITH_PET( "ACT_PLAY_WITH_PET" );
 static const activity_id ACT_PRYING( "ACT_PRYING" );
 static const activity_id ACT_PULP( "ACT_PULP" );
@@ -218,6 +219,7 @@ static const flag_id json_flag_NO_RELOAD( "NO_RELOAD" );
 
 static const furn_str_id furn_f_gunsafe_mj( "f_gunsafe_mj" );
 static const furn_str_id furn_f_gunsafe_ml( "f_gunsafe_ml" );
+static const furn_str_id furn_f_plant_seed( "f_plant_seed" );
 static const furn_str_id furn_f_safe_c( "f_safe_c" );
 static const furn_str_id furn_f_safe_o( "f_safe_o" );
 
@@ -5043,6 +5045,65 @@ std::unique_ptr<activity_actor> harvest_activity_actor::deserialize( JsonValue &
     return actor.clone();
 }
 
+void plant_seed_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_left = to_moves<int>( plant_duration );
+}
+void plant_seed_activity_actor::finish( player_activity &act, Character &who )
+{
+    map &here = get_map();
+    tripoint_bub_ms examp = here.get_bub( plant_location );
+    const itype_id seed_id = seed_type;
+    std::list<item> used_seed;
+    if( item::count_by_charges( seed_id ) ) {
+        used_seed = who.use_charges( seed_id, 1 );
+    } else {
+        used_seed = who.use_amount( seed_id, 1 );
+    }
+    if( !used_seed.empty() ) {
+        used_seed.front().set_age( 0_turns );
+        if( used_seed.front().has_var( "activity_var" ) ) {
+            used_seed.front().erase_var( "activity_var" );
+        }
+        used_seed.front().set_flag( json_flag_HIDDEN_ITEM );
+        here.add_item_or_charges( examp, used_seed.front() );
+        if( here.has_flag_furn( seed_id->seed->required_terrain_flag, examp ) &&
+            here.furn( examp )->plant != nullptr ) {
+            here.furn_set( examp, here.furn( examp )->plant->transform );
+        } else if( seed_id->seed->required_terrain_flag == ter_furn_flag::TFLAG_PLANTABLE ) {
+            here.set( examp, ter_t_dirt, furn_f_plant_seed );
+        } else {
+            here.furn_set( examp, furn_f_plant_seed );
+        }
+        who.add_msg_player_or_npc( _( "You plant some %s." ), _( "<npcname> plants some %s." ),
+                                   item::nname( seed_id ) );
+    }
+    // Go back to what we were doing before
+    // could be player zone activity, or could be NPC multi-farming
+    act.set_to_null();
+    activity_handlers::resume_for_multi_activities( who );
+}
+
+void plant_seed_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "plant_location", plant_location );
+    jsout.member( "seed_type", seed_type );
+    jsout.member( "plant_duration", plant_duration );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> plant_seed_activity_actor::deserialize( JsonValue &jsin )
+{
+    plant_seed_activity_actor actor;
+
+    JsonObject jsobj = jsin.get_object();
+    jsobj.read( "plant_location", actor.plant_location );
+    jsobj.read( "seed_type", actor.seed_type );
+    jsobj.read( "plant_duration", actor.plant_duration );
+    return actor.clone();
+}
+
 static void stash_on_pet( const std::list<item> &items, monster &pet, Character &who )
 {
     units::volume remaining_volume = pet.storage_item->get_total_capacity() - pet.get_carried_volume();
@@ -9660,6 +9721,7 @@ deserialize_functions = {
     { ACT_OXYTORCH, &oxytorch_activity_actor::deserialize },
     { ACT_PICKAXE, &pickaxe_activity_actor::deserialize },
     { ACT_PICKUP, &pickup_activity_actor::deserialize },
+    { ACT_PLANT_SEED, &plant_seed_activity_actor::deserialize },
     { ACT_PLAY_WITH_PET, &play_with_pet_activity_actor::deserialize },
     { ACT_PRYING, &prying_activity_actor::deserialize },
     { ACT_PULP, &pulp_activity_actor::deserialize },
