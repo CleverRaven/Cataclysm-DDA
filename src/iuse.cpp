@@ -135,7 +135,6 @@
 #include "weather_gen.h"
 #include "weather_type.h"
 
-static const activity_id ACT_FISH( "ACT_FISH" );
 static const activity_id ACT_GAME( "ACT_GAME" );
 static const activity_id ACT_GENERIC_GAME( "ACT_GENERIC_GAME" );
 static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
@@ -1801,9 +1800,8 @@ std::optional<int> iuse::fishing_rod( Character *p, item *it, const tripoint_bub
         return std::nullopt;
     }
     p->add_msg_if_player( _( "You cast your line and wait to hook something…" ) );
-    p->assign_activity( ACT_FISH, to_moves<int>( 5_hours ), 0, 0, it->tname() );
-    p->activity.targets.emplace_back( *p, it );
-    p->activity.coord_set = g->get_fishable_locations_abs( MAX_VIEW_DISTANCE, *found );
+    p->assign_activity( fish_activity_actor( item_location( *p, it ),
+                        g->get_fishable_locations_abs( MAX_VIEW_DISTANCE, *found ), 5_hours ) );
     return 0;
 }
 

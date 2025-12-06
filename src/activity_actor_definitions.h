@@ -981,6 +981,35 @@ class efile_activity_actor : public activity_actor
         time_duration charge_time( efile_action action_type );
 };
 
+class fish_activity_actor : public activity_actor
+{
+    public:
+        fish_activity_actor() = default;
+        fish_activity_actor( const item_location &fishing_rod,
+                             const std::unordered_set<tripoint_abs_ms> &fishing_zone,
+                             time_duration fishing_duration ) :
+            fishing_rod( fishing_rod ), fishing_zone( fishing_zone ), fishing_duration( fishing_duration ) {};
+
+        const activity_id &get_type() const override {
+            static const activity_id ACT_FISH( "ACT_FISH" );
+            return ACT_FISH;
+        }
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &, Character &who ) override;
+        void finish( player_activity &act, Character &who ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<fish_activity_actor>( *this );
+        }
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+    private:
+        item_location fishing_rod;
+        std::unordered_set<tripoint_abs_ms> fishing_zone;
+        time_duration fishing_duration;
+};
+
 class migration_cancel_activity_actor : public activity_actor
 {
     public:

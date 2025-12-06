@@ -9,6 +9,33 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [
+      "supermarket_x0_y0_z0",
+      "supermarket_x0_y1_z0",
+      "supermarket_x0_y2_z0",
+      "supermarket_x1_y0_z0",
+      "supermarket_x1_y1_z0",
+      "supermarket_x1_y2_z0",
+      "supermarket_x2_y0_z0",
+      "supermarket_x2_y1_z0",
+      "supermarket_x2_y2_z0",
+      "supermarket_x0_y0_z1",
+      "supermarket_x0_y1_z1",
+      "supermarket_x0_y2_z1",
+      "supermarket_x1_y0_z1",
+      "supermarket_x1_y1_z1",
+      "supermarket_x1_y2_z1",
+      "supermarket_x2_y0_z1",
+      "supermarket_x2_y1_z1",
+      "supermarket_x2_y2_z1"
+    ],
+    "copy-from": "supermarket_x0_y0_z0",
+    "name": "supermarket",
+    "sym": "S",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "s_grocery_roof", "s_grocery_roof_1" ],
     "copy-from": "s_grocery_roof",
     "name": "grocery store roof",
