@@ -75,7 +75,9 @@
                 "mon_zombie_master",
                 "mon_zombie_necro_boomer",
                 "mon_xe_unicorn",
-                "mon_xe_unicorn_foal"
+                "mon_xe_unicorn_foal",
+                "mon_feral_whispering",
+                "mon_feral_flickering"
               ]
             }
           ]
