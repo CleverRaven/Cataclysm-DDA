@@ -1,16 +1,5 @@
 [
   {
-    "id": "LS_Alphatest",
-    "type": "mutation",
-    "name": { "str": "Alpha Test Labyrinths 0.1" },
-    "description": "Taking this mutation will allow you to talk to the Exodii Merchant Rubik and ask to travel to the early playtest version of the Labyrinthine Structure, an in-development dungeon set inside an alternate dimension.  This version is still very low on content, but your early feedback is highly valued!",
-    "points": 0,
-    "starting_trait": true,
-    "valid": false,
-    "purifiable": false,
-    "player_display": true
-  },
-  {
     "id": "LS_Passcode_0",
     "type": "mutation",
     "name": { "str": "Passcode: Thief's Pass" },
