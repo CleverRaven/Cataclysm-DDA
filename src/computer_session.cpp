@@ -1045,7 +1045,8 @@ void computer_session::action_blood_anal()
             } else if( items.only_item().empty() ) {
                 print_error( _( "ERROR: Please only use container with blood sample." ) );
             } else if( items.only_item().legacy_front().typeId() != itype_blood &&
-                       items.only_item().legacy_front().typeId() != itype_blood_tainted ) {
+                       items.only_item().legacy_front().typeId() != itype_blood_tainted &&
+                       items.only_item().legacy_front().typeId() != itype_blood_tainted_human ) {
                 print_error( _( "ERROR: Please only use blood samples." ) );
             } else if( items.only_item().legacy_front().rotten() ) {
                 print_error( _( "ERROR: Please only use fresh blood samples." ) );
