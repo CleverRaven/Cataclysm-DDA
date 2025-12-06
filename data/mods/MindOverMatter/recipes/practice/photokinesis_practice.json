@@ -307,7 +307,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: chameleoflage",
     "id": "practice_photokinetic_camouflage",
-    "description": "Contemplate your powers and improve your ability to hide your presence from distance observers.\n\nPower Difficulty: 3\n\nCurrent Power Level: <u_spell_level:photokinetic_camouflage>",
+    "description": "Contemplate your powers and improve your ability to hide your presence from distant observers.\n\nPower Difficulty: 3\n\nCurrent Power Level: <u_spell_level:photokinetic_camouflage>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
