@@ -53,5 +53,10 @@
     "id": "morale_book_lies",
     "type": "morale_type",
     "text": "Haunted by the Lies."
+  },
+  {
+    "id": "morale_game_inventor",
+    "type": "morale_type",
+    "text": "Entertained by created dreams."
   }
 ]

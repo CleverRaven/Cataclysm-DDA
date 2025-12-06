@@ -1,0 +1,30 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_bio_inventor_rad_boost_activated",
+    "//": "Consumes 1 radioactive item per activation, pushing towards long periods of activity and the radiation that comes with it.",
+    "effect": [
+      {
+        "u_run_inv_eocs": "manual",
+        "search_data": [ { "worn_only": true, "flags": [ "RADIOACTIVE" ] } ],
+        "true_eocs": [
+          {
+            "id": "EOC_bio_inventor_rad_boost_start",
+            "effect": [ "npc_die", { "u_add_effect": "effect_bio_inventor_rad_boost", "duration": "PERMANENT" } ]
+          }
+        ],
+        "false_eocs": [
+          {
+            "id": "EOC_bio_inventor_rad_boost_fail",
+            "effect": [ { "u_message": "The engine won't start without radioactive fuel!", "type": "bad" } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_bio_inventor_rad_boost_deactivated",
+    "effect": [ { "u_lose_effect": "effect_bio_inventor_rad_boost" } ]
+  }
+]

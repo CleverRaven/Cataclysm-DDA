@@ -1,0 +1,63 @@
+[
+  {
+    "id": "bio_inventor_rad_boost",
+    "type": "bionic",
+    "name": { "str": "Hero Engine" },
+    "description": "Everyone knows that radiation gives superpowers, and this little marvel will grant you your very own superpowers as long as you keep it fueled with radioactive objects.  The more radiation you suffer from, the more potent the effects.  Gone are the days where superpowers were reserved for those born with it and those who exposed themselves to the entire greek alphabet!",
+    "occupied_bodyparts": [ [ "torso", 6 ] ],
+    "act_cost": "5 kJ",
+    "react_cost": "1 kJ",
+    "time": "1 s",
+    "enchantments": [ { "condition": "ACTIVE", "ench_effects": [ { "effect": "bio_rad_boost_eff", "intensity": 1 } ] } ],
+    "activated_eocs": [ "EOC_bio_inventor_rad_boost_activated" ],
+    "deactivated_eocs": [ "EOC_bio_inventor_rad_boost_deactivated" ],
+    "flags": [ "BIONIC_TOGGLED" ]
+  },
+  {
+    "id": "bio_inventor_mana_kj_penalty_switch",
+    "type": "bionic",
+    "name": { "str": "Cyberarcanic Interference Inverter" },
+    "description": "Mana and electricity interfere with each other while inside the same thing.  By thoroughly inverting the polarities you switched the interference, prioritizing your inner mana capacity instead of your electrical supply.",
+    "occupied_bodyparts": [
+      [ "torso", 4 ],
+      [ "leg_l", 1 ],
+      [ "leg_r", 1 ],
+      [ "foot_l", 1 ],
+      [ "foot_r", 1 ],
+      [ "head", 1 ],
+      [ "mouth", 1 ],
+      [ "arm_l", 1 ],
+      [ "arm_r", 1 ],
+      [ "hand_l", 1 ],
+      [ "hand_r", 1 ]
+    ],
+    "enchantments": [
+      { "value": "BIONIC_MANA_PENALTY", "multiply": -1 },
+      { "values": [ { "value": "BIONIC_POWER", "add": { "math": [ "u_val('mana') * -1000000" ] } } ] }
+    ]
+  },
+  {
+    "id": "bio_inventor_calorie_storage",
+    "type": "bionic",
+    "name": { "str": "Calorie Etherealization System" },
+    "description": "The best place to store calories is inside your own body.  Unfortunately, caloric oversaturation causes issues that impede this perfect storage.  Thanks to magnets, orbital tragectories and your own ingenuity, your calories are now close to you and will be consumed as needed without penalties.  The process is imperfect and the orbit can't be maintained without power, but nothing preserves calories this well.",
+    "occupied_bodyparts": [ [ "torso", 8 ] ],
+    "flags": [ "BIONIC_TOGGLED" ]
+  },
+  {
+    "id": "bio_inventor_creative_fuel",
+    "type": "bionic",
+    "name": { "str": "Creative-Electric Converter" },
+    "description": "Blood is fuel?  More like everything is fuel.  This device drains your very creativity to produce power for your bionics.  It's somehow simultaneously among your best and worst ideas.",
+    "occupied_bodyparts": [ [ "head", 4 ] ],
+    "flags": [ "BIONIC_FUEL_SOURCE" ]
+  },
+  {
+    "id": "bio_inventor_book_burn_boost",
+    "type": "bionic",
+    "name": { "str": "Book Burner's Buddy" },
+    "description": "Probably the most selfish thing you ever made, constantly burning countless pieces of written media for fleeting knowledge.  You might think it is worth the price, but the false knowledge this so-called buddy fills you with will leave little room to learn anything else, coercing you to burn books further and forevermore for a simulacrum of smarts.",
+    "occupied_bodyparts": [ [ "torso", 6 ] ],
+    "flags": [ "BIONIC_TOGGLED" ]
+  }
+]
