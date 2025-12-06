@@ -325,6 +325,9 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
         case ter_furn_flag::TFLAG_WIRED_WALL: return "WIRED_WALL";
         case ter_furn_flag::TFLAG_MON_AVOID_STRICT: return "MON_AVOID_STRICT";
         case ter_furn_flag::TFLAG_REGION_PSEUDO: return "REGION_PSEUDO";
+        case ter_furn_flag::TFLAG_FRAGILE: return "FRAGILE";
+        case ter_furn_flag::TFLAG_OPEN_PIT: return "OPEN_PIT";
+        case ter_furn_flag::TFLAG_PLAYER_MADE: return "PLAYER_MADE";
 
         // *INDENT-ON*
         case ter_furn_flag::NUM_TFLAG_FLAGS:

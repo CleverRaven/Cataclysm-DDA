@@ -173,6 +173,12 @@
     "components": [ [ [ "string_36", 1 ], [ "cordage_36", 1 ], [ "cordage_36_leather", 1 ], [ "cordage_short", 6, "LIST" ] ] ]
   },
   {
+    "id": "cordage_long",
+    "type": "requirement",
+    "//": "Materials used for tying items, primitive bowstrings, and other uses involving string or makeshift cordage, 36 g/90 cm of cordage per unit.",
+    "components": [ [ [ "string_36", 1 ], [ "cordage_36", 1 ], [ "cordage_36_leather", 1 ] ] ]
+  },
+  {
     "id": "cordage_short",
     "type": "requirement",
     "//": "Materials used for tying smaller items requiring less string, 6 g/15 cm of cordage per unit.",

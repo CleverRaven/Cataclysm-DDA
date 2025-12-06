@@ -8,9 +8,13 @@
 #include <unordered_set>
 
 #include "coordinates.h"
+#include "creature.h"
+#include "map.h"
 #include "mdarray.h"
 #include "point.h"
 #include "type_id.h"
+
+
 
 enum class creature_size : int;
 
@@ -189,5 +193,7 @@ struct pathfinding_target {
         return { p, radius };
     }
 };
+
+bool should_avoid_fragile_tile( const Creature *who, const map &m, const tripoint_bub_ms &p );
 
 #endif // CATA_SRC_PATHFINDING_H

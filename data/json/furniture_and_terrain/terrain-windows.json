@@ -4457,7 +4457,10 @@
     "move_cost": 2,
     "coverage": 0,
     "examine_action": "ledge",
-    "deconstruct": { "ter_set": "t_null", "items": [ { "item": "2x4", "count": [ 3, 4 ] }, { "item": "nail", "charges": [ 12, 16 ] } ] },
+    "deconstruct": {
+      "ter_set": "t_open_air",
+      "items": [ { "item": "2x4", "count": [ 3, 4 ] }, { "item": "nail", "charges": [ 12, 16 ] } ]
+    },
     "bash": {
       "str_min": 1,
       "str_max": 1,
@@ -4465,7 +4468,7 @@
       "sound_fail": "whack!",
       "sound_vol": 12,
       "sound_fail_vol": 8,
-      "ter_set": "t_null",
+      "ter_set": "t_open_air",
       "items": [ { "item": "2x4", "count": [ 2, 4 ] } ]
     },
     "flags": [ "TRANSPARENT", "NO_FLOOR", "FLAMMABLE" ]
