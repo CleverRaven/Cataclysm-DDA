@@ -236,21 +236,6 @@
   },
   {
     "type": "item_action",
-    "id": "ALCOHOL",
-    "name": { "str": "Drink" }
-  },
-  {
-    "type": "item_action",
-    "id": "ALCOHOL_STRONG",
-    "name": { "str": "Drink" }
-  },
-  {
-    "type": "item_action",
-    "id": "ALCOHOL_WEAK",
-    "name": { "str": "Drink" }
-  },
-  {
-    "type": "item_action",
     "id": "ANTIBIOTIC",
     "name": { "str": "Take" }
   },
