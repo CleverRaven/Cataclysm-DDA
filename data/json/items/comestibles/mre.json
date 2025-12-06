@@ -484,21 +484,26 @@
     "description": "Pudding made with chocolate.  Yummy!"
   },
   {
-    "type": "ITEM",
-    "subtypes": [ "COMESTIBLE" ],
     "id": "mre_chocolate_cake",
-    "copy-from": "mre_dessert",
-    "name": { "str": "chocolate chip toaster pastry", "str_pl": "chocolate chip toaster pastries" },
-    "calories": 210,
-    "description": "Pastry with chocolate chips."
-  },
-  {
+    "copy-from": "toastem",
+    "extend": { "flags": [ "RAD_STERILIZED", "DECAY_EXPOSED_ATMOSPHERE" ] },
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
-    "id": "mre_strawberry_cake",
-    "copy-from": "mre_dessert",
-    "name": { "str": "strawberry toaster pastry", "str_pl": "strawberry toaster pastries" },
-    "calories": 210,
-    "description": "Strawberry-flavor pastry."
+    "name": { "str": "MRE toaster pastry", "str_pl": "MRE toaster pastries" },
+    "description": "A toaster pastry that has been specially sterilized to last longer.",
+    "variants": [
+      {
+        "id": "chocolate",
+        "name": { "str": "chocolate MRE toaster pastry", "str_pl": "chocolate MRE toaster pastries" },
+        "expand_snippets": true,
+        "description": "This one has a chocolate filling."
+      },
+      {
+        "id": "strawberry",
+        "name": { "str": "strawberry MRE toaster pastry", "str_pl": "strawberry MRE toaster pastries" },
+        "expand_snippets": true,
+        "description": "This one has a strawberry filling."
+      }
+    ]
   }
 ]

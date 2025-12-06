@@ -552,7 +552,7 @@
     "charges": 1,
     "autolearn": true,
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "toasterpastryfrozen", 1 ], [ "toastem", 1 ] ] ]
+    "components": [ [ [ "toasterpastryfrozen", 1 ], [ "toastem", 1 ], [ "mre_chocolate_cake", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -566,7 +566,7 @@
     "charges": 1,
     "autolearn": true,
     "tools": [ [ [ "toaster", 5 ] ] ],
-    "components": [ [ [ "toasterpastryfrozen", 1 ], [ "toastem", 1 ] ] ]
+    "components": [ [ [ "toasterpastryfrozen", 1 ], [ "toastem", 1 ], [ "mre_chocolate_cake", 1 ] ] ]
   },
   {
     "type": "recipe",
