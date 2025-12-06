@@ -693,8 +693,8 @@
     "description": "Your wounds and broken limbs heal quicker than usual.",
     "starting_trait": true,
     "types": [ "HEALING" ],
-    "changes_to": [ "FASTHEALER2", "REGEN_LIZ" ],
-    "category": [ "MEDICAL", "PLANT", "BATRACHIAN", "LIZARD", "SLIME", "TROGLOBITE", "CRUSTACEAN" ],
+    "changes_to": [ "FASTHEALER2" ],
+    "category": [ "MEDICAL", "PLANT", "BATRACHIAN", "SLIME", "TROGLOBITE", "CRUSTACEAN" ],
     "enchantments": [
       {
         "values": [
@@ -1544,6 +1544,8 @@
     "description": "Your wounds heal a little slower than most.  Your HP whilst asleep, as well as your broken limbs, heal at 75% of the regular rate.",
     "starting_trait": true,
     "types": [ "HEALING" ],
+    "category": [ "LIZARD" ],
+    "changes_to": [ "REGEN_LIZ" ],
     "enchantments": [ { "values": [ { "value": "MENDING_MODIFIER", "multiply": -0.25 }, { "value": "REGEN_HP", "multiply": -0.25 } ] } ]
   },
   {
@@ -2558,24 +2560,13 @@
     "type": "mutation",
     "id": "REGEN_LIZ",
     "name": { "str": "Reptilian Healing" },
-    "points": 5,
-    "vitamin_cost": 210,
+    "points": -3,
+    "vitamin_cost": 140,
     "purifiable": false,
-    "description": "Your broken limbs mend themselves without significant difficulty in addition to your already-quick healing.  You do not require splints for broken limbs.",
-    "cancels": [ "ROT1", "ROT2", "ROT3" ],
-    "prereqs": [ "FASTHEALER" ],
-    "threshreq": [ "THRESH_LIZARD" ],
+    "description": "Due to your lower metabolism, your wounds heal slower than normal.",
+    "prereqs": [ "SLOWHEALER" ],
     "category": [ "LIZARD" ],
-    "enchantments": [
-      {
-        "values": [
-          { "value": "MENDING_MODIFIER", "multiply": 19 },
-          { "value": "REGEN_HP", "multiply": 0.5 },
-          { "value": "REGEN_HP_AWAKE", "multiply": 0.2 }
-        ]
-      }
-    ],
-    "flags": [ "MEND_ALL" ]
+    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": -0.35 }, { "value": "REGEN_HP_AWAKE", "multiply": -0.5 } ] } ]
   },
   {
     "type": "mutation",
