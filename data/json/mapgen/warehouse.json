@@ -15,9 +15,9 @@
         ".#1                 11#.",
         ".#111                1#.",
         ".#1 1                 #.",
+        ".#1111               Ł#.",
         ".#1111                #.",
-        ".#1111                #.",
-        ".#111                 #.",
+        ".#111                Ł#.",
         ".#111                 #.",
         ".#11   1            61#.",
         ".#|||3||            11#.",
@@ -69,6 +69,7 @@
         { "item": "softdrugs", "x": [ 2, 3 ], "y": [ 16, 16 ], "chance": 30 }
       ],
       "place_monster": [ { "group": "GROUP_CIVILIAN", "x": [ 2, 21 ], "y": [ 2, 21 ], "chance": 66 } ],
+      "vehicles": { "Ł": { "vehicle": "hand_truck", "chance": 75 } },
       "place_vehicles": [
         { "vehicle": "industrial_transport", "x": [ 11, 13 ], "y": 8, "chance": 50, "rotation": 270 },
         { "vehicle": "warehouse_vehicles", "x": [ 17, 19 ], "y": [ 9, 12 ], "chance": 50 }

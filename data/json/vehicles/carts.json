@@ -88,6 +88,13 @@
     "parts": [ { "x": 0, "y": 0, "parts": [ "frame_handle", "wheel_10", "crane_small" ] } ]
   },
   {
+    "id": "hand_truck",
+    "type": "vehicle",
+    "name": "Hand Truck",
+    "blueprint": [ "L" ],
+    "parts": [ { "x": 0, "y": 0, "parts": [ "foldxlframe", "wheel_10", "nose_plate" ] } ]
+  },
+  {
     "id": "ice_cream_cart",
     "type": "vehicle",
     "name": "Ice Cream Cart",
