@@ -726,7 +726,7 @@
       { "prob": 10, "group": "yogurt_starter_culture_bag_plastic_4" },
       { "prob": 2, "group": "koji_bag_plastic_25" },
       { "prob": 55, "group": "powder_eggs_bottle_plastic_small_16" },
-      { "item": "milk_UHT", "charges": -1, "prob": 15 },
+      { "group": "milk_in_container_full", "prob": 15 },
       { "item": "milk_evap", "prob": 25 },
       { "item": "con_milk", "prob": 25 },
       { "prob": 45, "group": "milk_powder_various_full" },

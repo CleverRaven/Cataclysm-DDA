@@ -620,7 +620,7 @@
           },
           { "item": "con_milk", "count": [ 1, 6 ], "prob": 10 },
           { "item": "milk_evap", "count": [ 1, 6 ], "prob": 20 },
-          { "item": "milk_UHT", "prob": 10 }
+          { "group": "milk_in_container", "prob": 10 }
         ],
         "prob": 30
       },
@@ -681,7 +681,7 @@
             "sealed": false
           },
           { "item": "milk_evap", "count": [ 1, 6 ], "prob": 20 },
-          { "item": "milk_UHT", "prob": 20 }
+          { "group": "milk_in_container", "prob": 20 }
         ],
         "prob": 20
       }
