@@ -151,7 +151,6 @@ static const std::string flag_WIRING( "WIRING" );
 //~ Name for an array of electronic power grid appliances, like batteries and solar panels
 static const translation power_grid_name = to_translation( "power grid" );
 
-static bool is_sm_tile_outside( const tripoint_abs_ms &real_global_pos );
 static bool is_sm_tile_over_water( const tripoint_abs_ms &real_global_pos );
 
 static const int MAX_WIRE_VEHICLE_SIZE = 24;
@@ -5446,8 +5445,7 @@ units::power vehicle::total_solar_epower( map &here ) const
     units::power epower = 0_W;
     for( const int p : solar_panels ) {
         const vehicle_part &vp = parts[p];
-        const tripoint_bub_ms pos = bub_part_pos( here, vp );
-        if( vp.is_unavailable() || !is_sm_tile_outside( here.get_abs( pos ) ) ) {
+        if( vp.is_unavailable() || !here.is_outside( abs_part_pos( vp ) ) ) {
             continue;
         }
 
@@ -5468,13 +5466,13 @@ units::power vehicle::total_wind_epower( map &here ) const
     units::power epower = 0_W;
     for( const int p : wind_turbines ) {
         const vehicle_part &vp = parts[p];
-        const tripoint_bub_ms pos = bub_part_pos( here, vp );
-        if( vp.is_unavailable() || !is_sm_tile_outside( here.get_abs( pos ) ) ) {
+        const tripoint_abs_ms pos = abs_part_pos( vp );
+        if( vp.is_unavailable() || !here.is_outside( pos ) ) {
             continue;
         }
 
-        int windpower = get_local_windpower( weather.windspeed, cur_om_ter, here.get_abs( pos ),
-                                             weather.winddirection, false );
+        int windpower = get_local_windpower( weather.windspeed, cur_om_ter, pos, weather.winddirection,
+                                             false );
         if( windpower <= ( weather.windspeed / 10.0 ) ) {
             continue;
         }
@@ -8326,26 +8324,6 @@ static bool is_sm_tile_over_water( const tripoint_abs_ms &real_global_pos )
              sm->get_furn( p ).obj().has_flag( ter_furn_flag::TFLAG_CURRENT ) );
 }
 
-static bool is_sm_tile_outside( const tripoint_abs_ms &real_global_pos )
-{
-    tripoint_abs_sm smp;
-    point_sm_ms_ib p;
-    std::tie( smp, p ) = project_remain<coords::sm>( real_global_pos );
-    const submap *sm = MAPBUFFER.lookup_submap( smp );
-    if( sm == nullptr ) {
-        debugmsg( "is_sm_tile_outside(): couldn't find submap %s", smp.to_string() );
-        return false;
-    }
-
-    if( p.x() < 0 || p.x() >= SEEX || p.y() < 0 || p.y() >= SEEY ) {
-        debugmsg( "err %s", p.to_string() );
-        return false;
-    }
-
-    return !( sm->get_ter( p ).obj().has_flag( ter_furn_flag::TFLAG_INDOORS ) ||
-              sm->get_furn( p ).obj().has_flag( ter_furn_flag::TFLAG_INDOORS ) );
-}
-
 void vehicle::update_time( map &here, const time_point &update_to )
 {
     const time_point update_from = last_update;
@@ -8383,7 +8361,7 @@ void vehicle::update_time( map &here, const time_point &update_to )
         const vehicle_part &pt = parts[idx];
 
         // we need an unbroken funnel mounted on the exterior of the vehicle
-        if( pt.is_unavailable() || !is_sm_tile_outside( abs_part_pos( pt ) ) ) {
+        if( pt.is_unavailable() || !here.is_outside( abs_part_pos( pt ) ) ) {
             continue;
         }
 
@@ -8420,8 +8398,7 @@ void vehicle::update_time( map &here, const time_point &update_to )
         units::power epower = 0_W;
         for( const int p : solar_panels ) {
             const vehicle_part &vp = parts[p];
-            const tripoint_bub_ms pos = bub_part_pos( here, vp );
-            if( vp.is_unavailable() || !is_sm_tile_outside( here.get_abs( pos ) ) ) {
+            if( vp.is_unavailable() || !here.is_outside( abs_part_pos( vp ) ) ) {
                 continue;
             }
             epower += part_epower( vp );
