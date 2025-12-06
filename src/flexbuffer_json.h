@@ -5,6 +5,7 @@
 #include <optional>
 #include <string>
 #include <type_traits>
+#include <variant>
 
 #include <flatbuffers/flexbuffers.h>
 
@@ -304,6 +305,10 @@ class JsonValue : Json
                        !std::is_same_v<typename T::key_type, typename T::value_type> > * = nullptr
                    >
         bool read( T &m, bool throw_on_error = true ) const;
+
+        // reads into a variant that already contains a readable type
+        template< typename... Ts >
+        bool read( std::variant<Ts...> &v, bool throw_on_error = true ) const;
 
         [[noreturn]] void string_error( const std::string &message ) const noexcept( false ) {
             string_error( 0, message );

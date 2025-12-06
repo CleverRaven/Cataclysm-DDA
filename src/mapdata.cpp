@@ -1252,22 +1252,22 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "lockpick_result", lockpick_result, ter_str_id::NULL_ID() );
 
-    oxytorch = cata::make_value<activity_data_ter>();
+    oxytorch = cata::make_value<activity_data_common>( ter_str_id::NULL_ID() );
     if( jo.has_object( "oxytorch" ) ) { //TODO: Make overwriting these with eg "oxytorch": { } work while still allowing overwriting single values
         oxytorch->load( jo.get_object( "oxytorch" ) );
     }
 
-    boltcut = cata::make_value<activity_data_ter>();
+    boltcut = cata::make_value<activity_data_common>( ter_str_id::NULL_ID() );
     if( jo.has_object( "boltcut" ) ) {
         boltcut->load( jo.get_object( "boltcut" ) );
     }
 
-    hacksaw = cata::make_value<activity_data_ter>();
+    hacksaw = cata::make_value<activity_data_common>( ter_str_id::NULL_ID() );
     if( jo.has_object( "hacksaw" ) ) {
         hacksaw->load( jo.get_object( "hacksaw" ) );
     }
 
-    prying = cata::make_value<activity_data_ter>();
+    prying = cata::make_value<activity_data_common>( ter_str_id::NULL_ID() );
     if( jo.has_object( "prying" ) ) {
         prying->load( jo.get_object( "prying" ) );
     }
@@ -1462,22 +1462,22 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "lockpick_result", lockpick_result, string_id_reader<furn_t> {},
               furn_str_id::NULL_ID() );
 
-    oxytorch = cata::make_value<activity_data_furn>();
+    oxytorch = cata::make_value<activity_data_common>( furn_str_id::NULL_ID() );
     if( jo.has_object( "oxytorch" ) ) {
         oxytorch->load( jo.get_object( "oxytorch" ) );
     }
 
-    boltcut = cata::make_value<activity_data_furn>();
+    boltcut = cata::make_value<activity_data_common>( furn_str_id::NULL_ID() );
     if( jo.has_object( "boltcut" ) ) {
         boltcut->load( jo.get_object( "boltcut" ) );
     }
 
-    hacksaw = cata::make_value<activity_data_furn>();
+    hacksaw = cata::make_value<activity_data_common>( furn_str_id::NULL_ID() );
     if( jo.has_object( "hacksaw" ) ) {
         hacksaw->load( jo.get_object( "hacksaw" ) );
     }
 
-    prying = cata::make_value<activity_data_furn>();
+    prying = cata::make_value<activity_data_common>( furn_str_id::NULL_ID() );
     if( jo.has_object( "prying" ) ) {
         prying->load( jo.get_object( "prying" ) );
     }
@@ -1612,19 +1612,9 @@ void activity_data_common::load( const JsonObject &jo )
     optional( jo, was_loaded, "byproducts", byproducts_ );
 
     optional( jo, was_loaded, "prying_data", prying_data_ );
-}
 
-void activity_data_ter::load( const JsonObject &jo )
-{
-    mandatory( jo, was_loaded, "result", result_ );
-    activity_data_common::load( jo );
-    valid_ = true;
-}
-
-void activity_data_furn::load( const JsonObject &jo )
-{
-    optional( jo, was_loaded, "result", result_, furn_str_id::NULL_ID() );
-    activity_data_common::load( jo );
+    // default here is needed to preserve the type-priming of the variant in ter_t::load and furn_t::load
+    optional( jo, was_loaded, "result", result_, result_ );
     valid_ = true;
 }
 

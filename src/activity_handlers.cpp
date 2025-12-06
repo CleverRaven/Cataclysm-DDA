@@ -575,12 +575,9 @@ void activity_handlers::game_do_turn( player_activity *act, Character *you )
 void activity_handlers::pickaxe_do_turn( player_activity *act, Character * )
 {
     const tripoint_bub_ms &pos = get_map().get_bub( act->placement );
-    sfx::play_activity_sound( "tool", "pickaxe", sfx::get_heard_volume( pos ) );
-    // each turn is too much
-    if( calendar::once_every( 1_minutes ) ) {
-        //~ Sound of a Pickaxe at work!
-        sounds::sound( pos, 30, sounds::sound_t::destructive_activity, _( "CHNK!  CHNK!  CHNK!" ) );
-    }
+    sfx::play_activity_sound_repeat( "tool", "pickaxe", pos, 1_minutes, 30,
+                                     //~ Sound of a pickaxe at work!
+                                     sounds::sound_t::destructive_activity, _( "CHNK!  CHNK!  CHNK!" ) );
 }
 
 void activity_handlers::pickaxe_finish( player_activity *act, Character *you )
@@ -2140,13 +2137,9 @@ void activity_handlers::eat_menu_finish( player_activity *, Character * )
 void activity_handlers::jackhammer_do_turn( player_activity *act, Character * )
 {
     map &here = get_map();
-    sfx::play_activity_sound( "tool", "jackhammer",
-                              sfx::get_heard_volume( here.get_bub( act->placement ) ) );
-    if( calendar::once_every( 1_minutes ) ) {
-        sounds::sound( here.get_bub( act->placement ), 15, sounds::sound_t::destructive_activity,
-                       //~ Sound of a jackhammer at work!
-                       _( "TATATATATATATAT!" ) );
-    }
+    sfx::play_activity_sound_repeat( "tool", "jackhammer", here.get_bub( act->placement ), 1_minutes,
+                                     //~ Sound of a jackhammer at work!
+                                     15, sounds::sound_t::destructive_activity, _( "TATATATATATATAT!" ) );
 }
 
 void activity_handlers::jackhammer_finish( player_activity *act, Character *you )

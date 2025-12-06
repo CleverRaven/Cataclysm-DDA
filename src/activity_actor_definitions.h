@@ -255,13 +255,39 @@ class gunmod_remove_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 };
 
-class hacksaw_activity_actor : public activity_actor
+class tool_activity_actor : public activity_actor
+{
+    public:
+        explicit tool_activity_actor( const tripoint_bub_ms &target,
+                                      const item_location &tool ) : target( target ), tool( tool ) {};
+        explicit tool_activity_actor( const tripoint_bub_ms &target ) : target( target ) {};
+        // debugmsg causes a backtrace when fired during cata_test
+        bool testing = false;  // NOLINT(cata-serialize)
+    protected:
+        tripoint_bub_ms target;
+        item_location tool;
+        /// Helper for common functionality of ::start and ::finish.
+        /// start: calculate moves.
+        /// finish: set new ter/furn, produce byproducts, display result messages.
+        /// both: check validity of references, debugmsg and bail out on errors.
+        /// @param tool_member one of the map_data_common_t activity_data_common members
+        /// @param moves updated with activity duration when finish == false
+        /// @param data populated with the activity_data_common if one is found.
+        /// @return success of the start/finish operation
+        bool start_finish( map &here, player_activity &act, Character &who,
+                           int &moves, const std::string &tool_name,
+                           const cata::value_ptr<activity_data_common> map_data_common_t::* tool_member, bool finish,
+                           activity_data_common *&data );
+};
+
+class hacksaw_activity_actor : public tool_activity_actor
 {
     public:
         explicit hacksaw_activity_actor( const tripoint_bub_ms &target,
-                                         const item_location &tool ) : target( target ), tool( tool ) {};
+                                         const item_location &tool ) : tool_activity_actor( target, tool ) {};
         explicit hacksaw_activity_actor( const tripoint_bub_ms &target, const itype_id &type,
-                                         const tripoint_bub_ms &veh_pos ) : target( target ), type( type ), veh_pos( veh_pos ) {};
+                                         const tripoint_bub_ms &veh_pos ) : tool_activity_actor( target ), type( type ),
+            veh_pos( veh_pos ) {};
         const activity_id &get_type() const override {
             static const activity_id ACT_HACKSAW( "ACT_HACKSAW" );
             return ACT_HACKSAW;
@@ -278,11 +304,7 @@ class hacksaw_activity_actor : public activity_actor
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 
-        // debugmsg causes a backtrace when fired during cata_test
-        bool testing = false;  // NOLINT(cata-serialize)
     private:
-        tripoint_bub_ms target;
-        item_location tool;
         std::optional<itype_id> type;
         std::optional<tripoint_bub_ms> veh_pos;
         bool can_resume_with_internal( const activity_actor &other,
@@ -644,11 +666,11 @@ class pickup_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 };
 
-class boltcutting_activity_actor : public activity_actor
+class boltcutting_activity_actor : public tool_activity_actor
 {
     public:
         explicit boltcutting_activity_actor( const tripoint_bub_ms &target,
-                                             const item_location &tool ) : target( target ), tool( tool ) {};
+                                             const item_location &tool ) : tool_activity_actor( target, tool ) {};
 
         const activity_id &get_type() const override {
             static const activity_id ACT_BOLTCUTTING( "ACT_BOLTCUTTING" );
@@ -666,13 +688,7 @@ class boltcutting_activity_actor : public activity_actor
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 
-        // debugmsg causes a backtrace when fired during cata_test
-        bool testing = false; // NOLINT(cata-serialize)
-
     private:
-        tripoint_bub_ms target;
-        item_location tool;
-
         bool can_resume_with_internal( const activity_actor &other,
                                        const Character &/*who*/ ) const override {
             const boltcutting_activity_actor &actor = static_cast<const boltcutting_activity_actor &>
@@ -1727,11 +1743,11 @@ class tent_placement_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 };
 
-class oxytorch_activity_actor : public activity_actor
+class oxytorch_activity_actor : public tool_activity_actor
 {
     public:
         explicit oxytorch_activity_actor( const tripoint_bub_ms &target,
-                                          const item_location &tool ) : target( target ), tool( tool ) {};
+                                          const item_location &tool ) : tool_activity_actor( target, tool ) {};
 
         const activity_id &get_type() const override {
             static const activity_id ACT_OXYTORCH( "ACT_OXYTORCH" );
@@ -1748,13 +1764,7 @@ class oxytorch_activity_actor : public activity_actor
 
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
-
-        // debugmsg causes a backtrace when fired during cata_test
-        bool testing = false;  // NOLINT(cata-serialize)
     private:
-        tripoint_bub_ms target;
-        item_location tool;
-
         bool can_resume_with_internal( const activity_actor &other,
                                        const Character &/*who*/ ) const override {
             const oxytorch_activity_actor &actor = static_cast<const oxytorch_activity_actor &>
@@ -1839,11 +1849,11 @@ class play_with_pet_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 };
 
-class prying_activity_actor : public activity_actor
+class prying_activity_actor : public tool_activity_actor
 {
     public:
         explicit prying_activity_actor( const tripoint_bub_ms &target,
-                                        const item_location &tool ) : target( target ), tool( tool ) {};
+                                        const item_location &tool ) : tool_activity_actor( target, tool ) {};
 
         const activity_id &get_type() const override {
             static const activity_id ACT_PRYING( "ACT_PRYING" );
@@ -1864,11 +1874,7 @@ class prying_activity_actor : public activity_actor
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 
-        // debugmsg causes a backtrace when fired during cata_test
-        bool testing = false;  // NOLINT(cata-serialize)
     private:
-        tripoint_bub_ms target;
-        item_location tool;
         bool prying_nails = false;
 
         bool can_resume_with_internal( const activity_actor &other,
@@ -1881,7 +1887,7 @@ class prying_activity_actor : public activity_actor
         // regular prying has lots of conditionals...
         void handle_prying( Character &who );
         // prying nails is much simpler
-        void handle_prying_nails( Character &who );
+        void handle_prying_nails( player_activity &act, Character &who );
 };
 
 class tent_deconstruct_activity_actor : public activity_actor
