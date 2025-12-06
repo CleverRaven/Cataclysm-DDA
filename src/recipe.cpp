@@ -27,6 +27,7 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_components.h"
+#include "item_contents.h"
 #include "item_group.h"
 #include "item_tname.h"
 #include "itype.h"
@@ -785,6 +786,19 @@ std::vector<item> recipe::create_result( bool set_components, bool is_food,
     if( newit.is_magazine() && has_flag( flag_FULL_MAGAZINE ) ) {
         newit.ammo_set( newit.ammo_default(),
                         newit.ammo_capacity( item::find_type( newit.ammo_default() )->ammo->type ) );
+    }
+
+    // if the first component has compatible pockets, try to preserve the contents
+    if( used && !used->empty() ) {
+        const item_components::type_vector_pair &first_component_pair = *used->begin();
+
+        if( first_component_pair.second.size() == 1 ) {
+            const item &first_component = first_component_pair.second.front();
+
+            if( !first_component.get_contents().empty() ) {
+                newit.get_contents().combine( first_component.get_contents(), true );
+            }
+        }
     }
 
     int amount = charges ? *charges : newit.count();
