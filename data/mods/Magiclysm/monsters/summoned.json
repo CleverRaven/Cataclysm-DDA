@@ -74,7 +74,6 @@
     "melee_skill": 5,
     "melee_dice": 6,
     "melee_dice_sides": 6,
-    "stomach_size": 400,
     "melee_damage": [ { "damage_type": "cut", "amount": 9 } ],
     "dodge": 1,
     "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_beetle" ],

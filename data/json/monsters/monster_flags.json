@@ -631,8 +631,7 @@
   },
   {
     "id": "EATS",
-    "type": "monster_flag",
-    "//": "If this monster eats via EAT_CARRION or EAT_FOOD, it can fill its stomach. Requires a stomach_size in its json."
+    "type": "monster_flag"
   },
   {
     "id": "CORNERED_FIGHTER",

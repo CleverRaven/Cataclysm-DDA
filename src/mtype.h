@@ -479,7 +479,6 @@ struct mtype {
 
         int agro = 0;           /** chance will attack [-100,100] */
         int morale = 0;         /** initial morale level at spawn */
-        int stomach_size = 0;         /** how many times this monster will eat */
 
         // how close the monster is willing to approach its target while under the MATT_FOLLOW attitude
         int tracking_distance = 8;
