@@ -374,6 +374,20 @@ void overmap_sidebar::draw_debug()
             print_arguments( args_omt_stack->map );
         }
 
+        const mapgendata md( cursor_pos, get_map(), 0.0f, calendar::turn, nullptr );
+        const std::vector<generator_instance> &pg = md.get_applied_post_generators();
+
+        if( !pg.empty() ) {
+            draw_sidebar_text( "Post-process generators:", c_white );
+            for( const generator_instance &gi : pg ) {
+                draw_sidebar_text( string_format( "%s: chance: %s, intensity: %s - %s, attempts: %s",
+                                                  io::enum_to_string( gi.type ), gi.chance(), gi.min_intensity, gi.max_intensity, gi.num_attempts ),
+                                   c_white );
+            }
+        } else {
+            draw_sidebar_text( "Post-process generators are not set yet", c_yellow );
+        }
+
         for( cube_direction dir : all_enum_values<cube_direction>() ) {
             if( std::string *join = overmap_buffer.join_used_at( { cursor_pos, dir } ) ) {
                 draw_sidebar_text( string_format( "join %s: %s", io::enum_to_string( dir ), *join ),

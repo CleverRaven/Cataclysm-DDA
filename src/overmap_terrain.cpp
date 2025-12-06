@@ -15,6 +15,7 @@
 #include "debug.h"
 #include "generic_factory.h"
 #include "mapgen.h"
+#include "mapgen_post_process_generators.h"
 #include "output.h"
 #include "string_formatter.h"
 
@@ -606,6 +607,7 @@ void oter_type_t::load( const JsonObject &jo, const std::string_view )
 
     optional( jo, was_loaded, "connect_group", connect_group, string_reader{} );
     optional( jo, was_loaded, "travel_cost_type", travel_cost_type, oter_travel_cost_type::other );
+    optional( jo, was_loaded, "post_process_generators", post_processors );
 
     optional( jo, was_loaded, "default_map_data", default_map_data,
               map_data_for_travel_cost( travel_cost_type, jo ) );
