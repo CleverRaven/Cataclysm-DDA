@@ -822,6 +822,8 @@ struct override_parameters {
         ignore_walls = sp.has_flag( spell_flag::IGNORE_WALLS );
     }
 };
+std::set<tripoint_bub_ms> spell_effect_area( const spell &sp, const tripoint_bub_ms &target,
+        const Creature &caster );
 
 void short_range_teleport( const spell &sp, Creature &caster, const tripoint_bub_ms &target );
 void pain_split( const spell &, Creature &, const tripoint_bub_ms & );
