@@ -371,7 +371,9 @@ endif ()
 if (SOUND)
     # Sound requires SDL_mixer library
     message(STATUS "Searching for SDL2_mixer library --")
-    find_package(Vorbis CONFIG REQUIRED)
+    if (VCPKG_MANIFEST_MODE)
+        find_package(Vorbis CONFIG REQUIRED)
+    endif()
     find_package(SDL2_mixer)
     if (NOT (SDL2_MIXER_FOUND OR TARGET SDL2_mixer::SDL2_mixer
                               OR TARGET SDL2_mixer::SDL2_mixer-static))
