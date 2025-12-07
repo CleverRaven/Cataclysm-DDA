@@ -719,7 +719,7 @@
     "id": "commercial_household_laundry",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ [ "washboard", 1 ], [ "sponge", 1 ], [ "brush", 1 ], [ "liquid_soap", 1 ] ]
+    "items": [ [ "wash_kit", 1 ], [ "sponge", 1 ], [ "brush", 1 ], [ "liquid_soap", 1 ] ]
   },
   {
     "id": "SUS_shelf_commercial_laundry",
