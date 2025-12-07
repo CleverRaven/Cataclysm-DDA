@@ -686,10 +686,10 @@ void widget::set_default_var_range( const avatar &ava )
             _var_max = 1000;
             break;
         case widget_var::focus:
-            _var_min = 0;
-            _var_max = 200;
+            _var_min = -100;
+            _var_max = 100;
             // Small range of normal focus that won't be color-coded
-            _var_norm = std::make_pair( 90, 110 );
+            _var_norm = std::make_pair( 0, 20 );
             break;
         case widget_var::health:
             _var_min = -200;
@@ -894,7 +894,7 @@ int widget::get_var_value( const avatar &ava ) const
             }
             break;
         case widget_var::focus:
-            value = ava.get_focus();
+            value = ava.calc_focus_equilibrium() - ava.get_focus();
             break;
         case widget_var::speed:
             value = ava.get_speed();
