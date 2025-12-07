@@ -17,17 +17,26 @@
 
 #include "coordinates.h"
 #include "cuboid_rectangle.h"
+#include "game.h"
 #include "map_scale_constants.h"
 #include "memory_fast.h"
 #include "point.h"
 #include "translation.h"
 #include "type_id.h"
 
+namespace catacurses
+{
+class window;
+} //namespace catacurses
+
 class JsonObject;
 class JsonOut;
 class JsonValue;
+class input_context;
 class item;
 class map;
+class talker;
+class const_talker;
 struct construction;
 
 inline const faction_id your_fac( "your_followers" );
@@ -60,6 +69,7 @@ class zone_type
         bool hidden = false;
 
         static void load_zones( const JsonObject &jo, const std::string &src );
+        static void finalize_all();
         static void reset();
         void load( const JsonObject &jo, std::string_view );
         /**
@@ -339,6 +349,39 @@ class unload_options : public zone_options, public mark_option
         void deserialize( const JsonObject &jo_zone ) override;
 };
 
+class study_zone_options : public zone_options
+{
+    private:
+        // skill preferences. Key is NPC name, value is set of skills.
+        std::map<std::string, std::set<skill_id>> npc_skill_preferences;
+
+        enum query_study_result {
+            canceled,
+            successful,
+            changed,
+        };
+
+        query_study_result query_study_skills();
+
+    public:
+        // get skill preferences for a specific NPC, return nullptr if NPC should read all books.
+        const std::set<skill_id> *get_skill_preferences( const std::string &npc_name ) const;
+
+        bool has_options() const override {
+            return true;
+        }
+
+        bool query_at_creation() override;
+        bool query() override;
+
+        std::string get_zone_name_suggestion() const override;
+
+        std::vector<std::pair<std::string, std::string>> get_descriptions() const override;
+
+        void serialize( JsonOut &json ) const override;
+        void deserialize( const JsonObject &jo_zone ) override;
+};
+
 /**
  * These are zones the player can designate.
  */
@@ -383,7 +426,6 @@ class zone_data
 
         zone_data( const std::string &_name, const zone_type_id &_type, const faction_id &_faction,
                    bool _invert, const bool _enabled,
-                   const tripoint_abs_ms &_start, const tripoint_abs_ms &_end,
                    const shared_ptr_fast<zone_options> &_options = nullptr,
                    bool _is_displayed = false ) {
             name = _name;
@@ -391,10 +433,8 @@ class zone_data
             faction = _faction;
             invert = _invert;
             enabled = _enabled;
+            temporarily_disabled = false;
             is_vehicle = false;
-            is_personal = false;
-            start = _start;
-            end = _end;
             is_displayed = _is_displayed;
 
             // ensure that supplied options is of correct class
@@ -407,26 +447,24 @@ class zone_data
 
         zone_data( const std::string &_name, const zone_type_id &_type, const faction_id &_faction,
                    bool _invert, const bool _enabled,
+                   const tripoint_abs_ms &_start, const tripoint_abs_ms &_end,
+                   const shared_ptr_fast<zone_options> &_options = nullptr,
+                   bool _is_displayed = false )
+            : zone_data( _name, _type, _faction, _invert, _enabled, _options, _is_displayed ) {
+            is_personal = false;
+            start = _start;
+            end = _end;
+        }
+
+        zone_data( const std::string &_name, const zone_type_id &_type, const faction_id &_faction,
+                   bool _invert, const bool _enabled,
                    const tripoint_rel_ms &_start, const tripoint_rel_ms &_end,
                    const shared_ptr_fast<zone_options> &_options = nullptr,
-                   bool _is_displayed = false ) {
-            name = _name;
-            type = _type;
-            faction = _faction;
-            invert = _invert;
-            enabled = _enabled;
-            is_vehicle = false;
+                   bool _is_displayed = false )
+            : zone_data( _name, _type, _faction, _invert, _enabled, _options, _is_displayed ) {
             is_personal = true;
             personal_start = _start;
             personal_end = _end;
-            is_displayed = _is_displayed;
-
-            // ensure that supplied options is of correct class
-            if( _options == nullptr || !zone_options::is_valid( type, *_options ) ) {
-                options = zone_options::create( type );
-            } else {
-                options = _options;
-            }
         }
 
         // returns true if name is changed
@@ -672,9 +710,30 @@ class zone_manager
         void deserialize( const JsonValue &jv );
 };
 
+/**
+* TO-DO: update to ImGui
+*/
+class zone_manager_ui
+{
+    public:
+        static void display_zone_manager();
+        static shared_ptr_fast<game::draw_callback_t> create_zone_callback(
+            const std::optional<tripoint_bub_ms> &zone_start,
+            const std::optional<tripoint_bub_ms> &zone_end,
+            const bool &zone_blink, const bool &zone_cursor, const bool &is_moving_zone = false );
+    private:
+        static void zones_manager_draw_borders( const catacurses::window &w_border,
+                                                const catacurses::window &w_info_border,
+                                                int iInfoHeight, int width );
+        static void zones_manager_shortcuts( const catacurses::window &w_info, faction_id const &faction,
+                                             bool show_all_zones, const input_context &ctxt, int width );
+};
+
 void mapgen_place_zone( tripoint_abs_ms const &start, tripoint_abs_ms const &end,
                         zone_type_id const &type,
                         faction_id const &fac = your_fac, std::string const &name = {},
                         std::string const &filter = {}, map *pmap = nullptr );
-
+std::unique_ptr<talker> get_talker_for( zone_data &me );
+std::unique_ptr<const_talker> get_talker_for( const zone_data &me );
+std::unique_ptr<talker> get_talker_for( zone_data *me );
 #endif // CATA_SRC_CLZONES_H

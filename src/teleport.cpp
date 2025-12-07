@@ -35,11 +35,13 @@
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
+#include "veh_type.h"
 #include "vehicle.h"
 #include "viewer.h"
 #include "ui_manager.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
+#include "clzones.h"
 
 static const efftype_id effect_teleglow( "teleglow" );
 
@@ -47,6 +49,9 @@ static const flag_id json_flag_DIMENSIONAL_ANCHOR( "DIMENSIONAL_ANCHOR" );
 static const flag_id json_flag_GRAB( "GRAB" );
 static const flag_id json_flag_TELEPORT_LOCK( "TELEPORT_LOCK" );
 
+static const itype_id itype_power_cord( "power_cord" );
+
+static const std::string flag_WIRING( "WIRING" );
 
 static bool TestForVehicleTeleportCollision( vehicle &veh, map &here, map *dest,
         const tripoint_abs_ms &dp )
@@ -57,6 +62,11 @@ static bool TestForVehicleTeleportCollision( vehicle &veh, map &here, map *dest,
             dest->load( project_to<coords::sm>( dp + rel_pos ), false );
         }
 
+        if( part.info().has_flag( flag_WIRING ) ||
+            part.info().base_item == itype_power_cord
+          ) {
+            continue;
+        }
         veh_collision coll = veh.part_collision( *dest, part.part_index(), dp + rel_pos, true, false );
         if( coll.type != veh_coll_nothing ) {
             tripoint_abs_ms point = dp + rel_pos;
@@ -188,7 +198,7 @@ bool teleport::teleport_to_point( Creature &critter, tripoint_bub_ms target, boo
                                         p->has_effect_with_flag( json_flag_DIMENSIONAL_ANCHOR ) ||
                                         p->has_effect_with_flag( json_flag_TELEPORT_LOCK ) ) ) {
         if( display_message ) {
-            p->add_msg_if_player( m_warning, _( "You feel a strange, inwards force." ) );
+            p->add_msg_if_player( m_warning, _( "You feel a strange, inward force." ) );
         }
         return false;
     }
@@ -389,10 +399,11 @@ bool teleport::teleport_vehicle( vehicle &veh, const tripoint_abs_ms &dp )
     tileray facing;
     facing.init( veh.turn_dir );
 
-    veh.precalc_mounts( 1, veh.skidding ? veh.turn_dir : facing.dir(), veh.pivot_point( here ) );
+    veh.precalc_mounts( 1, veh.skidding ? veh.turn_dir : facing.dir(), veh.pivot_anchor[0] );
 
     Character &player_character = get_player_character();
     tripoint_bub_ms src = veh.pos_bub( here );
+    auto pos_abs_offset = dp - veh.pos_abs();
 
     map tm;
     point_sm_ms src_offset;
@@ -477,6 +488,15 @@ bool teleport::teleport_vehicle( vehicle &veh, const tripoint_abs_ms &dp )
         // Has to be after update_map or coordinates won't be valid
         g->setremoteveh( &veh );
     }
+    // Cables on vehicle need to translate to new postion to keep connection working
+    veh.translate_cables( pos_abs_offset );
     CleanUpAfterVehicleTeleport( veh, here, dp, smzs, src );
+    return true;
+}
+
+bool teleport::teleport_zone( zone_data &zone, const tripoint_abs_ms &dp )
+{
+    auto new_end_point = dp + ( zone.get_end_point() - zone.get_start_point() );
+    zone.set_position( std::make_pair( dp, new_end_point ) );
     return true;
 }

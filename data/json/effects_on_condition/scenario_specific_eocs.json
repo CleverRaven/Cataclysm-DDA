@@ -44,7 +44,6 @@
   {
     "type": "effect_on_condition",
     "id": "scenario_mansion_pursuit",
-    "//": "EOC_BANISH_MANSION_MONSTERS is not triggering/working at the moment.",
     "effect": [
       {
         "u_location_variable": { "u_val": "mansion_centre" },
@@ -53,13 +52,13 @@
         "max_radius": 0
       },
       { "location_variable_adjust": { "u_val": "mansion_centre" }, "x_adjust": 11, "y_adjust": 11 },
-      { "run_eocs": "EOC_BANISH_MANSION_MONSTERS", "beta_loc": { "u_val": "mansion_centre" } },
+      { "run_eocs": "EOC_BANISH_MANSION_MONSTERS" },
       { "run_eocs": "EOC_SPAWN_MANSION_MONSTERS" },
       { "location_variable_adjust": { "u_val": "mansion_centre" }, "z_adjust": 0, "z_override": true },
-      { "run_eocs": "EOC_BANISH_MANSION_MONSTERS", "beta_loc": { "u_val": "mansion_centre" } },
+      { "run_eocs": "EOC_BANISH_MANSION_MONSTERS" },
       { "run_eocs": "EOC_SPAWN_MANSION_MONSTERS" },
       { "location_variable_adjust": { "u_val": "mansion_centre" }, "z_adjust": 1, "z_override": true },
-      { "run_eocs": "EOC_BANISH_MANSION_MONSTERS", "beta_loc": { "u_val": "mansion_centre" } },
+      { "run_eocs": "EOC_BANISH_MANSION_MONSTERS" },
       { "run_eocs": "EOC_SPAWN_MANSION_MONSTERS" },
       {
         "u_run_monster_eocs": [ { "id": "EOC_BANISH_MONSTERS_AROUND_PLAYER", "effect": { "run_eocs": "EOC_BANISH_SELF" } } ],
@@ -78,28 +77,46 @@
     "id": "EOC_BANISH_MANSION_MONSTERS",
     "//": "Banish half the mapgen monsters from the mansion to make room for special scenario ferals",
     "effect": [
-      {
-        "npc_run_monster_eocs": [
-          {
-            "id": "EOC_BANISH_MONSTERS_AROUND_MANSION_CENTER",
-            "condition": { "math": [ "rand(1) == 0" ] },
-            "effect": { "run_eocs": "EOC_BANISH_SELF" }
-          }
-        ],
-        "monster_range": 36
-      },
-      {
-        "npc_run_monster_eocs": [ { "id": "EOC_BANISH_MANSION_CIVILIANS", "effect": { "run_eocs": "EOC_BANISH_SELF" } } ],
-        "mtype_ids": [
-          "mon_civilian_panic",
-          "mon_civilian_parent",
-          "mon_civilian_police",
-          "mon_civilian_stationary",
-          "mon_civilian_zombiefighter"
-        ],
-        "monster_range": 50
-      }
+      { "u_cast_spell": { "id": "SPELL_BANISH_MONSTERS_AROUND_MANSION_CENTER" }, "loc": { "u_val": "mansion_centre" } },
+      { "u_cast_spell": { "id": "SPELL_BANISH_MANSION_CIVILIANS" }, "loc": { "u_val": "mansion_centre" } }
     ]
+  },
+  {
+    "type": "SPELL",
+    "id": "SPELL_BANISH_MONSTERS_AROUND_MANSION_CENTER",
+    "name": { "str": "SPELL_BANISH_MONSTERS_AROUND_MANSION_CENTER", "//~": "NO_I18N" },
+    "description": { "str": "SPELL_BANISH_MONSTERS_AROUND_MANSION_CENTER", "//~": "NO_I18N" },
+    "valid_targets": [ "hostile" ],
+    "shape": "blast",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_BANISH_MONSTERS_AROUND_MANSION_CENTER",
+    "min_aoe": 36,
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "NO_PROJECTILE", "NO_FAIL", "IGNORE_WALLS" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BANISH_MONSTERS_AROUND_MANSION_CENTER",
+    "condition": { "math": [ "rand(1) == 0" ] },
+    "effect": { "run_eocs": "EOC_BANISH_SELF" }
+  },
+  {
+    "type": "SPELL",
+    "id": "SPELL_BANISH_MANSION_CIVILIANS",
+    "name": { "str": "SPELL_BANISH_MANSION_CIVILIANS", "//~": "NO_I18N" },
+    "description": { "str": "SPELL_BANISH_MANSION_CIVILIANS", "//~": "NO_I18N" },
+    "valid_targets": [ "hostile" ],
+    "shape": "blast",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_BANISH_SELF",
+    "targeted_monster_ids": [
+      "mon_civilian_panic",
+      "mon_civilian_parent",
+      "mon_civilian_police",
+      "mon_civilian_stationary",
+      "mon_civilian_zombiefighter"
+    ],
+    "min_aoe": 50,
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "NO_PROJECTILE", "NO_FAIL", "IGNORE_WALLS" ]
   },
   {
     "type": "effect_on_condition",

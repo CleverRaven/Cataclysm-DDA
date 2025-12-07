@@ -150,6 +150,16 @@
     "//": "Severely weakened in sufficient light (applies photophobia effect)"
   },
   {
+    "id": "TRUESIGHT",
+    "type": "monster_flag",
+    "//": "Monster can see creatures even when they're invisible"
+  },
+  {
+    "id": "PERMANENT_INVISIBILITY",
+    "type": "monster_flag",
+    "//": "The monster is PERMANENTLY invisible.  Be careful about using this one"
+  },
+  {
     "id": "ELECTRIC",
     "type": "monster_flag",
     "//": "Shocks unarmed attackers"
@@ -200,6 +210,11 @@
     "//": "Causes monster to leave a low intensity, 1 tile sludge pool approximately every other tile when moving"
   },
   {
+    "id": "BULLETPROOF",
+    "type": "monster_flag",
+    "//": "Immune to ballistic damage"
+  },
+  {
     "id": "COLDPROOF",
     "type": "monster_flag",
     "//": "Immune to cold damage"
@@ -218,6 +233,11 @@
     "id": "FIREY",
     "type": "monster_flag",
     "//": "Burns stuff and is immune to fire"
+  },
+  {
+    "id": "FLASHBANGPROOF",
+    "type": "monster_flag",
+    "//": "Cannot be flashbanged"
   },
   {
     "id": "QUEEN",
@@ -611,8 +631,7 @@
   },
   {
     "id": "EATS",
-    "type": "monster_flag",
-    "//": "If this monster eats via EAT_CARRION or EAT_FOOD, it can fill its stomach. Requires a stomach_size in its json."
+    "type": "monster_flag"
   },
   {
     "id": "CORNERED_FIGHTER",

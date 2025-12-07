@@ -28,6 +28,7 @@
 #include "item_location.h"
 #include "itype.h"
 #include "magic.h"
+#include "magic_enchantment.h"
 #include "map.h"
 #include "martialarts.h"
 #include "math_parser_diag_value.h"
@@ -121,6 +122,11 @@ int talker_character_const::get_hp_max( const bodypart_id &bp ) const
 units::temperature talker_character_const::get_cur_part_temp( const bodypart_id &bp ) const
 {
     return me_chr_const->get_part_temp_conv( bp );
+}
+
+int talker_character_const::get_artifact_resonance() const
+{
+    return me_chr_const->enchantment_cache->get_value_add( enchant_vals::mod::ARTIFACT_RESONANCE );
 }
 
 int talker_character_const::str_cur() const
@@ -702,6 +708,12 @@ bool talker_character_const::has_stolen_item( const_talker const &guy ) const
         }
     }
     return false;
+}
+
+bool talker_character_const::has_software( const itype_id &software_id, int min_charges,
+        const itype_id &device_id ) const
+{
+    return me_chr_const->has_software( software_id, min_charges, device_id );
 }
 
 faction *talker_character_const::get_faction() const

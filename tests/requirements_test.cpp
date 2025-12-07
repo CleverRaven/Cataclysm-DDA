@@ -5,15 +5,19 @@
 #include <vector>
 
 #include "cata_catch.h"
-#include "make_static.h"
 #include "requirements.h"
 #include "type_id.h"
 
 static const itype_id itype_ash( "ash" );
 static const itype_id itype_chem_sulphuric_acid( "chem_sulphuric_acid" );
 static const itype_id itype_lye( "lye" );
+static const itype_id itype_metal_tank_test( "metal_tank_test" );
 static const itype_id itype_rock( "rock" );
 static const itype_id itype_soap( "soap" );
+static const itype_id itype_test_egg( "test_egg" );
+static const itype_id itype_test_glass_pipe_mostly_glass( "test_glass_pipe_mostly_glass" );
+static const itype_id itype_test_glass_pipe_mostly_steel( "test_glass_pipe_mostly_steel" );
+static const itype_id itype_test_pipe( "test_pipe" );
 static const itype_id itype_yarn( "yarn" );
 
 static const requirement_id requirement_data_eggs_bird( "eggs_bird" );
@@ -138,7 +142,7 @@ TEST_CASE( "requirement_extension", "[requirement]" )
 
         bool found_extended_comp = false;
         for( const item_comp &comp : req_comp[0] ) {
-            if( comp.type == STATIC( itype_id( "test_egg" ) ) ) {
+            if( comp.type == itype_test_egg ) {
                 found_extended_comp = true;
                 CHECK( comp.count == 2 );
             }
@@ -157,12 +161,12 @@ TEST_CASE( "requirement_extension", "[requirement]" )
 
         std::vector<std::map<const itype_id, bool>> found_itype_maps = {
             {
-                { STATIC( itype_id( "metal_tank_test" ) ), false }
+                { itype_metal_tank_test, false }
             },
             {
-                { STATIC( itype_id( "test_pipe" ) ), false },
-                { STATIC( itype_id( "test_glass_pipe_mostly_steel" ) ), false },
-                { STATIC( itype_id( "test_glass_pipe_mostly_glass" ) ), false }
+                { itype_test_pipe, false },
+                { itype_test_glass_pipe_mostly_steel, false },
+                { itype_test_glass_pipe_mostly_glass, false }
             }
         };
 

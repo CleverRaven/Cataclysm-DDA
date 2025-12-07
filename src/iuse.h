@@ -77,7 +77,6 @@ std::optional<int> bell( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> blood_draw( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> boltcutters( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> break_stick( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> c4( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> call_of_tindalos( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> camera( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> can_goo( Character *, item *, const tripoint_bub_ms & );
@@ -105,12 +104,9 @@ std::optional<int> dive_tank( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> dog_whistle( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> ehandcuffs( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> ehandcuffs_tick( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> epic_music( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> emf_passive_on( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> extinguisher( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> fill_pit( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> firecracker( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> firecracker_pack( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> firecracker_pack_act( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> fish_trap( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> fish_trap_tick( Character *, item *, const tripoint_bub_ms & );
@@ -165,7 +161,6 @@ std::optional<int> portable_game( Character *, item *, const tripoint_bub_ms & )
 std::optional<int> portal( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> radglove( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> radio_mod( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> radio_off( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> radio_on( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> radio_tick( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> remove_all_mods( Character *, item *, const tripoint_bub_ms & );
@@ -173,8 +168,6 @@ std::optional<int> robotcontrol( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> rpgdie( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> seed( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> shavekit( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> shocktonfa_off( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> shocktonfa_on( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> siphon( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> solarpack( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> solarpack_off( Character *, item *, const tripoint_bub_ms & );
@@ -183,7 +176,6 @@ std::optional<int> stimpack( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> strong_antibiotic( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> talking_doll( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> tazer( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> tazer2( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> teleport( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> toolmod_attach( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> towel( Character *, item *, const tripoint_bub_ms & );
@@ -210,7 +202,6 @@ std::optional<int> calories_intake_tracker( Character *p, item *, const tripoint
 // MACGUFFINS
 
 std::optional<int> radiocar( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> radiocaron( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> radiocontrol( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> radiocontrol_tick( Character *, item *, const tripoint_bub_ms & );
 
@@ -269,7 +260,7 @@ struct heater {
     tripoint_abs_ms vpt;
     bool pseudo_flag;
 };
-heater find_heater( Character *, item * );
+heater find_heater( Character *, item *, bool force_use_it );
 heating_requirements heating_requirements_for_weight( const units::mass &,
         const units::mass &, const units::volume & );
 
@@ -294,7 +285,7 @@ class iuse_actor
         virtual ~iuse_actor() = default;
         virtual void load( const JsonObject &jo, const std::string &src ) = 0;
         // TODO: Replace usage of map unaware overload with map aware.
-        virtual std::optional<int> use( Character *, item &, const tripoint_bub_ms & ) const = 0;
+        virtual std::optional<int> use( Character *, item &, const tripoint_bub_ms & ) const;
         virtual std::optional<int> use( Character *, item &, map *here, const tripoint_bub_ms & ) const = 0;
         // TODO: Replace usage of map unaware overload with map aware.
         virtual ret_val<void> can_use( const Character &, const item &, const tripoint_bub_ms & ) const;

@@ -161,9 +161,9 @@
         { "item": "cannedfood", "chance": 45, "repeat": [ 0, 6 ] },
         { "item": "big_canned_food", "chance": 55, "repeat": [ 0, 7 ] },
         { "item": "pantry_liquids", "chance": 55, "repeat": [ 0, 6 ] },
-        { "item": "softdrinks_canned", "chance": 30, "repeat": [ 0, 5 ] },
+        { "item": "soda_in_small_container", "chance": 30, "repeat": [ 0, 5 ] },
         { "item": "pantry_liquids", "chance": 25, "repeat": [ 0, 8 ] },
-        { "item": "pasta", "chance": 55, "repeat": [ 0, 6 ] }
+        { "item": "pasta_ingredients", "chance": 55, "repeat": [ 0, 6 ] }
       ],
       "G": [ { "item": "milspec_arsenal_group_only_guns", "chance": 100 } ],
       "H": [ { "item": "autodoc_supplies", "chance": 100 } ],
@@ -249,7 +249,7 @@
         { "item": "candy_chocolate", "chance": 50, "repeat": [ 0, 2 ] },
         { "item": "salty_snacks", "chance": 50, "repeat": [ 0, 2 ] },
         { "item": "snacks", "chance": 50, "repeat": [ 0, 2 ] },
-        { "item": "softdrinks_canned", "chance": 50, "repeat": [ 0, 2 ] },
+        { "item": "soda_in_small_container", "chance": 50, "repeat": [ 0, 2 ] },
         { "item": "snacks_fancy", "chance": 50, "repeat": [ 0, 2 ] },
         { "item": "SUS_fridge_breakroom", "chance": 50, "repeat": [ 0, 2 ] },
         { "item": "SUS_kitchen_sink", "chance": 50, "repeat": [ 0, 2 ] },

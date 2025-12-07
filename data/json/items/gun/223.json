@@ -5,7 +5,7 @@
     "subtypes": [ "GUN" ],
     "name": { "str": "AR-15" },
     "copy-from": "gun_base_rifle_semi",
-    "//": "This is assumed to be the standard model matching the (currently not in-game) M16. Tileset whitelist for rifles",
+    "//": "This is assumed to be the standard model matching the M16. Tileset whitelist for rifles",
     "description": "This ubiquitous rifle is the forefather of the M16 rifle series.  It is lightweight and accurate, but will malfunction if not properly maintained.  This one is a semi-automatic civilian version.",
     "weight": "902 g",
     "volume": "1550 ml",
@@ -17,45 +17,28 @@
     "ammo": [ "NULL" ],
     "dispersion": 150,
     "min_cycle_recoil": 1350,
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "bore", 1 ],
-      [ "loading port", 1 ],
-      [ "mechanism", 2 ],
-      [ "sling", 1 ],
-      [ "stock accessory", 1 ],
-      [ "stock", 1 ]
-    ],
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "bore", 1 ], [ "mechanism", 2 ], [ "sling", 1 ], [ "stock accessory", 1 ], [ "stock", 1 ] ],
     "flags": [ "NO_TURRET" ]
   },
   {
     "id": "modular_ar_pistol",
-    "copy-from": "pistol_base",
+    "copy-from": "gun_base_rifle_semi",
     "//": "Based on https://www.aeroprecisionusa.com/m4e1-carbine-complete-lower-a2-grip-no-stock-anodized",
     "looks_like": "modular_ar15",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
-    "name": { "str": "AR pistol" },
-    "description": "The common AR-15 platform, with its stock removed and buffer tube covered by a sleeve.  AR pistols lack stocks, or have arm braces due to restrictions on short barreled rifles, and so without a stock, they're legally classified as a pistol.",
+    "name": { "str": "AR \"pistol\"", "str_pl": "AR \"pistols\"" },
+    "description": "The common AR-15 platform, with its stock removed and buffer tube covered by a thick, padded sleeve that allows the user to brace it like a rifle.  AR pistols lack stocks, or have arm braces due to restrictions on short barreled rifles, and so without a stock, they're legally classified as a pistol.",
     "weight": "735 g",
     "volume": "748 ml",
     "longest_side": "373 mm",
     "price": "245 USD",
     "price_postapoc": "35 USD",
-    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "steel", "aluminum" ],
     "ammo": [ "NULL" ],
     "dispersion": 150,
     "min_cycle_recoil": 1350,
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "bore", 1 ],
-      [ "loading port", 1 ],
-      [ "mechanism", 2 ],
-      [ "sling", 1 ],
-      [ "stock accessory", 1 ],
-      [ "stock", 1 ]
-    ],
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "bore", 1 ], [ "mechanism", 2 ], [ "sling", 1 ], [ "stock accessory", 1 ], [ "stock", 1 ] ],
     "flags": [ "NO_TURRET" ],
     "melee_damage": { "bash": 9 }
   },
@@ -100,15 +83,7 @@
     "min_cycle_recoil": 1350,
     "default_mods": [ "retool_ar15_223rem" ],
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "bore", 1 ],
-      [ "loading port", 1 ],
-      [ "mechanism", 2 ],
-      [ "sling", 1 ],
-      [ "stock accessory", 1 ],
-      [ "stock", 1 ]
-    ],
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "bore", 1 ], [ "mechanism", 2 ], [ "sling", 1 ], [ "stock accessory", 1 ], [ "stock", 1 ] ],
     "flags": [ "NO_TURRET" ]
   },
   {
@@ -326,15 +301,7 @@
     "dispersion": 180,
     "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "bore", 1 ],
-      [ "loading port", 1 ],
-      [ "mechanism", 2 ],
-      [ "sling", 1 ],
-      [ "stock accessory", 1 ],
-      [ "stock", 1 ]
-    ],
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "bore", 1 ], [ "mechanism", 2 ], [ "sling", 1 ], [ "stock accessory", 1 ], [ "stock", 1 ] ],
     "flags": [ "NO_TURRET" ],
     "//2": "This should be removed once vehicle turrets are capable of mounting guns with mods attached. As it stands, trying to mount this style of weapon would require the player to remove the conversion kit, thus rendering it unusable anyhow."
   },
@@ -361,15 +328,7 @@
     "material": [ "aluminum", "steel", "plastic" ],
     "default_mods": [ "adjustable_stock", "retool_ar15_223rem_extended" ],
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ] ],
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "bore", 1 ],
-      [ "loading port", 1 ],
-      [ "mechanism", 2 ],
-      [ "sling", 1 ],
-      [ "stock accessory", 1 ],
-      [ "stock", 1 ]
-    ],
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "bore", 1 ], [ "mechanism", 2 ], [ "sling", 1 ], [ "stock accessory", 1 ], [ "stock", 1 ] ],
     "//2": "This should be removed once vehicle turrets are capable of mounting guns with mods attached. As it stands, trying to mount this style of weapon would require the player to remove the conversion kit, thus rendering it unusable anyhow."
   },
   {
@@ -409,15 +368,7 @@
     "material": [ "steel", "wood" ],
     "dispersion": 100,
     "barrel_volume": "500 ml",
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "bore", 1 ],
-      [ "loading port", 1 ],
-      [ "mechanism", 2 ],
-      [ "sling", 1 ],
-      [ "stock accessory", 1 ],
-      [ "stock", 1 ]
-    ],
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "bore", 1 ], [ "mechanism", 2 ], [ "sling", 1 ], [ "stock accessory", 1 ], [ "stock", 1 ] ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -560,11 +511,11 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "zpap85mag" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "zpap85mag", "zpap85mag_10rd" ] } ]
   },
   {
     "id": "mdrx",
-    "copy-from": "rifle_semi",
+    "copy-from": "gun_base_rifle_semi",
     "looks_like": "modular_ar15",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
@@ -584,13 +535,9 @@
     "//": "The length, weight, and volume numbers are assigned to, roughly, represent an MDRX without a protruding barrel. the difference will be made up for with the installable conversion kits.",
     "price": "1 kUSD 739 USD",
     "price_postapoc": "40 USD",
-    "to_hit": -1,
     "material": [ "aluminum", "steel", "plastic" ],
-    "symbol": "(",
-    "color": "dark_gray",
     "ammo": [ "NULL" ],
     "dispersion": 150,
-    "durability": 8,
     "min_cycle_recoil": 1250,
     "valid_mod_locations": [
       [ "bore", 1 ],
@@ -633,8 +580,7 @@
           "survivor223mag"
         ]
       }
-    ],
-    "melee_damage": { "bash": 10 }
+    ]
   },
   {
     "id": "bren2_556",
@@ -699,51 +645,8 @@
     ]
   },
   {
-    "id": "cz600",
-    "copy-from": "rifle_manual",
-    "looks_like": "modular_ar15",
-    "type": "ITEM",
-    "subtypes": [ "GUN" ],
-    "name": { "str": "bolt-action trail carbine" },
-    "description": "Compact, svelte, and lightweight, this Leen bolt-action rifle packs the same features of larger sporting weapons into a backpack-sized package.  Possessing an adjustable buttstock, a detachable magazine-based system, and a quick-swap barrel that can be exchanged to accommodate the firing of .223 Remington or 7.62x39mm Soviet ammunition, the weapon is a commendable backpacker or prepper rifle.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "cz600",
-        "name": { "str": "CZ 600 TRAIL rifle" },
-        "description": "A handy bolt-action offering from CZ, the 600 Trail is a box magazine-fed ranch rifle that utilizes an aluminum chassis to keep its overall heft to a minimum.  Possessing an extendable buttstock, extensive modularity, and a quick-swap barrel assembly switchable to accommodate the firing of either .223 or 7.62x39mm ammunition, the rifle was intended for use by backpackers, trail hikers, and preppers."
-      }
-    ],
-    "weight": "1800 g",
-    "volume": "2500 ml",
-    "longest_side": "384 mm",
-    "//": "The size calculations are taken from a CZ 600 with a half-extended buttstock, sitting at 790 mm, between the minimum and maximum of 690 and 890 mm. In addition, the length of a 16-inch barrel has been deducted and will be made up for by the installable barrel assemblies.",
-    "price": "1 kUSD 155 USD",
-    "price_postapoc": "40 USD",
-    "to_hit": -1,
-    "material": [ "aluminum", "steel", "plastic" ],
-    "symbol": "(",
-    "color": "dark_gray",
-    "ammo": [ "NULL" ],
-    "dispersion": 150,
-    "durability": 8,
-    "built_in_mods": [ "adjustable_stock" ],
-    "valid_mod_locations": [
-      [ "bore", 1 ],
-      [ "mechanism", 2 ],
-      [ "rail", 2 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "stock accessory", 2 ],
-      [ "stock", 1 ]
-    ],
-    "flags": [ "NO_TURRET", "EASY_CLEAN" ],
-    "//2": "This should be removed once vehicle turrets are capable of mounting guns with mods attached. As it stands, trying to mount this style of weapon would require the player to remove the conversion kit, thus rendering it unusable anyhow.",
-    "melee_damage": { "bash": 10 }
-  },
-  {
     "id": "rdb_223",
-    "copy-from": "rifle_semi",
+    "copy-from": "gun_base_223_semi_rifle",
     "looks_like": "modular_ar15",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
@@ -764,13 +667,9 @@
     "price": "1 kUSD",
     "price_postapoc": "40 USD",
     "material": [ "steel", "aluminum", "plastic" ],
-    "symbol": "(",
-    "color": "dark_gray",
-    "ammo": [ "223" ],
     "dispersion": 180,
     "sight_dispersion": 500,
     "durability": 6,
-    "min_cycle_recoil": 1350,
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "brass catcher", 1 ],
@@ -806,8 +705,7 @@
           "survivor223mag"
         ]
       }
-    ],
-    "melee_damage": { "bash": 10 }
+    ]
   },
   {
     "id": "iwi_tavor_x95_300blk",

@@ -4,7 +4,7 @@
     "type": "talk_topic",
     "responses": [
       {
-        "text": "[Premonition] *Determine if <npc_name> is a threat*",
+        "text": "[Premonition] *Check for anything amiss*",
         "topic": "TALK_EVAC_GUARD3_danger_sense",
         "condition": {
           "or": [
@@ -12,6 +12,11 @@
             { "math": [ "u_spell_level('clair_danger_sense_knack') >= 8" ] }
           ]
         }
+      },
+      {
+        "text": "[Sense Hostility] *Determine if <npc_name> is a threat*",
+        "topic": "TALK_EVAC_GUARD3_sense_hostility",
+        "condition": { "math": [ "u_spell_level('clair_sense_hostile_creatures') >= 1" ] }
       },
       {
         "text": "[Telepathy] *Read <npc_name>'s mind*",
@@ -27,6 +32,12 @@
   },
   {
     "id": [ "TALK_EVAC_GUARD3_danger_sense" ],
+    "type": "talk_topic",
+    "dynamic_line": "&You open up your senses and the hair on the back of your neck immediately stands up.  Something could go very wrong for you at any moment.",
+    "responses": [ { "text": "…", "topic": "TALK_EVAC_GUARD3" } ]
+  },
+  {
+    "id": [ "TALK_EVAC_GUARD3_sense_hostility" ],
     "type": "talk_topic",
     "dynamic_line": "&You barely open up your senses before you're met with an overpowering sense of menace.  <npc_name> isn't planning to kill you at this exact second but that could change at any moment.",
     "responses": [ { "text": "…", "topic": "TALK_EVAC_GUARD3" } ]

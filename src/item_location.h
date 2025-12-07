@@ -174,9 +174,9 @@ class item_location
         /**
         * returns the item's level of the specified quality.
         * @param quality the name of quality to check the level of
-        * @param boiling true if the item is required to be empty to have the boiling quality
+        * @param strict_boiling True if containers must be empty to have BOIL quality
         */
-        int get_quality( const std::string &quality, bool strict ) const;
+        int get_quality( const std::string &quality, bool strict_boiling ) const;
 
     private:
         class impl;

@@ -1,0 +1,49 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_DDOTD_DHAMPIRS_VAMPIRES_RESIST_INFECTION",
+    "eoc_type": "EVENT",
+    "required_event": "character_gains_effect",
+    "condition": {
+      "and": [
+        { "u_has_any_trait": [ "VAMPIRE", "DHAMPIR_TRAIT" ] },
+        { "not": { "u_has_trait": "VAMPIRE4" } },
+        { "compare_string": [ "zombie_virus", { "context_val": "effect" } ] }
+      ]
+    },
+    "effect": [
+      { "u_add_effect": "effect_xe_ddotd_zombie_virus_resistance", "duration": "49 hours" },
+      {
+        "if": { "x_in_y_chance": { "x": 1, "y": 4 } },
+        "then": [
+          { "u_lose_effect": "zombie_virus" },
+          { "u_lose_effect": "effect_xe_ddotd_zombie_virus_resistance" },
+          {
+            "u_message": "You've started feeling a bit better.  Maybe your unique condition has saved you from the zombie bite's inexorable death…this time.",
+            "type": "good"
+          }
+        ],
+        "else": { "run_eocs": "EOC_XE_DDOTD_DHAMPIRS_VAMPIRES_RESIST_INFECTION_FOLLOWUP", "time_in_future": "1 days" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_DDOTD_DHAMPIRS_VAMPIRES_RESIST_INFECTION_FOLLOWUP",
+    "condition": { "and": [ { "u_has_effect": "zombie_virus" }, { "u_has_effect": "effect_xe_ddotd_zombie_virus_resistance" } ] },
+    "effect": [
+      {
+        "if": { "x_in_y_chance": { "x": 1, "y": 4 } },
+        "then": [
+          { "u_lose_effect": "zombie_virus" },
+          { "u_lose_effect": "effect_xe_ddotd_zombie_virus_resistance" },
+          {
+            "u_message": "You've started feeling a bit better.  Maybe your unique condition has saved you from the zombie bite's inexorable death…this time.",
+            "type": "good"
+          }
+        ],
+        "else": { "run_eocs": "EOC_XE_DDOTD_DHAMPIRS_VAMPIRES_RESIST_INFECTION_FOLLOWUP", "time_in_future": "1 days" }
+      }
+    ]
+  }
+]

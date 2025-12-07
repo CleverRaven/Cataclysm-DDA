@@ -131,6 +131,24 @@
   },
   {
     "type": "monstergroup",
+    "id": "GROUP_MI-GO_PSIONS",
+    "monsters": [
+      { "monster": "mon_mi_go_telepath", "weight": 50, "cost_multiplier": 20, "starts": "35 days" },
+      { "monster": "mon_mi_go_photokinetic", "weight": 50, "cost_multiplier": 2, "starts": "35 days" },
+      { "monster": "mon_mi_go_biokinetic", "weight": 20, "cost_multiplier": 70, "starts": "35 days" }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_TRIFFID_PSIONS",
+    "monsters": [
+      { "monster": "mon_triffid_clairsentient", "weight": 400 },
+      { "monster": "mon_triffid_pyrokinetic", "weight": 400 },
+      { "monster": "mon_triffid_teleporter", "weight": 200 }
+    ]
+  },
+  {
+    "type": "monstergroup",
     "id": "GROUP_LAB_RESEARCH",
     "default": "mon_zombie_scientist_phavian",
     "monsters": [
@@ -260,6 +278,7 @@
       { "monster": "mon_star_vampire", "weight": 25, "cost_multiplier": 0 },
       { "monster": "mon_star_vampire_coiling", "weight": 25, "cost_multiplier": 0 },
       { "monster": "mon_gozu", "weight": 120, "cost_multiplier": 0 },
+      { "monster": "mon_nether_silent_one_aggressive", "weight": 15, "cost_multiplier": 0 },
       { "monster": "mon_darkman", "weight": 15, "cost_multiplier": 0 },
       { "monster": "mon_shoggoth", "weight": 5, "cost_multiplier": 0 }
     ]
@@ -301,6 +320,11 @@
     "id": "GROUP_REPRODUCTION_DOG_HELLHOUND_BABIES",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_dog_pup", "weight": 80 }, { "monster": "mon_hellhound_pup", "weight": 20 } ]
+  },
+  {
+    "id": "GROUP_REPRODUCTION_FEAR_DEER_BABIES",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_deer_fawn", "weight": 80 }, { "monster": "mon_fear_deer_fawn", "weight": 20 } ]
   },
   {
     "id": "GROUP_EGG_COCKATRICE",

@@ -23,7 +23,6 @@ users:
     - Jan-Blasiak
     - MNG-cataclysm
     - mqrause
-    - andrei8l
     - haveric
     - MylieDaniels
     - nopenoperson 
@@ -58,6 +57,8 @@ users:
     - Kray4000
     - czyjanek
     - SariusSkelrets
+    - SittingDucken
+    - ShnitzelX2
 
 keywords:
   - name: confirm-bug

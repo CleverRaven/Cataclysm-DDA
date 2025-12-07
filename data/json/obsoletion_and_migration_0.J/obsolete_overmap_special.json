@@ -1,0 +1,99 @@
+[
+  {
+    "type": "overmap_special_migration",
+    "id": "o_lightindustry_scen",
+    "new_id": "o_lightindustry",
+    "//": "Migrated in 0.J"
+  },
+  {
+    "type": "overmap_special_migration",
+    "id": "Evac Shelter 1",
+    "new_id": "Evac Shelter",
+    "//": "Migrated in 0.J"
+  },
+  {
+    "type": "overmap_special_migration",
+    "id": "Evac Shelter 1b",
+    "new_id": "Evac Shelter"
+  },
+  {
+    "type": "overmap_special_migration",
+    "id": "Evac Shelter 2",
+    "new_id": "Evac Shelter"
+  },
+  {
+    "type": "overmap_special_migration",
+    "id": "Evac Shelter Survivor",
+    "new_id": "Evac Shelter"
+  },
+  {
+    "type": "overmap_special_migration",
+    "id": "Evac Shelter Survivor 1",
+    "new_id": "Evac Shelter"
+  },
+  {
+    "type": "overmap_special_migration",
+    "id": "Evac Shelter Survivor 1b",
+    "new_id": "Evac Shelter"
+  },
+  {
+    "type": "overmap_special_migration",
+    "id": "Evac Shelter Survivor 2",
+    "new_id": "Evac Shelter"
+  },
+  {
+    "type": "overmap_special_migration",
+    "id": "Evac Shelter Vandalized",
+    "new_id": "Evac Shelter"
+  },
+  {
+    "type": "overmap_special_migration",
+    "id": "Evac Shelter Vandalized 2",
+    "new_id": "Evac Shelter"
+  },
+  {
+    "type": "overmap_special_migration",
+    "id": "Evac Shelter Vandalized 1b",
+    "new_id": "Evac Shelter"
+  },
+  {
+    "type": "overmap_special_migration",
+    "id": "Evac Shelter Vandalized 3",
+    "new_id": "Evac Shelter"
+  },
+  {
+    "type": "overmap_special_migration",
+    "id": "Evac Shelter Infested",
+    "new_id": "Evac Shelter"
+  },
+  {
+    "type": "overmap_special_migration",
+    "id": "Evac Shelter Infested 1",
+    "new_id": "Evac Shelter"
+  },
+  {
+    "type": "overmap_special_migration",
+    "id": "Evac Shelter Infested 1b",
+    "new_id": "Evac Shelter"
+  },
+  {
+    "type": "overmap_special_migration",
+    "id": "Evac Shelter Infested 2",
+    "new_id": "Evac Shelter"
+  },
+  {
+    "type": "overmap_special_migration",
+    "id": "Evac Shelter Unfinished 1",
+    "new_id": "Evac Shelter Unfinished"
+  },
+  {
+    "type": "overmap_special_migration",
+    "id": "Evac Shelter Unfinished 1b",
+    "new_id": "Evac Shelter Unfinished"
+  },
+  {
+    "type": "overmap_special_migration",
+    "id": "Evac Shelter Unfinished 2",
+    "new_id": "Evac Shelter Unfinished"
+  }
+]

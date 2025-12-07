@@ -180,6 +180,7 @@ void pocket_data::load( const JsonObject &jo )
         optional( jo, was_loaded, "activity_noise", activity_noise );
     }
     optional( jo, was_loaded, "spoil_multiplier", spoil_multiplier, 1.0f );
+    optional( jo, was_loaded, "insulation", insulation, 1.0f );
     optional( jo, was_loaded, "weight_multiplier", weight_multiplier, 1.0f );
     optional( jo, was_loaded, "volume_multiplier", volume_multiplier, 1.0f );
     optional( jo, was_loaded, "magazine_well", magazine_well, volume_reader(), 0_ml );
@@ -671,6 +672,11 @@ float item_pocket::spoil_multiplier() const
     }
 }
 
+float item_pocket::insulation() const
+{
+    return data->insulation;
+}
+
 int item_pocket::moves() const
 {
     if( data ) {
@@ -821,7 +827,7 @@ void item_pocket::handle_liquid_or_spill( Character &guy, const item *avoid )
             item i_copy( *iter );
             guy.i_add_or_drop( i_copy, 1, avoid, &*iter );
             iter = contents.erase( iter );
-            guy.add_msg_if_player( m_warning, _( "The %s falls out of the %s." ), i_copy.display_name(),
+            guy.add_msg_if_player( m_warning, _( "The %1$s falls out of the %2$s." ), i_copy.display_name(),
                                    get_name() );
         }
     }
@@ -2036,6 +2042,10 @@ bool item_pocket::empty() const
 
 bool item_pocket::full( bool allow_bucket ) const
 {
+    if( contents.empty() ) {
+        return false;
+    }
+
     if( !allow_bucket && will_spill() ) {
         return true;
     }
@@ -2052,7 +2062,23 @@ bool item_pocket::full( bool allow_bucket ) const
         return false;
     }
 
-    return remaining_volume() == 0_ml;
+    if( remaining_volume() == 0_ml ) {
+        return true;
+    }
+
+    if( remaining_capacity_for_item( contents.front() ) == 0 ) {
+        bool has_only_one_type = true;
+        // maybe there is a better way?
+        for( const item &it : contents ) {
+            if( it.type->id != contents.front().type->id ) {
+                has_only_one_type = false;
+                break;
+            }
+        }
+        return has_only_one_type;
+    }
+
+    return false;
 }
 
 bool item_pocket::rigid() const

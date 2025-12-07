@@ -54,16 +54,13 @@
 #include "iuse.h"
 #include "iuse_actor.h"
 #include "magic.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
-#include "map_selector.h"
 #include "martialarts.h"
 #include "math_parser_diag_value.h"
 #include "memory_fast.h"
 #include "messages.h"
-#include "mongroup.h"
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"
@@ -110,14 +107,11 @@ static const activity_id ACT_FERTILIZE_PLOT( "ACT_FERTILIZE_PLOT" );
 static const activity_id ACT_FETCH_REQUIRED( "ACT_FETCH_REQUIRED" );
 static const activity_id ACT_FILL_LIQUID( "ACT_FILL_LIQUID" );
 static const activity_id ACT_FIND_MOUNT( "ACT_FIND_MOUNT" );
-static const activity_id ACT_FISH( "ACT_FISH" );
 static const activity_id ACT_GAME( "ACT_GAME" );
 static const activity_id ACT_GENERIC_GAME( "ACT_GENERIC_GAME" );
 static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
 static const activity_id ACT_HEATING( "ACT_HEATING" );
-static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
 static const activity_id ACT_MEND_ITEM( "ACT_MEND_ITEM" );
-static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
 static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
 static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
@@ -129,8 +123,8 @@ static const activity_id ACT_MULTIPLE_FISH( "ACT_MULTIPLE_FISH" );
 static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
 static const activity_id ACT_MULTIPLE_MOP( "ACT_MULTIPLE_MOP" );
 static const activity_id ACT_MULTIPLE_READ( "ACT_MULTIPLE_READ" );
+static const activity_id ACT_MULTIPLE_STUDY( "ACT_MULTIPLE_STUDY" );
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
-static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
 static const activity_id ACT_PLANT_SEED( "ACT_PLANT_SEED" );
 static const activity_id ACT_PULL_CREATURE( "ACT_PULL_CREATURE" );
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
@@ -169,6 +163,9 @@ static const efftype_id effect_social_dissatisfied( "social_dissatisfied" );
 static const efftype_id effect_social_satisfied( "social_satisfied" );
 static const efftype_id effect_under_operation( "under_operation" );
 
+static const flag_id json_flag_IRREMOVABLE( "IRREMOVABLE" );
+static const flag_id json_flag_PSEUDO( "PSEUDO" );
+
 static const furn_str_id furn_f_compost_empty( "f_compost_empty" );
 static const furn_str_id furn_f_compost_full( "f_compost_full" );
 static const furn_str_id furn_f_fvat_empty( "f_fvat_empty" );
@@ -194,23 +191,17 @@ static const json_character_flag json_flag_SILENT_SPELL( "SILENT_SPELL" );
 static const json_character_flag json_flag_SOCIAL1( "SOCIAL1" );
 static const json_character_flag json_flag_SOCIAL2( "SOCIAL2" );
 
-static const mongroup_id GROUP_FISH( "GROUP_FISH" );
-
 static const morale_type morale_feeling_good( "morale_feeling_good" );
 static const morale_type morale_game( "morale_game" );
 static const morale_type morale_tree_communion( "morale_tree_communion" );
-
-static const quality_id qual_FISHING_ROD( "FISHING_ROD" );
 
 static const skill_id skill_computer( "computer" );
 static const skill_id skill_survival( "survival" );
 
 static const ter_str_id ter_t_dirt( "t_dirt" );
-static const ter_str_id ter_t_tree( "t_tree" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
-static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
 
 static const zone_type_id zone_type_FARM_PLOT( "FARM_PLOT" );
 
@@ -219,7 +210,6 @@ using namespace activity_handlers;
 const std::map< activity_id, std::function<void( player_activity *, Character * )> >
 activity_handlers::do_turn_functions = {
     { ACT_FILL_LIQUID, fill_liquid_do_turn },
-    { ACT_PICKAXE, pickaxe_do_turn },
     { ACT_GAME, game_do_turn },
     { ACT_GENERIC_GAME, generic_game_do_turn },
     { ACT_START_FIRE, start_fire_do_turn },
@@ -240,16 +230,13 @@ activity_handlers::do_turn_functions = {
     { ACT_CONSUME_FOOD_MENU, consume_food_menu_do_turn },
     { ACT_CONSUME_DRINK_MENU, consume_drink_menu_do_turn },
     { ACT_CONSUME_MEDS_MENU, consume_meds_menu_do_turn },
-    { ACT_MOVE_LOOT, move_loot_do_turn },
     { ACT_ARMOR_LAYERS, armor_layers_do_turn },
     { ACT_ATM, atm_do_turn },
-    { ACT_FISH, fish_do_turn },
     { ACT_REPAIR_ITEM, repair_item_do_turn },
     { ACT_TRAVELLING, travel_do_turn },
     { ACT_DISMEMBER, dismember_do_turn },
     { ACT_TIDY_UP, tidy_up_do_turn },
     { ACT_TIDY_UP, tidy_up_do_turn },
-    { ACT_JACKHAMMER, jackhammer_do_turn },
     { ACT_FIND_MOUNT, find_mount_do_turn },
     { ACT_MULTIPLE_CHOP_PLANKS, multiple_chop_planks_do_turn },
     { ACT_FERTILIZE_PLOT, fertilize_plot_do_turn },
@@ -260,12 +247,11 @@ activity_handlers::do_turn_functions = {
     { ACT_MULTIPLE_CRAFT, multiple_craft_do_turn },
     { ACT_MULTIPLE_DIS, multiple_dis_do_turn },
     { ACT_MULTIPLE_READ, multiple_read_do_turn },
+    { ACT_MULTIPLE_STUDY, multiple_study_do_turn },
 };
 
 const std::map< activity_id, std::function<void( player_activity *, Character * )> >
 activity_handlers::finish_functions = {
-    { ACT_FISH, fish_finish },
-    { ACT_PICKAXE, pickaxe_finish },
     { ACT_START_FIRE, start_fire_finish },
     { ACT_GENERIC_GAME, generic_game_finish },
     { ACT_TRAIN, train_finish },
@@ -288,7 +274,6 @@ activity_handlers::finish_functions = {
     { ACT_CONSUME_FOOD_MENU, eat_menu_finish },
     { ACT_CONSUME_DRINK_MENU, eat_menu_finish },
     { ACT_CONSUME_MEDS_MENU, eat_menu_finish },
-    { ACT_JACKHAMMER, jackhammer_finish },
     { ACT_ROBOT_CONTROL, robot_control_finish },
     { ACT_PULL_CREATURE, pull_creature_finish },
     { ACT_SPELLCASTING, spellcasting_finish },
@@ -576,57 +561,6 @@ void activity_handlers::generic_game_do_turn( player_activity *act, Character *y
 void activity_handlers::game_do_turn( player_activity *act, Character *you )
 {
     generic_game_turn_handler( act, you, 1, 100 );
-}
-
-void activity_handlers::pickaxe_do_turn( player_activity *act, Character * )
-{
-    const tripoint_bub_ms &pos = get_map().get_bub( act->placement );
-    sfx::play_activity_sound( "tool", "pickaxe", sfx::get_heard_volume( pos ) );
-    // each turn is too much
-    if( calendar::once_every( 1_minutes ) ) {
-        //~ Sound of a Pickaxe at work!
-        sounds::sound( pos, 30, sounds::sound_t::destructive_activity, _( "CHNK!  CHNK!  CHNK!" ) );
-    }
-}
-
-void activity_handlers::pickaxe_finish( player_activity *act, Character *you )
-{
-    map &here = get_map();
-    const tripoint_bub_ms pos( here.get_bub( act->placement ) );
-    // Invalidate the activity early to prevent a query from mod_pain()
-    act->set_to_null();
-    if( you->is_avatar() ) {
-        const int helpersize = get_player_character().get_num_crafting_helpers( 3 );
-        if( here.is_bashable( pos ) && here.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, pos ) &&
-            here.ter( pos ) != ter_t_tree ) {
-            // Tunneling through solid rock is sweaty, backbreaking work
-            // Betcha wish you'd opted for the J-Hammer
-            if( you->has_trait( trait_STOCKY_TROGLO ) ) {
-                you->mod_pain( std::max( 0, ( 1 * static_cast<int>( rng( 0, 3 ) ) ) - helpersize ) );
-            } else {
-                you->mod_pain( std::max( 0, ( 2 * static_cast<int>( rng( 1, 3 ) ) ) - helpersize ) );
-            }
-        }
-    }
-    you->add_msg_player_or_npc( m_good,
-                                _( "You finish digging." ),
-                                _( "<npcname> finishes digging." ) );
-    here.destroy( pos, true );
-    if( !act->targets.empty() ) {
-        item_location it = act->targets.front();
-        if( it ) {
-            you->consume_charges( *it, it->ammo_required() );
-        }
-    } else {
-        debugmsg( "pickaxe activity targets empty" );
-    }
-    if( resume_for_multi_activities( *you ) ) {
-        for( item &elem : here.i_at( pos ) ) {
-            elem.set_var( "activity_var", you->name );
-            you->may_activity_occupancy_after_end_items_loc.emplace_back( map_cursor{here.get_abs( pos )},
-                    &elem );
-        }
-    }
 }
 
 void activity_handlers::start_fire_finish( player_activity *act, Character *you )
@@ -1164,9 +1098,9 @@ struct weldrig_hack {
             // null item should be handled just fine
             return null_item_reference();
         }
-        pseudo.set_flag( STATIC( flag_id( "PSEUDO" ) ) );
+        pseudo.set_flag( json_flag_PSEUDO );
         item mag_mod( itype_pseudo_magazine_mod );
-        mag_mod.set_flag( STATIC( flag_id( "IRREMOVABLE" ) ) );
+        mag_mod.set_flag( json_flag_IRREMOVABLE );
         if( !pseudo.put_in( mag_mod, pocket_type::MOD ).success() ) {
             debugmsg( "tool %s has no space for a %s, this is likely a bug",
                       pseudo.typeId().str(), mag_mod.type->nname( 1 ) );
@@ -1288,7 +1222,7 @@ void repair_item_finish( player_activity *act, Character *you, bool no_menu )
         // TODO: Allow setting this in the actor
         // TODO: Don't use charges_to_use: welder has 50 charges per use, soldering iron has 1
         if( !used_tool->ammo_sufficient( you ) ) {
-            you->add_msg_if_player( _( "Your %s ran out of charges." ), used_tool->tname() );
+            you->add_msg_if_player( _( "Your %1$s ran out of charges." ), used_tool->tname() );
             act->set_to_null();
             return;
         }
@@ -1573,7 +1507,6 @@ void activity_handlers::toolmod_add_finish( player_activity *act, Character *you
     item &mod = *act->targets[1];
     you->add_msg_if_player( m_good, _( "You successfully attached the %1$s to your %2$s." ),
                             mod.tname(), tool.tname() );
-    mod.set_flag( flag_IRREMOVABLE );
     tool.put_in( mod, pocket_type::MOD );
     tool.on_contents_changed();
     act->targets[1].remove_item();
@@ -1611,11 +1544,6 @@ void activity_handlers::consume_meds_menu_do_turn( player_activity *, Character 
 {
     avatar &player_character = get_avatar();
     avatar_action::eat_or_use( player_character, game_menus::inv::consume_meds() );
-}
-
-void activity_handlers::move_loot_do_turn( player_activity *act, Character *you )
-{
-    activity_on_turn_move_loot( *act, *you );
 }
 
 void activity_handlers::travel_do_turn( player_activity *act, Character *you )
@@ -1666,91 +1594,6 @@ void activity_handlers::armor_layers_do_turn( player_activity *, Character *you 
 void activity_handlers::atm_do_turn( player_activity *, Character *you )
 {
     iexamine::atm( *you, you->pos_bub() );
-}
-
-// fish-with-rod fish catching function.
-static void rod_fish( Character *you, const std::vector<monster *> &fishables )
-{
-    map &here = get_map();
-    constexpr auto caught_corpse = []( Character * you, map & here, const mtype & corpse_type ) {
-        item corpse = item::make_corpse( corpse_type.id,
-                                         calendar::turn + rng( 0_turns,
-                                                 3_hours ) );
-        corpse.set_var( "activity_var", you->name );
-        item_location loc = here.add_item_or_charges_ret_loc( you->pos_bub(), corpse );
-        you->add_msg_if_player( m_good, _( "You caught a %s." ), corpse_type.nname() );
-        if( loc ) {
-            you->may_activity_occupancy_after_end_items_loc.push_back( loc );
-        }
-    };
-    //if the vector is empty (no fish around) the player is still given a small chance to get a (let us say it was hidden) fish
-    if( fishables.empty() ) {
-        const std::vector<mtype_id> fish_group = MonsterGroupManager::GetMonstersFromGroup(
-                    GROUP_FISH, true );
-        const mtype_id fish_mon = random_entry_ref( fish_group );
-        caught_corpse( you, here, fish_mon.obj() );
-    } else {
-        monster *chosen_fish = random_entry( fishables );
-        chosen_fish->fish_population -= 1;
-        if( chosen_fish->fish_population <= 0 ) {
-            g->catch_a_monster( chosen_fish, you->pos_bub(), you, 50_hours );
-        } else {
-            if( chosen_fish->type != nullptr ) {
-                caught_corpse( you, here, *( chosen_fish->type ) );
-            }
-        }
-    }
-}
-
-void activity_handlers::fish_do_turn( player_activity *act, Character *you )
-{
-    item &it = *act->targets.front();
-    float fish_chance = 1.0f;
-    float survival_skill = you->get_skill_level( skill_survival );
-    switch( it.get_quality( qual_FISHING_ROD ) ) {
-        case 1:
-            survival_skill += dice( 1, 6 );
-            break;
-        case 2:
-            // Much better chances with a good fishing implement.
-            survival_skill += dice( 4, 9 );
-            survival_skill *= 2;
-            break;
-        default:
-            debugmsg( "ERROR: Invalid FISHING_ROD tool quality on %s", item::nname( it.typeId() ) );
-            break;
-    }
-    std::vector<monster *> fishables = g->get_fishable_monsters( act->coord_set );
-    // Fish are always there, even if it doesn't seem like they are visible!
-    if( fishables.empty() ) {
-        fish_chance += survival_skill / 2;
-    } else {
-        // if they are visible however, it implies a larger population
-        for( monster *elem : fishables ) {
-            fish_chance += elem->fish_population;
-        }
-        fish_chance += survival_skill;
-    }
-    // no matter the population of fish, your skill and tool limits the ease of catching.
-    fish_chance = std::min( survival_skill * 10, fish_chance );
-    if( x_in_y( fish_chance, 600000 ) ) {
-        you->add_msg_if_player( m_good, _( "You feel a tug on your line!" ) );
-        rod_fish( you, fishables );
-    }
-    if( calendar::once_every( 60_minutes ) ) {
-        you->practice( skill_survival, rng( 1, 3 ) );
-    }
-
-}
-
-void activity_handlers::fish_finish( player_activity *act, Character *you )
-{
-    act->set_to_null();
-    you->add_msg_if_player( m_info, _( "You finish fishing" ) );
-    if( !you->backlog.empty() && you->backlog.front().id() == ACT_MULTIPLE_FISH ) {
-        you->backlog.clear();
-        you->assign_activity( ACT_TIDY_UP );
-    }
 }
 
 void activity_handlers::repair_item_do_turn( player_activity *act, Character *you )
@@ -2062,8 +1905,9 @@ void activity_handlers::plant_seed_finish( player_activity *act, Character *you 
         }
         used_seed.front().set_flag( json_flag_HIDDEN_ITEM );
         here.add_item_or_charges( examp, used_seed.front() );
-        if( here.has_flag_furn( seed_id->seed->required_terrain_flag, examp ) ) {
-            here.furn_set( examp, furn_str_id( here.furn( examp )->plant->transform ) );
+        if( here.has_flag_furn( seed_id->seed->required_terrain_flag, examp ) &&
+            here.furn( examp )->plant != nullptr ) {
+            here.furn_set( examp, here.furn( examp )->plant->transform );
         } else if( seed_id->seed->required_terrain_flag == ter_furn_flag::TFLAG_PLANTABLE ) {
             here.set( examp, ter_t_dirt, furn_f_plant_seed );
         } else {
@@ -2183,6 +2027,11 @@ void activity_handlers::multiple_read_do_turn( player_activity *act, Character *
     generic_multi_activity_handler( *act, *you );
 }
 
+void activity_handlers::multiple_study_do_turn( player_activity *act, Character *you )
+{
+    generic_multi_activity_handler( *act, *you );
+}
+
 void activity_handlers::vehicle_deconstruction_do_turn( player_activity *act, Character *you )
 {
     generic_multi_activity_handler( *act, *you );
@@ -2226,44 +2075,6 @@ void activity_handlers::atm_finish( player_activity *act, Character * )
 void activity_handlers::eat_menu_finish( player_activity *, Character * )
 {
     // Only exists to keep the eat activity alive between turns
-}
-
-void activity_handlers::jackhammer_do_turn( player_activity *act, Character * )
-{
-    map &here = get_map();
-    sfx::play_activity_sound( "tool", "jackhammer",
-                              sfx::get_heard_volume( here.get_bub( act->placement ) ) );
-    if( calendar::once_every( 1_minutes ) ) {
-        sounds::sound( here.get_bub( act->placement ), 15, sounds::sound_t::destructive_activity,
-                       //~ Sound of a jackhammer at work!
-                       _( "TATATATATATATAT!" ) );
-    }
-}
-
-void activity_handlers::jackhammer_finish( player_activity *act, Character *you )
-{
-    map &here = get_map();
-    const tripoint_bub_ms &pos = here.get_bub( act->placement );
-
-    here.destroy( pos, true );
-
-    you->add_msg_player_or_npc( m_good,
-                                _( "You finish drilling." ),
-                                _( "<npcname> finishes drilling." ) );
-    act->set_to_null();
-    if( !act->targets.empty() ) {
-        item &it = *act->targets.front();
-        it.ammo_consume( it.ammo_required(), tripoint_bub_ms::zero, you );
-    } else {
-        debugmsg( "jackhammer activity targets empty" );
-    }
-    if( resume_for_multi_activities( *you ) ) {
-        for( item &elem : here.i_at( pos ) ) {
-            elem.set_var( "activity_var", you->name );
-            you->may_activity_occupancy_after_end_items_loc.emplace_back( map_cursor{here.get_abs( pos )},
-                    &elem );
-        }
-    }
 }
 
 template<typename fn>
@@ -2418,7 +2229,7 @@ void activity_handlers::robot_control_finish( player_activity *act, Character *y
     /** @EFFECT_COMPUTER increases chance of successful robot reprogramming, vs difficulty */
     const float computer_skill = you->get_skill_level( skill_computer );
     const float randomized_skill = rng( 2, you->int_cur ) + computer_skill;
-    float success = computer_skill - 3 * z->type->difficulty / randomized_skill;
+    float success = computer_skill - 3 * z->type->get_total_difficulty() / randomized_skill;
     if( z->has_flag( mon_flag_RIDEABLE_MECH ) ) {
         success = randomized_skill - rng( 1, 11 );
     }
@@ -2604,7 +2415,10 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
 
             if( !act->targets.empty() ) {
                 item *it = act->targets.front().get_item();
-                if( it && !it->has_flag( flag_USE_PLAYER_ENERGY ) ) {
+                if( it != nullptr && it->has_flag( flag_SINGLE_USE ) ) {
+                    you->i_rem( it );
+                    act->targets.erase( act->targets.end() - 1 );
+                } else if( it && !it->has_flag( flag_USE_PLAYER_ENERGY ) ) {
                     you->consume_charges( *it, it->type->charges_to_use() );
                 }
             }
@@ -2659,7 +2473,17 @@ void activity_handlers::study_spell_do_turn( player_activity *act, Character *yo
         }
         const int old_level = studying.get_level();
         // Gain some experience from studying
-        const int xp = roll_remainder( studying.exp_modifier( *you ) / to_turns<float>( 6_seconds ) );
+        const float base_xp_per_tick = studying.exp_modifier( *you ) / to_turns<float>( 6_seconds );
+
+        float xp_multiplier = 1.0f;
+        if( old_level >= 9 ) {
+            xp_multiplier = 0.25f; // halved at 3, halved again at 9 -> 0.5 * 0.5 = 0.25
+        } else if( old_level >= 3 ) {
+            xp_multiplier = 0.5f;
+        }
+
+        const int xp = roll_remainder( base_xp_per_tick * xp_multiplier );
+
         act->values[0] += xp;
         studying.gain_exp( *you, xp );
         bool leveled_up = you->practice( studying.skill(), xp, studying.get_difficulty( *you ), true );

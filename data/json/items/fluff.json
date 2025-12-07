@@ -20,7 +20,7 @@
     "type": "ITEM",
     "category": "other",
     "name": { "str": "deck of cards", "str_pl": "decks of cards" },
-    "description": "A deck of 52 playing cards.",
+    "description": "A fairly new, glossy deck of 52 playing cards.",
     "weight": "50 g",
     "volume": "100 ml",
     "price": "20 USD",
@@ -31,12 +31,7 @@
     "flags": [ "NO_REPAIR" ],
     "use_action": [ "PLAY_GAME" ],
     "variants": [
-      {
-        "id": "generic_deck_of_cards",
-        "name": { "str": "deck of cards", "str_pl": "decks of cards" },
-        "description": "A fairly new, glossy deck of 52 playing cards.",
-        "weight": 30
-      },
+      { "id": "generic_deck_of_cards", "//": "copy name and description from item", "weight": 30 },
       {
         "id": "deck_of_cards_worn",
         "name": { "str": "worn deck of cards", "str_pl": "worn decks of cards" },
@@ -95,7 +90,7 @@
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR" ],
     "id": "pom_poms",
-    "name": { "str": "pair of pom poms", "str_pl": "pairs of pom poms" },
+    "name": { "str_sp": "pom poms (pair)" },
     "category": "other",
     "weight": "150 g",
     "color": "red",
@@ -904,11 +899,7 @@
     "flags": [ "NO_REPAIR" ],
     "use_action": [ "PLAY_GAME" ],
     "variants": [
-      {
-        "id": "terraforming_mercury",
-        "name": { "str": "Terraforming - Mercury", "str_pl": "sets of Terraforming - Mercury" },
-        "description": "This board game is set in the 4300s, where corporations are working together to terraform the planet Mercury, the smallest and innermost planet in our solar system.  Each player (or just the player) will have unique abilities and resources at their disposal, and they will need to strategize and cooperate with one another to achieve their goals."
-      },
+      { "id": "terraforming_mercury", "//": "copy name and description from item" },
       {
         "id": "terraforming_mars",
         "name": { "str": "Terraforming - Mars", "str_pl": "sets of Terraforming - Mars" },
@@ -1137,7 +1128,7 @@
     "volume": "1977 ml",
     "price": "26 USD 80 cent",
     "price_postapoc": "5 USD",
-    "material": [ "paper", "paper", "plastic" ],
+    "material": { "paper": 2, "plastic": 1 },
     "symbol": "?",
     "color": "brown",
     "flags": [ "NO_REPAIR" ],
@@ -1525,7 +1516,7 @@
     "id": "doormat",
     "name": { "str": "doormat" },
     "description": "A non-slip mat with a welcoming message.  Once used to keep a house clean and inviting.",
-    "weight": "2200 g",
+    "weight": "1500 g",
     "volume": "3 L",
     "price": "10 USD",
     "price_postapoc": "10 cent",
@@ -1567,9 +1558,9 @@
     "id": "LIXA_lab_postit",
     "symbol": ",",
     "color": "white",
-    "name": { "str": "post-it note" },
+    "name": { "str": "cyan post-it note" },
     "snippet_category": "LIXA_lab_notes",
-    "description": "A cyan post-it note.",
+    "description": "A bright post-it note.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "material": [ "paper" ],
@@ -1785,7 +1776,7 @@
     "variants": [
       {
         "id": "statue_person",
-        "name": { "str": "clay sculpture" },
+        "//": "inherit name from item",
         "description": "This statue depicts a <sculpture_person_description> <random_character_pose_statue>.",
         "append": true,
         "expand_snippets": true,

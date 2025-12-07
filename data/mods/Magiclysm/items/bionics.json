@@ -115,7 +115,7 @@
     "effect": [
       {
         "if": { "math": [ "u_val('mana')", ">", "0" ] },
-        "then": [ { "math": [ "u_val('mana')", "--" ] }, { "math": [ "u_val('power')", "+=", "energy('35  J')" ] } ]
+        "then": [ { "math": [ "u_val('mana')", "--" ] }, { "math": [ "u_val('power') += energy('35  J')" ] } ]
       },
       { "run_eocs": "EOC_BIO_MANA_TO_BIONIC_POWER_PROCESSING", "time_in_future": 10 }
     ]

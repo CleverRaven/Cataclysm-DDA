@@ -156,7 +156,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "byproducts": [ [ "juice_pulp", 3 ] ],
-    "result": "crystallizing_sugar",
+    "result": "crystallizing_sugar_active",
     "id_suffix": "from_sweets",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -172,9 +172,9 @@
       { "id": "CONTAIN", "level": 1 },
       { "id": "CUT", "level": 2 },
       { "id": "BOIL", "level": 2 },
-      { "id": "FILTER", "level": 2 }
+      { "id": "STRAIN", "level": 2 }
     ],
-    "tools": [ [ [ "water_boiling_heat", 8, "LIST" ] ], [ [ "screw_press_tool", -1 ] ] ],
+    "tools": [ [ [ "water_boiling_heat", 8, "LIST" ] ], [ [ "screw_press", -1 ] ] ],
     "components": [
       [
         [ "sweet_fruit_like", 2, "LIST" ],
@@ -271,7 +271,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "byproducts": [ [ "molasses", 2 ] ],
-    "result": "crystallizing_sugar",
+    "result": "crystallizing_sugar_active",
     "id_suffix": "from_beets",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -287,9 +287,9 @@
       { "id": "CONTAIN", "level": 1 },
       { "id": "CUT", "level": 2 },
       { "id": "BOIL", "level": 2 },
-      { "id": "FILTER", "level": 2 }
+      { "id": "STRAIN", "level": 2 }
     ],
-    "tools": [ [ [ "water_boiling_heat", 8, "LIST" ] ], [ [ "screw_press_tool", -1 ] ] ],
+    "tools": [ [ [ "water_boiling_heat", 8, "LIST" ] ], [ [ "screw_press", -1 ] ] ],
     "//1": "1u base + 1u ingredient + 6u evaporation",
     "components": [ [ [ "sugar_beet", 3 ] ], [ [ "water_clean", 1 ], [ "water", 1 ] ] ]
   },

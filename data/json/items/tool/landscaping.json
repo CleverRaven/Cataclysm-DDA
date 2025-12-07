@@ -307,15 +307,49 @@
     "melee_damage": { "bash": 3, "cut": 12 }
   },
   {
+    "id": "brush_handaxe",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "bill" },
+    "description": "A slightly curved steel blade with a nice wooden handle, not too dissimilar to a machete.",
+    "weapon_category": [ "MEDIUM_SWORDS", "HAND_AXES" ],
+    "looks_like": "machete",
+    "copy-from": "machete"
+  },
+  {
     "id": "brush_axe",
     "type": "ITEM",
-    "name": { "str": "bill" },
-    "description": "A long, slightly curved and hooked steel blade on the end of a sturdy shaft.  Could be used to thoroughly ruin something's day, or cut branches and small trees.",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "bill axe" },
+    "material": [ "wood", "mc_steel" ],
+    "description": "The steel curved blade of a bill placed stoutly ontop an axe handle.  It still isn't long enough to use as a spear, but it'll still cleave your enemies.",
+    "looks_like": "ax",
+    "weight": "2100 g",
+    "volume": "1900 ml",
+    "longest_side": "80 cm",
+    "price": "25 USD",
+    "price_postapoc": "12 USD 50 cent",
+    "symbol": "P",
+    "color": "brown",
+    "qualities": [ [ "AXE", 2 ], [ "GRASS_CUT", 1 ], [ "CUT", 1 ], [ "BUTCHER", -70 ] ],
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "uneven" },
+    "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
+    "weapon_category": [ "GREAT_AXES" ],
+    "faults": [ { "fault_group": "handle_long", "weight_mult": 4 }, { "fault_group": "blade_general" } ],
+    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ],
+    "melee_damage": { "bash": 14, "cut": 26 }
+  },
+  {
+    "id": "brush_pole",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "bill pole" },
+    "description": "A long, slightly curved steel blade on the end of a sturdy shaft.  Could be used to thoroughly ruin something's day, or cut branches and small trees.",
     "weight": "2400 g",
     "volume": "2500 ml",
     "longest_side": "150 cm",
-    "price": "55 USD",
-    "price_postapoc": "2 USD 50 cent",
+    "price": "30 USD",
+    "price_postapoc": "24 USD",
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "uneven" },
     "material": [ "wood", "mc_steel" ],
     "symbol": "/",
@@ -323,30 +357,49 @@
     "looks_like": "glaive",
     "qualities": [ [ "AXE", 1 ], [ "GRASS_CUT", 1 ], [ "CUT", 1 ], [ "BUTCHER", -70 ] ],
     "techniques": [ "WBLOCK_1", "BRUTAL", "WIDE", "SWEEP" ],
-    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
-    "weapon_category": [ "HOOKING_WEAPONRY", "POLEARMS" ],
-    "melee_damage": { "bash": 20, "cut": 30 }
+    "faults": [ { "fault_group": "handle_long", "weight_mult": 4 }, { "fault_group": "blade_general" } ],
+    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
+    "weapon_category": [ "SPEARS" ],
+    "melee_damage": { "bash": 16, "cut": 28 }
+  },
+  {
+    "id": "bronze_brush_handaxe",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "bronze bill" },
+    "description": "The bronze curved blade of a bill placed stoutly atop an axe handle.  It still isn't long enough to use as a spear, but it'll still cleave your enemies.",
+    "looks_like": "brush_handaxe",
+    "copy-from": "brush_handaxe",
+    "material": [ "wood", "bronze" ],
+    "color": "yellow",
+    "melee_damage": { "bash": 6, "cut": 18 }
   },
   {
     "id": "bronze_brush_axe",
     "type": "ITEM",
-    "name": { "str": "bronze bill" },
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "bronze bill axe" },
+    "description": "A slightly curved bronze blade with a nice wooden handle, not too dissimilar to a machete.",
+    "looks_like": "brush_axe",
+    "copy-from": "brush_axe",
+    "material": [ "wood", "bronze" ],
+    "color": "yellow",
+    "melee_damage": { "bash": 14, "cut": 20 }
+  },
+  {
+    "id": "bronze_brush_pole",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "bronze bill pole" },
     "description": "A long, slightly curved and hooked bronze blade on the end of a sturdy shaft.  Could be used to thoroughly ruin something's day, or cut branches and small trees.",
     "weight": "3000 g",
-    "volume": "2500 ml",
-    "longest_side": "150 cm",
-    "price": "55 USD",
-    "price_postapoc": "2 USD 50 cent",
-    "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "uneven" },
+    "price": "25 USD",
+    "price_postapoc": "10 USD",
     "material": [ "wood", "bronze" ],
-    "symbol": "/",
     "color": "yellow",
     "looks_like": "brush_axe",
-    "qualities": [ [ "AXE", 1 ], [ "GRASS_CUT", 1 ], [ "CUT", 1 ], [ "BUTCHER", -70 ] ],
-    "techniques": [ "WBLOCK_1", "BRUTAL", "WIDE", "SWEEP" ],
-    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
-    "weapon_category": [ "HOOKING_WEAPONRY", "POLEARMS" ],
-    "melee_damage": { "bash": 20, "cut": 24 }
+    "copy-from": "brush_pole",
+    "melee_damage": { "bash": 16, "cut": 22 }
   },
   {
     "id": "trimmer_off",
@@ -375,10 +428,10 @@
           "effect": {
             "run_eocs": "EOC_toolweapon_activate",
             "variables": {
-              "turn_cost": "0.8",
+              "turn_cost": 0.8,
               "transform_target": "trimmer_on",
               "success_message": { "i18n": true, "str": "With a roar, the hedge trimmer leaps to life!" },
-              "volume": "15",
+              "volume": 15,
               "failure_message": { "i18n": true, "str": "You yank the cord, but nothing happens." }
             }
           },
@@ -387,7 +440,7 @@
       ]
     },
     "flags": [ "NONCONDUCTIVE" ],
-    "melee_damage": { "bash": 4, "cut": 8 },
+    "melee_damage": { "bash": 4, "cut": 5 },
     "tool_ammo": [ "gasoline" ]
   },
   {
@@ -400,17 +453,7 @@
     "power_draw": "500 W",
     "charges_per_use": 0,
     "revert_to": "trimmer_off",
-    "use_action": {
-      "type": "effect_on_conditions",
-      "ammo_scale": 0,
-      "menu_text": "Turn off",
-      "effect_on_conditions": [
-        {
-          "id": "EOC_toolweapon_deactivate__trimmer",
-          "effect": { "run_eocs": "EOC_toolweapon_deactivate", "variables": { "transform_target": "trimmer_off" } }
-        }
-      ]
-    },
+    "use_action": { "target": "trimmer_off", "msg": "Your %s goes quiet.", "menu_text": "Turn off", "type": "transform" },
     "tick_action": {
       "type": "effect_on_conditions",
       "effect_on_conditions": [
@@ -419,9 +462,9 @@
           "effect": {
             "run_eocs": "EOC_toolweapon_running",
             "variables": {
-              "sound_chance": "15",
+              "sound_chance": 15,
               "sound_message": { "i18n": true, "str": "Your hedge trimmer rumbles." },
-              "volume": "10",
+              "volume": 10,
               "revert_to": "trimmer_off"
             }
           }
@@ -429,7 +472,7 @@
       ]
     },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -60 ] ],
-    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ],
-    "melee_damage": { "bash": 4, "cut": 40 }
+    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "SPAWN_ACTIVE" ],
+    "melee_damage": { "bash": 4, "cut": 8 }
   }
 ]

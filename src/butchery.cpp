@@ -236,7 +236,7 @@ bool set_up_butchery( player_activity &act, Character &you, butchery_data bd )
     const mtype &corpse = *corpse_item.get_mtype();
 
     if( bd.b_type != butcher_type::DISSECT ) {
-        if( factor == 0 ) {
+        if( factor == INT_MIN ) {
             you.add_msg_if_player( m_info,
                                    _( "None of your cutting tools are suitable for butchering." ) );
             act.set_to_null();
@@ -389,23 +389,23 @@ int butcher_time_to_cut( Character &you, const item &corpse_item, const butcher_
     switch( corpse.size ) {
         // Time (roughly) in turns to cut up the corpse
         case creature_size::tiny:
-            time_to_cut = 150;
+            time_to_cut = 900;
             break;
         case creature_size::small:
-            time_to_cut = 300;
+            time_to_cut = 1800;
             break;
         case creature_size::medium:
-            time_to_cut = 450;
+            time_to_cut = 2700;
             break;
         case creature_size::large:
-            time_to_cut = 600;
+            time_to_cut = 3600;
             break;
         case creature_size::huge:
-            time_to_cut = 1800;
+            time_to_cut = 10800;
             break;
         default:
             debugmsg( "ERROR: Invalid creature_size on %s", corpse.nname() );
-            time_to_cut = 450; // default to medium
+            time_to_cut = 2700; // default to medium
             break;
     }
 
@@ -652,14 +652,6 @@ bool butchery_drops_harvest( butchery_data bt, Character &you )
                                    _( "You salvage what you can from the corpse, but it is badly damaged." ) );
         }
     }
-    if( corpse_item.has_flag( flag_UNDERFED ) ) {
-        monster_weight = std::round( 0.9 * monster_weight );
-        if( action != butcher_type::FIELD_DRESS && action != butcher_type::SKIN &&
-            action != butcher_type::DISSECT ) {
-            you.add_msg_if_player( m_bad,
-                                   _( "The corpse looks a little underweight�" ) );
-        }
-    }
     if( corpse_item.has_flag( flag_SKINNED ) ) {
         monster_weight = std::round( 0.85 * monster_weight );
     }
@@ -728,12 +720,10 @@ bool butchery_drops_harvest( butchery_data bt, Character &you )
                 entry.type == harvest_drop_bone ) ) {
             roll /= 2;
         }
-        if( corpse_item.has_flag( flag_UNDERFED ) && ( entry.type == harvest_drop_flesh ) ) {
-            roll /= 1.6;
-        }
 
-        if( corpse_item.has_flag( flag_SKINNED ) && entry.type == harvest_drop_skin ) {
-            roll = 0;
+        if( ( corpse_item.has_flag( flag_SKINNED ) || corpse_item.has_flag( flag_QUARTERED ) ) &&
+            entry.type == harvest_drop_skin ) {
+            continue;
         }
 
         const double butch_basic = you.get_proficiency_practice( proficiency_prof_butchering_basic );
@@ -823,14 +813,8 @@ bool butchery_drops_harvest( butchery_data bt, Character &you )
                 roll = rng( 0, roll );
             }
         }
-        // quartering ruins skin
         if( corpse_item.has_flag( flag_QUARTERED ) ) {
-            if( entry.type == harvest_drop_skin ) {
-                //not continue to show fail effect
-                roll = 0;
-            } else {
-                roll /= 4;
-            }
+            roll /= 4;
         }
 
         if( drop != nullptr ) {
@@ -872,12 +856,13 @@ bool butchery_drops_harvest( butchery_data bt, Character &you )
                     obj.remove_fault( flt );
                 }
 
-                // TODO: smarter NPC liquid handling
                 // If we're not bleeding the animal we don't care about the blood being wasted
-                if( you.is_npc() || action != butcher_type::BLEED ) {
-                    drop_on_map( you, item_drop_reason::deliberate, { obj }, &here, corpse_loc );
+                if( action != butcher_type::BLEED ) {
+                    if( !corpse_item.has_flag( flag_BLED ) ) {
+                        drop_on_map( you, item_drop_reason::deliberate, { obj }, &here, corpse_loc );
+                    }
                 } else {
-                    liquid_handler::handle_all_liquid( obj, 1 );
+                    liquid_handler::handle_all_or_npc_liquid( you, obj, 1 );
                 }
             } else if( drop->count_by_charges() ) {
                 std::vector<item> objs = create_charge_items( drop, roll, entry, &corpse_item, you );
@@ -912,7 +897,9 @@ bool butchery_drops_harvest( butchery_data bt, Character &you )
                     }
                 }
             }
-            you.add_msg_if_player( m_good, _( "You harvest: %s" ), drop->nname( roll ) );
+            if( drop->phase != phase_id::LIQUID || action == butcher_type::BLEED ) {
+                you.add_msg_if_player( m_good, _( "You harvest: %s" ), drop->nname( roll ) );
+            }
         }
         practice++;
     }
@@ -1049,6 +1036,8 @@ bool butchery_drops_harvest( butchery_data bt, Character &you )
 void butchery_quarter( item *corpse_item, const Character &you )
 {
     corpse_item->set_flag( flag_QUARTERED );
+    // Quartering destroys the skin, so mark it as skinned, even if it isn't.
+    corpse_item->set_flag( flag_SKINNED );
     you.add_msg_if_player( m_good,
                            _( "You roughly slice the corpse of %s into four parts and set them aside." ),
                            corpse_item->get_mtype()->nname() );
@@ -1176,7 +1165,7 @@ void destroy_the_carcass( const butchery_data &bd, Character &you )
     you.recoil = MAX_RECOIL;
 
     get_event_bus().send<event_type::character_butchered_corpse>( you.getID(),
-            corpse_item.get_mtype()->id, "ACT_" + io::enum_to_string<butcher_type>( bd.b_type ) );
+            corpse->id, "ACT_" + io::enum_to_string<butcher_type>( action ) );
 
 }
 

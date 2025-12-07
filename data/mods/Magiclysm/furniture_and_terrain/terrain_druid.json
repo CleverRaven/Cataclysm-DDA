@@ -32,7 +32,9 @@
       "sound": "crunch!",
       "sound_fail": "whump!",
       "ter_set": "t_heartwood_floor",
-      "items": [ { "item": "splinter", "count": [ 20, 25 ] } ]
+      "items": [ { "item": "splinter", "count": [ 20, 25 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -53,7 +55,9 @@
       "str_min": 200,
       "str_max": 600,
       "str_min_supported": 100,
-      "items": [ { "item": "splinter", "count": [ 20, 80 ] } ]
+      "items": [ { "item": "splinter", "count": [ 20, 80 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -75,7 +79,9 @@
       "sound": "crunch!",
       "sound_fail": "whump!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "splinter", "count": [ 2, 5 ] } ]
+      "items": [ { "item": "splinter", "count": [ 2, 5 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {

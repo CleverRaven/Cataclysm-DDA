@@ -146,6 +146,9 @@ struct iteminfo {
         /** info is ASCII art (prefer monospaced font) */
         bool bIsArt;
 
+        /** info is displayed as a table */
+        bool isTable;
+
         enum flags {
             no_flags = 0,
             is_decimal = 1 << 0, ///< Print as decimal rather than integer
@@ -155,6 +158,7 @@ struct iteminfo {
             no_name = 1 << 4, ///< Do not print the name
             show_plus = 1 << 5, ///< Use a + sign for positive values
             is_art = 1 << 6, ///< is ascii art (prefer monospaced font)
+            is_table = 1 << 7, ///< is displayed as table
         };
 
         /**
@@ -358,6 +362,7 @@ class item : public visitable
         /** Above, along with checks for power, browsed, use action */
         bool is_estorage_usable( const Character &who ) const;
         bool is_estorable() const;
+        bool is_estorable_exclusive() const;
         bool is_browsed() const;
         void set_browsed( bool browsed );
         /** @return if item can be copied as an e-file */
@@ -641,7 +646,7 @@ class item : public visitable
         int price_no_contents( bool practical, std::optional<int> price_override = std::nullopt ) const;
 
         /**
-         * Whether two items should stack when displayed in a inventory menu.
+         * Whether two items should stack when displayed in an inventory menu.
          * This is different from stacks_with, when two previously non-stackable
          * items are now stackable and mergeable because, for example, they
          * reaches the same temperature. This is necessary to avoid misleading
@@ -649,7 +654,7 @@ class item : public visitable
          */
         bool display_stacked_with( const item &rhs, bool check_components = false ) const;
         /**
-         * Check wether each element of tname::segments stacks, ie. wether the respective
+         * Check whether each element of tname::segments stacks, ie. whether the respective
          * pieces of information are considered equal for display purposes
          *
          * stacking_info is implicitly convertible to bool and will be true only if ALL segments stack
@@ -703,6 +708,7 @@ class item : public visitable
 
         units::length length() const;
         units::length barrel_length() const;
+        units::length sawn_off_reduction() const;
 
         /**
          * Simplified, faster volume check for when processing time is important and exact volume is not.
@@ -726,7 +732,7 @@ class item : public visitable
         /**
          * @name Melee
          *
-         * The functions here assume the item is used in melee, even if's a gun or not a weapon at
+         * The functions here assume the item is used in melee, even if it's a gun or not a weapon at
          * all. Because the functions apply to all types of items, several of the is_* functions here
          * may return true for the same item. This only indicates that it can be used in various ways.
          */
@@ -879,6 +885,8 @@ class item : public visitable
         std::vector<item_pocket *> get_all_standard_pockets();
         std::vector<item_pocket *> get_all_ablative_pockets();
         std::vector<const item_pocket *> get_all_ablative_pockets() const;
+        std::vector<const item_pocket *> get_all_contained_and_mod_pockets() const;
+        std::vector<item_pocket *> get_all_contained_and_mod_pockets();
         /**
          * Updates the pockets of this item to be correct based on the mods that are installed.
          * Pockets which are modified that contain an item will be spilled
@@ -1059,6 +1067,13 @@ class item : public visitable
         bool count_by_charges() const;
 
         /**
+         * Compress liquids and counted-by-charges items into one item.
+         * They are added together on the map anyway and handle_liquid
+         * should only be called once to put it all into a container at once.
+         */
+        void compress_charges_or_liquid( int &compcount );
+
+        /**
          * If count_by_charges(), returns charges, otherwise 1
          */
         int count() const;
@@ -1199,15 +1214,17 @@ class item : public visitable
             rot += val;
         }
 
+        bool is_smokable() const;
+
         /** Time for this item to be fully fermented. */
         time_duration brewing_time() const;
         /** The results of fermenting this item. */
-        const std::map<itype_id, int> &brewing_results() const;
+        const std::map<std::pair<itype_id, std::string>, int> &brewing_results() const;
 
         /** Time for this item to be fully fermented. */
         time_duration composting_time() const;
         /** The results of fermenting this item. */
-        const std::map<itype_id, int> &composting_results() const;
+        const std::map<std::pair<itype_id, std::string>, int> &composting_results() const;
 
         /**
          * Detonates the item and adds remains (if any) to drops.
@@ -1399,6 +1416,12 @@ class item : public visitable
 
         /** @see itype::damage_level(). */
         int damage_level( bool precise = false ) const;
+
+        /** Whether activation of an item should be successful based on it's damage level and chance
+        * Note that it does not perform any activation: that's up to the caller. Also, it's based
+        * on damage only, without any considerations for faults.
+        */
+        bool activation_success() const;
 
         /** Modifiy melee weapon damage to account for item's damage. */
         float damage_adjusted_melee_weapon_damage( float value, const damage_type_id &dt ) const;
@@ -1759,9 +1782,9 @@ class item : public visitable
          * @param nested whether or not the current call is nested (used recursively).
          * @param ignore_pkt_settings whether to ignore pocket autoinsert settings
          * @param ignore_non_container_pocket ignore magazine pockets, such as weapon magazines
-         * @param remaining_parent_volume the ammount of space in the parent pocket,
+         * @param remaining_parent_volume the amount of space in the parent pocket,
          * @param allow_nested whether nested pockets should be checked
-         * needed to make sure we dont try to nest items which can't fit in the nested pockets
+         * needed to make sure we don't try to nest items which can't fit in the nested pockets
          */
         /*@{*/
         ret_val<void> can_contain( const item &it, bool nested = false,
@@ -1789,7 +1812,7 @@ class item : public visitable
          * Return an item_location and a pointer to the best pocket that can contain the item @it.
          * if param allow_nested=true, Check all items contained in every pocket of CONTAINER pocket type,
          * otherwise, only check this item's pockets.
-         * @param it the item that function wil find the best pocket that can contain it
+         * @param it the item that function will find the best pocket that can contain it
          * @param this_loc location of it
          * @param avoid item that will be avoided in recursive lookup item pocket
          * @param allow_sealed allow use sealed pocket
@@ -1808,7 +1831,7 @@ class item : public visitable
 
         /**
          * Is it ever possible to reload this item?
-         * ALso checks for reloading installed gunmods
+         * Also checks for reloading installed gunmods
          * @see player::can_reload()
          */
         bool is_reloadable() const;
@@ -1928,9 +1951,9 @@ class item : public visitable
          * Callback when a player starts wielding the item. The item is already in the weapon
          * slot and is called from there.
          * @param p player that has started wielding item
-         * @param mv number of moves *already* spent wielding the weapon
+         * @param combat wielding for combat purposes
          */
-        void on_wield( Character &you );
+        void on_wield( Character &you, bool combat = true );
         /**
          * Callback when a player starts carrying the item. The item is already in the inventory
          * and is called from there. This is not called when the item is added to the inventory
@@ -1942,6 +1965,7 @@ class item : public visitable
          */
         void on_contents_changed();
 
+        bool can_use_relic( const Character &guy ) const;
         bool use_relic( Character &guy, const tripoint_bub_ms &pos );
         bool has_relic_recharge() const;
         bool has_relic_activation() const;
@@ -2151,11 +2175,6 @@ class item : public visitable
          * Whether this is actually a seed, the seed functions won't be of much use for non-seeds.
          */
         bool is_seed() const;
-        /**
-         * Time it takes to grow from one stage to another. There are normally 4 plant stages:
-         * seed, seedling, mature and harvest. Non-seed items return 0.
-         */
-        time_duration get_plant_epoch( int num_epochs = 3 ) const;
         /**
          * The name of the plant as it appears in the various informational menus. This should be
          * translated. Returns an empty string for non-seed items.
@@ -3217,6 +3236,8 @@ class item : public visitable
         void update_prefix_suffix_flags();
         void update_prefix_suffix_flags( const flag_id &flag );
 
+        void inherit_rot_from_components( item &it );
+
     public:
         enum class sizing : int {
             human_sized_human_char = 0,
@@ -3405,6 +3426,10 @@ class item : public visitable
     public:
         char invlet = 0;      // Inventory letter
         bool active = false; // If true, it has active effects to be processed
+        // for item cache
+        bool is_active() const {
+            return active;
+        }
         bool is_favorite = false;
 
         void set_favorite( bool favorite );

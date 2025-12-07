@@ -78,7 +78,7 @@ struct npc_boarding_test_data {
 // TODO: Support mounts
 struct bash_test_loadout {
     int strength;
-    int expected_smash_ability;
+    std::map<damage_type_id, int> expected_smash_ability;
     std::vector<itype_id> worn;
     std::optional<itype_id> wielded;
 
@@ -89,8 +89,8 @@ struct bash_test_loadout {
 struct single_bash_test {
     std::string id;
     bash_test_loadout loadout;
-    std::map<furn_id, std::pair<int, int>> furn_tries;
-    std::map<ter_id, std::pair<int, int>> ter_tries;
+    std::map<furn_id, int> furn_tries;
+    std::map<ter_id, int> ter_tries;
 
     void deserialize( const JsonObject &jo );
 };
@@ -119,6 +119,7 @@ class test_data
         // TODO: remove when all known bad items got fixed
         static std::set<itype_id> known_bad;
         static std::set<itype_id> known_bad_calorie;
+        static std::set<itype_id> known_bad_uncraft;
         static std::vector<pulp_test_data> pulp_test;
         static std::vector<std::regex> overmap_terrain_coverage_whitelist;
         static std::map<vproto_id, std::vector<double>> drag_data;

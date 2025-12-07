@@ -79,19 +79,9 @@
     "crafting_pseudo_item": "fake_fireplace",
     "flags": [ "PLACE_ITEM", "TRANSPARENT", "FIRE_CONTAINER", "EASY_DECONSTRUCT" ],
     "deployed_item": "brazier",
-    "deconstruct": { "items": [ { "item": "brazier", "count": 1 } ] },
+    "item": "brazier",
     "examine_action": "fireplace",
-    "bash": {
-      "str_min": 8,
-      "str_max": 30,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "items": [
-        { "item": "scrap", "count": [ 5, 15 ] },
-        { "item": "lc_steel_chunk", "count": [ 2, 6 ] },
-        { "item": "sheet_metal_small", "count": [ 2, 6 ] }
-      ]
-    }
+    "bash": { "str_min": 8, "str_max": 30, "sound": "metal screeching!", "sound_fail": "clang!" }
   },
   {
     "type": "furniture",
@@ -108,19 +98,9 @@
     "crafting_pseudo_item": "fake_fireplace",
     "flags": [ "PLACE_ITEM", "TRANSPARENT", "FIRE_CONTAINER", "EASY_DECONSTRUCT" ],
     "deployed_item": "makeshift_brazier",
-    "deconstruct": { "items": [ { "item": "makeshift_brazier", "count": 1 } ] },
+    "item": "makeshift_brazier",
     "examine_action": "fireplace",
-    "bash": {
-      "str_min": 8,
-      "str_max": 30,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "items": [
-        { "item": "scrap", "count": [ 3, 6 ] },
-        { "item": "lc_steel_chunk", "count": [ 1, 3 ] },
-        { "item": "sheet_metal_small", "count": [ 1, 3 ] }
-      ]
-    }
+    "bash": { "str_min": 8, "str_max": 30, "sound": "metal screeching!", "sound_fail": "clang!" }
   },
   {
     "type": "furniture",
@@ -134,20 +114,10 @@
     "required_str": 4,
     "flags": [ "PLACE_ITEM", "TRANSPARENT", "FIRE_CONTAINER", "EASY_DECONSTRUCT" ],
     "deployed_item": "hobo_stove",
-    "deconstruct": { "items": [ { "item": "hobo_stove", "count": 1 } ] },
+    "item": "hobo_stove",
     "examine_action": "fireplace",
     "max_volume": "680 ml",
-    "bash": {
-      "str_min": 8,
-      "str_max": 30,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "items": [
-        { "item": "scrap", "count": [ 2, 4 ] },
-        { "item": "lc_steel_chunk", "count": [ 1, 2 ] },
-        { "item": "sheet_metal_small", "count": [ 1, 2 ] }
-      ]
-    }
+    "bash": { "str_min": 8, "str_max": 30, "sound": "metal screeching!", "sound_fail": "clang!" }
   },
   {
     "type": "furniture",
@@ -187,19 +157,9 @@
     "required_str": 8,
     "flags": [ "PLACE_ITEM", "TRANSPARENT", "FIRE_CONTAINER", "EASY_DECONSTRUCT" ],
     "deployed_item": "55gal_firebarrel",
-    "deconstruct": { "items": [ { "item": "55gal_firebarrel", "count": 1 } ] },
+    "item": "55gal_firebarrel",
     "examine_action": "fireplace",
-    "bash": {
-      "str_min": 8,
-      "str_max": 30,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "items": [
-        { "item": "scrap", "count": [ 8, 20 ] },
-        { "item": "sheet_metal_small", "count": [ 3, 10 ] },
-        { "item": "sheet_metal", "count": [ 0, 1 ] }
-      ]
-    }
+    "bash": { "str_min": 8, "str_max": 30, "sound": "metal screeching!", "sound_fail": "clang!" }
   },
   {
     "type": "furniture",
@@ -214,15 +174,9 @@
     "required_str": 8,
     "flags": [ "PLACE_ITEM", "TRANSPARENT", "FIRE_CONTAINER", "EASY_DECONSTRUCT" ],
     "deployed_item": "30gal_firebarrel",
-    "deconstruct": { "items": [ { "item": "30gal_firebarrel", "count": 1 } ] },
+    "item": "30gal_firebarrel",
     "examine_action": "fireplace",
-    "bash": {
-      "str_min": 8,
-      "str_max": 30,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "items": [ { "item": "scrap", "count": [ 5, 15 ] }, { "item": "sheet_metal_small", "count": [ 1, 9 ] } ]
-    }
+    "bash": { "str_min": 8, "str_max": 30, "sound": "metal screeching!", "sound_fail": "clang!" }
   },
   {
     "id": "f_firering",

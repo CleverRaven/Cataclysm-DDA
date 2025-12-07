@@ -51,7 +51,7 @@
   },
   {
     "id": "plasma_gun",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "reload_noise_volume": 10,
@@ -89,7 +89,7 @@
   },
   {
     "id": "plasma_rifle",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "reload_noise_volume": 10,
@@ -207,7 +207,7 @@
       {
         "id": "a180mag1",
         "name": { "str": "American-180 polymer 165-round magazine" },
-        "description": "An unusually-shaped, polymer pan magazine for the American-180."
+        "description": "An unusually-shaped polymer pan magazine for the American-180."
       }
     ],
     "weight": "779 g",
@@ -393,7 +393,7 @@
   },
   {
     "id": "ksg-25",
-    "copy-from": "shotgun_pump",
+    "copy-from": "gun_base_shotgun_manual",
     "looks_like": "remington_870",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
@@ -465,7 +465,7 @@
   },
   {
     "id": "colt_lightning",
-    "copy-from": "rifle_manual",
+    "copy-from": "gun_base_rifle_manual",
     "looks_like": "modular_ar15",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
@@ -524,7 +524,7 @@
   },
   {
     "id": "af2011a1_38super",
-    "copy-from": "pistol_base",
+    "copy-from": "gun_base_handgun_semi",
     "looks_like": "glock_17",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
@@ -1130,7 +1130,7 @@
   },
   {
     "id": "saiga_410",
-    "copy-from": "shotgun_base",
+    "copy-from": "gun_base_shotgun_semi",
     "looks_like": "remington_870",
     "type": "ITEM",
     "subtypes": [ "GUN" ],

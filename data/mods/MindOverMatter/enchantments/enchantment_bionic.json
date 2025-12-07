@@ -16,5 +16,17 @@
         "descriptions": [ { "id": "moving_creature", "symbol": "?", "color": "c_white", "text": "You sense a hostile target here." } ]
       }
     ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ench_bio_physical_buffs",
+    "has": "WORN",
+    "condition": "ACTIVE",
+    "values": [
+      { "value": "STRENGTH", "add": 4 },
+      { "value": "DEXTERITY", "add": 4 },
+      { "value": "BONUS_DODGE", "add": 1 },
+      { "value": "SPEED", "add": 10 }
+    ]
   }
 ]

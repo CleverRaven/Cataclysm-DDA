@@ -28,6 +28,7 @@
 #include "global_vars.h"
 #include "item.h"
 #include "item_pocket.h"
+#include "item_transformation.h"
 #include "iuse.h" // use_function
 #include "mapdata.h"
 #include "proficiency.h"
@@ -255,7 +256,7 @@ struct islot_comestible {
 
 struct islot_brewable {
     /** What are the results of fermenting this item? */
-    std::map<itype_id, int> results;
+    std::map<std::pair<itype_id, std::string>, int> results;
 
     /** How long for this brew to ferment. */
     time_duration time = 0_turns;
@@ -266,7 +267,7 @@ struct islot_brewable {
 
 struct islot_compostable {
     /** What are the results of fermenting this item? */
-    std::map<itype_id, int> results;
+    std::map<std::pair<itype_id, std::string>, int> results;
 
     /** How long for this compost to ferment. */
     time_duration time = 0_turns;
@@ -392,7 +393,7 @@ struct armor_portion_data {
     // if this item only conflicts with rigid items that share a direct layer with it
     bool rigid_layer_only = false;
 
-    // if this item is comfortable to wear without other items bellow it
+    // if this item is comfortable to wear without other items below it
     bool comfortable = false; // NOLINT(cata-serialize)
 
     /**
@@ -724,6 +725,11 @@ struct itype_variant_data {
 
     int weight = 1;
 
+    // this is only needed for delete in generic_factory, so only compares id!
+    // Not safe for general use!
+    bool operator==( const itype_variant_data &rhs ) const {
+        return id == rhs.id;
+    }
     void deserialize( const JsonObject &jo );
     void load( const JsonObject &jo );
 };
@@ -975,6 +981,11 @@ struct islot_gunmod : common_ranged_data {
     // wheter the item is supposed to work as a bayonet when attached
     bool is_bayonet = false;
 
+    /** if the item is visible and selectable in the inventory menu
+    used by mounted flashlights and similar
+    */
+    bool is_visible_when_installed = false;
+
     /** Not compatible on weapons that have this mod slot */
     std::set<gunmod_location> blacklist_slot;
 
@@ -1156,51 +1167,45 @@ struct islot_bionic {
 };
 
 struct islot_seed {
-    // Generic factory stuff
-    bool was_loaded = false;
-    void deserialize( const JsonObject &jo );
+        // Generic factory stuff
+        bool was_loaded = false;
+        void deserialize( const JsonObject &jo );
 
-    /**
-     * Time it takes for a seed to grow (based of off a season length of 91 days).
-     */
-    time_duration grow = 0_turns;
-    /**
-     * Amount of harvested charges of fruits is divided by this number.
-     */
-    int fruit_div = 1;
-    /**
-     * Name of the plant.
-     */
-    translation plant_name;
-    /**
-     * What the plant sprouts into. Defaults to f_plant_seedling.
-     */
-    furn_str_id seedling_form; // NOLINT(cata-serialize)
-    /**
-     * What the plant grows into. Defaults to f_plant_mature.
-     */
-    furn_str_id mature_form; // NOLINT(cata-serialize)
-    /**
-     * The plant's final growth stage. Defaults to f_plant_harvest.
-     */
-    furn_str_id harvestable_form; // NOLINT(cata-serialize)
-    /**
-     * Type id of the fruit item.
-     */
-    itype_id fruit_id;
-    /**
-     * Whether to spawn seed items additionally to the fruit items.
-     */
-    bool spawn_seeds = true;
-    /**
-     * Additionally items (a list of their item ids) that will spawn when harvesting the plant.
-     */
-    std::vector<itype_id> byproducts;
-    /**
-     * Terrain tag required to plant the seed.
-     */
-    ter_furn_flag required_terrain_flag = ter_furn_flag::TFLAG_PLANTABLE;
-    islot_seed() = default;
+        /**
+         * Amount of harvested charges of fruits is divided by this number.
+         */
+        int fruit_div = 1;
+        /**
+         * Name of the plant.
+         */
+        translation plant_name;
+        /**
+         * Type id of the fruit item.
+         */
+        itype_id fruit_id;
+        /**
+         * Whether to spawn seed items additionally to the fruit items.
+         */
+        bool spawn_seeds = true;
+        /**
+         * Additionally items (a list of their item ids) that will spawn when harvesting the plant.
+         */
+        std::vector<itype_id> byproducts;
+        /**
+         * Terrain tag required to plant the seed.
+         */
+        ter_furn_flag required_terrain_flag = ter_furn_flag::TFLAG_PLANTABLE;
+        islot_seed() = default;
+
+        const std::vector<std::pair<flag_id, time_duration>> &get_growth_stages() const;
+        units::temperature get_growth_temp() const;
+    private:
+        /**
+        * What stages of growth does this plant have? How long does each stage of growth last?
+        */
+        std::vector<std::pair<flag_id, time_duration>> growth_stages;
+        // Temperature needs to be at or above this temp for the plant to be planted/grow.
+        units::temperature growth_temp;
 };
 
 enum condition_type {
@@ -1480,10 +1485,10 @@ struct itype {
         time_duration countdown_interval = 0_seconds;
 
         /**
-        * If set the item will revert to this after countdown. If not set the item is deleted.
+        * If set the item will transform to this after countdown. If not set the item is deleted.
         * Tools revert to this when they run out of charges
         */
-        std::optional<itype_id> revert_to;
+        std::optional<item_transformation> transform_into;
 
         /**
         * Space occupied by items of this type
@@ -1527,9 +1532,9 @@ struct itype {
         nc_color color = c_white; // Color on the map (color.h)
 
         /**
-        * How much insulation this item provides, either as a container, or as
-        * a vehicle base part.  Larger means more insulation, less than 1 but
-        * greater than zero, transfers faster, cannot be less than zero.
+        * How much insulation this item provides, as a vehicle base part.
+        * Larger means more insulation, less than 1 but greater than zero,
+        * transfers faster, cannot be less than zero.
         */
         float insulation_factor = 1.0f;
 
@@ -1635,6 +1640,9 @@ struct itype {
 
         bool can_use( const std::string &iuse_name ) const;
         const use_function *get_use( const std::string &iuse_name ) const;
+        // can use/get_use, but for tick actions
+        bool has_tick( const std::string &iuse_name ) const;
+        const use_function *get_tick( const std::string &iuse_name ) const;
 
         // Here "invoke" means "actively use". "Tick" means "active item working"
         // TODO: Replace usage of map less overload.

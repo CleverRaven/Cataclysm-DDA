@@ -74,7 +74,7 @@
       "X": [
         { "item": "gear_homeless", "chance": 60 },
         { "item": "contraband", "chance": 20, "repeat": [ 1, 2 ] },
-        { "item": "SUS_trash_trashcan", "chance": 20 }
+        { "item": "SUS_trash_floor_light", "chance": 20 }
       ],
       "Y": { "item": "unisex_coat_rack", "chance": 35, "repeat": [ 1, 4 ] },
       "l": { "item": "SUS_janitors_closet", "chance": 80 },

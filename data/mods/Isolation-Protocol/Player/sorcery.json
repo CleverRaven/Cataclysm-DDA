@@ -81,20 +81,12 @@
     "type": "effect_on_condition",
     "id": "EOC_ISO_ELDRITCH_STUN_BLIND_DEAF",
     "effect": [
-      { "math": [ "u_iso_spell_lower_duration = ((u_spell_level('iso_eldritch_stun_blind_deaf') * 1.50) + 3.00)" ] },
-      { "math": [ "u_iso_spell_upper_duration = ((u_spell_level('iso_eldritch_stun_blind_deaf') * 3.75) + 9.00)" ] },
-      {
-        "u_add_effect": "blind",
-        "duration": { "math": [ "rng(u_iso_spell_lower_duration,u_iso_spell_upper_duration)" ] }
-      },
-      {
-        "u_add_effect": "deaf",
-        "duration": { "math": [ "rng(u_iso_spell_lower_duration,u_iso_spell_upper_duration)" ] }
-      },
-      {
-        "u_add_effect": "stunned",
-        "duration": { "math": [ "rng(u_iso_spell_lower_duration,u_iso_spell_upper_duration)" ] }
-      }
+      { "math": [ "_buff_duration_lower = ((u_spell_level('iso_eldritch_stun_blind_deaf') * 1.50) + 3.00)" ] },
+      { "math": [ "_buff_duration_upper = ((u_spell_level('iso_eldritch_stun_blind_deaf') * 3.75) + 9.00)" ] },
+      { "math": [ "_buff_duration = rng(_buff_duration_lower, _buff_duration_upper)" ] },
+      { "u_add_effect": "blind", "duration": { "math": [ "_buff_duration" ] } },
+      { "u_add_effect": "deaf", "duration": { "math": [ "_buff_duration" ] } },
+      { "u_add_effect": "stunned", "duration": { "math": [ "_buff_duration" ] } }
     ]
   },
   {
@@ -184,6 +176,32 @@
     "field_chance": 1
   },
   {
+    "id": "iso_eldritch_cold_damage_over_time",
+    "type": "SPELL",
+    "name": "Ebon Bands of Ynthyr",
+    "description": "Bind a single target in bands of shadow, causing cold damage over time.",
+    "valid_targets": [ "hostile", "ground" ],
+    "flags": [ "EVOCATION_SPELL", "RANDOM_DAMAGE", "RANDOM_DURATION", "VERBAL", "SOMATIC", "NO_LEGS", "LOUD" ],
+    "spell_class": "iso_eldritch_sorcery",
+    "magic_type": "iso_eldritch_sorcery",
+    "difficulty": 2,
+    "max_level": 30,
+    "effect": "attack",
+    "shape": "blast",
+    "damage_type": "cold",
+    "min_damage": { "math": [ "(u_spell_level('iso_eldritch_cold_damage_over_time') * 0.6) + 4" ] },
+    "max_damage": { "math": [ "(u_spell_level('iso_eldritch_cold_damage_over_time') * 1.1) + 9" ] },
+    "min_dot": { "math": [ "(u_spell_level('iso_eldritch_cold_damage_over_time') * 0.03) + 0.3" ] },
+    "max_dot": { "math": [ "(u_spell_level('iso_eldritch_cold_damage_over_time') * 0.06) + 0.8" ] },
+    "min_duration": { "math": [ "(u_spell_level('iso_eldritch_cold_damage_over_time') * 150) + 1000" ] },
+    "max_duration": { "math": [ "(u_spell_level('iso_eldritch_cold_damage_over_time') * 250) + 2500" ] },
+    "min_range": 6,
+    "range_increment": 0.5,
+    "max_range": 30,
+    "base_energy_cost": 100,
+    "base_casting_time": 75
+  },
+  {
     "id": "iso_eldritch_cold_damage_blast",
     "type": "SPELL",
     "name": "The Frozen Heart of R'shothai",
@@ -211,6 +229,92 @@
     "base_energy_cost": 450,
     "base_casting_time": 250,
     "ignored_monster_species": [ "NETHER" ]
+  },
+  {
+    "id": "iso_eldritch_summon_shadows",
+    "type": "SPELL",
+    "name": "Talons of the Black Hand",
+    "description": "Reach out to nearby shadows and infuse them with a sliver of the Outer Dark, bringing them to a mockery of life.  They will clutch and grasp at your enemies, devouring their warmth.",
+    "valid_targets": [ "hostile", "ground" ],
+    "flags": [ "CONJURATION_SPELL", "VERBAL", "SOMATIC", "NO_LEGS", "SILENT", "NO_PROJECTILE" ],
+    "spell_class": "iso_eldritch_sorcery",
+    "magic_type": "iso_eldritch_sorcery",
+    "difficulty": 4,
+    "max_level": 30,
+    "effect": "summon",
+    "effect_str": "mon_shadow",
+    "shape": "blast",
+    "min_damage": 3,
+    "max_damage": 10,
+    "damage_increment": 0.25,
+    "min_range": 8,
+    "range_increment": 0.25,
+    "min_duration": 9000,
+    "max_duration": 36000,
+    "duration_increment": 900,
+    "max_range": 25,
+    "min_aoe": 2,
+    "max_aoe": 2,
+    "base_energy_cost": 300,
+    "base_casting_time": 150
+  },
+  {
+    "id": "iso_eldritch_invisibile_and_intangible",
+    "type": "SPELL",
+    "name": "The Umbral Transfiguration",
+    "description": "Turn yourself into a living shadow, becoming intangible and imperceptible, allowing you slip past enemies with ease.  However, you cannot cast it in areas of bright light.",
+    "valid_targets": [ "self" ],
+    "flags": [ "TRANSFORMATION_SPELL", "VERBAL", "SOMATIC", "NO_LEGS" ],
+    "spell_class": "iso_eldritch_sorcery",
+    "magic_type": "iso_eldritch_sorcery",
+    "condition": { "math": [ "u_val('fine_detail_vision_mod') >= 3" ] },
+    "difficulty": 5,
+    "max_level": 30,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_ISO_ELDRITCH_INVISIBLE_AND_INTANGIBLE",
+    "shape": "blast",
+    "min_duration": { "math": [ "(u_spell_level('iso_eldritch_invisibile_and_intangible') * 911) + 2851" ] },
+    "max_duration": { "math": [ "(u_spell_level('iso_eldritch_invisibile_and_intangible') * 2153) + 8435" ] },
+    "base_energy_cost": { "math": [ "u_effect_intensity('effect_iso_eldritch_invisibile_and_intangible') > -1 ? 0 : 450" ] },
+    "base_casting_time": { "math": [ "u_effect_intensity('effect_iso_eldritch_invisibile_and_intangible') > -1 ? 10 : 500" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ISO_ELDRITCH_INVISIBLE_AND_INTANGIBLE",
+    "condition": { "not": { "u_has_effect": "effect_iso_eldritch_invisibile_and_intangible" } },
+    "effect": [
+      { "math": [ "_buff_duration_lower = ( (u_spell_level('iso_eldritch_invisibile_and_intangible') * 9.11) + 28.51 )" ] },
+      {
+        "math": [ "_buff_duration_upper = ( (u_spell_level('iso_eldritch_invisibile_and_intangible') * 21.53) + 84.35 )" ]
+      },
+      { "math": [ "_buff_duration = rng(_buff_duration_lower, _buff_duration_upper)" ] },
+      { "u_message": "Duration is <context_val:buff_duration>.", "type": "debug" },
+      {
+        "u_add_effect": "effect_iso_eldritch_invisibile_and_intangible",
+        "duration": { "math": [ "_buff_duration" ] }
+      },
+      { "u_add_effect": "incorporeal", "duration": { "math": [ "_buff_duration" ] } }
+    ],
+    "false_effect": [ { "u_lose_effect": "incorporeal" }, { "u_lose_effect": "effect_iso_eldritch_invisibile_and_intangible" } ]
+  },
+  {
+    "id": "iso_eldritch_cure_poison_disease_gas",
+    "type": "SPELL",
+    "name": "To Walk Amidst the Fens",
+    "description": "Suffuse your body with the powers of decay, rot, and putrescent, rendering you immune to poisons, diseases, and toxin fumes of all kinds.  The enchantment will also make your flesh unpalatable to any wild creatures, should you find any.",
+    "valid_targets": [ "self" ],
+    "flags": [ "ENHANCEMENT_SPELL", "RANDOM_DURATION", "VERBAL", "SOMATIC", "NO_LEGS" ],
+    "spell_class": "iso_eldritch_sorcery",
+    "magic_type": "iso_eldritch_sorcery",
+    "difficulty": 4,
+    "max_level": 30,
+    "effect": "attack",
+    "effect_str": "effect_iso_eldritch_cure_poison_disease_gas",
+    "shape": "blast",
+    "min_duration": { "math": [ "(u_spell_level('iso_eldritch_cure_poison_disease_gas') * 1185) + 1532" ] },
+    "max_duration": { "math": [ "(u_spell_level('iso_eldritch_cure_poison_disease_gas') * 2218) + 3420" ] },
+    "base_energy_cost": 250,
+    "base_casting_time": 200
   },
   {
     "id": "iso_eldritch_blink",
@@ -317,5 +421,114 @@
     "max_duration": { "math": [ "(u_spell_level('iso_eldritch_basic_attack') * 150) + 1200" ] },
     "base_energy_cost": 750,
     "base_casting_time": 75
+  },
+  {
+    "id": "iso_eldritch_mass_aoe_zombie_destruction",
+    "type": "SPELL",
+    "name": "The Most Excellent Obliteration of Blasphemies",
+    "description": "Concentrate the full force of reality on all creatures of the Outside, including Nether monsters, zombies, and all of their ilk, crushing them beneath its weight.\n\nThis spell is channeled--after the initial effect, as long as you do not move, attack, or cast another spell, every 5 seconds it will increase in area of effect and damage.",
+    "valid_targets": [ "hostile", "ground" ],
+    "flags": [
+      "CHANNELING_SPELL",
+      "RANDOM_DAMAGE",
+      "RANDOM_DURATION",
+      "IGNORE_WALLS",
+      "SPLIT_DAMAGE",
+      "VERBAL",
+      "SOMATIC",
+      "NO_LEGS"
+    ],
+    "spell_class": "iso_eldritch_sorcery",
+    "magic_type": "iso_eldritch_sorcery",
+    "difficulty": 15,
+    "max_level": 30,
+    "effect": "attack",
+    "shape": "blast",
+    "damage_type": "pure",
+    "extra_effects": [
+      { "id": "iso_eldritch_mass_aoe_zombie_destruction_buff", "hit_self": true },
+      { "id": "iso_eldritch_mass_aoe_zombie_destruction_prevent_buff_removal", "hit_self": true }
+    ],
+    "min_damage": { "math": [ "(u_spell_level('iso_eldritch_mass_aoe_zombie_destruction') * 3) + 25" ] },
+    "max_damage": { "math": [ "(u_spell_level('iso_eldritch_mass_aoe_zombie_destruction') * 6) + 75" ] },
+    "min_aoe": 3,
+    "max_aoe": 3,
+    "base_energy_cost": 1500,
+    "base_casting_time": 500,
+    "targeted_monster_species": [ "NETHER", "MUTANT", "ZOMBIE", "FERAL" ]
+  },
+  {
+    "id": "iso_eldritch_mass_aoe_zombie_destruction_buff",
+    "type": "SPELL",
+    "name": { "str": "The Most Excellent Obliteration of Blasphemies Buff", "//~": "NO_I18N" },
+    "description": {
+      "str": "Buff for intermittent casting from The Most Excellent Obliteration of Blasphemies.  You shouldn't see this.",
+      "//~": "NO_I18N"
+    },
+    "valid_targets": [ "self" ],
+    "flags": [ "VERBAL", "SOMATIC", "NO_LEGS" ],
+    "spell_class": "iso_eldritch_sorcery",
+    "magic_type": "iso_eldritch_sorcery",
+    "difficulty": 15,
+    "max_level": 30,
+    "effect": "attack",
+    "effect_str": "effect_iso_eldritch_mass_aoe_zombie_destruction",
+    "shape": "blast",
+    "min_duration": { "math": [ "(u_spell_level('iso_eldritch_mass_aoe_zombie_destruction') * 125) + 1500" ] },
+    "max_duration": { "math": [ "(u_spell_level('iso_eldritch_mass_aoe_zombie_destruction') * 125) + 1500" ] }
+  },
+  {
+    "id": "iso_eldritch_mass_aoe_zombie_destruction_prevent_buff_removal",
+    "type": "SPELL",
+    "name": { "str": "The Most Excellent Obliteration of Blasphemies Preven Buff Removal", "//~": "NO_I18N" },
+    "description": {
+      "str": "spellcasting_finish EoCs trigger *after* effects are applied, meaning iso_eldritch_mass_aoe_zombie_destruction_buff is instantly removed as soon as it's applied.  This stops that from happening.",
+      "//~": "NO_I18N"
+    },
+    "valid_targets": [ "self" ],
+    "flags": [ "VERBAL", "SOMATIC", "NO_LEGS" ],
+    "spell_class": "iso_eldritch_sorcery",
+    "magic_type": "iso_eldritch_sorcery",
+    "difficulty": 15,
+    "max_level": 30,
+    "effect": "attack",
+    "effect_str": "effect_iso_eldritch_mass_aoe_zombie_destruction_preventer",
+    "shape": "blast",
+    "min_duration": 1,
+    "max_duration": 1
+  },
+  {
+    "id": "iso_eldritch_mass_aoe_zombie_destruction_secondary",
+    "type": "SPELL",
+    "name": { "str": "The Most Excellent Obliteration of Blasphemies Continuing Damage", "//~": "NO_I18N" },
+    "description": {
+      "str": "The extra pulses from The Most Excellent Obliteration of Blasphemies.  You shouldn't see this.",
+      "//~": "NO_I18N"
+    },
+    "valid_targets": [ "hostile", "ground" ],
+    "flags": [ "EVOCATION_SPELL", "RANDOM_DAMAGE", "IGNORE_WALLS", "SPLIT_DAMAGE", "VERBAL", "SOMATIC", "NO_LEGS" ],
+    "spell_class": "iso_eldritch_sorcery",
+    "magic_type": "iso_eldritch_sorcery",
+    "difficulty": 15,
+    "max_level": 30,
+    "effect": "attack",
+    "shape": "blast",
+    "damage_type": "pure",
+    "min_damage": {
+      "math": [
+        "( (u_spell_level('iso_eldritch_mass_aoe_zombie_destruction') * 3) + 25) * (1 + ( u_effect_intensity('effect_iso_eldritch_mass_aoe_zombie_destruction') / 10) )"
+      ]
+    },
+    "max_damage": {
+      "math": [
+        "( (u_spell_level('iso_eldritch_mass_aoe_zombie_destruction') * 6) + 75) * (1 + ( u_effect_intensity('effect_iso_eldritch_mass_aoe_zombie_destruction') / 10) )"
+      ]
+    },
+    "min_aoe": {
+      "math": [
+        "3 + min( ( u_spell_level('iso_eldritch_mass_aoe_zombie_destruction') * 2 ), ( u_effect_intensity('effect_iso_eldritch_mass_aoe_zombie_destruction') ) )"
+      ]
+    },
+    "targeted_monster_species": [ "NETHER", "MUTANT", "ZOMBIE", "FERAL" ]
   }
 ]

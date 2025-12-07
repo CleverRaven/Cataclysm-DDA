@@ -171,7 +171,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "bow tie" },
     "description": "A simple black bow tie.  Best worn with a suit.",
-    "weight": "5 g",
+    "weight": "250 mg",
     "volume": "5 ml",
     "price": "10 USD",
     "price_postapoc": "10 cent",
@@ -199,7 +199,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "necktie" },
     "description": "An ordinary green necktie.  Knowing how to properly tie it takes some practice, but it's an important skill to learn.  Clip-ons are for children.",
-    "weight": "15 g",
+    "weight": "750 mg",
     "volume": "25 ml",
     "price": "10 USD",
     "price_postapoc": "10 cent",
@@ -354,7 +354,7 @@
     "variants": [
       {
         "id": "dog_tag_id",
-        "name": { "str": "dog tag" },
+        "//": "inherit name from item",
         "description": "They have inscribed:\n<family_name>\n<given_name_army>\n<number><number><number><number><number><number><number><number><number><number>\n<blood_type_caps>\n<religion_caps>",
         "expand_snippets": true,
         "append": true,

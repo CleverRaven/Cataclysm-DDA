@@ -51,35 +51,37 @@ enum class requirement_check_result : int {
     RETURN_EARLY       //another activity like a fetch activity has been started.
 };
 
+// asterick indicates the reason is tied to a valid activity
 enum class do_activity_reason : int {
-    CAN_DO_CONSTRUCTION,    // Can do construction.
-    CAN_DO_FETCH,           // Can do fetch - this is usually the default result for fetch task
+    CAN_DO_CONSTRUCTION,    //* Can do construction.
+    CAN_DO_FETCH,           //* Can do fetch - this is usually the default result for fetch task
     NO_COMPONENTS,          // can't do the activity there due to lack of components /tools
     DONT_HAVE_SKILL,        // don't have the required skill
     NO_ZONE,                // There is no required zone anymore
+    NO_VEHICLE,             // There is no vehicle or no accessible vehicle at this location
     ALREADY_DONE,           // the activity is done already ( maybe by someone else )
     UNKNOWN_ACTIVITY,       // This is probably an error - got to the end of function with no previous reason
-    NEEDS_CLEARING,         // For farming - tile was neglected and became overgrown, can be cleared.
-    NEEDS_HARVESTING,       // For farming - tile is harvestable now.
-    NEEDS_PLANTING,         // For farming - tile can be planted
-    NEEDS_TILLING,          // For farming - tile can be tilled
-    BLOCKING_TILE,           // Something has made it's way onto the tile, so the activity cannot proceed
-    NEEDS_BOOK_TO_LEARN,    // There is book to learn
-    NEEDS_CHOPPING,         // There is wood there to be chopped
-    NEEDS_TREE_CHOPPING,    // There is a tree there that needs to be chopped
-    NEEDS_BIG_BUTCHERING,   // There is at least one corpse there to butcher, and it's a big one
-    NEEDS_BUTCHERING,       // THere is at least one corpse there to butcher, and there's no need for additional tools
-    NEEDS_CUT_HARVESTING,   // There is a plant there which needs a grass-cutting tool to harvest
+    NEEDS_CLEARING,         //* For farming - tile was neglected and became overgrown, can be cleared.
+    NEEDS_HARVESTING,       //* For farming - tile is harvestable now.
+    NEEDS_PLANTING,         //* For farming - tile can be planted
+    NEEDS_TILLING,          //* For farming - tile can be tilled
+    BLOCKING_TILE,          // Something has made it's way onto the tile, so the activity cannot proceed
+    NEEDS_BOOK_TO_LEARN,    //* There is book to learn
+    NEEDS_CHOPPING,         //* There is wood there to be chopped
+    NEEDS_TREE_CHOPPING,    //* There is a tree there that needs to be chopped
+    NEEDS_BIG_BUTCHERING,   //* There is at least one corpse there to butcher, and it's a big one
+    NEEDS_BUTCHERING,       //* There is at least one corpse there to butcher, and there's no need for additional tools
+    NEEDS_CUT_HARVESTING,   //* There is a plant there which needs a grass-cutting tool to harvest
     ALREADY_WORKING,        // somebody is already working there
-    NEEDS_VEH_DECONST,       // There is a vehicle part there that we can deconstruct, given the right tools.
-    NEEDS_VEH_REPAIR,       // There is a vehicle part there that can be repaired, given the right tools.
+    NEEDS_VEH_DECONST,      //* There is a vehicle part there that we can deconstruct, given the right tools.
+    NEEDS_VEH_REPAIR,       //* There is a vehicle part there that can be repaired, given the right tools.
     WOULD_PREVENT_VEH_FLYING, // Attempting to perform this activity on a vehicle would prevent it from flying
-    NEEDS_MINING,           // This spot can be mined, if the right tool is present.
-    NEEDS_MOP,               // This spot can be mopped, if a mop is present.
-    NEEDS_FISHING,           // This spot can be fished, if the right tool is present.
-    NEEDS_CRAFT,             // There is at least one item to craft.
-    NEEDS_DISASSEMBLE,        // There is at least one item to disassemble.
-    REFUSES_THIS_WORK        // Character refuses to do this for some reason, maybe against their beliefs or needs danger prompt.
+    NEEDS_MINING,           //* This spot can be mined, if the right tool is present.
+    NEEDS_MOP,              //* This spot can be mopped, if a mop is present.
+    NEEDS_FISHING,          //* This spot can be fished, if the right tool is present.
+    NEEDS_CRAFT,            //* There is at least one item to craft.
+    NEEDS_DISASSEMBLE,      //* There is at least one item to disassemble.
+    REFUSES_THIS_WORK       // Character refuses to do this for some reason, maybe against their beliefs or needs danger prompt.
 
 };
 
@@ -90,6 +92,7 @@ const std::vector<std::string> do_activity_reason_string = {
     "NO_COMPONENTS",
     "DONT_HAVE_SKILL",
     "NO_ZONE",
+    "NO_VEHICLE",
     "ALREADY_DONE",
     "UNKNOWN_ACTIVITY",
     "NEEDS_CLEARING",
@@ -153,8 +156,8 @@ struct activity_reason_info {
 
 // activity_item_handling.cpp
 void activity_on_turn_drop();
-void activity_on_turn_move_loot( player_activity &act, Character &you );
-//return true if there is an activity that can be done potentially, return false if no work can be found.
+// return true if there is an activity that can be done potentially
+// return false if no work can be found or if we're routing to the activity's next destination
 bool generic_multi_activity_handler( player_activity &act, Character &you,
                                      bool check_only = false );
 void activity_on_turn_fetch( player_activity &, Character *you );
@@ -204,12 +207,9 @@ void fertilize_plot_do_turn( player_activity *act, Character *you );
 void fetch_do_turn( player_activity *act, Character *you );
 void fill_liquid_do_turn( player_activity *act, Character *you );
 void find_mount_do_turn( player_activity *act, Character *you );
-void fish_do_turn( player_activity *act, Character *you );
 void game_do_turn( player_activity *act, Character *you );
 void generic_game_do_turn( player_activity *act, Character *you );
 void hand_crank_do_turn( player_activity *act, Character *you );
-void jackhammer_do_turn( player_activity *act, Character *you );
-void move_loot_do_turn( player_activity *act, Character *you );
 void multiple_butcher_do_turn( player_activity *act, Character *you );
 void multiple_chop_planks_do_turn( player_activity *act, Character *you );
 void multiple_construction_do_turn( player_activity *act, Character *you );
@@ -218,10 +218,10 @@ void multiple_dis_do_turn( player_activity *act, Character *you );
 void multiple_farm_do_turn( player_activity *act, Character *you );
 void multiple_fish_do_turn( player_activity *act, Character *you );
 void multiple_read_do_turn( player_activity *act, Character *you );
+void multiple_study_do_turn( player_activity *act, Character *you );
 void multiple_mine_do_turn( player_activity *act, Character *you );
 void multiple_mop_do_turn( player_activity *act, Character *you );
 void operation_do_turn( player_activity *act, Character *you );
-void pickaxe_do_turn( player_activity *act, Character *you );
 void repair_item_do_turn( player_activity *act, Character *you );
 void robot_control_do_turn( player_activity *act, Character *you );
 void start_fire_do_turn( player_activity *act, Character *you );
@@ -240,14 +240,11 @@ do_turn_functions;
 /** activity_finish functions: */
 void atm_finish( player_activity *act, Character *you );
 void eat_menu_finish( player_activity *act, Character *you );
-void fish_finish( player_activity *act, Character *you );
 void generic_game_finish( player_activity *act, Character *you );
 void gunmod_add_finish( player_activity *act, Character *you );
 void heat_item_finish( player_activity *act, Character *you );
-void jackhammer_finish( player_activity *act, Character *you );
 void mend_item_finish( player_activity *act, Character *you );
 void operation_finish( player_activity *act, Character *you );
-void pickaxe_finish( player_activity *act, Character *you );
 void plant_seed_finish( player_activity *act, Character *you );
 void pull_creature_finish( player_activity *act, Character *you );
 void repair_item_finish( player_activity *act, Character *you );

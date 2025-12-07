@@ -255,8 +255,9 @@
                     "collection": [
                       {
                         "distribution": [
-                          { "item": "dress", "prob": 80, "damage": [ 1, 4 ] },
-                          { "item": "sundress", "prob": 45, "damage": [ 1, 4 ] },
+                          { "item": "dress", "prob": 8000, "damage": [ 1, 4 ] },
+                          { "item": "sundress", "prob": 4500, "damage": [ 1, 4 ] },
+                          { "item": "cheongsam", "prob": 6, "damage": [ 1, 4 ] },
                           { "group": "christmas_dresses", "prob": 50, "damage": [ 1, 4 ], "event": "christmas" }
                         ]
                       }

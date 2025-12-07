@@ -1,0 +1,29 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MAGICLYSM_GAME_START_HUMANS_ARE_HUMAN_MOM_CONDITIONS",
+    "condition": { "math": [ "0 == 1" ] },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MAGICLYSM_GAME_START_HUMANS_ARE_HUMAN_XE_CONDITIONS",
+    "condition": { "math": [ "0 == 1" ] },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONDITION_MAGICLYSM_ELF_WILDERNESS_EQUIVALENTS",
+    "condition": {
+      "or": [
+        { "u_is_on_terrain": "t_barkfloor" },
+        { "u_is_on_terrain": "t_barkfloor_noroof" },
+        { "u_is_on_terrain": "t_heartwood_floor" },
+        { "u_at_om_location": "park" },
+        { "u_at_om_location": "park_5" },
+        { "u_at_om_location": "park_7" }
+      ]
+    },
+    "effect": [  ]
+  }
+]

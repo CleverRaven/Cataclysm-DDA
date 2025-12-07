@@ -1,16 +1,7 @@
 [
   {
     "type": "overmap_terrain",
-    "id": [
-      "bandit_camp_1",
-      "bandit_camp_2",
-      "bandit_camp_3",
-      "bandit_camp_4",
-      "bandit_camp_1_roof",
-      "bandit_camp_2_roof",
-      "bandit_camp_3_roof",
-      "bandit_camp_4_roof"
-    ],
+    "id": [ "bandit_camp_1", "bandit_camp_2", "bandit_camp_3", "bandit_camp_4" ],
     "copy-from": "bandit_camp_1",
     "name": "wooden fort",
     "sym": "W",
@@ -18,11 +9,16 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "bandit_camp_1_roof", "bandit_camp_2_roof", "bandit_camp_3_roof", "bandit_camp_4_roof" ],
+    "copy-from": "bandit_camp_1_roof",
+    "sym": "W",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [
       "bandit_farm_3",
-      "bandit_farm_3_roof",
       "bandit_farm_2",
-      "bandit_farm_2_roof",
       "bandit_farm_1",
       "bandit_farm_6",
       "bandit_farm_5",
@@ -33,6 +29,14 @@
     ],
     "copy-from": "bandit_farm_3",
     "name": "farm",
+    "sym": "#",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "bandit_farm_3_roof", "bandit_farm_2_roof" ],
+    "copy-from": "bandit_farm_3_roof",
+    "name": "farm roof",
     "sym": "#",
     "color": "brown"
   },
@@ -374,6 +378,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "cabin_cellar",
+    "name": "cabin cellar",
+    "copy-from": "cabin_cellar",
+    "sym": "C",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "cabin_lakeside", "cabin_lakeside1", "cabin_lakeside2", "cabin_lakeside3", "cabin_lakeside4", "cabin_lakeside5" ],
     "copy-from": "cabin_lakeside",
     "name": "lakeside cabin",
@@ -603,18 +615,16 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [
-      "riverside_dwelling",
-      "riverside_dwelling1",
-      "riverside_dwelling2",
-      "riverside_dwelling3",
-      "riverside_dwelling_roof",
-      "riverside_dwelling1_roof",
-      "riverside_dwelling2_roof",
-      "riverside_dwelling3_roof"
-    ],
+    "id": [ "riverside_dwelling", "riverside_dwelling1", "riverside_dwelling2", "riverside_dwelling3" ],
     "copy-from": "riverside_dwelling",
     "name": "riverside dwelling",
+    "sym": "R",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "riverside_dwelling_roof", "riverside_dwelling1_roof", "riverside_dwelling2_roof", "riverside_dwelling3_roof" ],
+    "copy-from": "riverside_dwelling_roof",
     "sym": "R",
     "color": "brown"
   },
@@ -728,21 +738,26 @@
       "2silos",
       "2silos_1",
       "2silos_2",
-      "2silos_roof",
       "farm_1_silo",
       "farm_1_silo_1",
       "farm_1_silo_2",
-      "farm_1_silo_roof",
       "2farm_6",
       "2farm_6_1",
       "2farm_6_2",
       "2farm_6_3",
       "farm_horse_silo",
-      "farm_horse_silo_1",
-      "farm_horse_silo_roof"
+      "farm_horse_silo_1"
     ],
     "copy-from": "2silos",
     "name": "silo",
+    "sym": "S",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "2silos_roof", "farm_1_silo_roof", "farm_horse_silo_roof" ],
+    "copy-from": "2silos_roof",
+    "name": "silo roof",
     "sym": "S",
     "color": "brown"
   },
@@ -1081,9 +1096,17 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "farm_stills_4", "2farm_3", "2farm_roof_3", "2farm_loft_3", "2farm_4", "2farm_roof_4", "2farm_7", "2farm_8" ],
+    "id": [ "farm_stills_4", "2farm_3", "2farm_loft_3", "2farm_4", "2farm_7", "2farm_8" ],
     "copy-from": "farm_stills_4",
     "name": "farm",
+    "sym": "F",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "2farm_roof_3", "2farm_roof_4" ],
+    "copy-from": "2farm_roof_3",
+    "name": "farm roof",
     "sym": "F",
     "color": "brown"
   },
@@ -1106,9 +1129,17 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "farm_stills_7", "farm_stills_7_roof" ],
+    "id": [ "farm_stills_7" ],
     "copy-from": "farm_stills_7",
     "name": "stills",
+    "sym": "S",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "farm_stills_7_roof" ],
+    "copy-from": "farm_stills_7_roof",
+    "name": "stills roof",
     "sym": "S",
     "color": "brown"
   },

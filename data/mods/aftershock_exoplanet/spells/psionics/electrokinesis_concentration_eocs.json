@@ -32,17 +32,11 @@
     "id": "EOC_AFS_ELECTROKIN_SEE_ELECTRICITY_MAINTENANCE",
     "condition": { "u_has_effect": "effect_afs_electrokin_see_electricity" },
     "effect": [
-      { "math": [ "u_latest_channeled_power_difficulty = 2" ] },
+      { "math": [ "u_latest_channeled_power_difficulty = u_spell_difficulty('afs_electrokinetic_see_electric')" ] },
       {
-        "math": [ "u_spell_exp('afs_electrokinetic_see_electric')", "+=", "(maintenance_exp_factor(u_val('focus')))" ]
+        "math": [ "u_spell_exp('afs_electrokinetic_see_electric') += psionic_power_experience_formula_maintenance()" ]
       },
-      {
-        "run_eocs": [
-          "EOC_AFS_CONCENTRATION_SUCCESS_PROFICIENCY",
-          "EOC_AFS_PSI_SKILL_INCREASE_ON_USE_FINALIZE",
-          "EOC_AFS_CONCENTRATION_COSTS_FOCUS"
-        ]
-      },
+      { "run_eocs": "EOC_AFS_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "run_eocs": "EOC_AFS_ELECTROKIN_SEE_ELECTRICITY_MAINTENANCE",
         "time_in_future": [
@@ -131,17 +125,11 @@
     "id": "EOC_AFS_ELECTROKIN_HACKING_INTERFACE_MAINTENANCE",
     "condition": { "u_has_effect": "effect_afs_electrokin_hacking_interface" },
     "effect": [
-      { "math": [ "u_latest_channeled_power_difficulty = 4" ] },
+      { "math": [ "u_latest_channeled_power_difficulty = u_spell_difficulty('afs_electrokinetic_hacking_interface')" ] },
       {
-        "math": [ "u_spell_exp('afs_electrokinetic_hacking_interface')", "+=", "(maintenance_exp_factor(u_val('focus')))" ]
+        "math": [ "u_spell_exp('afs_electrokinetic_hacking_interface') += psionic_power_experience_formula_maintenance()" ]
       },
-      {
-        "run_eocs": [
-          "EOC_AFS_CONCENTRATION_SUCCESS_PROFICIENCY",
-          "EOC_AFS_PSI_SKILL_INCREASE_ON_USE_FINALIZE",
-          "EOC_AFS_CONCENTRATION_COSTS_FOCUS"
-        ]
-      },
+      { "run_eocs": "EOC_AFS_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "run_eocs": "EOC_AFS_ELECTROKIN_HACKING_INTERFACE_MAINTENANCE",
         "time_in_future": [
@@ -272,23 +260,23 @@
             "effect": [
               {
                 "if": { "math": [ "n_afs_electrokin_charging_value_counter >= 5" ] },
-                "then": [ { "math": [ "n_val('power')", "+=", "5" ] }, { "math": [ "n_afs_electrokin_charging_value_counter", "-=", "5" ] } ],
+                "then": [ { "math": [ "n_val('power') += 5" ] }, { "math": [ "n_afs_electrokin_charging_value_counter -= 5" ] } ],
                 "else": [
                   {
                     "if": { "math": [ "n_afs_electrokin_charging_value_counter >= 4" ] },
-                    "then": [ { "math": [ "n_val('power')", "+=", "4" ] }, { "math": [ "n_afs_electrokin_charging_value_counter", "-=", "4" ] } ],
+                    "then": [ { "math": [ "n_val('power') += 4" ] }, { "math": [ "n_afs_electrokin_charging_value_counter -= 4" ] } ],
                     "else": [
                       {
                         "if": { "math": [ "n_afs_electrokin_charging_value_counter >= 3" ] },
-                        "then": [ { "math": [ "n_val('power')", "+=", "3" ] }, { "math": [ "n_afs_electrokin_charging_value_counter", "-=", "3" ] } ],
+                        "then": [ { "math": [ "n_val('power') += 3" ] }, { "math": [ "n_afs_electrokin_charging_value_counter -= 3" ] } ],
                         "else": [
                           {
                             "if": { "math": [ "n_afs_electrokin_charging_value_counter >= 2" ] },
-                            "then": [ { "math": [ "n_val('power')", "+=", "2" ] }, { "math": [ "n_afs_electrokin_charging_value_counter", "-=", "2" ] } ],
+                            "then": [ { "math": [ "n_val('power') += 2" ] }, { "math": [ "n_afs_electrokin_charging_value_counter -= 2" ] } ],
                             "else": [
                               {
                                 "if": { "math": [ "n_afs_electrokin_charging_value_counter >= 1" ] },
-                                "then": [ { "math": [ "n_val('power')", "+=", "1" ] }, { "math": [ "n_afs_electrokin_charging_value_counter", "-=", "1" ] } ]
+                                "then": [ { "math": [ "n_val('power') += 1" ] }, { "math": [ "n_afs_electrokin_charging_value_counter -= 1" ] } ]
                               }
                             ]
                           }
@@ -309,17 +297,11 @@
     "id": "EOC_AFS_ELECTROKIN_PERSONAL_BATTERY_MAINTENANCE",
     "condition": { "u_has_effect": "effect_afs_electrokin_personal_battery" },
     "effect": [
-      { "math": [ "u_latest_channeled_power_difficulty = 5" ] },
+      { "math": [ "u_latest_channeled_power_difficulty = u_spell_difficulty('afs_electrokinetic_personal_battery')" ] },
       {
-        "math": [ "u_spell_exp('afs_electrokinetic_personal_battery')", "+=", "(maintenance_exp_factor(u_val('focus')))" ]
+        "math": [ "u_spell_exp('afs_electrokinetic_personal_battery') += psionic_power_experience_formula_maintenance()" ]
       },
-      {
-        "run_eocs": [
-          "EOC_AFS_CONCENTRATION_SUCCESS_PROFICIENCY",
-          "EOC_AFS_PSI_SKILL_INCREASE_ON_USE_FINALIZE",
-          "EOC_AFS_CONCENTRATION_COSTS_FOCUS"
-        ]
-      },
+      { "run_eocs": "EOC_AFS_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "run_eocs": "EOC_AFS_ELECTROKIN_PERSONAL_BATTERY_MAINTENANCE",
         "time_in_future": [

@@ -164,7 +164,6 @@
       {
         "target": "cell_phone_flashlight",
         "msg": "You light up the screen.",
-        "active": true,
         "need_charges": 1,
         "need_charges_msg": "The cellphone's batteries need more charge.",
         "type": "transform"
@@ -195,7 +194,8 @@
       { "type": "link_up", "cable_length": 3, "charge_rate": "20 W" }
     ],
     "faults": [ { "fault_group": "electronic_general" } ],
-    "flags": [ "NO_UNLOAD", "NO_RELOAD", "WATCH", "LIGHT_8", "CHARGEDIM", "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC" ]
+    "light": 8,
+    "flags": [ "NO_UNLOAD", "NO_RELOAD", "WATCH", "CHARGEDIM", "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC", "SPAWN_ACTIVE" ]
   },
   {
     "id": "directional_antenna",
@@ -257,7 +257,6 @@
         "menu_text": "Turn on the screen",
         "msg": "You power up the screen.",
         "target": "eink_tablet_pc_on",
-        "active": true,
         "need_charges": 1,
         "need_charges_msg": "The tablet batteries are dead."
       },
@@ -295,10 +294,10 @@
       },
       { "type": "link_up", "cable_length": 4, "charge_rate": "10 W" }
     ],
-    "tick_action": [ "EPIC_MUSIC" ],
-    "//": "LIGHT_10 is the bare minimum for reading without penalties",
+    "//": "light 10 is the bare minimum for reading without penalties",
+    "light": 10,
     "faults": [ { "fault_group": "electronic_general" } ],
-    "flags": [ "NO_UNLOAD", "NO_RELOAD", "WATCH", "WATER_BREAK", "ELECTRONIC", "LIGHT_10", "TRADER_AVOID" ]
+    "flags": [ "NO_UNLOAD", "NO_RELOAD", "WATCH", "WATER_BREAK", "ELECTRONIC", "TRADER_AVOID", "SPAWN_ACTIVE" ]
   },
   {
     "id": "usb_drive",
@@ -506,7 +505,7 @@
       "type": "transform"
     },
     "tick_action": [ "GEIGER_ACTIVE" ],
-    "flags": [ "TRADER_AVOID", "WATER_BREAK" ]
+    "flags": [ "TRADER_AVOID", "WATER_BREAK", "SPAWN_ACTIVE" ]
   },
   {
     "id": "resonance_measurement_device",
@@ -610,7 +609,6 @@
         "target": "laptop_screen_lit",
         "msg": "You light up the screen.",
         "menu_text": "Light up the screen",
-        "active": true,
         "need_charges": 1,
         "need_charges_msg": "The laptop's batteries need more charge.",
         "type": "transform"
@@ -650,9 +648,9 @@
       },
       { "type": "link_up", "cable_length": 5, "charge_rate": "140 W" }
     ],
-    "tick_action": [ "EPIC_MUSIC" ],
     "faults": [ { "fault_group": "electronic_general" } ],
-    "flags": [ "NO_UNLOAD", "NO_RELOAD", "WATCH", "LIGHT_10", "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC", "ALLOWS_REMOTE_USE" ]
+    "light": 10,
+    "flags": [ "NO_UNLOAD", "NO_RELOAD", "WATCH", "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC", "ALLOWS_REMOTE_USE", "SPAWN_ACTIVE" ]
   },
   {
     "id": "mp3",
@@ -669,7 +667,15 @@
     "ascii_picture": "mp3",
     "symbol": ";",
     "color": "dark_gray",
-    "use_action": [ "MP3", { "type": "link_up", "cable_length": 2, "charge_rate": "5 W" } ],
+    "use_action": [
+      {
+        "type": "mp3",
+        "transform": "mp3_on",
+        "message": "You put in the earbuds and start listening to music.",
+        "activate": true
+      },
+      { "type": "link_up", "cable_length": 2, "charge_rate": "5 W" }
+    ],
     "charges_per_use": 1,
     "flags": [ "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK_ACTIVE", "ELECTRONIC" ],
     "faults": [ { "fault_group": "electronic_general" } ],
@@ -686,9 +692,12 @@
     "power_draw": "1 W",
     "revert_to": "mp3",
     "tick_action": [ "MP3_ON" ],
-    "use_action": [ "MP3_DEACTIVATE", { "type": "link_up", "cable_length": 2, "charge_rate": "5 W" } ],
+    "use_action": [
+      { "type": "mp3", "transform": "mp3", "message": "The mp3 player turns off.", "activate": false },
+      { "type": "link_up", "cable_length": 2, "charge_rate": "5 W" }
+    ],
     "faults": [ { "fault_group": "electronic_general" } ],
-    "flags": [ "NO_UNLOAD", "NO_RELOAD", "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC" ]
+    "flags": [ "NO_UNLOAD", "NO_RELOAD", "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC", "SPAWN_ACTIVE" ]
   },
   {
     "id": "noise_emitter",
@@ -705,13 +714,7 @@
     "symbol": ";",
     "color": "yellow",
     "charges_per_use": 1,
-    "use_action": {
-      "target": "noise_emitter_on",
-      "msg": "You turn the noise emitter on.",
-      "menu_text": "Turn on",
-      "active": true,
-      "type": "transform"
-    },
+    "use_action": { "target": "noise_emitter_on", "msg": "You turn the noise emitter on.", "menu_text": "Turn on", "type": "transform" },
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "WATER_BREAK" ],
     "pocket_data": [
       {
@@ -738,11 +741,10 @@
       "msg": "The infernal racket dies as the noise emitter turns off.",
       "ammo_scale": 0,
       "menu_text": "Turn off",
-      "active": false,
       "type": "transform"
     },
     "tick_action": [ "NOISE_EMITTER_ON" ],
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "TRADER_AVOID", "WATER_BREAK" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "TRADER_AVOID", "WATER_BREAK", "SPAWN_ACTIVE" ]
   },
   {
     "id": "emf_detector",
@@ -764,7 +766,6 @@
       "type": "transform",
       "msg": "You turn the EMF detector on.",
       "target": "emf_detector_on",
-      "active": true,
       "need_charges_msg": "It's dead."
     },
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
@@ -799,7 +800,7 @@
     },
     "tick_action": [ "EMF_PASSIVE_ON" ],
     "faults": [ { "fault_group": "electronic_general" } ],
-    "flags": [ "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC" ]
+    "flags": [ "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC", "SPAWN_ACTIVE" ]
   },
   {
     "id": "portable_game",
@@ -842,14 +843,18 @@
       "E_FILE_DEVICE",
       "EBOOKSAVE",
       "CAMERA",
-      "MP3",
+      {
+        "type": "mp3",
+        "transform": "smartphone_music",
+        "message": "You put in the earbuds and start listening to music.",
+        "activate": true
+      },
       "CALORIES_INTAKE_TRACKER",
       "PORTABLE_GAME",
       {
         "target": "smart_phone_flashlight",
         "msg": "You activate the flashlight app.",
         "menu_text": "Turn on flashlight",
-        "active": true,
         "need_charges": 1,
         "need_charges_msg": "The smartphone's charge is too low.",
         "type": "transform"
@@ -882,11 +887,11 @@
       "E_FILE_DEVICE",
       "EBOOKSAVE",
       "PORTABLE_GAME",
-      "MP3_DEACTIVATE",
+      { "type": "mp3", "transform": "smart_phone", "message": "The phone turns off.", "activate": false },
       { "type": "link_up", "cable_length": 3, "charge_rate": "20 W" }
     ],
     "tick_action": [ "MP3_ON" ],
-    "extend": { "flags": [ "TRADER_AVOID" ] }
+    "extend": { "flags": [ "TRADER_AVOID", "SPAWN_ACTIVE" ] }
   },
   {
     "id": "smart_phone_flashlight",
@@ -909,7 +914,8 @@
       },
       { "type": "link_up", "cable_length": 3, "charge_rate": "20 W" }
     ],
-    "extend": { "flags": [ "LIGHT_20", "CHARGEDIM", "TRADER_AVOID" ] }
+    "light": 20,
+    "extend": { "flags": [ "CHARGEDIM", "TRADER_AVOID", "SPAWN_ACTIVE" ] }
   },
   {
     "id": "smart_phone_locked",
@@ -925,7 +931,6 @@
         "target": "smart_phone_locked_flashlight",
         "msg": "You activate the flashlight app.",
         "menu_text": "Turn on flashlight",
-        "active": true,
         "need_charges": 1,
         "need_charges_msg": "The smartphone's charge is too low.",
         "type": "transform"
@@ -971,7 +976,8 @@
       },
       { "type": "link_up", "cable_length": 3, "charge_rate": "20 W" }
     ],
-    "extend": { "flags": [ "LIGHT_20", "CHARGEDIM", "TRADER_AVOID" ] }
+    "light": 20,
+    "extend": { "flags": [ "CHARGEDIM", "TRADER_AVOID", "SPAWN_ACTIVE" ] }
   },
   {
     "id": "UPS_off",
@@ -1059,7 +1065,6 @@
       "ammo_scale": 0,
       "target": "UPS_ON",
       "msg": "You turn the charger on.",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "The charger's battery is empty.",
       "type": "transform"
@@ -1087,24 +1092,36 @@
   },
   {
     "id": "vibrator",
+    "copy-from": "sextoy",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "vibrator" },
-    "description": "This battery-devouring device is just the thing to knead the tension out and help you relax.  Use it to take a break and unwind.",
-    "weight": "181 g",
-    "volume": "327 ml",
-    "longest_side": "198 mm",
-    "price": "29 USD",
-    "price_postapoc": "3 cent",
-    "material": [ "aluminum", "plastic" ],
-    "symbol": ";",
-    "color": "dark_gray",
+    "description": "A vibrator.",
+    "material": [ { "type": "aluminum", "portion": 1 }, { "type": "plastic", "portion": 9 } ],
+    "relative": { "weight": "50 g" },
     "charges_per_use": 1,
     "use_action": [ "VIBE", { "type": "link_up", "cable_length": 3, "charge_rate": "10 W" } ],
     "flags": [ "WATER_BREAK", "NO_UNLOAD", "NO_RELOAD", "ELECTRONIC" ],
     "faults": [ { "fault_group": "electronic_general" } ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 58 } } ],
-    "tool_ammo": [ "battery" ]
+    "tool_ammo": [ "battery" ],
+    "variants": [
+      {
+        "id": "wand",
+        "name": { "str": "vibrating wand" },
+        "description": "This truly multipurpose massage tool is just the thing you need to relax.  Use it to take a break and unwind."
+      },
+      {
+        "id": "egg",
+        "name": { "str": "vibrating egg" },
+        "description": "This bulbous, u-shaped alien looking device will help you see the stars.  Use it to take a break and unwind."
+      },
+      {
+        "id": "dildo",
+        "name": { "str": "vibrating dildo" },
+        "description": "You know what this is.  There's a switch at the bottom, you know what it's for.  Use it to take a break and unwind."
+      }
+    ]
   },
   {
     "id": "gas_charger",
@@ -1133,7 +1150,6 @@
     "use_action": {
       "target": "gas_charger_on",
       "msg": "You turn the charger on.",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "The charger's tank is empty.",
       "type": "transform"
@@ -1146,6 +1162,7 @@
     "copy-from": "gas_charger",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
+    "extend": { "flags": [ "TRADER_AVOID", "SPAWN_ACTIVE" ] },
     "name": { "str": "gas-powered UPS (on)", "str_pl": "gas-powered UPSes (on)" },
     "description": "A compact thermoelectric generator.  When connected to a propane tank, it will slowly charge UPS-compatible devices.",
     "power_draw": "60 mW",
@@ -1180,7 +1197,6 @@
       "target": "noise_emitter_super_on",
       "msg": "You turn the super noise emitter on.",
       "menu_text": "Turn on",
-      "active": true,
       "type": "transform"
     },
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "WATER_BREAK" ],
@@ -1209,7 +1225,6 @@
       "msg": "The infernal racket dies as the super noise emitter turns off.",
       "ammo_scale": 0,
       "menu_text": "Turn off",
-      "active": false,
       "type": "transform"
     },
     "tick_action": {
@@ -1220,15 +1235,15 @@
           "effect": {
             "run_eocs": "EOC_toolweapon_running",
             "variables": {
-              "sound_chance": "0",
+              "sound_chance": 0,
               "sound_message": { "i18n": true, "str": "Your super noise emitter produces an unholy blast of sonic chaos." },
-              "volume": "300",
+              "volume": 300,
               "revert_to": "noise_emitter_super"
             }
           }
         }
       ]
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "TRADER_AVOID", "WATER_BREAK", "POWERED" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "TRADER_AVOID", "WATER_BREAK", "POWERED", "SPAWN_ACTIVE" ]
   }
 ]

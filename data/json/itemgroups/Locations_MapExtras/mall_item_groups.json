@@ -36,8 +36,8 @@
       { "group": "melatonin_bottle_full", "prob": 30 },
       [ "disinfectant", 15 ],
       { "group": "protein_bottle_full", "prob": 40 },
-      { "item": "caff_gum", "prob": 30, "count": 5 },
-      { "item": "nic_gum", "prob": 25, "count": 5 },
+      { "group": "chewing_gum_full_caff", "prob": 30 },
+      { "group": "chewing_gum_full_nic", "prob": 25 },
       [ "bathroom_scale", 20 ],
       { "group": "pillbox_any_empty", "prob": 20 }
     ]
@@ -72,7 +72,7 @@
       { "item": "mp3", "prob": 20, "charges": 100 },
       { "item": "fursuit", "variant": "wolfsuit", "prob": 5 },
       { "item": "fursuit", "variant": "dinosuit", "prob": 5 },
-      { "item": "gum", "prob": 10, "count": [ 1, 10 ] },
+      { "group": "chewing_gum_full", "prob": 10 },
       [ "shuttlecock", 10 ],
       [ "baseball", 40 ],
       [ "football", 40 ],

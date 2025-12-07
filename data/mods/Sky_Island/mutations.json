@@ -40,9 +40,9 @@
   {
     "type": "mutation",
     "id": "mut_skyisland_sunblock",
-    "name": { "str": "Personal Sunblock" },
-    "points": 0,
+    "name": "Personal Sunblock",
     "description": "As long as you are on the island, the sun cannot affect you.",
+    "points": 0,
     "valid": false,
     "player_display": false,
     "purifiable": false,
@@ -51,12 +51,82 @@
   {
     "type": "mutation",
     "id": "mut_skyisland_sunblock_real",
-    "name": { "str": "Personal sunblock real" },
-    "points": 0,
+    "name": "Personal Sunblock",
     "description": "As long as you are on the island, the sun cannot affect you.",
+    "points": 0,
     "valid": false,
     "player_display": false,
     "purifiable": false,
     "integrated_armor": [ "sky_island_sunblock" ]
+  },
+  {
+    "type": "mutation",
+    "id": "mut_skyisland_windblock",
+    "name": "Personal Windblock",
+    "description": "As long as you are on the island, the winds cannot affect you.",
+    "points": 0,
+    "valid": false,
+    "player_display": false,
+    "purifiable": false,
+    "enchantments": [ { "condition": { "not": { "u_has_trait": "awayfromhome" } }, "mutations": [ "mut_skyisland_windblock_real" ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "mut_skyisland_windblock_real",
+    "name": "Personal Windblock Real",
+    "description": "As long as you are on the island, the winds cannot affect you.",
+    "points": 0,
+    "valid": false,
+    "player_display": false,
+    "purifiable": false,
+    "integrated_armor": [ "sky_island_windblock" ]
+  },
+  {
+    "type": "mutation",
+    "id": "mut_skyisland_personal_temperature_adaptation",
+    "name": "Personal Temperature Adaptation",
+    "description": "As long as you are on the island, temperature cannot affect you.",
+    "points": 0,
+    "valid": false,
+    "player_display": false,
+    "purifiable": false,
+    "enchantments": [
+      {
+        "condition": { "not": { "u_has_trait": "awayfromhome" } },
+        "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 999 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 999 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "mut_skyisland_radblock",
+    "name": "Personal Radiation Shield",
+    "description": "As long as you are on the island, radiation cannot affect you.",
+    "points": 0,
+    "valid": false,
+    "player_display": false,
+    "purifiable": false,
+    "enchantments": [
+      {
+        "condition": { "not": { "u_has_trait": "awayfromhome" } },
+        "ench_effects": [ { "effect": "effect_island_radblock", "intensity": 1 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "mut_skyisland_island_steady",
+    "name": "Island-Side Resilience",
+    "description": "As long as you are on the island, your speed cannot be lower than its default.",
+    "points": 0,
+    "valid": false,
+    "player_display": false,
+    "purifiable": false,
+    "enchantments": [
+      {
+        "condition": { "not": { "u_has_trait": "awayfromhome" } },
+        "ench_effects": [ { "effect": "effect_island_steady", "intensity": 1 } ]
+      }
+    ]
   }
 ]

@@ -542,7 +542,7 @@
     "end": {
       "effect": [
         { "u_add_var": "general_mission_NC_REFUGEE_Draco_has_guitar", "value": "yes" },
-        { "math": [ "u_counter_refugee_center_refugee_happiness", "+=", "2" ] }
+        { "math": [ "u_counter_refugee_center_refugee_happiness += 2" ] }
       ]
     },
     "dialogue": {

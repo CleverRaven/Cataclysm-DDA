@@ -301,12 +301,11 @@ class string_input_popup // NOLINT(cata-xy)
 };
 
 struct string_input_params {
-    std::optional<str_translation_or_var> title;
-    std::optional<str_translation_or_var> description;
-    std::optional<str_translation_or_var> default_text;
-    int width = 20;
+    std::optional<translation_or_var> title;
+    std::optional<translation_or_var> description;
+    std::optional<translation_or_var> default_text;
+    int width{};
     std::optional<str_or_var> identifier;
-    bool only_digits = false;
     static string_input_params parse_string_input_params( const JsonObject &jo );
 };
 #endif // CATA_SRC_STRING_INPUT_POPUP_H

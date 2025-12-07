@@ -14,7 +14,6 @@
 #include <vector>
 
 #include "addiction.h"
-#include "avatar.h"
 #include "bionics.h"
 #include "bodygraph.h"
 #include "bodypart.h"
@@ -41,7 +40,6 @@
 #include "itype.h"
 #include "magic_enchantment.h"
 #include "mutation.h"
-#include "options.h"
 #include "output.h"
 #include "pimpl.h"
 #include "point.h"
@@ -1396,8 +1394,6 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
             case player_display_tab::stats:
                 if( header_clicked ) {
                     display_bodygraph( you );
-                } else if( line < 4 && get_option<bool>( "STATS_THROUGH_KILLS" ) && you.is_avatar() ) {
-                    you.as_avatar()->upgrade_stat_prompt( static_cast<character_stat>( line ) );
                 }
 
                 invalidate_tab( curtab );
@@ -1566,15 +1562,13 @@ void Character::disp_info( bool customize_character )
         }
 
         if( bmi < character_weight_category::normal ) {
-            const int str_penalty = std::floor( ( 1.0f - ( get_bmi_fat() /
-                                                  character_weight_category::normal ) ) * str_max );
-            const int dexint_penalty = std::floor( ( character_weight_category::normal - bmi ) * 3.0f );
+            const stat_mod wpen = get_weight_penalty();
             starvation_text += std::string( _( "Strength" ) ) + " -" + string_format( "%d\n",
-                               str_penalty );
+                               wpen.strength );
             starvation_text += std::string( _( "Dexterity" ) ) + " -" + string_format( "%d\n",
-                               dexint_penalty );
+                               wpen.dexterity );
             starvation_text += std::string( _( "Intelligence" ) ) + " -" + string_format( "%d",
-                               dexint_penalty );
+                               wpen.intelligence );
         }
 
         effect_name_and_text.emplace_back( starvation_name, starvation_text );
@@ -1682,7 +1676,7 @@ void Character::disp_info( bool customize_character )
     ctxt.register_action( "NEXT_TAB", to_translation( "Cycle to next category" ) );
     ctxt.register_action( "PREV_TAB", to_translation( "Cycle to previous category" ) );
     ctxt.register_action( "QUIT" );
-    ctxt.register_action( "CONFIRM", to_translation( "Toggle skill training / Upgrade stat" ) );
+    ctxt.register_action( "CONFIRM", to_translation( "Upgrade stat" ) );
     ctxt.register_action( "CHANGE_PROFESSION_NAME", to_translation( "Change profession name" ) );
     ctxt.register_action( "SWITCH_GENDER", to_translation( "Customize base appearance and name" ) );
     ctxt.register_action( "VIEW_PROFICIENCIES", to_translation( "View character proficiencies" ) );

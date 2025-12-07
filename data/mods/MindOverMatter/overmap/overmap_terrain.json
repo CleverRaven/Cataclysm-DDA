@@ -282,7 +282,7 @@
       "psi_phavian_lab_block5E3",
       "psi_phavian_lab_block5E4"
     ],
-    "name": "research facility, roof",
+    "name": "research facility roof",
     "sym": "l",
     "looks_like": "lab_surface_brick_block5A2",
     "vision_levels": "roof_or_air",
@@ -306,34 +306,6 @@
       "phavan_office_skyscraper_lab_upper_se"
     ],
     "copy-from": "generic_office_skyscraper"
-  },
-  {
-    "type": "overmap_terrain",
-    "abstract": "alien_meadow",
-    "copy-from": "generic_open_land",
-    "name": "alien meadow",
-    "sym": ",",
-    "color": "red",
-    "travel_cost_type": "field",
-    "spawns": { "group": "GROUP_ALIEN_MEADOW", "population": [ 0, 1 ], "chance": 13 },
-    "flags": [ "REQUIRES_PREDECESSOR" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "alien_meadow_core",
-    "copy-from": "alien_meadow",
-    "extend": { "flags": [ "NO_ROTATE" ] }
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "alien_meadow_join",
-    "copy-from": "alien_meadow",
-    "extend": { "flags": [ "NO_ROTATE" ] }
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "alien_meadow_end",
-    "copy-from": "alien_meadow"
   },
   {
     "type": "overmap_terrain",
@@ -382,5 +354,61 @@
     "see_cost": "full_high",
     "vision_levels": "underground_stone",
     "color": "light_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "abstract": "alien_meadow",
+    "copy-from": "generic_open_land",
+    "name": "alien meadow",
+    "sym": ",",
+    "color": "red",
+    "travel_cost_type": "field",
+    "spawns": { "group": "GROUP_ALIEN_MEADOW", "population": [ 0, 1 ], "chance": 13 },
+    "flags": [ "REQUIRES_PREDECESSOR" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "alien_meadow_core",
+    "copy-from": "alien_meadow",
+    "extend": { "flags": [ "NO_ROTATE" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "alien_meadow_join",
+    "copy-from": "alien_meadow",
+    "extend": { "flags": [ "NO_ROTATE" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "alien_meadow_end",
+    "copy-from": "alien_meadow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "microlab_psi_phavian_biokinesis_mutation_lab_nw",
+      "microlab_psi_phavian_biokinesis_mutation_lab_ne",
+      "microlab_psi_phavian_biokinesis_mutation_lab_sw",
+      "microlab_psi_phavian_biokinesis_mutation_lab_se"
+    ],
+    "copy-from": "microlab_generic",
+    "name": "science lab",
+    "sym": "L",
+    "color": "magenta",
+    "spawns": { "group": "GROUP_LAB", "population": [ 2, 10 ], "chance": 75 },
+    "flags": [ "RISK_EXTREME", "SOURCE_CHEMISTRY", "SOURCE_MEDICINE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "microlab_no_meat_generic_edge" ],
+    "copy-from": "microlab_generic",
+    "name": "science lab",
+    "sym": "L",
+    "color": "magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_no_meat_sub_station",
+    "copy-from": "microlab_sub_station"
   }
 ]

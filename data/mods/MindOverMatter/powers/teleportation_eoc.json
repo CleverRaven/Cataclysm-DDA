@@ -10,7 +10,7 @@
         "true_eocs": [
           {
             "id": "EOC_TELEPORT_SELF_CARRIED_VOLUME_CHECKER_ADD_VOLUME_WORN",
-            "effect": [ { "math": [ "u_teleport_total_carried_volume", "+=", "n_volume()" ] } ]
+            "effect": [ { "math": [ "u_teleport_total_carried_volume += n_volume()" ] } ]
           }
         ]
       },
@@ -22,7 +22,7 @@
         "true_eocs": [
           {
             "id": "EOC_TELEPORT_SELF_CARRIED_VOLUME_CHECKER_ADD_VOLUME_WIELDED",
-            "effect": [ { "math": [ "u_teleport_total_carried_volume", "+=", "n_volume()" ] } ]
+            "effect": [ { "math": [ "u_teleport_total_carried_volume += n_volume()" ] } ]
           }
         ]
       },
@@ -79,7 +79,7 @@
       { "run_eocs": "EOC_TELEPORT_SELF_CARRIED_VOLUME_CHECKER" },
       {
         "math": [
-          "_teleport_phase_limit = ( ( ( u_spell_level('teleport_blink') * 5000 ) + 10000 ) * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
+          "_teleport_phase_limit = ( ( ( u_spell_level('teleport_phase') * 5000 ) + 10000 ) * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
         ]
       },
       { "u_message": "Your Phase volume limit is <context_val:teleport_blink_limit>.", "type": "debug" },
@@ -277,16 +277,12 @@
       { "run_eocs": "EOC_TELEPORT_SELF_CARRIED_VOLUME_CHECKER" },
       {
         "math": [
-          "_teleport_farstep_limit = ( ( ( u_spell_level('teleport_blink') * 5000 ) + 8000 ) * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
+          "_teleport_farstep_limit = ( ( ( u_spell_level('teleport_farstep') * 5000 ) + 8000 ) * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
         ]
       },
-      { "u_message": "Your Blink volume limit is <context_val:teleport_farstep_limit>.", "type": "debug" },
+      { "u_message": "Your Farstep volume limit is <context_val:teleport_farstep_limit>.", "type": "debug" },
       {
-        "if": {
-          "math": [
-            "u_teleport_total_carried_volume <= ( ( ( u_spell_level('teleport_farstep') * 5000 ) + 8000 ) * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
-          ]
-        },
+        "if": { "math": [ "u_teleport_total_carried_volume <= _teleport_farstep_limit" ] },
         "then": [
           { "u_cast_spell": { "id": "teleport_farstep_real", "hit_self": false }, "targeted": true },
           {
@@ -519,12 +515,7 @@
     "effect": [
       {
         "set_string_var": "Destination 1",
-        "string_input": {
-          "title": { "i18n": true, "str": "Input a destination name:" },
-          "description": { "i18n": true, "str": "Destination Name:" },
-          "width": 35,
-          "identifier": ""
-        },
+        "string_input": { "title": "Input a destination name:", "description": "Destination Name:", "width": 35 },
         "target_var": { "u_val": "gateway_destination_name_1" }
       },
       { "u_location_variable": { "u_val": "gateway_destination_1" }, "min_radius": 0, "max_radius": 0 },
@@ -588,12 +579,7 @@
     "effect": [
       {
         "set_string_var": "Destination 2",
-        "string_input": {
-          "title": { "i18n": true, "str": "Input a destination name:" },
-          "description": { "i18n": true, "str": "Destination Name:" },
-          "width": 35,
-          "identifier": ""
-        },
+        "string_input": { "title": "Input a destination name:", "description": "Destination Name:", "width": 35 },
         "target_var": { "u_val": "gateway_destination_name_2" }
       },
       { "u_location_variable": { "u_val": "gateway_destination_2" }, "min_radius": 0, "max_radius": 0 },
@@ -653,12 +639,7 @@
     "effect": [
       {
         "set_string_var": "Destination 3",
-        "string_input": {
-          "title": { "i18n": true, "str": "Input a destination name:" },
-          "description": { "i18n": true, "str": "Destination Name:" },
-          "width": 35,
-          "identifier": ""
-        },
+        "string_input": { "title": "Input a destination name:", "description": "Destination Name:", "width": 35 },
         "target_var": { "u_val": "gateway_destination_name_3" }
       },
       { "u_location_variable": { "u_val": "gateway_destination_3" }, "min_radius": 0, "max_radius": 0 },
@@ -718,12 +699,7 @@
     "effect": [
       {
         "set_string_var": "Destination 4",
-        "string_input": {
-          "title": { "i18n": true, "str": "Input a destination name:" },
-          "description": { "i18n": true, "str": "Destination Name:" },
-          "width": 35,
-          "identifier": ""
-        },
+        "string_input": { "title": "Input a destination name:", "description": "Destination Name:", "width": 35 },
         "target_var": { "u_val": "gateway_destination_name_4" }
       },
       { "u_location_variable": { "u_val": "gateway_destination_4" }, "min_radius": 0, "max_radius": 0 },
@@ -783,12 +759,7 @@
     "effect": [
       {
         "set_string_var": "Destination 5",
-        "string_input": {
-          "title": { "i18n": true, "str": "Input a destination name:" },
-          "description": { "i18n": true, "str": "Destination Name:" },
-          "width": 35,
-          "identifier": ""
-        },
+        "string_input": { "title": "Input a destination name:", "description": "Destination Name:", "width": 35 },
         "target_var": { "u_val": "gateway_destination_name_5" }
       },
       { "u_location_variable": { "u_val": "gateway_destination_5" }, "min_radius": 0, "max_radius": 0 },
@@ -848,12 +819,7 @@
     "effect": [
       {
         "set_string_var": "Destination 6",
-        "string_input": {
-          "title": { "i18n": true, "str": "Input a destination name:" },
-          "description": { "i18n": true, "str": "Destination Name:" },
-          "width": 35,
-          "identifier": ""
-        },
+        "string_input": { "title": "Input a destination name:", "description": "Destination Name:", "width": 35 },
         "target_var": { "u_val": "gateway_destination_name_6" }
       },
       { "u_location_variable": { "u_val": "gateway_destination_6" }, "min_radius": 0, "max_radius": 0 },
@@ -913,12 +879,7 @@
     "effect": [
       {
         "set_string_var": "Destination 7",
-        "string_input": {
-          "title": { "i18n": true, "str": "Input a destination name:" },
-          "description": { "i18n": true, "str": "Destination Name:" },
-          "width": 35,
-          "identifier": ""
-        },
+        "string_input": { "title": "Input a destination name:", "description": "Destination Name:", "width": 35 },
         "target_var": { "u_val": "gateway_destination_name_7" }
       },
       { "u_location_variable": { "u_val": "gateway_destination_7" }, "min_radius": 0, "max_radius": 0 },
@@ -978,12 +939,7 @@
     "effect": [
       {
         "set_string_var": "Destination 8",
-        "string_input": {
-          "title": { "i18n": true, "str": "Input a destination name:" },
-          "description": { "i18n": true, "str": "Destination Name:" },
-          "width": 35,
-          "identifier": ""
-        },
+        "string_input": { "title": "Input a destination name:", "description": "Destination Name:", "width": 35 },
         "target_var": { "u_val": "gateway_destination_name_8" }
       },
       { "u_location_variable": { "u_val": "gateway_destination_8" }, "min_radius": 0, "max_radius": 0 },
@@ -1043,12 +999,7 @@
     "effect": [
       {
         "set_string_var": "Destination 9",
-        "string_input": {
-          "title": { "i18n": true, "str": "Input a destination name:" },
-          "description": { "i18n": true, "str": "Destination Name:" },
-          "width": 35,
-          "identifier": ""
-        },
+        "string_input": { "title": "Input a destination name:", "description": "Destination Name:", "width": 35 },
         "target_var": { "u_val": "gateway_destination_name_9" }
       },
       { "u_location_variable": { "u_val": "gateway_destination_9" }, "min_radius": 0, "max_radius": 0 },
@@ -1108,12 +1059,7 @@
     "effect": [
       {
         "set_string_var": "Destination 10",
-        "string_input": {
-          "title": { "i18n": true, "str": "Input a destination name:" },
-          "description": { "i18n": true, "str": "Destination Name:" },
-          "width": 35,
-          "identifier": ""
-        },
+        "string_input": { "title": "Input a destination name:", "description": "Destination Name:", "width": 35 },
         "target_var": { "u_val": "gateway_destination_name_10" }
       },
       { "u_location_variable": { "u_val": "gateway_destination_10" }, "min_radius": 0, "max_radius": 0 },

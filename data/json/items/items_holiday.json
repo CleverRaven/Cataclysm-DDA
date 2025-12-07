@@ -26,7 +26,6 @@
     "use_action": {
       "target": "plastic_jack_o_lantern_lit",
       "msg": "You flip the switch in the jack-o'-lantern.",
-      "active": true,
       "menu_text": "Light",
       "type": "transform"
     },
@@ -49,7 +48,8 @@
       "msg": "The LED winks out inside the lantern.",
       "menu_text": "Extinguish"
     },
-    "extend": { "flags": [ "LIGHT_6", "TRADER_AVOID" ] }
+    "light": 6,
+    "extend": { "flags": [ "TRADER_AVOID", "SPAWN_ACTIVE" ] }
   },
   {
     "id": "jackolantern",
@@ -69,7 +69,6 @@
     "use_action": {
       "target": "jackolantern_lit",
       "msg": "You light the jack-o'-lantern.",
-      "active": true,
       "need_fire": 1,
       "menu_text": "Light",
       "type": "transform"
@@ -92,7 +91,8 @@
       "msg": "You blow out the jack-o'-lantern.",
       "menu_text": "Extinguish"
     },
-    "extend": { "flags": [ "LIGHT_8", "WATER_EXTINGUISH", "TRADER_AVOID", "WIND_EXTINGUISH" ] }
+    "light": 8,
+    "extend": { "flags": [ "WATER_EXTINGUISH", "TRADER_AVOID", "WIND_EXTINGUISH", "SPAWN_ACTIVE" ] }
   },
   {
     "id": "decorative_wreath",

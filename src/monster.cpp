@@ -34,6 +34,7 @@
 #include "event_bus.h"
 #include "explosion.h"
 #include "faction.h"
+#include "field.h"
 #include "field_type.h"
 #include "flat_set.h"
 #include "game.h"
@@ -46,7 +47,6 @@
 #include "itype.h"
 #include "magic.h"
 #include "magic_enchantment.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_scale_constants.h"
@@ -104,8 +104,6 @@ static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_cramped_space( "cramped_space" );
-static const efftype_id effect_critter_underfed( "critter_underfed" );
-static const efftype_id effect_critter_well_fed( "critter_well_fed" );
 static const efftype_id effect_crushed( "crushed" );
 static const efftype_id effect_deaf( "deaf" );
 static const efftype_id effect_disarmed( "disarmed" );
@@ -156,6 +154,7 @@ static const emit_id emit_emit_shock_cloud_big( "emit_shock_cloud_big" );
 static const flag_id json_flag_CANNOT_MOVE( "CANNOT_MOVE" );
 static const flag_id json_flag_CANNOT_TAKE_DAMAGE( "CANNOT_TAKE_DAMAGE" );
 static const flag_id json_flag_DISABLE_FLIGHT( "DISABLE_FLIGHT" );
+static const flag_id json_flag_FILTHY( "FILTHY" );
 static const flag_id json_flag_GRAB( "GRAB" );
 static const flag_id json_flag_GRAB_FILTER( "GRAB_FILTER" );
 
@@ -240,33 +239,17 @@ static const std::map<monster_attitude, std::pair<std::string, color_id>> attitu
 
 static int compute_kill_xp( const mtype_id &mon_type )
 {
-    return mon_type->difficulty + mon_type->difficulty_base;
+    return mon_type->get_total_difficulty() + mon_type->get_difficulty_adjustment();
 }
 
 monster::monster()
 {
     unset_dest();
-    wandf = 0;
-    hp = 60;
     moves = 0;
-    friendly = 0;
-    anger = 0;
-    morale = 2;
     faction = mfaction_id( 0 );
-    no_extra_death_drops = false;
-    dead = false;
-    death_drops = true;
-    made_footstep = false;
-    hallucination = false;
-    ignoring = 0;
-    upgrades = false;
-    upgrade_time = -1;
-    stomach_timer = calendar::turn;
     last_updated = calendar::turn_zero;
     biosig_timer = calendar::before_time_starts;
     udder_timer = calendar::turn;
-    horde_attraction = MHA_NULL;
-    aggro_character = true;
     set_anatomy( anatomy_default_anatomy );
     set_body();
 }
@@ -284,7 +267,6 @@ monster::monster( const mtype_id &id ) : monster()
     }
     anger = type->agro;
     morale = type->morale;
-    stomach_size = type->stomach_size;
     faction = type->default_faction;
     upgrades = type->upgrades && ( type->half_life || type->age_grow );
     reproduces = type->reproduces && type->baby_timer && !monster::has_flag( mon_flag_NO_BREED );
@@ -599,9 +581,6 @@ void monster::try_reproduce()
         }
 
         chance += 2;
-        if( !has_eaten_enough() ) {
-            chance += 1; //Reduce the chances but don't prevent birth if the animal is not eating.
-        }
         if( season_match && female && one_in( chance ) ) {
             int spawn_cnt = rng( 1, type->baby_count );
             if( !type->baby_type.baby_monster.is_null() ) {
@@ -635,9 +614,6 @@ void monster::refill_udders()
         debugmsg( "monster %s has no starting ammo to refill udders", get_name() );
         return;
     }
-    if( !has_eaten_enough() ) {
-        return;
-    }
     if( ammo.empty() ) {
         // legacy animals got empty ammo map, fill them up now if needed.
         ammo[type->starting_ammo.begin()->first] = type->starting_ammo.begin()->second;
@@ -664,66 +640,6 @@ void monster::refill_udders()
     }
 }
 
-void monster::recheck_fed_status()
-{
-    remove_effect( effect_critter_underfed );
-    remove_effect( effect_critter_well_fed );
-    if( !has_flag( mon_flag_EATS ) ) {
-        return;
-    }
-    if( has_fully_eaten() ) {
-        add_effect( effect_critter_well_fed, 24_hours );
-    } else if( !has_eaten_enough() ) {
-        add_effect( effect_critter_underfed, 24_hours );
-    }
-}
-
-void monster::set_amount_eaten( int new_amount )
-{
-    amount_eaten = new_amount;
-    recheck_fed_status();
-}
-
-void monster::mod_amount_eaten( int amount_to_add )
-{
-    amount_eaten += amount_to_add;
-    recheck_fed_status();
-}
-
-int monster::get_amount_eaten() const
-{
-    return amount_eaten;
-}
-
-int monster::get_stomach_fullness_percent() const
-{
-    if( stomach_size == 0 ) {
-        return 100; // no div-by-zero
-    }
-    return get_amount_eaten() / stomach_size;
-}
-
-bool monster::has_eaten_enough() const
-{
-    return !has_effect( effect_critter_underfed ) &&
-           ( has_effect( effect_critter_well_fed ) || has_fully_eaten() );
-}
-
-
-bool monster::has_fully_eaten() const
-{
-    return amount_eaten >= stomach_size;
-}
-
-void monster::digest_food()
-{
-    if( calendar::turn - stomach_timer > 1_days ) {
-        recheck_fed_status();
-        set_amount_eaten( 0 );
-        stomach_timer = calendar::turn;
-    }
-}
-
 void monster::try_biosignature()
 {
     if( is_hallucination() ) {
@@ -734,9 +650,6 @@ void monster::try_biosignature()
         return;
     }
     if( !type->biosig_timer ) {
-        return;
-    }
-    if( !has_eaten_enough() ) {
         return;
     }
 
@@ -1134,17 +1047,17 @@ std::vector<std::string> monster::extended_description() const
 
     std::string difficulty_str;
     if( debug_mode ) {
-        difficulty_str = _( "Difficulty " ) + std::to_string( type->difficulty );
+        difficulty_str = _( "Difficulty " ) + std::to_string( type->get_total_difficulty() );
     } else {
-        if( type->difficulty < 3 ) {
+        if( type->get_total_difficulty() < 3 ) {
             difficulty_str = _( "<color_light_gray>Minimal threat.</color>" );
-        } else if( type->difficulty < 10 ) {
+        } else if( type->get_total_difficulty() < 10 ) {
             difficulty_str = _( "<color_light_gray>Mildly dangerous.</color>" );
-        } else if( type->difficulty < 20 ) {
+        } else if( type->get_total_difficulty() < 20 ) {
             difficulty_str = _( "<color_light_red>Dangerous.</color>" );
-        } else if( type->difficulty < 30 ) {
+        } else if( type->get_total_difficulty() < 30 ) {
             difficulty_str = _( "<color_red>Very dangerous.</color>" );
-        } else if( type->difficulty < 50 ) {
+        } else if( type->get_total_difficulty() < 50 ) {
             difficulty_str = _( "<color_red>Extremely dangerous.</color>" );
         } else {
             difficulty_str = _( "<color_red>Fatally dangerous!</color>" );
@@ -3310,7 +3223,7 @@ void monster::generate_inventory( bool disableDrops )
         if( has_flag( mon_flag_FILTHY ) ) {
             if( ( it.is_armor() || it.is_pet_armor() ) && !it.is_gun() ) {
                 // handle wearable guns as a special case
-                it.set_flag( STATIC( flag_id( "FILTHY" ) ) );
+                it.set_flag( json_flag_FILTHY );
             }
         }
         inv.push_back( it );
@@ -3348,7 +3261,7 @@ void monster::drop_items_on_death( map *here, item *corpse )
         if( has_flag( mon_flag_FILTHY ) ) {
             if( ( it.is_armor() || it.is_pet_armor() ) && !it.is_gun() ) {
                 // handle wearable guns as a special case
-                it.set_flag( STATIC( flag_id( "FILTHY" ) ) );
+                it.set_flag( json_flag_FILTHY );
             }
         }
 
@@ -3748,7 +3661,8 @@ creature_size monster::get_size() const
 
 units::mass monster::get_weight() const
 {
-    return units::operator*( type->weight, get_size() / type->size );
+    return enchantment_cache->modify_value( enchant_vals::mod::TOTAL_WEIGHT,
+                                            units::operator*( type->weight, get_size() / type->size ) );
 }
 
 units::mass monster::weight_capacity() const
@@ -3853,10 +3767,10 @@ void monster::init_from_item( item &itm )
             hp = type->hp;
             set_speed_base( type->speed );
         }
-        upgrade_time = itm.get_var( "upgrade_time", 0 );
+        upgrade_time = itm.get_var( "upgrade_time", -1 );
         for( item *it : itm.all_items_top( pocket_type::CONTAINER ) ) {
             if( it->is_armor() ) {
-                it->set_flag( STATIC( flag_id( "FILTHY" ) ) );
+                it->set_flag( json_flag_FILTHY );
             }
             inv.push_back( *it );
             itm.remove_item( *it );
@@ -4008,9 +3922,28 @@ void monster::hear_sound( const tripoint_bub_ms &source, const int vol, const in
         return;
     }
 
-    int tmp_provocative = provocative || volume >= normal_roll( 30, 5 );
+    // Kind of nasty, but this prevents zombies from being attracted to collapsing on-fire buildings.
+    // The rationale for this is simple: Without it, one burning building would wipe out every zed in several blocks. So how did any of them survive the riots?
+    bool probably_a_fire = false;
+    map &here = get_map();
+    for( const tripoint_bub_ms &pt : here.points_in_radius( source, 1, 1 ) ) {
+        const field_entry *fire_fld = here.get_field( pt, fd_fire );
+        // Only large, uncontained fires cause sounds to be ignored.
+        if( fire_fld && fire_fld->get_field_intensity() > 1 &&
+            !here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FIRE_CONTAINER, pt ) ) {
+            probably_a_fire = true;
+            break;
+        }
+    }
+
+    int tmp_provocative = !probably_a_fire && ( provocative || volume >= normal_roll( 30, 5 ) );
+
+    // Not interesting sound, nothing to do here
+    if( !tmp_provocative ) {
+        return;
+    }
     // already following a more interesting sound
-    if( provocative_sound && !tmp_provocative && wandf > 0 ) {
+    if( provocative_sound && wandf > 0 ) {
         return;
     }
 
@@ -4030,7 +3963,7 @@ void monster::hear_sound( const tripoint_bub_ms &source, const int vol, const in
     // target_z will require some special check due to soil muffling sounds
 
     const int wander_turns = volume * ( goodhearing ? 6 : 1 );
-    // again, already following a more interesting sound
+    // The sound was interesting, but not interesting enough to *want* to follow it.
     if( wander_turns < wandf ) {
         return;
     }
@@ -4218,7 +4151,7 @@ std::function<bool( const tripoint_bub_ms & )> monster::get_path_avoid() const
     return [this]( const tripoint_bub_ms & p ) {
         map &here = get_map();
         // If we can't move there and can't bash it, don't path through it.
-        if( !can_move_to( p ) && ( bash_skill() <= 0 || !here.is_bashable( p ) ) ) {
+        if( !can_move_to( p ) && ( !bash_skill().empty() || !here.is_bashable( p ) ) ) {
             return true;
         }
 

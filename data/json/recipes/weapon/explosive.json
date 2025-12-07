@@ -102,7 +102,7 @@
     "components": [
       [ [ "bleach", 2 ], [ "oxy_powder", 200 ] ],
       [ [ "ammonia_liquid", 2 ], [ "lye_powder", 200 ] ],
-      [ [ "super_glue", 5 ] ]
+      [ [ "glue_strong", 5 ] ]
     ]
   },
   {
@@ -124,7 +124,7 @@
       [ [ "triffid_fungicide", 1 ], [ "fungicide", 50 ] ],
       [ [ "chem_sulphur", 150 ] ],
       [ [ "small_gas_canister_case", 1, "LIST" ] ],
-      [ [ "super_glue", 5 ] ]
+      [ [ "glue_strong", 5 ] ]
     ]
   },
   {
@@ -146,7 +146,7 @@
       [ [ "insecticide", 1 ] ],
       [ [ "water", 2 ], [ "water_clean", 2 ] ],
       [ [ "small_gas_canister_case", 1, "LIST" ] ],
-      [ [ "super_glue", 5 ] ]
+      [ [ "glue_strong", 5 ] ]
     ]
   },
   {
@@ -162,14 +162,7 @@
     "using": [ [ "accelerant_liquid", 500 ] ],
     "components": [
       [ [ "cotton_patchwork", 1 ] ],
-      [
-        [ "bottle_glass", 1 ],
-        [ "jar_glass_sealed", 1 ],
-        [ "bottle_glass_seasoning", 1 ],
-        [ "bottle_glass_seasoning_small", 2 ],
-        [ "flask_glass", 2 ],
-        [ "clay_canister", 2 ]
-      ]
+      [ [ "bottle_glass", 1 ], [ "jar_glass_sealed", 1 ], [ "bottle_glass_seasoning", 1 ], [ "clay_canister", 1 ] ]
     ]
   },
   {
@@ -227,7 +220,7 @@
       [ [ "water", 1 ], [ "water_clean", 1 ], [ "salt_water", 1 ], [ "saline", 5 ] ],
       [ [ "sugar", 16 ] ],
       [ [ "chem_saltpetre", 24 ] ],
-      [ [ "super_glue", 5 ] ]
+      [ [ "glue_strong", 5 ] ]
     ]
   },
   {
@@ -248,7 +241,7 @@
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ], [ "salt_water", 1 ], [ "saline", 5 ] ],
       [ [ "white_phosphorous", 20 ] ],
-      [ [ "super_glue", 5 ] ]
+      [ [ "glue_strong", 5 ] ]
     ]
   },
   {
@@ -265,10 +258,10 @@
     "book_learn": [ [ "manual_launcher", 4 ], [ "textbook_anarch", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "using": [ [ "military_explosive", 46 ], [ "explosives_casting_standard", 1 ], [ "small_grenade_case", 1 ] ],
+    "using": [ [ "military_explosive", 46 ], [ "explosives_casting_standard", 1 ], [ "small_gas_canister_case", 1 ] ],
     "components": [
       [ [ "delay_fuze", 1 ] ],
-      [ [ "super_glue", 4 ], [ "duct_tape", 10 ], [ "cordage", 1, "LIST" ] ],
+      [ [ "glue_strong", 4 ], [ "duct_tape", 10 ], [ "cordage", 1, "LIST" ] ],
       [ [ "nails", 50, "LIST" ], [ "scrap", 2 ] ]
     ]
   },
@@ -289,7 +282,7 @@
     "using": [ [ "military_explosive", 92 ], [ "explosives_casting_standard", 1 ] ],
     "components": [
       [ [ "delay_fuze", 1 ] ],
-      [ [ "super_glue", 4 ], [ "duct_tape", 10 ], [ "cordage", 1, "LIST" ] ],
+      [ [ "glue_strong", 4 ], [ "duct_tape", 10 ], [ "cordage", 1, "LIST" ] ],
       [ [ "can_medium", 1 ] ],
       [ [ "nails", 100, "LIST" ], [ "scrap", 4 ] ]
     ]
@@ -327,7 +320,7 @@
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [
       [ [ "delay_fuze", 1 ] ],
-      [ [ "super_glue", 4 ], [ "duct_tape", 10 ], [ "cordage", 1, "LIST" ] ],
+      [ [ "glue_strong", 4 ], [ "duct_tape", 10 ], [ "cordage", 1, "LIST" ] ],
       [ [ "jug_plastic", 1 ] ],
       [ [ "nails", 750, "LIST" ], [ "scrap", 30 ] ]
     ]
@@ -347,7 +340,7 @@
     "using": [ [ "explosives_casting_standard", 5 ], [ "military_explosive", 10000 ] ],
     "components": [
       [ [ "delay_fuze", 1 ] ],
-      [ [ "super_glue", 4 ], [ "duct_tape", 10 ], [ "cordage", 1, "LIST" ] ],
+      [ [ "glue_strong", 4 ], [ "duct_tape", 10 ], [ "cordage", 1, "LIST" ] ],
       [ [ "keg_steel", 1 ] ]
     ]
   },
@@ -366,13 +359,12 @@
     "using": [ [ "explosives_casting_standard", 10 ], [ "military_explosive", 20000 ] ],
     "components": [
       [ [ "delay_fuze", 1 ] ],
-      [ [ "super_glue", 4 ], [ "duct_tape", 10 ], [ "cordage", 1, "LIST" ] ],
+      [ [ "glue_strong", 4 ], [ "duct_tape", 10 ], [ "cordage", 1, "LIST" ] ],
       [ [ "30gal_drum", 1 ] ]
     ]
   },
   {
     "result": "small_homemade_grenade",
-    "id_suffix": "volatile",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_WEAPON",
@@ -384,17 +376,16 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "using": [ [ "stable_explosive", 14 ], [ "volatile_explosive", 1 ] ],
     "components": [
-      [ [ "small_grenade_case", 1, "LIST" ] ],
-      [ [ "stable_explosive", 15, "LIST" ], [ "volatile_explosive", 15, "LIST" ] ],
+      [ [ "small_gas_canister_case", 1, "LIST" ] ],
       [ [ "fuse", 1 ] ],
-      [ [ "super_glue", 4 ], [ "duct_tape", 10 ], [ "cordage", 1, "LIST" ] ],
+      [ [ "glue_strong", 4 ], [ "duct_tape", 10 ] ],
       [ [ "nails", 50, "LIST" ], [ "scrap", 2 ] ]
     ]
   },
   {
     "result": "homemade_grenade",
-    "id_suffix": "volatile",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_WEAPON",
@@ -406,11 +397,11 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "using": [ [ "stable_explosive", 29 ], [ "volatile_explosive", 1 ] ],
     "components": [
       [ [ "can_medium", 1 ] ],
-      [ [ "stable_explosive", 30, "LIST" ], [ "volatile_explosive", 30, "LIST" ] ],
       [ [ "fuse", 1 ] ],
-      [ [ "super_glue", 4 ], [ "duct_tape", 10 ], [ "cordage", 1, "LIST" ] ],
+      [ [ "glue_strong", 4 ], [ "duct_tape", 10 ] ],
       [ [ "nails", 100, "LIST" ], [ "scrap", 4 ] ]
     ]
   },
@@ -475,7 +466,7 @@
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [
       [ [ "fuse", 1 ] ],
-      [ [ "super_glue", 4 ], [ "duct_tape", 10 ], [ "cordage", 1, "LIST" ] ],
+      [ [ "glue_strong", 4 ], [ "duct_tape", 10 ], [ "cordage", 1, "LIST" ] ],
       [ [ "jug_plastic", 1 ] ],
       [ [ "nails", 750, "LIST" ], [ "scrap", 30 ] ]
     ]
@@ -495,7 +486,7 @@
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "using": [ [ "stable_explosive", 253 ], [ "volatile_explosive", 6 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "fuse", 1 ] ], [ [ "super_glue", 4 ], [ "duct_tape", 10 ], [ "cordage", 1, "LIST" ] ], [ [ "jug_plastic", 1 ] ] ]
+    "components": [ [ [ "fuse", 1 ] ], [ [ "glue_strong", 4 ], [ "duct_tape", 10 ], [ "cordage", 1, "LIST" ] ], [ [ "jug_plastic", 1 ] ] ]
   },
   {
     "result": "half_barrel_bomb",
@@ -510,7 +501,7 @@
     "book_learn": [ [ "manual_launcher", 7 ], [ "textbook_anarch", 8 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "using": [ [ "volatile_explosive", 86 ], [ "stable_explosive", 3354 ] ],
-    "components": [ [ [ "fuse", 1 ] ], [ [ "super_glue", 4 ], [ "duct_tape", 10 ], [ "cordage", 1, "LIST" ] ], [ [ "keg_steel", 1 ] ] ]
+    "components": [ [ [ "fuse", 1 ] ], [ [ "glue_strong", 4 ], [ "duct_tape", 10 ], [ "cordage", 1, "LIST" ] ], [ [ "keg_steel", 1 ] ] ]
   },
   {
     "result": "full_barrel_bomb",
@@ -525,6 +516,6 @@
     "book_learn": [ [ "manual_launcher", 7 ], [ "textbook_anarch", 8 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "using": [ [ "volatile_explosive", 173 ], [ "stable_explosive", 6747 ] ],
-    "components": [ [ [ "fuse", 1 ] ], [ [ "super_glue", 4 ], [ "duct_tape", 10 ], [ "cordage", 1, "LIST" ] ], [ [ "30gal_drum", 1 ] ] ]
+    "components": [ [ [ "fuse", 1 ] ], [ [ "glue_strong", 4 ], [ "duct_tape", 10 ], [ "cordage", 1, "LIST" ] ], [ [ "30gal_drum", 1 ] ] ]
   }
 ]

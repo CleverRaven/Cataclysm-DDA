@@ -15,7 +15,7 @@
   },
   {
     "id": "sr1vektor_9x21mm",
-    "copy-from": "pistol_base",
+    "copy-from": "gun_base_handgun_semi",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "name": { "str_sp": "SR-1 Vektor Gyurza" },
@@ -25,18 +25,16 @@
     "longest_side": "195 mm",
     "price": "950 USD",
     "price_postapoc": "30 USD",
-    "material": [ "plastic", "steel" ],
-    "color": "dark_gray",
+    "material": [ "plastic", "lc_steel" ],
     "ammo": [ "9x21mm" ],
     "dispersion": 480,
     "durability": 7,
     "min_cycle_recoil": 450,
-    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "sr1vektor_mag_18rd" ] } ],
-    "melee_damage": { "bash": 8 }
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "sr1vektor_mag_18rd" ] } ]
   },
   {
     "id": "aa_12",
-    "copy-from": "shotgun_base",
+    "copy-from": "gun_base_shotgun_semi",
     "looks_like": "remington_870",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
@@ -47,13 +45,11 @@
     "longest_side": "966 mm",
     "price": "1 kUSD 890 USD",
     "price_postapoc": "85 USD",
-    "to_hit": -1,
-    "material": [ "steel" ],
+    "material": [ "lc_steel" ],
     "dispersion": 358,
     "durability": 7,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ], [ "AUTO", "auto", 5 ] ],
     "default_mods": [ "bars" ],
-    "min_cycle_recoil": 1250,
     "barrel_volume": "81 ml",
     "valid_mod_locations": [
       [ "sling", 1 ],
@@ -66,8 +62,7 @@
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "aa12_box_mag", "aa12_drum_mag" ] } ],
-    "melee_damage": { "bash": 14 }
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "aa12_box_mag", "aa12_drum_mag" ] } ]
   },
   {
     "id": "hammer_turret_system",
@@ -82,7 +77,7 @@
     "longest_side": "100 cm",
     "price": "1 kUSD 800 USD",
     "price_postapoc": "175 USD 50 cent",
-    "material": [ "steel" ],
+    "material": [ "lc_steel" ],
     "dispersion": 358,
     "durability": 8,
     "modes": [ [ "DEFAULT", "burst", 10 ] ],

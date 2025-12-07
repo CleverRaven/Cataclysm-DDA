@@ -82,21 +82,33 @@
     "type": "talk_topic",
     "responses": [
       {
-        "text": "[Premonition] *Determine if <npc_name> is a threat*",
+        "text": "[Premonition] *Check for anything amiss*",
         "topic": "TALK_EXODII_MERCHANT_danger_sense",
         "condition": {
           "or": [
             { "math": [ "u_spell_level('clair_danger_sense') >= 2" ] },
-            { "math": [ "u_spell_level('knack_clair_danger_sense') >= 8" ] }
+            { "math": [ "u_spell_level('clair_danger_sense_knack') >= 8" ] }
           ]
         }
+      },
+      {
+        "text": "[Sense Hostility] *Determine if <npc_name> is a threat*",
+        "topic": "TALK_EXODII_MERCHANT_sense_hostility",
+        "condition": { "math": [ "u_spell_level('clair_sense_hostile_creatures') >= 1" ] }
       }
     ]
   },
   {
     "id": [ "TALK_EXODII_MERCHANT_danger_sense" ],
     "type": "talk_topic",
-    "dynamic_line": "&You extend your senses, alert for danger, and are surprised that at the result.  There is danger here, but it's muted, and certainly Rubik doesn't bear you any malice.  If any place is safe in the hell that the Earth has become, this is it.",
+    "dynamic_line": "&You extend your senses, alert for danger, and are surprised at the result.  There is danger here, but it's muted, and certainly Rubik doesn't seem to bear you any malice.  If any place is safe in the hell that the Earth has become, this is it.",
+    "responses": [ { "text": "…", "topic": "TALK_EXODII_MERCHANT_Talk" } ]
+  },
+  {
+    "id": [ "TALK_EXODII_MERCHANT_sense_hostility" ],
+    "type": "talk_topic",
+    "//": "TODO: Change this depending on how much Rubik trusts the PC.",
+    "dynamic_line": "&You extend your senses, probing at Rubik's attitude, and come away with a sense of relief.  Rubik certainly doesn't plan any violent action at this moment.",
     "responses": [ { "text": "…", "topic": "TALK_EXODII_MERCHANT_Talk" } ]
   },
   {

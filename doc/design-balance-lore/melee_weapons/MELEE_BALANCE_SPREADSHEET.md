@@ -1,3 +1,19 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Melee Balance Spreadsheet](#melee-balance-spreadsheet)
+- [Overview](#overview)
+  - [Raw](#raw)
+  - [Filter](#filter)
+  - [New Formula](#new-formula)
+  - [New Formula Sorted](#new-formula-sorted)
+  - [Proposed Values](#proposed-values)
+  - [Proposed Values Sorted](#proposed-values-sorted)
+  - [Comparison](#comparison)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## Melee Balance Spreadsheet
 *This document is quite out of date*
 

@@ -138,6 +138,34 @@ river generation overhaul
 faction camp food supply can expire over time
 Roads cross streams at culverts
 Add Weight Modifying Enchantment
+Query to quick-reveal all nearby wires when revealing wall wires
+Generic tie-down/haul system for furniture on vehicles
+Descriptive recipe names
+Add vehicle enchantments and effects
+Toolmods are removable again, and any tool with screw driving quality can remove them
+Allow pushing/pulling furniture directly onto and off of vehicles that can load them
+NPCs can handle liquids from crafting
+Bashed furniture and terrain produce dust fields
+Highways
+Expand implementation of liquid ammo
+NPC AI fixes to improve fleeing in bad situations, reduce it in good ones
+Armors faults. Part 1: Steel Plate
+Show time in months/days
+Player assigned Points of interest visible as Mission markers
+Enable save compression by default for new worlds
+display item name and owner for stealing prompt
+Monsters can now see you if you're invisible and they have the TRUESIGHT monster flag
+Make player go back to previous position when safemode is triggered
+Initial implementation of wounds
+JSONize mission-related topic IDs (TALK_MISSION_INQUIRE / TALK_MISSION_DESCRIBE_URGENT)
+Plant-specific growth stages for agriculture
+Add another form of scaling for batch recipes, enabling creation of bulk recipes
+dimension npc travel filter expansion and other tweaks
+NPCs automatically select the best MA style for their weapon
+Custom region settings for dimensions
+Allow magazines in guns/tools to regenerate ammo
+Honor theft preference inside the Advanced Inventory Management screens
+
 
 
 ## Content:
@@ -315,6 +343,41 @@ Snippetize Tshirt variants
 Exodii Ceramics
 Opiate Vitamin
 Add arab and islamic clothes for women
+Adds a few other scavengeable options for anvils
+Adds an early playtest version of the exodii labyrinth dungeon, accessible by a chargen trait.
+Build sturdy wooden shutters for your windows
+Add a sunken helicopter location
+Nuclear Power Plant upgrade
+Add 3 new guns (308 Model 700, .22 Savage Rascal, .32 LWS)
+Added a new faction
+Add practice recipes for learning how to be a proper blacksmith
+Adds fungal mound and fungal construct monsters for zombies who revive on fungal ground.
+More prepper food, meds in bugout bags
+Adds more spawns for the more esoteric books you can find
+Add nested cellars to cabins
+Add meds, maps in bugout bags
+Adds hair dye and hair dye kits to bathrooms.
+Professions now start with relevant books in their smartphones/laptops and some even with smartwatches
+Cheese wheels preserved in wax
+You can do your makeup
+Allow EOCs to read artifact resonance
+Add lathe functionality and industrial baseball bat production
+Chitin armor overhaul
+Add deep fryers
+Move vehicle part locations to JSON
+Begin moving faction mission definitions to JSON, starting with descriptions
+New book artifact types.
+Better feedback on planting failures + plants need sunlight
+Add NO_BODY_HEAT flag for characters who don't show up on infrared
+Add flesh aberration corpse pit map extra
+Implement microscope functionality
+Add the Zombie Summoner
+Highlands Dimension
+Add a few crude guns
+Add borax, expand graphite use, update some smithing recipes and rock spawning
+Houses have a realistic amount of solar power
+410 Mossberg 500 and Mossberg Shockwave
+Add a few cigar variants and a recipe for making cigars
 
 
 ## Interface:
@@ -432,6 +495,18 @@ Create a terminal-like default theme for Imgui
 Add NPC faction and NPC omt location to mission entries
 Describe stat level in new character window
 Severe hypovolemic shock message now mentions saline infusion instead of transfusion
+Always show clean water on top of consume menu
+Toggle haul from action menu when hauling
+Explain that degraded items are degraded
+Message to player when UPS equipment runs out of power.
+Construction interface shows prerequisite furniture/terrain flags
+Default android sidebar changed to sidebar-mobile
+Present dispersion as MOA in item UI
+Hide overmap display's 'land use code' behind debug mode
+Show progress percent when butchering
+Hide installed gunmods when installed, show loose gunmods in the inventory UI
+overmap sidebar ImGui conversion
+Add vehicle zone enable/disable keys to the zone manager UI
 
 
 ## Mods:
@@ -825,6 +900,46 @@ Mod Conflicts
 [Bombastic Perks] Limit metamagic perks to Magiclysm
 Aftershock: More mundane tools are available in exoplanet
 [MoM] Add possible `Mathematican A57` boss fight to Research Facility
+[Magiclysm] Spellcasting always grants proficiency XP
+[MoM] Add Achievements
+[Crazy Cataclysm] Add the immortal snail as second nemesis
+Create a loading screen for Aftershock
+[Extra Mutation Scenarios] Add start only mutation glands that gradually permanently mutate you towards a selected category
+Magiclysm - Implement Enchanted Druid Items
+Aftershock: Create cryosuit UI elements and power warnings
+Aftershock: Add a scenario where you control a functional Starship.
+Mods can have 'hard' requirements for meta progression
+[Xedra Evolved] Add Bloodthorne druids
+[Mods] Mutually-exclusive supernatural/fantasy heritage traits are light cyan
+[Mods] Traits that let you cast spells or other supernatural power suites are green
+[Xedra Evolved] Add bloodthorne druid safehouse
+[MoM] Fifth Sun People is now a HERITAGE trait
+Aftershock: Lasers can only use power cartridges, cant be mounted in vehicle.
+Aftershock: Add mod achievements and lock challenge scenarios behind them.
+[Xedra Evolved] Vampires can't level dream magick
+Aftershock: Humaniforms can execute humanoid monsters
+Aftershock: Vehicle bay City Building a mix between mechanic garage, gas station and parking lot.
+[MoM] Add help topics for psionic paths, using psionics, and psychic knacks
+[Magiclysm] Humans are also a species
+[Magiclysm] Add Aenor version of the horse ranch
+[Magiclysm] SOMATIC spells are harder to cast with broken arms
+[Aftershock] Using the genetech machines de-espers you
+[Mods] When shapeshifted into a form with no hands, you don't have hands
+[Mods] Your gear doesn't protect you when you're shapeshifted
+[Mods] If you have a broken limb and are in a shapeshifted form, you can't fly
+[DDotD] Add drag down attack when you're grabbed and surrounded
+[Magiclysm] Add Aerial Assassin monster and `PERMANENT_INVISIBILITY` flag to go with it
+[XEDRA] Replace steel material in items with updated steel types to allow repairing
+[Magiclysm] Add Seeing the Unseen animist spell
+Aftershock: Replace remaining vanilla robots with more setting appropriate ones
+[Magiclysm] Add the rust monster
+Aftershock: Properly Ruin cities
+[Xedra Evolved] The holy light of the sun burns vampires' impure flesh
+Add BLOCK_SUPERNATURAL_HEALING flag, apply it to Clay Golem attacks in Magiclysm
+[Aftershock] Add the Sibyl profession to the Esper scenario, add precognitive powers
+[Bombastic Perks] Add the Closetland playstyle perk
+Martial Mastery Stat Widget
+
 
 
 ## Balance:
@@ -922,6 +1037,16 @@ Triffid flesh is no longer safe to eat
 Milspec searchlights don't explode, now drop broken version
 World sliders rebalanced to offer differing gameplay experiences
 Some recipes have 'hard' proficiency requirements
+Expanded spawns for some proper melee weapons
+Adjust Precise Strike melee tech so it also cant stun what other stun-causing techs cant stun.
+Adds cuvettes to analysis kit crafting recipe, increase analysis kit weight.
+Fitness bands and smart watches are more common, while pocket watches and game watches are rarer.
+Tree bashing from being cut down is not a magic wand
+Star vampires have `PERMANENT_INVISIBILITY`, when they drink blood it applies `SUPPRESS_INVISIBILITY`
+Molotovs do not create walls of fire
+Monsters moving through SHARP terrain trample the terrain
+Running over large/hard objects in vehicles will damage your wheels
+Separate toolsets for things embedded in wood and metal structures
 
 
 ## Bugfixes:
@@ -1283,6 +1408,43 @@ Special vision save failure
 Players learning from NPCs while blind and teaching NPCs while blind is now fixed.
 Attempt to increase average autotravel speed when driving on straight roads
 remove landmines from weird places
+Fix special attacks overwriting cooldown values to zero
+Scenario still had adult hobbies applied
+Fix drawing items under fields without tiles
+Limit the range of water channels
+Fix forced traits being applied to NPCs
+Fix EOC actor consuming tools on processing
+Fix molotovs exploding multiple times
+add E_STORABLE_EXCLUSIVE flag
+add E_STORABLE_EXCLUSIVE flag
+avoid ImGui warning in keybindings window if the translation happens to have duplicate text
+Cannot trap a monster and use it as an infinite training dummy
+Resolve errors from loading 0.H options on 0.I
+Fix CTD when looking up with isometric tileset
+[Xedra Evolved] Only werewolves gain werewolf gifts
+AIM item menu wouldn't update window position on resize.
+Fix deserialization error with power level
+Power grid deleted on ship movement
+AIM uilist submenu shaking violently.
+fix zones disabling on save/load
+Fix enchantment cache load issue (If your save didn't load right hopefully it will now)
+Fix being unable to place traps
+Fix terrain not being recognized in palettes based on loading order
+Fix spawning map extras with non-default region settings
+Fix fishing on non river/lake/ocean tiles
+Fix roads going nowhere
+Prevent segfault when cancelling butchery
+[Sorcerer] Sorcerers can learn advanced versions of spells though having high enough spell level of the base spell
+[Dinomod/Innawood] Remove cities if using Dinomod/Innawood together
+Eating human zombie flesh is cannibalism
+Fix rare overmap save corruption from specific horde metadata
+Audit solar panel installation/removal reqs for vehicles
+Fix the scaling factor for high-dpi displays.
+calculate the width of the overmap sidebar correctly
+Various UI problems caused by shared_ptr change
+Heating items now changes temperature, properly resets temp flags
+Magic teleporters expire after copy_location EOC run
+Fixing heatpack requiring appliances or fire to work
 
 
 ## Performance:
@@ -1313,6 +1475,10 @@ Vehicles are slightly more efficient
 vision_transparency_cache isn't rebuilt if transparency_cache_dirty isn't set
 AIM cache filter function once
 Cache item info, reducing time of crafting filter `d:` to ~32%
+Speed up mapgen especially noticeable in Sky Islands
+don’t call std::pow for squaring numbers
+don’t compute the size of far away hordes when drawing the world map
+can_contain: calculate pocket volume once (huge speed up in special cases)
 
 
 ## Infrastructure:
@@ -1447,6 +1613,25 @@ Allow monsters to have different climb/swim/dig speeds
 Mapgen: removed unused, obsoleted and pointless JSON fields
 Zstandard compressed save data for disk space savings.
 bulk overmap testing debug tools
+Adds a vertical stack of omt scope for mapgen parameters
+Monsters can be forced to flee through an EoC
+Improve mod migration
+Use optional/mandatory for mutation, material, mission def, move mode
+Use optional/mandatory for weather type, trap, start location, scent map, profession group, and various json loading cleanup
+Check for unused extend/delete/proportional/relative with mandatory
+Begin moving duplicated UI code to new helpers library
+zzip.exe: a tool for manipulating compressed save 'zzip' files.
+travel to seperate world instances within the same save file
+region settings overhaul
+Consume_drug use actions can define intensity for their effect
+Allowing inverting lake generation for islands-style overmaps
+Add debug command to print overmap noise maps
+Allow specifying city name lists in region settings
+Clang tidy rule to catch/reject unicode replacement character
+Use copy-from for region settings instead of overlays
+Allow specifying variants for brewing and compost results
+zone sorting refactor
+multi-activity overhaul, part 3: split up generic_multi_activity_check_requirement()
 
 
 ## Build:
@@ -1473,6 +1658,10 @@ Improve ccache performance with age based eviction instead of coarse size limits
 Fix CMake Linux VCPKG build
 Initial support for GNU Make for Windows
 Move Android bundle generation to manually triggered workflow
+Fix Mac build (Bump up dmg size limit in macOS release build)
+Build tilesets in CI for releases, delete tilesets from repo
+Build translations in CI for releases, delete translations from repo
+Fix clang 21 warnings
 
 
 ## I18N and A11Y:
@@ -1497,6 +1686,7 @@ Restructure the template file
 [MoM] Dont extract monster/fake spells/effects for translation
 Miscellaneous NO_I18N additions
 Translate martial art condition text and cable notification text
+Add documentation for C++ translation context comments
 
 
 # 0.H (Herbert)

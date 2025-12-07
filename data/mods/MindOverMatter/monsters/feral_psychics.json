@@ -4,6 +4,7 @@
     "type": "MONSTER",
     "copy-from": "mon_feral_human_pipe",
     "//": "interstitial copy-from to edit flags and special attacks appropriately",
+    "default_faction": "feral_psychic",
     "special_attacks": [ [ "BROWSE", 100 ], [ "EAT_FOOD", 100 ] ],
     "flags": [
       "SEES",
@@ -205,7 +206,23 @@
     "death_drops": "feral_humans_death_drops_clair",
     "zombify_into": "mon_zombie_survivor",
     "upgrades": { "half_life": 180, "into": "mon_feral_human_clair2" },
-    "extend": { "special_attacks": [ { "id": "feral_weapon_pipe" } ], "flags": [ "GOODHEARING", "HARDTOSHOOT", "WIELDED_WEAPON" ] }
+    "extend": {
+      "flags": [ "GOODHEARING", "WIELDED_WEAPON" ],
+      "special_attacks": [
+        { "id": "feral_weapon_pipe" },
+        {
+          "id": "psi_clair_heightened_senses",
+          "type": "spell",
+          "spell_data": { "id": "clair_heightened_senses_monster_1" },
+          "cooldown": { "math": [ "10 + rand(20)" ] },
+          "allow_no_target": true,
+          "condition": {
+            "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_feral_heightened_senses" } } ]
+          },
+          "monster_message": "%1$s closes their eyes for a moment."
+        }
+      ]
+    }
   },
   {
     "id": "mon_feral_human_clair2",
@@ -224,6 +241,7 @@
     "starting_ammo": { "rock": 6 },
     "upgrades": { "half_life": 180, "into": "mon_feral_human_clair3" },
     "extend": {
+      "flags": [ "GOODHEARING", "HARDTOSHOOT", "WIELDED_WEAPON" ],
       "special_attacks": [
         {
           "type": "gun",
@@ -239,9 +257,19 @@
           "ranges": [ [ 2, 7, "DEFAULT" ] ],
           "description": "The feral visionary throws a rock!"
         },
+        {
+          "id": "psi_clair2_heightened_senses",
+          "type": "spell",
+          "spell_data": { "id": "clair_heightened_senses_monster_2" },
+          "cooldown": { "math": [ "10 + rand(20)" ] },
+          "allow_no_target": true,
+          "condition": {
+            "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_feral_heightened_senses_2" } } ]
+          },
+          "monster_message": "%1$s closes their eyes for a moment."
+        },
         { "id": "feral_weapon_pipe" }
-      ],
-      "flags": [ "GOODHEARING", "HARDTOSHOOT", "WIELDED_WEAPON", "DROPS_AMMO", "ALL_SEEING" ]
+      ]
     }
   },
   {
@@ -260,6 +288,7 @@
     "zombify_into": "mon_zombie_survivor",
     "starting_ammo": { "rock": 6 },
     "extend": {
+      "flags": [ "GOODHEARING", "HARDTOSHOOT", "WIELDED_WEAPON" ],
       "special_attacks": [
         {
           "type": "gun",
@@ -276,6 +305,26 @@
           "description": "With inhuman accuracy, the pattern screamer throws a rock!"
         },
         { "id": "feral_weapon_pipe" },
+        {
+          "id": "psi_clair3_heightened_senses",
+          "type": "spell",
+          "spell_data": { "id": "clair_heightened_senses_monster_3" },
+          "cooldown": { "math": [ "10 + rand(20)" ] },
+          "allow_no_target": true,
+          "condition": {
+            "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_feral_heightened_senses_3" } } ]
+          },
+          "monster_message": "%1$s closes their eyes for a moment."
+        },
+        {
+          "id": "psi_clair3_clear_sight",
+          "type": "spell",
+          "spell_data": { "id": "clair_clarity_monster_spell" },
+          "cooldown": { "math": [ "20 + rand(40)" ] },
+          "allow_no_target": true,
+          "condition": { "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_clair_clear_sight" } } ] },
+          "monster_message": "%1$s closes their eyes for a moment."
+        },
         {
           "id": "psi_pattern_scream",
           "type": "spell",
@@ -616,7 +665,6 @@
           "damage_max_instance": [ { "damage_type": "heat", "amount": 20 } ],
           "dodgeable": true,
           "blockable": false,
-          "effects": [ { "id": "onfire", "duration": 60, "chance": 25, "affect_hit_bp": true } ],
           "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
           "hit_dmg_u": "%1$s gestures and your %2$s is engulfed in flames!",
           "hit_dmg_npc": "%1$s gestures and <npcname>'s %2$s is engulfed in flames!",
@@ -668,7 +716,6 @@
           "damage_max_instance": [ { "damage_type": "heat", "amount": 25 } ],
           "dodgeable": true,
           "blockable": false,
-          "effects": [ { "id": "onfire", "duration": 60, "chance": 50, "affect_hit_bp": true } ],
           "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
           "hit_dmg_u": "%1$s gestures and your %2$s is engulfed in flames!",
           "hit_dmg_npc": "%1$s gestures and <npcname>'s %2$s is engulfed in flames!",
@@ -732,7 +779,6 @@
           "damage_max_instance": [ { "damage_type": "heat", "amount": 35 } ],
           "dodgeable": true,
           "blockable": false,
-          "effects": [ { "id": "onfire", "duration": 60, "chance": 75, "affect_hit_bp": true } ],
           "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
           "hit_dmg_u": "%1$s gestures and your %2$s is engulfed in flames!",
           "hit_dmg_npc": "%1$s gestures and <npcname>'s %2$s is engulfed in flames!",
@@ -1020,6 +1066,20 @@
           "cooldown": { "math": [ "7 + rand(14)" ] },
           "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
           "monster_message": "%1$s gestures and the ground bursts apart!"
+        },
+        {
+          "id": "psi_telekin3_aegis",
+          "type": "spell",
+          "spell_data": { "id": "telekinetic_aegis_monster" },
+          "cooldown": 1,
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "NO_PSIONICS" } },
+              { "or": [ "npc_driving" ] },
+              { "not": { "u_has_effect": "effect_monster_aegis_limiter" } }
+            ]
+          },
+          "monster_message": "%1$s throws their arms wide!"
         },
         {
           "id": "psi_telekin3_earthshake",

@@ -22,6 +22,7 @@
       { "item": "katana_fake", "prob": 1 },
       { "item": "longsword_fake", "prob": 1 },
       { "item": "clownshoes", "prob": 15 },
+      { "group": "esoteric_books", "prob": 2 },
       { "group": "costume_weapons", "prob": 5 }
     ]
   },
@@ -79,8 +80,7 @@
       { "item": "devil_tail", "prob": 15 },
       { "item": "angel_wings", "prob": 15 },
       { "item": "cuffs", "prob": 25 },
-      { "item": "collar_playboy", "prob": 25 },
-      { "item": "tail_bunny_playboy", "prob": 25 }
+      { "item": "collar_playboy", "prob": 25 }
     ]
   },
   {
@@ -150,18 +150,19 @@
       { "item": "mummy_dress", "prob": 25 },
       { "item": "ninja_dress", "prob": 15 },
       { "item": "ninja_dress_sleeveless", "prob": 15 },
-      { "item": "sinister_dress", "prob": 35 },
-      { "item": "sinister_dress_short", "prob": 25 },
-      { "item": "sinister_gown", "prob": 15 },
-      { "item": "witch_dress", "prob": 35 },
-      { "item": "witch_dress_long", "prob": 25 },
-      { "item": "witch_dress_short", "prob": 20 },
+      { "item": "long_dress_sleeved", "variant": "sinister", "prob": 35 },
+      { "item": "short_dress", "variant": "sinister", "prob": 25 },
+      { "item": "gown_sleeved", "variant": "sinister", "prob": 15 },
+      { "item": "dress_sleeved", "variant": "witch_black", "prob": 35 },
+      { "item": "long_dress_sleeved", "variant": "witch_black", "prob": 25 },
+      { "item": "short_dress_sleeved", "variant": "witch_black", "prob": 20 },
       { "item": "maid_dress", "prob": 25 },
       { "item": "maid_dress_short", "prob": 35 },
       { "item": "kimono", "prob": 5 },
       { "item": "yukata", "prob": 5 },
-      { "item": "dress", "variant": "gown", "prob": 5 },
-      { "item": "dress_wedding", "prob": 5 }
+      { "item": "gown", "prob": 5 },
+      { "item": "dress_wedding", "prob": 5 },
+      { "item": "cheongsam", "prob": 10 }
     ]
   },
   {
@@ -259,7 +260,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "santa_beard", "prob": 20 },
-      { "item": "mask_guy_fawkes", "prob": 10 },
+      { "item": "mask_skull", "variant": "guy_fawkes", "prob": 10 },
       { "item": "mask_hockey", "prob": 20 },
       { "item": "bondage_mask", "prob": 5 },
       { "item": "blindfold", "prob": 5 },
@@ -596,5 +597,11 @@
       [ "wakizashi_inferior", 8 ],
       [ "kris_fake", 8 ]
     ]
+  },
+  {
+    "id": "pet_collars",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ [ "leather_collar", 2 ], [ "faux_fur_collar", 1 ], [ "fur_collar", 1 ] ]
   }
 ]

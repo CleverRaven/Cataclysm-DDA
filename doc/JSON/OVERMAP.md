@@ -1,3 +1,73 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Overmap Generation](#overmap-generation)
+  - [Overview](#overview)
+    - [Overmap generation](#overmap-generation)
+  - [Terminology and Types](#terminology-and-types)
+    - [overmap_terrain](#overmap_terrain)
+    - [overmap_special / city_building](#overmap_special--city_building)
+    - [overmap_connection](#overmap_connection)
+    - [overmap_location](#overmap_location)
+    - [oter_vision](#oter_vision)
+  - [Overmap Terrain](#overmap-terrain)
+    - [Rotation](#rotation)
+    - [Fields](#fields)
+    - [`see_cost` values](#see_cost-values)
+    - [Example](#example)
+  - [Overmap Vision](#overmap-vision)
+    - [Fields](#fields-1)
+    - [Example](#example-1)
+  - [Overmap Special](#overmap-special)
+    - [Special placement](#special-placement)
+    - [Fixed vs mutable specials](#fixed-vs-mutable-specials)
+    - [Rotation](#rotation-1)
+    - [Connections](#connections)
+    - [Occurrences (default)](#occurrences-default)
+    - [Occurrences ( OVERMAP_UNIQUE, GLOBALLY_UNIQUE )](#occurrences--overmap_unique-globally_unique-)
+    - [Locations](#locations)
+    - [City distance and size](#city-distance-and-size)
+    - [Fields](#fields-2)
+      - [Further fields for fixed overmap specials](#further-fields-for-fixed-overmap-specials)
+      - [Further fields for mutable overmap specials](#further-fields-for-mutable-overmap-specials)
+    - [Example fixed special](#example-fixed-special)
+    - [Fixed special overmaps](#fixed-special-overmaps)
+    - [Connections](#connections-1)
+    - [Example mutable special](#example-mutable-special)
+    - [How mutable specials are placed](#how-mutable-specials-are-placed)
+      - [Overmaps and joins](#overmaps-and-joins)
+      - [Layout phases](#layout-phases)
+      - [Chunks](#chunks)
+      - [Techniques to avoid placement errors](#techniques-to-avoid-placement-errors)
+        - [`check_for_locations`](#check_for_locations)
+        - [`check_for_locations_area`](#check_for_locations_area)
+        - [`into_locations`](#into_locations)
+        - [Ensuring complete coverage in the final phase](#ensuring-complete-coverage-in-the-final-phase)
+      - [Optional joins](#optional-joins)
+      - [Asymmetric joins](#asymmetric-joins)
+      - [Alternative joins](#alternative-joins)
+      - [Testing your new mutable special](#testing-your-new-mutable-special)
+    - [Joins](#joins)
+    - [Mutable special overmaps](#mutable-special-overmaps)
+    - [Generation rules](#generation-rules)
+  - [City Building](#city-building)
+    - [Mandatory Overmap Specials / Region Settings](#mandatory-overmap-specials--region-settings)
+    - [Fields](#fields-3)
+    - [Example](#example-2)
+  - [Overmap Connection](#overmap-connection)
+    - [Fields](#fields-4)
+    - [Example](#example-3)
+    - [Subtypes](#subtypes)
+  - [Overmap Location](#overmap-location)
+    - [Fields](#fields-5)
+    - [Example](#example-4)
+  - [Cities](#cities)
+    - [Fields](#fields-6)
+    - [Example](#example-5)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Overmap Generation
 
 ## Overview
@@ -244,12 +314,12 @@ rotation for the referenced overmap terrains (e.g. the `_north` version for all)
 | `id`              | Unique id.                                                                                       |
 | `name`            | Name for the location shown in game.                                                             |
 | `sym`             | Symbol used when drawing the location, like `"F"` (or you may use an ASCII value like `70`).     |
-| `color`           | Color to draw the symbol in. See [COLOR.md](COLOR.md).                                           |
+| `color`           | Color to draw the symbol in. See [COLOR.md](/doc/user-guides/COLOR.md).                          |
 | `looks_like`      | Id of another overmap terrain to be used for the graphical tile, if this doesn't have one.       |
 | `vision_levels`   | Id of a `oter_vision` that describes how this overmap terrain will be displayed when there is not full vision of the tile.
 | `connect_group`   | Specify that this overmap terrain might be graphically connected to its neighbours, should a tileset wish to.  It will connect to any other `overmap_terrain` with the same `connect_group`. |
 | `see_cost`        | Affects player vision on overmap.  See table below for possible values.                          |
-| `travel_cost_type` | How to treat this location when planning a route using autotravel on the overmap. Valid values are `road`,`field`,`dirt_road`,`trail`,`forest`,`shore`,`swamp`,`water`,`air`,`impassable`,`other`. Some types are harder to travel through with different types of vehicles, or on foot. |
+| `travel_cost_type` | How to treat this location when planning a route using autotravel on the overmap. Valid values are `road`,`field`,`dirt_road`,`trail`,`forest`,`shore`,`swamp`,`water`,`air`,`structure`,`roof`,`basement`,`tunnel`,`impassable`,`other`. Some types are harder to travel through with different types of vehicles, or on foot. |
 | `extras`          | Reference to a named `map_extras` in region_settings, defines which map extras can be applied.   |
 | `mondensity`      | Summed with values for adjacent overmap terrains to influence density of monsters spawned here.  |
 | `spawns`          | Spawns added once at mapgen. Monster group, % chance, population range (min/max).                |
@@ -261,7 +331,7 @@ rotation for the referenced overmap terrains (e.g. the `_north` version for all)
 | `mapgen_end`      | Specify a C++ mapgen function for a LINEAR feature variation. Prefer JSON instead.               |
 | `mapgen_tee`      | Specify a C++ mapgen function for a LINEAR feature variation. Prefer JSON instead.               |
 | `mapgen_four_way` | Specify a C++ mapgen function for a LINEAR feature variation. Prefer JSON instead.               |
-| `eoc`             | Supply an effect_on_condition id or an inline effect_on_condition.  The condition of the eoc will be tested to see if the special can be placed.  The effect of the eoc will be run when the special is placed.  See [effect_on_condition.md](effect_on_condition.md). |
+| `eoc`             | Supply an effect_on_condition id or an inline effect_on_condition.  The condition of the eoc will be tested to see if the special can be placed.  The effect of the eoc will be run when the special is placed.  See [effect_on_condition.md](EFFECT_ON_CONDITION.md). |
 | `entry_eoc`       | An effect on condition ID that will run when you enter this location.                            |
 | `exit_eoc`        | An effect on condition ID that will run when you exit this location.                             |
 
@@ -309,7 +379,7 @@ an exhaustive example...
     "eoc": {
       "id": "EOC_REFUGEE_CENTER_GENERATE", 
       "condition": { "math": [ "refugee_centers < 1" ] }, 
-      "effect": [ { "math": [ "refugee_centers", "++" ] } ]
+      "effect": [ { "math": [ "refugee_centers++" ] } ]
     },
     "entry_eoc": "EOC_ENTERED_SECRET_FIELD",
     "exity_eoc": "EOC_LEFT_SECRET_FIELD"
@@ -419,6 +489,9 @@ overmap, specials that failed placement don't get disqualified and can be rolled
 until all sectors are occupied). For specials that are not common enough to warrant appearing more
 than once per overmap please use the "OVERMAP_UNIQUE" flag. For specials that should only have one instance
 per world use "GLOBALLY_UNIQUE".
+
+NOTE: currently, minimum occurrences are NOT enforced in-game but ARE enforced by 
+test case `default_overmap_generation_always_succeeds`.
 
 ### Occurrences ( OVERMAP_UNIQUE, GLOBALLY_UNIQUE )
 
@@ -668,9 +741,9 @@ symetrical while binomial can be skewed by altering p to result in most values b
 on the lower end of the range 0-n or vice versa useful to produce more consistent results
 with rarer chances of large or small values or just one kind respectively.  Hard bounds
 may be specified in addition to poisson or binomial to limit the range of possibilities,
-useful for guarenteeing a max of at least 1 or to prevent large values making overall
+useful for guaranteeing a max of at least 1 or to prevent large values making overall
 size management difficult.  To do this add an array `bounds` such as
-`"max": { "poisson": 5, "bounds": [ 1, -1 ] }` in this case guarenteeing at least a max
+`"max": { "poisson": 5, "bounds": [ 1, -1 ] }` in this case guaranteeing at least a max
 of 1 without bounding upper values.  Any value that would fall outside of these bounds
 becomes the relevant bound (as opposed to being rerolled).
 
@@ -775,7 +848,7 @@ the following constraints to the `check_for_locations` array:
 The `check_for_locations_area` field in the example mutable special is superfluous and
 serves only to illustrate the syntax of the field.
 
-Look at /json/overmap/overmap_mutable/nether_monster_corpse.json for an application
+Look at [`nether_monster_corpse.json`](/data/json/overmap/overmap_mutable/nether_monster_corpse.json) for an application
 of this field in a real mutable special tile.
 
 ##### `into_locations`
@@ -831,7 +904,7 @@ the final phase, in some situations you can make this easier using optional
 joins.  This feature can also be used in other phases.
 
 When specifying the joins associated with an overmap in a mutable special, you
-can elaborate with a type, like this example from the [`homeless_camp_mutable`](../data/json/overmap/overmap_mutable/homeless_camp_mutable.json) overmap special:
+can elaborate with a type, like this example from the [`homeless_camp_mutable`](/data/json/overmap/overmap_mutable/homeless_camp_mutable.json) overmap special:
 
 ```jsonc
 "overmaps": {

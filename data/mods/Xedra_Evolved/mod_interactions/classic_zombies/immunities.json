@@ -1,0 +1,9 @@
+[
+  {
+    "type": "effect_type",
+    "id": "effect_vampire_immune_to_classic_zombification",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "removes_effects": [ "zombie_virus", "zombie_virus_scratch" ]
+  }
+]

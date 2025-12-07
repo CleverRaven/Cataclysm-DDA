@@ -8,7 +8,7 @@
     "description": "The helmet of creative juices may look like a child's homemade toy, but its effects when turned on are real enough.  While wearing it, your thoughts are buffered from the outside world by a soft white noise that varies from person to person as to what they actually hear.  Some hear the ocean, a fan blowing or paper crumpling.  Whatever the sound, it helps you to think faster and more creatively than before.",
     "weight": "1383 g",
     "volume": "1750 ml",
-    "material": [ "steel", "plastic" ],
+    "material": [ "mc_steel", "plastic" ],
     "symbol": "[",
     "looks_like": "hat_hard",
     "color": "green",
@@ -41,15 +41,7 @@
         "default_magazine": "medium_battery_cell"
       }
     ],
-    "use_action": [
-      {
-        "target": "helmet_inventor_on",
-        "need_charges": 1,
-        "active": true,
-        "msg": "The helmet turns on.",
-        "type": "transform"
-      }
-    ],
+    "use_action": [ { "target": "helmet_inventor_on", "need_charges": 1, "msg": "The helmet turns on.", "type": "transform" } ],
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "MORPHIC", "WATERPROOF", "STURDY", "PADDED", "TRADER_AVOID", "PSYSHIELD_PARTIAL", "MUNDANE", "INVENTOR_CRAFTED" ],
     "tool_ammo": [ "battery" ],
@@ -60,6 +52,7 @@
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "helmet_inventor",
+    "extend": { "flags": [ "SPAWN_ACTIVE" ] },
     "name": { "str": "helmet of creative juices (on)", "str_pl": "helmets of creative juices (on)" },
     "power_draw": "7 W",
     "revert_to": "helmet_inventor",
@@ -165,17 +158,12 @@
     "description": "Compact leg attachments that distribute your weight onto the ground nearby using some kind of force.  It makes you leave giant spherical footprints, but makes carrying heavy weight much easier.",
     "weight": "1657 g",
     "volume": "1500 ml",
-    "material": [ "steel", "copper", "leather" ],
+    "material": [ "mc_steel", "copper", "leather" ],
     "symbol": "[",
     "looks_like": "legguard_hard",
     "color": "light_red",
     "flags": [ "MORPHIC", "STURDY", "OUTER", "BELTED", "MUNDANE", "INVENTOR_CRAFTED" ],
-    "use_action": {
-      "target": "inventor_leg_weight_on",
-      "msg": "You turn on the weight suspension system.",
-      "active": true,
-      "type": "transform"
-    },
+    "use_action": { "target": "inventor_leg_weight_on", "msg": "You turn on the weight suspension system.", "type": "transform" },
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -196,7 +184,7 @@
       },
       {
         "material": [
-          { "type": "steel", "covered_by_mat": 100, "thickness": 0.6 },
+          { "type": "mc_steel", "covered_by_mat": 100, "thickness": 0.6 },
           { "type": "copper", "covered_by_mat": 100, "thickness": 0.6 }
         ],
         "covers": [ "leg_l", "leg_r" ],
@@ -211,6 +199,7 @@
   {
     "id": "inventor_leg_weight_on",
     "copy-from": "inventor_leg_weight",
+    "extend": { "flags": [ "SPAWN_ACTIVE" ] },
     "name": { "str": "leg weight suspension system" },
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR" ],
@@ -227,7 +216,7 @@
     "description": "Heavily mechanized boots with small integrated battery slot inside.  Upon activation make you jump higher and farther.",
     "weight": "1657 g",
     "volume": "1500 ml",
-    "material": [ "leather", "kevlar", "rubber", "steel" ],
+    "material": [ "leather", "kevlar", "rubber", "mc_steel" ],
     "symbol": "[",
     "looks_like": "legguard_hard",
     "color": "light_red",
@@ -260,7 +249,7 @@
         "material": [
           { "type": "leather", "covered_by_mat": 100, "thickness": 1.25 },
           { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.25 },
-          { "type": "steel", "covered_by_mat": 5, "thickness": 1.25 }
+          { "type": "mc_steel", "covered_by_mat": 5, "thickness": 1.25 }
         ],
         "encumbrance": 7,
         "coverage": 100
@@ -286,7 +275,7 @@
     "description": "A small, thin torus with a huge battery case, and a belt.  You can activate it to emit a field that covers your whole body which will decelerate all objects it touches.",
     "weight": "270 g",
     "volume": "660 ml",
-    "material": [ "aluminum", "leather", "steel", "copper" ],
+    "material": [ "aluminum", "leather", "mc_steel", "copper" ],
     "symbol": "[",
     "color": "blue",
     "warmth": 0,
@@ -323,7 +312,6 @@
       {
         "target": "aura_force_on",
         "need_charges": 1,
-        "active": true,
         "msg": "The torus start to emit an invisible waves.",
         "type": "transform"
       }
@@ -349,6 +337,7 @@
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "aura_force",
+    "extend": { "flags": [ "SPAWN_ACTIVE" ] },
     "name": { "str": "force shield (on)", "str_pl": "force shields (on)" },
     "power_draw": "250 W",
     "revert_to": "aura_force",
@@ -377,7 +366,6 @@
         "target": "vision_halo_on",
         "msg": "Turn on.",
         "menu_text": "Turn on a battle mode",
-        "active": true,
         "need_charges": 1,
         "need_charges_msg": "The halo's charge is too low.",
         "type": "transform"
@@ -451,6 +439,7 @@
     "category": "armor",
     "name": { "str": "electronic halo (on)", "str_pl": "electronic halos (on)" },
     "copy-from": "vision_halo",
+    "extend": { "flags": [ "SPAWN_ACTIVE" ] },
     "power_draw": "500 W",
     "revert_to": "vision_halo",
     "use_action": [
@@ -461,12 +450,10 @@
         "target": "vision_halo",
         "msg": "Turn off.",
         "menu_text": "Turn off battle mode",
-        "active": false,
         "need_charges": 0,
         "type": "transform"
       }
-    ],
-    "tick_action": [ "EPIC_MUSIC" ]
+    ]
   },
   {
     "type": "ITEM",
@@ -476,7 +463,7 @@
     "color": "light_gray",
     "name": { "str": "heavy CQC system" },
     "description": "This robust system begins at your hands, where it features a squarish steel frame enhanced with strategic protrusions to amplify impact damage by focusing the point of contact.  It extends along your forearms with thick, hardened steel shields protecting both your limbs and the underlying hydraulic mechanisms.  Aluminum tubes channel these hydraulics up into your upper arms, culminating at your back where the central hub for the hydraulic servos is located.  While the system recovers some energy with each movement, its substantial weight and bulk significantly limit the use of your hands for anything else.",
-    "material": [ "aluminum", "steel" ],
+    "material": [ "aluminum", "mc_steel" ],
     "volume": "11678 ml",
     "weight": "3970 g",
     "flags": [ "MORPHIC", "DURABLE_MELEE", "PADDED", "MUNDANE", "INVENTOR_CRAFTED", "PROVIDES_TECHNIQUES" ],
@@ -484,7 +471,7 @@
     "material_thickness": 1,
     "armor": [
       {
-        "material": [ { "type": "steel", "covered_by_mat": 100, "thickness": 5 } ],
+        "material": [ { "type": "mc_steel", "covered_by_mat": 100, "thickness": 5 } ],
         "encumbrance": 7,
         "coverage": 50,
         "covers": [ "hand_l", "hand_r" ],
@@ -494,7 +481,7 @@
       {
         "material": [
           { "type": "aluminum", "covered_by_mat": 25, "thickness": 1.0 },
-          { "type": "steel", "covered_by_mat": 100, "thickness": 2.5 }
+          { "type": "mc_steel", "covered_by_mat": 100, "thickness": 2.5 }
         ],
         "encumbrance": 7,
         "coverage": 50,
@@ -513,7 +500,7 @@
       {
         "material": [
           { "type": "aluminum", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "steel", "covered_by_mat": 100, "thickness": 0.3 }
+          { "type": "mc_steel", "covered_by_mat": 100, "thickness": 0.3 }
         ],
         "encumbrance": 11,
         "coverage": 100,
@@ -537,7 +524,7 @@
     "techniques": [ "WBLOCK_3", "BRUTAL", "SWEEP", "CQB_BRUTAL" ],
     "use_action": {
       "type": "effect_on_conditions",
-      "description": "Activate to read the file",
+      "description": "Activate to read the file.",
       "effect_on_conditions": [ { "id": "EOC_CQC_ATTACK", "effect": [ { "u_attack": "CQB_BRUTAL" } ] } ]
     },
     "charge_info": { "recharge_type": "periodic", "time": "1 m", "regenerate_ammo": true }
@@ -563,7 +550,6 @@
         "target": "inventor_electric_fist_act",
         "msg": "Turn on.",
         "menu_text": "Turn on the overture",
-        "active": true,
         "need_charges": 1,
         "need_charges_msg": "The halo's charge is too low.",
         "type": "transform"
@@ -593,6 +579,7 @@
     "subtypes": [ "TOOL", "ARMOR" ],
     "id": "inventor_electric_fist_act",
     "copy-from": "inventor_electric_fist",
+    "extend": { "flags": [ "SPAWN_ACTIVE" ] },
     "symbol": "3",
     "color": "light_gray",
     "name": { "str": "\"Overture\" (on)", "str_pl": "\"Overtures\" (on)" },
@@ -637,7 +624,6 @@
         "target": "wolf_mask_act",
         "msg": "Turn on.",
         "menu_text": "Turn on the mask",
-        "active": true,
         "need_charges": 1,
         "need_charges_msg": "The mask's charge is too low.",
         "type": "transform"
@@ -651,6 +637,7 @@
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "wolf_mask",
+    "extend": { "flags": [ "SPAWN_ACTIVE" ] },
     "name": { "str": "wolf's mask (on)", "str_pl": "wolf's masks (on)" },
     "power_draw": "5 W",
     "environmental_protection": 25,
@@ -696,7 +683,7 @@
     "weight": "100 g",
     "volume": "50 ml",
     "looks_like": "wristwatch",
-    "material": [ "kevlar", "steel" ],
+    "material": [ "kevlar", "mc_steel" ],
     "symbol": "[",
     "color": "light_gray",
     "sided": true,

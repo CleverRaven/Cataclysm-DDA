@@ -88,7 +88,7 @@
     },
     "furniture": {
       "Ŧ": {
-        "switch": { "param": "fencing_type", "fallback": "f_null" },
+        "switch": { "param": "fencing_type", "fallback": "t_region_soil" },
         "cases": {
           "t_region_shrub_decorative": "f_null",
           "t_region_soil": "f_hedge_short",
@@ -100,7 +100,7 @@
         }
       },
       "%": {
-        "switch": { "param": "shrubbery_type", "fallback": "f_null" },
+        "switch": { "param": "shrubbery_type", "fallback": "t_region_soil" },
         "cases": {
           "t_region_shrub_decorative": "f_null",
           "t_region_soil": "f_hedge_short",
