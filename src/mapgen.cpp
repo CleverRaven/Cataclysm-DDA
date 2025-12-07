@@ -3748,6 +3748,8 @@ class jmapgen_terrain : public jmapgen_piece_with_has_vehicle_collision
                               terrain_here.id().str(), p.to_string(), error );
                 }
             }
+            // The graffiti is inherently tied to the terrain, so if the terrain is overwritten, the original graffiti should be deleted.
+            dat.m.delete_graffiti( p );
             dat.m.ter_set( p, chosen_id );
         }
 
