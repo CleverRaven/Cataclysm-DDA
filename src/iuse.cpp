@@ -1631,13 +1631,6 @@ std::optional<int> iuse::petfood( Character *p, item *it, const tripoint_bub_ms 
         }
 
         p->add_msg_if_player( _( "You feed your %1$s to the %2$s." ), it->tname(), mon->get_name() );
-        if( !mon->has_fully_eaten() && mon->has_flag( mon_flag_EATS ) ) {
-            int kcal = default_character_compute_effective_nutrients( *it ).kcal();
-            mon->mod_amount_eaten( kcal );
-            if( mon->has_fully_eaten() ) {
-                p->add_msg_if_player( _( "The %1$s seems full now." ), mon->get_name() );
-            }
-        }
 
         if( petfood.feed.empty() ) {
             p->add_msg_if_player( m_good, _( "The %1$s is your pet now!" ), mon->get_name() );
