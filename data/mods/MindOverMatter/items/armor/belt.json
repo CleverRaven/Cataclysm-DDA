@@ -19,12 +19,13 @@
       {
         "type": "transform",
         "msg": "You flip the switch on the box and a red LED lights up.",
-        "damage_failure_msg": "You flip the switch on the box, but nothing happens."
+        "damage_failure_msg": "You flip the switch on the box, but nothing happens.",
         "target": "psionic_shield_belt_on",
         "need_charges": 1,
         "need_charges_msg": "The switch clicks but nothing happens.",
         "need_worn": true,
-        "menu_text": "Flip the switch"
+        "menu_text": "Flip the switch",
+        "moves": 75
       }
     ],
     "pocket_data": [
@@ -75,7 +76,8 @@
         "target": "psionic_shield_belt",
         "msg": "You flip the switch on the box and the red LED turns off.",
         "menu_text": "Flip the switch",
-        "type": "transform"
+        "type": "transform",
+        "moves": 75
       }
     ],
     "extend": { "flags": [ "NO_TAKEOFF", "SPAWN_ACTIVE" ] }
@@ -107,12 +109,13 @@
       {
         "type": "transform",
         "msg": "You flip the switch on the box and a red LED lights up.",
-        "damage_failure_msg": "You flip the switch on the box, but nothing happens."
+        "damage_failure_msg": "You flip the switch on the box, but nothing happens.",
         "target": "psionic_fire_shield_belt_on",
         "need_charges": 1,
         "need_charges_msg": "The switch clicks but nothing happens.",
         "need_worn": true,
-        "menu_text": "Flip the switch"
+        "menu_text": "Flip the switch",
+        "moves": 75
       }
     ],
     "flags": [ "BELTED", "OVERSIZE", "NONCONDUCTIVE", "NO_REPAIR", "COMBAT_TOGGLEABLE" ],
@@ -152,7 +155,8 @@
         "target": "psionic_fire_shield_belt",
         "msg": "You flip the switch on the box and the red LED turns off.",
         "menu_text": "Flip the switch",
-        "type": "transform"
+        "type": "transform",
+        "moves": 75
       }
     ],
     "extend": { "flags": [ "NO_TAKEOFF", "SPAWN_ACTIVE" ] }
