@@ -6,7 +6,7 @@
     { "name": "sdl2-image", "features": [ "libjpeg-turbo" ] },
     { "name": "sdl2-mixer", "features": [ "libflac", "mpg123", "libmodplug" ] },
     "sdl2-ttf",
-    { "name": "pdcurses", "version>=": "3.9#4" }
+    { "name": "pdcurses", "version>=": "3.9#4", "platform": "windows" }
   ],
   "builtin-baseline": "1b6e030cf096faf4f82d7b7025de8b2abee3e3df"
 }
