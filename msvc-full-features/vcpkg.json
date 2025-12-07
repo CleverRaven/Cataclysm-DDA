@@ -8,5 +8,5 @@
     "sdl2-ttf",
     { "name": "pdcurses", "version>=": "3.9#4" }
   ],
-  "builtin-baseline": "3acb7541e854452d33f71037a8f63a88899e63d3"
+  "builtin-baseline": "1b6e030cf096faf4f82d7b7025de8b2abee3e3df"
 }
