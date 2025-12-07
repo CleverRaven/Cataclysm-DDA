@@ -371,7 +371,7 @@
   },
   {
     "type": "MIGRATION",
-    "id": "washingboard",
+    "id": "washboard",
     "replace": "wash_kit"
   }
 ]
