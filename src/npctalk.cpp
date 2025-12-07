@@ -695,6 +695,7 @@ enum npc_chat_menu {
     NPC_CHAT_ACTIVITIES_MINING,
     NPC_CHAT_ACTIVITIES_MOPPING,
     NPC_CHAT_ACTIVITIES_READ_REPEATEDLY,
+    NPC_CHAT_ACTIVITIES_STUDY,
     NPC_CHAT_ACTIVITIES_VEHICLE_DECONSTRUCTION,
     NPC_CHAT_ACTIVITIES_VEHICLE_REPAIR,
     NPC_CHAT_ACTIVITIES_UNASSIGN
@@ -964,6 +965,8 @@ static int npc_activities_menu()
     nmenu.addentry( NPC_CHAT_ACTIVITIES_MOPPING, true, 'm', _( "Mopping up stains" ) );
     nmenu.addentry( NPC_CHAT_ACTIVITIES_READ_REPEATEDLY, true, 'R',
                     _( "Study from books you have in order" ) );
+    nmenu.addentry( NPC_CHAT_ACTIVITIES_STUDY, true, 's',
+                    _( "Study from books in study zones" ) );
     nmenu.addentry( NPC_CHAT_ACTIVITIES_VEHICLE_DECONSTRUCTION, true, 'v',
                     _( "Deconstructing vehicles" ) );
     nmenu.addentry( NPC_CHAT_ACTIVITIES_VEHICLE_REPAIR, true, 'V', _( "Repairing vehicles" ) );
@@ -1452,6 +1455,10 @@ void game::chat()
                     }
                     case NPC_CHAT_ACTIVITIES_READ_REPEATEDLY: {
                         talk_function::do_read_repeatedly( *selected_npc );
+                        break;
+                    }
+                    case NPC_CHAT_ACTIVITIES_STUDY: {
+                        talk_function::do_study( *selected_npc );
                         break;
                     }
                     case NPC_CHAT_ACTIVITIES_MINING: {
@@ -8191,6 +8198,7 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
             WRAP( do_read ),
             WRAP( do_eread ),
             WRAP( do_read_repeatedly ),
+            WRAP( do_study ),
             WRAP( do_craft ),
             WRAP( do_butcher ),
             WRAP( do_farming ),

@@ -691,6 +691,7 @@
     "name": "Homullus Biology",
     "//": "Stand in mutation to restrict beginning homullus's to homullus only mutations. Intended to be removed when HOMULLUS_EXPANDED_MUTATIONS is obtained.",
     "valid": false,
+    "//I18N": true,
     "player_display": false,
     "purifiable": false,
     "points": 0,

@@ -323,7 +323,7 @@ These fields are optional, but are very frequently used in mutations and their c
 | `starting_trait`  | false   | If true, this trait can be selected during character creation.                                                                                              |
 | `valid`           | true    | Whether or not this trait can be obtained through mutation. Invalid traits are still obtainable while creating a character.                                 |
 | `purifiable`      | true    | Whether or not this trait can be removed. If false, the trait cannot be removed by any means.                                                               |
-| `player_display`  | true    | If false, this trait is invisible, and will not appear in messages or the character sheet.                                                                  |
+| `player_display`  | true    | If false, this trait is invisible, and will not appear in messages or the character sheet. Also implies that this mutation is non-translatable, see [here](/doc/JSON/JSON_INFO.md#translatable-strings). |
 | `mixed_effect`    | false   | Whether this trait has both positive and negative effects. Used only for UI; mixed mutations will appear with purple text instead of green, yellow, or red (which is usually automatically determined by point cost). |
 | `vanity`          | false   | This trait is purely cosmetic, and can be changed at any time. This is for things like skin color, eye color, hair color, etc.                              |
 | `debug`           | false   | Identifies this trait as a debug trait that should never be obtainable in normal play. Debug traits will have a distinct teal color on the character sheet. |

@@ -256,9 +256,7 @@
       { "item": "dry_corn", "prob": 1 },
       { "item": "dry_fruit", "prob": 10 },
       { "prob": 40, "group": "oatmeal_box_1lb" },
-      { "prob": 30, "group": "toastem_box_small_8" },
-      { "prob": 30, "group": "toastem2_box_small_8" },
-      { "prob": 35, "group": "toastem3_box_small_8" },
+      { "prob": 90, "group": "toastem_box_small_8" },
       { "prob": 20, "group": "toasterpastryfrozen_box_snack_2" },
       { "prob": 20, "group": "sugar_various" },
       { "prob": 5, "group": "artificial_sweetener_box_small_71" },
@@ -554,7 +552,7 @@
     "type": "item_group",
     "id": "toastems",
     "subtype": "distribution",
-    "entries": [ { "group": "toastem_box_small_8" }, { "group": "toastem2_box_small_8" }, { "group": "toastem3_box_small_8" } ]
+    "entries": [ { "group": "toastem_box_small_8" } ]
   },
   {
     "type": "item_group",
@@ -781,8 +779,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "item": "beer", "prob": 15 },
-      { "item": "drink_hard_seltzer", "prob": 15 },
+      { "group": "beer_in_container_full", "prob": 30 },
       { "item": "meat", "prob": 65 },
       { "item": "glazed_tenderloin", "prob": 55, "count": 3 },
       { "item": "fish", "prob": 10 },
@@ -1732,5 +1729,45 @@
     "type": "item_group",
     "subtype": "distribution",
     "items": [ { "group": "any_milk", "container-item": "jug_plastic" } ]
+  },
+  {
+    "id": "beer_in_six_pack_rings",
+    "type": "item_group",
+    "subtype": "distribution",
+    "container-item": "six_pack_rings",
+    "entries": [
+      { "prob": 35, "container-item": "can_drink", "count": 6, "item": "beer" },
+      { "prob": 25, "container-item": "can_drink", "count": 6, "item": "european_pilsner" },
+      { "prob": 25, "container-item": "can_drink", "count": 6, "item": "drink_hard_seltzer" },
+      { "prob": 25, "container-item": "can_drink", "count": 6, "item": "pale_ale" },
+      { "prob": 25, "container-item": "can_drink", "count": 6, "item": "india_pale_ale" },
+      { "prob": 15, "container-item": "can_drink", "count": 6, "item": "stout" },
+      { "prob": 10, "container-item": "can_drink", "count": 6, "item": "belgian_ale" },
+      { "prob": 4, "container-item": "can_drink", "count": 6, "item": "imperial_stout" },
+      { "prob": 2, "container-item": "can_drink", "count": 6, "item": "wine_barley" }
+    ]
+  },
+  {
+    "id": "beer_in_six_pack_cardboard",
+    "type": "item_group",
+    "subtype": "distribution",
+    "container-item": "box_medium",
+    "entries": [
+      { "prob": 35, "container-item": "bottle_glass_330ml", "count": 6, "item": "beer" },
+      { "prob": 25, "container-item": "bottle_glass_330ml", "count": 6, "item": "european_pilsner" },
+      { "prob": 25, "container-item": "bottle_glass_330ml", "count": 6, "item": "drink_hard_seltzer" },
+      { "prob": 25, "container-item": "bottle_glass_330ml", "count": 6, "item": "pale_ale" },
+      { "prob": 25, "container-item": "bottle_glass_330ml", "count": 6, "item": "india_pale_ale" },
+      { "prob": 15, "container-item": "bottle_glass_330ml", "count": 6, "item": "stout" },
+      { "prob": 10, "container-item": "bottle_glass_330ml", "count": 6, "item": "belgian_ale" },
+      { "prob": 4, "container-item": "bottle_glass_330ml", "count": 6, "item": "imperial_stout" },
+      { "prob": 2, "container-item": "bottle_glass_330ml", "count": 6, "item": "wine_barley" }
+    ]
+  },
+  {
+    "id": "beer_in_six_pack",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "group": "beer_in_six_pack_rings" }, { "group": "beer_in_six_pack_cardboard" } ]
   }
 ]

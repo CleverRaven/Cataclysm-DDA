@@ -125,7 +125,7 @@ These fields can be read by any ITEM regardless of subtypes:
 "longest_side": "15 cm",                     // Length of longest item dimension. Default is cube root of volume.
 "light": 300,                                // How much light this item emits, like a flashlight. 10 is equal 1 tile of light, so 300 would illuminate 30 tiles circle around the player.
 "rigid": false,                              // For non-rigid items volume (and for worn items encumbrance) increases proportional to contents
-"insulation": 1,                             // (Optional, default = 1) If container or vehicle part, how much insulation should it provide to the contents
+"insulation": 1,                             // (Optional, default = 1) How much insulation should it provide to the contents as a vehicle part.
 "price": "1 USD",                                // Barter value of an item. Used as barter value only when price_postapoc isn't defined. For stackable items (ammo, comestibles) this is the price for stack_size charges. Can use string "cent", "cents", "dollar", "dollars", "USD", or "kUSD".
 "price_postapoc": "1 USD",                       // Barter value of an item post-Cataclysm. Can use string "cent", "cents", "dollar", "dollars", "USD", or "kUSD".
 "stackable": true,                           // This item can be stacked together, similarly to `charges`
@@ -739,7 +739,7 @@ Any Item can be a container. To add the ability to contain things to an item, yo
     "item_restriction": [ "item_id" ],               // Only these item IDs can be placed into this pocket. Overrides ammo and flag restrictions.
     "material_restriction": [ "material_id" ],       // Only items that are mainly made of this material can enter.
 	// If multiple of "flag_restriction", "material_restriction" and "item_restriction" are used simultaneously then any item that matches any of them will be accepted.
-
+    "insulation": 1.0,                // Insulation value provided to items in this pocket.
     "sealed_data": { "spoil_multiplier": 0.0 },   // If a pocket has sealed_data, it will be sealed when the item spawns.  The sealed version of the pocket will override the unsealed version of the same datatype.
 
     "inherits_flags": true // Items in this pocket pass their flags to the parent item.
@@ -960,8 +960,7 @@ Gun mods can be defined like this:
   "target_charges": 2,     // How many items should the transformation result in. Only works with items transformed into a container. Optional.
   "rand_target_charges": [ 10, 15, 25 ], // Randomize the charges the transformed item has. This example has a 50% chance of rng(10, 15) charges and a 50% chance of rng(15, 25) (endpoints are included)
   "target_ammo": 3,        // Number of charges (not count) the item should contain. Optional.
-  "target_timer": 1000,    // Set up a timer for the transformed object. Optional.
-  "active": true           // Set the transformed item to active. Optional.
+  "target_timer": 1000     // Set up a timer for the transformed object. Optional.
 },
 "revert_msg": "The torch fades out.", // Message to be printed when revert_to or transform_into performs its transformation
 "sub": "hotplate",         // optional; this tool has the same functions as another tool
@@ -1176,9 +1175,10 @@ The contents of `use_action` fields can either be a string indicating a built-in
   "target": "gasoline_lantern_on",          // The item to transform to
   "target_group": "twisted_geometry",       // If used, target is a random item from itemgroup
   "variant_type": "condom_plain",           // (optional) Defaults to `<any>`. Specific variant type to set for the transformed item. Special string `<any>` will pick a random variant from all available variants, based on the variant's defined weight
-  "active": true,                           // Whether the item is active once transformed
   "ammo_scale": 0,                          // For use when an item automatically transforms into another when its ammo drops to 0, or to allow guns to transform with 0 ammo
   "msg": "You turn the lamp on.",           // Message to display when activated
+  "target_timer": 0,                        // (Optional) Set timer on transformed item. Mutually exclusive with set_timer.
+  "set_timer": false,                       // (optional) When true, asks PC to set a timer. An NPC uses the default of the transformed item.
   "need_fire": 1,                           // Whether fire is needed to activate
   "need_fire_msg": "You need a lighter!",   // Message to display if there is no fire
   "need_charges": 1,                        // Number of charges the item needs to transform
@@ -1256,7 +1256,7 @@ The contents of `use_action` fields can either be a string indicating a built-in
 "use_action": {
   "type": "place_monster",          // Place a turret / manhack / whatever monster on the map
   "monster_id": "mon_manhack",      // Monster ID, see monsters.json
-  "difficulty": 4,                  // Difficulty for programming it (manhacks have 4, turrets 6, etc.)
+  "difficulty": 4,                  // Difficulty for programming it (manhacks have 4, turrets 6, etc.). Negative means it always is hostile.
   "hostile_msg": "It's hostile!",   // (optional) Message when programming the monster failed and it's hostile
   "friendly_msg": "Good!",          // (optional) Message when the monster is programmed properly and it's friendly
   "place_randomly": true,           // Places the monster randomly around the player or lets the player decide where to put it (default: false)

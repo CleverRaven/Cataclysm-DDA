@@ -646,7 +646,7 @@ class item : public visitable
         int price_no_contents( bool practical, std::optional<int> price_override = std::nullopt ) const;
 
         /**
-         * Whether two items should stack when displayed in a inventory menu.
+         * Whether two items should stack when displayed in an inventory menu.
          * This is different from stacks_with, when two previously non-stackable
          * items are now stackable and mergeable because, for example, they
          * reaches the same temperature. This is necessary to avoid misleading
@@ -654,7 +654,7 @@ class item : public visitable
          */
         bool display_stacked_with( const item &rhs, bool check_components = false ) const;
         /**
-         * Check wether each element of tname::segments stacks, ie. wether the respective
+         * Check whether each element of tname::segments stacks, ie. whether the respective
          * pieces of information are considered equal for display purposes
          *
          * stacking_info is implicitly convertible to bool and will be true only if ALL segments stack
@@ -732,7 +732,7 @@ class item : public visitable
         /**
          * @name Melee
          *
-         * The functions here assume the item is used in melee, even if's a gun or not a weapon at
+         * The functions here assume the item is used in melee, even if it's a gun or not a weapon at
          * all. Because the functions apply to all types of items, several of the is_* functions here
          * may return true for the same item. This only indicates that it can be used in various ways.
          */
@@ -1419,6 +1419,12 @@ class item : public visitable
         /** @see itype::damage_level(). */
         int damage_level( bool precise = false ) const;
 
+        /** Whether activation of an item should be successful based on it's damage level and chance
+        * Note that it does not perform any activation: that's up to the caller. Also, it's based
+        * on damage only, without any considerations for faults.
+        */
+        bool activation_success() const;
+
         /** Modifiy melee weapon damage to account for item's damage. */
         float damage_adjusted_melee_weapon_damage( float value, const damage_type_id &dt ) const;
         /** Modifiy gun damage to account for item's damage. */
@@ -1778,9 +1784,9 @@ class item : public visitable
          * @param nested whether or not the current call is nested (used recursively).
          * @param ignore_pkt_settings whether to ignore pocket autoinsert settings
          * @param ignore_non_container_pocket ignore magazine pockets, such as weapon magazines
-         * @param remaining_parent_volume the ammount of space in the parent pocket,
+         * @param remaining_parent_volume the amount of space in the parent pocket,
          * @param allow_nested whether nested pockets should be checked
-         * needed to make sure we dont try to nest items which can't fit in the nested pockets
+         * needed to make sure we don't try to nest items which can't fit in the nested pockets
          */
         /*@{*/
         ret_val<void> can_contain( const item &it, bool nested = false,
@@ -1808,7 +1814,7 @@ class item : public visitable
          * Return an item_location and a pointer to the best pocket that can contain the item @it.
          * if param allow_nested=true, Check all items contained in every pocket of CONTAINER pocket type,
          * otherwise, only check this item's pockets.
-         * @param it the item that function wil find the best pocket that can contain it
+         * @param it the item that function will find the best pocket that can contain it
          * @param this_loc location of it
          * @param avoid item that will be avoided in recursive lookup item pocket
          * @param allow_sealed allow use sealed pocket
@@ -1827,7 +1833,7 @@ class item : public visitable
 
         /**
          * Is it ever possible to reload this item?
-         * ALso checks for reloading installed gunmods
+         * Also checks for reloading installed gunmods
          * @see player::can_reload()
          */
         bool is_reloadable() const;

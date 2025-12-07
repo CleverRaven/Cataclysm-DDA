@@ -2,12 +2,12 @@
   {
     "type": "mutation",
     "id": "perk_second_chance_limiter",
-    "name": { "str": "Second Chance Limiter", "//~": "NO_I18N" },
+    "name": "Second Chance Limiter",
     "points": 0,
     "purifiable": false,
     "valid": false,
     "player_display": false,
-    "description": { "str": "You used up your second chance perk and it won't work again.", "//~": "NO_I18N" }
+    "description": "You used up your second chance perk and it won't work again."
   },
   {
     "type": "effect_on_condition",

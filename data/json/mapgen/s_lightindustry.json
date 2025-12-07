@@ -22,7 +22,7 @@
         "+             u|  B    |~~`~~~`~~~~~~~~~~~~:;qpo",
         "#::):|::):|::):|))|::):|~~`~~~`~~~~~52~~~~~|;;p#",
         "#    |P  u|u   |  |r   |~~`~~~`~~~~~~~~~||+##+##",
-        "#rr u|r hr|P hr|  :rh u|~~`~~~`~~~~~~~~1|;;#.s.#",
+        "#rr u|r hr|P hr|  :rh u|~~`~~~`~Ł~~~~~~1|;;#.s.#",
         "# h P|rh r|P rr|  |r  P|c~`~~~`~~|5~31~5|kj#.s..",
         "##::###::###::##))##::###bbbbbbb###o##o#####.s..",
         "#%%%%#%%%%#%%%%#ss#%%%%#c_______s#%%%%%%.^.#.s..",
@@ -73,7 +73,7 @@
         "#r   -rrP-  u|hro=====w|CC~~~~`~~~`~~~o hhhh --#",
         "#--  -----  u| r|=====w|~~~~~~`~~~`~~~|       P#",
         "#rr  -rrP-  u|+||======+~~~~~~`````~~~+      hro",
-        "#Ph  - h -  B| zX======|~~~~~~~~~57~~~|       r#",
+        "#Ph  - h -  B| zX======|~~~~~~~~~57~~Ł|       r#",
         "or           +     |||||d&d|~~~~~31~~~|B P ||+|#",
         "#rh          +     |Y;j|Q~Q|~~~~~~~~~5||+| |B r#",
         "#||+||P  |||||||   +;;k|Q~Q|~52~~~~~~2|;;| | hr#",
@@ -122,6 +122,7 @@
         "É": "t_pavement",
         "À": "t_pavement",
         "È": "t_pavement",
+        "Ł": "t_thconc_floor",
         "1": "t_thconc_floor",
         "2": "t_thconc_floor",
         "3": "t_thconc_floor",
@@ -281,7 +282,8 @@
         "Á": { "vehicle": "suburban_home_compact", "chance": 50, "rotation": 270 },
         "É": { "vehicle": "industrial_transport_no_truck", "chance": 50, "rotation": 270 },
         "À": { "vehicle": "suburban_home_compact", "chance": 50, "rotation": 90 },
-        "È": { "vehicle": "industrial_transport_no_truck", "chance": 50, "rotation": 90 }
+        "È": { "vehicle": "industrial_transport_no_truck", "chance": 50, "rotation": 90 },
+        "Ł": { "vehicle": "hand_truck", "chance": 75 }
       }
     }
   },

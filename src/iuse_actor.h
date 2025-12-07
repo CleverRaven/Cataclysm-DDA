@@ -52,6 +52,9 @@ class iuse_transform : public iuse_actor
         /** displayed if player sees transformation with %s replaced by item name */
         translation msg_transform;
 
+        /** If non zero, issues the msg_transform as a sound as well*/
+        int sound_volume = 0;
+
         /**does the item requires to be worn to be activable*/
         bool need_worn = false;
 
@@ -63,6 +66,12 @@ class iuse_transform : public iuse_actor
 
         /** subtracted from @ref Creature::moves when transformation is successful */
         int moves = 0;
+
+        /** Asks you to set a timer for a countdown */
+        bool set_timer = false;
+
+        /** displayed if activation fails due to damage, with %s replaced by item name */
+        translation damage_failure_msg;
 
         /** minimum number of fire charges required (if any) for transformation */
         int need_fire = 0;
@@ -86,7 +95,7 @@ class iuse_transform : public iuse_actor
         ~iuse_transform() override = default;
         void load( const JsonObject &obj, const std::string & ) override;
         using iuse_actor::use;
-        std::optional<int> use( Character *, item &, map *, const tripoint_bub_ms & ) const override;
+        std::optional<int> use( Character *, item &, map *, const tripoint_bub_ms &pos ) const override;
         using iuse_actor::can_use;
         ret_val<void> can_use( const Character &, const item &, map *here,
                                const tripoint_bub_ms & ) const override;

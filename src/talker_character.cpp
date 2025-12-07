@@ -710,6 +710,12 @@ bool talker_character_const::has_stolen_item( const_talker const &guy ) const
     return false;
 }
 
+bool talker_character_const::has_software( const itype_id &software_id, int min_charges,
+        const itype_id &device_id ) const
+{
+    return me_chr_const->has_software( software_id, min_charges, device_id );
+}
+
 faction *talker_character_const::get_faction() const
 {
     return me_chr_const->get_faction();

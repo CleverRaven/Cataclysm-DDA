@@ -48,11 +48,8 @@
   {
     "type": "mutation",
     "id": "START_AS_VAMPIRE",
-    "name": { "str": "Starting as a vampire", "//~": "NO_I18N" },
-    "description": {
-      "str": "This makes you start with the vampvirus effect.  This has no effect if gained after the game started.",
-      "//~": "NO_I18N"
-    },
+    "name": "Starting as a vampire",
+    "description": "This makes you start with the vampvirus effect.  This has no effect if gained after the game started.",
     "points": 0,
     "valid": false,
     "purifiable": false,

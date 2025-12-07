@@ -1030,11 +1030,11 @@
   {
     "type": "mutation",
     "id": "ARVORE_MIND_CONTROL_POLLEN_ON",
-    "name": { "str": "Enchanting Aroma (active)", "//~": "NO_I18N" },
+    "name": { "str": "Enchanting Aroma (active)" },
     "points": 4,
     "visibility": 0,
     "ugliness": -8,
-    "description": { "str": "The active version of Enchanting Aroma.  Should not be player visible.", "//~": "NO_I18N" },
+    "description": "The active version of Enchanting Aroma.  Should not be player visible.",
     "category": [ "ARVORE" ],
     "purifiable": false,
     "threshreq": [ "THRESH_ARVORE" ],

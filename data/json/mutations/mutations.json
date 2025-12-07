@@ -2,12 +2,12 @@
   {
     "type": "mutation",
     "id": "CHANGING",
-    "name": { "str": "Changing", "//~": "NO_I18N" },
+    "name": { "str": "Changing" },
     "points": 0,
     "player_display": false,
     "purifiable": false,
     "valid": false,
-    "description": { "str": "You shouldn't see this.  This makes you mutate.", "//~": "NO_I18N" },
+    "description": "You shouldn't see this.  This makes you mutate.",
     "flags": [ "CHANGING" ]
   },
   {
@@ -5417,7 +5417,7 @@
     "name": { "str": "Hunter" },
     "points": 3,
     "vitamin_cost": 175,
-    "description": "Your brain has a lot more in common with a predatory animal than a human, making it easier to control misplaced reactions to the death of your prey.  Additionally, combat skills, which you use to hunt, are easier to learn and maintain.",
+    "description": "Your brain has a lot more in common with a predatory animal than a human, making it easier to control misplaced reactions to the death of your prey.  Your combat skills are becoming instinctual, helping you turn theory into practice.",
     "social_modifiers": { "intimidate": 3 },
     "purifiable": false,
     "types": [ "PREDATION" ],
@@ -5444,7 +5444,7 @@
     "name": { "str": "Predator" },
     "points": 3,
     "vitamin_cost": 190,
-    "description": "You consider yourself something other than human and no longer empathize with them.  Combat skills are easy to learn and maintain, but your critical thinking, so characteristic to these creatures, suffers.",
+    "description": "You consider yourself something other than human and no longer empathize with them.  Combat comes naturally to you, but your critical thinking, so characteristic to these creatures, suffers.",
     "social_modifiers": { "intimidate": 4 },
     "purifiable": false,
     "types": [ "PREDATION" ],
@@ -5473,7 +5473,7 @@
     "name": { "str": "Apex Predator" },
     "points": 2,
     "vitamin_cost": 195,
-    "description": "Your mind and brain have adapted to your new place in the world: as one on top of the food chain.  You can effortlessly master and maintain combat skills, but your critical thinking has atrophied further.",
+    "description": "Your mind and brain have adapted to your new place in the world: as one on top of the food chain.  You can effortlessly master combat skills, but your critical thinking has atrophied further.",
     "social_modifiers": { "intimidate": 5 },
     "purifiable": false,
     "types": [ "PREDATION" ],
@@ -9388,9 +9388,9 @@
   {
     "type": "mutation",
     "id": "NPC_BRANDY",
-    "name": { "str": "Carries Brandy", "//~": "NO_I18N" },
+    "name": { "str": "Carries Brandy" },
     "points": 0,
-    "description": { "str": "This Bartender now carries brandy!", "//~": "NO_I18N" },
+    "description": "This Bartender now carries brandy!",
     "player_display": false,
     "valid": false,
     "purifiable": false
@@ -9398,9 +9398,9 @@
   {
     "type": "mutation",
     "id": "NPC_RUM",
-    "name": { "str": "Carries Rum", "//~": "NO_I18N" },
+    "name": { "str": "Carries Rum" },
     "points": 0,
-    "description": { "str": "This Bartender now carries rum!", "//~": "NO_I18N" },
+    "description": "This Bartender now carries rum!",
     "player_display": false,
     "valid": false,
     "purifiable": false
@@ -9408,9 +9408,9 @@
   {
     "type": "mutation",
     "id": "NPC_WHISKEY",
-    "name": { "str": "Carries Whiskey", "//~": "NO_I18N" },
+    "name": { "str": "Carries Whiskey" },
     "points": 0,
-    "description": { "str": "This Bartender now carries whiskey!", "//~": "NO_I18N" },
+    "description": "This Bartender now carries whiskey!",
     "player_display": false,
     "valid": false,
     "purifiable": false
@@ -9418,9 +9418,9 @@
   {
     "type": "mutation",
     "id": "NPC_MISSION_LEV_1",
-    "name": { "str": "Has Level 1 Companion Missions", "//~": "NO_I18N" },
+    "name": { "str": "Has Level 1 Companion Missions" },
     "points": 0,
-    "description": { "str": "New mission options have become available!", "//~": "NO_I18N" },
+    "description": "New mission options have become available!",
     "player_display": false,
     "valid": false,
     "purifiable": false
@@ -9428,9 +9428,9 @@
   {
     "type": "mutation",
     "id": "NPC_CONSTRUCTION_LEV_1",
-    "name": { "str": "Has Level 1 Construction Built", "//~": "NO_I18N" },
+    "name": { "str": "Has Level 1 Construction Built" },
     "points": 0,
-    "description": { "str": "New options may have become available!", "//~": "NO_I18N" },
+    "description": "New options may have become available!",
     "player_display": false,
     "valid": false,
     "purifiable": false
@@ -9438,9 +9438,9 @@
   {
     "type": "mutation",
     "id": "NPC_CONSTRUCTION_LEV_2",
-    "name": { "str": "Has Level 2 Construction Built", "//~": "NO_I18N" },
+    "name": { "str": "Has Level 2 Construction Built" },
     "points": 0,
-    "description": { "str": "New options may have become available!", "//~": "NO_I18N" },
+    "description": "New options may have become available!",
     "player_display": false,
     "valid": false,
     "purifiable": false
@@ -9448,9 +9448,9 @@
   {
     "type": "mutation",
     "id": "NPC_STARTING_NPC",
-    "name": { "str": "Starting NPC", "//~": "NO_I18N" },
+    "name": { "str": "Starting NPC" },
     "points": 0,
-    "description": { "str": "Marker for starting NPCs", "//~": "NO_I18N" },
+    "description": "Marker for starting NPCs",
     "player_display": false,
     "valid": false,
     "purifiable": false
@@ -9458,9 +9458,9 @@
   {
     "type": "mutation",
     "id": "NPC_STATIC_NPC",
-    "name": { "str": "Static NPC", "//~": "NO_I18N" },
+    "name": { "str": "Static NPC" },
     "points": 0,
-    "description": { "str": "Marker for static NPCs", "//~": "NO_I18N" },
+    "description": "Marker for static NPCs",
     "player_display": false,
     "valid": false,
     "purifiable": false
@@ -9468,40 +9468,40 @@
   {
     "type": "mutation",
     "id": "HALLUCINATION",
-    "name": { "str": "Hallucination", "//~": "NO_I18N" },
+    "name": { "str": "Hallucination" },
     "points": 0,
     "valid": false,
-    "description": { "str": "NPC trait that makes them be hallucination.  It is a bug if you have it.", "//~": "NO_I18N" },
+    "description": "NPC trait that makes them be hallucination.  It is a bug if you have it.",
     "player_display": false,
     "threshold": true
   },
   {
     "type": "mutation",
     "id": "IGNORE_SOUND",
-    "name": { "str": "Ignores Sounds", "//~": "NO_I18N" },
+    "name": { "str": "Ignores Sounds" },
     "points": 99,
     "valid": false,
-    "description": { "str": "NPC ignores sounds and does not investigate them.  If you see this, it's is a bug.", "//~": "NO_I18N" },
+    "description": "NPC ignores sounds and does not investigate them.  If you see this, it's is a bug.",
     "player_display": false,
     "purifiable": false
   },
   {
     "type": "mutation",
     "id": "NO_BASH",
-    "name": { "str": "Will Not Bash", "//~": "NO_I18N" },
+    "name": { "str": "Will Not Bash" },
     "points": 99,
     "valid": false,
-    "description": { "str": "NPC will not bash to reach things.  If you see this, it's a bug.", "//~": "NO_I18N" },
+    "description": "NPC will not bash to reach things.  If you see this, it's a bug.",
     "player_display": false,
     "purifiable": false
   },
   {
     "type": "mutation",
     "id": "RETURN_TO_START_POS",
-    "name": { "str": "Returns to Start POS", "//~": "NO_I18N" },
+    "name": { "str": "Returns to Start POS" },
     "points": 99,
     "valid": false,
-    "description": { "str": "NPC will return to its spawn position on idle.", "//~": "NO_I18N" },
+    "description": "NPC will return to its spawn position on idle.",
     "player_display": false,
     "purifiable": false
   },
@@ -9860,20 +9860,20 @@
   {
     "type": "mutation",
     "id": "BEE",
-    "name": { "str": "Bee", "//~": "NO_I18N" },
+    "name": { "str": "Bee" },
     "points": 0,
     "valid": false,
-    "description": { "str": "NPC trait that makes monsters see it as a bee.  It is a bug (heh) if you have it.", "//~": "NO_I18N" },
+    "description": "NPC trait that makes monsters see it as a bee.  It is a bug (heh) if you have it.",
     "player_display": false,
     "threshold": true
   },
   {
     "type": "mutation",
     "id": "MYCUS_FRIEND",
-    "name": { "str": "Mycus friend", "//~": "NO_I18N" },
+    "name": { "str": "Mycus friend" },
     "points": 0,
     "valid": false,
-    "description": { "str": "NPC trait that makes fungaloid monsters see this NPC as a friend.", "//~": "NO_I18N" },
+    "description": "NPC trait that makes fungaloid monsters see this NPC as a friend.",
     "player_display": false
   },
   {
@@ -10323,13 +10323,10 @@
   {
     "type": "mutation",
     "id": "CARNIVORE_FAKE",
-    "name": { "str": "Imitation Carnivore", "//~": "NO_I18N" },
+    "name": { "str": "Imitation Carnivore" },
     "points": 0,
     "vitamin_cost": 160,
-    "description": {
-      "str": "Fake mutation to allow post-threshold Ursine mutants access to mutations normally gated behind Carnivore.  This is not meant to be visible in-game.",
-      "//~": "NO_I18N"
-    },
+    "description": "Fake mutation to allow post-threshold Ursine mutants access to mutations normally gated behind Carnivore.  This is not meant to be visible in-game.",
     "category": [ "URSINE" ],
     "threshreq": [ "THRESH_URSINE" ],
     "player_display": false
@@ -10365,8 +10362,8 @@
   {
     "type": "mutation",
     "id": "TAINTED_SHADOW",
-    "name": { "str": "Tainted Shadow", "//~": "NO_I18N" },
-    "description": { "str": "You shouldn't see this.  This makes you spawn tainted shadows.", "//~": "NO_I18N" },
+    "name": { "str": "Tainted Shadow" },
+    "description": "You shouldn't see this.  This makes you spawn tainted shadows.",
     "points": 0,
     "player_display": false,
     "purifiable": false,

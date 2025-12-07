@@ -1301,7 +1301,7 @@
     "remove_message": "The world seems wrapped in gauze compared to before.",
     "rating": "good",
     "max_duration": "7 days",
-    "max_intensity": 43,
+    "show_in_info": true,
     "removes_effects": [
       "dazed",
       "stunned",

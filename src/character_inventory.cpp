@@ -230,6 +230,47 @@ int Character::count_softwares( const itype_id &id )
     return count;
 }
 
+bool Character::has_software( const itype_id &software_id, int min_charges,
+                              const itype_id &device_id ) const
+{
+    map &here = get_map();
+
+    for( const item_location &it_loc : const_cast<Character *>( this )->all_items_loc() ) {
+        if( !it_loc->is_estorage() ) {
+            continue;
+        }
+
+        if( !device_id.is_null() && it_loc->typeId() != device_id ) {
+            continue;
+        }
+
+        bool has_software = false;
+        for( const item *software : it_loc->softwares() ) {
+            if( software->typeId() == software_id ) {
+                has_software = true;
+                break;
+            }
+        }
+
+        if( !has_software ) {
+            continue;
+        }
+
+        if( min_charges <= 0 ) {
+            return true;
+        }
+
+        if( it_loc->is_tool() ) {
+            const int device_charges = it_loc->ammo_remaining_linked( here, this );
+            if( device_charges >= min_charges ) {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
 units::length Character::max_single_item_length() const
 {
     return std::max( weapon.max_containable_length(), worn.max_single_item_length() );
@@ -1370,14 +1411,14 @@ int Character::item_store_cost( const item &it, const item & /* container */, bo
 int Character::item_retrieve_cost( const item &it, const item &container, bool penalties,
                                    int base_cost ) const
 {
-    // Drawing from an holster use the same formula as storing an item for now
+    // Drawing from a holster use the same formula as storing an item for now
     /**
          * @EFFECT_PISTOL decreases time taken to draw pistols from holsters
          * @EFFECT_SMG decreases time taken to draw smgs from holsters
          * @EFFECT_RIFLE decreases time taken to draw rifles from holsters
          * @EFFECT_SHOTGUN decreases time taken to draw shotguns from holsters
          * @EFFECT_LAUNCHER decreases time taken to draw launchers from holsters
-         * @EFFECT_STABBING decreases time taken to draw stabbing weapons from sheathes
+         * @EFFECT_STABBING decreases time taken to draw stabbing weapons from sheaths
          * @EFFECT_CUTTING decreases time taken to draw cutting weapons from scabbards
          * @EFFECT_BASHING decreases time taken to draw bashing weapons from holsters
          */

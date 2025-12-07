@@ -181,7 +181,6 @@
     "melee_dice": 2,
     "melee_dice_sides": 6,
     "dodge": 0,
-    "stomach_size": 6000,
     "families": [ "prof_wp_demihuman", "prof_wp_hulk" ],
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor" ],
     "anger_triggers": [ "HURT", "PLAYER_WEAK", "PLAYER_CLOSE" ],
