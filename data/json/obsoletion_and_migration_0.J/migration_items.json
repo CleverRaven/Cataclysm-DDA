@@ -368,5 +368,10 @@
     "type": "MIGRATION",
     "id": "mre_strawberry_cake",
     "replace": "mre_chocolate_cake"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "washingboard",
+    "replace": "wash_kit"
   }
 ]
