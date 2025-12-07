@@ -15,8 +15,8 @@
         "#zɱIIII  |T|³³³³³³³|pppp pppp qq#...............",
         "#G    ɱ  + |³      +            #...............",
         "#G Att  I|||||³³³³³|  JLJJJJJ  M#...............",
-        "#G  tt  I|---|||||||        J  M#...............",
-        "#G  ttA I|---|TL|hv|³       L  M#...............",
+        "#G  tt  I|ØØØ|||||||        J  M#...............",
+        "#G  ttA I|ØØØ|TL|hv|³       L  M#...............",
         "#G  tt  I|&$$|  | v|³       J  L#...............",
         "#G  tt  I|   ||+|+||³       J  M#...............",
         "#G   ɱ   $   $              L  M#...............",
@@ -62,6 +62,7 @@
       "palettes": [ "phavian_hospital_lab" ],
       "terrain": {
         ".": "t_soil",
+        "Ø": "t_open_air",
         "°": "t_wall_metal",
         ";": [ "t_door_metal_locked", "t_door_metal_elocked" ],
         "˽": "t_card_reader_broken",
