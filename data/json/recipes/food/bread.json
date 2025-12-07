@@ -351,7 +351,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "sourdough_bread",
-    "byproducts": [ [ "sourdough_split_uncovered", 1 ] ],
+    "byproducts": [ [ "sourdough_split_uncovered_active", 1 ] ],
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
     "skill_used": "cooking",
