@@ -4,7 +4,10 @@
   "dependencies": [
     { "name": "sdl2", "version>=": "2.26.4#0" },
     { "name": "sdl2-image", "features": [ "libjpeg-turbo" ] },
-    { "name": "sdl2-mixer", "features": [ "libflac", "mpg123", "libmodplug" ] },
+    { "name": "sdl2-mixer", "features": [ "libflac", "mpg123", "wavpack" ],
+      "default-features": false
+    },
+    "libvorbis",
     "sdl2-ttf",
     { "name": "pdcurses", "version>=": "3.9#4", "platform": "windows" }
   ],
