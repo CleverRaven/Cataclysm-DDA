@@ -206,6 +206,12 @@ int item::damage_level( bool precise ) const
     return precise ? damage_ : type->damage_level( damage_ );
 }
 
+bool item::activation_success() const
+{
+    // Should be itype::damage_max_ - 1, but for some reason it's private.
+    return rng( 0, 3999 ) - damage_ >= 0;
+}
+
 float item::damage_adjusted_melee_weapon_damage( float value, const damage_type_id &dt ) const
 {
     if( type->count_by_charges() ) {
