@@ -3811,6 +3811,12 @@ std::optional<int> iuse::dive_tank( Character *p, item *it, const tripoint_bub_m
 {
     if( p && p->is_worn( *it ) ) {
         if( p->is_underwater() && p->oxygen < 10 ) {
+            if( !it->activation_success() ) {
+                p->add_msg_if_player( m_bad,
+                                      _( "You try to take a deep breath from your %s, but something blocks the flow." ), it->tname() );
+                return std::nullopt;
+            }
+
             p->oxygen += 20;
         }
         if( one_in( 15 ) ) {
@@ -3834,16 +3840,30 @@ std::optional<int> iuse::dive_tank_activate( Character *p, item *it, const tripo
     if( it->ammo_remaining( ) == 0 ) {
         p->add_msg_if_player( _( "Your %s is empty." ), it->tname() );
     } else if( it->active ) { //off
-        p->add_msg_if_player( _( "You turn off the regulator and close the air valve." ) );
-        it->erase_var( "overwrite_env_resist" );
-        it->type->transform_into.value().transform( p, *it, true );
+        if( it->activation_success() ) {
+            p->add_msg_if_player( _( "You turn off the regulator and close the air valve." ) );
+            it->erase_var( "overwrite_env_resist" );
+            it->type->transform_into.value().transform( p, *it, true );
+        } else {
+            p->add_msg_if_player( m_bad,
+                                  _( "You try to turn off the regulator and close the air valve of your %s, but the valve is stuck." ),
+                                  it->tname() );
+            return std::nullopt;
+        }
+
     } else { //on
         if( !p->is_worn( *it ) ) {
             p->add_msg_if_player( _( "You should wear it first." ) );
         } else {
-            p->add_msg_if_player( _( "You turn on the regulator and open the air valve." ) );
-            it->set_var( "overwrite_env_resist", it->get_base_env_resist_w_filter() );
-            it->convert( itype_id( it->typeId().str() + "_on" ) ).active = true;
+            if( it->activation_success() ) {
+                p->add_msg_if_player( _( "You turn on the regulator and open the air valve." ) );
+                it->set_var( "overwrite_env_resist", it->get_base_env_resist_w_filter() );
+                it->convert( itype_id( it->typeId().str() + "_on" ) ).active = true;
+            } else {
+                p->add_msg_if_player( m_bad,
+                                      _( "You try to turn on the regulator and open the air valve of your %s, but the valve is stuck." ),
+                                      it->tname() );
+            }
         }
     }
     return 1;
@@ -6428,6 +6448,11 @@ std::optional<int> iuse::camera( Character *p, item *it, const tripoint_bub_ms &
 
         std::vector<tripoint_bub_ms> trajectory = line_to( p->pos_bub(), aim_point, 0, 0 );
         trajectory.push_back( aim_point );
+
+        if( !it->activation_success() ) {
+            p->add_msg_if_player( _( "You press the trigger on you %s, but nothing happens." ), it->tname() );
+            return std::nullopt;
+        }
 
         p->mod_moves( -to_moves<int>( 1_seconds ) * 0.5 );
         sounds::sound( p->pos_bub(), 8, sounds::sound_t::activity, _( "Click." ), true, "tool",
