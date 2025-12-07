@@ -4213,8 +4213,8 @@ inventory_selector::stats inventory_insert_selector::get_raw_stats() const
                     }
                 }
                 if( e->any_item()->count_by_charges() ) {
-                    selected_weight += w * e->chosen_count / e->get_total_charges();
-                    selected_volume += v * e->chosen_count / e->get_total_charges();
+                    selected_weight += w * overflow_counter / e->get_total_charges();
+                    selected_volume += v * overflow_counter / e->get_total_charges();
                 } else {
                     selected_weight += w * overflow_counter;
                     selected_volume += v * overflow_counter;
