@@ -1915,5 +1915,15 @@
     "proportional": { "weight": 1.1 },
     "material": [ "bronze" ],
     "color": "yellow"
+  },
+  {
+    "id": "razor_blade_taped",
+    "copy-from": "razor_blade",
+    "looks_like": "razor_blade",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "taped razorblade" },
+    "description": "A double-edged razor blade with one side taped to allow its use as a basic tool.",
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 4 ], [ "FABRIC_CUT", 1 ] ]
   }
 ]

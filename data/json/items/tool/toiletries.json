@@ -170,7 +170,8 @@
     "weight": "1 g",
     "volume": "1 ml",
     "longest_side": "38 mm",
-    "melee_damage": { "cut": 1 }
+    "melee_damage": { "cut": 1 },
+    "qualities": [ [ "BUTCHER", 2 ], [ "FABRIC_CUT", 1 ] ]
   },
   {
     "id": "shavingkit",
