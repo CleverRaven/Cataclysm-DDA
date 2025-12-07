@@ -1729,5 +1729,45 @@
     "type": "item_group",
     "subtype": "distribution",
     "items": [ { "group": "any_milk", "container-item": "jug_plastic" } ]
+  },
+  {
+    "id": "beer_in_six_pack_rings",
+    "type": "item_group",
+    "subtype": "distribution",
+    "container-item": "six_pack_rings",
+    "entries": [
+      { "prob": 35, "container-item": "can_drink", "count": 6, "item": "beer" },
+      { "prob": 25, "container-item": "can_drink", "count": 6, "item": "european_pilsner" },
+      { "prob": 25, "container-item": "can_drink", "count": 6, "item": "drink_hard_seltzer" },
+      { "prob": 25, "container-item": "can_drink", "count": 6, "item": "pale_ale" },
+      { "prob": 25, "container-item": "can_drink", "count": 6, "item": "india_pale_ale" },
+      { "prob": 15, "container-item": "can_drink", "count": 6, "item": "stout" },
+      { "prob": 10, "container-item": "can_drink", "count": 6, "item": "belgian_ale" },
+      { "prob": 4, "container-item": "can_drink", "count": 6, "item": "imperial_stout" },
+      { "prob": 2, "container-item": "can_drink", "count": 6, "item": "wine_barley" }
+    ]
+  },
+  {
+    "id": "beer_in_six_pack_cardboard",
+    "type": "item_group",
+    "subtype": "distribution",
+    "container-item": "box_medium",
+    "entries": [
+      { "prob": 35, "container-item": "bottle_glass_330ml", "count": 6, "item": "beer" },
+      { "prob": 25, "container-item": "bottle_glass_330ml", "count": 6, "item": "european_pilsner" },
+      { "prob": 25, "container-item": "bottle_glass_330ml", "count": 6, "item": "drink_hard_seltzer" },
+      { "prob": 25, "container-item": "bottle_glass_330ml", "count": 6, "item": "pale_ale" },
+      { "prob": 25, "container-item": "bottle_glass_330ml", "count": 6, "item": "india_pale_ale" },
+      { "prob": 15, "container-item": "bottle_glass_330ml", "count": 6, "item": "stout" },
+      { "prob": 10, "container-item": "bottle_glass_330ml", "count": 6, "item": "belgian_ale" },
+      { "prob": 4, "container-item": "bottle_glass_330ml", "count": 6, "item": "imperial_stout" },
+      { "prob": 2, "container-item": "bottle_glass_330ml", "count": 6, "item": "wine_barley" }
+    ]
+  },
+  {
+    "id": "beer_in_six_pack",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "group": "beer_in_six_pack_rings" }, { "group": "beer_in_six_pack_cardboard" } ]
   }
 ]
