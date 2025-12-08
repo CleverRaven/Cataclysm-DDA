@@ -3350,7 +3350,7 @@ void basecamp::start_crafting( const mission_id &miss_id )
     }
 
     uilist choose_crafter;
-    choose_crafter.title = _( "Choose an NPC to craft" );
+    choose_crafter.title = _( "Choose a companion to craft" );
     int i = 0;
     for( const npc_ptr &guy : assigned_npcs ) {
         if( guy.get() ) {
