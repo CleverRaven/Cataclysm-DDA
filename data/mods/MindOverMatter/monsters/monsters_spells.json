@@ -1548,5 +1548,21 @@
     "max_range": 0,
     "min_duration": 900000,
     "max_duration": 900000
+  },
+  {
+    "type": "SPELL",
+    "id": "small_psi_raptor_spawn",
+    "name": { "str": "Summon Psi Raptors", "//~": "NO_I18N" },
+    "description": { "str": "Summons a few zombiespawn psi raptors.", "//~": "NO_I18N" },
+    "flags": [ "HOSTILE_SUMMON", "RANDOM_DAMAGE", "PERMANENT", "NO_EXPLOSION_SFX", "SPAWN_GROUP" ],
+    "valid_targets": [ "ground", "self" ],
+    "min_damage": 1,
+    "max_damage": 2,
+    "min_aoe": 4,
+    "max_aoe": 4,
+    "extra_effects": [ { "id": "spawning_zombie_die", "hit_self": true } ],
+    "shape": "blast",
+    "effect": "summon",
+    "effect_str": "GROUP_SPAWN_PSI_RAPTOR"
   }
 ]

@@ -241,5 +241,32 @@
       "psi_teleporter_teleporting_damage": 999,
       "psi_enervation_damage": 999
     }
+  },
+  {
+    "id": "mon_zombie_pupating_psi",
+    "copy-from": "mon_zombie_pupa",
+    "type": "MONSTER",
+    "name": { "str": "pupating blank" },
+    "description": "This human corpse is wrapped in sticky black fibers that cover everything from the neck down.  Beneath the wrapping there is a strange rhythmic movement, grotesque to behold.  When you look directly at it, gray static flickers on the edge of your vision and you hear a very low droning hum.",
+    "species": [ "ZOMBIE", "PSI_NULL" ],
+    "emit_fields": [ { "emit_id": "emit_anti_psi", "delay": "1 s" } ],
+    "color": "dark_gray_white",
+    "extend": { "flags": [ "ENERVATE_IMMUNE", "PHOTOKIN_MONSTER_IMMUNE", "TELEPORT_IMMUNE", "TEEP_IMMUNE", "TELEKIN_IMMUNE" ] },
+    "special_attacks": [
+      { "type": "bite", "cooldown": 3 },
+      {
+        "type": "spell",
+        "spell_data": { "id": "small_psi_raptor_spawn", "hit_self": true },
+        "cooldown": 50,
+        "monster_message": "%s bursts, and gore-smeared winged beasts climb out of the corpse!"
+      }
+    ],
+    "armor": {
+      "electric": 1,
+      "psi_telekinetic_damage": 999,
+      "psi_telepathic_damage": 999,
+      "psi_teleporter_teleporting_damage": 999,
+      "psi_enervation_damage": 999
+    }
   }
 ]
