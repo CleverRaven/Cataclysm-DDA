@@ -268,5 +268,31 @@
       "psi_teleporter_teleporting_damage": 999,
       "psi_enervation_damage": 999
     }
+  },
+  {
+    "id": "mon_spawn_raptor_teke_push",
+    "copy-from": "mon_spawn_raptor",
+    "looks_like": "mon_spawn_raptor",
+    "type": "MONSTER",
+    "name": { "str": "forcewave flesh-raptor" },
+    "description": "This small, winged predator darts through the air on three thinly-haired wings that look like stretched human hands.  A sheer, jagged spike juts out from the point where the wings meet.  It looks like nothing you've seen on Earth, and yet strangely like it is made of human parts.  As it darts through the air, nearby obstacles sometimes bend slightly away from it.",
+    "upgrades": {  },
+    "extend": {
+      "special_attacks": [
+        {
+          "id": "scratch",
+          "cooldown": { "math": [ "10 + rand(20)" ] },
+          "damage_max_instance": [ { "damage_type": "psi_telekinetic_damage", "amount": 3 } ],
+          "effects": [ { "id": "downed", "duration": 2, "chance": 5 } ],
+          "effects_require_dmg": false,
+          "hit_dmg_u": "%1$s hits your %2$s with a burst of telekinetic force!",
+          "hit_dmg_npc": "%1$s hits <npcname> with a burst of telekinetic force!",
+          "miss_msg_u": "%1$s flaps its wings and a burst of wind whistles around you!",
+          "miss_msg_npc": "%1$s flaps its wings at <npcname>!",
+          "no_dmg_msg_u": "%1$s hits your %2$s with a burst of telekinetic force, but fails to penetrate armor.",
+          "no_dmg_msg_npc": "%1$s hits <npcname> with a burst of telekinetic force, but fails to penetrate armor."
+        }
+      ]
+    }
   }
 ]
