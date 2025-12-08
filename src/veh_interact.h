@@ -19,7 +19,6 @@
 #include "item_location.h"
 #include "mapdata.h"
 #include "memory_fast.h"
-#include "player_activity.h"
 #include "point.h"
 #include "type_id.h"
 #include "units.h"
@@ -49,6 +48,8 @@ class ui_adaptor;
 class vehicle;
 struct vehicle_part;
 
+template <typename T> struct enum_traits;
+
 // For marking 'leaking' tanks/reactors/batteries
 const std::string leak_marker = "<color_red>*</color>";
 
@@ -63,11 +64,23 @@ enum vehicle_action {
     VEHICLE_MEND_FAULTS,// 'm'
     VEHICLE_SIPHON,     // 's'
     VEHICLE_UNLOAD,     // 'd'
-    // not activities, legacy
+    // not intended to be activities or legacy
     VEHICLE_SHAPE,      // 'p'
     VEHICLE_ASSIGN_CREW,// 'w'
     VEHICLE_RELABEL,    // 'a'
-    VEHICLE_QUIT        // 'q' or ' '
+    VEHICLE_QUIT,        // 'q' or ' '
+    VEHICLE_LAST
+};
+
+namespace io
+{
+template<>
+std::string enum_to_string<vehicle_action>( vehicle_action stage );
+} // namespace io
+
+template<>
+struct enum_traits<vehicle_action> {
+    static constexpr vehicle_action last = vehicle_action::VEHICLE_LAST;
 };
 
 class veh_interact
@@ -75,14 +88,14 @@ class veh_interact
         using part_selector = std::function<bool( const map &here, const vehicle_part &pt )>;
 
     public:
-        static player_activity run( map &here,  vehicle &veh, const point_rel_ms &p );
+        static void run( map &here,  vehicle &veh, const point_rel_ms &p );
 
         /** Prompt for a part matching the selector function */
         static std::optional<vpart_reference> select_part( map &here, const vehicle &veh,
                 const part_selector &sel,
                 const std::string &title = std::string() );
 
-        static void complete_vehicle( map &here, Character &you );
+        static void do_change_shape_menu( vehicle_part &vp );
 
     private:
         explicit veh_interact( map &here, vehicle &veh, const point_rel_ms &p = point_rel_ms::zero );
@@ -161,7 +174,7 @@ class veh_interact
         shared_ptr_fast<ui_adaptor> create_or_get_ui_adaptor( map &here );
         void hide_ui( map &here, bool hide );
 
-        player_activity serialize_activity( map &here );
+        void assign_activity( map &here );
 
         /** Format list of requirements returning true if all are met */
         bool format_reqs( std::string &msg, const requirement_data &reqs,
