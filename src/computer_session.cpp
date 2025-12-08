@@ -76,9 +76,6 @@ static const furn_str_id furn_f_rubble_rock( "f_rubble_rock" );
 
 static const itype_id itype_black_box( "black_box" );
 static const itype_id itype_black_box_transcript( "black_box_transcript" );
-static const itype_id itype_blood( "blood" );
-static const itype_id itype_blood_tainted( "blood_tainted" );
-static const itype_id itype_blood_tainted_human( "blood_tainted_human" );
 static const itype_id itype_c4( "c4" );
 static const itype_id itype_cobalt_60( "cobalt_60" );
 static const itype_id itype_mininuke( "mininuke" );
@@ -86,9 +83,7 @@ static const itype_id itype_mininuke_act( "mininuke_act" );
 static const itype_id itype_radio_repeater_mod( "radio_repeater_mod" );
 static const itype_id itype_sarcophagus_access_code( "sarcophagus_access_code" );
 static const itype_id itype_sewage( "sewage" );
-static const itype_id itype_software_blood_data( "software_blood_data" );
 static const itype_id itype_usb_drive( "usb_drive" );
-static const itype_id itype_vacutainer( "vacutainer" );
 
 static const mission_type_id
 mission_MISSION_OLD_GUARD_NEC_COMMO_2( "MISSION_OLD_GUARD_NEC_COMMO_2" );
@@ -110,9 +105,6 @@ static const oter_type_str_id oter_type_subway( "subway" );
 static const overmap_special_id overmap_special_Crater( "Crater" );
 
 static const skill_id skill_computer( "computer" );
-
-static const species_id species_HUMAN( "HUMAN" );
-static const species_id species_ZOMBIE( "ZOMBIE" );
 
 static const ter_str_id ter_t_concrete( "t_concrete" );
 static const ter_str_id ter_t_concrete_wall( "t_concrete_wall" );
@@ -1650,34 +1642,6 @@ void computer_session::failure_amigara()
                                   tripoint_bub_ms( rng( 0, MAPSIZE_X ), rng( 0, MAPSIZE_Y ), here.get_abs_sub().z() ), 10, 0.7, false,
                                   10 );
     comp.remove_option( COMPACT_AMIGARA_START );
-}
-
-void computer_session::failure_destroy_blood()
-{
-    print_error( _( "ERROR: Disruptive Spin" ) );
-    map &here = get_map();
-    for( const tripoint_bub_ms &dest : here.points_in_radius( get_player_character().pos_bub(), 2 ) ) {
-        if( here.furn( dest ) == furn_f_centrifuge ) {
-            map_stack items = here.i_at( dest );
-            if( items.empty() ) {
-                print_error( _( "ERROR: Please place sample in centrifuge." ) );
-            } else if( items.size() > 1 ) {
-                print_error( _( "ERROR: Please remove all but one sample from centrifuge." ) );
-            } else if( items.only_item().typeId() != itype_vacutainer ) {
-                print_error( _( "ERROR: Please use blood-contained samples." ) );
-            } else if( items.only_item().empty() ) {
-                print_error( _( "ERROR: Blood draw kit, empty." ) );
-            } else if( items.only_item().legacy_front().typeId() != itype_blood &&
-                       items.only_item().legacy_front().typeId() != itype_blood_tainted &&
-                       items.only_item().legacy_front().typeId() != itype_blood_tainted_human ) {
-                print_error( _( "ERROR: Please only use blood samples." ) );
-            } else {
-                print_error( _( "ERROR: Blood sample destroyed." ) );
-                here.i_clear( dest );
-            }
-        }
-    }
-    query_any();
 }
 
 void computer_session::failure_destroy_data()
