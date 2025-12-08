@@ -4401,31 +4401,28 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
     // This is to ensure we don't over count skill steps
     craft.item_counter = std::min( craft.item_counter, 10000000 );
 
-    // This nominal craft time is also how many practice ticks to perform
-    // spread out evenly across the actual duration.
-    const double total_practice_ticks = rec.time_to_craft_moves( crafter,
-                                        recipe_time_flag::ignore_proficiencies ) / 100.0;
+    // Practice once or every minute. Nominal craft time divided by 60 is how many 
+    // practice ticks to perform spread out evenly across the actual duration. 
+    const double total_practice_ticks = std::max(base_total_moves / ( 60.0 * 100.0),1.0);
 
-    const int ticks_per_practice = 10000000.0 / total_practice_ticks;
-    int num_practice_ticks = craft.item_counter / ticks_per_practice -
-                             old_counter / ticks_per_practice;
+    const int progress_per_practice = 10000000.0 / total_practice_ticks;
+    int num_practice_ticks = craft.item_counter / progress_per_practice -
+                             old_counter / progress_per_practice;
     bool level_up = false;
     if( num_practice_ticks > 0 ) {
         level_up |= crafter.craft_skill_gain( craft, num_practice_ticks );
-    }
-    // Proficiencies and tools are gained/consumed after every 5% progress
-    int five_percent_steps = craft.item_counter / 500000 - old_counter / 500000;
-    if( five_percent_steps > 0 ) {
-        // Divide by 100 for seconds, 20 for 5%
-        const time_duration pct_time = time_duration::from_seconds( base_total_moves / 2000 );
-        level_up |= crafter.craft_proficiency_gain( craft, pct_time * five_percent_steps );
+        // Base move divided by 100 for seconds, and by tick amount to get proficiency exp per tick
+        const time_duration pct_time = time_duration::from_seconds(base_total_moves / (100 * total_practice_ticks));
+        level_up |= crafter.craft_proficiency_gain( craft, pct_time * num_practice_ticks );
         // Invalidate the crafting time cache because proficiencies may have changed
         cached_crafting_speed = 0;
         // Also reset the multiplier
         use_cached_workbench_multiplier = false;
     }
 
+    // Tools are consumed after every 5% progress
     // Unlike skill, tools are consumed once at the start and should not be consumed at the end
+    int five_percent_steps = craft.item_counter / 500000 - old_counter / 500000;
     if( craft.item_counter >= 10000000 ) {
         --five_percent_steps;
     }
