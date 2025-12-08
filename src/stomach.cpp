@@ -113,6 +113,16 @@ void nutrients::remove_vitamin( const vitamin_id &vit )
     vitamins_.erase( vit );
 }
 
+bool nutrients::has_any_vitamin() const
+{
+    for( const auto &pair : vitamins_ ) {
+        if( std::get<int>( pair.second ) != 0 ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 int nutrients::get_vitamin( const vitamin_id &vit ) const
 {
     auto it = vitamins_.find( vit );
