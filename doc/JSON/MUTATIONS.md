@@ -152,7 +152,7 @@ Specific mutations are extremely versatile. A mutation only needs to have a few 
       "min_bravery": -10,                              // mins or maxes defined *at all* will be applied to all NPCs.)
       "max_bravery": 10,                               //
       "min_collector": -10,                            // As an example, a trait with a `personality_score` which defines only `"min_bravery": -5` will be applied to NPCs with
-      "max_collector": 10,                             // bravery of -5, -1, 0, 2, 7, or 10 (all of them being higher than the minimum), but not to a NPC with -6 (being lower than the
+      "max_collector": 10,                             // bravery of -5, -1, 0, 2, 7, or 10 (all of them being higher than the minimum), but not to an NPC with -6 (being lower than the
       "min_altruism": -10,                             // minimum). This can be used to define a range of values for which a trait should be applied (e.g. min 2 max 4 excludes all
       "max_altruism": 10,                              // numbers except 2, 3, and 4.)
     }
