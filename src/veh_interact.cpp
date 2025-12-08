@@ -184,10 +184,10 @@ player_activity veh_interact::serialize_activity( map &here )
     }
     res.values.push_back( veh->pos_abs().x() + q.x() );   // values[0]
     res.values.push_back( veh->pos_abs().y() + q.y() );   // values[1]
-    res.values.push_back( dd.x() );   // values[2]
-    res.values.push_back( dd.y() );   // values[3]
-    res.values.push_back( -dd.x() );   // values[4]
-    res.values.push_back( -dd.y() );   // values[5]
+    res.values.push_back( cursor_vp_mount.x() );   // values[2]
+    res.values.push_back( cursor_vp_mount.y() );   // values[3]
+    res.values.push_back( -cursor_vp_mount.x() );   // values[4]
+    res.values.push_back( -cursor_vp_mount.y() );   // values[5]
     res.values.push_back( veh->index_of_part( vpt ) ); // values[6]
     res.str_values.emplace_back( vp->id.str() );
     res.str_values.emplace_back( "" ); // previously stored the part variant, now obsolete
@@ -271,7 +271,7 @@ std::optional<vpart_reference> veh_interact::select_part( map &here, const vehic
  * Creates a blank veh_interact window.
  */
 veh_interact::veh_interact( map &here, vehicle &veh, const point_rel_ms &p )
-    : dd( p ), veh( &veh ), main_context( "VEH_INTERACT", keyboard_mode::keycode )
+    : cursor_vp_mount( p ), veh( &veh ), main_context( "VEH_INTERACT", keyboard_mode::keycode )
 {
     main_context.register_directions();
     main_context.register_action( "QUIT" );
@@ -859,7 +859,7 @@ bool veh_interact::update_part_requirements( map &here )
             }
         }
 
-        if( !axles.empty() && axles.count( -dd.x() ) == 0 ) {
+        if( !axles.empty() && axles.count( -cursor_vp_mount.x() ) == 0 ) {
             // Installing more than one steerable axle is hard
             // (but adding a wheel to an existing axle isn't)
             dif_steering = axles.size() + 5;
@@ -908,7 +908,7 @@ bool veh_interact::update_part_requirements( map &here )
     }
     nmsg += res.second;
 
-    const ret_val<void> can_mount = veh->can_mount( -dd, *sel_vpart_info );
+    const ret_val<void> can_mount = veh->can_mount( -cursor_vp_mount, *sel_vpart_info );
     if( !can_mount.success() ) {
         ok = false;
         nmsg += _( "<color_white>Cannot install due to:</color>\n> " ) +
@@ -1128,7 +1128,7 @@ void veh_interact::do_repair( map &here )
     if( reason == task_reason::INVALID_TARGET ) {
         vehicle_part *most_repairable = get_most_repairable_part();
         if( most_repairable && most_repairable->is_repairable() ) {
-            move_cursor( here, ( most_repairable->mount.raw() + dd ).rotate( 3 ) );
+            move_cursor( here, ( most_repairable->mount.raw() + cursor_vp_mount ).rotate( 3 ) );
             return;
         }
     }
@@ -1665,7 +1665,8 @@ void veh_interact::overview( map &here,
         }
 
         if( overview_pos >= 0 && static_cast<size_t>( overview_pos ) < overview_opts.size() ) {
-            move_cursor( here, ( overview_opts[overview_pos].part->mount.raw() + dd ).rotate( 3 ) );
+            move_cursor( here, ( overview_opts[overview_pos].part->mount.raw() + cursor_vp_mount ).rotate(
+                             3 ) );
         }
 
         if( overview_pos >= 0 && static_cast<size_t>( overview_pos ) < overview_opts.size() &&
@@ -2165,7 +2166,7 @@ std::pair<bool, std::string> veh_interact::calc_lift_requirements( map &here, co
  */
 int veh_interact::part_at( const point_rel_ms &d )
 {
-    const point_rel_ms vd{ -dd + d.rotate( 1 ) };
+    const point_rel_ms vd{ -cursor_vp_mount + d.rotate( 1 ) };
     return veh->part_displayed_at( vd );
 }
 
@@ -2201,7 +2202,7 @@ bool veh_interact::can_potentially_install( const vpart_info &vpart )
  */
 void veh_interact::move_cursor( map &here, const point_rel_ms &d, int dstart_at )
 {
-    dd += d.rotate( 3 );
+    cursor_vp_mount += d.rotate( 3 );
     if( d != point_rel_ms::zero ) {
         start_limit = 0;
     } else {
@@ -2210,7 +2211,7 @@ void veh_interact::move_cursor( map &here, const point_rel_ms &d, int dstart_at 
 
     // Update the current active component index to the new position.
     cpart = part_at( point_rel_ms::zero );
-    const point_rel_ms vd = -dd;
+    const point_rel_ms vd = -cursor_vp_mount;
     const point_rel_ms q = veh->coord_translate( vd );
     const tripoint_bub_ms vehp = veh->pos_bub( here ) + q;
     const bool has_critter = get_creature_tracker().creature_at( vehp );
@@ -2326,8 +2327,8 @@ void veh_interact::display_veh( map &here )
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         mvwprintz( w_disp, point( 0, 1 ), c_red,   "Pivot %d,%d", pivot.x(), pivot.y() );
 
-        const point_rel_ms com_s = ( com + dd ).rotate( 3 ) + h_size;
-        const point_rel_ms pivot_s = ( pivot + dd ).rotate( 3 ) + h_size;
+        const point_rel_ms com_s = ( com + cursor_vp_mount ).rotate( 3 ) + h_size;
+        const point_rel_ms pivot_s = ( pivot + cursor_vp_mount ).rotate( 3 ) + h_size;
 
         mvwhline( w_disp, point( 0, com_s.y() ), c_green, LINE_OXOX, std::min( getmaxx( w_disp ),
                   com_s.x() + 1 ) );
@@ -2350,7 +2351,7 @@ void veh_interact::display_veh( map &here )
     for( const int structural_part_idx : veh->all_parts_at_location( vpart_location_structure ) ) {
         const vehicle_part &vp = veh->part( structural_part_idx );
         const vpart_display vd = veh->get_display_of_tile( vp.mount, false, false );
-        const point_rel_ms q = ( vp.mount + dd ).rotate( 3 );
+        const point_rel_ms q = ( vp.mount + cursor_vp_mount ).rotate( 3 );
 
         if( q != point_rel_ms::zero ) { // cursor is not on this part
             mvwputch( w_disp, h_size + q.raw(), vd.color, vd.symbol_curses );
@@ -2362,7 +2363,8 @@ void veh_interact::display_veh( map &here )
     }
 
     const point pt_disp( getmaxx( w_disp ) / 2, getmaxy( w_disp ) / 2 );
-    const tripoint_bub_ms pos_at_cursor = veh->pos_bub( here ) + veh->coord_translate( -dd );
+    const tripoint_bub_ms pos_at_cursor = veh->pos_bub( here ) + veh->coord_translate(
+            -cursor_vp_mount );
     const optional_vpart_position ovp = here.veh_at( pos_at_cursor );
     col_at_cursor = hilite( col_at_cursor );
     if( here.impassable_ter_furn( pos_at_cursor ) || ( ovp && &ovp->vehicle() != veh ) ) {

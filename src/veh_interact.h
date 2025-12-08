@@ -70,7 +70,10 @@ class veh_interact
         explicit veh_interact( map &here, vehicle &veh, const point_rel_ms &p = point_rel_ms::zero );
         ~veh_interact();
 
-        point_rel_ms dd = point_rel_ms::zero;
+        // vehicle part mount position, only set during constructor
+        // functionally, this works as the cursor position for the top-down vehicle view
+        // see vehicle::build_interact_menu for initial assignment
+        point_rel_ms cursor_vp_mount = point_rel_ms::zero;
         /* starting offset for vehicle parts description display and max offset for scrolling */
         int start_at = 0;
         int start_limit = 0;
