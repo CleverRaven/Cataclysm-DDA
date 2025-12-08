@@ -2702,12 +2702,6 @@ float monster::get_melee() const
 
 float monster::dodge_roll() const
 {
-     // if the monster has evasion then try rolling that first
-    double evasion = enchantment_cache->modify_value( enchant_vals::mod::EVASION, 0.0 );
-    if( rng( 0, 99 ) < evasion * 100.0 ) {
-        // arbitrarily high number without being max float
-        return 999999.0f;
-    }
     return get_dodge() * 5;
 }
 
