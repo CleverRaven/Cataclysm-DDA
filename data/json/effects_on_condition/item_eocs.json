@@ -216,7 +216,7 @@
     "type": "effect_on_condition",
     "id": "EOC_use_microscope",
     "effect": {
-      "run_eoc_selector": [ "EOC_observe_water_murky", "EOC_observe_soil", "EOC_cancel_observation" ],
+      "run_eoc_selector": [ "EOC_observe_water_murky", "EOC_observe_soil", "EOC_selector_cancel" ],
       "names": [ "Murky water sample", "Soil sample", "Cancel" ],
       "hide_failing": true,
       "allow_cancel": true
@@ -240,7 +240,30 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_cancel_observation",
+    "id": "EOC_selector_cancel",
     "effect": { "u_message": "You changed your mind." }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_use_centrifuge",
+    "effect": {
+      "title": "<color_red>The usb drive will be formatted in the process, erasing any previous data. Proceed?</color>",
+      "run_eoc_selector": [ "EOC_centrifuge_human_zombie_blood", "EOC_selector_cancel" ],
+      "names": [ "Analyze tainted human blood", "Cancel" ],
+      "hide_failing": true,
+      "allow_cancel": true
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_centrifuge_human_zombie_blood",
+    "condition": { "and": [ { "u_has_item": "blood_tainted_human" }, { "u_has_item": "usb_drive" } ] },
+    "effect": [
+      {
+        "u_message": "//Result: Human blood.\n//Unknown pathogen found.\n//Pathogen bonded to erythrocytes and leukocytes.\n//Copying files…"
+      },
+      { "u_consume_item": "usb_drive" },
+      { "u_spawn_item": "human_zombie_blood_analysis_in_usb_drive", "use_item_group": true }
+    ]
   }
 ]

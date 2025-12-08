@@ -88,7 +88,6 @@ class computer_session
 
         void action_amigara_log();
         void action_amigara_start();
-        void action_blood_anal();
         void action_cascade();
         void action_complete_disable_external_power();
         void action_conveyor();

@@ -334,7 +334,6 @@ const std::map<computer_action, void ( computer_session::* )()>
 computer_session::computer_action_functions = {
     { COMPACT_AMIGARA_LOG, &computer_session::action_amigara_log },
     { COMPACT_AMIGARA_START, &computer_session::action_amigara_start },
-    { COMPACT_BLOOD_ANAL, &computer_session::action_blood_anal },
     { COMPACT_CASCADE, &computer_session::action_cascade },
     { COMPACT_COMPLETE_DISABLE_EXTERNAL_POWER, &computer_session::action_complete_disable_external_power },
     { COMPACT_CONVEYOR, &computer_session::action_conveyor },
@@ -1028,59 +1027,6 @@ void computer_session::action_download_software()
                                     units::display( downloaded_size ) ) );
     }
     query_any();
-}
-
-void computer_session::action_blood_anal()
-{
-    Character &player_character = get_player_character();
-    player_character.mod_moves( -to_moves<int>( 1_seconds ) * 0.7 );
-    map &here = get_map();
-    for( const tripoint_bub_ms &dest : here.points_in_radius( player_character.pos_bub(), 2 ) ) {
-        if( here.furn( dest ) == furn_f_centrifuge ) {
-            map_stack items = here.i_at( dest );
-            if( items.empty() ) {
-                print_error( _( "ERROR: Please place sample in centrifuge." ) );
-            } else if( items.size() > 1 ) {
-                print_error( _( "ERROR: Please remove all but one sample from centrifuge." ) );
-            } else if( items.only_item().empty() ) {
-                print_error( _( "ERROR: Please only use container with blood sample." ) );
-            } else if( items.only_item().legacy_front().typeId() != itype_blood &&
-                       items.only_item().legacy_front().typeId() != itype_blood_tainted &&
-                       items.only_item().legacy_front().typeId() != itype_blood_tainted_human ) {
-                print_error( _( "ERROR: Please only use blood samples." ) );
-            } else if( items.only_item().legacy_front().rotten() ) {
-                print_error( _( "ERROR: Please only use fresh blood samples." ) );
-            }  else { // Success!
-                const item &blood = items.only_item().legacy_front();
-                const mtype *mt = blood.get_mtype();
-                if( mt == nullptr || mt->id == mtype_id::NULL_ID() ) {
-                    print_line( _( "Result: Human blood, no pathogens found." ) );
-                } else if( mt->in_species( species_ZOMBIE ) ) {
-                    if( mt->in_species( species_HUMAN ) ) {
-                        print_line( _( "Result: Human blood.  Unknown pathogen found." ) );
-                    } else {
-                        print_line( _( "Result: Unknown blood type.  Unknown pathogen found." ) );
-                    }
-                    print_line( _( "Pathogen bonded to erythrocytes and leukocytes." ) );
-                    item software( itype_software_blood_data, calendar::turn_zero );
-                    units::ememory downloaded_size = software.ememory_size();
-                    if( query_bool( _( "Download data?" ) ) ) {
-                        if( item *const estorage = pick_estorage( downloaded_size ) ) {
-                            item software( itype_software_blood_data, calendar::turn_zero );
-                            estorage->put_in( software, pocket_type::E_FILE_STORAGE );
-                            print_line( string_format( _( "%s downloaded." ), software.tname() ) );
-                        } else {
-                            print_error( string_format( _( "Electronic storage device with %s free required!" ),
-                                                        units::display( downloaded_size ) ) );
-                        }
-                    }
-                } else {
-                    print_line( _( "Result: Unknown blood type.  Test non-conclusive." ) );
-                }
-            }
-        }
-    }
-    query_any( _( "Press any key…" ) );
 }
 
 void computer_session::action_data_anal()
