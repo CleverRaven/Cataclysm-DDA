@@ -8131,9 +8131,17 @@ static bool heat_items( Character *p, item *it, bool liquid_items, bool solid_it
             for( const auto &pair : locs ) {
                 used_volume +=  pair.first->volume( false, true, pair.second );
                 if( pair.first->has_own_flag( flag_FROZEN ) && !pair.first->has_own_flag( flag_EATEN_COLD ) ) {
-                    frozen_weight +=  pair.first->weight( false, false ) * pair.second ;
+                    if( pair.first->made_of_from_type( phase_id::LIQUID ) ) {
+                        frozen_weight +=  pair.first->weight( false, false ) * pair.second / 2 ;
+                    } else {
+                        frozen_weight +=  pair.first->weight( false, false ) * pair.second ;
+                    }
                 } else {
-                    not_frozen_weight +=  pair.first->weight( false, false ) * pair.second;
+                    if( pair.first->made_of_from_type( phase_id::LIQUID ) ) {
+                        not_frozen_weight +=  pair.first->weight( false, false ) * pair.second / 2 ;
+                    } else {
+                        not_frozen_weight +=  pair.first->weight( false, false ) * pair.second;
+                    }
                 }
             }
             heating_requirements required = heating_requirements_for_weight( frozen_weight, not_frozen_weight,
