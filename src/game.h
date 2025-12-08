@@ -435,11 +435,11 @@ class game
         /** Spawns a hallucination at a determined position of a given monster. */
         bool spawn_hallucination( const tripoint_bub_ms &p, const mtype_id &mt,
                                   std::optional<time_duration> lifespan );
-        /** Spawns a npc at a determined position. */
+        /** Spawns an NPC at a determined position. */
         bool spawn_npc( const tripoint_bub_ms &p, const string_id<npc_template> &npc_class,
                         std::string &unique_id,
                         std::vector<trait_id> &traits, std::optional<time_duration> lifespan );
-        /** Finds somewhere to spawn a monster or npc. */
+        /** Finds somewhere to spawn a monster or NPC. */
         bool find_nearby_spawn_point( const tripoint_bub_ms &target, const mtype_id &mt, int min_radius,
                                       int max_radius, tripoint_bub_ms &point, bool outdoor_only, bool indoor_only,
                                       bool open_air_allowed = false );
@@ -1268,7 +1268,7 @@ class game
         // remoteveh() cache
         time_point remoteveh_cache_time; // NOLINT(cata-serialize)
         vehicle *remoteveh_cache; // NOLINT(cata-serialize)
-        /** Has a NPC been spawned since last load? */
+        /** Has an NPC been spawned since last load? */
         bool npcs_dirty = false; // NOLINT(cata-serialize)
         /** Has anything died in this turn and needs to be cleaned up? */
         bool critter_died = false; // NOLINT(cata-serialize)
