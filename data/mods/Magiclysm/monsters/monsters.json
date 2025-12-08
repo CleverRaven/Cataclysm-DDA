@@ -497,7 +497,7 @@
     "type": "MONSTER",
     "copy-from": "mon_crawler",
     "looks_like": "mon_crawler",
-    "name": { "str": "fleshwarped wretch" },
+    "name": { "str": "fleshwarped wretch", "str_pl": "fleshwarped wretches" },
     "description": "Whatever this poor creature was, the tangle of limbs, sensory organs, and parts that it is now is no longer recognizable as any earthly being.",
     "default_faction": "magical_beast",
     "hp": 84,
