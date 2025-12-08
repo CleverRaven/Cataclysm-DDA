@@ -493,6 +493,18 @@
     "flags": [ "SEES", "SMELLS", "HEARS", "SWIMS" ]
   },
   {
+    "id": "mon_baleful_polymorph_crawler",
+    "type": "MONSTER",
+    "copy-from": "mon_crawler",
+    "looks_like": "mon_crawler",
+    "name": { "str": "fleshwarped wretch" },
+    "description": "Whatever this poor creature was, the tangle of limbs, sensory organs, and parts that it is now is no longer recognizable as any earthly being.",
+    "default_faction": "magical_beast",
+    "speed": 50,
+    "aggression": 10,
+    "fear_triggers": [ "PLAYER_CLOSE", "FIRE" ]
+  },
+  {
     "id": "mon_lemure",
     "type": "MONSTER",
     "name": "lemure",

@@ -1510,6 +1510,7 @@
         "distribution": [
           { "item": "wizard_advanced", "prob": 10 },
           { "item": "biomancer_spellbook", "prob": 10 },
+          { "item": "spell_scroll_biomancer_baleful_polymorph", "prob": 35 },
           { "item": "spell_scroll_biomancer_giant_growth", "prob": 30 },
           { "item": "spell_scroll_vicious_tentacle", "prob": 50 },
           { "item": "spell_scroll_bio_bonespear", "prob": 50 },

@@ -863,5 +863,31 @@
     "magic_type": "magiclysm_transformation_magic",
     "base_energy_cost": 100,
     "base_casting_time": 150
+  },
+  {
+    "id": "biomancer_baleful_polymorph",
+    "type": "SPELL",
+    "name": "Fleshwarping",
+    "description": "Transform your enemies into frogs.",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "TRANSFORMATION_SPELL", "VERBAL", "SOMATIC", "NO_LEGS", "NO_PROJECTILE" ],
+    "effect": "targeted_polymorph",
+    "effect_str": "mon_baleful_polymorph_crawler",
+    "extra_effects": [ { "id": "eoc_transformation_setup", "hit_self": true } ],
+    "shape": "blast",
+    "spell_class": "BIOMANCER",
+    "magic_type": "magiclysm_transformation_magic",
+    "base_casting_time": 150,
+    "base_energy_cost": 150,
+    "difficulty": 8,
+    "max_level": 20,
+    "min_damage": 20,
+    "max_damage": 40,
+    "damage_increment": 2,
+    "damage_type": "pure",
+    "min_range": 5,
+    "max_range": 30,
+    "range_increment": 1.5,
+    "ignored_monster_species": [ "ROBOT", "ROBOT_FLYING", "NETHER_EMANATION" ]
   }
 ]
