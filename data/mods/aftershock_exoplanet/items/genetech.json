@@ -143,7 +143,7 @@
       { "trait": "CLAWS_ST", "prob": 50 },
       { "trait": "COMPOUND_EYES", "prob": 100 },
       { "trait": "PAINREC2", "prob": 100 },
-      { "trait": "MUT_TOUGH2", "prob": 100 },
+      { "trait": "TOUGH2", "prob": 100 },
       { "trait": "NOPAIN", "prob": 100 },
       { "trait": "PRED1", "prob": 100 },
       { "trait": "STR_UP", "prob": 100 },

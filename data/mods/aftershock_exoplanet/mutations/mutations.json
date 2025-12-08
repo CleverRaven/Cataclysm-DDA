@@ -705,20 +705,20 @@
   },
   {
     "type": "mutation",
-    "id": "MUT_TOUGH",
-    "copy-from": "MUT_TOUGH",
+    "id": "TOUGH",
+    "copy-from": "TOUGH",
     "extend": { "category": [ "MASTODON" ] }
   },
   {
     "type": "mutation",
-    "id": "MUT_TOUGH2",
-    "copy-from": "MUT_TOUGH2",
+    "id": "TOUGH2",
+    "copy-from": "TOUGH2",
     "extend": { "category": [ "MASTODON" ] }
   },
   {
     "type": "mutation",
-    "id": "MUT_TOUGH3",
-    "copy-from": "MUT_TOUGH3",
+    "id": "TOUGH3",
+    "copy-from": "TOUGH3",
     "extend": { "category": [ "MASTODON" ] }
   },
   {

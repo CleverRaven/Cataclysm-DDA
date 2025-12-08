@@ -317,7 +317,7 @@
       { "trait": "PRED4", "prob": 50 },
       { "trait": "SAPIOVORE", "prob": 50 },
       { "trait": "MUT_JUNKIE", "prob": 50 },
-      { "trait": "MUT_TOUGH2", "prob": 50 },
+      { "trait": "TOUGH2", "prob": 50 },
       { "trait": "EATPOISON", "prob": 50 },
       { "trait": "EATDEAD", "prob": 50 },
       { "trait": "SABER_TEETH", "prob": 50 },
@@ -411,7 +411,7 @@
     "subtype": "collection",
     "traits": [
       { "trait": "THRESH_MEDICAL", "prob": 50 },
-      { "trait": "MUT_TOUGH2", "prob": 50 },
+      { "trait": "TOUGH2", "prob": 50 },
       { "trait": "CENOBITE", "prob": 50 },
       { "trait": "NOPAIN", "prob": 50 },
       { "trait": "MUT_JUNKIE", "prob": 50 }
@@ -450,7 +450,7 @@
       { "trait": "THRESH_CATTLE" },
       { "trait": "GRAZER", "prob": 50 },
       { "trait": "HUGE_OK" },
-      { "trait": "MUT_TOUGH3", "prob": 50 }
+      { "trait": "TOUGH3", "prob": 50 }
     ]
   },
   {
@@ -543,7 +543,7 @@
       { "trait": "THRESH_LIZARD" },
       { "trait": "THICK_SCALES", "prob": 50 },
       { "trait": "TALONS", "prob": 50 },
-      { "trait": "MUT_TOUGH", "prob": 50 },
+      { "trait": "TOUGH", "prob": 50 },
       { "trait": "PRED3", "prob": 50 },
       { "trait": "SAPIOVORE", "prob": 50 },
       { "trait": "LARGE_OK" },
@@ -594,7 +594,7 @@
     "subtype": "collection",
     "traits": [
       { "trait": "THRESH_BEAST" },
-      { "trait": "MUT_TOUGH", "prob": 50 },
+      { "trait": "TOUGH", "prob": 50 },
       { "trait": "PRED4", "prob": 50 },
       { "trait": "SAPIOVORE", "prob": 50 }
     ]
@@ -826,7 +826,7 @@
     "subtype": "collection",
     "traits": [
       { "trait": "THRESH_URSINE" },
-      { "trait": "MUT_TOUGH3", "prob": 50 },
+      { "trait": "TOUGH3", "prob": 50 },
       { "trait": "PRED4", "prob": 50 },
       { "trait": "SAPIOVORE", "prob": 50 },
       { "trait": "HUGE_OK" }

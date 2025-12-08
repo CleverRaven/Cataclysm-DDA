@@ -382,8 +382,8 @@
   },
   {
     "type": "mutation",
-    "id": "MUT_TOUGH",
-    "copy-from": "MUT_TOUGH",
+    "id": "TOUGH",
+    "copy-from": "TOUGH",
     "extend": {
       "category": [ "DRAGON_BLACK" ],
       "prereqs": [ "LARGE_OK_DRAGON", "HUGE_OK_DRAGON" ],

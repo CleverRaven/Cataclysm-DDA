@@ -353,8 +353,8 @@
         "GILLS",
         "HUGE_OK",
         "LARGE_OK",
-        "MUT_TOUGH",
-        "MUT_TOUGH2",
+        "TOUGH",
+        "TOUGH2",
         "SCUTTLE",
         "STR_UP_3",
         "STR_UP_4",
@@ -398,7 +398,7 @@
     "extend": {
       "traits": [
         "ADRENALINE",
-        "MUT_TOUGH",
+        "TOUGH",
         "PHEROMONE_MAMMAL",
         "PRED1",
         "PRED2",
@@ -441,17 +441,7 @@
     "description": "Start as a post-threshold Bovine Mutant",
     "forced_traits": "THRESH_CATTLE",
     "extend": {
-      "traits": [
-        "STR_UP_3",
-        "GRAZER",
-        "HUGE_OK",
-        "LARGE_OK",
-        "MUT_TOUGH",
-        "MUT_TOUGH2",
-        "MUT_TOUGH3",
-        "PHEROMONE_MAMMAL",
-        "STRONGER_RESISTCHILL"
-      ]
+      "traits": [ "STR_UP_3", "GRAZER", "HUGE_OK", "LARGE_OK", "TOUGH", "TOUGH2", "TOUGH3", "PHEROMONE_MAMMAL", "STRONGER_RESISTCHILL" ]
     }
   },
   {
@@ -492,8 +482,8 @@
         "EATPOISON",
         "LARGE_OK",
         "MUT_JUNKIE",
-        "MUT_TOUGH",
-        "MUT_TOUGH2",
+        "TOUGH",
+        "TOUGH2",
         "PATCHSKIN3",
         "PRED1",
         "PRED2",
@@ -596,7 +586,7 @@
       "traits": [
         "COLDBLOOD4",
         "LARGE_OK",
-        "MUT_TOUGH",
+        "TOUGH",
         "PRED1",
         "PRED2",
         "PRED3",
@@ -635,7 +625,7 @@
     "description": "Start as a post-threshold Prototype Mutant",
     "forced_traits": "THRESH_MEDICAL",
     "extend": {
-      "traits": [ "ACIDBLOOD", "ACIDPROOF", "CENOBITE", "MASOCHIST_MED", "MUT_JUNKIE", "MUT_TOUGH", "MUT_TOUGH2", "NOPAIN", "NUMB" ]
+      "traits": [ "ACIDBLOOD", "ACIDPROOF", "CENOBITE", "MASOCHIST_MED", "MUT_JUNKIE", "TOUGH", "TOUGH2", "NOPAIN", "NUMB" ]
     }
   },
   {
@@ -837,9 +827,9 @@
         "HIBERNATE",
         "HUGE_OK",
         "LARGE_OK",
-        "MUT_TOUGH",
-        "MUT_TOUGH2",
-        "MUT_TOUGH3",
+        "TOUGH",
+        "TOUGH2",
+        "TOUGH3",
         "PRED1",
         "PRED2",
         "PRED3",

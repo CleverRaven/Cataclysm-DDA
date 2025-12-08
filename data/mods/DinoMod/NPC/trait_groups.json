@@ -47,7 +47,7 @@
       { "trait": "THRESH_STEGO" },
       { "distribution": [ { "trait": "TOUGH3" }, { "trait": "TOUGH2" } ] },
       { "trait": "COLDBLOOD4", "prob": 50 },
-      { "distribution": [ { "trait": "MUT_TOUGH3" }, { "trait": "MUT_TOUGH2" }, { "trait": "MUT_TOUGH" } ] },
+      { "distribution": [ { "trait": "TOUGH3" }, { "trait": "TOUGH2" }, { "trait": "TOUGH" } ] },
       { "trait": "PER_UP_3" },
       { "trait": "GRAZER", "prob": 50 },
       { "trait": "HUGE_OK", "prob": 20 },
@@ -84,7 +84,7 @@
       { "trait": "LARGE_OK", "prob": 40 },
       { "trait": "TYRANT_TEETH", "prob": 40 },
       { "trait": "COLDBLOOD4", "prob": 50 },
-      { "distribution": [ { "trait": "MUT_TOUGH2" }, { "trait": "MUT_TOUGH" } ] }
+      { "distribution": [ { "trait": "TOUGH2" }, { "trait": "TOUGH" } ] }
     ]
   },
   {
