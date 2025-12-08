@@ -2487,21 +2487,9 @@ bool Character::practice( const skill_id &id, int amount, int cap, bool suppress
         // They don't lose Focus when practicing combat skills.
         const bool predator_training_combat = has_flag( json_flag_PRED4 ) && skill.is_combat_skill();
         if( skill.training_consumes_focus() && !predator_training_combat ) {
-            // Base reduction on the larger of 1% of total, or practice amount.
-            // The latter kicks in when long actions like crafting
-            // apply many turns of gains at once.
-            int focus_drain = std::max( focus_pool / 100, amount );
-
-            // The purpose of having this squared is that it makes focus drain dramatically slower
-            // as it approaches zero. As such, the square function would not be used if the drain is
-            // larger or equal to 1000 to avoid the runaway, and the original drain gets applied instead.
-            if( focus_drain >= 1000 ) {
-                focus_pool -= focus_drain;
-            } else {
-                focus_pool -= ( focus_drain * focus_drain ) / 1000;
-            }
+            // Focus pool is 1-to-1 with practice experience amount.
+            focus_pool = std::max(focus_pool - amount, 0);
         }
-        focus_pool = std::max( focus_pool, 0 );
     }
 
     get_skill_level_object( id ).practice();
