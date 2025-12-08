@@ -297,7 +297,11 @@
   {
     "id": "GROUP_SPAWN_PSI_RAPTOR",
     "type": "monstergroup",
-    "monsters": [ { "monster": "mon_spawn_raptor_teke_push", "weight": 450 } ]
+    "monsters": [
+      { "monster": "mon_spawn_raptor_teke_push", "weight": 2 },
+      { "monster": "mon_spawn_raptor_pyro_hot_air", "weight": 1 },
+      { "monster": "mon_spawn_raptor_teleport_blink", "weight": 1 }
+    ]
   },
   {
     "id": "GROUP_REPRODUCTION_COW_MUTANT_BABIES",

@@ -284,6 +284,7 @@
           "cooldown": { "math": [ "10 + rand(20)" ] },
           "damage_max_instance": [ { "damage_type": "psi_telekinetic_damage", "amount": 3 } ],
           "effects": [ { "id": "downed", "duration": 2, "chance": 5 } ],
+          "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
           "effects_require_dmg": false,
           "hit_dmg_u": "%1$s hits your %2$s with a burst of telekinetic force!",
           "hit_dmg_npc": "%1$s hits <npcname> with a burst of telekinetic force!",
@@ -291,6 +292,38 @@
           "miss_msg_npc": "%1$s flaps its wings at <npcname>!",
           "no_dmg_msg_u": "%1$s hits your %2$s with a burst of telekinetic force, but fails to penetrate armor.",
           "no_dmg_msg_npc": "%1$s hits <npcname> with a burst of telekinetic force, but fails to penetrate armor."
+        }
+      ]
+    }
+  },
+  {
+    "id": "mon_spawn_raptor_pyro_hot_air",
+    "copy-from": "mon_spawn_raptor",
+    "looks_like": "mon_spawn_raptor",
+    "type": "MONSTER",
+    "name": { "str": "heatwave flesh-raptor" },
+    "description": "This small, winged predator darts through the air on three thinly-haired wings that look like stretched human hands.  A sheer, jagged spike juts out from the point where the wings meet.  It looks like nothing you've seen on Earth, and yet strangely like it is made of human parts.  The air around it shimmers with heat haze.",
+    "upgrades": {  },
+    "emit_fields": [ { "emit_id": "emit_pyrokinetic_summon_heat_3", "delay": "1 s" } ]
+  },
+  {
+    "id": "mon_spawn_raptor_teleport_blink",
+    "copy-from": "mon_spawn_raptor",
+    "looks_like": "mon_spawn_raptor",
+    "type": "MONSTER",
+    "name": { "str": "blinking flesh-raptor" },
+    "description": "This small, winged predator darts through the air on three thinly-haired wings that look like stretched human hands.  A sheer, jagged spike juts out from the point where the wings meet.  It looks like nothing you've seen on Earth, and yet strangely like it is made of human parts.  Occasionally, it vanishes and reappears elsewhere.",
+    "upgrades": {  },
+    "extend": {
+      "special_attacks": [
+        {
+          "type": "leap",
+          "cooldown": { "math": [ "3 + rand(6)" ] },
+          "move_cost": 50,
+          "allow_no_target": true,
+          "max_range": 6,
+          "message": "%1$s vanishes and reappears elsewhere!",
+          "condition": { "not": { "u_has_flag": "NO_PSIONICS" } }
         }
       ]
     }
