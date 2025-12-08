@@ -4,7 +4,7 @@
     "id": "default",
     "copy-from": "default",
     "extend": {
-      "houses": [ [ "house_technomancer", 20 ], [ "wizard_tower_1", 10 ], [ "wizard_tower_2", 20 ] ],
+      "houses": [ [ "house_technomancer", 20 ], [ "house_elf_01", 5000 ], [ "wizard_tower_1", 10 ], [ "wizard_tower_2", 20 ] ],
       "shops": [ [ "magiclysm_augmentation_clinic", 100 ], [ "magic_shop", 100 ], [ "used_bookstore", 225 ], [ "magic_academy", 150 ] ]
     }
   },
