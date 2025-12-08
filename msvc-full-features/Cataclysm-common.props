@@ -116,14 +116,14 @@
         freetype$(VcpkgLibSuffix).lib;
         jpeg.lib;
         libpng16$(VcpkgLibSuffix).lib;
-        modplug.lib;
+        libwavpack.lib;
         mpg123.lib;
         ogg.lib;
         out123.lib;
         pdcurses.lib;
         SDL2_image-static$(VcpkgLibSuffix).lib;
         SDL2_mixer-static$(VcpkgLibSuffix).lib;
-        SDL2_ttf.lib;
+        SDL2_ttf$(VcpkgLibSuffix).lib;
         SDL2-static$(VcpkgLibSuffix).lib;
         syn123.lib;
         turbojpeg.lib;
