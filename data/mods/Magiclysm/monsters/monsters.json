@@ -500,7 +500,8 @@
     "name": { "str": "fleshwarped wretch" },
     "description": "Whatever this poor creature was, the tangle of limbs, sensory organs, and parts that it is now is no longer recognizable as any earthly being.",
     "default_faction": "magical_beast",
-    "speed": 50,
+    "hp": 84,
+    "speed": 40,
     "aggression": 10,
     "fear_triggers": [ "PLAYER_CLOSE", "FIRE" ]
   },

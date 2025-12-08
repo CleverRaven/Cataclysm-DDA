@@ -885,9 +885,7 @@
     "max_damage": 40,
     "damage_increment": 2,
     "damage_type": "pure",
-    "min_range": 5,
-    "max_range": 30,
-    "range_increment": 1.5,
+    "min_range": { "math": [ "1 + max( (( u_spell_level('biomancer_baleful_polymorph') - 10) * 0.25 ), 0)" ] },
     "ignored_monster_species": [ "ROBOT", "ROBOT_FLYING", "NETHER_EMANATION" ]
   }
 ]
