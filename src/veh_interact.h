@@ -52,6 +52,24 @@ struct vehicle_part;
 // For marking 'leaking' tanks/reactors/batteries
 const std::string leak_marker = "<color_red>*</color>";
 
+// the action done by this vehicle activity
+enum vehicle_action {
+    VEHICLE_INSTALL,    // 'i'
+    VEHICLE_REPAIR,     // 'r'
+    VEHICLE_REFILL,     // 'f'
+    VEHICLE_REMOVE,     // 'o'
+    VEHICLE_REMOVE_APPLIANCE,     // 'O'
+    VEHICLE_UNPLUG,     // 'u'
+    VEHICLE_MEND_FAULTS,// 'm'
+    VEHICLE_SIPHON,     // 's'
+    VEHICLE_UNLOAD,     // 'd'
+    // not activities, legacy
+    VEHICLE_SHAPE,      // 'p'
+    VEHICLE_ASSIGN_CREW,// 'w'
+    VEHICLE_RELABEL,    // 'a'
+    VEHICLE_QUIT        // 'q' or ' '
+};
+
 class veh_interact
 {
         using part_selector = std::function<bool( const map &here, const vehicle_part &pt )>;
@@ -92,7 +110,7 @@ class veh_interact
         const vpart_info *sel_vpart_info = nullptr;
 
         // Command currently being run by the player
-        char sel_cmd = ' ';
+        vehicle_action sel_cmd = VEHICLE_QUIT;
 
         int cpart = -1;
         int page_size = 0;
@@ -151,7 +169,7 @@ class veh_interact
 
         int part_at( const point_rel_ms &d );
         void move_cursor( map &here, const point_rel_ms &d, int dstart_at = 0 );
-        task_reason cant_do( const map &here,  char mode );
+        task_reason cant_do( const map &here, vehicle_action mode );
         bool can_potentially_install( const vpart_info &vpart );
         /** Move index (parameter pos) according to input action:
          * (up or down, single step or whole page).

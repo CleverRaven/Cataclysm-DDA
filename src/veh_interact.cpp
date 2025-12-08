@@ -136,7 +136,7 @@ player_activity veh_interact::serialize_activity( map &here )
     const vehicle_part *pt = sel_vehicle_part;
     const vpart_info *vp = sel_vpart_info;
 
-    if( sel_cmd == 'p' ) {
+    if( sel_cmd == VEHICLE_SHAPE ) {
         if( !parts_here.empty() ) {
             const vpart_reference part_here( *veh, parts_here[0] );
             const vpart_reference displayed_part( *veh, veh->part_displayed_at( part_here.mount_pos() ) );
@@ -145,17 +145,17 @@ player_activity veh_interact::serialize_activity( map &here )
         return player_activity();
     }
 
-    if( sel_cmd == 'q' || sel_cmd == ' ' || !vp ) {
+    if( sel_cmd == VEHICLE_QUIT || !vp ) {
         return player_activity();
     }
 
     avatar &player_character = get_avatar();
     time_duration time = 0_seconds;
     switch( sel_cmd ) {
-        case 'i':
+        case VEHICLE_INSTALL:
             time = vp->install_time( player_character );
             break;
-        case 'r':
+        case VEHICLE_REPAIR:
             if( pt != nullptr ) {
                 if( pt->is_broken() ) {
                     time = vp->install_time( player_character );
@@ -164,7 +164,7 @@ player_activity veh_interact::serialize_activity( map &here )
                 }
             }
             break;
-        case 'o':
+        case VEHICLE_REMOVE:
             time = vp->removal_time( player_character );
             break;
         default:
@@ -563,7 +563,7 @@ void veh_interact::do_main_loop( map &here )
                 finish = do_unload( here );
             }
         } else if( action == "CHANGE_SHAPE" ) {
-            sel_cmd = 'p';
+            sel_cmd = VEHICLE_SHAPE;
         } else if( action == "ASSIGN_CREW" ) {
             if( owned_by_player ) {
                 do_assign_crew( here );
@@ -598,7 +598,7 @@ void veh_interact::do_main_loop( map &here )
         } else if( action == "PAGE_UP" ) {
             move_cursor( here, point_rel_ms::zero, -description_scroll_lines );
         }
-        if( sel_cmd != ' ' ) {
+        if( sel_cmd != VEHICLE_QUIT ) {
             finish = true;
         }
     }
@@ -642,7 +642,7 @@ void veh_interact::cache_tool_availability_update_lifting( const tripoint_bub_ms
  *             an action requiring a minimum morale,
  *         UNKNOWN_TASK if the requested operation is unrecognized.
  */
-task_reason veh_interact::cant_do( const map &here,  char mode )
+task_reason veh_interact::cant_do( const map &here, vehicle_action mode )
 {
     bool enough_morale = true;
     bool valid_target = false;
@@ -653,8 +653,7 @@ task_reason veh_interact::cant_do( const map &here,  char mode )
     const vehicle_part_range vpr = veh->get_all_parts();
     avatar &player_character = get_avatar();
     switch( mode ) {
-        case 'i':
-            // install mode
+        case VEHICLE_INSTALL:
             enough_morale = player_character.has_morale_to_craft();
             valid_target = !can_mount.empty();
             //tool checks processed later
@@ -662,8 +661,7 @@ task_reason veh_interact::cant_do( const map &here,  char mode )
             has_tools = true;
             break;
 
-        case 'r':
-            // repair mode
+        case VEHICLE_REPAIR:
             enough_morale = player_character.has_morale_to_craft();
             valid_target = !need_repair.empty() && cpart >= 0;
             // checked later
@@ -671,8 +669,7 @@ task_reason veh_interact::cant_do( const map &here,  char mode )
             enough_light = player_character.fine_detail_vision_mod() <= 4;
             break;
 
-        case 'm': {
-            // mend mode
+        case VEHICLE_MEND_FAULTS: {
             enough_morale = player_character.has_morale_to_craft();
             const bool toggling = player_character.has_trait( trait_DEBUG_HS );
             valid_target = std::any_of( vpr.begin(), vpr.end(), [toggling]( const vpart_reference & pt ) {
@@ -688,15 +685,14 @@ task_reason veh_interact::cant_do( const map &here,  char mode )
         }
         break;
 
-        case 'f':
+        case VEHICLE_REFILL:
             valid_target = std::any_of( vpr.begin(), vpr.end(), [&here]( const vpart_reference & pt ) {
                 return can_refill( here, pt.part() );
             } );
             has_tools = true;
             break;
 
-        case 'o':
-            // remove mode
+        case VEHICLE_REMOVE:
             enough_morale = player_character.has_morale_to_craft();
             valid_target = cpart >= 0;
             part_free = parts_here.size() > 1 ||
@@ -707,8 +703,7 @@ task_reason veh_interact::cant_do( const map &here,  char mode )
             enough_light = player_character.fine_detail_vision_mod() <= 4;
             break;
 
-        case 's':
-            // siphon mode
+        case VEHICLE_SIPHON:
             valid_target = false;
             for( const vpart_reference &vp : veh->get_any_parts( VPFLAG_FLUIDTANK ) ) {
                 if( vp.part().base.has_item_with( []( const item & it ) {
@@ -721,8 +716,7 @@ task_reason veh_interact::cant_do( const map &here,  char mode )
             has_tools = player_character.crafting_inventory( false ).has_quality( qual_HOSE );
             break;
 
-        case 'd':
-            // unload mode
+        case VEHICLE_UNLOAD:
             valid_target = false;
             has_tools = true;
             for( auto &e : veh->fuels_left( ) ) {
@@ -733,8 +727,7 @@ task_reason veh_interact::cant_do( const map &here,  char mode )
             }
             break;
 
-        case 'w':
-            // assign crew
+        case VEHICLE_ASSIGN_CREW:
             if( g->allies().empty() ) {
                 return task_reason::INVALID_TARGET;
             }
@@ -742,10 +735,9 @@ task_reason veh_interact::cant_do( const map &here,  char mode )
                 return e.part().is_seat();
             } ) ? task_reason::CAN_DO : task_reason::INVALID_TARGET;
 
-        case 'p':
-        // change part shape
+        case VEHICLE_SHAPE:
         // intentional fall-through
-        case 'a':
+        case VEHICLE_RELABEL:
             // relabel
             valid_target = cpart >= 0;
             has_tools = true;
@@ -970,7 +962,7 @@ static void sort_uilist_entries_by_line_drawing( std::vector<uilist_entry> &shap
 
 void veh_interact::do_install( map &here )
 {
-    task_reason reason = cant_do( here,  'i' );
+    task_reason reason = cant_do( here, VEHICLE_INSTALL );
 
     if( reason == task_reason::INVALID_TARGET ) {
         msg = _( "Cannot install any part here." );
@@ -1075,7 +1067,7 @@ void veh_interact::do_install( map &here )
                 return;
             }
 
-            sel_cmd = 'i';
+            sel_cmd = VEHICLE_INSTALL;
             break;
         } else if( action == "QUIT" ) {
             sel_vpart_info = nullptr;
@@ -1123,7 +1115,7 @@ bool veh_interact::move_in_list( int &pos, const std::string &action, const int 
 
 void veh_interact::do_repair( map &here )
 {
-    task_reason reason = cant_do( here,  'r' );
+    task_reason reason = cant_do( here, VEHICLE_REPAIR );
 
     if( reason == task_reason::INVALID_TARGET ) {
         vehicle_part *most_repairable = get_most_repairable_part();
@@ -1241,7 +1233,7 @@ void veh_interact::do_repair( map &here )
                 }
             }
             if( ok ) {
-                reason = cant_do( here,  'r' );
+                reason = cant_do( here, VEHICLE_REPAIR );
                 if( !can_repair() ) {
                     return;
                 }
@@ -1250,7 +1242,7 @@ void veh_interact::do_repair( map &here )
                 for( const Character *helper : player_character.get_crafting_helpers() ) {
                     add_msg( m_info, _( "%s helps with this task…" ), helper->get_name() );
                 }
-                sel_cmd = 'r';
+                sel_cmd = VEHICLE_REPAIR;
                 break;
             }
         } else if( action == "QUIT" ) {
@@ -1263,7 +1255,7 @@ void veh_interact::do_repair( map &here )
 
 void veh_interact::do_mend( map &here )
 {
-    switch( cant_do( here,  'm' ) ) {
+    switch( cant_do( here, VEHICLE_MEND_FAULTS ) ) {
         case task_reason::LOW_MORALE:
             msg = _( "Your morale is too low to mend…" );
             return;
@@ -1295,7 +1287,7 @@ void veh_interact::do_mend( map &here )
 
     auto act = [&]( const map &, const vehicle_part & pt ) {
         player_character.mend_item( veh->part_base( veh->index_of_part( &pt ) ) );
-        sel_cmd = 'q';
+        sel_cmd = VEHICLE_QUIT;
     };
 
     overview( here, sel, act );
@@ -1303,7 +1295,7 @@ void veh_interact::do_mend( map &here )
 
 void veh_interact::do_refill( map &here )
 {
-    switch( cant_do( here, 'f' ) ) {
+    switch( cant_do( here, VEHICLE_REFILL ) ) {
         case task_reason::MOVING_VEHICLE:
             msg = _( "You can't refill a moving vehicle." );
             return;
@@ -1341,7 +1333,7 @@ void veh_interact::do_refill( map &here )
         if( refill_target ) {
             sel_vehicle_part = &pt;
             sel_vpart_info = &pt.info();
-            sel_cmd = 'f';
+            sel_cmd = VEHICLE_REFILL;
         }
     };
 
@@ -1811,7 +1803,7 @@ bool veh_interact::can_remove_part( map &here, int idx, const Character &you )
 
 void veh_interact::do_remove( map &here )
 {
-    task_reason reason = cant_do( here,  'o' );
+    task_reason reason = cant_do( here, VEHICLE_REMOVE );
 
     if( reason == task_reason::INVALID_TARGET ) {
         msg = _( "No parts here." );
@@ -1889,7 +1881,7 @@ void veh_interact::do_remove( map &here )
             for( const Character *helper : player_character.get_crafting_helpers() ) {
                 add_msg( m_info, _( "%s helps with this task…" ), helper->get_name() );
             }
-            sel_cmd = 'o';
+            sel_cmd = VEHICLE_REMOVE;
             break;
         } else if( action == "QUIT" ) {
             break;
@@ -1902,7 +1894,7 @@ void veh_interact::do_remove( map &here )
 
 void veh_interact::do_siphon( map &here )
 {
-    switch( cant_do( here,  's' ) ) {
+    switch( cant_do( here, VEHICLE_SIPHON ) ) {
         case task_reason::INVALID_TARGET:
             msg = _( "The vehicle has no liquid fuel left to siphon." );
             return;
@@ -1947,7 +1939,7 @@ void veh_interact::do_siphon( map &here )
 
 bool veh_interact::do_unload( map &here )
 {
-    switch( cant_do( here, 'd' ) ) {
+    switch( cant_do( here, VEHICLE_UNLOAD ) ) {
         case task_reason::INVALID_TARGET:
             msg = _( "The vehicle has no solid fuel left to remove." );
             return false;
@@ -2004,7 +1996,7 @@ static void do_change_shape_menu( vehicle_part &vp )
 
 void veh_interact::do_assign_crew( map &here )
 {
-    if( cant_do( here,  'w' ) != task_reason::CAN_DO ) {
+    if( cant_do( here, VEHICLE_ASSIGN_CREW ) != task_reason::CAN_DO ) {
         msg = _( "Need at least one seat and an ally to assign crew members." );
         return;
     }
@@ -2059,7 +2051,7 @@ void veh_interact::do_rename()
 
 void veh_interact::do_relabel( const map &here )
 {
-    if( cant_do( here,  'a' ) == task_reason::INVALID_TARGET ) {
+    if( cant_do( here, VEHICLE_RELABEL ) == task_reason::INVALID_TARGET ) {
         msg = _( "There are no parts here to label." );
         return;
     }
@@ -2681,37 +2673,37 @@ void veh_interact::display_mode( const map &here )
         const std::array<std::string, action_cnt> actions = { {
                 veh_act_desc( main_context, "INSTALL",
                               pgettext( "veh_interact", "install" ),
-                              cant_do( here,  'i' ) ),
+                              cant_do( here,  VEHICLE_INSTALL ) ),
                 veh_act_desc( main_context, "REPAIR",
                               pgettext( "veh_interact", "repair" ),
-                              cant_do( here, 'r' ) ),
+                              cant_do( here, VEHICLE_REPAIR ) ),
                 veh_act_desc( main_context, "MEND",
                               pgettext( "veh_interact", "mend" ),
-                              cant_do( here, 'm' ) ),
+                              cant_do( here, VEHICLE_MEND_FAULTS ) ),
                 veh_act_desc( main_context, "REFILL",
                               pgettext( "veh_interact", "refill" ),
-                              cant_do( here,  'f' ) ),
+                              cant_do( here,  VEHICLE_REFILL ) ),
                 veh_act_desc( main_context, "REMOVE",
                               pgettext( "veh_interact", "remove" ),
-                              cant_do( here,  'o' ) ),
+                              cant_do( here,  VEHICLE_REMOVE ) ),
                 veh_act_desc( main_context, "SIPHON",
                               pgettext( "veh_interact", "siphon" ),
-                              cant_do( here,  's' ) ),
+                              cant_do( here,  VEHICLE_SIPHON ) ),
                 veh_act_desc( main_context, "UNLOAD",
                               pgettext( "veh_interact", "unload" ),
-                              cant_do( here,  'd' ) ),
+                              cant_do( here, VEHICLE_UNLOAD ) ),
                 veh_act_desc( main_context, "ASSIGN_CREW",
                               pgettext( "veh_interact", "crew" ),
-                              cant_do( here, 'w' ) ),
+                              cant_do( here, VEHICLE_ASSIGN_CREW ) ),
                 veh_act_desc( main_context, "CHANGE_SHAPE",
                               pgettext( "veh_interact", "shape" ),
-                              cant_do( here, 'p' ) ),
+                              cant_do( here, VEHICLE_SHAPE ) ),
                 veh_act_desc( main_context, "RENAME",
                               pgettext( "veh_interact", "rename" ),
                               task_reason::CAN_DO ),
                 veh_act_desc( main_context, "RELABEL",
                               pgettext( "veh_interact", "label" ),
-                              cant_do( here,  'a' ) ),
+                              cant_do( here,  VEHICLE_RELABEL ) ),
                 veh_act_desc( main_context, "QUIT",
                               pgettext( "veh_interact", "back" ),
                               task_reason::CAN_DO ),
