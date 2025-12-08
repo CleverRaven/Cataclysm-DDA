@@ -1505,7 +1505,6 @@ computer_session::computer_failure_functions = {
     { COMPFAIL_ALARM, &computer_session::failure_alarm },
     { COMPFAIL_AMIGARA, &computer_session::failure_amigara },
     { COMPFAIL_DAMAGE, &computer_session::failure_damage },
-    { COMPFAIL_DESTROY_BLOOD, &computer_session::failure_destroy_blood },
     { COMPFAIL_DESTROY_DATA, &computer_session::failure_destroy_data },
     { COMPFAIL_MANHACKS, &computer_session::failure_manhacks },
     { COMPFAIL_PUMP_EXPLODE, &computer_session::failure_pump_explode },

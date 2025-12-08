@@ -145,7 +145,6 @@ class computer_session
         void failure_alarm();
         void failure_amigara();
         void failure_damage();
-        void failure_destroy_blood();
         void failure_destroy_data();
         void failure_manhacks();
         void failure_pump_explode();
