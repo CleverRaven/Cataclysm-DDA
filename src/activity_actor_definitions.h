@@ -981,6 +981,35 @@ class efile_activity_actor : public activity_actor
         time_duration charge_time( efile_action action_type );
 };
 
+class fish_activity_actor : public activity_actor
+{
+    public:
+        fish_activity_actor() = default;
+        fish_activity_actor( const item_location &fishing_rod,
+                             const std::unordered_set<tripoint_abs_ms> &fishing_zone,
+                             time_duration fishing_duration ) :
+            fishing_rod( fishing_rod ), fishing_zone( fishing_zone ), fishing_duration( fishing_duration ) {};
+
+        const activity_id &get_type() const override {
+            static const activity_id ACT_FISH( "ACT_FISH" );
+            return ACT_FISH;
+        }
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &, Character &who ) override;
+        void finish( player_activity &act, Character &who ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<fish_activity_actor>( *this );
+        }
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+    private:
+        item_location fishing_rod;
+        std::unordered_set<tripoint_abs_ms> fishing_zone;
+        time_duration fishing_duration;
+};
+
 class migration_cancel_activity_actor : public activity_actor
 {
     public:
@@ -1004,6 +1033,63 @@ class migration_cancel_activity_actor : public activity_actor
         }
 
         void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+};
+
+class mine_activity_actor : public activity_actor
+{
+    public:
+        mine_activity_actor() = default;
+        mine_activity_actor( const item_location &mining_tool,
+                             const tripoint_abs_ms &mined_location, time_duration mining_duration ) :
+            mining_tool( mining_tool ), mined_location( mined_location ), mining_duration( mining_duration ) {};
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &, Character & ) override = 0;
+        void finish( player_activity &act, Character &who ) override;
+
+        //TODO: This is only for pickaxes and shouldn't be handled so specifically here
+        virtual void mining_strain( Character & ) {};
+
+        std::unique_ptr<activity_actor> clone() const override = 0;
+        void serialize( JsonOut &jsout ) const override;
+        // extending classes must implement static deserialize
+        JsonObject deserialize_base( JsonValue &jsin );
+
+    protected:
+        item_location mining_tool;
+        tripoint_abs_ms mined_location;
+        time_duration mining_duration;
+};
+
+class pickaxe_activity_actor : public mine_activity_actor
+{
+    public:
+        using mine_activity_actor::mine_activity_actor;
+        const activity_id &get_type() const override {
+            static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
+            return ACT_PICKAXE;
+        }
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<pickaxe_activity_actor>( *this );
+        }
+        void mining_strain( Character &who ) override;
+        void do_turn( player_activity &, Character & ) override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+};
+
+class jackhammer_activity_actor : public mine_activity_actor
+{
+    public:
+        using mine_activity_actor::mine_activity_actor;
+        const activity_id &get_type() const override {
+            static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
+            return ACT_JACKHAMMER;
+        }
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<jackhammer_activity_actor>( *this );
+        }
+        void do_turn( player_activity &, Character & ) override;
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 };
 

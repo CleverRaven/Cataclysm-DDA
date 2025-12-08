@@ -808,7 +808,10 @@
     "valid": false,
     "description": "You have learned to cast spells in a way that is much quicker, but also more wasteful.  -95% cast time, +100% cast cost.  Can be toggled on or of by activating this trait.  Does not work on spells that consumes runes.",
     "active": true,
-    "activated_eocs": [ "EOC_metamagic_toggle_quicken" ]
+    "activated_is_setup": true,
+    "activation_msg": "You activate your quicken metamagic.",
+    "activated_eocs": [ "EOC_metamagic_toggle_quicken_on" ],
+    "deactivated_eocs": [ "EOC_metamagic_toggle_quicken_off" ]
   },
   {
     "type": "mutation",
@@ -819,7 +822,10 @@
     "valid": false,
     "description": "You have learned to cast spells that affects a larger area.  +100% area of effect, +50% cast cost.  Can be toggled on or of by activating this trait.  Does not work on spells that consumes runes.",
     "active": true,
-    "activated_eocs": [ "EOC_metamagic_toggle_widen" ]
+    "activated_is_setup": true,
+    "activation_msg": "You activate your widen metamagic.",
+    "activated_eocs": [ "EOC_metamagic_toggle_widen_on" ],
+    "deactivated_eocs": [ "EOC_metamagic_toggle_widen_off" ]
   },
   {
     "type": "mutation",
@@ -830,7 +836,10 @@
     "valid": false,
     "description": "You have learned to cast spells from a longer distance.  +100% reach, +50% cast cost.  Can be toggled on or of by activating this trait.  Does not work on spells that consumes runes.",
     "active": true,
-    "activated_eocs": [ "EOC_metamagic_toggle_reach" ]
+    "activated_is_setup": true,
+    "activation_msg": "You activate your reach metamagic.",
+    "activated_eocs": [ "EOC_metamagic_toggle_reach_on" ],
+    "deactivated_eocs": [ "EOC_metamagic_toggle_reach_off" ]
   },
   {
     "type": "mutation",
@@ -841,7 +850,10 @@
     "valid": false,
     "description": "You have learned to cast spells quietly.  -100% noise, +20% cast cost, ignores mouth encumbrance.  Can be toggled on or of by activating this trait.  Does not work on spells that consumes runes.",
     "active": true,
-    "activated_eocs": [ "EOC_metamagic_toggle_silent" ]
+    "activated_is_setup": true,
+    "activation_msg": "You activate your silent metamagic.",
+    "activated_eocs": [ "EOC_metamagic_toggle_silent_on" ],
+    "deactivated_eocs": [ "EOC_metamagic_toggle_silent_off" ]
   },
   {
     "type": "mutation",
@@ -852,7 +864,10 @@
     "valid": false,
     "description": "You have learned to cast spells without moving.  +20% cast cost, ignores arm, leg, and hand encumbrance.  Can cast spells while holding items.  Can be toggled on or of by activating this trait.  Does not work on spells that consumes runes.",
     "active": true,
-    "activated_eocs": [ "EOC_metamagic_toggle_still" ]
+    "activated_is_setup": true,
+    "activation_msg": "You activate your still metamagic.",
+    "activated_eocs": [ "EOC_metamagic_toggle_still_on" ],
+    "deactivated_eocs": [ "EOC_metamagic_toggle_still_off" ]
   },
   {
     "type": "mutation",
@@ -863,7 +878,10 @@
     "valid": false,
     "description": "You take your time when casting spells in order to get it right.  +200% cast time, -5 difficulty.  Can be toggled on or of by activating this trait.",
     "active": true,
-    "activated_eocs": [ "EOC_metamagic_toggle_careful" ]
+    "activated_is_setup": true,
+    "activation_msg": "You activate your careful metamagic.",
+    "activated_eocs": [ "EOC_metamagic_toggle_careful_on" ],
+    "deactivated_eocs": [ "EOC_metamagic_toggle_careful_off" ]
   },
   {
     "type": "mutation",
@@ -874,7 +892,10 @@
     "valid": false,
     "description": "You can cast your spells more efficiently at the cost of a more difficult cast.  *75% casting cost, +5 difficulty.  Can be toggled on or of by activating this trait.",
     "active": true,
-    "activated_eocs": [ "EOC_metamagic_toggle_efficient" ]
+    "activated_is_setup": true,
+    "activation_msg": "You activate your efficient metamagic.",
+    "activated_eocs": [ "EOC_metamagic_toggle_efficient_on" ],
+    "deactivated_eocs": [ "EOC_metamagic_toggle_efficient_off" ]
   },
   {
     "type": "mutation",
@@ -885,7 +906,10 @@
     "valid": false,
     "description": "Casting spells comes more naturally for you.  You don't have to think as much when casting.  Focus no longer affects casting, +20% cast cost.  Can be toggled on or of by activating this trait.  Only affects spells that are affected by focus.  Does not work on spells that consumes runes.",
     "active": true,
-    "activated_eocs": [ "EOC_metamagic_toggle_intuitive" ]
+    "activated_is_setup": true,
+    "activation_msg": "You activate your intuitive metamagic.",
+    "activated_eocs": [ "EOC_metamagic_toggle_intuitive_on" ],
+    "deactivated_eocs": [ "EOC_metamagic_toggle_intuitive_off" ]
   },
   {
     "type": "mutation",

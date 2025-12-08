@@ -65,23 +65,12 @@
     "charges_per_use": 1,
     "use_action": [
       {
-        "type": "effect_on_conditions",
+        "target": "carver_on",
+        "msg": "The electric carver's serrated blades start buzzing!",
+        "sound_volume": 20,
         "menu_text": "Turn on",
-        "effect_on_conditions": [
-          {
-            "id": "EOC_toolweapon_activate__carver",
-            "effect": {
-              "run_eocs": "EOC_toolweapon_activate",
-              "variables": {
-                "turn_cost": 0.8,
-                "transform_target": "carver_on",
-                "success_message": { "i18n": true, "str": "The electric carver's serrated blades start buzzing!" },
-                "volume": 20,
-                "failure_message": { "i18n": true, "str": "You pull the trigger, but nothing happens." }
-              }
-            }
-          }
-        ]
+        "moves": 1,
+        "type": "transform"
       },
       { "type": "link_up", "cable_length": 2, "charge_rate": "120 W" }
     ],
@@ -101,17 +90,7 @@
     "revert_to": "carver_off",
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 25 ] ],
     "use_action": [
-      {
-        "type": "effect_on_conditions",
-        "ammo_scale": 0,
-        "menu_text": "Turn off",
-        "effect_on_conditions": [
-          {
-            "id": "EOC_toolweapon_deactivate__carver",
-            "effect": { "run_eocs": "EOC_toolweapon_deactivate", "variables": { "transform_target": "carver_off" } }
-          }
-        ]
-      },
+      { "target": "carver_off", "msg": "Your %s goes quiet.", "menu_text": "Turn off", "type": "transform" },
       { "type": "link_up", "cable_length": 2, "charge_rate": "120 W" }
     ],
     "tick_action": {
@@ -131,7 +110,7 @@
         }
       ]
     },
-    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "WATER_BREAK" ],
+    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "WATER_BREAK", "SPAWN_ACTIVE" ],
     "melee_damage": { "bash": 2, "cut": 8 }
   },
   {

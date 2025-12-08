@@ -132,7 +132,7 @@ constexpr int MAX_CLAIRVOYANCE = 40;
 // kcal in a kilogram of fat, used to convert stored kcal into body weight. 3500kcal/lb * 2.20462lb/kg = 7716.17
 constexpr float KCAL_PER_KG = 3500 * 2.20462;
 
-/// @brief type of conditions that effect vision
+/// @brief type of conditions that affect vision
 /// @note vision modes do not necessarily match json ids or flags
 enum vision_modes {
     DEBUG_NIGHTVISION,
@@ -2057,7 +2057,7 @@ class Character : public Creature, public visitable
                              int base_cost = INVENTORY_HANDLING_PENALTY ) const;
 
         /**
-         * Calculate (but do not deduct) the number of moves required when drawing a weapon from an holster or sheathe
+         * Calculate (but do not deduct) the number of moves required when drawing a weapon from a holster or sheath
          * @param it Item to calculate retrieve cost for
          * @param container Container where the item is
          * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered.
@@ -2083,6 +2083,10 @@ class Character : public Creature, public visitable
 
         /** Returns the amount of software `type' that are in the inventory */
         int count_softwares( const itype_id &id );
+
+        /** Returns whether the character has software on a device with a desired number of charges */
+        bool has_software( const itype_id &software_id, int min_charges = 0,
+                           const itype_id &device_id = itype_id::NULL_ID() ) const;
 
         /** Returns nearby items which match the provided predicate */
         std::vector<item_location> nearby( const std::function<bool( const item *, const item * )> &func,
@@ -4142,8 +4146,8 @@ class Character : public Creature, public visitable
         std::map<vitamin_id, int> vitamin_levels;
         /** Current quantity for each vitamin today first value is expected second value is actual (digested) in vitamin units*/
         std::map<vitamin_id, std::pair<int, int>> daily_vitamins;
-        /** Returns the % of your RDA that ammount of vitamin represents */
-        int vitamin_RDA( const vitamin_id &vitamin, int ammount ) const;
+        /** Returns the % of your RDA that amount of vitamin represents */
+        int vitamin_RDA( const vitamin_id &vitamin, int amount ) const;
 
         pimpl<player_morale> morale;
         /** Processes human-specific effects of an effect. */

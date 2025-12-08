@@ -2266,11 +2266,11 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
+        "insulation": 10,
         "max_contains_volume": "1 L",
         "max_contains_weight": "4 kg"
       }
     ],
-    "insulation": 10,
     "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
@@ -5342,5 +5342,22 @@
         "moves": 400
       }
     ]
+  },
+  {
+    "id": "six_pack_rings",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str_sp": "six-pack rings" },
+    "description": "A set of plastic rings meant to hold aluminum cans.",
+    "symbol": "8",
+    "color": "light_cyan",
+    "price_postapoc": "1 cent",
+    "material": [ "plastic" ],
+    "weight": "1 g",
+    "volume": "1 ml",
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "2500 ml", "max_contains_weight": "10 kg", "transparent": true }
+    ],
+    "flags": [ "NO_RELOAD" ]
   }
 ]

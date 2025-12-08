@@ -3405,6 +3405,9 @@ void basecamp::start_crafting( const mission_id &miss_id )
         return;
     }
 
+    // Move this to applying when they return?
+    making->apply_all_morale_mods( *guy_to_send );
+
     // Now that we know the actual thing we're crafting we will properly form our mission_id
     mission_id actual_id = {miss_id.id, making->ident().str(), miss_id.mapgen_args, miss_id.dir };
     npc_ptr comp = start_mission( actual_id, work_days, true,

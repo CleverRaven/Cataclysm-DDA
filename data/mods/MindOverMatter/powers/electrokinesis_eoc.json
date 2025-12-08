@@ -3,6 +3,7 @@
     "type": "effect_on_condition",
     "id": "EOC_ELECTROKIN_PARALYSIS",
     "//": "Complicated formula here is to produce diminishing returns, since stunning for too long might as well just kill the target.  Level 1 minimum is .4615 seconds moves lost, level 20 maximum is 6.25 seconds, all before Intelligence scaling",
+    "condition": "has_alpha",
     "effect": [
       {
         "if": {

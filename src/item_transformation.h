@@ -44,9 +44,6 @@ struct item_transformation {
     /** if both this and ammo_qty are specified then set @ref target to this specific ammo */
     itype_id ammo_type;
 
-    /** used to set the active property of the transformed @ref target */
-    bool active = false;
-
     void deserialize( const JsonObject &jo );
     // Transforms the item.
     // dont_take_off blocks the removal of transformed "armor" when the caller relies

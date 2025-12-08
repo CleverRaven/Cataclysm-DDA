@@ -16,14 +16,7 @@
     "color": "white",
     "charges_per_use": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "candle_wax": 100 }, "rigid": true } ],
-    "use_action": {
-      "target": "candle_lit",
-      "msg": "You light the candle.",
-      "active": true,
-      "need_fire": 1,
-      "menu_text": "Light",
-      "type": "transform"
-    },
+    "use_action": { "target": "candle_lit", "msg": "You light the candle.", "need_fire": 1, "menu_text": "Light", "type": "transform" },
     "flags": [ "BURNOUT", "NO_RELOAD", "NO_UNLOAD" ]
   },
   {
@@ -66,7 +59,6 @@
       {
         "type": "transform",
         "target": "electric_lantern_on",
-        "active": true,
         "msg": "You turn the lamp on.",
         "need_charges": 1,
         "need_charges_msg": "The lantern has no batteries."
@@ -120,9 +112,9 @@
       "type": "transform",
       "msg": "You turn the flashlight on.",
       "target": "flashlight_on",
-      "active": true,
       "need_charges": 1,
-      "need_charges_msg": "The flashlight's batteries are dead."
+      "need_charges_msg": "The flashlight's batteries are dead.",
+      "damage_failure_msg": "You press the button on your %s, but nothing happens."
     },
     "pocket_data": [
       {
@@ -182,7 +174,6 @@
       "type": "transform",
       "msg": "You turn the flashlight on.",
       "target": "diving_flashlight_small_on",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "The flashlight's batteries are dead."
     },
@@ -237,7 +228,6 @@
       "type": "transform",
       "msg": "You turn the flashlight on.",
       "target": "diving_flashlight_small_hipower_on",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "The flashlight's batteries are dead."
     },
@@ -293,7 +283,6 @@
         "type": "transform",
         "msg": "You turn the flashlight on.",
         "target": "diving_flashlight_variable_on_hi",
-        "active": true,
         "need_charges": 1,
         "need_charges_msg": "The flashlight's batteries are dead."
       },
@@ -443,7 +432,6 @@
     "use_action": {
       "target": "gasoline_lantern_on",
       "msg": "You turn the lamp on.",
-      "active": true,
       "need_fire": 1,
       "need_charges": 1,
       "need_charges_msg": "The lamp is empty.",
@@ -490,13 +478,7 @@
     "symbol": ";",
     "color": "light_blue",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "glowstick_juice": 1400 }, "rigid": true } ],
-    "use_action": {
-      "target": "glowstick_lit",
-      "msg": "You activate the glowstick.",
-      "active": true,
-      "menu_text": "Activate",
-      "type": "transform"
-    },
+    "use_action": { "target": "glowstick_lit", "msg": "You activate the glowstick.", "menu_text": "Activate", "type": "transform" },
     "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
     "tool_ammo": "glowstick_juice"
   },
@@ -553,7 +535,6 @@
       "menu_text": "Strike the striker",
       "type": "transform",
       "target": "handflare_lit",
-      "active": true,
       "msg": "You strike your flare and light it."
     },
     "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
@@ -614,7 +595,6 @@
         "type": "transform",
         "msg": "You turn the heavy-duty flashlight on.",
         "target": "heavy_flashlight_on",
-        "active": true,
         "need_charges": 1,
         "need_charges_msg": "The heavy-duty flashlight's battery is dead."
       },
@@ -667,13 +647,7 @@
     "light": 200,
     "flags": [ "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK" ],
     "use_action": [
-      {
-        "target": "lightstrip_inactive",
-        "msg": "You turn off the LED strip.",
-        "active": true,
-        "need_charges": 1,
-        "type": "transform"
-      },
+      { "target": "lightstrip_inactive", "msg": "You turn off the LED strip.", "need_charges": 1, "type": "transform" },
       { "type": "link_up", "cable_length": 10, "charge_rate": "5 W" }
     ]
   },
@@ -692,7 +666,7 @@
     "color": "white",
     "//": "25 feet (7.5 m) + 1.5 meters for plug",
     "use_action": [
-      { "target": "lightstrip", "msg": "You turn on the LED strip.", "active": true, "need_charges": 1, "type": "transform" },
+      { "target": "lightstrip", "msg": "You turn on the LED strip.", "need_charges": 1, "type": "transform" },
       { "type": "link_up", "cable_length": 9, "charge_rate": "5 W" }
     ],
     "tool_ammo": [ "battery" ]
@@ -715,7 +689,6 @@
     "use_action": {
       "target": "oil_lamp_on",
       "msg": "You turn the lamp on.",
-      "active": true,
       "need_fire": 1,
       "need_charges": 1,
       "need_charges_msg": "The lamp is empty.",
@@ -766,7 +739,6 @@
     "use_action": {
       "target": "oil_lamp_clay_on",
       "msg": "You light the lamp.",
-      "active": true,
       "need_fire": 1,
       "need_charges": 1,
       "need_charges_msg": "The lamp is empty.",
@@ -819,7 +791,6 @@
       "type": "transform",
       "msg": "You light the %s.",
       "target": "oxylamp_on",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "The %s must be attached to a gas cylinder to light."
     },
@@ -861,7 +832,6 @@
     "use_action": {
       "target": "reading_light_on",
       "msg": "You switch on the reading light.",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "The reading light winks out.",
       "type": "transform"
@@ -908,7 +878,6 @@
       {
         "target": "smart_lamp_on",
         "msg": "You turn the smart lamp on.",
-        "active": true,
         "need_charges": 1,
         "need_charges_msg": "The smart lamp batteries are dead.",
         "type": "transform"
@@ -984,7 +953,6 @@
     "use_action": {
       "target": "torch_lit",
       "msg": "You light the torch.",
-      "active": true,
       "need_fire": 1,
       "menu_text": "Light torch",
       "type": "transform"
@@ -1015,13 +983,7 @@
     "//COMMENT": "Open flame or effectively so. ~5 seconds to transfer flame assuming optimal conditions, a minute at worst.",
     "use_action": [
       { "type": "firestarter", "moves": 500, "moves_slow": 6000 },
-      {
-        "target": "torch",
-        "msg": "The torch is extinguished.",
-        "active": false,
-        "menu_text": "Extinguish",
-        "type": "transform"
-      }
+      { "target": "torch", "msg": "The torch is extinguished.", "menu_text": "Extinguish", "type": "transform" }
     ],
     "techniques": [ "WBLOCK_1" ],
     "light": 60,
@@ -1046,7 +1008,6 @@
     "use_action": {
       "target": "propane_lantern_on",
       "msg": "You turn the lamp on.",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "The lamp is empty.",
       "type": "transform"
@@ -1097,7 +1058,6 @@
     "use_action": {
       "target": "candle_small_lit",
       "msg": "You light the candle.",
-      "active": true,
       "need_fire": 1,
       "menu_text": "Light",
       "type": "transform"

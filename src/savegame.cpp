@@ -1994,8 +1994,7 @@ void overmap_global_state::serialize( JsonOut &json ) const
     json.write_as_array( placed_unique_specials );
     json.member( "overmap_count", overmap_count );
     json.member( "unique_special_count", unique_special_count );
-    json.member( "overmap_highway_intersections", highway_intersections );
-    json.member( "overmap_highway_offset", highway_global_offset );
+    json.member( "overmap_highway_intersection_grid", highway_intersections );
     json.member( "major_river_count", major_river_count );
 
     json.end_object();
@@ -2013,8 +2012,18 @@ void overmap_global_state::deserialize( const JsonObject &json )
     json.read( "overmap_count", overmap_count );
 
     highway_intersections.clear();
-    json.read( "overmap_highway_intersections", highway_intersections );
-    json.read( "overmap_highway_offset", highway_global_offset );
+    //TODO: remove legacy loading in 0.J
+    if( json.has_member( "overmap_highway_intersections" ) ) {
+        std::map<std::string, overmap_feature_grid_node> feature_grid;
+        json.read( "overmap_highway_intersections", feature_grid );
+        point_abs_om highway_global_offset;
+        json.read( "overmap_highway_offset", highway_global_offset );
+
+        highway_intersections.set_feature_grid( feature_grid );
+        highway_intersections.set_grid_origin( highway_global_offset );
+    } else {
+        json.read( "overmap_highway_intersection_grid", highway_intersections );
+    }
     json.read( "major_river_count", major_river_count );
 }
 

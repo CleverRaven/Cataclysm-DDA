@@ -1532,9 +1532,9 @@ struct itype {
         nc_color color = c_white; // Color on the map (color.h)
 
         /**
-        * How much insulation this item provides, either as a container, or as
-        * a vehicle base part.  Larger means more insulation, less than 1 but
-        * greater than zero, transfers faster, cannot be less than zero.
+        * How much insulation this item provides, as a vehicle base part.
+        * Larger means more insulation, less than 1 but greater than zero,
+        * transfers faster, cannot be less than zero.
         */
         float insulation_factor = 1.0f;
 

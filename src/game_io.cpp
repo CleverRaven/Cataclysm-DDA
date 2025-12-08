@@ -23,6 +23,7 @@
 #include <sstream>
 #include <string>
 #include <string_view>
+#include <unordered_map>
 #include <utility>
 #include <vector>
 
@@ -684,8 +685,47 @@ bool game::save_achievements()
 
 }
 
+bool game::save_external_options_record()
+{
+    const cata_path externals = PATH_INFO::world_base_save_path() / PATH_INFO::external_options();
+    const bool saved_externals = write_to_file( externals, [&]( std::ostream & fout ) {
+        JsonOut jout( fout );
+        fout << "# This is saved for debugging purposes only.  Nothing in this file is ever read by the game."
+             << std::endl;
+
+        fout << "# This includes the values of all options, including externals, at the exact time of saving.  The purpose of this is to store a record of the game state as it existed."
+             << std::endl;
+
+        fout << "# Externals 'forced on' by mods or user edits to data/core/external_options.json would not normally be visible in the save."
+             << std::endl;
+
+        jout.start_array();
+
+        const options_manager::options_container &options = get_options().get_raw_options();
+
+        for( const auto &elem : options ) {
+            jout.start_object();
+
+            jout.member( "info", elem.second.getTooltip() );
+            jout.member( "default", elem.second.getDefaultText( false ) );
+            jout.member( "name", elem.first );
+            jout.member( "value", elem.second.getValue( true ) );
+
+            jout.end_object();
+        }
+
+        jout.end_array();
+    }, _( "external options record" ) );
+
+    return saved_externals;
+}
+
 bool game::save()
 {
+    if( save_is_dirty ) {
+        popup( _( "The game is in an unsupported state after using debug tools and cannot be saved." ) );
+        return false;
+    }
     std::chrono::seconds time_since_load =
         std::chrono::duration_cast<std::chrono::seconds>(
             std::chrono::steady_clock::now() - time_of_last_load );
@@ -695,6 +735,7 @@ bool game::save()
         if( !save_player_data() ||
             !save_achievements() ||
             !save_factions_missions_npcs() ||
+            !save_external_options_record() ||
             !save_dimension_data() ||
             !save_maps() ||
             !get_auto_pickup().save_character() ||

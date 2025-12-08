@@ -714,6 +714,40 @@ check do you have 3 manuals in inventory
 ```
 
 
+### `u_has_software`, `npc_has_software`
+- type: [variable object](#variable-object)
+- return true if alpha or beta talker has software specified as `item` in one of the devices in their inventory
+- `item` - the software we are looking for
+- `charges` - optionally, the device in which the software is found has to have at least this number of charges or be plugged into a power grid (if omitted or 0, devices with no charges are matched too)
+- `device` - optionally, match only the software in this device
+
+#### Valid talkers:
+
+| Avatar | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
+
+#### Examples
+check do you have hackPRO software
+```jsonc
+{ "u_has_software": { "item": "software_hacking" } }
+```
+
+check do you have hackPRO software in a device with 20 charges
+```jsonc
+{ "u_has_software": { "item": "software_hacking", "charges": 20 } }
+```
+
+check do you have hackPRO software in a laptop with 20 charges
+```jsonc
+{ "u_has_software": { "item": "software_hacking", "charges": 20, "device": "laptop" } }
+```
+
+check do you have hackPRO software in a laptop, regardless of charges
+```jsonc
+{ "u_has_software": { "item": "software_hacking", "charges": 0, "device": "laptop" } }
+```
+
 
 ### `u_has_items_sum`, `npc_has_items_sum`
 - type: array of pairs, pair is string or [variable object](#variable-object) and int or [variable object](#variable-object)

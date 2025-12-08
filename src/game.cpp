@@ -450,6 +450,7 @@ game::game() :
     scent( *scent_ptr ),
     timed_events( *timed_event_manager_ptr ),
     uquit( QUIT_NO ),
+    save_is_dirty( false ),
     safe_mode( SAFE_MODE_ON ),
     u_shared_ptr( &u, null_deleter{} ),
     next_npc_id( 1 ),
@@ -5139,11 +5140,10 @@ void game::control_vehicle()
             return;
         } else if( num_valid_controls > 1 ) {
             const std::optional<tripoint_bub_ms> temp = choose_adjacent( _( "Control vehicle where?" ) );
-            if( !vehicle_position ) {
+            if( !temp ) {
                 return;
-            } else {
-                vehicle_position.value() = temp.value();
             }
+            vehicle_position = temp.value();
             const optional_vpart_position vp = here.veh_at( *vehicle_position );
             if( vp ) {
                 vehicle_controls = vp.value().part_with_feature( "CONTROLS", true );
@@ -10554,7 +10554,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
         if( crit->has_flag( mon_flag_RIDEABLE_MECH ) ) {
             crit->use_mech_power( u.current_movement_mode()->mech_power_use() + 1_kJ );
         }
-    } else {
+    } else if( !u.in_vehicle ) {
         u.mod_moves( -move_cost );
         u.burn_energy_all( -move_cost );
     }

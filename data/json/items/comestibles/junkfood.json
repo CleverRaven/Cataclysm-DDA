@@ -1,105 +1,144 @@
 [
   {
+    "id": "toastem",
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
-    "id": "toastem",
-    "name": { "str": "toast-em" },
-    "weight": "50 g",
-    "color": "red",
-    "spoils_in": "90 days",
-    "container": "box_small",
     "comestible_type": "FOOD",
+    "name": { "str": "toaster pastry", "str_pl": "toaster pastries" },
+    "conditional_names": [
+      { "type": "COMPONENT_ID", "condition": "apple", "name": { "str_sp": "%s with apple filling" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "apricot", "name": { "str_sp": "%s with apricot filling" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "banana", "name": { "str_sp": "%s with banana filling" } },
+      {
+        "type": "COMPONENT_ID_SUBSTRING",
+        "condition": "blackberries",
+        "name": { "str_sp": "%s with blackberry filling" }
+      },
+      {
+        "type": "COMPONENT_ID_SUBSTRING",
+        "condition": "blueberries",
+        "name": { "str_sp": "%s with blueberry filling" }
+      },
+      { "type": "COMPONENT_ID", "condition": "chokeberries", "name": { "str_sp": "%s with chokeberries filling" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "cherries", "name": { "str_sp": "%s with cherry filling" } },
+      {
+        "type": "COMPONENT_ID_SUBSTRING",
+        "condition": "crabapple",
+        "name": { "str_sp": "%s with crabapple filling" }
+      },
+      {
+        "type": "COMPONENT_ID_SUBSTRING",
+        "condition": "elderberries",
+        "name": { "str_sp": "%s with elderberry filling" }
+      },
+      {
+        "type": "COMPONENT_ID_SUBSTRING",
+        "condition": "grapefruit",
+        "name": { "str_sp": "%s with grapefruit filling" }
+      },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "grapes", "name": { "str_sp": "%s with grape filling" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "guayaba", "name": { "str_sp": "%s with guava filling" } },
+      { "type": "COMPONENT_ID", "condition": "hobbleberries", "name": { "str_sp": "%s with hobbleberry filling" } },
+      {
+        "type": "COMPONENT_ID_SUBSTRING",
+        "condition": "huckleberries",
+        "name": { "str_sp": "%s with huckleberry filling" }
+      },
+      { "type": "COMPONENT_ID", "condition": "irradiated_apple", "name": { "str_sp": "%s with apple filling" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "kiwi", "name": { "str_sp": "%s with kiwi filling" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "lulo", "name": { "str_sp": "%s with lulo filling" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "m_stellatum_berries",
+        "name": { "str_sp": "%s with Solomon's seal filling" }
+      },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "mango", "name": { "str_sp": "%s with mango filling" } },
+      {
+        "type": "COMPONENT_ID_SUBSTRING",
+        "condition": "maracuya",
+        "name": { "str_sp": "%s with passionfruit filling" }
+      },
+      { "type": "COMPONENT_ID", "condition": "mayapple", "name": { "str_sp": "%s with mayapple filling" } },
+      { "type": "COMPONENT_ID", "condition": "melon_chunks", "name": { "str_sp": "%s with melon filling" } },
+      {
+        "type": "COMPONENT_ID_SUBSTRING",
+        "condition": "mulberries",
+        "name": { "str_sp": "%s with mulberry filling" }
+      },
+      { "type": "COMPONENT_ID", "condition": "nannyberries", "name": { "str_sp": "%s with nannyberries filling" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "orange", "name": { "str_sp": "%s with orange filling" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "papaya", "name": { "str_sp": "%s with papaya filling" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "peach", "name": { "str_sp": "%s with peach filling" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "pear", "name": { "str_sp": "%s with pear filling" } },
+      { "type": "COMPONENT_ID", "condition": "pineapple_chunks", "name": { "str_sp": "%s with pineapple filling" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "plums", "name": { "str_sp": "%s with plum filling" } },
+      {
+        "type": "COMPONENT_ID_SUBSTRING",
+        "condition": "pomegranate",
+        "name": { "str_sp": "%s with pomegranate filling" }
+      },
+      { "type": "COMPONENT_ID", "condition": "pumpkin_cut", "name": { "str_sp": "%s with pumpkin filling" } },
+      {
+        "type": "COMPONENT_ID_SUBSTRING",
+        "condition": "raspberries",
+        "name": { "str_sp": "%s with raspberry filling" }
+      },
+      {
+        "type": "COMPONENT_ID_SUBSTRING",
+        "condition": "rose_hips_cut",
+        "name": { "str_sp": "%s with rose hip filling" }
+      },
+      {
+        "type": "COMPONENT_ID_SUBSTRING",
+        "condition": "strawberries",
+        "name": { "str_sp": "%s with strawberry filling" }
+      },
+      { "type": "COMPONENT_ID", "condition": "tupelo_fruit", "name": { "str_sp": "%s with tupelo fruit filling" } },
+      { "type": "COMPONENT_ID", "condition": "watermelon_wedge", "name": { "str_sp": "%s with watermelon filling" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "wintergreen_berry",
+        "name": { "str_sp": "%s with wintergreen berry filling" }
+      }
+    ],
+    "description": "A dry toaster pastry coated with solid frosting.  Pretty good on its own but would taste even better hot and toasted.",
     "symbol": "%",
-    "quench": -8,
-    "calories": 200,
-    "description": "A dry toaster pastry coated with solid frosting.  This one is strawberry flavored, what luck!",
+    "color": "red",
     "price": "50 cent",
     "price_postapoc": "125 cent",
     "material": [ "wheat", "junk" ],
     "volume": "125 ml",
+    "weight": "50 g",
+    "container": "box_small",
+    "spoils_in": "90 days",
+    "quench": -8,
+    "calories": 200,
     "flags": [ "EATEN_HOT" ],
     "vitamins": [ [ "iron", 10 ], [ "wheat_allergen", 1 ], [ "junk_allergen", 1 ] ],
-    "fun": 20
-  },
-  {
-    "type": "ITEM",
-    "subtypes": [ "COMESTIBLE" ],
-    "id": "toastem2",
-    "name": { "str": "toast-em" },
-    "copy-from": "toastem",
-    "description": "A dry toaster pastry coated with solid frosting.  This one is blueberry flavored!",
     "fun": 15
   },
   {
-    "type": "ITEM",
-    "subtypes": [ "COMESTIBLE" ],
-    "id": "toastem3",
-    "name": { "str": "toast-em" },
-    "copy-from": "toastem",
-    "description": "A dry toaster pasty, usually coated with solid frosting.  Sadly, this one is not.",
-    "fun": 10
-  },
-  {
-    "type": "ITEM",
-    "subtypes": [ "COMESTIBLE" ],
-    "id": "toastem4",
-    "name": { "str": "homemade toast-em" },
-    "copy-from": "toastem",
-    "description": "A homemade toaster pastry, filled with fruit but lacking icing.",
-    "fun": 10
-  },
-  {
-    "type": "ITEM",
-    "subtypes": [ "COMESTIBLE" ],
     "id": "toasterpastryfrozen",
-    "name": { "str": "toaster pastry (uncooked)", "str_pl": "toaster pastries (uncooked)" },
-    "weight": "52 g",
-    "color": "red",
+    "copy-from": "toastem",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "name": { "str": "uncooked toaster pastry", "str_pl": "uncooked toaster pastries" },
+    "description": "A toaster pastry coated with solid frosting.  This one is only partially cooked and will go bad very fast if left unfrozen.",
     "spoils_in": "2 days 12 hours",
     "//": "Semi-arbitrary spoilage of 60 hours, as the cooked product.",
     "container": "box_snack",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "calories": 200,
-    "description": "A delicious fruit-filled pastry that you can cook in your toaster.  It even comes with frosting!  Cook it to make it tastier.",
     "price": "2 USD",
     "price_postapoc": "62 cent",
-    "material": [ "wheat", "junk" ],
-    "volume": "125 ml",
-    "flags": [ "EATEN_HOT" ],
-    "fun": 5,
-    "vitamins": [ [ "iron", 10 ], [ "wheat_allergen", 1 ], [ "junk_allergen", 1 ] ]
+    "fun": 5
   },
   {
-    "type": "ITEM",
-    "subtypes": [ "COMESTIBLE" ],
     "id": "toasterpastry",
-    "name": { "str": "toaster pastry", "str_pl": "toaster pastries" },
-    "copy-from": "toasterpastryfrozen",
-    "quench": 4,
-    "description": "A delicious fruit-filled pastry that you've cooked.  It even comes with frosting!",
-    "fun": 20
-  },
-  {
+    "copy-from": "toastem",
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
-    "id": "homemade_toasterpastry",
-    "name": { "str": "toaster pastry", "str_pl": "toaster pastries" },
-    "copy-from": "toasterpastryfrozen",
-    "quench": 4,
-    "description": "A delicious homemade fruit-filled pastry that you've cooked.",
+    "name": { "str": "toasted pastry", "str_pl": "toasted pastries" },
+    "description": "A toaster pastry that has been toasted, delicious!",
     "fun": 20
-  },
-  {
-    "type": "ITEM",
-    "subtypes": [ "COMESTIBLE" ],
-    "id": "homemade_toasterpastry2",
-    "name": { "str": "toaster pastry with buttercream", "str_pl": "toaster pastries with buttercream" },
-    "copy-from": "toasterpastryfrozen",
-    "quench": 6,
-    "calories": 730,
-    "description": "A delicious homemade fruit-filled pastry that you've cooked.  It even comes with buttercream!",
-    "fun": 30
   },
   {
     "type": "ITEM",

@@ -135,7 +135,6 @@
 #include "weather_gen.h"
 #include "weather_type.h"
 
-static const activity_id ACT_FISH( "ACT_FISH" );
 static const activity_id ACT_GAME( "ACT_GAME" );
 static const activity_id ACT_GENERIC_GAME( "ACT_GENERIC_GAME" );
 static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
@@ -268,7 +267,6 @@ static const itype_id itype_barometer( "barometer" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_blood( "blood" );
 static const itype_id itype_blood_acid( "blood_acid" );
-static const itype_id itype_c4armed( "c4armed" );
 static const itype_id itype_canister_empty( "canister_empty" );
 static const itype_id itype_cig( "cig" );
 static const itype_id itype_cig_lit( "cig_lit" );
@@ -279,8 +277,6 @@ static const itype_id itype_detergent( "detergent" );
 static const itype_id itype_ecig( "ecig" );
 static const itype_id itype_efile_photos( "efile_photos" );
 static const itype_id itype_fire( "fire" );
-static const itype_id itype_firecracker_act( "firecracker_act" );
-static const itype_id itype_firecracker_pack_act( "firecracker_pack_act" );
 static const itype_id itype_geiger_on( "geiger_on" );
 static const itype_id itype_hammer( "hammer" );
 static const itype_id itype_handrolled_cig( "handrolled_cig" );
@@ -300,28 +296,25 @@ static const itype_id itype_nicotine_liquid( "nicotine_liquid" );
 static const itype_id itype_paper( "paper" );
 static const itype_id itype_pot( "pot" );
 static const itype_id itype_pur_tablets( "pur_tablets" );
-static const itype_id itype_radio_car( "radio_car" );
 static const itype_id itype_radio_car_on( "radio_car_on" );
 static const itype_id itype_radio_mod( "radio_mod" );
 static const itype_id itype_radio_on( "radio_on" );
 static const itype_id itype_rebreather_on( "rebreather_on" );
 static const itype_id itype_rebreather_xl_on( "rebreather_xl_on" );
-static const itype_id itype_shocktonfa_off( "shocktonfa_off" );
-static const itype_id itype_shocktonfa_on( "shocktonfa_on" );
 static const itype_id itype_soap( "soap" );
 static const itype_id itype_soldering_iron( "soldering_iron" );
 static const itype_id itype_spiral_stone( "spiral_stone" );
 static const itype_id itype_splinter( "splinter" );
 static const itype_id itype_stick( "stick" );
 static const itype_id itype_syringe( "syringe" );
-static const itype_id itype_tazer( "tazer" );
 static const itype_id itype_tongs( "tongs" );
 static const itype_id itype_toolset( "toolset" );
 static const itype_id itype_towel( "towel" );
 static const itype_id itype_towel_wet( "towel_wet" );
 static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
-static const itype_id itype_water_purifying( "water_purifying" );
+static const itype_id itype_water_murky( "water_murky" );
+static const itype_id itype_water_purifying_active( "water_purifying_active" );
 static const itype_id itype_wax( "wax" );
 static const itype_id itype_weather_reader( "weather_reader" );
 
@@ -598,7 +591,7 @@ std::optional<int> iuse::smoking( Character *p, item *it, const tripoint_bub_ms 
         p->mod_thirst( 2 );
     } else if( it->typeId() == itype_cigar ) {
         cig = item( itype_cigar_lit, calendar::turn );
-        cig.item_counter = to_turns<int>( 12_minutes );
+        cig.item_counter = to_turns<int>( 30_minutes );
         p->mod_thirst( 3 );
         p->mod_hunger( -4 );
     } else if( it->typeId() == itype_joint ) {
@@ -1638,13 +1631,6 @@ std::optional<int> iuse::petfood( Character *p, item *it, const tripoint_bub_ms 
         }
 
         p->add_msg_if_player( _( "You feed your %1$s to the %2$s." ), it->tname(), mon->get_name() );
-        if( !mon->has_fully_eaten() && mon->has_flag( mon_flag_EATS ) ) {
-            int kcal = default_character_compute_effective_nutrients( *it ).kcal();
-            mon->mod_amount_eaten( kcal );
-            if( mon->has_fully_eaten() ) {
-                p->add_msg_if_player( _( "The %1$s seems full now." ), mon->get_name() );
-            }
-        }
 
         if( petfood.feed.empty() ) {
             p->add_msg_if_player( m_good, _( "The %1$s is your pet now!" ), mon->get_name() );
@@ -1807,9 +1793,8 @@ std::optional<int> iuse::fishing_rod( Character *p, item *it, const tripoint_bub
         return std::nullopt;
     }
     p->add_msg_if_player( _( "You cast your line and wait to hook something…" ) );
-    p->assign_activity( ACT_FISH, to_moves<int>( 5_hours ), 0, 0, it->tname() );
-    p->activity.targets.emplace_back( *p, it );
-    p->activity.coord_set = g->get_fishable_locations_abs( MAX_VIEW_DISTANCE, *found );
+    p->assign_activity( fish_activity_actor( item_location( *p, it ),
+                        g->get_fishable_locations_abs( MAX_VIEW_DISTANCE, *found ), 5_hours ) );
     return 0;
 }
 
@@ -2510,7 +2495,7 @@ std::optional<int> iuse::purify_water( Character *p, item *purifier, item_locati
     }
 
     const std::vector<item *> liquids = water->items_with( []( const item & it ) {
-        return it.typeId() == itype_water;
+        return it.typeId() == itype_water || it.typeId() == itype_water_murky;
     } );
     int charges_of_water = 0;
     for( const item *water : liquids ) {
@@ -2543,7 +2528,7 @@ std::optional<int> iuse::purify_water( Character *p, item *purifier, item_locati
     p->mod_moves( -req_moves );
 
     for( item *water : liquids ) {
-        water->convert( itype_water_purifying, p ).poison = 0;
+        water->convert( itype_water_purifying_active, p ).poison = 0;
         water->set_birthday( calendar::turn );
     }
     // We've already consumed the tablets, so don't try to consume them again
@@ -2560,8 +2545,8 @@ std::optional<int> iuse::water_tablets( Character *p, item *it, const tripoint_b
 
     item_location obj = g->inv_map_splice( [&here]( const item_location & e ) {
         return ( !e->empty() && e->has_item_with( []( const item & it ) {
-            return it.typeId() == itype_water;
-        } ) ) || ( e->typeId() == itype_water &&
+            return it.typeId() == itype_water || it.typeId() == itype_water_murky;
+        } ) ) || ( ( e->typeId() == itype_water || e->typeId() == itype_water_murky ) &&
                    here.has_flag_furn( ter_furn_flag::TFLAG_LIQUIDCONT, e.pos_bub( here ) ) );
     }, _( "Purify what?" ), 1, _( "You don't have water to purify." ) );
 
@@ -2571,17 +2556,6 @@ std::optional<int> iuse::water_tablets( Character *p, item *it, const tripoint_b
     }
 
     return purify_water( p, it, obj );
-}
-
-std::optional<int> iuse::radio_off( Character *p, item *it, const tripoint_bub_ms & )
-{
-    if( !it->ammo_sufficient( p ) ) {
-        p->add_msg_if_player( _( "It's dead." ) );
-    } else {
-        p->add_msg_if_player( _( "You turn the radio on." ) );
-        it->convert( itype_radio_on, p ).active = true;
-    }
-    return 1;
 }
 
 std::optional<int> iuse::directional_antenna( Character *p, item *, const tripoint_bub_ms & )
@@ -3087,8 +3061,8 @@ std::optional<int> iuse::change_skin( Character *p, item *, const tripoint_bub_m
 }
 
 static std::optional<int> dig_tool( Character *p, item *it, const tripoint_bub_ms &target,
-                                    const activity_id activity,
-                                    const std::string &prompt, const std::string &fail, const std::string &success )
+                                    activity_id activity, const std::string &prompt,
+                                    const std::string &fail, const std::string &success )
 {
     if( !p || !it ) {
         debugmsg( "Misconfigured call to dig_tool, invalid character or item pointer" );
@@ -3146,9 +3120,13 @@ static std::optional<int> dig_tool( Character *p, item *it, const tripoint_bub_m
         digging_time /= 2;
     }
 
-    p->assign_activity( activity, to_moves<int>( digging_time ) );
-    p->activity.targets.emplace_back( *p, it );
-    p->activity.placement = here.get_abs( pnt );
+    const item_location mining_tool( *p, it );
+    const tripoint_abs_ms pnt_abs = here.get_abs( pnt );
+    if( activity == ACT_JACKHAMMER ) {
+        p->assign_activity( jackhammer_activity_actor( mining_tool, pnt_abs, digging_time ) );
+    } else if( activity == ACT_PICKAXE ) {
+        p->assign_activity( pickaxe_activity_actor( mining_tool, pnt_abs, digging_time ) );
+    }
 
     // You can mine either furniture or terrain, and furniture goes first,
     // according to @ref map::bash_ter_furn()
@@ -3505,30 +3483,6 @@ std::optional<int> iuse::granade_act( Character *, item *it, const tripoint_bub_
     return 1;
 }
 
-std::optional<int> iuse::c4( Character *p, item *it, const tripoint_bub_ms & )
-{
-    int time = 0;
-    bool got_value = false;
-    if( p->is_avatar() ) {
-        got_value = query_int( time, false, _( "Set the timer to how many seconds (0 to cancel)?" ) );
-        if( !got_value || time <= 0 ) {
-            p->add_msg_if_player( _( "Never mind." ) );
-            return std::nullopt;
-        }
-    }
-    p->add_msg_if_player( n_gettext( "You set the timer to %d second.",
-                                     "You set the timer to %d seconds.", time ), time );
-    it->convert( itype_c4armed );
-    if( got_value ) {
-        it->countdown_point = calendar::turn + time_duration::from_seconds( time );
-    } else {
-        // Uses value from the converted type (e.g. currently hardcoded c4armed)
-        it->countdown_point = calendar::turn + it->type->countdown_interval;
-    }
-    it->active = true;
-    return 1;
-}
-
 std::optional<int> iuse::acidbomb_act( Character *p, item *it, const tripoint_bub_ms &pos )
 {
     if( !p ) {
@@ -3606,57 +3560,29 @@ std::optional<int> iuse::molotov_lit( Character *p, item *it, const tripoint_bub
     return 0;
 }
 
-std::optional<int> iuse::firecracker_pack( Character *p, item *it, const tripoint_bub_ms & )
-{
-    if( p->cant_do_underwater() ) {
-        return std::nullopt;
-    }
-    if( !p->has_charges( itype_fire, 1 ) ) {
-        p->add_msg_if_player( m_info, _( "You need a source of fire!" ) );
-        return std::nullopt;
-    }
-    p->add_msg_if_player( _( "You light the pack of firecrackers." ) );
-    it->convert( itype_firecracker_pack_act, p );
-    it->countdown_point = calendar::turn + 27_seconds;
-    it->set_age( 0_turns );
-    it->active = true;
-    return 0; // don't use any charges at all. it has became a new item
-}
-
 std::optional<int> iuse::firecracker_pack_act( Character *, item *it, const tripoint_bub_ms &pos )
 {
+    int seconds_left = to_seconds<int>( it->countdown_point - calendar::turn );
+
     // Two seconds of lit fuse burning
     // Followed by random number of explosions (4-6) per turn until 25 epxlosions have happened
     // Finally item despawns since countdown has ended
-    if( it->age() < 2_seconds ) {
+    if( seconds_left > 25 ) {
         sounds::sound( pos, 0, sounds::sound_t::alarm, _( "ssss…" ), true, "misc", "lit_fuse" );
     } else {
         // Time left to countdown_point is used to track of number of explosions
         int explosions = rng( 4, 6 );
         int i = 0;
-        explosions = std::min( explosions, to_seconds<int>( it->countdown_point - calendar::turn ) );
+        explosions = std::min( explosions, seconds_left );
+
         for( i = 0; i < explosions; i++ ) {
             sounds::sound( pos, 20, sounds::sound_t::combat, _( "Bang!" ), false, "explosion", "small" );
         }
+
         it->countdown_point -= ( explosions - 1 ) * 1_seconds;
     }
-    return 0;
-}
 
-std::optional<int> iuse::firecracker( Character *p, item *it, const tripoint_bub_ms & )
-{
-    if( p->cant_do_underwater() ) {
-        return std::nullopt;
-    }
-    if( !p->use_charges_if_avail( itype_fire, 1 ) ) {
-        p->add_msg_if_player( m_info, _( "You need a source of fire!" ) );
-        return std::nullopt;
-    }
-    p->add_msg_if_player( _( "You light the firecracker." ) );
-    it->convert( itype_firecracker_act, p );
-    it->countdown_point = calendar::turn + 2_seconds;
-    it->active = true;
-    return 1;
+    return 0;
 }
 
 std::optional<int> iuse::mininuke( Character *p, item *it, const tripoint_bub_ms & )
@@ -3763,79 +3689,6 @@ std::optional<int> iuse::tazer( Character *p, item *it, const tripoint_bub_ms &p
     }
 
     return 1;
-}
-
-std::optional<int> iuse::tazer2( Character *p, item *it, const tripoint_bub_ms &pos )
-{
-    map &here = get_map();
-
-    if( it->ammo_remaining_linked( here, p ) >= 2 ) {
-        // Instead of having a ctrl+c+v of the function above, spawn a fake tazer and use it
-        // Ugly, but less so than copied blocks
-        item fake( itype_tazer, calendar::turn_zero );
-        fake.charges = 2;
-        return tazer( p, &fake, pos );
-    } else {
-        p->add_msg_if_player( m_info, _( "Insufficient power" ) );
-    }
-
-    return std::nullopt;
-}
-
-std::optional<int> iuse::shocktonfa_off( Character *p, item *it, const tripoint_bub_ms &pos )
-{
-    if( !p ) {
-        debugmsg( "%s called action shocktonfa_off that requires character but no character is present",
-                  it->typeId().str() );
-    }
-    int choice = uilist( _( "tactical tonfa" ), {
-        _( "Zap something" ), _( "Turn on light" )
-    } );
-
-    switch( choice ) {
-        case 0: {
-            return iuse::tazer2( p, it, pos );
-        }
-        case 1: {
-            if( !it->ammo_sufficient( p ) ) {
-                p->add_msg_if_player( m_info, _( "The batteries are dead." ) );
-                return std::nullopt;
-            } else {
-                p->add_msg_if_player( _( "You turn the light on." ) );
-                it->convert( itype_shocktonfa_on, p ).active = true;
-                return 1;
-            }
-        }
-    }
-    return 0;
-}
-
-std::optional<int> iuse::shocktonfa_on( Character *p, item *it, const tripoint_bub_ms &pos )
-{
-    if( !p ) { // Effects while simply on
-        debugmsg( "%s called action shocktonfa_on that requires character but no character is present",
-                  it->typeId().str() );
-    } else {
-        if( !it->ammo_sufficient( p ) ) {
-            p->add_msg_if_player( m_info, _( "Your tactical tonfa is out of power." ) );
-            it->convert( itype_shocktonfa_off, p ).active = false;
-        } else {
-            int choice = uilist( _( "tactical tonfa" ), {
-                _( "Zap something" ), _( "Turn off light" )
-            } );
-
-            switch( choice ) {
-                case 0: {
-                    return iuse::tazer2( p, it, pos );
-                }
-                case 1: {
-                    p->add_msg_if_player( _( "You turn off the light." ) );
-                    it->convert( itype_shocktonfa_off, p ).active = false;
-                }
-            }
-        }
-    }
-    return 0;
 }
 
 static std::string get_music_description()
@@ -3951,6 +3804,12 @@ std::optional<int> iuse::dive_tank( Character *p, item *it, const tripoint_bub_m
 {
     if( p && p->is_worn( *it ) ) {
         if( p->is_underwater() && p->oxygen < 10 ) {
+            if( !it->activation_success() ) {
+                p->add_msg_if_player( m_bad,
+                                      _( "You try to take a deep breath from your %s, but something blocks the flow." ), it->tname() );
+                return std::nullopt;
+            }
+
             p->oxygen += 20;
         }
         if( one_in( 15 ) ) {
@@ -3974,16 +3833,30 @@ std::optional<int> iuse::dive_tank_activate( Character *p, item *it, const tripo
     if( it->ammo_remaining( ) == 0 ) {
         p->add_msg_if_player( _( "Your %s is empty." ), it->tname() );
     } else if( it->active ) { //off
-        p->add_msg_if_player( _( "You turn off the regulator and close the air valve." ) );
-        it->erase_var( "overwrite_env_resist" );
-        it->type->transform_into.value().transform( p, *it, true );
+        if( it->activation_success() ) {
+            p->add_msg_if_player( _( "You turn off the regulator and close the air valve." ) );
+            it->erase_var( "overwrite_env_resist" );
+            it->type->transform_into.value().transform( p, *it, true );
+        } else {
+            p->add_msg_if_player( m_bad,
+                                  _( "You try to turn off the regulator and close the air valve of your %s, but the valve is stuck." ),
+                                  it->tname() );
+            return std::nullopt;
+        }
+
     } else { //on
         if( !p->is_worn( *it ) ) {
             p->add_msg_if_player( _( "You should wear it first." ) );
         } else {
-            p->add_msg_if_player( _( "You turn on the regulator and open the air valve." ) );
-            it->set_var( "overwrite_env_resist", it->get_base_env_resist_w_filter() );
-            it->convert( itype_id( it->typeId().str() + "_on" ) ).active = true;
+            if( it->activation_success() ) {
+                p->add_msg_if_player( _( "You turn on the regulator and open the air valve." ) );
+                it->set_var( "overwrite_env_resist", it->get_base_env_resist_w_filter() );
+                it->convert( itype_id( it->typeId().str() + "_on" ) ).active = true;
+            } else {
+                p->add_msg_if_player( m_bad,
+                                      _( "You try to turn on the regulator and open the air valve of your %s, but the valve is stuck." ),
+                                      it->tname() );
+            }
         }
     }
     return 1;
@@ -4961,14 +4834,6 @@ std::optional<int> iuse::handle_ground_graffiti( Character &p, item *it, const s
     } else {
         return 0;
     }
-}
-
-std::optional<int> iuse::heatpack( Character *p, item *it, const tripoint_bub_ms & )
-{
-    if( heat_solid_items( p, it, p->pos_bub() ) ) {
-        it->convert( itype_heatpack_used, p );
-    }
-    return 0;
 }
 
 std::optional<int> iuse::heat_food( Character *p, item *it, const tripoint_bub_ms & )
@@ -6577,6 +6442,11 @@ std::optional<int> iuse::camera( Character *p, item *it, const tripoint_bub_ms &
         std::vector<tripoint_bub_ms> trajectory = line_to( p->pos_bub(), aim_point, 0, 0 );
         trajectory.push_back( aim_point );
 
+        if( !it->activation_success() ) {
+            p->add_msg_if_player( _( "You press the trigger on you %s, but nothing happens." ), it->tname() );
+            return std::nullopt;
+        }
+
         p->mod_moves( -to_moves<int>( 1_seconds ) * 0.5 );
         sounds::sound( p->pos_bub(), 8, sounds::sound_t::activity, _( "Click." ), true, "tool",
                        "camera_shutter" );
@@ -7012,32 +6882,6 @@ std::optional<int> iuse::radiocar( Character *p, item *it, const tripoint_bub_ms
 
             p->add_msg_if_player( _( "You disarmed your RC car." ) );
         }
-    }
-
-    return 1;
-}
-
-std::optional<int> iuse::radiocaron( Character *p, item *it, const tripoint_bub_ms & )
-{
-    if( !it->ammo_sufficient( p ) ) {
-        // Deactivate since other mode has an iuse too.
-        it->convert( itype_radio_car, p ).active = false;
-        return 0;
-    }
-
-    int choice = uilist( _( "What to do with your activated RC car?" ), {
-        _( "Turn off" )
-    } );
-
-    if( choice < 0 ) {
-        return 1;
-    }
-
-    if( choice == 0 ) {
-        it->convert( itype_radio_car, p ).active = false;
-
-        p->add_msg_if_player( _( "You turned off your RC car." ) );
-        return 1;
     }
 
     return 1;
@@ -8158,7 +8002,7 @@ static std::optional<std::pair<tripoint_bub_ms, itype_id>> appliance_heater_sele
 
 }
 
-heater find_heater( Character *p, item *it )
+heater find_heater( Character *p, item *it, bool force_use_it )
 {
     map &here = get_map();
 
@@ -8174,7 +8018,7 @@ heater find_heater( Character *p, item *it )
     if( here.has_nearby_fire( p->pos_bub( here ) ) && !it->has_quality( qual_HOTPLATE ) ) {
         p->add_msg_if_player( m_info, _( "You put %1$s on fire to start heating." ), it->tname() );
         return {loc, false, 1, 0, vpt, pseudo_flag};
-    } else if( it->has_quality( qual_HOTPLATE ) ) {
+    } else if( it->has_quality( qual_HOTPLATE ) || force_use_it ) {
         if( it->ammo_remaining( ) >= it->type->charges_to_use() ) {
             p->add_msg_if_player( m_info, _( "You use %1$s to start heating." ), loc->tname() );
         } else if( !it->has_no_links() ) {
@@ -8241,12 +8085,13 @@ heater find_heater( Character *p, item *it )
 }
 
 
-static bool heat_items( Character *p, item *it, bool liquid_items, bool solid_items )
+static bool heat_items( Character *p, item *it, bool liquid_items, bool solid_items,
+                        bool force_use_it = false )
 {
     map &here = get_map();
 
     p->inv->restack( *p );
-    heater h = find_heater( p, it );
+    heater h = find_heater( p, it, force_use_it );
     if( h.available_heater == -1 ) {
         add_msg( m_info, _( "Never mind." ) );
         return false;
@@ -8355,6 +8200,22 @@ static bool heat_items( Character *p, item *it, bool liquid_items, bool solid_it
     }
     p->assign_activity( heat_activity_actor( to_heat, required, h ) );
     return true;
+}
+
+std::optional<int> iuse::heatpack( Character *p, item *it, const tripoint_bub_ms & )
+{
+    if( p->fine_detail_vision_mod() > 4 ) {
+        p->add_msg_if_player( _( "You can't see to do that!" ) );
+        return std::nullopt;
+    }
+    if( p->cant_do_mounted() ) {
+        return std::nullopt;
+    }
+
+    if( heat_items( p, it, false, true, true ) ) {
+        it->convert( itype_heatpack_used, p );
+    }
+    return 0;
 }
 
 std::optional<int> iuse::heat_solid_items( Character *p, item *it, const tripoint_bub_ms & )

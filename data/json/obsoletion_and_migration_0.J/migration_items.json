@@ -146,7 +146,7 @@
   },
   {
     "type": "MIGRATION",
-    "id": "zuchetto",
+    "id": "zucchetto",
     "replace": "kippah"
   },
   {
@@ -341,7 +341,32 @@
   },
   {
     "type": "MIGRATION",
+    "id": "toastem2",
+    "replace": "toastem"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "toastem3",
+    "replace": "toastem"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "toastem4",
+    "replace": "toastem"
+  },
+  {
+    "type": "MIGRATION",
     "id": "sewage",
     "replace": "water_sewage"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "brick_kiln",
+    "replace": "kiln"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "mre_strawberry_cake",
+    "replace": "mre_chocolate_cake"
   }
 ]

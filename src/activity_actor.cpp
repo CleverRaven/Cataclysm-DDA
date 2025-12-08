@@ -74,6 +74,7 @@
 #include "math_parser_diag_value.h"
 #include "memory_fast.h"
 #include "messages.h"
+#include "mongroup.h"
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"
@@ -136,6 +137,7 @@ static const activity_id ACT_EBOOKSAVE( "ACT_EBOOKSAVE" );
 static const activity_id ACT_E_FILE( "ACT_E_FILE" );
 static const activity_id ACT_FIELD_DRESS( "ACT_FIELD_DRESS" );
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
+static const activity_id ACT_FISH( "ACT_FISH" );
 static const activity_id ACT_FORAGE( "ACT_FORAGE" );
 static const activity_id ACT_FURNITURE_MOVE( "ACT_FURNITURE_MOVE" );
 static const activity_id ACT_GLIDE( "ACT_GLIDE" );
@@ -149,6 +151,7 @@ static const activity_id ACT_HEATING( "ACT_HEATING" );
 static const activity_id ACT_HOTWIRE_CAR( "ACT_HOTWIRE_CAR" );
 static const activity_id ACT_INSERT_ITEM( "ACT_INSERT_ITEM" );
 static const activity_id ACT_INVOKE_ITEM( "ACT_INVOKE_ITEM" );
+static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
 static const activity_id ACT_LOCKPICK( "ACT_LOCKPICK" );
 static const activity_id ACT_LONGSALVAGE( "ACT_LONGSALVAGE" );
 static const activity_id ACT_MEDITATE( "ACT_MEDITATE" );
@@ -158,8 +161,11 @@ static const activity_id ACT_MOP( "ACT_MOP" );
 static const activity_id ACT_MOVE_ITEMS( "ACT_MOVE_ITEMS" );
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
+static const activity_id ACT_MULTIPLE_FISH( "ACT_MULTIPLE_FISH" );
+static const activity_id ACT_MULTIPLE_STUDY( "ACT_MULTIPLE_STUDY" );
 static const activity_id ACT_OPEN_GATE( "ACT_OPEN_GATE" );
 static const activity_id ACT_OXYTORCH( "ACT_OXYTORCH" );
+static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
 static const activity_id ACT_PICKUP( "ACT_PICKUP" );
 static const activity_id ACT_PLAY_WITH_PET( "ACT_PLAY_WITH_PET" );
 static const activity_id ACT_PRYING( "ACT_PRYING" );
@@ -174,6 +180,7 @@ static const activity_id ACT_SKIN( "ACT_SKIN" );
 static const activity_id ACT_STASH( "ACT_STASH" );
 static const activity_id ACT_TENT_DECONSTRUCT( "ACT_TENT_DECONSTRUCT" );
 static const activity_id ACT_TENT_PLACE( "ACT_TENT_PLACE" );
+static const activity_id ACT_TIDY_UP( "ACT_TIDY_UP" );
 static const activity_id ACT_TRY_SLEEP( "ACT_TRY_SLEEP" );
 static const activity_id ACT_UNLOAD( "ACT_UNLOAD" );
 static const activity_id ACT_UNLOAD_LOOT( "ACT_UNLOAD_LOOT" );
@@ -243,6 +250,8 @@ static const itype_id itype_water_clean( "water_clean" );
 static const json_character_flag json_flag_READ_IN_DARKNESS( "READ_IN_DARKNESS" );
 static const json_character_flag json_flag_SAFECRACK_NO_TOOL( "SAFECRACK_NO_TOOL" );
 
+static const mongroup_id GROUP_FISH( "GROUP_FISH" );
+
 static const morale_type morale_book( "morale_book" );
 static const morale_type morale_feeling_good( "morale_feeling_good" );
 static const morale_type morale_haircut( "morale_haircut" );
@@ -259,6 +268,7 @@ static const proficiency_id proficiency_prof_lockpicking_expert( "prof_lockpicki
 static const proficiency_id proficiency_prof_safecracking( "prof_safecracking" );
 
 static const quality_id qual_CUT( "CUT" );
+static const quality_id qual_FISHING_ROD( "FISHING_ROD" );
 static const quality_id qual_HACK( "HACK" );
 static const quality_id qual_LOCKPICK( "LOCKPICK" );
 static const quality_id qual_PRY( "PRY" );
@@ -285,10 +295,12 @@ static const ter_str_id ter_t_door_locked_alarm( "t_door_locked_alarm" );
 static const ter_str_id ter_t_door_metal_c( "t_door_metal_c" );
 static const ter_str_id ter_t_door_metal_locked( "t_door_metal_locked" );
 static const ter_str_id ter_t_stump( "t_stump" );
+static const ter_str_id ter_t_tree( "t_tree" );
 static const ter_str_id ter_t_trunk( "t_trunk" );
 
 static const trait_id trait_NUMB( "NUMB" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
+static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
 
 static const vpart_location_id vpart_location_structure( "structure" );
 
@@ -1674,6 +1686,18 @@ static bool cancel_if_book_invalid(
     return false;
 }
 
+static bool handle_study_zone_resume( player_activity &act, Character &who )
+{
+    if( who.backlog.empty() || who.backlog.front().id() != ACT_MULTIPLE_STUDY ) {
+        return false;
+    }
+    // Set auto_resume so the backlog will automatically restart
+    who.backlog.front().auto_resume = true;
+    // Set activity to null so the backlog will restart the multi-activity
+    act.set_to_null();
+    return true;
+}
+
 void read_activity_actor::start( player_activity &act, Character &who )
 {
     if( cancel_if_book_invalid( act, book, who ) ) {
@@ -2035,6 +2059,8 @@ bool read_activity_actor::npc_read( npc &learner )
                          skill_name );
             }
 
+            // For study zone activity, we want to continue to the next book, not restart the same one
+            // So we set continuous to false, but the finish() function will handle restarting the multi-activity
             continuous = false;
 
         } else if( display_messages ) {
@@ -2119,13 +2145,24 @@ void read_activity_actor::finish( player_activity &act, Character &who )
                            to_string_writable( time_taken ) );
         }
 
-        // restart the activity
+        // For study zone activity, we want to go back to the multi-activity handler to find the next book
+        // So we set activity to null to let the backlog restart ACT_MULTIPLE_STUDY
+        if( handle_study_zone_resume( act, who ) ) {
+            return;
+        }
+
+        // restart the activity (for non-study-zone activities that want to continue reading the same book)
         moves_total = to_moves<int>( time_taken );
         act.moves_total = to_moves<int>( time_taken );
         act.moves_left = to_moves<int>( time_taken );
         return;
     } else  {
         who.add_msg_if_player( m_info, _( "You finish reading." ) );
+        // For study zone activity, we want to continue looking for more books
+        // So we set activity to null to let the backlog restart the multi-activity handler
+        if( handle_study_zone_resume( act, who ) ) {
+            return;
+        }
     }
 
     act.set_to_null();
@@ -3630,6 +3667,121 @@ bool efile_activity_actor::efile_skip_copy( const efile_transfer &transfer, cons
     }
     return false;
 }
+
+// fish-with-rod fish catching function.
+static void rod_fish( Character &who, const std::vector<monster *> &fishables )
+{
+    map &here = get_map();
+    constexpr auto caught_corpse = []( Character & who, map & here, const mtype & corpse_type ) {
+        item corpse = item::make_corpse( corpse_type.id,
+                                         calendar::turn + rng( 0_turns,
+                                                 3_hours ) );
+        corpse.set_var( "activity_var", who.name );
+        item_location loc = here.add_item_or_charges_ret_loc( who.pos_bub(), corpse );
+        who.add_msg_if_player( m_good, _( "You caught a %s." ), corpse_type.nname() );
+        if( loc ) {
+            who.may_activity_occupancy_after_end_items_loc.push_back( loc );
+        }
+    };
+    //if the vector is empty (no fish around) the player is still given a small chance to get a (let us say it was hidden) fish
+    if( fishables.empty() ) {
+        const std::vector<mtype_id> fish_group = MonsterGroupManager::GetMonstersFromGroup(
+                    GROUP_FISH, true );
+        const mtype_id fish_mon = random_entry_ref( fish_group );
+        caught_corpse( who, here, fish_mon.obj() );
+    } else {
+        monster *chosen_fish = random_entry( fishables );
+        chosen_fish->fish_population -= 1;
+        if( chosen_fish->fish_population <= 0 ) {
+            Character *who_ptr = &who;
+            g->catch_a_monster( chosen_fish, who.pos_bub(), who_ptr, 50_hours );
+        } else {
+            if( chosen_fish->type != nullptr ) {
+                caught_corpse( who, here, *( chosen_fish->type ) );
+            }
+        }
+    }
+}
+
+void fish_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_left = to_moves<int>( fishing_duration );
+}
+
+void fish_activity_actor::do_turn( player_activity &, Character &who )
+{
+
+    float fish_chance = 1.0f;
+    float survival_skill = who.get_skill_level( skill_survival );
+    switch( fishing_rod->get_quality( qual_FISHING_ROD ) ) {
+        case 1:
+            survival_skill += dice( 1, 6 );
+            break;
+        case 2:
+            // Much better chances with a good fishing implement.
+            survival_skill += dice( 4, 9 );
+            survival_skill *= 2;
+            break;
+        default:
+            debugmsg( "ERROR: Invalid FISHING_ROD tool quality on %s", item::nname( fishing_rod->typeId() ) );
+            break;
+    }
+    std::vector<monster *> fishables = g->get_fishable_monsters( fishing_zone );
+    // Fish are always there, even if it doesn't seem like they are visible!
+    if( fishables.empty() ) {
+        fish_chance += survival_skill / 2;
+    } else {
+        // if they are visible however, it implies a larger population
+        for( monster *elem : fishables ) {
+            fish_chance += elem->fish_population;
+        }
+        fish_chance += survival_skill;
+    }
+    // no matter the population of fish, your skill and tool limits the ease of catching.
+    fish_chance = std::min( survival_skill * 10, fish_chance );
+    if( x_in_y( fish_chance, 600000 ) ) {
+        who.add_msg_if_player( m_good, _( "You feel a tug on your line!" ) );
+        rod_fish( who, fishables );
+    }
+    if( calendar::once_every( 60_minutes ) ) {
+        who.practice( skill_survival, rng( 1, 3 ) );
+    }
+}
+
+void fish_activity_actor::finish( player_activity &act, Character &who )
+{
+    act.set_to_null();
+    who.add_msg_if_player( m_info, _( "You finish fishing" ) );
+    if( !who.backlog.empty() && who.backlog.front().id() == ACT_MULTIPLE_FISH ) {
+        who.backlog.clear();
+        who.assign_activity( ACT_TIDY_UP );
+    }
+}
+
+void fish_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "fishing_zone", fishing_zone );
+    jsout.member( "fishing_rod", fishing_rod );
+    jsout.member( "fishing_duration", fishing_duration );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> fish_activity_actor::deserialize( JsonValue &jsin )
+{
+    fish_activity_actor actor;
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "fishing_zone", actor.fishing_zone );
+    data.read( "fishing_rod", actor.fishing_rod );
+    data.read( "fishing_duration", actor.fishing_duration );
+
+    return actor.clone();
+}
+
 void migration_cancel_activity_actor::do_turn( player_activity &act, Character &who )
 {
     // Stop the activity
@@ -7834,6 +7986,115 @@ std::unique_ptr<activity_actor> longsalvage_activity_actor::deserialize( JsonVal
     return actor.clone();
 }
 
+void pickaxe_activity_actor::do_turn( player_activity &, Character & )
+{
+    const tripoint_bub_ms &pos = get_map().get_bub( mined_location );
+    sfx::play_activity_sound( "tool", "pickaxe", sfx::get_heard_volume( pos ) );
+    // each turn is too much
+    if( calendar::once_every( 1_minutes ) ) {
+        //~ Sound of a Pickaxe at work!
+        sounds::sound( pos, 30, sounds::sound_t::destructive_activity, _( "CHNK!  CHNK!  CHNK!" ) );
+    }
+}
+
+void jackhammer_activity_actor::do_turn( player_activity &, Character & )
+{
+    const tripoint_bub_ms &pos = get_map().get_bub( mined_location );
+    sfx::play_activity_sound( "tool", "pickaxe", sfx::get_heard_volume( pos ) );
+    // each turn is too much
+    if( calendar::once_every( 1_minutes ) ) {
+        //~ Sound of a Pickaxe at work!
+        sounds::sound( pos, 30, sounds::sound_t::destructive_activity, _( "CHNK!  CHNK!  CHNK!" ) );
+    }
+}
+
+void pickaxe_activity_actor::mining_strain( Character &who )
+{
+    if( who.is_avatar() ) {
+        map &here = get_map();
+        const tripoint_bub_ms mined_location_bub = here.get_bub( mined_location );
+        const int helpersize = get_player_character().get_num_crafting_helpers( 3 );
+        if( here.is_bashable( mined_location_bub ) &&
+            here.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, mined_location_bub ) &&
+            here.ter( mined_location_bub ) != ter_t_tree ) {
+            // Tunneling through solid rock is sweaty, backbreaking work
+            // Betcha wish you'd opted for the J-Hammer
+            if( who.has_trait( trait_STOCKY_TROGLO ) ) {
+                who.mod_pain( std::max( 0, ( 1 * static_cast<int>( rng( 0, 3 ) ) ) - helpersize ) );
+            } else {
+                who.mod_pain( std::max( 0, ( 2 * static_cast<int>( rng( 1, 3 ) ) ) - helpersize ) );
+            }
+        }
+    }
+}
+
+void mine_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_left = to_moves<int>( mining_duration );
+}
+
+void mine_activity_actor::finish( player_activity &act, Character &who )
+{
+    map &here = get_map();
+    const tripoint_bub_ms &pos = here.get_bub( mined_location );
+
+    here.destroy( pos, true );
+
+    who.add_msg_player_or_npc( m_good,
+                               _( "You finish digging." ),
+                               _( "<npcname> finishes digging." ) );
+    mining_strain( who );
+
+    if( mining_tool && mining_tool->ammo_required() > 0 ) {
+        mining_tool->ammo_consume( mining_tool->ammo_required(), tripoint_bub_ms::zero, &who );
+    }
+
+    act.set_to_null();
+    if( activity_handlers::resume_for_multi_activities( who ) ) {
+        for( item &elem : here.i_at( pos ) ) {
+            elem.set_var( "activity_var", who.name );
+            who.may_activity_occupancy_after_end_items_loc.emplace_back( map_cursor{ here.get_abs( pos ) },
+                    &elem );
+        }
+    }
+}
+
+void mine_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "mining_tool", mining_tool );
+    jsout.member( "mined_location", mined_location );
+    jsout.member( "mining_duration", mining_duration );
+
+    jsout.end_object();
+}
+
+JsonObject mine_activity_actor::deserialize_base( JsonValue &jsin )
+{
+    JsonObject data = jsin.get_object();
+
+    data.read( "mining_tool", mining_tool );
+    data.read( "mined_location", mined_location );
+    data.read( "mining_duration", mining_duration );
+
+    return data;
+}
+
+std::unique_ptr<activity_actor> pickaxe_activity_actor::deserialize( JsonValue &jsin )
+{
+    pickaxe_activity_actor actor;
+    actor.deserialize_base( jsin );
+    return actor.clone();
+}
+
+std::unique_ptr<activity_actor> jackhammer_activity_actor::deserialize( JsonValue &jsin )
+{
+    jackhammer_activity_actor actor;
+    actor.deserialize_base( jsin );
+    return actor.clone();
+}
+
 void mop_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_total = moves;
@@ -7951,7 +8212,7 @@ bool unload_loot_activity_actor::stage_think( player_activity &act, Character &y
 
         const tripoint_bub_ms &src_bub = here.get_bub( src );
         if( !here.inbounds( src_bub ) ) {
-            if( zone_sorting::sorter_out_of_bounds( you ) ) {
+            if( zone_sorting::sorter_out_of_bounds( you, unload_loot_activity_actor() ) ) {
                 return false;
             }
             if( !zone_sorting::route_to_destination( you, act, src_bub, stage ) ) {
@@ -9207,7 +9468,7 @@ bool zone_sort_activity_actor::stage_think( player_activity &act, Character &you
 
         const tripoint_bub_ms src_bub = here.get_bub( src );
         if( !here.inbounds( src_bub ) ) {
-            if( zone_sorting::sorter_out_of_bounds( you ) ) {
+            if( zone_sorting::sorter_out_of_bounds( you, zone_sort_activity_actor() ) ) {
                 return false;
             }
             if( !zone_sorting::route_to_destination( you, act, src_bub, stage ) ) {
@@ -9351,6 +9612,7 @@ deserialize_functions = {
     { ACT_BIKERACK_RACKING, &bikerack_racking_activity_actor::deserialize },
     { ACT_BIKERACK_UNRACKING, &bikerack_unracking_activity_actor::deserialize },
     { ACT_BINDER_COPY_RECIPE, &bookbinder_copy_activity_actor::deserialize },
+    { ACT_BLEED, &butchery_activity_actor::deserialize },
     { ACT_BOLTCUTTING, &boltcutting_activity_actor::deserialize },
     { ACT_BUTCHER, &butchery_activity_actor::deserialize },
     { ACT_BUTCHER_FULL, &butchery_activity_actor::deserialize },
@@ -9371,6 +9633,7 @@ deserialize_functions = {
     { ACT_EBOOKSAVE, &ebooksave_activity_actor::deserialize },
     { ACT_FIELD_DRESS, &butchery_activity_actor::deserialize },
     { ACT_FIRSTAID, &firstaid_activity_actor::deserialize },
+    { ACT_FISH, &fish_activity_actor::deserialize },
     { ACT_FORAGE, &forage_activity_actor::deserialize },
     { ACT_FURNITURE_MOVE, &move_furniture_activity_actor::deserialize },
     { ACT_GLIDE, &glide_activity_actor::deserialize },
@@ -9384,6 +9647,7 @@ deserialize_functions = {
     { ACT_HOTWIRE_CAR, &hotwire_car_activity_actor::deserialize },
     { ACT_INSERT_ITEM, &insert_item_activity_actor::deserialize },
     { ACT_INVOKE_ITEM, &invoke_item_activity_actor::deserialize },
+    { ACT_JACKHAMMER, &jackhammer_activity_actor::deserialize },
     { ACT_LOCKPICK, &lockpick_activity_actor::deserialize },
     { ACT_LONGSALVAGE, &longsalvage_activity_actor::deserialize },
     { ACT_MEDITATE, &meditate_activity_actor::deserialize },
@@ -9394,6 +9658,7 @@ deserialize_functions = {
     { ACT_MOVE_LOOT, &zone_sort_activity_actor::deserialize },
     { ACT_OPEN_GATE, &open_gate_activity_actor::deserialize },
     { ACT_OXYTORCH, &oxytorch_activity_actor::deserialize },
+    { ACT_PICKAXE, &pickaxe_activity_actor::deserialize },
     { ACT_PICKUP, &pickup_activity_actor::deserialize },
     { ACT_PLAY_WITH_PET, &play_with_pet_activity_actor::deserialize },
     { ACT_PRYING, &prying_activity_actor::deserialize },
