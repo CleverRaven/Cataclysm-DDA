@@ -439,5 +439,38 @@
     "ugliness": 2,
     "description": "You have a short, stubby goat tail.",
     "types": [ "TAIL" ]
+  },
+  {
+    "type": "mutation",
+    "id": "BIOMANCER_NPC_WRETCH_POLYMORPH",
+    "name": { "str": "Fleshwarped Wretch" },
+    "points": 0,
+    "visibility": 30,
+    "ugliness": 30,
+    "description": "You have been tranformed into a horrific pile of random parts.",
+    "valid": false,
+    "craft_skill_bonus": [ [ "electronics", -20 ], [ "tailor", -20 ], [ "mechanics", -20 ], [ "fabrication", -20 ] ],
+    "encumbrance_always": [
+      [ "arm_l", 50 ],
+      [ "arm_r", 50 ],
+      [ "leg_l", 50 ],
+      [ "leg_r", 50 ],
+      [ "mouth", 50 ],
+      [ "eyes", 50 ],
+      [ "torso", 50 ],
+      [ "head", 50 ]
+    ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "SPEED", "multiply": -0.25 },
+          { "value": "DEXTERITY", "add": -6 },
+          { "value": "CARRY_WEIGHT", "multiply": -0.5 }
+        ],
+        "ench_effects": [ { "effect": "effect_biomancer_npc_wretch_polymorph", "intensity": 1 } ]
+      }
+    ],
+    "flags": [ "MUTE", "HYPEROPIC", "MYOPIC_SUPERNATURAL", "NO_SPELLCASTING", "TEMPORARY_SHAPESHIFT_NO_HANDS" ],
+    "override_look": { "id": "mon_baleful_polymorph_crawler", "tile_category": "monster" }
   }
 ]

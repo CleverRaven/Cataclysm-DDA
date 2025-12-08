@@ -868,24 +868,87 @@
     "id": "biomancer_baleful_polymorph",
     "type": "SPELL",
     "name": "Fleshwarping",
-    "description": "Transform your enemies into frogs.",
+    "description": "Brutally warp the flesh of your enemies, turning them into a malformed pile of writhing limbs and mismatched parts",
     "valid_targets": [ "hostile" ],
-    "flags": [ "TRANSFORMATION_SPELL", "VERBAL", "SOMATIC", "NO_LEGS", "NO_PROJECTILE" ],
+    "flags": [ "TRANSFORMATION_SPELL", "VERBAL", "SOMATIC", "SILENT", "RANDOM_DAMAGE", "NO_LEGS", "NO_PROJECTILE" ],
     "effect": "targeted_polymorph",
     "effect_str": "mon_baleful_polymorph_crawler",
-    "extra_effects": [ { "id": "eoc_transformation_setup", "hit_self": true } ],
+    "extra_effects": [
+      { "id": "eoc_transformation_setup", "hit_self": true },
+      { "id": "biomancer_baleful_polymorph_npcs", "hit_self": false }
+    ],
     "shape": "blast",
     "spell_class": "BIOMANCER",
     "magic_type": "magiclysm_transformation_magic",
-    "base_casting_time": 150,
-    "base_energy_cost": 150,
     "difficulty": 8,
     "max_level": 20,
-    "min_damage": 20,
-    "max_damage": 40,
+    "min_damage": {
+      "math": [
+        "( ( u_spell_level('biomancer_baleful_polymorph') * 1.5 ) + 10) * magiclysm_spell_failure_transformation_proficiency_adjustments_damage()"
+      ]
+    },
+    "max_damage": {
+      "math": [
+        "( ( u_spell_level('biomancer_baleful_polymorph') * 3.6 ) + 25) * magiclysm_spell_failure_transformation_proficiency_adjustments_damage()"
+      ]
+    },
     "damage_increment": 2,
     "damage_type": "pure",
-    "min_range": { "math": [ "1 + max( (( u_spell_level('biomancer_baleful_polymorph') - 10) * 0.25 ), 0)" ] },
-    "ignored_monster_species": [ "ROBOT", "ROBOT_FLYING", "NETHER_EMANATION" ]
+    "min_range": { "math": [ "1 + max( ( ( u_spell_level('biomancer_baleful_polymorph') - 10) * 0.25 ), 0)" ] },
+    "ignored_monster_species": [ "ROBOT", "ROBOT_FLYING", "NETHER_EMANATION" ],
+    "base_casting_time": 150,
+    "base_energy_cost": 300
+  },
+  {
+    "id": "biomancer_baleful_polymorph_npcs",
+    "type": "SPELL",
+    "name": { "str": "Fleshwarping NPCs", "//~": "NO_I18N" },
+    "description": { "str": "Transform your enemies into wretches if they're NPCs.", "//~": "NO_I18N" },
+    "valid_targets": [ "hostile" ],
+    "flags": [ "TRANSFORMATION_SPELL", "VERBAL", "SOMATIC", "NO_LEGS", "NO_PROJECTILE" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_BIOMANCER_BALEFUL_POLYMORPH_NPCS",
+    "shape": "blast",
+    "spell_class": "BIOMANCER",
+    "magic_type": "magiclysm_transformation_magic",
+    "max_level": 20,
+    "min_range": { "math": [ "1 + max( ( ( u_spell_level('biomancer_baleful_polymorph') - 10) * 0.25 ), 0)" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOMANCER_BALEFUL_POLYMORPH_NPCS",
+    "condition": "u_is_character",
+    "effect": [
+      {
+        "math": [
+          "_lower_damage_limit = ( ( ( n_spell_level('biomancer_baleful_polymorph') * 1.5 ) + 10) * magiclysm_spell_failure_transformation_proficiency_adjustments_damage_npc() )"
+        ]
+      },
+      {
+        "math": [
+          "_upper_damage_limit = ( ( ( n_spell_level('biomancer_baleful_polymorph') * 3.6 ) + 25) * magiclysm_spell_failure_transformation_proficiency_adjustments_damage_npc() )"
+        ]
+      },
+      { "math": [ "u_baleful_polymorph_damage", "=", "rng( _lower_damage_limit, _upper_damage_limit )" ] },
+      {
+        "math": [
+          "u_health_comparison",
+          "=",
+          "(u_hp('arm_l') + u_hp('arm_r') + u_hp('leg_l') + u_hp('leg_r') + u_hp('torso') + u_hp('head')) / 3"
+        ]
+      },
+      {
+        "if": {
+          "and": [
+            { "math": [ "u_baleful_polymorph_damage > u_health_comparison" ] },
+            { "not": { "u_has_trait": "BIOMANCER_NPC_WRETCH_POLYMORPH" } }
+          ]
+        },
+        "then": [
+          { "npc_message": "<u_name> transforms into a fleshwarped wretch." },
+          { "u_add_trait": "BIOMANCER_NPC_WRETCH_POLYMORPH" }
+        ]
+      }
+    ]
   }
 ]
