@@ -2180,7 +2180,7 @@ Second EoC `EOC_I_NEED_AN_AK47` aslo run `EOC_GIVE_A_GUN` with the same variable
 }
 ```
 
-Control a NPC and return to your original body.
+Control an NPC and return to your original body.
 By using `EOC_control_npc`, you can gain control of an NPC, and your original body's character_id will be stored in the global variable `"player_id"`.
 Then, by using `EOC_return_to_player`, you can return to your original body.
 ```jsonc
@@ -2200,12 +2200,12 @@ Then, by using `EOC_return_to_player`, you can return to your original body.
             {
               "if": "npc_is_npc",
               "then": [ "follow", "take_control" ],
-              "else": { "message": "Please select a NPC." }
+              "else": { "message": "Please select an NPC." }
             }
           ]
         },
         "beta_loc": { "context_val": "loc" },
-        "false_eocs": { "id": "_EOC_control_npc_fail_msg", "effect": { "message": "Please select a NPC." } }
+        "false_eocs": { "id": "_EOC_control_npc_fail_msg", "effect": { "message": "Please select an NPC." } }
       },
       "else": { "u_message": "Canceled" }
     }
