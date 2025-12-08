@@ -447,7 +447,7 @@
     "points": 0,
     "visibility": 30,
     "ugliness": 30,
-    "description": "You have been tranformed into a horrific pile of random parts.",
+    "description": "You have been transformed into a horrific pile of random parts.",
     "valid": false,
     "craft_skill_bonus": [ [ "electronics", -20 ], [ "tailor", -20 ], [ "mechanics", -20 ], [ "fabrication", -20 ] ],
     "encumbrance_always": [
