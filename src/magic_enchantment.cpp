@@ -422,7 +422,6 @@ bool enchantment::is_monster_relevant() const
         if( pair_values.first == enchant_vals::mod::ARMOR_ALL ||
             pair_values.first == enchant_vals::mod::REGEN_HP ||
             pair_values.first == enchant_vals::mod::VISION_RANGE ||
-            pair_values.first == enchant_vals::mod::EVASION ||
             pair_values.first == enchant_vals::mod::SPEED ||
             pair_values.first == enchant_vals::mod::LUMINATION ||
             pair_values.first == enchant_vals::mod::TOTAL_WEIGHT ) {
@@ -436,7 +435,6 @@ bool enchantment::is_monster_relevant() const
         if( pair_values.first == enchant_vals::mod::ARMOR_ALL ||
             pair_values.first == enchant_vals::mod::REGEN_HP ||
             pair_values.first == enchant_vals::mod::VISION_RANGE ||
-            pair_values.first == enchant_vals::mod::EVASION ||
             pair_values.first == enchant_vals::mod::SPEED ||
             pair_values.first == enchant_vals::mod::LUMINATION ||
             pair_values.first == enchant_vals::mod::TOTAL_WEIGHT ) {

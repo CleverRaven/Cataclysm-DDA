@@ -141,7 +141,7 @@
     "name": [ "Heightened Senses" ],
     "desc": [ "Your base senses are heightened." ],
     "show_in_info": true,
-    "enchantments": [ { "values": [ { "value": "VISION_RANGE", "multiply": 0.1 } ] } ]
+    "enchantments": [ { "values": [ { "value": "VISION_RANGE", "multiply": 0.1 }, { "value": "RANGE_DODGE", "add": 1 } ] } ]
   },
   {
     "type": "effect_type",
