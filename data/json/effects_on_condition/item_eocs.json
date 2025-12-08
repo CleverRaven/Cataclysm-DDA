@@ -247,7 +247,7 @@
     "type": "effect_on_condition",
     "id": "EOC_use_centrifuge",
     "effect": {
-      "title": "<color_red>The USB drive will be formatted in the process, erasing any previous data. Proceed?</color>",
+      "title": "<color_red>The USB drive will be formatted in the process, erasing any previous data.  Proceed?</color>",
       "run_eoc_selector": [ "EOC_centrifuge_human_zombie_blood", "EOC_selector_cancel" ],
       "names": [ "Analyze tainted human blood", "Cancel" ],
       "hide_failing": true,
