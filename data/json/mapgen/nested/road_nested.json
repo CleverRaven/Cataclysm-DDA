@@ -219,7 +219,7 @@
     "nested_mapgen_id": "24x24_stop_signs",
     "object": {
       "mapgensize": [ 24, 24 ],
-      "//": "Could merge with crosswalks so they're not independant, places traffic light on right of joining roads",
+      "//": "Could merge with crosswalks so they're not independent, places traffic light on right of joining roads",
       "place_nested": [
         {
           "chunks": [ "1x1_stop_sign" ],

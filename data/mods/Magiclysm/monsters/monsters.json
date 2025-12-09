@@ -561,7 +561,7 @@
     "id": "mon_loup_garou",
     "type": "MONSTER",
     "name": { "str": "loup garou" },
-    "description": "Previously thought extinct outside of rural Quebec and Louisiana this cursed creature has been known to breed with true wolves when it isn't madly destroying any signs of humanity in its territory.  These once normal men, women, elves and dwarves are now forever cursed to roam the wilderness as four legged avatars of destruction; giant, rabid, maddened wolves that never know peace when they can smell or see the creations of the mortal races.  Immortal until killed it would be difficult to remember they were once mortal until cutting beneath the fur shows meat that somehow remembers a different life.",
+    "description": "Previously thought extinct outside of rural Quebec and Louisiana this cursed creature has been known to breed with true wolves when it isn't madly destroying any signs of humanity in its territory.  These once normal men, women, elves, and dwarves are now forever cursed to roam the wilderness as four legged avatars of destruction; giant, rabid, maddened wolves that never know peace when they can smell or see the creations of the mortal races.  Immortal until killed it would be difficult to remember they were once mortal until cutting beneath the fur shows meat that somehow remembers a different life.",
     "default_faction": "wolf",
     "bodytype": "dog",
     "categories": [ "WILDLIFE" ],

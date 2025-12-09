@@ -85,6 +85,7 @@
     "category": "<random_shape_3d>",
     "text": [
       { "id": "random_shape_3d_0001", "text": { "ctxt": "random_shape_3d", "str": "cone" } },
+      { "id": "random_shape_3d_0002", "text": { "ctxt": "random_shape_3d", "str": "pyramid" } },
       { "id": "random_shape_3d_0002", "text": { "ctxt": "random_shape_3d", "str": "sphere" } },
       { "id": "random_shape_3d_0003", "text": { "ctxt": "random_shape_3d", "str": "cube" } },
       { "id": "random_shape_3d_0004", "text": { "ctxt": "random_shape_3d", "str": "tube" } }
