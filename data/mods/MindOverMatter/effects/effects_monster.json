@@ -125,7 +125,15 @@
     "show_in_info": true,
     "removes_effects": [ "blind", "deaf" ],
     "//": "VISION_RANGE enchant is a proxy for perception, which monsters do not have",
-    "enchantments": [ { "values": [ { "value": "VISION_RANGE", "multiply": 0.2 }, { "value": "SPEED", "multiply": 0.35 } ] } ]
+    "enchantments": [
+      {
+        "values": [
+          { "value": "VISION_RANGE", "multiply": 0.2 },
+          { "value": "SPEED", "multiply": 0.35 },
+          { "value": "RANGE_DODGE", "add": 0.15 }
+        ]
+      }
+    ]
   },
   {
     "type": "effect_type",
@@ -150,6 +158,24 @@
     "desc": [ "Your base senses are heightened." ],
     "show_in_info": true,
     "enchantments": [ { "values": [ { "value": "VISION_RANGE", "multiply": 0.25 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_feral_combat_sense_2",
+    "name": [ "Combat Sense" ],
+    "desc": [ "You are predicting your enemies' movements in advance." ],
+    "show_in_info": true,
+    "base_mods": { "dodge_mod": [ 2 ] },
+    "enchantments": [ { "values": [ { "value": "RANGE_DODGE", "add": 0.4 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_feral_combat_sense_3",
+    "name": [ "Combat Sense" ],
+    "desc": [ "You are predicting your enemies' movements in advance." ],
+    "show_in_info": true,
+    "base_mods": { "dodge_mod": [ 5 ] },
+    "enchantments": [ { "values": [ { "value": "RANGE_DODGE", "add": 0.8 } ] } ]
   },
   {
     "type": "effect_type",

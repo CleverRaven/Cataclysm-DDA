@@ -349,7 +349,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Duration*: 2 minutes to 7 minutes and 30 seconds, plus 9 seconds to 17 seconds per level<br />
 *Stamina Cost*: 5500, minus 145 per level to a minimum of 2750<br />
 *Channeling Time*: 150 moves, minus 9 moves per level to a minimum of 70<br />
-*Effects*: Gaze a short time into the future to predict enemy movements.  Grants a 25% chance to avoid any damage from an attack plus 1.5% per power level to a maximum of a 70% chance, prevents the psion from being grabbed, and applies the HARDTOHIT flag.  It also increases your effective dodge skill by 1 per 2 power levels.<br />
+*Effects*: Gaze a short time into the future to predict enemy movements.  Grants a 25% chance to avoid damage from ranged attacks plus 1.5% per power level to a maximum of a 95% chance, prevents the psion from being grabbed, and applies the HARDTOHIT flag.  It also increases your effective dodge skill by 1 per 2 power levels and provides 1 bonus dodge +1 per five power levels.<br />
 *Prerequisites*: Premonition 10 *or* Sense Hostility 5, Speed Reader 10 *or* Discern Weakness 6, Clairyovance 6<br />
 </details>
 <details>
