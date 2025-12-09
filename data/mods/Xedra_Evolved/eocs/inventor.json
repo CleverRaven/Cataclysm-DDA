@@ -432,7 +432,7 @@
       ]
     }
   },
-   {
+  {
     "type": "effect_on_condition",
     "id": "EOC_INVENTOR_CRAFTED_GEAR",
     "recurrence": [ "5 m" ],
