@@ -84,7 +84,7 @@ bool Character::practice_proficiency( const proficiency_id &prof, const time_dur
 
     // Drain focus if necessary
     if( !ignore_focus && pct_after > pct_before ) {
-        focus_pool -= focus_pool / 100;
+        focus_pool -= focus_adjusted;
     }
 
     if( learned ) {
