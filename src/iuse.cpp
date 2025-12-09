@@ -928,6 +928,12 @@ std::optional<int> iuse::meth( Character *p, item *, const tripoint_bub_ms & )
 
 std::optional<int> iuse::flu_vaccine( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !it->activation_success() ) {
+        p->add_msg_if_player( m_bad, _( "You try to inject the vaccine, but the %s injector is stuck." ),
+                              it->tname() );
+        return std::nullopt;
+    }
+
     p->add_msg_if_player( _( "You inject the vaccine." ) );
     time_point expiration_date = it->birthday() + 24_weeks;
     time_duration remaining_time = expiration_date - calendar::turn;
@@ -1792,6 +1798,14 @@ std::optional<int> iuse::fishing_rod( Character *p, item *it, const tripoint_bub
         p->add_msg_if_player( m_info, _( "You can't fish there!" ) );
         return std::nullopt;
     }
+
+    if( !it->activation_success() ) {
+        p->add_msg_if_player( m_bad,
+                              _( "You try to cast your line, but something with your %s prevents it from reeling out." ),
+                              it->tname() );
+        return std::nullopt;
+    }
+
     p->add_msg_if_player( _( "You cast your line and wait to hook something…" ) );
     p->assign_activity( fish_activity_actor( item_location( *p, it ),
                         g->get_fishable_locations_abs( MAX_VIEW_DISTANCE, *found ), 5_hours ) );
@@ -1832,6 +1846,14 @@ std::optional<int> iuse::fish_trap( Character *p, item *it, const tripoint_bub_m
     if( !good_fishing_spot( pnt, p ) ) {
         return std::nullopt;
     }
+
+    if( !it->activation_success() ) {
+        p->add_msg_if_player( m_bad,
+                              _( "You fail to place your %s such that the holes in it are blocked!" ),
+                              it->tname() );
+        return std::nullopt;
+    }
+
     it->active = true;
     it->set_age( 0_turns );
     here.add_item_or_charges( pnt, *it );
@@ -1948,6 +1970,12 @@ std::optional<int> iuse::extinguisher( Character *p, item *it, const tripoint_bu
     tripoint_bub_ms dest = *dest_;
 
     p->mod_moves( -to_moves<int>( 2_seconds ) );
+
+    if( !it->activation_success() ) {
+        p->add_msg_if_player( m_bad, _( "You aim your %s and activate it, but nothing happens." ),
+                              it->tname() );
+        return std::nullopt;
+    }
 
     map &here = get_map();
     // Reduce the strength of fire (if any) in the target tile.
@@ -4134,6 +4162,10 @@ std::optional<int> iuse::fitness_check( Character *p, item *it, const tripoint_b
     if( p->has_trait( trait_ILLITERATE ) ) {
         p->add_msg_if_player( m_info, _( "You don't know what you're looking at." ) );
         return std::nullopt;
+    } else if( !it->activation_success() ) {
+        p->add_msg_if_player( m_bad, _( "Your %s fails to display anything." ), it->tname() );
+        return std::nullopt;
+
     } else {
         //What else should block using f-band?
         std::string msg;
@@ -6804,6 +6836,12 @@ std::optional<int> iuse::foodperson( Character *p, item *it, const tripoint_bub_
 
     time_duration shift = time_duration::from_turns( it->magazine_current()->ammo_remaining( ) *
                           it->type->tool->turns_per_charge );
+
+    if( !it->activation_success() ) {
+        p->add_msg_if_player( m_info, _( "Your HUD of your %s remains dark." ),
+                              it->tname() );
+        return std::nullopt;
+    }
 
     p->add_msg_if_player( m_info, _( "Your HUD lights-up: \"Your shift ends in %s\"." ),
                           to_string( shift ) );
