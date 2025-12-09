@@ -1,0 +1,229 @@
+[
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "roof_2x2_utilities_c",
+    "weight": 1000000,
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "place_furniture": [ { "furn": "f_water_heater", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "roof_2x2_utilities",
+    "weight": 1000000,
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "place_furniture": [
+        { "furn": "f_water_heater", "x": 0, "y": 0 },
+        { "furn": "f_air_conditioner", "x": 1, "y": 0 },
+        { "furn": "f_water_purifier", "x": 1, "y": 1 }
+      ]
+    }
+  },
+   {
+    "type": "mapgen",
+    "nested_mapgen_id": "residential_6kW_solar_v1",
+     "weight": 1000000,
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "#####",
+        "#####",
+        "#####",
+        "#####",
+        "#####"
+      ],
+      "furniture": { "#": "f_null" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "residential_6kW_solar_v2",
+    "weight": 1000000,
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "###  ",
+        "###  ",
+        "?##  ",
+        " ##  ",
+        " ##  "
+      ],
+      "furniture": { "#": "f_null" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "residential_6kW_solar",
+    "weight": 1000000,
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "place_nested": [ { "chunks": [ "null" ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "residential_7kW_solar_v1",
+    "weight": 1000000,
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "######",
+        "######",
+        "######",
+        "######",
+        "######",
+        "      "
+      ],
+      "furniture": { "#": "f_null" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "residential_7kW_solar_v2",
+    "weight": 1000000,
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "###   ",
+        "###   ",
+        "###   ",
+        "###   ",
+        "###   ",
+        "      "
+      ],
+      "furniture": { "#": "f_null" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "residential_7kW_solar",
+    "weight": 1000000,
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "place_nested": [ { "chunks": [ "null" ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "residential_8kW_solar_v1",
+    "weight": 1000000,
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "######",
+        "######",
+        "######",
+        "######",
+        "######",
+        "######"
+      ],
+      "furniture": { "#": "f_null" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "residential_8kW_solar_v2",
+    "weight": 1000000,
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "###   ",
+        "###   ",
+        "###   ",
+        "###   ",
+        "###   ",
+        "###   "
+      ],
+      "furniture": { "#": "f_null" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "residential_8kW_solar",
+    "weight": 1000000,
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "place_nested": [ { "chunks": [ "null" ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "residential_2x2_solar",
+    "weight": 50000,
+    "object": { "mapgensize": [ 2, 2 ], "place_furniture": [ { "furn": "f_null", "x": [ 0, 1 ], "y": [ 0, 1 ] } ] }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "residential_1x2_solar",
+    "weight": 50000,
+    "object": { "mapgensize": [ 2, 2 ], "place_furniture": [ { "furn": "f_null", "x": 0, "y": [ 0, 1 ] } ] }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "residential_1x3_solar",
+    "weight": 50000,
+    "object": { "mapgensize": [ 3, 3 ], "place_furniture": [ { "furn": "f_solar_unit", "x": 0, "y": [ 0, 2 ] } ] }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "residential_3x3_solar",
+    "weight": 50000,
+    "object": { "mapgensize": [ 3, 3 ], "place_furniture": [ { "furn": "f_solar_unit", "x": [ 0, 2 ], "y": [ 0, 2 ] } ] }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "industrial_1x5_solar",
+    "weight": 50000,
+    "object": { "mapgensize": [ 5, 5 ], "place_furniture": [ { "furn": "f_solar_unit", "x": [ 0, 4 ], "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "industrial_1x1_solar",
+    "weight": 50000,
+    "object": { "mapgensize": [ 1, 1 ], "place_furniture": [ { "furn": "f_solar_unit", "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "residential_2x2_solar_v2",
+    "weight": 1000000,
+    "object": { "mapgensize": [ 2, 2 ], "place_furniture": [ { "furn": "f_null", "x": [ 0, 1 ], "y": [ 0, 1 ] } ] }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "residential_1x2_solar_v2",
+    "weight": 1000000,
+    "object": { "mapgensize": [ 2, 2 ], "place_furniture": [ { "furn": "f_null", "x": 0, "y": [ 0, 1 ] } ] }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "residential_1x3_solar_v2",
+    "weight": 1000000,
+    "object": { "mapgensize": [ 3, 3 ], "place_furniture": [ { "furn": "f_null", "x": 0, "y": [ 0, 2 ] } ] }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "residential_3x3_solar_v2",
+    "weight": 1000000,
+    "object": { "mapgensize": [ 3, 3 ], "place_furniture": [ { "furn": "f_null", "x": [ 0, 2 ], "y": [ 0, 2 ] } ] }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "industrial_1x5_solar_v2",
+    "weight": 1000000,
+    "object": { "mapgensize": [ 5, 5 ], "place_furniture": [ { "furn": "f_null", "x": [ 0, 4 ], "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "industrial_1x1_solar_v2",
+    "weight": 1000000,
+    "object": { "mapgensize": [ 1, 1 ], "place_furniture": [ { "furn": "f_null", "x": 0, "y": 0 } ] }
+  }
+]
