@@ -784,5 +784,11 @@
     "type": "requirement",
     "//": "All steel wires",
     "components": [ [ [ "lc_wire", 1 ], [ "mc_wire", 1 ], [ "hc_wire", 1 ], [ "ch_wire", 1 ], [ "qt_wire", 1 ] ] ]
+  },
+  {
+    "id": "any_pipe",
+    "type": "requirement",
+    "//": "when it doesn't matter if it's a steel, plastic, aluminum pipe or whatever",
+    "components": [ [ [ "pipe", 1 ], [ "pipe_cpvc", 1 ] ] ]
   }
 ]
