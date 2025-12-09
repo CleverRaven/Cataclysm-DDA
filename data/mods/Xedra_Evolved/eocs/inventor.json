@@ -443,12 +443,7 @@
       "u_run_inv_eocs": "all",
       "search_data": [ { "flags": [ "INVENTOR_CRAFTED" ] } ],
       "true_eocs": [
-        {
-          "id": "EOC_GEAR_INVENTOR_ITEMS",
-          "effect": [
-            { "u_add_effect": "effect_weird_equpiment", "duration": "5 minutes" }
-          ]
-        }
+        { "id": "EOC_GEAR_INVENTOR_ITEMS", "effect": [ { "u_add_effect": "effect_weird_equpiment", "duration": "5 minutes" } ] }
       ]
     }
   }
