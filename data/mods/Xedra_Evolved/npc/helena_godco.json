@@ -1,0 +1,22 @@
+[
+  {
+    "id": "TALK_GODCO_Helena_1",
+    "type": "talk_topic",
+    "insert_before_standard_exits": true,
+    "responses": [
+      {
+        "text": "Are you looking at me funny?",
+        "condition": { "u_has_effect": "effect_weird_equipment" },
+        "topic": "TALK_GODCO_Helena_INVENTOR"
+      }
+    ] 
+  },
+  {
+    "id": "TALK_GODCO_Helena_INVENTOR",
+    "type": "talk_topic",
+    "dynamic_line": "Blasphemy! I see your tools of devilry!",
+    "responses": [
+      { "text": "Blasphemy???  Before what God?  A God repulsed by the miserable humanity He created in His own image?  I will not be shackled by the failures of your God!  The only blasphemy is to wallow in insignificance!", "topic": "TALK_GODCO_Helena_Angry" }
+    ]
+  }
+]

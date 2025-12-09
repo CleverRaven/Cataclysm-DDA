@@ -431,5 +431,25 @@
         }
       ]
     }
+  },
+   {
+    "type": "effect_on_condition",
+    "id": "EOC_INVENTOR_CRAFTED_GEAR",
+    "recurrence": [ "5 m" ],
+    "global": true,
+    "run_for_npcs": true,
+    "condition": { "u_has_trait": "INVENTOR" },
+    "effect": {
+      "u_run_inv_eocs": "all",
+      "search_data": [ { "flags": [ "INVENTOR_CRAFTED" ] } ],
+      "true_eocs": [
+        {
+          "id": "EOC_GEAR_INVENTOR_ITEMS",
+          "effect": [
+            { "u_add_effect": "effect_weird_equpiment", "duration": "5 minutes" }
+          ]
+        }
+      ]
+    }
   }
 ]
