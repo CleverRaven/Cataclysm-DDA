@@ -8132,13 +8132,13 @@ static bool heat_items( Character *p, item *it, bool liquid_items, bool solid_it
                 used_volume +=  pair.first->volume( false, true, pair.second );
                 if( pair.first->has_own_flag( flag_FROZEN ) && !pair.first->has_own_flag( flag_EATEN_COLD ) ) {
                     if( pair.first->made_of_from_type( phase_id::LIQUID ) ) {
-                        frozen_weight +=  pair.first->weight( false, false ) * pair.second / 2 ;
+                        frozen_weight +=  pair.first->weight( false, false ) * pair.second / 2;
                     } else {
-                        frozen_weight +=  pair.first->weight( false, false ) * pair.second ;
+                        frozen_weight +=  pair.first->weight( false, false ) * pair.second;
                     }
                 } else {
                     if( pair.first->made_of_from_type( phase_id::LIQUID ) ) {
-                        not_frozen_weight +=  pair.first->weight( false, false ) * pair.second / 2 ;
+                        not_frozen_weight +=  pair.first->weight( false, false ) * pair.second / 2;
                     } else {
                         not_frozen_weight +=  pair.first->weight( false, false ) * pair.second;
                     }
