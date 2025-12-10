@@ -1,0 +1,14 @@
+[
+  {
+    "type": "recipe_group",
+    "id": "hack_recipes_general",
+    "building_type": "BASE",
+    "recipes": [ { "id": "memory_card_unread_npc_hack", "description": " Hack & Download: random data, SD-Memory card" } ]
+  },
+  {
+    "type": "recipe_group",
+    "id": "hack_recipes_science",
+    "building_type": "BASE",
+    "recipes": [ { "id": "memory_card_science_npc_hack", "description": " Hack & Download: science data, SD-Memory card" } ]
+  }
+]
