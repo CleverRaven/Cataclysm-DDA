@@ -1184,6 +1184,7 @@
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "zucchini", "name": { "str_sp": "%s, zucchini" } }
     ],
     "copy-from": "veggy",
+    "smoking_result": "null",
     "proportional": { "weight": 0.5 },
     "color": "green",
     "spoils_in": "360 days",

@@ -125,7 +125,6 @@ static const activity_id ACT_MULTIPLE_MOP( "ACT_MULTIPLE_MOP" );
 static const activity_id ACT_MULTIPLE_READ( "ACT_MULTIPLE_READ" );
 static const activity_id ACT_MULTIPLE_STUDY( "ACT_MULTIPLE_STUDY" );
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
-static const activity_id ACT_PLANT_SEED( "ACT_PLANT_SEED" );
 static const activity_id ACT_PULL_CREATURE( "ACT_PULL_CREATURE" );
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
 static const activity_id ACT_ROBOT_CONTROL( "ACT_ROBOT_CONTROL" );
@@ -175,7 +174,6 @@ static const furn_str_id furn_f_kiln_empty( "f_kiln_empty" );
 static const furn_str_id furn_f_kiln_metal_empty( "f_kiln_metal_empty" );
 static const furn_str_id furn_f_kiln_portable_empty( "f_kiln_portable_empty" );
 static const furn_str_id furn_f_metal_smoking_rack( "f_metal_smoking_rack" );
-static const furn_str_id furn_f_plant_seed( "f_plant_seed" );
 static const furn_str_id furn_f_smoking_rack( "f_smoking_rack" );
 
 static const itype_id itype_animal( "animal" );
@@ -197,8 +195,6 @@ static const morale_type morale_tree_communion( "morale_tree_communion" );
 
 static const skill_id skill_computer( "computer" );
 static const skill_id skill_survival( "survival" );
-
-static const ter_str_id ter_t_dirt( "t_dirt" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
@@ -256,7 +252,6 @@ activity_handlers::finish_functions = {
     { ACT_GENERIC_GAME, generic_game_finish },
     { ACT_TRAIN, train_finish },
     { ACT_TRAIN_TEACHER, teach_finish },
-    { ACT_PLANT_SEED, plant_seed_finish },
     { ACT_VEHICLE, vehicle_finish },
     { ACT_START_ENGINES, start_engines_finish },
     { ACT_REPAIR_ITEM, repair_item_finish },
@@ -1885,41 +1880,6 @@ void activity_handlers::operation_finish( player_activity *act, Character *you )
     }
     you->remove_effect( effect_under_operation );
     act->set_to_null();
-}
-
-void activity_handlers::plant_seed_finish( player_activity *act, Character *you )
-{
-    map &here = get_map();
-    tripoint_bub_ms examp = here.get_bub( act->placement );
-    const itype_id seed_id( act->str_values[0] );
-    std::list<item> used_seed;
-    if( item::count_by_charges( seed_id ) ) {
-        used_seed = you->use_charges( seed_id, 1 );
-    } else {
-        used_seed = you->use_amount( seed_id, 1 );
-    }
-    if( !used_seed.empty() ) {
-        used_seed.front().set_age( 0_turns );
-        if( used_seed.front().has_var( "activity_var" ) ) {
-            used_seed.front().erase_var( "activity_var" );
-        }
-        used_seed.front().set_flag( json_flag_HIDDEN_ITEM );
-        here.add_item_or_charges( examp, used_seed.front() );
-        if( here.has_flag_furn( seed_id->seed->required_terrain_flag, examp ) &&
-            here.furn( examp )->plant != nullptr ) {
-            here.furn_set( examp, here.furn( examp )->plant->transform );
-        } else if( seed_id->seed->required_terrain_flag == ter_furn_flag::TFLAG_PLANTABLE ) {
-            here.set( examp, ter_t_dirt, furn_f_plant_seed );
-        } else {
-            here.furn_set( examp, furn_f_plant_seed );
-        }
-        you->add_msg_player_or_npc( _( "You plant some %s." ), _( "<npcname> plants some %s." ),
-                                    item::nname( seed_id ) );
-    }
-    // Go back to what we were doing before
-    // could be player zone activity, or could be NPC multi-farming
-    act->set_to_null();
-    resume_for_multi_activities( *you );
 }
 
 void activity_handlers::build_do_turn( player_activity *act, Character *you )
