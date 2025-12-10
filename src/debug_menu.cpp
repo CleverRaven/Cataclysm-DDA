@@ -4467,7 +4467,6 @@ void debug()
                     _( "Quit without saving?  This may cause issues such as duplicated or missing items and vehicles!" ) ) ) {
                 player_character.set_moves( 0 );
                 g->uquit = QUIT_NOSAVED;
-                g->save_is_dirty = true;
             }
             break;
         case debug_menu_index::QUICKLOAD:
