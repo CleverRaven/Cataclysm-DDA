@@ -1266,6 +1266,7 @@ For more information about monster aggro, see [MONSTERS.md](MONSTERS.md#aggrocha
 - ```CLASSIC``` Only monsters we expect in a classic zombie movie.
 - ```NULL``` No category.
 - ```WILDLIFE``` Natural animals.
+- ```XE_CLASSIC``` Monsters that spawn in an XE/DDotD apocalyptic occult conspiracy scenario
 
 
 ### Death Functions
