@@ -12,7 +12,7 @@
     "required_str": -1,
     "deconstruct": {
       "items": [
-        { "item": "pipe_cpvc", "count": 1 },
+        { "item": "cu_pipe", "count": 1 },
         { "item": "scrap", "count": [ 2, 6 ] },
         { "item": "mc_steel_chunk", "count": [ 1, 3 ] },
         { "item": "sheet_metal", "count": [ 2, 6 ] },

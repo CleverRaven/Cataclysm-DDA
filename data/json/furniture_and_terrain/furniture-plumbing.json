@@ -75,7 +75,9 @@
       "sound": "porcelain breaking!",
       "sound_fail": "whunk!",
       "items": [
-        { "item": "pipe_cpvc", "count": [ 1, 5 ] },
+        {
+          "distribution": [ { "item": "pipe_cpvc", "prob": 40, "count": [ 1, 5 ] }, { "item": "cu_pipe", "prob": 60, "count": [ 1, 5 ] } ]
+        },
         { "item": "water_faucet", "prob": 50 },
         { "item": "pipe_fittings", "count": [ 0, 2 ] },
         { "item": "ceramic_shard", "count": [ 2, 8 ] }
@@ -124,11 +126,7 @@
       "str_max": 30,
       "sound": "porcelain breaking!",
       "sound_fail": "whunk!",
-      "items": [
-        { "item": "pipe_cpvc", "count": [ 1, 5 ] },
-        { "item": "ceramic_shard", "count": [ 2, 8 ] },
-        { "item": "wax_paraffin", "count": 1 }
-      ],
+      "items": [ { "item": "ceramic_shard", "count": [ 2, 8 ] }, { "item": "wax_paraffin", "count": 1 } ],
       "destroyed_field": [ "fd_dirty_water", 4 ]
     }
   },
