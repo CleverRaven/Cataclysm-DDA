@@ -5087,7 +5087,7 @@ Set the browse status of browsable items
 ##### Examples
 Beta talker makes some browsable item browsed
 ```jsonc
-{ "set_browsed": "true" }
+{ "set_browsed": true }
 ```
 
 ## Map effects
