@@ -789,6 +789,6 @@
     "id": "any_pipe",
     "type": "requirement",
     "//": "when it doesn't matter if it's a steel, plastic, aluminum pipe or whatever",
-    "components": [ [ [ "pipe", 1 ], [ "pipe_cpvc", 1 ] ] ]
+    "components": [ [ [ "pipe", 1 ], [ "pipe_cpvc", 1 ], [ "cu_pipe", 1 ] ] ]
   }
 ]
