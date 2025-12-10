@@ -754,7 +754,7 @@
     "default_faction": "changeling",
     "looks_like": "mon_wolf",
     "bodytype": "dog",
-    "species": [ "CHANGELING" ], 
+    "species": [ "CHANGELING" ],
     "categories": [ "XE_CLASSIC" ],
     "volume": "31000 ml",
     "weight": "43750 g",
