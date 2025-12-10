@@ -3269,7 +3269,7 @@ std::optional<int> iuse::geiger_active( Character *, item *it, const tripoint_bu
     if( !activation_success ) {
         sounds::sound( pos, 6, sounds::sound_t::alarm, _( "distorted buzz-clicking" ), true, "tool",
                        sound_var );
-        add_msg( m_warning, _( "The %s produces a distored buzz-clicking noise." ), it->tname() );
+        add_msg( m_warning, _( "The %s produces a distorted buzz-clicking noise." ), it->tname() );
         return std::nullopt;
     }
 
