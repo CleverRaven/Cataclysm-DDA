@@ -667,7 +667,7 @@
     "copy-from": "troglobite_sample",
     "type": "ITEM",
     "name": { "str": "gamer sample" },
-    "description": "A slurry of... uhh..."
+    "description": "A slurry of… uhh…
   },
   {
     "id": "iv_mutagen_troglobite",
