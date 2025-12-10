@@ -868,7 +868,7 @@
     "id": "biomancer_baleful_polymorph",
     "type": "SPELL",
     "name": "Fleshwarping",
-    "description": "Brutally warp the flesh of your enemies, turning them into a malformed pile of writhing limbs and mismatched parts",
+    "description": "Brutally warp the flesh of your enemies, turning them into a malformed pile of writhing limbs and mismatched parts.  Knowledge of this spell was highly restricted before the Cataclysm, as while extensive thaumaturgic reconstruction would allow the afflicted to regain their original form, or at least something very close to it, it was not conventionally dispellable.",
     "valid_targets": [ "hostile" ],
     "flags": [ "TRANSFORMATION_SPELL", "VERBAL", "SOMATIC", "SILENT", "RANDOM_DAMAGE", "NO_LEGS", "NO_PROJECTILE" ],
     "effect": "targeted_polymorph",
@@ -880,7 +880,7 @@
     "shape": "blast",
     "spell_class": "BIOMANCER",
     "magic_type": "magiclysm_transformation_magic",
-    "difficulty": 8,
+    "difficulty": 9,
     "max_level": 20,
     "min_damage": {
       "math": [
