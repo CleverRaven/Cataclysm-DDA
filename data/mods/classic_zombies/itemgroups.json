@@ -18,5 +18,17 @@
       { "item": "stanag30", "prob": 50 },
       { "group": "on_hand_223" }
     ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "new_laptops",
+    "items": [ { "item": "null", "prob": 50 }, { "item": "laptop_ddotd", "charges": 200, "prob": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "used_laptops",
+    "items": [ { "item": "null", "prob": 50 }, { "item": "laptop_ddotd", "charges": [ 0, -1 ], "prob": 1 } ]
   }
 ]
