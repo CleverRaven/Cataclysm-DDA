@@ -160,7 +160,7 @@
       },
       { "u_teleport": { "context_val": "Lixa_teleport" }, "force": true },
       {
-        "u_message": "...After feeling indescribable pain mere moments ago, unexplainably, you awaken somewhere near the facility.  Somehow your body has been restored, as if you haven't plummeted down the elevator in the first place."
+        "u_message": "…After feeling indescribable pain mere moments ago, unexplainably, you awaken somewhere near the facility.  Somehow your body has been restored, as if you haven't plummeted down the elevator in the first place."
       }
     ]
   },
@@ -186,7 +186,7 @@
       },
       { "u_teleport": { "context_val": "Lixa_teleport" }, "force": true },
       {
-        "u_message": "...Against all odds, you come back to your senses somewhere near the facility; your head still pounding from the inscrutable agony you went though.  Somehow your body has been reverted back to the state right before your fall."
+        "u_message": "…Against all odds, you come back to your senses somewhere near the facility; your head still pounding from the inscrutable agony you went though.  Somehow your body has been reverted back to the state right before your fall."
       }
     ]
   },
@@ -221,7 +221,7 @@
       },
       { "u_teleport": { "context_val": "Lixa_teleport" }, "force": true },
       {
-        "u_message": "...After feeling indescribable pain mere moments ago, unexplainably, you awaken somewhere near the facility.  Somehow your body has been restored, as if you haven't plummeted down the elevator in the first place."
+        "u_message": "…After feeling indescribable pain mere moments ago, unexplainably, you awaken somewhere near the facility.  Somehow your body has been restored, as if you haven't plummeted down the elevator in the first place."
       }
     ]
   },
