@@ -39,7 +39,7 @@
     "name": [ "Blood-Driven Speed" ],
     "desc": [ "" ],
     "show_in_info": true,
-    "enchantments": [ { "values": [ { "value": "SPEED", "multiply": 1 } ] } ]
+    "enchantments": [ { "values": [ { "value": "SPEED", "multiply": 1 }, { "value": "RANGE_DODGE", "add": 0.25 } ] } ]
   },
   {
     "type": "effect_type",

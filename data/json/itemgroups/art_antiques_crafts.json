@@ -168,7 +168,7 @@
     "entries": [
       { "group": "coins", "prob": 1, "count": [ 1, 10 ] },
       { "item": "oxylamp", "prob": 50 },
-      { "item": "washboard", "prob": 20 },
+      { "item": "wash_kit", "prob": 20 },
       { "item": "cow_bell", "prob": 15 },
       { "item": "sickle", "prob": 2 },
       { "item": "scythe", "prob": 2 },

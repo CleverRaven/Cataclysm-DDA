@@ -143,7 +143,7 @@
         "success": { "topic": "TALK_MISSION_SUCCESS", "effect": "mission_success" },
         "failure": { "topic": "TALK_MISSION_SUCCESS_LIE", "opinion": { "trust": -5, "value": -1, "anger": 5 } }
       },
-      { "text": "No.  I'll get back to it, bye!", "condition": "mission_incomplete", "topic": "TALK_NONE" },
+      { "text": "No.  I'll get back to it, bye!", "condition": "mission_incomplete", "topic": "TALK_DONE" },
       {
         "text": "Yup!  Here it is!",
         "topic": "TALK_MISSION_SUCCESS",
