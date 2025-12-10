@@ -560,7 +560,8 @@
         "coverage": 100,
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_knee_l", "leg_knee_r" ],
-        "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 1 } ]
+        "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 1 } ],
+        "encumbrance": [ 0, 0 ]
       }
     ],
     "pocket_data": [
@@ -668,7 +669,8 @@
         "material": [
           { "type": "cotton", "covered_by_mat": 100, "thickness": 0.5 },
           { "type": "canvas", "covered_by_mat": 100, "thickness": 1.0 }
-        ]
+        ],
+        "encumbrance": [ 0, 0 ]
       }
     ],
     "pocket_data": [
