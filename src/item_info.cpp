@@ -3648,7 +3648,7 @@ void item::properties_info( std::vector<iteminfo> &info, const iteminfo_query *p
         if( !typeId()->weapon_category.empty() ) {
             std::string weapon_category_list = enumerate_as_string( typeId()->weapon_category,
             []( const weapon_category_id & e ) {
-                return e.str();
+                return e->name().translated();
             }, enumeration_conjunction::and_ );
             info.emplace_back( "BASE", string_format( _( "* This item can be used as <good>%s</good>." ),
                                weapon_category_list ) );
