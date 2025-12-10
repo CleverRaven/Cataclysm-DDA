@@ -3,10 +3,7 @@
     "type": "mapgen",
     "nested_mapgen_id": "roof_2x2_utilities_c",
     "weight": 1000000,
-    "object": {
-      "mapgensize": [ 2, 2 ],
-      "place_furniture": [ { "furn": "f_water_heater", "x": 0, "y": 0 } ]
-    }
+    "object": { "mapgensize": [ 2, 2 ], "place_furniture": [ { "furn": "f_water_heater", "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
@@ -21,10 +18,10 @@
       ]
     }
   },
-   {
+  {
     "type": "mapgen",
     "nested_mapgen_id": "residential_6kW_solar_v1",
-     "weight": 1000000,
+    "weight": 1000000,
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 3 ],
@@ -48,7 +45,7 @@
       "rows": [
         "###  ",
         "###  ",
-        "?##  ",
+        " ##  ",
         " ##  ",
         " ##  "
       ],
@@ -59,10 +56,7 @@
     "type": "mapgen",
     "nested_mapgen_id": "residential_6kW_solar",
     "weight": 1000000,
-    "object": {
-      "mapgensize": [ 5, 5 ],
-      "place_nested": [ { "chunks": [ "null" ], "x": 0, "y": 0 } ]
-    }
+    "object": { "mapgensize": [ 5, 5 ], "place_nested": [ { "chunks": [ "null" ], "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
@@ -104,10 +98,7 @@
     "type": "mapgen",
     "nested_mapgen_id": "residential_7kW_solar",
     "weight": 1000000,
-    "object": {
-      "mapgensize": [ 6, 6 ],
-      "place_nested": [ { "chunks": [ "null" ], "x": 0, "y": 0 } ]
-    }
+    "object": { "mapgensize": [ 6, 6 ], "place_nested": [ { "chunks": [ "null" ], "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
@@ -149,10 +140,7 @@
     "type": "mapgen",
     "nested_mapgen_id": "residential_8kW_solar",
     "weight": 1000000,
-    "object": {
-      "mapgensize": [ 6, 6 ],
-      "place_nested": [ { "chunks": [ "null" ], "x": 0, "y": 0 } ]
-    }
+    "object": { "mapgensize": [ 6, 6 ], "place_nested": [ { "chunks": [ "null" ], "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
