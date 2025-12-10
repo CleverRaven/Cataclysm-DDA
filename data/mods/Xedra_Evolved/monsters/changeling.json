@@ -6,6 +6,7 @@
     "description": "The outline looks human but the movements of the limbs are too willowy and sinuous, a small knife flickers between its fingers in and out of sight.  Its clothing appears to be skintight silvery chain or scale mail, it shifts in the light.",
     "default_faction": "changeling",
     "looks_like": "mon_feral_human_pipe",
+    "categories": [ "XEDRA_EVOLVED" ]
     "bodytype": "human",
     "species": [ "CHANGELING" ],
     "volume": "62500 ml",
@@ -79,6 +80,7 @@
     "name": { "str": "changeling bannerman", "str_pl": "changeling bannermen" },
     "description": "A tall lithe humanoid of indeterminate gender, clad in silvery scale mail and wielding archaic weapons.  Their sea-green eyes promise violence.",
     "copy-from": "mon_changeling",
+    "categories": [ "XEDRA_EVOLVED" ]
     "symbol": "%",
     "hp": 80,
     "speed": 110,
@@ -105,6 +107,7 @@
     "name": { "str": "redcap aspirant" },
     "description": "With a red feathered plume rising out of their helmet, this large combatant is clearly a cut above many of the foes you've faced.  Ogrish features stare out from under the blood drenched helmet.",
     "copy-from": "mon_changeling",
+    "categories": [ "XEDRA_EVOLVED" ]
     "symbol": "A",
     "volume": "122500 ml",
     "weight": "161500 g",
@@ -135,6 +138,7 @@
     "name": { "str": "pooka aspirant" },
     "description": "This diminutive warrior possesses both animalistic features and custom made arms and armor.  The twinkle in its eye seems to giggle as it readies its weapons.",
     "copy-from": "mon_changeling",
+    "categories": [ "XEDRA_EVOLVED" ]
     "symbol": "A",
     "volume": "32500 ml",
     "weight": "41500 g",
@@ -167,6 +171,7 @@
     "default_faction": "changeling",
     "copy-from": "mon_changeling",
     "looks_like": "mon_ogre",
+    "categories": [ "XEDRA_EVOLVED" ]
     "volume": "875 L",
     "weight": "850 kg",
     "hp": 450,
@@ -394,6 +399,7 @@
     "default_faction": "changeling",
     "bodytype": "human",
     "species": [ "CHANGELING", "CHANGELING_NOBLE" ],
+    "categories": [ "XEDRA_EVOLVED" ]
     "volume": "72500 ml",
     "weight": "91500 g",
     "hp": 190,
@@ -451,6 +457,7 @@
     "default_faction": "changeling",
     "bodytype": "human",
     "species": [ "CHANGELING", "CHANGELING_NOBLE" ],
+    "categories": [ "XEDRA_EVOLVED" ]
     "volume": "72500 ml",
     "weight": "91500 g",
     "hp": 250,
@@ -532,6 +539,7 @@
     "default_faction": "changeling",
     "bodytype": "dog",
     "species": [ "CHANGELING" ],
+    "categories": [ "XEDRA_EVOLVED" ]
     "volume": "200000 ml",
     "weight": "200000 g",
     "hp": 175,
@@ -590,6 +598,7 @@
     "bodytype": "human",
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "CHANGELING" ],
+    "categories": [ "XEDRA_EVOLVED" ]
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 80,
@@ -683,6 +692,7 @@
     "default_faction": "changeling",
     "bodytype": "human",
     "species": [ "CHANGELING" ],
+    "categories": [ "XEDRA_EVOLVED" ]
     "volume": "30000 ml",
     "weight": "40750 g",
     "hp": 40,
@@ -715,6 +725,7 @@
     "default_faction": "changeling",
     "bodytype": "human",
     "species": [ "CHANGELING" ],
+    "categories": [ "XEDRA_EVOLVED" ]
     "volume": "45000 ml",
     "weight": "60750 g",
     "hp": 20,
@@ -743,7 +754,8 @@
     "default_faction": "changeling",
     "looks_like": "mon_wolf",
     "bodytype": "dog",
-    "species": [ "CHANGELING" ],
+    "species": [ "CHANGELING" ], 
+    "categories": [ "XEDRA_EVOLVED" ]
     "volume": "31000 ml",
     "weight": "43750 g",
     "hp": 35,
@@ -776,6 +788,7 @@
     "default_faction": "changeling",
     "bodytype": "spider",
     "species": [ "CHANGELING" ],
+    "categories": [ "XEDRA_EVOLVED" ]
     "diff": 2,
     "volume": "62500 ml",
     "weight": "81500 g",
@@ -827,6 +840,7 @@
     "default_faction": "changeling",
     "bodytype": "horse",
     "species": [ "CHANGELING" ],
+    "categories": [ "XEDRA_EVOLVED" ]
     "volume": "770000 ml",
     "weight": "770 kg",
     "hp": 140,
@@ -888,6 +902,7 @@
     "default_faction": "changeling",
     "bodytype": "horse",
     "categories": [ "CHANGELING" ],
+    "categories": [ "XEDRA_EVOLVED" ]
     "species": [ "MAMMAL" ],
     "volume": "250000 ml",
     "weight": "250 kg",
@@ -924,6 +939,7 @@
     "default_faction": "changeling",
     "bodytype": "human",
     "species": [ "CHANGELING" ],
+    "categories": [ "XEDRA_EVOLVED" ]
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 180,
@@ -955,6 +971,7 @@
     "default_faction": "mantis",
     "bodytype": "insect",
     "species": [ "INSECT" ],
+    "categories": [ "XEDRA_EVOLVED" ]
     "volume": "650 L",
     "weight": "650 kg",
     "hp": 180,
@@ -1019,6 +1036,7 @@
     "default_faction": "changeling",
     "bodytype": "blob",
     "species": [ "CHANGELING" ],
+    "categories": [ "XEDRA_EVOLVED" ]
     "volume": "1500 ml",
     "weight": "136 g",
     "hp": 20,
@@ -1061,6 +1079,7 @@
     "description": "A small humanoid wearing old-fashioned clothing and seemingly covered in thick hair.  It looks at you in shock.",
     "copy-from": "mon_changeling",
     "chat_topics": [ "XE_STRANGE_EVENT_BROWNIE_MEETS_BROWNIE" ],
+    "categories": [ "XEDRA_EVOLVED" ]
     "symbol": "B",
     "volume": "32500 ml",
     "weight": "41500 g",
