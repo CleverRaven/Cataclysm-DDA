@@ -4278,5 +4278,12 @@
         "ench_effects": [ { "effect": "effect_vampire_bat_form_levitation", "intensity": 1 } ]
       }
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_bio_inventor_calorie_storage",
+    "name": [ "Orbiting Calories" ],
+    "desc": [ [ "Your calories are stored through the most efficient storage ever conceived.", "good" ] ],
+    "remove_message": [ [ "Your orbiting calories dissipate as the bionic powers down.", "bad" ] ]
   }
 ]
