@@ -89,7 +89,12 @@
             {
               "run_eoc_selector": [ "EOC_PEEK_DOWN_pseudo", "EOC_CLIMB_DOWN_pseudo", "EOC_JUMP_ACROSS_pseudo", "EOC_FALL_DOWN_pseudo" ],
               "allow_cancel": true,
-              "names": [ "Peek down.", "Climb down by lowering yourself from the ledge.", "Can't jump across (need a small gap).", "Fall down." ],
+              "names": [
+                "Peek down.",
+                "Climb down by lowering yourself from the ledge.",
+                "Can't jump across (need a small gap).",
+                "Fall down."
+              ],
               "title": "There is a ledge here.  What do you want to do?",
               "descriptions": [
                 "You look down as far as you can see.",
@@ -180,7 +185,9 @@
         "type": "bad"
       },
       { "u_teleport": { "context_val": "Lixa_teleport" }, "force": true },
-      {"u_message": "...Against all odds, you come back to your senses somewhere near the facility; your head still pounding from the inscrutable agony you went though. Somehow your body has been reverted back to the state right before your fall."}
+      {
+        "u_message": "...Against all odds, you come back to your senses somewhere near the facility; your head still pounding from the inscrutable agony you went though. Somehow your body has been reverted back to the state right before your fall."
+      }
     ]
   },
   {
