@@ -382,8 +382,6 @@ Houses have a realistic amount of solar power
 Add a few cigar variants and a recipe for making cigars
 Add a supermarket
 Portable hand truck for moving furniture and appliances
-Add proper beer six packs to the game, along with six pack rings
-Add simple single sided razor tool
 
 
 ## Interface:
@@ -945,12 +943,8 @@ Add BLOCK_SUPERNATURAL_HEALING flag, apply it to Clay Golem attacks in Magiclysm
 [Aftershock] Add the Sibyl profession to the Esper scenario, add precognitive powers
 [Bombastic Perks] Add the Closetland playstyle perk
 Martial Mastery Stat Widget
-[MoM] Update feral clairsentients
-[MoM] Remove onfire from feral Fountain of Flames
 [Magiclysm] Elves have a physiological need to spend time in the wilderness
 [MoM/Crazy Cataclysm] Feral vitakinetics can inflict you with Ligma
-[MoM] Extended Channeling rework
-[alt-map-key] Add supermarket
 
 
 
@@ -1459,22 +1453,14 @@ Various UI problems caused by shared_ptr change
 Heating items now changes temperature, properly resets temp flags
 Magic teleporters expire after copy_location EOC run
 Fixing heatpack requiring appliances or fire to work
-[MoM/XE] The Uncanny Dodge trait is not valid
 Make the rivers flow again (in winter)
 Crash when user cancels ^control vehicle dialog for vehicles with multiple controls
 Insulation works on map items, is now a pocket property.
-Descriptions of some furniture and items
-Fix basic typos in code and comments
 Martial Mastery no longer deletes mobile sidebar
-Currently you can strip the Army helmet to get it's brackets and put them into other helmet. However, there's no recipe to add them back.
 Keep original name when a mod item inherits base item with copy-from but doesn't specify a name
 Fixed weight and volume calculations in the insert ui for items counted by charge.
-Magic teleporters expire after copy_location EOC run
-Cosmetics not moved to new submap in EOC copy_location
 Adds deserialization mapping for ACT_BLEED, preventing saved games from corrupting when saved mid-bleed. Also fixes afflicted game saves.
-Fix masochist morale inconsistency
 Fixed weight and volume calculations in the insert ui for items counted by charge.
-Sourdough bread recipe spawning obsolete variant of starter
 
 
 ## Performance:
