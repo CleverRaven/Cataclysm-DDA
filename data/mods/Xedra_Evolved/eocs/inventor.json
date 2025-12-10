@@ -435,7 +435,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_INVENTOR_CRAFTED_GEAR",
-    "recurrence": [ "5 minutes" ],
+    "recurrence": [ "5 minutes", "9 minutes" ],
     "global": true,
     "run_for_npcs": true,
     "condition": { "u_has_trait": "INVENTOR" },
