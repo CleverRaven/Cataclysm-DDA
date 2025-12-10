@@ -35,6 +35,9 @@
     "type": "item_group",
     "subtype": "distribution",
     "id": "civilian_laptops",
-    "items": [ { "item": "null", "prob": 50 }, { "item": "laptop_ddotd", "charges": [ 0, -1 ], "contents-group": "civilian_laptop_efiles" } ]
+    "items": [
+      { "item": "null", "prob": 50 },
+      { "item": "laptop_ddotd", "charges": [ 0, -1 ], "contents-group": "civilian_laptop_efiles" }
+    ]
   }
 ]
