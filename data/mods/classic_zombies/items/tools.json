@@ -1,0 +1,52 @@
+[
+  {
+    "id": "portable_music_player"
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "portable cassette player (off)", "str_pl": "portable cassette players (off)" },
+    "description": "This battery-powered device can be used to play cassettes.  Fortunately, you have a couple on you, and listening to them will raise your morale slightly.  Use it to turn it on.",
+    "weight": "40 g",
+    "volume": "36 ml",
+    "price": "40 USD",
+    "price_postapoc": "2 cent",
+    "material": [ { "type": "aluminum", "portion": 75 }, { "type": "plastic", "portion": 25 } ],
+    "ascii_picture": "mp3",
+    "symbol": ";",
+    "color": "dark_gray",
+    "use_action": [
+      {
+        "type": "mp3",
+        "transform": "portable_music_player_on",
+        "message": "You slip in a cassette, put on headphones, and start listening to music.",
+        "activate": true
+      }
+    ],
+    "charges_per_use": 1,
+    "flags": [ "WATER_BREAK_ACTIVE", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_LIGHT" ],
+        "default_magazine": "light_battery_cell"
+      }
+    ]
+  },
+  {
+    "id": "portable_music_player_on",
+    "copy-from": "portable_music_player",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "portable cassette player (on)", "str_pl": "portable cassette players (on)" },
+    "description": "This cassette player is turned on and playing some great tunes, raising your morale steadily while on your person.  It runs through batteries quickly; you can turn it off by using it.  It also obscures your hearing.",
+    "power_draw": "1 W",
+    "revert_to": "portable_music_player",
+    "tick_action": [ "MP3_ON" ],
+    "use_action": [
+      { "type": "mp3", "transform": "portable_music_player", "message": "The cassette player turns off.", "activate": false }
+    ],
+    "faults": [ { "fault_group": "electronic_general" } ],
+    "flags": [ "NO_UNLOAD", "NO_RELOAD", "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC", "SPAWN_ACTIVE" ]
+  }
+]
