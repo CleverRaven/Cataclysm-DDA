@@ -13,7 +13,8 @@
     "apply_message": "",
     "remove_message": "You return to your normal speed.",
     "rating": "good",
-    "base_mods": { "dex_mod": [ 4 ], "speed_mod": [ 250 ] }
+    "base_mods": { "dex_mod": [ 4 ], "speed_mod": [ 250 ] },
+    "enchantments": [ { "values": [ { "value": "RANGE_DODGE", "add": 0.25 } ] } ]
   },
   {
     "type": "effect_type",
