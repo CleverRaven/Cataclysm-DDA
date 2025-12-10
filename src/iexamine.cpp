@@ -104,7 +104,6 @@ static const activity_id ACT_ATM( "ACT_ATM" );
 static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_HARVEST( "ACT_HARVEST" );
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
-static const activity_id ACT_PLANT_SEED( "ACT_PLANT_SEED" );
 
 static const addiction_id addiction_opiate( "opiate" );
 
@@ -2761,10 +2760,8 @@ int iexamine::query_seed( const std::vector<seed_tuple> &seed_entries )
  */
 void iexamine::plant_seed( Character &you, const tripoint_bub_ms &examp, const itype_id &seed_id )
 {
-    player_activity act( ACT_PLANT_SEED, to_moves<int>( 30_seconds ) );
-    act.placement = get_map().get_abs( examp );
-    act.str_values.emplace_back( seed_id );
-    you.assign_activity( act );
+    plant_seed_activity_actor actor( get_map().get_abs( examp ), seed_id, 30_seconds );
+    you.assign_activity( actor );
 }
 
 /**
