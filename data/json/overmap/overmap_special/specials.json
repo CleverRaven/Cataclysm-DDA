@@ -2342,7 +2342,7 @@
     "city_sizes": [ 4, -1 ],
     "occurrences": [ 0, 2 ],
     "spawns": { "group": "GROUP_SMALL_STATION", "population": [ 4, 10 ], "radius": [ 0, 0 ] },
-    "flags": [ "CLASSIC", "URBAN", "MAN_MADE" ]
+    "flags": [ "URBAN", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
