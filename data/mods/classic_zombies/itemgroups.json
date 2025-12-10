@@ -23,11 +23,15 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "default_zombie_clothes",
-    "extend": {
-      "entries": [
-        { "group": "clothing_watch", "damage": [ 1, 4 ], "prob": 25 },
-        ]
-    }
+    "copy-from": "default_zombie_clothes",
+    "extend": { "entries": [ { "group": "clothing_watch", "damage": [ 1, 4 ], "prob": 25 } ] }
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "default_zombie_children_clothes",
+    "copy-from": "default_zombie_clothes",
+    "extend": { "entries": [ { "group": "clothing_watch", "damage": [ 1, 4 ], "prob": 5 } ] }
   },
   {
     "id": "clothing_watch",
@@ -42,7 +46,7 @@
       { "item": "sf_watch", "prob": 5 },
       { "item": "pocketwatch", "prob": 5 },
       { "item": "diving_watch", "prob": 20 },
-      { "item": "game_watch", "prob": 1, "charges": [ 0, 50 ] },
+      { "item": "game_watch", "prob": 1, "charges": [ 0, 50 ] }
     ]
-  },
+  }
 ]
