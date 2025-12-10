@@ -2,6 +2,6 @@
   {
     "type": "MONSTER_WHITELIST",
     "mode": "EXCLUSIVE",
-    "categories": [ "CLASSIC", "WILDLIFE", "XE_CLASSIC" ]
+    "categories": [ "XE_CLASSIC" ]
   }
 ]
