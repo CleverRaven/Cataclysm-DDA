@@ -13,5 +13,10 @@
     "id": "p320mag_21rd_9x19mm",
     "type": "MIGRATION",
     "replace": "bhp9mag_15rd"
+  },
+  {
+    "id": "laptop",
+    "type": "MIGRATION",
+    "replace": "laptop_ddotd"
   }
 ]
