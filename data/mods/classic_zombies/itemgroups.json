@@ -30,7 +30,7 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "default_zombie_children_clothes",
-    "copy-from": "default_zombie_clothes",
+    "copy-from": "default_zombie_children_clothes",
     "extend": { "entries": [ { "group": "clothing_watch", "damage": [ 1, 4 ], "prob": 5 } ] }
   },
   {
