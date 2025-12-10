@@ -3020,7 +3020,7 @@
       { "id": "WRENCH", "level": 1 }
     ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "components": [ [ [ "log", 1 ] ], [ [ "steel_lump", 1 ] ], [ [ "sheet_metal_small", 1 ] ], [ [ "spike", 1 ] ] ],
+    "components": [ [ [ "log", 1 ] ], [ [ "lc_steel_lump", 1 ] ], [ [ "sheet_metal_small", 1 ] ], [ [ "spike", 1 ] ] ],
     "byproducts": [ [ "splinter", 5 ] ]
   },
   {
