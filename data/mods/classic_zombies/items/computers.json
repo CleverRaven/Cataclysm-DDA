@@ -1,0 +1,43 @@
+[
+  {
+    "id": "laptop_ddotd",
+    "copy-from": "abstract_laptop",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "category": "tools",
+    "name": { "str": "laptop computer" },
+    "description": "A portable computer, the cutting edge of computing technology before the plague and the walkers.  Not much use now, though maybe there's some interesting files on it.",
+    "symbol": ",",
+    "color": "dark_gray",
+    "price": "3500 USD",
+    "price_postapoc": "2 USD 50 cent",
+    "weight": "1319 g",
+    "volume": "703 ml",
+    "longest_side": "322 mm",
+    "use_action": [
+      "E_FILE_DEVICE",
+      "EBOOKSAVE",
+      "PORTABLE_GAME",
+      {
+        "target": "laptop_screen_lit",
+        "msg": "You light up the screen.",
+        "menu_text": "Light up the screen",
+        "need_charges": 1,
+        "need_charges_msg": "The laptop's batteries need more charge.",
+        "type": "transform"
+      },
+      { "type": "link_up", "cable_length": 5, "charge_rate": "140 W" }
+    ],
+    "pocket_data": [
+      { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 200 } },
+      {
+        "pocket_type": "E_FILE_STORAGE",
+        "rigid": true,
+        "max_contains_volume": "1 ml",
+        "max_contains_weight": "1 g",
+        "weight_multiplier": 0.0,
+        "ememory_max": "100 MB"
+      }
+    ]
+  }
+]
