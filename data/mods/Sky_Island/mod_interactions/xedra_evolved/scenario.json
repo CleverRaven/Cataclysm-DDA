@@ -15,6 +15,6 @@
     "type": "SCENARIO_BLACKLIST",
     "subtype": "whitelist",
     "//": "Makes it so you can't choose any other scenario in this mode.",
-    "scenarios": [ "scenario_warper", "scenario_warper_unique_paths", ]
+    "scenarios": [ "scenario_warper", "scenario_warper_unique_paths" ]
   }
 ]
