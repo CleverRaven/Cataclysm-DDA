@@ -34,7 +34,8 @@ TEST_CASE( "logarithmic_monotonic_sequence", "[cata_utility]" )
     CHECK( v6 < v7 );
 }
 
-TEST_CASE( "logarithmic_range_monotonic_decreasing", "[cata_utility]" ) {
+TEST_CASE( "logarithmic_range_monotonic_decreasing", "[cata_utility]" )
+{
     const double r1 = logarithmic_range( -6, 6, -6 );
     const double r2 = logarithmic_range( -6, 6, -4 );
     const double r3 = logarithmic_range( -6, 6, -2 );
