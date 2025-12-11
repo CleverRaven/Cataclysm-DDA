@@ -74,8 +74,6 @@
       [ "t_tree_beech", 7 ],
       [ "t_tree_cottonwood", 4 ],
       [ "t_tree_elm", 4 ],
-      [ "t_tree_cherry", 4 ],
-      [ "t_tree_plum", 2 ],
       [ "t_tree_sassafras", 1 ],
       [ "t_region_tree_dead", 5 ],
       [ "t_region_tree_forest_other", 5 ]
@@ -89,13 +87,6 @@
       [ "t_tree_willow", 15 ],
       [ "t_tree_alder", 15 ],
       [ "t_tree_basswood", 10 ],
-      [ "t_tree_crabapple", 8 ],
-      [ "t_tree_apple", 1 ],
-      [ "t_tree_apricot", 1 ],
-      [ "t_tree_peach", 1 ],
-      [ "t_tree_pear", 1 ],
-      [ "t_tree_elderberry", 1 ],
-      [ "t_tree_mulberry", 10 ],
       [ "t_tree_sassafras", 2 ],
       [ "t_tree_juniper", 5 ]
     ]
@@ -127,16 +118,6 @@
       [ "t_tree_butternut", 4 ],
       [ "t_tree_beech", 2 ],
       [ "t_tree_blackjack", 8 ],
-      [ "t_tree_crabapple", 2 ],
-      [ "t_tree_apple", 1 ],
-      [ "t_tree_apricot", 1 ],
-      [ "t_tree_cherry", 1 ],
-      [ "t_tree_juniper", 2 ],
-      [ "t_tree_peach", 1 ],
-      [ "t_tree_pear", 1 ],
-      [ "t_tree_plum", 1 ],
-      [ "t_tree_elderberry", 2 ],
-      [ "t_tree_mulberry", 2 ],
       [ "t_tree_sassafras", 3 ],
       [ "t_region_tree_dead", 48 ]
     ]
@@ -157,8 +138,6 @@
       [ "t_tree_willow", 32 ],
       [ "t_tree_hickory", 16 ],
       [ "t_tree_blackjack", 8 ],
-      [ "t_tree_elderberry", 2 ],
-      [ "t_tree_mulberry", 2 ],
       [ "t_tree_sassafras", 3 ],
       [ "t_tree_dead", 2 ]
     ]
@@ -168,16 +147,11 @@
     "id": "default_t_region_tree_fruit",
     "ter_id": "t_region_tree_fruit",
     "replace_with_terrain": [
-      [ "t_tree_young", 14 ],
-      [ "t_tree_apple", 2 ],
-      [ "t_tree_crabapple", 1 ],
-      [ "t_tree_apricot", 2 ],
-      [ "t_tree_peach", 2 ],
-      [ "t_tree_pear", 2 ],
-      [ "t_tree_plum", 2 ],
+      [ "t_tree_young", 4 ],
+      [ "t_tree_crabapple", 4 ],
       [ "t_tree_elderberry", 2 ],
-      [ "t_tree_mulberry", 2 ],
-      [ "t_tree_dead", 14 ]
+      [ "t_tree_cherry", 6 ],
+      [ "t_tree_dead", 4 ]
     ]
   }
 ]
