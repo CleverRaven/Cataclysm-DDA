@@ -1,7 +1,8 @@
 #include "cata_catch.h"
 #include "cata_utility.h"
 
-TEST_CASE( "logarithmic_basic_shape", "[cata_utility]" ) {
+TEST_CASE( "logarithmic_basic_shape", "[cata_utility]" )
+{
     CHECK( logarithmic( 0.0 ) == Approx( 0.5 ).epsilon( 1e-6 ) );
     CHECK( logarithmic( -6.0 ) < logarithmic( 0.0 ) );
     CHECK( logarithmic( 6.0 ) > logarithmic( 0.0 ) );
