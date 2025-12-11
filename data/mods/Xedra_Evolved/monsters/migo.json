@@ -7,7 +7,7 @@
     "default_faction": "mi-go",
     "bodytype": "dog",
     "species": [ "MIGO" ],
-    "categories": [ "XE_CLASSIC" ]
+    "categories": [ "XE_CLASSIC" ],
     "volume": "73000 ml",
     "weight": "73 kg",
     "hp": 90,
