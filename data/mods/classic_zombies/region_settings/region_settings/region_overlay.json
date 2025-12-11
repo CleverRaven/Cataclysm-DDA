@@ -58,5 +58,126 @@
     "copy-from": "default",
     "urbanity_increase": [ -1, 0, 0, -1 ],
     "feature_flag_settings": { "whitelist": [ "CLASSIC" ] }
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "default_t_region_tree_forest_dense",
+    "ter_id": "t_region_tree_forest_dense",
+    "replace_with_terrain": [
+      [ "t_tree", 18 ],
+      [ "t_tree_blackjack", 10 ],
+      [ "t_tree_spruce", 32 ],
+      [ "t_tree_hickory", 18 ],
+      [ "t_tree_pine", 18 ],
+      [ "t_tree_maple", 7 ],
+      [ "t_tree_birch", 7 ],
+      [ "t_tree_beech", 7 ],
+      [ "t_tree_cottonwood", 4 ],
+      [ "t_tree_elm", 4 ],
+      [ "t_tree_cherry", 4 ],
+      [ "t_tree_plum", 2 ],
+      [ "t_tree_sassafras", 1 ],
+      [ "t_region_tree_dead", 5 ],
+      [ "t_region_tree_forest_other", 5 ]
+    ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "default_t_region_tree_forest_other",
+    "ter_id": "t_region_tree_forest_other",
+    "replace_with_terrain": [
+      [ "t_tree_willow", 15 ],
+      [ "t_tree_alder", 15 ],
+      [ "t_tree_basswood", 10 ],
+      [ "t_tree_crabapple", 8 ],
+      [ "t_tree_apple", 1 ],
+      [ "t_tree_apricot", 1 ],
+      [ "t_tree_peach", 1 ],
+      [ "t_tree_pear", 1 ],
+      [ "t_tree_elderberry", 1 ],
+      [ "t_tree_mulberry", 10 ],
+      [ "t_tree_sassafras", 2 ],
+      [ "t_tree_juniper", 5 ]
+    ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "default_t_region_tree_forest",
+    "ter_id": "t_region_tree_forest",
+    "replace_with_terrain": [ [ "t_region_tree_forest_dense", 2 ], [ "t_region_tree_forest_other", 1 ] ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "default_t_region_tree",
+    "ter_id": "t_region_tree",
+    "replace_with_terrain": [
+      [ "t_tree", 128 ],
+      [ "t_tree_pine", 64 ],
+      [ "t_tree_spruce", 256 ],
+      [ "t_tree_young", 128 ],
+      [ "t_tree_birch", 16 ],
+      [ "t_tree_elm", 16 ],
+      [ "t_tree_cottonwood", 16 ],
+      [ "t_tree_basswood", 16 ],
+      [ "t_tree_alder", 16 ],
+      [ "t_tree_maple", 32 ],
+      [ "t_tree_willow", 32 ],
+      [ "t_tree_hickory", 16 ],
+      [ "t_tree_walnut", 8 ],
+      [ "t_tree_butternut", 4 ],
+      [ "t_tree_beech", 2 ],
+      [ "t_tree_blackjack", 8 ],
+      [ "t_tree_crabapple", 2 ],
+      [ "t_tree_apple", 1 ],
+      [ "t_tree_apricot", 1 ],
+      [ "t_tree_cherry", 1 ],
+      [ "t_tree_juniper", 2 ],
+      [ "t_tree_peach", 1 ],
+      [ "t_tree_pear", 1 ],
+      [ "t_tree_plum", 1 ],
+      [ "t_tree_elderberry", 2 ],
+      [ "t_tree_mulberry", 2 ],
+      [ "t_tree_sassafras", 3 ],
+      [ "t_region_tree_dead", 48 ]
+    ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "default_t_region_tree_shade",
+    "ter_id": "t_region_tree_shade",
+    "replace_with_terrain": [
+      [ "t_tree", 64 ],
+      [ "t_tree_young", 32 ],
+      [ "t_tree_birch", 16 ],
+      [ "t_tree_elm", 16 ],
+      [ "t_tree_cottonwood", 16 ],
+      [ "t_tree_basswood", 16 ],
+      [ "t_tree_alder", 16 ],
+      [ "t_tree_maple", 32 ],
+      [ "t_tree_willow", 32 ],
+      [ "t_tree_hickory", 16 ],
+      [ "t_tree_blackjack", 8 ],
+      [ "t_tree_elderberry", 2 ],
+      [ "t_tree_mulberry", 2 ],
+      [ "t_tree_sassafras", 3 ],
+      [ "t_tree_dead", 2 ]
+    ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "default_t_region_tree_fruit",
+    "ter_id": "t_region_tree_fruit",
+    "replace_with_terrain": [
+      [ "t_tree_young", 14 ],
+      [ "t_tree_apple", 2 ],
+      [ "t_tree_crabapple", 1 ],
+      [ "t_tree_apricot", 2 ],
+      [ "t_tree_peach", 2 ],
+      [ "t_tree_pear", 2 ],
+      [ "t_tree_plum", 2 ],
+      [ "t_tree_elderberry", 2 ],
+      [ "t_tree_mulberry", 2 ],
+      [ "t_tree_dead", 14 ]
+    ]
   }
 ]
