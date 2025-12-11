@@ -1512,6 +1512,37 @@ class harvest_activity_actor : public activity_actor
         }
 };
 
+
+class plant_seed_activity_actor : public activity_actor
+{
+    public:
+        plant_seed_activity_actor() = default;
+        explicit plant_seed_activity_actor( tripoint_abs_ms plant_location, itype_id seed_type,
+                                            time_duration plant_duration ) :
+            plant_location( plant_location ), seed_type( seed_type ), plant_duration( plant_duration ) {};
+
+        const activity_id &get_type() const override {
+            static const activity_id ACT_PLANT_SEED( "ACT_PLANT_SEED" );
+            return ACT_PLANT_SEED;
+        }
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &, Character & ) override {};
+        void finish( player_activity &act, Character &who ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<plant_seed_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+
+    private:
+        tripoint_abs_ms plant_location;
+        itype_id seed_type;
+        time_duration plant_duration;
+};
+
 class reload_activity_actor : public activity_actor
 {
     public:

@@ -15,6 +15,11 @@
     "replace": "bhp9mag_15rd"
   },
   {
+    "id": "protein_bar_evac",
+    "type": "MIGRATION",
+    "replace": "protein_bar_zero"
+  },
+  {
     "id": "laptop",
     "type": "MIGRATION",
     "replace": "laptop_ddotd"
