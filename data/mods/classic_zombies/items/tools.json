@@ -1,10 +1,10 @@
 [
   {
-    "id": "portable_music_player"
+    "id": "portable_music_player",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "portable cassette player (off)", "str_pl": "portable cassette players (off)" },
-    "description": "This battery-powered device can be used to play cassettes.  Fortunately, you have a couple on you, and listening to them will raise your morale slightly.  Use it to turn it on.",
+    "description": "This battery-powered device can be used to play cassettes (and like any good survivor, you've always got your favorites at hand).  Listening to them will raise your morale slightly.  Use it to turn it on.",
     "weight": "40 g",
     "volume": "36 ml",
     "price": "40 USD",
@@ -16,14 +16,15 @@
     "use_action": [
       {
         "type": "mp3",
-        "transform": "portable_music_player_on",
-        "message": "You slip in a cassette, put on headphones, and start listening to music.",
+        "transform": "You slip in a cassette, put on headphones, and start listening to music.",
+        "message": "<ddotd_portable_music_on>.",
         "activate": true
       }
     ],
     "charges_per_use": 1,
     "flags": [ "WATER_BREAK_ACTIVE", "ELECTRONIC" ],
     "faults": [ { "fault_group": "electronic_general" } ],
+    "tool_ammo": [ "battery" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",

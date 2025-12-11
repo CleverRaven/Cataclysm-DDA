@@ -3,27 +3,28 @@
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR" ],
     "id": "calculator_watch",
-    "looks-like": "smart_watch",
+    "looks_like": "smart_watch",
     "name": { "str": "calculator watch", "str_pl": "calculator watches" },
     "category": "clothing",
     "volume": "125 ml",
     "description": "A watch with a built-in calculator, for when you need to determine exactly how many zombies are in that horde.",
     "weight": "61 g",
     "color": "light_gray",
+    "symbol": "[",
     "sided": true,
     "price": "100 USD",
     "price_postapoc": "1 USD 50 cent",
     "material": [ { "type": "plastic", "portion": 75 }, { "type": "aluminum", "portion": 25 } ],
     "flags": [ "WATCH", "ALARMCLOCK", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ],
-     "use_action": {
+    "use_action": {
       "type": "effect_on_conditions",
       "menu_text": "Use the calculator",
       "effect_on_conditions": [
         {
           "id": "EOC_DDOTD_CALCULATOR_WATCH",
-          "effect": [ { "u_message": "You do some math using your watch.  Fancy!", "type": "neutral" } ]
+          "effect": [ { "u_message": "<ddotd_calculator_watch_use>", "snippet": true, "type": "neutral" } ]
         }
       ]
-     } 
-   }
+    }
+  }
 ]
