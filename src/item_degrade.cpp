@@ -265,7 +265,6 @@ void item::set_damage( int qty )
     const int target_damage = std::clamp( qty, degradation_, max_damage() );
     const int delta = target_damage - damage_;
     mod_damage( delta );
-    return;
 }
 
 void item::force_set_damage( int qty )
@@ -280,7 +279,8 @@ void item::set_degradation( int qty )
     } else {
         degradation_ = 0;
     }
-    set_damage( damage_ );
+    // maybe should use set_damage() instead, but we trust damage is set before the degradation
+    force_set_damage( damage_ );
 }
 
 std::string item::degradation_symbol() const
