@@ -1792,7 +1792,7 @@
       {
         "run_eocs": [
           {
-            "id": "EOC_VAMPIRE_BEAST_CLAWS_activated_2",
+            "id": "EOC_VAMPIRE_RENDING_TEETH_activated_2",
             "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
             "effect": [
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 0.75 },
@@ -1819,11 +1819,11 @@
       {
         "run_eocs": [
           {
-            "id": "EOC_VAMPIRE_BEAST_CLAWS_deactivate",
+            "id": "EOC_VAMPIRE_RENDING_TEETH_deactivate",
             "condition": { "u_has_trait": "VAMPIRE_RENDING_TEETH_active" },
             "effect": [
               { "u_message": "Your teeth and jaw recede back to a normal human size.", "type": "neutral" },
-              { "u_lose_trait": "EOC_VAMPIRE_RENDING_TEETH_active" }
+              { "u_lose_trait": "VAMPIRE_RENDING_TEETH_active" }
             ]
           }
         ]

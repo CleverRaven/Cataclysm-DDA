@@ -180,5 +180,13 @@
     "copy-from": "mon_vinebeast",
     "death_function": { "message": "The %s rots into nothingness in moments.", "corpse_type": "NO_CORPSE" },
     "species": [ "PLANT", "SUMMONED_CREATURE" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_shadow_summon",
+    "copy-from": "mon_shadow",
+    "species": [ "NETHER", "SUMMONED_CREATURE" ],
+    "delete": { "special_attacks": [ "DISAPPEAR" ] },
+    "categories": [ "XE_CLASSIC" ]
   }
 ]

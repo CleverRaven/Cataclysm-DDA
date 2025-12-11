@@ -362,7 +362,7 @@
     "teachable": false,
     "magic_type": "xe_vampire_blood_powers",
     "effect": "summon",
-    "effect_str": "mon_shadow",
+    "effect_str": "mon_shadow_summon",
     "condition": { "math": [ "u_vitamin('human_blood_vitamin') > -500" ] },
     "condition_fail_message": "You do not have enough stolen blood.",
     "shape": "blast",
@@ -382,12 +382,12 @@
     },
     "min_duration": {
       "math": [
-        "(18000 + (vampire_total_tier_one_traits()  * 1500) + (vampire_total_tier_two_traits() * 2100) + (vampire_total_tier_three_traits() * 3800) + ( vampire_total_tier_four_traits_plus_potence() * 5500) ) * 0.75"
+        "(18000 + (vampire_total_tier_one_traits()  * 2500) + (vampire_total_tier_two_traits() * 3600) + (vampire_total_tier_three_traits() * 4900) + ( vampire_total_tier_four_traits_plus_potence() * 7700) ) * 0.75"
       ]
     },
     "max_duration": {
       "math": [
-        "(18000 + (vampire_total_tier_one_traits()  * 1500) + (vampire_total_tier_two_traits() * 2100) + (vampire_total_tier_three_traits() * 3800) + ( vampire_total_tier_four_traits_plus_potence() * 5500) ) * 0.75"
+        "(18000 + (vampire_total_tier_one_traits()  * 2500) + (vampire_total_tier_two_traits() * 3600) + (vampire_total_tier_three_traits() * 4900) + ( vampire_total_tier_four_traits_plus_potence() * 7700) ) * 1.25"
       ]
     },
     "min_range": 20,

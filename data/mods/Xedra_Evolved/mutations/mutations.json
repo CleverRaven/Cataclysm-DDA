@@ -1110,7 +1110,7 @@
     "purifiable": false,
     "valid": false,
     "name": { "str": "Blood-Fueled Magic" },
-    "description": "Your exhaust some of the blood in your veins to recover some of your spent mana.",
+    "description": "Blood has power, and you can draw on that power to fuel magick.",
     "spells_learned": [ [ "vampire_magic_for_blood_spell", 1 ] ]
   },
   {
