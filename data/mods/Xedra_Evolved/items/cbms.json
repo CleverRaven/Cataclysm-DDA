@@ -65,7 +65,7 @@
     "type": "ITEM",
     "subtypes": [ "BIONIC_ITEM" ],
     "name": { "str": "Datacore: Knives" },
-    "description": "A data core designed to provide a specific proficiency level of knowledge to it's user as long as it's installed.  Requires an installed data shunt to use.",
+    "description": "A data core designed to provide a specific proficiency level of knowledge to its user as long as it's installed.  Requires an installed data shunt to use.",
     "price": "1 kUSD 500 USD",
     "difficulty": 0
   },
@@ -75,7 +75,7 @@
     "type": "ITEM",
     "subtypes": [ "BIONIC_ITEM" ],
     "name": { "str": "Datacore: Knives, advanced" },
-    "description": "A data core designed to provide a specific proficiency level of knowledge to it's user as long as it's installed.  Requires an installed data shunt to use.",
+    "description": "A data core designed to provide a specific proficiency level of knowledge to its user as long as it's installed.  Requires an installed data shunt to use.",
     "price": "4 kUSD 500 USD",
     "difficulty": 0
   },
@@ -85,7 +85,7 @@
     "type": "ITEM",
     "subtypes": [ "BIONIC_ITEM" ],
     "name": { "str": "Datacore: Batons" },
-    "description": "A data core designed to provide a specific proficiency level of knowledge to it's user as long as it's installed.  Requires an installed data shunt to use.",
+    "description": "A data core designed to provide a specific proficiency level of knowledge to its user as long as it's installed.  Requires an installed data shunt to use.",
     "price": "1 kUSD 500 USD",
     "difficulty": 0
   },
@@ -95,7 +95,7 @@
     "type": "ITEM",
     "subtypes": [ "BIONIC_ITEM" ],
     "name": { "str": "Datacore: Batons, advanced" },
-    "description": "A data core designed to provide a specific proficiency level of knowledge to it's user as long as it's installed.  Requires an installed data shunt to use.",
+    "description": "A data core designed to provide a specific proficiency level of knowledge to its user as long as it's installed.  Requires an installed data shunt to use.",
     "price": "4 kUSD 500 USD",
     "difficulty": 0
   },
@@ -105,7 +105,7 @@
     "type": "ITEM",
     "subtypes": [ "BIONIC_ITEM" ],
     "name": { "str": "Datacore: Medium Swords" },
-    "description": "A data core designed to provide a specific proficiency level of knowledge to it's user as long as it's installed.  Requires an installed data shunt to use.",
+    "description": "A data core designed to provide a specific proficiency level of knowledge to its user as long as it's installed.  Requires an installed data shunt to use.",
     "price": "1 kUSD 500 USD",
     "difficulty": 0
   },
@@ -115,7 +115,7 @@
     "type": "ITEM",
     "subtypes": [ "BIONIC_ITEM" ],
     "name": { "str": "Datacore: Medium Swords, advanced" },
-    "description": "A data core designed to provide a specific proficiency level of knowledge to it's user as long as it's installed.  Requires an installed data shunt to use.",
+    "description": "A data core designed to provide a specific proficiency level of knowledge to its user as long as it's installed.  Requires an installed data shunt to use.",
     "price": "4 kUSD 500 USD",
     "difficulty": 0
   },
@@ -125,7 +125,7 @@
     "type": "ITEM",
     "subtypes": [ "BIONIC_ITEM" ],
     "name": { "str": "Datacore: Short Swords" },
-    "description": "A data core designed to provide a specific proficiency level of knowledge to it's user as long as it's installed.  Requires an installed data shunt to use.",
+    "description": "A data core designed to provide a specific proficiency level of knowledge to its user as long as it's installed.  Requires an installed data shunt to use.",
     "price": "1 kUSD 500 USD",
     "difficulty": 0
   },
@@ -135,7 +135,7 @@
     "type": "ITEM",
     "subtypes": [ "BIONIC_ITEM" ],
     "name": { "str": "Datacore: Short Swords, advanced" },
-    "description": "A data core designed to provide a specific proficiency level of knowledge to it's user as long as it's installed.  Requires an installed data shunt to use.",
+    "description": "A data core designed to provide a specific proficiency level of knowledge to its user as long as it's installed.  Requires an installed data shunt to use.",
     "price": "4 kUSD 500 USD",
     "difficulty": 0
   }
