@@ -134,7 +134,6 @@ class item_pocket
         bool is_restricted() const;
         bool has_any_with( const std::function<bool( const item & )> &filter ) const;
 
-        bool is_valid() const;
         bool is_type( pocket_type ptype ) const;
         bool is_ablative() const;
         bool is_holster() const;
@@ -209,18 +208,16 @@ class item_pocket
         units::length max_containable_length() const;
         units::length min_containable_length() const;
 
+        units::volume volume_capacity() const;
         // combined volume of contained items
-        units::volume contains_volume() const;
+        units::volume contents_volume() const;
         units::volume remaining_volume() const;
         // how many more of @it can this pocket hold?
         int remaining_capacity_for_item( const item &it ) const;
-        units::volume volume_capacity() const;
         // the amount of space this pocket can hold before it starts expanding
         units::volume magazine_well() const;
+
         units::mass weight_capacity() const;
-        // The largest volume of contents this pocket can have.  Different from
-        // volume_capacity because that doesn't take into account ammo containers.
-        units::volume max_contains_volume() const;
         // combined weight of contained items
         units::mass contains_weight() const;
         units::mass remaining_weight() const;
@@ -410,6 +407,16 @@ class item_pocket
 
         // should the name of this pocket be used as a description
         bool name_as_description = false; // NOLINT(cata-serialize)
+
+        // pocket predicates
+        // non-forbidden, container-type pockets. The most common use-case.
+        static bool ok_default_containers( const item_pocket &pocket );
+        // *any* container-type pocket, even restricted ones.
+        // appropriate for determining how physically full something is.
+        static bool ok_all_containers( const item_pocket & );
+
+        // pocket is currently OK with taking on solid (as opposed to liquid/gaseous) items
+        static bool ok_for_solids( const item_pocket &pocket );
     private:
         // the type of pocket, saved to json
         pocket_type _saved_type = pocket_type::LAST; // NOLINT(cata-serialize)
@@ -473,8 +480,13 @@ class pocket_data
         static constexpr units::mass max_weight_for_container = 2000000_kilogram;
 
         pocket_type type = pocket_type::CONTAINER;
+        // max volume of stuff the pocket can hold, according to its data file.
+        // generally use volume_capacity() instead.
+        // this determines the volume capacity *if* it isn't derived from something else (i.e. ammo capacity).
+        // also used as a guess for the capacity if the derived value is not available yet.
+        units::volume raw_volume_capacity = max_volume_for_container;
         // max volume of stuff the pocket can hold
-        units::volume volume_capacity = max_volume_for_container;
+        units::volume volume_capacity() const;
         // max volume of item that can be contained, otherwise it spills
         std::optional<units::volume> max_item_volume = std::nullopt;
         // min volume of item that can be contained, otherwise it spills
@@ -565,15 +577,43 @@ class pocket_data
 
         bool operator==( const pocket_data &rhs ) const;
 
-        units::volume max_contains_volume() const;
-
         std::string check_definition() const;
 
         void load( const JsonObject &jo );
         void deserialize( const JsonObject &data );
     private:
-
         FlagsSetType flag_restrictions;
+};
+
+class pocket_constraint
+{
+    public:
+        units::mass weight_capacity = pocket_data::max_weight_for_container;
+        units::length max_containable_length = 200000_meter;
+        units::volume volume_capacity = pocket_data::max_volume_for_container;
+        units::volume remaining_volume = pocket_data::max_volume_for_container;
+        units::volume max_item_volume = 0_ml; // literal bottlenecks; 0 = no limit
+
+        // pocket is rigid or constrained by a rigid pocket, volume won't be reduced by further constraints
+        bool in_rigid = false;
+        // pocket 'X' is dominated by pocket 'Y' if X is nested in Y,
+        // any item that could be put into X could be put into Y,
+        // and X's volume expands into Y (no rigid pockets in the way).
+        // dominated pockets are redundant when describing available spaces.
+        bool is_dominated = false;
+
+        pocket_constraint() = default;
+        explicit pocket_constraint( const item_pocket *init_pocket );
+
+        // returns whether the constraint is equally severe as 'other'. not a strict field-wise equality.
+        bool operator==( const pocket_constraint & ) const;
+        bool operator!=( const pocket_constraint & ) const;
+
+        // apply the capacity constraints of an outer pocket
+        void constrain_by( const item_pocket *outer );
+        // apply the capacity constraints of another, outer constraint to this one.
+        // this never dominates the pocket.
+        void constrain_by( const pocket_constraint &outer );
 };
 
 template<>

@@ -216,7 +216,7 @@ int _trading_price( Character const &buyer, Character const &seller, item_locati
         }
     }
     int ret = npc_trading::adjusted_price( it.get_item(), amount, buyer, seller );
-    for( item_pocket const *pk : it->get_all_standard_pockets() ) {
+    for( item_pocket const *pk : it->get_standard_pockets() ) {
         for( item const *pkit : pk->all_items_top() ) {
             ret += _trading_price( buyer, seller, item_location{ it, const_cast<item *>( pkit ) },
                                    -1 );
