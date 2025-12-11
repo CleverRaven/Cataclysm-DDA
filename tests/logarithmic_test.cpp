@@ -1,15 +1,13 @@
 #include "cata_catch.h"
 #include "cata_utility.h"
 
-TEST_CASE( "logarithmic_basic_shape", "[cata_utility]" )
-{
+TEST_CASE( "logarithmic_basic_shape", "[cata_utility]" ) {
     CHECK( logarithmic( 0.0 ) == Approx( 0.5 ).epsilon( 1e-6 ) );
     CHECK( logarithmic( -6.0 ) < logarithmic( 0.0 ) );
     CHECK( logarithmic( 6.0 ) > logarithmic( 0.0 ) );
 }
 
-TEST_CASE( "logarithmic_range_normalized_mapping", "[cata_utility]" )
-{
+TEST_CASE( "logarithmic_range_normalized_mapping", "[cata_utility]" ) {
     CHECK( float_equals( logarithmic_range( -6, 6, -6 ), 1.0 ) );
     CHECK( float_equals( logarithmic_range( -6, 6, 6 ), 0.0 ) );
     double mid = logarithmic_range( -6, 6, 0 );
@@ -17,8 +15,7 @@ TEST_CASE( "logarithmic_range_normalized_mapping", "[cata_utility]" )
     CHECK( mid < 1.0 );
 }
 
-TEST_CASE( "logarithmic_monotonic_sequence", "[cata_utility]" )
-{
+TEST_CASE( "logarithmic_monotonic_sequence", "[cata_utility]" ) {
     const double v1 = logarithmic( -6.0 );
     const double v2 = logarithmic( -4.0 );
     const double v3 = logarithmic( -2.0 );
@@ -34,8 +31,7 @@ TEST_CASE( "logarithmic_monotonic_sequence", "[cata_utility]" )
     CHECK( v6 < v7 );
 }
 
-TEST_CASE( "logarithmic_range_monotonic_decreasing", "[cata_utility]" )
-{
+TEST_CASE( "logarithmic_range_monotonic_decreasing", "[cata_utility]" ) {
     const double r1 = logarithmic_range( -6, 6, -6 );
     const double r2 = logarithmic_range( -6, 6, -4 );
     const double r3 = logarithmic_range( -6, 6, -2 );
@@ -50,5 +46,3 @@ TEST_CASE( "logarithmic_range_monotonic_decreasing", "[cata_utility]" )
     CHECK( r5 > r6 );
     CHECK( r6 > r7 );
 }
-
-
