@@ -1,6 +1,6 @@
 [
   {
-    "id": "laptop_ddotd",
+    "id": "laptop",
     "copy-from": "abstract_laptop",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
