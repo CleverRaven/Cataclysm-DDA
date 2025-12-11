@@ -631,6 +631,12 @@ std::optional<int> iuse::smoking( Character *p, item *it, const tripoint_bub_ms 
 
 std::optional<int> iuse::ecig( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !it->activation_success() ) {
+        p->add_msg_if_player( m_bad, _( "You try to inhale from your %s, but something blocks the flow." ),
+                              it->tname() );
+        return std::nullopt;
+    }
+
     if( it->typeId() == itype_ecig ) {
         p->add_msg_if_player( m_neutral, _( "You take a puff from your electronic cigarette." ) );
     } else if( it->typeId() == itype_advanced_ecig ) {
@@ -2586,7 +2592,7 @@ std::optional<int> iuse::water_tablets( Character *p, item *it, const tripoint_b
     return purify_water( p, it, obj );
 }
 
-std::optional<int> iuse::directional_antenna( Character *p, item *, const tripoint_bub_ms & )
+std::optional<int> iuse::directional_antenna( Character *p, item *it, const tripoint_bub_ms & )
 {
     // Find out if we have an active radio
     auto radios = p->cache_get_items_with( itype_radio_on );
@@ -2611,10 +2617,15 @@ std::optional<int> iuse::directional_antenna( Character *p, item *, const tripoi
         return std::nullopt;
     }
     // Report direction.
-    const tripoint_abs_sm player_pos = p->pos_abs_sm();
-    direction angle = direction_from( player_pos.xy(), tref.abs_sm_pos );
-    add_msg( _( "The signal seems strongest to the %s." ), direction_name( angle ) );
-    return 1;
+    if( it->activation_success() ) {
+        const tripoint_abs_sm player_pos = p->pos_abs_sm();
+        direction angle = direction_from( player_pos.xy(), tref.abs_sm_pos );
+        add_msg( _( "The signal seems strongest to the %s." ), direction_name( angle ) );
+        return 1;
+    } else {
+        add_msg( m_bad, _( "Your %s doesn't seem to pick up any signal at all." ), it->tname() );
+        return std::nullopt;
+    }
 }
 
 // 0-100 percent chance of a character in a radio signal being obscured by static
@@ -2751,8 +2762,13 @@ std::optional<int> iuse::noise_emitter_on( Character *, item *, const tripoint_b
     return 0;
 }
 
-std::optional<int> iuse::emf_passive_on( Character *, item *, const tripoint_bub_ms &pos )
+std::optional<int> iuse::emf_passive_on( Character *, item *it, const tripoint_bub_ms &pos )
 {
+    if( !it->activation_success() ) {
+        add_msg( m_bad, _( "Your %s goes silent for a moment." ), it->tname() );
+        return std::nullopt;
+    }
+
     // need to calculate distance to closest electrical thing
 
     // set distance as farther than the radius
@@ -4315,7 +4331,7 @@ std::optional<int> iuse::vortex( Character *p, item *it, const tripoint_bub_ms &
     return 0;
 }
 
-std::optional<int> iuse::dog_whistle( Character *p, item *, const tripoint_bub_ms & )
+std::optional<int> iuse::dog_whistle( Character *p, item *it, const tripoint_bub_ms & )
 {
     const map &here = get_map();
 
@@ -4327,11 +4343,20 @@ std::optional<int> iuse::dog_whistle( Character *p, item *, const tripoint_bub_m
     }
     p->add_msg_if_player( _( "You blow your dog whistle." ) );
 
+    bool success = it->activation_success();
+
     // Can the Character hear the dog whistle?
     auto hearing_check = [p, &here]( const Character & who ) -> bool {
         return !who.is_deaf() && p->sees( here, who ) &&
         who.has_trait( trait_THRESH_LUPINE );
     };
+
+    if( !success ) {
+        if( hearing_check( *p ) ) {
+            p->add_msg_if_player( m_bad, _( "You fail to hear anything from your %s." ), it->tname() );
+        }
+        return std::nullopt;
+    }
 
     for( const npc &subject : g->all_npcs() ) {
         if( !( one_in( 3 ) && hearing_check( subject ) ) ) {
@@ -5099,13 +5124,19 @@ std::optional<int> iuse::talking_doll( Character *p, item *it, const tripoint_bu
         p->add_msg_if_player( m_info, _( "The %s's batteries are dead." ), it->tname() );
         return std::nullopt;
     }
-    p->add_msg_if_player( m_neutral, _( "You press a button on the doll to make it talk." ) );
-    const SpeechBubble speech = get_speech( it->typeId().str() );
+    if( it->activation_success() ) {
+        p->add_msg_if_player( m_neutral, _( "You press a button on the doll to make it talk." ) );
+        const SpeechBubble speech = get_speech( it->typeId().str() );
 
-    sounds::sound( p->pos_bub(), speech.volume, sounds::sound_t::electronic_speech,
-                   speech.text.translated(), true, "speech", it->typeId().str() );
+        sounds::sound( p->pos_bub(), speech.volume, sounds::sound_t::electronic_speech,
+                       speech.text.translated(), true, "speech", it->typeId().str() );
 
-    return 1;
+        return 1;
+    } else {
+        p->add_msg_if_player( m_bad,
+                              _( "You press a button on the %s to make it talk, but nothing happens." ), it->tname() );
+        return std::nullopt;
+    }
 }
 
 std::optional<int> iuse::gun_repair( Character *p, item *it, const tripoint_bub_ms & )
