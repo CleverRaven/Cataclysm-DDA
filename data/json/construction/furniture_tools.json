@@ -215,7 +215,7 @@
     "using": [ [ "welding_standard", 10 ] ],
     "components": [
       [ [ "brick", 600 ] ],
-      [ [ "pipe", 8 ] ],
+      [ [ "any_pipe", 8, "LIST" ] ],
       [ [ "pipe_fittings", 8 ] ],
       [ [ "metal_tank", 1 ] ],
       [ [ "hose", 2 ], [ "makeshift_hose", 2 ] ],
