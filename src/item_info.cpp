@@ -3644,6 +3644,17 @@ void item::properties_info( std::vector<iteminfo> &info, const iteminfo_query *p
         }
     }
 
+    if( parts->test( iteminfo_parts::DESCRIPTION_WEAPON_CATEGORY ) ) {
+        if( !typeId()->weapon_category.empty() ) {
+            std::string weapon_category_list = enumerate_as_string( typeId()->weapon_category,
+            []( const weapon_category_id & e ) {
+                return e->name().translated();
+            }, enumeration_conjunction::and_ );
+            info.emplace_back( "BASE", string_format( _( "* This item can be used as <good>%s</good>." ),
+                               weapon_category_list ) );
+        }
+    }
+
     if( parts->test( iteminfo_parts::DESCRIPTION_FLAGS ) ) {
         // concatenate base and acquired flags...
         cata::flat_set<flag_id> flags;
