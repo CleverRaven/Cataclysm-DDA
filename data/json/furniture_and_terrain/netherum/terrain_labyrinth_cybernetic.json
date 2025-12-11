@@ -251,6 +251,7 @@
     "roof": "t_nl_roof",
     "flags": [
       "NOITEM",
+      "TRANSPARENT", 
       "CONNECT_WITH_WALL",
       "BLOCK_WIND",
       "SUPPORTS_ROOF",
