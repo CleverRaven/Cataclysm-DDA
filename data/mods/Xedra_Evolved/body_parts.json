@@ -241,7 +241,7 @@
     "accusative_multiple": { "ctxt": "bodypart_accusative", "str": "data shunts" },
     "heading": "data shunt",
     "heading_multiple": "data shunt",
-    "//": "I need to make this come from a bionic, and then have expansions traits that increase the number of slots available via bionic_slot_bonus",
+    "//": "I need to make this come from a bionic, and then have expansion traits that increase the number of slots available via bionic_slot_bonus",
     "bionic_slots": 3,
     "opposite_part": "data_shunt",
     "hit_size": 1,
