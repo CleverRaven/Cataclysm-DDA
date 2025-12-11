@@ -34,6 +34,7 @@
 #include "character.h"
 #include "character_id.h"
 #include "clzones.h"
+#include "construction.h"
 #include "contents_change_handler.h"
 #include "coordinates.h"
 #include "craft_command.h"
@@ -120,6 +121,7 @@ static const activity_id ACT_BIKERACK_UNRACKING( "ACT_BIKERACK_UNRACKING" );
 static const activity_id ACT_BINDER_COPY_RECIPE( "ACT_BINDER_COPY_RECIPE" );
 static const activity_id ACT_BLEED( "ACT_BLEED" );
 static const activity_id ACT_BOLTCUTTING( "ACT_BOLTCUTTING" );
+static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_BUTCHER( "ACT_BUTCHER" );
 static const activity_id ACT_BUTCHER_FULL( "ACT_BUTCHER_FULL" );
 static const activity_id ACT_CHOP_LOGS( "ACT_CHOP_LOGS" );
@@ -6588,6 +6590,94 @@ std::unique_ptr<activity_actor> tent_deconstruct_activity_actor::deserialize( Js
     return actor.clone();
 }
 
+void build_construction_activity_actor::do_turn( player_activity &act, Character &you )
+{
+    map &here = get_map();
+    const tripoint_bub_ms construction_bub = here.get_bub( construction_location );
+    partial_con *pc = here.partial_con_at( construction_bub );
+    // Maybe the player and the NPC are working on the same construction at the same time
+    if( !pc ) {
+        if( you.is_npc() ) {
+            // if player completes the work while NPC still in activity loop
+            you.activity = player_activity();
+            you.set_moves( 0 );
+        } else {
+            you.cancel_activity();
+        }
+        add_msg( m_info, _( "%s did not find an unfinished construction at the activity spot." ),
+                 you.disp_name() );
+        return;
+    }
+    you.set_activity_level( pc->id->activity_level );
+    // if you ( or NPC ) are finishing someone else's started construction...
+    const construction &built = pc->id.obj();
+    if( !you.has_trait( trait_DEBUG_HS ) && !you.meets_skill_requirements( built ) ) {
+        add_msg( m_info, _( "%s can't work on this construction anymore." ), you.disp_name() );
+        you.cancel_activity();
+        if( you.is_npc() ) {
+            you.activity = player_activity();
+            you.set_moves( 0 );
+        }
+        return;
+    }
+    // item_counter represents the percent progress relative to the base batch time
+    // stored precise to 5 decimal places ( e.g. 67.32 percent would be stored as 6732000 )
+    const int old_counter = pc->counter;
+
+    // Base moves for construction with no speed modifier or assistants
+    // Clamp to >= 100 to prevent division by 0 or int overflow on characters with high speed;
+    const double base_total_moves = std::max( 100, built.time );
+    // Current expected total moves, includes construction speed modifiers and assistants
+    const double cur_total_moves = std::max( 100, built.adjusted_time() );
+    // Delta progress in moves adjusted for current crafting speed
+    const double delta_progress = you.get_moves() * base_total_moves / cur_total_moves;
+    // Current progress in moves
+    const double current_progress = old_counter * base_total_moves / 10000000.0 +
+                                    delta_progress;
+    you.set_moves( 0 );
+    pc->id->do_turn_special( construction_bub, you );
+    // Current progress as a percent of base_total_moves to 2 decimal places
+    pc->counter = std::round( current_progress / base_total_moves * 10000000.0 );
+    pc->counter = std::min( pc->counter, 10000000 );
+    // If construction_progress has reached 100% or more
+    if( pc->counter >= 10000000 ) {
+        // Activity is canceled in complete_construction()
+        complete_construction( act, you );
+    }
+}
+
+std::string build_construction_activity_actor::get_progress_message( const player_activity & )
+const
+{
+    map &here = get_map();
+
+    partial_con *pc =
+        here.partial_con_at( here.get_bub( construction_location ) );
+    if( pc ) {
+        int counter = std::min( pc->counter, 10000000 );
+        const int percentage = counter / 100000;
+
+        return string_format( "%d%%", percentage );
+    }
+    return "";
+}
+
+void build_construction_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "construction_location", construction_location );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> build_construction_activity_actor::deserialize( JsonValue &jsin )
+{
+    build_construction_activity_actor actor;
+    JsonObject data = jsin.get_object();
+    data.read( "construction_location", actor.construction_location );
+
+    return actor.clone();
+}
+
 void reel_cable_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_total = moves_total;
@@ -10105,6 +10195,7 @@ deserialize_functions = {
     { ACT_BINDER_COPY_RECIPE, &bookbinder_copy_activity_actor::deserialize },
     { ACT_BLEED, &butchery_activity_actor::deserialize },
     { ACT_BOLTCUTTING, &boltcutting_activity_actor::deserialize },
+    { ACT_BUILD, &build_construction_activity_actor::deserialize },
     { ACT_BUTCHER, &butchery_activity_actor::deserialize },
     { ACT_BUTCHER_FULL, &butchery_activity_actor::deserialize },
     { ACT_CHOP_LOGS, &chop_logs_activity_actor::deserialize },

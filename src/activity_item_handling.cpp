@@ -81,7 +81,6 @@
 #include "vpart_position.h"
 #include "weather.h"
 
-static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_FETCH_REQUIRED( "ACT_FETCH_REQUIRED" );
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
@@ -2842,8 +2841,7 @@ static bool construction_activity( Character &you, const zone_data * /*zone*/,
         you.consume_tools( it );
     }
     you.backlog.emplace_front( activity_to_restore );
-    you.assign_activity( ACT_BUILD );
-    you.activity.placement = here.get_abs( src_loc );
+    you.assign_activity( build_construction_activity_actor( here.get_abs( src_loc ) ) );
     return true;
 }
 
@@ -3594,8 +3592,7 @@ bool construction_do( Character &you, const activity_reason_info &act_info,
     if( reason == do_activity_reason::CAN_DO_CONSTRUCTION ) {
         if( here.partial_con_at( src_loc ) ) {
             you.backlog.emplace_front( ACT_MULTIPLE_CONSTRUCTION );
-            you.assign_activity( ACT_BUILD );
-            you.activity.placement = src;
+            you.assign_activity( build_construction_activity_actor( src ) );
             return false;
         }
         if( construction_activity( you, zone, src_loc, act_info, ACT_MULTIPLE_CONSTRUCTION ) ) {

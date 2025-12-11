@@ -27,7 +27,6 @@
 #include "character_id.h"
 #include "character_martial_arts.h"
 #include "clzones.h"
-#include "construction.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "creature_tracker.h"
@@ -93,7 +92,6 @@
 
 static const activity_id ACT_ARMOR_LAYERS( "ACT_ARMOR_LAYERS" );
 static const activity_id ACT_ATM( "ACT_ATM" );
-static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
 static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
 static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
@@ -191,7 +189,6 @@ static const morale_type morale_tree_communion( "morale_tree_communion" );
 static const skill_id skill_computer( "computer" );
 static const skill_id skill_survival( "survival" );
 
-static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 
 static const zone_type_id zone_type_FARM_PLOT( "FARM_PLOT" );
@@ -213,7 +210,6 @@ activity_handlers::do_turn_functions = {
     { ACT_MULTIPLE_BUTCHER, multiple_butcher_do_turn },
     { ACT_MULTIPLE_FARM, multiple_farm_do_turn },
     { ACT_FETCH_REQUIRED, fetch_do_turn },
-    { ACT_BUILD, build_do_turn },
     { ACT_EAT_MENU, eat_menu_do_turn },
     { ACT_VEHICLE_DECONSTRUCTION, vehicle_deconstruction_do_turn },
     { ACT_VEHICLE_REPAIR, vehicle_repair_do_turn },
@@ -1827,61 +1823,6 @@ void activity_handlers::operation_finish( player_activity *act, Character *you )
     }
     you->remove_effect( effect_under_operation );
     act->set_to_null();
-}
-
-void activity_handlers::build_do_turn( player_activity *act, Character *you )
-{
-    map &here = get_map();
-    partial_con *pc = here.partial_con_at( here.get_bub( act->placement ) );
-    // Maybe the player and the NPC are working on the same construction at the same time
-    if( !pc ) {
-        if( you->is_npc() ) {
-            // if player completes the work while NPC still in activity loop
-            you->activity = player_activity();
-            you->set_moves( 0 );
-        } else {
-            you->cancel_activity();
-        }
-        add_msg( m_info, _( "%s did not find an unfinished construction at the activity spot." ),
-                 you->disp_name() );
-        return;
-    }
-    you->set_activity_level( pc->id->activity_level );
-    // if you ( or NPC ) are finishing someone else's started construction...
-    const construction &built = pc->id.obj();
-    if( !you->has_trait( trait_DEBUG_HS ) && !you->meets_skill_requirements( built ) ) {
-        add_msg( m_info, _( "%s can't work on this construction anymore." ), you->disp_name() );
-        you->cancel_activity();
-        if( you->is_npc() ) {
-            you->activity = player_activity();
-            you->set_moves( 0 );
-        }
-        return;
-    }
-    // item_counter represents the percent progress relative to the base batch time
-    // stored precise to 5 decimal places ( e.g. 67.32 percent would be stored as 6732000 )
-    const int old_counter = pc->counter;
-
-    // Base moves for construction with no speed modifier or assistants
-    // Clamp to >= 100 to prevent division by 0 or int overflow on characters with high speed;
-    const double base_total_moves = std::max( 100, built.time );
-    // Current expected total moves, includes construction speed modifiers and assistants
-    const double cur_total_moves = std::max( 100, built.adjusted_time() );
-    // Delta progress in moves adjusted for current crafting speed
-    const double delta_progress = you->get_moves() * base_total_moves / cur_total_moves;
-    // Current progress in moves
-    const double current_progress = old_counter * base_total_moves / 10000000.0 +
-                                    delta_progress;
-    you->set_moves( 0 );
-    pc->id->do_turn_special( here.get_bub( act->placement ), *you );
-    // Current progress as a percent of base_total_moves to 2 decimal places
-    pc->counter = std::round( current_progress / base_total_moves * 10000000.0 );
-    pc->counter = std::min( pc->counter, 10000000 );
-    // If construction_progress has reached 100% or more
-    if( pc->counter >= 10000000 ) {
-        // Activity is canceled in complete_construction()
-        complete_construction( you->as_character() );
-    }
 }
 
 void activity_handlers::tidy_up_do_turn( player_activity *act, Character *you )

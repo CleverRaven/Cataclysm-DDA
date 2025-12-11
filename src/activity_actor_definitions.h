@@ -2002,6 +2002,37 @@ class tent_deconstruct_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 };
 
+class build_construction_activity_actor : public activity_actor
+{
+    public:
+        build_construction_activity_actor() = default;
+        explicit build_construction_activity_actor( const tripoint_abs_ms &construction_location ) :
+            construction_location( construction_location ) {};
+
+        const activity_id &get_type() const override {
+            static const activity_id ACT_BUILD( "ACT_BUILD" );
+            return ACT_BUILD;
+        }
+
+        void start( player_activity &, Character & ) override {};
+        void do_turn( player_activity &act, Character &you ) override;
+        void finish( player_activity &, Character & ) override {};
+
+        void complete_construction( player_activity &act, Character &you );
+        std::string get_progress_message( const player_activity & ) const override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<build_construction_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+
+    private:
+        tripoint_abs_ms construction_location;
+
+};
+
 class reel_cable_activity_actor : public activity_actor
 {
     private:
