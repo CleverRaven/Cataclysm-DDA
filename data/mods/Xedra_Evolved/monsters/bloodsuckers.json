@@ -381,7 +381,7 @@
     "type": "MONSTER",
     "copy-from": "mon_vampire_generic",
     "name": { "str_sp": "moroi" },
-    "description": "This creature looks more aware than most of the ferals you have seen and in fact you might even suspect them of being normal if it weren't for the dried blood caked around their mouth and down the front of their clothes.  There is a red light in their eyes, and they hunch over almost as though they want to drop to all fours.",
+    "description": "This creature looks more aware than most of the ferals you have seen and in fact you might even suspect them of being normal if it weren't for the dried blood caked around their mouth and down the front of their clothes.  There is a red light in their eyes, and they hunch over almost as though they want to drop to all fours.  When they do open their mouth, every single one of their teeth is a jagged fang.",
     "speed": 80,
     "melee_skill": 4,
     "melee_dice": 2,
