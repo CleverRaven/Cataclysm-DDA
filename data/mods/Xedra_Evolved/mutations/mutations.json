@@ -1207,7 +1207,7 @@
   },
   {
     "type": "mutation",
-    "id": "EOC_VAMPIRE_RENDING_TEETH_active",
+    "id": "VAMPIRE_RENDING_TEETH_active",
     "name": { "str": "Rending Jaws Extended", "//~": "NO_I18N" },
     "points": 0,
     "visibility": 3,
