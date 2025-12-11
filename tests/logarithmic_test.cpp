@@ -8,7 +8,8 @@ TEST_CASE( "logarithmic_basic_shape", "[cata_utility]" )
     CHECK( logarithmic( 6.0 ) > logarithmic( 0.0 ) );
 }
 
-TEST_CASE( "logarithmic_range_normalized_mapping", "[cata_utility]" ) {
+TEST_CASE( "logarithmic_range_normalized_mapping", "[cata_utility]" )
+{
     CHECK( float_equals( logarithmic_range( -6, 6, -6 ), 1.0 ) );
     CHECK( float_equals( logarithmic_range( -6, 6, 6 ), 0.0 ) );
     double mid = logarithmic_range( -6, 6, 0 );
