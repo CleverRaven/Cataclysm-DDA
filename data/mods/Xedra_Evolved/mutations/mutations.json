@@ -1344,6 +1344,17 @@
   },
   {
     "type": "mutation",
+    "id": "VAMPIRE_SUMMON_SHADOWS",
+    "name": { "str": "The Shadows that Crawl" },
+    "points": 5,
+    "description": "Your control over darkness has progressed to the point that you can animate patches of it as living shadows to attack your enemies.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "spells_learned": [ [ "vampire_summon_shadows", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "VAMPIRE_BAT_FORM",
     "name": { "str": "Shape of the Night Flier" },
     "points": 8,

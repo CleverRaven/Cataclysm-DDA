@@ -215,12 +215,12 @@
     "spell_class": "VAMPIRE_BLOOD_ARTS",
     "min_range": {
       "math": [
-        "min((3 + (vampire_total_tier_one_traits() * 0.2) + (vampire_total_tier_two_traits() * 0.33) + (vampire_total_tier_three_traits() * 0.5) + (vampire_total_tier_four_traits() * 0.75)), 12)"
+        "min((3 + (vampire_total_tier_one_traits() * 0.2) + (vampire_total_tier_two_traits() * 0.33) + (vampire_total_tier_three_traits() * 0.5) + (vampire_total_tier_four_traits_plus_potence() * 0.75)), 12)"
       ]
     },
     "max_range": {
       "math": [
-        "min((3 + (vampire_total_tier_one_traits() * 0.2) + (vampire_total_tier_two_traits() * 0.33) + (vampire_total_tier_three_traits() * 0.5) + (vampire_total_tier_four_traits() * 0.75)), 12)"
+        "min((3 + (vampire_total_tier_one_traits() * 0.2) + (vampire_total_tier_two_traits() * 0.33) + (vampire_total_tier_three_traits() * 0.5) + (vampire_total_tier_four_traits_plus_potence() * 0.75)), 12)"
       ]
     },
     "base_energy_cost": 150,
@@ -259,12 +259,12 @@
     "difficulty": 3,
     "min_range": {
       "math": [
-        "min((3 + (vampire_total_tier_one_traits() * 0.2) + (vampire_total_tier_two_traits() * 0.33) + (vampire_total_tier_three_traits() * 0.5) + (vampire_total_tier_four_traits() * 0.75)), 12)"
+        "min((3 + (vampire_total_tier_one_traits() * 0.2) + (vampire_total_tier_two_traits() * 0.33) + (vampire_total_tier_three_traits() * 0.5) + (vampire_total_tier_four_traits_plus_potence() * 0.75)), 12)"
       ]
     },
     "max_range": {
       "math": [
-        "min((3 + (vampire_total_tier_one_traits() * 0.2) + (vampire_total_tier_two_traits() * 0.33) + (vampire_total_tier_three_traits() * 0.5) + (vampire_total_tier_four_traits() * 0.75)), 12)"
+        "min((3 + (vampire_total_tier_one_traits() * 0.2) + (vampire_total_tier_two_traits() * 0.33) + (vampire_total_tier_three_traits() * 0.5) + (vampire_total_tier_four_traits_plus_potence() * 0.75)), 12)"
       ]
     },
     "base_energy_cost": 150,
@@ -322,12 +322,12 @@
     },
     "min_range": {
       "math": [
-        "min((3 + (vampire_total_tier_one_traits() * 0.2) + (vampire_total_tier_two_traits() * 0.33) + (vampire_total_tier_three_traits() * 0.5) + (vampire_total_tier_four_traits() * 0.75)), 12)"
+        "min((3 + (vampire_total_tier_one_traits() * 0.2) + (vampire_total_tier_two_traits() * 0.33) + (vampire_total_tier_three_traits() * 0.5) + (vampire_total_tier_four_traits_plus_potence() * 0.75)), 12)"
       ]
     },
     "max_range": {
       "math": [
-        "min((3 + (vampire_total_tier_one_traits() * 0.2) + (vampire_total_tier_two_traits() * 0.33) + (vampire_total_tier_three_traits() * 0.5) + (vampire_total_tier_four_traits() * 0.75)), 12)"
+        "min((3 + (vampire_total_tier_one_traits() * 0.2) + (vampire_total_tier_two_traits() * 0.33) + (vampire_total_tier_three_traits() * 0.5) + (vampire_total_tier_four_traits_plus_potence() * 0.75)), 12)"
       ]
     },
     "base_energy_cost": 500,
@@ -352,6 +352,50 @@
     "base_energy_cost": 0,
     "base_casting_time": 150,
     "difficulty": 2
+  },
+  {
+    "id": "vampire_summon_shadows",
+    "type": "SPELL",
+    "name": { "str": "The Shadows that Crawl" },
+    "description": "Your control over darkness has progressed to the point that you can animate patches of it as living shadows to attack your enemies.\n\nYou must have <color_yellow>greater</color> than <color_red>-500</color> Stolen Blood to use this blood art.",
+    "message": "The darkness takes on tangible form.",
+    "teachable": false,
+    "magic_type": "xe_vampire_blood_powers",
+    "effect": "summon",
+    "effect_str": "mon_shadow",
+    "condition": { "math": [ "u_vitamin('human_blood_vitamin') > -500" ] },
+    "condition_fail_message": "You do not have enough stolen blood.",
+    "shape": "blast",
+    "valid_targets": [ "ally", "hostile", "ground" ],
+    "flags": [ "NO_HANDS", "SILENT", "NO_FAIL", "RANDOM_DAMAGE", "RANDOM_DURATION", "NO_PROJECTILE" ],
+    "skill": "deduction",
+    "spell_class": "VAMPIRE_BLOOD_ARTS",
+    "min_damage": {
+      "math": [
+        "min( ( (1 + (vampire_total_tier_one_traits()  * 0.075) + (vampire_total_tier_two_traits() * 0.12) + (vampire_total_tier_three_traits() * 0.25) + ( vampire_total_tier_four_traits_plus_potence() * 0.5 ) ) * 0.75), 10)"
+      ]
+    },
+    "max_damage": {
+      "math": [
+        "min( ( (1 + (vampire_total_tier_one_traits()  * 0.075) + (vampire_total_tier_two_traits() * 0.12) + (vampire_total_tier_three_traits() * 0.25) + ( vampire_total_tier_four_traits_plus_potence() * 0.5 ) ) * 1.25), 10)"
+      ]
+    },
+    "min_duration": {
+      "math": [
+        "(18000 + (vampire_total_tier_one_traits()  * 1500) + (vampire_total_tier_two_traits() * 2100) + (vampire_total_tier_three_traits() * 3800) + ( vampire_total_tier_four_traits_plus_potence() * 5500) ) * 0.75"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "(18000 + (vampire_total_tier_one_traits()  * 1500) + (vampire_total_tier_two_traits() * 2100) + (vampire_total_tier_three_traits() * 3800) + ( vampire_total_tier_four_traits_plus_potence() * 5500) ) * 0.75"
+      ]
+    },
+    "min_range": 20,
+    "max_range": 20,
+    "min_aoe": 3,
+    "max_aoe": 3,
+    "base_energy_cost": 400,
+    "base_casting_time": 250
   },
   {
     "id": "vampire_torpor",
@@ -391,32 +435,32 @@
     "difficulty": 8,
     "min_damage": {
       "math": [
-        "(20 + (vampire_total_tier_one_traits()  * 4) + (vampire_total_tier_two_traits() * 10) + (vampire_total_tier_three_traits() * 16) + (vampire_total_tier_four_traits() * 30)) * 0.75"
+        "(20 + (vampire_total_tier_one_traits()  * 4) + (vampire_total_tier_two_traits() * 10) + (vampire_total_tier_three_traits() * 16) + (vampire_total_tier_four_traits_plus_potence() * 30)) * 0.75"
       ]
     },
     "max_damage": {
       "math": [
-        "(20 + (vampire_total_tier_one_traits()  * 4) + (vampire_total_tier_two_traits() * 10) + (vampire_total_tier_three_traits() * 16) + (vampire_total_tier_four_traits() * 30)) * 1.25"
+        "(20 + (vampire_total_tier_one_traits()  * 4) + (vampire_total_tier_two_traits() * 10) + (vampire_total_tier_three_traits() * 16) + (vampire_total_tier_four_traits_plus_potence() * 30)) * 1.25"
       ]
     },
     "min_duration": {
       "math": [
-        "(2500 + (vampire_total_tier_one_traits()  * 400) + (vampire_total_tier_two_traits() * 800) + (vampire_total_tier_three_traits() * 1150) + (vampire_total_tier_four_traits() * 2050)) * 0.75"
+        "(2500 + (vampire_total_tier_one_traits()  * 400) + (vampire_total_tier_two_traits() * 800) + (vampire_total_tier_three_traits() * 1150) + (vampire_total_tier_four_traits_plus_potence() * 2050)) * 0.75"
       ]
     },
     "max_duration": {
       "math": [
-        "(2500 + (vampire_total_tier_one_traits()  * 400) + (vampire_total_tier_two_traits() * 800) + (vampire_total_tier_three_traits() * 1150) + (vampire_total_tier_four_traits() * 2050)) * 1.25"
+        "(2500 + (vampire_total_tier_one_traits()  * 400) + (vampire_total_tier_two_traits() * 800) + (vampire_total_tier_three_traits() * 1150) + (vampire_total_tier_four_traits_plus_potence() * 2050)) * 1.25"
       ]
     },
     "min_range": {
       "math": [
-        "min((3 + (vampire_total_tier_one_traits() * 0.2) + (vampire_total_tier_two_traits() * 0.33) + (vampire_total_tier_three_traits() * 0.5) + (vampire_total_tier_four_traits() * 0.75)), 12)"
+        "min((3 + (vampire_total_tier_one_traits() * 0.2) + (vampire_total_tier_two_traits() * 0.33) + (vampire_total_tier_three_traits() * 0.5) + (vampire_total_tier_four_traits_plus_potence() * 0.75)), 12)"
       ]
     },
     "max_range": {
       "math": [
-        "min((3 + (vampire_total_tier_one_traits() * 0.2) + (vampire_total_tier_two_traits() * 0.33) + (vampire_total_tier_three_traits() * 0.5) + (vampire_total_tier_four_traits() * 0.75)), 12)"
+        "min((3 + (vampire_total_tier_one_traits() * 0.2) + (vampire_total_tier_two_traits() * 0.33) + (vampire_total_tier_three_traits() * 0.5) + (vampire_total_tier_four_traits_plus_potence() * 0.75)), 12)"
       ]
     },
     "base_energy_cost": 700,
