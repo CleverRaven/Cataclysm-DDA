@@ -6055,7 +6055,7 @@
     "type": "mutation",
     "id": "VANITY",
     "name": { "str": "Highly Vain" },
-    "description": "You know you're beautiful, and the world deserves to know it too.  You prefer to show off your stunningly good looks to the world and will be unhappy if you cover up your face.",
+    "description": "You know you're beautiful, and the world deserves to know it too.  You prefer to show off your stunningly good looks and will be unhappy if you cover up your face.",
     "category": [ "ALPHA" ],
     "prereqs": [ "BEAUTIFUL", "BEAUTIFUL2" ],
     "points": -1,
