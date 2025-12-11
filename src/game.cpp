@@ -1959,7 +1959,7 @@ static hint_rating rate_action_eat( const avatar &you, const item &it )
 
 static hint_rating rate_action_collapse( const item &it )
 {
-    for( const item_pocket *pocket : it.get_all_standard_pockets() ) {
+    for( const item_pocket *pocket : it.get_standard_pockets() ) {
         if( !pocket->settings.is_collapsed() ) {
             return hint_rating::good;
         }
@@ -1969,7 +1969,7 @@ static hint_rating rate_action_collapse( const item &it )
 
 static hint_rating rate_action_expand( const item &it )
 {
-    for( const item_pocket *pocket : it.get_all_standard_pockets() ) {
+    for( const item_pocket *pocket : it.get_standard_pockets() ) {
         if( pocket->settings.is_collapsed() ) {
             return hint_rating::good;
         }
@@ -2386,7 +2386,7 @@ int game::inventory_item_menu( item_location locThisItem,
                     break;
                 case '<':
                 case '>':
-                    for( item_pocket *pocket : oThisItem.get_all_standard_pockets() ) {
+                    for( item_pocket *pocket : oThisItem.get_standard_pockets() ) {
                         pocket->settings.set_collapse( cMenu == '>' );
                     }
                     break;

@@ -471,7 +471,7 @@ void item::randomize_rot()
         set_rot( get_shelf_life() * k_rot );
     }
 
-    for( item_pocket *pocket : contents.get_all_contained_pockets() ) {
+    for( item_pocket *pocket : contents.get_container_pockets() ) {
         if( pocket->spoil_multiplier() > 0.0f ) {
             for( item *subitem : pocket->all_items_top() ) {
                 subitem->randomize_rot();

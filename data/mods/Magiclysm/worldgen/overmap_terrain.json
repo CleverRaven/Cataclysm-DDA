@@ -103,8 +103,13 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "house_technomancer_1", "house_technomancer_2" ],
+    "id": [ "house_technomancer_1", "house_technomancer_2", "house_elf_01" ],
     "copy-from": "generic_city_house"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "house_elf_01_roof" ],
+    "copy-from": "generic_city_house_roof"
   },
   {
     "type": "overmap_terrain",

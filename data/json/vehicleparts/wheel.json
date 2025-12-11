@@ -405,7 +405,7 @@
     "id": "wheel_10",
     "type": "vehicle_part",
     "item": "wheel_10",
-    "description": "A set of large rubber wheels mounted on pivots, like you'd find on small industrial equipment.",
+    "description": "A set of solid-rubber wheels, like you'd find on small industrial equipment.",
     "location": "under",
     "categories": [ "movement" ],
     "color": "dark_gray",

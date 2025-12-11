@@ -81,7 +81,7 @@ void map::add_item_light_recursive( const tripoint_bub_ms &p, const item &it )
         }
     }
 
-    for( const item_pocket *pkt : it.get_all_contained_pockets() ) {
+    for( const item_pocket *pkt : it.get_container_pockets() ) {
         if( pkt->transparent() ) {
             for( const item *cont : pkt->all_items_top() ) {
                 add_item_light_recursive( p, *cont );

@@ -1710,7 +1710,27 @@ void npc::execute_action( npc_action action )
             // Find a nice spot to sleep
             tripoint_bub_ms best_spot = pos_bub();
             int best_sleepy = evaluate_sleep_spot( best_spot );
-            for( const tripoint_bub_ms &p : closest_points_first( pos_bub(), MAX_VIEW_DISTANCE ) ) {
+
+            // first build a list of positions to search
+            std::vector<tripoint_bub_ms> search_positions;
+
+            if( is_walking_with() && player_character.in_vehicle && player_character.in_sleep_state() ) {
+                const optional_vpart_position player_part_pos = here.veh_at( player_character.pos_bub() );
+                if( player_part_pos ) {
+                    vehicle *player_vehicle = &player_part_pos->vehicle();
+                    for( const vpart_reference &part : player_vehicle->get_avail_parts( VPFLAG_BOARDABLE ) ) {
+                        search_positions.push_back( player_vehicle->bub_part_pos( here, part.part() ) );
+                    }
+                }
+            }
+
+            if( search_positions.empty() ) {
+                search_positions = closest_points_first( pos_bub(), MAX_VIEW_DISTANCE );
+            }
+
+
+            // then search through all positions to find the best sleep spot
+            for( const tripoint_bub_ms &p : search_positions ) {
                 if( !could_move_onto( p ) || !g->is_empty( p ) ) {
                     continue;
                 }
@@ -1724,6 +1744,7 @@ void npc::execute_action( npc_action action )
                     }
                 }
             }
+
             if( is_walking_with() ) {
                 complain_about( "napping", 30_minutes, chat_snippets().snip_warn_sleep.translated() );
             }
@@ -3604,7 +3625,7 @@ void npc::find_item()
     wanted_item = {};
     int best_value = minimum_item_value();
     // Not perfect, but has to mirror pickup code
-    units::volume volume_allowed = volume_capacity() - volume_carried();
+    units::volume volume_allowed = free_space();
     units::mass   weight_allowed = weight_capacity() - weight_carried();
     // For some reason range limiting by vision doesn't work properly
     const int range = 6;
