@@ -62,8 +62,8 @@ struct map_data_summary;
 struct region_settings;
 template <typename T> struct enum_traits;
 
-static const std::string zzip_overmap_directory = "overmaps";
-static const std::string zzip_suffix = ".zzip";
+const std::string zzip_overmap_directory = "overmaps";
+const std::string zzip_suffix = ".zzip";
 
 struct om_note {
     std::string text;
