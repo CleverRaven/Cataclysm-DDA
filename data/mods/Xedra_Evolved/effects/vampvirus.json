@@ -289,7 +289,8 @@
                         "VAMPIRE_EARTH_SLUMBER",
                         "VAMPIRE_CARDIO_BONUS",
                         "VAMPIRE_MOTION_ALARM",
-                        "VAMPIRE_BONUS_HP"
+                        "VAMPIRE_BONUS_HP",
+                        "VAMPIRE_RENDING_TEETH"
                       ],
                       "type": "mutation",
                       "true_eocs": [ "EOC_SUCCESFUL_ROLL_REMAINDER" ],
