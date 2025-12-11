@@ -17,7 +17,8 @@ TEST_CASE( "logarithmic_range_normalized_mapping", "[cata_utility]" )
     CHECK( mid < 1.0 );
 }
 
-TEST_CASE( "logarithmic_monotonic_sequence", "[cata_utility]" ) {
+TEST_CASE( "logarithmic_monotonic_sequence", "[cata_utility]" )
+{
     const double v1 = logarithmic( -6.0 );
     const double v2 = logarithmic( -4.0 );
     const double v3 = logarithmic( -2.0 );
