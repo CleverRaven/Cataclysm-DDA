@@ -796,6 +796,37 @@ class comestible_inventory_preset : public inventory_selector_preset
 
             const item &med = *loc;
 
+            const auto &comest = med.get_comestible();
+            if( comest && !comest->tool.is_null() ) {
+                const bool has = item::count_by_charges( comest->tool )
+                                 ? you.has_charges( comest->tool, 1 )
+                                 : you.has_amount( comest->tool, 1 );
+                if( !has ) {
+                    return string_format( _( "You need a %s to consume that!" ), item::nname( comest->tool ) );
+                }
+            }
+            const use_function *consume_drug = med.type->get_use( "consume_drug" );
+            if( consume_drug != nullptr ) { //its a drug)
+                const consume_drug_iuse *consume_drug_use = dynamic_cast<const consume_drug_iuse *>
+                        ( consume_drug->get_actor_ptr() );
+                for( const auto &tool : consume_drug_use->tools_needed ) {
+                    const bool has = item::count_by_charges( tool.first )
+                                     ? you.has_charges( tool.first, ( tool.second == -1 ) ? 1 : tool.second )
+                                     : you.has_amount( tool.first, 1 );
+                    if( !has ) {
+                        return string_format( _( "You need a %s to consume that!" ), item::nname( tool.first ) );
+                    }
+                }
+            }
+
+            const use_function *smoking = med.type->get_use( "SMOKING" );
+            if( smoking != nullptr ) {
+                std::optional<std::string> litcig = iuse::can_smoke( you );
+                if( litcig.has_value() ) {
+                    return _( litcig.value_or( "" ) );
+                }
+            }
+
             if(
                 ( loc->made_of_from_type( phase_id::LIQUID ) &&
                   loc.where() != item_location::type::container ) &&
@@ -1115,7 +1146,8 @@ class activatable_inventory_preset : public pickup_inventory_preset
         }
 
         bool is_shown( const item_location &loc ) const override {
-            return loc->type->has_use() || loc->has_relic_activation();
+            return loc->is_craft() || ( ( loc->type->has_use() || loc->has_relic_activation() ) &&
+                                        ( !loc->is_comestible() || loc->type->can_use( "PETFOOD" ) ) );
         }
 
         std::string get_denial( const item_location &loc ) const override {
@@ -1124,37 +1156,6 @@ class activatable_inventory_preset : public pickup_inventory_preset
 
             if( it.has_relic_activation() && !it.can_use_relic( you ) ) {
                 return string_format( _( "The %s can't be used like that." ), it.tname() );
-            }
-
-            const auto &comest = it.get_comestible();
-            if( comest && !comest->tool.is_null() ) {
-                const bool has = item::count_by_charges( comest->tool )
-                                 ? you.has_charges( comest->tool, 1 )
-                                 : you.has_amount( comest->tool, 1 );
-                if( !has ) {
-                    return string_format( _( "You need a %s to consume that!" ), item::nname( comest->tool ) );
-                }
-            }
-            const use_function *consume_drug = it.type->get_use( "consume_drug" );
-            if( consume_drug != nullptr ) { //its a drug)
-                const consume_drug_iuse *consume_drug_use = dynamic_cast<const consume_drug_iuse *>
-                        ( consume_drug->get_actor_ptr() );
-                for( const auto &tool : consume_drug_use->tools_needed ) {
-                    const bool has = item::count_by_charges( tool.first )
-                                     ? you.has_charges( tool.first, ( tool.second == -1 ) ? 1 : tool.second )
-                                     : you.has_amount( tool.first, 1 );
-                    if( !has ) {
-                        return string_format( _( "You need a %s to consume that!" ), item::nname( tool.first ) );
-                    }
-                }
-            }
-
-            const use_function *smoking = it.type->get_use( "SMOKING" );
-            if( smoking != nullptr ) {
-                std::optional<std::string> litcig = iuse::can_smoke( you );
-                if( litcig.has_value() ) {
-                    return _( litcig.value_or( "" ) );
-                }
             }
 
             if( uses.size() == 1 ) {

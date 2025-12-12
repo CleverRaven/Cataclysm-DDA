@@ -503,6 +503,9 @@ These branches are the valid `dreams` from [dreams.json](/data/json/dreams.json)
 ## Comestibles
 
 - ```ACID``` When consumed using the `BLECH` function, penalties are reduced if character has `ACIDPROOF` or `ACIDBLOOD` traits.
+- ```ALCOHOL``` Increases drunkenness.  Adds effect `drunk`.
+- ```ALCOHOL_STRONG``` Greatly increases drunkenness.  Adds effect `drunk`.
+- ```ALCOHOL_WEAK``` Slightly increases drunkenness.  Adds effect `drunk`.
 - ```CARNIVORE_OK``` Can be eaten by characters with the Carnivore mutation at 50% kcal reduction.
 - ```CANT_HEAL_EVERYONE``` This med can't be used by everyone, it requires a special mutation.  See `can_heal_with` in mutation.
 - ```CORROSIVE``` when consumed using the `BLECH` function, causes the same penalties as `ACID` but is not affected by `ACIDPROOF` or `ACIDBLOOD` traits.
@@ -559,9 +562,6 @@ These branches are the valid `dreams` from [dreams.json](/data/json/dreams.json)
 
 These flags apply to the `use_action` field, instead of the `flags` field.
 
-- ```ALCOHOL_STRONG``` Greatly increases drunkenness.  Adds disease `drunk`.
-- ```ALCOHOL_WEAK``` Slightly increases drunkenness.  Adds disease `drunk`.
-- ```ALCOHOL``` Increases drunkenness.  Adds disease `drunk`.
 - ```ANTIBIOTIC``` Helps fight infections.  Removes disease `infected` and adds disease `recover`.
 - ```BANDAGE``` Stop bleeding.
 - ```BLECH``` Causes vomiting, adds disease `poison`, adds pain and hurts torso.
