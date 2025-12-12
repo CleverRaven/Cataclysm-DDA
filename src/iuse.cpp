@@ -3244,6 +3244,11 @@ std::optional<int> iuse::pickaxe( Character *p, item *it, const tripoint_bub_ms 
 
 std::optional<int> iuse::geiger( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !it->activation_success() ) {
+        p->add_msg_if_player( m_bad, _( "Your %s fails to react." ), it->tname() );
+        return std::nullopt;
+    }
+
     map &here = get_map();
 
     int ch = uilist( _( "Geiger counter:" ), {
@@ -3291,16 +3296,26 @@ std::optional<int> iuse::geiger( Character *p, item *it, const tripoint_bub_ms &
     return 1;
 }
 
-std::optional<int> iuse::geiger_active( Character *, item *, const tripoint_bub_ms &pos )
+std::optional<int> iuse::geiger_active( Character *, item *it, const tripoint_bub_ms &pos )
 {
+    bool activation_success = it->activation_success();
+
     const int rads = get_map().get_radiation( pos );
-    if( rads == 0 ) {
+    if( rads == 0 && activation_success ) {
         return 0;
     }
     std::string description = rads > 50 ? _( "buzzing" ) :
                               rads > 25 ? _( "rapid clicking" ) : _( "clicking" );
+
     std::string sound_var = rads > 50 ? _( "geiger_high" ) :
                             rads > 25 ? _( "geiger_medium" ) : _( "geiger_low" );
+
+    if( !activation_success ) {
+        sounds::sound( pos, 6, sounds::sound_t::alarm, _( "distorted buzz-clicking" ), true, "tool",
+                       sound_var );
+        add_msg( m_warning, _( "The %s produces a distorted buzz-clicking noise." ), it->tname() );
+        return std::nullopt;
+    }
 
     sounds::sound( pos, 6, sounds::sound_t::alarm, description, true, "tool", sound_var );
     if( !get_avatar().can_hear( pos, 6 ) ) {
@@ -3400,6 +3415,7 @@ std::optional<int> iuse::granade_act( Character *, item *it, const tripoint_bub_
     if( pos.x() == -999 || pos.y() == -999 ) {
         return std::nullopt;
     }
+
     map &here = get_map();
     creature_tracker &creatures = get_creature_tracker();
 
@@ -3968,6 +3984,11 @@ std::optional<int> iuse::gasmask_activate( Character *p, item *it, const tripoin
 {
     if( it->ammo_remaining( ) == 0 ) {
         p->add_msg_if_player( _( "Your %s doesn't have a filter." ), it->tname() );
+    } else if( !it->activation_success() ) {
+        p->add_msg_if_player( m_bad, _( "You fail to adjust your damaged %s so it doesn't leak." ),
+                              it->tname() );
+        return std::nullopt;
+
     } else {
         p->add_msg_if_player( _( "You prepare your %s." ), it->tname() );
         it->active = true;
@@ -3982,6 +4003,15 @@ std::optional<int> iuse::gasmask( Character *p, item *it, const tripoint_bub_ms 
     map &here = get_map();
 
     if( p && p->is_worn( *it ) ) {
+        if( it->activation_success() ) {
+            // In case if failed the previous tick.
+            it->set_var( "overwrite_env_resist", it->get_base_env_resist_w_filter() );
+        } else {
+            p->add_msg_if_player( m_bad, _( "Your damaged %s is leaking." ), it->tname() );
+            it->set_var( "overwrite_env_resist", 0 );
+            return std::nullopt;
+        }
+
         // calculate amount of absorbed gas per filter charge
         const field &gasfield = here.field_at( pos );
         for( const auto &dfield : gasfield ) {
@@ -4734,6 +4764,13 @@ std::optional<int> iuse::hacksaw( Character *p, item *it, const tripoint_bub_ms 
         }
         return false;
     };
+
+    if( !it->activation_success() ) {
+        p->add_msg_if_player( m_bad,
+                              _( "The blade of your %s disconnects at one end, so you put it back into place." ), it->tname() );
+        return std::nullopt;
+    }
+
 
     const std::optional<tripoint_bub_ms> pnt_ = choose_adjacent_highlight(
                 here, _( "Cut up metal where?" ), _( "There is no metal to cut up nearby." ), f, false );
@@ -8278,6 +8315,11 @@ std::optional<int> iuse::heatpack( Character *p, item *it, const tripoint_bub_ms
         return std::nullopt;
     }
     if( p->cant_do_mounted() ) {
+        return std::nullopt;
+    }
+
+    if( !it->activation_success() ) {
+        p->add_msg_if_player( m_bad, _( "You fail to activate your %s." ), it->tname() );
         return std::nullopt;
     }
 
