@@ -431,8 +431,9 @@ void region_settings_forest_trail::load( const JsonObject &jo, std::string_view 
 
 void region_settings_feature_flag::deserialize( const JsonObject &jo )
 {
-    optional( jo, was_loaded, "blacklist", blacklist );
-    optional( jo, was_loaded, "whitelist", whitelist );
+    optional( jo, was_loaded, "blacklist", blacklist, string_reader{} );
+    optional( jo, was_loaded, "whitelist", whitelist, string_reader{} );
+    was_loaded = true;
 }
 
 void region_settings_forest::load( const JsonObject &jo, std::string_view )
