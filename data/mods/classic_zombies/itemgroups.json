@@ -18,5 +18,36 @@
       { "item": "stanag30", "prob": 50 },
       { "group": "on_hand_223" }
     ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "default_zombie_clothes",
+    "copy-from": "default_zombie_clothes",
+    "extend": { "entries": [ { "group": "clothing_watch", "damage": [ 1, 4 ], "prob": 25 } ] }
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "default_zombie_children_clothes",
+    "copy-from": "default_zombie_children_clothes",
+    "extend": { "entries": [ { "group": "clothing_watch", "damage": [ 1, 4 ], "prob": 5 } ] }
+  },
+  {
+    "id": "clothing_watch",
+    "//": "Removed smartwatches, increase normal watch chance, reduce game watch chance",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "wristwatch", "prob": 180 },
+      { "item": "silver_watch", "prob": 70 },
+      { "item": "gold_watch", "prob": 40 },
+      { "item": "platinum_watch", "prob": 10 },
+      { "item": "sf_watch", "prob": 5 },
+      { "item": "calculator_watch", "prob": 5 },
+      { "item": "pocketwatch", "prob": 5 },
+      { "item": "diving_watch", "prob": 20 },
+      { "item": "game_watch", "prob": 1, "charges": [ 0, 50 ] }
+    ]
   }
 ]

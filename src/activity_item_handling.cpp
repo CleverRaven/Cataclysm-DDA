@@ -596,8 +596,7 @@ int activity_handlers::move_cost_inv( const item &it, const tripoint_bub_ms &src
 
     Character &player_character = get_player_character();
     // only free inventory capacity
-    const int inventory_capacity = units::to_milliliter( player_character.volume_capacity() -
-                                   player_character.volume_carried() );
+    const int inventory_capacity = units::to_milliliter( player_character.free_space() );
 
     const int item_volume = units::to_milliliter( it.volume() );
 
@@ -1438,7 +1437,7 @@ static bool are_requirements_nearby(
                               check_weight_if( you.backlog.front().id() ) );
 
     if( check_weight ) {
-        volume_allowed = you.volume_capacity() - you.volume_carried();
+        volume_allowed = you.free_space();
         weight_allowed = you.weight_capacity() - you.weight_carried();
     }
 
@@ -2928,7 +2927,7 @@ static bool fetch_activity(
                 requirements_map( you, distance );
     int pickup_count = 1;
     map_stack items_there = here.i_at( src_loc );
-    const units::volume volume_allowed = you.volume_capacity() - you.volume_carried();
+    const units::volume volume_allowed = you.free_space();
     const units::mass weight_allowed = you.weight_capacity() - you.weight_carried();
     const std::optional<vpart_reference> ovp = here.veh_at( src_loc ).cargo();
     if( ovp ) {
@@ -4375,7 +4374,7 @@ static VisitResponse visit_item_contents( item_location &loc,
             return VisitResponse::ABORT;
 
         case VisitResponse::NEXT:
-            for( item_pocket *pocket : loc->get_all_contained_pockets() ) {
+            for( item_pocket *pocket : loc->get_container_pockets() ) {
                 for( item &i : pocket->edit_contents() ) {
                     item_location child_loc( loc, &i );
                     if( visit_item_contents( child_loc, func ) == VisitResponse::ABORT ) {
