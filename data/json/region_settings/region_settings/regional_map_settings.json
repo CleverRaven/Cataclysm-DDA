@@ -875,7 +875,7 @@
       [ "mx_grove", 25000 ],
       [ "mx_shrubbery", 25000 ],
       [ "mx_point_dead_vegetation", 25000 ],
-      [ "mx_point_burned_ground", 12500 ],
+      [ "mx_point_burned_ground", 25000 ],
       [ "mx_strawberry_patch", 12500 ],
       [ "mx_blueberry_patch", 12500 ],
       [ "mx_raspberry_patch", 12500 ],
