@@ -8778,7 +8778,8 @@ void map::cut_down_tree( tripoint_bub_ms p, point_rel_ms dir )
     // TODO: make line_to type aware.
     std::vector<tripoint_bub_ms> tree = line_to( p, to, rng( 1, 8 ) );
     bool shattered_tree = false;
-    const int bash_strength = 79; // arbitrary bash strength, not enough to ever destroy concrete wall
+    // arbitrary bash strength, not enough to ever destroy concrete wall
+    const int bash_strength = MAX_REGULAR_BASH;
     const int bash_attempts = 1;
     for( tripoint_bub_ms &elem : tree ) {
         const ter_id original_terrain_at = ter( elem.xy() );
