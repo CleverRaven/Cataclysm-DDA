@@ -2896,5 +2896,9 @@
     "type": "json_flag",
     "//": "Terrain / Furniture flag used in Construction pre_flags field",
     "name": "Wired Wall"
+  },
+  {
+    "id": "BLOOD_ANALYSIS_KEY",
+    "type": "json_flag"
   }
 ]
