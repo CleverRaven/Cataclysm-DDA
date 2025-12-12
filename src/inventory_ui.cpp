@@ -2999,7 +2999,7 @@ std::vector<std::string> inventory_selector::get_stats() const
 {
     header_stats stats = get_raw_stats();
     std::vector<std::string> lines( stats.size() );
-    if( lines.size() == 0 ) {
+    if( lines.empty() ) {
         return lines;
     }
     std::vector<size_t> line_rindex( stats.size() );
