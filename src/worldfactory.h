@@ -9,6 +9,7 @@
 #include <memory>
 #include <vector>
 #include <string>
+#include <string_view>
 
 #include "cuboid_rectangle.h"
 #include "options.h"
