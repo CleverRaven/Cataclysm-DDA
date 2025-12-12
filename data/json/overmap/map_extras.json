@@ -396,6 +396,30 @@
     "flags": [ "CLASSIC" ]
   },
   {
+    "id": "mx_strawberry_patch",
+    "type": "map_extra",
+    "name": { "str": "Strawberry patch" },
+    "description": "Strawberry bushes have spread here.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_strawberry_patch" },
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "id": "mx_blueberry_patch",
+    "type": "map_extra",
+    "name": { "str": "Blueberry patch" },
+    "description": "Blueberry bushes have spread here.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_blueberry_patch" },
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "id": "mx_raspberry_patch",
+    "type": "map_extra",
+    "name": { "str": "Raspberry patch" },
+    "description": "Raspberry bushes have spread here.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_raspberry_patch" },
+    "flags": [ "CLASSIC" ]
+  },
+  {
     "id": "mx_knotweed_patch",
     "type": "map_extra",
     "name": { "str": "Japanese knotweed patch" },
