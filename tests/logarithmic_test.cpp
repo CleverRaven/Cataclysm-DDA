@@ -50,3 +50,5 @@ TEST_CASE( "logarithmic_range_monotonic_decreasing", "[cata_utility]" )
     CHECK( r5 > r6 );
     CHECK( r6 > r7 );
 }
+
+
