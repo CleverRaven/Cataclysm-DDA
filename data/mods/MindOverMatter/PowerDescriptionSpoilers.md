@@ -148,7 +148,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Duration*: 45 minutes to 112 minutes and 30 seconds, plus 4 minutes 10 seconds to 8 minutes 20 seconds per level<br />
 *Stamina Cost*: 8000, minus 250 per level to a minimum of 4000<br />
 *Channeling Time*: 250 moves, minus 13 moves per level to a minimum of 50<br />
-*Effects*: Greatly increases the psion’s metabolic efficiency.  fatigue grows 25% more slowly and the basal metabolic rate is reduced by 10%.  The fatigue reduction increase by 2% per level to a maximum of 70% increase, and the reduction to metabolic rate increases by 1% per level to a maximum of 40%.  In the addition, the psion can extract more calories and vitmins from food, gain 33% more of each plus 7% per power level, to a maximum of 4x the base caloric and vitamin content.  This applies to all vitamins, including harmful ones.<br />
+*Effects*: Greatly increases the psion’s metabolic efficiency.  fatigue grows 25% more slowly and the basal metabolic rate is reduced by 10%.  The fatigue reduction increase by 2% per level to a maximum of 70% increase, and the reduction to metabolic rate increases by 1% per level to a maximum of 40%.  In the addition, the psion can extract more calories and vitamins from food, gain 33% more of each plus 7% per power level, to a maximum of 4x the base caloric and vitamin content.  This applies to all vitamins, including harmful ones.<br />
 *Prerequisites*: Temperature Adaptability 8, Adrenaline Trigger 6 *or* Physical Enhancement 12<br />
 </details>
 <details>
@@ -164,7 +164,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 - With Burst of Speed: Move 25% further plus 3% per power level.
 - With Flexibility: Dodge skill is increased by 4, plus 1 per power level.
 - With Adrenaline Trigger: Cardio multiplier increases by 15% + 1.5% per power level.
-- With Hardened Skin: The bonues from hardened skin are increased by 50% plus 4% per power level, to a maximum of double the base bonus. Also, the psion is immune to being dazed or stunned. 
+- With Hardened Skin: The bonuses from hardened skin are increased by 50% plus 4% per power level, to a maximum of double the base bonus. Also, the psion is immune to being dazed or stunned. 
 - With Hammerhand: The psion does 25% additional bash damage with unarmed attacks, plus 3% per power level, as well as an increased chance to directly pulp the corpse of your target.
 - With Enhance Mobility: The psion gains Uncanny Dodge.
 - With Heightened Reflexes: Move cost is reduced by 10% plus 2% per power level, to a maximum of 50%, and recoil reduced by 30. In addition, the psions gains 1 bonus dodge, plus 1 per 8 power levels.
@@ -331,7 +331,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Prerequisites*: Heightened Senses 8, Premonition 6, Aura Sight 5<br />
 </details>
 <details>
-<summary><h3>Clairyovance</h3></summary>
+<summary><h3>Clairvoyance</h3></summary>
 
 *Difficulty*: 5<br />
 *Target*: 2 squares plus 1.2 squares per power level to a maximum of 80 squares, with an area of effect of 1.5 squares plus 1.2 squares per power level to a maximum of 50 squares<br />
@@ -350,7 +350,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Stamina Cost*: 5500, minus 145 per level to a minimum of 2750<br />
 *Channeling Time*: 150 moves, minus 9 moves per level to a minimum of 70<br />
 *Effects*: Gaze a short time into the future to predict enemy movements.  Grants a 25% chance to avoid any damage from an attack plus 1.5% per power level to a maximum of a 70% chance, prevents the psion from being grabbed, and applies the HARDTOHIT flag.  It also increases your effective dodge skill by 1 per 2 power levels.<br />
-*Prerequisites*: Premonition 10 *or* Sense Hostility 5, Speed Reader 10 *or* Discern Weakness 6, Clairyovance 6<br />
+*Prerequisites*: Premonition 10 *or* Sense Hostility 5, Speed Reader 10 *or* Discern Weakness 6, Clairvoyance 6<br />
 </details>
 <details>
 <summary><h3>Intuitive Artisan (C)</h3></summary>
@@ -382,7 +382,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Duration*: Instant<br />
 *Stamina Cost*: 9000<br />
 *Channeling Time*: 60 seconds<br />
-*Effects*: The psion gains a bird's eye (or mole's eye) view of surrouding terrain, revealing all locations within the power's radius.<br />
+*Effects*: The psion gains a bird's eye (or mole's eye) view of surrounding terrain, revealing all locations within the power's radius.<br />
 *Prerequisites*: Clairvoyance 8, Premonition 6 *or* Aura Sight 6<br />
 </details>
 <details>
