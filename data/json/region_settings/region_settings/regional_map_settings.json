@@ -1323,6 +1323,8 @@
   {
     "type": "region_terrain_furniture",
     "id": "default_t_region_tree_forest_dense",
+    "//": "Tree coverage data here: https://www.fs.usda.gov/nrs/pubs/rb/rb_nrs125.pdf",
+    "//2": "Total acreage coverage data here: https://public.tableau.com/views/FIA_FiveYearReports_NE_Area_1/ForestTypeArea?:showVizHome=no",
     "ter_id": "t_region_tree_forest_dense",
     "replace_with_terrain": [
       [ "t_tree", 18 ],
@@ -1364,6 +1366,7 @@
     "type": "region_terrain_furniture",
     "id": "default_t_region_tree",
     "ter_id": "t_region_tree",
+    "//": "t_tree_hickory remains separate here from t_region_tree_nut because hickory mixed in with oak trees are some of the most common tree stands in Massachusetts forests",
     "replace_with_terrain": [
       [ "t_tree", 128 ],
       [ "t_tree_young", 128 ],
@@ -1375,7 +1378,7 @@
       [ "t_tree_pine", 64 ],
       [ "t_tree_maple", 32 ],
       [ "t_tree_willow", 32 ],
-      [ "t_tree_hickory", 16 ],
+      [ "t_tree_hickory", 4 ],
       [ "t_region_tree_nut", 16 ],
       [ "t_tree_spruce", 8 ],
       [ "t_tree_beech", 2 ],
