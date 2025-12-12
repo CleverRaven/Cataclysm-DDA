@@ -2354,10 +2354,10 @@ bool WORLD::set_compression_enabled( bool enabled ) const
                     }
 
                     character_map_memory_zzips.emplace_back( character_map_memory_zzip /
-                            dest_folder_name.filename().concat( ".cold" + std::string(
+                            dest_folder_name.filename().concat( ".cold" + std::string( // NOLINT(cata-u8-path)
                                         zzip_suffix ) ) ); // NOLINT(cata-u8-path)
                     character_map_memory_zzips.emplace_back( character_map_memory_zzip /
-                            dest_folder_name.filename().concat( ".warm" + std::string(
+                            dest_folder_name.filename().concat( ".warm" + std::string( // NOLINT(cata-u8-path)
                                         zzip_suffix ) ) ); // NOLINT(cata-u8-path)
                     character_map_memory_zzips.emplace_back( character_map_memory_zzip /
                             dest_folder_name.filename().concat( ".hot" + std::string( zzip_suffix ) ) ); // NOLINT(cata-u8-path)
