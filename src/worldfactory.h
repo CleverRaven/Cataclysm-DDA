@@ -20,8 +20,8 @@ enum class special_game_type;
 class JsonArray;
 class JsonObject;
 
-static constexpr std::string_view zzip_overmap_directory = "overmaps";
-static constexpr std::string_view zzip_suffix = ".zzip";
+constexpr std::string_view zzip_overmap_directory = "overmaps";
+constexpr std::string_view zzip_suffix = ".zzip";
 
 namespace catacurses
 {
