@@ -4984,12 +4984,7 @@ void game::save_cyborg( item *cyborg, const tripoint_bub_ms &couch_pos, Characte
 void game::exam_appliance( vehicle &veh, const point_rel_ms &c )
 {
     map &here = get_map();
-
-    player_activity act = veh_app_interact::run( here, veh, c );
-    if( act ) {
-        u.set_moves( 0 );
-        u.assign_activity( act );
-    }
+    veh_app_interact::run( here, veh, c );
 }
 
 void game::exam_vehicle( vehicle &veh, const point_rel_ms &c )
@@ -5000,11 +4995,7 @@ void game::exam_vehicle( vehicle &veh, const point_rel_ms &c )
         add_msg( m_info, _( "This is your %s" ), veh.name );
         return;
     }
-    player_activity act = veh_interact::run( here, veh, c );
-    if( act ) {
-        u.set_moves( 0 );
-        u.assign_activity( act );
-    }
+    veh_interact::run( here, veh, c );
 }
 
 void game::open_gate( const tripoint_bub_ms &p )
