@@ -76,7 +76,7 @@ class window;
 }  // namespace catacurses
 class gun_mode;
 struct overmap_location;
-struct pathfinding_settings;
+class PathfindingSettings;
 
 using overmap_location_str_id = string_id<overmap_location>;
 
@@ -1195,8 +1195,8 @@ class npc : public Character
 
         void set_movement_mode( const move_mode_id &mode ) override;
 
-        const pathfinding_settings &get_pathfinding_settings() const override;
-        const pathfinding_settings &get_pathfinding_settings( bool no_bashing ) const;
+        const PathfindingSettings &get_pathfinding_settings() const override;
+        const PathfindingSettings &get_pathfinding_settings( bool no_bashing ) const;
         std::function<bool( const tripoint_bub_ms & )> get_path_avoid() const override;
 
         // Item discovery and fetching
