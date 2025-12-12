@@ -31,7 +31,6 @@ static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
 static const activity_id ACT_START_ENGINES( "ACT_START_ENGINES" );
 static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
 static const activity_id ACT_TRAIN( "ACT_TRAIN" );
-static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 static const activity_id ACT_VIBE( "ACT_VIBE" );
 static const activity_id ACT_WAIT( "ACT_WAIT" );
 static const activity_id ACT_WAIT_NPC( "ACT_WAIT_NPC" );
@@ -215,7 +214,7 @@ void player_activity::deserialize_legacy_type( int legacy_type, activity_id &des
         activity_id::NULL_ID(), // ACT_LONGSALVAGE is an actor now
         activity_id::NULL_ID(), // ACT_FORAGE is an actor now
         ACT_BUILD,
-        ACT_VEHICLE,
+        activity_id::NULL_ID(), // ACT_VEHICLE is an actor now
         activity_id::NULL_ID(), // ACT_REFILL_VEHICLE is deprecated
         ACT_TRAIN,
         ACT_WAIT_WEATHER,

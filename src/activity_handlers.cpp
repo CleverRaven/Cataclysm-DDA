@@ -6,7 +6,6 @@
 #include <iterator>
 #include <memory>
 #include <optional>
-#include <ostream>
 #include <queue>
 #include <set>
 #include <stdexcept>
@@ -88,12 +87,9 @@
 #include "uilist.h"
 #include "units.h"
 #include "value_ptr.h"
-#include "veh_interact.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "weather.h"
-
-#define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
 static const activity_id ACT_ARMOR_LAYERS( "ACT_ARMOR_LAYERS" );
 static const activity_id ACT_ATM( "ACT_ATM" );
@@ -139,7 +135,6 @@ static const activity_id ACT_TRAIN( "ACT_TRAIN" );
 static const activity_id ACT_TRAIN_TEACHER( "ACT_TRAIN_TEACHER" );
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
 static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
-static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
 static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
 static const activity_id ACT_VIBE( "ACT_VIBE" );
@@ -252,7 +247,6 @@ activity_handlers::finish_functions = {
     { ACT_GENERIC_GAME, generic_game_finish },
     { ACT_TRAIN, train_finish },
     { ACT_TRAIN_TEACHER, teach_finish },
-    { ACT_VEHICLE, vehicle_finish },
     { ACT_START_ENGINES, start_engines_finish },
     { ACT_REPAIR_ITEM, repair_item_finish },
     { ACT_HEATING, heat_item_finish },
@@ -814,53 +808,6 @@ void activity_handlers::train_finish( player_activity *act, Character *you )
     }
 
     act->set_to_null();
-}
-
-void activity_handlers::vehicle_finish( player_activity *act, Character *you )
-{
-    map &here = get_map();
-    //Grab this now, in case the vehicle gets shifted
-    const optional_vpart_position vp = here.veh_at( here.get_bub( tripoint_abs_ms( act->values[0],
-                                       act->values[1],
-                                       you->posz() ) ) );
-    veh_interact::complete_vehicle( here, *you );
-    // complete_vehicle set activity type to NULL if the vehicle
-    // was completely dismantled, otherwise the vehicle still exist and
-    // is to be examined again.
-    if( act->is_null() ) {
-        if( npc *guy = dynamic_cast<npc *>( you ) ) {
-            guy->revert_after_activity();
-            guy->set_moves( 0 );
-        }
-        return;
-    }
-    act->set_to_null();
-    if( !you->is_npc() ) {
-        if( act->values.size() < 7 ) {
-            dbg( D_ERROR ) << "game:process_activity: invalid ACT_VEHICLE values: "
-                           << act->values.size();
-            debugmsg( "process_activity invalid ACT_VEHICLE values:%d",
-                      act->values.size() );
-        } else {
-            if( vp ) {
-                here.invalidate_map_cache( here.get_abs_sub().z() );
-                // TODO: Z (and also where the activity is queued)
-                // Or not, because the vehicle coordinates are dropped anyway
-                if( !resume_for_multi_activities( *you ) ) {
-                    point_rel_ms int_p( act->values[ 2 ], act->values[ 3 ] );
-                    if( vp->vehicle().is_appliance() ) {
-                        g->exam_appliance( vp->vehicle(), int_p );
-                    } else {
-                        g->exam_vehicle( vp->vehicle(), int_p );
-                    }
-                }
-                return;
-            } else {
-                dbg( D_ERROR ) << "game:process_activity: ACT_VEHICLE: vehicle not found";
-                debugmsg( "process_activity ACT_VEHICLE: vehicle not found" );
-            }
-        }
-    }
 }
 
 void activity_handlers::hand_crank_do_turn( player_activity *act, Character *you )
