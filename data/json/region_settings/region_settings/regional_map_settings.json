@@ -1168,6 +1168,7 @@
       "default_t_region_tree",
       "default_t_region_tree_shade",
       "default_t_region_tree_fruit",
+      "default_t_region_tree_fruit_wild",
       "default_t_region_tree_dead",
       "default_t_region_tree_nut",
       "default_t_region_tree_evergreen",
@@ -1348,10 +1349,7 @@
       [ "t_tree_chestnut", 10 ],
       [ "t_tree_basswood", 10 ],
       [ "t_tree_hazelnut", 10 ],
-      [ "t_tree_crabapple", 8 ],
-      [ "t_tree_elderberry", 10 ],
-      [ "t_tree_nannyberry", 10 ],
-      [ "t_tree_mulberry", 10 ],
+      [ "t_region_tree_fruit_wild", 20 ],
       [ "t_tree_sassafras", 2 ],
       [ "t_tree_juniper", 5 ]
     ]
@@ -1378,18 +1376,11 @@
       [ "t_tree_maple", 32 ],
       [ "t_tree_willow", 32 ],
       [ "t_tree_hickory", 16 ],
-      [ "t_tree_walnut", 8 ],
-      [ "t_tree_butternut", 4 ],
-      [ "t_tree_chestnut", 8 ],
+      [ "t_region_tree_nut", 16 ],
       [ "t_tree_spruce", 8 ],
-      [ "t_tree_hazelnut", 2 ],
       [ "t_tree_beech", 2 ],
       [ "t_tree_blackjack", 8 ],
-      [ "t_tree_crabapple", 2 ],
-      [ "t_tree_juniper", 2 ],
-      [ "t_tree_elderberry", 2 ],
-      [ "t_tree_nannyberry", 2 ],
-      [ "t_tree_mulberry", 2 ],
+      [ "t_region_tree_fruit_wild", 4 ],
       [ "t_tree_sassafras", 3 ],
       [ "t_region_tree_dead", 48 ]
     ]
@@ -1438,6 +1429,20 @@
   },
   {
     "type": "region_terrain_furniture",
+    "id": "default_t_region_tree_fruit_wild",
+    "ter_id": "t_region_tree_fruit_wild",
+    "replace_with_terrain": [
+      [ "t_tree_young", 4 ],
+      [ "t_tree_crabapple", 2 ],
+      [ "t_tree_juniper", 2 ],
+      [ "t_tree_elderberry", 2 ],
+      [ "t_tree_nannyberry", 2 ],
+      [ "t_tree_mulberry", 2 ],
+      [ "t_tree_dead", 4 ]
+    ]
+  },
+  {
+    "type": "region_terrain_furniture",
     "id": "default_t_region_tree_dead",
     "ter_id": "t_region_tree_dead",
     "replace_with_terrain": [
@@ -1461,7 +1466,6 @@
       [ "t_tree_young", 4 ],
       [ "t_tree_beech", 2 ],
       [ "t_tree_hazelnut", 2 ],
-      [ "t_tree_coffee", 2 ],
       [ "t_tree_dead", 4 ]
     ]
   },
