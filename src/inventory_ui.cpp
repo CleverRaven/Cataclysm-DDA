@@ -2999,6 +2999,9 @@ std::vector<std::string> inventory_selector::get_stats() const
 {
     header_stats stats = get_raw_stats();
     std::vector<std::string> lines( stats.size() );
+    if( lines.size() == 0 ) {
+        return lines;
+    }
     std::vector<size_t> line_rindex( stats.size() );
     size_t blockEnd = 0;
     for( size_t blockStart = 0; blockStart < stats.size(); blockStart = blockEnd ) {
