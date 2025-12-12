@@ -1371,16 +1371,17 @@
       [ "t_tree_young", 128 ],
       [ "t_tree_birch", 16 ],
       [ "t_tree_elm", 16 ],
-      [ "t_tree_cottonwood", 16 ],
+      [ "t_tree_cottonwood", 8 ],
       [ "t_tree_basswood", 16 ],
       [ "t_tree_alder", 16 ],
-      [ "t_tree_pine", 32 ],
+      [ "t_tree_pine", 64 ],
       [ "t_tree_maple", 32 ],
       [ "t_tree_willow", 32 ],
       [ "t_tree_hickory", 16 ],
       [ "t_tree_walnut", 8 ],
       [ "t_tree_butternut", 4 ],
       [ "t_tree_chestnut", 8 ],
+      [ "t_tree_spruce", 8 ],
       [ "t_tree_hazelnut", 2 ],
       [ "t_tree_beech", 2 ],
       [ "t_tree_blackjack", 8 ],
@@ -1468,7 +1469,7 @@
     "type": "region_terrain_furniture",
     "id": "default_t_region_tree_evergreen",
     "ter_id": "t_region_tree_evergreen",
-    "replace_with_terrain": [ [ "t_tree_pine", 32 ], [ "t_tree_juniper", 16 ], [ "t_tree_deadpine", 2 ] ]
+    "replace_with_terrain": [ [ "t_tree_pine", 32 ], [ "t_tree_juniper", 16 ], [ "t_tree_deadpine", 2 ], [ "t_tree_spruce", 2 ] ]
   },
   {
     "type": "region_terrain_furniture",
