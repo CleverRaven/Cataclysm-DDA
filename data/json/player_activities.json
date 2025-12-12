@@ -430,6 +430,14 @@
     "based_on": "speed"
   },
   {
+    "id": "ACT_ASSISTED_PULP",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "pulping",
+    "based_on": "speed",
+    "can_resume": false
+  },
+  {
     "id": "ACT_PULP",
     "type": "activity_type",
     "activity_level": "EXTRA_EXERCISE",
