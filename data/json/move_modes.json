@@ -34,7 +34,8 @@
     "sound_multiplier": 1.5,
     "move_speed_multiplier": 2.0,
     "stamina_multiplier": 7.0,
-    "swim_speed_mod": -80
+    "swim_speed_mod": -80,
+    "bash_weight_modifier": 2
   },
   {
     "type": "movement_mode",
@@ -68,6 +69,7 @@
     "move_type": "prone",
     "sound_multiplier": 0.2,
     "move_speed_multiplier": 0.2,
-    "swim_speed_mod": 50
+    "swim_speed_mod": 50,
+    "bash_weight_modifier": 0.25
   }
 ]

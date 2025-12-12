@@ -172,7 +172,7 @@ class monster : public Creature
         bool digging() const override;  // digs() or can_dig() and diggable terrain
         bool can_dig() const;
         bool digs() const;
-        bool flies() const;
+        bool flies() const override;
         bool climbs() const;
         bool swims() const;
 

@@ -375,6 +375,9 @@ enum class ter_furn_flag : int {
     TFLAG_WIRED_WALL,
     TFLAG_MON_AVOID_STRICT,
     TFLAG_REGION_PSEUDO,
+    TFLAG_FRAGILE,
+    TFLAG_OPEN_PIT,
+    TFLAG_PLAYER_MADE,
 
     NUM_TFLAG_FLAGS
 };
