@@ -1092,6 +1092,12 @@ std::optional<int> iuse::inhaler( Character *p, item *it, const tripoint_bub_ms 
 
 std::optional<int> iuse::oxygen_bottle( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !it->activation_success() ) {
+        add_msg( m_bad, _( "You try to take a deep breath from your %s, but something blocks the flow." ),
+                 it->tname() );
+        return std::nullopt;
+    }
+
     p->mod_moves( -to_moves<int>( 10_seconds ) );
     p->add_msg_player_or_npc( m_neutral, string_format( _( "You breathe deeply from the %s." ),
                               it->tname() ),
@@ -2706,6 +2712,12 @@ std::optional<int> iuse::radio_tick( Character *, item *it, const tripoint_bub_m
         int index = to_turn<int>( calendar::turn ) % segments.size();
         message = string_format( _( "radio: %s" ), segments[index] );
     }
+
+    if( !it->activation_success() ) {
+        add_msg( m_bad, _( "Your %s goes silent for a moment." ), it->tname() );
+        return std::nullopt;
+    }
+
     sounds::ambient_sound( pos, 6, sounds::sound_t::electronic_speech, message );
     if( !sfx::is_channel_playing( sfx::channel::radio ) ) {
         if( one_in( 10 ) ) {
@@ -2720,6 +2732,12 @@ std::optional<int> iuse::radio_tick( Character *, item *it, const tripoint_bub_m
 
 std::optional<int> iuse::radio_on( Character *, item *it, const tripoint_bub_ms & )
 {
+
+    if( !it->activation_success() ) {
+        add_msg( m_bad, _( "Your %s doesn't seem to do anything when you try to scan frequencies." ),
+                 it->tname() );
+        return std::nullopt;
+    }
 
     const auto tower_desc = []( const int noise ) {
         if( noise == 0 ) {
@@ -2767,8 +2785,13 @@ std::optional<int> iuse::radio_on( Character *, item *it, const tripoint_bub_ms 
     return 1;
 }
 
-std::optional<int> iuse::noise_emitter_on( Character *, item *, const tripoint_bub_ms &pos )
+std::optional<int> iuse::noise_emitter_on( Character *, item *it, const tripoint_bub_ms &pos )
 {
+    if( !it->activation_success() ) {
+        add_msg( m_bad, _( "Your %s goes silent for a moment." ), it->tname() );
+        return std::nullopt;
+    }
+
     sounds::sound( pos, 30, sounds::sound_t::alarm, _( "KXSHHHHRRCRKLKKK!" ), true, "tool",
                    "noise_emitter" );
     return 0;
@@ -4749,6 +4772,12 @@ std::optional<int> iuse::oxytorch( Character *p, item *it, const tripoint_bub_ms
     if( !pnt_ ) {
         return std::nullopt;
     }
+
+    if( !it->activation_success() ) {
+        p->add_msg_if_player( m_bad, _( "You try to light your %s, but nothing happens." ), it->tname() );
+        return std::nullopt;
+    }
+
     const tripoint_bub_ms &pnt = *pnt_;
     if( !f( pnt ) ) {
         if( pnt == p->pos_bub() ) {
@@ -5173,6 +5202,12 @@ std::optional<int> iuse::radglove( Character *p, item *it, const tripoint_bub_ms
         p->add_msg_if_player( m_info, _( "The radiation biomonitor needs batteries to function." ) );
         return std::nullopt;
     } else {
+        if( !it->activation_success() ) {
+            p->add_msg_if_player( m_bad, _( "You try to activate your %s, but it won't provide any readings." ),
+                                  it->tname() );
+            return std::nullopt;
+        }
+
         p->add_msg_if_player( _( "You activate your radiation biomonitor." ) );
         if( p->get_rad() >= 1 ) {
             p->add_msg_if_player( m_warning, _( "You are currently irradiated." ) );
@@ -6977,6 +7012,12 @@ std::optional<int> iuse::radiocar( Character *p, item *it, const tripoint_bub_ms
             return std::nullopt;
         }
 
+        if( !it->activation_success() ) {
+            p->add_msg_if_player( m_bad, _( "Your %s fails to react when you try to turn it on." ),
+                                  it->tname() );
+            return std::nullopt;
+        }
+
         it->convert( itype_radio_car_on, p ).active = true;
 
         p->add_msg_if_player(
@@ -7102,6 +7143,11 @@ std::optional<int> iuse::radiocontrol( Character *p, item *it, const tripoint_bu
         car_action,
         _( "Press red button" ), _( "Press blue button" ), _( "Press green button" )
     } );
+
+    if( !it->activation_success() ) {
+        add_msg( m_bad, _( "Your action on the %s seems to have no effect." ), it->tname() );
+        return std::nullopt;
+    }
 
     map &here = get_map();
     if( choice < 0 ) {
