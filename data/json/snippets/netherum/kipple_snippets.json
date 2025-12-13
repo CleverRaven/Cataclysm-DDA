@@ -1,0 +1,236 @@
+[
+  {
+    "type": "snippet",
+    "category": "<meta_adjective>",
+    "text": [
+      { "id": "<esoteric_adjective>" },
+      { "id": "<junk_adjective>" },
+      { "id": "<archeological_adjective>" }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<esoteric_adjective>",
+    "text": [
+      { "id": "arcane", "text": "arcane" },
+      { "id": "eldritch", "text": "eldritch" },
+      { "id": "occult", "text": "occult" },
+      { "id": "numinous", "text": "numinous" },
+      { "id": "ethereal", "text": "ethereal" },
+      { "id": "liminal", "text": "liminal" },
+      { "id": "gnostic", "text": "gnostic" },
+      { "id": "alchemical", "text": "alchemical" },
+      { "id": "oracular", "text": "oracular" },
+      { "id": "mystic", "text": "mystic" },
+      { "id": "hermetic", "text": "hermetic" },
+      { "id": "esoteric", "text": "esoteric" },
+      { "id": "astral", "text": "astral" },
+      { "id": "chthonic", "text": "chthonic" },
+      { "id": "transcendent", "text": "transcendent" },
+      { "id": "enigmatic", "text": "enigmatic" },
+      { "id": "cryptic", "text": "cryptic" },
+      { "id": "otherworldly", "text": "otherworldly" },
+      { "id": "eldersign", "text": "elder-sign" },
+      { "id": "recondite", "text": "recondite" }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<junk_adjective>",
+    "text": [
+      { "id": "rusty", "text": "rusty" },
+      { "id": "battered", "text": "battered" },
+      { "id": "grimy", "text": "grimy" },
+      { "id": "cracked", "text": "cracked" },
+      { "id": "scuffed", "text": "scuffed" },
+      { "id": "warped", "text": "warped" },
+      { "id": "frayed", "text": "frayed" },
+      { "id": "corroded", "text": "corroded" },
+      { "id": "dented", "text": "dented" },
+      { "id": "faded", "text": "faded" },
+      { "id": "splintered", "text": "splintered" },
+      { "id": "tarnished", "text": "tarnished" },
+      { "id": "filthy", "text": "filthy" },
+      { "id": "cluttered", "text": "cluttered" },
+      { "id": "ramshackle", "text": "ramshackle" },
+      { "id": "jury_rigged", "text": "jury-rigged" },
+      { "id": "mildewed", "text": "mildewed" },
+      { "id": "oil_stained", "text": "oil-stained" },
+      { "id": "obsolete", "text": "obsolete" },
+      { "id": "rickety", "text": "rickety" }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<archeological_adjective>",
+    "text": [
+      { "id": "ancient", "text": "ancient" },
+      { "id": "antiquated", "text": "antiquated" },
+      { "id": "weathered", "text": "weathered" },
+      { "id": "timeworn", "text": "timeworn" },
+      { "id": "excavated", "text": "excavated" },
+      { "id": "buried", "text": "buried" },
+      { "id": "unearthed", "text": "unearthed" },
+      { "id": "stratified", "text": "stratified" },
+      { "id": "prehistoric", "text": "prehistoric" },
+      { "id": "ancestral", "text": "ancestral" },
+      { "id": "archaic", "text": "archaic" },
+      { "id": "fossilized", "text": "fossilized" },
+      { "id": "fragmentary", "text": "fragmentary" },
+      { "id": "ritualistic", "text": "ritualistic" },
+      { "id": "ceremonial", "text": "ceremonial" },
+      { "id": "monolithic", "text": "monolithic" },
+      { "id": "ruinous", "text": "ruinous" },
+      { "id": "inscribed", "text": "inscribed" },
+      { "id": "carbon_dated", "text": "carbon-dated" },
+      { "id": "protohistoric", "text": "protohistoric" }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<meta_noun>",
+    "text": [
+      { "id": "<object_noun>" },
+      { "id": "<trash_object>" }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<object_noun>",
+    "text": [
+      { "id": "relic", "text": "relic" },
+      { "id": "artifact", "text": "artifact" },
+      { "id": "tablet", "text": "tablet" },
+      { "id": "idol", "text": "idol" },
+      { "id": "totem", "text": "totem" },
+      { "id": "urn", "text": "urn" },
+      { "id": "sarcophagus", "text": "sarcophagus" },
+      { "id": "amulet", "text": "amulet" },
+      { "id": "talisman", "text": "talisman" },
+      { "id": "monolith", "text": "monolith" },
+      { "id": "obelisk", "text": "obelisk" },
+      { "id": "stele", "text": "stele" },
+      { "id": "figurine", "text": "figurine" },
+      { "id": "vessel", "text": "vessel" },
+      { "id": "codex", "text": "codex" },
+      { "id": "tool", "text": "tool" },
+      { "id": "mask", "text": "mask" },
+      { "id": "inscription", "text": "inscription" },
+      { "id": "seal", "text": "seal" },
+      { "id": "shard", "text": "shard" }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<trash_object>",
+    "text": [
+      { "id": "crumpledbox", "text": "crumpled box" },
+      { "id": "emptypackaging", "text": "empty packaging" },
+      { "id": "brokenbottle", "text": "broken bottle" },
+      { "id": "rustycan", "text": "rusty can" },
+      { "id": "discardedwrapper", "text": "discarded wrapper" },
+      { "id": "shatteredglass", "text": "shattered glass" },
+      { "id": "bentfork", "text": "bent fork" },
+      { "id": "crackedmug", "text": "cracked mug" },
+      { "id": "tornnewspaper", "text": "torn newspaper" },
+      { "id": "emptysachet", "text": "empty sachet" },
+      { "id": "burntoutbulb", "text": "burnt-out bulb" },
+      { "id": "frayedcord", "text": "frayed cord" },
+      { "id": "discardedbattery", "text": "discarded battery" },
+      { "id": "plasticfragment", "text": "plastic fragment" },
+      { "id": "splinteredcrate", "text": "splintered crate" },
+      { "id": "flattenedcarton", "text": "flattened carton" },
+      { "id": "oilystainrag", "text": "oily rag" },
+      { "id": "brokenhandle", "text": "broken handle" },
+      { "id": "scrapmetal", "text": "scrap metal" },
+      { "id": "discardedlid", "text": "discarded lid" }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<meta_ownership_noun>",
+    "text": [
+      { "id": "<ancient_ruler_misname>" },
+      { "id": "<corporate_misname>" }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<ancient_ruler_misname>",
+    "text": [
+      { "id": "pharaonex", "text": "Pharaonex" },
+      { "id": "caesarion", "text": "Caesarion" },
+      { "id": "imperion", "text": "Imperion" },
+      { "id": "dynastos", "text": "Dynastos" },
+      { "id": "regulusprime", "text": "Regulus Prime" },
+      { "id": "basilex", "text": "Basilex" },
+      { "id": "augustek", "text": "Augustek" },
+      { "id": "chronarch", "text": "Chronarch" },
+      { "id": "scepteron", "text": "Scepteron" },
+      { "id": "thronetek", "text": "ThroneTek" },
+      { "id": "monarchis", "text": "Monarchis" },
+      { "id": "dynacrown", "text": "DynaCrown" },
+      { "id": "sovereignix", "text": "Sovereignix" },
+      { "id": "autokrator", "text": "Autokrator" },
+      { "id": "regencyne", "text": "Regencyne" },
+      { "id": "imperatex", "text": "Imperatex" },
+      { "id": "diademax", "text": "Diademax" },
+      { "id": "crownlogic", "text": "CrownLogic" },
+      { "id": "thronosys", "text": "ThronoSys" },
+      { "id": "hegemonyx", "text": "Hegemonyx" }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<corporate_misname>",
+    "text": [
+      { "id": "synergex", "text": "Synergex" },
+      { "id": "globadyne", "text": "Globadyne" },
+      { "id": "omnicorp", "text": "OmniCorp" },
+      { "id": "neotek", "text": "NeoTek" },
+      { "id": "infinitron", "text": "Infinitron" },
+      { "id": "hyperion", "text": "Hyperion" },
+      { "id": "datanova", "text": "DataNova" },
+      { "id": "corelogic", "text": "CoreLogic" },
+      { "id": "ultradyne", "text": "UltraDyne" },
+      { "id": "vectron", "text": "Vectron" },
+      { "id": "metacore", "text": "MetaCore" },
+      { "id": "quantatek", "text": "QuantaTek" },
+      { "id": "stratadyne", "text": "StrataDyne" },
+      { "id": "alphasys", "text": "AlphaSys" },
+      { "id": "nexicorp", "text": "NexiCorp" },
+      { "id": "cyberdyne", "text": "CyberDyne" },
+      { "id": "fusionex", "text": "Fusionex" },
+      { "id": "megasoft", "text": "MegaSoft" },
+      { "id": "optiglobal", "text": "OptiGlobal" },
+      { "id": "parallax", "text": "Parallax" },
+      { "id": "pentax", "text": "Pentax" }
+    ]
+  },
+  {
+  "type": "snippet",
+  "category": "<made_up_colors>",
+  "text": [
+    { "id": "voidteal", "text": "void teal" },
+    { "id": "emberglass", "text": "emberglass" },
+    { "id": "aetherblue", "text": "aether blue" },
+    { "id": "gildedash", "text": "gilded ash" },
+    { "id": "nightcoral", "text": "night coral" },
+    { "id": "myrrhviolet", "text": "myrrh violet" },
+    { "id": "sunbleed", "text": "sunbleed" },
+    { "id": "cinderjade", "text": "cinder jade" },
+    { "id": "stormamber", "text": "storm amber" },
+    { "id": "opalineblack", "text": "opaline black" },
+    { "id": "ghostivory", "text": "ghost ivory" },
+    { "id": "ironrose", "text": "iron rose" },
+    { "id": "lunarbrass", "text": "lunar brass" },
+    { "id": "deepheliotrope", "text": "deep heliotrope" },
+    { "id": "saltindigo", "text": "salt indigo" },
+    { "id": "ashenpearl", "text": "ashen pearl" },
+    { "id": "verdantember", "text": "verdant ember" },
+    { "id": "smokesaffron", "text": "smoke saffron" },
+    { "id": "voidplum", "text": "void plum" },
+    { "id": "frostedochre", "text": "frosted ochre" }
+    ]
+  }
+]

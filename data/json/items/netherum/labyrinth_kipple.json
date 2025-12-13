@@ -1,0 +1,41 @@
+[
+  {
+    "id": "kipple_wrapper",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "paper wrapper" },
+    "description": "A strange wrapper for candy or gum.  It crinkles like foil but feels similar to a blade of grass. It reads \"<made_up_colors> <meta_ownership_noun>\".",
+    "ascii_picture": "wrapper",
+    "weight": "3 g",
+    "volume": "50 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "monolith" ],
+    "expand_snippets": true,
+    "symbol": ",",
+    "color": "light_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "1 kg"
+      }
+    ]
+  },
+  {
+    "id": "kipple_object",
+    "type": "ITEM",
+    "category": "other",
+    "name": { "str": "strange object" },
+    "description": "A <meta_adjective> <meta_noun> of <meta_ownership_noun>.",
+    "expand_snippets": true,
+    "weight": "5 g",
+    "volume": "50 ml",
+    "longest_side": "90 mm",
+    "price": "2 USD",
+    "price_postapoc": "0 cent",
+    "material": [ "monolith" ],
+    "symbol": "-",
+    "color": "light_gray"
+  }
+]
