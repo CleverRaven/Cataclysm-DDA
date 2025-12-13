@@ -2,11 +2,7 @@
   {
     "type": "snippet",
     "category": "<meta_adjective>",
-    "text": [
-      { "id": "<esoteric_adjective>" },
-      { "id": "<junk_adjective>" },
-      { "id": "<archeological_adjective>" }
-    ]
+    "text": [ { "id": "<esoteric_adjective>" }, { "id": "<junk_adjective>" }, { "id": "<archeological_adjective>" } ]
   },
   {
     "type": "snippet",
