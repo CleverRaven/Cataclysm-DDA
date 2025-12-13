@@ -420,6 +420,14 @@
     "flags": [ "CLASSIC" ]
   },
   {
+    "id": "mx_huckleberry_patch",
+    "type": "map_extra",
+    "name": { "str": "Huckleberry patch" },
+    "description": "Huckleberry bushes have spread here.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_huckleberry_patch" },
+    "flags": [ "CLASSIC" ]
+  },
+  {
     "id": "mx_knotweed_patch",
     "type": "map_extra",
     "name": { "str": "Japanese knotweed patch" },

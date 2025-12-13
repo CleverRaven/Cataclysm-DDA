@@ -290,6 +290,43 @@
   },
   {
     "type": "mapgen",
+    "update_mapgen_id": "mx_raspberry_patch",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "        ;;;|;;;;        ",
+        "       ;;;;|||;;        ",
+        "      ;;||;||;;;;       ",
+        "     ;;;;;||;||;;       ",
+        "      ;|||||;|;;;       ",
+        "       ;;;;|;||;        ",
+        "       ;;|||||;;        ",
+        "      ;;|;||;||;;       ",
+        "        ;;||;;;;        ",
+        "        ;;;;|;;         ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        ";": [ "t_region_groundcover", [ "t_grass_long", 2 ] ],
+        "|": [ "t_region_groundcover", [ "t_shrub_huckleberry", 10 ], [ "t_region_tree", 3 ] ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
     "update_mapgen_id": "mx_trees_map",
     "object": {
       "rows": [
