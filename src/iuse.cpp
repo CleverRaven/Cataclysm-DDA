@@ -1068,8 +1068,15 @@ std::optional<int> iuse::flusleep( Character *p, item *it, const tripoint_bub_ms
     return 1;
 }
 
-std::optional<int> iuse::inhaler( Character *p, item *, const tripoint_bub_ms & )
+std::optional<int> iuse::inhaler( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !it->activation_success() ) {
+        p->add_msg_player_or_npc( m_bad, _( "You try to take a puff from your %s, but nothing happens." ),
+                                  _( "<npcname> tries to take a a puff from their %s, but nothing happens." ), it->tname(),
+                                  it->tname() );
+        return std::nullopt;
+    }
+
     p->add_msg_player_or_npc( m_neutral, _( "You take a puff from your inhaler." ),
                               _( "<npcname> takes a puff from their inhaler." ) );
     if( !p->remove_effect( effect_asthma ) ) {
@@ -2362,6 +2369,11 @@ std::optional<int> iuse::mace( Character *p, item *it, const tripoint_bub_ms & )
 
     p->mod_moves( -to_moves<int>( 2_seconds ) );
 
+    if( !it->activation_success() ) {
+        p->add_msg_if_player( m_bad, _( "You try to use your %s, but nothing happens." ), it->tname() );
+        return std::nullopt;
+    }
+
     map &here = get_map();
     here.add_field( dest, fd_tear_gas, 2, 3_turns );
 
@@ -3647,6 +3659,12 @@ std::optional<int> iuse::firecracker_pack_act( Character *, item *it, const trip
 
 std::optional<int> iuse::mininuke( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !it->activation_success() ) {
+        p->add_msg_if_player( _( "You try to set the timer if the %s, but the screen remains blank." ),
+                              it->tname() );
+        return std::nullopt;
+    }
+
     int time = 0;
     bool got_value = query_int( time, false, _( "Set the timer to how many seconds (0 to cancel)?" ) );
     if( !got_value || time <= 0 ) {
@@ -3830,8 +3848,13 @@ void iuse::play_music( Character *p, const tripoint_bub_ms &source, const int vo
     }
 }
 
-std::optional<int> iuse::mp3_on( Character *p, item *, const tripoint_bub_ms &pos )
+std::optional<int> iuse::mp3_on( Character *p, item *it, const tripoint_bub_ms &pos )
 {
+    if( !it->activation_success() ) {
+        p->add_msg_if_player( m_bad, _( "Your %s goes silent for a moment." ), it->tname() );
+        return std::nullopt;
+    }
+
     // mp3 player in inventory, we can listen
     play_music( p, pos, 0, 20 );
     music::activate_music_id( music::music_id::mp3 );
@@ -4835,7 +4858,7 @@ std::optional<int> iuse::boltcutters( Character *p, item *it, const tripoint_bub
     return std::nullopt;
 }
 
-std::optional<int> iuse::mop( Character *p, item *, const tripoint_bub_ms & )
+std::optional<int> iuse::mop( Character *p, item *it, const tripoint_bub_ms & )
 {
     if( p->cant_do_mounted() ) {
         return std::nullopt;
@@ -4850,6 +4873,13 @@ std::optional<int> iuse::mop( Character *p, item *, const tripoint_bub_ms & )
     if( !pnt_ ) {
         return std::nullopt;
     }
+
+    if( !it->activation_success() ) {
+        p->add_msg_if_player( m_bad,
+                              _( "You the handle of your %s disconnects, so you push it back into the socket." ), it->tname() );
+        return std::nullopt;
+    }
+
     const tripoint_bub_ms pnt( *pnt_ );
     if( !f( pnt ) ) {
         if( pnt == p->pos_bub() ) {
@@ -5087,6 +5117,12 @@ std::optional<int> iuse::jet_injector( Character *p, item *it, const tripoint_bu
     if( !it->ammo_sufficient( p ) ) {
         p->add_msg_if_player( m_info, _( "The jet injector is empty." ) );
         return std::nullopt;
+
+    } else if( !it->activation_success() ) {
+        p->add_msg_if_player( m_bad, _( "You try to inject yourself with the %s, but nothing happens." ),
+                              it->tname() );
+        return std::nullopt;
+
     } else {
         p->add_msg_if_player( _( "You inject yourself with the jet injector." ) );
         // Intensity is 2 here because intensity = 1 is the comedown
@@ -8807,6 +8843,12 @@ std::optional<int> iuse::measure_resonance( Character *p, item *it, const tripoi
         popup( _( "The device doesn't have enough power to function!" ) );
         return std::nullopt;
     }
+
+    if( !it->activation_success() ) {
+        p->add_msg_if_player( m_bad, _( "The %s display remains blank." ), it->tname() );
+        return std::nullopt;
+    }
+
     // Get a list of resonant artifacts to show the player.
     std::vector<uilist_entry> uile;
     std::vector<item_location> artifacts;
