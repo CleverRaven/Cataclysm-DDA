@@ -380,6 +380,7 @@ void ma_buff::load( const JsonObject &jo, std::string_view src )
     optional( jo, was_loaded, "persists", persists, false );
 
     optional( jo, was_loaded, "bonus_dodges", dodges_bonus, 0 );
+    optional( jo, was_loaded, "free_dodges", free_dodges, 0 );
     optional( jo, was_loaded, "bonus_blocks", blocks_bonus, 0 );
 
     optional( jo, was_loaded, "quiet", quiet, false );
@@ -979,6 +980,7 @@ ma_buff::ma_buff()
     max_stacks = 1; // total number of stacks this buff can have
 
     dodges_bonus = 0; // extra dodges, like karate
+    free_dodges = 0; // number of dodges that won't consume stamina
     blocks_bonus = 0; // extra blocks, like karate
 
 }
@@ -1010,8 +1012,11 @@ bool ma_buff::is_valid_character( const Character &u ) const
 
 void ma_buff::apply_character( Character &u ) const
 {
+    // Note: MAs typically have multiple buffs, using a setter here is probably a mistake!
     u.mod_num_dodges_bonus( dodges_bonus );
+    // This uses a setter, but it's actually just mod() because it unnecessarily gets the existing bonus.
     u.set_num_blocks_bonus( u.get_num_blocks_bonus() + blocks_bonus );
+    u.mod_free_dodges( free_dodges );
 }
 
 int ma_buff::hit_bonus( const Character &u ) const
