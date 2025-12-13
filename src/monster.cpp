@@ -1760,6 +1760,11 @@ monster_attitude monster::attitude( const Character *u ) const
         return MATT_FLEE;
     }
 
+    if( u && u->is_avatar() && !get_parent_faction().is_null() &&
+        get_parent_faction()->guaranteed_hostile_to_player() ) {
+        return MATT_ATTACK;
+    }
+
     // CHECK FOR ANGER RELATIONS **HERE**
     bool target_has_anger_relation = false;
     if( u != nullptr ) {

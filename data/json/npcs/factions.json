@@ -540,6 +540,7 @@
     "type": "faction",
     "id": "isolated_artisans",
     "name": "Isolated Artisans",
+    "mon_faction": "isolated_artisans",
     "likes_u": 10,
     "respects_u": 0,
     "known_by_u": false,
