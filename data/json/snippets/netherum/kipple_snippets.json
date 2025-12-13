@@ -198,30 +198,29 @@
     ]
   },
   {
-  "type": "snippet",
-  "category": "<made_up_colors>",
-  "text": [
-    { "id": "voidteal", "text": "void teal" },
-    { "id": "emberglass", "text": "emberglass" },
-    { "id": "aetherblue", "text": "aether blue" },
-    { "id": "gildedash", "text": "gilded ash" },
-    { "id": "nightcoral", "text": "night coral" },
-    { "id": "myrrhviolet", "text": "myrrh violet" },
-    { "id": "sunbleed", "text": "sunbleed" },
-    { "id": "cinderjade", "text": "cinder jade" },
-    { "id": "stormamber", "text": "storm amber" },
-    { "id": "opalineblack", "text": "opaline black" },
-    { "id": "ghostivory", "text": "ghost ivory" },
-    { "id": "ironrose", "text": "iron rose" },
-    { "id": "lunarbrass", "text": "lunar brass" },
-    { "id": "deepheliotrope", "text": "deep heliotrope" },
-    { "id": "saltindigo", "text": "salt indigo" },
-    { "id": "ashenpearl", "text": "ashen pearl" },
-    { "id": "verdantember", "text": "verdant ember" },
-    { "id": "smokesaffron", "text": "smoke saffron" },
-    { "id": "voidplum", "text": "void plum" },
-    { "id": "frostedochre", "text": "frosted ochre" }
+    "type": "snippet",
+    "category": "<made_up_colors>",
+    "text": [
+      { "id": "voidteal", "text": "void teal" },
+      { "id": "emberglass", "text": "emberglass" },
+      { "id": "aetherblue", "text": "aether blue" },
+      { "id": "gildedash", "text": "gilded ash" },
+      { "id": "nightcoral", "text": "night coral" },
+      { "id": "myrrhviolet", "text": "myrrh violet" },
+      { "id": "sunbleed", "text": "sunbleed" },
+      { "id": "cinderjade", "text": "cinder jade" },
+      { "id": "stormamber", "text": "storm amber" },
+      { "id": "opalineblack", "text": "opaline black" },
+      { "id": "ghostivory", "text": "ghost ivory" },
+      { "id": "ironrose", "text": "iron rose" },
+      { "id": "lunarbrass", "text": "lunar brass" },
+      { "id": "deepheliotrope", "text": "deep heliotrope" },
+      { "id": "saltindigo", "text": "salt indigo" },
+      { "id": "ashenpearl", "text": "ashen pearl" },
+      { "id": "verdantember", "text": "verdant ember" },
+      { "id": "smokesaffron", "text": "smoke saffron" },
+      { "id": "voidplum", "text": "void plum" },
+      { "id": "frostedochre", "text": "frosted ochre" }
     ]
   }
 ]
-
