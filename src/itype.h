@@ -330,7 +330,7 @@ struct armor_portion_data {
     // When storage is full, how much it encumbers the player.
     int max_encumber = -1;
 
-    // how much an item can hold comfortably compared to an average item
+    // how much additional encumbrance caused to the limb(s) associated with this sublimb(s) coverage definition, per 0.25 liters of stored items
     float volume_encumber_modifier = 0;
 
     // Percentage of the body part that this item covers.
