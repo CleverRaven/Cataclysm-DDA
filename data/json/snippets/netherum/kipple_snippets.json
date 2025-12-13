@@ -142,10 +142,7 @@
   {
     "type": "snippet",
     "category": "<meta_ownership_noun>",
-    "text": [
-      { "id": "<ancient_ruler_misname>" },
-      { "id": "<corporate_misname>" }
-    ]
+    "text": [ { "id": "<ancient_ruler_misname>" }, { "id": "<corporate_misname>" } ]
   },
   {
     "type": "snippet",
