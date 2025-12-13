@@ -1645,7 +1645,7 @@ void npc::form_opinion( const Character &you )
         set_attitude( NPCATT_TALK );
     } else if( op_of_u.fear - 2 * personality.aggression - personality.bravery < -30 ) {
         set_attitude( NPCATT_KILL );
-    } else if( my_fac && my_fac->likes_u < -10 ) {
+    } else if( my_fac && my_fac->guaranteed_hostile_to_player() ) {
         if( is_player_ally() ) {
             mutiny();
         }
@@ -1774,7 +1774,7 @@ void npc::mutiny()
         add_msg( m_bad, _( "%s is tired of your incompetent leadership and abuse!" ), disp_name() );
     }
     // NPCs leaving your faction due to mistreatment further reduce their opinion of you
-    if( my_fac->likes_u < -10 ) {
+    if( my_fac->guaranteed_hostile_to_player() ) {
         op_of_u.trust += my_fac->respects_u / 10;
         op_of_u.anger += my_fac->likes_u / 10;
     }
@@ -2532,7 +2532,7 @@ bool npc::is_minion() const
 bool npc::guaranteed_hostile() const
 {
     return attitude_to( get_player_character() ) == Attitude::HOSTILE || is_enemy() ||
-           ( my_fac && my_fac->likes_u < -10 );
+           ( my_fac && my_fac->guaranteed_hostile_to_player() );
 }
 
 bool npc::is_walking_with() const

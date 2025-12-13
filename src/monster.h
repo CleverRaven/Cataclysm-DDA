@@ -100,9 +100,12 @@ class monster : public Creature
             return this;
         }
 
+        // Get the monfaction associated with this monster
         mfaction_id get_monster_faction() const override {
             return faction.id();
         }
+        //Get the *NPC* faction associated with this monster's monfaction, may be null
+        faction_id get_parent_faction() const;
         void gravity_check() override;
         void gravity_check( map *here ) override;
         void poly( const mtype_id &id );

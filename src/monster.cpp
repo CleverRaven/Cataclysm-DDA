@@ -378,6 +378,11 @@ bool monster::can_upgrade() const
     return upgrades && get_option<float>( "EVOLUTION_INVERSE_MULTIPLIER" ) > 0.0;
 }
 
+faction_id monster::get_parent_faction() const
+{
+    return get_monster_faction()->associated_faction;
+}
+
 void monster::gravity_check()
 {
     monster::gravity_check( &get_map() );
@@ -1716,7 +1721,8 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
                 break;
         }
     }
-    // Should not happen!, creature should be either player or monster
+    // Should not happen!, creature should be either character or monster
+    cata_fatal( "Unexpected creature type specialization" );
     return Attitude::NEUTRAL;
 }
 

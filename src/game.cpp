@@ -5600,8 +5600,7 @@ bool game::warn_player_maybe_anger_local_faction( bool really_bad_offense,
     }
 
     // The threshold for guaranteed hostility. Don't bother query/modifying relationship if they already hate us
-    // TODO: Make this magic number into a constant
-    if( actual_camp->get_owner()->likes_u < -10 ) {
+    if( actual_camp->get_owner()->guaranteed_hostile_to_player() ) {
         return true;
     }
 

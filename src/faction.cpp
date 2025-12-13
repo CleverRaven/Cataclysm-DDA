@@ -467,6 +467,11 @@ faction_price_rule const *faction::get_price_rules( item const &it, npc const &g
     return nullptr;
 }
 
+bool faction::guaranteed_hostile_to_player() const
+{
+    return likes_u < -10;
+}
+
 bool faction::has_relationship( const faction_id &guy_id, npc_factions::relationship flag ) const
 {
     for( const auto &rel_data : relations ) {

@@ -836,8 +836,7 @@ std::pair<std::string, nc_color> display::faction_text( const Character &u )
         return std::pair( display_name, display_color );
     }
     display_name = owner->get_name();
-    // TODO: Make this magic number into a constant
-    if( owner->likes_u < -10 ) {
+    if( owner->guaranteed_hostile_to_player() ) {
         display_color = c_red;
     } else if( u.get_faction()->id == owner ) {
         display_color = c_blue;
