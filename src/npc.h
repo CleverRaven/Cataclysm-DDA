@@ -101,7 +101,7 @@ void parse_tags( std::string &phrase, const_talker const &u, const_talker const 
 
 // Attitude is how we feel about the player, what we do around them
 enum npc_attitude : int {
-    NPCATT_NULL = 0, // Don't care/ignoring player The places this is assigned is on shelter NPC generation, and when you order a NPC to stay in a location, and after talking to a NPC that wanted to talk to you.
+    NPCATT_NULL = 0, // Don't care/ignoring player The places this is assigned is on shelter NPC generation, and when you order an NPC to stay in a location, and after talking to an NPC that wanted to talk to you.
     NPCATT_TALK,  // Move to and talk to player
     NPCATT_LEGACY_1,
     NPCATT_FOLLOW,  // Follow the player
@@ -1288,7 +1288,7 @@ class npc : public Character
         float speed_rating() const override;
         /**
          * Note: this places NPC on a given position in CURRENT MAP coordinates.
-         * Do not use when placing a NPC in mapgen.
+         * Do not use when placing an NPC in mapgen.
          */
         void travel_overmap( const tripoint_abs_omt &pos );
         npc_attitude get_attitude() const override;

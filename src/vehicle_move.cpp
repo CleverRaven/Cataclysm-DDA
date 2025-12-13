@@ -2008,7 +2008,7 @@ vehicle *vehicle::act_on_map( map &here )
     bool can_use_rails = this->can_use_rails( here );
     if( one_in( 10 ) ) {
         bool controlled = false;
-        // It can even be a NPC, but must be at the controls
+        // It can even be an NPC, but must be at the controls
         for( int boarded : boarded_parts() ) {
             if( part_with_feature( boarded, VPFLAG_CONTROLS, true ) >= 0 ) {
                 controlled = true;

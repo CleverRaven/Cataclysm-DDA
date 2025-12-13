@@ -251,7 +251,7 @@ TEST_CASE( "Wield_test", "[wield]" )
         }
     }
 
-    GIVEN( "A NPC" ) {
+    GIVEN( "An NPC" ) {
         point_bub_ms next_to = player_pos + point::north;
         npc &guy = spawn_npc( next_to, "test_talker" );
 

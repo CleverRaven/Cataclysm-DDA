@@ -752,7 +752,7 @@ class Character : public Creature, public visitable
         /** Recalculate size class of character **/
         void recalculate_size();
 
-        /** Displays character name with a npc_class/profession suffix
+        /** Displays character name with an npc_class/profession suffix
         **/
         std::string disp_name( bool possessive = false, bool capitalize_first = false ) const override;
         /** Returns the player's profession or an NPC's suffix if they have one
