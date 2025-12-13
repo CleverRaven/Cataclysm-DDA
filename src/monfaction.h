@@ -62,6 +62,9 @@ class monfaction
         std::vector<std::pair<mfaction_str_id, mod_id>> src;
         mfaction_str_id base_faction = mfaction_str_id::NULL_ID();
 
+        // What NPC faction (if any) are we associated with?
+        faction_id associated_faction = faction_id::NULL_ID();
+
     private:
         // used by generic_factory
         bool was_loaded = false;
