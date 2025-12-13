@@ -1397,7 +1397,10 @@ static activity_reason_info find_base_construction(
     return activity_reason_info::build( do_activity_reason::CAN_DO_CONSTRUCTION, true, build.id );
 }
 
-static bool are_requirements_nearby(
+namespace multi_activity_actor
+{
+
+bool are_requirements_nearby(
     const std::vector<tripoint_bub_ms> &loot_spots, const requirement_id &needed_things,
     Character &you, const activity_id &activity_to_restore, const bool in_loot_zones,
     const tripoint_bub_ms &src_loc )
@@ -1494,8 +1497,6 @@ static bool are_requirements_nearby(
     return needed_things.obj().can_make_with_inventory( temp_inv, is_crafting_component );
 }
 
-namespace multi_activity_actor
-{
 
 //common function for deconstruction/repair
 activity_reason_info vehicle_work_can_do( const activity_id &, Character &you,
@@ -2486,7 +2487,10 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
     return activity_reason_info::fail( do_activity_reason::NO_ZONE );
 }
 
-static void add_basecamp_storage_to_loot_zone_list(
+namespace multi_activity_actor
+{
+
+void add_basecamp_storage_to_loot_zone_list(
     zone_manager &mgr, const tripoint_bub_ms &src_loc, Character &you,
     std::vector<tripoint_bub_ms> &loot_zone_spots, std::vector<tripoint_bub_ms> &combined_spots )
 {
@@ -2513,6 +2517,7 @@ static void add_basecamp_storage_to_loot_zone_list(
         }
     }
 }
+} //namespace multi_activity_actor
 
 static std::vector<std::tuple<tripoint_bub_ms, itype_id, int>> requirements_map( Character &you,
         const int distance = MAX_VIEW_DISTANCE )
@@ -2568,16 +2573,19 @@ static std::vector<std::tuple<tripoint_bub_ms, itype_id, int>> requirements_map(
             combined_spots.emplace_back( elem );
         }
     }
-    add_basecamp_storage_to_loot_zone_list( mgr, src_loc, you, loot_spots, combined_spots );
+    multi_activity_actor::add_basecamp_storage_to_loot_zone_list( mgr, src_loc, you, loot_spots,
+            combined_spots );
     // if the requirements aren't available, then stop.
-    if( !are_requirements_nearby( pickup_task ? loot_spots : combined_spots, things_to_fetch_id, you,
-                                  activity_to_restore, pickup_task, src_loc ) ) {
+    if( !multi_activity_actor::are_requirements_nearby( pickup_task ? loot_spots : combined_spots,
+            things_to_fetch_id, you,
+            activity_to_restore, pickup_task, src_loc ) ) {
         return requirement_map;
     }
     // if the requirements are already near the work spot and its a construction/crafting task, then no need to fetch anything more.
     if( !pickup_task &&
-        are_requirements_nearby( already_there_spots, things_to_fetch_id, you, activity_to_restore,
-                                 false, src_loc ) ) {
+        multi_activity_actor::are_requirements_nearby( already_there_spots, things_to_fetch_id, you,
+                activity_to_restore,
+                false, src_loc ) ) {
         return requirement_map;
     }
     // a vector of every item in every tile that matches any part of the requirements.
@@ -3134,8 +3142,11 @@ static bool chop_tree_activity( Character &you, const tripoint_bub_ms &src_loc )
     return false;
 }
 
-static zone_type_id get_zone_for_act( const tripoint_bub_ms &src_loc, const zone_manager &mgr,
-                                      const activity_id &act_id, const faction_id &fac_id )
+namespace multi_activity_actor
+{
+
+zone_type_id get_zone_for_act( const tripoint_bub_ms &src_loc, const zone_manager &mgr,
+                               const activity_id &act_id, const faction_id &fac_id )
 {
     zone_type_id ret = zone_type_;
     if( act_id == ACT_VEHICLE_DECONSTRUCTION ) {
@@ -3183,8 +3194,6 @@ static zone_type_id get_zone_for_act( const tripoint_bub_ms &src_loc, const zone
     return ret;
 }
 
-namespace multi_activity_actor
-{
 void prune_same_tile_locations( Character &you, std::unordered_set<tripoint_abs_ms> &src_set )
 {
 
@@ -3253,7 +3262,8 @@ std::unordered_set<tripoint_abs_ms> generic_locations( Character &you, const act
     zone_manager &mgr = zone_manager::get_manager();
     std::unordered_set<tripoint_abs_ms> src_set;
 
-    zone_type_id zone_type = get_zone_for_act( tripoint_bub_ms::zero, mgr, act_id, _fac_id( you ) );
+    zone_type_id zone_type = multi_activity_actor::get_zone_for_act( tripoint_bub_ms::zero, mgr, act_id,
+                             _fac_id( you ) );
     src_set = mgr.get_near( zone_type, you.pos_abs(), MAX_VIEW_DISTANCE, nullptr, _fac_id( you ) );
 
     // prune the set to remove tiles that are never gonna work out.
@@ -3593,7 +3603,8 @@ bool construction_do( Character &you, const activity_reason_info &act_info,
     const do_activity_reason &reason = act_info.reason;
     const zone_manager &mgr = zone_manager::get_manager();
     const zone_data *zone =
-        mgr.get_zone_at( src, get_zone_for_act( src_loc, mgr, ACT_MULTIPLE_CONSTRUCTION, _fac_id( you ) ),
+        mgr.get_zone_at( src, multi_activity_actor::get_zone_for_act( src_loc, mgr,
+                         ACT_MULTIPLE_CONSTRUCTION, _fac_id( you ) ),
                          _fac_id( you ) );
 
     if( reason == do_activity_reason::CAN_DO_CONSTRUCTION ) {
@@ -3679,7 +3690,7 @@ bool mine_do( Character &you, const activity_reason_info &act_info,
 
     if( reason == do_activity_reason::NEEDS_MINING ) {
         // if have enough batteries to continue etc.
-        you.backlog.emplace_front( ACT_MULTIPLE_MINE );
+        you.backlog.emplace_front( multi_mine_activity_actor() );
         if( mine_activity( you, src_loc ) ) {
             return false;
         }
@@ -3835,10 +3846,11 @@ void activity_failure_message( Character &you, activity_id new_activity,
     }
 }
 
-//returns nullopt for invalid src_bub, true for restarted activity, false otherwise
-std::optional<bool> route( Character &you, const tripoint_bub_ms &src_bub, activity_id act_id,
+//returns nullopt for no route to src_bub, true for restarted activity, false otherwise
+std::optional<bool> route( Character &you, player_activity &act, const tripoint_bub_ms &src_bub,
                            requirement_failure_reasons &fail_reason, bool check_only )
 {
+    activity_id act_id = act.id();
     //route to destination if needed
     std::vector<tripoint_bub_ms> route_workbench;
     if( act_id == ACT_MULTIPLE_CRAFT || act_id == ACT_MULTIPLE_DIS ) {
@@ -3871,7 +3883,7 @@ std::optional<bool> route( Character &you, const tripoint_bub_ms &src_bub, activ
             // we don't need to check for safe mode,
             // activity will be restarted only if
             // player arrives on destination tile
-            you.set_destination( route, player_activity( act_id ) );
+            you.set_destination( route, act );
             return true;
         }
     }
@@ -3951,7 +3963,8 @@ static requirement_check_result generic_multi_activity_check_requirement(
     bool &can_do_it = act_info.can_do;
     const do_activity_reason &reason = act_info.reason;
     const zone_data *zone =
-        mgr.get_zone_at( src, get_zone_for_act( src_loc, mgr, act_id, _fac_id( you ) ),
+        mgr.get_zone_at( src, multi_activity_actor::get_zone_for_act( src_loc, mgr, act_id,
+                         _fac_id( you ) ),
                          _fac_id( you ) );
 
     const bool needs_to_be_in_zone = multi_activity_actor::activity_must_be_in_zone( act_id, src_loc );
@@ -4003,7 +4016,8 @@ static requirement_check_result generic_multi_activity_check_requirement(
                 PICKUP_RANGE ) ) {
             combined_spots.push_back( elem );
         }
-        add_basecamp_storage_to_loot_zone_list( mgr, src_loc, you, loot_zone_spots, combined_spots );
+        multi_activity_actor::add_basecamp_storage_to_loot_zone_list( mgr, src_loc, you, loot_zone_spots,
+                combined_spots );
 
         //begin requirements
         std::optional<requirement_id> activity_requirements;
@@ -4041,8 +4055,9 @@ static requirement_check_result generic_multi_activity_check_requirement(
 
         bool tool_pickup = multi_activity_actor::activity_reason_picks_up_tools( reason );
         // is it even worth fetching anything if there isn't enough nearby?
-        if( !are_requirements_nearby( tool_pickup ? loot_zone_spots : combined_spots, what_we_need, you,
-                                      act_id, tool_pickup, src_loc ) ) {
+        if( !multi_activity_actor::are_requirements_nearby( tool_pickup ? loot_zone_spots : combined_spots,
+                what_we_need, you,
+                act_id, tool_pickup, src_loc ) ) {
             if( zone ) {
                 you.add_msg_player_or_npc( m_info,
                                            _( "The required items are not available to complete the %s task at zone %s." ), act_id.c_str(),
@@ -4150,6 +4165,8 @@ bool requirement_failure_reasons::check_skip_location() const
         skip_location_no_match;
 }
 
+// check_only is only used by NPCs -- to check whether we can get to doing the activity
+// @return whether the activity would be done or cancelled correctly
 bool generic_multi_activity_handler( player_activity &act, Character &you, bool check_only )
 {
     map &here = get_map();
@@ -4221,8 +4238,9 @@ bool generic_multi_activity_handler( player_activity &act, Character &you, bool 
         }
 
         //route to destination if needed
+        player_activity act_destination = player_activity( new_activity );
         std::optional<bool> route_result = multi_activity_actor::route(
-                                               you, src_bub, new_activity, req_fail_reason, check_only );
+                                               you, act_destination, src_bub, req_fail_reason, check_only );
         if( !route_result ) {
             continue;
         }
@@ -4251,6 +4269,7 @@ bool generic_multi_activity_handler( player_activity &act, Character &you, bool 
                 // and the backlog was given the multi-act
                 return false;
             }
+            // if "do" returned true (the activity was not successful), then keep looping
         } else {
             return true;
         }
