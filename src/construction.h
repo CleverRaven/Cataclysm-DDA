@@ -123,7 +123,6 @@ void place_construction( std::vector<construction_group_str_id> const &groups );
 void load_construction( const JsonObject &jo );
 void reset_constructions();
 construction_id construction_menu( bool blueprint );
-void complete_construction( Character *you );
 bool has_pre_flags( const construction &con, furn_id const &f, ter_id const &t );
 bool can_construct( const construction &con, const tripoint_bub_ms &p );
 bool player_can_build( Character &you, const read_only_visitable &inv, const construction &con,

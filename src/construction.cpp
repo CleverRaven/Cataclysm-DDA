@@ -12,6 +12,7 @@
 #include <utility>
 
 #include "action.h"
+#include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "build_reqs.h"
 #include "calendar.h"
@@ -84,7 +85,6 @@
 
 class read_only_visitable;
 
-static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
 
 static const construction_category_id construction_category_ALL( "ALL" );
@@ -1403,31 +1403,30 @@ void place_construction( std::vector<construction_group_str_id> const &groups )
     }
     player_character.invalidate_crafting_inventory();
     player_character.invalidate_weight_carried_cache();
-    player_character.assign_activity( ACT_BUILD );
-    player_character.activity.placement = here.get_abs( pnt );
+    player_character.assign_activity( build_construction_activity_actor( here.get_abs( pnt ) ) );
 }
 
-void complete_construction( Character *you )
+void build_construction_activity_actor::complete_construction( player_activity &act,
+        Character &you )
 {
     if( !finalized ) {
         debugmsg( "complete_construction called before finalization" );
         return;
     }
     map &here = get_map();
-    const tripoint_bub_ms terp = here.get_bub( you->activity.placement );
+    const tripoint_bub_ms terp = here.get_bub( construction_location );
     partial_con *pc = here.partial_con_at( terp );
     if( !pc ) {
         debugmsg( "No partial construction found at activity placement in complete_construction()" );
-        if( you->is_npc() ) {
-            npc *guy = dynamic_cast<npc *>( you );
-            guy->current_activity_id = activity_id::NULL_ID();
-            guy->revert_after_activity();
-            guy->set_moves( 0 );
+        if( you.is_npc() ) {
+            npc &guy = dynamic_cast<npc & >( you );
+            guy.current_activity_id = activity_id::NULL_ID();
+            guy.revert_after_activity();
+            guy.set_moves( 0 );
         }
         return;
     }
     const construction &built = pc->id.obj();
-    you->activity.str_values.emplace_back( built.str_id );
     const auto award_xp = [&]( Character & practicer ) {
         for( const auto &pr : built.required_skills ) {
             practicer.practice( pr.first, static_cast<int>( ( 10 + 15 * pr.second ) *
@@ -1436,10 +1435,10 @@ void complete_construction( Character *you )
         }
     };
 
-    award_xp( *you );
+    award_xp( you );
     // Other friendly Characters gain exp from assisting or watching...
     // TODO: Characters watching other Characters do stuff and learning from it
-    if( you->is_avatar() ) {
+    if( you.is_avatar() ) {
         for( Character *elem : get_avatar().get_crafting_helpers() ) {
             if( elem->meets_skill_requirements( built ) ) {
                 add_msg( m_info, _( "%s assists you with the work…" ), elem->get_name() );
@@ -1490,30 +1489,30 @@ void complete_construction( Character *you )
 
     // Spawn byproducts
     if( built.byproduct_item_group ) {
-        here.spawn_items( you->pos_bub(), item_group::items_from( *built.byproduct_item_group,
+        here.spawn_items( you.pos_bub(), item_group::items_from( *built.byproduct_item_group,
                           calendar::turn ) );
     }
 
-    add_msg( m_info, _( "%s finished construction: %s." ), you->disp_name( false, true ),
+    add_msg( m_info, _( "%s finished construction: %s." ), you.disp_name( false, true ),
              built.group->name() );
     // clear the activity
-    you->activity.set_to_null();
-    you->recoil = MAX_RECOIL;
+    act.set_to_null();
+    you.recoil = MAX_RECOIL;
 
     // This comes after clearing the activity, in case the function interrupts
     // activities
     if( built.post_specials.size() > 1 ) { // pre-functions
         for( const auto &special : built.post_specials ) {
-            special( terp, *you );
+            special( terp, you );
         }
     } else {
-        built.post_special( terp, *you );
+        built.post_special( terp, you );
     }
     // Players will not automatically resume backlog, other Characters will.
-    if( you->is_avatar() && !you->backlog.empty() &&
-        you->backlog.front().id() == ACT_MULTIPLE_CONSTRUCTION ) {
-        you->backlog.clear();
-        you->assign_activity( ACT_MULTIPLE_CONSTRUCTION );
+    if( you.is_avatar() && !you.backlog.empty() &&
+        you.backlog.front().id() == ACT_MULTIPLE_CONSTRUCTION ) {
+        you.backlog.clear();
+        you.assign_activity( ACT_MULTIPLE_CONSTRUCTION );
     }
 }
 

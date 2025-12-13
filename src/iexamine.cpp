@@ -101,7 +101,6 @@
 #include "weather.h"
 
 static const activity_id ACT_ATM( "ACT_ATM" );
-static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_HARVEST( "ACT_HARVEST" );
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 
@@ -4973,8 +4972,7 @@ void iexamine::part_con( Character &you, tripoint_bub_ms const &examp )
                 here.partial_con_remove( examp );
             }
         } else {
-            you.assign_activity( ACT_BUILD );
-            you.activity.placement = here.get_abs( examp );
+            you.assign_activity( build_construction_activity_actor( here.get_abs( examp ) ) );
         }
         return;
     }
