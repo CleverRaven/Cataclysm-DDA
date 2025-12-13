@@ -42,6 +42,9 @@
     "name": { "str": "Calorie Etherealization System" },
     "description": "The best place to store calories is inside your own body.  Unfortunately, caloric oversaturation causes issues that impede this perfect storage.  Thanks to magnets, orbital tragectories and your own ingenuity, your calories are now close to you and will be consumed as needed without penalties.  The process is imperfect and the orbit can't be maintained without power, but nothing preserves calories this well.",
     "occupied_bodyparts": [ [ "torso", 8 ] ],
+    "act_cost": "10 kJ",
+    "react_cost": "100 J",
+    "time": "10 s",
     "activated_eocs": [ "EOC_bio_inventor_calorie_storage_activated" ],
     "deactivated_eocs": [ "EOC_bio_inventor_calorie_storage_deactivated" ],
     "flags": [ "BIONIC_TOGGLED" ]
@@ -52,6 +55,7 @@
     "name": { "str": "Creative-Electric Converter" },
     "description": "Blood is fuel?  More like everything is fuel.  This device drains your very creativity to produce power for your bionics.  It's somehow simultaneously among your best and worst ideas.",
     "occupied_bodyparts": [ [ "head", 4 ] ],
+    "activated_eocs": [ "EOC_inventor_creative_fuel" ],
     "flags": [ "BIONIC_FUEL_SOURCE" ]
   },
   {

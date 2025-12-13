@@ -89,22 +89,31 @@
             "then": [
               { "math": [ "u_calories('dont_affect_weariness': true) += 100" ] },
               { "math": [ "u_vitamin('stored_calories') -= 100" ] },
-              { "u_message": "Some of your orbiting calories settle inside your body.", "type": "good" }
+              {
+                "if": { "x_in_y_chance": { "x": 1, "y": 20 } },
+                "then": { "u_message": "Some of your orbiting calories settle inside your body.", "type": "good" }
+              }
             ],
             "else": [
               { "math": [ "u_calories('dont_affect_weariness': true) += u_vitamin('stored_calories')" ] },
               { "math": [ "u_vitamin('stored_calories') = 0" ] },
-              { "u_message": "The last of your orbiting calories settle inside your body.", "type": "good" }
+              {
+                "if": { "x_in_y_chance": { "x": 1, "y": 20 } },
+                "then": { "u_message": "The last of your orbiting calories settle inside your body.", "type": "mixed" }
+              }
             ]
           }
         ],
         "else": [
           {
-            "if": { "math": [ "u_vitamin('stored_calories') >= u_calories_needed * 1.3)" ] },
+            "if": { "math": [ "u_vitamin('stored_calories') >= u_calories_needed * 1.2)" ] },
             "then": [
               { "math": [ "u_calories('dont_affect_weariness': true) -= 100" ] },
               { "math": [ "u_vitamin('stored_calories') += 75" ] },
-              { "u_message": "Some of your calories move outside your body.", "type": "good" }
+              {
+                "if": { "x_in_y_chance": { "x": 1, "y": 20 } },
+                "then": { "u_message": "Some of your calories move outside of your body.", "type": "good" }
+              }
             ]
           }
         ]
@@ -115,5 +124,16 @@
     "type": "effect_on_condition",
     "id": "EOC_bio_inventor_calorie_storage_deactivated",
     "effect": [ { "math": [ "u_vitamin('stored_calories') = 0" ] }, { "u_lose_effect": "effect_bio_inventor_calorie_storage" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_inventor_creative_fuel",
+    "condition": { "math": [ "u_vitamin('creative_spark') > 0" ] },
+    "effect": [
+      { "math": [ "u_vitamin('creative_spark')--" ] },
+      { "math": [ "u_val('power') += rng(9000000, 11000000)" ] },
+      { "u_message": "Some of your brillance is converted into electricity.", "type": "info" }
+    ],
+    "false_effect": [ { "u_message": "Your creativity isn't potent enough to be converted to electricity.", "type": "bad" } ]
   }
 ]
