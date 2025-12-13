@@ -2,7 +2,7 @@
   {
     "type": "snippet",
     "category": "<meta_adjective>",
-    "text": [ { "id": "<esoteric_adjective>" }, { "id": "<junk_adjective>" }, { "id": "<archeological_adjective>" } ]
+    "text": [ { "id": "<esoteric_adjective>", "text": "<esoteric_adjective>"  }, { "id": "<junk_adjective>", "text": "<junk_adjective>" }, { "id": "<archeological_adjective>", "text": "<archeological_adjective>" } ]
   },
   {
     "type": "snippet",
@@ -85,7 +85,7 @@
   {
     "type": "snippet",
     "category": "<meta_noun>",
-    "text": [ { "id": "<object_noun>" }, { "id": "<trash_object>" } ]
+    "text": [ { "id": "<object_noun>", "text": "<object_noun>" }, { "id": "<trash_object>", "text": "<trash_object>" } ]
   },
   {
     "type": "snippet",
@@ -142,7 +142,7 @@
   {
     "type": "snippet",
     "category": "<meta_ownership_noun>",
-    "text": [ { "id": "<ancient_ruler_misname>" }, { "id": "<corporate_misname>" } ]
+    "text": [ { "id": "<ancient_ruler_misname>", "text": "<ancient_ruler_misname>" }, { "id": "<corporate_misname>", "text": "<corporate_misname>"  } ]
   },
   {
     "type": "snippet",

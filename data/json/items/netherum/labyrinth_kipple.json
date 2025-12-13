@@ -4,7 +4,7 @@
     "type": "ITEM",
     "category": "container",
     "name": { "str": "paper wrapper" },
-    "description": "A strange wrapper for candy or gum.  It crinkles like foil but feels similar to a blade of grass. It reads \"<made_up_colors> <meta_ownership_noun>\".",
+    "description": "A strange wrapper for candy or gum.  It crinkles like foil but feels similar to a blade of grass.  It reads \"<made_up_colors> <meta_ownership_noun>\".",
     "ascii_picture": "wrapper",
     "weight": "3 g",
     "volume": "50 ml",
