@@ -85,10 +85,7 @@
   {
     "type": "snippet",
     "category": "<meta_noun>",
-    "text": [
-      { "id": "<object_noun>" },
-      { "id": "<trash_object>" }
-    ]
+    "text": [ { "id": "<object_noun>" }, { "id": "<trash_object>" } ]
   },
   {
     "type": "snippet",
