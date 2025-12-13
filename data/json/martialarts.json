@@ -28,7 +28,7 @@
     "type": "martial_art",
     "id": "style_aikido",
     "name": { "str": "Aikido" },
-    "description": "Aikido is a Japanese martial art focused on self-defense, while minimizing injury to the attacker.  It uses defensive throws and disarms but its techniques lack offensive power.",
+    "description": "Aikido is a Japanese martial art focused on self-defense, while minimizing injury to the attacker.  It uses defensive throws and disarms but its techniques lack offensive power.  Modern instruction in the United States tends to emphasize escaping assailants, and disengaging at the first opportunity.",
     "initiate": [ "You enter the hanmi stance.", "%s enters a relaxed combat posture." ],
     "priority": 1,
     "learn_difficulty": 5,
@@ -37,32 +37,21 @@
       {
         "id": "buff_aikido_static1",
         "name": "Aikido Stance",
-        "description": "By disregarding offense in favor of defense, you are better at protecting yourself.\n\nBlocked damage reduced by 100% of Dexterity, +2 blocking effectiveness, +1.0 Dodging skill.",
+        "description": "By disregarding offense in favor of defense, you are better at protecting yourself.\n\nYou have +2 blocking effectiveness and +1.0 Dodging skill, but do 20% less damage.",
         "unarmed_allowed": true,
-        "melee_allowed": true,
+        "melee_allowed": false,
         "flat_bonuses": [
-          { "stat": "block", "scaling-stat": "dex", "scale": 1.0 },
           { "stat": "block_effectiveness", "scale": 2.0 },
-          { "stat": "dodge", "scale": 1.0 }
+          { "stat": "dodge", "scale": 1.0 },
+          { "stat": "damage", "scale": -0.2 }
         ]
-      },
-      {
-        "id": "buff_aikido_static2",
-        "name": "Intermediate Aikido",
-        "description": "An intermediate Aikido practitioner can protect themselves against multiple opponents.\n\nBlocked damage reduced by 100% of Dexterity, +1 blocking effectiveness, +1 block attempt, +1 dodge attempt.",
-        "unarmed_allowed": true,
-        "melee_allowed": true,
-        "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
-        "bonus_dodges": 1,
-        "bonus_blocks": 1,
-        "flat_bonuses": [ { "stat": "block", "scaling-stat": "dex", "scale": 1.0 }, { "stat": "block_effectiveness", "scale": 1.0 } ]
       },
       {
         "id": "buff_aikido_static3",
         "name": "Advanced Aikido",
-        "description": "An advanced Aikido practitioner can protect themselves against even more opponents than normal.\n\n+1 blocking effectiveness, +1 block attempt, +1 dodge attempt.",
+        "description": "An advanced Aikido practitioner can protect themselves even against multiple opponents.\n\n+1 blocking effectiveness, +1 block attempt, +1 dodge attempt.",
         "unarmed_allowed": true,
-        "melee_allowed": true,
+        "melee_allowed": false,
         "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
         "bonus_dodges": 1,
         "bonus_blocks": 1,
@@ -73,23 +62,23 @@
       {
         "id": "buff_aikido_onblock",
         "name": "Fluid Blocking",
-        "description": "After a smooth block, you prepare to counter your foe.\n\n-10% move cost.\nLasts 1 turn.",
-        "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
+        "description": "While successfully blocking, you can further reduce damage from all attacks.\n\n+15% effective armor.\nLasts 1 turn.",
+        "skill_requirements": [ { "name": "unarmed", "level": 6 } ],
         "unarmed_allowed": true,
-        "melee_allowed": true,
+        "melee_allowed": false,
         "buff_duration": 1,
-        "mult_bonuses": [ { "stat": "movecost", "scale": 0.9 } ]
+        "mult_bonuses": [ { "stat": "armor", "scale": 1.15 } ]
       }
     ],
     "ondodge_buffs": [
       {
         "id": "buff_aikido_ondodge",
         "name": "Fluid Dodging",
-        "description": "After a smooth dodge, you prepare to counter your foe.\n\n-10% move cost.\nLasts 1 turn.",
+        "description": "After a dodge, you have an opportunity for a clean escape.\n\n-50% move cost.\nLasts 1 turn.",
         "unarmed_allowed": true,
         "melee_allowed": true,
         "buff_duration": 1,
-        "mult_bonuses": [ { "stat": "movecost", "scale": 0.9 } ]
+        "mult_bonuses": [ { "stat": "movecost", "scale": 0.5 } ]
       }
     ],
     "techniques": [
