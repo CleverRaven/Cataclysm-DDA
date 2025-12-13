@@ -428,6 +428,14 @@
     "flags": [ "CLASSIC" ]
   },
   {
+    "id": "mx_hobblebush_patch",
+    "type": "map_extra",
+    "name": { "str": "Hobblebush patch" },
+    "description": "Hobblebush bushes have spread here.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_hobblebush_patch" },
+    "flags": [ "CLASSIC" ]
+  },
+  {
     "id": "mx_knotweed_patch",
     "type": "map_extra",
     "name": { "str": "Japanese knotweed patch" },
