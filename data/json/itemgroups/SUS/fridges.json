@@ -208,32 +208,12 @@
         ],
         "prob": 90
       },
-      {
-        "distribution": [
-          { "item": "beer", "count": [ 1, 6 ], "prob": 35 },
-          { "item": "european_pilsner", "count": [ 1, 6 ], "prob": 25 },
-          { "item": "pale_ale", "count": [ 1, 6 ], "prob": 25 },
-          { "item": "india_pale_ale", "count": [ 1, 6 ], "prob": 25 },
-          { "item": "drink_hard_seltzer", "count": [ 1, 6 ], "prob": 25 },
-          { "item": "stout", "count": [ 1, 6 ], "prob": 15 },
-          { "item": "belgian_ale", "count": [ 1, 6 ], "prob": 10 },
-          { "item": "imperial_stout", "count": [ 1, 6 ], "prob": 4 }
-        ],
-        "prob": 70
-      },
+      { "group": "beer_in_six_pack", "prob": 70 },
       {
         "distribution": [
           { "item": "apple_cider", "charges": [ 1, -1 ], "prob": 20, "container-item": "bottle_plastic", "sealed": false },
           { "item": "fruit_wine", "charges": [ 1, -1 ], "prob": 15 },
-          { "item": "beer", "charges": [ 1, -1 ], "prob": 35 },
-          { "item": "european_pilsner", "charges": [ 1, -1 ], "prob": 25 },
-          { "item": "pale_ale", "charges": [ 1, -1 ], "prob": 25 },
-          { "item": "india_pale_ale", "charges": [ 1, -1 ], "prob": 25 },
-          { "item": "drink_hard_seltzer", "charges": [ 1, -1 ], "prob": 25 },
-          { "item": "stout", "charges": [ 1, -1 ], "prob": 15 },
-          { "item": "belgian_ale", "charges": [ 1, -1 ], "prob": 10 },
-          { "item": "imperial_stout", "charges": [ 1, -1 ], "prob": 4 },
-          { "item": "wine_barley", "charges": [ 1, -1 ], "prob": 2 }
+          { "group": "beer_in_container", "prob": 166 }
         ],
         "prob": 60
       }
@@ -322,32 +302,12 @@
         ],
         "prob": 70
       },
-      {
-        "distribution": [
-          { "item": "beer", "count": [ 1, 6 ], "prob": 35 },
-          { "item": "european_pilsner", "count": [ 1, 6 ], "prob": 25 },
-          { "item": "pale_ale", "count": [ 1, 6 ], "prob": 25 },
-          { "item": "india_pale_ale", "count": [ 1, 6 ], "prob": 25 },
-          { "item": "drink_hard_seltzer", "count": [ 1, 6 ], "prob": 25 },
-          { "item": "stout", "count": [ 1, 6 ], "prob": 15 },
-          { "item": "belgian_ale", "count": [ 1, 6 ], "prob": 10 },
-          { "item": "imperial_stout", "count": [ 1, 6 ], "prob": 4 }
-        ],
-        "prob": 80
-      },
+      { "group": "beer_in_six_pack", "prob": 80 },
       {
         "distribution": [
           { "item": "apple_cider", "charges": [ 1, -1 ], "prob": 20 },
           { "item": "fruit_wine", "charges": [ 1, -1 ], "prob": 15 },
-          { "item": "beer", "charges": [ 1, -1 ], "prob": 35 },
-          { "item": "european_pilsner", "charges": [ 1, -1 ], "prob": 25 },
-          { "item": "pale_ale", "charges": [ 1, -1 ], "prob": 25 },
-          { "item": "india_pale_ale", "charges": [ 1, -1 ], "prob": 25 },
-          { "item": "drink_hard_seltzer", "charges": [ 1, -1 ], "prob": 25 },
-          { "item": "stout", "charges": [ 1, -1 ], "prob": 15 },
-          { "item": "belgian_ale", "charges": [ 1, -1 ], "prob": 10 },
-          { "item": "imperial_stout", "charges": [ 1, -1 ], "prob": 4 },
-          { "item": "wine_barley", "charges": [ 1, -1 ], "prob": 2 }
+          { "group": "beer_in_container", "prob": 166 }
         ],
         "prob": 70
       }
@@ -440,32 +400,12 @@
         ],
         "prob": 80
       },
-      {
-        "distribution": [
-          { "item": "beer", "count": [ 1, 6 ], "prob": 35 },
-          { "item": "european_pilsner", "count": [ 1, 6 ], "prob": 25 },
-          { "item": "pale_ale", "count": [ 1, 6 ], "prob": 25 },
-          { "item": "india_pale_ale", "count": [ 1, 6 ], "prob": 25 },
-          { "item": "drink_hard_seltzer", "count": [ 1, 6 ], "prob": 25 },
-          { "item": "stout", "count": [ 1, 6 ], "prob": 15 },
-          { "item": "belgian_ale", "count": [ 1, 6 ], "prob": 10 },
-          { "item": "imperial_stout", "count": [ 1, 6 ], "prob": 4 }
-        ],
-        "prob": 40
-      },
+      { "group": "beer_in_six_pack", "prob": 40 },
       {
         "distribution": [
           { "item": "apple_cider", "charges": [ 1, -1 ], "prob": 20 },
           { "item": "fruit_wine", "charges": [ 1, -1 ], "prob": 15 },
-          { "item": "beer", "charges": [ 1, -1 ], "prob": 35 },
-          { "item": "european_pilsner", "charges": [ 1, -1 ], "prob": 25 },
-          { "item": "pale_ale", "charges": [ 1, -1 ], "prob": 25 },
-          { "item": "india_pale_ale", "charges": [ 1, -1 ], "prob": 25 },
-          { "item": "drink_hard_seltzer", "charges": [ 1, -1 ], "prob": 25 },
-          { "item": "stout", "charges": [ 1, -1 ], "prob": 15 },
-          { "item": "belgian_ale", "charges": [ 1, -1 ], "prob": 10 },
-          { "item": "imperial_stout", "charges": [ 1, -1 ], "prob": 4 },
-          { "item": "wine_barley", "charges": [ 1, -1 ], "prob": 2 }
+          { "group": "beer_in_container", "prob": 166 }
         ],
         "prob": 40
       }
@@ -648,32 +588,12 @@
         ],
         "prob": 20
       },
-      {
-        "distribution": [
-          { "item": "beer", "count": [ 1, 6 ], "prob": 35 },
-          { "item": "european_pilsner", "count": [ 1, 6 ], "prob": 25 },
-          { "item": "drink_hard_seltzer", "count": [ 1, 6 ], "prob": 25 },
-          { "item": "pale_ale", "count": [ 1, 6 ], "prob": 25 },
-          { "item": "india_pale_ale", "count": [ 1, 6 ], "prob": 25 },
-          { "item": "stout", "count": [ 1, 6 ], "prob": 15 },
-          { "item": "belgian_ale", "count": [ 1, 6 ], "prob": 10 },
-          { "item": "imperial_stout", "count": [ 1, 6 ], "prob": 4 }
-        ],
-        "prob": 20
-      },
+      { "group": "beer_in_six_pack", "prob": 20 },
       {
         "distribution": [
           { "item": "apple_cider", "charges": [ 1, -1 ], "prob": 20, "container-item": "bottle_plastic", "sealed": false },
           { "item": "fruit_wine", "charges": [ 1, -1 ], "prob": 15 },
-          { "item": "beer", "charges": [ 1, -1 ], "prob": 35 },
-          { "item": "european_pilsner", "charges": [ 1, -1 ], "prob": 25 },
-          { "item": "pale_ale", "charges": [ 1, -1 ], "prob": 25 },
-          { "item": "india_pale_ale", "charges": [ 1, -1 ], "prob": 25 },
-          { "item": "drink_hard_seltzer", "charges": [ 1, -1 ], "prob": 25 },
-          { "item": "stout", "charges": [ 1, -1 ], "prob": 15 },
-          { "item": "belgian_ale", "charges": [ 1, -1 ], "prob": 10 },
-          { "item": "imperial_stout", "charges": [ 1, -1 ], "prob": 4 },
-          { "item": "wine_barley", "charges": [ 1, -1 ], "prob": 2 }
+          { "group": "beer_in_container", "prob": 166 }
         ],
         "prob": 20
       }

@@ -1363,8 +1363,8 @@ void Creature::deal_projectile_attack( map *here, Creature *source, dealt_projec
 
     viewer &player_view = get_player_view();
     Character *guy = as_character();
-    if( guy ) {
-        double range_dodge_chance = guy->enchantment_cache->modify_value( enchant_vals::mod::RANGE_DODGE,
+    if( !magic ) {
+        double range_dodge_chance = enchantment_cache->modify_value( enchant_vals::mod::RANGE_DODGE,
                                     1.0f ) - 1.0f;
         if( x_in_y( range_dodge_chance, 1.0f ) ) {
             on_try_dodge();

@@ -8,6 +8,7 @@
     "description": "Clad in ancient armor and with a mace in hand, this warrior was summoned by magic to defend you.",
     "default_faction": "player",
     "species": [ "SUMMONED_CREATURE" ],
+    "categories": [ "XE_CLASSIC" ],
     "delete": { "special_attacks": [ "BROWSE", "EAT_FOOD", "PARROT" ] },
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s fades away." }
   },
@@ -20,6 +21,7 @@
     "description": "Clad in ancient armor and with a battleaxe in hand, this warrior was summoned by magic to defend you.",
     "default_faction": "player",
     "species": [ "SUMMONED_CREATURE" ],
+    "categories": [ "XE_CLASSIC" ],
     "delete": { "special_attacks": [ "BROWSE", "EAT_FOOD", "PARROT" ] },
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s fades away." }
   },
@@ -32,6 +34,7 @@
     "description": "Clad in leather armor and with a spear in hand, this warrior was summoned by magic to defend you.",
     "default_faction": "player",
     "species": [ "SUMMONED_CREATURE" ],
+    "categories": [ "XE_CLASSIC" ],
     "delete": { "special_attacks": [ "PARROT_AT_DANGER" ] },
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s fades away." }
   },
@@ -44,6 +47,7 @@
     "description": "Clad in leather armor and with a sword in hand, this warrior was summoned by magic to defend you.",
     "default_faction": "player",
     "species": [ "SUMMONED_CREATURE" ],
+    "categories": [ "XE_CLASSIC" ],
     "extend": { "armor": { "bash": 9, "cut": 14, "acid": 4, "bullet": 18 } },
     "delete": { "special_attacks": [ "BROWSE", "EAT_FOOD", "PARROT" ] },
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s fades away." }
@@ -57,6 +61,7 @@
     "description": "A shadowy figure, only barely visible as more than a mist, but the silhouette of armor and weapons are obvious.",
     "default_faction": "player",
     "species": [ "SUMMONED_CREATURE" ],
+    "categories": [ "XE_CLASSIC" ],
     "melee_skill": 5,
     "speed": 95,
     "vision_night": 15,
@@ -73,6 +78,7 @@
     "description": "A shadowy figure, only barely visible as more than a mist, but the silhouette of armor and weapons are obvious.",
     "default_faction": "player",
     "species": [ "SUMMONED_CREATURE" ],
+    "categories": [ "XE_CLASSIC" ],
     "melee_skill": 5,
     "speed": 95,
     "vision_night": 15,
@@ -89,6 +95,7 @@
     "looks_like": "mon_memory",
     "default_faction": "player",
     "species": [ "SUMMONED_CREATURE" ],
+    "categories": [ "XE_CLASSIC" ],
     "melee_skill": 5,
     "speed": 95,
     "vision_night": 15,
@@ -103,7 +110,8 @@
     "copy-from": "mon_fetch_daffodil_warrior",
     "looks_like": "mon_fetch_daffodil_warrior",
     "default_faction": "player",
-    "species": [ "CHANGELING", "SUMMONED_CREATURE" ]
+    "species": [ "CHANGELING", "SUMMONED_CREATURE" ],
+    "categories": [ "XE_CLASSIC" ]
   },
   {
     "id": "mon_spring_changeling_bashing_vine",
@@ -111,6 +119,7 @@
     "name": { "str": "tanglevine" },
     "description": "A thick mass of animated vine, lashing back and forth at anything that comes within reach.  Long thorns grow from its sides.",
     "species": [ "PLANT", "SUMMONED_CREATURE" ],
+    "categories": [ "XE_CLASSIC" ],
     "default_faction": "changeling",
     "volume": "92500 ml",
     "weight": "120 kg",
@@ -180,5 +189,13 @@
     "copy-from": "mon_vinebeast",
     "death_function": { "message": "The %s rots into nothingness in moments.", "corpse_type": "NO_CORPSE" },
     "species": [ "PLANT", "SUMMONED_CREATURE" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_shadow_summon",
+    "copy-from": "mon_shadow",
+    "species": [ "NETHER", "SUMMONED_CREATURE" ],
+    "delete": { "special_attacks": [ "DISAPPEAR" ] },
+    "categories": [ "XE_CLASSIC" ]
   }
 ]

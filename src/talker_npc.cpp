@@ -485,8 +485,7 @@ std::string talker_npc::give_item_to( const bool to_use )
             me_npc->i_add( given );
         } else {
             if( !me_npc->can_pickVolume( given ) ) {
-                const units::volume free_space = me_npc->volume_capacity() -
-                                                 me_npc->volume_carried();
+                const units::volume free_space = me_npc->free_space();
                 reason += " " + std::string( me_npc->chat_snippets().snip_give_carry_cant.translated() ) + " ";
                 if( free_space > 0_ml ) {
                     std::string talktag = me_npc->chat_snippets().snip_give_carry_cant_few_space.translated();

@@ -1693,6 +1693,10 @@ You can see selected location.
 - type: simple string
 - return true if beta talker is an item and has enough ammo for at least one "shot".
 
+### `is_rotten`
+- type: simple string
+- return true if beta talker is an item and is rotten.
+
 ### `test_eoc`
 - type: string or [variable object](#variable-object)
 - return true if the provided eoc's condition returns true
@@ -5065,6 +5069,25 @@ Picks a random fault from a type, and applies it onto item
 Beta talker adds a random fault from `shorted` type as it's fault
 ```jsonc
 { "npc_set_random_fault_of_type": "shorted" }
+```
+
+#### `set_browsed`
+Set the browse status of browsable items
+
+| Syntax | Optionality | Value  | Info |
+| ------ | ----------- | ------ | ---- |
+| "set_browsed" | **mandatory** | boolean | browse status |
+
+##### Valid talkers:
+
+| Avatar | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | ---- | ------- | --- | ---- |
+| ❌ | ❌ | ❌ | ❌ | ✔️ | ❌ |
+
+##### Examples
+Beta talker makes some browsable item browsed
+```jsonc
+{ "set_browsed": true }
 ```
 
 ## Map effects

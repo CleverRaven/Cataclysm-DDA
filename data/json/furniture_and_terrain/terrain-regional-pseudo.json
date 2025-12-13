@@ -124,6 +124,14 @@
   },
   {
     "type": "terrain",
+    "id": "t_region_tree_fruit_wild",
+    "copy-from": "t_region_pseudo_noitem",
+    "name": "pseudo terrain",
+    "description": "This should never actually show up, it should have been replaced with regional terrain.",
+    "move_cost": 1
+  },
+  {
+    "type": "terrain",
     "id": "t_region_tree_nut",
     "copy-from": "t_region_pseudo_noitem",
     "name": "pseudo terrain",

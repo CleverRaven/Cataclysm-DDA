@@ -18,6 +18,7 @@ Use the `Home` key to return to the top.
   - [Comments](#comments)
 - [File descriptions](#file-descriptions)
   - [`data/json/`](#datajson)
+  - [`data/json/mutations/`](#datajsonmutations)
   - [`data/json/items/`](#datajsonitems)
     - [`data/json/items/comestibles/`](#datajsonitemscomestibles)
   - [`data/json/requirements/`](#datajsonrequirements)
@@ -522,9 +523,6 @@ Here's a quick summary of what each of the JSON files contain, broken down by fo
 | `monstergroups_egg.json`      | monster spawn groups from eggs
 | `monsters.json`               | monster descriptions, mostly zombies
 | `morale_types.json`           | morale modifier messages
-| `mutation_category.json`      | messages for mutation categories
-| `mutation_ordering.json`      | draw order for mutation and CBM overlays in tiles mode
-| `mutations.json`              | traits/mutations
 | `names.json`                  | names used for NPC/player name generation
 | `overmap_connections.json`    | connections for roads and tunnels in the overmap
 | `overmap_terrain.json`        | overmap terrain
@@ -555,7 +553,21 @@ Here's a quick summary of what each of the JSON files contain, broken down by fo
 | `vehicle_part_locations.json` | locations on vehicles where parts are installed
 | `vitamin.json`                | vitamins and their deficiencies
 
-selected subfolders
+## `data/json/mutations/`
+
+| Filename                 | Description
+|---                       |---
+| `mutation_category.json` | messages for mutation categories
+| `mutation_ordering.json` | draw order for mutation and CBM overlays in tiles mode
+| `mutations.json`         | biological mutations
+| `mutations_limb.json`    | biological mutations, limbs, horns, hooves, tails, etc.
+| `mutations_skin.json`    | biological mutations, skin, fur, scales, chitin, etc.
+| `supernatural.json`      | non-biological anomalous traits
+| `professions.json`       | backgrounds and hobby
+| `mycus.json`             | fungal mutations
+| `debug.json`             | debug traits/mutations
+| `baseline.json`          | human dummy traits
+| `npc_only.json`          | NPC-only pseudo-traits and markers
 
 ## `data/json/items/`
 

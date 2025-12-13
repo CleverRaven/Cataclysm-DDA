@@ -19,11 +19,13 @@
       {
         "type": "transform",
         "msg": "You flip the switch on the box and a red LED lights up.",
+        "damage_failure_msg": "You flip the switch on the box, but nothing happens.",
         "target": "psionic_shield_belt_on",
         "need_charges": 1,
         "need_charges_msg": "The switch clicks but nothing happens.",
         "need_worn": true,
-        "menu_text": "Flip the switch"
+        "menu_text": "Flip the switch",
+        "moves": 75
       }
     ],
     "pocket_data": [
@@ -74,28 +76,11 @@
         "target": "psionic_shield_belt",
         "msg": "You flip the switch on the box and the red LED turns off.",
         "menu_text": "Flip the switch",
-        "type": "transform"
+        "type": "transform",
+        "moves": 75
       }
     ],
     "extend": { "flags": [ "NO_TAKEOFF", "SPAWN_ACTIVE" ] }
-  },
-  {
-    "id": "psionic_shield_belt_broken",
-    "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
-    "name": { "str": "shield belt" },
-    "copy-from": "psionic_shield_belt",
-    "description": "A simple synthetic fabric belt with a box to the right of the belt loop.  The box has a toggleable switch and a stylized shield with Ψ and the XEDRA logo inside it.  It also has a large crack across it and rattles when moved.",
-    "price_postapoc": "5 USD",
-    "use_action": [
-      {
-        "type": "transform",
-        "msg": "You flip the switch on the box, but nothing happens.",
-        "target": "psionic_shield_belt_broken",
-        "need_worn": true,
-        "menu_text": "Flip the switch"
-      }
-    ]
   },
   {
     "id": "psionic_fire_shield_belt",
@@ -124,11 +109,13 @@
       {
         "type": "transform",
         "msg": "You flip the switch on the box and a red LED lights up.",
+        "damage_failure_msg": "You flip the switch on the box, but nothing happens.",
         "target": "psionic_fire_shield_belt_on",
         "need_charges": 1,
         "need_charges_msg": "The switch clicks but nothing happens.",
         "need_worn": true,
-        "menu_text": "Flip the switch"
+        "menu_text": "Flip the switch",
+        "moves": 75
       }
     ],
     "flags": [ "BELTED", "OVERSIZE", "NONCONDUCTIVE", "NO_REPAIR", "COMBAT_TOGGLEABLE" ],
@@ -168,35 +155,10 @@
         "target": "psionic_fire_shield_belt",
         "msg": "You flip the switch on the box and the red LED turns off.",
         "menu_text": "Flip the switch",
-        "type": "transform"
+        "type": "transform",
+        "moves": 75
       }
     ],
     "extend": { "flags": [ "NO_TAKEOFF", "SPAWN_ACTIVE" ] }
-  },
-  {
-    "id": "psionic_fire_shield_belt_broken",
-    "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
-    "copy-from": "psionic_fire_shield_belt",
-    "name": { "str": "suppression belt" },
-    "description": "A simple synthetic fabric belt with a box to the right of the belt loop.  The box has a toggleable switch and a stylized flame with a large circle and line superimposed over it and a Ψ behind the XEDRA logo inside it.  It also has a large crack across it and rattles when moved.",
-    "price_postapoc": "5 USD",
-    "use_action": [
-      {
-        "type": "transform",
-        "msg": "You flip the switch on the box, but nothing happens.",
-        "target": "psionic_fire_shield_belt_broken",
-        "need_worn": true,
-        "menu_text": "Flip the switch"
-      }
-    ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_battery_electronoetic"
-      }
-    ]
   }
 ]
