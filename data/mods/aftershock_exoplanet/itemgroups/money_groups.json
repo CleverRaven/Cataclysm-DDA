@@ -51,7 +51,7 @@
   {
     "id": "afs_register_looted",
     "type": "item_group",
-    "//": "If aftershock adds it's own lore correct survivor notes this could be a place to put one",
+    "//": "If aftershock adds its own lore correct survivor notes this could be a place to put one",
     "container-item": "cash_register",
     "items": [ { "group": "afs_banknotes", "prob": 15, "count": [ 1, 2 ] } ]
   },
