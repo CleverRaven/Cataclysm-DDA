@@ -1749,7 +1749,7 @@
     "width": 13,
     "style": "layout",
     "arrange": "minimum_columns",
-    "widgets": [ "l_mood", "i_mood_num", "l_space", "l_focus", "i_focus_num" ],
+    "widgets": [ "l_mood", "i_mood_num" ],
     "type": "widget"
   },
   {
