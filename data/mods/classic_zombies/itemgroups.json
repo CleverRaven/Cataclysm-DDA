@@ -49,5 +49,26 @@
       { "item": "diving_watch", "prob": 20 },
       { "item": "game_watch", "prob": 1, "charges": [ 0, 50 ] }
     ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "new_laptops",
+    "items": [ { "item": "null", "prob": 50 }, { "item": "laptop", "charges": 200, "prob": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "used_laptops",
+    "items": [ { "item": "null", "prob": 50 }, { "item": "laptop", "charges": [ 0, -1 ], "prob": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "civilian_laptops",
+    "items": [
+      { "item": "null", "prob": 50 },
+      { "item": "laptop", "charges": [ 0, -1 ], "contents-group": "civilian_laptop_efiles" }
+    ]
   }
 ]
