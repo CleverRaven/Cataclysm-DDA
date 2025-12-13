@@ -153,7 +153,7 @@ faction_template::faction_template( const JsonObject &jsobj )
     lone_wolf_faction = jsobj.get_bool( "lone_wolf_faction", false );
     limited_area_claim = jsobj.get_bool( "limited_area_claim", false );
     load_relations( jsobj );
-    mon_faction = mfaction_str_id( jsobj.get_string( "mon_faction", "human" ) );
+    optional( jsobj, false, "mon_faction", mon_faction, mfaction_str_id::NULL_ID() );
     optional( jsobj, false, "epilogues", epilogue_data );
 }
 

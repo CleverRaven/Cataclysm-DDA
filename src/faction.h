@@ -172,7 +172,7 @@ class faction_template
         std::vector<faction_price_rule> price_rules; // additional pricing rules
         std::map<std::string, std::bitset<static_cast<size_t>( npc_factions::relationship::rel_types )>>
                 relations;
-        mfaction_str_id mon_faction; // mon_faction_id of the monster faction; defaults to human
+        mfaction_str_id mon_faction; // associated monster faction, if any
         std::vector<faction_epilogue_data> epilogue_data;
 };
 
