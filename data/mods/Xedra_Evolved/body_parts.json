@@ -229,5 +229,27 @@
     "limb_type": "sensor",
     "limb_scores": [ [ "vision", 1.0 ], [ "night_vis", 1.0 ], [ "reaction", 0.7 ] ],
     "similar_bodyparts": [ "gracken_eyes", "stalker_eyes" ]
+  },
+  {
+    "id": "data_shunt",
+    "type": "body_part",
+    "side": 1,
+    "limb_type": "other",
+    "name": "data shunt interface",
+    "name_multiple": "data shunt interfaces",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "data shunt" },
+    "accusative_multiple": { "ctxt": "bodypart_accusative", "str": "data shunts" },
+    "heading": "data shunt",
+    "heading_multiple": "data shunt",
+    "//": "I need to make this come from a bionic, and then have expansion traits that increase the number of slots available via bionic_slot_bonus",
+    "bionic_slots": 3,
+    "opposite_part": "data_shunt",
+    "hit_size": 1,
+    "drench_capacity": 0,
+    "base_hp": 100,
+    "encumbrance_text": "",
+    "main_part": "head",
+    "hit_difficulty": 0,
+    "sub_parts": [ "" ]
   }
 ]

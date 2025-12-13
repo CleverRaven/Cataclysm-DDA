@@ -1,0 +1,95 @@
+[
+   {
+    "id": "xe_bio_data_shunt",
+    "type": "bionic",
+    "name": { "str": "Datashunt, basic" },
+    "description": "CBM which replaces your left leg with a bionic counterpart.",
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
+    "enchantments": [ "ENCH_DATA_SHUNT_BP" ],
+    "passive_pseudo_items": [ "data_core_slots" ],
+    "cant_remove_reason": "You'd have an open hole going through your skull to your brain."
+  },
+  {
+    "id": "xe_bio_dataslot_knife_basic",
+    "type": "bionic",
+    "name": { "str": "Datacore: Knives" },
+    "description": "A removable data core that can be slotted into a data core for temporary knowledge of a proficiency.",
+    "activate_remove_cbm": true,
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "BIONIC_REMOVABLE" ],
+    "installation_requirement": "data_core_install",
+    "occupied_bodyparts": [ [ "data_shunt", 1 ] ],
+    "learned_proficiencies": [ "prof_knives_familiar" ]
+  },
+  {
+    "id": "xe_bio_dataslot_knife_advanced",
+    "type": "bionic",
+    "name": { "str": "Datacore: Knives, advanced" },
+    "description": "A brain implant that grants instinctual knowledge about the operation of flying machines.",
+    "activate_remove_cbm": true,
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "BIONIC_REMOVABLE" ],
+    "installation_requirement": "data_core_install",
+    "occupied_bodyparts": [ [ "data_shunt", 2 ] ],
+    "learned_proficiencies": [ "prof_knives_pro" ]
+  },
+  {
+    "id": "xe_bio_dataslot_baton_basic",
+    "type": "bionic",
+    "name": { "str": "Datacore: Batons" },
+    "description": "A brain implant that grants instinctual knowledge about the operation of flying machines.",
+    "activate_remove_cbm": true,
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "BIONIC_REMOVABLE" ],
+    "installation_requirement": "data_core_install",
+    "occupied_bodyparts": [ [ "data_shunt", 1 ] ],
+    "learned_proficiencies": [ "prof_batons_familiar" ]
+  },
+  {
+    "id": "xe_bio_dataslot_baton_advanced",
+    "type": "bionic",
+    "name": { "str": "Datacore: Batons, advanced" },
+    "description": "A brain implant that grants instinctual knowledge about the operation of flying machines.",
+    "activate_remove_cbm": true,
+    "installation_requirement": "data_core_install",
+    "occupied_bodyparts": [ [ "data_shunt", 2 ] ],
+    "learned_proficiencies": [ "prof_batons_pro" ]
+  },
+  {
+    "id": "xe_bio_dataslot_med_swords_basic",
+    "type": "bionic",
+    "name": { "str": "Datacore: Medium Swords," },
+    "description": "A brain implant that grants instinctual knowledge about the operation of flying machines.",
+    "activate_remove_cbm": true,
+    "installation_requirement": "data_core_install",
+    "occupied_bodyparts": [ [ "data_shunt", 1 ] ],
+    "learned_proficiencies": [ "prof_medium_swords_familiar" ]
+  },
+  {
+    "id": "xe_bio_dataslot_med_swords_advanced",
+    "type": "bionic",
+    "name": { "str": "Datacore: Medium Swords, advanced" },
+    "description": "A brain implant that grants instinctual knowledge about the operation of flying machines.",
+    "activate_remove_cbm": true,
+    "installation_requirement": "data_core_install",
+    "occupied_bodyparts": [ [ "data_shunt", 2 ] ],
+    "learned_proficiencies": [ "prof_medium_swords_pro" ]
+  },
+  {
+    "id": "xe_bio_dataslot_short_swords_basic",
+    "type": "bionic",
+    "name": { "str": "Datacore: Short Swords," },
+    "description": "A brain implant that grants instinctual knowledge about the operation of flying machines.",
+    "activate_remove_cbm": true,
+    "installation_requirement": "data_core_install",
+    "occupied_bodyparts": [ [ "data_shunt", 1 ] ],
+    "learned_proficiencies": [ "prof_short_swords_familiar" ]
+  },
+  {
+    "id": "xe_bio_dataslot_short_swords_advanced",
+    "type": "bionic",
+    "name": { "str": "Datacore: Short Swords, advanced" },
+    "description": "A brain implant that grants instinctual knowledge about the operation of flying machines.",
+    "activate_remove_cbm": true,
+    "installation_requirement": "data_core_install",
+    "occupied_bodyparts": [ [ "data_shunt", 2 ] ],
+    "learned_proficiencies": [ "prof_short_swords_pro" ]
+  }
+]
