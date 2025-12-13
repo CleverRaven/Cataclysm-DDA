@@ -331,7 +331,7 @@ struct armor_portion_data {
     int max_encumber = -1;
 
     // how much an item can hold comfortably compared to an average item
-    float volume_encumber_modifier = 1;
+    float volume_encumber_modifier = 0;
 
     // Percentage of the body part that this item covers.
     // This determines how likely it is to hit the item instead of the player.
