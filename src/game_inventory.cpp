@@ -43,6 +43,7 @@
 #include "iuse_actor.h"
 #include "map.h"
 #include "mapdata.h"
+#include "math_parser_diag_value.h"
 #include "messages.h"
 #include "npc.h"
 #include "npctrade.h"
@@ -3148,6 +3149,22 @@ class select_ammo_inventory_preset : public inventory_selector_preset
             item_location left = lhs.any_item();
             item_location right = rhs.any_item();
 
+            // if we remember what round we used last time, it's wise to try to use it again
+            // it supposed to be stored elsewhere, potentially in a gun itself, but all item_locations are const here
+            const std::string last_ammo = you.get_value( "last_round_reloaded_id" ).str();
+            if( !last_ammo.empty() ) {
+                if( ( left.get_item()->type->id.str() == last_ammo ) !=
+                    ( right.get_item()->typeId().str() == last_ammo ) ) {
+                    return left.get_item()->typeId().str() == last_ammo;
+                }
+            }
+
+            // if gun already has a round of this type inside, prioritize this type
+            if( ( target.get_item()->ammo_current() == left.get_item()->typeId() ) !=
+                ( target.get_item()->ammo_current() == right.get_item()->typeId() ) ) {
+                return ( target.get_item()->ammo_current() == left.get_item()->typeId() );
+            }
+
             if( left->ammo_remaining( ) == 0 || right->ammo_remaining( ) == 0 ) {
                 return ( left->ammo_remaining( ) != 0 ) > ( right->ammo_remaining( ) != 0 );
             }
@@ -3178,7 +3195,8 @@ item::reload_option game_menus::inv::select_ammo( Character &you, const item_loc
     inv_s.set_title( string_format( loc->is_watertight_container() ? _( "Refill %s" ) :
                                     loc->has_flag( flag_RELOAD_AND_SHOOT ) ? _( "Select ammo for %s" ) : _( "Reload %s" ),
                                     loc->display_name() ) );
-    inv_s.set_hint( _( "Choose ammo to reload" ) );
+    inv_s.set_hint(
+        _( "Choose ammo to reload\nRepeating the last keybind picks the lastly loaded round" ) );
     inv_s.set_display_stats( false );
 
     inv_s.clear_items();
@@ -3210,6 +3228,7 @@ item::reload_option game_menus::inv::select_ammo( Character &you, const item_loc
         }
     }
 
+    you.set_value( "last_round_reloaded_id", selected.first.get_item()->type->id.str() );
     item::reload_option opt( &you, target_loc, selected.first );
     opt.qty( selected.second );
 
