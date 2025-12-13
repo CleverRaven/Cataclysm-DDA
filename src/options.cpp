@@ -223,8 +223,8 @@ options_manager::options_manager()
         pages_.emplace_back( "debug", to_translation( "Debug" ) );
     }
 
-#if defined(__ANDROID__)
-    pages_.emplace_back( "android", to_translation( "Android" ) );
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
+    pages_.emplace_back( "android", to_translation( "Mobile" ) );
 #endif
 
     enable_json( "DEFAULT_REGION" );
@@ -2673,7 +2673,7 @@ void options_manager::add_options_graphics()
              display_list.front().first, COPT_CURSES_HIDE );
 #endif
 
-#if !defined(__ANDROID__) || !defined(__EMSCRIPTEN__) // Android and Emscripten are always fullscreen
+#if !defined(__ANDROID__) || !defined(__IPHONEOS__) || !defined(__EMSCRIPTEN__) // Android, iOS and Emscripten are always fullscreen
         add( "FULLSCREEN", page_id, to_translation( "Fullscreen" ),
              to_translation( "Starts Cataclysm in one of the fullscreen modes.  Requires restart." ),
         { { "no", to_translation( "No" ) }, { "maximized", to_translation( "Maximized" ) }, { "fullscreen", to_translation( "Fullscreen" ) }, { "windowedbl", to_translation( "Windowed borderless" ) } },
@@ -2698,6 +2698,14 @@ void options_manager::add_options_graphics()
 #   if defined(_WIN32)
         for( const id_and_option &renderer : renderer_list ) {
             if( renderer.first == "direct3d11" ) {
+                default_renderer = renderer.first;
+                break;
+            }
+        }
+#   endif
+#   if defined(__IPHONEOS__)
+        for( const id_and_option &renderer : renderer_list ) {
+            if( renderer.first == "meta" ) {
                 default_renderer = renderer.first;
                 break;
             }
@@ -2750,7 +2758,7 @@ void options_manager::add_options_graphics()
         },
         "none", COPT_CURSES_HIDE );
 
-#if !defined(__ANDROID__)
+#if !defined(__ANDROID__) || !defined(__IPHONEOS__)
         add( "SCALING_FACTOR", page_id, to_translation( "Scaling factor" ),
         to_translation( "Factor by which to scale the display.  Requires restart." ), {
             { "1", to_translation( "1x" )},
@@ -2920,7 +2928,7 @@ void options_manager::add_options_debug()
 
 void options_manager::add_options_android()
 {
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
     const auto add_empty_line = [&]() {
         this->add_empty_line( "android" );
     };
@@ -2933,9 +2941,10 @@ void options_manager::add_options_android()
     add_empty_line();
 
     add_option_group( "android", Group( "android_keyboard_opts",
-                                        to_translation( "Android keyboard options" ),
-                                        to_translation( "Options regarding Android keyboard." ) ),
+                                        to_translation( "Keyboard options" ),
+                                        to_translation( "Options regarding keyboard." ) ),
     [&]( const std::string & page_id ) {
+#if defined(__ANDROID__)
         add( "ANDROID_TRAP_BACK_BUTTON", page_id, to_translation( "Trap Back button" ),
              to_translation( "If true, the back button will NOT back out of the app and will be passed to the application as SDL_SCANCODE_AC_BACK.  Requires restart." ),
              // take default setting from pre-game settings screen - important as there are issues with Back button on Android 9 with specific devices
@@ -2947,6 +2956,7 @@ void options_manager::add_options_android()
                              "such as popup messages and yes/no dialogs." ),
              android_get_default_setting( "Native Android UI", true )
            );
+#endif
 
         add( "ANDROID_AUTO_KEYBOARD", page_id, to_translation( "Auto-manage virtual keyboard" ),
              to_translation( "If true, automatically show/hide the virtual keyboard when necessary based on context.  If false, virtual keyboard must be toggled manually." ),
@@ -3205,7 +3215,6 @@ void options_manager::add_options_android()
              50, 1000, 130
            );
     } );
-
 #endif
 }
 
@@ -3937,7 +3946,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
     calendar::set_eternal_night( ::get_option<std::string>( "ETERNAL_TIME_OF_DAY" ) == "night" );
     calendar::set_eternal_day( ::get_option<std::string>( "ETERNAL_TIME_OF_DAY" ) == "day" );
 
-#if !defined(EMSCRIPTEN) && !defined(__ANDROID__) && !defined(TUI)
+#if !defined(EMSCRIPTEN) && !defined(__ANDROID__) && !defined(__IPHONEOS__) && !defined(TUI)
     if( terminal_size_changed ) {
         int scaling_factor = get_scaling_factor();
         point TERM( ::get_option<int>( "TERMINAL_X" ), ::get_option<int>( "TERMINAL_Y" ) );
