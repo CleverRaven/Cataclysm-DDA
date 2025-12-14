@@ -147,7 +147,7 @@ std::optional<int> mop( Character *, item *it, const tripoint_bub_ms & );
 std::optional<int> mp3( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> mp3_on( Character *p, item *it, const tripoint_bub_ms & );
 std::optional<int> mp3_deactivate( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> noise_emitter_on( Character *, item *, const tripoint_bub_ms & );
+std::optional<int> noise_emitter_on( Character *, item *it, const tripoint_bub_ms & );
 std::optional<int> oxygen_bottle( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> oxytorch( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> binder_add_recipe( Character *, item *, const tripoint_bub_ms & );
