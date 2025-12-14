@@ -907,7 +907,7 @@ struct islot_gunmod : common_ranged_data {
     /**
     * If the target has not appeared in the scope, the aiming speed is relatively low.
     * When the target appears in the scope, the aiming speed will be greatly accelerated.
-    * FoV uses a more realistic method to reflect the aiming speed of the sight to insteadthe original abstract aim_speed
+    * FoV uses a more realistic method to reflect the aiming speed of the sight instead of the original abstract aim_speed
     */
     int field_of_view = -1;
 
@@ -978,7 +978,7 @@ struct islot_gunmod : common_ranged_data {
     /** Additional gunmod slots to add to the gun */
     std::map<gunmod_location, int> add_mod;
 
-    // wheter the item is supposed to work as a bayonet when attached
+    //whether the item is supposed to work as a bayonet when attached
     bool is_bayonet = false;
 
     /** if the item is visible and selectable in the inventory menu
@@ -1522,7 +1522,7 @@ struct itype {
         /** Value after the Cataclysm, dependent upon practical usages. Price given is for a default-sized stack. */
         units::money price_post = -1_cent;
 
-        // TODO: Add some very basic unweildiness calc for non specified to_hit?
+        // TODO: Add some very basic unwieldiness calc for non specified to_hit?
         int m_to_hit = -2;  // To-hit bonus for melee combat, see GAME_BALANCE.md#to-hit-value
         // itype specifies a legacy raw int to_hit, for use with for item_new_to_hit_enforcement TEST_CASE
         bool using_legacy_to_hit = false;
