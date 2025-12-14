@@ -366,8 +366,8 @@ void debug_menu::wishbionics( Character *you )
                           units::display( power_max ),
                           num_installed
                       );
-        smenu.addentry( 0, true, 'i', _( "Install from CBM…" ) );
-        smenu.addentry( 1, can_uninstall, 'u', _( "Uninstall…" ) );
+        smenu.addentry( 0, true, 'i', _( "Install CBM…" ) );
+        smenu.addentry( 1, can_uninstall, 'u', _( "Uninstall CBM…" ) );
         smenu.addentry( 2, can_uninstall_all, 'U', _( "Uninstall all" ) );
         smenu.addentry( 3, true, 'c', _( "Edit power capacity (kJ)" ) );
         smenu.addentry( 4, true, 'C', _( "Edit power capacity (J)" ) );
