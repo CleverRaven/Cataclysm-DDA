@@ -262,6 +262,13 @@ float item::damage_adjusted_armor_resist( float value, const damage_type_id &dmg
 
 void item::set_damage( int qty )
 {
+    const int target_damage = std::clamp( qty, degradation_, max_damage() );
+    const int delta = target_damage - damage_;
+    mod_damage( delta );
+}
+
+void item::force_set_damage( int qty )
+{
     damage_ = std::clamp( qty, degradation_, max_damage() );
 }
 
@@ -272,7 +279,8 @@ void item::set_degradation( int qty )
     } else {
         degradation_ = 0;
     }
-    set_damage( damage_ );
+    // maybe should use set_damage() instead, but we trust damage is set before the degradation
+    force_set_damage( damage_ );
 }
 
 std::string item::degradation_symbol() const
@@ -833,7 +841,7 @@ bool item::mod_damage( int qty )
     } else {
         const int dmg_before = damage_;
         const bool destroy = ( damage_ + qty ) > max_damage();
-        set_damage( damage_ + qty );
+        force_set_damage( damage_ + qty );
 
         if( qty > 0 && !destroy ) { // apply automatic degradation
             set_degradation( degradation_ + get_degrade_amount( *this, damage_, dmg_before ) );
@@ -841,7 +849,9 @@ bool item::mod_damage( int qty )
 
         // TODO: think about better way to telling the game what faults should be applied when
         if( qty > 0 ) {
-            set_random_fault_of_type( "mechanical_damage" );
+            for( int i = 0; i <= qty; i += itype::damage_scale ) {
+                set_random_fault_of_type( "mechanical_damage" );
+            }
         }
 
         return destroy;
