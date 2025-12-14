@@ -531,7 +531,6 @@
     "reversible": true,
     "book_learn": [ [ "manual_launcher", 7 ], [ "textbook_anarch", 8 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "flags": [ "EXPLOSIVE" ],
     "using": [ [ "volatile_explosive", 173 ], [ "stable_explosive", 6747 ] ],
     "components": [ [ [ "fuse", 1 ] ], [ [ "glue_strong", 4 ], [ "duct_tape", 10 ], [ "cordage", 1, "LIST" ] ], [ [ "30gal_drum", 1 ] ] ]
   }
