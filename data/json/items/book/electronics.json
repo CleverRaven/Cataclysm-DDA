@@ -301,7 +301,7 @@
     "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str_sp": "CBM interface wiring reference" },
-    "description": "A printed technical reference for the Exodii's CBM interface wire kit using numerous alien symbols along with Anglic terminology.  Thankfully someone's hand-written a legend for those symbols and terms along the margins, but it'll still take significant electronics knowledge to decipher this document.",
+    "description": "A printed technical reference for the Exodii's CBM interface wire kit using numerous alien symbols along with Interstellar Standard terminology.  Thankfully someone's hand-written a legend for those symbols and terms along the margins, but it'll still take significant electronics knowledge to decipher this document.",
     "weight": "30 g",
     "volume": "400 ml",
     "price_postapoc": "50 USD",
