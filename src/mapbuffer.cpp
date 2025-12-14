@@ -156,7 +156,7 @@ bool mapbuffer::submap_exists_approx( const tripoint_abs_sm &p )
 
             if( world_generator->active_world->has_compression_enabled() ) {
                 cata_path zzip_name = dirname;
-                zzip_name += ".zzip";
+                zzip_name += zzip_suffix;
                 if( !file_exist( zzip_name ) ) {
                     return false;
                 }
@@ -249,7 +249,7 @@ void mapbuffer::save_quad(
 
     std::optional<zzip> z;
     cata_path zzip_name = dirname;
-    zzip_name += ".zzip";
+    zzip_name += zzip_suffix;
     // The number of uniform submaps is so enormous that the filesystem overhead
     // for this step of just checking if the quad exists approaches 70% of the
     // total cost of saving the mapbuffer, in one test save I had.
@@ -375,7 +375,7 @@ submap *mapbuffer::unserialize_submaps( const tripoint_abs_sm &p )
         if( world_generator->active_world->has_compression_enabled() )
         {
             cata_path zzip_name = dirname;
-            zzip_name += ".zzip";
+            zzip_name += zzip_suffix;
             if( !file_exist( zzip_name ) ) {
                 return false;
             }

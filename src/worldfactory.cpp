@@ -2130,7 +2130,7 @@ bool WORLD::set_compression_enabled( bool enabled ) const
                     ui_manager::redraw();
                     refresh_display();
                     inp_mngr.pump_events();
-                    if( !zzip::create_from_folder( ( map_folder + ".zzip" ).get_unrelative_path(),
+                    if( !zzip::create_from_folder( ( map_folder + zzip_suffix ).get_unrelative_path(),
                                                    map_folder.get_unrelative_path(), maps_dict_path ) ) {
                         return false;
                     }
@@ -2142,7 +2142,7 @@ bool WORLD::set_compression_enabled( bool enabled ) const
                 files_to_clean.reserve( files_to_clean.size() + overmaps.size() );
                 size_t done = 0;
                 std::error_code ec;
-                assure_dir_exist( dimension_folder / "overmaps" );
+                assure_dir_exist( dimension_folder / zzip_overmap_directory );
                 std::filesystem::path world_folder_unrelative_path = dimension_folder.get_unrelative_path();
                 for( const cata_path &overmap : overmaps ) {
                     // Some random other files might have `o.` in the name. We only care about the actual
@@ -2159,7 +2159,7 @@ bool WORLD::set_compression_enabled( bool enabled ) const
 
                     // Each overmap gets put into its own zzip indexed by its own file name.
                     std::optional<zzip> overmap_zzip = zzip::create_from_folder_with_files( (
-                                                           dimension_folder / "overmaps" / overmap_file_name + ".zzip" ).get_unrelative_path(),
+                                                           dimension_folder / zzip_overmap_directory / overmap_file_name + zzip_suffix ).get_unrelative_path(),
                                                        world_folder_unrelative_path, { overmap_file_path }, 0,
                                                        overmaps_dict.get_unrelative_path() );
                     if( !overmap_zzip ) {
@@ -2244,7 +2244,7 @@ bool WORLD::set_compression_enabled( bool enabled ) const
                     };
 
                     std::optional<zzip> save_zzip = zzip::load( ( dimension_folder / save_file_name +
-                                                    ".zzip" ).get_unrelative_path() );
+                                                    zzip_suffix ).get_unrelative_path() );
                     if( !save_zzip ) {
                         return false;
                     }
@@ -2287,11 +2287,13 @@ bool WORLD::set_compression_enabled( bool enabled ) const
 
             std::vector<cata_path> maps_zzips = get_files_from_path( "zzip", dimension_folder / "maps", false,
                                                 true );
-            std::vector<cata_path> overmap_zzips = get_files_from_path( "zzip", dimension_folder / "overmaps",
+            std::vector<cata_path> overmap_zzips = get_files_from_path( "zzip",
+                                                   dimension_folder / zzip_overmap_directory,
                                                    false, true );
             std::vector<cata_path> character_map_memory_folders = get_files_from_path( ".mm1",
                     dimension_folder, false, true );
-            std::vector<cata_path> save_zzips = get_files_from_path( ".sav.zzip", dimension_folder,
+            std::vector<cata_path> save_zzips = get_files_from_path( ".sav" + std::string( zzip_suffix ),
+                                                dimension_folder,
                                                 false, true );
 
             zzips_to_clean.reserve( maps_zzips.size() + overmap_zzips.size() +
@@ -2331,7 +2333,7 @@ bool WORLD::set_compression_enabled( bool enabled ) const
                     }
                     zzips_to_clean.push_back( std::move( overmap_zzip ) );
                 }
-                zzips_to_clean.push_back( dimension_folder / "overmaps" );
+                zzips_to_clean.push_back( dimension_folder / zzip_overmap_directory );
             }
             {
                 size_t done = 0;
@@ -2352,11 +2354,13 @@ bool WORLD::set_compression_enabled( bool enabled ) const
                     }
 
                     character_map_memory_zzips.emplace_back( character_map_memory_zzip /
-                            dest_folder_name.filename().concat( ".cold.zzip" ) ); // NOLINT(cata-u8-path)
+                            dest_folder_name.filename().concat( ".cold" + std::string( // NOLINT(cata-u8-path)
+                                        zzip_suffix ) ) ); // NOLINT(cata-u8-path)
                     character_map_memory_zzips.emplace_back( character_map_memory_zzip /
-                            dest_folder_name.filename().concat( ".warm.zzip" ) ); // NOLINT(cata-u8-path)
+                            dest_folder_name.filename().concat( ".warm" + std::string( // NOLINT(cata-u8-path)
+                                        zzip_suffix ) ) ); // NOLINT(cata-u8-path)
                     character_map_memory_zzips.emplace_back( character_map_memory_zzip /
-                            dest_folder_name.filename().concat( ".hot.zzip" ) ); // NOLINT(cata-u8-path)
+                            dest_folder_name.filename().concat( ".hot" + std::string( zzip_suffix ) ) ); // NOLINT(cata-u8-path)
                 }
                 zzips_to_clean.insert( zzips_to_clean.end(), character_map_memory_zzips.begin(),
                                        character_map_memory_zzips.end() );

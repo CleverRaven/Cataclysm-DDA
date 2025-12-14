@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cmath>
 #include <cstdlib>
+#include <filesystem>
 #include <iterator>
 #include <limits>
 #include <map>
@@ -51,6 +52,7 @@
 #include "text.h"
 #include "translations.h"
 #include "vehicle.h"
+#include "worldfactory.h"
 
 static const oter_type_str_id oter_type_bridgehead_ground( "bridgehead_ground" );
 static const oter_type_str_id oter_type_bridgehead_ramp( "bridgehead_ramp" );
@@ -340,8 +342,23 @@ overmap *overmapbuffer::get_existing( const point_abs_om &p )
         // checked in a previous call of this function).
         return nullptr;
     }
-    assure_dir_exist( PATH_INFO::current_dimension_save_path() );
-    if( file_exist( terrain_filename( p ) ) ) {
+
+    cata_path path;
+
+    const std::string terfilename = overmapbuffer::terrain_filename( p );
+    const std::filesystem::path terfilename_path = std::filesystem::u8path( terfilename );
+
+    if( world_generator->active_world->has_compression_enabled() ) {
+        assure_dir_exist( PATH_INFO::current_dimension_save_path() / zzip_overmap_directory );
+        path = PATH_INFO::current_dimension_save_path() / zzip_overmap_directory / terfilename_path
+               +
+               zzip_suffix;
+    } else {
+        assure_dir_exist( PATH_INFO::current_dimension_save_path() );
+        path = PATH_INFO::current_dimension_save_path() / terfilename_path;
+    }
+
+    if( file_exist( path ) ) {
         // File exists, load it normally (the get function
         // indirectly call overmap::open to do so).
         return &get( p );
