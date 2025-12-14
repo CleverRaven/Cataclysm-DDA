@@ -901,6 +901,7 @@ void mtype::load( const JsonObject &jo, const std::string_view src )
     optional( jo, was_loaded, "melee_dice", melee_dice, numeric_bound_reader<int> {0}, 0 );
     optional( jo, was_loaded, "melee_dice_sides", melee_sides, numeric_bound_reader<int> {0}, 0 );
     optional( jo, was_loaded, "melee_dice_ap", melee_dice_ap, 0 );
+    optional( jo, was_loaded, "revive_time", revive_time, -1 );
 
     optional( jo, was_loaded, "grab_strength", grab_strength, numeric_bound_reader<int> {0}, 1 );
 
