@@ -1114,31 +1114,24 @@ std::string ma_buff::get_description( bool passive ) const
     }
 
     if( dodges_bonus > 0 ) {
-        dump += string_format(
-                    n_gettext( "* Will give a <good>+%s</good> bonus to <info>dodge</info> for the stack",
-                               "* Will give a <good>+%s</good> bonus to <info>dodge</info> per stack",
-                               max_stacks ),
-                    dodges_bonus ) + "\n";
+        dump += string_format( _( "* Can dodge <good>+%d</good> extra times per turn" ),
+                               dodges_bonus ) + "\n";
     } else if( dodges_bonus < 0 ) {
-        dump += string_format(
-                    n_gettext( "* Will give a <bad>%s</bad> penalty to <info>dodge</info> for the stack",
-                               "* Will give a <bad>%s</bad> penalty to <info>dodge</info> per stack",
-                               max_stacks ),
-                    dodges_bonus ) + "\n";
+        dump += string_format( _( "* Can dodge <bad>+%d</bad> fewer times per turn" ),
+                               dodges_bonus ) + "\n";
+    }
+
+    if( free_dodges > 0 ) {
+        dump += string_format( _( "* <good>+%d</good> dodges each turn will not consume stamina" ),
+                               free_dodges ) + "\n";
     }
 
     if( blocks_bonus > 0 ) {
-        dump += string_format(
-                    n_gettext( "* Will give a <good>+%s</good> bonus to <info>block</info> for the stack",
-                               "* Will give a <good>+%s</good> bonus to <info>block</info> per stack",
-                               max_stacks ),
-                    blocks_bonus ) + "\n";
+        dump += string_format( _( "* Can block <good>+%d</good> extra times per turn" ),
+                               blocks_bonus ) + "\n";
     } else if( blocks_bonus < 0 ) {
-        dump += string_format(
-                    n_gettext( "* Will give a <bad>%s</bad> penalty to <info>block</info> for the stack",
-                               "* Will give a <bad>%s</bad> penalty to <info>block</info> per stack",
-                               max_stacks ),
-                    blocks_bonus ) + "\n";
+        dump += string_format( _( "* Can block <bad>+%d</bad> fewer times per turn" ),
+                               blocks_bonus ) + "\n";
     }
 
     if( quiet ) {
@@ -2364,7 +2357,8 @@ void ma_details_ui_impl::init_data()
                     buffs_total++;
                     std::vector<std::string> buff_lines =
                         string_split( replace_colors( buff->get_description( passive ) ), '\n' );
-                    buffs_text[title] = buff_lines;
+                    // Merge our accumulated text into the existing one. There might be more than one buff of this type, so we want to display all of them.
+                    buffs_text[title].insert( buffs_text[title].end(), buff_lines.begin(), buff_lines.end() );
                 }
             }
         };
