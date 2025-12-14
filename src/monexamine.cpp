@@ -572,9 +572,6 @@ void milk_source( monster &source_mon )
         add_msg( _( "You milk the %s." ), source_mon.get_name() );
     } else {
         add_msg( _( "The %s has no more milk." ), source_mon.get_name() );
-        if( !source_mon.has_eaten_enough() ) {
-            add_msg( _( "It might not be getting enough to eat." ) );
-        }
     }
 }
 
@@ -688,8 +685,7 @@ bool monexamine::pet_menu( monster &z )
 
     amenu.text = string_format( _( "What to do with your %s?" ), pet_name );
     if( z.has_flag( mon_flag_EATS ) ) {
-        amenu.text = string_format( _( "What to do with your %s?\n" "Fullness: %i%%" ), pet_name,
-                                    z.get_stomach_fullness_percent() );
+        amenu.text = string_format( _( "What to do with your %s?\n" ), pet_name );
     }
     amenu.addentry( swap_pos, true, 's', _( "Swap positions" ) );
     amenu.addentry( push_monster, true, 'p', _( "Push the %s" ), pet_name );
@@ -1012,8 +1008,7 @@ bool monexamine::mfriend_menu( monster &z )
 
     amenu.text = string_format( _( "What to do with your %s?" ), pet_name );
     if( z.has_flag( mon_flag_EATS ) ) {
-        amenu.text = string_format( _( "What to do with your %s?\n" "Fullness: %i%%" ), pet_name,
-                                    z.get_stomach_fullness_percent() );
+        amenu.text = string_format( _( "What to do with your %s?\n" ), pet_name );
     }
     amenu.addentry( swap_pos, true, 's', _( "Swap positions" ) );
     amenu.addentry( push_monster, true, 'p', _( "Push %s" ), pet_name );
