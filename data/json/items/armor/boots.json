@@ -2959,199 +2959,198 @@
         "id": "stockings_black",
         "name": { "str_sp": "black stockings (pair)" },
         "description": "This one is colored black.",
-        "weight": 140,
         "color": "dark_gray",
-        "append": true
+        "append": true,
+        "weight": 3
       },
       {
         "id": "stockings_white",
         "name": { "str_sp": "white stockings (pair)" },
         "description": "This one is colored white.",
-        "weight": 70,
         "color": "light_gray",
-        "append": true
+        "append": true,
+        "weight": 3
       },
       {
         "id": "stockings_white_striped",
         "name": { "str_sp": "striped stockings (pair)" },
         "description": "This one is black, with white stripes.  Or is it white with black stripes?",
-        "weight": 45,
         "color": "light_gray",
-        "append": true
+        "append": true,
+        "weight": 3
       },
       {
         "id": "stockings_red",
         "name": { "str_sp": "red stockings (pair)" },
         "description": "This one is colored red.",
-        "weight": 30,
         "color": "red",
-        "append": true
+        "append": true,
+        "weight": 3
       },
       {
         "id": "stockings_red_polka_dot",
         "name": { "str_sp": "red polka dot stockings (pair)" },
         "description": "This one is colored red with a polka dot pattern.",
-        "weight": 45,
         "color": "light_red",
-        "append": true
+        "append": true,
+        "weight": 3
       },
       {
         "id": "stockings_red_floral",
         "name": { "str_sp": "red floral stockings (pair)" },
         "description": "This one is colored in various shades of red with a floral pattern.",
-        "weight": 40,
         "color": "red",
-        "append": true
+        "append": true,
+        "weight": 3
       },
       {
         "id": "stockings_yellow",
         "name": { "str_sp": "yellow stockings (pair)" },
         "description": "This one is colored yellow.",
-        "weight": 10,
         "color": "yellow",
-        "append": true
+        "append": true,
+        "weight": 3
       },
       {
         "id": "stockings_green",
         "name": { "str_sp": "green stockings (pair)" },
         "description": "This one is colored green.",
-        "weight": 40,
         "color": "green",
-        "append": true
+        "append": true,
+        "weight": 3
       },
       {
         "id": "stockings_orange_striped",
         "name": { "str_sp": "orange striped stockings (pair)" },
         "description": "This one is colored orange with a striped pattern.",
-        "weight": 45,
         "color": "light_red",
-        "append": true
+        "append": true,
+        "weight": 3
       },
       {
         "id": "stockings_blue",
         "name": { "str_sp": "blue stockings (pair)" },
         "description": "This one is colored blue.",
-        "weight": 60,
         "color": "blue",
-        "append": true
+        "append": true,
+        "weight": 3
       },
       {
         "id": "stockings_blue_striped",
         "name": { "str_sp": "blue striped stockings (pair)" },
         "description": "This one is colored blue and white with a striped pattern.",
-        "weight": 20,
         "color": "blue",
-        "append": true
+        "append": true,
+        "weight": 3
       },
       {
         "id": "stockings_blue_floral",
         "name": { "str_sp": "blue floral stockings (pair)" },
         "description": "This one is colored in various shades of blue with a floral pattern.",
-        "weight": 40,
         "color": "blue",
-        "append": true
+        "append": true,
+        "weight": 3
       },
       {
         "id": "stockings_blue_checkered",
         "name": { "str_sp": "blue checkered stockings (pair)" },
         "description": "This one is colored blue and black with a checkered pattern.",
-        "weight": 20,
         "color": "blue",
-        "append": true
+        "append": true,
+        "weight": 3
       },
       {
         "id": "stockings_purple",
         "name": { "str_sp": "purple stockings (pair)" },
         "description": "This one is colored purple.",
-        "weight": 50,
         "color": "magenta",
-        "append": true
+        "append": true,
+        "weight": 3
       },
       {
         "id": "stockings_purple_striped",
         "name": { "str_sp": "purple striped stockings (pair)" },
         "description": "This one is colored purple and white with a striped pattern.",
-        "weight": 50,
         "color": "light_red",
-        "append": true
+        "append": true,
+        "weight": 3
       },
       {
         "id": "stockings_purple_polka_dot",
         "name": { "str_sp": "purple polka dot stockings (pair)" },
         "description": "This one is colored purple with a polka dot pattern.",
-        "weight": 35,
         "color": "magenta",
-        "append": true
+        "append": true,
+        "weight": 3
       },
       {
         "id": "stockings_purple_floral",
         "name": { "str_sp": "purple floral stockings (pair)" },
         "description": "This one is colored in various shades of purple with a floral pattern.",
-        "weight": 40,
         "color": "magenta",
-        "append": true
+        "append": true,
+        "weight": 3
       },
       {
         "id": "stockings_pink",
         "name": { "str_sp": "pink stockings (pair)" },
         "description": "This one is colored pink.",
-        "weight": 35,
         "color": "magenta",
-        "append": true
+        "append": true,
+        "weight": 3
       },
       {
         "id": "stockings_pink_striped",
         "name": { "str_sp": "pink striped stockings (pair)" },
         "description": "This one is colored pink and white with a striped pattern.",
-        "weight": 45,
         "color": "light_red",
-        "append": true
+        "append": true,
+        "weight": 3
       },
       {
         "id": "stockings_pink_polka_dot",
         "name": { "str_sp": "pink polka dot stockings (pair)" },
         "description": "This one is colored pink with a polka dot pattern.",
-        "weight": 35,
         "color": "light_red",
-        "append": true
+        "append": true,
+        "weight": 3
       },
       {
         "id": "stockings_green_striped",
         "name": { "str_sp": "green striped stockings (pair)" },
         "description": "This one is colored green and white with a striped pattern.",
-        "weight": 40,
         "color": "green",
-        "append": true
+        "append": true,
+        "weight": 3
       },
       {
         "id": "stockings_gray_striped",
         "name": { "str_sp": "gray striped stockings (pair)" },
         "description": "This one is colored gray and white with a striped pattern.",
-        "weight": 55,
         "color": "light_gray",
-        "append": true
+        "append": true,
+        "weight": 3
       },
       {
         "id": "stockings_brown",
         "name": { "str_sp": "brown stockings (pair)" },
         "description": "This one is colored brown.",
-        "weight": 80,
         "color": "brown",
-        "append": true
+        "append": true,
+        "weight": 3
       },
       {
         "id": "stockings_brown_polka_dot",
         "name": { "str_sp": "brown polka dot stockings (pair)" },
         "description": "This one is colored brown with a polka dot pattern.",
-        "weight": 20,
         "color": "brown",
-        "append": true
+        "append": true,
+        "weight": 3
       },
       {
         "id": "stockings_pride_default",
         "name": { "str_sp": "pride flag stockings (pair)" },
         "description": "This one has patterns akin to the pride flag.",
-        "weight": 80,
         "color": "yellow",
         "append": true
       },
@@ -3159,7 +3158,6 @@
         "id": "stockings_pride_lesbian",
         "name": { "str_sp": "lesbian flag stockings (pair)" },
         "description": "This one has patterns akin to the lesbian flag.",
-        "weight": 75,
         "color": "red",
         "append": true
       },
@@ -3167,7 +3165,6 @@
         "id": "stockings_pride_bisexual",
         "name": { "str_sp": "bisexual flag stockings (pair)" },
         "description": "This one has patterns akin to the bisexual flag.",
-        "weight": 45,
         "color": "magenta",
         "append": true
       },
@@ -3175,7 +3172,6 @@
         "id": "stockings_pride_transgender",
         "name": { "str_sp": "transgender flag stockings (pair)" },
         "description": "This one has patterns akin to the transgender flag.",
-        "weight": 90,
         "color": "blue",
         "append": true
       },
@@ -3183,7 +3179,6 @@
         "id": "stockings_pride_asexual",
         "name": { "str_sp": "asexual flag stockings (pair)" },
         "description": "This one has patterns akin to the asexual flag.",
-        "weight": 75,
         "color": "magenta",
         "append": true
       },
@@ -3191,7 +3186,6 @@
         "id": "stockings_pride_aromantic",
         "name": { "str_sp": "aromantic flag stockings (pair)" },
         "description": "This one has patterns akin to the aromantic flag.",
-        "weight": 65,
         "color": "green",
         "append": true
       },
@@ -3199,7 +3193,6 @@
         "id": "stockings_pride_pansexual",
         "name": { "str_sp": "pansexual flag stockings (pair)" },
         "description": "This one has patterns akin to the pansexual flag.",
-        "weight": 75,
         "color": "blue",
         "append": true
       },
@@ -3207,7 +3200,6 @@
         "id": "stockings_pride_genderqueer",
         "name": { "str_sp": "genderqueer flag stockings (pair)" },
         "description": "This one has patterns akin to the genderqueer flag.",
-        "weight": 55,
         "color": "magenta",
         "append": true
       },
@@ -3215,7 +3207,6 @@
         "id": "stockings_pride_genderfluid",
         "name": { "str_sp": "genderfluid flag stockings (pair)" },
         "description": "This one has patterns akin to the genderfluid flag.",
-        "weight": 45,
         "color": "magenta",
         "append": true
       },
@@ -3223,7 +3214,6 @@
         "id": "stockings_pride_agender",
         "name": { "str_sp": "agender flag stockings (pair)" },
         "description": "This one has patterns akin to the agender flag.",
-        "weight": 45,
         "color": "dark_gray",
         "append": true
       },
@@ -3231,7 +3221,6 @@
         "id": "stockings_pride_nonbinary",
         "name": { "str_sp": "non-binary flag stockings (pair)" },
         "description": "This one has patterns akin to the non-binary flag.",
-        "weight": 75,
         "color": "yellow",
         "append": true
       },
@@ -3239,7 +3228,6 @@
         "id": "stockings_pride_intersex",
         "name": { "str_sp": "intersex flag stockings (pair)" },
         "description": "This one has patterns akin to the intersex flag.",
-        "weight": 55,
         "color": "yellow",
         "append": true
       },
@@ -3247,7 +3235,6 @@
         "id": "stockings_pride_polysexual",
         "name": { "str_sp": "polysexual flag stockings (pair)" },
         "description": "This one has patterns akin to the polysexual flag.",
-        "weight": 25,
         "color": "green",
         "append": true
       }
