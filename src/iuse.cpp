@@ -3745,6 +3745,12 @@ std::optional<int> iuse::tazer( Character *p, item *it, const tripoint_bub_ms &p
         return std::nullopt;
     }
 
+    if( !it->activation_success() ) {
+        p->add_msg_if_player( m_bad, _( "You try to activate your %s, but nothing happens." ),
+                              it->tname() );
+        return std::nullopt;
+    }
+
     npc *foe = dynamic_cast<npc *>( target );
     if( foe != nullptr &&
         !foe->is_enemy() &&
@@ -3995,6 +4001,14 @@ std::optional<int> iuse::solarpack( Character *p, item *it, const tripoint_bub_m
                               it->tname() );
         return std::nullopt;
     }
+
+    if( !it->activation_success() ) {
+        p->add_msg_if_player( m_bad,
+                              _( "You try to unfold your %s, but it keeps falling back to its folded configuration." ),
+                              it->tname() );
+        return std::nullopt;
+    }
+
     p->add_msg_if_player(
         _( "You unfold the solar array from the pack.  You still need to connect it with a cable." ) );
 
@@ -4011,6 +4025,14 @@ std::optional<int> iuse::solarpack_off( Character *p, item *it, const tripoint_b
                   it->typeId().str() );
         return std::nullopt;
     }
+
+    if( !it->activation_success() ) {
+        m_bad,
+        p->add_msg_if_player( _( "You try to fold your %s into the pack, but it keeps falling out." ),
+                              it->tname() );
+        return std::nullopt;
+    }
+
     if( !p->is_worn( *it ) ) {  // folding when not worn
         p->add_msg_if_player( _( "You fold your portable solar array into the pack." ) );
     } else {
@@ -4942,6 +4964,14 @@ std::optional<int> iuse::spray_can( Character *p, item *it, const tripoint_bub_m
     if( !dest_ ) {
         return std::nullopt;
     }
+
+    if( !it->activation_success() ) {
+        p->add_msg_if_player( m_bad,
+                              _( "Your attempt to perform a test spray with your %s is unsuccessful. Nothing happens." ),
+                              it->tname() );
+        return std::nullopt;
+    }
+
     return handle_ground_graffiti( *p, it, _( "Spray what?" ), &here, dest_.value() );
 }
 
@@ -5180,6 +5210,12 @@ std::optional<int> iuse::stimpack( Character *p, item *it, const tripoint_bub_ms
     if( !it->ammo_sufficient( p ) ) {
         p->add_msg_if_player( m_info, _( "The stimulant delivery system is empty." ) );
         return std::nullopt;
+
+    } else if( !it->activation_success() ) {
+        p->add_msg_if_player( m_bad,
+                              _( "nothing happens when you try to inject yourself with your %s. Try again." ), it->tname() );
+        return std::nullopt;
+
     } else {
         p->add_msg_if_player( _( "You inject yourself with the stimulants." ) );
         // Intensity is 2 here because intensity = 1 is the comedown
@@ -5455,6 +5491,12 @@ std::optional<int> iuse::robotcontrol( Character *p, item *it, const tripoint_bu
             !p->has_flag( json_flag_ENHANCED_VISION ) ) {
             p->add_msg_if_player( m_info,
                                   _( "You'll need to put on reading glasses before you can see the screen." ) );
+            return std::nullopt;
+        }
+
+        if( !it->activation_success() ) {
+            p->add_msg_if_player( m_bad,
+                                  _( "The screen of the %s remains blank." ), it->tname() );
             return std::nullopt;
         }
 
@@ -7355,6 +7397,12 @@ std::optional<int> iuse::remoteveh( Character *p, item *it, const tripoint_bub_m
     } );
 
     if( choice < 0 || choice > 1 ) {
+        return std::nullopt;
+    }
+
+    if( !it->activation_success() ) {
+        add_msg( m_bad,
+                 _( "Your %s doesn't seem to respond to your actions." ), it->tname() );
         return std::nullopt;
     }
 
