@@ -535,7 +535,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VAMPIRE_ADD_ONE_WEAKNESS_FAIL",
-    "effect": [ { "u_message": "The EOC failed to give you a weakness.  Please report this on Github.", "popup": true } ]
+    "effect": [ { "u_message": "The EOC failed to give you a weakness.  Please report this on GitHub.", "popup": true } ]
   },
   {
     "type": "effect_on_condition",
@@ -3095,7 +3095,7 @@
     ],
     "false_effect": [
       {
-        "u_message": "You're not a mentor, so you're not supposed to see this.  Please open a Github bug report.",
+        "u_message": "You're not a mentor, so you're not supposed to see this.  Please open a GitHub bug report.",
         "type": "popup"
       }
     ]

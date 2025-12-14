@@ -1,6 +1,6 @@
 # Design Docs
 
-These documents are for the lore basis and mechnical assumptions behind some of XEs systems. They contain heavy spoilers, obviously--if you're a player, don't read if you want to be surprised!
+These documents are for the lore basis and mechanical assumptions behind some of XEs systems. They contain heavy spoilers, obviously--if you're a player, don't read if you want to be surprised!
 
 ## The Principle of Supernatural Exclusivity
 
@@ -159,7 +159,7 @@ Paraclesians gain their powers by spending time in their native environments, th
 
 Changelings are originally the offspring of pairings between mortals and elemental fae in the unremembered past, which occurred often enough that their descendants formed a new stable population. While they do sometimes still swap mortal babies for fae babies, the name "changeling" as a collective is used for convenience and most changelings are born and grow up Under the Hill.
 
-The Fair Folk make a habit of making offers to mortals to come back to the Elflands with them, especially on worlds that have undergone or are about to undergo a Cataclysm. The reason for this is that changeling magic relies on mortal dreams for power, which means they need mortals on hand to dream for them. The degree to which they are willing to coerce mortals into this arragement varies based on the individual changeling but the temptation is always there. They will not bring anyone to the Elflands who has not sworn some sort of agreement with them, and for this reason the Exodii are wary to antagonistic towards them. 
+The Fair Folk make a habit of making offers to mortals to come back to the Elflands with them, especially on worlds that have undergone or are about to undergo a Cataclysm. The reason for this is that changeling magic relies on mortal dreams for power, which means they need mortals on hand to dream for them. The degree to which they are willing to coerce mortals into this arrangement varies based on the individual changeling but the temptation is always there. They will not bring anyone to the Elflands who has not sworn some sort of agreement with them, and for this reason the Exodii are wary to antagonistic towards them. 
 
 Changelings are divided into two great courts, the Summer (or Seelie) Court and the Winter (or Unseelie) Court. The Summer Court is more benevolent to mortals (Lady Boann is Summer Court), but that does not mean they are nice. Changelings are also divided into two broad types, nobles and commoners. Nobles are more magically powerful, but commoners have individual tricks that the nobles cannot copy with their magic, such as the selkies' facility with weather control or brownies' ability to speed crafting when unobserved.
 

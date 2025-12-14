@@ -76,7 +76,7 @@
       },
       {
         "id": "faeries",
-        "name": { "str": "book of fairytales", "str_pl": "books of fairytales" },
+        "name": { "str": "book of fairy tales", "str_pl": "books of fairy tales" },
         "description": "Any glance given to this book is survived by the drone of flapping wings.",
         "weight": 300
       },

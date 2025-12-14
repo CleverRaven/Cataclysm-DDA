@@ -1652,7 +1652,7 @@
           {
             "id": "mentor_vanish",
             "hit_self": true,
-            "message": "You're not supposed to see this.  Open a bug report on Github about having the Mentor's Peace trait.",
+            "message": "You're not supposed to see this.  Open a bug report on GitHub about having the Mentor's Peace trait.",
             "npc_message": "%1$s vanishes in a fine mist."
           }
         ]

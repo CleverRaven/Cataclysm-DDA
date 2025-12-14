@@ -268,7 +268,7 @@
     "copy-from": "abstractmap",
     "type": "ITEM",
     "name": { "str": "restaurant advertising brochure" },
-    "description": "A small brochure advertising for local restaurants with an address below each entry.  Using it will add roads an local restaurants, diners and bars to your map.",
+    "description": "A small brochure advertising for local restaurants with an address below each entry.  Using it will add roads and local restaurants, diners, and bars to your map.",
     "color": "light_blue",
     "use_action": {
       "type": "reveal_map",
@@ -283,7 +283,7 @@
         "s_diner",
         { "om_terrain": "bar", "om_terrain_match_type": "PREFIX" }
       ],
-      "message": "You add roads and local restaurants, diners and bars to your map."
+      "message": "You add roads and local restaurants, diners, and bars to your map."
     }
   },
   {
@@ -291,7 +291,7 @@
     "copy-from": "abstractmap",
     "type": "ITEM",
     "name": { "str": "food shopping advertising brochure" },
-    "description": "A small brochure advertising for local food shopping possibilities with an address below each entry.  Using it will add roads, local grocery, convenience stores and bakeries to your map.",
+    "description": "A small brochure advertising for local food shopping possibilities with an address below each entry.  Using it will add roads, local grocery and convenience stores, and bakeries to your map.",
     "color": "light_blue",
     "use_action": {
       "type": "reveal_map",
@@ -326,7 +326,7 @@
     "copy-from": "abstractmap",
     "type": "ITEM",
     "name": { "str": "get active pamphlet" },
-    "description": "A small pamphlet advertising various local businesses encouraging you to get fit.  Using it will add roads, gyms and pools along with shops where you can buy sporting gear to your map.",
+    "description": "A small pamphlet advertising various local businesses encouraging you to get fit.  Using it will add roads, gyms, and pools along with shops where you can buy sporting gear to your map.",
     "color": "light_blue",
     "use_action": {
       "type": "reveal_map",
@@ -343,7 +343,7 @@
         "s_sports",
         "tennis_court"
       ],
-      "message": "You add roads, gyms and pools along with shops where you can buy sporting gear to your map."
+      "message": "You add roads, gyms, and pools along with shops where you can buy sporting gear to your map."
     }
   },
   {
@@ -351,7 +351,7 @@
     "copy-from": "abstractmap",
     "type": "ITEM",
     "name": { "str": "pet pamphlet" },
-    "description": "A small pamphlet advertising the benefits of different pets and local pet related facilities and shops.  Using it will add roads, pet shops, animal shelters, parks, trailheads and vets to your map.",
+    "description": "A small pamphlet advertising the benefits of different pets and local pet related facilities and shops.  Using it will add roads, pet shops, animal shelters, parks, trailheads, and vets to your map.",
     "color": "light_blue",
     "use_action": {
       "type": "reveal_map",
@@ -367,7 +367,7 @@
         "animalshelter",
         "dog_park"
       ],
-      "message": "You add roads, pet shops, animal shelters, parks, trailheads and vets to your map."
+      "message": "You add roads, pet shops, animal shelters, parks, trailheads, and vets to your map."
     }
   },
   {
@@ -375,7 +375,7 @@
     "copy-from": "abstractmap",
     "type": "ITEM",
     "name": { "str": "nightlife pamphlet" },
-    "description": "A small pamphlet advertising local nightlife options.  Using it will add roads, bars, music venues, movie theaters and gambling halls to your map.",
+    "description": "A small pamphlet advertising local nightlife options.  Using it will add roads, bars, music venues, movie theaters, and gambling halls to your map.",
     "color": "light_blue",
     "use_action": {
       "type": "reveal_map",
@@ -389,7 +389,7 @@
         "car_theater",
         "gambling_hall"
       ],
-      "message": "You add roads, bars, music venues, movie theaters and gambling halls to your map."
+      "message": "You add roads, bars, music venues, movie theaters, and gambling halls to your map."
     }
   },
   {
@@ -397,7 +397,7 @@
     "copy-from": "abstractmap",
     "type": "ITEM",
     "name": { "str": "gun nut pamphlet" },
-    "description": "A small pamphlet advertising current shooting related events and giving directions to local shooting facilities and gun stores funded by Remington.  Using it will add roads, gun stores, shooting ranges, outdoorsman stores and any shows to your map.",
+    "description": "A small pamphlet advertising current shooting related events and giving directions to local shooting facilities and gun stores funded by Remington.  Using it will add roads, gun stores, shooting ranges, outdoorsman stores, and any shows to your map.",
     "color": "light_blue",
     "use_action": {
       "type": "reveal_map",
@@ -411,7 +411,7 @@
         "shootingrange",
         "gun show"
       ],
-      "message": "You add roads, gun stores, shooting ranges, outdoorsman stores and any shows to your map."
+      "message": "You add roads, gun stores, shooting ranges, outdoorsman stores, and any shows to your map."
     }
   },
   {
@@ -419,7 +419,7 @@
     "copy-from": "abstractmap",
     "type": "ITEM",
     "name": { "str": "history advertising brochure" },
-    "description": "A small brochure advertising for local museums, libraries and antique stores with an address below each entry.  Using it will add roads an local museums, libraries and antique stores to your map.",
+    "description": "A small brochure advertising for local museums, libraries and antique stores with an address below each entry.  Using it will add roads, local museums, libraries, and antique stores to your map.",
     "color": "light_blue",
     "use_action": {
       "type": "reveal_map",
@@ -432,7 +432,7 @@
         "s_library",
         { "om_terrain": "fort", "om_terrain_match_type": "PREFIX" }
       ],
-      "message": "You add roads and local museums, libraries and antique stores to your map."
+      "message": "You add roads, local museums, libraries, and antique stores to your map."
     }
   },
   {
@@ -440,7 +440,7 @@
     "copy-from": "abstractmap",
     "type": "ITEM",
     "name": { "str": "mall advertising brochure" },
-    "description": "A small brochure advertising for local malls with an address below each entry.  Using it will add roads an local malls and strip malls to your map.",
+    "description": "A small brochure advertising for local malls with an address below each entry.  Using it will add roads, local malls, and strip malls to your map.",
     "color": "light_blue",
     "use_action": {
       "type": "reveal_map",
@@ -468,7 +468,7 @@
         "megastore_1_2_0",
         "megastore_2_2_0"
       ],
-      "message": "You add roads and local malls and strip malls to your map."
+      "message": "You add roads, local malls, and strip malls to your map."
     }
   },
   {
@@ -476,7 +476,7 @@
     "copy-from": "abstractmap",
     "type": "ITEM",
     "name": { "str": "furniture advertising brochure" },
-    "description": "A small brochure advertising for local home improvement stores and with an address below each entry.  Using it will add roads an local furniture, home improvement and gardening stores to your map.",
+    "description": "A small brochure advertising for local home improvement stores and with an address below each entry.  Using it will add roads, and local furniture, home improvement, and gardening stores to your map.",
     "color": "light_blue",
     "use_action": {
       "type": "reveal_map",
