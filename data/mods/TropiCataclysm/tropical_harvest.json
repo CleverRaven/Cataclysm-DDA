@@ -1,15 +1,5 @@
 [
   {
-    "id": "null",
-    "type": "harvest",
-    "entries": [  ]
-  },
-  {
-    "id": "exempt",
-    "type": "harvest",
-    "entries": [  ]
-  },
-  {
     "id": "mango_harv",
     "type": "harvest",
     "entries": [ { "drop": "mango", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ]

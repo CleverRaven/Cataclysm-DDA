@@ -1562,7 +1562,7 @@ std::string Character::weapname_simple() const
         gun_mode current_mode = weapon.gun_current_mode();
         const bool no_mode = !current_mode.target;
         tname::segment_bitset segs( tname::default_tname );
-        segs.set( tname::segments::TAGS, false );
+        segs.reset( tname::segments::TAGS );
         std::string gun_name = no_mode ? weapon.display_name() : current_mode->tname( 1, segs );
         return gun_name;
 
