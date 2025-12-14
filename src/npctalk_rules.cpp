@@ -430,11 +430,11 @@ void follower_rules_ui_impl::draw_controls()
     the character has bionics. That's bad for muscle memory! */
     if( !guy->get_bionics().empty() ) {
         assigned_hotkey = input_ptr->next_unassigned_hotkey( hotkeys, assigned_hotkey );
-        radio_group( "RECHARGE_RULES", _( "CBM recharging rules:" ), &guy->rules.cbm_recharge, recharge_map,
+        radio_group( "RECHARGE_RULES", _( "CBM recharge rules:" ), &guy->rules.cbm_recharge, recharge_map,
                      assigned_hotkey, pressed_key );
 
         assigned_hotkey = input_ptr->next_unassigned_hotkey( hotkeys, assigned_hotkey );
-        radio_group( "RESERVE_RULES", _( "CBM reserve rules" ), &guy->rules.cbm_reserve, reserve_map,
+        radio_group( "RESERVE_RULES", _( "CBM reserve rules:" ), &guy->rules.cbm_reserve, reserve_map,
                      assigned_hotkey, pressed_key );
     }
 
