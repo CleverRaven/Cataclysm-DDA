@@ -3961,12 +3961,13 @@ void overmap::place_radios()
 void overmap::open( overmap_special_batch &enabled_specials )
 {
     if( world_generator->active_world->has_compression_enabled() ) {
-        assure_dir_exist( PATH_INFO::current_dimension_save_path() / "overmaps" );
+        assure_dir_exist( PATH_INFO::current_dimension_save_path() / zzip_overmap_directory );
         const std::string terfilename = overmapbuffer::terrain_filename( loc );
         const std::filesystem::path terfilename_path = std::filesystem::u8path( terfilename );
-        const cata_path zzip_path = PATH_INFO::current_dimension_save_path() / "overmaps" / terfilename_path
+        const cata_path zzip_path = PATH_INFO::current_dimension_save_path() / zzip_overmap_directory /
+                                    terfilename_path
                                     +
-                                    ".zzip";
+                                    zzip_suffix;
         if( file_exist( zzip_path ) ) {
             std::optional<zzip> z = zzip::load( zzip_path.get_unrelative_path(),
                                                 ( PATH_INFO::world_base_save_path() / "overmaps.dict" ).get_unrelative_path()
@@ -4018,9 +4019,9 @@ void overmap::save() const
     if( world_generator->active_world->has_compression_enabled() ) {
         const std::string terfilename = overmapbuffer::terrain_filename( loc );
         const std::filesystem::path terfilename_path = std::filesystem::u8path( terfilename );
-        const cata_path overmaps_folder = PATH_INFO::current_dimension_save_path() / "overmaps";
+        const cata_path overmaps_folder = PATH_INFO::current_dimension_save_path() / zzip_overmap_directory;
         assure_dir_exist( overmaps_folder );
-        const cata_path zzip_path = overmaps_folder / terfilename_path + ".zzip";
+        const cata_path zzip_path = overmaps_folder / terfilename_path + zzip_suffix;
         std::optional<zzip> z = zzip::load( zzip_path.get_unrelative_path(),
                                             ( PATH_INFO::world_base_save_path() / "overmaps.dict" ).get_unrelative_path()
                                           );
