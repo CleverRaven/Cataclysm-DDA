@@ -4027,8 +4027,8 @@ std::optional<int> iuse::solarpack_off( Character *p, item *it, const tripoint_b
     }
 
     if( !it->activation_success() ) {
-        m_bad,
-        p->add_msg_if_player( _( "You try to fold your %s into the pack, but it keeps falling out." ),
+        p->add_msg_if_player( m_bad,
+                              _( "You try to fold your %s into the pack, but it keeps falling out." ),
                               it->tname() );
         return std::nullopt;
     }
