@@ -25,7 +25,7 @@
     "type": "ITEM",
     "subtypes": [ "BIONIC_ITEM" ],
     "name": { "str": "Chiropteran Signal CBM" },
-    "description": "A jar-like container that includes a set of vocal cords with a large hood at the top of them and rootlike tendrils at the base connecting to a microchip.",
+    "description": "A jar-like CBM housing a modified set of vocal cords, capped by a broad resonating hood and threaded with rootlike tendrils that interface with an embedded microchip.  Once implanted, the system integrates with your own vocal apparatus, enhancing it to produce tightly controlled, bat-like resonance patterns. When activated, you are capable of producing an unfamiliar sound—one that feels deliberate. It releases a rapid clicking signal that carries through the surrounding area, allowing you to commune with nearby bats and draw them into a defensive swarm.",
     "price": "3 kUSD 500 USD",
     "difficulty": 8
   },
@@ -34,8 +34,8 @@
     "copy-from": "bionic_general",
     "type": "ITEM",
     "subtypes": [ "BIONIC_ITEM" ],
-    "name": { "str": "Desmodontinae Gargantua Vocalizer" },
-    "description": "A jar-like container that includes a set of oversized and reinforced vocal cords with a large hood at the top of them and rootlike tendrils at the base connecting to a microchip.",
+    "name": { "str": "Desmodontinae Gargantua Vocalizer CBM" },
+    "description": "A jar-like CBM housing a modified set of oversized and reinforced vocal cords, capped by a broad and chitinous hood and threaded with rootlike tendrils that interface with an embedded microchip.  Once implanted, the system integrates with your own vocal apparatus, enhancing it to produce tightly controlled, bat-like resonance patterns. When activated, you are capable of producing an unfamiliar sound—one that feels deliberate. It releases a rapid clicking signal that carries through the surrounding area, allowing you to commune with nearby giant bats and draw them into a defensive swarm.",
     "price": "3 kUSD 500 USD",
     "difficulty": 2
   },
