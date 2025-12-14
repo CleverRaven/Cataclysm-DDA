@@ -39,10 +39,10 @@
       { "item": "money_strap_ten", "prob": 25 },
       { "item": "gold_watch", "prob": 5 },
       { "item": "silver_watch", "prob": 10 },
-      { "item": "gum", "prob": 30, "count": [ 1, 10 ] },
-      { "item": "caff_gum", "prob": 10, "count": [ 1, 10 ] },
+      { "group": "chewing_gum_full", "prob": 30, "count": [ 1, 10 ] },
+      { "group": "chewing_gum_full_caff", "prob": 10, "count": [ 1, 10 ] },
       { "item": "sm_extinguisher", "prob": 10, "charges": 10 },
-      { "item": "nic_gum", "prob": 2, "count": [ 1, 10 ] },
+      { "group": "chewing_gum_full_nic", "prob": 2, "count": [ 1, 10 ] },
       { "item": "razor_blade", "prob": 3 },
       { "item": "knitting_needles", "prob": 1 },
       { "group": "newspaper_recent", "prob": 15 },
@@ -172,7 +172,7 @@
     "items": [
       { "group": "candy_chocolate", "prob": 530 },
       { "prob": 15, "group": "licorice_bag_plastic_4" },
-      { "group": "softdrinks_canned", "prob": 470 },
+      { "group": "soda_in_small_container", "prob": 470 },
       { "group": "snacks", "prob": 560 },
       [ "coffee_raw", 70 ],
       [ "water_clean", 90 ],
@@ -601,8 +601,7 @@
       [ "niqab", 2 ],
       [ "abaya", 2 ],
       [ "cassock", 1 ],
-      [ "zucchetto", 1 ],
-      [ "cape_catholic", 1 ],
+      [ "priest_collar", 1 ],
       [ "eboshi", 1 ],
       [ "kariginu", 2 ],
       [ "kimono", 2 ],
@@ -776,11 +775,8 @@
     "items": [
       [ "water_clean", 30 ],
       [ "water_mineral", 15 ],
-      { "group": "softdrinks_canned", "prob": 121 },
-      { "item": "milk_UHT", "prob": 20, "charges": [ 1, 6 ], "sealed": false },
-      [ "almond_milk", 10 ],
-      [ "oat_milk", 20 ],
-      [ "soy_milk", 10 ],
+      { "group": "soda_in_small_container", "prob": 121 },
+      { "group": "milk_in_container", "prob": 20 },
       [ "juice", 31 ],
       [ "pie", 40 ],
       [ "pie_meat", 28 ],
@@ -851,7 +847,7 @@
     "subtype": "distribution",
     "entries": [
       { "group": "candy_chocolate", "prob": 320 },
-      { "group": "softdrinks_canned", "prob": 244 },
+      { "group": "soda_in_small_container", "prob": 244 },
       { "item": "bbgun", "prob": 30 },
       { "item": "bb", "prob": 30 },
       { "item": "air_launcher", "prob": 5 },
@@ -860,9 +856,7 @@
       { "item": "deck_of_cards", "prob": 25 },
       { "item": "folded_inflatable_boat", "prob": 10 },
       { "item": "hand_pump", "prob": 15 },
-      { "prob": 45, "group": "toastem_box_small_8" },
-      { "prob": 45, "group": "toastem2_box_small_8" },
-      { "prob": 45, "group": "toastem3_box_small_8" },
+      { "prob": 135, "group": "toastem_box_small_8" },
       { "prob": 45, "group": "cookies_box_snack_4" },
       { "item": "bat", "prob": 15 },
       { "item": "backpack_small", "prob": 20 },
@@ -883,7 +877,7 @@
       { "item": "mp3", "prob": 20, "charges": [ 0, 100 ] },
       { "item": "fursuit", "variant": "wolfsuit", "prob": 5 },
       { "item": "fursuit", "variant": "dinosuit", "prob": 5 },
-      { "item": "gum", "prob": 10, "count": 10 },
+      { "group": "chewing_gum_full", "prob": 10 },
       { "item": "talking_doll", "prob": 11, "charges": [ 0, 100 ] },
       { "item": "marble", "prob": 15 },
       { "item": "creepy_doll", "prob": 1 },
@@ -1020,7 +1014,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "group": "beer", "prob": 373 },
+      { "group": "beer_in_container", "prob": 373 },
       { "group": "liquor_and_spirits", "prob": 80 },
       { "item": "drink_rumcola", "prob": 40 },
       { "item": "drink_screwdriver", "prob": 35 },
@@ -1041,9 +1035,9 @@
       { "item": "pineapple_juice", "prob": 35 },
       { "item": "juice", "prob": 35 },
       { "item": "cranberry_juice", "prob": 35 },
-      { "group": "softdrinks_canned", "prob": 95 },
+      { "group": "soda_in_small_container", "prob": 95 },
       { "item": "V8", "prob": 15 },
-      { "item": "gum", "prob": 15, "count": 10 }
+      { "group": "chewing_gum_full", "prob": 15 }
     ]
   },
   {
@@ -1057,7 +1051,7 @@
       { "item": "pineapple_juice", "prob": 35 },
       { "item": "juice", "prob": 35 },
       { "item": "cranberry_juice", "prob": 35 },
-      { "group": "softdrinks_canned", "prob": 95 },
+      { "group": "soda_in_small_container", "prob": 95 },
       { "item": "V8", "prob": 15 },
       { "item": "fries", "prob": 7 },
       { "item": "cheese_fries", "prob": 5 },
@@ -1524,8 +1518,9 @@
   },
   {
     "type": "item_group",
-    "id": "porn_literature",
-    "items": [ [ "mag_porn", 70 ], [ "novel_erotic", 30 ] ]
+    "id": "SUS_commercial_shelf_porn_literature",
+    "subtype": "distribution",
+    "items": [ { "item": "mag_porn", "prob": 70, "count": [ 0, 40 ] }, { "item": "novel_erotic", "prob": 70, "count": [ 0, 20 ] } ]
   },
   {
     "type": "item_group",
@@ -1560,6 +1555,7 @@
       [ "leather_collar", 20 ],
       [ "bondage_mask", 30 ],
       [ "gloves_claws", 15 ],
+      [ "priest_collar", 10 ],
       [ "gloves_fingerless", 10 ],
       [ "maid_hat", 10 ],
       [ "santa_hat", 5 ],
@@ -1585,9 +1581,9 @@
       [ "cheerleader_dress", 15 ],
       [ "ninja_dress", 3 ],
       [ "ninja_dress_sleeveless", 5 ],
-      [ "sinister_dress_short", 2 ],
-      [ "witch_dress", 3 ],
-      [ "witch_dress_short", 5 ],
+      { "item": "short_dress", "variant": "sinister", "prob": 2 },
+      { "item": "dress_sleeved", "variant": "witch_black", "prob": 5 },
+      { "item": "short_dress_sleeved", "variant": "witch_black", "prob": 5 },
       { "item": "bunny_suit_playboy", "prob": 30 },
       { "group": "pet_collars", "prob": 10 }
     ]
@@ -1970,7 +1966,7 @@
       { "group": "adhesive_bandages_box_used", "prob": 10 },
       { "item": "liq_bandage_spray", "prob": 2, "charges": [ 1, -1 ] },
       [ "heatpack", 10 ],
-      { "item": "gum", "prob": 12, "count": [ 1, 10 ] },
+      { "group": "chewing_gum_used", "prob": 12 },
       { "item": "soap", "prob": 10, "charges": [ 1, 10 ] },
       [ "rashguard", 20 ],
       [ "sports_bra", 30 ],
@@ -2151,5 +2147,57 @@
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_canvas",
     "entries": [ { "item": "birdfood", "count": 60 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "SUS_sex_shop_stock",
+    "subtype": "collection",
+    "items": [
+      { "group": "SUS_sex_shop_shelf", "count": [ 0, 3 ] },
+      { "group": "SUS_commercial_shelf_porn_literature", "count": [ 0, 2 ] },
+      { "group": "sex_clothes", "count": [ 0, 20 ], "prob": 50 },
+      { "group": "underwear_womens", "count": [ 0, 20 ], "prob": 50 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "SUS_sex_shop_shelf",
+    "subtype": "distribution",
+    "items": [
+      {
+        "collection": [
+          { "item": "sextoy", "variant": "beads", "count": [ 0, 5 ] },
+          { "item": "sextoy", "variant": "plug", "count": [ 0, 5 ] },
+          { "item": "sextoy", "variant": "dildo", "count": [ 0, 5 ] }
+        ],
+        "prob": 40
+      },
+      {
+        "collection": [
+          { "item": "vibrator", "variant": "wand", "charges": 100, "count": [ 0, 5 ] },
+          { "item": "vibrator", "variant": "egg", "charges": 100, "count": [ 0, 5 ] },
+          { "item": "vibrator", "variant": "dildo", "charges": 100, "count": [ 0, 5 ] }
+        ],
+        "prob": 40
+      },
+      {
+        "collection": [
+          { "item": "rope_6", "count": [ 0, 3 ] },
+          { "item": "bullwhip", "count": [ 0, 3 ] },
+          { "item": "candle", "count": [ 0, 3 ] },
+          { "item": "handcuffs_leather", "count": [ 0, 3 ] },
+          { "item": "gag_ball", "count": [ 0, 3 ] },
+          { "item": "paddle_plastic", "count": [ 0, 3 ] }
+        ],
+        "prob": 10
+      },
+      {
+        "collection": [
+          { "item": "moisturizer", "variant": "lube", "container-item": "bottle_plastic_small", "count": [ 0, 15 ] },
+          { "item": "condom_sealed", "count": [ 0, 50 ] }
+        ],
+        "prob": 10
+      }
+    ]
   }
 ]

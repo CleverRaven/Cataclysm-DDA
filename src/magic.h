@@ -796,6 +796,8 @@ class known_magic
 
         void toggle_favorite( const spell_id &sp );
         bool is_favorite( const spell_id &sp );
+
+        void migrate_spells();
     private:
         // gets length of longest spell name
         int get_spellname_max_width();
@@ -991,6 +993,21 @@ struct area_expander {
     void sort_ascending();
 
     void sort_descending();
+};
+
+class spell_migration
+{
+    public:
+        spell_id id_old;
+        std::optional<spell_id> id_new;
+
+        static void load( const JsonObject &jo );
+
+        static void reset();
+
+        static void check();
+
+        static const spell_migration *find_migration( const spell_id &original );
 };
 
 #endif // CATA_SRC_MAGIC_H

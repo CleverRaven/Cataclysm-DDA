@@ -165,10 +165,8 @@ struct overmap_global_state {
     int overmap_count = 0;
     // Global count of major rivers generated for this world
     int major_river_count = 0;
-    // most central overmap highway intersection
-    point_abs_om highway_global_offset = point_abs_om::invalid;
     // all highway intersections
-    std::map<std::string, interhighway_node> highway_intersections;
+    highway_intersection_grid highway_intersections;
 
     void clear();
     void reset();
@@ -584,7 +582,10 @@ class overmapbuffer
 
         city_reference closest_known_city( const tripoint_abs_sm &center );
 
-        std::string get_description_at( const tripoint_abs_sm &where );
+        //TODO: use display_description_at when converting UIs to ImGui
+        std::string get_description_at( const tripoint_abs_sm &where, bool draw_origin = true );
+
+        void display_description_at( const tripoint_abs_sm &where, bool draw_origin = true );
 
         /**
          * Place the specified overmap special directly on the map using the provided location and rotation.
@@ -618,26 +619,6 @@ class overmapbuffer
         int get_overmap_count() const;
         int get_major_river_count() const;
         void inc_major_river_count();
-
-        interhighway_node get_overmap_highway_intersection_point( const point_abs_om &p );
-        void set_overmap_highway_intersection_point( const point_abs_om &p,
-                const interhighway_node &intersection );
-        void set_highway_global_offset();
-        point_abs_om get_highway_global_offset() const;
-        /*
-        * given an overmap point, finds and generates cardinal-adjacent highway intersection points
-        */
-        std::vector<interhighway_node>
-        find_highway_adjacent_intersections( const point_abs_om &generated_om_pos );
-        bool highway_intersection_exists( const point_abs_om &intersection_om ) const;
-        void generate_highway_intersection_point( const point_abs_om &generated_om_pos );
-        /**
-        * given an overmap point, finds and generates the highway intersection points boxing it in,
-        * aligning to the top-left-most point; this point is always last in the returned list
-        * NOTE: this function can be generalized if necessary
-        */
-        std::vector<point_abs_om> find_highway_intersection_bounds( const point_abs_om
-                & generated_om_pos );
 
     private:
         /**

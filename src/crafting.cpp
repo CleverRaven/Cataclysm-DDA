@@ -980,6 +980,9 @@ void Character::start_craft( craft_command &command, const std::optional<tripoin
         assign_activity( ACT_MULTIPLE_CRAFT );
     }
 
+    // Morale penalties happen on start, to penalize crafting speed during the craft.
+    making.apply_negative_morale_mods( *this );
+
     add_msg_player_or_npc(
         pgettext( "in progress craft", "You start working on the %s." ),
         pgettext( "in progress craft", "<npcname> starts working on the %s." ),
@@ -1636,6 +1639,9 @@ void Character::complete_craft( item &craft, const std::optional<tripoint_bub_ms
     recoil = MAX_RECOIL;
 
     inv->restack( *this );
+    // Positive morale bonuses only happen on completion, to avoid the player repeatedly re-crafting to spam morale
+    making.apply_positive_morale_mods( *this );
+
     for( const effect_on_condition_id &eoc : making.result_eocs ) {
         dialogue d( get_talker_for( *this ), nullptr );
         for( int i = 0; i < batch_size; i++ ) {
@@ -2786,6 +2792,9 @@ bool Character::disassemble( item_location target, bool interactive, bool disass
             activity.moves_left = r.time_to_craft_moves( *this, recipe_time_flag::ignore_proficiencies );
         }
     }
+
+    // Morale penalties happen on start, to penalize crafting speed during the craft.
+    r.apply_negative_morale_mods( *this );
 
     return true;
 }

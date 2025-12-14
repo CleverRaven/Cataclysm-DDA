@@ -2434,6 +2434,7 @@
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
     "time": "1 m",
+    "morale_modifier": [ -5, "2 hours" ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "thread", 1 ] ] ]
   },

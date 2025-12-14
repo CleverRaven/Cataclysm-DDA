@@ -62,7 +62,6 @@
     "path_settings": { "avoid_traps": true, "avoid_sharp": true },
     "dissect": "dissect_slime_sample_single",
     "weakpoint_sets": [ "wps_slime" ],
-    "families": [ "prof_wp_slime_basic", "prof_wp_slime_advanced" ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
     "special_attacks": [
       {
@@ -492,6 +491,19 @@
     "special_attacks": [ { "type": "leap", "cooldown": 10, "max_range": 5 } ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "SWIMS" ]
+  },
+  {
+    "id": "mon_baleful_polymorph_crawler",
+    "type": "MONSTER",
+    "copy-from": "mon_crawler",
+    "looks_like": "mon_crawler",
+    "name": { "str": "fleshwarped wretch", "str_pl": "fleshwarped wretches" },
+    "description": "Whatever this poor creature was, the tangle of limbs, sensory organs, and parts that it is now is no longer recognizable as any earthly being.",
+    "default_faction": "magical_beast",
+    "hp": 84,
+    "speed": 40,
+    "aggression": 10,
+    "fear_triggers": [ "PLAYER_CLOSE", "FIRE" ]
   },
   {
     "id": "mon_lemure",

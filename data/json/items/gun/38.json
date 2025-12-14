@@ -37,7 +37,7 @@
     "variants": [
       {
         "id": "model_10_revolver",
-        "name": { "str": "S&W Model 10" },
+        "name": { "str": "S&W Model 10 revolver" },
         "description": "The Model 10 is one of the oldest firearm models still in production, and most produced handguns, with production dating back to 1899.  Starting life as the Model 1899 Hand Ejector, it only picked up the current name of Model 10 in the 1950s.  Despite .38 Special and .357 Magnum being the same caliber, Model 10s were produced to handle blackpowder loads, and while modern smokeless loads of .38 Special work fine, .357 Magnum could cause the Model 10 to catastrophically fail."
       }
     ],
@@ -68,7 +68,7 @@
     "looks_like": "modular_ar15",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
-    "name": { "str": "pipe rifle: .38 Special", "str_pl": "pipe rifles: .38 Special" },
+    "name": { "str": ".38 Special pipe rifle" },
     "description": "A home-made rifle.  It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.",
     "ascii_picture": "ps_pipe_gun",
     "weight": "2114 g",
@@ -169,7 +169,7 @@
     "copy-from": "gun_base_handgun_manual",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
-    "name": { "str_sp": "7-shots .357 revolver" },
+    "name": { "str_sp": "7-shot .357 revolver" },
     "description": "A revolver chambered in .357, with a 6 inch barrel and 7 shots.",
     "ascii_picture": "sw_610",
     "weight": "1280 g",
@@ -197,7 +197,7 @@
     "variants": [
       {
         "id": "sw_619",
-        "name": { "str_sp": "S&W 686 Plus" },
+        "name": { "str_sp": "S&W 686 Plus revolver" },
         "description": "Introduced in the 90's, Smith & Wesson's model 686 'Plus' features a robust stainless steel frame, an adjustable front sight and a seventh shot that's sure to save your life."
       }
     ]
@@ -244,7 +244,7 @@
     "looks_like": "sw_619",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
-    "name": { "str_sp": ".357-caliber snub-nosed revolver" },
+    "name": { "str_sp": ".357 snub-nosed revolver" },
     "description": "Short, stout, and compact, this stainless steel revolver is a handy dispenser of .357-magnum, or lower-power .38-caliber, cartridges.  Six rounds fit within the weapon, though its small stature and short barrel ensure that each pull of the trigger is all but a pyrotechnic spectacle: flashy, loud, and jumpy.",
     "variant_type": "gun",
     "variants": [
@@ -407,7 +407,7 @@
     "variants": [
       {
         "id": "sw642",
-        "name": { "str": "S&W model 642" },
+        "name": { "str": "S&W 642 revolver" },
         "description": "A modern version of the Airweight, the 642 is a lightweight .38 caliber revolver, made with an aluminum frame."
       }
     ],

@@ -16,14 +16,7 @@
     "color": "white",
     "charges_per_use": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "candle_wax": 100 }, "rigid": true } ],
-    "use_action": {
-      "target": "candle_lit",
-      "msg": "You light the candle.",
-      "active": true,
-      "need_fire": 1,
-      "menu_text": "Light",
-      "type": "transform"
-    },
+    "use_action": { "target": "candle_lit", "msg": "You light the candle.", "need_fire": 1, "menu_text": "Light", "type": "transform" },
     "flags": [ "BURNOUT", "NO_RELOAD", "NO_UNLOAD" ]
   },
   {
@@ -46,7 +39,7 @@
       }
     ],
     "light": 8,
-    "extend": { "flags": [ "WATER_EXTINGUISH", "TRADER_AVOID", "WIND_EXTINGUISH", "FIRESTARTER" ] }
+    "extend": { "flags": [ "WATER_EXTINGUISH", "TRADER_AVOID", "WIND_EXTINGUISH", "FIRESTARTER", "SPAWN_ACTIVE" ] }
   },
   {
     "id": "electric_lantern",
@@ -66,7 +59,6 @@
       {
         "type": "transform",
         "target": "electric_lantern_on",
-        "active": true,
         "msg": "You turn the lamp on.",
         "need_charges": 1,
         "need_charges_msg": "The lantern has no batteries."
@@ -97,7 +89,7 @@
       { "type": "link_up", "cable_length": 2, "charge_rate": "20 W" }
     ],
     "light": 15,
-    "flags": [ "NO_UNLOAD", "NO_RELOAD", "RADIO_MODABLE", "RADIO_INVOKE_PROC", "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
+    "flags": [ "NO_UNLOAD", "NO_RELOAD", "RADIO_MODABLE", "RADIO_INVOKE_PROC", "TRADER_AVOID", "ALLOWS_REMOTE_USE", "SPAWN_ACTIVE" ]
   },
   {
     "id": "flashlight",
@@ -120,9 +112,9 @@
       "type": "transform",
       "msg": "You turn the flashlight on.",
       "target": "flashlight_on",
-      "active": true,
       "need_charges": 1,
-      "need_charges_msg": "The flashlight's batteries are dead."
+      "need_charges_msg": "The flashlight's batteries are dead.",
+      "damage_failure_msg": "You press the button on your %s, but nothing happens."
     },
     "pocket_data": [
       {
@@ -150,7 +142,15 @@
       "ammo_scale": 0
     },
     "light": 300,
-    "flags": [ "CHARGEDIM", "TRADER_AVOID", "BELT_CLIP", "WATER_BREAK", "HELMET_HEAD_ATTACHMENT", "HEAD_STRAP_MOUNT" ]
+    "flags": [
+      "CHARGEDIM",
+      "TRADER_AVOID",
+      "BELT_CLIP",
+      "WATER_BREAK",
+      "HELMET_HEAD_ATTACHMENT",
+      "HEAD_STRAP_MOUNT",
+      "SPAWN_ACTIVE"
+    ]
   },
   {
     "id": "diving_flashlight_small",
@@ -174,7 +174,6 @@
       "type": "transform",
       "msg": "You turn the flashlight on.",
       "target": "diving_flashlight_small_on",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "The flashlight's batteries are dead."
     },
@@ -205,7 +204,7 @@
       "ammo_scale": 0
     },
     "light": 170,
-    "flags": [ "CHARGEDIM", "TRADER_AVOID", "BELT_CLIP", "HELMET_HEAD_ATTACHMENT", "HEAD_STRAP_MOUNT" ]
+    "flags": [ "CHARGEDIM", "TRADER_AVOID", "BELT_CLIP", "HELMET_HEAD_ATTACHMENT", "HEAD_STRAP_MOUNT", "SPAWN_ACTIVE" ]
   },
   {
     "id": "diving_flashlight_small_hipower",
@@ -229,7 +228,6 @@
       "type": "transform",
       "msg": "You turn the flashlight on.",
       "target": "diving_flashlight_small_hipower_on",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "The flashlight's batteries are dead."
     },
@@ -260,13 +258,13 @@
       "ammo_scale": 0
     },
     "light": 450,
-    "flags": [ "CHARGEDIM", "TRADER_AVOID", "BELT_CLIP", "HELMET_HEAD_ATTACHMENT", "HEAD_STRAP_MOUNT" ]
+    "flags": [ "CHARGEDIM", "TRADER_AVOID", "BELT_CLIP", "HELMET_HEAD_ATTACHMENT", "HEAD_STRAP_MOUNT", "SPAWN_ACTIVE" ]
   },
   {
     "id": "diving_flashlight_variable",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
-    "name": { "str": "high-power mini diving flashlight (off)", "str_pl": "high-power mini diving flashlights (off)" },
+    "name": { "str": "variable power diving flashlight (off)", "str_pl": "variable power diving flashlights (off)" },
     "description": "A waterproof variable power flashlight with a plastic handle, powered by batteries.  Can be attached to some diving masks and hoods and onto a proprietary wrist mount.",
     "//": "Based on this: https://www.amazon.com/dp/B00DI5GMOM",
     "material": [ "plastic" ],
@@ -285,7 +283,6 @@
         "type": "transform",
         "msg": "You turn the flashlight on.",
         "target": "diving_flashlight_variable_on_hi",
-        "active": true,
         "need_charges": 1,
         "need_charges_msg": "The flashlight's batteries are dead."
       },
@@ -327,7 +324,16 @@
         "charge_rate": "20 W"
       }
     ],
-    "flags": [ "NO_UNLOAD", "NO_RELOAD", "CHARGEDIM", "TRADER_AVOID", "BELT_CLIP", "HELMET_HEAD_ATTACHMENT", "HEAD_STRAP_MOUNT" ]
+    "flags": [
+      "NO_UNLOAD",
+      "NO_RELOAD",
+      "CHARGEDIM",
+      "TRADER_AVOID",
+      "BELT_CLIP",
+      "HELMET_HEAD_ATTACHMENT",
+      "HEAD_STRAP_MOUNT",
+      "SPAWN_ACTIVE"
+    ]
   },
   {
     "id": "diving_flashlight_variable_on_med",
@@ -359,7 +365,16 @@
       }
     ],
     "light": 200,
-    "flags": [ "NO_UNLOAD", "NO_RELOAD", "CHARGEDIM", "TRADER_AVOID", "BELT_CLIP", "HELMET_HEAD_ATTACHMENT", "HEAD_STRAP_MOUNT" ]
+    "flags": [
+      "NO_UNLOAD",
+      "NO_RELOAD",
+      "CHARGEDIM",
+      "TRADER_AVOID",
+      "BELT_CLIP",
+      "HELMET_HEAD_ATTACHMENT",
+      "HEAD_STRAP_MOUNT",
+      "SPAWN_ACTIVE"
+    ]
   },
   {
     "id": "diving_flashlight_variable_on_low",
@@ -388,7 +403,16 @@
       }
     ],
     "light": 80,
-    "flags": [ "NO_UNLOAD", "NO_RELOAD", "CHARGEDIM", "TRADER_AVOID", "BELT_CLIP", "HELMET_HEAD_ATTACHMENT", "HEAD_STRAP_MOUNT" ]
+    "flags": [
+      "NO_UNLOAD",
+      "NO_RELOAD",
+      "CHARGEDIM",
+      "TRADER_AVOID",
+      "BELT_CLIP",
+      "HELMET_HEAD_ATTACHMENT",
+      "HEAD_STRAP_MOUNT",
+      "SPAWN_ACTIVE"
+    ]
   },
   {
     "id": "gasoline_lantern",
@@ -408,7 +432,6 @@
     "use_action": {
       "target": "gasoline_lantern_on",
       "msg": "You turn the lamp on.",
-      "active": true,
       "need_fire": 1,
       "need_charges": 1,
       "need_charges_msg": "The lamp is empty.",
@@ -439,7 +462,7 @@
       { "type": "firestarter", "moves": 500, "moves_slow": 6000 }
     ],
     "light": 15,
-    "flags": [ "TRADER_AVOID", "ALLOWS_REMOTE_USE", "FIRESTARTER", "FIRE" ]
+    "flags": [ "TRADER_AVOID", "ALLOWS_REMOTE_USE", "FIRESTARTER", "FIRE", "SPAWN_ACTIVE" ]
   },
   {
     "id": "glowstick",
@@ -455,13 +478,7 @@
     "symbol": ";",
     "color": "light_blue",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "glowstick_juice": 1400 }, "rigid": true } ],
-    "use_action": {
-      "target": "glowstick_lit",
-      "msg": "You activate the glowstick.",
-      "active": true,
-      "menu_text": "Activate",
-      "type": "transform"
-    },
+    "use_action": { "target": "glowstick_lit", "msg": "You activate the glowstick.", "menu_text": "Activate", "type": "transform" },
     "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
     "tool_ammo": "glowstick_juice"
   },
@@ -498,7 +515,7 @@
     "revert_to": "glowstick_dead",
     "revert_msg": "The glowstick fades out.",
     "light": 8,
-    "flags": [ "TRADER_AVOID", "SLEEP_IGNORE", "NO_UNLOAD", "NO_RELOAD" ]
+    "flags": [ "TRADER_AVOID", "SLEEP_IGNORE", "NO_UNLOAD", "NO_RELOAD", "SPAWN_ACTIVE" ]
   },
   {
     "id": "handflare",
@@ -518,7 +535,6 @@
       "menu_text": "Strike the striker",
       "type": "transform",
       "target": "handflare_lit",
-      "active": true,
       "msg": "You strike your flare and light it."
     },
     "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
@@ -538,7 +554,7 @@
     "//COMMENT": "Open flame or effectively so. ~5 seconds to transfer flame assuming optimal conditions, a minute at worst.",
     "use_action": { "type": "firestarter", "moves": 500, "moves_slow": 6000 },
     "light": 240,
-    "flags": [ "FIRE", "CHARGEDIM", "FLAMING", "TRADER_AVOID", "FIRESTARTER", "NO_UNLOAD", "NO_RELOAD" ]
+    "flags": [ "FIRE", "CHARGEDIM", "FLAMING", "TRADER_AVOID", "FIRESTARTER", "NO_UNLOAD", "NO_RELOAD", "SPAWN_ACTIVE" ]
   },
   {
     "id": "sigflare_lit",
@@ -579,7 +595,6 @@
         "type": "transform",
         "msg": "You turn the heavy-duty flashlight on.",
         "target": "heavy_flashlight_on",
-        "active": true,
         "need_charges": 1,
         "need_charges_msg": "The heavy-duty flashlight's battery is dead."
       },
@@ -616,7 +631,7 @@
       { "type": "link_up", "cable_length": 3, "charge_rate": "20 W" }
     ],
     "light": 650,
-    "flags": [ "NO_UNLOAD", "NO_RELOAD", "CHARGEDIM", "BELT_CLIP", "BELTED" ]
+    "flags": [ "NO_UNLOAD", "NO_RELOAD", "CHARGEDIM", "BELT_CLIP", "BELTED", "SPAWN_ACTIVE" ]
   },
   {
     "id": "lightstrip",
@@ -632,13 +647,7 @@
     "light": 200,
     "flags": [ "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK" ],
     "use_action": [
-      {
-        "target": "lightstrip_inactive",
-        "msg": "You turn off the LED strip.",
-        "active": true,
-        "need_charges": 1,
-        "type": "transform"
-      },
+      { "target": "lightstrip_inactive", "msg": "You turn off the LED strip.", "need_charges": 1, "type": "transform" },
       { "type": "link_up", "cable_length": 10, "charge_rate": "5 W" }
     ]
   },
@@ -657,7 +666,7 @@
     "color": "white",
     "//": "25 feet (7.5 m) + 1.5 meters for plug",
     "use_action": [
-      { "target": "lightstrip", "msg": "You turn on the LED strip.", "active": true, "need_charges": 1, "type": "transform" },
+      { "target": "lightstrip", "msg": "You turn on the LED strip.", "need_charges": 1, "type": "transform" },
       { "type": "link_up", "cable_length": 9, "charge_rate": "5 W" }
     ],
     "tool_ammo": [ "battery" ]
@@ -680,7 +689,6 @@
     "use_action": {
       "target": "oil_lamp_on",
       "msg": "You turn the lamp on.",
-      "active": true,
       "need_fire": 1,
       "need_charges": 1,
       "need_charges_msg": "The lamp is empty.",
@@ -711,7 +719,7 @@
       { "type": "firestarter", "moves": 500, "moves_slow": 6000 }
     ],
     "light": 10,
-    "flags": [ "TRADER_AVOID", "FIRE", "ALLOWS_REMOTE_USE", "WATER_EXTINGUISH", "FIRESTARTER" ]
+    "flags": [ "TRADER_AVOID", "FIRE", "ALLOWS_REMOTE_USE", "WATER_EXTINGUISH", "FIRESTARTER", "SPAWN_ACTIVE" ]
   },
   {
     "id": "oil_lamp_clay",
@@ -731,7 +739,6 @@
     "use_action": {
       "target": "oil_lamp_clay_on",
       "msg": "You light the lamp.",
-      "active": true,
       "need_fire": 1,
       "need_charges": 1,
       "need_charges_msg": "The lamp is empty.",
@@ -764,7 +771,7 @@
       { "type": "firestarter", "moves": 500, "moves_slow": 6000 }
     ],
     "light": 10,
-    "flags": [ "TRADER_AVOID", "FIRE", "ALLOWS_REMOTE_USE", "WATER_EXTINGUISH", "WIND_EXTINGUISH", "FIRESTARTER" ]
+    "flags": [ "TRADER_AVOID", "FIRE", "ALLOWS_REMOTE_USE", "WATER_EXTINGUISH", "WIND_EXTINGUISH", "FIRESTARTER", "SPAWN_ACTIVE" ]
   },
   {
     "id": "oxylamp",
@@ -784,7 +791,6 @@
       "type": "transform",
       "msg": "You light the %s.",
       "target": "oxylamp_on",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "The %s must be attached to a gas cylinder to light."
     },
@@ -805,7 +811,7 @@
       { "type": "firestarter", "moves": 500, "moves_slow": 6000 }
     ],
     "light": 30,
-    "flags": [ "FIRESTARTER", "TRADER_AVOID", "FIRE", "ALLOWS_REMOTE_USE" ]
+    "flags": [ "FIRESTARTER", "TRADER_AVOID", "FIRE", "ALLOWS_REMOTE_USE", "SPAWN_ACTIVE" ]
   },
   {
     "id": "reading_light",
@@ -826,7 +832,6 @@
     "use_action": {
       "target": "reading_light_on",
       "msg": "You switch on the reading light.",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "The reading light winks out.",
       "type": "transform"
@@ -851,7 +856,7 @@
       "type": "transform"
     },
     "light": 15,
-    "flags": [ "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK", "CHARGEDIM" ]
+    "flags": [ "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK", "CHARGEDIM", "SPAWN_ACTIVE" ]
   },
   {
     "id": "smart_lamp",
@@ -873,7 +878,6 @@
       {
         "target": "smart_lamp_on",
         "msg": "You turn the smart lamp on.",
-        "active": true,
         "need_charges": 1,
         "need_charges_msg": "The smart lamp batteries are dead.",
         "type": "transform"
@@ -923,7 +927,8 @@
       "RADIO_INVOKE_PROC",
       "RADIOSIGNAL_2",
       "CHARGEDIM",
-      "TRADER_AVOID"
+      "TRADER_AVOID",
+      "SPAWN_ACTIVE"
     ]
   },
   {
@@ -948,7 +953,6 @@
     "use_action": {
       "target": "torch_lit",
       "msg": "You light the torch.",
-      "active": true,
       "need_fire": 1,
       "menu_text": "Light torch",
       "type": "transform"
@@ -979,17 +983,11 @@
     "//COMMENT": "Open flame or effectively so. ~5 seconds to transfer flame assuming optimal conditions, a minute at worst.",
     "use_action": [
       { "type": "firestarter", "moves": 500, "moves_slow": 6000 },
-      {
-        "target": "torch",
-        "msg": "The torch is extinguished.",
-        "active": false,
-        "menu_text": "Extinguish",
-        "type": "transform"
-      }
+      { "target": "torch", "msg": "The torch is extinguished.", "menu_text": "Extinguish", "type": "transform" }
     ],
     "techniques": [ "WBLOCK_1" ],
     "light": 60,
-    "flags": [ "FIRE", "CHARGEDIM", "FLAMING", "TRADER_AVOID", "WATER_EXTINGUISH", "BURNOUT" ],
+    "flags": [ "FIRE", "CHARGEDIM", "FLAMING", "TRADER_AVOID", "WATER_EXTINGUISH", "BURNOUT", "SPAWN_ACTIVE" ],
     "melee_damage": { "bash": 8 }
   },
   {
@@ -1010,7 +1008,6 @@
     "use_action": {
       "target": "propane_lantern_on",
       "msg": "You turn the lamp on.",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "The lamp is empty.",
       "type": "transform"
@@ -1040,7 +1037,7 @@
       { "type": "firestarter", "moves": 500, "moves_slow": 6000 }
     ],
     "light": 15,
-    "flags": [ "TRADER_AVOID", "ALLOWS_REMOTE_USE", "FIRESTARTER", "FIRE" ]
+    "flags": [ "TRADER_AVOID", "ALLOWS_REMOTE_USE", "FIRESTARTER", "FIRE", "SPAWN_ACTIVE" ]
   },
   {
     "id": "candle_small",
@@ -1061,7 +1058,6 @@
     "use_action": {
       "target": "candle_small_lit",
       "msg": "You light the candle.",
-      "active": true,
       "need_fire": 1,
       "menu_text": "Light",
       "type": "transform"
@@ -1088,7 +1084,7 @@
       }
     ],
     "light": 6,
-    "extend": { "flags": [ "WATER_EXTINGUISH", "TRADER_AVOID", "WIND_EXTINGUISH", "FIRESTARTER" ] }
+    "extend": { "flags": [ "WATER_EXTINGUISH", "TRADER_AVOID", "WIND_EXTINGUISH", "FIRESTARTER", "SPAWN_ACTIVE" ] }
   },
   {
     "id": "menorah",

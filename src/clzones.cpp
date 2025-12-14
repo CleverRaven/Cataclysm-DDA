@@ -42,6 +42,9 @@
 #include "vehicle.h"
 #include "visitable.h"
 #include "vpart_position.h"
+#include "talker.h"
+#include "talker_zone.h"
+#include "study_zone_ui.h"
 
 static const faction_id faction_your_followers( "your_followers" );
 
@@ -73,6 +76,7 @@ static const zone_type_id zone_type_NO_AUTO_PICKUP( "NO_AUTO_PICKUP" );
 static const zone_type_id zone_type_NO_NPC_PICKUP( "NO_NPC_PICKUP" );
 static const zone_type_id zone_type_SOURCE_FIREWOOD( "SOURCE_FIREWOOD" );
 static const zone_type_id zone_type_STRIP_CORPSES( "STRIP_CORPSES" );
+static const zone_type_id zone_type_STUDY_ZONE( "STUDY_ZONE" );
 static const zone_type_id zone_type_UNLOAD_ALL( "UNLOAD_ALL" );
 
 const std::vector<zone_type_id> ignorable_zone_types = {
@@ -178,6 +182,8 @@ shared_ptr_fast<zone_options> zone_options::create( const zone_type_id &type )
         return make_shared_fast<loot_options>();
     } else if( type == zone_type_UNLOAD_ALL ) {
         return make_shared_fast<unload_options>();
+    } else if( type == zone_type_STUDY_ZONE ) {
+        return make_shared_fast<study_zone_options>();
     } else if( std::find( ignorable_zone_types.begin(), ignorable_zone_types.end(),
                           type ) != ignorable_zone_types.end() ) {
         return make_shared_fast<ignorable_options>();
@@ -196,6 +202,8 @@ bool zone_options::is_valid( const zone_type_id &type, const zone_options &optio
         return dynamic_cast<const loot_options *>( &options ) != nullptr;
     } else if( type == zone_type_UNLOAD_ALL ) {
         return dynamic_cast<const unload_options *>( &options ) != nullptr;
+    } else if( type == zone_type_STUDY_ZONE ) {
+        return dynamic_cast<const study_zone_options *>( &options ) != nullptr;
     } else if( std::find( ignorable_zone_types.begin(), ignorable_zone_types.end(),
                           type ) != ignorable_zone_types.end() ) {
         return dynamic_cast<const ignorable_options *>( &options ) != nullptr;
@@ -565,6 +573,86 @@ void unload_options::deserialize( const JsonObject &jo_zone )
     jo_zone.read( "sparse_only", sparse_only );
     jo_zone.read( "sparse_threshold", sparse_threshold );
     jo_zone.read( "always_unload", always_unload );
+}
+
+study_zone_options::query_study_result study_zone_options::query_study_skills()
+{
+    study_zone_ui_result result = query_study_zone_skills( npc_skill_preferences );
+    switch( result ) {
+        case study_zone_ui_result::canceled:
+            return query_study_result::canceled;
+        case study_zone_ui_result::changed:
+            return query_study_result::changed;
+        case study_zone_ui_result::successful:
+            return query_study_result::successful;
+        default:
+            return query_study_result::canceled;
+    }
+}
+
+bool study_zone_options::query_at_creation()
+{
+    return query_study_skills() != query_study_result::canceled;
+}
+
+bool study_zone_options::query()
+{
+    return query_study_skills() == query_study_result::changed;
+}
+
+std::string study_zone_options::get_zone_name_suggestion() const
+{
+    return _( "Study Zone" );
+}
+
+std::vector<std::pair<std::string, std::string>> study_zone_options::get_descriptions() const
+{
+    std::vector<std::pair<std::string, std::string>> descriptions;
+    if( npc_skill_preferences.empty() ) {
+        descriptions.emplace_back( _( "NPC Preferences:" ), _( "All NPCs read all skills" ) );
+    } else {
+        descriptions.emplace_back( _( "NPC Preferences:" ), string_format( _( "%zu NPCs configured" ),
+                                   npc_skill_preferences.size() ) );
+    }
+    return descriptions;
+}
+
+void study_zone_options::serialize( JsonOut &json ) const
+{
+    json.member( "npc_skill_preferences" );
+    json.start_object();
+    for( const auto &pair : npc_skill_preferences ) {
+        json.member( pair.first );
+        json.start_array();
+        for( const skill_id &skill : pair.second ) {
+            json.write( skill );
+        }
+        json.end_array();
+    }
+    json.end_object();
+}
+
+void study_zone_options::deserialize( const JsonObject &jo_zone )
+{
+    npc_skill_preferences.clear();
+    JsonObject npc_prefs_obj = jo_zone.get_object( "npc_skill_preferences" );
+    npc_prefs_obj.allow_omitted_members();
+    JsonValue npc_prefs_value = jo_zone.get_member( "npc_skill_preferences" );
+    npc_prefs_value.read( npc_skill_preferences );
+}
+
+const std::set<skill_id> *study_zone_options::get_skill_preferences( const std::string &npc_name )
+const
+{
+    std::map<std::string, std::set<skill_id>>::const_iterator it = npc_skill_preferences.find(
+            npc_name );
+    if( it == npc_skill_preferences.end() ) {
+        return nullptr;
+    }
+    if( it->second.empty() ) {
+        return nullptr;
+    }
+    return &it->second;
 }
 
 std::optional<std::string> zone_manager::query_name( const std::string &default_name ) const
@@ -1147,6 +1235,10 @@ bool zone_manager::custom_loot_has( const tripoint_abs_ms &where, const item *it
     }
     item const *const check_it = it->this_or_single_content();
     for( zone_data const *zone : zones ) {
+        if( !zone->get_enabled() ) {
+            continue;
+        }
+
         loot_options const &options = dynamic_cast<const loot_options &>( zone->get_options() );
         std::string const filter_string = options.get_mark();
         bool has = false;
@@ -1877,4 +1969,19 @@ void mapgen_place_zone( tripoint_abs_ms const &start, tripoint_abs_ms const &end
         }
     }
     mgr.add( name, type, fac, false, true, s_, e_, options, true, pmap );
+}
+
+std::unique_ptr<talker> get_talker_for( zone_data &me )
+{
+    return std::make_unique<talker_zone>( &me );
+}
+
+std::unique_ptr<const_talker> get_talker_for( const zone_data &me )
+{
+    return std::make_unique<talker_zone_const>( &me );
+}
+
+std::unique_ptr<talker> get_talker_for( zone_data *me )
+{
+    return std::make_unique<talker_zone>( me );
 }

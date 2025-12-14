@@ -40,7 +40,7 @@ env:
   # Enable pretty backtraces
   BACKTRACE: 1
   # Compressed size ~1GB based on observations
-  CCACHE_LIMIT: 9GB
+  CCACHE_LIMIT: 10GB
   CDDA_CCACHE_PATH: ${{ github.workspace }}\ccache\
   CDDA_USE_CCACHE: true
   # There's not enough disk space to build both release and debug versions of
@@ -88,7 +88,7 @@ jobs:
       id: runvcpkg
       with:
         vcpkgDirectory: '${{ runner.workspace }}/b/vcpkg'
-        vcpkgGitCommitId: '3b57fb2e1ff55613db14d2aaf0a30529289c7050'
+        vcpkgGitCommitId: '1b6e030cf096faf4f82d7b7025de8b2abee3e3df'
 
     - name: Integrate vcpkg
       run: |
@@ -146,14 +146,14 @@ jobs:
       run: |
         NOW=`/bin/date +%s`
         DELTA=$(( $NOW - ${{ steps.get-vars.outputs.datetime-seconds }} ))
-        echo "ccache-age=$(( $NOW - ${{ steps.get-vars.outputs.datetime-seconds }} ))" >> $GITHUB_OUTPUT
+        echo "ccache-age=${DELTA}" >> $GITHUB_OUTPUT
       shell: bash
 
     - name: Post-build ccache manipulation
       if: ${{ !failure() }}
       run: |
         ${{ env.CDDA_CCACHE_PATH }}\ccache.exe -s -v
-        ${{ env.CDDA_CCACHE_PATH }}\ccache.exe --evict-older-than ${{ steps.get-ccache-age.outputs.ccache-age }}
+        ${{ env.CDDA_CCACHE_PATH }}\ccache.exe --evict-older-than ${{ steps.get-cache-age.outputs.ccache-age }}s
         ${{ env.CDDA_CCACHE_PATH }}\ccache.exe -s -v
         ${{ env.CDDA_CCACHE_PATH }}\ccache.exe -M ${{ env.CCACHE_LIMIT }}
         ${{ env.CDDA_CCACHE_PATH }}\ccache.exe -c

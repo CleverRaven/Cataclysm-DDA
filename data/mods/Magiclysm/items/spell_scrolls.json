@@ -116,11 +116,11 @@
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
-    "id": "spell_scroll_baleful_polymorph",
-    "//": "Technomancer spell",
-    "name": { "str": "Scroll of Baleful Polymorph", "str_pl": "Scrolls of Baleful Polymorph" },
-    "description": "Transform your enemies into frogs.",
-    "use_action": { "type": "learn_spell", "spells": [ "magus_baleful_polymorph" ] }
+    "id": "spell_scroll_biomancer_baleful_polymorph",
+    "//": "Biomancer spell",
+    "name": { "str": "Scroll of Fleshwarping", "str_pl": "Scrolls of Fleshwarping" },
+    "description": "Brutally warp the flesh of your enemies, turning them into a malformed pile of writhing limbs and mismatched parts.",
+    "use_action": { "type": "learn_spell", "spells": [ "biomancer_baleful_polymorph" ] }
   },
   {
     "type": "ITEM",

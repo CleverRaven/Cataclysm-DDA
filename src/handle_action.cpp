@@ -110,7 +110,6 @@ enum class direction : unsigned int;
 #endif
 
 static const activity_id ACT_FERTILIZE_PLOT( "ACT_FERTILIZE_PLOT" );
-static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
 static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
 static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
@@ -119,6 +118,7 @@ static const activity_id ACT_MULTIPLE_DIS( "ACT_MULTIPLE_DIS" );
 static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
 static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
 static const activity_id ACT_MULTIPLE_MOP( "ACT_MULTIPLE_MOP" );
+static const activity_id ACT_MULTIPLE_STUDY( "ACT_MULTIPLE_STUDY" );
 static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
 static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
@@ -179,6 +179,7 @@ static const zone_type_id zone_type_LOOT_WOOD( "LOOT_WOOD" );
 static const zone_type_id zone_type_MINING( "MINING" );
 static const zone_type_id zone_type_MOPPING( "MOPPING" );
 static const zone_type_id zone_type_STRIP_CORPSES( "STRIP_CORPSES" );
+static const zone_type_id zone_type_STUDY_ZONE( "STUDY_ZONE" );
 static const zone_type_id zone_type_UNLOAD_ALL( "UNLOAD_ALL" );
 static const zone_type_id zone_type_VEHICLE_DECONSTRUCT( "VEHICLE_DECONSTRUCT" );
 static const zone_type_id zone_type_VEHICLE_REPAIR( "VEHICLE_REPAIR" );
@@ -1497,6 +1498,7 @@ static void loot()
         MultiMining = 8192,
         MultiDis = 16384,
         MultiMopping = 32768,
+        MultiStudy = 131072,
         UnloadLoot = 65536
     };
 
@@ -1514,7 +1516,7 @@ static void loot()
     }
 
     // Manually update vehicle cache.
-    // In theory this would be handled by the related activity (activity_on_turn_move_loot())
+    // In theory this would be handled by the related activity (zone_sort_activity_actor())
     // but with a stale cache we never get that far.
     mgr.cache_vzones();
 
@@ -1543,6 +1545,7 @@ static void loot()
     flags |= g->check_near_zone( zone_type_DISASSEMBLE,
                                  player_character.pos_bub() ) ? MultiDis : 0;
     flags |= g->check_near_zone( zone_type_MOPPING, player_character.pos_bub() ) ? MultiMopping : 0;
+    flags |= g->check_near_zone( zone_type_STUDY_ZONE, player_character.pos_bub() ) ? MultiStudy : 0;
     if( flags == 0 ) {
         add_msg( m_info, _( "There is no compatible zone nearby." ) );
         add_msg( m_info, _( "Compatible zones are %s and %s" ),
@@ -1619,6 +1622,10 @@ static void loot()
     if( flags & MultiMopping ) {
         menu.addentry_desc( MultiMopping, true, 'p', _( "Mop area" ), _( "Mop clean the area." ) );
     }
+    if( flags & MultiStudy ) {
+        menu.addentry_desc( MultiStudy, true, 's', _( "Study from books in study zones" ),
+                            wrap60( _( "Find and read books from study zones." ) ) );
+    }
 
     menu.query();
     flags = ( menu.ret >= 0 ) ? menu.ret : None;
@@ -1629,7 +1636,7 @@ static void loot()
             add_msg( _( "Never mind." ) );
             break;
         case SortLoot:
-            player_character.assign_activity( ACT_MOVE_LOOT );
+            player_character.assign_activity( zone_sort_activity_actor() );
             break;
         case SortLootStatic:
             //temporarily disable personal zones
@@ -1644,7 +1651,7 @@ static void loot()
             if( recache ) {
                 mgr.cache_data();
             }
-            player_character.assign_activity( ACT_MOVE_LOOT );
+            player_character.assign_activity( zone_sort_activity_actor() );
             break;
         case SortLootPersonal:
             //temporarily disable non personal zones
@@ -1659,7 +1666,7 @@ static void loot()
             if( recache ) {
                 mgr.cache_data();
             }
-            player_character.assign_activity( ACT_MOVE_LOOT );
+            player_character.assign_activity( zone_sort_activity_actor() );
             break;
         case UnloadLoot:
             player_character.assign_activity( unload_loot_activity_actor() );
@@ -1696,6 +1703,9 @@ static void loot()
             break;
         case MultiMopping:
             player_character.assign_activity( ACT_MULTIPLE_MOP );
+            break;
+        case MultiStudy:
+            player_character.assign_activity( ACT_MULTIPLE_STUDY );
             break;
         default:
             debugmsg( "Unsupported flag" );
@@ -2056,15 +2066,6 @@ static void handle_debug_mode()
         }
     };
 
-    static bool first_time = true;
-    if( first_time ) {
-        first_time = false;
-        debugmode::enabled_filters.clear();
-        for( int i = 0; i < debugmode::DF_LAST; ++i ) {
-            debugmode::enabled_filters.emplace( static_cast<debugmode::debug_filter>( i ) );
-        }
-    }
-
     input_context ctxt( "DEFAULTMODE" );
     ctxt.register_action( "debug_mode" );
 
@@ -2253,6 +2254,8 @@ static const std::set<action_id> actions_disabled_in_incorporeal {
     ACTION_ADVANCEDINV,
     ACTION_PICKUP,
     ACTION_PICKUP_ALL,
+    ACTION_DROP,
+    ACTION_DIR_DROP,
     ACTION_GRAB,
     ACTION_HAUL,
     ACTION_HAUL_TOGGLE,
@@ -2278,6 +2281,7 @@ static std::map<action_id, std::string> get_actions_disabled_in_handless_tempora
         { ACTION_HAUL_TOGGLE,        _( "You can't haul things while shapeshifted." ) },
         { ACTION_BUTCHER,            _( "You can't butcher while shapeshifted." ) },
         { ACTION_DROP,               _( "You can't drop things while shapeshifted." ) },
+        { ACTION_DIR_DROP,           _( "You can't drop things while shapeshifted." ) },
         { ACTION_CRAFT,              _( "You can't craft while shapeshifted." ) },
         { ACTION_RECRAFT,            _( "You can't craft while shapeshifted." ) },
         { ACTION_LONGCRAFT,          _( "You can't craft while shapeshifted." ) },
@@ -2919,6 +2923,10 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                 if( save() ) {
                     player_character.set_moves( 0 );
                     uquit = QUIT_SAVED;
+                } else if( save_is_dirty && query_yn( _( "Unable to save, quit anyway?" ) ) ) {
+                    // Game refused to save because of unsupported game state. But we don't want to trap them here, so at least let give them the option.
+                    player_character.set_moves( 0 );
+                    uquit = QUIT_NOSAVED;
                 }
             }
             break;
@@ -2929,6 +2937,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
         case ACTION_QUICKLOAD:
             quickload();
+            g->save_is_dirty = true;
             return false;
 
         case ACTION_PL_INFO:

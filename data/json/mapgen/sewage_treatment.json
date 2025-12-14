@@ -25,8 +25,11 @@
       "$": "t_thconc_floor",
       "{": "t_thconc_floor",
       "R": "t_thconc_floor",
+      "/": "t_metal_floor",
       "G": "t_thconc_floor",
-      "6": "t_thconc_floor",
+      "L": "t_thconc_floor",
+      "6": "t_floor",
+      "à": "t_thconc_floor",
       "H": "t_sconc_wall",
       "z": "t_concrete",
       "9": "t_gutter_downspout",
@@ -49,7 +52,13 @@
       "g": "t_metal_floor",
       "Y": "t_switchgear_s"
     },
-    "furniture": { "%": "f_machinery_heavy", "$": "f_machinery_light", "G": "f_generator_broken", "6": "f_console_broken" }
+    "furniture": {
+      "%": "f_machinery_heavy",
+      "$": "f_machinery_light",
+      "G": "f_generator_broken",
+      "6": "f_console_broken",
+      "à": "f_console_broken"
+    }
   },
   {
     "type": "palette",
@@ -59,7 +68,7 @@
       "l": "t_thconc_floor",
       "L": "t_thconc_floor",
       "n": "t_thconc_floor",
-      "{": "t_thconc_floor",
+      "{": "t_metal_floor",
       "f": "t_thconc_floor",
       ";": "t_thconc_floor",
       "q": "t_thconc_floor",
@@ -78,6 +87,7 @@
       "v": "t_thconc_floor",
       "G": "t_thconc_floor",
       "6": "t_thconc_floor",
+      "Ł": "t_thconc_floor",
       "=": "t_dirt",
       ">": "t_stairs_up",
       "!": "t_bars",
@@ -106,7 +116,8 @@
       "v": "f_machinery_old",
       "G": "f_generator_broken",
       "6": "f_console_broken"
-    }
+    },
+    "vehicles": { "Ł": { "vehicle": "hand_truck", "chance": 75 } }
   },
   {
     "id": "treatment_chemicals",
@@ -177,10 +188,10 @@
         "|  zzzzzzz  1111111111               ______OOO |",
         "| zzwwwwwzz 1HHHHHHH1 ?  ? HHHHHHHH  __ --b--- |",
         "|zzwwwwwwwzz1H11&%RH0      HJJFUYYH  __ -&m$&- |",
-        "|zwwwwwwwwwz H1ttttH  ?  ? WgttttgW  __ -%mm%- |",
-        "|zwwwwwwwwwz H|||C|H       H6ttttGH  __ W&mm&W |",
+        "|zwwwwwwwwwz H1ttttH  ?  ? WLttttLW  __ -%mm%- |",
+        "|zwwwwwwwwwz H|||C|H       HàttttGH  __ W&mm&W |",
         "|zwww!!!wwwz     _    ?  ? |||CC|||  __ -Mmm%- |",
-        "|zwww!@!wwwz OO  _            __     __ -Rmm&- |",
+        "|zwww!@!wwwz OO  _            __     __ -/mm&- |",
         "|zwww!@!wwwz OO  _     _________________bmmm%W |",
         "|zzww!@!wwzz____________________________-&%$&- |",
         "| zzw!@!wzz_____________             __ --W--- |",
@@ -210,9 +221,11 @@
         "A": "f_dumpster",
         "c": "f_counter",
         "R": "f_rack",
+        "/": "f_rack",
         "d": "f_desk",
         "f": "f_fridge",
         "g": "f_workbench",
+        "L": "f_workbench",
         "q": "f_indoor_plant_y",
         "l": "f_locker",
         "r": "f_trashcan",
@@ -229,7 +242,9 @@
       ],
       "items": {
         "g": { "item": "supplies_hardware", "chance": 40 },
+        "L": { "item": "supplies_hardware", "chance": 40 },
         "R": { "item": "tools_plumbing", "chance": 60 },
+        "/": { "item": "tools_plumbing", "chance": 60 },
         "M": { "item": "treatment_chemicals", "chance": 80 },
         "A": { "item": "SUS_trash_dumpster", "chance": 80 },
         "{": [ { "item": "sewage_plant", "chance": 30 }, { "item": "supplies_plumbing", "chance": 20 } ],
@@ -386,7 +401,7 @@
         "xxxx#xx2~~~~|| |L.|      |0001[.I|D6[[D61.I||..|||||||||||||~~~~2xx#xxxx",
         "~~~~~~x2~~~~~| ||+||||||||||||||||||||||||||>..+..&TTT&ww||~~~~~2x~~~~~~",
         "~~~~~~x2~~~~~| |...............................|........w||~~~~~2x~~~~~~",
-        "xxxxx#xx~~~~|| |...............................|&...8...&|||~~~~xx#xxxxx",
+        "xxxxx#xx~~~~|| |...............................|&...8.Ł.&|||~~~~xx#xxxxx",
         "22222~#2|||||  ||+||||+|||..|||||||||||||||||..|$#######$| |||||2#~22222",
         "|||||~#2|      |n..l|n..l|..|  |If6666;f|   |..|@...@...@|     |2#~|||||",
         "    |~#2|      ||+||||+|||..||||........|||||..|#...#...#|     |2#~|    ",
@@ -410,7 +425,7 @@
         "        |GGG.HYYYYY...U|    ||~~~~~~~~~~~~|| |.||2$&$&$&$&$&$&$|        ",
         "        |GGG.C........U|     ||||||~~||||||  |.||2.............|        ",
         "        |GGG.H........U|          |~~|       |.||2..@#@..@#@..@|        ",
-        "        ||||||r.......U||||||||||||~~|||||||||.||2..@#@..@#@..@|        ",
+        "        ||||||r.......U||||||||||||~~|||||||||.||2.Ł@#@..@#@..@|        ",
         "             |2.2.................####.........................|        ",
         "             |22222222222222222222x!*x222222222222..@#@..@#@..@|        ",
         "             ||||||||||||||||||||2x``x2||||||||||2..@#@..@#@..@|        ",

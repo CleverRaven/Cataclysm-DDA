@@ -1,0 +1,27 @@
+[
+  {
+    "type": "effect_type",
+    "id": "mutagen_troglobite",
+    "name": [ "Gamer Juice", "Gamer Fuel", "Gamer Thirst" ],
+    "desc": [
+      "You consumed gamer primer.",
+      "Down in the dark corners of the new world.  That's where you belong.",
+      "Deep and dark, your bones ache and twist."
+    ],
+    "max_intensity": 3,
+    "resist_traits": [ "THRESH_TROGLOBITE" ],
+    "base_mods": {
+      "hurt_min": [ 2 ],
+      "hurt_max": [ 3 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 150 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 100 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": { "str_mod": [ 2 ], "per_mod": [ -2.5 ], "dex_mod": [ 1 ], "hurt_chance": [ 21, 0 ], "pain_chance": [ -30 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Gamer Primer Contamination"
+  }
+]

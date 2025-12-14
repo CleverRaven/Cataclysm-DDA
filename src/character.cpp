@@ -2667,7 +2667,6 @@ units::volume Character::get_total_volume() const
 {
     item_location wep = get_wielded_item();
     units::volume wep_volume = wep ? wep->volume() : 0_ml;
-    // Note: Does not measure volume of worn items that do not themselves contain anything
     return get_base_volume() + volume_carried() + wep_volume;
 }
 
@@ -4564,6 +4563,12 @@ tripoint_bub_ms Character::adjacent_tile() const
     }
 
     return random_entry( ret, pos_bub() ); // player position if no valid adjacent tiles
+}
+
+faction_id Character::get_faction_id() const
+{
+    const faction *fac = get_faction();
+    return fac == nullptr ? faction_id() : fac->id;
 }
 
 void Character::set_fac_id( const std::string &my_fac_id )

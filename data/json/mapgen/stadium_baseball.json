@@ -144,7 +144,7 @@
       "palettes": [ "stadium_palette" ],
       "terrain": { "#": "t_door_metal_locked", "6": "t_gates_mech_control_lab" },
       "items": {
-        "E": { "item": "softdrinks_canned", "chance": 40, "repeat": [ 1, 20 ] },
+        "E": { "item": "soda_in_small_container", "chance": 40, "repeat": [ 1, 20 ] },
         "r": { "item": "baseball_souvenir", "chance": 80 },
         "e": { "item": "fast_fridge", "chance": 25, "repeat": [ 1, 20 ] },
         "u": { "item": "fast_kitchen", "chance": 60, "repeat": [ 1, 10 ] },
@@ -292,13 +292,13 @@
         "r": { "item": "arcade_prizes", "chance": 80, "repeat": [ 1, 5 ] },
         "u": { "item": "SUS_coffee_cupboard", "chance": 80 },
         "É": { "item": "coffee_fridge", "chance": 45, "repeat": [ 1, 10 ] },
-        "E": { "item": "beer", "chance": 35, "repeat": [ 1, 20 ] },
+        "E": { "item": "beer_in_container", "chance": 35, "repeat": [ 1, 20 ] },
         "K": { "item": "snacks", "chance": 40, "repeat": [ 1, 20 ] },
         "e": { "item": "SUS_fridge_snacks", "chance": 45, "repeat": [ 1, 6 ] }
       },
       "place_item": [ { "item": "television", "x": 92, "y": 47 } ],
       "place_loot": [
-        { "group": "beer", "repeat": [ 1, 6 ], "x": 92, "y": [ 50, 55 ], "chance": 70 },
+        { "group": "beer_in_container", "repeat": [ 1, 6 ], "x": 92, "y": [ 50, 55 ], "chance": 70 },
         { "group": "cash_register_random", "x": 6, "y": [ 6, 7 ] },
         { "group": "cash_register_random", "x": [ 1, 5 ], "y": 50 },
         { "group": "cash_register_random", "x": [ 90, 91 ], "y": 50 },
@@ -449,8 +449,8 @@
       "items": {
         "e": { "item": "SUS_fridge_breakroom", "chance": 60 },
         "é": { "item": "hotdog_fridge", "chance": 70 },
-        "É": { "item": "softdrinks_canned", "chance": 40, "repeat": [ 1, 20 ] },
-        "E": { "item": "beer", "chance": 35, "repeat": [ 1, 20 ] }
+        "É": { "item": "soda_in_small_container", "chance": 40, "repeat": [ 1, 20 ] },
+        "E": { "item": "beer_in_container", "chance": 35, "repeat": [ 1, 20 ] }
       },
       "place_item": [
         { "item": "napkin", "x": 4, "y": 49, "chance": 70 },

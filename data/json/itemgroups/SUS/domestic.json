@@ -496,6 +496,7 @@
     "subtype": "collection",
     "entries": [
       { "item": "detergent", "charges": [ 1, 40 ], "container-item": "box_small" },
+      { "item": "chem_borax", "charges": [ 100, 500 ], "container-item": "box_small" },
       { "item": "cotton_patchwork", "count": [ 1, 3 ] },
       { "item": "dish_towel", "count": [ 1, 6 ] },
       { "item": "brush" },
@@ -619,7 +620,7 @@
           },
           { "item": "con_milk", "count": [ 1, 6 ], "prob": 10 },
           { "item": "milk_evap", "count": [ 1, 6 ], "prob": 20 },
-          { "item": "milk_UHT", "prob": 10 }
+          { "group": "milk_in_container", "prob": 10 }
         ],
         "prob": 30
       },
@@ -658,26 +659,7 @@
             ],
             "prob": 80
           },
-          {
-            "distribution": [
-              { "item": "toastem", "count": [ 1, 8 ], "prob": 40, "container-item": "null", "entry-wrapper": "box_small" },
-              {
-                "item": "toastem2",
-                "count": [ 1, 8 ],
-                "prob": 30,
-                "container-item": "null",
-                "entry-wrapper": "box_small"
-              },
-              {
-                "item": "toastem3",
-                "count": [ 1, 8 ],
-                "prob": 30,
-                "container-item": "null",
-                "entry-wrapper": "box_small"
-              }
-            ],
-            "prob": 60
-          }
+          { "item": "toastem", "count": [ 1, 8 ], "prob": 60, "container-item": "null", "entry-wrapper": "box_small" }
         ],
         "prob": 80
       },
@@ -699,7 +681,7 @@
             "sealed": false
           },
           { "item": "milk_evap", "count": [ 1, 6 ], "prob": 20 },
-          { "item": "milk_UHT", "prob": 20 }
+          { "group": "milk_in_container", "prob": 20 }
         ],
         "prob": 20
       }
@@ -811,6 +793,7 @@
       { "item": "bleach", "prob": 15, "charges": [ 1, -1 ] },
       { "item": "ammonia_hydroxide", "prob": 20, "charges": [ 1, -1 ] },
       { "item": "chem_washing_soda", "prob": 10, "charges": [ 1, -1 ] },
+      { "item": "chem_borax", "prob": 10, "charges": [ 100, 200 ] },
       { "item": "string_floss", "count": [ 1, 2 ], "prob": 60 },
       { "group": "tampon_box_used", "prob": 10 },
       { "group": "menstrual_pad_box_used", "prob": 10 },

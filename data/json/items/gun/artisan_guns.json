@@ -88,7 +88,7 @@
   },
   {
     "id": "pressin",
-    "copy-from": "kp32",
+    "copy-from": "lws32",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "name": { "str_sp": "the Pressin" },

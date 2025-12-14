@@ -1967,7 +1967,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 // if ablative check if there are hard plates in locations
                 if( armor->ablative ) {
                     // if item has ablative armor we should check those too.
-                    for( const item_pocket *pocket : get_all_contained_pockets() ) {
+                    for( const item_pocket *pocket : get_container_pockets() ) {
                         // if the pocket is ablative and not empty we should use its values
                         if( pocket->get_pocket_data()->ablative && !pocket->empty() ) {
                             // get the contained plate
@@ -3644,6 +3644,17 @@ void item::properties_info( std::vector<iteminfo> &info, const iteminfo_query *p
         }
     }
 
+    if( parts->test( iteminfo_parts::DESCRIPTION_WEAPON_CATEGORY ) ) {
+        if( !typeId()->weapon_category.empty() ) {
+            std::string weapon_category_list = enumerate_as_string( typeId()->weapon_category,
+            []( const weapon_category_id & e ) {
+                return e->name().translated();
+            }, enumeration_conjunction::and_ );
+            info.emplace_back( "BASE", string_format( _( "* This item can be used as <good>%s</good>." ),
+                               weapon_category_list ) );
+        }
+    }
+
     if( parts->test( iteminfo_parts::DESCRIPTION_FLAGS ) ) {
         // concatenate base and acquired flags...
         cata::flat_set<flag_id> flags;
@@ -3828,11 +3839,12 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             }
         }
         if( parts->test( iteminfo_parts::DESCRIPTION_BREWABLE_PRODUCTS ) ) {
-            for( const std::pair<const itype_id, int> &res : brewed.brewing_results() ) {
+            for( const std::pair<const std::pair<itype_id, std::string>, int> &res :
+                 brewed.brewing_results() ) {
                 info.emplace_back( "DESCRIPTION",
                                    string_format( _( "* Fermenting this will produce "
                                                      "<neutral>%s</neutral>." ),
-                                                  res.first->nname( res.second ) ) );
+                                                  res.first.first->nname( res.second ) ) );
             }
         }
     }
@@ -3858,11 +3870,12 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             }
         }
         if( parts->test( iteminfo_parts::DESCRIPTION_COMPOSTABLE_PRODUCTS ) ) {
-            for( const std::pair<const itype_id, int> &res : composted.composting_results() ) {
+            for( const std::pair<const std::pair<itype_id, std::string>, int> &res :
+                 composted.composting_results() ) {
                 info.emplace_back( "DESCRIPTION",
                                    string_format( _( "* Fermenting this will produce "
                                                      "<neutral>%s</neutral>." ),
-                                                  res.first->nname( res.second ) ) );
+                                                  res.first.first->nname( res.second ) ) );
             }
         }
     }

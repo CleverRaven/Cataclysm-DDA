@@ -359,7 +359,7 @@
     "techniques": [ "WBLOCK_1", "BRUTAL", "WIDE", "SWEEP" ],
     "faults": [ { "fault_group": "handle_long", "weight_mult": 4 }, { "fault_group": "blade_general" } ],
     "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
-    "weapon_category": [ "SPEAR" ],
+    "weapon_category": [ "SPEARS" ],
     "melee_damage": { "bash": 16, "cut": 28 }
   },
   {
@@ -453,17 +453,7 @@
     "power_draw": "500 W",
     "charges_per_use": 0,
     "revert_to": "trimmer_off",
-    "use_action": {
-      "type": "effect_on_conditions",
-      "ammo_scale": 0,
-      "menu_text": "Turn off",
-      "effect_on_conditions": [
-        {
-          "id": "EOC_toolweapon_deactivate__trimmer",
-          "effect": { "run_eocs": "EOC_toolweapon_deactivate", "variables": { "transform_target": "trimmer_off" } }
-        }
-      ]
-    },
+    "use_action": { "target": "trimmer_off", "msg": "Your %s goes quiet.", "menu_text": "Turn off", "type": "transform" },
     "tick_action": {
       "type": "effect_on_conditions",
       "effect_on_conditions": [
@@ -482,7 +472,7 @@
       ]
     },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -60 ] ],
-    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ],
+    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "SPAWN_ACTIVE" ],
     "melee_damage": { "bash": 4, "cut": 8 }
   }
 ]

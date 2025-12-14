@@ -281,11 +281,6 @@
   },
   {
     "type": "item_action",
-    "id": "C4",
-    "name": { "str": "Activate" }
-  },
-  {
-    "type": "item_action",
     "id": "CAMERA",
     "name": { "str": "Use camera" }
   },
@@ -403,16 +398,6 @@
     "type": "item_action",
     "id": "FILL_PIT",
     "name": { "str": "Fill pit / tamp ground" }
-  },
-  {
-    "type": "item_action",
-    "id": "FIRECRACKER",
-    "name": { "str": "Light up" }
-  },
-  {
-    "type": "item_action",
-    "id": "FIRECRACKER_PACK",
-    "name": { "str": "Light up" }
   },
   {
     "type": "item_action",
@@ -716,11 +701,6 @@
   },
   {
     "type": "item_action",
-    "id": "RADIOCARON",
-    "name": { "str": "Turn off" }
-  },
-  {
-    "type": "item_action",
     "id": "RADIOCONTROL",
     "name": { "str": "Control an RC car" }
   },
@@ -728,11 +708,6 @@
     "type": "item_action",
     "id": "RADIO_MOD",
     "name": { "str": "Modify an item" }
-  },
-  {
-    "type": "item_action",
-    "id": "RADIO_OFF",
-    "name": { "str": "Turn on" }
   },
   {
     "type": "item_action",
@@ -758,16 +733,6 @@
     "type": "item_action",
     "id": "SEWAGE",
     "name": { "str": "Consume" }
-  },
-  {
-    "type": "item_action",
-    "id": "SHOCKTONFA_OFF",
-    "name": { "str": "Turn on" }
-  },
-  {
-    "type": "item_action",
-    "id": "SHOCKTONFA_ON",
-    "name": { "str": "Turn off" }
   },
   {
     "type": "item_action",

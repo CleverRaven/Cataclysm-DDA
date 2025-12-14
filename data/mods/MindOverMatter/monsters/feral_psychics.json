@@ -206,7 +206,23 @@
     "death_drops": "feral_humans_death_drops_clair",
     "zombify_into": "mon_zombie_survivor",
     "upgrades": { "half_life": 180, "into": "mon_feral_human_clair2" },
-    "extend": { "special_attacks": [ { "id": "feral_weapon_pipe" } ], "flags": [ "GOODHEARING", "HARDTOSHOOT", "WIELDED_WEAPON" ] }
+    "extend": {
+      "flags": [ "GOODHEARING", "WIELDED_WEAPON" ],
+      "special_attacks": [
+        { "id": "feral_weapon_pipe" },
+        {
+          "id": "psi_clair_heightened_senses",
+          "type": "spell",
+          "spell_data": { "id": "clair_heightened_senses_monster_1" },
+          "cooldown": { "math": [ "10 + rand(20)" ] },
+          "allow_no_target": true,
+          "condition": {
+            "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_feral_heightened_senses" } } ]
+          },
+          "monster_message": "%1$s closes their eyes for a moment."
+        }
+      ]
+    }
   },
   {
     "id": "mon_feral_human_clair2",
@@ -218,13 +234,13 @@
     "color": "dark_gray",
     "symbol": "@",
     "morale": 110,
-    "armor": { "bullet": 20 },
     "//": "Armor here represents knowing where the enemy is going to shoot and not being there, not being literally immune to bullets.",
     "death_drops": "feral_humans_death_drops_clair",
     "zombify_into": "mon_zombie_survivor",
     "starting_ammo": { "rock": 6 },
     "upgrades": { "half_life": 180, "into": "mon_feral_human_clair3" },
     "extend": {
+      "flags": [ "GOODHEARING", "HARDTOSHOOT", "WIELDED_WEAPON" ],
       "special_attacks": [
         {
           "type": "gun",
@@ -240,9 +256,27 @@
           "ranges": [ [ 2, 7, "DEFAULT" ] ],
           "description": "The feral visionary throws a rock!"
         },
+        {
+          "id": "psi_clair2_heightened_senses",
+          "type": "spell",
+          "spell_data": { "id": "clair_heightened_senses_monster_2" },
+          "cooldown": { "math": [ "10 + rand(20)" ] },
+          "allow_no_target": true,
+          "condition": {
+            "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_feral_heightened_senses_2" } } ]
+          },
+          "monster_message": "%1$s closes their eyes for a moment."
+        },
+        {
+          "id": "psi_clair2_combat_sense",
+          "type": "spell",
+          "spell_data": { "id": "clair_combat_sense_monster_2", "hit_self": true },
+          "cooldown": { "math": [ "15 + rand(30)" ] },
+          "condition": { "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_feral_combat_sense_2" } } ] },
+          "monster_message": "%1$s adopts a relaxed pose."
+        },
         { "id": "feral_weapon_pipe" }
-      ],
-      "flags": [ "GOODHEARING", "HARDTOSHOOT", "WIELDED_WEAPON", "DROPS_AMMO", "ALL_SEEING" ]
+      ]
     }
   },
   {
@@ -255,12 +289,12 @@
     "color": "dark_gray",
     "symbol": "@",
     "morale": 110,
-    "armor": { "bullet": 40 },
     "//": "Armor here represents knowing where the enemy is going to shoot and not being there, not being literally immune to bullets.",
     "death_drops": "feral_humans_death_drops_clair",
     "zombify_into": "mon_zombie_survivor",
     "starting_ammo": { "rock": 6 },
     "extend": {
+      "flags": [ "GOODHEARING", "HARDTOSHOOT", "WIELDED_WEAPON" ],
       "special_attacks": [
         {
           "type": "gun",
@@ -277,6 +311,34 @@
           "description": "With inhuman accuracy, the pattern screamer throws a rock!"
         },
         { "id": "feral_weapon_pipe" },
+        {
+          "id": "psi_clair3_heightened_senses",
+          "type": "spell",
+          "spell_data": { "id": "clair_heightened_senses_monster_3" },
+          "cooldown": { "math": [ "10 + rand(20)" ] },
+          "allow_no_target": true,
+          "condition": {
+            "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_feral_heightened_senses_3" } } ]
+          },
+          "monster_message": "%1$s closes their eyes for a moment."
+        },
+        {
+          "id": "psi_clair3_combat_sense",
+          "type": "spell",
+          "spell_data": { "id": "clair_combat_sense_monster_3", "hit_self": true },
+          "cooldown": { "math": [ "15 + rand(30)" ] },
+          "condition": { "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_feral_combat_sense_3" } } ] },
+          "monster_message": "%1$s adopts a relaxed pose."
+        },
+        {
+          "id": "psi_clair3_clear_sight",
+          "type": "spell",
+          "spell_data": { "id": "clair_clarity_monster_spell" },
+          "cooldown": { "math": [ "20 + rand(40)" ] },
+          "allow_no_target": true,
+          "condition": { "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_clair_clear_sight" } } ] },
+          "monster_message": "%1$s closes their eyes for a moment."
+        },
         {
           "id": "psi_pattern_scream",
           "type": "spell",
@@ -617,7 +679,6 @@
           "damage_max_instance": [ { "damage_type": "heat", "amount": 20 } ],
           "dodgeable": true,
           "blockable": false,
-          "effects": [ { "id": "onfire", "duration": 60, "chance": 25, "affect_hit_bp": true } ],
           "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
           "hit_dmg_u": "%1$s gestures and your %2$s is engulfed in flames!",
           "hit_dmg_npc": "%1$s gestures and <npcname>'s %2$s is engulfed in flames!",
@@ -669,7 +730,6 @@
           "damage_max_instance": [ { "damage_type": "heat", "amount": 25 } ],
           "dodgeable": true,
           "blockable": false,
-          "effects": [ { "id": "onfire", "duration": 60, "chance": 50, "affect_hit_bp": true } ],
           "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
           "hit_dmg_u": "%1$s gestures and your %2$s is engulfed in flames!",
           "hit_dmg_npc": "%1$s gestures and <npcname>'s %2$s is engulfed in flames!",
@@ -733,7 +793,6 @@
           "damage_max_instance": [ { "damage_type": "heat", "amount": 35 } ],
           "dodgeable": true,
           "blockable": false,
-          "effects": [ { "id": "onfire", "duration": 60, "chance": 75, "affect_hit_bp": true } ],
           "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
           "hit_dmg_u": "%1$s gestures and your %2$s is engulfed in flames!",
           "hit_dmg_npc": "%1$s gestures and <npcname>'s %2$s is engulfed in flames!",
@@ -1021,6 +1080,20 @@
           "cooldown": { "math": [ "7 + rand(14)" ] },
           "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
           "monster_message": "%1$s gestures and the ground bursts apart!"
+        },
+        {
+          "id": "psi_telekin3_aegis",
+          "type": "spell",
+          "spell_data": { "id": "telekinetic_aegis_monster" },
+          "cooldown": 1,
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "NO_PSIONICS" } },
+              { "or": [ "npc_driving" ] },
+              { "not": { "u_has_effect": "effect_monster_aegis_limiter" } }
+            ]
+          },
+          "monster_message": "%1$s throws their arms wide!"
         },
         {
           "id": "psi_telekin3_earthshake",

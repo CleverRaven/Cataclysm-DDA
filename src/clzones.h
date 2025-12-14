@@ -35,6 +35,8 @@ class JsonValue;
 class input_context;
 class item;
 class map;
+class talker;
+class const_talker;
 struct construction;
 
 inline const faction_id your_fac( "your_followers" );
@@ -347,6 +349,39 @@ class unload_options : public zone_options, public mark_option
         void deserialize( const JsonObject &jo_zone ) override;
 };
 
+class study_zone_options : public zone_options
+{
+    private:
+        // skill preferences. Key is NPC name, value is set of skills.
+        std::map<std::string, std::set<skill_id>> npc_skill_preferences;
+
+        enum query_study_result {
+            canceled,
+            successful,
+            changed,
+        };
+
+        query_study_result query_study_skills();
+
+    public:
+        // get skill preferences for a specific NPC, return nullptr if NPC should read all books.
+        const std::set<skill_id> *get_skill_preferences( const std::string &npc_name ) const;
+
+        bool has_options() const override {
+            return true;
+        }
+
+        bool query_at_creation() override;
+        bool query() override;
+
+        std::string get_zone_name_suggestion() const override;
+
+        std::vector<std::pair<std::string, std::string>> get_descriptions() const override;
+
+        void serialize( JsonOut &json ) const override;
+        void deserialize( const JsonObject &jo_zone ) override;
+};
+
 /**
  * These are zones the player can designate.
  */
@@ -398,6 +433,7 @@ class zone_data
             faction = _faction;
             invert = _invert;
             enabled = _enabled;
+            temporarily_disabled = false;
             is_vehicle = false;
             is_displayed = _is_displayed;
 
@@ -697,5 +733,7 @@ void mapgen_place_zone( tripoint_abs_ms const &start, tripoint_abs_ms const &end
                         zone_type_id const &type,
                         faction_id const &fac = your_fac, std::string const &name = {},
                         std::string const &filter = {}, map *pmap = nullptr );
-
+std::unique_ptr<talker> get_talker_for( zone_data &me );
+std::unique_ptr<const_talker> get_talker_for( const zone_data &me );
+std::unique_ptr<talker> get_talker_for( zone_data *me );
 #endif // CATA_SRC_CLZONES_H

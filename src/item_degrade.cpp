@@ -40,6 +40,7 @@
 #include "item_contents.h"
 #include "item_factory.h"
 #include "item_pocket.h"
+#include "item_transformation.h"
 #include "itype.h"
 #include "map.h"
 #include "material.h"
@@ -203,6 +204,12 @@ void item::rand_degradation()
 int item::damage_level( bool precise ) const
 {
     return precise ? damage_ : type->damage_level( damage_ );
+}
+
+bool item::activation_success() const
+{
+    // Should be itype::damage_max_ - 1, but for some reason it's private.
+    return rng( 0, 3999 ) - damage_ >= 0;
 }
 
 float item::damage_adjusted_melee_weapon_damage( float value, const damage_type_id &dt ) const
@@ -464,7 +471,7 @@ void item::randomize_rot()
         set_rot( get_shelf_life() * k_rot );
     }
 
-    for( item_pocket *pocket : contents.get_all_contained_pockets() ) {
+    for( item_pocket *pocket : contents.get_container_pockets() ) {
         if( pocket->spoil_multiplier() > 0.0f ) {
             for( item *subitem : pocket->all_items_top() ) {
                 subitem->randomize_rot();
@@ -604,7 +611,7 @@ bool item::process_decay_in_air( map &here, Character *carrier, const tripoint_b
         time_duration new_air_exposure = time_duration::from_seconds( item_counter ) + time_delta *
                                          rng_normal( 0.9, 1.1 ) * environment_multiplier;
         if( new_air_exposure >= time_duration::from_hours( max_air_exposure_hours ) ) {
-            convert( *type->revert_to, carrier );
+            type->transform_into.value().transform( carrier, *this, true );
             return true;
         }
         item_counter = to_seconds<int>( new_air_exposure );
@@ -886,14 +893,14 @@ item::armor_status item::damage_armor_durability( damage_unit &du, damage_unit &
     }
     /*
     * Armor damage chance is calculated using the logistics function.
-    *  No matter the damage dealt, an armor piece has at at most 80% chance of being damaged.
+    *  No matter the damage dealt, an armor piece has at most 80% chance of being damaged.
     *  Chance of damage is 40% when the premitigation damage is equal to armor*1.333
     *  Sturdy items will not take damage if premitigation damage isn't higher than armor*1.333.
     *
     *  Non fragile items are considered to always have at least 10 points of armor, this is to prevent
     *  regular clothes from exploding into ribbons whenever you get punched.
     *
-    *  Fragile items have have a smaller growth rate for damage chance (k) and are more likely to be damaged
+    *  Fragile items have a smaller growth rate for damage chance (k) and are more likely to be damaged
     *  even at low damage absorbed.
     */
     armors_own_resist = has_flag( flag_FRAGILE ) ? armors_own_resist * 0.6666 : std::max( 10.0,
@@ -1285,7 +1292,7 @@ bool item::process_temperature_rot( float insulation, const tripoint_bub_ms &pos
     item_internal::scoped_goes_bad_cache _cache( this );
     const bool process_rot = goes_bad() && spoil_modifier != 0;
     const bool decays_in_air = !watertight_container && has_flag( flag_DECAYS_IN_AIR ) &&
-                               type->revert_to;
+                               type->transform_into;
     int64_t max_air_exposure_hours = decays_in_air ? get_property_int64_t( "max_air_exposure_hours" ) :
                                      0;
 

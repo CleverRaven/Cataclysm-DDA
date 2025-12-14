@@ -139,11 +139,11 @@ bool itype::has_any_quality( std::string_view quality ) const
 
 int itype::charges_default() const
 {
-    if( tool ) {
+    if( tool && tool->def_charges > 0 ) {
         return tool->def_charges;
-    } else if( comestible ) {
+    } else if( comestible && comestible->def_charges > 0 ) {
         return comestible->def_charges;
-    } else if( ammo ) {
+    } else if( ammo && ammo->def_charges > 0 ) {
         return ammo->def_charges;
     }
     return count_by_charges() ? 1 : 0;
@@ -390,7 +390,7 @@ bool armor_portion_data::should_consolidate( const armor_portion_data &l,
 int armor_portion_data::calc_encumbrance( units::mass weight, bodypart_id bp ) const
 {
     // this function takes some fixed points for mass to encumbrance and interpolates them to get results for head encumbrance
-    // TODO: Generalize this for other body parts (either with a modifier or seperated point graphs)
+    // TODO: Generalize this for other body parts (either with a modifier or separated point graphs)
     // TODO: Handle distributed weight
 
     int encumbrance = 0;
@@ -404,7 +404,7 @@ int armor_portion_data::calc_encumbrance( units::mass weight, bodypart_id bp ) c
         return 100;
     }
 
-    // get the bound bellow our given weight
+    // get the bound below our given weight
     --itt;
 
     std::map<units::mass, int>::iterator next_itt = std::next( itt );
@@ -435,7 +435,7 @@ int armor_portion_data::calc_encumbrance( units::mass weight, bodypart_id bp ) c
     // modify by flat
     encumbrance += additional_encumbrance;
 
-    // cap encumbrance at at least 1
+    // cap encumbrance at least 1
     return std::max( encumbrance, 1 );
 }
 

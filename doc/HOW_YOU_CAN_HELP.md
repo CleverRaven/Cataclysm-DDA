@@ -19,7 +19,7 @@ ways you can help, both through direct participation in the game's code and cont
 by finding or reproducing bugs, locating causes, and testing the proposed fixes.
 
 - See [ISSUES.md](../ISSUES.md) for how to report bugs or request new features
-- See [CONTRIBUTING.md](CONTRIBUTING.md) for how to make and and submit changes to the
+- See [CONTRIBUTING.md](CONTRIBUTING.md) for how to make and submit changes to the
   game with pull requests
 - See the [Guide to adding new content to CDDA for first time
 contributors](https://github.com/CleverRaven/Cataclysm-DDA/wiki/Guide-to-adding-new-content-to-CDDA-for-first-time-contributors)

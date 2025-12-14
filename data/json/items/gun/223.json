@@ -17,15 +17,7 @@
     "ammo": [ "NULL" ],
     "dispersion": 150,
     "min_cycle_recoil": 1350,
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "bore", 1 ],
-      [ "loading port", 1 ],
-      [ "mechanism", 2 ],
-      [ "sling", 1 ],
-      [ "stock accessory", 1 ],
-      [ "stock", 1 ]
-    ],
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "bore", 1 ], [ "mechanism", 2 ], [ "sling", 1 ], [ "stock accessory", 1 ], [ "stock", 1 ] ],
     "flags": [ "NO_TURRET" ]
   },
   {
@@ -46,16 +38,9 @@
     "ammo": [ "NULL" ],
     "dispersion": 150,
     "min_cycle_recoil": 1350,
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "bore", 1 ],
-      [ "loading port", 1 ],
-      [ "mechanism", 2 ],
-      [ "sling", 1 ],
-      [ "stock accessory", 1 ],
-      [ "stock", 1 ]
-    ],
-    "flags": [ "NO_TURRET" ]
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "bore", 1 ], [ "mechanism", 2 ], [ "sling", 1 ], [ "stock accessory", 1 ], [ "stock", 1 ] ],
+    "flags": [ "NO_TURRET" ],
+    "melee_damage": { "bash": 9 }
   },
   {
     "//": "Groups all 'H&K416' related rifles together. Used M27 due to it being the most popular of the three in the US.",
@@ -98,15 +83,7 @@
     "min_cycle_recoil": 1350,
     "default_mods": [ "retool_ar15_223rem" ],
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "bore", 1 ],
-      [ "loading port", 1 ],
-      [ "mechanism", 2 ],
-      [ "sling", 1 ],
-      [ "stock accessory", 1 ],
-      [ "stock", 1 ]
-    ],
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "bore", 1 ], [ "mechanism", 2 ], [ "sling", 1 ], [ "stock accessory", 1 ], [ "stock", 1 ] ],
     "flags": [ "NO_TURRET" ]
   },
   {
@@ -324,15 +301,7 @@
     "dispersion": 180,
     "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "bore", 1 ],
-      [ "loading port", 1 ],
-      [ "mechanism", 2 ],
-      [ "sling", 1 ],
-      [ "stock accessory", 1 ],
-      [ "stock", 1 ]
-    ],
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "bore", 1 ], [ "mechanism", 2 ], [ "sling", 1 ], [ "stock accessory", 1 ], [ "stock", 1 ] ],
     "flags": [ "NO_TURRET" ],
     "//2": "This should be removed once vehicle turrets are capable of mounting guns with mods attached. As it stands, trying to mount this style of weapon would require the player to remove the conversion kit, thus rendering it unusable anyhow."
   },
@@ -359,15 +328,7 @@
     "material": [ "aluminum", "steel", "plastic" ],
     "default_mods": [ "adjustable_stock", "retool_ar15_223rem_extended" ],
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ] ],
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "bore", 1 ],
-      [ "loading port", 1 ],
-      [ "mechanism", 2 ],
-      [ "sling", 1 ],
-      [ "stock accessory", 1 ],
-      [ "stock", 1 ]
-    ],
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "bore", 1 ], [ "mechanism", 2 ], [ "sling", 1 ], [ "stock accessory", 1 ], [ "stock", 1 ] ],
     "//2": "This should be removed once vehicle turrets are capable of mounting guns with mods attached. As it stands, trying to mount this style of weapon would require the player to remove the conversion kit, thus rendering it unusable anyhow."
   },
   {
@@ -407,15 +368,7 @@
     "material": [ "steel", "wood" ],
     "dispersion": 100,
     "barrel_volume": "500 ml",
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "bore", 1 ],
-      [ "loading port", 1 ],
-      [ "mechanism", 2 ],
-      [ "sling", 1 ],
-      [ "stock accessory", 1 ],
-      [ "stock", 1 ]
-    ],
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "bore", 1 ], [ "mechanism", 2 ], [ "sling", 1 ], [ "stock accessory", 1 ], [ "stock", 1 ] ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -536,7 +489,7 @@
     "variants": [
       {
         "id": "zpapm90",
-        "name": { "str": "ZPAP M90" },
+        "name": { "str": "Zastava ZPAP M90" },
         "description": "A Serbian-made AK pattern rifle made by Zastava in 5.56x45mm NATO.  To avoid import restrictions, Zastava USA has added a number of American-made parts."
       }
     ],
@@ -558,7 +511,7 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "zpap85mag" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "zpap85mag", "zpap85mag_10rd" ] } ]
   },
   {
     "id": "mdrx",
@@ -690,46 +643,6 @@
         ]
       }
     ]
-  },
-  {
-    "id": "cz600",
-    "copy-from": "gun_base_rifle_manual",
-    "looks_like": "modular_ar15",
-    "type": "ITEM",
-    "subtypes": [ "GUN" ],
-    "name": { "str": "bolt-action trail carbine" },
-    "description": "Compact, svelte, and lightweight, this Leen bolt-action rifle packs the same features of larger sporting weapons into a backpack-sized package.  Possessing an adjustable buttstock, a detachable magazine-based system, and a quick-swap barrel that can be exchanged to accommodate the firing of .223 Remington or 7.62x39mm Soviet ammunition, the weapon is a commendable backpacker or prepper rifle.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "cz600",
-        "name": { "str": "CZ 600 TRAIL rifle" },
-        "description": "A handy bolt-action offering from CZ, the 600 Trail is a box magazine-fed ranch rifle that utilizes an aluminum chassis to keep its overall heft to a minimum.  Possessing an extendable buttstock, extensive modularity, and a quick-swap barrel assembly switchable to accommodate the firing of either .223 or 7.62x39mm ammunition, the rifle was intended for use by backpackers, trail hikers, and preppers."
-      }
-    ],
-    "weight": "1800 g",
-    "volume": "2500 ml",
-    "longest_side": "384 mm",
-    "//": "The size calculations are taken from a CZ 600 with a half-extended buttstock, sitting at 790 mm, between the minimum and maximum of 690 and 890 mm. In addition, the length of a 16-inch barrel has been deducted and will be made up for by the installable barrel assemblies.",
-    "price": "1 kUSD 155 USD",
-    "price_postapoc": "40 USD",
-    "material": [ "aluminum", "steel", "plastic" ],
-    "symbol": "(",
-    "color": "dark_gray",
-    "ammo": [ "NULL" ],
-    "dispersion": 150,
-    "built_in_mods": [ "adjustable_stock" ],
-    "valid_mod_locations": [
-      [ "bore", 1 ],
-      [ "mechanism", 2 ],
-      [ "rail", 2 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "stock accessory", 2 ],
-      [ "stock", 1 ]
-    ],
-    "flags": [ "NO_TURRET", "EASY_CLEAN" ],
-    "//2": "This should be removed once vehicle turrets are capable of mounting guns with mods attached. As it stands, trying to mount this style of weapon would require the player to remove the conversion kit, thus rendering it unusable anyhow."
   },
   {
     "id": "rdb_223",

@@ -18,6 +18,7 @@
 #include <unordered_set>
 #include <vector>
 
+#include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "basecamp.h"
 #include "build_reqs.h"
@@ -102,8 +103,6 @@
 #include "visitable.h"
 #include "vpart_position.h"
 #include "weather.h"
-
-static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 
 static const addiction_id addiction_alcohol( "alcohol" );
 
@@ -2319,7 +2318,7 @@ void basecamp::start_menial_labor()
     }
     validate_sort_points();
 
-    comp->assign_activity( ACT_MOVE_LOOT );
+    comp->assign_activity( zone_sort_activity_actor() );
     popup( _( "%s goes off to clean toilets and sort loot." ), comp->disp_name() );
 }
 
@@ -3405,6 +3404,9 @@ void basecamp::start_crafting( const mission_id &miss_id )
         popup( _( "Not enough stored food." ) );
         return;
     }
+
+    // Move this to applying when they return?
+    making->apply_all_morale_mods( *guy_to_send );
 
     // Now that we know the actual thing we're crafting we will properly form our mission_id
     mission_id actual_id = {miss_id.id, making->ident().str(), miss_id.mapgen_args, miss_id.dir };
@@ -5089,7 +5091,7 @@ int om_carry_weight_to_trips( const units::mass &total_mass, const units::volume
 {
     units::mass max_m = comp ? comp->weight_capacity() - comp->weight_carried() : 60_kilogram;
     //Assume an additional pack will be carried in addition to normal gear
-    units::volume sack_v = item( itype_duffelbag ).get_total_capacity();
+    units::volume sack_v = item( itype_duffelbag ).get_volume_capacity();
     units::volume max_v = comp ? comp->free_space() : sack_v;
     max_v += sack_v;
     return om_carry_weight_to_trips( total_mass, total_volume, max_m, max_v );
@@ -5205,10 +5207,10 @@ drop_locations basecamp::give_equipment( Character *pc, const inventory_filter_p
             return string_format( "%3d", val );
         };
         using stats = inventory_selector::stats;
-        return stats{ {
+        return inventory_selector::convert_stats_to_header_stats( stats{ {
                 display_stat( _( "Volume (L)" ), total_volume.value() / 1000, INT_MAX, to_string ),
                 display_stat( _( "Weight (kg)" ), total_mass.value() / 1000000, INT_MAX, to_string )
-            } };
+            } } );
     };
 
     inventory_multiselector inv_s( *pc, preset, msg,
@@ -5254,10 +5256,10 @@ drop_locations basecamp::get_equipment( tinymap *target_bay, const tripoint_omt_
             return string_format( "%3d", val );
         };
         using stats = inventory_selector::stats;
-        return stats{ {
+        return inventory_selector::convert_stats_to_header_stats( stats{ {
                 display_stat( _( "Volume (L)" ), total_volume.value() / 1000, INT_MAX, to_string ),
                 display_stat( _( "Weight (kg)" ), total_mass.value() / 1000000, INT_MAX, to_string )
-            } };
+            } } );
     };
 
     inventory_multiselector inv_s( *pc, preset, msg,

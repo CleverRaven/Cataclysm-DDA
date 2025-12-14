@@ -33,7 +33,7 @@
     "flags": [ "RESTORATION_SPELL", "RANDOM_DAMAGE", "SOMATIC", "VERBAL", "NO_PROJECTILE" ],
     "spell_class": "BIOMANCER",
     "difficulty": 2,
-    "magic_type": "magiclysm_generic_magic"
+    "magic_type": "magiclysm_restoration_magic"
   },
   {
     "id": "pain_split",
@@ -47,7 +47,7 @@
     "base_energy_cost": 800,
     "//": "This is transformation because it moves wounds around, it does not actually heal anything.",
     "extra_effects": [ { "id": "eoc_transformation_setup", "hit_self": true } ],
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_transformation_magic",
     "flags": [ "TRANSFORMATION_SPELL", "SOMATIC", "NO_LEGS", "CONCENTRATE" ],
     "spell_class": "BIOMANCER",
     "difficulty": 4,
@@ -75,7 +75,7 @@
     "flags": [ "TRANSFORMATION_SPELL", "SOMATIC", "LOUD" ],
     "spell_class": "BIOMANCER",
     "learn_spells": { "vicious_tentacle_plus": 15 },
-    "magic_type": "magiclysm_generic_magic"
+    "magic_type": "magiclysm_transformation_magic"
   },
   {
     "id": "vicious_tentacle_plus",
@@ -102,7 +102,7 @@
     "max_level": 25,
     "flags": [ "TRANSFORMATION_SPELL", "LOUD", "NO_FAIL" ],
     "spell_class": "BIOMANCER",
-    "magic_type": "magiclysm_generic_magic"
+    "magic_type": "magiclysm_transformation_magic"
   },
   {
     "id": "bio_grotesque",
@@ -120,7 +120,7 @@
     "base_energy_cost": 250,
     "energy_increment": -5.0,
     "final_energy_cost": 150,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_transformation_magic",
     "spell_class": "BIOMANCER",
     "difficulty": 6,
     "max_level": 20,
@@ -141,7 +141,7 @@
     "shape": "cone",
     "base_casting_time": 200,
     "base_energy_cost": 200,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_evocation_magic",
     "spell_class": "BIOMANCER",
     "difficulty": 2,
     "max_level": 20,
@@ -183,7 +183,7 @@
     "max_level": 20,
     "flags": [ "TRANSFORMATION_SPELL", "NO_HANDS", "NO_LEGS", "SOMATIC" ],
     "spell_class": "BIOMANCER",
-    "magic_type": "magiclysm_generic_magic"
+    "magic_type": "magiclysm_transformation_magic"
   },
   {
     "id": "bio_bonespear",
@@ -207,7 +207,7 @@
     "flags": [ "CONJURATION_SPELL", "LOUD", "SOMATIC" ],
     "spell_class": "BIOMANCER",
     "learn_spells": { "bio_bonespear_plus": 15 },
-    "magic_type": "magiclysm_generic_magic"
+    "magic_type": "magiclysm_conjuration_magic"
   },
   {
     "id": "bio_bonespear_plus",
@@ -234,7 +234,7 @@
     "max_level": 25,
     "flags": [ "CONJURATION_SPELL", "LOUD", "NO_FAIL" ],
     "spell_class": "BIOMANCER",
-    "magic_type": "magiclysm_generic_magic"
+    "magic_type": "magiclysm_conjuration_magic"
   },
   {
     "id": "create_rune_biomancer",
@@ -256,7 +256,7 @@
     "difficulty": 0,
     "max_level": 0,
     "spell_class": "BIOMANCER",
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_channeling_magic",
     "flags": [ "CHANNELING_SPELL", "PERMANENT", "NO_LEGS", "CONCENTRATE" ]
   },
   {
@@ -270,7 +270,7 @@
     "shape": "blast",
     "flags": [ "EVOCATION_SPELL", "RANDOM_DAMAGE", "VERBAL", "NO_HANDS" ],
     "spell_class": "BIOMANCER",
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_evocation_magic",
     "difficulty": 3,
     "base_casting_time": 100,
     "base_energy_cost": 80,
@@ -302,7 +302,7 @@
     ],
     "flags": [ "EVOCATION_SPELL", "RANDOM_DAMAGE", "VERBAL", "NO_HANDS", "SPLIT_DAMAGE" ],
     "spell_class": "BIOMANCER",
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_evocation_magic",
     "difficulty": 4,
     "base_casting_time": 200,
     "base_energy_cost": 150,
@@ -366,7 +366,7 @@
     "effect_str": "bio_weave",
     "shape": "blast",
     "flags": [ "ENHANCEMENT_SPELL", "SOMATIC", "VERBAL" ],
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_enhancement_magic",
     "spell_class": "BIOMANCER",
     "difficulty": 4,
     "base_casting_time": 200,
@@ -414,7 +414,7 @@
     "shape": "blast",
     "flags": [ "ENHANCEMENT_SPELL", "SOMATIC", "CONCENTRATE" ],
     "components": "spell_components_causticaura",
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_enhancement_magic",
     "spell_class": "BIOMANCER",
     "difficulty": 4,
     "base_casting_time": 400,
@@ -437,7 +437,7 @@
     "shape": "blast",
     "flags": [ "ENHANCEMENT_SPELL", "SOMATIC", "NO_FAIL" ],
     "components": "spell_components_causticaura",
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_enhancement_magic",
     "spell_class": "BIOMANCER",
     "difficulty": 7,
     "min_damage": 1,
@@ -473,7 +473,7 @@
     "max_duration": 360000,
     "duration_increment": 24000,
     "extra_effects": [ { "id": "eoc_transformation_setup", "hit_self": true } ],
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_transformation_magic",
     "base_energy_cost": 200,
     "base_casting_time": 1000
   },
@@ -493,7 +493,7 @@
     "min_duration": 30000,
     "max_duration": 90000,
     "duration_increment": 4000,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_transformation_magic",
     "base_energy_cost": 500,
     "extra_effects": [ { "id": "eoc_transformation_setup", "hit_self": true } ],
     "base_casting_time": 100
@@ -555,7 +555,7 @@
     "shape": "blast",
     "difficulty": 10,
     "max_level": 15,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_channeling_magic",
     "min_range": 1,
     "base_energy_cost": 1500,
     "base_casting_time": 180000,
@@ -576,7 +576,7 @@
     "effect_str": "effect_biomancer_carrion_feast",
     "shape": "blast",
     "difficulty": 3,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_enhancement_magic",
     "max_level": 10,
     "min_duration": 6000,
     "max_duration": 36000,
@@ -602,7 +602,7 @@
     "max_duration": 30000,
     "duration_increment": 1533,
     "extra_effects": [ { "id": "eoc_transformation_setup", "hit_self": true } ],
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_transformation_magic",
     "base_energy_cost": 400,
     "base_casting_time": 500
   },
@@ -622,7 +622,7 @@
     "max_duration": 60480000,
     "min_range": 1,
     "max_range": 1,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_restoration_magic",
     "base_energy_cost": 500,
     "extra_effects": [
       { "id": "eoc_restoration_setup", "hit_self": true },
@@ -667,7 +667,7 @@
     "min_duration": 3000,
     "max_duration": 13000,
     "duration_increment": 500,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_restoration_magic",
     "extra_effects": [ { "id": "eoc_restoration_setup", "hit_self": true } ],
     "base_energy_cost": 900,
     "base_casting_time": 150
@@ -688,7 +688,7 @@
     "min_duration": 90000,
     "max_duration": 630000,
     "duration_increment": 36000,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_enhancement_magic",
     "base_energy_cost": 250,
     "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ],
     "base_casting_time": 350
@@ -741,7 +741,7 @@
     "min_duration": 24000,
     "max_duration": 360000,
     "duration_increment": 24000,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_transformation_magic",
     "extra_effects": [ { "id": "eoc_transformation_setup", "hit_self": true } ],
     "base_energy_cost": 300,
     "base_casting_time": 500
@@ -762,7 +762,7 @@
     "min_duration": 180000,
     "max_duration": 1380000,
     "duration_increment": 60000,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_enhancement_magic",
     "base_energy_cost": 450,
     "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true }, { "id": "biomantic_pain_caused_light", "hit_self": true } ],
     "base_casting_time": 600
@@ -783,7 +783,7 @@
     "min_duration": 72000,
     "max_duration": 1224000,
     "duration_increment": 72000,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_enhancement_magic",
     "base_energy_cost": 200,
     "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ],
     "base_casting_time": 1500
@@ -802,7 +802,7 @@
     "shape": "blast",
     "difficulty": 5,
     "max_level": 15,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_restoration_magic",
     "base_energy_cost": 350,
     "extra_effects": [ { "id": "eoc_restoration_setup", "hit_self": true }, { "id": "biomantic_pain_caused_light", "hit_self": true } ],
     "base_casting_time": 1500
@@ -834,7 +834,7 @@
     "shape": "blast",
     "difficulty": 12,
     "max_level": 15,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_enhancement_magic",
     "min_duration": 360000,
     "max_duration": 3060000,
     "duration_increment": 180000,
@@ -860,8 +860,95 @@
     "min_range": 3,
     "max_range": 8,
     "range_increment": 0.5,
-    "magic_type": "magiclysm_generic_magic",
+    "magic_type": "magiclysm_transformation_magic",
     "base_energy_cost": 100,
     "base_casting_time": 150
+  },
+  {
+    "id": "biomancer_baleful_polymorph",
+    "type": "SPELL",
+    "name": "Fleshwarping",
+    "description": "Brutally warp the flesh of your enemies, turning them into a malformed pile of writhing limbs and mismatched parts.  Knowledge of this spell was highly restricted before the Cataclysm, as while extensive thaumaturgic reconstruction would allow the afflicted to regain their original form, or at least something very close to it, it was not conventionally dispellable.",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "TRANSFORMATION_SPELL", "VERBAL", "SOMATIC", "SILENT", "RANDOM_DAMAGE", "NO_LEGS", "NO_PROJECTILE" ],
+    "effect": "targeted_polymorph",
+    "effect_str": "mon_baleful_polymorph_crawler",
+    "extra_effects": [
+      { "id": "eoc_transformation_setup", "hit_self": true },
+      { "id": "biomancer_baleful_polymorph_npcs", "hit_self": false }
+    ],
+    "shape": "blast",
+    "spell_class": "BIOMANCER",
+    "magic_type": "magiclysm_transformation_magic",
+    "difficulty": 9,
+    "max_level": 20,
+    "min_damage": {
+      "math": [
+        "( ( u_spell_level('biomancer_baleful_polymorph') * 1.5 ) + 10) * magiclysm_spell_failure_transformation_proficiency_adjustments_damage()"
+      ]
+    },
+    "max_damage": {
+      "math": [
+        "( ( u_spell_level('biomancer_baleful_polymorph') * 3.6 ) + 25) * magiclysm_spell_failure_transformation_proficiency_adjustments_damage()"
+      ]
+    },
+    "damage_increment": 2,
+    "damage_type": "pure",
+    "min_range": { "math": [ "1 + max( ( ( u_spell_level('biomancer_baleful_polymorph') - 10) * 0.25 ), 0)" ] },
+    "ignored_monster_species": [ "ROBOT", "ROBOT_FLYING", "NETHER_EMANATION" ],
+    "base_casting_time": 150,
+    "base_energy_cost": 300
+  },
+  {
+    "id": "biomancer_baleful_polymorph_npcs",
+    "type": "SPELL",
+    "name": { "str": "Fleshwarping NPCs", "//~": "NO_I18N" },
+    "description": { "str": "Transform your enemies into wretches if they're NPCs.", "//~": "NO_I18N" },
+    "valid_targets": [ "hostile" ],
+    "flags": [ "TRANSFORMATION_SPELL", "VERBAL", "SOMATIC", "NO_LEGS", "NO_PROJECTILE" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_BIOMANCER_BALEFUL_POLYMORPH_NPCS",
+    "shape": "blast",
+    "spell_class": "BIOMANCER",
+    "magic_type": "magiclysm_transformation_magic",
+    "max_level": 20,
+    "min_range": { "math": [ "1 + max( ( ( u_spell_level('biomancer_baleful_polymorph') - 10) * 0.25 ), 0)" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOMANCER_BALEFUL_POLYMORPH_NPCS",
+    "condition": "u_is_character",
+    "effect": [
+      {
+        "math": [
+          "_lower_damage_limit = ( ( ( n_spell_level('biomancer_baleful_polymorph') * 1.5 ) + 10) * magiclysm_spell_failure_transformation_proficiency_adjustments_damage_npc() )"
+        ]
+      },
+      {
+        "math": [
+          "_upper_damage_limit = ( ( ( n_spell_level('biomancer_baleful_polymorph') * 3.6 ) + 25) * magiclysm_spell_failure_transformation_proficiency_adjustments_damage_npc() )"
+        ]
+      },
+      { "math": [ "u_baleful_polymorph_damage", "=", "rng( _lower_damage_limit, _upper_damage_limit )" ] },
+      {
+        "math": [
+          "u_health_comparison",
+          "=",
+          "(u_hp('arm_l') + u_hp('arm_r') + u_hp('leg_l') + u_hp('leg_r') + u_hp('torso') + u_hp('head')) / 3"
+        ]
+      },
+      {
+        "if": {
+          "and": [
+            { "math": [ "u_baleful_polymorph_damage > u_health_comparison" ] },
+            { "not": { "u_has_trait": "BIOMANCER_NPC_WRETCH_POLYMORPH" } }
+          ]
+        },
+        "then": [
+          { "npc_message": "<u_name> transforms into a fleshwarped wretch." },
+          { "u_add_trait": "BIOMANCER_NPC_WRETCH_POLYMORPH" }
+        ]
+      }
+    ]
   }
 ]

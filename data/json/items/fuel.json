@@ -316,7 +316,7 @@
     "subtypes": [ "AMMO" ],
     "name": { "str_sp": "biogas" },
     "copy-from": "propane",
-    "description": "Biogas gathered from anaerobic digester system, can be used in biogas cooker.",
+    "description": "Biogas gathered from an anaerobic digester system, can be used in a biogas cooker.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "container": "small_biogas_tank",

@@ -1,0 +1,953 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": [
+      [ "supermarket_x0_y0_z0", "supermarket_x0_y1_z0", "supermarket_x0_y2_z0" ],
+      [ "supermarket_x1_y0_z0", "supermarket_x1_y1_z0", "supermarket_x1_y2_z0" ],
+      [ "supermarket_x2_y0_z0", "supermarket_x2_y1_z0", "supermarket_x2_y2_z0" ]
+    ],
+    "object": {
+      "fill_ter": "t_floor",
+      "palettes": [ "parametrized_walls_palette", "parametrized_carpets_palette" ],
+      "rows": [
+        "#######################55######################KKKKKKKKKKKKKKKKKKKKKKKKK",
+        "#zzzzzzzzzzzzzzz#9999#J--HHHHHHHHHHHHHHHHHHHHH#^.^#########..........R++",
+        "#---------------#9---#H-----------------H-HH-H#.............nnnnnnnn.R++",
+        "#---------------#9---#H-----------------H-HH-H#R...M..M..M..nnnnnnnn..++",
+        "#zzzzzz--zzzzzzz#9---#H--HHHHHHHHHHHHH--H-HH-H#R............nnnnnnnn.R++",
+        "#######11##########D##H--HHHHHHHHHHHHH--------#...#.......#..........R++",
+        "#XXX#ZZ--ZZZZZZZ#-----------------------------#.........................",
+        "#X--D-----------1-----------------------mmmm--|.........................",
+        "#X-X#-----------1--#D#####--HHHHHHHHHH--mmmm--|..................Ẅ......",
+        "##D##ZZZZZZZZZZZ#--#-N#ee#--HHHHHHHHHH--mmmm--|.........................",
+        "#k-B#############--#-N#--#--------------mmmm--|......Ẃ..................",
+        "#c-B#cccck#--------#--D--D--------------mmmm--|...................*****.",
+        "#c--D-----D--------#NN#QQ#--HHHHHHHHHH-------3#3................*******.",
+        "#####bbbbb################55##########--------D.................**......",
+        "#jΣΣ       ΣΣΣΣΣΣΣΣΣΣΣΣΣΣΣ  ΣΣΣΣΣΣΣΣΣ#--#######................**.......",
+        "5                                   Σ#--#LLLLL#.........................",
+        "5                                   Σ#--D-----#................**.......",
+        "#ε  ӞΏ  ΔЖ  ӜӨ  Фϕ  ӘΛ  Чξ  Цπ  Π↋  ϗ#--#######................**.......",
+        "#ε  ӞΏ  ΔЖ  ӜӨ  Фϕ  ӘΛ  Чξ  Цπ  Π↋  ϗ#--#LLLLL#++*******.......**.......",
+        "#ε  ӞΏ  ΔЖ  ӜӨ  Фϕ  ӘΛ  Чξ  Цπ  Π↋  ϗ#--D-----#+i*......==............++",
+        "#ε  ӞΏ  ΔЖ  ӜӨ  Фϕ  ӘΛ  Чξ  Цπ  Π↋  ϗ#--#######++*.............**.....++",
+        "#ε  ӞΏ  ΔЖ  ӜӨ  Фϕ  ӘΛ  Чξ  Цπ  Π↋  ϗ#--#-t#-t#+i*..Ú...==.....**.....++",
+        "#δ  ӟΩ  ζж  ӝө  фϖ  әБ  ӵη  цΞ  п↊  ϗ#--#-e#-e#++*.............**.....++",
+        "#δ  ӟΩ  ζж  ӝө  фϖ  әБ  ӵη  цΞ  п↊  ϗ#--#D##D##+i*******==............++",
+        "#δ  ӟΩ  ζж  ӝө  фϖ  әБ  ӵη  цΞ  п↊  ϗ#--D-----#++*.............**.....++",
+        "#δ  ӟΩ  ζж  ӝө  фϖ  әБ  ӵη  цΞ  п↊  ϗ#--#######++*......==.....**.....++",
+        "#δ  ϏϏ  ζж  ӝө  фϖ  ϏϏ  ӵη  цΞ  п↊  ϗ#--#ppddd#+i*..Ú..........**.....++",
+        "#δ                                   5--D--dhu4++*......==............++",
+        "#Ш                         ________  5--#----u#+i*******.......**.....++",
+        "#Ш  ЏЪ  ЮИ  ϏϏ  ҰΓ  ҐЄ  ЭЯ _ββ__ββ_ λ#--#######++*......==.....**.....++",
+        "#Ш  ЏЪ  ЮИ  ΌЌ  ҰΓ  ҐЄ  ЭЯ _ββ__ββ_ λ#--#dhdhu#+i*.............**.....++",
+        "#Ш  ЏЪ  ЮИ  ΌЌ  ҰΓ  ҐЄ  ЭЯ _ββ__ββ_ λ#--#d-d-u4++*..Ú...==............++",
+        "#Ш  ЏЪ  ЮИ  ΌЌ  ҰΓ  ҐЄ  ЭЯ ________ λ#--D----u#+i*.............**.....++",
+        "#Ш  ЏЪ  ЮИ  ΌЌ  ҰΓ  ҐЄ  ЭЯ ________ λ#--#d-d-u4++*******==.....**.....++",
+        "#ш  џъ  юи  Дќ  ұ૪  ґє  эя _λλ__λλ_ λ#--#dhdhu#+i*.............**.....++",
+        "#ш  џъ  юи  Дќ  ұ૪  ґє  эя _λλ__λλ_ λ#D########++*......==............++",
+        "#ш  џъ  юи  Дќ  ұ૪  ґє  эя _λλ__λλ_ λ#-keaaafg#+i*..Ú..........**.....++",
+        "#ш  џъ  юи  Дќ  ұ૪  ґє  эя ________  #--------4++*......==.....**.....++",
+        "#j  џъ  юи  Дќ  ұ૪  ґє  эя          Ђ#s-hThhTh#+i*******.......**.....++",
+        "5                           QQQQ    Ђ#s-hThhTh4++*iiiiii==............++",
+        "5                           q 2Q  ЂЂЂ#sshThhTh#+i*i$$..........**.....++",
+        "##D# QE QE QE QE QE QE QE QEQ2##xx#############++*i$$$..==.....**.....++",
+        "#W-# Q2 Q2 Q2 Q2 Q2 Q2 Q2 Q2QQ#y__y__£££££££££[++*iiiiii.......**.....++",
+        "#W-#                          x_______________x+i.=.=.=.==............++",
+        "#W-#                          x_______________x++.=.=.=.==.....**.....++",
+        "#Ww# Y Y Y Y Y Y Y Y Y Y Y Y Y#y__y___££££££££[+i..............**.....++",
+        "####[[[[[[[[[[[[[[[[[[[[[[[[[[[[xx[[[[[[[[[[[[[++..............**.....++",
+        "K+++++++++++++++++++++++++++++++++++++++++++++++i.....................++",
+        "K++++i+i+i+i+i+i+i+i+i+i+i+i+i+i+i+i+i+i+i+i+i+i...............**.....++",
+        "K++++*****************************==***********................**.....++",
+        "K++++....*....*....*....*....*iiii==*....*....*................**.....++",
+        "K++++....*....*....*....*....*i¢¢i..*....*....*.......................++",
+        "K++++.Ù..*.Ù..*.Ù..*.Ù..*.Ù..*i¢¢i==*.Ù..*.Ù..*................**.....++",
+        "K++++....*....*....*....*....*i¢¢i..*....*....*................**.....++",
+        "K++++....*....*....*....*....*i.¢i==*....*....*................**.....++",
+        "K++++....*....*....*....*....*i..i..*....*....*.......................++",
+        "K++++.=.=.=.=.=.=.=.=.=.=.=.=.=.=.==.=.=.=.=.=.................**.....++",
+        "K++++.=.=.=.=.=.=.=.=.=.=.=.=.=.=.==.=.=.=.=.=.................**.....++",
+        "K++++..........................................................**.....++",
+        "K++++.........................................................**......++",
+        "K++++.........................................................**......++",
+        "K++++........................................................**.......++",
+        "K++++......................................................***........++",
+        "K++++........***.***.***.***.***.***..***.***.***.***.***.***.........++",
+        "K++++........***.***.***.***.***.***..***.***.***.***.***.*...........++",
+        "K++++...............................**................................++",
+        "K+++++..............................**...............................+++",
+        "K+++++..............................**...............................+++",
+        "K++++++.............................................................++++",
+        "K++++++++...........................**............................++++++",
+        "K++++++++++++++++++++++++++++......**.......++++++++++++++++++++++++++++",
+        "K++++++++++++++++++++++++++++......**.......++++++++++++++++++++++++++++"
+      ],
+      "//": "The shelves are using various greek and cyrillic characters, not in any particular order.",
+      "nested": {
+        "Ώ": { "chunks": [ "shelf_commercial_sauces_dressings" ] },
+        "Ω": { "chunks": [ "shelf_commercial_spices_seasoning" ] },
+        "Δ": { "chunks": [ "shelf_commercial_oil_vinegar" ] },
+        "ζ": { "chunks": [ "shelf_commercial_exotic_food" ] },
+        "Ж": { "chunks": [ "shelf_commercial_grains" ] },
+        "ж": { "chunks": [ "shelf_commercial_grains" ] },
+        "Ӝ": { "chunks": [ "shelf_commercial_baking" ] },
+        "ӝ": { "chunks": [ "shelf_commercial_pasta" ] },
+        "Ө": { "chunks": [ "shelf_commercial_canned_vegetables" ] },
+        "ө": { "chunks": [ "shelf_commercial_canned_fruits" ] },
+        "Ф": { "chunks": [ "shelf_commercial_canned_meat" ] },
+        "ф": { "chunks": [ "shelf_commercial_canned_meals" ] },
+        "ϕ": { "chunks": [ "shelf_commercial_coffee" ] },
+        "ϖ": { "chunks": [ "shelf_commercial_tea" ] },
+        "Ә": { "chunks": [ "shelf_commercial_breakfast_cereal" ] },
+        "ә": { "chunks": [ "shelf_commercial_breakfast_mixes" ] },
+        "Λ": { "chunks": [ "shelf_commercial_spreads" ] },
+        "Б": { "chunks": [ "shelf_commercial_sweet_snacks" ] },
+        "Ч": { "chunks": [ "shelf_commercial_butter_cream" ] },
+        "ӵ": { "chunks": [ "shelf_commercial_yoghurt" ] },
+        "ξ": { "chunks": [ "shelf_commercial_cheese" ] },
+        "η": { "chunks": [ "shelf_commercial_milk" ] },
+        "Ц": { "chunks": [ "shelf_commercial_eggs" ] },
+        "ц": { "chunks": [ "shelf_commercial_deli" ] },
+        "π": { "chunks": [ "shelf_commercial_meat_beef" ] },
+        "Ξ": { "chunks": [ "shelf_commercial_meat_pork" ] },
+        "Π": { "chunks": [ "shelf_commercial_meat_poultry" ] },
+        "п": { "chunks": [ "shelf_commercial_meat_seafood" ] },
+        "↋": { "chunks": [ "shelf_commercial_icecream" ] },
+        "↊": { "chunks": [ "shelf_commercial_frozen_dessert" ] },
+        "ε": { "chunks": [ "shelf_commercial_water" ] },
+        "δ": { "chunks": [ "shelf_commercial_water" ] },
+        "Ӟ": { "chunks": [ "shelf_commercial_soda" ] },
+        "ӟ": { "chunks": [ "shelf_commercial_soda" ] },
+        "Ш": { "chunks": [ "shelf_commercial_juices" ] },
+        "ш": { "chunks": [ "shelf_commercial_sports_drink" ] },
+        "Џ": { "chunks": [ "shelf_commercial_soda" ] },
+        "џ": { "chunks": [ "shelf_commercial_soda" ] },
+        "Ъ": { "chunks": [ "shelf_commercial_chips" ] },
+        "ъ": { "chunks": [ "shelf_commercial_nuts_crackers" ] },
+        "Ю": { "chunks": [ "shelf_commercial_chocolate" ] },
+        "ю": { "chunks": [ "shelf_commercial_candy" ] },
+        "И": { "chunks": [ "shelf_commercial_pet_food" ] },
+        "и": { "chunks": [ "shelf_commercial_pet_accessories" ] },
+        "Ό": { "chunks": [ "shelf_commercial_baby_accessories_food" ] },
+        "Д": { "chunks": [ "shelf_commercial_baby_hygiene" ] },
+        "Ќ": { "chunks": [ "shelf_commercial_office_supplies" ] },
+        "ќ": { "chunks": [ "shelf_commercial_electronics_accessories" ] },
+        "Ұ": { "chunks": [ "shelf_commercial_books" ] },
+        "ұ": { "chunks": [ "shelf_commercial_magazines" ] },
+        "Γ": { "chunks": [ "shelf_commercial_laundry" ] },
+        "૪": { "chunks": [ "shelf_commercial_dish_cleaning" ] },
+        "Ґ": { "chunks": [ "shelf_commercial_cleaning_supplies" ] },
+        "ґ": { "chunks": [ "shelf_commercial_toilet_paper" ] },
+        "Є": { "chunks": [ "shelf_commercial_dental_care" ] },
+        "є": { "chunks": [ "shelf_commercial_drugs" ] },
+        "Э": { "chunks": [ "shelf_commercial_shower_supplies" ] },
+        "э": { "chunks": [ "shelf_commercial_personal_care" ] },
+        "β": { "chunks": [ "shelf_commercial_vegetables" ] },
+        "λ": { "chunks": [ "shelf_commercial_fruits" ] },
+        "Я": { "chunks": [ "shelf_commercial_bread_specialty" ] },
+        "я": { "chunks": [ "shelf_commercial_bread_sweet" ] },
+        "Ђ": { "chunks": [ "shelf_commercial_bread" ] },
+        "Σ": { "chunks": [ "shelf_commercial_frozen_meals" ] },
+        "ϗ": { "chunks": [ "shelf_commercial_frozen_vegetables" ] },
+        "Ϗ": { "chunks": [ "shelf_commercial_special_seasonal" ] },
+        "m": { "chunks": [ [ "pallet_supermarket_interior", 1 ], [ "null", 1 ] ] },
+        "n": { "chunks": [ [ "pallet_supermarket_exterior", 1 ], [ "null", 1 ] ] }
+      },
+      "terrain": {
+        ".": "t_pavement",
+        "$": "t_pavement",
+        "¢": "t_pavement",
+        "Ü": "t_pavement",
+        "Ù": "t_pavement",
+        "Ú": "t_pavement",
+        "Û": "t_pavement",
+        "Ẃ": "t_pavement",
+        "Ẅ": "t_pavement",
+        "R": "t_pavement",
+        "n": "t_pavement",
+        "*": "t_pavement_y",
+        "=": "t_zebra",
+        "+": "t_sidewalk",
+        "Q": "t_floor",
+        "j": "t_floor",
+        "a": "t_linoleum_gray",
+        "-": "t_linoleum_gray",
+        "d": "t_linoleum_gray",
+        "f": "t_linoleum_gray",
+        "T": "t_linoleum_gray",
+        "J": "t_linoleum_gray",
+        "M": "t_linoleum_gray",
+        "m": "t_linoleum_gray",
+        "P": "t_linoleum_gray",
+        "p": "t_linoleum_gray",
+        "L": "t_linoleum_gray",
+        "t": "t_linoleum_gray",
+        "9": "t_linoleum_gray",
+        "G": "t_linoleum_gray",
+        "h": "t_linoleum_gray",
+        "H": "t_linoleum_gray",
+        "F": "t_linoleum_gray",
+        "B": "t_linoleum_gray",
+        "b": "t_linoleum_gray",
+        "W": "t_linoleum_gray",
+        "w": "t_linoleum_gray",
+        "c": "t_linoleum_gray",
+        "u": "t_linoleum_gray",
+        "s": "t_linoleum_gray",
+        "g": "t_linoleum_gray",
+        "k": "t_linoleum_gray",
+        "Z": "t_linoleum_gray",
+        "D": "t_door_c",
+        "x": "t_door_glass_c",
+        "1": "t_door_metal_c",
+        "5": "t_door_metal_c",
+        "[": "t_wall_glass",
+        "|": "t_door_metal_locked",
+        "_": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "y": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "£": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "λ": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "K": "t_chainfence",
+        "i": "t_metal_railing",
+        "3": "t_gates_control_concrete_lab",
+        "4": "t_window_no_curtains",
+        "^": "t_gutter_downspout"
+      },
+      "furniture": {
+        "2": "f_chair",
+        "9": "f_water_heater",
+        "a": "f_counter",
+        "B": "f_metal_butcher_rack",
+        "b": "f_counter",
+        "c": "f_counter",
+        "d": "f_desk",
+        "E": "f_rack",
+        "e": "f_sink",
+        "F": "f_freezer",
+        "f": "f_oven",
+        "g": "f_fridge",
+        "H": "f_warehouse_shelf",
+        "h": "f_chair",
+        "k": "f_trashcan",
+        "L": "f_locker",
+        "N": "f_warehouse_shelf",
+        "p": "f_bookcase",
+        "Q": "f_counter",
+        "q": "f_counter_gate_c",
+        "R": "f_dumpster",
+        "s": "f_sofa",
+        "T": "f_table",
+        "u": "f_filing_cabinet",
+        "W": "f_rack",
+        "X": "f_warehouse_shelf",
+        "Y": "f_indoor_plant",
+        "y": "f_indoor_plant",
+        "Z": "f_warehouse_shelf",
+        "z": "f_warehouse_shelf"
+      },
+      "toilets": { "t": {  } },
+      "item": { "w": { "item": "bot_hazmatbot" } },
+      "items": {
+        "W": { "item": "SUS_janitors_closet" },
+        "H": { "item": "SUS_shelf_any" },
+        "E": { "item": "SUS_commercial_chewing_gum" },
+        "N": { "item": "SUS_shelf_commercial_vegetables", "repeat": [ 0, 2 ] },
+        "z": { "item": "any_supermarket_SUS_freezer" },
+        "Z": { "item": "any_supermarket_SUS_fridge" },
+        "X": [
+          { "item": "SUS_shelf_commercial_meat_beef", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "SUS_shelf_commercial_meat_pork", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "SUS_shelf_commercial_meat_poultry", "chance": 50, "repeat": [ 1, 2 ] }
+        ],
+        "b": [
+          { "item": "SUS_shelf_commercial_meat_beef", "chance": 50 },
+          { "item": "SUS_shelf_commercial_meat_pork", "chance": 50 },
+          { "item": "SUS_shelf_commercial_meat_poultry", "chance": 50 }
+        ],
+        "t": { "item": "SUS_toilet" },
+        "p": { "item": "SUS_business_bookcase" },
+        "f": { "item": "SUS_fridge" },
+        "e": { "item": "public_sink" },
+        "a": [
+          { "item": "SUS_dishes", "chance": 20 },
+          { "item": "SUS_cookware", "chance": 20 },
+          { "item": "SUS_appliances_cupboard", "chance": 20 },
+          { "item": "SUS_coffee_cupboard", "chance": 20 },
+          { "item": "SUS_breakfast_cupboard", "chance": 20 },
+          { "item": "SUS_spice_collection", "chance": 20 }
+        ],
+        "L": { "item": "fast_locker" },
+        "d": { "item": "SUS_office_desk" },
+        "u": { "item": "SUS_office_filing_cabinet" },
+        "j": { "item": "fireman_cabinet" }
+      },
+      "vehicles": {
+        "Ü": { "chance": 33, "vehicle": "parking_garage" },
+        "Û": { "chance": 33, "vehicle": "parking_garage", "rotation": 90 },
+        "Ú": { "chance": 33, "vehicle": "parking_garage", "rotation": 180 },
+        "Ù": { "chance": 33, "vehicle": "parking_garage", "rotation": 270 },
+        "Ẃ": { "chance": 33, "vehicle": "truck_trailer" },
+        "Ẅ": { "chance": 33, "vehicle": "semi_truck" },
+        "M": { "chance": 50, "vehicle": "forklift", "rotation": 90 },
+        "$": { "vehicle": "shopping_cart" },
+        "£": { "vehicle": "shopping_cart" },
+        "¢": { "vehicle": "shopping_cart", "rotation": 90 }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [
+      [ "supermarket_x0_y0_z1", "supermarket_x0_y1_z1", "supermarket_x0_y2_z1" ],
+      [ "supermarket_x1_y0_z1", "supermarket_x1_y1_z1", "supermarket_x1_y2_z1" ],
+      [ "supermarket_x2_y0_z1", "supermarket_x2_y1_z1", "supermarket_x2_y2_z1" ]
+    ],
+    "object": {
+      "fill_ter": "t_open_air",
+      "rows": [
+        "-----------------------------------------------                         ",
+        "-.............................................5   5--------             ",
+        "-.............................................-   -.......-             ",
+        "-...A..........A..............................-   -.......-             ",
+        "-.............................................-   -.......-             ",
+        "-.............................................-   ---------             ",
+        "-.............................................-                         ",
+        "-.............................................-                         ",
+        "-.............................................-                         ",
+        "-...A..........A..............................-                         ",
+        "-.............................................-                         ",
+        "-.............................................-                         ",
+        "-.............................................-                         ",
+        "-.............................................-                         ",
+        "-.............................................-                         ",
+        "-.............................................-                         ",
+        "-.............................................-                         ",
+        "-.............................................-                         ",
+        "-.............................................-                         ",
+        "-.............................................-                         ",
+        "-.......&.............&.............&.........-                         ",
+        "-.............................................-                         ",
+        "-.............................................-                         ",
+        "-.............................................-                         ",
+        "-.............................................-                         ",
+        "-..............=..............=...............-                         ",
+        "-.............................................-                         ",
+        "-.............................................-                         ",
+        "-.............................................-                         ",
+        "-.............................................-                         ",
+        "-.......&.............&.............&.........-                         ",
+        "-.............................................-                         ",
+        "-.............................................-                         ",
+        "-.............................................-                         ",
+        "-.............................................-                         ",
+        "-..............=..............=...............-                         ",
+        "-.............................................-                         ",
+        "-.............................................-                         ",
+        "-.............................................-                         ",
+        "-.............................................-                         ",
+        "-.......&.............&.............&......XN.-                         ",
+        "-...........................................X.-                         ",
+        "-.............................................-                         ",
+        "-.............................................-                         ",
+        "-.............................................-                         ",
+        "-.............................................-                         ",
+        "-----------------------------------------------                         ",
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { "X": "t_flat_roof", "N": "t_flat_roof", "&": "t_flat_roof", "=": "t_flat_roof", "A": "t_flat_roof" }
+    }
+  },
+  {
+    "nested_mapgen_id": "shelf_commercial_sauces_dressings",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_furniture": [ { "furn": "f_warehouse_shelf", "x": 0, "y": 0 } ],
+      "place_items": [ { "item": "SUS_shelf_commercial_sauces_dressings", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "shelf_commercial_exotic_food",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_furniture": [ { "furn": "f_warehouse_shelf", "x": 0, "y": 0 } ],
+      "place_items": [ { "item": "SUS_shelf_commercial_exotic_food", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "shelf_commercial_spices_seasoning",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_furniture": [ { "furn": "f_warehouse_shelf", "x": 0, "y": 0 } ],
+      "place_items": [ { "item": "SUS_shelf_commercial_spices_seasoning", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "shelf_commercial_oil_vinegar",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_furniture": [ { "furn": "f_warehouse_shelf", "x": 0, "y": 0 } ],
+      "place_items": [ { "item": "SUS_shelf_commercial_oil_vinegar", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "shelf_commercial_grains",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_furniture": [ { "furn": "f_warehouse_shelf", "x": 0, "y": 0 } ],
+      "place_items": [ { "item": "SUS_shelf_commercial_grains", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "shelf_commercial_baking",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_furniture": [ { "furn": "f_warehouse_shelf", "x": 0, "y": 0 } ],
+      "place_items": [ { "item": "SUS_shelf_commercial_baking", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "shelf_commercial_pasta",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_furniture": [ { "furn": "f_warehouse_shelf", "x": 0, "y": 0 } ],
+      "place_items": [ { "item": "SUS_shelf_commercial_pasta", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "shelf_commercial_canned_vegetables",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_furniture": [ { "furn": "f_warehouse_shelf", "x": 0, "y": 0 } ],
+      "place_items": [ { "item": "SUS_shelf_commercial_canned_vegetables", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "shelf_commercial_canned_fruits",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_furniture": [ { "furn": "f_warehouse_shelf", "x": 0, "y": 0 } ],
+      "place_items": [ { "item": "SUS_shelf_commercial_canned_fruits", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "shelf_commercial_canned_meat",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_furniture": [ { "furn": "f_warehouse_shelf", "x": 0, "y": 0 } ],
+      "place_items": [ { "item": "SUS_shelf_commercial_canned_meat", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "shelf_commercial_canned_meals",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_furniture": [ { "furn": "f_warehouse_shelf", "x": 0, "y": 0 } ],
+      "place_items": [ { "item": "SUS_shelf_commercial_canned_meals", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "shelf_commercial_coffee",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_furniture": [ { "furn": "f_warehouse_shelf", "x": 0, "y": 0 } ],
+      "place_items": [ { "item": "SUS_shelf_commercial_coffee", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "shelf_commercial_tea",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_furniture": [ { "furn": "f_warehouse_shelf", "x": 0, "y": 0 } ],
+      "place_items": [ { "item": "SUS_shelf_commercial_tea", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "shelf_commercial_breakfast_cereal",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_furniture": [ { "furn": "f_warehouse_shelf", "x": 0, "y": 0 } ],
+      "place_items": [ { "item": "SUS_shelf_commercial_breakfast_cereal", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "shelf_commercial_breakfast_mixes",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_furniture": [ { "furn": "f_warehouse_shelf", "x": 0, "y": 0 } ],
+      "place_items": [ { "item": "SUS_shelf_commercial_breakfast_mixes", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "shelf_commercial_spreads",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_furniture": [ { "furn": "f_warehouse_shelf", "x": 0, "y": 0 } ],
+      "place_items": [ { "item": "SUS_shelf_commercial_spreads", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "shelf_commercial_sweet_snacks",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_furniture": [ { "furn": "f_warehouse_shelf", "x": 0, "y": 0 } ],
+      "place_items": [ { "item": "SUS_shelf_commercial_sweet_snacks", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "shelf_commercial_butter_cream",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_furniture": [ { "furn": "f_display_fridge", "x": 0, "y": 0 } ],
+      "place_items": [ { "item": "SUS_shelf_commercial_butter_cream", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "shelf_commercial_yoghurt",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_furniture": [ { "furn": "f_display_fridge", "x": 0, "y": 0 } ],
+      "place_items": [ { "item": "SUS_shelf_commercial_yoghurt", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "shelf_commercial_cheese",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_furniture": [ { "furn": "f_display_fridge", "x": 0, "y": 0 } ],
+      "place_items": [ { "item": "SUS_shelf_commercial_cheese", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "shelf_commercial_milk",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_furniture": [ { "furn": "f_display_fridge", "x": 0, "y": 0 } ],
+      "place_items": [ { "item": "SUS_shelf_commercial_milk", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "shelf_commercial_eggs",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_furniture": [ { "furn": "f_display_fridge", "x": 0, "y": 0 } ],
+      "place_items": [ { "item": "SUS_shelf_commercial_eggs", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "shelf_commercial_deli",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_furniture": [ { "furn": "f_display_fridge", "x": 0, "y": 0 } ],
+      "place_items": [ { "item": "SUS_shelf_commercial_deli", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "shelf_commercial_meat_beef",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_furniture": [ { "furn": "f_display_fridge", "x": 0, "y": 0 } ],
+      "place_items": [ { "item": "SUS_shelf_commercial_meat_beef", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "shelf_commercial_meat_pork",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_furniture": [ { "furn": "f_display_fridge", "x": 0, "y": 0 } ],
+      "place_items": [ { "item": "SUS_shelf_commercial_meat_pork", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "shelf_commercial_meat_poultry",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_furniture": [ { "furn": "f_display_fridge", "x": 0, "y": 0 } ],
+      "place_items": [ { "item": "SUS_shelf_commercial_meat_poultry", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "shelf_commercial_meat_seafood",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_furniture": [ { "furn": "f_display_fridge", "x": 0, "y": 0 } ],
+      "place_items": [ { "item": "SUS_shelf_commercial_meat_seafood", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "shelf_commercial_icecream",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_furniture": [ { "furn": "f_display_fridge", "x": 0, "y": 0 } ],
+      "place_items": [ { "item": "SUS_shelf_commercial_icecream", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "shelf_commercial_frozen_dessert",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_furniture": [ { "furn": "f_display_fridge", "x": 0, "y": 0 } ],
+      "place_items": [ { "item": "SUS_shelf_commercial_frozen_dessert", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "shelf_commercial_water",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_furniture": [ { "furn": "f_warehouse_shelf", "x": 0, "y": 0 } ],
+      "place_items": [ { "item": "SUS_shelf_commercial_water", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "shelf_commercial_soda",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_furniture": [ { "furn": "f_warehouse_shelf", "x": 0, "y": 0 } ],
+      "place_items": [ { "item": "SUS_shelf_commercial_soda", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "shelf_commercial_juices",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_furniture": [ { "furn": "f_warehouse_shelf", "x": 0, "y": 0 } ],
+      "place_items": [ { "item": "SUS_shelf_commercial_juices", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "shelf_commercial_sports_drink",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_furniture": [ { "furn": "f_warehouse_shelf", "x": 0, "y": 0 } ],
+      "place_items": [ { "item": "SUS_shelf_commercial_sports_drink", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "shelf_commercial_chips",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_furniture": [ { "furn": "f_warehouse_shelf", "x": 0, "y": 0 } ],
+      "place_items": [ { "item": "SUS_shelf_commercial_chips", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "shelf_commercial_nuts_crackers",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_furniture": [ { "furn": "f_warehouse_shelf", "x": 0, "y": 0 } ],
+      "place_items": [ { "item": "SUS_shelf_commercial_nuts_crackers", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "shelf_commercial_chocolate",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_furniture": [ { "furn": "f_warehouse_shelf", "x": 0, "y": 0 } ],
+      "place_items": [ { "item": "SUS_shelf_commercial_chocolate", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "shelf_commercial_candy",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_furniture": [ { "furn": "f_warehouse_shelf", "x": 0, "y": 0 } ],
+      "place_items": [ { "item": "SUS_shelf_commercial_candy", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "shelf_commercial_pet_food",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_furniture": [ { "furn": "f_warehouse_shelf", "x": 0, "y": 0 } ],
+      "place_items": [ { "item": "SUS_shelf_commercial_pet_food", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "shelf_commercial_pet_accessories",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_furniture": [ { "furn": "f_warehouse_shelf", "x": 0, "y": 0 } ],
+      "place_items": [ { "item": "SUS_shelf_commercial_pet_accessories", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "shelf_commercial_baby_accessories_food",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_furniture": [ { "furn": "f_warehouse_shelf", "x": 0, "y": 0 } ],
+      "place_items": [ { "item": "SUS_shelf_commercial_baby_accessories_food", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "shelf_commercial_baby_hygiene",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_furniture": [ { "furn": "f_warehouse_shelf", "x": 0, "y": 0 } ],
+      "place_items": [ { "item": "SUS_shelf_commercial_baby_hygiene", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "shelf_commercial_office_supplies",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_furniture": [ { "furn": "f_warehouse_shelf", "x": 0, "y": 0 } ],
+      "place_items": [ { "item": "SUS_shelf_commercial_office_supplies", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "shelf_commercial_electronics_accessories",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_furniture": [ { "furn": "f_warehouse_shelf", "x": 0, "y": 0 } ],
+      "place_items": [ { "item": "SUS_shelf_commercial_electronics_accessories", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "shelf_commercial_books",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_furniture": [ { "furn": "f_warehouse_shelf", "x": 0, "y": 0 } ],
+      "place_items": [ { "item": "SUS_shelf_commercial_books", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "shelf_commercial_magazines",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_furniture": [ { "furn": "f_warehouse_shelf", "x": 0, "y": 0 } ],
+      "place_items": [ { "item": "SUS_shelf_commercial_magazines", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "shelf_commercial_laundry",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_furniture": [ { "furn": "f_warehouse_shelf", "x": 0, "y": 0 } ],
+      "place_items": [ { "item": "SUS_shelf_commercial_laundry", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "shelf_commercial_dish_cleaning",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_furniture": [ { "furn": "f_warehouse_shelf", "x": 0, "y": 0 } ],
+      "place_items": [ { "item": "SUS_shelf_commercial_dish_cleaning", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "shelf_commercial_cleaning_supplies",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_furniture": [ { "furn": "f_warehouse_shelf", "x": 0, "y": 0 } ],
+      "place_items": [ { "item": "SUS_shelf_commercial_cleaning_supplies", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "shelf_commercial_toilet_paper",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_furniture": [ { "furn": "f_warehouse_shelf", "x": 0, "y": 0 } ],
+      "place_items": [ { "item": "SUS_shelf_commercial_toilet_paper", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "shelf_commercial_dental_care",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_furniture": [ { "furn": "f_warehouse_shelf", "x": 0, "y": 0 } ],
+      "place_items": [ { "item": "SUS_shelf_commercial_dental_care", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "shelf_commercial_drugs",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_furniture": [ { "furn": "f_warehouse_shelf", "x": 0, "y": 0 } ],
+      "place_items": [ { "item": "SUS_shelf_commercial_drugs", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "shelf_commercial_shower_supplies",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_furniture": [ { "furn": "f_warehouse_shelf", "x": 0, "y": 0 } ],
+      "place_items": [ { "item": "SUS_shelf_commercial_shower_supplies", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "shelf_commercial_personal_care",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_furniture": [ { "furn": "f_warehouse_shelf", "x": 0, "y": 0 } ],
+      "place_items": [ { "item": "SUS_shelf_commercial_personal_care", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "shelf_commercial_vegetables",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_furniture": [ { "furn": "f_warehouse_shelf", "x": 0, "y": 0 } ],
+      "place_items": [ { "item": "SUS_shelf_commercial_vegetables", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "shelf_commercial_fruits",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_furniture": [ { "furn": "f_warehouse_shelf", "x": 0, "y": 0 } ],
+      "place_items": [ { "item": "SUS_shelf_commercial_fruits", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "shelf_commercial_bread_specialty",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_furniture": [ { "furn": "f_warehouse_shelf", "x": 0, "y": 0 } ],
+      "place_items": [ { "item": "SUS_shelf_commercial_bread_specialty", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "shelf_commercial_bread_sweet",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_furniture": [ { "furn": "f_warehouse_shelf", "x": 0, "y": 0 } ],
+      "place_items": [ { "item": "SUS_shelf_commercial_bread_sweet", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "shelf_commercial_bread",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_furniture": [ { "furn": "f_warehouse_shelf", "x": 0, "y": 0 } ],
+      "place_items": [ { "item": "SUS_shelf_commercial_bread", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "shelf_commercial_frozen_vegetables",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_furniture": [ { "furn": "f_display_fridge", "x": 0, "y": 0 } ],
+      "place_items": [ { "item": "SUS_shelf_commercial_frozen_vegetables", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "shelf_commercial_frozen_meals",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_furniture": [ { "furn": "f_display_fridge", "x": 0, "y": 0 } ],
+      "place_items": [ { "item": "SUS_shelf_commercial_frozen_meals", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "shelf_commercial_special_seasonal",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_furniture": [ { "furn": "f_warehouse_shelf", "x": 0, "y": 0 } ],
+      "place_items": [ { "item": "SUS_shelf_any", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "pallet_supermarket_interior",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_item": [ { "item": "pallet", "x": 0, "y": 0 } ],
+      "place_items": [ { "item": "any_supermarket_SUS", "x": 0, "y": 0, "chance": 50 } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "pallet_supermarket_exterior",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_item": [ { "item": "pallet", "x": 0, "y": 0 } ],
+      "place_items": [ { "item": "cardboards", "x": 0, "y": 0, "chance": 50 } ]
+    }
+  }
+]

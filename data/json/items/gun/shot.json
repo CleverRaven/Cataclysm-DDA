@@ -497,46 +497,6 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 4 } } ]
   },
   {
-    "id": "remington_870_breacher",
-    "copy-from": "remington_870",
-    "type": "ITEM",
-    "subtypes": [ "GUN" ],
-    "name": { "str": "breaching shotgun" },
-    "description": "This shotgun has a short barrel and no stock, and is set up for breaching doors.  It is small enough to carry as a secondary weapon, but has fairly unpleasant recoil and no sights.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "remington_870_breacher",
-        "name": { "str": "Remington 870 MCS shotgun" },
-        "description": "This Remington 870 Modular Combat System shotgun is currently set up for breaching operations, with a 10 inch barrel and no stock.  It is small enough to carry as a secondary weapon, specifically to pop open any pesky doors you might come across.  The grip's design makes for controllable yet unpleasant recoil, and the barrel lacks any sights."
-      }
-    ],
-    "ascii_picture": "remington870mcs",
-    "weight": "2812 g",
-    "volume": "1284 ml",
-    "longest_side": "53 cm",
-    "barrel_length": "254 mm",
-    "looks_like": "remington_870",
-    "ranged_damage": { "damage_type": "bullet", "amount": -2 },
-    "//": "dispersion should be 300 moa, but CDDA exaggerates dispersion.",
-    "sight_dispersion": 750,
-    "clip_size": 4,
-    "price": "538 USD",
-    "barrel_volume": "0 ml",
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "mechanism", 2 ],
-      [ "muzzle", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "stock accessory", 1 ],
-      [ "stock mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 4 } } ]
-  },
-  {
     "id": "remington_870_express",
     "copy-from": "remington_870",
     "type": "ITEM",
@@ -822,45 +782,6 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 14 } } ]
   },
   {
-    "id": "winchester_1887",
-    "copy-from": "gun_base_shotgun_manual",
-    "type": "ITEM",
-    "subtypes": [ "GUN" ],
-    "name": { "str": "bootleg lever-action shotgun" },
-    "description": "A lever-action shotgun with a very short barrel and no stock, with room for 6 rounds of 12 gauge shotshells.  Likely a bootlegged replica of a pre-1900 firearm, it would pair nicely with a motorcycle jacket and a Harley Davidson, and seems ready to terminate your cataclysmic adversaries.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "winchester_1887",
-        "name": { "str": "1887 bootleg shotgun" },
-        "description": "One of the first commercially successful repeating shotguns, the Winchester 1887 was specifically made lever-action at Winchester's request.  Though later overshadowed in success by pump designs, the 1887 remains popular today.  This one has a very short barrel, no stock, and would pair nicely with a motorcycle jacket and a Harley Davidson."
-      }
-    ],
-    "weight": "2994 g",
-    "volume": "1127 ml",
-    "longest_side": "708 mm",
-    "barrel_length": "470 mm",
-    "looks_like": "browning_blr",
-    "price": "1 kUSD 8 USD",
-    "price_postapoc": "22 USD 50 cent",
-    "material": [ "steel", "wood" ],
-    "dispersion": 860,
-    "durability": 6,
-    "clip_size": 6,
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "mechanism", 2 ],
-      [ "muzzle", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
-      [ "sling", 1 ],
-      [ "stock accessory", 1 ],
-      [ "stock mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 6 } } ]
-  },
-  {
     "id": "winchester_1897",
     "copy-from": "gun_base_shotgun_manual",
     "type": "ITEM",
@@ -1052,7 +973,7 @@
         "id": "vr80",
         "name": { "str": "VR 80" },
         "weight": 575,
-        "description": "The work of Rock Island Armoury, this AR-12-style shotgun affords both the comfort of being similar to a rifle and the ability to use MKA 1919 shotgun magazines."
+        "description": "The work of Rock Island Armory, this AR-12-style shotgun affords both the comfort of being similar to a rifle and the ability to use MKA 1919 shotgun magazines."
       },
       {
         "id": "boss25",
@@ -1224,5 +1145,46 @@
     "built_in_mods": [ "m26_mass_stock" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m26_mass_mag_3", "m26_mass_mag_5" ] } ],
     "melee_damage": { "bash": 3 }
+  },
+  {
+    "id": "mossberg_590_shockwave",
+    "copy-from": "gun_base_shotgun_manual",
+    "looks_like": "mossberg_500",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str": "5-round pistol grip shotgun" },
+    "//": "Based on https://www.mossberg.com/590s-shockwave-51600.html",
+    "description": "This shotgun features no stock, and a sling on the pump to help you hold onto it.  While legally speaking it's not a shotgun, it acts and shoots just like one, minus the stock.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "mossberg_590_shockwave",
+        "name": { "str": "Mossberg 590S Shockwave" },
+        "description": "The Mossberg 590S Shockwave is legally speaking, not a shotgun.  This is in order to get around federal laws regarding sawn-off shotguns.  It is still in essence just a Mossberg 590 with the barrel and stock sawn off."
+      }
+    ],
+    "ascii_picture": "mossberg590",
+    "weight": "2495 g",
+    "volume": "1960 ml",
+    "longest_side": "1054 mm",
+    "barrel_length": "780 mm",
+    "price": "910 USD",
+    "material": [ "steel", "aluminum", "plastic" ],
+    "dispersion": 420,
+    "clip_size": 5,
+    "handling": 10,
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "loading port", 1 ],
+      [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "stock accessory", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 5 } } ]
   }
 ]

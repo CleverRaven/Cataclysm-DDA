@@ -18,6 +18,7 @@ Use the `Home` key to return to the top.
   - [Comments](#comments)
 - [File descriptions](#file-descriptions)
   - [`data/json/`](#datajson)
+  - [`data/json/mutations/`](#datajsonmutations)
   - [`data/json/items/`](#datajsonitems)
     - [`data/json/items/comestibles/`](#datajsonitemscomestibles)
   - [`data/json/requirements/`](#datajsonrequirements)
@@ -427,6 +428,37 @@ The string extractor will extract all encountered strings from JSON for translat
 
 The extractor will skip these two specified strings and only these, extracting the remaining unmarked strings from the same JSON object.
 
+You can also mark the entire JSON object as non-translatable by adding a `"//I18N": false` comment at the top level:
+
+```jsonc
+{
+  "id": "zweifire_on",
+  "type": "ITEM",
+  "subtypes": [ "TOOL" ],
+  "name": { "str": "flammenschwert", "str_pl": "flammenschwerter" },
+  "//": "All of this is SUPPOSED to be in German.",
+  "//I18N": false,
+  ...
+}
+```
+
+Some objects may be non-translatable by default. For example, mutations, if `player_display` is `false` and no `starting_trait` or `initial_ma_styles` fields are specified. In this case, to enable translation, you must explicitly add the `"//I18N": true` comment if this mutation is still visible to the player somewhere during normal gameplay, for instance, during character creation:
+
+```jsonc
+{
+  "type": "mutation",
+  "id": "BLOODTHORNE_SORCERY",
+  "name": "Thornwitchery",
+  "description": "This is the school trait for Bloodthorne Druids.  You shouldn't see it directly.",
+  "points": 0,
+  "//I18N": true,
+  "starting_trait": false,
+  "purifiable": false,
+  "valid": false,
+  "player_display": false
+}
+```
+
 ## Comments
 
 JSON has no intrinsic support for comments.  However, by convention in CDDA
@@ -491,9 +523,6 @@ Here's a quick summary of what each of the JSON files contain, broken down by fo
 | `monstergroups_egg.json`      | monster spawn groups from eggs
 | `monsters.json`               | monster descriptions, mostly zombies
 | `morale_types.json`           | morale modifier messages
-| `mutation_category.json`      | messages for mutation categories
-| `mutation_ordering.json`      | draw order for mutation and CBM overlays in tiles mode
-| `mutations.json`              | traits/mutations
 | `names.json`                  | names used for NPC/player name generation
 | `overmap_connections.json`    | connections for roads and tunnels in the overmap
 | `overmap_terrain.json`        | overmap terrain
@@ -524,7 +553,21 @@ Here's a quick summary of what each of the JSON files contain, broken down by fo
 | `vehicle_part_locations.json` | locations on vehicles where parts are installed
 | `vitamin.json`                | vitamins and their deficiencies
 
-selected subfolders
+## `data/json/mutations/`
+
+| Filename                 | Description
+|---                       |---
+| `mutation_category.json` | messages for mutation categories
+| `mutation_ordering.json` | draw order for mutation and CBM overlays in tiles mode
+| `mutations.json`         | biological mutations
+| `mutations_limb.json`    | biological mutations, limbs, horns, hooves, tails, etc.
+| `mutations_skin.json`    | biological mutations, skin, fur, scales, chitin, etc.
+| `supernatural.json`      | non-biological anomalous traits
+| `professions.json`       | backgrounds and hobby
+| `mycus.json`             | fungal mutations
+| `debug.json`             | debug traits/mutations
+| `baseline.json`          | human dummy traits
+| `npc_only.json`          | NPC-only pseudo-traits and markers
 
 ## `data/json/items/`
 
@@ -628,7 +671,7 @@ This section describes each json file and their contents. Each json has their ow
     ]
   }
 ```
-For information about tools with option to export ASCII art in format ready to be pasted into `ascii_arts.json`, see [ASCII_ARTS.md](ASCII_ARTS.md).
+For information about tools with option to export ASCII art in format ready to be pasted into the appropriate JSON file, see [ASCII_ART.md](../ASCII_ART.md).
 
 ### Snippets 
 
@@ -812,7 +855,7 @@ Without specifying, the random snippet would be used
 
 ------
 
-Snippets can also be used in EoC, see [EFFECT_ON_CONDITION.md#u_message](EFFECT_ON_CONDITION.md#u_messagenpc_message)
+Snippets can also be used in EoC, see [`EFFECT_ON_CONDITION.md`](EFFECT_ON_CONDITION.md#u_messagenpc_messagemessage)
 
 ------
 
@@ -1379,7 +1422,7 @@ When adding a new bionic, if it's not included with another one, you must also a
 | `magic_color`       | _(optional)_ Determines which color identifies this damage type when used in spells. (defaults to "black")
 | `derived_from`      | _(optional)_ An array that determines how this damage type should be calculated in terms of armor protection and monster resistance values. The first value is the source damage type and the second value is the modifier applied to source damage type calculations.
 | `onhit_eocs`        | _(optional)_ An array of effect-on-conditions that activate when a monster or character hits another monster or character with this damage type. In this case, `u` refers to the damage source and `npc` refers to the damage target.
-| `ondamage_eocs`        | _(optional)_ An array of effect-on-conditions that activate when a monster or character takes damage from another monster or character with this damage type. In this case, `u` refers to the damage source and `npc` refers to the damage target. Also have access to some [context vals](EFFECT_ON_CONDITION#context-variables-for-other-eocs)
+| `ondamage_eocs`        | _(optional)_ An array of effect-on-conditions that activate when a monster or character takes damage from another monster or character with this damage type. In this case, `u` refers to the damage source and `npc` refers to the damage target. Also have access to some [context vals](EFFECT_ON_CONDITION.md#context-variables-for-other-eocs)
 
 ```jsonc
   {
@@ -2152,7 +2195,7 @@ The array of hobbies (listed as professions) is whitelisted to all characters.  
 ### Scores, Achievements, and Conducts
 
 Scores are defined in two or three steps based on *events*.  To see what events
-exist and what data they contain, read [`event.h`](../src/event.h).
+exist and what data they contain, read [`event.h`](/src/event.h).
 
 Each event contains a certain set of fields.  Each field has a string key and a
 `cata_variant` value.  The fields should provide all the relevant information
@@ -4322,7 +4365,7 @@ Setting of sprite sheets. Same as `tiles-new` field in `tile_config`. Sprite fil
 
 # Obsoletion and migration
 
-[OBSOLETION_AND_MIGRATION.md](#OBSOLETION_AND_MIGRATION.md)
+[OBSOLETION_AND_MIGRATION.md](OBSOLETION_AND_MIGRATION.md)
 
 
 # Field types

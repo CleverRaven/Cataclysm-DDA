@@ -202,7 +202,6 @@
       { "item": "500_speedloader5", "prob": 4 },
       { "item": "38_speedloader6", "prob": 60 },
       { "item": "38_speedloader", "prob": 20 },
-      { "item": "40_speedloader6", "prob": 5 },
       { "item": "44_speedloader6", "prob": 35 },
       { "item": "454_speedloader5", "prob": 5 }
     ]

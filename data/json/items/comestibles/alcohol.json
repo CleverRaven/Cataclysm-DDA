@@ -68,7 +68,6 @@
     "weight": "50 g",
     "color": "white",
     "addiction_type": "alcohol",
-    "use_action": [ "ALCOHOL" ],
     "stim": -12,
     "container": "bottle_glass",
     "comestible_type": "DRINK",
@@ -87,6 +86,7 @@
     "charges": 5,
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "fun": 15,
+    "vitamins": [ [ "ethanol", 5 ] ],
     "freezing_point": -8
   },
   {
@@ -98,7 +98,6 @@
     "weight": "50 g",
     "color": "white",
     "addiction_type": "alcohol",
-    "use_action": [ "ALCOHOL" ],
     "stim": -12,
     "container": "bottle_glass",
     "comestible_type": "DRINK",
@@ -116,6 +115,7 @@
     "phase": "liquid",
     "charges": 5,
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
+    "vitamins": [ [ "ethanol", 7 ] ],
     "fun": 15,
     "freezing_point": -8
   },
@@ -127,7 +127,6 @@
     "weight": "50 g",
     "color": "red",
     "addiction_type": "alcohol",
-    "use_action": [ "ALCOHOL" ],
     "stim": -12,
     "container": "bottle_glass",
     "comestible_type": "DRINK",
@@ -144,6 +143,7 @@
     "phase": "liquid",
     "charges": 5,
     "fun": 15,
+    "vitamins": [ [ "ethanol", 7 ] ],
     "freezing_point": -8
   },
   {
@@ -155,7 +155,6 @@
     "weight": "50 g",
     "color": "red",
     "addiction_type": "alcohol",
-    "use_action": [ "ALCOHOL" ],
     "stim": -12,
     "container": "bottle_glass",
     "comestible_type": "DRINK",
@@ -172,6 +171,7 @@
     "phase": "liquid",
     "charges": 5,
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
+    "vitamins": [ [ "ethanol", 6 ] ],
     "fun": 16,
     "freezing_point": -9
   },
@@ -184,7 +184,6 @@
     "weight": "50 g",
     "color": "red",
     "addiction_type": "alcohol",
-    "use_action": [ "ALCOHOL" ],
     "stim": -12,
     "container": "bottle_glass",
     "comestible_type": "DRINK",
@@ -202,6 +201,7 @@
     "charges": 5,
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "fun": 15,
+    "vitamins": [ [ "ethanol", 9 ] ],
     "freezing_point": -8
   },
   {
@@ -213,7 +213,6 @@
     "weight": "50 g",
     "color": "red",
     "addiction_type": "alcohol",
-    "use_action": [ "ALCOHOL" ],
     "stim": -12,
     "container": "bottle_glass",
     "comestible_type": "DRINK",
@@ -230,6 +229,7 @@
     "phase": "liquid",
     "charges": 5,
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
+    "vitamins": [ [ "ethanol", 9 ] ],
     "fun": 15,
     "freezing_point": -8
   },
@@ -242,9 +242,7 @@
     "weight": "249 g",
     "color": "brown",
     "addiction_type": "alcohol",
-    "use_action": [ "ALCOHOL" ],
     "stim": -4,
-    "container": "can_drink",
     "comestible_type": "DRINK",
     "symbol": "~",
     "quench": 18,
@@ -262,7 +260,7 @@
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "freezing_point": -5,
     "fun": 14,
-    "vitamins": [ [ "calcium", 1 ] ]
+    "vitamins": [ [ "ethanol", 5 ], [ "calcium", 1 ] ]
   },
   {
     "type": "ITEM",
@@ -272,7 +270,6 @@
     "weight": "36 g",
     "color": "brown",
     "addiction_type": "alcohol",
-    "use_action": [ "ALCOHOL" ],
     "stim": -12,
     "container": "bottle_glass",
     "comestible_type": "DRINK",
@@ -288,6 +285,7 @@
     "material": [ "alcohol" ],
     "volume": "250 ml",
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
+    "vitamins": [ [ "ethanol", 16 ] ],
     "freezing_point": -30,
     "phase": "liquid",
     "charges": 7,
@@ -302,7 +300,6 @@
     "weight": "36 g",
     "color": "light_cyan",
     "addiction_type": "alcohol",
-    "use_action": [ "ALCOHOL" ],
     "stim": -12,
     "container": "bottle_glass",
     "comestible_type": "DRINK",
@@ -319,6 +316,7 @@
     "phase": "liquid",
     "charges": 7,
     "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
+    "vitamins": [ [ "ethanol", 15 ] ],
     "freezing_point": -30,
     "fun": 15
   },
@@ -331,7 +329,6 @@
     "weight": "36 g",
     "color": "light_cyan",
     "addiction_type": "alcohol",
-    "use_action": [ "ALCOHOL" ],
     "stim": -12,
     "container": "bottle_glass",
     "comestible_type": "DRINK",
@@ -349,6 +346,7 @@
     "charges": 7,
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "freezing_point": -30,
+    "vitamins": [ [ "ethanol", 15 ] ],
     "fun": 15
   },
   {
@@ -360,7 +358,6 @@
     "weight": "36 g",
     "color": "light_cyan",
     "addiction_type": "alcohol",
-    "use_action": [ "ALCOHOL" ],
     "stim": -10,
     "container": "bottle_glass",
     "comestible_type": "DRINK",
@@ -378,6 +375,7 @@
     "charges": 7,
     "fun": 15,
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
+    "vitamins": [ [ "ethanol", 15 ] ],
     "freezing_point": -30
   },
   {
@@ -389,7 +387,6 @@
     "weight": "36 g",
     "color": "yellow",
     "addiction_type": "alcohol",
-    "use_action": [ "ALCOHOL" ],
     "stim": -12,
     "container": "bottle_glass",
     "comestible_type": "DRINK",
@@ -407,6 +404,7 @@
     "charges": 7,
     "fun": 18,
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
+    "vitamins": [ [ "ethanol", 16 ] ],
     "freezing_point": -30
   },
   {
@@ -418,7 +416,6 @@
     "weight": "36 g",
     "color": "light_cyan",
     "addiction_type": "alcohol",
-    "use_action": [ "ALCOHOL" ],
     "stim": -10,
     "container": "bottle_glass",
     "comestible_type": "DRINK",
@@ -433,6 +430,7 @@
     "material": [ "alcohol" ],
     "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN", "NO_AUTO_CONSUME" ],
+    "vitamins": [ [ "ethanol", 12 ] ],
     "freezing_point": -17,
     "phase": "liquid",
     "charges": 7,
@@ -464,6 +462,7 @@
     "phase": "liquid",
     "charges": 7,
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
+    "vitamins": [ [ "ethanol", 4 ] ],
     "fun": 15,
     "freezing_point": -8
   },
@@ -476,7 +475,6 @@
     "weight": "36 g",
     "color": "white",
     "addiction_type": "alcohol",
-    "use_action": [ "ALCOHOL" ],
     "stim": -12,
     "container": "bottle_glass",
     "comestible_type": "DRINK",
@@ -494,6 +492,7 @@
     "phase": "liquid",
     "charges": 7,
     "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
+    "vitamins": [ [ "ethanol", 5 ] ],
     "fun": 13,
     "freezing_point": -8
   },
@@ -506,7 +505,6 @@
     "weight": "36 g",
     "color": "red",
     "addiction_type": "alcohol",
-    "use_action": [ "ALCOHOL_WEAK" ],
     "stim": -2,
     "container": "jug_plastic",
     "sealed": false,
@@ -525,6 +523,7 @@
     "phase": "liquid",
     "charges": 7,
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
+    "vitamins": [ [ "ethanol", 5 ] ],
     "fun": 10,
     "freezing_point": -6
   },
@@ -537,7 +536,6 @@
     "weight": "36 g",
     "color": "red",
     "addiction_type": "alcohol",
-    "use_action": [ "ALCOHOL" ],
     "stim": -15,
     "container": "jug_plastic",
     "sealed": false,
@@ -553,6 +551,8 @@
     "volume": "250 ml",
     "phase": "liquid",
     "charges": 7,
+    "vitamins": [ [ "ethanol", 15 ] ],
+    "//": "why nutrient override?",
     "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
     "freezing_point": -30,
     "fun": 5
@@ -566,7 +566,6 @@
     "weight": "248 g",
     "color": "light_red",
     "addiction_type": "alcohol",
-    "use_action": [ "ALCOHOL_WEAK" ],
     "stim": -4,
     "container": "jug_plastic",
     "sealed": false,
@@ -584,7 +583,9 @@
     "volume": "250 ml",
     "charges": 1,
     "phase": "liquid",
+    "//": "why nutrient override?",
     "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
+    "vitamins": [ [ "ethanol", 5 ] ],
     "freezing_point": -30,
     "fun": 4
   },
@@ -597,7 +598,6 @@
     "weight": "36 g",
     "color": "light_red",
     "addiction_type": "alcohol",
-    "use_action": [ "ALCOHOL_WEAK" ],
     "stim": -4,
     "container": "bottle_glass",
     "comestible_type": "DRINK",
@@ -617,7 +617,7 @@
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "fun": 2,
     "freezing_point": -7,
-    "vitamins": [ [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "ethanol", 4 ], [ "fruit_allergen", 1 ] ]
   },
   {
     "type": "ITEM",
@@ -628,7 +628,6 @@
     "weight": "36 g",
     "color": "light_red",
     "addiction_type": "alcohol",
-    "use_action": [ "ALCOHOL" ],
     "stim": -12,
     "container": "bottle_glass",
     "comestible_type": "DRINK",
@@ -643,6 +642,7 @@
     "material": [ "alcohol" ],
     "volume": "250 ml",
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
+    "vitamins": [ [ "ethanol", 15 ] ],
     "freezing_point": -30,
     "phase": "liquid",
     "charges": 7,
@@ -657,7 +657,6 @@
     "weight": "251 g",
     "color": "brown",
     "addiction_type": "alcohol",
-    "use_action": [ "ALCOHOL_WEAK" ],
     "stim": -4,
     "container": "can_drink",
     "comestible_type": "DRINK",
@@ -676,7 +675,7 @@
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "freezing_point": -5,
     "fun": 18,
-    "vitamins": [ [ "calcium", 1 ] ]
+    "vitamins": [ [ "ethanol", 1 ], [ "calcium", 1 ] ]
   },
   {
     "type": "ITEM",
@@ -687,7 +686,6 @@
     "weight": "252 g",
     "color": "brown",
     "addiction_type": [ "alcohol", { "addiction": "caffeine", "potential": 3 } ],
-    "use_action": [ "ALCOHOL" ],
     "stim": 12,
     "container": "bottle_glass",
     "comestible_type": "DRINK",
@@ -706,7 +704,7 @@
     "phase": "liquid",
     "fun": 20,
     "flags": [ "EATEN_HOT", "NO_AUTO_CONSUME" ],
-    "vitamins": [ [ "milk_allergen", 1 ] ]
+    "vitamins": [ [ "ethanol", 20 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "ITEM",
@@ -717,7 +715,6 @@
     "weight": "250 g",
     "color": "brown",
     "addiction_type": [ "alcohol", { "addiction": "caffeine", "potential": 3 } ],
-    "use_action": [ "ALCOHOL" ],
     "stim": 12,
     "container": "bottle_glass",
     "comestible_type": "DRINK",
@@ -735,6 +732,7 @@
     "charges": 1,
     "phase": "liquid",
     "fun": 20,
+    "vitamins": [ [ "ethanol", 50 ] ],
     "flags": [ "EATEN_HOT", "NO_AUTO_CONSUME" ]
   },
   {
@@ -746,7 +744,6 @@
     "weight": "252 g",
     "color": "brown",
     "addiction_type": "alcohol",
-    "use_action": [ "ALCOHOL" ],
     "stim": 3,
     "container": "bottle_glass",
     "comestible_type": "DRINK",
@@ -764,6 +761,7 @@
     "charges": 1,
     "phase": "liquid",
     "fun": 20,
+    "vitamins": [ [ "ethanol", 15 ] ],
     "flags": [ "EATEN_HOT", "NO_AUTO_CONSUME" ]
   },
   {
@@ -775,7 +773,6 @@
     "weight": "250 g",
     "color": "brown",
     "addiction_type": "alcohol",
-    "use_action": [ "ALCOHOL" ],
     "stim": -10,
     "container": "bottle_glass",
     "comestible_type": "DRINK",
@@ -795,7 +792,7 @@
     "//": "Includes cola, so presumed to be a 250mL cocktail like the others.",
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "fun": 20,
-    "vitamins": [ [ "vitC", 1 ] ]
+    "vitamins": [ [ "ethanol", 55 ], [ "vitC", 1 ] ]
   },
   {
     "type": "ITEM",
@@ -807,7 +804,6 @@
     "weight": "252 g",
     "color": "yellow",
     "addiction_type": "alcohol",
-    "use_action": [ "ALCOHOL" ],
     "stim": -12,
     "container": "bottle_glass",
     "comestible_type": "DRINK",
@@ -826,7 +822,7 @@
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "freezing_point": -34,
     "fun": 20,
-    "vitamins": [ [ "vitC", 118 ], [ "calcium", 2 ], [ "iron", 1 ], [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "ethanol", 30 ], [ "vitC", 118 ], [ "calcium", 2 ], [ "iron", 1 ], [ "fruit_allergen", 1 ] ]
   },
   {
     "type": "ITEM",
@@ -837,7 +833,6 @@
     "weight": "252 g",
     "color": "brown",
     "addiction_type": "alcohol",
-    "use_action": [ "ALCOHOL" ],
     "stim": -12,
     "container": "bottle_glass",
     "comestible_type": "DRINK",
@@ -856,7 +851,7 @@
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "freezing_point": -34,
     "fun": 20,
-    "vitamins": [ [ "vitC", 135 ], [ "calcium", 1 ], [ "iron", 1 ], [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "ethanol", 20 ], [ "vitC", 135 ], [ "calcium", 1 ], [ "iron", 1 ], [ "fruit_allergen", 1 ] ]
   },
   {
     "type": "ITEM",
@@ -871,7 +866,6 @@
     "weight": "252 g",
     "color": "brown",
     "addiction_type": "alcohol",
-    "use_action": [ "ALCOHOL" ],
     "stim": -4,
     "container": "bottle_glass",
     "comestible_type": "DRINK",
@@ -891,7 +885,7 @@
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "freezing_point": -30,
     "fun": 20,
-    "vitamins": [ [ "junk_allergen", 1 ] ]
+    "vitamins": [ [ "ethanol", 25 ], [ "junk_allergen", 1 ] ]
   },
   {
     "type": "ITEM",
@@ -1038,7 +1032,6 @@
     "addiction_type": "alcohol",
     "use_action": [ "ALCOHOL_WEAK" ],
     "stim": -4,
-    "container": "can_drink",
     "comestible_type": "DRINK",
     "symbol": "~",
     "quench": 50,
@@ -1274,7 +1267,6 @@
     "addiction_type": "alcohol",
     "use_action": [ "ALCOHOL_WEAK" ],
     "stim": -4,
-    "container": "can_drink",
     "comestible_type": "DRINK",
     "symbol": "~",
     "quench": 50,
@@ -1305,7 +1297,6 @@
     "addiction_type": "alcohol",
     "use_action": [ "ALCOHOL_WEAK" ],
     "stim": -4,
-    "container": "can_drink",
     "comestible_type": "DRINK",
     "symbol": "~",
     "quench": 50,
@@ -1336,7 +1327,6 @@
     "addiction_type": "alcohol",
     "use_action": [ "ALCOHOL_WEAK" ],
     "stim": -4,
-    "container": "can_drink",
     "comestible_type": "DRINK",
     "symbol": "~",
     "quench": 50,
@@ -1367,7 +1357,6 @@
     "addiction_type": "alcohol",
     "use_action": [ "ALCOHOL_WEAK" ],
     "stim": -4,
-    "container": "bottle_glass",
     "comestible_type": "DRINK",
     "symbol": "~",
     "quench": 50,
@@ -1398,7 +1387,6 @@
     "addiction_type": "alcohol",
     "use_action": [ "ALCOHOL_WEAK" ],
     "stim": -4,
-    "container": "bottle_glass",
     "comestible_type": "DRINK",
     "symbol": "~",
     "quench": 50,
@@ -1429,7 +1417,6 @@
     "addiction_type": "alcohol",
     "use_action": [ "ALCOHOL" ],
     "stim": -8,
-    "container": "bottle_glass",
     "comestible_type": "DRINK",
     "symbol": "~",
     "quench": 50,
@@ -1933,7 +1920,6 @@
     "addiction_type": "alcohol",
     "use_action": [ "ALCOHOL_WEAK" ],
     "stim": -4,
-    "container": "can_drink",
     "comestible_type": "DRINK",
     "symbol": "~",
     "quench": 50,

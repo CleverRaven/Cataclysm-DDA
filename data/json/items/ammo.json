@@ -167,7 +167,8 @@
     "subtypes": [ "TOOL" ],
     "id": "betavoltaic",
     "category": "spare_parts",
-    "price": "100 USD",
+    "price": "407 USD 11 cents",
+    "price_postapoc": "2 USD",
     "name": { "str": "betavoltaic cell" },
     "symbol": "=",
     "color": "green",
@@ -1698,20 +1699,6 @@
     "color": "white",
     "flags": [ "TRADER_AVOID" ],
     "ammo_type": "glowstick_juice"
-  },
-  {
-    "type": "ITEM",
-    "subtypes": [ "AMMO" ],
-    "id": "graphite",
-    "name": { "str_sp": "graphite" },
-    "symbol": "!",
-    "description": "Graphite powder mixed with a clay binder.  Produces gray or black marks that are easily erased, but otherwise resistant to moisture, most chemicals, ultraviolet radiation, and natural aging.",
-    "volume": "1 ml",
-    "weight": "1 mg",
-    "color": "dark_gray",
-    "looks_like": "charcoal",
-    "flags": [ "TRADER_AVOID" ],
-    "ammo_type": "graphite"
   },
   {
     "type": "ITEM",

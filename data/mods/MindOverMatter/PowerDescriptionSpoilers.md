@@ -75,7 +75,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 <summary><h3>Hardened Skin (C)</h3></summary>
 
 *Difficulty*: 4
-*Duration*: 5 minutes and 56 seconds to 11 minutes and 33 seconds, plus 1 minute 26 seconds to to 4 minutes and 4 seconds per level.<br />
+*Duration*: 5 minutes and 56 seconds to 11 minutes and 33 seconds, plus 1 minute 26 seconds to 4 minutes and 4 seconds per level.<br />
 *Stamina Cost*: 2500, minus 125 per level to a minimum of 750<br />
 *Channeling Time*: 150 moves, minus 8.5 moves per level to a minimum of 50.<br />
 *Effects*: Increases piercing armor by 3, bashing armor by 6, and cutting armor by 4.  Also makes the psion immune to bleeding from wounds received during its duration (previous bleeding is unaffected) and reduces incoming pain by 2% per level.<br />
@@ -294,7 +294,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Duration*: Instant or 30 minutes to 1 hour 15 minutes<br />
 *Stamina Cost*: 4500, minus 125 per level to a minimum of 2000<br />
 *Channeling Time*: 250 moves, minus 4.5 moves per level to a minimum of 100<br />
-*Effects*: Sense nearby radiation, either on the psion themselves (instant duration) or in their surrounding environment.  Radiation sense on the psion provides an idea of how much radiation they are suffering from; radiation sense on the environment reveals only its presence or absense.<br />
+*Effects*: Sense nearby radiation, either on the psion themselves (instant duration) or in their surrounding environment.  Radiation sense on the psion provides an idea of how much radiation they are suffering from; radiation sense on the environment reveals only its presence or absence.<br />
 *Prerequisites*: Special (must be studied from notes)<br />
 </details>
 <details>
@@ -349,7 +349,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Duration*: 2 minutes to 7 minutes and 30 seconds, plus 9 seconds to 17 seconds per level<br />
 *Stamina Cost*: 5500, minus 145 per level to a minimum of 2750<br />
 *Channeling Time*: 150 moves, minus 9 moves per level to a minimum of 70<br />
-*Effects*: Gaze a short time into the future to predict enemy movements.  Grants a 25% chance to avoid any damage from an attack plus 1.5% per power level to a maximum of a 70% chance, prevents the psion from being grabbed, and applies the HARDTOHIT flag.  It also increases your effective dodge skill by 1 per 2 power levels.<br />
+*Effects*: Gaze a short time into the future to predict enemy movements.  Grants a 25% chance to avoid damage from ranged attacks plus 1.5% per power level to a maximum of a 95% chance, prevents the psion from being grabbed, and applies the HARDTOHIT flag.  It also increases your effective dodge skill by 1 per 2 power levels and provides 1 bonus dodge +1 per five power levels.<br />
 *Prerequisites*: Premonition 10 *or* Sense Hostility 5, Speed Reader 10 *or* Discern Weakness 6, Clairyovance 6<br />
 </details>
 <details>

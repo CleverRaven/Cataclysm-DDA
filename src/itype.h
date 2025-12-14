@@ -28,6 +28,7 @@
 #include "global_vars.h"
 #include "item.h"
 #include "item_pocket.h"
+#include "item_transformation.h"
 #include "iuse.h" // use_function
 #include "mapdata.h"
 #include "proficiency.h"
@@ -255,7 +256,7 @@ struct islot_comestible {
 
 struct islot_brewable {
     /** What are the results of fermenting this item? */
-    std::map<itype_id, int> results;
+    std::map<std::pair<itype_id, std::string>, int> results;
 
     /** How long for this brew to ferment. */
     time_duration time = 0_turns;
@@ -266,7 +267,7 @@ struct islot_brewable {
 
 struct islot_compostable {
     /** What are the results of fermenting this item? */
-    std::map<itype_id, int> results;
+    std::map<std::pair<itype_id, std::string>, int> results;
 
     /** How long for this compost to ferment. */
     time_duration time = 0_turns;
@@ -392,7 +393,7 @@ struct armor_portion_data {
     // if this item only conflicts with rigid items that share a direct layer with it
     bool rigid_layer_only = false;
 
-    // if this item is comfortable to wear without other items bellow it
+    // if this item is comfortable to wear without other items below it
     bool comfortable = false; // NOLINT(cata-serialize)
 
     /**
@@ -1484,10 +1485,10 @@ struct itype {
         time_duration countdown_interval = 0_seconds;
 
         /**
-        * If set the item will revert to this after countdown. If not set the item is deleted.
+        * If set the item will transform to this after countdown. If not set the item is deleted.
         * Tools revert to this when they run out of charges
         */
-        std::optional<itype_id> revert_to;
+        std::optional<item_transformation> transform_into;
 
         /**
         * Space occupied by items of this type
@@ -1531,9 +1532,9 @@ struct itype {
         nc_color color = c_white; // Color on the map (color.h)
 
         /**
-        * How much insulation this item provides, either as a container, or as
-        * a vehicle base part.  Larger means more insulation, less than 1 but
-        * greater than zero, transfers faster, cannot be less than zero.
+        * How much insulation this item provides, as a vehicle base part.
+        * Larger means more insulation, less than 1 but greater than zero,
+        * transfers faster, cannot be less than zero.
         */
         float insulation_factor = 1.0f;
 

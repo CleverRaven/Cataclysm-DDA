@@ -606,7 +606,7 @@
     "subtype": "hobby",
     "id": "knack_clair_astral_projection",
     "name": "Psychic Knack (Astral Projection)",
-    "description": "Before the Cataclysm you sometimes felt like already new unfamiliar places, like you had been there before in a dream, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
+    "description": "Before the Cataclysm you sometimes felt like you already knew unfamiliar places, like you had been there before in a dream, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
     "points": 5,
     "traits": [ "PSYCHIC_KNACK" ],
     "spells": [ { "id": "clair_astral_projection_knack", "level": 6 } ]

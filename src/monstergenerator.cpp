@@ -682,7 +682,6 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "PARROT", mattack::parrot );
     add_hardcoded_attack( "PARROT_AT_DANGER", mattack::parrot_at_danger );
     add_hardcoded_attack( "BLOW_WHISTLE", mattack::blow_whistle );
-    add_hardcoded_attack( "DARKMAN", mattack::darkman );
     add_hardcoded_attack( "SLIMESPRING", mattack::slimespring );
     add_hardcoded_attack( "EVOLVE_KILL_STRIKE", mattack::evolve_kill_strike );
     add_hardcoded_attack( "LEECH_SPAWNER", mattack::leech_spawner );
@@ -891,7 +890,6 @@ void mtype::load( const JsonObject &jo, const std::string_view src )
     optional( jo, was_loaded, "speed", speed, numeric_bound_reader<int> {0}, 0 );
     optional( jo, was_loaded, "aggression", agro, numeric_bound_reader<int> {-100, 100}, 0 );
     optional( jo, was_loaded, "morale", morale, 0 );
-    optional( jo, was_loaded, "stomach_size", stomach_size, 0 );
 
     optional( jo, was_loaded, "tracking_distance", tracking_distance, numeric_bound_reader<int> {3},
               8 );

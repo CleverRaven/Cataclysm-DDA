@@ -40,7 +40,6 @@
     "use_action": {
       "target": "psionic_transporter_remote_on",
       "msg": "You turn the transporter remote on and the screen begins displaying coordinates.",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "The transporter remote's batteries need more charge.",
       "type": "transform"
@@ -88,7 +87,7 @@
         "effect_on_conditions": [ "EOC_PSI_TRANSPORTER_REMOTE_TELEPORT" ]
       }
     ],
-    "flags": [ "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC" ],
+    "flags": [ "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC", "SPAWN_ACTIVE" ],
     "faults": [ { "fault_group": "electronic_general" } ],
     "pocket_data": [
       {

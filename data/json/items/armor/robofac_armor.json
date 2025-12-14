@@ -210,7 +210,6 @@
       "menu_text": "Turn on anchor",
       "msg": "You activate the anchor, and the Hub 01 logo on your front begins to glow white.",
       "target": "robofac_armor_anchor_on",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "It seems like this device needs power."
     },
@@ -268,7 +267,18 @@
       "msg": "The Hub logo on your front stops glowing.",
       "target": "robofac_armor_anchor"
     },
-    "flags": [ "DIMENSIONAL_ANCHOR", "PORTAL_PROOF", "STURDY", "OUTER", "WATERPROOF", "VARSIZE", "RAINPROOF", "HOOD", "SOFT" ]
+    "flags": [
+      "DIMENSIONAL_ANCHOR",
+      "PORTAL_PROOF",
+      "STURDY",
+      "OUTER",
+      "WATERPROOF",
+      "VARSIZE",
+      "RAINPROOF",
+      "HOOD",
+      "SOFT",
+      "SPAWN_ACTIVE"
+    ]
   },
   {
     "id": "robofac_head_rig",
@@ -293,7 +303,6 @@
       "type": "transform",
       "msg": "You lower the visor and flick the control dial to light amplification mode.",
       "target": "robofac_head_rig_nv",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "The visor's batteries are dead."
     },
@@ -328,7 +337,7 @@
     "copy-from": "robofac_head_rig",
     "name": { "str_sp": "Hub 01 modular recon headgear (NV+IR)" },
     "description": "Heavy duty hooded headwear for the true frontier explorer.  The visor has been lowered over the eyes, and is drawing low power to provide light amplification by way of an infrared illuminator and detector.  Lets you see in the dark, and detects heat signatures emitted by (un)living organisms.  Activate again to turn off and stow the visor.",
-    "extend": { "flags": [ "GNV_EFFECT" ] },
+    "extend": { "flags": [ "GNV_EFFECT", "SPAWN_ACTIVE" ] },
     "power_draw": "320 mW",
     "use_action": {
       "ammo_scale": 0,

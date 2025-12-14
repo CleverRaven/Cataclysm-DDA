@@ -154,7 +154,7 @@ Savescumming is not a normal part of the game, and there is no intention of ever
 
 If we allowed every stat to be increased during gameplay by doing [arbitrary timed activity] then a large portion of players would be convinced that they MUST do that on every character. Instead of just... starting with a reasonable amount of stat. And then they optimize fun out of the game, for themselves.
 
-We really do not want to encourage people picking lower starting stats with the idea that they will endlessly grind all of their characters up to some arbitary cap. There is nothing exciting or interesting about pressing the exercise button and watching the bar spin.
+We really do not want to encourage people picking lower starting stats with the idea that they will endlessly grind all of their characters up to some arbitrary cap. There is nothing exciting or interesting about pressing the exercise button and watching the bar spin.
 
 The absolute \#1 concern here is making sure that any implementation is not some hellish grind that looks even remotely attractive. Currently the game assumes you are starting in near-peak physical condition. It specifically and purposefully avoids this meaningless grind by simply letting you have the stats in the first place.
 

@@ -52,11 +52,16 @@ jobs:
 
   compose-tilesets:
     uses: ./.github/workflows/compose-tilesets.yml
+  build-translations:
+    uses: ./.github/workflows/build-translations.yml
+    secrets:
+      TX_TOKEN: ${{ secrets.TX_TOKEN }}
 
   builds:
     needs:
       - release
       - compose-tilesets
+      - build-translations
     strategy:
       fail-fast: false
       matrix:
@@ -110,7 +115,7 @@ jobs:
             ext: tar.gz
             content: application/gzip
           - name: macOS Curses Universal Binary (x64 and arm64)
-            os: macos-13
+            os: macos-15
             mxe: none
             tiles: 0
             sound: 0
@@ -118,7 +123,7 @@ jobs:
             ext: dmg
             content: application/x-apple-diskimage
           - name: macOS Tiles Universal Binary (x64 and arm64)
-            os: macos-13
+            os: macos-15
             mxe: none
             tiles: 1
             sound: 0
@@ -171,6 +176,10 @@ jobs:
           pattern: tileset-*
           path: gfx
           merge-multiple: true
+      - name: Fetch translations artifact into build
+        uses: actions/download-artifact@v4
+        with:
+          name: translations
       - name: Install dependencies (windows msvc) (0/4)
         if: runner.os == 'Windows'
         uses: lukka/get-cmake@latest
@@ -186,7 +195,7 @@ jobs:
         id: runvcpkg
         with:
           vcpkgDirectory: '${{ runner.workspace }}/b/vcpkg'
-          vcpkgGitCommitId: '3b57fb2e1ff55613db14d2aaf0a30529289c7050'
+          vcpkgGitCommitId: '1b6e030cf096faf4f82d7b7025de8b2abee3e3df'
       - name: Install dependencies (windows msvc) (3/4)
         if: runner.os == 'Windows'
         run: |
@@ -243,7 +252,7 @@ jobs:
         if: runner.os == 'macOS'
         run: |
           HOMEBREW_NO_AUTO_UPDATE=yes HOMEBREW_NO_INSTALL_CLEANUP=yes brew install gettext ccache parallel dylibbundler
-          pip3 install dmgbuild biplist
+          pip3 install --break-system-packages dmgbuild biplist
       - name: install macports (mac)
         if: runner.os == 'macOS' && matrix.tiles == 1
         uses: melusina-org/setup-macports@v1

@@ -164,6 +164,9 @@ dimension npc travel filter expansion and other tweaks
 NPCs automatically select the best MA style for their weapon
 Custom region settings for dimensions
 Allow magazines in guns/tools to regenerate ammo
+Honor theft preference inside the Advanced Inventory Management screens
+Add activity zone to automatically study books
+Completely remove the animal food system
 
 
 
@@ -368,6 +371,17 @@ Begin moving faction mission definitions to JSON, starting with descriptions
 New book artifact types.
 Better feedback on planting failures + plants need sunlight
 Add NO_BODY_HEAT flag for characters who don't show up on infrared
+Add flesh aberration corpse pit map extra
+Implement microscope functionality
+Add the Zombie Summoner
+Highlands Dimension
+Add a few crude guns
+Add borax, expand graphite use, update some smithing recipes and rock spawning
+Houses have a realistic amount of solar power
+410 Mossberg 500 and Mossberg Shockwave
+Add a few cigar variants and a recipe for making cigars
+Add a supermarket
+Portable hand truck for moving furniture and appliances
 
 
 ## Interface:
@@ -494,6 +508,9 @@ Default android sidebar changed to sidebar-mobile
 Present dispersion as MOA in item UI
 Hide overmap display's 'land use code' behind debug mode
 Show progress percent when butchering
+Hide installed gunmods when installed, show loose gunmods in the inventory UI
+overmap sidebar ImGui conversion
+Add vehicle zone enable/disable keys to the zone manager UI
 
 
 ## Mods:
@@ -925,6 +942,9 @@ Aftershock: Properly Ruin cities
 Add BLOCK_SUPERNATURAL_HEALING flag, apply it to Clay Golem attacks in Magiclysm
 [Aftershock] Add the Sibyl profession to the Esper scenario, add precognitive powers
 [Bombastic Perks] Add the Closetland playstyle perk
+Martial Mastery Stat Widget
+[Magiclysm] Elves have a physiological need to spend time in the wilderness
+[MoM/Crazy Cataclysm] Feral vitakinetics can inflict you with Ligma
 
 
 
@@ -1032,6 +1052,9 @@ Star vampires have `PERMANENT_INVISIBILITY`, when they drink blood it applies `S
 Molotovs do not create walls of fire
 Monsters moving through SHARP terrain trample the terrain
 Running over large/hard objects in vehicles will damage your wheels
+Separate toolsets for things embedded in wood and metal structures
+Multiple simultaneous and devastating deep nerfs to fire vs monsters
+Make picking individual threads out of cotton scraps SUCK (for morale)
 
 
 ## Bugfixes:
@@ -1419,6 +1442,25 @@ Fix spawning map extras with non-default region settings
 Fix fishing on non river/lake/ocean tiles
 Fix roads going nowhere
 Prevent segfault when cancelling butchery
+[Sorcerer] Sorcerers can learn advanced versions of spells though having high enough spell level of the base spell
+[Dinomod/Innawood] Remove cities if using Dinomod/Innawood together
+Eating human zombie flesh is cannibalism
+Fix rare overmap save corruption from specific horde metadata
+Audit solar panel installation/removal reqs for vehicles
+Fix the scaling factor for high-dpi displays.
+calculate the width of the overmap sidebar correctly
+Various UI problems caused by shared_ptr change
+Heating items now changes temperature, properly resets temp flags
+Magic teleporters expire after copy_location EOC run
+Fixing heatpack requiring appliances or fire to work
+Make the rivers flow again (in winter)
+Crash when user cancels ^control vehicle dialog for vehicles with multiple controls
+Insulation works on map items, is now a pocket property.
+Martial Mastery no longer deletes mobile sidebar
+Keep original name when a mod item inherits base item with copy-from but doesn't specify a name
+Fixed weight and volume calculations in the insert ui for items counted by charge.
+Adds deserialization mapping for ACT_BLEED, preventing saved games from corrupting when saved mid-bleed. Also fixes afflicted game saves.
+Fixed weight and volume calculations in the insert ui for items counted by charge.
 
 
 ## Performance:
@@ -1602,6 +1644,15 @@ Allowing inverting lake generation for islands-style overmaps
 Add debug command to print overmap noise maps
 Allow specifying city name lists in region settings
 Clang tidy rule to catch/reject unicode replacement character
+Use copy-from for region settings instead of overlays
+Allow specifying variants for brewing and compost results
+zone sorting refactor
+multi-activity overhaul, part 3: split up generic_multi_activity_check_requirement()
+multi-activity overhaul part 4: split up generic_multi_activity_do()
+move highway intersection grid into a generic class
+multi-activity overhaul part 5: split up generic_multi_activity_handler()
+move ACT_FISH handler to fish_activity_actor
+move mining activity handlers to activity actors
 
 
 ## Build:
@@ -1630,6 +1681,8 @@ Initial support for GNU Make for Windows
 Move Android bundle generation to manually triggered workflow
 Fix Mac build (Bump up dmg size limit in macOS release build)
 Build tilesets in CI for releases, delete tilesets from repo
+Build translations in CI for releases, delete translations from repo
+Fix clang 21 warnings
 
 
 ## I18N and A11Y:

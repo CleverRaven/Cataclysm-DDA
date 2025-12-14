@@ -1229,10 +1229,10 @@
       {
         "values": [
           {
-            "value": "EVASION",
+            "value": "RANGE_DODGE",
             "add": {
               "math": [
-                "min(((0.25 + ( u_spell_level('clair_dodge_power') * 0.015) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 0.7)"
+                "min(((0.25 + ( u_spell_level('clair_dodge_power') * 0.015) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 0.95)"
               ]
             }
           },
@@ -1241,6 +1241,14 @@
             "add": {
               "math": [
                 "min((( ( u_spell_level('clair_dodge_power') * 0.5) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 10)"
+              ]
+            }
+          },
+          {
+            "value": "BONUS_DODGE",
+            "add": {
+              "math": [
+                "1 + min( ( ( ( u_spell_level('clair_dodge_power') * 0.2) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 4)"
               ]
             }
           }
@@ -1301,7 +1309,7 @@
     "remove_message": "The world seems wrapped in gauze compared to before.",
     "rating": "good",
     "max_duration": "7 days",
-    "max_intensity": 43,
+    "show_in_info": true,
     "removes_effects": [
       "dazed",
       "stunned",

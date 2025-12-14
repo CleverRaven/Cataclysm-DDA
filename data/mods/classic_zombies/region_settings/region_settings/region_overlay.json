@@ -1,7 +1,7 @@
 [
   {
     "type": "region_settings_lake",
-    "id": "default_classiczombies",
+    "id": "default",
     "copy-from": "default",
     "//": "Smaller less numerous lakes",
     "noise_threshold_lake": 0.35,
@@ -9,7 +9,7 @@
   },
   {
     "type": "region_settings_ocean",
-    "id": "default_classiczombies",
+    "id": "default",
     "copy-from": "default",
     "ocean_start_north": 250,
     "ocean_start_east": 900,
@@ -17,7 +17,7 @@
   },
   {
     "type": "region_settings_forest",
-    "id": "default_classiczombies",
+    "id": "default",
     "copy-from": "default",
     "noise_threshold_forest": 0.4,
     "noise_threshold_forest_thick": 0.45,
@@ -28,15 +28,8 @@
   },
   {
     "type": "region_settings_city",
-    "id": "default_classiczombies_temp",
+    "id": "default",
     "copy-from": "default",
-    "//": "extend is processed before delete, cannot overwrite a weighted list with extend",
-    "delete": { "shops": [ "s_hunting", "s_gun_a", "s_gun_b", "mil_surplus", "mil_surplus_1", "mil_surplus_2" ] }
-  },
-  {
-    "type": "region_settings_city",
-    "id": "default_classiczombies",
-    "copy-from": "default_classiczombies_temp",
     "//": "Increased hunting store chance, decreased gun store/mil surplus chances.",
     "extend": {
       "shops": [
@@ -51,7 +44,7 @@
   },
   {
     "type": "weather_generator",
-    "id": "default_classiczombies",
+    "id": "default",
     "copy-from": "default",
     "base_temperature": 5.5,
     "base_humidity": 50.0,
@@ -61,14 +54,85 @@
   },
   {
     "type": "region_settings",
-    "id": "default_classiczombies",
+    "id": "default",
     "copy-from": "default",
-    "lakes": "default_classiczombies",
-    "ocean": "default_classiczombies",
-    "forests": "default_classiczombies",
-    "cities": "default_classiczombies",
-    "weather": "default_classiczombies",
     "urbanity_increase": [ -1, 0, 0, -1 ],
     "feature_flag_settings": { "whitelist": [ "CLASSIC" ] }
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "default_t_region_tree_forest_dense",
+    "ter_id": "t_region_tree_forest_dense",
+    "replace_with_terrain": [
+      [ "t_tree", 18 ],
+      [ "t_tree_alder", 10 ],
+      [ "t_tree_spruce", 32 ],
+      [ "t_tree_pine", 18 ],
+      [ "t_tree_maple", 7 ],
+      [ "t_tree_birch", 7 ],
+      [ "t_tree_cottonwood", 8 ],
+      [ "t_region_tree_dead", 5 ],
+      [ "t_region_tree_forest_other", 5 ]
+    ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "default_t_region_tree_forest_other",
+    "ter_id": "t_region_tree_forest_other",
+    "replace_with_terrain": [ [ "t_tree_willow", 15 ], [ "t_tree_elm", 4 ], [ "t_tree_juniper", 5 ] ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "default_t_region_tree_forest",
+    "ter_id": "t_region_tree_forest",
+    "replace_with_terrain": [ [ "t_region_tree_forest_dense", 2 ], [ "t_region_tree_forest_other", 1 ] ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "default_t_region_tree",
+    "ter_id": "t_region_tree",
+    "replace_with_terrain": [
+      [ "t_tree", 128 ],
+      [ "t_tree_pine", 64 ],
+      [ "t_tree_spruce", 256 ],
+      [ "t_tree_young", 128 ],
+      [ "t_tree_birch", 16 ],
+      [ "t_tree_elm", 16 ],
+      [ "t_tree_cottonwood", 16 ],
+      [ "t_tree_alder", 16 ],
+      [ "t_tree_maple", 32 ],
+      [ "t_tree_willow", 32 ],
+      [ "t_region_tree_dead", 48 ]
+    ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "default_t_region_tree_shade",
+    "ter_id": "t_region_tree_shade",
+    "replace_with_terrain": [
+      [ "t_tree", 64 ],
+      [ "t_tree_young", 32 ],
+      [ "t_tree_birch", 16 ],
+      [ "t_tree_elm", 16 ],
+      [ "t_tree_cottonwood", 16 ],
+      [ "t_tree_alder", 16 ],
+      [ "t_tree_maple", 32 ],
+      [ "t_tree_willow", 32 ],
+      [ "t_tree_dead", 2 ]
+    ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "default_t_region_tree_fruit",
+    "ter_id": "t_region_tree_fruit",
+    "replace_with_terrain": [
+      [ "t_tree_young", 4 ],
+      [ "t_tree_crabapple", 4 ],
+      [ "t_tree_apple", 1 ],
+      [ "t_tree_pear", 1 ],
+      [ "t_tree_elderberry", 2 ],
+      [ "t_tree_cherry", 6 ],
+      [ "t_tree_dead", 4 ]
+    ]
   }
 ]

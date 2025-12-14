@@ -1,13 +1,13 @@
 [
   {
     "type": "effect_on_condition",
-    "id": "EOC_metamagic_toggle_still",
-    "condition": { "compare_string": [ "yes", { "u_val": "perk_metamagic_still_deactivated" } ] },
+    "id": "EOC_metamagic_toggle_still_on",
+    "effect": [ { "u_add_var": "perk_metamagic_still_deactivated", "value": "no" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_metamagic_toggle_still_off",
     "effect": [
-      { "u_message": "You activate your still metamagic" },
-      { "u_add_var": "perk_metamagic_still_deactivated", "value": "no" }
-    ],
-    "false_effect": [
       { "u_message": "You deactivate your still metamagic" },
       { "u_add_var": "perk_metamagic_still_deactivated", "value": "yes" }
     ]

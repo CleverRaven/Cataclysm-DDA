@@ -267,7 +267,7 @@
     "type": "SPELL",
     "name": { "str": "Book far tp", "//~": "NO_I18N" },
     "description": { "str": "Teleports you to a distant location.", "//~": "NO_I18N" },
-    "message": "You find the description of a distance place.",
+    "message": "You find the description of a distant place.",
     "valid_targets": [ "self" ],
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
     "effect": "effect_on_condition",

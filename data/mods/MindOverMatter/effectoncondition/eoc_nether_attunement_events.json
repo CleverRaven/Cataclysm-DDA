@@ -245,7 +245,12 @@
     "id": "EOC_PSIONICS_SET_NETHER_ATTUNEMENT_BOOST",
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
-    "condition": { "not": { "u_has_effect": "effect_noetic_resilience" } },
+    "condition": {
+      "and": [
+        { "not": { "u_has_effect": "effect_noetic_resilience" } },
+        { "not": { "u_has_trait": "PSI_EXTENDED_CHANNELING_active" } }
+      ]
+    },
     "effect": [
       {
         "run_eocs": [
@@ -294,7 +299,29 @@
         ]
       }
     ],
-    "false_effect": { "math": [ "u_nether_attunement_power_scaling = 1.05" ] }
+    "false_effect": {
+      "if": { "u_has_effect": "effect_noetic_resilience" },
+      "then": { "math": [ "u_nether_attunement_power_scaling = 1.05" ] },
+      "else": {
+        "switch": { "math": [ "u_vitamin('vitamin_psionic_drain')" ] },
+        "cases": [
+          { "case": 0, "effect": { "math": [ "u_nether_attunement_power_scaling = 0.6" ] } },
+          { "case": 15, "effect": { "math": [ "u_nether_attunement_power_scaling = 0.75" ] } },
+          { "case": 35, "effect": { "math": [ "u_nether_attunement_power_scaling = 0.82" ] } },
+          { "case": 55, "effect": { "math": [ "u_nether_attunement_power_scaling = 0.9" ] } },
+          { "case": 75, "effect": { "math": [ "u_nether_attunement_power_scaling = 0.97" ] } },
+          { "case": 95, "effect": { "math": [ "u_nether_attunement_power_scaling = 1.04" ] } },
+          { "case": 115, "effect": { "math": [ "u_nether_attunement_power_scaling = 1.1" ] } },
+          { "case": 135, "effect": { "math": [ "u_nether_attunement_power_scaling = 1.18" ] } },
+          { "case": 155, "effect": { "math": [ "u_nether_attunement_power_scaling = 1.26" ] } },
+          { "case": 175, "effect": { "math": [ "u_nether_attunement_power_scaling = 1.35" ] } },
+          { "case": 195, "effect": { "math": [ "u_nether_attunement_power_scaling = 1.45" ] } },
+          { "case": 215, "effect": { "math": [ "u_nether_attunement_power_scaling = 1.60" ] } },
+          { "case": 235, "effect": { "math": [ "u_nether_attunement_power_scaling = 1.80" ] } },
+          { "case": 245, "effect": { "math": [ "u_nether_attunement_power_scaling = 2" ] } }
+        ]
+      }
+    }
   },
   {
     "type": "effect_on_condition",
@@ -332,7 +359,18 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PSIONICS_NETHER_ATTUNEMENT_CONSEQUENCES",
-    "condition": { "math": [ "u_vitamin('vitamin_psionic_drain') >= 15" ] },
+    "condition": {
+      "or": [
+        { "math": [ "u_vitamin('vitamin_psionic_drain') >= 15" ] },
+        {
+          "and": [
+            { "math": [ "u_vitamin('vitamin_psionic_drain') >= 15" ] },
+            { "u_has_trait": "PSI_EXTENDED_CHANNELING_active" },
+            { "x_in_y_chance": { "x": 1, "y": 4 } }
+          ]
+        }
+      ]
+    },
     "effect": {
       "weighted_list_eocs": [
         [ "EOC_DRAIN_EFFECT_CHECK_HEADACHE", 12 ],
@@ -1263,62 +1301,86 @@
         },
         "then": [
           {
-            "switch": { "math": [ "rand(2)" ] },
-            "cases": [
+            "run_eocs": [
               {
-                "case": 0,
+                "id": "EOC_NETHER_EFFECT_APPLY_TELEPORT_MISJUMP",
                 "effect": [
                   {
-                    "u_location_variable": { "context_val": "teleport_mishap_location" },
-                    "target_params": {
-                      "om_terrain": "field",
-                      "om_terrain_match_type": "CONTAINS",
-                      "search_range": { "math": [ "300 + (50 * clamp( ( (u_vitamin('vitamin_psionic_drain') - 149 ) / 10 ), 1, 15) )" ] },
-                      "min_distance": { "math": [ "100 + (10 * clamp( ( (u_vitamin('vitamin_psionic_drain') - 149 ) / 10 ), 1, 15) )" ] },
-                      "z": 0,
-                      "random": true
-                    }
-                  }
-                ]
-              },
-              {
-                "case": 1,
-                "effect": [
+                    "switch": { "math": [ "rand(30)" ] },
+                    "cases": [
+                      {
+                        "case": 0,
+                        "effect": [
+                          {
+                            "u_location_variable": { "context_val": "teleport_mishap_location" },
+                            "target_params": {
+                              "om_terrain": "field",
+                              "om_terrain_match_type": "CONTAINS",
+                              "search_range": { "math": [ "300 + (50 * clamp( ( (u_vitamin('vitamin_psionic_drain') - 149 ) / 10 ), 1, 15) )" ] },
+                              "min_distance": { "math": [ "100 + (10 * clamp( ( (u_vitamin('vitamin_psionic_drain') - 149 ) / 10 ), 1, 15) )" ] },
+                              "z": 0,
+                              "random": true
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "case": 10,
+                        "effect": [
+                          {
+                            "u_location_variable": { "context_val": "teleport_mishap_location" },
+                            "target_params": {
+                              "om_terrain": "forest",
+                              "om_terrain_match_type": "CONTAINS",
+                              "search_range": { "math": [ "300 + (50 * clamp( ( (u_vitamin('vitamin_psionic_drain') - 149 ) / 10 ), 1, 15) )" ] },
+                              "min_distance": { "math": [ "100 + (10 * clamp( ( (u_vitamin('vitamin_psionic_drain') - 149 ) / 10 ), 1, 15) )" ] },
+                              "z": 0,
+                              "random": true
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "case": 20,
+                        "effect": [
+                          {
+                            "u_location_variable": { "context_val": "teleport_mishap_location" },
+                            "target_params": {
+                              "om_terrain": "house",
+                              "om_terrain_match_type": "CONTAINS",
+                              "search_range": { "math": [ "300 + (50 * clamp( ( (u_vitamin('vitamin_psionic_drain') - 149 ) / 10 ), 1, 15) )" ] },
+                              "min_distance": { "math": [ "100 + (10 * clamp( ( (u_vitamin('vitamin_psionic_drain') - 149 ) / 10 ), 1, 15) )" ] },
+                              "z": 0,
+                              "random": true
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "case": 30,
+                        "effect": [
+                          {
+                            "u_location_variable": { "context_val": "teleport_mishap_location" },
+                            "target_params": {
+                              "om_terrain": "nether_glass_deep",
+                              "search_range": { "math": [ "300 + (50 * clamp( ( (u_vitamin('vitamin_psionic_drain') - 149 ) / 10 ), 1, 15) )" ] },
+                              "min_distance": 1,
+                              "z": -10,
+                              "random": true
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  { "u_teleport": { "context_val": "teleport_mishap_location" }, "force_safe": true },
                   {
-                    "u_location_variable": { "context_val": "teleport_mishap_location" },
-                    "target_params": {
-                      "om_terrain": "forest",
-                      "om_terrain_match_type": "CONTAINS",
-                      "search_range": { "math": [ "300 + (50 * clamp( ( (u_vitamin('vitamin_psionic_drain') - 149 ) / 10 ), 1, 15) )" ] },
-                      "min_distance": { "math": [ "100 + (10 * clamp( ( (u_vitamin('vitamin_psionic_drain') - 149 ) / 10 ), 1, 15) )" ] },
-                      "z": 0,
-                      "random": true
-                    }
-                  }
-                ]
-              },
-              {
-                "case": 2,
-                "effect": [
-                  {
-                    "u_location_variable": { "context_val": "teleport_mishap_location" },
-                    "target_params": {
-                      "om_terrain": "house",
-                      "om_terrain_match_type": "CONTAINS",
-                      "search_range": { "math": [ "300 + (50 * clamp( ( (u_vitamin('vitamin_psionic_drain') - 149 ) / 10 ), 1, 15) )" ] },
-                      "min_distance": { "math": [ "100 + (10 * clamp( ( (u_vitamin('vitamin_psionic_drain') - 149 ) / 10 ), 1, 15) )" ] },
-                      "z": 0,
-                      "random": true
-                    }
+                    "u_message": "The world around you abruptly vanishes, and you careen wildly through a darkness so cold you feel like your bones will freeze before abruptly emerging somewhere unfamiliar.",
+                    "type": "mixed"
                   }
                 ]
               }
             ]
-          },
-          { "u_teleport": { "context_val": "teleport_mishap_location" }, "force_safe": true },
-          {
-            "u_message": "The world around you abruptly vanishes, and you careen wildly through a darkness so cold you feel like your bones will freeze before abruptly emerging somewhere unfamiliar.",
-            "type": "bad"
           },
           {
             "run_eocs": [

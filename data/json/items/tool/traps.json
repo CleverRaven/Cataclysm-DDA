@@ -92,7 +92,7 @@
     "material": [ "wood" ],
     "symbol": ";",
     "color": "brown",
-    "flags": [ "SINGLE_USE" ],
+    "flags": [ "SINGLE_USE", "DAMAGE_VEHICLE_WHEELS" ],
     "use_action": {
       "type": "place_trap",
       "allow_underwater": true,
@@ -175,7 +175,7 @@
       "practice": 2,
       "done_message": "You scatter the caltrops on the %s."
     },
-    "flags": [ "SINGLE_USE" ],
+    "flags": [ "SINGLE_USE", "DAMAGE_VEHICLE_WHEELS" ],
     "melee_damage": { "bash": 1, "cut": 8 }
   },
   {
@@ -327,7 +327,7 @@
       "practice": 2,
       "done_message": "You scatter the teeth caltrops on the %s."
     },
-    "flags": [ "SINGLE_USE" ],
+    "flags": [ "SINGLE_USE", "DAMAGE_VEHICLE_WHEELS" ],
     "melee_damage": { "cut": 12 }
   }
 ]

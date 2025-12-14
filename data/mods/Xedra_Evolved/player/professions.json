@@ -197,12 +197,18 @@
     "name": "Xedra Offworld Team: Big Game Hunter",
     "description": "You are what Xedra refers to as a non-local guide.  A mature Gracken hired on to join the Offworld Acquisitions Team, you trained in human long distance weaponry in order to take down big game and create new improvements to bring back to your people.  They gave you a big gun and a little training in how to use it and in return you help them know what things in other dimensions to hunt and what to run from.",
     "recipes": [
+      "gracken_shade_arms",
       "gracken_strong_arms",
       "gracken_long_arms",
-      "gracken_shade_arms",
       "gracken_shade_hands",
       "gracken_sharp_nails",
-      "gracken_dextrous_hands"
+      "gracken_dextrous_hands",
+      "gracken_carnivorous_stomach",
+      "gracken_herbivorous_stomach",
+      "gracken_omnivorous_stomach",
+      "gracken_shade_legs",
+      "gracken_short_legs",
+      "gracken_long_legs"
     ],
     "traits": [
       "THRESH_SPECIES_GRACKEN",

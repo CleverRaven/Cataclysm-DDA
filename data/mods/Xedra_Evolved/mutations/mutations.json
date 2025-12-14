@@ -2,24 +2,24 @@
   {
     "type": "mutation",
     "id": "EGGSAC_SURVIVABLE",
-    "name": { "str": "Spider egg host", "//~": "NO_I18N" },
+    "name": { "str": "Spider egg host" },
     "points": 0,
     "player_display": false,
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": { "str": "You don't feel very well.  On an existential level.", "//~": "NO_I18N" }
+    "description": "You don't feel very well.  On an existential level."
   },
   {
     "type": "mutation",
     "id": "EGGSAC_FATAL",
-    "name": { "str": "Spider egg host", "//~": "NO_I18N" },
+    "name": { "str": "Spider egg host" },
     "points": 0,
     "player_display": false,
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": { "str": "You don't feel very well.  On an existential level.", "//~": "NO_I18N" }
+    "description": "You don't feel very well.  On an existential level."
   },
   {
     "type": "mutation",
@@ -34,13 +34,13 @@
   {
     "type": "mutation",
     "id": "MANIFEST_DESTINY_GOBLIN",
-    "name": { "str": "Transforming into Goblin", "//~": "NO_I18N" },
+    "name": { "str": "Transforming into Goblin" },
     "points": 0,
     "player_display": false,
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": { "str": "You don't feel very well.  On an existential level.", "//~": "NO_I18N" }
+    "description": "You don't feel very well.  On an existential level."
   },
   {
     "type": "mutation",
@@ -55,13 +55,13 @@
   {
     "type": "mutation",
     "id": "MANIFEST_DESTINY_SPIDER",
-    "name": { "str": "Transforming into Spider", "//~": "NO_I18N" },
+    "name": { "str": "Transforming into Spider" },
     "points": 0,
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
     "player_display": false,
-    "description": { "str": "You don't feel very well.  On an existential level.", "//~": "NO_I18N" }
+    "description": "You don't feel very well.  On an existential level."
   },
   {
     "type": "mutation",
@@ -107,25 +107,25 @@
   {
     "type": "mutation",
     "id": "NIGHTMARE_CHIMERAS",
-    "name": { "str": "Haunted by your dreams made flesh", "//~": "NO_I18N" },
+    "name": { "str": "Haunted by your dreams made flesh" },
     "points": 0,
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
     "player_display": false,
-    "description": { "str": "Your dreams can change reality.", "//~": "NO_I18N" },
+    "description": "Your dreams can change reality.",
     "vitamin_rates": [ [ "dream", -8640000 ] ]
   },
   {
     "type": "mutation",
     "id": "FRIENDLY_CHIMERAS",
-    "name": { "str": "Accompanied by your dreams made flesh", "//~": "NO_I18N" },
+    "name": { "str": "Accompanied by your dreams made flesh" },
     "points": 0,
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
     "player_display": false,
-    "description": { "str": "Your dreams can change reality.", "//~": "NO_I18N" },
+    "description": "Your dreams can change reality.",
     "vitamin_rates": [ [ "dream", -8640000 ] ]
   },
   {
@@ -149,14 +149,12 @@
   {
     "type": "mutation",
     "id": "GENERIC_UNCANNY_DODGE_TRAIT",
-    "name": { "str": "The Trait That Gives you Uncanny Dodge", "//~": "NO_I18N" },
-    "description": {
-      "str": "The uncanny dodge flag now works in effects, but preserve this trait for conditional logic such as with lilin.",
-      "//~": "NO_I18N"
-    },
+    "name": { "str": "The Trait That Gives you Uncanny Dodge" },
+    "description": "The uncanny dodge flag now works in effects, but preserve this trait for conditional logic such as with lilin.",
     "points": 1,
     "starting_trait": false,
     "purifiable": false,
+    "valid": false,
     "player_display": false,
     "flags": [ "UNCANNY_DODGE" ]
   },
@@ -263,11 +261,11 @@
   {
     "type": "mutation",
     "id": "DHAMPIR_FANGS_ACTIVE",
-    "name": { "str": "Dhampir Fangs on", "//~": "NO_I18N" },
+    "name": { "str": "Dhampir Fangs on" },
     "points": 0,
     "visibility": 1,
     "ugliness": 2,
-    "description": { "str": "Fang on!", "//~": "NO_I18N" },
+    "description": "Fang on!",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
@@ -593,8 +591,8 @@
   {
     "type": "mutation",
     "id": "VAMPIRE_TRUCE",
-    "name": { "str": "Vampire's Truce", "//~": "NO_I18N" },
-    "description": { "str": "The hidden trait that makes other vampires not attack you first.  It should be hidden.", "//~": "NO_I18N" },
+    "name": { "str": "Vampire's Truce" },
+    "description": "The hidden trait that makes other vampires not attack you first.  It should be hidden.",
     "points": 1,
     "valid": false,
     "purifiable": false,
@@ -607,6 +605,7 @@
     "name": { "str": "Blood Arts" },
     "points": 1,
     "description": "This provides the school trait for vampire blood powers.  It should not be visible.",
+    "//I18N": true,
     "valid": false,
     "purifiable": false,
     "player_display": false
@@ -890,7 +889,13 @@
     "types": [ "TEETH" ],
     "valid": false,
     "vitamin_rates": [ [ "human_blood_vitamin", 720 ], [ "mutagen", 300 ], [ "mutagenic_slurry", 1 ] ],
-    "flags": [ "CANNIBAL", "ALBINO", "HEMOVORE" ],
+    "flags": [ "CANNIBAL", "HEMOVORE" ],
+    "enchantments": [
+      {
+        "condition": { "test_eoc": "EOC_CONDITION_XE_VAMPIRE_AVOID_BURNING_IN_SUNLIGHT" },
+        "ench_effects": [ { "effect": "effect_vampire_albino", "intensity": 1 } ]
+      }
+    ],
     "spells_learned": [ [ "vampire_drink_blood_with_fangs_spell", 1 ] ]
   },
   {
@@ -1017,14 +1022,11 @@
   {
     "type": "mutation",
     "id": "VAMPIRE_BEAST_CLAWS_active",
-    "name": { "str": "Claws of the Beast Extended", "//~": "NO_I18N" },
+    "name": { "str": "Claws of the Beast Extended" },
     "points": 0,
     "visibility": 3,
     "ugliness": 2,
-    "description": {
-      "str": "Your fingers are transformed into sharp claws.  You can use them to attack, but performing mundane tasks will be harder.",
-      "//~": "NO_I18N"
-    },
+    "description": "Your fingers are transformed into sharp claws.  You can use them to attack, but performing mundane tasks will be harder.",
     "types": [ "CLAWS" ],
     "cost": 0,
     "player_display": false,
@@ -1064,10 +1066,14 @@
     "valid": false,
     "vitamins_absorb_multi": [ [ "all", [ [ "human_blood_vitamin", 1.25 ] ] ] ],
     "vitamin_rates": [ [ "human_blood_vitamin", 720 ], [ "mutagen", 300 ] ],
-    "flags": [ "CANNIBAL", "SUNBURN", "ALBINO", "DAYFEAR", "HEMOVORE" ],
+    "flags": [ "CANNIBAL", "DAYFEAR", "HEMOVORE" ],
     "enchantments": [
       { "condition": { "not": "is_day" }, "values": [ { "value": "OVERMAP_SIGHT", "add": 1 } ] },
-      { "values": [ { "value": "STAMINA_REGEN_MOD", "add": 0.2 }, { "value": "METABOLISM", "multiply": -0.2 } ] }
+      { "values": [ { "value": "STAMINA_REGEN_MOD", "add": 0.2 }, { "value": "METABOLISM", "multiply": -0.2 } ] },
+      {
+        "condition": { "test_eoc": "EOC_CONDITION_XE_VAMPIRE_AVOID_BURNING_IN_SUNLIGHT" },
+        "ench_effects": [ { "effect": "effect_vampire_burn_under_sunlight", "intensity": 1 } ]
+      }
     ]
   },
   {
@@ -1104,7 +1110,7 @@
     "purifiable": false,
     "valid": false,
     "name": { "str": "Blood-Fueled Magic" },
-    "description": "Your exhaust some of the blood in your veins to recover some of your spent mana.",
+    "description": "Blood has power, and you can draw on that power to fuel magick.",
     "spells_learned": [ [ "vampire_magic_for_blood_spell", 1 ] ]
   },
   {
@@ -1183,6 +1189,35 @@
       },
       { "condition": { "u_has_trait": "DHAMPIR_TRAIT" }, "values": [ { "value": "MAX_HP", "multiply": 0.15 } ] }
     ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_RENDING_TEETH",
+    "points": 3,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "Rending Jaws" },
+    "description": "You can turn the rest of your teeth into jagged fangs, allowing to you bite and inflict serious injuries in combat.\n\n<color_light_red>Initial Blood Cost:</color> 200 ml (<u_val:blood_amount_for_graph> ml current)\n<color_light_red>Periodic Blood Cost:</color> 100 ml",
+    "active": true,
+    "activated_is_setup": true,
+    "activation_msg": "Your jaw extends and your teeth grow long and jagged.",
+    "activated_eocs": [ "EOC_VAMPIRE_RENDING_TEETH_activated" ],
+    "deactivated_eocs": [ "EOC_VAMPIRE_RENDING_TEETH_deactivate" ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_RENDING_TEETH_active",
+    "name": { "str": "Rending Jaws Extended", "//~": "NO_I18N" },
+    "points": 0,
+    "visibility": 3,
+    "ugliness": 2,
+    "description": { "str": "Your jaws are extended and full of sharp teeth.", "//~": "NO_I18N" },
+    "//": "Does not have the TEETH type to avoid oddness with vampire fangs",
+    "cost": 0,
+    "player_display": false,
+    "valid": false,
+    "integrated_armor": [ "integrated_vampire_rending_jaws" ]
   },
   {
     "type": "mutation",
@@ -1309,6 +1344,17 @@
   },
   {
     "type": "mutation",
+    "id": "VAMPIRE_SUMMON_SHADOWS",
+    "name": { "str": "The Shadows that Crawl" },
+    "points": 5,
+    "description": "Your control over darkness has progressed to the point that you can animate patches of it as living shadows to attack your enemies.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "spells_learned": [ [ "vampire_summon_shadows", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "VAMPIRE_BAT_FORM",
     "name": { "str": "Shape of the Night Flier" },
     "points": 8,
@@ -1324,12 +1370,9 @@
   {
     "type": "mutation",
     "id": "VAMPIRE_BAT_FORM_TRAITS",
-    "name": { "str": "Bat Form", "//~": "NO_I18N" },
+    "name": { "str": "Bat Form" },
     "points": 0,
-    "description": {
-      "str": "You are a bat.  This provides the actual effects of bat form.  Should not be player-visible.",
-      "//~": "NO_I18N"
-    },
+    "description": "You are a bat.  This provides the actual effects of bat form.  Should not be player-visible.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
@@ -1386,12 +1429,9 @@
   {
     "type": "mutation",
     "id": "VAMPIRE_WOLF_FORM_TRAITS",
-    "name": { "str": "Wolf Form", "//~": "NO_I18N" },
+    "name": { "str": "Wolf Form" },
     "points": 0,
-    "description": {
-      "str": "You are a wolf.  This provides the actual effects of wolf form.  Should not be player-visible.",
-      "//~": "NO_I18N"
-    },
+    "description": "You are a wolf.  This provides the actual effects of wolf form.  Should not be player-visible.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
@@ -1440,9 +1480,9 @@
   {
     "type": "mutation",
     "id": "VAMPIRE_MIST_FORM_TRAITS",
-    "name": { "str": "Mist form traits", "//~": "NO_I18N" },
+    "name": { "str": "Mist form traits" },
     "points": 1,
-    "description": { "str": "This mutation carries the traits for mist form.  You shouldn't be able to see it in-game.", "//~": "NO_I18N" },
+    "description": "This mutation carries the traits for mist form.  You shouldn't be able to see it in-game.",
     "valid": false,
     "player_display": false,
     "enchantments": [ { "ench_effects": [ { "effect": "effect_vampire_mist_form", "intensity": 1 } ] } ],
@@ -1516,12 +1556,9 @@
   {
     "type": "mutation",
     "id": "VAMPIRE_SHADOW_FORM_TRAITS",
-    "name": { "str": "Shadow Form", "//~": "NO_I18N" },
+    "name": { "str": "Shadow Form" },
     "points": 0,
-    "description": {
-      "str": "You are shrouded in shadows.  This provides the actual effects of Shadow form.  Should not be player-visible.",
-      "//~": "NO_I18N"
-    },
+    "description": "You are shrouded in shadows.  This provides the actual effects of Shadow form.  Should not be player-visible.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
@@ -1573,10 +1610,11 @@
     "purifiable": false,
     "valid": false,
     "name": { "str": "Blind the Sun" },
-    "description": "You mastery over the shadowed path of blood has become much more potent, allowing you to use your vampiric powers and a massive expense of blood to blot out the sun for a few dozen minutes.\n\n<color_light_red>Initial Blood Cost:</color> 3000 ml (<u_val:blood_amount_for_graph> ml current)",
+    "description": "You mastery over the shadowed path of blood has become much more potent, allowing you to use your vampiric powers and a massive expense of blood to shroud yourself from the sun for a short time.\n\n<color_light_red>Initial Blood Cost:</color> 1000 ml (<u_val:blood_amount_for_graph> ml current)\n<color_light_red>Periodic Blood Cost:</color> 700 ml",
     "active": true,
-    "activated_is_setup": false,
-    "activated_eocs": [ "EOC_VAMPIRE_BLIND_THE_SUN" ]
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_BLIND_THE_SUN_activated" ],
+    "deactivated_eocs": [ "EOC_BLIND_THE_SUN_deactivated" ]
   },
   {
     "type": "mutation",
@@ -1596,12 +1634,9 @@
   {
     "type": "mutation",
     "id": "MENTOR_PEACE",
-    "name": { "str": "Mentor's peace", "//~": "NO_I18N" },
+    "name": { "str": "Mentor's peace" },
     "points": 0,
-    "description": {
-      "str": "Intended to be hidden.  Prevent the mentor from being killed by vampires and renfields and makes them react to attacks by vanishing in mist.",
-      "//~": "NO_I18N"
-    },
+    "description": "Intended to be hidden.  Prevent the mentor from being killed by vampires and renfields and makes them react to attacks by vanishing in mist.",
     "//": "Until NPC_DEATH can work, I'm using a forcefield so they can't perma-die before vanishing forever.  I tried to use an evasion effect so the message would be more fitting but it interfered with the hit_me.",
     "//2": "<npcname> and %1$s both failed to work for dialogue-based vanishing, so until it is fixed these messages will refer to the mentor's title.",
     "starting_trait": false,
@@ -1978,7 +2013,7 @@
   {
     "type": "mutation",
     "id": "VAMPIRE_BLOOD_FOR_POTENCY_REAL",
-    "name": { "str": "Boiling Crimson Cauldron Real", "//~": "NO_I18N" },
+    "name": { "str": "Boiling Crimson Cauldron Real" },
     "points": 10,
     "description": "Increases blood potency and drain while the player-visible version is active and has enough blood.  You should never see this.",
     "starting_trait": false,
@@ -2053,7 +2088,7 @@
     "id": "ANATHEMA_WEAKNESS_SUN_BURN",
     "name": { "str": "Anathema's Weakness: Slain by the Sun" },
     "points": -10,
-    "description": "Vampires burn under the sun, and becoming more of a vampire made you burn far more than any other vampire would.  While under the sun, you will take constant damage no matter how covered you are.",
+    "description": "Vampires burn under the sun, and becoming more of a vampire made you burn far more than any other vampire would.  Being under the sun will quickly ignite your flesh.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false
@@ -2181,12 +2216,9 @@
   {
     "type": "mutation",
     "id": "BOANN_RETALIATION",
-    "name": { "str": "Boann's retaliation", "//~": "NO_I18N" },
+    "name": { "str": "Boann's retaliation" },
     "points": 0,
-    "description": {
-      "str": "Intended to be hidden.  Makes Boann teleport the player away, spawns some huntsmen and hounds then cure all her ailments and injuries if she survives being hit by the player.",
-      "//~": "NO_I18N"
-    },
+    "description": "Intended to be hidden.  Makes Boann teleport the player away, spawns some huntsmen and hounds then cure all her ailments and injuries if she survives being hit by the player.",
     "starting_trait": false,
     "player_display": false,
     "purifiable": false,
@@ -2212,9 +2244,9 @@
   {
     "type": "mutation",
     "id": "XE_FACTION_CAMP_BROWNIE_BLESSING",
-    "name": { "str": "Brownie's Blessing", "//~": "NO_I18N" },
+    "name": { "str": "Brownie's Blessing" },
     "points": 1,
-    "description": { "str": "You are blessed by a brownie.  This should not be visible.", "//~": "NO_I18N" },
+    "description": "You are blessed by a brownie.  This should not be visible.",
     "purifiable": false,
     "valid": false,
     "player_display": false,

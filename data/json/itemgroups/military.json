@@ -225,7 +225,7 @@
           {
             "item": "heavy_load_bearing_vest_breacher",
             "contents-group": "custom_light_lbv",
-            "contents-item": "remington_870_breacher"
+            "contents-item": "mossberg_590_shockwave"
           }
         ],
         "prob": 1
@@ -692,7 +692,7 @@
       { "item": "saline", "prob": 10 },
       { "item": "instant_coffee", "prob": 25 },
       { "item": "con_milk", "prob": 10 },
-      { "item": "milk_UHT", "prob": 25 },
+      { "group": "milk_in_container", "prob": 25 },
       { "prob": 20, "group": "box_cereal2" },
       { "prob": 20, "group": "box_cereal3" },
       { "item": "sports_drink", "prob": 40 },
