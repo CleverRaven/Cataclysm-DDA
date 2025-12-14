@@ -977,7 +977,7 @@
       {
         "type": "spell",
         "spell_data": { "id": "shock_mine_control", "min_level": 1, "hit_self": true },
-        "allow_no_target": true, 
+        "allow_no_target": true,
         "monster_message": "",
         "cooldown": 3
       }
