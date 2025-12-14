@@ -295,8 +295,8 @@ TEST_CASE( "npc_talk_wearing_and_trait", "[npc_talk]" )
     CHECK( d.responses[1].text == "This is a trait test response." );
     CHECK( d.responses[2].text == "This is a short trait test response." );
     CHECK( d.responses[3].text == "This is a wearing test response." );
-    CHECK( d.responses[4].text == "This is an npc trait test response." );
-    CHECK( d.responses[5].text == "This is an npc short trait test response." );
+    CHECK( d.responses[4].text == "This is an NPC trait test response." );
+    CHECK( d.responses[5].text == "This is an NPC short trait test response." );
     player_character.toggle_trait( trait_ELFA_EARS );
     talker_npc.toggle_trait( trait_ELFA_EARS );
     player_character.toggle_trait( trait_PSYCHOPATH );
