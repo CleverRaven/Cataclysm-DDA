@@ -411,7 +411,6 @@
     "bleed_rate": 60,
     "vision_day": 50,
     "vision_night": 5,
-    "stomach_size": 1000,
     "harvest": "mutant_mammal_large_fur",
     "dissect": "dissect_lupine_sample_large",
     "reproduction": { "baby_type": { "baby_monster": "mon_dog_pup" }, "baby_count": 4, "baby_timer": 270 },

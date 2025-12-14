@@ -652,14 +652,6 @@ bool butchery_drops_harvest( butchery_data bt, Character &you )
                                    _( "You salvage what you can from the corpse, but it is badly damaged." ) );
         }
     }
-    if( corpse_item.has_flag( flag_UNDERFED ) ) {
-        monster_weight = std::round( 0.9 * monster_weight );
-        if( action != butcher_type::FIELD_DRESS && action != butcher_type::SKIN &&
-            action != butcher_type::DISSECT ) {
-            you.add_msg_if_player( m_bad,
-                                   _( "The corpse looks a little underweight�" ) );
-        }
-    }
     if( corpse_item.has_flag( flag_SKINNED ) ) {
         monster_weight = std::round( 0.85 * monster_weight );
     }
@@ -727,9 +719,6 @@ bool butchery_drops_harvest( butchery_data bt, Character &you )
         if( corpse_item.has_flag( flag_GIBBED ) && ( entry.type == harvest_drop_flesh ||
                 entry.type == harvest_drop_bone ) ) {
             roll /= 2;
-        }
-        if( corpse_item.has_flag( flag_UNDERFED ) && ( entry.type == harvest_drop_flesh ) ) {
-            roll /= 1.6;
         }
 
         if( corpse_item.has_flag( flag_SKINNED ) && entry.type == harvest_drop_skin ) {

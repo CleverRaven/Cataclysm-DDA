@@ -801,7 +801,6 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     assign( jo, "speed", speed, strict, 0 );
     assign( jo, "aggression", agro, strict, -100, 100 );
     assign( jo, "morale", morale, strict );
-    assign( jo, "stomach_size", stomach_size, strict );
     assign( jo, "amount_eaten", amount_eaten, strict );
 
     assign( jo, "tracking_distance", tracking_distance, strict, 3 );

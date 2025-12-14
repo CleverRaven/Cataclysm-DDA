@@ -104,8 +104,6 @@ static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_cramped_space( "cramped_space" );
-static const efftype_id effect_critter_underfed( "critter_underfed" );
-static const efftype_id effect_critter_well_fed( "critter_well_fed" );
 static const efftype_id effect_crushed( "crushed" );
 static const efftype_id effect_deaf( "deaf" );
 static const efftype_id effect_disarmed( "disarmed" );
@@ -261,7 +259,6 @@ monster::monster()
     ignoring = 0;
     upgrades = false;
     upgrade_time = -1;
-    stomach_timer = calendar::turn;
     last_updated = calendar::turn_zero;
     biosig_timer = calendar::before_time_starts;
     udder_timer = calendar::turn;
@@ -598,9 +595,6 @@ void monster::try_reproduce()
         }
 
         chance += 2;
-        if( !has_eaten_enough() ) {
-            chance += 1; //Reduce the chances but don't prevent birth if the animal is not eating.
-        }
         if( season_match && female && one_in( chance ) ) {
             int spawn_cnt = rng( 1, type->baby_count );
             if( !type->baby_type.baby_monster.is_null() ) {
@@ -634,9 +628,6 @@ void monster::refill_udders()
         debugmsg( "monster %s has no starting ammo to refill udders", get_name() );
         return;
     }
-    if( !has_eaten_enough() ) {
-        return;
-    }
     if( ammo.empty() ) {
         // legacy animals got empty ammo map, fill them up now if needed.
         ammo[type->starting_ammo.begin()->first] = type->starting_ammo.begin()->second;
@@ -663,66 +654,6 @@ void monster::refill_udders()
     }
 }
 
-void monster::recheck_fed_status()
-{
-    remove_effect( effect_critter_underfed );
-    remove_effect( effect_critter_well_fed );
-    if( !has_flag( mon_flag_EATS ) ) {
-        return;
-    }
-    if( has_fully_eaten() ) {
-        add_effect( effect_critter_well_fed, 24_hours );
-    } else if( !has_eaten_enough() ) {
-        add_effect( effect_critter_underfed, 24_hours );
-    }
-}
-
-void monster::set_amount_eaten( int new_amount )
-{
-    amount_eaten = new_amount;
-    recheck_fed_status();
-}
-
-void monster::mod_amount_eaten( int amount_to_add )
-{
-    amount_eaten += amount_to_add;
-    recheck_fed_status();
-}
-
-int monster::get_amount_eaten() const
-{
-    return amount_eaten;
-}
-
-int monster::get_stomach_fullness_percent() const
-{
-    if( type->stomach_size == 0 ) {
-        return 100; // no div-by-zero
-    }
-    return get_amount_eaten() / type->stomach_size;
-}
-
-bool monster::has_eaten_enough() const
-{
-    return !has_effect( effect_critter_underfed ) &&
-           ( has_effect( effect_critter_well_fed ) || has_fully_eaten() );
-}
-
-
-bool monster::has_fully_eaten() const
-{
-    return amount_eaten >= type->stomach_size;
-}
-
-void monster::digest_food()
-{
-    if( calendar::turn - stomach_timer > 1_days ) {
-        recheck_fed_status();
-        set_amount_eaten( 0 );
-        stomach_timer = calendar::turn;
-    }
-}
-
 void monster::try_biosignature()
 {
     if( is_hallucination() ) {
@@ -733,9 +664,6 @@ void monster::try_biosignature()
         return;
     }
     if( !type->biosig_timer ) {
-        return;
-    }
-    if( !has_eaten_enough() ) {
         return;
     }
 

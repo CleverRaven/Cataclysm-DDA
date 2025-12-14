@@ -17,7 +17,6 @@
     "color": "brown",
     "aggression": -99,
     "morale": -7,
-    "stomach_size": 50,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "special_attacks": [ [ "EAT_CROP", 60 ], [ "GRAZE", 50 ] ],
     "dodge": 6,
@@ -51,7 +50,6 @@
     "speed": 125,
     "attack_cost": 125,
     "dodge": 8,
-    "stomach_size": 25,
     "harvest": "alien_tiny",
     "upgrades": { "age_grow": 20, "into": "afs_mon_rabbit" },
     "extend": { "flags": [ "NO_BREED" ] }
