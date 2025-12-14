@@ -1174,7 +1174,14 @@
     "faults": [ { "fault_group": "electronic_general" } ],
     "charges_per_use": 5,
     "charged_qualities": [ [ "CONCENTRATE", 1 ] ],
-    "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "400 W" } ],
+    "use_action": [
+      { "type": "link_up", "cable_length": 2, "charge_rate": "400 W" },
+      {
+        "type": "effect_on_conditions",
+        "menu_text": "Analyze sample",
+        "effect_on_conditions": [ "EOC_use_centrifuge" ]
+      }
+    ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",

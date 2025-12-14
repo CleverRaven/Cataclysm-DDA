@@ -637,5 +637,11 @@
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_glass",
     "entries": [ { "item": "chem_citric_acid", "container-item": "null", "count": [ 100, -1 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "human_zombie_blood_analysis_in_usb_drive",
+    "subtype": "collection",
+    "entries": [ { "item": "usb_drive", "contents-item": "software_blood_data" } ]
   }
 ]

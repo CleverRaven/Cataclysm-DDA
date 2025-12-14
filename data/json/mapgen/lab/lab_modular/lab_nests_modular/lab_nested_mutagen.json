@@ -1392,11 +1392,7 @@
           "options": [ { "name": "List mutation categories", "action": "list_mutations" } ],
           "failures": [ { "action": "alarm" } ]
         },
-        "6": {
-          "name": "Centrifuge",
-          "options": [ { "name": "Analyze blood", "action": "blood_anal" } ],
-          "failures": [ { "action": "destroy_blood" } ]
-        }
+        "6": {  }
       }
     }
   },
@@ -1431,11 +1427,7 @@
           "options": [ { "name": "List mutation categories", "action": "list_mutations" } ],
           "failures": [ { "action": "alarm" } ]
         },
-        "6": {
-          "name": "Centrifuge",
-          "options": [ { "name": "Analyze blood", "action": "blood_anal" } ],
-          "failures": [ { "action": "destroy_blood" } ]
-        }
+        "6": {  }
       }
     }
   },

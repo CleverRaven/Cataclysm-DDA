@@ -84,13 +84,7 @@
       ],
       "palettes": [ "hospital" ],
       "vendingmachines": { "D": { "item_group": "vending_drink", "lootable": true }, "E": { "item_group": "vending_food", "lootable": true } },
-      "computers": {
-        "6": {
-          "name": "Centrifuge",
-          "options": [ { "name": "Analyze blood", "action": "blood_anal" } ],
-          "failures": [ { "action": "destroy_blood" } ]
-        }
-      },
+      "computers": { "6": {  } },
       "place_zones": [
         { "type": "ZONE_START_POINT", "faction": "your_followers", "x": [ 43, 44 ], "y": [ 54, 55 ] },
         { "type": "ZONE_START_POINT", "faction": "your_followers", "x": [ 43, 44 ], "y": [ 57, 58 ] },

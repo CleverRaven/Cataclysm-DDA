@@ -90,7 +90,7 @@
     "id": "MISSION_SCIENCE_REP_1",
     "type": "mission_definition",
     "name": { "str": "Analyze Zombie Blood" },
-    "description": "First, you need to kill <color_light_blue>any zombie</color> and extract the blood from its body using the <color_light_blue>blood draw kit</color>.\nSecond, you need to deliver this blood to any working <color_light_blue>centrifuge with a computer</color>.  Equipment like this can most commonly be found at <color_light_blue>hospitals</color>, but you can also try to search for it at <color_light_blue>medical labs</color>.\nThird, you need to place the extracted blood on the <color_light_blue>centrifuge</color> and analyze it using the <color_light_blue>computer nearby</color>.  If you're successful, the data will be written on an <color_light_blue>empty USB drive</color> you have to provide.\nFinally, you need to bring the USB drive with the data back to the <color_light_blue>Doctor</color>.",
+    "description": "First, you need to find <color_light_blue>a zombie corpse</color> and extract the blood from it using the <color_light_blue>blood draw kit</color>.\nSecond, you need to deliver the blood to any working <color_light_blue>centrifuge</color>.  Equipment like this can most commonly be found at <color_light_blue>hospitals</color>, but you can also try to search for it at <color_light_blue>medical labs</color>.\nThird, <color_light_blue>use the centrifuge</color> to analyze the blood.  You'll need a <color_light_blue>USB drive</color> to copy the files to.\nWhen you're done, bring the data back to the <color_light_blue>Doctor</color>.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
