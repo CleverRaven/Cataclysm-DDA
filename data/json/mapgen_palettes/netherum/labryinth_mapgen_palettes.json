@@ -6,6 +6,7 @@
       "|": "t_nl_metal_wall",
       "_": "t_nl_metal_floor",
       ".": "t_nl_catwalk",
+      "⌂": "t_nl_catwalk",
       "!": "t_nl_metal_wall_edge",
       "v": "t_nl_chasm",
       "+": "t_nl_door_c",
