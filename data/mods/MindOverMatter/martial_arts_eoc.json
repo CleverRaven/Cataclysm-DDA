@@ -1,18 +1,6 @@
 [
   {
     "type": "effect_on_condition",
-    "id": "eoc_gun_kata_check_adjacent_foes",
-    "condition": {
-      "and": [
-        { "u_has_wielded_with_skill": "cutting" },
-        { "u_has_flag": "ACTIVE_PRECOG" },
-        { "math": [ "u_monsters_nearby('radius': 1)" ] }
-      ]
-    },
-    "effect": [ { "run_eocs": "eoc_gun_kata_melee_onmove" } ]
-  },
-  {
-    "type": "effect_on_condition",
     "id": "eoc_gun_kata_melee_onmove",
     "condition": { "compare_string": [ "run", { "context_val": "movement_mode" } ] },
     "effect": [ { "u_attack": "mom_tec_bladed_wind" } ],
@@ -45,6 +33,19 @@
         },
         "effect": [ { "run_eocs": "eoc_gun_kata_fire_onmove" } ],
       "false_effect": [ { "run_eocs": "eoc_gun_kata_check_adjacent_foes" } ]
-      }
+      },
+      {
+    "type": "effect_on_condition",
+    "id": "eoc_gun_kata_check_adjacent_foes",
+    "condition": {
+      "and": [
+        { "u_has_wielded_with_skill": "cutting" },
+        { "u_has_flag": "ACTIVE_PRECOG" },
+        { "math": [ "u_monsters_nearby('radius': 1)" ] }
+      ]
+    },
+    "effect": [ { "run_eocs": "eoc_gun_kata_melee_onmove" } ]
+  }
+  
 ]
 
