@@ -310,6 +310,7 @@ class ma_buff
         bool persists = false; // prevent buff removal when switching styles
 
         int dodges_bonus = 0; // extra dodges, like karate
+        int free_dodges = 0; // number of dodges that won't consume stamina
         int blocks_bonus = 0; // extra blocks, like karate
 
         /** All kinds of bonuses by types to damage, hit, armor etc. */
