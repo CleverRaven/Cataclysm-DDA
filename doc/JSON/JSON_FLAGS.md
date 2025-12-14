@@ -656,6 +656,7 @@ Can also be used as `pre_flags` for `construction`.
 - ```ELEVATOR``` Terrain with this flag will move player, NPCs, monsters, and items up and down when player activates nearby `elevator controls`.
 - ```EMPTY_SPACE``` Terrain without anything solid in it, including a floor, implying there should be no roof supporting terrain beneath it. It also should imply containment is broken (releasing air out, water etc. in, but that's currently not implemented).
 - ```EXAMINE_FROM_ABOVE``` Furniture can be <kbd>e</kbd> examined from a ledge above.  If deployed furniture is taken down it will be placed on the ledge.
+- ```FACTION_SECURITY``` This terrain/furniture is some sort of security measure, and interacting with it is extra upsetting to the local faction.
 - ```FIRE_CONTAINER``` Stops fire from spreading (brazier, wood stove, etc).
 - ```FISHABLE``` You can try to catch fish here.
 - ```FLAMMABLE_ASH``` Burns to ash rather than rubble.
