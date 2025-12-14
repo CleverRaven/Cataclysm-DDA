@@ -62,7 +62,7 @@
   {
     "type": "item_action",
     "id": "PACK_CBM",
-    "name": { "str": "Pack CBM in pouch" }
+    "name": { "str": "Package CBM for implantation" }
   },
   {
     "type": "item_action",
