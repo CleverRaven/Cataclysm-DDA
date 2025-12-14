@@ -92,6 +92,15 @@
     "disease_excess": [ [ 1, 2 ], [ 3, 4 ], [ 5, 6 ] ]
   },
   {
+    "id": "stored_calories",
+    "type": "vitamin",
+    "//": "This vitamin counts how many stored calories an inventor has.  It also drains them with time to simulate the imperfect process.",
+    "vit_type": "counter",
+    "name": { "str": "Stored Calories" },
+    "min": 0,
+    "rate": "2 m"
+  },
+  {
     "id": "dreamer_vit",
     "type": "vitamin",
     "vit_type": "counter",
