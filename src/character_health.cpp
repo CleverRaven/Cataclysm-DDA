@@ -583,8 +583,10 @@ int Character::calc_focus_change() const
 void Character::update_mental_focus()
 {
     // calc_focus_change() returns percentile focus, applying it directly
-    // to focus pool is an implicit / 100.
-    focus_pool += 10 * calc_focus_change();
+    // to focus pool is an implicit / 1000.
+    // Focus lerps to equilibrium at a rate of 0.5% per minute
+    // 90% of missing focus recovers in 7.65 hours
+    focus_pool += 5 * calc_focus_change();
 }
 
 void Character::calc_discomfort()
