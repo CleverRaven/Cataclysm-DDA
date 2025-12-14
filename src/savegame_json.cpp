@@ -3875,6 +3875,7 @@ void Creature::store( JsonOut &jsout ) const
 
     jsout.member( "blocks_left", num_blocks );
     jsout.member( "dodges_left", num_dodges );
+    jsout.member( "num_free_dodges", num_free_dodges );
     jsout.member( "num_blocks_bonus", num_blocks_bonus );
     jsout.member( "num_dodges_bonus", num_dodges_bonus );
 

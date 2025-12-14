@@ -1065,6 +1065,11 @@ double Character::aim_per_move( const item &gun, double recoil,
     return std::min( aim_speed, recoil - limit );
 }
 
+void Character::mod_free_dodges( int added )
+{
+    num_free_dodges += added;
+}
+
 int Character::get_dodges_left() const
 {
     return dodges_left;
@@ -1078,6 +1083,21 @@ void Character::set_dodges_left( int dodges )
 void Character::mod_dodges_left( int mod )
 {
     dodges_left += mod;
+}
+
+int Character::get_free_dodges_left() const
+{
+    return free_dodges_left;
+}
+
+void Character::set_free_dodges_left( int dodges )
+{
+    free_dodges_left = dodges;
+}
+
+void Character::mod_free_dodges_left( int mod )
+{
+    free_dodges_left += mod;
 }
 
 void Character::consume_dodge_attempts()
@@ -1763,11 +1783,19 @@ void Character::on_try_dodge()
     // Each attempt consumes an available dodge
     consume_dodge_attempts();
 
-    const int base_burn_rate = get_option<int>( player_base_stamina_burn_rate );
-    const float dodge_skill_modifier = ( 20.0f - get_skill_level( skill_dodge ) ) / 20.0f;
-    burn_energy_legs( - std::floor( static_cast<float>( base_burn_rate ) * 6.0f *
-                                    dodge_skill_modifier ) );
-    set_activity_level( EXTRA_EXERCISE );
+    add_msg_debug( debugmode::DF_MELEE,
+                   "Dodging with %d total dodges, %d total free dodges, %d free dodges left",
+                   get_num_dodges(), get_num_free_dodges(), get_free_dodges_left() );
+
+    if( get_free_dodges_left() > 0 ) {
+        mod_free_dodges_left( -1 );
+    } else {
+        const int base_burn_rate = get_option<int>( player_base_stamina_burn_rate );
+        const float dodge_skill_modifier = ( 20.0f - get_skill_level( skill_dodge ) ) / 20.0f;
+        burn_energy_legs( - std::floor( static_cast<float>( base_burn_rate ) * 6.0f *
+                                        dodge_skill_modifier ) );
+        set_activity_level( EXTRA_EXERCISE );
+    }
 }
 
 void Character::on_dodge( Creature *source, float difficulty, float training_level )
@@ -2192,9 +2220,11 @@ void Character::process_turn()
     if( in_sleep_state() ) {
         blocks_left = 0;
         set_dodges_left( 0 );
+        set_free_dodges_left( 0 );
     } else if( moves > 0 ) {
         blocks_left = get_num_blocks();
         set_dodges_left( get_num_dodges() );
+        set_free_dodges_left( get_num_free_dodges() );
     }
 
     // auto-learning. This is here because skill-increases happens all over the place:

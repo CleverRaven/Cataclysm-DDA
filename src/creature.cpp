@@ -348,6 +348,7 @@ void Creature::reset_bonuses()
 {
     num_blocks = 1;
     num_dodges = 1;
+    num_free_dodges = 0;
     num_blocks_bonus = 0;
     num_dodges_bonus = 0;
 
@@ -2318,6 +2319,11 @@ int Creature::get_num_blocks() const
 int Creature::get_num_dodges() const
 {
     return num_dodges + num_dodges_bonus;
+}
+
+int Creature::get_num_free_dodges() const
+{
+    return num_free_dodges;
 }
 
 int Creature::get_num_blocks_bonus() const

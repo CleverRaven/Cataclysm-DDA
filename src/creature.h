@@ -742,6 +742,7 @@ class Creature : public viewer
          */
         virtual int get_num_blocks() const;
         virtual int get_num_dodges() const;
+        virtual int get_num_free_dodges() const;
         virtual int get_num_blocks_bonus() const;
         virtual int get_num_dodges_bonus() const;
         virtual int get_num_dodges_base() const;
@@ -1254,6 +1255,8 @@ class Creature : public viewer
 
         int num_blocks = 0; // base number of blocks/dodges per turn
         int num_dodges = 0;
+        // Total number of free dodges available per turn. Only available as "bonus".
+        int num_free_dodges = 0;
         int num_blocks_bonus = 0; // bonus ""
         int num_dodges_bonus = 0;
 

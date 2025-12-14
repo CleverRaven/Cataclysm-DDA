@@ -380,6 +380,7 @@ void ma_buff::load( const JsonObject &jo, std::string_view src )
     optional( jo, was_loaded, "persists", persists, false );
 
     optional( jo, was_loaded, "bonus_dodges", dodges_bonus, 0 );
+    optional( jo, was_loaded, "free_dodges", free_dodges, 0 );
     optional( jo, was_loaded, "bonus_blocks", blocks_bonus, 0 );
 
     optional( jo, was_loaded, "quiet", quiet, false );
@@ -979,6 +980,7 @@ ma_buff::ma_buff()
     max_stacks = 1; // total number of stacks this buff can have
 
     dodges_bonus = 0; // extra dodges, like karate
+    free_dodges = 0; // number of dodges that won't consume stamina
     blocks_bonus = 0; // extra blocks, like karate
 
 }
@@ -1010,8 +1012,11 @@ bool ma_buff::is_valid_character( const Character &u ) const
 
 void ma_buff::apply_character( Character &u ) const
 {
+    // Note: MAs typically have multiple buffs, using a setter here is probably a mistake!
     u.mod_num_dodges_bonus( dodges_bonus );
+    // This uses a setter, but it's actually just mod() because it unnecessarily gets the existing bonus.
     u.set_num_blocks_bonus( u.get_num_blocks_bonus() + blocks_bonus );
+    u.mod_free_dodges( free_dodges );
 }
 
 int ma_buff::hit_bonus( const Character &u ) const
@@ -1109,31 +1114,24 @@ std::string ma_buff::get_description( bool passive ) const
     }
 
     if( dodges_bonus > 0 ) {
-        dump += string_format(
-                    n_gettext( "* Will give a <good>+%s</good> bonus to <info>dodge</info> for the stack",
-                               "* Will give a <good>+%s</good> bonus to <info>dodge</info> per stack",
-                               max_stacks ),
-                    dodges_bonus ) + "\n";
+        dump += string_format( _( "* Can dodge <good>+%d</good> extra times per turn" ),
+                               dodges_bonus ) + "\n";
     } else if( dodges_bonus < 0 ) {
-        dump += string_format(
-                    n_gettext( "* Will give a <bad>%s</bad> penalty to <info>dodge</info> for the stack",
-                               "* Will give a <bad>%s</bad> penalty to <info>dodge</info> per stack",
-                               max_stacks ),
-                    dodges_bonus ) + "\n";
+        dump += string_format( _( "* Can dodge <bad>+%d</bad> fewer times per turn" ),
+                               dodges_bonus ) + "\n";
+    }
+
+    if( free_dodges > 0 ) {
+        dump += string_format( _( "* <good>+%d</good> dodges each turn will not consume stamina" ),
+                               free_dodges ) + "\n";
     }
 
     if( blocks_bonus > 0 ) {
-        dump += string_format(
-                    n_gettext( "* Will give a <good>+%s</good> bonus to <info>block</info> for the stack",
-                               "* Will give a <good>+%s</good> bonus to <info>block</info> per stack",
-                               max_stacks ),
-                    blocks_bonus ) + "\n";
+        dump += string_format( _( "* Can block <good>+%d</good> extra times per turn" ),
+                               blocks_bonus ) + "\n";
     } else if( blocks_bonus < 0 ) {
-        dump += string_format(
-                    n_gettext( "* Will give a <bad>%s</bad> penalty to <info>block</info> for the stack",
-                               "* Will give a <bad>%s</bad> penalty to <info>block</info> per stack",
-                               max_stacks ),
-                    blocks_bonus ) + "\n";
+        dump += string_format( _( "* Can block <bad>+%d</bad> fewer times per turn" ),
+                               blocks_bonus ) + "\n";
     }
 
     if( quiet ) {
@@ -2359,7 +2357,8 @@ void ma_details_ui_impl::init_data()
                     buffs_total++;
                     std::vector<std::string> buff_lines =
                         string_split( replace_colors( buff->get_description( passive ) ), '\n' );
-                    buffs_text[title] = buff_lines;
+                    // Merge our accumulated text into the existing one. There might be more than one buff of this type, so we want to display all of them.
+                    buffs_text[title].insert( buffs_text[title].end(), buff_lines.begin(), buff_lines.end() );
                 }
             }
         };
