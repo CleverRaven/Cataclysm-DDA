@@ -2194,7 +2194,6 @@
     "aggression": 30,
     "morale": 50,
     "regen_morale": true,
-    "stomach_size": 3000,
     "anger_triggers": [ "PLAYER_WEAK" ],
     "fear_triggers": [ "HURT" ],
     "melee_skill": 7,
