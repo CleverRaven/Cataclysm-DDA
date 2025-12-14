@@ -1633,7 +1633,7 @@
     "city_distance": [ 3, 10 ],
     "city_sizes": [ 4, -1 ],
     "occurrences": [ 2, 9 ],
-    "flags": [ "CLASSIC", "URBAN", "MAN_MADE" ]
+    "flags": [ "URBAN", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -1648,7 +1648,7 @@
     "city_distance": [ 3, 10 ],
     "city_sizes": [ 4, -1 ],
     "occurrences": [ 1, 3 ],
-    "flags": [ "CLASSIC", "URBAN", "MAN_MADE" ]
+    "flags": [ "URBAN", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -2342,7 +2342,7 @@
     "city_sizes": [ 4, -1 ],
     "occurrences": [ 0, 2 ],
     "spawns": { "group": "GROUP_SMALL_STATION", "population": [ 4, 10 ], "radius": [ 0, 0 ] },
-    "flags": [ "CLASSIC", "URBAN", "MAN_MADE" ]
+    "flags": [ "URBAN", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -6580,5 +6580,41 @@
     "locations": [ "lake_bed" ],
     "occurrences": [ 80, 100 ],
     "flags": [ "CLASSIC", "LAKE", "MAN_MADE", "OVERMAP_UNIQUE", "WILDERNESS" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "supermarket",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "supermarket_x0_y0_z0_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "supermarket_x0_y1_z0_north" },
+      { "point": [ 2, 0, 0 ], "overmap": "supermarket_x0_y2_z0_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "supermarket_x1_y0_z0_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "supermarket_x1_y1_z0_north" },
+      { "point": [ 2, 1, 0 ], "overmap": "supermarket_x1_y2_z0_north" },
+      { "point": [ 0, 2, 0 ], "overmap": "supermarket_x2_y0_z0_north" },
+      { "point": [ 1, 2, 0 ], "overmap": "supermarket_x2_y1_z0_north" },
+      { "point": [ 2, 2, 0 ], "overmap": "supermarket_x2_y2_z0_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "supermarket_x0_y0_z1_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "supermarket_x0_y1_z1_north" },
+      { "point": [ 2, 0, 1 ], "overmap": "supermarket_x0_y2_z1_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "supermarket_x1_y0_z1_north" },
+      { "point": [ 1, 1, 1 ], "overmap": "supermarket_x1_y1_z1_north" },
+      { "point": [ 2, 1, 1 ], "overmap": "supermarket_x1_y2_z1_north" },
+      { "point": [ 0, 2, 1 ], "overmap": "supermarket_x2_y0_z1_north" },
+      { "point": [ 1, 2, 1 ], "overmap": "supermarket_x2_y1_z1_north" },
+      { "point": [ 2, 2, 1 ], "overmap": "supermarket_x2_y2_z1_north" },
+      { "point": [ 1, 3, 0 ], "locations": [ "land", "road" ] },
+      { "point": [ 3, 0, 0 ], "locations": [ "land", "road" ] }
+    ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ 2, 20 ],
+    "city_sizes": [ 5, -1 ],
+    "occurrences": [ 1, 2 ],
+    "priority": 1,
+    "flags": [ "CLASSIC", "MAN_MADE", "SAFE_AT_WORLDGEN" ],
+    "connections": [
+      { "point": [ 1, 3, 0 ], "terrain": "road", "connection": "local_road", "from": [ 1, 2, 0 ] },
+      { "point": [ 3, 0, 0 ], "terrain": "road", "connection": "local_road", "from": [ 2, 0, 0 ] }
+    ]
   }
 ]

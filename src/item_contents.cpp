@@ -142,7 +142,7 @@ pocket_favorite_callback::pocket_favorite_callback( const std::string &uilist_te
 void pocket_favorite_callback::add_pockets( item &i, uilist &pocket_selector,
         const std::string &depth )
 {
-    if( i.get_all_contained_pockets().empty() ) {
+    if( i.get_container_pockets().empty() ) {
         // if it doesn't have pockets skip it
         return;
     }
@@ -158,14 +158,14 @@ void pocket_favorite_callback::add_pockets( item &i, uilist &pocket_selector,
 
     uilist_entry *item_entry = &pocket_selector.entries.back();
     int pocket_num = 1;
-    for( item_pocket *it_pocket : i.get_all_contained_pockets() ) {
+    for( item_pocket *it_pocket : i.get_container_pockets() ) {
         std::string temp = string_format( "%d -", pocket_num );
 
         pocket_selector.addentry( 0, true, '\0', string_format( "%s%s %s/%s",
                                   depth,
                                   temp,
-                                  vol_to_info( "", "", it_pocket->contains_volume() ).sValue,
-                                  vol_to_info( "", "", it_pocket->max_contains_volume() ).sValue ) );
+                                  vol_to_info( "", "", it_pocket->contents_volume() ).sValue,
+                                  vol_to_info( "", "", it_pocket->volume_capacity() ).sValue ) );
         // pocket number is displayed from 1 stored from 0
         saved_pockets.emplace_back( it_pocket, pocket_num - 1, item_entry );
         pocket_num++;
@@ -239,7 +239,7 @@ void pocket_favorite_callback::move_item( uilist *menu, item_pocket *selected_po
 
                 // make sure we dont try to put anything in itself
                 if( entry.enabled ) {
-                    for( item_pocket *pocket : item_to_move.first->get_all_standard_pockets() ) {
+                    for( item_pocket *pocket : item_to_move.first->get_standard_pockets() ) {
                         if( std::get<0>( *itt ) == pocket ) {
                             entry.enabled = false;
                         }
@@ -647,7 +647,7 @@ bool item_contents::bigger_on_the_inside( const units::volume &container_volume 
     for( const item_pocket &pocket : contents ) {
         if( pocket.is_type( pocket_type::CONTAINER ) ) {
             if( pocket.rigid() ) {
-                min_logical_volume += pocket.max_contains_volume();
+                min_logical_volume += pocket.volume_capacity();
             } else {
                 min_logical_volume += pocket.magazine_well();
             }
@@ -1556,7 +1556,7 @@ bool item_contents::has_unrestricted_pockets() const
             restricted_pockets_qty++;
         }
     }
-    return restricted_pockets_qty < static_cast <int>( get_all_contained_pockets().size() );
+    return restricted_pockets_qty < static_cast <int>( get_container_pockets().size() );
 }
 
 bool item_contents::has_any_with( const std::function<bool( const item &it )> &filter,
@@ -1622,7 +1622,7 @@ bool item_contents::is_restricted_container() const
 
 bool item_contents::is_single_restricted_container() const
 {
-    std::vector<const item_pocket *> const contained_pockets = get_all_contained_pockets();
+    std::vector<const item_pocket *> const contained_pockets = get_container_pockets();
     return contained_pockets.size() == 1 && contained_pockets[0]->is_restricted();
 }
 
@@ -1747,7 +1747,7 @@ std::list<const item *> item_contents::all_items_top( const
 content_newness item_contents::get_content_newness( const std::set<itype_id> &read_items ) const
 {
     content_newness ret = content_newness::SEEN;
-    for( const item_pocket *pocket : get_all_standard_pockets() ) {
+    for( const item_pocket *pocket : get_standard_pockets() ) {
         // taking transparent from item_contents::all_known_contents()
         if( !pocket->transparent() ) {
             ret = content_newness::MIGHT_BE_HIDDEN;
@@ -2112,7 +2112,7 @@ const
 }
 
 std::vector<const item_pocket *> item_contents::get_pockets( const
-        std::function<bool( item_pocket const & )> &filter ) const
+        std::function<bool( const item_pocket & )> &filter ) const
 {
     std::vector<const item_pocket *> pockets;
 
@@ -2125,7 +2125,7 @@ std::vector<const item_pocket *> item_contents::get_pockets( const
 }
 
 std::vector<item_pocket *> item_contents::get_pockets( const
-        std::function<bool( item_pocket const & )> &filter )
+        std::function<bool( const item_pocket & )> &filter )
 {
     std::vector<item_pocket *> pockets;
 
@@ -2137,56 +2137,56 @@ std::vector<item_pocket *> item_contents::get_pockets( const
     return pockets;
 }
 
-std::vector<const item_pocket *> item_contents::get_all_contained_pockets() const
+std::vector<const item_pocket *> item_contents::get_container_pockets() const
 {
     return get_pockets( []( item_pocket const & pocket ) {
         return pocket.is_type( pocket_type::CONTAINER );
     } );
 }
 
-std::vector<item_pocket *> item_contents::get_all_contained_pockets()
+std::vector<item_pocket *> item_contents::get_container_pockets()
 {
     return get_pockets( []( item_pocket const & pocket ) {
         return pocket.is_type( pocket_type::CONTAINER );
     } );
 }
 
-std::vector<const item_pocket *> item_contents::get_all_standard_pockets() const
+std::vector<const item_pocket *> item_contents::get_standard_pockets() const
 {
     return get_pockets( []( item_pocket const & pocket ) {
         return pocket.is_standard_type();
     } );
 }
 
-std::vector<item_pocket *> item_contents::get_all_standard_pockets()
+std::vector<item_pocket *> item_contents::get_standard_pockets()
 {
     return get_pockets( []( item_pocket const & pocket ) {
         return pocket.is_standard_type();
     } );
 }
 
-std::vector<const item_pocket *> item_contents::get_all_ablative_pockets() const
+std::vector<const item_pocket *> item_contents::get_ablative_pockets() const
 {
     return get_pockets( []( item_pocket const & pocket ) {
         return pocket.is_ablative();
     } );
 }
 
-std::vector<item_pocket *> item_contents::get_all_ablative_pockets()
+std::vector<item_pocket *> item_contents::get_ablative_pockets()
 {
     return get_pockets( []( item_pocket const & pocket ) {
         return pocket.is_ablative();
     } );
 }
 
-std::vector<const item_pocket *> item_contents::get_all_contained_and_mod_pockets() const
+std::vector<const item_pocket *> item_contents::get_container_and_mod_pockets() const
 {
     return get_pockets( []( item_pocket const & pocket ) {
         return pocket.is_type( pocket_type::CONTAINER ) || pocket.is_type( pocket_type::MOD );
     } );
 }
 
-std::vector<item_pocket *> item_contents::get_all_contained_and_mod_pockets()
+std::vector<item_pocket *> item_contents::get_container_and_mod_pockets()
 {
     return get_pockets( []( item_pocket const & pocket ) {
         return pocket.is_type( pocket_type::CONTAINER ) || pocket.is_type( pocket_type::MOD );
@@ -2208,14 +2208,14 @@ std::vector<const item *> item_contents::get_added_pockets() const
 void item_contents::add_pocket( const item &pocket_item )
 {
     units::volume total_nonrigid_volume = 0_ml;
-    for( const item_pocket *i_pocket : pocket_item.get_all_contained_pockets() ) {
+    for( const item_pocket *i_pocket : pocket_item.get_container_pockets() ) {
 
         // need to insert before the end since the final pocket is the migration pocket
         contents.insert( --contents.end(), *i_pocket );
         // these pockets should fallback to using the item name as a description
         // need to update it once it's stored in the contents list
         ( ++contents.rbegin() )->name_as_description = true;
-        total_nonrigid_volume += i_pocket->max_contains_volume();
+        total_nonrigid_volume += i_pocket->volume_capacity();
     }
     additional_pockets_volume += total_nonrigid_volume;
     additional_pockets_space_used += pocket_item.get_pocket_size();
@@ -2232,14 +2232,14 @@ item item_contents::remove_pocket( int index )
     // find the pockets to remove from the item
     for( int i = additional_pockets.size() - 1; i >= index; --i ) {
         // move the iterator past all the pockets we aren't removing
-        std::advance( rit, additional_pockets[i].get_all_contained_pockets().size() );
+        std::advance( rit, additional_pockets[i].get_container_pockets().size() );
     }
 
     // at this point reversed past the pockets we want to get rid of so now start going forward
     auto it = std::next( rit ).base();
     units::volume total_nonrigid_volume = 0_ml;
-    for( item_pocket *i_pocket : additional_pockets[index].get_all_contained_pockets() ) {
-        total_nonrigid_volume += i_pocket->max_contains_volume();
+    for( item_pocket *i_pocket : additional_pockets[index].get_container_pockets() ) {
+        total_nonrigid_volume += i_pocket->volume_capacity();
 
         // move items from the consolidated pockets to the item that will be returned
         for( const item *item_to_move : it->all_items_top() ) {
@@ -2271,7 +2271,7 @@ const item_pocket *item_contents::get_added_pocket( int index ) const
     // find the pockets to remove from the item
     for( int i = additional_pockets.size() - 1; i >= index; --i ) {
         // move the iterator past all the pockets we aren't removing
-        std::advance( rit, additional_pockets[i].get_all_contained_pockets().size() );
+        std::advance( rit, additional_pockets[i].get_container_pockets().size() );
     }
 
     // at this point reversed past the pockets we want to get rid of so now start going forward
@@ -2394,41 +2394,49 @@ units::mass item_contents::get_total_holster_weight() const
     return holster_weight;
 }
 
-units::volume item_contents::total_container_capacity( const bool unrestricted_pockets_only ) const
+units::volume item_contents::volume_capacity( const std::function<bool( const item_pocket & )> &
+        include_pocket ) const
 {
     units::volume total_vol = 0_ml;
-    for( const item_pocket &pocket : contents ) {
-        if( pocket.is_forbidden() ) {
-            continue;
-        }
-        bool restriction_condition = pocket.is_type( pocket_type::CONTAINER );
-        if( unrestricted_pockets_only ) {
-            restriction_condition = restriction_condition && !pocket.is_restricted();
-        }
-        if( restriction_condition ) {
-            // If the pocket is a holster that has an item return the volume when it is full (not larger than capacity).
-            // If the pocket has default volume or is a pocket that has normal pickup disabled return the volume of things contained.
-            // Otherwise, return the capacity.
-            if( pocket.holster_full() ) {
-                units::volume add_volume = pocket.front().volume();
-                for( const item_pocket *it_pocket : pocket.front().get_all_contained_pockets() ) {
-                    // Here, the case where the pocket is not empty for the holster is not considered, which will lead to higher results.
-                    // To obtain accurate results, a recursive function may be required. Since in the actual game,
-                    // the situation of holster nested in the holster is very rare, from a performance perspective, it seems not worth it to do so.
-                    if( it_pocket->is_valid() && !it_pocket->rigid() ) {
-                        add_volume += it_pocket->remaining_volume();
-                    }
-                }
-                total_vol += std::min( pocket.volume_capacity(), add_volume );
-            } else if( pocket.volume_capacity() >= pocket_data::max_volume_for_container ||
-                       pocket.settings.is_disabled() ) {
-                total_vol += pocket.contains_volume();
-            } else {
-                total_vol += pocket.volume_capacity();
-            }
-        }
+    for( const item_pocket *pocket : get_pockets( include_pocket ) ) {
+        total_vol += pocket->volume_capacity();
     }
     return total_vol;
+}
+
+units::volume item_contents::volume_capacity_recursive( const
+        std::function<bool( const item_pocket & )> &
+        include_pocket,
+        const std::function<bool( const item_pocket & )> &check_pocket_tree,
+        units::volume &out_volume_expansion ) const
+{
+    units::volume ret = 0_ml;
+    for( const item_pocket *pocket : get_pockets( check_pocket_tree ) ) {
+        units::volume pocket_capacity = pocket->volume_capacity();
+        units::volume pocket_adds_capacity = 0_ml;
+        if( include_pocket( *pocket ) ) {
+            pocket_adds_capacity = pocket_capacity;
+            // assume child pockets can't be larger than their parent pocket
+            ret += pocket_adds_capacity;
+        } else {
+            units::volume nested_capacity = 0_ml;
+            units::volume nested_expansion = 0_ml;
+            for( const auto *it : pocket->all_items_top() ) {
+                nested_capacity += it->get_volume_capacity_recursive( include_pocket, check_pocket_tree,
+                                   nested_expansion );
+            }
+            units::volume rigid_child_capacity = nested_capacity - nested_expansion;
+            units::volume pocket_adds_capacity = std::min( pocket_capacity,
+                                                 nested_expansion ); //the pocket can't be used directly, but it's children can expand into it
+
+            ret += pocket_adds_capacity + rigid_child_capacity;
+        }
+
+        if( !pocket->rigid() ) {
+            out_volume_expansion += pocket_adds_capacity;
+        }
+    }
+    return ret;
 }
 
 units::volume item_contents::biggest_pocket_capacity() const
@@ -2442,51 +2450,52 @@ units::volume item_contents::biggest_pocket_capacity() const
     return max_vol;
 }
 
-units::volume item_contents::total_standard_capacity( const bool unrestricted_pockets_only ) const
+units::volume item_contents::remaining_volume( const std::function<bool( const item_pocket & )> &
+        include_pocket ) const
 {
     units::volume total_vol = 0_ml;
-    for( const item_pocket &pocket : contents ) {
-        bool restriction_condition = pocket.is_standard_type();
-        if( unrestricted_pockets_only ) {
-            restriction_condition = restriction_condition && !pocket.is_restricted();
-        }
-        if( restriction_condition ) {
-            total_vol += pocket.volume_capacity();
-        }
+    for( const item_pocket *pocket : get_pockets( include_pocket ) ) {
+        total_vol += pocket->remaining_volume();
     }
     return total_vol;
 }
 
-units::volume item_contents::remaining_container_capacity( const bool unrestricted_pockets_only )
-const
+units::volume item_contents::remaining_volume_recursive( const
+        std::function<bool( const item_pocket & )> &
+        include_pocket,
+        const std::function<bool( const item_pocket & )> &check_pocket_tree,
+        units::volume &out_volume_expansion ) const
 {
-    units::volume total_vol = 0_ml;
-    for( const item_pocket &pocket : contents ) {
-        if( pocket.is_forbidden() ) {
-            continue;
+    units::volume ret = 0_ml;
+    for( const item_pocket *pocket : get_pockets( check_pocket_tree ) ) {
+        units::volume pocket_remaining_space = pocket->remaining_volume();
+        units::volume nested_remaining_space = 0_ml;
+        units::volume nested_expansion = 0_ml;
+        for( const auto *it : pocket->all_items_top() ) {
+            nested_remaining_space += it->get_remaining_volume_recursive( include_pocket, check_pocket_tree,
+                                      nested_expansion );
         }
-        bool restriction_condition = pocket.is_type( pocket_type::CONTAINER );
-        if( unrestricted_pockets_only ) {
-            restriction_condition = restriction_condition && !pocket.is_restricted();
-        }
-        if( restriction_condition ) {
-            total_vol += pocket.remaining_volume();
+        units::volume nested_void_space = nested_remaining_space -
+                                          nested_expansion; // free space 'trapped' in rigid pockets
+        units::volume this_pocket_space = std::max(
+                                              include_pocket( *pocket ) ? pocket_remaining_space : 0_ml, //the pocket counts directly, or
+                                              std::min( pocket_remaining_space, nested_expansion ) //the pocket's children can expand into it
+                                          );
+
+        ret += this_pocket_space + nested_void_space;
+        if( !pocket->rigid() ) {
+            out_volume_expansion += this_pocket_space;
         }
     }
-    return total_vol;
+    return ret;
 }
 
-units::volume item_contents::total_contained_volume( const bool unrestricted_pockets_only ) const
+units::volume item_contents::contents_volume( const std::function<bool( const item_pocket & )>
+        &include_pocket ) const
 {
     units::volume total_vol = 0_ml;
-    for( const item_pocket &pocket : contents ) {
-        bool restriction_condition = pocket.is_type( pocket_type::CONTAINER );
-        if( unrestricted_pockets_only ) {
-            restriction_condition = restriction_condition && !pocket.is_restricted();
-        }
-        if( restriction_condition ) {
-            total_vol += pocket.contains_volume();
-        }
+    for( const item_pocket *pocket : get_pockets( include_pocket ) ) {
+        total_vol += pocket->contents_volume();
     }
     return total_vol;
 }
@@ -2523,65 +2532,6 @@ units::mass item_contents::total_contained_weight( const bool unrestricted_pocke
         }
     }
     return total_weight;
-}
-
-units::volume item_contents::get_contents_volume_with_tweaks( const std::map<const item *, int>
-        &without ) const
-{
-    units::volume ret = 0_ml;
-
-    for( const item_pocket *pocket : get_all_contained_pockets() ) {
-        if( !pocket->empty() && !pocket->contains_phase( phase_id::SOLID ) ) {
-            const item *it = &pocket->front();
-            auto stack = without.find( it );
-            if( ( stack == without.end() ) || ( stack->second != it->charges ) ) {
-                ret += pocket->volume_capacity();
-            }
-        } else {
-            for( const item *i : pocket->all_items_top() ) {
-                if( i->count_by_charges() ) {
-                    ret += i->volume() - i->get_selected_stack_volume( without );
-                } else if( !without.count( i ) ) {
-                    ret += i->volume();
-                    ret -= i->get_nested_content_volume_recursive( without );
-                }
-            }
-        }
-    }
-
-    return ret;
-}
-
-units::volume item_contents::get_nested_content_volume_recursive( const
-        std::map<const item *, int> &without ) const
-{
-    units::volume ret = 0_ml;
-
-    for( const item_pocket *pocket : get_all_contained_pockets() ) {
-        if( pocket->rigid() && !pocket->empty() && !pocket->contains_phase( phase_id::SOLID ) ) {
-            const item *it = &pocket->front();
-            auto stack = without.find( it );
-            if( ( stack != without.end() ) && ( stack->second == it->charges ) ) {
-                ret += pocket->volume_capacity();
-            }
-        } else {
-            for( const item *i : pocket->all_items_top() ) {
-                if( i->count_by_charges() ) {
-                    ret += i->get_selected_stack_volume( without );
-                } else if( without.count( i ) ) {
-                    ret += i->volume();
-                } else {
-                    ret += i->get_nested_content_volume_recursive( without );
-                }
-            }
-
-            if( pocket->rigid() ) {
-                ret += pocket->remaining_volume();
-            }
-        }
-    }
-
-    return ret;
 }
 
 void item_contents::remove_internal( const std::function<bool( item & )> &filter,
@@ -2645,8 +2595,8 @@ float item_contents::relative_encumbrance() const
         }
         // need to modify by pockets volume encumbrance modifier since some pockets may have less effect than others
         float modifier = pocket.get_pocket_data()->volume_encumber_modifier;
-        nonrigid_volume += pocket.contains_volume() * modifier;
-        nonrigid_max_volume += pocket.max_contains_volume() * modifier;
+        nonrigid_volume += pocket.contents_volume() * modifier;
+        nonrigid_max_volume += pocket.volume_capacity() * modifier;
     }
     if( nonrigid_volume > nonrigid_max_volume ) {
         // volume exceeds capacity and will spill until 1 or lower if picked up, so assume 1
@@ -2768,7 +2718,7 @@ void item_contents::info( std::vector<iteminfo> &info, const iteminfo_query *par
         }
 
         // If multiple pockets and/or multiple kinds of pocket, show total capacity section
-        units::volume capacity = total_container_capacity();
+        units::volume capacity = volume_capacity();
         units::mass weight = total_container_weight_capacity();
         if( ( found_pockets.size() > 1 || pocket_num[0] > 1 ) && capacity > 0_ml && weight > 0_gram ) {
             insert_separation_line( info );

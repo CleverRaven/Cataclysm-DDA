@@ -210,7 +210,7 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
     }
 
     if( has_flag( flag_COLLAPSE_CONTENTS ) ) {
-        for( item_pocket *pocket : contents.get_all_standard_pockets() ) {
+        for( item_pocket *pocket : contents.get_standard_pockets() ) {
             pocket->settings.set_collapse( true );
         }
     } else {
@@ -623,8 +623,8 @@ bool _stacks_whiteblacklist( item const &lhs, item const &rhs )
 {
     bool wbl = false;
     if( lhs.get_contents().size() == rhs.get_contents().size() ) {
-        std::vector<item_pocket const *> const lpkts = lhs.get_all_contained_pockets();
-        std::vector<item_pocket const *> const rpkts = rhs.get_all_contained_pockets();
+        std::vector<item_pocket const *> const lpkts = lhs.get_container_pockets();
+        std::vector<item_pocket const *> const rpkts = rhs.get_container_pockets();
         if( lpkts.size() == rpkts.size() ) {
             wbl = true;
             for( std::size_t i = 0; i < lpkts.size(); i++ ) {
@@ -1399,7 +1399,7 @@ void item::update_inherited_flags()
         }
     }
 
-    for( const item_pocket *pocket : contents.get_all_contained_pockets() ) {
+    for( const item_pocket *pocket : contents.get_container_pockets() ) {
         if( pocket->inherits_flags() ) {
             for( const item *e : pocket->all_items_top() ) {
                 inehrit_flags( e->get_flags() );
@@ -2946,7 +2946,7 @@ bool item::is_emissive() const
         return true;
     }
 
-    for( const item_pocket *pkt : get_all_contained_and_mod_pockets() ) {
+    for( const item_pocket *pkt : get_container_and_mod_pockets() ) {
         if( pkt->transparent() ) {
             for( const item *it : pkt->all_items_top() ) {
                 if( it->is_emissive() ) {
@@ -3435,7 +3435,7 @@ bool item::use_amount( const itype_id &it, int &quantity, std::list<item> &used,
     for( item *removed : removed_items ) {
         // Handle cases where items are removed but the pocket isn't emptied
         item *parent = this->find_parent( *removed );
-        for( item_pocket *pocket : parent->get_all_standard_pockets() ) {
+        for( item_pocket *pocket : parent->get_standard_pockets() ) {
             if( pocket->has_item( *removed ) ) {
                 pocket->unseal();
             }
@@ -4845,19 +4845,6 @@ const cata::value_ptr<islot_comestible> &item::get_comestible() const
     } else {
         return type->comestible;
     }
-}
-
-units::volume item::get_selected_stack_volume( const std::map<const item *, int> &without ) const
-{
-    auto stack = without.find( this );
-    if( stack != without.end() ) {
-        int selected = stack->second;
-        item copy = *this;
-        copy.charges = selected;
-        return copy.volume();
-    }
-
-    return 0_ml;
 }
 
 int item::get_recursive_disassemble_moves( const Character &guy ) const

@@ -967,7 +967,7 @@
     "longest_side": "254 mm",
     "price": "120 USD",
     "price_postapoc": "9 USD 25 cent",
-    "material": [ "leather", "plastic", "steel" ],
+    "material": [ "nylon", "plastic", "steel" ],
     "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "symbol": "[",
     "looks_like": "sneakers",

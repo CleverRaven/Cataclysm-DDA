@@ -1967,7 +1967,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 // if ablative check if there are hard plates in locations
                 if( armor->ablative ) {
                     // if item has ablative armor we should check those too.
-                    for( const item_pocket *pocket : get_all_contained_pockets() ) {
+                    for( const item_pocket *pocket : get_container_pockets() ) {
                         // if the pocket is ablative and not empty we should use its values
                         if( pocket->get_pocket_data()->ablative && !pocket->empty() ) {
                             // get the contained plate
@@ -3641,6 +3641,17 @@ void item::properties_info( std::vector<iteminfo> &info, const iteminfo_query *p
                                   "electricity, as it has no guard." ) );
         } else {
             info.emplace_back( "BASE", _( "* This item <bad>conducts</bad> electricity." ) );
+        }
+    }
+
+    if( parts->test( iteminfo_parts::DESCRIPTION_WEAPON_CATEGORY ) ) {
+        if( !typeId()->weapon_category.empty() ) {
+            std::string weapon_category_list = enumerate_as_string( typeId()->weapon_category,
+            []( const weapon_category_id & e ) {
+                return e->name().translated();
+            }, enumeration_conjunction::and_ );
+            info.emplace_back( "BASE", string_format( _( "* This item can be used as <good>%s</good>." ),
+                               weapon_category_list ) );
         }
     }
 

@@ -1,13 +1,13 @@
 [
   {
     "type": "effect_on_condition",
-    "id": "EOC_metamagic_toggle_intuitive",
-    "condition": { "compare_string": [ "yes", { "u_val": "perk_metamagic_intuitive_deactivated" } ] },
+    "id": "EOC_metamagic_toggle_intuitive_on",
+    "effect": [ { "u_add_var": "perk_metamagic_intuitive_deactivated", "value": "no" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_metamagic_toggle_intuitive_off",
     "effect": [
-      { "u_message": "You activate your intuitive metamagic" },
-      { "u_add_var": "perk_metamagic_intuitive_deactivated", "value": "no" }
-    ],
-    "false_effect": [
       { "u_message": "You deactivate your intuitive metamagic" },
       { "u_add_var": "perk_metamagic_intuitive_deactivated", "value": "yes" }
     ]

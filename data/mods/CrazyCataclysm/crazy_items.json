@@ -661,5 +661,24 @@
     "name": { "str": "Kitchen Gun™", "str_pl": "Kitchen Guns™" },
     "description": "Say goodbye to daily stains and dirty surfaces with new Kitchen Gun!  Just aim at the dust, blood, or splinters, and then shoot it a bunch of times to clean it.  Blast the filth away with Kitchen Gun™!",
     "ammo_effects": [ "CLEAN_DUST", "CLEAN_SPLINTERS", "CLEAN_BLOOD" ]
+  },
+  {
+    "id": "troglobite_sample",
+    "copy-from": "troglobite_sample",
+    "type": "ITEM",
+    "name": { "str": "gamer sample" },
+    "description": "A slurry of… uhh…"
+  },
+  {
+    "id": "iv_mutagen_troglobite",
+    "copy-from": "iv_mutagen_troglobite",
+    "type": "ITEM",
+    "name": { "str": "gamer mutagenic primer" }
+  },
+  {
+    "id": "mutagen_troglobite",
+    "copy-from": "mutagen_troglobite",
+    "type": "ITEM",
+    "name": { "str": "gamer mutagen" }
   }
 ]

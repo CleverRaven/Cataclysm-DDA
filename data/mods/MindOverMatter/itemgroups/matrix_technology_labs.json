@@ -81,25 +81,11 @@
         "prob": 1
       },
       {
-        "item": "medium_battery_electronoetic_refined",
-        "ammo-item": "battery",
-        "charges": [ 100, 448 ],
-        "container-item": "psionic_shield_belt_broken",
-        "prob": 6
-      },
-      {
         "item": "medium_battery_electronoetic",
         "ammo-item": "battery",
         "charges": [ 20, 168 ],
         "container-item": "psionic_shield_belt",
         "prob": 4
-      },
-      {
-        "item": "medium_battery_electronoetic",
-        "ammo-item": "battery",
-        "charges": [ 20, 168 ],
-        "container-item": "psionic_shield_belt_broken",
-        "prob": 14
       }
     ]
   },
@@ -116,25 +102,11 @@
         "prob": 1
       },
       {
-        "item": "medium_battery_electronoetic_refined",
-        "ammo-item": "battery",
-        "charges": [ 100, 448 ],
-        "container-item": "psionic_fire_shield_belt_broken",
-        "prob": 6
-      },
-      {
         "item": "medium_battery_electronoetic",
         "ammo-item": "battery",
         "charges": [ 20, 168 ],
         "container-item": "psionic_fire_shield_belt",
         "prob": 4
-      },
-      {
-        "item": "medium_battery_electronoetic",
-        "ammo-item": "battery",
-        "charges": [ 20, 168 ],
-        "container-item": "psionic_fire_shield_belt_broken",
-        "prob": 14
       }
     ]
   },

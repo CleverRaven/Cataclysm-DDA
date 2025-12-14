@@ -41,6 +41,7 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
+#include "item_pocket.h"
 #include "memory_fast.h"
 #include "monster.h"
 #include "pimpl.h"
@@ -73,7 +74,6 @@ class dispersion_sources;
 class effect;
 class enchant_cache;
 class faction;
-class item_pocket;
 class known_magic;
 class ma_technique;
 class map;
@@ -2302,11 +2302,15 @@ class Character : public Creature, public visitable
         std::vector<item *> inv_dump();
         std::vector<const item *> inv_dump() const;
 
+        // combined volume of the character's body and inventory
         // TODO: Cache this like weight carried?
         units::volume get_total_volume() const;
+        // volume of the character's body
         units::volume get_base_volume() const;
 
+        // weight of the character's inventory
         units::mass weight_carried() const;
+        // volume of the character's top-level items (and so their entire inventory as-packed).
         units::volume volume_carried() const;
 
         units::length max_single_item_length() const;
@@ -2330,39 +2334,35 @@ class Character : public Creature, public visitable
         units::mass weight_carried_with_tweaks( const item_tweaks &tweaks ) const;
         units::mass weight_carried_with_tweaks( const std::vector<std::pair<item_location, int>>
                                                 &locations ) const;
-        units::volume volume_carried_with_tweaks( const item_tweaks &tweaks ) const;
-        units::volume volume_carried_with_tweaks( const std::vector<std::pair<item_location, int>>
-                &locations ) const;
         units::mass weight_capacity() const override;
 
         /* maximum you should ever be able to pick up ( i.e. with DANGEROUS_PICKUPS enabled) */
         units::mass max_pickup_capacity() const;
-        units::volume volume_capacity() const;
-        units::volume volume_capacity_with_tweaks( const item_tweaks &tweaks ) const;
-        units::volume volume_capacity_with_tweaks( const std::vector<std::pair<item_location, int>>
-                &locations ) const;
-        units::volume free_space() const;
+        // total capacity of pockets in the player's top level of inventory.
+        // bags-of-holding aside, this is the max volume the character can carry without changing what they're wearing/wielding.
+        units::volume volume_capacity( const std::function<bool( const item_pocket & )> &include_pocket =
+                                           item_pocket::ok_default_containers ) const;
+        // version of volume_capacity that considers nested pockets even if their parents are not included
+        units::volume volume_capacity_recursive( const std::function<bool( const item_pocket & )>
+                &include_pocket,
+                const std::function<bool( const item_pocket & )> &check_pocket_tree ) const;
+        /**
+        * Returns remaining, unfilled volume in pockets in the character's entire inventory that satisfies the check conditions.
+        * The default arguments, free_space(), gives a rough upper bound on remaining volume that could be filled with
+        * dry goods, which is a reasonable estimate for many cases.
+        * @param include_pocket pockets which pass this criteria have their space included (unless they fail check_pocket_tree).
+        * @param check_pocket_tree pockets which fail this criteria are excluded, along with all nested pockets.
+        * */
+        units::volume free_space( const std::function<bool( const item_pocket & )> &include_pocket = [](
+        const item_pocket &pocket ) {
+            return !pocket.is_restricted()
+                   && item_pocket::ok_for_solids( pocket );
+        },
+        const std::function<bool( const item_pocket & )> &check_pocket_tree =
+            item_pocket::ok_default_containers )
+        const;
         units::mass free_weight_capacity() const;
-        /**
-         * Returns the total volume of all worn holsters.
-        */
-        units::volume holster_volume() const;
 
-        /**
-         * Used and total holsters
-        */
-        int used_holsters() const;
-        int total_holsters() const;
-        units::volume free_holster_volume() const;
-
-        // this is just used for pack rat maybe should be moved to the above more robust functions
-        int empty_holsters() const;
-
-        /**
-         * Returns the total volume of all pockets less than or equal to the volume passed in
-         * @param volume threshold for pockets to be considered
-        */
-        units::volume small_pocket_volume( const units::volume &threshold = 1000_ml ) const;
 
         /** Note that we've read a book at least once. **/
         virtual bool has_identified( const itype_id &item_id ) const = 0;
@@ -2391,6 +2391,17 @@ class Character : public Creature, public visitable
           */
         std::pair<item_location, item_pocket *> best_pocket( const item &it, const item *avoid = nullptr,
                 bool ignore_settings = false );
+
+        /**
+        * Collect all pockets that the character has along with their constraints due to their nesting situation.
+        * @param include_pocket only return pockets which pass this predicate
+        * @param check_pocket_tree pockets which fail this criteria are excluded, along with all nested pockets
+        */
+        using pocket_with_constraints = std::pair<const item_pocket *, pocket_constraint>;
+        std::vector<pocket_with_constraints> get_all_pockets_with_constraints(
+            const std::function<bool( const item_pocket & )> &include_pocket,
+            const std::function<bool( const item_pocket & )> &check_pocket_tree
+        );
 
         /**
          * Collect all pocket data (with parent and nest levels added) that the character has.

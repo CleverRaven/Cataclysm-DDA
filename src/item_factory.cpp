@@ -1009,7 +1009,7 @@ void Item_factory::finalize_post_armor( itype &obj )
                                           pocket.type == pocket_type::MAGAZINE_WELL;
                 if( !pocket.rigid && pocket_is_standard ) {
                     // include the modifier for each individual pocket
-                    total_nonrigid_volume += pocket.max_contains_volume() * pocket.volume_encumber_modifier;
+                    total_nonrigid_volume += pocket.volume_capacity() * pocket.volume_encumber_modifier;
                 }
             }
             data.max_encumber = data.encumber + total_nonrigid_volume * data.volume_encumber_modifier /
@@ -1208,7 +1208,7 @@ void Item_factory::finalize_post_armor( itype &obj )
             for( const pocket_data &pocket : obj.pockets ) {
                 if( !pocket.rigid ) {
                     // include the modifier for each individual pocket
-                    total_nonrigid_volume += pocket.max_contains_volume() * pocket.volume_encumber_modifier;
+                    total_nonrigid_volume += pocket.volume_capacity() * pocket.volume_encumber_modifier;
                 }
             }
             data.max_encumber = data.encumber + total_nonrigid_volume * data.volume_encumber_modifier /
@@ -3720,7 +3720,7 @@ void Item_factory::check_and_create_magazine_pockets( itype &def )
 
     pocket_data mag_data;
     mag_data.holster = true;
-    mag_data.volume_capacity = 200_liter;
+    mag_data.raw_volume_capacity = 200_liter;
     mag_data.max_contains_weight = 2000000_kilogram;
     mag_data.max_item_length = 2_km;
     mag_data.watertight = true;
@@ -4134,7 +4134,7 @@ void itype::load( const JsonObject &jo, std::string_view src )
         degrade_increments_ = std::isnan( adjusted_inc ) ? 0 : std::round( adjusted_inc );
     }
 
-    name = translation( translation::plural_tag() );
+    name.make_plural();
     mandatory( jo, was_loaded, "name", name );
     optional( jo, was_loaded, "conditional_names", conditional_names );
     optional( jo, was_loaded, "description", description );

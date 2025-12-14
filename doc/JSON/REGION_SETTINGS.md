@@ -600,3 +600,14 @@ This is currently used to provide a mechanism for whitelisting and blacklisting 
 	}
 }
 ```
+
+### Extending and deleting feature flags from default region
+
+```jsonc
+  {
+    "type": "region_settings",
+    "id": "default",
+    "copy-from": "default",
+    "feature_flag_settings": { "extend": { "blacklist": [ "HIGHLANDS" ] }, "delete": { "whitelist" : [ "CLASSIC" ]} }
+  }
+```

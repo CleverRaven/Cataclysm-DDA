@@ -1,13 +1,13 @@
 [
   {
     "type": "effect_on_condition",
-    "id": "EOC_metamagic_toggle_silent",
-    "condition": { "compare_string": [ "yes", { "u_val": "perk_metamagic_silent_deactivated" } ] },
+    "id": "EOC_metamagic_toggle_silent_on",
+    "effect": [ { "u_add_var": "perk_metamagic_silent_deactivated", "value": "no" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_metamagic_toggle_silent_off",
     "effect": [
-      { "u_message": "You activate your silent metamagic" },
-      { "u_add_var": "perk_metamagic_silent_deactivated", "value": "no" }
-    ],
-    "false_effect": [
       { "u_message": "You deactivate your silent metamagic" },
       { "u_add_var": "perk_metamagic_silent_deactivated", "value": "yes" }
     ]

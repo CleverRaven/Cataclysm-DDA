@@ -70,6 +70,9 @@ class iuse_transform : public iuse_actor
         /** Asks you to set a timer for a countdown */
         bool set_timer = false;
 
+        /** displayed if activation fails due to damage, with %s replaced by item name */
+        translation damage_failure_msg;
+
         /** minimum number of fire charges required (if any) for transformation */
         int need_fire = 0;
 

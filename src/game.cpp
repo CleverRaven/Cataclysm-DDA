@@ -1959,7 +1959,7 @@ static hint_rating rate_action_eat( const avatar &you, const item &it )
 
 static hint_rating rate_action_collapse( const item &it )
 {
-    for( const item_pocket *pocket : it.get_all_standard_pockets() ) {
+    for( const item_pocket *pocket : it.get_standard_pockets() ) {
         if( !pocket->settings.is_collapsed() ) {
             return hint_rating::good;
         }
@@ -1969,7 +1969,7 @@ static hint_rating rate_action_collapse( const item &it )
 
 static hint_rating rate_action_expand( const item &it )
 {
-    for( const item_pocket *pocket : it.get_all_standard_pockets() ) {
+    for( const item_pocket *pocket : it.get_standard_pockets() ) {
         if( pocket->settings.is_collapsed() ) {
             return hint_rating::good;
         }
@@ -2386,7 +2386,7 @@ int game::inventory_item_menu( item_location locThisItem,
                     break;
                 case '<':
                 case '>':
-                    for( item_pocket *pocket : oThisItem.get_all_standard_pockets() ) {
+                    for( item_pocket *pocket : oThisItem.get_standard_pockets() ) {
                         pocket->settings.set_collapse( cMenu == '>' );
                     }
                     break;
@@ -4984,12 +4984,7 @@ void game::save_cyborg( item *cyborg, const tripoint_bub_ms &couch_pos, Characte
 void game::exam_appliance( vehicle &veh, const point_rel_ms &c )
 {
     map &here = get_map();
-
-    player_activity act = veh_app_interact::run( here, veh, c );
-    if( act ) {
-        u.set_moves( 0 );
-        u.assign_activity( act );
-    }
+    veh_app_interact::run( here, veh, c );
 }
 
 void game::exam_vehicle( vehicle &veh, const point_rel_ms &c )
@@ -5000,11 +4995,7 @@ void game::exam_vehicle( vehicle &veh, const point_rel_ms &c )
         add_msg( m_info, _( "This is your %s" ), veh.name );
         return;
     }
-    player_activity act = veh_interact::run( here, veh, c );
-    if( act ) {
-        u.set_moves( 0 );
-        u.assign_activity( act );
-    }
+    veh_interact::run( here, veh, c );
 }
 
 void game::open_gate( const tripoint_bub_ms &p )
@@ -10554,7 +10545,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
         if( crit->has_flag( mon_flag_RIDEABLE_MECH ) ) {
             crit->use_mech_power( u.current_movement_mode()->mech_power_use() + 1_kJ );
         }
-    } else {
+    } else if( !u.in_vehicle ) {
         u.mod_moves( -move_cost );
         u.burn_energy_all( -move_cost );
     }

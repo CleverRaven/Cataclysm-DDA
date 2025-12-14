@@ -302,5 +302,10 @@
     "flags": [ "INEDIBLE" ],
     "use_action": [ "PETFOOD" ],
     "petfood": [ "WARG_FOOD" ]
+  },
+  {
+    "id": "spell_scroll_baleful_polymorph",
+    "type": "MIGRATION",
+    "replace": "manual_swimming"
   }
 ]
