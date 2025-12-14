@@ -4967,7 +4967,7 @@ std::optional<int> iuse::spray_can( Character *p, item *it, const tripoint_bub_m
 
     if( !it->activation_success() ) {
         p->add_msg_if_player( m_bad,
-                              _( "Your attempt to perform a test spray with your %s is unsuccessful. Nothing happens." ),
+                              _( "Your attempt to perform a test spray with your %s is unsuccessful.  Nothing happens." ),
                               it->tname() );
         return std::nullopt;
     }
