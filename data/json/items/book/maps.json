@@ -598,10 +598,7 @@
           },
           "effect": {
             "if": { "u_has_mission": "MISSION_XEDRA_FIELD_STATION_1" },
-            "then": {
-              "u_message": "You study the notebook, but don't find anything interesting or new.",
-              "popup": true
-            },
+            "then": { "u_message": "You study the notebook, but don't find anything interesting or new.", "popup": true },
             "else": [
               {
                 "u_message": "You study the notebook.  The most recent entry has an address underlined several times, with a note: \"S02a deployed for anom. collection.\"  You mark down the address.",
