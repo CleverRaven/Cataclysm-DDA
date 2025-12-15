@@ -7,7 +7,13 @@
     "difficulty": 1,
     "value": 0,
     "start": {
-      "assign_mission_target": { "om_special": "xedra_church_rural", "om_terrain": "xedra_rural_church_parking", "reveal_radius": 2, "random": true, "search_range": 800 }
+      "assign_mission_target": {
+        "om_special": "xedra_church_rural",
+        "om_terrain": "xedra_rural_church_parking",
+        "reveal_radius": 2,
+        "random": true,
+        "search_range": 800
+      }
     }
   }
 ]
