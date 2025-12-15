@@ -1,0 +1,11 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "mom_knacks_only",
+    "name": "Mind Over Matter: Psychic Scream>",
+    "authors": [ "Standing-Storm" ],
+    "description": "Changes Mind Over Matter so that only psychic knacks exist, meaning only those born with them have psychic powers.  Removes higher-level feral psions and psionic awakenings, leaves crafting and locations.\n\nTriffids and mi-go still get powerful psychics, so watch out.",
+    "category": "misc_additions",
+    "dependencies": [ "dda", "mindovermatter" ]
+  }
+]
