@@ -1,0 +1,23 @@
+[
+  {
+    "id": "battery_car_assembly",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
+    "category": "veh_parts",
+    "name": { "str": "car battery assembly", "str_pl": "car battery assemblies" },
+    "description": "A group of six 12 V lead-acid battery, wired together with a battery management system.  Designed to be plugged into a static power grid.",
+    "ascii_picture": "battery_car",
+    "//": "Just a simple multiplier on weight/volume",
+    "weight": "120 kg",
+    "volume": "60 L",
+    "price": "150 USD",
+    "price_postapoc": "30 USD",
+    "material": [ "plastic", "lead" ],
+    "symbol": ":",
+    "color": "light_cyan",
+    "ammo_type": [ "battery" ],
+    "capacity": 18000,
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "RECHARGE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 18000 } } ]
+  }
+]
