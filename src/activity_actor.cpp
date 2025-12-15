@@ -9795,6 +9795,10 @@ void butchery_activity_actor::do_turn( player_activity &act, Character &you )
         // Uses max(1, ..) to prevent it going all the way to zero, which would stop the activity by the general `activity_actor` handling.
         // Instead, the checks for `bd.empty()` will make sure to stop the activity by explicitly setting it to zero.
         act.moves_left = std::max( 1, to_moves<int>( this_bd->time_to_butcher - this_bd->progress ) );
+
+        item &corpse_item = *this_bd->corpse;
+        corpse_item.set_var( butcher_progress_time_var(),
+                             to_turns<double>( calendar::turn - calendar::start_of_cataclysm ) );
     }
 }
 
