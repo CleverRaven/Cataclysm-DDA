@@ -3503,7 +3503,7 @@ void monster::process_effects()
     }
 
     if( has_flag( mon_flag_UNBREAKABLE_MORALE ) ) {
-         morale += 100;
+        morale += 100;
     }
 
     if( has_flag( mon_flag_CORNERED_FIGHTER ) ) {
