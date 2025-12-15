@@ -79,7 +79,7 @@
       },
       "furniture": { "¢": "f_counter", "`": "f_dishwasher", "³": "f_rack" },
       "items": {
-        "¢": { "item": "SUS_office_filing_cabinet", "chance": 60, "repeat": [ 1, 2 ] },
+        "¢": { "item": "dining_hall_utensils", "chance": 3 },
         "p": [
           { "item": "restaur_fridge", "chance": 70, "repeat": [ 1, 2 ] },
           { "item": "SUS_fridge", "chance": 90, "repeat": [ 1, 2 ] }
