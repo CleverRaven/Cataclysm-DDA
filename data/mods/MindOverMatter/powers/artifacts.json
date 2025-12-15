@@ -527,5 +527,78 @@
     "max_duration": 24850,
     "targeted_monster_species": [ "ROBOT", "ROBOT_FLYING" ],
     "extra_effects": [ { "id": "mom_aea_artifact_calorie_hit", "hit_self": true } ]
+  },
+  {
+    "id": "MoM_AEA_HOT_AIR_BURST",
+    "type": "SPELL",
+    "name": { "str": "MoM AEA Heat Emit", "//~": "NO_I18N" },
+    "description": { "str": "Causes a hot air around you.", "//~": "NO_I18N" },
+    "message": "The crystal grows very warm for a moment.",
+    "flags": [ "NO_LEGS", "SILENT", "NO_EXPLOSION_SFX" ],
+    "valid_targets": [ "self" ],
+    "skill": "metaphysics",
+    "shape": "blast",
+    "effect": "emit",
+    "effect_str": "emit_pyrokinetic_summon_heat_4",
+    "extra_effects": [ { "id": "mom_aea_artifact_calorie_hit", "hit_self": true } ]
+  },
+  {
+    "id": "MoM_AEA_INTENSIFY_NEARBY_FLAMES",
+    "type": "SPELL",
+    "name": { "str": "MoM AEA Intensify Nearby Flames", "//~": "NO_I18N" },
+    "description": { "str": "Causes all nearby flames to increase in intensity.", "//~": "NO_I18N" },
+    "message": "The crystal pulses heat for moment.",
+    "flags": [ "NO_LEGS", "SILENT", "NO_EXPLOSION_SFX", "RANDOM_AOE" ],
+    "valid_targets": [ "self" ],
+    "skill": "metaphysics",
+    "shape": "blast",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_MoM_AEA_INTENSIFY_NEARBY_FLAMES",
+    "extra_effects": [ { "id": "mom_aea_artifact_calorie_hit", "hit_self": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MoM_AEA_INTENSIFY_NEARBY_FLAMES",
+    "effect": [
+      {
+        "u_map_run_eocs": [
+          {
+            "id": "EOC_MoM_AEA_INTENSIFY_NEARBY_FLAMES_ACTION",
+            "effect": [ { "u_set_field": "fd_fire", "radius": 0, "intensity": 1, "target_var": { "context_val": "MoM_AEA_val" } } ]
+          }
+        ],
+        "range": { "math": [ "5 + rand(10)" ] },
+        "store_coordinates_in": { "context_val": "MoM_AEA_val" },
+        "stop_at_first": false,
+        "condition": { "map_field_id": "fd_fire" }
+      }
+    ]
+  },
+  {
+    "id": "MoM_AEA_FIERY_BURST_EXPLOSION",
+    "type": "SPELL",
+    "name": { "str": "MoM AEA Fiery Burst Explosion", "//~": "NO_I18N" },
+    "description": { "str": "Causes a blast of flame all around you.", "//~": "NO_I18N" },
+    "message": "The crystal grows searing hot for a moment!",
+    "flags": [ "NO_LEGS", "LOUD", "RANDOM_DAMAGE", "RANDOM_AOE", "EXTRA_EFFECTS_FIRST" ],
+    "valid_targets": [ "hostile", "ground", "ally" ],
+    "skill": "metaphysics",
+    "shape": "blast",
+    "effect": "attack",
+    "damage_type": "heat",
+    "min_damage": 80,
+    "max_damage": 250,
+    "min_aoe": 10,
+    "max_aoe": 20,
+    "extra_effects": [
+      { "id": "pyrokinetic_aoe_blast_immunity", "hit_self": true },
+      { "id": "mom_aea_artifact_calorie_hit", "hit_self": true }
+    ],
+    "field_id": "fd_fire",
+    "min_field_intensity": 2,
+    "max_field_intensity": 2,
+    "field_intensity_increment": 1,
+    "field_intensity_variance": 1,
+    "field_chance": 2
   }
 ]

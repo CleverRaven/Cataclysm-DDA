@@ -13,6 +13,9 @@
       }
     ],
     "active_procgen_values": [
+      { "weight": 100, "spell_id": "MoM_AEA_HOT_AIR_BURST", "base_power": 150, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_INTENSIFY_NEARBY_FLAMES", "base_power": 250, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_FIERY_BURST_EXPLOSION", "base_power": 850, "ench_has": "WIELD" },
       { "weight": 100, "spell_id": "MoM_AEA_NETHER_ATTUNEMENT", "base_power": -100, "ench_has": "WIELD" },
       { "weight": 100, "spell_id": "MoM_AEA_STAMINA_EMPTY", "base_power": -250, "ench_has": "WIELD" },
       { "weight": 100, "spell_id": "MoM_AEA_VOMIT", "base_power": -50, "ench_has": "WIELD" },
