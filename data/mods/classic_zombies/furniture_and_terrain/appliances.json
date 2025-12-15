@@ -4,7 +4,7 @@
     "id": "app_battery_car_assembly",
     "name": { "str": "grid-attached car battery assembly" },
     "categories": [ "energy" ],
-    "looks_like": "battery_car",
+    "looks_like": "large_storage_battery",
     "color": "red",
     "flags": [ "OBSTACLE", "APPLIANCE", "NO_INSTALL_HIDDEN" ],
     "description": "A group of six car batteries connected with a battery management system and wired into a static power grid.",
