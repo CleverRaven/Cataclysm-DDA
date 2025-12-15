@@ -21,177 +21,33 @@
     ],
     "passive_mult_procgen_values": [
       {
-        "weight": 100,
-        "min_value": -0.5,
-        "max_value": 1,
-        "type": "PERCEPTION",
-        "increment": 0.1,
-        "power_per_increment": 100,
-        "ench_has": "HELD"
-      },
-      {
-        "weight": 100,
-        "min_value": -0.5,
-        "max_value": 1,
-        "type": "CRAFTING_SPEED_MULTIPLIER",
-        "increment": 0.1,
-        "power_per_increment": 50,
-        "ench_has": "HELD"
-      },
-      {
-        "weight": 100,
-        "min_value": -0.5,
-        "max_value": 1,
-        "type": "HEARING_MULT",
-        "increment": 0.1,
-        "power_per_increment": 75,
-        "ench_has": "HELD"
-      },
-      {
-        "weight": 100,
-        "min_value": -0.2,
-        "max_value": 0.5,
-        "type": "RANGED_DAMAGE",
-        "increment": 0.1,
-        "power_per_increment": 250,
-        "ench_has": "HELD"
-      },
-      {
-        "weight": 100,
-        "min_value": -0.5,
-        "max_value": 0.5,
-        "type": "READING_SPEED_MULTIPLIER",
-        "increment": 0.1,
-        "power_per_increment": -50,
-        "ench_has": "HELD"
-      },
-      {
-        "weight": 100,
-        "min_value": -0.5,
-        "max_value": 2,
-        "type": "WEAKPOINT_ACCURACY",
-        "increment": 0.2,
-        "power_per_increment": 50,
-        "ench_has": "HELD"
-      },
-      {
         "weight": 50,
-        "min_value": -0.4,
-        "max_value": 0.2,
-        "type": "WEAPON_DISPERSION",
-        "increment": 0.1,
-        "power_per_increment": -150,
-        "ench_has": "HELD"
-      },
-      {
-        "weight": 20,
         "min_value": -0.25,
-        "max_value": 0.25,
-        "type": "PAIN_PENALTY_MOD_PER",
-        "increment": 0.025,
-        "power_per_increment": -15,
+        "max_value": 1,
+        "type": "SWEAT_MULTIPLIER",
+        "increment": 0.125,
+        "power_per_increment": 12,
         "ench_has": "HELD"
       }
     ],
     "passive_add_procgen_values": [
       {
         "weight": 100,
-        "min_value": -3,
-        "max_value": 4,
-        "type": "PERCEPTION",
-        "increment": 1,
-        "power_per_increment": 250,
-        "ench_has": "HELD"
-      },
-      {
-        "weight": 50,
-        "min_value": 0.1,
-        "max_value": 1,
-        "type": "AVOID_FRIENDRY_FIRE",
-        "increment": 0.1,
-        "power_per_increment": 75,
-        "ench_has": "HELD"
-      },
-      {
-        "weight": 100,
-        "min_value": 1,
-        "max_value": 3,
-        "type": "BONUS_DODGE",
-        "increment": 1,
-        "power_per_increment": 750,
-        "ench_has": "HELD"
-      },
-      {
-        "weight": 50,
-        "min_value": 1,
-        "max_value": 5,
-        "type": "DODGE_CHANCE",
-        "increment": 1,
-        "power_per_increment": 250,
+        "min_value": 50,
+        "max_value": -10,
+        "type": "CLIMATE_CONTROL_HEAT",
+        "increment": 5,
+        "power_per_increment": 50,
         "ench_has": "HELD"
       },
       {
         "weight": 25,
-        "min_value": 0.05,
-        "max_value": 0.5,
-        "type": "EVASION",
-        "increment": 0.05,
-        "power_per_increment": 750,
-        "ench_has": "HELD"
-      },
-      {
-        "weight": 50,
-        "min_value": 1,
-        "max_value": 3,
-        "type": "MELEE_TO_HIT",
-        "increment": 1,
-        "power_per_increment": 750,
-        "ench_has": "HELD"
-      },
-      {
-        "weight": 100,
-        "min_value": 1,
-        "max_value": 6,
-        "type": "MOTION_ALARM",
-        "increment": 1,
-        "power_per_increment": 150,
+        "min_value": 10,
+        "max_value": 50,
+        "type": "LUMINATION",
+        "increment": 10,
+        "power_per_increment": 25,
         "ench_has": "WIELD"
-      },
-      {
-        "weight": 100,
-        "min_value": 1,
-        "max_value": 10,
-        "type": "NIGHT_VIS",
-        "increment": 1,
-        "power_per_increment": 150,
-        "ench_has": "WIELD"
-      },
-      {
-        "weight": 50,
-        "min_value": 1,
-        "max_value": 4,
-        "type": "OVERMAP_SIGHT",
-        "increment": 1,
-        "power_per_increment": 500,
-        "ench_has": "WIELD"
-      },
-      {
-        "weight": 50,
-        "min_value": 1,
-        "max_value": 6,
-        "type": "RANGE",
-        "increment": 1,
-        "power_per_increment": 400,
-        "ench_has": "HELD"
-      },
-      {
-        "weight": 25,
-        "min_value": 0.05,
-        "max_value": 0.5,
-        "type": "RANGE_DODGE",
-        "increment": 0.05,
-        "power_per_increment": 750,
-        "ench_has": "HELD"
       }
     ],
     "type_weights": [
@@ -222,177 +78,33 @@
     ],
     "passive_mult_procgen_values": [
       {
-        "weight": 100,
-        "min_value": -0.5,
-        "max_value": 1,
-        "type": "PERCEPTION",
-        "increment": 0.1,
-        "power_per_increment": 100,
-        "ench_has": "HELD"
-      },
-      {
-        "weight": 100,
-        "min_value": -0.5,
-        "max_value": 1,
-        "type": "CRAFTING_SPEED_MULTIPLIER",
-        "increment": 0.1,
-        "power_per_increment": 50,
-        "ench_has": "HELD"
-      },
-      {
-        "weight": 100,
-        "min_value": -0.5,
-        "max_value": 1,
-        "type": "HEARING_MULT",
-        "increment": 0.1,
-        "power_per_increment": 75,
-        "ench_has": "HELD"
-      },
-      {
-        "weight": 100,
-        "min_value": -0.2,
-        "max_value": 0.5,
-        "type": "RANGED_DAMAGE",
-        "increment": 0.1,
-        "power_per_increment": 250,
-        "ench_has": "HELD"
-      },
-      {
-        "weight": 100,
-        "min_value": -0.5,
-        "max_value": 0.5,
-        "type": "READING_SPEED_MULTIPLIER",
-        "increment": 0.1,
-        "power_per_increment": -50,
-        "ench_has": "HELD"
-      },
-      {
-        "weight": 100,
-        "min_value": -0.5,
-        "max_value": 2,
-        "type": "WEAKPOINT_ACCURACY",
-        "increment": 0.2,
-        "power_per_increment": 50,
-        "ench_has": "HELD"
-      },
-      {
         "weight": 50,
-        "min_value": -0.4,
-        "max_value": 0.2,
-        "type": "WEAPON_DISPERSION",
-        "increment": 0.1,
-        "power_per_increment": -150,
-        "ench_has": "HELD"
-      },
-      {
-        "weight": 20,
         "min_value": -0.25,
-        "max_value": 0.25,
-        "type": "PAIN_PENALTY_MOD_PER",
-        "increment": 0.025,
-        "power_per_increment": -15,
+        "max_value": 1,
+        "type": "SWEAT_MULTIPLIER",
+        "increment": 0.125,
+        "power_per_increment": 12,
         "ench_has": "HELD"
       }
     ],
     "passive_add_procgen_values": [
       {
         "weight": 100,
-        "min_value": -3,
-        "max_value": 4,
-        "type": "PERCEPTION",
-        "increment": 1,
-        "power_per_increment": 250,
-        "ench_has": "HELD"
-      },
-      {
-        "weight": 50,
-        "min_value": 0.1,
-        "max_value": 1,
-        "type": "AVOID_FRIENDRY_FIRE",
-        "increment": 0.1,
-        "power_per_increment": 75,
-        "ench_has": "HELD"
-      },
-      {
-        "weight": 100,
-        "min_value": 1,
-        "max_value": 3,
-        "type": "BONUS_DODGE",
-        "increment": 1,
-        "power_per_increment": 750,
-        "ench_has": "HELD"
-      },
-      {
-        "weight": 50,
-        "min_value": 1,
-        "max_value": 5,
-        "type": "DODGE_CHANCE",
-        "increment": 1,
-        "power_per_increment": 250,
+        "min_value": 50,
+        "max_value": -10,
+        "type": "CLIMATE_CONTROL_HEAT",
+        "increment": 5,
+        "power_per_increment": 50,
         "ench_has": "HELD"
       },
       {
         "weight": 25,
-        "min_value": 0.05,
-        "max_value": 0.5,
-        "type": "EVASION",
-        "increment": 0.05,
-        "power_per_increment": 750,
-        "ench_has": "HELD"
-      },
-      {
-        "weight": 50,
-        "min_value": 1,
-        "max_value": 3,
-        "type": "MELEE_TO_HIT",
-        "increment": 1,
-        "power_per_increment": 750,
-        "ench_has": "HELD"
-      },
-      {
-        "weight": 100,
-        "min_value": 1,
-        "max_value": 6,
-        "type": "MOTION_ALARM",
-        "increment": 1,
-        "power_per_increment": 150,
-        "ench_has": "HELD"
-      },
-      {
-        "weight": 100,
-        "min_value": 1,
-        "max_value": 10,
-        "type": "NIGHT_VIS",
-        "increment": 1,
-        "power_per_increment": 150,
-        "ench_has": "HELD"
-      },
-      {
-        "weight": 50,
-        "min_value": 1,
-        "max_value": 4,
-        "type": "OVERMAP_SIGHT",
-        "increment": 1,
-        "power_per_increment": 500,
-        "ench_has": "HELD"
-      },
-      {
-        "weight": 50,
-        "min_value": 1,
-        "max_value": 6,
-        "type": "RANGE",
-        "increment": 1,
-        "power_per_increment": 400,
-        "ench_has": "HELD"
-      },
-      {
-        "weight": 25,
-        "min_value": 0.05,
-        "max_value": 0.5,
-        "type": "RANGE_DODGE",
-        "increment": 0.05,
-        "power_per_increment": 750,
-        "ench_has": "HELD"
+        "min_value": 10,
+        "max_value": 50,
+        "type": "LUMINATION",
+        "increment": 10,
+        "power_per_increment": 25,
+        "ench_has": "WIELD"
       }
     ],
     "type_weights": [ { "weight": 100, "value": "passive_enchantment_add" }, { "weight": 100, "value": "passive_enchantment_mult" } ],
