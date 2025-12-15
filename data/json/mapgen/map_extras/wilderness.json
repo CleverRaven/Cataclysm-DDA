@@ -614,6 +614,7 @@
         "]": [ [ "t_water_sh", 8 ], "t_dirt", "t_grass" ],
         "~": "t_water_dp"
       },
+      "place_nested": [ { "chunks": [ [ "null", 30 ], [ "mx_pond_forest_fruit_patch", 1 ] ], "x": 2, "y": 19 } ],
       "place_monsters": [
         { "monster": "GROUP_SAFE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5, "density": 0.5 },
         { "monster": "GROUP_FISH", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 1, "repeat": [ 1, 2 ], "density": 0.5 },
