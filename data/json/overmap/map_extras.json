@@ -392,8 +392,7 @@
     "type": "map_extra",
     "name": { "str": "Blackberry patch" },
     "description": "Blackberry bushes have spread here.",
-    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_blackberry_patch" },
-    "flags": [ "CLASSIC" ]
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_blackberry_patch" }
   },
   {
     "id": "mx_strawberry_patch",
@@ -432,8 +431,14 @@
     "type": "map_extra",
     "name": { "str": "Hobblebush patch" },
     "description": "Hobblebush bushes have spread here.",
-    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_hobblebush_patch" },
-    "flags": [ "CLASSIC" ]
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_hobblebush_patch" }
+  },
+  {
+    "id": "mx_autumn_olive_patch",
+    "type": "map_extra",
+    "name": { "str": "Autumn olive patch" },
+    "description": "Autumn olive bushes have spread here.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_autumn_olive_patch" }
   },
   {
     "id": "mx_knotweed_patch",
