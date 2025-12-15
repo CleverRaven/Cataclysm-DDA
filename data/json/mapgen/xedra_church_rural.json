@@ -33,9 +33,7 @@
       ],
       "palettes": [ "church" ],
       "furniture": { "E": "f_active_backup_generator", "*": "f_barricade_road", "7": "f_sandbag_half", "8": "f_sandbag_half" },
-      "nested": {
-        "$": { "chunks": [ "tent_b_5x5_S" ] }
-      },
+      "nested": { "$": { "chunks": [ "tent_b_5x5_S" ] } },
       "terrain": {
         "Á": "t_railroad_rubble",
         "W": "t_wood_wall_w",
