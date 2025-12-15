@@ -241,7 +241,7 @@ bool zzip_stack::compact( double bloat_factor )
     // Finally normal compact on cold.
     std::filesystem::path tmp_path = path_ / "cold.zzip.tmp"; // NOLINT(cata-u8-path)
     if( cold_->compact_to( tmp_path, std::max( bloat_factor / 2.0, 1.0 ) ) ) {
-        return rename_file( tmp_path, path_ / "cold.zzip" ); // NOLINT(cata-u8-path)
+        return rename_file( tmp_path, path_ / kColdSuffix ); // NOLINT(cata-u8-path)
     }
     return true;
 }
