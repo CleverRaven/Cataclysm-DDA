@@ -647,7 +647,10 @@ class Character : public Creature, public visitable
         /** Modifiers to character speed, with descriptions */
         std::vector<speed_bonus_effect> speed_bonus_effects;
 
+        // How many chances to dodge(this turn) does the character have left?
         int dodges_left;
+        // How many dodges(this turn) will not consume stamina?
+        int free_dodges_left;
 
     public:
         std::vector<speed_bonus_effect> get_speed_bonus_effects() const;
@@ -837,6 +840,14 @@ class Character : public Creature, public visitable
         int get_dodges_left() const;
         void set_dodges_left( int dodges );
         void mod_dodges_left( int mod );
+
+
+        // Mod the actual base value, *not* the amount left for this turn
+        void mod_free_dodges( int added );
+
+        int get_free_dodges_left() const;
+        void set_free_dodges_left( int dodges );
+        void mod_free_dodges_left( int mod );
         void consume_dodge_attempts();
         ret_val<void> can_try_dodge( bool ignore_dodges_left = false ) const;
 
