@@ -93,5 +93,15 @@
     "type": "TRAIT_MIGRATION",
     "id": "VITAKINETIC_HEALTH",
     "remove": true
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "LIMITED_PSIONICS",
+    "remove": true
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "ALWAYS_GAIN_PSIONICS",
+    "remove": true
   }
 ]
