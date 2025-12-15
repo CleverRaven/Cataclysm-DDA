@@ -84,7 +84,8 @@
         "TELEKINETIC",
         "TELEPATH",
         "TELEPORTER",
-        "VITAKINETIC"
+        "VITAKINETIC",
+        "PSYCHIC_KNACK"
       ]
     },
     "deactivate_condition": {
@@ -101,7 +102,8 @@
               "TELEKINETIC",
               "TELEPATH",
               "TELEPORTER",
-              "VITAKINETIC"
+              "VITAKINETIC",
+              "PSYCHIC_KNACK"
             ]
           }
         }
@@ -113,9 +115,27 @@
     "type": "effect_on_condition",
     "id": "EOC_MOM_GAME_ONGOING_GRANT_BIOKINETIC_CRAFTING_PROFICIENCY",
     "recurrence": 1,
-    "condition": { "u_has_trait": "BIOKINETIC" },
+    "condition": {
+      "or": [
+        { "u_has_trait": "BIOKINETIC" },
+        {
+          "and": [
+            { "u_has_trait": "PSYCHIC_KNACK" },
+            {
+              "or": [
+                { "math": [ "u_spell_level('biokin_flexibility_knack') >= 5" ] },
+                { "math": [ "u_spell_level('biokin_adrenaline_knack') >= 5" ] }
+              ]
+            }
+          ]
+        }
+      ]
+    },
     "deactivate_condition": {
-      "or": [ { "u_has_proficiency": "prof_psionic_minimum_requirements_biokinesis" }, { "not": { "u_has_trait": "BIOKINETIC" } } ]
+      "or": [
+        { "u_has_proficiency": "prof_psionic_minimum_requirements_biokinesis" },
+        { "not": { "u_has_any_trait": [ "BIOKINETIC", "PSYCHIC_KNACK" ] } }
+      ]
     },
     "effect": [
       {
@@ -127,11 +147,32 @@
     "type": "effect_on_condition",
     "id": "EOC_MOM_GAME_ONGOING_GRANT_PYROKINETIC_CRAFTING_PROFICIENCY",
     "recurrence": 1,
-    "condition": { "u_has_trait": "PYROKINETIC" },
+    "condition": {
+      "or": [
+        { "u_has_trait": "PYROKINETIC" },
+        {
+          "and": [
+            { "u_has_trait": "PSYCHIC_KNACK" },
+            {
+              "or": [
+                { "math": [ "u_spell_level('pyrokinetic_flash_knack') >= 5" ] },
+                { "math": [ "u_spell_level('pyrokinetic_intensify_flames_knack') >= 5" ] },
+                { "math": [ "u_spell_level('pyrokinetic_eruption_knack') >= 5" ] },
+                { "math": [ "u_spell_level('pyrokinetic_call_flames_knack') >= 5" ] },
+                { "math": [ "u_spell_level('pyrokinetic_cloak_knack') >= 5" ] },
+                { "math": [ "u_spell_level('pyrokinetic_flamethrower_knack') >= 5" ] },
+                { "math": [ "u_spell_level('pyrokinetic_aura_knack') >= 5" ] },
+                { "math": [ "u_spell_level('pyrokinetic_blast_knack') >= 5" ] }
+              ]
+            }
+          ]
+        }
+      ]
+    },
     "deactivate_condition": {
       "or": [
         { "u_has_proficiency": "prof_psionic_minimum_requirements_pyrokinesis" },
-        { "not": { "u_has_trait": "PYROKINETIC" } }
+        { "not": { "u_has_any_trait": [ "PYROKINETIC", "PSYCHIC_KNACK" ] } }
       ]
     },
     "effect": [
@@ -161,11 +202,28 @@
     "type": "effect_on_condition",
     "id": "EOC_MOM_GAME_ONGOING_GRANT_VITAKINETIC_CRAFTING_PROFICIENCY",
     "recurrence": 1,
-    "condition": { "u_has_trait": "VITAKINETIC" },
+    "condition": {
+      "or": [
+        { "u_has_trait": "VITAKINETIC" },
+        {
+          "and": [
+            { "u_has_trait": "PSYCHIC_KNACK" },
+            {
+              "or": [
+                { "math": [ "u_spell_level('vita_health_power_knack') >= 5" ] },
+                { "math": [ "u_spell_level('vita_concentrated_healing_knack') >= 5" ] },
+                { "math": [ "u_spell_level('vita_remove_poison_knack') >= 5" ] },
+                { "math": [ "u_spell_level('vita_cure_disease_knack') >= 5" ] }
+              ]
+            }
+          ]
+        }
+      ]
+    },
     "deactivate_condition": {
       "or": [
         { "u_has_proficiency": "prof_psionic_minimum_requirements_vitakinesis" },
-        { "not": { "u_has_trait": "VITAKINETIC" } }
+        { "not": { "u_has_any_trait": [ "VITAKINETIC", "PSYCHIC_KNACK" ] } }
       ]
     },
     "effect": [
