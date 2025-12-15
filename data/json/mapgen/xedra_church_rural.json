@@ -56,7 +56,11 @@
       "items": { "o": { "item": "religious_books", "chance": 60 }, "@": { "item": "NC_XEDRA_FIELD_AGENT_worn", "chance": 100 } },
       "item": { "@": [ { "item": "corpse_generic_male" } ] },
       "vehicles": { "Á": { "vehicle": "parking_garage", "chance": 50, "rotation": 0 } },
-      "monster": { "%": { "monster": "mon_turret_searchlight" }, ".": { "monster": "mon_twisting_mass"}, "#": { "monster": "mon_twisting_mass" } }
+      "monster": {
+        "%": { "monster": "mon_turret_searchlight" },
+        ".": { "monster": "mon_twisting_mass" },
+        "#": { "monster": "mon_twisting_mass" }
+      }
     }
   },
   {
