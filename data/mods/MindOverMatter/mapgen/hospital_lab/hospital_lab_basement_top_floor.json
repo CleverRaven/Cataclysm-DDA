@@ -45,7 +45,7 @@
         "######   #    # +T# +T#                         #p        ³#                          #   ######",
         "######   ############################################ɔ###############                 #   ######",
         "#    #   #    #                                z#     PPPPP#IIIIIIII#                 #   #    #",
-        "#    #   #    #üh hüüh hüüh hüüh hüüh hüüh hü#  ¢          #I      I#                 #   #    #",
+        "#    #   #    #üh hüüh hüüh hüüh hüüh hüüh hü#  ¢         ¢#I      I#                 #   #    #",
         "#    Đ   #    #üh hüüh hüüh hüüh hüüh hüüh hü#  ¢  ¢L  L¢ M#H H  H H#                 #   Đ    #",
         "#    #   #    #üh hüüh hüüh hüüh hüüh hüüh hü#  ¢  ¢¢  ¢¢ M#H H  H H#                 #   #    #",
         "######   ##+###üh hüüh hüüh hüüh hüüh hüüh hü#  ¢  ¢¢  ¢¢ M#H H  H H#            ######   ######",
@@ -79,7 +79,11 @@
       },
       "furniture": { "¢": "f_counter", "`": "f_dishwasher", "³": "f_rack" },
       "items": {
-        "¢": { "item": "dining_hall_utensils", "chance": 3 },
+        "¢": [
+          { "item": "dining_hall_utensils", "chance": 3 },
+          { "item": "kitchen_appliances", "chance": 20, "repeat": [ 1, 2 ] },
+          { "item": "dishes_utility", "chance": 20, "repeat": [ 1, 2 ] }
+        ],
         "p": [
           { "item": "restaur_fridge", "chance": 70, "repeat": [ 1, 2 ] },
           { "item": "SUS_fridge", "chance": 90, "repeat": [ 1, 2 ] }
