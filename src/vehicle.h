@@ -260,6 +260,7 @@ class turret_cpu
 struct vehicle_part {
         friend vehicle;
         friend class veh_interact;
+        friend class vehicle_activity_actor;
         friend class vehicle_cursor;
         friend class vehicle_stack;
         friend item_location;

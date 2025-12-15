@@ -30,6 +30,7 @@
 #include "units.h"
 #include "units_fwd.h"
 #include "vehicle.h"
+#include "veh_interact.h"
 
 #include "activity_actor.h"
 
@@ -2001,6 +2002,37 @@ class tent_deconstruct_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 };
 
+class build_construction_activity_actor : public activity_actor
+{
+    public:
+        build_construction_activity_actor() = default;
+        explicit build_construction_activity_actor( const tripoint_abs_ms &construction_location ) :
+            construction_location( construction_location ) {};
+
+        const activity_id &get_type() const override {
+            static const activity_id ACT_BUILD( "ACT_BUILD" );
+            return ACT_BUILD;
+        }
+
+        void start( player_activity &, Character & ) override {};
+        void do_turn( player_activity &act, Character &you ) override;
+        void finish( player_activity &, Character & ) override {};
+
+        void complete_construction( player_activity &act, Character &you );
+        std::string get_progress_message( const player_activity & ) const override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<build_construction_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+
+    private:
+        tripoint_abs_ms construction_location;
+
+};
+
 class reel_cable_activity_actor : public activity_actor
 {
     private:
@@ -2074,6 +2106,80 @@ class haircut_activity_actor : public activity_actor
         void serialize( JsonOut & ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonValue & );
 };
+
+/** TODO: split up further by vehicle_action
+* vehicle_activity_actor currently handles all possible vehicle activities.
+* This was a carry-over from the legacy activity_handler
+* Notably, none of these activities use start/do_turn, just finish
+*/
+class vehicle_activity_actor : public activity_actor
+{
+    public:
+        vehicle_activity_actor() = default;
+        explicit vehicle_activity_actor(
+            vehicle_action sub_activity,
+            time_duration vehicle_act_duration,
+            vehicle *vehicle_target,
+            const tripoint_abs_ms &vp_location,
+            const tripoint_rel_ms &vp_mount_location,
+            int vp_index,
+            vpart_id vp_id,
+            const item_location &refill_location = item_location() ) :
+            sub_activity( sub_activity ), vehicle_act_duration( vehicle_act_duration ),
+            vp_location( vp_location ),
+            vp_mount_location( vp_mount_location ), vp_mount_location_opp( -vp_mount_location ),
+            vp_index( vp_index ), vp_id( vp_id ), refill_location( refill_location ) {
+            if( vehicle_target != nullptr ) {
+                for( const tripoint_abs_ms &pt : vehicle_target->get_points( true ) ) {
+                    vehicle_points.insert( pt );
+                }
+            }
+        };
+
+        const activity_id &get_type() const override {
+            static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
+            return ACT_VEHICLE;
+        }
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &, Character & ) override {};
+        void finish( player_activity &act, Character &you ) override;
+
+        /**
+         * Called when the activity timer for installing parts, repairing, etc times
+         * out and the action is complete.
+         */
+        void complete_vehicle( player_activity &act, Character &you );
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<vehicle_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+    private:
+        //index
+        vehicle_action sub_activity;
+        //moves parameter
+        time_duration vehicle_act_duration;
+
+        //formerly coord_set
+        std::unordered_set<tripoint_abs_ms> vehicle_points;
+        //values[0/1] x/y AND placement[0]???, absolute mount
+        tripoint_abs_ms vp_location;
+        //values[2/3] x/y, mount, NEVER USED!?
+        tripoint_rel_ms vp_mount_location;
+        //values[4/5] x/y, -mount, referenced only in veh_interact::complete
+        tripoint_rel_ms vp_mount_location_opp;
+        //values[6]; index of vehicle part in vehicle
+        int vp_index;
+        //str_values[0]
+        vpart_id vp_id;
+        //targets[0]
+        item_location refill_location;
+
+};
+
 
 class vehicle_folding_activity_actor : public activity_actor
 {

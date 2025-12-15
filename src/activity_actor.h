@@ -81,6 +81,7 @@ class activity_actor
 
         /**
          * Used to generate the progress display at the top of the screen
+         * See player_activity::get_progress_message()
          */
         virtual std::string get_progress_message( const player_activity &act ) const;
 

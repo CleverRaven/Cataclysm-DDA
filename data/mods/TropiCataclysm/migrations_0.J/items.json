@@ -3,5 +3,20 @@
     "type": "MIGRATION",
     "id": "fungus_mutated",
     "replace": "veggy_tainted"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "egg_monitor",
+    "replace": "egg_iguana"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "egg_snapper",
+    "replace": "egg_turtle"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "egg_salamander",
+    "replace": "egg_tadfish"
   }
 ]

@@ -255,6 +255,7 @@ void game::unserialize_impl( const JsonObject &data )
     std::string loaded_dimension_prefix;
     if( data.read( "dimension_prefix", loaded_dimension_prefix ) ) {
         dimension_prefix = loaded_dimension_prefix;
+        load_dimension_data();
     }
 
     data.read( "auto_travel_mode", auto_travel_mode );

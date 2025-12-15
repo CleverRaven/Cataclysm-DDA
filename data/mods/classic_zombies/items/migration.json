@@ -18,5 +18,10 @@
     "id": "protein_bar_evac",
     "type": "MIGRATION",
     "replace": "protein_bar_zero"
+  },
+  {
+    "id": "mp3",
+    "type": "MIGRATION",
+    "replace": "portable_music_player"
   }
 ]
