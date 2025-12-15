@@ -2384,7 +2384,7 @@
     "id": "mon_twisting_mass",
     "type": "MONSTER",
     "name": { "str_sp": "glowing mass of strings" },
-    "description": "A multitude of thin, fluorescent purple strings violently writhe about the air. Occasionally, individual strings lash out extremely far before retracting almost instantly. The strings are so dense that they form a nearly solid, suffocating mass.",
+    "description": "A multitude of thin, fluorescent purple strings violently writhe about the air.  Occasionally, individual strings lash out extremely far before retracting almost instantly.  The strings are so dense that they form a nearly solid, suffocating mass.",
     "default_faction": "nether",
     "bodytype": "spider",
     "species": [ "NETHER" ],

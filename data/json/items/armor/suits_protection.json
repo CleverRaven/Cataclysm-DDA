@@ -2856,7 +2856,7 @@
     "copy-from": "xedra_artifact_cleansuit",
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
-    "name": { "str": "S02a cleansuit (on)", "str_pl": "S02a cleansuit (on)" },
+    "name": { "str": "S02a cleansuit (on)", "str_pl": "S02a cleansuits (on)" },
     "looks_like": "xedra_artifact_cleansuit",
     "description": "A hazardous materials handling suit with external wiring snaking the entire garment, connecting various points across the body.  A battery compartment marked with \"X.E.D.R.A PROTOTYPE S02a\" is attached to the back.  While the electronics give no indication of function, wearing it will still provide excellent protection against ambient radiation.  The cleansuit is faintly vibrating.",
     "turns_per_charge": 100,

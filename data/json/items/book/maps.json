@@ -574,7 +574,7 @@
     "category": "maps",
     "symbol": ",",
     "color": "white",
-    "description": "A small notebook with \"X.E.D.R.A\" embossed on the cover. It's filled with notes scribbled by pencil.",
+    "description": "A small notebook with \"X.E.D.R.A\" embossed on the cover.  It's filled with notes scribbled by pencil.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "material": [ "paper" ],
@@ -601,7 +601,7 @@
             "then": { "u_message": "You study the notebook, but don't find anything interesting or new.", "popup": true },
             "else": [
               {
-                "u_message": "You study the notebook.  The most recent entry has an address underlined several times, with a note: \"S02a deployed for anom. collection.\"  You mark down the address.",
+                "u_message": "You study the notebook.  The most recent entry has an address underlined several times, with a note: \"S02a deployed for anomaly collection.\"  You mark down the address.",
                 "popup": true
               },
               { "assign_mission": "MISSION_XEDRA_FIELD_STATION_1" }

@@ -6,7 +6,7 @@
     "symbol": ",",
     "color": "magenta",
     "name": { "str": "glowing string" },
-    "description": "A plastic test-tube housing a fluorescent purple string of unknown material. The string gently flickers and twitches on its own.",
+    "description": "A plastic test-tube housing a fluorescent purple string of unknown material.  The string gently flickers and twitches on its own.",
     "price": "10 USD",
     "price_postapoc": "1 USD",
     "material": [ "plastic" ],
