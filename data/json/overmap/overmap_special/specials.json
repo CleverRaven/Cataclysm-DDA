@@ -3301,6 +3301,22 @@
   },
   {
     "type": "overmap_special",
+    "id": "xedra_church_rural",
+    "overmaps": [
+      { "point": [ 1, 0, 0 ], "overmap": "xedra_rural_church_parking_north" },
+      { "point": [ 2, 0, 0 ], "overmap": "xedra_rural_church_north" },
+      { "point": [ 2, 0, -1 ], "overmap": "xedra_rural_church_basement_north" },
+      { "point": [ 2, 0, 1 ], "overmap": "xedra_rural_church_steeple_north" },
+      { "point": [ 2, 0, 2 ], "overmap": "xedra_rural_church_steeple_roof_north" }
+    ],
+    "connections": [ { "point": [ 0, 0, 0 ], "terrain": "road", "connection": "local_road", "from": [ 1, 0, 0 ] } ],
+    "locations": [ "field" ],
+    "city_distance": [ 5, 50 ],
+    "occurrences": [ 0, 1 ],
+    "flags": [ "MAN_MADE", "GLOBALLY_UNIQUE" ]
+  },
+  {
+    "type": "overmap_special",
     "id": "Moonshine Still",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "moonshine_still_north" },

@@ -1,0 +1,16 @@
+[
+  {
+    "type": "ITEM",
+    "id": "inert_glowing_string",
+    "category": "artifacts",
+    "symbol": ",",
+    "color": "magenta",
+    "name": { "str": "glowing string" },
+    "description": "A plastic test-tube housing a flourescent purple string of unknown material. The string gently flickers and twitches on its own.",
+    "price": "10 USD",
+    "price_postapoc": "1 USD",
+    "material": [ "plastic" ],
+    "weight": "10 g",
+    "volume": "20 ml"
+  }
+]
