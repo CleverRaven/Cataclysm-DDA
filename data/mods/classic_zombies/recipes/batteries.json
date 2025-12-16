@@ -19,13 +19,6 @@
       { "proficiency": "prof_elec_circuits" },
       { "proficiency": "prof_elec_semiconductors" }
     ],
-    "components": [
-      [ [ "battery_car", 6 ] ],
-      [ [ "RAM", 2 ] ],
-      [ [ "processor", 2 ] ],
-      [ [ "e_scrap", 4 ] ],
-      [ [ "scrap", 8 ] ],
-      [ [ "cable", 20 ] ]
-    ]
+    "components": [ [ [ "battery_car", 6 ] ], [ [ "processor", 2 ] ], [ [ "e_scrap", 12 ] ], [ [ "scrap", 8 ] ], [ [ "cable", 20 ] ] ]
   }
 ]
