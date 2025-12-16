@@ -575,6 +575,23 @@
     ]
   },
   {
+    "type": "SPELL",
+    "id": "MoM_AEA_BURNING_CLOAK",
+    "name": { "str": "MoM Artifact Burning Cloak", "//~": "NO_I18N" },
+    "description": { "str": "Causes heated air around you that damages enemies.", "//~": "NO_I18N" },
+    "valid_targets": [ "self" ],
+    "skill": "metaphysics",
+    "effect": "attack",
+    "effect_str": "effect_mom_artifact_burning_cloak",
+    "shape": "blast",
+    "base_casting_time": 100,
+    "flags": [ "RANDOM_DURATION", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
+    "min_duration": 180000,
+    "max_duration": 650000,
+    "message": "The air around you wavers like summer heat!",
+    "extra_effects": [ { "id": "mom_aea_artifact_calorie_hit", "hit_self": true } ]
+  },
+  {
     "id": "MoM_AEA_FIERY_BURST_EXPLOSION",
     "type": "SPELL",
     "name": { "str": "MoM AEA Fiery Burst Explosion", "//~": "NO_I18N" },
