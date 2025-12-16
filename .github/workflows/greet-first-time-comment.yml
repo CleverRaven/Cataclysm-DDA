@@ -22,13 +22,18 @@ jobs:
         run: |
           commenter="${{ github.event.comment.user.login }}"
           echo "Debug: Checking comment counts for... $commenter"
-          comment_count=$(gh search prs --owner=CleverRaven --repo=Cataclysm-DDA --commenter $commenter --json id | jq 'length')
+          comment_count_all_PR=$(gh search prs --repo=CleverRaven/Cataclysm-DDA --commenter $commenter --json id | jq 'length')
+          num_PRs_authored=$(gh search prs --repo=CleverRaven/Cataclysm-DDA --author $commenter --json id | jq 'length')
+          
+          num_times_commented=$(gh pr view $PR_NUMBER --json comments --jq "[.comments.[].author.login | match(\"$commenter\")] | length")
 
-          echo "Debug: $commenter with $comment_count total comments, including checked comment."
-          echo "comment_count=$comment_count" >> $GITHUB_OUTPUT
+          echo "Debug: $commenter with $comment_count_all_PR PRs commented on, including checked comment. PR contains $num_times_commented comments from them. They have authored $num_PRs_authored PRs in CleverRaven."
+          echo "comment_count_all_PR=$comment_count_all_PR" >> $GITHUB_OUTPUT
+          echo "num_times_commented=$num_times_commented" >> $GITHUB_OUTPUT
+          echo "num_PRs_authored=$num_PRs_authored" >> $GITHUB_OUTPUT
 
       - name: Greet commenters with no previous comments
-        if: steps.pr-comment-check.outputs.comment_count == 1
+        if: steps.pr-comment-check.outputs.comment_count_all_PR == 1 && steps.pr-comment-check.outputs.num_times_commented == 1 && steps.pr-comment-check.outputs.num_PRs_authored == 0
         run: |
           # I have no earthly idea how to pass the commenter on from the previous run (I have tried), so let's just re-acquire it.
           commenter_name="${{ github.event.comment.user.login }}"
