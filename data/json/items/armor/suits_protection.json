@@ -2849,7 +2849,7 @@
       "need_charges_msg": "It seems like this device needs power."
     },
     "tool_ammo": "battery",
-    "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "ARTIFACT_RESONANCE", "add": -1500 } ] } ]
+    "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "ARTIFACT_RESONANCE", "add": -750 } ] } ]
   },
   {
     "id": "xedra_artifact_cleansuit_on",
