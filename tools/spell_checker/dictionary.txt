@@ -1575,7 +1575,6 @@ Dobbs
 Dodecagram
 dodgeball
 DOE
-doge
 dogpark
 dogpile
 dojo
