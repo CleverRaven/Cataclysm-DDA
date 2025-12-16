@@ -570,14 +570,14 @@
         "range": { "math": [ "5 + rand(10)" ] },
         "store_coordinates_in": { "context_val": "MoM_AEA_val" },
         "stop_at_first": false,
-        "condition": { "map_field_id": "fd_fire" }
+        "condition": { "map_field_id": "fd_fire", "loc": { "context_val": "MoM_AEA_val" } }
       }
     ]
   },
   {
     "type": "SPELL",
     "id": "MoM_AEA_BURNING_CLOAK",
-    "name": { "str": "MoM Artifact Burning Cloak", "//~": "NO_I18N" },
+    "name": { "str": "MoM AEA Burning Cloak", "//~": "NO_I18N" },
     "description": { "str": "Causes heated air around you that damages enemies.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "skill": "metaphysics",
@@ -594,7 +594,7 @@
   {
     "type": "SPELL",
     "id": "MoM_AEA_FIRE_IMMUNITY",
-    "name": { "str": "MoM Artifact Fire Immunity", "//~": "NO_I18N" },
+    "name": { "str": "MoM AEA Fire Immunity", "//~": "NO_I18N" },
     "description": { "str": "Makes you totally immune to fire and heat.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "skill": "metaphysics",
