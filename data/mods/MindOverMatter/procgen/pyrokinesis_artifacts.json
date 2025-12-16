@@ -31,6 +31,15 @@
         "increment": 0.125,
         "power_per_increment": 12,
         "ench_has": "HELD"
+      },
+      {
+        "weight": 25,
+        "min_value": 0,
+        "max_value": 1,
+        "type": "DISINFECTANT_BONUS",
+        "increment": 0.1,
+        "power_per_increment": 35,
+        "ench_has": "HELD"
       }
     ],
     "passive_add_procgen_values": [
@@ -41,6 +50,24 @@
         "type": "CLIMATE_CONTROL_HEAT",
         "increment": 5,
         "power_per_increment": 50,
+        "ench_has": "WIELD"
+      },
+      {
+        "weight": 75,
+        "min_value": 300,
+        "max_value": -900,
+        "type": "SCENT_MASK",
+        "increment": -50,
+        "power_per_increment": 50,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 75,
+        "min_value": 0,
+        "max_value": 500,
+        "type": "OVERKILL_DAMAGE",
+        "increment": 10,
+        "power_per_increment": 25,
         "ench_has": "HELD"
       },
       {
@@ -88,6 +115,15 @@
         "increment": 0.125,
         "power_per_increment": 12,
         "ench_has": "HELD"
+      },
+      {
+        "weight": 25,
+        "min_value": 0,
+        "max_value": 1,
+        "type": "DISINFECTANT_BONUS",
+        "increment": 0.1,
+        "power_per_increment": 35,
+        "ench_has": "HELD"
       }
     ],
     "passive_add_procgen_values": [
@@ -98,6 +134,24 @@
         "type": "CLIMATE_CONTROL_HEAT",
         "increment": 5,
         "power_per_increment": 50,
+        "ench_has": "WIELD"
+      },
+      {
+        "weight": 75,
+        "min_value": 300,
+        "max_value": -900,
+        "type": "SCENT_MASK",
+        "increment": -50,
+        "power_per_increment": 50,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 75,
+        "min_value": 0,
+        "max_value": 500,
+        "type": "OVERKILL_DAMAGE",
+        "increment": 10,
+        "power_per_increment": 25,
         "ench_has": "HELD"
       },
       {
