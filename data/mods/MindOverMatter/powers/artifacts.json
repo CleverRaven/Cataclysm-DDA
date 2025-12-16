@@ -592,6 +592,23 @@
     "extra_effects": [ { "id": "mom_aea_artifact_calorie_hit", "hit_self": true } ]
   },
   {
+    "type": "SPELL",
+    "id": "MoM_AEA_FIRE_IMMUNITY",
+    "name": { "str": "MoM Artifact Fire Immunity", "//~": "NO_I18N" },
+    "description": { "str": "Makes you totally immune to fire and heat.", "//~": "NO_I18N" },
+    "valid_targets": [ "self" ],
+    "skill": "metaphysics",
+    "effect": "attack",
+    "effect_str": "effect_pyrokinetic_flame_immunity",
+    "shape": "blast",
+    "base_casting_time": 100,
+    "flags": [ "RANDOM_DURATION", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
+    "min_duration": 15000,
+    "max_duration": 98900,
+    "message": "The air around suddenly cools off.",
+    "extra_effects": [ { "id": "mom_aea_artifact_calorie_hit", "hit_self": true } ]
+  },
+  {
     "id": "MoM_AEA_FIERY_BURST_EXPLOSION",
     "type": "SPELL",
     "name": { "str": "MoM AEA Fiery Burst Explosion", "//~": "NO_I18N" },

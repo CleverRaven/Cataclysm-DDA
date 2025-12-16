@@ -16,6 +16,7 @@
       { "weight": 100, "spell_id": "MoM_AEA_HOT_AIR_BURST", "base_power": 150, "ench_has": "WIELD" },
       { "weight": 100, "spell_id": "MoM_AEA_INTENSIFY_NEARBY_FLAMES", "base_power": 250, "ench_has": "WIELD" },
       { "weight": 100, "spell_id": "MoM_AEA_BURNING_CLOAK", "base_power": 450, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_FIRE_IMMUNITY", "base_power": 700, "ench_has": "WIELD" },
       { "weight": 100, "spell_id": "MoM_AEA_FIERY_BURST_EXPLOSION", "base_power": 850, "ench_has": "WIELD" },
       { "weight": 100, "spell_id": "MoM_AEA_NETHER_ATTUNEMENT", "base_power": -100, "ench_has": "WIELD" },
       { "weight": 100, "spell_id": "MoM_AEA_STAMINA_EMPTY", "base_power": -250, "ench_has": "WIELD" },
@@ -30,7 +31,7 @@
         "max_value": 1,
         "type": "SWEAT_MULTIPLIER",
         "increment": 0.125,
-        "power_per_increment": 12,
+        "power_per_increment": 25,
         "ench_has": "HELD"
       },
       {
