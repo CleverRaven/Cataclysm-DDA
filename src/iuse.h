@@ -194,7 +194,7 @@ std::optional<int> water_purifier( Character *, item *, const tripoint_bub_ms & 
 std::optional<int> water_tablets( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> weak_antibiotic( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> weather_tool( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> sextant( Character *, item *, const tripoint_bub_ms & );
+std::optional<int> sextant( Character *p, item *it, const tripoint_bub_ms & );
 std::optional<int> lux_meter( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> dbg_lux_meter( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> calories_intake_tracker( Character *p, item *, const tripoint_bub_ms & );

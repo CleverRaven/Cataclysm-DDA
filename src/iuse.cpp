@@ -4342,6 +4342,12 @@ std::optional<int> iuse::hand_crank( Character *p, item *it, const tripoint_bub_
     }
     item *magazine = it->magazine_current();
     if( magazine && magazine->has_flag( flag_RECHARGE ) ) {
+        if( !it->activation_success() ) {
+            p->add_msg_if_player( m_bad,
+                                  _( "You try to use your %s, but the handle detached, so you reattach it." ), it->tname() );
+            return std::nullopt;
+        }
+
         // 1600 minutes. It shouldn't ever run this long, but it's an upper bound.
         // expectation is it runs until the player is too tired.
         int moves = to_moves<int>( 1600_minutes );
@@ -4385,6 +4391,11 @@ std::optional<int> iuse::vibe( Character *p, item *it, const tripoint_bub_ms & )
     if( p->get_sleepiness() >= sleepiness_levels::DEAD_TIRED ) {
         p->add_msg_if_player( m_info, _( "*Your* batteries are dead." ) );
         return std::nullopt;
+    } else if( !it->activation_success() ) {
+        p->add_msg_if_player( m_bad, _( "You try to activate your %s, but nothing happens." ),
+                              it->tname() );
+        return std::nullopt;
+
     } else {
         int moves = to_moves<int>( 20_minutes );
         if( it->ammo_remaining( ) > 0 ) {
@@ -7870,6 +7881,12 @@ std::optional<int> iuse::weather_tool( Character *p, item *it, const tripoint_bu
     /* Possibly used twice. Worth spending the time to precalculate. */
     const units::temperature player_local_temp = weather.get_temperature( p->pos_bub() );
 
+    if( !it->activation_success() ) {
+        p->add_msg_if_player( m_bad, _( "The %s doesn't seem to work.  Try again." ),
+                              it->tname() );
+        return std::nullopt;
+    }
+
     if( it->typeId() == itype_weather_reader ) {
         p->add_msg_if_player( m_neutral, _( "The %s's monitor slowly outputs the data…" ),
                               it->tname() );
@@ -7932,10 +7949,16 @@ std::optional<int> iuse::weather_tool( Character *p, item *it, const tripoint_bu
     return 1; //TODO check
 }
 
-std::optional<int> iuse::sextant( Character *p, item *, const tripoint_bub_ms &pos )
+std::optional<int> iuse::sextant( Character *p, item *it, const tripoint_bub_ms &pos )
 {
     const std::pair<units::angle, units::angle> sun_position = sun_azimuth_altitude( calendar::turn );
     const float altitude = to_degrees( sun_position.second );
+
+    if( !it->activation_success() ) {
+        p->add_msg_if_player( m_bad, _( "Your %s gets stuck, so you try to address that." ), it->tname() );
+        return std::nullopt;
+    }
+
     if( debug_mode ) {
         // Debug mode always shows all sun angles
         const float azimuth = to_degrees( sun_position.first );
@@ -7981,6 +8004,11 @@ std::optional<int> iuse::calories_intake_tracker( Character *p, item *it, const 
     if( p->has_trait( trait_ILLITERATE ) ) {
         p->add_msg_if_player( m_info, _( "You don't know what you're looking at." ) );
         return std::nullopt;
+
+    } else if( !it->activation_success() ) {
+        p->add_msg_if_player( m_bad, _( "Your %s doesn't display anything." ), it->tname() );
+        return std::nullopt;
+
     } else {
         std::string msg;
         msg.append( "***  " );
@@ -9187,7 +9215,7 @@ std::optional<int> iuse::binder_manage_recipe( Character *p, item *binder,
     return std::nullopt;
 }
 
-std::optional<int> iuse::voltmeter( Character *p, item *, const tripoint_bub_ms & )
+std::optional<int> iuse::voltmeter( Character *p, item *it, const tripoint_bub_ms & )
 {
     map &here = get_map();
 
@@ -9202,6 +9230,12 @@ std::optional<int> iuse::voltmeter( Character *p, item *, const tripoint_bub_ms 
         p->add_msg_if_player( _( "There's nothing to measure there." ) );
         return std::nullopt;
     }
+
+    if( !it->activation_success() ) {
+        p->add_msg_if_player( _( "The display of the %s remains blank." ), it->tname() );
+        return std::nullopt;
+    }
+
     if( vp->vehicle().fuel_left( here, itype_battery ) ) {
         p->add_msg_if_player( _( "The %1$s has voltage." ), vp->vehicle().name );
     } else {
