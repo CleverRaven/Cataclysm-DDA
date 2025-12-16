@@ -1,0 +1,14 @@
+[
+  {
+    "type": "ITEM_BLACKLIST",
+    "whitelist": false,
+    "//": "Only artifact version of matrix crystals spawn",
+    "items": [
+      "matrix_crystal_biokinesis",
+      "matrix_crystal_clairsentience",
+      "matrix_crystal_electrokinesis",
+      "matrix_crystal_photokinesis",
+      "matrix_crystal_coruscating"
+    ]
+  }
+]
