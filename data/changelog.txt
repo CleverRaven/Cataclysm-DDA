@@ -385,7 +385,6 @@ Add a few cigar variants and a recipe for making cigars
 Add a supermarket
 Portable hand truck for moving furniture and appliances
 RANGE_DODGE no longer applies to spells, can be applied to monsters
-Rename large casters to small cart wheels
 Move dense forest raspberry/strawberry/blueberry spawn to patches
 
 
@@ -953,19 +952,15 @@ Martial Mastery Stat Widget
 [Magiclysm] Elves have a physiological need to spend time in the wilderness
 [MoM/Crazy Cataclysm] Feral vitakinetics can inflict you with Ligma
 [Magiclysm/Bombastic Perks] Metamagic perks are toggleable
-[MoM] Remove broken shield belts as separate items
 [Magiclysm] Add a traditional elf house
 [DDotD] Default start is in a cabin, remove evac shelters
-[MoM] Add psi flesh-raptors
 [DDotD/XE] Mi-go appear (rarely) in DDotD/XE
 [DDotD] Greatly reduce incidence of solar power
 [DDotD] Remove electric cars
-[Magiclysm] Change polymorph to a biomancer spell
 [DDotD] Add more items to blacklist / some itemgroup work
 [DDotD] Add calculator watch / portable cassette player
 [DDotD] Albertan trees rework
 [XE/DDotD] Add XE_CLASSIC category, apply it to appropriate XE monsters
-[Xedra Evolved] Add two more vampire traits
 [DDotD] Laptop rework
 
 
@@ -1077,8 +1072,6 @@ Running over large/hard objects in vehicles will damage your wheels
 Separate toolsets for things embedded in wood and metal structures
 Multiple simultaneous and devastating deep nerfs to fire vs monsters
 Make picking individual threads out of cotton scraps SUCK (for morale)
-Remove tool flags from razor blade I just added
-microlab alpha primer vault now has catalyst
 Change Throwing Assist CBM's enchant to use THROW_STR and THROW_DAMAGE instead of adding to skill
 Greatly reduce lone fruit trees in the forest
 Rebalance Aikido to emphasize surviving and escaping opponents
@@ -1490,7 +1483,6 @@ Adds deserialization mapping for ACT_BLEED, preventing saved games from corrupti
 Fixed weight and volume calculations in the insert ui for items counted by charge.
 preserve contents when crafting a recipe that upgrades an item
 Make dry_veggy (dehydrated vegetable) not dryable
-Change material of steel toe sneakers to synthetic fabric
 Properly load the region type of the dimension the game was last saved in
 Make pockets check volume of a single charge against min_item_volume
 fix a crash when opening the item comparison window
