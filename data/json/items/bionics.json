@@ -1546,7 +1546,7 @@
     "subtypes": [ "BIONIC_ITEM" ],
     "name": { "str": "Throwing Assist CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "The culmination of decades of research into human factors engineering biomechanics and biomechanical modeling, the throwing assist CBM was brought to market to revolutionize Neo-DogeBall tournaments, soon becoming exhibitions of cybernetic human effort and engineering.  A network of neurostimulators and sensors, mostly in the arms and hands, work in tandem with the eyes for a significant increase in throwing accuracy and precision.  When the Exodii came upon this cybernetic enhancement suite, they found it to be an economical way to ensure precise grenade placement in partial cyborgs.",
+    "description": "The culmination of decades of research into human factors engineering biomechanics and biomechanical modeling, the throwing assist CBM was brought to market to revolutionize dodgeball tournaments, soon becoming exhibitions of cybernetic human effort and engineering.  A network of neurostimulators and sensors, mostly in the arms and hands, work in tandem with the eyes for a significant increase in throwing accuracy and precision.  When the Exodii came upon this cybernetic enhancement suite, they found it to be an economical way to ensure precise grenade placement in partial cyborgs.",
     "price": "2 kUSD 200 USD",
     "weight": "1000 g",
     "difficulty": 3
