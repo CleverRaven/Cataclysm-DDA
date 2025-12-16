@@ -1,17 +1,5 @@
 [
   {
-    "//": "Only necessary until artifactization of crystals is complete",
-    "type": "effect_on_condition",
-    "id": "EOC_PYROKIN_MATRIX_AWAKENING",
-    "effect": [
-      {
-        "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  It starts pulsing, first slowly and more rapidly, and your head starts pounding in time with the light.  You tear your gaze away but the pounding in your head remains."
-      },
-      { "u_add_effect": "psionic_overload", "duration": "1 hours" },
-      { "u_add_effect": "stunned", "duration": 10 }
-    ]
-  },
-  {
     "type": "effect_on_condition",
     "id": "EOC_TELEKIN_MATRIX_AWAKENING",
     "effect": [
