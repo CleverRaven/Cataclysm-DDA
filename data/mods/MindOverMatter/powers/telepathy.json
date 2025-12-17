@@ -229,17 +229,17 @@
     "damage_type": "psi_telepathic_damage",
     "min_damage": {
       "math": [
-        "( (u_spell_level('telepathic_blast') * 1.5) + 5) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( ( (u_spell_level('telepathic_blast') + (u_spell_level('telepathic_blast_knack') * 1.5) ) * 1.5) + 5) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_damage": {
       "math": [
-        "( (u_spell_level('telepathic_blast') * 3) + 5) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( ( (u_spell_level('telepathic_blast') * 3) + (u_spell_level('telepathic_blast_knack') * 3) ) + 5) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
       ]
     },
     "min_range": {
       "math": [
-        "min( (( (u_spell_level('telepathic_blast') * 1.1) + 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 80)"
+        "min( ( ( ( (u_spell_level('telepathic_blast') * 1.1) + (u_spell_level('telepathic_blast_knack') * 1.1) ) + 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 80)"
       ]
     },
     "max_range": 80,
