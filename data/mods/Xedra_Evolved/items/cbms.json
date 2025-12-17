@@ -25,7 +25,7 @@
     "type": "ITEM",
     "subtypes": [ "BIONIC_ITEM" ],
     "name": { "str": "Chiropteran Signal CBM" },
-    "description": "A jar-like CBM housing a modified set of vocal cords, capped by a broad resonating hood and threaded with rootlike tendrils that interface with an embedded microchip.  Once implanted, the system integrates with your own vocal apparatus, enhancing it to produce tightly controlled, bat-like resonance patterns. When activated, you are capable of producing unfamiliar vibrations.  It releases an ultrasonic clicking signal, which is mostly inaudible to humans, allowing you to commune with nearby bats and draw them into a defensive swarm.",
+    "description": "A jar-like CBM housing a modified set of vocal cords, capped by a broad resonating hood and threaded with rootlike tendrils that interface with an embedded microchip.  Once implanted, the system integrates with your own vocal apparatus, enhancing it to produce tightly controlled, bat-like resonance patterns.  When activated, you are capable of producing unfamiliar vibrations.  It releases an ultrasonic clicking signal, which is mostly inaudible to humans, allowing you to commune with nearby bats and draw them into a defensive swarm.",
     "price": "3 kUSD 500 USD",
     "difficulty": 8
   },
