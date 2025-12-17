@@ -794,6 +794,16 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "knack_telepathic_blast",
+    "name": "Psychic Knack (Synaptic Blast)",
+    "description": "Before the Cataclysm people who annoyed you or who got into arguments with you would sometimes develop headaches later, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
+    "points": 3,
+    "traits": [ "PSYCHIC_KNACK" ],
+    "spells": [ { "id": "telepathic_blast_knack", "level": 6 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "knack_telepathic_mesmerize",
     "name": "Psychic Knack (Mesmerize)",
     "description": "Before the Cataclysm you were always good at holding people's attention, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
