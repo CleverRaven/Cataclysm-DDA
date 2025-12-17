@@ -242,7 +242,7 @@
     "type": "widget",
     "style": "text",
     "flags": [ "W_DISABLED_WHEN_EMPTY" ],
-    "label": "Poise",
+    "label": "Stance",
     "clauses": [
       {
         "id": "poise_4",

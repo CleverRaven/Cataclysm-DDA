@@ -1,5 +1,13 @@
 [
   {
+    "id": "EOC_PERK_POISE_START",
+    "type": "effect_on_condition",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "condition": { "compare_string": [ "MELEE_PERK_POISE", { "context_val": "trait" } ] },
+    "effect": [ { "math": [ "u_poise = 4" ] } ]
+  },
+  {
     "id": "EOC_PERK_POISE_REGEN",
     "type": "effect_on_condition",
     "recurrence": "10 seconds",

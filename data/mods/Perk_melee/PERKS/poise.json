@@ -4,7 +4,7 @@
     "id": "MELEE_PERK_POISE",
     "copy-from": "MELEE_PERK_BASE",
     "name": { "str": "Defensive Stance" },
-    "description": "You gain a poise meter that absorbs incoming melee attacks.  Dodging or taking melee damage reduces your poise, and when it reaches zero your stance is broken, causing you to take increased damage until you regain your footing.",
+    "description": "You gain a stance meter that absorbs incoming melee attacks.  Dodging or taking melee damage reduces your stance, and when it reaches zero your stance is broken, causing you to take increased damage until you regain your footing.",
     "flags": "MELEE_PERK_POISE",
     "enchantments": [ "melee_perk_ench_poise" ]
   },
@@ -13,7 +13,7 @@
     "id": "MELEE_PERK_SHRUG_OFF",
     "copy-from": "MELEE_PERK_BASE",
     "name": { "str": "Shrug it off" },
-    "description": "If your poise meter is full, you take 60% less damage from ballistic attacks.",
+    "description": "If your stance meter is full, you take 60% less damage from ballistic attacks.",
     "flags": "MELEE_PERK_SHRUG_OFF",
     "enchantments": [ "melee_perk_ench_shrug_off" ]
   },
@@ -47,7 +47,7 @@
     "id": "MELEE_PERK_POISE_FOOTWORK",
     "copy-from": "MELEE_PERK_BASE",
     "name": { "str": "Master's Footwork" },
-    "description": "Your regain poise on every automatic movement action you perform.",
+    "description": "You regain stance on every automatic movement action you perform.",
     "flags": "MELEE_PERK_POISE_FOOTWORK"
   }
 ]
