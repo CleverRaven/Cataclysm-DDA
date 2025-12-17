@@ -110,13 +110,7 @@
     ],
     "encumbrance": [ [ "head", 1 ] ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
-    "mutation_conflicts": [
-      "AMORPHOUS",
-      "HUGE",
-      "HUGE_OK",
-      "SMALL2",
-      "SMALL_OK"
-    ]
+    "mutation_conflicts": [ "AMORPHOUS", "HUGE", "HUGE_OK", "SMALL2", "SMALL_OK" ]
   },
   {
     "id": "bio_armor_legs",
@@ -143,7 +137,8 @@
       "LEG_TENTACLES",
       "LEG_TENT_BRACE",
       "GASTROPOD_FOOT",
-      "GASTROPOD_BALANCE"
+      "GASTROPOD_BALANCE",
+      "INSECT_RESERVOIR"
     ]
   },
   {
@@ -155,14 +150,7 @@
     "protec": [ [ "torso", { "bash": 3, "cut": 3, "bullet": 3, "stab": 3 } ] ],
     "encumbrance": [ [ "torso", 1 ] ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
-    "mutation_conflicts": [
-      "AMORPHOUS",
-      "HUGE",
-      "HUGE_OK",
-      "SMALL2",
-      "SMALL_OK",
-      "INSECT_RESERVOIR"
-    ]
+    "mutation_conflicts": [ "AMORPHOUS", "HUGE", "HUGE_OK", "SMALL2", "SMALL_OK", "INSECT_RESERVOIR" ]
   },
   {
     "id": "bio_batteries",
