@@ -196,6 +196,13 @@
     "difficulty": { "math": [ "ceil(max( (u_spell_difficulty('telepathic_mesmerize') / 2), 1) )" ] }
   },
   {
+    "id": "telepathic_blast_knack",
+    "copy-from": "telepathic_blast",
+    "type": "SPELL",
+    "spell_class": "PSYCHIC_KNACK",
+    "difficulty": { "math": [ "ceil(max( (u_spell_difficulty('telepathic_blast') / 2), 1) )" ] }
+  },
+  {
     "id": "telepathic_animal_mind_control_knack",
     "copy-from": "telepathic_animal_mind_control",
     "type": "SPELL",
