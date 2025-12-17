@@ -114,5 +114,80 @@
     "pseudo_tools": [ { "id": "concrete_mix_tool" } ],
     "breaks_into": [ { "item": "plastic_chunk", "count": [ 10, 100 ] } ],
     "variants": [ { "symbols": "U", "symbols_broken": "u" } ]
+  },
+  {
+    "id": "mobile_weather_station",
+    "type": "vehicle_part",
+    "name": { "str": "mobile weather station" },
+    "item": "mobile_weather_station",
+    "fuel_type": "battery",
+    "categories": [ "energy" ],
+    "color": "yellow",
+    "broken_color": "red",
+    "durability": 50,
+    "description": "A large yellow case filled with equipment to measure atmospheric conditions. It is outfitted with a carrying handle, a collapsable stand, and a rechargeable battery pack.  It is bolted down and the instruments are deployed.",
+    "folded_volume": "89 L",
+    "breaks_into": [
+      { "item": "plastic_chunk", "count": [ 14, 20 ] },
+      { "item": "scrap", "charges": [ 2, 3 ] }
+    ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "1200 s", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "1200 s", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
+      "repair": { "skills": [ [ "electronics", 5 ] ], "time": "600 s", "using": [ [ "soldering_standard", 5 ] ] }
+    },
+    "damage_reduction": { "bash": 1 },
+    "flags": [ "BATTERY" ],
+    "variants": [ { "symbols": "T", "symbols_broken": "#" } ]
+  },
+  {
+    "id": "xedra_mobile_weather_station",
+    "type": "vehicle_part",
+    "name": { "str": "mobile hazardous environment weather station" },
+    "item": "xedra_mobile_weather_station",
+    "fuel_type": "battery",
+    "categories": [ "energy" ],
+    "color": "black",
+    "broken_color": "red",
+    "durability": 50,
+    "description": "A sleek black case housing equipment to measure atmospheric conditions.  It is equipped with several sensors that can be deployed from the top of the box, a small thermal printer, and a rechargeably battery.  The case itself is outfitted with back straps and a telescoping stand.  \"X.E.D.R.A.\" and \"HE weather station\" are engraved on the case.  It is bolted down and the instruments are deployed.",
+    "folded_volume": "90 L",
+    "breaks_into": [
+      { "item": "plastic_chunk", "count": [ 14, 20 ] },
+      { "item": "scrap", "charges": [ 2, 3 ] }
+    ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "1200 s", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "1200 s", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
+      "repair": { "skills": [ [ "electronics", 7 ] ], "time": "600 s", "using": [ [ "soldering_standard", 5 ] ] }
+    },
+    "damage_reduction": { "bash": 1 },
+    "flags": [ "BATTERY" ],
+    "variants": [ { "symbols": "T", "symbols_broken": "#" } ]
+  },
+  {
+    "id": "robofac_mobile_weather_station",
+    "type": "vehicle_part",
+    "name": { "str": "mobile HEW-NRE station" },
+    "item": "robofac_mobile_weather_station",
+    "fuel_type": "battery",
+    "categories": [ "energy" ],
+    "color": "brown",
+    "broken_color": "red",
+    "durability": 50,
+    "description": "A brown and white case housing equipment to measure atmospheric conditions in hazardous environments.  It is equipped with several deployable sensors, a Hub 01 NRE recorder, a thermal printer, and a rechargeably battery.  The case itself is outfitted with back straps and a telescoping stand.  The Hub 01 logo is displayed proudly on the case lid.  It is bolted down and the instruments are deployed.",
+    "folded_volume": "90 L",
+    "breaks_into": [
+      { "item": "plastic_chunk", "count": [ 14, 20 ] },
+      { "item": "scrap", "charges": [ 2, 3 ] }
+    ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "1200 s", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "1200 s", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
+      "repair": { "skills": [ [ "electronics", 8 ] ], "time": "600 s", "using": [ [ "soldering_standard", 5 ] ] }
+    },
+    "damage_reduction": { "bash": 1 },
+    "flags": [ "BATTERY" ],
+    "variants": [ { "symbols": "T", "symbols_broken": "#" } ]
   }
 ]
