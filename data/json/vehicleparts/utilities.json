@@ -125,12 +125,9 @@
     "color": "yellow",
     "broken_color": "red",
     "durability": 50,
-    "description": "A large yellow case filled with equipment to measure atmospheric conditions. It is outfitted with a carrying handle, a collapsable stand, and a rechargeable battery pack.  It is bolted down and the instruments are deployed.",
+    "description": "A large yellow case filled with equipment to measure atmospheric conditions. It is outfitted with a carrying handle, a telescoping stand, and a rechargeable battery pack.  It is bolted down and the instruments are deployed.",
     "folded_volume": "89 L",
-    "breaks_into": [
-      { "item": "plastic_chunk", "count": [ 14, 20 ] },
-      { "item": "scrap", "charges": [ 2, 3 ] }
-    ],
+    "breaks_into": [ { "item": "plastic_chunk", "count": [ 14, 20 ] }, { "item": "scrap", "charges": [ 2, 3 ] } ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "1200 s", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "1200 s", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
@@ -150,12 +147,9 @@
     "color": "black",
     "broken_color": "red",
     "durability": 50,
-    "description": "A sleek black case housing equipment to measure atmospheric conditions.  It is equipped with several sensors that can be deployed from the top of the box, a small thermal printer, and a rechargeably battery.  The case itself is outfitted with back straps and a telescoping stand.  \"X.E.D.R.A.\" and \"HE weather station\" are engraved on the case.  It is bolted down and the instruments are deployed.",
+    "description": "A sleek black case housing equipment to measure atmospheric conditions.  It is equipped with several sensors that can be deployed from the top of the box, a small thermal printer, and a rechargeable battery.  The case itself is outfitted with back straps and a telescoping stand.  \"X.E.D.R.A.\" and \"HE weather station\" are engraved on the case.  It is bolted down and the instruments are deployed.",
     "folded_volume": "90 L",
-    "breaks_into": [
-      { "item": "plastic_chunk", "count": [ 14, 20 ] },
-      { "item": "scrap", "charges": [ 2, 3 ] }
-    ],
+    "breaks_into": [ { "item": "plastic_chunk", "count": [ 14, 20 ] }, { "item": "scrap", "charges": [ 2, 3 ] } ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "1200 s", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "1200 s", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
@@ -175,12 +169,9 @@
     "color": "brown",
     "broken_color": "red",
     "durability": 50,
-    "description": "A brown and white case housing equipment to measure atmospheric conditions in hazardous environments.  It is equipped with several deployable sensors, a Hub 01 NRE recorder, a thermal printer, and a rechargeably battery.  The case itself is outfitted with back straps and a telescoping stand.  The Hub 01 logo is displayed proudly on the case lid.  It is bolted down and the instruments are deployed.",
+    "description": "A brown and white case housing equipment to measure atmospheric conditions in hazardous environments.  It is equipped with several deployable sensors, a Hub 01 NRE recorder, a thermal printer, and a rechargeable battery.  The case itself is outfitted with back straps and a telescoping stand.  The Hub 01 logo is displayed proudly on the case lid.  It is bolted down and the instruments are deployed.",
     "folded_volume": "90 L",
-    "breaks_into": [
-      { "item": "plastic_chunk", "count": [ 14, 20 ] },
-      { "item": "scrap", "charges": [ 2, 3 ] }
-    ],
+    "breaks_into": [ { "item": "plastic_chunk", "count": [ 14, 20 ] }, { "item": "scrap", "charges": [ 2, 3 ] } ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "1200 s", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "1200 s", "qualities": [ { "id": "WRENCH", "level": 1 } ] },

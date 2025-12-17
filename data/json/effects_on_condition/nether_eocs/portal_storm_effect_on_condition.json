@@ -1300,8 +1300,8 @@
     "global": true,
     "condition": {
       "or": [
-      { "u_has_items": { "item": "nre_recorder", "charges": 1 } },
-      { "u_has_items": { "item": "robofac_mobile_weather_station", "charges": 1 } }
+        { "u_has_items": { "item": "nre_recorder", "charges": 1 } },
+        { "u_has_items": { "item": "robofac_mobile_weather_station", "charges": 1 } }
       ]
     },
     "effect": [ { "math": [ "u_generic_nre_anomaly++" ] }, { "u_message": "The NRE recorder emits a sharp beep!", "type": "info" } ]
