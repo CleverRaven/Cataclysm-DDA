@@ -3513,6 +3513,10 @@ void monster::process_effects()
         }
     }
 
+    if( has_flag( mon_flag_UNBREAKABLE_MORALE ) ) {
+        morale += 100;
+    }
+
     if( has_flag( mon_flag_CORNERED_FIGHTER ) ) {
         creature_tracker &creatures = get_creature_tracker();
         for( const tripoint_bub_ms &p : here.points_in_radius( pos_bub(), 2 ) ) {
