@@ -9,9 +9,9 @@
     ],
     "parts": [
       { "x": 0, "y": 0, "parts": [ "frame#vertical_T_left", "seat_back#left", "roof", "engine_electric" ] },
-      { "x": 0, "y": 0, "parts": [ "controls" ] },
+      { "x": 0, "y": 0, "parts": [ "controls", "battery_car" ] },
       { "x": 0, "y": 1, "parts": [ "frame#vertical_T_right", "seat_back#right", "roof" ] },
-      { "x": 0, "y": 1, "parts": [ "battery_motorbike" ] },
+      { "x": 0, "y": 1, "parts": [ "battery_car" ] },
       { "x": 1, "y": 0, "parts": [ "frame#nw", "halfboard#nw", "wheel_mount_light_steerable" ] },
       { "x": 1, "y": 0, "parts": [ "wheel_small" ] },
       { "x": 1, "y": 1, "parts": [ "frame#ne", "halfboard#ne", "wheel_mount_light_steerable" ] },
@@ -34,9 +34,9 @@
     ],
     "parts": [
       { "x": 0, "y": 0, "parts": [ "frame#vertical_T_left", "seat_back#left", "roof", "engine_electric" ] },
-      { "x": 0, "y": 0, "parts": [ "controls" ] },
+      { "x": 0, "y": 0, "parts": [ "controls", "battery_car" ] },
       { "x": 0, "y": 1, "parts": [ "frame#vertical_T_right", "seat_back#right", "roof" ] },
-      { "x": 0, "y": 1, "parts": [ "battery_motorbike" ] },
+      { "x": 0, "y": 1, "parts": [ "battery_car" ] },
       { "x": 1, "y": 0, "parts": [ "frame#nw", "halfboard#nw", "wheel_mount_light_steerable" ] },
       { "x": 1, "y": 0, "parts": [ "wheel_small" ] },
       { "x": 1, "y": 1, "parts": [ "frame#ne", "halfboard#ne", "wheel_mount_light_steerable" ] },
