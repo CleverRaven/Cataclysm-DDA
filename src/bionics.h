@@ -169,57 +169,60 @@ struct bionic_data {
 
 struct bionic {
 
-        using bionic_uid = unsigned int;
+    using bionic_uid = unsigned int;
 
-        bionic_id id;
-        time_duration         charge_timer  = 0_turns;
-        char        invlet  = 'a';
-        bool        powered = false;
-        bool        show_sprite = true;
-        /* An amount of time during which this bionic has been rendered inoperative. */
-        time_duration        incapacitated_time;
+    bionic_id id;
+    char invlet  = 'a';
+    bool powered = false;
+    bool show_sprite = true;
+    time_duration charge_timer  = 0_turns;
+    /* An amount of time during which this bionic has been rendered inoperative. */
+    time_duration incapacitated_time;
 
-        bionic() : bionic( bionic_id( "bio_batteries" ), 'a', 0 ) { }
-        bionic( bionic_id pid, char pinvlet, bionic_uid pbionic_uid,
-                bionic_uid pparent_uid = 0 ) : id( pid ), invlet( pinvlet ),
-            incapacitated_time( 0_turns ), uid( pbionic_uid ), parent_uid( pparent_uid ) {
-            initialize_pseudo_items( true );
-        }
+    bionic() : bionic( bionic_id( "bio_batteries" ), 'a', 0 ) { }
+    bionic( bionic_id pid, char pinvlet, bionic_uid pbionic_uid, bionic_uid pparent_uid = 0 ) : 
+                id( pid ), 
+                invlet( pinvlet ), 
+                incapacitated_time( 0_turns ), 
+                uid( pbionic_uid ), parent_uid( pparent_uid ) {
+                    initialize_pseudo_items( true );
+                }
 
-        const bionic_data &info() const {
-            return *id;
-        }
+    const bionic_data &info() const {
+        return *id;
+    }
 
-        void set_flag( const std::string &flag );
-        void remove_flag( const std::string &flag );
-        bool has_flag( const std::string &flag ) const;
+    void set_flag( const std::string &flag );
+    void remove_flag( const std::string &flag );
+    bool has_flag( const std::string &flag ) const;
 
-        int get_quality( const quality_id &quality ) const;
-        item get_weapon() const;
-        void set_weapon( const item &new_weapon );
-        bool install_weapon( const item &new_weapon, bool skip_checks = false );
-        std::optional<item> uninstall_weapon();
-        bool has_weapon() const;
-        bool can_install_weapon() const;
-        bool can_install_weapon( const item &new_weapon ) const;
-        unsigned int get_uid() const;
-        void set_uid( bionic_uid new_uid );
-        bool is_included() const;
-        bionic_uid get_parent_uid() const;
-        void set_parent_uid( bionic_uid new_uid );
+    int get_quality( const quality_id &quality ) const;
+    item get_weapon() const;
+    void set_weapon( const item &new_weapon );
+    bool install_weapon( const item &new_weapon, bool skip_checks = false );
+    std::optional<item> uninstall_weapon();
+    bool has_weapon() const;
+    bool can_install_weapon() const;
+    bool can_install_weapon( const item &new_weapon ) const;
+    unsigned int get_uid() const;
+    void set_uid( bionic_uid new_uid );
+    bool is_included() const;
+    bionic_uid get_parent_uid() const;
+    void set_parent_uid( bionic_uid new_uid );
 
-        std::vector<const item *> get_available_pseudo_items( bool include_weapon = true ) const;
+    std::vector<const item *> get_available_pseudo_items( bool include_weapon = true ) const;
 
-        bool is_this_fuel_powered( const material_id &this_fuel ) const;
-        void toggle_safe_fuel_mod();
+    bool is_this_fuel_powered( const material_id &this_fuel ) const;
+    void toggle_safe_fuel_mod();
 
-        void set_safe_fuel_thresh( float val );
-        float get_safe_fuel_thresh() const;
-        bool is_safe_fuel_on() const;
-        bool activate_spell( Character &caster ) const;
+    void set_safe_fuel_thresh( float val );
+    float get_safe_fuel_thresh() const;
+    bool is_safe_fuel_on() const;
+    bool activate_spell( Character &caster ) const;
 
-        void serialize( JsonOut &json ) const;
-        void deserialize( const JsonObject &jo );
+    void serialize( JsonOut &json ) const;
+    void deserialize( const JsonObject &jo );
+    
     private:
         // generic bionic specific flags
         cata::flat_set<std::string> bionic_tags;
