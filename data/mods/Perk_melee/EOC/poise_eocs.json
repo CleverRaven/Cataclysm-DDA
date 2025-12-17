@@ -1,0 +1,77 @@
+[
+  {
+    "id": "EOC_PERK_POISE_REGEN",
+    "type": "effect_on_condition",
+    "recurrence": "10 seconds",
+    "condition": { "and": [ { "u_has_flag": "MELEE_PERK_POISE" }, { "not": { "u_has_flag": "MELEE_PERK_POISE_MOUNTAIN" } } ] },
+    "effect": [
+      { "if": { "math": [ "u_poise < 4" ] }, "then": [ { "u_cast_spell": { "id": "perk_poise_spell" }, "targeted": true } ] }
+    ],
+    "false_effect": [ { "if": { "not": { "u_using_martial_art": "style_none" } }, "then": [ { "u_lose_effect": "effect_poise" } ] } ]
+  },
+  {
+    "id": "EOC_PERK_POISE_MOUNTAIN_MOVE",
+    "type": "effect_on_condition",
+    "condition": { "u_has_flag": "MELEE_PERK_POISE_MOUNTAIN" },
+    "effect": [ { "run_eocs": "EOC_POISE_LOSE" } ]
+  },
+  {
+    "id": "EOC_PERK_POISE_MOUNTAIN_WAIT",
+    "type": "effect_on_condition",
+    "condition": { "u_has_flag": "MELEE_PERK_POISE_MOUNTAIN" },
+    "effect": [ { "run_eocs": "EOC_POISE_GAIN" } ]
+  },
+  {
+    "id": "EOC_PERK_POISE_FOOTWORK",
+    "type": "effect_on_condition",
+    "condition": { "u_has_flag": "MELEE_PERK_POISE_FOOTWORK" },
+    "effect": [ { "run_eocs": "EOC_POISE_GAIN" } ]
+  },
+  {
+    "id": "perk_poise_spell",
+    "type": "SPELL",
+    "name": "Insight",
+    "description": "",
+    "shape": "blast",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "RANDOM_CRITTER", "RANDOM_TARGET", "NO_EXPLOSION_SFX", "SILENT" ],
+    "min_range": 15,
+    "max_range": 15,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_GAIN_POISE_SPELL"
+  },
+  {
+    "id": "perk_lose_poise_spell",
+    "type": "SPELL",
+    "name": "Insight",
+    "description": "",
+    "shape": "blast",
+    "valid_targets": [ "self" ],
+    "flags": [ "NO_EXPLOSION_SFX", "SILENT" ],
+    "min_range": 15,
+    "max_range": 15,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_LOSE_POISE_SPELL"
+  },
+  {
+    "id": "EOC_POISE_GAIN",
+    "type": "effect_on_condition",
+    "condition": { "u_has_flag": "MELEE_PERK_POISE" },
+    "effect": [ { "if": { "math": [ "u_poise < 4" ] }, "then": [ { "math": [ "u_poise++" ] } ] } ]
+  },
+  {
+    "id": "EOC_POISE_LOSE",
+    "type": "effect_on_condition",
+    "effect": [ { "if": { "math": [ "u_poise > 0" ] }, "then": [ { "math": [ "u_poise--" ] } ] } ]
+  },
+  {
+    "id": "EOC_GAIN_POISE_SPELL",
+    "type": "effect_on_condition",
+    "effect": [ { "if": { "math": [ "n_poise < 4" ] }, "then": [ { "math": [ "n_poise++" ] } ] } ]
+  },
+  {
+    "id": "EOC_LOSE_POISE_SPELL",
+    "type": "effect_on_condition",
+    "effect": [ { "if": { "math": [ "n_poise > 0" ] }, "then": [ { "math": [ "n_poise--" ] } ] } ]
+  }
+]

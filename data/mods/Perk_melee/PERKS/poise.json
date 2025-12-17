@@ -1,0 +1,53 @@
+[
+  {
+    "type": "mutation",
+    "id": "MELEE_PERK_POISE",
+    "copy-from": "MELEE_PERK_BASE",
+    "name": { "str": "Defensive Stance" },
+    "description": "You gain a poise meter that absorbs incoming melee attacks.  Dodging or taking melee damage reduces your poise, and when it reaches zero your stance is broken, causing you to take increased damage until you regain your footing.",
+    "flags": "MELEE_PERK_POISE",
+    "enchantments": [ "melee_perk_ench_poise" ]
+  },
+  {
+    "type": "mutation",
+    "id": "MELEE_PERK_SHRUG_OFF",
+    "copy-from": "MELEE_PERK_BASE",
+    "name": { "str": "Shrug it off" },
+    "description": "If your poise meter is full, you take 60% less damage from ballistic attacks.",
+    "flags": "MELEE_PERK_SHRUG_OFF",
+    "enchantments": [ "melee_perk_ench_shrug_off" ]
+  },
+  {
+    "type": "mutation",
+    "id": "MELEE_PERK_POISE_MOUNTAIN",
+    "copy-from": "MELEE_PERK_BASE",
+    "name": { "str": "The Mountain" },
+    "description": "Waiting actions refill your stance.  All movement actions reduce your stance by 1.",
+    "flags": "MELEE_PERK_POISE_MOUNTAIN"
+  },
+  {
+    "type": "mutation",
+    "id": "MELEE_PERK_POISE_PARRY",
+    "copy-from": "MELEE_PERK_BASE",
+    "name": { "str": "Perfect Parry" },
+    "description": "If your stance meter is full, any successful block or parry will stagger your attacker for 2 turns.",
+    "flags": "MELEE_PERK_POISE_PARRY"
+  },
+  {
+    "type": "mutation",
+    "id": "MELEE_PERK_POISE_RECKLESS",
+    "copy-from": "MELEE_PERK_BASE",
+    "name": { "str": "Recklessness" },
+    "description": "You stamina regeneration is tripled while stance broken.",
+    "flags": "MELEE_PERK_POISE_RECKLESS",
+    "enchantments": [ "melee_perk_ench_poise_reckless" ]
+  },
+  {
+    "type": "mutation",
+    "id": "MELEE_PERK_POISE_FOOTWORK",
+    "copy-from": "MELEE_PERK_BASE",
+    "name": { "str": "Master's Footwork" },
+    "description": "Your regain poise on every automatic movement action you perform.",
+    "flags": "MELEE_PERK_POISE_FOOTWORK"
+  }
+]
