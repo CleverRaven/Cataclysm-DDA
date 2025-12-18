@@ -795,7 +795,7 @@
     "type": "profession",
     "subtype": "hobby",
     "id": "knack_telepathic_blast",
-    "name": "Psychic Knack (Synaptic Blast)",
+    "name": "Psychic Knack (Synaptic Overload)",
     "description": "Before the Cataclysm people who annoyed you or who got into arguments with you would sometimes develop headaches later, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
     "points": 3,
     "traits": [ "PSYCHIC_KNACK" ],

@@ -35,6 +35,7 @@
       "practice_telekinetic_wave_knack",
       "practice_telekinetic_shield_knack",
       "practice_telepathic_blast_knack",
+      "practice_telepathic_blast_radius_knack",
       "practice_vita_banish_illness_knack"
     ],
     "difficulty": 10
@@ -709,7 +710,7 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "name": "contemplation: synaptic blast",
+    "name": "contemplation: synaptic overload",
     "id": "practice_telepathic_blast_knack",
     "description": "Contemplate your powers and improve your mental strength to telepathically assault your enemies.\n\nCurrent Power Level: <u_spell_level:telepathic_blast_knack>",
     "category": "CC_*",
@@ -749,7 +750,7 @@
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
-        "id": "EOC_PRACTICE_TELEPATHIC_BLAST_KNACK",
+        "id": "EOC_PRACTICE_TELEPATHIC_BLAST_RADIUS_KNACK",
         "condition": { "u_has_trait": "PSYCHIC_KNACK" },
         "effect": [
           { "set_string_var": "telepathic_blast_radius_knack", "target_var": { "u_val": "latest_studied_power_name" } },
