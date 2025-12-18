@@ -569,7 +569,13 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_CONCENTRATION_VS_LIMIT_CALCULATIONS",
-    "condition": { "math": [ "u_vitamin('vitamin_maintained_powers') > concentration_calculations()" ] },
+    "//": "This EoC checks the concentration limit vs the number of maintained powers for the purposes of the Intense Concentration effect",
+    "condition": {
+      "and": [
+        { "math": [ "u_vitamin('vitamin_maintained_powers') > concentration_calculations()" ] },
+        { "math": [ "u_vitamin('vitamin_maintained_powers') >= 1" ] }
+      ]
+    },
     "effect": [
       {
         "u_message": "It's taking you a lot of concentration to maintain your powers.  You're not sure you'll be able to do it for very long.",
@@ -595,6 +601,7 @@
     "condition": {
       "and": [
         { "math": [ "u_vitamin('vitamin_maintained_powers') >= concentration_calculations()" ] },
+        { "math": [ "u_vitamin('vitamin_maintained_powers') >= 1" ] },
         {
           "x_in_y_chance": {
             "x": {
