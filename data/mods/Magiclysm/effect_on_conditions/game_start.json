@@ -73,5 +73,13 @@
       ]
     },
     "effect": [ { "u_add_trait": "HUMAN_BUILD" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MAGICLYSM_GAME_ONGOING_GRANT_DRUIDIC_CRAFTING_PROFICIENCY",
+    "recurrence": 1,
+    "condition": { "u_has_trait": "DRUID" },
+    "deactivate_condition": { "or": [ { "u_has_proficiency": "prof_druid_basis_of_transformation" }, { "not": { "u_has_trait": "DRUID" } } ] },
+    "effect": [ { "math": [ "u_proficiency('prof_druid_basis_of_transformation', 'format': 'percent', 'direct': true) += 100" ] } ]
   }
 ]

@@ -378,5 +378,13 @@
     "default_skill_penalty": 0.2,
     "time_to_learn": "32 h",
     "required_proficiencies": [ "prof_magic_conveyance_apprentice" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_druid_basis_of_transformation",
+    "category": "prof_magic_casting",
+    "name": { "str": "Basis of Druidic Transformation" },
+    "description": "As a druid, you have the innate potential to transform yourself into different animals.  You just need to study and master the techniques.",
+    "can_learn": true
   }
 ]
