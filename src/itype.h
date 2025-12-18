@@ -978,7 +978,7 @@ struct islot_gunmod : common_ranged_data {
     /** Additional gunmod slots to add to the gun */
     std::map<gunmod_location, int> add_mod;
 
-    //whether the item is supposed to work as a bayonet when attached
+    // whether the item is supposed to work as a bayonet when attached
     bool is_bayonet = false;
 
     /** if the item is visible and selectable in the inventory menu
