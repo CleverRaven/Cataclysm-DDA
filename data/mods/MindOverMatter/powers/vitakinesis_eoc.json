@@ -681,12 +681,6 @@
     ]
   },
   {
-    "type": "jmath_function",
-    "id": "vita_banish_illness_equation",
-    "num_args": 1,
-    "return": "rand(u_spell_level('vita_banish_illness') ) + rand(u_spell_level('vita_banish_illness_knack') ) + rand(u_val('intelligence') / 2) + rng(-2,8) + rng(-2,8) + (u_effect_intensity('effect_disease_psionic_drain') > 5 ? 1 : 0) + (u_effect_intensity('effect_disease_psionic_drain') > 10 ? 1 : 0)"
-  },
-  {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_BANISH_ILLNESS_MINOR",
     "condition": {

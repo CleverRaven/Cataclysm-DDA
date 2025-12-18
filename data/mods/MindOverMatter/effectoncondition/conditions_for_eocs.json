@@ -336,7 +336,8 @@
             { "math": [ "u_spell_level('vita_health_power_knack') >= 5" ] },
             { "math": [ "u_spell_level('vita_concentrated_healing_knack') >= 5" ] },
             { "math": [ "u_spell_level('vita_remove_poison_knack') >= 5" ] },
-            { "math": [ "u_spell_level('vita_cure_disease_knack') >= 5" ] }
+            { "math": [ "u_spell_level('vita_cure_disease_knack') >= 5" ] },
+            { "math": [ "u_spell_level('vita_banish_illness_knack') >= 5" ] }
           ]
         }
       ]

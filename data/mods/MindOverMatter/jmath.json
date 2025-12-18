@@ -281,5 +281,11 @@
     "id": "jmath_telepathy_knacks_combined_level",
     "num_args": 0,
     "return": "u_spell_level('telepathic_shield_knack') + u_spell_level('telepathic_mind_sense_knack') + u_spell_level('telepathic_morale_knack') + u_spell_level('telepathic_blast_knack') + u_spell_level('telepathic_mesmerize_knack') + u_spell_level('telepathic_animal_mind_control_knack') + u_spell_level('telepathic_invisibility_knack') + u_spell_level('telepathic_blast_radius_knack')"
+  },
+  {
+    "type": "jmath_function",
+    "id": "vita_banish_illness_equation",
+    "num_args": 1,
+    "return": "rand(u_spell_level('vita_banish_illness') ) + rand(u_spell_level('vita_banish_illness_knack') ) + rand(u_val('intelligence') / 2) + rng(-2,8) + rng(-2,8) + (u_effect_intensity('effect_disease_psionic_drain') > 5 ? 1 : 0) + (u_effect_intensity('effect_disease_psionic_drain') > 10 ? 1 : 0)"
   }
 ]
