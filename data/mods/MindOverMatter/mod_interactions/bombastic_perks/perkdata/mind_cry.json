@@ -11,7 +11,10 @@
         { "x_in_y_chance": { "x": 1, "y": 100 } }
       ]
     },
-    "effect": [ { "u_cast_spell": { "id": "telepathic_blast_radius_mind_cry" } } ]
+    "effect": [
+      { "u_cast_spell": { "id": "telepathic_blast_radius_mind_cry" } },
+      { "u_message": "You involuntarily let out a psychic shriek.", "type": "mixed" }
+    ]
   },
   {
     "id": "telepathic_blast_radius_mind_cry",

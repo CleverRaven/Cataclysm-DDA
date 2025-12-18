@@ -644,7 +644,7 @@
           "EOC_VITAKIN_BANISH_ILLNESS_SEASONAL_ALLERGIES",
           "EOC_VITAKIN_BANISH_ILLNESS_SEASONAL_AFFECTIVE",
           "EOC_VITAKIN_BANISH_ILLNESS_XE_VAMPIRISM",
-          "EOC_PORTAL_NULL_AWAKENING"
+          "EOC_NONE"
         ],
         "names": [
           "Purge Minor Ailments",
