@@ -45,12 +45,11 @@ int kill_tracker::guilt_kill_count( const mtype_id &mon ) const
 {
     int count = 0;
     mon_flag_id flag;
+    // NOTE: GUILT_HUMAN is not used here! See Character::apply_murder_penalties()
     if( mon->has_flag( mon_flag_GUILT_ANIMAL ) ) {
         flag = mon_flag_GUILT_ANIMAL;
     } else if( mon->has_flag( mon_flag_GUILT_CHILD ) ) {
         flag = mon_flag_GUILT_CHILD;
-    } else if( mon->has_flag( mon_flag_GUILT_HUMAN ) ) {
-        flag = mon_flag_GUILT_HUMAN;
     } else if( mon->has_flag( mon_flag_GUILT_OTHERS ) ) {
         flag = mon_flag_GUILT_OTHERS;
     } else { // worst case scenario when no guilt flags are found

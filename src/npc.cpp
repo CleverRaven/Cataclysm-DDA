@@ -17,7 +17,6 @@
 #include "avatar.h"
 #include "basecamp.h"
 #include "bodypart.h"
-#include "cata_assert.h"
 #include "catacharset.h"
 #include "character.h"
 #include "character_attire.h"

@@ -656,7 +656,7 @@
   {
     "id": "GUILT_HUMAN",
     "type": "monster_flag",
-    "//": "Warning: Do not use without death_guilt function. This helps count the non-npc human (e.g civilian/futile fighter) kills before player goes numb."
+    "//COMMENT": "Killing this monster counts as murdering an NPC. This is a special case, and does not require a death_function. (The effect is hardcoded)"
   },
   {
     "id": "GUILT_OTHERS",

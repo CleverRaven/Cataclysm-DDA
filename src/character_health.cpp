@@ -61,6 +61,7 @@
 #include "morale.h"
 #include "move_mode.h"
 #include "mutation.h"
+#include "npc.h"
 #include "options.h"
 #include "output.h"
 #include "pimpl.h"
@@ -608,6 +609,8 @@ void Character::calc_discomfort()
 void Character::apply_murder_penalties( Creature *victim )
 {
     Character &player_character = get_player_character();
+    // Currently no support for handling anyone else's murdering
+    cata_assert( this == &player_character );
     if( !victim || !victim->is_dead_state() || victim->get_killer() != &player_character ) {
         return; // Nothing to do here
     }
@@ -615,7 +618,7 @@ void Character::apply_murder_penalties( Creature *victim )
         add_msg( _( "A cold shock of guilt washes over you." ) );
         player_character.add_morale( morale_killer_has_killed, -15, 0, 1_days, 1_hours );
     }
-    if( victim->as_npc() && victim->as_npc()->hit_by_player ) {
+    if( victim->as_monster() || ( victim->as_npc() && victim->as_npc()->hit_by_player ) ) {
         int morale_effect = -90;
         // Just because you like eating people doesn't mean you love killing innocents
         if( player_character.has_flag( json_flag_CANNIBAL ) && morale_effect < 0 ) {
