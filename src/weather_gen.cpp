@@ -191,7 +191,7 @@ w_point weather_generator::get_weather( const tripoint_abs_ms &location, const t
     double P =
         base_pressure +
         raw_noise_4d( x, y, z, modSEED + 211 ) *
-        10 * ( -seasonality + 2 );
+        20 * ( -seasonality + 2 );
 
     // Wind power
     W = std::max( 0, static_cast<int>( base_wind * rng( 1, 2 ) / std::pow( ( P + W ) / 1014.78, rng( 9,
