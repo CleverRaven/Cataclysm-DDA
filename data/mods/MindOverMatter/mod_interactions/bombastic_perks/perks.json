@@ -79,6 +79,15 @@
     "enchantments": [ { "condition": "ACTIVE", "values": [ { "value": "MOTION_ALARM", "add": 10 } ] } ]
   },
   {
+    "type": "mutation",
+    "id": "perk_mind_cry",
+    "name": { "str": "Mindcry" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "Your telepathic powers can sometimes go out of control when you're hurt.  You have a 1% chance to let out a Psychic Scream if you take damage when you have 10 or more pain."
+  },
+  {
     "//": "Playstyle perks begin here",
     "type": "mutation",
     "id": "perk_burning_bright",

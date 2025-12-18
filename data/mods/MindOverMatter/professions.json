@@ -47,13 +47,16 @@
       "knack_telepathic_shield",
       "knack_telepathic_mind_sense",
       "knack_telepathic_morale",
+      "knack_telepathic_blast",
       "knack_telepathic_mesmerize",
       "knack_telepathic_animal_mind_control",
       "knack_telepathic_invisibility",
+      "knack_telepathic_blast_radius",
       "knack_vita_health_power",
       "knack_vita_concentrated_healing",
       "knack_vita_remove_poison",
-      "knack_vita_cure_disease"
+      "knack_vita_cure_disease",
+      "knack_vita_banish_illness"
     ],
     "chargen_allow_npc": false
   },
@@ -125,13 +128,16 @@
       "knack_telepathic_shield",
       "knack_telepathic_mind_sense",
       "knack_telepathic_morale",
+      "knack_telepathic_blast",
       "knack_telepathic_mesmerize",
       "knack_telepathic_animal_mind_control",
       "knack_telepathic_invisibility",
+      "knack_telepathic_blast_radius",
       "knack_vita_health_power",
       "knack_vita_concentrated_healing",
       "knack_vita_remove_poison",
-      "knack_vita_cure_disease"
+      "knack_vita_cure_disease",
+      "knack_vita_banish_illness"
     ],
     "chargen_allow_npc": false
   },
@@ -200,13 +206,16 @@
       "knack_telepathic_shield",
       "knack_telepathic_mind_sense",
       "knack_telepathic_morale",
+      "knack_telepathic_blast",
       "knack_telepathic_mesmerize",
       "knack_telepathic_animal_mind_control",
       "knack_telepathic_invisibility",
+      "knack_telepathic_blast_radius",
       "knack_vita_health_power",
       "knack_vita_concentrated_healing",
       "knack_vita_remove_poison",
-      "knack_vita_cure_disease"
+      "knack_vita_cure_disease",
+      "knack_vita_banish_illness"
     ],
     "chargen_allow_npc": false
   },
@@ -283,13 +292,16 @@
       "knack_telepathic_shield",
       "knack_telepathic_mind_sense",
       "knack_telepathic_morale",
+      "knack_telepathic_blast",
       "knack_telepathic_mesmerize",
       "knack_telepathic_animal_mind_control",
       "knack_telepathic_invisibility",
+      "knack_telepathic_blast_radius",
       "knack_vita_health_power",
       "knack_vita_concentrated_healing",
       "knack_vita_remove_poison",
-      "knack_vita_cure_disease"
+      "knack_vita_cure_disease",
+      "knack_vita_banish_illness"
     ],
     "chargen_allow_npc": false
   },
@@ -355,13 +367,16 @@
       "knack_telepathic_shield",
       "knack_telepathic_mind_sense",
       "knack_telepathic_morale",
+      "knack_telepathic_blast",
       "knack_telepathic_mesmerize",
       "knack_telepathic_animal_mind_control",
       "knack_telepathic_invisibility",
+      "knack_telepathic_blast_radius",
       "knack_vita_health_power",
       "knack_vita_concentrated_healing",
       "knack_vita_remove_poison",
-      "knack_vita_cure_disease"
+      "knack_vita_cure_disease",
+      "knack_vita_banish_illness"
     ],
     "chargen_allow_npc": false
   },
@@ -420,13 +435,16 @@
       "knack_telepathic_shield",
       "knack_telepathic_mind_sense",
       "knack_telepathic_morale",
+      "knack_telepathic_blast",
       "knack_telepathic_mesmerize",
       "knack_telepathic_animal_mind_control",
       "knack_telepathic_invisibility",
+      "knack_telepathic_blast_radius",
       "knack_vita_health_power",
       "knack_vita_concentrated_healing",
       "knack_vita_remove_poison",
-      "knack_vita_cure_disease"
+      "knack_vita_cure_disease",
+      "knack_vita_banish_illness"
     ],
     "chargen_allow_npc": false
   },
@@ -519,13 +537,16 @@
       "knack_telepathic_shield",
       "knack_telepathic_mind_sense",
       "knack_telepathic_morale",
+      "knack_telepathic_blast",
       "knack_telepathic_mesmerize",
       "knack_telepathic_animal_mind_control",
       "knack_telepathic_invisibility",
+      "knack_telepathic_blast_radius",
       "knack_vita_health_power",
       "knack_vita_concentrated_healing",
       "knack_vita_remove_poison",
-      "knack_vita_cure_disease"
+      "knack_vita_cure_disease",
+      "knack_vita_banish_illness"
     ],
     "chargen_allow_npc": false
   },
@@ -593,13 +614,16 @@
       "knack_telepathic_shield",
       "knack_telepathic_mind_sense",
       "knack_telepathic_morale",
+      "knack_telepathic_blast",
       "knack_telepathic_mesmerize",
       "knack_telepathic_animal_mind_control",
       "knack_telepathic_invisibility",
+      "knack_telepathic_blast_radius",
       "knack_vita_health_power",
       "knack_vita_concentrated_healing",
       "knack_vita_remove_poison",
-      "knack_vita_cure_disease"
+      "knack_vita_cure_disease",
+      "knack_vita_banish_illness"
     ],
     "chargen_allow_npc": false
   },
@@ -686,13 +710,16 @@
       "knack_telepathic_shield",
       "knack_telepathic_mind_sense",
       "knack_telepathic_morale",
+      "knack_telepathic_blast",
       "knack_telepathic_mesmerize",
       "knack_telepathic_animal_mind_control",
       "knack_telepathic_invisibility",
+      "knack_telepathic_blast_radius",
       "knack_vita_health_power",
       "knack_vita_concentrated_healing",
       "knack_vita_remove_poison",
-      "knack_vita_cure_disease"
+      "knack_vita_cure_disease",
+      "knack_vita_banish_illness"
     ],
     "flags": [ "SCEN_ONLY" ],
     "chargen_allow_npc": false
@@ -756,13 +783,16 @@
       "knack_telepathic_shield",
       "knack_telepathic_mind_sense",
       "knack_telepathic_morale",
+      "knack_telepathic_blast",
       "knack_telepathic_mesmerize",
       "knack_telepathic_animal_mind_control",
       "knack_telepathic_invisibility",
+      "knack_telepathic_blast_radius",
       "knack_vita_health_power",
       "knack_vita_concentrated_healing",
       "knack_vita_remove_poison",
-      "knack_vita_cure_disease"
+      "knack_vita_cure_disease",
+      "knack_vita_banish_illness"
     ],
     "chargen_allow_npc": false
   },
@@ -885,13 +915,16 @@
       "knack_telepathic_shield",
       "knack_telepathic_mind_sense",
       "knack_telepathic_morale",
+      "knack_telepathic_blast",
       "knack_telepathic_mesmerize",
       "knack_telepathic_animal_mind_control",
       "knack_telepathic_invisibility",
+      "knack_telepathic_blast_radius",
       "knack_vita_health_power",
       "knack_vita_concentrated_healing",
       "knack_vita_remove_poison",
-      "knack_vita_cure_disease"
+      "knack_vita_cure_disease",
+      "knack_vita_banish_illness"
     ],
     "chargen_allow_npc": false
   },
