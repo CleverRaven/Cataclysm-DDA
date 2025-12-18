@@ -4905,7 +4905,7 @@ std::optional<int> iuse::mop( Character *p, item *it, const tripoint_bub_ms & )
 
     if( !it->activation_success() ) {
         p->add_msg_if_player( m_bad,
-                              _( "You the handle of your %s disconnects, so you push it back into the socket." ), it->tname() );
+                              _( "The handle of your %s disconnects, so you push it back into the socket." ), it->tname() );
         return std::nullopt;
     }
 
