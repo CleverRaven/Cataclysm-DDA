@@ -516,11 +516,14 @@ TEST_CASE( "item_rigidity", "[iteminfo][rigidity]" )
         SECTION( "encumbrance when empty and full" ) {
             // test_waterskin does not define "encumbrance" or "max_encumbrance", so base
             // encumbrance is 0, and max_encumbrance is set by the item factory (finalize_post)
-            // based on the pocket "max_contains_volume" (1 encumbrance per 250 ml).
+            // based on the pocket "max_contains_volume"
+            // prior to #84176, items that did not define their encumbrance scaled at a rate of 1 enc per 0.25 liter stored
+            // Now, expected behavior is that it is 0 enc per 0.25 stored; this means the test waterskin stores for "free"
+            // this is an example of undesirable JSON implementation, but it is a more sensible fallback than 1.0 was
             CHECK( item_info_str( waterskin, encumbrance ) ==
                    "--\n"
                    "<color_c_white>Encumbrance</color>"
-                   "  <color_c_yellow>0</color>, When full  <color_c_yellow>6</color>: The <color_c_cyan>legs</color>.\n" );
+                   "  <color_c_yellow>0</color>, When full  <color_c_yellow>0</color>: The <color_c_cyan>legs</color>.\n" );
 
             // test_backpack has an explicit "encumbrance" and "max_encumbrance"
             CHECK( item_info_str( backpack, encumbrance ) ==
