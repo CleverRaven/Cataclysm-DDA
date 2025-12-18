@@ -217,6 +217,13 @@
     "difficulty": { "math": [ "ceil(max( (u_spell_difficulty('telepathic_invisibility') / 2), 1) )" ] }
   },
   {
+    "id": "telepathic_blast_radius_knack",
+    "copy-from": "telepathic_blast_radius",
+    "type": "SPELL",
+    "spell_class": "PSYCHIC_KNACK",
+    "difficulty": { "math": [ "ceil(max( (u_spell_difficulty('telepathic_blast_radius') / 2), 1) )" ] }
+  },
+  {
     "id": "vita_health_power_knack",
     "copy-from": "vita_health_power",
     "type": "SPELL",
