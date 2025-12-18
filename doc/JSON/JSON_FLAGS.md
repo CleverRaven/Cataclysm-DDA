@@ -1235,7 +1235,8 @@ Used to describe monster characteristics and set their properties and abilities.
 - ```SUNDEATH``` Dies in full sunlight.
 - ```SWARMS``` Groups together and forms loose packs.
 - ```SWIMS``` (depricated in favor of [moveskills](MONSTERS.md#move_skills)) Treats water as 50 movement point terrain.
-- ```TRUESIGHT``` - The monster can see creatures normally even if they have the `CAMOUFLAGE`, `INVISIBLE` or `NIGHT_INVISIBILITY` flags
+- ```TRUESIGHT``` The monster can see creatures normally even if they have the `CAMOUFLAGE`, `INVISIBLE` or `NIGHT_INVISIBILITY` flags
+- ```UNREAKABLE_MORALE``` The monster will never run from combat once engaged
 - ```VAMP_VIRUS``` This monster can inflict the `vampire_virus` effect.  Used by Xedra Evolved mod.
 - ```VENOM``` Attack may poison the player.
 - ```WARM``` Warm blooded.
@@ -1266,6 +1267,7 @@ For more information about monster aggro, see [MONSTERS.md](MONSTERS.md#aggrocha
 - ```CLASSIC``` Only monsters we expect in a classic zombie movie.
 - ```NULL``` No category.
 - ```WILDLIFE``` Natural animals.
+- ```XE_CLASSIC``` Monsters that spawn in an XE/DDotD apocalyptic occult conspiracy scenario
 
 
 ### Death Functions

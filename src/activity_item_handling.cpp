@@ -73,6 +73,7 @@
 #include "trap.h"
 #include "units.h"
 #include "value_ptr.h"
+#include "veh_interact.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
@@ -80,7 +81,6 @@
 #include "vpart_position.h"
 #include "weather.h"
 
-static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_FETCH_REQUIRED( "ACT_FETCH_REQUIRED" );
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
@@ -96,7 +96,6 @@ static const activity_id ACT_MULTIPLE_MOP( "ACT_MULTIPLE_MOP" );
 static const activity_id ACT_MULTIPLE_READ( "ACT_MULTIPLE_READ" );
 static const activity_id ACT_MULTIPLE_STUDY( "ACT_MULTIPLE_STUDY" );
 static const activity_id ACT_TIDY_UP( "ACT_TIDY_UP" );
-static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
 static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
 
@@ -654,7 +653,7 @@ int activity_handlers::move_cost( const item &it, const tripoint_bub_ms &src,
 // return true if activity was assigned.
 // return false if it was not possible.
 static bool vehicle_activity( Character &you, const tripoint_bub_ms &src_loc, int vpindex,
-                              char type )
+                              vehicle_action type )
 {
     map &here = get_map();
     vehicle *veh = veh_pointer_or_null( here.veh_at( src_loc ) );
@@ -665,9 +664,9 @@ static bool vehicle_activity( Character &you, const tripoint_bub_ms &src_loc, in
     if( vpindex >= veh->part_count() ) {
         // if parts got removed during our work, we can't just carry on removing, we want to repair parts!
         // so just bail out, as we don't know if the next shifted part is suitable for repair.
-        if( type == 'r' ) {
+        if( type == VEHICLE_REPAIR ) {
             return false;
-        } else if( type == 'o' ) {
+        } else if( type == VEHICLE_REMOVE ) {
             vpindex = veh->get_next_shifted_index( vpindex, you );
             if( vpindex == -1 ) {
                 return false;
@@ -676,39 +675,17 @@ static bool vehicle_activity( Character &you, const tripoint_bub_ms &src_loc, in
     }
     const vehicle_part &vp = veh->part( vpindex );
     const vpart_info &vpi = vp.info();
-    if( type == 'r' ) {
+    if( type == VEHICLE_REPAIR ) {
         const int frac = ( vp.damage() - vp.degradation() ) / ( vp.max_damage() - vp.degradation() );
         time_to_take = vpi.repair_time( you ) * frac;
-    } else if( type == 'o' ) {
+    } else if( type == VEHICLE_REMOVE ) {
         time_to_take = vpi.removal_time( you );
     }
-    you.assign_activity( ACT_VEHICLE, to_moves<int>( time_to_take ), static_cast<int>( type ) );
+    you.assign_activity( vehicle_activity_actor( type, time_to_take, veh, here.get_abs( src_loc ),
+                         tripoint_rel_ms::zero, veh->index_of_part( &vp ), vpi.id ) );
     // so , NPCs can remove the last part on a position, then there is no vehicle there anymore,
     // for someone else who stored that position at the start of their activity.
     // so we may need to go looking a bit further afield to find it , at activities end.
-    for( const tripoint_abs_ms &pt : veh->get_points( true ) ) {
-        you.activity.coord_set.insert( pt );
-    }
-    // values[0]
-    you.activity.values.push_back( here.get_abs( src_loc ).x() );
-    // values[1]
-    you.activity.values.push_back( here.get_abs( src_loc ).y() );
-    // values[2]
-    you.activity.values.push_back( point::zero.x );
-    // values[3]
-    you.activity.values.push_back( point::zero.y );
-    // values[4]
-    you.activity.values.push_back( -point::zero.x );
-    // values[5]
-    you.activity.values.push_back( -point::zero.y );
-    // values[6]
-    you.activity.values.push_back( veh->index_of_part( &vp ) );
-    you.activity.str_values.push_back( vpi.id.str() );
-    you.activity.str_values.push_back( vp.variant );
-    // this would only be used for refilling tasks
-    item_location target;
-    you.activity.targets.emplace_back( std::move( target ) );
-    you.activity.placement = here.get_abs( src_loc );
     you.activity_vehicle_part_index = -1;
     return true;
 }
@@ -2864,8 +2841,7 @@ static bool construction_activity( Character &you, const zone_data * /*zone*/,
         you.consume_tools( it );
     }
     you.backlog.emplace_front( activity_to_restore );
-    you.assign_activity( ACT_BUILD );
-    you.activity.placement = here.get_abs( src_loc );
+    you.assign_activity( build_construction_activity_actor( here.get_abs( src_loc ) ) );
     return true;
 }
 
@@ -3616,8 +3592,7 @@ bool construction_do( Character &you, const activity_reason_info &act_info,
     if( reason == do_activity_reason::CAN_DO_CONSTRUCTION ) {
         if( here.partial_con_at( src_loc ) ) {
             you.backlog.emplace_front( ACT_MULTIPLE_CONSTRUCTION );
-            you.assign_activity( ACT_BUILD );
-            you.activity.placement = src;
+            you.assign_activity( build_construction_activity_actor( src ) );
             return false;
         }
         if( construction_activity( you, zone, src_loc, act_info, ACT_MULTIPLE_CONSTRUCTION ) ) {
@@ -3725,7 +3700,7 @@ bool vehicle_deconstruction_do( Character &you, const activity_reason_info &act_
     const do_activity_reason &reason = act_info.reason;
 
     if( reason == do_activity_reason::NEEDS_VEH_DECONST ) {
-        if( vehicle_activity( you, src_loc, you.activity_vehicle_part_index, 'o' ) ) {
+        if( vehicle_activity( you, src_loc, you.activity_vehicle_part_index, VEHICLE_REMOVE ) ) {
             you.backlog.emplace_front( ACT_VEHICLE_DECONSTRUCTION );
             return false;
         }
@@ -3740,7 +3715,7 @@ bool vehicle_repair_do( Character &you, const activity_reason_info &act_info,
     const do_activity_reason &reason = act_info.reason;
 
     if( reason == do_activity_reason::NEEDS_VEH_REPAIR ) {
-        if( vehicle_activity( you, src_loc, you.activity_vehicle_part_index, 'r' ) ) {
+        if( vehicle_activity( you, src_loc, you.activity_vehicle_part_index, VEHICLE_REPAIR ) ) {
             you.backlog.emplace_front( ACT_VEHICLE_REPAIR );
             return false;
         }

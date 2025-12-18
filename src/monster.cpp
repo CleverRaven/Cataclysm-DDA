@@ -1213,6 +1213,17 @@ std::vector<std::string> monster::extended_description() const
         } else {
             tmp.emplace_back( "Lifespan end time: n/a <color_yellow>(indefinite)</color>" );
         }
+
+        const std::vector<std::reference_wrapper<const effect>> all_effects = get_effects();
+        if( !all_effects.empty() ) {
+            tmp.emplace_back( "Applied effects:" );
+            for( const effect &eff : all_effects ) {
+                const std::string is_permanent = eff.is_permanent() ? "(permanent)" : "";
+                tmp.emplace_back( string_format( "%s (%s) %s", eff.get_id().c_str(),
+                                                 to_string_writable( eff.get_duration() ).c_str(),
+                                                 is_permanent.c_str() ) );
+            }
+        }
     }
 
     std::vector<std::string> ret;
@@ -3500,6 +3511,10 @@ void monster::process_effects()
             anger += 5;
             anger = std::min( anger, type->agro );
         }
+    }
+
+    if( has_flag( mon_flag_UNBREAKABLE_MORALE ) ) {
+        morale += 100;
     }
 
     if( has_flag( mon_flag_CORNERED_FIGHTER ) ) {

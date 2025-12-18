@@ -3,36 +3,156 @@
     "id": "mon_mi_go",
     "copy-from": "mon_mi_go",
     "type": "MONSTER",
-    "categories": [ "CLASSIC" ]
+    "categories": [ "XE_CLASSIC" ]
   },
   {
     "id": "mon_mi_go_scout",
     "copy-from": "mon_mi_go_scout",
     "type": "MONSTER",
-    "categories": [ "CLASSIC" ]
+    "categories": [ "XE_CLASSIC" ]
   },
   {
     "id": "mon_mi_go_guard",
     "copy-from": "mon_mi_go_guard",
     "type": "MONSTER",
-    "categories": [ "CLASSIC" ]
+    "categories": [ "XE_CLASSIC" ]
   },
   {
     "id": "mon_mi_go_slaver",
     "copy-from": "mon_mi_go_slaver",
     "type": "MONSTER",
-    "categories": [ "CLASSIC" ]
+    "categories": [ "XE_CLASSIC" ]
   },
   {
     "id": "mon_mi_go_surgeon",
     "copy-from": "mon_mi_go_surgeon",
     "type": "MONSTER",
-    "categories": [ "CLASSIC" ]
+    "categories": [ "XE_CLASSIC" ]
   },
   {
     "id": "mon_mi_go_myrmidon",
     "copy-from": "mon_mi_go_myrmidon",
     "type": "MONSTER",
-    "categories": [ "CLASSIC" ]
+    "categories": [ "XE_CLASSIC" ]
+  },
+  {
+    "id": "mon_darkman",
+    "copy-from": "mon_darkman",
+    "type": "MONSTER",
+    "categories": [ "XE_CLASSIC" ]
+  },
+  {
+    "id": "mon_shadow",
+    "copy-from": "mon_shadow",
+    "type": "MONSTER",
+    "categories": [ "XE_CLASSIC" ]
+  },
+  {
+    "id": "mon_gozu",
+    "copy-from": "mon_gozu",
+    "type": "MONSTER",
+    "categories": [ "XE_CLASSIC" ]
+  },
+  {
+    "id": "mon_flying_polyp",
+    "copy-from": "mon_flying_polyp",
+    "type": "MONSTER",
+    "categories": [ "XE_CLASSIC" ]
+  },
+  {
+    "id": "mon_hunting_horror",
+    "copy-from": "mon_hunting_horror",
+    "type": "MONSTER",
+    "categories": [ "XE_CLASSIC" ]
+  },
+  {
+    "id": "mon_unseen_hunter",
+    "copy-from": "mon_unseen_hunter",
+    "type": "MONSTER",
+    "categories": [ "XE_CLASSIC" ]
+  },
+  {
+    "id": "mon_star_vampire",
+    "copy-from": "mon_star_vampire",
+    "type": "MONSTER",
+    "categories": [ "XE_CLASSIC" ]
+  },
+  {
+    "id": "mon_star_vampire_coiling",
+    "copy-from": "mon_star_vampire_coiling",
+    "type": "MONSTER",
+    "categories": [ "XE_CLASSIC" ]
+  },
+  {
+    "id": "mon_blood_sacrifice",
+    "copy-from": "mon_blood_sacrifice",
+    "type": "MONSTER",
+    "categories": [ "XE_CLASSIC" ]
+  },
+  {
+    "id": "mon_dementia",
+    "copy-from": "mon_dementia",
+    "type": "MONSTER",
+    "categories": [ "XE_CLASSIC" ]
+  },
+  {
+    "id": "mon_dog_thing",
+    "copy-from": "mon_dog_thing",
+    "type": "MONSTER",
+    "categories": [ "XE_CLASSIC" ]
+  },
+  {
+    "id": "mon_headless_dog_thing",
+    "copy-from": "mon_headless_dog_thing",
+    "type": "MONSTER",
+    "categories": [ "XE_CLASSIC" ]
+  },
+  {
+    "id": "mon_thing",
+    "copy-from": "mon_thing",
+    "type": "MONSTER",
+    "categories": [ "XE_CLASSIC" ]
+  },
+  {
+    "id": "mon_tindalos",
+    "copy-from": "mon_tindalos",
+    "type": "MONSTER",
+    "categories": [ "XE_CLASSIC" ]
+  },
+  {
+    "id": "mon_hound_tindalos",
+    "copy-from": "mon_hound_tindalos",
+    "type": "MONSTER",
+    "categories": [ "XE_CLASSIC" ]
+  },
+  {
+    "id": "mon_hound_tindalos_afterimage",
+    "copy-from": "mon_hound_tindalos_afterimage",
+    "type": "MONSTER",
+    "categories": [ "XE_CLASSIC" ]
+  },
+  {
+    "id": "mon_shadow_snake",
+    "copy-from": "mon_shadow_snake",
+    "type": "MONSTER",
+    "categories": [ "XE_CLASSIC" ]
+  },
+  {
+    "id": "mon_shoggoth",
+    "copy-from": "mon_shoggoth",
+    "type": "MONSTER",
+    "categories": [ "XE_CLASSIC" ]
+  },
+  {
+    "id": "mon_yugg",
+    "copy-from": "mon_yugg",
+    "type": "MONSTER",
+    "categories": [ "XE_CLASSIC" ]
+  },
+  {
+    "id": "mon_nether_huntsman",
+    "copy-from": "mon_nether_huntsman",
+    "type": "MONSTER",
+    "categories": [ "XE_CLASSIC" ]
   }
 ]

@@ -1068,8 +1068,15 @@ std::optional<int> iuse::flusleep( Character *p, item *it, const tripoint_bub_ms
     return 1;
 }
 
-std::optional<int> iuse::inhaler( Character *p, item *, const tripoint_bub_ms & )
+std::optional<int> iuse::inhaler( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !it->activation_success() ) {
+        p->add_msg_player_or_npc( m_bad, _( "You try to take a puff from your %s, but nothing happens." ),
+                                  _( "<npcname> tries to take a a puff from their %s, but nothing happens." ), it->tname(),
+                                  it->tname() );
+        return std::nullopt;
+    }
+
     p->add_msg_player_or_npc( m_neutral, _( "You take a puff from your inhaler." ),
                               _( "<npcname> takes a puff from their inhaler." ) );
     if( !p->remove_effect( effect_asthma ) ) {
@@ -1085,6 +1092,12 @@ std::optional<int> iuse::inhaler( Character *p, item *, const tripoint_bub_ms & 
 
 std::optional<int> iuse::oxygen_bottle( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !it->activation_success() ) {
+        add_msg( m_bad, _( "You try to take a deep breath from your %s, but something blocks the flow." ),
+                 it->tname() );
+        return std::nullopt;
+    }
+
     p->mod_moves( -to_moves<int>( 10_seconds ) );
     p->add_msg_player_or_npc( m_neutral, string_format( _( "You breathe deeply from the %s." ),
                               it->tname() ),
@@ -2362,6 +2375,11 @@ std::optional<int> iuse::mace( Character *p, item *it, const tripoint_bub_ms & )
 
     p->mod_moves( -to_moves<int>( 2_seconds ) );
 
+    if( !it->activation_success() ) {
+        p->add_msg_if_player( m_bad, _( "You try to use your %s, but nothing happens." ), it->tname() );
+        return std::nullopt;
+    }
+
     map &here = get_map();
     here.add_field( dest, fd_tear_gas, 2, 3_turns );
 
@@ -2694,6 +2712,12 @@ std::optional<int> iuse::radio_tick( Character *, item *it, const tripoint_bub_m
         int index = to_turn<int>( calendar::turn ) % segments.size();
         message = string_format( _( "radio: %s" ), segments[index] );
     }
+
+    if( !it->activation_success() ) {
+        add_msg( m_bad, _( "Your %s goes silent for a moment." ), it->tname() );
+        return std::nullopt;
+    }
+
     sounds::ambient_sound( pos, 6, sounds::sound_t::electronic_speech, message );
     if( !sfx::is_channel_playing( sfx::channel::radio ) ) {
         if( one_in( 10 ) ) {
@@ -2708,6 +2732,12 @@ std::optional<int> iuse::radio_tick( Character *, item *it, const tripoint_bub_m
 
 std::optional<int> iuse::radio_on( Character *, item *it, const tripoint_bub_ms & )
 {
+
+    if( !it->activation_success() ) {
+        add_msg( m_bad, _( "Your %s doesn't seem to do anything when you try to scan frequencies." ),
+                 it->tname() );
+        return std::nullopt;
+    }
 
     const auto tower_desc = []( const int noise ) {
         if( noise == 0 ) {
@@ -2755,8 +2785,13 @@ std::optional<int> iuse::radio_on( Character *, item *it, const tripoint_bub_ms 
     return 1;
 }
 
-std::optional<int> iuse::noise_emitter_on( Character *, item *, const tripoint_bub_ms &pos )
+std::optional<int> iuse::noise_emitter_on( Character *, item *it, const tripoint_bub_ms &pos )
 {
+    if( !it->activation_success() ) {
+        add_msg( m_bad, _( "Your %s goes silent for a moment." ), it->tname() );
+        return std::nullopt;
+    }
+
     sounds::sound( pos, 30, sounds::sound_t::alarm, _( "KXSHHHHRRCRKLKKK!" ), true, "tool",
                    "noise_emitter" );
     return 0;
@@ -3244,6 +3279,11 @@ std::optional<int> iuse::pickaxe( Character *p, item *it, const tripoint_bub_ms 
 
 std::optional<int> iuse::geiger( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !it->activation_success() ) {
+        p->add_msg_if_player( m_bad, _( "Your %s fails to react." ), it->tname() );
+        return std::nullopt;
+    }
+
     map &here = get_map();
 
     int ch = uilist( _( "Geiger counter:" ), {
@@ -3291,16 +3331,26 @@ std::optional<int> iuse::geiger( Character *p, item *it, const tripoint_bub_ms &
     return 1;
 }
 
-std::optional<int> iuse::geiger_active( Character *, item *, const tripoint_bub_ms &pos )
+std::optional<int> iuse::geiger_active( Character *, item *it, const tripoint_bub_ms &pos )
 {
+    bool activation_success = it->activation_success();
+
     const int rads = get_map().get_radiation( pos );
-    if( rads == 0 ) {
+    if( rads == 0 && activation_success ) {
         return 0;
     }
     std::string description = rads > 50 ? _( "buzzing" ) :
                               rads > 25 ? _( "rapid clicking" ) : _( "clicking" );
+
     std::string sound_var = rads > 50 ? _( "geiger_high" ) :
                             rads > 25 ? _( "geiger_medium" ) : _( "geiger_low" );
+
+    if( !activation_success ) {
+        sounds::sound( pos, 6, sounds::sound_t::alarm, _( "distorted buzz-clicking" ), true, "tool",
+                       sound_var );
+        add_msg( m_warning, _( "The %s produces a distorted buzz-clicking noise." ), it->tname() );
+        return std::nullopt;
+    }
 
     sounds::sound( pos, 6, sounds::sound_t::alarm, description, true, "tool", sound_var );
     if( !get_avatar().can_hear( pos, 6 ) ) {
@@ -3400,6 +3450,7 @@ std::optional<int> iuse::granade_act( Character *, item *it, const tripoint_bub_
     if( pos.x() == -999 || pos.y() == -999 ) {
         return std::nullopt;
     }
+
     map &here = get_map();
     creature_tracker &creatures = get_creature_tracker();
 
@@ -3631,6 +3682,12 @@ std::optional<int> iuse::firecracker_pack_act( Character *, item *it, const trip
 
 std::optional<int> iuse::mininuke( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !it->activation_success() ) {
+        p->add_msg_if_player( _( "You try to set the timer if the %s, but the screen remains blank." ),
+                              it->tname() );
+        return std::nullopt;
+    }
+
     int time = 0;
     bool got_value = query_int( time, false, _( "Set the timer to how many seconds (0 to cancel)?" ) );
     if( !got_value || time <= 0 ) {
@@ -3685,6 +3742,12 @@ std::optional<int> iuse::tazer( Character *p, item *it, const tripoint_bub_ms &p
     Creature *target = get_creature_tracker().creature_at( pnt, true );
     if( target == nullptr ) {
         p->add_msg_if_player( _( "There's nothing to zap there!" ) );
+        return std::nullopt;
+    }
+
+    if( !it->activation_success() ) {
+        p->add_msg_if_player( m_bad, _( "You try to activate your %s, but nothing happens." ),
+                              it->tname() );
         return std::nullopt;
     }
 
@@ -3814,8 +3877,13 @@ void iuse::play_music( Character *p, const tripoint_bub_ms &source, const int vo
     }
 }
 
-std::optional<int> iuse::mp3_on( Character *p, item *, const tripoint_bub_ms &pos )
+std::optional<int> iuse::mp3_on( Character *p, item *it, const tripoint_bub_ms &pos )
 {
+    if( !it->activation_success() ) {
+        p->add_msg_if_player( m_bad, _( "Your %s goes silent for a moment." ), it->tname() );
+        return std::nullopt;
+    }
+
     // mp3 player in inventory, we can listen
     play_music( p, pos, 0, 20 );
     music::activate_music_id( music::music_id::mp3 );
@@ -3933,6 +4001,14 @@ std::optional<int> iuse::solarpack( Character *p, item *it, const tripoint_bub_m
                               it->tname() );
         return std::nullopt;
     }
+
+    if( !it->activation_success() ) {
+        p->add_msg_if_player( m_bad,
+                              _( "You try to unfold your %s, but it keeps falling back to its folded configuration." ),
+                              it->tname() );
+        return std::nullopt;
+    }
+
     p->add_msg_if_player(
         _( "You unfold the solar array from the pack.  You still need to connect it with a cable." ) );
 
@@ -3949,6 +4025,14 @@ std::optional<int> iuse::solarpack_off( Character *p, item *it, const tripoint_b
                   it->typeId().str() );
         return std::nullopt;
     }
+
+    if( !it->activation_success() ) {
+        p->add_msg_if_player( m_bad,
+                              _( "You try to fold your %s into the pack, but it keeps falling out." ),
+                              it->tname() );
+        return std::nullopt;
+    }
+
     if( !p->is_worn( *it ) ) {  // folding when not worn
         p->add_msg_if_player( _( "You fold your portable solar array into the pack." ) );
     } else {
@@ -3968,6 +4052,11 @@ std::optional<int> iuse::gasmask_activate( Character *p, item *it, const tripoin
 {
     if( it->ammo_remaining( ) == 0 ) {
         p->add_msg_if_player( _( "Your %s doesn't have a filter." ), it->tname() );
+    } else if( !it->activation_success() ) {
+        p->add_msg_if_player( m_bad, _( "You fail to adjust your damaged %s so it doesn't leak." ),
+                              it->tname() );
+        return std::nullopt;
+
     } else {
         p->add_msg_if_player( _( "You prepare your %s." ), it->tname() );
         it->active = true;
@@ -3982,6 +4071,15 @@ std::optional<int> iuse::gasmask( Character *p, item *it, const tripoint_bub_ms 
     map &here = get_map();
 
     if( p && p->is_worn( *it ) ) {
+        if( it->activation_success() ) {
+            // In case if failed the previous tick.
+            it->set_var( "overwrite_env_resist", it->get_base_env_resist_w_filter() );
+        } else {
+            p->add_msg_if_player( m_bad, _( "Your damaged %s is leaking." ), it->tname() );
+            it->set_var( "overwrite_env_resist", 0 );
+            return std::nullopt;
+        }
+
         // calculate amount of absorbed gas per filter charge
         const field &gasfield = here.field_at( pos );
         for( const auto &dfield : gasfield ) {
@@ -4244,6 +4342,12 @@ std::optional<int> iuse::hand_crank( Character *p, item *it, const tripoint_bub_
     }
     item *magazine = it->magazine_current();
     if( magazine && magazine->has_flag( flag_RECHARGE ) ) {
+        if( !it->activation_success() ) {
+            p->add_msg_if_player( m_bad,
+                                  _( "You try to use your %s, but the handle detached, so you reattach it." ), it->tname() );
+            return std::nullopt;
+        }
+
         // 1600 minutes. It shouldn't ever run this long, but it's an upper bound.
         // expectation is it runs until the player is too tired.
         int moves = to_moves<int>( 1600_minutes );
@@ -4287,6 +4391,11 @@ std::optional<int> iuse::vibe( Character *p, item *it, const tripoint_bub_ms & )
     if( p->get_sleepiness() >= sleepiness_levels::DEAD_TIRED ) {
         p->add_msg_if_player( m_info, _( "*Your* batteries are dead." ) );
         return std::nullopt;
+    } else if( !it->activation_success() ) {
+        p->add_msg_if_player( m_bad, _( "You try to activate your %s, but nothing happens." ),
+                              it->tname() );
+        return std::nullopt;
+
     } else {
         int moves = to_moves<int>( 20_minutes );
         if( it->ammo_remaining( ) > 0 ) {
@@ -4696,6 +4805,12 @@ std::optional<int> iuse::oxytorch( Character *p, item *it, const tripoint_bub_ms
     if( !pnt_ ) {
         return std::nullopt;
     }
+
+    if( !it->activation_success() ) {
+        p->add_msg_if_player( m_bad, _( "You try to light your %s, but nothing happens." ), it->tname() );
+        return std::nullopt;
+    }
+
     const tripoint_bub_ms &pnt = *pnt_;
     if( !f( pnt ) ) {
         if( pnt == p->pos_bub() ) {
@@ -4734,6 +4849,13 @@ std::optional<int> iuse::hacksaw( Character *p, item *it, const tripoint_bub_ms 
         }
         return false;
     };
+
+    if( !it->activation_success() ) {
+        p->add_msg_if_player( m_bad,
+                              _( "The blade of your %s disconnects at one end, so you put it back into place." ), it->tname() );
+        return std::nullopt;
+    }
+
 
     const std::optional<tripoint_bub_ms> pnt_ = choose_adjacent_highlight(
                 here, _( "Cut up metal where?" ), _( "There is no metal to cut up nearby." ), f, false );
@@ -4798,7 +4920,7 @@ std::optional<int> iuse::boltcutters( Character *p, item *it, const tripoint_bub
     return std::nullopt;
 }
 
-std::optional<int> iuse::mop( Character *p, item *, const tripoint_bub_ms & )
+std::optional<int> iuse::mop( Character *p, item *it, const tripoint_bub_ms & )
 {
     if( p->cant_do_mounted() ) {
         return std::nullopt;
@@ -4813,6 +4935,13 @@ std::optional<int> iuse::mop( Character *p, item *, const tripoint_bub_ms & )
     if( !pnt_ ) {
         return std::nullopt;
     }
+
+    if( !it->activation_success() ) {
+        p->add_msg_if_player( m_bad,
+                              _( "You the handle of your %s disconnects, so you push it back into the socket." ), it->tname() );
+        return std::nullopt;
+    }
+
     const tripoint_bub_ms pnt( *pnt_ );
     if( !f( pnt ) ) {
         if( pnt == p->pos_bub() ) {
@@ -4846,6 +4975,14 @@ std::optional<int> iuse::spray_can( Character *p, item *it, const tripoint_bub_m
     if( !dest_ ) {
         return std::nullopt;
     }
+
+    if( !it->activation_success() ) {
+        p->add_msg_if_player( m_bad,
+                              _( "Your attempt to perform a test spray with your %s is unsuccessful.  Nothing happens." ),
+                              it->tname() );
+        return std::nullopt;
+    }
+
     return handle_ground_graffiti( *p, it, _( "Spray what?" ), &here, dest_.value() );
 }
 
@@ -5050,6 +5187,12 @@ std::optional<int> iuse::jet_injector( Character *p, item *it, const tripoint_bu
     if( !it->ammo_sufficient( p ) ) {
         p->add_msg_if_player( m_info, _( "The jet injector is empty." ) );
         return std::nullopt;
+
+    } else if( !it->activation_success() ) {
+        p->add_msg_if_player( m_bad, _( "You try to inject yourself with the %s, but nothing happens." ),
+                              it->tname() );
+        return std::nullopt;
+
     } else {
         p->add_msg_if_player( _( "You inject yourself with the jet injector." ) );
         // Intensity is 2 here because intensity = 1 is the comedown
@@ -5078,6 +5221,12 @@ std::optional<int> iuse::stimpack( Character *p, item *it, const tripoint_bub_ms
     if( !it->ammo_sufficient( p ) ) {
         p->add_msg_if_player( m_info, _( "The stimulant delivery system is empty." ) );
         return std::nullopt;
+
+    } else if( !it->activation_success() ) {
+        p->add_msg_if_player( m_bad,
+                              _( "nothing happens when you try to inject yourself with your %s. Try again." ), it->tname() );
+        return std::nullopt;
+
     } else {
         p->add_msg_if_player( _( "You inject yourself with the stimulants." ) );
         // Intensity is 2 here because intensity = 1 is the comedown
@@ -5100,6 +5249,12 @@ std::optional<int> iuse::radglove( Character *p, item *it, const tripoint_bub_ms
         p->add_msg_if_player( m_info, _( "The radiation biomonitor needs batteries to function." ) );
         return std::nullopt;
     } else {
+        if( !it->activation_success() ) {
+            p->add_msg_if_player( m_bad, _( "You try to activate your %s, but it won't provide any readings." ),
+                                  it->tname() );
+            return std::nullopt;
+        }
+
         p->add_msg_if_player( _( "You activate your radiation biomonitor." ) );
         if( p->get_rad() >= 1 ) {
             p->add_msg_if_player( m_warning, _( "You are currently irradiated." ) );
@@ -5347,6 +5502,12 @@ std::optional<int> iuse::robotcontrol( Character *p, item *it, const tripoint_bu
             !p->has_flag( json_flag_ENHANCED_VISION ) ) {
             p->add_msg_if_player( m_info,
                                   _( "You'll need to put on reading glasses before you can see the screen." ) );
+            return std::nullopt;
+        }
+
+        if( !it->activation_success() ) {
+            p->add_msg_if_player( m_bad,
+                                  _( "The screen of the %s remains blank." ), it->tname() );
             return std::nullopt;
         }
 
@@ -6904,6 +7065,12 @@ std::optional<int> iuse::radiocar( Character *p, item *it, const tripoint_bub_ms
             return std::nullopt;
         }
 
+        if( !it->activation_success() ) {
+            p->add_msg_if_player( m_bad, _( "Your %s fails to react when you try to turn it on." ),
+                                  it->tname() );
+            return std::nullopt;
+        }
+
         it->convert( itype_radio_car_on, p ).active = true;
 
         p->add_msg_if_player(
@@ -7029,6 +7196,11 @@ std::optional<int> iuse::radiocontrol( Character *p, item *it, const tripoint_bu
         car_action,
         _( "Press red button" ), _( "Press blue button" ), _( "Press green button" )
     } );
+
+    if( !it->activation_success() ) {
+        add_msg( m_bad, _( "Your action on the %s seems to have no effect." ), it->tname() );
+        return std::nullopt;
+    }
 
     map &here = get_map();
     if( choice < 0 ) {
@@ -7236,6 +7408,12 @@ std::optional<int> iuse::remoteveh( Character *p, item *it, const tripoint_bub_m
     } );
 
     if( choice < 0 || choice > 1 ) {
+        return std::nullopt;
+    }
+
+    if( !it->activation_success() ) {
+        add_msg( m_bad,
+                 _( "Your %s doesn't seem to respond to your actions." ), it->tname() );
         return std::nullopt;
     }
 
@@ -7703,6 +7881,12 @@ std::optional<int> iuse::weather_tool( Character *p, item *it, const tripoint_bu
     /* Possibly used twice. Worth spending the time to precalculate. */
     const units::temperature player_local_temp = weather.get_temperature( p->pos_bub() );
 
+    if( !it->activation_success() ) {
+        p->add_msg_if_player( m_bad, _( "The %s doesn't seem to work.  Try again." ),
+                              it->tname() );
+        return std::nullopt;
+    }
+
     if( it->typeId() == itype_weather_reader ) {
         p->add_msg_if_player( m_neutral, _( "The %s's monitor slowly outputs the data…" ),
                               it->tname() );
@@ -7765,10 +7949,16 @@ std::optional<int> iuse::weather_tool( Character *p, item *it, const tripoint_bu
     return 1; //TODO check
 }
 
-std::optional<int> iuse::sextant( Character *p, item *, const tripoint_bub_ms &pos )
+std::optional<int> iuse::sextant( Character *p, item *it, const tripoint_bub_ms &pos )
 {
     const std::pair<units::angle, units::angle> sun_position = sun_azimuth_altitude( calendar::turn );
     const float altitude = to_degrees( sun_position.second );
+
+    if( !it->activation_success() ) {
+        p->add_msg_if_player( m_bad, _( "Your %s gets stuck, so you try to address that." ), it->tname() );
+        return std::nullopt;
+    }
+
     if( debug_mode ) {
         // Debug mode always shows all sun angles
         const float azimuth = to_degrees( sun_position.first );
@@ -7814,6 +8004,11 @@ std::optional<int> iuse::calories_intake_tracker( Character *p, item *it, const 
     if( p->has_trait( trait_ILLITERATE ) ) {
         p->add_msg_if_player( m_info, _( "You don't know what you're looking at." ) );
         return std::nullopt;
+
+    } else if( !it->activation_success() ) {
+        p->add_msg_if_player( m_bad, _( "Your %s doesn't display anything." ), it->tname() );
+        return std::nullopt;
+
     } else {
         std::string msg;
         msg.append( "***  " );
@@ -8278,6 +8473,11 @@ std::optional<int> iuse::heatpack( Character *p, item *it, const tripoint_bub_ms
         return std::nullopt;
     }
     if( p->cant_do_mounted() ) {
+        return std::nullopt;
+    }
+
+    if( !it->activation_success() ) {
+        p->add_msg_if_player( m_bad, _( "You fail to activate your %s." ), it->tname() );
         return std::nullopt;
     }
 
@@ -8765,6 +8965,12 @@ std::optional<int> iuse::measure_resonance( Character *p, item *it, const tripoi
         popup( _( "The device doesn't have enough power to function!" ) );
         return std::nullopt;
     }
+
+    if( !it->activation_success() ) {
+        p->add_msg_if_player( m_bad, _( "The %s display remains blank." ), it->tname() );
+        return std::nullopt;
+    }
+
     // Get a list of resonant artifacts to show the player.
     std::vector<uilist_entry> uile;
     std::vector<item_location> artifacts;
@@ -9009,7 +9215,7 @@ std::optional<int> iuse::binder_manage_recipe( Character *p, item *binder,
     return std::nullopt;
 }
 
-std::optional<int> iuse::voltmeter( Character *p, item *, const tripoint_bub_ms & )
+std::optional<int> iuse::voltmeter( Character *p, item *it, const tripoint_bub_ms & )
 {
     map &here = get_map();
 
@@ -9024,6 +9230,12 @@ std::optional<int> iuse::voltmeter( Character *p, item *, const tripoint_bub_ms 
         p->add_msg_if_player( _( "There's nothing to measure there." ) );
         return std::nullopt;
     }
+
+    if( !it->activation_success() ) {
+        p->add_msg_if_player( _( "The display of the %s remains blank." ), it->tname() );
+        return std::nullopt;
+    }
+
     if( vp->vehicle().fuel_left( here, itype_battery ) ) {
         p->add_msg_if_player( _( "The %1$s has voltage." ), vp->vehicle().name );
     } else {

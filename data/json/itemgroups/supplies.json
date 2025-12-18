@@ -256,7 +256,7 @@
     "type": "item_group",
     "//": "Common plumbing supplies. These are more likely to be found on jobsites and work spaces, rather than store shelves. Use bulk for store shelves.",
     "items": [
-      { "item": "pipe_cpvc", "prob": 60, "count": [ 150, 400 ] },
+      { "item": "pipe_cpvc", "prob": 60, "count": [ 1, 2 ] },
       { "item": "cu_pipe", "prob": 200, "count": [ 1, 2 ] },
       { "item": "hose", "prob": 200, "count": [ 1, 2 ] },
       { "item": "solder_wire", "prob": 100, "count": [ 1, 2 ] },
@@ -293,7 +293,7 @@
     "items": [
       { "group": "supplies_plumbing", "prob": 100, "count": [ 1, 2 ] },
       { "item": "cu_pipe", "prob": 100, "count": [ 1, 10 ] },
-      { "item": "pipe_cpvc", "prob": 100, "count": [ 1, 10 ] },
+      { "item": "pipe_cpvc", "prob": 100, "count": [ 150, 400 ] },
       { "item": "hose", "prob": 100, "count": [ 1, 10 ] },
       { "item": "water_faucet", "prob": 30, "count": [ 1, 5 ] },
       { "item": "solder_wire", "prob": 50, "count": [ 2, 6 ] },
