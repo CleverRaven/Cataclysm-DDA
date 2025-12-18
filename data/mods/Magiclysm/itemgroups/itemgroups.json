@@ -1545,6 +1545,7 @@
       {
         "distribution": [
           { "item": "druid_spellbook", "prob": 20 },
+          { "item": "rune_druid_nature_staff", "prob": 25 },
           { "item": "spell_scroll_druid_veggrasp", "prob": 100 },
           { "item": "spell_scroll_druid_naturebow1", "prob": 100 },
           { "item": "spell_scroll_druid_whisper_leaves", "prob": 100 },
@@ -1576,11 +1577,23 @@
       },
       {
         "distribution": [
+          { "group": "druid_shapeshifting_learn_books", "prob": 5 },
           { "item": "spell_scroll_druid_renew_forest_spell", "prob": 50 },
           { "item": "spell_scroll_druid_turn_tree_into_treant", "prob": 25 }
         ],
         "prob": 5
       }
+    ]
+  },
+  {
+    "id": "druid_shapeshifting_learn_books",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "item": "druid_shapeshifting_learn_book_bear", "prob": 1 },
+      { "item": "druid_shapeshifting_learn_book_cougar", "prob": 1 },
+      { "item": "druid_shapeshifting_learn_book_deer", "prob": 1 },
+      { "item": "druid_shapeshifting_learn_book_raven", "prob": 1 }
     ]
   },
   {
