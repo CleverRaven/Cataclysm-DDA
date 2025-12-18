@@ -47,7 +47,7 @@
     "time": "10 s",
     "activated_eocs": [ "EOC_bio_inventor_calorie_storage_activated" ],
     "deactivated_eocs": [ "EOC_bio_inventor_calorie_storage_deactivated" ],
-    "flags": [ "BIONIC_TOGGLED" ]
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_SLEEP_FRIENDLY" ]
   },
   {
     "id": "bio_inventor_creative_fuel",
@@ -64,6 +64,44 @@
     "name": { "str": "Book Burner's Buddy" },
     "description": "Probably the most selfish thing you ever made, constantly burning countless pieces of written media for fleeting knowledge.  You might think it is worth the price, but the false knowledge this so-called buddy fills you with will leave little room to learn anything else, coercing you to burn books further and forevermore for a simulacrum of smarts.",
     "occupied_bodyparts": [ [ "torso", 6 ] ],
-    "flags": [ "BIONIC_TOGGLED" ]
+    "act_cost": "15 kJ",
+    "activated_eocs": [ "EOC_bio_inventor_book_burn_boost_activated" ],
+    "//": "When an option to boost all skills at once will exist, convert the skill boosts below to it.",
+    "enchantments": [
+      {
+        "values": [
+          { "value": "READING_EXP", "add": { "math": [ "u_effect_intensity('effect_burned_books') * -15" ] } },
+          { "value": "LEARNING_FOCUS", "add": { "math": [ "u_effect_intensity('effect_burned_books') * -15" ] } }
+        ]
+      },
+      { "skills": [ { "value": "deduction", "add": { "math": [ "u_effect_intensity('effect_burned_books')" ] } } ] },
+      { "skills": [ { "value": "speech", "add": { "math": [ "u_effect_intensity('effect_burned_books')" ] } } ] },
+      { "skills": [ { "value": "computer", "add": { "math": [ "u_effect_intensity('effect_burned_books')" ] } } ] },
+      { "skills": [ { "value": "firstaid", "add": { "math": [ "u_effect_intensity('effect_burned_books')" ] } } ] },
+      { "skills": [ { "value": "mechanics", "add": { "math": [ "u_effect_intensity('effect_burned_books')" ] } } ] },
+      { "skills": [ { "value": "traps", "add": { "math": [ "u_effect_intensity('effect_burned_books')" ] } } ] },
+      { "skills": [ { "value": "driving", "add": { "math": [ "u_effect_intensity('effect_burned_books')" ] } } ] },
+      { "skills": [ { "value": "swimming", "add": { "math": [ "u_effect_intensity('effect_burned_books')" ] } } ] },
+      { "skills": [ { "value": "fabrication", "add": { "math": [ "u_effect_intensity('effect_burned_books')" ] } } ] },
+      { "skills": [ { "value": "cooking", "add": { "math": [ "u_effect_intensity('effect_burned_books')" ] } } ] },
+      { "skills": [ { "value": "tailor", "add": { "math": [ "u_effect_intensity('effect_burned_books')" ] } } ] },
+      { "skills": [ { "value": "survival", "add": { "math": [ "u_effect_intensity('effect_burned_books')" ] } } ] },
+      { "skills": [ { "value": "electronics", "add": { "math": [ "u_effect_intensity('effect_burned_books')" ] } } ] },
+      { "skills": [ { "value": "archery", "add": { "math": [ "u_effect_intensity('effect_burned_books')" ] } } ] },
+      { "skills": [ { "value": "gun", "add": { "math": [ "u_effect_intensity('effect_burned_books')" ] } } ] },
+      { "skills": [ { "value": "launcher", "add": { "math": [ "u_effect_intensity('effect_burned_books')" ] } } ] },
+      { "skills": [ { "value": "pistol", "add": { "math": [ "u_effect_intensity('effect_burned_books')" ] } } ] },
+      { "skills": [ { "value": "rifle", "add": { "math": [ "u_effect_intensity('effect_burned_books')" ] } } ] },
+      { "skills": [ { "value": "shotgun", "add": { "math": [ "u_effect_intensity('effect_burned_books')" ] } } ] },
+      { "skills": [ { "value": "smg", "add": { "math": [ "u_effect_intensity('effect_burned_books')" ] } } ] },
+      { "skills": [ { "value": "throw", "add": { "math": [ "u_effect_intensity('effect_burned_books')" ] } } ] },
+      { "skills": [ { "value": "melee", "add": { "math": [ "u_effect_intensity('effect_burned_books')" ] } } ] },
+      { "skills": [ { "value": "bashing", "add": { "math": [ "u_effect_intensity('effect_burned_books')" ] } } ] },
+      { "skills": [ { "value": "cutting", "add": { "math": [ "u_effect_intensity('effect_burned_books')" ] } } ] },
+      { "skills": [ { "value": "dodge", "add": { "math": [ "u_effect_intensity('effect_burned_books')" ] } } ] },
+      { "skills": [ { "value": "stabbing", "add": { "math": [ "u_effect_intensity('effect_burned_books')" ] } } ] },
+      { "skills": [ { "value": "unarmed", "add": { "math": [ "u_effect_intensity('effect_burned_books')" ] } } ] },
+      { "skills": [ { "value": "chemistry", "add": { "math": [ "u_effect_intensity('effect_burned_books')" ] } } ] }
+    ]
   }
 ]

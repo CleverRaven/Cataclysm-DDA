@@ -4285,5 +4285,38 @@
     "name": [ "Orbiting Calories" ],
     "desc": [ [ "Your calories are stored through the most efficient storage ever conceived.", "good" ] ],
     "remove_message": [ [ "Your orbiting calories dissipate as the bionic powers down.", "bad" ] ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_burned_books",
+    "name": [
+      "Informed by your Buddy",
+      "Fiercely Informed by your Buddy",
+      "Over-Informed by your Buddy",
+      "Saturated memory",
+      "Expanded-Expended Memory",
+      "Engorged Memory",
+      "Simulated Smarts",
+      "Overflowing with Information",
+      "False Knower",
+      "The Burner and the Buddy"
+    ],
+    "desc": [
+      "Slightly obstructive strands of information wander through your mind.  You might find a use for some of them.",
+      "You know more things, despite your impression of learning more slowly than before.",
+      "No matter what book you burn, your buddy rewards you with fleeting, false knowledge.",
+      "New knowledge is harder to acquire, but you hold much more of it.",
+      "With each new book burned, your mind both expands and tightens.",
+      "Like an overstuffed room, your memory is filled enough that it has little room for new things.",
+      "The amount of trivia you know will hopefully counterbalance your impaired ability to gain knowledge.",
+      "You know so many things now, a shame you struggle to learn more without your buddy helping you.",
+      "You struggle to remember what you did minutes ago, but you hold more knowledge in your head than an entire library holds in its books.",
+      "No new knowledge can enter your mind, but this is no matter for your buddy keeps it filled to the brim with information."
+    ],
+    "apply_message": "Information fills your mind!",
+    "remove_message": "The false knowledge fully exits your mind.",
+    "decay_messages": [ [ "You know less things than before, but you find it easier to learn." ] ],
+    "max_intensity": 10,
+    "rating": "mixed"
   }
 ]

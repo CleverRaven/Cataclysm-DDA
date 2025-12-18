@@ -135,5 +135,48 @@
       { "u_message": "Some of your brillance is converted into electricity.", "type": "info" }
     ],
     "false_effect": [ { "u_message": "Your creativity isn't potent enough to be converted to electricity.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_bio_inventor_book_burn_boost_activated",
+    "//": "Consumes all selected books to increase the vitamin based on how many were consumed.  The higher the vitamin, the higher the effect and depletion rate.",
+    "effect": [
+      { "math": [ "u_amount_of_burned_books = 0" ] },
+      {
+        "u_run_inv_eocs": "manual_mult",
+        "search_data": [ { "category": "manuals" }, { "category": "ma_manuals" }, { "category": "books" } ],
+        "true_eocs": [
+          {
+            "id": "EOC_bio_inventor_book_burn_boost_start",
+            "effect": [ { "math": [ "u_amount_of_burned_books++" ] }, "npc_die" ]
+          }
+        ],
+        "false_eocs": [
+          {
+            "id": "EOC_bio_inventor_book_burn_boost_fail",
+            "effect": [ { "u_message": "The buddy needs books to burn!", "type": "bad" } ]
+          }
+        ]
+      },
+      { "run_eocs": "EOC_bio_inventor_book_burn_boost_vitamin_gain" }
+    ]
+  },
+  {
+    "id": "EOC_bio_inventor_book_burn_boost_vitamin_gain",
+    "type": "effect_on_condition",
+    "condition": { "math": [ "u_amount_of_burned_books > 0" ] },
+    "effect": [
+      { "math": [ "u_vitamin('burned_books')  += u_amount_of_burned_books" ] },
+      { "u_message": "Your mind fills with information as the books burn!", "type": "good" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_bio_inventor_book_burn_boost_vitamin_drain",
+    "recurrence": [
+      { "math": [ "660 - (u_effect_intensity('effect_burned_books') * 60)" ] },
+      { "math": [ "660 - (u_effect_intensity('effect_burned_books') * 60)" ] }
+    ],
+    "effect": [ { "math": [ "u_vitamin('burned_books')--" ] } ]
   }
 ]
