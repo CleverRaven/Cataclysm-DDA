@@ -217,5 +217,66 @@
       }
     },
     "description": "Builders and merchants of magical wonders.  They expect to weather this Cataclysm through trade and innovation.  They will take any coin from any land."
+  },
+  {
+    "type": "faction",
+    "id": "druid_master_shifter",
+    "name": "Shifter's Camp",
+    "likes_u": 5,
+    "respects_u": 5,
+    "known_by_u": false,
+    "size": 1,
+    "power": 50,
+    "//": "90 days worth of food for 1 person, at 3000kcal/day and full RDA of iron/calcium/vitC",
+    "fac_food_supply": [ [ 0, { "calories": 270000000, "vitamins": { "iron": 8640, "calcium": 8640, "vitC": 8640 } } ] ],
+    "wealth": 1000,
+    "relations": {
+      "lobby_beggars": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": false,
+        "defends your space": false,
+        "knows your voice": true
+      },
+      "free_merchants": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": false,
+        "defends your space": false,
+        "knows your voice": true
+      },
+      "old_guard": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": false,
+        "defends your space": false,
+        "knows your voice": true
+      },
+      "no_faction": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": false,
+        "defends your space": false,
+        "knows your voice": true
+      },
+      "wasteland_scavengers": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": false,
+        "defends your space": false,
+        "knows your voice": true
+      }
+    },
+    "description": "A master shapeshifter, surviving alone in the wilderness."
   }
 ]
