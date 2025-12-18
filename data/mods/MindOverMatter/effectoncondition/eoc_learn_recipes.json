@@ -1323,6 +1323,10 @@
       {
         "if": { "math": [ "u_spell_level('telepathic_blast_knack') >= 1" ] },
         "then": { "u_learn_recipe": "practice_telepathic_blast_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('vita_banish_illness_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_vita_banish_illness_knack" }
       }
     ]
   },

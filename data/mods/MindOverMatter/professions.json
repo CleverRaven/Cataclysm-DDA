@@ -54,7 +54,8 @@
       "knack_vita_health_power",
       "knack_vita_concentrated_healing",
       "knack_vita_remove_poison",
-      "knack_vita_cure_disease"
+      "knack_vita_cure_disease",
+      "knack_vita_banish_illness"
     ],
     "chargen_allow_npc": false
   },
@@ -133,7 +134,8 @@
       "knack_vita_health_power",
       "knack_vita_concentrated_healing",
       "knack_vita_remove_poison",
-      "knack_vita_cure_disease"
+      "knack_vita_cure_disease",
+      "knack_vita_banish_illness"
     ],
     "chargen_allow_npc": false
   },
@@ -209,7 +211,8 @@
       "knack_vita_health_power",
       "knack_vita_concentrated_healing",
       "knack_vita_remove_poison",
-      "knack_vita_cure_disease"
+      "knack_vita_cure_disease",
+      "knack_vita_banish_illness"
     ],
     "chargen_allow_npc": false
   },
@@ -293,7 +296,8 @@
       "knack_vita_health_power",
       "knack_vita_concentrated_healing",
       "knack_vita_remove_poison",
-      "knack_vita_cure_disease"
+      "knack_vita_cure_disease",
+      "knack_vita_banish_illness"
     ],
     "chargen_allow_npc": false
   },
@@ -366,7 +370,8 @@
       "knack_vita_health_power",
       "knack_vita_concentrated_healing",
       "knack_vita_remove_poison",
-      "knack_vita_cure_disease"
+      "knack_vita_cure_disease",
+      "knack_vita_banish_illness"
     ],
     "chargen_allow_npc": false
   },
@@ -432,7 +437,8 @@
       "knack_vita_health_power",
       "knack_vita_concentrated_healing",
       "knack_vita_remove_poison",
-      "knack_vita_cure_disease"
+      "knack_vita_cure_disease",
+      "knack_vita_banish_illness"
     ],
     "chargen_allow_npc": false
   },
@@ -532,7 +538,8 @@
       "knack_vita_health_power",
       "knack_vita_concentrated_healing",
       "knack_vita_remove_poison",
-      "knack_vita_cure_disease"
+      "knack_vita_cure_disease",
+      "knack_vita_banish_illness"
     ],
     "chargen_allow_npc": false
   },
@@ -607,7 +614,8 @@
       "knack_vita_health_power",
       "knack_vita_concentrated_healing",
       "knack_vita_remove_poison",
-      "knack_vita_cure_disease"
+      "knack_vita_cure_disease",
+      "knack_vita_banish_illness"
     ],
     "chargen_allow_npc": false
   },
@@ -701,7 +709,8 @@
       "knack_vita_health_power",
       "knack_vita_concentrated_healing",
       "knack_vita_remove_poison",
-      "knack_vita_cure_disease"
+      "knack_vita_cure_disease",
+      "knack_vita_banish_illness"
     ],
     "flags": [ "SCEN_ONLY" ],
     "chargen_allow_npc": false
@@ -772,7 +781,8 @@
       "knack_vita_health_power",
       "knack_vita_concentrated_healing",
       "knack_vita_remove_poison",
-      "knack_vita_cure_disease"
+      "knack_vita_cure_disease",
+      "knack_vita_banish_illness"
     ],
     "chargen_allow_npc": false
   },
@@ -902,7 +912,8 @@
       "knack_vita_health_power",
       "knack_vita_concentrated_healing",
       "knack_vita_remove_poison",
-      "knack_vita_cure_disease"
+      "knack_vita_cure_disease",
+      "knack_vita_banish_illness"
     ],
     "chargen_allow_npc": false
   },

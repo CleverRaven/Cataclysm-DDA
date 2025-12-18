@@ -82,7 +82,8 @@
       "knack_vita_health_power",
       "knack_vita_concentrated_healing",
       "knack_vita_remove_poison",
-      "knack_vita_cure_disease"
+      "knack_vita_cure_disease",
+      "knack_vita_banish_illness"
     ],
     "forced_traits": [ "PSYCHIC_KNACK", "PYROMANIA", "SCEN_HEART_OF_FIRE" ],
     "requirement": "mom_learn_torrential_channeling",

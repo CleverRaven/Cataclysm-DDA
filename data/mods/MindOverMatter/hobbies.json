@@ -870,5 +870,15 @@
     "points": 3,
     "traits": [ "PSYCHIC_KNACK" ],
     "spells": [ { "id": "vita_cure_disease_knack", "level": 6 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "knack_vita_banish_illness",
+    "name": "Psychic Knack (Banish Illness)",
+    "description": "Before the Cataclysm you had a talent for helping people recover from illnesses, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
+    "points": 5,
+    "traits": [ "PSYCHIC_KNACK" ],
+    "spells": [ { "id": "vita_banish_illness_knack", "level": 6 } ]
   }
 ]

@@ -243,5 +243,12 @@
     "type": "SPELL",
     "spell_class": "PSYCHIC_KNACK",
     "difficulty": { "math": [ "ceil(max( (u_spell_difficulty('vita_cure_disease') / 2), 1) )" ] }
+  },
+  {
+    "id": "vita_banish_illness_knack",
+    "copy-from": "vita_banish_illness",
+    "type": "SPELL",
+    "spell_class": "PSYCHIC_KNACK",
+    "difficulty": { "math": [ "ceil(max( (u_spell_difficulty('vita_banish_illness') / 2), 1) )" ] }
   }
 ]
