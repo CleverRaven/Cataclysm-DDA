@@ -2486,9 +2486,10 @@
     "type": "mutation",
     "id": "RESTRICTED",
     "name": { "str": "Restricted Genetics" },
-    "description": "Your genome has become an impregnable fortress to lesser genetic deviations.  You are no longer able to mutate traits that are outside of the Alpha category or regress to unremarkable humanity.  Any other mutations that you previously developed are safe for now.",
+    "description": "Your genome has become an impregnable fortress to lesser genetic deviations.  You are no longer able to mutate traits that are outside of the Alpha category nor regress to unremarkable humanity.  Any other mutations that you previously developed are safe for now.",
     "category": [ "ALPHA" ],
     "allowed_category": [ "ALPHA" ],
+    "prereqs": [ "RESISTANT_GENETICS" ],
     "cancels": [ "CHAOTIC_BAD", "ROBUST" ],
     "points": -3,
     "vitamin_cost": 160
