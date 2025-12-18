@@ -280,6 +280,6 @@
     "type": "jmath_function",
     "id": "jmath_telepathy_knacks_combined_level",
     "num_args": 0,
-    "return": "u_spell_level('telepathic_shield_knack') + u_spell_level('telepathic_mind_sense_knack') + u_spell_level('telepathic_morale_knack') + u_spell_level('telepathic_mesmerize_knack') + u_spell_level('telepathic_animal_mind_control_knack') + u_spell_level('telepathic_invisibility_knack')"
+    "return": "u_spell_level('telepathic_shield_knack') + u_spell_level('telepathic_mind_sense_knack') + u_spell_level('telepathic_morale_knack') + u_spell_level('telepathic_blast_knack') + u_spell_level('telepathic_mesmerize_knack') + u_spell_level('telepathic_animal_mind_control_knack') + u_spell_level('telepathic_invisibility_knack') + u_spell_level('telepathic_blast_radius_knack')"
   }
 ]
