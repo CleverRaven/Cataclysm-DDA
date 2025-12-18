@@ -1174,14 +1174,7 @@
     "faults": [ { "fault_group": "electronic_general" } ],
     "charges_per_use": 5,
     "charged_qualities": [ [ "CONCENTRATE", 1 ] ],
-    "use_action": [
-      { "type": "link_up", "cable_length": 2, "charge_rate": "400 W" },
-      {
-        "type": "effect_on_conditions",
-        "menu_text": "Analyze sample",
-        "effect_on_conditions": [ "EOC_use_centrifuge" ]
-      }
-    ],
+    "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "400 W" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -1192,6 +1185,24 @@
     ],
     "melee_damage": { "bash": 4 },
     "tool_ammo": [ "battery" ]
+  },
+  {
+    "id": "centrifuge",
+    "copy-from": "microcentrifuge",
+    "//": "based on https://www.eppendorf.com/ae-en/Products/Centrifugation/High-Speed-Centrifuges/High-Speed-Centrifuge-CR30NX-p-PF-923312",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "category": "tools",
+    "name": { "str": "centrifuge" },
+    "description": "A centrifuge, a liquid separating device with an automated analyzer unit.",
+    "weight": "310 kg",
+    "volume": "547 L",
+    "use_action": [
+      { "type": "link_up", "cable_length": 2, "charge_rate": "400 W" },
+      { "type": "deploy_furn", "furn_type": "f_centrifuge" }
+    ],
+    "pocket_data": [  ],
+    "tool_ammo": [  ]
   },
   {
     "id": "stopcock",

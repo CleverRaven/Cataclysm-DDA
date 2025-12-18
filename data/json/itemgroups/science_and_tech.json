@@ -640,8 +640,8 @@
   },
   {
     "type": "item_group",
-    "id": "human_zombie_blood_analysis_in_usb_drive",
-    "subtype": "collection",
-    "entries": [ { "item": "usb_drive", "contents-item": "software_blood_data" } ]
+    "id": "any_centrifuge",
+    "subtype": "distribution",
+    "items": [ [ "microcentrifuge", 1 ], [ "centrifuge", 1 ] ]
   }
 ]

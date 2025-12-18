@@ -242,45 +242,5 @@
     "type": "effect_on_condition",
     "id": "EOC_selector_cancel",
     "effect": { "u_message": "You changed your mind." }
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_use_centrifuge",
-    "effect": {
-      "title": "<color_red>(Any data present on the drive will be erased in the process, please remove any drive with data you want to keep from you inventory.)</color>",
-      "run_eoc_selector": [ "EOC_centrifuge_human_zombie_blood", "EOC_selector_cancel" ],
-      "names": [ "Analyze tainted human blood", "Cancel" ],
-      "hide_failing": true,
-      "allow_cancel": true
-    }
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_centrifuge_human_zombie_blood",
-    "condition": { "and": [ { "u_has_item": "blood_tainted_human" }, { "u_has_item": "usb_drive" } ] },
-    "effect": {
-      "u_run_inv_eocs": "random",
-      "search_data": [ { "id": "blood_tainted_human", "condition": { "not": "is_rotten" } } ],
-      "true_eocs": [
-        {
-          "id": "EOC_blood_fresh",
-          "effect": [
-            { "u_consume_item": "usb_drive" },
-            {
-              "u_spawn_item": "human_zombie_blood_analysis_in_usb_drive",
-              "use_item_group": true,
-              "flags": [ "BLOOD_ANALYSIS_KEY" ],
-              "suppress_message": true
-            },
-            {
-              "u_run_inv_eocs": "random",
-              "search_data": [ { "flags": "BLOOD_ANALYSIS_KEY" } ],
-              "true_eocs": [ { "id": "SET_BROWSED", "effect": { "set_browsed": true } } ]
-            }
-          ]
-        }
-      ],
-      "false_eocs": [ { "id": "EOC_blood_rotten", "effect": { "u_message": "The blood is too rotten to be analyzed." } } ]
-    }
   }
 ]

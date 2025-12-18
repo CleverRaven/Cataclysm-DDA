@@ -89,32 +89,34 @@
   {
     "id": "MISSION_SCIENCE_REP_1",
     "type": "mission_definition",
-    "name": { "str": "Analyze Zombie Blood" },
-    "description": "First, you need to find <color_light_blue>a zombie corpse</color> and extract the blood from it using the <color_light_blue>blood draw kit</color>.\nSecond, you need to deliver the blood to any working <color_light_blue>centrifuge</color>.  Equipment like this can most commonly be found at <color_light_blue>hospitals</color>, but you can also try to search for it at <color_light_blue>medical labs</color>.\nThird, <color_light_blue>use the centrifuge</color> to analyze the blood.  You'll need a <color_light_blue>USB drive</color> to copy the files to.\nWhen you're done, bring the data back to the <color_light_blue>Doctor</color>.",
-    "goal": "MGOAL_FIND_ITEM",
+    "name": { "str": "Procure a centrifuge" },
+    "description": "You need to bring me a <color_light_blue>centrifuge</color>, equipment like this can most commonly be found at <color_light_blue>hospitals</color>, but you can also try to search for it at <color_light_blue>medical labs</color> then bring it back to the <color_light_blue>Doctor</color>.",
+    "goal": "MGOAL_CONDITION",
+    "goal_condition": { "or": [ { "u_has_item": "microcentrifuge" }, { "u_has_item": "centrifuge" } ] },
     "difficulty": 5,
     "value": 50000,
-    "item": "software_blood_data",
-    "start": {
-      "effect": [ { "u_spawn_item": "vacutainer" }, { "u_spawn_item": "usb_drive" } ],
-      "assign_mission_target": { "om_terrain": "hospital_2", "reveal_radius": 3 }
-    },
+    "start": { "assign_mission_target": { "om_terrain": "hospital_2", "reveal_radius": 3 } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "followup": "MISSION_SCIENCE_REP_2",
     "dialogue": {
-      "describe": "It could be very informative to perform an analysis of zombie blood…",
-      "offer": "We don't have the equipment for real analysis here so it'll need to be done in the field.  I need you to get a fresh sample of zombie blood, take it to a hospital, and perform a centrifuge analysis of it.  I've been authorized to reward the completion of this job with 30 merch, a sizeable sum of the local currency.",
-      "accepted": "Excellent.  Take this blood draw kit; once you've found a zombie corpse, use it to extract blood from the body, then take it to a hospital for analysis.",
-      "rejected": "Are you sure?  The scientific value of that blood data could be priceless…",
-      "advice": "The centrifuge is a bit technical; you might want to study up on the usage of computers before completing that part.",
-      "inquire": "Well, do you have the data yet?",
+      "describe": "It could be very useful to be able to perform an analysis of zombie blood…",
+      "offer": "We don't have the equipment for real analysis here so I'll need you to bring me one.  I've been authorized to reward the completion of this job with 30 merch, a sizeable sum of the local currency.",
+      "accepted": "Excellent.  Here, I'll note the location of a hospital nearby, with some luck you should be able to find a centrifuge in working condition there.",
+      "rejected": "Are you sure?  The data we could extract with that equipment could be priceless…",
+      "advice": "Centrifuges can be a bit heavy; you might want to locate a smaller one if you can, it will be way easier to transport.",
+      "inquire": "Well, do you have the centrifuge yet?",
       "success": "Excellent!  This may be the key to removing the infection.",
-      "success_lie": "Wait, you couldn't possibly have the data!  Liar!",
-      "failure": "What a shame, that data could have proved invaluable…"
+      "success_lie": "Wait, you couldn't possibly have the centrifuge!  Liar!",
+      "failure": "What a shame, that equipment could have proved invaluable…"
     },
     "end": {
       "effect": [
+        {
+          "if": { "u_has_item": "centrifuge" },
+          "then": { "u_consume_item": "centrifuge" },
+          "else": { "u_consume_item": "microcentrifuge" }
+        },
         { "u_spawn_item": "FMCNote", "count": 30 },
         { "u_add_var": "proven_worth_to_old_guard_representative", "value": "yes" }
       ]
