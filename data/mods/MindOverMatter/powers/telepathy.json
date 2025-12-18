@@ -540,7 +540,7 @@
     },
     "min_aoe": {
       "math": [
-        "min( (( (u_spell_level('telepathic_blast_radius') * 1.1 ) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 40)"
+        "min( (( (u_spell_level('telepathic_blast_radius') * 1.2 ) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 40)"
       ]
     },
     "base_energy_cost": 7000,
