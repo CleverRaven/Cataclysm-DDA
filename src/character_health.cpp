@@ -162,6 +162,7 @@ static const json_character_flag json_flag_BIONIC_FAULTY( "BIONIC_FAULTY" );
 static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
 static const json_character_flag json_flag_BIONIC_SHOCKPROOF( "BIONIC_SHOCKPROOF" );
 static const json_character_flag json_flag_BLIND( "BLIND" );
+static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );
 static const json_character_flag json_flag_CANNOT_TAKE_DAMAGE( "CANNOT_TAKE_DAMAGE" );
 static const json_character_flag json_flag_DEAF( "DEAF" );
 static const json_character_flag json_flag_GRAB( "GRAB" );
@@ -170,6 +171,9 @@ static const json_character_flag json_flag_NO_BODY_HEAT( "NO_BODY_HEAT" );
 static const json_character_flag json_flag_NO_RADIATION( "NO_RADIATION" );
 static const json_character_flag json_flag_NO_THIRST( "NO_THIRST" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
+static const json_character_flag json_flag_PSYCHOPATH( "PSYCHOPATH" );
+static const json_character_flag json_flag_SAPIOVORE( "SAPIOVORE" );
+static const json_character_flag json_flag_SPIRITUAL( "SPIRITUAL" );
 static const json_character_flag json_flag_STOP_SLEEP_DEPRIVATION( "STOP_SLEEP_DEPRIVATION" );
 static const json_character_flag json_flag_WALK_UNDERWATER( "WALK_UNDERWATER" );
 static const json_character_flag json_flag_WATERWALKING( "WATERWALKING" );
@@ -179,6 +183,8 @@ static const limb_score_id limb_score_vision( "vision" );
 
 static const morale_type morale_cold( "morale_cold" );
 static const morale_type morale_hot( "morale_hot" );
+static const morale_type morale_killed_innocent( "morale_killed_innocent" );
+static const morale_type morale_killer_has_killed( "morale_killer_has_killed" );
 static const morale_type morale_pyromania_nofire( "morale_pyromania_nofire" );
 static const morale_type morale_pyromania_startfire( "morale_pyromania_startfire" );
 
@@ -203,6 +209,7 @@ static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_MASOCHIST( "MASOCHIST" );
 static const trait_id trait_M_SKIN3( "M_SKIN3" );
+static const trait_id trait_PACIFIST( "PACIFIST" );
 static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_ROOTS2( "ROOTS2" );
@@ -594,6 +601,46 @@ void Character::calc_discomfort()
     for( const bodypart_id &bp : worn.where_discomfort( *this ) ) {
         if( bp->feels_discomfort ) {
             add_effect( effect_chafing, 1_turns, bp, true, 1 );
+        }
+    }
+}
+
+void Character::apply_murder_penalties( Creature *victim )
+{
+    Character &player_character = get_player_character();
+    if( !victim || !victim->is_dead_state() || victim->get_killer() != &player_character ) {
+        return; // Nothing to do here
+    }
+    if( player_character.has_trait( trait_PACIFIST ) ) {
+        add_msg( _( "A cold shock of guilt washes over you." ) );
+        player_character.add_morale( morale_killer_has_killed, -15, 0, 1_days, 1_hours );
+    }
+    if( victim->as_npc() && victim->as_npc()->hit_by_player ) {
+        int morale_effect = -90;
+        // Just because you like eating people doesn't mean you love killing innocents
+        if( player_character.has_flag( json_flag_CANNIBAL ) && morale_effect < 0 ) {
+            morale_effect = std::min( 0, morale_effect + 50 );
+        } // Pacifists double dip on penalties if they kill an innocent
+        if( player_character.has_trait( trait_PACIFIST ) ) {
+            morale_effect -= 15;
+        }
+        if( player_character.has_flag( json_flag_PSYCHOPATH ) ||
+            player_character.has_flag( json_flag_SAPIOVORE ) ) {
+            morale_effect = 0;
+        } // only god can juge me
+        if( player_character.has_flag( json_flag_SPIRITUAL ) &&
+            !player_character.has_flag( json_flag_PSYCHOPATH ) &&
+            !player_character.has_flag( json_flag_SAPIOVORE ) ) {
+            add_msg( _( "You feel ashamed of your actions." ) );
+            morale_effect -= 10;
+        }
+        cata_assert( morale_effect <= 0 );
+        if( morale_effect == 0 ) {
+            // No morale effect
+        } else if( morale_effect <= -50 ) {
+            player_character.add_morale( morale_killed_innocent, morale_effect, 0, 14_days, 7_days );
+        } else if( morale_effect > -50 && morale_effect < 0 ) {
+            player_character.add_morale( morale_killed_innocent, morale_effect, 0, 10_days, 7_days );
         }
     }
 }
