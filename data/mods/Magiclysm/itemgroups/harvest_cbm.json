@@ -29,7 +29,7 @@
     "id": "feral_technomancer_CBM_harvest",
     "type": "item_group",
     "subtype": "collection",
-    "//": "Nothing combat-oriented, this was a civilian",
+    "//": "Not combat-oriented.  This was a civilian collection.",
     "entries": [
       {
         "distribution": [
@@ -92,7 +92,7 @@
     "id": "feral_high_technomancer_CBM_harvest",
     "type": "item_group",
     "subtype": "collection",
-    "//": "Nothing combat-oriented, this was a civilian",
+    "//": "Not combat-oriented.  This was a civilian collection.",
     "entries": [
       {
         "distribution": [
