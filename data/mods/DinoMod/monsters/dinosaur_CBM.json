@@ -517,7 +517,7 @@
     "luminance": 4,
     "special_attacks": [ { "id": "bio_op_takedown", "cooldown": 20 } ],
     "zombify_into": "mon_zachycephalosaurus_bio_op",
-    "description": "A small four legged dinosaur dotted with crackling bionics with a glowing beak and small horns",
+    "description": "A small four-legged dinosaur dotted with crackling bionics with a glowing beak and small horns",
     "special_when_hit": [ "ZAPBACK", 75 ],
     "dissect": "dissect_CBM_DINO"
   },
@@ -614,7 +614,7 @@
     "vision_day": 100,
     "luminance": 4,
     "special_attacks": [ { "id": "bio_op_takedown", "cooldown": 20 } ],
-    "description": "A feathered flying reptile with short wings dotted with crackling bionics and a colorful glowing beak.",
+    "description": "A feathered flying reptile dotted with crackling bionics with short wings and a colorful glowing beak.",
     "special_when_hit": [ "ZAPBACK", 75 ],
     "dissect": "dissect_CBM_DINO"
   }
