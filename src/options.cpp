@@ -1314,7 +1314,7 @@ std::vector<options_manager::id_and_option> options_manager::build_soundpacks_li
 
     // Select default built-in sound pack
     if( result.empty() ) {
-        result.emplace_back( "basic", to_translation( "Basic" ) );
+        result.emplace_back( "Menu_Sound_Test", to_translation( "Menu_Sound_Test" ) );
     }
     return result;
 }
