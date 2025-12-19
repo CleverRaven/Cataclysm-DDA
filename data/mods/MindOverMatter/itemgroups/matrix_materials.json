@@ -8,7 +8,7 @@
       { "group": "clairsentient_matrix_crystals_group", "prob": 10 },
       { "group": "electrokinetic_matrix_crystals_group", "prob": 10 },
       { "group": "photokinetic_matrix_crystals_group", "prob": 10 },
-      { "item": "matrix_crystal_pyrokinesis", "prob": 10 },
+      { "group": "pyrokinetic_matrix_crystals_group", "prob": 10 },
       { "item": "matrix_crystal_telekinesis", "prob": 10 },
       { "item": "matrix_crystal_telepathy", "prob": 10 },
       { "item": "matrix_crystal_teleportation", "prob": 10 },
@@ -26,7 +26,7 @@
       { "group": "clairsentient_matrix_crystals_group", "prob": 10 },
       { "group": "electrokinetic_matrix_crystals_group", "prob": 10 },
       { "group": "photokinetic_matrix_crystals_group", "prob": 10 },
-      { "item": "matrix_crystal_pyrokinesis", "prob": 10 },
+      { "group": "pyrokinetic_matrix_crystals_group", "prob": 10 },
       { "item": "matrix_crystal_telekinesis", "prob": 10 },
       { "item": "matrix_crystal_telepathy", "prob": 10 },
       { "item": "matrix_crystal_teleportation", "prob": 10 },
@@ -44,7 +44,7 @@
       { "group": "clairsentient_matrix_crystals_group", "prob": 1 },
       { "group": "electrokinetic_matrix_crystals_group", "prob": 1 },
       { "group": "photokinetic_matrix_crystals_group", "prob": 1 },
-      { "item": "matrix_crystal_pyrokinesis", "prob": 1 },
+      { "group": "pyrokinetic_matrix_crystals_group", "prob": 1 },
       { "item": "matrix_crystal_telekinesis", "prob": 1 },
       { "item": "matrix_crystal_telepathy", "prob": 1 },
       { "item": "matrix_crystal_teleportation", "prob": 1 },
@@ -128,6 +128,15 @@
     "entries": [
       { "group": "photokinetic_crystal_awakening_artifact_procgen", "prob": 1 },
       { "group": "photokinetic_crystal_artifact_procgen", "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "pyrokinetic_matrix_crystals_group",
+    "entries": [
+      { "group": "pyrokinetic_crystal_awakening_artifact_procgen", "prob": 1 },
+      { "group": "pyrokinetic_crystal_artifact_procgen", "prob": 1 }
     ]
   },
   {
