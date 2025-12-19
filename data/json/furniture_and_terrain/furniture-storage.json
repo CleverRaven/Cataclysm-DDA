@@ -1119,18 +1119,22 @@
     },
     "examine_action": {
       "type": "effect_on_condition",
-      "effect_on_conditions": [{
-        "id": "eoc_pick_and_read_map",
-        "effect": [{
-          "u_map_run_item_eocs": "all",
-          "loc": { "context_val": "pos" },
-          "accessible": false,
-          "search_data": [ { "category": "maps" } ],
-          "title": "test",
-          "true_eocs": [ { "id": "EOC_ACTIVATE_MAP", "effect": [ { "u_activate": "reveal_map" } ] } ],
-          "false_eocs": [ { "id": "EOC_NO_MAP", "effect": [ { "u_message": "no map found" } ] } ]
-        }]
-      }]
+      "effect_on_conditions": [
+        {
+          "id": "eoc_pick_and_read_map",
+          "effect": [
+            {
+              "u_map_run_item_eocs": "all",
+              "loc": { "context_val": "pos" },
+              "accessible": false,
+              "search_data": [ { "category": "maps" } ],
+              "title": "test",
+              "true_eocs": [ { "id": "EOC_ACTIVATE_MAP", "effect": [ { "u_activate": "reveal_map" } ] } ],
+              "false_eocs": [ { "id": "EOC_NO_MAP", "effect": [ { "u_message": "no map found" } ] } ]
+            }
+          ]
+        }
+      ]
     },
     "bash": {
       "str_min": 6,
