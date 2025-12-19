@@ -391,6 +391,7 @@
     "category": "prof_druidic_shifting",
     "name": { "str": "Basis of Druidic Transformation" },
     "description": "As a druid, you have the innate potential to transform yourself into different animals.  You just need to study and master the techniques.",
+    "time_to_learn": "1 h",
     "can_learn": true
   },
   {
@@ -400,7 +401,9 @@
     "name": { "str": "Form Mastery (Forest King)" },
     "description": "You've mastered the art of transforming yourself into a bear.",
     "can_learn": true,
-    "time_to_learn": "10 h",
+    "time_to_learn": "16 h",
+    "default_time_multiplier": 1,
+    "default_skill_penalty": 0.1,
     "required_proficiencies": [ "prof_druid_basis_of_transformation" ]
   },
   {
@@ -410,7 +413,9 @@
     "name": { "str": "Form Mastery (Stalking Hunter)" },
     "description": "You've mastered the art of transforming yourself into a cougar.",
     "can_learn": true,
-    "time_to_learn": "10 h",
+    "time_to_learn": "16 h",
+    "default_time_multiplier": 1,
+    "default_skill_penalty": 0.1,
     "required_proficiencies": [ "prof_druid_basis_of_transformation" ]
   },
   {
@@ -420,7 +425,9 @@
     "name": { "str": "Form Mastery (Swift Runner)" },
     "description": "You've mastered the art of transforming yourself into a deer.",
     "can_learn": true,
-    "time_to_learn": "10 h",
+    "time_to_learn": "16 h",
+    "default_time_multiplier": 1,
+    "default_skill_penalty": 0.1,
     "required_proficiencies": [ "prof_druid_basis_of_transformation" ]
   },
   {
@@ -430,7 +437,9 @@
     "name": { "str": "Form Mastery (Soaring Wings)" },
     "description": "You've mastered the art of transforming yourself into a raven.",
     "can_learn": true,
-    "time_to_learn": "10 h",
+    "time_to_learn": "16 h",
+    "default_time_multiplier": 1,
+    "default_skill_penalty": 0.1,
     "required_proficiencies": [ "prof_druid_basis_of_transformation" ]
   }
 ]

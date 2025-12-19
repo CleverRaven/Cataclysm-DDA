@@ -10,9 +10,13 @@
     "skill_used": "spellcraft",
     "nested_category_data": [
       "prac_druidic_shapeshifting_bear",
+      "druidic_shapeshifting_bear_finalize",
       "prac_druidic_shapeshifting_cougar",
+      "druidic_shapeshifting_cougar_finalize",
       "prac_druidic_shapeshifting_deer",
-      "prac_druidic_shapeshifting_raven"
+      "druidic_shapeshifting_deer_finalize",
+      "prac_druidic_shapeshifting_raven",
+      "druidic_shapeshifting_raven_finalize"
     ],
     "difficulty": 5
   },
@@ -23,38 +27,39 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "shapeshifting (forest king)",
-    "description": "Practice the druidic art of shapeshifting into a bear.",
+    "description": "Practice the druidic art of shapeshifting into a bear.  Once you've mastered that, ",
     "skill_used": "spellcraft",
     "time": "1 h",
     "practice_data": { "min_difficulty": 0, "max_difficulty": 1, "skill_limit": 0 },
     "proficiencies": [ { "proficiency": "prof_druid_transformation_bear", "time_multiplier": 3, "skill_penalty": 0 } ],
     "book_learn": [ [ "druid_shapeshifting_learn_book_bear", 7 ] ],
-    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
-    "result_eocs": [ "EOC_DRUID_SHAPESHIFT_LEARN_BEAR" ]
+    "components": [ [ [ "crystallized_mana", 5 ] ] ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ]
   },
   {
-    "type": "effect_on_condition",
-    "id": "EOC_DRUID_SHAPESHIFT_LEARN_BEAR",
-    "condition": { "u_has_proficiency": "prof_druid_transformation_bear" },
-    "effect": [
+    "type": "recipe",
+    "activity_level": "EXTRA_EXERCISE",
+    "name": "ritual of the forest king",
+    "id": "druidic_shapeshifting_bear_finalize",
+    "description": "With your new mastery of transformation, finalize the attunement of the form of the forest king.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "spellcraft",
+    "difficulty": 7,
+    "time": "1 h",
+    "book_learn": [ [ "druid_shapeshifting_learn_book_bear", 7 ] ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "components": [ [ [ "skull_bear", 1 ] ], [ [ "crystallized_mana", 50 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_druid_transformation_bear", "required": true } ],
+    "result_eocs": [
       {
-        "if": { "not": { "u_has_trait": "DRUID_SHIFTER_BEAR_FORM" } },
-        "then": {
-          "if": { "and": [ { "u_has_item": "skull_bear" }, { "u_has_item": "crystallized_mana" } ] },
-          "then": [
-            { "u_consume_item": "skull_bear" },
-            { "u_consume_item": "crystallized_mana", "count": 50 },
-            { "u_add_trait": "DRUID_SHIFTER_BEAR_FORM" },
-            { "u_message": "You've successfully mastered the art of transforming into a bear.", "type": "good" },
-            { "u_activate_trait": "DRUID_SHIFTER_BEAR_FORM" }
-          ],
-          "else": [
-            {
-              "u_message": "You've mastered the basic principles of the forest king transformation.  Now you just need a bear skull and fifty crystallized mana to complete the attunement.",
-              "type": "neutral"
-            }
-          ]
-        }
+        "id": "EOC_DRUID_SHAPESHIFT_LEARN_BEAR",
+        "condition": { "not": { "u_has_trait": "DRUID_SHIFTER_BEAR_FORM" } },
+        "effect": [
+          { "u_add_trait": "DRUID_SHIFTER_BEAR_FORM" },
+          { "u_message": "You've successfully mastered the art of transforming into a bear.", "type": "good" },
+          { "u_activate_trait": "DRUID_SHIFTER_BEAR_FORM" }
+        ]
       }
     ]
   },
@@ -71,32 +76,33 @@
     "practice_data": { "min_difficulty": 0, "max_difficulty": 1, "skill_limit": 0 },
     "proficiencies": [ { "proficiency": "prof_druid_transformation_cougar", "time_multiplier": 3, "skill_penalty": 0 } ],
     "book_learn": [ [ "druid_shapeshifting_learn_book_cougar", 6 ] ],
-    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
-    "result_eocs": [ "EOC_DRUID_SHAPESHIFT_LEARN_COUGAR" ]
+    "components": [ [ [ "crystallized_mana", 3 ] ] ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ]
   },
   {
-    "type": "effect_on_condition",
-    "id": "EOC_DRUID_SHAPESHIFT_LEARN_COUGAR",
-    "condition": { "u_has_proficiency": "prof_druid_transformation_cougar" },
-    "effect": [
+    "type": "recipe",
+    "activity_level": "EXTRA_EXERCISE",
+    "name": "ritual of the stalking hunter",
+    "id": "druidic_shapeshifting_cougar_finalize",
+    "description": "With your new mastery of transformation, finalize the attunement of the form of the stalking hunter.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "spellcraft",
+    "difficulty": 6,
+    "time": "1 h",
+    "book_learn": [ [ "druid_shapeshifting_learn_book_cougar", 6 ] ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "components": [ [ [ "skull_cougar", 1 ] ], [ [ "crystallized_mana", 35 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_druid_transformation_cougar", "required": true } ],
+    "result_eocs": [
       {
-        "if": { "not": { "u_has_trait": "DRUID_SHIFTER_COUGAR_FORM" } },
-        "then": {
-          "if": { "and": [ { "u_has_item": "skull_cougar" }, { "u_has_item": "crystallized_mana", "count": 35 } ] },
-          "then": [
-            { "u_consume_item": "skull_cougar" },
-            { "u_consume_item": "crystallized_mana", "count": 35 },
-            { "u_add_trait": "DRUID_SHIFTER_COUGAR_FORM" },
-            { "u_message": "You've successfully mastered the art of transforming into a cougar.", "type": "good" },
-            { "u_activate_trait": "DRUID_SHIFTER_COUGAR_FORM" }
-          ],
-          "else": [
-            {
-              "u_message": "You've mastered the basic principles of the stalking hunter transformation.  Now you just need a cougar skull and thirty-five crystallized mana to complete the attunement.",
-              "type": "neutral"
-            }
-          ]
-        }
+        "id": "EOC_DRUID_SHAPESHIFT_LEARN_COUGAR",
+        "condition": { "not": { "u_has_trait": "DRUID_SHIFTER_COUGAR_FORM" } },
+        "effect": [
+          { "u_add_trait": "DRUID_SHIFTER_COUGAR_FORM" },
+          { "u_message": "You've successfully mastered the art of transforming into a cougar.", "type": "good" },
+          { "u_activate_trait": "DRUID_SHIFTER_COUGAR_FORM" }
+        ]
       }
     ]
   },
@@ -113,32 +119,33 @@
     "practice_data": { "min_difficulty": 0, "max_difficulty": 1, "skill_limit": 0 },
     "proficiencies": [ { "proficiency": "prof_druid_transformation_deer", "time_multiplier": 3, "skill_penalty": 0 } ],
     "book_learn": [ [ "druid_shapeshifting_learn_book_deer", 5 ] ],
-    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
-    "result_eocs": [ "EOC_DRUID_SHAPESHIFT_LEARN_DEER" ]
+    "components": [ [ [ "crystallized_mana", 2 ] ] ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ]
   },
   {
-    "type": "effect_on_condition",
-    "id": "EOC_DRUID_SHAPESHIFT_LEARN_DEER",
-    "condition": { "u_has_proficiency": "prof_druid_transformation_deer" },
-    "effect": [
+    "type": "recipe",
+    "activity_level": "EXTRA_EXERCISE",
+    "name": "ritual of the swift runner",
+    "id": "druidic_shapeshifting_deer_finalize",
+    "description": "With your new mastery of transformation, finalize the attunement of the form of the swift runner.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "spellcraft",
+    "difficulty": 5,
+    "time": "1 h",
+    "book_learn": [ [ "druid_shapeshifting_learn_book_deer", 5 ] ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "components": [ [ [ "skull_cervine", 1 ] ], [ [ "crystallized_mana", 25 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_druid_transformation_deer", "required": true } ],
+    "result_eocs": [
       {
-        "if": { "not": { "u_has_trait": "DRUID_SHIFTER_DEER_FORM" } },
-        "then": {
-          "if": { "and": [ { "u_has_item": "skull_cervine" }, { "u_has_item": "crystallized_mana", "count": 25 } ] },
-          "then": [
-            { "u_consume_item": "skull_cervine" },
-            { "u_consume_item": "crystallized_mana", "count": 25 },
-            { "u_add_trait": "DRUID_SHIFTER_DEER_FORM" },
-            { "u_message": "You've successfully mastered the art of transforming into a deer.", "type": "good" },
-            { "u_activate_trait": "DRUID_SHIFTER_DEER_FORM" }
-          ],
-          "else": [
-            {
-              "u_message": "You've mastered the basic principles of the swift runner transformation.  Now you just need a deer skull and twenty-five crystallized mana to complete the attunement.",
-              "type": "neutral"
-            }
-          ]
-        }
+        "id": "EOC_DRUID_SHAPESHIFT_LEARN_DEER",
+        "condition": { "not": { "u_has_trait": "DRUID_SHIFTER_DEER_FORM" } },
+        "effect": [
+          { "u_add_trait": "DRUID_SHIFTER_DEER_FORM" },
+          { "u_message": "You've successfully mastered the art of transforming into a deer.", "type": "good" },
+          { "u_activate_trait": "DRUID_SHIFTER_DEER_FORM" }
+        ]
       }
     ]
   },
@@ -155,32 +162,33 @@
     "practice_data": { "min_difficulty": 0, "max_difficulty": 1, "skill_limit": 0 },
     "proficiencies": [ { "proficiency": "prof_druid_transformation_raven", "time_multiplier": 3, "skill_penalty": 0 } ],
     "book_learn": [ [ "druid_shapeshifting_learn_book_raven", 7 ] ],
-    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
-    "result_eocs": [ "EOC_DRUID_SHAPESHIFT_LEARN_RAVEN" ]
+    "components": [ [ [ "crystallized_mana", 4 ] ] ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ]
   },
   {
-    "type": "effect_on_condition",
-    "id": "EOC_DRUID_SHAPESHIFT_LEARN_RAVEN",
-    "condition": { "u_has_proficiency": "prof_druid_transformation_raven" },
-    "effect": [
+    "type": "recipe",
+    "activity_level": "EXTRA_EXERCISE",
+    "name": "ritual of the soaring wings",
+    "id": "druidic_shapeshifting_raven_finalize",
+    "description": "With your new mastery of transformation, finalize the attunement of the form of the soaring wings.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "spellcraft",
+    "difficulty": 5,
+    "time": "1 h",
+    "book_learn": [ [ "druid_shapeshifting_learn_book_raven", 7 ] ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "components": [ [ [ "egg_raven", 6 ] ], [ [ "crystallized_mana", 40 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_druid_transformation_raven", "required": true } ],
+    "result_eocs": [
       {
-        "if": { "not": { "u_has_trait": "DRUID_SHIFTER_RAVEN_FORM" } },
-        "then": {
-          "if": { "and": [ { "u_has_item": "egg_raven", "count": 6 }, { "u_has_item": "crystallized_mana", "count": 40 } ] },
-          "then": [
-            { "u_consume_item": "egg_raven", "count": 6 },
-            { "u_consume_item": "crystallized_mana", "count": 40 },
-            { "u_add_trait": "DRUID_SHIFTER_RAVEN_FORM" },
-            { "u_message": "You've successfully mastered the art of transforming into a raven.", "type": "good" },
-            { "u_activate_trait": "DRUID_SHIFTER_RAVEN_FORM" }
-          ],
-          "else": [
-            {
-              "u_message": "You've mastered the basic principles of the soaring wings transformation.  Now you just need a deer skull and forty crystallized mana to complete the attunement.",
-              "type": "neutral"
-            }
-          ]
-        }
+        "id": "EOC_DRUID_SHAPESHIFT_LEARN_RAVEN",
+        "condition": { "not": { "u_has_trait": "DRUID_SHIFTER_RAVEN_FORM" } },
+        "effect": [
+          { "u_add_trait": "DRUID_SHIFTER_RAVEN_FORM" },
+          { "u_message": "You've successfully mastered the art of transforming into a raven.", "type": "good" },
+          { "u_activate_trait": "DRUID_SHIFTER_RAVEN_FORM" }
+        ]
       }
     ]
   }
