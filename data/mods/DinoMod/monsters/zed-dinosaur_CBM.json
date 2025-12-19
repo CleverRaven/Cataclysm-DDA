@@ -48,7 +48,7 @@
         "targeting_sound": "\"TARGET *zZzZzz* ACQUIRED.\"",
         "targeting_volume": 70,
         "ammo_type": "battery",
-        "no_ammo_sound": "*zZzzz*-TARGET ACQUIRED.  *beeeeeeeeep*.  OUT OF AMMO.-*zZzZ*"
+        "no_ammo_sound": "*zZzzz*-TARGET ACQUIRED.  *beeeeeeeeep*.  OUT OF AMMO.  -*zZzZ*"
       }
     ],
     "description": "A shiny finned dinosaur corpse covered with bloody armor and crackling bionics.  It shambles quickly as it hunts.  Is that a laser rifle on its head?",
@@ -191,7 +191,7 @@
       { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
       [ "tailsmash_DinoMod", 30 ]
     ],
-    "description": "The massive shuffling corpse of a four legged dinosaur with a long neck and tail.  The body is dotted with crackling bionics and has two rows of tall glowing spines down the neck and back.",
+    "description": "The massive shuffling corpse of a four-legged dinosaur with a long neck and tail.  The body is dotted with crackling bionics and has two rows of tall glowing spines down the neck and back.",
     "special_when_hit": [ "ZAPBACK", 75 ],
     "upgrades": false,
     "dissect": "dissect_CBM_DINO"
