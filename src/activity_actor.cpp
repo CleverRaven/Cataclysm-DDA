@@ -146,6 +146,8 @@ static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 static const activity_id ACT_FISH( "ACT_FISH" );
 static const activity_id ACT_FORAGE( "ACT_FORAGE" );
 static const activity_id ACT_FURNITURE_MOVE( "ACT_FURNITURE_MOVE" );
+static const activity_id ACT_GAME( "ACT_GAME" );
+static const activity_id ACT_GENERIC_GAME( "ACT_GENERIC_GAME" );
 static const activity_id ACT_GLIDE( "ACT_GLIDE" );
 static const activity_id ACT_GUNMOD_ADD( "ACT_GUNMOD_ADD" );
 static const activity_id ACT_GUNMOD_REMOVE( "ACT_GUNMOD_REMOVE" );
@@ -263,6 +265,7 @@ static const mongroup_id GROUP_FISH( "GROUP_FISH" );
 
 static const morale_type morale_book( "morale_book" );
 static const morale_type morale_feeling_good( "morale_feeling_good" );
+static const morale_type morale_game( "morale_game" );
 static const morale_type morale_haircut( "morale_haircut" );
 static const morale_type morale_play_with_pet( "morale_play_with_pet" );
 static const morale_type morale_shave( "morale_shave" );
@@ -9254,6 +9257,117 @@ std::unique_ptr<activity_actor> heat_activity_actor::deserialize( JsonValue &jsi
     return actor.clone();
 }
 
+void generic_entertainment_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = to_moves<int>( entertain_duration );
+    act.moves_left = act.moves_total;
+}
+
+void generic_entertainment_activity_actor::do_turn( player_activity &act, Character &who )
+{
+    // Consume battery charges for every minute spent playing
+    if( calendar::once_every( 1_minutes ) ) {
+        if( !!entertain_item ) {
+            item &game_item = *entertain_item;
+            int req = game_item.ammo_required();
+            bool fail = req > 0 && game_item.ammo_consume( req, tripoint_bub_ms::zero, &who ) == 0;
+            if( fail ) {
+                act.moves_left = 0;
+                if( who.is_avatar() ) {
+                    add_msg( m_info, _( "The %s runs out of batteries." ), game_item.tname() );
+                }
+                return;
+            }
+        }
+
+        int morale_bonus = get_morale_bonus();
+        int morale_bonus_max = get_morale_bonus_max();
+        const int entertain_player_count = entertain_players.size();
+        if( entertain_player_count > 1 ) {
+            // 1 friend -> x1.2,  2 friends -> x1.4,  3 friends -> x1.6  ...
+            float mod = std::sqrt( ( entertain_player_count * 0.5f ) + 0.5f ) + 0.2f;
+            morale_bonus = std::ceil( morale_bonus * mod );
+            // half mult for max bonus
+            mod = 1.f + ( mod - 1.f ) * 0.5f;
+            morale_bonus_max *= mod;
+        }
+        // Playing alone - 1 points/min, almost 2 hours to fill
+        who.add_morale( morale_game, morale_bonus, morale_bonus_max );
+    }
+}
+
+void generic_entertainment_activity_actor::finish( player_activity &act, Character &who )
+{
+    if( winner_index > -1 ) {
+
+        const Character *winner_character = g->critter_by_id<Character>( entertain_players[winner_index] );
+        const int entertain_player_count = entertain_players.size();
+        // Apply small morale bonus with diminishing returns for playing with friends
+        float mod = 1.f;
+        float acc = 0.4f;
+        for( int i = entertain_player_count; i > 0; i-- ) {
+            mod += acc;
+            acc *= acc;
+        }
+        if( winner_character != nullptr ) {
+            if( who.is_avatar() ) {
+                add_msg( m_good, _( "%s won!" ), winner_character->disp_name() );
+            }
+            // Extra for the winning player
+            if( winner_character->getID() == who.getID() ) {
+                mod *= 1.5f;
+            }
+        }
+
+        who.add_morale( morale_game, 4 * mod );
+    }
+    act.set_to_null();
+}
+
+void generic_entertainment_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "entertain_duration", entertain_duration );
+    jsout.member( "entertain_players", entertain_players );
+    jsout.member( "entertain_item", entertain_item );
+    jsout.member( "winner_index", winner_index );
+    jsout.end_object();
+}
+
+
+JsonObject generic_entertainment_activity_actor::deserialize_base( JsonValue &jsin )
+{
+    JsonObject data = jsin.get_object();
+    data.read( "entertain_duration", entertain_duration );
+    data.read( "entertain_players", entertain_players );
+    data.read( "entertain_item", entertain_item );
+    data.read( "winner_index", winner_index );
+    return data;
+}
+
+std::unique_ptr<activity_actor> tabletop_game_activity_actor::deserialize( JsonValue &jsin )
+{
+    tabletop_game_activity_actor actor;
+    actor.deserialize_base( jsin );
+    return actor.clone();
+}
+
+std::unique_ptr<activity_actor> portable_game_activity_actor::deserialize( JsonValue &jsin )
+{
+    portable_game_activity_actor actor;
+    actor.deserialize_base( jsin );
+    return actor.clone();
+}
+
+// Repurposing the activity's index to convey the number of friends participating
+std::string generic_entertainment_activity_actor::get_name() const
+{
+    if( entertain_players.size() > 1 ) {
+        return "gaming with friends";
+    }
+    return "gaming";
+}
+
 void wash_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_total = requirements.time;
@@ -9795,6 +9909,10 @@ void butchery_activity_actor::do_turn( player_activity &act, Character &you )
         // Uses max(1, ..) to prevent it going all the way to zero, which would stop the activity by the general `activity_actor` handling.
         // Instead, the checks for `bd.empty()` will make sure to stop the activity by explicitly setting it to zero.
         act.moves_left = std::max( 1, to_moves<int>( this_bd->time_to_butcher - this_bd->progress ) );
+
+        item &corpse_item = *this_bd->corpse;
+        corpse_item.set_var( butcher_progress_time_var(),
+                             to_turns<double>( calendar::turn - calendar::start_of_cataclysm ) );
     }
 }
 
@@ -10092,7 +10210,7 @@ bool zone_sort_activity_actor::stage_think( player_activity &act, Character &you
     return true;
 }
 
-void zone_sort_activity_actor::stage_do( player_activity &, Character &you )
+void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
 {
     const map &here = get_map();
     const zone_manager &mgr = zone_manager::get_manager();
@@ -10138,6 +10256,25 @@ void zone_sort_activity_actor::stage_do( player_activity &, Character &you )
         // out of moves, or unloaded item container was destroyed or prompted an activity restart
         if( !move_and_reset ) {
             return;
+        }
+
+        bool can_reach_any_dest = false;
+        for( const tripoint_abs_ms &possible_dest : dest_set ) {
+            const tripoint_bub_ms dest_bub = here.get_bub( possible_dest );
+            if( !zone_sorting::route_to_destination( you, act, dest_bub, stage ) ) {
+                continue; // Not a valid destination
+            }
+            // This is a separate statement so we can have specific messaging if this failure state is reached.
+            if( here.is_open_air( dest_bub ) ) {
+                you.add_msg_if_player( _( "You can't sort things into the air!" ) );
+                continue;
+            }
+            can_reach_any_dest = true;
+            break;
+        }
+
+        if( !can_reach_any_dest ) {
+            continue;
         }
 
         zone_sorting::move_item( you, vp, src_bub, dest_set, thisitem, num_processed );
@@ -10218,6 +10355,8 @@ deserialize_functions = {
     { ACT_FISH, &fish_activity_actor::deserialize },
     { ACT_FORAGE, &forage_activity_actor::deserialize },
     { ACT_FURNITURE_MOVE, &move_furniture_activity_actor::deserialize },
+    { ACT_GAME, &portable_game_activity_actor::deserialize },
+    { ACT_GENERIC_GAME, &tabletop_game_activity_actor::deserialize },
     { ACT_GLIDE, &glide_activity_actor::deserialize },
     { ACT_GUNMOD_ADD, &gunmod_add_activity_actor::deserialize },
     { ACT_GUNMOD_REMOVE, &gunmod_remove_activity_actor::deserialize },

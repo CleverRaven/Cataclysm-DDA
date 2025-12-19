@@ -233,6 +233,10 @@ void trade_ui::autobalance()
     int const sign = _cpane == _you ? -1 : 1;
     if( ( sign < 0 && _balance < 0 ) || ( sign > 0 && _balance > 0 ) ) {
         inventory_entry &entry = _panes[_cpane]->get_active_column().get_highlighted();
+        if( !entry.is_selectable() ) {
+            popup( _( "%s cannot be traded." ), entry.any_item()->tname() );
+            return;
+        }
         size_t const avail = entry.get_available_count() - entry.chosen_count;
         double const price = npc_trading::trading_price( *_parties[-_cpane + 1], *_parties[_cpane],
                              entry_t{ entry.any_item(), 1 } ) * sign;

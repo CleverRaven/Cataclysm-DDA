@@ -2250,6 +2250,92 @@ class vehicle_unfolding_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 };
 
+// Any entertainment action involving an item for a duration with one or more people
+class generic_entertainment_activity_actor : public activity_actor
+{
+    public:
+        generic_entertainment_activity_actor() = default;
+        explicit generic_entertainment_activity_actor(
+            time_duration entertain_duration,
+            const item_location &entertain_item,
+            const std::vector<character_id> &entertain_players,
+            int winner_index = -1 ) :
+            entertain_duration( entertain_duration ),
+            entertain_item( entertain_item ),
+            entertain_players( entertain_players ),
+            winner_index( winner_index ) {};
+
+        const activity_id &get_type() const override = 0;
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &, Character &who ) override;
+        void finish( player_activity &act, Character &who ) override;
+
+        std::string get_name() const;
+        virtual int get_morale_bonus() const = 0;
+        virtual int get_morale_bonus_max() const = 0;
+
+        std::unique_ptr<activity_actor> clone() const override = 0;
+
+        void serialize( JsonOut &jsout ) const override;
+        JsonObject deserialize_base( JsonValue &jsin );
+    private:
+        time_duration entertain_duration;
+        item_location entertain_item;
+        std::vector<character_id> entertain_players;
+        // index of player that won in `entertain_players`
+        int winner_index;
+};
+
+class portable_game_activity_actor : public generic_entertainment_activity_actor
+{
+    public:
+        using generic_entertainment_activity_actor::generic_entertainment_activity_actor;
+
+        const activity_id &get_type() const override {
+            static const activity_id ACT_GAME( "ACT_GAME" );
+            return ACT_GAME;
+        }
+
+        int get_morale_bonus() const override {
+            return 1;
+        };
+        int get_morale_bonus_max() const override {
+            return 100;
+        };
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<portable_game_activity_actor>( *this );
+        };
+
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+};
+
+// or otherwise non-portable game
+class tabletop_game_activity_actor : public generic_entertainment_activity_actor
+{
+    public:
+        using generic_entertainment_activity_actor::generic_entertainment_activity_actor;
+
+        const activity_id &get_type() const override {
+            static const activity_id ACT_GENERIC_GAME( "ACT_GENERIC_GAME" );
+            return ACT_GENERIC_GAME;
+        }
+
+        int get_morale_bonus() const override {
+            return 4;
+        };
+        int get_morale_bonus_max() const override {
+            return 60;
+        };
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<tabletop_game_activity_actor>( *this );
+        };
+
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+};
+
 class wash_activity_actor : public activity_actor
 {
     private:
@@ -2884,7 +2970,7 @@ class zone_sort_activity_actor : public zone_activity_actor
 
         void stage_init( player_activity &, Character &you ) override;
         bool stage_think( player_activity &act, Character &you ) override;
-        void stage_do( player_activity &, Character &you ) override;
+        void stage_do( player_activity &act, Character &you ) override;
 
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
