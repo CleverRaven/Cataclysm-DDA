@@ -53,7 +53,7 @@ static constexpr int triggers_task_index = max_buttons + max_sticks;
 static std::array<task_t, max_tasks> all_tasks;
 
 static int repeat_delay = 400;
-static int repeat_interval = 100;
+static int repeat_interval = 50;
 
 // SDL related stuff
 static SDL_TimerID timer_id;
@@ -67,7 +67,6 @@ static direction radial_right_last_dir = direction::NONE;
 static bool radial_left_open = false;
 static bool radial_right_open = false;
 static bool alt_modifier_held = false;
-static constexpr Uint32 fast_move_hold_ms = 200;
 
 static Uint32 timer_func( Uint32 interval, void * )
 {
@@ -301,7 +300,7 @@ bool handle_axis_event( SDL_Event &event )
                         // Move in selected direction
                         send_direction_movement();
                         // Schedule repeat for continuous movement
-                        schedule_task( task, now + fast_move_hold_ms, -1, 1 );
+                        schedule_task( task, now + repeat_delay, -1, 1 );
                     } else {
                         // No direction selected - send JOY_RT event (with ALT if held) and schedule repeat
                         int joy_code = alt_modifier_held ? get_alt_button( JOY_RT ) : JOY_RT;
@@ -396,61 +395,50 @@ bool handle_axis_event( SDL_Event &event )
 
                     // Cancel any existing repeat tasks when entering radial mode
                     cancel_task( stick_task );
-                } else if( i == 1 ) {
-                    // Right stick: Output num keys in menu, or joy directions in gameplay
-                    if( is_in_menu() ) {
-                        int num_key = direction_to_num_key( dir );
-                        if( num_key != -1 ) {
-                            send_input( num_key, input_event_t::keyboard_char );
-                            schedule_task( stick_task, now + repeat_delay, num_key, 1, input_event_t::keyboard_char );
-                        } else {
-                            cancel_task( stick_task );
+                } else {
+                    int joy_code = -1;
+                    input_event_t itype = input_event_t::gamepad;
+
+                    if( i == 0 ) {
+                        // Left stick (i=0) in menu: Map to arrow keys
+                        if( is_in_menu() ) {
+                            itype = input_event_t::keyboard_char;
+                            switch( dir ) {
+                                case direction::N: joy_code = KEY_UP;    break;
+                                case direction::E: joy_code = KEY_RIGHT; break;
+                                case direction::S: joy_code = KEY_DOWN;  break;
+                                case direction::W: joy_code = KEY_LEFT;  break;
+                                default: break;
+                            }
                         }
+                        // In gameplay, left stick only updates left_stick_dir (handled above)
                     } else {
-                        // Right stick (i=1) in gameplay: Map to stick JOY_R_* input code and schedule repeat
-                        int joy_code = -1;
-
-                        switch( dir ) {
-                            case direction::N:
-                                joy_code = JOY_R_UP;
-                                break;
-                            case direction::E:
-                                joy_code = JOY_R_RIGHT;
-                                break;
-                            case direction::S:
-                                joy_code = JOY_R_DOWN;
-                                break;
-                            case direction::W:
-                                joy_code = JOY_R_LEFT;
-                                break;
-                            case direction::NE:
-                                joy_code = JOY_R_RIGHTUP;
-                                break;
-                            case direction::SE:
-                                joy_code = JOY_R_RIGHTDOWN;
-                                break;
-                            case direction::SW:
-                                joy_code = JOY_R_LEFTDOWN;
-                                break;
-                            case direction::NW:
-                                joy_code = JOY_R_LEFTUP;
-                                break;
-                            case direction::NONE:
-                                // Cancel repeat when stick returns to neutral
-                                cancel_task( stick_task );
-                                break;
-                        }
-
-                        if( joy_code != -1 ) {
-                            send_input( joy_code );
-                            // Schedule repeat for held direction
-                            schedule_task( stick_task, now + repeat_delay, joy_code, 1 );
+                        // Right stick (i=1): Map to num keys in menu, or JOY_R_* in gameplay
+                        if( is_in_menu() ) {
+                            joy_code = direction_to_num_key( dir );
+                            itype = input_event_t::keyboard_char;
+                        } else {
+                            switch( dir ) {
+                                case direction::N:  joy_code = JOY_R_UP; break;
+                                case direction::NE: joy_code = JOY_R_RIGHTUP; break;
+                                case direction::E:  joy_code = JOY_R_RIGHT; break;
+                                case direction::SE: joy_code = JOY_R_RIGHTDOWN; break;
+                                case direction::S:  joy_code = JOY_R_DOWN; break;
+                                case direction::SW: joy_code = JOY_R_LEFTDOWN; break;
+                                case direction::W:  joy_code = JOY_R_LEFT; break;
+                                case direction::NW: joy_code = JOY_R_LEFTUP; break;
+                                default: break;
+                            }
                         }
                     }
-                } else {
-                    // Left stick (i == 0) and not in radial mode: No direct input or repeat.
-                    // It only updates left_stick_dir (handled above).
-                    cancel_task( stick_task );
+
+                    if( dir == direction::NONE || joy_code == -1 ) {
+                        cancel_task( stick_task );
+                    } else if( dir != old_dir ) {
+                        // Only send input and schedule repeat if direction changed.
+                        send_input( joy_code, itype );
+                        schedule_task( stick_task, now + repeat_delay, joy_code, 1, itype );
+                    }
                 }
             }
         }
