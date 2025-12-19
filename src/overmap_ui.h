@@ -106,6 +106,17 @@ void setup_cities_menu( uilist &cities_menu, std::vector<city> &cities_container
 std::optional<city> select_city( uilist &cities_menu, std::vector<city> &cities_container,
                                  bool random = false );
 
+void range_mark( const tripoint_abs_omt &origin, int range, bool add_notes = true,
+                 const std::string &message = "Y;X: MAX RANGE" );
+
+void line_mark(
+    const tripoint_abs_omt &origin, const tripoint_abs_omt &dest, bool add_notes = true,
+    const std::string &message = "R;X: PATH" );
+
+void path_mark(
+    const std::vector<tripoint_abs_omt> &note_pts, bool add_notes = true,
+    const std::string &message = "R;X: PATH" );
+
 void force_quit();
 } // namespace omap
 
