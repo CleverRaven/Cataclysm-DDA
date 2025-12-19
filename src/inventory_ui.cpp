@@ -2186,6 +2186,20 @@ void inventory_selector::add_map_items( const tripoint_bub_ms &target, bool add_
     }
 }
 
+void inventory_selector::add_inaccessible_map_items( const tripoint_bub_ms &target,
+        bool add_efiles )
+{
+    map &here = get_map();
+    if( !here.accessible_items( target ) ) {
+        map_stack items = here.i_at( target );
+        const std::string name = to_upper_case( here.name( target ) );
+        const item_category map_cat( name, no_translation( name ), translation(), 100 );
+        _add_map_items( target, map_cat, items, [target]( item & it ) {
+            return item_location( map_cursor( tripoint_bub_ms( target ) ), &it );
+        }, add_efiles );
+    }
+}
+
 void inventory_selector::add_vehicle_items( const tripoint_bub_ms &target, bool add_efiles )
 {
     const std::optional<vpart_reference> ovp = get_map().veh_at( target ).cargo();
