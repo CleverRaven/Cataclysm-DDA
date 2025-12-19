@@ -87,8 +87,6 @@
     "id": "druid_shapeshifting_learn_book_bear",
     "name": { "str": "Scroll of the Forest King", "str_pl": "Scrolls of the Forest King" },
     "description": "A list of the proper procedures and rituals to learn the druidic method of transformation into a bear.  Without the capability to use druidic magic, the formulae in here would be useless.",
-    "weight": "654 g",
-    "volume": "1250 ml",
     "price_postapoc": "30 USD"
   },
   {
@@ -98,8 +96,6 @@
     "id": "druid_shapeshifting_learn_book_cougar",
     "name": { "str": "Scroll of the Stalking Hunter", "str_pl": "Scrolls of the Stalking Hunter" },
     "description": "A list of the proper procedures and rituals to learn the druidic method of transformation into a cougar.  Without the capability to use druidic magic, the formulae in here would be useless.",
-    "weight": "654 g",
-    "volume": "1250 ml",
     "price_postapoc": "30 USD"
   },
   {
@@ -109,8 +105,6 @@
     "id": "druid_shapeshifting_learn_book_deer",
     "name": { "str": "Scroll of the Swift Runner", "str_pl": "Scrolls of the Swift Runner" },
     "description": "A list of the proper procedures and rituals to learn the druidic method of transformation into a deer.  Without the capability to use druidic magic, the formulae in here would be useless.",
-    "weight": "654 g",
-    "volume": "1250 ml",
     "price_postapoc": "30 USD"
   },
   {
@@ -120,8 +114,6 @@
     "id": "druid_shapeshifting_learn_book_raven",
     "name": { "str": "Scroll of the Soaring Wings", "str_pl": "Scrolls of the Soaring Wings" },
     "description": "A list of the proper procedures and rituals to learn the druidic method of transformation into a raven.  Without the capability to use druidic magic, the formulae in here would be useless.",
-    "weight": "654 g",
-    "volume": "1250 ml",
     "price_postapoc": "30 USD"
   }
 ]
