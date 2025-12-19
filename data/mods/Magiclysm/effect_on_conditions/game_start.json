@@ -33,22 +33,34 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_DRUID_SHIFTER_GIVE_FORM_BEAR",
-    "effect": [ { "u_add_trait": "DRUID_SHIFTER_BEAR_FORM" } ]
+    "effect": [
+      { "u_add_trait": "DRUID_SHIFTER_BEAR_FORM" },
+      { "math": [ "u_proficiency('prof_druid_transformation_bear', 'format': 'percent', 'direct': true) += 100" ] }
+    ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_DRUID_SHIFTER_GIVE_FORM_COUGAR",
-    "effect": [ { "u_add_trait": "DRUID_SHIFTER_COUGAR_FORM" } ]
+    "effect": [
+      { "u_add_trait": "DRUID_SHIFTER_COUGAR_FORM" },
+      { "math": [ "u_proficiency('prof_druid_transformation_cougar', 'format': 'percent', 'direct': true) += 100" ] }
+    ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_DRUID_SHIFTER_GIVE_FORM_DEER",
-    "effect": [ { "u_add_trait": "DRUID_SHIFTER_DEER_FORM" } ]
+    "effect": [
+      { "u_add_trait": "DRUID_SHIFTER_DEER_FORM" },
+      { "math": [ "u_proficiency('prof_druid_transformation_deer', 'format': 'percent', 'direct': true) += 100" ] }
+    ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_DRUID_SHIFTER_GIVE_FORM_RAVEN",
-    "effect": [ { "u_add_trait": "DRUID_SHIFTER_RAVEN_FORM" } ]
+    "effect": [
+      { "u_add_trait": "DRUID_SHIFTER_RAVEN_FORM" },
+      { "math": [ "u_proficiency('prof_druid_transformation_raven', 'format': 'percent', 'direct': true) += 100" ] }
+    ]
   },
   {
     "type": "effect_on_condition",
