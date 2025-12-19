@@ -67,7 +67,7 @@
       { "input_method": "keyboard_any", "key": "UP" },
       { "input_method": "keyboard_any", "key": "8" },
       { "input_method": "keyboard_code", "key": "KEYPAD_8" },
-      { "input_method": "gamepad", "key": "JOY_UP" }
+      { "input_method": "gamepad", "key": "JOY_L_UP" }
     ]
   },
   {
@@ -79,7 +79,7 @@
       { "input_method": "keyboard_any", "key": "DOWN" },
       { "input_method": "keyboard_any", "key": "2" },
       { "input_method": "keyboard_code", "key": "KEYPAD_2" },
-      { "input_method": "gamepad", "key": "JOY_DOWN" }
+      { "input_method": "gamepad", "key": "JOY_L_DOWN" }
     ]
   },
   {
@@ -91,7 +91,7 @@
       { "input_method": "keyboard_any", "key": "LEFT" },
       { "input_method": "keyboard_any", "key": "4" },
       { "input_method": "keyboard_code", "key": "KEYPAD_4" },
-      { "input_method": "gamepad", "key": "JOY_LEFT" }
+      { "input_method": "gamepad", "key": "JOY_L_LEFT" }
     ]
   },
   {
@@ -103,7 +103,7 @@
       { "input_method": "keyboard_any", "key": "RIGHT" },
       { "input_method": "keyboard_any", "key": "6" },
       { "input_method": "keyboard_code", "key": "KEYPAD_6" },
-      { "input_method": "gamepad", "key": "JOY_RIGHT" }
+      { "input_method": "gamepad", "key": "JOY_L_RIGHT" }
     ]
   },
   {
@@ -114,7 +114,7 @@
       { "input_method": "keyboard_any", "key": "y" },
       { "input_method": "keyboard_any", "key": "7" },
       { "input_method": "keyboard_code", "key": "KEYPAD_7" },
-      { "input_method": "gamepad", "key": "JOY_LEFTUP" }
+      { "input_method": "gamepad", "key": "JOY_L_LEFTUP" }
     ]
   },
   {
@@ -125,7 +125,7 @@
       { "input_method": "keyboard_any", "key": "u" },
       { "input_method": "keyboard_any", "key": "9" },
       { "input_method": "keyboard_code", "key": "KEYPAD_9" },
-      { "input_method": "gamepad", "key": "JOY_RIGHTUP" }
+      { "input_method": "gamepad", "key": "JOY_L_RIGHTUP" }
     ]
   },
   {
@@ -136,7 +136,7 @@
       { "input_method": "keyboard_any", "key": "b" },
       { "input_method": "keyboard_any", "key": "1" },
       { "input_method": "keyboard_code", "key": "KEYPAD_1" },
-      { "input_method": "gamepad", "key": "JOY_LEFTDOWN" }
+      { "input_method": "gamepad", "key": "JOY_L_LEFTDOWN" }
     ]
   },
   {
@@ -147,7 +147,7 @@
       { "input_method": "keyboard_any", "key": "n" },
       { "input_method": "keyboard_any", "key": "3" },
       { "input_method": "keyboard_code", "key": "KEYPAD_3" },
-      { "input_method": "gamepad", "key": "JOY_RIGHTDOWN" }
+      { "input_method": "gamepad", "key": "JOY_L_RIGHTDOWN" }
     ]
   },
   {
@@ -247,8 +247,7 @@
     "name": "Mark selected item",
     "bindings": [
       { "input_method": "keyboard_any", "key": "l" },
-      { "input_method": "keyboard_any", "key": "RIGHT" },
-      { "input_method": "gamepad", "key": "JOY_RIGHT" }
+      { "input_method": "keyboard_any", "key": "RIGHT" }
     ]
   },
   {
@@ -816,7 +815,8 @@
     "bindings": [
       { "input_method": "keyboard_any", "key": "PPAGE" },
       { "input_method": "keyboard_char", "key": "<" },
-      { "input_method": "keyboard_code", "key": ",", "mod": [ "shift" ] }
+      { "input_method": "keyboard_code", "key": ",", "mod": [ "shift" ] },
+      { "input_method": "gamepad", "key": "JOY_ALT_DPAD_UP" }
     ]
   },
   {
@@ -826,7 +826,8 @@
     "bindings": [
       { "input_method": "keyboard_any", "key": "NPAGE" },
       { "input_method": "keyboard_char", "key": ">" },
-      { "input_method": "keyboard_code", "key": ".", "mod": [ "shift" ] }
+      { "input_method": "keyboard_code", "key": ".", "mod": [ "shift" ] },
+      { "input_method": "gamepad", "key": "JOY_ALT_DPAD_DOWN" }
     ]
   },
   {
@@ -837,7 +838,8 @@
     "bindings": [
       { "input_method": "keyboard_any", "key": "=" },
       { "input_method": "keyboard_char", "key": "+" },
-      { "input_method": "keyboard_code", "key": "KEYPAD_PLUS" }
+      { "input_method": "keyboard_code", "key": "KEYPAD_PLUS" },
+      { "input_method": "gamepad", "key": "JOY_ALT_DPAD_RIGHT" }
     ]
   },
   {
@@ -845,7 +847,11 @@
     "id": "PREV",
     "category": "SOKOBAN",
     "name": "Previous level",
-    "bindings": [ { "input_method": "keyboard_any", "key": "-" }, { "input_method": "keyboard_code", "key": "KEYPAD_MINUS" } ]
+    "bindings": [ 
+      { "input_method": "keyboard_any", "key": "-" }, 
+      { "input_method": "keyboard_code", "key": "KEYPAD_MINUS" }, 
+      { "input_method": "gamepad", "key": "JOY_ALT_DPAD_LEFT" } 
+    ]
   },
   {
     "type": "keybinding",
@@ -1390,7 +1396,8 @@
       { "input_method": "keyboard_char", "key": "BACKTAB" },
       { "input_method": "keyboard_code", "key": "TAB", "mod": [ "shift" ] },
       { "input_method": "mouse", "key": "SCROLL_UP" },
-      { "input_method": "keyboard_any", "key": "PPAGE" }
+      { "input_method": "keyboard_any", "key": "PPAGE" },
+      { "input_method": "gamepad", "key": "JOY_LB" }
     ]
   },
   {
@@ -1401,7 +1408,8 @@
     "bindings": [
       { "input_method": "keyboard_any", "key": "TAB" },
       { "input_method": "mouse", "key": "SCROLL_DOWN" },
-      { "input_method": "keyboard_any", "key": "NPAGE" }
+      { "input_method": "keyboard_any", "key": "NPAGE" },
+      { "input_method": "gamepad", "key": "JOY_RB" }
     ]
   },
   {
@@ -1413,7 +1421,8 @@
       { "input_method": "keyboard_any", "key": "." },
       { "input_method": "keyboard_code", "key": "KEYPAD_PERIOD" },
       { "input_method": "keyboard_any", "key": "5" },
-      { "input_method": "keyboard_code", "key": "KEYPAD_5" }
+      { "input_method": "keyboard_code", "key": "KEYPAD_5" },
+      { "input_method": "gamepad", "key": "JOY_RT" }
     ]
   },
   {
@@ -1428,28 +1437,28 @@
     "id": "AIMED_SHOT",
     "category": "TARGET",
     "name": "Aimed shot",
-    "bindings": [ { "input_method": "keyboard_any", "key": "a" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "a" }, { "input_method": "gamepad", "key": "JOY_ALT_A" } ]
   },
   {
     "type": "keybinding",
     "id": "CAREFUL_SHOT",
     "category": "TARGET",
     "name": "Careful shot",
-    "bindings": [ { "input_method": "keyboard_any", "key": "c" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "c" }, { "input_method": "gamepad", "key": "JOY_X" } ]
   },
   {
     "type": "keybinding",
     "id": "PRECISE_SHOT",
     "category": "TARGET",
     "name": "Precise shot",
-    "bindings": [ { "input_method": "keyboard_any", "key": "p" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "p" }, { "input_method": "gamepad", "key": "JOY_ALT_X" } ]
   },
   {
     "type": "keybinding",
     "id": "SWITCH_AMMO",
     "category": "TARGET",
     "name": "Switch ammo",
-    "bindings": [ { "input_method": "keyboard_any", "key": "o" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "o" }, { "input_method": "gamepad", "key": "JOY_ALT_LB" } ]
   },
   {
     "type": "keybinding",
@@ -1459,7 +1468,8 @@
     "bindings": [
       { "input_method": "keyboard_any", "key": "s" },
       { "input_method": "keyboard_char", "key": "F" },
-      { "input_method": "keyboard_code", "key": "f", "mod": [ "shift" ] }
+      { "input_method": "keyboard_code", "key": "f", "mod": [ "shift" ] },
+      { "input_method": "gamepad", "key": "JOY_Y" }
     ]
   },
   {
@@ -1536,7 +1546,7 @@
     "type": "keybinding",
     "id": "NEXT_TAB",
     "name": "Go to next tab",
-    "bindings": [ { "input_method": "keyboard_any", "key": "TAB" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "TAB" }, { "input_method": "gamepad", "key": "JOY_RB" } ]
   },
   {
     "type": "keybinding",
@@ -1544,7 +1554,8 @@
     "name": "Go to previous tab",
     "bindings": [
       { "input_method": "keyboard_char", "key": "BACKTAB" },
-      { "input_method": "keyboard_code", "key": "TAB", "mod": [ "shift" ] }
+      { "input_method": "keyboard_code", "key": "TAB", "mod": [ "shift" ] },
+      { "input_method": "gamepad", "key": "JOY_LB" }
     ]
   },
   {
@@ -1557,7 +1568,7 @@
     "type": "keybinding",
     "id": "EXTENDED_DESCRIPTION",
     "name": "Show extended description",
-    "bindings": [ { "input_method": "keyboard_any", "key": "e" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "e" }, { "input_method": "gamepad", "key": "JOY_RS" } ]
   },
   {
     "type": "keybinding",
@@ -1606,7 +1617,11 @@
     "type": "keybinding",
     "id": "MEDICAL_MENU",
     "name": "Open medical menu",
-    "bindings": [ { "input_method": "keyboard_char", "key": "@" }, { "input_method": "keyboard_code", "key": "2", "mod": [ "shift" ] } ]
+    "bindings": [ 
+      { "input_method": "keyboard_char", "key": "@" }, 
+      { "input_method": "keyboard_code", "key": "2", "mod": [ "shift" ] },
+      { "input_method": "gamepad", "key": "JOY_RADIAL_R_NE" }
+     ]
   },
   {
     "type": "keybinding",
@@ -2199,28 +2214,32 @@
     "id": "EXAMINE",
     "category": "INVENTORY",
     "name": "Examine",
-    "bindings": [ { "input_method": "keyboard_any", "key": "e" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "e" }, { "input_method": "gamepad", "key": "JOY_RS" } ]
   },
   {
     "type": "keybinding",
     "id": "WIELD",
     "category": "INVENTORY",
     "name": "Wield",
-    "bindings": [ { "input_method": "keyboard_any", "key": "w" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "w" }, { "input_method": "gamepad", "key": "JOY_X" } ]
   },
   {
     "type": "keybinding",
     "id": "WEAR",
     "category": "INVENTORY",
     "name": "Wear",
-    "bindings": [ { "input_method": "keyboard_char", "key": "W" }, { "input_method": "keyboard_code", "key": "w", "mod": [ "shift" ] } ]
+    "bindings": [ 
+      { "input_method": "keyboard_char", "key": "W" }, 
+      { "input_method": "keyboard_code", "key": "w", "mod": [ "shift" ] },
+      { "input_method": "gamepad", "key": "JOY_Y" }
+   ]
   },
   {
     "type": "keybinding",
     "id": "EXAMINE_CONTENTS",
     "category": "INVENTORY",
     "name": "Examine contents",
-    "bindings": [ { "input_method": "keyboard_any", "key": "o" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "o" }, { "input_method": "gamepad", "key": "JOY_Y" } ]
   },
   {
     "type": "keybinding",
@@ -2346,7 +2365,7 @@
       { "input_method": "keyboard_code", "key": "KEYPAD_PERIOD" },
       { "input_method": "keyboard_any", "key": "5" },
       { "input_method": "keyboard_code", "key": "KEYPAD_5" },
-      { "input_method": "gamepad", "key": "JOY_7" }
+      { "input_method": "gamepad", "key": "JOY_RT" }
     ]
   },
   {
@@ -2365,35 +2384,35 @@
     "name": "Center view",
     "category": "DEFAULTMODE",
     "id": "center",
-    "bindings": [ { "input_method": "gamepad", "key": "JOY_8" } ]
+    "bindings": [ ]
   },
   {
     "type": "keybinding",
     "name": "Move view north",
     "category": "DEFAULTMODE",
     "id": "shift_n",
-    "bindings": [ { "input_method": "gamepad", "key": "JOY_21" } ]
+    "bindings": [ { "input_method": "gamepad", "key": "JOY_R_UP" } ]
   },
   {
     "type": "keybinding",
     "name": "Move view east",
     "category": "DEFAULTMODE",
     "id": "shift_e",
-    "bindings": [ { "input_method": "gamepad", "key": "JOY_22" } ]
+    "bindings": [ { "input_method": "gamepad", "key": "JOY_R_RIGHT" } ]
   },
   {
     "type": "keybinding",
     "name": "Move view south",
     "category": "DEFAULTMODE",
     "id": "shift_s",
-    "bindings": [ { "input_method": "gamepad", "key": "JOY_23" } ]
+    "bindings": [ { "input_method": "gamepad", "key": "JOY_R_DOWN" } ]
   },
   {
     "type": "keybinding",
     "name": "Move view west",
     "category": "DEFAULTMODE",
     "id": "shift_w",
-    "bindings": [ { "input_method": "gamepad", "key": "JOY_24" } ]
+    "bindings": [ { "input_method": "gamepad", "key": "JOY_R_LEFT" } ]
   },
   {
     "type": "keybinding",
@@ -2414,7 +2433,7 @@
     "name": "Smash nearby terrain",
     "category": "DEFAULTMODE",
     "id": "smash",
-    "bindings": [ { "input_method": "keyboard_any", "key": "s" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "s" }, { "input_method": "gamepad", "key": "JOY_ALT_X" } ]
   },
   {
     "type": "keybinding",
@@ -2428,14 +2447,18 @@
     "name": "Examine nearby terrain, furniture, and items",
     "category": "DEFAULTMODE",
     "id": "examine_and_pickup",
-    "bindings": [ { "input_method": "gamepad", "key": "JOY_2" } ]
+    "bindings": [ { "input_method": "gamepad", "key": "JOY_X" } ]
   },
   {
     "type": "keybinding",
     "name": "Advanced Inventory Manager",
     "category": "DEFAULTMODE",
     "id": "advinv",
-    "bindings": [ { "input_method": "keyboard_any", "key": "/" }, { "input_method": "keyboard_code", "key": "KEYPAD_DIVIDE" } ]
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "/" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_DIVIDE" },
+      { "input_method": "gamepad", "key": "JOY_RADIAL_R_SE" }
+    ]
   },
   {
     "type": "keybinding",
@@ -2455,14 +2478,18 @@
     "name": "Grab something nearby",
     "category": "DEFAULTMODE",
     "id": "grab",
-    "bindings": [ { "input_method": "keyboard_char", "key": "G" }, { "input_method": "keyboard_code", "key": "g", "mod": [ "shift" ] } ]
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "G" },
+      { "input_method": "keyboard_code", "key": "g", "mod": [ "shift" ] },
+      { "input_method": "gamepad", "key": "JOY_B" }
+    ]
   },
   {
     "type": "keybinding",
     "name": "Haul items along the ground",
     "category": "DEFAULTMODE",
     "id": "haul",
-    "bindings": [ { "input_method": "keyboard_any", "key": "\\" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "\\" }, { "input_method": "gamepad", "key": "JOY_ALT_B" } ]
   },
   {
     "type": "keybinding",
@@ -2482,7 +2509,7 @@
     "name": "Butcher",
     "category": "DEFAULTMODE",
     "id": "butcher",
-    "bindings": [ { "input_method": "keyboard_char", "key": "B" }, { "input_method": "keyboard_code", "key": "b", "mod": [ "shift" ] } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": "B" }, { "input_method": "keyboard_code", "key": "b", "mod": [ "shift" ] }, { "input_method": "gamepad", "key": "JOY_RADIAL_L_E" } ]
   },
   {
     "type": "keybinding",
@@ -2498,8 +2525,7 @@
     "id": "look",
     "bindings": [
       { "input_method": "keyboard_any", "key": ";" },
-      { "input_method": "keyboard_any", "key": "x" },
-      { "input_method": "gamepad", "key": "JOY_0" }
+      { "input_method": "keyboard_any", "key": "x" }
     ]
   },
   {
@@ -2513,14 +2539,18 @@
     "name": "Peek around corners",
     "category": "DEFAULTMODE",
     "id": "peek",
-    "bindings": [ { "input_method": "keyboard_char", "key": "X" }, { "input_method": "keyboard_code", "key": "x", "mod": [ "shift" ] } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": "X" }, { "input_method": "keyboard_code", "key": "x", "mod": [ "shift" ] }, { "input_method": "gamepad", "key": "JOY_ALT_RS" } ]
   },
   {
     "type": "keybinding",
     "name": "List all items around the player",
     "category": "DEFAULTMODE",
     "id": "listitems",
-    "bindings": [ { "input_method": "keyboard_char", "key": "V" }, { "input_method": "keyboard_code", "key": "v", "mod": [ "shift" ] } ]
+    "bindings": [ 
+      { "input_method": "keyboard_char", "key": "V" }, 
+      { "input_method": "keyboard_code", "key": "v", "mod": [ "shift" ] },
+      { "input_method": "gamepad", "key": "JOY_RS" }
+    ]
   },
   {
     "type": "keybinding",
@@ -2534,14 +2564,17 @@
     "name": "Open inventory",
     "category": "DEFAULTMODE",
     "id": "inventory",
-    "bindings": [ { "input_method": "keyboard_any", "key": "i" }, { "input_method": "gamepad", "key": "JOY_5" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "i" }, { "input_method": "gamepad", "key": "JOY_RADIAL_R_S" } ]
   },
   {
     "type": "keybinding",
     "name": "Compare two items",
     "category": "DEFAULTMODE",
     "id": "compare",
-    "bindings": [ { "input_method": "keyboard_char", "key": "I" }, { "input_method": "keyboard_code", "key": "i", "mod": [ "shift" ] } ]
+    "bindings": [ 
+      { "input_method": "keyboard_char", "key": "I" }, 
+      { "input_method": "keyboard_code", "key": "i", "mod": [ "shift" ] }
+    ]
   },
   {
     "type": "keybinding",
@@ -2562,28 +2595,44 @@
     "name": "Use wielded item",
     "category": "DEFAULTMODE",
     "id": "apply_wielded",
-    "bindings": [ { "input_method": "keyboard_char", "key": "A" }, { "input_method": "keyboard_code", "key": "a", "mod": [ "shift" ] } ]
+    "bindings": [ 
+      { "input_method": "keyboard_char", "key": "A" }, 
+      { "input_method": "keyboard_code", "key": "a", "mod": [ "shift" ] },
+      { "input_method": "gamepad", "key": "JOY_ALT_DPAD_RIGHT" }
+    ]
   },
   {
     "type": "keybinding",
     "name": "Wear item",
     "category": "DEFAULTMODE",
     "id": "wear",
-    "bindings": [ { "input_method": "keyboard_char", "key": "W" }, { "input_method": "keyboard_code", "key": "w", "mod": [ "shift" ] } ]
+    "bindings": [ 
+      { "input_method": "keyboard_char", "key": "W" }, 
+      { "input_method": "keyboard_code", "key": "w", "mod": [ "shift" ] },
+      { "input_method": "gamepad", "key": "JOY_DPAD_LEFT" }
+    ]
   },
   {
     "type": "keybinding",
     "name": "Take off worn item",
     "category": "DEFAULTMODE",
     "id": "take_off",
-    "bindings": [ { "input_method": "keyboard_char", "key": "T" }, { "input_method": "keyboard_code", "key": "t", "mod": [ "shift" ] } ]
+    "bindings": [ 
+      { "input_method": "keyboard_char", "key": "T" }, 
+      { "input_method": "keyboard_code", "key": "t", "mod": [ "shift" ] },
+      { "input_method": "gamepad", "key": "JOY_ALT_DPAD_LEFT" }
+    ]
   },
   {
     "type": "keybinding",
     "name": "Consume item (all items)",
     "category": "DEFAULTMODE",
     "id": "eat",
-    "bindings": [ { "input_method": "keyboard_char", "key": "E" }, { "input_method": "keyboard_code", "key": "e", "mod": [ "shift" ] } ]
+    "bindings": [ 
+      { "input_method": "keyboard_char", "key": "E" }, 
+      { "input_method": "keyboard_code", "key": "e", "mod": [ "shift" ] },
+      { "input_method": "gamepad", "key": "JOY_DPAD_UP" }
+    ]
   },
   {
     "type": "keybinding",
@@ -2596,21 +2645,29 @@
     "name": "Read",
     "category": "DEFAULTMODE",
     "id": "read",
-    "bindings": [ { "input_method": "keyboard_char", "key": "R" }, { "input_method": "keyboard_code", "key": "r", "mod": [ "shift" ] } ]
+    "bindings": [ 
+      { "input_method": "keyboard_char", "key": "R" }, 
+      { "input_method": "keyboard_code", "key": "r", "mod": [ "shift" ] },
+      { "input_method": "gamepad", "key": "JOY_RADIAL_L_NE" }
+    ]
   },
   {
     "type": "keybinding",
     "name": "Wield",
     "category": "DEFAULTMODE",
     "id": "wield",
-    "bindings": [ { "input_method": "keyboard_any", "key": "w" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "w" }, { "input_method": "gamepad", "key": "JOY_DPAD_RIGHT" } ]
   },
   {
     "type": "keybinding",
     "name": "Select martial arts style",
     "category": "DEFAULTMODE",
     "id": "pick_style",
-    "bindings": [ { "input_method": "keyboard_char", "key": "_" }, { "input_method": "keyboard_code", "key": "-", "mod": [ "shift" ] } ]
+    "bindings": [ 
+      { "input_method": "keyboard_char", "key": "_" }, 
+      { "input_method": "keyboard_code", "key": "-", "mod": [ "shift" ] },
+      { "input_method": "gamepad", "key": "JOY_ALT_RB" }
+    ]
   },
   {
     "type": "keybinding",
@@ -2643,7 +2700,7 @@
     "name": "Throw item",
     "category": "DEFAULTMODE",
     "id": "throw",
-    "bindings": [ { "input_method": "keyboard_any", "key": "t" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "t" }, { "input_method": "gamepad", "key": "JOY_Y" } ]
   },
   {
     "type": "keybinding",
@@ -2669,7 +2726,7 @@
     "name": "Fire wielded item",
     "category": "DEFAULTMODE",
     "id": "fire",
-    "bindings": [ { "input_method": "keyboard_any", "key": "f" }, { "input_method": "gamepad", "key": "JOY_3" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "f" }, { "input_method": "gamepad", "key": "JOY_LB" } ]
   },
   {
     "type": "keybinding",
@@ -2690,7 +2747,7 @@
     "name": "Drop item",
     "category": "DEFAULTMODE",
     "id": "drop",
-    "bindings": [ { "input_method": "keyboard_any", "key": "d" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "d" }, { "input_method": "gamepad", "key": "JOY_DPAD_DOWN" } ]
   },
   {
     "type": "keybinding",
@@ -2724,14 +2781,22 @@
     "name": "View medical",
     "category": "DEFAULTMODE",
     "id": "medical",
-    "bindings": [ { "input_method": "keyboard_char", "key": "N" }, { "input_method": "keyboard_code", "key": "n", "mod": [ "shift" ] } ]
+    "bindings": [ 
+      { "input_method": "keyboard_char", "key": "N" }, 
+      { "input_method": "keyboard_code", "key": "n", "mod": [ "shift" ] },
+      { "input_method": "gamepad", "key": "JOY_RADIAL_R_NE" }
+    ]
   },
   {
     "type": "keybinding",
     "name": "View body status",
     "category": "DEFAULTMODE",
     "id": "bodystatus",
-    "bindings": [ { "input_method": "keyboard_char", "key": "{" }, { "input_method": "keyboard_code", "key": "[", "mod": [ "shift" ] } ]
+    "bindings": [ 
+      { "input_method": "keyboard_char", "key": "{" }, 
+      { "input_method": "keyboard_code", "key": "[", "mod": [ "shift" ] },
+      { "input_method": "gamepad", "key": "JOY_RADIAL_R_SW" }
+    ]
   },
   {
     "type": "keybinding",
@@ -2751,7 +2816,8 @@
     "id": "wait",
     "bindings": [
       { "input_method": "keyboard_char", "key": "|" },
-      { "input_method": "keyboard_code", "key": "\\", "mod": [ "shift" ] }
+      { "input_method": "keyboard_code", "key": "\\", "mod": [ "shift" ] },
+      { "input_method": "gamepad", "key": "JOY_RADIAL_L_SE" }
     ]
   },
   {
@@ -2759,14 +2825,22 @@
     "name": "Craft items",
     "category": "DEFAULTMODE",
     "id": "craft",
-    "bindings": [ { "input_method": "keyboard_char", "key": "&" }, { "input_method": "keyboard_code", "key": "7", "mod": [ "shift" ] } ]
+    "bindings": [ 
+      { "input_method": "keyboard_char", "key": "&" }, 
+      { "input_method": "keyboard_code", "key": "7", "mod": [ "shift" ] },
+      { "input_method": "gamepad", "key": "JOY_RADIAL_L_N" }
+    ]
   },
   {
     "type": "keybinding",
     "name": "Recraft last recipe",
     "category": "DEFAULTMODE",
     "id": "recraft",
-    "bindings": [ { "input_method": "keyboard_any", "key": "-" }, { "input_method": "keyboard_code", "key": "KEYPAD_MINUS" } ]
+    "bindings": [ 
+      { "input_method": "keyboard_any", "key": "-" }, 
+      { "input_method": "keyboard_code", "key": "KEYPAD_MINUS" },
+      { "input_method": "gamepad", "key": "JOY_RADIAL_L_NW" }
+    ]
   },
   {
     "type": "keybinding",
@@ -2776,7 +2850,8 @@
     "bindings": [
       { "input_method": "keyboard_char", "key": "*" },
       { "input_method": "keyboard_code", "key": "KEYPAD_MULTIPLY" },
-      { "input_method": "keyboard_code", "key": "8", "mod": [ "shift" ] }
+      { "input_method": "keyboard_code", "key": "8", "mod": [ "shift" ] },
+      { "input_method": "gamepad", "key": "JOY_RADIAL_L_S" }
     ]
   },
   {
@@ -2784,14 +2859,22 @@
     "name": "Disassemble items",
     "category": "DEFAULTMODE",
     "id": "disassemble",
-    "bindings": [ { "input_method": "keyboard_char", "key": "(" }, { "input_method": "keyboard_code", "key": "9", "mod": [ "shift" ] } ]
+    "bindings": [ 
+      { "input_method": "keyboard_char", "key": "(" }, 
+      { "input_method": "keyboard_code", "key": "9", "mod": [ "shift" ] },
+      { "input_method": "gamepad", "key": "JOY_RADIAL_L_W" }
+    ]
   },
   {
     "type": "keybinding",
     "name": "Sleep",
     "category": "DEFAULTMODE",
     "id": "sleep",
-    "bindings": [ { "input_method": "keyboard_char", "key": "$" }, { "input_method": "keyboard_code", "key": "4", "mod": [ "shift" ] } ]
+    "bindings": [ 
+      { "input_method": "keyboard_char", "key": "$" }, 
+      { "input_method": "keyboard_code", "key": "4", "mod": [ "shift" ] }, 
+      { "input_method": "gamepad", "key": "JOY_RADIAL_L_SW" }
+    ]
   },
   {
     "type": "keybinding",
@@ -2820,7 +2903,7 @@
     "bindings": [
       { "input_method": "keyboard_char", "key": "!" },
       { "input_method": "keyboard_code", "key": "1", "mod": [ "shift" ] },
-      { "input_method": "gamepad", "key": "JOY_29" }
+      { "input_method": "gamepad", "key": "JOY_ALT_LS" }
     ]
   },
   {
@@ -2828,7 +2911,7 @@
     "name": "Ignore nearby enemy",
     "category": "DEFAULTMODE",
     "id": "ignore_enemy",
-    "bindings": [ { "input_method": "keyboard_any", "key": "'" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "'" }, { "input_method": "gamepad", "key": "JOY_LS" } ]
   },
   {
     "type": "keybinding",
@@ -2855,14 +2938,14 @@
     "name": "View player info",
     "category": "DEFAULTMODE",
     "id": "player_data",
-    "bindings": [ { "input_method": "keyboard_char", "key": "@" }, { "input_method": "keyboard_code", "key": "2", "mod": [ "shift" ] } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": "@" }, { "input_method": "keyboard_code", "key": "2", "mod": [ "shift" ] }, { "input_method": "gamepad", "key": "JOY_RADIAL_R_N" } ]
   },
   {
     "type": "keybinding",
     "name": "View map",
     "category": "DEFAULTMODE",
     "id": "map",
-    "bindings": [ { "input_method": "keyboard_any", "key": "m" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "m" }, { "input_method": "gamepad", "key": "JOY_BACK" } ]
   },
   {
     "type": "keybinding",
@@ -2881,46 +2964,67 @@
     "name": "View missions",
     "category": "DEFAULTMODE",
     "id": "missions",
-    "bindings": [ { "input_method": "keyboard_char", "key": "M" }, { "input_method": "keyboard_code", "key": "m", "mod": [ "shift" ] } ]
+    "bindings": [ 
+      { "input_method": "keyboard_char", "key": "M" }, 
+      { "input_method": "keyboard_code", "key": "m", "mod": [ "shift" ] },
+      { "input_method": "gamepad", "key": "JOY_RADIAL_R_W" }
+    ]
   },
   {
     "type": "keybinding",
     "name": "View factions",
     "category": "DEFAULTMODE",
     "id": "factions",
-    "bindings": [ { "input_method": "keyboard_char", "key": "#" }, { "input_method": "keyboard_code", "key": "3", "mod": [ "shift" ] } ]
+    "bindings": [ 
+      { "input_method": "keyboard_char", "key": "#" }, 
+      { "input_method": "keyboard_code", "key": "3", "mod": [ "shift" ] },
+      { "input_method": "gamepad", "key": "JOY_RADIAL_R_E" }
+    ]
   },
   {
     "type": "keybinding",
     "name": "View character's morale",
     "category": "DEFAULTMODE",
-    "id": "morale"
+    "id": "morale",
+    "bindings": [ 
+      { "input_method": "gamepad", "key": "JOY_RADIAL_R_NW" }
+    ]
   },
   {
     "type": "keybinding",
     "name": "View message log",
     "category": "DEFAULTMODE",
     "id": "messages",
-    "bindings": [ { "input_method": "keyboard_char", "key": "P" }, { "input_method": "keyboard_code", "key": "p", "mod": [ "shift" ] } ]
+    "bindings": [ 
+      { "input_method": "keyboard_char", "key": "P" }, 
+      { "input_method": "keyboard_code", "key": "p", "mod": [ "shift" ] }
+    ]
   },
   {
     "type": "keybinding",
     "name": "View help",
     "category": "DEFAULTMODE",
     "id": "help",
-    "bindings": [ { "input_method": "keyboard_any", "key": "0" }, { "input_method": "keyboard_code", "key": "KEYPAD_0" } ]
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "0" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_0" }
+    ]
   },
   {
     "type": "keybinding",
     "name": "Zoom in",
     "id": "zoom_in",
-    "bindings": [ { "input_method": "keyboard_any", "key": "z" }, { "input_method": "gamepad", "key": "JOY_30" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "z" }, { "input_method": "gamepad", "key": "JOY_ALT_START" } ]
   },
   {
     "type": "keybinding",
     "name": "Zoom out",
     "id": "zoom_out",
-    "bindings": [ { "input_method": "keyboard_char", "key": "Z" }, { "input_method": "keyboard_code", "key": "z", "mod": [ "shift" ] } ]
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "Z" },
+      { "input_method": "keyboard_code", "key": "z", "mod": [ "shift" ] },
+      { "input_method": "gamepad", "key": "JOY_ALT_BACK" }
+    ]
   },
   {
     "type": "keybinding",
@@ -3045,7 +3149,7 @@
     "name": "Reload item",
     "category": "DEFAULTMODE",
     "id": "reload_item",
-    "bindings": [ { "input_method": "keyboard_any", "key": "r" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "r" }, { "input_method": "gamepad", "key": "JOY_ALT_LB" } ]
   },
   {
     "type": "keybinding",
@@ -3094,7 +3198,11 @@
     "name": "Action menu",
     "category": "DEFAULTMODE",
     "id": "action_menu",
-    "bindings": [ { "input_method": "keyboard_any", "key": "RETURN" }, { "input_method": "keyboard_any", "key": "KEYPAD_ENTER" } ]
+    "bindings": [ 
+      { "input_method": "keyboard_any", "key": "RETURN" }, 
+      { "input_method": "keyboard_any", "key": "KEYPAD_ENTER" },
+      { "input_method": "gamepad", "key": "JOY_A" }
+    ]
   },
   {
     "type": "keybinding",
@@ -3104,7 +3212,7 @@
     "bindings": [
       { "input_method": "keyboard_char", "key": "%" },
       { "input_method": "keyboard_code", "key": "5", "mod": [ "shift" ] },
-      { "input_method": "gamepad", "key": "JOY_9" }
+      { "input_method": "gamepad", "key": "JOY_ALT_A" }
     ]
   },
   {
@@ -3124,28 +3232,28 @@
     "name": "Move view northeast",
     "category": "DEFAULTMODE",
     "id": "shift_ne",
-    "bindings": [ { "input_method": "gamepad", "key": "JOY_25" } ]
+    "bindings": [ { "input_method": "gamepad", "key": "JOY_R_RIGHTUP" } ]
   },
   {
     "type": "keybinding",
     "name": "Move view southeast",
     "category": "DEFAULTMODE",
     "id": "shift_se",
-    "bindings": [ { "input_method": "gamepad", "key": "JOY_26" } ]
+    "bindings": [ { "input_method": "gamepad", "key": "JOY_R_RIGHTDOWN" } ]
   },
   {
     "type": "keybinding",
     "name": "Move view southwest",
     "category": "DEFAULTMODE",
     "id": "shift_sw",
-    "bindings": [ { "input_method": "gamepad", "key": "JOY_27" } ]
+    "bindings": [ { "input_method": "gamepad", "key": "JOY_R_LEFTDOWN" } ]
   },
   {
     "type": "keybinding",
     "name": "Move view northwest",
     "category": "DEFAULTMODE",
     "id": "shift_nw",
-    "bindings": [ { "input_method": "gamepad", "key": "JOY_28" } ]
+    "bindings": [ { "input_method": "gamepad", "key": "JOY_R_LEFTUP" } ]
   },
   {
     "type": "keybinding",
@@ -3170,14 +3278,14 @@
     "name": "Autoattack",
     "category": "DEFAULTMODE",
     "id": "autoattack",
-    "bindings": [ { "input_method": "keyboard_any", "key": "TAB" }, { "input_method": "gamepad", "key": "JOY_1" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "TAB" }, { "input_method": "gamepad", "key": "JOY_RB" } ]
   },
   {
     "type": "keybinding",
     "name": "Main menu",
     "category": "DEFAULTMODE",
     "id": "main_menu",
-    "bindings": [ { "input_method": "keyboard_any", "key": "ESC" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "ESC" }, { "input_method": "gamepad", "key": "JOY_START" } ]
   },
   {
     "type": "keybinding",
@@ -3226,7 +3334,7 @@
     "name": "Cycle movement mode",
     "category": "DEFAULTMODE",
     "id": "cycle_move",
-    "bindings": [ { "input_method": "gamepad", "key": "JOY_10" } ]
+    "bindings": [ ]
   },
   {
     "type": "keybinding",
@@ -3265,7 +3373,8 @@
     "id": "open_movement",
     "bindings": [
       { "input_method": "keyboard_char", "key": "\"" },
-      { "input_method": "keyboard_code", "key": "'", "mod": [ "shift" ] }
+      { "input_method": "keyboard_code", "key": "'", "mod": [ "shift" ] },
+      { "input_method": "gamepad", "key": "JOY_ALT_RT" }
     ]
   },
   {
@@ -3273,7 +3382,7 @@
     "id": "cast_spell",
     "name": "Supernatural abilities",
     "category": "DEFAULTMODE",
-    "bindings": [ { "input_method": "keyboard_any", "key": "]" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "]" }, { "input_method": "gamepad", "key": "JOY_ALT_Y" } ]
   },
   {
     "type": "keybinding",
@@ -3388,7 +3497,11 @@
     "id": "LIST_ITEMS",
     "category": "LOOK",
     "name": "List items and monsters",
-    "bindings": [ { "input_method": "keyboard_char", "key": "V" }, { "input_method": "keyboard_code", "key": "v", "mod": [ "shift" ] } ]
+    "bindings": [ 
+      { "input_method": "keyboard_char", "key": "V" }, 
+      { "input_method": "keyboard_code", "key": "v", "mod": [ "shift" ] }, 
+      { "input_method": "gamepad", "key": "JOY_RS" } 
+    ]
   },
   {
     "type": "keybinding",
@@ -3689,7 +3802,8 @@
     "bindings": [
       { "input_method": "keyboard_any", "key": "NPAGE" },
       { "input_method": "keyboard_char", "key": ">" },
-      { "input_method": "keyboard_code", "key": ".", "mod": [ "shift" ] }
+      { "input_method": "keyboard_code", "key": ".", "mod": [ "shift" ] },
+      { "input_method": "gamepad", "key": "JOY_ALT_DPAD_DOWN" }
     ]
   },
   {
@@ -3700,7 +3814,8 @@
     "bindings": [
       { "input_method": "keyboard_any", "key": "PPAGE" },
       { "input_method": "keyboard_char", "key": "<" },
-      { "input_method": "keyboard_code", "key": ",", "mod": [ "shift" ] }
+      { "input_method": "keyboard_code", "key": ",", "mod": [ "shift" ] },
+      { "input_method": "gamepad", "key": "JOY_ALT_DPAD_UP" }
     ]
   },
   {
@@ -3743,8 +3858,7 @@
     "name": "Select right inventory",
     "bindings": [
       { "input_method": "keyboard_any", "key": "l" },
-      { "input_method": "keyboard_any", "key": "RIGHT" },
-      { "input_method": "gamepad", "key": "JOY_RIGHT" }
+      { "input_method": "keyboard_any", "key": "RIGHT" }
     ]
   },
   {
@@ -3849,8 +3963,7 @@
       { "input_method": "keyboard_any", "key": "l" },
       { "input_method": "keyboard_any", "key": "RIGHT" },
       { "input_method": "keyboard_any", "key": "6" },
-      { "input_method": "keyboard_code", "key": "KEYPAD_6" },
-      { "input_method": "gamepad", "key": "JOY_RIGHT" }
+      { "input_method": "keyboard_code", "key": "KEYPAD_6" }
     ]
   },
   {
@@ -4703,35 +4816,56 @@
     "category": "DIALOGUE_CHOOSE_RESPONSE",
     "id": "LOOK_AT",
     "name": "Look at",
-    "bindings": [ { "input_method": "keyboard_char", "key": "L" }, { "input_method": "keyboard_code", "key": "l", "mod": [ "shift" ] } ]
+    "bindings": [ 
+      { "input_method": "keyboard_char", "key": "L" }, 
+      { "input_method": "keyboard_code", "key": "l", "mod": [ "shift" ] },
+      { "input_method": "gamepad", "key": "JOY_X" }
+
+    ]
   },
   {
     "type": "keybinding",
     "category": "DIALOGUE_CHOOSE_RESPONSE",
     "id": "SIZE_UP_STATS",
     "name": "Size up stats",
-    "bindings": [ { "input_method": "keyboard_char", "key": "S" }, { "input_method": "keyboard_code", "key": "s", "mod": [ "shift" ] } ]
+    "bindings": [ 
+      { "input_method": "keyboard_char", "key": "S" }, 
+      { "input_method": "keyboard_code", "key": "s", "mod": [ "shift" ] },
+      { "input_method": "gamepad", "key": "JOY_Y" }
+    ]
   },
   {
     "type": "keybinding",
     "category": "DIALOGUE_CHOOSE_RESPONSE",
     "id": "ASSESS_PERSONALITY",
     "name": "Assess personality",
-    "bindings": [ { "input_method": "keyboard_char", "key": "A" }, { "input_method": "keyboard_code", "key": "a", "mod": [ "shift" ] } ]
+    "bindings": [ 
+      { "input_method": "keyboard_char", "key": "A" }, 
+      { "input_method": "keyboard_code", "key": "a", "mod": [ "shift" ] },
+      { "input_method": "gamepad", "key": "JOY_B" }
+    ]
   },
   {
     "type": "keybinding",
     "category": "DIALOGUE_CHOOSE_RESPONSE",
     "id": "YELL",
     "name": "Yell",
-    "bindings": [ { "input_method": "keyboard_char", "key": "Y" }, { "input_method": "keyboard_code", "key": "y", "mod": [ "shift" ] } ]
+    "bindings": [ 
+      { "input_method": "keyboard_char", "key": "Y" }, 
+      { "input_method": "keyboard_code", "key": "y", "mod": [ "shift" ] },
+      { "input_method": "gamepad", "key": "JOY_ALT_X" }
+    ]
   },
   {
     "type": "keybinding",
     "category": "DIALOGUE_CHOOSE_RESPONSE",
     "id": "CHECK_OPINION",
     "name": "Check opinion",
-    "bindings": [ { "input_method": "keyboard_char", "key": "O" }, { "input_method": "keyboard_code", "key": "o", "mod": [ "shift" ] } ]
+    "bindings": [ 
+      { "input_method": "keyboard_char", "key": "O" }, 
+      { "input_method": "keyboard_code", "key": "o", "mod": [ "shift" ] },
+      { "input_method": "gamepad", "key": "JOY_ALT_Y" }
+    ]
   },
   {
     "type": "keybinding",

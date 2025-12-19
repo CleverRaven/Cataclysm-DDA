@@ -154,9 +154,11 @@ const std::string &input_context::input_to_action( const input_event &inp ) cons
     return CATA_ERROR;
 }
 
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(TILES)
 std::list<input_context *> input_context::input_context_stack;
+#endif
 
+#if defined(__ANDROID__)
 void input_context::register_manual_key( manual_key mk )
 {
     // Prevent duplicates

@@ -46,6 +46,7 @@
 #include "flexbuffer_json.h"
 #include "game.h"
 #include "input.h"
+#include "sdl_gamepad.h"
 #include "item.h"
 #include "item_factory.h"
 #include "itype.h"
@@ -1930,15 +1931,27 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
         }
     } else if( you.view_offset != tripoint_rel_ms::zero && !you.in_vehicle ) {
         // check to see if player is located at ter
-        draw_from_id_string( "cursor", TILE_CATEGORY::NONE, empty_string,
-                             tripoint_bub_ms( g->ter_view_p.xy(), center.z() ), 0, 0, lit_level::LIT,
-                             false );
+        // draw_from_id_string( "cursor", TILE_CATEGORY::NONE, empty_string,
+        //                      tripoint_bub_ms( g->ter_view_p.xy(), center.z() ), 0, 0, lit_level::LIT,
+        //                      false );
     }
     if( you.controlling_vehicle ) {
         std::optional<tripoint_rel_ms> indicator_offset = g->get_veh_dir_indicator_location( true );
         if( indicator_offset ) {
             draw_from_id_string( "cursor", TILE_CATEGORY::NONE, empty_string,
                                  tripoint_bub_ms( you.pos_bub().xy(), center.z() ) + indicator_offset->xy(),
+                                 0, 0, lit_level::LIT, false );
+        }
+    }
+
+    // Draw gamepad direction indicator
+    if( gamepad::is_active() && !gamepad::is_in_menu() ) {
+        gamepad::direction dir = gamepad::get_left_stick_direction();
+        if( dir != gamepad::direction::NONE ) {
+            tripoint offset = gamepad::direction_to_offset( dir );
+            tripoint_bub_ms indicator_pos = you.pos_bub() + tripoint_rel_ms( offset.x, offset.y, 0 );
+            draw_from_id_string( "cursor", TILE_CATEGORY::NONE, empty_string,
+                                 tripoint_bub_ms( indicator_pos.xy(), center.z() ),
                                  0, 0, lit_level::LIT, false );
         }
     }
