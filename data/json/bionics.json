@@ -720,7 +720,7 @@
     "id": "bio_digestion",
     "type": "bionic",
     "name": { "str": "Expanded Digestive System" },
-    "description": "You have been outfitted with three synthetic stomachs and industrial-grade intestin.  Not only can you extract much more nutrition from food, but you are highly resistant to foodborne illnesses, and can sometimes eat rotten food.",
+    "description": "You have been outfitted with three synthetic stomachs and industrial-grade intestines.  Not only can you extract much more nutrition from food, but you are highly resistant to foodborne illnesses, and can sometimes eat rotten food.",
     "occupied_bodyparts": [ [ "torso", 20 ] ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "PARAIMMUNE", "IMMUNE_SPOIL" ],
     "enchantments": [ { "values": [ { "value": "KCAL", "multiply": 0.5 }, { "value": "VITAMIN_ABSORB_MOD", "multiply": 0.5 } ] } ],
