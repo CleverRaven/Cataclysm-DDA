@@ -216,7 +216,7 @@
     "type": "effect_on_condition",
     "id": "EOC_use_microscope",
     "effect": {
-      "run_eoc_selector": [ "EOC_observe_water_murky", "EOC_observe_soil", "EOC_cancel_observation" ],
+      "run_eoc_selector": [ "EOC_observe_water_murky", "EOC_observe_soil", "EOC_selector_cancel" ],
       "names": [ "Murky water sample", "Soil sample", "Cancel" ],
       "hide_failing": true,
       "allow_cancel": true
@@ -240,7 +240,7 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_cancel_observation",
+    "id": "EOC_selector_cancel",
     "effect": { "u_message": "You changed your mind." }
   }
 ]

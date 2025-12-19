@@ -637,5 +637,11 @@
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_glass",
     "entries": [ { "item": "chem_citric_acid", "container-item": "null", "count": [ 100, -1 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "any_centrifuge",
+    "subtype": "distribution",
+    "items": [ [ "microcentrifuge", 1 ], [ "centrifuge", 1 ] ]
   }
 ]
