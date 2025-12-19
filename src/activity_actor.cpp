@@ -10206,7 +10206,7 @@ bool zone_sort_activity_actor::stage_think( player_activity &act, Character &you
     return true;
 }
 
-void zone_sort_activity_actor::stage_do( player_activity &, Character &you )
+void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
 {
     const map &here = get_map();
     const zone_manager &mgr = zone_manager::get_manager();
@@ -10252,6 +10252,25 @@ void zone_sort_activity_actor::stage_do( player_activity &, Character &you )
         // out of moves, or unloaded item container was destroyed or prompted an activity restart
         if( !move_and_reset ) {
             return;
+        }
+
+        bool can_reach_any_dest = false;
+        for( const tripoint_abs_ms &possible_dest : dest_set ) {
+            const tripoint_bub_ms dest_bub = here.get_bub( possible_dest );
+            if( !zone_sorting::route_to_destination( you, act, dest_bub, stage ) ) {
+                continue; // Not a valid destination
+            }
+            // This is a separate statement so we can have specific messaging if this failure state is reached.
+            if( here.is_open_air( dest_bub ) ) {
+                you.add_msg_if_player( _( "You can't sort things into the air!" ) );
+                continue;
+            }
+            can_reach_any_dest = true;
+            break;
+        }
+
+        if( !can_reach_any_dest ) {
+            continue;
         }
 
         zone_sorting::move_item( you, vp, src_bub, dest_set, thisitem, num_processed );

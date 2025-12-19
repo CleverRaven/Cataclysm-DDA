@@ -2970,7 +2970,7 @@ class zone_sort_activity_actor : public zone_activity_actor
 
         void stage_init( player_activity &, Character &you ) override;
         bool stage_think( player_activity &act, Character &you ) override;
-        void stage_do( player_activity &, Character &you ) override;
+        void stage_do( player_activity &act, Character &you ) override;
 
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
