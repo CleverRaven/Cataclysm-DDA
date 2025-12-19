@@ -1128,9 +1128,7 @@
               "loc": { "context_val": "pos" },
               "accessible": false,
               "search_data": [ { "category": "maps" } ],
-              "title": "test",
-              "true_eocs": [ { "id": "EOC_ACTIVATE_MAP", "effect": [ { "u_activate": "reveal_map" } ] } ],
-              "false_eocs": [ { "id": "EOC_NO_MAP", "effect": [ { "u_message": "no map found" } ] } ]
+              "true_eocs": [ { "id": "EOC_ACTIVATE_MAP", "effect": [ { "u_activate": "reveal_map" } ] } ]
             }
           ]
         }
