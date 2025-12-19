@@ -831,7 +831,6 @@
     "description": "A staff looking more like a tree branch than a weapon, with runes carved into its full length and a few leaves still sprouting from the top.  It fills you with an invigorating sensation when out in the wilderness.  There are two Druid runes carved into the wood.",
     "longest_side": "185 cm",
     "price": "50 USD",
-    "to_hit": 4,
     "material": [ "wood" ],
     "symbol": "/",
     "passive_effects": [
