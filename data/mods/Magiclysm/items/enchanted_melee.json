@@ -829,8 +829,6 @@
     "name": { "str": "Druidic staff", "str_pl": "Druidic staves" },
     "//": "Similar to the Magus staff, but not as useful as a melee weapon and with conditional mana regen.",
     "description": "A staff looking more like a tree branch than a weapon, with runes carved into its full length and a few leaves still sprouting from the top.  It fills you with an invigorating sensation when out in the wilderness.  There are two Druid runes carved into the wood.",
-    "weight": "1600 g",
-    "volume": "1550 ml",
     "longest_side": "185 cm",
     "price": "50 USD",
     "to_hit": 4,
