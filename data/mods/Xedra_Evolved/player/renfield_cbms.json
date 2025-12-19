@@ -12,7 +12,7 @@
     "id": "bio_fuel_cell_vamp_blood",
     "type": "bionic",
     "name": { "str": "Vampire Blood Power Generator" },
-    "description": "Embedded into your back and connected to your bionic power supply is a device to convert the blood of vampires to produce a facsimile of bionic power.  It can store up to 100 mL of blood.  For unknown reasons if installed into an active vampire it will not function when filled with its bearer's blood.  No one talks about it knows why.",
+    "description": "Embedded into your back and connected to your bionic power supply is a device to convert the blood of vampires to produce a facsimile of bionic power.  It can store up to 100 mL of blood.  For unknown reasons if installed into an active vampire it will not function when filled with its bearer's blood.  No one who talks about it knows why.",
     "occupied_bodyparts": [ [ "torso", 8 ] ],
     "fuel_options": [ "vampire_blood" ],
     "fuel_efficiency": 0.6,
