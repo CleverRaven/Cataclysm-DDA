@@ -893,7 +893,6 @@ void faction_manager::display() const
         TAB_MYFACTION = 0,
         TAB_FOLLOWERS,
         TAB_OTHERFACTIONS,
-        TAB_LORE,
         TAB_CREATURES,
         NUM_TABS,
         FIRST_TAB = 0,
@@ -922,7 +921,6 @@ void faction_manager::display() const
     basecamp *camp = nullptr;
     std::vector<basecamp *> camps;
     size_t active_vec_size = 0;
-    std::vector<std::pair<snippet_id, std::string>> lore; // Lore we have seen
     std::pair<snippet_id, std::string> *snippet = nullptr;
     std::vector<mtype_id> creatures; // Creatures we've recorded
     mtype_id cur_creature = mtype_id::NULL_ID();
@@ -936,7 +934,6 @@ void faction_manager::display() const
             { tab_mode::TAB_MYFACTION, _( "YOUR FACTION" ) },
             { tab_mode::TAB_FOLLOWERS, _( "YOUR FOLLOWERS" ) },
             { tab_mode::TAB_OTHERFACTIONS, _( "OTHER FACTIONS" ) },
-            { tab_mode::TAB_LORE, _( "LORE" ) },
             { tab_mode::TAB_CREATURES, _( "CREATURES" ) },
         };
         draw_tabs( w_missions, tabs, tab );
@@ -1017,25 +1014,6 @@ void faction_manager::display() const
                 }
             }
             break;
-            case tab_mode::TAB_LORE: {
-                const std::string no_lore = _( "You haven't learned anything about the world." );
-                if( active_vec_size > 0 ) {
-                    draw_list( std::function( [&lore]( size_t i ) {
-                        return _( lore[i].second );
-                    } ) );
-                    if( snippet != nullptr ) {
-                        int y = 2;
-                        fold_and_print( w_missions, point( 31, ++y ), getmaxx( w_missions ) - 31 - 2, c_light_gray,
-                                        SNIPPET.get_snippet_by_id( snippet->first ).value().translated() );
-                    } else {
-                        mvwprintz( w_missions, point( 31, 4 ), c_light_red, no_lore );
-                    }
-                    break;
-                } else {
-                    mvwprintz( w_missions, point( 31, 4 ), c_light_red, no_lore );
-                }
-            }
-            break;
             case tab_mode::TAB_CREATURES: {
                 const std::string no_creatures =
                     _( "You haven't recorded sightings of any creatures.  Taking photos can be a good way to keep track of them." );
@@ -1095,21 +1073,11 @@ void faction_manager::display() const
             }
             camps.push_back( temp_camp );
         }
-        lore.clear();
-        for( const auto &elem : player_character.get_snippets() ) {
-            std::optional<translation> name = SNIPPET.get_name_by_id( elem );
-            if( name.has_value() ) {
-                if( !name->empty() ) {
-                    lore.emplace_back( elem, name->translated() );
-                }
-            }
-        }
         auto compare_second =
             []( const std::pair<snippet_id, std::string> &a,
         const std::pair<snippet_id, std::string> &b ) {
             return localized_compare( a.second, b.second );
         };
-        std::sort( lore.begin(), lore.end(), compare_second );
         if( tab < tab_mode::FIRST_TAB || tab >= tab_mode::NUM_TABS ) {
             debugmsg( "The sanity check failed because tab=%d", static_cast<int>( tab ) );
             tab = tab_mode::FIRST_TAB;
@@ -1137,11 +1105,6 @@ void faction_manager::display() const
                 cur_fac = valfac[selection];
             }
             active_vec_size = valfac.size();
-        } else if( tab == tab_mode::TAB_LORE ) {
-            if( selection < lore.size() ) {
-                snippet = &lore[selection];
-            }
-            active_vec_size = lore.size();
         } else if( tab == tab_mode::TAB_CREATURES ) {
             if( selection < creatures.size() ) {
                 cur_creature = creatures[selection];
