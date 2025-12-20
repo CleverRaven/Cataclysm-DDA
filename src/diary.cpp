@@ -31,6 +31,7 @@
 #include "proficiency.h"
 #include "skill.h"
 #include "string_formatter.h"
+#include "text_snippets.h"
 #include "translation.h"
 #include "translations.h"
 #include "type_id.h"
@@ -134,6 +135,21 @@ void diary::open_summary_page()
     add_to_change_list( string_format( _( "It is currently %s." ), season_name ) );
     add_to_change_list( string_format( _( "%s will last for %d more days." ), season_name,
                                        to_days<int>( calendar::season_length() ) - day_of_season<int>( calendar::turn ) ) );
+    add_to_change_list( "" );
+    auto snippets = get_avatar().get_snippets();
+    if( snippets.empty() ) {
+        add_to_change_list( _( "You haven't learned anything about the world." ) );
+        return;
+    }
+
+    add_to_change_list( string_format( _( "Lore: %1$d entries" ), snippets.size() ) );
+    for( const auto &elem : snippets ) {
+        const std::optional<translation> name = SNIPPET.get_name_by_id( elem );
+        const std::optional<translation> desc = SNIPPET.get_snippet_by_id( elem );
+        if( name.has_value() && desc.has_value() && !name->empty() && !desc->empty() ) {
+            add_to_change_list( name->translated(), desc->translated() );
+        }
+    }
 }
 
 template<typename Container, typename Fn>
