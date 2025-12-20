@@ -4251,7 +4251,7 @@
     "type": "effect_type",
     "id": "effect_bio_inventor_rad_boost",
     "name": [ "Engineered Hero" ],
-    "desc": [ [ "New powers awaken in you as the engine starts!", "mixed" ] ],
+    "desc": [ "New powers awaken in you as the engine starts!", "mixed" ],
     "remove_message": [ [ "Your new powers vanish as the engine powers down.", "mixed" ] ],
     "//": "This uses the bat form flight enchant instead of making an identical version of a hidden effect.",
     "enchantments": [
