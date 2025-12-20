@@ -114,7 +114,6 @@ CXX_WARNINGS = \
   -Woverloaded-virtual \
   -Wsuggest-override \
   -Wzero-as-null-pointer-constant \
-  -Wno-unknown-warning-option \
   -Wno-dangling-reference \
   -Wno-c++20-compat
 ifeq ($(NATIVE), emscripten)
@@ -261,6 +260,7 @@ endif
 
 ifneq (,$(findstring clang,$(COMPILER)))
   CLANG = $(COMPILER)
+  CXX_WARNINGS += -Wno-unknown-warning-option
 endif
 
 # Windows sets the OS environment variable so we can cheaply test for it.
