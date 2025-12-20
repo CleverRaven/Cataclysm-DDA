@@ -291,159 +291,159 @@ bool handle_axis_event( SDL_Event &event )
         bool trigger_pressed = value > triggers_threshold + error_margin;
         bool trigger_released = value < triggers_threshold - error_margin;
         
-            if( idx == 1 ) {
-                // Right trigger (RT)
-                if( !state && trigger_pressed ) {
-                    triggers_state[idx] = 1;
-                    // Check if direction is selected
-                    if( left_stick_dir != direction::NONE ) {
-                        // Move in selected direction
-                        send_direction_movement();
-                        // Schedule repeat for continuous movement
-                        schedule_task( task, now + repeat_delay, -1, 1 );
-                    } else {
-                        // No direction selected - send JOY_RT event (with ALT if held) and schedule repeat
-                        int joy_code = alt_modifier_held ? get_alt_button( JOY_RT ) : JOY_RT;
-                        send_input( joy_code );
-                        schedule_task( task, now + repeat_delay, joy_code, 1 );
-                    }
-                }
-                if( state && trigger_released ) {
-                    triggers_state[idx] = 0;
-                    cancel_task( task );
-                }
-            } else {
-                // Left trigger (LT)
-                if( !state && trigger_pressed ) {
-                    alt_modifier_held = true;
-                    triggers_state[idx] = 1;
-                }
-                if( state && trigger_released ) {
-                    triggers_state[idx] = 0;
-                    alt_modifier_held = false;
-
-                    // Trigger radial select on Alt release
-                    if( radial_left_open && radial_left_last_dir != direction::NONE ) {
-                        int joy_code = direction_to_radial_joy( radial_left_last_dir, 0 );
-                        if( joy_code != -1 ) {
-                            send_input( joy_code );
-                        }
-                    }
-                    if( radial_right_open && radial_right_last_dir != direction::NONE ) {
-                        int joy_code = direction_to_radial_joy( radial_right_last_dir, 1 );
-                        if( joy_code != -1 ) {
-                            send_input( joy_code );
-                        }
-                    }
-
-                    // Reset radial menu states when LT is released
-                    radial_left_open = false;
-                    radial_right_open = false;
-                    radial_left_last_dir = direction::NONE;
-                    radial_right_last_dir = direction::NONE;
+        if( idx == 1 ) {
+            // Right trigger (RT)
+            if( !state && trigger_pressed ) {
+                triggers_state[idx] = 1;
+                // Check if direction is selected
+                if( left_stick_dir != direction::NONE ) {
+                    // Move in selected direction
+                    send_direction_movement();
+                    // Schedule repeat for continuous movement
+                    schedule_task( task, now + repeat_delay, -1, 1 );
+                } else {
+                    // No direction selected - send JOY_RT event (with ALT if held) and schedule repeat
+                    int joy_code = alt_modifier_held ? get_alt_button( JOY_RT ) : JOY_RT;
+                    send_input( joy_code );
+                    schedule_task( task, now + repeat_delay, joy_code, 1 );
                 }
             }
-            return false;
+            if( state && trigger_released ) {
+                triggers_state[idx] = 0;
+                cancel_task( task );
+            }
+        } else {
+            // Left trigger (LT)
+            if( !state && trigger_pressed ) {
+                alt_modifier_held = true;
+                triggers_state[idx] = 1;
+            }
+            if( state && trigger_released ) {
+                triggers_state[idx] = 0;
+                alt_modifier_held = false;
+
+                // Trigger radial select on Alt release
+                if( radial_left_open && radial_left_last_dir != direction::NONE ) {
+                    int joy_code = direction_to_radial_joy( radial_left_last_dir, 0 );
+                    if( joy_code != -1 ) {
+                        send_input( joy_code );
+                    }
+                }
+                if( radial_right_open && radial_right_last_dir != direction::NONE ) {
+                    int joy_code = direction_to_radial_joy( radial_right_last_dir, 1 );
+                    if( joy_code != -1 ) {
+                        send_input( joy_code );
+                    }
+                }
+
+                // Reset radial menu states when LT is released
+                radial_left_open = false;
+                radial_right_open = false;
+                radial_left_last_dir = direction::NONE;
+                radial_right_last_dir = direction::NONE;
+
+                return true;
+            }
         }
+        return false;
+    }
 
-        // check sticks
-        for( int i = 0; i < max_sticks; ++i ) {
-            int axis_idx = one_of_two( sticks_axis[i], axis );
-            if( axis_idx >= 0 ) {
-                // Get current values for both axes of this stick
-                int x_val = SDL_GameControllerGetAxis( controller,
-                            static_cast<SDL_GameControllerAxis>( sticks_axis[i][0] ) );
-                int y_val = SDL_GameControllerGetAxis( controller,
-                            static_cast<SDL_GameControllerAxis>( sticks_axis[i][1] ) );
+    // check sticks
+    for( int i = 0; i < max_sticks; ++i ) {
+        int axis_idx = one_of_two( sticks_axis[i], axis );
+        if( axis_idx >= 0 ) {
+            // Get current values for both axes of this stick
+            int x_val = SDL_GameControllerGetAxis( controller,
+                        static_cast<SDL_GameControllerAxis>( sticks_axis[i][0] ) );
+            int y_val = SDL_GameControllerGetAxis( controller,
+                        static_cast<SDL_GameControllerAxis>( sticks_axis[i][1] ) );
 
-                // Calculate magnitude (distance from center)
-                double magnitude = std::sqrt( static_cast<double>( x_val ) * x_val +
-                                              static_cast<double>( y_val ) * y_val );
+            // Calculate magnitude (distance from center)
+            double magnitude = std::sqrt( static_cast<double>( x_val ) * x_val +
+                                            static_cast<double>( y_val ) * y_val );
 
-                direction dir = ( magnitude > sticks_threshold ) ? angle_to_direction( x_val,
-                                y_val ) : direction::NONE;
+            direction dir = ( magnitude > sticks_threshold ) ? angle_to_direction( x_val,
+                            y_val ) : direction::NONE;
 
-                task_t &stick_task = all_tasks[sticks_task_index + i];
-                direction old_dir = ( i == 0 ) ? left_stick_dir : right_stick_dir;
+            task_t &stick_task = all_tasks[sticks_task_index + i];
+            direction old_dir = ( i == 0 ) ? left_stick_dir : right_stick_dir;
 
-                if( i == 0 ) {
-                    // Left stick (i=0): Update selected direction
-                    left_stick_dir = dir;
-                    // Signal UI refresh needed if direction changed and not in menu
-                    if( old_dir != left_stick_dir && !is_in_menu() ) {
+            if( i == 0 ) {
+                left_stick_dir = dir;
+            } else {
+                right_stick_dir = dir;
+            }
+
+            if( alt_modifier_held ) {
+                // When LT is held, sticks control radial menu state
+                direction &radial_last = ( i == 0 ) ? radial_left_last_dir : radial_right_last_dir;
+                bool &radial_open = ( i == 0 ) ? radial_left_open : radial_right_open;
+                bool &radial_other = ( i == 0 ) ? radial_right_open : radial_left_open;
+
+                // Only update direction when stick is deflected beyond threshold
+                if( dir != direction::NONE ) {
+                    if( !radial_open || dir != radial_last || radial_other ) {
                         direction_changed = true;
                     }
-                } else {
-                    right_stick_dir = dir;
+                    radial_open = true;
+                    radial_other = false; // Mutually exclusive
+                    if( dir != radial_last ) {
+                        radial_last = dir;
+                    }
+                } else{
+                    // When stick is released just update the UI
+                    if( radial_open ) {
+                        direction_changed = true;
+                    }
                 }
 
-                if( alt_modifier_held ) {
-                    // When LT is held, sticks control radial menu state
-                    direction &radial_last = ( i == 0 ) ? radial_left_last_dir : radial_right_last_dir;
-                    bool &radial_open = ( i == 0 ) ? radial_left_open : radial_right_open;
-                    bool &radial_other = ( i == 0 ) ? radial_right_open : radial_left_open;
+                // Cancel any existing repeat tasks when entering radial mode
+                cancel_task( stick_task );
+            } else {
+                int joy_code = -1;
+                input_event_t itype = input_event_t::gamepad;
 
-                    // Only update direction when stick is deflected beyond threshold
-                    if( dir != direction::NONE ) {
-                        radial_open = true;
-                        radial_other = false; // Mutually exclusive
-                        if( dir != radial_last ) {
-                            radial_last = dir;
-                        }
+                if( i == 0 ) {
+                    // Left stick (i=0): Map to num keys in menu if the radial menu is not open
+                    if( is_in_menu() && !radial_left_open) {
+                        joy_code = direction_to_num_key( dir );
+                        itype = input_event_t::keyboard_char;
                     }
-                    // When stick is in deadzone (released), do nothing - keep last direction
-
-                    // Cancel any existing repeat tasks when entering radial mode
-                    cancel_task( stick_task );
+                    // In gameplay, left stick only updates left_stick_dir (handled above)
                 } else {
-                    int joy_code = -1;
-                    input_event_t itype = input_event_t::gamepad;
-
-                    if( i == 0 ) {
-                        // Left stick (i=0) in menu: Map to arrow keys
-                        if( is_in_menu() ) {
-                            itype = input_event_t::keyboard_char;
-                            switch( dir ) {
-                                case direction::N: joy_code = KEY_UP;    break;
-                                case direction::E: joy_code = KEY_RIGHT; break;
-                                case direction::S: joy_code = KEY_DOWN;  break;
-                                case direction::W: joy_code = KEY_LEFT;  break;
-                                default: break;
-                            }
-                        }
-                        // In gameplay, left stick only updates left_stick_dir (handled above)
-                    } else {
-                        // Right stick (i=1): Map to num keys in menu, or JOY_R_* in gameplay
-                        if( is_in_menu() ) {
+                    // Right stick (i=1): Map to num keys in menu if the radial menu is not open, or JOY_R_* in gameplay
+                    if( is_in_menu() ) {
+                        if( !radial_right_open) {
                             joy_code = direction_to_num_key( dir );
                             itype = input_event_t::keyboard_char;
-                        } else {
-                            switch( dir ) {
-                                case direction::N:  joy_code = JOY_R_UP; break;
-                                case direction::NE: joy_code = JOY_R_RIGHTUP; break;
-                                case direction::E:  joy_code = JOY_R_RIGHT; break;
-                                case direction::SE: joy_code = JOY_R_RIGHTDOWN; break;
-                                case direction::S:  joy_code = JOY_R_DOWN; break;
-                                case direction::SW: joy_code = JOY_R_LEFTDOWN; break;
-                                case direction::W:  joy_code = JOY_R_LEFT; break;
-                                case direction::NW: joy_code = JOY_R_LEFTUP; break;
-                                default: break;
-                            }
+                        }
+                    } else {
+                        switch( dir ) {
+                            case direction::N:  joy_code = JOY_R_UP; break;
+                            case direction::NE: joy_code = JOY_R_RIGHTUP; break;
+                            case direction::E:  joy_code = JOY_R_RIGHT; break;
+                            case direction::SE: joy_code = JOY_R_RIGHTDOWN; break;
+                            case direction::S:  joy_code = JOY_R_DOWN; break;
+                            case direction::SW: joy_code = JOY_R_LEFTDOWN; break;
+                            case direction::W:  joy_code = JOY_R_LEFT; break;
+                            case direction::NW: joy_code = JOY_R_LEFTUP; break;
+                            default: break;
                         }
                     }
+                }
 
-                    if( dir == direction::NONE || joy_code == -1 ) {
-                        cancel_task( stick_task );
-                    } else if( dir != old_dir ) {
-                        // Only send input and schedule repeat if direction changed.
-                        send_input( joy_code, itype );
-                        schedule_task( stick_task, now + repeat_delay, joy_code, 1, itype );
-                    }
+                if( dir == direction::NONE || joy_code == -1 ) {
+                    cancel_task( stick_task );
+                } else if( dir != old_dir ) {
+                    // Only send input and schedule repeat if direction changed.
+                    send_input( joy_code, itype );
+                    schedule_task( stick_task, now + repeat_delay, joy_code, 1, itype );
                 }
             }
         }
-        return direction_changed;
     }
+    return direction_changed;
+}
 
 
 void handle_button_event( SDL_Event &event )
