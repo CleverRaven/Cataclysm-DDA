@@ -2382,7 +2382,7 @@ void vehicle::build_interact_menu( veh_menu &menu, map *here, const tripoint_bub
         .hotkey( "TOGGLE_DISHWASHER" )
         .on_submit( [this, dw_idx, here] { use_dishwasher( *here, dw_idx ); } );
     }
-    
+
     const std::optional<vpart_reference> vp_mws = vp.avail_part_with_feature( "MWS" );
     //mobile weather station
     if( vp_mws ) {

@@ -5727,26 +5727,42 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
         if( mws_finished ) {
             add_msg( _( "The mobile weather station has finished its recording.  The printer whirs and the report sits ready to be torn away." ) );
             cur_veh.add_item( here, vp, item( itype_mws_weather_data, calendar::turn_zero ) );
-            if ( vpi.has_flag( VPFLAG_ADVANCED_MWS ) ) {
+            if( vpi.has_flag( VPFLAG_ADVANCED_MWS ) ) {
                 const tripoint_abs_omt veh_position = cur_veh.pos_abs_omt();
-                const tripoint_abs_omt closest_vitrified_farm = overmap_buffer.find_closest( veh_position, "unvitrified_orchard", 10, false );
-                const tripoint_abs_omt closest_lixa = overmap_buffer.find_closest( veh_position, "LIXA_surface_1a", 10, false );
-                const tripoint_abs_omt closest_temple = overmap_buffer.find_closest( veh_position, "temple_stairs", 10, false );
-                const tripoint_abs_omt closest_highlands = overmap_buffer.find_closest( veh_position, "highlands", 10, false );
-                const tripoint_abs_omt closest_exodii = overmap_buffer.find_closest( veh_position, "exodii_base_x0y0z0", 10, false );
-                const tripoint_abs_omt closest_labyrinth = overmap_buffer.find_closest( veh_position, "labyrinth_entrance", 10, false );
+                const tripoint_abs_omt closest_vitrified_farm = overmap_buffer.find_closest( veh_position,
+                        "unvitrified_orchard", 10, false );
+                const tripoint_abs_omt closest_lixa = overmap_buffer.find_closest( veh_position, "LIXA_surface_1a",
+                                                      10, false );
+                const tripoint_abs_omt closest_temple = overmap_buffer.find_closest( veh_position, "temple_stairs",
+                                                        10, false );
+                const tripoint_abs_omt closest_highlands = overmap_buffer.find_closest( veh_position,
+                        "highlands", 10, false );
+                const tripoint_abs_omt closest_exodii = overmap_buffer.find_closest( veh_position,
+                                                        "exodii_base_x0y0z0", 10, false );
+                const tripoint_abs_omt closest_labyrinth = overmap_buffer.find_closest( veh_position,
+                        "labyrinth_entrance", 10, false );
+                const tripoint_abs_omt closest_physics_lab = overmap_buffer.find_closest( veh_position,
+                          "microlab_portal_security1", 10, false );
                 if( trig_dist( veh_position, closest_vitrified_farm ) <= 10 ) {
                     cur_veh.add_item( here, vp, item( itype_hew_printout_data_vitrified, calendar::turn_zero ) );
-                } if( trig_dist( veh_position, closest_lixa ) <= 10 ) {
+                }
+                if( trig_dist( veh_position, closest_lixa ) <= 10 ) {
                     cur_veh.add_item( here, vp, item( itype_hew_printout_data_lixa, calendar::turn_zero ) );
-                } if( trig_dist( veh_position, closest_temple ) <= 10 ) {
+                }
+                if( trig_dist( veh_position, closest_temple ) <= 10 ) {
                     cur_veh.add_item( here, vp, item( itype_hew_printout_data_strange_temple, calendar::turn_zero ) );
-                } if( trig_dist( veh_position, closest_highlands ) <= 10 ) {
+                }
+                if( trig_dist( veh_position, closest_highlands ) <= 10 ) {
                     cur_veh.add_item( here, vp, item( itype_hew_printout_data_highlands, calendar::turn_zero ) );
-                } if( trig_dist( veh_position, closest_exodii ) <= 10 ) {
+                }
+                if( trig_dist( veh_position, closest_exodii ) <= 10 ) {
                     cur_veh.add_item( here, vp, item( itype_hew_printout_data_exodii, calendar::turn_zero ) );
-                } if( trig_dist( veh_position, closest_labyrinth ) <= 10 ) {
+                }
+                if( trig_dist( veh_position, closest_labyrinth ) <= 10 ) {
                     cur_veh.add_item( here, vp, item( itype_hew_printout_data_labyrinth, calendar::turn_zero ) );
+                }
+                if( trig_dist( veh_position, closest_physics_lab ) <= 10 ) {
+                    cur_veh.add_item( here, vp, item( itype_hew_printout_data_physics_lab, calendar::turn_zero ) );
                 }
             }
         }

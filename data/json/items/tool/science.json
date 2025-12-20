@@ -642,7 +642,7 @@
     "subtypes": [ "TOOL" ],
     "//": "Based on several examples, including the ecoTech Mini Met mobile weather station & aem weather backpack",
     "name": { "str": "mobile weather station" },
-    "description": "A large yellow case filled with equipment to measure atmospheric conditions. It is outfitted with a carrying handle, a telescoping stand, and a rechargeable battery pack.  Its small display can show the current weather.  It can also make long-term recordings, but these data are useless without specialized software to interpret them.",
+    "description": "A large yellow case filled with equipment to measure atmospheric conditions.  It is outfitted with a carrying handle, a telescoping stand, and a rechargeable battery pack.  Its small display can show the current weather.  It can also make long-term recordings, but these data are useless without specialized software to interpret them.",
     "weight": "5000 g",
     "volume": "89400 ml",
     "longest_side": "60 cm",
