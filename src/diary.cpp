@@ -448,6 +448,14 @@ std::string diary::get_page_text()
     return "";
 }
 
+std::string diary::get_desc_or_page_text( int desc )
+{
+    if( get_page_ptr()->is_summary() ) {
+        return get_desc_map()[desc];
+    }
+    return get_page_text();
+}
+
 std::string diary::get_head_text( bool is_summary )
 {
 
