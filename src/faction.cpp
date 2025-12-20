@@ -5,7 +5,6 @@
 #include <map>
 #include <memory>
 #include <optional>
-#include <set>
 #include <string>
 #include <utility>
 
@@ -35,7 +34,7 @@
 #include "point.h"
 #include "skill.h"
 #include "string_formatter.h"
-#include "text_snippets.h"
+#include "talker.h"
 #include "translations.h"
 #include "type_id.h"
 #include "uilist.h"
